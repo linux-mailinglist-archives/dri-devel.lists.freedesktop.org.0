@@ -1,38 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330766A3E63
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 10:32:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE5E6A3DC0
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 10:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2A4F10E396;
-	Mon, 27 Feb 2023 09:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A08D10E3AB;
+	Mon, 27 Feb 2023 09:04:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 559 seconds by postgrey-1.36 at gabe;
- Mon, 27 Feb 2023 09:04:36 UTC
-Received: from mblankhorst.nl (lankhorst.se
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CED10E37D;
- Mon, 27 Feb 2023 09:04:36 +0000 (UTC)
-Message-ID: <6f0b5231-a9c2-e31e-f2d6-61f403d2f94d@lankhorst.se>
-Date: Mon, 27 Feb 2023 09:55:11 +0100
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8373010E388
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:04:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: linasend@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 7AB1A41A42;
+ Mon, 27 Feb 2023 09:04:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1677488684;
+ bh=6xesS6Ljou66pP6PWhd2jHCz/oRFGXqhqdZJF8Pqu1Q=;
+ h=From:Date:Subject:To:Cc;
+ b=w0xGWlmEV7OPrLJlrOKrWGYFhD0k444BX2duDEDHbSEjUVYQ8XOreZfl64+/x8zQH
+ e0SpnCTY8SBVUD6RjDQFzlzITqdmLrgOTi5R4PYHq27qS1qVzHF6POb0EGCpY+FEck
+ /fvehgHqgXkBypCtRZPfCnKbAZFb+lYphz5w0Cr9/xQM+Fx1yUPwqF52hzbfASQ9Nz
+ sM2lNUGp06NxG/Dkiz+8J1R9w/tL4E/gq10DxQdXjDd7d0U1xOM64HZOQWt1OhBoW1
+ cTpQVi4VTNrrN2NStOb1EM40dppWWWda7zPmoQdlchezWWwuTrV/cMGOip10w5oCO8
+ AV6GKmQA+HN4Q==
+From: Asahi Lina <lina@asahilina.net>
+Date: Mon, 27 Feb 2023 18:04:21 +0900
+Subject: [PATCH] drm/shmem-helper: Revert accidental non-GPL export
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [Intel-xe] [PATCH v4 0/3] drm/helpers: Make the suballocation
- manager drm generic
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>
-References: <20230224095152.30134-1-thomas.hellstrom@linux.intel.com>
- <6cddb602-31dd-8854-25dc-11afe9b1a275@linux.intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <6cddb602-31dd-8854-25dc-11afe9b1a275@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 27 Feb 2023 09:32:12 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230227-shmem-export-fix-v1-1-8880b2c25e81@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIABRy/GMC/x2NQQqDMBBFryKz7kASlZZepXQR9dvMIlFmShHEu
+ ze6fI//+DsZVGD0bHZS/MRkKRX8raExxfIBy1SZggutC+HOljIyY1sX/fIsGz/6eYJve+9dRzU
+ booEHjWVMZ5ijlFOvirq+nl7v4/gDwpvuV3kAAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Javier Martinez Canillas <javierm@redhat.com>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677488681; l=1150;
+ i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
+ bh=6xesS6Ljou66pP6PWhd2jHCz/oRFGXqhqdZJF8Pqu1Q=;
+ b=HkugH8SjAQj8+MQlqS+NqL2h3dR12a7j47b1UtiTRuIfvIf4NwxK1ZD3DSg5iscrgwpF+jHpt
+ GEJerGjGAoMB/Bnjfige8yg8ZPnbbwJq+F7DHst6hYKtD7Ra+vhgPIC
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,71 +63,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Christian Koenig <christian.koenig@amd.com>, intel-xe@lists.freedesktop.org
+Cc: Asahi Lina <lina@asahilina.net>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+The referenced commit added a wrapper for drm_gem_shmem_get_pages_sgt(),
+but in the process it accidentally changed the export type from GPL to
+non-GPL. Switch it back to GPL.
 
-I can push this to drm-misc-next, I don't think a drm maintainer ack is 
-needed, as long as we have the acks from the amd folk for merging 
-through drm-misc-next.
+Reported-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Fixes: ddddedaa0db9 ("drm/shmem-helper: Fix locking for drm_gem_shmem_get_pages_sgt()")
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-~Maarten
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 7e5c6a8d0212..75185a960fc4 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -744,7 +744,7 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+ 
+ 	return sgt;
+ }
+-EXPORT_SYMBOL(drm_gem_shmem_get_pages_sgt);
++EXPORT_SYMBOL_GPL(drm_gem_shmem_get_pages_sgt);
+ 
+ /**
+  * drm_gem_shmem_prime_import_sg_table - Produce a shmem GEM object from
 
-On 2023-02-27 09:11, Thomas Hellström wrote:
-> Daniel, Dave
->
-> Ack to merge this to drm through drm-misc-next?
->
-> /Thomas
->
->
-> On 2/24/23 10:51, Thomas Hellström wrote:
->> This series (or at least the suballocator helper) is a prerequisite
->> for the new Xe driver.
->>
->> There was an unresolved issue when the series was last up for review,
->> and that was the per allocation aligment. Last message was from
->> Maarten Lankhorst arguing that the larger per-driver alignment used
->> would only incur a small memory cost. This new variant resolves that.
->>
->> The generic suballocator has been tested with the Xe driver, and a
->> kunit test is under development.
->> The amd- and radeon adaptations are only compile-tested.
->>
->> v3:
->> - Remove stale author information (Christian König)
->> - Update Radeon Kconfig (Thomas Hellström)
->>
->> v4:
->> - Avoid 64-bit integer divisions (kernel test robot <lkp@intel.com>)
->> - Use size_t rather than u64 for the managed range. (Thomas)
->>
->>
->> Maarten Lankhorst (3):
->>    drm/suballoc: Extract amdgpu_sa.c as generic suballocation helper
->>    drm/amd: Convert amdgpu to use suballocation helper.
->>    drm/radeon: Use the drm suballocation manager implementation.
->>
->>   drivers/gpu/drm/Kconfig                    |   4 +
->>   drivers/gpu/drm/Makefile                   |   3 +
->>   drivers/gpu/drm/amd/amdgpu/Kconfig         |   1 +
->>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  26 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c     |   5 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  23 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   3 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c     | 324 +--------------
->>   drivers/gpu/drm/drm_suballoc.c             | 457 +++++++++++++++++++++
->>   drivers/gpu/drm/radeon/Kconfig             |   1 +
->>   drivers/gpu/drm/radeon/radeon.h            |  55 +--
->>   drivers/gpu/drm/radeon/radeon_ib.c         |  12 +-
->>   drivers/gpu/drm/radeon/radeon_object.h     |  25 +-
->>   drivers/gpu/drm/radeon/radeon_sa.c         | 316 ++------------
->>   drivers/gpu/drm/radeon/radeon_semaphore.c  |   4 +-
->>   include/drm/drm_suballoc.h                 | 108 +++++
->>   16 files changed, 674 insertions(+), 693 deletions(-)
->>   create mode 100644 drivers/gpu/drm/drm_suballoc.c
->>   create mode 100644 include/drm/drm_suballoc.h
->>
+---
+base-commit: f3a2439f20d918930cc4ae8f76fe1c1afd26958f
+change-id: 20230227-shmem-export-fix-85fde1351104
+
+Thank you,
+~~ Lina
+
