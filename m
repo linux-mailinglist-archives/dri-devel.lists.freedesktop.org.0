@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462396A4575
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 16:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95376A473D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:45:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E109D10E425;
-	Mon, 27 Feb 2023 15:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A6F10E444;
+	Mon, 27 Feb 2023 16:45:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A9010E421;
- Mon, 27 Feb 2023 15:00:26 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-172a623ad9aso7600490fac.13; 
- Mon, 27 Feb 2023 07:00:26 -0800 (PST)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B3C10E438
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:45:04 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id c18so4641312wmr.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 08:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3CcviMvOYlI24749RtEMYWxJzqWsOF819uiocGxBaEg=;
- b=n3aIemxHiGtU5ErvLqcG6XucMRyjAX9oU6ieY5ISHtk9t7qa7NPQuYZkiKMUviNmYK
- FZLblMP0FHW+Lka7Jf9y2Adxy7A57SGG3XH5NStpT92W8qo8oOBbl6JiCHqYmVFgdeiL
- DtrCxsoRWTUvddm/1ir2WganNmNQATGuzDeJRwdk3lIolIarNhdvVDDjLBIPoYG+SB/v
- 91V6CMCaZEZ/thjA5+kHzxdEP2o1csvEvjNhsaeOp/eVHFIf2YzAvBvulHBV+SuSpWTZ
- Ruy7ulP6iqGB70Uz1vzYgsinaAngDeI1BI30IWL+9YXME+a7kawkuADEnog25gQSrPsH
- RBAg==
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FeOcTqXDkf0doKsprZO7fxvXxR/92ra2xU2rS73dpcc=;
+ b=N1OuYy7nsQ5OY3PZLh6lT9+FHQdTlvdZDP8GDtlTUNgnOwNTFQt7tOo3wv7yL5Ts9F
+ DPkFbelV+lIWaakHs5dPEL82nMCQlRW82iWwEYGe9fSvLEEKpn4w8JDyzopc2Wy0TS8U
+ agNNWNdy28WaZ27DqQYSH49e3wyvRviIxw7HeueW+jyu8jKhdm04d74rILX7LHlxI57C
+ 5f3ai0AVdCThBRFJeH4PXh7j9haHSOccftRuBkBlRdnHeGWQLp+E6FWo1BmTiC0pH90z
+ 687Z9Zedbw7yPM00fCk8M9/r3HnRH3uUObz0qsMH21WFpWUqgxfQPDQA+bSATQTCLhaD
+ PgRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3CcviMvOYlI24749RtEMYWxJzqWsOF819uiocGxBaEg=;
- b=VDGR+aSdFS+nXo6osOYxb6tBrKAYcInOsp37tQuWea+RS4wuZAmnHgL+Kk5heztw0I
- B9tWbYvl7AerpnX6Qe6Ugb42x3uGpMHEq1PVxHCsS/RzE6ZNEZr7IY/LxDYB5aWTYLN8
- wrN2Te1+5OtewJB8N79xXiWhNygfIpLoE0R1ncOOFmdOEW0cCFFTgyMBbOvKlYxq84Wi
- MEWSkKkHxMl4sV1r0vztvh1KNpc/JCBBgUzLDEcJXP560Bnhdiv9kYiS7IU/VLfB/eq/
- Oo4q66HdSXASeQW7rcT7+euKJkqNciYJv8YDQZtYSWb9kAqmTPuEmksE8/xBXtWYyAcI
- 0r+w==
-X-Gm-Message-State: AO0yUKXQvgSqoYTIKVzaaQQZsIf52LWAG6olCg9QCcL/5ILw7ZGYc1mh
- QVVvRfihdJH1dB0JI5dCckOztGEd40v5orAKM5A=
-X-Google-Smtp-Source: AK7set8PfTAsqeeDlM+HDh/Jq9X5RHL+NRajGNKHOiAzdv87xxr74y/ysCBzxzlho8kKJ4sysPDuak1PkUSOKdMgCc8=
-X-Received: by 2002:a05:6871:6b97:b0:16e:2f74:e5c1 with SMTP id
- zh23-20020a0568716b9700b0016e2f74e5c1mr2571814oab.8.1677510025918; Mon, 27
- Feb 2023 07:00:25 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FeOcTqXDkf0doKsprZO7fxvXxR/92ra2xU2rS73dpcc=;
+ b=0og/EcInLNmyg9u+3c1iDPUYFKj45cClfA676VK5yikP3aPxDag+QSXONAvIi0KAzZ
+ OfMuQZDtvBSK99GUC1p/pF6joXlqdVB6HDT3zFvixb8qVHkgB/SE5fdjdjHe8JhPUSf4
+ BPbHYf2ulxFyjthhmNZXdr/uuuH4rkff+yzG9w3jK94Wys9Lm2TqId6PZ4JsipwaOdTM
+ UMeB9zJDjeq6gLUwTfXkMCZppOaEcVT1WxV0Mq0agtGN24AYr6nVG0kguVQ3UdecbjuJ
+ /PIamB8uVE9ZawWgvGLOwRfO3w6B2g8L9lXnRZNSOFC4Xp2zSTmvSlP4RVeekqOkpLPE
+ cGfw==
+X-Gm-Message-State: AO0yUKXDNmrf0WCUqM60sWxngfFlUy0soHq7FFRqdox8Y44nLPglEjHr
+ zn2aBlPir2zi48cNW4j04DM=
+X-Google-Smtp-Source: AK7set8HnVjiWkfm607XdfjPyYQyWoO811MLCbol1ln1f8JVz2wkg1XtQo2q9iMxPx0Avd+r1QUrfQ==
+X-Received: by 2002:a05:600c:a4c:b0:3ea:e582:48dd with SMTP id
+ c12-20020a05600c0a4c00b003eae58248ddmr9905860wmq.34.1677516302316; 
+ Mon, 27 Feb 2023 08:45:02 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ t23-20020a1c7717000000b003daf672a616sm9546376wmi.22.2023.02.27.08.45.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 08:45:01 -0800 (PST)
+Date: Mon, 27 Feb 2023 13:27:53 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] fbdev: chipsfb: Fix error codes in chipsfb_pci_init()
+Message-ID: <Y/yFqWWbw7RsCN4v@kadam>
+References: <Y/yA53V/rW8g1Zlm@kili>
+ <2673f515-9516-de13-3e59-4d473165010d@suse.de>
 MIME-Version: 1.0
-References: <20230224095152.30134-1-thomas.hellstrom@linux.intel.com>
- <6cddb602-31dd-8854-25dc-11afe9b1a275@linux.intel.com>
- <6f0b5231-a9c2-e31e-f2d6-61f403d2f94d@lankhorst.se>
- <f1caadc4-9e65-1b1c-ec81-82a89f764b40@linux.intel.com>
- <bcf1708d-5e3e-032e-6770-231cdb57971c@amd.com>
-In-Reply-To: <bcf1708d-5e3e-032e-6770-231cdb57971c@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Feb 2023 10:00:14 -0500
-Message-ID: <CADnq5_NRfYgTW1dszn2huCqLeiHAOb6-Mg=N_gSMczT_=cj1Eg@mail.gmail.com>
-Subject: Re: [Intel-xe] [PATCH v4 0/3] drm/helpers: Make the suballocation
- manager drm generic
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2673f515-9516-de13-3e59-4d473165010d@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,100 +70,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Dave Airlie <airlied@redhat.com>, Maarten Lankhorst <dev@lankhorst.se>,
- intel-xe@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Yang Yingliang <yangyingliang@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 27, 2023 at 8:04 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 27.02.23 um 10:00 schrieb Thomas Hellstr=C3=B6m:
-> > Hi, Maarten,
-> >
-> > On 2/27/23 09:55, Maarten Lankhorst wrote:
-> >> Hey,
-> >>
-> >> I can push this to drm-misc-next, I don't think a drm maintainer ack
-> >> is needed, as long as we have the acks from the amd folk for merging
-> >> through drm-misc-next.
-> >>
-> > OK, sound good, we have that ack so please go ahead!
->
-> Works for me and I don't think Alex would object either.
+On Mon, Feb 27, 2023 at 11:13:19AM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 27.02.23 um 11:07 schrieb Dan Carpenter:
+> > The error codes are not set on these error paths.
+> > 
+> > Fixes: 145eed48de27 ("fbdev: Remove conflicting devices on PCI bus")
+> > Signed-off-by: Dan Carpenter <error27@gmail.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> with the comments below addressed.
+> 
+> > ---
+> >   drivers/video/fbdev/chipsfb.c | 14 ++++++++++----
+> >   1 file changed, 10 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
+> > index cc37ec3f8fc1..98398789528a 100644
+> > --- a/drivers/video/fbdev/chipsfb.c
+> > +++ b/drivers/video/fbdev/chipsfb.c
+> > @@ -358,16 +358,21 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
+> >   	if (rc)
+> >   		return rc;
+> > -	if (pci_enable_device(dp) < 0) {
+> > +	rc = pci_enable_device(dp);
+> > +	if (rc < 0) {
+> >   		dev_err(&dp->dev, "Cannot enable PCI device\n");
+> >   		goto err_out;
+> >   	}
+> > -	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0)
+> > +	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0) {
+> > +		rc = -EINVAL;
+> 
+> I think ENODEV is more appropriate. And it's the default value from the
+> original code.
 
-Fine with me as well.
+Sorry, I read the original code and my mind saw -EINVAL where it was
+actually -ENODEV as you say.  Will resend.
 
-Alex
+regards,
+dan carpenter
 
->
-> Regards,
-> Christian.
->
-> >
-> > /Thomas
-> >
-> >
-> >> ~Maarten
-> >>
-> >> On 2023-02-27 09:11, Thomas Hellstr=C3=B6m wrote:
-> >>> Daniel, Dave
-> >>>
-> >>> Ack to merge this to drm through drm-misc-next?
-> >>>
-> >>> /Thomas
-> >>>
-> >>>
-> >>> On 2/24/23 10:51, Thomas Hellstr=C3=B6m wrote:
-> >>>> This series (or at least the suballocator helper) is a prerequisite
-> >>>> for the new Xe driver.
-> >>>>
-> >>>> There was an unresolved issue when the series was last up for review=
-,
-> >>>> and that was the per allocation aligment. Last message was from
-> >>>> Maarten Lankhorst arguing that the larger per-driver alignment used
-> >>>> would only incur a small memory cost. This new variant resolves that=
-.
-> >>>>
-> >>>> The generic suballocator has been tested with the Xe driver, and a
-> >>>> kunit test is under development.
-> >>>> The amd- and radeon adaptations are only compile-tested.
-> >>>>
-> >>>> v3:
-> >>>> - Remove stale author information (Christian K=C3=B6nig)
-> >>>> - Update Radeon Kconfig (Thomas Hellstr=C3=B6m)
-> >>>>
-> >>>> v4:
-> >>>> - Avoid 64-bit integer divisions (kernel test robot <lkp@intel.com>)
-> >>>> - Use size_t rather than u64 for the managed range. (Thomas)
-> >>>>
-> >>>>
-> >>>> Maarten Lankhorst (3):
-> >>>>    drm/suballoc: Extract amdgpu_sa.c as generic suballocation helper
-> >>>>    drm/amd: Convert amdgpu to use suballocation helper.
-> >>>>    drm/radeon: Use the drm suballocation manager implementation.
-> >>>>
-> >>>>   drivers/gpu/drm/Kconfig                    |   4 +
-> >>>>   drivers/gpu/drm/Makefile                   |   3 +
-> >>>>   drivers/gpu/drm/amd/amdgpu/Kconfig         |   1 +
-> >>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  26 +-
-> >>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c     |   5 +-
-> >>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  23 +-
-> >>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |   3 +-
-> >>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_sa.c     | 324 +--------------
-> >>>>   drivers/gpu/drm/drm_suballoc.c             | 457
-> >>>> +++++++++++++++++++++
-> >>>>   drivers/gpu/drm/radeon/Kconfig             |   1 +
-> >>>>   drivers/gpu/drm/radeon/radeon.h            |  55 +--
-> >>>>   drivers/gpu/drm/radeon/radeon_ib.c         |  12 +-
-> >>>>   drivers/gpu/drm/radeon/radeon_object.h     |  25 +-
-> >>>>   drivers/gpu/drm/radeon/radeon_sa.c         | 316 ++------------
-> >>>>   drivers/gpu/drm/radeon/radeon_semaphore.c  |   4 +-
-> >>>>   include/drm/drm_suballoc.h                 | 108 +++++
-> >>>>   16 files changed, 674 insertions(+), 693 deletions(-)
-> >>>>   create mode 100644 drivers/gpu/drm/drm_suballoc.c
-> >>>>   create mode 100644 include/drm/drm_suballoc.h
-> >>>>
->
