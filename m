@@ -1,63 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEFF6A4BB7
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 20:53:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEE66A4BF5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 21:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0364F10E3D6;
-	Mon, 27 Feb 2023 19:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE4210E405;
+	Mon, 27 Feb 2023 20:04:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF61A10E3D6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 19:53:46 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id z42so7684941ljq.13
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 11:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1677527625;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=6Iog3w5RRep9QzX37UOT5VU6YtZPIJP1phd7Cipxg/4=;
- b=MlrScDn0uLRC083HdGy5QHOQFhYZ0UhHe8h98ssx4wE9iG2IlU14pW+svk1bwuUUXh
- lmtOrZ6TQLAstp4sXJgny76pWW++iPT2/N4XgNoaAf8qXxmrxDckPD8YuKhA56ZQADXO
- 5iufKDnd0bCNkJlQHhteTngGIXOEme+n5fX80=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677527625;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Iog3w5RRep9QzX37UOT5VU6YtZPIJP1phd7Cipxg/4=;
- b=Wg91qHZqHlsjznhdXzxOqm2KOa+PtOVyPzfdneWR7WC8YEtiazpcYSZivvMFtUOjbu
- PTIABl2oVSuYPXr50ySV8b9z/NUpVKnlLJu2S+kR5pCxzb+KB1u/voB2J4lKnnr3JNRP
- anB/7CSQ4BbYuYpOwRp3UdKCCH2q3d9DVL2mhSB5/9nr15K/dLqNAk2N5V1IrDXvUsyB
- sIKobVZlmzGg528fQLpAduGf9wQDNEgcHSMUnAgkIDiRuo4ATFQVho5hnnZOmgli3W/f
- kac6SzglITvOxCC9hEvQojTuGjD5RlkZwxlnM1dnr7EV23BFvU1j6soUsSTH2sGv3uDz
- t94A==
-X-Gm-Message-State: AO0yUKWy0tGRzksSMasqQftXalFhZ3vmvQSHb7oPK5aSsY7sPCoQNJtu
- aVBZoArxkqV/nIIB/qK/7QfB8NUwvTrHlZQA9zmTlg==
-X-Google-Smtp-Source: AK7set9u/nN5Vzao374dais8uxKf3RxzP5pIYQ6lkrJ2r0ZXV/mqpKtvXzlYxqTmuIGQ+TLof9Pu75FYo+aKuNXKi3U=
-X-Received: by 2002:a2e:a4b7:0:b0:295:897c:6f7a with SMTP id
- g23-20020a2ea4b7000000b00295897c6f7amr6940229ljm.0.1677527624730; Mon, 27 Feb
- 2023 11:53:44 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 27 Feb 2023 14:53:44 -0500
-MIME-Version: 1.0
-In-Reply-To: <1677263398-13801-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1677263398-13801-1-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 27 Feb 2023 14:53:44 -0500
-Message-ID: <CAE-0n514WpXDhE17DzqF9X7DYg_3DYuYSGzhvx-=eXVJpgq3Yg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: check core_initialized flag at both
- host_init() and host_deinit()
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org,
- airlied@gmail.com, 
- andersson@kernel.org, daniel@ffwll.ch, dianders@chromium.org, 
- dmitry.baryshkov@linaro.org, robdclark@gmail.com, sean@poorly.run, 
- vkoul@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76F610E405
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 20:04:27 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 633825C0113;
+ Mon, 27 Feb 2023 15:04:25 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Mon, 27 Feb 2023 15:04:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1677528265; x=1677614665; bh=zexpZQ5bJ9
+ hbIaBDiHdAg4Kdi9EcW4M9yOSGV4fDHqI=; b=UmD1++vWuDhma9hYn/5OBgkV9W
+ SmKh3J+jW/DRQw9ZayTbfH4doyDnfMKGcrUjRg+MHXB7+skv9MR2Wn6feDUwa/pc
+ PGT3Jx1cKFRVV3yUC+Xbv73xv4yG9hlMD+x2L5XYUsFkhcKBk+bS73Zg84OwAvEZ
+ RNZMUvBcMXHf7fLXwSvthCoH+1LmkzeFxFlxrddpojiVz793BS8I93v3s80ny4oe
+ 1FufDxHhi6hoVKIkPvvLYmJ+SFsDbckDivUEjltSlVQ3ucoef5IiqpK+X/HiLHU1
+ GwGjKaqWwuFOXkvK+hEEYfudtjKdyB2/Ux5tmyNKJb3vsbFLjm9k6AAh9Bvg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1677528265; x=1677614665; bh=zexpZQ5bJ9hbIaBDiHdAg4Kdi9Ec
+ W4M9yOSGV4fDHqI=; b=j7dASZo3V9dUBM6DtvQO9/dlt76IBaikXPpslXjq6pST
+ jFfZh2uRAMePwDHhoQQLNQzkC12wPkXcZPLXx2ADjJtqEKy7bW2+gxDbbcJDDOVQ
+ VuvwS4PM8MQcf2Rr7qyfXLPe5Lc46+01w63aLtcMijCn/ZKTsn+l9IY4axqQB3ol
+ 2+Oudolo5/Ha3o/ZLMIKLoOyX7RvZncBzpV5PZV5kFhzlW2izGNS0rTWVEdEpYEc
+ Al+q0KEZn6nANGo4y6fiDSB7LzYpD7c9+b8aYZTgtvzwWVL+zjKnTCaX+ZymZxf+
+ 98xn4wFADSco0SR13mRCBDtf/UGEqWcwjxcgYDRQuQ==
+X-ME-Sender: <xms:yAz9Y4QZ0bFqOsCcmYvhDiiHwpxCKqqbcoDxkoq0bcMaF6zxsmIhLA>
+ <xme:yAz9Y1yRmthicotCWDvnALQCFqZxBnSU3xJUZLCygQBrua0hWqRWUqUEq7uINKysC
+ ybAQeT6N9FlN87aCss>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+ keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:yAz9Y13kmNhmOhtb3wu_v8-vYIJiuGXAPPQgztyZ7fxY0YH2388u_Q>
+ <xmx:yAz9Y8A15AZvjUD-laD2dBaFISanpvfqgH7VrgM-JuuNfwTcJV-QsQ>
+ <xmx:yAz9YxgnuUCrgQLpa3tOZBdHss6HmqK7a0b2jqyXZwHv4uftJYQElA>
+ <xmx:yQz9Y6anFwyHybOEKazqP3sfgZcO0TLbxR_X_5vMC9wUpJAVx2fVxA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id B48BBB60086; Mon, 27 Feb 2023 15:04:24 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-183-gbf7d00f500-fm-20230220.001-gbf7d00f5
+Mime-Version: 1.0
+Message-Id: <5de30963-9be9-4e87-a696-7a642d92630f@app.fastmail.com>
+In-Reply-To: <20230212084611.1311177-1-rppt@kernel.org>
+References: <20230212084611.1311177-1-rppt@kernel.org>
+Date: Mon, 27 Feb 2023 21:04:04 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mike Rapoport" <rppt@kernel.org>
+Subject: Re: [PATCH 0/2] char/agp: consolidate asm/agp.h
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +81,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-ia64@vger.kernel.org,
+ linux-parisc@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Helge Deller <deller@gmx.de>, x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-alpha@vger.kernel.org,
+ sparclinux@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+ Matt Turner <mattst88@gmail.com>, linuxppc-dev@lists.ozlabs.org,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2023-02-24 10:29:58)
-> There is a reboot/suspend test case where system suspend is forced during
-> system booting up. Since host_init() of external DP is executed at hpd
-
-dp_display_host_init()?
-
-> thread context, this test case may created a scenario that host_deinit()
-
-dp_display_host_deinit()?
-
-> from pm_suspend() run before host_init() if hpd thread has no chance to
-> run during booting up while suspend request command was issued.
-> At this scenario system will crash at aux register access at host_deinit()
-> since aux clock had not yet been enabled by host_init().  Therefore we
-
-The aux clk is enabled in dp_power_clk_enable() right? Can you clarify?
-
-> have to ensure aux clock enabled by checking core_initialized flag before
-> access aux registers at pm_suspend.
-
-I'd much more like to get rid of 'core_initialized'. What is preventing
-us from enabling the power (i.e. dp_power_init()), or at least enough
-clks and pm runtime state, during probe? That would fix this problem and
-also clean things up. As I understand, the device is half initialized in
-probe and half initialized in the kthread. If we put all power
-management into the runtime PM ops and synced that state during probe so
-that runtime PM state matched device probe state we could make runtime
-PM be the only suspend function and then push the power state tracking
-into the device core.
-
+On Sun, Feb 12, 2023, at 09:46, Mike Rapoport wrote:
+> From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 >
-> Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+> asm/agp.h is duplicated in several architectures, with x86 being the
+> only instance that differs from the rest.
+>
+> Introduce asm-generic/agp.h and use it instead of per-architecture
+> headers for the most cases.
+>
+> I believe that asm-generic is the best tree to pick up this patches.
+>
+> Mike Rapoport (IBM) (2):  char/agp: consolidate
+> {alloc,free}_gatt_pages()  char/agp: introduce asm-generic/agp.h
 
-The code looks OK to me, so
+Hi Mike,
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+It looks like I wrote an email saying I merged these two patches,
+but never actually sent it out. Not sure if you found out another
+way, but this was part of the asm-generic tree for 6.3 and is now
+merged upstream.
 
-once the commit text is cleaned up to indicate the proper function
-names.
+Thanks for the cleanup,
+
+     Arnd
