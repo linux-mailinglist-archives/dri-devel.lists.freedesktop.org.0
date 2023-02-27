@@ -2,54 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75796A4597
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 16:07:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DF66A45FB
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 16:23:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64C510E421;
-	Mon, 27 Feb 2023 15:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C9310E42C;
+	Mon, 27 Feb 2023 15:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB5510E421;
- Mon, 27 Feb 2023 15:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677510460; x=1709046460;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=IC025GuM7fKwMHhIKiLdUR9EVWuO+Kj2b/D7IjMVrKA=;
- b=NUKl2MAaJgU3D807IsAbsV1ZOyxRgDUJdZ1A1iL1R9tyZdZ0qWZQfgj+
- iXPfyn766Va2tevMOcq7zxa0vGmViZzPuJFmk2SNpzDfkbpdFfUhcOzyG
- Pw3osEJnYk913BJAuoCr9oAg/vdElXFEOo3rawh/rrk+ED/FIxDtRBsBU
- 1u4Y9ZM66RfymboaySNl73kyF6vu7uEr+6Rzcip8vl48JyfhYzZaHxyxv
- FjfvT9RKQH8znhhaLHpJxZQwS6AZ4xFJI5hPtMe+yvMEvKCV9xXHA4vVU
- Irn7ZS7R1m3MGM6JewsZ1sXOVBbuTOTCKUTqxVNk2YJdkJY5NHfI1148I Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="420141544"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="420141544"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 07:07:39 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="675910897"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="675910897"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 07:07:37 -0800
-Date: Mon, 27 Feb 2023 16:07:36 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH 0/1] drm: Add a gpu page-table walker
-Message-ID: <20230227150736.GE3547587@linux.intel.com>
-References: <20230216162729.219979-1-thomas.hellstrom@linux.intel.com>
- <Y+6PqOdRf+vu8rZc@phenom.ffwll.local>
- <699c33d7-6788-99ab-6787-1cebff0bf70e@linux.intel.com>
- <CADnq5_Mfp4pCnVcsWn_vMO-hWcMhH_yb8MHccyp_jEL=XxgZNg@mail.gmail.com>
- <CAFCwf12vw56v64Pa=5VhAiVBf=Km9_sOWxOczSFNvLi0eL_VeQ@mail.gmail.com>
- <42b04315-182d-227d-b2a8-cc09bcbe3ac3@linux.intel.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9606410E42A
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 15:23:36 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3488C5C015C;
+ Mon, 27 Feb 2023 10:23:33 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 27 Feb 2023 10:23:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1677511413; x=
+ 1677597813; bh=M2kOdYuuIhiRxnfJ/lJYLql1ul3xwfOMmBdF2hwGzWM=; b=U
+ xfYfVSZ78nB/59oJEKc9fqsSQT52EfW/y7mADAKwtwbtz4d9yIW2Ga2DXRpdVS1h
+ g06RTF3hj/sKhCE+C3+pK9PArctcnbE9w0C1B/odyujCzrxCaD1+mvtc9NDf0jgC
+ ECmsGVceHE5ekiZP3lBeCq2eQcKQVQUsvSbbkPgptwQwbOWIi8VT8AVensrLvU83
+ 8+SPnDJaib9pQdo/3/R8Ezh7YscRSMr4+feUjF/9ROpwSX4UfMsxIymzrixe1hFk
+ TvCDcYX9kabFVhbFN21CwaCEGyHvbNJUmYzoRnXACvzET0JogyHGy2QTaqhRtFuD
+ PQMM27Oj3L3yRRlsws/rw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677511413; x=
+ 1677597813; bh=M2kOdYuuIhiRxnfJ/lJYLql1ul3xwfOMmBdF2hwGzWM=; b=H
+ tmeX+s6m0FtGx1CJ6gsqMTQuT9+5bdlzCRXDZfDn5su36U4q7/KTNaqAiPLf0eAD
+ Zk4TK9Usojr2OuYCdv2+jNCP4n9rfV8a6EkLlkdLgsJ1nuJ++mHd7RCPUrAhyo8U
+ E9uatgcxOAdLozioLek6qaA+xwgtfhm9ChE3BufIZIP46AJ0Lny1qdZuSAI49fkR
+ AVMVcbiHlUEBwYWg8rNWWzEip5X2JyIUpvuExL679f2fE1wY/oHIg5qNYi8wUVHF
+ WtO3FGBe2QZPF9ql0Pm5HPGid6zoSBLTkOC/W4NNY2p8vpPMhd1/0nPLec3TAWx7
+ P327TMi+VaGGDJMMnHwdg==
+X-ME-Sender: <xms:9Mr8Y0qCifmYmewZxgEi4Kpq6xphax5hPGNkOi3NGarvHFejfqDhrg>
+ <xme:9Mr8Y6oRyVrHd5Om-W3y1JeMDRVQTCuQRCWQWxOEXd6vgzNY67Pbn26ah_-6OTAQK
+ BKFuQ9wkmGDjttYQRg>
+X-ME-Received: <xmr:9Mr8Y5OZk_lgu8qcyE7DEOgN3t9Kdoo0vTb1RS9UxjRKkUfHhr3B3AZYWuJ3WELIid7ke2B1Hd1ilZYjbGAK6Fn7RZUg71s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgjedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepleeifffgvdetjeejueejieehuedvteeigeehtefhhfeifeegleekudek
+ teegueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:9Mr8Y77hOTJzTj0hvaJuZ7ia8Sk2ctJ8-rQ3LmtqB7s4yAzIFAUN5g>
+ <xmx:9Mr8Yz6W4X4l0KKxaZYwsf7xp0ZcZXfhB0PIvYHOBd-LVuGSaJbw1A>
+ <xmx:9Mr8Y7hIF3mVsIU0Uec0XUuFMSWruflvL2xx5696pt13AhHaIa8-kw>
+ <xmx:9cr8Y7yLptasvmiqiPav0Ei7yOch3h-vKrM_5sOLCH0n5jFS2AJWGA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Feb 2023 10:23:31 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+In-Reply-To: <20230127154052.452524-1-maxime@cerno.tech>
+References: <20230127154052.452524-1-maxime@cerno.tech>
+Subject: Re: (subset) [PATCH] drm/probe-helper: Cancel previous job before
+ starting new one
+Message-Id: <167751138883.69358.14481331718322986992.b4-ty@cerno.tech>
+Date: Mon, 27 Feb 2023 16:23:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <42b04315-182d-227d-b2a8-cc09bcbe3ac3@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,60 +87,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Oded Gabbay <ogabbay@kernel.org>,
- dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: Dom Cobley <popcornmix@gmail.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 27, 2023 at 09:09:14AM +0100, Thomas Hellström wrote:
-> Hi, Oded.
+On Fri, 27 Jan 2023 16:40:52 +0100, Maxime Ripard wrote:
+> Currently we schedule a call to output_poll_execute from
+> drm_kms_helper_poll_enable for 10s in future. Later we try to replace
+> that in drm_helper_probe_single_connector_modes with a 0s schedule with
+> delayed_event set.
 > 
-> On 2/26/23 19:56, Oded Gabbay wrote:
-> > On Thu, Feb 23, 2023 at 8:50 PM Alex Deucher <alexdeucher@gmail.com> wrote:
-> > > On Thu, Feb 23, 2023 at 10:03 AM Thomas Hellström
-> > > <thomas.hellstrom@linux.intel.com> wrote:
-> > > > Hi, Daniel,
-> > > > 
-> > > > On 2/16/23 21:18, Daniel Vetter wrote:
-> > > > > On Thu, Feb 16, 2023 at 05:27:28PM +0100, Thomas Hellström wrote:
-> > > > > > A slightly unusual cover letter for a single patch.
-> > > > > > 
-> > > > > > The page table walker is currently used by the xe driver only,
-> > > > > > but the code is generic so we can be good citizens and add it to drm
-> > > > > > as a helper, for possible use by other drivers,
-> > > > > > If so we can merge the commit when we merge the xe driver.
-> > > > > > 
-> > > > > > The question raised here is
-> > > > > > *) Should it be a generic drm helper or xe-specific with changed
-> > > > > >      prefixes?
-> > > > > I think if there's some other drivers interested in using this, then this
-> > > > > sounds like a good idea. Maybe more useful if it's also integrated into
-> > > > > the vm/vma helpers that are being discussed as an optional part?
-> > > > > 
-> > > > > Maybe some good old sales pitching here to convince people would be good.
-> > > > > 
-> > > > > Maybe one of the new accel drivers is interested in this too?
-> > Hi,
-> > As the habanalabs driver is not really a new driver, I currently don't
-> > see the benefit of moving
-> > to this code. Our pgt code is quite mature and was tested extensively
-> > in deployment in the
-> > past couple of years.
-> > 
-> > Nevertheless, I'll try to offer this code for any new/future driver
-> > that will want to join accel.
-> > 
-> > Stanislaw, I'm adding you here in case you missed this. Might be of an
-> > interest to you.
+> But as there is already a job in the queue this fails, and the immediate
+> job we wanted with delayed_event set doesn't occur until 10s later.
+> 
+> [...]
 
-Rewrite table walk will not give the ivpu driver much, perhaps one function
-would be smaller. Nothing that would justify the effort IMO.
+Applied to drm/drm-misc (drm-misc-next).
 
-> Thanks for taking a look. Yes, as also mentioned to Alex, I think we'll keep
-> this in xe for now.
+Thanks!
+Maxime
 
-Sounds good :-)
-
-Regards
-Stanislaw
