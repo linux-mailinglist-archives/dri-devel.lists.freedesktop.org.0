@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AD96A46A5
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:02:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7D36A46B1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD49C10E42F;
-	Mon, 27 Feb 2023 16:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 155BC10E431;
+	Mon, 27 Feb 2023 16:07:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D17A910E42F
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:02:34 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426DD10E431
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:07:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677513754; x=1709049754;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=GzUcXJBiPN1dZra43WnMj0WTwuVeYjywGsI5YJvho1g=;
- b=SRb8HHmJ4Oij6LLhoCF2Xrh+tYZFXjGoSvAehtaIu0aJc3s0doNK7E6q
- BRxSBLQZYpaRn2667HCajatKQZSwhii68n1+hhEalWfJd361XSxlJQb2/
- qv+CI7SpbMDOf3L31mJBHNjjEqS9vm6/GyKtZCvfcy7RtnjrfgIoyfTsR
- wTGQduD0m/6ez8F79qBfv1RwuazukjQDZArkFgoM5B7XXXkgokIiz7rrb
- 4KaUMt01JBO1E0BHTF+ye8FXCyuTVYKfAJDzTLZkLnsLj/NWYleCO3ui8
- d6Gi9vJbiwlSiMVA1WcxvkPYUxZNBBA/WOtxGZuIrZbkjucB8ga7wQ6yj g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="420153544"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="420153544"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 08:02:34 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="706233045"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="706233045"
-Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.56.158])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 08:02:30 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Siddh Raman Pant <code@siddh.me>
-Subject: Re: [PATCH v7 1/7] drm/print: Fix and add support for NULL as first
- argument in drm_* macros
-In-Reply-To: <18693900367.2ce71ba5548919.6872574648582795181@siddh.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1677395403.git.code@siddh.me>
- <89f0aa1f26696846c2303527fe4d133bb4ff4bf6.1677395403.git.code@siddh.me>
- <87ilfn30li.fsf@intel.com>
- <18693900367.2ce71ba5548919.6872574648582795181@siddh.me>
-Date: Mon, 27 Feb 2023 18:02:25 +0200
-Message-ID: <878rgj14ha.fsf@intel.com>
+ t=1677514024; x=1709050024;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=XaqUCRPxJCEP+4LkIaXq8C52rHZtBFl42QMvotTeXGs=;
+ b=jDfonnAlaHwebM1AT+0RtnOjb/nrlNx2ecA9xsjw9bxEmoFAawUaV3ga
+ sopacSlxXa1yVv6ozZGZkIQpbuz5U5akO4nk5vwbR4oUC6Xe234fRcICq
+ aV7tKPuCgqezYQ+Llywl64Nc73yMfvU0Ap1HF9f65drnTT7qOTyZTvTGa
+ /U/sQ+qimAU0P7t/IoFWUN+KtWq3FveXfkLc5OytxZN6fnGLCjHSYumLd
+ hCPM5MajMVWUTg8rmbHuu83EU5oF6HkgQdrloU6FTyzHMxFAo3os2Ns5M
+ /Fn+pmRxGHDjsBrpBsI67H9RzxCbGHsMN2smjuU9QbNZIbkx5Dvk88QAW w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="314317828"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="314317828"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 08:06:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="742622331"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="742622331"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga004.fm.intel.com with SMTP; 27 Feb 2023 08:06:46 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 27 Feb 2023 18:06:45 +0200
+Date: Mon, 27 Feb 2023 18:06:45 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/virtio: Add option to disable KMS support
+Message-ID: <Y/zVFfSLoO5Fz/3D@intel.com>
+References: <20230224180225.2477641-1-robdclark@gmail.com>
+ <20230227063821.dg2gbjjwcekbxyzw@sirius.home.kraxel.org>
+ <CAF6AEGsv1G7CPSkCPe3iHGB9JEO4iy+bTbkFLoitmx64U78RJw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF6AEGsv1G7CPSkCPe3iHGB9JEO4iy+bTbkFLoitmx64U78RJw@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,56 +62,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas zimmermann <tzimmermann@suse.de>, sam ravnborg <sam@ravnborg.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Feb 2023, Siddh Raman Pant <code@siddh.me> wrote:
-> On Mon, 27 Feb 2023 15:13:21 +0530, Jani Nikula wrote:
->> First of all, that's two distinct changes in one patch. The subject says
->> one thing, but it's really two.
->
-> Sorry, my bad.
->
->> But the main question is, do we *really* want to let callers pass either
->> struct drm_device * or struct device *? It will be type safe with
->> generics, but if it's okay to use either, people *will* use either. The
->> call sites will end up being a mixture of both. You can't control it. It
->> will be very tedious if you ever want to revert that decision.
->> 
->> Do we want to promote a style where you can pass either? To me, in C
->> context, it seems awfully sloppy and confusing rather than convenient.
->> 
->> I'd argue the struct mipi_dsi_host stuff should use dev_* calls
->> directly, as it's more of a special case, rather than allow struct
->> device * in drm_* logging macros.
->
-> I agree. I thought direct dev_* calls would not be ideal, as there is a
-> TODO to move away from that, and also incorrectly expected to have more
-> such dev ptr problems. But on a second thought, you are correct.
->
-> Should I post a new patch, with using __drm_dev_ptr instead and
-> removing the __get_dev_ptr generic macro, and using dev_* in
-> drm_mipi_dsi.c as `dev_err(dev, "*ERROR* [drm] <msg>", ...);`?
+On Mon, Feb 27, 2023 at 07:40:11AM -0800, Rob Clark wrote:
+> On Sun, Feb 26, 2023 at 10:38 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> > On Fri, Feb 24, 2023 at 10:02:24AM -0800, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Add a build option to disable modesetting support.  This is useful in
+> > > cases where the guest only needs to use the GPU in a headless mode, or
+> > > (such as in the CrOS usage) window surfaces are proxied to a host
+> > > compositor.
+> >
+> > Why make that a compile time option?  There is a config option for the
+> > number of scanouts (aka virtual displays) a device has.  Just set that
+> > to zero (and fix the driver to not consider that configuration an
+> > error).
+> 
+> The goal is to not advertise DRIVER_MODESET (and DRIVER_ATOMIC).. I
+> guess that could be done based on whether there are any scanouts, but
+> it would mean making the drm_driver struct non-const.
 
-I think commit 1040e424353f ("drm: mipi-dsi: Convert logging to drm_*
-functions.") and any similar ones should just be reverted. It worked by
-accident. You're supposed to pass struct drm_device * to the drm_*
-logging functions, and that passes struct mipi_dsi_host *.
-
-BR,
-Jani.
-
-
-
->
->> BR,
->> Jani.
->
-> Thanks,
-> Siddh
+dev.driver_features is a thing.
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Ville Syrjälä
+Intel
