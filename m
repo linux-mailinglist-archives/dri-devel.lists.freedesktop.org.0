@@ -2,79 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0C26A47A3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:14:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA956A47AF
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:15:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 796BC10E192;
-	Mon, 27 Feb 2023 17:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C13D10E441;
+	Mon, 27 Feb 2023 17:15:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC1C10E192
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:14:34 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 093A65C00D1;
- Mon, 27 Feb 2023 12:14:32 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 27 Feb 2023 12:14:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1677518072; x=1677604472; bh=x5ROIrk4nV
- knCsj7dkM/MudcRnsZxhLL3dBK6pxJRW4=; b=LVS+lhJ3wBVUVmvKzLsMSJ27cd
- VuICTbG8ZWplHwBs6Zbs8IxPaO0i8C9Zewcey1omTxzAbnISWBkjg3Ce4zTVzjOe
- JGv6NjKiy4peNltqFQ2AF476pIBiQ0PUWU8u+Ina8gGAnav5BdNdWAek/5unry4i
- N3lxnx9YRG+jbRWhbXuUVmrR7CUPI5hKm0DbBIBWfy+g2Tg5UX9BdmxWqYF3TQje
- SdPkjaTXD3PS+ENpWz/CebPdKeS2HpkOpniPx4SswEZh2dPsgLmEh+l5spEKjOpV
- QId+pFXYjy8X11x6yhX4ukQaRJja4SHR9g5bRHa5SPFx09O28bAdMmi0C9vw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1677518072; x=1677604472; bh=x5ROIrk4nVknCsj7dkM/MudcRnsZ
- xhLL3dBK6pxJRW4=; b=gsoMw+hvULCtKWzvyQ9ZAYvoAEZtdReS7dN2OrFePsum
- qL7BGMpXP86H2xYXNtqzkSeKgqRDmdPkLX+ycMycozGp53+aUd5TDCnxYienR7XJ
- 1frhTwf85Z/mV2oHm8CZ07S2cKI+xe6V506RxxMQb++qhkcU+3umdixSN9L8opyz
- Qro8VAKzV7azrVhoahGPyIAB/PV0qhmmuMaDqV4V8QyyJ6Oxb8SGEpgZWey/N1Ig
- yiVkG1/OK8SB1SrHWGerSWYVUNNGpD2ONwsQ1uON5XepoXf2Cu0F6adJojQf8mYW
- bdWbqEL4eyYHvnWTBAVGZmONewgEI0KQF0yD0Nxbow==
-X-ME-Sender: <xms:9uT8Y4uscdr03FNuy_pMWevJCGh-fE2RK62UxI7fI0yq4LaI2vr74g>
- <xme:9uT8Y1d1hQUJM3wPpHSAgnJG2XF1iwMM4K4fHAcIovV-8mYmr9mTkLgcw9uDRq_Ik
- gDeTgv0W680ZVN7Zss>
-X-ME-Received: <xmr:9uT8Yzx409ZK-MnDAK3zSanUquMNPIgjFkeDkpCU8WdTMnLUY3vb_O--AOQyDvjhcV-nBzpjzf4EtxYjxyGEfqFrSXNbE2g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgleegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:9-T8Y7OFQ5qLN1BkThpSHr4dmTWJHg0wmwUsSAUIzOWqIjDehzACIQ>
- <xmx:9-T8Y4-DJhDAD1hMiFvXVnumcc7-pA2CBtxWMk9XC7FDLIaGE9plZA>
- <xmx:9-T8YzUaU0WzEX1ccgaOUoOWTqyhFUuu_-CD_bzQIaD2HsEnSm_F_A>
- <xmx:-OT8Y28J3S41GXqW3lsW6_9Xeh1WFDKaqYxnaomodowftw1zs4wVPg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Feb 2023 12:14:30 -0500 (EST)
-Date: Mon, 27 Feb 2023 18:14:28 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v13 02/18] drm: bridge: panel: Support nodrm case for
- drmm_panel_bridge_add
-Message-ID: <20230227171428.oztmm7p6jmwzgkbi@houat>
-References: <20230227113925.875425-1-jagan@amarulasolutions.com>
- <20230227113925.875425-3-jagan@amarulasolutions.com>
- <20230227121149.c3ibajgog3i2s2ek@houat>
- <CAMty3ZDt64C0dv2=wVcaCLdZVFU2u6D4EKswuoqEjvByKyMseg@mail.gmail.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8F110E441
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677518141; x=1709054141;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HEz3CJUXlV/zWn0/lsDpYmBYVCX0qvkRTSXlFLe1sXs=;
+ b=PYXd23g0mdUIYbR6it7RFD6Ga6uA3rIbTi1gxu51XomoYWOhVl9rP7dG
+ qsDuI5U2T6DteKJKctXAyyHwVKGL8yh4qfg+Ul+eRoAeNfh8ohC9qsPJ1
+ tnj8GS0KDFNwWD6T0N9eCibUAo8EwTjZF145Twy/cdp+IXf8HSFEw0THd
+ YzMeBs4yyYp0Lg6XZrekEt33z1JxcN4w4xGZiCLMKwrzCtR0pDJfzme6q
+ xTZQRT0hURNedbhMijpSTp2EvP7BTtS/Ely+qjjMmXsoU2s53wCT3paZH
+ Dk5wNlJ1zCJXn2ZvN0OCY6pbPJjCqu90wvytR+weqrwKvbUcFBIdP39Xv A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="396469007"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="396469007"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 09:14:59 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="816748087"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="816748087"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 09:14:56 -0800
+Date: Mon, 27 Feb 2023 18:14:54 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v2 5/8] accel/qaic: Add datapath
+Message-ID: <20230227171454.GF3547587@linux.intel.com>
+References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
+ <1675698105-19025-6-git-send-email-quic_jhugo@quicinc.com>
+ <20230224152546.GB3547587@linux.intel.com>
+ <00914fa9-8618-a3ef-d3c5-2a3bba68fa1f@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="mev64xdy6ezuhnir"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMty3ZDt64C0dv2=wVcaCLdZVFU2u6D4EKswuoqEjvByKyMseg@mail.gmail.com>
+In-Reply-To: <00914fa9-8618-a3ef-d3c5-2a3bba68fa1f@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,119 +59,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ ogabbay@kernel.org, dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+ quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
+ jacek.lawrynowicz@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---mev64xdy6ezuhnir
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 27, 2023 at 05:58:03PM +0530, Jagan Teki wrote:
-> On Mon, Feb 27, 2023 at 5:41 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > On Mon, Feb 27, 2023 at 05:09:09PM +0530, Jagan Teki wrote:
-> > > drmm_panel_bridge_add DRM-managed action helper is useful for the bri=
-dge
-> > > which automatically removes the bridge when drm pointer is cleaned.
-> > >
-> > > Supporting the same on non-component bridges like host DSI bridge req=
-uires
-> > > a drm pointer which is indeed available only when a panel-bridge is f=
-ound.
-> > >
-> > > For these use cases, the caller would call the drmm_panel_bridge_add =
-by
-> > > passing NULL to drm pointer.
-> > >
-> > > So, assign the bridge->dev to drm pointer for those cases.
-> > >
-> > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > > ---
-> > > Changes for v13:
-> > > - new patch
-> > >
-> > > Note: use case on
-> > > "[PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge fi=
-nd helper"
-> > >
-> > >  drivers/gpu/drm/bridge/panel.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/=
-panel.c
-> > > index d4b112911a99..45a0c6671000 100644
-> > > --- a/drivers/gpu/drm/bridge/panel.c
-> > > +++ b/drivers/gpu/drm/bridge/panel.c
-> > > @@ -402,6 +402,13 @@ struct drm_bridge *drmm_panel_bridge_add(struct =
-drm_device *drm,
-> > >       if (IS_ERR(bridge))
-> > >               return bridge;
-> > >
-> > > +     /*
-> > > +      * For non-component bridges, like host DSI bridge the DRM poin=
-ter
-> > > +      * can be available only when a panel-bridge is found.
-> > > +      */
-> > > +     if (!drm)
-> > > +             drm =3D bridge->dev;
+On Fri, Feb 24, 2023 at 12:36:51PM -0700, Jeffrey Hugo wrote:
+> > > +static int reserve_pages(unsigned long start_pfn, unsigned long nr_pages,
+> > > +			 bool reserve)
+> > > +{
+> > > +	unsigned long pfn;
+> > > +	unsigned long end_pfn = start_pfn + nr_pages;
+> > > +	struct page *page;
 > > > +
-> >
-> > Why can't the caller use bridge->dev?
->=20
-> The first step of drmm_panel_bridge_add is to find the panel-bridge,
-> so we can only get bridge->dev after this step. The caller doesn't
-> know anything about the panel bridge it just sends a panel pointer to
-> find the panel-bridge
+> > > +	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+> > > +		if (!pfn_valid(pfn))
+> > > +			return -EINVAL;
+> > > +		page =  pfn_to_page(pfn);
+> > > +		if (reserve)
+> > > +			SetPageReserved(page);
+> > > +		else
+> > > +			ClearPageReserved(page);
+> > 
+> > It is needed? Looks like taken from some legacy code.
+> 
+> Required for remap_pfn_range().
 
-Ah, yes, indeed. This is still a hack we don't need.
+PG_reserved is not required any longer for remap_pfn_range(), here
+is excerpt from comment from include/linux/page-flags.h :
 
-> then assigns bridge->dev to drm for DRM action
->
-> Please check this patch about the caller,
-> https://patchwork.kernel.org/project/dri-devel/patch/20230227113925.87542=
-5-5-jagan@amarulasolutions.com/
+ * Some PG_reserved pages will be excluded from the hibernation image.
+ * PG_reserved does in general not hinder anybody from dumping or swapping
+ * and is no longer required for remap_pfn_range(). ioremap might require it.
+ * Consequently, PG_reserved for a page mapped into user space can indicate
+ * the zero page, the vDSO, MMIO pages or device memory.
 
-Because we've already been over this. You can't call that function from
-DSI's attach. So you should change that to what I already pointed you
-to, and then you'll have the drm device pointer available.
+> > > +static int copy_sgt(struct qaic_device *qdev, struct sg_table **sgt_out,
+> > > +		    struct sg_table *sgt_in, u64 size, u64 offset)
+> > > +{
+> > > +	int total_len, len, nents, offf = 0, offl = 0;
+> > > +	struct scatterlist *sg, *sgn, *sgf, *sgl;
+> > > +	struct sg_table *sgt;
+> > > +	int ret, j;
+> > > +
+> > > +	/* find out number of relevant nents needed for this mem */
+> > > +	total_len = 0;
+> > > +	sgf = NULL;
+> > > +	sgl = NULL;
+> > > +	nents = 0;
+> > > +
+> > > +	size = size ? size : PAGE_SIZE;
+> > > +	for (sg = sgt_in->sgl; sg; sg = sg_next(sg)) {
+> > > +		len = sg_dma_len(sg);
+> > > +
+> > > +		if (!len)
+> > > +			continue;
+> > > +		if (offset >= total_len && offset < total_len + len) {
+> > > +			sgf = sg;
+> > > +			offf = offset - total_len;
+> > > +		}
+> > > +		if (sgf)
+> > > +			nents++;
+> > > +		if (offset + size >= total_len &&
+> > > +		    offset + size <= total_len + len) {
+> > > +			sgl = sg;
+> > > +			offl = offset + size - total_len;
+> > > +			break;
+> > > +		}
+> > > +		total_len += len;
+> > > +	}
+> > > +
+> > > +	if (!sgf || !sgl) {
+> > > +		ret = -EINVAL;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+> > > +	if (!sgt) {
+> > > +		ret = -ENOMEM;
+> > > +		goto out;
+> > > +	}
+> > > +
+> > > +	ret = sg_alloc_table(sgt, nents, GFP_KERNEL);
+> > > +	if (ret)
+> > > +		goto free_sgt;
+> > > +
+> > > +	/* copy relevant sg node and fix page and length */
+> > > +	sgn = sgf;
+> > > +	for_each_sgtable_sg(sgt, sg, j) {
+> > > +		memcpy(sg, sgn, sizeof(*sg));
+> > > +		if (sgn == sgf) {
+> > > +			sg_dma_address(sg) += offf;
 
-> > Also, where did the devm_drm_of_dsi_get_bridge go? I thought you were
-> > going to convert it to a drm-managed version?
->=20
-> Look like your suggestion to can't use devm_drm_of_dsi_get_bridge and
-> call the DRM-action from the driver, that is the reason I have removed
-> this and done the same as your previous inputs.
-> https://lore.kernel.org/all/20230203110437.otzl2azscbujigv6@houat/
+This looks a bit suspicious. Are you sure you can modify
+sg->dma_address and still use it as valid value ?
 
-You can't use devm. You can and should definitely use drmm.
+> > > +			sg_dma_len(sg) -= offf;
+> > > +			sg_set_page(sg, sg_page(sgn),
+> > > +				    sg_dma_len(sg), offf);
+> > > +		} else {
+> > > +			offf = 0;
+> > > +		}
+> > > +		if (sgn == sgl) {
+> > > +			sg_dma_len(sg) = offl - offf;
+> > > +			sg_set_page(sg, sg_page(sgn),
+> > > +				    offl - offf, offf);
+> > > +			sg_mark_end(sg);
+> > > +			break;
+> > > +		}
+> > > +		sgn = sg_next(sgn);
+> > > +	}
+> > 
+> > Why not use sg_copy_table() ? Overall copy_sgt() seems to be something
+> > that could be replaced by generic helper or at least simplify.
+> 
+> I don't see "sg_copy_table" defined in 6.2. 
 
-Maxime
+Because there is no such function in any kernel source. It was only my
+imagination, not sure right now how I came up with this function name :-/
+Sorry about confusion.
 
---mev64xdy6ezuhnir
-Content-Type: application/pgp-signature; name="signature.asc"
+There are only sg_copy_{to,from}_buffer(), but not really useful in
+this case.
 
------BEGIN PGP SIGNATURE-----
+> Are you suggesting renaming
+> this function?  I guess I'm not quite understanding your comment here. Can
+> you elaborate?
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY/zk7wAKCRDj7w1vZxhR
-xfv1AP0arWD2a/4vaKVw9vWV6nfryAkPVe9t52I4MJIr8WGwHQEAlgxKdLLhJwhF
-fPOStfl5kPaACAdvt5dvvXEAVGdevQ0=
-=aQ5z
------END PGP SIGNATURE-----
+Renaming would be nice. I was thinking by simplifying it, not sure
+now if that's easy achievable, though.
 
---mev64xdy6ezuhnir--
+Regards
+Stanislaw
+
+
