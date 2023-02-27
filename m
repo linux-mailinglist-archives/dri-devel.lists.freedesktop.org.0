@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7184C6A3F7C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:33:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C066A3F8B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:38:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9892A10E3AD;
-	Mon, 27 Feb 2023 10:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5D6910E3B0;
+	Mon, 27 Feb 2023 10:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0462E10E3AD
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:33:36 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id r18so5673264wrx.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:33:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=K9odxWzvzue9z1NrNjPL2bn7gUkLmctX3VvfrU8oiAk=;
- b=dav+XCq3c710V4HBALG6vLCxdDuPp7pufLGks1XX8cO0PLFYMr1J0HuHDHUsvura72
- oSt6KEUgkKLQ43IqrrrwqoWj8MPOm7E3JkZvYicVha2tqRUDRHyMGo9UQrVp+0kU/uMG
- WOyaK0qXat3vhS4VJZv/BkmQSUn+zqc5sEZn2sPG1dVwbssa4kQlcuFOSlvp6hwOIWPA
- gOcR2Su1+Hvrg2ep4CsA4qUo2gZUa0MTj2kwtx+tQR2i3ZUXQpAH4YAphiOs+57REEs3
- D12dQ5f0cTaLgmWVfCj7EfwbnHGSyQpQv68W0AZe971j0+b7fHK3ft67fuu2+iLn7SLS
- JbUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K9odxWzvzue9z1NrNjPL2bn7gUkLmctX3VvfrU8oiAk=;
- b=PSswPdyVlV+4cNSFKQfKZBTWPza+ZGoiU0JNiqXVCsbVMl6kBNBc4HjC86Dwl9xuIA
- ahpv3bxgHo2XwF6yjhK2rATu9K68iE+Imn9iqAsRhbipt+uTTmh9yV9rQV3XW6ElJ053
- GsysUiidCyPP2Cv4sUDL5oHO70qjTcVJjFseWHp0GzVMypanN+blmurhuxyrZvbzrhWe
- cGYE8L1WhIQRJx9b7jtGh15xwPGgFgON4yfj+u5l4g2iCcXALiaQG9xL7ZJWg5KyXz3w
- k3sRDasMsAqgwa6dwfBtfBK36o06ZiBlMFX1zb/uTa84b/eBQh/N0okziIXZWPboDHF2
- HOhQ==
-X-Gm-Message-State: AO0yUKW6Vc95ccFIQkWEE2zgBAjHT9csLeXDXtviKHR2E1dsDkfxJonl
- 75r1QPdFrWn3ZUkWY5Uk3dk=
-X-Google-Smtp-Source: AK7set9+9zFd2aJkifJYbiHWR4I7Zsn9y0bCJ5P9tNnwHzorUqaB02E6KU0aYOs4YojoMt78neFgrA==
-X-Received: by 2002:adf:ef0d:0:b0:2c5:587e:75ba with SMTP id
- e13-20020adfef0d000000b002c5587e75bamr19380603wro.55.1677494014479; 
- Mon, 27 Feb 2023 02:33:34 -0800 (PST)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- r1-20020a1c2b01000000b003e9ae2a8cbfsm8854770wmr.2.2023.02.27.02.33.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 02:33:33 -0800 (PST)
-Date: Mon, 27 Feb 2023 13:33:30 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2] fbdev: chipsfb: Fix error codes in chipsfb_pci_init()
-Message-ID: <Y/yG+sm2mhdJeTZW@kili>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1410E3B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677494278; x=1709030278;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=lbriUZ8YDUdLm75pRAQtvLKSIwX7Z6Uxi7I/SUAfONw=;
+ b=P8/iucestYsU9kjtJvY5TwdCzHAK/He602b+OpnTsCvZek4TUdKDcvwR
+ VMrxVQKBZTscfXRnaCx81Jv9dlthfv3uC1/31mBARjAtwbm7VHMIObVEs
+ jbXCtVZupawzncbKoAUBMXKWeY6/bTdX8aunIWCqESnPoJE6eMhEMXQTp
+ WsBZgl/fvnkdhGvcdlnBwjVwizSWxOACoG6jjvnEYhqqP7fZGx7DTTqi1
+ vuImwq7XTkeUy8qPi5UrAevwkA8icjrBerSGHtS8AoEHNYFLLBNAn6qcQ
+ Z57HjgZpIioX1aExWP4Q+DTd2YiDjMpuCeUs5k5Fos9ce1yO+O4QLLkgy w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="335310498"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="335310498"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 02:37:58 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="706136106"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="706136106"
+Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.158])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 02:37:49 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Gerd Hoffmann
+ <kraxel@redhat.com>, Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I
+ Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Gustavo Padovan
+ <gustavo.padovan@collabora.com>, Daniel Stone <daniel@fooishbar.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Rob Clark <robdclark@gmail.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>, Alyssa
+ Rosenzweig <alyssa.rosenzweig@collabora.com>, Rob Herring
+ <robh@kernel.org>, Sean Paul <sean@poorly.run>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+In-Reply-To: <6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <ab018466-1659-d54d-4144-5e0879815de6@suse.de>
+ <e9364e10-1ad8-aaaf-3d78-a29b0c1516ef@collabora.com>
+ <6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com>
+Date: Mon, 27 Feb 2023 12:37:46 +0200
+Message-ID: <87a60z2y2t.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,63 +74,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Yang Yingliang <yangyingliang@huawei.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The error codes are not set on these error paths.
+On Mon, 27 Feb 2023, Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> On 2/17/23 16:41, Dmitry Osipenko wrote:
+>> On 2/17/23 16:28, Thomas Zimmermann wrote:
+>>> Hi,
+>>>
+>>> I looked through the series. Most of the patches should have an r-b or
+>>> a-b at this point. I can't say much about patch 2 and had questions
+>>> about others.
+>>>
+>>> Maybe you can already land patches 2, and 4 to 6? They look independent
+>>> from the shrinker changes. You could also attempt to land the locking
+>>> changes in patch 7. They need to get testing. I'll send you an a-b for
+>>> the patch.
+>> 
+>> Thank you, I'll apply the acked patches and then make v11 with the
+>> remaining patches updated.
+>> 
+>> Not sure if it will be possible to split patch 8, but I'll think on it
+>> for v11.
+>> 
+>
+> Applied patches 1-2 to misc-fixes and patches 3-7 to misc-next, with the
+> review comments addressed.
 
-Fixes: 145eed48de27 ("fbdev: Remove conflicting devices on PCI bus")
-Signed-off-by: Dan Carpenter <error27@gmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
-v2: I accidentally returned -EINVAL instead -ENODEV.
-    Add Thomas's Reviewed-by tag.
+Please resolve the drm-tip rebuild conflict [1].
 
- drivers/video/fbdev/chipsfb.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+BR,
+Jani.
 
-diff --git a/drivers/video/fbdev/chipsfb.c b/drivers/video/fbdev/chipsfb.c
-index cc37ec3f8fc1..7799d52a651f 100644
---- a/drivers/video/fbdev/chipsfb.c
-+++ b/drivers/video/fbdev/chipsfb.c
-@@ -358,16 +358,21 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
- 	if (rc)
- 		return rc;
- 
--	if (pci_enable_device(dp) < 0) {
-+	rc = pci_enable_device(dp);
-+	if (rc < 0) {
- 		dev_err(&dp->dev, "Cannot enable PCI device\n");
- 		goto err_out;
- 	}
- 
--	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0)
-+	if ((dp->resource[0].flags & IORESOURCE_MEM) == 0) {
-+		rc = -ENODEV;
- 		goto err_disable;
-+	}
- 	addr = pci_resource_start(dp, 0);
--	if (addr == 0)
-+	if (addr == 0) {
-+		rc = -ENODEV;
- 		goto err_disable;
-+	}
- 
- 	p = framebuffer_alloc(0, &dp->dev);
- 	if (p == NULL) {
-@@ -417,7 +422,8 @@ static int chipsfb_pci_init(struct pci_dev *dp, const struct pci_device_id *ent)
- 
- 	init_chips(p, addr);
- 
--	if (register_framebuffer(p) < 0) {
-+	rc = register_framebuffer(p);
-+	if (rc < 0) {
- 		dev_err(&dp->dev,"C&T 65550 framebuffer failed to register\n");
- 		goto err_unmap;
- 	}
+
+[1] https://paste.debian.net/1272275/
+
+
 -- 
-2.39.1
-
+Jani Nikula, Intel Open Source Graphics Center
