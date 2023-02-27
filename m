@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200276A36C3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1AF6A36CB
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:04:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 333D410E2B4;
-	Mon, 27 Feb 2023 02:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA57010E2B6;
+	Mon, 27 Feb 2023 02:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0761D10E2D3;
- Mon, 27 Feb 2023 02:04:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61C2510E2B5;
+ Mon, 27 Feb 2023 02:04:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8292960D39;
- Mon, 27 Feb 2023 02:04:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF483C4339E;
- Mon, 27 Feb 2023 02:04:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E27C960D54;
+ Mon, 27 Feb 2023 02:04:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E20EC433EF;
+ Mon, 27 Feb 2023 02:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463472;
- bh=ueJ+nRG4PDKA3zbcPD1cYaqDinX2Y+hIhptCIR1APdA=;
+ s=k20201202; t=1677463489;
+ bh=FH7W+agOE0A/uArAr5xI5FYIYFmaGbWjLz+pByNEFJ8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rRBr3Bkt2nMU9oGNEBXiOPw5Q4rc1IAKdv/m85zOmPBF14pm6I6JCtr2P404k248z
- K0MP2mhJKB8A7kdyai8N2ITwAtpYxSTaeSjN/5gLTRtvfsQ5efaIE4XMlpHO5AkkzZ
- ihQQQYC4Xt5JebaziGapMRj76RYtvE2vwRPHhgJDF5Xhb7SU+bT6sVHwANCtkPDYvn
- sSf7k+A6L6li/0eF0S8h3aPsP51BY6FjREDB9mF6gOZ5TPb3NhIwVHlJV4sqUjB636
- TkOA82NwuOLEXke42i9adKBK2xEtey7f35ZxX7HtFYd7AHZG0trtld9sMKFON5hs7M
- kX4cnuRg0vVlw==
+ b=Jw2JpwwCLhtvlYuEkI+VvXcRpcdqRjF1RONNQU+s0Wl+cHkmlceTpj86IB1IMIuyk
+ t37XqQKCY1UeVBtBjE3tjeIbDV+3y0wFhfniBZLZ1PlXDM3Yr+kdg57sOPXTbnl+hH
+ twL3XBue9/hTy+bAhZRwRkRupQ9hP5hAL9eo2ShkHrFijPChZ4dNK3sSpA0KzOCn4f
+ J9x3z0JfOELyUJs2qr4ML06Id0+r1jogB7skEQjUtIRZx9DVTO8EPmaQu1lMESfpl8
+ YYUze11wOkoOuX9QQlwa/bpEybId4jl7B3QHlUDqBmgL1VLaPrrJLCT6j440SaO33C
+ 0YjhHEeJo6pYw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 53/60] drm/amd/display: Disable HUBP/DPP PG on
- DCN314 for now
-Date: Sun, 26 Feb 2023 21:00:38 -0500
-Message-Id: <20230227020045.1045105-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 54/60] drm/amd/display: disable SubVP + DRR to
+ prevent underflow
+Date: Sun, 26 Feb 2023 21:00:39 -0500
+Message-Id: <20230227020045.1045105-54-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227020045.1045105-1-sashal@kernel.org>
 References: <20230227020045.1045105-1-sashal@kernel.org>
@@ -55,51 +56,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- Hansen Dsouza <hansen.dsouza@amd.com>, Daniel.Miess@amd.com,
- sunpeng.li@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, mwen@igalia.com, alex.hung@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- bernard@vivo.com, Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, sancchen@amd.com
+Cc: rdunlap@infradead.org, wenjing.liu@amd.com, dri-devel@lists.freedesktop.org,
+ Jun.Lei@amd.com, Jimmy.Kizito@amd.com, Sasha Levin <sashal@kernel.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org,
+ alex.hung@amd.com, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ Nevenko.Stupar@amd.com, Alvin.Lee2@amd.com, George.Shen@amd.com,
+ Stanley.Yang@amd.com, stylon.wang@amd.com, sunpeng.li@amd.com, mwen@igalia.com,
+ hersenxs.wu@amd.com, evan.quan@amd.com, Dillon.Varone@amd.com,
+ David.Galiffi@amd.com, dingchen.zhang@amd.com, Xinhui.Pan@amd.com,
+ roman.li@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
 
-[ Upstream commit b7c67f72408b11b922f23f06c7df0f6743a2e89d ]
+[ Upstream commit 80c6d6804f31451848a3956a70c2bcb1f07cfcb0 ]
 
-[Why]
-The DMCUB implementation required to workaround corruption is
-not currently stable and may cause intermittent corruption or hangs.
+[Why&How]
+Temporarily disable SubVP+DRR since Xorg has an architectural limitation
+where freesync will not work in a multi monitor configuration. SubVP+DRR
+requires that freesync be working.
 
-[How]
-Disable PG until the sequence is stable.
+Whether OS has variable refresh setting enabled or not, the state on
+the crtc remains same unless an application requests VRR. Due to this,
+there is no way to know whether freesync will actually work or not
+while we are on the desktop from the kernel's perspective.
 
-Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+If userspace does not have a limitation with multi-display freesync (for
+example wayland), then this feature can be enabled by adding a
+dcfeaturemask option to amdgpu on the kernel cmdline like:
+
+amdgpu.dcfeaturemask=0x200
+
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 5 +++++
+ drivers/gpu/drm/amd/display/dc/dc.h                  | 2 +-
+ drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c | 4 ++++
+ drivers/gpu/drm/amd/include/amd_shared.h             | 1 +
+ 4 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-index bc7f2b735327e..73f519dbdb531 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-@@ -892,6 +892,8 @@ static const struct dc_debug_options debug_defaults_drv = {
- 	.force_abm_enable = false,
- 	.timing_trace = false,
- 	.clock_trace = true,
-+	.disable_dpp_power_gate = true,
-+	.disable_hubp_power_gate = true,
- 	.disable_pplib_clock_request = false,
- 	.pipe_split_policy = MPC_SPLIT_DYNAMIC,
- 	.force_single_disp_pipe_split = false,
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 07fe82715cdcb..ac66cb56be9bd 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -1551,6 +1551,11 @@ static int amdgpu_dm_init(struct amdgpu_device *adev)
+ 	if (amdgpu_dc_feature_mask & DC_DISABLE_LTTPR_DP2_0)
+ 		init_data.flags.allow_lttpr_non_transparent_mode.bits.DP2_0 = true;
+ 
++	/* Disable SubVP + DRR config by default */
++	init_data.flags.disable_subvp_drr = true;
++	if (amdgpu_dc_feature_mask & DC_ENABLE_SUBVP_DRR)
++		init_data.flags.disable_subvp_drr = false;
++
+ 	init_data.flags.seamless_boot_edp_requested = false;
+ 
+ 	if (check_seamless_boot_capability(adev)) {
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 85ebeaa2de186..37998dc0fc144 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -410,7 +410,7 @@ struct dc_config {
+ 	bool force_bios_enable_lttpr;
+ 	uint8_t force_bios_fixed_vs;
+ 	int sdpif_request_limit_words_per_umc;
+-
++	bool disable_subvp_drr;
+ };
+ 
+ enum visual_confirm {
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+index 8450f59c26186..69e205ac58b25 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn32/dcn32_fpu.c
+@@ -877,6 +877,10 @@ static bool subvp_drr_schedulable(struct dc *dc, struct dc_state *context, struc
+ 	int16_t stretched_drr_us = 0;
+ 	int16_t drr_stretched_vblank_us = 0;
+ 	int16_t max_vblank_mallregion = 0;
++	const struct dc_config *config = &dc->config;
++
++	if (config->disable_subvp_drr)
++		return false;
+ 
+ 	// Find SubVP pipe
+ 	for (i = 0; i < dc->res_pool->pipe_count; i++) {
+diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
+index f175e65b853a0..e4a22c68517d1 100644
+--- a/drivers/gpu/drm/amd/include/amd_shared.h
++++ b/drivers/gpu/drm/amd/include/amd_shared.h
+@@ -240,6 +240,7 @@ enum DC_FEATURE_MASK {
+ 	DC_DISABLE_LTTPR_DP2_0 = (1 << 6), //0x40, disabled by default
+ 	DC_PSR_ALLOW_SMU_OPT = (1 << 7), //0x80, disabled by default
+ 	DC_PSR_ALLOW_MULTI_DISP_OPT = (1 << 8), //0x100, disabled by default
++	DC_ENABLE_SUBVP_DRR = (1 << 9), // 0x200, disabled by default
+ };
+ 
+ enum DC_DEBUG_MASK {
 -- 
 2.39.0
 
