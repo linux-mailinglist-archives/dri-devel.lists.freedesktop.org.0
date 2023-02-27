@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC946A4057
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 12:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C31A6A4058
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 12:13:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52E210E1BF;
-	Mon, 27 Feb 2023 11:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDE110E3C1;
+	Mon, 27 Feb 2023 11:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D419910E3B6
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 11:13:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 645ED10E3B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 11:13:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 86178B80CA5;
- Mon, 27 Feb 2023 11:13:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B07DC433EF;
- Mon, 27 Feb 2023 11:13:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C3C2560DC4;
+ Mon, 27 Feb 2023 11:13:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0B4AC4339B;
+ Mon, 27 Feb 2023 11:13:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677496391;
- bh=0I5AnhYb/ob1dlnY+rf1XjX4GfCR1gP3WJNq7rzgZno=;
- h=From:To:Cc:Subject:Date:From;
- b=dC/NuyD5Qqiygv+Fa23Cl4h7jVV5IYXml4kggKcEpKkQ3TJm1bWjIJlhqacipMTMt
- exLrcHIP9hw9fdM1n/GuEPX04tW/nGOXLFglN7/DuD5bxY7sU8noGIUk2C8Aj6zlef
- RcucKZXEsY2WZkrmHx5w9tpHq7ubJht1Px1waoBeOB/vw6PRxT+Z1BqcURaHFhnKNx
- uJJLHz8+uaWB//2NFnfNmgZD1M0F8IN6ICJWcVtCFtoTT2D1a/UHEGjjvN6cJVekv3
- dDzly4tU7N2osPTPMomRpCL/GCkT86L2J3bACjwa1Wug+11G8QOmrpkhTw6cbVBU2I
- lWly2gknZljbg==
+ s=k20201202; t=1677496393;
+ bh=LhJ3bnyhSMtSjwKe39NSUgUg82EqxlpgqvrnTl5X2Eg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=agqVdNEzEb2McN01BlbmXbX98PPI2hefoD7gc17/fLOB3NABpZnWWXMmQHcCNVg8f
+ dRhcHO2xXZxSuqi4Pp80GhQbkk/YhSTLKO1nCUvXlA9smzG/Jmpzcf03amDcYessgm
+ FJs33m5QWRYbhmMUeYwGnHkD0B9h9I/9PWrc2yReZRrVg6PCkHAZGtDFQfnBOIdxIQ
+ eXdY+suYMC8rlSKRt2CAtBC61Kkow8SjHEAueELYZ65xMJJsaQQ8fDuQwA7mFXSWGe
+ q7hd4Qh6MDyJQpp4NCred76BIyYF7m03TWOZjI3liVY9CAi5mWIagLoqJSof8lGhT+
+ QXMgiEHpkaJCw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/6] habanalabs: add helper function to get vm hash node
-Date: Mon, 27 Feb 2023 13:13:01 +0200
-Message-Id: <20230227111306.3985896-1-ogabbay@kernel.org>
+Subject: [PATCH 2/6] habanalabs: add device id to all threads names
+Date: Mon, 27 Feb 2023 13:13:02 +0200
+Message-Id: <20230227111306.3985896-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230227111306.3985896-1-ogabbay@kernel.org>
+References: <20230227111306.3985896-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,90 +51,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Sagiv Ozeri <sozeri@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+From: Sagiv Ozeri <sozeri@habana.ai>
 
-Add a helper function to search the vm hash for a node with a given
-virtual address.
-As opposed to the current code, this function explicitly returns NULL
-when no node is found, instead of basing on the loop cursor object's
-value.
+Compute driver threads names will start with hlX-*, when X is the
+device id.
+This will help distinguish them from the NIC thread names.
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Sagiv Ozeri <sozeri@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/memory.c | 28 ++++++++++++++----------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ drivers/accel/habanalabs/common/device.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
-index be0cba3b61ab..88f5178d2df7 100644
---- a/drivers/accel/habanalabs/common/memory.c
-+++ b/drivers/accel/habanalabs/common/memory.c
-@@ -1266,6 +1266,18 @@ static int map_device_va(struct hl_ctx *ctx, struct hl_mem_in *args, u64 *device
- 	return rc;
- }
- 
-+/* Should be called while the context's mem_hash_lock is taken */
-+static struct hl_vm_hash_node *get_vm_hash_node_locked(struct hl_ctx *ctx, u64 vaddr)
-+{
-+	struct hl_vm_hash_node *hnode;
-+
-+	hash_for_each_possible(ctx->mem_hash, hnode, node, vaddr)
-+		if (vaddr == hnode->vaddr)
-+			return hnode;
-+
-+	return NULL;
-+}
-+
- /**
-  * unmap_device_va() - unmap the given device virtual address.
-  * @ctx: pointer to the context structure.
-@@ -1281,10 +1293,10 @@ static int unmap_device_va(struct hl_ctx *ctx, struct hl_mem_in *args,
- {
- 	struct hl_vm_phys_pg_pack *phys_pg_pack = NULL;
- 	u64 vaddr = args->unmap.device_virt_addr;
--	struct hl_vm_hash_node *hnode = NULL;
- 	struct asic_fixed_properties *prop;
- 	struct hl_device *hdev = ctx->hdev;
- 	struct hl_userptr *userptr = NULL;
-+	struct hl_vm_hash_node *hnode;
- 	struct hl_va_range *va_range;
- 	enum vm_type *vm_type;
- 	bool is_userptr;
-@@ -1294,15 +1306,10 @@ static int unmap_device_va(struct hl_ctx *ctx, struct hl_mem_in *args,
- 
- 	/* protect from double entrance */
- 	mutex_lock(&ctx->mem_hash_lock);
--	hash_for_each_possible(ctx->mem_hash, hnode, node, (unsigned long)vaddr)
--		if (vaddr == hnode->vaddr)
--			break;
--
-+	hnode = get_vm_hash_node_locked(ctx, vaddr);
- 	if (!hnode) {
- 		mutex_unlock(&ctx->mem_hash_lock);
--		dev_err(hdev->dev,
--			"unmap failed, no mem hnode for vaddr 0x%llx\n",
--			vaddr);
-+		dev_err(hdev->dev, "unmap failed, no mem hnode for vaddr 0x%llx\n", vaddr);
- 		return -EINVAL;
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index e544d00fe376..7ade32487138 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -840,7 +840,7 @@ static int device_early_init(struct hl_device *hdev)
  	}
  
-@@ -1782,10 +1789,7 @@ static struct hl_vm_hash_node *memhash_node_export_get(struct hl_ctx *ctx, u64 a
+ 	for (i = 0 ; i < hdev->asic_prop.completion_queues_count ; i++) {
+-		snprintf(workq_name, 32, "hl-free-jobs-%u", (u32) i);
++		snprintf(workq_name, 32, "hl%u-free-jobs-%u", hdev->cdev_idx, (u32) i);
+ 		hdev->cq_wq[i] = create_singlethread_workqueue(workq_name);
+ 		if (hdev->cq_wq[i] == NULL) {
+ 			dev_err(hdev->dev, "Failed to allocate CQ workqueue\n");
+@@ -849,14 +849,16 @@ static int device_early_init(struct hl_device *hdev)
+ 		}
+ 	}
  
- 	/* get the memory handle */
- 	mutex_lock(&ctx->mem_hash_lock);
--	hash_for_each_possible(ctx->mem_hash, hnode, node, (unsigned long)addr)
--		if (addr == hnode->vaddr)
--			break;
--
-+	hnode = get_vm_hash_node_locked(ctx, addr);
- 	if (!hnode) {
- 		mutex_unlock(&ctx->mem_hash_lock);
- 		dev_dbg(hdev->dev, "map address %#llx not found\n", addr);
+-	hdev->eq_wq = create_singlethread_workqueue("hl-events");
++	snprintf(workq_name, 32, "hl%u-events", hdev->cdev_idx);
++	hdev->eq_wq = create_singlethread_workqueue(workq_name);
+ 	if (hdev->eq_wq == NULL) {
+ 		dev_err(hdev->dev, "Failed to allocate EQ workqueue\n");
+ 		rc = -ENOMEM;
+ 		goto free_cq_wq;
+ 	}
+ 
+-	hdev->cs_cmplt_wq = alloc_workqueue("hl-cs-completions", WQ_UNBOUND, 0);
++	snprintf(workq_name, 32, "hl%u-cs-completions", hdev->cdev_idx);
++	hdev->cs_cmplt_wq = alloc_workqueue(workq_name, WQ_UNBOUND, 0);
+ 	if (!hdev->cs_cmplt_wq) {
+ 		dev_err(hdev->dev,
+ 			"Failed to allocate CS completions workqueue\n");
+@@ -864,7 +866,8 @@ static int device_early_init(struct hl_device *hdev)
+ 		goto free_eq_wq;
+ 	}
+ 
+-	hdev->ts_free_obj_wq = alloc_workqueue("hl-ts-free-obj", WQ_UNBOUND, 0);
++	snprintf(workq_name, 32, "hl%u-ts-free-obj", hdev->cdev_idx);
++	hdev->ts_free_obj_wq = alloc_workqueue(workq_name, WQ_UNBOUND, 0);
+ 	if (!hdev->ts_free_obj_wq) {
+ 		dev_err(hdev->dev,
+ 			"Failed to allocate Timestamp registration free workqueue\n");
+@@ -872,15 +875,15 @@ static int device_early_init(struct hl_device *hdev)
+ 		goto free_cs_cmplt_wq;
+ 	}
+ 
+-	hdev->prefetch_wq = alloc_workqueue("hl-prefetch", WQ_UNBOUND, 0);
++	snprintf(workq_name, 32, "hl%u-prefetch", hdev->cdev_idx);
++	hdev->prefetch_wq = alloc_workqueue(workq_name, WQ_UNBOUND, 0);
+ 	if (!hdev->prefetch_wq) {
+ 		dev_err(hdev->dev, "Failed to allocate MMU prefetch workqueue\n");
+ 		rc = -ENOMEM;
+ 		goto free_ts_free_wq;
+ 	}
+ 
+-	hdev->hl_chip_info = kzalloc(sizeof(struct hwmon_chip_info),
+-					GFP_KERNEL);
++	hdev->hl_chip_info = kzalloc(sizeof(struct hwmon_chip_info), GFP_KERNEL);
+ 	if (!hdev->hl_chip_info) {
+ 		rc = -ENOMEM;
+ 		goto free_prefetch_wq;
+@@ -892,7 +895,8 @@ static int device_early_init(struct hl_device *hdev)
+ 
+ 	hl_mem_mgr_init(hdev->dev, &hdev->kernel_mem_mgr);
+ 
+-	hdev->reset_wq = create_singlethread_workqueue("hl_device_reset");
++	snprintf(workq_name, 32, "hl%u_device_reset", hdev->cdev_idx);
++	hdev->reset_wq = create_singlethread_workqueue(workq_name);
+ 	if (!hdev->reset_wq) {
+ 		rc = -ENOMEM;
+ 		dev_err(hdev->dev, "Failed to create device reset WQ\n");
 -- 
 2.39.2
 
