@@ -1,52 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1076A3FCB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:58:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 985EA6A3FDE
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 12:01:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E3710E1CA;
-	Mon, 27 Feb 2023 10:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57F2C10E2D6;
+	Mon, 27 Feb 2023 11:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 595E510E1C3;
- Mon, 27 Feb 2023 10:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677495500; x=1709031500;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=hwdLr331ukM6N2pylNn8Bx92mtzEy4WdJY/XiKnJ71k=;
- b=M+ahNMYUil2reXIpeqvczpRkmOEDp3CTK6qoStTfUgQdHo+0rHFJmknt
- hO6xOpvf6FeJtHoHQrDi6JFvdA+fpA0XbKx6MfuVcpwVKKCFjzYVOEyap
- hZ54tffg4QSxNVgINUvltwOSIaYBuT9BNjfASJ8/0CKwR0coUX8izjy8I
- UEUkqXWdPspfXgrjAKcN3HwX9ybDoAfXMaD6M6WMmWIWUMvdI39Ij8KD2
- 5xUEbRz13yuKtTSapc5/nOznKV54IJf65GfGGzLSwW8IZn0DVlhInfBCV
- ZSnlY5Yke8yC8OxSzc3GMIdZvfbadAYgeQvXLYjI4jQ4lQ7yuRZuZFWVA A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="361389297"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="361389297"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 02:58:19 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="919264761"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="919264761"
-Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.56.158])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 02:58:14 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Yaroslav Bolyukin <iam@lach.pw>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] drm/edid: parse DRM VESA dsc bpp target
-In-Reply-To: <20230226141051.21767-2-iam@lach.pw>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230226141051.21767-1-iam@lach.pw>
- <20230226141051.21767-2-iam@lach.pw>
-Date: Mon, 27 Feb 2023 12:58:11 +0200
-Message-ID: <874jr72x4s.fsf@intel.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8193410E1C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 11:01:13 +0000 (UTC)
+Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru
+ [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 8239066021EB;
+ Mon, 27 Feb 2023 11:00:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677495671;
+ bh=Uh8//OK+3hdNaqjSqu/2C6uxnKClaRwrTVDY9fef0ho=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hctghTghqru1ufBwHyKfPoGQ6MxZQUBi+4x2k85yWbUCCSVHsiU43UFihpoYvVJe9
+ VHAEXnBGIeYnKasmvdJS846U3ZcAR9awuPJoLraH386O1zezaFU3kEbMOo7SswOT/M
+ NYefK92/y8Geb4qWB/UTr2DF3IiO2djjCz4LXnHO2Yc6ysQqbhNS15RCgwtnxH5M3z
+ 4k3/yfW8h0Y0ElY1aYfF2BRSACbuoP61ZS6Cod/EnpFHbTGA3NxV2ygPIls4SjthyU
+ /1IgmSNSnyfGWJaRRz/HF1G5m/0fEm+wZcTKDhv+BkY/7zve4y0prElm08Ygtl5Rua
+ 2zNsHMup0OwqA==
+Message-ID: <95cf8f0e-0ec1-5071-834e-9eb97a0da233@collabora.com>
+Date: Mon, 27 Feb 2023 14:00:36 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Content-Language: en-US
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
+ <ab018466-1659-d54d-4144-5e0879815de6@suse.de>
+ <e9364e10-1ad8-aaaf-3d78-a29b0c1516ef@collabora.com>
+ <6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com>
+ <87a60z2y2t.fsf@intel.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <87a60z2y2t.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,142 +61,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Yaroslav Bolyukin <iam@lach.pw>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, Qiang Yu <yuq825@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 Feb 2023, Yaroslav Bolyukin <iam@lach.pw> wrote:
-> As per DisplayID v2.0 Errata E9 spec "DSC pass-through timing support"
-> VESA vendor-specific data block may contain target DSC bits per pixel
-> fields
->
-> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
-> ---
->  drivers/gpu/drm/drm_edid.c  | 38 +++++++++++++++++++++++++------------
->  include/drm/drm_connector.h |  6 ++++++
->  include/drm/drm_displayid.h |  4 ++++
->  3 files changed, 36 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 3d0a4da661bc..aa88ac82cbe0 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6338,7 +6338,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
->  	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
->  		return;
->  
-> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
-> +	if (block->num_bytes < 5) {
->  		drm_dbg_kms(connector->dev,
->  			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
->  			    connector->base.id, connector->name);
-> @@ -6361,24 +6361,37 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
->  		break;
->  	}
->  
-> -	if (!info->mso_stream_count) {
-> -		info->mso_pixel_overlap = 0;
-> -		return;
-> -	}
-> +	info->mso_pixel_overlap = 0;
-> +
-> +	if (info->mso_stream_count) {
-> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
-> +
-> +		if (info->mso_pixel_overlap > 8) {
-> +			drm_dbg_kms(connector->dev,
-> +				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
-> +				    connector->base.id, connector->name,
-> +				    info->mso_pixel_overlap);
-> +			info->mso_pixel_overlap = 8;
-> +		}
->  
-> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
-> -	if (info->mso_pixel_overlap > 8) {
->  		drm_dbg_kms(connector->dev,
-> -			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
-> +			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
->  			    connector->base.id, connector->name,
-> -			    info->mso_pixel_overlap);
-> -		info->mso_pixel_overlap = 8;
-> +			    info->mso_stream_count, info->mso_pixel_overlap);
-> +	}
-> +
-> +	if (block->num_bytes < 7) {
-> +		/* DSC bpp is optional */
-> +		return;
->  	}
->  
-> +	info->dp_dsc_bpp = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) * 16
-> +		+ FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
-> +
+On 2/27/23 13:37, Jani Nikula wrote:
+> On Mon, 27 Feb 2023, Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+>> On 2/17/23 16:41, Dmitry Osipenko wrote:
+>>> On 2/17/23 16:28, Thomas Zimmermann wrote:
+>>>> Hi,
+>>>>
+>>>> I looked through the series. Most of the patches should have an r-b or
+>>>> a-b at this point. I can't say much about patch 2 and had questions
+>>>> about others.
+>>>>
+>>>> Maybe you can already land patches 2, and 4 to 6? They look independent
+>>>> from the shrinker changes. You could also attempt to land the locking
+>>>> changes in patch 7. They need to get testing. I'll send you an a-b for
+>>>> the patch.
+>>>
+>>> Thank you, I'll apply the acked patches and then make v11 with the
+>>> remaining patches updated.
+>>>
+>>> Not sure if it will be possible to split patch 8, but I'll think on it
+>>> for v11.
+>>>
+>>
+>> Applied patches 1-2 to misc-fixes and patches 3-7 to misc-next, with the
+>> review comments addressed.
+> 
+> Please resolve the drm-tip rebuild conflict [1].
+> 
+> BR,
+> Jani.
+> 
+> 
+> [1] https://paste.debian.net/1272275/
 
-Matter of taste, but I'd probably use << 4 and |. *shrug*
-
->  	drm_dbg_kms(connector->dev,
-> -		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
-> +		    "[CONNECTOR:%d:%s] DSC bits per pixel %u\n",
->  		    connector->base.id, connector->name,
-> -		    info->mso_stream_count, info->mso_pixel_overlap);
-> +		    info->dp_dsc_bpp);
->  }
->  
->  static void drm_update_mso(struct drm_connector *connector,
-> @@ -6425,6 +6438,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
->  	info->mso_stream_count = 0;
->  	info->mso_pixel_overlap = 0;
->  	info->max_dsc_bpp = 0;
-> +	info->dp_dsc_bpp = 0;
->  
->  	kfree(info->vics);
->  	info->vics = NULL;
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 7b5048516185..1d01e0146a7f 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -719,6 +719,12 @@ struct drm_display_info {
->  	 */
->  	u32 max_dsc_bpp;
->  
-> +	/**
-> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
-> +	 * DST bits per pixel in 6.4 fixed point format. 0 means undefined
-
-DST?
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-> +	 */
-> +	u16 dp_dsc_bpp;
-> +
->  	/**
->  	 * @vics: Array of vics_len VICs. Internal to EDID parsing.
->  	 */
-> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
-> index 49649eb8447e..0fc3afbd1675 100644
-> --- a/include/drm/drm_displayid.h
-> +++ b/include/drm/drm_displayid.h
-> @@ -131,12 +131,16 @@ struct displayid_detailed_timing_block {
->  
->  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
->  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
-> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
-> +#define DISPLAYID_VESA_DSC_BPP_FRACT	GENMASK(3, 0)
->  
->  struct displayid_vesa_vendor_specific_block {
->  	struct displayid_block base;
->  	u8 oui[3];
->  	u8 data_structure_type;
->  	u8 mso;
-> +	u8 dsc_bpp_int;
-> +	u8 dsc_bpp_fract;
->  } __packed;
->  
->  /* DisplayID iteration */
+Don't see that conflict locally, perhaps somebody already fixed it?
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Best regards,
+Dmitry
+
