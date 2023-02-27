@@ -2,53 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4962B6A47AA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0C26A47A3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:14:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E7FA10E43E;
-	Mon, 27 Feb 2023 17:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 796BC10E192;
+	Mon, 27 Feb 2023 17:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6806C10E442;
- Mon, 27 Feb 2023 17:15:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677518106; x=1709054106;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=1OcPQbo8ePg+DLDJ2lHGXCZf3gRhxG8iTP1M5TYKjZA=;
- b=CEonthk9Y+Qz3klYJ9bR79BIye+tuq9tSY50jP//bm043oKrdnwPd83X
- 7giWk3LuLfhGO1FC1RJOuJXRgqj8YQ3ApXH9ctgQBipEMWQ6MvBHdUIcm
- bnblwxOQOxJ+JDio86EyQx+ICTjQVhSxtownhuGiZ9yM7+PnhyRtmxNV1
- PMf73jfBiP4URipNYcoJszY+jZIuzaIytD83S1X0dasMHGFjTUck8O4Rp
- j6vjrGmuhacjSRUQZbc7upAm+GePGMpZ/kAUWhLUg0v3wBdxwzthCetn1
- hNX/0hdUIdxY2+cKkLxxUxfPJ6CdjeVIGKPxe18F9VbGSr5p1xIl3077+ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="313585179"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="313585179"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 09:13:04 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="651302683"
-X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="651302683"
-Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.56.158])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 09:12:57 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>, Yaroslav Bolyukin
- <iam@lach.pw>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] drm/edid: parse DRM VESA dsc bpp target
-In-Reply-To: <bed5e04a-a0e3-fb80-d75e-cdcd85efe7ab@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230226141051.21767-1-iam@lach.pw>
- <20230226141051.21767-2-iam@lach.pw>
- <bed5e04a-a0e3-fb80-d75e-cdcd85efe7ab@amd.com>
-Date: Mon, 27 Feb 2023 19:12:54 +0200
-Message-ID: <87356r117t.fsf@intel.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC1C10E192
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:14:34 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.nyi.internal (Postfix) with ESMTP id 093A65C00D1;
+ Mon, 27 Feb 2023 12:14:32 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 27 Feb 2023 12:14:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1677518072; x=1677604472; bh=x5ROIrk4nV
+ knCsj7dkM/MudcRnsZxhLL3dBK6pxJRW4=; b=LVS+lhJ3wBVUVmvKzLsMSJ27cd
+ VuICTbG8ZWplHwBs6Zbs8IxPaO0i8C9Zewcey1omTxzAbnISWBkjg3Ce4zTVzjOe
+ JGv6NjKiy4peNltqFQ2AF476pIBiQ0PUWU8u+Ina8gGAnav5BdNdWAek/5unry4i
+ N3lxnx9YRG+jbRWhbXuUVmrR7CUPI5hKm0DbBIBWfy+g2Tg5UX9BdmxWqYF3TQje
+ SdPkjaTXD3PS+ENpWz/CebPdKeS2HpkOpniPx4SswEZh2dPsgLmEh+l5spEKjOpV
+ QId+pFXYjy8X11x6yhX4ukQaRJja4SHR9g5bRHa5SPFx09O28bAdMmi0C9vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1677518072; x=1677604472; bh=x5ROIrk4nVknCsj7dkM/MudcRnsZ
+ xhLL3dBK6pxJRW4=; b=gsoMw+hvULCtKWzvyQ9ZAYvoAEZtdReS7dN2OrFePsum
+ qL7BGMpXP86H2xYXNtqzkSeKgqRDmdPkLX+ycMycozGp53+aUd5TDCnxYienR7XJ
+ 1frhTwf85Z/mV2oHm8CZ07S2cKI+xe6V506RxxMQb++qhkcU+3umdixSN9L8opyz
+ Qro8VAKzV7azrVhoahGPyIAB/PV0qhmmuMaDqV4V8QyyJ6Oxb8SGEpgZWey/N1Ig
+ yiVkG1/OK8SB1SrHWGerSWYVUNNGpD2ONwsQ1uON5XepoXf2Cu0F6adJojQf8mYW
+ bdWbqEL4eyYHvnWTBAVGZmONewgEI0KQF0yD0Nxbow==
+X-ME-Sender: <xms:9uT8Y4uscdr03FNuy_pMWevJCGh-fE2RK62UxI7fI0yq4LaI2vr74g>
+ <xme:9uT8Y1d1hQUJM3wPpHSAgnJG2XF1iwMM4K4fHAcIovV-8mYmr9mTkLgcw9uDRq_Ik
+ gDeTgv0W680ZVN7Zss>
+X-ME-Received: <xmr:9uT8Yzx409ZK-MnDAK3zSanUquMNPIgjFkeDkpCU8WdTMnLUY3vb_O--AOQyDvjhcV-nBzpjzf4EtxYjxyGEfqFrSXNbE2g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgleegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
+ geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:9-T8Y7OFQ5qLN1BkThpSHr4dmTWJHg0wmwUsSAUIzOWqIjDehzACIQ>
+ <xmx:9-T8Y4-DJhDAD1hMiFvXVnumcc7-pA2CBtxWMk9XC7FDLIaGE9plZA>
+ <xmx:9-T8YzUaU0WzEX1ccgaOUoOWTqyhFUuu_-CD_bzQIaD2HsEnSm_F_A>
+ <xmx:-OT8Y28J3S41GXqW3lsW6_9Xeh1WFDKaqYxnaomodowftw1zs4wVPg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Feb 2023 12:14:30 -0500 (EST)
+Date: Mon, 27 Feb 2023 18:14:28 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v13 02/18] drm: bridge: panel: Support nodrm case for
+ drmm_panel_bridge_add
+Message-ID: <20230227171428.oztmm7p6jmwzgkbi@houat>
+References: <20230227113925.875425-1-jagan@amarulasolutions.com>
+ <20230227113925.875425-3-jagan@amarulasolutions.com>
+ <20230227121149.c3ibajgog3i2s2ek@houat>
+ <CAMty3ZDt64C0dv2=wVcaCLdZVFU2u6D4EKswuoqEjvByKyMseg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mev64xdy6ezuhnir"
+Content-Disposition: inline
+In-Reply-To: <CAMty3ZDt64C0dv2=wVcaCLdZVFU2u6D4EKswuoqEjvByKyMseg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,160 +87,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- "Liu, Wenjing" <Wenjing.Liu@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
+ Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Feb 2023, Harry Wentland <harry.wentland@amd.com> wrote:
-> On 2/26/23 09:10, Yaroslav Bolyukin wrote:
->> As per DisplayID v2.0 Errata E9 spec "DSC pass-through timing support"
->> VESA vendor-specific data block may contain target DSC bits per pixel
->> fields
->> 
->
-> According to the errata this should only apply to VII timings. The way
-> it is currently implemented will make it apply to everything which is
-> not what we want.
->
-> Can we add this field to drm_mode_info instead of drm_display_info and
-> set it inside drm_mode_displayid_detailed when parsing a type_7 timing?
 
-That's actually difficult to do nicely. I think the patch at hand is
-fine, and it's fine to add the information to drm_display_info. It's a
-dependency to parsing the modes.
+--mev64xdy6ezuhnir
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-How the info will actually be used is a different matter, and obviously
-needs to follow the spec. As it is, *this* patch doesn't say anything
-about that. But whether it's handled in VII timings parsing or
-elsewhere, I still think this part is fine.
+On Mon, Feb 27, 2023 at 05:58:03PM +0530, Jagan Teki wrote:
+> On Mon, Feb 27, 2023 at 5:41 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > On Mon, Feb 27, 2023 at 05:09:09PM +0530, Jagan Teki wrote:
+> > > drmm_panel_bridge_add DRM-managed action helper is useful for the bri=
+dge
+> > > which automatically removes the bridge when drm pointer is cleaned.
+> > >
+> > > Supporting the same on non-component bridges like host DSI bridge req=
+uires
+> > > a drm pointer which is indeed available only when a panel-bridge is f=
+ound.
+> > >
+> > > For these use cases, the caller would call the drmm_panel_bridge_add =
+by
+> > > passing NULL to drm pointer.
+> > >
+> > > So, assign the bridge->dev to drm pointer for those cases.
+> > >
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > ---
+> > > Changes for v13:
+> > > - new patch
+> > >
+> > > Note: use case on
+> > > "[PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge fi=
+nd helper"
+> > >
+> > >  drivers/gpu/drm/bridge/panel.c | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/=
+panel.c
+> > > index d4b112911a99..45a0c6671000 100644
+> > > --- a/drivers/gpu/drm/bridge/panel.c
+> > > +++ b/drivers/gpu/drm/bridge/panel.c
+> > > @@ -402,6 +402,13 @@ struct drm_bridge *drmm_panel_bridge_add(struct =
+drm_device *drm,
+> > >       if (IS_ERR(bridge))
+> > >               return bridge;
+> > >
+> > > +     /*
+> > > +      * For non-component bridges, like host DSI bridge the DRM poin=
+ter
+> > > +      * can be available only when a panel-bridge is found.
+> > > +      */
+> > > +     if (!drm)
+> > > +             drm =3D bridge->dev;
+> > > +
+> >
+> > Why can't the caller use bridge->dev?
+>=20
+> The first step of drmm_panel_bridge_add is to find the panel-bridge,
+> so we can only get bridge->dev after this step. The caller doesn't
+> know anything about the panel bridge it just sends a panel pointer to
+> find the panel-bridge
 
+Ah, yes, indeed. This is still a hack we don't need.
 
-BR,
-Jani.
-
+> then assigns bridge->dev to drm for DRM action
 >
-> Harry
->
->
->> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
->> ---
->>  drivers/gpu/drm/drm_edid.c  | 38 +++++++++++++++++++++++++------------
->>  include/drm/drm_connector.h |  6 ++++++
->>  include/drm/drm_displayid.h |  4 ++++
->>  3 files changed, 36 insertions(+), 12 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 3d0a4da661bc..aa88ac82cbe0 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -6338,7 +6338,7 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
->>  	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
->>  		return;
->>  
->> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
->> +	if (block->num_bytes < 5) {
->>  		drm_dbg_kms(connector->dev,
->>  			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
->>  			    connector->base.id, connector->name);
->> @@ -6361,24 +6361,37 @@ static void drm_parse_vesa_mso_data(struct drm_connector *connector,
->>  		break;
->>  	}
->>  
->> -	if (!info->mso_stream_count) {
->> -		info->mso_pixel_overlap = 0;
->> -		return;
->> -	}
->> +	info->mso_pixel_overlap = 0;
->> +
->> +	if (info->mso_stream_count) {
->> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
->> +
->> +		if (info->mso_pixel_overlap > 8) {
->> +			drm_dbg_kms(connector->dev,
->> +				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
->> +				    connector->base.id, connector->name,
->> +				    info->mso_pixel_overlap);
->> +			info->mso_pixel_overlap = 8;
->> +		}
->>  
->> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
->> -	if (info->mso_pixel_overlap > 8) {
->>  		drm_dbg_kms(connector->dev,
->> -			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
->> +			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
->>  			    connector->base.id, connector->name,
->> -			    info->mso_pixel_overlap);
->> -		info->mso_pixel_overlap = 8;
->> +			    info->mso_stream_count, info->mso_pixel_overlap);
->> +	}
->> +
->> +	if (block->num_bytes < 7) {
->> +		/* DSC bpp is optional */
->> +		return;
->>  	}
->>  
->> +	info->dp_dsc_bpp = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) * 16
->> +		+ FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
->> +
->>  	drm_dbg_kms(connector->dev,
->> -		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
->> +		    "[CONNECTOR:%d:%s] DSC bits per pixel %u\n",
->>  		    connector->base.id, connector->name,
->> -		    info->mso_stream_count, info->mso_pixel_overlap);
->> +		    info->dp_dsc_bpp);
->>  }
->>  
->>  static void drm_update_mso(struct drm_connector *connector,
->> @@ -6425,6 +6438,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
->>  	info->mso_stream_count = 0;
->>  	info->mso_pixel_overlap = 0;
->>  	info->max_dsc_bpp = 0;
->> +	info->dp_dsc_bpp = 0;
->>  
->>  	kfree(info->vics);
->>  	info->vics = NULL;
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 7b5048516185..1d01e0146a7f 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -719,6 +719,12 @@ struct drm_display_info {
->>  	 */
->>  	u32 max_dsc_bpp;
->>  
->> +	/**
->> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
->> +	 * DST bits per pixel in 6.4 fixed point format. 0 means undefined
->> +	 */
->> +	u16 dp_dsc_bpp;
->> +
->>  	/**
->>  	 * @vics: Array of vics_len VICs. Internal to EDID parsing.
->>  	 */
->> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h
->> index 49649eb8447e..0fc3afbd1675 100644
->> --- a/include/drm/drm_displayid.h
->> +++ b/include/drm/drm_displayid.h
->> @@ -131,12 +131,16 @@ struct displayid_detailed_timing_block {
->>  
->>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
->>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
->> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
->> +#define DISPLAYID_VESA_DSC_BPP_FRACT	GENMASK(3, 0)
->>  
->>  struct displayid_vesa_vendor_specific_block {
->>  	struct displayid_block base;
->>  	u8 oui[3];
->>  	u8 data_structure_type;
->>  	u8 mso;
->> +	u8 dsc_bpp_int;
->> +	u8 dsc_bpp_fract;
->>  } __packed;
->>  
->>  /* DisplayID iteration */
->
+> Please check this patch about the caller,
+> https://patchwork.kernel.org/project/dri-devel/patch/20230227113925.87542=
+5-5-jagan@amarulasolutions.com/
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Because we've already been over this. You can't call that function from
+DSI's attach. So you should change that to what I already pointed you
+to, and then you'll have the drm device pointer available.
+
+> > Also, where did the devm_drm_of_dsi_get_bridge go? I thought you were
+> > going to convert it to a drm-managed version?
+>=20
+> Look like your suggestion to can't use devm_drm_of_dsi_get_bridge and
+> call the DRM-action from the driver, that is the reason I have removed
+> this and done the same as your previous inputs.
+> https://lore.kernel.org/all/20230203110437.otzl2azscbujigv6@houat/
+
+You can't use devm. You can and should definitely use drmm.
+
+Maxime
+
+--mev64xdy6ezuhnir
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY/zk7wAKCRDj7w1vZxhR
+xfv1AP0arWD2a/4vaKVw9vWV6nfryAkPVe9t52I4MJIr8WGwHQEAlgxKdLLhJwhF
+fPOStfl5kPaACAdvt5dvvXEAVGdevQ0=
+=aQ5z
+-----END PGP SIGNATURE-----
+
+--mev64xdy6ezuhnir--
