@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAC16A3B17
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 07:03:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D2B6A3B0E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 07:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2BC710E35C;
-	Mon, 27 Feb 2023 06:03:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CF210E177;
+	Mon, 27 Feb 2023 06:03:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C771310E195
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 06:03:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D19710E177
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 06:03:09 +0000 (UTC)
 Received: from workpc.. (109-252-117-89.nat.spd-mgts.ru [109.252.117.89])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 44E546602E9A;
- Mon, 27 Feb 2023 06:03:05 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DF9986602CEE;
+ Mon, 27 Feb 2023 06:03:06 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677477786;
- bh=XYpYU9OXzB849UVK0XnujuvkGigsxcpf7YU8idExx+U=;
+ s=mail; t=1677477788;
+ bh=RC/OqRUY9IcjI/95DJDJLW/5aJlYWOkRZhNC1rLGKS8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KXniX/89Mo+vyeos59JdCdzl4r8oHc41Po698xHiwNjaqfA169grjGSKavVQjLNQo
- rcGzcVz7LevMEAVn6ey5Hs+fjWnzcfeNPl+oAna5mTJaKDmaxlsHJPeNTDKFZCnqgj
- V+qzh+Y/2CRUTnoRRaTj3HztTxRukdSEMz4DWTth8+3bOVAGaE5aNmJVzU9FaHcnvC
- yprz5aYYSEWM4UsYFWnLFLHpesG0FtR9rZ4eMRLVAKQQpnKQLednNiyws02DiDN3L7
- vUvLcC6a1PEh1A0lg+fyvYligUAWLgX3/egR6em+dtgtZe9K+WJWH2qAaeYuWZ55Fi
- Aw/HBI9/zzbQQ==
+ b=TRexFYfMG4ozQRYEkKuKKl4j2/SOF9MjJmwjYY/nKYIv2bwoUt5mNbFbXUBsXiDOU
+ 53oOY+6zaBM4wPHqfn81wHEjHndc2AjHuTaGOxJe7TE4kJaJ3CX/6TFrRw3cf4fvne
+ sp/CZh9Abu+Jd/PBiQYPoq4bbh+36m04lVWlp1/B9JTaRL0iNdJFsgoRVaLziCl4af
+ gmvtA0Yju0aAAxuOtbewTWfnJ0NWZfmPFWlZMelaq0JZK9TorFNHbEXqcOe7CGfZn6
+ Jqe9zrV86YWXgM4sUjKaa4P/dsfk8EpQN48FWD1VaS4fVnxtjusK8Qf2azcHezB7K3
+ r+vbvELY/0GYw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -45,9 +45,10 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Rob Herring <robh@kernel.org>
-Subject: [PATCH v11 02/10] drm/shmem-helper: Add pages_pin_count field
-Date: Mon, 27 Feb 2023 09:02:11 +0300
-Message-Id: <20230227060219.904986-3-dmitry.osipenko@collabora.com>
+Subject: [PATCH v11 03/10] drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap
+ to use pin/unpin
+Date: Mon, 27 Feb 2023 09:02:12 +0300
+Message-Id: <20230227060219.904986-4-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230227060219.904986-1-dmitry.osipenko@collabora.com>
 References: <20230227060219.904986-1-dmitry.osipenko@collabora.com>
@@ -70,73 +71,49 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-And new pages_pin_count field to struct drm_gem_shmem_object that will
-determine whether pages are evictable by memory shrinker. The pages will
-be evictable only when pages_pin_count=0. This patch prepares code for
-addition of the memory shrinker that will utilize the new field.
+The vmapped pages shall be pinned in memory. Previously get/put pages were
+implicitly pinning/unpinning the pages. This will no longer be the case
+with addition of memory shrinker because pages_use_count>0 won't determine
+whether pages are pinned anymore, while the new pages_pin_count will do
+that. Switch the vmap/vunmap to use pin/unpin functions in a preparation
+of addition of the memory shrinker support.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 12 +++++++++++-
- include/drm/drm_gem_shmem_helper.h     |  9 +++++++++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 49ab49454783..97b40676bdfa 100644
+index 97b40676bdfa..2b1eef335bf6 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -280,12 +280,17 @@ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
- int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
- {
- 	struct drm_gem_object *obj = &shmem->base;
-+	int ret;
+@@ -357,7 +357,7 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+ 			return 0;
+ 		}
  
- 	dma_resv_assert_held(shmem->base.resv);
+-		ret = drm_gem_shmem_get_pages(shmem);
++		ret = drm_gem_shmem_pin(shmem);
+ 		if (ret)
+ 			goto err_zero_use;
  
- 	drm_WARN_ON(obj->dev, obj->import_attach);
+@@ -380,7 +380,7 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
  
--	return drm_gem_shmem_get_pages(shmem);
-+	ret = drm_gem_shmem_get_pages(shmem);
-+	if (!ret)
-+		shmem->pages_pin_count++;
-+
-+	return ret;
- }
- EXPORT_SYMBOL(drm_gem_shmem_pin);
+ err_put_pages:
+ 	if (!obj->import_attach)
+-		drm_gem_shmem_put_pages(shmem);
++		drm_gem_shmem_unpin(shmem);
+ err_zero_use:
+ 	shmem->vmap_use_count = 0;
  
-@@ -304,7 +309,12 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+@@ -417,7 +417,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+ 			return;
  
- 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 		vunmap(shmem->vaddr);
+-		drm_gem_shmem_put_pages(shmem);
++		drm_gem_shmem_unpin(shmem);
+ 	}
  
-+	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_pin_count))
-+		return;
-+
- 	drm_gem_shmem_put_pages(shmem);
-+
-+	shmem->pages_pin_count--;
- }
- EXPORT_SYMBOL(drm_gem_shmem_unpin);
- 
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 20ddcd799df9..7d823c9fc480 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -39,6 +39,15 @@ struct drm_gem_shmem_object {
- 	 */
- 	unsigned int pages_use_count;
- 
-+	/**
-+	 * @pages_pin_count:
-+	 *
-+	 * Reference count on the pinned pages table.
-+	 * The pages allowed to be evicted by memory shrinker
-+	 * only when the count is zero.
-+	 */
-+	unsigned int pages_pin_count;
-+
- 	/**
- 	 * @madv: State for madvise
- 	 *
+ 	shmem->vaddr = NULL;
 -- 
 2.39.2
 
