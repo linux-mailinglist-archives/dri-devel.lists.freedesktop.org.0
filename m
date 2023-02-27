@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D3B6A36AD
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:03:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B37E6A36BD
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:04:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDD6310E2A8;
-	Mon, 27 Feb 2023 02:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3690A10E2A7;
+	Mon, 27 Feb 2023 02:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE3610E295;
- Mon, 27 Feb 2023 02:03:43 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF6310E295;
+ Mon, 27 Feb 2023 02:04:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 77DAF60CFA;
- Mon, 27 Feb 2023 02:03:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 332F7C4339B;
- Mon, 27 Feb 2023 02:03:40 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 061C9B80CBC;
+ Mon, 27 Feb 2023 02:04:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A776C433D2;
+ Mon, 27 Feb 2023 02:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463422;
- bh=evSKf+g6FfKT5ycXth9R2zqOmzfES6JKtu2kvL91xZM=;
+ s=k20201202; t=1677463453;
+ bh=Yb8bvgTaHXrEzRgnWUDNwBSKzeSjbPXx9dISVcTbv1E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lD795nHykP24vkiKZG+/nl51Dwcb6uPYC0wOfyCFx00SEH/hVwwg0JYnBe05DtJhi
- 4y1FQ1S+peBQlJvPUetM/vPnoSlo1kHZpHtPi2rc+m3vII2xYP3ub7L/t3AkVQS6y7
- NMVmQcwVFcpAiT9hn5Q1zTfbKNJcJzUwErr4NCyfb4SzX5H1V4MgvaQ8xMkil2RJP1
- 88B9SOWDKiciTzEBkAqmx/bZIVo4Q7M9TGMTGmRHNU9jGpJ75tPkBlnHrRlP3s5+LI
- hj/c6JH2C36aQ/kUe/fl19p8BDX057IBwUQBOYglKKnV6oymibNf6fUUe1sdIHszoE
- 9oaVe2Ou0RHoA==
+ b=CMhfsq+vh/XywIumkn+vLCC5ZUX7l6RCzcQikEWglk3y+yrI9eZWqyBZ9us+22iiW
+ 7+VLiVJb6lOIlS/OufqRD5Y5ipJH0FILofs3ZsBXvJ8rd6gH9fK1Q7QdaxVFsu25qk
+ VA9Db/NLKvMjG/YMA3rTN2xXimNsiJIEghP8i05jXdLuO7wgFPvMNpKHJx/GlGnW9Q
+ s+r4mOlC5de0wFQT3o8USZ8d+EpLHQ0DBbOIr8OW1YSvcr/8H8HTK9TGxIFVkp5rcJ
+ LrK2TNonDHEwJi8UomFWiglHHvdskcoJPZoLPPJ6rLyNomhd/e+HGRp2xwdrpBLn1q
+ xj2uIPBouKN5g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 46/60] drm/amd/display: Do not commit pipe when
- updating DRR
-Date: Sun, 26 Feb 2023 21:00:31 -0500
-Message-Id: <20230227020045.1045105-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 50/60] drm/amd/display: Move DCN314 DOMAIN power
+ control to DMCUB
+Date: Sun, 26 Feb 2023 21:00:35 -0500
+Message-Id: <20230227020045.1045105-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227020045.1045105-1-sashal@kernel.org>
 References: <20230227020045.1045105-1-sashal@kernel.org>
@@ -55,139 +55,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: felipe.clark@amd.com, samson.tam@amd.com, Jun Lei <Jun.Lei@amd.com>,
- Josip.Pavic@amd.com, Sasha Levin <sashal@kernel.org>,
- jiapeng.chong@linux.alibaba.com, Rodrigo.Siqueira@amd.com,
- amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com, Alvin.Lee2@amd.com,
- jdhillon@amd.com, HaoPing.Liu@amd.com, sunpeng.li@amd.com, Duncan.Ma@amd.com,
- harry.vanzylldejong@amd.com, Dillon.Varone@amd.com,
- dri-devel@lists.freedesktop.org, Wesley Chalmers <Wesley.Chalmers@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com, Wayne.Lin@amd.com,
+Cc: wenjing.liu@amd.com, dri-devel@lists.freedesktop.org, Max.Tseng@amd.com,
+ mghaddar@amd.com, Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
+ Anthony.Koo@amd.com, Rodrigo.Siqueira@amd.com, Syed.Hassan@amd.com,
+ amd-gfx@lists.freedesktop.org, Aurabindo.Pillai@amd.com,
+ michael.strauss@amd.com, Alvin.Lee2@amd.com, HaoPing.Liu@amd.com,
+ sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Martin.Leung@amd.com, dingchen.zhang@amd.com, Daniel.Miess@amd.com,
+ Hansen Dsouza <hansen.dsouza@amd.com>, Eric.Yang2@amd.com,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com, roman.li@amd.com,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, wayne.lin@amd.com,
  Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wesley Chalmers <Wesley.Chalmers@amd.com>
+From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
 
-[ Upstream commit 8f0d304d21b351d65e8c434c5399a40231876ba1 ]
+[ Upstream commit e383b12709e32d6494c948422070c2464b637e44 ]
 
-[WHY]
-DRR and Pipe cannot be updated on
-the same frame, or else underflow will
-occur.
+[Why]
+DOMAIN power gating control is now required to be done via firmware
+due to interlock with other power features. This is to avoid
+intermittent issues in the LB memories.
 
-Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+[How]
+If the firmware supports the command then use the new firmware as
+the sequence can avoid potential display corruption issues.
+
+The command will be ignored on firmware that does not support DOMAIN
+power control and the pipes will remain always on - frequent PG cycling
+can cause the issue to occur on the old sequence, so we should avoid it.
+
+Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
 Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Wesley Chalmers <Wesley.Chalmers@amd.com>
+Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc.c          | 15 +++++++++++++++
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h |  3 ++-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c |  9 +++++++++
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.h |  2 ++
- .../drm/amd/display/dc/inc/hw/timing_generator.h  |  1 +
- 5 files changed, 29 insertions(+), 1 deletion(-)
+ .../drm/amd/display/dc/dcn314/dcn314_hwseq.c  | 24 ++++++++++++++++++
+ .../drm/amd/display/dc/dcn314/dcn314_hwseq.h  |  2 ++
+ .../drm/amd/display/dc/dcn314/dcn314_init.c   |  2 +-
+ .../gpu/drm/amd/display/dmub/inc/dmub_cmd.h   | 25 +++++++++++++++++++
+ 4 files changed, 52 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index c03e86e49fea3..698ef50e83f3f 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -3335,6 +3335,21 @@ static void commit_planes_for_stream(struct dc *dc,
- 
- 	dc_z10_restore(dc);
- 
-+	if (update_type == UPDATE_TYPE_FULL) {
-+		/* wait for all double-buffer activity to clear on all pipes */
-+		int pipe_idx;
-+
-+		for (pipe_idx = 0; pipe_idx < dc->res_pool->pipe_count; pipe_idx++) {
-+			struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[pipe_idx];
-+
-+			if (!pipe_ctx->stream)
-+				continue;
-+
-+			if (pipe_ctx->stream_res.tg->funcs->wait_drr_doublebuffer_pending_clear)
-+				pipe_ctx->stream_res.tg->funcs->wait_drr_doublebuffer_pending_clear(pipe_ctx->stream_res.tg);
-+		}
-+	}
-+
- 	if (get_seamless_boot_stream_count(context) > 0 && surface_count > 0) {
- 		/* Optimize seamless boot flag keeps clocks and watermarks high until
- 		 * first flip. After first flip, optimization is required to lower
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h
-index 88ac5f6f4c96c..0b37bb0e184b2 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_optc.h
-@@ -519,7 +519,8 @@ struct dcn_optc_registers {
- 	type OTG_CRC_DATA_STREAM_COMBINE_MODE;\
- 	type OTG_CRC_DATA_STREAM_SPLIT_MODE;\
- 	type OTG_CRC_DATA_FORMAT;\
--	type OTG_V_TOTAL_LAST_USED_BY_DRR;
-+	type OTG_V_TOTAL_LAST_USED_BY_DRR;\
-+	type OTG_DRR_TIMING_DBUF_UPDATE_PENDING;
- 
- #define TG_REG_FIELD_LIST_DCN3_2(type) \
- 	type OTG_H_TIMING_DIV_MODE_MANUAL;
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
-index 867d60151aebb..08b92715e2e64 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
-@@ -291,6 +291,14 @@ static void optc3_set_timing_double_buffer(struct timing_generator *optc, bool e
- 		   OTG_DRR_TIMING_DBUF_UPDATE_MODE, mode);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c
+index a0741794db62a..8e824dc81dede 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.c
+@@ -391,3 +391,27 @@ void dcn314_set_pixels_per_cycle(struct pipe_ctx *pipe_ctx)
+ 		pipe_ctx->stream_res.stream_enc->funcs->set_input_mode(pipe_ctx->stream_res.stream_enc,
+ 				pix_per_cycle);
  }
- 
-+void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
++
++void dcn314_hubp_pg_control(struct dce_hwseq *hws, unsigned int hubp_inst, bool power_on)
 +{
-+	struct optc *optc1 = DCN10TG_FROM_TG(optc);
++	struct dc_context *ctx = hws->ctx;
++	union dmub_rb_cmd cmd;
 +
-+	REG_WAIT(OTG_DOUBLE_BUFFER_CONTROL, OTG_DRR_TIMING_DBUF_UPDATE_PENDING, 0, 2, 100000); /* 1 vupdate at 5hz */
++	if (hws->ctx->dc->debug.disable_hubp_power_gate)
++		return;
 +
++	PERF_TRACE();
++
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.domain_control.header.type = DMUB_CMD__VBIOS;
++	cmd.domain_control.header.sub_type = DMUB_CMD__VBIOS_DOMAIN_CONTROL;
++	cmd.domain_control.header.payload_bytes = sizeof(cmd.domain_control.data);
++	cmd.domain_control.data.inst = hubp_inst;
++	cmd.domain_control.data.power_gate = !power_on;
++
++	dc_dmub_srv_cmd_queue(ctx->dmub_srv, &cmd);
++	dc_dmub_srv_cmd_execute(ctx->dmub_srv);
++	dc_dmub_srv_wait_idle(ctx->dmub_srv);
++
++	PERF_TRACE();
 +}
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h
+index 244280298212c..c419d3dbdfee6 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_hwseq.h
+@@ -41,4 +41,6 @@ unsigned int dcn314_calculate_dccg_k1_k2_values(struct pipe_ctx *pipe_ctx, unsig
+ 
+ void dcn314_set_pixels_per_cycle(struct pipe_ctx *pipe_ctx);
+ 
++void dcn314_hubp_pg_control(struct dce_hwseq *hws, unsigned int hubp_inst, bool power_on);
 +
- void optc3_set_vtotal_min_max(struct timing_generator *optc, int vtotal_min, int vtotal_max)
- {
- 	optc1_set_vtotal_min_max(optc, vtotal_min, vtotal_max);
-@@ -360,6 +368,7 @@ static struct timing_generator_funcs dcn30_tg_funcs = {
- 		.program_manual_trigger = optc2_program_manual_trigger,
- 		.setup_manual_trigger = optc2_setup_manual_trigger,
- 		.get_hw_timing = optc1_get_hw_timing,
-+		.wait_drr_doublebuffer_pending_clear = optc3_wait_drr_doublebuffer_pending_clear,
+ #endif /* __DC_HWSS_DCN314_H__ */
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+index 31feb4b0edee9..25f345ff6c8f0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_init.c
+@@ -137,7 +137,7 @@ static const struct hwseq_private_funcs dcn314_private_funcs = {
+ 	.plane_atomic_disable = dcn20_plane_atomic_disable,
+ 	.plane_atomic_power_down = dcn10_plane_atomic_power_down,
+ 	.enable_power_gating_plane = dcn314_enable_power_gating_plane,
+-	.hubp_pg_control = dcn31_hubp_pg_control,
++	.hubp_pg_control = dcn314_hubp_pg_control,
+ 	.program_all_writeback_pipes_in_tree = dcn30_program_all_writeback_pipes_in_tree,
+ 	.update_odm = dcn314_update_odm,
+ 	.dsc_pg_control = dcn314_dsc_pg_control,
+diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+index 33907feefebbd..8fea8e42cc174 100644
+--- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
++++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
+@@ -457,6 +457,10 @@ enum dmub_cmd_vbios_type {
+ 	 * Query DP alt status on a transmitter.
+ 	 */
+ 	DMUB_CMD__VBIOS_TRANSMITTER_QUERY_DP_ALT  = 26,
++	/**
++	 * Controls domain power gating
++	 */
++	DMUB_CMD__VBIOS_DOMAIN_CONTROL = 28,
  };
  
- void dcn30_timing_generator_init(struct optc *optc1)
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.h b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.h
-index dd45a5499b078..fb06dc9a48937 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.h
-@@ -279,6 +279,7 @@
- 	SF(OTG0_OTG_DRR_TRIGGER_WINDOW, OTG_DRR_TRIGGER_WINDOW_END_X, mask_sh),\
- 	SF(OTG0_OTG_DRR_V_TOTAL_CHANGE, OTG_DRR_V_TOTAL_CHANGE_LIMIT, mask_sh),\
- 	SF(OTG0_OTG_H_TIMING_CNTL, OTG_H_TIMING_DIV_BY2, mask_sh),\
-+	SF(OTG0_OTG_DOUBLE_BUFFER_CONTROL, OTG_DRR_TIMING_DBUF_UPDATE_PENDING, mask_sh),\
- 	SF(OTG0_OTG_DOUBLE_BUFFER_CONTROL, OTG_DRR_TIMING_DBUF_UPDATE_MODE, mask_sh),\
- 	SF(OTG0_OTG_DOUBLE_BUFFER_CONTROL, OTG_BLANK_DATA_DOUBLE_BUFFER_EN, mask_sh)
- 
-@@ -317,6 +318,7 @@
- 	SF(OTG0_OTG_DRR_TRIGGER_WINDOW, OTG_DRR_TRIGGER_WINDOW_END_X, mask_sh),\
- 	SF(OTG0_OTG_DRR_V_TOTAL_CHANGE, OTG_DRR_V_TOTAL_CHANGE_LIMIT, mask_sh),\
- 	SF(OTG0_OTG_H_TIMING_CNTL, OTG_H_TIMING_DIV_MODE, mask_sh),\
-+	SF(OTG0_OTG_DOUBLE_BUFFER_CONTROL, OTG_DRR_TIMING_DBUF_UPDATE_PENDING, mask_sh),\
- 	SF(OTG0_OTG_DOUBLE_BUFFER_CONTROL, OTG_DRR_TIMING_DBUF_UPDATE_MODE, mask_sh)
- 
- void dcn30_timing_generator_init(struct optc *optc1);
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/timing_generator.h b/drivers/gpu/drm/amd/display/dc/inc/hw/timing_generator.h
-index 0e42e721dd15a..1d9f9c53d2bd6 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/hw/timing_generator.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/hw/timing_generator.h
-@@ -331,6 +331,7 @@ struct timing_generator_funcs {
- 			uint32_t vtotal_change_limit);
- 
- 	void (*init_odm)(struct timing_generator *tg);
-+	void (*wait_drr_doublebuffer_pending_clear)(struct timing_generator *tg);
+ //==============================================================================
+@@ -1204,6 +1208,23 @@ struct dmub_rb_cmd_dig1_transmitter_control {
+ 	union dmub_cmd_dig1_transmitter_control_data transmitter_control; /**< payload */
  };
  
- #endif
++/**
++ * struct dmub_rb_cmd_domain_control_data - Data for DOMAIN power control
++ */
++struct dmub_rb_cmd_domain_control_data {
++	uint8_t inst : 6; /**< DOMAIN instance to control */
++	uint8_t power_gate : 1; /**< 1=power gate, 0=power up */
++	uint8_t reserved[3]; /**< Reserved for future use */
++};
++
++/**
++ * struct dmub_rb_cmd_domain_control - Controls DOMAIN power gating
++ */
++struct dmub_rb_cmd_domain_control {
++	struct dmub_cmd_header header; /**< header */
++	struct dmub_rb_cmd_domain_control_data data; /**< payload */
++};
++
+ /**
+  * DPIA tunnel command parameters.
+  */
+@@ -3231,6 +3252,10 @@ union dmub_rb_cmd {
+ 	 * Definition of a DMUB_CMD__VBIOS_DIG1_TRANSMITTER_CONTROL command.
+ 	 */
+ 	struct dmub_rb_cmd_dig1_transmitter_control dig1_transmitter_control;
++	/**
++	 * Definition of a DMUB_CMD__VBIOS_DOMAIN_CONTROL command.
++	 */
++	struct dmub_rb_cmd_domain_control domain_control;
+ 	/**
+ 	 * Definition of a DMUB_CMD__PSR_SET_VERSION command.
+ 	 */
 -- 
 2.39.0
 
