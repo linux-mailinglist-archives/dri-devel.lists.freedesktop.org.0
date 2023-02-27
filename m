@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48C16A4B2C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 20:36:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8BE6A4B51
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 20:41:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB8210E51A;
-	Mon, 27 Feb 2023 19:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B46510E2B1;
+	Mon, 27 Feb 2023 19:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 721DD10E47A;
- Mon, 27 Feb 2023 19:36:37 +0000 (UTC)
-Received: by mail-pg1-x52a.google.com with SMTP id y19so4252030pgk.5;
- Mon, 27 Feb 2023 11:36:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
- b=b8736n309kh1uRXrJE2k/Um3KXaZinC+6/mnagsKOXeEGCtqaoZLgHv9EkxoYXJRwS
- zyfCbEC9JCFtyMY7WQZQPA8QXUcFZpDWSYCWxuW4uo5KMmZNxa3byyQC4DpXMEz57VDW
- Zw5iYZd+QeBYbIOF1BQ1Eia/s4rwzzlK2s84N1dnJwf5tGJNaxNafY0Cpat++4+DvNxA
- QTZIhRflMHWIC2tqDzr8HnGn2dB3Tbtf/FH9dH0okN2XWWTyh3gILz3ZL7r3mGxDZkTt
- MB+UWg7+BAmCJaxpPhV7lKnZdCBx78OnQCLcpiO9Kk3Ymo4t4WnLNcx245/XFreVCcK2
- zh8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9VcsUu3unD+maL4g/jB1gMbq//XnoqiDQvEiNIyt7mI=;
- b=onCBq2KZCDw5OowvMAoRkKZRbiVKd1Tfl91YyznK62vFtq5ycagM9whmwWoLIZiQ/F
- R82xrCFTr8FiOGw30pRy50dm6oz00+sC76HWjchQs90q9cdChaeF/oSRoPjbXn/ibWNj
- AaFi5Q44Z59zxBGhn7tu0d29GNaoE/cYMjNMQcTKvFtbfoSI3DNWKcEhNb7gXBpT3fLg
- QI68JR2wAnuOZ/mjzrs+lv1PBcbm7oLXr1oeVkGyT956XtDOzcRQ3Uvc5QNztL6gb8AT
- njElmkcA+7UxtE4f1eL8JlrIV8Pq35RoBYf4PaIW35/O9/6KFwKtGMzeQ6bS0xUBznHl
- t2Hw==
-X-Gm-Message-State: AO0yUKUp9ZRGAVsVVDOE0owVY0i94+o7j2z4WUlXgKTdm70+0GSrT6Wu
- h1+YO9OqaH+mG01AaGkk76RH68gWR2o=
-X-Google-Smtp-Source: AK7set/P8itus1p3okGBUFN9rk94RkS0E5Ql6lniMhVceVdpcIjzF9h/Mu+zklRPMkDx5JHA+kdklg==
-X-Received: by 2002:a62:1881:0:b0:5e0:a86:a76f with SMTP id
- 123-20020a621881000000b005e00a86a76fmr189244pfy.0.1677526596830; 
- Mon, 27 Feb 2023 11:36:36 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
- by smtp.gmail.com with ESMTPSA id
- k23-20020aa78217000000b005d4360ed2bbsm4551115pfi.197.2023.02.27.11.36.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 11:36:36 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 15/15] drm/i915: Add deadline based boost support
-Date: Mon, 27 Feb 2023 11:35:21 -0800
-Message-Id: <20230227193535.2822389-16-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230227193535.2822389-1-robdclark@gmail.com>
-References: <20230227193535.2822389-1-robdclark@gmail.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE0510E2B1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 19:41:26 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id F15F28567B;
+ Mon, 27 Feb 2023 20:41:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1677526884;
+ bh=YYRl5b7WWHh3+9WkztldfCvyMGkLwbzurMasybl3WvE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=eYs/EeuQ4RnAe8Eqz4pJ31NHib6XfubFgaq0yGcTXHJ9L+31HGJWToWyi4XqBx2LD
+ ZgbHjMuR2rMUC0vJbxD/XN0lVR6qo59sEvFaAZSXnmOTK4eV3A6lShCRsyUXdP4TST
+ T/bO4ytIRSHHv+Ma8aA1/0EaGUtViPhjZgW6SuivfuzGNiOr+pgEAMQ1jWBk7omOLv
+ GlotiYanPdvijds+iqpeZhyfzQ+a1XdOcarDqko16cyJbwaJNR4TMmU5omtwyz9j+z
+ E2NR54WEFJrXWPs9AaTzgMuULE5Uix6juaPaUX60SvtLjMCjN3uFWF5fIAp9h/RsZU
+ Npy00TyZXsDmA==
+Message-ID: <47b8ad7d-cfc1-112c-2117-cb3612c1bba5@denx.de>
+Date: Mon, 27 Feb 2023 20:41:22 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge
+ find helper
+Content-Language: en-US
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20230227113925.875425-1-jagan@amarulasolutions.com>
+ <20230227113925.875425-5-jagan@amarulasolutions.com>
+ <3c2f91d3-0406-7730-d4e4-c94868f23c91@denx.de>
+ <CAMty3ZA6_pKiOK6gWq4iQFtKsoxfUgnSFBqkgDBzEp1DcBEt3A@mail.gmail.com>
+ <7b59aaf9-1f72-fd9f-29ac-1857ec3f91f3@denx.de>
+ <CAMty3ZC6vqpFfdh2F=KUsAgm_KCksVXBV9ON1csjJd1m+gJpVQ@mail.gmail.com>
+ <6066dff9-5a66-0da5-14d9-66162a2fbb39@denx.de>
+ <CAMty3ZDjwD+3SKJiOgZLbYYTtq=udWkXbqnsyYaM73rsYxDumQ@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZDjwD+3SKJiOgZLbYYTtq=udWkXbqnsyYaM73rsYxDumQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,69 +64,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Matteo Lisi <matteo.lisi@engicam.com>, Maxime Ripard <maxime@cerno.tech>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 2/27/23 20:34, Jagan Teki wrote:
+> On Tue, Feb 28, 2023 at 12:54 AM Marek Vasut <marex@denx.de> wrote:
+>>
+>> On 2/27/23 20:15, Jagan Teki wrote:
+>>> On Tue, Feb 28, 2023 at 12:38 AM Marek Vasut <marex@denx.de> wrote:
+>>>>
+>>>> On 2/27/23 20:01, Jagan Teki wrote:
+>>>>> On Tue, Feb 28, 2023 at 12:25 AM Marek Vasut <marex@denx.de> wrote:
+>>>>>>
+>>>>>> On 2/27/23 12:39, Jagan Teki wrote:
+>>>>>>> drm_of_dsi_find_panel_or_bridge is capable of looking up the
+>>>>>>> downstream DSI bridge and panel and trying to add a panel bridge
+>>>>>>> if the panel is found.
+>>>>>>>
+>>>>>>> Replace explicit finding calls with drm_of_dsi_find_panel_or_bridge
+>>>>>>> followed with drmm_panel_bridge_add.
+>>>>>>>
+>>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>>>>>>> ---
+>>>>>>> Changes for v13, v12, v11:
+>>>>>>> - none
+>>>>>>> Changes for v10:
+>>>>>>> - new patch
+>>>>>>>
+>>>>>>>      drivers/gpu/drm/exynos/exynos_drm_dsi.c | 25 +++++++++++++------------
+>>>>>>>      1 file changed, 13 insertions(+), 12 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+>>>>>>> index df15501b1075..12a6dd987e8f 100644
+>>>>>>> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+>>>>>>> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+>>>>>>> @@ -25,6 +25,7 @@
+>>>>>>>      #include <drm/drm_atomic_helper.h>
+>>>>>>>      #include <drm/drm_bridge.h>
+>>>>>>>      #include <drm/drm_mipi_dsi.h>
+>>>>>>> +#include <drm/drm_of.h>
+>>>>>>>      #include <drm/drm_panel.h>
+>>>>>>>      #include <drm/drm_print.h>
+>>>>>>>      #include <drm/drm_probe_helper.h>
+>>>>>>> @@ -1470,24 +1471,26 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+>>>>>>>          struct device *dev = dsi->dev;
+>>>>>>>          struct drm_encoder *encoder = &dsi->encoder;
+>>>>>>>          struct drm_device *drm = encoder->dev;
+>>>>>>> +     struct drm_bridge *bridge;
+>>>>>>>          struct drm_panel *panel;
+>>>>>>>          int ret;
+>>>>>>>
+>>>>>>> -     panel = of_drm_find_panel(device->dev.of_node);
+>>>>>>> -     if (!IS_ERR(panel)) {
+>>>>>>> -             dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
+>>>>>>> -     } else {
+>>>>>>> -             dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
+>>>>>>> -             if (!dsi->out_bridge)
+>>>>>>> -                     dsi->out_bridge = ERR_PTR(-EINVAL);
+>>>>>>> -     }
+>>>>>>
+>>>>>> As far as I understand this from my conversation with Maxime (please put
+>>>>>> him on CC of V15), the change here should instead perform the panel look
+>>>>>> up NOT in exynos_dsi_host_attach() , but in exynos_dsi_bind() , i.e. in
+>>>>>> the component_ops .bind callback . Here is an example of correct
+>>>>>> implementation:
+>>>>>>
+>>>>>> https://cgit.freedesktop.org/drm-misc/tree/drivers/gpu/drm/vc4/vc4_dsi.c#n1805
+>>>>>
+>>>>> But, we don't have component_ops.bind for imx8m case, so where do we
+>>>>> want to place the panel hook?
+>>>>>
+>>>>> Exynos drm drivers are component-based but, imx8mm is not.
+>>>>
+>>>> In 14/18 patch, the same should be added to generic_dsim_register_host()
+>>>> , which is called from the driver .probe() callback, but that is OK.
+>>>>
+>>>> That's ^ is the iMX part.
+>>>
+>>> Ohh. You mean, we need to find the panel hook separately in two places like
+>>> - bind for exynos
+>>> - probe for imx8mm
+>>
+>> Yes
+>>
+>>> If so? how can I find the drm_device pointer in the probe?
+>>
+>> What for ? The panel lookup uses OF graph . Where do you need the
+>> drm_device in it ?
+> 
+> May I can summarize the whole setback here so that everybody is on the
+> same page and find the proper solution?
+> 
+> The key blocker is accessing the DRM pointer in order to use the
+> DRM-managed action helper.
+> 
+> 1. If we find the panel hook in Exynos component_ops.bind then we can
+> use the DRM pointer directly as VC4 does.
+> 2. if we find the panel hook in Samsung drm_bridge_funcs.attach (for
+> imx8mm) then we can use the DRM pointer directly via bridge->dev.
+> 
+> If we make 2) has common across like finding the panel hook in
+> drm_bridge_funcs.attach the Exynos drm pipeline cannot find the
+> panels.
+> 
+> The common solution for both exynos and imx8m is host.attach but if we
+> do so we cannot get find the DRM pointer.
 
-v2: rebase
+There isn't going to be common solution, you would really have to do the 
+look up in component_ops .bind callback for exynos , and 
+generic_dsim_register_host() for i.MX .
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+> If we go ahead with no need for DRM-managed helper at the moment, then
+> find the panel hook in host.attach and then drop 2/18.
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 7503dcb9043b..44491e7e214c 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
- 	return i915_request_enable_breadcrumb(to_request(fence));
- }
- 
-+static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	if (i915_request_completed(rq))
-+		return;
-+
-+	if (i915_request_started(rq))
-+		return;
-+
-+	/*
-+	 * TODO something more clever for deadlines that are in the
-+	 * future.  I think probably track the nearest deadline in
-+	 * rq->timeline and set timer to trigger boost accordingly?
-+	 */
-+
-+	intel_rps_boost(rq);
-+}
-+
- static signed long i915_fence_wait(struct dma_fence *fence,
- 				   bool interruptible,
- 				   signed long timeout)
-@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
- 	.signaled = i915_fence_signaled,
- 	.wait = i915_fence_wait,
- 	.release = i915_fence_release,
-+	.set_deadline = i915_fence_set_deadline,
- };
- 
- static void irq_execute_cb(struct irq_work *wrk)
--- 
-2.39.1
+The panel lookup must happen in .bind/.probe for exynos/imx respectively 
+, that's really all that is required here. Then you can drop 1,2,3/18 
+and get this series applied (I hope) .
 
+Can you implement just this one change ?
+
+There is no need to use drmm_* helper for now, that can be improved 
+later if possible.
