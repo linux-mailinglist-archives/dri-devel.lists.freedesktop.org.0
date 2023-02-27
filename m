@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DC16A4C6C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 21:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322D46A4C8A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 21:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2779F10E429;
-	Mon, 27 Feb 2023 20:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD2810E15B;
+	Mon, 27 Feb 2023 20:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 086CD10E418;
- Mon, 27 Feb 2023 20:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=PCbb2BiC5iSOL8kwHoBIumUlWcLk+H657ge7raRiJao=; b=kTSICWqflGTdsSt539NcYACUrW
- vjripr70AuX6Pr9oATfuY/txFwIPQELz0KLA1yEOEpkryga+NjalEfXWx4FZU75N6YQJH+7PCTuXR
- xuoUhUqFb+KjkKO5AFKphB/icMd+IEWlP7hxVWJtDFtdRXaEW8VzbqAg0Z9jXCiVgw7jkTwheWMla
- 6VOG2/7S9Q8ckGbsY4OTJSoW0L38Cq3gVuWYyQ551pvqBJhpQG0eNj4CFa3h+mEcbn5uPegg6K5ag
- E39dm7+WDMwAeX15uBd2cICUmmELP7JxGgxbR7lJdMUg6G7FwbBni97gkmTDMA3muUZrxiMvAyXnM
- p5bz8HxA==;
-Received: from [181.199.58.72] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pWkI6-00H62x-3e; Mon, 27 Feb 2023 21:40:10 +0100
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] drm/doc: Document DRM device reset expectations
-Date: Mon, 27 Feb 2023 15:40:00 -0500
-Message-Id: <20230227204000.56787-2-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230227204000.56787-1-andrealmeid@igalia.com>
-References: <20230227204000.56787-1-andrealmeid@igalia.com>
+Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA25010E15B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 20:56:00 +0000 (UTC)
+Received: from [10.0.0.182] (unknown [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id B9847161B9A;
+ Mon, 27 Feb 2023 21:55:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1677531357;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=asQWI/0KqQ7Vskc9EMNo967uGziRnDRjnTbun9Xsibw=;
+ b=UU3tgWQJlBiGN4SmpF7FcfyXOhVg5CL0CPSW88hsr0v4bwPMpywNAcyE9F9bIloot+Kfyy
+ +zca8OffoaqtiDEe75NBHICli7NZAzc4uP7TRyCPlrcesgDQiNPFyjD8SGVHPiKezcGEHi
+ SK6nVNWE+3aAli4ddv45LvsvHMQmUbY=
+Message-ID: <cee2e3ea-14a6-c51f-7ce6-6a67dabff6f1@ixit.cz>
+Date: Mon, 27 Feb 2023 21:55:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101
+ Thunderbird/104.0
+Subject: Re: [RESEND v2 PATCH] init/do_mounts.c: add virtiofs root fs support
+To: Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20230224143751.36863-1-david@ixit.cz> <Y/zSCarxyabSC1Zf@fedora>
+ <Y/zxO9PMaES8SenN@redhat.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+In-Reply-To: <Y/zxO9PMaES8SenN@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,85 +54,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
- amaranath.somalapuram@amd.com, Pekka Paalanen <ppaalanen@gmail.com>,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- contactshashanksharma@gmail.com, christian.koenig@amd.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ wsa+renesas@sang-engineering.com, helen.koike@collabora.com,
+ Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
+ akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create a section that specifies how to deal with DRM device resets for
-kernel and userspace drivers.
+Thank you all!
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- Documentation/gpu/drm-uapi.rst | 51 ++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+We'll drop this patch in next MesaCI kernel uprev without this patch!
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 65fb3036a580..3d6c3ed392ea 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -285,6 +285,57 @@ for GPU1 and GPU2 from different vendors, and a third handler for
- mmapped regular files. Threads cause additional pain with signal
- handling as well.
- 
-+Device reset
-+============
-+
-+The GPU stack is really complex and is prone to errors, from hardware bugs,
-+faulty applications and everything in the many layers in between. To recover
-+from this kind of state, sometimes is needed to reset the GPU. Unproper handling
-+of GPU resets can lead to an unstable userspace. This section describes what's
-+the expected behaviour from DRM drivers to do in those situations, from usermode
-+drivers and compositors as well. The end goal is to have a seamless experience
-+as possible, either the stack being able to recover itself or resetting to a new
-+stable state.
-+
-+Robustness
-+----------
-+
-+First of all, application robust APIs, when available, should be used. This
-+allows the application to correctly recover and continue to run after a reset.
-+Apps that doesn't use this should be promptly killed when the kernel driver
-+detects that it's in broken state. Specifically guidelines for some APIs:
-+
-+- OpenGL: KMD signals the abortion of submitted commands and the UMD should then
-+  react accordingly and abort the application.
-+
-+- Vulkan: Assumes that every app is able to deal with ``VK_ERROR_DEVICE_LOST``.
-+  If it doesn't do it right, it's considered a broken application and UMD will
-+  deal with it, aborting it.
-+
-+Kernel mode driver
-+------------------
-+
-+The KMD must be able to detect that something is wrong with the application
-+and that a reset is needed to take place to recover the device (e.g. an endless
-+wait). It needs to properly track the context that is broken and mark it as
-+dead, so any other syscalls to that context should be further rejected. The
-+other contexts should be preserved when possible, avoid crashing the rest of
-+userspace. KMD can ban a file descriptor that keeps causing resets, as it's
-+likely in a broken loop.
-+
-+User mode driver
-+----------------
-+
-+During a reset, UMD should be aware that rejected syscalls indicates that the
-+context is broken and for robust apps the recovery should happen for the
-+context. Non-robust apps must be terminated.
-+
-+Compositors
-+-----------
-+
-+Compositors should be robust as well to properly deal with its errors.
-+
-+
- .. _drm_driver_ioctl:
- 
- IOCTL Support on Device Nodes
+David
+
+On 27/02/2023 19:06, Vivek Goyal wrote:
+> On Mon, Feb 27, 2023 at 10:53:45AM -0500, Stefan Hajnoczi wrote:
+>> On Fri, Feb 24, 2023 at 03:37:51PM +0100, David Heidelberg wrote:
+>>> From: Stefan Hajnoczi <stefanha@redhat.com>
+>>>
+>>> Make it possible to boot directly from a virtiofs file system with tag
+>>> 'myfs' using the following kernel parameters:
+>>>
+>>>    rootfstype=virtiofs root=myfs rw
+>>>
+>>> Booting directly from virtiofs makes it possible to use a directory on
+>>> the host as the root file system.  This is convenient for testing and
+>>> situations where manipulating disk image files is cumbersome.
+>>>
+>>> Reviewed-by: Helen Koike <helen.koike@collabora.com>
+>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>>> ---
+>>> v2: added Reviewed-by and CCed everyone interested.
+>>>
+>>> We have used this option in Mesa3D CI for testing crosvm for
+>>> more than one years and it's proven to work reliably.
+>>>
+>>> We are working on effort to removing custom patches to be able to do
+>>> automated apply and test of patches from any tree.
+>>>
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/crosvm-runner.sh#L85
+>>>   init/do_mounts.c | 10 ++++++++++
+>>>   1 file changed, 10 insertions(+)
+>> Vivek, do you remember where we ended up with boot from virtiofs? I
+>> thought a different solution was merged some time ago.
+> We merged a patch from Christoph Hellwig to support this.
+>
+> commit f9259be6a9e7c22d92e5a5000913147ae17e8321
+> Author: Christoph Hellwig <hch@lst.de>
+> Date:   Wed Jul 14 16:23:20 2021 -0400
+>
+>      init: allow mounting arbitrary non-blockdevice filesystems as root
+>
+> Now one should be able to mount virtiofs using following syntax.
+>
+> "root=myfs rootfstype=virtiofs rw"
+>
+> IIUC, this patch should not be required anymore.
+>
+> Thanks
+> Vivek
+>
+>> There is documentation from the virtiofs community here:
+>> https://virtio-fs.gitlab.io/howto-boot.html
+>>
+>> Stefan
+>>
+>>> diff --git a/init/do_mounts.c b/init/do_mounts.c
+>>> index 811e94daf0a8..11c11abe23d7 100644
+>>> --- a/init/do_mounts.c
+>>> +++ b/init/do_mounts.c
+>>> @@ -578,6 +578,16 @@ void __init mount_root(void)
+>>>   			printk(KERN_ERR "VFS: Unable to mount root fs via SMB.\n");
+>>>   		return;
+>>>   	}
+>>> +#endif
+>>> +#ifdef CONFIG_VIRTIO_FS
+>>> +	if (root_fs_names && !strcmp(root_fs_names, "virtiofs")) {
+>>> +		if (!do_mount_root(root_device_name, "virtiofs",
+>>> +				   root_mountflags, root_mount_data))
+>>> +			return;
+>>> +
+>>> +		panic("VFS: Unable to mount root fs \"%s\" from virtiofs",
+>>> +		      root_device_name);
+>>> +	}
+>>>   #endif
+>>>   	if (ROOT_DEV == 0 && root_device_name && root_fs_names) {
+>>>   		if (mount_nodev_root() == 0)
+>>> -- 
+>>> 2.39.1
+>>>
+>
 -- 
-2.39.2
+David Heidelberg
+Consultant Software Engineer
 
