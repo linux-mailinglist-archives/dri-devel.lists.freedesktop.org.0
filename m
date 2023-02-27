@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634B96A3751
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2706D6A3752
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E23310E31D;
-	Mon, 27 Feb 2023 02:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3451810E31C;
+	Mon, 27 Feb 2023 02:08:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F70310E31A;
- Mon, 27 Feb 2023 02:08:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2780A10E31C
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:08:33 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2CAD060DB4;
- Mon, 27 Feb 2023 02:08:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65FAFC433EF;
- Mon, 27 Feb 2023 02:08:28 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A4EBC60DB5;
+ Mon, 27 Feb 2023 02:08:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB19C4339C;
+ Mon, 27 Feb 2023 02:08:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463710;
- bh=nRnMrqT7K6CLFB3J4zShaT3eHPeMrkNxZjzeMmqR5iM=;
+ s=k20201202; t=1677463712;
+ bh=0l4N7S53WkVsQu+vyKBe7/w86lYZhEOdb25e8I7JgTQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MsxpKkbF+fRX2a5NIWST99gcUa4XWyI3YUCl9ujYtDRJ+3Sk8gQlZDGuCVe/VpZAp
- QXV7ydm4wJj2vnBAeuI5DvJmpE5Vn7cVcS5OXcfcKJUul0yBUuXyL7/l9sXEr9CvXP
- MNtH6wKLdHcZu96n0so6uPPoPbFxbPoKs//xNvvwMotD35LhVnTHlrVpTgaAXJEkyi
- h6xyMW11Yf5qR3c0m2jKLeTdTgK/BCV5W8Ps0MO0euQtLkxdGPkvuzZFzPjFeBvyMm
- wcltKAl3kbVnlrUVktQfzAeLbr+0mITJwKYuSfWUVjf7BRHB5tJvmfd+znZ2A/fISK
- c0JqsOG0mWnzg==
+ b=jwXhfJ0jKvkEVv9wyAk5qOpYEF+LTn4+EhQd7VT6bgZrx86ZlTpV5EnjdnY48eGs7
+ MbUswQREQt+sDYrL09IqYEGcON9swzt34x+67hkDb8Q2dMuoxehNEJpewS4Xe5uFpg
+ +XcgZArLzKQjBrQHPgyA+odBsyGArQVj/6RXvtIIyf/xwG0fbQ5uJC0C9dhKR5f6bc
+ GbaUfIrgS1uzwSEvpaSjbZAkE9fLyz7B8NwtGbJ+208ty9W8/jQclc3mPQBJQgRp1y
+ 567UgeJAwpaHSeMuv5P4h23fUcV1Pe84y0TXYyvq2QW3NU55a7fbvHDAyg3SrJZEZy
+ QRhdPE8wxASVw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 50/58] drm/amd/display: Enable P-state validation
- checks for DCN314
-Date: Sun, 26 Feb 2023 21:04:48 -0500
-Message-Id: <20230227020457.1048737-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 51/58] drm: panel-orientation-quirks: Add quirk
+ for Lenovo IdeaPad Duet 3 10IGL5
+Date: Sun, 26 Feb 2023 21:04:49 -0500
+Message-Id: <20230227020457.1048737-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227020457.1048737-1-sashal@kernel.org>
 References: <20230227020457.1048737-1-sashal@kernel.org>
@@ -56,51 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Charlene.Liu@amd.com,
- Hansen Dsouza <hansen.dsouza@amd.com>, Daniel.Miess@amd.com,
- sunpeng.li@amd.com, Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, roman.li@amd.com, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, mwen@igalia.com, alex.hung@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>, sancchen@amd.com
+Cc: Darrell Kavanagh <darrell.kavanagh@gmail.com>,
+ Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Darrell Kavanagh <darrell.kavanagh@gmail.com>
 
-[ Upstream commit 37d184b548db0f64d4a878960b2c6988b38a3e7e ]
+[ Upstream commit 38b2d8efd03d2e56431b611e3523f0158306451d ]
 
-[Why]
-To align with DCN31 behavior. This helps avoid p-state hangs in
-the case where underflow does occur.
+Another Lenovo convertable where the panel is installed landscape but is
+reported to the kernel as portrait.
 
-[How]
-Flip the bit to true.
-
-Reviewed-by: Hansen Dsouza <hansen.dsouza@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Darrell Kavanagh <darrell.kavanagh@gmail.com>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230214164659.3583-1-darrell.kavanagh@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-index c80c8c8f51e97..5985ce8df4e08 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
-@@ -897,7 +897,7 @@ static const struct dc_debug_options debug_defaults_drv = {
- 	.max_downscale_src_width = 4096,/*upto true 4k*/
- 	.disable_pplib_wm_range = false,
- 	.scl_reset_length10 = true,
--	.sanity_checks = false,
-+	.sanity_checks = true,
- 	.underflow_assert_delay_us = 0xFFFFFFFF,
- 	.dwb_fi_phase = -1, // -1 = disable,
- 	.dmub_command_table = true,
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index b409fe256fd0a..5522d610c5cfd 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -322,6 +322,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "Lenovo ideapad D330-10IGL"),
+ 		},
+ 		.driver_data = (void *)&lcd800x1280_rightside_up,
++	}, {	/* Lenovo IdeaPad Duet 3 10IGL5 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "IdeaPad Duet 3 10IGL5"),
++		},
++		.driver_data = (void *)&lcd1200x1920_rightside_up,
+ 	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
+ 		.matches = {
+ 		  /* Non exact match to match all versions */
 -- 
 2.39.0
 
