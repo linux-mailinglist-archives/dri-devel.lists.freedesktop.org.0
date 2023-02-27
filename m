@@ -1,67 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C066A3F8B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:38:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B606A3FA3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 11:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5D6910E3B0;
-	Mon, 27 Feb 2023 10:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6882310E3BB;
+	Mon, 27 Feb 2023 10:45:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1410E3B0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677494278; x=1709030278;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=lbriUZ8YDUdLm75pRAQtvLKSIwX7Z6Uxi7I/SUAfONw=;
- b=P8/iucestYsU9kjtJvY5TwdCzHAK/He602b+OpnTsCvZek4TUdKDcvwR
- VMrxVQKBZTscfXRnaCx81Jv9dlthfv3uC1/31mBARjAtwbm7VHMIObVEs
- jbXCtVZupawzncbKoAUBMXKWeY6/bTdX8aunIWCqESnPoJE6eMhEMXQTp
- WsBZgl/fvnkdhGvcdlnBwjVwizSWxOACoG6jjvnEYhqqP7fZGx7DTTqi1
- vuImwq7XTkeUy8qPi5UrAevwkA8icjrBerSGHtS8AoEHNYFLLBNAn6qcQ
- Z57HjgZpIioX1aExWP4Q+DTd2YiDjMpuCeUs5k5Fos9ce1yO+O4QLLkgy w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="335310498"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="335310498"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 02:37:58 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="706136106"
-X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="706136106"
-Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.56.158])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 02:37:49 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I
- Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Daniel Almeida
- <daniel.almeida@collabora.com>, Gustavo Padovan
- <gustavo.padovan@collabora.com>, Daniel Stone <daniel@fooishbar.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Rob Clark <robdclark@gmail.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>, Alyssa
- Rosenzweig <alyssa.rosenzweig@collabora.com>, Rob Herring
- <robh@kernel.org>, Sean Paul <sean@poorly.run>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
-In-Reply-To: <6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
- <ab018466-1659-d54d-4144-5e0879815de6@suse.de>
- <e9364e10-1ad8-aaaf-3d78-a29b0c1516ef@collabora.com>
- <6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com>
-Date: Mon, 27 Feb 2023 12:37:46 +0200
-Message-ID: <87a60z2y2t.fsf@intel.com>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FDB110E3B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 10:45:19 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id bi9so7957209lfb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:45:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677494717;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EfjmsqJC9S5uRIo+JPoAyc5Ef8JBEAdP5rQctKxSj5k=;
+ b=NMM1JoMwJ4Qw/j/sBsGu2nc5CU19hz1sII+HLrMsy0mBo8KJpOW3Ty2YNMu7gVL/Ij
+ dHwILQ7PZvsNgvLVWFGma4K7Pi8q0UqGejZohfMNqXBx15KXULLOw3QPaA1QP7JbX5bm
+ Wp1Ab2mKZaJh5EyoBZCOPMmmDJvsmdeVBEpRQ0fFHbztXOxEhObHDvVTxuyfXUkVKlQr
+ 2uJ0Ttl1wlqwqFvYuLgyFbzVAMzyECCLhppODH3QgDxW03BbEpbZdZbxlQvG9Rm3A9/d
+ 4C14eR45pnaIkOnoZ8wxDBz/t+XuF1kkgD05T4aJ0EcHJPvT6SSJu1bTE6bKS+inonpU
+ 37uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677494717;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EfjmsqJC9S5uRIo+JPoAyc5Ef8JBEAdP5rQctKxSj5k=;
+ b=5IeLvpC2T1pnoLOltvNtcE4Vr0EgcKrmYOPMIwfXBYIlaE77wJ9+dHPyImiojA0Zg+
+ YHxuNE6wTU823d+h0SgW6SoB93dZUvCC3gX2YHyLoReaCX01Kl8BeAw0A/kk6ZIvFWqw
+ udUtuGyxiSxSOBdbNolgcpHnWaVmi9M/3wgnUmjAQ0yW2J+V0DYHlwJRTrb63d2dKB9c
+ ttg7l8AiQ6HNVPiVolgRnJxCKWFWu8GY5TO7u26gvfH67+VFkoyi/RaIJ3AtS5hRvR+K
+ 2ENsTTOWPm4LVhlODYd9CyNutV0GLj0NvRala2QChORyqEhkfHlSpAhgpXLLHBzCFQEK
+ sVFQ==
+X-Gm-Message-State: AO0yUKW+2agHcr3l6TVZYdOUsn2AEyuZ/FeHmEpFH9qhUqwFZwWBOGEx
+ avc2dbirZYqj2sKkB4URMiKkcA==
+X-Google-Smtp-Source: AK7set+nivcoX0kYRGE1+gk462k0UjOU2mFC4PctvVhZJ8cocReI8Ypj8vCbMc3f77ikk9Gih+q3uQ==
+X-Received: by 2002:a05:6512:390e:b0:4dd:a66d:b6de with SMTP id
+ a14-20020a056512390e00b004dda66db6demr4726598lfu.65.1677494717376; 
+ Mon, 27 Feb 2023 02:45:17 -0800 (PST)
+Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
+ by smtp.gmail.com with ESMTPSA id
+ v28-20020ac2561c000000b004b5831b69dcsm865191lfd.140.2023.02.27.02.45.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 02:45:16 -0800 (PST)
+Message-ID: <3d951b70-ecea-c97c-8a2e-72ca6b1a2bf7@linaro.org>
+Date: Mon, 27 Feb 2023 11:45:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/5] drm/msm/adreno: Use OPP for every GPU generation
+Content-Language: en-US
+To: Chris Healy <cphealy@gmail.com>, dmitry.baryshkov@linaro.org
+References: <CAFXsbZqnstOLFBrVVa7aFLSGCPNj4VkjExqq1XUoRdUUuBKdog@mail.gmail.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <CAFXsbZqnstOLFBrVVa7aFLSGCPNj4VkjExqq1XUoRdUUuBKdog@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +75,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: sean@poorly.run, Marek Vasut <marex@denx.de>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>, quic_abhinavk@quicinc.com,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Feb 2023, Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
-> On 2/17/23 16:41, Dmitry Osipenko wrote:
->> On 2/17/23 16:28, Thomas Zimmermann wrote:
->>> Hi,
->>>
->>> I looked through the series. Most of the patches should have an r-b or
->>> a-b at this point. I can't say much about patch 2 and had questions
->>> about others.
->>>
->>> Maybe you can already land patches 2, and 4 to 6? They look independent
->>> from the shrinker changes. You could also attempt to land the locking
->>> changes in patch 7. They need to get testing. I'll send you an a-b for
->>> the patch.
->> 
->> Thank you, I'll apply the acked patches and then make v11 with the
->> remaining patches updated.
->> 
->> Not sure if it will be possible to split patch 8, but I'll think on it
->> for v11.
->> 
->
-> Applied patches 1-2 to misc-fixes and patches 3-7 to misc-next, with the
-> review comments addressed.
-
-Please resolve the drm-tip rebuild conflict [1].
-
-BR,
-Jani.
 
 
-[1] https://paste.debian.net/1272275/
+On 24.02.2023 17:56, Chris Healy wrote:
+> I may be missing something, but looking at the code path for a2xx,
+> it's not clear to me how this would work with SoCs with a2xx that
+> don't support 200MHz for GPU frequency.  For example, the NXP i.MX51
+> requires the A205 GPU to run at 166MHz while the NXP i.MX53 requires
+> the A205 GPU to run at 200MHz.
+This is something outside the scope of this patch, I feel like.
 
+If I'm reading the code correctly, the driver always assumed 200 MHz
+for non-pwrlevels and non-OPP targets before this patch, and this
+patch is meant to bring no difference in the rates selected.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Konrad
