@@ -1,50 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58136A35CA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 01:03:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 604EF6A35CB
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 01:04:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A37710E165;
-	Mon, 27 Feb 2023 00:03:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64E910E166;
+	Mon, 27 Feb 2023 00:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B4BA10E162;
- Mon, 27 Feb 2023 00:03:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1438C10E166
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 00:04:34 +0000 (UTC)
 Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru
  [109.252.117.89])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7DCD666020AF;
- Mon, 27 Feb 2023 00:03:41 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 3BF3866020AF;
+ Mon, 27 Feb 2023 00:04:32 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677456221;
- bh=AMEEKMKSiNmj+AtMl0fsR837RIzlq1XdWv9kO+7O+ZA=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=V6PsDPfB2xf6uxmGR3/hMmoE0TQWLaxtyivo8xw3XlUCOsDjCy2Bsx5Qb0gOjGr34
- /kmvmi30Ejf6peVhI3M9ENDa6wnPu77AFnuGxuamT7gqauwQznlWSilPKBNKVD8ax0
- PmU+r1FTZ9t2ULj8hzxdPdXNB5syuCGVJikNIR3mbPSkdrh8/F3PjWrwy+KpBJTtNx
- BACdFQUDWSesllLaOklYUEB+o757f21ZnIJOeIjj7DMuR9mZFRtan5x1xe1jK+6svZ
- 3ga6sKLRT+E1Td9Y6p9nYvhV2KeG9F6/Cs4ZuKWbHlXIWkVR8gsLE2Bw9GvwjvePKj
- L26/41Y6IevkA==
-Message-ID: <a6feedc9-7a97-dc61-b2d6-02b93b7edfa0@collabora.com>
-Date: Mon, 27 Feb 2023 03:03:39 +0300
+ s=mail; t=1677456273;
+ bh=+8W31VeoOfS5KCIykRP7XjN5krIxqbI1vA8JOGyKkHY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dm8LY/SHievdfP/cJSC6IWrO5UXPQiUIobNosRTLGq+DfkAGG2x0FcpUnsGPeuODB
+ VFuNrA4bgf7fSKv/1ws3xWL4WS567ILYvDuzXJrhpsBVpWk2xiej+f1jgRU729xLfw
+ +9BIyVIC0jd0++oqRmK4gnUhiRM73YlGa69O4bygAriFpXQ3h2gct2yCVYwqaiY7Or
+ 1VrVslPrbEPq9H/beYY4hvVc7OSY3cAZZ8b+kViTuI8KNBHVaNwx4qKQ285LJhtN6j
+ +7mwKQaw6SR2gkdeOTW4P1esVaSPSG5iDnVOhE98/5CKidjeaN99dNvNnt6IbBSb63
+ vmgp03r0ZkbCw==
+Message-ID: <257f88ec-6bfc-0e91-610a-41a1af8e1180@collabora.com>
+Date: Mon, 27 Feb 2023 03:04:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 0/4] drm/displayid: use primary use case to figure out
- non-desktop
+Subject: Re: [PATCH linux-next] drm/virtio: use strscpy() to instead of
+ strncpy()
 Content-Language: en-US
+To: yang.yang29@zte.com.cn, airlied@redhat.com
+References: <202212070913161959936@zte.com.cn>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
-References: <cover.1676580180.git.jani.nikula@intel.com>
- <ed745bf1-eeca-6431-b828-e0f51b8bad30@collabora.com>
- <992eefe3-1ab8-b8ba-02d4-9bb9f9755688@collabora.com>
-In-Reply-To: <992eefe3-1ab8-b8ba-02d4-9bb9f9755688@collabora.com>
+In-Reply-To: <202212070913161959936@zte.com.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,49 +57,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Iaroslav Boliukin <iam@lach.pw>
+Cc: xu.panda@zte.com.cn, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, gurchetansingh@chromium.org,
+ kraxel@redhat.com, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/21/23 19:29, Dmitry Osipenko wrote:
-> On 2/20/23 18:44, Dmitry Osipenko wrote:
->> On 2/16/23 23:44, Jani Nikula wrote:
->>> Mostly this is prep work and plumbing for easier use of displayid
->>> structure version and primary use case for parsing the displayid blocks,
->>> but it can be nicely used for figuring out non-desktop too.
->>>
->>> Completely untested. :)
->>>
->>> BR,
->>> Jani.
->>>
->>> Cc: Iaroslav Boliukin <iam@lach.pw>
->>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>
->>> Jani Nikula (4):
->>>   drm/displayid: add displayid_get_header() and check bounds better
->>>   drm/displayid: return struct displayid_header from
->>>     validate_displayid()
->>>   drm/displayid: provide access to DisplayID version and primary use
->>>     case
->>>   drm/edid: update non-desktop use also from DisplayID
->>>
->>>  drivers/gpu/drm/drm_displayid.c | 62 ++++++++++++++++++++++++++++-----
->>>  drivers/gpu/drm/drm_edid.c      | 25 +++++++++++++
->>>  include/drm/drm_displayid.h     | 12 ++++++-
->>>  3 files changed, 89 insertions(+), 10 deletions(-)
->>>
->>
->> It works now without the EDID quirk, thanks!
->>
->> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>
+On 12/7/22 04:13, yang.yang29@zte.com.cn wrote:
+> From: Xu Panda <xu.panda@zte.com.cn>
 > 
-> I'm going to apply this to misc-next later this week if there won't be
-> any objections.
+> The implementation of strscpy() is more robust and safer.
+> That's now the recommended way to copy NUL terminated strings.
+> 
+> Signed-off-by: Xu Panda <xu.panda@zte.com.cn>
+> Signed-off-by: Yang Yang <yang.yang29@zte.com>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_vq.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index 9ff8660b50ad..7d95bc74b307 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -916,8 +916,7 @@ void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
+>  	cmd_p->hdr.ctx_id = cpu_to_le32(id);
+>  	cmd_p->nlen = cpu_to_le32(nlen);
+>  	cmd_p->context_init = cpu_to_le32(context_init);
+> -	strncpy(cmd_p->debug_name, name, sizeof(cmd_p->debug_name) - 1);
+> -	cmd_p->debug_name[sizeof(cmd_p->debug_name) - 1] = 0;
+> +	strscpy(cmd_p->debug_name, name, sizeof(cmd_p->debug_name));
+>  	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+>  }
 > 
 
-Applied all 5 patches to misc-next
+Applied to misc-next
 
 -- 
 Best regards,
