@@ -2,74 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4EE6A3E75
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 10:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58196A3E8A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 10:43:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8322610E397;
-	Mon, 27 Feb 2023 09:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E2610E39B;
+	Mon, 27 Feb 2023 09:43:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F5F410E397;
- Mon, 27 Feb 2023 09:34:38 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id bp25so7739580lfb.0;
- Mon, 27 Feb 2023 01:34:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=KdN6ISH1ECTOoz4cWXA2BXlXONjcORHaPFYKRa+pVyA=;
- b=L85+1UTI/bqDulPb23afcqDavr5yNobNtYxm4ZdplhrWFGrVlJbWQbfDO4czw1TgMp
- SNS5DvF7YuC3ZJIiPAWrS2X/VpHd+m2TRZchPA84PxRCgbT2tK0hte8+iOKWSfxgBJqa
- C9uzw1+uYQZ+rx+35OSUeR5j3Y+mCdSK4cr+vLQ/g68JwGuGS6cw3fMsGpIhu8GI7HTt
- zHgq7th6BWUw60ENh/SmZ3NsWwdRaI1uLD2uPUAebsuDjbPLEVlrP8JKtEkhF2+mygP/
- KrvM4VMZMGYzZz0+r0zonYOAakUAieHGpOXR+/zCmi3Fr37+fjtZgi7Cr+5ACt9Ca+cf
- /kBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KdN6ISH1ECTOoz4cWXA2BXlXONjcORHaPFYKRa+pVyA=;
- b=MvKVsOv1sMP7IO6IKRFz8sFXtw6Vldj52U8JYBtmtYTqZK8NyfEs5/T755VLmprSth
- X+K3n3FBsI5+O7p67XuWZJyTzMNF6pcI0vRdlx7/I4il4IHTQLjfZ8FzewcKvDcx/Lyw
- VRwHLDAhuFHMXCl3U1Y9fGiKEyglxOgkp8xVOA+hXmn2uCcCCVdp4h+qiWNEmNsj9VRt
- hCwM2xjxPZSEEHt/3cg17ohCTvwuTIRTbflsDxM26pR3/GL12oIaAdYj4GWhCuuL84i/
- evyrIDOpdroIFgHUsCZkvpDDiVfnAQYS5eo7br+KsWfOYAkEpfHPfc3JyTU6GS8w/LIy
- QjCA==
-X-Gm-Message-State: AO0yUKU8m9fhiqyemP3JhivEhyJJ28g64sdzH6AIWaS9U+yimJNyldZs
- qPoT/cxYVcuU9ZGYIIEGphs=
-X-Google-Smtp-Source: AK7set+TTEk+rTlGT07RNeOlX4uO9/xvaUmqXHyMNIbwHb3f/UK95NiScmCiP68viFtD2y7XS0dkrw==
-X-Received: by 2002:a19:7505:0:b0:4dd:9fd8:3a36 with SMTP id
- y5-20020a197505000000b004dd9fd83a36mr5201386lfe.1.1677490476230; 
- Mon, 27 Feb 2023 01:34:36 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- w8-20020a05651204c800b004dc7fae3cfcsm844398lfq.75.2023.02.27.01.34.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 01:34:35 -0800 (PST)
-Date: Mon, 27 Feb 2023 11:34:21 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v4 06/14] dma-buf/sync_file: Support (E)POLLPRI
-Message-ID: <20230227113421.6e31b54d@eldfell>
-In-Reply-To: <CAF6AEGsu666v9iOy2H20-JNkzi4Av0+OtrLBo_3CjRGByUPD0A@mail.gmail.com>
-References: <20230218211608.1630586-1-robdclark@gmail.com>
- <20230218211608.1630586-7-robdclark@gmail.com>
- <20230220105345.70e46fa5@eldfell>
- <CAF6AEGv9fLQCD65ytRTGp=EkNB1QoZYH5ArphgGQALV9J08Cmw@mail.gmail.com>
- <cdd5f892-49b9-1e22-4dc1-95a8a733c453@amd.com>
- <CAF6AEGuMn3FywPkEtfJ7oZ16A0Bk2aiaRvj4si4od1d3wzXkPw@mail.gmail.com>
- <20230222114900.1b6baf95@eldfell>
- <CAF6AEGs1_75gg+LCBj6=PH8Jn60PXiE+Kx_2636nP-+pajN8Hg@mail.gmail.com>
- <20230223113814.3010cedc@eldfell>
- <CAF6AEGuE89kuKTjjzwW1xMppcVw-M4-hcrtifed-mvsCA=cshQ@mail.gmail.com>
- <20230224112630.313d7b76@eldfell>
- <a47e2686-1e35-39a3-0f0c-6c3b9522f8ff@linux.intel.com>
- <20230224122403.6a088da1@eldfell>
- <CAF6AEGsu666v9iOy2H20-JNkzi4Av0+OtrLBo_3CjRGByUPD0A@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E9C10E39B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677491013; x=1709027013;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=xMUxSLnjLt6gEX29cQsLrq6Ej7+QHxeH+R+GgC/uMOg=;
+ b=Cw1660cPHJsUnTxRamqE8wyvEPDTqF2uNpzfOh6gR42AUti+LX/PN3tu
+ ZCybnSWVcjDOXT/m+rRM9XEfeB0SVgnNbu9Dtdi0OzPzNvdlxBPjNnuJ2
+ kwzevax7VYJS6wyD4Ggo24MXQYcqf948OF9fErJJh8rZ2E4Km+nw4/Jvr
+ tYc0Jw11rDXg2usYJR1ySNYBeT3q29DnaclX5p167Fe8A5FIX3mEXiTu7
+ qHwv3CwL67cwzlZpXKcQ6QBdvLB0LtxzZPTTDbgFU896cGrm6SbBJJmaP
+ zv7R9pwEqPo4v8QObj7oxFy0qlCug3XLkKs3fxuXsn9gO1XWuizsuDai0 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="313493697"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="313493697"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 01:43:27 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="762624258"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="762624258"
+Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.158])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 01:43:24 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Siddh Raman Pant <code@siddh.me>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jim Cromie <jim.cromie@gmail.com>, Sam
+ Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v7 1/7] drm/print: Fix and add support for NULL as first
+ argument in drm_* macros
+In-Reply-To: <89f0aa1f26696846c2303527fe4d133bb4ff4bf6.1677395403.git.code@siddh.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1677395403.git.code@siddh.me>
+ <89f0aa1f26696846c2303527fe4d133bb4ff4bf6.1677395403.git.code@siddh.me>
+Date: Mon, 27 Feb 2023 11:43:21 +0200
+Message-ID: <87ilfn30li.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Y/v=qEY7+AcackZUaMNyVcp";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,164 +63,246 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Gustavo Padovan <gustavo@padovan.org>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, "open list:SYNC FILE
- FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Y/v=qEY7+AcackZUaMNyVcp
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Sun, 26 Feb 2023, Siddh Raman Pant <code@siddh.me> wrote:
+> Comments say macros DRM_DEBUG_* are deprecated in favor of
+> drm_dbg_*(NULL, ...), but they have broken support for it,
+> as the macro will result in `(NULL) ? (NULL)->dev : NULL`.
+>
+> Thus, fix them by separating logic to get dev ptr in a new
+> function, which will return the dev ptr if arg is not NULL.
+> Use it in drm_dbg_*, and also in __DRM_DEFINE_DBG_RATELIMITED,
+> where a similar (but correct) NULL check was in place.
+>
+> Also, add support for NULL in __drm_printk, so that all the
+> drm_* macros will hence support NULL as the first argument.
+> This also means that deprecation comments mentioning pr_()*
+> can now be changed to the drm equivalents.
+>
+> There is a need to support device pointers, as in some cases,
+> we may not have drm_device but just the device ptr, such as
+> when dealing with struct mipi_dsi_host. Before this change,
+> passing just mipi_dsi_host would have worked, since due to
+> preprocessing, the resultant would be "host->dev", but now
+> due to NULL check that cannot happen.
 
-On Fri, 24 Feb 2023 11:44:53 -0800
-Rob Clark <robdclark@gmail.com> wrote:
+First of all, that's two distinct changes in one patch. The subject says
+one thing, but it's really two.
 
-> On Fri, Feb 24, 2023 at 2:24 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
-> >
-> > On Fri, 24 Feb 2023 09:41:46 +0000
-> > Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> > =20
-> > > On 24/02/2023 09:26, Pekka Paalanen wrote: =20
-> > > > On Thu, 23 Feb 2023 10:51:48 -0800
-> > > > Rob Clark <robdclark@gmail.com> wrote:
-> > > > =20
-> > > >> On Thu, Feb 23, 2023 at 1:38 AM Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote: =20
-> > > >>>
-> > > >>> On Wed, 22 Feb 2023 07:37:26 -0800
-> > > >>> Rob Clark <robdclark@gmail.com> wrote:
-> > > >>> =20
-> > > >>>> On Wed, Feb 22, 2023 at 1:49 AM Pekka Paalanen <ppaalanen@gmail.=
-com> wrote: =20
-> > > >
-> > > > ...
-> > > > =20
-> > > >>>>> On another matter, if the application uses SET_DEADLINE with one
-> > > >>>>> timestamp, and the compositor uses SET_DEADLINE on the same thi=
-ng with
-> > > >>>>> another timestamp, what should happen? =20
-> > > >>>>
-> > > >>>> The expectation is that many deadline hints can be set on a fenc=
-e.
-> > > >>>> The fence signaller should track the soonest deadline. =20
-> > > >>>
-> > > >>> You need to document that as UAPI, since it is observable to user=
-space.
-> > > >>> It would be bad if drivers or subsystems would differ in behaviou=
-r.
-> > > >>> =20
-> > > >>
-> > > >> It is in the end a hint.  It is about giving the driver more
-> > > >> information so that it can make better choices.  But the driver is
-> > > >> even free to ignore it.  So maybe "expectation" is too strong of a
-> > > >> word.  Rather, any other behavior doesn't really make sense.  But =
-it
-> > > >> could end up being dictated by how the hw and/or fw works. =20
-> > > >
-> > > > It will stop being a hint once it has been implemented and used in =
-the
-> > > > wild long enough. The kernel userspace regression rules make sure of
-> > > > that. =20
-> > >
-> > > Yeah, tricky and maybe a gray area in this case. I think we eluded
-> > > elsewhere in the thread that renaming the thing might be an option.
-> > >
-> > > So maybe instead of deadline, which is a very strong word, use someth=
-ing
-> > > along the lines of "present time hint", or "signalled time hint"? May=
-be
-> > > reads clumsy. Just throwing some ideas for a start. =20
-> >
-> > You can try, but I fear that if it ever changes behaviour and
-> > someone notices that, it's labelled as a kernel regression. I don't
-> > think documentation has ever been the authoritative definition of UABI
-> > in Linux, it just guides drivers and userspace towards a common
-> > understanding and common usage patterns.
-> >
-> > So even if the UABI contract is not documented (ugh), you need to be
-> > prepared to set the UABI contract through kernel implementation.
-> >
-> > If you do not document the UABI contract, then different drivers are
-> > likely to implement it differently, leading to differing behaviour.
-> > Also userspace will invent wild ways to abuse the UABI if there is no
-> > documentation guiding it on proper use. If userspace or end users
-> > observe different behaviour, that's bad even if it's not a regression.
-> >
-> > I don't like the situation either, but it is what it is. UABI stability
-> > trumps everything regardless of whether it was documented or not.
-> >
-> > I bet userspace is going to use this as a "make it faster, make it
-> > hotter" button. I would not be surprised if someone wrote a LD_PRELOAD
-> > library that stamps any and all fences with an expired deadline to
-> > just squeeze out a little more through some weird side-effect. =20
->=20
-> Userspace already has various (driver specific) debugfs/sysfs that it
-> can use if it wants to make it hotter and drain batteries faster, so
-> I'm not seeing a strong need to cater to the "turn it up to eleven"
-> crowd here.  And really your point feels like a good reason to _not_
-> document this as anything more than a hint.
+But the main question is, do we *really* want to let callers pass either
+struct drm_device * or struct device *? It will be type safe with
+generics, but if it's okay to use either, people *will* use either. The
+call sites will end up being a mixture of both. You can't control it. It
+will be very tedious if you ever want to revert that decision.
 
-My point is that no matter what you say in documentation or leave
-unsaid, people can and will abuse this by the behaviour it provides
-anyway, like every other UABI.
+Do we want to promote a style where you can pass either? To me, in C
+context, it seems awfully sloppy and confusing rather than convenient.
 
-So why not just document what it is supposed to do? It cannot get any
-worse. Maybe you get lucky instead and people don't abuse it that much
-if they read the docs.
-
-E.g. can it affect GPU job scheduling, can it affect GPU clocks, can it
-affect power consumption, and so on.
-
-> Back in the real world, mobile games are already well aware of the fps
-> vs battery-life (and therefore gameplay) tradeoff.  But what is
-> missing is a way to inform the kernel of userspace's intentions, so
-> that gpu dvfs can make intelligent decisions.  This series is meant to
-> bridge that gap.
-
-Then document that. As long as you document it properly: what you
-expect it to be used for and how.
-
-Or if this is reserved strictly for Mesa drivers, then document that.
-
-You can also stop CC'ing me if you don't want attention to UABI docs. I
-don't read dri-devel@ unless I'm explicitly CC'd nowadays.
+I'd argue the struct mipi_dsi_host stuff should use dev_* calls
+directly, as it's more of a special case, rather than allow struct
+device * in drm_* logging macros.
 
 
-Thanks,
-pq
+BR,
+Jani.
 
---Sig_/Y/v=qEY7+AcackZUaMNyVcp
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+>
+> Signed-off-by: Siddh Raman Pant <code@siddh.me>
+> ---
+>  include/drm/drm_print.h | 114 ++++++++++++++++++++++++++++++----------
+>  1 file changed, 87 insertions(+), 27 deletions(-)
+>
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index a93a387f8a1a..1a7d4064d120 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -34,6 +34,7 @@
+>  #include <linux/dynamic_debug.h>
+>  
+>  #include <drm/drm.h>
+> +#include <drm/drm_device.h>
+>  
+>  /* Do *not* use outside of drm_print.[ch]! */
+>  extern unsigned long __drm_debug;
+> @@ -445,15 +446,73 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+>  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+>  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+>  
+> +/* Helpers for struct drm_device based logging. */
+> +
+> +/**
+> + * __drm_dev_ptr - Helper function to get drm->dev pointer.
+> + * @drm: struct drm_device pointer.
+> + *
+> + * RETURNS:
+> + * The struct device pointer (NULL if @drm is NULL).
+> + */
+> +static inline struct device *__drm_dev_ptr(const struct drm_device *drm)
+> +{
+> +	if (drm)
+> +		return drm->dev;
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * __dev_ptr - Helper function to get the same device pointer.
+> + * @dev: struct device pointer, or NULL.
+> + *
+> + * RETURNS:
+> + * The struct device pointer (NULL if @dev is NULL).
+> + */
+> +static inline struct device *__dev_ptr(const struct device *dev)
+> +{
+> +	return (struct device *)dev;
+> +}
+> +
+> +/**
+> + * __get_dev_ptr - Helper to get device pointer given struct drm_device *,
+> + *		   or struct device *, or NULL.
+> + *
+> + * Primarily for use in drm_*() print macros, since they need to handle NULL
+> + * as the first argument passed.
+> + *
+> + * struct device pointers are supported for edge cases (such as mipi_dsi_host),
+> + * the default (and recommended) way is to pass struct drm_device pointer.
+> + */
+> +#define  __get_dev_ptr(drm)			\
+> +	_Generic((drm),				\
+> +		struct device * :		\
+> +			__dev_ptr,		\
+> +		const struct device * :		\
+> +			__dev_ptr,		\
+> +		default :			\
+> +			__drm_dev_ptr		\
+> +	)(drm)
+> +
+>  /*
+>   * struct drm_device based logging
+>   *
+>   * Prefer drm_device based logging over device or prink based logging.
+> + *
+> + * The below macros support device pointers to cope for edge cases where
+> + * we only have device (like in mipi_dsi_host) but not drm_device.
+>   */
+>  
+>  /* Helper for struct drm_device based logging. */
+>  #define __drm_printk(drm, level, type, fmt, ...)			\
+> -	dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
+> +({									\
+> +	struct device *__dev_ = __get_dev_ptr(drm);			\
+> +	if (__dev_)							\
+> +		dev_##level##type(__dev_, "[drm] " fmt, ##__VA_ARGS__);	\
+> +	else								\
+> +		pr_##level##type("[drm] " fmt, ##__VA_ARGS__);		\
+> +})
+>  
+>  
+>  #define drm_info(drm, fmt, ...)					\
+> @@ -487,25 +546,25 @@ void __drm_dev_dbg(struct _ddebug *desc, const struct device *dev,
+>  
+>  
+>  #define drm_dbg_core(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> -#define drm_dbg_driver(drm, fmt, ...)						\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +#define drm_dbg_driver(drm, fmt, ...)					\
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_kms(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_KMS, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_prime(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_atomic(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_vbl(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_VBL, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_state(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_STATE, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_lease(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_dp(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_DP, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_drmres(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(__get_dev_ptr(drm), DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+>  
+>  #define drm_dbg(drm, fmt, ...)	drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
+>  
+> @@ -533,31 +592,31 @@ void __drm_err(const char *format, ...);
+>  #define _DRM_PRINTK(once, level, fmt, ...)				\
+>  	printk##once(KERN_##level "[" DRM_NAME "] " fmt, ##__VA_ARGS__)
+>  
+> -/* NOTE: this is deprecated in favor of pr_info(). */
+> +/* NOTE: this is deprecated in favor of drm_info(NULL, ...). */
+>  #define DRM_INFO(fmt, ...)						\
+>  	_DRM_PRINTK(, INFO, fmt, ##__VA_ARGS__)
+> -/* NOTE: this is deprecated in favor of pr_notice(). */
+> +/* NOTE: this is deprecated in favor of drm_notice(NULL, ...). */
+>  #define DRM_NOTE(fmt, ...)						\
+>  	_DRM_PRINTK(, NOTICE, fmt, ##__VA_ARGS__)
+> -/* NOTE: this is deprecated in favor of pr_warn(). */
+> +/* NOTE: this is deprecated in favor of drm_warn(NULL, ...). */
+>  #define DRM_WARN(fmt, ...)						\
+>  	_DRM_PRINTK(, WARNING, fmt, ##__VA_ARGS__)
+>  
+> -/* NOTE: this is deprecated in favor of pr_info_once(). */
+> +/* NOTE: this is deprecated in favor of drm_info_once(NULL, ...). */
+>  #define DRM_INFO_ONCE(fmt, ...)						\
+>  	_DRM_PRINTK(_once, INFO, fmt, ##__VA_ARGS__)
+> -/* NOTE: this is deprecated in favor of pr_notice_once(). */
+> +/* NOTE: this is deprecated in favor of drm_notice_once(NULL, ...). */
+>  #define DRM_NOTE_ONCE(fmt, ...)						\
+>  	_DRM_PRINTK(_once, NOTICE, fmt, ##__VA_ARGS__)
+> -/* NOTE: this is deprecated in favor of pr_warn_once(). */
+> +/* NOTE: this is deprecated in favor of drm_warn_once(NULL, ...). */
+>  #define DRM_WARN_ONCE(fmt, ...)						\
+>  	_DRM_PRINTK(_once, WARNING, fmt, ##__VA_ARGS__)
+>  
+> -/* NOTE: this is deprecated in favor of pr_err(). */
+> +/* NOTE: this is deprecated in favor of drm_err(NULL, ...). */
+>  #define DRM_ERROR(fmt, ...)						\
+>  	__drm_err(fmt, ##__VA_ARGS__)
+>  
+> -/* NOTE: this is deprecated in favor of pr_err_ratelimited(). */
+> +/* NOTE: this is deprecated in favor of drm_err_ratelimited(NULL, ...). */
+>  #define DRM_ERROR_RATELIMITED(fmt, ...)					\
+>  	DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+>  
+> @@ -593,13 +652,14 @@ void __drm_err(const char *format, ...);
+>  #define DRM_DEBUG_DP(fmt, ...)						\
+>  	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+>  
+> -#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)					\
+> -({												\
+> -	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL, DEFAULT_RATELIMIT_BURST);\
+> -	const struct drm_device *drm_ = (drm);							\
+> -												\
+> -	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))			\
+> -		drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);	\
+> +#define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)		\
+> +({									\
+> +	static DEFINE_RATELIMIT_STATE(rs_, DEFAULT_RATELIMIT_INTERVAL,	\
+> +				      DEFAULT_RATELIMIT_BURST);		\
+> +									\
+> +	if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))\
+> +		drm_dev_printk(__get_dev_ptr(drm), KERN_DEBUG,		\
+> +			       fmt, ## __VA_ARGS__);			\
+>  })
+>  
+>  #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP8eR0ACgkQI1/ltBGq
-qqeRhA/+PoC4QNVf4EfGWRdLdkADJL2lKpF3Wtih+/IEBONjWjGySN+uzHnDevqh
-8W2KiV1mC5QNncs/Ako4+u2Op0g5u+RWt+Ny5nU2oQ4cmi40E5axoh/8+h69P+BG
-nByhRgb4z1HrD2VQSdtrDOqbHzWHSknw/nvVu9ZObWqTUs5NrbTUT3RKZFHKhcpP
-0LeM+IBv6YuCMH1lnjhxiK75z9CqZH3c95VfdW0Oi0rHtU/d0pM62QPUkckA3vZh
-o8DiXubBKBiwrGNj2Di16yxpNJEF9Cz0MTnIs3UbjHdjMhBO8pxkoGpKdNIMOsW8
-NP6Ur/Ztxs+Hypa73ljD92g235Dd4TpeR9btRxVqlMuVfFRFaCStjEAIA+WMPo2e
-8qAVgFzV/hCUL5t44fmtCEOcfTFs4+5sC7GniF7tiuoY+1ToTn+xFyIkT/9/65cn
-wXBxN+T0zMioOMx7aaEgJ4IWyWOlllcyr1RUXxB3p2gJY3t7iius2dr/tnGV59a7
-hzW6zwFIczX/zv9huV+qWD94JVoXNu6sLETmruM/tPY5ACjtt0+f4fCOiWP7lgXt
-/YZY/eRkXoNoP0hIFB4qwdvML3MaUogpgKM1CI4kiYkE6ekfDf5yNmz1BJRpb7bR
-BFa0/sGZBrxf6r4Zr6w48ZW/BfZnkrienbL7rmWArIJGyP1sSzU=
-=Jrc/
------END PGP SIGNATURE-----
-
---Sig_/Y/v=qEY7+AcackZUaMNyVcp--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
