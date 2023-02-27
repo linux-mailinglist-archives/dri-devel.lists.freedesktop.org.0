@@ -1,58 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466956A3B1B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 07:03:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABF26A3B50
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 07:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7139310E1AE;
-	Mon, 27 Feb 2023 06:03:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1099710E0F0;
+	Mon, 27 Feb 2023 06:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C5010E1AE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 06:03:21 +0000 (UTC)
-Received: from workpc.. (109-252-117-89.nat.spd-mgts.ru [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE7310E0F0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 06:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677479907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+UG2oWxtK4UHFvkDOIm8sJ8ImrluBqKEzcmgsSAFFPA=;
+ b=G7SeUCbgL+9nhejCWp9o6RfxSh3UufrJmYqIEgObanV/u2kSAbS0WCgKhfg/dacOkyIJXW
+ lv3fHvIdy5x5V5piXROReYia1edeBZURZiAsHCEsgSnUpE3/fdXDVrkfe1oZqBIbo7yv/7
+ Yv4A4a2xgT73cLm8zqFopGYyDhksoM4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-8ceeMC1mP9mgVdcbxYFawQ-1; Mon, 27 Feb 2023 01:38:23 -0500
+X-MC-Unique: 8ceeMC1mP9mgVdcbxYFawQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 803726602EBB;
- Mon, 27 Feb 2023 06:03:18 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677477799;
- bh=UhACfNrRQqVJPuMTWpS6r1M+V83FyDSQnqdFqW0/+7c=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lcexmu21eQ2bmhcSO5bTPMNZN8r7s4m0yeU7IqgGbIdefAwHqwWXoOYBoj1L13qJt
- rc5SsymhxKvPhQw90MfPz+2cKRGe8P244YWBP2JzmVQALU2leQ1zis93ovEv5LZTE0
- 7oyuGVkt8kNOe5jwBTFhL2KKCrOKYqYyG4io0orFx+xSo97fg/UQ3MLYxMLw3LoBKA
- x0T6OaalNfbvmIuQ+vEds61y+SfZoiC4qkI8CgNpc507YU+UFNXtaS0JUBaeQNCfS8
- nGA6NL7VuxnQywwbQVG5dSY9ftV1ViJqNMDOC5tvkKVf30mg7P0fbPrIKyJilyXcAY
- 0wovBS1htzl8Q==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Herring <robh@kernel.org>
-Subject: [PATCH v11 10/10] drm/panfrost: Switch to generic memory shrinker
-Date: Mon, 27 Feb 2023 09:02:19 +0300
-Message-Id: <20230227060219.904986-11-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230227060219.904986-1-dmitry.osipenko@collabora.com>
-References: <20230227060219.904986-1-dmitry.osipenko@collabora.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E53395D605;
+ Mon, 27 Feb 2023 06:38:23 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.45.224.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 134CDC15BAD;
+ Mon, 27 Feb 2023 06:38:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8BCF61800393; Mon, 27 Feb 2023 07:38:21 +0100 (CET)
+Date: Mon, 27 Feb 2023 07:38:21 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/virtio: Add option to disable KMS support
+Message-ID: <20230227063821.dg2gbjjwcekbxyzw@sirius.home.kraxel.org>
+References: <20230224180225.2477641-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224180225.2477641-1-robdclark@gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,421 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace Panfrost's custom memory shrinker with a common drm-shmem
-memory shrinker.
+On Fri, Feb 24, 2023 at 10:02:24AM -0800, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Add a build option to disable modesetting support.  This is useful in
+> cases where the guest only needs to use the GPU in a headless mode, or
+> (such as in the CrOS usage) window surfaces are proxied to a host
+> compositor.
 
-Tested-by: Steven Price <steven.price@arm.com> # Firefly-RK3288
-Reviewed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/panfrost/Makefile             |   1 -
- drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  27 ++--
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  30 ++--
- drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 --
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 129 ------------------
- drivers/gpu/drm/panfrost/panfrost_job.c       |  18 ++-
- include/drm/drm_gem_shmem_helper.h            |   7 -
- 8 files changed, 47 insertions(+), 178 deletions(-)
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+Why make that a compile time option?  There is a config option for the
+number of scanouts (aka virtual displays) a device has.  Just set that
+to zero (and fix the driver to not consider that configuration an
+error).
 
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index 7da2b3f02ed9..11622e22cf15 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -5,7 +5,6 @@ panfrost-y := \
- 	panfrost_device.o \
- 	panfrost_devfreq.o \
- 	panfrost_gem.o \
--	panfrost_gem_shrinker.o \
- 	panfrost_gpu.o \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index d9ba68cffb77..28f28bbdbda9 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -116,10 +116,6 @@ struct panfrost_device {
- 		atomic_t pending;
- 	} reset;
- 
--	struct mutex shrinker_lock;
--	struct list_head shrinker_list;
--	struct shrinker shrinker;
--
- 	struct panfrost_devfreq pfdevfreq;
- };
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 9f3f2283b67a..e31cf9db005b 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -169,7 +169,6 @@ panfrost_lookup_bos(struct drm_device *dev,
- 			break;
- 		}
- 
--		atomic_inc(&bo->gpu_usecount);
- 		job->mappings[i] = mapping;
- 	}
- 
-@@ -401,7 +400,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- {
- 	struct panfrost_file_priv *priv = file_priv->driver_priv;
- 	struct drm_panfrost_madvise *args = data;
--	struct panfrost_device *pfdev = dev->dev_private;
- 	struct drm_gem_object *gem_obj;
- 	struct panfrost_gem_object *bo;
- 	int ret = 0;
-@@ -414,11 +412,15 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 
- 	bo = to_panfrost_bo(gem_obj);
- 
-+	if (bo->is_heap) {
-+		args->retained = 1;
-+		goto out_put_object;
-+	}
-+
- 	ret = dma_resv_lock_interruptible(bo->base.base.resv, NULL);
- 	if (ret)
- 		goto out_put_object;
- 
--	mutex_lock(&pfdev->shrinker_lock);
- 	mutex_lock(&bo->mappings.lock);
- 	if (args->madv == PANFROST_MADV_DONTNEED) {
- 		struct panfrost_gem_mapping *first;
-@@ -444,17 +446,8 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 
- 	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
- 
--	if (args->retained) {
--		if (args->madv == PANFROST_MADV_DONTNEED)
--			list_move_tail(&bo->base.madv_list,
--				       &pfdev->shrinker_list);
--		else if (args->madv == PANFROST_MADV_WILLNEED)
--			list_del_init(&bo->base.madv_list);
--	}
--
- out_unlock_mappings:
- 	mutex_unlock(&bo->mappings.lock);
--	mutex_unlock(&pfdev->shrinker_lock);
- 	dma_resv_unlock(bo->base.base.resv);
- out_put_object:
- 	drm_gem_object_put(gem_obj);
-@@ -586,9 +579,6 @@ static int panfrost_probe(struct platform_device *pdev)
- 	ddev->dev_private = pfdev;
- 	pfdev->ddev = ddev;
- 
--	mutex_init(&pfdev->shrinker_lock);
--	INIT_LIST_HEAD(&pfdev->shrinker_list);
--
- 	err = panfrost_device_init(pfdev);
- 	if (err) {
- 		if (err != -EPROBE_DEFER)
-@@ -610,10 +600,14 @@ static int panfrost_probe(struct platform_device *pdev)
- 	if (err < 0)
- 		goto err_out1;
- 
--	panfrost_gem_shrinker_init(ddev);
-+	err = drmm_gem_shmem_init(ddev);
-+	if (err < 0)
-+		goto err_out2;
- 
- 	return 0;
- 
-+err_out2:
-+	drm_dev_unregister(ddev);
- err_out1:
- 	pm_runtime_disable(pfdev->dev);
- 	panfrost_device_fini(pfdev);
-@@ -629,7 +623,6 @@ static int panfrost_remove(struct platform_device *pdev)
- 	struct drm_device *ddev = pfdev->ddev;
- 
- 	drm_dev_unregister(ddev);
--	panfrost_gem_shrinker_cleanup(ddev);
- 
- 	pm_runtime_get_sync(pfdev->dev);
- 	pm_runtime_disable(pfdev->dev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 3c812fbd126f..08d795c28b4e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -19,16 +19,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
- 	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
- 	struct panfrost_device *pfdev = obj->dev->dev_private;
- 
--	/*
--	 * Make sure the BO is no longer inserted in the shrinker list before
--	 * taking care of the destruction itself. If we don't do that we have a
--	 * race condition between this function and what's done in
--	 * panfrost_gem_shrinker_scan().
--	 */
--	mutex_lock(&pfdev->shrinker_lock);
--	list_del_init(&bo->base.madv_list);
--	mutex_unlock(&pfdev->shrinker_lock);
--
- 	/*
- 	 * If we still have mappings attached to the BO, there's a problem in
- 	 * our refcounting.
-@@ -195,6 +185,25 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
- 	return drm_gem_shmem_pin(&bo->base);
- }
- 
-+static int panfrost_shmem_evict(struct drm_gem_object *obj)
-+{
-+	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-+
-+	if (!drm_gem_shmem_is_purgeable(&bo->base))
-+		return -EBUSY;
-+
-+	if (!mutex_trylock(&bo->mappings.lock))
-+		return -EBUSY;
-+
-+	panfrost_gem_teardown_mappings_locked(bo);
-+
-+	drm_gem_shmem_purge(&bo->base);
-+
-+	mutex_unlock(&bo->mappings.lock);
-+
-+	return 0;
-+}
-+
- static const struct drm_gem_object_funcs panfrost_gem_funcs = {
- 	.free = panfrost_gem_free_object,
- 	.open = panfrost_gem_open,
-@@ -207,6 +216,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
- 	.vunmap = drm_gem_shmem_object_vunmap,
- 	.mmap = drm_gem_shmem_object_mmap,
- 	.vm_ops = &drm_gem_shmem_vm_ops,
-+	.evict = panfrost_shmem_evict,
- };
- 
- /**
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-index ad2877eeeccd..6ad1bcedb932 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-@@ -30,12 +30,6 @@ struct panfrost_gem_object {
- 		struct mutex lock;
- 	} mappings;
- 
--	/*
--	 * Count the number of jobs referencing this BO so we don't let the
--	 * shrinker reclaim this object prematurely.
--	 */
--	atomic_t gpu_usecount;
--
- 	bool noexec		:1;
- 	bool is_heap		:1;
- };
-@@ -81,7 +75,4 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
- void panfrost_gem_mapping_put(struct panfrost_gem_mapping *mapping);
- void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo);
- 
--void panfrost_gem_shrinker_init(struct drm_device *dev);
--void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
--
- #endif /* __PANFROST_GEM_H__ */
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-deleted file mode 100644
-index 865a989d67c8..000000000000
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ /dev/null
-@@ -1,129 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Copyright (C) 2019 Arm Ltd.
-- *
-- * Based on msm_gem_freedreno.c:
-- * Copyright (C) 2016 Red Hat
-- * Author: Rob Clark <robdclark@gmail.com>
-- */
--
--#include <linux/list.h>
--
--#include <drm/drm_device.h>
--#include <drm/drm_gem_shmem_helper.h>
--
--#include "panfrost_device.h"
--#include "panfrost_gem.h"
--#include "panfrost_mmu.h"
--
--static bool panfrost_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
--{
--	return (shmem->madv > 0) &&
--		!shmem->pages_pin_count && shmem->sgt &&
--		!shmem->base.dma_buf && !shmem->base.import_attach;
--}
--
--static unsigned long
--panfrost_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
--{
--	struct panfrost_device *pfdev =
--		container_of(shrinker, struct panfrost_device, shrinker);
--	struct drm_gem_shmem_object *shmem;
--	unsigned long count = 0;
--
--	if (!mutex_trylock(&pfdev->shrinker_lock))
--		return 0;
--
--	list_for_each_entry(shmem, &pfdev->shrinker_list, madv_list) {
--		if (panfrost_gem_shmem_is_purgeable(shmem))
--			count += shmem->base.size >> PAGE_SHIFT;
--	}
--
--	mutex_unlock(&pfdev->shrinker_lock);
--
--	return count;
--}
--
--static bool panfrost_gem_purge(struct drm_gem_object *obj)
--{
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
--	bool ret = false;
--
--	if (atomic_read(&bo->gpu_usecount))
--		return false;
--
--	if (!mutex_trylock(&bo->mappings.lock))
--		return false;
--
--	if (!dma_resv_trylock(shmem->base.resv))
--		goto unlock_mappings;
--
--	panfrost_gem_teardown_mappings_locked(bo);
--	drm_gem_shmem_purge(&bo->base);
--	ret = true;
--
--	dma_resv_unlock(shmem->base.resv);
--
--unlock_mappings:
--	mutex_unlock(&bo->mappings.lock);
--	return ret;
--}
--
--static unsigned long
--panfrost_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
--{
--	struct panfrost_device *pfdev =
--		container_of(shrinker, struct panfrost_device, shrinker);
--	struct drm_gem_shmem_object *shmem, *tmp;
--	unsigned long freed = 0;
--
--	if (!mutex_trylock(&pfdev->shrinker_lock))
--		return SHRINK_STOP;
--
--	list_for_each_entry_safe(shmem, tmp, &pfdev->shrinker_list, madv_list) {
--		if (freed >= sc->nr_to_scan)
--			break;
--		if (drm_gem_shmem_is_purgeable(shmem) &&
--		    panfrost_gem_purge(&shmem->base)) {
--			freed += shmem->base.size >> PAGE_SHIFT;
--			list_del_init(&shmem->madv_list);
--		}
--	}
--
--	mutex_unlock(&pfdev->shrinker_lock);
--
--	if (freed > 0)
--		pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
--
--	return freed;
--}
--
--/**
-- * panfrost_gem_shrinker_init - Initialize panfrost shrinker
-- * @dev: DRM device
-- *
-- * This function registers and sets up the panfrost shrinker.
-- */
--void panfrost_gem_shrinker_init(struct drm_device *dev)
--{
--	struct panfrost_device *pfdev = dev->dev_private;
--	pfdev->shrinker.count_objects = panfrost_gem_shrinker_count;
--	pfdev->shrinker.scan_objects = panfrost_gem_shrinker_scan;
--	pfdev->shrinker.seeks = DEFAULT_SEEKS;
--	WARN_ON(register_shrinker(&pfdev->shrinker, "drm-panfrost"));
--}
--
--/**
-- * panfrost_gem_shrinker_cleanup - Clean up panfrost shrinker
-- * @dev: DRM device
-- *
-- * This function unregisters the panfrost shrinker.
-- */
--void panfrost_gem_shrinker_cleanup(struct drm_device *dev)
--{
--	struct panfrost_device *pfdev = dev->dev_private;
--
--	if (pfdev->shrinker.nr_deferred) {
--		unregister_shrinker(&pfdev->shrinker);
--	}
--}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index dbc597ab46fb..98d9751d2b2c 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -272,6 +272,19 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
- 		dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
- }
- 
-+static int panfrost_objects_prepare(struct drm_gem_object **bos, int bo_count)
-+{
-+	struct panfrost_gem_object *bo;
-+	int ret = 0;
-+
-+	while (!ret && bo_count--) {
-+		bo = to_panfrost_bo(bos[bo_count]);
-+		ret = bo->base.madv ? -ENOMEM : 0;
-+	}
-+
-+	return ret;
-+}
-+
- int panfrost_job_push(struct panfrost_job *job)
- {
- 	struct panfrost_device *pfdev = job->pfdev;
-@@ -283,6 +296,10 @@ int panfrost_job_push(struct panfrost_job *job)
- 	if (ret)
- 		return ret;
- 
-+	ret = panfrost_objects_prepare(job->bos, job->bo_count);
-+	if (ret)
-+		goto unlock;
-+
- 	mutex_lock(&pfdev->sched_lock);
- 	drm_sched_job_arm(&job->base);
- 
-@@ -324,7 +341,6 @@ static void panfrost_job_cleanup(struct kref *ref)
- 			if (!job->mappings[i])
- 				break;
- 
--			atomic_dec(&job->mappings[i]->obj->gpu_usecount);
- 			panfrost_gem_mapping_put(job->mappings[i]);
- 		}
- 		kvfree(job->mappings);
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 61aaacc6cb99..bdd4b7402355 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -59,13 +59,6 @@ struct drm_gem_shmem_object {
- 	 */
- 	int madv;
- 
--	/**
--	 * @madv_list: List entry for madvise tracking
--	 *
--	 * Typically used by drivers to track purgeable objects
--	 */
--	struct list_head madv_list;
--
- 	/**
- 	 * @sgt: Scatter/gather table for imported PRIME buffers
- 	 */
--- 
-2.39.2
+take care,
+  Gerd
 
