@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79CF26A41A1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753DF6A41A7
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:25:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2929610E02F;
-	Mon, 27 Feb 2023 12:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0144510E3E8;
+	Mon, 27 Feb 2023 12:25:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45FFF10E02F
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:21:25 +0000 (UTC)
-Date: Mon, 27 Feb 2023 12:21:16 +0000
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 004A610E413
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:25:44 +0000 (UTC)
+Date: Mon, 27 Feb 2023 12:25:26 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1677500483; x=1677759683;
- bh=2gsijHGDwrnzALzF+7cosJfnlhNwAE8islUZrpoNIME=;
+ s=protonmail; t=1677500743; x=1677759943;
+ bh=KxHXTwcaWXDVnXnSrUQ1EYBtmv+MOnvxpIZ/dNtSQkk=;
  h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
  Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=DfoGID6NsisJFQGFeUrgDMG6ijADvlFgsXkiWzc89YWhVWLHeef8eIYi1rR5K75f6
- rr+l8TaMUv3Qe0cb6eq2dvv/gcb8PcDSzzpDs7zj/QSXopi0AfDhwEJGNzVMCqwR1X
- uyFolXVzG1Lr70J+1hOHW7y2SVw8YC1BadLEu3oYdx2+xyNUnZi2/uI3jz1OTDSagl
- aDZUaMt5gHu+Ccl+8K30pEdL0TyYOIG3UdLBEFLMDrPWsfybsI/yBiKglEgFbhPFhB
- NAwRP4kBdTU2CdZHpccwAI3FQxHVOb29LlFzy2hvKySjme5AIWIHuP7ySC3QPYSwoK
- A7b9e7HI3+sXA==
+ b=ZW9U5WWFYh6iBCEcCt/2ZCjnXsd7/2+S3RwYviS/7zHfCTplhIxv6RcTvkwAAUuV6
+ e/ZiYQtimgB5VwjQ95AwxPsOQDc+pXrPYFHAUfJ1/c5dJgP37ssybm9+D/ixGrHhaf
+ QLa90AG7uxzgWPJwGe+zrZ5z8I7XWGSV5yXXa8APG8kl7MZpTnFHETs/sjhNEILf1c
+ IIzdi3kv+p+uQ7KX5a7436SV3M2gysurIQFhYU2ABWTnixIIqjf2dcFrUMo2AkI+G/
+ DFrckquM98lrVXPbL/rriuohBfFDIiKD9bnjd96ygpBwr7HqhnYN6GOPGbKLsgOtJd
+ DEHBRyNjswe1w==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: document TV margin properties
-Message-ID: <20230227122108.117279-1-contact@emersion.fr>
+Subject: [PATCH] drm: remove outdated doc TODO for subconnector property
+Message-ID: <20230227122522.117580-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -51,7 +51,7 @@ Cc: Pekka Paalanen <ppaalanen@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add docs for "{left,right,top,bottom} margin" properties.
+This is already documented under "standard connector properties".
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 Cc: Maxime Ripard <maxime@cerno.tech>
@@ -60,44 +60,23 @@ Cc: Pekka Paalanen <ppaalanen@gmail.com>
 Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 Cc: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 ---
- drivers/gpu/drm/drm_connector.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
 r.c
-index 9d0250c28e9b..65a586680940 100644
+index 65a586680940..16a21de15074 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -1590,10 +1590,6 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_p=
-roperty);
-=20
- /*
-  * TODO: Document the properties:
-- *   - left margin
-- *   - right margin
-- *   - top margin
-- *   - bottom margin
-  *   - brightness
-  *   - contrast
-  *   - flicker reduction
-@@ -1651,6 +1647,16 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_p=
-roperty);
-  *
-  *=09Drivers can set up this property by calling
-  *=09drm_mode_create_tv_properties().
-+ *
-+ * left margin, right margin, top margin, bottom margin:
-+ *=09Add margins to the connector's viewport.
-+ *
-+ *=09The value is the size in pixels of the black border which will be
-+ *=09added. The attached CRTC's content will be scaled to fill the whole
-+ *=09area inside the margin.
-+ *
-+ *=09Drivers can set up these properties by calling
-+ *=09drm_mode_create_tv_margin_properties().
+@@ -1598,7 +1598,6 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_pr=
+operty);
+  *   - overscan
+  *   - saturation
+  *   - select subconnector
+- *   - subconnector
   */
-=20
  /**
+  * DOC: Analog TV Connector Properties
 --=20
 2.39.2
 
