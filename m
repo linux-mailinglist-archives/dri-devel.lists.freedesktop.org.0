@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C503A6A4307
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 14:39:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C266A431E
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 14:42:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4735610E1E9;
-	Mon, 27 Feb 2023 13:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A751210E14E;
+	Mon, 27 Feb 2023 13:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 754C110E1E9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 13:39:19 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-536be69eadfso177071617b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 05:39:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GmDvuWeWwR1NfTB5MwjhYnmbSux+pOX0H7za+hpaPLg=;
- b=NYLFE9QpI+0UnHrnmum3H+Z7MQOatraF7RCS4fwhXBrS6vpY43tQsG2CNLmYnJv7JN
- ve3bYddDFBod3aRtKXLyVr0TJtKrOqqhLcF7LrHqWG0DxYVIq6WDVS3f3z2zxESU0A08
- vYhTQk46TdqUV9UVl1a+6XwF0XIIIL9OaBziU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GmDvuWeWwR1NfTB5MwjhYnmbSux+pOX0H7za+hpaPLg=;
- b=WNTxTsOPdLEtD2avRw7Pr73Iwk6yQ9ObHlO+OwksgaOpg4gHyJLpCfUkbxXDdm4d+c
- w9RPFaxnjnzf6+uLkM2BaEVMNQqVxOL7zc3cW1hGwpBNNv4atCF34A8xjDF4WSvrdpsZ
- p6IPHm96tuSxZe1QPFasIdmT2Hn8DuEs0RMwBnj67C0G98xFIrgfpb2YojcatClhFoM6
- 7dj+1ZN9gwWjaLhVzsnQ/Ut+TB8lYIpXOeYaUKBsuP8rvjXVfzPd6aESQOamSa49Odj1
- q07w4yn1O+uQaQaZ/XWb2dYU5kduoY9x41KT8Fd20osLtMJZYpFu5smZZI8iSjVo/QLe
- P8Mw==
-X-Gm-Message-State: AO0yUKVrgkEq8mjqVC07X3eW0HRaMsD7kNdb+9jbuSzNcoHRUCGRSwNA
- 6uqSlrDBZpeUbJLjHSpo2WwDfSMEm873A71JIfXQ3A==
-X-Google-Smtp-Source: AK7set8kFQgyTHGcP27mh+pe13xESHXkPJJaZW2zuDBhNZwK1lNafr9AeRkeW2rudQd4w7lKwVWCT8HMCW4XhjocZsQ=
-X-Received: by 2002:a81:ac5c:0:b0:533:9b80:a30e with SMTP id
- z28-20020a81ac5c000000b005339b80a30emr10095336ywj.10.1677505158600; Mon, 27
- Feb 2023 05:39:18 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE83610E14E
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 13:42:50 +0000 (UTC)
+Received: from [192.168.1.15] (91-154-32-225.elisa-laajakaista.fi
+ [91.154.32.225])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 703AC56A;
+ Mon, 27 Feb 2023 14:42:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1677505368;
+ bh=6V+kECN/5jilXYl8XU7eM1D7wrxhKkzVwFcofciVIlk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=EQLvvHl2ZllvdLJsI/JNMroAbMr3zPmzcWIAoK2vXhc1fEktrvs1QdZRrasPGo1hw
+ GO2MzIsoPqb0WMRpPpS86RgUSEix/eTZN50dlcYMcnGLfbsEU3HjC0SUVLBenpNca8
+ UXYG0FKYcun+LM210n56p7cDyVf/I1v4NdkXyaaw=
+Message-ID: <ce545ef3-9299-cf67-88a3-209d8ca9970e@ideasonboard.com>
+Date: Mon, 27 Feb 2023 15:42:43 +0200
 MIME-Version: 1.0
-References: <20230227113925.875425-1-jagan@amarulasolutions.com>
- <20230227113925.875425-3-jagan@amarulasolutions.com>
- <20230227121149.c3ibajgog3i2s2ek@houat>
-In-Reply-To: <20230227121149.c3ibajgog3i2s2ek@houat>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Mon, 27 Feb 2023 19:09:07 +0530
-Message-ID: <CAMty3ZAnJHabRrdV+ndzYhLaMPXBTYvhC=XP5=Gv2KvwTxxQNQ@mail.gmail.com>
-Subject: Re: [PATCH v13 02/18] drm: bridge: panel: Support nodrm case for
- drmm_panel_bridge_add
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] media: Fix building pdfdocs
+Content-Language: en-US
+To: Akira Yokosawa <akiyks@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20230208082916.68377-1-tomi.valkeinen@ideasonboard.com>
+ <307dbafd-6fe7-1b75-a484-67553529a5e0@gmail.com>
+ <20230226114744.7221f460@coco.lan>
+ <a0d52b30-265e-056e-0e67-6873d2c3b9ee@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <a0d52b30-265e-056e-0e67-6873d2c3b9ee@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +53,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Airlie <airlied@redhat.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 27, 2023 at 5:41 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Feb 27, 2023 at 05:09:09PM +0530, Jagan Teki wrote:
-> > drmm_panel_bridge_add DRM-managed action helper is useful for the bridge
-> > which automatically removes the bridge when drm pointer is cleaned.
-> >
-> > Supporting the same on non-component bridges like host DSI bridge requires
-> > a drm pointer which is indeed available only when a panel-bridge is found.
-> >
-> > For these use cases, the caller would call the drmm_panel_bridge_add by
-> > passing NULL to drm pointer.
-> >
-> > So, assign the bridge->dev to drm pointer for those cases.
-> >
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> > Changes for v13:
-> > - new patch
-> >
-> > Note: use case on
-> > "[PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge find helper"
-> >
-> >  drivers/gpu/drm/bridge/panel.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> > index d4b112911a99..45a0c6671000 100644
-> > --- a/drivers/gpu/drm/bridge/panel.c
-> > +++ b/drivers/gpu/drm/bridge/panel.c
-> > @@ -402,6 +402,13 @@ struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
-> >       if (IS_ERR(bridge))
-> >               return bridge;
-> >
-> > +     /*
-> > +      * For non-component bridges, like host DSI bridge the DRM pointer
-> > +      * can be available only when a panel-bridge is found.
-> > +      */
-> > +     if (!drm)
-> > +             drm = bridge->dev;
-> > +
->
-> Why can't the caller use bridge->dev?
->
-> Also, where did the devm_drm_of_dsi_get_bridge go? I thought you were
-> going to convert it to a drm-managed version?
+On 27/02/2023 14:06, Akira Yokosawa wrote:
+> Hi Mauro,
+> 
+> On Sun, 26 Feb 2023 11:47:44 +0100, Mauro Carvalho Chehab wrote:
+>> Em Sun, 26 Feb 2023 08:39:32 +0900
+>> Akira Yokosawa <akiyks@gmail.com> escreveu:
+>>
+>>> [+CC: Jon, linux-doc]
+>>>
+>>> On Wed,  8 Feb 2023 10:29:16 +0200, Tomi Valkeinen wrote:
+>>>> Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
+>>>> documatation for a few new RGB formats. For some reason these break the
+>>>> pdfdocs build, even if the same style seems to work elsewhere in the
+>>>> file.
+>>>>
+>>>> Remove the trailing empty dash lines, which seems to fix the issue.
+>>>>
+>>>> Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
+>>>> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+>>> Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
+>>>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>> ---
+>>>>
+>>>> Note: the offending patch was merged via drm tree, so we may want to
+>>>> apply the fix to the drm tree also.
+>>>
+>>> So, the offending commit is now in mainline without this fix...
+>>> I believe this build regression -- a real build error of "make pdfdocs"
+>>> -- should be fixed ASAP.
+>>>
+>>> Tomi, Laurent has suggested a typo fix in the Changelog.
+>>> Can you respin ?
+>>>
+>>> Or, Laurent, can you do the fix on your own?
+>>>
+>>> Hopefully, the fix can make v6.3-rc1.
+>>
+>> Better to wait for media PR to be handled. There were some changes at
+>> the documentation that affected the patch. I guess the bug is gone.
+> 
+> You mean the PR at https://lore.kernel.org/lkml/20230226114551.68480d44@coco.lan/ ?
+> Unfortunately, it has had no effect on this issue.
+> 
+>> If not, we'll need to rebase the patch.
+> 
+> There was no change in Documentation/userspace-api/media/v4l/pixfmt-rgb.rst,
+> so rebase is not needed.
+> 
+> Should this bug survive v6.3-rc1, I guess this fix could go through
+> media or doc tree.
 
-I found another solution that supports DRM-managed action common
-across dsi and normal bridges, can I send those patches alone by
-excluding them from this series?
+This patch applies fine on top of current Linus' master.
 
-Please let me know.
+As this is a media patch, and the offending commit is now in upstream, 
+maybe it's better to get this fix in via linux-media rather than linux-drm.
 
-Jagan.
+Mauro, can you pick this up?
+
+  Tomi
+
