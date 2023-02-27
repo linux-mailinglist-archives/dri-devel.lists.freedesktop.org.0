@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7626A44BB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 15:38:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72616A4556
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 15:57:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA5010E415;
-	Mon, 27 Feb 2023 14:38:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CAD510E41C;
+	Mon, 27 Feb 2023 14:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB9710E415
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 14:38:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-78-34-nat.elisa-mobile.fi
- [85.76.78.34])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F41C56A;
- Mon, 27 Feb 2023 15:38:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1677508728;
- bh=flL3K74FpmQhbfYWrxtIBKmRyaIm0PL2gw4qy434ZP4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RZDkwCgfR/ZjHWQxvkQiEwJAqsxC3NWoKOgQsAILaOfXPOZ8SgnHxmyRulFSvLO1g
- DP8EZ4QST+GAmivQm2aMRlpexQ/E2CsRQvpAQ4F8h9fQqQF+S8Pu3Zd0XGpiBufQRT
- 6rschwE3fyKsHdrhaDAFUkl+fmOzGkofwa/WTq2s=
-Date: Mon, 27 Feb 2023 16:38:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] drm: rcar-du: Fix a NULL vs IS_ERR() bug
-Message-ID: <Y/zAWdgjKQjvdmXr@pendragon.ideasonboard.com>
-References: <Y/yAw6sHu82OnOWj@kili>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F24710E41C;
+ Mon, 27 Feb 2023 14:57:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677509850; x=1709045850;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=n09h7oekFFY75v77nbSeS9sGleQOMZ8q7e6IyymQHpk=;
+ b=RW9L6oWhPm7m0xr1IbQxtfYEYW+8bVa+lg5uBLO2zTT+UcfS/4TbieK3
+ vetbJ0VGnG+7W9CXQEcD1QcxyoL8iGKEnh5155xVaBbBqU0TLciW++VaJ
+ xNQwMBOVan4NC0VZD4enUBMIoGRTIRzsjFNW0rKxhaWq9EeuhnfFoFgSl
+ rTCRcA2HbNg3Z/AB14Q7KcTj6sU/M0lBtsDHWLi2vN/P2JJHJjuXj3qQo
+ NZvd9KnT6hnZVuNexbZmmYokJE5jct/7dgQaxgM5oqKWN6DlX0/Ek8xfz
+ YAFP4V5j0e47IgFsQPpuSsfJ1w10OWpiwslP8ZeZ9qBGeMPOSwYS7zAhJ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="333918301"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="333918301"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 06:57:29 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="704066659"
+X-IronPort-AV: E=Sophos;i="5.98,219,1673942400"; d="scan'208";a="704066659"
+Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.158])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 06:57:27 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/4] drm/displayid: use primary use case to figure out
+ non-desktop
+In-Reply-To: <a6feedc9-7a97-dc61-b2d6-02b93b7edfa0@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1676580180.git.jani.nikula@intel.com>
+ <ed745bf1-eeca-6431-b828-e0f51b8bad30@collabora.com>
+ <992eefe3-1ab8-b8ba-02d4-9bb9f9755688@collabora.com>
+ <a6feedc9-7a97-dc61-b2d6-02b93b7edfa0@collabora.com>
+Date: Mon, 27 Feb 2023 16:57:25 +0200
+Message-ID: <87bklf17hm.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y/yAw6sHu82OnOWj@kili>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,46 +62,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: intel-gfx@lists.freedesktop.org, Iaroslav Boliukin <iam@lach.pw>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dan,
+On Mon, 27 Feb 2023, Dmitry Osipenko <dmitry.osipenko@collabora.com> wrote:
+> On 2/21/23 19:29, Dmitry Osipenko wrote:
+>> On 2/20/23 18:44, Dmitry Osipenko wrote:
+>>> On 2/16/23 23:44, Jani Nikula wrote:
+>>>> Mostly this is prep work and plumbing for easier use of displayid
+>>>> structure version and primary use case for parsing the displayid blocks,
+>>>> but it can be nicely used for figuring out non-desktop too.
+>>>>
+>>>> Completely untested. :)
+>>>>
+>>>> BR,
+>>>> Jani.
+>>>>
+>>>> Cc: Iaroslav Boliukin <iam@lach.pw>
+>>>> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>>
+>>>> Jani Nikula (4):
+>>>>   drm/displayid: add displayid_get_header() and check bounds better
+>>>>   drm/displayid: return struct displayid_header from
+>>>>     validate_displayid()
+>>>>   drm/displayid: provide access to DisplayID version and primary use
+>>>>     case
+>>>>   drm/edid: update non-desktop use also from DisplayID
+>>>>
+>>>>  drivers/gpu/drm/drm_displayid.c | 62 ++++++++++++++++++++++++++++-----
+>>>>  drivers/gpu/drm/drm_edid.c      | 25 +++++++++++++
+>>>>  include/drm/drm_displayid.h     | 12 ++++++-
+>>>>  3 files changed, 89 insertions(+), 10 deletions(-)
+>>>>
+>>>
+>>> It works now without the EDID quirk, thanks!
+>>>
+>>> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>
+>> 
+>> I'm going to apply this to misc-next later this week if there won't be
+>> any objections.
+>> 
+>
+> Applied all 5 patches to misc-next
 
-Thank you for the patch.
+Thanks for the review and pushing!
 
-On Mon, Feb 27, 2023 at 01:06:59PM +0300, Dan Carpenter wrote:
-> The drmm_encoder_alloc() function returns error pointers.  It never
-> returns NULL.  Fix the check accordingly.
-> 
-> Fixes: 7a1adbd23990 ("drm: rcar-du: Use drmm_encoder_alloc() to manage encoder")
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> index b1787be31e92..7ecec7b04a8d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> @@ -109,8 +109,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  	renc = drmm_encoder_alloc(&rcdu->ddev, struct rcar_du_encoder, base,
->  				  &rcar_du_encoder_funcs, DRM_MODE_ENCODER_NONE,
->  				  NULL);
-> -	if (!renc)
-> -		return -ENOMEM;
-> +	if (IS_ERR(renc))
-> +		return PTR_ERR(renc);
->  
->  	renc->output = output;
->  
+BR,
+Jani.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Jani Nikula, Intel Open Source Graphics Center
