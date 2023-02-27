@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E3F6A41AC
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:27:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76AA6A41AE
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:27:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C13A10E3F2;
-	Mon, 27 Feb 2023 12:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3F6A10E3F3;
+	Mon, 27 Feb 2023 12:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E93E10E3F2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:27:39 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 96EFD5C0061;
- Mon, 27 Feb 2023 07:27:38 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1778C10E3F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:27:51 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 718BE5C0103;
+ Mon, 27 Feb 2023 07:27:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 27 Feb 2023 07:27:38 -0500
+ by compute1.internal (MEProxy); Mon, 27 Feb 2023 07:27:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1677500858; x=1677587258; bh=CNrUax/iDM
- rVPYgbtB+NNfgCr0pm1yYKnJS/TJ7H0XE=; b=L2GzCtwFhYExfdwZ32LayBYhwP
- T17f/H49zHZO5vUZY+MwvifkGoLAjbTCDZeKt8JW5G0bDU9XMsgrNkvgHPtAIu8K
- 0N3VDKoRFly++Cmbv7gP489mGY1rqZQXW34EJCxddGvTB97X1wee6SlyGFqa6XM6
- 3IfZKgSWp6O02yDsSaE5VSfhcVFzj5Yf3Np2NZzmvWcEoT/+e3WE0D1iz8sLBuuk
- +fIZSPll2muzZZw3DzR2EEfuv3XMCtq4+eVwGTdcdVIqSFzDQIiWIe1Wl4OkD+ra
- qxFRBpjZw9Ityugp/scprkj1Of3GH1IiTxAwY4Mdc41v+YaSbXCJqru22WnA==
+ :subject:to:to; s=fm2; t=1677500870; x=1677587270; bh=houYKcEj3g
+ TxACYECO79HDxxmT8hrFkpXjgbBtH4mBA=; b=n2DN4NAk9uIKoDPdDh8N3C3rVP
+ T04AQDhCPYWS3jVkkk/ZYFe0gbwHeCURAyCfFKohqnEJl24VsheSmd73pNaBxA78
+ YupSmlj27lBw0Cv/daIxECC0iBnVBe8BBWZf/JJlKaB00xtCZpNYlOhsIJ2VwoM9
+ CKLqGZlLDBoIkks43pQmeXtx4rb+Ib6LAYfp1WhPzP2lSmyQaHR5UaD1aHouJeEe
+ mG3wiOGm7t/KvSgUUrO/4fqQKK8eGzFHFMG+rHblhsvMXgEwjN9vtZY1Ty0PuZMx
+ 1Y9zjymeRljHicDLWhnF3TDOvAD88EmJ5yRVijhGW9bR7m7T9GCWoP/Kwqaw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
  :feedback-id:from:from:in-reply-to:in-reply-to:message-id
  :mime-version:references:reply-to:sender:subject:subject:to:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1677500858; x=1677587258; bh=CNrUax/iDMrVPYgbtB+NNfgCr0pm
- 1yYKnJS/TJ7H0XE=; b=ehM2kr9GscRFE0IRHmHWD0t+OmqoFDndSmgXK+zM/S3W
- nd4i79CNVhHE3FfSCHtys5a641kbDQ+laWFFmaSq9yFMESSyNV/r9hjZ05fJ8EhU
- 6lkUHsY6pv9/TULdOHly38aL2TwPvas0JttUjaz50Ukxs0dK6AtwD1Hwm6m/3a8v
- ysgAE8nLW6LYW5fqwlyMZVFkQnjZMUhh4r+PBGpR6sPMoCX99Od9qaSzQsw9X20H
- c/b/wA8PY2RSZ6b8AbjnAr2wIPf+Pq9GsCLu4Sg7yTc9pTvGe4TV4rePujof7HtT
- ImCV+u6Lswrf8W73lTw/WcjylbHaWY5LnVDHGyMKFA==
-X-ME-Sender: <xms:uqH8Y-qjKooUh5nkfqsF-1eSFPI8JuCDILHzidAX1ekEdvnxUqNz_Q>
- <xme:uqH8Y8oiGnMdvXjQ3LaPeBCynkiTUH1NllEgi_LDSiPjlh2AM16MoLskD_0avswq1
- nHHMKADM9aV9H8tuOc>
-X-ME-Received: <xmr:uqH8YzOk-rLa5V_Y-pC7Kyh7UQjefrCARqknWxdtBrRzzRhxYqwuYxHEeHJ4apQ_rXmwvGe_btPUg_UCF0BVXgHRwVq_uQQ>
+ fm1; t=1677500870; x=1677587270; bh=houYKcEj3gTxACYECO79HDxxmT8h
+ rFkpXjgbBtH4mBA=; b=f4QWwDLI9d1swJEmfNULfRpV721nv4P5MfdkM1mEw4+N
+ YeO230s6FJwf1+u/jyIFghh6wehhXbrzgHrSi2UFJhT+qUe8ruP1rDimo/ZlfHU3
+ eL18Tzp2BHLOxNf67i4jhqus/iA9GP9nyj+qP/O58XJdZUt29uVWq/kpm9HaTren
+ ZBdNjfAlUV5Tn48pYTcFket8s5rIa1lE9eEcbpYmHVO3QGF1zHi4VZsOrCPv0M+9
+ 9UcxSJAh170N2luu6ZXF2kYV29rzv5YGXFsmTx4vQFDZ/LqRhXalfJoP/nl4CVp7
+ 81FYlxay49ekmKCG0z5JGSevkovCFrdpC8Js7INyqw==
+X-ME-Sender: <xms:xqH8Y086TKqMLhUl5R78xuRlXCsZ2-MddIRF0rN1vEavEjhqCb7hWA>
+ <xme:xqH8Y8vpoYm8D29nI-Ul2Yj_4clFSmC_uSyVNLk7a3br-640Rj5Ssi-DxPRqSIzA3
+ 1rwJSzpq1OLCKtUkwg>
+X-ME-Received: <xmr:xqH8Y6BFgZoyJk8HGfQogiq-y_UM4meQQOVkCKikgSoitnrqPk0ymj-U3uVitO5-m2a3JGl3wQKrWKTjfTW065WNbQqpE6M>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgfeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -52,24 +52,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgfeejucetufdoteggod
  htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
  ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:uqH8Y94nJUJCyxAtZiSl1oZFT1LtwaiBGLcsbK8TkIS5DApHH7WDBQ>
- <xmx:uqH8Y94xjwwkU7WenwteTxYtO7aStcVL6J9Icofth_jgIFCudlrF7Q>
- <xmx:uqH8Y9hLVP0h82vMQ4F3tKiaeedNtDX4Pk--DGLkvt3qORfVEF0ztQ>
- <xmx:uqH8Y6z3vbeno8itV261ePPMk0J9DmUvTs1kwj8gsQvxxiEdyoVwSg>
+X-ME-Proxy: <xmx:xqH8Y0fR-yGv9qmCojuyeaPqKAeeNSV9QcFkG_Hw2pTzrI9lJQB4Qw>
+ <xmx:xqH8Y5Op9XGagsvitxhKRkPHAjaWYxjhNA55AIUIZLKoBdm_ZlYJfA>
+ <xmx:xqH8Y-nhXYpmDUi5K45SZ1eXw3pTTMK9guV9UtribOtyXlTIi3zvpg>
+ <xmx:xqH8Y6HGtWFrSOivicSI3y-7l_JKzSRjzA91XA4s9rcd82zbrA--ZQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Feb 2023 07:27:37 -0500 (EST)
-Date: Mon, 27 Feb 2023 13:27:36 +0100
+ 27 Feb 2023 07:27:49 -0500 (EST)
+Date: Mon, 27 Feb 2023 13:27:48 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document TV margin properties
-Message-ID: <20230227122736.6vrxowix36ovscsn@houat>
-References: <20230227122108.117279-1-contact@emersion.fr>
+Subject: Re: [PATCH] drm: remove outdated doc TODO for subconnector property
+Message-ID: <20230227122748.6exqwe3eiyd7vkdw@houat>
+References: <20230227122522.117580-1-contact@emersion.fr>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6orpipcfk5ael52r"
+ protocol="application/pgp-signature"; boundary="lyuy5gebpsita5xn"
 Content-Disposition: inline
-In-Reply-To: <20230227122108.117279-1-contact@emersion.fr>
+In-Reply-To: <20230227122522.117580-1-contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,13 +90,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---6orpipcfk5ael52r
+--lyuy5gebpsita5xn
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 27, 2023 at 12:21:16PM +0000, Simon Ser wrote:
-> Add docs for "{left,right,top,bottom} margin" properties.
+On Mon, Feb 27, 2023 at 12:25:26PM +0000, Simon Ser wrote:
+> This is already documented under "standard connector properties".
 >=20
 > Signed-off-by: Simon Ser <contact@emersion.fr>
 > Cc: Maxime Ripard <maxime@cerno.tech>
@@ -109,15 +109,15 @@ Acked-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---6orpipcfk5ael52r
+--lyuy5gebpsita5xn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY/yhuAAKCRDj7w1vZxhR
-xYYJAPwK/KA0A1BfVrbsz2wUwHKYi65Ic0QhUPF5v+tGHcekdgEAhqUEt7/suOzM
-617vEAp1zKeOcRwD8VWrXDW9yqWnIAA=
-=z22x
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY/yhxAAKCRDj7w1vZxhR
+xXErAP40j9I/76v+YJIhAkbLd4lB//OaqMkyfLHfmB/AoZk3KwD/Z+MENiUkllkp
+MSS0jvO9BeZC5HABWt8okJRP3zqfJg8=
+=q5pL
 -----END PGP SIGNATURE-----
 
---6orpipcfk5ael52r--
+--lyuy5gebpsita5xn--
