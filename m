@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CD56A376D
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:09:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138ED6A376F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:09:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41B7D10E32B;
-	Mon, 27 Feb 2023 02:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19C0E10E32C;
+	Mon, 27 Feb 2023 02:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A2C10E32A;
- Mon, 27 Feb 2023 02:09:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD10710E332
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:09:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 33DCB60DC6;
- Mon, 27 Feb 2023 02:09:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2200C433EF;
- Mon, 27 Feb 2023 02:09:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3601C60DD3;
+ Mon, 27 Feb 2023 02:09:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 053CDC433EF;
+ Mon, 27 Feb 2023 02:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463753;
- bh=rQxYrJD3g4LgoxFVKeR+kXDNSUDuXB1g06cX4FsxdZ4=;
+ s=k20201202; t=1677463758;
+ bh=//aJivlEzxmtFYlVV8/vSyGrZksn5HH4/Ocb6MqgP3s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D/I2AbLU68c6Z/yO/5rJUrBzMGtmlHeLJJfkiP7vuaBT7C3mBXV6bbyl09Uw0j2ZP
- pQKmYYksBXMgNSGTiic4XNkYpwSXj8sQiypmK4Y7KIGIWpoA1sLQoFeMUM7Hc4KXAQ
- 00KQ4aK/R4x4HTM91B/5W6dTdQCGWZIyhQnRlgJYDkRftPQxU2M+WQOH9c1ZPvy5Lr
- JEvf0HhfpMUimdzTRWZ7NrJ8aECC8yhFsIlXfHAjj98NvAa+79rsl9ymr8o59zyLBG
- rhiDspgy4KT23VyuZLI+FXj8WeJ/DlZJKeGOeAyR2kA+EOv1qyvSAmdP+tn086Z6s9
- zVcK2QkL0as4g==
+ b=CjgninZD6/z6UlwcJx6knetNmjjjEqRi5xSIp8NP/3ksCsiDr4y4vU89SlLu6/xd0
+ Ccjf9pvAeb8lXGMDkmtQ1nSLi0WttN2cZiDiRzwPh/o+Zp1eQh1cYY2Y+TE+90B0nH
+ mBk2GryBwLqJ0jITOzKmudWcULFQWqoIvIKKSuK4xq9Jqtr1/O2NDjKN87powz/Jbm
+ xcn0Mckd4EnX5XcARG5c6v1ZuZsv9OYFHl2TvBLtWPmykdbVKrSKftIYgeWvQn6Zil
+ pgCNC6kUofCnf7yCefQuYvT8+JrGQ84zb+jbbxnCL/+d/QtmLjjm26UQRDfChEDy42
+ k5TCR1kZadRfw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 06/25] drm/radeon: free iio for atombios when
- driver shutdown
-Date: Sun, 26 Feb 2023 21:08:29 -0500
-Message-Id: <20230227020855.1051605-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 08/25] Revert "fbcon: don't lose the console font
+ across generic->chip driver switch"
+Date: Sun, 26 Feb 2023 21:08:31 -0500
+Message-Id: <20230227020855.1051605-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227020855.1051605-1-sashal@kernel.org>
 References: <20230227020855.1051605-1-sashal@kernel.org>
@@ -56,65 +56,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Liwei Song <liwei.song@windriver.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ syoshida@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>,
+ penguin-kernel@I-love.SAKURA.ne.jp, deller@gmx.de,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ samuel.thibault@ens-lyon.org, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liwei Song <liwei.song@windriver.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 4773fadedca918faec443daaca5e4ea1c0ced144 ]
+[ Upstream commit 12d5796d55f9fd9e4b621003127c99e176665064 ]
 
-Fix below kmemleak when unload radeon driver:
+This reverts commit ae1287865f5361fa138d4d3b1b6277908b54eac9.
 
-unreferenced object 0xffff9f8608ede200 (size 512):
-  comm "systemd-udevd", pid 326, jiffies 4294682822 (age 716.338s)
-  hex dump (first 32 bytes):
-    00 00 00 00 c4 aa ec aa 14 ab 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<0000000062fadebe>] kmem_cache_alloc_trace+0x2f1/0x500
-    [<00000000b6883cea>] atom_parse+0x117/0x230 [radeon]
-    [<00000000158c23fd>] radeon_atombios_init+0xab/0x170 [radeon]
-    [<00000000683f672e>] si_init+0x57/0x750 [radeon]
-    [<00000000566cc31f>] radeon_device_init+0x559/0x9c0 [radeon]
-    [<0000000046efabb3>] radeon_driver_load_kms+0xc1/0x1a0 [radeon]
-    [<00000000b5155064>] drm_dev_register+0xdd/0x1d0
-    [<0000000045fec835>] radeon_pci_probe+0xbd/0x100 [radeon]
-    [<00000000e69ecca3>] pci_device_probe+0xe1/0x160
-    [<0000000019484b76>] really_probe.part.0+0xc1/0x2c0
-    [<000000003f2649da>] __driver_probe_device+0x96/0x130
-    [<00000000231c5bb1>] driver_probe_device+0x24/0xf0
-    [<0000000000a42377>] __driver_attach+0x77/0x190
-    [<00000000d7574da6>] bus_for_each_dev+0x7f/0xd0
-    [<00000000633166d2>] driver_attach+0x1e/0x30
-    [<00000000313b05b8>] bus_add_driver+0x12c/0x1e0
+Always free the console font when deinitializing the framebuffer
+console. Subsequent framebuffer consoles will then use the default
+font. Rely on userspace to load any user-configured font for these
+consoles.
 
-iio was allocated in atom_index_iio() called by atom_parse(),
-but it doesn't got released when the dirver is shutdown.
-Fix this kmemleak by free it in radeon_atombios_fini().
+Commit ae1287865f53 ("fbcon: don't lose the console font across
+generic->chip driver switch") was introduced to work around losing
+the font during graphics-device handover. [1][2] It kept a dangling
+pointer with the font data between loading the two consoles, which is
+fairly adventurous hack. It also never covered cases when the other
+consoles, such as VGA text mode, where involved.
 
-Signed-off-by: Liwei Song <liwei.song@windriver.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+The problem has meanwhile been solved in userspace. Systemd comes
+with a udev rule that re-installs the configured font when a console
+comes up. [3] So the kernel workaround can be removed.
+
+This also removes one of the two special cases triggered by setting
+FBINFO_MISC_FIRMWARE in an fbdev driver.
+
+Tested during device handover from efifb and simpledrm to radeon. Udev
+reloads the configured console font for the new driver's terminal.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=892340 # 1
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=1074624 # 2
+Link: https://cgit.freedesktop.org/systemd/systemd/tree/src/vconsole/90-vconsole.rules.in?h=v222 # 3
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20221219160516.23436-3-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_device.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/video/fbdev/core/fbcon.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 92905ebb7b459..1c005e0ddd388 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1022,6 +1022,7 @@ void radeon_atombios_fini(struct radeon_device *rdev)
- {
- 	if (rdev->mode_info.atom_context) {
- 		kfree(rdev->mode_info.atom_context->scratch);
-+		kfree(rdev->mode_info.atom_context->iio);
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index d90d807c67561..b6712655ec1f0 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -989,7 +989,7 @@ static const char *fbcon_startup(void)
+ 	set_blitting_type(vc, info);
+ 
+ 	/* Setup default font */
+-	if (!p->fontdata && !vc->vc_font.data) {
++	if (!p->fontdata) {
+ 		if (!fontname[0] || !(font = find_font(fontname)))
+ 			font = get_default_font(info->var.xres,
+ 						info->var.yres,
+@@ -999,8 +999,6 @@ static const char *fbcon_startup(void)
+ 		vc->vc_font.height = font->height;
+ 		vc->vc_font.data = (void *)(p->fontdata = font->data);
+ 		vc->vc_font.charcount = font->charcount;
+-	} else {
+-		p->fontdata = vc->vc_font.data;
  	}
- 	kfree(rdev->mode_info.atom_context);
- 	rdev->mode_info.atom_context = NULL;
+ 
+ 	cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+@@ -1167,9 +1165,9 @@ static void fbcon_init(struct vc_data *vc, int init)
+ 	ops->p = &fb_display[fg_console];
+ }
+ 
+-static void fbcon_free_font(struct fbcon_display *p, bool freefont)
++static void fbcon_free_font(struct fbcon_display *p)
+ {
+-	if (freefont && p->userfont && p->fontdata && (--REFCOUNT(p->fontdata) == 0))
++	if (p->userfont && p->fontdata && (--REFCOUNT(p->fontdata) == 0))
+ 		kfree(p->fontdata - FONT_EXTRA_WORDS * sizeof(int));
+ 	p->fontdata = NULL;
+ 	p->userfont = 0;
+@@ -1183,8 +1181,8 @@ static void fbcon_deinit(struct vc_data *vc)
+ 	struct fb_info *info;
+ 	struct fbcon_ops *ops;
+ 	int idx;
+-	bool free_font = true;
+ 
++	fbcon_free_font(p);
+ 	idx = con2fb_map[vc->vc_num];
+ 
+ 	if (idx == -1)
+@@ -1195,8 +1193,6 @@ static void fbcon_deinit(struct vc_data *vc)
+ 	if (!info)
+ 		goto finished;
+ 
+-	if (info->flags & FBINFO_MISC_FIRMWARE)
+-		free_font = false;
+ 	ops = info->fbcon_par;
+ 
+ 	if (!ops)
+@@ -1208,9 +1204,8 @@ static void fbcon_deinit(struct vc_data *vc)
+ 	ops->flags &= ~FBCON_FLAGS_INIT;
+ finished:
+ 
+-	fbcon_free_font(p, free_font);
+-	if (free_font)
+-		vc->vc_font.data = NULL;
++	fbcon_free_font(p);
++	vc->vc_font.data = NULL;
+ 
+ 	if (vc->vc_hi_font_mask && vc->vc_screenbuf)
+ 		set_vc_hi_font(vc, false);
 -- 
 2.39.0
 
