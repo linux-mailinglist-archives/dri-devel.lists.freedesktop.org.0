@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138ED6A376F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:09:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2DA6A3771
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:09:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19C0E10E32C;
-	Mon, 27 Feb 2023 02:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E28610E332;
+	Mon, 27 Feb 2023 02:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD10710E332
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 02:09:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2B1210E332;
+ Mon, 27 Feb 2023 02:09:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3601C60DD3;
- Mon, 27 Feb 2023 02:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 053CDC433EF;
- Mon, 27 Feb 2023 02:09:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 77F1460D38;
+ Mon, 27 Feb 2023 02:09:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A56BC433EF;
+ Mon, 27 Feb 2023 02:09:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463758;
- bh=//aJivlEzxmtFYlVV8/vSyGrZksn5HH4/Ocb6MqgP3s=;
+ s=k20201202; t=1677463762;
+ bh=XgGRSJncKgK34kgFjt3EXwQp/2mDoKvUU4usqzeY/eg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CjgninZD6/z6UlwcJx6knetNmjjjEqRi5xSIp8NP/3ksCsiDr4y4vU89SlLu6/xd0
- Ccjf9pvAeb8lXGMDkmtQ1nSLi0WttN2cZiDiRzwPh/o+Zp1eQh1cYY2Y+TE+90B0nH
- mBk2GryBwLqJ0jITOzKmudWcULFQWqoIvIKKSuK4xq9Jqtr1/O2NDjKN87powz/Jbm
- xcn0Mckd4EnX5XcARG5c6v1ZuZsv9OYFHl2TvBLtWPmykdbVKrSKftIYgeWvQn6Zil
- pgCNC6kUofCnf7yCefQuYvT8+JrGQ84zb+jbbxnCL/+d/QtmLjjm26UQRDfChEDy42
- k5TCR1kZadRfw==
+ b=LeuO8lBf1PqE2xfD9Tl781hER643oCcnxg/VK6YnP9I1CtjL15VixhbjPptqriD0o
+ TAWgEfrx+WMm4x4PS3KAAGDc6BV3SV975zod8zzVF75vzQZLNUAEsHG/270arynDnx
+ mhcElg6mbZ8EhVvJNKej5uAlXQ4HqyPmTZq6mstCY/sziawE41P50puzxs6URm1ohC
+ dPWNzvu2EGilCTNzrAt4s/cT4F0U33Lxbpxn7mEvTm4XEax/itsPi0uVHloOkYKYut
+ AZRYLV4kvD117Do8gPdUQZY9Bj/Nqmc95VERw1bGa2/LA/kfZbUuNU+La23XPEYLpB
+ l7Guy0nGImL7A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 08/25] Revert "fbcon: don't lose the console font
- across generic->chip driver switch"
-Date: Sun, 26 Feb 2023 21:08:31 -0500
-Message-Id: <20230227020855.1051605-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 09/25] drm: amd: display: Fix memory leakage
+Date: Sun, 26 Feb 2023 21:08:32 -0500
+Message-Id: <20230227020855.1051605-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227020855.1051605-1-sashal@kernel.org>
 References: <20230227020855.1051605-1-sashal@kernel.org>
@@ -56,118 +54,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- syoshida@redhat.com, Thomas Zimmermann <tzimmermann@suse.de>,
- penguin-kernel@I-love.SAKURA.ne.jp, deller@gmx.de,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- samuel.thibault@ens-lyon.org, sam@ravnborg.org
+Cc: Sasha Levin <sashal@kernel.org>, HaoPing.Liu@amd.com, Dillon.Varone@amd.com,
+ Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, samson.tam@amd.com, aurabindo.pillai@amd.com,
+ Alvin.Lee2@amd.com, Alex Deucher <alexander.deucher@amd.com>, Jun.Lei@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
 
-[ Upstream commit 12d5796d55f9fd9e4b621003127c99e176665064 ]
+[ Upstream commit 6b8701be1f66064ca72733c5f6e13748cdbf8397 ]
 
-This reverts commit ae1287865f5361fa138d4d3b1b6277908b54eac9.
+This commit fixes memory leakage in dc_construct_ctx() function.
 
-Always free the console font when deinitializing the framebuffer
-console. Subsequent framebuffer consoles will then use the default
-font. Rely on userspace to load any user-configured font for these
-consoles.
-
-Commit ae1287865f53 ("fbcon: don't lose the console font across
-generic->chip driver switch") was introduced to work around losing
-the font during graphics-device handover. [1][2] It kept a dangling
-pointer with the font data between loading the two consoles, which is
-fairly adventurous hack. It also never covered cases when the other
-consoles, such as VGA text mode, where involved.
-
-The problem has meanwhile been solved in userspace. Systemd comes
-with a udev rule that re-installs the configured font when a console
-comes up. [3] So the kernel workaround can be removed.
-
-This also removes one of the two special cases triggered by setting
-FBINFO_MISC_FIRMWARE in an fbdev driver.
-
-Tested during device handover from efifb and simpledrm to radeon. Udev
-reloads the configured console font for the new driver's terminal.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=892340 # 1
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=1074624 # 2
-Link: https://cgit.freedesktop.org/systemd/systemd/tree/src/vconsole/90-vconsole.rules.in?h=v222 # 3
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20221219160516.23436-3-tzimmermann@suse.de
+Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/core/fbcon.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/amd/display/dc/core/dc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index d90d807c67561..b6712655ec1f0 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -989,7 +989,7 @@ static const char *fbcon_startup(void)
- 	set_blitting_type(vc, info);
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
+index 6c9378208127d..eca882438f6ef 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
+@@ -771,6 +771,7 @@ static bool dc_construct_ctx(struct dc *dc,
  
- 	/* Setup default font */
--	if (!p->fontdata && !vc->vc_font.data) {
-+	if (!p->fontdata) {
- 		if (!fontname[0] || !(font = find_font(fontname)))
- 			font = get_default_font(info->var.xres,
- 						info->var.yres,
-@@ -999,8 +999,6 @@ static const char *fbcon_startup(void)
- 		vc->vc_font.height = font->height;
- 		vc->vc_font.data = (void *)(p->fontdata = font->data);
- 		vc->vc_font.charcount = font->charcount;
--	} else {
--		p->fontdata = vc->vc_font.data;
+ 	dc_ctx->perf_trace = dc_perf_trace_create();
+ 	if (!dc_ctx->perf_trace) {
++		kfree(dc_ctx);
+ 		ASSERT_CRITICAL(false);
+ 		return false;
  	}
- 
- 	cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
-@@ -1167,9 +1165,9 @@ static void fbcon_init(struct vc_data *vc, int init)
- 	ops->p = &fb_display[fg_console];
- }
- 
--static void fbcon_free_font(struct fbcon_display *p, bool freefont)
-+static void fbcon_free_font(struct fbcon_display *p)
- {
--	if (freefont && p->userfont && p->fontdata && (--REFCOUNT(p->fontdata) == 0))
-+	if (p->userfont && p->fontdata && (--REFCOUNT(p->fontdata) == 0))
- 		kfree(p->fontdata - FONT_EXTRA_WORDS * sizeof(int));
- 	p->fontdata = NULL;
- 	p->userfont = 0;
-@@ -1183,8 +1181,8 @@ static void fbcon_deinit(struct vc_data *vc)
- 	struct fb_info *info;
- 	struct fbcon_ops *ops;
- 	int idx;
--	bool free_font = true;
- 
-+	fbcon_free_font(p);
- 	idx = con2fb_map[vc->vc_num];
- 
- 	if (idx == -1)
-@@ -1195,8 +1193,6 @@ static void fbcon_deinit(struct vc_data *vc)
- 	if (!info)
- 		goto finished;
- 
--	if (info->flags & FBINFO_MISC_FIRMWARE)
--		free_font = false;
- 	ops = info->fbcon_par;
- 
- 	if (!ops)
-@@ -1208,9 +1204,8 @@ static void fbcon_deinit(struct vc_data *vc)
- 	ops->flags &= ~FBCON_FLAGS_INIT;
- finished:
- 
--	fbcon_free_font(p, free_font);
--	if (free_font)
--		vc->vc_font.data = NULL;
-+	fbcon_free_font(p);
-+	vc->vc_font.data = NULL;
- 
- 	if (vc->vc_hi_font_mask && vc->vc_screenbuf)
- 		set_vc_hi_font(vc, false);
 -- 
 2.39.0
 
