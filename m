@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06526A3A14
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 05:19:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D66886A3A1C
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 05:28:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8146710E0CE;
-	Mon, 27 Feb 2023 04:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1500910E0D2;
+	Mon, 27 Feb 2023 04:27:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A03610E0CE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 04:19:49 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 203BE10E0D2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 04:27:57 +0000 (UTC)
 Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru
  [109.252.117.89])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 178D36602E18;
- Mon, 27 Feb 2023 04:19:46 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id C73CD660210B;
+ Mon, 27 Feb 2023 04:27:53 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677471587;
- bh=neJHlzU7HoVQIEsPasqkW1HUTHpgAXMlKs8lTrotf54=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=mSbCBFeT2V5iyIj9z5lklaoIexXd+XiqkJmUAy3zGrKiBSl55nfJVaNQ9lp2chHZH
- 0CJ5aKr+o7WUEW+Gn1O1C0qkEtqJOVyq0mXGCRR7IjlRxzDt8RLLMBmJwDGvU5i6RH
- Q3xf8gV8cgUnXi19RWWIDuT+jLJHc87d6E6L2YIxwh+q6mC1FDGHFOKEFy0xC3Ga4V
- 6iZR4N1VSmFVLVKAZHOIWpolaOo/49yArPJVejrq5IeCPDQHchCj0eo1sSeuOQI5iO
- cVdXHcwE/27njzWEPq794fKTysNcn+RvkvDpMWJra0IIg8J0xblp9ClAD1OII6BRtI
- VsNykWm8mmVqQ==
-Message-ID: <6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com>
-Date: Mon, 27 Feb 2023 07:19:43 +0300
+ s=mail; t=1677472075;
+ bh=kGcDbR4j3314+FTKe5Y7VXHs4Heb3IW139yRkBeOUHE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=b6pZBgVLX08t2YqV5olnHu19OeCoqB/Pm9rJVvl1XsvpURdJl5pAkl/KFEncqUPLm
+ WH/OI8V39hmkRzCMr7+8+53/GdvfmBHLFqudl1IKzB/Mvpc9nIYG58SE6/8BvZZEO4
+ w2DKaRa/Tjpz8AGIB58dHehk2+HDKr/9Knt3u5F5sWStdDWKRtvthKm9wZqQ9kGfdL
+ k65gnWGlhEaZkkd2mIjigeJZCvJuFITIWf8qmqmmtOXHXwBKMVh9azo6OIgz5ogjOA
+ bv6DOQVh5MFRUu37Wiet7YY9sahysVOG2QtMnrpWSiNEQ5QoUWOd7+bOlXFx1xcq0J
+ ZIWVn1cPp6VgA==
+Message-ID: <4d6e096b-4f04-5e17-ff23-4842b69fdc95@collabora.com>
+Date: Mon, 27 Feb 2023 07:27:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v10 00/11] Add generic memory shrinker to VirtIO-GPU and
- Panfrost DRM drivers
+Subject: Re: [PATCH v10 01/11] drm/msm/gem: Prevent blocking within shrinker
+ loop
 Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
@@ -57,11 +55,12 @@ To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20230108210445.3948344-1-dmitry.osipenko@collabora.com>
- <ab018466-1659-d54d-4144-5e0879815de6@suse.de>
- <e9364e10-1ad8-aaaf-3d78-a29b0c1516ef@collabora.com>
-In-Reply-To: <e9364e10-1ad8-aaaf-3d78-a29b0c1516ef@collabora.com>
+ <20230108210445.3948344-2-dmitry.osipenko@collabora.com>
+ <d1c560f1-0201-7b41-bb27-d6bcb332b8d4@suse.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <d1c560f1-0201-7b41-bb27-d6bcb332b8d4@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,28 +78,106 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/17/23 16:41, Dmitry Osipenko wrote:
-> On 2/17/23 16:28, Thomas Zimmermann wrote:
->> Hi,
+On 2/17/23 15:02, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 08.01.23 um 22:04 schrieb Dmitry Osipenko:
+>> Consider this scenario:
 >>
->> I looked through the series. Most of the patches should have an r-b or
->> a-b at this point. I can't say much about patch 2 and had questions
->> about others.
+>> 1. APP1 continuously creates lots of small GEMs
+>> 2. APP2 triggers `drop_caches`
+>> 3. Shrinker starts to evict APP1 GEMs, while APP1 produces new purgeable
+>>     GEMs
+>> 4. msm_gem_shrinker_scan() returns non-zero number of freed pages
+>>     and causes shrinker to try shrink more
+>> 5. msm_gem_shrinker_scan() returns non-zero number of freed pages again,
+>>     goto 4
+>> 6. The APP2 is blocked in `drop_caches` until APP1 stops producing
+>>     purgeable GEMs
 >>
->> Maybe you can already land patches 2, and 4 to 6? They look independent
->> from the shrinker changes. You could also attempt to land the locking
->> changes in patch 7. They need to get testing. I'll send you an a-b for
->> the patch.
+>> To prevent this blocking scenario, check number of remaining pages
+>> that GPU shrinker couldn't release due to a GEM locking contention
+>> or shrinking rejection. If there are no remaining pages left to shrink,
+>> then there is no need to free up more pages and shrinker may break out
+>> from the loop.
+>>
+>> This problem was found during shrinker/madvise IOCTL testing of
+>> virtio-gpu driver. The MSM driver is affected in the same way.
+>>
+>> Reviewed-by: Rob Clark <robdclark@gmail.com>
+>> Fixes: b352ba54a820 ("drm/msm/gem: Convert to using drm_gem_lru")
+>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> ---
+>>   drivers/gpu/drm/drm_gem.c              | 9 +++++++--
+>>   drivers/gpu/drm/msm/msm_gem_shrinker.c | 8 ++++++--
+>>   include/drm/drm_gem.h                  | 4 +++-
+>>   3 files changed, 16 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index 59a0bb5ebd85..c6bca5ac6e0f 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -1388,10 +1388,13 @@ EXPORT_SYMBOL(drm_gem_lru_move_tail);
+>>    *
+>>    * @lru: The LRU to scan
+>>    * @nr_to_scan: The number of pages to try to reclaim
+>> + * @remaining: The number of pages left to reclaim
+>>    * @shrink: Callback to try to shrink/reclaim the object.
+>>    */
+>>   unsigned long
+>> -drm_gem_lru_scan(struct drm_gem_lru *lru, unsigned nr_to_scan,
+>> +drm_gem_lru_scan(struct drm_gem_lru *lru,
+>> +         unsigned int nr_to_scan,
+>> +         unsigned long *remaining,
+>>            bool (*shrink)(struct drm_gem_object *obj))
+>>   {
+>>       struct drm_gem_lru still_in_lru;
+>> @@ -1430,8 +1433,10 @@ drm_gem_lru_scan(struct drm_gem_lru *lru,
+>> unsigned nr_to_scan,
+>>            * hit shrinker in response to trying to get backing pages
+>>            * for this obj (ie. while it's lock is already held)
+>>            */
+>> -        if (!dma_resv_trylock(obj->resv))
+>> +        if (!dma_resv_trylock(obj->resv)) {
+>> +            *remaining += obj->size >> PAGE_SHIFT;
+>>               goto tail;
+>> +        }
+>>             if (shrink(obj)) {
+>>               freed += obj->size >> PAGE_SHIFT;
+>> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>> b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>> index 051bdbc093cf..b7c1242014ec 100644
+>> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+>> @@ -116,12 +116,14 @@ msm_gem_shrinker_scan(struct shrinker *shrinker,
+>> struct shrink_control *sc)
+>>       };
+>>       long nr = sc->nr_to_scan;
+>>       unsigned long freed = 0;
+>> +    unsigned long remaining = 0;
+>>         for (unsigned i = 0; (nr > 0) && (i < ARRAY_SIZE(stages)); i++) {
+>>           if (!stages[i].cond)
+>>               continue;
+>>           stages[i].freed =
+>> -            drm_gem_lru_scan(stages[i].lru, nr, stages[i].shrink);
+>> +            drm_gem_lru_scan(stages[i].lru, nr, &remaining,
 > 
-> Thank you, I'll apply the acked patches and then make v11 with the
-> remaining patches updated.
+> This function relies in remaining being pre-initialized. That's not
+> obvious and error prone. At least, pass-in something like
+> &stages[i].remaining that is then initialized internally by
+> drm_gem_lru_scan() to zero. And similar to freed, sum up the individual
+> stages' remaining here.
 > 
-> Not sure if it will be possible to split patch 8, but I'll think on it
-> for v11.
+> TBH I somehow don't like the overall design of how all these functions
+> interact with each other. But I also can't really point to the actual
+> problem. So it's best to take what you have here; maybe with the change
+> I proposed.
 > 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Applied patches 1-2 to misc-fixes and patches 3-7 to misc-next, with the
-review comments addressed.
+I had to keep to the remaining being pre-initialized because moving the
+initialization was hurting the rest of the code. Though, updated the MSM
+patch to use &stages[i].remaining
 
 -- 
 Best regards,
