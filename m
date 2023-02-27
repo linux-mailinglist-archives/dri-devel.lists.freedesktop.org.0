@@ -1,74 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B199C6A4734
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:42:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD106A473A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 17:43:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82F3910E1CD;
-	Mon, 27 Feb 2023 16:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC5C10E1D7;
+	Mon, 27 Feb 2023 16:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CB2A10E1CD
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:42:04 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- m25-20020a7bcb99000000b003e7842b75f2so4218270wmi.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 08:42:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=+me6M6jnjT1BwxUdC2ofn0DEUQ3q8gLgwSnPklypId8=;
- b=bIBUUU/OU5U6029v2a4Hi50LmWjJGQF129QxmSOOPq8s/ZPNby3LJHh2ke7doe9Diw
- 5N4SQU2bqBAXlNsqEEXTyYSu2mJPQG/6Ep2msNMvn3ntOj05avDZbkS9W/tqtzkNylGy
- KhznhjSyCGLBWWAiGNj75BeBQCTkhFnFvUv5pteAM5B0oSri0JcRiYU88iW4lM6jJQwI
- RdQfh3s5ze7jmefDZDEshQSJ2VmsRptQIG4VQi30lX5lGUTaKR09W4HJL/IF1W4vVIto
- 9G/8B0Xn9U/HDMd4hDNKUZi0Tnw2Is/HSZ7G6XdSCjCGZB5HU7eVqV6OD2DBS7zNOGVU
- Uz4Q==
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE0F510E1D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:43:23 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id o12so28287058edb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 08:43:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=hOx+Lx5LmOM09OgXmzxi2LsSdJoGdR3sG6KvTTKaATI=;
+ b=a61a7/DIAAPoyHbNLVSSkFweYQQ4MX8oFnrHkdCNCK7SeU6uXbWiPIOV9bgUYjenA/
+ kMVBmoaYu1LsJ5/23nPcQcIhTkf01ItUnU5JaCJKnTOS3Z9xr7PUJhG8fbIfKHZhqrHV
+ s5qpSFd313YTbTjKE+ND3h+mOFTN8BZLCrr1Tn9xcJH6KtGuKWWycpmvVkOUxfkVBaKl
+ LIPhKrAVu23deiKatwAAyO85ezC5JsYihXUKwVdBfADJuyLUAijTk6+WxgSxEbyUa8xi
+ UJOZlnyFR3lUl03PwmlPlqFA/+m1R8ou5Nf2WY7NB9cYeFoT5rD1GG+nHXmI1erHYMCL
+ cFpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+me6M6jnjT1BwxUdC2ofn0DEUQ3q8gLgwSnPklypId8=;
- b=krGs1K26GERhxxKZI2gXGLIkphfYWozpRgK/5UdY7Bm5foSdJfPsqJQrigj9UTfErx
- D13vPM8suTYpssXwLM3Q/SQKCWqZMRVzDcH8Hc58iY1AAkz2PUWQRh1/tdYU40zlnsrK
- GsrFFId4shMUILCBRYU9WweVdo8mcbLmqv76tnSE8MXiGn+fMQBZZSRhj9BrHnbPNjNV
- q8dN7qngh3ev/UDbdzyPaSZLSTByXPHUQmXeocwb3MIoZ6xERiSFNNrTAVRd5nHdbtVq
- kMvyBICQuhXrRz8txdsN0597WDpvv9ReWjYJ3M/xvxVgrc/sucf/TvBbxnpX9JmGJOdT
- GN1A==
-X-Gm-Message-State: AO0yUKW6XoeeYO05o5sEen/FwrdKW0Tr68PQT4TLjcGVINGdV+qHQ93s
- uCPfbZfmD4CcIT3nXVS74zgY2g==
-X-Google-Smtp-Source: AK7set9OKtEbGWFvTt5z20GAMQAVyq83LuntA4CXTlGML1R/tG+SxdBAsCLesuG3aG2/JpAaFVGKLw==
-X-Received: by 2002:a05:600c:713:b0:3eb:2eb8:9e36 with SMTP id
- i19-20020a05600c071300b003eb2eb89e36mr6478460wmn.28.1677516122878; 
- Mon, 27 Feb 2023 08:42:02 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:fbee:23cf:fdf3:bad4?
- ([2a01:e0a:982:cbb0:fbee:23cf:fdf3:bad4])
- by smtp.gmail.com with ESMTPSA id
- az11-20020a05600c600b00b003e1202744f2sm13063531wmb.31.2023.02.27.08.42.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 08:42:02 -0800 (PST)
-Message-ID: <b650c02b-85ba-89d0-4ca4-d37d5017839b@linaro.org>
-Date: Mon, 27 Feb 2023 17:42:01 +0100
+ bh=hOx+Lx5LmOM09OgXmzxi2LsSdJoGdR3sG6KvTTKaATI=;
+ b=CO0tPv0DnZd+V5U/hJNmWjVL6gA9fhpgAqZ6CH38XH408X6cyBpyC9jKzeLyGREPV+
+ nlprAEaOoOnwZ1zFoqKU8HtXgKWtuGcIcD75jrIKLSLIe84DSOaLuGTeOeDEaz/u22xl
+ emiH/N+LsIIjU4SK5IJrbLuAcnj3dTGYHjaGZNdrb1kmQQfvYHXEgf1H5t6dJ0Uvhmtn
+ rt8hdoOsKyWpm74Fwm+W7ftlVaH6XWBAcprNGbm+efcQN9sWxl0AY9ccqBIE37yJWtHj
+ CHpTClum8ZnQ5U+h8skqyLXArgiA1xLQxDF+mcITJSTOoI+QqDwooQ3QdZ+R0WRuiVhJ
+ olmQ==
+X-Gm-Message-State: AO0yUKX7qDXgEnh75o+oqbQARlr0MtBIiiPcYw1+dLyQUecGKi3FIYaq
+ eV+d5mGQupVA1IGNdpOkeUXFPnrmOetQJmH2yp0=
+X-Google-Smtp-Source: AK7set/MGVEvrtdD63U/g8sFifLNquXgtczaePn8Jsk7sX8vclGD49tHR3zYDQOWmugjaLuMvvH6hC5cijEoGC+SrYA=
+X-Received: by 2002:a17:906:3a58:b0:8b1:78b8:4207 with SMTP id
+ a24-20020a1709063a5800b008b178b84207mr1239508ejf.3.1677516202115; Mon, 27 Feb
+ 2023 08:43:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] MAINTAINERS: Add myself as co-maintainer for DRM Panels
- drivers
-Content-Language: en-US
-To: Sam Ravnborg <sam@ravnborg.org>, Thierry Reding <thierry.reding@gmail.com>
-References: <20230216-topic-drm-panel-upstream-maintainance-v1-1-ae1cf9268217@linaro.org>
- <Y+9awrqcQIOQNeaX@ravnborg.org>
- <45387999-a930-c03f-1acd-a02b9b4b3b3b@linaro.org> <Y/zOU8cu29hOi9hk@orome>
-Organization: Linaro Developer Services
-In-Reply-To: <Y/zOU8cu29hOi9hk@orome>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
+ <Y/bqtlbnWkKMIJI4@debian.me>
+In-Reply-To: <Y/bqtlbnWkKMIJI4@debian.me>
+From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Date: Mon, 27 Feb 2023 09:43:11 -0700
+Message-ID: <CAOCk7NrAKZ2G-VbQW3MJUZmkKkO1Ccrs2wo12kg6QHysH-d=Yg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpu: add acceleration node section
+To: Bagas Sanjaya <bagasdotme@gmail.com>, ogabbay@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,43 +65,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Dylan Le <self@dylanle.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Shuah Khan <skhan@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thierry,
+I'm thinking the drm_file.h reference is broken.  I suspect it should
+reference Documentation/accel/index.rst
 
-On 27/02/2023 16:37, Thierry Reding wrote:
-> On Mon, Feb 27, 2023 at 09:22:02AM +0100, Neil Armstrong wrote:
->> Hi Sam !
->>
->> On 17/02/2023 11:45, Sam Ravnborg wrote:
->>> On Fri, Feb 17, 2023 at 10:58:15AM +0100, Neil Armstrong wrote:
->>>> Add myself as co-maintainer for DRM Panel Drivers in order to help
->>>> reviewing and getting new panels drivers merged.
->>>>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>
->>> Thanks for stepping up!
->>>
->>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->>
->> Thanks for you trust!
->>
->> Is there anybody else willing to ack ? Thierry ?
-> 
-> While at it, perhaps you want to remove me from the entry? I haven't
-> had much time to look at these drivers for a while now and Sam has been
-> doing a much better job than I ever have, so looks all in good hands.
+Oded?
 
-Thanks for your feedback, I can send a v2 with your entry removed,
-is it ok for you Sam ?
-
-> 
-> Acked-by: Thierry Reding <thierry.reding@gmail.com>
-
-Thanks!
-Neil
-
+On Wed, Feb 22, 2023 at 9:25 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On Thu, Feb 23, 2023 at 02:52:52AM +0000, Dylan Le wrote:
+> >
+> > This patch was initially written for the Linux Kernel Bug Fixing Mentorship
+> > program. The patch adds a temporarily stubbed section on Acceleration Nodes
+> > to resolve a documentation warning.
+> >
+> > This resolves the warning:
+> > ./Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WARNING: undefined label: drm_accel_node
+>
+> Please write the patch description in imperative mood ("Do foo" instead
+> of "This patch does foo").
+>
+> >
+> > I would appreciate any feedback on what should be documented here.
+>
+> I think above is better placed between the three dashes and diffstat ...
+>
+>
+> > ---
+>
+> like here.
+>
+> >  Documentation/gpu/drm-uapi.rst | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+>
+> > +.. _drm_accel_node:
+> > +
+> > +Acceleration nodes
+> > +==================
+> > +
+> > +.. note::
+> > +   There is not any documentation yet need to figure out what this is.
+>
+> I'd like to write this stub as generic .. admonition:: block [1] instead,
+> with the content which is "This section is empty, add appropriate
+> documentation here." or similar.
+>
+> [1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#generic-admonition
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
