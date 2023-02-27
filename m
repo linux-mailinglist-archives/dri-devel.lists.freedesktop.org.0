@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D436A4839
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171D56A4850
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 18:39:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8AD310E0A5;
-	Mon, 27 Feb 2023 17:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C43810E436;
+	Mon, 27 Feb 2023 17:39:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F4A10E110
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:38:11 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id bh1so7475482plb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:38:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rNfTITiB76ukzwFF6cFliF1Hu+NibHQ+AsYiWgqYkCQ=;
- b=eXJ7ddIAJ7waVdfnoYhVLXmN2+0TxqaR5PmjrQJg6HeA0mQmBG0DfgD3GIJJeALDfY
- WdnQJr3gpoKJsm96pDlGwhfXfwNZrKKv+PrAqcYNZQpEcVkzEv/NdOK6ZiV1K8n5YvrJ
- HqBt5LELLlO89gyVeGhn2H7UbZV2ngWy52FkAiqxjCBPyWuyIM/FZ5X6OFqgiyMQu5eP
- e04qpaZaHyHAhTOKumvdycHgBgdNRoCDfkK6pBkU7azFTb7YZyXfG1nezfOjl2mMvdE/
- ZPf9DoVJ0lGKZPXpSWltya7SIXwG5B+1bNpDB9BPearrz5NJ91rkguCrhFcfTdPwqdv1
- fO8w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41BA310E110
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:39:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677519578;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3mkc3cHryKoQlVgV2zVl+0PzzwDJTUCgbCBX7Jw82OE=;
+ b=f+vofc2AIveLo0QvR62EMkjo0DM3WEZ12h0y7QSYaPobKZaHkxdT2JdgSQBqJEwvBm1J89
+ 53aXVmuVkQ9yP5DdzkGZxLSFaHx1ucv6GfzTbygMIiiiFjEolHAJrU7hLlc5yF3Ld4nxmp
+ uRf9GE4YQj+ZuHxY8G36SpCl3VYjl24=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-588-kYh2vXU6P8mIJp8fTysQ9w-1; Mon, 27 Feb 2023 12:39:37 -0500
+X-MC-Unique: kYh2vXU6P8mIJp8fTysQ9w-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ g33-20020a056402322100b004b0e54e03acso8946208eda.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 09:39:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rNfTITiB76ukzwFF6cFliF1Hu+NibHQ+AsYiWgqYkCQ=;
- b=1cWkdGIjPBP623DTG/eIbJgJIA6T3kjSxOO4+DrTSQO9/hdZUufY0EMYCcbIXLBwz5
- STYRRqPU7k++SbFvhVCzbXue+suKavWvowFc9yd+fzUQ9q6Z/J8SNE9UeRu4wW5d247G
- U1hOd3h8iYCfeo5eeSL2XzruaNrj/NVSK/d3o2JNDVlM+AENypg1R8TBqH/hz/F3efSt
- p45jYGv8cojXYlOPH1gYOIbKscVzMKtkgSYESGOU4F0iaficWw7jaZQoLy9OEMGn9isK
- wmBqIFgVSvQfV2EkRzPJA8enJIp8xGWZZg/foJlNLrViKRZbmm47HscnsvD9C180/h2Q
- uo0Q==
-X-Gm-Message-State: AO0yUKVlWfJK7WCgFlX+M+HESkIMCoh2CWaRZc/0hr7yUhC59z56vSma
- y07fq+eOcrMYVQU3r8FUl3Qk1VedKPs=
-X-Google-Smtp-Source: AK7set/pvdAaqce378lV7yVOMqQ/LwE6WHpuj+2JJlXB4fyZwHAN6lzowY+ASeiTUC5nDZ6ywH8STg==
-X-Received: by 2002:a05:6a20:77a4:b0:cc:1ec7:45e5 with SMTP id
- c36-20020a056a2077a400b000cc1ec745e5mr167119pzg.35.1677519490483; 
- Mon, 27 Feb 2023 09:38:10 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ bh=3mkc3cHryKoQlVgV2zVl+0PzzwDJTUCgbCBX7Jw82OE=;
+ b=fIGAWpNWoTulaLQEmq3NzXziDxNK75t5KmhLmbAKuy8EshkVY4ZevP2/eavlrzeniH
+ CkDswGovhvp6d2zDI2viynkvvtA5g/ZFt9xnsxJeMIti4yJdDsH+c3Y18oBAYZpkem3w
+ 4ySP0PEB62xgppC/7RrkDFDfauT4FKafA+KF/KtD6P+Q87xSOIQL9s9eKj2yfzQGDxma
+ 2QTGKjsnuRKo3JQqWKKdZWs09SClSPR67lYfF9DfE/S6Y/6CF/5gcPSoDi1UCUYMpvuH
+ 7BqZTOK2135t9d/KVkvkp9H4hCxl2YQnHRC5VkK/ec4bl25sH2bDDrnx0GRbCkA+FS3E
+ r06A==
+X-Gm-Message-State: AO0yUKWf6C2HtSk7yN7G9l1n+2Mh5WGaWLh5wLrH3H/Z2ax4jlESCHQS
+ KiyDaed0pyzr8WYzLuUmzYesGiBGc3rL6fAajIz/yiTYt3DmYqxX0dPheVWzIrhPeuowIX7Zz96
+ Yx1V/GITDbKGhBJlLHPjkqtlLlB9y
+X-Received: by 2002:a17:907:97c3:b0:8af:ef00:b853 with SMTP id
+ js3-20020a17090797c300b008afef00b853mr44969561ejc.73.1677519576274; 
+ Mon, 27 Feb 2023 09:39:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set8dwfwqQmqPjam8UzWIoP7CWEacRLfEPhcixYlLH9/bKx4zKjhRg3obJwXpommPMEyYgK8mKw==
+X-Received: by 2002:a17:907:97c3:b0:8af:ef00:b853 with SMTP id
+ js3-20020a17090797c300b008afef00b853mr44969529ejc.73.1677519575989; 
+ Mon, 27 Feb 2023 09:39:35 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- v20-20020a62a514000000b005d9984a947bsm4462373pfm.139.2023.02.27.09.38.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 09:38:09 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/virtio: Add option to disable KMS support
-Date: Mon, 27 Feb 2023 09:38:00 -0800
-Message-Id: <20230227173800.2809727-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.1
+ e19-20020a1709061e9300b008d83ad86fe8sm3481538ejj.59.2023.02.27.09.39.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 09:39:35 -0800 (PST)
+Message-ID: <67942a68-2ae7-8883-25d7-c6d595c3587e@redhat.com>
+Date: Mon, 27 Feb 2023 18:39:33 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH drm-next v2 04/16] maple_tree: add flag MT_FLAGS_LOCK_NONE
+To: Matthew Wilcox <willy@infradead.org>
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230217134422.14116-5-dakr@redhat.com>
+ <Y+/Xn11dfdn7SfBD@casper.infradead.org>
+ <3bb02ec3-4d19-9135-cabc-26ed210f7396@redhat.com>
+ <Y/ONYhyDCPEYH1ml@casper.infradead.org>
+ <e43f6acc-175d-1031-c4a2-67a6f1741866@redhat.com>
+ <Y/PZH/q2Xsr3od9m@casper.infradead.org> <Y/TXPasvkhtGiR+w@pollux>
+ <Y/UN50hCaRe+8ZCg@casper.infradead.org>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <Y/UN50hCaRe+8ZCg@casper.infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,180 +95,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Ryan Neph <ryanneph@chromium.org>, open list <linux-kernel@vger.kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: matthew.brost@intel.com, bagasdotme@gmail.com, linux-doc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, ogabbay@kernel.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
+ tzimmermann@suse.de, Liam.Howlett@oracle.com, christian.koenig@amd.com,
+ jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 2/21/23 19:31, Matthew Wilcox wrote:
+> On Tue, Feb 21, 2023 at 03:37:49PM +0100, Danilo Krummrich wrote:
+>> On Mon, Feb 20, 2023 at 08:33:35PM +0000, Matthew Wilcox wrote:
+>>> On Mon, Feb 20, 2023 at 06:06:03PM +0100, Danilo Krummrich wrote:
+>>>> On 2/20/23 16:10, Matthew Wilcox wrote:
+>>>>> This is why we like people to use the spinlock embedded in the tree.
+>>>>> There's nothing for the user to care about.  If the access really is
+>>>>> serialised, acquiring/releasing the uncontended spinlock is a minimal
+>>>>> cost compared to all the other things that will happen while modifying
+>>>>> the tree.
+>>>>
+>>>> I think as for the users of the GPUVA manager we'd have two cases:
+>>>>
+>>>> 1) Accesses to the manager (and hence the tree) are serialized, no lock
+>>>> needed.
+>>>>
+>>>> 2) Multiple operations on the tree must be locked in order to make them
+>>>> appear atomic.
+>>>
+>>> Could you give an example here of what you'd like to do?  Ideally
+>>> something complicated so I don't say "Oh, you can just do this" when
+>>> there's a more complex example for which "this" won't work.  I'm sure
+>>> that's embedded somewhere in the next 20-odd patches, but it's probably
+>>> quicker for you to describe in terms of tree operations that have to
+>>> appear atomic than for me to try to figure it out.
+>>>
+>>
+>> Absolutely, not gonna ask you to read all of that. :-)
+>>
+>> One thing the GPUVA manager does is to provide drivers the (sub-)operations
+>> that need to be processed in order to fulfill a map or unmap request from
+>> userspace. For instance, when userspace asks the driver to map some memory
+>> the GPUVA manager calculates which existing mappings must be removed, split up
+>> or can be merged with the newly requested mapping.
+>>
+>> A driver has two ways to fetch those operations from the GPUVA manager. It can
+>> either obtain a list of operations or receive a callback for each operation
+>> generated by the GPUVA manager.
+>>
+>> In both cases the GPUVA manager walks the maple tree, which keeps track of
+>> existing mappings, for the given range in __drm_gpuva_sm_map() (only considering
+>> the map case, since the unmap case is a subset basically). For each mapping
+>> found in the given range the driver, as mentioned, either receives a callback or
+>> a list entry is added to the list of operations.
+>>
+>> Typically, for each operation / callback one entry within the maple tree is
+>> removed and, optionally at the beginning and end of a new mapping's range, a
+>> new entry is inserted. An of course, as the last operation, there is the new
+>> mapping itself to insert.
+>>
+>> The GPUVA manager delegates locking responsibility to the drivers. Typically,
+>> a driver either serializes access to the VA space managed by the GPUVA manager
+>> (no lock needed) or need to lock the processing of a full set of operations
+>> generated by the GPUVA manager.
+> 
+> OK, that all makes sense.  It does make sense to have the driver use its
+> own mutex and then take the spinlock inside the maple tree code.  It
+> shouldn't ever be contended.
+> 
+>>>> In either case the embedded spinlock wouldn't be useful, we'd either need an
+>>>> external lock or no lock at all.
+>>>>
+>>>> If there are any internal reasons why specific tree operations must be
+>>>> mutually excluded (such as those you explain below), wouldn't it make more
+>>>> sense to always have the internal lock and, optionally, allow users to
+>>>> specify an external lock additionally?
+>>>
+>>> So the way this works for the XArray, which is a little older than the
+>>> Maple tree, is that we always use the internal spinlock for
+>>> modifications (possibly BH or IRQ safe), and if someone wants to
+>>> use an external mutex to make some callers atomic with respect to each
+>>> other, they're free to do so.  In that case, the XArray doesn't check
+>>> the user's external locking at all, because it really can't know.
+>>>
+>>> I'd advise taking that approach; if there's really no way to use the
+>>> internal spinlock to make your complicated updates appear atomic
+>>> then just let the maple tree use its internal spinlock, and you can
+>>> also use your external mutex however you like.
+>>>
+>>
+>> That sounds like the right thing to do.
+>>
+>> However, I'm using the advanced API of the maple tree (and that's the reason
+>> why the above example appears a little more detailed than needed) because I
+>> think with the normal API I can't insert / remove tree entries while walking
+>> the tree, right?
+> 
+> Right.  The normal API is for simple operations while the advanced API
+> is for doing compound operations.
+> 
+>> As by the documentation the advanced API, however, doesn't take care of locking
+>> itself, hence just letting the maple tree use its internal spinlock doesn't
+>> really work - I need to take care of that myself, right?
+> 
+> Yes; once you're using the advanced API, you get to compose the entire
+> operation yourself.
+> 
+>> It feels a bit weird that I, as a user of the API, would need to lock certain
+>> (or all?) mas_*() functions with the internal spinlock in order to protect
+>> (future) internal features of the tree, such as the slab cache defragmentation
+>> you mentioned. Because from my perspective, as the generic component that tells
+>> it's users (the drivers) to take care of locking VA space operations (and hence
+>> tree operations) I don't have an own purpose of this internal spinlock, right?
+> 
+> You don't ... but we can't know that.
+> 
+>> Also I'm a little confused how I'd know where to take the spinlock? E.g. for
+>> inserting entries in the tree I use mas_store_gfp() with GFP_KERNEL.
+> 
+> Lockdep will shout at you if you get it wrong ;-)  But you can safely
+> take the spinlock before calling mas_store_gfp(GFP_KERNEL) because
+> mas_nomem() knows to drop the lock before doing a sleeping allocation.
+> Essentially you're open-coding mtree_store_range() but doing your own
+> thing in addition to the store.
+> 
 
-Add a build option to disable modesetting support.  This is useful in
-cases where the guest only needs to use the GPU in a headless mode, or
-(such as in the CrOS usage) window surfaces are proxied to a host
-compositor.
+As already mentioned, I went with your advice to just take the maple 
+tree's internal spinlock within the GPUVA manager and leave all the 
+other locking to the drivers as intended.
 
-v2: Use more if (IS_ENABLED(...))
-v3: Also permit the host to advertise no scanouts
+However, I run into the case that lockdep shouts at me for not taking 
+the spinlock before calling mas_find() in the iterator macros.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/virtio/Kconfig       | 11 +++++++
- drivers/gpu/drm/virtio/Makefile      |  5 +++-
- drivers/gpu/drm/virtio/virtgpu_drv.c |  6 +++-
- drivers/gpu/drm/virtio/virtgpu_drv.h | 10 +++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c | 44 ++++++++++++++++++----------
- 5 files changed, 59 insertions(+), 17 deletions(-)
+Now, I definitely don't want to let the drivers take the maple tree's 
+spinlock before they use the iterator macro. Of course, drivers 
+shouldn't even know about the underlying maple tree of the GPUVA manager.
 
-diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
-index 51ec7c3240c9..ea06ff2aa4b4 100644
---- a/drivers/gpu/drm/virtio/Kconfig
-+++ b/drivers/gpu/drm/virtio/Kconfig
-@@ -11,3 +11,14 @@ config DRM_VIRTIO_GPU
- 	   QEMU based VMMs (like KVM or Xen).
- 
- 	   If unsure say M.
-+
-+config DRM_VIRTIO_GPU_KMS
-+	bool "Virtio GPU driver modesetting support"
-+	depends on DRM_VIRTIO_GPU
-+	default y
-+	help
-+	   Enable modesetting support for virtio GPU driver.  This can be
-+	   disabled in cases where only "headless" usage of the GPU is
-+	   required.
-+
-+	   If unsure, say Y.
-diff --git a/drivers/gpu/drm/virtio/Makefile b/drivers/gpu/drm/virtio/Makefile
-index b99fa4a73b68..24c7ebe87032 100644
---- a/drivers/gpu/drm/virtio/Makefile
-+++ b/drivers/gpu/drm/virtio/Makefile
-@@ -4,8 +4,11 @@
- # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
- 
- virtio-gpu-y := virtgpu_drv.o virtgpu_kms.o virtgpu_gem.o virtgpu_vram.o \
--	virtgpu_display.o virtgpu_vq.o \
-+	virtgpu_vq.o \
- 	virtgpu_fence.o virtgpu_object.o virtgpu_debugfs.o virtgpu_plane.o \
- 	virtgpu_ioctl.o virtgpu_prime.o virtgpu_trace_points.o
- 
-+virtio-gpu-$(CONFIG_DRM_VIRTIO_GPU_KMS) += \
-+	virtgpu_display.o
-+
- obj-$(CONFIG_DRM_VIRTIO_GPU) += virtio-gpu.o
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index ae97b98750b6..9cb7d6dd3da6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -172,7 +172,11 @@ MODULE_AUTHOR("Alon Levy");
- DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
- 
- static const struct drm_driver driver = {
--	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
-+	.driver_features =
-+#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
-+			DRIVER_MODESET | DRIVER_ATOMIC |
-+#endif
-+			DRIVER_GEM | DRIVER_RENDER,
- 	.open = virtio_gpu_driver_open,
- 	.postclose = virtio_gpu_driver_postclose,
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index af6ffb696086..ffe8faf67247 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -426,8 +426,18 @@ virtio_gpu_cmd_set_scanout_blob(struct virtio_gpu_device *vgdev,
- 				uint32_t x, uint32_t y);
- 
- /* virtgpu_display.c */
-+#if defined(CONFIG_DRM_VIRTIO_GPU_KMS)
- int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
- void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
-+#else
-+static inline int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
-+{
-+	return 0;
-+}
-+static inline void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev)
-+{
-+}
-+#endif
- 
- /* virtgpu_plane.c */
- uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 27b7f14dae89..1d888e309d6b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -161,7 +161,8 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_VIRGL))
- 		vgdev->has_virgl_3d = true;
- #endif
--	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
-+	if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) &&
-+	    virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
- 		vgdev->has_edid = true;
- 	}
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
-@@ -218,17 +219,28 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 		goto err_vbufs;
- 	}
- 
--	/* get display info */
--	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
--			num_scanouts, &num_scanouts);
--	vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
--				    VIRTIO_GPU_MAX_SCANOUTS);
--	if (!vgdev->num_scanouts) {
--		DRM_ERROR("num_scanouts is zero\n");
--		ret = -EINVAL;
--		goto err_scanouts;
-+	if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS)) {
-+		/* get display info */
-+		virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
-+				num_scanouts, &num_scanouts);
-+		vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
-+					    VIRTIO_GPU_MAX_SCANOUTS);
-+		if (!vgdev->num_scanouts) {
-+			/*
-+			 * Having an EDID but no scanouts is non-sensical,
-+			 * but it is permitted to have no scanouts and no
-+			 * EDID (in which case DRIVER_MODESET and
-+			 * DRIVER_ATOMIC are not advertised)
-+			 */
-+			if (vgdev->has_edid) {
-+				DRM_ERROR("num_scanouts is zero\n");
-+				ret = -EINVAL;
-+				goto err_scanouts;
-+			}
-+			dev->driver_features &= ~(DRIVER_MODESET | DRIVER_ATOMIC);
-+		}
-+		DRM_INFO("number of scanouts: %d\n", num_scanouts);
- 	}
--	DRM_INFO("number of scanouts: %d\n", num_scanouts);
- 
- 	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
- 			num_capsets, &num_capsets);
-@@ -246,10 +258,12 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 		virtio_gpu_get_capsets(vgdev, num_capsets);
- 	if (vgdev->has_edid)
- 		virtio_gpu_cmd_get_edids(vgdev);
--	virtio_gpu_cmd_get_display_info(vgdev);
--	virtio_gpu_notify(vgdev);
--	wait_event_timeout(vgdev->resp_wq, !vgdev->display_info_pending,
--			   5 * HZ);
-+	if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) && vgdev->num_scanouts) {
-+		virtio_gpu_cmd_get_display_info(vgdev);
-+		virtio_gpu_notify(vgdev);
-+		wait_event_timeout(vgdev->resp_wq, !vgdev->display_info_pending,
-+				   5 * HZ);
-+	}
- 	return 0;
- 
- err_scanouts:
--- 
-2.39.1
+One way to make lockdep happy in this case seems to be taking the 
+spinlock right before mas_find() and drop it right after for each iteration.
+
+What do you advice to do in this case?
+
+Thanks,
+Danilo
 
