@@ -2,64 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929006A41FE
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:48:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0BB6A4269
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 14:17:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F04910E3FF;
-	Mon, 27 Feb 2023 12:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9D4010E199;
+	Mon, 27 Feb 2023 13:17:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A55C910E3FF;
- Mon, 27 Feb 2023 12:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677502113; x=1709038113;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=EUxj8+gJ+o1O9SJ6JzgePYCqC0lhvpupEsPOehirblU=;
- b=HWnqBT4DRsAtfeQGZCzUO1td1phai3qSpR6QKVy0NVKVzHh3IRkb7stH
- S0R3mTsaEomNL7Nmo3PMH/MXpdu1+7imSCY79neyrboDSC4K9DDbvj1X6
- WjFa7KiprCC5DF9f31rPsWP0I6a7K3xnJEPhqmdyXCZUTQM5VzwTUaDkL
- /5Zte3CH0qB3ruQw+EYpnW6GmlOAa63u105i6Ry4C/+hVobVo1l4GToIy
- GjTAmhjRdmfLZ36c4y1syNvuDEqu1cDVZjnUj0v9h6uxwedLOUCgz5ytr
- fripUpM485VpHL3WPM0HODCIIrANai8vER8BJH0SZas9hqkxOOHz2Tjc2 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="322094769"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="322094769"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 04:48:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="667018754"
-X-IronPort-AV: E=Sophos;i="5.97,332,1669104000"; d="scan'208";a="667018754"
-Received: from jkaisrli-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.56.158])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 04:48:07 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [RFC PATCH 1/2] drm/msm/dpu: add dsc helper functions
-In-Reply-To: <c4c0ebf8-275d-500f-4019-e3d7517a884f@quicinc.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1677267647-28672-1-git-send-email-quic_khsieh@quicinc.com>
- <1677267647-28672-2-git-send-email-quic_khsieh@quicinc.com>
- <42b3c193-8897-cfe9-1cae-2f9a66f7983a@linaro.org>
- <741be2a3-0208-2f40-eedf-d439c4e6795b@quicinc.com>
- <F8A4FC18-C64E-4011-BC08-18EB3B95A357@linaro.org>
- <d5ee8233-66c8-9b88-417c-6cf9cc5c84fe@quicinc.com>
- <CAA8EJpro5Q-2ZpnDJt40UhFX7Zp9oBhrto=FDOERzCDR2BDPvQ@mail.gmail.com>
- <f0dfba42-4674-3748-bf5d-39f6e1745f67@quicinc.com>
- <f1a6ee82-9502-7ea5-fe48-f296fc7df497@linaro.org>
- <3e114c0f-a042-6801-69bf-67436cb2a448@quicinc.com>
- <113a10b6-6097-c80e-c29c-6f61b2b2896a@linaro.org>
- <c4c0ebf8-275d-500f-4019-e3d7517a884f@quicinc.com>
-Date: Mon, 27 Feb 2023 14:48:04 +0200
-Message-ID: <87k0031dh7.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 350F910E008
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 13:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677503867;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7/JwXXOcUANfKgQHRX2hBTjJHPucALZHVEapWMAnt6c=;
+ b=Fp2kNCda00wuR/WWJowDJXc7DaCv6I4GaXgjZYU9jdezebapHumbMVTkz/EfventLNwdmY
+ E+PvAqofzbfl87LUKKwqQ2pJZOylrmicAjAV4ACB1iBeWkH9esCo6lPKUyZGPwHE8uqQgI
+ f8jDykBPLsMXId7J2oNU3CcJsMkc/+Q=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-607-r5Os9NJ0NH2mLcmRs37eng-1; Mon, 27 Feb 2023 08:17:45 -0500
+X-MC-Unique: r5Os9NJ0NH2mLcmRs37eng-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ cf11-20020a0564020b8b00b0049ec3a108beso8460137edb.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 05:17:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:cc:organization:from
+ :references:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7/JwXXOcUANfKgQHRX2hBTjJHPucALZHVEapWMAnt6c=;
+ b=WwE29JqZq6yu1SIV7G2+L8HP6J4mSPX8tO3JF7dXuAKhUW6Oj/H347G7ehp3GV4748
+ 3nwbRMh9UIjQwdFm6ZT2Hirfdc9OsY4k1CuIgyLOO2P+6Yb3hggijPvayR6nHPl0j/Yu
+ inpPw0jLJZg0KXdC5bOvrkpS2upgiBixCB9SRgSfwUgxRSk3DlP8s7Phm/xrihQg5Eql
+ AOrMF/jDEQOJvKTDykEIFgcxCtggEPmXivS2JVXjruqUlRxH1cNHhFZ1lCO2EYMxkldi
+ Pp4SM1Lvb1Nr4MtBYyOAUWpSdBXsAO1oZcE6DSrOoFAm5EeMM3NGqywiPQCZ0/RCf1e+
+ OCZg==
+X-Gm-Message-State: AO0yUKVTFYA0luiHX/tr+DQuQo3iD3dLFt/6t16YEW8QR22YI4rvu2u9
+ Y3iQq6D/Ud/avHNsYIGcBNgRnXiElBnSNMCAYEqg9FFqu0Q1z6iEq3H7eQ2dAHFxDfwIf+MflU2
+ KSerUstBStrh8Ji+ysi2X0yH4s93x
+X-Received: by 2002:a17:906:37cb:b0:8b1:2867:380 with SMTP id
+ o11-20020a17090637cb00b008b128670380mr31973713ejc.22.1677503864555; 
+ Mon, 27 Feb 2023 05:17:44 -0800 (PST)
+X-Google-Smtp-Source: AK7set+Cy7sWsLPXTn4bLU8LAuBfTn0Skdun8SJ+X036TqItJ9jom1n1S1TS3Ov3cpgz77klS/5oQA==
+X-Received: by 2002:a17:906:37cb:b0:8b1:2867:380 with SMTP id
+ o11-20020a17090637cb00b008b128670380mr31973678ejc.22.1677503864067; 
+ Mon, 27 Feb 2023 05:17:44 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ sb11-20020a170906edcb00b008d2d2990c9fsm3238435ejb.93.2023.02.27.05.17.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Feb 2023 05:17:43 -0800 (PST)
+Message-ID: <0868bbeb-11b4-b832-a601-f289278e3e76@redhat.com>
+Date: Mon, 27 Feb 2023 13:23:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
+ mappings
+To: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230217134422.14116-6-dakr@redhat.com>
+ <20230221182050.day6z5ge2e3dxerv@revolver>
+ <ce3ee7f2-e8a3-80eb-9bca-cd465f7f332e@redhat.com>
+ <20230223190941.bkkloowmvqjiu6d7@revolver>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230223190941.bkkloowmvqjiu6d7@revolver>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,358 +93,631 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: vkoul@kernel.org, quic_sbillaka@quicinc.com, andersson@kernel.org,
- freedreno@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
- linux-arm-msm@vger.kernel.org, marijn.suijten@somainline.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, sean@poorly.run,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, boris.brezillon@collabora.com, bskeggs@redhat.com,
+ tzimmermann@suse.de, Dave Airlie <airlied@redhat.com>, bagasdotme@gmail.com,
+ christian.koenig@amd.com, jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 Feb 2023, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> On 2/26/2023 5:09 AM, Dmitry Baryshkov wrote:
->> On 26/02/2023 02:47, Abhinav Kumar wrote:
->>> Hi Dmitry
->>>
->>> On 2/25/2023 7:23 AM, Dmitry Baryshkov wrote:
->>>> On 25/02/2023 02:36, Abhinav Kumar wrote:
->>>>>
->>>>>
->>>>> On 2/24/2023 3:53 PM, Dmitry Baryshkov wrote:
->>>>>> On Sat, 25 Feb 2023 at 00:26, Abhinav Kumar=20
->>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>> On 2/24/2023 1:36 PM, Dmitry Baryshkov wrote:
->>>>>>>> 24 =D1=84=D0=B5=D0=B2=D1=80=D0=B0=D0=BB=D1=8F 2023 =D0=B3. 23:23:0=
-3 GMT+02:00, Abhinav Kumar=20
->>>>>>>> <quic_abhinavk@quicinc.com> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>>>>>> On 2/24/2023 1:13 PM, Dmitry Baryshkov wrote:
->>>>>>>>>> On 24/02/2023 21:40, Kuogee Hsieh wrote:
->>>>>>>>>>> Add DSC helper functions based on DSC configuration profiles=20
->>>>>>>>>>> to produce
->>>>>>>>>>> DSC related runtime parameters through both table look up and=20
->>>>>>>>>>> runtime
->>>>>>>>>>> calculation to support DSC on DPU.
->>>>>>>>>>>
->>>>>>>>>>> There are 6 different DSC configuration profiles are supported=
-=20
->>>>>>>>>>> currently.
->>>>>>>>>>> DSC configuration profiles are differiented by 5 keys, DSC=20
->>>>>>>>>>> version (V1.1),
->>>>>>>>>>> chroma (444/422/420), colorspace (RGB/YUV), bpc(8/10),
->>>>>>>>>>> bpp (6/7/7.5/8/9/10/12/15) and SCR (0/1).
->>>>>>>>>>>
->>>>>>>>>>> Only DSC version V1.1 added and V1.2 will be added later.
->>>>>>>>>>
->>>>>>>>>> These helpers should go to=20
->>>>>>>>>> drivers/gpu/drm/display/drm_dsc_helper.c
->>>>>>>>>> Also please check that they can be used for i915 or for amdgpu=20
->>>>>>>>>> (ideally for both of them).
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> No, it cannot. So each DSC encoder parameter is calculated based=
-=20
->>>>>>>>> on the HW core which is being used.
->>>>>>>>>
->>>>>>>>> They all get packed to the same DSC structure which is the=20
->>>>>>>>> struct drm_dsc_config but the way the parameters are computed is=
-=20
->>>>>>>>> specific to the HW.
->>>>>>>>>
->>>>>>>>> This DPU file helper still uses the drm_dsc_helper's=20
->>>>>>>>> drm_dsc_compute_rc_parameters() like all other vendors do but=20
->>>>>>>>> the parameters themselves are very HW specific and belong to=20
->>>>>>>>> each vendor's dir.
->>>>>>>>>
->>>>>>>>> This is not unique to MSM.
->>>>>>>>>
->>>>>>>>> Lets take a few other examples:
->>>>>>>>>
->>>>>>>>> AMD:=20
->>>>>>>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gp=
-u/drm/amd/display/dc/dml/dsc/rc_calc_fpu.c#L165=20
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> i915:=20
->>>>>>>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gp=
-u/drm/i915/display/intel_vdsc.c#L379=20
->>>>>>>>>
->>>>>>>>
->>>>>>>> I checked several values here. Intel driver defines more bpc/bpp=20
->>>>>>>> combinations, but the ones which are defined in intel_vdsc and in=
-=20
->>>>>>>> this patch seem to match. If there are major differences there,=20
->>>>>>>> please point me to the exact case.
->>>>>>>>
->>>>>>>> I remember that AMD driver might have different values.
->>>>>>>>
->>>>>>>
->>>>>>> Some values in the rc_params table do match. But the=20
->>>>>>> rc_buf_thresh[] doesnt.
->>>>>>
->>>>>> Because later they do:
->>>>>>
->>>>>> vdsc_cfg->rc_buf_thresh[i] =3D rc_buf_thresh[i] >> 6;
->>>>>>
->>>>>>>
->>>>>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/=
-drm/i915/display/intel_vdsc.c#L40=20
->>>>>>>
->>>>>>>
->>>>>>> Vs
->>>>>>>
->>>>>>> +static u16 dpu_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] =3D {
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54,
->>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 0x62, 0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
->>>>>>> +};
->>>>>>
->>>>>> I'd prefer to have 896, 1792, etc. here, as those values come from t=
-he
->>>>>> standard. As it's done in the Intel driver.
->>>>>>
->>>>>
->>>>> Got it, thanks
->>>>>
->>>>>>> I dont know the AMD calculation very well to say that moving this=20
->>>>>>> to the
->>>>>>> helper is going to help.
->>>>>>
->>>>>> Those calculations correspond (more or less) at the first glance to
->>>>>> what intel does for their newer generations. I think that's not our
->>>>>> problem for now.
->>>>>>
->>>>>
->>>>> Well, we have to figure out if each value matches and if each of=20
->>>>> them come from the spec for us and i915 and from which section. So=20
->>>>> it is unfortunately our problem.
+On 2/23/23 20:09, Liam R. Howlett wrote:
+> * Danilo Krummrich <dakr@redhat.com> [230222 13:13]:
+>> On 2/21/23 19:20, Liam R. Howlett wrote:
+>>> * Danilo Krummrich <dakr@redhat.com> [230217 08:45]:
+>>>> Add infrastructure to keep track of GPU virtual address (VA) mappings
+>>>> with a decicated VA space manager implementation.
 >>>>
->>>> Otherwise it will have to be handled by Marijn, me or anybody else=20
->>>> wanting to hack up the DSC code. Or by anybody adding DSC support to=20
->>>> the next platform and having to figure out the difference between=20
->>>> i915, msm and their platform.
+>>>> New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
+>>>> start implementing, allow userspace applications to request multiple and
+>>>> arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
+>>>> intended to serve the following purposes in this context.
 >>>>
->>>
->>> Yes, I wonder why the same doubt didn't arise when the other vendors=20
->>> added their support both from other maintainers and others.
->>>
->>> Which makes me think that like I wrote in my previous response, these=20
->>> are "recommended" values in the spec but its not mandatory.
->>=20
->> I think, it is because there were no other drivers to compare. In other=
-=20
->> words, for a first driver it is pretty logical to have everything=20
->> handled on its own. As soon as we start getting other implementations of=
-=20
->> a feature, it becomes logical to think if the code can be generalized.=20
->> This is what we see we with the HDCP series or with the code being moved=
-=20
->> to DP helpers.
->>=20
->
-> We were not the second, MSM was/is the third to add support for DSC afer=
-=20
-> i915 and AMD. Thats what made me think why whoever was the second didnt=20
-> end up generalizing. Was it just missed out or was it intentionally left=
-=20
-> in the vendor driver.
->
->>>
->>> Moving this to the drm_dsc_helper is generalizing the tables and not=20
->>> giving room for the vendors to customize even if they want to (which=20
->>> the spec does allow).
->>=20
->> That depends on the API you select. For example, in=20
->> intel_dsc_compute_params() I see customization being applied to=20
->> rc_buf_thresh in 6bpp case. I'd leave that to the i915 driver.
->>=20
->
-> Thanks for going through the i915 to figure out that the 6bpp is handled=
-=20
-> in a customized way. So what you are saying is let the helper first fill=
-=20
-> up the recommended values of the spec, whatever is changed from that let=
-=20
-> the vendor driver override that.
->
-> Thats where the case-by-case handling comes.
->
-> Why not we do this way? Like you mentioned lets move these tables to the=
-=20
-> drm_dsc_helper and let MSM driver first use those.
->
-> Then in a separate patchset if i915 and AMD would like to move to that,=20
-> let them handle it for their respective drivers instead of MSM going=20
-> through whats customized for each calculation and doing it.
->
-> I am hesitant to take up that effort.
->
-> If the recommended values work for the vendor, they can clean it up and=20
-> move to the drm_dsc_helper themselves and preserving their=20
-> customizations rather than one vendor doing it for all of them.
-
-I think the thing to do is to define *interfaces* for accessing the
-various parameters in a reasonable manner.
-
-Even in your code, it'll be helpful for any future conversion to shared
-arrays to not access the local arrays directly.
-
-If this gets added to kms helpers, with the spec values verbatim and
-reasonable interfaces, i915 will happily convert to using them.
-
-BR,
-Jani.
-
-
-
->
->> In case the driver needs to perform customization of the params, nothing=
-=20
->> stops it drop applying after filling all the RC params in the=20
->> drm_dsc_config struct via the generic helper.
->>=20
->>=20
->>> So if this has any merit and if you or Marijn would like to take it=20
->>> up, go for it. We would do the same thing as either of you would have=20
->>> to in terms of figuring out the difference between msm and the i915 cod=
-e.
->>>
->>> This is not a generic API we are trying to put in a helper, these are=20
->>> hard-coded tables so there is a difference between looking at these Vs=
-=20
->>> looking at some common code which can move to the core.
->>>
->>>>>
->>>>>>>
->>>>>>> Also, i think its too risky to change other drivers to use=20
->>>>>>> whatever math
->>>>>>> we put in the drm_dsc_helper to compute thr RC params because=20
->>>>>>> their code
->>>>>>> might be computing and using this tables differently.
->>>>>>>
->>>>>>> Its too much ownership for MSM developers to move this to=20
->>>>>>> drm_dsc_helper
->>>>>>> and own that as it might cause breakage of basic DSC even if some=20
->>>>>>> values
->>>>>>> are repeated.
->>>>>>
->>>>>> It's time to stop thinking about ownership and start thinking about
->>>>>> shared code. We already have two instances of DSC tables. I don't
->>>>>> think having a third instance, which is a subset of an existing
->>>>>> dataset, would be beneficial to anybody.
->>>>>> AMD has complicated code which supports half-bit bpp and calculates
->>>>>> some of the parameters. But sharing data with the i915 driver is
->>>>>> straightforward.
->>>>>>
->>>>>
->>>>> Sorry, but I would like to get an ack from i915 folks if this is going
->>>>> to be useful to them if we move this to helper because we have to=20
->>>>> look at every table. Not just one.
+>>>> 1) Provide infrastructure to track GPU VA allocations and mappings,
+>>>>      making use of the maple_tree.
 >>>>
->>>> Added i915 maintainers to the CC list for them to be able to answer.
+>>>> 2) Generically connect GPU VA mappings to their backing buffers, in
+>>>>      particular DRM GEM objects.
 >>>>
->>>
->>> Thanks, lets wait to hear from them about where finally these tables=20
->>> should go but thats can be taken up as a separate effort too.
->>>
->>>>>
->>>>> Also, this is just 1.1, we will add more tables for 1.2. So we will=20
->>>>> have to end up changing both 1.1 and 1.2 tables as they are=20
->>>>> different for QC.
+>>>> 3) Provide a common implementation to perform more complex mapping
+>>>>      operations on the GPU VA space. In particular splitting and merging
+>>>>      of GPU VA mappings, e.g. for intersecting mapping requests or partial
+>>>>      unmap requests.
 >>>>
->>>> I haven't heard back from Kuogee about the possible causes of using=20
->>>> rc/qp values from 1.2 even for 1.1 panels. Maybe you can comment on=20
->>>> that? In other words, can we always stick to the values from 1.2=20
->>>> standard? What will be the drawback?
+>>>> Suggested-by: Dave Airlie <airlied@redhat.com>
+>>>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
+>>>> ---
+>>>>    Documentation/gpu/drm-mm.rst    |   31 +
+>>>>    drivers/gpu/drm/Makefile        |    1 +
+>>>>    drivers/gpu/drm/drm_gem.c       |    3 +
+>>>>    drivers/gpu/drm/drm_gpuva_mgr.c | 1704 +++++++++++++++++++++++++++++++
+>>>>    include/drm/drm_drv.h           |    6 +
+>>>>    include/drm/drm_gem.h           |   75 ++
+>>>>    include/drm/drm_gpuva_mgr.h     |  714 +++++++++++++
+>>>>    7 files changed, 2534 insertions(+)
+>>>>    create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
+>>>>    create mode 100644 include/drm/drm_gpuva_mgr.h
 >>>>
->>>> Otherwise, we'd have to have two different sets of values, like you=20
->>>> do in your vendor driver.
->>>>
+>>>> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+>>>> index a52e6f4117d6..c9f120cfe730 100644
+>>>> --- a/Documentation/gpu/drm-mm.rst
+>>>> +++ b/Documentation/gpu/drm-mm.rst
+>>>> @@ -466,6 +466,37 @@ DRM MM Range Allocator Function References
+>>>>    .. kernel-doc:: drivers/gpu/drm/drm_mm.c
+>>>>       :export:
+>>> ...
 >>>
->>> I have responded to this in the other email.
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_remove_iter - removes the iterators current element
+>>>> + * @it: the &drm_gpuva_iterator
+>>>> + *
+>>>> + * This removes the element the iterator currently points to.
+>>>> + */
+>>>> +void
+>>>> +drm_gpuva_iter_remove(struct drm_gpuva_iterator *it)
+>>>> +{
+>>>> +	mas_erase(&it->mas);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_iter_remove);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_insert - insert a &drm_gpuva
+>>>> + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+>>>> + * @va: the &drm_gpuva to insert
+>>>> + * @addr: the start address of the GPU VA
+>>>> + * @range: the range of the GPU VA
+>>>> + *
+>>>> + * Insert a &drm_gpuva with a given address and range into a
+>>>> + * &drm_gpuva_manager.
+>>>> + *
+>>>> + * Returns: 0 on success, negative error code on failure.
+>>>> + */
+>>>> +int
+>>>> +drm_gpuva_insert(struct drm_gpuva_manager *mgr,
+>>>> +		 struct drm_gpuva *va)
+>>>> +{
+>>>> +	u64 addr = va->va.addr;
+>>>> +	u64 range = va->va.range;
+>>>> +	MA_STATE(mas, &mgr->va_mt, addr, addr + range - 1);
+>>>> +	struct drm_gpuva_region *reg = NULL;
+>>>> +	int ret;
+>>>> +
+>>>> +	if (unlikely(!drm_gpuva_in_mm_range(mgr, addr, range)))
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (unlikely(drm_gpuva_in_kernel_region(mgr, addr, range)))
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (mgr->flags & DRM_GPUVA_MANAGER_REGIONS) {
+>>>> +		reg = drm_gpuva_in_region(mgr, addr, range);
+>>>> +		if (unlikely(!reg))
+>>>> +			return -EINVAL;
+>>>> +	}
+>>>> +
 >>>
->>> All this being said, even if the rc tables move the drm_dsc_helper=20
->>> either now or later on, we will still need MSM specific calculations=20
->>> for many of the other encoder parameters (which are again either=20
->>> hard-coded or calculated). Please refer to the=20
->>> sde_dsc_populate_dsc_config() downstream. And yes, you will not find=20
->>> those in the DP spec directly.
+>>> -----
 >>>
->>> So we will still need a dsc helper for MSM calculations to be common=20
->>> for DSI / DP irrespective of where the tables go.
+>>>> +	if (unlikely(drm_gpuva_find_first(mgr, addr, range)))
+>>>> +		return -EEXIST;
+>>>> +
+>>>> +	ret = mas_store_gfp(&mas, va, GFP_KERNEL);
 >>>
->>> So, lets finalize that first.
->>=20
->> I went on and trimmed sde_dsc_populate_dsc_config() to remove=20
->> duplication with the drm_dsc_compute_rc_parameters() (which we already=20
->> use for the MSM DSI DSC).
->>=20
->> Not much is left:
->>=20
->> dsc->first_line_bpg_offset set via the switch
->>=20
->> dsc->line_buf_depth =3D bpc + 1;
->> dsc->mux_word_size =3D bpc > 10 ? DSC_MUX_WORD_SIZE_12_BPC:
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DSC_MUX_WORD_SIZE_8_10_BPC;
->>=20
->> if ((dsc->dsc_version_minor =3D=3D 0x2) && (dsc->native_420))
->>  =C2=A0=C2=A0=C2=A0 dsc->nsl_bpg_offset =3D (2048 *
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 (DIV_ROUND_UP(dsc->second_line_bpg_offset,
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (dsc->slice_height - 1))));
->>=20
->> dsc->initial_scale_value =3D 8 * dsc->rc_model_size /
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (dsc-=
->rc_model_size - dsc->initial_offset);
->>=20
->>=20
->> mux_word_size comes from the standard (must)
->> initial_scale_value calculation is recommended, but not required
->> nsl_bpg_offset follows the standard (must), also see below (*).
->>=20
->> first_line_bpg_offset calculation differs between three drivers. The=20
->> standard also provides a recommended formulas. I think we can leave it=20
->> as is for now.
->>=20
->> I think, that mux_word_size and nsl_bpg_offset calculation should be=20
->> moved to drm_dsc_compute_rc_parameters(), while leaving=20
->> initial_scale_value in place (in the driver code).
->>=20
->> * I think nsl_bpg_offset is slightly incorrectly calculated. Standard=20
->> demands that it is set to 'second_line_bpg_offset / (slice_height - 1),=
-=20
->> rounded up to 16 fraction bits', while SDE driver code sets it to the=20
->> value rounded up to the next integer (having 16 fraction bits=20
->> representation).
->>=20
->> In my opinion correct calculation should be:
->> dsc->nsl_bpg_offset =3D DIV_ROUND_UP(2048 * dsc->second_line_bpg_offset,
->>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (dsc->slice_height - 1));
->>=20
->> Could you please check, which one is correct according to the standard?
->>=20
->>=20
->
-> Sure, i will check about nsl_bpg_offset. But sorry if I was not more=20
-> clear about this but sde_dsc_populate_dsc_config() is only one example=20
-> which from your analysis can be moved to the drm_dsc_helper() but not=20
-> the initial line calculation _dce_dsc_initial_line_calc(),=20
-> _dce_dsc_ich_reset_override_needed() , _dce_dsc_setup_helper().
->
-> All of these are again common between DSI and DP.
->
-> So in addition to thinking about what can be moved to the drm_dsc_helper=
-=20
-> also think about what is specific to MSM but common to DSI and DP modules.
->
-> That was the bigger picture I was trying to convey.
+>>> mas_walk() will set the internal maple state to the limits to what it
+>>> finds.  So, instead of an iterator, you can use the walk function and
+>>> ensure there is a large enough area in the existing NULL:
+>>>
+>>> /*
+>>>    * Nothing at addr, mas now points to the location where the store would
+>>>    * happen
+>>>    */
+>>> if (mas_walk(&mas))
+>>> 	return -EEXIST;
+>>>
+>>> /* The NULL entry ends at mas.last, make sure there is room */
+>>> if (mas.last < (addr + range - 1))
+>>> 	return -EEXIST;
+>>>
+>>> /* Limit the store size to the correct end address, and store */
+>>>    mas.last = addr + range - 1;
+>>>    ret = mas_store_gfp(&mas, va, GFP_KERNEL);
+>>>
+>>
+>> Would this variant be significantly more efficient?
+> 
+> Well, what you are doing is walking the tree to see if there's anything
+> there... then re-walking the tree to store it.  So, yes, it's much more
+> efficient..  However, writing is heavier.  How much of the time is spent
+> walking vs writing depends on the size of the tree, but it's rather easy
+> to do this in a single walk of the tree so why wouldn't you?
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+I will, I was just curious about how much of an impact it has.
+
+> 
+>>
+>> Also, would this also work while already walking the tree?
+> 
+> Yes, to an extent.  If you are at the correct location in the tree, you
+> can write to that location.  If you are not in the correct location and
+> try to write to the tree then things will go poorly..  In this scenario,
+> we are very much walking the tree and writing to it in two steps.
+> 
+>>
+>> To remove an entry while walking the tree I have a separate function
+>> drm_gpuva_iter_remove(). Would I need something similar for inserting
+>> entries?
+> 
+> I saw that.  Your remove function uses the erase operation which is
+> implemented as a walk to that location and a store of a null over the
+> range that is returned.  You do not need a function to insert an entry
+> if the maple state is at the correct location, and that doesn't just
+> mean setting mas.index/mas.last to the correct value.  There is a node &
+> offset saved in the maple state that needs to be in the correct
+> location.  If you store to that node then the node may be replaced, so
+> other iterators that you have may become stale, but the one you used
+> execute the store operation will now point to the new node with the new
+> entry.
+> 
+>>
+>> I already provided this example in a separate mail thread, but it may makes
+>> sense to move this to the mailing list:
+>>
+>> In __drm_gpuva_sm_map() we're iterating a given range of the tree, where the
+>> given range is the size of the newly requested mapping. __drm_gpuva_sm_map()
+>> invokes a callback for each sub-operation that needs to be taken in order to
+>> fulfill this mapping request. In most cases such a callback just creates a
+>> drm_gpuva_op object and stores it in a list.
+>>
+>> However, drivers can also implement the callback, such that they directly
+>> execute this operation within the callback.
+>>
+>> Let's have a look at the following example:
+>>
+>>       0     a     2
+>> old: |-----------|       (bo_offset=n)
+>>
+>>             1     b     3
+>> req:       |-----------| (bo_offset=m)
+>>
+>>       0  a' 1     b     3
+>> new: |-----|-----------| (a.bo_offset=n,b.bo_offset=m)
+>>
+>> This would result in the following operations.
+>>
+>> __drm_gpuva_sm_map() finds entry "a" and calls back into the driver
+>> suggesting to re-map "a" with the new size. The driver removes entry "a"
+>> from the tree and adds "a'"
+> 
+> What you have here won't work.  The driver will cause your iterators
+> maple state to point to memory that is freed.  You will either need to
+> pass through your iterator so that the modifications can occur with that
+> maple state so it remains valid, or you will need to invalidate the
+> iterator on every modification by the driver.
+> 
+> I'm sure the first idea you have will be to invalidate the iterator, but
+> that is probably not the way to proceed.  Even ignoring the unclear
+> locking of two maple states trying to modify the tree, this is rather
+> inefficient - each invalidation means a re-walk of the tree.  You may as
+> well not use an iterator in this case.
+> 
+> Depending on how/when the lookups occur, you could still iterate over
+> the tree and let the driver modify the ending of "a", but leave the tree
+> alone and just store b over whatever - but the failure scenarios may
+> cause you grief.
+> 
+> If you pass the iterator through, then you can just use it to do your
+> writes and keep iterating as if nothing changed.
+
+Passing through the iterater clearly seems to be the way to go.
+
+I assume that if the entry to insert isn't at the location of the 
+iterator (as in the following example) we can just keep walking to this 
+location my changing the index of the mas and calling mas_walk()? This 
+would also imply that the "outer" tree walk continues after the entry we 
+just inserted, right?
+
+            1     a     3
+old:       |-----------| (bo_offset=n)
+
+      0     b     2
+req: |-----------|       (bo_offset=m)
+
+      0     b     2  a' 3
+new: |-----------|-----| (b.bo_offset=m,a.bo_offset=n+2)
+
+Again, after finding "a", we want to remove it and insert "a'" instead.
+
+> 
+>>
+>> __drm_gpuva_sm_map(), ideally, continues the loop searching for nodes
+>> starting from the end of "a" (which is 2) till the end of the requested
+>> mapping "b" (which is 3). Since it doesn't find any other mapping within
+>> this range it calls back into the driver suggesting to finally map "b".
+>>
+>> If there would have been another mapping between 2 and 3 it would have
+>> called back into the driver asking to unmap this mapping beforehand.
+>>
+>> So, it boils down to re-mapping as described at the beginning (and
+>> analogously at the end) of a new mapping range and removing of entries that
+>> are enclosed by the new mapping range.
+> 
+> I assume the unmapped area is no longer needed, and the 're-map' is
+> really a removal of information?  Otherwise I'd suggest searching for a
+> gap which fits your request.  What you have here is a lot like
+> "MAP_FIXED" vs top-down/bottom-up search in the VMA code, this seems to
+> be like your __drm_gpuva_sm_map() and the drm mm range allocator with
+> DRM_MM_INSERT_LOW, and DRM_MM_INSERT_HIGH.
+> 
+> Why can these split/unmappings fail?  Is it because they are still
+> needed?
+> 
+
+You mean the check before the mas_*() operations in drm_gpuva_insert()?
+
+Removing entries should never fail, inserting entries should fail when 
+the caller tries to store to an area outside of the VA space (it doesn't 
+necessarily span the whole 64-bit space), a kernel reserved area of the 
+VA space, is not in any pre-allocated range of the VA space (if regions 
+are enabled) or an entry already exists at that location.
+
+>>
+>>>> +	if (unlikely(ret))
+>>>> +		return ret;
+>>>> +
+>>>> +	va->mgr = mgr;
+>>>> +	va->region = reg;
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_insert);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_remove - remove a &drm_gpuva
+>>>> + * @va: the &drm_gpuva to remove
+>>>> + *
+>>>> + * This removes the given &va from the underlaying tree.
+>>>> + */
+>>>> +void
+>>>> +drm_gpuva_remove(struct drm_gpuva *va)
+>>>> +{
+>>>> +	MA_STATE(mas, &va->mgr->va_mt, va->va.addr, 0);
+>>>> +
+>>>> +	mas_erase(&mas);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_remove);
+>>>> +
+>>> ...
+>>>
+>>>> +/**
+>>>> + * drm_gpuva_find_first - find the first &drm_gpuva in the given range
+>>>> + * @mgr: the &drm_gpuva_manager to search in
+>>>> + * @addr: the &drm_gpuvas address
+>>>> + * @range: the &drm_gpuvas range
+>>>> + *
+>>>> + * Returns: the first &drm_gpuva within the given range
+>>>> + */
+>>>> +struct drm_gpuva *
+>>>> +drm_gpuva_find_first(struct drm_gpuva_manager *mgr,
+>>>> +		     u64 addr, u64 range)
+>>>> +{
+>>>> +	MA_STATE(mas, &mgr->va_mt, addr, 0);
+>>>> +
+>>>> +	return mas_find(&mas, addr + range - 1);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_find_first);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_find - find a &drm_gpuva
+>>>> + * @mgr: the &drm_gpuva_manager to search in
+>>>> + * @addr: the &drm_gpuvas address
+>>>> + * @range: the &drm_gpuvas range
+>>>> + *
+>>>> + * Returns: the &drm_gpuva at a given &addr and with a given &range
+>>>
+>>> Note that mas_find() will continue upwards in the address space if there
+>>> isn't anything at @addr.  This means that &drm_gpuva may not be at
+>>> &addr.  If you want to check just at &addr, use mas_walk().
+>>
+>> Good catch. drm_gpuva_find() should then either also check for 'va->va.addr
+>> == addr' as well or, alternatively, use mas_walk(). As above, any reason to
+>> prefer mas_walk()?
+>>
+>>>
+>>>> + */
+>>>> +struct drm_gpuva *
+>>>> +drm_gpuva_find(struct drm_gpuva_manager *mgr,
+>>>> +	       u64 addr, u64 range)
+>>>> +{
+>>>> +	struct drm_gpuva *va;
+>>>> +
+>>>> +	va = drm_gpuva_find_first(mgr, addr, range);
+>>>> +	if (!va)
+>>>> +		goto out;
+>>>> +
+>>>> +	if (va->va.range != range)
+>>>> +		goto out;
+>>>> +
+>>>> +	return va;
+>>>> +
+>>>> +out:
+>>>> +	return NULL;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_find);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_find_prev - find the &drm_gpuva before the given address
+>>>> + * @mgr: the &drm_gpuva_manager to search in
+>>>> + * @start: the given GPU VA's start address
+>>>> + *
+>>>> + * Find the adjacent &drm_gpuva before the GPU VA with given &start address.
+>>>> + *
+>>>> + * Note that if there is any free space between the GPU VA mappings no mapping
+>>>> + * is returned.
+>>>> + *
+>>>> + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+>>>> + */
+>>>> +struct drm_gpuva *
+>>>> +drm_gpuva_find_prev(struct drm_gpuva_manager *mgr, u64 start)
+>>>
+>>> find_prev() usually continues beyond 1 less than the address. I found
+>>> this name confusing.
+>>
+>> Don't really get that, mind explaining?
+> 
+> When I ask for the previous one in a list or tree, I think the one
+> before.. but since you are limiting your search from start to start - 1,
+> you may as well walk to start - 1 and see if one exists.
+> 
+> Is that what you meant to do here?
+
+Yes, I want to know whether there is a previous entry which ends right 
+before the current entry, without a gap between the two.
+
+> 
+>>
+>>> You may as well use mas_walk(), it would be faster.
+>>
+>> How would I use mas_walk() for that? If I understand it correctly,
+>> mas_walk() requires me to know that start address, which I don't know for
+>> the previous entry.
+> 
+> mas_walk() walks to the value you specify and returns the entry at that
+> address, not necessarily the start address, but any address in the
+> range.
+> 
+> If you have a tree and store A = [0x1000 - 0x2000] and set your maple
+> state to walk to 0x1500, mas_walk() will return A, and the maple state
+> will have mas.index = 0x1000 and mas.last = 0x2000.
+> 
+> You have set the maple state to start at "start" and called
+> mas_prev(&mas, start - 1).  start - 1 is the lower limit, so the
+> internal implementation will walk to start then go to the previous entry
+> until start - 1.. it will stop at start - 1 and return NULL if there
+> isn't one there.
+
+Thanks for the clarification and all the other very helpful comments and 
+explanations!
+
+- Danilo
+
+> 
+>>
+>> However, mas_walk() seems to be a good alternative to use for
+>> drm_gpuva_find_next().
+>>
+>>>> +{
+>>>> +	MA_STATE(mas, &mgr->va_mt, start, 0);
+>>>> +
+>>>> +	if (start <= mgr->mm_start ||
+>>>> +	    start > (mgr->mm_start + mgr->mm_range))
+>>>> +		return NULL;
+>>>> +
+>>>> +	return mas_prev(&mas, start - 1);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_find_prev);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_find_next - find the &drm_gpuva after the given address
+>>>> + * @mgr: the &drm_gpuva_manager to search in
+>>>> + * @end: the given GPU VA's end address
+>>>> + *
+>>>> + * Find the adjacent &drm_gpuva after the GPU VA with given &end address.
+>>>> + *
+>>>> + * Note that if there is any free space between the GPU VA mappings no mapping
+>>>> + * is returned.
+>>>> + *
+>>>> + * Returns: a pointer to the found &drm_gpuva or NULL if none was found
+>>>> + */
+>>>> +struct drm_gpuva *
+>>>> +drm_gpuva_find_next(struct drm_gpuva_manager *mgr, u64 end)
+>>>
+>>> This name is also a bit confusing for the same reason.  Again, it seems
+>>> worth just walking to end here.
+>>>
+>>>> +{
+>>>> +	MA_STATE(mas, &mgr->va_mt, end - 1, 0);
+>>>> +
+>>>> +	if (end < mgr->mm_start ||
+>>>> +	    end >= (mgr->mm_start + mgr->mm_range))
+>>>> +		return NULL;
+>>>> +
+>>>> +	return mas_next(&mas, end);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_find_next);
+>>>> +
+>>>> +static int
+>>>> +__drm_gpuva_region_insert(struct drm_gpuva_manager *mgr,
+>>>> +			  struct drm_gpuva_region *reg)
+>>>> +{
+>>>> +	u64 addr = reg->va.addr;
+>>>> +	u64 range = reg->va.range;
+>>>> +	MA_STATE(mas, &mgr->region_mt, addr, addr + range - 1);
+>>>> +	int ret;
+>>>> +
+>>>> +	if (unlikely(!drm_gpuva_in_mm_range(mgr, addr, range)))
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	ret = mas_store_gfp(&mas, reg, GFP_KERNEL);
+>>>> +	if (unlikely(ret))
+>>>> +		return ret;
+>>>> +
+>>>> +	reg->mgr = mgr;
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_region_insert - insert a &drm_gpuva_region
+>>>> + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
+>>>> + * @reg: the &drm_gpuva_region to insert
+>>>> + * @addr: the start address of the GPU VA
+>>>> + * @range: the range of the GPU VA
+>>>> + *
+>>>> + * Insert a &drm_gpuva_region with a given address and range into a
+>>>> + * &drm_gpuva_manager.
+>>>> + *
+>>>> + * Returns: 0 on success, negative error code on failure.
+>>>> + */
+>>>> +int
+>>>> +drm_gpuva_region_insert(struct drm_gpuva_manager *mgr,
+>>>> +			struct drm_gpuva_region *reg)
+>>>> +{
+>>>> +	if (unlikely(!(mgr->flags & DRM_GPUVA_MANAGER_REGIONS)))
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	return __drm_gpuva_region_insert(mgr, reg);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_region_insert);
+>>>> +
+>>>> +static void
+>>>> +__drm_gpuva_region_remove(struct drm_gpuva_region *reg)
+>>>> +{
+>>>> +	struct drm_gpuva_manager *mgr = reg->mgr;
+>>>> +	MA_STATE(mas, &mgr->region_mt, reg->va.addr, 0);
+>>>> +
+>>>> +	mas_erase(&mas);
+>>>> +}
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_region_remove - remove a &drm_gpuva_region
+>>>> + * @reg: the &drm_gpuva to remove
+>>>> + *
+>>>> + * This removes the given &reg from the underlaying tree.
+>>>> + */
+>>>> +void
+>>>> +drm_gpuva_region_remove(struct drm_gpuva_region *reg)
+>>>> +{
+>>>> +	struct drm_gpuva_manager *mgr = reg->mgr;
+>>>> +
+>>>> +	if (unlikely(!(mgr->flags & DRM_GPUVA_MANAGER_REGIONS)))
+>>>> +		return;
+>>>> +
+>>>> +	if (unlikely(reg == &mgr->kernel_alloc_region)) {
+>>>> +		WARN(1, "Can't destroy kernel reserved region.\n");
+>>>> +		return;
+>>>> +	}
+>>>> +
+>>>> +	if (unlikely(!drm_gpuva_region_empty(reg)))
+>>>> +		WARN(1, "GPU VA region should be empty on destroy.\n");
+>>>> +
+>>>> +	__drm_gpuva_region_remove(reg);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_region_remove);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_region_empty - indicate whether a &drm_gpuva_region is empty
+>>>> + * @reg: the &drm_gpuva to destroy
+>>>> + *
+>>>> + * Returns: true if the &drm_gpuva_region is empty, false otherwise
+>>>> + */
+>>>> +bool
+>>>> +drm_gpuva_region_empty(struct drm_gpuva_region *reg)
+>>>> +{
+>>>> +	DRM_GPUVA_ITER(it, reg->mgr);
+>>>> +
+>>>> +	drm_gpuva_iter_for_each_range(it, reg->va.addr,
+>>>> +				      reg->va.addr +
+>>>> +				      reg->va.range)
+>>>> +		return false;
+>>>> +
+>>>> +	return true;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_region_empty);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_region_find_first - find the first &drm_gpuva_region in the given
+>>>> + * range
+>>>> + * @mgr: the &drm_gpuva_manager to search in
+>>>> + * @addr: the &drm_gpuva_regions address
+>>>> + * @range: the &drm_gpuva_regions range
+>>>> + *
+>>>> + * Returns: the first &drm_gpuva_region within the given range
+>>>> + */
+>>>> +struct drm_gpuva_region *
+>>>> +drm_gpuva_region_find_first(struct drm_gpuva_manager *mgr,
+>>>> +			    u64 addr, u64 range)
+>>>> +{
+>>>> +	MA_STATE(mas, &mgr->region_mt, addr, 0);
+>>>> +
+>>>> +	return mas_find(&mas, addr + range - 1);
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_region_find_first);
+>>>> +
+>>>> +/**
+>>>> + * drm_gpuva_region_find - find a &drm_gpuva_region
+>>>> + * @mgr: the &drm_gpuva_manager to search in
+>>>> + * @addr: the &drm_gpuva_regions address
+>>>> + * @range: the &drm_gpuva_regions range
+>>>> + *
+>>>> + * Returns: the &drm_gpuva_region at a given &addr and with a given &range
+>>>
+>>> again, I'm not sure you want to find first or walk here.. It sounds like
+>>> you want exactly addr to addr + range VMA?
+>>
+>> Exactly, same as above.
+> 
+> MA_STATE(mas, &mgr->region_mt, addr, addr);
+> 
+> reg = mas_walk(&mas);
+> if (!reg)
+> 	return reg;
+> 
+> if ((mas.index != addr) | (mas.last != range - 1))
+> 	return NULL;
+> 
+> return reg;
+> 
+>>
+>>>
+>>>> + */
+>>>> +struct drm_gpuva_region *
+>>>> +drm_gpuva_region_find(struct drm_gpuva_manager *mgr,
+>>>> +		      u64 addr, u64 range)
+>>>> +{
+>>>> +	struct drm_gpuva_region *reg;
+>>>> +
+>>>> +	reg = drm_gpuva_region_find_first(mgr, addr, range);
+> 
+> mas_find() will keep searching, so you may get a VMA that starts higher
+> than addr.
+> 
+>>>> +	if (!reg)
+>>>> +		goto out;
+>>>> +
+>>>> +	if (reg->va.range != range)
+>>>> +		goto out;
+>>>> +
+>>>> +	return reg;
+>>>> +
+>>>> +out:
+>>>> +	return NULL;
+>>>> +}
+>>>> +EXPORT_SYMBOL(drm_gpuva_region_find);
+>>>> +
+>>>
+>>> ...
+>>>
+>>
+> 
+
