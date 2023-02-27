@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1336A417A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:12:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861436A4191
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 13:18:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A562510E3CE;
-	Mon, 27 Feb 2023 12:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31AA10E1C0;
+	Mon, 27 Feb 2023 12:18:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A600510E3CE
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 12:11:57 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 828285C0062;
- Mon, 27 Feb 2023 07:11:53 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 27 Feb 2023 07:11:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1677499913; x=1677586313; bh=p4dKxgXD9a
- z25l8x9BnyJkoKpJl5puXIKepVLfJGKGY=; b=sgODnMnrjGbSdSkkdQixXMTtxS
- 1offZ+r8DRw6rn2YGEqK8RYe2YJkdTSaM7atXfQ2KtdnLCBUXuxDxQTUbA/Jmfsr
- aCUOCIw1lF8mq3f8elAEqg6LvqpWWyK42rlfdnXn+cHgLJMblhk1GI6fweIk0Orm
- JPjGn79dCnxsJjnPK1Qb1vyjK3NBVHiIjbL+WbI/uUD4+zC8QY6gjoL7KH52e9r8
- rh2jOIyld/y59L6ekCPa6+5vuHHjxRzh2JTST8hRIdHCZc6ZwY+pL5ceXfIy+kp1
- r53AbI7X4VqY9VWF6z5sqaa6i2wcZl1zYD2KeNTwVguzLvzFGjLXICpuGVGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1677499913; x=1677586313; bh=p4dKxgXD9az25l8x9BnyJkoKpJl5
- puXIKepVLfJGKGY=; b=F+n3ziSSpm+7P2AJGwBWGnoG9jF+sodTHR7P++L3q3Om
- 0yYa93pd6Vve5a0XZSXtOdfRWBU8ugB198hawjNHRZ4hBGli6V0yYo6JBcWQlQGL
- Acf7udgyIT9RJnfzS+3g7ac0wiH9dnd3xQWHazc6ooaYJtIea01uzPYTvHEdkBQW
- nW/gcFaSv4Vf5feHSGLFqpqXULO55eLlBh3toAPxCGZ09c5GlM/9FBrZTbKT3JR+
- RQhww4d0aj+bYu7sgfs++OfRJNG91+Vl+IHkNPzq3NXUwup/vMsNhRUc5h0s8edL
- fjYzLn/pGt3VSSBSWg89uMlydLofrTkDIofX7aHGXg==
-X-ME-Sender: <xms:CJ78Y265SawPnopayCLd-sl3M5d_gzeQO7hbml3R9Qlfwf-_9J7CtQ>
- <xme:CJ78Y_7jWjXUjiMxWlQlMVe_QxoCNb-8zUxfWNgep4Rg-_6tQVmdGq1qOaf5UjXt8
- vX2C2oT3poQ_GKwaVw>
-X-ME-Received: <xmr:CJ78Y1efEcoKI0CYGRGtm5d1mOSB18gA9HBo23m2yTFkR9itGpdF2GAtGbIYWdkVodqa4ZLUvaQoO4uBYlBaO0uat6a7Jto>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
- ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:CJ78YzJuwHmQbjSEbVVXqsaOAVA_CHwfIahZoJoMwA94DWXZZEAp_Q>
- <xmx:CJ78Y6KbS-heC-ccw-hmY7KT7bTnJVv6KdHqN0vOtgy4mbysJ1hnpA>
- <xmx:CJ78Y0xsQ0z5T1peUz9QSIy6RMgFzV9J5iY2mAU2qh2EIXbtZCvAjA>
- <xmx:CZ78YxrnaJNQWoG0HtDqFau7iyNkG8wGLqfRTkql3kI9LD6FnCPyjg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Feb 2023 07:11:51 -0500 (EST)
-Date: Mon, 27 Feb 2023 13:11:49 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v13 02/18] drm: bridge: panel: Support nodrm case for
- drmm_panel_bridge_add
-Message-ID: <20230227121149.c3ibajgog3i2s2ek@houat>
-References: <20230227113925.875425-1-jagan@amarulasolutions.com>
- <20230227113925.875425-3-jagan@amarulasolutions.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D341310E1C0;
+ Mon, 27 Feb 2023 12:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677500325; x=1709036325;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=KuX2ifj23XIiHvM0u+wPf0HERefBeu0ux+Zf9Ufg1CE=;
+ b=S2aFb+YgzwdRcYUGq4ugONwLMxVEP6Esk6CUsgVkXt5nIWPW5JEkr+Ec
+ TCXmT7DxBtfAdY83YyqqFkj13Q/KJKcV2orM/i1dgcpHuHxTOXWiBFtje
+ YfPy0rU8G1x6Y8OM/3V/QccPo2MeXUWdtoBoxA4M72MhCvwU3hUKDpBCa
+ v21pDaSl46iLbAFo/I37HKM4fz77zTKXKO1pGsdaWIgnPbBbQn8/2YiT4
+ /uKwE4ZXLR1h6sRGV7Dw7SjVxiOC95Bf1tcOMBXvlZWduCZ+8e6Eu7gLz
+ fXSrEcOkRmXDLtADFqP6DjIH99Qymi1QcrszePGX4ica76sfjiYXrIXIg w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="331319317"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="331319317"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 04:18:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10633"; a="623560454"
+X-IronPort-AV: E=Sophos;i="5.97,331,1669104000"; d="scan'208";a="623560454"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 27 Feb 2023 04:18:41 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pWcSm-0004OY-1T;
+ Mon, 27 Feb 2023 12:18:40 +0000
+Date: Mon, 27 Feb 2023 20:18:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yuanzhi Wang <wangyuanzhi@uniontech.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ daniel@ffwll.ch, mario.limonciello@amd.com, Bokun.Zhang@amd.com,
+ tzimmermann@suse.de, hdegoede@redhat.com, jingyuwang_vip@163.com,
+ rafael.j.wysocki@intel.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] amdgpu: add a filter condition when set brightness
+Message-ID: <202302272051.KDJqRyl5-lkp@intel.com>
+References: <20230227073953.326-1-wangyuanzhi@uniontech.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="57cleiwqo4cuwpi6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230227113925.875425-3-jagan@amarulasolutions.com>
+In-Reply-To: <20230227073953.326-1-wangyuanzhi@uniontech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,88 +64,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Yuanzhi Wang <wangyuanzhi@uniontech.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Yuanzhi,
 
---57cleiwqo4cuwpi6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Yet something to improve:
 
-On Mon, Feb 27, 2023 at 05:09:09PM +0530, Jagan Teki wrote:
-> drmm_panel_bridge_add DRM-managed action helper is useful for the bridge
-> which automatically removes the bridge when drm pointer is cleaned.
->=20
-> Supporting the same on non-component bridges like host DSI bridge requires
-> a drm pointer which is indeed available only when a=A0panel-bridge is fou=
-nd.
->=20
-> For these use cases, the caller would call the drmm_panel_bridge_add by
-> passing NULL to drm pointer.
->=20
-> So, assign the bridge->dev to drm pointer for those cases.
->=20
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v13:
-> - new patch
->=20
-> Note: use case on=20
-> "[PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge find h=
-elper"
->=20
->  drivers/gpu/drm/bridge/panel.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
-l.c
-> index d4b112911a99..45a0c6671000 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -402,6 +402,13 @@ struct drm_bridge *drmm_panel_bridge_add(struct drm_=
-device *drm,
->  	if (IS_ERR(bridge))
->  		return bridge;
-> =20
-> +	/*
-> +	 * For non-component bridges, like host DSI bridge the DRM pointer
-> +	 * can be available only when a panel-bridge is found.
-> +	 */
-> +	if (!drm)
-> +		drm =3D bridge->dev;
-> +
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.2 next-20230227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Why can't the caller use bridge->dev?
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuanzhi-Wang/amdgpu-add-a-filter-condition-when-set-brightness/20230227-154108
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230227073953.326-1-wangyuanzhi%40uniontech.com
+patch subject: [PATCH] amdgpu: add a filter condition when set brightness
+config: arm64-randconfig-r012-20230226 (https://download.01.org/0day-ci/archive/20230227/202302272051.KDJqRyl5-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project db89896bbbd2251fff457699635acbbedeead27f)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/95d9579e31d0b601aa1422cf767ca5138d3efcee
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yuanzhi-Wang/amdgpu-add-a-filter-condition-when-set-brightness/20230227-154108
+        git checkout 95d9579e31d0b601aa1422cf767ca5138d3efcee
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
-Also, where did the devm_drm_of_dsi_get_bridge go? I thought you were
-going to convert it to a drm-managed version?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302272051.KDJqRyl5-lkp@intel.com/
 
-Maxime
+All error/warnings (new ones prefixed by >>):
 
---57cleiwqo4cuwpi6
-Content-Type: application/pgp-signature; name="signature.asc"
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:15: warning: missing terminating '"' character [-Winvalid-pp-token]
+                                           DRM_WARN("old brightness %d is greater than ACPI brightness
+                                                    ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:450:11: warning: missing terminating '"' character [-Winvalid-pp-token]
+                                                   %d\n", old_brightness, req.backlight_level);
+                                                       ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:449:6: error: unterminated function-like macro invocation
+                                           DRM_WARN("old brightness %d is greater than ACPI brightness
+                                           ^
+   include/drm/drm_print.h:543:9: note: macro 'DRM_WARN' defined here
+   #define DRM_WARN(fmt, ...)                                              \
+           ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected expression
+   #endif /* CONFIG_SUSPEND */
+                              ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:448:5: note: previous statement is here
+                                   if (old_brightness > req.backlight_level)
+                                   ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
+   #endif /* CONFIG_SUSPEND */
+                              ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:439:18: note: to match this '{'
+                           if (atif->bd) {
+                                         ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
+   #endif /* CONFIG_SUSPEND */
+                              ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:438:59: note: to match this '{'
+                   if (req.pending & ATIF_PANEL_BRIGHTNESS_CHANGE_REQUEST) {
+                                                                           ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
+   #endif /* CONFIG_SUSPEND */
+                              ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:427:38: note: to match this '{'
+           if (atif->functions.sbios_requests) {
+                                               ^
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:1105:28: error: expected '}'
+   #endif /* CONFIG_SUSPEND */
+                              ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c:406:1: note: to match this '{'
+   {
+   ^
+   3 warnings and 6 errors generated.
 
------BEGIN PGP SIGNATURE-----
 
-iHQEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCY/yeBQAKCRDj7w1vZxhR
-xUqCAP9CCAOgIorqAmGMZe9rVDg4/Sb49NR/hR/ajVjwfLJDXAD3VAPHQ5pJt+Nw
-bvu2RnyrkN/NtW+g7i0y9cmRWCBQCw==
-=M4Xm
------END PGP SIGNATURE-----
+vim +449 drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
 
---57cleiwqo4cuwpi6--
+   391	
+   392	/**
+   393	 * amdgpu_atif_handler - handle ATIF notify requests
+   394	 *
+   395	 * @adev: amdgpu_device pointer
+   396	 * @event: atif sbios request struct
+   397	 *
+   398	 * Checks the acpi event and if it matches an atif event,
+   399	 * handles it.
+   400	 *
+   401	 * Returns:
+   402	 * NOTIFY_BAD or NOTIFY_DONE, depending on the event.
+   403	 */
+   404	static int amdgpu_atif_handler(struct amdgpu_device *adev,
+   405				       struct acpi_bus_event *event)
+   406	{
+   407		struct amdgpu_atif *atif = &amdgpu_acpi_priv.atif;
+   408		int count;
+   409		int old_brightness;
+   410	
+   411		DRM_DEBUG_DRIVER("event, device_class = %s, type = %#x\n",
+   412				event->device_class, event->type);
+   413	
+   414		if (strcmp(event->device_class, ACPI_VIDEO_CLASS) != 0)
+   415			return NOTIFY_DONE;
+   416	
+   417		/* Is this actually our event? */
+   418		if (!atif->notification_cfg.enabled ||
+   419		    event->type != atif->notification_cfg.command_code) {
+   420			/* These events will generate keypresses otherwise */
+   421			if (event->type == ACPI_VIDEO_NOTIFY_PROBE)
+   422				return NOTIFY_BAD;
+   423			else
+   424				return NOTIFY_DONE;
+   425		}
+   426	
+   427		if (atif->functions.sbios_requests) {
+   428			struct atif_sbios_requests req;
+   429	
+   430			/* Check pending SBIOS requests */
+   431			count = amdgpu_atif_get_sbios_requests(atif, &req);
+   432	
+   433			if (count <= 0)
+   434				return NOTIFY_BAD;
+   435	
+   436			DRM_DEBUG_DRIVER("ATIF: %d pending SBIOS requests\n", count);
+   437	
+   438			if (req.pending & ATIF_PANEL_BRIGHTNESS_CHANGE_REQUEST) {
+   439				if (atif->bd) {
+   440					DRM_DEBUG_DRIVER("Changing brightness to %d\n",
+   441							 req.backlight_level);
+   442					/*
+   443					 * XXX backlight_device_set_brightness() is
+   444					 * hardwired to post BACKLIGHT_UPDATE_SYSFS.
+   445					 * It probably should accept 'reason' parameter.
+   446					 */
+   447					old_brightness = backlight_get_brightness(atif->bd);
+   448					if (old_brightness > req.backlight_level)
+ > 449						DRM_WARN("old brightness %d is greater than ACPI brightness
+   450							%d\n", old_brightness, req.backlight_level);
+   451					else
+   452						backlight_device_set_brightness(atif->bd,
+   453							req.backlight_level);
+   454				}
+   455			}
+   456	
+   457			if (req.pending & ATIF_DGPU_DISPLAY_EVENT) {
+   458				if (adev->flags & AMD_IS_PX) {
+   459					pm_runtime_get_sync(adev_to_drm(adev)->dev);
+   460					/* Just fire off a uevent and let userspace tell us what to do */
+   461					drm_helper_hpd_irq_event(adev_to_drm(adev));
+   462					pm_runtime_mark_last_busy(adev_to_drm(adev)->dev);
+   463					pm_runtime_put_autosuspend(adev_to_drm(adev)->dev);
+   464				}
+   465			}
+   466			/* TODO: check other events */
+   467		}
+   468	
+   469		/* We've handled the event, stop the notifier chain. The ACPI interface
+   470		 * overloads ACPI_VIDEO_NOTIFY_PROBE, we don't want to send that to
+   471		 * userspace if the event was generated only to signal a SBIOS
+   472		 * request.
+   473		 */
+   474		return NOTIFY_BAD;
+   475	}
+   476	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
