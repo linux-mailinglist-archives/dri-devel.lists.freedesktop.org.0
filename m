@@ -1,81 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6146A4BFA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 21:06:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB2A6A4C07
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 21:11:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6B210E40B;
-	Mon, 27 Feb 2023 20:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301E010E45F;
+	Mon, 27 Feb 2023 20:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D0410E40B;
- Mon, 27 Feb 2023 20:06:03 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31RJDGKf018065; Mon, 27 Feb 2023 20:05:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qgndGnIFIELrslxCS5zP1o2/OZoiO2ETrIEWwAJWI3Y=;
- b=HuwjgfqKblmR1/Ak7PXdjfB7g7a0ANDbJpTynrxrRltNjUGaX9LMwt+OYYaTSI2N7XnY
- NEqvQErO3/GtGlqq6EhKGAB0+D87NklLSIWkseGwujoQ8qgVe5Vm99g2QBo++SeuRdcZ
- pDunTgyEX3kq7XTotDBwwcAimnY5YvbusL8SNIHwcnszNffWyhiEFGbJlklUIzzysvIB
- UnkKs7kfPhpEX2nxPuiXPJluWUKsksGVqUp548kLvXiwpuIrsOCz/9e20VQE+kPuVePX
- o9qPodCL/STfuKqELP9HBoRujzPk5Dv1gcXWDTgxJ5IlrXnLMa+G44I2Rx6dvJABDeeg Jg== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nybmh5xgr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 20:05:56 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31RK5tCb004830
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Feb 2023 20:05:55 GMT
-Received: from [10.110.126.127] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 27 Feb
- 2023 12:05:54 -0800
-Message-ID: <846439be-77db-7311-3bb3-3647dc6d0622@quicinc.com>
-Date: Mon, 27 Feb 2023 12:05:53 -0800
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC63988EFE
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 20:10:55 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id EE8B580EB1;
+ Mon, 27 Feb 2023 21:10:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1677528654;
+ bh=BiAz7d+JYFYW0hTBYu/LCQ7UOfxqEtEQklae1lA8nZs=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Bycdm5Q3Bqj9xhjgQ554rfVmRJQzTgwDW55WhHXxBO0ZUNeA6ghAdnEhZjM8yvQoE
+ F5gbuW0PVlYMMpTXPcXc2kA2M9C0/q6gzw4rf5nl1tHDnYbF8dCpEpv/WphPAFQSTe
+ 0WiGuDQ9aL6iknOBcpkg5wKMWHcNGNn+7txgk10URhD+M2zc1jY/8UKXtlwR8lT5ax
+ XI2gqlyhe5EBLWclk8l2Y9b1R6cs58uQlK6g/411HqruBsLSS+5t8i2UJCZreCimTF
+ SYkKMM4iCyVhIdfxbFAC6TPhGEhvOw0R8XIE3v8aITJfxbYKyAri69BRanImGGc9X7
+ StXaeyBAm3p/A==
+Message-ID: <5c10d1e6-75ce-d926-fba9-a9bf5e240895@denx.de>
+Date: Mon, 27 Feb 2023 21:10:52 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dp: check core_initialized flag at both
- host_init() and host_deinit()
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge
+ find helper
 Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh
- <quic_khsieh@quicinc.com>, <agross@kernel.org>,
- <airlied@gmail.com>, <andersson@kernel.org>, <daniel@ffwll.ch>,
- <dianders@chromium.org>, <dmitry.baryshkov@linaro.org>,
- <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
-References: <1677263398-13801-1-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n514WpXDhE17DzqF9X7DYg_3DYuYSGzhvx-=eXVJpgq3Yg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAE-0n514WpXDhE17DzqF9X7DYg_3DYuYSGzhvx-=eXVJpgq3Yg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Jagan Teki <jagan@amarulasolutions.com>
+References: <20230227113925.875425-1-jagan@amarulasolutions.com>
+ <20230227113925.875425-5-jagan@amarulasolutions.com>
+ <3c2f91d3-0406-7730-d4e4-c94868f23c91@denx.de>
+ <CAMty3ZA6_pKiOK6gWq4iQFtKsoxfUgnSFBqkgDBzEp1DcBEt3A@mail.gmail.com>
+ <7b59aaf9-1f72-fd9f-29ac-1857ec3f91f3@denx.de>
+ <CAMty3ZC6vqpFfdh2F=KUsAgm_KCksVXBV9ON1csjJd1m+gJpVQ@mail.gmail.com>
+ <6066dff9-5a66-0da5-14d9-66162a2fbb39@denx.de>
+ <CAMty3ZDjwD+3SKJiOgZLbYYTtq=udWkXbqnsyYaM73rsYxDumQ@mail.gmail.com>
+ <47b8ad7d-cfc1-112c-2117-cb3612c1bba5@denx.de>
+ <CAMty3ZDMJFW36g5=A1=_08VT1dZUMemEg3YcQMh08iZNRa+cTw@mail.gmail.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <CAMty3ZDMJFW36g5=A1=_08VT1dZUMemEg3YcQMh08iZNRa+cTw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: hW9hgsjV4l20HIjaOlDVuJGnUrGM1GU3
-X-Proofpoint-ORIG-GUID: hW9hgsjV4l20HIjaOlDVuJGnUrGM1GU3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
- definitions=2023-02-27_17,2023-02-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- phishscore=0 impostorscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 spamscore=0 clxscore=1015 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302270159
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,70 +66,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, quic_sbillaka@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
+ Matteo Lisi <matteo.lisi@engicam.com>, Maxime Ripard <maxime@cerno.tech>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stephen
-
-On 2/27/2023 11:53 AM, Stephen Boyd wrote:
-> Quoting Kuogee Hsieh (2023-02-24 10:29:58)
->> There is a reboot/suspend test case where system suspend is forced during
->> system booting up. Since host_init() of external DP is executed at hpd
-> 
-> dp_display_host_init()?
-> 
->> thread context, this test case may created a scenario that host_deinit()
-> 
-> dp_display_host_deinit()?
-> 
-ack for both.
->> from pm_suspend() run before host_init() if hpd thread has no chance to
->> run during booting up while suspend request command was issued.
->> At this scenario system will crash at aux register access at host_deinit()
->> since aux clock had not yet been enabled by host_init().  Therefore we
-> 
-> The aux clk is enabled in dp_power_clk_enable() right? Can you clarify?
-> 
-
-Yes, thats right. Its mapped to core_*** in the dts hence the name goes 
-to the DP_CORE_PM case in the dp_power_clk_enable()
-
-3092 				clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-3093 					 <&dispcc DISP_CC_MDSS_DP_AUX_CLK>,
-3094 					 <&dispcc DISP_CC_MDSS_DP_LINK_CLK>,
-3095 					 <&dispcc DISP_CC_MDSS_DP_LINK_INTF_CLK>,
-3096 					 <&dispcc DISP_CC_MDSS_DP_PIXEL_CLK>;
-3097 				clock-names = "core_iface", "core_aux"
-
->> have to ensure aux clock enabled by checking core_initialized flag before
->> access aux registers at pm_suspend.
-> 
-> I'd much more like to get rid of 'core_initialized'. What is preventing
-> us from enabling the power (i.e. dp_power_init()), or at least enough
-> clks and pm runtime state, during probe? That would fix this problem and
-> also clean things up. As I understand, the device is half initialized in
-> probe and half initialized in the kthread. If we put all power
-> management into the runtime PM ops and synced that state during probe so
-> that runtime PM state matched device probe state we could make runtime
-> PM be the only suspend function and then push the power state tracking
-> into the device core.
-> 
-
-You are correct. https://patchwork.freedesktop.org/patch/523879/ will be 
-doing that. Its still in review.
-
+On 2/27/23 20:49, Jagan Teki wrote:
+> On Tue, Feb 28, 2023 at 1:11 AM Marek Vasut <marex@denx.de> wrote:
 >>
->> Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
->> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> On 2/27/23 20:34, Jagan Teki wrote:
+>>> On Tue, Feb 28, 2023 at 12:54 AM Marek Vasut <marex@denx.de> wrote:
+>>>>
+>>>> On 2/27/23 20:15, Jagan Teki wrote:
+>>>>> On Tue, Feb 28, 2023 at 12:38 AM Marek Vasut <marex@denx.de> wrote:
+>>>>>>
+>>>>>> On 2/27/23 20:01, Jagan Teki wrote:
+>>>>>>> On Tue, Feb 28, 2023 at 12:25 AM Marek Vasut <marex@denx.de> wrote:
+>>>>>>>>
+>>>>>>>> On 2/27/23 12:39, Jagan Teki wrote:
+>>>>>>>>> drm_of_dsi_find_panel_or_bridge is capable of looking up the
+>>>>>>>>> downstream DSI bridge and panel and trying to add a panel bridge
+>>>>>>>>> if the panel is found.
+>>>>>>>>>
+>>>>>>>>> Replace explicit finding calls with drm_of_dsi_find_panel_or_bridge
+>>>>>>>>> followed with drmm_panel_bridge_add.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+>>>>>>>>> ---
+>>>>>>>>> Changes for v13, v12, v11:
+>>>>>>>>> - none
+>>>>>>>>> Changes for v10:
+>>>>>>>>> - new patch
+>>>>>>>>>
+>>>>>>>>>       drivers/gpu/drm/exynos/exynos_drm_dsi.c | 25 +++++++++++++------------
+>>>>>>>>>       1 file changed, 13 insertions(+), 12 deletions(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+>>>>>>>>> index df15501b1075..12a6dd987e8f 100644
+>>>>>>>>> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+>>>>>>>>> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+>>>>>>>>> @@ -25,6 +25,7 @@
+>>>>>>>>>       #include <drm/drm_atomic_helper.h>
+>>>>>>>>>       #include <drm/drm_bridge.h>
+>>>>>>>>>       #include <drm/drm_mipi_dsi.h>
+>>>>>>>>> +#include <drm/drm_of.h>
+>>>>>>>>>       #include <drm/drm_panel.h>
+>>>>>>>>>       #include <drm/drm_print.h>
+>>>>>>>>>       #include <drm/drm_probe_helper.h>
+>>>>>>>>> @@ -1470,24 +1471,26 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+>>>>>>>>>           struct device *dev = dsi->dev;
+>>>>>>>>>           struct drm_encoder *encoder = &dsi->encoder;
+>>>>>>>>>           struct drm_device *drm = encoder->dev;
+>>>>>>>>> +     struct drm_bridge *bridge;
+>>>>>>>>>           struct drm_panel *panel;
+>>>>>>>>>           int ret;
+>>>>>>>>>
+>>>>>>>>> -     panel = of_drm_find_panel(device->dev.of_node);
+>>>>>>>>> -     if (!IS_ERR(panel)) {
+>>>>>>>>> -             dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
+>>>>>>>>> -     } else {
+>>>>>>>>> -             dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
+>>>>>>>>> -             if (!dsi->out_bridge)
+>>>>>>>>> -                     dsi->out_bridge = ERR_PTR(-EINVAL);
+>>>>>>>>> -     }
+>>>>>>>>
+>>>>>>>> As far as I understand this from my conversation with Maxime (please put
+>>>>>>>> him on CC of V15), the change here should instead perform the panel look
+>>>>>>>> up NOT in exynos_dsi_host_attach() , but in exynos_dsi_bind() , i.e. in
+>>>>>>>> the component_ops .bind callback . Here is an example of correct
+>>>>>>>> implementation:
+>>>>>>>>
+>>>>>>>> https://cgit.freedesktop.org/drm-misc/tree/drivers/gpu/drm/vc4/vc4_dsi.c#n1805
+>>>>>>>
+>>>>>>> But, we don't have component_ops.bind for imx8m case, so where do we
+>>>>>>> want to place the panel hook?
+>>>>>>>
+>>>>>>> Exynos drm drivers are component-based but, imx8mm is not.
+>>>>>>
+>>>>>> In 14/18 patch, the same should be added to generic_dsim_register_host()
+>>>>>> , which is called from the driver .probe() callback, but that is OK.
+>>>>>>
+>>>>>> That's ^ is the iMX part.
+>>>>>
+>>>>> Ohh. You mean, we need to find the panel hook separately in two places like
+>>>>> - bind for exynos
+>>>>> - probe for imx8mm
+>>>>
+>>>> Yes
+>>>>
+>>>>> If so? how can I find the drm_device pointer in the probe?
+>>>>
+>>>> What for ? The panel lookup uses OF graph . Where do you need the
+>>>> drm_device in it ?
+>>>
+>>> May I can summarize the whole setback here so that everybody is on the
+>>> same page and find the proper solution?
+>>>
+>>> The key blocker is accessing the DRM pointer in order to use the
+>>> DRM-managed action helper.
+>>>
+>>> 1. If we find the panel hook in Exynos component_ops.bind then we can
+>>> use the DRM pointer directly as VC4 does.
+>>> 2. if we find the panel hook in Samsung drm_bridge_funcs.attach (for
+>>> imx8mm) then we can use the DRM pointer directly via bridge->dev.
+>>>
+>>> If we make 2) has common across like finding the panel hook in
+>>> drm_bridge_funcs.attach the Exynos drm pipeline cannot find the
+>>> panels.
+>>>
+>>> The common solution for both exynos and imx8m is host.attach but if we
+>>> do so we cannot get find the DRM pointer.
+>>
+>> There isn't going to be common solution, you would really have to do the
+>> look up in component_ops .bind callback for exynos , and
+>> generic_dsim_register_host() for i.MX .
+>>
+>>> If we go ahead with no need for DRM-managed helper at the moment, then
+>>> find the panel hook in host.attach and then drop 2/18.
+>>
+>> The panel lookup must happen in .bind/.probe for exynos/imx respectively
+>> , that's really all that is required here. Then you can drop 1,2,3/18
+>> and get this series applied (I hope) .
 > 
-> The code looks OK to me, so
-> 
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> 
-> once the commit text is cleaned up to indicate the proper function
-> names.
+> I'm not quite sure, if the panel hook in .bind work for exynos or not?
 
-Thanks , will fix all those.
+Marek should be able to test exynos for you one more time I hope.
+
+> the host. attach has KMS hotplug code after the panel hook and
+> bridge_attach as before. I believe that is a working scenario for
+> Exynos to be the panel hook in the host. attach.
+
+As far as I understand it, the look up has to be in .bind callback (and 
+generic_dsim_register_host() for imx). Can you try if/how that works ?
+
+>> Can you implement just this one change ?
+>>
+>> There is no need to use drmm_* helper for now, that can be improved
+>> later if possible.
+> 
+> If this is the case then 1/18 will need otherwise
+
+Ah yes, 1/18 will be needed indeed. It should just be called from .bind 
+callback or generic_dsim_register_host() (i.e. probe callback).
+
+>  we can drop 1,2,3/18
+> by doing the panel hook we did in v7
+> https://patchwork.kernel.org/project/dri-devel/patch/20221005151309.7278-3-jagan@amarulasolutions.com/
+
+[...]
