@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344756A37AB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:10:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1DF6A37B1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:11:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E758410E1A1;
-	Mon, 27 Feb 2023 02:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA46010E17F;
+	Mon, 27 Feb 2023 02:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91AF510E347;
- Mon, 27 Feb 2023 02:10:49 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10F1610E1A1;
+ Mon, 27 Feb 2023 02:10:55 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4BF33B80D1C;
- Mon, 27 Feb 2023 02:10:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E29FFC433A0;
- Mon, 27 Feb 2023 02:10:46 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id ABC18B80D1F;
+ Mon, 27 Feb 2023 02:10:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7308AC433D2;
+ Mon, 27 Feb 2023 02:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463848;
- bh=RHxxCZeEc5J4xh5PtBwPUW6HoJB9wIG8lnh71NCS0SI=;
+ s=k20201202; t=1677463852;
+ bh=RVNIuXrSNR3J0wQepec5k6SS1Vcg2l4MQsEf4Dc4O4E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QmoNq1mJ6/wn6bgkjcb3YiugvgoekqYdaqW0k2d3h5n6GLmOe+0IFSyS3YRW0uAlV
- 3lgUIJKflzWAb2QTBJ/Rk3oWqEcqEBHkvCVJ3O0Z6myufgvEI77FMLULtSA5HlhOQE
- ft2XIFY5l1hhceAyT9fyKKDsU1EKHso6QBq1XAHhnCol2YnMX8d4MDEPmZmwRMxLuz
- zbKuKiBZVLjZtFbUZa6cAQvSfYbeTWkS0ydPoV/fmQ+EOSGFaCqqx4Lt9fWjMbLD9k
- dVTDOqvJNddeDzrI/Zfqk3PQJyprtNUGI9ZNy1wN/jhl0fkkREwgRZvqjY9z0yCobF
- ISkpO8/hwVWiQ==
+ b=YWUis3po/95t1IvuRB4qjaU2xQeaI83t3QNu0wyg0Nv1vA6gAHPWlNxJGNTnnpuME
+ 15uMNnY7bTDlytl/9jLpoh9O2ZyrP1Z218OC7Ua/HqLx6KdCLtGk2/EGXEIhQk+owx
+ qEP0GAR9ucA6Gow+S6b3u1GxFu4LrlMyHRWox/6B0sXBoJiZYzG1HeVSsx/4i2ApMb
+ 5bFkBmndThUQMOiXOzJxKPXLDgb//Obm+U7pw6oByi9BYzigWPxYSAoPSUvMZvrbrj
+ CK/0t+sqVaq27U9ZZJnSWd5LflRG3oD+kKqaPWpIsp3kBExEpU1UtQ3x1bc/kqjJHB
+ bBmaXum1YRBCg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 04/15] drm/radeon: free iio for atombios when
- driver shutdown
-Date: Sun, 26 Feb 2023 21:10:23 -0500
-Message-Id: <20230227021038.1052958-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 05/15] drm/msm/dsi: Add missing check for
+ alloc_ordered_workqueue
+Date: Sun, 26 Feb 2023 21:10:24 -0500
+Message-Id: <20230227021038.1052958-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227021038.1052958-1-sashal@kernel.org>
 References: <20230227021038.1052958-1-sashal@kernel.org>
@@ -56,65 +55,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Liwei Song <liwei.song@windriver.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, vkoul@kernel.org, marex@denx.de,
+ linux-arm-msm@vger.kernel.org, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ vladimir.lypak@gmail.com, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Liwei Song <liwei.song@windriver.com>
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 
-[ Upstream commit 4773fadedca918faec443daaca5e4ea1c0ced144 ]
+[ Upstream commit 115906ca7b535afb1fe7b5406c566ccd3873f82b ]
 
-Fix below kmemleak when unload radeon driver:
+Add check for the return value of alloc_ordered_workqueue as it may return
+NULL pointer and cause NULL pointer dereference.
 
-unreferenced object 0xffff9f8608ede200 (size 512):
-  comm "systemd-udevd", pid 326, jiffies 4294682822 (age 716.338s)
-  hex dump (first 32 bytes):
-    00 00 00 00 c4 aa ec aa 14 ab 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<0000000062fadebe>] kmem_cache_alloc_trace+0x2f1/0x500
-    [<00000000b6883cea>] atom_parse+0x117/0x230 [radeon]
-    [<00000000158c23fd>] radeon_atombios_init+0xab/0x170 [radeon]
-    [<00000000683f672e>] si_init+0x57/0x750 [radeon]
-    [<00000000566cc31f>] radeon_device_init+0x559/0x9c0 [radeon]
-    [<0000000046efabb3>] radeon_driver_load_kms+0xc1/0x1a0 [radeon]
-    [<00000000b5155064>] drm_dev_register+0xdd/0x1d0
-    [<0000000045fec835>] radeon_pci_probe+0xbd/0x100 [radeon]
-    [<00000000e69ecca3>] pci_device_probe+0xe1/0x160
-    [<0000000019484b76>] really_probe.part.0+0xc1/0x2c0
-    [<000000003f2649da>] __driver_probe_device+0x96/0x130
-    [<00000000231c5bb1>] driver_probe_device+0x24/0xf0
-    [<0000000000a42377>] __driver_attach+0x77/0x190
-    [<00000000d7574da6>] bus_for_each_dev+0x7f/0xd0
-    [<00000000633166d2>] driver_attach+0x1e/0x30
-    [<00000000313b05b8>] bus_add_driver+0x12c/0x1e0
-
-iio was allocated in atom_index_iio() called by atom_parse(),
-but it doesn't got released when the dirver is shutdown.
-Fix this kmemleak by free it in radeon_atombios_fini().
-
-Signed-off-by: Liwei Song <liwei.song@windriver.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Patchwork: https://patchwork.freedesktop.org/patch/517646/
+Link: https://lore.kernel.org/r/20230110021651.12770-1-jiasheng@iscas.ac.cn
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_device.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index e892582e847b5..0d0ae89a85686 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1022,6 +1022,7 @@ void radeon_atombios_fini(struct radeon_device *rdev)
- {
- 	if (rdev->mode_info.atom_context) {
- 		kfree(rdev->mode_info.atom_context->scratch);
-+		kfree(rdev->mode_info.atom_context->iio);
- 	}
- 	kfree(rdev->mode_info.atom_context);
- 	rdev->mode_info.atom_context = NULL;
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 743142e15b4c1..c59764f156f94 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1877,6 +1877,9 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+ 
+ 	/* setup workqueue */
+ 	msm_host->workqueue = alloc_ordered_workqueue("dsi_drm_work", 0);
++	if (!msm_host->workqueue)
++		return -ENOMEM;
++
+ 	INIT_WORK(&msm_host->err_work, dsi_err_worker);
+ 	INIT_WORK(&msm_host->hpd_work, dsi_hpd_worker);
+ 
 -- 
 2.39.0
 
