@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F83F6A371C
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8AA6A3722
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 03:07:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 843C510E306;
-	Mon, 27 Feb 2023 02:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1465610E311;
+	Mon, 27 Feb 2023 02:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 793AC10E30E;
- Mon, 27 Feb 2023 02:06:54 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B977310E311;
+ Mon, 27 Feb 2023 02:07:05 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 7F80FCE0F27;
- Mon, 27 Feb 2023 02:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A9FC4339B;
- Mon, 27 Feb 2023 02:06:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3F48560DC4;
+ Mon, 27 Feb 2023 02:07:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7BA1C433EF;
+ Mon, 27 Feb 2023 02:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677463610;
- bh=NdN166Culp60wILc1C7dFFLT6XE1dlj3cQL/FIUyu84=;
+ s=k20201202; t=1677463624;
+ bh=d/og2jOEKeOdpeh3qI0txklsSvU7ptQycygyiomEzhU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EAXVUJu1KlBNwTAod3ZfdilUs8mwOw2mgSOix79m8K42QAlteAsg0orT/17yxUbKm
- vHiV7G38SROfpU6reF1iLR/h88fmKZudaofL6vv9QEY7E9JQd6Kh96kqwVzmQ5zMiu
- EJkE/SI23UyH15PKw9B40nQ8YzEjThYts0MR2sNi+j01VmErW68LlFJM8hw+W7SYiY
- 5cI9uJQ394NWxFtzgq3oqpwJA7fZUkjUfybRMBR3KUCNQTFqPp2BeHpAmKOIy7DBTb
- iGQT5eui2DLPfwXwonygMOjsTSXXU469nTCpdwJkLsxBVBHwbRZmNdt0jQ6hE5KwAc
- IGmfyxQpjs0dg==
+ b=Gh5kLjHN2L52F4gNILhcz/W59NIkbTrdJSYcR+nfWB3kUX6O336/xTkBl2FLgjx3D
+ b3jVtrdqVSsaWULUFssYYDBWY2NidpV+4CuKtm5lJ93pLs9OLGSlxU4PQvZLq6l8Zc
+ SZ6Qgn0ceaEkv8bHatsYkX+lviUelnJ7/cyCAv58NH4Xs1qQPx9mGJ/kKVM2fLPZCt
+ RABGcILURs718QHONWnikriIAuvFZtq4HJzCRMjFL/OsdXE9xSO2dC9pmbTUlOdJGe
+ RSiDpbKfOkkHoDM9RkGjEbASXs+MKcr5yBkhYDYi2qQ5P82aGMiY++sylud/+5Jbsa
+ DBW20i3XabPJw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 28/58] drm/amd/display: Set hvm_enabled flag for
- S/G mode
-Date: Sun, 26 Feb 2023 21:04:26 -0500
-Message-Id: <20230227020457.1048737-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 32/58] drm/msm/dpu: Add DSC hardware blocks to
+ register snapshot
+Date: Sun, 26 Feb 2023 21:04:30 -0500
+Message-Id: <20230227020457.1048737-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230227020457.1048737-1-sashal@kernel.org>
 References: <20230227020457.1048737-1-sashal@kernel.org>
@@ -55,50 +55,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Liu <HaoPing.Liu@amd.com>, Sasha Levin <sashal@kernel.org>,
- stylon.wang@amd.com, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, Roman Li <roman.li@amd.com>,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, aurabindo.pillai@amd.com,
- hersenxs.wu@amd.com, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ liushixin2@huawei.com, dianders@chromium.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, konrad.dybcio@linaro.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, quic_vpolimer@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Roman Li <roman.li@amd.com>
+From: Marijn Suijten <marijn.suijten@somainline.org>
 
-[ Upstream commit 40e9f3f067bc6fb47b878f8ba0a9cc7b93abbf49 ]
+[ Upstream commit a7efe60e36b9c0e966d7f82ac90a89b591d984e9 ]
 
-[Why]
-After enabling S/G on dcn314 a screen corruption may be observed.
-HostVM flag should be set in S/G mode to be included in DML calculations.
+Add missing DSC hardware block register ranges to the snapshot utility
+to include them in dmesg (on MSM_DISP_SNAPSHOT_DUMP_IN_CONSOLE) and the
+kms debugfs file.
 
-[How]
-In S/G mode gpu_vm_support flag is set.
-Use its value to init is_hvm_enabled.
-
-Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Acked-by: Alan Liu <HaoPing.Liu@amd.com>
-Signed-off-by: Roman Li <roman.li@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Patchwork: https://patchwork.freedesktop.org/patch/520175/
+Link: https://lore.kernel.org/r/20230125101412.216924-1-marijn.suijten@somainline.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 6028e332e35d9..ed74cc7403980 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -1248,7 +1248,7 @@ static void mmhub_read_system_context(struct amdgpu_device *adev, struct dc_phy_
- 	pa_config->gart_config.page_table_end_addr = page_table_end.quad_part << 12;
- 	pa_config->gart_config.page_table_base_addr = page_table_base.quad_part;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 5e6e2626151e8..b7901b666612a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -942,6 +942,11 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+ 	msm_disp_snapshot_add_block(disp_state, cat->mdp[0].len,
+ 			dpu_kms->mmio + cat->mdp[0].base, "top");
  
--	pa_config->is_hvm_enabled = 0;
-+	pa_config->is_hvm_enabled = adev->mode_info.gpu_vm_support;
- 
++	/* dump DSC sub-blocks HW regs info */
++	for (i = 0; i < cat->dsc_count; i++)
++		msm_disp_snapshot_add_block(disp_state, cat->dsc[i].len,
++				dpu_kms->mmio + cat->dsc[i].base, "dsc_%d", i);
++
+ 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
  }
  
 -- 
