@@ -1,47 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322D46A4C8A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 21:56:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC336A4CB2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 22:05:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD2810E15B;
-	Mon, 27 Feb 2023 20:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D878610E21D;
+	Mon, 27 Feb 2023 21:04:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA25010E15B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 20:56:00 +0000 (UTC)
-Received: from [10.0.0.182] (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id B9847161B9A;
- Mon, 27 Feb 2023 21:55:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1677531357;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=asQWI/0KqQ7Vskc9EMNo967uGziRnDRjnTbun9Xsibw=;
- b=UU3tgWQJlBiGN4SmpF7FcfyXOhVg5CL0CPSW88hsr0v4bwPMpywNAcyE9F9bIloot+Kfyy
- +zca8OffoaqtiDEe75NBHICli7NZAzc4uP7TRyCPlrcesgDQiNPFyjD8SGVHPiKezcGEHi
- SK6nVNWE+3aAli4ddv45LvsvHMQmUbY=
-Message-ID: <cee2e3ea-14a6-c51f-7ce6-6a67dabff6f1@ixit.cz>
-Date: Mon, 27 Feb 2023 21:55:57 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 796DF10E21D;
+ Mon, 27 Feb 2023 21:04:56 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31RKvCqV007373; Mon, 27 Feb 2023 21:04:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=ziTSNs2w1gPgKI5IplUtCEzZNpMIPg+DqPtMLsQ79xM=;
+ b=CNftfVD2pkWXCARdYcV5+dRhFStTQyUuDB58/JUl8UZadXA+3wOioec4PsyLW8Jqfs3A
+ 0rTWQwDDC8UnvTSUGdDbLq4CQ5RYicjVF6SqjyLIhjUNNE/sCtmUUJG5Si9oXxOapMlT
+ lGyiuClCUqCX/PFqD4eKA+rwmr+ZVuaBKYuK3WRUFIHVP5HPqD5xSB6HMSVANvHGzitF
+ 3cMNCEve9KUBxlpWRiQZFZ4nWTnOiQzJ9QDKeIwF3EJuvINt94NcLbW8AiFzW80YyD7I
+ 2rsYxztFM8bVRz1Tb9cB2436xRoBWHZeKuue847+e6N5eQd+eXTY+CaQzKA+X0Zbki7h +g== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p0u3jsgch-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Feb 2023 21:04:50 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31RL4nKC006493
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Feb 2023 21:04:49 GMT
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Mon, 27 Feb 2023 13:04:49 -0800
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
+ <airlied@gmail.com>, <agross@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
+Subject: [PATCH v2] drm/msm/dp: check core_initialized flag at both
+ host_init() and host_deinit()
+Date: Mon, 27 Feb 2023 13:04:37 -0800
+Message-ID: <1677531877-10849-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:104.0) Gecko/20100101
- Thunderbird/104.0
-Subject: Re: [RESEND v2 PATCH] init/do_mounts.c: add virtiofs root fs support
-To: Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20230224143751.36863-1-david@ixit.cz> <Y/zSCarxyabSC1Zf@fedora>
- <Y/zxO9PMaES8SenN@redhat.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-In-Reply-To: <Y/zxO9PMaES8SenN@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: jwe3n-let1_Y8wDzAveWvp3Op7pmIJuY
+X-Proofpoint-GUID: jwe3n-let1_Y8wDzAveWvp3Op7pmIJuY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.170.22
+ definitions=2023-02-27_17,2023-02-27_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ bulkscore=0 impostorscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
+ spamscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302270168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,99 +80,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- wsa+renesas@sang-engineering.com, helen.koike@collabora.com,
- Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org,
- akpm@linux-foundation.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thank you all!
+There is a reboot/suspend test case where system suspend is forced during
+system booting up. Since dp_display_host_init() of external DP is executed
+at hpd thread context, this test case may created a scenario that
+dp_display_host_deinit() from pm_suspend() run before dp_display_host_init()
+if hpd thread has no chance to run during booting up while suspend request
+command was issued. At this scenario system will crash at aux register
+access at dp_display_host_deinit() since aux clock had not yet been enabled
+by dp_display_host_init().  Therefore we have to ensure aux clock enabled
+by checking core_initialized flag before access aux registers at pm_suspend.
 
-We'll drop this patch in next MesaCI kernel uprev without this patch!
+Changes in v2:
+-- at commit text, dp_display_host_init() instead of host_init()
+-- at commit text, dp_display_host_deinit() instead of host_deinit()
 
-David
+Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-On 27/02/2023 19:06, Vivek Goyal wrote:
-> On Mon, Feb 27, 2023 at 10:53:45AM -0500, Stefan Hajnoczi wrote:
->> On Fri, Feb 24, 2023 at 03:37:51PM +0100, David Heidelberg wrote:
->>> From: Stefan Hajnoczi <stefanha@redhat.com>
->>>
->>> Make it possible to boot directly from a virtiofs file system with tag
->>> 'myfs' using the following kernel parameters:
->>>
->>>    rootfstype=virtiofs root=myfs rw
->>>
->>> Booting directly from virtiofs makes it possible to use a directory on
->>> the host as the root file system.  This is convenient for testing and
->>> situations where manipulating disk image files is cumbersome.
->>>
->>> Reviewed-by: Helen Koike <helen.koike@collabora.com>
->>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->>> Signed-off-by: David Heidelberg <david@ixit.cz>
->>> ---
->>> v2: added Reviewed-by and CCed everyone interested.
->>>
->>> We have used this option in Mesa3D CI for testing crosvm for
->>> more than one years and it's proven to work reliably.
->>>
->>> We are working on effort to removing custom patches to be able to do
->>> automated apply and test of patches from any tree.
->>>
->>> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/crosvm-runner.sh#L85
->>>   init/do_mounts.c | 10 ++++++++++
->>>   1 file changed, 10 insertions(+)
->> Vivek, do you remember where we ended up with boot from virtiofs? I
->> thought a different solution was merged some time ago.
-> We merged a patch from Christoph Hellwig to support this.
->
-> commit f9259be6a9e7c22d92e5a5000913147ae17e8321
-> Author: Christoph Hellwig <hch@lst.de>
-> Date:   Wed Jul 14 16:23:20 2021 -0400
->
->      init: allow mounting arbitrary non-blockdevice filesystems as root
->
-> Now one should be able to mount virtiofs using following syntax.
->
-> "root=myfs rootfstype=virtiofs rw"
->
-> IIUC, this patch should not be required anymore.
->
-> Thanks
-> Vivek
->
->> There is documentation from the virtiofs community here:
->> https://virtio-fs.gitlab.io/howto-boot.html
->>
->> Stefan
->>
->>> diff --git a/init/do_mounts.c b/init/do_mounts.c
->>> index 811e94daf0a8..11c11abe23d7 100644
->>> --- a/init/do_mounts.c
->>> +++ b/init/do_mounts.c
->>> @@ -578,6 +578,16 @@ void __init mount_root(void)
->>>   			printk(KERN_ERR "VFS: Unable to mount root fs via SMB.\n");
->>>   		return;
->>>   	}
->>> +#endif
->>> +#ifdef CONFIG_VIRTIO_FS
->>> +	if (root_fs_names && !strcmp(root_fs_names, "virtiofs")) {
->>> +		if (!do_mount_root(root_device_name, "virtiofs",
->>> +				   root_mountflags, root_mount_data))
->>> +			return;
->>> +
->>> +		panic("VFS: Unable to mount root fs \"%s\" from virtiofs",
->>> +		      root_device_name);
->>> +	}
->>>   #endif
->>>   	if (ROOT_DEV == 0 && root_device_name && root_fs_names) {
->>>   		if (mount_nodev_root() == 0)
->>> -- 
->>> 2.39.1
->>>
->
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index bde1a7c..1850738 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -460,10 +460,12 @@ static void dp_display_host_init(struct dp_display_private *dp)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized);
+ 
+-	dp_power_init(dp->power, false);
+-	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+-	dp_aux_init(dp->aux);
+-	dp->core_initialized = true;
++	if (!dp->core_initialized) {
++		dp_power_init(dp->power, false);
++		dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
++		dp_aux_init(dp->aux);
++		dp->core_initialized = true;
++	}
+ }
+ 
+ static void dp_display_host_deinit(struct dp_display_private *dp)
+@@ -472,10 +474,12 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized);
+ 
+-	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+-	dp_aux_deinit(dp->aux);
+-	dp_power_deinit(dp->power);
+-	dp->core_initialized = false;
++	if (dp->core_initialized) {
++		dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
++		dp_aux_deinit(dp->aux);
++		dp_power_deinit(dp->power);
++		dp->core_initialized = false;
++	}
+ }
+ 
+ static int dp_display_usbpd_configure_cb(struct device *dev)
 -- 
-David Heidelberg
-Consultant Software Engineer
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
