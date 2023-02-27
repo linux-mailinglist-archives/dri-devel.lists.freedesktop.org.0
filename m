@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51F56A4670
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 16:49:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CC16A467F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Feb 2023 16:53:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 997F210E42A;
-	Mon, 27 Feb 2023 15:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE1E10E055;
+	Mon, 27 Feb 2023 15:53:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 341C510E42D
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 15:49:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1677512945; cv=none; d=zohomail.in; s=zohoarc; 
- b=Vozj8rdackxudhL6CoFfy9qaUxqW5k+9uKSRrA0BZDhwFYscW0FASQ9N/wQK3R9CajHXi1TrknhYyU0B/leFPN7k9/nrFY8A+3gQFF38jIl/JPYK6Dko5cL4jTbooS2IjS1XPjv8nMUe8AuY7QNqmfgsxNSQKpeZ5Fva1Xfbd3U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1677512945;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=LufG+uGg74qyMm4+3mt3r51M+Qw9SOQD3mty9YaUoo4=; 
- b=Y+2PueQ9mE53Fb3fwyPbPFYbevnf+qXolOlK13ZyVrTLg2saZq60REjcTrFNsr2t2rmwq2002exRieC7AG2XizoLX3F7s6qP7MXR1ykKsJQwGxLkpRK/Qb2y092l9xpt8p4djwo3FftTq21qDZVN0hESTmOjKZ1OHm7GrYncfKg=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1677512945; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=LufG+uGg74qyMm4+3mt3r51M+Qw9SOQD3mty9YaUoo4=;
- b=tTqxAZaNQ7Mkinn21JCEnoRL5Gc31kMdrKKk81Sdla0eaJVn7dYrWCN9/kIF84c6
- YhYoCyMx8n7+LJ/DF0uQ/axy/R381eKO0/x5KyqOw7qR94ESnd7wYhVUgZdB8g1OC81
- P9saw2rO2MZIcFRTmagH5iK1XnDnpNQy0qJBugqc=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1677512934260114.46478153909891;
- Mon, 27 Feb 2023 21:18:54 +0530 (IST)
-Date: Mon, 27 Feb 2023 21:18:54 +0530
-From: Siddh Raman Pant <code@siddh.me>
-To: "Jani Nikula" <jani.nikula@linux.intel.com>
-Message-ID: <18693900367.2ce71ba5548919.6872574648582795181@siddh.me>
-In-Reply-To: <87ilfn30li.fsf@intel.com>
-References: <cover.1677395403.git.code@siddh.me>
- <89f0aa1f26696846c2303527fe4d133bb4ff4bf6.1677395403.git.code@siddh.me>
- <87ilfn30li.fsf@intel.com>
-Subject: Re: [PATCH v7 1/7] drm/print: Fix and add support for NULL as first
- argument in drm_* macros
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADE3210E055
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 15:53:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677513234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSg5+r6je78Oo6DOHt1spvGdIu0PScSllKZjUp4heJA=;
+ b=OinFvJZw/DzeakHBnCaZlfr4DaNzxb+zlk0TdwS1JTNjTp/a9s8rEwAqNlcmGNAxzpqP7+
+ a9IPjnDSLO3S1/iGJD5XxKT3A0ZpVzBO0vgJ6WuavfeUzn7er4yGgALAgmMtdSn8liOQUN
+ nEKB20wE+W7hYeZRpuArvQU/0VYSnyo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-416-inavr7DaPlSPxeWPDMSTeg-1; Mon, 27 Feb 2023 10:53:49 -0500
+X-MC-Unique: inavr7DaPlSPxeWPDMSTeg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70F14185A7A4;
+ Mon, 27 Feb 2023 15:53:48 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 348811121314;
+ Mon, 27 Feb 2023 15:53:47 +0000 (UTC)
+Date: Mon, 27 Feb 2023 10:53:45 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: vgoyal@redhat.com
+Subject: Re: [RESEND v2 PATCH] init/do_mounts.c: add virtiofs root fs support
+Message-ID: <Y/zSCarxyabSC1Zf@fedora>
+References: <20230224143751.36863-1-david@ixit.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RSf3QCTu5WhPlQBP"
+Content-Disposition: inline
+In-Reply-To: <20230224143751.36863-1-david@ixit.cz>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,41 +60,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas zimmermann <tzimmermann@suse.de>, sam ravnborg <sam@ravnborg.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Heidelberg <david@ixit.cz>, Miklos Szeredi <miklos@szeredi.hu>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, wsa+renesas@sang-engineering.com,
+ helen.koike@collabora.com, Al Viro <viro@zeniv.linux.org.uk>,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Feb 2023 15:13:21 +0530, Jani Nikula wrote:
-> First of all, that's two distinct changes in one patch. The subject says
-> one thing, but it's really two.
 
-Sorry, my bad.
+--RSf3QCTu5WhPlQBP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> But the main question is, do we *really* want to let callers pass either
-> struct drm_device * or struct device *? It will be type safe with
-> generics, but if it's okay to use either, people *will* use either. The
-> call sites will end up being a mixture of both. You can't control it. It
-> will be very tedious if you ever want to revert that decision.
-> 
-> Do we want to promote a style where you can pass either? To me, in C
-> context, it seems awfully sloppy and confusing rather than convenient.
-> 
-> I'd argue the struct mipi_dsi_host stuff should use dev_* calls
-> directly, as it's more of a special case, rather than allow struct
-> device * in drm_* logging macros.
+On Fri, Feb 24, 2023 at 03:37:51PM +0100, David Heidelberg wrote:
+> From: Stefan Hajnoczi <stefanha@redhat.com>
+>=20
+> Make it possible to boot directly from a virtiofs file system with tag
+> 'myfs' using the following kernel parameters:
+>=20
+>   rootfstype=3Dvirtiofs root=3Dmyfs rw
+>=20
+> Booting directly from virtiofs makes it possible to use a directory on
+> the host as the root file system.  This is convenient for testing and
+> situations where manipulating disk image files is cumbersome.
+>=20
+> Reviewed-by: Helen Koike <helen.koike@collabora.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> v2: added Reviewed-by and CCed everyone interested.
+>=20
+> We have used this option in Mesa3D CI for testing crosvm for
+> more than one years and it's proven to work reliably.
+>=20
+> We are working on effort to removing custom patches to be able to do=20
+> automated apply and test of patches from any tree.                       =
+      =20
+>=20
+> https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/crosvm-ru=
+nner.sh#L85
+>  init/do_mounts.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-I agree. I thought direct dev_* calls would not be ideal, as there is a
-TODO to move away from that, and also incorrectly expected to have more
-such dev ptr problems. But on a second thought, you are correct.
+Vivek, do you remember where we ended up with boot from virtiofs? I
+thought a different solution was merged some time ago.
 
-Should I post a new patch, with using __drm_dev_ptr instead and
-removing the __get_dev_ptr generic macro, and using dev_* in
-drm_mipi_dsi.c as `dev_err(dev, "*ERROR* [drm] <msg>", ...);`?
+There is documentation from the virtiofs community here:
+https://virtio-fs.gitlab.io/howto-boot.html
 
-> BR,
-> Jani.
+Stefan
 
-Thanks,
-Siddh
+>=20
+> diff --git a/init/do_mounts.c b/init/do_mounts.c
+> index 811e94daf0a8..11c11abe23d7 100644
+> --- a/init/do_mounts.c
+> +++ b/init/do_mounts.c
+> @@ -578,6 +578,16 @@ void __init mount_root(void)
+>  			printk(KERN_ERR "VFS: Unable to mount root fs via SMB.\n");
+>  		return;
+>  	}
+> +#endif
+> +#ifdef CONFIG_VIRTIO_FS
+> +	if (root_fs_names && !strcmp(root_fs_names, "virtiofs")) {
+> +		if (!do_mount_root(root_device_name, "virtiofs",
+> +				   root_mountflags, root_mount_data))
+> +			return;
+> +
+> +		panic("VFS: Unable to mount root fs \"%s\" from virtiofs",
+> +		      root_device_name);
+> +	}
+>  #endif
+>  	if (ROOT_DEV =3D=3D 0 && root_device_name && root_fs_names) {
+>  		if (mount_nodev_root() =3D=3D 0)
+> --=20
+> 2.39.1
+>=20
+
+--RSf3QCTu5WhPlQBP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmP80gkACgkQnKSrs4Gr
+c8gQDAf/S5FKAUxYW0RXBL8p7kqYdskcOGTgDOV7axCS6K87pK4tYT7M3RqheN3+
+edcQhwOIM1ycR+xuYS5AA60sUtNKlsF4RIZu8+ug1sJPoXZE2WDtQbMk4sCpctgt
+oWQTTVA35jvOv8SnfVL6AYcYTtymB6bpXaX/cYdUn5ERaOleKRvt4E8Rpjv9hCjS
+2pg+KhGCoTWLicimXqEmHZI4FwChxJgvmw8EmNmyNm9wzuh9xibsLbm0tB6wyIdt
+f7FWURT1T+yIr8TIChaWUg7pb+HldwDxpcFSsLeZGgaPB22os24ZTalYNrd8KQrm
+320U02Kiol90+QZLWEVXkJQ1z2HlmA==
+=igqY
+-----END PGP SIGNATURE-----
+
+--RSf3QCTu5WhPlQBP--
+
