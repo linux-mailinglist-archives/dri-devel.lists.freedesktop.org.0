@@ -2,70 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EC56A5CD8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 17:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A73E6A5CDB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 17:11:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E397A10E051;
-	Tue, 28 Feb 2023 16:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F9710E4F7;
+	Tue, 28 Feb 2023 16:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6132310E051
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 16:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677600670;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=t7IBO5aYl69umpGyTeyvZekqQInZMv1t8j+p55wYs/4=;
- b=da/5GdHlNARGSqLmwgrcen+e9j1eSvbwT+jM3fdkpFivegTK2iylPV45CD4O5sQo70aOXy
- doXcpxoqEzHbMfmc27vZoiqfFKBJFX7Ch6nX2um/flEXzKFRkSumaBaVoYVX9ZO7DuSBz7
- cyTivjOCrepDwEpz8KCFX1Wr4aOOiVk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-19-ymxV-x3vODuGq0Tm2MOOFA-1; Tue, 28 Feb 2023 11:11:06 -0500
-X-MC-Unique: ymxV-x3vODuGq0Tm2MOOFA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l5-20020a5d6745000000b002c91cb49949so1669260wrw.14
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 08:11:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677600662;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t7IBO5aYl69umpGyTeyvZekqQInZMv1t8j+p55wYs/4=;
- b=cUtHYQ9b5uUjjOdCDNqBwDlQkZ9Ik8ebhtskJrXzWrbur+g2aet1VdXfzj/bz4lRdi
- EJzwTPkqx6ArkCzlq2F0gWUkDqkWr2PM9fL4tHorTKvUFNH8r9za01Y92KPEnjMm58i0
- hiuEa5JooLwXH5NmQUaYxov7SKr/z6/0BkPPDN6Tdh1x3b9SViOs6ADtwJSxfC6PqJWe
- RAj7qmVh6vKvN4D9Zpl1DXf43hppVDRVqaMhOA6z8NdWkbfZXNmmh1TCrJXbIqOaGilB
- aGVVEkuAfDNfN3CY/1vezlnT0TySiv9lZcwC/AwRgTD2RcnNVd+4RiWI1fjA3k4o+NeT
- fCUA==
-X-Gm-Message-State: AO0yUKUaEEGKu5kox3KrbME8XEzZF8wMBaYmM+qvfVCal6YpwQ342+JM
- pyiCugdqvY28yNjuqjvNQK3dJ/jg+VxEjdxgehdnLctM9TNQyqfm192ikkZOKyxeZWup4JDj3hQ
- m1nfXLyrSngXFT+CwxVeqShHvOzzT
-X-Received: by 2002:a5d:6542:0:b0:2c7:434e:9a5a with SMTP id
- z2-20020a5d6542000000b002c7434e9a5amr2710704wrv.65.1677600662598; 
- Tue, 28 Feb 2023 08:11:02 -0800 (PST)
-X-Google-Smtp-Source: AK7set+C4Sx+1qgWlESMbjldUwgs92cnO8HMzCf0I1Pku6si91VTDTWk4Zh3ewsOtCPt8aCThrr3VA==
-X-Received: by 2002:a5d:6542:0:b0:2c7:434e:9a5a with SMTP id
- z2-20020a5d6542000000b002c7434e9a5amr2710693wrv.65.1677600662295; 
- Tue, 28 Feb 2023 08:11:02 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o25-20020a05600c511900b003dfe549da4fsm18453097wms.18.2023.02.28.08.11.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 08:11:02 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4] drm/virtio: Add option to disable KMS support
-In-Reply-To: <20230228155406.2881252-1-robdclark@gmail.com>
-References: <20230228155406.2881252-1-robdclark@gmail.com>
-Date: Tue, 28 Feb 2023 17:11:00 +0100
-Message-ID: <87bkldhisr.fsf@minerva.mail-host-address-is-not-set>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B12C010E4D3;
+ Tue, 28 Feb 2023 16:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677600687; x=1709136687;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ge1D86i3YxdNU6/9QfTIZSymmPx5HBsw9uFOqcyLkX8=;
+ b=F91gLJEGiwGdoEXYSdxgZya9BWTSm/RkwMQ4ZUEMHe99q6wMbqtqIY//
+ Y9cIeXyI57mv4DTovukoh2eoG2F7nckyvdSCuPkPjVYdidMNmyrwB7CcE
+ 0xxCapVC86JC04W8ijdMnCS1qA+aGQ+3Of3ZZsUxUwyD9cIwKmf5fg7s+
+ h7oa5x+TlZg2QI2cEhLGVWAXq4Z059BaYTtGx0BTuXEU6ZhNRla2FFCVV
+ tHpIYvkmX4qVaW918+RVaBwBSeiOM2bkw1/urtyQQIZhhbnksShYibNoH
+ N2vXRPQv8NpJrTEcepy4BOs1q/zIGqh6lB9bfzjNe7HZ1EF+EEI+ghCN7 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="420439024"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="420439024"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 08:11:26 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="676356716"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="676356716"
+Received: from barumuga-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.47.26])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 08:11:22 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean
+ Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [PATCH 03/10] drm/i915/dsc: move DSC tables to DRM DSC helper
+In-Reply-To: <20230228113342.2051425-4-dmitry.baryshkov@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230228113342.2051425-1-dmitry.baryshkov@linaro.org>
+ <20230228113342.2051425-4-dmitry.baryshkov@linaro.org>
+Date: Tue, 28 Feb 2023 18:11:19 +0200
+Message-ID: <87y1ohydlk.fsf@intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,48 +63,782 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- open list <linux-kernel@vger.kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rob Clark <robdclark@gmail.com> writes:
-
-Hello Rob,
-
-> From: Rob Clark <robdclark@chromium.org>
+On Tue, 28 Feb 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> This moves DSC RC tables to DRM DSC helper. No additional code changes
+> and/or cleanups are a part of this commit, it will be cleaned up in the
+> followup commits.
 >
-> Add a build option to disable modesetting support.  This is useful in
-> cases where the guest only needs to use the GPU in a headless mode, or
-> (such as in the CrOS usage) window surfaces are proxied to a host
-> compositor.
->
-> As the modesetting ioctls are a big surface area for potential security
-> bugs to be found (it's happened in the past, we should assume it will
-> again in the future), it makes sense to have a build option to disable
-> those ioctls in cases where they serve no legitimate purpose.
->
-> v2: Use more if (IS_ENABLED(...))
-> v3: Also permit the host to advertise no scanouts
-> v4: Spiff out commit msg
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
+>  drivers/gpu/drm/display/drm_dsc_helper.c  | 364 ++++++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_vdsc.c | 319 +------------------
+>  include/drm/display/drm_dsc_helper.h      |   1 +
+>  3 files changed, 372 insertions(+), 312 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
+> index ab8679c158b5..deaa84722bd4 100644
+> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
+> @@ -307,6 +307,370 @@ void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg)
+>  }
+>  EXPORT_SYMBOL(drm_dsc_set_rc_buf_thresh);
+>  
+> +enum ROW_INDEX_BPP {
+> +	ROW_INDEX_6BPP = 0,
+> +	ROW_INDEX_8BPP,
+> +	ROW_INDEX_10BPP,
+> +	ROW_INDEX_12BPP,
+> +	ROW_INDEX_15BPP,
+> +	MAX_ROW_INDEX
+> +};
+> +
+> +enum COLUMN_INDEX_BPC {
+> +	COLUMN_INDEX_8BPC = 0,
+> +	COLUMN_INDEX_10BPC,
+> +	COLUMN_INDEX_12BPC,
+> +	COLUMN_INDEX_14BPC,
+> +	COLUMN_INDEX_16BPC,
+> +	MAX_COLUMN_INDEX
+> +};
+> +
+> +struct rc_parameters {
+> +	u16 initial_xmit_delay;
+> +	u8 first_line_bpg_offset;
+> +	u16 initial_offset;
+> +	u8 flatness_min_qp;
+> +	u8 flatness_max_qp;
+> +	u8 rc_quant_incr_limit0;
+> +	u8 rc_quant_incr_limit1;
+> +	struct drm_dsc_rc_range_parameters rc_range_params[DSC_NUM_BUF_RANGES];
+> +};
+> +
+> +/*
+> + * Selected Rate Control Related Parameter Recommended Values
+> + * from DSC_v1.11 spec & C Model release: DSC_model_20161212
+> + */
+> +static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
+> +{
+> +	/* 6BPP/8BPC */
+> +	{ 768, 15, 6144, 3, 13, 11, 11, {
+> +		{ 0, 4, 0 }, { 1, 6, -2 }, { 3, 8, -2 }, { 4, 8, -4 },
+> +		{ 5, 9, -6 }, { 5, 9, -6 }, { 6, 9, -6 }, { 6, 10, -8 },
+> +		{ 7, 11, -8 }, { 8, 12, -10 }, { 9, 12, -10 }, { 10, 12, -12 },
+> +		{ 10, 12, -12 }, { 11, 12, -12 }, { 13, 14, -12 }
+> +		}
+> +	},
+> +	/* 6BPP/10BPC */
+> +	{ 768, 15, 6144, 7, 17, 15, 15, {
+> +		{ 0, 8, 0 }, { 3, 10, -2 }, { 7, 12, -2 }, { 8, 12, -4 },
+> +		{ 9, 13, -6 }, { 9, 13, -6 }, { 10, 13, -6 }, { 10, 14, -8 },
+> +		{ 11, 15, -8 }, { 12, 16, -10 }, { 13, 16, -10 },
+> +		{ 14, 16, -12 }, { 14, 16, -12 }, { 15, 16, -12 },
+> +		{ 17, 18, -12 }
+> +		}
+> +	},
+> +	/* 6BPP/12BPC */
+> +	{ 768, 15, 6144, 11, 21, 19, 19, {
+> +		{ 0, 12, 0 }, { 5, 14, -2 }, { 11, 16, -2 }, { 12, 16, -4 },
+> +		{ 13, 17, -6 }, { 13, 17, -6 }, { 14, 17, -6 }, { 14, 18, -8 },
+> +		{ 15, 19, -8 }, { 16, 20, -10 }, { 17, 20, -10 },
+> +		{ 18, 20, -12 }, { 18, 20, -12 }, { 19, 20, -12 },
+> +		{ 21, 22, -12 }
+> +		}
+> +	},
+> +	/* 6BPP/14BPC */
+> +	{ 768, 15, 6144, 15, 25, 23, 23, {
+> +		{ 0, 16, 0 }, { 7, 18, -2 }, { 15, 20, -2 }, { 16, 20, -4 },
+> +		{ 17, 21, -6 }, { 17, 21, -6 }, { 18, 21, -6 }, { 18, 22, -8 },
+> +		{ 19, 23, -8 }, { 20, 24, -10 }, { 21, 24, -10 },
+> +		{ 22, 24, -12 }, { 22, 24, -12 }, { 23, 24, -12 },
+> +		{ 25, 26, -12 }
+> +		}
+> +	},
+> +	/* 6BPP/16BPC */
+> +	{ 768, 15, 6144, 19, 29, 27, 27, {
+> +		{ 0, 20, 0 }, { 9, 22, -2 }, { 19, 24, -2 }, { 20, 24, -4 },
+> +		{ 21, 25, -6 }, { 21, 25, -6 }, { 22, 25, -6 }, { 22, 26, -8 },
+> +		{ 23, 27, -8 }, { 24, 28, -10 }, { 25, 28, -10 },
+> +		{ 26, 28, -12 }, { 26, 28, -12 }, { 27, 28, -12 },
+> +		{ 29, 30, -12 }
+> +		}
+> +	},
+> +},
+> +{
+> +	/* 8BPP/8BPC */
+> +	{ 512, 12, 6144, 3, 12, 11, 11, {
+> +		{ 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
+> +		{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+> +		{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
+> +		{ 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
+> +		}
+> +	},
+> +	/* 8BPP/10BPC */
+> +	{ 512, 12, 6144, 7, 16, 15, 15, {
+> +		/*
+> +		 * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
+> +		 * VESA DSC 1.1 Table E-5 sets it to 4.
+> +		 */
+> +		{ 0, 4, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
+> +		{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+> +		{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
+> +		{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
+> +		}
+> +	},
+> +	/* 8BPP/12BPC */
+> +	{ 512, 12, 6144, 11, 20, 19, 19, {
+> +		{ 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
+> +		{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+> +		{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
+> +		{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
+> +		{ 21, 23, -12 }
+> +		}
+> +	},
+> +	/* 8BPP/14BPC */
+> +	{ 512, 12, 6144, 15, 24, 23, 23, {
+> +		{ 0, 12, 2 }, { 5, 13, 0 }, { 11, 15, 0 }, { 12, 17, -2 },
+> +		{ 15, 19, -4 }, { 15, 19, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
+> +		{ 15, 21, -8 }, { 15, 22, -10 }, { 17, 22, -10 },
+> +		{ 17, 23, -12 }, { 17, 23, -12 }, { 21, 24, -12 },
+> +		{ 24, 25, -12 }
+> +		}
+> +	},
+> +	/* 8BPP/16BPC */
+> +	{ 512, 12, 6144, 19, 28, 27, 27, {
+> +		{ 0, 12, 2 }, { 6, 14, 0 }, { 13, 17, 0 }, { 15, 20, -2 },
+> +		{ 19, 23, -4 }, { 19, 23, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
+> +		{ 19, 25, -8 }, { 19, 26, -10 }, { 21, 26, -10 },
+> +		{ 21, 27, -12 }, { 21, 27, -12 }, { 25, 28, -12 },
+> +		{ 28, 29, -12 }
+> +		}
+> +	},
+> +},
+> +{
+> +	/* 10BPP/8BPC */
+> +	{ 410, 15, 5632, 3, 12, 11, 11, {
+> +		{ 0, 3, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 2, 6, -2 },
+> +		{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+> +		{ 3, 9, -8 }, { 3, 9, -10 }, { 5, 10, -10 }, { 5, 10, -10 },
+> +		{ 5, 11, -12 }, { 7, 11, -12 }, { 11, 12, -12 }
+> +		}
+> +	},
+> +	/* 10BPP/10BPC */
+> +	{ 410, 15, 5632, 7, 16, 15, 15, {
+> +		{ 0, 7, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 6, 10, -2 },
+> +		{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+> +		{ 7, 13, -8 }, { 7, 13, -10 }, { 9, 14, -10 }, { 9, 14, -10 },
+> +		{ 9, 15, -12 }, { 11, 15, -12 }, { 15, 16, -12 }
+> +		}
+> +	},
+> +	/* 10BPP/12BPC */
+> +	{ 410, 15, 5632, 11, 20, 19, 19, {
+> +		{ 0, 11, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 10, 14, -2 },
+> +		{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+> +		{ 11, 17, -8 }, { 11, 17, -10 }, { 13, 18, -10 },
+> +		{ 13, 18, -10 }, { 13, 19, -12 }, { 15, 19, -12 },
+> +		{ 19, 20, -12 }
+> +		}
+> +	},
+> +	/* 10BPP/14BPC */
+> +	{ 410, 15, 5632, 15, 24, 23, 23, {
+> +		{ 0, 11, 2 }, { 5, 13, 0 }, { 11, 15, 0 }, { 13, 18, -2 },
+> +		{ 15, 19, -4 }, { 15, 19, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
+> +		{ 15, 21, -8 }, { 15, 21, -10 }, { 17, 22, -10 },
+> +		{ 17, 22, -10 }, { 17, 23, -12 }, { 19, 23, -12 },
+> +		{ 23, 24, -12 }
+> +		}
+> +	},
+> +	/* 10BPP/16BPC */
+> +	{ 410, 15, 5632, 19, 28, 27, 27, {
+> +		{ 0, 11, 2 }, { 6, 14, 0 }, { 13, 17, 0 }, { 16, 20, -2 },
+> +		{ 19, 23, -4 }, { 19, 23, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
+> +		{ 19, 25, -8 }, { 19, 25, -10 }, { 21, 26, -10 },
+> +		{ 21, 26, -10 }, { 21, 27, -12 }, { 23, 27, -12 },
+> +		{ 27, 28, -12 }
+> +		}
+> +	},
+> +},
+> +{
+> +	/* 12BPP/8BPC */
+> +	{ 341, 15, 2048, 3, 12, 11, 11, {
+> +		{ 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
+> +		{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+> +		{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
+> +		{ 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
+> +		}
+> +	},
+> +	/* 12BPP/10BPC */
+> +	{ 341, 15, 2048, 7, 16, 15, 15, {
+> +		{ 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
+> +		{ 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+> +		{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
+> +		{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
+> +		}
+> +	},
+> +	/* 12BPP/12BPC */
+> +	{ 341, 15, 2048, 11, 20, 19, 19, {
+> +		{ 0, 6, 2 }, { 4, 9, 0 }, { 7, 11, 0 }, { 8, 12, -2 },
+> +		{ 10, 13, -4 }, { 11, 14, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+> +		{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
+> +		{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
+> +		{ 21, 23, -12 }
+> +		}
+> +	},
+> +	/* 12BPP/14BPC */
+> +	{ 341, 15, 2048, 15, 24, 23, 23, {
+> +		{ 0, 6, 2 }, { 7, 10, 0 }, { 9, 13, 0 }, { 11, 16, -2 },
+> +		{ 14, 17, -4 }, { 15, 18, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
+> +		{ 15, 20, -8 }, { 15, 21, -10 }, { 17, 21, -10 },
+> +		{ 17, 21, -12 }, { 17, 21, -12 }, { 19, 22, -12 },
+> +		{ 22, 23, -12 }
+> +		}
+> +	},
+> +	/* 12BPP/16BPC */
+> +	{ 341, 15, 2048, 19, 28, 27, 27, {
+> +		{ 0, 6, 2 }, { 6, 11, 0 }, { 11, 15, 0 }, { 14, 18, -2 },
+> +		{ 18, 21, -4 }, { 19, 22, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
+> +		{ 19, 24, -8 }, { 19, 25, -10 }, { 21, 25, -10 },
+> +		{ 21, 25, -12 }, { 21, 25, -12 }, { 23, 26, -12 },
+> +		{ 26, 27, -12 }
+> +		}
+> +	},
+> +},
+> +{
+> +	/* 15BPP/8BPC */
+> +	{ 273, 15, 2048, 3, 12, 11, 11, {
+> +		{ 0, 0, 10 }, { 0, 1, 8 }, { 0, 1, 6 }, { 0, 2, 4 },
+> +		{ 1, 2, 2 }, { 1, 3, 0 }, { 1, 3, -2 }, { 2, 4, -4 },
+> +		{ 2, 5, -6 }, { 3, 5, -8 }, { 4, 6, -10 }, { 4, 7, -10 },
+> +		{ 5, 7, -12 }, { 7, 8, -12 }, { 8, 9, -12 }
+> +		}
+> +	},
+> +	/* 15BPP/10BPC */
+> +	{ 273, 15, 2048, 7, 16, 15, 15, {
+> +		{ 0, 2, 10 }, { 2, 5, 8 }, { 3, 5, 6 }, { 4, 6, 4 },
+> +		{ 5, 6, 2 }, { 5, 7, 0 }, { 5, 7, -2 }, { 6, 8, -4 },
+> +		{ 6, 9, -6 }, { 7, 9, -8 }, { 8, 10, -10 }, { 8, 11, -10 },
+> +		{ 9, 11, -12 }, { 11, 12, -12 }, { 12, 13, -12 }
+> +		}
+> +	},
+> +	/* 15BPP/12BPC */
+> +	{ 273, 15, 2048, 11, 20, 19, 19, {
+> +		{ 0, 4, 10 }, { 2, 7, 8 }, { 4, 9, 6 }, { 6, 11, 4 },
+> +		{ 9, 11, 2 }, { 9, 11, 0 }, { 9, 12, -2 }, { 10, 12, -4 },
+> +		{ 11, 13, -6 }, { 11, 13, -8 }, { 12, 14, -10 },
+> +		{ 13, 15, -10 }, { 13, 15, -12 }, { 15, 16, -12 },
+> +		{ 16, 17, -12 }
+> +		}
+> +	},
+> +	/* 15BPP/14BPC */
+> +	{ 273, 15, 2048, 15, 24, 23, 23, {
+> +		{ 0, 4, 10 }, { 3, 8, 8 }, { 6, 11, 6 }, { 9, 14, 4 },
+> +		{ 13, 15, 2 }, { 13, 15, 0 }, { 13, 16, -2 }, { 14, 16, -4 },
+> +		{ 15, 17, -6 }, { 15, 17, -8 }, { 16, 18, -10 },
+> +		{ 17, 19, -10 }, { 17, 19, -12 }, { 19, 20, -12 },
+> +		{ 20, 21, -12 }
+> +		}
+> +	},
+> +	/* 15BPP/16BPC */
+> +	{ 273, 15, 2048, 19, 28, 27, 27, {
+> +		{ 0, 4, 10 }, { 4, 9, 8 }, { 8, 13, 6 }, { 12, 17, 4 },
+> +		{ 17, 19, 2 }, { 17, 20, 0 }, { 17, 20, -2 }, { 18, 20, -4 },
+> +		{ 19, 21, -6 }, { 19, 21, -8 }, { 20, 22, -10 },
+> +		{ 21, 23, -10 }, { 21, 23, -12 }, { 23, 24, -12 },
+> +		{ 24, 25, -12 }
+> +		}
+> +	}
+> +}
+> +};
+> +
+> +static int get_row_index_for_rc_params(u16 compressed_bpp)
+> +{
+> +	switch (compressed_bpp) {
+> +	case 6:
+> +		return ROW_INDEX_6BPP;
+> +	case 8:
+> +		return ROW_INDEX_8BPP;
+> +	case 10:
+> +		return ROW_INDEX_10BPP;
+> +	case 12:
+> +		return ROW_INDEX_12BPP;
+> +	case 15:
+> +		return ROW_INDEX_15BPP;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int get_column_index_for_rc_params(u8 bits_per_component)
+> +{
+> +	switch (bits_per_component) {
+> +	case 8:
+> +		return COLUMN_INDEX_8BPC;
+> +	case 10:
+> +		return COLUMN_INDEX_10BPC;
+> +	case 12:
+> +		return COLUMN_INDEX_12BPC;
+> +	case 14:
+> +		return COLUMN_INDEX_14BPC;
+> +	case 16:
+> +		return COLUMN_INDEX_16BPC;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static const struct rc_parameters *get_rc_params(u16 compressed_bpp,
+> +						 u8 bits_per_component)
+> +{
+> +	int row_index, column_index;
+> +
+> +	row_index = get_row_index_for_rc_params(compressed_bpp);
+> +	if (row_index < 0)
+> +		return NULL;
+> +
+> +	column_index = get_column_index_for_rc_params(bits_per_component);
+> +	if (column_index < 0)
+> +		return NULL;
+> +
+> +	return &rc_parameters[row_index][column_index];
+> +}
+> +
+> +/**
+> + * drm_dsc_compute_rc_parameters() - Set parameters and limits for RC model in
 
-The patch looks good to me.
+Copy-paste function name left in. ;)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> + * accordance with the DSC 1.1 or 1.2 specification and DSC C Model
+> + *
+> + * @vdsc_cfg: DSC Configuration data partially filled by driver
+
+Maybe mention what needs to be set beforehands? Or better yet, warn
+about missing setup and return -EINVAL? *shrug*
+
+Returns?
+
+Other than that,
+
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+
+
+> + */
+> +int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg)
+> +{
+> +	const struct rc_parameters *rc_params;
+> +	int i;
+> +
+> +	/* fractional BPP is not supported */
+> +	if (vdsc_cfg->bits_per_pixel & 0xf)
+> +		return -EINVAL;
+> +
+> +	rc_params = get_rc_params(vdsc_cfg->bits_per_pixel >> 4,
+> +				  vdsc_cfg->bits_per_component);
+> +	if (!rc_params)
+> +		return -EINVAL;
+> +
+> +	vdsc_cfg->first_line_bpg_offset = rc_params->first_line_bpg_offset;
+> +	vdsc_cfg->initial_xmit_delay = rc_params->initial_xmit_delay;
+> +	vdsc_cfg->initial_offset = rc_params->initial_offset;
+> +	vdsc_cfg->flatness_min_qp = rc_params->flatness_min_qp;
+> +	vdsc_cfg->flatness_max_qp = rc_params->flatness_max_qp;
+> +	vdsc_cfg->rc_quant_incr_limit0 = rc_params->rc_quant_incr_limit0;
+> +	vdsc_cfg->rc_quant_incr_limit1 = rc_params->rc_quant_incr_limit1;
+> +
+> +	for (i = 0; i < DSC_NUM_BUF_RANGES; i++) {
+> +		vdsc_cfg->rc_range_params[i].range_min_qp =
+> +			rc_params->rc_range_params[i].range_min_qp;
+> +		vdsc_cfg->rc_range_params[i].range_max_qp =
+> +			rc_params->rc_range_params[i].range_max_qp;
+> +		/*
+> +		 * Range BPG Offset uses 2's complement and is only a 6 bits. So
+> +		 * mask it to get only 6 bits.
+> +		 */
+> +		vdsc_cfg->rc_range_params[i].range_bpg_offset =
+> +			rc_params->rc_range_params[i].range_bpg_offset &
+> +			DSC_RANGE_BPG_OFFSET_MASK;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dsc_setup_rc_params);
+> +
+>  /**
+>   * drm_dsc_compute_rc_parameters() - Write rate control
+>   * parameters to the dsc configuration defined in
+> diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> index b4faab4c8fb3..d5a7e9494b23 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> @@ -18,24 +18,6 @@
+>  #include "intel_qp_tables.h"
+>  #include "intel_vdsc.h"
+>  
+> -enum ROW_INDEX_BPP {
+> -	ROW_INDEX_6BPP = 0,
+> -	ROW_INDEX_8BPP,
+> -	ROW_INDEX_10BPP,
+> -	ROW_INDEX_12BPP,
+> -	ROW_INDEX_15BPP,
+> -	MAX_ROW_INDEX
+> -};
+> -
+> -enum COLUMN_INDEX_BPC {
+> -	COLUMN_INDEX_8BPC = 0,
+> -	COLUMN_INDEX_10BPC,
+> -	COLUMN_INDEX_12BPC,
+> -	COLUMN_INDEX_14BPC,
+> -	COLUMN_INDEX_16BPC,
+> -	MAX_COLUMN_INDEX
+> -};
+> -
+>  struct rc_parameters {
+>  	u16 initial_xmit_delay;
+>  	u8 first_line_bpg_offset;
+> @@ -47,296 +29,6 @@ struct rc_parameters {
+>  	struct drm_dsc_rc_range_parameters rc_range_params[DSC_NUM_BUF_RANGES];
+>  };
+>  
+> -/*
+> - * Selected Rate Control Related Parameter Recommended Values
+> - * from DSC_v1.11 spec & C Model release: DSC_model_20161212
+> - */
+> -static const struct rc_parameters rc_parameters[][MAX_COLUMN_INDEX] = {
+> -{
+> -	/* 6BPP/8BPC */
+> -	{ 768, 15, 6144, 3, 13, 11, 11, {
+> -		{ 0, 4, 0 }, { 1, 6, -2 }, { 3, 8, -2 }, { 4, 8, -4 },
+> -		{ 5, 9, -6 }, { 5, 9, -6 }, { 6, 9, -6 }, { 6, 10, -8 },
+> -		{ 7, 11, -8 }, { 8, 12, -10 }, { 9, 12, -10 }, { 10, 12, -12 },
+> -		{ 10, 12, -12 }, { 11, 12, -12 }, { 13, 14, -12 }
+> -		}
+> -	},
+> -	/* 6BPP/10BPC */
+> -	{ 768, 15, 6144, 7, 17, 15, 15, {
+> -		{ 0, 8, 0 }, { 3, 10, -2 }, { 7, 12, -2 }, { 8, 12, -4 },
+> -		{ 9, 13, -6 }, { 9, 13, -6 }, { 10, 13, -6 }, { 10, 14, -8 },
+> -		{ 11, 15, -8 }, { 12, 16, -10 }, { 13, 16, -10 },
+> -		{ 14, 16, -12 }, { 14, 16, -12 }, { 15, 16, -12 },
+> -		{ 17, 18, -12 }
+> -		}
+> -	},
+> -	/* 6BPP/12BPC */
+> -	{ 768, 15, 6144, 11, 21, 19, 19, {
+> -		{ 0, 12, 0 }, { 5, 14, -2 }, { 11, 16, -2 }, { 12, 16, -4 },
+> -		{ 13, 17, -6 }, { 13, 17, -6 }, { 14, 17, -6 }, { 14, 18, -8 },
+> -		{ 15, 19, -8 }, { 16, 20, -10 }, { 17, 20, -10 },
+> -		{ 18, 20, -12 }, { 18, 20, -12 }, { 19, 20, -12 },
+> -		{ 21, 22, -12 }
+> -		}
+> -	},
+> -	/* 6BPP/14BPC */
+> -	{ 768, 15, 6144, 15, 25, 23, 23, {
+> -		{ 0, 16, 0 }, { 7, 18, -2 }, { 15, 20, -2 }, { 16, 20, -4 },
+> -		{ 17, 21, -6 }, { 17, 21, -6 }, { 18, 21, -6 }, { 18, 22, -8 },
+> -		{ 19, 23, -8 }, { 20, 24, -10 }, { 21, 24, -10 },
+> -		{ 22, 24, -12 }, { 22, 24, -12 }, { 23, 24, -12 },
+> -		{ 25, 26, -12 }
+> -		}
+> -	},
+> -	/* 6BPP/16BPC */
+> -	{ 768, 15, 6144, 19, 29, 27, 27, {
+> -		{ 0, 20, 0 }, { 9, 22, -2 }, { 19, 24, -2 }, { 20, 24, -4 },
+> -		{ 21, 25, -6 }, { 21, 25, -6 }, { 22, 25, -6 }, { 22, 26, -8 },
+> -		{ 23, 27, -8 }, { 24, 28, -10 }, { 25, 28, -10 },
+> -		{ 26, 28, -12 }, { 26, 28, -12 }, { 27, 28, -12 },
+> -		{ 29, 30, -12 }
+> -		}
+> -	},
+> -},
+> -{
+> -	/* 8BPP/8BPC */
+> -	{ 512, 12, 6144, 3, 12, 11, 11, {
+> -		{ 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
+> -		{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+> -		{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
+> -		{ 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
+> -		}
+> -	},
+> -	/* 8BPP/10BPC */
+> -	{ 512, 12, 6144, 7, 16, 15, 15, {
+> -		/*
+> -		 * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
+> -		 * VESA DSC 1.1 Table E-5 sets it to 4.
+> -		 */
+> -		{ 0, 4, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
+> -		{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+> -		{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
+> -		{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
+> -		}
+> -	},
+> -	/* 8BPP/12BPC */
+> -	{ 512, 12, 6144, 11, 20, 19, 19, {
+> -		{ 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
+> -		{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+> -		{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
+> -		{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
+> -		{ 21, 23, -12 }
+> -		}
+> -	},
+> -	/* 8BPP/14BPC */
+> -	{ 512, 12, 6144, 15, 24, 23, 23, {
+> -		{ 0, 12, 2 }, { 5, 13, 0 }, { 11, 15, 0 }, { 12, 17, -2 },
+> -		{ 15, 19, -4 }, { 15, 19, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
+> -		{ 15, 21, -8 }, { 15, 22, -10 }, { 17, 22, -10 },
+> -		{ 17, 23, -12 }, { 17, 23, -12 }, { 21, 24, -12 },
+> -		{ 24, 25, -12 }
+> -		}
+> -	},
+> -	/* 8BPP/16BPC */
+> -	{ 512, 12, 6144, 19, 28, 27, 27, {
+> -		{ 0, 12, 2 }, { 6, 14, 0 }, { 13, 17, 0 }, { 15, 20, -2 },
+> -		{ 19, 23, -4 }, { 19, 23, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
+> -		{ 19, 25, -8 }, { 19, 26, -10 }, { 21, 26, -10 },
+> -		{ 21, 27, -12 }, { 21, 27, -12 }, { 25, 28, -12 },
+> -		{ 28, 29, -12 }
+> -		}
+> -	},
+> -},
+> -{
+> -	/* 10BPP/8BPC */
+> -	{ 410, 15, 5632, 3, 12, 11, 11, {
+> -		{ 0, 3, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 2, 6, -2 },
+> -		{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+> -		{ 3, 9, -8 }, { 3, 9, -10 }, { 5, 10, -10 }, { 5, 10, -10 },
+> -		{ 5, 11, -12 }, { 7, 11, -12 }, { 11, 12, -12 }
+> -		}
+> -	},
+> -	/* 10BPP/10BPC */
+> -	{ 410, 15, 5632, 7, 16, 15, 15, {
+> -		{ 0, 7, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 6, 10, -2 },
+> -		{ 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+> -		{ 7, 13, -8 }, { 7, 13, -10 }, { 9, 14, -10 }, { 9, 14, -10 },
+> -		{ 9, 15, -12 }, { 11, 15, -12 }, { 15, 16, -12 }
+> -		}
+> -	},
+> -	/* 10BPP/12BPC */
+> -	{ 410, 15, 5632, 11, 20, 19, 19, {
+> -		{ 0, 11, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 10, 14, -2 },
+> -		{ 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+> -		{ 11, 17, -8 }, { 11, 17, -10 }, { 13, 18, -10 },
+> -		{ 13, 18, -10 }, { 13, 19, -12 }, { 15, 19, -12 },
+> -		{ 19, 20, -12 }
+> -		}
+> -	},
+> -	/* 10BPP/14BPC */
+> -	{ 410, 15, 5632, 15, 24, 23, 23, {
+> -		{ 0, 11, 2 }, { 5, 13, 0 }, { 11, 15, 0 }, { 13, 18, -2 },
+> -		{ 15, 19, -4 }, { 15, 19, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
+> -		{ 15, 21, -8 }, { 15, 21, -10 }, { 17, 22, -10 },
+> -		{ 17, 22, -10 }, { 17, 23, -12 }, { 19, 23, -12 },
+> -		{ 23, 24, -12 }
+> -		}
+> -	},
+> -	/* 10BPP/16BPC */
+> -	{ 410, 15, 5632, 19, 28, 27, 27, {
+> -		{ 0, 11, 2 }, { 6, 14, 0 }, { 13, 17, 0 }, { 16, 20, -2 },
+> -		{ 19, 23, -4 }, { 19, 23, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
+> -		{ 19, 25, -8 }, { 19, 25, -10 }, { 21, 26, -10 },
+> -		{ 21, 26, -10 }, { 21, 27, -12 }, { 23, 27, -12 },
+> -		{ 27, 28, -12 }
+> -		}
+> -	},
+> -},
+> -{
+> -	/* 12BPP/8BPC */
+> -	{ 341, 15, 2048, 3, 12, 11, 11, {
+> -		{ 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
+> -		{ 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
+> -		{ 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
+> -		{ 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
+> -		}
+> -	},
+> -	/* 12BPP/10BPC */
+> -	{ 341, 15, 2048, 7, 16, 15, 15, {
+> -		{ 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
+> -		{ 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
+> -		{ 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
+> -		{ 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
+> -		}
+> -	},
+> -	/* 12BPP/12BPC */
+> -	{ 341, 15, 2048, 11, 20, 19, 19, {
+> -		{ 0, 6, 2 }, { 4, 9, 0 }, { 7, 11, 0 }, { 8, 12, -2 },
+> -		{ 10, 13, -4 }, { 11, 14, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
+> -		{ 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
+> -		{ 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
+> -		{ 21, 23, -12 }
+> -		}
+> -	},
+> -	/* 12BPP/14BPC */
+> -	{ 341, 15, 2048, 15, 24, 23, 23, {
+> -		{ 0, 6, 2 }, { 7, 10, 0 }, { 9, 13, 0 }, { 11, 16, -2 },
+> -		{ 14, 17, -4 }, { 15, 18, -6 }, { 15, 19, -8 }, { 15, 20, -8 },
+> -		{ 15, 20, -8 }, { 15, 21, -10 }, { 17, 21, -10 },
+> -		{ 17, 21, -12 }, { 17, 21, -12 }, { 19, 22, -12 },
+> -		{ 22, 23, -12 }
+> -		}
+> -	},
+> -	/* 12BPP/16BPC */
+> -	{ 341, 15, 2048, 19, 28, 27, 27, {
+> -		{ 0, 6, 2 }, { 6, 11, 0 }, { 11, 15, 0 }, { 14, 18, -2 },
+> -		{ 18, 21, -4 }, { 19, 22, -6 }, { 19, 23, -8 }, { 19, 24, -8 },
+> -		{ 19, 24, -8 }, { 19, 25, -10 }, { 21, 25, -10 },
+> -		{ 21, 25, -12 }, { 21, 25, -12 }, { 23, 26, -12 },
+> -		{ 26, 27, -12 }
+> -		}
+> -	},
+> -},
+> -{
+> -	/* 15BPP/8BPC */
+> -	{ 273, 15, 2048, 3, 12, 11, 11, {
+> -		{ 0, 0, 10 }, { 0, 1, 8 }, { 0, 1, 6 }, { 0, 2, 4 },
+> -		{ 1, 2, 2 }, { 1, 3, 0 }, { 1, 3, -2 }, { 2, 4, -4 },
+> -		{ 2, 5, -6 }, { 3, 5, -8 }, { 4, 6, -10 }, { 4, 7, -10 },
+> -		{ 5, 7, -12 }, { 7, 8, -12 }, { 8, 9, -12 }
+> -		}
+> -	},
+> -	/* 15BPP/10BPC */
+> -	{ 273, 15, 2048, 7, 16, 15, 15, {
+> -		{ 0, 2, 10 }, { 2, 5, 8 }, { 3, 5, 6 }, { 4, 6, 4 },
+> -		{ 5, 6, 2 }, { 5, 7, 0 }, { 5, 7, -2 }, { 6, 8, -4 },
+> -		{ 6, 9, -6 }, { 7, 9, -8 }, { 8, 10, -10 }, { 8, 11, -10 },
+> -		{ 9, 11, -12 }, { 11, 12, -12 }, { 12, 13, -12 }
+> -		}
+> -	},
+> -	/* 15BPP/12BPC */
+> -	{ 273, 15, 2048, 11, 20, 19, 19, {
+> -		{ 0, 4, 10 }, { 2, 7, 8 }, { 4, 9, 6 }, { 6, 11, 4 },
+> -		{ 9, 11, 2 }, { 9, 11, 0 }, { 9, 12, -2 }, { 10, 12, -4 },
+> -		{ 11, 13, -6 }, { 11, 13, -8 }, { 12, 14, -10 },
+> -		{ 13, 15, -10 }, { 13, 15, -12 }, { 15, 16, -12 },
+> -		{ 16, 17, -12 }
+> -		}
+> -	},
+> -	/* 15BPP/14BPC */
+> -	{ 273, 15, 2048, 15, 24, 23, 23, {
+> -		{ 0, 4, 10 }, { 3, 8, 8 }, { 6, 11, 6 }, { 9, 14, 4 },
+> -		{ 13, 15, 2 }, { 13, 15, 0 }, { 13, 16, -2 }, { 14, 16, -4 },
+> -		{ 15, 17, -6 }, { 15, 17, -8 }, { 16, 18, -10 },
+> -		{ 17, 19, -10 }, { 17, 19, -12 }, { 19, 20, -12 },
+> -		{ 20, 21, -12 }
+> -		}
+> -	},
+> -	/* 15BPP/16BPC */
+> -	{ 273, 15, 2048, 19, 28, 27, 27, {
+> -		{ 0, 4, 10 }, { 4, 9, 8 }, { 8, 13, 6 }, { 12, 17, 4 },
+> -		{ 17, 19, 2 }, { 17, 20, 0 }, { 17, 20, -2 }, { 18, 20, -4 },
+> -		{ 19, 21, -6 }, { 19, 21, -8 }, { 20, 22, -10 },
+> -		{ 21, 23, -10 }, { 21, 23, -12 }, { 23, 24, -12 },
+> -		{ 24, 25, -12 }
+> -		}
+> -	}
+> -}
+> -
+> -};
+> -
+> -static int get_row_index_for_rc_params(u16 compressed_bpp)
+> -{
+> -	switch (compressed_bpp) {
+> -	case 6:
+> -		return ROW_INDEX_6BPP;
+> -	case 8:
+> -		return ROW_INDEX_8BPP;
+> -	case 10:
+> -		return ROW_INDEX_10BPP;
+> -	case 12:
+> -		return ROW_INDEX_12BPP;
+> -	case 15:
+> -		return ROW_INDEX_15BPP;
+> -	default:
+> -		return -EINVAL;
+> -	}
+> -}
+> -
+> -static int get_column_index_for_rc_params(u8 bits_per_component)
+> -{
+> -	switch (bits_per_component) {
+> -	case 8:
+> -		return COLUMN_INDEX_8BPC;
+> -	case 10:
+> -		return COLUMN_INDEX_10BPC;
+> -	case 12:
+> -		return COLUMN_INDEX_12BPC;
+> -	case 14:
+> -		return COLUMN_INDEX_14BPC;
+> -	case 16:
+> -		return COLUMN_INDEX_16BPC;
+> -	default:
+> -		return -EINVAL;
+> -	}
+> -}
+> -
+> -static const struct rc_parameters *get_rc_params(u16 compressed_bpp,
+> -						 u8 bits_per_component)
+> -{
+> -	int row_index, column_index;
+> -
+> -	row_index = get_row_index_for_rc_params(compressed_bpp);
+> -	if (row_index < 0)
+> -		return NULL;
+> -
+> -	column_index = get_column_index_for_rc_params(bits_per_component);
+> -	if (column_index < 0)
+> -		return NULL;
+> -
+> -	return &rc_parameters[row_index][column_index];
+> -}
+> -
+>  bool intel_dsc_source_support(const struct intel_crtc_state *crtc_state)
+>  {
+>  	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+> @@ -454,6 +146,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+>  	const struct rc_parameters *rc_params;
+>  	struct rc_parameters *rc = NULL;
+>  	u8 i = 0;
+> +	int ret;
+>  
+>  	vdsc_cfg->pic_width = pipe_config->hw.adjusted_mode.crtc_hdisplay;
+>  	vdsc_cfg->slice_width = DIV_ROUND_UP(vdsc_cfg->pic_width,
+> @@ -483,10 +176,11 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+>  		calculate_rc_params(rc, vdsc_cfg);
+>  		rc_params = rc;
+>  	} else {
+> -		rc_params = get_rc_params(compressed_bpp,
+> -					  vdsc_cfg->bits_per_component);
+> -		if (!rc_params)
+> -			return -EINVAL;
+> +		ret = drm_dsc_setup_rc_params(vdsc_cfg);
+> +		if (ret)
+> +			return ret;
+> +
+> +		goto out;
+>  	}
+>  
+>  	vdsc_cfg->first_line_bpg_offset = rc_params->first_line_bpg_offset;
+> @@ -521,6 +215,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+>  			vdsc_cfg->rc_range_params[0].range_bpg_offset = 0;
+>  	}
+>  
+> +out:
+>  	/*
+>  	 * BitsPerComponent value determines mux_word_size:
+>  	 * When BitsPerComponent is less than or 10bpc, muxWordSize will be equal to
+> diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
+> index 706ba1d34742..1681791f65a5 100644
+> --- a/include/drm/display/drm_dsc_helper.h
+> +++ b/include/drm/display/drm_dsc_helper.h
+> @@ -15,6 +15,7 @@ int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
+>  void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
+>  			      const struct drm_dsc_config *dsc_cfg);
+>  void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
+> +int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg);
+>  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
+>  
+>  #endif /* _DRM_DSC_HELPER_H_ */
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Jani Nikula, Intel Open Source Graphics Center
