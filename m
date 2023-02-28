@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4508B6A57D1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 12:23:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378086A580D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 12:29:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA8EA10E04F;
-	Tue, 28 Feb 2023 11:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC62B10E07D;
+	Tue, 28 Feb 2023 11:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB8810E04F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 11:23:42 +0000 (UTC)
-Received: from [192.168.2.206] (unknown [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3B91E6602FDB;
- Tue, 28 Feb 2023 11:23:40 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677583420;
- bh=E6qt90GxOfucMcC6bgFlkh6pyweclyl9Mhp2XoIESkc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YDjzY7PLJkIFAF01dNDVw8heJ+9gQNPuvtd1JND0dcYRRzev52TSdtMBmSjgnSITw
- sp/8nV9TKGiIDVvVSAZbZAZWr0AO2dsN6whyLFH3s2YvxRxcSZh70rKnfXX/HK565/
- fIq3gJPzie4UGVNTXZnNkawobX78EWBgIzLT6cJYJD22q/inVAqXi2DkqE48Askn38
- i1W7Zauiyp+l+NWiuZfd2vYH+sPzeBytqTk6+1kx8r7tVisAazq2A/MCMgxTnuNm0E
- lq1JEYRnMMLljU2Uy4T0GvJNMxcLNOFKR4iLsWR+EeiY8Z8RQ6HRemD1l0N4rHuc0p
- SbKdBvJz49nhA==
-Message-ID: <33f03f9e-4af3-3237-00dc-d79570d9022a@collabora.com>
-Date: Tue, 28 Feb 2023 14:23:37 +0300
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B228010E6A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 11:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677583747; x=1709119747;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=gOxKykyF6vlKuLJET1MNy+bVWMbzJwF2eV9Lpy2mIEE=;
+ b=PpL3eOJXbG6i0o+Bka/xRTtBH1vMMNFhAgCTpjyRqiZ/XfE0qADnZYNo
+ ivLEAx+ldkmj0MFxomUaZvfz0m3onmdDrqzyBJd7aNXhwpSDtOUKAKVvQ
+ p3lL03KJEA0/z8tTF3T9YP/GzoR+tLHwEWDIHvvkVkYTqANMjusFf7jBB
+ /oF5yypofCej4SUeEJZn/GeYtxyWOAhdC/pXHKGM4oOxh4hRA2WpkEOWP
+ ugxLVUAr4rzasq2k/m5PaKaW9wSnBAJdcdamoGz+CUMuuG3xQQCxakC2T
+ 2qQZUq33RIwigc5nHZJN9mbBuxeeyAvN2+K5yCHu2eUwsCFkFfUZf0enI w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="335598018"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="335598018"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 03:28:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="763139657"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="763139657"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by FMSMGA003.fm.intel.com with SMTP; 28 Feb 2023 03:28:48 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 28 Feb 2023 13:28:48 +0200
+Date: Tue, 28 Feb 2023 13:28:48 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH] drm: document TV margin properties
+Message-ID: <Y/3lcEq5y2SrUYyA@intel.com>
+References: <20230227122108.117279-1-contact@emersion.fr>
+ <20230228104642.21dae84c@eldfell>
+ <UA_4dHbPqQvjG0TrP7OhP73PFlhdTNg9Mx9GW3MRGX_JskeQHTNaZyKTBj4AmJoSgutHZeQTa08RkRBuFS6xfTPpEm7MrVtJZEaq88ZYg1s=@emersion.fr>
+ <20230228121222.4abf13cb@eldfell>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/virtio: Add option to disable KMS support
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>
-References: <20230224180225.2477641-1-robdclark@gmail.com>
- <20230227063821.dg2gbjjwcekbxyzw@sirius.home.kraxel.org>
- <CAF6AEGsv1G7CPSkCPe3iHGB9JEO4iy+bTbkFLoitmx64U78RJw@mail.gmail.com>
- <20230228062809.ccyzgnvizh6jidn4@sirius.home.kraxel.org>
- <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230228121222.4abf13cb@eldfell>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +63,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/23 12:19, Javier Martinez Canillas wrote:
-> Gerd Hoffmann <kraxel@redhat.com> writes:
+On Tue, Feb 28, 2023 at 12:12:22PM +0200, Pekka Paalanen wrote:
+> On Tue, 28 Feb 2023 09:53:47 +0000
+> Simon Ser <contact@emersion.fr> wrote:
 > 
-> Hello Gerd,
-> 
->> On Mon, Feb 27, 2023 at 07:40:11AM -0800, Rob Clark wrote:
->>> On Sun, Feb 26, 2023 at 10:38 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->>>> On Fri, Feb 24, 2023 at 10:02:24AM -0800, Rob Clark wrote:
->>>>> From: Rob Clark <robdclark@chromium.org>
->>>>>
->>>>> Add a build option to disable modesetting support.  This is useful in
->>>>> cases where the guest only needs to use the GPU in a headless mode, or
->>>>> (such as in the CrOS usage) window surfaces are proxied to a host
->>>>> compositor.
->>>> Why make that a compile time option?  There is a config option for the
->>>> number of scanouts (aka virtual displays) a device has.  Just set that
->>>> to zero (and fix the driver to not consider that configuration an
->>>> error).
->>> The goal is to not advertise DRIVER_MODESET (and DRIVER_ATOMIC).. I
->>> guess that could be done based on whether there are any scanouts, but
->>> it would mean making the drm_driver struct non-const.
->> Apparently there is a drm_device->driver_features override,
->> (amdgpu uses that).  The driver could simply drop the DRIVER_MODESET and
->> DRIVER_ATOMIC bits in case no scanout is present instead of throwing an
->> error.
->>
->>> And I think it is legitimate to allow the guest to make this choice,
->>> regardless of what the host decides to expose, since it is about the
->>> ioctl surface area that the guest kernel exposes to guest userspace.
->> I think it is a bad idea to make that a compile time option, I'd suggest
->> a runtime switch instead, for example a module parameter to ask the
->> driver to ignore any scanouts.
->>
-> I don't think there's a need for a new module parameter, there's already
-> the virtio-gpu 'modeset' module parameter to enable/disable modsetting
-> and the global 'nomodeset' kernel cmdline parameter to do it for all DRM
-> drivers.
-> 
-> Currently, many drivers just fail to probe when 'nomodeset' is present,
-> but others only disable modsetting but keep the rendering part. In fact,
-> most DRM only drivers just ignore the 'nomodeset' parameter.
+> > On Tuesday, February 28th, 2023 at 09:46, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > 
+> > > can these be negative as well, to achieve overscan and not just
+> > > underscan? Did I get overscan and underscan right... these are related
+> > > to under/overscan, aren't they?
+> > > 
+> > > Hmm, no, I guess that doesn't make sense, there is no room in the
+> > > signal to have negative margins, it would result in clipping the
+> > > framebuffer while scaling up. So this can only be used to scale
+> > > framebuffer down, add borders, and the TV then scales it back up
+> > > again?  
+> > 
+> > Correct.
+> > 
+> > > Looks like neither my Intel nor AMD cards support these, I don't see
+> > > the properties. More things to the list of KMS properties Weston needs
+> > > to explicitly control. Oh, it seems vc4 exclusive for now.  
+> > 
+> > i915 does support it but for TV connectors only (i915/display/intel_tv.c).
 
-IIUC, Rob's main point for having a config option is solely for security
-reasons. The config option eliminates possibility of accidentally (or
-intentionally) enabling KMS from software, which is better to have in
-case of shipping a product (Chromebook) on which multiple teams are
-working on.
+I also have some patches to add it for HDMI and DP on i915.
+But those are a bit stalled due to more important stuff
+taking up my time.
+
+Some fairly old version here:
+https://github.com/vsyrjala/linux.git hdmi_margins_3
+
+> > > Is this instead not scaling anything but simply sending metadata
+> > > through the connector?  
+> > 
+> > No metadata is sent. This is purely equivalent to setting up CRTC_*
+> > properties to scale the planes.
+
+My wip HDMI/DP patches do set the AVI inforame "bars" based on
+this. I think vc4 is already doing that as well.
+
+> 
+> Oh! That would be really good to mention in the doc. Maybe even prefer
+> plane props over this? Or is this for analog TV, and plane props for
+> digital TV?
+
+Plane properties would be pointless for this. CRTC properties might
+make sense. But what is more accurate kinda depends on the hardware
+design.
+
+> The above are the important comments. All below is just musings you can
+> ignore if you wish.
+> 
+> > > Or are there underlying requirements that this connector property is
+> > > actually affecting the CRTC, which means that it is fundamentally
+> > > impossible to use multiple connectors with different values on the same
+> > > CRTC? And drivers will reject any attempt, so there is no need to
+> > > define what conflicting settings will do?  
+> > 
+> > I don't think any driver above supports cloning CRTCs for these
+> > connector types. i915 sets clonable = false for these connectors.
+> > vc4 picks the first connector's TV margins, always.
+> 
+> Sounds like i915 does it right, and vc4 does not, assuming vc4 does not
+> prevent cloning.
+
+For i915 my plan was to reject even HDMI+HDMI/VGA cloning (which
+otherwise is allowed) when these properties are set. And that's
+because they are connector properties and thus could disagree
+between the cloned connectors. If they were CRTC properties
+that would work fine.
+
+The main reason i915 rejects cloning with many output types
+is that generating the correct clock for each output becomes
+difficult/impossible. And on HSW+ cloning is no longer
+supported by the hardware at all.
+
+> 
+> > 
+> > > IOW, does simply the existence of these properties on a connector
+> > > guarantee that the connector must be the only one on a CRTC?  
+> > 
+> > I suppose that there could exist some hardware capable of applying
+> > margins post-CRTC? Such driver could support cloning CRTCs and still
+> > applying the connector margins correctly.
+> 
+> Yeah, theoretically. But in the KMS object model, is there the idea
+> that connectors do not do image manipulation, they can only convert the
+> signal type at most and send metadata?
+
+No such rule.
+
+Some hardware has scalers and all kinds of fancy stuff in the 
+encoder essentially. Quite common in old TV encoder chips.
+That's pretty much where these properties came from I think.
+
+And eDP/LVDS/etc. also do scaling in the connector in the
+current model since that's where the 'scaling mode' property
+lives.
 
 -- 
-Best regards,
-Dmitry
-
+Ville Syrjälä
+Intel
