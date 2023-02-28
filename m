@@ -1,66 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8D66A5546
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 10:14:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DBD6A5572
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 10:19:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3217A10E4B4;
-	Tue, 28 Feb 2023 09:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E1710E4B5;
+	Tue, 28 Feb 2023 09:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1257E10E4B4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 09:14:44 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C8E6E219C4;
- Tue, 28 Feb 2023 09:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677575682; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5365810E4B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 09:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677575972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kL664kkG+dMis5sIi6xKYHNRXSQgBnyCYWIvBB3XtpU=;
- b=ZUbb0bjEYCFYTfKS6GVYzYCm7u0TIfQ5UPPWr0fTsTOZYJjKcBTemQTrxOgFIjesCU/XwS
- ohD4vMfRKuXIazGOOpZHmDtRGvmZ+3M9SjfjHL80e6wTaoRGzyFIawn/tjjGeQG+IfWigA
- WTaH/gzfKvoiKa/HRxUUphNZv9KPmyo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677575682;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kL664kkG+dMis5sIi6xKYHNRXSQgBnyCYWIvBB3XtpU=;
- b=zzJ13vmTADmbJfrVfMqKkiwUZgMwV0SEGvtxG5yCsV/xtj9eKFqt+EKG6RGtGJ4WizEGTu
- v/CMy75vGjRjD8Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8624313440;
- Tue, 28 Feb 2023 09:14:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id xxrMHwLG/WNnLgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 09:14:42 +0000
-Message-ID: <2831bbfd-3c50-f13b-663b-86d8fffddece@suse.de>
-Date: Tue, 28 Feb 2023 10:14:40 +0100
+ bh=QdbwjW6mh2D31Q//X6nqJgpNGXAc9BEbg23UZQeD1ZY=;
+ b=MlXxH81ctTppINt6420HQO/l8SfMvDR6f5Yv6Tapfy4UDs12HM88tp//Iqr+76QucmeRaJ
+ m0XFI2TvEIHJNE/fTU2GjljvNR9Cvj3wNVnUVs/F3dVayFW2ZSca++zq5fvBQuSUO2mdXN
+ RaIa8g56+0Pk9R/4L8sBMn1J2cDLGE4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-74-401-6UX2Mqa7jwkIGOb-oA-1; Tue, 28 Feb 2023 04:19:30 -0500
+X-MC-Unique: 401-6UX2Mqa7jwkIGOb-oA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m15-20020adfa3cf000000b002be0eb97f4fso1364997wrb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 01:19:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677575969;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QdbwjW6mh2D31Q//X6nqJgpNGXAc9BEbg23UZQeD1ZY=;
+ b=YYXlU9GHznialeYQ0QdcvLaDev+4amZTR+oO820GhLLJOp2gjF/l9GJEL91PzMBrMt
+ kdh6tNk0i8AdxdsZGlnFWMAVgazX/bc+4WM8vhY2ul4cWTNbwQTkYBl2Mv7ylFafAsos
+ LMvrBnMVKLWua3h8nHY6TFPjux9xr8T2m2RX5y2zgjYABBqzbdppN9GQ3Huyp6TY8JYZ
+ OWs6O8aEGbos7o42lL8PziWVJW3eXsa1WgSMJjB6pqzRqimmsWg/EYgfD+zR9oHLmenu
+ jbAgo3HtpTzELXFcibQbjfAZoYeN3vXWwGdpUho0ovzW9BhmjyhZG0WbX4pxr6ywRCzB
+ w0sQ==
+X-Gm-Message-State: AO0yUKWT5cQyJg9LOaOuxLnZ+Whhvd8Eff0/I+m8d3CWxvq37R2ugG7+
+ 9udEzX1+k6bBS09Wh7G3RdrqtU8/lJIbrHM4Xe51DXF2b8ZuJuOE/AtSxLmyiYi+ktltB2t0M4/
+ cb34YUVGDP+JOs6SfNkTcXXariijy
+X-Received: by 2002:adf:d84f:0:b0:2c7:1e16:57cf with SMTP id
+ k15-20020adfd84f000000b002c71e1657cfmr1362632wrl.67.1677575969445; 
+ Tue, 28 Feb 2023 01:19:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set/dz651a4PoXIYeSOC9JT6wZQx3Rn5ZUvdKYAe7L6UD30v+qnszt0MT84Gs5qjY714aHC6kxw==
+X-Received: by 2002:adf:d84f:0:b0:2c7:1e16:57cf with SMTP id
+ k15-20020adfd84f000000b002c71e1657cfmr1362608wrl.67.1677575969096; 
+ Tue, 28 Feb 2023 01:19:29 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ i20-20020a5d5234000000b002c5493a17efsm9394627wra.25.2023.02.28.01.19.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 01:19:28 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/virtio: Add option to disable KMS support
+In-Reply-To: <20230228062809.ccyzgnvizh6jidn4@sirius.home.kraxel.org>
+References: <20230224180225.2477641-1-robdclark@gmail.com>
+ <20230227063821.dg2gbjjwcekbxyzw@sirius.home.kraxel.org>
+ <CAF6AEGsv1G7CPSkCPe3iHGB9JEO4iy+bTbkFLoitmx64U78RJw@mail.gmail.com>
+ <20230228062809.ccyzgnvizh6jidn4@sirius.home.kraxel.org>
+Date: Tue, 28 Feb 2023 10:19:27 +0100
+Message-ID: <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/shmem-helper: Revert accidental non-GPL export
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20230227-shmem-export-fix-v1-1-8880b2c25e81@asahilina.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230227-shmem-export-fix-v1-1-8880b2c25e81@asahilina.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------E71VpYn7gQDkQ3I9QS1HCmjh"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,86 +82,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+Cc: Rob Clark <robdclark@chromium.org>,
  Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------E71VpYn7gQDkQ3I9QS1HCmjh
-Content-Type: multipart/mixed; boundary="------------4PJvhnfl0kfPmxg5nS002phf";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Rob Herring <robh@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <2831bbfd-3c50-f13b-663b-86d8fffddece@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Revert accidental non-GPL export
-References: <20230227-shmem-export-fix-v1-1-8880b2c25e81@asahilina.net>
-In-Reply-To: <20230227-shmem-export-fix-v1-1-8880b2c25e81@asahilina.net>
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
---------------4PJvhnfl0kfPmxg5nS002phf
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hello Gerd,
 
-QWRkZWQgdG8gZHJtLW1pc2MtbmV4dC1maXhlcy4NCg0KQW0gMjcuMDIuMjMgdW0gMTA6MDQg
-c2NocmllYiBBc2FoaSBMaW5hOg0KPiBUaGUgcmVmZXJlbmNlZCBjb21taXQgYWRkZWQgYSB3
-cmFwcGVyIGZvciBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QoKSwNCj4gYnV0IGluIHRo
-ZSBwcm9jZXNzIGl0IGFjY2lkZW50YWxseSBjaGFuZ2VkIHRoZSBleHBvcnQgdHlwZSBmcm9t
-IEdQTCB0bw0KPiBub24tR1BMLiBTd2l0Y2ggaXQgYmFjayB0byBHUEwuDQo+IA0KPiBSZXBv
-cnRlZC1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkbWl0cnkub3NpcGVua29AY29sbGFib3JhLmNv
-bT4NCj4gRml4ZXM6IGRkZGRlZGFhMGRiOSAoImRybS9zaG1lbS1oZWxwZXI6IEZpeCBsb2Nr
-aW5nIGZvciBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QoKSIpDQo+IFNpZ25lZC1vZmYt
-Ynk6IEFzYWhpIExpbmEgPGxpbmFAYXNhaGlsaW5hLm5ldD4NCj4gLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgfCAyICstDQo+ICAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYw0KPiBpbmRleCA3ZTVjNmE4ZDAyMTIuLjc1
-MTg1YTk2MGZjNCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2ht
-ZW1faGVscGVyLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVs
-cGVyLmMNCj4gQEAgLTc0NCw3ICs3NDQsNyBAQCBzdHJ1Y3Qgc2dfdGFibGUgKmRybV9nZW1f
-c2htZW1fZ2V0X3BhZ2VzX3NndChzdHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3QgKnNobWVt
-KQ0KPiAgIA0KPiAgIAlyZXR1cm4gc2d0Ow0KPiAgIH0NCj4gLUVYUE9SVF9TWU1CT0woZHJt
-X2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KTsNCj4gK0VYUE9SVF9TWU1CT0xfR1BMKGRybV9n
-ZW1fc2htZW1fZ2V0X3BhZ2VzX3NndCk7DQo+ICAgDQo+ICAgLyoqDQo+ICAgICogZHJtX2dl
-bV9zaG1lbV9wcmltZV9pbXBvcnRfc2dfdGFibGUgLSBQcm9kdWNlIGEgc2htZW0gR0VNIG9i
-amVjdCBmcm9tDQo+IA0KPiAtLS0NCj4gYmFzZS1jb21taXQ6IGYzYTI0MzlmMjBkOTE4OTMw
-Y2M0YWU4Zjc2ZmUxYzFhZmQyNjk1OGYNCj4gY2hhbmdlLWlkOiAyMDIzMDIyNy1zaG1lbS1l
-eHBvcnQtZml4LTg1ZmRlMTM1MTEwNA0KPiANCj4gVGhhbmsgeW91LA0KPiB+fiBMaW5hDQo+
-IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
-R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+> On Mon, Feb 27, 2023 at 07:40:11AM -0800, Rob Clark wrote:
+>> On Sun, Feb 26, 2023 at 10:38 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>> >
+>> > On Fri, Feb 24, 2023 at 10:02:24AM -0800, Rob Clark wrote:
+>> > > From: Rob Clark <robdclark@chromium.org>
+>> > >
+>> > > Add a build option to disable modesetting support.  This is useful in
+>> > > cases where the guest only needs to use the GPU in a headless mode, or
+>> > > (such as in the CrOS usage) window surfaces are proxied to a host
+>> > > compositor.
+>> >
+>> > Why make that a compile time option?  There is a config option for the
+>> > number of scanouts (aka virtual displays) a device has.  Just set that
+>> > to zero (and fix the driver to not consider that configuration an
+>> > error).
+>> 
+>> The goal is to not advertise DRIVER_MODESET (and DRIVER_ATOMIC).. I
+>> guess that could be done based on whether there are any scanouts, but
+>> it would mean making the drm_driver struct non-const.
+>
+> Apparently there is a drm_device->driver_features override,
+> (amdgpu uses that).  The driver could simply drop the DRIVER_MODESET and
+> DRIVER_ATOMIC bits in case no scanout is present instead of throwing an
+> error.
+>
+>> And I think it is legitimate to allow the guest to make this choice,
+>> regardless of what the host decides to expose, since it is about the
+>> ioctl surface area that the guest kernel exposes to guest userspace.
+>
+> I think it is a bad idea to make that a compile time option, I'd suggest
+> a runtime switch instead, for example a module parameter to ask the
+> driver to ignore any scanouts.
+>
 
---------------4PJvhnfl0kfPmxg5nS002phf--
+I don't think there's a need for a new module parameter, there's already
+the virtio-gpu 'modeset' module parameter to enable/disable modsetting
+and the global 'nomodeset' kernel cmdline parameter to do it for all DRM
+drivers.
 
---------------E71VpYn7gQDkQ3I9QS1HCmjh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Currently, many drivers just fail to probe when 'nomodeset' is present,
+but others only disable modsetting but keep the rendering part. In fact,
+most DRM only drivers just ignore the 'nomodeset' parameter.
 
------BEGIN PGP SIGNATURE-----
+We could make virtio-gpu driver to only disable KMS with these params,
+something like the following (untested) patch:
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP9xgAFAwAAAAAACgkQlh/E3EQov+Ad
-zQ//bNknRSzGQGWxmY+vV3koYBKDx7HjeYR5nXKmaSKJ1YAlgCRjIiKkY4HKwPmoMC6scO3mtqkU
-FW/s2q8mwvaM6oPPIbmw2pLbvLVkNMXCxU/ksaj4/HeHzCbpfhqJ0XmCBQZpyfRvWc0Xq1AL5Lyq
-wwl6ZFuqjYBDo57rw0JzKBq94CBO79knv+DSF/V8sxZNJ5yCvqMyw164Vn+PxJAti3XvVIjDfIL2
-liX8LTFAtUMfjypSil71ojy6K/t+Pg+1i2611BUY8QtK1NCBfzPOPdisqA4rRABQ162MouAGE2tR
-hayFDMCahS2O74nOwuQd6PxiQV1AbxmAm5yozq8eH+KR/QhHDXGYVqtpTdiPorDE6FSRUCH2cEMI
-+STxgoRvDm8OLXlT2AaEjTw+YzovfxGY3Pw/70zjAIBoS8JxC/HCxpDiZ2QWL/8u+BlE6/XFcVT7
-RWV/k3+lWi+DRfrfj3Febr5uo2/cvZ88ZwwkxsF8lw3tDqwjG8tJ5U5PYpGqstFL/avvqXmNTw1I
-KFoSRerB+4oqH8LV9NjdGjH1+QFYyKBM9vvQprZ3ZaKMAOYPQef1pdXVNwg+jeAdlnfTetpFF0yZ
-y6oKsy67fY3Hk/nd6oTW/7TFaRLqdHFiGmSbNewAaKrbGWgZunus4dF/MC7X4SvOTP4yVx8Rd28g
-9g0=
-=FQ2z
------END PGP SIGNATURE-----
+From 9cddee7f696f37c34d80d6160e87827f3d7a0237 Mon Sep 17 00:00:00 2001
+From: Javier Martinez Canillas <javierm@redhat.com>
+Date: Tue, 28 Feb 2023 10:09:11 +0100
+Subject: [PATCH] drm/virtio: Only disable KMS with nomodeset
 
---------------E71VpYn7gQDkQ3I9QS1HCmjh--
+The virtio-gpu driver currently fails to probe if either the "nomodeset"
+kernel cmdline parameter is used or the module "modeset" parameter used.
+
+But there may be cases where the rendering part of the driver is needed
+and only the mode setting part needs to be disabled. So let's change the
+logic to only disable the KMS part but still keep the DRM side of it.
+
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_display.c | 16 +++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_drv.c     | 23 ++++++++++++++--------
+ drivers/gpu/drm/virtio/virtgpu_kms.c     | 25 +-----------------------
+ 3 files changed, 32 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index 9ea7611a9e0f..e176e5e8c1a0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -335,6 +335,22 @@ static const struct drm_mode_config_funcs virtio_gpu_mode_funcs = {
+ int virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev)
+ {
+ 	int i, ret;
++	u32 num_scanouts;
++
++	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
++		vgdev->has_edid = true;
++	}
++
++	/* get display info */
++	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
++			num_scanouts, &num_scanouts);
++	vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
++				    VIRTIO_GPU_MAX_SCANOUTS);
++	if (!vgdev->num_scanouts) {
++		DRM_ERROR("num_scanouts is zero\n");
++		return -EINVAL;
++	}
++	DRM_INFO("number of scanouts: %d\n", num_scanouts);
+ 
+ 	ret = drmm_mode_config_init(vgdev->ddev);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index ae97b98750b6..979b5b177f49 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -40,7 +40,7 @@
+ 
+ #include "virtgpu_drv.h"
+ 
+-static const struct drm_driver driver;
++static struct drm_driver driver;
+ 
+ static int virtio_gpu_modeset = -1;
+ 
+@@ -69,13 +69,12 @@ static int virtio_gpu_pci_quirk(struct drm_device *dev)
+ static int virtio_gpu_probe(struct virtio_device *vdev)
+ {
+ 	struct drm_device *dev;
++	struct virtio_gpu_device *vgdev;
+ 	int ret;
+ 
+-	if (drm_firmware_drivers_only() && virtio_gpu_modeset == -1)
+-		return -EINVAL;
+-
+-	if (virtio_gpu_modeset == 0)
+-		return -EINVAL;
++	if ((drm_firmware_drivers_only() && virtio_gpu_modeset == -1) ||
++	    (virtio_gpu_modeset == 0))
++		driver.driver_features &= ~(DRIVER_MODESET | DRIVER_ATOMIC);
+ 
+ 	/*
+ 	 * The virtio-gpu device is a virtual device that doesn't have DMA
+@@ -98,11 +97,19 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
+ 	if (ret)
+ 		goto err_free;
+ 
++	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
++		vgdev = dev->dev_private;
++		ret = virtio_gpu_modeset_init(vgdev);
++		if (ret)
++			goto err_deinit;
++	}
++
+ 	ret = drm_dev_register(dev, 0);
+ 	if (ret)
+ 		goto err_deinit;
+ 
+-	drm_fbdev_generic_setup(vdev->priv, 32);
++	if (drm_core_check_feature(dev, DRIVER_MODESET))
++		drm_fbdev_generic_setup(vdev->priv, 32);
+ 	return 0;
+ 
+ err_deinit:
+@@ -171,7 +178,7 @@ MODULE_AUTHOR("Alon Levy");
+ 
+ DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
+ 
+-static const struct drm_driver driver = {
++static struct drm_driver driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER | DRIVER_ATOMIC,
+ 	.open = virtio_gpu_driver_open,
+ 	.postclose = virtio_gpu_driver_postclose,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 27b7f14dae89..2f5f2aac6b71 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -122,7 +122,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	struct virtio_gpu_device *vgdev;
+ 	/* this will expand later */
+ 	struct virtqueue *vqs[2];
+-	u32 num_scanouts, num_capsets;
++	u32 num_capsets;
+ 	int ret = 0;
+ 
+ 	if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
+@@ -161,9 +161,6 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_VIRGL))
+ 		vgdev->has_virgl_3d = true;
+ #endif
+-	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_EDID)) {
+-		vgdev->has_edid = true;
+-	}
+ 	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
+ 		vgdev->has_indirect = true;
+ 	}
+@@ -218,28 +215,10 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 		goto err_vbufs;
+ 	}
+ 
+-	/* get display info */
+-	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+-			num_scanouts, &num_scanouts);
+-	vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
+-				    VIRTIO_GPU_MAX_SCANOUTS);
+-	if (!vgdev->num_scanouts) {
+-		DRM_ERROR("num_scanouts is zero\n");
+-		ret = -EINVAL;
+-		goto err_scanouts;
+-	}
+-	DRM_INFO("number of scanouts: %d\n", num_scanouts);
+-
+ 	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+ 			num_capsets, &num_capsets);
+ 	DRM_INFO("number of cap sets: %d\n", num_capsets);
+ 
+-	ret = virtio_gpu_modeset_init(vgdev);
+-	if (ret) {
+-		DRM_ERROR("modeset init failed\n");
+-		goto err_scanouts;
+-	}
+-
+ 	virtio_device_ready(vgdev->vdev);
+ 
+ 	if (num_capsets)
+@@ -252,8 +231,6 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 			   5 * HZ);
+ 	return 0;
+ 
+-err_scanouts:
+-	virtio_gpu_free_vbufs(vgdev);
+ err_vbufs:
+ 	vgdev->vdev->config->del_vqs(vgdev->vdev);
+ err_vqs:
+-- 
+2.39.2
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
