@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CA46A56CE
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B5DD6A56DA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 850A110E685;
-	Tue, 28 Feb 2023 10:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B313E10E684;
+	Tue, 28 Feb 2023 10:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBB110E682
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:32:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF99210E684
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677580373;
+ s=mimecast20190719; t=1677580522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PSHzNwNyBTU5voEDPxDoW6Iigh14EaPDcD4ZL6T6530=;
- b=UJ9lrUQXkTBWCSAuVG+4slT5IhAghzTMkseSFPCrcXiTE4yPP8ExNxxDCoKELAqXi8ANb7
- x2+qNmQz0p/pUjxJ23ybC3QapEQWQCe33U/7kQyY0MXeEoVAtEV8oDRgqHQ7LgcZxrSTcc
- 4JOtLABNWMWWI1AlkOVsxG4+fmGHKDM=
+ bh=QNpP3wMRU+jLUcF2Gc7Q2CVGtpZcURPt1dsU3Go6Ny0=;
+ b=hRrqQw9uKGbdG9L8omonbtuVpupCVkKQuxqWonIL9mJiOgXNtcvYyZFBlScEtphhmd5aOM
+ LjBFxPc6IeRDOA5qYe4nvTD5ZXB2cc8JCD/5biJacUdCrYuEtskWYRI+abTN1LRO2CoTva
+ vcBGn6TWY7BsWYYrmRTJ0dMgMpQxnXg=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-395-LuJ6cOAbMQGVDi6-h4EvNw-1; Tue, 28 Feb 2023 05:32:51 -0500
-X-MC-Unique: LuJ6cOAbMQGVDi6-h4EvNw-1
+ us-mta-2-yJ52UdxcOH-aktOG2NuRHg-1; Tue, 28 Feb 2023 05:33:31 -0500
+X-MC-Unique: yJ52UdxcOH-aktOG2NuRHg-1
 Received: by mail-wr1-f70.google.com with SMTP id
- l5-20020a5d6745000000b002c91cb49949so1398295wrw.14
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:32:50 -0800 (PST)
+ o15-20020a05600002cf00b002c54a27803cso1448365wry.22
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:33:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677580370;
+ d=1e100.net; s=20210112; t=1677580410;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PSHzNwNyBTU5voEDPxDoW6Iigh14EaPDcD4ZL6T6530=;
- b=CNNKU5nqiko1ZHhWYeCetPEArFfzuR32eUkDe5eFfP+vetRFW0R03zzO1cpIB783AJ
- p051+UCz8CVegX6ScLuLcky953l9qxUXwl/SSN/PAKDzIJsCMMQWRKhAp0C9sQIPw6K2
- WyzeTV4Ae/gBuCJRBoWPVrBhGHI67mWWhd/zuTnd2luxfC6OFQjTTeyoNGSKT6F35ejm
- UWiDSEZzfQPnwVVNkQFqoLdREFv/EqoVPUS0yiIo2EkpC2cosbi9wQSRx32yF5FAHpT4
- tXUraGStyCe+78MyqzIXHf3ScSj2kFkWKgJmGA5q2PU1NLDh2sVLWcqiiGUn9ACx9RSf
- gyKg==
-X-Gm-Message-State: AO0yUKXSx0VgbkYFkqS8N3mQpkJHm4S4V/PtpDrKPqens3VguKxxmQs/
- YHNHGFe9MioVGtVC/H3jjFOVl/mWAZ9xmBAg/nHO470zYafrVQOGMrjt8T3ZmctmrO0zuNr2vTc
- nEEQ7aHha0BoJmONNCRpYISfbyQLSMGUsEw==
-X-Received: by 2002:a05:600c:3507:b0:3dc:4fd7:31e9 with SMTP id
- h7-20020a05600c350700b003dc4fd731e9mr1988684wmq.7.1677580369829; 
- Tue, 28 Feb 2023 02:32:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set/oi1+QqfKFMsamJqIB6d/279ZxrQvwvGIVLjhhPLPrvNlPTJOerT36Ksm27owBpFB6YB1Nvw==
-X-Received: by 2002:a05:600c:3507:b0:3dc:4fd7:31e9 with SMTP id
- h7-20020a05600c350700b003dc4fd731e9mr1988667wmq.7.1677580369537; 
- Tue, 28 Feb 2023 02:32:49 -0800 (PST)
+ bh=QNpP3wMRU+jLUcF2Gc7Q2CVGtpZcURPt1dsU3Go6Ny0=;
+ b=yuoAgmb0wDpek4rm9rcckwDdJUGB6woRraZuJQHgoJZB4cbdK5pPaCEHtqA6zKEszN
+ GOARWr9kLvExCpnHvsKm4Tda48ers6bFu20DW4zXpuypb1KOjzn/H2fcYYqQrxdysxws
+ 090exuvy0ZnaPJp6x74V6VhMnXIWVpLOSYhbMgx7rhfjkKnD2E/QOSRQNfU5wwtS4BDY
+ 4tpkZI3pvClanI4wO/rzwBxCYPtAJwwv2Ydgk7ydd5v/PHzvheo/eA8XkC1HUNAYZAj1
+ Usp7FO7oAeoBIyZ649KjYWr2UcIIgXPLnfZeKxkwd2eNa4zouATb5xtBeXrqJ392nQ5i
+ cV2g==
+X-Gm-Message-State: AO0yUKVJ/bfJPa3VCMhkWLpzo30glNbwnuS7LHaYEN3sGvCx2PaoAZTS
+ QkuFVCgrt24ny1rsN2Fpq713fHXrS+DzaVBqarUplZHcclkQOwqtd+A1IpYFKNMqkBaXb1FLpan
+ Rutrjh5UQMMulnivx62UmnPtXphuN
+X-Received: by 2002:adf:e0cc:0:b0:2c7:c483:9fa6 with SMTP id
+ m12-20020adfe0cc000000b002c7c4839fa6mr1560151wri.16.1677580410013; 
+ Tue, 28 Feb 2023 02:33:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set/DJdfOMvNWpcy2xE6aRKlHguyZfeA9GgrwUyot9JKvTecLods0LUMJqTx/MNsSZob09+236A==
+X-Received: by 2002:adf:e0cc:0:b0:2c7:c483:9fa6 with SMTP id
+ m12-20020adfe0cc000000b002c7c4839fa6mr1560136wri.16.1677580409756; 
+ Tue, 28 Feb 2023 02:33:29 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- iv16-20020a05600c549000b003e0238d9101sm13448441wmb.31.2023.02.28.02.32.49
+ fl16-20020a05600c0b9000b003e1f6e18c95sm16165321wmb.21.2023.02.28.02.33.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 02:32:49 -0800 (PST)
+ Tue, 28 Feb 2023 02:33:29 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
  airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: Re: [PATCH 3/4] drm/ast: Rename struct ast_private to struct
- ast_device
-In-Reply-To: <20230221155745.27484-4-tzimmermann@suse.de>
+Subject: Re: [PATCH 4/4] drm/ast: Rename to_ast_private() to to_ast_device()
+In-Reply-To: <20230221155745.27484-5-tzimmermann@suse.de>
 References: <20230221155745.27484-1-tzimmermann@suse.de>
- <20230221155745.27484-4-tzimmermann@suse.de>
-Date: Tue, 28 Feb 2023 11:32:48 +0100
-Message-ID: <87v8jmxepb.fsf@minerva.mail-host-address-is-not-set>
+ <20230221155745.27484-5-tzimmermann@suse.de>
+Date: Tue, 28 Feb 2023 11:33:28 +0100
+Message-ID: <87sfeqxeo7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -88,37 +87,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> The data structure struct ast_private represents an AST device. Its
-> name comes from the time when it was allocated and stored separately
-> in struct drm_device.dev_private. The DRM device is now embedded, so
-> rename struct ast_private to struct ast_device.
+> The helper to_ast_private() now upcasts to struct ast_device. Rename
+> it accordingly. No functional changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/ast/ast_dp.c    | 10 ++--
->  drivers/gpu/drm/ast/ast_dp501.c | 40 +++++++-------
->  drivers/gpu/drm/ast/ast_drv.c   |  2 +-
->  drivers/gpu/drm/ast/ast_drv.h   | 40 +++++++-------
->  drivers/gpu/drm/ast/ast_i2c.c   |  8 +--
->  drivers/gpu/drm/ast/ast_main.c  | 24 ++++-----
->  drivers/gpu/drm/ast/ast_mm.c    |  4 +-
->  drivers/gpu/drm/ast/ast_mode.c  | 78 +++++++++++++--------------
->  drivers/gpu/drm/ast/ast_post.c  | 94 ++++++++++++++++-----------------
->  9 files changed, 150 insertions(+), 150 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 56483860306b..9e34297d836d 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -9,7 +9,7 @@
->  
->  int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
->  {
-> -	struct ast_private *ast = to_ast_private(dev);
-> +	struct ast_device *ast = to_ast_private(dev);
-
-I would just squash patches #3 and #4 and rename the macro as well. There
-is no need to have it as two separate patches IMO.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
