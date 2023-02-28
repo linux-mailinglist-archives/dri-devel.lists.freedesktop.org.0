@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B046A5BD0
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 16:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774FB6A5BDA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 16:26:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8160110E4D7;
-	Tue, 28 Feb 2023 15:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A841D10E4E1;
+	Tue, 28 Feb 2023 15:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C870710E4D7;
- Tue, 28 Feb 2023 15:26:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1P/CMXGxj7MEFBYHfYR2YHpsJNtdZiBmYO9UykBmZlA=; b=UO+MTwYv4g3zQjHRMxzwhJWZ2F
- JgotM50lxIgku/bqWfBvxLYcrA0JVt8HtYEsE+WXPRbf0FLok+MK2V+OyDB7DzHy88zT/US+PfURC
- 55G3ZCBcC1pEJmyjOcwovleaht7EtAKutwVq9JHA1y5reFcxEfLetZdXEg32pD0yj1vGtLMrjegoN
- qkHAeotfkEfsRA4f0dO3xHdxUh1TeD11UH5PCKeKOdlLXK/2ZwcQ1t28CRpqdZvBofuF7/09mHgJY
- WdnyI9KKEtTa5/FLalO3gNGm+zRwZa8fjtLUOHpry9WhLAsldob7ciPyiRySliBpQkUTY2RJNem+4
- hkCBjVzA==;
-Received: from [181.199.58.72] (helo=[192.168.100.46])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pX1rl-000NRm-2P; Tue, 28 Feb 2023 16:26:09 +0100
-Message-ID: <0d38d76f-77b4-ec14-fbc3-9c7eee6ce58b@igalia.com>
-Date: Tue, 28 Feb 2023 10:26:04 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B83F10E4DF;
+ Tue, 28 Feb 2023 15:26:15 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5AB981FDBE;
+ Tue, 28 Feb 2023 15:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677597974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=KT/lkoRclVjMCyMAxoGseffNWgDypv0x372kDw+wAiE=;
+ b=qOCmzTEN7Zzmkij14mXNzYBjqL3qDh6CjdhlGGCsp/aEWKXuY4AsP4b5JivhJm/zclZhcG
+ 6D5I5Q4RnFiIyQNvg/HdwWf98o7i/WShgyG9CdkTAKorHcjTozBd+nsWzBrjzew+etLNhn
+ c8yYCIgkTKLQzzfGjLBSzO/eYXsh5ek=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677597974;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=KT/lkoRclVjMCyMAxoGseffNWgDypv0x372kDw+wAiE=;
+ b=G3gBjN8B255pwHgPz6icCrHZCtzodPMq+Ru5jyBlteRwC4K0/LwP97mW+Z4IAj3cP2IX6O
+ ulx2BxrYZrzJyaBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2507A13440;
+ Tue, 28 Feb 2023 15:26:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id hR8wCBYd/mNydwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 15:26:14 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dmitry.osipenko@collabora.com, maarten.lankhorst@linux.intel.com,
+ airlied@gmail.com, daniel@ffwll.ch, jani.nikula@intel.com
+Subject: [PATCH] Revert "drm/shmem-helper: Switch to reservation lock"
+Date: Tue, 28 Feb 2023 16:26:12 +0100
+Message-Id: <20230228152612.19971-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/1] drm/doc: Document DRM device reset expectations
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>
-References: <20230227204000.56787-1-andrealmeid@igalia.com>
- <20230227204000.56787-2-andrealmeid@igalia.com>
- <20230228120201.7b20519a@eldfell>
-From: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20230228120201.7b20519a@eldfell>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,167 +62,639 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pierre-eric.pelloux-prayer@amd.com,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- amaranath.somalapuram@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com,
- contactshashanksharma@gmail.com, christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
+This reverts commit 67b7836d4458790f1261e31fe0ce3250989784f0.
 
-Thank you for your feedback,
+The locking appears incomplete. A caller of SHMEM helper's pin
+function never acquires the dma-buf reservation lock. So we get
 
-On 2/28/23 05:02, Pekka Paalanen wrote:
-> On Mon, 27 Feb 2023 15:40:00 -0500
-> André Almeida <andrealmeid@igalia.com> wrote:
->
->> Create a section that specifies how to deal with DRM device resets for
->> kernel and userspace drivers.
->>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->> ---
->>   Documentation/gpu/drm-uapi.rst | 51 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 51 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
->> index 65fb3036a580..3d6c3ed392ea 100644
->> --- a/Documentation/gpu/drm-uapi.rst
->> +++ b/Documentation/gpu/drm-uapi.rst
->> @@ -285,6 +285,57 @@ for GPU1 and GPU2 from different vendors, and a third handler for
->>   mmapped regular files. Threads cause additional pain with signal
->>   handling as well.
->>   
->> +Device reset
->> +============
->> +
->> +The GPU stack is really complex and is prone to errors, from hardware bugs,
->> +faulty applications and everything in the many layers in between. To recover
->> +from this kind of state, sometimes is needed to reset the GPU. Unproper handling
->> +of GPU resets can lead to an unstable userspace. This section describes what's
->> +the expected behaviour from DRM drivers to do in those situations, from usermode
->> +drivers and compositors as well. The end goal is to have a seamless experience
->> +as possible, either the stack being able to recover itself or resetting to a new
->> +stable state.
->> +
->> +Robustness
->> +----------
->> +
->> +First of all, application robust APIs, when available, should be used. This
->> +allows the application to correctly recover and continue to run after a reset.
->> +Apps that doesn't use this should be promptly killed when the kernel driver
->> +detects that it's in broken state. Specifically guidelines for some APIs:
-> Hi,
->
-> the "kill" wording is still here. It feels too harsh to me, like I say
-> in my comments below, but let's see what others think.
->
-> Even the device hot-unplug guide above this does not call for killing
-> anything and is prepared for userspace to keep going indefinitely if
-> userspace is broken enough.
+  WARNING: CPU: 3 PID: 967 at drivers/gpu/drm/drm_gem_shmem_helper.c:243 drm_gem_shmem_pin+0x42/0x90 [drm_shmem_helper]
 
-If I understood correctly, you don't think that neither KMD or UMD 
-should terminate apps that hangs the GPU, right? Should those apps run 
-indefinitely until the user decides to do something about it?
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 185 +++++++++++-------
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+ include/drm/drm_gem_shmem_helper.h            |  14 +-
+ 6 files changed, 148 insertions(+), 91 deletions(-)
 
-At least on Intel GPUs, if I run an OpenGL infinite loop the app will be 
-terminated in a few moments, and the rest of userspace is preserved. 
-There's an app that just do that if you want to have a look on how it 
-works: https://gitlab.freedesktop.org/andrealmeid/gpu-timeout
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 3d43e5961573..f75e50273d7a 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -88,6 +88,8 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+ 	if (ret)
+ 		goto err_release;
+ 
++	mutex_init(&shmem->pages_lock);
++	mutex_init(&shmem->vmap_lock);
+ 	INIT_LIST_HEAD(&shmem->madv_list);
+ 
+ 	if (!private) {
+@@ -139,13 +141,11 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
++	drm_WARN_ON(obj->dev, shmem->vmap_use_count);
++
+ 	if (obj->import_attach) {
+ 		drm_prime_gem_destroy(obj, shmem->sgt);
+ 	} else {
+-		dma_resv_lock(shmem->base.resv, NULL);
+-
+-		drm_WARN_ON(obj->dev, shmem->vmap_use_count);
+-
+ 		if (shmem->sgt) {
+ 			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+ 					  DMA_BIDIRECTIONAL, 0);
+@@ -154,18 +154,18 @@ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem)
+ 		}
+ 		if (shmem->pages)
+ 			drm_gem_shmem_put_pages(shmem);
+-
+-		drm_WARN_ON(obj->dev, shmem->pages_use_count);
+-
+-		dma_resv_unlock(shmem->base.resv);
+ 	}
+ 
++	drm_WARN_ON(obj->dev, shmem->pages_use_count);
++
+ 	drm_gem_object_release(obj);
++	mutex_destroy(&shmem->pages_lock);
++	mutex_destroy(&shmem->vmap_lock);
+ 	kfree(shmem);
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_free);
+ 
+-static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
++static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	struct page **pages;
+@@ -197,16 +197,35 @@ static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+ }
+ 
+ /*
+- * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
++ * drm_gem_shmem_get_pages - Allocate backing pages for a shmem GEM object
+  * @shmem: shmem GEM object
+  *
+- * This function decreases the use count and puts the backing pages when use drops to zero.
++ * This function makes sure that backing pages exists for the shmem GEM object
++ * and increases the use count.
++ *
++ * Returns:
++ * 0 on success or a negative error code on failure.
+  */
+-void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
++int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
++	int ret;
+ 
+-	dma_resv_assert_held(shmem->base.resv);
++	drm_WARN_ON(obj->dev, obj->import_attach);
++
++	ret = mutex_lock_interruptible(&shmem->pages_lock);
++	if (ret)
++		return ret;
++	ret = drm_gem_shmem_get_pages_locked(shmem);
++	mutex_unlock(&shmem->pages_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_gem_shmem_get_pages);
++
++static void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem)
++{
++	struct drm_gem_object *obj = &shmem->base;
+ 
+ 	if (drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+ 		return;
+@@ -224,6 +243,19 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+ 			  shmem->pages_mark_accessed_on_put);
+ 	shmem->pages = NULL;
+ }
++
++/*
++ * drm_gem_shmem_put_pages - Decrease use count on the backing pages for a shmem GEM object
++ * @shmem: shmem GEM object
++ *
++ * This function decreases the use count and puts the backing pages when use drops to zero.
++ */
++void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
++{
++	mutex_lock(&shmem->pages_lock);
++	drm_gem_shmem_put_pages_locked(shmem);
++	mutex_unlock(&shmem->pages_lock);
++}
+ EXPORT_SYMBOL(drm_gem_shmem_put_pages);
+ 
+ /**
+@@ -240,8 +272,6 @@ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
+-	dma_resv_assert_held(shmem->base.resv);
+-
+ 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 
+ 	return drm_gem_shmem_get_pages(shmem);
+@@ -259,31 +289,14 @@ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
+-	dma_resv_assert_held(shmem->base.resv);
+-
+ 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 
+ 	drm_gem_shmem_put_pages(shmem);
+ }
+ EXPORT_SYMBOL(drm_gem_shmem_unpin);
+ 
+-/*
+- * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+- * @shmem: shmem GEM object
+- * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+- *       store.
+- *
+- * This function makes sure that a contiguous kernel virtual address mapping
+- * exists for the buffer backing the shmem GEM object. It hides the differences
+- * between dma-buf imported and natively allocated objects.
+- *
+- * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
+- *
+- * Returns:
+- * 0 on success or a negative error code on failure.
+- */
+-int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+-		       struct iosys_map *map)
++static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
++				     struct iosys_map *map)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	int ret = 0;
+@@ -299,8 +312,6 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+ 	} else {
+ 		pgprot_t prot = PAGE_KERNEL;
+ 
+-		dma_resv_assert_held(shmem->base.resv);
+-
+ 		if (shmem->vmap_use_count++ > 0) {
+ 			iosys_map_set_vaddr(map, shmem->vaddr);
+ 			return 0;
+@@ -335,30 +346,45 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(drm_gem_shmem_vmap);
+ 
+ /*
+- * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
++ * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+  * @shmem: shmem GEM object
+- * @map: Kernel virtual address where the SHMEM GEM object was mapped
++ * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
++ *       store.
+  *
+- * This function cleans up a kernel virtual address mapping acquired by
+- * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
+- * zero.
++ * This function makes sure that a contiguous kernel virtual address mapping
++ * exists for the buffer backing the shmem GEM object. It hides the differences
++ * between dma-buf imported and natively allocated objects.
+  *
+- * This function hides the differences between dma-buf imported and natively
+- * allocated objects.
++ * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap().
++ *
++ * Returns:
++ * 0 on success or a negative error code on failure.
+  */
+-void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+-			  struct iosys_map *map)
++int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
++		       struct iosys_map *map)
++{
++	int ret;
++
++	ret = mutex_lock_interruptible(&shmem->vmap_lock);
++	if (ret)
++		return ret;
++	ret = drm_gem_shmem_vmap_locked(shmem, map);
++	mutex_unlock(&shmem->vmap_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_gem_shmem_vmap);
++
++static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
++					struct iosys_map *map)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 
+ 	if (obj->import_attach) {
+ 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+ 	} else {
+-		dma_resv_assert_held(shmem->base.resv);
+-
+ 		if (drm_WARN_ON_ONCE(obj->dev, !shmem->vmap_use_count))
+ 			return;
+ 
+@@ -371,6 +397,26 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+ 
+ 	shmem->vaddr = NULL;
+ }
++
++/*
++ * drm_gem_shmem_vunmap - Unmap a virtual mapping for a shmem GEM object
++ * @shmem: shmem GEM object
++ * @map: Kernel virtual address where the SHMEM GEM object was mapped
++ *
++ * This function cleans up a kernel virtual address mapping acquired by
++ * drm_gem_shmem_vmap(). The mapping is only removed when the use count drops to
++ * zero.
++ *
++ * This function hides the differences between dma-buf imported and natively
++ * allocated objects.
++ */
++void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
++			  struct iosys_map *map)
++{
++	mutex_lock(&shmem->vmap_lock);
++	drm_gem_shmem_vunmap_locked(shmem, map);
++	mutex_unlock(&shmem->vmap_lock);
++}
+ EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+ 
+ static int
+@@ -401,24 +447,24 @@ drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+  */
+ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+ {
+-	dma_resv_assert_held(shmem->base.resv);
++	mutex_lock(&shmem->pages_lock);
+ 
+ 	if (shmem->madv >= 0)
+ 		shmem->madv = madv;
+ 
+ 	madv = shmem->madv;
+ 
++	mutex_unlock(&shmem->pages_lock);
++
+ 	return (madv >= 0);
+ }
+ EXPORT_SYMBOL(drm_gem_shmem_madvise);
+ 
+-void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
++void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	struct drm_device *dev = obj->dev;
+ 
+-	dma_resv_assert_held(shmem->base.resv);
+-
+ 	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
+ 
+ 	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
+@@ -426,7 +472,7 @@ void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
+ 	kfree(shmem->sgt);
+ 	shmem->sgt = NULL;
+ 
+-	drm_gem_shmem_put_pages(shmem);
++	drm_gem_shmem_put_pages_locked(shmem);
+ 
+ 	shmem->madv = -1;
+ 
+@@ -442,6 +488,17 @@ void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
+ 
+ 	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
+ }
++EXPORT_SYMBOL(drm_gem_shmem_purge_locked);
++
++bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
++{
++	if (!mutex_trylock(&shmem->pages_lock))
++		return false;
++	drm_gem_shmem_purge_locked(shmem);
++	mutex_unlock(&shmem->pages_lock);
++
++	return true;
++}
+ EXPORT_SYMBOL(drm_gem_shmem_purge);
+ 
+ /**
+@@ -494,7 +551,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	/* We don't use vmf->pgoff since that has the fake offset */
+ 	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
+ 
+-	dma_resv_lock(shmem->base.resv, NULL);
++	mutex_lock(&shmem->pages_lock);
+ 
+ 	if (page_offset >= num_pages ||
+ 	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
+@@ -506,7 +563,7 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
+ 	}
+ 
+-	dma_resv_unlock(shmem->base.resv);
++	mutex_unlock(&shmem->pages_lock);
+ 
+ 	return ret;
+ }
+@@ -518,7 +575,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ 
+ 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 
+-	dma_resv_lock(shmem->base.resv, NULL);
++	mutex_lock(&shmem->pages_lock);
+ 
+ 	/*
+ 	 * We should have already pinned the pages when the buffer was first
+@@ -528,7 +585,7 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ 	if (!drm_WARN_ON_ONCE(obj->dev, !shmem->pages_use_count))
+ 		shmem->pages_use_count++;
+ 
+-	dma_resv_unlock(shmem->base.resv);
++	mutex_unlock(&shmem->pages_lock);
+ 
+ 	drm_gem_vm_open(vma);
+ }
+@@ -538,10 +595,7 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+ 
+-	dma_resv_lock(shmem->base.resv, NULL);
+ 	drm_gem_shmem_put_pages(shmem);
+-	dma_resv_unlock(shmem->base.resv);
+-
+ 	drm_gem_vm_close(vma);
+ }
+ 
+@@ -576,10 +630,7 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+ 		return dma_buf_mmap(obj->dma_buf, vma, 0);
+ 	}
+ 
+-	dma_resv_lock(shmem->base.resv, NULL);
+ 	ret = drm_gem_shmem_get_pages(shmem);
+-	dma_resv_unlock(shmem->base.resv);
+-
+ 	if (ret)
+ 		return ret;
+ 
+@@ -645,7 +696,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+ 
+ 	drm_WARN_ON(obj->dev, obj->import_attach);
+ 
+-	ret = drm_gem_shmem_get_pages(shmem);
++	ret = drm_gem_shmem_get_pages_locked(shmem);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+@@ -667,7 +718,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+ 	sg_free_table(sgt);
+ 	kfree(sgt);
+ err_put_pages:
+-	drm_gem_shmem_put_pages(shmem);
++	drm_gem_shmem_put_pages_locked(shmem);
+ 	return ERR_PTR(ret);
+ }
+ 
+@@ -692,11 +743,11 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+ 	int ret;
+ 	struct sg_table *sgt;
+ 
+-	ret = dma_resv_lock_interruptible(shmem->base.resv, NULL);
++	ret = mutex_lock_interruptible(&shmem->pages_lock);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 	sgt = drm_gem_shmem_get_pages_sgt_locked(shmem);
+-	dma_resv_unlock(shmem->base.resv);
++	mutex_unlock(&shmem->pages_lock);
+ 
+ 	return sgt;
+ }
+diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+index 5008f0c2428f..0f1ca0b0db49 100644
+--- a/drivers/gpu/drm/lima/lima_gem.c
++++ b/drivers/gpu/drm/lima/lima_gem.c
+@@ -34,7 +34,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+ 
+ 	new_size = min(new_size, bo->base.base.size);
+ 
+-	dma_resv_lock(bo->base.base.resv, NULL);
++	mutex_lock(&bo->base.pages_lock);
+ 
+ 	if (bo->base.pages) {
+ 		pages = bo->base.pages;
+@@ -42,7 +42,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+ 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+ 				       sizeof(*pages), GFP_KERNEL | __GFP_ZERO);
+ 		if (!pages) {
+-			dma_resv_unlock(bo->base.base.resv);
++			mutex_unlock(&bo->base.pages_lock);
+ 			return -ENOMEM;
+ 		}
+ 
+@@ -56,13 +56,13 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+ 		struct page *page = shmem_read_mapping_page(mapping, i);
+ 
+ 		if (IS_ERR(page)) {
+-			dma_resv_unlock(bo->base.base.resv);
++			mutex_unlock(&bo->base.pages_lock);
+ 			return PTR_ERR(page);
+ 		}
+ 		pages[i] = page;
+ 	}
+ 
+-	dma_resv_unlock(bo->base.base.resv);
++	mutex_unlock(&bo->base.pages_lock);
+ 
+ 	ret = sg_alloc_table_from_pages(&sgt, pages, i, 0,
+ 					new_size, GFP_KERNEL);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index aa292e4a86eb..f49096f53141 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -407,10 +407,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ 
+ 	bo = to_panfrost_bo(gem_obj);
+ 
+-	ret = dma_resv_lock_interruptible(bo->base.base.resv, NULL);
+-	if (ret)
+-		goto out_put_object;
+-
+ 	mutex_lock(&pfdev->shrinker_lock);
+ 	mutex_lock(&bo->mappings.lock);
+ 	if (args->madv == PANFROST_MADV_DONTNEED) {
+@@ -448,8 +444,7 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ out_unlock_mappings:
+ 	mutex_unlock(&bo->mappings.lock);
+ 	mutex_unlock(&pfdev->shrinker_lock);
+-	dma_resv_unlock(bo->base.base.resv);
+-out_put_object:
++
+ 	drm_gem_object_put(gem_obj);
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+index 6a71a2555f85..bf0170782f25 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+@@ -48,14 +48,14 @@ static bool panfrost_gem_purge(struct drm_gem_object *obj)
+ 	if (!mutex_trylock(&bo->mappings.lock))
+ 		return false;
+ 
+-	if (!dma_resv_trylock(shmem->base.resv))
++	if (!mutex_trylock(&shmem->pages_lock))
+ 		goto unlock_mappings;
+ 
+ 	panfrost_gem_teardown_mappings_locked(bo);
+-	drm_gem_shmem_purge(&bo->base);
++	drm_gem_shmem_purge_locked(&bo->base);
+ 	ret = true;
+ 
+-	dma_resv_unlock(shmem->base.resv);
++	mutex_unlock(&shmem->pages_lock);
+ 
+ unlock_mappings:
+ 	mutex_unlock(&bo->mappings.lock);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 94421fa255d2..4e83a1891f3e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -443,7 +443,6 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	struct panfrost_gem_mapping *bomapping;
+ 	struct panfrost_gem_object *bo;
+ 	struct address_space *mapping;
+-	struct drm_gem_object *obj;
+ 	pgoff_t page_offset;
+ 	struct sg_table *sgt;
+ 	struct page **pages;
+@@ -466,16 +465,15 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	page_offset = addr >> PAGE_SHIFT;
+ 	page_offset -= bomapping->mmnode.start;
+ 
+-	obj = &bo->base.base;
+-
+-	dma_resv_lock(obj->resv, NULL);
++	mutex_lock(&bo->base.pages_lock);
+ 
+ 	if (!bo->base.pages) {
+ 		bo->sgts = kvmalloc_array(bo->base.base.size / SZ_2M,
+ 				     sizeof(struct sg_table), GFP_KERNEL | __GFP_ZERO);
+ 		if (!bo->sgts) {
++			mutex_unlock(&bo->base.pages_lock);
+ 			ret = -ENOMEM;
+-			goto err_unlock;
++			goto err_bo;
+ 		}
+ 
+ 		pages = kvmalloc_array(bo->base.base.size >> PAGE_SHIFT,
+@@ -483,8 +481,9 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		if (!pages) {
+ 			kvfree(bo->sgts);
+ 			bo->sgts = NULL;
++			mutex_unlock(&bo->base.pages_lock);
+ 			ret = -ENOMEM;
+-			goto err_unlock;
++			goto err_bo;
+ 		}
+ 		bo->base.pages = pages;
+ 		bo->base.pages_use_count = 1;
+@@ -492,6 +491,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 		pages = bo->base.pages;
+ 		if (pages[page_offset]) {
+ 			/* Pages are already mapped, bail out. */
++			mutex_unlock(&bo->base.pages_lock);
+ 			goto out;
+ 		}
+ 	}
+@@ -502,11 +502,14 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	for (i = page_offset; i < page_offset + NUM_FAULT_PAGES; i++) {
+ 		pages[i] = shmem_read_mapping_page(mapping, i);
+ 		if (IS_ERR(pages[i])) {
++			mutex_unlock(&bo->base.pages_lock);
+ 			ret = PTR_ERR(pages[i]);
+ 			goto err_pages;
+ 		}
+ 	}
+ 
++	mutex_unlock(&bo->base.pages_lock);
++
+ 	sgt = &bo->sgts[page_offset / (SZ_2M / PAGE_SIZE)];
+ 	ret = sg_alloc_table_from_pages(sgt, pages + page_offset,
+ 					NUM_FAULT_PAGES, 0, SZ_2M, GFP_KERNEL);
+@@ -525,8 +528,6 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	dev_dbg(pfdev->dev, "mapped page fault @ AS%d %llx", as, addr);
+ 
+ out:
+-	dma_resv_unlock(obj->resv);
+-
+ 	panfrost_gem_mapping_put(bomapping);
+ 
+ 	return 0;
+@@ -535,8 +536,6 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
+ 	sg_free_table(sgt);
+ err_pages:
+ 	drm_gem_shmem_put_pages(&bo->base);
+-err_unlock:
+-	dma_resv_unlock(obj->resv);
+ err_bo:
+ 	panfrost_gem_mapping_put(bomapping);
+ 	return ret;
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index 20ddcd799df9..5994fed5e327 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -26,6 +26,11 @@ struct drm_gem_shmem_object {
+ 	 */
+ 	struct drm_gem_object base;
+ 
++	/**
++	 * @pages_lock: Protects the page table and use count
++	 */
++	struct mutex pages_lock;
++
+ 	/**
+ 	 * @pages: Page table
+ 	 */
+@@ -60,6 +65,11 @@ struct drm_gem_shmem_object {
+ 	 */
+ 	struct sg_table *sgt;
+ 
++	/**
++	 * @vmap_lock: Protects the vmap address and use count
++	 */
++	struct mutex vmap_lock;
++
+ 	/**
+ 	 * @vaddr: Kernel virtual address of the backing memory
+ 	 */
+@@ -99,6 +109,7 @@ struct drm_gem_shmem_object {
+ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
+ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+ 
++int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem);
+ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
+ void drm_gem_shmem_unpin(struct drm_gem_shmem_object *shmem);
+@@ -117,7 +128,8 @@ static inline bool drm_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem
+ 		!shmem->base.dma_buf && !shmem->base.import_attach;
+ }
+ 
+-void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
++void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
++bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
+ 
+ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
+ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem);
+-- 
+2.39.2
 
->
->> +
->> +- OpenGL: KMD signals the abortion of submitted commands and the UMD should then
->> +  react accordingly and abort the application.
-> No, not abort. Just return failures and make sure no API call will
-> block indefinitely.
->
->> +
->> +- Vulkan: Assumes that every app is able to deal with ``VK_ERROR_DEVICE_LOST``.
->> +  If it doesn't do it right, it's considered a broken application and UMD will
->> +  deal with it, aborting it.
-> Is it even possible to detect if an app does it right?
->
-> What if the app does do it right, but not before it attempts to hammer
-> a few more jobs in?
-
-I think what I meant was
-
-+ If it doesn't support VK_ERROR_DEVICE_LOST, it's considered a broken 
-app [...]
-
-In the sense that if it doesn't support this, it is impossible for the 
-app to recovery gracefully from a reset so it's considered broken
-
->> +
->> +Kernel mode driver
->> +------------------
->> +
->> +The KMD must be able to detect that something is wrong with the application
->> +and that a reset is needed to take place to recover the device (e.g. an endless
->> +wait). It needs to properly track the context that is broken and mark it as
->> +dead, so any other syscalls to that context should be further rejected. The
->> +other contexts should be preserved when possible, avoid crashing the rest of
->> +userspace. KMD can ban a file descriptor that keeps causing resets, as it's
->> +likely in a broken loop.
-> If userspace is in a broken loop repeatedly causing GPU reset, would it
-> keep using the same (render node) fd? To me it would be more likely to
-> close the fd and open a new one, then crash again. Robust or not, the
-> gfx library API would probably require tearing everything down and
-> starting from scratch. In fact, only robust apps would likely exhibit
-> this behaviour, and non-robust just get stuck or quit themselves.
->
-> I suppose in e.g. EGL, it is possible to just create a new context
-> instead of a new EGLDisplay, so both re-using and not using the old fd
-> are possible.
->
-> The process identity would usually remain, I believe, except in cases
-> like Chromium with its separate rendering processes, but then, would
-> you really want to ban whole Chromium in that case...
->
-Right, so userspace is the right place to implement the repeat-offender 
-policy, as you noted below.
-
->> +
-> Another thing for the kernel mode driver maybe worth mentioning is that
-> the driver could also pretend a hot-unplug if the GPU crash is so bad
-> that everything is at risk being lost or corrupted.
-
-Ack, I'll add that
-
->
->> +User mode driver
->> +----------------
->> +
->> +During a reset, UMD should be aware that rejected syscalls indicates that the
->> +context is broken and for robust apps the recovery should happen for the
->> +context. Non-robust apps must be terminated.
-> I think the termination thing probably needs to be much more nuanced,
-> and also interact with the repeat-offender policy.
->
-> Repeat-offender policy could be implemented in userspace too,
-> especially if userspace keeps using the same device fd which is likely
-> hidden by the gfx API.
->
->> +
->> +Compositors
->> +-----------
->> +
->> +Compositors should be robust as well to properly deal with its errors.
-> What is the worth of this note? To me as a compositor developer it is
-> obvious.
-
-As it is it doesn't says much indeed, I think Christian suggestion adds 
-something more meaningful to this part.
-
->
-> Thanks,
-> pq
->
->> +
->> +
->>   .. _drm_driver_ioctl:
->>   
->>   IOCTL Support on Device Nodes
