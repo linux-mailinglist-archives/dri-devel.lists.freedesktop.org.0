@@ -1,65 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DC46A5921
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 13:35:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812666A5928
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 13:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B622310E68F;
-	Tue, 28 Feb 2023 12:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9EB510E69A;
+	Tue, 28 Feb 2023 12:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA4010E4CA
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 12:34:54 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3017F21A4D;
- Tue, 28 Feb 2023 12:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677587693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QeeXlra3VuU6LyC91LsHvOXdehf+ph2YN1KKB1StGM0=;
- b=DP/MAMEsNUcW3z6h43PYUe9qldRXRFYbC8Y2SyPBAD6pxoW9VxwYhZbdz4KyudAWP2gFof
- cBKbXU6Fu2SoJhsjXHXPUttBehbs5J2tIKiS7xSJ2xP1jm4RdP19d3eVhErcxV8wE0sj5J
- f9Lw7no5m8ZdRKBI88GgymRxFFbizzI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677587693;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QeeXlra3VuU6LyC91LsHvOXdehf+ph2YN1KKB1StGM0=;
- b=9Azfkn2YB6UkHvWoTx2jSmQ/F6Tgo9NGRacekgcA3rZ4sZQMT717bQFRFwt0hmc+8Vn7KH
- 8iYLHfOTkeDpRFCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC4401333C;
- Tue, 28 Feb 2023 12:34:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id S2XWN+z0/WO0EgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 12:34:52 +0000
-Message-ID: <fb70356e-4e13-1858-9e1a-e886f5918030@suse.de>
-Date: Tue, 28 Feb 2023 13:34:52 +0100
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1707410E4CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 12:36:04 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-536c02eea4dso267797307b3.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 04:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yz+ORWHU5fE0LcXMKfBg/65UfB8kg/c6Yy0zvTUFxIU=;
+ b=oDXWDC8wIFYlgp8099VANYIxtcvcsvsFYU28Nggng8mIiQtEH1aJI4nEWxMIIQO+du
+ 02E2hTklpCJd8rfHas91ixzzL85KAxdA6KrPBVajt0WDgV6JS9tBge2i6DxjqeHZwCR8
+ 6VPgwikoRO9Vj+hPY0Fjje/PrU394RtGeyver2bf+KjKTRJJEaBDOR/+7sqY6x37Q8QS
+ wzcj7D9BqL7qpTAXWDisctzMuz32aqVjjwtYY4BVhgzHGyLYMBnp+0r/32z5LTGKOvTm
+ Rb8gklHHGcUKb1mXkPGU7I1mpWRYUWhKEhZ5zOY09fn2Kh5DafXt2lLx4Tumrn4GY2G7
+ /rCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yz+ORWHU5fE0LcXMKfBg/65UfB8kg/c6Yy0zvTUFxIU=;
+ b=16T3+2Wycqcufb0vm6eFLx7W6UDS5RDcNOePYTm5bsCVgXp4MUO2nGOWqh2S24ebTm
+ 95SS8++A+M0mRkk83N0/F8QksCDBWFgyesY4wkMY5U4v5NyL0VRTJvGQM4nrjtVTTC97
+ DZQ/Xor1r8+WD+mrK+Ol1xlr+jdibEjYTyC5ewRlY78CqojdXKqJBvTMEl7skSxuV3Hf
+ bOwFkUTT5ZATM08TNQAWSfmTUId/Peqso6bX1VV+52JiQ1JVpebMFeGGlIbgPumvX88l
+ AHs+yOjJ6xalgmv+HdoJ3uQWcgsBQXuE1xr87mQZ351laNXIYuuafChQFxgwLTA8NCVZ
+ 9rUQ==
+X-Gm-Message-State: AO0yUKWPErYWCytmKVfYKo9FuSX7I/ybFWhTIyAU8w3HjIP/wB81lLcb
+ ME6XxCRgEO/PKV9hO4ClDmNzXzZJv+KGdfj3Dw78og==
+X-Google-Smtp-Source: AK7set8WYjsgwU4khREQxWMW/wYopS8m2+eDBKBeEvK0IR/BYyGfHdCVSMqqL+ejqx12UDGZdbtAxfhkKOLTrlp0KfQ=
+X-Received: by 2002:a81:ae0e:0:b0:534:7429:2eb4 with SMTP id
+ m14-20020a81ae0e000000b0053474292eb4mr1549719ywh.3.1677587763202; Tue, 28 Feb
+ 2023 04:36:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3] drm/virtio: Add option to disable KMS support
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-References: <20230227173800.2809727-1-robdclark@gmail.com>
- <44e67d88-fce6-a1c1-79a9-a937e64a32bb@collabora.com>
- <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------kib98pZnBxR2VOueRxXAADTt"
+References: <20230228113342.2051425-1-dmitry.baryshkov@linaro.org>
+ <20230228113342.2051425-3-dmitry.baryshkov@linaro.org>
+ <87mt4yyo2s.fsf@intel.com>
+In-Reply-To: <87mt4yyo2s.fsf@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 28 Feb 2023 14:35:52 +0200
+Message-ID: <CAA8EJpoubQQjuUAs342TVYgx09nw9vENXcsiJiDOq0e0_q=6Fw@mail.gmail.com>
+Subject: Re: [PATCH 02/10] drm/i915/dsc: move rc_buf_thresh values to common
+ helper
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,102 +68,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: linux-arm-msm@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Sean Paul <sean@poorly.run>,
+ intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------kib98pZnBxR2VOueRxXAADTt
-Content-Type: multipart/mixed; boundary="------------czIRFMXLxzNN8JXBsG00EhqZ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rob Clark <robdclark@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
-Message-ID: <fb70356e-4e13-1858-9e1a-e886f5918030@suse.de>
-Subject: Re: [PATCH v3] drm/virtio: Add option to disable KMS support
-References: <20230227173800.2809727-1-robdclark@gmail.com>
- <44e67d88-fce6-a1c1-79a9-a937e64a32bb@collabora.com>
- <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
-In-Reply-To: <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
+On Tue, 28 Feb 2023 at 14:25, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Tue, 28 Feb 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > The rc_buf_thresh values are common to all DSC implementations. Move
+> > them to the common helper together with the code to propagage them to
+> > the drm_dsc_config.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_dsc_helper.c  | 37 +++++++++++++++++++++++
+> >  drivers/gpu/drm/i915/display/intel_vdsc.c | 24 +--------------
+> >  include/drm/display/drm_dsc_helper.h      |  1 +
+> >  3 files changed, 39 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
+> > index c869c6e51e2b..ab8679c158b5 100644
+> > --- a/drivers/gpu/drm/display/drm_dsc_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
+> > @@ -270,6 +270,43 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
+> >  }
+> >  EXPORT_SYMBOL(drm_dsc_pps_payload_pack);
+> >
+> > +/* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
+> > +const u16 drm_dsc_rc_buf_thresh[] = {
+> > +     896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
+> > +     7744, 7872, 8000, 8064
+> > +};
+> > +EXPORT_SYMBOL(drm_dsc_rc_buf_thresh);
+>
+> This needs to be static, without exports.
 
---------------czIRFMXLxzNN8JXBsG00EhqZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Exported this to let other drivers use it, while skipping the
+drm_dsc_set_rc_buf_thresh(). For example amdgpu driver sets buffer
+thresholds on the interim structure, so the helper is not directly
+applicable. See _do_calc_rc_params().
 
-SGkNCg0KQW0gMjcuMDIuMjMgdW0gMTk6MTUgc2NocmllYiBSb2IgQ2xhcms6DQo+IE9uIE1v
-biwgRmViIDI3LCAyMDIzIGF0IDk6NTcgQU0gRG1pdHJ5IE9zaXBlbmtvDQo+IDxkbWl0cnku
-b3NpcGVua29AY29sbGFib3JhLmNvbT4gd3JvdGU6DQo+Pg0KPj4gT24gMi8yNy8yMyAyMDoz
-OCwgUm9iIENsYXJrIHdyb3RlOg0KPj4gLi4uDQo+Pj4gKyAgICAgaWYgKElTX0VOQUJMRUQo
-Q09ORklHX0RSTV9WSVJUSU9fR1BVX0tNUykpIHsNCj4+PiArICAgICAgICAgICAgIC8qIGdl
-dCBkaXNwbGF5IGluZm8gKi8NCj4+PiArICAgICAgICAgICAgIHZpcnRpb19jcmVhZF9sZSh2
-Z2Rldi0+dmRldiwgc3RydWN0IHZpcnRpb19ncHVfY29uZmlnLA0KPj4+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIG51bV9zY2Fub3V0cywgJm51bV9zY2Fub3V0cyk7DQo+Pj4g
-KyAgICAgICAgICAgICB2Z2Rldi0+bnVtX3NjYW5vdXRzID0gbWluX3QodWludDMyX3QsIG51
-bV9zY2Fub3V0cywNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBWSVJUSU9fR1BVX01BWF9TQ0FOT1VUUyk7DQo+Pj4gKyAgICAgICAgICAgICBpZiAo
-IXZnZGV2LT5udW1fc2Nhbm91dHMpIHsNCj4+PiArICAgICAgICAgICAgICAgICAgICAgLyoN
-Cj4+PiArICAgICAgICAgICAgICAgICAgICAgICogSGF2aW5nIGFuIEVESUQgYnV0IG5vIHNj
-YW5vdXRzIGlzIG5vbi1zZW5zaWNhbCwNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICog
-YnV0IGl0IGlzIHBlcm1pdHRlZCB0byBoYXZlIG5vIHNjYW5vdXRzIGFuZCBubw0KPj4+ICsg
-ICAgICAgICAgICAgICAgICAgICAgKiBFRElEIChpbiB3aGljaCBjYXNlIERSSVZFUl9NT0RF
-U0VUIGFuZA0KPj4+ICsgICAgICAgICAgICAgICAgICAgICAgKiBEUklWRVJfQVRPTUlDIGFy
-ZSBub3QgYWR2ZXJ0aXNlZCkNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICovDQo+Pj4g
-KyAgICAgICAgICAgICAgICAgICAgIGlmICh2Z2Rldi0+aGFzX2VkaWQpIHsNCj4+PiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBEUk1fRVJST1IoIm51bV9zY2Fub3V0cyBpcyB6
-ZXJvXG4iKTsNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXQgPSAtRUlO
-VkFMOw0KPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gZXJyX3NjYW5v
-dXRzOw0KPj4+ICsgICAgICAgICAgICAgICAgICAgICB9DQo+Pj4gKyAgICAgICAgICAgICAg
-ICAgICAgIGRldi0+ZHJpdmVyX2ZlYXR1cmVzICY9IH4oRFJJVkVSX01PREVTRVQgfCBEUklW
-RVJfQVRPTUlDKTsNCj4+DQo+PiBJZiBpdCdzIG5vdyBjb25maWd1cmFibGUgYnkgaG9zdCwg
-d2h5IGRvIHdlIG5lZWQgdGhlDQo+PiBDT05GSUdfRFJNX1ZJUlRJT19HUFVfS01TPw0KPiAN
-Cj4gQmVjYXVzZSBhIGtlcm5lbCBjb25maWcgb3B0aW9uIG1ha2VzIGl0IG1vcmUgb2J2aW91
-cyB0aGF0DQo+IG1vZGVzZXQvYXRvbWljIGlvY3RscyBhcmUgYmxvY2tlZC4gIFdoaWNoIG1h
-a2VzIGl0IG1vcmUgb2J2aW91cyBhYm91dA0KPiB3aGVyZSBhbnkgcG90ZW50aWFsIHNlY3Vy
-aXR5IGlzc3VlcyBhcHBseSBhbmQgd2hlcmUgZml4ZXMgbmVlZCB0byBnZXQNCj4gYmFja3Bv
-cnRlZCB0by4gIFRoZSBjb25maWcgb3B0aW9uIGlzIHRoZSBvbmx5IHRoaW5nIF9JXyB3YW50
-LA0KPiBldmVyeXRoaW5nIGVsc2UgaXMganVzdCBhIGJvbnVzIHRvIGhlbHAgb3RoZXIgcGVv
-cGxlJ3MgdXNlLWNhc2VzLg0KDQpJIGZpbmQgdGhpcyB2ZXJ5IHZhZ3VlLiBXaGF0J3MgdGhl
-IHNlY3VyaXR5IHRocmVhZD8NCg0KQW5kIGlmIHRoZSBjb25maWcgb3B0aW9uIGlzIHVzZWZ1
-bCwgc2hvdWxkbid0IGl0IGJlIERSTS13aWRlPyBUaGUgDQptb2Rlc2V0dGluZyBpb2N0bCBj
-YWxscyBhcmUgc2hhcmVkIGFtb25nIGFsbCBkcml2ZXJzLg0KDQpCZXN0IHJlZ2FyZHMNClRo
-b21hcw0KDQo+IA0KPiBCUiwNCj4gLVINCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+>
+> > +
+> > +/**
+> > + * drm_dsc_set_rc_buf_thresh() - Set thresholds for the RC model
+> > + * in accordance with the DSC 1.2 specification.
+> > + *
+> > + * @vdsc_cfg: DSC Configuration data partially filled by driver
+> > + */
+> > +void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg)
+> > +{
+> > +     int i = 0;
+>
+> Unnecessary initialization.
+
+My bad.
+
+>
+> > +
+> > +     for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+>
+> Please use ARRAY_SIZE(). Maybe add BUILD_BUG_ON() for DSC_NUM_BUF_RANGES
+> vs. ARRAY_SIZE(). (Yes, we should've used ARRAY_SIZE() in i915.)
+
+Ack
+
+>
+> > +             /*
+> > +              * six 0s are appended to the lsb of each threshold value
+> > +              * internally in h/w.
+> > +              * Only 8 bits are allowed for programming RcBufThreshold
+> > +              */
+> > +             vdsc_cfg->rc_buf_thresh[i] = drm_dsc_rc_buf_thresh[i] >> 6;
+> > +     }
+> > +
+> > +     /*
+> > +      * For 6bpp, RC Buffer threshold 12 and 13 need a different value
+> > +      * as per C Model
+> > +      */
+> > +     if (vdsc_cfg->bits_per_pixel == 6 << 4) {
+> > +             vdsc_cfg->rc_buf_thresh[12] = 7936 >> 6;
+> > +             vdsc_cfg->rc_buf_thresh[13] = 8000 >> 6;
+> > +     }
+> > +}
+> > +EXPORT_SYMBOL(drm_dsc_set_rc_buf_thresh);
+> > +
+> >  /**
+> >   * drm_dsc_compute_rc_parameters() - Write rate control
+> >   * parameters to the dsc configuration defined in
+> > diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> > index d080741fd0b3..b4faab4c8fb3 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> > @@ -36,12 +36,6 @@ enum COLUMN_INDEX_BPC {
+> >       MAX_COLUMN_INDEX
+> >  };
+> >
+> > -/* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
+> > -static const u16 rc_buf_thresh[] = {
+> > -     896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
+> > -     7744, 7872, 8000, 8064
+> > -};
+> > -
+> >  struct rc_parameters {
+> >       u16 initial_xmit_delay;
+> >       u8 first_line_bpg_offset;
+> > @@ -474,23 +468,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+> >       vdsc_cfg->bits_per_pixel = compressed_bpp << 4;
+> >       vdsc_cfg->bits_per_component = pipe_config->pipe_bpp / 3;
+> >
+> > -     for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+> > -             /*
+> > -              * six 0s are appended to the lsb of each threshold value
+> > -              * internally in h/w.
+> > -              * Only 8 bits are allowed for programming RcBufThreshold
+> > -              */
+> > -             vdsc_cfg->rc_buf_thresh[i] = rc_buf_thresh[i] >> 6;
+> > -     }
+> > -
+> > -     /*
+> > -      * For 6bpp, RC Buffer threshold 12 and 13 need a different value
+> > -      * as per C Model
+> > -      */
+> > -     if (compressed_bpp == 6) {
+> > -             vdsc_cfg->rc_buf_thresh[12] = 0x7C;
+> > -             vdsc_cfg->rc_buf_thresh[13] = 0x7D;
+> > -     }
+> > +     drm_dsc_set_rc_buf_thresh(vdsc_cfg);
+> >
+> >       /*
+> >        * From XE_LPD onwards we supports compression bpps in steps of 1
+> > diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
+> > index 8b41edbbabab..706ba1d34742 100644
+> > --- a/include/drm/display/drm_dsc_helper.h
+> > +++ b/include/drm/display/drm_dsc_helper.h
+> > @@ -14,6 +14,7 @@ void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
+> >  int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
+> >  void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
+> >                             const struct drm_dsc_config *dsc_cfg);
+> > +void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
+> >  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
+> >
+> >  #endif /* _DRM_DSC_HELPER_H_ */
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
 
 
---------------czIRFMXLxzNN8JXBsG00EhqZ--
 
---------------kib98pZnBxR2VOueRxXAADTt
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP99OwFAwAAAAAACgkQlh/E3EQov+Di
-BA//Z1MgDU0ETg5Iwn0/l0njsy1mNJ4yWhHTXumJfUH/jzwV/4jUUFsd+itsCWy7ZuHvdfA7OXyr
-c5mNF0hp/4y2g3sDfHRqyeINah8iRECwjC9usv3bOZDUwfjEa3AJ4PvB7QdIsi6Wi+8urXd49DyI
-PHF9eODDhtf8uRRoneiVWlefR4WjjKR93jvpfWZtEPz8/TK8OpDofswBr7pseB0eXjYPqIKmwrLS
-Wzf/tSPmbE6k6lq/BZOQOErkRawqpTH/5V9Q+RZOOUkcsBUpf8yiLrPEj6OGzrDWfAFvxPAvgTd4
-S6FKH2tLETcmHEJBzVOTN07UL7PrcGFnFJ0x+3SmdIYH9afbmzEN2+YCgCnlzzN9RFLqpvTdqX3a
-Wp5g/OpNBGIwPBvkMz3qHCTJdkCRaEY/jBFEZkzxZL7iLU8MMf036nfX6n4ByC0tMAxhCd3YEMbx
-yxxR0rq74XBP0ji1Uzr65EKmwKWENNLHsrdz5QqxItCzPsvWSc/D+0FMAMD6ZC/V47SUFO+CGBsQ
-eFv/hh4b137twQ6CnUfje4/QX8jkdIkks4aJ2qwlldktRiO0EpBeDOeWqsK+S2t8r/87fETomNEe
-ldB1OCLCpjjz7Cv6ekuNPrFw3P92X1941cYOh8KiQMy2gGzuC2oIx6GzrSC5wlxTMl0M4X4Rt0hS
-Vxs=
-=mCC7
------END PGP SIGNATURE-----
-
---------------kib98pZnBxR2VOueRxXAADTt--
+-- 
+With best wishes
+Dmitry
