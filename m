@@ -2,69 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E9C6A502D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 01:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659A56A509D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 02:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49ABD10E45C;
-	Tue, 28 Feb 2023 00:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61F7210E472;
+	Tue, 28 Feb 2023 01:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E9B10E45C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 00:35:13 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- y15-20020a17090aa40f00b00237ad8ee3a0so7957714pjp.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:35:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J4dpmjldCe+HY2ES0MFLHn2sS+ItBfNAWhdQJof6PBI=;
- b=TpO+O+hxXuNDUwB79mR9KtWXctPZotDM9vhyCIcH6Jc2f2Y35AnyS+Cv+eluuuFqx0
- 3a5m/YFwr3YLlY0Latc16v0xtytbe/eWenIXf9AXgNtpOcY40dkrAl15c0MUJQwuoLf/
- 1bo2qseIehw6e2br6xQzfDlhjVYwJx/7bpnjI=
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A723910E472
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 01:24:28 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ m20-20020a17090ab79400b00239d8e182efso1245736pjr.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:24:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:subject:to:date:from:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=DAC/FV2vHAHfczoWyUaI0s6B/ySA4HkGwdtS4HpH9c8=;
+ b=EaDsn/v1DRlAFKlaIX13mBSY8P+gB479SffHZVqrtvHrlqWBoWXhLyx06o2if/7yBz
+ N4gt1KKsqP/VmC0Wi47Rvt8hiZSlOTFHJoENRyZzotiQYcnHmEgAhEMNVC3XfZ3MWVlq
+ 7x3gVgXhRRxNuT5b+wC5AEy80zqUtyThOpCsB19uHlvn1FSV+7fw4qceEcs7etXxGmUl
+ xRt2Un+UI7zumnsXypeJPlX5ce9NloZkxRnuxk+wfTOkqYVQrhdnFAKZ9O6wBfJI5Ufs
+ z4SlaK6NRUKdqy7n0Tc+ytxkvVwUIEF7nbCDEk68Dm70/D3iB2t4S4Rbb/hRjLX53v/1
+ 8qww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J4dpmjldCe+HY2ES0MFLHn2sS+ItBfNAWhdQJof6PBI=;
- b=ULfQ/GSJurXPLBTl6c9EQ1MIL0On0Cs48Mgt5E1G15l2eqIle0IKzCIOVAspoCwss+
- j9z9UTibeO/Zks6MUUp+DqE075vy1TMmy2VTKuamqYSmRpIZjl/AeKYKJZuSbObAnxiD
- 3rR6F+5mW/Ls3gpE2JbyT7GlQ2ivvAX5ERFZWBc6VicpEa+nF3p6AuRBeGX5U0FZR6rL
- Ip5+eJ6po/1yKjHsQlO3r/JBTvDYTnhsENDcaWM/xYr/RVhBTxzMbu7SNdQ9nX4mtzZU
- wd7Dih0H5FOrxAMHhHEznChNoOc2VLKvYJtz/r0DlvoBpnEVJ7HqN9wdjMwSjXGOiDE/
- /G3w==
-X-Gm-Message-State: AO0yUKVyMS2UQz5UtO6LVhZdt2VAK3J6LQcQzovKwLHtShsFTnd4nwK0
- gRfDXjCEWqZk5cbHRWu2oY63GJpKnwJF0yUZvqc=
-X-Google-Smtp-Source: AK7set951vzfXvmVuIEW9fpIBdqQkGCExNedVcdfiNqn07UQKLVg741BiITyX2jT1z7pjMGUxc+nUQ==
-X-Received: by 2002:a17:902:b682:b0:19c:f232:4604 with SMTP id
- c2-20020a170902b68200b0019cf2324604mr722605pls.10.1677544512667; 
- Mon, 27 Feb 2023 16:35:12 -0800 (PST)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com.
- [209.85.214.180]) by smtp.gmail.com with ESMTPSA id
- s7-20020a170902988700b0019a593e45f1sm5111035plp.261.2023.02.27.16.35.12
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 16:35:12 -0800 (PST)
-Received: by mail-pl1-f180.google.com with SMTP id i5so7019675pla.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 16:35:12 -0800 (PST)
-X-Received: by 2002:a02:858c:0:b0:3c5:1971:1b7f with SMTP id
- d12-20020a02858c000000b003c519711b7fmr440124jai.6.1677544019208; Mon, 27 Feb
- 2023 16:26:59 -0800 (PST)
+ h=content-disposition:mime-version:subject:to:date:from:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=DAC/FV2vHAHfczoWyUaI0s6B/ySA4HkGwdtS4HpH9c8=;
+ b=gP29eqFkUi5ZEWc6Gyd/lEoxhLvVwmXKEWYLZbT0ZUTJD3ujBWMowu/OMxOa3fD40q
+ IjLAopK4CfQKNZsDpXlgeOS96AEzuLlYuVcR/t/gHXmtlhkc8OgUwp/v+khbD4sbM+t4
+ yPsJ0nkKmYpfgatD0NhV28oH5blAa8yVqp0W6o34WCOm5zXo5AMTcgDxUwB3+5vVdAxt
+ nUVXGTx/SeILdpLd8HOrMmWTf8AbrWXSuUGgOhblyqSf22kcfM2Y+55z+x5fqBz72rdG
+ IwdreEDicUwcr47cig29r7bSp0wz3oBrYL3UNjqfeQ3+tpuk1eD6CxGpjeW5RX/10O9l
+ hNQA==
+X-Gm-Message-State: AO0yUKXILHSAF5Q6ENasFsxNYlSad8BBTu57c6dpfXLIASqwUFL+rRd0
+ Ce2ekUfMiI2tYaRqTtu+IBE=
+X-Google-Smtp-Source: AK7set+VH06+4f/+qsowUJv19VFvjDWbt8UgHPzIzz2pJNbeI6vDcy1hoyrSdx+xyr+Iur5sASKjKA==
+X-Received: by 2002:a05:6a20:12cd:b0:c2:f930:45e8 with SMTP id
+ v13-20020a056a2012cd00b000c2f93045e8mr1608424pzg.46.1677547468190; 
+ Mon, 27 Feb 2023 17:24:28 -0800 (PST)
+Received: from sie-luc. ([124.89.8.225]) by smtp.gmail.com with ESMTPSA id
+ j4-20020a62b604000000b005b02ddd852dsm4937099pff.142.2023.02.27.17.24.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Feb 2023 17:24:27 -0800 (PST)
+Message-ID: <63fd57cb.620a0220.4e1b.8886@mx.google.com>
+X-Google-Original-Message-ID: <20230228012422.GA27528@sie-luc.>
+From: Luc Ma <onion0709@gmail.com>
+X-Google-Original-From: Luc Ma <luc@sietium.com>
+Date: Tue, 28 Feb 2023 09:24:22 +0800
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/vram-helper: fix function names in vram helper doc
 MIME-Version: 1.0
-References: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
- <CAPY8ntAUhVB6UtQTeHAcxNW950Ou+NcEoGwk3JnVWLay89_0Nw@mail.gmail.com>
-In-Reply-To: <CAPY8ntAUhVB6UtQTeHAcxNW950Ou+NcEoGwk3JnVWLay89_0Nw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 27 Feb 2023 16:26:47 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UNx7ivymvpGKcuyvvepvo-T2B2aREJy2GyawTHCnazsw@mail.gmail.com>
-Message-ID: <CAD=FV=UNx7ivymvpGKcuyvvepvo-T2B2aREJy2GyawTHCnazsw@mail.gmail.com>
-Subject: Re: [RFT PATCH v2 1/3] drm/bridge: tc358762: Set pre_enable_prev_first
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,78 +74,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Refer to drmm_vram_helper_init() instead of the non-existent
+drmm_vram_helper_alloc_mm().
 
-On Wed, Feb 1, 2023 at 1:51=E2=80=AFAM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> On Tue, 31 Jan 2023 at 22:22, Douglas Anderson <dianders@chromium.org> wr=
-ote:
-> >
-> > Set the "pre_enable_prev_first" as provided by commit 4fb912e5e190
-> > ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init
-> > order"). This should allow us to revert commit ec7981e6c614
-> > ("drm/msm/dsi: don't powerup at modeset time for parade-ps8640") and
-> > commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
-> > time").
->
-> I see no reference in the TC358762 datasheet to requiring the DSI
-> interface to be in any particular state.
-> However, setting this flag does mean that the DSI host doesn't need to
-> power up and down for each host_transfer request from
-> tc358762_pre_enable/tc358762_init, so on that basis I'm good with it.
->
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> >
-> > (no changes since v1)
-> >
-> >  drivers/gpu/drm/bridge/tc358762.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge=
-/tc358762.c
-> > index 0b6a28436885..77f7f7f54757 100644
-> > --- a/drivers/gpu/drm/bridge/tc358762.c
-> > +++ b/drivers/gpu/drm/bridge/tc358762.c
-> > @@ -229,6 +229,7 @@ static int tc358762_probe(struct mipi_dsi_device *d=
-si)
-> >         ctx->bridge.funcs =3D &tc358762_bridge_funcs;
-> >         ctx->bridge.type =3D DRM_MODE_CONNECTOR_DPI;
-> >         ctx->bridge.of_node =3D dev->of_node;
-> > +       ctx->bridge.pre_enable_prev_first =3D true;
-> >
-> >         drm_bridge_add(&ctx->bridge);
+Fixes: a5f23a72355d ("drm/vram-helper: Managed vram helpers")
+Signed-off-by: Luc Ma <luc@sietium.com>
+---
+v1 -> v2: improved commit message and add changelog
 
-Abhinav asked what the plan was for landing this [1]. Since this isn't
-urgent, I guess the plan is to land patch #1 in drm-misc-next. Then we
-sit and wait until it percolates into mainline and, once it does, then
-patch #2 and #3 can land.
+ drivers/gpu/drm/drm_gem_vram_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Since I have Dave's review I can commit this to drm-misc-next myself.
-My plan will be to wait until Thursday or Friday of this week (to give
-people a bit of time to object) and then land patch #1. Then I'll
-snooze things for a while and poke Abhinav and Dmitry to land patch #2
-/ #3 when I notice it in mainline. If, at any point, someone comes out
-of the woodwork and yells that this is breaking them then, worst case,
-we can revert.
+diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+index d40b3edb52d0..f1539d4448c6 100644
+--- a/drivers/gpu/drm/drm_gem_vram_helper.c
++++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+@@ -45,7 +45,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+  * the frame's scanout buffer or the cursor image. If there's no more space
+  * left in VRAM, inactive GEM objects can be moved to system memory.
+  *
+- * To initialize the VRAM helper library call drmm_vram_helper_alloc_mm().
++ * To initialize the VRAM helper library call drmm_vram_helper_init().
+  * The function allocates and initializes an instance of &struct drm_vram_mm
+  * in &struct drm_device.vram_mm . Use &DRM_GEM_VRAM_DRIVER to initialize
+  * &struct drm_driver and  &DRM_VRAM_MM_FILE_OPERATIONS to initialize
+@@ -73,7 +73,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+  *		// setup device, vram base and size
+  *		// ...
+  *
+- *		ret = drmm_vram_helper_alloc_mm(dev, vram_base, vram_size);
++ *		ret = drmm_vram_helper_init(dev, vram_base, vram_size);
+  *		if (ret)
+  *			return ret;
+  *		return 0;
+@@ -86,7 +86,7 @@ static const struct drm_gem_object_funcs drm_gem_vram_object_funcs;
+  * to userspace.
+  *
+  * You don't have to clean up the instance of VRAM MM.
+- * drmm_vram_helper_alloc_mm() is a managed interface that installs a
++ * drmm_vram_helper_init() is a managed interface that installs a
+  * clean-up handler to run during the DRM device's release.
+  *
+  * For drawing or scanout operations, rsp. buffer objects have to be pinned
+-- 
+2.25.1
 
-[1] https://lore.kernel.org/r/1f204585-88e2-abae-1216-92f739ac9e91@quicinc.=
-com/
