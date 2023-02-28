@@ -2,44 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480B96A56AF
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19CA46A56CE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B913B10E681;
-	Tue, 28 Feb 2023 10:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 850A110E685;
+	Tue, 28 Feb 2023 10:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0E0910E67B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:27:20 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 03DE66602FDB;
- Tue, 28 Feb 2023 10:27:18 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677580039;
- bh=1JnVPVujLBT5atPy7IIvdnCv3UEvpv+n+JLXQmdBXc4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XBtqrJ661TF65pMMYdFlcwffGxegFzbooParqFCFZ/PsBfC5GB/3luHURrV0BYvch
- WCUzqm8UyJbNHi0nzLej2N5SMiMMdBKWs2tkkPZwyZjadsTsXN9minzIpXJhksPZjI
- +ux46nPhjvajG96R8MeOmWfzjPAetD9idFqfaOV8E+17fgrO0Iy21mkoLIVcw++SDJ
- yHLrAum9cY2qA4NxshgkViXJOCqrA8UzJQq67gtrYEyqY8Wnl3ZXFHR6XVYVxEl1wf
- nyMaFifj5PlKcovAGTC7SYhuFyW5h3BBhiT4/GGTJAYscxIAyk9k2OM4qV8VWoHXZc
- minCGbH9D9V/A==
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: airlied@gmail.com
-Subject: [PATCH v4 12/12] drm/panfrost: Add support for Mali on the MT8186 SoC
-Date: Tue, 28 Feb 2023 11:27:04 +0100
-Message-Id: <20230228102704.708150-12-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
-References: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DBB110E682
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677580373;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PSHzNwNyBTU5voEDPxDoW6Iigh14EaPDcD4ZL6T6530=;
+ b=UJ9lrUQXkTBWCSAuVG+4slT5IhAghzTMkseSFPCrcXiTE4yPP8ExNxxDCoKELAqXi8ANb7
+ x2+qNmQz0p/pUjxJ23ybC3QapEQWQCe33U/7kQyY0MXeEoVAtEV8oDRgqHQ7LgcZxrSTcc
+ 4JOtLABNWMWWI1AlkOVsxG4+fmGHKDM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-395-LuJ6cOAbMQGVDi6-h4EvNw-1; Tue, 28 Feb 2023 05:32:51 -0500
+X-MC-Unique: LuJ6cOAbMQGVDi6-h4EvNw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l5-20020a5d6745000000b002c91cb49949so1398295wrw.14
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:32:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677580370;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PSHzNwNyBTU5voEDPxDoW6Iigh14EaPDcD4ZL6T6530=;
+ b=CNNKU5nqiko1ZHhWYeCetPEArFfzuR32eUkDe5eFfP+vetRFW0R03zzO1cpIB783AJ
+ p051+UCz8CVegX6ScLuLcky953l9qxUXwl/SSN/PAKDzIJsCMMQWRKhAp0C9sQIPw6K2
+ WyzeTV4Ae/gBuCJRBoWPVrBhGHI67mWWhd/zuTnd2luxfC6OFQjTTeyoNGSKT6F35ejm
+ UWiDSEZzfQPnwVVNkQFqoLdREFv/EqoVPUS0yiIo2EkpC2cosbi9wQSRx32yF5FAHpT4
+ tXUraGStyCe+78MyqzIXHf3ScSj2kFkWKgJmGA5q2PU1NLDh2sVLWcqiiGUn9ACx9RSf
+ gyKg==
+X-Gm-Message-State: AO0yUKXSx0VgbkYFkqS8N3mQpkJHm4S4V/PtpDrKPqens3VguKxxmQs/
+ YHNHGFe9MioVGtVC/H3jjFOVl/mWAZ9xmBAg/nHO470zYafrVQOGMrjt8T3ZmctmrO0zuNr2vTc
+ nEEQ7aHha0BoJmONNCRpYISfbyQLSMGUsEw==
+X-Received: by 2002:a05:600c:3507:b0:3dc:4fd7:31e9 with SMTP id
+ h7-20020a05600c350700b003dc4fd731e9mr1988684wmq.7.1677580369829; 
+ Tue, 28 Feb 2023 02:32:49 -0800 (PST)
+X-Google-Smtp-Source: AK7set/oi1+QqfKFMsamJqIB6d/279ZxrQvwvGIVLjhhPLPrvNlPTJOerT36Ksm27owBpFB6YB1Nvw==
+X-Received: by 2002:a05:600c:3507:b0:3dc:4fd7:31e9 with SMTP id
+ h7-20020a05600c350700b003dc4fd731e9mr1988667wmq.7.1677580369537; 
+ Tue, 28 Feb 2023 02:32:49 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ iv16-20020a05600c549000b003e0238d9101sm13448441wmb.31.2023.02.28.02.32.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Feb 2023 02:32:49 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
+ airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+Subject: Re: [PATCH 3/4] drm/ast: Rename struct ast_private to struct
+ ast_device
+In-Reply-To: <20230221155745.27484-4-tzimmermann@suse.de>
+References: <20230221155745.27484-1-tzimmermann@suse.de>
+ <20230221155745.27484-4-tzimmermann@suse.de>
+Date: Tue, 28 Feb 2023 11:32:48 +0100
+Message-ID: <87v8jmxepb.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,52 +82,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MediaTek MT8186 has a Mali-G52 MC2 2EE (Bifrost): add a new compatible
-and platform data using the same supplies list as "mt8183_b" (only one
-regulator), and a new pm_domains list with only two power domains.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> The data structure struct ast_private represents an AST device. Its
+> name comes from the time when it was allocated and stored separately
+> in struct drm_device.dev_private. The DRM device is now embedded, so
+> rename struct ast_private to struct ast_device.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/ast/ast_dp.c    | 10 ++--
+>  drivers/gpu/drm/ast/ast_dp501.c | 40 +++++++-------
+>  drivers/gpu/drm/ast/ast_drv.c   |  2 +-
+>  drivers/gpu/drm/ast/ast_drv.h   | 40 +++++++-------
+>  drivers/gpu/drm/ast/ast_i2c.c   |  8 +--
+>  drivers/gpu/drm/ast/ast_main.c  | 24 ++++-----
+>  drivers/gpu/drm/ast/ast_mm.c    |  4 +-
+>  drivers/gpu/drm/ast/ast_mode.c  | 78 +++++++++++++--------------
+>  drivers/gpu/drm/ast/ast_post.c  | 94 ++++++++++++++++-----------------
+>  9 files changed, 150 insertions(+), 150 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 56483860306b..9e34297d836d 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -9,7 +9,7 @@
+>  
+>  int ast_astdp_read_edid(struct drm_device *dev, u8 *ediddata)
+>  {
+> -	struct ast_private *ast = to_ast_private(dev);
+> +	struct ast_device *ast = to_ast_private(dev);
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 14cdeaeeb5c4..e4053bf84c62 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -679,6 +679,14 @@ static const struct panfrost_compatible mediatek_mt8183_b_data = {
- 	.pm_domain_names = mediatek_mt8183_pm_domains,
- };
- 
-+static const char * const mediatek_mt8186_pm_domains[] = { "core0", "core1" };
-+static const struct panfrost_compatible mediatek_mt8186_data = {
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-+	.supply_names = mediatek_mt8183_b_supplies,
-+	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
-+	.pm_domain_names = mediatek_mt8186_pm_domains,
-+};
-+
- static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
- static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
- 							   "core3", "core4" };
-@@ -708,6 +716,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-valhall-jm", .data = &default_data, },
- 	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
- 	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
-+	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
- 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
- 	{}
- };
+I would just squash patches #3 and #4 and rename the macro as well. There
+is no need to have it as two separate patches IMO.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.39.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
