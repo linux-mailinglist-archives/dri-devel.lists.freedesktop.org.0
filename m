@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B0A6A5650
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 309B26A565F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:11:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2947510E66D;
-	Tue, 28 Feb 2023 10:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F33B410E037;
+	Tue, 28 Feb 2023 10:11:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 047B510E03B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:07:12 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34CAB10E037
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677578832;
+ s=mimecast20190719; t=1677579098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dif3d8cs8O2KtQEjFZ6DOWXyAJDuQSZSskHw5CvEUAA=;
- b=K7CsrqIjU+u5Jgcji9YIRyTrCx4MuHkilCZpO1Wzy8NU4m+eJA+zjJOAM68ze+CgVAK05r
- 7Yaz6OJFyVN99tW6Q9dvAvT+VIBL2ZlSqd7h+NMVX0o8xIu5xI73w1F+43e2sSmhHF0P6k
- 9s6AnkG6l8+9xj+mNS/5xmHmrRFzZTw=
+ bh=bdvB+P4eoLUT11Ndi/CDZkO7atqyQtI0E8Cf3YLMEZw=;
+ b=NnI2Nib2IMNG+/2xVxFaOa0vt5NNV8w33geZhIcDuijKAYSCh0+/eO3BbVGrnOdwqlTui3
+ cSsAuu1fHjLgOd1RBE3pcL7WYYbSYhbe6/419czvahSL0/xxBvtavGMe3XJqL5GA9f7CWH
+ rcqT8TkrJGF+U/g/p8vskcMbnxwt7io=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-NWBqDlNIMfmAD5SoQpodxQ-1; Tue, 28 Feb 2023 05:07:11 -0500
-X-MC-Unique: NWBqDlNIMfmAD5SoQpodxQ-1
+ us-mta-329-Izl_ztIGNw2foDjtgcyBTw-1; Tue, 28 Feb 2023 05:11:35 -0500
+X-MC-Unique: Izl_ztIGNw2foDjtgcyBTw-1
 Received: by mail-wr1-f71.google.com with SMTP id
- x3-20020a5d6503000000b002c8c421fdfaso1417722wru.15
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:07:10 -0800 (PST)
+ ba28-20020a0560001c1c00b002cc6d1f0c06so654834wrb.17
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:11:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677578829;
+ d=1e100.net; s=20210112; t=1677579094;
  h=content-transfer-encoding:mime-version:message-id:date:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dif3d8cs8O2KtQEjFZ6DOWXyAJDuQSZSskHw5CvEUAA=;
- b=id6ZfV1bRq8brLimbrU1OL6gHEGnnzR9QiJCsU/FUz9GCF8eRELldherQ332eIKlQc
- xpjFYV1kbDC1DgTvsKep15Xy869ZXm/6RSn+7MQK7R795w0rnCfqiDu5mokWH1xU1D0u
- 9zWV/oFxrNVNWDFC9CROjlG6xZoNTgOQxIvRDDH7c+ziapIoqaSH6b/ttAGaX5mqrUxU
- 4jP0Du+P0FY/ObKt7ql22c+bYRirbwXAgvJ/++ebnla7fCYucCvkVRUmOpnfucia/zNP
- gp7QybeA1MaDm6rSOPJFjLZ0oiw5PZKcyXQnrhdcLdRHWNElZyVRUCujlaVYDPjG58i5
- v3SA==
-X-Gm-Message-State: AO0yUKX1vWFgW+mLoYMhObI1i3kJlGLCO5pV/b1NovOXQKNGvkhXXBUX
- CxQDcQ9evBBaAU0GBv1V2XIQXB5P756Q23mojpKDJjao5ySNxzjTGybqm5p6v7f9HvPrR/foK6y
- PK9ArRhQsnypL1Bb7tfyesMOE+UU89pqgVA==
-X-Received: by 2002:a05:600c:3422:b0:3e2:20c7:6544 with SMTP id
- y34-20020a05600c342200b003e220c76544mr1655134wmp.19.1677578829750; 
- Tue, 28 Feb 2023 02:07:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set+n4JAR7uCOb6On7ObuviN6ianqtOEcLOaLo1g7KF3VoWZK3xAtUcLSR+VLvRDIEMtvqu7tnQ==
-X-Received: by 2002:a05:600c:3422:b0:3e2:20c7:6544 with SMTP id
- y34-20020a05600c342200b003e220c76544mr1655118wmp.19.1677578829471; 
- Tue, 28 Feb 2023 02:07:09 -0800 (PST)
+ bh=bdvB+P4eoLUT11Ndi/CDZkO7atqyQtI0E8Cf3YLMEZw=;
+ b=Gg/A1ZMQaZYTNOkccr8TfynVjyl+6PGXeXuYkA2Jy1GCDcjJdEus20fuYWSEH16rIQ
+ o7HsX96GXXN7MTEblSxHudGXVDDowjByWl0JSpWm35VvgTtqjrspFkN8xNF5oGm81uaM
+ 8ycTx5xd3Iz/Cgfm55oUgEGmku+v7c7WPntBZ6h1qbPyRYvCoBfLkLPZ1gfvh7Mqa5aN
+ RqNBCaSeZ9x1C7+ImiJMoCoeT57dpsHYh0gX1/7zSFHL3FQgktDJAvvCsZL321EfVCD3
+ xZZEhKTHn6LCGNYxeAlkoi7tCSIxsoQKl+RX8RdLOeqNFbwkyvH01du+e9JJczVm6dG4
+ B9Aw==
+X-Gm-Message-State: AO0yUKVEh+HaB63RiPrugxhYNdYcZ0rsRe06TM1Wj2NrcbsnjW6/Goxw
+ icfEFE8c7I15wDD9sRbIUXcgc8uzSa9v3nl6vWyJWzefvT9qwkKfoWqL3L8ynf+GTKK79I4jE/m
+ FXqQgu9Ik1tHERaXF+EWvpAoj4mYp
+X-Received: by 2002:a05:600c:4f16:b0:3eb:3998:36fa with SMTP id
+ l22-20020a05600c4f1600b003eb399836famr1797377wmq.29.1677579094790; 
+ Tue, 28 Feb 2023 02:11:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set8+K8u4V9G1SYSnYeNE/poWEp7BJBI1AKTDveaCv9MnXpdQOLm1QnVYpJbBN48iJbJjQVDnKg==
+X-Received: by 2002:a05:600c:4f16:b0:3eb:3998:36fa with SMTP id
+ l22-20020a05600c4f1600b003eb399836famr1797361wmq.29.1677579094492; 
+ Tue, 28 Feb 2023 02:11:34 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n4-20020a7bcbc4000000b003dc3f3d77e3sm11247307wmi.7.2023.02.28.02.07.08
+ q10-20020adfea0a000000b002c567b58e9asm9440194wrm.56.2023.02.28.02.11.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 02:07:09 -0800 (PST)
+ Tue, 28 Feb 2023 02:11:34 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Daniel Vetter
  <daniel@ffwll.ch>, David
  Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Melissa
  Wen <mwen@igalia.com>
-Subject: Re: [PATCH v2 1/2] drm/vc4: replace drm_gem_dma_object for
- drm_gem_object in vc4_exec_info
-In-Reply-To: <20230202111943.111757-2-mcanal@igalia.com>
+Subject: Re: [PATCH v2 2/2] drm/vc4: replace obj lookup steps with
+ drm_gem_objects_lookup
+In-Reply-To: <20230202111943.111757-3-mcanal@igalia.com>
 References: <20230202111943.111757-1-mcanal@igalia.com>
- <20230202111943.111757-2-mcanal@igalia.com>
-Date: Tue, 28 Feb 2023 11:07:07 +0100
-Message-ID: <877cw2yugk.fsf@minerva.mail-host-address-is-not-set>
+ <20230202111943.111757-3-mcanal@igalia.com>
+Date: Tue, 28 Feb 2023 11:11:33 +0100
+Message-ID: <874jr6yu96.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -95,20 +95,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Ma=C3=ADra Canal <mcanal@igalia.com> writes:
 
-Hello Ma=C3=ADra,
-
-> The array of BOs that are lookup at the start of exec doesn't need
-> to be instantiated as drm_gem_dma_object, as it doesn't benefit
-> from its attributes. So, simplify the code by replacing the array of
-> drm_gem_dma_object for an array of drm_gem_object in the struct
-> vc4_exec_info.
+> As vc4_cl_lookup_bos() performs the same steps as drm_gem_objects_lookup(=
+),
+> replace the open-coded implementation in vc4 to simply use the DRM functi=
+on.
 >
-> Suggested-by: Melissa Wen <mwen@igalia.com>
 > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > Reviewed-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
 > ---
 
-The change looks good to me and it certainly makes the code simpler.
+It is indeed the same logic. Nice cleanup!
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
