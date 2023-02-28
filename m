@@ -1,86 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D896A5100
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 03:17:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C23E6A510D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 03:22:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8481510E029;
-	Tue, 28 Feb 2023 02:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC8810E488;
+	Tue, 28 Feb 2023 02:21:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C992D10E029
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:17:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677550642;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L1Mb2daXfEUQHvXVW4hyDc03Jb2/hD1w1K+XnRGqyVE=;
- b=F1MC0Qhblh1asNeXbpk7VJ43CPCWgKDfCrutkmOk6lrjTP1/pHh/6swjuppwjZSzlVSKnH
- L/vwUC6QlXBZijADd+GfIl9GTMKn8whVk01sSIqcqS5RpQ4t8QqROREnb97pMKYQUc7m8G
- fDh0DXukkWiq0rQBbNXsKzwtdX/+vyo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-64-VuR_AZVfNLeHT_0hDJS1sw-1; Mon, 27 Feb 2023 21:17:21 -0500
-X-MC-Unique: VuR_AZVfNLeHT_0hDJS1sw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- cf11-20020a0564020b8b00b0049ec3a108beso11281285edb.7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 18:17:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:subject:to
- :from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=aaG8/Bg6dhlDDPoj6nBl4VpMZT/wui8WldswSe4hBs4=;
- b=7ZPT0zEcSxE4hml8/KmzYvNU60MsOh4fBt4su330tRKRXNdNbU7yWxEap/IhS23ZJU
- O4Fyh1EIw5D8fFC69HeCZxBDazWw3OB90ubPCFZXBlwxzLhb19xhr+k5uLEIkHEk+gKF
- KP71Y22yDGObHX9ddwDFzwrXQFv0xmr0HA84Q2LOC0J0v7Im02kqERSIGiJxLJv4nGSs
- 5gak4hZhmYzYN6dsCb3WGfz1zkKa19yl1ClAMCmjMa7BgsUXo1T6fcEGhqCRO4kXuf4u
- 9/qzaDykT7jY2CPQYC7zp6saknbxA5IppmjwxTXeYdvmEVPtcZHmogIijUIF63ZqUuTB
- V83w==
-X-Gm-Message-State: AO0yUKX00FS7UpU/r/P/2ZXI0SQ5hz/L4aQtyviVK0/XHalSSPOJBgdT
- OAB6W888cyOmNIeFzCepDH51Hdgblh9oVhxJ8DcyWINsu2lKIKFBykkEQp2Sse2fngUhRutpszv
- d7NS0HYVB8qrMeGZO/O72yQa3ouD+
-X-Received: by 2002:a17:906:714e:b0:8b2:8876:6a3c with SMTP id
- z14-20020a170906714e00b008b288766a3cmr878955ejj.29.1677550640048; 
- Mon, 27 Feb 2023 18:17:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set9tTXKhn1koDlG1F1zP1IAfope6sN3htqLi1+Nr+TLZ9X3jnhKZaiB/RADncuz0n/Vy80QyHA==
-X-Received: by 2002:a17:906:714e:b0:8b2:8876:6a3c with SMTP id
- z14-20020a170906714e00b008b288766a3cmr878917ejj.29.1677550639717; 
- Mon, 27 Feb 2023 18:17:19 -0800 (PST)
-Received: from WINDOWS. ([2a02:810d:4b3f:de78:41c:160e:6481:ed36])
- by smtp.gmail.com with ESMTPSA id
- s17-20020a170906501100b008b17aa6afc8sm3927141ejj.30.2023.02.27.18.17.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Feb 2023 18:17:18 -0800 (PST)
-Message-ID: <63fd642e.170a0220.f67f6.e248@mx.google.com>
-X-Google-Original-Message-ID: <Y/1kK5mjGoovZ8dU@WINDOWS.>
-Date: Tue, 28 Feb 2023 03:17:15 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, airlied@gmail.com,
- daniel@ffwll.ch, tzimmermann@suse.de, mripard@kernel.org,
- corbet@lwn.net, christian.koenig@amd.com, bskeggs@redhat.com,
- matthew.brost@intel.com, boris.brezillon@collabora.com,
- alexdeucher@gmail.com, ogabbay@kernel.org, bagasdotme@gmail.com,
- willy@infradead.org, jason@jlekstrand.net,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v2 05/16] drm: manager to keep track of GPUs VA
- mappings
-References: <20230217134422.14116-1-dakr@redhat.com>
- <20230217134422.14116-6-dakr@redhat.com>
- <20230221182050.day6z5ge2e3dxerv@revolver>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C97D10E47F;
+ Tue, 28 Feb 2023 02:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677550912; x=1709086912;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=coidPbNyh4kKl/gNL/XBc8Yx1IDRtEureySGm88LhVM=;
+ b=cefKtVPaTWB8TdOsFX0R+HLdAOA3BlkDlQpZr6wHNNbcFvrBC29Or91t
+ fr43eWsNYZZ79hRpdZ4EOL8I9wcmkHErrpjIZenfzHyUf5owxU5io5cmC
+ X26QGAf+qX6kqD4FSQpQHFRd0u4ExFnG4aVkzcJoDKpuWWxujxc9pfikI
+ wuPtPiRhqD56ElQugAfs9NRHqp5w3jo/UsnPmEprXimD0Iu0sBNd6G+zL
+ 9nypcja5/soztkDSZ9GgSdKC/roUrW4LQqHFVx4QegIa1uYZ5r3QmcmRo
+ m9ykZxr/Miyb1+qtqyVDeAMcxYwoW1QPByCt3kz8OIEMDd4MNqT+l3txZ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="334070722"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; d="scan'208";a="334070722"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 18:21:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="919601716"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; d="scan'208";a="919601716"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga006.fm.intel.com with ESMTP; 27 Feb 2023 18:21:51 -0800
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v6 0/8] drm/i915/pxp: Add MTL PXP Support
+Date: Mon, 27 Feb 2023 18:21:42 -0800
+Message-Id: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-In-Reply-To: <20230221182050.day6z5ge2e3dxerv@revolver>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="xgWBGL0J166I1n9/"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,245 +54,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Juston Li <justonli@chromium.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---xgWBGL0J166I1n9/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series enables PXP on MTL. On ADL/TGL platforms, we rely on
+the mei driver via the i915-mei PXP component interface to establish
+a connection to the security firmware via the HECI device interface.
+That interface is used to create and teardown the PXP ARB session.
+PXP ARB session is created when protected contexts are created.
 
-On Tue, Feb 21, 2023 at 01:20:50PM -0500, Liam R. Howlett wrote:
-> * Danilo Krummrich <dakr@redhat.com> [230217 08:45]:
-> > Add infrastructure to keep track of GPU virtual address (VA) mappings
-> > with a decicated VA space manager implementation.
-> > 
-> > New UAPIs, motivated by Vulkan sparse memory bindings graphics drivers
-> > start implementing, allow userspace applications to request multiple and
-> > arbitrary GPU VA mappings of buffer objects. The DRM GPU VA manager is
-> > intended to serve the following purposes in this context.
-> > 
-> > 1) Provide infrastructure to track GPU VA allocations and mappings,
-> >    making use of the maple_tree.
-> > 
-> > 2) Generically connect GPU VA mappings to their backing buffers, in
-> >    particular DRM GEM objects.
-> > 
-> > 3) Provide a common implementation to perform more complex mapping
-> >    operations on the GPU VA space. In particular splitting and merging
-> >    of GPU VA mappings, e.g. for intersecting mapping requests or partial
-> >    unmap requests.
-> > 
-> > Suggested-by: Dave Airlie <airlied@redhat.com>
-> > Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-> > ---
-> >  Documentation/gpu/drm-mm.rst    |   31 +
-> >  drivers/gpu/drm/Makefile        |    1 +
-> >  drivers/gpu/drm/drm_gem.c       |    3 +
-> >  drivers/gpu/drm/drm_gpuva_mgr.c | 1704 +++++++++++++++++++++++++++++++
-> >  include/drm/drm_drv.h           |    6 +
-> >  include/drm/drm_gem.h           |   75 ++
-> >  include/drm/drm_gpuva_mgr.h     |  714 +++++++++++++
-> >  7 files changed, 2534 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/drm_gpuva_mgr.c
-> >  create mode 100644 include/drm/drm_gpuva_mgr.h
-> > 
-> > diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> > index a52e6f4117d6..c9f120cfe730 100644
-> > --- a/Documentation/gpu/drm-mm.rst
-> > +++ b/Documentation/gpu/drm-mm.rst
-> > @@ -466,6 +466,37 @@ DRM MM Range Allocator Function References
-> >  .. kernel-doc:: drivers/gpu/drm/drm_mm.c
-> >     :export:
-> >  
-> ...
-> 
-> > +
-> > +/**
-> > + * drm_gpuva_remove_iter - removes the iterators current element
-> > + * @it: the &drm_gpuva_iterator
-> > + *
-> > + * This removes the element the iterator currently points to.
-> > + */
-> > +void
-> > +drm_gpuva_iter_remove(struct drm_gpuva_iterator *it)
-> > +{
-> > +	mas_erase(&it->mas);
-> > +}
-> > +EXPORT_SYMBOL(drm_gpuva_iter_remove);
-> > +
-> > +/**
-> > + * drm_gpuva_insert - insert a &drm_gpuva
-> > + * @mgr: the &drm_gpuva_manager to insert the &drm_gpuva in
-> > + * @va: the &drm_gpuva to insert
-> > + * @addr: the start address of the GPU VA
-> > + * @range: the range of the GPU VA
-> > + *
-> > + * Insert a &drm_gpuva with a given address and range into a
-> > + * &drm_gpuva_manager.
-> > + *
-> > + * Returns: 0 on success, negative error code on failure.
-> > + */
-> > +int
-> > +drm_gpuva_insert(struct drm_gpuva_manager *mgr,
-> > +		 struct drm_gpuva *va)
-> > +{
-> > +	u64 addr = va->va.addr;
-> > +	u64 range = va->va.range;
-> > +	MA_STATE(mas, &mgr->va_mt, addr, addr + range - 1);
-> > +	struct drm_gpuva_region *reg = NULL;
-> > +	int ret;
-> > +
-> > +	if (unlikely(!drm_gpuva_in_mm_range(mgr, addr, range)))
-> > +		return -EINVAL;
-> > +
-> > +	if (unlikely(drm_gpuva_in_kernel_region(mgr, addr, range)))
-> > +		return -EINVAL;
-> > +
-> > +	if (mgr->flags & DRM_GPUVA_MANAGER_REGIONS) {
-> > +		reg = drm_gpuva_in_region(mgr, addr, range);
-> > +		if (unlikely(!reg))
-> > +			return -EINVAL;
-> > +	}
-> > +
-> 
-> -----
-> 
-> > +	if (unlikely(drm_gpuva_find_first(mgr, addr, range)))
-> > +		return -EEXIST;
-> > +
-> > +	ret = mas_store_gfp(&mas, va, GFP_KERNEL);
-> 
-> mas_walk() will set the internal maple state to the limits to what it
-> finds.  So, instead of an iterator, you can use the walk function and
-> ensure there is a large enough area in the existing NULL:
-> 
-> /*
->  * Nothing at addr, mas now points to the location where the store would
->  * happen
->  */
-> if (mas_walk(&mas))
-> 	return -EEXIST;
-> 
+In this series, the front end behaviors and interfaces (uapi) remain
+the same. We add backend support for MTL but with MTL we directly use
+the GSC-CS engine on the MTL GPU device to send messages to the PXP
+(a.k.a. GSC a.k.a graphics-security) firmware. With MTL, the format
+of the message is slightly different with a 2-layer packetization
+that is explained in detail in Patch #3. Also, the second layer
+which is the actual PXP firmware packet is now rev'd to version 4.3
+for MTL that is defined in Patch #5.
 
-For some reason mas_walk() finds an entry and hence this function returns
--EEXIST for the following sequence of insertions.
+Take note that Patch #4 adds the buffer allocation and gsccs-send-
+message without actually being called by the arb-creation code
+which gets added in Patch #5. Additionally, a seperate series being
+reviewed is introducing a change for session teardown (in pxp front-
+end layer that will need backend support by both legacy and gsccs).
+If we squash all of these together (buffer-alloc, send-message,
+arb-creation and, in future, session-termination), the single patch
+will be rather large. That said, we are keeping Patch #4 and #5
+separate for now, but at merge time, we can squash them together
+if maintainer requires it.
 
-A = [0xc0000 - 0xfffff]
-B = [0x0 - 0xbffff]
+Changes from prior revs:
+   v1 : - fixed when building with CONFIG_PXP disabled.
+        - more alignment with gsc_mtl_header structure from the HDCP
+   v2 : - (all following changes as per reviews from Daniele)
+        - squashed Patch #1 from v1 into the next one.
+        - replaced unnecessary "uses_gsccs" boolean in the pxp
+          with "HAS_ENGINE(pxp->ctrl_gt, GSC0)".
+        - moved the stashing of gsccs resources from a dynamically
+          allocated opaque handle to an explicit sub-struct in
+          'struct intel_pxp'.
+        - moved the buffer object allocations from Patch #1 of this
+          series to Patch #5 (but keep the context allocation in
+          Patch #1).
+        - used the kernel default ppgtt for the gsccs context.
+        - optimized the buffer allocation and deallocation code
+          and drop the need to stash the drm_i915_gem_object.
+        - use a macro with the right mmio reg base (depending
+          on root-tile vs media-tile) along with common relative
+          offset to access all KCR registers thus minimizing
+          changes to the KCR register access codes.
+        - fixed bugs in the heci packet request submission code
+          in Patch #3 (of this series)
+        - add comments in the mtl-gsc-heci-header regarding the
+          host-session-handle.
+        - re-use tee-mutex instead of introducing a gsccs specific
+          cmd mutex.
+        - minor cosmetic improvements in Patch #5.
+	- before creating arb session, ensure intel_pxp_start
+          first ensures the GSC FW is up and running.
+        - use 2 second timeout for the pending-bit scenario when
+          sending command to GSC-FW as per specs.
+        - simplify intel_pxp_get_irq_gt with addition comments
+        - redo Patch #7 to minimize the changes without introducing
+          a common  abstraction helper for suspend/resume/init/fini
+          codes that have to change the kcr power state.
+   v3 : - rebase onto latest drm-tip with the updated firmware
+          session invalidation flow
+        - on Patch#1: move 'mutex_init(&pxp->tee_mutex)' to a common
+          init place in intel_pxp_init since its needed everywhere
+          (Daniele)
+        - on Patch#1: remove unneccasary "ce->vm = i915_vm_get(vm);"
+          (Daniele)
+        - on Patch#2: move the introduction of host_session_handle to
+          Patch#4 where it starts getting used.
+        - on Patch#4: move host-session-handle initialization to the
+          allocate-resources during gsccs-init (away from Patch#5)
+          and add the required call to PXP-firmware to cleanup the
+          host-session-handle in destroy-resources during gsccs-fini
+        - on Patch#5: add dispatching of arb session termination
+          firmware cmd during session teardown (as per latest
+          upstream flows)
+   v4 : - Added proper initialization and cleanup of host-session-handle
+          that the gsc firmware expects.
+        - Fix the stream-session-key invalidation instruction for MTL.
+   v5 : - In Patch #4, move the tee_mutex locking to after we check for
+          valid vma allocations.
+        - In Patch #5, wait for intel_huc_is_authenticated instead of
+          intel_uc_fw_is_running(gsc-fw) before starting ARB session.
+        - In Patch #5, increase the necessary timeouts at the top-level
+          (PXP arb session creation / termination) to accomodate SLA of
+          GSC firmware when busy with pending-bit responses.
+        - In Patch #5, remove redundant host_session_handle init as
+          we need a single handle that is already initialized during
+          execution_resource init in Patch #4.
+        - In Patch #8, increase the wait timeout for termination to
+          align with the same SLA.
 
-Interestingly, inserting B before A works fine.
+Alan Previn (8):
+  drm/i915/pxp: Add GSC-CS back-end resource init and cleanup
+  drm/i915/pxp: Add MTL hw-plumbing enabling for KCR operation
+  drm/i915/pxp: Add MTL helpers to submit Heci-Cmd-Packet to GSC
+  drm/i915/pxp: Add GSC-CS backend to send GSC fw messages
+  drm/i915/pxp: Add ARB session creation and cleanup
+  drm/i915/pxp: MTL-KCR interrupt ctrl's are in GT-0
+  drm/i915/pxp: On MTL, KCR enabling doesn't wait on tee component
+  drm/i915/pxp: Enable PXP with MTL-GSC-CS
 
-I attached a test module that reproduces the issue. I hope its just a stupid
-mistake I just can't spot though.
+ drivers/gpu/drm/i915/Makefile                 |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   3 +-
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c | 108 ++++++
+ .../i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h |  76 ++++
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          |  96 ++++-
+ .../drm/i915/pxp/intel_pxp_cmd_interface_43.h |  25 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |  11 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c    | 358 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h    |  37 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      |  24 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |   8 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |   3 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_regs.h     |  27 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  25 +-
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      |   2 -
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  20 +
+ 18 files changed, 787 insertions(+), 41 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_regs.h
 
-> /* The NULL entry ends at mas.last, make sure there is room */
-> if (mas.last < (addr + range - 1))
-> 	return -EEXIST;
-> 
-> /* Limit the store size to the correct end address, and store */
->  mas.last = addr + range - 1;
->  ret = mas_store_gfp(&mas, va, GFP_KERNEL);
-> 
-
---xgWBGL0J166I1n9/
-Content-Type: text/x-c; charset=us-ascii
-Content-Disposition: attachment; filename="maple.c"
-
-/* SPDX-License-Identifier: GPL-2.0 */
-#if 1
-#include <linux/init.h>
-#include <linux/ioctl.h>
-#include <linux/kernel.h>
-#include <linux/list.h>
-#include <linux/maple_tree.h>
-#include <linux/mm.h>
-#include <linux/module.h>
-#include <linux/moduleparam.h>
-#include <linux/mutex.h>
-#include <linux/printk.h>
-#include <linux/proc_fs.h>
-#include <linux/slab.h>
-#include <linux/types.h>
-#endif
-
-struct maple_tree mt;
-
-struct va {
-	u64 addr;
-	u64 range;
-};
-
-static int va_store(struct va *va)
-{
-	void *entry = NULL;
-	u64 addr = va->addr;
-	u64 range = va->range;
-	u64 last = addr + range - 1;
-	MA_STATE(mas, &mt, addr, addr);
-	int ret;
-
-	mas_lock(&mas);
-
-	if ((entry = mas_walk(&mas))) {
-		pr_err("addr=%llx, range=%llx, last=%llx, mas.index=%lx, mas.last=%lx, entry=%px - exists\n",
-		       addr, range, last, mas.index, mas.last, entry);
-		ret = -EEXIST;
-		goto err_unlock;
-	}
-
-	if (mas.last < last) {
-		pr_err("addr=%llx, range=%llx, last=%llx, mas.index=%lx, mas.last%lx, va=%px - not enough space\n",
-		       addr, range, last, mas.index, mas.last, va);
-		ret = -EEXIST;
-		goto err_unlock;
-	}
-
-	mas.last = last;
-	ret = mas_store_gfp(&mas, &va, GFP_KERNEL);
-	if (ret) {
-		pr_err("mas_store_gfp() failed\n");
-		goto err_unlock;
-	}
-
-	mas_unlock(&mas);
-
-	pr_info("addr=%llx, range=%llx, last=%llx, mas.index=%lx, mas.last=%lx, va=%px - insert\n",
-		addr, range, last, mas.index, mas.last, va);
-
-	return 0;
-
-err_unlock:
-	mas_unlock(&mas);
-	return ret;
-}
-
-static int __init maple_init(void)
-{
-	struct va kernel_node = { .addr = 0xc0000, .range = 0x40000 };
-	struct va node = { .addr = 0x0, .range = 0xc0000 };
-
-	mt_init(&mt);
-
-	va_store(&kernel_node);
-	va_store(&node);
-
-	return 0;
-}
-
-static void __exit maple_exit(void)
-{
-	mtree_lock(&mt);
-	__mt_destroy(&mt);
-	mtree_unlock(&mt);
-}
-
-module_init(maple_init);
-module_exit(maple_exit);
-
-MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("Danilo Krummrich");
-MODULE_DESCRIPTION("Maple Tree example.");
-MODULE_VERSION("0.1");
-
---xgWBGL0J166I1n9/--
+-- 
+2.39.0
 
