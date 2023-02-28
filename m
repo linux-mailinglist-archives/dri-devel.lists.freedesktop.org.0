@@ -2,79 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309B26A565F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ED36A5664
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:12:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F33B410E037;
-	Tue, 28 Feb 2023 10:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D42110E03B;
+	Tue, 28 Feb 2023 10:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34CAB10E037
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677579098;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bdvB+P4eoLUT11Ndi/CDZkO7atqyQtI0E8Cf3YLMEZw=;
- b=NnI2Nib2IMNG+/2xVxFaOa0vt5NNV8w33geZhIcDuijKAYSCh0+/eO3BbVGrnOdwqlTui3
- cSsAuu1fHjLgOd1RBE3pcL7WYYbSYhbe6/419czvahSL0/xxBvtavGMe3XJqL5GA9f7CWH
- rcqT8TkrJGF+U/g/p8vskcMbnxwt7io=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-329-Izl_ztIGNw2foDjtgcyBTw-1; Tue, 28 Feb 2023 05:11:35 -0500
-X-MC-Unique: Izl_ztIGNw2foDjtgcyBTw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- ba28-20020a0560001c1c00b002cc6d1f0c06so654834wrb.17
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:11:35 -0800 (PST)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3328610E03B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:12:28 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id k14so12403906lfj.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677579146;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=a0ZALjz8hZncQ1TonGfmo+zvU7/0+j9qAf4rZWFHe/0=;
+ b=nYgerGIcu7sGl5NDCbCsOLN8LiFOA5AlDWF+riegmmZaL/NNdVEl9GmkOf8+0Fn9aW
+ c0RPA5ZEwTBGJtbYRrzaU/0q9scmMvNITYbsJVG7z4/PiOZwZfdNLmgrRfjQlv+ssh8n
+ PfmncCG5kB3wcbsBb1JDPC1o4w2ntPetD98Mzg9Yp1CFosXiW7MAluLmuWZdWeBvMp9t
+ SweGLkKNOtVDU5RVl8b4qk5eew94cmp9iDoEyY9Fn2ICaylhxytetwh+Io94Gg/xOkS+
+ ueH7WYqCU9c3VbC2NSfnaFWgmNC6kj7nws2/Kl9otxFgZmJk2HyVp8hfwQi8LsaAmbrp
+ p+aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677579094;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bdvB+P4eoLUT11Ndi/CDZkO7atqyQtI0E8Cf3YLMEZw=;
- b=Gg/A1ZMQaZYTNOkccr8TfynVjyl+6PGXeXuYkA2Jy1GCDcjJdEus20fuYWSEH16rIQ
- o7HsX96GXXN7MTEblSxHudGXVDDowjByWl0JSpWm35VvgTtqjrspFkN8xNF5oGm81uaM
- 8ycTx5xd3Iz/Cgfm55oUgEGmku+v7c7WPntBZ6h1qbPyRYvCoBfLkLPZ1gfvh7Mqa5aN
- RqNBCaSeZ9x1C7+ImiJMoCoeT57dpsHYh0gX1/7zSFHL3FQgktDJAvvCsZL321EfVCD3
- xZZEhKTHn6LCGNYxeAlkoi7tCSIxsoQKl+RX8RdLOeqNFbwkyvH01du+e9JJczVm6dG4
- B9Aw==
-X-Gm-Message-State: AO0yUKVEh+HaB63RiPrugxhYNdYcZ0rsRe06TM1Wj2NrcbsnjW6/Goxw
- icfEFE8c7I15wDD9sRbIUXcgc8uzSa9v3nl6vWyJWzefvT9qwkKfoWqL3L8ynf+GTKK79I4jE/m
- FXqQgu9Ik1tHERaXF+EWvpAoj4mYp
-X-Received: by 2002:a05:600c:4f16:b0:3eb:3998:36fa with SMTP id
- l22-20020a05600c4f1600b003eb399836famr1797377wmq.29.1677579094790; 
- Tue, 28 Feb 2023 02:11:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set8+K8u4V9G1SYSnYeNE/poWEp7BJBI1AKTDveaCv9MnXpdQOLm1QnVYpJbBN48iJbJjQVDnKg==
-X-Received: by 2002:a05:600c:4f16:b0:3eb:3998:36fa with SMTP id
- l22-20020a05600c4f1600b003eb399836famr1797361wmq.29.1677579094492; 
- Tue, 28 Feb 2023 02:11:34 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- q10-20020adfea0a000000b002c567b58e9asm9440194wrm.56.2023.02.28.02.11.33
+ d=1e100.net; s=20210112; t=1677579146;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a0ZALjz8hZncQ1TonGfmo+zvU7/0+j9qAf4rZWFHe/0=;
+ b=FwsUVnPJV1g1ndiXD7qXrxE8RaZsz7fmDN3XC2rU5vZVZuwp145UrRLY+vx/vcFfYf
+ 8cehk/zrAyLcznxXQPW+JDEk9tRA2ZSDjdmJ55hKk6ALdHeNI6qQNu+hJNABqaOCMVPF
+ 7Rkz7aT71+bBDY1PlGOzQeCpjb1EmZtXG03KJ44OZvs7QUHo+x0gzyU8rPzl4tjtNmYZ
+ oLv/GRT79xQko3yqVVozaFmQJGavG1TCKvreTsi9avDUKMOcmU647CuUEPsvOPOcXwxr
+ ajCwVmc72b0o7t8blKv/F+RcHrBc//UHA6lwg5xSWdGFUam4vXjU+PbRNWr4El+xuXES
+ USWQ==
+X-Gm-Message-State: AO0yUKX/horV8JrhWXL06I36c+0eEjvHZwDDU9bJ4rpea3qV2ARo9jsv
+ Z7oJ+EpmDBofK7kpB/FySU0=
+X-Google-Smtp-Source: AK7set9zE2K1Lct40MR/LeWIb3lNTK3z3FyYjIB9r56f6ydGYHic1I4b0hKXvFJ2A/fVoYkptq+0qw==
+X-Received: by 2002:a05:6512:3d1d:b0:4dd:cf7a:990e with SMTP id
+ d29-20020a0565123d1d00b004ddcf7a990emr871946lfv.8.1677579146148; 
+ Tue, 28 Feb 2023 02:12:26 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ h2-20020ac25962000000b004db9dbe09c6sm1270642lfp.89.2023.02.28.02.12.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 02:11:34 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, Daniel Vetter
- <daniel@ffwll.ch>, David
- Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>, Melissa
- Wen <mwen@igalia.com>
-Subject: Re: [PATCH v2 2/2] drm/vc4: replace obj lookup steps with
- drm_gem_objects_lookup
-In-Reply-To: <20230202111943.111757-3-mcanal@igalia.com>
-References: <20230202111943.111757-1-mcanal@igalia.com>
- <20230202111943.111757-3-mcanal@igalia.com>
-Date: Tue, 28 Feb 2023 11:11:33 +0100
-Message-ID: <874jr6yu96.fsf@minerva.mail-host-address-is-not-set>
+ Tue, 28 Feb 2023 02:12:25 -0800 (PST)
+Date: Tue, 28 Feb 2023 12:12:22 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: document TV margin properties
+Message-ID: <20230228121222.4abf13cb@eldfell>
+In-Reply-To: <UA_4dHbPqQvjG0TrP7OhP73PFlhdTNg9Mx9GW3MRGX_JskeQHTNaZyKTBj4AmJoSgutHZeQTa08RkRBuFS6xfTPpEm7MrVtJZEaq88ZYg1s=@emersion.fr>
+References: <20230227122108.117279-1-contact@emersion.fr>
+ <20230228104642.21dae84c@eldfell>
+ <UA_4dHbPqQvjG0TrP7OhP73PFlhdTNg9Mx9GW3MRGX_JskeQHTNaZyKTBj4AmJoSgutHZeQTa08RkRBuFS6xfTPpEm7MrVtJZEaq88ZYg1s=@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/Ep4D4Dhm2KuW0_vTbqgZci/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,31 +72,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>,
- =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
+ Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ma=C3=ADra Canal <mcanal@igalia.com> writes:
+--Sig_/Ep4D4Dhm2KuW0_vTbqgZci/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> As vc4_cl_lookup_bos() performs the same steps as drm_gem_objects_lookup(=
-),
-> replace the open-coded implementation in vc4 to simply use the DRM functi=
-on.
->
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> Reviewed-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
-> ---
+On Tue, 28 Feb 2023 09:53:47 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-It is indeed the same logic. Nice cleanup!
+> On Tuesday, February 28th, 2023 at 09:46, Pekka Paalanen <ppaalanen@gmail=
+.com> wrote:
+>=20
+> > can these be negative as well, to achieve overscan and not just
+> > underscan? Did I get overscan and underscan right... these are related
+> > to under/overscan, aren't they?
+> >=20
+> > Hmm, no, I guess that doesn't make sense, there is no room in the
+> > signal to have negative margins, it would result in clipping the
+> > framebuffer while scaling up. So this can only be used to scale
+> > framebuffer down, add borders, and the TV then scales it back up
+> > again? =20
+>=20
+> Correct.
+>=20
+> > Looks like neither my Intel nor AMD cards support these, I don't see
+> > the properties. More things to the list of KMS properties Weston needs
+> > to explicitly control. Oh, it seems vc4 exclusive for now. =20
+>=20
+> i915 does support it but for TV connectors only (i915/display/intel_tv.c).
+> gud also supports it.
+>=20
+> > Where does this text appear in the HTML kernel docs? I tried to look at
+> > drm_connector.c but I cannot find the spot where this patch applies. =20
+>=20
+> Here:
+> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#analog-tv-specific-=
+connector-properties
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Analog TV properties? So this does not apply to e.g. HDMI?
 
---=20
-Best regards,
+I believe HDMI TVs do have the problems that margins could mitigate.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> > Is this actually a connector property? How does that work, should this
+> > not be a CRTC property? =20
+>=20
+> Yeah, it's a connector property for some reason.
+>=20
+> > Is this instead not scaling anything but simply sending metadata
+> > through the connector? =20
+>=20
+> No metadata is sent. This is purely equivalent to setting up CRTC_*
+> properties to scale the planes.
 
+Oh! That would be really good to mention in the doc. Maybe even prefer
+plane props over this? Or is this for analog TV, and plane props for
+digital TV?
+
+
+The above are the important comments. All below is just musings you can
+ignore if you wish.
+
+> > Or are there underlying requirements that this connector property is
+> > actually affecting the CRTC, which means that it is fundamentally
+> > impossible to use multiple connectors with different values on the same
+> > CRTC? And drivers will reject any attempt, so there is no need to
+> > define what conflicting settings will do? =20
+>=20
+> I don't think any driver above supports cloning CRTCs for these
+> connector types. i915 sets clonable =3D false for these connectors.
+> vc4 picks the first connector's TV margins, always.
+
+Sounds like i915 does it right, and vc4 does not, assuming vc4 does not
+prevent cloning.
+
+>=20
+> > IOW, does simply the existence of these properties on a connector
+> > guarantee that the connector must be the only one on a CRTC? =20
+>=20
+> I suppose that there could exist some hardware capable of applying
+> margins post-CRTC? Such driver could support cloning CRTCs and still
+> applying the connector margins correctly.
+
+Yeah, theoretically. But in the KMS object model, is there the idea
+that connectors do not do image manipulation, they can only convert the
+signal type at most and send metadata?
+
+
+Thanks,
+pq
+
+--Sig_/Ep4D4Dhm2KuW0_vTbqgZci/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP904YACgkQI1/ltBGq
+qqcOfg/8CpJvAsjGA6d9fwq+ttDBsS23cm+0Lte5mVLLtCGkQO8t0CUrGMrvgPFt
+TmxXqxin+30PVXX8zNSqkn1atW7f2hM7cEehVXXI4e5lfCbSI9GYcDbCDkftqKjc
+ixwrqocUDoBKjtR+Fp5i5Sv1wGhkW4q/sIOXGkTEMLZ6CQVfwzeW0Ob0UdnAy2Ov
++jGJat7RWNx+W7zYahvjj0uyCVsyBTnY34i/pEIXNFWK5kOIdUfevRygpy3H0Ptq
+oFDtVzUHz8zlnk9N0PIuusGc5yi2FHIZ1B42g3TcifMKDSxSZc010k2kIi/QY2xM
+m+paj3bYCyKpkNtrV5tsdK9LkJrSVmhfFHuGiznYYBKDBOsSOvQr/F+2X+hT38d4
+3bOPtKuUtH+Q9cl/o506LA/G0COw2Ge7wQ+DRyflmOBk00+u3PcAHzNHs46x0grq
+g3o1uv8y/UyhL0StAxQGmke3OS+kEr5bNJJ5GwpEey+RX/KVw1o4EHEnVcJdewe1
+Om7vn9sSaStkR0b+6f6p+Vfcieme8MAKCd8Bt5fwis4NPy9TWa1o04HE1E19O4wX
+UqL3EcDotsq0GoG+LdHwuiuLyyqhWjBMwwEqvZToTN/6x/q3BM+yRhfbBsoJAIrG
+bbSUnC8Knj2C+kzR/efvWfkCdLzhSdU0gFbaujmqZiY2TTQP5Ic=
+=L0G9
+-----END PGP SIGNATURE-----
+
+--Sig_/Ep4D4Dhm2KuW0_vTbqgZci/--
