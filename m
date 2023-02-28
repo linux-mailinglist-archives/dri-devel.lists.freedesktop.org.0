@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA1A6A6004
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 20:56:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 328766A6005
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 20:57:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6BB10E085;
-	Tue, 28 Feb 2023 19:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0FE10E094;
+	Tue, 28 Feb 2023 19:57:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4811010E0AA
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:56:34 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DADA310E094
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:57:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 97C34610A6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:56:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 052D4C4339B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:56:33 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3A53EB80DE7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:57:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CD0D4C4339C
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:57:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677614193;
- bh=WPCb6WnssOM9mNA4urZQLTF5DF1cpWaiHKjE89QxbH4=;
+ s=k20201202; t=1677614225;
+ bh=Ab+tW9U9zMedzTQVArh+5T/ADKIAjjlIEG51KVMpGeU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=eqCuNGvpK6m/J/CKnb2TRJSKhnTpK3RqED+VCXucJo8ECDc3whh+mQdCXk5eJbD27
- 91/jQD6nborkfA6Wo7i0s4Hd07Z2yKR7reN9ZLdMh4dBVeLm8UfBRqdFh7zfEr7adz
- 7ZTNfbt9LL2ewZY+/adu9KJlFeUfScHo5Xl2janKw1wQtDAg8QHRCBvvY0Rn7q/62m
- FDJcYf1tAfgPWwg6g9Rto79hswa+R4YoqBlJxaT1YAAiYPRtUAPuHMW9VvZ5GDkOjH
- GOiv77rCumk8KymwBopuXa02HvVpeeQiTIIYYlLSNGIhtWJ0k6a/zosYZaV1wA/X8c
- OXna2k02EvG1A==
+ b=gQJSyWDceQ8vABzkZQGwETLU1+EOREYI6r7Y4fnUI8mAYSqAKT22I5lyEd9n1Uhwa
+ sLadINvmB4Ki6p1LFK1aZ7RBewJXLz9HLnv2rwAsSVJq5IIpnLwJ3qtJ7CEugokHfa
+ ++kbx2oMngP/st8ZFkPOotJ85GTOda/AV4p1z4zLcTdr4YQd1k/CkSKN4ItitLDpcW
+ hihzkMCYRPU+j/o3BDVjQ7uiJKULjVyhJstXl+1YtcuayvUDqD8EgU+nA4zuDqVp/M
+ 0xCt60RhtZgyAPQsUcGu6FPq6KjLQS3WMzUY+bNCkTJKFsHHcuHz0s6w/trwomgFu8
+ 6hX5EFSOtZ8ag==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E35EFC43142; Tue, 28 Feb 2023 19:56:32 +0000 (UTC)
+ from userid 48) id BE4C2C43144; Tue, 28 Feb 2023 19:57:05 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 215511] Dual monitor with amd 5700 causes system to hang at
  startup.
-Date: Tue, 28 Feb 2023 19:56:32 +0000
+Date: Tue, 28 Feb 2023 19:57:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -52,7 +51,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215511-2300-LNf5Gu7Jrt@https.bugzilla.kernel.org/>
+Message-ID: <bug-215511-2300-c5FOaC7iEq@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-215511-2300@https.bugzilla.kernel.org/>
 References: <bug-215511-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -77,10 +76,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D215511
 
---- Comment #10 from Alex Deucher (alexdeucher@gmail.com) ---
-Created attachment 303812
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303812&action=3Dedit
-possible fix 1/2
+--- Comment #11 from Alex Deucher (alexdeucher@gmail.com) ---
+Created attachment 303813
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D303813&action=3Dedit
+possible fix 2/2
+
+Do the two attached patches fix the issue?
 
 --=20
 You may reply to this email to add a comment.
