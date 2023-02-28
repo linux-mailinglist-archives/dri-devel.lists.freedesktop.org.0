@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1016A60F1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 22:09:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BBC6A6140
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 22:30:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4309910E0CD;
-	Tue, 28 Feb 2023 21:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77CC10E025;
+	Tue, 28 Feb 2023 21:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD11410E025;
- Tue, 28 Feb 2023 21:08:58 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D8C10E025;
+ Tue, 28 Feb 2023 21:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677618538; x=1709154538;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=ZBYA86E1II7ug4ZqzgPazpy3WHVKYMEGhODdvErJabg=;
- b=eZq2i2XIH3Qjwk8CSYm0AegONK04pF7wfA5Btrbnv+947S8kxB0kraBH
- Q3e4bGpWusasH05sCYyRkm6HjTA5CSj5eYbt2pgZH6fQ91AiGgq9MDSgF
- H7lSJ5qZ1yimdURkpj8BfPf6CqRzH1WcjTvfoCZO3JVsQoD8/z9Df3pz4
- iOLkRmB9gnusmLQhd5npv1EVGnO7fIe9kP8Ny5ITQeJAt+Mmwu+17xOE+
- E4qe+Ka9NWAxMT/HahavPe3ZNC5tCAxzpszIr2/LNmPzcoa/vagy3HDpR
- jZHmWOPfUZhd79RprIUUcxfEV8amlv6jZHyuN4WJqKPR9FcznGDiYRhjA w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="399032389"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="399032389"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 13:08:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="817250930"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="817250930"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga001.fm.intel.com with SMTP; 28 Feb 2023 13:08:55 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 28 Feb 2023 23:08:54 +0200
-Date: Tue, 28 Feb 2023 23:08:54 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/edid: Fix csync detailed mode parsing
-Message-ID: <Y/5tZpaOZa6262FL@intel.com>
-References: <20230227143648.7776-1-ville.syrjala@linux.intel.com>
- <87y1ohwnyl.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87y1ohwnyl.fsf@intel.com>
-X-Patchwork-Hint: comment
+ t=1677619830; x=1709155830;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=wGgx64hhdJ+rxYOy4lEfeFtr7lByXRSwJCQEAai/nNk=;
+ b=k6rTWsDKUS3hIO27PAwTeZnzWhGrG9UfS5PGqT7bgwYFGulchAwAO28/
+ OpbvbgMsmjEinQXhSJJmvVueKCiUHs+zltlJPmbqItdi3IQSSKCNpZMrQ
+ 2a+5JuHu8IOZBoJOZf9c7hhRXlUcNReGqC5UneYOVnBfTb+e5l28iKlZO
+ jGrEDM8LVvfu9M5NqNvhj7f7Mz0v1VOjwyK/Gb9pwEzVQ1ou+YrJuHJZ+
+ /hD+qIW7X+LTqUGqOwgY2CyrPVzKl0VlXYEbOBkP5gfirWuQ0WqkhLG0k
+ cuxPQZ/UuR2n1nfU42z4INXNp1kcMpm75SjqYW+Kq2m6265MGLUmjMeNT Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="396821794"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; d="scan'208";a="396821794"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 13:30:29 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="743138445"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; d="scan'208";a="743138445"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.235.137])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 13:30:29 -0800
+Date: Tue, 28 Feb 2023 13:18:55 -0800
+Message-ID: <87wn4132v4.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 3/7] drm/i915/hwmon: Power PL1 limit and TDP setting
+In-Reply-To: <b6464c27-ce81-02aa-b032-4dbcab576e44@roeck-us.net>
+References: <20220812173715.2398586-1-badal.nilawar@intel.com>
+ <20220812173715.2398586-4-badal.nilawar@intel.com>
+ <b6464c27-ce81-02aa-b032-4dbcab576e44@roeck-us.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,151 +61,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-hwmon@vger.kernel.org, anshuman.gupta@intel.com,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ jon.ewins@intel.com, Guenter Roeck <linux@roeck-us.net>,
+ Badal Nilawar <badal.nilawar@intel.com>, riana.tauro@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 28, 2023 at 10:10:26PM +0200, Jani Nikula wrote:
-> On Mon, 27 Feb 2023, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Fri, 12 Aug 2022 11:06:58 -0700, Guenter Roeck wrote:
+>
+
+Hi Guenter/linux-hwmon,
+
+
+> On 8/12/22 10:37, Badal Nilawar wrote:
+> > From: Dale B Stimson <dale.b.stimson@intel.com>
 > >
-> > Remove the bogus csync check and replace it with something that:
-> > - triggers for all forms of csync, not just the basic analog variant
-> > - actually populates the mode csync flags so that drivers can
-> >   decide what to do with the mode
+> > Use i915 HWMON to display/modify dGfx power PL1 limit and TDP setting.
 > >
-> > Originally the code tried to outright reject csync, but that
-> > apparently broke some bogus LCD monitor that claimed to have
-> > a detailed mode that uses analog csync, despite also claiming
-> > the monitor only support separate sync:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=540024
-> > Potentially that monitor should just be quirked or something.
-> >
-> > Anyways, what we are dealing with now is some kind of funny i915
-> > JSL machine with eDP where the panel claims to support a sensible
-> > 60Hz separate sync mode, and a 50Hz mode with bipolar analog
-> > csync. The 50Hz mode does not work so we want to not use it.
-> > Easiest way is to just correctly flag it as csync and the driver
-> > will reject it.
-> >
-> > TODO: or should we just reject any form of csync (or at least
-> > the analog variants) for digital display interfaces?
-> >
-> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8146
-> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+/snip/
+
+>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+>
 > > ---
-> >  drivers/gpu/drm/drm_edid.c | 23 +++++++++++++++--------
-> >  include/drm/drm_edid.h     | 12 +++++++++---
-> >  2 files changed, 24 insertions(+), 11 deletions(-)
+> >   .../ABI/testing/sysfs-driver-intel-i915-hwmon |  20 ++
+> >   drivers/gpu/drm/i915/i915_hwmon.c             | 176 +++++++++++++++++-
+> >   drivers/gpu/drm/i915/i915_reg.h               |  16 ++
+> >   drivers/gpu/drm/i915/intel_mchbar_regs.h      |   7 +
+> >   4 files changed, 217 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> > index ebab862b8b1a..fa20b1107ce3 100644
-> > --- a/drivers/gpu/drm/drm_edid.c
-> > +++ b/drivers/gpu/drm/drm_edid.c
-> > @@ -3424,10 +3424,6 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
-> >  			    connector->base.id, connector->name);
-> >  		return NULL;
-> >  	}
-> > -	if (!(pt->misc & DRM_EDID_PT_SEPARATE_SYNC)) {
-> > -		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync not supported\n",
-> > -			    connector->base.id, connector->name);
-> > -	}
-> >  
-> >  	/* it is incorrect if hsync/vsync width is zero */
-> >  	if (!hsync_pulse_width || !vsync_pulse_width) {
-> > @@ -3474,10 +3470,21 @@ static struct drm_display_mode *drm_mode_detailed(struct drm_connector *connecto
-> >  	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
-> >  		mode->flags |= DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
-> >  	} else {
-> > -		mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> > -			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> > -		mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> > -			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-> > +		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
-> > +		case DRM_EDID_PT_ANALOG_CSYNC:
-> > +		case DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC:
-> > +		case DRM_EDID_PT_DIGITAL_CSYNC:
-> > +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync!\n",
-> > +				    connector->base.id, connector->name);
-> > +			mode->flags |= DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC;
-> 
-> Not sure it makes a huge difference, and I expect this case to be rare,
-> but what's the _N_ CSYNC based on here?
+> > diff --git a/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+> > index 24c4b7477d51..9a2d10edfce8 100644
+> > --- a/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+> > +++ b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
+> > @@ -5,3 +5,23 @@ Contact:	dri-devel@lists.freedesktop.org
+> >   Description:	RO. Current Voltage in millivolt.
+> >			Only supported for particular Intel i915 graphics
+> > platforms.
+> > +
+> > +What:		/sys/devices/.../hwmon/hwmon<i>/power1_max
+> > +Date:		June 2022
+> > +KernelVersion:	5.19
+> > +Contact:	dri-devel@lists.freedesktop.org
+> > +Description:	RW. Card reactive sustained  (PL1/Tau) power limit in microwatts.
+> > +
+> > +		The power controller will throttle the operating frequency
+> > +		if the power averaged over a window (typically seconds)
+> > +		exceeds this limit.
 
-I think csync is pretty much always negative. Well, tri-state sync is
-both negative and positive, but it goes negative first.
+We exposed this as 'power1_max' previously. However this is a "power
+limit".
 
-> 
-> I also observe the spec appears to indicate "Horizontal Sync is Negative
-> (outside of V-sync)" and "Horizontal Sync is Positive (outside of
-> V-sync)" bit is valid also for Digital Composite Sync.
-> 
-> See how the bits for vertical sync have "1 1 0" or "1 1 1" but for
-> horizontal sync it's "1 _ _ 0" and "1 _ _ 1". Does that indicate the
-> polarity for digital composite sync?! The spec is not super clear.
+https://github.com/torvalds/linux/blob/master/Documentation/hwmon/sysfs-interface.rst
 
-Hmm. I tought EDID 1.4 got rid of that, but I guess it still
-implies the hsync polarity applies to csync too.
+says power1_max is "Maximum power". On the other hand, power1_cap is "If
+power use rises above this limit, the system should take action to reduce
+power use". So it would seem we should have chosen power1_cap for this
+power limit instead of power1_max? So do you think we should change this to
+power1_cap instead? Though even power1_max has an associated alarm so it
+also seems to be a sort of limit.
 
-Confusuingly it only talks about hsync and nothing about vsync.
-Maybe it means both really. Not sure how anything would work 
-anyway if hsync and vsync had opposite polarity here. Wouldn't
-that just mean everything looks like vsync?
+Is there any guidance as to how these different power limits should be
+used? Generally speaking is: power1_max <= power1_cap <= power1_crit, or is
+it arbitrary or something else?
 
-So I guess grabbing the csync polarity from that bit is
-probably correct.
+Also, only power1_cap seems to have power1_cap_min and power1_cap_max (in
+case we wanted to use min/max values for the limits), not the others.
 
-> 
-> > +			break;
-> > +		case DRM_EDID_PT_DIGITAL_SEPARATE_SYNC:
-> > +			mode->flags |= (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> > +				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> > +			mode->flags |= (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> > +				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-> 
-> I think this is the good stuff, we shouldn't be looking at these flags
-> and setting PHSYNC/NHSYNC/PVSYNC/NVSYNC unless we have digital separate
-> sync.
-> 
-> Overall I think
-> 
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> Although it's not all completely clear. But I think being explicit is
-> better than assuming something and simply debug logging about csync and
-> not really doing anything about it.
-> 
-> > +			break;
-> > +		}
-> >  	}
-> >  
-> >  set_size:
-> > diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> > index 70ae6c290bdc..49ee10272603 100644
-> > --- a/include/drm/drm_edid.h
-> > +++ b/include/drm/drm_edid.h
-> > @@ -61,9 +61,15 @@ struct std_timing {
-> >  	u8 vfreq_aspect;
-> >  } __attribute__((packed));
-> >  
-> > -#define DRM_EDID_PT_HSYNC_POSITIVE (1 << 1)
-> > -#define DRM_EDID_PT_VSYNC_POSITIVE (1 << 2)
-> > -#define DRM_EDID_PT_SEPARATE_SYNC  (3 << 3)
-> > +#define DRM_EDID_PT_SYNC_MASK              (3 << 3)
-> > +# define DRM_EDID_PT_ANALOG_CSYNC          (0 << 3)
-> > +# define DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC  (1 << 3)
-> > +# define DRM_EDID_PT_DIGITAL_CSYNC         (2 << 3)
-> > +#  define DRM_EDID_PT_CSYNC_ON_RGB         (1 << 1) /* analog csync only */
-> > +#  define DRM_EDID_PT_CSYNC_SERRATE        (1 << 2)
-> > +# define DRM_EDID_PT_DIGITAL_SEPARATE_SYNC (3 << 3)
-> > +#  define DRM_EDID_PT_HSYNC_POSITIVE       (1 << 1)
-> > +#  define DRM_EDID_PT_VSYNC_POSITIVE       (1 << 2)
-> >  #define DRM_EDID_PT_STEREO         (1 << 5)
-> >  #define DRM_EDID_PT_INTERLACED     (1 << 7)
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Separately, we have already used up power1_crit (which is the other limit
+in official hwmon power limits) so we can't use that.
 
--- 
-Ville Syrjälä
-Intel
+Thanks.
+--
+Ashutosh
