@@ -2,60 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8C06A586F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 12:37:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF57E6A586C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 12:37:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8320C10E21C;
-	Tue, 28 Feb 2023 11:37:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4A1410E07A;
+	Tue, 28 Feb 2023 11:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com
- [IPv6:2607:f8b0:4864:20::92b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B114D10E21C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 11:37:55 +0000 (UTC)
-Received: by mail-ua1-x92b.google.com with SMTP id s13so904115uac.8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 03:37:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZneDrVC+Q1mfJWiaClOnXtiGbPK/7OtXKbLhAqZkl8Q=;
- b=IaK6WmIVv0Ga2+ChDPzTBMdBK5Ftk0le5RT+Yv3d/n13m+FlDGUEE1u1g/s3Ig4Lqk
- +5vdPncOXtSoX8zKJZEylN7t7KHswbAYYSh3LU+/NyhBDEB24dcVDi3So08ax4xfZDGu
- FqWRemzYiRm0WynhW/IBSdY2GaQkwmqldapBsAQNNJY3aD89nGaLAUC1MNXGcr7FKtX0
- f4ddt16GawuhAWoCcT0/2bVbd8EBaewHHkqjE254OQ89pV2Ghbi72Y+VNNkuMFWKltNn
- 31ZaXTmAX6grg3kturcvjHga/1yW4gvRaRfRiuN8X3un9iCxUyJG0xFwdoYkX4JcCZuG
- leFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZneDrVC+Q1mfJWiaClOnXtiGbPK/7OtXKbLhAqZkl8Q=;
- b=md28UoyGpWnv67IrTFQMNidx6+BMvjTx/nBk8hEJWxmpYrUfnIpBWB0PSJP3KPabOy
- gV3H3/eDwc9+otqkLL5VEWo8cMZieQAiROLRC5toUH1F/1gFYAqepazvXP8jtAAgwH9H
- Zfd8tekOuGg1T4uMYqPP58DrKCnSmAWtfeijXuiX9Ui8+BBQTeaPNPteyjrKvT7ws6NP
- vGeD1TzzzZWAZzL3fRU0s4cx2IQqFK7WwW8NPPuNcJxMBMnt7vogGbR+RNV25+fqsUBj
- Cog+9bYy5LIj//0iDu/26kMRG04rIREt6mjkisFleYAq5/85bFsVe/vdcnIHmBU/h32J
- jk7w==
-X-Gm-Message-State: AO0yUKUtmHteZjJu6JyJUVum5jPB6No/XEFZ/hCI9cyJJz3Pg1fKCxDQ
- OhgDIW9RaESKEXKUunGcuVfnep4Mn2M/wy4iuwN2iw==
-X-Google-Smtp-Source: AK7set++ewsseFogjrbuQ1trmYroBY2NqKY45tQn6ULuf74qYSoNWWpz9De4vlNK6aaroekG1/0R7p5JTA1CYAgLcmo=
-X-Received: by 2002:ab0:4a97:0:b0:68e:2ed3:92eb with SMTP id
- s23-20020ab04a97000000b0068e2ed392ebmr1476159uae.1.1677584274711; Tue, 28 Feb
- 2023 03:37:54 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5272C10E07A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 11:37:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 0DF401FDBE;
+ Tue, 28 Feb 2023 11:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677584259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BoAIJsSywSfPc6w7N5RAenPfR1cWyMF2pers5F40/os=;
+ b=vLfU2S5Rp4+EprBxUA9B0UcJRMh7T/4dPwsAdXQohdBK12zirtHT08Gj7+DWWZfRZTEeDH
+ G3QdAaJJsqIUc6ujXlORjYQmjgy4x2397tSeMPSIbBnetGAjqnMFeLjrM0TbBw1iLTxpS5
+ zfFw9QCl0TDAgQBqK3W6Yln7PDrVlEw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677584259;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BoAIJsSywSfPc6w7N5RAenPfR1cWyMF2pers5F40/os=;
+ b=piUamXoNSZ2pkrAb/jAwAi069ty0wJq2Y1zyjD6YkLp+olCL0v9yTl2Nk879PuHEiWXoeV
+ rUV9E7BYK4hvlhDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C1A4A13440;
+ Tue, 28 Feb 2023 11:37:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id pPI/LoLn/WNlcQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 11:37:38 +0000
+Message-ID: <9631930e-3826-ded7-1a45-1d0a285c5195@suse.de>
+Date: Tue, 28 Feb 2023 12:37:38 +0100
 MIME-Version: 1.0
-References: <20230227122108.117279-1-contact@emersion.fr>
- <20230228104642.21dae84c@eldfell>
- <UA_4dHbPqQvjG0TrP7OhP73PFlhdTNg9Mx9GW3MRGX_JskeQHTNaZyKTBj4AmJoSgutHZeQTa08RkRBuFS6xfTPpEm7MrVtJZEaq88ZYg1s=@emersion.fr>
- <20230228121222.4abf13cb@eldfell>
-In-Reply-To: <20230228121222.4abf13cb@eldfell>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 28 Feb 2023 11:37:38 +0000
-Message-ID: <CAPY8ntD1ScfbT5C-L1i0D6ZikKn2VtLX8dCdhvKGzSjHvyn=ug@mail.gmail.com>
-Subject: Re: [PATCH] drm: document TV margin properties
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/virtio: Add option to disable KMS support
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>
+References: <20230224180225.2477641-1-robdclark@gmail.com>
+ <20230227063821.dg2gbjjwcekbxyzw@sirius.home.kraxel.org>
+ <CAF6AEGsv1G7CPSkCPe3iHGB9JEO4iy+bTbkFLoitmx64U78RJw@mail.gmail.com>
+ <20230228062809.ccyzgnvizh6jidn4@sirius.home.kraxel.org>
+ <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------RsIoObxnKMJhcfqRdCJOEN7X"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,112 +74,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------RsIoObxnKMJhcfqRdCJOEN7X
+Content-Type: multipart/mixed; boundary="------------Bi0tBiUbd3w9YSrozybGDvtq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Message-ID: <9631930e-3826-ded7-1a45-1d0a285c5195@suse.de>
+Subject: Re: [PATCH] drm/virtio: Add option to disable KMS support
+References: <20230224180225.2477641-1-robdclark@gmail.com>
+ <20230227063821.dg2gbjjwcekbxyzw@sirius.home.kraxel.org>
+ <CAF6AEGsv1G7CPSkCPe3iHGB9JEO4iy+bTbkFLoitmx64U78RJw@mail.gmail.com>
+ <20230228062809.ccyzgnvizh6jidn4@sirius.home.kraxel.org>
+ <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87a60yywo0.fsf@minerva.mail-host-address-is-not-set>
 
-On Tue, 28 Feb 2023 at 10:12, Pekka Paalanen <ppaalanen@gmail.com> wrote:
->
-> On Tue, 28 Feb 2023 09:53:47 +0000
-> Simon Ser <contact@emersion.fr> wrote:
->
-> > On Tuesday, February 28th, 2023 at 09:46, Pekka Paalanen <ppaalanen@gmail.com> wrote:
-> >
-> > > can these be negative as well, to achieve overscan and not just
-> > > underscan? Did I get overscan and underscan right... these are related
-> > > to under/overscan, aren't they?
-> > >
-> > > Hmm, no, I guess that doesn't make sense, there is no room in the
-> > > signal to have negative margins, it would result in clipping the
-> > > framebuffer while scaling up. So this can only be used to scale
-> > > framebuffer down, add borders, and the TV then scales it back up
-> > > again?
-> >
-> > Correct.
-> >
-> > > Looks like neither my Intel nor AMD cards support these, I don't see
-> > > the properties. More things to the list of KMS properties Weston needs
-> > > to explicitly control. Oh, it seems vc4 exclusive for now.
+--------------Bi0tBiUbd3w9YSrozybGDvtq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I've started a discussion with Simon with regard overscan handling [1].
-There would be nothing stopping Weston ignoring the DRM properties if
-Weston/userspace provides a way to reduce the destintation rectangle
-on the display device. Using that would also be renderer agnostic.
+SGkNCg0KQW0gMjguMDIuMjMgdW0gMTA6MTkgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPiB3cml0ZXM6DQpb
+Li4uXQ0KPj4NCj4+IEkgdGhpbmsgaXQgaXMgYSBiYWQgaWRlYSB0byBtYWtlIHRoYXQgYSBj
+b21waWxlIHRpbWUgb3B0aW9uLCBJJ2Qgc3VnZ2VzdA0KPj4gYSBydW50aW1lIHN3aXRjaCBp
+bnN0ZWFkLCBmb3IgZXhhbXBsZSBhIG1vZHVsZSBwYXJhbWV0ZXIgdG8gYXNrIHRoZQ0KPj4g
+ZHJpdmVyIHRvIGlnbm9yZSBhbnkgc2Nhbm91dHMuDQo+Pg0KPiANCj4gSSBkb24ndCB0aGlu
+ayB0aGVyZSdzIGEgbmVlZCBmb3IgYSBuZXcgbW9kdWxlIHBhcmFtZXRlciwgdGhlcmUncyBh
+bHJlYWR5DQo+IHRoZSB2aXJ0aW8tZ3B1ICdtb2Rlc2V0JyBtb2R1bGUgcGFyYW1ldGVyIHRv
+IGVuYWJsZS9kaXNhYmxlIG1vZHNldHRpbmcNCj4gYW5kIHRoZSBnbG9iYWwgJ25vbW9kZXNl
+dCcga2VybmVsIGNtZGxpbmUgcGFyYW1ldGVyIHRvIGRvIGl0IGZvciBhbGwgRFJNDQo+IGRy
+aXZlcnMuDQo+IA0KPiBDdXJyZW50bHksIG1hbnkgZHJpdmVycyBqdXN0IGZhaWwgdG8gcHJv
+YmUgd2hlbiAnbm9tb2Rlc2V0JyBpcyBwcmVzZW50LA0KPiBidXQgb3RoZXJzIG9ubHkgZGlz
+YWJsZSBtb2RzZXR0aW5nIGJ1dCBrZWVwIHRoZSByZW5kZXJpbmcgcGFydC4gSW4gZmFjdCwN
+Cj4gbW9zdCBEUk0gb25seSBkcml2ZXJzIGp1c3QgaWdub3JlIHRoZSAnbm9tb2Rlc2V0JyBw
+YXJhbWV0ZXIuDQoNCkRvIHlvdSBoYXZlIGEgbGlzdCBvZiB0aGVzZSBkcml2ZXJzPyBNYXli
+ZSB3ZSBuZWVkIHRvIGFkanVzdCBzZW1hbnRpY3MgDQpzbGlnaHRseS4gUGxlYXNlIHNlZSBt
+eSBjb21tZW50IGJlbG93Lg0KDQo+IFdlIGNvdWxkIG1ha2UgdmlydGlvLWdwdSBkcml2ZXIg
+dG8gb25seSBkaXNhYmxlIEtNUyB3aXRoIHRoZXNlIHBhcmFtcywNCj4gc29tZXRoaW5nIGxp
+a2UgdGhlIGZvbGxvd2luZyAodW50ZXN0ZWQpIHBhdGNoOg0KPiANCj4gIEZyb20gOWNkZGVl
+N2Y2OTZmMzdjMzRkODBkNjE2MGU4NzgyN2YzZDdhMDIzNyBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDENCj4gRnJvbTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhh
+dC5jb20+DQo+IERhdGU6IFR1ZSwgMjggRmViIDIwMjMgMTA6MDk6MTEgKzAxMDANCj4gU3Vi
+amVjdDogW1BBVENIXSBkcm0vdmlydGlvOiBPbmx5IGRpc2FibGUgS01TIHdpdGggbm9tb2Rl
+c2V0DQo+IA0KPiBUaGUgdmlydGlvLWdwdSBkcml2ZXIgY3VycmVudGx5IGZhaWxzIHRvIHBy
+b2JlIGlmIGVpdGhlciB0aGUgIm5vbW9kZXNldCINCj4ga2VybmVsIGNtZGxpbmUgcGFyYW1l
+dGVyIGlzIHVzZWQgb3IgdGhlIG1vZHVsZSAibW9kZXNldCIgcGFyYW1ldGVyIHVzZWQuDQo+
+IA0KPiBCdXQgdGhlcmUgbWF5IGJlIGNhc2VzIHdoZXJlIHRoZSByZW5kZXJpbmcgcGFydCBv
+ZiB0aGUgZHJpdmVyIGlzIG5lZWRlZA0KPiBhbmQgb25seSB0aGUgbW9kZSBzZXR0aW5nIHBh
+cnQgbmVlZHMgdG8gYmUgZGlzYWJsZWQuIFNvIGxldCdzIGNoYW5nZSB0aGUNCj4gbG9naWMg
+dG8gb25seSBkaXNhYmxlIHRoZSBLTVMgcGFydCBidXQgc3RpbGwga2VlcCB0aGUgRFJNIHNp
+ZGUgb2YgaXQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBKYXZpZXIgTWFydGluZXogQ2FuaWxs
+YXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Zp
+cnRpby92aXJ0Z3B1X2Rpc3BsYXkuYyB8IDE2ICsrKysrKysrKysrKysrKw0KPiAgIGRyaXZl
+cnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuYyAgICAgfCAyMyArKysrKysrKysrKysr
+Ky0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2ttcy5jICAg
+ICB8IDI1ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgIDMgZmlsZXMgY2hhbmdlZCwg
+MzIgaW5zZXJ0aW9ucygrKSwgMzIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1
+L2RybS92aXJ0aW8vdmlydGdwdV9kaXNwbGF5LmMNCj4gaW5kZXggOWVhNzYxMWE5ZTBmLi5l
+MTc2ZTVlOGMxYTAgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmly
+dGdwdV9kaXNwbGF5LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1
+X2Rpc3BsYXkuYw0KPiBAQCAtMzM1LDYgKzMzNSwyMiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
+IGRybV9tb2RlX2NvbmZpZ19mdW5jcyB2aXJ0aW9fZ3B1X21vZGVfZnVuY3MgPSB7DQo+ICAg
+aW50IHZpcnRpb19ncHVfbW9kZXNldF9pbml0KHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAq
+dmdkZXYpDQo+ICAgew0KPiAgIAlpbnQgaSwgcmV0Ow0KPiArCXUzMiBudW1fc2Nhbm91dHM7
+DQo+ICsNCj4gKwlpZiAodmlydGlvX2hhc19mZWF0dXJlKHZnZGV2LT52ZGV2LCBWSVJUSU9f
+R1BVX0ZfRURJRCkpIHsNCj4gKwkJdmdkZXYtPmhhc19lZGlkID0gdHJ1ZTsNCj4gKwl9DQo+
+ICsNCj4gKwkvKiBnZXQgZGlzcGxheSBpbmZvICovDQo+ICsJdmlydGlvX2NyZWFkX2xlKHZn
+ZGV2LT52ZGV2LCBzdHJ1Y3QgdmlydGlvX2dwdV9jb25maWcsDQo+ICsJCQludW1fc2Nhbm91
+dHMsICZudW1fc2Nhbm91dHMpOw0KPiArCXZnZGV2LT5udW1fc2Nhbm91dHMgPSBtaW5fdCh1
+aW50MzJfdCwgbnVtX3NjYW5vdXRzLA0KPiArCQkJCSAgICBWSVJUSU9fR1BVX01BWF9TQ0FO
+T1VUUyk7DQo+ICsJaWYgKCF2Z2Rldi0+bnVtX3NjYW5vdXRzKSB7DQo+ICsJCURSTV9FUlJP
+UigibnVtX3NjYW5vdXRzIGlzIHplcm9cbiIpOw0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4g
+Kwl9DQo+ICsJRFJNX0lORk8oIm51bWJlciBvZiBzY2Fub3V0czogJWRcbiIsIG51bV9zY2Fu
+b3V0cyk7DQo+ICAgDQo+ICAgCXJldCA9IGRybW1fbW9kZV9jb25maWdfaW5pdCh2Z2Rldi0+
+ZGRldik7DQo+ICAgCWlmIChyZXQpDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+dmlydGlvL3ZpcnRncHVfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVf
+ZHJ2LmMNCj4gaW5kZXggYWU5N2I5ODc1MGI2Li45NzliNWIxNzdmNDkgMTAwNjQ0DQo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9kcnYuYw0KPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmMNCj4gQEAgLTQwLDcgKzQwLDcgQEAN
+Cj4gICANCj4gICAjaW5jbHVkZSAidmlydGdwdV9kcnYuaCINCj4gICANCj4gLXN0YXRpYyBj
+b25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXI7DQo+ICtzdGF0aWMgc3RydWN0IGRybV9k
+cml2ZXIgZHJpdmVyOw0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9tb2Rlc2V0
+ID0gLTE7DQo+ICAgDQo+IEBAIC02OSwxMyArNjksMTIgQEAgc3RhdGljIGludCB2aXJ0aW9f
+Z3B1X3BjaV9xdWlyayhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAgIHN0YXRpYyBpbnQg
+dmlydGlvX2dwdV9wcm9iZShzdHJ1Y3QgdmlydGlvX2RldmljZSAqdmRldikNCj4gICB7DQo+
+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkZXY7DQo+ICsJc3RydWN0IHZpcnRpb19ncHVfZGV2
+aWNlICp2Z2RldjsNCj4gICAJaW50IHJldDsNCj4gICANCj4gLQlpZiAoZHJtX2Zpcm13YXJl
+X2RyaXZlcnNfb25seSgpICYmIHZpcnRpb19ncHVfbW9kZXNldCA9PSAtMSkNCj4gLQkJcmV0
+dXJuIC1FSU5WQUw7DQo+IC0NCj4gLQlpZiAodmlydGlvX2dwdV9tb2Rlc2V0ID09IDApDQo+
+IC0JCXJldHVybiAtRUlOVkFMOw0KPiArCWlmICgoZHJtX2Zpcm13YXJlX2RyaXZlcnNfb25s
+eSgpICYmIHZpcnRpb19ncHVfbW9kZXNldCA9PSAtMSkgfHwNCj4gKwkgICAgKHZpcnRpb19n
+cHVfbW9kZXNldCA9PSAwKSkNCj4gKwkJZHJpdmVyLmRyaXZlcl9mZWF0dXJlcyAmPSB+KERS
+SVZFUl9NT0RFU0VUIHwgRFJJVkVSX0FUT01JQyk7DQoNClRoZSBrZXJuZWwtd2lkZSBvcHRp
+b24gJ25vbW9kZXNldCcgYWZmZWN0cyBzeXN0ZW0gYmVoYXZpb3IuIEl0J3MgYSANCm1pc25v
+bWVyLCBhcyBpdCBhY3R1YWxseSBtZWFucyAnZG9uJ3QgcmVwbGFjZSB0aGUgZmlybXdhcmUt
+cHJvdmlkZWQgDQpmcmFtZWJ1ZmZlci4nIFNvIGlmIHlvdSBqdXN0IHNldCB0aGVzZSBmbGFn
+cyBoZXJlLCB2aXJ0aW8tZ3B1IHdvdWxkIA0KbGF0ZXIgcmVtb3ZlIHRoZSBmaXJtd2FyZSBk
+cml2ZXIgdmlhIGFwZXJ0dXJlIGhlbHBlcnMuIFRoZXJlZm9yZSwgaWYgDQpkcm1fZm9ybXdh
+cmVfZHJpdmVyc19vbmx5KCkgcmV0dXJucyB0cnVlLCB3ZSBzaG91bGQgZmFpbCBwcm9iaW5n
+IHdpdGggDQotRU5PREVWLg0KDQpCdXQgd2UgY291bGQgdHJ5IHRvIHJlcHVycG9zZSB0aGUg
+bW9kdWxlJ3MgJ21vZGVzZXQnIG9wdGlvbi4gSXQncyANCmFscmVhZHkgb2Jzb2xldGVkIGJ5
+IG5vbW9kZXNldCBhbnl3YXkuICBJJ2QgdHJ5IHRvIG1ha2UgbW9kZXNldCBpdCBhIA0KYm9v
+bGVhbiB0aGF0IGNvbnRyb2xzIG1vZGVzZXR0aW5nIHZzIHJlbmRlci1vbmx5LiBJdCB3aWxs
+IHRoZW4gYmUgYWJvdXQgDQp0aGUgZHJpdmVyJ3MgZmVhdHVyZSBzZXQsIHJhdGhlciB0aGFu
+IHN5c3RlbSBiZWhhdmlvci4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIA0KPiAg
+IAkvKg0KPiAgIAkgKiBUaGUgdmlydGlvLWdwdSBkZXZpY2UgaXMgYSB2aXJ0dWFsIGRldmlj
+ZSB0aGF0IGRvZXNuJ3QgaGF2ZSBETUENCj4gQEAgLTk4LDExICs5NywxOSBAQCBzdGF0aWMg
+aW50IHZpcnRpb19ncHVfcHJvYmUoc3RydWN0IHZpcnRpb19kZXZpY2UgKnZkZXYpDQo+ICAg
+CWlmIChyZXQpDQo+ICAgCQlnb3RvIGVycl9mcmVlOw0KPiAgIA0KPiArCWlmIChkcm1fY29y
+ZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX01PREVTRVQpKSB7DQo+ICsJCXZnZGV2ID0g
+ZGV2LT5kZXZfcHJpdmF0ZTsNCj4gKwkJcmV0ID0gdmlydGlvX2dwdV9tb2Rlc2V0X2luaXQo
+dmdkZXYpOw0KPiArCQlpZiAocmV0KQ0KPiArCQkJZ290byBlcnJfZGVpbml0Ow0KPiArCX0N
+Cj4gKw0KPiAgIAlyZXQgPSBkcm1fZGV2X3JlZ2lzdGVyKGRldiwgMCk7DQo+ICAgCWlmIChy
+ZXQpDQo+ICAgCQlnb3RvIGVycl9kZWluaXQ7DQo+ICAgDQo+IC0JZHJtX2ZiZGV2X2dlbmVy
+aWNfc2V0dXAodmRldi0+cHJpdiwgMzIpOw0KPiArCWlmIChkcm1fY29yZV9jaGVja19mZWF0
+dXJlKGRldiwgRFJJVkVSX01PREVTRVQpKQ0KPiArCQlkcm1fZmJkZXZfZ2VuZXJpY19zZXR1
+cCh2ZGV2LT5wcml2LCAzMik7DQo+ICAgCXJldHVybiAwOw0KPiAgIA0KPiAgIGVycl9kZWlu
+aXQ6DQo+IEBAIC0xNzEsNyArMTc4LDcgQEAgTU9EVUxFX0FVVEhPUigiQWxvbiBMZXZ5Iik7
+DQo+ICAgDQo+ICAgREVGSU5FX0RSTV9HRU1fRk9QUyh2aXJ0aW9fZ3B1X2RyaXZlcl9mb3Bz
+KTsNCj4gICANCj4gLXN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RyaXZlciBkcml2ZXIgPSB7
+DQo+ICtzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZHJpdmVyID0gew0KPiAgIAkuZHJpdmVy
+X2ZlYXR1cmVzID0gRFJJVkVSX01PREVTRVQgfCBEUklWRVJfR0VNIHwgRFJJVkVSX1JFTkRF
+UiB8IERSSVZFUl9BVE9NSUMsDQo+ICAgCS5vcGVuID0gdmlydGlvX2dwdV9kcml2ZXJfb3Bl
+biwNCj4gICAJLnBvc3RjbG9zZSA9IHZpcnRpb19ncHVfZHJpdmVyX3Bvc3RjbG9zZSwNCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYw0KPiBpbmRleCAyN2I3ZjE0ZGFl
+ODkuLjJmNWYyYWFjNmI3MSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRp
+by92aXJ0Z3B1X2ttcy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdw
+dV9rbXMuYw0KPiBAQCAtMTIyLDcgKzEyMiw3IEBAIGludCB2aXJ0aW9fZ3B1X2luaXQoc3Ry
+dWN0IHZpcnRpb19kZXZpY2UgKnZkZXYsIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ICAg
+CXN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXY7DQo+ICAgCS8qIHRoaXMgd2lsbCBl
+eHBhbmQgbGF0ZXIgKi8NCj4gICAJc3RydWN0IHZpcnRxdWV1ZSAqdnFzWzJdOw0KPiAtCXUz
+MiBudW1fc2Nhbm91dHMsIG51bV9jYXBzZXRzOw0KPiArCXUzMiBudW1fY2Fwc2V0czsNCj4g
+ICAJaW50IHJldCA9IDA7DQo+ICAgDQo+ICAgCWlmICghdmlydGlvX2hhc19mZWF0dXJlKHZk
+ZXYsIFZJUlRJT19GX1ZFUlNJT05fMSkpDQo+IEBAIC0xNjEsOSArMTYxLDYgQEAgaW50IHZp
+cnRpb19ncHVfaW5pdChzdHJ1Y3QgdmlydGlvX2RldmljZSAqdmRldiwgc3RydWN0IGRybV9k
+ZXZpY2UgKmRldikNCj4gICAJaWYgKHZpcnRpb19oYXNfZmVhdHVyZSh2Z2Rldi0+dmRldiwg
+VklSVElPX0dQVV9GX1ZJUkdMKSkNCj4gICAJCXZnZGV2LT5oYXNfdmlyZ2xfM2QgPSB0cnVl
+Ow0KPiAgICNlbmRpZg0KPiAtCWlmICh2aXJ0aW9faGFzX2ZlYXR1cmUodmdkZXYtPnZkZXYs
+IFZJUlRJT19HUFVfRl9FRElEKSkgew0KPiAtCQl2Z2Rldi0+aGFzX2VkaWQgPSB0cnVlOw0K
+PiAtCX0NCj4gICAJaWYgKHZpcnRpb19oYXNfZmVhdHVyZSh2Z2Rldi0+dmRldiwgVklSVElP
+X1JJTkdfRl9JTkRJUkVDVF9ERVNDKSkgew0KPiAgIAkJdmdkZXYtPmhhc19pbmRpcmVjdCA9
+IHRydWU7DQo+ICAgCX0NCj4gQEAgLTIxOCwyOCArMjE1LDEwIEBAIGludCB2aXJ0aW9fZ3B1
+X2luaXQoc3RydWN0IHZpcnRpb19kZXZpY2UgKnZkZXYsIHN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYpDQo+ICAgCQlnb3RvIGVycl92YnVmczsNCj4gICAJfQ0KPiAgIA0KPiAtCS8qIGdldCBk
+aXNwbGF5IGluZm8gKi8NCj4gLQl2aXJ0aW9fY3JlYWRfbGUodmdkZXYtPnZkZXYsIHN0cnVj
+dCB2aXJ0aW9fZ3B1X2NvbmZpZywNCj4gLQkJCW51bV9zY2Fub3V0cywgJm51bV9zY2Fub3V0
+cyk7DQo+IC0JdmdkZXYtPm51bV9zY2Fub3V0cyA9IG1pbl90KHVpbnQzMl90LCBudW1fc2Nh
+bm91dHMsDQo+IC0JCQkJICAgIFZJUlRJT19HUFVfTUFYX1NDQU5PVVRTKTsNCj4gLQlpZiAo
+IXZnZGV2LT5udW1fc2Nhbm91dHMpIHsNCj4gLQkJRFJNX0VSUk9SKCJudW1fc2Nhbm91dHMg
+aXMgemVyb1xuIik7DQo+IC0JCXJldCA9IC1FSU5WQUw7DQo+IC0JCWdvdG8gZXJyX3NjYW5v
+dXRzOw0KPiAtCX0NCj4gLQlEUk1fSU5GTygibnVtYmVyIG9mIHNjYW5vdXRzOiAlZFxuIiwg
+bnVtX3NjYW5vdXRzKTsNCj4gLQ0KPiAgIAl2aXJ0aW9fY3JlYWRfbGUodmdkZXYtPnZkZXYs
+IHN0cnVjdCB2aXJ0aW9fZ3B1X2NvbmZpZywNCj4gICAJCQludW1fY2Fwc2V0cywgJm51bV9j
+YXBzZXRzKTsNCj4gICAJRFJNX0lORk8oIm51bWJlciBvZiBjYXAgc2V0czogJWRcbiIsIG51
+bV9jYXBzZXRzKTsNCj4gICANCj4gLQlyZXQgPSB2aXJ0aW9fZ3B1X21vZGVzZXRfaW5pdCh2
+Z2Rldik7DQo+IC0JaWYgKHJldCkgew0KPiAtCQlEUk1fRVJST1IoIm1vZGVzZXQgaW5pdCBm
+YWlsZWRcbiIpOw0KPiAtCQlnb3RvIGVycl9zY2Fub3V0czsNCj4gLQl9DQo+IC0NCj4gICAJ
+dmlydGlvX2RldmljZV9yZWFkeSh2Z2Rldi0+dmRldik7DQo+ICAgDQo+ICAgCWlmIChudW1f
+Y2Fwc2V0cykNCj4gQEAgLTI1Miw4ICsyMzEsNiBAQCBpbnQgdmlydGlvX2dwdV9pbml0KHN0
+cnVjdCB2aXJ0aW9fZGV2aWNlICp2ZGV2LCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQ0KPiAg
+IAkJCSAgIDUgKiBIWik7DQo+ICAgCXJldHVybiAwOw0KPiAgIA0KPiAtZXJyX3NjYW5vdXRz
+Og0KPiAtCXZpcnRpb19ncHVfZnJlZV92YnVmcyh2Z2Rldik7DQo+ICAgZXJyX3ZidWZzOg0K
+PiAgIAl2Z2Rldi0+dmRldi0+Y29uZmlnLT5kZWxfdnFzKHZnZGV2LT52ZGV2KTsNCj4gICBl
+cnJfdnFzOg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2
+ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRz
+dHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5i
+ZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-[1] https://gitlab.freedesktop.org/wlroots/wlroots/-/issues/3597
+--------------Bi0tBiUbd3w9YSrozybGDvtq--
 
-> > i915 does support it but for TV connectors only (i915/display/intel_tv.c).
-> > gud also supports it.
-> >
-> > > Where does this text appear in the HTML kernel docs? I tried to look at
-> > > drm_connector.c but I cannot find the spot where this patch applies.
-> >
-> > Here:
-> > https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#analog-tv-specific-connector-properties
->
-> Analog TV properties? So this does not apply to e.g. HDMI?
->
-> I believe HDMI TVs do have the problems that margins could mitigate.
+--------------RsIoObxnKMJhcfqRdCJOEN7X
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Correct. Particularly on TVs instead of monitors, it's not uncommon to
-find the HDMI output gets overscanned.
+-----BEGIN PGP SIGNATURE-----
 
-> > > Is this actually a connector property? How does that work, should this
-> > > not be a CRTC property?
-> >
-> > Yeah, it's a connector property for some reason.
-> >
-> > > Is this instead not scaling anything but simply sending metadata
-> > > through the connector?
-> >
-> > No metadata is sent. This is purely equivalent to setting up CRTC_*
-> > properties to scale the planes.
->
-> Oh! That would be really good to mention in the doc. Maybe even prefer
-> plane props over this? Or is this for analog TV, and plane props for
-> digital TV?
->
->
-> The above are the important comments. All below is just musings you can
-> ignore if you wish.
->
-> > > Or are there underlying requirements that this connector property is
-> > > actually affecting the CRTC, which means that it is fundamentally
-> > > impossible to use multiple connectors with different values on the same
-> > > CRTC? And drivers will reject any attempt, so there is no need to
-> > > define what conflicting settings will do?
-> >
-> > I don't think any driver above supports cloning CRTCs for these
-> > connector types. i915 sets clonable = false for these connectors.
-> > vc4 picks the first connector's TV margins, always.
->
-> Sounds like i915 does it right, and vc4 does not, assuming vc4 does not
-> prevent cloning.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP954IFAwAAAAAACgkQlh/E3EQov+Cu
+XRAAh81RbYmcF+kNBL3/IL2r+r0QRGI/v6Lkas2TxhYX7WYlvQaKXzbThQvupQWrS1Opliqf26s3
+myR1ROkoQ23KBoiYGmr3w4AvY7/RvEom/9GocLj/pPmEt/GzCqZdB8yEuYG17MlFBRC9bKgwJrHh
+sRH2zKnbMnc742YJRcopr78+Hnaiuk0NtkWwaKz4yw3bepushl8dE+r/7VaXRTXXBD1g5rPUmenh
+GLKHiP9wGLRSQbclocxrp+s0csBpW8KRynlRtkZYjh7u+h262I9JXouu82N5RSGK49dCXt+eh8EK
+Z9krc0i+ZmvGDli7hk0coa5LhkIAXmD2C8SMTUPE7JENnd1i/1+FiuWe7auYghd92YuJc0931OeM
+Arq4r63gRjAYKXVauMPN6sdhHCc8icY2sKKRB9M8CVoCaWXiwXsG4+EzrF7YqYK9wPCuhHussdlt
+Ba1yIS76j2EAvvkcctHJrtloyOqnCvV0ntNSSKQD7GU3uRGUp81Ent09biqGfeZYgqxOvqmbaFZb
+3/6zPr71K22gh+EtxRtuLIhqOm1AflDdQan5grWwjAOOUSE6fuHRb2FI7M2KSSjso+xeY5hU0Zbg
+eFIgAVxtjZFEa9v4ZpF0PfKX4+rJEkU4c4vd7oSESR387S3PHOBwOUBezSrvYH9h3q+dwG4O7BIk
+MAM=
+=qZnP
+-----END PGP SIGNATURE-----
 
-The cloneable flag is in struct intel_encoder, not core.
-
-vc4 doesn't support cloning of a single CRTC to multiple connectors at
-all, and I believe sets up the possible_crtc bitmasks correctly to
-denote that.
-
-  Dave
-
-> >
-> > > IOW, does simply the existence of these properties on a connector
-> > > guarantee that the connector must be the only one on a CRTC?
-> >
-> > I suppose that there could exist some hardware capable of applying
-> > margins post-CRTC? Such driver could support cloning CRTCs and still
-> > applying the connector margins correctly.
->
-> Yeah, theoretically. But in the KMS object model, is there the idea
-> that connectors do not do image manipulation, they can only convert the
-> signal type at most and send metadata?
->
->
-> Thanks,
-> pq
+--------------RsIoObxnKMJhcfqRdCJOEN7X--
