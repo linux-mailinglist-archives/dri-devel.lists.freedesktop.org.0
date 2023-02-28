@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5316A56B9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:27:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A477C6A569E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13BE610E67A;
-	Tue, 28 Feb 2023 10:27:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9C910E678;
+	Tue, 28 Feb 2023 10:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02FE010E674
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B40BC10E674
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:27:13 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 01DB46602FDA;
- Tue, 28 Feb 2023 10:27:10 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DADA66602FDC;
+ Tue, 28 Feb 2023 10:27:11 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677580031;
- bh=IUwSDoZ0KzMAk6G35a7rYGldsO2EXTi5ixj8lVj11EM=;
+ s=mail; t=1677580032;
+ bh=/lMqqY+ruC5MK523tvrRTFkgnEJHeIu+JnhJU6LE/FE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=S8Eds0pn6StacRidqZGXiX9a612WEx1EH26yZRBqyAP74bbjvEgbKJTpWdOVcnk3k
- 4r21SW3n48f0VBiyTwGIMgLDxASk32LY0CqLzSnmqnjm42qDhDoeqk8iAPNmrduvsq
- 8oMChUnwHmO324BfRJ76hwV4dyh06bEzl2scsCSGpXxcvulEoUuJsaIQ9mdrF4iBz/
- Nwd3CqURq4E5cOg2w8vAp0ltFLi5qLNJ8ORVj12bTXXbitwOKIMHxp4OWFGjRZoSfe
- C+FfmzyBZ0qR6J+qwkGC6Xd7VFmGt0lNygeNbG/qRRvaiG5dVPP0pu2Z/BzKog21T7
- 1V5sIotQniwjQ==
+ b=ocPxywjVq2ceTiRY09SOE0M7Ru5gguOe/lvBF4gy6f1ISt40hyFah22qGAGTB7SlL
+ FCh9Z92toTeVdkuJdabka/dIpLwqclbAgnsmbgMacqiqmXclc7lAAdTkABGss2drxB
+ XVu7V8JnRZhmllRoH4PLpJCGNPCd7yV+Zfrop7KThb+uiL9h902OeQz5m20sBPbjpD
+ czXx2wM3JPFLmX9Ilelz3cHcSZXmNNFsD2hCuOPgF4pTIOC4s3M1vK3wL0XCvvtyyE
+ 6Kjp9e3/yqmwLac/Y9k7FVjkg7HMSVAMmrGtYwO7OHl62CP2HjYmbIgFrUfkWYe4K7
+ 6KN38twFRpH9w==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH v4 03/12] dt-bindings: gpu: mali-bifrost: Fix
- power-domain-names validation
-Date: Tue, 28 Feb 2023 11:26:55 +0100
-Message-Id: <20230228102704.708150-3-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v4 04/12] dt-bindings: gpu: mali-bifrost: Add sub-schema for
+ MT8192's power domains
+Date: Tue, 28 Feb 2023 11:26:56 +0100
+Message-Id: <20230228102704.708150-4-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
 References: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
@@ -61,59 +62,55 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
-incorrectly introduced power domain names for MT8183, causing
-validation issues.
+MediaTek MT8192 (and similar) needs five power domains for the
+Mali GPU and no sram-supply: change the binding to allow so by
+also introducing power-domain-names in the generic binding;
+while at it, also disallow the newly introduced power-domain-names
+for all non-MediaTek bindings.
 
-Add power-domain-names to the base schema, allowing a maximum of
-five elements; since platforms having a single power domain don't
-need any actual domain name, disallow that for each sub-schema.
-
-Fixes: a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
+Fixes: 5d82e74a97c2 ("dt-bindings: Add compatible for Mali Valhall (JM)")
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- .../devicetree/bindings/gpu/arm,mali-bifrost.yaml          | 7 +++++++
- 1 file changed, 7 insertions(+)
+
+Since the changes are small, I kept the Reviewed-by tags that were
+released on the previous version of this patch.
+If that was wrong, please advertise so.
+
+ .../bindings/gpu/arm,mali-bifrost.yaml        | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 5b7f1c9d2b30..bf0f7f1f71e0 100644
+index bf0f7f1f71e0..c5bef872114d 100644
 --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
 +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -65,6 +65,10 @@ properties:
-     minItems: 1
-     maxItems: 5
- 
-+  power-domain-names:
-+    minItems: 1
-+    maxItems: 5
-+
-   resets:
-     minItems: 1
-     maxItems: 3
-@@ -112,6 +116,7 @@ allOf:
+@@ -177,6 +177,25 @@ allOf:
+     else:
        properties:
-         power-domains:
-           maxItems: 1
-+        power-domain-names: false
-       required:
-         - resets
+         sram-supply: false
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: mediatek,mt8192-mali
++    then:
++      properties:
++        power-domains:
++          minItems: 5
++        power-domain-names:
++          items:
++            - const: core0
++            - const: core1
++            - const: core2
++            - const: core3
++            - const: core4
++      required:
++        - power-domains
++        - power-domain-names
    - if:
-@@ -136,6 +141,7 @@ allOf:
-             - const: bus_ace
-         power-domains:
-           maxItems: 1
-+        power-domain-names: false
-         resets:
-           minItems: 3
-         reset-names:
-@@ -186,6 +192,7 @@ allOf:
-             - const: bus
-         power-domains:
-           maxItems: 1
-+        power-domain-names: false
-       required:
-         - clock-names
- 
+       properties:
+         compatible:
 -- 
 2.39.2
 
