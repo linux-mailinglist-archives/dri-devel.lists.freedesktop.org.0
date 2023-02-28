@@ -1,75 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C816A5690
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:25:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F09F96A5692
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 11:26:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 931DF10E0BD;
-	Tue, 28 Feb 2023 10:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BD510E676;
+	Tue, 28 Feb 2023 10:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAF210E0BD
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677579939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ww5D5euMHrbhX+ykYBbzRNb0k1VV4gnUZZsb9WzIR/0=;
- b=H714jsgvomwocPcojtEbPslqsUsCOcRUVJt5BZB5pcELpErQqWcOq9blvXqm/xqm52ZzYI
- OV5Gp7jGByGY7m3nJ7IOfMM1PPP05XficGIpAsBUUApM1ETOFlGWV/vdfPodlgYq3tVrQW
- KZeh6sGJeIKc86Sx2mmJfO1DCx+mTXw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-407-dUshMB_pNhOJsrv_hFaVQg-1; Tue, 28 Feb 2023 05:25:37 -0500
-X-MC-Unique: dUshMB_pNhOJsrv_hFaVQg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r3-20020a5d6c63000000b002bff57fc7fcso1431407wrz.19
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 02:25:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677579936;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ww5D5euMHrbhX+ykYBbzRNb0k1VV4gnUZZsb9WzIR/0=;
- b=2ZOCEN8SxWqVTe3TBJqixrDf6NZgnlL90VoP5ewiqHG7E0ElDjA6T184vzkclVOmSL
- q7jyT8Z/1NOPoZa5J2Q4OB4M6SAgm7yErAPW5LJ1CYogcDA7HGiSX4d7mnccP9ARJJ37
- mgxgW0Yjl4xTjP0s4AMfiraVshS0LG9MgoFvur89naekfXiX5R6sHKFE67+7SZ2a7h1q
- vfQzNu/nm++i5DE4XejYzinXymUINM0mJinBDN6ZKYszyeYkqpFCvHTWjKY7LMSn3r4q
- iNLn3Kfyh65qVipJImKVM1YwwV4A7I+xTFkDXF4yQnWsK45vr+UDemgbLy080kcxJJtC
- hhjA==
-X-Gm-Message-State: AO0yUKVISBnoviL1HMkx9cHmfOauL6edWUKvGghgLshBzfItt2VJBna7
- GmdnQ556nWoBkS0hqjW2mw6iSMUB28y2Xk+Bu0dzLYCJtuj10Z6TvuYLYBlNHA6Ng9szGUsrruJ
- 2zNuf9Jlo5KylbORi9TlLNcancMSz
-X-Received: by 2002:a05:600c:746:b0:3ea:e554:77fe with SMTP id
- j6-20020a05600c074600b003eae55477femr1706767wmn.12.1677579936728; 
- Tue, 28 Feb 2023 02:25:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set8lViISROpIzQA9uFt5h1T0R7DDeFnxdspZ666nfdFEjSJYgwfptSPxCQF/zNgAyXSHi5cEjQ==
-X-Received: by 2002:a05:600c:746:b0:3ea:e554:77fe with SMTP id
- j6-20020a05600c074600b003eae55477femr1706754wmn.12.1677579936449; 
- Tue, 28 Feb 2023 02:25:36 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- o6-20020a05600c510600b003e20a6fd604sm12898757wms.4.2023.02.28.02.25.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 02:25:36 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, jfalempe@redhat.com,
- airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: Re: [PATCH 2/4] drm/ast: Rework definition of I/O read and write
- helpers
-In-Reply-To: <20230221155745.27484-3-tzimmermann@suse.de>
-References: <20230221155745.27484-1-tzimmermann@suse.de>
- <20230221155745.27484-3-tzimmermann@suse.de>
-Date: Tue, 28 Feb 2023 11:25:35 +0100
-Message-ID: <87y1oixf1c.fsf@minerva.mail-host-address-is-not-set>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 351FE10E676
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:26:35 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id E508D6602F90;
+ Tue, 28 Feb 2023 10:26:32 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677579993;
+ bh=VFa+f+8DW2e7D6mKpQUiXknzxxQ8s0Fg736RhJg9+aQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BVlPG6TwFWfmWmTOzq+4wKLJpdKMTDcMH0Ykv43T1b18Qe+wluCePVdBBrXC6Hkbo
+ pKhLkWY3No2PyYisZN6VmkvmMzEARzivyanq2TlND6V1DeTiWx7nhmJpMQ7z0YudGd
+ XX54jwrGdvXTvdKTmWdCZQpPexKTo25vXwTCxUnTCF4jZeNHYHqP9JtUwDGCO0nc5b
+ NlPFJbgfWAF9ESMNgHiN2wCmg2T6NiIQ30RlFzjtiGI8VSgX4O0L20Wv/lcgLstnHd
+ JNl/rmRPgDRFZQfd+XYznZljh3Y/z1IXz0uoD2T2Ozf3iIABkcmc7PlSey5otRRNJ8
+ OUXUvnB67Jb6Q==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: airlied@gmail.com
+Subject: [PATCH v4 00/12] Panfrost: Improve and add MediaTek SoCs support
+Date: Tue, 28 Feb 2023 11:25:58 +0100
+Message-Id: <20230228102610.707605-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,28 +49,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Changes in v4:
+ - Refactored power-domains and power-domain-names exclusions as
+   suggested by Krzysztof
+ - Small changes in MT8192 bindings addition
 
-> Ast defines a number of I/O helpers for accessing hardware. Only 4 of
-> the many generated functions are actually used. Replace the respective
-> generator macros with those 4 functions. No functional changes.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Changes in v3:
+ - Changed MT8186 bindings to declare only two power domains
+ - Added a commit introducing MT8186 specific platform data to
+   panfrost_drv
 
-Nice change. It makes much more easy to read the code with the explicit
-function definitions instead of defining them using the macros.
+Changes in v2:
+ - Add power-domain-names commit from Chen-Yu to the series
+ - Kept sram-supply in base schema, overridden for non-MediaTek
+ - Added Reviewed-by tags from Steven Price to the driver commits
+   (as released in reply to v1's cover letter - thanks!)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
+and improves MT8183 support: since the mtk-regulator-coupler driver
+was picked, it is now useless for Panfrost to look for, and manage,
+two regulators (GPU Vcore and GPU SRAM) on MediaTek;
+
+The aforementioned driver will take care of keeping the voltage
+relation (/constraints) of the two regulators on its own when a
+voltage change request is sent to the Vcore, solving the old time
+issue with not working DVFS on Panfrost+MediaTek (due to devfreq
+supporting only single regulator).
+
+In the specific case of MT8183, in order to not break the ABI, it
+was necessary to add a new compatible for enabling DVFS.
+
+Alyssa Rosenzweig (3):
+  drm/panfrost: Increase MAX_PM_DOMAINS to 5
+  drm/panfrost: Add the MT8192 GPU ID
+  drm/panfrost: Add mediatek,mt8192-mali compatible
+
+AngeloGioacchino Del Regno (9):
+  dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains
+    variation
+  dt-bindings: gpu: mali-bifrost: Set power-domains maxItems to 5
+  dt-bindings: gpu: mali-bifrost: Fix power-domain-names validation
+  dt-bindings: gpu: mali-bifrost: Add sub-schema for MT8192's power
+    domains
+  dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
+  dt-bindings: gpu: mali-bifrost: Add support for MediaTek MT8186
+  dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
+  drm/panfrost: Add new compatible for Mali on the MT8183 SoC
+  drm/panfrost: Add support for Mali on the MT8186 SoC
+
+ .../bindings/gpu/arm,mali-bifrost.yaml        | 80 ++++++++++++++++++-
+ drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       | 37 +++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c       |  8 ++
+ 4 files changed, 123 insertions(+), 4 deletions(-)
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.39.2
 
