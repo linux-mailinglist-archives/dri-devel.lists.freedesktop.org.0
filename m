@@ -1,71 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E016A5EBB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 19:27:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 761586A5F5B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 20:11:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839B310E4EF;
-	Tue, 28 Feb 2023 18:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA6710E056;
+	Tue, 28 Feb 2023 19:11:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF2810E4F3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 18:26:56 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id n2so14377901lfb.12
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 10:26:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oeTqNJz+wlwStd3akJO6gZ1qy6VhdHZAOZjVTjq8Ths=;
- b=Hg303GL4P5Q2pdSN9pUyE1WywQFRKlLyQo6KYVr9Mu/xlV3i7uJRW1lj0VpgRxGJkD
- hTkQgY+xkkFxoqMaS4Lyfb41a8HJ3jHlc3udXm1O/bq0R1p7t9bEwhwna2k4KBHwyjap
- IRWuIC0ygcPQlsczqypuN6JiOkQiKSA1pLtSECv47HVme91A7K6bdx+gVw+lWNoN5FgN
- 2oH0gSOJvFII3PBDbfnKkMCa1kwYlZwAVTPjnf5i+3K8CwkItAwH13tJM9wbBTz2RYpc
- 0lovVIKHM4ergXahJguy9+XePKMKZR7NVzjvkBZjHPd6Oy3u9RhHb7oyDykO0VBUvQ8x
- IPPQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7895210E062
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677611504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kw3rBiRvARwBpX586ASNbibzu933ritNAVE4xT8Eu1U=;
+ b=HrFoH8tyoUoaVY9G4TQ6NBLLCzxZ1BgWAPyTEUlizpE0zCUjiqcYjonrvX5pvZ/pmgL0Ps
+ 3eONdNXoe7oRsUDsmYX50sd4eI3TDq7XjGkKxM058Q0mxxrr0uKSn80ULlhvZhSsXbQ2fn
+ dmUiTW6oTqqBJ7LqhrsTsYMP0Gw5x+k=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-639-1EaYLSxbMuShxdN0mbSmgA-1; Tue, 28 Feb 2023 14:11:42 -0500
+X-MC-Unique: 1EaYLSxbMuShxdN0mbSmgA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ cz22-20020a0564021cb600b004a245f58006so15588205edb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 11:11:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oeTqNJz+wlwStd3akJO6gZ1qy6VhdHZAOZjVTjq8Ths=;
- b=VWTM5i2I7bQd2yyNwKS76ngoriNktT+j18k/dlTapFoWDi6P0BYUn6jQqBv+w6QWcg
- 9tgxdg2CuiPYrc6s01VH8DXs9tIT1STenibf7KsmhGBFCBmZnxwDNFVKAiLUR8m34Wzn
- PMb+KqFlg/0L0/MIAY5oqITxV2sldeS+G7i6JkYgycVsPyxEMGbzAzSr7Fv/D3h2KPXv
- hVqo8k3gzzWfBL0Wgi1oxeJVdZ/D98fF0NuuFEnJUDkWbDhm3z6hSG7iSmiLCW6TwykC
- OUBg5uuBXvo46MbsAnP/l8t4atjg1ZxDkF38qLa2JufNhrJsuhCFxrEDfJ7BVAhGbaf2
- ZE/w==
-X-Gm-Message-State: AO0yUKUW5i6iYvhamYZsnS6vIqdCmkrsv2mgtoBij/whQv4Zl4+QUepE
- 6+siEfxMSez9Jdb17ljVhkaJIg==
-X-Google-Smtp-Source: AK7set8ibk/owvLCNHo66A+Nyj9jA4S4dqpTehR9707ManX49TtuMEUwwMN0vBPr18saVuIdlRgI9Q==
-X-Received: by 2002:ac2:532f:0:b0:4e1:1bfe:38f7 with SMTP id
- f15-20020ac2532f000000b004e11bfe38f7mr849063lfh.27.1677608814434; 
- Tue, 28 Feb 2023 10:26:54 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Kw3rBiRvARwBpX586ASNbibzu933ritNAVE4xT8Eu1U=;
+ b=chR8CqVrp3vzFL7Foevg92IQH3kXpbKO4uzOBEsJoo7vbxLcQyrdxTm59ko7aEeMii
+ U7+72deh28/WyIJpEHVB0UVshS6CpN4YPqXTysrzLMXqoC9NIUZL21hCk6jFKSroZW4t
+ 69j+VHGPr/wyHxp8nzsVgSOXpUzUbD1ytQsEWkjzH1RB9DnZHsDRfopPeiLrzDOtSLTC
+ GkiTDR4hDtjsKxpsHYazj5JLoK0+Evpqt82qJk/jiFQEVxLKxFW7/GbV6Xl3dz8A77q1
+ DiPoYYDxiJYNNRLt0eO33kLaIxLmkGbcgtGXXX6eUR8326/QhwBlgALdPhwNShbEjJfA
+ Burg==
+X-Gm-Message-State: AO0yUKXcFIOUlOciVDgrtHbSOJoQWFYx1+7FXE96qM/vAKrgBKsYHjXC
+ bDPJ4wtfBxawpm4k6YFcwziOjecYRgFMmP1MRT9qtnE0qgIoRIfEYmiYO51Ys7UZl7DYLnJvb+j
+ Px4WCklmiE1rRb/WpS0uVRoLR0ofi
+X-Received: by 2002:aa7:d3cd:0:b0:4ad:7c7c:a70d with SMTP id
+ o13-20020aa7d3cd000000b004ad7c7ca70dmr4672339edr.19.1677611501554; 
+ Tue, 28 Feb 2023 11:11:41 -0800 (PST)
+X-Google-Smtp-Source: AK7set/2s2J8IG7DW6HDV/vn0LK7vpDxbvPNMbEpk1J7E0PWf78W/ZVjRrQIYszfZ+XmFFm7wnj26Q==
+X-Received: by 2002:aa7:d3cd:0:b0:4ad:7c7c:a70d with SMTP id
+ o13-20020aa7d3cd000000b004ad7c7ca70dmr4672321edr.19.1677611501261; 
+ Tue, 28 Feb 2023 11:11:41 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- 1-20020ac25681000000b004dda9e8233asm1419865lfr.42.2023.02.28.10.26.53
+ vs3-20020a170907138300b008c06de45e75sm4832720ejb.107.2023.02.28.11.11.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 10:26:54 -0800 (PST)
-Message-ID: <25b0283b-3d87-6b08-22a9-50c470c3d32f@linaro.org>
-Date: Tue, 28 Feb 2023 20:26:53 +0200
+ Tue, 28 Feb 2023 11:11:40 -0800 (PST)
+Message-ID: <280bfe28-ee00-e765-b00e-0d3294dc6ef3@redhat.com>
+Date: Tue, 28 Feb 2023 20:11:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH v2] drm/msm/disp/dpu: fix sc7280_pp base offset
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, dianders@chromium.org,
- vkoul@kernel.org, daniel@ffwll.ch, airlied@gmail.com, agross@kernel.org,
- andersson@kernel.org
-References: <1677533800-3125-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1677533800-3125-1-git-send-email-quic_khsieh@quicinc.com>
+ Thunderbird/102.8.0
+Subject: Re: Common DRM execution context v3
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20230228083406.1720795-1-christian.koenig@amd.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230228083406.1720795-1-christian.koenig@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,31 +88,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ arunpravin.paneerselvam@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/02/2023 23:36, Kuogee Hsieh wrote:
-> At sc7280, pingpong block is used to management the dither effects
-> to reduce distortion at panel. Currently pingpong-0 base offset is
-> wrongly set at 0x59000. This mistake will not cause system to crash.
-> However it will make dither not work. This patch correct sc7280 ping
-> pong-0 block base offset.
-> 
-> Changes in v2:
-> -- add more details info n regrading of pingpong block at commit text
-> 
-> Fixes: 591e34a091d1 ("drm/msm/disp/dpu1: add support for display for SC7280 target")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Christian,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 2/28/23 09:33, Christian König wrote:
+> Hi guys,
+> 
+> thrid round for those patches. They have been in my queue for nearly a
+> year now because I couldn't find much time to push into this.
+> 
+> Danilo wants to use this for his GPU VAs tracker work and Arun needs it
+> for hist secure semaphore work, so we should probably get it reviewed
+> now.
 
--- 
-With best wishes
-Dmitry
+Thanks for the follow up on this series - very much appreciated!
+
+- Danilo
+
+> 
+> Compared to the last version I've fixed one memory leak found by Danilo
+> and removed the support for duplicate tracking. Only radeon really needs
+> that and we can trivially handle it differently there.
+> 
+> Please review and/or comment,
+> Christian.
+> 
+> 
 
