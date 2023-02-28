@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CDB36A591F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 13:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6DC46A5921
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 13:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115E310E1F6;
-	Tue, 28 Feb 2023 12:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B622310E68F;
+	Tue, 28 Feb 2023 12:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com
- [IPv6:2607:f8b0:4864:20::1132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEDAC10E1F6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 12:34:51 +0000 (UTC)
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-536cb25982eso266218127b3.13
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 04:34:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=6Rv5DZKpY+1WCDSdTAJ/I4zTl24wpSxoAeFTDaVOJMs=;
- b=EIBy74QzUxJDr8BZCXWG7cX5cUo0beAd7Pvx/Po1NA2AJqx6gygtdaLEMB5YfoU5qL
- 76T6MA45akh7ifCWk/GypNm0hFOhAZPPAkgVGnq+nl1ZnNsbsSQmvMazY8lLJErr2Cza
- Iei95b0LgaLhronsMmy6UHeKzr7jd4CaZGGmk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6Rv5DZKpY+1WCDSdTAJ/I4zTl24wpSxoAeFTDaVOJMs=;
- b=C1UHEHzz8svgydYHifX84Vq17pBOmsEmWSJzvmeAx+To02VBRlIKzaJLjBceVOU5Nh
- yFZ3yiP6F3xmr9XgcgH7W6LKzL2GPmy8hwQ2oTBm6Glves8OZzcOJK6u61u2EN9xxYKY
- KME1KJM5Vn9qdSik/wULvfw2y8BIXjKRcdeCYHHtngTGuSaVxFcA+fQhio79bqTwBoQ0
- xe/Ju+jKp2W2Ngn8KPpoEeI9DAcBMKmsscRxxoZpaZPiGuPVdboYUy3KaDVt5VJwwN2J
- vFqRfBXMbIX1lgNKKpTYoUH3QjJxDrEecEc85xEVcPPDXiw7pWPXFF1WvY0n/uKT1a1Y
- VNQg==
-X-Gm-Message-State: AO0yUKV/fgnOtBo64HcY2+5gvmS7cZXFcoEIEcLvXqT+mWXJo3igW3m+
- BE2Gu2lg2UHtVPZqEeUgFMfTW85CtM1FTlsy1WMRIPJ21EXzoJCqCWQ=
-X-Google-Smtp-Source: AK7set8kKDssuoxSDcdwA7Nq6ZuI2ItzmitypzgoZHIkdYkwDXzIGqZK7rmS5x6yWrTmsXE/YqN0Bms5sQ4JRSEV+W0=
-X-Received: by 2002:a5b:c88:0:b0:a86:eba7:c3ca with SMTP id
- i8-20020a5b0c88000000b00a86eba7c3camr986620ybq.1.1677587690934; Tue, 28 Feb
- 2023 04:34:50 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA4010E4CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 12:34:54 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3017F21A4D;
+ Tue, 28 Feb 2023 12:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677587693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QeeXlra3VuU6LyC91LsHvOXdehf+ph2YN1KKB1StGM0=;
+ b=DP/MAMEsNUcW3z6h43PYUe9qldRXRFYbC8Y2SyPBAD6pxoW9VxwYhZbdz4KyudAWP2gFof
+ cBKbXU6Fu2SoJhsjXHXPUttBehbs5J2tIKiS7xSJ2xP1jm4RdP19d3eVhErcxV8wE0sj5J
+ f9Lw7no5m8ZdRKBI88GgymRxFFbizzI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677587693;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QeeXlra3VuU6LyC91LsHvOXdehf+ph2YN1KKB1StGM0=;
+ b=9Azfkn2YB6UkHvWoTx2jSmQ/F6Tgo9NGRacekgcA3rZ4sZQMT717bQFRFwt0hmc+8Vn7KH
+ 8iYLHfOTkeDpRFCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC4401333C;
+ Tue, 28 Feb 2023 12:34:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id S2XWN+z0/WO0EgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 12:34:52 +0000
+Message-ID: <fb70356e-4e13-1858-9e1a-e886f5918030@suse.de>
+Date: Tue, 28 Feb 2023 13:34:52 +0100
 MIME-Version: 1.0
-References: <20230227113925.875425-1-jagan@amarulasolutions.com>
- <20230227113925.875425-5-jagan@amarulasolutions.com>
- <3c2f91d3-0406-7730-d4e4-c94868f23c91@denx.de>
- <CAMty3ZA6_pKiOK6gWq4iQFtKsoxfUgnSFBqkgDBzEp1DcBEt3A@mail.gmail.com>
- <7b59aaf9-1f72-fd9f-29ac-1857ec3f91f3@denx.de>
- <CAMty3ZC6vqpFfdh2F=KUsAgm_KCksVXBV9ON1csjJd1m+gJpVQ@mail.gmail.com>
- <6066dff9-5a66-0da5-14d9-66162a2fbb39@denx.de>
- <CAMty3ZDjwD+3SKJiOgZLbYYTtq=udWkXbqnsyYaM73rsYxDumQ@mail.gmail.com>
- <47b8ad7d-cfc1-112c-2117-cb3612c1bba5@denx.de>
- <20230228121046.jfq6dqyuphfmqemi@houat>
-In-Reply-To: <20230228121046.jfq6dqyuphfmqemi@houat>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 28 Feb 2023 18:04:39 +0530
-Message-ID: <CAMty3ZAYAsShnBPRirLCb+S-Ysg5TaNP9OC3xszNWwtJH5VREg@mail.gmail.com>
-Subject: Re: [PATCH v13 04/18] drm: exynos: dsi: Switch to DSI panel or bridge
- find helper
-To: Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v3] drm/virtio: Add option to disable KMS support
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+References: <20230227173800.2809727-1-robdclark@gmail.com>
+ <44e67d88-fce6-a1c1-79a9-a937e64a32bb@collabora.com>
+ <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------kib98pZnBxR2VOueRxXAADTt"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,59 +72,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, dri-devel@lists.freedesktop.org,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
+ David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 28, 2023 at 5:40 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Feb 27, 2023 at 08:41:22PM +0100, Marek Vasut wrote:
-> > > If we go ahead with no need for DRM-managed helper at the moment, then
-> > > find the panel hook in host.attach and then drop 2/18.
-> >
-> > The panel lookup must happen in .bind/.probe for exynos/imx respectively ,
-> > that's really all that is required here. Then you can drop 1,2,3/18 and get
-> > this series applied (I hope) .
-> >
-> > Can you implement just this one change ?
-> >
-> > There is no need to use drmm_* helper for now, that can be improved later if
-> > possible.
->
-> Yeah... The drmm helper isn't needed per se, but not using it will
-> create a use-after-free pattern that is very easy to miss.
->
-> I'd really prefer not to add a new helper that favors an unsafe pattern,
-> but the driver seems to have a whole bunch of them anyway so it's not
-> really a big deal.
->
-> Which also raises another question: if it's code that is only really
-> relevant in the context of that driver, why are you creating a helper
-> for it in the first place?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------kib98pZnBxR2VOueRxXAADTt
+Content-Type: multipart/mixed; boundary="------------czIRFMXLxzNN8JXBsG00EhqZ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Clark <robdclark@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
+ David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Message-ID: <fb70356e-4e13-1858-9e1a-e886f5918030@suse.de>
+Subject: Re: [PATCH v3] drm/virtio: Add option to disable KMS support
+References: <20230227173800.2809727-1-robdclark@gmail.com>
+ <44e67d88-fce6-a1c1-79a9-a937e64a32bb@collabora.com>
+ <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGsT8_o+v0vzGu1nyh6Z82pj8FnGUdMFc0Lq+4OWoSjRBQ@mail.gmail.com>
 
-I can answer this question as I did add these helpers.
+--------------czIRFMXLxzNN8JXBsG00EhqZ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-1. DSI-specific helper added since it is a good candidate for
-common/helper code, based on the comments in V9 by Marek. V
-https://patchwork.kernel.org/project/dri-devel/patch/20221209152343.180139-8-jagan@amarulasolutions.com/
+SGkNCg0KQW0gMjcuMDIuMjMgdW0gMTk6MTUgc2NocmllYiBSb2IgQ2xhcms6DQo+IE9uIE1v
+biwgRmViIDI3LCAyMDIzIGF0IDk6NTcgQU0gRG1pdHJ5IE9zaXBlbmtvDQo+IDxkbWl0cnku
+b3NpcGVua29AY29sbGFib3JhLmNvbT4gd3JvdGU6DQo+Pg0KPj4gT24gMi8yNy8yMyAyMDoz
+OCwgUm9iIENsYXJrIHdyb3RlOg0KPj4gLi4uDQo+Pj4gKyAgICAgaWYgKElTX0VOQUJMRUQo
+Q09ORklHX0RSTV9WSVJUSU9fR1BVX0tNUykpIHsNCj4+PiArICAgICAgICAgICAgIC8qIGdl
+dCBkaXNwbGF5IGluZm8gKi8NCj4+PiArICAgICAgICAgICAgIHZpcnRpb19jcmVhZF9sZSh2
+Z2Rldi0+dmRldiwgc3RydWN0IHZpcnRpb19ncHVfY29uZmlnLA0KPj4+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIG51bV9zY2Fub3V0cywgJm51bV9zY2Fub3V0cyk7DQo+Pj4g
+KyAgICAgICAgICAgICB2Z2Rldi0+bnVtX3NjYW5vdXRzID0gbWluX3QodWludDMyX3QsIG51
+bV9zY2Fub3V0cywNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBWSVJUSU9fR1BVX01BWF9TQ0FOT1VUUyk7DQo+Pj4gKyAgICAgICAgICAgICBpZiAo
+IXZnZGV2LT5udW1fc2Nhbm91dHMpIHsNCj4+PiArICAgICAgICAgICAgICAgICAgICAgLyoN
+Cj4+PiArICAgICAgICAgICAgICAgICAgICAgICogSGF2aW5nIGFuIEVESUQgYnV0IG5vIHNj
+YW5vdXRzIGlzIG5vbi1zZW5zaWNhbCwNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICog
+YnV0IGl0IGlzIHBlcm1pdHRlZCB0byBoYXZlIG5vIHNjYW5vdXRzIGFuZCBubw0KPj4+ICsg
+ICAgICAgICAgICAgICAgICAgICAgKiBFRElEIChpbiB3aGljaCBjYXNlIERSSVZFUl9NT0RF
+U0VUIGFuZA0KPj4+ICsgICAgICAgICAgICAgICAgICAgICAgKiBEUklWRVJfQVRPTUlDIGFy
+ZSBub3QgYWR2ZXJ0aXNlZCkNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICovDQo+Pj4g
+KyAgICAgICAgICAgICAgICAgICAgIGlmICh2Z2Rldi0+aGFzX2VkaWQpIHsNCj4+PiArICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBEUk1fRVJST1IoIm51bV9zY2Fub3V0cyBpcyB6
+ZXJvXG4iKTsNCj4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXQgPSAtRUlO
+VkFMOw0KPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gZXJyX3NjYW5v
+dXRzOw0KPj4+ICsgICAgICAgICAgICAgICAgICAgICB9DQo+Pj4gKyAgICAgICAgICAgICAg
+ICAgICAgIGRldi0+ZHJpdmVyX2ZlYXR1cmVzICY9IH4oRFJJVkVSX01PREVTRVQgfCBEUklW
+RVJfQVRPTUlDKTsNCj4+DQo+PiBJZiBpdCdzIG5vdyBjb25maWd1cmFibGUgYnkgaG9zdCwg
+d2h5IGRvIHdlIG5lZWQgdGhlDQo+PiBDT05GSUdfRFJNX1ZJUlRJT19HUFVfS01TPw0KPiAN
+Cj4gQmVjYXVzZSBhIGtlcm5lbCBjb25maWcgb3B0aW9uIG1ha2VzIGl0IG1vcmUgb2J2aW91
+cyB0aGF0DQo+IG1vZGVzZXQvYXRvbWljIGlvY3RscyBhcmUgYmxvY2tlZC4gIFdoaWNoIG1h
+a2VzIGl0IG1vcmUgb2J2aW91cyBhYm91dA0KPiB3aGVyZSBhbnkgcG90ZW50aWFsIHNlY3Vy
+aXR5IGlzc3VlcyBhcHBseSBhbmQgd2hlcmUgZml4ZXMgbmVlZCB0byBnZXQNCj4gYmFja3Bv
+cnRlZCB0by4gIFRoZSBjb25maWcgb3B0aW9uIGlzIHRoZSBvbmx5IHRoaW5nIF9JXyB3YW50
+LA0KPiBldmVyeXRoaW5nIGVsc2UgaXMganVzdCBhIGJvbnVzIHRvIGhlbHAgb3RoZXIgcGVv
+cGxlJ3MgdXNlLWNhc2VzLg0KDQpJIGZpbmQgdGhpcyB2ZXJ5IHZhZ3VlLiBXaGF0J3MgdGhl
+IHNlY3VyaXR5IHRocmVhZD8NCg0KQW5kIGlmIHRoZSBjb25maWcgb3B0aW9uIGlzIHVzZWZ1
+bCwgc2hvdWxkbid0IGl0IGJlIERSTS13aWRlPyBUaGUgDQptb2Rlc2V0dGluZyBpb2N0bCBj
+YWxscyBhcmUgc2hhcmVkIGFtb25nIGFsbCBkcml2ZXJzLg0KDQpCZXN0IHJlZ2FyZHMNClRo
+b21hcw0KDQo+IA0KPiBCUiwNCj4gLVINCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
+MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-So, I have added this to the common drm_of code in V10.
-https://patchwork.kernel.org/project/dri-devel/patch/20221214125907.376148-2-jagan@amarulasolutions.com/
 
-2. DRM-managed discussion was commented on in V11 by you, so from
-where all discussion moved.
-https://patchwork.kernel.org/project/dri-devel/patch/20230123151212.269082-3-jagan@amarulasolutions.com/
+--------------czIRFMXLxzNN8JXBsG00EhqZ--
 
-1) helper wouldn't be an unsafe helper as it can reuse many DSI
-drivers but 2) helper might be an unsafe helper at the moment.
+--------------kib98pZnBxR2VOueRxXAADTt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Jagan.
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP99OwFAwAAAAAACgkQlh/E3EQov+Di
+BA//Z1MgDU0ETg5Iwn0/l0njsy1mNJ4yWhHTXumJfUH/jzwV/4jUUFsd+itsCWy7ZuHvdfA7OXyr
+c5mNF0hp/4y2g3sDfHRqyeINah8iRECwjC9usv3bOZDUwfjEa3AJ4PvB7QdIsi6Wi+8urXd49DyI
+PHF9eODDhtf8uRRoneiVWlefR4WjjKR93jvpfWZtEPz8/TK8OpDofswBr7pseB0eXjYPqIKmwrLS
+Wzf/tSPmbE6k6lq/BZOQOErkRawqpTH/5V9Q+RZOOUkcsBUpf8yiLrPEj6OGzrDWfAFvxPAvgTd4
+S6FKH2tLETcmHEJBzVOTN07UL7PrcGFnFJ0x+3SmdIYH9afbmzEN2+YCgCnlzzN9RFLqpvTdqX3a
+Wp5g/OpNBGIwPBvkMz3qHCTJdkCRaEY/jBFEZkzxZL7iLU8MMf036nfX6n4ByC0tMAxhCd3YEMbx
+yxxR0rq74XBP0ji1Uzr65EKmwKWENNLHsrdz5QqxItCzPsvWSc/D+0FMAMD6ZC/V47SUFO+CGBsQ
+eFv/hh4b137twQ6CnUfje4/QX8jkdIkks4aJ2qwlldktRiO0EpBeDOeWqsK+S2t8r/87fETomNEe
+ldB1OCLCpjjz7Cv6ekuNPrFw3P92X1941cYOh8KiQMy2gGzuC2oIx6GzrSC5wlxTMl0M4X4Rt0hS
+Vxs=
+=mCC7
+-----END PGP SIGNATURE-----
+
+--------------kib98pZnBxR2VOueRxXAADTt--
