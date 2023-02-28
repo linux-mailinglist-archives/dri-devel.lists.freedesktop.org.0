@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF1C6A5C35
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 16:45:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EBB6A5C3C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 16:46:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6737A10E4D0;
-	Tue, 28 Feb 2023 15:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A55110E4D2;
+	Tue, 28 Feb 2023 15:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85ADA10E4CE;
- Tue, 28 Feb 2023 15:45:07 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- q11-20020a056830440b00b00693c1a62101so5848205otv.0; 
- Tue, 28 Feb 2023 07:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=47Io8bjBgTfpx9irLzQIk7kc2k6GPp2PZ97i5J/VsnU=;
- b=cmBSfjVhL11B7Tk2kzeIA9iNdYDewp+Lj2BTbbj6UDcbnNNnGRKEG9iCWQZ+Zn3g9m
- +0Zx+GlqRizxRKPwVVA4/JaFtaKfoHx9z08Qt2aL2jYElbluHU/qNXZSmld3edT7vPer
- mqK5c2oWjXhedR1BJv6EXjMqwSeGb6qxBliUPUwERul1AYJ+81hovh17DHIbCSD5cK5w
- 9gwm8dkKVD7UCQUidLDzlT+m/No89gMZlEDYYGUWzhhwiazV+8nn9uut0WCqrLE6UV/g
- tafJgCdHGRGVm9NWQqu21rdJz8b0ivr1k0uKj14YYV/O5qMTtismWvnVbWfVfSc1EyjJ
- t6OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=47Io8bjBgTfpx9irLzQIk7kc2k6GPp2PZ97i5J/VsnU=;
- b=t+v9pgG4OS0si8LmkPgk+lGwMVN8TF4n2m1nJbqb0urhaZ9qoW7OhT9KkyCif9JUKR
- IeUSt5gtXTOj6HeYp+qqsHzBXVm15U1bOfEJAIpm1prcXKx25359HlF3hu/2jnJ9nGSb
- WQ9J/AlNSASwdp/2j1fhgt0GLobwa8BgcFsnFc1JNyGJRoB1x6MSt/vJxB5Fm1fygVuE
- T1QscxJbE+2fg3Oy7bHfoaVFCnkMSMhCan0x4rey5LHWK4GUevP1ON7a0FebpZ1uBnhH
- clj33MkHivjtLQEphW8LcMigr4XeMNhI02OCBLy0kPyG5kXwIe6s5dp/lPNs4BTjyRb8
- WF7w==
-X-Gm-Message-State: AO0yUKWR1pEDIi6nuBx3msY7EUoSo4iKVbcijcWB+liDEziJvtwmo4MT
- RYtY1/XwTFz+UUvfgmi/KbYIqrThcasu3rYe+Ss=
-X-Google-Smtp-Source: AK7set84ZiKu/x5bhuHzdqKQUv7sjdjnKY8F7kTvWRv1lYoh5z8jZHyiBzPqCGMtJV4jXTtlMVk45nk6MjMvbYL6vxQ=
-X-Received: by 2002:a9d:128e:0:b0:688:cf52:6e18 with SMTP id
- g14-20020a9d128e000000b00688cf526e18mr1074144otg.4.1677599106749; Tue, 28 Feb
- 2023 07:45:06 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 403C310E4CE;
+ Tue, 28 Feb 2023 15:46:05 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 037961FDC3;
+ Tue, 28 Feb 2023 15:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677599164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2ej7fO9l/Ju/aJPf79hnxatgSDRzxn6HXOmsbU/mD/w=;
+ b=ovXcO7ZXXoaOGvgQt1StiwI3CBthua3EBiqQ7064l6wSa6QHs3ACWF1/B2GTyUIC7oyy1l
+ ZJDHHV2sVOciMj/RRB69I/R2ma+9xMxMfJ7i7yYAUIYN6mOUhEMfbH7M2iaj+3wEqUuqAH
+ ENLqoj3DGPuzRmwNVreKUdT9lOvIUro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677599164;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2ej7fO9l/Ju/aJPf79hnxatgSDRzxn6HXOmsbU/mD/w=;
+ b=dA4s71Lf0jeKo4u7jjZl4piX53jXu2JLPl4q5p9o7dStw5VyHP710/Yc+2B6hOLGbHji3k
+ etV+i5DUHlbobjDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CDEF213440;
+ Tue, 28 Feb 2023 15:46:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id /cRWMbsh/mOGAwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 15:46:03 +0000
+Message-ID: <07cb2cc5-5491-a5a4-874f-f1e10ffe4882@suse.de>
+Date: Tue, 28 Feb 2023 16:46:03 +0100
 MIME-Version: 1.0
-References: <20230227193535.2822389-1-robdclark@gmail.com>
- <Y/320d96QmbLe1J8@debian.me>
-In-Reply-To: <Y/320d96QmbLe1J8@debian.me>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 28 Feb 2023 07:44:55 -0800
-Message-ID: <CAF6AEGuqHDDQS22qcp8sk+5bj16XFiBarCLvpX=qNc2r2euMUw@mail.gmail.com>
-Subject: Re: [PATCH v7 00/15] dma-fence: Deadline awareness
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] Revert "drm/shmem-helper: Switch to reservation lock"
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
+ jani.nikula@intel.com
+References: <20230228152612.19971-1-tzimmermann@suse.de>
+ <d48476f0-3c00-047d-c3cc-511b95fede5d@collabora.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <d48476f0-3c00-047d-c3cc-511b95fede5d@collabora.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XLj78G5Z1SQwYxTVY90xOhKM"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,78 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Liu Shixin <liushixin2@huawei.com>,
- Rob Clark <robdclark@chromium.org>, Vinod Polimera <quic_vpolimer@quicinc.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- intel-gfx@lists.freedesktop.org,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>, Pekka Paalanen <ppaalanen@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 28, 2023 at 4:43 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> On Mon, Feb 27, 2023 at 11:35:06AM -0800, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > This series adds a deadline hint to fences, so realtime deadlines
-> > such as vblank can be communicated to the fence signaller for power/
-> > frequency management decisions.
-> >
-> > This is partially inspired by a trick i915 does, but implemented
-> > via dma-fence for a couple of reasons:
-> >
-> > 1) To continue to be able to use the atomic helpers
-> > 2) To support cases where display and gpu are different drivers
-> >
-> > This iteration adds a dma-fence ioctl to set a deadline (both to
-> > support igt-tests, and compositors which delay decisions about which
-> > client buffer to display), and a sw_sync ioctl to read back the
-> > deadline.  IGT tests utilizing these can be found at:
-> >
-> >   https://gitlab.freedesktop.org/robclark/igt-gpu-tools/-/commits/fence-deadline
-> >
-> >
-> > v1: https://patchwork.freedesktop.org/series/93035/
-> > v2: Move filtering out of later deadlines to fence implementation
-> >     to avoid increasing the size of dma_fence
-> > v3: Add support in fence-array and fence-chain; Add some uabi to
-> >     support igt tests and userspace compositors.
-> > v4: Rebase, address various comments, and add syncobj deadline
-> >     support, and sync_file EPOLLPRI based on experience with perf/
-> >     freq issues with clvk compute workloads on i915 (anv)
-> > v5: Clarify that this is a hint as opposed to a more hard deadline
-> >     guarantee, switch to using u64 ns values in UABI (still absolute
-> >     CLOCK_MONOTONIC values), drop syncobj related cap and driver
-> >     feature flag in favor of allowing count_handles==0 for probing
-> >     kernel support.
-> > v6: Re-work vblank helper to calculate time of _start_ of vblank,
-> >     and work correctly if the last vblank event was more than a
-> >     frame ago.  Add (mostly unrelated) drm/msm patch which also
-> >     uses the vblank helper.  Use dma_fence_chain_contained().  More
-> >     verbose syncobj UABI comments.  Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > v7: Fix kbuild complaints about vblank helper.  Add more docs.
-> >
->
-> I want to apply this series for testing, but it can't be applied cleanly
-> on current drm-misc tree. On what tree (and commit) is this series based
-> on?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XLj78G5Z1SQwYxTVY90xOhKM
+Content-Type: multipart/mixed; boundary="------------YLW061QDgd20NzEB2LHbbowF";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com, daniel@ffwll.ch,
+ jani.nikula@intel.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Message-ID: <07cb2cc5-5491-a5a4-874f-f1e10ffe4882@suse.de>
+Subject: Re: [PATCH] Revert "drm/shmem-helper: Switch to reservation lock"
+References: <20230228152612.19971-1-tzimmermann@suse.de>
+ <d48476f0-3c00-047d-c3cc-511b95fede5d@collabora.com>
+In-Reply-To: <d48476f0-3c00-047d-c3cc-511b95fede5d@collabora.com>
 
-You can find my branch here:
+--------------YLW061QDgd20NzEB2LHbbowF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-https://gitlab.freedesktop.org/robclark/msm/-/commits/dma-fence/deadline
+SGkNCg0KQW0gMjguMDIuMjMgdW0gMTY6Mjggc2NocmllYiBEbWl0cnkgT3NpcGVua286DQo+
+IE9uIDIvMjgvMjMgMTg6MjYsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gVGhpcyBy
+ZXZlcnRzIGNvbW1pdCA2N2I3ODM2ZDQ0NTg3OTBmMTI2MWUzMWZlMGNlMzI1MDk4OTc4NGYw
+Lg0KPj4NCj4+IFRoZSBsb2NraW5nIGFwcGVhcnMgaW5jb21wbGV0ZS4gQSBjYWxsZXIgb2Yg
+U0hNRU0gaGVscGVyJ3MgcGluDQo+PiBmdW5jdGlvbiBuZXZlciBhY3F1aXJlcyB0aGUgZG1h
+LWJ1ZiByZXNlcnZhdGlvbiBsb2NrLiBTbyB3ZSBnZXQNCj4+DQo+PiAgICBXQVJOSU5HOiBD
+UFU6IDMgUElEOiA5NjcgYXQgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
+LmM6MjQzIGRybV9nZW1fc2htZW1fcGluKzB4NDIvMHg5MCBbZHJtX3NobWVtX2hlbHBlcl0N
+Cj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4NCj4+IC0tLQ0KPiANCj4gVGhhbmtzIFRob21hcywNCj4gDQo+IEFja2VkLWJ5
+OiBEbWl0cnkgT3NpcGVua28gPGRtaXRyeS5vc2lwZW5rb0Bjb2xsYWJvcmEuY29tPg0KPiAN
+Cg0KVGhhbmtzLCBtZXJnZWQgbm93LiBJIGhvcGUgdGhpcyBmaXhlcyB0aGUgaW1tZWRpYXRl
+IGlzc3Vlcy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KLS0gDQpUaG9tYXMgWmltbWVy
+bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
+bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
+bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
+VG90ZXYNCg==
 
-BR,
--R
+--------------YLW061QDgd20NzEB2LHbbowF--
+
+--------------XLj78G5Z1SQwYxTVY90xOhKM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP+IbsFAwAAAAAACgkQlh/E3EQov+Cs
+LA/9EtlYuObcl6prpLRWIBhh7gpHWCKCHPMcRO72MMARFteNH2nOeghlfQ/8K9QAiQOHP3DcBSeE
+8ioo3V6v35HKkogsfzcJgolApquVValZdVtazj15d5qZ5CKCTP43WoM0xjuZpAdkF5/3ui3U0/Pw
+WNPrjUXu+Lb9uJm0dbijpv+gfCyLLJ6TJGMgxRip4lgcTKpuT5hGja6NeDhoIdVMs4oDATs+rF9X
++we6CpL6roQYLx9piHeW6AZyS1791DPI712om8rMa5O44ZqdgZBuKq+EMmRgBEZOKZPmwJZ+ZrbA
+EBS0pQBqvXiGdEulVgei3nsV+Q6zoy0r4P34To4LtjzdSSL8hxPyyoJkdGyir079+f/Updz0016o
+Zmph3mq6BSFqemQD/0MWNGmDQ2shJ8IuWe30ugiRUX+cT7yklnna11tQ1RkWPeNfs4OihQXC/DPr
+f7lutsER29e7MTXPQE0kQjmfEVwIKAclB0u7DftPYSgbNUR1d+K6icW0GJ1djEeL3493j1Ysa4Pb
+K8o2yVXEUXAfRgzNfFcXwUc5razTdun4Yy4h0Ygw+sT9p+kCCLPoZkRJwURCXDhh8pIeytMNSjJi
+0qvzAOzqycfFKsRMu97xYKAPDRnFBGRdAGnP9/e5ylrQNwYJvPwQpW1boGBKBCAUsIYHxLoJt3ir
+7M8=
+=vwfC
+-----END PGP SIGNATURE-----
+
+--------------XLj78G5Z1SQwYxTVY90xOhKM--
