@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3696A59DA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 14:15:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EE86A59EE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 14:23:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2999110E6A5;
-	Tue, 28 Feb 2023 13:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8D210E6AB;
+	Tue, 28 Feb 2023 13:23:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7020710E6A5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 13:15:34 +0000 (UTC)
-Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru
- [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 3CB7A6602FD8;
- Tue, 28 Feb 2023 13:15:32 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677590133;
- bh=OAOTdgG3rPw/CSoYUWxkatssMmb/9HbfVprr2UGFI7o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=e0H7Gy2PC4dlFFcz4dqTQKLCa490oqL6+ekGIdkMnUSapeByQBAo9dTg04+mlnyl0
- yV2nLddf4GExSImBnhXRm5AXe8xW/W6sejLCibw0e0QCFc6MhSd4acZXv/6mGa3G8V
- 3eSXX9dLKhydbsZCamBg4zVTo9LGZcpeWngazbsb4jUSgmFFg4oKwI+DnLcyxIEous
- /LEqOEjxiPJN75EwzTDlHQw4XJNSWJApvF3ukzs3GR1rt/MdL4us4WQnjoT9RcdpRp
- GEVE1HomoyY0KVhix7/NG2MwD5ziv61aZApDchuVE3EASEWimHsyY18BYL2LiNTj56
- MRo03uVbLxVpA==
-Message-ID: <71dee5cf-3c12-8d5f-5d2a-be0a39647d8c@collabora.com>
-Date: Tue, 28 Feb 2023 16:15:28 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 002E710E6AB;
+ Tue, 28 Feb 2023 13:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677590584; x=1709126584;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=p6OLPYVQC2+xRGYvXaVikQE1uKCCG9JBxl3CfNIUEJ8=;
+ b=Yhf15NkRLiIw1lapqaDeYlddUxFSU9EXrStxNr6EhU69MUuspqUYq5tO
+ CMpae0lcRgkLNX0z3wr1WhBzhrBVpyj7Iw2Je6HfiM86FYoz/hZGcGZFr
+ OHR+oAN8UeEVa+4m2OKdkqvgUnO2k0h4IIsuWleARITaqYk5n3mjBHF2a
+ HRkS+t3T0Uv4FEU2dRzhnV5ffk/vI3EsAFp3p23YPjUXiG/dQ+wDDByed
+ tVdhq4F42yGkPRt7V6vHHJMCR0AG43g627KDaIPV2qm4OXh3uwPIb4Hff
+ 59XQtAi/MOIBzo2WcpjKOKdkHhuwtS1XpPLyj6t7Go/zx5sH1AhX3B/1X A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332859099"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="332859099"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 05:23:03 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="817075360"
+X-IronPort-AV: E=Sophos;i="5.98,221,1673942400"; d="scan'208";a="817075360"
+Received: from gsavorni-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.249.41.82])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 05:22:59 -0800
+Date: Tue, 28 Feb 2023 14:22:56 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Subject: Re: [PATCH] drm/shmem-helper: Fix compile error
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, dri-devel@lists.freedesktop.org
+Message-ID: <Y/4AMJ/+3BhTa+FF@ashyti-mobl2.lan>
 References: <20230228125054.1952657-1-andi.shyti@linux.intel.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230228125054.1952657-1-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <71dee5cf-3c12-8d5f-5d2a-be0a39647d8c@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <71dee5cf-3c12-8d5f-5d2a-be0a39647d8c@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,29 +58,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Asahi Lina <lina@asahilina.net>,
- Javier Martinez Canillas <javierm@redhat.com>, Andi Shyti <andi@etezian.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jani Nikula <jani.nikula@intel.com>,
+ Asahi Lina <lina@asahilina.net>, Intel GFX <intel-gfx@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andi Shyti <andi@etezian.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dmitry,
 
-On 2/28/23 15:50, Andi Shyti wrote:
-> Commit 67b7836d4458 ("drm/shmem-helper: Switch to reservation
-> lock") removes the drm_gem_shmem_get_pages_locked() and
-> drm_gem_shmem_put_pages_locked().
+On Tue, Feb 28, 2023 at 04:15:28PM +0300, Dmitry Osipenko wrote:
+> Hi,
 > 
-> But then commit ddddedaa0db9 ("drm/shmem-helper: Fix locking for
-> drm_gem_shmem_get_pages_sgt()") reintroduces it.
+> On 2/28/23 15:50, Andi Shyti wrote:
+> > Commit 67b7836d4458 ("drm/shmem-helper: Switch to reservation
+> > lock") removes the drm_gem_shmem_get_pages_locked() and
+> > drm_gem_shmem_put_pages_locked().
+> > 
+> > But then commit ddddedaa0db9 ("drm/shmem-helper: Fix locking for
+> > drm_gem_shmem_get_pages_sgt()") reintroduces it.
+> > 
+> > Somehow these two commits got mixed up and produce the following
+> > compile error:
 > 
-> Somehow these two commits got mixed up and produce the following
-> compile error:
+> The 67b7836d4458 goes after ddddedaa0db9 in misc-next. It was a bad
+> merge conflict resolution in drm-tip that was fixed yesterday, there is
+> no problem in misc-next. Where do you see this error?
 
-The 67b7836d4458 goes after ddddedaa0db9 in misc-next. It was a bad
-merge conflict resolution in drm-tip that was fixed yesterday, there is
-no problem in misc-next. Where do you see this error?
+yes, indeed! I was indeed surprised to see this mismatch.
 
--- 
-Best regards,
-Dmitry
+I see it in the Intel's drm-tip branch[*]
 
+Cc'ing the Intel's mailing list and maintainers, as well.
+
+Tnanks,
+Andi
+
+[*] git.freedesktop.org/git/drm-tip
