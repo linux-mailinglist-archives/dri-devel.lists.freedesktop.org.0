@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB456A55B5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 10:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D156A55B4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 10:25:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B34710E663;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475F910E662;
 	Tue, 28 Feb 2023 09:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3342A10E65F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 09:25:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1677576322; cv=none; d=zohomail.in; s=zohoarc; 
- b=Ol60Ge9nA3MDDzHv4+c8uM7We9il+SAYVdCiTjiDt/0rTGsT7nDv26L52lOUf2WZi0AAJITHhYZr9Tr+zsVoo37QtbKI5/EhOT6x+TJ+o8NW2rt7r53FwdA4G6iyG3zwL3UKO+LALCZF5XRWjSO8IDia0Rb77XWQONbMlbLUO0c=
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9C710E65F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 09:25:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1677576324; cv=none; d=zohomail.in; s=zohoarc; 
+ b=asf91VN0x3p5nULdmL/FkbpAhbeCcQ3j1OAe4D7xjncbfp1g1P9a77uFRFBzq/0kUyXzVkuAS22VEfTI3HnHeMo5CxpFUvIB5FeQYo27R2UcXSomBbxQLwbBOfS5s/JSTZfAIARHhzD0j5qdiTseGvr8RHioOIFA96lL9ptnnG0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1677576322;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
- bh=PnQDkqk7SRN0IFwtqq0oIbHNgM3SAonj/fp9R5MBqyw=; 
- b=YludpbuuxR5YUiUo1pHkew5gALm6enKRtvaizbBi2ruyiJ3moE7EKGmjsayVU6mbfJsQJzjD1cWFqPcfUL9BmjpxaZ2QL2kOJXf/IKJrcnEM/CHvaM+RgAo9ZYWoFAqztQQIHup+PkA4BPUxi87tFF2lLUV8Po4y5rWKEzFTHeE=
+ s=zohoarc; t=1677576324;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=Y64ntFBkLjZ0E6rkb81rQzfqJquSTywmmGSYOvhB7GY=; 
+ b=LyrHaJrK0Sfqtp0k1FNSKORFic63H1oKelEeRx17MoE6YBMCUquapA/RlTQgecN1u5qreyd8DOkuzDTjm4pvbkiVb90BdX2wxJCEeGt/TCyKL1vqJ8O1+DTZdec+K7bner6l35R0UPB3Pjztu1naYI/Lyvx4PdlXp/OZYqFI/Qc=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1677576322; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1677576324; 
  s=zmail; d=siddh.me; i=code@siddh.me;
- h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=PnQDkqk7SRN0IFwtqq0oIbHNgM3SAonj/fp9R5MBqyw=;
- b=bMLB4QPFptEmwYKM3Yia4UfH2EznRLb+TO87uPjapAnDIovzR+jvJeUlAQsETbWb
- tOorgtYXw3CUsjNZk+JUQsTGjMvLDqC9XY3LcE3dwju4jq36Se9jBdQiwTGYGbHGLFZ
- UBoRX7W0yfxr5nHTbL7MynTSiau8+K6zNRBPHw48=
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=Y64ntFBkLjZ0E6rkb81rQzfqJquSTywmmGSYOvhB7GY=;
+ b=j+z7h/Mi3UhM8W7gOoW9S9Q397QHwUAP4Orm9BtMY58zCcW7FDIXcIu38UTa2PnF
+ wEJxd/gQosx4ftOZ8kLc9m93yc54rc3mJO4LcJeq+oPsgQwg2hjxkzB0IBf7Vl4HYn6
+ Kn9xMtxu2XDnfAUOSKmGhbvw9V2SvIK0SBVt2y8Y=
 Received: from kampyooter.. (106.213.255.81 [106.213.255.81]) by mx.zoho.in
- with SMTPS id 1677576320830419.65894165595694;
- Tue, 28 Feb 2023 14:55:20 +0530 (IST)
+ with SMTPS id 1677576322236206.29584254968302;
+ Tue, 28 Feb 2023 14:55:22 +0530 (IST)
 From: Siddh Raman Pant <code@siddh.me>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -39,10 +39,13 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel@ffwll.ch>, Jim Cromie <jim.cromie@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, Jani Nikula <jani.nikula@linux.intel.com>,
  Suraj Upadhyay <usuraj35@gmail.com>
-Message-ID: <cover.1677574322.git.code@siddh.me>
-Subject: [PATCH v8 0/8] drm: Remove usage of deprecated DRM_* macros
-Date: Tue, 28 Feb 2023 14:55:04 +0530
+Message-ID: <e427dcb5cff953ace36df3225b8444da5cd83f8b.1677574322.git.code@siddh.me>
+Subject: [PATCH v8 1/8] Revert "drm: mipi-dsi: Convert logging to drm_*
+ functions."
+Date: Tue, 28 Feb 2023 14:55:05 +0530
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1677574322.git.code@siddh.me>
+References: <cover.1677574322.git.code@siddh.me>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-ZohoMailClient: External
@@ -64,124 +67,92 @@ Cc: linux-kernel <linux-kernel@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset aims to remove usages of deprecated DRM_* macros from the
-files residing in drivers/gpu/drm root.
+This reverts commit 1040e424353f5f4d39f6f3aa8723eb3bd6ea6446.
 
-In process, I found out that NULL as first argument of drm_dbg_* wasn't
-working, but it was listed as the alternative in deprecation comment,
-so I fixed that before removing usages of DRM_DEBUG_* macros.
+It used an incorrect way to use drm_* functions. Only drm_device ptrs
+should be passed, but the mentioned commit passed mipi_dsi_host ptr.
+It worked by accident due to macro magic.
 
-Courtesy discussion on v1, I added support for NULL in drm_()* macros too.
-
-Courtesy discussion on v7, I removed generic macro stuff meant to accomodat=
-e
-stuff like mipi_dsi_host, and instead reverted a commit which used the
-drm_err() macro incorrectly by passing mipi_dsi_host.
-
-This patchset should be applied in order as changes might be dependent.
-
-Please review and let me know if any errors are there, and hopefully
-this gets accepted.
-
+Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Siddh Raman Pant <code@siddh.me>
 ---
+ drivers/gpu/drm/drm_mipi_dsi.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-v7 -> v8 (Today):
-- Reverted 1040e424353f ("drm: mipi-dsi: Convert logging to drm_* functions=
-.")
-  which used drm_err macro incorrectly by passing mipi_dsi_host.
-- Thus, removed _Generic and allow only drm_device.
-
-v6 -> v7 (26 Feb 2023):
-- Rebased to drm-misc-next, accounting for the merger of last 3 patches
-  in the previous series (4665280990fa, fc2602b553c8, 7bd224b6625a),
-  and 7428ff70a18 ("drm: initialize accel framework").
-
-v5 -> v6 (09 Jan 2023):
-- Move drm_device to default case in _Generic as it is the default behaviou=
-r.
-- Fix incorrect const drm_device handling in _Generic.
-- Minor positioning / comment changes.
-
-v4 -> v5 (07 Jan 2023):
-- Make separate function instead of using boolean in _Generic (sravn on IRC=
-).
-- Also, simplified the Generic macro, and renamed the function and macro.
-
-v3 -> v4 (05 Jan 2023):
-- Fix commit message for DRM_NOTE erroneously mentioning DRM_INFO.
-- Rebased to drm-misc-next, as 723dad977acd added drm_dbg_core() to some
-  files.
-- Move Generic out to a separate macro __drm_get_dev_ptr, so that interface
-  of drm_dbg_*() is also same as other drm_*() macros.
-- Fix comment in __drm_get_dev_ptr (now ___drm_get_dev_ptr) to use correct
-  name.
-
-v2 -> v3 (26 Dec 2022):
-- Added support for NULL in __drm_printk and thus by extension to drm_()*.
-- Thus, converted dropped pr_()* changes to drm_*(NULL, ...).
-- Rebased to drm-misc-next and resulting appropriate changes.
-
-v1 (20 Dec 2022) -> v2 (22 Dec 2022):
-- Removed conversions to pr_*() in DRM_INFO, DRM_NOTE, and DRM_ERROR change=
-s.
-- Due to above, DRM_NOTE usage cannot be removed and the patch is dropped.
-- DRY: NULL support is now achieved by way of a separate function.
-
-
-Siddh Raman Pant (8):
-  Revert "drm: mipi-dsi: Convert logging to drm_* functions."
-  drm/print: Fix and add support for NULL as first argument in drm_*
-    macros
-  drm: Remove usage of deprecated DRM_INFO
-  drm: Remove usage of deprecated DRM_NOTE
-  drm: Remove usage of deprecated DRM_ERROR
-  drm: Remove usage of deprecated DRM_DEBUG
-  drm: Remove usage of deprecated DRM_DEBUG_DRIVER
-  drm: Remove usage of deprecated DRM_DEBUG_KMS
-
- drivers/gpu/drm/drm_agpsupport.c        |   4 +-
- drivers/gpu/drm/drm_bridge.c            |   8 +-
- drivers/gpu/drm/drm_bufs.c              | 122 ++++++++++++------------
- drivers/gpu/drm/drm_client_modeset.c    | 118 +++++++++++++----------
- drivers/gpu/drm/drm_color_mgmt.c        |   4 +-
- drivers/gpu/drm/drm_connector.c         |  28 +++---
- drivers/gpu/drm/drm_context.c           |  18 ++--
- drivers/gpu/drm/drm_crtc.c              |  36 ++++---
- drivers/gpu/drm/drm_crtc_helper.c       |  62 ++++++------
- drivers/gpu/drm/drm_debugfs_crc.c       |   8 +-
- drivers/gpu/drm/drm_displayid.c         |   6 +-
- drivers/gpu/drm/drm_dma.c               |  10 +-
- drivers/gpu/drm/drm_drv.c               |  28 +++---
- drivers/gpu/drm/drm_edid.c              |  17 ++--
- drivers/gpu/drm/drm_flip_work.c         |   2 +-
- drivers/gpu/drm/drm_framebuffer.c       |   3 +-
- drivers/gpu/drm/drm_gem.c               |   7 +-
- drivers/gpu/drm/drm_gem_dma_helper.c    |   2 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c  |   4 +-
- drivers/gpu/drm/drm_hashtab.c           |  10 +-
- drivers/gpu/drm/drm_irq.c               |   4 +-
- drivers/gpu/drm/drm_kms_helper_common.c |   2 +-
- drivers/gpu/drm/drm_lease.c             |   4 +-
- drivers/gpu/drm/drm_legacy_misc.c       |   4 +-
- drivers/gpu/drm/drm_lock.c              |  36 +++----
- drivers/gpu/drm/drm_mipi_dbi.c          |  19 ++--
- drivers/gpu/drm/drm_mipi_dsi.c          |  15 +--
- drivers/gpu/drm/drm_mm.c                |   8 +-
- drivers/gpu/drm/drm_mode_config.c       |   2 +-
- drivers/gpu/drm/drm_mode_object.c       |   6 +-
- drivers/gpu/drm/drm_modes.c             |  36 +++----
- drivers/gpu/drm/drm_modeset_helper.c    |   2 +-
- drivers/gpu/drm/drm_pci.c               |  14 +--
- drivers/gpu/drm/drm_plane.c             |  46 ++++-----
- drivers/gpu/drm/drm_probe_helper.c      |  39 ++++----
- drivers/gpu/drm/drm_rect.c              |   4 +-
- drivers/gpu/drm/drm_scatter.c           |  19 ++--
- drivers/gpu/drm/drm_syncobj.c           |   2 +-
- drivers/gpu/drm/drm_sysfs.c             |  22 ++---
- drivers/gpu/drm/drm_vm.c                |  45 +++++----
- include/drm/drm_print.h                 |  81 ++++++++++------
- 41 files changed, 482 insertions(+), 425 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.=
+c
+index 4bc15fbd009d..398fac95dfc0 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -33,7 +33,6 @@
+=20
+ #include <drm/display/drm_dsc.h>
+ #include <drm/drm_mipi_dsi.h>
+-#include <drm/drm_print.h>
+=20
+ #include <video/mipi_display.h>
+=20
+@@ -156,18 +155,19 @@ static int mipi_dsi_device_add(struct mipi_dsi_device=
+ *dsi)
+ static struct mipi_dsi_device *
+ of_mipi_dsi_device_add(struct mipi_dsi_host *host, struct device_node *nod=
+e)
+ {
++=09struct device *dev =3D host->dev;
+ =09struct mipi_dsi_device_info info =3D { };
+ =09int ret;
+ =09u32 reg;
+=20
+ =09if (of_modalias_node(node, info.type, sizeof(info.type)) < 0) {
+-=09=09drm_err(host, "modalias failure on %pOF\n", node);
++=09=09dev_err(dev, "modalias failure on %pOF\n", node);
+ =09=09return ERR_PTR(-EINVAL);
+ =09}
+=20
+ =09ret =3D of_property_read_u32(node, "reg", &reg);
+ =09if (ret) {
+-=09=09drm_err(host, "device node %pOF has no valid reg property: %d\n",
++=09=09dev_err(dev, "device node %pOF has no valid reg property: %d\n",
+ =09=09=09node, ret);
+ =09=09return ERR_PTR(-EINVAL);
+ =09}
+@@ -202,21 +202,22 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *h=
+ost,
+ =09=09=09      const struct mipi_dsi_device_info *info)
+ {
+ =09struct mipi_dsi_device *dsi;
++=09struct device *dev =3D host->dev;
+ =09int ret;
+=20
+ =09if (!info) {
+-=09=09drm_err(host, "invalid mipi_dsi_device_info pointer\n");
++=09=09dev_err(dev, "invalid mipi_dsi_device_info pointer\n");
+ =09=09return ERR_PTR(-EINVAL);
+ =09}
+=20
+ =09if (info->channel > 3) {
+-=09=09drm_err(host, "invalid virtual channel: %u\n", info->channel);
++=09=09dev_err(dev, "invalid virtual channel: %u\n", info->channel);
+ =09=09return ERR_PTR(-EINVAL);
+ =09}
+=20
+ =09dsi =3D mipi_dsi_device_alloc(host);
+ =09if (IS_ERR(dsi)) {
+-=09=09drm_err(host, "failed to allocate DSI device %ld\n",
++=09=09dev_err(dev, "failed to allocate DSI device %ld\n",
+ =09=09=09PTR_ERR(dsi));
+ =09=09return dsi;
+ =09}
+@@ -227,7 +228,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *hos=
+t,
+=20
+ =09ret =3D mipi_dsi_device_add(dsi);
+ =09if (ret) {
+-=09=09drm_err(host, "failed to add DSI device %d\n", ret);
++=09=09dev_err(dev, "failed to add DSI device %d\n", ret);
+ =09=09kfree(dsi);
+ =09=09return ERR_PTR(ret);
+ =09}
 --=20
 2.39.2
 
