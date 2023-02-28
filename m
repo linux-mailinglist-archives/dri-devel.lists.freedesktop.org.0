@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99286A54AB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 09:47:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D71706A54B2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 09:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEFD310E4B3;
-	Tue, 28 Feb 2023 08:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA00710E658;
+	Tue, 28 Feb 2023 08:48:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2DF510E4B3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 08:47:01 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id bi9so12170213lfb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 00:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677574020;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=CVmelUAguAMVIcLj3OKuHhtjIgIIx9Fsv/QeOOjw8B8=;
- b=pxw2UzZq1kv6jWM1hYYZ6ZJ+wi3ieZoX+2/tEX8Gqax2L6zT2fCRDfroKj/Mf5x/Yx
- cfvuxCYjE5bzwGruA6hSbd3mJ+uLnqu0ACEtjBU+z97YjrK6RzWw0xscKlkph4JNtQkG
- +2WfWYlQhF2/KTnks0rZd208weJeVUoB1Cxnc7GnrFGG9VdYlh2TRb39jbdwFHZzBaG6
- GdE8P28V/0ueGGTLAQ+9bp3f7NsP2ko0l/3+lZe6K6rbd78EkaWJ4qTk5J4SL029ljlr
- guYP7VZlrwX2/dOO9pJNV/MFCrs3aiklKwgc5R7u9Kgv3fEFCw6AmPlg6jUDPM0aWIJ/
- hcCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677574020;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CVmelUAguAMVIcLj3OKuHhtjIgIIx9Fsv/QeOOjw8B8=;
- b=EuiHAAdiHv4OdkvCO5fjI/gJlqOj8ng03gOBVvEgSj8wIbqMjkURbjW+ZP6o05YfwX
- 2jV+sQQjcxFDl18BXC3FlVF9HUUMXLWgYELsTt5gmheItV6XiSWA18A5q7wpXFc8IioY
- xAmMLi1ih/HfNuYyVjAWAr4pOmTiW47qL5+btXhId/HmmjfYLtkfWjz9MHzJNLGvaUmr
- ceT/WxhEvvqWFebjJ6+FSnOh3hIBTLG3Jj7+OFEuCh/BYtUBJbArWFN/Y2Kio7xQtSmE
- V9HublI9eW3OhBGBgaMlYyKpLXfr+kT/BYgRi3x55WUa/F1H/VzMIzPa4/l4hu0Iu3Zz
- Aryg==
-X-Gm-Message-State: AO0yUKWbAEFr2rAUKAlgQ7A1WKYCIE3eENJawPJXgArRtYYnzGJiSDq9
- VyKQVhYLXFvdMEOsCUBzriQ=
-X-Google-Smtp-Source: AK7set8ByfXOFfiAYbDM49r28yRRJaKiRUg8ob5V8+pwBOprp5g/HKdNa1MNeQXxY/zo3ZRvCS2UVg==
-X-Received: by 2002:ac2:5dfb:0:b0:4dc:6ad4:5fe4 with SMTP id
- z27-20020ac25dfb000000b004dc6ad45fe4mr464208lfq.32.1677574019738; 
- Tue, 28 Feb 2023 00:46:59 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f19-20020a19ae13000000b004db20d07decsm1250977lfc.209.2023.02.28.00.46.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Feb 2023 00:46:59 -0800 (PST)
-Date: Tue, 28 Feb 2023 10:46:42 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document TV margin properties
-Message-ID: <20230228104642.21dae84c@eldfell>
-In-Reply-To: <20230227122108.117279-1-contact@emersion.fr>
-References: <20230227122108.117279-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF04E10E4B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 08:48:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6946A1FDC2;
+ Tue, 28 Feb 2023 08:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677574097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BLSztfM44hsCyXZ+LLDqJiVS1PmJTJb1OVTq280F8R0=;
+ b=KsfYhyv4BLuzV1DToVfqTyGdiHsJZda8ovv2q0h0WZ+2jN/R32hgF6z06Y/qNqvF2U7GDE
+ sULgjQ8NdnyQChk0F9eFkqdDTJey6yCoc8h/5UBtYS9sg+DpUAo6AeumjCqHuX5uPinKOJ
+ A1y7ZnT/YdILEOgzCCBz2Qy75G7LgPk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677574097;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BLSztfM44hsCyXZ+LLDqJiVS1PmJTJb1OVTq280F8R0=;
+ b=FcYMoMM/2yDf/rwgd1q5vwYJzlUXqnpPdnrrxzCb66kKdBBMRigbNUZ6O4+wW62CaFcunz
+ DPAOVMetaNn263BA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 46F4413440;
+ Tue, 28 Feb 2023 08:48:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id OydcENG//WNuIQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 28 Feb 2023 08:48:17 +0000
+Message-ID: <af58dfc7-3957-0dad-0e8f-6deb17554f6e@suse.de>
+Date: Tue, 28 Feb 2023 09:48:16 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/J=lJiL_ttp4epLO2kRh23Lx";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2] fbdev: chipsfb: Fix error codes in chipsfb_pci_init()
+Content-Language: en-US
+To: Dan Carpenter <error27@gmail.com>
+References: <Y/yG+sm2mhdJeTZW@kili>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y/yG+sm2mhdJeTZW@kili>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------htUbmMqId4a9dbpmsvnUlZ0O"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,124 +69,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Noralf =?UTF-8?B?VHLDuG5uZXM=?= <noralf@tronnes.org>,
- Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Yang Yingliang <yangyingliang@huawei.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/J=lJiL_ttp4epLO2kRh23Lx
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------htUbmMqId4a9dbpmsvnUlZ0O
+Content-Type: multipart/mixed; boundary="------------3Duuibyufp3t47ZR1Qe95z8g";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Yang Yingliang <yangyingliang@huawei.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+Message-ID: <af58dfc7-3957-0dad-0e8f-6deb17554f6e@suse.de>
+Subject: Re: [PATCH v2] fbdev: chipsfb: Fix error codes in chipsfb_pci_init()
+References: <Y/yG+sm2mhdJeTZW@kili>
+In-Reply-To: <Y/yG+sm2mhdJeTZW@kili>
 
-On Mon, 27 Feb 2023 12:21:16 +0000
-Simon Ser <contact@emersion.fr> wrote:
+--------------3Duuibyufp3t47ZR1Qe95z8g
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Add docs for "{left,right,top,bottom} margin" properties.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Cc: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 9d0250c28e9b..65a586680940 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1590,10 +1590,6 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector=
-_property);
-> =20
->  /*
->   * TODO: Document the properties:
-> - *   - left margin
-> - *   - right margin
-> - *   - top margin
-> - *   - bottom margin
->   *   - brightness
->   *   - contrast
->   *   - flicker reduction
-> @@ -1651,6 +1647,16 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector=
-_property);
->   *
->   *	Drivers can set up this property by calling
->   *	drm_mode_create_tv_properties().
-> + *
-> + * left margin, right margin, top margin, bottom margin:
-> + *	Add margins to the connector's viewport.
-> + *
-> + *	The value is the size in pixels of the black border which will be
-> + *	added. The attached CRTC's content will be scaled to fill the whole
-> + *	area inside the margin.
-> + *
-> + *	Drivers can set up these properties by calling
-> + *	drm_mode_create_tv_margin_properties().
->   */
-> =20
->  /**
+TWVyZ2VkIGludG8gZHJtLW1pc2MtZml4ZXMuDQoNCkFtIDI3LjAyLjIzIHVtIDExOjMzIHNj
+aHJpZWIgRGFuIENhcnBlbnRlcjoNCj4gVGhlIGVycm9yIGNvZGVzIGFyZSBub3Qgc2V0IG9u
+IHRoZXNlIGVycm9yIHBhdGhzLg0KPiANCj4gRml4ZXM6IDE0NWVlZDQ4ZGUyNyAoImZiZGV2
+OiBSZW1vdmUgY29uZmxpY3RpbmcgZGV2aWNlcyBvbiBQQ0kgYnVzIikNCj4gU2lnbmVkLW9m
+Zi1ieTogRGFuIENhcnBlbnRlciA8ZXJyb3IyN0BnbWFpbC5jb20+DQo+IFJldmlld2VkLWJ5
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gLS0tDQo+IHYy
+OiBJIGFjY2lkZW50YWxseSByZXR1cm5lZCAtRUlOVkFMIGluc3RlYWQgLUVOT0RFVi4NCj4g
+ICAgICBBZGQgVGhvbWFzJ3MgUmV2aWV3ZWQtYnkgdGFnLg0KPiANCj4gICBkcml2ZXJzL3Zp
+ZGVvL2ZiZGV2L2NoaXBzZmIuYyB8IDE0ICsrKysrKysrKystLS0tDQo+ICAgMSBmaWxlIGNo
+YW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9jaGlwc2ZiLmMgYi9kcml2ZXJzL3ZpZGVvL2Zi
+ZGV2L2NoaXBzZmIuYw0KPiBpbmRleCBjYzM3ZWMzZjhmYzEuLjc3OTlkNTJhNjUxZiAxMDA2
+NDQNCj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9jaGlwc2ZiLmMNCj4gKysrIGIvZHJp
+dmVycy92aWRlby9mYmRldi9jaGlwc2ZiLmMNCj4gQEAgLTM1OCwxNiArMzU4LDIxIEBAIHN0
+YXRpYyBpbnQgY2hpcHNmYl9wY2lfaW5pdChzdHJ1Y3QgcGNpX2RldiAqZHAsIGNvbnN0IHN0
+cnVjdCBwY2lfZGV2aWNlX2lkICplbnQpDQo+ICAgCWlmIChyYykNCj4gICAJCXJldHVybiBy
+YzsNCj4gICANCj4gLQlpZiAocGNpX2VuYWJsZV9kZXZpY2UoZHApIDwgMCkgew0KPiArCXJj
+ID0gcGNpX2VuYWJsZV9kZXZpY2UoZHApOw0KPiArCWlmIChyYyA8IDApIHsNCj4gICAJCWRl
+dl9lcnIoJmRwLT5kZXYsICJDYW5ub3QgZW5hYmxlIFBDSSBkZXZpY2VcbiIpOw0KPiAgIAkJ
+Z290byBlcnJfb3V0Ow0KPiAgIAl9DQo+ICAgDQo+IC0JaWYgKChkcC0+cmVzb3VyY2VbMF0u
+ZmxhZ3MgJiBJT1JFU09VUkNFX01FTSkgPT0gMCkNCj4gKwlpZiAoKGRwLT5yZXNvdXJjZVsw
+XS5mbGFncyAmIElPUkVTT1VSQ0VfTUVNKSA9PSAwKSB7DQo+ICsJCXJjID0gLUVOT0RFVjsN
+Cj4gICAJCWdvdG8gZXJyX2Rpc2FibGU7DQo+ICsJfQ0KPiAgIAlhZGRyID0gcGNpX3Jlc291
+cmNlX3N0YXJ0KGRwLCAwKTsNCj4gLQlpZiAoYWRkciA9PSAwKQ0KPiArCWlmIChhZGRyID09
+IDApIHsNCj4gKwkJcmMgPSAtRU5PREVWOw0KPiAgIAkJZ290byBlcnJfZGlzYWJsZTsNCj4g
+Kwl9DQo+ICAgDQo+ICAgCXAgPSBmcmFtZWJ1ZmZlcl9hbGxvYygwLCAmZHAtPmRldik7DQo+
+ICAgCWlmIChwID09IE5VTEwpIHsNCj4gQEAgLTQxNyw3ICs0MjIsOCBAQCBzdGF0aWMgaW50
+IGNoaXBzZmJfcGNpX2luaXQoc3RydWN0IHBjaV9kZXYgKmRwLCBjb25zdCBzdHJ1Y3QgcGNp
+X2RldmljZV9pZCAqZW50KQ0KPiAgIA0KPiAgIAlpbml0X2NoaXBzKHAsIGFkZHIpOw0KPiAg
+IA0KPiAtCWlmIChyZWdpc3Rlcl9mcmFtZWJ1ZmZlcihwKSA8IDApIHsNCj4gKwlyYyA9IHJl
+Z2lzdGVyX2ZyYW1lYnVmZmVyKHApOw0KPiArCWlmIChyYyA8IDApIHsNCj4gICAJCWRldl9l
+cnIoJmRwLT5kZXYsIkMmVCA2NTU1MCBmcmFtZWJ1ZmZlciBmYWlsZWQgdG8gcmVnaXN0ZXJc
+biIpOw0KPiAgIAkJZ290byBlcnJfdW5tYXA7DQo+ICAgCX0NCg0KLS0gDQpUaG9tYXMgWmlt
+bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
+dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdl
+cm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJ
+dm8gVG90ZXYNCg==
 
-Hi Simon,
+--------------3Duuibyufp3t47ZR1Qe95z8g--
 
-can these be negative as well, to achieve overscan and not just
-underscan? Did I get overscan and underscan right... these are related
-to under/overscan, aren't they?
-
-Hmm, no, I guess that doesn't make sense, there is no room in the
-signal to have negative margins, it would result in clipping the
-framebuffer while scaling up. So this can only be used to scale
-framebuffer *down*, add borders, and the TV then scales it back up
-again?
-
-Looks like neither my Intel nor AMD cards support these, I don't see
-the properties. More things to the list of KMS properties Weston needs
-to explicitly control. Oh, it seems vc4 exclusive for now.
-
-Where does this text appear in the HTML kernel docs? I tried to look at
-drm_connector.c but I cannot find the spot where this patch applies.
-
-Is this actually a connector property? How does that work, should this
-not be a CRTC property?
-
-Is this instead not scaling anything but simply sending metadata
-through the connector?
-
-Or are there underlying requirements that this connector property is
-actually affecting the CRTC, which means that it is fundamentally
-impossible to use multiple connectors with different values on the same
-CRTC? And drivers will reject any attempt, so there is no need to
-define what conflicting settings will do?
-
-IOW, does simply the existence of these properties on a connector
-guarantee that the connector must be the only one on a CRTC?
-
-
-Thanks,
-pq
-
---Sig_/J=lJiL_ttp4epLO2kRh23Lx
-Content-Type: application/pgp-signature
+--------------htUbmMqId4a9dbpmsvnUlZ0O
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmP9v3IACgkQI1/ltBGq
-qqe8Dw//W6K51JbCCt+WZwoWWdzK54ap4w465v5PO7IfKWTsszcGYZtGeeTu8hEx
-psq2mt7LPJW+CvT8vPY6ZUxXFLjWytfrKpdKgb3C44FhJWIYDHY0Sjm4jyh4dZQ9
-oGRLMexmXeRYF7OutAqF6HmZf0PwqQ2qxwrZwSQl7bCq4foqW6yE0G6BUvufBQ5c
-1TVJcxj5t1fv7KqeM3+5iyNU1YxHeFji3FCRPUrDUIvvggb1n+KS1zFVbsE/zz5V
-hH0rZo9JXvsc2up7C98uc/mmQ0PfdsOWO5rKSn64B9uEHRUWOv/rQQzB17YNSiY1
-T3eCRjYrykYNfOaB7fcXDSuoC0RFwHOvifjr7cyITD80mqsK/JHDl/YhqzgoPNiQ
-9A92xqTJQqViGpwpMytsGq0z0bB1hrKzEBS0lX9wf9vfJv3XrWCnl4wHx9FM1QDi
-M8B2ueh92XXb2iiEr4pHSbMdzBRJUaIRcVYGbf5ATfjuOSgpUYCZMGmukq86nv/u
-fyJzvMg/0wHodOU11BqwzAbanXPl/9qr/KEKhdYnT9X0XMRRbDYk3pbi0KNVv2cf
-Lw4EJgBJY0bzQJffu7qPBqPMMGTDcRDj2bQP2THd1rkxgH9SQ6Q2+SAYKhZjKFS5
-gwn8O5JI+qgK1lmqvB6WE6vnKJ7eYN8GCTNrSYMMv4L9impHlyk=
-=3ch3
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP9v9AFAwAAAAAACgkQlh/E3EQov+CV
+RRAAqKCxwlwcoQEA1f4yZ82PJBugmN5YuUxkda1y8coB95YS0c6yrNGPbJMb9fEvWuSSJjBFO/Gc
+lizEoI0u3XcUXOF9LvOaXZJFZaKfyKAi5AD8SuBByR5fO8KBGoj8ZYAXc6LpMxVssUHXFZPBRCtn
+rSIYhtsNy0BADysDGg0psMw2EJxC+JTa6horGcRax9f9hQe8r+SM5yhxl7KoqK4sXOOelvAoHN7P
+gsY5zlpvz/ScWJhY3r3df8ZfOv5GhwiAO4s6VnG8IsvmE4tizM0VD70BaupkjS7U+tAZGmgb0Y9f
+9x+ngGzICjU2NoK0PNcglWVzWGZk8tPzH3yNF8EIFMaIwxhehmsyB6KzYK6Bu2XkBqa0+wgEUBwr
+GV8VgbfQ5uuPtz9010U+QqCiw3BKFrNuczG3nXuRlagAvAWDaKXfokP7g161QihiDJLuOiGmdOIR
+WQ4M4YBcNXXlmcqqXsWkJDBsH+W8h6rWyQ8pIwiatCV+qzhEBCQtm8RrjpBGw3Bo7ANOEmauNyri
+B2zNHtuRhZu3qbTOF9c+FOO4r3sWyHw4qJuB3wEDs8F4DaAjAVVs4GkIbgmKTYIWIpr4IeU8oEqJ
+eb3fBULRfUzLfuVNRzZOGI+ViTUOmAqHJV1MLLYdRSfzXZrw7uLngNYCzanfjbx58kEsX5p1ekk4
+U6Y=
+=gKwu
 -----END PGP SIGNATURE-----
 
---Sig_/J=lJiL_ttp4epLO2kRh23Lx--
+--------------htUbmMqId4a9dbpmsvnUlZ0O--
