@@ -1,71 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8E76A509F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 02:24:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCC86A50A3
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 02:25:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D82410E496;
-	Tue, 28 Feb 2023 01:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBAF310E4E5;
+	Tue, 28 Feb 2023 01:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D1D010E496
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 01:24:40 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id n2so11062841lfb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:24:40 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFE310E4A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 01:25:05 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id bi9so11143985lfb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Feb 2023 17:25:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=PcrqrMKYHlTbwqvBZH5ZNssesiULNdaHzpxnh4fJ5Rc=;
- b=Z87/gWbPjVw05P38iuzO1z4TzK1DYOILnNc+4eFra/elbdJBtd2McBcw47eDPi7DQA
- YQEdCMZ1lCVkdo5agu+ThXn5jdRpGQjFj14OB3NVzcA8EU6QfId5I8lFG9l+PvwFQBwD
- UlDsIcBQhBqBx39604zw7E4H0MWLT4m/xnU2ytitWiJlG43gU38vvrdQiw70MGxVqgB6
- mebFWxHGppFxQqdhxGFt29e9Hs5fLK641gGhjpMFOtx95I5tXGi62xO3R4uGXo4KBNVO
- jMeKLLU9GNxglCSfUmg7bUv74e63Kk9HX7TQxlZLfYJDHO038KuPcqHfBK7dcquiCFG8
- HmGg==
+ bh=ghYbiuae4Giu+YY0fM4G+aB2s++oD+nzVOPNd25Xma4=;
+ b=ZsNE9/X4m10iwSCMrF45bZNPFSRZQ4XC2BhOn+5am/qoDxM1N+MUMpIqxtyahf+Zdf
+ Z2QTGpvwr3BkO5dpBpjzXq/jFtiS+bfmDcmyKBdMH9MaleR2/R4QuTKvscdD93fjYVZ2
+ XFRIy4bU/FvS39m2fbfxas4tjymDj0EmH+qhvghhmhcuquWYcYZhfLgyHVEaFpIcAatG
+ r4iI/3de3AjNEWUXONWJLYbya0WWdON5VXajSU9XNpVv3vi44+ya3zEp9pSuah1Os713
+ Qaw6IfL32ckKBryHSL1ZM3+/RFT9zLRjNgbMzTb8WMu/tLiF/Vf1Hr9DYkmhHfO/Ytd+
+ OlGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PcrqrMKYHlTbwqvBZH5ZNssesiULNdaHzpxnh4fJ5Rc=;
- b=m7wi4aph8c2jeFRXrZ95TjrZCL3dduCrUXGTP8xM1P1IF6jBZqtQcWAta3EGrOmVS/
- gDv298wlGZ+2Ccjw5Vbke1ZWUSa9LF4huRrIcS4+HK34aUUDns11dTX3mPUCipGhXJIa
- Jq0lotq/nrIIPk4XZi6Kg4mw9crO1x6wnClRtdQLGopVMhpfMMhNHJOvh+HfwoRzojWG
- rRs6GlYzqEVY+NhW2rWtFBloWLe6ZEUII5D9t7LvvlbCou0LmYk9LiSLWdo8mI/Y2ZVk
- xxYj3uBt4TFjsbVr0cgd8KzO4LEx1fxSpVT6iYQU8cRGAVuaPB2+SvPtnM0I3ldgbEit
- GwtQ==
-X-Gm-Message-State: AO0yUKUlBbwNZIYD6+0NIbeXUkg5psQEh7SnT/vN05w7cWHiIXf0K108
- JWbF1bYLL0B2beHdwpxe65lmgBniXZp3dO1S
-X-Google-Smtp-Source: AK7set/Kx6HE5jmVscWS6bhEWHw+skaMn4w3s9H/dmiSzjuqCvY+voJX/YRNgLPCWJFWajytYp4weQ==
-X-Received: by 2002:ac2:4437:0:b0:4dd:a66d:b6de with SMTP id
- w23-20020ac24437000000b004dda66db6demr198602lfl.65.1677547478645; 
- Mon, 27 Feb 2023 17:24:38 -0800 (PST)
+ bh=ghYbiuae4Giu+YY0fM4G+aB2s++oD+nzVOPNd25Xma4=;
+ b=3LoWwHnI9StyRJNeLysFET1VZARyyL/6UBSnTBLQQOER1/mQ5VRX2YEwtcy/ZMuoA4
+ Zxy6Vzbsm5z2qCMffy+RDgcPzeGswB1OqWTRXvhT84AP8MyES7GVy2hp3yv4gmCmY/md
+ 5M9RX2TFLG22ufoD6tqET3iecYakt38IRK/5X1oIK5UhCZZ3/MNaXD5s42UzSUMQxlZS
+ hWsSxHslaCjQuusmWZqONbCXqTiDoOuIkljk8U2Uwg9YV7zzH9Sc6d2gH8d7+4E72Lrx
+ J2TsS/rKrpXHrc9y6GxPzX1X5DD+Y5YImygSI7ju/Pl02vrz5kzkuWn4smELXyDG25Af
+ dkPw==
+X-Gm-Message-State: AO0yUKUwiBTvdtyrGMgaJ+I+Mz0fpzQ0a7xOtCNTwNByFYLIsb+gm2RO
+ Eg+OVQevROB0Nmfod3wZQhMRoA==
+X-Google-Smtp-Source: AK7set9Roec5f/bQctSsNwIs9OaAY+Pi+BG6vxc3tJornTJbXlbPWDeaF84mA+daLoyX75ZJopcF6Q==
+X-Received: by 2002:a19:f610:0:b0:4db:5122:2099 with SMTP id
+ x16-20020a19f610000000b004db51222099mr128874lfe.32.1677547503901; 
+ Mon, 27 Feb 2023 17:25:03 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- d8-20020ac24c88000000b004ceb053c3ebsm1113101lfl.179.2023.02.27.17.24.37
+ b10-20020a056512024a00b004db3890cb4bsm1114243lfo.94.2023.02.27.17.25.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Feb 2023 17:24:38 -0800 (PST)
-Message-ID: <e077d60d-5881-1ccc-a17a-fbe64392e29d@linaro.org>
-Date: Tue, 28 Feb 2023 03:24:37 +0200
+ Mon, 27 Feb 2023 17:25:03 -0800 (PST)
+Message-ID: <259334b9-b255-004a-9772-8b252579a37c@linaro.org>
+Date: Tue, 28 Feb 2023 03:25:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
 Subject: Re: [RFT PATCH v2 1/3] drm/bridge: tc358762: Set pre_enable_prev_first
-To: Doug Anderson <dianders@chromium.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
- <CAPY8ntAUhVB6UtQTeHAcxNW950Ou+NcEoGwk3JnVWLay89_0Nw@mail.gmail.com>
- <CAD=FV=UNx7ivymvpGKcuyvvepvo-T2B2aREJy2GyawTHCnazsw@mail.gmail.com>
 Content-Language: en-GB
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAD=FV=UNx7ivymvpGKcuyvvepvo-T2B2aREJy2GyawTHCnazsw@mail.gmail.com>
+In-Reply-To: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,80 +77,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
- linux-kernel@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, freedreno@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: freedreno@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Vinod Koul <vkoul@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/02/2023 02:26, Doug Anderson wrote:
-> Hi,
+On 01/02/2023 00:18, Douglas Anderson wrote:
+> Set the "pre_enable_prev_first" as provided by commit 4fb912e5e190
+> ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init
+> order"). This should allow us to revert commit ec7981e6c614
+> ("drm/msm/dsi: don't powerup at modeset time for parade-ps8640") and
+> commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
+> time").
 > 
-> On Wed, Feb 1, 2023 at 1:51 AM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
->>
->> On Tue, 31 Jan 2023 at 22:22, Douglas Anderson <dianders@chromium.org> wrote:
->>>
->>> Set the "pre_enable_prev_first" as provided by commit 4fb912e5e190
->>> ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init
->>> order"). This should allow us to revert commit ec7981e6c614
->>> ("drm/msm/dsi: don't powerup at modeset time for parade-ps8640") and
->>> commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
->>> time").
->>
->> I see no reference in the TC358762 datasheet to requiring the DSI
->> interface to be in any particular state.
->> However, setting this flag does mean that the DSI host doesn't need to
->> power up and down for each host_transfer request from
->> tc358762_pre_enable/tc358762_init, so on that basis I'm good with it.
->>
->> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>
->>> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>> ---
->>>
->>> (no changes since v1)
->>>
->>>   drivers/gpu/drm/bridge/tc358762.c | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
->>> index 0b6a28436885..77f7f7f54757 100644
->>> --- a/drivers/gpu/drm/bridge/tc358762.c
->>> +++ b/drivers/gpu/drm/bridge/tc358762.c
->>> @@ -229,6 +229,7 @@ static int tc358762_probe(struct mipi_dsi_device *dsi)
->>>          ctx->bridge.funcs = &tc358762_bridge_funcs;
->>>          ctx->bridge.type = DRM_MODE_CONNECTOR_DPI;
->>>          ctx->bridge.of_node = dev->of_node;
->>> +       ctx->bridge.pre_enable_prev_first = true;
->>>
->>>          drm_bridge_add(&ctx->bridge);
-> 
-> Abhinav asked what the plan was for landing this [1]. Since this isn't
-> urgent, I guess the plan is to land patch #1 in drm-misc-next. Then we
-> sit and wait until it percolates into mainline and, once it does, then
-> patch #2 and #3 can land.
-> 
-> Since I have Dave's review I can commit this to drm-misc-next myself.
-> My plan will be to wait until Thursday or Friday of this week (to give
-> people a bit of time to object) and then land patch #1. Then I'll
-> snooze things for a while and poke Abhinav and Dmitry to land patch #2
-> / #3 when I notice it in mainline. If, at any point, someone comes out
-> of the woodwork and yells that this is breaking them then, worst case,
-> we can revert.
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-This plan sounds good to me.
-
-> 
-> [1] https://lore.kernel.org/r/1f204585-88e2-abae-1216-92f739ac9e91@quicinc.com/
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
