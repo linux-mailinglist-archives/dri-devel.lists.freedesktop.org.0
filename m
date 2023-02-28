@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E6C6A5119
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 03:22:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 235556A5263
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 05:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2298110E494;
-	Tue, 28 Feb 2023 02:22:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A86A710E471;
+	Tue, 28 Feb 2023 04:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 696FE10E471;
- Tue, 28 Feb 2023 02:21:53 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE9F10E498;
+ Tue, 28 Feb 2023 04:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677550913; x=1709086913;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=0iWN4NSVxcAJpQGBzzVwSRfHUDfhGGCncm1XHjLRQjE=;
- b=fqX1CwVapuXOCBR2PTpxIBM5xTOCRI8B5Mb4uXxGlToGIRNcN2VIzLVy
- 9L79+gxG+QB3ZqmX1haq6pzSXuOmfhMy0FldCkSQGx6Gi3EnomietoDAV
- tY3hvJZLYnKPxEzp6utZ5Hsk5bBl0qDGlIPOCIff3DwHVXhukGTdWNlWh
- ADHQ2mrP4r24CQeX2d78jzI5ilwetkGJcnsS+yVB+5RpC1840S8P0ybLM
- vKB26SKkEMOFG6eeUNrbD8+cF5DSQ/IC+4XyGtrSFpRD/6PTyHj4LXSEg
- oLI7kSrVacW65PhRZuAq85JhTljRd71eel5g4Ymtl9m+bfZEXXnA+Krk9 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="334070739"
-X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; d="scan'208";a="334070739"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Feb 2023 18:21:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="919601741"
-X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; d="scan'208";a="919601741"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga006.fm.intel.com with ESMTP; 27 Feb 2023 18:21:52 -0800
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v6 8/8] drm/i915/pxp: Enable PXP with MTL-GSC-CS
-Date: Mon, 27 Feb 2023 18:21:50 -0800
-Message-Id: <20230228022150.1657843-9-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
-References: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
+ t=1677559421; x=1709095421;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=baEJcjJ9+Z6mhR8/FHD0SvNtVFxCBiSdnZoPBDGgWWU=;
+ b=CqBLpEghARoP85VkV4Z32Vl+Izx1nib+sqx22vfncbUs3BC2OBPxEGRK
+ i6VbvVyG8B5Z3/U8aQjiv1oe9BneDB4hEh4KUIXMWyJaH9gFzgI97KKdb
+ 5GLwHe5e05RHous1r/b/dbAIKxBVp4ipfZWlHTjhe2yWzYHTXOOZ8EQ4C
+ tbpAHClolv9DvyHFASQC6fQoN60wrh3OCOIToKYyPANjV/H5FCTa0guYL
+ cpQS/dQJtni1U8voRamjkCdGVamxUiP05Euwgo4W5gXW4+SI8rKJnHLBN
+ +F6yW6JLPchPAYYOi41u1u3ySZs+OQr3NzocK1/476e3iuAKhGNZYIDX0 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="332771695"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; d="scan'208";a="332771695"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 20:43:40 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10634"; a="667314293"
+X-IronPort-AV: E=Sophos;i="5.98,220,1673942400"; d="scan'208";a="667314293"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Feb 2023 20:43:39 -0800
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/hwmon: Accept writes of value 0 to
+ power1_max_interval
+Date: Mon, 27 Feb 2023 20:43:34 -0800
+Message-Id: <20230228044334.3630391-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -56,84 +56,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juston Li <justonli@chromium.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>,
+ Badal Nilawar <badal.nilawar@intel.com>, Riana Tauro <riana.tauro@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable PXP with MTL-GSC-CS: add the has_pxp into device info
-and increase the debugfs teardown timeouts to align with
-new GSC-CS + firmware specs.
+The value shown by power1_max_interval in millisec is essentially:
+	((1.x * power(2,y)) * 1000) >> 10
+Where x and y are read from a HW register. On ATSM, x and y are 0 on
+power-up so the value shown is 0.
 
-Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Writes of 0 to power1_max_interval had previously been disallowed to avoid
+computing ilog2(0) but this resulted in the corner-case bug
+below. Therefore allow writes of 0 now but special case that write to
+x = y = 0.
+
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/7754
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 ---
- drivers/gpu/drm/i915/i915_pci.c              | 1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c | 9 ++++++++-
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 2 +-
- 3 files changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/i915_hwmon.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index a8d942b16223..4ecf0f2ab6ec 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1150,6 +1150,7 @@ static const struct intel_device_info mtl_info = {
- 	.has_guc_deprivilege = 1,
- 	.has_mslice_steering = 0,
- 	.has_snoop = 1,
-+	.has_pxp = 1,
- 	.__runtime.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
- 	.__runtime.platform_engine_mask = BIT(RCS0) | BIT(BCS0) | BIT(CCS0),
- 	.require_force_probe = 1,
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-index 9f6e300486b4..ddf9f8bb7791 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
-@@ -14,6 +14,7 @@
+diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+index 7c20a6f47b92e..596dd2c070106 100644
+--- a/drivers/gpu/drm/i915/i915_hwmon.c
++++ b/drivers/gpu/drm/i915/i915_hwmon.c
+@@ -218,11 +218,15 @@ hwm_power1_max_interval_store(struct device *dev,
+ 	/* val in hw units */
+ 	val = DIV_ROUND_CLOSEST_ULL((u64)val << hwmon->scl_shift_time, SF_TIME);
+ 	/* Convert to 1.x * power(2,y) */
+-	if (!val)
+-		return -EINVAL;
+-	y = ilog2(val);
+-	/* x = (val - (1 << y)) >> (y - 2); */
+-	x = (val - (1ul << y)) << x_w >> y;
++	if (!val) {
++		/* Avoid ilog2(0) */
++		y = 0;
++		x = 0;
++	} else {
++		y = ilog2(val);
++		/* x = (val - (1 << y)) >> (y - 2); */
++		x = (val - (1ul << y)) << x_w >> y;
++	}
  
- #include "intel_pxp.h"
- #include "intel_pxp_debugfs.h"
-+#include "intel_pxp_gsccs.h"
- #include "intel_pxp_irq.h"
- #include "intel_pxp_types.h"
- 
-@@ -45,6 +46,7 @@ static int pxp_terminate_set(void *data, u64 val)
- {
- 	struct intel_pxp *pxp = data;
- 	struct intel_gt *gt = intel_pxp_get_irq_gt(pxp);
-+	int timeout_ms;
- 
- 	if (!intel_pxp_is_active(pxp))
- 		return -ENODEV;
-@@ -54,8 +56,13 @@ static int pxp_terminate_set(void *data, u64 val)
- 	intel_pxp_irq_handler(pxp, GEN12_DISPLAY_PXP_STATE_TERMINATED_INTERRUPT);
- 	spin_unlock_irq(gt->irq_lock);
- 
-+	if (HAS_ENGINE(pxp->ctrl_gt, GSC0))
-+		timeout_ms = GSC_PENDING_RETRY_LATENCY_MS;
-+	else
-+		timeout_ms = 250;
-+
- 	if (!wait_for_completion_timeout(&pxp->termination,
--					 msecs_to_jiffies(100)))
-+					 msecs_to_jiffies(timeout_ms)))
- 		return -ETIMEDOUT;
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index 4ddf2ee60222..03f006f9dc2e 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -44,7 +44,7 @@ static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_pla
- 				      KCR_SIP(pxp->kcr_base),
- 				      mask,
- 				      in_play ? mask : 0,
--				      100);
-+				      250);
- 
- 	intel_runtime_pm_put(uncore->rpm, wakeref);
+ 	rxy = REG_FIELD_PREP(PKG_PWR_LIM_1_TIME_X, x) | REG_FIELD_PREP(PKG_PWR_LIM_1_TIME_Y, y);
  
 -- 
-2.39.0
+2.38.0
 
