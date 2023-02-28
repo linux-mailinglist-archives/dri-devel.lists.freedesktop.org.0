@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F9F6A5CB3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 17:02:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 105BB6A5CBA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 17:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D20BD10E4E6;
-	Tue, 28 Feb 2023 16:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 840F210E02E;
+	Tue, 28 Feb 2023 16:05:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA4010E02E;
- Tue, 28 Feb 2023 16:02:50 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7293910E02E;
+ Tue, 28 Feb 2023 16:05:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677600171; x=1709136171;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=uJ6b+0/zHOeAkP5Hg4XcILPc1vZObbE90DrMyXpviNQ=;
- b=Lb0M3fIU2J8d8qDcWro9AzRXxciA5mhNkBo93F873Eh2j7lorvzOBzou
- ew6cb7qAnmT8gu08Mba9SMTTn27tcKgNjR6lA8Lx3+h+LoeEPhvaC2LLN
- gTyzcUBS0DgW74JK0B9tf5gnJjuOnVj2z1CF4xO/EoHQ9WviHXvoWsq8k
- PxXUgKFmtlIvj9Hq96kDSBlYALCnMSXii3+6MrnXuC0N75F5nnWNWIaEJ
- vVCu9QmNck78Oq0pbdBNEvNzlT2w9FwTeWj2KAbHiCld0lgl4u7WJxdYk
- L3ayhyx8ig7W5JY6Fm7S4+xguL+rvbJ0Pyl1zF9lqzchNxdGlTP+MoCYU w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="398954708"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="398954708"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 08:02:02 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="798101078"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="798101078"
-Received: from barumuga-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.47.26])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 08:01:57 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean
- Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Subject: Re: [PATCH 02/10] drm/i915/dsc: move rc_buf_thresh values to common
- helper
-In-Reply-To: <20230228113342.2051425-3-dmitry.baryshkov@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230228113342.2051425-1-dmitry.baryshkov@linaro.org>
- <20230228113342.2051425-3-dmitry.baryshkov@linaro.org>
-Date: Tue, 28 Feb 2023 18:01:54 +0200
-Message-ID: <871qm9zslp.fsf@intel.com>
+ t=1677600329; x=1709136329;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=7WTR5cEOx6pl83EELbuiP04ozprfCWKL6VhuLuedDOs=;
+ b=N0ivWqRCJ0XvbH1vyTGofIYPI0/TjaMtkmxEecK6iQmbRU2Jt3dQSIrw
+ /2fdz2UGHcv1ytI1Ct7lYbSrDIswNHKYyaZRyBwIIVsMNrqxr+ROXxpaq
+ cjtDENphZs8/I9GwWT9CC4MAXjzXxttQT5yxb9MZ6I267fmc0cOkcMW6E
+ Aab1tgU2E8ZEGEP3RRRPyaQAWbnSB+5UmiNdDdlLJHqlZIxXWKguUzSVb
+ CF6gtn5qG7NyUL4YmEggctsZsnOiELWJAcdSKUgOjjsqLH8+yVUAfRhdV
+ HIOvI+4ipiTp9x9z+/xpsaInM9DR8Pe8sIo48iPl3+XfXZs9cbmUGiX0Z w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="313847281"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="313847281"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 08:04:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="1003269224"
+X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="1003269224"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 28 Feb 2023 08:04:40 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pX2T1-0005VM-2m;
+ Tue, 28 Feb 2023 16:04:39 +0000
+Date: Wed, 1 Mar 2023 00:03:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 8/9] drm/qxl: switch to using drm_exec
+Message-ID: <202302282339.welAynWc-lkp@intel.com>
+References: <20230228083406.1720795-9-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230228083406.1720795-9-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,133 +60,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: arunpravin.paneerselvam@amd.com, dakr@redhat.com,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Feb 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> The rc_buf_thresh values are common to all DSC implementations. Move
-> them to the common helper together with the code to propagage them to
-> the drm_dsc_config.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/display/drm_dsc_helper.c  | 37 +++++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_vdsc.c | 24 +--------------
->  include/drm/display/drm_dsc_helper.h      |  1 +
->  3 files changed, 39 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
-> index c869c6e51e2b..ab8679c158b5 100644
-> --- a/drivers/gpu/drm/display/drm_dsc_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
-> @@ -270,6 +270,43 @@ void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_payload,
->  }
->  EXPORT_SYMBOL(drm_dsc_pps_payload_pack);
->  
-> +/* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
-> +const u16 drm_dsc_rc_buf_thresh[] = {
-> +	896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
-> +	7744, 7872, 8000, 8064
-> +};
-> +EXPORT_SYMBOL(drm_dsc_rc_buf_thresh);
-> +
-> +/**
-> + * drm_dsc_set_rc_buf_thresh() - Set thresholds for the RC model
-> + * in accordance with the DSC 1.2 specification.
-> + *
-> + * @vdsc_cfg: DSC Configuration data partially filled by driver
-> + */
-> +void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg)
-> +{
-> +	int i = 0;
-> +
-> +	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
-> +		/*
-> +		 * six 0s are appended to the lsb of each threshold value
-> +		 * internally in h/w.
-> +		 * Only 8 bits are allowed for programming RcBufThreshold
-> +		 */
+Hi Christian,
 
-Not sure how appropriate the hardware references are, maybe clean it up
-a bit.
+I love your patch! Yet something to improve:
 
-With that, and +static and -export mentioned earlier,
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next linus/master next-20230228]
+[cannot apply to drm-exynos/exynos-drm-next drm-intel/for-linux-next-fixes v6.2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-drm_exec-selftests/20230228-173404
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230228083406.1720795-9-christian.koenig%40amd.com
+patch subject: [PATCH 8/9] drm/qxl: switch to using drm_exec
+config: i386-randconfig-a014-20230227 (https://download.01.org/0day-ci/archive/20230228/202302282339.welAynWc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/435d2421797eb683d27984c9a823b48704069df9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-K-nig/drm-add-drm_exec-selftests/20230228-173404
+        git checkout 435d2421797eb683d27984c9a823b48704069df9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-> +		vdsc_cfg->rc_buf_thresh[i] = drm_dsc_rc_buf_thresh[i] >> 6;
-> +	}
-> +
-> +	/*
-> +	 * For 6bpp, RC Buffer threshold 12 and 13 need a different value
-> +	 * as per C Model
-> +	 */
-> +	if (vdsc_cfg->bits_per_pixel == 6 << 4) {
-> +		vdsc_cfg->rc_buf_thresh[12] = 7936 >> 6;
-> +		vdsc_cfg->rc_buf_thresh[13] = 8000 >> 6;
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_dsc_set_rc_buf_thresh);
-> +
->  /**
->   * drm_dsc_compute_rc_parameters() - Write rate control
->   * parameters to the dsc configuration defined in
-> diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
-> index d080741fd0b3..b4faab4c8fb3 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
-> @@ -36,12 +36,6 @@ enum COLUMN_INDEX_BPC {
->  	MAX_COLUMN_INDEX
->  };
->  
-> -/* From DSC_v1.11 spec, rc_parameter_Set syntax element typically constant */
-> -static const u16 rc_buf_thresh[] = {
-> -	896, 1792, 2688, 3584, 4480, 5376, 6272, 6720, 7168, 7616,
-> -	7744, 7872, 8000, 8064
-> -};
-> -
->  struct rc_parameters {
->  	u16 initial_xmit_delay;
->  	u8 first_line_bpg_offset;
-> @@ -474,23 +468,7 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
->  	vdsc_cfg->bits_per_pixel = compressed_bpp << 4;
->  	vdsc_cfg->bits_per_component = pipe_config->pipe_bpp / 3;
->  
-> -	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
-> -		/*
-> -		 * six 0s are appended to the lsb of each threshold value
-> -		 * internally in h/w.
-> -		 * Only 8 bits are allowed for programming RcBufThreshold
-> -		 */
-> -		vdsc_cfg->rc_buf_thresh[i] = rc_buf_thresh[i] >> 6;
-> -	}
-> -
-> -	/*
-> -	 * For 6bpp, RC Buffer threshold 12 and 13 need a different value
-> -	 * as per C Model
-> -	 */
-> -	if (compressed_bpp == 6) {
-> -		vdsc_cfg->rc_buf_thresh[12] = 0x7C;
-> -		vdsc_cfg->rc_buf_thresh[13] = 0x7D;
-> -	}
-> +	drm_dsc_set_rc_buf_thresh(vdsc_cfg);
->  
->  	/*
->  	 * From XE_LPD onwards we supports compression bpps in steps of 1
-> diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-> index 8b41edbbabab..706ba1d34742 100644
-> --- a/include/drm/display/drm_dsc_helper.h
-> +++ b/include/drm/display/drm_dsc_helper.h
-> @@ -14,6 +14,7 @@ void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
->  int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
->  void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
->  			      const struct drm_dsc_config *dsc_cfg);
-> +void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
->  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
->  
->  #endif /* _DRM_DSC_HELPER_H_ */
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202302282339.welAynWc-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "drm_exec_init" [drivers/gpu/drm/qxl/qxl.ko] undefined!
+>> ERROR: modpost: "drm_exec_prepare_obj" [drivers/gpu/drm/qxl/qxl.ko] undefined!
+>> ERROR: modpost: "drm_exec_cleanup" [drivers/gpu/drm/qxl/qxl.ko] undefined!
+>> ERROR: modpost: "drm_exec_fini" [drivers/gpu/drm/qxl/qxl.ko] undefined!
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
