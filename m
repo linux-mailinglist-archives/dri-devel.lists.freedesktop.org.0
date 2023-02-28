@@ -1,52 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D6A6A6029
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 21:10:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF5A6A6052
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Feb 2023 21:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6D110E013;
-	Tue, 28 Feb 2023 20:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDCC410E00F;
+	Tue, 28 Feb 2023 20:24:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A04D10E013;
- Tue, 28 Feb 2023 20:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677615032; x=1709151032;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=zq0ZAtl/HTSS7AbslgMzyKwKm0wMYojGH36nengR0nA=;
- b=XRHH3/ATXBuG2Mm4X88iatfqA2LS6Y3xw0m4mLSx3/+tYRS6BfNcWyKI
- 6/tiCpMiU2Zyyrvyf9PHFAXehA+5oPvnduSgGaO7AQxrqq1TT50zqKtZm
- AChnOE1jSKRULbujAIKvKEj7oz0qVKiq0ZL6yvJWnxYvRfaN9T6UEVfi4
- cGCPz6Nav9idLubE68hgMWkQOsQUT4NvfylY5WDkzI9yojvlvVKMV0CLO
- /bX1A1Ds1ubKegaXXzCNhiBu97xtFNQw8IX6forq7c2g7FU4z2il81Flb
- xqDYffBQevK5mn6R48ybWQ2m5YMMErAoYF1D1dUWbRr3qJbcTTgAUwO71 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="318037859"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="318037859"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 12:10:31 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="919927780"
-X-IronPort-AV: E=Sophos;i="5.98,222,1673942400"; d="scan'208";a="919927780"
-Received: from barumuga-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.47.26])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2023 12:10:29 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/edid: Fix csync detailed mode parsing
-In-Reply-To: <20230227143648.7776-1-ville.syrjala@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230227143648.7776-1-ville.syrjala@linux.intel.com>
-Date: Tue, 28 Feb 2023 22:10:26 +0200
-Message-ID: <87y1ohwnyl.fsf@intel.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE37210E00F;
+ Tue, 28 Feb 2023 20:23:59 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 31SGkrfX018714; Tue, 28 Feb 2023 20:23:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=aD9p/uaGPnAOseXuoLESlp5Zz7ZHtsFAw9p2BJMha/k=;
+ b=cBv/EfIzUS6ew8U5cFgvZoXiVN1uUo4JOaYRhH39ny+i1B/vOLRoqahsDVnenTjnwisd
+ 1c44vjeLnQKoZ5Bvy0SRHNmeVyoF21vFbioKTWoDbRkFZiuuwFTQhXwdrQKJmQzIulDX
+ g5keqw2eHMktJ/x6ZW4nMy3e7FNKt8aGq/myVMXoS3vmPbfjJAEIXeoabTXvKM6xXQkV
+ 8UDFThnhCknJqI96WQ+zeQCkLlPhSI2dnWiNQs/GNFvkTFJWaX0bPzBsqMsggLrgKvXR
+ jLPwTbjctnHXNb7NaSUO3R0Np1YiCzLz0QzmFRaCIljNfw6SuuhlMH4L3Zr561KqMl8r xg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p1as32k51-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Feb 2023 20:23:53 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 31SKNqhL025387
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 28 Feb 2023 20:23:52 GMT
+Received: from [10.216.38.191] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 28 Feb
+ 2023 12:23:46 -0800
+Message-ID: <e19b5cd7-9125-a285-accc-ecf530804cfc@quicinc.com>
+Date: Wed, 1 Mar 2023 01:53:43 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v3 04/15] drm/msm/a6xx: Extend and explain UBWC config
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>
+References: <20230223-topic-gmuwrapper-v3-0-5be55a336819@linaro.org>
+ <20230223-topic-gmuwrapper-v3-4-5be55a336819@linaro.org>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20230223-topic-gmuwrapper-v3-4-5be55a336819@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: F0Sq-vV9BMY1SJpXhvwhJg_zxqbHVsFD
+X-Proofpoint-GUID: F0Sq-vV9BMY1SJpXhvwhJg_zxqbHVsFD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-02-28_17,2023-02-28_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0
+ phishscore=0 spamscore=0 adultscore=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302280169
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,133 +90,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Feb 2023, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+On 2/23/2023 5:36 PM, Konrad Dybcio wrote:
+> Rename lower_bit to hbb_lo and explain what it signifies.
+> Add explanations (wherever possible to other tunables).
 >
-> Remove the bogus csync check and replace it with something that:
-> - triggers for all forms of csync, not just the basic analog variant
-> - actually populates the mode csync flags so that drivers can
->   decide what to do with the mode
+> Sort the variable definition and assignment alphabetically.
+Sorting based on decreasing order of line length is more readable, isn't it?
 >
-> Originally the code tried to outright reject csync, but that
-> apparently broke some bogus LCD monitor that claimed to have
-> a detailed mode that uses analog csync, despite also claiming
-> the monitor only support separate sync:
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D540024
-> Potentially that monitor should just be quirked or something.
+> Port setting min_access_length, ubwc_mode and hbb_hi from downstream.
+> Set default values for all of the tunables to zero, as they should be.
 >
-> Anyways, what we are dealing with now is some kind of funny i915
-> JSL machine with eDP where the panel claims to support a sensible
-> 60Hz separate sync mode, and a 50Hz mode with bipolar analog
-> csync. The 50Hz mode does not work so we want to not use it.
-> Easiest way is to just correctly flag it as csync and the driver
-> will reject it.
+> Values were validated against downstream and will be fixed up in
+> separate commits so as not to make this one even more messy.
 >
-> TODO: or should we just reject any form of csync (or at least
-> the analog variants) for digital display interfaces?
+> A618 remains untouched (left at hw defaults) in this patch.
 >
-> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8146
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  drivers/gpu/drm/drm_edid.c | 23 +++++++++++++++--------
->  include/drm/drm_edid.h     | 12 +++++++++---
->  2 files changed, 24 insertions(+), 11 deletions(-)
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 55 ++++++++++++++++++++++++++++-------
+>  1 file changed, 45 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index ebab862b8b1a..fa20b1107ce3 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -3424,10 +3424,6 @@ static struct drm_display_mode *drm_mode_detailed(=
-struct drm_connector *connecto
->  			    connector->base.id, connector->name);
->  		return NULL;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index c5f5d0bb3fdc..bdae341e0a7c 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -786,39 +786,74 @@ static void a6xx_set_cp_protect(struct msm_gpu *gpu)
+>  static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+>  {
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> -	u32 lower_bit = 2;
+> +	/* Unknown, introduced with A640/680 */
+>  	u32 amsbc = 0;
+> +	/*
+> +	 * The Highest Bank Bit value represents the bit of the highest DDR bank.
+> +	 * We then subtract 13 from it (13 is the minimum value allowed by hw) and
+> +	 * write the lowest two bits of the remaining value as hbb_lo and the
+> +	 * one above it as hbb_hi to the hardware. The default values (when HBB is
+> +	 * not specified) are 0, 0.
+> +	 */
+> +	u32 hbb_hi = 0;
+> +	u32 hbb_lo = 0;
+> +	/* Whether the minimum access length is 64 bits */
+> +	u32 min_acc_len = 0;
+> +	/* Unknown, introduced with A650 family, related to UBWC mode/ver 4 */
+>  	u32 rgb565_predicator = 0;
+> +	/* Unknown, introduced with A650 family */
+>  	u32 uavflagprd_inv = 0;
+> +	/* Entirely magic, per-GPU-gen value */
+> +	u32 ubwc_mode = 0;
+>  
+>  	/* a618 is using the hw default values */
+>  	if (adreno_is_a618(adreno_gpu))
+>  		return;
+>  
+> -	if (adreno_is_a640_family(adreno_gpu))
+> +	if (adreno_is_a619(adreno_gpu)) {
+> +		/* HBB = 14 */
+> +		hbb_lo = 1;
+> +	}
+> +
+> +	if (adreno_is_a630(adreno_gpu)) {
+> +		/* HBB = 15 */
+> +		hbb_lo = 2;
+> +	}
+> +
+> +	if (adreno_is_a640_family(adreno_gpu)) {
+>  		amsbc = 1;
+> +		/* HBB = 15 */
+> +		hbb_lo = 2;
+> +	}
+>  
+>  	if (adreno_is_a650(adreno_gpu) || adreno_is_a660(adreno_gpu)) {
+> -		/* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
+> -		lower_bit = 3;
+>  		amsbc = 1;
+> +		/* TODO: get ddr type from bootloader and use 2 for LPDDR4 */
+> +		/* HBB = 16 */
+> +		hbb_lo = 3;
+>  		rgb565_predicator = 1;
+>  		uavflagprd_inv = 2;
 >  	}
-> -	if (!(pt->misc & DRM_EDID_PT_SEPARATE_SYNC)) {
-> -		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync not supported\n",
-> -			    connector->base.id, connector->name);
-> -	}
->=20=20
->  	/* it is incorrect if hsync/vsync width is zero */
->  	if (!hsync_pulse_width || !vsync_pulse_width) {
-> @@ -3474,10 +3470,21 @@ static struct drm_display_mode *drm_mode_detailed=
-(struct drm_connector *connecto
->  	if (info->quirks & EDID_QUIRK_DETAILED_SYNC_PP) {
->  		mode->flags |=3D DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC;
->  	} else {
-> -		mode->flags |=3D (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> -			DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> -		mode->flags |=3D (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> -			DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-> +		switch (pt->misc & DRM_EDID_PT_SYNC_MASK) {
-> +		case DRM_EDID_PT_ANALOG_CSYNC:
-> +		case DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC:
-> +		case DRM_EDID_PT_DIGITAL_CSYNC:
-> +			drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Composite sync!\n",
-> +				    connector->base.id, connector->name);
-> +			mode->flags |=3D DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC;
+>  
+>  	if (adreno_is_7c3(adreno_gpu)) {
+> -		lower_bit = 1;
+>  		amsbc = 1;
+> +		/* HBB is unset in downstream DTS, defaulting to 0 */
+This is incorrect. For 7c3 hbb value is 14. So hbb_lo should be 1. FYI, hbb configurations were moved to the driver from DT in recent downstream kernels.
 
-Not sure it makes a huge difference, and I expect this case to be rare,
-but what's the _N_ CSYNC based on here?
-
-I also observe the spec appears to indicate "Horizontal Sync is Negative
-(outside of V-sync)" and "Horizontal Sync is Positive (outside of
-V-sync)" bit is valid also for Digital Composite Sync.
-
-See how the bits for vertical sync have "1 1 0" or "1 1 1" but for
-horizontal sync it's "1 _ _ 0" and "1 _ _ 1". Does that indicate the
-polarity for digital composite sync?! The spec is not super clear.
-
-> +			break;
-> +		case DRM_EDID_PT_DIGITAL_SEPARATE_SYNC:
-> +			mode->flags |=3D (pt->misc & DRM_EDID_PT_HSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PHSYNC : DRM_MODE_FLAG_NHSYNC;
-> +			mode->flags |=3D (pt->misc & DRM_EDID_PT_VSYNC_POSITIVE) ?
-> +				DRM_MODE_FLAG_PVSYNC : DRM_MODE_FLAG_NVSYNC;
-
-I think this is the good stuff, we shouldn't be looking at these flags
-and setting PHSYNC/NHSYNC/PVSYNC/NVSYNC unless we have digital separate
-sync.
-
-Overall I think
-
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-
-Although it's not all completely clear. But I think being explicit is
-better than assuming something and simply debug logging about csync and
-not really doing anything about it.
-
-> +			break;
-> +		}
+-Akhil.
+>  		rgb565_predicator = 1;
+>  		uavflagprd_inv = 2;
 >  	}
->=20=20
->  set_size:
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 70ae6c290bdc..49ee10272603 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -61,9 +61,15 @@ struct std_timing {
->  	u8 vfreq_aspect;
->  } __attribute__((packed));
->=20=20
-> -#define DRM_EDID_PT_HSYNC_POSITIVE (1 << 1)
-> -#define DRM_EDID_PT_VSYNC_POSITIVE (1 << 2)
-> -#define DRM_EDID_PT_SEPARATE_SYNC  (3 << 3)
-> +#define DRM_EDID_PT_SYNC_MASK              (3 << 3)
-> +# define DRM_EDID_PT_ANALOG_CSYNC          (0 << 3)
-> +# define DRM_EDID_PT_BIPOLAR_ANALOG_CSYNC  (1 << 3)
-> +# define DRM_EDID_PT_DIGITAL_CSYNC         (2 << 3)
-> +#  define DRM_EDID_PT_CSYNC_ON_RGB         (1 << 1) /* analog csync only=
- */
-> +#  define DRM_EDID_PT_CSYNC_SERRATE        (1 << 2)
-> +# define DRM_EDID_PT_DIGITAL_SEPARATE_SYNC (3 << 3)
-> +#  define DRM_EDID_PT_HSYNC_POSITIVE       (1 << 1)
-> +#  define DRM_EDID_PT_VSYNC_POSITIVE       (1 << 2)
->  #define DRM_EDID_PT_STEREO         (1 << 5)
->  #define DRM_EDID_PT_INTERLACED     (1 << 7)
+>  
+>  	gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
+> -		rgb565_predicator << 11 | amsbc << 4 | lower_bit << 1);
+> -	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, lower_bit << 1);
+> -	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL,
+> -		uavflagprd_inv << 4 | lower_bit << 1);
+> -	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, lower_bit << 21);
+> +		  rgb565_predicator << 11 | hbb_hi << 10 | amsbc << 4 |
+> +		  min_acc_len << 3 | hbb_lo << 1 | ubwc_mode);
+> +
+> +	gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL, hbb_hi << 4 |
+> +		  min_acc_len << 3 | hbb_lo << 1 | ubwc_mode);
+> +
+> +	gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL, hbb_hi << 10 |
+> +		  uavflagprd_inv << 4 | min_acc_len << 3 |
+> +		  hbb_lo << 1 | ubwc_mode);
+> +
+> +	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL, min_acc_len << 23 | hbb_lo << 21);
+>  }
+>  
+>  static int a6xx_cp_init(struct msm_gpu *gpu)
+>
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
