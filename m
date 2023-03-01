@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAE66A6FA5
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A646A6FA4
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B54E10E29B;
-	Wed,  1 Mar 2023 15:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD9610E294;
+	Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC8F710E060
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:11 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9560810E280
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7C80821AAB;
- Wed,  1 Mar 2023 15:31:10 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 304B71FE1F;
+ Wed,  1 Mar 2023 15:31:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677684670; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1677684671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qex2fhvZM6US98pmpA9TQH5E+DRv9WcJn9lT+eE3594=;
- b=PGTtfd3JGA8BCZa0+2WtP0jSXwj+fSYZ8IpgxZpJ3Jqp+GJfnX99Oh4GGXhOe4sAM+4w7T
- mR4tbQ2N6fZo3Kd024yV1S9lepCdpgM+9wrzE2e80jJb8V34J+9rGAzG/1thon4UTfIb4x
- l2P2cGYQwgD2ECgqlSmvqlzMR4Ktad0=
+ bh=4rglv+OzMbuvMaruzi8QTE6hQwhfecmjDrm6px7J8cI=;
+ b=Yc7oP2GEi9hc+c3Jxe4mi5S25SRiegWgmUcOVgVMsZBGJ5KUFaRkPiBztSiHTxP5vdaqIn
+ RF2XS3yIB2a3Phigibu6T1oH/gVyPlqaCqh5jbRV+98NLbrLObjekpbankPUja3kVLmBF6
+ oeRGoeb4e3nDOeSS8UwfzpNKTEUnpCg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677684670;
+ s=susede2_ed25519; t=1677684671;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qex2fhvZM6US98pmpA9TQH5E+DRv9WcJn9lT+eE3594=;
- b=HpJq5SMf/KFbbt2A30pcEDaBcrnrM8IDvDa4NkkzZP/ln4CIA8UlitkflidaOvtz+aBus2
- diUu4eKzzkWD4QAQ==
+ bh=4rglv+OzMbuvMaruzi8QTE6hQwhfecmjDrm6px7J8cI=;
+ b=zUH7HaetoU9cF3NlddVHZIwkSp6M1vtEB6Tn4E3QjoDvmrW10595J1x95JPOCLYHZy8hKH
+ roEBeJ4H9zeu6AAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C9AD213A3E;
- Wed,  1 Mar 2023 15:31:09 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8271C13A64;
+ Wed,  1 Mar 2023 15:31:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KIJcML1v/2OAXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:09 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 0GrxHr5v/2OAXgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:10 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au,
@@ -59,9 +59,9 @@ To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
  linus.walleij@linaro.org, hyun.kwon@xilinx.com,
  laurent.pinchart@ideasonboard.com
-Subject: [PATCH 08/22] drm/imx: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:47 +0100
-Message-Id: <20230301153101.4282-9-tzimmermann@suse.de>
+Subject: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:48 +0100
+Message-Id: <20230301153101.4282-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -91,28 +91,28 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 4 ++--
+ drivers/gpu/drm/kmb/kmb_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-index e060fa6cbcb9..4a866ac60fff 100644
---- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-+++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
-@@ -16,7 +16,7 @@
- #include <drm/drm_atomic.h>
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
+index d29c678f6c91..24035b53441c 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.c
++++ b/drivers/gpu/drm/kmb/kmb_drv.c
+@@ -15,7 +15,7 @@
+ 
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_managed.h>
-@@ -249,7 +249,7 @@ static int imx_drm_bind(struct device *dev)
+ #include <drm/drm_module.h>
+@@ -562,7 +562,7 @@ static int kmb_probe(struct platform_device *pdev)
  	if (ret)
- 		goto err_poll_fini;
+ 		goto err_register;
  
--	drm_fbdev_generic_setup(drm, legacyfb_depth);
-+	drm_fbdev_dma_setup(drm, legacyfb_depth);
+-	drm_fbdev_generic_setup(&kmb->drm, 0);
++	drm_fbdev_dma_setup(&kmb->drm, 0);
  
  	return 0;
  
