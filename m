@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA76F6A6669
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 04:21:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCFE6A666D
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 04:22:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6132510E0C4;
-	Wed,  1 Mar 2023 03:21:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE3610E103;
+	Wed,  1 Mar 2023 03:22:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E72410E0C4
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 03:21:44 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id j11so227126lfg.13
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:21:44 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6A510E103
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 03:22:03 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id b13so12530616ljf.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 19:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=tnkIfcOj9UUowRdMsG+mzaeiNEjduadTcoKQ2pmIVLo=;
- b=puIGq/gTBfW1Oh7F22B1UErkiWmp6tUYTzYW3EAYlK7cPWCpO/9iC9s9qBybpthYWs
- ByG758HNwOM9SIHlbA8dGkrMZwNARtTNfWhO43tcyECmiNy1SZd1Q2rqNA+SH3zP5MFV
- CI3VVbPp2VQMeNkWxI2bKESeOC53lh4NfJ/0lnkjRy0nI8JkUFykvY8Ju5xg2rG9G2YN
- ntmSCTOvkCtgAQuEndu5qwfXDb0USPzSPpVfgQJj/lhJL/xYPPJKR5ru3wknNrCJATXd
- iNP7/z4Rq4fSfG3rsYPbMaokfr293G2lwzLyjkHiBxkBQxKZm5RR0vgYISBb4p3txHyW
- gJyw==
+ bh=NUZecSUqzu1uo/SXLpOzA6t3JV6OPyWWN5Ny9ipj8EY=;
+ b=HbXthZCZbWCMCpjYnzTBhJKdyHTUZPve27TqpqciAyONXTaUXftg0Yk7rq3prW5cOf
+ A7UjsBMz1j/Zb2dnU73UkECfrmHPeOCbbu9lIhpFAIrVfI9cDFMji2/6zMO7WB6OKij8
+ V/3PRjCvmUJjnD7hZmwbaKNVHFwCGno7Ko8unlqMk96FaxL8eGPwCBaNn6ZZncHe4s7Y
+ fodFYaHF8FsGrNtp67tVvOEZCzkZnnzB40em8ESzPm6oA4eheVMMRyJRMFMKF/3Gdz4w
+ Mc20Y69E+euzG99QF6ihnNQASbaBTaRE8l25+gLVj9zvTz1eiOgXx6xerGUSCopDeqZh
+ I69g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tnkIfcOj9UUowRdMsG+mzaeiNEjduadTcoKQ2pmIVLo=;
- b=Cd/LH8FPbxK0CY8Bs/4vj3dGFSBP7y3Kc47Oqx6ArIp+YNQAwEZnwWb62dqjplTRX5
- mWgnloZ9ot5dOyB0BDQYbWZJb8QAut7F9haLFCgTkrPpSxT2NMhULXXkC5/4LA3oPSrn
- ZTpaJvkaiNaInOiycyA/z3NVupyruAPnoyr0DwHQFFJdDBpCwalEARZjz/nK8gDMUipu
- McocQcyHxcpgp96VxlNY8HA/GZC35GkWN4kowOubB7PcBkTrQozRdSolvrT1lXEGgs9B
- xN7Uu4IKFqb9RmFeC9MuNjuzXIQ+hwF/IDySCUeHVxiqiEHGexCkfLpnaJSh3cfRuBoy
- TNCw==
-X-Gm-Message-State: AO0yUKVKqerwePWVCdlUUsVHQh3l0RAADylZBs4F6OhpeGzE6Uf9l2GS
- Q1RaSbxOD8yzExCa2v+u+9kxAQ==
-X-Google-Smtp-Source: AK7set8zuq+rYK+aoj/9FhA+X5WzH3P9J4TAkzfAazBr/p0EpDzOQN+/LF4ckgteLQu3N+DgCBPafg==
-X-Received: by 2002:ac2:52a3:0:b0:4de:48a9:d622 with SMTP id
- r3-20020ac252a3000000b004de48a9d622mr1181947lfm.63.1677640902709; 
- Tue, 28 Feb 2023 19:21:42 -0800 (PST)
+ bh=NUZecSUqzu1uo/SXLpOzA6t3JV6OPyWWN5Ny9ipj8EY=;
+ b=BJcKzVP4AAwRbQtiujV/CQRmCS8ddvm3Cgd0BLwWmyOm81QbIoLPhDtFzJhyF5ikkO
+ OJkg/buVd0uyrUpFVZdXK2HlbmzHQDw8Qn8byykpbOb0jICm0sEP1Dk6XA0OYof8xDYA
+ oO38tVWu/q75gkM40fvD/MTJ0tuBUIXcEhlN/6VtkuapEtrbWAMm/RhJJUyfHJpShO43
+ fOC4BKENMYPAmtgnaZYEAY+Wm4s6gW28/htY6a+zWF9vVOtDFb6hqyZmuSmL8bxRpIIC
+ lpmPpifd6D9thGA1zaTjZuU6JEKNQYtUNCwEoe1AWuw2Dmx/6WBMl7CXxlb0xtYU71dw
+ CEMg==
+X-Gm-Message-State: AO0yUKXeWzNh5v6InqDXwTeSO2ygem7eUqq1OUESuEi1ITvJyI+y/Wgu
+ m13H9R6B5nthZcjgFLSL6U/dZuvFgwjFCtQa
+X-Google-Smtp-Source: AK7set+EwfKoaH2pJojg/fcrmaYhssF05s4pHXzYYARrdyhKFsh5msqxjncNNSpHuaj00TeGVOHKfQ==
+X-Received: by 2002:a2e:b910:0:b0:295:a96e:4f1b with SMTP id
+ b16-20020a2eb910000000b00295a96e4f1bmr1514777ljb.27.1677640922090; 
+ Tue, 28 Feb 2023 19:22:02 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- d1-20020ac241c1000000b004dd7ddc696esm1549454lfi.293.2023.02.28.19.21.41
+ d2-20020ac25ec2000000b004db0d97b053sm1543287lfq.137.2023.02.28.19.22.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Feb 2023 19:21:41 -0800 (PST)
-Message-ID: <f8f05dbe-c47e-5a0c-bd93-c844fc5cde4c@linaro.org>
-Date: Wed, 1 Mar 2023 05:21:41 +0200
+ Tue, 28 Feb 2023 19:22:01 -0800 (PST)
+Message-ID: <3195f978-9997-dc99-4e32-939f0db50f68@linaro.org>
+Date: Wed, 1 Mar 2023 05:22:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.2
-Subject: Re: [PATCH v4 1/4] drm/msm/dpu: Move TE setup to prepare_for_kickoff()
+Subject: Re: [PATCH v4 3/4] drm/msm/dpu: Remove empty prepare_commit() function
 Content-Language: en-GB
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 References: <20230221184256.1436-1-quic_jesszhan@quicinc.com>
- <20230221184256.1436-2-quic_jesszhan@quicinc.com>
+ <20230221184256.1436-4-quic_jesszhan@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230221184256.1436-2-quic_jesszhan@quicinc.com>
+In-Reply-To: <20230221184256.1436-4-quic_jesszhan@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,42 +83,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/02/2023 20:42, Jessica Zhang wrote:
-> Currently, DPU will enable TE during prepare_commit(). However, this
-> will cause a crash and reboot to sahara when trying to read/write to
-> register in get_autorefresh_config(), because the core clock rates
-> aren't set at that time.
-> 
-> This used to work because phys_enc->hw_pp is only initialized in mode
-> set [1], so the first prepare_commit() will return before any register
-> read/write as hw_pp would be NULL.
-> 
-> However, when we try to implement support for INTF TE, we will run into
-> the clock issue described above as hw_intf will *not* be NULL on the
-> first prepare_commit(). This is because the initialization of
-> dpu_enc->hw_intf has been moved to dpu_encoder_setup() [2].
-> 
-> To avoid this issue, let's enable TE during prepare_for_kickoff()
-> instead as the core clock rates are guaranteed to be set then.
-> 
-> Depends on: "Implement tearcheck support on INTF block" [3]
+> Now that the TE setup has been moved to prepare_for_kickoff(),  we have
+> not prepare_commit() callbacks left. This makes dpu_encoder_prepare_commit()
+> do nothing. Remove prepare_commit() from DPU driver.
 > 
 > Changes in V3:
-> - Added function prototypes
-> - Reordered function definitions to make change more legible
-> - Removed prepare_commit() function from dpu_encoder_phys_cmd
+> - Reworded commit message to be more clear
+> - Corrected spelling mistake in commit message
 > 
 > Changes in V4:
-> - Reworded commit message to be more specific
-> - Removed dpu_encoder_phys_cmd_is_ongoing_pptx() prototype
-> 
-> [1] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L1109
-> [2] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2339
-> [3] https://patchwork.freedesktop.org/series/112332/
+> - Reworded commit message for clarity
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 19 -------------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  7 -------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 21 ---------------------
+>   3 files changed, 47 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
