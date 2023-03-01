@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CED6A6453
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 01:37:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAAF6A64C7
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 02:27:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D1EA10E03F;
-	Wed,  1 Mar 2023 00:37:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E382D10E08A;
+	Wed,  1 Mar 2023 01:27:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92F4310E03F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 00:37:30 +0000 (UTC)
-Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru
- [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id ADA126602176;
- Wed,  1 Mar 2023 00:37:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677631049;
- bh=BJGJp5r/8TcdJ4ZzAWHMPT9bm/EZ01/ZzjrqT4SG8Ek=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=I2xgaCATuSX1p2pXuPAvoyDTM1CxPfqb24xvjqlDLsG8ngJSgjWTBv+O1EU9cLO0A
- 3HJLdoVBtHBVE2F5f5Hnx4AwESVkRqc+OYDzU6LqpwKNJC+J9irlK/hOTzlHtP5UJv
- QU7dc5WKdJKo7AT66g2DP5a5mE5VZrYZb0ldgkRNU2aoNQQqDoQsWLtvxONKl4hFEY
- ApNVEFBHp9IUzysA6OfsosqoDrWXPcPhbHI3fKi8X7c/84OlK3A0rCZBZ0aq7VywsD
- MOGx1fJtX2AMtus1Q/kumMzjSmBoppPqxbPiwnCeFH2mHkBlCLSAgBjL13trgWG3lA
- iuVRYXw7/i4gw==
-Message-ID: <583bf774-5594-5553-f5e2-45ccf7babff7@collabora.com>
-Date: Wed, 1 Mar 2023 03:37:24 +0300
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD6F910E08A;
+ Wed,  1 Mar 2023 01:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677634027; x=1709170027;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8f2vYl0+eg/H+sWrVHL+DLWF0fdYPkbzcqHNiBy2HyA=;
+ b=H7x7R6MqIlae5vHn9mBuIh2G6Ht816IbR+3JaNg2sYzRqXcHt8cuxtl9
+ hJqV2mFfWzk4ZFS9O+yhFhGmb6etWNmV0wv+aWeCLvgg6vtNEp2qQLn+i
+ YpWJSBeU0a3rHoc9y2jPbBb3ZzjQM3PyG2XmefjgF0ZIV+oWpaFXBlQ+5
+ 3tRx+CxyFJqfuMfFQrap5Lt3UKAJJc6cKIA3znW/s9Ghv6sooyEn1Xvfm
+ WAS9g/ocEbvWRNPZJoLgvLipJOLQ+9OoET6cIuLXMQN20NBnM2eKOiDqe
+ cz2zm+vFMGWiUu+1VFK5EoiZPUhHUlJMh/cmhC8yPK7+6awoK1hGXvgbr Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="334328464"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; d="scan'208";a="334328464"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 17:27:07 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="817331459"
+X-IronPort-AV: E=Sophos;i="5.98,223,1673942400"; d="scan'208";a="817331459"
+Received: from unknown (HELO intel.com) ([10.252.57.78])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2023 17:27:03 -0800
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/gt: Create per-tile debugfs files
+Date: Wed,  1 Mar 2023 02:26:49 +0100
+Message-Id: <20230301012649.2046879-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4] drm/virtio: Add option to disable KMS support
-Content-Language: en-US
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20230228155406.2881252-1-robdclark@gmail.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230228155406.2881252-1-robdclark@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,43 +56,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi@etezian.org>, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/28/23 18:54, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add a build option to disable modesetting support.  This is useful in
-> cases where the guest only needs to use the GPU in a headless mode, or
-> (such as in the CrOS usage) window surfaces are proxied to a host
-> compositor.
-> 
-> As the modesetting ioctls are a big surface area for potential security
-> bugs to be found (it's happened in the past, we should assume it will
-> again in the future), it makes sense to have a build option to disable
-> those ioctls in cases where they serve no legitimate purpose.
-> 
-> v2: Use more if (IS_ENABLED(...))
-> v3: Also permit the host to advertise no scanouts
-> v4: Spiff out commit msg
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
+To support multi-GT configurations, we need to generate
+independent debug files for each GT.
 
-Gerd, to give you some context on the v4.. we've chatted a bit more on
-the #dri-devel and concluded that config option is the most robust way
-of having KMS disabled from a security stand point. We would also want
-to have a per-driver option (and not global) because there are scenarios
-of using passthrough GPU + virtio-gpu in a guest, hence we would only
-want to toggle KMS for a particular driver.
+To achieve this create a separate directory for each GT under the
+debugfs directory. For instance, in a system with four tiles, the
+debugfs structure would look like this:
 
+/sys/kernel/debug/dri
+                  └── 0
+                      ├── gt0
+                      │   ├── drpc
+                      │   ├── engines
+                      │   ├── forcewake
+                      │   ├── frequency
+                      │   └── rps_boost
+                      ├── gt1
+                      │   ├── drpc
+                      │   ├── engines
+                      │   ├── forcewake
+                      │   ├── frequency
+                      │   └── rps_boost
+                      ├── gt2
+                      │   ├── drpc
+                      │   ├── engines
+                      │   ├── forcewake
+                      │   ├── frequency
+                      │   └── rps_boost
+                      └─- gt3
+                      :   ├── drpc
+                      :   ├── engines
+                      :   ├── forcewake
+                          ├── frequency
+                          └── rps_boost
+
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    | 4 +++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        | 2 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    | 5 ++++-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c | 2 ++
+ 4 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+index 5fc2df01aa0d..4dc23b8d3aa2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+@@ -83,11 +83,13 @@ static void gt_debugfs_register(struct intel_gt *gt, struct dentry *root)
+ void intel_gt_debugfs_register(struct intel_gt *gt)
+ {
+ 	struct dentry *root;
++	char gtname[4];
+ 
+ 	if (!gt->i915->drm.primary->debugfs_root)
+ 		return;
+ 
+-	root = debugfs_create_dir("gt", gt->i915->drm.primary->debugfs_root);
++	snprintf(gtname, sizeof(gtname), "gt%u", gt->info.id);
++	root = debugfs_create_dir(gtname, gt->i915->drm.primary->debugfs_root);
+ 	if (IS_ERR(root))
+ 		return;
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+index bb4dfe707a7d..e46aac1a41e6 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+@@ -42,6 +42,8 @@ struct intel_guc {
+ 	/** @capture: the error-state-capture module's data and objects */
+ 	struct intel_guc_state_capture *capture;
+ 
++	struct dentry *dbgfs_node;
++
+ 	/** @sched_engine: Global engine used to submit requests to GuC */
+ 	struct i915_sched_engine *sched_engine;
+ 	/**
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+index 195db8c9d420..55bc8b55fbc0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+@@ -542,8 +542,11 @@ static int guc_log_relay_create(struct intel_guc_log *log)
+ 	 */
+ 	n_subbufs = 8;
+ 
++	if (!guc->dbgfs_node)
++		return -ENOENT;
++
+ 	guc_log_relay_chan = relay_open("guc_log",
+-					i915->drm.primary->debugfs_root,
++					guc->dbgfs_node,
+ 					subbuf_size, n_subbufs,
+ 					&relay_callbacks, i915);
+ 	if (!guc_log_relay_chan) {
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
+index 284d6fbc2d08..2f93cc4e408a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
+@@ -54,6 +54,8 @@ void intel_uc_debugfs_register(struct intel_uc *uc, struct dentry *gt_root)
+ 	if (IS_ERR(root))
+ 		return;
+ 
++	uc->guc.dbgfs_node = root;
++
+ 	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), uc);
+ 
+ 	intel_guc_debugfs_register(&uc->guc, root);
 -- 
-Best regards,
-Dmitry
+2.34.1
 
