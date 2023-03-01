@@ -2,36 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE9E6A71D1
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 18:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F236A71D6
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 18:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3558A10E31E;
-	Wed,  1 Mar 2023 17:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F3D10E132;
+	Wed,  1 Mar 2023 17:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94CAB10E132
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 17:08:16 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 36EB13F97B;
- Wed,  1 Mar 2023 18:08:14 +0100 (CET)
-Date: Wed, 1 Mar 2023 18:08:12 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v4 1/4] drm/msm/dpu: Move TE setup to prepare_for_kickoff()
-Message-ID: <20230301170812.zcu6upwzcfkt4s7c@SoMainline.org>
-References: <20230221184256.1436-1-quic_jesszhan@quicinc.com>
- <20230221184256.1436-2-quic_jesszhan@quicinc.com>
- <20230301100331.3altimojtca4zx6m@SoMainline.org>
- <5de60136-4150-dcc7-517f-5d65452c5e1b@quicinc.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5CDA10E132
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 17:08:37 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 321DR0rm026055; Wed, 1 Mar 2023 17:08:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vUQqzGtwZwgiFvQoYfmjQtoy17AXjw/fHK5c43yvX6g=;
+ b=eNWefvR+dxjhgxA3OCHBQywqS5xJBwgZ12iaVZUqfEg9URtQzGuRs+CA+pbpq/jK4WL8
+ b2RsLee6pt0x+pbCJ9j4qXZVHYI7J1ZV8jKnrmpmf+m/GLqIlOM6+xJB7btwTvwWQYti
+ 3/u/BPUzLnlclNhG0z1FYFeNajnZjUiKGI/5/grLFYRaok82gsWB2NGRqMSdfJcQ7zKg
+ foXlQUrtMuFflJGviKEtxqzv17rnFNNtAVT1plS33BPGAHFT5u43WCoIOcViGVJZaXmi
+ fGw7WGAbSJ7wBgijquN1qF1po0kY2gA8WGCsSsQZo+4//gI6mUcB2+FedXWV0zbs7Kdj Dg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p1f7n4ub1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Mar 2023 17:08:33 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 321H8WHG011760
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 1 Mar 2023 17:08:32 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 1 Mar 2023
+ 09:08:32 -0800
+Message-ID: <dd6fe82b-49dc-37c9-c9b5-5ba4c7f32e45@quicinc.com>
+Date: Wed, 1 Mar 2023 10:08:31 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5de60136-4150-dcc7-517f-5d65452c5e1b@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel: Build sub-directories based on config options
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+References: <20230301162508.3963484-1-stanislaw.gruszka@linux.intel.com>
+ <3d6df357-ed90-5a0e-e9a8-bb39e147798e@quicinc.com>
+ <20230301165304.GA3963532@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230301165304.GA3963532@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: tKDpsa0I0lBnd9sZG45iqrgeHCbU8kDt
+X-Proofpoint-ORIG-GUID: tKDpsa0I0lBnd9sZG45iqrgeHCbU8kDt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-01_13,2023-03-01_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=985 clxscore=1015 mlxscore=0
+ adultscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2303010141
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,88 +84,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-03-01 08:23:28, Abhinav Kumar wrote:
+On 3/1/2023 9:53 AM, Stanislaw Gruszka wrote:
+> On Wed, Mar 01, 2023 at 09:31:10AM -0700, Jeffrey Hugo wrote:
+>> On 3/1/2023 9:25 AM, Stanislaw Gruszka wrote:
+>>> When accel drivers are disabled do not process into
+>>> sub-directories and create built-in archives:
+>>>
+>>>     AR      drivers/accel/habanalabs/built-in.a
+>>>     AR      drivers/accel/ivpu/built-in.a
+>>>
+>>> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+>>
+>> Should there be a fixes tag?  Feels like something that should be
+>> back-ported.
 > 
-> On 3/1/2023 2:03 AM, Marijn Suijten wrote:
-> > On 2023-02-21 10:42:53, Jessica Zhang wrote:
-> >> Currently, DPU will enable TE during prepare_commit(). However, this
-> >> will cause a crash and reboot to sahara when trying to read/write to
-> >> register in get_autorefresh_config(), because the core clock rates
-> >> aren't set at that time.
-> > 
-> > Haven't seeen a crash like this on any of my devices (after implementing
-> > INTF TE).  get_autorefresh_config() always reads zero (or 1 for
-> > frame_count) except the first time it is called (autorefresh is left
-> > enabled by our bootloader on SM6125) and triggers the disable codepath.
-> > 
+> This tag could be added:
 > 
-> I feel that the fact that bootloader keeps things on for you is the 
-> reason you dont see the issue. With continuoush splash, clocks are kept 
-> enabled. We dont have it enabled (confirmed that).
-
-That is quite likely, we may even have them enabled because of
-simple-framebuffer in DTs; turning those off likely won't have any
-effect for testing this.
-
-For what it's worth, my SM8150 reads 0 for autorefresh.
-
-<snip>
-
-> > Then, for some patch hygiene, starting here:
-> > 
-> >> Depends on: "Implement tearcheck support on INTF block" [3]
-> >>
-> >> Changes in V3:
-> >> - Added function prototypes
-> >> - Reordered function definitions to make change more legible
-> >> - Removed prepare_commit() function from dpu_encoder_phys_cmd
-> >>
-> >> Changes in V4:
-> >> - Reworded commit message to be more specific
-> >> - Removed dpu_encoder_phys_cmd_is_ongoing_pptx() prototype
-> > 
-> > ... until here: all this info belongs /below the cut/ outside of the
-> > messge that becomes part of the commit when this patch is applied to the
-> > tree.
+> Fixes: 35b137630f08 ("accel/ivpu: Introduce a new DRM driver for Intel VPU")
 > 
-> For DRM, I thought we are keeping the change log above the ---- ?
-> Which means its allowed in the commit message.
-
-I hope not, seems unlikely to have different rules across kernel
-subsystems.  The main point is that this changelog and dependency chain
-isn't of any value when the final patch is applied, regardless of
-whether it is "allowed".
-
-> >> [1] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L1109
-> >> [2] https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c#L2339
-> > 
-> > Please replace these with "permalinks" (to a commit hash): a branch with
-> > line number annotation will fall out of date soon as more patches are
-> > applied that touch these files.
-> > 
-> >> [3] https://patchwork.freedesktop.org/series/112332/
-> > 
-> > Is this a hard dependency?  It seems this series applies cleanly on
-> > -next and - from a cursory view - should be applicable and testable
-> > without my INTF TE series.  However, Dmitry asked me to move some code
-> > around in review resulting in separate callbacks in the encoder, rather
-> > than having various if(has_intf_te) within those callbacks.  That'll
-> > cause conflicts when I eventually get to respin a v2.
-> > 
+> but since then Makefile changed with habanalabs addition.
 > 
-> I guess Jessica listed this because without intf_te series there is no 
-> crash because hw_pp would be NULL and autorefresh() would return early. 
-> So dependency is from the standpoint of when this series is needed and 
-> not from compilation point of view.
+> I expect this will go to drm-misc-fixes and then to linux 6.3-rcX
+> from there, so (stable) back-port will not be needed.
 
-That is indeed the question.  I'll leave it to the maintainers to decide
-what order to apply these in, which we should be made aware of before
-submitting v2 so that one of us can resolve the conflicts.
+Makes sense.  I thought this would apply to 6.2 as well, but it looks 
+like no.
 
-- Marijn
+-Jeff
