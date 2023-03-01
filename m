@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4066C6A6D64
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 14:51:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A50C46A6D9C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 14:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4652410E1F0;
-	Wed,  1 Mar 2023 13:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE6D10E25A;
+	Wed,  1 Mar 2023 13:58:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9233A10E1F0
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 13:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=lGGtK0+LJYr2TlFrW/JiGW5rzeFIGTxQ0thV2EbNA4U=; b=ooQbpOIGFonM7sBOa8Eu9Htgm+
- hePzaTB+SmQWjRjOBXySnTpl2OeEwpnm8WJfywsdlqB9T4lyp7YX82js/r5gzBuZNZUvlYKDGRudb
- K7YA21BC7svzzxU1/PMpG4G+9lGSEFEprjqFRgzEDoezVEvYOLj301Lk5iNTElo9UP9kNkH/yBo48
- i/xXEp5JsywUd2rAXeWqnEeo1pAlVLLgWD3N0CF7Mobp/RFg3cAa9UfAukwk9JtZp9L2pashxhygp
- pesBcnGanCEoaEqLymANJ5463cJaM66L9hP9ZkE/4lHS2k1Ou2FHJigx6i2DVhvwD2DAjmiK6lj15
- QQoRxZzg==;
-Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
- helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <cyndis@kapsi.fi>)
- id 1pXMrN-00DwVS-BI; Wed, 01 Mar 2023 15:51:09 +0200
-From: Mikko Perttunen <cyndis@kapsi.fi>
-To: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] gpu: host1x: Don't rely on dma_fence_wait_timeout return value
-Date: Wed,  1 Mar 2023 15:51:06 +0200
-Message-Id: <20230301135107.999976-1-cyndis@kapsi.fi>
-X-Mailer: git-send-email 2.39.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2511610E25A;
+ Wed,  1 Mar 2023 13:58:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 86194612D8;
+ Wed,  1 Mar 2023 13:58:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4AE6C433EF;
+ Wed,  1 Mar 2023 13:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1677679105;
+ bh=QGo/oP9tKdNBgO0z4vHGbpkzyEW1zEy/oteBVFBvOz0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CnocpLmRto/0M2utYFCsaFosjJTjVc5q58Y//xF4WRsS5vd8HK54D4sDDMysglDAk
+ 5COk3uHVVD0aIJ0hLHqdz8dA/xEzCB1/JmXABrMjIua92t69//yZ8iYAci5Rsvc73Z
+ pR7U0iaIxY4YdxzFr8PFkUM3jDAKDM/W3hdTZkS3FWNN11ldHGyLX+kCLamXjTaD1z
+ XPYBZQS6gvyAfNkUEmohCase9ercKkxWTybf3fjiJekiqHs03KKGOJJ2GDiwuEHnVS
+ YU0EAILjU2FiUXXtjn16L0ZJV1XY/kMSTT6hxyDDlFodnliA5XgvC413TP0eCQ52Tn
+ Rs/c7OoTsICdg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1pXMyo-0005d0-7O; Wed, 01 Mar 2023 14:58:50 +0100
+Date: Wed, 1 Mar 2023 14:58:50 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH] drm/msm: Initialize mode_config earlier
+Message-ID: <Y/9aGus6jzIHqjoK@hovoldconsulting.com>
+References: <20230113041051.4189063-1-quic_bjorande@quicinc.com>
+ <eea1c5dc-6bc5-4246-f0e1-0c790de9f078@linaro.org>
+ <9a64c685-9ff0-bc1d-e604-e3773ff9edd7@linaro.org>
+ <20230117025122.jt3wrjkqfnogu4ci@builder.lan>
+ <Y8ZWl85gSpOaLgO4@hovoldconsulting.com>
+ <Y86vaTQR7INWezyj@hovoldconsulting.com>
+ <20230123171749.GA623918@hu-bjorande-lv.qualcomm.com>
+ <Y8+SHQ/klPwusQRj@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 91.158.25.70
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y8+SHQ/klPwusQRj@hovoldconsulting.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,46 +61,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+On Tue, Jan 24, 2023 at 09:09:02AM +0100, Johan Hovold wrote:
+> On Mon, Jan 23, 2023 at 09:17:49AM -0800, Bjorn Andersson wrote:
+> > On Mon, Jan 23, 2023 at 05:01:45PM +0100, Johan Hovold wrote:
+> > > On Tue, Jan 17, 2023 at 09:04:39AM +0100, Johan Hovold wrote:
+> > > > On Mon, Jan 16, 2023 at 08:51:22PM -0600, Bjorn Andersson wrote:
+> 
+> > > > > Perhaps we have shuffled other things around to avoid this bug?  Either
+> > > > > way, let's this on hold  until further proof that it's still
+> > > > > reproducible.
+> > > > 
+> > > > As I've mentioned off list, I haven't hit the apparent race I reported
+> > > > here:
+> > > > 
+> > > > 	https://lore.kernel.org/all/Y1efJh11B5UQZ0Tz@hovoldconsulting.com/
+> > > > 
+> > > > since moving to 6.2. I did hit it with both 6.0 and 6.1-rc2, but it
+> > > > could very well be that something has changes that fixes (or hides) the
+> > > > issue since.
+> > > 
+> > > For unrelated reasons, I tried enabling async probing, and apart from
+> > > apparently causing the panel driver to probe defer indefinitely, I also
+> > > again hit the WARN_ON() I had added to catch this:
+> > > 
+> > > [   13.593235] WARNING: CPU: 0 PID: 125 at drivers/gpu/drm/drm_probe_helper.c:664 drm_kms_helper_hotplug_event+0x48/0x7
+> > > 0 [drm_kms_helper]
+> 
+> > > So the bug still appears to be there (and the MSM DRM driver is fragile
+> > > and broken, but we knew that).
+> > > 
+> > 
+> > But the ordering between mode_config.funcs = !NULL and
+> > drm_kms_helper_poll_init() in msm_drm_init() seems pretty clear.
+> > 
+> > And my testing shows that drm_kms_helper_poll_init() is the cause for
+> > getting bridge->hpd_cb != NULL.
+> > 
+> > So the ordering seems legit, unless there's something else causing the
+> > assignment of bridge->hpd_cb to happen earlier in this scenario.
+> 
+> I'm not saying that this patch is correct (indeed it doesn't seem to
+> be), but only that the bug I reported still appears to be present in
+> 6.2.
 
-dma_fence_wait_timeout (along with a host of other jiffies-based
-timeouting functions) returns zero both in case of timeout and when
-the wait completes during the last jiffy before timeout. As such,
-we can't rely on it to distinguish between success and timeout.
+So after debugging this issue a third time, I can conclude that it is
+still very much present in 6.2.
 
-To prevent confusing callers by returning -EAGAIN before the timeout
-period has elapsed, check if the fence got signaled again after
-the wait.
+It appears you looked at the linux-next tree when you concluded that
+this patch was not needed. In 6.2 the bridge->hpd_cb callback is set
+before mode_config.funcs is initialised as part of
+kms->funcs->hw_init(kms).
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/host1x/syncpt.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+The hpd DRM changes heading into 6.3 do appear to avoid the NULL-pointer
+dereference by moving the bridge->hpd_cb initialisation to
+drm_kms_helper_poll_init() as you mention above.
 
-diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index 2d2007760eac..f63d14a57a1d 100644
---- a/drivers/gpu/host1x/syncpt.c
-+++ b/drivers/gpu/host1x/syncpt.c
-@@ -248,7 +248,13 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
- 	if (value)
- 		*value = host1x_syncpt_load(sp);
- 
--	if (wait_err == 0)
-+	/*
-+	 * Don't rely on dma_fence_wait_timeout return value,
-+	 * since it returns zero both on timeout and if the
-+	 * wait completed with 0 jiffies left.
-+	 */
-+	host1x_hw_syncpt_load(sp->host, sp);
-+	if (wait_err == 0 && !host1x_syncpt_is_expired(sp, thresh))
- 		return -EAGAIN;
- 	else if (wait_err < 0)
- 		return wait_err;
--- 
-2.39.2
+The PMIC GLINK altmode driver still happily forwards notifications
+regardless of the DRM driver state though, which can lead to missed
+hotplug events. It seems you need to implement the
+hpd_enable()/disable() callbacks and either cache or not enable events
+in fw until the DRM driver is ready.
 
+Johan
