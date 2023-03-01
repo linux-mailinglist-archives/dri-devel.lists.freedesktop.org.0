@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE346A6FB5
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 589EA6A6FB7
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07FE010E2DB;
-	Wed,  1 Mar 2023 15:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE9110E2E9;
+	Wed,  1 Mar 2023 15:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA7F410E2CB
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:20 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAAA10E2B3
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:21 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 665151FE1B;
- Wed,  1 Mar 2023 15:31:19 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 222CD21AC5;
+ Wed,  1 Mar 2023 15:31:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677684679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1677684680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RtkUhqHuhcIAUVi/h3tuwn9Mmhdx36Zy/gWjZeyK9lE=;
- b=LhCWsQ9UNc87OBztObSaMeycJAl2HXTkPxRoGDxR2dc/6JH9cHB4JPnaJV2VUtBZFfkUBq
- wm3xbeq5h9lKKrcyZJpVp/MBJ6fvcyfsSTnDgXW9RCEygcTn/xY4j6fx8oDPX1r6E/k5/Y
- hHu7C24b4iIcWDT+LFID+y4b5czUHDE=
+ bh=WfRkmKwrhJW1OPOTHv2t9WhWninofMCeQe5Cd5zgHRQ=;
+ b=VosYFyc4Oa07xcOdHMa9NmhOOPyC8oVCThk1aqyGP2ZVEHt13uzFhuzuZw556DBJsrcIXe
+ hDdWB2yHHnnijiKqjEQmi0sGxMcQlTGVdRv587RNSdeC3snOa8/IQi3fkHsBjmEVl4EYtn
+ XMIoweYsaMjA7xY4kJeI4N6PMJwHA0Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677684679;
+ s=susede2_ed25519; t=1677684680;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RtkUhqHuhcIAUVi/h3tuwn9Mmhdx36Zy/gWjZeyK9lE=;
- b=HKi97HAGLp0CQnY5aXI8pIwPnS8zU/T+OZcaRG4FrRb7OANUWHz7E6IvuY9jmTtki0Y8h8
- 2p1kv5PfizFBu3Aw==
+ bh=WfRkmKwrhJW1OPOTHv2t9WhWninofMCeQe5Cd5zgHRQ=;
+ b=JcoqCqaMpInpoY9wVdFe7d0LYuX1X8aGnYwTCbKf/sFSi6z+V7shomkT0eI6BSHTOLOCxs
+ qTImtOCyYwo1mSDQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCFD213A3E;
- Wed,  1 Mar 2023 15:31:18 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6DD1613A3E;
+ Wed,  1 Mar 2023 15:31:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mD0qLcZv/2OAXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:18 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id MOziGcdv/2OAXgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:19 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au,
@@ -59,9 +59,9 @@ To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
  linus.walleij@linaro.org, hyun.kwon@xilinx.com,
  laurent.pinchart@ideasonboard.com
-Subject: [PATCH 21/22] drm/vc4: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:31:00 +0100
-Message-Id: <20230301153101.4282-22-tzimmermann@suse.de>
+Subject: [PATCH 22/22] drm/xlnx: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:31:01 +0100
+Message-Id: <20230301153101.4282-23-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -91,28 +91,28 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/vc4/vc4_drv.c | 4 ++--
+ drivers/gpu/drm/xlnx/zynqmp_kms.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 0ccaee57fe9a..c8bf954042e0 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -33,7 +33,7 @@
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+index 776ef5480206..a7f8611be6f4 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+@@ -19,7 +19,7 @@
+ #include <drm/drm_device.h>
  #include <drm/drm_drv.h>
+ #include <drm/drm_encoder.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
- #include <drm/drm_vblank.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_dma_helper.h>
+@@ -515,7 +515,7 @@ int zynqmp_dpsub_drm_init(struct zynqmp_dpsub *dpsub)
+ 		goto err_poll_fini;
  
- #include <soc/bcm2835/raspberrypi-firmware.h>
-@@ -387,7 +387,7 @@ static int vc4_drm_bind(struct device *dev)
- 	if (ret < 0)
- 		goto unbind_all;
- 
--	drm_fbdev_generic_setup(drm, 16);
-+	drm_fbdev_dma_setup(drm, 16);
+ 	/* Initialize fbdev generic emulation. */
+-	drm_fbdev_generic_setup(drm, 24);
++	drm_fbdev_dma_setup(drm, 24);
  
  	return 0;
  
