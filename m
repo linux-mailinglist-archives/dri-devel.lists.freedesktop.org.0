@@ -1,59 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF73A6A655C
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 03:16:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AE26A65B3
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 03:42:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7732B10E08F;
-	Wed,  1 Mar 2023 02:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 027FE10E0A1;
+	Wed,  1 Mar 2023 02:42:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 024EC10E08F
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 02:16:24 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-536c02c9dfbso327344417b3.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Feb 2023 18:16:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=MpqcIMBd2WSo0/P0DK6pbtSqbDc0TAI/eMMDgcg1TZQ=;
- b=NxPgCw/vamDZoC6wAFY0CZZqhAvRE+6GNrf2IQJUd2JkSWZXKVWV6kKpgWwEb0OuPo
- XaKvab+cusGgfUSMfwVgqQI2Mk0z6Tfd+sjDxIlar069TnmcHsII29VV8FuC/59XvDAE
- jmYzB8uOdfJfkn1912xcPkXrd2AQuW8/A8iqVeqIdXj/iqEcDgUBFKODKvYN8vqqY0YL
- GbW+3X/wGZvvZx08fiQ4cYhUBmV9UERTg9cBw+xYTdo9ox/4Wm9CPaGVhSeMNh9r6at9
- pKRnPlfhCB9BO4u9vkXsoV/nTL2UaKR6kuF+HpVeIpHCUXEuEMx4Z7gRdPYb75bX/L7A
- G7NA==
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 431B810E151;
+ Wed,  1 Mar 2023 02:42:32 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id y2so11871562pjg.3;
+ Tue, 28 Feb 2023 18:42:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677638552;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TtEI17+g3+FYNmzjZog7TObGaEISKv33yP7XaUgcMpw=;
+ b=C2awFZi3UZK1zN88aASBwpbUmIyVjmgoYglFuONN/+0apTYd5IWDuLiOz1c1VN8upZ
+ 6mlskXUv1yXAzEH8dxRsozpV2xWpBd80NAmpQGfUmvJrKEuXhVvb/V6prcMvsaRZiCo+
+ iXCFzMv9fj9v6B/f7hkrooQoUAGi4cO0UN3c8UHZpBrPIC1gOPBU49wHROJNBocEHvmp
+ tb3cm050fGMauVRXy7ifSfX1VzGGFhZ3tAEBXlF+mQg8FsIVHkeT8V5zrFCozrWvuK8Q
+ 9rrdYm6eG1V39BS+g40xVcIy99Q0FgF6YWINYxQvQWe/rGwLsUCHKm73ixthff5BDTcM
+ E7mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MpqcIMBd2WSo0/P0DK6pbtSqbDc0TAI/eMMDgcg1TZQ=;
- b=PBdwOBvun7Hi4S+2Y0Fv+dnC8t8+aXyAWypYen4Ys7uq0YT0rlba8PRBGuzJBtxTqd
- Olnm3XTVQ2usD2NPtwORmwIelKprwdnc1BBmNUZhpi/3bofhpma+WiJ26/xK9FjQ286N
- wxOduq7IbB02oZnVi3o/zFKTCGhoAdIAKltFKixFNvvxL3ZokG17tXb6BtdYrpnqehIf
- ffKKWkDEg3bFv/93CusJQVBu9DfIFqBWP3jT4cUV/aFBqZqgXEgAUnYc098+7BGf+Mob
- tBp9X0x+wOWjlhYgyQNXDjqCoOlMT+bPrvNymy74eHjVy1cQMAz2pF2ILuCA9abb6SaW
- uGTQ==
-X-Gm-Message-State: AO0yUKXiqkiP1agD7h+NIV5l9OGKrtz5/7nS8z1jROEIZK/5CVHqOdvP
- 3qUQa3RGc7CFaW5cn0H4SmxAPLUPEccABSeO2I3OZQ==
-X-Google-Smtp-Source: AK7set9Lp1Gh0mv/hx+7TRqP5+gdVfavRb+ucnWIMkd1Ht+MXDm9xptjUJoSoQMr+b9FBRyoF4PG1TI0vTGM/G+2nhA=
-X-Received: by 2002:a81:b609:0:b0:52f:24ac:9575 with SMTP id
- u9-20020a81b609000000b0052f24ac9575mr2900807ywh.3.1677636984029; Tue, 28 Feb
- 2023 18:16:24 -0800 (PST)
+ d=1e100.net; s=20210112; t=1677638552;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TtEI17+g3+FYNmzjZog7TObGaEISKv33yP7XaUgcMpw=;
+ b=r1++koWFEHdMNiEVbhjcmytVRLhe9X7NlWzlYyuwAvr6C/qNJecxPVDTaBFpVvzjff
+ n0ckk3fnPHGTfmJb9yAqtOKEJLYyhTS+rtm95l/YpzzMkmZ6lzvJjA8158TIlCJT8uU3
+ sB/GjykQ5JkE9VJXFXfNZc5EeIh708GixcFMNT73X8p0rN080wPu8x5xIb7tlsLwBrbw
+ a6akuBqRsaTlaoWs4GF1QsS4Q/D3BFQwbae0L1I7vwTLiJmaIo09W2RrzSNrJzgIwPVW
+ f6LpVlNNERBAq4gGta3jfvzJg9Czi8RdyhfAC5S7OI03mSsFvyNf2Kf/GdvgPbwpCcEn
+ /pzw==
+X-Gm-Message-State: AO0yUKWQzJbkpe8GHE+IN2RwZec1zsKdouLDSAsT4Cj771HuQgDwHctv
+ T7fHiPGsQzAVKIDWs8k16jw=
+X-Google-Smtp-Source: AK7set/i/rEne9Miy3soqJWFleyHZluwc5UHR+jsPgrNaLUUlsoxf8qLJ7q2HYdNV1zs/GO9IiWdsQ==
+X-Received: by 2002:a17:902:d54d:b0:19e:2298:c53d with SMTP id
+ z13-20020a170902d54d00b0019e2298c53dmr4379817plf.10.1677638551793; 
+ Tue, 28 Feb 2023 18:42:31 -0800 (PST)
+Received: from [192.168.43.80] (subs02-180-214-232-27.three.co.id.
+ [180.214.232.27]) by smtp.gmail.com with ESMTPSA id
+ ju4-20020a170903428400b0019a7563ff15sm7198090plb.115.2023.02.28.18.42.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Feb 2023 18:42:31 -0800 (PST)
+Message-ID: <7aaf6ed9-3da2-0535-f269-fc5c35e7aadc@gmail.com>
+Date: Wed, 1 Mar 2023 09:42:14 +0700
 MIME-Version: 1.0
-References: <1677629817-18891-1-git-send-email-quic_khsieh@quicinc.com>
-In-Reply-To: <1677629817-18891-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 1 Mar 2023 04:16:12 +0200
-Message-ID: <CAA8EJpquZAhn+HswNxardN1fE8Zu1CKrCU5EiX=B8mGWuxfWnQ@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/msm/dp: check core_initialized flag at both
- host_init() and host_deinit()
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 00/15] dma-fence: Deadline awareness
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+References: <20230227193535.2822389-1-robdclark@gmail.com>
+ <Y/320d96QmbLe1J8@debian.me>
+ <CAF6AEGuqHDDQS22qcp8sk+5bj16XFiBarCLvpX=qNc2r2euMUw@mail.gmail.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAF6AEGuqHDDQS22qcp8sk+5bj16XFiBarCLvpX=qNc2r2euMUw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,96 +77,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
- quic_abhinavk@quicinc.com, andersson@kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
- sean@poorly.run, linux-kernel@vger.kernel.org
+Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Gustavo Padovan <gustavo@padovan.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, Liu Shixin <liushixin2@huawei.com>,
+ Rob Clark <robdclark@chromium.org>, Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ intel-gfx@lists.freedesktop.org,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Mar 2023 at 02:17, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
->
-> There is a reboot/suspend test case where system suspend is forced
-> during system booting up. Since dp_display_host_init() of external
-> DP is executed at hpd thread context, this test case may created a
-> scenario that dp_display_host_deinit() from pm_suspend() run before
-> dp_display_host_init() if hpd thread has no chance to run during
-> booting up while suspend request command was issued. At this scenario
-> system will crash at aux register access at dp_display_host_deinit()
-> since aux clock had not yet been enabled by dp_display_host_init().
-> Therefore we have to ensure aux clock enabled by checking
-> core_initialized flag before access aux registers at pm_suspend.
+On 2/28/23 22:44, Rob Clark wrote:
+> You can find my branch here:
+> 
+> https://gitlab.freedesktop.org/robclark/msm/-/commits/dma-fence/deadline
+> 
 
-Can a call to dp_display_host_init() be moved from
-dp_display_config_hpd() to dp_display_bind()?
-
-Related question: what is the primary reason for having
-EV_HPD_INIT_SETUP and calling dp_display_config_hpd() via the event
-thread? Does DP driver really depend on DPU irqs being installed? As
-far as I understand, DP device uses MDSS interrupts and those IRQs are
-available and working at the time of dp_display_probe() /
-dp_display_bind().
-
->
-> Changes in v2:
-> -- at commit text, dp_display_host_init() instead of host_init()
-> -- at commit text, dp_display_host_deinit() instead of host_deinit()
->
-> Changes in v3:
-> -- re arrange to avoid commit text line over 75 chars
->
-> Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index bde1a7c..1850738 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -460,10 +460,12 @@ static void dp_display_host_init(struct dp_display_private *dp)
->                 dp->dp_display.connector_type, dp->core_initialized,
->                 dp->phy_initialized);
->
-> -       dp_power_init(dp->power, false);
-> -       dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
-> -       dp_aux_init(dp->aux);
-> -       dp->core_initialized = true;
-> +       if (!dp->core_initialized) {
-> +               dp_power_init(dp->power, false);
-> +               dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
-> +               dp_aux_init(dp->aux);
-> +               dp->core_initialized = true;
-> +       }
->  }
->
->  static void dp_display_host_deinit(struct dp_display_private *dp)
-> @@ -472,10 +474,12 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
->                 dp->dp_display.connector_type, dp->core_initialized,
->                 dp->phy_initialized);
->
-> -       dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
-> -       dp_aux_deinit(dp->aux);
-> -       dp_power_deinit(dp->power);
-> -       dp->core_initialized = false;
-> +       if (dp->core_initialized) {
-> +               dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
-> +               dp_aux_deinit(dp->aux);
-> +               dp_power_deinit(dp->power);
-> +               dp->core_initialized = false;
-> +       }
->  }
->
->  static int dp_display_usbpd_configure_cb(struct device *dev)
-> --
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
->
-
+Pulled, thanks!
 
 -- 
-With best wishes
-Dmitry
+An old man doll... just what I always wanted! - Clara
+
