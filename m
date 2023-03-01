@@ -2,54 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A7F6A676F
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 06:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DCAA6A67C2
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 07:51:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D59A10E17C;
-	Wed,  1 Mar 2023 05:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE4A10E1A0;
+	Wed,  1 Mar 2023 06:51:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16B8110E17C
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 05:50:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1677649809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ckGumOJdLFih87T5un7JUmXQL9qObNSTxVhiK7Kwu5M=;
- b=IiwLregYQxVS7MLBQRF3sV5RJ4WBWMwoicAZ6SpJGVuFozljHZa4hyJ0pN0P92xGUg1cUB
- fv3/P2mTDQFd2H0Mdve8MJAxiFhW9r0jDdpz3fQKNJVlD/2Eqs7VPVHBDV2m1YqsPqMkPi
- l2k/oXV6NVJ5X1PPaiZHOaNwsKxMcKw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-qUFLjPVjMimadptElzBKVw-1; Wed, 01 Mar 2023 00:50:07 -0500
-X-MC-Unique: qUFLjPVjMimadptElzBKVw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2867910E1A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 06:51:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 94DC180D104;
- Wed,  1 Mar 2023 05:50:06 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B6C62166B26;
- Wed,  1 Mar 2023 05:50:06 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 50B7C180309B; Wed,  1 Mar 2023 06:50:03 +0100 (CET)
-Date: Wed, 1 Mar 2023 06:50:03 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4] drm/virtio: Add option to disable KMS support
-Message-ID: <20230301055003.ondht4o2ojajxt74@sirius.home.kraxel.org>
-References: <20230228155406.2881252-1-robdclark@gmail.com>
- <583bf774-5594-5553-f5e2-45ccf7babff7@collabora.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2DEB9611FC;
+ Wed,  1 Mar 2023 06:51:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A05C4339C;
+ Wed,  1 Mar 2023 06:51:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1677653466;
+ bh=wLkMLeYVg39jdoFtmeKF2FCB/B7Xc+Wq5sqDU7iNotE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=K6zPgqPXp0Y/xc6BNFauRluIJdCwb/LyhjQGczc8UAQjdfDrVq7TDLD8Z+JUpE8eZ
+ JauC8OTwrKIDBxyRnr+oJu5MBMqa3IE8Kv4Tnolf8trZ5HYoy5brjp4M0gUsz8EWpd
+ IB5MZ8KKWdzy9qaDY8/a4eknGirTNYqM5RBlLtHe0dLJ2oEskAoTXT2nGEkKQqLsmk
+ JBQaH3j5kWnD/uxWHykDuz3l41G1SHdOiFRZiY8CMJYwXotYYaDjYiIRPCfmGNj49C
+ PhTtdM0hG6W0TyYq75VzkwaRurIgKjI4kB0B9nqZq6LNgWLqEWQu7jkibtk8u7Nu41
+ XhgJmkSju5LVA==
+Date: Wed, 1 Mar 2023 07:51:03 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
+Message-ID: <Y/7112o60iSJKBmd@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+ netdev@vger.kernel.org, linux-can@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-usb@vger.kernel.org
+References: <20230228215433.3944508-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="YR5VkbtgaV6fwHXL"
 Content-Disposition: inline
-In-Reply-To: <583bf774-5594-5553-f5e2-45ccf7babff7@collabora.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +82,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: alsa-devel@alsa-project.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, linux-can@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 01, 2023 at 03:37:24AM +0300, Dmitry Osipenko wrote:
-> On 2/28/23 18:54, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> > 
-> > Add a build option to disable modesetting support.  This is useful in
-> > cases where the guest only needs to use the GPU in a headless mode, or
-> > (such as in the CrOS usage) window surfaces are proxied to a host
-> > compositor.
-> > 
-> > As the modesetting ioctls are a big surface area for potential security
-> > bugs to be found (it's happened in the past, we should assume it will
-> > again in the future), it makes sense to have a build option to disable
-> > those ioctls in cases where they serve no legitimate purpose.
-> > 
-> > v2: Use more if (IS_ENABLED(...))
-> > v3: Also permit the host to advertise no scanouts
-> > v4: Spiff out commit msg
-> > 
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > ---
-> 
-> Gerd, to give you some context on the v4.. we've chatted a bit more on
-> the #dri-devel and concluded that config option is the most robust way
-> of having KMS disabled from a security stand point. We would also want
-> to have a per-driver option (and not global) because there are scenarios
-> of using passthrough GPU + virtio-gpu in a guest, hence we would only
-> want to toggle KMS for a particular driver.
 
-IMHO both ways options to disable the KMS bits should work the same way.
-With the current patch modeset_init() runs with num_scanouts == 0 but
-doesn't with CONFIG_KMS=n.  There are also two different ways to tweak
-driver_features.  Can we get rid of that please, for robustness reasons?
+--YR5VkbtgaV6fwHXL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'd suggest to have a is_kms_enabled() helper function (probably best as
-inline so gcc can figure it is constant false for CONFIG_KMS=n and throw
-away unreachable code).  Add "if (!is_kms_enabled()) return;" to
-modeset_init() and modeset_fini() instead of stubbing them out.  Use the
-drm_device->driver_features override in both cases.
+4:33PM -0600, Rob Herring wrote:
+> SPI and I2C bus node names are expected to be "spi" or "i2c",
+> respectively, with nothing else, a unit-address, or a '-N' index. A
+> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
+> cases. Mostly scripted with the following commands:
+>=20
+> git grep -l '\si2c[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's=
+/i2c[0-9] {/i2c {/'
+> git grep -l '\sspi[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's=
+/spi[0-9] {/spi {/'
+>=20
+> With this, a few errors in examples were exposed and fixed.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Also the edid check can go away.  As already mentioned this is about a
-device feature not a edid being present.
+Acked-by: Wolfram Sang <wsa@kernel.org>
 
-take care,
-  Gerd
 
+--YR5VkbtgaV6fwHXL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmP+9dcACgkQFA3kzBSg
+KbarOQ//WCC+R6Fe2lHHwZbZ4vmS2d/Rlz7qLlnduMr+4h9rcgknAchlVnbv0OUy
+Fu8SgebyBTX19WTXbUTyILzN7IsxLxzvTesJDhfIB5n9o7uIe3V0ZiX1R1SWsyV8
+GVbUGpJFSmhar2duHPida9xvf98Cww8v3KSoWNPHSaea5+w2oXluLm6jhQPrA1pR
+1I5WdUeWduWgwX/xDPJ0eeCEW4UxRawpGgCeMo/Ip/JZRwixnNDX1BJZsNIqJBDU
+gcZq4glZHY/Gwlo9gHGZwG8Nn+pWo8dsv+zcytJfhGjqb/k3NqsZ9YUvkbGb/pQ1
+RvEGvrA/KichSvbyfcBv02QcG5e6Fo4wk4879wTK8EGIN7RCnZyQCPRNzDogCcG4
+nYyGcj22Fvv2lWoon/Gg2MGIBhGvYyZXttD185ZkCYWpRKKGFGIa6jdwuMexfNwx
+VyuM7+HONLuKvO4+l1plMFAqBLy1Ex6kQDN4iDuZVVYA4Vcy2NyaQndehGUVTfrn
+OXu+lKVm9gNAKSlXTGXVQE04Bb2nMfp0B9PSYxvGxX3P2IJ6f68m/1LYH+kG4vaM
+kuFXDcSwYXIp++xhlMhHdyTKm5VTE0MX6wm9PEKjJ+fri1lohTa3mdUvaMzcosho
+MT0d2HrmQMXy+rAJoc7GlgEV5vd4O2sx9hACz8tahPmILpAkHGg=
+=TVnc
+-----END PGP SIGNATURE-----
+
+--YR5VkbtgaV6fwHXL--
