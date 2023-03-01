@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE4E56A6FAD
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0D26A6FB0
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8926C10E2AC;
-	Wed,  1 Mar 2023 15:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9701E10E2C1;
+	Wed,  1 Mar 2023 15:31:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108E110E2AC
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0A610E280
  for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:16 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id AF6831FE26;
- Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5B2C921AB4;
+ Wed,  1 Mar 2023 15:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677684674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1677684675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n4u/BgryxrmyST4Z7GJmsvuWEE7hYdh8pWRV+uVr1GI=;
- b=PLPVlq/4gHoLcA90bEtLjntQZn+ui3jSkOKSXI61vNpnIAlJxDEbKLiNsnK3aZeM2kOqPD
- 6GkbsRaiB0D8phe5o3Bs3egULPNW3oqnz4mMzseBEuEV3vyhtIkllCzg/q9v+qFJFRNT2G
- Qjuy4Xvt+XPjEKmuhzJCC7Sz9fI8M1w=
+ bh=kUnSBHzMDp9scKUeZTqk/NTqMPRathMYhpdTU1jHFmY=;
+ b=BxhQATh9uw11xZZJIhjl0Vj3t9OcoE36xjWH8jdWByAAW6PRcMgjnBGBiwJ9nhvLBj86GG
+ j28JRUyc2Bw8GjQmK5XK3N8CDPa4F3MtTtBR03QP3Qp3G2TBZKHpBlWpGslfHkopS7sWmk
+ c0rnHqEOO4fFM4UOziPg+NqA8tltwdw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677684674;
+ s=susede2_ed25519; t=1677684675;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n4u/BgryxrmyST4Z7GJmsvuWEE7hYdh8pWRV+uVr1GI=;
- b=qgcItsswajMSjeuJJP7eDmEoffvvJroSFRjOGTFJaJPcbEL+tiJN4ZnxXKiEASkbaaIEMm
- s8Z3t2yF9vBTs8AQ==
+ bh=kUnSBHzMDp9scKUeZTqk/NTqMPRathMYhpdTU1jHFmY=;
+ b=FtsrFikmmzzQpOx7BZi9aciT9XYYZafB+FXxz0D/wquVl4jUnlye+eqR3K0LSW9sjYZuHM
+ +CBoCq2ENxtcFeDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 10F5913A3E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B58C413A3E;
  Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 6NYzA8Jv/2OAXgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id eOx0K8Jv/2OAXgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:14 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -59,9 +59,9 @@ To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
  linus.walleij@linaro.org, hyun.kwon@xilinx.com,
  laurent.pinchart@ideasonboard.com
-Subject: [PATCH 14/22] drm/sti: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:53 +0100
-Message-Id: <20230301153101.4282-15-tzimmermann@suse.de>
+Subject: [PATCH 15/22] drm/stm: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:54 +0100
+Message-Id: <20230301153101.4282-16-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -91,28 +91,28 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/sti/sti_drv.c | 4 ++--
+ drivers/gpu/drm/stm/drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
-index ef6a4e63198f..1b87b5899f9e 100644
---- a/drivers/gpu/drm/sti/sti_drv.c
-+++ b/drivers/gpu/drm/sti/sti_drv.c
-@@ -14,7 +14,7 @@
+diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
+index 50410bd99dfe..422220df7d8c 100644
+--- a/drivers/gpu/drm/stm/drv.c
++++ b/drivers/gpu/drm/stm/drv.c
+@@ -18,7 +18,7 @@
+ #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_debugfs.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
  #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
-@@ -199,7 +199,7 @@ static int sti_bind(struct device *dev)
+ #include <drm/drm_module.h>
+@@ -203,7 +203,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_put;
  
- 	drm_mode_config_reset(ddev);
- 
--	drm_fbdev_generic_setup(ddev, 32);
-+	drm_fbdev_dma_setup(ddev, 32);
+-	drm_fbdev_generic_setup(ddev, 16);
++	drm_fbdev_dma_setup(ddev, 16);
  
  	return 0;
  
