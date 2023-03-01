@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095E36A7C4E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 09:13:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1BD6A7C4C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 09:12:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0B0610E3DD;
-	Thu,  2 Mar 2023 08:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E18410E3BD;
+	Thu,  2 Mar 2023 08:12:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C5710E220
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 09:53:16 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id k37so8170501wms.0
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Mar 2023 01:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1677664395;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=vVm2ijZ3wY3vwKPabNU+PBrwbUTBJBfFnL9ZZ4aBrfk=;
- b=4Fu+yqsl6ks1J0Fa92PUm/F/nDyDK9SWtP1VAUdZUy16GTC0Ap4+Lo4bksw5qTFdp/
- XsNyAQmjAl8OLy/XCzbzMGljtzJA5RtohMxMQbVwEHdOo6+DFLEe9dlfHUNM71Ex/476
- /CSZJ4bwXA6nhA+7i+fKCSxQFIJ9286JI0RWsHzb1KceA2OtY7h8MFa2v5g2xZhem/H1
- 9QgNF/SXXxd3XgGRvGy+31KiyGPPaRyQ+yZZeNEDl/nqPYodHrmu1C34T0/Qnkg5yN0N
- DJ1KI1d6YUGaeQNTKcaGnfu59z9aqHlg0CKtgvHK8CjciShYLbXxTcuZeT7AjGXwzwLh
- +3jw==
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
+ [IPv6:2607:f8b0:4864:20::112a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8D6310E163
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 14:45:39 +0000 (UTC)
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-536bf92b55cso367018637b3.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Mar 2023 06:45:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=c5fRwh/q88qnR4rLODR5aN06oeaTsbFFIXqxWtKoAdA=;
+ b=Skkgc1pJVdMg4lM3S/QvC70xPPr5jlTmvz4EOn+Pc6rF3VpQhVc4iGugen9Q06wzaW
+ YU5vBuwqleOCYoFdAyxRZHQORMrJn2alOT/fjacfQLA291X6YhVykyxziMNBllMvYuaY
+ rKWSJgX2G7dhiWsfoI33lKF5ZUW3nVjhcxCb4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677664395;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vVm2ijZ3wY3vwKPabNU+PBrwbUTBJBfFnL9ZZ4aBrfk=;
- b=TSlQOa0Z/JH67MCmmYHgPVvcH2GdOuULdlKayla03iry6mLgwRApZmmAzcO6KWPDqd
- zgaTPt8bJKOmMBHrOm812aUT4NhfBmLH7JqT2NTSNv5UIVreJ5dkSWwF4CiO0KMes6ZE
- ISFa3W/8vt63jeXwK5dzQ2ApaoS1mZKp/fUWTrRhXxLXGwe4uF96CEDzlm7wYvFZKNeS
- JhOY6KARYuauEpr20KDsK8hS1k6EkRRRXY5GgGBxQAYNjDvjqLLvFx5XL4MhEtK/zjvK
- Uw9hfJDOvgQ0Z2tTxUoU7IDulqFNkx/U+WaQHatlvXlwSRFcwEv2EK6pDXShKKNDKL4y
- vbCA==
-X-Gm-Message-State: AO0yUKXd2h+uOm/b9OgnyZ8eKjZyklJDIL8eraLwVzDF6iTypSrKRllW
- XvXwdjM9vsGjqXSut7n6fW46EA==
-X-Google-Smtp-Source: AK7set8CPzlU6u3WbrG+eMk2du/oZA+z3qcruE13b+PzUec0tOqk2HfBYdpjeyzDGptxwgKfIZvhuA==
-X-Received: by 2002:a05:600c:3495:b0:3de:a525:1d05 with SMTP id
- a21-20020a05600c349500b003dea5251d05mr4728331wmq.8.1677664395119; 
- Wed, 01 Mar 2023 01:53:15 -0800 (PST)
-Received: from localhost ([2a01:cb19:85e6:1900:2bf7:7388:731d:c4e1])
- by smtp.gmail.com with ESMTPSA id
- 13-20020a05600c020d00b003dc1d668866sm18765830wmi.10.2023.03.01.01.53.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Mar 2023 01:53:14 -0800 (PST)
-From: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To: Dan Carpenter <error27@gmail.com>, Julien STEPHAN <jstephan@baylibre.com>
-Subject: Re: [PATCH] drm/mediatek: dsi: fix error codes in
- mtk_dsi_host_transfer()
-In-Reply-To: <Y/yBC4yxTs+Po0TG@kili>
-References: <Y/yBC4yxTs+Po0TG@kili>
-Date: Wed, 01 Mar 2023 10:53:13 +0100
-Message-ID: <87r0u83iie.fsf@baylibre.com>
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=c5fRwh/q88qnR4rLODR5aN06oeaTsbFFIXqxWtKoAdA=;
+ b=GEy2dw8TrSiXHx9ExFUihS2jpRpc3iEhSdRAISyS2tFkslWp7ZyCRT7xrMZeRBt0aj
+ TVioqW6bZGxS0JSosOp1gFTn0pGeVQHlJACIs18Cq3DdsUB19T4q6yo1/ZHETocyPfBu
+ kJ2F197IKJlTW/bGEVWBIJIZ/PxcSQ6FlxSWHdlTttsivw1AK/HlJ9fnu2Odups2Z6f9
+ w4SpZ8DoP2hY1CK6LZCmCo1fHvQiIps5ktxgoqlPya8eWX6n2pqhFYxQv5eIolghSW1Q
+ vDzqqXROaNy0k+e5MD40i5X63LfmstN620EgmNdf3M6hs8Hq29AW75fQUbR0ED/VCmn5
+ myXQ==
+X-Gm-Message-State: AO0yUKW+Bq1sRMGdAnfE9LnrgvnNc5LvPsgSHYcK7bfzS/D9OCEXLJqX
+ xKeJ3UtuWr/CZx1Qq03Ur2LHRAInQZMhBoiZBYbIvA==
+X-Google-Smtp-Source: AK7set/9RgMm3XRu83JsW4Wbbsi1f43oJuRNJ4GJnMD9Ynj6+QG8QTN/H949zZF90kB3oY5EYLAgq26FWAoCc+/6F5A=
+X-Received: by 2002:a81:ae0e:0:b0:53c:7c33:9d25 with SMTP id
+ m14-20020a81ae0e000000b0053c7c339d25mr726867ywh.8.1677681938671; Wed, 01 Mar
+ 2023 06:45:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20230228215433.3944508-1-robh@kernel.org>
+In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
+From: Simon Glass <sjg@chromium.org>
+Date: Wed, 1 Mar 2023 07:45:19 -0700
+Message-ID: <CAPnjgZ1=UPMf72JjejpdSvss5+d1tnMv=efYUgJcH6T09YAKTw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Thu, 02 Mar 2023 08:12:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,68 +63,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: alsa-devel@alsa-project.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
+ linux-leds@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
+ Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
+ Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
+ Pavel Machek <pavel@ucw.cz>, linux-can@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Dan,
-
-Thank you for your patch.
-
-On lun., f=C3=A9vr. 27, 2023 at 13:08, Dan Carpenter <error27@gmail.com> wr=
-ote:
-
-> There is a type bug because the return statement:
+On Tue, 28 Feb 2023 at 14:54, Rob Herring <robh@kernel.org> wrote:
 >
-> 	return ret < 0 ? ret : recv_cnt;
+> SPI and I2C bus node names are expected to be "spi" or "i2c",
+> respectively, with nothing else, a unit-address, or a '-N' index. A
+> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
+> cases. Mostly scripted with the following commands:
 >
-> will not return negatives on 64bit systems.  The problem is that the
-> function returns ssize_t types, while "ret" is int and "recv_cnt" is a
-> u32.  The negative values are type promoted to u32 and returned as
-> positive values instead of negative error codes.
+> git grep -l '\si2c[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's/i2c[0-9] {/i2c {/'
+> git grep -l '\sspi[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's/spi[0-9] {/spi {/'
 >
-> Fixes: 81cc7e51c4f1 ("drm/mediatek: Allow commands to be sent during vide=
-o mode")
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
-
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-
+> With this, a few errors in examples were exposed and fixed.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index 7d5250351193..8e99981ca0e1 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -1016,12 +1016,12 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_=
-dsi_host *host,
->  				     const struct mipi_dsi_msg *msg)
->  {
->  	struct mtk_dsi *dsi =3D host_to_dsi(host);
-> -	u32 recv_cnt, i;
-> +	ssize_t recv_cnt;
->  	u8 read_data[16];
->  	void *src_addr;
->  	u8 irq_flag =3D CMD_DONE_INT_FLAG;
->  	u32 dsi_mode;
-> -	int ret;
-> +	int ret, i;
->=20=20
->  	dsi_mode =3D readl(dsi->regs + DSI_MODE_CTRL);
->  	if (dsi_mode & MODE) {
-> @@ -1070,7 +1070,7 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_ds=
-i_host *host,
->  	if (recv_cnt)
->  		memcpy(msg->rx_buf, src_addr, recv_cnt);
->=20=20
-> -	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
-> +	DRM_INFO("dsi get %zd byte data from the panel address(0x%x)\n",
->  		 recv_cnt, *((u8 *)(msg->tx_buf)));
->=20=20
->  restore_dsi_mode:
-> --=20
-> 2.39.1
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
+> Cc: Chanwoo Choi <cw00.choi@samsung.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Pavel Machek <pavel@ucw.cz>
+> Cc: Lee Jones <lee@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Wolfgang Grandegger <wg@grandegger.com>
+> Cc: Kalle Valo <kvalo@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-i2c@vger.kernel.org
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-can@vger.kernel.org
+> Cc: linux-wireless@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-usb@vger.kernel.org
+> ---
+
+Reviewed-by: Simon Glass <sjg@chromium.org>
