@@ -1,56 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D674A6A69FA
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 10:44:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FF86A6A06
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 10:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF66C10E0B7;
-	Wed,  1 Mar 2023 09:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F6010E219;
+	Wed,  1 Mar 2023 09:47:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D736010E0B7
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 09:44:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677663862; x=1709199862;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=7nWm1f6bPfOKsLZiND0bxe7rNCn2HYYOED5hRyMYTto=;
- b=amgjS4bBk0UYZtL8hlgD2gDKZTDYMzq+RyQRqXOxMz/qJaOTJ3YOBHrk
- fxxXtmDsvpixhtARFm2BiEZb0MKRb9ePEb4mK4UiW7+2Em1kJ09mg6q9/
- ss1poHogpKiuoXc3XI1IIWATyaUPkRbh1TYVr8vLaIyhKayTpLkDmApkr
- D3j5GMNRv8AvVYKlDod90tEApnJFKzu5dYQoWWwzSdfLhNzWFcIRXQy2R
- e5BYmxhB0hbljq7jhuIlNBhHGx0PiSyrYAAAnXqzzR8ASEJ36nja+HAhC
- H1i/TwDc1MTUjPVE4KcAx26GVDaFgugrvLFTpYRur1dKjmkgzGuiZ0jz/ Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="322627869"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; d="scan'208";a="322627869"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2023 01:44:13 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10635"; a="624419635"
-X-IronPort-AV: E=Sophos;i="5.98,224,1673942400"; d="scan'208";a="624419635"
-Received: from dsvarnas-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.46.249])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2023 01:44:10 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Siddh Raman Pant <code@siddh.me>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jim Cromie <jim.cromie@gmail.com>, Sam
- Ravnborg <sam@ravnborg.org>, Suraj Upadhyay <usuraj35@gmail.com>
-Subject: Re: [PATCH v8 1/8] Revert "drm: mipi-dsi: Convert logging to drm_*
- functions."
-In-Reply-To: <e427dcb5cff953ace36df3225b8444da5cd83f8b.1677574322.git.code@siddh.me>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1677574322.git.code@siddh.me>
- <e427dcb5cff953ace36df3225b8444da5cd83f8b.1677574322.git.code@siddh.me>
-Date: Wed, 01 Mar 2023 11:44:08 +0200
-Message-ID: <87edq8x0uv.fsf@intel.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE86110E0AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 09:47:38 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id l25so12572732wrb.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 Mar 2023 01:47:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677664057;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=K1pni8PEkrIGMBG+jXk+bVH6dacln+AXocrU2+hsam8=;
+ b=LaJ7npUADITLVfxDj5CjFSESLEac57tU7PrtsB3MDvLyeucQh/8rn4py00CGBOX7Xq
+ SI4zCnIpSoOo1D2X0Pmq0nxxf/IEJkIhbB1yULFW78IVzDypBR1iLHPsPNRwtgaMltIH
+ 3ccxW2i98kJRQMqHIXdGpU4pOUiISZ0W/Oy/DeGLOl5VMFJ4iGgqBsMrmwX588z1c2Ur
+ mWH1HBZlav6W+/pIcqZAks0Swjw4azkcFQiAE5lSeAioYadhNEwd6y4HNAVkqqpb0Piy
+ 2OkSoBbeBtGtU5B0/3tLJPITkeivD7lDgbVpDBbcLwTpgtMfi6Y4rQxq2bXAVEihhpMQ
+ AuOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677664057;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K1pni8PEkrIGMBG+jXk+bVH6dacln+AXocrU2+hsam8=;
+ b=SUtPNqRgiR0vciQvXCl8auLMOQ/OA0Y3phBQUKiSoRS7ByOwtOP0dMYBjwyNeiLrKS
+ 9QcRiSrG1oi90gJowhCTQbbcSrepbVmu2c34sgzFiBKMwTEsjVlY+0WbogkPkwtJYpbM
+ 89+7Lh2XSRdsBXegLHbPgqw+Q7eW5ZZSQuxVF+1qyMAN0pFTjivWUozrQD5MYtC4aOYo
+ +mwkPIT+6fUa8WoGq94uE2Ub+LvCyHQdzjLTi15YOUTacvV79f0STqIZ34lwFbOcljrA
+ iZv3M/LTz/yz2VtSinrkiz9HSyK4i5sMmB/QX0fkCwPtvluA94ECsry1cmxhNoz5e7fB
+ ZKFw==
+X-Gm-Message-State: AO0yUKXYtCi4QGIZcpyvmv77gq9VTrSGx3YhMZhr9FGGzxaYJSt1gqhj
+ 1HBKqSpz/VTHFIUH+ghzemRq6Q==
+X-Google-Smtp-Source: AK7set+L+5GW0GgI9KztlmCUknRctTJccLaZrCPTKnfWNMHzWH7YoENj8bpyyBGhW0pO//0mMQZeBw==
+X-Received: by 2002:a5d:6a85:0:b0:2c9:6b87:962d with SMTP id
+ s5-20020a5d6a85000000b002c96b87962dmr4265353wru.15.1677664057170; 
+ Wed, 01 Mar 2023 01:47:37 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ a10-20020adfe5ca000000b002c3dc4131f5sm11880701wrn.18.2023.03.01.01.47.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 01:47:36 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Wed, 01 Mar 2023 10:47:35 +0100
+Subject: [PATCH v2] MAINTAINERS: Add myself as maintainer for DRM Panels
+ drivers
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230216-topic-drm-panel-upstream-maintainance-v2-1-ffd262b72f16@linaro.org>
+X-B4-Tracking: v=1; b=H4sIADYf/2MC/5WOQQ6CMBREr2K69htaFdGV9zAsSvuBJqVtfgvRE
+ O7ulxu4mMWbSWZmFRnJYRaPwyoIF5ddDAzqeBBm1GFAcJZZqEqdKyVrKDE5A5YmSDqghznlQqg
+ nmLQLhaWDQajt1WhUjZXNRXBXpzNCR5yN3BZm79lMhL177+Ovlnl0uUT67F8W+XP/nV0kSNAoT
+ X9XdaPk7ek5oXiKNIh227YvdFLT0fAAAAA=
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+X-Mailer: b4 0.12.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,96 +75,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Feb 2023, Siddh Raman Pant <code@siddh.me> wrote:
-> This reverts commit 1040e424353f5f4d39f6f3aa8723eb3bd6ea6446.
->
-> It used an incorrect way to use drm_* functions. Only drm_device ptrs
-> should be passed, but the mentioned commit passed mipi_dsi_host ptr.
-> It worked by accident due to macro magic.
->
-> Reported-by: Jani Nikula <jani.nikula@linux.intel.com>
-> Signed-off-by: Siddh Raman Pant <code@siddh.me>
+Add myself as co-maintainer for DRM Panel Drivers in order to help
+reviewing and getting new panels drivers merged, and Remove Thierry
+as he suggested since he wasn't active for a while.
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Thanks Thierry for all your work!
 
-> ---
->  drivers/gpu/drm/drm_mipi_dsi.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-> index 4bc15fbd009d..398fac95dfc0 100644
-> --- a/drivers/gpu/drm/drm_mipi_dsi.c
-> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
-> @@ -33,7 +33,6 @@
->  
->  #include <drm/display/drm_dsc.h>
->  #include <drm/drm_mipi_dsi.h>
-> -#include <drm/drm_print.h>
->  
->  #include <video/mipi_display.h>
->  
-> @@ -156,18 +155,19 @@ static int mipi_dsi_device_add(struct mipi_dsi_device *dsi)
->  static struct mipi_dsi_device *
->  of_mipi_dsi_device_add(struct mipi_dsi_host *host, struct device_node *node)
->  {
-> +	struct device *dev = host->dev;
->  	struct mipi_dsi_device_info info = { };
->  	int ret;
->  	u32 reg;
->  
->  	if (of_modalias_node(node, info.type, sizeof(info.type)) < 0) {
-> -		drm_err(host, "modalias failure on %pOF\n", node);
-> +		dev_err(dev, "modalias failure on %pOF\n", node);
->  		return ERR_PTR(-EINVAL);
->  	}
->  
->  	ret = of_property_read_u32(node, "reg", &reg);
->  	if (ret) {
-> -		drm_err(host, "device node %pOF has no valid reg property: %d\n",
-> +		dev_err(dev, "device node %pOF has no valid reg property: %d\n",
->  			node, ret);
->  		return ERR_PTR(-EINVAL);
->  	}
-> @@ -202,21 +202,22 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
->  			      const struct mipi_dsi_device_info *info)
->  {
->  	struct mipi_dsi_device *dsi;
-> +	struct device *dev = host->dev;
->  	int ret;
->  
->  	if (!info) {
-> -		drm_err(host, "invalid mipi_dsi_device_info pointer\n");
-> +		dev_err(dev, "invalid mipi_dsi_device_info pointer\n");
->  		return ERR_PTR(-EINVAL);
->  	}
->  
->  	if (info->channel > 3) {
-> -		drm_err(host, "invalid virtual channel: %u\n", info->channel);
-> +		dev_err(dev, "invalid virtual channel: %u\n", info->channel);
->  		return ERR_PTR(-EINVAL);
->  	}
->  
->  	dsi = mipi_dsi_device_alloc(host);
->  	if (IS_ERR(dsi)) {
-> -		drm_err(host, "failed to allocate DSI device %ld\n",
-> +		dev_err(dev, "failed to allocate DSI device %ld\n",
->  			PTR_ERR(dsi));
->  		return dsi;
->  	}
-> @@ -227,7 +228,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
->  
->  	ret = mipi_dsi_device_add(dsi);
->  	if (ret) {
-> -		drm_err(host, "failed to add DSI device %d\n", ret);
-> +		dev_err(dev, "failed to add DSI device %d\n", ret);
->  		kfree(dsi);
->  		return ERR_PTR(ret);
->  	}
+Acked-by: Jagan Teki <jagan@amarulasolutions.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Acked-by: Thierry Reding <thierry.reding@gmail.com>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Added Acked-by from Sam, Thierry and Jagan
+- Removed Thierry from maintainers list as he suggested, updated commit accordingly
+- Link to v1: https://lore.kernel.org/r/20230216-topic-drm-panel-upstream-maintainance-v1-1-ae1cf9268217@linaro.org
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index be167c695c64..f8e1b80bf41f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7042,7 +7042,7 @@ F:	Documentation/devicetree/bindings/display/xlnx/
+ F:	drivers/gpu/drm/xlnx/
+ 
+ DRM PANEL DRIVERS
+-M:	Thierry Reding <thierry.reding@gmail.com>
++M:	Neil Armstrong <neil.armstrong@linaro.org>
+ R:	Sam Ravnborg <sam@ravnborg.org>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Maintained
+
+---
+base-commit: 9d9019bcea1aac7eed64a1a4966282b6b7b141c8
+change-id: 20230216-topic-drm-panel-upstream-maintainance-6d5cae28d184
+
+Best regards,
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Neil Armstrong <neil.armstrong@linaro.org>
+
