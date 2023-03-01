@@ -1,55 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847326A6EFC
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:05:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A876A6F89
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8AE110E292;
-	Wed,  1 Mar 2023 15:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D111710E0DD;
+	Wed,  1 Mar 2023 15:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB8F10E18B;
- Wed,  1 Mar 2023 15:05:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677683117; x=1709219117;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=IoEvMpf6ZokrlCInLJGa/aRUKS94Xe6pqKLssh4Alwo=;
- b=Hr2jyDnUOwslRKiXnYcI1xkR107R2D7D55Ox3rRdMXw/3wF5ohUbdD5m
- fHGzU+3mkf2LU3k+oZ2pwt0MKHY81we5yG2WNlq7b9DEHYesoUOOWOVgw
- SZbrwwqyYi9RVrHM7/U02gye0E1oCUiPpbv94aLiSq9EthJ1vXT9bI1Tc
- /XTmVXihKXeAwUEhDa7Ji63sOSb/UornXf1uoEwinFv4yJ0Rv6jIbJj7c
- FJdTLAdx2mFUuCqVnEiRwndc5Iiu+DmE7MUSs1aNgDNv5oxq73JxPNlxk
- xbE1xBWjh6O4jH/wFY04A6HmJGb/3d4AfflcpC6O8Mjd429S+p6OsyeDS w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="318228844"
-X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; d="scan'208";a="318228844"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2023 07:05:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="674588072"
-X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; d="scan'208";a="674588072"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga002.jf.intel.com with SMTP; 01 Mar 2023 07:05:13 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 01 Mar 2023 17:05:13 +0200
-Date: Wed, 1 Mar 2023 17:05:13 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2] drm/edid: Fix csync detailed mode parsing
-Message-ID: <Y/9pqYAWvT9nMMTY@intel.com>
-References: <20230227143648.7776-1-ville.syrjala@linux.intel.com>
- <20230228213610.26283-1-ville.syrjala@linux.intel.com>
- <87pm9sx3e1.fsf@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC1C10E060
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:06 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4C0FA21AA3;
+ Wed,  1 Mar 2023 15:31:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1677684665; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=zw4dcdCN/ycasTQJ0C3H8gsaU2IXHFez421oPjJCncY=;
+ b=wA3/W1cC4TC8BHEH3IiE0+apZ6kp2bRmn+v7SGYBVDc5X9b9f1IZItdN1Y/suoHKXAGw5m
+ U+XpoHiN0bEuKvIWKTTAMDYlYxTOLmvDx5Urjo1JcL1oiVw407nOmMfB9jihtNifgB3QoZ
+ FRoJOkP5v1Fs1h6BwC7mmYCiQc7MeZs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1677684665;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=zw4dcdCN/ycasTQJ0C3H8gsaU2IXHFez421oPjJCncY=;
+ b=yG+7wxlQKAG+OR3mc0NmwBLhhBwcvf62OjpzwT4LsCYJyvJLtk6VTeWVQA9kkWL+VXPux3
+ qGYvo5KXltbSWQCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A731613A3E;
+ Wed,  1 Mar 2023 15:31:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id p777J7hv/2OAXgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:04 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au,
+ laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
+ edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
+ yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
+ philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com,
+ samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
+ linus.walleij@linaro.org, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com
+Subject: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:39 +0100
+Message-Id: <20230301153101.4282-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87pm9sx3e1.fsf@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,46 +73,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 01, 2023 at 10:49:26AM +0200, Jani Nikula wrote:
-> On Tue, 28 Feb 2023, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
-> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> >
-> > Remove the bogus csync check and replace it with something that:
-> > - triggers for all forms of csync, not just the basic analog variant
-> > - actually populates the mode csync flags so that drivers can
-> >   decide what to do with the mode
-> >
-> > Originally the code tried to outright reject csync, but that
-> > apparently broke some bogus LCD monitor that claimed to have
-> > a detailed mode that uses analog csync, despite also claiming
-> > the monitor only support separate sync:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=540024
-> > Potentially that monitor should just be quirked or something.
-> >
-> > Anyways, what we are dealing with now is some kind of funny i915
-> > JSL machine with eDP where the panel claims to support a sensible
-> > 60Hz separate sync mode, and a 50Hz mode with bipolar analog
-> > csync. The 50Hz mode does not work so we want to not use it.
-> > Easiest way is to just correctly flag it as csync and the driver
-> > will reject it.
-> >
-> > TODO: or should we just reject any form of csync (or at least
-> > the analog variants) for digital display interfaces?
-> >
-> > v2: Grab digital csync polarity from hsync polarity bit (Jani)
-> >
-> > Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8146
-> > Reviewed-by: Jani Nikula <jani.nikula@intel.com> #v1
-> 
-> Yup. Fingers crossed.
+Add fbdev emulation that is optimized for DMA helpers, as used by most
+drivers. It operates directly on GEM DMA buffers in system memory.
+Memory pages are mmap'ed directly to userspace. No implicit shadow
+buffers need to be allocated; as can happen with the generic fbdev
+emulation. Convert drivers that fulfil the requirements.
 
-Thought it best to give this plenty of time to soak, so pushed
-to drm-misc-next. Thanks for the review.
+Tested with fbcon and IGT on vc4.
 
+Future direction: providing a dedicated fbdev emulation for GEM DMA
+helpers will allow us to remove this case from the generic fbdev code.
+The latter can then be simplified.
+
+Thomas Zimmermann (22):
+  drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers
+  arm/hdlcd: Use GEM DMA fbdev emulation
+  arm/malidp: Use GEM DMA fbdev emulation
+  drm/aspeed: Use GEM DMA fbdev emulation
+  drm/atmel-hlcdc: Use GEM DMA fbdev emulation
+  drm/fsl-dcu: Use GEM DMA fbdev emulation
+  drm/imx/dcss: Use GEM DMA fbdev emulation
+  drm/imx: Use GEM DMA fbdev emulation
+  drm/kmb: Use GEM DMA fbdev emulation
+  drm/logicvc: Use GEM DMA fbdev emulation
+  drm/meson: Use GEM DMA fbdev emulation
+  drm/mxsfb/lcdif: Use GEM DMA fbdev emulation
+  drm/mxsfb: Use GEM DMA fbdev emulation
+  drm/sti: Use GEM DMA fbdev emulation
+  drm/stm: Use GEM DMA fbdev emulation
+  drm/sun4i: Use GEM DMA fbdev emulation
+  drm/tidss: Use GEM DMA fbdev emulation
+  drm/tilcdc: Use GEM DMA fbdev emulation
+  drm/arcpgu: Use GEM DMA fbdev emulation
+  drm/tve200: Use GEM DMA fbdev emulation
+  drm/vc4: Use GEM DMA fbdev emulation
+  drm/xlnx: Use GEM DMA fbdev emulation
+
+ drivers/gpu/drm/Makefile                     |   1 +
+ drivers/gpu/drm/arm/hdlcd_drv.c              |   4 +-
+ drivers/gpu/drm/arm/malidp_drv.c             |   4 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c      |   4 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c |   4 +-
+ drivers/gpu/drm/drm_fbdev_dma.c              | 275 +++++++++++++++++++
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c    |   4 +-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c          |   4 +-
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c     |   4 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                |   4 +-
+ drivers/gpu/drm/logicvc/logicvc_drm.c        |   4 +-
+ drivers/gpu/drm/meson/meson_drv.c            |   4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c            |   4 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c            |   4 +-
+ drivers/gpu/drm/sti/sti_drv.c                |   4 +-
+ drivers/gpu/drm/stm/drv.c                    |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c            |   4 +-
+ drivers/gpu/drm/tidss/tidss_drv.c            |   4 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c          |   4 +-
+ drivers/gpu/drm/tiny/arcpgu.c                |   4 +-
+ drivers/gpu/drm/tve200/tve200_drv.c          |   4 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                |   4 +-
+ drivers/gpu/drm/xlnx/zynqmp_kms.c            |   4 +-
+ include/drm/drm_fbdev_dma.h                  |  15 +
+ 24 files changed, 333 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_fbdev_dma.c
+ create mode 100644 include/drm/drm_fbdev_dma.h
+
+
+base-commit: 734cd918122f6ec06e4c9366fb3283b29b1c7ea5
+prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
 -- 
-Ville Syrjälä
-Intel
+2.39.2
+
