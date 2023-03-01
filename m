@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17C26A7478
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 20:48:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C4F6A74B4
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 20:58:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AECF210E090;
-	Wed,  1 Mar 2023 19:48:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4F1110E239;
+	Wed,  1 Mar 2023 19:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-4.mailo.com (msg-4.mailo.com [213.182.54.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72AF310E090
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 19:48:17 +0000 (UTC)
+Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 143E110E239
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 19:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1677700090; bh=G8Do2SeddR9IDejdzfXb3mJ2yINZAw/nhNCrxZzNMRY=;
+ t=1677700704; bh=VAuRPN7+KGTNR1+VCFMHhxksGYKTXl+HO2HTsfXfvqM=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
  Content-Type;
- b=gV519zEmvj4C4oNOXlhBA9+i64aevboY1rgNNx4PKLxoEWW6JgKJP23itMrurDJfu
- Px3lCOp2lbebQetpUtp7f787ciPnF1tGcHMUxzwDk3J7DptzLHsxeo4WvkQw0I4Dlb
- AO/qcQ0oantrR6J9L7YSOsn1DyVmzDhUcQeT/W5M=
-Received: by b221-1.in.mailobj.net [192.168.90.21] with ESMTP
+ b=DY4M36RwwqKcfemZNla36rdJ51NQMusT5P9slKXJawwaQr+C1iFOGLrkeHiUVY0EI
+ SpA/DuBFLGFVTT+EhT7Vin49qSoOeB8D2PbDvpzviRdMRCUN/eio7kEdjLujcuCFa0
+ NvqtJIOd5YBZPKua03yl38M4klXbNeUwFRiTYiEM=
+Received: by b221-3.in.mailobj.net [192.168.90.23] with ESMTP
  via ip-20.mailobj.net [213.182.54.20]
- Wed,  1 Mar 2023 20:48:10 +0100 (CET)
-X-EA-Auth: hASAmwc8c6mMvRs+drNOd7GE2MX2lpbv4ZZC16GwJGIyF7aeVvkjA9YVkK/0oDZC1lfNol3EpAbLXaI5MtKzcX/mGBkLHTrw
-Date: Thu, 2 Mar 2023 01:18:06 +0530
+ Wed,  1 Mar 2023 20:58:24 +0100 (CET)
+X-EA-Auth: ZT5g9yCX4u6x+3sfSSH/SrdotTfxuHXI4qIJfeKi32aEOhGPEI++CpQ9p+GzxhETdiM3h23ngSjlySbwXad8tifFL2Y7TWJw
+Date: Thu, 2 Mar 2023 01:28:20 +0530
 From: Deepak R Varma <drv@mailo.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
+To: Alain Volmat <alain.volmat@foss.st.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] drm/tegra: sor: Remove redundant error logging
-Message-ID: <Y/+r9jOO0s8sG4pX@ubun2204.myguest.virtualbox.org>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] drm/sti: Avoid full proxy f_ops for sti debug
+ attributes
+Message-ID: <Y/+uXCDxxA+3AzMq@ubun2204.myguest.virtualbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -52,37 +51,58 @@ Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A call to platform_get_irq() already prints an error on failure within
-its own implementation. So printing another error based on its return
-value in the caller is redundant and should be removed. The clean up
-also makes if condition block braces unnecessary. Remove that as well.
+Using DEFINE_SIMPLE_ATTRIBUTE macro with the debugfs_create_file()
+function adds the overhead of introducing a proxy file operation
+functions to wrap the original read/write inside file removal protection
+functions. This adds significant overhead in terms of introducing and
+managing the proxy factory file operations structure and function
+wrapping at runtime.
+As a replacement, a combination of DEFINE_DEBUGFS_ATTRIBUTE macro paired
+with debugfs_create_file_unsafe() is suggested to be used instead.  The
+DEFINE_DEBUGFS_ATTRIBUTE utilises debugfs_file_get() and
+debugfs_file_put() wrappers to protect the original read and write
+function calls for the debug attributes. There is no need for any
+runtime proxy file operations to be managed by the debugfs core.
+Following coccicheck make command helped identify this change:
 
-Issue identified using platform_get_irq.cocci coccicheck script.
+make coccicheck M=drivers/gpu/drm/i915/ MODE=patch COCCI=./scripts/coccinelle/api/debugfs/debugfs_simple_attr.cocci
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
-Note:
-   Resending the patch for review and feedback. Originally sent on Dec 12 2022.
+Note: Change cross compile tested using stm32_defconfig for arm
+      Resending patch for review and feedback. Initially sent on Jan 11 2023
 
- drivers/gpu/drm/tegra/sor.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 8af632740673..ceaebd33408d 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
- 	}
+
+ drivers/gpu/drm/sti/sti_drv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+index ef6a4e63198f..c9be82043638 100644
+--- a/drivers/gpu/drm/sti/sti_drv.c
++++ b/drivers/gpu/drm/sti/sti_drv.c
+@@ -67,8 +67,8 @@ static int sti_drm_fps_set(void *data, u64 val)
+ 	return 0;
+ }
  
- 	err = platform_get_irq(pdev, 0);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
-+	if (err < 0)
- 		goto remove;
--	}
+-DEFINE_SIMPLE_ATTRIBUTE(sti_drm_fps_fops,
+-			sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
++DEFINE_DEBUGFS_ATTRIBUTE(sti_drm_fps_fops,
++			 sti_drm_fps_get, sti_drm_fps_set, "%llu\n");
  
- 	sor->irq = err;
+ static int sti_drm_fps_dbg_show(struct seq_file *s, void *data)
+ {
+@@ -97,8 +97,8 @@ static void sti_drm_dbg_init(struct drm_minor *minor)
+ 				 ARRAY_SIZE(sti_drm_dbg_list),
+ 				 minor->debugfs_root, minor);
  
+-	debugfs_create_file("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
+-			    minor->dev, &sti_drm_fps_fops);
++	debugfs_create_file_unsafe("fps_show", S_IRUGO | S_IWUSR, minor->debugfs_root,
++				   minor->dev, &sti_drm_fps_fops);
+ 
+ 	DRM_INFO("%s: debugfs installed\n", DRIVER_NAME);
+ }
 -- 
 2.34.1
 
