@@ -1,73 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2756A6419
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 01:17:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CED6A6453
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 01:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112A610E033;
-	Wed,  1 Mar 2023 00:17:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D1EA10E03F;
+	Wed,  1 Mar 2023 00:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186EC10E033;
- Wed,  1 Mar 2023 00:17:13 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 31SBVhn7022031; Wed, 1 Mar 2023 00:17:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=qcppdkim1;
- bh=uxs/uvyaAI1hc8qD6AihJvR3u2BlBnCUjk1sIauZrgw=;
- b=MbobjVEdPKeH1CeyL/wUyG/rRK04XP3VyCYK7oIM8Ka48CQHTS0tgWExLFcX4T0fCKJo
- 2Tziuf9Y6Ik4Sbq5uCX/n6ahsEagBz07/HoHGKBvineHG5IS0MhPNIASwO/hWQwAS1Rr
- NXxKNNQ0DYboepYg5BxRYNaZLm4W7e+S0+0HtfgZ0U5IumbovG3KPw6A3Ymn+mLVgsVX
- lqHCFR/Nd7P84XCDbSI+UdDkknmafN5IFwpiynWzR3A8CPyKJwcTyi+FupiDhiPtIG2g
- 2kb3fUQwLPKkf2SrQwbjwHTVktG1rJDio5eoet9hH4uBSwSep/srAs6RYZ+Tzkpgjve2 +w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p17ryudje-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Mar 2023 00:17:07 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3210H6RF004868
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 1 Mar 2023 00:17:06 GMT
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Tue, 28 Feb 2023 16:17:05 -0800
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <dianders@chromium.org>, <vkoul@kernel.org>, <daniel@ffwll.ch>,
- <airlied@gmail.com>, <agross@kernel.org>,
- <dmitry.baryshkov@linaro.org>, <andersson@kernel.org>
-Subject: [PATCH v3] drm/msm/dp: check core_initialized flag at both
- host_init() and host_deinit()
-Date: Tue, 28 Feb 2023 16:16:57 -0800
-Message-ID: <1677629817-18891-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F4310E03F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 00:37:30 +0000 (UTC)
+Received: from [192.168.2.206] (109-252-117-89.nat.spd-mgts.ru
+ [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id ADA126602176;
+ Wed,  1 Mar 2023 00:37:27 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1677631049;
+ bh=BJGJp5r/8TcdJ4ZzAWHMPT9bm/EZ01/ZzjrqT4SG8Ek=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=I2xgaCATuSX1p2pXuPAvoyDTM1CxPfqb24xvjqlDLsG8ngJSgjWTBv+O1EU9cLO0A
+ 3HJLdoVBtHBVE2F5f5Hnx4AwESVkRqc+OYDzU6LqpwKNJC+J9irlK/hOTzlHtP5UJv
+ QU7dc5WKdJKo7AT66g2DP5a5mE5VZrYZb0ldgkRNU2aoNQQqDoQsWLtvxONKl4hFEY
+ ApNVEFBHp9IUzysA6OfsosqoDrWXPcPhbHI3fKi8X7c/84OlK3A0rCZBZ0aq7VywsD
+ MOGx1fJtX2AMtus1Q/kumMzjSmBoppPqxbPiwnCeFH2mHkBlCLSAgBjL13trgWG3lA
+ iuVRYXw7/i4gw==
+Message-ID: <583bf774-5594-5553-f5e2-45ccf7babff7@collabora.com>
+Date: Wed, 1 Mar 2023 03:37:24 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 15oU2YIR0bst_rnlxMgElXicwas_0Izo
-X-Proofpoint-GUID: 15oU2YIR0bst_rnlxMgElXicwas_0Izo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-02-28_19,2023-02-28_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 phishscore=0
- adultscore=0 malwarescore=0 suspectscore=0 clxscore=1015 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303010000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4] drm/virtio: Add option to disable KMS support
+Content-Language: en-US
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20230228155406.2881252-1-robdclark@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230228155406.2881252-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,77 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ David Airlie <airlied@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a reboot/suspend test case where system suspend is forced
-during system booting up. Since dp_display_host_init() of external
-DP is executed at hpd thread context, this test case may created a
-scenario that dp_display_host_deinit() from pm_suspend() run before
-dp_display_host_init() if hpd thread has no chance to run during
-booting up while suspend request command was issued. At this scenario
-system will crash at aux register access at dp_display_host_deinit()
-since aux clock had not yet been enabled by dp_display_host_init().
-Therefore we have to ensure aux clock enabled by checking
-core_initialized flag before access aux registers at pm_suspend.
+On 2/28/23 18:54, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Add a build option to disable modesetting support.  This is useful in
+> cases where the guest only needs to use the GPU in a headless mode, or
+> (such as in the CrOS usage) window surfaces are proxied to a host
+> compositor.
+> 
+> As the modesetting ioctls are a big surface area for potential security
+> bugs to be found (it's happened in the past, we should assume it will
+> again in the future), it makes sense to have a build option to disable
+> those ioctls in cases where they serve no legitimate purpose.
+> 
+> v2: Use more if (IS_ENABLED(...))
+> v3: Also permit the host to advertise no scanouts
+> v4: Spiff out commit msg
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
 
-Changes in v2:
--- at commit text, dp_display_host_init() instead of host_init()
--- at commit text, dp_display_host_deinit() instead of host_deinit()
+Gerd, to give you some context on the v4.. we've chatted a bit more on
+the #dri-devel and concluded that config option is the most robust way
+of having KMS disabled from a security stand point. We would also want
+to have a per-driver option (and not global) because there are scenarios
+of using passthrough GPU + virtio-gpu in a guest, hence we would only
+want to toggle KMS for a particular driver.
 
-Changes in v3:
--- re arrange to avoid commit text line over 75 chars
-
-Fixes: 989ebe7bc446 ("drm/msm/dp: do not initialize phy until plugin interrupt received")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index bde1a7c..1850738 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -460,10 +460,12 @@ static void dp_display_host_init(struct dp_display_private *dp)
- 		dp->dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized);
- 
--	dp_power_init(dp->power, false);
--	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
--	dp_aux_init(dp->aux);
--	dp->core_initialized = true;
-+	if (!dp->core_initialized) {
-+		dp_power_init(dp->power, false);
-+		dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
-+		dp_aux_init(dp->aux);
-+		dp->core_initialized = true;
-+	}
- }
- 
- static void dp_display_host_deinit(struct dp_display_private *dp)
-@@ -472,10 +474,12 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
- 		dp->dp_display.connector_type, dp->core_initialized,
- 		dp->phy_initialized);
- 
--	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
--	dp_aux_deinit(dp->aux);
--	dp_power_deinit(dp->power);
--	dp->core_initialized = false;
-+	if (dp->core_initialized) {
-+		dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
-+		dp_aux_deinit(dp->aux);
-+		dp_power_deinit(dp->power);
-+		dp->core_initialized = false;
-+	}
- }
- 
- static int dp_display_usbpd_configure_cb(struct device *dev)
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Best regards,
+Dmitry
 
