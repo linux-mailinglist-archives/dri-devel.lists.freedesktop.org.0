@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0D26A6FB0
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4349C6A6FAA
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 16:31:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9701E10E2C1;
-	Wed,  1 Mar 2023 15:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE6710E2A6;
+	Wed,  1 Mar 2023 15:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0A610E280
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:16 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 610B710E280
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 15:31:17 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5B2C921AB4;
- Wed,  1 Mar 2023 15:31:15 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0B93321AB7;
+ Wed,  1 Mar 2023 15:31:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677684675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1677684676; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kUnSBHzMDp9scKUeZTqk/NTqMPRathMYhpdTU1jHFmY=;
- b=BxhQATh9uw11xZZJIhjl0Vj3t9OcoE36xjWH8jdWByAAW6PRcMgjnBGBiwJ9nhvLBj86GG
- j28JRUyc2Bw8GjQmK5XK3N8CDPa4F3MtTtBR03QP3Qp3G2TBZKHpBlWpGslfHkopS7sWmk
- c0rnHqEOO4fFM4UOziPg+NqA8tltwdw=
+ bh=3Qhw3u2FCCNSE4j3TLFZ9beld6qjsiXJ9DEp5dW8qmY=;
+ b=qVhn7H9Xg/pJqrMqlc/Sl4ao0tNMXrGfy/MCtklLrqFTfce7FPHU/XZDsrTTB9d8E37qDA
+ 9cU8e9je5ivkk1DvH0FkOaaJmBFFnvxQPKQtohaShkmoIY99mx2sdpCj86nhKWbGZbdjjT
+ 7wJaDOOdMaUQKY7pE34gSDCjDevqvHQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677684675;
+ s=susede2_ed25519; t=1677684676;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kUnSBHzMDp9scKUeZTqk/NTqMPRathMYhpdTU1jHFmY=;
- b=FtsrFikmmzzQpOx7BZi9aciT9XYYZafB+FXxz0D/wquVl4jUnlye+eqR3K0LSW9sjYZuHM
- +CBoCq2ENxtcFeDg==
+ bh=3Qhw3u2FCCNSE4j3TLFZ9beld6qjsiXJ9DEp5dW8qmY=;
+ b=pTlSo3z9hrrMJPPcYmbRER+8tsgure4nfbc3kHAfajarDcbqzF6zDcjbDXiNbAzqR7OkRN
+ At8/X2oAa8rdtcBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B58C413A3E;
- Wed,  1 Mar 2023 15:31:14 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 60EDA13A3E;
+ Wed,  1 Mar 2023 15:31:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eOx0K8Jv/2OAXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:14 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 8F3IFsNv/2OAXgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 01 Mar 2023 15:31:15 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au,
@@ -59,9 +59,9 @@ To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
  linus.walleij@linaro.org, hyun.kwon@xilinx.com,
  laurent.pinchart@ideasonboard.com
-Subject: [PATCH 15/22] drm/stm: Use GEM DMA fbdev emulation
-Date: Wed,  1 Mar 2023 16:30:54 +0100
-Message-Id: <20230301153101.4282-16-tzimmermann@suse.de>
+Subject: [PATCH 16/22] drm/sun4i: Use GEM DMA fbdev emulation
+Date: Wed,  1 Mar 2023 16:30:55 +0100
+Message-Id: <20230301153101.4282-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230301153101.4282-1-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
@@ -91,30 +91,30 @@ possible shadow buffering and makes the code simpler.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/stm/drv.c | 4 ++--
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 50410bd99dfe..422220df7d8c 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -18,7 +18,7 @@
- #include <drm/drm_atomic.h>
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index cc94efbbf2d4..dd283a3a4e36 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -17,7 +17,7 @@
+ #include <drm/drm_aperture.h>
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
  #include <drm/drm_module.h>
-@@ -203,7 +203,7 @@ static int stm_drm_platform_probe(struct platform_device *pdev)
+ #include <drm/drm_of.h>
+@@ -111,7 +111,7 @@ static int sun4i_drv_bind(struct device *dev)
  	if (ret)
- 		goto err_put;
+ 		goto finish_poll;
  
--	drm_fbdev_generic_setup(ddev, 16);
-+	drm_fbdev_dma_setup(ddev, 16);
+-	drm_fbdev_generic_setup(drm, 32);
++	drm_fbdev_dma_setup(drm, 32);
  
- 	return 0;
+ 	dev_set_drvdata(dev, drm);
  
 -- 
 2.39.2
