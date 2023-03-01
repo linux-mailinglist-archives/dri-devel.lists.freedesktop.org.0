@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2063C6A74B9
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 21:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4274A6A74BF
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 21:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4EA010E23E;
-	Wed,  1 Mar 2023 20:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2EAA10E249;
+	Wed,  1 Mar 2023 20:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A464810E23E;
- Wed,  1 Mar 2023 20:02:15 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED12C10E249
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 20:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677700935; x=1709236935;
+ t=1677701079; x=1709237079;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=6EAWrrc5IPUWooTbxGsI6tMEta8jrC1xOMHR2AXxGGw=;
- b=cVEK5SD1VlQGI6iEAdKy7c1B4E8nEjgL5CZOyQXQ3VMkhml+nYq7rjNK
- tYCnDnNwFANLYVK3NUWc4PQNUia+khfCeNqsLQhdA/eXJ0UREjgs4G99A
- ab0UtZJA2UjnNQXnPZ/x/qQU2NqvaKDEmUVV8dtdKQbvEgCkT0r88Vagw
- 7zTkJHrIYr0q6E9S8lEvgHJJzZ9dBMdG9SaKYroBhhGZFUdPHu7yIz4oo
- SA1UZSfsMmUxm9VBiVmxYtv/PW6AkGk6JUGMNJEGY4lzZrEGuLx1TPVdM
- rb6Mta4E52i8MCaqsmp8C5zq6NLU57s1vtg8Bs7tJ/BkU4l07TS88aEO2 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="335999796"
-X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; d="scan'208";a="335999796"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2023 12:02:15 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="624630698"
-X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; d="scan'208";a="624630698"
+ bh=+r/NXFHFspaRacMbjVlJbFHmHDbRNx1tVU7ZmSJxHxg=;
+ b=Kq01VjhkdlcXR5u8TF53wO501KHDsjzTHNrLELrVt95+KHj+FScFkwy6
+ YKh3EXhfN896Zg466yfdQgpvyn4+B0wLPGI83bO5M1YSk6jKzT6SRxxIN
+ 10HD+KWfn/DJfnQ34BNxmJ1ItITV9oJHEup84aTC4dNrmxe3PlFMOQyHk
+ DCc3xeX3it6fBXBMvMHdWL0nKI4OeFigHehsn+sXDT3EoPnIes/pwwu/D
+ m33/0m3W/pBUSc4orKpL33V87WIQMDxtNtP9GcrHLU5R3WiuNG54rJY7R
+ uww6U1+Gjfq3aoF7ExyjaFaK52tF4wWO5lLTe1FjgWGJJmZGNDa5fccuv A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="334538773"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; d="scan'208";a="334538773"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2023 12:04:39 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="798539857"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; d="scan'208";a="798539857"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.115.221])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Mar 2023 12:02:08 -0800
-Date: Wed, 01 Mar 2023 12:02:08 -0800
-Message-ID: <87r0u844vz.wl-ashutosh.dixit@intel.com>
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Mar 2023 12:04:37 -0800
+Date: Wed, 01 Mar 2023 12:04:37 -0800
+Message-ID: <87pm9s44ru.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: Deepak R Varma <drv@mailo.com>
-Subject: Re: [PATCH RESEND] drm/nouveau/hwmon: Use sysfs_emit in show function
- callsbacks
-In-Reply-To: <Y/+pDaHOgG1x8Py2@ubun2204.myguest.virtualbox.org>
-References: <Y/+pDaHOgG1x8Py2@ubun2204.myguest.virtualbox.org>
+Subject: Re: [PATCH RESEND] drm/tegra: sor: Remove redundant error logging
+In-Reply-To: <Y/+r9jOO0s8sG4pX@ubun2204.myguest.virtualbox.org>
+References: <Y/+r9jOO0s8sG4pX@ubun2204.myguest.virtualbox.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -60,20 +59,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- nouveau@lists.freedesktop.org, Saurabh Singh Sengar <ssengar@microsoft.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 01 Mar 2023 11:35:41 -0800, Deepak R Varma wrote:
+On Wed, 01 Mar 2023 11:48:06 -0800, Deepak R Varma wrote:
 >
-> According to Documentation/filesystems/sysfs.rst, the show() callback
-> function of kobject attributes should strictly use sysfs_emit() instead
-> of sprintf() family functions. So, make this change.
-> Issue identified using the coccinelle device_attr_show.cocci script.
+> A call to platform_get_irq() already prints an error on failure within
+> its own implementation. So printing another error based on its return
+> value in the caller is redundant and should be removed. The clean up
+> also makes if condition block braces unnecessary. Remove that as well.
+>
+> Issue identified using platform_get_irq.cocci coccicheck script.
 
 Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 
@@ -81,47 +81,27 @@ Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 > Signed-off-by: Deepak R Varma <drv@mailo.com>
 > ---
 > Note:
->    Resending the patch for review and feedback. No functional changes.
+>    Resending the patch for review and feedback. Originally sent on Dec 12 2022.
 >
+>  drivers/gpu/drm/tegra/sor.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
->  drivers/gpu/drm/nouveau/nouveau_hwmon.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+> index 8af632740673..ceaebd33408d 100644
+> --- a/drivers/gpu/drm/tegra/sor.c
+> +++ b/drivers/gpu/drm/tegra/sor.c
+> @@ -3799,10 +3799,8 @@ static int tegra_sor_probe(struct platform_device *pdev)
+>	}
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> index a7db7c31064b..e844be49e11e 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> @@ -41,7 +41,7 @@ static ssize_t
->  nouveau_hwmon_show_temp1_auto_point1_pwm(struct device *d,
->					 struct device_attribute *a, char *buf)
->  {
-> -	return snprintf(buf, PAGE_SIZE, "%d\n", 100);
-> +	return sysfs_emit(buf, "%d\n", 100);
->  }
->  static SENSOR_DEVICE_ATTR(temp1_auto_point1_pwm, 0444,
->			  nouveau_hwmon_show_temp1_auto_point1_pwm, NULL, 0);
-> @@ -54,8 +54,8 @@ nouveau_hwmon_temp1_auto_point1_temp(struct device *d,
->	struct nouveau_drm *drm = nouveau_drm(dev);
->	struct nvkm_therm *therm = nvxx_therm(&drm->client.device);
+>	err = platform_get_irq(pdev, 0);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to get IRQ: %d\n", err);
+> +	if (err < 0)
+>		goto remove;
+> -	}
 >
-> -	return snprintf(buf, PAGE_SIZE, "%d\n",
-> -	      therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST) * 1000);
-> +	return sysfs_emit(buf, "%d\n",
-> +			  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST) * 1000);
->  }
->  static ssize_t
->  nouveau_hwmon_set_temp1_auto_point1_temp(struct device *d,
-> @@ -87,8 +87,8 @@ nouveau_hwmon_temp1_auto_point1_temp_hyst(struct device *d,
->	struct nouveau_drm *drm = nouveau_drm(dev);
->	struct nvkm_therm *therm = nvxx_therm(&drm->client.device);
+>	sor->irq = err;
 >
-> -	return snprintf(buf, PAGE_SIZE, "%d\n",
-> -	 therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST_HYST) * 1000);
-> +	return sysfs_emit(buf, "%d\n",
-> +			  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST_HYST) * 1000);
->  }
->  static ssize_t
->  nouveau_hwmon_set_temp1_auto_point1_temp_hyst(struct device *d,
 > --
 > 2.34.1
 >
