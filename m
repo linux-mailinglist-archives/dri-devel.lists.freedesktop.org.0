@@ -2,54 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1BD6A7C4C
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 09:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ADD6A7C4F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 09:13:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E18410E3BD;
-	Thu,  2 Mar 2023 08:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E50EC10E3CB;
+	Thu,  2 Mar 2023 08:12:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8D6310E163
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 14:45:39 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-536bf92b55cso367018637b3.12
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Mar 2023 06:45:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=c5fRwh/q88qnR4rLODR5aN06oeaTsbFFIXqxWtKoAdA=;
- b=Skkgc1pJVdMg4lM3S/QvC70xPPr5jlTmvz4EOn+Pc6rF3VpQhVc4iGugen9Q06wzaW
- YU5vBuwqleOCYoFdAyxRZHQORMrJn2alOT/fjacfQLA291X6YhVykyxziMNBllMvYuaY
- rKWSJgX2G7dhiWsfoI33lKF5ZUW3nVjhcxCb4=
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C00C10E1CE;
+ Wed,  1 Mar 2023 17:25:45 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id o15so54400771edr.13;
+ Wed, 01 Mar 2023 09:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TIKf9USoNGrPIqwS1jS8iBKNWT2IT5bq/zGBG74CLF4=;
+ b=Xsfaf+/FD3GogNA3ROSwSXWpx4XBHfzhDLFRoNWC4yapB6vtuymB48aBUVI3HLKDAN
+ pQRbos/7jYC2eusNNp9nrYgf8+9mfKAiLGzMBqKGnYcGr3rjuZ4UDeKhwjvCG7347nmq
+ F+prEmHcbPEPeBNUwWT4FNCPpLAiyFrrV99z+WWICA0kPf8EmVSrg2REP1nt9vwaM6lW
+ /thkZzrzN78f+gSAkuP/O1v8SaX3GO98l0w0aHZsNgbQbp2iaCJ/AxDqI1omAuVJ32V+
+ 7PAuNJQ/yzO+hWWzZdRGtpEjoA/tlyRXhsW/QjyPz3O9nUoGmhlk9K2kZbEz1cnWt2t0
+ Zang==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=c5fRwh/q88qnR4rLODR5aN06oeaTsbFFIXqxWtKoAdA=;
- b=GEy2dw8TrSiXHx9ExFUihS2jpRpc3iEhSdRAISyS2tFkslWp7ZyCRT7xrMZeRBt0aj
- TVioqW6bZGxS0JSosOp1gFTn0pGeVQHlJACIs18Cq3DdsUB19T4q6yo1/ZHETocyPfBu
- kJ2F197IKJlTW/bGEVWBIJIZ/PxcSQ6FlxSWHdlTttsivw1AK/HlJ9fnu2Odups2Z6f9
- w4SpZ8DoP2hY1CK6LZCmCo1fHvQiIps5ktxgoqlPya8eWX6n2pqhFYxQv5eIolghSW1Q
- vDzqqXROaNy0k+e5MD40i5X63LfmstN620EgmNdf3M6hs8Hq29AW75fQUbR0ED/VCmn5
- myXQ==
-X-Gm-Message-State: AO0yUKW+Bq1sRMGdAnfE9LnrgvnNc5LvPsgSHYcK7bfzS/D9OCEXLJqX
- xKeJ3UtuWr/CZx1Qq03Ur2LHRAInQZMhBoiZBYbIvA==
-X-Google-Smtp-Source: AK7set/9RgMm3XRu83JsW4Wbbsi1f43oJuRNJ4GJnMD9Ynj6+QG8QTN/H949zZF90kB3oY5EYLAgq26FWAoCc+/6F5A=
-X-Received: by 2002:a81:ae0e:0:b0:53c:7c33:9d25 with SMTP id
- m14-20020a81ae0e000000b0053c7c339d25mr726867ywh.8.1677681938671; Wed, 01 Mar
- 2023 06:45:38 -0800 (PST)
+ bh=TIKf9USoNGrPIqwS1jS8iBKNWT2IT5bq/zGBG74CLF4=;
+ b=JY+sBAkMJ3pvnWg7JO29m1q8fPkm+gWcLxx3VFIM+elY2R3uX722pA4BH/zneQTVjt
+ sLdr/+ClJgKDVe7qw1lsOKJpf1uOjGvqHS7TgtVGbmqyuL4k0bM2Qrpuw7lsgED/LhKc
+ RGZFaOjMIbYj7A5hfJ/n+6uBaL1jV+vlocykieEfq/+Qt3hc2h63zrFZ5VDJUeDuiYBY
+ cp0BdxVao8AQyza/gYCcO2aldcm83/TzQbMMnEb42OyVzvh7xP0N8hBg4wHtEe4bN9Rm
+ iF35pmdtBFrnt9hLxb3pScY9neg7c2kyKDkOgqRWkLJu9BFEhmylG9d7PSEqb06lj3EO
+ Jlpg==
+X-Gm-Message-State: AO0yUKUmh2tsWIuJmWDBpUtUeGq/VTmtBqOmbFbdEii3XAGsF1rhTzp1
+ Jm/tg/t3fSBGnWFn1JqjqKs=
+X-Google-Smtp-Source: AK7set9jTbAsR9cNioxPfi+x3CvaDwDw3kuiDvH0WYzKjl2K+AGsLhBFTzGOL5SDJ9QkyYY2BEtbPg==
+X-Received: by 2002:a17:906:9484:b0:8e5:2a12:8ec0 with SMTP id
+ t4-20020a170906948400b008e52a128ec0mr6586812ejx.31.1677691543838; 
+ Wed, 01 Mar 2023 09:25:43 -0800 (PST)
+Received: from [127.0.1.1] (i130160.upc-i.chello.nl. [62.195.130.160])
+ by smtp.googlemail.com with ESMTPSA id
+ v23-20020a170906489700b008e9ac1ad79dsm5974715ejq.194.2023.03.01.09.25.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Mar 2023 09:25:43 -0800 (PST)
+From: Jakob Koschel <jkl820.git@gmail.com>
+Subject: [PATCH 0/2] drm/nouveau: avoid usage of list iterator after loop
+Date: Wed, 01 Mar 2023 18:25:36 +0100
+Message-Id: <20230301-drm-nouveau-avoid-iter-after-loop-v1-0-0702ec23f970@gmail.com>
 MIME-Version: 1.0
-References: <20230228215433.3944508-1-robh@kernel.org>
-In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
-From: Simon Glass <sjg@chromium.org>
-Date: Wed, 1 Mar 2023 07:45:19 -0700
-Message-ID: <CAPnjgZ1=UPMf72JjejpdSvss5+d1tnMv=efYUgJcH6T09YAKTw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
-To: Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJCK/2MC/x2NwQqDMBBEf0X23IVEi6X9ldLDxmzqQk1ko6Eg/
+ nuTXgYeM7w5ILMKZ3h0BygXyZJiBXvpYJopvhnFV4be9IMZjEWvC8a0F6YdqSTxKBsrUmj5SWn
+ FqwvhfrPjyIGgehxlRqcUp7mZFsp12opVOcj3f/58necP6PufK4wAAAA=
+To: Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>, 
+ Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677691543; l=1273;
+ i=jkl820.git@gmail.com; s=20230112; h=from:subject:message-id;
+ bh=ufRWs1wfmAulODCpfYVVJMkyck345u9wLDQP6nFhSdw=;
+ b=wOeLFKWvzQ/NXw7t6I+ftrfBnD3HB8qkUJjRx9ThZJJuxKGi9huiiDiV9n599nJmo9FVrvsk0jGm
+ nUM3NjVZAWOMcK1x7xvYI6aO4TYVYk/+wzXc9iAa/fBs0bHheMTd
+X-Developer-Key: i=jkl820.git@gmail.com; a=ed25519;
+ pk=rcRpP90oZXet9udPj+2yOibfz31aYv8tpf0+ZYOQhyA=
 X-Mailman-Approved-At: Thu, 02 Mar 2023 08:12:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,81 +82,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-clk@vger.kernel.org,
- linux-leds@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Kalle Valo <kvalo@kernel.org>,
- Wolfgang Grandegger <wg@grandegger.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Pavel Machek <pavel@ucw.cz>, linux-can@vger.kernel.org,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+Cc: nouveau@lists.freedesktop.org, Pietro Borrello <borrello@diag.uniroma1.it>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ Jakob Koschel <jkl820.git@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Feb 2023 at 14:54, Rob Herring <robh@kernel.org> wrote:
->
-> SPI and I2C bus node names are expected to be "spi" or "i2c",
-> respectively, with nothing else, a unit-address, or a '-N' index. A
-> pattern of 'spi0' or 'i2c0' or similar has crept in. Fix all these
-> cases. Mostly scripted with the following commands:
->
-> git grep -l '\si2c[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's/i2c[0-9] {/i2c {/'
-> git grep -l '\sspi[0-9] {' Documentation/devicetree/ | xargs sed -i -e 's/spi[0-9] {/spi {/'
->
-> With this, a few errors in examples were exposed and fixed.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Guenter Roeck <groeck@chromium.org>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Robert Foss <rfoss@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
-> Cc: Chanwoo Choi <cw00.choi@samsung.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lee Jones <lee@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Kalle Valo <kvalo@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-can@vger.kernel.org
-> Cc: linux-wireless@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-usb@vger.kernel.org
-> ---
+This patch set includes two instances where the list iterator variable
+'pstate' is implicitly assumed to be valid after the iterator loop.
+While in pratice that is most likely the case (if
+'pstatei'/'args->v0.state' is <= the elements in clk->states), we should
+explicitly only allow 'pstate' to always point to correct 'nvkm_pstate'
+structs.
 
-Reviewed-by: Simon Glass <sjg@chromium.org>
+That allows catching potential bugs with BUG_ON(!pstate) that otherwise
+would be completely undetectable.
+
+It also helps the greater mission to hopefully move the list iterator
+variable into the iterating macro directly [1].
+
+Link: https://lore.kernel.org/all/CAHk-=wgRr_D8CB-D9Kg-c=EHreAsk5SqXPwr9Y7k9sA6cWXJ6w@mail.gmail.com/ [1]
+Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+---
+Jakob Koschel (2):
+      drm/nouveau/device: avoid usage of list iterator after loop
+      drm/nouveau/clk: avoid usage of list iterator after loop
+
+ drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c | 9 ++++++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/clk/base.c    | 9 ++++++---
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+---
+base-commit: c0927a7a5391f7d8e593e5e50ead7505a23cadf9
+change-id: 20230301-drm-nouveau-avoid-iter-after-loop-4bff97166efa
+
+Best regards,
+-- 
+Jakob Koschel <jkl820.git@gmail.com>
+
