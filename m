@@ -1,62 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB206A6D36
-	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 14:41:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4066C6A6D64
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Mar 2023 14:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54CB110E25E;
-	Wed,  1 Mar 2023 13:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4652410E1F0;
+	Wed,  1 Mar 2023 13:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B6F610E25E
- for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 13:41:44 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id b16so5361371iof.11
- for <dri-devel@lists.freedesktop.org>; Wed, 01 Mar 2023 05:41:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Kq5OR9hoC260+bemchGBNuQjrNOZhrK9iuZRCuifkTs=;
- b=RNGjW0fKHBPVSu32cnLyQ80bXdFmMDWGyWr8DyQlkX0JakbZI256w+r+tZD8H5sgLv
- Mv93XNX6nbqefYx/euZAMec/fMtwLa6mGSn4k3ROmTxw2u0ojuqabJH+jtV4tzRPAMKB
- Sf4KhzQY2gByZpvCMeUGD+L6zbuVQ94yycdGRyqLMeZsxotjVaKc1YYEOfw+n4dN1ZvQ
- Fgf2sYQftnkmbDAqBSJbZxAR34gndmTIaEgKOwgBjqv+i0tZaPptUnvevGUMUG3iHXCh
- bev3NxJ2B5iVDweZuR2h4Wenct2gS8Uo/P9mjYJ37PUqnG+cmME2c1cqJdMTE6E2Xg2W
- lHkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Kq5OR9hoC260+bemchGBNuQjrNOZhrK9iuZRCuifkTs=;
- b=QR21jQsmOCu2NutmmVJAw9hdjiK3Bnb1CGp3MHJprgdaq3gfZbGi86i43hwodDg6gb
- xaYc6XlYRqK8TCWGNUdkt54FpyxdcD2NKHLKbUCQuM0xjC8Zi6692dwDClLLLTAw2Mo/
- SsxKusNG1Jeq+Fm6masdX8tCEeTy3ghbOsKx7AceeQg8cxtTGCku+Pr3dKRVWys0nfbY
- uOawICosokE8lU0zjjJoGv7h3xFT6CEtrgxtmvYvYYWT7XBMw4jRq+msP25UxdzfKSo/
- AtQS6deck3oxVB409I/9ZGfVI4h5hTvt/0vIqmvFuHuvxIcQvxzzornxC8GbuBHdt+/Y
- LH8A==
-X-Gm-Message-State: AO0yUKWgnvtFaglQVBEfjYf1OHMo/FXpyR2mbz73S0pvFec6Z8w0sEZm
- SS1ZQE98ib/8krhc7tdAWx0JWs/mr1AisdQGollOxg==
-X-Google-Smtp-Source: AK7set+BWIITMwStn5iOknYU9Ytckv0R80OlViWQC7TNRL095p3FTuT9mKhGhMd4MFbc9GXISWxJtJVx+O7r52M/2LM=
-X-Received: by 2002:a02:85cb:0:b0:3c5:b47:539a with SMTP id
- d69-20020a0285cb000000b003c50b47539amr2818912jai.5.1677678103307; Wed, 01 Mar
- 2023 05:41:43 -0800 (PST)
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9233A10E1F0
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 Mar 2023 13:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=lGGtK0+LJYr2TlFrW/JiGW5rzeFIGTxQ0thV2EbNA4U=; b=ooQbpOIGFonM7sBOa8Eu9Htgm+
+ hePzaTB+SmQWjRjOBXySnTpl2OeEwpnm8WJfywsdlqB9T4lyp7YX82js/r5gzBuZNZUvlYKDGRudb
+ K7YA21BC7svzzxU1/PMpG4G+9lGSEFEprjqFRgzEDoezVEvYOLj301Lk5iNTElo9UP9kNkH/yBo48
+ i/xXEp5JsywUd2rAXeWqnEeo1pAlVLLgWD3N0CF7Mobp/RFg3cAa9UfAukwk9JtZp9L2pashxhygp
+ pesBcnGanCEoaEqLymANJ5463cJaM66L9hP9ZkE/4lHS2k1Ou2FHJigx6i2DVhvwD2DAjmiK6lj15
+ QQoRxZzg==;
+Received: from 91-158-25-70.elisa-laajakaista.fi ([91.158.25.70]
+ helo=toshino.localdomain) by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <cyndis@kapsi.fi>)
+ id 1pXMrN-00DwVS-BI; Wed, 01 Mar 2023 15:51:09 +0200
+From: Mikko Perttunen <cyndis@kapsi.fi>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] gpu: host1x: Don't rely on dma_fence_wait_timeout return value
+Date: Wed,  1 Mar 2023 15:51:06 +0200
+Message-Id: <20230301135107.999976-1-cyndis@kapsi.fi>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
- <CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com>
- <86bdfea2-7125-2e54-c2c0-920f28ff80ce@I-love.SAKURA.ne.jp>
- <CAG_fn=VJrJDNSea6DksLt5uBe_sDu0+8Ofg+ifscOyDdMKj3XQ@mail.gmail.com>
- <Y7a6XkCNTkxxGMNC@phenom.ffwll.local>
- <032386fc-fffb-1f17-8cfd-94b35b6947ee@I-love.SAKURA.ne.jp>
-In-Reply-To: <032386fc-fffb-1f17-8cfd-94b35b6947ee@I-love.SAKURA.ne.jp>
-From: Alexander Potapenko <glider@google.com>
-Date: Wed, 1 Mar 2023 14:41:06 +0100
-Message-ID: <CAG_fn=V4-zzo+6HFG+wCbJRYHRh+Xx=r1weyCBJG-afpaG4Hag@mail.gmail.com>
-Subject: Re: [PATCH] fbcon: Use kzalloc() in fbcon_prepare_logo()
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 91.158.25.70
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Helge Deller <deller@gmx.de>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- kasan-dev <kasan-dev@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- DRI <dri-devel@lists.freedesktop.org>, Dmitry Vyukov <dvyukov@google.com>
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> I'd like to avoid touching per-arch asm/string.h files if possible.
->
-> Can't we do like below (i.e. keep asm implementations as-is, but
-> automatically redirect to __msan_memset()) ? If yes, we could move all
-> __msan_*() redirection from per-arch asm/string.h files to the common
-> linux/string.h file?
->
-> diff --git a/include/linux/string.h b/include/linux/string.h
-> index c062c581a98b..403813b04e00 100644
-> --- a/include/linux/string.h
-> +++ b/include/linux/string.h
-> @@ -360,4 +360,15 @@ static __always_inline size_t str_has_prefix(const char *str, const char *prefix
->         return strncmp(str, prefix, len) == 0 ? len : 0;
->  }
->
-> +#if defined(__SANITIZE_MEMORY__) && defined(__NO_FORTIFY)
-> +#undef memset
-> +#define memset(dest, src, count) __msan_memset((dest), (src), (count))
-> +#undef memset16
-> +#define memset16(dest, src, count) __msan_memset((dest), (src), (count) << 1)
-> +#undef memset32
-> +#define memset32(dest, src, count) __msan_memset((dest), (src), (count) << 2)
-> +#undef memset64
-> +#define memset64(dest, src, count) __msan_memset((dest), (src), (count) << 3)
-> +#endif
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-The problem with this approach is that it can only work for
-memset/memcpy/memmove, whereas any function that is implemented in
-lib/string.c may require undefining the respective __HAVE_ARCH_FNAME
-so that KMSAN can instrument it.
+dma_fence_wait_timeout (along with a host of other jiffies-based
+timeouting functions) returns zero both in case of timeout and when
+the wait completes during the last jiffy before timeout. As such,
+we can't rely on it to distinguish between success and timeout.
+
+To prevent confusing callers by returning -EAGAIN before the timeout
+period has elapsed, check if the fence got signaled again after
+the wait.
+
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+---
+ drivers/gpu/host1x/syncpt.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
+index 2d2007760eac..f63d14a57a1d 100644
+--- a/drivers/gpu/host1x/syncpt.c
++++ b/drivers/gpu/host1x/syncpt.c
+@@ -248,7 +248,13 @@ int host1x_syncpt_wait(struct host1x_syncpt *sp, u32 thresh, long timeout,
+ 	if (value)
+ 		*value = host1x_syncpt_load(sp);
+ 
+-	if (wait_err == 0)
++	/*
++	 * Don't rely on dma_fence_wait_timeout return value,
++	 * since it returns zero both on timeout and if the
++	 * wait completed with 0 jiffies left.
++	 */
++	host1x_hw_syncpt_load(sp->host, sp);
++	if (wait_err == 0 && !host1x_syncpt_is_expired(sp, thresh))
+ 		return -EAGAIN;
+ 	else if (wait_err < 0)
+ 		return wait_err;
+-- 
+2.39.2
+
