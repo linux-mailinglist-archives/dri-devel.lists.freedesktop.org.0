@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416F86A8442
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 15:35:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE036A8443
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 15:35:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F34F710E4F5;
-	Thu,  2 Mar 2023 14:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30CC210E4F6;
+	Thu,  2 Mar 2023 14:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F072710E4F5
+Received: from mail-4018.proton.ch (mail-4018.proton.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62EB410E4F5
  for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 14:35:23 +0000 (UTC)
-Date: Thu, 02 Mar 2023 14:35:09 +0000
+Date: Thu, 02 Mar 2023 14:35:13 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
  s=protonmail; t=1677767721; x=1678026921;
- bh=mfeN7cWG+xdpjLBhz8gTnkGojBY2WsOui4CA+tBC+7Q=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=H05m1+gh9UN3C/7UIrrBS+2f/8EmtyyTzLWIThnynaTO2ATIlI9XImVIBf+PuLFzs
- gSQTz1xm+uXn/e4SajJpQ8ykdrIOmaZ/NlMeJNmO4ZWWUBeB7blPrA6BOZyooULORw
- i/w9Rc+U3peVGl3LIIgZ/6XhLzCSGI0QwIQ2R/2h5pu9i/P5y6dPA0BQeKbE221h/+
- sE0iTxkIp9E/hYXi0AgCVEtivG+Rjk2gYqFwRBxYthVSOeDZfosKNMzRNadrfqX9mt
- BUINAqT9V0dWv3ZnMmB//ut+dx1m859/Q2+k4zKDoUHhGScooSr0hOEB0onGoMYu6a
- 571a3bSmkFfsw==
+ bh=fhtYEddQkLQMgFuJBYztaVcQfYVgU/WTbkJkYmjiUYc=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=FauIqzf9SaJziY/iNnA9OAaT8C/lpMrB3R76kI8xPFLzD7oO28OmYexZcm+zGBFDt
+ 0EKbWZHibB5yAVYZeHrHYUwsWFE+iRLqAJV2xNoqls81BmBc5diMzVfQdHHjcHyNuR
+ Ef2sr4fNCRiZMrg+L5AWefzYRgcatph/m7jTSwvVK/OTz9uhJVdNOD5mTLASNfY4cT
+ kUqWOQJQfI23/aTdbntPpwLB4w0AuOsfhZO4lZtiIP/2gzXjcNUEazNt74T+uAE7+s
+ 2+RcDKyAw4DtcLsjBKV+2X8ITDWU7UTcTMT9l8AjCakHYQnIWoHo+3xYvyUIOV0QEA
+ +HMJCf7WPKe/A==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2 1/2] drm/prime: reject DMA-BUF attach when get_sg_table is
- missing
-Message-ID: <20230302143502.500661-1-contact@emersion.fr>
+Subject: [PATCH v2 2/2] drm/vram-helper: turn on PRIME import/export
+Message-ID: <20230302143502.500661-2-contact@emersion.fr>
+In-Reply-To: <20230302143502.500661-1-contact@emersion.fr>
+References: <20230302143502.500661-1-contact@emersion.fr>
 Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -52,15 +54,14 @@ Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_map_dma_buf() requires drm_gem_object_funcs.get_sg_table
-to be implemented, or else WARNs.
+We don't populate drm_driver.gem_prime_import_sg_table so only
+DMA-BUFs exported from our own device can be imported. We don't
+populate drm_gem_object_funcs.get_sg_table so DMA-BUFs cannot be
+imported into another device. Still, this is useful to user-space
+to share buffers between processes and between API boundaries
+(e.g. wlroots hard-requires PRIME import/export support).
 
-Allow drivers to leave this hook unimplemented to implement purely
-local DMA-BUFs (ie, DMA-BUFs which cannot be imported anywhere
-else but the device which allocated them). In that case, reject
-imports to other devices in drm_gem_map_attach().
-
-v2: new patch
+v2: expand commit message
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
@@ -70,38 +71,25 @@ Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
 Cc: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/drm_prime.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ include/drm/drm_gem_vram_helper.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index f924b8b4ab6b..ab1d21d63a03 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -544,7 +544,8 @@ int drm_prime_handle_to_fd_ioctl(struct drm_device *dev=
-, void *data,
-  * Optional pinning of buffers is handled at dma-buf attach and detach tim=
-e in
-  * drm_gem_map_attach() and drm_gem_map_detach(). Backing storage itself i=
-s
-  * handled by drm_gem_map_dma_buf() and drm_gem_unmap_dma_buf(), which rel=
-ies on
-- * &drm_gem_object_funcs.get_sg_table.
-+ * &drm_gem_object_funcs.get_sg_table. If &drm_gem_object_funcs.get_sg_tab=
-le is
-+ * unimplemented, exports into another device are rejected.
-  *
-  * For kernel-internal access there's drm_gem_dmabuf_vmap() and
-  * drm_gem_dmabuf_vunmap(). Userspace mmap support is provided by
-@@ -583,6 +584,9 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
- {
- =09struct drm_gem_object *obj =3D dma_buf->priv;
+diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_h=
+elper.h
+index d3e8920c0b64..f4aab64411d8 100644
+--- a/include/drm/drm_gem_vram_helper.h
++++ b/include/drm/drm_gem_vram_helper.h
+@@ -160,7 +160,9 @@ void drm_gem_vram_simple_display_pipe_cleanup_fb(
+ =09.debugfs_init             =3D drm_vram_mm_debugfs_init, \
+ =09.dumb_create=09=09  =3D drm_gem_vram_driver_dumb_create, \
+ =09.dumb_map_offset=09  =3D drm_gem_ttm_dumb_map_offset, \
+-=09.gem_prime_mmap=09=09  =3D drm_gem_prime_mmap
++=09.gem_prime_mmap=09=09  =3D drm_gem_prime_mmap, \
++=09.prime_handle_to_fd=09  =3D drm_gem_prime_handle_to_fd, \
++=09.prime_fd_to_handle=09  =3D drm_gem_prime_fd_to_handle
 =20
-+=09if (!obj->funcs->get_sg_table)
-+=09=09return -EOPNOTSUPP;
-+
- =09return drm_gem_pin(obj);
- }
- EXPORT_SYMBOL(drm_gem_map_attach);
+ /*
+  *  VRAM memory manager
 --=20
 2.39.2
 
