@@ -2,47 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908AD6A7C05
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 08:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 755656A7C0C
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 08:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE4110E385;
-	Thu,  2 Mar 2023 07:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F1C110E38C;
+	Thu,  2 Mar 2023 07:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31A6710E385
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 07:49:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B525CB80F88;
- Thu,  2 Mar 2023 07:48:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BE5FC433D2;
- Thu,  2 Mar 2023 07:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677743337;
- bh=FQxdqTVGL5Tmo2kQBo5EKP1J2REHE/x51/IRsTKSVWs=;
- h=From:To:Cc:Subject:Date:From;
- b=XspEgExULtgYyT2/JSwBsz6FMWvp73M05fblk0rUDtaIkFTNpa3sdJCl6KS+PB82O
- 0LdrLpkJ3AJUGRWSrxuDxTRFwww4PHuL8dwQU+E3j9ZvDAicnUkuLaraD9IcFZxu8l
- RjPkuwP7WBg+veLyRJJhKrXA00wQHuwtfLADH41PV4xo293Pe9wtVthupiOvAckp6a
- H3GgcdBwxKozZR+64id5HFNFjaFmaJoWMa3xVoHHgslcFcby4bM8TWbnU+N4yx/4IZ
- b2Ltl7/MMiFVggQcODjkdw2E6CpHAXmjw3abDL0ZKFi8jEE8PGJRw6K/t/m4eZDZO8
- 0PKvdSU99bu4w==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan+linaro@kernel.org>)
- id 1pXdgq-0002yX-KC; Thu, 02 Mar 2023 08:49:25 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/edid: fix info leak when failing to get panel id
-Date: Thu,  2 Mar 2023 08:47:04 +0100
-Message-Id: <20230302074704.11371-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F8110E387;
+ Thu,  2 Mar 2023 07:49:43 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id f13so64047576edz.6;
+ Wed, 01 Mar 2023 23:49:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7QBsnfhXDnf5DwaADeRQiObAhC0bZzC8CDE/JxEC7hI=;
+ b=kbanyc8H/TMsPfIk0hvY4HI+w29HltA8kRTqA7E5kmHmHDW9wfsV8xW6K4NiUV3AMh
+ ner2r+nzKqp07T2SZlWoWfm/OpGhS2DoqoxOSHURIGkwwDSv5lG6JpSIYlDALwwfE12G
+ o07CGNHD65eM+WBet6Mjcc+IxbIcLHibtNSNDFNZ0Q9e3JHyB0E3Ww3hBK2TQBI7PrXc
+ YlfrJadO4dXaGs786jnpG3NjGmf6W2A4mdZE53EutOSR3f5lF7iGxSEaK0EEqd0rp1BQ
+ rd7teM47f/JmUqElGahvAvtYGmxZdwaU7kqGgQRWBZANQDAuPOXgkjSxfrpqp0e/iUPg
+ 8NaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7QBsnfhXDnf5DwaADeRQiObAhC0bZzC8CDE/JxEC7hI=;
+ b=S4vaBH9w9LVFHfgOEZjpYwXajwbbj9YL0ut9PfCT35L9nx6gya4CqgmhP67ID7708J
+ FKqBvzS1HnmxyGHwBkKix8mPh7xrzhD5rb5R+MfVYG3qao/VtooFz+f5oX/GSu2hBSAm
+ MGw6ixFkzW5+C2rnZOcR67DdhbbmWJ/6v1QGOTdk1X4wh94NcfMAZ6cnEX23jWQtIfOr
+ pleI5hlO8pAO5glPaNliJZDQMyuOdOORQS0SviXbHvfcJYEjIbUXpIQDv28AuzRK5Ytr
+ cAR0vpwmbxIYhe4uB2rHHM+CXcLDcCgw5i1BbeiRQNLSooQtupQ6AzMPLv7lhHXvqse5
+ Gd2w==
+X-Gm-Message-State: AO0yUKWqw9f8ygOlYIIqK6ZTdas+gzM4y5BBREsPiREnLmq6kjSHYG1F
+ 9O0igJbVURvb04ZEcduWKB0=
+X-Google-Smtp-Source: AK7set+M9hIWfEZeov2dBlDpxyS+DV1YF5DEa2FFWWZpU0/0LuyG/Lp+Or/v+56Ha2VG4e6fe6gFvQ==
+X-Received: by 2002:a17:906:9b2:b0:8b1:3a18:9daf with SMTP id
+ q18-20020a17090609b200b008b13a189dafmr9337318eje.74.1677743381674; 
+ Wed, 01 Mar 2023 23:49:41 -0800 (PST)
+Received: from [192.168.178.21] (p5b0ea2e7.dip0.t-ipconnect.de.
+ [91.14.162.231]) by smtp.gmail.com with ESMTPSA id
+ v8-20020a50c408000000b004bd1fe2cc02sm75416edf.16.2023.03.01.23.49.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Mar 2023 23:49:41 -0800 (PST)
+Message-ID: <656afdb6-8326-0fea-e965-39c8051eff50@gmail.com>
+Date: Thu, 2 Mar 2023 08:49:38 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 1/9] drm: execution context for GEM buffers v3
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>
+References: <20230228083406.1720795-1-christian.koenig@amd.com>
+ <20230228083406.1720795-2-christian.koenig@amd.com>
+ <873a0702-56be-6277-c86f-8bb73a4805fd@redhat.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <873a0702-56be-6277-c86f-8bb73a4805fd@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,37 +76,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ arunpravin.paneerselvam@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make sure to clear the transfer buffer before fetching the EDID to
-avoid leaking slab data to the logs on errors that leave the buffer
-unchanged.
+Am 28.02.23 um 20:13 schrieb Danilo Krummrich:
+> [SNIP]
+>> +    if (exec->prelocked) {
+>> +        dma_resv_unlock(exec->prelocked->resv);
+>> +        drm_gem_object_put(exec->prelocked);
+>> +        exec->prelocked = NULL;
+>> +    }
+>
+> Let's say we try to lock 3 objects A, B and C in chronological order 
+> and in the first "drm_exec_cleanup() iteration" C is contended. 
+> Firstly, we lock C in the next iteration. If now A or B is contended, 
+> we never set exec->prelocked to NULL in drm_exec_prepare_obj(), since 
+> we did not yet reach C.
+>
+> Hence, this causes a double unlock, since the prelocked object is also 
+> unlocked in the above loop.
+>
+> Maybe I miss a detail, but to me it looks like setting exec->prelocked 
+> to NULL and dropping the reference should be enough.
 
-Fixes: 69c7717c20cc ("drm/edid: Dump the EDID when drm_edid_get_panel_id() has an error")
-Cc: stable@vger.kernel.org	# 6.2
-Cc: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- drivers/gpu/drm/drm_edid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ah, yes of course. That wasn't correct and my test cases didn't covered it.
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 3841aba17abd..8707fe72a028 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -2797,7 +2797,7 @@ u32 drm_edid_get_panel_id(struct i2c_adapter *adapter)
- 	 * the EDID then we'll just return 0.
- 	 */
- 
--	base_block = kmalloc(EDID_LENGTH, GFP_KERNEL);
-+	base_block = kzalloc(EDID_LENGTH, GFP_KERNEL);
- 	if (!base_block)
- 		return 0;
- 
--- 
-2.39.2
+Going to fix this and all the comments you pointed out and update the 
+test cases, should be done by next week.
+
+Thanks,
+Christian.
 
