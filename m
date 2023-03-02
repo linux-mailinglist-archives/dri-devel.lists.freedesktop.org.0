@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADFD6A8D74
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 00:54:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE3BC6A8D77
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 00:54:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBA5310E5AF;
-	Thu,  2 Mar 2023 23:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBB1E10E5B1;
+	Thu,  2 Mar 2023 23:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
  [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9698410E5AC;
- Thu,  2 Mar 2023 23:54:03 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id a9so952464plh.11;
- Thu, 02 Mar 2023 15:54:03 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE7F810E5B0;
+ Thu,  2 Mar 2023 23:54:06 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id a2so1001177plm.4;
+ Thu, 02 Mar 2023 15:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677801243;
+ d=gmail.com; s=20210112; t=1677801246;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MohZmh6ZcfzJn1OmRfs/o8+oM4ZPKLi2FB+4LPpL34o=;
- b=NgK5QtszZ34lTuRCDFR83nPJyn+DB4rxTP0xE2Tk42ck5MrS8xMf8+Res005BFWuUk
- OiuxWxoPYxy985tYupfANAIrsky/jHuQ0bpw0XrNrep1WFn2j77wuC2WfXhWBQrMh2KG
- evUciIFKtkiC5/Hmp/8FmBzb9+e5Vo7L6cnn6JIueIthHxAVhn335lRK8rGh5mGIius4
- Wa8k5qiZYL/4YmTU7abiVzfN5/DUGErsbDi1RVQ8/Tenm/Tt8tNy7WPC+INzuVg/caoS
- m+ubGaCAgoPAqn+oSkkBszkky6JbiZxyGBXxNkFY9Ckw1BDh1V34yYFBDyAdvi6yg4k8
- BRdw==
+ bh=l4ehVbwCT75xnP/ECU7XAGaXEnBwLlSeDxhb5qTgwac=;
+ b=NUH74MoMlFjyHOoQOc3Tof5RqeryUU+TpxADwdecLbscsf67tEJFGhdRs5OWz2/eTD
+ TiLDpF0n8UeoLj2nlfhjnUo8HWIroTQsFdMjRz3T8ZqPaP+qGQXWYPlzbuX5L2PKmK2A
+ 0jC6PSe+O7Q2xNLrCnTVKAUdK3IXA7sY0mler06fvzHsOkx+hfv+ibsPiqd2d9neDEgs
+ w/RMn11V5lkdSlkYR+t6K3Zoh6Qlc8CBHrHcs+E9+BSxFMdEs6ht9x3dpgxcLNnK/RYU
+ L6QanlZS1tad8ALNEB7qe3o8tbuTg/z0in+tZN4tPjzXP7abOw6YrX5drli2n2JuAPdO
+ tZsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677801243;
+ d=1e100.net; s=20210112; t=1677801246;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MohZmh6ZcfzJn1OmRfs/o8+oM4ZPKLi2FB+4LPpL34o=;
- b=bSKNJiYWJTNzMr6vfqAmxgSjqbD1YQbVm6+dOYYeKIcgTrjyDH7OSHAM1yv9w7L/kt
- XpKj0T4Z6aitx8QvJcZRA2EkXIPwYtQoFZ5hnXJMJbSvYzhW9zixAwfQW4uBnb5cYr79
- aVxbXoDomCgKAkWmZaZ4RvPBqusx+KsKGyTN1OxZA5NXWBdh+OxlR+PLyYgKCCO4tOuK
- b+/i3vGg+4HPTmszMCLR8KViuB1xVlpMjMpPkb9R5BsjxEP695e/HhNK6gjsVpm0R7Zu
- pCXUeZj09tpjUIrkmOnR+D1UkIrKD3Df7RsaV5MCu1rzcchyRWjfBUulmqzlnVlBAbj2
- y6zg==
-X-Gm-Message-State: AO0yUKVfypCAVV4n51nVz82pYln+/B+prw1rRLdkdC5fM61NBEywO1H8
- XB385gfgZO0Fo7g/vg1Z2Ys2FGGnfwk=
-X-Google-Smtp-Source: AK7set/jeW66C3SIqgDS1jGcRzwkcvjfPVt1xDGPtA139q1orfwZ9smn/0e+p7xdiCiKqaxbrcx5WA==
-X-Received: by 2002:a05:6a20:12c3:b0:c7:40f8:73d3 with SMTP id
- v3-20020a056a2012c300b000c740f873d3mr261340pzg.33.1677801242601; 
- Thu, 02 Mar 2023 15:54:02 -0800 (PST)
+ bh=l4ehVbwCT75xnP/ECU7XAGaXEnBwLlSeDxhb5qTgwac=;
+ b=puOMz0m8jzWHrQJlCw7NLEDjFvnbDuBJRxeo1LiMAe544uEUYedf6kQMn/vyaUoobI
+ NBk0ATwIVCRjmGwVenc+uEaHY45rZQXa65boORHijt+nMn3R5grJOryxV159ZlbgGL45
+ 15kmmbEaR5seizHaig9dENs0DJCYMg+4fidPxF0HcoDLg0dzdgVmvtgJYItfdiPQxX13
+ snyFaZ6+DnHojzCYA9NdclfZrl/Y5HAc/W5LQ+gsedomLTauFy8VhqqdFVVeXHSL7c6h
+ wIEqAoLqzc4yOlFPTVK5HPwnMGBP1dZulzSlsq+t1cWefClhZMwN2bkIfcGJ0Q05es93
+ V8pQ==
+X-Gm-Message-State: AO0yUKUv2SoyZR4RyAe2ZvjOYocWUpLR6/1qoenMGYWihMGS5tvoT7Pb
+ Vtp+MWGJeV2whbZ6P+AIumdBlA5mICo=
+X-Google-Smtp-Source: AK7set9yFD6Y5yJLKU6vm3DlNq9ITibopHzdU7+nBSZ1Vfy3oUeJJSkMSehminR0BguhikQjch98Ig==
+X-Received: by 2002:a17:902:ea0c:b0:19a:727e:d4f3 with SMTP id
+ s12-20020a170902ea0c00b0019a727ed4f3mr4273475plg.5.1677801244532; 
+ Thu, 02 Mar 2023 15:54:04 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- 35-20020a631763000000b004ecd14297f2sm227996pgx.10.2023.03.02.15.54.01
+ ka3-20020a170903334300b0019e21d2ed2esm226622plb.88.2023.03.02.15.54.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 15:54:02 -0800 (PST)
+ Thu, 02 Mar 2023 15:54:04 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 02/15] dma-buf/fence-array: Add fence deadline support
-Date: Thu,  2 Mar 2023 15:53:24 -0800
-Message-Id: <20230302235356.3148279-3-robdclark@gmail.com>
+Subject: [PATCH v9 03/15] dma-buf/fence-chain: Add fence deadline support
+Date: Thu,  2 Mar 2023 15:53:25 -0800
+Message-Id: <20230302235356.3148279-4-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302235356.3148279-1-robdclark@gmail.com>
 References: <20230302235356.3148279-1-robdclark@gmail.com>
@@ -90,41 +90,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Propagate the deadline to all the fences in the array.
+Propagate the deadline to all the fences in the chain.
+
+v2: Use dma_fence_chain_contained [Tvrtko]
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com> for this one.
 ---
- drivers/dma-buf/dma-fence-array.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/dma-buf/dma-fence-chain.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-index 5c8a7084577b..9b3ce8948351 100644
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -123,12 +123,23 @@ static void dma_fence_array_release(struct dma_fence *fence)
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index a0d920576ba6..9663ba1bb6ac 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -206,6 +206,17 @@ static void dma_fence_chain_release(struct dma_fence *fence)
  	dma_fence_free(fence);
  }
  
-+static void dma_fence_array_set_deadline(struct dma_fence *fence,
++
++static void dma_fence_chain_set_deadline(struct dma_fence *fence,
 +					 ktime_t deadline)
 +{
-+	struct dma_fence_array *array = to_dma_fence_array(fence);
-+	unsigned i;
++	dma_fence_chain_for_each(fence, fence) {
++		struct dma_fence *f = dma_fence_chain_contained(fence);
 +
-+	for (i = 0; i < array->num_fences; ++i)
-+		dma_fence_set_deadline(array->fences[i], deadline);
++		dma_fence_set_deadline(f, deadline);
++	}
 +}
 +
- const struct dma_fence_ops dma_fence_array_ops = {
- 	.get_driver_name = dma_fence_array_get_driver_name,
- 	.get_timeline_name = dma_fence_array_get_timeline_name,
- 	.enable_signaling = dma_fence_array_enable_signaling,
- 	.signaled = dma_fence_array_signaled,
- 	.release = dma_fence_array_release,
-+	.set_deadline = dma_fence_array_set_deadline,
+ const struct dma_fence_ops dma_fence_chain_ops = {
+ 	.use_64bit_seqno = true,
+ 	.get_driver_name = dma_fence_chain_get_driver_name,
+@@ -213,6 +224,7 @@ const struct dma_fence_ops dma_fence_chain_ops = {
+ 	.enable_signaling = dma_fence_chain_enable_signaling,
+ 	.signaled = dma_fence_chain_signaled,
+ 	.release = dma_fence_chain_release,
++	.set_deadline = dma_fence_chain_set_deadline,
  };
- EXPORT_SYMBOL(dma_fence_array_ops);
+ EXPORT_SYMBOL(dma_fence_chain_ops);
  
 -- 
 2.39.1
