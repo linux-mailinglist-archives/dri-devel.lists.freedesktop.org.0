@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9EF6A7B3D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 07:12:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3527A6A7B3F
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 07:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED75710E03E;
-	Thu,  2 Mar 2023 06:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C34810E368;
+	Thu,  2 Mar 2023 06:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01E6910E03E
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 06:12:20 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4934F10E368
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 06:12:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4D0526153D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 06:12:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B26DAC433EF
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 06:12:19 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7001DB80F88
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 06:12:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 28CBDC433EF
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 06:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677737539;
- bh=hEatX5K6nL9+UHIAGqYwqpDDSjPrwyIotadBEJDj4gQ=;
+ s=k20201202; t=1677737570;
+ bh=8WDgkTHHfvCqfHk466M5ofaihY3/rpnLsqxVUmAFMS4=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=dO3MK0IjVT/gaXXABOHJ5bxNJA7Uf0W1XHhtNxgQKiPSrYdQzp5Io1VKJnQTwxJQf
- DoGvAeFfrU4gcStsYoCvP39GI62lfbG8Ts0wrbv0Cr17TeAEDQxNhIJMBNKnPND5fb
- LlcpVe8q636OLB4pu4aDbUkqM2GwPgiAPqja2PxdKgr12mZLuDNxf27cFeF4S7AxYO
- 6v5iHwWH02zebUB6pcfdR9DMGbi0+YG5dEaNXdbnCu5hTWo+Zefw7u/QkzAsE405EK
- WsKwWxTjGhhlwCiXQIMOKzQ0lGJR7OQnfBPHB+xB9z0fcScpCUE5F7bLULZBTEzTuM
- WOC4kPb/XiBuw==
+ b=bumoh8yYj0WEEP6oQ+tAOPF9o4/hQneGkAkZZeaQHO4DeJ5QdQB5w9JGXltapfs6u
+ xqaG9cly6vPMdKVfE9B3HJFHgwR9INpm8Looq8mCfUEOY6PHMmv1VTNs7hC2rFOwmu
+ BVgjBVNJpV9XPA8RxkdgKFyaRWeVSjEhp1N62y/L36X0Q2rQMgfG5xQnivkiAZb9Ba
+ O+qcrRnfoRpm/QF62rJuv2AV6/Vyhu+0GrR1SX8ExOH3M3sqPMvCrItHiNGR/eJ+rF
+ V19c8IQFYvvN07Vk+bIEmzP0IALAUd4AHI2bBS12eQXX9PlnLdTwqPCE9YdT2aClfF
+ hNRkUfy1GY/jQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 940DAC43143; Thu,  2 Mar 2023 06:12:19 +0000 (UTC)
+ from userid 48) id 18E98C43143; Thu,  2 Mar 2023 06:12:50 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217110] GPU Lockup on Radeon Pitcairn - VAAPI related
-Date: Thu, 02 Mar 2023 06:12:19 +0000
+Date: Thu, 02 Mar 2023 06:12:49 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +49,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-217110-2300-c8t3pBfpfw@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217110-2300-b3N9L3AGI5@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217110-2300@https.bugzilla.kernel.org/>
 References: <bug-217110-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,23 +75,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217110
 
-The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
-huis.info) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |regressions@leemhuis.info
-
---- Comment #1 from The Linux kernel's regression tracker (Thorsten Leemhui=
+--- Comment #2 from The Linux kernel's regression tracker (Thorsten Leemhui=
 s) (regressions@leemhuis.info) ---
-Sorry for causing you trouble (I'm just the messenger here), but most of the
-core graphic driver developers (just like many other kernel developers) don=
-'t
-really look in this bug tracker; you want to report the issue here instead,=
- as
-that's where they expect issues to be reported:
+(In reply to The Linux kernel's regression tracker (Thorsten Leemhuis) from
+comment #1)
+> Sorry for causing you trouble (I'm just the messenger here), but most of =
+the
+> core graphic driver developers (just like many other kernel developers)
+> don't really look in this bug tracker; you want to report the issue here
+> instead, as that's where they expect issues to be reported:
+>=20
+> https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs
 
-https://gitlab.freedesktop.org/drm/intel/-/wikis/How-to-file-i915-bugs
+Sorry, I meant here:
+
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
 --=20
 You may reply to this email to add a comment.
