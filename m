@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E336A8722
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4606A8889
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 19:33:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D319A10E273;
-	Thu,  2 Mar 2023 16:45:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 606F510E53B;
+	Thu,  2 Mar 2023 18:33:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5EA10E273
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 16:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
- b=kDFUay36skYmps2/wdqt4fAH3ooPZbYWVp4pqBqM961wiZduj7P0xLgJw2P+NpMGf7kg1DoicLT6s
- g6l09K8HwL4RYQ8zGGoaFGn4km6zQYbAroP+EN+9HlyJrhV1W8t5cDqTAwscYUwdLDpYbIiHboO9rZ
- aMzoAa0S/vUdoj1kf/OGdJTZUpW+MrjaNGUTQavNWIRuYfGMKTi7Tl3hROfbZVtoTWtbKeUCJQ2L0I
- vgAjzdLxgJIXjLXCeRFb3ZpkshGAWy49N0muwOqA6SWUqwPx0aPY3DSGC5+6RFk99RSbDSFXHj01s6
- xLMWjzebL84uGzeen8v31LzBEjuhwEg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
- b=dTZtzyqF/jIMi0Zr3bfFJbyk3/PAmHQdX/XPn81EeMGXIgD+hYOJ9q2VlxqlJBJy6Rr6S2UsHglzv
- pur80rgBQ==
-X-HalOne-ID: 943971d9-b919-11ed-babc-11abd97b9443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id 943971d9-b919-11ed-babc-11abd97b9443;
- Thu, 02 Mar 2023 16:45:06 +0000 (UTC)
-Date: Thu, 2 Mar 2023 17:45:04 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
-Message-ID: <ZADSkGa6dK4H9p75@ravnborg.org>
-References: <20230228215433.3944508-1-robh@kernel.org>
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
+ [IPv6:2607:f8b0:4864:20::834])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F30A10E27A;
+ Thu,  2 Mar 2023 09:18:39 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id y10so12644551qtj.2;
+ Thu, 02 Mar 2023 01:18:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ur3zzFSZ+L9nV38J9531/+rGzVcRq8CFrus3AZSDIC4=;
+ b=Ql31hrT5twUkGostOsh1nmd4im63SgW755GgYt3GS4BXhnbkG8ne6ZyhfUlLgo3t3+
+ iHwbogagcCXr5FD+AzXCJpunon2xqnGpMzm80nAQm0mANklMJf8j8B3PQGQrRUQ5Blc1
+ /rkyJwI0DYUpJJOg0eRIs6XQuQiYNJ3bKPicHU39NmmbjEGTCkm0VDdiE9TJ/VpEwhWp
+ cO0JTYBI3RV+TMRJJg0r5lOtSTr7d+mFrg2+q8RSU7YPcX7zsDBYZZnREYN63dEYwcG7
+ wgwOWNUl4z9697pEaT35wQBct/CVnR4ZBDtcLPRKpNKJVUfhXNicZxu9kdWysS+NOW2b
+ zX/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ur3zzFSZ+L9nV38J9531/+rGzVcRq8CFrus3AZSDIC4=;
+ b=T/PoDlDR2M03EUiRfmZHpdzSnVgph4xiArSK34/K+4OYC5HZw7H8r1VSzO7iWs1GJ1
+ x8Yku4FZ35Mpahs2YxGA9C0PxIaOrDlcNa1Ni6LBlUxek3eLBps/TRViwPBASiPfHBkY
+ Am1OTdfrZ9JK1qRVSVa2dpdlZq8OJcvraljnetzRQfAdFzwffjc2mh3Czy1CyKWDIJ1B
+ 1ICzffCt/BeRTGn53aPpiG/uG8JsnLZXR1CRnUm4lhH1nHkjUhiT083+J4FvElTWZqQl
+ MIAXdZl2KND2h5fHMxooP4w+4u6mLjuKNlCIDMzqnJMCO2zbvxiqhw+YbmHRPEFWO2Rb
+ vQtA==
+X-Gm-Message-State: AO0yUKUfCHnvEzlxsdQ/zCu2QjfQ4NdfIYJg3P6s7cPvg5jsTQJ+bQNl
+ ZrRQxTDX3l10L7BKXo6AQts=
+X-Google-Smtp-Source: AK7set9SuQ0AOlZ1zc7C0byxOux2y+v0hR+O7KZZvVydEwsFnjb+4DOp3GVQQK7F6g3bXCqz65vwnw==
+X-Received: by 2002:a05:622a:15c2:b0:3bf:db42:777f with SMTP id
+ d2-20020a05622a15c200b003bfdb42777fmr16599569qty.0.1677748718118; 
+ Thu, 02 Mar 2023 01:18:38 -0800 (PST)
+Received: from localhost ([45.61.188.240]) by smtp.gmail.com with ESMTPSA id
+ n19-20020a05620a153300b0073df51b5127sm10505174qkk.43.2023.03.02.01.18.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 01:18:37 -0800 (PST)
+From: Jeff Pang <jeff.pang.chn@gmail.com>
+To: evan.quan@amd.com
+Subject: [PATCH] gpu: amd/pm: mark symbols static where possible for smu11
+Date: Thu,  2 Mar 2023 17:16:14 +0800
+Message-Id: <20230302091614.62093-1-jeff.pang.chn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 02 Mar 2023 18:33:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,72 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
- linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
- Robert Foss <rfoss@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Lee Jones <lee@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Miguel Ojeda <ojeda@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Kalle Valo <kvalo@kernel.org>, Wolfgang Grandegger <wg@grandegger.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+Cc: Jeff Pang <jeff.pang.chn@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob.
+I get one warning when building kernel with -Werror=missing-prototypes :
 
->  .../bindings/display/bridge/analogix,anx7625.yaml |  2 +-
->  .../bindings/display/bridge/anx6345.yaml          |  2 +-
->  .../bindings/display/bridge/lontium,lt8912b.yaml  |  2 +-
->  .../bindings/display/bridge/nxp,ptn3460.yaml      |  2 +-
->  .../bindings/display/bridge/ps8640.yaml           |  2 +-
->  .../bindings/display/bridge/sil,sii9234.yaml      |  2 +-
->  .../bindings/display/bridge/ti,dlpc3433.yaml      |  2 +-
->  .../bindings/display/bridge/toshiba,tc358762.yaml |  2 +-
->  .../bindings/display/bridge/toshiba,tc358768.yaml |  2 +-
->  .../bindings/display/panel/nec,nl8048hl11.yaml    |  2 +-
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:1600:5:
+error: no previous prototype for ‘vangogh_set_apu_thermal_limit’
+[-Werror=missing-prototypes]
+int vangogh_set_apu_thermal_limit(struct smu_context *smu, uint32_t limit)
 
+In fact, this function don't need a declaration due to it's only used
+in the file which they are.
+So this patch marks the function with 'static'.
 
+Signed-off-by: Jeff Pang <jeff.pang.chn@gmail.com>
+---
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> index 669f70b1b4c4..8bd58913804a 100644
-> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> @@ -226,7 +226,7 @@ unevaluatedProperties: false
->  
->  examples:
->    - |
-> -    i2c1 {
-> +    i2c {
->              #address-cells = <1>;
->              #size-cells = <0>;
->  
-> @@ -239,7 +239,7 @@ examples:
->  
->              ssd1306_i2c: oled@3d {
->                      compatible = "solomon,ssd1306";
-> -                    reg = <0x3c>;
-> +                    reg = <0x3d>;
->                      pwms = <&pwm 4 3000>;
->                      reset-gpios = <&gpio2 7>;
->                      solomon,com-lrremap;
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+index 016d5621e0b3..24046af60933 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+@@ -1597,7 +1597,7 @@ static int vangogh_get_apu_thermal_limit(struct smu_context *smu, uint32_t *limi
+ 					      0, limit);
+ }
+ 
+-int vangogh_set_apu_thermal_limit(struct smu_context *smu, uint32_t limit)
++static int vangogh_set_apu_thermal_limit(struct smu_context *smu, uint32_t limit)
+ {
+ 	return smu_cmn_send_smc_msg_with_param(smu,
+ 					      SMU_MSG_SetReducedThermalLimit,
+-- 
+2.34.1
 
-I can see this align the example with i2c-mux-gpio.yaml so the change
-should be fine. I am just positive surprised the tooling caught it.
-
-The change is
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-the above was just me thinking loud.
-
-	Sam
