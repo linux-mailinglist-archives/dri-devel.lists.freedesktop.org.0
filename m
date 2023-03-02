@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621226A7FEE
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 11:28:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B1F6A7FF4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 11:29:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3753010E424;
-	Thu,  2 Mar 2023 10:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE57D10E443;
+	Thu,  2 Mar 2023 10:29:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA1B710E424
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 10:28:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677752886; x=1709288886;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JNmeX4YMt2MSNNVdS07qrPM9ADyCnWD1IDLvuLJEbCQ=;
- b=f2hXNI2j2On/OtKb8i7pI10Ojyk9CAMBY/1Q4YPexh+ga0tlNv9FgFjI
- vyFAYz9gLKZiggKyfz8cDuUNGk12R3YbrVJGDWJZkKIAFvPWTzKskwO98
- 7IZQSvzJAwGfOmM2yG4XlMac3pbPrkJLJevPNqFgr7f8ZYkfJr1XtWp/4
- P6JWFw3aKnHYZk5qiw86rUuaCtTAueSgkPKWE/Kv3M6WSlfEZHN2vAPru
- jKuTfAHcPEXLfWBtfmtf3TbR9l1cjt/12EAndANbRAHux+3KEJgFV1W1T
- WxSFEj+mfiosbpcynS36IqsYF9OfBWctNQ07fbqALy/CwJb+25dxnl0d5 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="336981764"
-X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; d="scan'208";a="336981764"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2023 02:27:50 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="652359097"
-X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; d="scan'208";a="652359097"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2023 02:27:49 -0800
-Date: Thu, 2 Mar 2023 11:27:47 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Oded Gabbay <ogabbay@kernel.org>
-Subject: Re: [PATCH 1/2] habanalabs: unify err log of hw-fini failure in
- dirty state
-Message-ID: <20230302102747.GD3963532@linux.intel.com>
-References: <20230302091517.14896-1-ogabbay@kernel.org>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0880910E443
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 10:29:37 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id l25so16028661wrb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 02:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1677752975;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aG0uzlam+VIYSFcSVrtgNaOvUeUxZNJ+qAZWm8ja/DY=;
+ b=qiEuzk581mlkYapti1YIm/V0XjlG20KCHFn4YAGJTpbZyclABGs8iQcEU5h1RsXS+v
+ ML9MQ9w5SS2nvl1b7/Nd5/hexpweNNUi6QRW0pWlOLEQZCi/nNf9jcL5VsONz7DyOp45
+ yIYUSE3vJ+etNZH3HoS98x2JN0Lw9QdLpkdX4TYPwHnN6XZ8e/G9XhSLVx7q7Yzk82LA
+ AvAiZRA+FMy20PQwO5QgXWobPHpmexmqiJn54YeshKpniMfrY1UuEF23rwo0SOTmQSVV
+ ZMVI/omRyWUAGyUq+cArdaMAtM81zuKUZ570O5+bSmz+Q54/l5sTw1GiryHNKOce5Q7X
+ 56zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677752975;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aG0uzlam+VIYSFcSVrtgNaOvUeUxZNJ+qAZWm8ja/DY=;
+ b=kstt7HM+AqZcg65d9toCkTPIUgMG5t+C/5qkEhtjw3u6/3q9VJzjIgLyssu1mgLbPx
+ O9xuhpCqFU0eoSwqP/eHcVPB1YW6Id5Y543C1bXNWtSzyOkfE+da/OX4zerNAwG7rC+E
+ wGRC9S1c4nVYSr03kZNzH62C/SZbndIUogNRmvPNwCP5XO20WZQvDJjXnmzpgDH9neTY
+ orG19AHZD7QayFpAWQ1lNNg1X1S8sJ+mEqv3erYraO4WNWHvO9vkBtz4oisLCtnnzW8q
+ JWjjO/2391OvUKVu/V/YH2OpAjbnV29Sic7ebkomHhkJzkTp8U7Itbb4Lr7L22bt0jcr
+ sJ6A==
+X-Gm-Message-State: AO0yUKVcf1dE22s3AOohMrnvP75i1HiuYgQtGspqdV9y6Jf5W5Yit0Tu
+ DE7T1sTOzMoNbXoN05bHqCAjTA==
+X-Google-Smtp-Source: AK7set9vEdzBVf4lPIVfbQuTGQ+LT+gsnEcEJwXGUvFZFRmt6hqek/sgmyehiQPAW/KVqZHNXngUpA==
+X-Received: by 2002:a5d:4586:0:b0:2c7:1d71:e672 with SMTP id
+ p6-20020a5d4586000000b002c71d71e672mr6879122wrq.7.1677752975373; 
+ Thu, 02 Mar 2023 02:29:35 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ j14-20020a5d464e000000b002c558869934sm15069137wrs.81.2023.03.02.02.29.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 02:29:34 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <20230216-topic-drm-panel-upstream-maintainance-v2-1-ffd262b72f16@linaro.org>
+References: <20230216-topic-drm-panel-upstream-maintainance-v2-1-ffd262b72f16@linaro.org>
+Subject: Re: [PATCH v2] MAINTAINERS: Add myself as maintainer for DRM
+ Panels drivers
+Message-Id: <167775297427.128880.7902941265688645008.b4-ty@linaro.org>
+Date: Thu, 02 Mar 2023 11:29:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230302091517.14896-1-ogabbay@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,16 +75,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>, dri-devel@lists.freedesktop.org
+Cc: Jagan Teki <jagan@amarulasolutions.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 02, 2023 at 11:15:16AM +0200, Oded Gabbay wrote:
-> From: Dafna Hirschfeld <dhirschfeld@habana.ai>
+Hi,
+
+On Wed, 01 Mar 2023 10:47:35 +0100, Neil Armstrong wrote:
+> Add myself as co-maintainer for DRM Panel Drivers in order to help
+> reviewing and getting new panels drivers merged, and Remove Thierry
+> as he suggested since he wasn't active for a while.
 > 
-> print more informative message when failing in dirty state
+> Thanks Thierry for all your work!
 > 
-> Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
-> Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>> ---
+> 
+> [...]
+
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next-fixes)
+
+[1/1] MAINTAINERS: Add myself as maintainer for DRM Panels drivers
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=4ddeb90d602ac58bcf99924eb34d8b2f820ce11d
+
+-- 
+Neil
+
