@@ -2,52 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471516A86FB
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:40:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC146A86F1
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:40:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 318E810E244;
-	Thu,  2 Mar 2023 16:40:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 394DA10E25C;
+	Thu,  2 Mar 2023 16:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE83E10E244;
- Thu,  2 Mar 2023 16:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677775241; x=1709311241;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ddpeYcd3jay+u6BOc2MfT/dx3rtowzXoAJkEj3v7qeY=;
- b=PTCcSwn3ghOu5d976NgkmO7LneM6m8t+U+KkAh1HFzyAhy674VqlQnwL
- PLXs5FqexV7IOU7F2K1REI8tCSActvxaeKXhw1I8yL84rYEPx91w1UR4Q
- D9jwPKB63muWqVZALELoX1Xz6PXT8Pv9MOAljK/hRUmGDyo5CgONrLqZz
- Bn7xPnziOTHqOrulSfgzAaeICGuCKIxmm3wAZkhJglO7zzN5Pd0jYNoWW
- 8yNeD1NO6hVw60xxnSg6YuYU7zmrkANi7rj6qiAUhzcc0/uiJrLM7e3pJ
- 34Pz7cQInEVFvneSsoOBmi7WAoKUaGgK9fkkboT15FaAJyaF+OoflaejH g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397362795"
-X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; d="scan'208";a="397362795"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2023 08:40:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="798896500"
-X-IronPort-AV: E=Sophos;i="5.98,228,1673942400"; d="scan'208";a="798896500"
-Received: from lkp-server01.sh.intel.com (HELO 776573491cc5) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 02 Mar 2023 08:40:22 -0800
-Received: from kbuild by 776573491cc5 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pXlyf-0000fE-0K;
- Thu, 02 Mar 2023 16:40:21 +0000
-Date: Fri, 3 Mar 2023 00:39:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH RESEND] drm/tests: Suballocator test
-Message-ID: <202303030056.CNeZGRQR-lkp@intel.com>
-References: <20230302083422.76608-1-thomas.hellstrom@linux.intel.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFA5510E25C
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 16:40:06 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id i28so119974lfv.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 08:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=clemDdlw5AVVfbBMfMMVk1mB/n91ZZIxJxGYFhtaE10=;
+ b=ZcWzd2VISv7VbjUNUOKAd/ScIHUIlD+kat046CfvIzTRNnRvWidoivUQJBI3P2pjEZ
+ CX+7iV9lc2HS9oMSqLt+RlZy/vON+VOJlP80aYDi62yiZnqnbfZU+sV082TlH2Ke1dGT
+ gWITtMMdjJOOHllC5SmBmxo5X6qF8xdJBoyLTyNAjEgb9ABPnWCtZ7CRyNwI1sQOEEOj
+ LDAE8Jgl0CkqG7rSUE7WHa2tiPGyLmMyer7I6eu4DqcYHosmuUrkbXuHOj8+8O9st8O6
+ qmzZrGuZ3/VKs4dkrfb1X+PZWK8sqxeb8v9+xmFTTQdnevZt4L6a8bcyHWWtoB7MgbmC
+ KWnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=clemDdlw5AVVfbBMfMMVk1mB/n91ZZIxJxGYFhtaE10=;
+ b=mdVAONtdIv0h097WdtU2c1hiSIwJL6BHy6tmHqDDim1vfmi7zzyTkXiu8k6Hg5L7hQ
+ id66BfG03SWkrTpYZNsUfAV2BFs2FLOzgL+fgLa/mS3VZrCZEzGq0GpcCJt60zBYOXD9
+ HM4mM0t9nFm5lv/h4TvM3wMpGgPdhKa3C9zmHL/VaI/spKvXynWr0s0P7/P2Ra2PpmVC
+ QJuWJzM326y5/6zd9rW6QvkFHC/KCeXJWSmQRYJGR2vCfrDN0Uq01tvHhppABzOtUcBD
+ 80IuUupe05lD+yEMctocz1LZK4fN9wQQU/kmyoWUojBcVh+Kw3OsIkbjMFeH29A9sdZq
+ ERlA==
+X-Gm-Message-State: AO0yUKVUQ74XrAJlO4ouLFBSF/mZvnVakRl+l+KlW2ig4ZQxf9kPBOnq
+ iRtA8xgJtHU7NTccbyEVms0Jhw==
+X-Google-Smtp-Source: AK7set8kh2kDzBB4CHJkTz1iDmV3/IKPUx0riwaparu6P77949nYB2XB727Wg3k9aIn+VVypxEti2Q==
+X-Received: by 2002:ac2:5d41:0:b0:4de:ca63:b2d2 with SMTP id
+ w1-20020ac25d41000000b004deca63b2d2mr2956571lfd.26.1677775204510; 
+ Thu, 02 Mar 2023 08:40:04 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ e19-20020ac25473000000b0048a9e899693sm2211229lfn.16.2023.03.02.08.40.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 08:40:04 -0800 (PST)
+Message-ID: <7de00f26-cc93-b549-f66e-8d1f8867f8b7@linaro.org>
+Date: Thu, 2 Mar 2023 18:40:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230302083422.76608-1-thomas.hellstrom@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v14 14/14] drm/msm/dp: set self refresh aware based on PSR
+ support
+Content-Language: en-GB
+To: Vinod Polimera <quic_vpolimer@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,67 +79,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Christian Koenig <christian.koenig@amd.com>, oe-kbuild-all@lists.linux.dev
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_khsieh@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 02/03/2023 18:33, Vinod Polimera wrote:
+> For the PSR to kick in, self_refresh_aware has to be set.
+> Initialize it based on the PSR support for the eDP interface.
+> 
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-tests-Suballocator-test/20230302-163704
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230302083422.76608-1-thomas.hellstrom%40linux.intel.com
-patch subject: [Intel-gfx] [PATCH RESEND] drm/tests: Suballocator test
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230303/202303030056.CNeZGRQR-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e970911bccf3145b76cd755e2d78c0c0f7f22ca1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-tests-Suballocator-test/20230302-163704
-        git checkout e970911bccf3145b76cd755e2d78c0c0f7f22ca1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303030056.CNeZGRQR-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/mips/kernel/head.o: in function `kernel_entry':
-   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
-   mips-linux-ld: drivers/gpu/drm/tests/drm_suballoc_test.o: in function `drm_test_suballoc':
->> drm_suballoc_test.c:(.text.drm_test_suballoc+0xcbc): undefined reference to `__udivdi3'
->> mips-linux-ld: drm_suballoc_test.c:(.text.drm_test_suballoc+0xd20): undefined reference to `__udivdi3'
-   mips-linux-ld: drm_suballoc_test.c:(.text.drm_test_suballoc+0xd84): undefined reference to `__udivdi3'
-   mips-linux-ld: drm_suballoc_test.c:(.text.drm_test_suballoc+0xde8): undefined reference to `__udivdi3'
-   mips-linux-ld: drm_suballoc_test.c:(.text.drm_test_suballoc+0xe40): undefined reference to `__udivdi3'
-   mips-linux-ld: drivers/gpu/drm/tests/drm_suballoc_test.o:drm_suballoc_test.c:(.text.drm_test_suballoc+0xfb4): more undefined references to `__udivdi3' follow
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+With best wishes
+Dmitry
+
