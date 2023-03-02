@@ -1,119 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DB96A836A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 14:21:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9AD6A8399
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 14:34:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEB4310E4F3;
-	Thu,  2 Mar 2023 13:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BAA710E4FE;
+	Thu,  2 Mar 2023 13:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2071.outbound.protection.outlook.com [40.107.95.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05A8510E4F3
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 13:21:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kEtnCW8NYEgSe78psZyS7Mylm+M2zZ7WlboSND+EE43IEwj0Uhpte7ZV3e28W5llyZSYeiiCaKCQTQ4GKPg/5kK7W2SNeaztq+unK0MuC4nR+3Q3yibWIgASAuDucmXCROpl/u6ydfEsO1nzGFqCr3JjwH6vgOyJnE8FDyGDxmRoD2XUsk8Z74PuHT3619cKOxMv9Aie/cY0BhE4CsEAyS22F2CorTzU+GYd/Nxogw1PDtDaPLTZ6xkf+h2WjrPu8VOoNMXM9eY/1gF5RiOSG0GartkpwU1mvJFHiBBYFGnQ2NwB3o0D5T7q7gpkCg/5zIxk3wmGTI9Tio09p54oug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1motOSVnJmcxp5CBGNn228Jr9C7VWFjyMuyccLJjIso=;
- b=EHr2oJEBlSoct+c75pWjqrKCMQSKbwY4RRVh3azom6tL1vb1N459XgKzzB0fHVitGfNePWU3ALTfLWMUnmtHOv8TiEsfRiNqQX8wY2lKvsWIqigBTVAw7NOn4Ni8F/dcsDF8HiPTMcsklBohe7pmDAkRt64fxyzAgl0nCmMMqGHTFvwGebkj7MFX4cwY9n+PN59Uq6QowkWIQ53/QdhWmHhxNrTSuNJ6hdcqWl2bU+qsQXEGLELRTsmEOXN1MDhSHYv8l4VXfWYW4k6Cl9JYf+ngyOCY1CSKy+EC2g0vHxLL2iwdjZFsqOYrtDB2IWfkD890hqoddlnsAS0mmEahTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1motOSVnJmcxp5CBGNn228Jr9C7VWFjyMuyccLJjIso=;
- b=HDWHFrQBmh6Ua0w8Rnvt/WTzj8krKTEiIm+diKq1p7/Rhx/c40TRj2cGLOEMSfIb9vdBV5xzlcXhllXRrUbKsWmTQ0Lg4hdPvN21aBMUchk1Dclj7eBzfx2HSTgU8b7ehDi14LXzmUYLlUkFDFDv1mERSuvrxu5a1WhrzaOr+QU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SN7PR12MB6790.namprd12.prod.outlook.com (2603:10b6:806:269::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Thu, 2 Mar
- 2023 13:21:22 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6134.030; Thu, 2 Mar 2023
- 13:21:22 +0000
-Message-ID: <e5b9ee07-f74a-8d00-066e-92c9c23eb32b@amd.com>
-Date: Thu, 2 Mar 2023 14:21:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] drm/vram-helper: turn on PRIME import/export
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-References: <20230301222903.458692-1-contact@emersion.fr>
- <e3fa0ef2-b9a0-ef53-abb5-edaa14eb3f9b@amd.com>
- <R1BP91PubkIEl7OMjpEUBo5n8CdMZ4yW4KHtgZJZ3Ay0qJ9GREsN7oKCr5k2H6g_r03AEX0w0owgO6jBZXaKSDjzh4OH1S7LDHd1QXicvxE=@emersion.fr>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <R1BP91PubkIEl7OMjpEUBo5n8CdMZ4yW4KHtgZJZ3Ay0qJ9GREsN7oKCr5k2H6g_r03AEX0w0owgO6jBZXaKSDjzh4OH1S7LDHd1QXicvxE=@emersion.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0164.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+X-Greylist: delayed 6064 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Mar 2023 13:34:29 UTC
+Received: from out-4.mta0.migadu.com (out-4.mta0.migadu.com [91.218.175.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00D5A10E4F5
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 13:34:29 +0000 (UTC)
+Date: Thu, 2 Mar 2023 21:34:24 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1677764068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9o3HlvhUfST65yAZugk+1j+5MhQJzpO2pgB0VxiBWp8=;
+ b=sVemfa/F9Evmv4FCYHUcXm2bWc3Otrct1IT6U9+jxV9kL1uGeRJOlbsqGpxkgczb76cmt9
+ s9ktXBx2cdKfPPW6PVIknEMdgQc5TJlgrst+HzyftDP7nLhBNa1FvPz0eINZCM/vdVmPeg
+ kQiTOtb+ipnStkVKPi/U/J6IbdjotCw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/gvt: Make use of idr_find and
+ idr_for_each_entry in dmabuf
+Message-ID: <ZACl4IMd44jN1uqV@chq-MS-7D45>
+References: <20230302115318.79487-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB6790:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39376d44-3b7b-4a2b-0ac0-08db1b210416
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tNhkLzhYdowsBFWCYEdvzeuQurw3S186hGRerXwFcPBJ/nj8hluyafyFBkU7xED8y26GKlhDAtqzOA2IT2Zk8uobcsGaqvOELjFX40NsjE7TKpMwLv3k/KL4z4XTdoY6VnfePtELGCD44zWLwAVjU818Li2+n6gm6j2EkXLsQ49UrKjymAMHcfDITYFKaTon9YcvmxacIWkgMskWlJnnndFmHcL9Fhld4nX8SOzZWsduVcg4Z+baSG61dlf8ZuuPnL1qEw+6zbnoWkpcF/28l1rd7H3zBll3//N0xA0ivraUfSYawr9R2NlvTSOq7revmjC9VpfNFoIpKz8ngwpnCky3hGD6pg4Fuz2hkmq/15Cx+je7yYS8CWR98+IbNUq+IqA37yUbuLbZS8RvyDeLkD+yjShhWWSNK+CR0yGaki1sLuvU4gvw4C3uG//YfAFNP6i1VWR9G5aaSixspzjUqTupk37nnlxdDteiVkNqCzwpzhyrpLkcA6+l3Coa2OGLgLUQ5NzjhA0e7DIwgTxz5cY45lfsbUgIK/sXOxHZYfhWrzZWsOZUdnARmkvDawv0/f8xKAxukX44tVdDZuEUBZC/PAQnFjg2NW+12u0BmUpgfF9utVW6TfbdsBDIN7OmoKvvsRgzyCouVnrUYbLn4WNqZ944efAs7jMSyle1fyESpMHLD7zvnF30i86YSqrGsDbzL5Jgy8rp92/O09aZXR++ztV5ZxkE6M6DbwPzd+0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(39860400002)(366004)(136003)(346002)(396003)(451199018)(66574015)(31686004)(6666004)(36756003)(38100700002)(5660300002)(478600001)(66946007)(31696002)(86362001)(8936002)(26005)(186003)(2616005)(6512007)(6506007)(6486002)(66476007)(66556008)(2906002)(4744005)(8676002)(6916009)(41300700001)(4326008)(316002)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZmRSOEFxeVhmUGhPaSsrR1p1d1ZaWi9scU94MkFLcFV3bjNEL3JCRnl5a0s0?=
- =?utf-8?B?S1hWQ01wQWJHMkx5c09YZkVMN0pnWkxQc0djQlVUbjZsU3EraStpcnNNaFJl?=
- =?utf-8?B?NWxFNlBKWm1HZGNYV1MyUWV0U3o0U1lUemt4QlNaTUViYTVCZW4rSjB5S2tF?=
- =?utf-8?B?Zi9iSUViWW9ZN1hnTjRacWJaVGJWVXU0b2lseVp5bHZyT1VFZGs4bzExcndw?=
- =?utf-8?B?Mlo2VkIzdjJRWWc0TlFuc0ppQ2R1NVhEbXFReGVGbG5abDExZ0hWVzN3OGx2?=
- =?utf-8?B?dFgvYnlPeHpWT2pUdkgzMm45S1hBQ3lEMHZTeEdGU1RRbGo3V09OMzZtT200?=
- =?utf-8?B?L0FvL1p3emV2bWJGNlpGcWx1VXVkckVhNEp2YU9HTDY2M2k1VTZhTDZQeC8z?=
- =?utf-8?B?K0EzbU5PVnpWd0tweDI3WURkMjdsbkZZR01qY1B3aFJmRmoyRndoNVhtL3o5?=
- =?utf-8?B?QXc3NlMxdEJpOFRUendRT2FHSnk3Und3bVJaSGh0akZ1TWUwZDBlMlUzMzl6?=
- =?utf-8?B?VnFtbnRrZG9hMkNTNEtoRXhtTldrbkZ4dnUvVmJYN2t4NlRSenZvTlcxTXhU?=
- =?utf-8?B?cUFnSnltK1pjM2crSkVuV2Rad2xkSHVyZXFoWmVidTUwU1JXMTh5Nkl1QUVk?=
- =?utf-8?B?MjdUbTVyeTRkem13RUVwbGZ1ZXhUekd6TEdHTWxMSmxGcHdWYXlZcVFlNllN?=
- =?utf-8?B?SFVhV2dUZ2FnQ1VOYks2Yml0NkQzOVRGa3RmRXJzdUtzY1FyVFd4NHo2YnVk?=
- =?utf-8?B?NjNIQTZoaVYxc3BwSkgzY1ZWaG83elNRSWZjYkNpN2d3dFc3YzVkdmlFU3Nw?=
- =?utf-8?B?dzhEbmdncHNRT1c1Rmx5Z2cweWpWaXBqaUlLZWRSYS9yd1hlR0JHa2h5NEJj?=
- =?utf-8?B?MmlJMDFTdVpVM0NVTkpHampFL3d3VlB1RmNqZitLUi8yS0QyOUJCMmJmMGZD?=
- =?utf-8?B?ZzN2a0lGaDVUbUY1RWhoVXlvYkNGRTVEYjZ1T29LaW90VEhia1FGYWt0Mm5W?=
- =?utf-8?B?TlAxT0t3dEJEbzhIbG5MdGFNaHhNMzN3VWtJUUtzcEFtQ2I2VmExMlZ5NWxv?=
- =?utf-8?B?aHJxc1NreE1CVEFMVWJ3SURLaVlpeHZCbTdzLzlHUHJGOUhFTW53OFlxSjhY?=
- =?utf-8?B?cU5kTmVjMmRHYmpsc0hvWEhzbEFRWGdLTlgyeUY3ZE1jYWRVVkx6cGZscE1N?=
- =?utf-8?B?MHZmUWpPQ2JqY1B5V3Vyai82U1ZvRWx3UW1xYks2YlFBTERaeDJLQlpoZVo4?=
- =?utf-8?B?TTlPY2hTN3dLQVY3dEhnakFlZEF5Ukp4S05XTkhhd0g1WXdPcDV0NDJFbmdx?=
- =?utf-8?B?N29Cd21vVFJjaUJHdjhacVdHOVJ1anJuR1dGaUtsUzFzMmhiakNkVTRmTnhL?=
- =?utf-8?B?Wk53OWpIeGlLaHM2cXJWOURrWWdneG1pVU9ZV0kyQ3B0d1ZiRGhMQnJqSDZE?=
- =?utf-8?B?TTVQY3FUUDFWaWQ5Z1VrdEZJVUZjaU1Bb3pWalBoT1ZOTklVdmxQdzZiL0dx?=
- =?utf-8?B?ME92TnRMcWxWTXhmMlNOTkpSaDJiYXExSExaZXVsczRDdmtrWG1ycHExa2hs?=
- =?utf-8?B?bXREMkxMdG5VcmFkY2xiQ0xrdUxYbFZQOTNwRDAxam5RUkdUcmFNTkF3Nlp5?=
- =?utf-8?B?bHBZNFdmU01paXhWTVdDdWlJa3NJNTBWbE9qWXpVejJtYyt2dEcrQzA2N1V2?=
- =?utf-8?B?Q285VjU3Rm1DL2REdzgrNkJxS0krWmVROFE0ak9vS21xRmVKVzhqWW1zOHNJ?=
- =?utf-8?B?ZnB5czRXb0hjclhuQXExendGWS9NYm5rT1FnTXJXZ2pDaHNxVHBhNzljZmpz?=
- =?utf-8?B?U3BLdHBnSU42ZHF1Mnd1Z3J3N3YycmRkNWVINHZmT0pLN0FiTCszY2s3L3k0?=
- =?utf-8?B?d1RLS28xenhXQTlVU1JnMmFWOUp6QkRkSGhybHhubHBDM0M2V0YwVkVjajVN?=
- =?utf-8?B?UUhOOEtqQVRGOVA4dGpqdVduK2FreFBkM2J6V0pNQVZjK050bDNpR1RIaVZy?=
- =?utf-8?B?TU4vclBsVE1yMDE3emVUcURaMmNoTk93WW0zcldWRWFRcm91QzBxWHpQRXBk?=
- =?utf-8?B?UmtvZlNDS1c3TGZNWTlucTFDdk8xelFualBBd2RMSXE1Z0NRQ1o0RE4wNGNa?=
- =?utf-8?Q?HpKF8RVy9T3ssUXW4G+hDg4D2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39376d44-3b7b-4a2b-0ac0-08db1b210416
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 13:21:22.2293 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9ErqMiBO0CgdWiRLVR6S6oTU6uAkideeD5B7PW2JI+VuKbD1yzcib924FeaS/tEs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6790
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230302115318.79487-1-cai.huoqing@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,27 +59,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 02.03.23 um 11:14 schrieb Simon Ser:
-> On Thursday, March 2nd, 2023 at 08:11, Christian König <christian.koenig@amd.com> wrote:
->
->> Am 01.03.23 um 23:29 schrieb Simon Ser:
->>
->>> We don't populate gem_prime_import_sg_table so only DMA-BUFs
->>> exported from our own device can be imported. Still, this is useful
->>> to user-space.
->> But what happens if one of your BOs is imported into another device?
-> Is there a way to make this fail, always?
+On 02 3月 23 19:53:18, Cai Huoqing wrote:
+> This patch uses the already existing IDR mechanism to simplify
+> and improve the dmabuf code.
+> 
+> Using 'vgpu.object_idr' directly instead of 'dmabuf_obj_list_head'
+> or 'dmabuf.list', because the dmabuf_obj can be found by 'idr_find'
+> or 'idr_for_each_entry'.
+> 
+> Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+> ---
+>  drivers/gpu/drm/i915/gvt/dmabuf.c | 69 +++++++------------------------
+>  drivers/gpu/drm/i915/gvt/dmabuf.h |  1 -
+>  drivers/gpu/drm/i915/gvt/gvt.h    |  1 -
+>  drivers/gpu/drm/i915/gvt/vgpu.c   |  1 -
+>  4 files changed, 16 insertions(+), 56 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/dmabuf.c
+> index 6834f9fe40cf..7933bd843ae8 100644
+> --- a/drivers/gpu/drm/i915/gvt/dmabuf.c
+> +++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
+> @@ -133,21 +133,15 @@ static void dmabuf_gem_object_free(struct kref *kref)
+>  	struct intel_vgpu_dmabuf_obj *obj =
+>  		container_of(kref, struct intel_vgpu_dmabuf_obj, kref);
+>  	struct intel_vgpu *vgpu = obj->vgpu;
+> -	struct list_head *pos;
+>  	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
+> +	int id;
+>  
+> -	if (vgpu && test_bit(INTEL_VGPU_STATUS_ACTIVE, vgpu->status) &&
+> -	    !list_empty(&vgpu->dmabuf_obj_list_head)) {
+> -		list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
+> -			dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
+> -			if (dmabuf_obj == obj) {
+> -				list_del(pos);
+> -				idr_remove(&vgpu->object_idr,
+> -					   dmabuf_obj->dmabuf_id);
+> -				kfree(dmabuf_obj->info);
+> -				kfree(dmabuf_obj);
+> -				break;
+> -			}
+> +	if (vgpu && test_bit(INTEL_VGPU_STATUS_ACTIVE, vgpu->status)) {
+Here should add '&& !idr_is_empty()' like '&& !list_empty()',
+I will fix it in patch v2
 
-Well you could return an error from the attach callback if I'm not 
-completely mistaken.
-
-But that's certainly not a standard function of the DRM helpers.
-
-Regards,
-Christian.
+Thanks
+Cai-
+> +		idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
+> +			idr_remove(&vgpu->object_idr, id);
+> +			kfree(dmabuf_obj->info);
+> +			kfree(dmabuf_obj);
+> +			break;
+>  		}
+>  	} else {
+>  		/* Free the orphan dmabuf_objs here */
+> @@ -340,13 +334,11 @@ static struct intel_vgpu_dmabuf_obj *
+>  pick_dmabuf_by_info(struct intel_vgpu *vgpu,
+>  		    struct intel_vgpu_fb_info *latest_info)
+>  {
+> -	struct list_head *pos;
+>  	struct intel_vgpu_fb_info *fb_info;
+>  	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
+> -	struct intel_vgpu_dmabuf_obj *ret = NULL;
+> +	int id;
+>  
+> -	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
+> -		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
+> +	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
+>  		if (!dmabuf_obj->info)
+>  			continue;
+>  
+> @@ -357,31 +349,11 @@ pick_dmabuf_by_info(struct intel_vgpu *vgpu,
+>  		    (fb_info->drm_format_mod == latest_info->drm_format_mod) &&
+>  		    (fb_info->drm_format == latest_info->drm_format) &&
+>  		    (fb_info->width == latest_info->width) &&
+> -		    (fb_info->height == latest_info->height)) {
+> -			ret = dmabuf_obj;
+> -			break;
+> -		}
+> -	}
+> -
+> -	return ret;
+> -}
+> -
+> -static struct intel_vgpu_dmabuf_obj *
+> -pick_dmabuf_by_num(struct intel_vgpu *vgpu, u32 id)
+> -{
+> -	struct list_head *pos;
+> -	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
+> -	struct intel_vgpu_dmabuf_obj *ret = NULL;
+> -
+> -	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
+> -		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
+> -		if (dmabuf_obj->dmabuf_id == id) {
+> -			ret = dmabuf_obj;
+> -			break;
+> -		}
+> +		    (fb_info->height == latest_info->height))
+> +			return dmabuf_obj;
+>  	}
+>  
+> -	return ret;
+> +	return dmabuf_obj;
+>  }
+>  
+>  static void update_fb_info(struct vfio_device_gfx_plane_info *gvt_dmabuf,
+> @@ -477,11 +449,6 @@ int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args)
+>  
+>  	update_fb_info(gfx_plane_info, &fb_info);
+>  
+> -	INIT_LIST_HEAD(&dmabuf_obj->list);
+> -	mutex_lock(&vgpu->dmabuf_lock);
+> -	list_add_tail(&dmabuf_obj->list, &vgpu->dmabuf_obj_list_head);
+> -	mutex_unlock(&vgpu->dmabuf_lock);
+> -
+>  	gvt_dbg_dpy("vgpu%d: %s new dmabuf_obj ref %d, id %d\n", vgpu->id,
+>  		    __func__, kref_read(&dmabuf_obj->kref), ret);
+>  
+> @@ -508,7 +475,7 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, unsigned int dmabuf_id)
+>  
+>  	mutex_lock(&vgpu->dmabuf_lock);
+>  
+> -	dmabuf_obj = pick_dmabuf_by_num(vgpu, dmabuf_id);
+> +	dmabuf_obj = idr_find(&vgpu->object_idr, dmabuf_id);
+>  	if (dmabuf_obj == NULL) {
+>  		gvt_vgpu_err("invalid dmabuf id:%d\n", dmabuf_id);
+>  		ret = -EINVAL;
+> @@ -570,23 +537,19 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, unsigned int dmabuf_id)
+>  
+>  void intel_vgpu_dmabuf_cleanup(struct intel_vgpu *vgpu)
+>  {
+> -	struct list_head *pos, *n;
+>  	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
+> +	int id;
+>  
+>  	mutex_lock(&vgpu->dmabuf_lock);
+> -	list_for_each_safe(pos, n, &vgpu->dmabuf_obj_list_head) {
+> -		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
+> +	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
+>  		dmabuf_obj->vgpu = NULL;
+>  
+> -		idr_remove(&vgpu->object_idr, dmabuf_obj->dmabuf_id);
+> -		list_del(pos);
+> -
+> +		idr_remove(&vgpu->object_idr, id);
+>  		/* dmabuf_obj might be freed in dmabuf_obj_put */
+>  		if (dmabuf_obj->initref) {
+>  			dmabuf_obj->initref = false;
+>  			dmabuf_obj_put(dmabuf_obj);
+>  		}
+> -
+>  	}
+>  	mutex_unlock(&vgpu->dmabuf_lock);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.h b/drivers/gpu/drm/i915/gvt/dmabuf.h
+> index 3dcdb6570eda..93c0e00bdab9 100644
+> --- a/drivers/gpu/drm/i915/gvt/dmabuf.h
+> +++ b/drivers/gpu/drm/i915/gvt/dmabuf.h
+> @@ -57,7 +57,6 @@ struct intel_vgpu_dmabuf_obj {
+>  	__u32 dmabuf_id;
+>  	struct kref kref;
+>  	bool initref;
+> -	struct list_head list;
+>  };
+>  
+>  int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args);
+> diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+> index 2d65800d8e93..1100c789f207 100644
+> --- a/drivers/gpu/drm/i915/gvt/gvt.h
+> +++ b/drivers/gpu/drm/i915/gvt/gvt.h
+> @@ -211,7 +211,6 @@ struct intel_vgpu {
+>  
+>  	struct dentry *debugfs;
+>  
+> -	struct list_head dmabuf_obj_list_head;
+>  	struct mutex dmabuf_lock;
+>  	struct idr object_idr;
+>  	struct intel_vgpu_vblank_timer vblank_timer;
+> diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
+> index 08ad1bd651f1..0a511cfef067 100644
+> --- a/drivers/gpu/drm/i915/gvt/vgpu.c
+> +++ b/drivers/gpu/drm/i915/gvt/vgpu.c
+> @@ -329,7 +329,6 @@ int intel_gvt_create_vgpu(struct intel_vgpu *vgpu,
+>  	vgpu->sched_ctl.weight = conf->weight;
+>  	mutex_init(&vgpu->vgpu_lock);
+>  	mutex_init(&vgpu->dmabuf_lock);
+> -	INIT_LIST_HEAD(&vgpu->dmabuf_obj_list_head);
+>  	INIT_RADIX_TREE(&vgpu->page_track_tree, GFP_KERNEL);
+>  	idr_init_base(&vgpu->object_idr, 1);
+>  	intel_vgpu_init_cfg_space(vgpu, 1);
+> -- 
+> 2.34.1
+> 
