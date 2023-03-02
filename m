@@ -1,57 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E836A8CB5
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 00:08:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 866FE6A8CD1
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 00:17:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35A8010E5A0;
-	Thu,  2 Mar 2023 23:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2871510E5A4;
+	Thu,  2 Mar 2023 23:17:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BAD10E5A0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 23:08:12 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id da10so3458094edb.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 15:08:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XBCcE4j+5QhHkdhXbZQDkqVeb3GW1AAcxnhgQP25R8s=;
- b=Ij6FjBwwmDQiMP3RzeeOqxPrWegfn2uo8PXnnoayhGe1muWEJOD2D55Ij09vATf1MV
- 7PcAHwnrtUNxXUeg0qcuM+ykiM8F694aaJIT/NjBTZibHbaKbhYWqv+TayB4RBcmQSiw
- xCf+nizxgSeWe49pdZcwVUFRv6I2Wdk179PhcNbPfV0NhPckVuhbMmAJMjDjPFu9gOfN
- hu9tlHYEkjJ67YTGjSWvb4GUIkNYbTQEsQTpM2TLYS14rTOggXAO9TS/bu3W6M7CIp9U
- zgHFb0UEurpNiIg6KaW3XbIxjs/AMB3rT6Yeu5WeNp2HWg9e9pyE/tvVdBM0ZZm/AXgT
- M/Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XBCcE4j+5QhHkdhXbZQDkqVeb3GW1AAcxnhgQP25R8s=;
- b=APmXcpi3nH1KEMLgzt1ycxoJ2a7mh4+CDA6HIVvSpxIoiLMuyTfecQIkW7RdlbOW4C
- RUcXUEWnCX9SILK7OmksuTb7ak7yxw1+xTRTCdbHk1ptU1MBvu3yw2UqkU1hA2TEnlnp
- z5s+KMRKWkadc803v6rV88J9GSsPsI7yEW//tcRLJp04UtFwpKDv0ivntnuD3Pu6DOyT
- 4IbcHRxoA2+BZP0YA7Sm2WvLt37aDX44RHt6ArH8fzpAK6k2GwSoIswjtsLmRRNUaZ82
- /WFVCu+9BSAxHGmHgBP+zGC1B6Pn+of49srvV3ZkkP7rXVGrT3+V/qGwqM2Y7Yo2B4V2
- sB9A==
-X-Gm-Message-State: AO0yUKU8JIwv/5t903uwDaj2y8Ignisu+qMkuph/zak3T9UocOkp6QCk
- uNXn2SD8Ab2gVZcgzlb+z8cXJ3PiNS+6PUTtUCafpXjZSvMKuw==
-X-Google-Smtp-Source: AK7set+gPK0SD+pFdXNeswKd1DxolYCeR0d/AGJIEi8+muv0d+KMnSylYiN6rVSXJKDT5+UNvVrFHOPOhBsCXUSb3dY=
-X-Received: by 2002:a17:906:3586:b0:895:58be:964 with SMTP id
- o6-20020a170906358600b0089558be0964mr6247318ejb.2.1677798490282; Thu, 02 Mar
- 2023 15:08:10 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C59A210E307;
+ Thu,  2 Mar 2023 23:17:11 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 322KJ1ZD005271; Thu, 2 Mar 2023 23:17:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=qcppdkim1; bh=/+JIn/xOjPrqhUPX6OH4D/agttYKI4KGRVhL+3f/bKU=;
+ b=jI5LD53MaHL+o7hnEnElKdvvXzDhaW6VV3ZBOWH6ZXiibieKTQFWRBs1xZKI97b4InQv
+ iP7y9J16c96ZefkPgurIkM1gFGD2/Borq+/lhw4FmOcxqztOkN0FNxhNCKJspE39sDHR
+ j913N2IUkP5Ut20Hb7RQFzMHQobVPucfQadKnM18M6cM6af3zbyj+0Y7FOdu5jG85c/c
+ NWz4/QoKde3tqhbFaDGGrW/90qzvzfEr8Shkim11TMp/V9ZS2yGCiuX/nPQWxt2eZON1
+ ficp+gxBURxAjyToqU1FlAQPrN74bYrUZ5yw8SH8nubyHD0fRx1cvzci8Wa/g8yERQuA fg== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p2ar144ku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Mar 2023 23:17:06 +0000
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 322NH5T2013534
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 2 Mar 2023 23:17:05 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Thu, 2 Mar 2023 15:17:05 -0800
+Date: Thu, 2 Mar 2023 15:17:04 -0800
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH] drm/msm: Initialize mode_config earlier
+Message-ID: <20230302231704.GA1373835@hu-bjorande-lv.qualcomm.com>
+References: <20230113041051.4189063-1-quic_bjorande@quicinc.com>
+ <eea1c5dc-6bc5-4246-f0e1-0c790de9f078@linaro.org>
+ <9a64c685-9ff0-bc1d-e604-e3773ff9edd7@linaro.org>
+ <20230117025122.jt3wrjkqfnogu4ci@builder.lan>
+ <Y8ZWl85gSpOaLgO4@hovoldconsulting.com>
+ <Y86vaTQR7INWezyj@hovoldconsulting.com>
+ <20230123171749.GA623918@hu-bjorande-lv.qualcomm.com>
+ <Y8+SHQ/klPwusQRj@hovoldconsulting.com>
+ <Y/9aGus6jzIHqjoK@hovoldconsulting.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 3 Mar 2023 09:07:58 +1000
-Message-ID: <CAPM=9tzkY1=9Lv4sejpcHTNbMcZWNgzYY6UdPFX4TZcU5g20Rw@mail.gmail.com>
-Subject: [git pull] drm-next-fixes for 6.3-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Y/9aGus6jzIHqjoK@hovoldconsulting.com>
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: -CB_9uDJ1kIcrcrIE2q3T62hI2T5W_u5
+X-Proofpoint-ORIG-GUID: -CB_9uDJ1kIcrcrIE2q3T62hI2T5W_u5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-02_15,2023-03-02_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxscore=0
+ bulkscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303020201
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,280 +86,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Wed, Mar 01, 2023 at 02:58:50PM +0100, Johan Hovold wrote:
+> On Tue, Jan 24, 2023 at 09:09:02AM +0100, Johan Hovold wrote:
+> > On Mon, Jan 23, 2023 at 09:17:49AM -0800, Bjorn Andersson wrote:
+> > > On Mon, Jan 23, 2023 at 05:01:45PM +0100, Johan Hovold wrote:
+> > > > On Tue, Jan 17, 2023 at 09:04:39AM +0100, Johan Hovold wrote:
+> > > > > On Mon, Jan 16, 2023 at 08:51:22PM -0600, Bjorn Andersson wrote:
+> > 
+> > > > > > Perhaps we have shuffled other things around to avoid this bug?  Either
+> > > > > > way, let's this on hold  until further proof that it's still
+> > > > > > reproducible.
+> > > > > 
+> > > > > As I've mentioned off list, I haven't hit the apparent race I reported
+> > > > > here:
+> > > > > 
+> > > > > 	https://lore.kernel.org/all/Y1efJh11B5UQZ0Tz@hovoldconsulting.com/
+> > > > > 
+> > > > > since moving to 6.2. I did hit it with both 6.0 and 6.1-rc2, but it
+> > > > > could very well be that something has changes that fixes (or hides) the
+> > > > > issue since.
+> > > > 
+> > > > For unrelated reasons, I tried enabling async probing, and apart from
+> > > > apparently causing the panel driver to probe defer indefinitely, I also
+> > > > again hit the WARN_ON() I had added to catch this:
+> > > > 
+> > > > [   13.593235] WARNING: CPU: 0 PID: 125 at drivers/gpu/drm/drm_probe_helper.c:664 drm_kms_helper_hotplug_event+0x48/0x7
+> > > > 0 [drm_kms_helper]
+> > 
+> > > > So the bug still appears to be there (and the MSM DRM driver is fragile
+> > > > and broken, but we knew that).
+> > > > 
+> > > 
+> > > But the ordering between mode_config.funcs = !NULL and
+> > > drm_kms_helper_poll_init() in msm_drm_init() seems pretty clear.
+> > > 
+> > > And my testing shows that drm_kms_helper_poll_init() is the cause for
+> > > getting bridge->hpd_cb != NULL.
+> > > 
+> > > So the ordering seems legit, unless there's something else causing the
+> > > assignment of bridge->hpd_cb to happen earlier in this scenario.
+> > 
+> > I'm not saying that this patch is correct (indeed it doesn't seem to
+> > be), but only that the bug I reported still appears to be present in
+> > 6.2.
+> 
+> So after debugging this issue a third time, I can conclude that it is
+> still very much present in 6.2.
+> 
+> It appears you looked at the linux-next tree when you concluded that
+> this patch was not needed. In 6.2 the bridge->hpd_cb callback is set
+> before mode_config.funcs is initialised as part of
+> kms->funcs->hw_init(kms).
+> 
+> The hpd DRM changes heading into 6.3 do appear to avoid the NULL-pointer
+> dereference by moving the bridge->hpd_cb initialisation to
+> drm_kms_helper_poll_init() as you mention above.
+> 
+> The PMIC GLINK altmode driver still happily forwards notifications
+> regardless of the DRM driver state though, which can lead to missed
+> hotplug events. It seems you need to implement the
+> hpd_enable()/disable() callbacks and either cache or not enable events
+> in fw until the DRM driver is ready.
+> 
 
-This is the fixes for the last couple of weeks on top of the drm-next,
-I don't think this contains any next content it should be all fixes.
-amdgpu and i915 mostly, the amdgpu ones are bigger because it's two
-weeks in one.
+It's not clear to me what the expectation from the DRM framework is on
+this point. We register a drm_bridge which is only capable of signaling
+HPD events (DRM_BRIDGE_OP_HPD), not querying HPD state (DRM_BRIDGE_OP_DETECT).
 
-hopefully this week I got the subject line right.
+Does this imply that any such bridge must ensure that hpd events are
+re-delivered once hpd_enable() has been invoked (we can't invoke it from
+hpd_enable...)?
 
-Dave.
+Is it reasonable to do this retriggering in the altmode driver? Or is it
+the job of the TCPM (it seems reasonable to not send the PAN_EN message
+until we get hpd_enable()...)?
 
-drm-next-2023-03-03-1:
-drm-next-fixes for 6.3-rc1
-
-fbdev:
-- fix uninit var in error path
-
-shmem:
-- revert unGPLing an export
-
-i915:
-- Don't use stolen memory or BAR mappings for ring buffers with LLC
-- Add inverted backlight quirk for HP 14-r206nv
-- Fix GSI offset for MCR lookups
-- GVT fixes (memleak, debugfs attributes, kconfig, typos)
-
-amdgpu:
-- SMU 13 fixes
-- Enable TMZ for GC 10.3.6
-- Misc display fixes
-- Buddy allocator fixes
-- GC 11 fixes
-- S0ix fix
-- INFO IOCTL queries for GC 11
-- VCN harvest fixes for SR-IOV
-- UMC 8.10 RAS fixes
-- Don't restrict bpc to 8
-- NBIO 7.5 fix
-- Allow freesync on PCon for more devices
-
-amdkfd:
-- SDMA fix
-- Illegal memory access fix
-The following changes since commit a48bba98380cb0b43dcd01d276c7efc282e3c33f=
-:
-
-  msm/fbdev: fix unused variable warning with clang. (2023-02-23 09:48:05 +=
-1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm tags/drm-next-2023-03-03-1
-
-for you to fetch changes up to 54ceb92724a8cf5294c284d5e9f770fc763cdab2:
-
-  Merge tag 'amd-drm-fixes-6.3-2023-03-02' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next (2023-03-03
-08:26:59 +1000)
-
-----------------------------------------------------------------
-drm-next-fixes for 6.3-rc1
-
-fbdev:
-- fix uninit var in error path
-
-shmem:
-- revert unGPLing an export
-
-i915:
-- Don't use stolen memory or BAR mappings for ring buffers with LLC
-- Add inverted backlight quirk for HP 14-r206nv
-- Fix GSI offset for MCR lookups
-- GVT fixes (memleak, debugfs attributes, kconfig, typos)
-
-amdgpu:
-- SMU 13 fixes
-- Enable TMZ for GC 10.3.6
-- Misc display fixes
-- Buddy allocator fixes
-- GC 11 fixes
-- S0ix fix
-- INFO IOCTL queries for GC 11
-- VCN harvest fixes for SR-IOV
-- UMC 8.10 RAS fixes
-- Don't restrict bpc to 8
-- NBIO 7.5 fix
-- Allow freesync on PCon for more devices
-
-amdkfd:
-- SDMA fix
-- Illegal memory access fix
-
-----------------------------------------------------------------
-Alex Hung (1):
-      drm/amd/display: fix shift-out-of-bounds in CalculateVMAndRowBytes
-
-Aric Cyr (1):
-      Revert "drm/amd/display: Do not set DRR on pipe commit"
-
-Asahi Lina (1):
-      drm/shmem-helper: Revert accidental non-GPL export
-
-Candice Li (3):
-      drm/amdgpu: Add convert_error_address function for umc v8_10
-      drm/amdgpu: Add ecc info query interface for umc v8_10
-      drm/amdgpu: Make umc_v8_10_convert_error_address static and
-remove unused variable
-
-Colin Ian King (1):
-      i915/gvt: Fix spelling mistake "vender" -> "vendor"
-
-Dave Airlie (3):
-      Merge tag 'drm-misc-next-fixes-2023-02-28' of
-git://anongit.freedesktop.org/drm/drm-misc into drm-next
-      Merge tag 'drm-intel-next-fixes-2023-02-27' of
-git://anongit.freedesktop.org/drm/drm-intel into drm-next
-      Merge tag 'amd-drm-fixes-6.3-2023-03-02' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next
-
-Deepak R Varma (2):
-      drm/i915/gvt: Avoid full proxy f_ops for debugfs attributes
-      drm/i915/gvt: Remove extra semicolon
-
-Evan Quan (2):
-      drm/amd/pm: correct the baco state setting for ArmD3 scenario
-      drm/amd/pm: no pptable resetup on runpm exiting
-
-Greg Kroah-Hartman (1):
-      i915: fix memory leak with using debugfs_lookup()
-
-Guchun Chen (1):
-      drm/amd/pm: downgrade log level upon SMU IF version mismatch
-
-Hamza Mahfooz (1):
-      drm/amd/display: only warn once in dce110_edp_wait_for_hpd_ready()
-
-Harry Wentland (2):
-      drm/amdgpu: Select DRM_DISPLAY_HDCP_HELPER in amdgpu
-      drm/amd/display: Don't restrict bpc to 8 bpc
-
-Hawking Zhang (1):
-      drm/amdgpu: fix incorrect active rb bitmap for gfx11
-
-Horatio Zhang (1):
-      drm/amdgpu: fix ttm_bo calltrace warning in psp_hw_fini
-
-Jane Jian (1):
-      drm/amdgpu/vcn: set and use harvest config
-
-Jani Nikula (1):
-      Merge tag 'gvt-next-fixes-2023-02-23' of
-https://github.com/intel/gvt-linux into drm-intel-next-fixes
-
-Jesse Zhang (1):
-      drm/amdgpu: add tmz support for GC 10.3.6
-
-John Harrison (2):
-      drm/i915: Don't use stolen memory for ring buffers with LLC
-      drm/i915: Don't use BAR mappings for ring buffers with LLC
-
-Kenneth Feng (1):
-      drm/amd/pm: re-enable ac/dc on smu_v13_0_0/10
-
-Marek Ol=C5=A1=C3=A1k (1):
-      drm/amdgpu: add more fields into device info, caches sizes, etc.
-
-Mario Limonciello (2):
-      drm/amd: Don't allow s0ix on APUs older than Raven
-      drm/amd: Fix initialization for nbio 7.5.1
-
-Mark Hawrylak (1):
-      drm/radeon: Fix eDP for single-display iMac11,2
-
-Matt Roper (1):
-      drm/i915/xelpmp: Consider GSI offset when doing MCR lookups
-
-Mavroudis Chatzilaridis (1):
-      drm/i915/quirks: Add inverted backlight quirk for HP 14-r206nv
-
-Nathan Chancellor (1):
-      drm: omapdrm: Do not use helper unininitialized in omap_fbdev_init()
-
-Qu Huang (1):
-      drm/amdkfd: Fix an illegal memory access
-
-Randy Dunlap (1):
-      drm/i915: move a Kconfig symbol to unbreak the menu presentation
-
-Ruili Ji (1):
-      drm/amdkfd: To fix sdma page fault issue for GC 11
-
-Ryan Lin (1):
-      drm/amd/display: Ext displays with dock can't recognized after resume
-
-Shane Xiao (2):
-      drm/amdgpu: remove TOPDOWN flags when allocating VRAM in large bar sy=
-stem
-      drm/amdgpu: optimize VRAM allocation when using drm buddy
-
-Sung Joon Kim (1):
-      drm/amd/display: Extend Freesync over PCon support for more devices
-
-Tao Zhou (4):
-      drm/amdgpu: add umc retire unit element
-      drm/amdgpu: exclude duplicate pages from UMC RAS UE count
-      drm/amdgpu: change default behavior of bad_page_threshold parameter
-      drm/amdgpu: add bad_page_threshold check in ras_eeprom_check_err
-
-Thomas Zimmermann (1):
-      drm/msm: Fix possible uninitialized access in fbdev
-
-Tom Rix (1):
-      drm/amdgpu: remove unused variable ring
-
-bobzhou (1):
-      drm/amdgpu/vcn: fix compilation issue with legacy gcc
-
-tiancyin (1):
-      drm/amd/display: fix dm irq error message in gpu recover
-
- drivers/gpu/drm/amd/amdgpu/Kconfig                 |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |   3 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  14 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |  11 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  23 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |  23 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c            |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h            |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |   3 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c             |  83 ++++++---
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |   1 +
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |   1 +
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |   3 +
- drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c             |   5 +
- drivers/gpu/drm/amd/amdgpu/umc_v8_10.c             | 202 +++++++++++++++++=
-----
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c              |  25 +--
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   5 +-
- drivers/gpu/drm/amd/amdkfd/kfd_events.c            |   9 +-
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c   |  15 +-
- drivers/gpu/drm/amd/display/Kconfig                |   1 -
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  16 +-
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  |   2 +
- .../amd/display/dc/dce110/dce110_hw_sequencer.c    |   6 +-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |   3 +
- .../amd/display/dc/dml/dcn30/display_mode_vba_30.c |   5 +-
- .../drm/amd/display/dc/link/protocols/link_ddc.h   |   1 +
- .../display/dc/link/protocols/link_dp_capability.c |   2 -
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |  15 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |   4 +-
- drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c     |   4 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     |  25 ++-
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |   1 +
- drivers/gpu/drm/drm_gem_shmem_helper.c             |   2 +-
- drivers/gpu/drm/i915/Kconfig                       |   6 +-
- drivers/gpu/drm/i915/display/intel_quirks.c        |   2 +
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c             |   5 +-
- drivers/gpu/drm/i915/gt/intel_ring.c               |   6 +-
- drivers/gpu/drm/i915/gvt/debugfs.c                 |  16 +-
- drivers/gpu/drm/i915/gvt/firmware.c                |   2 +-
- drivers/gpu/drm/i915/gvt/kvmgt.c                   |   2 +-
- drivers/gpu/drm/i915/gvt/vgpu.c                    |   2 +-
- drivers/gpu/drm/msm/msm_fbdev.c                    |   2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c               |   2 +-
- drivers/gpu/drm/radeon/atombios_encoders.c         |   5 +-
- include/uapi/drm/amdgpu_drm.h                      |  11 ++
- 50 files changed, 446 insertions(+), 149 deletions(-)
+Regards,
+Bjorn
