@@ -1,62 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E535A6A8872
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 19:20:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9696A8884
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 19:29:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CF7310E52E;
-	Thu,  2 Mar 2023 18:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AB410E541;
+	Thu,  2 Mar 2023 18:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
- [IPv6:2607:f8b0:4864:20::1131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABABB10E272
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 18:20:05 +0000 (UTC)
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-53cb9ac9470so683307b3.10
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 10:20:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-il1-x129.google.com (mail-il1-x129.google.com
+ [IPv6:2607:f8b0:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8546F10E53B
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 18:29:43 +0000 (UTC)
+Received: by mail-il1-x129.google.com with SMTP id l2so223051ilg.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 10:29:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uZAPXM0LrNiqSTWbCG2CR8IPVb5EwH+3MFjYQTbFfCc=;
- b=TI8oAEznTj0VbOLCat1DPNqMU06vdate7f6rAjVdP5wpmvMipvaE7Y+c4QzmwWSIXM
- lAaN4vVSZ7VQi2YHztan6+crDPP0eLCnNq/7pjcQ+HxaMlq3epLNaIsGS/s0pBjuUNc8
- HoBc9LdjkUHbEN6yCc87Hl6kAkNUlBPeq8S3QBTZZlzPjq7jCZuANxpZQWdVMCjHOhON
- lYNbySLjyjujXc1zizmCIW+lexghQWo6DM8gquFowDffkmpE1THRLdvmk4sx9E1VSvEp
- AD3Lj5P3sxY4EaM3IKTF03UwF+Q9iwroahk/JpaLH86fM9TNvfDEx5cb6nQXY59CyW8t
- Er1A==
+ bh=xpWolHBTfv1e/s85d7Nor58l6lqGaWFhdL+nTiGGVic=;
+ b=QI7gz/LeygpGxrmWN08W2VKhqopzlDmPIMqoxGEz9VFAjmlDg199kMccbeLiAyrhdi
+ H/Yvc2c5UwqTGdwX9DOSblo6pvnc5iN/NV+8j+BuYzA7+Utu8lpFc+rE87A9QqEFCqbj
+ glnz67pYLBz+umPSkDBuPlZ+iiqngAtoKnn7E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uZAPXM0LrNiqSTWbCG2CR8IPVb5EwH+3MFjYQTbFfCc=;
- b=sXtK3cQY2/kOpL8moOd8YnuWmaTFe0Uk0tCgSbr/4YGDeI95VjC7eyJiLGuX2b1C8c
- nvSUOZwbxSBcPUZshjbbTjG/uSCUON2gv/QlVhPep32eKm45RvstNfSMGuPLU5bWlkR+
- T5Sjvmv5zPrPwS7pmOle/9SfVFS6+gAoPjlTo7qXxQzNrPJEwXM3hscLmpWhkIQMhkcK
- d6V+sZzVa8lZ731dcO912hm9yY53zpPx2J7wtk91ZFMEr8ZE6rPr45Qr3P1NMhBq9dPj
- NxdeX3Fm1FW/VgRkjseMdZ7Ix7+NbstKfWq9x0D6Q05eS+7FKjTXcpGzsUsD+FmiCJyV
- zEQA==
-X-Gm-Message-State: AO0yUKVHYI0fb7YY5EcylI/VLqr2x6w7bknqisOVc1cUY6nCuNhKreiM
- Hav2DQxqyoshjbeYaNpH63m+9PriFc7fe3rbMRlAWQ==
-X-Google-Smtp-Source: AK7set8MuWxgyggg2x5O2vzdSY/MWzzPRlU35FhPBPzcMfaqX0BnsN2Uz7YPLspM/KtBSWLbypAoRUS5my77kUFM1R4=
-X-Received: by 2002:a0d:d946:0:b0:52e:c5f1:a0d4 with SMTP id
- b67-20020a0dd946000000b0052ec5f1a0d4mr1859997ywe.4.1677781204806; Thu, 02 Mar
- 2023 10:20:04 -0800 (PST)
+ bh=xpWolHBTfv1e/s85d7Nor58l6lqGaWFhdL+nTiGGVic=;
+ b=t5VXfKIkcCgydZB4k3InnZ5IBvzcZYiYhjo71geyWqdYbkD4x/I8rJDKKsElCjc4Iv
+ GjUPEUpefbxZUYtZ9boP4an2/5YXE4Cm+PoZ62yEg9JwlDrY4hhWuZe3REKoet2ltcHU
+ VHvNAm27rwgJ3WqgLNeZinZpOCjfNg28nsMN6FM3f/N4nV+hkkMe3LveszRdy6Am0SgN
+ +sop6glYO2To9GKeQTh8Xgc2bqN3k/tjOGJKlZtfKDrDm4LpJFdaAREcZWqBfNO3Iq1s
+ jrhFd+uLWPBZ75Jf9Y/O+QMAQyp7sBjekXlvdHTcdbrth4ALS+Q/NtBbWGjiY0kkNjZa
+ n8JQ==
+X-Gm-Message-State: AO0yUKVkUHGoYyj3fRgSiDfY9/nYCuFkpOlKWWzug3YFGFI4DflVlyH8
+ xb6gFNjls8St7qqBfTOGhC12wtauydu/yC72
+X-Google-Smtp-Source: AK7set975GGJkzP2E83LgGaD8RdGcKE7blah9MXuFbdyoevqS/N/1RaWoDnKnmR9oIbjbrMGHvrhUw==
+X-Received: by 2002:a05:6e02:1a82:b0:319:23c7:5559 with SMTP id
+ k2-20020a056e021a8200b0031923c75559mr932511ilv.3.1677781782044; 
+ Thu, 02 Mar 2023 10:29:42 -0800 (PST)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com.
+ [209.85.166.43]) by smtp.gmail.com with ESMTPSA id
+ a5-20020a056638018500b003ebb74da18fsm48466jaq.151.2023.03.02.10.29.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Mar 2023 10:29:41 -0800 (PST)
+Received: by mail-io1-f43.google.com with SMTP id 76so4386iou.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 10:29:41 -0800 (PST)
+X-Received: by 2002:a02:8545:0:b0:3e5:a7d9:27db with SMTP id
+ g63-20020a028545000000b003e5a7d927dbmr4740334jai.6.1677781780914; Thu, 02 Mar
+ 2023 10:29:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20230131141756.RFT.v2.1.I723a3761d57ea60c5dd754c144aed6c3b2ea6f5a@changeid>
- <CAPY8ntAUhVB6UtQTeHAcxNW950Ou+NcEoGwk3JnVWLay89_0Nw@mail.gmail.com>
- <CAD=FV=UNx7ivymvpGKcuyvvepvo-T2B2aREJy2GyawTHCnazsw@mail.gmail.com>
- <e077d60d-5881-1ccc-a17a-fbe64392e29d@linaro.org>
- <CAD=FV=W_FVUOD6T0Lx-JTqrqaP9gPgb4R-2TaSqKwkaBkqHJmQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=W_FVUOD6T0Lx-JTqrqaP9gPgb4R-2TaSqKwkaBkqHJmQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 2 Mar 2023 20:19:54 +0200
-Message-ID: <CAA8EJpq-gHjtNzDya-50K3mz5Odhgfd=cSKYfNReSnoRf5reTQ@mail.gmail.com>
-Subject: Re: [RFT PATCH v2 1/3] drm/bridge: tc358762: Set pre_enable_prev_first
-To: Doug Anderson <dianders@chromium.org>
+References: <20230302074704.11371-1-johan+linaro@kernel.org>
+In-Reply-To: <20230302074704.11371-1-johan+linaro@kernel.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 2 Mar 2023 10:29:29 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WK2yxWqAro6k4N2kr-HeNZLNxi6tuq=_uL0tbSjGVEAg@mail.gmail.com>
+Message-ID: <CAD=FV=WK2yxWqAro6k4N2kr-HeNZLNxi6tuq=_uL0tbSjGVEAg@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: fix info leak when failing to get panel id
+To: Johan Hovold <johan+linaro@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,111 +75,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Neil Armstrong <neil.armstrong@linaro.org>,
- linux-kernel@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-arm-msm@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, freedreno@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2 Mar 2023 at 19:26, Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Mon, Feb 27, 2023 at 5:24=E2=80=AFPM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On 28/02/2023 02:26, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Wed, Feb 1, 2023 at 1:51=E2=80=AFAM Dave Stevenson
-> > > <dave.stevenson@raspberrypi.com> wrote:
-> > >>
-> > >> On Tue, 31 Jan 2023 at 22:22, Douglas Anderson <dianders@chromium.or=
-g> wrote:
-> > >>>
-> > >>> Set the "pre_enable_prev_first" as provided by commit 4fb912e5e190
-> > >>> ("drm/bridge: Introduce pre_enable_prev_first to alter bridge init
-> > >>> order"). This should allow us to revert commit ec7981e6c614
-> > >>> ("drm/msm/dsi: don't powerup at modeset time for parade-ps8640") an=
-d
-> > >>> commit 7d8e9a90509f ("drm/msm/dsi: move DSI host powerup to modeset
-> > >>> time").
-> > >>
-> > >> I see no reference in the TC358762 datasheet to requiring the DSI
-> > >> interface to be in any particular state.
-> > >> However, setting this flag does mean that the DSI host doesn't need =
-to
-> > >> power up and down for each host_transfer request from
-> > >> tc358762_pre_enable/tc358762_init, so on that basis I'm good with it=
-.
-> > >>
-> > >> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > >>
-> > >>> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > >>> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >>> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > >>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > >>> ---
-> > >>>
-> > >>> (no changes since v1)
-> > >>>
-> > >>>   drivers/gpu/drm/bridge/tc358762.c | 1 +
-> > >>>   1 file changed, 1 insertion(+)
-> > >>>
-> > >>> diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/br=
-idge/tc358762.c
-> > >>> index 0b6a28436885..77f7f7f54757 100644
-> > >>> --- a/drivers/gpu/drm/bridge/tc358762.c
-> > >>> +++ b/drivers/gpu/drm/bridge/tc358762.c
-> > >>> @@ -229,6 +229,7 @@ static int tc358762_probe(struct mipi_dsi_devic=
-e *dsi)
-> > >>>          ctx->bridge.funcs =3D &tc358762_bridge_funcs;
-> > >>>          ctx->bridge.type =3D DRM_MODE_CONNECTOR_DPI;
-> > >>>          ctx->bridge.of_node =3D dev->of_node;
-> > >>> +       ctx->bridge.pre_enable_prev_first =3D true;
-> > >>>
-> > >>>          drm_bridge_add(&ctx->bridge);
-> > >
-> > > Abhinav asked what the plan was for landing this [1]. Since this isn'=
-t
-> > > urgent, I guess the plan is to land patch #1 in drm-misc-next. Then w=
-e
-> > > sit and wait until it percolates into mainline and, once it does, the=
-n
-> > > patch #2 and #3 can land.
-> > >
-> > > Since I have Dave's review I can commit this to drm-misc-next myself.
-> > > My plan will be to wait until Thursday or Friday of this week (to giv=
-e
-> > > people a bit of time to object) and then land patch #1. Then I'll
-> > > snooze things for a while and poke Abhinav and Dmitry to land patch #=
-2
-> > > / #3 when I notice it in mainline. If, at any point, someone comes ou=
-t
-> > > of the woodwork and yells that this is breaking them then, worst case=
-,
-> > > we can revert.
-> >
-> > This plan sounds good to me.
->
-> Pushed to drm-misc-next:
->
-> 55cac10739d5 drm/bridge: tc358762: Set pre_enable_prev_first
->
-> If my math is right then I'd expect that to get into mainline for
-> 6.4-rc1. I guess that means it'll be in Linus's tree mid-May. I'll
-> schedule a reminder to suggest landing at patches #2 and #3 again in
-> late May.
+Hi,
 
-It might be earlier, if msm-next merges drm-misc earlier (e.g. for the
-PSR patches).
+On Wed, Mar 1, 2023 at 11:49=E2=80=AFPM Johan Hovold <johan+linaro@kernel.o=
+rg> wrote:
+>
+> Make sure to clear the transfer buffer before fetching the EDID to
+> avoid leaking slab data to the logs on errors that leave the buffer
+> unchanged.
+>
+> Fixes: 69c7717c20cc ("drm/edid: Dump the EDID when drm_edid_get_panel_id(=
+) has an error")
+> Cc: stable@vger.kernel.org      # 6.2
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 3841aba17abd..8707fe72a028 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2797,7 +2797,7 @@ u32 drm_edid_get_panel_id(struct i2c_adapter *adapt=
+er)
+>          * the EDID then we'll just return 0.
+>          */
+>
+> -       base_block =3D kmalloc(EDID_LENGTH, GFP_KERNEL);
+> +       base_block =3D kzalloc(EDID_LENGTH, GFP_KERNEL);
 
---=20
-With best wishes
-Dmitry
+Good catch! I'm landing this to drm-misc-fixes right away.
+
+4d8457fe0eb9 drm/edid: fix info leak when failing to get panel id
+
+I'm sure I copied the kmalloc() from _drm_do_get_edid(), but it looks
+like in _that_ case if the read fails we never print the buffer so
+that one is OK.
+
+-Doug
