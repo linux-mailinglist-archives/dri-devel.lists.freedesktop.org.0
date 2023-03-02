@@ -1,42 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1206A89F3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 21:01:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB4C6A8B0E
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 22:18:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA75410E554;
-	Thu,  2 Mar 2023 20:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E33C310E566;
+	Thu,  2 Mar 2023 21:18:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC7EF10E550
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 20:01:47 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4PSMSW1QGnzDqdH;
- Thu,  2 Mar 2023 20:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1677787307; bh=WqgsRK2thIsPD2FfBFL5ZySyJjygPIIRiqV7doziP2w=;
- h=From:To:Cc:Subject:Date:From;
- b=nczTczpbjTcByXw6VhvqunrpTql44faOZpruQVz8QKiWLYIOERj5X01MMKuW9GjKJ
- Sf7Z+ZjCBIHoWS3brfKPb2Oi6Ki7hw2EtPZzFxBdec9o3zfQayOpo/Muel5xr/CSSF
- WD9e0d2EoGoQ9nvqfOsIBaL2WkdaiShQxS1LjXT8=
-X-Riseup-User-ID: 484E8FCF7C03E94D2D975695CFD335B45B0CAC236F1EB9CFBBB996E5C5897EE2
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4PSMSR25cxz5vY8;
- Thu,  2 Mar 2023 20:01:43 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/format_helper: Add Kunit tests for
- drm_fb_xrgb8888_to_mono()
-Date: Thu,  2 Mar 2023 17:01:31 -0300
-Message-Id: <20230302200131.754154-1-arthurgrillo@riseup.net>
-MIME-Version: 1.0
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6933110E56A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 21:18:24 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 322K6crM009073; Thu, 2 Mar 2023 21:18:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=corp-2022-7-12;
+ bh=rAcq3c53XTnCppjBYHNkv4hDu0yCo7aTLQP0ipObY/Q=;
+ b=tLV8OfyFvzR1FXbqe5hfhvzAm6A2svwJAliMk1RhQZoI/E//U7dUj7yPp69Qh/PtYUQc
+ K2N7ytEQZtcDEzssF0JuVk+u8AA08itL8uHjC6kZeEW3eBFb0YeIb3qNrYenWtSXmqM4
+ rb2pXEYZ9HHcHlZ57LN481uCEEPqA4AMmaiWXFP8YRmo9dTzRwt5R7tRcLnMaFvsM0Av
+ JGh6WfsAoWMthuX1254hxDI1yb1RfDee0KC8nOJVGt7+gRjeCLmJTkQ1KAgJwRTNc3wj
+ 1Qp/NFPIv6NciPDcgM2DpWoxiWGGtISmZ/52iwq5ygmQEIDd2hdnyxF6e0VyZf6mE0W1 4g== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nyb9an06q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 02 Mar 2023 21:18:15 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 322KcamW031307; Thu, 2 Mar 2023 21:18:14 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3ny8shf3fu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 02 Mar 2023 21:18:13 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bT9LQRoRMLAEK3POKX7VgnbX9v3bM9vg6VuzpDAL16HfR5w9BphB9JjprkYGwo92xlPT9ppuulSlpiiuDZANOAkSDVKIfcqNY7g4y1NJqUMs11oamRHd+s/zRq4E78W18/bLQXdIrLGpvEC8q0T7/A2IDARnkDpFtldVm1iYFq8xk/luIQC8bsaeUaL3QV1K9zLS4MzsGf+vjLYB4AryyIH1Sxvx4gZYZ7iVaJD/1Z0Zby6bpWm8ZewuSRkeWERmUVX8LTEV/YawI0mJoyMsKu3pJx0jkDKM13y9XdFEs1V4T2n4JEsPhnyY76Bw8/j1ZU0D2ei1a1nkWH9DJfrsaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rAcq3c53XTnCppjBYHNkv4hDu0yCo7aTLQP0ipObY/Q=;
+ b=e6lrIgDrASDX4yyJmTc/hL2pfdjlb6VkG4p/xzdRkarJ8Cg9slt8EudW4MUwOhVLU41xvBIEafz8/jRAb0YnWrI/p7cImthsNhTeqV0Fm8uyhkL3AfhfW2Zx3nj95IC2heg4+noT/r+v45t6vUD76mP3R83vyokv0RMMbiWsa59Bx2lQIkwKob/rvBxaCpVpOJwQB5Hl6TwWOFWhpCiX/ymiqlVmjafC9gN0oiXMearPMhYCruQCzJH8Pp+fmhwJWoobXz4Yyn/ZrxWFpQpMhkMCFtUYo898DnJw3oiIc+PM63D0RC8qAKwVjBpMO7uTbaLB6zdYGw99atOq2ihHVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rAcq3c53XTnCppjBYHNkv4hDu0yCo7aTLQP0ipObY/Q=;
+ b=k98uXSQznhO3wpL/El9fpgF3mmGN3NUol6iO/3FQkwv15ZnIQh9aBMCf/oj/luUSJFDejD//hWDHg/ftay09Kilzlz/E1IDO41V9hkstiEbzYWDGz73C7YWTepN9lsly5K1hxx1vQNSb3PpNrBN7QLflDL+uRLYws22IGbOVX80=
+Received: from DS0PR10MB6798.namprd10.prod.outlook.com (2603:10b6:8:13c::20)
+ by PH0PR10MB5819.namprd10.prod.outlook.com (2603:10b6:510:141::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.17; Thu, 2 Mar
+ 2023 21:18:12 +0000
+Received: from DS0PR10MB6798.namprd10.prod.outlook.com
+ ([fe80::d0f7:e4fd:bd4:b760]) by DS0PR10MB6798.namprd10.prod.outlook.com
+ ([fe80::d0f7:e4fd:bd4:b760%4]) with mapi id 15.20.6156.017; Thu, 2 Mar 2023
+ 21:18:11 +0000
+From: Nick Alcock <nick.alcock@oracle.com>
+To: mcgrof@kernel.org
+Subject: [PATCH 00/17] MODULE_LICENSE removals, sixth tranche
+Date: Thu,  2 Mar 2023 21:17:42 +0000
+Message-Id: <20230302211759.30135-1-nick.alcock@oracle.com>
+X-Mailer: git-send-email 2.39.1.268.g9de2f9a303
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO2P123CA0017.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:a6::29) To DS0PR10MB6798.namprd10.prod.outlook.com
+ (2603:10b6:8:13c::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR10MB6798:EE_|PH0PR10MB5819:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57e7bbf8-f8c2-416e-7593-08db1b63a0c1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eoe/ZubK6XMS0uEveKAsPn+RS1jbpum5ljjmxtintZL/aiAJzYgYASk5GIrD9UU9UTxLMs2Uz8X83i3z8ERNYUKIzly49Iq3RSppt9lcXW5aqkHZi4KHcldggYTxMDK9AuiK/JUqYhpfsqlpVXvIZlT0FE5jasM/QHrRUelljxnpxJjtnIVVwdUa2oVNciaOKLItF/JOI88XhZcAozCSunlFpPqqSxzhkVoDruMUH8NJc5aot9mjoLhFJ0TH6btVfplaraAr1OEFgB5kyHjUblKhb3DoWTlBk8l6ymIX5KDuXACjKhw3og5+al8XL7CJ4HxThyUbPzRfEd9pCKq8+yemZTTgDgXEBop5z5+WG1+EdYIA8bpY4rrDxz7dTxHoHN7in2h18hBUYuhCJHcqMF2DmQ0uyTeoCM8TMJp+zovMTATI9dBFr+Hn1f3TVGvmODn4UTXSjzqgXfmNszepgABeMa7180fPly0d/QLN7wa/4s400UR6Qa8s7v262jKEPIxE2dipnxDjQTfgIvjUeEWFI6zuXyXeNtac7ibLYRr+oOFm95CGVH8f9L9rpLtZBKBB1PgdzyaAubiWCGr7iv619xBavcvu/NQndDwhw0Bod+CwCiIH8dednEuCyxBc
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR10MB6798.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(39860400002)(366004)(376002)(396003)(346002)(136003)(451199018)(5660300002)(44832011)(83380400001)(41300700001)(6916009)(4326008)(8676002)(8936002)(66476007)(66556008)(66946007)(966005)(316002)(38100700002)(36756003)(2906002)(6486002)(478600001)(86362001)(6506007)(186003)(6512007)(6666004)(1076003)(2616005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWQxaVcrRVE0SFF5cW82bVZCTTk3WlVIVXVlYWZCUms2blk1ZFdQOVRRczg0?=
+ =?utf-8?B?WFQwTnpiMEpLYldJdSsyZkFiZlJlSFhTVk9HNGgrcUI4R2tIcFhLbTJ5S1Ay?=
+ =?utf-8?B?dGtuOW4wRC9xb3JDbTFSNGg3OUdQek44ajJGVHhLcE95NVdnejBjSUF4U1lz?=
+ =?utf-8?B?Z25CYVFvWUdsK1cwV0FBNTVGenJSVkppc1N1MmpoMDROaVI4Y2hrbTFwb1J5?=
+ =?utf-8?B?c3pFb1Q1anRHcU53Q1piTXZtdGVnVmVFYmMxcmI5UWtaQVBneVlsd2NWM3ZL?=
+ =?utf-8?B?bWl4RURvaGR6SGxHbElObkxqR2hHejFZRnN6UFBJYU16L29HSmoxb2hpTFhu?=
+ =?utf-8?B?bGZLdFRBOGUxUllteDZXMkdkZmQ3V3Z3N3M0SXZvcWR3VE1jREw5a0JneUJB?=
+ =?utf-8?B?NjNTRHorL0lNMURqOFUyWk5uUkxiN1A0NEZpaW1mQmZBaWt2MGhUM0ZiRXVv?=
+ =?utf-8?B?bG9Ndld4MGcySHRqTjI4aEhoeFRScmFpWVFEVzA0dUswNzU4QWI5Z2I1ZjVK?=
+ =?utf-8?B?NkpGQnVQWmdFcVNwSFFnSWF4MmZCL3hCZjVwVGZrZGNXVEhmd1cwL2ZIQnZp?=
+ =?utf-8?B?NXFjQWJpcHJWd0ZxcUYwUkVicnI5Q1NPVUkrK3hPT3ExTW1GcG5CM0EyNHJO?=
+ =?utf-8?B?VTBkUGhYTVRxdk93WFMrRkdnMC9ONmJ5dzRvREI3aUh2cElwYWlvT002OG00?=
+ =?utf-8?B?d1BoMWRRRFBiMjJKQUZlV1d1V2VVRnZGYk9HMGxKaG43UDc3T1ViT3hkUzlK?=
+ =?utf-8?B?R3JGN0VmQ3NZb0kyWFFxWUIyMHJtanZJc2J6QThnUWEyNzFlK1E4SWRaTkph?=
+ =?utf-8?B?aWVHS0NDemlERk1McWJoYmZGREZ3aGNLd2lzOVN5Vk5CQ0VoeGVFVlQ3ZGRw?=
+ =?utf-8?B?U3Joc1ZWMlp5cG8reUpJNXMycFpJREl3MVlieUg3eU9pdXhHWlhXVUg3eGtE?=
+ =?utf-8?B?cmlvSkFwczlTYjRnQ1BFclFaV3gyVkl6bElLZWRWblZlV3kxaEQxZFM0Y2VO?=
+ =?utf-8?B?RlJZZnNMRkRqeGNRR0x4T09HcTU2OVZkU25oNGhvSXFEbEhoUkVGZzFTekFH?=
+ =?utf-8?B?Y0tqaFB6eG5KOHhHZm1WS2NNQnRJeE9yMUkyYXJFdFV1Sk9FbXRZT0xCeVJi?=
+ =?utf-8?B?VXYyRTBtWWdVOHg3cy9qbGFtNkxBcXFBK2tDNWQ5Vnh4M3huMEVUeDU5bTBl?=
+ =?utf-8?B?ZjUrSGdpTjc4U3U1cjY5UWVoQ01nTWxXMFpyUzFld0hmU0pCb1puN2FWT0hn?=
+ =?utf-8?B?MmV6R2VSaEY3YVJCbzhvNFlqU1R5WXVXbUZ2L0R5MklCM3FKbk95c2NIdjFo?=
+ =?utf-8?B?RUtoZjhSY0RaWnlsSWkzOWVvM25EcVdPRkhURmo4c2dUQXBqS3dObTVnOTM1?=
+ =?utf-8?B?bzZKSENQU1lMaHVUUjRBWU5LVXhQZGpsb3JqL2R4T2JXVUZ4OHpkRzJFSFRC?=
+ =?utf-8?B?WGlURUMzTFNGT3pjenpVbUpHbWltTW9VNnlRNkJSbjAvek4zcTVFVENvcCs2?=
+ =?utf-8?B?MTY4eC8rb1NQdHVGdk5RV3V2UG10R2xwN29CTHJRcEpnQnhiWXZXUEVSR0xW?=
+ =?utf-8?B?SjY1YWVGZnBXTWZEQms3VFYxbTdtL0JKcGFUQmZNRVFBRUsxeExqRVNNS09m?=
+ =?utf-8?B?VnYrMGh2WTk0bmlweUdEVUtJLzZ5TzJZbDkzUkQ5Zmt1dXdKOG8yQmswMUVK?=
+ =?utf-8?B?dHN5Z2lBamhGV3NhV1FIaWR3QjB0NzBUUlJ5R0lpOUxwL2RXN0gyam5XNTJv?=
+ =?utf-8?B?TlVOa3R2Sm1ZdjFuRnUrK1A5QXNudC8wS204LzVrdCt0YU9UR2dxK2daaU5X?=
+ =?utf-8?B?LzNvYzBVd0lDVkdPUndGamJEZVB4RHJDaERIKy81RUMwMlArbERmakZLUUVv?=
+ =?utf-8?B?QmFQWldwT0NscjBWcXpCSStHMFM3UzJCczArZXpJTnRHQXRldWY0TVoxUkhx?=
+ =?utf-8?B?ajYxdkZHclFiNjNuM3MreGdDbU5qajFudWQyVk9PamtwaElnZ0FFSUhTRkJR?=
+ =?utf-8?B?dVNoTVBGeUJDc1I5cURab3FZS2Y5MytibHg0K2lxYzIrbjlqQVNOVHl6ODIw?=
+ =?utf-8?B?VzdoV2szK3Rxb2lobG8xdDAyZG5UT1lrUnF1Y3o0bFM5SUEyOFJEMWMvTlIv?=
+ =?utf-8?B?RUorUEVUanM1TzR0UWI0S0hjcUYvSnoxY0RHTE9RdWp2cXJjMDhEUmFQUmRz?=
+ =?utf-8?B?Mnc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: lQGzW2EN3F6xbjPng53mTdImDFsv5OjcgN/A0LmXFit7ZB3FMSKHpGnaDgGh2hcUBcYm2xupohjTdEB1u/L6zVR5dWbP/WGSzYGuZWmkvNDxUYK45URIwnfVI/UbJL7QsVqcn7wtQVTCgEV8CU93Z69Fo+hoA5RyfmM8Ua2jV0zCpfddKybLihFhSGTXm6Dn19SEswDY1j/9iIerlUSAeQQmgX/6NA83b4sCsj0NEnFo7E2XsUuHvOPGWqtoIAVvIgqGwcPKBPHetHpPoFDwSXEX4WcMz4mylev6/EhIgTYxu3lAMcCP8oWPepJGLoV8tPEPJRJ04u4HUm59rxfYq21TEzvP9AyYebAjnjQrfWokM1mOyWJGiH8aMj9gSnxh/EZ0GLPpVpijLF5Kc2uipsS3xrG/A6W94Ff1tHllaWvaK3Xfboe/7r4DZFcSbyy9IXN6+6mc85qZ1QUfXnaRIiKSkz4FUX2K2xg7lk+nfGa44mNPXholVumuFhCSvIP9vUEK3aPHq6asFEk3sfhhd/iCKg1/bHsizx4NrM3fsNN3JH+uWC6CNXNF9rjzO49CnAVofYKM7ujBPhhguY3QWa7iVgpbsMnCsPXyiinpQE6v2Tu/tGnxEonnmbRwLeQBew7PwH1J2O+KFvXEIw+b/nH0YUEZ6LonABJXrmSrG44x6MWrn48v5x3aiDRIOBrOOD9ozoLEohXrqivsvxV5/tE9B88vyYg7pF7bzx8PwRorhHBdqMhj2VaVSVJuQgFwoIC6TyiAIez1kfwQo9pf835HKGDnXHBI/SZPQ+KERzgld1Y16KdQTcz4K4y7WKRu//DENHM1yPu+/2kQxI0RXSJkKZntOljHugUqDfVhWA1UXAOBPWtp+27k6ulFfenv
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57e7bbf8-f8c2-416e-7593-08db1b63a0c1
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB6798.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 21:18:11.7834 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MJgz5ssmDtnkVkXId2YGZqcA+ENRrd8KLHUlmRtHeLT5iT8ZKLxzcCphczYLt3ThX2A1V01wghqcJ6xbdVMQ4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5819
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-02_15,2023-03-02_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=798 mlxscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2303020183
+X-Proofpoint-GUID: 8NBkfdG0vipuzKxhFkrbn5UuyPQtb_l3
+X-Proofpoint-ORIG-GUID: 8NBkfdG0vipuzKxhFkrbn5UuyPQtb_l3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,160 +160,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, tales.aparecida@gmail.com, javierm@redhat.com,
- mairacanal@riseup.net, tzimmermann@suse.de, jose.exposito89@gmail.com,
- andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>
+Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the existing test cases to test the conversion from XRGB8888 to
-monochromatic.
+This series, based on current modules-next, is part of a treewide cleanup
+suggested by Luis Chamberlain, to remove the LICENSE_MODULE usage from
+files/objects that are not tristate.  Due to recent changes to kbuild, these
+uses are now problematic.  See the commit logs for more details.
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
- .../gpu/drm/tests/drm_format_helper_test.c    | 73 +++++++++++++++++++
- 1 file changed, 73 insertions(+)
+(The commit log prefixes and Cc lists are automatically determined.  I've
+eyeballed them, and they seem reasonable: my apologies if they are not.)
 
-diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 9536829c6e3a..0610341e7349 100644
---- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -67,6 +67,11 @@ struct convert_to_argb2101010_result {
- 	const u32 expected[TEST_BUF_SIZE];
- };
- 
-+struct convert_to_mono_result {
-+	unsigned int dst_pitch;
-+	const u8 expected[TEST_BUF_SIZE];
-+};
-+
- struct convert_xrgb8888_case {
- 	const char *name;
- 	unsigned int pitch;
-@@ -82,6 +87,7 @@ struct convert_xrgb8888_case {
- 	struct convert_to_argb8888_result argb8888_result;
- 	struct convert_to_xrgb2101010_result xrgb2101010_result;
- 	struct convert_to_argb2101010_result argb2101010_result;
-+	struct convert_to_mono_result mono_result;
- };
- 
- static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
-@@ -131,6 +137,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 			.dst_pitch = 0,
- 			.expected = { 0xFFF00000 },
- 		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0x00 },
-+		},
- 	},
- 	{
- 		.name = "single_pixel_clip_rectangle",
-@@ -181,6 +191,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 			.dst_pitch = 0,
- 			.expected = { 0xFFF00000 },
- 		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = { 0x00 },
-+		},
- 	},
- 	{
- 		/* Well known colors: White, black, red, green, blue, magenta,
-@@ -293,6 +307,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 				0xFFFFFC00, 0xC00FFFFF,
- 			},
- 		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = {
-+				0x01,
-+				0x02,
-+				0x00,
-+				0x03,
-+			},
-+		},
- 	},
- 	{
- 		/* Randomly picked colors. Full buffer within the clip area. */
-@@ -392,6 +415,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
- 			},
- 		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = {
-+				0x00,
-+				0x00,
-+				0x00,
-+			},
-+		},
- 	},
- };
- 
-@@ -419,6 +450,17 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
- 	return dst_pitch * drm_rect_height(clip);
- }
- 
-+static size_t conversion_buf_size_mono(unsigned int dst_pitch, const struct drm_rect *clip)
-+{
-+	if (!dst_pitch) {
-+		unsigned int linepixels = drm_rect_width(clip) * 1;
-+
-+		dst_pitch = DIV_ROUND_UP(linepixels, 8);
-+	}
-+
-+	return dst_pitch * drm_rect_height(clip);
-+}
-+
- static u16 *le16buf_to_cpu(struct kunit *test, const __le16 *buf, size_t buf_size)
- {
- 	u16 *dst = NULL;
-@@ -789,6 +831,36 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
- 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
-+static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
-+{
-+	const struct convert_xrgb8888_case *params = test->param_value;
-+	const struct convert_to_mono_result *result = &params->mono_result;
-+	size_t dst_size;
-+	u8 *buf = NULL;
-+	__le32 *xrgb8888 = NULL;
-+	struct iosys_map dst, src;
-+
-+	struct drm_framebuffer fb = {
-+		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-+		.pitches = { params->pitch, 0, 0 },
-+	};
-+
-+	dst_size = conversion_buf_size_mono(result->dst_pitch, &params->clip);
-+
-+	KUNIT_ASSERT_GT(test, dst_size, 0);
-+
-+	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-+	iosys_map_set_vaddr(&dst, buf);
-+
-+	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-+	iosys_map_set_vaddr(&src, xrgb8888);
-+
-+	drm_fb_xrgb8888_to_mono(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
-+}
-+
- static struct kunit_case drm_format_helper_test_cases[] = {
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-@@ -800,6 +872,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
- 	{}
- };
- 
+This is the last tranche of patches in this series. (In total, there are 121
+patches in this series.)
+
+
+The series at a whole can be found here:
+  https://github.com/nickalcock/linux module-license
+
+(This is a respin with kbuild: prefixes dropped.  The previous series,
+used in the mailouts of tranche 3 and earlier, is in the
+module-license-kbuild-prefix branch.)
+
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-modules@vger.kernel.org
+Cc: x86@kernel.org
+
+Nick Alcock (17):
+  irqchip: remove MODULE_LICENSE in non-modules
+  bus: remove MODULE_LICENSE in non-modules
+  braille_console: remove MODULE_LICENSE in non-modules
+  arm-cci: remove MODULE_LICENSE in non-modules
+  drivers: bus: simple-pm-bus: remove MODULE_LICENSE in non-modules
+  watch_queue: remove MODULE_LICENSE in non-modules
+  btree: remove MODULE_LICENSE in non-modules
+  lib: remove MODULE_LICENSE in non-modules
+  fprobe: remove MODULE_LICENSE in non-modules
+  tty: remove MODULE_LICENSE in non-modules
+  unicode: remove MODULE_LICENSE in non-modules
+  udmabuf: remove MODULE_LICENSE in non-modules
+  regulator: stm32-pwr: remove MODULE_LICENSE in non-modules
+  mm: remove MODULE_LICENSE in non-modules
+  xen: remove MODULE_LICENSE in non-modules
+  zpool: remove MODULE_LICENSE in non-modules
+  zswap: remove MODULE_LICENSE in non-modules
+
+ arch/x86/mm/debug_pagetables.c                  | 1 -
+ drivers/accessibility/braille/braille_console.c | 1 -
+ drivers/bus/arm-cci.c                           | 1 -
+ drivers/bus/bt1-apb.c                           | 1 -
+ drivers/bus/bt1-axi.c                           | 1 -
+ drivers/bus/simple-pm-bus.c                     | 1 -
+ drivers/dma-buf/udmabuf.c                       | 1 -
+ drivers/irqchip/irq-ti-sci-inta.c               | 1 -
+ drivers/irqchip/irq-ti-sci-intr.c               | 1 -
+ drivers/regulator/stm32-pwr.c                   | 1 -
+ drivers/tty/n_null.c                            | 1 -
+ drivers/xen/grant-dma-ops.c                     | 1 -
+ drivers/xen/xenbus/xenbus_probe.c               | 1 -
+ fs/unicode/utf8-core.c                          | 1 -
+ kernel/watch_queue.c                            | 1 -
+ lib/btree.c                                     | 1 -
+ lib/glob.c                                      | 1 -
+ lib/test_fprobe.c                               | 1 -
+ mm/zpool.c                                      | 1 -
+ mm/zswap.c                                      | 1 -
+ 20 files changed, 20 deletions(-)
+
 -- 
-2.39.2
+2.39.1.268.g9de2f9a303
 
