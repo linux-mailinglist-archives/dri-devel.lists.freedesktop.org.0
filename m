@@ -1,63 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818536A84DF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 16:06:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA3D6A85B0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 16:56:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A718910E50F;
-	Thu,  2 Mar 2023 15:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBEE310E0E1;
+	Thu,  2 Mar 2023 15:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 131EA10E508
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 15:05:58 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ADDD51FE69;
- Thu,  2 Mar 2023 15:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1677769556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vzjP/DOanbJHGyRxn1hkja9Gi8hFkwLGICLTz3pBFZA=;
- b=eDqOOjSlhgekGBUNc7/iF97fHBFYU1V1jFEhUZpvxRcMD6e3MNGRmvmlyO4yDKOu7eQvR6
- hItWf9lZteS/ZxcvhNJnw5C+01NqycoFjpsjCtdRxhOb8PhCtKrRvJNg6UMG7oY0IhUVje
- fYdcDkFWDxAG4Seo6wzCPrwcyjJOvkQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1677769556;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vzjP/DOanbJHGyRxn1hkja9Gi8hFkwLGICLTz3pBFZA=;
- b=leJFzWbcSqgGQQiUV310/DDjbH8jqUvGULwt3fJcI25iFTTWZMS1l/zfUbCeK4gxHcfwL+
- CMUWLvW9CGVr4gDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8718713349;
- Thu,  2 Mar 2023 15:05:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 3O4EIFS7AGRvewAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 02 Mar 2023 15:05:56 +0000
-Message-ID: <0b1eef4e-d26f-3bd9-6177-b4a88a4d94f9@suse.de>
-Date: Thu, 2 Mar 2023 16:05:56 +0100
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2079.outbound.protection.outlook.com [40.107.223.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30AF010E0E1
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 15:56:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DBBG9Wmvlo0Yvj3a4cEi7yps40t1oj6EnBX7+aWI5DI429yUKIULRSVaJqT2gz5y0Fhgb+vGEX5FwEDXYDm/+QZ+A5WcBFY+X1GTr1tL+dp5ovNu6S4VCUmj+kBaST5AHkeYbxmI9v022AjqiNptbg+ibTnG6ZFfb4gGpL6as7fl6nnvKzlzQFlDpRaxCQulAwAUmnYJAyFajdY+Xu5MfBlbTKFseEyhZOLEXxdbLIWqkzCxfsttFPnOZriDQFkBetMrOsd5toxGuCx1fS+SMBYecBWT1jpY1PE06aur1Fk5y3vPmEz6bO3BUf+5RGdXcLy3CmlWcSt4O0EBKsR0nQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=REOR/CaTqvocmqOI/k+7ufLB35+lv6R3oO8z8MyMyIg=;
+ b=ImFYzHA2I44YYJv+J/WyRvZu7QMHRWX0RxeifXXvab1W/QvTlGZSKyJhisGIILlwE032lGRz7S9SCu3bVIz6WLSLB9h6DJHe87NaKt+aC53kxb6Im1LGgwn/nloP1vgpfhNMDLfou8xeoTHLyZS8kDnauJuJKY2EtDyk/VQjlSmuX6ZjnzRlp13uPcWBPgn2FzR7+t57Q56++XJo9Si4G62u5Qpp04or9ENeH4k6HIlmHqr3HPdVVKmxtH0vSaasDrXDCdAOf+iFFFuqqmzPNrULsQLbN7vZAgGNv+hdmL+Ejzj1ZzUdNnPQP+iN+4s8aB76Nr/U3BUVOK/rc21u8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=REOR/CaTqvocmqOI/k+7ufLB35+lv6R3oO8z8MyMyIg=;
+ b=AwbtRzGkUdwpZS3OkGbj1wzNJzXAJyfqlnVzbaEPoxsxtbz4BMnMAetgMqd0ttxjj3V2L5FCeJIe75RNXmempMvjwm56xeEAVnmMTgBzoHRMO8GkYLful1VolXsAKpBhvT/bALfDDe1nSP4g3v5/kHon3ZNlBGGXopYvR2kQS1M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SA1PR12MB7224.namprd12.prod.outlook.com (2603:10b6:806:2bb::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6134.30; Thu, 2 Mar
+ 2023 15:56:20 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6134.030; Thu, 2 Mar 2023
+ 15:56:20 +0000
+Message-ID: <3ce3a304-6157-2b7b-a67c-41cdc31cb66d@amd.com>
+Date: Thu, 2 Mar 2023 16:56:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] drm/vram-helper: turn on PRIME import/export
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 1/2] drm/prime: reject DMA-BUF attach when get_sg_table
+ is missing
 Content-Language: en-US
 To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
 References: <20230302143502.500661-1-contact@emersion.fr>
- <20230302143502.500661-2-contact@emersion.fr>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230302143502.500661-2-contact@emersion.fr>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------30mqOE3CIs0Bme3scGt10sG5"
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230302143502.500661-1-contact@emersion.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0199.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a5::16) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA1PR12MB7224:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72587af0-e285-48bd-b15a-08db1b36aa2b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2xNVJrrPtZfZNi5YSYzN0EwmCnCQuFfzzwuY6lvr8ZW0eosqREXODx3UyoLRTmoJJSGkuzaq8HP1lPqrSE+tpQv9qHPCG9OawGII3pvwR1bDfP0scWWYTRRIius6LUnJWB18lvpdlahu0RKd7JUbu8Ow63pd9FuRpTFnq8rHmY+hl/2Dh3l93I8CJJmr2TsePhk+XPVQrfqmd5nx2MaqIVOEJulf+THYGJ2KLqFyeBRq6Xm7PAQ2Qc9h3yWuobDpkukjKGk6YeqDEJF2CoI1mQRUeZ1ykS9P3NC6JW8xdqtUAvipVY2sd8IL2KtfYIlO0tVjDVmb/pvIPGfP+4nV6npCziuPWCrd4qjp7trpfskZ3wFzHgYyFeAYkjcoxnR7xafS7G2fJ6X27ZXigcV1HANiDxrD3Dw/4NJ68TwXs/qyVX8lOsKN3tS8yiVXGaERFbVvKtNX3Urg9PyDpa0nx1h7ibFH5DWTr/4AsNsZAt2fEbl0lE937KaiZ8wVjTh1QL1PvRI9ol+LUEGgicxrNKaodsoKYLbUgA/qM2jz+Y1AscUq2Y+ozDepPKcjcBGlniefOGohdUI9GUJXpTq7RKDSFzqqKifcpgYUgdplGjMhg6jDXztj7hQbEjH4ll9BOm24Kvtun0aQkQw53WBGplpfzmqwku4Q1csntuJbxRm+OnYoyI+qucPn8pdZ9bcs9cFHRdhMFl+4g/4yQy5vE9p/xNBFAQ3Cjc6Y14H+1qw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(366004)(39860400002)(376002)(346002)(136003)(451199018)(8676002)(38100700002)(4326008)(66476007)(86362001)(8936002)(36756003)(31696002)(5660300002)(41300700001)(66946007)(66556008)(2906002)(478600001)(6512007)(2616005)(6506007)(83380400001)(66574015)(6666004)(186003)(54906003)(316002)(6486002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU5TSlVKN1ZOSGN5ZzhVNjZ4OGY2Q1hKVmdtNnVJVlZyWjV5bUg4VEhCVzV1?=
+ =?utf-8?B?OGhhaWcwdG5nRXd0RmhsTlE0cnc2Q2k0WlFNYzY5eThiSkwxc2hndXU4TWZ5?=
+ =?utf-8?B?SlJyTlp4YysrNWc5SFZtZG0zTzZTRlJLYWF5NHBZZlRNRHAyMWVJN2h0WXpa?=
+ =?utf-8?B?RFFZeTVYRE9FRDJVbGtVWnhMTkRUY29MY1hmaFVWU09ualNmOUFweEpyRTAy?=
+ =?utf-8?B?cmh1Q3NCbW5Yb3NUTm9acDlBVlVxajdNV0x5UFhIdnJ0aWkzMm1LWG5nK2FG?=
+ =?utf-8?B?cWVDSkxNdXNZZnRlVEtwUC9nTHB0ZU9kTEZMMVdNclNwYWtRcGE4LzN0RVVP?=
+ =?utf-8?B?TDdvQXZJZmVYOWFhNXBwS3ZSTFRwa0Eva0NHcmpXcFZuK0NPSm9tT2pCdExG?=
+ =?utf-8?B?bTlqOHNrT1p0dWNTUWxZblBZaVh3d2FXWFJ2OFhUTnZpVHI5YjQ3ZnNFcElM?=
+ =?utf-8?B?eEZ1OFBweFJJRGtaVkpuKzRGcWp4aTNZU2dqSXZudXpGZC9HN202WFNuTXhV?=
+ =?utf-8?B?a0Zpc2FRbUlGZmNmSGVPV2M4NnFXT2tnMDdJVkNZRGFOSjZkalJEem4rR0VL?=
+ =?utf-8?B?MXI1WGszemFWUCtWQkUrRWUvcStYTEF6WDgzUDBGR2lic1ZpekpVdFhvWlZo?=
+ =?utf-8?B?dDJmL0cySFVJblFZWHFaeWE0cWhIUENnbENzL2ZpN3dBbFRwVjZTSjluQngw?=
+ =?utf-8?B?dWxhNEtlcFFMQzEwMjk2WlFUak5pV0RWZVZUOUN1dUhVb0tTc3k2VkFpRlZx?=
+ =?utf-8?B?UGE5N0VoalI5WStwcXY4aHl0QXFsT3NHdWxBRUpIUDRjeXJhandBSXlGT2pQ?=
+ =?utf-8?B?UGxVOElQMjlDeExOUTk4dW1LbTI3VGN1V1g5ZitHVGRNOW1WU1pjTmdBSUNz?=
+ =?utf-8?B?L0l6TUN6TW0zbXB0QUd0R2ZtRlRyeCt3VVY2aExtU1k2ekJ2Mk9YT00ydEoy?=
+ =?utf-8?B?Z0xQVGNYanpTdEhpQ2VKWXp3MXc1eDBOcGpVUUI1aENtZE8zU28vcVRXUkh6?=
+ =?utf-8?B?b0pyZUJteEpETkRGa05GQUpnL2pHTW5NYmNNVFI5bWRCNS94dTd4bC9VUGRT?=
+ =?utf-8?B?NG9BYXphVHdGS09NM0pGM1YreWk0RktQQVY0c1l1YmtPN2lkQWF2RzRUN0JK?=
+ =?utf-8?B?MGlBZzZaQ0laK1ZwbG5wa0RDcXh4d2ovYTNOblYxM3Q0TVg2N1VtUzNna2JX?=
+ =?utf-8?B?eXFvMVk2dkk5WjZSaDFyUkVvbEtFdXVoVDZoNHZSWmNpbVF0MXBVOG9OSzQv?=
+ =?utf-8?B?TUF0TnUrejN6ekdQWWpVekdsZWZFTU40MmpMbk01VVpKQ092LzBybVhDT04r?=
+ =?utf-8?B?dFpMNG1kenVYRXZUN2daQ1JYd0xjanRuWWRTNGVYSjJJbXAybmVEbWZkVTVK?=
+ =?utf-8?B?Rmo1dUNwcWQ3Vmt2NExNWDJ4MVBCQWlKOVNEWDVESFlSWVVkZ3M0Z0lnVFNm?=
+ =?utf-8?B?VXNuNmUrZVlrOUJsZk1LVkJvdmNobVAxRXQxRC9IaXJpNWlOMTZ4Y0VuZzlR?=
+ =?utf-8?B?c0hEVm9BbFVWK2dtb3F2MEI2YXZ1bnJHa2I1Ti94Q2RzeVhKSXlFLzBvNXk5?=
+ =?utf-8?B?UlVyZmtqOUpQK284Qm1SVjdqUDY3Q3QyTkd0dlVab29OWUllRHRTOWpiMzdi?=
+ =?utf-8?B?T2JRSjI4amhxWDJreThOVTREZFFSM1VrMzRqcFQ3YWczZ29qMFEzalJWVGxJ?=
+ =?utf-8?B?TlJFVXhnMUU4NHZtK0JQeEx6Y2hMRGd1WmR5VDYzYVVHOUF4TDR4MVFpQXFj?=
+ =?utf-8?B?b2R4eXNYdllZTEo3RjgxUlJ3d2FOeWJsVzh1NGlUZll0UVRHSXFPNzl3RWdE?=
+ =?utf-8?B?MzFFS2lCelovMnhhakFlaU1IMjlPZTloNmdoLzJSUXVLTXh6V05pSUkwQjl6?=
+ =?utf-8?B?ZGpnaWdQeGRpWmpsdnV4cHlFdSszNUt5L0U5RDdTTEc3ZEpKYU5VQnFPTXRW?=
+ =?utf-8?B?elF5d3hZS0RnTlBDRkdaaTRZMXBLRGRkMzd1SFExVmt0aXdWQXVtVDRCMjNh?=
+ =?utf-8?B?SUFjNU9FOGlNWWhwMndSSlZ5WTRHYWhLNzc5TjhKMUI0aFN1eEoyZUZQTitk?=
+ =?utf-8?B?SlRZZlpzdVlTOGFtOTFOWkVNeWp6ZlQ4ait3UFl0bElsTm1ERFVPQUxtOCsz?=
+ =?utf-8?B?MmJlQU04VkswQi9iTTljQlIyTEJwUnVqM0pRMFdZVnJoalRPcldXQlVDWTZX?=
+ =?utf-8?Q?aIvKSzDqqDs0t9P1o5ZMqpqbTr9iika7TnCXIr7XHe94?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72587af0-e285-48bd-b15a-08db1b36aa2b
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 15:56:20.3043 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mcFnA28vjm9l58hAaWak4uNiwIjXqPJZTuvI0Hlt6+utMyU9ZhMw6rx1mVxvXkH2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7224
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,90 +126,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Tian Tao <tiantao6@hisilicon.com>, Maxime Ripard <maxime@cerno.tech>,
- Hans de Goede <hdegoede@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Tian Tao <tiantao6@hisilicon.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------30mqOE3CIs0Bme3scGt10sG5
-Content-Type: multipart/mixed; boundary="------------CH5PYehvLQX39yCOfTA0kIuQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
- Tian Tao <tiantao6@hisilicon.com>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>
-Message-ID: <0b1eef4e-d26f-3bd9-6177-b4a88a4d94f9@suse.de>
-Subject: Re: [PATCH v2 2/2] drm/vram-helper: turn on PRIME import/export
-References: <20230302143502.500661-1-contact@emersion.fr>
- <20230302143502.500661-2-contact@emersion.fr>
-In-Reply-To: <20230302143502.500661-2-contact@emersion.fr>
+Am 02.03.23 um 15:35 schrieb Simon Ser:
+> drm_gem_map_dma_buf() requires drm_gem_object_funcs.get_sg_table
+> to be implemented, or else WARNs.
+>
+> Allow drivers to leave this hook unimplemented to implement purely
+> local DMA-BUFs (ie, DMA-BUFs which cannot be imported anywhere
+> else but the device which allocated them). In that case, reject
+> imports to other devices in drm_gem_map_attach().
+>
+> v2: new patch
+>
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
 
---------------CH5PYehvLQX39yCOfTA0kIuQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+With Thomas comment addressed: Reviewed-by: Christian König 
+<christian.koenig@amd.com> for the series.
 
-DQoNCkFtIDAyLjAzLjIzIHVtIDE1OjM1IHNjaHJpZWIgU2ltb24gU2VyOg0KPiBXZSBkb24n
-dCBwb3B1bGF0ZSBkcm1fZHJpdmVyLmdlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUgc28gb25s
-eQ0KPiBETUEtQlVGcyBleHBvcnRlZCBmcm9tIG91ciBvd24gZGV2aWNlIGNhbiBiZSBpbXBv
-cnRlZC4gV2UgZG9uJ3QNCj4gcG9wdWxhdGUgZHJtX2dlbV9vYmplY3RfZnVuY3MuZ2V0X3Nn
-X3RhYmxlIHNvIERNQS1CVUZzIGNhbm5vdCBiZQ0KPiBpbXBvcnRlZCBpbnRvIGFub3RoZXIg
-ZGV2aWNlLiBTdGlsbCwgdGhpcyBpcyB1c2VmdWwgdG8gdXNlci1zcGFjZQ0KPiB0byBzaGFy
-ZSBidWZmZXJzIGJldHdlZW4gcHJvY2Vzc2VzIGFuZCBiZXR3ZWVuIEFQSSBib3VuZGFyaWVz
-DQo+IChlLmcuIHdscm9vdHMgaGFyZC1yZXF1aXJlcyBQUklNRSBpbXBvcnQvZXhwb3J0IHN1
-cHBvcnQpLg0KPiANCj4gdjI6IGV4cGFuZCBjb21taXQgbWVzc2FnZQ0KPiANCj4gU2lnbmVk
-LW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPg0KPiBDYzogRGFuaWVs
-IFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4gQ2M6IFRob21hcyBaaW1tZXJt
-YW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPiBDYzogVGlhbiBUYW8gPHRpYW50YW82QGhp
-c2lsaWNvbi5jb20+DQo+IENjOiBNYXhpbWUgUmlwYXJkIDxtYXhpbWVAY2Vybm8udGVjaD4N
-Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4g
-Q2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAgIGlu
-Y2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaCB8IDQgKysrLQ0KPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1n
-aXQgYS9pbmNsdWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmggYi9pbmNsdWRlL2RybS9k
-cm1fZ2VtX3ZyYW1faGVscGVyLmgNCj4gaW5kZXggZDNlODkyMGMwYjY0Li5mNGFhYjY0NDEx
-ZDggMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaA0K
-PiArKysgYi9pbmNsdWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmgNCj4gQEAgLTE2MCw3
-ICsxNjAsOSBAQCB2b2lkIGRybV9nZW1fdnJhbV9zaW1wbGVfZGlzcGxheV9waXBlX2NsZWFu
-dXBfZmIoDQo+ICAgCS5kZWJ1Z2ZzX2luaXQgICAgICAgICAgICAgPSBkcm1fdnJhbV9tbV9k
-ZWJ1Z2ZzX2luaXQsIFwNCj4gICAJLmR1bWJfY3JlYXRlCQkgID0gZHJtX2dlbV92cmFtX2Ry
-aXZlcl9kdW1iX2NyZWF0ZSwgXA0KPiAgIAkuZHVtYl9tYXBfb2Zmc2V0CSAgPSBkcm1fZ2Vt
-X3R0bV9kdW1iX21hcF9vZmZzZXQsIFwNCj4gLQkuZ2VtX3ByaW1lX21tYXAJCSAgPSBkcm1f
-Z2VtX3ByaW1lX21tYXANCj4gKwkuZ2VtX3ByaW1lX21tYXAJCSAgPSBkcm1fZ2VtX3ByaW1l
-X21tYXAsIFwNCj4gKwkucHJpbWVfaGFuZGxlX3RvX2ZkCSAgPSBkcm1fZ2VtX3ByaW1lX2hh
-bmRsZV90b19mZCwgXA0KPiArCS5wcmltZV9mZF90b19oYW5kbGUJICA9IGRybV9nZW1fcHJp
-bWVfZmRfdG9faGFuZGxlDQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4NCg0KPiAgIA0KPiAgIC8qDQo+ICAgICogIFZSQU0gbWVtb3J5IG1h
-bmFnZXINCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
-b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
-LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
-ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+> ---
+>   drivers/gpu/drm/drm_prime.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index f924b8b4ab6b..ab1d21d63a03 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -544,7 +544,8 @@ int drm_prime_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+>    * Optional pinning of buffers is handled at dma-buf attach and detach time in
+>    * drm_gem_map_attach() and drm_gem_map_detach(). Backing storage itself is
+>    * handled by drm_gem_map_dma_buf() and drm_gem_unmap_dma_buf(), which relies on
+> - * &drm_gem_object_funcs.get_sg_table.
+> + * &drm_gem_object_funcs.get_sg_table. If &drm_gem_object_funcs.get_sg_table is
+> + * unimplemented, exports into another device are rejected.
+>    *
+>    * For kernel-internal access there's drm_gem_dmabuf_vmap() and
+>    * drm_gem_dmabuf_vunmap(). Userspace mmap support is provided by
+> @@ -583,6 +584,9 @@ int drm_gem_map_attach(struct dma_buf *dma_buf,
+>   {
+>   	struct drm_gem_object *obj = dma_buf->priv;
+>   
+> +	if (!obj->funcs->get_sg_table)
+> +		return -EOPNOTSUPP;
+> +
+>   	return drm_gem_pin(obj);
+>   }
+>   EXPORT_SYMBOL(drm_gem_map_attach);
 
---------------CH5PYehvLQX39yCOfTA0kIuQ--
-
---------------30mqOE3CIs0Bme3scGt10sG5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQAu1QFAwAAAAAACgkQlh/E3EQov+BX
-nRAAzNRpXkmlJ7Ncl04btTFq63KfR2QSjm7FJAQd8zEMfpZFNTT7eEhJs+X71xwMdXGKUa9YgH2f
-vUBWnCfOGDYMhjElMKCYTMl1Igi4BSlVq5gfEIB9SAO1wYbf5q8OsqL33QcJV25XkQno2hYLON/4
-DI89YXu+I0QVlDLIn+vS7iG/U54YZDJ2y/D/QcqM3nKVt6fZVWyFKmsMhPFQqPNZtwlh/hk/KCyI
-TeK8p3wgExCb+TAL1dni19OC9U6dBr0+pfv7QA2nAf0YOwwgCBrGnq1h2qEpJCx8pd0tY1OLM4hV
-3USCg9E9cxfPv/jX1pUibVSCddH/on9Xq4bx7oZp+tGoVZrncmbnVbByv5Qp6ogiJH0xgz6LYbc4
-XlUBZ7Ep7oA/a0d17h3DhWxm2MM2IF2s5IrArv9ECcssWc2fAX17VSE2d+uNzn8dFazm+386oVCs
-m6JmSxu0cjfofYm/SXE2Y8w8djj37CFB4wYRixdHYAm0Dx/hbQtYeo2TkH4bw4/cBz2zd52j3eu/
-Km59Kf/hCjqeXh/y0AU4j0PZyarmnx8rWmqThkPyxmuVwKSITn5c1imrhQU3zfbwx+NV4c8GJHCN
-amiS2CA9Vd8d3RfFIA6QW7cLkpXvy8keWi7A96zR9jjCWB1+JmQAUXAX7WYK6F+t69ppzEGN3KQe
-cuA=
-=WJ00
------END PGP SIGNATURE-----
-
---------------30mqOE3CIs0Bme3scGt10sG5--
