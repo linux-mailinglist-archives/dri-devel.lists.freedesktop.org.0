@@ -1,72 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC146A86F1
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:40:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E336A8722
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:45:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 394DA10E25C;
-	Thu,  2 Mar 2023 16:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D319A10E273;
+	Thu,  2 Mar 2023 16:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFA5510E25C
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 16:40:06 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id i28so119974lfv.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 08:40:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=clemDdlw5AVVfbBMfMMVk1mB/n91ZZIxJxGYFhtaE10=;
- b=ZcWzd2VISv7VbjUNUOKAd/ScIHUIlD+kat046CfvIzTRNnRvWidoivUQJBI3P2pjEZ
- CX+7iV9lc2HS9oMSqLt+RlZy/vON+VOJlP80aYDi62yiZnqnbfZU+sV082TlH2Ke1dGT
- gWITtMMdjJOOHllC5SmBmxo5X6qF8xdJBoyLTyNAjEgb9ABPnWCtZ7CRyNwI1sQOEEOj
- LDAE8Jgl0CkqG7rSUE7WHa2tiPGyLmMyer7I6eu4DqcYHosmuUrkbXuHOj8+8O9st8O6
- qmzZrGuZ3/VKs4dkrfb1X+PZWK8sqxeb8v9+xmFTTQdnevZt4L6a8bcyHWWtoB7MgbmC
- KWnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=clemDdlw5AVVfbBMfMMVk1mB/n91ZZIxJxGYFhtaE10=;
- b=mdVAONtdIv0h097WdtU2c1hiSIwJL6BHy6tmHqDDim1vfmi7zzyTkXiu8k6Hg5L7hQ
- id66BfG03SWkrTpYZNsUfAV2BFs2FLOzgL+fgLa/mS3VZrCZEzGq0GpcCJt60zBYOXD9
- HM4mM0t9nFm5lv/h4TvM3wMpGgPdhKa3C9zmHL/VaI/spKvXynWr0s0P7/P2Ra2PpmVC
- QJuWJzM326y5/6zd9rW6QvkFHC/KCeXJWSmQRYJGR2vCfrDN0Uq01tvHhppABzOtUcBD
- 80IuUupe05lD+yEMctocz1LZK4fN9wQQU/kmyoWUojBcVh+Kw3OsIkbjMFeH29A9sdZq
- ERlA==
-X-Gm-Message-State: AO0yUKVUQ74XrAJlO4ouLFBSF/mZvnVakRl+l+KlW2ig4ZQxf9kPBOnq
- iRtA8xgJtHU7NTccbyEVms0Jhw==
-X-Google-Smtp-Source: AK7set8kh2kDzBB4CHJkTz1iDmV3/IKPUx0riwaparu6P77949nYB2XB727Wg3k9aIn+VVypxEti2Q==
-X-Received: by 2002:ac2:5d41:0:b0:4de:ca63:b2d2 with SMTP id
- w1-20020ac25d41000000b004deca63b2d2mr2956571lfd.26.1677775204510; 
- Thu, 02 Mar 2023 08:40:04 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- e19-20020ac25473000000b0048a9e899693sm2211229lfn.16.2023.03.02.08.40.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Mar 2023 08:40:04 -0800 (PST)
-Message-ID: <7de00f26-cc93-b549-f66e-8d1f8867f8b7@linaro.org>
-Date: Thu, 2 Mar 2023 18:40:03 +0200
+Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
+ (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5EA10E273
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 16:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
+ b=kDFUay36skYmps2/wdqt4fAH3ooPZbYWVp4pqBqM961wiZduj7P0xLgJw2P+NpMGf7kg1DoicLT6s
+ g6l09K8HwL4RYQ8zGGoaFGn4km6zQYbAroP+EN+9HlyJrhV1W8t5cDqTAwscYUwdLDpYbIiHboO9rZ
+ aMzoAa0S/vUdoj1kf/OGdJTZUpW+MrjaNGUTQavNWIRuYfGMKTi7Tl3hROfbZVtoTWtbKeUCJQ2L0I
+ vgAjzdLxgJIXjLXCeRFb3ZpkshGAWy49N0muwOqA6SWUqwPx0aPY3DSGC5+6RFk99RSbDSFXHj01s6
+ xLMWjzebL84uGzeen8v31LzBEjuhwEg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed2;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=sAIc9DICHOwHXe3hoL0M1Cz46v91ph++acz6kjkneyk=;
+ b=dTZtzyqF/jIMi0Zr3bfFJbyk3/PAmHQdX/XPn81EeMGXIgD+hYOJ9q2VlxqlJBJy6Rr6S2UsHglzv
+ pur80rgBQ==
+X-HalOne-ID: 943971d9-b919-11ed-babc-11abd97b9443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+ by mailrelay1 (Halon) with ESMTPSA
+ id 943971d9-b919-11ed-babc-11abd97b9443;
+ Thu, 02 Mar 2023 16:45:06 +0000 (UTC)
+Date: Thu, 2 Mar 2023 17:45:04 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Fix SPI and I2C bus node names in examples
+Message-ID: <ZADSkGa6dK4H9p75@ravnborg.org>
+References: <20230228215433.3944508-1-robh@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v14 14/14] drm/msm/dp: set self refresh aware based on PSR
- support
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
- <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230228215433.3944508-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,22 +56,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
- quic_khsieh@quicinc.com, swboyd@chromium.org
+Cc: alsa-devel@alsa-project.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ dri-devel@lists.freedesktop.org, Eric Dumazet <edumazet@google.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Guenter Roeck <groeck@chromium.org>,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ Robert Foss <rfoss@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Lee Jones <lee@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Kalle Valo <kvalo@kernel.org>, Wolfgang Grandegger <wg@grandegger.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/03/2023 18:33, Vinod Polimera wrote:
-> For the PSR to kick in, self_refresh_aware has to be set.
-> Initialize it based on the PSR support for the eDP interface.
-> 
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+Hi Rob.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>  .../bindings/display/bridge/analogix,anx7625.yaml |  2 +-
+>  .../bindings/display/bridge/anx6345.yaml          |  2 +-
+>  .../bindings/display/bridge/lontium,lt8912b.yaml  |  2 +-
+>  .../bindings/display/bridge/nxp,ptn3460.yaml      |  2 +-
+>  .../bindings/display/bridge/ps8640.yaml           |  2 +-
+>  .../bindings/display/bridge/sil,sii9234.yaml      |  2 +-
+>  .../bindings/display/bridge/ti,dlpc3433.yaml      |  2 +-
+>  .../bindings/display/bridge/toshiba,tc358762.yaml |  2 +-
+>  .../bindings/display/bridge/toshiba,tc358768.yaml |  2 +-
+>  .../bindings/display/panel/nec,nl8048hl11.yaml    |  2 +-
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
--- 
-With best wishes
-Dmitry
 
+
+> index 669f70b1b4c4..8bd58913804a 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> @@ -226,7 +226,7 @@ unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> -    i2c1 {
+> +    i2c {
+>              #address-cells = <1>;
+>              #size-cells = <0>;
+>  
+> @@ -239,7 +239,7 @@ examples:
+>  
+>              ssd1306_i2c: oled@3d {
+>                      compatible = "solomon,ssd1306";
+> -                    reg = <0x3c>;
+> +                    reg = <0x3d>;
+>                      pwms = <&pwm 4 3000>;
+>                      reset-gpios = <&gpio2 7>;
+>                      solomon,com-lrremap;
+
+I can see this align the example with i2c-mux-gpio.yaml so the change
+should be fine. I am just positive surprised the tooling caught it.
+
+The change is
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+the above was just me thinking loud.
+
+	Sam
