@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8731A6A8D84
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 00:54:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A107B6A8D86
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 00:54:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3060D10E5C4;
-	Thu,  2 Mar 2023 23:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDFDF10E5B0;
+	Thu,  2 Mar 2023 23:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECD8610E5B5;
- Thu,  2 Mar 2023 23:54:14 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id a2so1001435plm.4;
- Thu, 02 Mar 2023 15:54:14 -0800 (PST)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F9E910E5C2;
+ Thu,  2 Mar 2023 23:54:17 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id l1so821181pjt.2;
+ Thu, 02 Mar 2023 15:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677801254;
+ d=gmail.com; s=20210112; t=1677801256;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A2i/fpR85GsnM4yvTxGbXQcoI9FVWW3WSsWX/ebUCbg=;
- b=hX79zaQYLdhushZgE5GCBxVIrRIwBhDh2nqI3ggE9QSTHH+J0nrl6T0PoY35zccMuU
- hX+S20CpnmXXkzxXBbr7hc6/gTjn+vyZ+US8C3t5+zbp8bnR0ZgPHDc6L9du1r84B9i2
- otn4tpdcPX80hGvzjIvI44OxqY82h339d1laK4TddPx4/I7/sThvNig/a9zt5buqR/HH
- bkO8gbLcpv6IyT0TzIlzv8dhyZjemYmM94M8clpJ5RV50JadB2hTsNTp+hi7K7l4LmLM
- k+hNhZX5NxLNHrds97TF7dB+WmMipcnXEgjXAq6Ud/pQG7eenE921A4/tzEOSPsOvVNC
- mh5g==
+ bh=Fry4TP6AIquyUeVXSm7W0PXZtEhE3hkfU2dLB2bew7U=;
+ b=Yvg9pKQ1PzeoCFmG+86Prh5WKKZvLqPSVYkpXOLKWmA+BQfIT1GwNvPlxhn8onwHbp
+ wQNLC85yvsvc6L2r+VheEsqrAnkD6yDGRS6dOmGQ8l3GJf5RKBSvUZxm9u+AI9/l1pTg
+ K3v6Qeryf4/dJ/unIn4QMNRx631a0X7HTDhgF5rPaXiYJw4bLtiWz20FlAdlzTgdZ4D8
+ dAKef26NLXmEsW753JEueKzOnGkPFNSRyu9Ps6gABl1aYZFcOKyZXLmItdxM7fkQg22S
+ XjL5CoPC3WrACGjdOpdcAPsv8G/c9vQ2S22HqN6uE/AyBBc05Rb5v6AV2e83s5w2mIdA
+ 7VvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677801254;
+ d=1e100.net; s=20210112; t=1677801256;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A2i/fpR85GsnM4yvTxGbXQcoI9FVWW3WSsWX/ebUCbg=;
- b=ga3NWdD1b+GAW3NJogiecUaX2iUs302kNRWyflaUWvLWObeU3w9GPmxDgX/a2ZOSk+
- yIrwuHcDiyFiQAsmuAnLlmEnfO8z6agd5OsuAzOQMnUnUeBcwM6JFip3SlQHmCiYkoNE
- HvaNOb6TCCivmW3lFWBZ7fMsm4UjJXilpJrLJCK/NFG8VCDXEFIAqpD1KbeHEyeXlnkF
- NgFM2Wgyc8LIk8QGsZwdV98RHNsQUxurM/EPqKvBTOgfGup8A6qQ5rrUwt8ZWsGmJ/GV
- phLtlodTBGvXEJT7pPLr8LsU6AwaThgmGzKxkN1o6ecaVn398nNiX46ijzk31eRm3ySh
- HG8A==
-X-Gm-Message-State: AO0yUKUVVT4K05Ck2dvo4vOwo0atqRzJwZX12k4QFaH94T4vJOznfch5
- sjKSkeC3HK+eHi1CZKTJ2jd/8KPEmgo=
-X-Google-Smtp-Source: AK7set8OtMhbZ6+gJB+18MZDCQ80d9oazy7eSm2vCZwccHjkNGvq9087B6+X0msRRrBWT5EwKDdDIA==
-X-Received: by 2002:a17:902:c94b:b0:19a:c65d:f93 with SMTP id
- i11-20020a170902c94b00b0019ac65d0f93mr19253pla.53.1677801254310; 
- Thu, 02 Mar 2023 15:54:14 -0800 (PST)
+ bh=Fry4TP6AIquyUeVXSm7W0PXZtEhE3hkfU2dLB2bew7U=;
+ b=cYnNKUxRjRtOcOZLFxkoPXbKXRnGeJsp7208Icu9Mev5rfWzSDCrVBxhkgypFMBXO0
+ Hmhs7Zunu/OGbe0Rn4NdWTbpcnI+SU+eoC+XNyQPve0GySAT0BMM5N87Yjll26lMmZSA
+ C9h9DjLu73MhaILD66B/nnx+kPKBuqIICDlAWRqrxbXiD8OQ5AaKdy6mRk008BJVXSuo
+ WD9SpInd8oC683glsyLfZE86OqqMxiffcpkUQd2op40yO4dFJnBOioy/IfKzvwFo7SDl
+ W8X0k+sTilS3xJuCY3Uh9Khrx5h4ejkmOsjIV1DPQMmFsD3ZNLTO40BNp7xvaoQ4G7Wo
+ 2wew==
+X-Gm-Message-State: AO0yUKVYa3mnEQ/QY2V2SZ3X7AyShvq7jgVINhxZlHiRNpvLYBTMmmem
+ iPt/VAOCe0lqLipVLaNbCRLq5j2Pcd0=
+X-Google-Smtp-Source: AK7set+U+Gr6RO5vd85F9vkIhL0VBDp95ez5OaXlDtxr4szd7wCyXm97XHd8N5TRcz4cWVUPLND4Wg==
+X-Received: by 2002:a17:903:2cb:b0:19c:f747:2517 with SMTP id
+ s11-20020a17090302cb00b0019cf7472517mr113226plk.1.1677801256411; 
+ Thu, 02 Mar 2023 15:54:16 -0800 (PST)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- b2-20020a170903228200b001964c8164aasm216400plh.129.2023.03.02.15.54.13
+ h10-20020a170902f54a00b0019c13c4b175sm210183plf.189.2023.03.02.15.54.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Mar 2023 15:54:13 -0800 (PST)
+ Thu, 02 Mar 2023 15:54:15 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v9 07/15] dma-buf/sw_sync: Add fence deadline support
-Date: Thu,  2 Mar 2023 15:53:29 -0800
-Message-Id: <20230302235356.3148279-8-robdclark@gmail.com>
+Subject: [PATCH v9 08/15] drm/scheduler: Add fence deadline support
+Date: Thu,  2 Mar 2023 15:53:30 -0800
+Message-Id: <20230302235356.3148279-9-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230302235356.3148279-1-robdclark@gmail.com>
 References: <20230302235356.3148279-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,187 +72,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Gustavo Padovan <gustavo@padovan.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
+Cc: Rob Clark <robdclark@chromium.org>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
  Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+As the finished fence is the one that is exposed to userspace, and
+therefore the one that other operations, like atomic update, would
+block on, we need to propagate the deadline from from the finished
+fence to the actual hw fence.
 
-This consists of simply storing the most recent deadline, and adding an
-ioctl to retrieve the deadline.  This can be used in conjunction with
-the SET_DEADLINE ioctl on a fence fd for testing.  Ie. create various
-sw_sync fences, merge them into a fence-array, set deadline on the
-fence-array and confirm that it is propagated properly to each fence.
-
-v2: Switch UABI to express deadline as u64
-v3: More verbose UAPI docs, show how to convert from timespec
-v4: Better comments, track the soonest deadline, as a normal fence
-    implementation would, return an error if no deadline set.
+v2: Split into drm_sched_fence_set_parent() (ckoenig)
+v3: Ensure a thread calling drm_sched_fence_set_deadline_finished() sees
+    fence->parent set before drm_sched_fence_set_parent() does this
+    test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT).
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Acked-by: Luben Tuikov <luben.tuikov@amd.com>
 ---
- drivers/dma-buf/sw_sync.c    | 81 ++++++++++++++++++++++++++++++++++++
- drivers/dma-buf/sync_debug.h |  2 +
- 2 files changed, 83 insertions(+)
+ drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++++++++
+ drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+ include/drm/gpu_scheduler.h             | 17 +++++++++
+ 3 files changed, 64 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 348b3a9170fa..f53071bca3af 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -52,12 +52,33 @@ struct sw_sync_create_fence_data {
- 	__s32	fence; /* fd of new fence */
- };
- 
-+/**
-+ * struct sw_sync_get_deadline - get the deadline hint of a sw_sync fence
-+ * @deadline_ns: absolute time of the deadline
-+ * @pad:	must be zero
-+ * @fence_fd:	the sw_sync fence fd (in)
-+ *
-+ * Return the earliest deadline set on the fence.  The timebase for the
-+ * deadline is CLOCK_MONOTONIC (same as vblank).  If there is no deadline
-+ * set on the fence, this ioctl will return -ENOENT.
-+ */
-+struct sw_sync_get_deadline {
-+	__u64	deadline_ns;
-+	__u32	pad;
-+	__s32	fence_fd;
-+};
-+
- #define SW_SYNC_IOC_MAGIC	'W'
- 
- #define SW_SYNC_IOC_CREATE_FENCE	_IOWR(SW_SYNC_IOC_MAGIC, 0,\
- 		struct sw_sync_create_fence_data)
- 
- #define SW_SYNC_IOC_INC			_IOW(SW_SYNC_IOC_MAGIC, 1, __u32)
-+#define SW_SYNC_GET_DEADLINE		_IOWR(SW_SYNC_IOC_MAGIC, 2, \
-+		struct sw_sync_get_deadline)
-+
-+
-+#define SW_SYNC_HAS_DEADLINE_BIT	DMA_FENCE_FLAG_USER_BITS
- 
- static const struct dma_fence_ops timeline_fence_ops;
- 
-@@ -171,6 +192,22 @@ static void timeline_fence_timeline_value_str(struct dma_fence *fence,
- 	snprintf(str, size, "%d", parent->value);
+diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
+index 7fd869520ef2..fe9c6468e440 100644
+--- a/drivers/gpu/drm/scheduler/sched_fence.c
++++ b/drivers/gpu/drm/scheduler/sched_fence.c
+@@ -123,6 +123,37 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
+ 	dma_fence_put(&fence->scheduled);
  }
  
-+static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
++static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
++						  ktime_t deadline)
 +{
-+	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
++	struct drm_sched_fence *fence = to_drm_sched_fence(f);
++	struct dma_fence *parent;
 +	unsigned long flags;
 +
-+	spin_lock_irqsave(fence->lock, flags);
-+	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
-+		if (ktime_before(deadline, pt->deadline))
-+			pt->deadline = deadline;
-+	} else {
-+		pt->deadline = deadline;
-+		set_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags);
++	spin_lock_irqsave(&fence->lock, flags);
++
++	/* If we already have an earlier deadline, keep it: */
++	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
++	    ktime_before(fence->deadline, deadline)) {
++		spin_unlock_irqrestore(&fence->lock, flags);
++		return;
 +	}
-+	spin_unlock_irqrestore(fence->lock, flags);
++
++	fence->deadline = deadline;
++	set_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
++
++	spin_unlock_irqrestore(&fence->lock, flags);
++
++	/*
++	 * smp_load_aquire() to ensure that if we are racing another
++	 * thread calling drm_sched_fence_set_parent(), that we see
++	 * the parent set before it calls test_bit(HAS_DEADLINE_BIT)
++	 */
++	parent = smp_load_acquire(&fence->parent);
++	if (parent)
++		dma_fence_set_deadline(parent, deadline);
 +}
 +
- static const struct dma_fence_ops timeline_fence_ops = {
- 	.get_driver_name = timeline_fence_get_driver_name,
- 	.get_timeline_name = timeline_fence_get_timeline_name,
-@@ -179,6 +216,7 @@ static const struct dma_fence_ops timeline_fence_ops = {
- 	.release = timeline_fence_release,
- 	.fence_value_str = timeline_fence_value_str,
- 	.timeline_value_str = timeline_fence_timeline_value_str,
-+	.set_deadline = timeline_fence_set_deadline,
+ static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
+ 	.get_driver_name = drm_sched_fence_get_driver_name,
+ 	.get_timeline_name = drm_sched_fence_get_timeline_name,
+@@ -133,6 +164,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
+ 	.get_driver_name = drm_sched_fence_get_driver_name,
+ 	.get_timeline_name = drm_sched_fence_get_timeline_name,
+ 	.release = drm_sched_fence_release_finished,
++	.set_deadline = drm_sched_fence_set_deadline_finished,
  };
  
- /**
-@@ -387,6 +425,46 @@ static long sw_sync_ioctl_inc(struct sync_timeline *obj, unsigned long arg)
- 	return 0;
+ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
+@@ -147,6 +179,20 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
  }
+ EXPORT_SYMBOL(to_drm_sched_fence);
  
-+static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long arg)
++void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
++				struct dma_fence *fence)
 +{
-+	struct sw_sync_get_deadline data;
-+	struct dma_fence *fence;
-+	struct sync_pt *pt;
-+	int ret = 0;
-+
-+	if (copy_from_user(&data, (void __user *)arg, sizeof(data)))
-+		return -EFAULT;
-+
-+	if (data.deadline_ns || data.pad)
-+		return -EINVAL;
-+
-+	fence = sync_file_get_fence(data.fence_fd);
-+	if (!fence)
-+		return -EINVAL;
-+
-+	pt = dma_fence_to_sync_pt(fence);
-+	if (!pt)
-+		return -EINVAL;
-+
-+	spin_lock(fence->lock);
-+	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
-+		data.deadline_ns = ktime_to_ns(pt->deadline);
-+	} else {
-+		ret = -ENOENT;
-+	}
-+	spin_unlock(fence->lock);
-+
-+	dma_fence_put(fence);
-+
-+	if (ret)
-+		return ret;
-+
-+	if (copy_to_user((void __user *)arg, &data, sizeof(data)))
-+		return -EFAULT;
-+
-+	return 0;
++	/*
++	 * smp_store_release() to ensure another thread racing us
++	 * in drm_sched_fence_set_deadline_finished() sees the
++	 * fence's parent set before test_bit()
++	 */
++	smp_store_release(&s_fence->parent, dma_fence_get(fence));
++	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT,
++		     &s_fence->finished.flags))
++		dma_fence_set_deadline(fence, s_fence->deadline);
 +}
 +
- static long sw_sync_ioctl(struct file *file, unsigned int cmd,
- 			  unsigned long arg)
+ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
+ 					      void *owner)
  {
-@@ -399,6 +477,9 @@ static long sw_sync_ioctl(struct file *file, unsigned int cmd,
- 	case SW_SYNC_IOC_INC:
- 		return sw_sync_ioctl_inc(obj, arg);
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 4e6ad6e122bc..007f98c48f8d 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1019,7 +1019,7 @@ static int drm_sched_main(void *param)
+ 		drm_sched_fence_scheduled(s_fence);
  
-+	case SW_SYNC_GET_DEADLINE:
-+		return sw_sync_ioctl_get_deadline(obj, arg);
-+
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/drivers/dma-buf/sync_debug.h b/drivers/dma-buf/sync_debug.h
-index 6176e52ba2d7..a1bdd62efccd 100644
---- a/drivers/dma-buf/sync_debug.h
-+++ b/drivers/dma-buf/sync_debug.h
-@@ -55,11 +55,13 @@ static inline struct sync_timeline *dma_fence_parent(struct dma_fence *fence)
-  * @base: base fence object
-  * @link: link on the sync timeline's list
-  * @node: node in the sync timeline's tree
-+ * @deadline: the earliest fence deadline hint
+ 		if (!IS_ERR_OR_NULL(fence)) {
+-			s_fence->parent = dma_fence_get(fence);
++			drm_sched_fence_set_parent(s_fence, fence);
+ 			/* Drop for original kref_init of the fence */
+ 			dma_fence_put(fence);
+ 
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 9db9e5e504ee..99584e457153 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -41,6 +41,15 @@
   */
- struct sync_pt {
- 	struct dma_fence base;
- 	struct list_head link;
- 	struct rb_node node;
-+	ktime_t deadline;
- };
+ #define DRM_SCHED_FENCE_DONT_PIPELINE	DMA_FENCE_FLAG_USER_BITS
  
- extern const struct file_operations sw_sync_debugfs_fops;
++/**
++ * DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT - A fence deadline hint has been set
++ *
++ * Because we could have a deadline hint can be set before the backing hw
++ * fence is created, we need to keep track of whether a deadline has already
++ * been set.
++ */
++#define DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT	(DMA_FENCE_FLAG_USER_BITS + 1)
++
+ enum dma_resv_usage;
+ struct dma_resv;
+ struct drm_gem_object;
+@@ -280,6 +289,12 @@ struct drm_sched_fence {
+          */
+ 	struct dma_fence		finished;
+ 
++	/**
++	 * @deadline: deadline set on &drm_sched_fence.finished which
++	 * potentially needs to be propagated to &drm_sched_fence.parent
++	 */
++	ktime_t				deadline;
++
+         /**
+          * @parent: the fence returned by &drm_sched_backend_ops.run_job
+          * when scheduling the job on hardware. We signal the
+@@ -568,6 +583,8 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+ 				   enum drm_sched_priority priority);
+ bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
+ 
++void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
++				struct dma_fence *fence);
+ struct drm_sched_fence *drm_sched_fence_alloc(
+ 	struct drm_sched_entity *s_entity, void *owner);
+ void drm_sched_fence_init(struct drm_sched_fence *fence,
 -- 
 2.39.1
 
