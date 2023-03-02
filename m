@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8126A6A81D5
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 13:02:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D11B6A81E9
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 13:08:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DA310E129;
-	Thu,  2 Mar 2023 12:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 908A710E139;
+	Thu,  2 Mar 2023 12:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AE2110E129
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 12:01:56 +0000 (UTC)
-Date: Thu, 02 Mar 2023 12:01:48 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1677758514; x=1678017714;
- bh=Igz6czKYFjQk78TxKiZBKDfuQsvMIUirFGFifsLTeGk=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=uwBtPn+RtQMXeYieBPFRIsFMQf/tdfFUFx6ugi+1344EVPFmduIK+g14VMWaTUHaT
- Ubrn57po8wW7tY5v25jsS2PYJ849vwJ2fThtXYjMZU21tmX/41SchBi2M7q/7jnfw8
- /fwJv6CgKXg13b30+BM45o2jqg9vzzDoMIYXYPGAdcnwFyK+SCJPcFwTf3FoqtY1VC
- cal7m9sFc/nWmR9VPXAeg4zysNVEfL44w21NGtjSkvX2XNV2OTBeJ25I6Mh8UXkc38
- fQD39c/GgIwwkYoMmizk+Z6wZgI0m8DFKAo3Odq2lT36PZgEUF044f8bVo1CnhhdpG
- 2BdR3nk5IJsaw==
-To: Peter Stuge <peter@stuge.se>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: gud: set PATH connector property
-Message-ID: <wuQMYhnV3GpWUX4DNccEvVlJspHv8B5GO_KUwDOd-Dp4Mj3yED93_ICPoPafUQuKjSgUSZYDSRenzpVmwu9ZuzK4G4NpkdYm_NtM2E83wMY=@emersion.fr>
-In-Reply-To: <20230228151654.6175.qmail@stuge.se>
-References: <l85gVq-EKaN9dzH4I8FXxv-4FyPkLSh7R5SgmqwFuh-oBtzFXFfvK8VVnTdvWpKBDITXvGrnMM0VijQoUkXeWCMMaFb4GSYpaUcmXm2fvlM=@emersion.fr>
- <20230228123134.1311.qmail@stuge.se>
- <Rg-l1BDgSgbo04Mgca01xzLlg0MjL1P9SxE2GvPPQbOlkMLH1AtqvZ6zj6DItsDBfSIkScUbK4YIctzF57Y5Diinb99sXLqlgCCsAOEjNTc=@emersion.fr>
- <20230228151654.6175.qmail@stuge.se>
-Feedback-ID: 1358184:user:proton
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4BBD10E139;
+ Thu,  2 Mar 2023 12:08:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677758926; x=1709294926;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0DRXYa+7rPaUMjCXkKTZ7ZjsSaAFHJTc3M1IGjMtMHU=;
+ b=fSnclSot+dmriv09MiJmctAWh4afMhZbD5AbFw4jQOYUHSm31Zf3Yz5j
+ lEO5dfTO1CGZ3Acprkxv6bQmnkcOYjfiZD/o52K+RS1EKt59S67eBJ+g4
+ VNgsA3e2Vrk7z7KE0VMin3DjuYx3wyCuZBAXfTHR6AqgPuAiTnEQuf+Z1
+ BeCf8CxV9VTDPFqS0ThUgzrDX2rlkBQ4bj4+Z4dwPcjCRIdfbWQzearaR
+ CdwY7JBSku+f08xjk6nXTitITVMXqd8PLf+hpHfvi7q5uIvzgiCgLlCYS
+ r9CqPzEbH+ZzywHqA2uoHv3EnhfDRyJ9N8/iVRxbwXSxoFbmydIS5JXZG g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="333429005"
+X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; d="scan'208";a="333429005"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2023 04:08:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="674934947"
+X-IronPort-AV: E=Sophos;i="5.98,227,1673942400"; d="scan'208";a="674934947"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com ([10.213.30.127])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2023 04:08:44 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	Andi Shyti <andi.shyti@linux.intel.com>
+Subject: [PATCH v3] drm/i915/active: Fix misuse of non-idle barriers as fence
+ trackers
+Date: Thu,  2 Mar 2023 13:08:20 +0100
+Message-Id: <20230302120820.48740-1-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,80 +57,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?utf-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, February 28th, 2023 at 16:16, Peter Stuge <peter@stuge.se> wrot=
-e:
+Users reported oopses on list corruptions when using i915 perf with a
+number of concurrently running graphics applications.  Root cause analysis
+pointed at an issue in barrier processing code -- a race among perf open /
+close replacing active barriers with perf requests on kernel context and
+concurrent barrier preallocate / acquire operations performed during user
+context first pin / last unpin.
 
-> Simon Ser wrote:
->=20
-> > > > Would it be possible to set the PATH connector property based on th=
-e
-> > > > USB port used by gud?
-> > >=20
-> > > Sadly not really easily.
-> > >=20
-> > > The physical topology underneath each host controller is stable but
-> > > bus numbers (usb1, usb2 etc.) are not.
-> >=20
-> > Oh, that's news to me. So if I unplug and replug a USB device, the bus
-> > number and bus device number might change?
->=20
-> The bus number is stable as long as the bus (host controller) exists.
->=20
-> > Or does this happen after a power-cycle? Or is this hardware-specific?
->=20
-> Consider a host controller on a plug-in card, like ExpressCard (usb1)
-> and perhaps Thunderbolt (usb2) for a more modern example.
->=20
-> The bus on each new host controller gets the next available bus number.
->=20
-> Plug ExpressCard before Thunderbolt to get the order above. Unplug
-> both (usb1+usb2 disappear) then plug Thunderbolt back in before
-> ExpressCard; now Thunderbolt is usb1 and ExpressCard usb2.
+When adding a request to a composite tracker, we try to reuse an existing
+fence tracker, already allocated and registered with that composite.  The
+tracker we obtain may already track another fence, may be an idle barrier,
+or an active barrier.
 
-Hm, right. With a first-come-first-served scheme, there is no way to
-have stable identifiers.
+If the tracker we get occurs a non-idle barrier then we try to delete that
+barrier from a list of barrier tasks it belongs to.  However, while doing
+that we don't respect return value from a function that performs the
+barrier deletion.  Should the deletion ever fail, we would end up reusing
+the tracker still registered as a barrier task.  Since the same structure
+field is reused with both fence callback lists and barrier tasks list,
+list corruptions would likely occur.
 
-I'm having a look at prior art: udev has similar needs for network
-interface names. For USB they use [2] a scheme with
-port/config/interface. I have no idea what meaning these have, but
-would they be useful for building a PATH KMS property?
+Barriers are now deleted from a barrier tasks list by temporarily removing
+the list content, traversing that content with skip over the node to be
+deleted, then populating the list back with the modified content.  Should
+that intentionally racy concurrent deletion attempts be not serialized,
+one or more of those may fail because of the list being temporary empty.
 
-[1]: https://www.freedesktop.org/software/systemd/man/systemd.net-naming-sc=
-heme.html
-[2]: https://github.com/systemd/systemd/blob/7a67afe33192ce4a55e6825b80554f=
-b4ebbb4b03/src/udev/udev-builtin-net_id.c#L758
+Related code that ignores the results of barrier deletion was initially
+introduced in v5.4 by commit d8af05ff38ae ("drm/i915: Allow sharing the
+idle-barrier from other kernel requests").  However, all users of the
+barrier deletion routine were apparently serialized at that time, then the
+issue didn't exhibit itself.  Results of git bisect with help of a newly
+developed igt@gem_barrier_race@remote-request IGT test indicate that list
+corruptions might start to appear after commit 311770173fac ("drm/i915/gt:
+Schedule request retirement when timeline idles"), introduced in v5.5.
 
-> > > For onboard host controllers it could be possible to anchor to a
-> > > PCI or platform bus device.
-> >=20
-> > But the PCI bus device isn't enough I think? If I have a onboard host
-> > controller with 2 physical USB ports, the PCI bus device isn't enough
-> > to tell these 2 physical ports apart?
->=20
-> Only the PCI bus device is not enough, but it could serve as a
-> unique anchor and some host controller-specific information (e.g.
-> root port number) can be added to that.
->=20
-> > > How about using e.g. the serial number of the gud USB device instead
-> > > of host topology, or maybe some other information from the panel
-> > > behind it?
-> >=20
-> > The PATH property is really about the port path, not the sink. IOW, if
-> > I have two USB displays, one USB port, and switch between the two
-> > displays on this one port, the PATH property isn't supposed to change.
-> =20
-> Hmm. What is "port path" supposed to mean across a hot-pluggable bus?
->=20
-> Should PATH refer to the one ExpressCard host controller if it moves
-> between slots (assuming a computer with two slots) or should it
-> rather refer to "the upper USB port on the right hand side ExpressCard"
-> so I can insert another brand host controller in that slot without
-> PATH changing?
+Respect results of barrier deletion attempts -- mark the barrier as idle
+only if successfully deleted from the list.  Then, before proceeding with
+setting our fence as the one currently tracked, make sure that the tracker
+we've got is not a non-idle barrier.  If that check fails then don't use
+that tracker but go back and try to acquire a new, usable one.
 
-I think the latter makes most sense. I'll try to send a patch to improve
-the PATH property docs.
+v3: use unlikely() to document what outcome we expect (Andi),
+  - fix bad grammar in commit description.
+v2: no code changes,
+  - blame commit 311770173fac ("drm/i915/gt: Schedule request retirement
+    when timeline idles"), v5.5, not commit d8af05ff38ae ("drm/i915: Allow
+    sharing the idle-barrier from other kernel requests"), v5.4,
+  - reword commit description.
+
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/6333
+Fixes: 311770173fac ("drm/i915/gt: Schedule request retirement when timeline idles")
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: stable@vger.kernel.org # v5.5
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_active.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+index 7412abf166a8c..a9fea115f2d26 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -422,12 +422,12 @@ replace_barrier(struct i915_active *ref, struct i915_active_fence *active)
+ 	 * we can use it to substitute for the pending idle-barrer
+ 	 * request that we want to emit on the kernel_context.
+ 	 */
+-	__active_del_barrier(ref, node_from_active(active));
+-	return true;
++	return __active_del_barrier(ref, node_from_active(active));
+ }
+ 
+ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+ {
++	u64 idx = i915_request_timeline(rq)->fence_context;
+ 	struct dma_fence *fence = &rq->fence;
+ 	struct i915_active_fence *active;
+ 	int err;
+@@ -437,16 +437,19 @@ int i915_active_add_request(struct i915_active *ref, struct i915_request *rq)
+ 	if (err)
+ 		return err;
+ 
+-	active = active_instance(ref, i915_request_timeline(rq)->fence_context);
+-	if (!active) {
+-		err = -ENOMEM;
+-		goto out;
+-	}
++	do {
++		active = active_instance(ref, idx);
++		if (!active) {
++			err = -ENOMEM;
++			goto out;
++		}
++
++		if (replace_barrier(ref, active)) {
++			RCU_INIT_POINTER(active->fence, NULL);
++			atomic_dec(&ref->count);
++		}
++	} while (unlikely(is_barrier(active)));
+ 
+-	if (replace_barrier(ref, active)) {
+-		RCU_INIT_POINTER(active->fence, NULL);
+-		atomic_dec(&ref->count);
+-	}
+ 	if (!__i915_active_fence_set(active, fence))
+ 		__i915_active_acquire(ref);
+ 
+-- 
+2.25.1
+
