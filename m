@@ -1,55 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862356A85DC
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:08:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA7C6A8672
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 17:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2169C10E0F7;
-	Thu,  2 Mar 2023 16:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D88E10E02D;
+	Thu,  2 Mar 2023 16:33:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C150410E0F7
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 16:08:35 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 444E46602F90;
- Thu,  2 Mar 2023 16:08:33 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677773314;
- bh=kgwjSgi/JVL2L++uXQGRBSugLMzM6h5L2zTND4BSxeo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VWuTbRnTeevAyLNPC5rPeDrUPkxODD3nuGIzCey2puQPaj/m1PtEBgFso0wTRxLXx
- YKZ5u7GwqN5G8qAuBW04su4Fw5hOuTj6e7zmMw8jU2UudRyxRrD5TsIx6Hl0z4qJsh
- uE+dyEkFXm7yl969svg0AcV7IUDsOA64hTgvdMdKkIhzEbTTzC35WxVc70h2TjwWUi
- nyu1kZREC9sVc2uQWXJv92+X5pNF69sTQq3zdbYa/8fQby/kzToZ9UBsrEZUYW2j7f
- G2hG81nk6zJceZ5J3GjGAkXpv8m9VBZqoWIkM+V/yrTCRDAe+5lWpbi7qrP1JfMSlR
- oQ8vD7bYJgsnQ==
-Message-ID: <0969ff46-3fba-f679-7943-52da7528185a@collabora.com>
-Date: Thu, 2 Mar 2023 17:08:30 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFBD10E02D;
+ Thu,  2 Mar 2023 16:33:44 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 322EiXND014795; Thu, 2 Mar 2023 16:33:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=quExULxqwktiCqvwqBilD9v+P4OLIQqOgu545Ik7ilE=;
+ b=JYLRNdRxRb8t6hXFdyfpTjNtAJXn2XFvKvjdBLrmAhctFrZtac1hHblGal5VlfMgNyMJ
+ trCX69B7OhYiWurxQw84ulVoibFoPRm6JhKD9eMxcva/YLB+otvkn9W0dU+zt1D19iSP
+ Q+tfQS34k+eHfZWtMh+3eIuGgtq2rufv2yjnm3z+tZ41KfqnLndqkc9pON/7J3ZC+qvW
+ ArHsOjEJ6WJvkQh2/TgsO4R0z+KCUkIANc6h3vgfsh975j11aJ40eow1F0xk5pntHJE+
+ 9tk+T5Ljd0Rsv+DjUXP5oAd5jlT3ptUfGkiWzNINthu3wPo8nwjvmzBGu7VELh8t978L vA== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p288r3t7y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Mar 2023 16:33:41 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 322GXeXs019061
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 2 Mar 2023 16:33:40 GMT
+Received: from vpolimer-linux.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Thu, 2 Mar 2023 08:33:35 -0800
+From: Vinod Polimera <quic_vpolimer@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v14 00/14] Add PSR support for eDP
+Date: Thu, 2 Mar 2023 22:03:03 +0530
+Message-ID: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] dt-bindings: display: mediatek: Compatible list cleanup
-Content-Language: en-US
-To: Yassine Oudjana <yassine.oudjana@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20230302141234.169985-1-y.oudjana@protonmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230302141234.169985-1-y.oudjana@protonmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Qxk7w2WKmgKPwoHJbz7_Iz3BEkxdHYI6
+X-Proofpoint-ORIG-GUID: Qxk7w2WKmgKPwoHJbz7_Iz3BEkxdHYI6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-02_09,2023-03-02_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 phishscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
+ clxscore=1011 mlxscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303020143
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,362 +77,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Yassine Oudjana <y.oudjana@protonmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, quic_khsieh@quicinc.com, dianders@chromium.org,
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, swboyd@chromium.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 02/03/23 15:12, Yassine Oudjana ha scritto:
-> From: Yassine Oudjana <y.oudjana@protonmail.com>
-> 
-> Several DT bindings of MediaTek display blocks make unnecessary use of
-> "oneOf" and "items". Remove them and replace them with enums where
-> necessary.
-> 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> ---
-> Changes since v1:
-> - Leave enums with 1 element as they are.
-> 
->   .../bindings/display/mediatek/mediatek,ccorr.yaml   |  7 +++----
->   .../bindings/display/mediatek/mediatek,color.yaml   | 10 ++++------
->   .../bindings/display/mediatek/mediatek,dither.yaml  |  3 +--
->   .../bindings/display/mediatek/mediatek,dsc.yaml     |  4 +---
->   .../bindings/display/mediatek/mediatek,gamma.yaml   |  7 +++----
->   .../bindings/display/mediatek/mediatek,merge.yaml   |  8 +++-----
->   .../bindings/display/mediatek/mediatek,od.yaml      |  8 +++-----
->   .../bindings/display/mediatek/mediatek,ovl-2l.yaml  |  7 +++----
->   .../bindings/display/mediatek/mediatek,ovl.yaml     | 13 +++++--------
->   .../display/mediatek/mediatek,postmask.yaml         |  3 +--
->   .../bindings/display/mediatek/mediatek,rdma.yaml    | 13 +++++--------
->   .../bindings/display/mediatek/mediatek,split.yaml   |  4 +---
->   .../bindings/display/mediatek/mediatek,ufoe.yaml    |  4 +---
->   .../bindings/display/mediatek/mediatek,wdma.yaml    |  4 +---
->   14 files changed, 35 insertions(+), 60 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-> index b04820c95b22..dc22bd522523 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
-> @@ -21,10 +21,9 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt8183-disp-ccorr
-> -      - items:
-> -          - const: mediatek,mt8192-disp-ccorr
-> +      - enum:
-> +          - mediatek,mt8183-disp-ccorr
-> +          - mediatek,mt8192-disp-ccorr
+Changes in v2:
+  - Use dp bridge to set psr entry/exit instead of dpu_enocder.
+  - Don't modify whitespaces.
+  - Set self refresh aware from atomic_check.
+  - Set self refresh aware only if psr is supported.
+  - Provide a stub for msm_dp_display_set_psr.
+  - Move dp functions to bridge code.
 
-This change is ok.
+Changes in v3:
+  - Change callback names to reflect atomic interfaces.
+  - Move bridge callback change to separate patch as suggested by Dmitry.
+  - Remove psr function declaration from msm_drv.h.
+  - Set self_refresh_aware flag only if psr is supported.
+  - Modify the variable names to simpler form.
+  - Define bit fields for PSR settings.
+  - Add comments explaining the steps to enter/exit psr.
+  - Change DRM_INFO to drm_dbg_db. 
 
->         - items:
->             - enum:
->                 - mediatek,mt8188-disp-ccorr
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> index 62306c88f485..d0ea77fc4b06 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml
-> @@ -22,12 +22,10 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt2701-disp-color
-> -      - items:
-> -          - const: mediatek,mt8167-disp-color
-> -      - items:
-> -          - const: mediatek,mt8173-disp-color
-> +      - enum:
-> +          - mediatek,mt2701-disp-color
-> +          - mediatek,mt8167-disp-color
-> +          - mediatek,mt8173-disp-color
+Changes in v4:
+  - Move the get crtc functions to drm_atomic.
+  - Add atomic functions for DP bridge too.
+  - Add ternary operator to choose eDP or DP ops.
+  - Return true/false instead of 1/0.
+  - mode_valid missing in the eDP bridge ops.
+  - Move the functions to get crtc into drm_atomic.c.
+  - Fix compilation issues.
+  - Remove dpu_assign_crtc and get crtc from drm_enc instead of dpu_enc.
+  - Check for crtc state enable while reserving resources.
 
-OK.
+Changes in v5:
+  - Move the mode_valid changes into a different patch.
+  - Complete psr_op_comp only when isr is set.
+  - Move the DP atomic callback changes to a different patch.
+  - Get crtc from drm connector state crtc.
+  - Move to separate patch for check for crtc state enable while
+reserving resources.
 
->         - items:
->             - enum:
->                 - mediatek,mt7623-disp-color
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-> index 5c7445c174e5..9d74de63fe63 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml
-> @@ -22,8 +22,7 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt8183-disp-dither
-> +      - const: mediatek,mt8183-disp-dither
+Changes in v6:
+  - Remove crtc from dpu_encoder_virt struct.
+  - fix crtc check during vblank toggle crtc.
+  - Misc changes. 
 
-OK.
+Changes in v7:
+  - Add fix for underrun issue on kasan build.
 
->         - items:
->             - enum:
->                 - mediatek,mt8186-disp-dither
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-> index 49248864514b..37bf6bf4a1ab 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsc.yaml
-> @@ -19,9 +19,7 @@ description: |
->   
->   properties:
->     compatible:
-> -    oneOf:
-> -      - items:
-> -          - const: mediatek,mt8195-disp-dsc
-> +    const: mediatek,mt8195-disp-dsc
+Changes in v8:
+  - Drop the enc spinlock as it won't serve any purpose in
+protetcing conn state.(Dmitry/Doug)
 
-This will grow, and you'll get devicetree declaring something like:
+Changes in v9:
+  - Update commit message and fix alignment using spaces.(Marijn)
+  - Misc changes.(Marijn)
 
-compatible = "mediatek,(different-new-chip)-disp-dsc";
+Changes in v10:
+  - Get crtc cached in dpu_enc during obj init.(Dmitry)
 
-and
+Changes in v11:
+  - Remove crtc cached in dpu_enc during obj init.
+  - Update dpu_enc crtc state on crtc enable/disable during self refresh.
 
-compatible = "mediatek,(current-chip)-disp-dsc", "mediatek,mt8195-disp-dsc";
+Changes in v12:
+  - Update sc7180 intf mask to get intf timing gen status
+based on DPU_INTF_STATUS_SUPPORTED bit.(Dmitry)
+  - Remove "clear active interface in the datapath cleanup" change
+as it is already included.
 
-Note: Some smartphone SoCs (Dimensity series) do have the same disp-dsc as
-the Chromebook variant MT8195! :-)
+Changes in v13:
+  - Move core changes to top of the series.(Dmitry)
+  - Drop self refresh aware disable change after psr entry.(Dmitry)
 
->   
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> index a5c6a91fac71..6c2be9d6840b 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.yaml
-> @@ -21,10 +21,9 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt8173-disp-gamma
-> -      - items:
-> -          - const: mediatek,mt8183-disp-gamma
-> +      - enum:
-> +          - mediatek,mt8173-disp-gamma
-> +          - mediatek,mt8183-disp-gamma
+Changes in v14:
+  - Set self_refresh_aware for the PSR to kick in.
 
-This change is ok.
+Vinod Polimera (14):
+  drm: add helper functions to retrieve old and new crtc
+  drm/bridge: use atomic enable/disable callbacks for panel bridge
+  drm/bridge: add psr support for panel bridge callbacks
+  drm/msm/disp/dpu: check for crtc enable rather than crtc active to
+    release shared resources
+  drm/msm/disp/dpu: get timing engine status from intf status register
+  drm/msm/disp/dpu: wait for extra vsync till timing engine status is
+    disabled
+  drm/msm/disp/dpu: reset the datapath after timing engine disable
+  drm/msm/dp: use atomic callbacks for DP bridge ops
+  drm/msm/dp: Add basic PSR support for eDP
+  drm/msm/dp: use the eDP bridge ops to validate eDP modes
+  drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder
+    functions
+  drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
+  drm/msm/disp/dpu: update dpu_enc crtc state on crtc enable/disable
+    during self refresh
+  drm/msm/dp: set self refresh aware based on psr support
 
->         - items:
->             - enum:
->                 - mediatek,mt8186-disp-gamma
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-> index 69ba75777dac..c474ee6fa05b 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.yaml
-> @@ -20,11 +20,9 @@ description: |
->   
->   properties:
->     compatible:
-> -    oneOf:
-> -      - items:
-> -          - const: mediatek,mt8173-disp-merge
-> -      - items:
-> -          - const: mediatek,mt8195-disp-merge
-> +    enum:
-> +      - mediatek,mt8173-disp-merge
-> +      - mediatek,mt8195-disp-merge
+ drivers/gpu/drm/bridge/panel.c                     |  68 +++++++-
+ drivers/gpu/drm/drm_atomic.c                       |  60 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  40 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  26 +++-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  22 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  80 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  80 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   3 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  36 +++--
+ drivers/gpu/drm/msm/dp/dp_display.h                |   2 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    | 173 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   9 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  36 +++++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  22 +++
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   6 +
+ drivers/gpu/drm/msm/dp/dp_reg.h                    |  27 ++++
+ include/drm/drm_atomic.h                           |   7 +
+ 22 files changed, 683 insertions(+), 43 deletions(-)
 
-I'm mostly sure that you (yes, you, Yassine) will sooner or later write a
-devicetree node containing the following compatible string on merge0:
-
-compatible = "mediatek,mt6735-disp-merge", "mediatek,mt8173-disp-merge";
-
-Am I wrong? :-)
-
-In that case, that `oneOf:` will have to return back to this file, so it's
-not worth removing it.
-
->   
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-> index 853fcb9db2be..7e6bbf8b5c60 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,od.yaml
-> @@ -20,11 +20,9 @@ description: |
->   
->   properties:
->     compatible:
-> -    oneOf:
-> -      - items:
-> -          - const: mediatek,mt2712-disp-od
-> -      - items:
-> -          - const: mediatek,mt8173-disp-od
-> +    enum:
-> +      - mediatek,mt2712-disp-od
-> +      - mediatek,mt8173-disp-od
->   
-
-Same story with this one...
-
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
-> index 4e94f4e947ad..c7dd0ef02dcf 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl-2l.yaml
-> @@ -21,10 +21,9 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt8183-disp-ovl-2l
-> -      - items:
-> -          - const: mediatek,mt8192-disp-ovl-2l
-> +      - enum:
-> +          - mediatek,mt8183-disp-ovl-2l
-> +          - mediatek,mt8192-disp-ovl-2l
-
-This change is ok.
-
->         - items:
->             - enum:
->                 - mediatek,mt8186-disp-ovl-2l
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> index 065e526f950e..92e320d54ba2 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
-> @@ -21,14 +21,11 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt2701-disp-ovl
-> -      - items:
-> -          - const: mediatek,mt8173-disp-ovl
-> -      - items:
-> -          - const: mediatek,mt8183-disp-ovl
-> -      - items:
-> -          - const: mediatek,mt8192-disp-ovl
-> +      - enum:
-> +          - mediatek,mt2701-disp-ovl
-> +          - mediatek,mt8173-disp-ovl
-> +          - mediatek,mt8183-disp-ovl
-> +          - mediatek,mt8192-disp-ovl
-
-This is ok too.
-
->         - items:
->             - enum:
->                 - mediatek,mt7623-disp-ovl
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
-> index 27de64495401..12ec410bb921 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,postmask.yaml
-> @@ -21,8 +21,7 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt8192-disp-postmask
-> +      - const: mediatek,mt8192-disp-postmask
-
-Should be fine as well.
-
->         - items:
->             - enum:
->                 - mediatek,mt8186-disp-postmask
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-> index 3ade2ece3fed..42059efad45d 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml
-> @@ -23,14 +23,11 @@ description: |
->   properties:
->     compatible:
->       oneOf:
-> -      - items:
-> -          - const: mediatek,mt2701-disp-rdma
-> -      - items:
-> -          - const: mediatek,mt8173-disp-rdma
-> -      - items:
-> -          - const: mediatek,mt8183-disp-rdma
-> -      - items:
-> -          - const: mediatek,mt8195-disp-rdma
-> +      - enum:
-> +          - mediatek,mt2701-disp-rdma
-> +          - mediatek,mt8173-disp-rdma
-> +          - mediatek,mt8183-disp-rdma
-> +          - mediatek,mt8195-disp-rdma
-
-OK.
-
->         - items:
->             - enum:
->                 - mediatek,mt8188-disp-rdma
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> index 35ace1f322e8..54b7b0531144 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,split.yaml
-> @@ -20,9 +20,7 @@ description: |
->   
->   properties:
->     compatible:
-> -    oneOf:
-> -      - items:
-> -          - const: mediatek,mt8173-disp-split
-> +    const: mediatek,mt8173-disp-split
->   
-
-
-compatible = "mediatek,mt6795-disp-split", "mediatek,mt8173-disp-split";
-
-I have exactly that in my local devicetree for Xperia M5 (not upstream yet) so
-no, I wouldn't do that :-)
-
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
-> index b8bb135fe96b..87523b45a210 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
-> @@ -21,9 +21,7 @@ description: |
->   
->   properties:
->     compatible:
-> -    oneOf:
-> -      - items:
-> -          - const: mediatek,mt8173-disp-ufoe
-> +    const: mediatek,mt8173-disp-ufoe
->   
-
-Same, and I think UFOE is present on your MT6735 as well.
-
->     reg:
->       maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-> index 7d7cc1ab526b..52f233fe1c0f 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,wdma.yaml
-> @@ -20,9 +20,7 @@ description: |
->   
->   properties:
->     compatible:
-> -    oneOf:
-> -      - items:
-> -          - const: mediatek,mt8173-disp-wdma
-> +    const: mediatek,mt8173-disp-wdma
->   
-
-This is present on all MediaTek SoCs - literally. The issue is that the driver
-currently does not support command mode panels for real, so this binding is...
-...well, somehow in forgotten-land...
-
-I would hope that command mode panels get implemented soon(er-than-later), but
-I'll leave the choice to you and Krzysztof - I'm only providing the information
-here. :-)
-
->     reg:
->       maxItems: 1
-
-Thanks for the effort!
-
-Cheers,
-Angelo
+-- 
+2.7.4
 
