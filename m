@@ -1,107 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D11C6A827A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 13:41:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C798E6A8293
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Mar 2023 13:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F6810E264;
-	Thu,  2 Mar 2023 12:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C992F10E168;
+	Thu,  2 Mar 2023 12:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur04on2081.outbound.protection.outlook.com [40.107.7.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C52C10E264
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 12:41:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X6BfUFwMxBG29ON2/C3di1XmBBhcvfmdMFJdYMYWMbVF8KRtyqMn050wG0y2MBtGYUdU9khpahWrgBfjQMEBHWT8UdBM0++6lGL+uVkOYfYrbNrFzSEX8t5TUJKcG+GM8siFs/u6M3vmGAEesSveFskOFXJcGzr/NFwWFyf040LI95rseszEMWyUYzg9Mk631GmO0rmGEGMW/9r3PVRHlAt6qxuqsWw1kb0zjHPhEgsatNGdTFhyP/oUA9SP9CGwaPToWuHjzQfu+tFWeqL8hHNPknMPiKLcKwZT/go2SM5H4Ihlx3V72fDZhk2m/5Cwna8Hp2/3IL8xdZOsKvLinw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TrwQhU0q8pA2DL9u5e2P0tkoSCOTiVokBgBDBOJf+MM=;
- b=LxwN5W3HU1iMZ5wupZIlP+GDhqdACp2xQdmF18nrSU0mNm3SdSIuunnBa3MXCY57mdVFsQHhO5b7eWIPT4xFBvXTIZYEiQMKx3Eiulwi1zIZmrektmFX8NjR1T/sOgj+PaYrbkE8MTyX+ikk0cMEMQjoZhKnyMN7GKQfdr2SvqgMWRZxK1+9sXUhxW0qP9yXcavtWqReHogR51eEC0JcTvBJzBAidKpRw1HGvTMf7/l3WCSekwjnxLlbF6icVTIWWDyROloItxcIPWYIacVeDwm2Jiq9IOISczMnIevOTnmo9Ft82/GFBTtygkNmVWtgrpq9FTqxnNFrN/MxldAR2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TrwQhU0q8pA2DL9u5e2P0tkoSCOTiVokBgBDBOJf+MM=;
- b=P3g7MjjecuGgViI0HwAcJRUXGaMv7QrJHI2GTiKgJjJLg/SPGIvBw0jlTe4oNviBgDBlErCEFpOVk/N6SQyUdPdpScn6lXfD3wE07islW8HFlS8SzCbAq4o5Ess+40ufqlA9ZnOGjpLwrKk1m8Zwu1okQ4CbuLE0T0aSm/IN/+A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from VI1PR08MB4544.eurprd08.prod.outlook.com (2603:10a6:803:100::13)
- by DB9PR08MB8673.eurprd08.prod.outlook.com (2603:10a6:10:3d3::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.18; Thu, 2 Mar
- 2023 12:41:39 +0000
-Received: from VI1PR08MB4544.eurprd08.prod.outlook.com
- ([fe80::cbc1:150c:e3af:5ee7]) by VI1PR08MB4544.eurprd08.prod.outlook.com
- ([fe80::cbc1:150c:e3af:5ee7%7]) with mapi id 15.20.6156.018; Thu, 2 Mar 2023
- 12:41:39 +0000
-From: Gerald Loacker <gerald.loacker@wolfvision.net>
-To: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/rockchip: vop2: add polarity flags to RGB output
-Date: Thu,  2 Mar 2023 13:39:49 +0100
-Message-Id: <20230302123949.957998-1-gerald.loacker@wolfvision.net>
-X-Mailer: git-send-email 2.37.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: VI1PR0502CA0033.eurprd05.prod.outlook.com
- (2603:10a6:803:1::46) To VI1PR08MB4544.eurprd08.prod.outlook.com
- (2603:10a6:803:100::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1791610E168
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Mar 2023 12:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677761313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qWubdolcTPcYZMWRbItbBs4vyBxRKmavcU+qlGC7gI4=;
+ b=eUvQLSgB4lvqePnLEFQZ2ozTi8sM5Y2G5USsHBAQ7dfRi+atOurZ6D6G7OIkfTTDqMzWul
+ benvq65FrMeJwjFAu+2QCxN0SEBU5r5OJMCrjl9IlF8Tsg0TQHmd0G+ittgq7xudrx2RHj
+ ZS0lQmo69ccVfdWUIyVyTS/4KhIXVNY=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-441-RLVOQpwCPpa-rRgOI-EuMQ-1; Thu, 02 Mar 2023 07:48:31 -0500
+X-MC-Unique: RLVOQpwCPpa-rRgOI-EuMQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ lt7-20020a056214570700b0057290f3623eso8675945qvb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Mar 2023 04:48:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677761311;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qWubdolcTPcYZMWRbItbBs4vyBxRKmavcU+qlGC7gI4=;
+ b=WJC1XFQK8k0hEA4fHGhKyAytBlddJ4wvQ24GGVqFRs1Y90gzBpFeFcNgny7rcvJksS
+ x3MYLuVzJ6w5aoSTLKQabwLuzRNTgDCeRbcZTy67Odgca0qnGpnSwqO/YM7yOMrk8xyT
+ ZTXJGtxHTPQP6KXOLjnUuHf1D2rqbVUMS8JTMD+xRGnQ4rwv93BDv3Vz9TouXwBkVb9P
+ 3SoZgw6qq9Cx3Ywu/BeKIlDVO2eQe9FfFx0AVcDhLSBDmAo1HzrYJZmDSiarh5NCatQC
+ VdHnhGUbqlQ0tY7H0wEATj7A88YWURelNReg1eO4w4xbkIXkZnacU/ayWAOO5UrJ37cK
+ 8Eaw==
+X-Gm-Message-State: AO0yUKXWevjErQzA6bBFAUzwC/xr5p0EguraX1+dr4eFd3r4GqASKvw7
+ SqaswSoX8Nhmk+KKup/xlb8skMKJfequZNzNYJ0Zcw/S6S3Z2ykTW+HfhgVHJfwobhmDZhIQko1
+ jSBNVDj1PlBQoVYW0AUU3TbCFv4gp
+X-Received: by 2002:a05:622a:5cf:b0:3bf:db54:b622 with SMTP id
+ d15-20020a05622a05cf00b003bfdb54b622mr17085764qtb.30.1677761311193; 
+ Thu, 02 Mar 2023 04:48:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set9I+TSl84uLi9L/hA047N42TNQ2RbkOPTsi+FcB8UwVS5/djJiPNP8Zc/AXLoClAtyGqLq6XA==
+X-Received: by 2002:a05:622a:5cf:b0:3bf:db54:b622 with SMTP id
+ d15-20020a05622a05cf00b003bfdb54b622mr17085737qtb.30.1677761310938; 
+ Thu, 02 Mar 2023 04:48:30 -0800 (PST)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020ac801c9000000b003bfd8e2ab40sm7585267qtg.16.2023.03.02.04.48.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Mar 2023 04:48:30 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch, gsamaiya@nvidia.com
+Subject: [PATCH] drm/nouveau/nvfw/acr: set wpr_generic_header_dump
+ storage-class-specifier to static
+Date: Thu,  2 Mar 2023 07:48:19 -0500
+Message-Id: <20230302124819.686469-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR08MB4544:EE_|DB9PR08MB8673:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35fbd6fc-f654-4cd3-d436-08db1b1b7817
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: il5oqvPi5jdFRXi2qBLXlVjwodYzAGf8fCUwzeTKUAqk83HB+KccYYPuxnaWzsyMgltgxgP2qoT9KrIgq+HudnMgCSV1Sxrus6+W8xVv5MEJihgXP/DqRcXosLE7PvJPnxHz551axy+AhejVz7fCp6xCYMTxLDWnX85BXExRznuPRf3AvFhYKE5zTqHjV6p7PwpFoxztz3YWZLHIy4FOfJjNzcCjSp43tBoXJmPtdmKwhbRQsG4d6ZoKeBI8TuQea9UqYtzjzsqLdDsCDH8cpLsE2vmbdnUhYgrVcy4DbvF5/MhEiav5p5s4UAGr6VQH4oP/GB6eLHVy1UX8epcO3GE/Yf3GJNDbSsHebfGDtGHtITuT4lR5KvhUmCLDhr+WFz5eX5KXQbx/zGrLnN++/zDhtAljNhT1dDTAJ379v6l3WuzSuAVyY3i8AxLMYa7lAH/K96JKeCKBkfksHSSIkK8+q9RcSgwpgUPRLTqLnCH4gpEKD+eNQjmmGtGMG7ftw+mvZnDJwFxSs5FvBFAKkOW8p+yT9vzFTs/jWl4T93iM+WTwThsZ0Gt9N3g9SjQ2DI0tnfYytg8Ylz/bkXs97UuAwHmEOkR+PIZQjV0Dg1XyYGttc0itaE3zjpluwVJbyHtkH/aBqYNR5jKtZGplgmAxsH1BDBw+Td9+vciZu7jgyX78FUO3LLI+GV+lt2Ji/x05dDwjEAOmTFUSTut4Yw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB4544.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(346002)(39850400004)(136003)(396003)(376002)(451199018)(66946007)(4326008)(66476007)(8676002)(66556008)(41300700001)(26005)(6666004)(6512007)(186003)(6506007)(107886003)(1076003)(36756003)(86362001)(4744005)(44832011)(2906002)(38350700002)(8936002)(5660300002)(38100700002)(83380400001)(54906003)(316002)(6486002)(2616005)(478600001)(52116002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ctFbKZH7axD3X417Fb6lC/J0DDvKeyIjKoJMMDhO7e+fKDehASGneHRiSb4E?=
- =?us-ascii?Q?ogQrudiWHZvgVXly8eJ1LT5VaFoBq4f3wySrSPahbXpSOTi/J4YIFSgIPZS1?=
- =?us-ascii?Q?ye6l9YCbkATiE0A0pkyCW4n4ct9YgV59b4KC1H/LD2Gx3MBv3donZGHG2CoG?=
- =?us-ascii?Q?Y/jtcAs6tQNLkfu5OaP1uIbgyBRR6RB6zud80h9C0Dx3f/mTXd13j4yD8sMZ?=
- =?us-ascii?Q?iA0nTi2+nv7CzFWlTTeHIFBXjIBpK+a0KkVK2Of7eY6dyst8UUj6ibug98mj?=
- =?us-ascii?Q?KO52Timhwyg2HIJcaRMliyYijhnm+KZ11W3ScwINRi3ts+0eYFULOBm098Gj?=
- =?us-ascii?Q?vCAJPij2LGD4ruGvuj3QlZwKLBlWy3QlJgJfiK1lpX0widIYEFoVD42kwaX6?=
- =?us-ascii?Q?AvnAZ76iu+PQk5JnAuSnl+cAXIEJ66mtw4oBhpFtQ4jiMAVCjgkHHe9qk8Be?=
- =?us-ascii?Q?UUGQsOqPy0w5v1leJPGox8AoRlWdIx+VM9Lt5gLgVph7LkzONnnLuioZ23Hl?=
- =?us-ascii?Q?cI9hch4a6nq8ccvt5ge3OQjVs4yMJizApyLV/mv6S3U7VPfceS9gwTU9R1/t?=
- =?us-ascii?Q?EUhFo9otaJschRw538MShQ2DzCTFbzl549F2aag78ez2IpAVNKK0s7EXF8RM?=
- =?us-ascii?Q?UcQpzg1pOqXARmMjX7/bq9xrQQakTXOqVld+NhEpGTdsxzaBZb6WXEqReFL+?=
- =?us-ascii?Q?aPIlGlKaTtA6Vx3er7TxtP7bRJk4myv4QziNYZjWgD+IoI/G7jC9DeE8qc6l?=
- =?us-ascii?Q?YIVCbjT6lBCEuSmLZs9oqisEe58648Nj9RA0+ckDsYBO3Dx/mTD7Rc/bSeAb?=
- =?us-ascii?Q?MsTQKtcwPaghuS02YYqb0xV/u6kJB7M9PSZ/igW1qc9HtYbKyBSv/zFxpIr+?=
- =?us-ascii?Q?35DI4IbiQU7A+XFcyweIp7mw/GfEuei8IBbzjllg0ZDIs0dMxKjH3kq3Fsbw?=
- =?us-ascii?Q?egfQwRmfN6KNLJToP5aj58GTkZCAWxZiHZgPOFSRNHONzEWaGAMgRjq8XPhl?=
- =?us-ascii?Q?j+uR4Bl6XyVhBW5NBHIXiCgzC9YzOnVy8vcp9SlRo/45rIrMzdQ5daXvlSTT?=
- =?us-ascii?Q?3PuVBpws4tAi8wgVS0suIcl/SrVtduHCmlSRF1MIYEcWw0l8jd5rFF2QgKBP?=
- =?us-ascii?Q?+pqTy21Ufyq78l4mmOKHRBE7m648oYUDV+R6lrWWOxFc+Un5nO+qsGe4sHmg?=
- =?us-ascii?Q?w81P4qEHCnMwwTKKwA1A+JeQLyAsC4hrdQ1ER4IDJBbhPgmVCUGVxszwsEt+?=
- =?us-ascii?Q?ZEhSAAhy3XH5deg/4P4c5L23uqSNGzGZDiYFQD1nSwTdosoVi/JEi7Ubi5cO?=
- =?us-ascii?Q?1CUjM8O2PrHZyCJ6hox7LWW+0+ewBbIA13uNk4WfJNHEYngT70JQvKK1NUaq?=
- =?us-ascii?Q?3d/tN7zHOQ9j+MzdrLSxNkOGEe8wHhCrfMVKk6R742gbDTcpUkMgX/ZnfSM+?=
- =?us-ascii?Q?Ac6jJUNj987NehAjfQ8FcP071A3H8oPpmuWW6okDXxqfu2CbrTDNivFUPyPv?=
- =?us-ascii?Q?PM/xkmmUcuXQAlwxtRY9T++PzVm2BB0zZWQPIIQhykFcM+t0+0JT9VtHz1Fd?=
- =?us-ascii?Q?VaXkWtLlsK1JT72R0s2YWpcHoQv9qC6wYCPm9H1L6hv8akD/As1zmgD23DD8?=
- =?us-ascii?Q?Cmc0rOP5h2Wfq4HASEMpSp0=3D?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35fbd6fc-f654-4cd3-d436-08db1b1b7817
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB4544.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2023 12:41:39.7201 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6BiRASMInPPjxIad8QxH2xXdUxXtkGtMkbnz20cCvasKOQOPoNkkSFP1QOLWxnCNFFDg6g1CUqy6aUvkqT0TXNAZP4dDZXdznu0FQBacvHE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB8673
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,33 +83,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sandy Huang <hjc@rock-chips.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use h/v-sync and pixel clock polarity flags for RGB output. For all other
-outputs this is already implemented.
+gcc with W=1 reports
+drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c:49:1: error: no previous
+  prototype for ‘wpr_generic_header_dump’ [-Werror=missing-prototypes]
+   49 | wpr_generic_header_dump(struct nvkm_subdev *subdev,
+      | ^~~~~~~~~~~~~~~~~~~~~~~
 
-Signed-off-by: Gerald Loacker <gerald.loacker@wolfvision.net>
+wpr_generic_header_dump is only used in acr.c, so it should be static
+
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 8cecf81a5ae0..e8b61973ade2 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1435,6 +1435,8 @@ static void rk3568_set_intf_mux(struct vop2_video_port *vp, int id,
- 		die &= ~RK3568_SYS_DSP_INFACE_EN_RGB_MUX;
- 		die |= RK3568_SYS_DSP_INFACE_EN_RGB |
- 			   FIELD_PREP(RK3568_SYS_DSP_INFACE_EN_RGB_MUX, vp->id);
-+		dip &= ~RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL;
-+		dip |= FIELD_PREP(RK3568_DSP_IF_POL__RGB_LVDS_PIN_POL, polflags);
- 		if (polflags & POLFLAG_DCLK_INV)
- 			regmap_write(vop2->grf, RK3568_GRF_VO_CON1, BIT(3 + 16) | BIT(3));
- 		else
+diff --git a/drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c b/drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c
+index 83a9c48bc58c..7ac90c495737 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c
++++ b/drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c
+@@ -45,7 +45,7 @@ wpr_header_v1_dump(struct nvkm_subdev *subdev, const struct wpr_header_v1 *hdr)
+ 	nvkm_debug(subdev, "\tstatus        : %d\n", hdr->status);
+ }
+ 
+-void
++static void
+ wpr_generic_header_dump(struct nvkm_subdev *subdev, const struct wpr_generic_header *hdr)
+ {
+ 	nvkm_debug(subdev, "wprGenericHeader\n");
 -- 
-2.37.2
+2.27.0
 
