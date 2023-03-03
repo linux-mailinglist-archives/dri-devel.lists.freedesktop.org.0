@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20BE6A95ED
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 12:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804B96A9672
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 12:36:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396CA10E097;
-	Fri,  3 Mar 2023 11:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 912CC10E10F;
+	Fri,  3 Mar 2023 11:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE2D10E097;
- Fri,  3 Mar 2023 11:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677842487; x=1709378487;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=xIS4YXxfvhSvuWWlxBQDqx765nVMX13XptcoF4Uarg8=;
- b=fXtPRwZeHpYpGvxnzir2DMbmi/Siu374uZnF5qiL46Bl1swmC06yaPyJ
- QmowWGaw1lYxqjSOLqQM/RJAJmhwanHHoWUoCil3vWxaKJJLtqudbkCfU
- pztsRZztjSSO0XSzTPhqMxxCHVolg6m1Ux/q9pqV6bfdx3E8cAbKwkxes
- qjRasq6hfC0mPazvxJLJAkWJ/Fl3lq0V1ISwqPAU1MeizmcpLxoNa7hIL
- 4mj7iWlLlH9+XbzZvZ60WLrEyluy6F6dUdYHl2IM4LE5CR0BuveB2uMVQ
- naDw1C1wBmg5bmrBtdWG7FXepnplXRLlm+8T7DRIniIHFs5n7UMGua0w7 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="421293861"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="421293861"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2023 03:21:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="799204882"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="799204882"
-Received: from mavainol-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.252.57.100])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2023 03:21:20 -0800
-Date: Fri, 3 Mar 2023 12:21:17 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v9 15/15] drm/i915: Add deadline based boost
- support
-Message-ID: <ZAHYLUAf2e4PyRdT@ashyti-mobl2.lan>
-References: <20230302235356.3148279-1-robdclark@gmail.com>
- <20230302235356.3148279-16-robdclark@gmail.com>
- <ZAFnqbycMleLmRe9@intel.com>
- <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DBEF10E10F;
+ Fri,  3 Mar 2023 11:35:49 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ y15-20020a17090aa40f00b00237ad8ee3a0so1972589pjp.2; 
+ Fri, 03 Mar 2023 03:35:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677843348;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=29OzWpxyOz2YKbe7gk+wlUnvCGzWDi9lW+7/pophrnY=;
+ b=UXsv+zvJpY9npxxDaimqGLy6Jst1fhPTP8qDTyYqL5k8VsJK6RCu/FDuoLjqaptlTW
+ vDQ56LfI4SzRu6KWj0WwhuIzvIbcKRYeNV5ySrzG77VGflvocShjGwEdarhNyUfEY0IY
+ 1WCjtxBYwmHAqHTua6ekv1ho1Kp1OYTgvIoFqT3ZL8XbvQkMbJ4GH5x7SAvtVl40nXnT
+ vHp19aimeOozvuCJWppH6cyyPsiBdUK2GXCNE0UcSjKAvz1AMPxVyvHJ5+GGH/q+3Z3/
+ sWF/lvIXxsdXSFukVTCVzW6i3xuUqlGrXDas780jw30i675/Vl6yrknmAZmKhJPgUuCR
+ Ib5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677843348;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=29OzWpxyOz2YKbe7gk+wlUnvCGzWDi9lW+7/pophrnY=;
+ b=77PWHyLu48bihbeCRhRqBI1aFN1+jgRRMUDY0trFlHSPQFPIWZx2VQqHYcFGKY73Xe
+ q1IIKFdXRD5ePhzIB6SVl4OUOvcbBsRaCMAs6Ew5QMPojTxoQWMlXoqKNHb+d8+uGJRZ
+ MoambjSm7/sCbGUrCba74RjMExvz5R9a6XW6k1V3iOQncYuJQciVBkj5mcKPyZJKBHT4
+ 9+73QWpNCy/IVBARes8zet5scYVChS4fHBNNIHhQBT2nLe6l0Eezm07lK9DTSHWwTXVZ
+ nEGoobibwNQyRuTJtvGc6/24Qcm580fCNOVxs9GYuyf8tFc7jTrN2aaqkXsdXDkc798u
+ epJw==
+X-Gm-Message-State: AO0yUKUoEQstTRS4nhglqXVSVLGkQNOtzaVGaXRYjfNceqdyS09Oxqkm
+ xahVM7sLuwNx5sbaBW0ebJLAU5TBqIQ=
+X-Google-Smtp-Source: AK7set++BCkVpQ27OESBIxlcacoRVz6Aj+XkJCD7OJ1vEPatpzdcaaEL/yM+9LCNECISm5A4drmRzw==
+X-Received: by 2002:a17:903:32cf:b0:19a:8e52:ce0 with SMTP id
+ i15-20020a17090332cf00b0019a8e520ce0mr2187517plr.58.1677843348598; 
+ Fri, 03 Mar 2023 03:35:48 -0800 (PST)
+Received: from localhost.localdomain (124-148-239-17.tpgi.com.au.
+ [124.148.239.17]) by smtp.gmail.com with ESMTPSA id
+ jz6-20020a170903430600b0019ab3308554sm1316798plb.85.2023.03.03.03.35.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 03:35:48 -0800 (PST)
+From: Orlando Chamberlain <orlandoch.dev@gmail.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH v2 RESEND] drm/amdgpu: register a vga_switcheroo client for
+ MacBooks with apple-gmux
+Date: Fri,  3 Mar 2023 22:34:25 +1100
+Message-Id: <20230303113423.3819-1-orlandoch.dev@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,107 +71,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- Pekka Paalanen <ppaalanen@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-15?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?iso-8859-15?Q?D=E4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-15?Q?K=F6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Aun-Ali Zaidi <admin@kodeit.net>, Kerem Karabay <kekrby@gmail.com>,
+ Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Aditya Garg <gargaditya08@live.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 03, 2023 at 09:58:36AM +0000, Tvrtko Ursulin wrote:
-> 
-> On 03/03/2023 03:21, Rodrigo Vivi wrote:
-> > On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > > 
-> > 
-> > missing some wording here...
-> > 
-> > > v2: rebase
-> > > 
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >   drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
-> > >   1 file changed, 20 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> > > index 7503dcb9043b..44491e7e214c 100644
-> > > --- a/drivers/gpu/drm/i915/i915_request.c
-> > > +++ b/drivers/gpu/drm/i915/i915_request.c
-> > > @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
-> > >   	return i915_request_enable_breadcrumb(to_request(fence));
-> > >   }
-> > > +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> > > +{
-> > > +	struct i915_request *rq = to_request(fence);
-> > > +
-> > > +	if (i915_request_completed(rq))
-> > > +		return;
-> > > +
-> > > +	if (i915_request_started(rq))
-> > > +		return;
-> > 
-> > why do we skip the boost if already started?
-> > don't we want to boost the freq anyway?
-> 
-> I'd wager Rob is just copying the current i915 wait boost logic.
-> 
-> > > +
-> > > +	/*
-> > > +	 * TODO something more clever for deadlines that are in the
-> > > +	 * future.  I think probably track the nearest deadline in
-> > > +	 * rq->timeline and set timer to trigger boost accordingly?
-> > > +	 */
-> > 
-> > I'm afraid it will be very hard to find some heuristics of what's
-> > late enough for the boost no?
-> > I mean, how early to boost the freq on an upcoming deadline for the
-> > timer?
-> 
-> We can off load this patch from Rob and deal with it separately, or after
-> the fact?
-> 
-> It's a half solution without a smarter scheduler too. Like https://lore.kernel.org/all/20210208105236.28498-10-chris@chris-wilson.co.uk/,
-> or if GuC plans to do something like that at any point.
+Commit 3840c5bcc245 ("drm/amdgpu: disentangle runtime pm and
+vga_switcheroo") made amdgpu only register a vga_switcheroo client for
+GPU's with PX, however AMD GPUs in dual gpu Apple Macbooks do need to
+register, but don't have PX. Instead of AMD's PX, they use apple-gmux.
 
-Indeed, we already have the deadline implementation (and not just
-that), we just need to have some willingness to apply it.
+Use apple_gmux_detect() to identify these gpus, and
+pci_is_thunderbolt_attached() to ensure eGPUs connected to Dual GPU
+Macbooks don't register with vga_switcheroo.
 
-Andi
+Fixes: 3840c5bcc245 ("drm/amdgpu: disentangle runtime pm and vga_switcheroo")
+Link: https://lore.kernel.org/amd-gfx/20230210044826.9834-10-orlandoch.dev@gmail.com/
+Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+---
+v1->v2: Use apple_gmux_detect()
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
 
-> Or bump the priority too if deadline is looming?
-> 
-> IMO it is not very effective to fiddle with the heuristic on an ad-hoc
-> basis. For instance I have a new heuristics which improves the problematic
-> OpenCL cases for further 5% (relative to the current waitboost improvement
-> from adding missing syncobj waitboost). But I can't really test properly for
-> regressions over platforms, stacks, workloads.. :(
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> > 
-> > > +
-> > > +	intel_rps_boost(rq);
-> > > +}
-> > > +
-> > >   static signed long i915_fence_wait(struct dma_fence *fence,
-> > >   				   bool interruptible,
-> > >   				   signed long timeout)
-> > > @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
-> > >   	.signaled = i915_fence_signaled,
-> > >   	.wait = i915_fence_wait,
-> > >   	.release = i915_fence_release,
-> > > +	.set_deadline = i915_fence_set_deadline,
-> > >   };
-> > >   static void irq_execute_cb(struct irq_work *wrk)
-> > > -- 
-> > > 2.39.1
-> > > 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index 2f28a8c02f64..ef8b996f0622 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -35,6 +35,7 @@
+ #include <linux/devcoredump.h>
+ #include <generated/utsrelease.h>
+ #include <linux/pci-p2pdma.h>
++#include <linux/apple-gmux.h>
+ 
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_atomic_helper.h>
+@@ -3919,12 +3920,15 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+ 	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+ 		vga_client_register(adev->pdev, amdgpu_device_vga_set_decode);
+ 
+-	if (amdgpu_device_supports_px(ddev)) {
+-		px = true;
++	px = amdgpu_device_supports_px(ddev);
++
++	if (px || (!pci_is_thunderbolt_attached(adev->pdev) &&
++				apple_gmux_detect(NULL, NULL)))
+ 		vga_switcheroo_register_client(adev->pdev,
+ 					       &amdgpu_switcheroo_ops, px);
++
++	if (px)
+ 		vga_switcheroo_init_domain_pm_ops(adev->dev, &adev->vga_pm_domain);
+-	}
+ 
+ 	if (adev->gmc.xgmi.pending_reset)
+ 		queue_delayed_work(system_wq, &mgpu_info.delayed_reset_work,
+@@ -4029,6 +4033,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+ {
+ 	int idx;
++	bool px;
+ 
+ 	amdgpu_fence_driver_sw_fini(adev);
+ 	amdgpu_device_ip_fini(adev);
+@@ -4048,10 +4053,16 @@ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+ 
+ 	kfree(adev->bios);
+ 	adev->bios = NULL;
+-	if (amdgpu_device_supports_px(adev_to_drm(adev))) {
++
++	px = amdgpu_device_supports_px(adev_to_drm(adev));
++
++	if (px || (!pci_is_thunderbolt_attached(adev->pdev) &&
++				apple_gmux_detect(NULL, NULL)))
+ 		vga_switcheroo_unregister_client(adev->pdev);
++
++	if (px)
+ 		vga_switcheroo_fini_domain_pm_ops(adev->dev);
+-	}
++
+ 	if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+ 		vga_client_unregister(adev->pdev);
+ 
+-- 
+2.39.1
+
