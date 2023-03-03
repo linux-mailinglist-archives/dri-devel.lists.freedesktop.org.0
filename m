@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3E66AA205
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 22:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686256AA24D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 22:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF81E10E765;
-	Fri,  3 Mar 2023 21:45:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 082D010E76A;
+	Fri,  3 Mar 2023 21:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE9210E765
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 21:45:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D59D10E76A
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 21:47:01 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 23454B81A09;
- Fri,  3 Mar 2023 21:44:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B410C4339B;
- Fri,  3 Mar 2023 21:44:57 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 837BDB81A1C;
+ Fri,  3 Mar 2023 21:46:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EA0AC4339E;
+ Fri,  3 Mar 2023 21:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1677879897;
- bh=F9liIfmRQVktoAn8wyKTNdmFd0qpqDIml8xV+QZbMDM=;
+ s=k20201202; t=1677880019;
+ bh=FsuHxiNnkMRJzz+GyhI0Wl6VftsEvMm5IV1r/r4jh5o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oyVa9upww0GEiSqiSnhnz0KUCuCOpX6QjbF+XX+ZhfHB+ArDSGWNBHaAoW+kk28uy
- iltO2d8DD97nXOtBUZfRmg+Jj+06EPS1ILMKGshOwDsn1JRdPdy9La5KY/TKwqmIHZ
- Q9xe+XZmGyvPp6Yd6/scdA6hbipRIEIxQFb3KjQ3kafbOyPow91Of8hk+cP+VkPUCJ
- govyjbyum+ddzzBxYqi3CVKmlg0pqo+Ma3EwOMFqXT6QR9630Sdtfx3IJuFSg+66Hm
- irt9kSiRiqJVM6lVatKz+32eP1dktfzXvEDBFPJaB9+QTRNcnW+y73YLaAaB1a8rBJ
- d1IQbicgiqrGQ==
+ b=NowPHOca/YHJgRb7t++Jw4Xeig/PBCBCLm4TSN9JfNigRmadxBKyTQhawfV6jWrH7
+ U5W9Qw6tVas1C4KwduIUWhSxeQJHb5DGuRItjwTZFoMMYQcsHdpEy65a5ehVxmaQ/f
+ TjSnouxXryiOurvuolCf4T4MhWI5kc0jCM7Q+FxZeali+980RiAlGtfTP+/fhng4MR
+ DAFnSqK9k7a10G9LPXTdtt2P06OaVfwYz3YzMNRJfCG2bKU4hTryYMvWclTtUXo+tj
+ +PnEG+bhgdRCWGJqwXdCesPSbDF3noEzgbQPzfjiDHwWgBq3nR8KlXaXBWnsoLKnkJ
+ 3NgOGtoBJKH7w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 48/60] drivers: base: component: fix memory leak
+Subject: [PATCH AUTOSEL 5.15 41/50] drivers: base: component: fix memory leak
  with using debugfs_lookup()
-Date: Fri,  3 Mar 2023 16:43:02 -0500
-Message-Id: <20230303214315.1447666-48-sashal@kernel.org>
+Date: Fri,  3 Mar 2023 16:45:22 -0500
+Message-Id: <20230303214531.1450154-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230303214315.1447666-1-sashal@kernel.org>
-References: <20230303214315.1447666-1-sashal@kernel.org>
+In-Reply-To: <20230303214531.1450154-1-sashal@kernel.org>
+References: <20230303214531.1450154-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,12 +79,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/base/component.c b/drivers/base/component.c
-index 5eadeac6c5322..7dbf14a1d9157 100644
+index 870485cbbb87c..058f1a2cb2a9a 100644
 --- a/drivers/base/component.c
 +++ b/drivers/base/component.c
-@@ -125,7 +125,7 @@ static void component_debugfs_add(struct aggregate_device *m)
+@@ -130,7 +130,7 @@ static void component_master_debugfs_add(struct master *m)
  
- static void component_debugfs_del(struct aggregate_device *m)
+ static void component_master_debugfs_del(struct master *m)
  {
 -	debugfs_remove(debugfs_lookup(dev_name(m->parent), component_debugfs_dir));
 +	debugfs_lookup_and_remove(dev_name(m->parent), component_debugfs_dir);
