@@ -2,118 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718BF6A95C9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 12:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4930C6A95D3
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 12:10:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2263F10E0C6;
-	Fri,  3 Mar 2023 11:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC83610E0E0;
+	Fri,  3 Mar 2023 11:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A67F010E0C6
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 11:05:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lVwkt1WiOK5Sxu8h1EmiN10OBehrTkMcz0xdBpqi+1jq7JrTL6z1+bzL2NzX5fQQBaaAEwGsd4rpAC+FspNxOqnmqucvkFgOVURBgTXRvmzRw8Aw0RVsz/fuRU0TbPgDN95AsmN+lCZB51rWPBdkCywdxPaB9To6Pv6cEoe+4encWNrUfs6D6cOQ6hHQm64aTkxgU+Dergy3CcMYSv2o60hvdQvV2J3jeNaTl1+i15wqGobh9tTVfiwJgZ0yWZB8v4v5a5Dx5RcHHOZLzN6h2Dc8xlRMSi6nTjC1vd1pyiBxCJoNp4DLd6GIe2qTJOqe3CZraU5+JjYZHbFSgrrfIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XyilYlCWEtSM6pfVAJa+qFtJRE0/ly9N3fS9n/S97Wk=;
- b=mb5dF//iov9cHWc5dHw/qXyiWR5hXWv3EbmThTsYoOlr43gByPufkC2CwhTgtfzk17cDR1DO/n3kmeG7gYuhu9NhftzjD0Ncw6hi6CoFvn6tCYpBDJgi9i+75C1aJv/9DYF+4aQdOg0QBDMXGpoopNyY6w4eXo2DfO708J0oLzx4xqSdLYW4wvL8dc0HFSDHoSCBykTJF1iZgJJasT+5HUsTKFv89dBZUyw8dKYFoc7Pgih+3DImEo4vpcbymnSFObifGKD3ZO3huke2b8NgFHs/0YYHtcqFSTnKlV/YdMBzs3uirGt2wk5QXwRSmbloozctyAQ2S276Gxh56LVv4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XyilYlCWEtSM6pfVAJa+qFtJRE0/ly9N3fS9n/S97Wk=;
- b=JPS3+hOxFFkhLDK1lVGIFXqyNITPYiTGyepLV+xlpw17sTRFzdgbiykZamM0GN2bdv3O5bVktUJ8+9T4EnxK+EUFlMGtFEHEfSrD5CGNnh8iQfNRP9ZieIeee707x1Zd8wwAwhMj7E2bvYMNwtVYnazHOd23zBW9q8C8ScB0HYY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by PH0PR12MB8125.namprd12.prod.outlook.com (2603:10b6:510:293::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.18; Fri, 3 Mar
- 2023 11:05:20 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6156.022; Fri, 3 Mar 2023
- 11:05:20 +0000
-Message-ID: <248e314c-8214-bde3-4344-b9b1211496d0@amd.com>
-Date: Fri, 3 Mar 2023 12:05:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] ttm/ttm_device.h: fix a trival typo
-Content-Language: en-US
-To: suijingfeng <15330273260@189.cn>, Huang Rui <ray.huang@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20230303101216.788971-1-15330273260@189.cn>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230303101216.788971-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0045.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::17) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E23D110E030
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 11:10:24 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id f13so8755399edz.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Mar 2023 03:10:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1677841823;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=K5FYDdc7sSLSIAMZoWc2/wxiEoRMU9hcXXxdo10gVSk=;
+ b=M1WwVzl71pUp1koByS01lJBH4CNZWUVtsEH0p2/9pyX2WaimDXK53LnsRGySfWbFB6
+ oKe317PXhfJw9aX1eFWzbxJQrxZp9nlC8uQtQpbfyO18Lu3bcnU67GcyBNJMoMufmeq+
+ WmyXw5MeiZyDfLeBJjJBqfbiUb946Yb9YniFY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677841823;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=K5FYDdc7sSLSIAMZoWc2/wxiEoRMU9hcXXxdo10gVSk=;
+ b=gDk/G5EnuTjvoYWn602cBaP24JuzLos435iGWfPnblRVHmpVrk0iPW0gh72Kdz4CQG
+ WVlnCl8tLh+7m8MUB2NCXDNZ/YoOx924p9432G3orcdBp/XgjicZ1dg9D700hb90oRcU
+ DTSHIu9Y5M94IQnLinkJ4oqAu5XhQn1bYMP08xIyRyP4k1IPyRCwkgnv6NAB4RMe+23h
+ bXmz1K0ahm/Szk6W9hagLO8FZm04oPokxxnvKb97L9M9HeKv1CxnCm9tzg9Sj1S1yMH2
+ vNM6GiImZubldQWQ4GmKNTVt1LbX5Oc1msh19GI1GC3iZK85YMmWmbj4l943vFDdeYIg
+ WkLw==
+X-Gm-Message-State: AO0yUKVulfdfsI+jXKu2lQ8oXn1CN0AdmDGh9PGUpmY+LN7wiXxgLekD
+ XX1CcS4tdW5MFEe9cEo9zBUhWB80eVDiPmqMlUxT/Q==
+X-Google-Smtp-Source: AK7set9ppXBkJz3jap5jG9UKO9bbR6kX7H8NotFsQUiwE2M2PhjbGL8A3s9RVbDHopirBNfp4tDsPA==
+X-Received: by 2002:a17:907:98e5:b0:8b3:e24:de0e with SMTP id
+ ke5-20020a17090798e500b008b30e24de0emr1363476ejc.27.1677841823078; 
+ Fri, 03 Mar 2023 03:10:23 -0800 (PST)
+Received: from mmaslanka2.c.googlers.com.com
+ (61.134.90.34.bc.googleusercontent.com. [34.90.134.61])
+ by smtp.gmail.com with ESMTPSA id
+ s15-20020a170906454f00b008d8f1b238fdsm842060ejq.149.2023.03.03.03.10.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 03:10:22 -0800 (PST)
+From: Marek Maslanka <mmaslanka@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu: Implement mmap of imported dma-bufs
+Date: Fri,  3 Mar 2023 11:09:33 +0000
+Message-Id: <20230303110951.3777850-1-mmaslanka@chromium.org>
+X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH0PR12MB8125:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90315644-e3d8-4b55-ec40-08db1bd72dbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d6KtxUHi1psWRyhGYAb1rO6vC0whugVWxepEGapT4+W/FTGDYZp4BG0uCe8c9Du7+npLBbREeaQYXR1N8xpV4xmgJyV8aMDki5lAovcWMHKrmv09qt9i5p53E9TRPTqyBF+Dh68Wed6dJgWIte3y+X3JJJ2sB4VSRnanWm9gqLmJ7N8KNI2/kP6v80lQArU3yS38UGN3r9g/G7FB0bK0wenT4XLUwpk61bv+o4UEOw0fwTrqiEPYQRwhdvXOZhG4maynzaH2+f9ocMSiB573X1vmUpc+o/sNmSnMyEbrFZv+PTbynRJ8wFwaxEqxPh1yKVIEecwcZ1I1+pe/EtGp1Dlcggr5RXmfOPIHaCdJsLyXMhj2f3ZpjATcJYbe/5sUvCxiozGqD/CkJHnt8w3I7bVUKOnT/iYAsjaoGav4j2C3NStD1mpnR5G++hsjMtvh/AHg9oXGNeSCXri2jkrsXOAycwW/FMBQQXfqjU4vbUGBLEvUGPthwlfufT3upoRcyfOcbsYNM9yAEJt9y8TnteLZRswDMwLkDNry9oh7UeALG0147TN7aCMbHsdbBQtASuaK6UNa88lfu/6CWhmQigU8nRWRqKfpD1xT3dtowrN/OgcR5Q8DkLMIboyps9CYkymNsC8D9ZCVzrt8YfNIkthUHmd44XOcCq/Lou2scHlNd1Oa8FvPjSyAyBeqkTuorFnvaGdFFEchxBiMapECrQPRdKK9HFE8f5DESyA893M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(451199018)(5660300002)(478600001)(4744005)(86362001)(83380400001)(6506007)(186003)(6666004)(6512007)(31696002)(2616005)(6486002)(36756003)(2906002)(41300700001)(38100700002)(316002)(4326008)(31686004)(8676002)(66556008)(110136005)(8936002)(66946007)(66476007)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MW1RMGVlT0hxM3BIUE84NHhsUlhBRnRMWjdnWmdSUjlpM0drT3VGaGNNY2lC?=
- =?utf-8?B?ZmJRdVR3SUhQUUFIb0tGNnN4TElFbkEvbTBlcTZaL2Jlc1ZKOUNoZ2FvU1Rk?=
- =?utf-8?B?UExYZEJDaHNVblBoUUJCT0xsNDF6R2tPSmZrTzVydUpBcWszTDRSNnI1L3Ft?=
- =?utf-8?B?L1IwRWx6dnRSa1BFWTZ2M09ZRWdnVERYdFkvZFUxazhHM3lJMFVJdkZkaDJ0?=
- =?utf-8?B?cjRXNzA1TXpSVUYvSldYZVAyQmpkUUFPVkpEd2ZWTXo2eFpKUXBDMnBkUStL?=
- =?utf-8?B?cWljUVBFdisyQTFEVlQyOGdiZWo1NFdONU1qQk45VS9OUnZqb2hFeHpHSEty?=
- =?utf-8?B?cldFMG9PMEJ4UFJ4NEVidHZrQnNmMTRJd3ljNzNReWY1UE1idEd1M2pXMkQr?=
- =?utf-8?B?bVpqWjREdjF0azFybndkVStmSWEvV09WN25hRmhiczlsTUtpaWQ1bHREaWpu?=
- =?utf-8?B?R2ZYdlg2Z21xc0VCN3M5eTNzM3NPMXZxYjFRdm8xclI2MjZTUmVnQjM2Yit1?=
- =?utf-8?B?cGpEd2Z6ZkVZMXVTekVsY2dGdTE5KzkrQVFXVHJ3YjAyZXRSbWtrQlQ0eDZH?=
- =?utf-8?B?dUhndzROU0RYeTY2Sk15Ky92a0xiNFdzR0dYbS9mQ29VcUltQ3EzenhGbDR1?=
- =?utf-8?B?M3ZybTFGZmFKa3JzUWxEcUNpUzNuSlFob1R0NFZrYlphNUdoT0V2U2J3WWVu?=
- =?utf-8?B?V1pkQ1gxOHhzaFNuVjUzMmRhREpaNnAxeDF4UnM0YXFma1oxUEh5RUk5QkJn?=
- =?utf-8?B?V1VvY0lQc2VsSWZhUXlWUDlzRGE5MDU4SVYwOU9TT3N2T3NaSU9PUmx5SlJo?=
- =?utf-8?B?L0kwenBxRjI1Q3graDhoaGlzQkZPTnNENGowNEkrRkYvdjBJWm83TmVMeklB?=
- =?utf-8?B?RFZVVlN3Mlo4SWNaTmxRYlZRUWljTGtyMGwwRjBXVlUrYmVLSUd1Y3U3L3ds?=
- =?utf-8?B?ejh2dnRHdzVTeUxhLzBCbDJZMzBIN1JHUzFybFhYSE1tb0JZVEZNVmJiM0dF?=
- =?utf-8?B?Tjhsd25EQy9MZTh3aFdZVjJEczFFaUQ5RnA0MlBlbmljbmJNbUdLMWQ4cDVT?=
- =?utf-8?B?OVltVzRTLytKSnJQV0hLSWJiMnpBcU9iTVlWWklVWkp5YzBuZUptMXo0dHlw?=
- =?utf-8?B?U3g4cWtvNG1VS0tNc2RNTWFBZS9ETlo3OGEvZURPYllSNlJHUU5rTi84Y291?=
- =?utf-8?B?UGtkRDlmd2VXRnhDQ1pLa1dvSTRMalh2Ums0d3F1VGI0emJ0Ly8zYmErNEMw?=
- =?utf-8?B?VExKMUhRVHVFZE0xdHZYU0pENlVmRmhrSkRKQlJNdDNpckNJYXRNMEFjdnM0?=
- =?utf-8?B?di9McGd6eUlGNm82VlVPZHFwNVhMN1JLcElxSWRlS3FpVUNuYlFkR2ZzL29k?=
- =?utf-8?B?WTAxbkwwVTdPQll5T3ppRE11Qk9BZXVtRUhBd3NESmtjZXBMYlhJVXc0RTdC?=
- =?utf-8?B?MU1BaVJnVGVsckxVRmNGNzZQNW80a29RdnlRZ2c1SDFuV1dNZFpScFpVTVRC?=
- =?utf-8?B?N3NNcEtYdHNDSlk5LzN4VTc0YkEyMjNkM3FObmdaWW45TWFUbUIrOEwwNEdV?=
- =?utf-8?B?am40bnFuTm9nMmtHMlBQYVJDWHh5SGZRUDNQa0Rva2VQMXBRMy93aTZuTkpz?=
- =?utf-8?B?RmY1SldsZnNteGNrOEY0dGFmOE5Zd2M1bU9BSU5saWFPUDJBc1hpTTVPSXVJ?=
- =?utf-8?B?U2pkOGJtQSt6MmpHRFVoMzZGaFJIMWQzN3FHeHhYaWNWOTVkclI0RDlDMU0x?=
- =?utf-8?B?YVJDZk8vRG5BWGJTSG5lVytISnFXWlp6eEJlSEhEbzNOaVBrMzdwa2pITXd4?=
- =?utf-8?B?SnRtTDFIWmp4cDZDcUVOSmhmSkYvT0hRYmxYV1RDRzFWb3h1WjRaQ0l5SVBD?=
- =?utf-8?B?TytESVlLN2d2Tjg4L0lza0NHV1A2VjNLamtnRkRGaGN0N0daYXVFaFgxaDFv?=
- =?utf-8?B?Sm9ETloyOXRnbXd2OWZoZU1Pd3Yzai9PTFFwZkp1L3prU3RNUG80OHdwWWY4?=
- =?utf-8?B?b3U1ejVDbDlqcXJLMnpJK2c0TXpHM2NuY1NBZXpZUlppZkZzb2xoaGxFbS9D?=
- =?utf-8?B?SWNJMW11YWExNlNXY2tJN3F4TGhiL3drbE5seXJQVHY2c3dnYUx4ZXhyTitP?=
- =?utf-8?B?cmpzTjBmQWx5V3huR0J3YkRnaFVEeDhtZkFTb3Q2Skw0UGhCTHFWRkt0cFJQ?=
- =?utf-8?Q?Rzqz9vrbZu72OX/487G9mZaJp1m5ZgZl2qa35+W5ty78?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90315644-e3d8-4b55-ec40-08db1bd72dbe
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2023 11:05:20.5275 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oU1idVEdK9fpzDLJ0izwEkZiVxkM8n230Yr4GNwCpRHHOqTYfaNdgsGInysq7D4d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8125
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,39 +67,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suijingfeng <suijingfeng@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Lijo Lazar <lijo.lazar@amd.com>, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>, amd-gfx@lists.freedesktop.org,
+ Marek Maslanka <mm@semihalf.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Dominik Behr <dbehr@chromium.org>, Evan Quan <evan.quan@amd.com>,
+ Tong Liu01 <Tong.Liu01@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>, Marek Maslanka <mmaslanka@chromium.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.03.23 um 11:12 schrieb suijingfeng:
->   should replace '@' with '*'
->
-> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+Use dmabuf mmap from exporting driver to do the mapping.
 
-I've just reviewed and pushed the patch to drm-misc-next.
+Signed-off-by: Marek Maslanka <mmaslanka@chromium.org>
+Signed-off-by: Dominik Behr <dbehr@chromium.org>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 46 +++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c     |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     |  9 ++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h     |  1 +
+ 5 files changed, 59 insertions(+), 1 deletion(-)
 
-Just please use your full (first and last) name for author and 
-signed-off-by tags in the future.
-
-Thanks,
-Christian.
-
-> ---
->   include/drm/ttm/ttm_device.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-> index 4f3e81eac6f3..56e82ba2d046 100644
-> --- a/include/drm/ttm/ttm_device.h
-> +++ b/include/drm/ttm/ttm_device.h
-> @@ -141,7 +141,7 @@ struct ttm_device_funcs {
->   	 * the graphics address space
->   	 * @ctx: context for this move with parameters
->   	 * @new_mem: the new memory region receiving the buffer
-> -	 @ @hop: placement for driver directed intermediate hop
-> +	 * @hop: placement for driver directed intermediate hop
->   	 *
->   	 * Move a buffer between two memory regions.
->   	 * Returns errno -EMULTIHOP if driver requests a hop
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+index 0c001bb8fc2b..8f22d29ba077 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+@@ -37,6 +37,7 @@
+ #include "amdgpu_dma_buf.h"
+ #include "amdgpu_xgmi.h"
+ #include <drm/amdgpu_drm.h>
++#include <drm/drm_drv.h>
+ #include <drm/ttm/ttm_tt.h>
+ #include <linux/dma-buf.h>
+ #include <linux/dma-fence-array.h>
+@@ -275,6 +276,51 @@ const struct dma_buf_ops amdgpu_dmabuf_ops = {
+ 	.vunmap = drm_gem_dmabuf_vunmap,
+ };
+ 
++int amdgpu_try_dma_buf_mmap(struct file *filp, struct vm_area_struct *vma)
++{
++	struct drm_file *priv = filp->private_data;
++	struct drm_device *dev = priv->minor->dev;
++	struct amdgpu_device *adev = drm_to_adev(dev);
++	struct ttm_device *bdev = &adev->mman.bdev;
++	struct ttm_buffer_object *tbo = NULL;
++	struct amdgpu_bo *bo = NULL;
++	struct drm_gem_object *obj = NULL;
++	struct drm_vma_offset_node *node;
++	int ret;
++
++	if (drm_dev_is_unplugged(dev))
++		return -ENODEV;
++
++	drm_vma_offset_lock_lookup(bdev->vma_manager);
++	node = drm_vma_offset_exact_lookup_locked(bdev->vma_manager,
++						  vma->vm_pgoff,
++						  vma_pages(vma));
++
++	if (likely(node)) {
++		tbo = container_of(node, struct ttm_buffer_object,
++				   base.vma_node);
++		tbo = ttm_bo_get_unless_zero(tbo);
++	}
++	drm_vma_offset_unlock_lookup(bdev->vma_manager);
++
++	if (!tbo)
++		return -EINVAL;
++
++	bo = ttm_to_amdgpu_bo(tbo);
++	obj = &tbo->base;
++
++	if (!obj->import_attach) {
++		ret = -EINVAL;
++		goto done;
++	}
++
++	ret = dma_buf_mmap(obj->import_attach->dmabuf, vma, 0);
++
++done:
++	ttm_bo_put(tbo);
++	return ret;
++}
++
+ /**
+  * amdgpu_gem_prime_export - &drm_driver.gem_prime_export implementation
+  * @gobj: GEM BO
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h
+index 3e93b9b407a9..ecf1dc32eec4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h
+@@ -25,6 +25,8 @@
+ 
+ #include <drm/drm_gem.h>
+ 
++int amdgpu_try_dma_buf_mmap(struct file *filp, struct vm_area_struct *vma);
++
+ struct dma_buf *amdgpu_gem_prime_export(struct drm_gem_object *gobj,
+ 					int flags);
+ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index 86fbb4138285..91e94342d48e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2737,7 +2737,7 @@ static const struct file_operations amdgpu_driver_kms_fops = {
+ 	.flush = amdgpu_flush,
+ 	.release = drm_release,
+ 	.unlocked_ioctl = amdgpu_drm_ioctl,
+-	.mmap = drm_gem_mmap,
++	.mmap = amdgpu_mmap,
+ 	.poll = drm_poll,
+ 	.read = drm_read,
+ #ifdef CONFIG_COMPAT
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index c5ef7f7bdc15..41944439cd6c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -61,6 +61,7 @@
+ #include "amdgpu_hmm.h"
+ #include "amdgpu_atomfirmware.h"
+ #include "amdgpu_res_cursor.h"
++#include "amdgpu_dma_buf.h"
+ #include "bif/bif_4_1_d.h"
+ 
+ MODULE_IMPORT_NS(DMA_BUF);
+@@ -1994,6 +1995,14 @@ static int amdgpu_ttm_prepare_job(struct amdgpu_device *adev,
+ 						   DMA_RESV_USAGE_BOOKKEEP);
+ }
+ 
++int amdgpu_mmap(struct file *filp, struct vm_area_struct *vma)
++{
++	if (amdgpu_try_dma_buf_mmap(filp, vma) == 0)
++		return 0;
++
++	return drm_gem_mmap(filp, vma);
++}
++
+ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
+ 		       uint64_t dst_offset, uint32_t byte_count,
+ 		       struct dma_resv *resv,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+index e2cd5894afc9..e4cd1bda7a2b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+@@ -152,6 +152,7 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
+ 			struct dma_resv *resv,
+ 			struct dma_fence **fence);
+ 
++int amdgpu_mmap(struct file *filp, struct vm_area_struct *vma);
+ int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
+ void amdgpu_ttm_recover_gart(struct ttm_buffer_object *tbo);
+ uint64_t amdgpu_ttm_domain_start(struct amdgpu_device *adev, uint32_t type);
+-- 
+2.40.0.rc0.216.gc4246ad0f0-goog
 
