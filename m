@@ -1,67 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC586A974D
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 13:33:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 559606A9788
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 13:49:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B17E10E5C9;
-	Fri,  3 Mar 2023 12:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D450810E13C;
+	Fri,  3 Mar 2023 12:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88D6A10E5C9
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 12:33:18 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- d41-20020a05600c4c2900b003e9e066550fso1148079wmp.4
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Mar 2023 04:33:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Avma0LmG3fMmIscRMsl03VxGDuG4kqyX0ebqajTjKu4=;
- b=op6CjDXgDJ8a3+SDEW4qqMibSd2A7N87rbpRy0+ig5Ka2OsHB58hCe9vIdPQNmI3iC
- tqGR9j+dXu95LJYj7a39UPGPMnW2jXsN1htZ4XH4ww8B7u4jDfj9NH4jp1KSG0PAhxEj
- 2YBkjgbmVYy3/1Q2ODMkrp6ghd8lEZTdyR4z7W0HyBmB9CQ80av8pPk6EvriYfWa/Oc+
- liiFN7UtGEhsZdhGJLCekO7uuhBEG7Fzu2PykVstObcy0FrnLcuu1cNcM+33ILxOzreT
- ehtEpoKXAabODtiDvCieyMfxU1ISOz6VE7niJuQThx5Hlg1FL4YymwtPvonXcneMwh4R
- lOQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Avma0LmG3fMmIscRMsl03VxGDuG4kqyX0ebqajTjKu4=;
- b=kyiGfObX8FJMut3m9ZNDlNy9zB1c+tVlf1JqfGE3qj1hqQWv+c7UaS4CW8vTww9UmZ
- UjGXU+iIZPeBp37PdzM33+hBYqX2VzhWIwmY+D8HUETWAEVk79+OvRg2LPjk/asKxDWK
- cANlmSxzIu1z+CL6SWXI/j/mpWQ7c9mjBcZ98NbBN1os/sTrTW9pk7fCzUnl4Jh1nFKo
- iTFc4R+/B41Zt4XP5yj/TaA/5rVijwHl0xEta2/v4zmvCbsZJzjhjNM19AwhjMOBhsmY
- IraQ1l7Uuxj/OkzTy4+IGLs7WDvyeq52VTpZSZ8pfRW1PEYjlwFnNNc4b3sHO8/CDdMH
- iypw==
-X-Gm-Message-State: AO0yUKXgfC7hbsV+Oyqt9CnbsoSGsBUNyMTVB/tUW0tliLoFaFscWWzE
- bOl3LIGTAmbeUmt3vVEiBWk=
-X-Google-Smtp-Source: AK7set/VvJ0ig87ojREiKZi3IdQswYQr5HOSJLhyb99jMuarDimDTnncr/lSElyahvpK/qQE9qMubg==
-X-Received: by 2002:a05:600c:4f90:b0:3ea:d620:57a0 with SMTP id
- n16-20020a05600c4f9000b003ead62057a0mr1430142wmq.3.1677846796891; 
- Fri, 03 Mar 2023 04:33:16 -0800 (PST)
-Received: from toolbox.. ([87.200.95.144]) by smtp.gmail.com with ESMTPSA id
- j6-20020a05600c42c600b003eb192787bfsm2258437wme.25.2023.03.03.04.33.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 04:33:16 -0800 (PST)
-From: Christian Hewitt <christianshewitt@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/meson: fix 1px pink line on GXM when scaling video
- overlay
-Date: Fri,  3 Mar 2023 12:33:12 +0000
-Message-Id: <20230303123312.155164-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7A8910E13C;
+ Fri,  3 Mar 2023 12:49:45 +0000 (UTC)
+Received: from fsav312.sakura.ne.jp (fsav312.sakura.ne.jp [153.120.85.143])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 323CnauL011810;
+ Fri, 3 Mar 2023 21:49:36 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav312.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp);
+ Fri, 03 Mar 2023 21:49:36 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav312.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 323CnaOO011807
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 3 Mar 2023 21:49:36 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <32df5def-ad1a-e1aa-d2fe-f3c37cb01032@I-love.SAKURA.ne.jp>
+Date: Fri, 3 Mar 2023 21:49:36 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/i915: avoid flush_scheduled_work() usage
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <d8b73f88-d4aa-ed7e-09ea-5ad5ee803893@I-love.SAKURA.ne.jp>
+In-Reply-To: <d8b73f88-d4aa-ed7e-09ea-5ad5ee803893@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,43 +53,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian Hewitt <christianshewitt@gmail.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Playing media with a resolution smaller than the crtc size requires the
-video overlay to be scaled for output and GXM boards display a 1px pink
-line on the bottom of the scaled overlay. Comparing with the downstream
-vendor driver revealed VPP_DUMMY_DATA not being set [0].
+On 2023/03/03 19:11, Tetsuo Handa wrote:
+> @@ -79,6 +81,7 @@ static int __init i915_init(void)
+>  {
+>  	int err, i;
+>  
+> +	i915_wq = alloc_workqueue("i915", 0, 0);
 
-Setting VPP_DUMMY_DATA prevents the 1px pink line from being seen.
+Oops. I forgot to add
 
-[0] https://github.com/endlessm/linux-s905x/blob/master/drivers/amlogic/amports/video.c#L7869
+	if (!i915_wq)
+		return -ENOMEM;
 
-Fixes: bbbe775ec5b5 ("drm: Add support for Amlogic Meson Graphic Controller")
-Suggested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
-Change since v1:
-This time I sent the right patch from the correct branch; the wording in
-v1 is incorrect and the change to meson_registers.h is not required.
+here. But I'd like to wait for your response for a while before submitting v2 patch.
 
- drivers/gpu/drm/meson/meson_vpp.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/meson/meson_vpp.c b/drivers/gpu/drm/meson/meson_vpp.c
-index 154837688ab0..5df1957c8e41 100644
---- a/drivers/gpu/drm/meson/meson_vpp.c
-+++ b/drivers/gpu/drm/meson/meson_vpp.c
-@@ -100,6 +100,8 @@ void meson_vpp_init(struct meson_drm *priv)
- 			       priv->io_base + _REG(VPP_DOLBY_CTRL));
- 		writel_relaxed(0x1020080,
- 				priv->io_base + _REG(VPP_DUMMY_DATA1));
-+		writel_relaxed(0x42020,
-+				priv->io_base + _REG(VPP_DUMMY_DATA));
- 	} else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
- 		writel_relaxed(0xf, priv->io_base + _REG(DOLBY_PATH_CTRL));
- 
--- 
-2.34.1
+>  	for (i = 0; i < ARRAY_SIZE(init_funcs); i++) {
+>  		err = init_funcs[i].init();
+>  		if (err < 0) {
+> @@ -86,6 +89,7 @@ static int __init i915_init(void)
+>  				if (init_funcs[i].exit)
+>  					init_funcs[i].exit();
+>  			}
+> +			destroy_workqueue(i915_wq);
+>  			return err;
+>  		} else if (err > 0) {
+>  			/*
+> @@ -113,6 +117,7 @@ static void __exit i915_exit(void)
+>  		if (init_funcs[i].exit)
+>  			init_funcs[i].exit();
+>  	}
+> +	destroy_workqueue(i915_wq);
+>  }
+>  
+>  module_init(i915_init);
 
