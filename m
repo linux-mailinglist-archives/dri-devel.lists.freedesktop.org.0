@@ -1,114 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EE26AA46F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 23:32:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 720746AA4BE
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 23:46:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47A5D10E786;
-	Fri,  3 Mar 2023 22:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE3010E785;
+	Fri,  3 Mar 2023 22:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 370 seconds by postgrey-1.36 at gabe;
- Fri, 03 Mar 2023 22:32:38 UTC
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 190B110E785
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 22:32:37 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230303222625euoutp029f1844024808c6d1f9eb67cea9ba51c1~JCSPmBHDm0279902799euoutp02h
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 22:26:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20230303222625euoutp029f1844024808c6d1f9eb67cea9ba51c1~JCSPmBHDm0279902799euoutp02h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1677882386;
- bh=wfte9J2xDnb+IyfItXvdl62jXu8V9R7xisFX/wjJ4Z0=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=kbN6AY1NsV0ayE4On+yjLDhv/y3ndTv+Alrcevt7UVN611aMc4KjmDCtUiNkEgNsR
- vS247LbTrUkNJhwYMXqE5DYla6wD1kz5qLjWxnT+nCu+bko86X2Gs5WEeldf05ffq4
- yKK2tL30r0pLNTVP5CZYKeh0VQvW3AGdcVVLMAYA=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230303222625eucas1p201816846e0425c6ad7a15875dbd21b92~JCSPDrlBS3034230342eucas1p2M;
- Fri,  3 Mar 2023 22:26:25 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 47.28.01471.11472046; Fri,  3
- Mar 2023 22:26:25 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20230303222624eucas1p288512012acd13920e36633fca50e890d~JCSN3S23r2266222662eucas1p2f;
- Fri,  3 Mar 2023 22:26:24 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230303222624eusmtrp19c6b5a97e4add7e65a8e9f361a82d9c8~JCSN1wur10413104131eusmtrp1B;
- Fri,  3 Mar 2023 22:26:24 +0000 (GMT)
-X-AuditID: cbfec7f2-29bff700000105bf-c3-640274111b47
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 26.A5.02722.F0472046; Fri,  3
- Mar 2023 22:26:23 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20230303222623eusmtip2dbd8fee59937632467fde8e5fe82c857~JCSNFmMJ11338513385eusmtip2Z;
- Fri,  3 Mar 2023 22:26:23 +0000 (GMT)
-Message-ID: <79c2e5cc-a488-09ae-dc68-18dbc47d963a@samsung.com>
-Date: Fri, 3 Mar 2023 23:26:23 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D294B10E785;
+ Fri,  3 Mar 2023 22:45:58 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 323LUSja024354; Fri, 3 Mar 2023 22:45:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=cwkVrpUacoldAI37mTHT2Q17LBTLJKo8aObqKP2hVJ8=;
+ b=iPe0iQNC2hFizegFcGCxadsG6t3a/EAzI7EOyhkoNQPqqoFZIiMqnjBST6oCB6YgPA4d
+ d4+3Ey+Juj+oC7z/Bdf7ew7F7dVmdBO9b17jkN0zjxzLc6x7rCmuLShWhfFseJ3r2/UB
+ jtVtDkS+skq+3hWN2D+lFYudamRspMv1WJbnFFanB7yNpihHI5ktcZvWBCceyZY4/UxC
+ SW+IaOtFsyylVdDB7xNq14je+cGllYcu/Giaa5eYtNDUDiGW2eVJmWfC3Y/C25km6ve0
+ j2EAa5A72Ep+4qmXbl0XDP85mp00N63qOninMADSUdML4js01crLtpUW0G6aOn+Cwiun SQ== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p3c8htgjy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Mar 2023 22:45:51 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 323MjoXk013469
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 3 Mar 2023 22:45:50 GMT
+Received: from [10.110.57.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 3 Mar 2023
+ 14:45:49 -0800
+Message-ID: <4c733721-855a-85fd-82a9-9af0f80fc02e@quicinc.com>
+Date: Fri, 3 Mar 2023 14:45:48 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
-Subject: Re: [PATCH v15 00/16] drm: Add Samsung MIPI DSIM bridge
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3] drm/msm/dp: check core_initialized flag at both
+ host_init() and host_deinit()
 Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Marek Vasut <marex@denx.de>, Maxime Ripard
- <mripard@kernel.org>
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20230303145138.29233-1-jagan@amarulasolutions.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFKsWRmVeSWpSXmKPExsWy7djPc7qCJUwpBsuvCFncuX2a2eL+4s8s
- Fle+vmez6F16jtVi0v0JLBZfNk1gszjb9IbdYvmEfWwWM87vY7J409bIaHH60Xpmi7bOZawW
- 73feYrSYMfklm8XFE5+YHfg91n68z+oxb9YJFo8pJ46wepzrucvmsXPWXXaPxXteMnlsWtXJ
- 5nHk6mJWjzvX9rB53O8+zuTRt2UVo8fnTXIBPFFcNimpOZllqUX6dglcGZ9bTrIV3LGqaLzN
- 2cD4Wa+LkZNDQsBEYuekySxdjFwcQgIrGCWuXPvFBuF8YZSY293MCuF8ZpR4tOU/K0zLmZdr
- 2EFsIYHljBKzXpZAFH1klOia844NJMErYCexuGMpWAOLgIrEh9597BBxQYmTM5+wgNiiAikS
- O87vBosLCzhInF9xlBHEZhYQl7j1ZD4TyFARgReMEqf+LAI7g1ngE5PEum2TwTrYBAwlut52
- gW3jBOq+0XSJBaJbXqJ562xmkAYJgXOcEq2PbjBC3O0icantLhuELSzx6vgWdghbRuL05B4W
- iIZ2RokFv+8zQTgTGCUant+C6raWuHMOFDYcQCs0Jdbv0ocIO0pcuLGSHSQsIcAnceOtIMQR
- fBKTtk1nhgjzSnS0CUFUq0nMOr4Obu3BC5eYJzAqzUIKmFlIATALyTuzEPYuYGRZxSieWlqc
- m55abJiXWq5XnJhbXJqXrpecn7uJEZgcT/87/mkH49xXH/UOMTJxMB5ilOBgVhLhrW5gSBHi
- TUmsrEotyo8vKs1JLT7EKM3BoiTOq217MllIID2xJDU7NbUgtQgmy8TBKdXA5HpVMnBm6KcQ
- hYDfm8s7r9XtWL5fqP2l2as59UdUt07h3mA/Oaq9oKp8s37BOlOnkyUJzx+yKGcffcDIu5rr
- 5LrpQVrNDO7Xni5Z9CWLMcf9zaU3d9d2vy96fCi3yk0naOof7lTZ3GU26kc3XU+7K+fuZ3Bl
- Pt8RlsU+d23LZHlVdVjuqG+o6HH6Ul7g+js5NGtNh+iPT0Y6uu33P0oeV7MSaIyUPsDCmp3G
- uLxBu/ie9LfDL7WV82sOTVGa7vNz29IbM2dJS/i3b13bYzjvjkjQ7Km35vAv924+LXFucdjR
- RSyr6hdmPwiQmZcyN2Qah1CX+ofDelu4Fy2zK0rXybx26cXpYv2dQof8V00/pMRSnJFoqMVc
- VJwIAJs3s779AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNIsWRmVeSWpSXmKPExsVy+t/xe7r8JUwpBlt/W1rcuX2a2eL+4s8s
- Fle+vmez6F16jtVi0v0JLBZfNk1gszjb9IbdYvmEfWwWM87vY7J409bIaHH60Xpmi7bOZawW
- 73feYrSYMfklm8XFE5+YHfg91n68z+oxb9YJFo8pJ46wepzrucvmsXPWXXaPxXteMnlsWtXJ
- 5nHk6mJWjzvX9rB53O8+zuTRt2UVo8fnTXIBPFF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYm
- lnqGxuaxVkamSvp2NimpOZllqUX6dgl6GZ9bTrIV3LGqaLzN2cD4Wa+LkZNDQsBE4szLNewg
- tpDAUkaJb9OtIOIyEienNbBC2MISf651sXUxcgHVvGeUuDHhBDNIglfATmJxx1KwIhYBFYkP
- vfvYIeKCEidnPmHpYuTgEBVIkZjdpQMSFhZwkDi/4igjiM0sIC5x68l8JpCZIgIvGCV235oA
- 5jALfGGSONcyFWrbZEaJZRu+grWwCRhKdL0FOYOTgxNo1I2mSywQo8wkurZ2QY2Vl2jeOpt5
- AqPQLCSHzEKycRaSlllIWhYwsqxiFEktLc5Nzy021CtOzC0uzUvXS87P3cQITAXbjv3cvINx
- 3quPeocYmTgYDzFKcDArifBWNzCkCPGmJFZWpRblxxeV5qQWH2I0BYbGRGYp0eR8YDLKK4k3
- NDMwNTQxszQwtTQzVhLn9SzoSBQSSE8sSc1OTS1ILYLpY+LglGpgKjz/IHH9/63xxaLHeFMF
- graz6HxoyW8oUtat3NT+aqkcb97VK8udVV/OjPHsLV2+6r4U427+VUuTJ7syCR/bUS+49Zv4
- SqvrM2wuiWTfvdLN/1el8Och9s4XC03LPBJ0GN7aGlQ8+GIjstNv+23RttXVVZU88k2cHmv4
- JVtcpjCkTdohNl9ScKlB/4fJMglc0b8MNH3qCh1W6yxwEDzbfmBB7Pv7RodYa2KY7wdK/70T
- 9nz3ofOdSy/99GPgS5BefvhL1n6Drt8Gcy+IzxUykCnKTppe++/HvKy/TSZpQd/frP8463RF
- h/6Wgu9zc/ltFh6wklqqefyXdeHMCTbZkcXr3jOum7lbOafLYCmvEktxRqKhFnNRcSIAGl/G
- TY4DAAA=
-X-CMS-MailID: 20230303222624eucas1p288512012acd13920e36633fca50e890d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230303145219eucas1p218c2e302e41464432627c8ac074302f8
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230303145219eucas1p218c2e302e41464432627c8ac074302f8
-References: <CGME20230303145219eucas1p218c2e302e41464432627c8ac074302f8@eucas1p2.samsung.com>
- <20230303145138.29233-1-jagan@amarulasolutions.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1677629817-18891-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAA8EJpquZAhn+HswNxardN1fE8Zu1CKrCU5EiX=B8mGWuxfWnQ@mail.gmail.com>
+ <38bf75b4-799a-9758-aae3-69a7e0fc3f58@quicinc.com>
+ <86787af0-aa95-a2d8-d68c-555be54a3784@linaro.org>
+ <dddd3f2f-28e7-2188-5498-399cdb75adb4@quicinc.com>
+ <CAA8EJpokgWnRZ6rvNtsY4=WVcQv-5bCPYRE+dTqcWjbgzO-bxw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAA8EJpokgWnRZ6rvNtsY4=WVcQv-5bCPYRE+dTqcWjbgzO-bxw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: puOMUtC6SAly4judYQ59r4W_1yRT2QoJ
+X-Proofpoint-ORIG-GUID: puOMUtC6SAly4judYQ59r4W_1yRT2QoJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-03_05,2023-03-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303030191
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,236 +88,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, dri-devel@lists.freedesktop.org,
- Adam Ford <aford173@gmail.com>
+Cc: freedreno@lists.freedesktop.org, quic_sbillaka@quicinc.com,
+ quic_abhinavk@quicinc.com, andersson@kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, linux-arm-msm@vger.kernel.org, swboyd@chromium.org,
+ sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jagan,
 
-On 03.03.2023 15:51, Jagan Teki wrote:
-> This series supports common bridge support for Samsung MIPI DSIM
-> which is used in Exynos and i.MX8MM SoC's.
+On 3/2/2023 11:04 AM, Dmitry Baryshkov wrote:
+> On Thu, 2 Mar 2023 at 20:41, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>>
+>> On 3/1/2023 1:15 PM, Dmitry Baryshkov wrote:
+>>> On 01/03/2023 18:57, Kuogee Hsieh wrote:
+>>>> On 2/28/2023 6:16 PM, Dmitry Baryshkov wrote:
+>>>>> On Wed, 1 Mar 2023 at 02:17, Kuogee Hsieh <quic_khsieh@quicinc.com>
+>>>>> wrote:
+>>>>>> There is a reboot/suspend test case where system suspend is forced
+>>>>>> during system booting up. Since dp_display_host_init() of external
+>>>>>> DP is executed at hpd thread context, this test case may created a
+>>>>>> scenario that dp_display_host_deinit() from pm_suspend() run before
+>>>>>> dp_display_host_init() if hpd thread has no chance to run during
+>>>>>> booting up while suspend request command was issued. At this scenario
+>>>>>> system will crash at aux register access at dp_display_host_deinit()
+>>>>>> since aux clock had not yet been enabled by dp_display_host_init().
+>>>>>> Therefore we have to ensure aux clock enabled by checking
+>>>>>> core_initialized flag before access aux registers at pm_suspend.
+>>>>> Can a call to dp_display_host_init() be moved from
+>>>>> dp_display_config_hpd() to dp_display_bind()?
+>>>> yes,  Sankeerth's  "drm/msm/dp: enable pm_runtime support for dp
+>>>> driver" patch is doing that which is under review.
+>>>>
+>>>> https://patchwork.freedesktop.org/patch/523879/?series=114297&rev=1
+>>> No, he is doing another thing. He is moving these calls to pm_runtime
+>>> callbacks, not to the dp_display_bind().
+>>>
+>>>>> Related question: what is the primary reason for having
+>>>>> EV_HPD_INIT_SETUP and calling dp_display_config_hpd() via the event
+>>>>> thread? Does DP driver really depend on DPU irqs being installed? As
+>>>>> far as I understand, DP device uses MDSS interrupts and those IRQs are
+>>>>> available and working at the time of dp_display_probe() /
+>>>>> dp_display_bind().
+>>>> HDP gpio pin has to run through DP aux module 100ms denouncing logic
+>>>> and have its mask bits.
+>>>>
+>>>> Therefore DP irq has to be enabled to receive DP isr with mask bits set.
+>>> So... DP irq is enabled by the MDSS, not by the DPU. Again, why does
+>>> DP driver depend on DPU irqs being installed?
+>> sorry, previously i mis understand your question -- why does DP driver
+>> depend on DPU irqs being installed?
+>>
+>> now, I think you are asking why  dpu_irq_postinstall() ==>
+>> msm_dp_irq_postinstall() ==> event_thread ==> dp_display_config_hdp()
+>> ==> enable_irq(dp->irq)
+>>
+>> With the below test i had run, i think the reason is to make sure
+>> dp->irq be requested before enable it.
+>>
+>> I just run the execution timing order test and collect execution order
+>> as descending order at below,
+>>
+>> 1) dp_display_probe() -- start
+>>
+>> 2) dp_display_bind()
+>>
+>> 3) msm_dp_modeset_init()  ==> dp_display_request_irq() ==>
+>> dp_display_get_next_bridge()
+>>
+>> 4) dpu_irq_postinstall() ==> msm_dp_irq_postinstall() ==>
+>> enable_irq(dp->irq)
+>>
+>> 5) dp_display_probe() -- end
+>>
+>> dp->irq is request at msm_dp_modeset_init() and enabled after.
+> Should be moved to probe.
 >
-> The final bridge supports both the Exynos and i.MX8M Mini/Nano/Plus.
+>> That bring up the issue to move DP's dp_display_host_init() executed at
+>> dp_display_bind().
+>>
+>> Since eDP have dp_dispaly_host_init() executed at
+>> dp_display_get_next_bridge() which executed after dp_display_bind().
+>>
+>> If moved DP's dp_display_host_init() to dp_dispaly_bind() which means DP
+>> will be ready to receive HPD irq before eDP ready.
+> And the AUX bus population should also be moved to probe(), which
+> means we should call dp_display_host_init() from probe() too.
+> Having aux_bus_populate in probe would allow moving component_add() to
+> the done_probing() callback, making probe/defer case more robust
 >
-> Inki Dae: please note that this series added on top of exynos-drm-next
-> since few exynos dsi changes are not been part of drm-misc-next.
-> Request you to pick these via exynos-drm-next, or let me know if you
-> have any comments?
+>> This may create some uncertainties at execution flow and complicate
+>> things up.
+> Hopefully the changes suggested above will make it simpler.
 
-I gave it a try on Exynos TM2e and unfortunately it nukes again:
+ok, I will create another patch to
 
-exynos-drm exynos-drm: bound 13970000.hdmi (ops hdmi_component_ops)
-Unable to handle kernel paging request at virtual address 003d454d414e5675
-...
-[003d454d414e5675] address between user and kernel address ranges
-Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 4 PID: 9 Comm: kworker/u16:0 Not tainted 6.2.0-next-20230303+ #13341
-Hardware name: Samsung TM2E board (DT)
-Workqueue: events_unbound deferred_probe_work_func
-pstate: 000000c5 (nzcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : drm_connector_list_iter_next+0x58/0x100
-lr : drm_connector_list_iter_next+0x2c/0x100
-sp : ffff80000bbab910
-...
-Call trace:
-  drm_connector_list_iter_next+0x58/0x100
-  drm_mode_config_reset+0xfc/0x144
-  exynos_drm_bind+0x160/0x1b8
-  try_to_bring_up_aggregate_device+0x168/0x1d4
-  __component_add+0xa8/0x170
-  component_add+0x14/0x20
-  hdmi_probe+0x3fc/0x6d4
-  platform_probe+0x68/0xd8
-  really_probe+0x148/0x2b4
-  __driver_probe_device+0x78/0xe0
-  driver_probe_device+0xd8/0x160
-  __device_attach_driver+0xb8/0x138
-  bus_for_each_drv+0x84/0xe0
-  __device_attach+0xa8/0x1b0
-  device_initial_probe+0x14/0x20
-  bus_probe_device+0xb0/0xb4
-  deferred_probe_work_func+0x8c/0xc8
-  process_one_work+0x288/0x6c8
-  worker_thread+0x24c/0x450
-  kthread+0x118/0x11c
-  ret_from_fork+0x10/0x20
-Code: 54000580 d1008061 f90006c1 9100c064 (b9403061)
----[ end trace 0000000000000000 ]---
-Kernel panic - not syncing: Oops: Fatal exception
-SMP: stopping secondary CPUs
-Kernel Offset: disabled
-CPU features: 0x460002,0e3c0400,0000421b
-Memory Limit: none
----[ end Kernel panic - not syncing: Oops: Fatal exception ]---
+1) move dp_display_host_init() to probe()
+
+2) move component_add() to done_probing() for eDP
+
+3) keep DP as simple platform device (component_add() still executed in 
+probe())
+
+Meanwhile, can you approve this patch so that it will not block our 
+internal daily testing?
 
 
-The debugging saga strikes again. I will try to analyze this on Monday...
 
-
-> Patch 0001 - 0002: find child DSI bridge and panel
 >
-> Patch 0003 - 0004: optional PHY, PMS_P offset
->
-> Patch 0005       : introduce hw_type
->
-> Patch 0006	 : fixing host init
->
-> Patch 0007	 : atomic_check
->
-> Patch 0008	 : input_bus_flags
->
-> Patch 0009	 : atomic_get_input_bus_fmts
->
-> Patch 0010 - 0011: component vs bridge
->
-> Patch 0012	 : DSIM bridge
->
-> Patch 0013 - 0014: i.MX8M Mini/Nano
->
-> Patch 0015 - 0016: i.MX8M Plus
->
-> Changes for v15:
-> - drop drm_of helpers
-> - re-added find DSI bridge/Panel helper in dsim
-> - collect RB from Marek V
-> - fixed leading underscore in function names
-> - commit messages updated
-> - rebased on exynos-drm-next
->
-> Changes for v13:
-> - remove devm call for DSI panel or bridge finding
-> - rebased on drm-misc-next
->
-> Changes for v12:
-> - collect RB from Marek V
-> - add te_irq_handler hook
-> - fix comments from Marek V
-> - update atomic_get_input_bus_fmts logic
->
-> Changes for v11:
-> - collect RB from Frieder Schrempf
-> - collect ACK from Rob
-> - collect ACK from Robert
-> - fix BIT macro replacements
-> - fix checkpatch --strict warnings
-> - fix unneeded commit text
-> - drop extra lines
->
-> Changes for v10:
-> - rebase on drm-misc-next
-> - add drm_of_dsi_find_panel_or_bridge
-> - add devm_drm_of_dsi_get_bridge
-> - fix host initialization (Thanks to Marek Szyprowski)
-> - rearrange the tiny patches for easy to review
-> - update simple names for enum hw_type
-> - add is_hw_exynos macro
-> - rework on commit messages
->
-> Changes for v9:
-> - rebase on drm-misc-next
-> - drop drm bridge attach fix for Exynos
-> - added prepare_prev_first flag
-> - added pre_enable_prev_first flag
-> - fix bridge chain order for exynos
-> - added fix for Exynos host init for first DSI transfer
-> - added MEDIA_BUS_FMT_FIXED
-> - return MEDIA_BUS_FMT_RGB888_1X24 output_fmt if supported output_fmt
->    list is unsupported.
-> - added MEDIA_BUS_FMT_YUYV10_1X20
-> - added MEDIA_BUS_FMT_YUYV12_1X24
->
-> Changes for v8:
-> * fixed comment lines
-> * fixed commit messages
-> * fixed video mode bits
-> * collect Marek Ack
-> * fixed video mode bit names
-> * update input formats logic
-> * added imx8mplus support
->
-> Changes for v7:
-> * fix the drm bridge attach chain for exynos drm dsi driver
-> * fix the hw_type checking logic
->
-> Changes for v6:
-> * handle previous bridge for exynos dsi while attaching bridge
->
-> Changes for v5:
-> * bridge changes to support multi-arch
-> * updated and clear commit messages
-> * add hw_type via plat data
-> * removed unneeded quirk
-> * rebased on linux-next
->
-> Changes for v4:
-> * include Inki Dae in MAINTAINERS
-> * remove dsi_driver probe in exynos_drm_drv to support multi-arch build
-> * update init handling to ensure host init done on first cmd transfer
->
-> Changes for v3:
-> * fix the mult-arch build
-> * fix dsi host init
-> * updated commit messages
->
-> Changes for v2:
-> * fix bridge handling
-> * fix dsi host init
-> * correct the commit messages
->
-> Tested in Engicam i.Core MX8M Mini SoM.
->
-> Repo:
-> https://protect2.fireeye.com/v1/url?k=43fc0c46-2281e43e-43fd8709-74fe485fffb1-f84e6959aef8bb31&q=1&e=008cbb56-9344-43e4-903f-5547c72a3ade&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v15
->
-> v13:
-> https://lore.kernel.org/all/20230227113925.875425-1-jagan@amarulasolutions.com/
->
-> Any inputs?
-> Jagan.
->
-> Jagan Teki (14):
->    drm: exynos: dsi: Drop explicit call to bridge detach
->    drm: exynos: dsi: Lookup OF-graph or Child node devices
->    drm: exynos: dsi: Mark PHY as optional
->    drm: exynos: dsi: Add platform PLL_P (PMS_P) offset
->    drm: exynos: dsi: Introduce hw_type platform data
->    drm: exynos: dsi: Add atomic check
->    drm: exynos: dsi: Add input_bus_flags
->    drm: exynos: dsi: Add atomic_get_input_bus_fmts
->    drm: exynos: dsi: Consolidate component and bridge
->    drm: exynos: dsi: Add host helper for te_irq_handler
->    drm: bridge: Generalize Exynos-DSI driver into a Samsung DSIM bridge
->    dt-bindings: display: exynos: dsim: Add NXP i.MX8M Mini/Nano support
->    drm: bridge: samsung-dsim: Add i.MX8M Mini/Nano support
->    dt-bindings: display: exynos: dsim: Add NXP i.MX8M Plus support
->
-> Marek Szyprowski (1):
->    drm: exynos: dsi: Handle proper host initialization
->
-> Marek Vasut (1):
->    drm: bridge: samsung-dsim: Add i.MX8M Plus support
->
->   .../bindings/display/exynos/exynos_dsim.txt   |    2 +
->   MAINTAINERS                                   |    9 +
->   drivers/gpu/drm/bridge/Kconfig                |   12 +
->   drivers/gpu/drm/bridge/Makefile               |    1 +
->   drivers/gpu/drm/bridge/samsung-dsim.c         | 1965 +++++++++++++++++
->   drivers/gpu/drm/exynos/Kconfig                |    1 +
->   drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1817 +--------------
->   include/drm/bridge/samsung-dsim.h             |  115 +
->   8 files changed, 2190 insertions(+), 1732 deletions(-)
->   create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
->   create mode 100644 include/drm/bridge/samsung-dsim.h
->
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
