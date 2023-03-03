@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786076A97F3
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 13:58:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96ACB6A97F7
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 13:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4907910E62C;
-	Fri,  3 Mar 2023 12:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C41AD10E613;
+	Fri,  3 Mar 2023 12:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5674310E5F9
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EADB510E5E4
  for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 12:57:37 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id f18so3486669lfa.3
+Received: by mail-lf1-x129.google.com with SMTP id t11so3488186lfr.1
  for <dri-devel@lists.freedesktop.org>; Fri, 03 Mar 2023 04:57:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZhVs4vt0TafHFP/4BzDwPQBBm+kjTcr7bWFE2MoX3Rw=;
- b=U1T26+1yDSFE7EqlFGCU3dek2js1RtuFYGa1POrpOPqTk2QvBdEAWeHY0ihPNofySQ
- aFG3x1NoeP8oZD/4vsk2h7smOgt8ry7aSN9t4mV6h26vEYX0C2vDuY1zDYYHprQr5S7v
- 90Q3CWszyRL2IVYxOlXdx5sNvMbr7cfpxfgM8aF4fCGbdV6DBXpeW4jmLX6HHRL8dxxs
- GDyPxrlrwI+meo4Op44w5zVmq8CbZV79Ubnmqk39FE/q0lKzL62g4M5MIZ6LoA2phc9o
- IKoZ/yV2uM/vRr3FnfKlgZHme0vqYcfqv6nWL25lBgb/Atru8sWS5GjBleZ0gCT4KsGb
- 7BgA==
+ bh=qBLqAmXU8RzuNTFCSMX95oVYpDr4yOBGu5atcgyyNsY=;
+ b=RGqKWZZueTLN7nkXECplHGdN/ztb2r6aIiHQJvne+B9ZRjY7gpKsRxBJIeBRNomdpO
+ NXftUxxnUNu2O+KS/Kt+c7/5VHjiF/kvBViG5u9bIyy5Ga/ZhB/TxbO2114TyGohdo4N
+ u0P/l4AkJxt47ZzYNjgDzlttVaJlUbp4euIkysxtXsQhjDeIG1rX1+j2pAAoAS523uZ3
+ 79gvg+JaZ6PVtJkrqAkDixaNeqmka6kAIJjBZq18siDtbs2Hd16CwunsTqYvkD6uT5F/
+ bjOOfJYgtpNU8pJUZJ7UszlBBcD4d3xYvry/SwGtAjJ3qvziXH4KP0VVVedxbwdwSrcU
+ GEUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZhVs4vt0TafHFP/4BzDwPQBBm+kjTcr7bWFE2MoX3Rw=;
- b=zeyriuCM5HTqeIPlIBKjlLIkz8X2pUZrgGut+63R3xscODyi2tA9mg4fX7aA0NbU7i
- YGxdqjCE3ytCBpwUuYGqdP1/UY5fYOHKyBt1Af25WQwRYiqNMNOV9oIauPY75lFXw6qU
- 6hE7pGoTVLqhdTmLuZqYArj18cOxHAYujda3TDIL+fl2aUt8UgCwapA9bJgQ2LgFN9Vq
- LsAJ8GvrS/W6LJq0qg4RB2T5fmNm+M1NBCCis8jw/HlazNejnGXmY2OkX6bVPh44CilN
- RofjXIA5yrpdTLcwMBgwfveasvPbGLJVZAlAv6pxha4Z2JoYarrr8PPYUv7UT52II4oV
- E8Gg==
-X-Gm-Message-State: AO0yUKXdbXbMm4swzvvv5xKfpt8H7gTY72oxIT4S3/hatc3+OTazXs/N
- B3alH8HVv9pV2mplASHKo0MkSQ==
-X-Google-Smtp-Source: AK7set/uWVr0u8OMUyP8WNQ4dyrYNH3Da4UtaN3HWcAAywM0FpjlxOLf4+Zw/f/TXTH1ihEJPmd1wQ==
-X-Received: by 2002:ac2:43b2:0:b0:4dc:4fe2:2aad with SMTP id
- t18-20020ac243b2000000b004dc4fe22aadmr539399lfl.41.1677848256924; 
- Fri, 03 Mar 2023 04:57:36 -0800 (PST)
+ bh=qBLqAmXU8RzuNTFCSMX95oVYpDr4yOBGu5atcgyyNsY=;
+ b=5eqrbgY5ZIN2kOrMEYo4SbghCchBJiwWs/pl1Q7Z0iP6aD5jL850C0LeDljbYh7DWP
+ Pp/YRrX6TNm0ypHu48YbroZQbeFIZ9KuQTPgXiw4d8bNOqCQx6xD6davJcjZtV58cUWs
+ mf1NUrolEXdJdyekJ2HRubqpEL3+0D9Sz+i4uuVCrMP+SE21fMaVAty0VK162jyYyd09
+ P95+1u5mx37bm8ErtAIYYovfL8zxRTy1JSp2zlhHGnKSCkf8jdkZyLQ+QbIe1ys+doWZ
+ Qjut/Tw3hloAVSNo/FiqQ1PwSo47SlUE8Zy9jaL4iwf2gVcrUQI8iFs6QvnS2UD7BXJM
+ Ms3A==
+X-Gm-Message-State: AO0yUKXDFOwvVaPlNIEKCpj9r7zb0ihpZ7DeVXhHDInx8sE6ndc91xei
+ PtDXNY6bHaspSlxvJivX9HeWUA==
+X-Google-Smtp-Source: AK7set/Lwi2oRtEhoyh0s/pn3Ir/pDDlrC9uHQ3mKp/cOEYua7CbBrrd8ScfVeHuVX+8SXEqEvUyDw==
+X-Received: by 2002:ac2:5238:0:b0:4de:7a23:23e2 with SMTP id
+ i24-20020ac25238000000b004de7a2323e2mr497618lfl.21.1677848257487; 
+ Fri, 03 Mar 2023 04:57:37 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
  c5-20020ac25305000000b004cf07a0051csm379266lfh.228.2023.03.03.04.57.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 04:57:36 -0800 (PST)
+ Fri, 03 Mar 2023 04:57:37 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v4 16/30] drm/msm/dpu: move the rest of plane checks to
- dpu_plane_atomic_check()
-Date: Fri,  3 Mar 2023 14:57:11 +0200
-Message-Id: <20230303125725.3695011-17-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 17/30] drm/msm/dpu: drop redundant plane dst check from
+ dpu_crtc_atomic_check()
+Date: Fri,  3 Mar 2023 14:57:12 +0200
+Message-Id: <20230303125725.3695011-18-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230303125725.3695011-1-dmitry.baryshkov@linaro.org>
 References: <20230303125725.3695011-1-dmitry.baryshkov@linaro.org>
@@ -79,122 +79,71 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move plane state updates from dpu_crtc_atomic_check() to the function
-where they belong: to dpu_plane_atomic_check().
+The helper drm_atomic_helper_check_plane_state() already checks whether
+the scaled and clipped plane falls into the CRTC visible region (and
+clears plane_state->visible if it doesn't). Drop the redundant check
+from dpu_crtc_atomic_check().
 
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 18 +-----------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 18 ++++++++++--------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  6 ------
- 3 files changed, 11 insertions(+), 31 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 0260c4d6ded7..bd09bb319a58 100644
+index bd09bb319a58..73e1a8c69ef0 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1129,7 +1129,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 									  crtc);
- 	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
- 	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
--	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+@@ -1132,11 +1132,9 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
  
  	const struct drm_plane_state *pstate;
  	struct drm_plane *plane;
-@@ -1161,11 +1160,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	crtc_rect.x2 = mode->hdisplay;
- 	crtc_rect.y2 = mode->vdisplay;
+-	struct drm_display_mode *mode;
  
--	 /* get plane state for all drm planes associated with crtc state */
-+	/* FIXME: move this to dpu_plane_atomic_check? */
+ 	int rc = 0;
+ 
+-	struct drm_rect crtc_rect = { 0 };
+ 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+ 
+ 	if (!crtc_state->enable || !crtc_state->active) {
+@@ -1147,7 +1145,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		return 0;
+ 	}
+ 
+-	mode = &crtc_state->adjusted_mode;
+ 	DRM_DEBUG_ATOMIC("%s: check\n", dpu_crtc->name);
+ 
+ 	/* force a full mode set if active state changed */
+@@ -1157,13 +1154,9 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (cstate->num_mixers)
+ 		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
+ 
+-	crtc_rect.x2 = mode->hdisplay;
+-	crtc_rect.y2 = mode->vdisplay;
+-
+ 	/* FIXME: move this to dpu_plane_atomic_check? */
  	drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
  		struct dpu_plane_state *dpu_pstate = to_dpu_plane_state(pstate);
- 		struct drm_rect dst, clip = crtc_rect;
--		int stage;
+-		struct drm_rect dst, clip = crtc_rect;
  
  		if (IS_ERR_OR_NULL(pstate)) {
  			rc = PTR_ERR(pstate);
-@@ -1179,8 +1177,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+@@ -1176,15 +1169,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 			continue;
  
  		dpu_pstate->needs_dirtyfb = needs_dirtyfb;
- 
--		dpu_plane_clear_multirect(pstate);
 -
- 		dst = drm_plane_state_dest(pstate);
- 		if (!drm_rect_intersect(&clip, &dst)) {
- 			DPU_ERROR("invalid vertical/horizontal destination\n");
-@@ -1189,18 +1185,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 				  DRM_RECT_ARG(&dst));
- 			return -E2BIG;
- 		}
--
--		/* verify stage setting before using it */
--		stage = DPU_STAGE_0 + pstate->normalized_zpos;
--		if (stage >= dpu_kms->catalog->caps->max_mixer_blendstages) {
--			DPU_ERROR("> %d plane stages assigned\n",
--				  dpu_kms->catalog->caps->max_mixer_blendstages - DPU_STAGE_0);
--			return -EINVAL;
+-		dst = drm_plane_state_dest(pstate);
+-		if (!drm_rect_intersect(&clip, &dst)) {
+-			DPU_ERROR("invalid vertical/horizontal destination\n");
+-			DPU_ERROR("display: " DRM_RECT_FMT " plane: "
+-				  DRM_RECT_FMT "\n", DRM_RECT_ARG(&crtc_rect),
+-				  DRM_RECT_ARG(&dst));
+-			return -E2BIG;
 -		}
--
--		to_dpu_plane_state(pstate)->stage = stage;
--		DRM_DEBUG_ATOMIC("%s: stage %d\n", dpu_crtc->name, stage);
--
  	}
  
  	atomic_inc(&_dpu_crtc_get_kms(crtc)->bandwidth_ref);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index ce01a602cbc9..3fba63fbbd78 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -733,14 +733,6 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
- 	return 0;
- }
- 
--void dpu_plane_clear_multirect(const struct drm_plane_state *drm_state)
--{
--	struct dpu_plane_state *pstate = to_dpu_plane_state(drm_state);
--
--	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
--	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
--}
--
- int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
- {
- 	struct dpu_plane_state *pstate[R_MAX];
-@@ -994,6 +986,16 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	if (!new_plane_state->visible)
- 		return 0;
- 
-+	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
-+	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+
-+	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
-+	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
-+		DPU_ERROR("> %d plane stages assigned\n",
-+			  pdpu->catalog->caps->max_mixer_blendstages - DPU_STAGE_0);
-+		return -EINVAL;
-+	}
-+
- 	src.x1 = new_plane_state->src_x >> 16;
- 	src.y1 = new_plane_state->src_y >> 16;
- 	src.x2 = src.x1 + (new_plane_state->src_w >> 16);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index 228db401e905..a08b0539513b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -88,12 +88,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
-  */
- int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane);
- 
--/**
-- * dpu_plane_clear_multirect - clear multirect bits for the given pipe
-- * @drm_state: Pointer to DRM plane state
-- */
--void dpu_plane_clear_multirect(const struct drm_plane_state *drm_state);
--
- /**
-  * dpu_plane_color_fill - enables color fill on plane
-  * @plane:  Pointer to DRM plane object
 -- 
 2.39.2
 
