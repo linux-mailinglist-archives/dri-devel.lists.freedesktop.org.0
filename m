@@ -2,60 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEB76A99C5
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 15:49:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1968D6A99CE
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 15:49:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBF7810E12A;
-	Fri,  3 Mar 2023 14:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C6710E622;
+	Fri,  3 Mar 2023 14:49:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C5EA10E0FE;
- Fri,  3 Mar 2023 14:48:57 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id t22so1927644oiw.12;
- Fri, 03 Mar 2023 06:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677854936;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=95fD1OMocm4n8bJJC6tFnFtkplpEQySvwjBizvI/Tpo=;
- b=H8QbelVEw4Vh8BarvpWGCoSzGSZZvuUsFbB+c82/q20vffUTswfFY2u+Tl0R3sXrbW
- cFKl8/7P2yLWoKR1UV5jhiJfMbPITDEreXyy3XUd3Bx+EePTrtoW9mrK6wscRkoJ+2aJ
- 5fjoNNJzTeh5EoCDXG3GysgWY338xt4aBazpADFEOOpjcX08urE7ZuZGcrmHjRu/uNll
- 6wekbPxRCxNR6/RU2Jo+llW1KSCE+U/RMRtNk1Bjv+Ogrl1ILAEF4/5YyQNmzXZeqBGb
- +m066zgXiE7fg+2WBqFBzKeXmpaWIPJHHVW6knXxmSiKugJXUMdzE/fK+fI6SYy+sDv7
- YpWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677854936;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=95fD1OMocm4n8bJJC6tFnFtkplpEQySvwjBizvI/Tpo=;
- b=mp12758yUF3jF/V4u4uLgm2sS3e5acU3z8siDO0vDePXdk/WOuEnh9l3U4IU0r50Sy
- awBi+AtPF4gfxi4JBjeAiZTY9hjO7OqE7GDsNUWBiZ0yFMh9HWtLPVIlOOD+1hzUzvCo
- fSs5OwMG5EaLwsEXy8GzsQQMGrqnHT8CL6tiwq33sNai1vih6NtxJk8bvMml7y+VzBwA
- 8D7k6UqCH8hrCFm0E6JUDYghekvCmVHYZxZjp0yhQm1NOnccVypHgJLomLBxE9VmYLfQ
- OadnlLSfu0mttl300eybcg4Ysh7nyxNcefepHXWax+4rGSdHe2PGwEUmsPaUn5H1jhvv
- gr1Q==
-X-Gm-Message-State: AO0yUKXqkgHOtbzc38VN1D9OJEM+KqfZsGCDugLFLHuiluyVTOFzEq+/
- tKzFLFscz6PGoseB16bU4ybvGlfZvs7ui1/Y1/E=
-X-Google-Smtp-Source: AK7set+3e72I1aKOy6TuglUkJuSkxFy00dwwauEHhVb/G5t4QUiLGNGQh5N5d5lD2/Blvvsq/7AIUvcQeTiZih4TE1k=
-X-Received: by 2002:a05:6808:354:b0:384:692c:56c9 with SMTP id
- j20-20020a056808035400b00384692c56c9mr624924oie.3.1677854936419; Fri, 03 Mar
- 2023 06:48:56 -0800 (PST)
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch
+ [185.70.41.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A268E10E622
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 14:49:20 +0000 (UTC)
+Date: Fri, 03 Mar 2023 14:49:06 +0000
+Authentication-Results: mail-41103.protonmail.ch;
+ dkim=pass (2048-bit key) header.d=dylanle.dev header.i=@dylanle.dev
+ header.b="IqwEbFJR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dylanle.dev;
+ s=protonmail; t=1677854954; x=1678114154;
+ bh=GE82kdhVniwQCHmSI+W3zZPQ84XQA0TdOMeq+pnRWDE=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=IqwEbFJRh8Kx0oQWHp9cVQcj8La/lHRA3HdeeTq3cg3FsIeeitkFmaE1sduTdvxj1
+ 7AGsyZ3iXdXs+d2ZovIUjhUXJAO9zKCSBPRFiojK91Hxe7C2nyY+XIm5QJqj0/Ns6r
+ 8bE8kwL/sy1GOpTnqcnUScOMceOb6EBfOEH4ij95MPGm5t6Xte/EdQN1pmYY9/14s/
+ 0TBtuRLcfAGRdWWOvlpVrsoIv2lF4CXSmVdoM5z80XgR4cuY40kKyppNKvPYDip0Jx
+ PqtJD2YW251KfLXiWqoZXBt29+F8Mq1gkP8S4kwJP06cdkUM25zQ2V2sOIVv7nnDBY
+ uhYCnWcZBRrNQ==
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+From: Dylan Le <self@dylanle.dev>
+Subject: Re: [PATCH] Documentation: gpu: add acceleration node section
+Message-ID: <mnLCBvF9cqw1NSMEMHVM86FfcFsr63NEB1V1q0uUFUv70_ZBHgOLgtY-qIDiolOKclKFLfcBOpWfF1Q6PpWXNqRx0mI0yoWfBD7zLPM6HXc=@dylanle.dev>
+In-Reply-To: <Y/bqtlbnWkKMIJI4@debian.me>
+References: <7799513f0fb5aee27b64752c037980471be669c5.1677120686.git.self@dylanle.dev>
+ <Y/bqtlbnWkKMIJI4@debian.me>
+Feedback-ID: 68106091:user:proton
 MIME-Version: 1.0
-References: <20230302235356.3148279-1-robdclark@gmail.com>
- <20230302235356.3148279-16-robdclark@gmail.com>
- <ZAFnqbycMleLmRe9@intel.com>
- <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
-In-Reply-To: <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 3 Mar 2023 06:48:43 -0800
-Message-ID: <CAF6AEGs6QYTESuwB8E9cTbv9LqQX16tz6-geeu9BCyFos9=sOA@mail.gmail.com>
-Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,124 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Rob Clark <robdclark@chromium.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Matt Turner <mattst88@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Shuah Khan <skhan@linuxfoundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 3, 2023 at 1:58 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 03/03/2023 03:21, Rodrigo Vivi wrote:
-> > On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
-> >> From: Rob Clark <robdclark@chromium.org>
-> >>
-> >
-> > missing some wording here...
-> >
-> >> v2: rebase
-> >>
-> >> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >> ---
-> >>   drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
-> >>   1 file changed, 20 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> >> index 7503dcb9043b..44491e7e214c 100644
-> >> --- a/drivers/gpu/drm/i915/i915_request.c
-> >> +++ b/drivers/gpu/drm/i915/i915_request.c
-> >> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
-> >>      return i915_request_enable_breadcrumb(to_request(fence));
-> >>   }
-> >>
-> >> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> >> +{
-> >> +    struct i915_request *rq = to_request(fence);
-> >> +
-> >> +    if (i915_request_completed(rq))
-> >> +            return;
-> >> +
-> >> +    if (i915_request_started(rq))
-> >> +            return;
-> >
-> > why do we skip the boost if already started?
-> > don't we want to boost the freq anyway?
->
-> I'd wager Rob is just copying the current i915 wait boost logic.
+On Wednesday, February 22nd, 2023 at 11:25 PM, Bagas Sanjaya <bagasdotme@gm=
+ail.com> wrote:
+>=20
+>=20
+> On Thu, Feb 23, 2023 at 02:52:52AM +0000, Dylan Le wrote:
+>=20
+> > This patch was initially written for the Linux Kernel Bug Fixing Mentor=
+ship
+> > program. The patch adds a temporarily stubbed section on Acceleration N=
+odes
+> > to resolve a documentation warning.
+> >=20
+> > This resolves the warning:
+> > ./Documentation/gpu/drm-internals:179: ./include/drm/drm_file.h:411: WA=
+RNING: undefined label: drm_accel_node
+>=20
+>=20
+> Please write the patch description in imperative mood ("Do foo" instead
+> of "This patch does foo").
+>=20
+> > I would appreciate any feedback on what should be documented here.
+>=20
+>=20
+> I think above is better placed between the three dashes and diffstat ...
+>=20
+> > ---
+>=20
+>=20
+> like here.
+>=20
+> > Documentation/gpu/drm-uapi.rst | 9 +++++++++
+> > 1 file changed, 9 insertions(+)
+>=20
+> > +.. _drm_accel_node:
+> > +
+> > +Acceleration nodes
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +.. note::
+> > + There is not any documentation yet need to figure out what this is.
+>=20
+>=20
+> I'd like to write this stub as generic .. admonition:: block [1] instead,
+> with the content which is "This section is empty, add appropriate
+> documentation here." or similar.
+>=20
+> [1]: https://docutils.sourceforge.io/docs/ref/rst/directives.html#generic=
+-admonition
+>=20
+> Thanks.
+>=20
+> --
+> An old man doll... just what I always wanted! - Clara
 
-Yup, and probably incorrectly.. Matt reported fewer boosts/sec
-compared to your RFC, this could be the bug
+Thank you Bagas for the feedback,
 
-> >> +
-> >> +    /*
-> >> +     * TODO something more clever for deadlines that are in the
-> >> +     * future.  I think probably track the nearest deadline in
-> >> +     * rq->timeline and set timer to trigger boost accordingly?
-> >> +     */
-> >
-> > I'm afraid it will be very hard to find some heuristics of what's
-> > late enough for the boost no?
-> > I mean, how early to boost the freq on an upcoming deadline for the
-> > timer?
->
-> We can off load this patch from Rob and deal with it separately, or
-> after the fact?
+I prematurely sent a v2 of this patch taking into account your feedback, bu=
+t I will hold off on other changes. Since there seems to be another discuss=
+ion about a broken reference in drm_file.h.
 
-That is completely my intention, I expect you to replace my i915 patch ;-)
+If there is something I can look at in the meantime let me know.
 
-Rough idea when everyone is happy with the core bits is to setup an
-immutable branch without the driver specific patches, which could be
-merged into drm-next and $driver-next and then each driver team can
-add there own driver patches on top
-
-BR,
--R
-
-> It's a half solution without a smarter scheduler too. Like
-> https://lore.kernel.org/all/20210208105236.28498-10-chris@chris-wilson.co.uk/,
-> or if GuC plans to do something like that at any point.
->
-> Or bump the priority too if deadline is looming?
->
-> IMO it is not very effective to fiddle with the heuristic on an ad-hoc
-> basis. For instance I have a new heuristics which improves the
-> problematic OpenCL cases for further 5% (relative to the current
-> waitboost improvement from adding missing syncobj waitboost). But I
-> can't really test properly for regressions over platforms, stacks,
-> workloads.. :(
->
-> Regards,
->
-> Tvrtko
->
-> >
-> >> +
-> >> +    intel_rps_boost(rq);
-> >> +}
-> >> +
-> >>   static signed long i915_fence_wait(struct dma_fence *fence,
-> >>                                 bool interruptible,
-> >>                                 signed long timeout)
-> >> @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
-> >>      .signaled = i915_fence_signaled,
-> >>      .wait = i915_fence_wait,
-> >>      .release = i915_fence_release,
-> >> +    .set_deadline = i915_fence_set_deadline,
-> >>   };
-> >>
-> >>   static void irq_execute_cb(struct irq_work *wrk)
-> >> --
-> >> 2.39.1
-> >>
+Thanks,
+Dylan Le
