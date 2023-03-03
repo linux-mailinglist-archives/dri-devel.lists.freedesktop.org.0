@@ -2,44 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1C46A984A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 14:23:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012376A9853
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 14:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7C6F10E045;
-	Fri,  3 Mar 2023 13:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE1D10E05D;
+	Fri,  3 Mar 2023 13:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 314 seconds by postgrey-1.36 at gabe;
- Fri, 03 Mar 2023 13:23:35 UTC
-Received: from out-11.mta1.migadu.com (out-11.mta1.migadu.com [95.215.58.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4074F10E0CA
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 13:23:35 +0000 (UTC)
-Date: Fri, 3 Mar 2023 21:18:12 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1677849495;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF73C10E05D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 13:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677850061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FFxO8E9T+Oq0jzsBL8sdgu2TPlgHJxiXYlL0m/2CCdg=;
- b=aUmankjUfaw4pEe073xYXgnsvgNTX2e21gTgc8XJq9NAajN7nc7Nt1FyxWWOmrOSt7PqsI
- ChiopD3v99hqY1kFADi30Y2w+vCj57llTuhoj/Wyo0pP/CSSi6dvBVfldw7o5QBKhTXi9z
- 2wLjOSilAlP+F4IAUO09i7EVHqfPD7w=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Cai Huoqing <cai.huoqing@linux.dev>
-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Subject: Re: [PATCH] drm/i915/gvt: Make use of idr_find and
- idr_for_each_entry in dmabuf
-Message-ID: <ZAHzlML6iAm/bgB2@chq-MS-7D45>
-References: <20230302115318.79487-1-cai.huoqing@linux.dev>
- <ZAGd0CeJ1OF6yCfg@debian-scheme>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xZViEbKSFytDEA7BQHkIqtpOmiHcpYWTt+g+Ou0aIyc=;
+ b=bdpnWbkYVKXcePIC/dIalQH4kRvNZQ1mZxLj5sLyqAqcnj5cCk1b4fbMo2+vjQCk2KKO7g
+ NB0m6pt8scRLecps9aXA3umYbG5ymFQYKI5n09XKQM23gzzEa4h5ve9etzJbovSN6aYBxx
+ MGaz+teFQY7mLb7QeBM3Vl8R4N54pVw=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-529-8VvvFyrvN5u4PsMGfne-zg-1; Fri, 03 Mar 2023 08:27:37 -0500
+X-MC-Unique: 8VvvFyrvN5u4PsMGfne-zg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ d10-20020a05620a240a00b0073baf1de8ebso1343528qkn.19
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Mar 2023 05:27:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677850057;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xZViEbKSFytDEA7BQHkIqtpOmiHcpYWTt+g+Ou0aIyc=;
+ b=vdMLhAdWAHMpGX2mkLLr+fs17SCjT+pT+mFsNgoVc7xjLbGyrwyFQfP7+sKJRv6Cds
+ UysUf7xH/Eoi+0TmRs6iZnbAqrMp1SVlMCfnYaWdyAMTi7GwAVoViJUZNimVM3nkCPnb
+ 8PEllaJ5EBTNCzxwZnRL1pVMLB17cB3qQurezI4qS+ryUCZPukE1EO/ZRo5YPI2wJnEp
+ 288aA6vUMuUMKQKMAld1ccnfc9Z/RZgk97RDl1DAyA/X/D7HLXBf2JdsGIo52zJweh4g
+ 5IHQi1dnlJs49Q37JZRacXqsoQYVg2P8cLIIY4aFDVbPdtkSR0evoax6i7JdGelS8gfC
+ JnSA==
+X-Gm-Message-State: AO0yUKU27NFNjMwYc//Rzq5UT+J7xrItLb/g9RE9neF9OWPdzqJGoVqg
+ vZTC40IX/VuLkGjRd3FDlslR+HgTa9psOMOkJ1EhZ+GebTvt3Pw/2msyQKFpyEESrU9OZAW+7jt
+ CQN6GT50vtV1FEH16Zv3PZVJZj8Yf
+X-Received: by 2002:a05:6214:d02:b0:56e:a07b:f4d1 with SMTP id
+ 2-20020a0562140d0200b0056ea07bf4d1mr2488039qvh.2.1677850057315; 
+ Fri, 03 Mar 2023 05:27:37 -0800 (PST)
+X-Google-Smtp-Source: AK7set8dveykfGBVt70UyNuMYBmxTxxZX4pm0Ls634+/jDN5mktxgyqaetnfSuCm+FshuDVD566LrA==
+X-Received: by 2002:a05:6214:d02:b0:56e:a07b:f4d1 with SMTP id
+ 2-20020a0562140d0200b0056ea07bf4d1mr2488014qvh.2.1677850057060; 
+ Fri, 03 Mar 2023 05:27:37 -0800 (PST)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020a05620a158b00b0073b8745fd39sm1682277qkk.110.2023.03.03.05.27.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Mar 2023 05:27:36 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: bskeggs@redhat.com, kherbst@redhat.com, lyude@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/nouveau/fifo: set gf100_fifo_nonstall_block_dump
+ storage-class-specifier to static
+Date: Fri,  3 Mar 2023 08:27:31 -0500
+Message-Id: <20230303132731.1919329-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZAGd0CeJ1OF6yCfg@debian-scheme>
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,212 +83,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03 3月 23 15:12:16, Zhenyu Wang wrote:
-> On 2023.03.02 19:53:18 +0800, Cai Huoqing wrote:
-> > This patch uses the already existing IDR mechanism to simplify
-> > and improve the dmabuf code.
-> > 
-> > Using 'vgpu.object_idr' directly instead of 'dmabuf_obj_list_head'
-> > or 'dmabuf.list', because the dmabuf_obj can be found by 'idr_find'
-> > or 'idr_for_each_entry'.
-> > 
-> > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> > ---
-> >  drivers/gpu/drm/i915/gvt/dmabuf.c | 69 +++++++------------------------
-> >  drivers/gpu/drm/i915/gvt/dmabuf.h |  1 -
-> >  drivers/gpu/drm/i915/gvt/gvt.h    |  1 -
-> >  drivers/gpu/drm/i915/gvt/vgpu.c   |  1 -
-> >  4 files changed, 16 insertions(+), 56 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/dmabuf.c
-> > index 6834f9fe40cf..7933bd843ae8 100644
-> > --- a/drivers/gpu/drm/i915/gvt/dmabuf.c
-> > +++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
-> > @@ -133,21 +133,15 @@ static void dmabuf_gem_object_free(struct kref *kref)
-> >  	struct intel_vgpu_dmabuf_obj *obj =
-> >  		container_of(kref, struct intel_vgpu_dmabuf_obj, kref);
-> >  	struct intel_vgpu *vgpu = obj->vgpu;
-> > -	struct list_head *pos;
-> >  	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
-> > +	int id;
-> >  
-> > -	if (vgpu && test_bit(INTEL_VGPU_STATUS_ACTIVE, vgpu->status) &&
-> > -	    !list_empty(&vgpu->dmabuf_obj_list_head)) {
-> > -		list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
-> > -			dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> > -			if (dmabuf_obj == obj) {
-> > -				list_del(pos);
-> > -				idr_remove(&vgpu->object_idr,
-> > -					   dmabuf_obj->dmabuf_id);
-> > -				kfree(dmabuf_obj->info);
-> > -				kfree(dmabuf_obj);
-> > -				break;
-> > -			}
-> > +	if (vgpu && test_bit(INTEL_VGPU_STATUS_ACTIVE, vgpu->status)) {
-> > +		idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
-> > +			idr_remove(&vgpu->object_idr, id);
-> > +			kfree(dmabuf_obj->info);
-> > +			kfree(dmabuf_obj);
-> 
-> This is wrong, it is not to free all dmabuf objects, but just for target one.
-Indeed, I will use idr_find for the target.
+gcc with W=1 reports
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: error:
+  no previous prototype for ‘gf100_fifo_nonstall_block’ [-Werror=missing-prototypes]
+  451 | gf100_fifo_nonstall_block(struct nvkm_event *event, int type, int index)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-> 
-> > +			break;
-> >  		}
-> >  	} else {
-> >  		/* Free the orphan dmabuf_objs here */
-> > @@ -340,13 +334,11 @@ static struct intel_vgpu_dmabuf_obj *
-> >  pick_dmabuf_by_info(struct intel_vgpu *vgpu,
-> >  		    struct intel_vgpu_fb_info *latest_info)
-> >  {
-> > -	struct list_head *pos;
-> >  	struct intel_vgpu_fb_info *fb_info;
-> >  	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
-> > -	struct intel_vgpu_dmabuf_obj *ret = NULL;
-> > +	int id;
-> >  
-> > -	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
-> > -		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> > +	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
-> >  		if (!dmabuf_obj->info)
-> >  			continue;
-> >  
-> > @@ -357,31 +349,11 @@ pick_dmabuf_by_info(struct intel_vgpu *vgpu,
-> >  		    (fb_info->drm_format_mod == latest_info->drm_format_mod) &&
-> >  		    (fb_info->drm_format == latest_info->drm_format) &&
-> >  		    (fb_info->width == latest_info->width) &&
-> > -		    (fb_info->height == latest_info->height)) {
-> > -			ret = dmabuf_obj;
-> > -			break;
-> > -		}
-> 
-> Maybe just keep original code's use of extra ret to not include this cumbersome diff?
-Ok, will revert 'ret' related.
+gf100_fifo_nonstall_block is only used in gf100.c, so it should be static
 
-Thanks,
-Cai-
-> 
-> > -	}
-> > -
-> > -	return ret;
-> > -}
-> > -
-> > -static struct intel_vgpu_dmabuf_obj *
-> > -pick_dmabuf_by_num(struct intel_vgpu *vgpu, u32 id)
-> > -{
-> > -	struct list_head *pos;
-> > -	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
-> > -	struct intel_vgpu_dmabuf_obj *ret = NULL;
-> > -
-> > -	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
-> > -		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> > -		if (dmabuf_obj->dmabuf_id == id) {
-> > -			ret = dmabuf_obj;
-> > -			break;
-> > -		}
-> > +		    (fb_info->height == latest_info->height))
-> > +			return dmabuf_obj;
-> >  	}
-> >  
-> > -	return ret;
-> > +	return dmabuf_obj;
-> >  }
-> >  
-> >  static void update_fb_info(struct vfio_device_gfx_plane_info *gvt_dmabuf,
-> > @@ -477,11 +449,6 @@ int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args)
-> >  
-> >  	update_fb_info(gfx_plane_info, &fb_info);
-> >  
-> > -	INIT_LIST_HEAD(&dmabuf_obj->list);
-> > -	mutex_lock(&vgpu->dmabuf_lock);
-> > -	list_add_tail(&dmabuf_obj->list, &vgpu->dmabuf_obj_list_head);
-> > -	mutex_unlock(&vgpu->dmabuf_lock);
-> > -
-> >  	gvt_dbg_dpy("vgpu%d: %s new dmabuf_obj ref %d, id %d\n", vgpu->id,
-> >  		    __func__, kref_read(&dmabuf_obj->kref), ret);
-> >  
-> > @@ -508,7 +475,7 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, unsigned int dmabuf_id)
-> >  
-> >  	mutex_lock(&vgpu->dmabuf_lock);
-> >  
-> > -	dmabuf_obj = pick_dmabuf_by_num(vgpu, dmabuf_id);
-> > +	dmabuf_obj = idr_find(&vgpu->object_idr, dmabuf_id);
-> >  	if (dmabuf_obj == NULL) {
-> >  		gvt_vgpu_err("invalid dmabuf id:%d\n", dmabuf_id);
-> >  		ret = -EINVAL;
-> > @@ -570,23 +537,19 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, unsigned int dmabuf_id)
-> >  
-> >  void intel_vgpu_dmabuf_cleanup(struct intel_vgpu *vgpu)
-> >  {
-> > -	struct list_head *pos, *n;
-> >  	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
-> > +	int id;
-> >  
-> >  	mutex_lock(&vgpu->dmabuf_lock);
-> > -	list_for_each_safe(pos, n, &vgpu->dmabuf_obj_list_head) {
-> > -		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> > +	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
-> >  		dmabuf_obj->vgpu = NULL;
-> >  
-> > -		idr_remove(&vgpu->object_idr, dmabuf_obj->dmabuf_id);
-> > -		list_del(pos);
-> > -
-> > +		idr_remove(&vgpu->object_idr, id);
-> >  		/* dmabuf_obj might be freed in dmabuf_obj_put */
-> >  		if (dmabuf_obj->initref) {
-> >  			dmabuf_obj->initref = false;
-> >  			dmabuf_obj_put(dmabuf_obj);
-> >  		}
-> > -
-> >  	}
-> >  	mutex_unlock(&vgpu->dmabuf_lock);
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.h b/drivers/gpu/drm/i915/gvt/dmabuf.h
-> > index 3dcdb6570eda..93c0e00bdab9 100644
-> > --- a/drivers/gpu/drm/i915/gvt/dmabuf.h
-> > +++ b/drivers/gpu/drm/i915/gvt/dmabuf.h
-> > @@ -57,7 +57,6 @@ struct intel_vgpu_dmabuf_obj {
-> >  	__u32 dmabuf_id;
-> >  	struct kref kref;
-> >  	bool initref;
-> > -	struct list_head list;
-> >  };
-> >  
-> >  int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args);
-> > diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
-> > index 2d65800d8e93..1100c789f207 100644
-> > --- a/drivers/gpu/drm/i915/gvt/gvt.h
-> > +++ b/drivers/gpu/drm/i915/gvt/gvt.h
-> > @@ -211,7 +211,6 @@ struct intel_vgpu {
-> >  
-> >  	struct dentry *debugfs;
-> >  
-> > -	struct list_head dmabuf_obj_list_head;
-> >  	struct mutex dmabuf_lock;
-> >  	struct idr object_idr;
-> >  	struct intel_vgpu_vblank_timer vblank_timer;
-> > diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
-> > index 08ad1bd651f1..0a511cfef067 100644
-> > --- a/drivers/gpu/drm/i915/gvt/vgpu.c
-> > +++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-> > @@ -329,7 +329,6 @@ int intel_gvt_create_vgpu(struct intel_vgpu *vgpu,
-> >  	vgpu->sched_ctl.weight = conf->weight;
-> >  	mutex_init(&vgpu->vgpu_lock);
-> >  	mutex_init(&vgpu->dmabuf_lock);
-> > -	INIT_LIST_HEAD(&vgpu->dmabuf_obj_list_head);
-> >  	INIT_RADIX_TREE(&vgpu->page_track_tree, GFP_KERNEL);
-> >  	idr_init_base(&vgpu->object_idr, 1);
-> >  	intel_vgpu_init_cfg_space(vgpu, 1);
-> > -- 
-> > 2.34.1
-> > 
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
+index 5bb65258c36d..6c94451d0faa 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
+@@ -447,7 +447,7 @@ gf100_fifo_nonstall_allow(struct nvkm_event *event, int type, int index)
+ 	spin_unlock_irqrestore(&fifo->lock, flags);
+ }
+ 
+-void
++static void
+ gf100_fifo_nonstall_block(struct nvkm_event *event, int type, int index)
+ {
+ 	struct nvkm_fifo *fifo = container_of(event, typeof(*fifo), nonstall.event);
+-- 
+2.27.0
 
