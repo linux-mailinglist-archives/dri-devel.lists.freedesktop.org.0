@@ -1,50 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E496AA0A9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 21:36:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 871536AA0C3
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 21:58:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C263895EE;
-	Fri,  3 Mar 2023 20:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0AF610E753;
+	Fri,  3 Mar 2023 20:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55B3895EE
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 20:36:15 +0000 (UTC)
-Received: from [192.168.2.210] (109-252-117-89.nat.spd-mgts.ru
- [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 62BBE6602FB0;
- Fri,  3 Mar 2023 20:36:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677875774;
- bh=15/tXolhdND9XIfdhz6183l53lBlVVuHaxxsdm2MQ1Q=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZJNsEKRtAaKv3nwz3IfZe8MPnXYQwjDk8WvFbPrHiXcJRO0NYitdoTxxfbe36uRR2
- MCzru9LspKSJDjvSvP6+h04MGvlk9dGEENK6WIxHrxI4NiZXo3tKdFnE48Qj/rob+F
- MdJDWo47wvA48oW7Jso0bjeHeFZ9Sy2Z5LHBnsF/QZtHFnjuJB2oZhfDIj/TuwNMfO
- gYB3vS4hNEjBaVPbeAI0+9hXmp4JnVOIiRSEqaHITTWfGxuZ7vc2JtwYoVhy+PtJtX
- j//qbQncKnJxjvKQQtA6iTDMhE/7LZZP/4n0wdbfe35Tz8AYyES3piDyn/ABgHinWy
- VOztUL9w1NpQA==
-Message-ID: <8bb4cf0f-dbb5-095d-edc6-47e1ff9dd6c8@collabora.com>
-Date: Fri, 3 Mar 2023 23:36:11 +0300
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4A310E753;
+ Fri,  3 Mar 2023 20:58:43 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-172afa7bee2so4439487fac.6; 
+ Fri, 03 Mar 2023 12:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1677877122;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=T9Pyj/vm5rNlOjjV6b0BDKla8V0OkG8H114/eAFL1mY=;
+ b=QQecMgzEyAPD0IkanEvZ1sfwcHrCM/T70MSHAnA+bsWkLjiBE6aqJFq5snIMZgRyHd
+ JsFCsxhRu0fWLnmt23slKvp213K0gi/cZXrgmGCf25P5wGJKFZiTfsAOiMr+5Ql6yN+H
+ DidUBftZAKRcqx4fhYQlt4uu8XXkv7F91gY+qjBnin5IY8liaYja+CUZQjr/WReR5sHk
+ 5EbRVTfwUO0fEcaLzLk29V+/BMMGpo9/pkB1abIw4mZcS0ntpx7actZ6H+oKv8ZL5TDe
+ jxWX5uMzT4OcO6xWYVAARZfU4mSNhvX6KItjvgj7OqxiVV1Dn/tjCKreZ3PY6apgKbb+
+ /6Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1677877122;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=T9Pyj/vm5rNlOjjV6b0BDKla8V0OkG8H114/eAFL1mY=;
+ b=ccJp5KPYLid+QEUH2XqfdCWY+TT/JiTrhcLgQAFK2I6UXnJ5uM5e8OjSvcBYLjh8VY
+ 9xqAUU/BBg1T1g5Kk00OE2YEQJNBu8rOeKQXDtWNLfg/jTI8/bxY45mvl5uVQvOw6nKN
+ ZDv4tIHrVUjIesB4IkH8Z97QtR8mwkC8epUjhd6LfA5kwg2Qd3IW/eONkRqSCi58xgc3
+ xEYzjEGp6c/5IrSRUkQEsCIBvmgQzN0D5MVS+gviVA/tqC+o/wjYVuS0uDpWAOEpL5fE
+ bO/Iq3vWV0IidB4ZZIX56zwePMUZqX3NTue/tCP+nLPjRCjRUp5K9t/zUngdeD70eRC9
+ 8e5A==
+X-Gm-Message-State: AO0yUKUxh/MKsIvFdrUTB9t50bnrxhTa7ZtjSYAGTBvtwbaTloxddYn/
+ 6ornqayzx36/990oKdFilD6x19YwDRZG7NgQrbr84Eebzew=
+X-Google-Smtp-Source: AK7set+vyYgBINiehyL0i+7yg3YgTbb6+5Z2pWfDX8ZcLOBddCRvtvo4Kk20f7T0RHvn5fZBALM24XFERZG1DoetSCA=
+X-Received: by 2002:a05:6870:b7b3:b0:16f:375e:329d with SMTP id
+ ed51-20020a056870b7b300b0016f375e329dmr1065104oab.4.1677877122556; Fri, 03
+ Mar 2023 12:58:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v6] drm/virtio: Add option to disable KMS support
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20230302233506.3146290-1-robdclark@gmail.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230302233506.3146290-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230228165552.760988-1-l.stach@pengutronix.de>
+In-Reply-To: <20230228165552.760988-1-l.stach@pengutronix.de>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Fri, 3 Mar 2023 21:58:31 +0100
+Message-ID: <CAH9NwWfPr-axoa1iS-khG37qQoknnUMHOu5y6orgMQ_sh5JZfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/etnaviv: fix reference leak when mmaping imported
+ buffer
+To: Lucas Stach <l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,43 +67,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Ryan Neph <ryanneph@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- David Airlie <airlied@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: kernel@pengutronix.de, patchwork-lst@pengutronix.de,
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/3/23 02:35, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add a build option to disable modesetting support.  This is useful in
-> cases where the guest only needs to use the GPU in a headless mode, or
-> (such as in the CrOS usage) window surfaces are proxied to a host
-> compositor.
-> 
-> As the modesetting ioctls are a big surface area for potential security
-> bugs to be found (it's happened in the past, we should assume it will
-> again in the future), it makes sense to have a build option to disable
-> those ioctls in cases where they serve no legitimate purpose.
-> 
-> v2: Use more if (IS_ENABLED(...))
-> v3: Also permit the host to advertise no scanouts
-> v4: Spiff out commit msg
-> v5: Make num_scanouts==0 and DRM_VIRTIO_GPU_KMS=n behave the same
-> v6: Drop conditionally building virtgpu_display.c and early-out of
->     it's init/fini fxns instead
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
+>
+> drm_gem_prime_mmap() takes a reference on the GEM object, but before that
+> drm_gem_mmap_obj() already takes a reference, which will be leaked as only
+> one reference is dropped when the mapping is closed. Drop the extra
+> reference when dma_buf_mmap() succeeds.
+>
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 
-Applied to misc-next
+Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> index 7031db145a77..3524b5811682 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> @@ -91,7 +91,15 @@ static void *etnaviv_gem_prime_vmap_impl(struct etnaviv_gem_object *etnaviv_obj)
+>  static int etnaviv_gem_prime_mmap_obj(struct etnaviv_gem_object *etnaviv_obj,
+>                 struct vm_area_struct *vma)
+>  {
+> -       return dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
+> +       int ret;
+> +
+> +       ret = dma_buf_mmap(etnaviv_obj->base.dma_buf, vma, 0);
+> +       if (!ret) {
+> +               /* Drop the reference acquired by drm_gem_mmap_obj(). */
+> +               drm_gem_object_put(&etnaviv_obj->base);
+> +       }
+> +
+> +       return ret;
+>  }
+>
+>  static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+> --
+> 2.30.2
+>
+
 
 -- 
-Best regards,
-Dmitry
+greets
+--
+Christian Gmeiner, MSc
 
+https://christian-gmeiner.info/privacypolicy
