@@ -1,69 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3DA6A9221
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 09:06:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BD26A949B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 10:58:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFCE810E60F;
-	Fri,  3 Mar 2023 08:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A470810E10A;
+	Fri,  3 Mar 2023 09:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8906310E60B;
- Fri,  3 Mar 2023 08:06:23 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id kb15so1746069pjb.1;
- Fri, 03 Mar 2023 00:06:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1677830783;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2GNgFypKn/0hc5Isav8O5f3I0hf4LLGb3YNTok/vC30=;
- b=Ux8u3jgY4xPsXvtIDLngtm6THaaqQKr8ISSap3TtA42a9SIGaO7kOXmvJtURJTC7eU
- ucpvgT3jdlM5QrvkTUaWCkj/ksmrJtpcp9sbpGb25MGQQ32ucJSJtaVBUnV+zGoSaOMU
- qdLfegpB4yjaX0JZE+a+Ke4gCVS00j3fmQAIoEX0OkimEozc3WaldkliB+2TfcxlD/TT
- b1fXh0LRXeaC/PKaECznitkJj4H8qUzZ4i9RWNUGCTUQlOhPhueSOEs86QjHHAwn6oop
- NLMCDRiHxdXEHxN40O9Km1m23oE3XntsDCWjxh7Z1Do6zWaNmt3DTnOnd6rJ7BKJj0+K
- qRuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677830783;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2GNgFypKn/0hc5Isav8O5f3I0hf4LLGb3YNTok/vC30=;
- b=3VpifyugzWEEmhoe1N7OyTq7bqqDh2Zpd06P73klEKkB7rGLgoxWlXKSWRFlLAkEFV
- YO/VuaXP1kr5JFeVzjiH6HMidTGfEpNEtYyFSDbJA96SqFlq/q8H7+0SDPcZZ6KPNS6i
- 6J7h3MLtI40v266iZciqerTqqs1MqeBYAc2Wa6nHbtUaAFsSvpWpJ0yr0DY9h+z0K8nC
- csg/fZyTBjfy58RWWeL1jI7KtXG23HrPMjYaFMMLNKvNYHFBuQ8XkcdV+gpQcIR7hve5
- UFWdhlRAGuB25Fu8qdbU0j/fUHaUDBW6NtOFJamWkCgP610S9f3Z4YEwvdPFfGTb5JTC
- 6q7A==
-X-Gm-Message-State: AO0yUKUUXw4JpUNU8dlvKs4kV2KJctAbDcOHm50cF+abmBGFqjg2zZac
- s19Z5gQuA4onzQhkB8wliL0=
-X-Google-Smtp-Source: AK7set/y0ZWmbann7eE3oSNJgm0cy1BGxnKo48BhulCfaGdm1imER6hOYVoRuA6vUXdoT5U9GtHDhw==
-X-Received: by 2002:a05:6a20:8c97:b0:c7:5cb6:2ff7 with SMTP id
- k23-20020a056a208c9700b000c75cb62ff7mr1397114pzh.22.1677830782975; 
- Fri, 03 Mar 2023 00:06:22 -0800 (PST)
-Received: from debian.me (subs32-116-206-28-31.three.co.id. [116.206.28.31])
- by smtp.gmail.com with ESMTPSA id
- r7-20020a634407000000b005038291e5cbsm918858pga.35.2023.03.03.00.06.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Mar 2023 00:06:22 -0800 (PST)
-Received: by debian.me (Postfix, from userid 1000)
- id 267F1106180; Fri,  3 Mar 2023 15:06:18 +0700 (WIB)
-Date: Fri, 3 Mar 2023 15:06:18 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>,
- Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>
-Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
- ffff88811b4af298->next is NULL)
-Message-ID: <ZAGqet3U8AMm4Uf1@debian.me>
-References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC43610E0D4;
+ Fri,  3 Mar 2023 09:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677837525; x=1709373525;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=43cn5v2Z9OSPVxLCaHxJZxxi3aLIc72ErHl75qOAgGQ=;
+ b=AEauKBpIgAJ7uUPwMjTI3Wqsl07jbOeF+I93yKp9cH86fID0lUOhu++I
+ qgoa/LF/hD9qX1z0nrCu56zPnoPo+6SHO3ZH3gkOVuMleazx+hIgLVxXe
+ F6W7bagX/Ub38XpLRDpBbi6AtkM+wooSMuMLUKLov/prBrU+OfWezNq9U
+ yC4OUYmNFrzf4KAmm9eRB8jmQnrptZdAwgoTP3Pf2kEDwpuJzIYIA+fBp
+ kBACI44vbRr259jCBxZXSox1MEY0ZwMp0Fmid0AvMGlzrcGlnw+JR25fA
+ /3M1fQsYD/JkHCye5uHt9nmUvHlbcEaNXJ8w2nqDuDYt/cLzUC7Tc5xhU A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397598983"
+X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="397598983"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2023 01:58:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="764356162"
+X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="764356162"
+Received: from shiyaowa-mobl2.ger.corp.intel.com (HELO [10.213.235.33])
+ ([10.213.235.33])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2023 01:58:38 -0800
+Message-ID: <3bded9d7-9796-4a9b-7c11-aac994d4fdc6@linux.intel.com>
+Date: Fri, 3 Mar 2023 09:58:36 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="SfEzHmcCPaMIkdPc"
-Content-Disposition: inline
-In-Reply-To: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
+Content-Language: en-US
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Rob Clark <robdclark@gmail.com>
+References: <20230302235356.3148279-1-robdclark@gmail.com>
+ <20230302235356.3148279-16-robdclark@gmail.com> <ZAFnqbycMleLmRe9@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <ZAFnqbycMleLmRe9@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,46 +63,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, intel-gfx@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---SfEzHmcCPaMIkdPc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 03/03/2023 03:21, Rodrigo Vivi wrote:
+> On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
+>> From: Rob Clark <robdclark@chromium.org>
+>>
+> 
+> missing some wording here...
+> 
+>> v2: rebase
+>>
+>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>> ---
+>>   drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
+>>   1 file changed, 20 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>> index 7503dcb9043b..44491e7e214c 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
+>>   	return i915_request_enable_breadcrumb(to_request(fence));
+>>   }
+>>   
+>> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>> +{
+>> +	struct i915_request *rq = to_request(fence);
+>> +
+>> +	if (i915_request_completed(rq))
+>> +		return;
+>> +
+>> +	if (i915_request_started(rq))
+>> +		return;
+> 
+> why do we skip the boost if already started?
+> don't we want to boost the freq anyway?
 
-On Fri, Mar 03, 2023 at 03:46:56AM +0700, Ammar Faizi wrote:
-> Hi,
->=20
-> Linux 6.2.1 hits a display driver bug (list_del corruption, ffff88811b4af=
-298->next is NULL).
->=20
-> Unfortunately, I don't know the last good commit and the first bad commit.
+I'd wager Rob is just copying the current i915 wait boost logic.
 
-Can you please try v6.1?
+>> +
+>> +	/*
+>> +	 * TODO something more clever for deadlines that are in the
+>> +	 * future.  I think probably track the nearest deadline in
+>> +	 * rq->timeline and set timer to trigger boost accordingly?
+>> +	 */
+> 
+> I'm afraid it will be very hard to find some heuristics of what's
+> late enough for the boost no?
+> I mean, how early to boost the freq on an upcoming deadline for the
+> timer?
 
---=20
-An old man doll... just what I always wanted! - Clara
+We can off load this patch from Rob and deal with it separately, or 
+after the fact?
 
---SfEzHmcCPaMIkdPc
-Content-Type: application/pgp-signature; name="signature.asc"
+It's a half solution without a smarter scheduler too. Like 
+https://lore.kernel.org/all/20210208105236.28498-10-chris@chris-wilson.co.uk/, 
+or if GuC plans to do something like that at any point.
 
------BEGIN PGP SIGNATURE-----
+Or bump the priority too if deadline is looming?
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZAGqdAAKCRD2uYlJVVFO
-o6tYAPsHUCjEZzvaAnu5vqweP64uXu3vAHJpeX3chmv8QC747QD9FtDdYRCRW/a6
-ed37mcnX36rkPmyFZayYgbJln2MDjgg=
-=8ymv
------END PGP SIGNATURE-----
+IMO it is not very effective to fiddle with the heuristic on an ad-hoc 
+basis. For instance I have a new heuristics which improves the 
+problematic OpenCL cases for further 5% (relative to the current 
+waitboost improvement from adding missing syncobj waitboost). But I 
+can't really test properly for regressions over platforms, stacks, 
+workloads.. :(
 
---SfEzHmcCPaMIkdPc--
+Regards,
+
+Tvrtko
+
+> 
+>> +
+>> +	intel_rps_boost(rq);
+>> +}
+>> +
+>>   static signed long i915_fence_wait(struct dma_fence *fence,
+>>   				   bool interruptible,
+>>   				   signed long timeout)
+>> @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
+>>   	.signaled = i915_fence_signaled,
+>>   	.wait = i915_fence_wait,
+>>   	.release = i915_fence_release,
+>> +	.set_deadline = i915_fence_set_deadline,
+>>   };
+>>   
+>>   static void irq_execute_cb(struct irq_work *wrk)
+>> -- 
+>> 2.39.1
+>>
