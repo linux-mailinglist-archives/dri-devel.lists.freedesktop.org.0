@@ -1,53 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B51F6A98F0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 14:57:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C5F6A9915
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 15:07:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCB9610E5D6;
-	Fri,  3 Mar 2023 13:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35F4110E5DE;
+	Fri,  3 Mar 2023 14:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8894710E5D6
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 13:57:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677851859; x=1709387859;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=nSpXovstq9ryCqVJkFnv7h1Lwdq9lEritgt5M4+pxzw=;
- b=GyDH7+IkJugawr9OleqJ93+pm4I65iDN4XJG+BoPIdaE0fND6FB50G7e
- R7uUgytWbpd6IU3cNSJx/T/PPAkIignoZUKHzDKlCXGkO+7R9gknfi0Me
- Yh18qlO1cquzjEpaXsp9hCyRy5VSr+EB+xHbwOJ3CD/EJ58cRIN2QLY9V
- BYC+7ElfaaPfsjsXl54pWmqrUOabMf5Psq6fWkYIp9M4ENygaQ+TgiQYt
- x2MzTHaoBtjZgdue9wb4+5UsLRjTj+ci5xUz6x9yb00ppMLwWZ2AiBYOr
- jN+H6LMiLRFnQELx7bXUW/X/ElqX1hxKAcTtmiCfI6WegR5lCnimuNlQk g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="397634444"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="397634444"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2023 05:57:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="744247173"
-X-IronPort-AV: E=Sophos;i="5.98,230,1673942400"; d="scan'208";a="744247173"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2023 05:57:36 -0800
-Date: Fri, 3 Mar 2023 14:57:35 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH v2 3/8] accel/qaic: Add MHI controller
-Message-ID: <20230303135735.GG3963532@linux.intel.com>
-References: <1675698105-19025-1-git-send-email-quic_jhugo@quicinc.com>
- <1675698105-19025-4-git-send-email-quic_jhugo@quicinc.com>
- <20230228115239.GH3547587@linux.intel.com>
- <0f2959e3-8d9e-b603-1317-0d348263f90c@quicinc.com>
+Received: from out-49.mta0.migadu.com (out-49.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9A610E5DE
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 14:07:25 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1677852443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NW+2VZkkaD7maLaTQ+oM0QO1gb/Joyzx1JiHH9vMbMs=;
+ b=A7qOVN8GzCG0y64sbACMvAruZPyZbnTWfLig7GfDOn4mls50y4J6EZ5ujyLHVQoxVA2+Bv
+ Ss5S0mErDxJJXuMl8m5jhTtkstfvUzijg55NHZMxvPbSG4Q+289wwoSdeUaeXneDZ5zofZ
+ ucmVc38uA+QGXN2ik/9qrRN+D9daMIE=
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: cai.huoqing@linux.dev
+Subject: [PATCH v2] drm/i915/gvt: Make use of idr_find and idr_for_each_entry
+ in dmabuf
+Date: Fri,  3 Mar 2023 22:07:18 +0800
+Message-Id: <20230303140718.25355-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0f2959e3-8d9e-b603-1317-0d348263f90c@quicinc.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,31 +45,193 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- ogabbay@kernel.org, dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
- jacek.lawrynowicz@linux.intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 01, 2023 at 09:09:57AM -0700, Jeffrey Hugo wrote:
-> On 2/28/2023 4:52 AM, Stanislaw Gruszka wrote:
-> > On Mon, Feb 06, 2023 at 08:41:40AM -0700, Jeffrey Hugo wrote:
-> > > +	mhi_cntl = kzalloc(sizeof(*mhi_cntl), GFP_KERNEL);
-> > [snip]
-> > > +	mhi_cntl->irq = kmalloc(sizeof(*mhi_cntl->irq), GFP_KERNEL);
-> > 
-> > I recommend usage of devm_kzalloc(), devm_kmalloc() for those
-> > to simplify error and exit paths.
-> 
-> When this was written, I didn't want to pass the struct device to the
-> mhi_controller just for the purpose of using devm_*.  Today, I'm thinking
-> that is not the end of the world, and devm has advantages. Will change.
+This patch uses the already existing IDR mechanism to simplify
+and improve the dmabuf code.
 
-If already available &pci_dev->dev can not be used in devm_ due to
-different life times of pci_dev->dev and mhi_cntl, I don't think change
-would be justifiable and kmalloc/kzalloc should stay.
+Using 'vgpu.object_idr' directly instead of 'dmabuf_obj_list_head'
+or 'dmabuf.list', because the dmabuf_obj can be found by 'idr_find'
+or 'idr_for_each_entry'.
 
-Regards
-Stanislaw
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+---
+v1->v2:
+	1.Use idr_find to get the target one and free it instead of free all dma objs.
+	2.Revert the original code 'ret' related
+	3.Add '&& !idr_is_empty()' like the original code '&& !list_empty()'
+
+v1 link:
+	https://lore.kernel.org/lkml/20230302115318.79487-1-cai.huoqing@linux.dev/
+
+ drivers/gpu/drm/i915/gvt/dmabuf.c | 58 +++++++------------------------
+ drivers/gpu/drm/i915/gvt/dmabuf.h |  1 -
+ drivers/gpu/drm/i915/gvt/gvt.h    |  1 -
+ drivers/gpu/drm/i915/gvt/vgpu.c   |  1 -
+ 4 files changed, 12 insertions(+), 49 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt/dmabuf.c
+index 6834f9fe40cf..cf619b1ed3ad 100644
+--- a/drivers/gpu/drm/i915/gvt/dmabuf.c
++++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
+@@ -133,21 +133,15 @@ static void dmabuf_gem_object_free(struct kref *kref)
+ 	struct intel_vgpu_dmabuf_obj *obj =
+ 		container_of(kref, struct intel_vgpu_dmabuf_obj, kref);
+ 	struct intel_vgpu *vgpu = obj->vgpu;
+-	struct list_head *pos;
+ 	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
+ 
+ 	if (vgpu && test_bit(INTEL_VGPU_STATUS_ACTIVE, vgpu->status) &&
+-	    !list_empty(&vgpu->dmabuf_obj_list_head)) {
+-		list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
+-			dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
+-			if (dmabuf_obj == obj) {
+-				list_del(pos);
+-				idr_remove(&vgpu->object_idr,
+-					   dmabuf_obj->dmabuf_id);
+-				kfree(dmabuf_obj->info);
+-				kfree(dmabuf_obj);
+-				break;
+-			}
++	    !idr_is_empty(&vgpu->object_idr)) {
++		dmabuf_obj = idr_find(&vgpu->object_idr, obj->dmabuf_id);
++		if (dmabuf_obj) {
++			idr_remove(&vgpu->object_idr, obj->dmabuf_id);
++			kfree(dmabuf_obj->info);
++			kfree(dmabuf_obj);
+ 		}
+ 	} else {
+ 		/* Free the orphan dmabuf_objs here */
+@@ -340,13 +334,12 @@ static struct intel_vgpu_dmabuf_obj *
+ pick_dmabuf_by_info(struct intel_vgpu *vgpu,
+ 		    struct intel_vgpu_fb_info *latest_info)
+ {
+-	struct list_head *pos;
+ 	struct intel_vgpu_fb_info *fb_info;
+ 	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
+ 	struct intel_vgpu_dmabuf_obj *ret = NULL;
++	int id;
+ 
+-	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
+-		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
++	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
+ 		if (!dmabuf_obj->info)
+ 			continue;
+ 
+@@ -366,24 +359,6 @@ pick_dmabuf_by_info(struct intel_vgpu *vgpu,
+ 	return ret;
+ }
+ 
+-static struct intel_vgpu_dmabuf_obj *
+-pick_dmabuf_by_num(struct intel_vgpu *vgpu, u32 id)
+-{
+-	struct list_head *pos;
+-	struct intel_vgpu_dmabuf_obj *dmabuf_obj = NULL;
+-	struct intel_vgpu_dmabuf_obj *ret = NULL;
+-
+-	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
+-		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
+-		if (dmabuf_obj->dmabuf_id == id) {
+-			ret = dmabuf_obj;
+-			break;
+-		}
+-	}
+-
+-	return ret;
+-}
+-
+ static void update_fb_info(struct vfio_device_gfx_plane_info *gvt_dmabuf,
+ 		      struct intel_vgpu_fb_info *fb_info)
+ {
+@@ -477,11 +452,6 @@ int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args)
+ 
+ 	update_fb_info(gfx_plane_info, &fb_info);
+ 
+-	INIT_LIST_HEAD(&dmabuf_obj->list);
+-	mutex_lock(&vgpu->dmabuf_lock);
+-	list_add_tail(&dmabuf_obj->list, &vgpu->dmabuf_obj_list_head);
+-	mutex_unlock(&vgpu->dmabuf_lock);
+-
+ 	gvt_dbg_dpy("vgpu%d: %s new dmabuf_obj ref %d, id %d\n", vgpu->id,
+ 		    __func__, kref_read(&dmabuf_obj->kref), ret);
+ 
+@@ -508,7 +478,7 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, unsigned int dmabuf_id)
+ 
+ 	mutex_lock(&vgpu->dmabuf_lock);
+ 
+-	dmabuf_obj = pick_dmabuf_by_num(vgpu, dmabuf_id);
++	dmabuf_obj = idr_find(&vgpu->object_idr, dmabuf_id);
+ 	if (dmabuf_obj == NULL) {
+ 		gvt_vgpu_err("invalid dmabuf id:%d\n", dmabuf_id);
+ 		ret = -EINVAL;
+@@ -570,23 +540,19 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, unsigned int dmabuf_id)
+ 
+ void intel_vgpu_dmabuf_cleanup(struct intel_vgpu *vgpu)
+ {
+-	struct list_head *pos, *n;
+ 	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
++	int id;
+ 
+ 	mutex_lock(&vgpu->dmabuf_lock);
+-	list_for_each_safe(pos, n, &vgpu->dmabuf_obj_list_head) {
+-		dmabuf_obj = list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
++	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
+ 		dmabuf_obj->vgpu = NULL;
+ 
+-		idr_remove(&vgpu->object_idr, dmabuf_obj->dmabuf_id);
+-		list_del(pos);
+-
++		idr_remove(&vgpu->object_idr, id);
+ 		/* dmabuf_obj might be freed in dmabuf_obj_put */
+ 		if (dmabuf_obj->initref) {
+ 			dmabuf_obj->initref = false;
+ 			dmabuf_obj_put(dmabuf_obj);
+ 		}
+-
+ 	}
+ 	mutex_unlock(&vgpu->dmabuf_lock);
+ }
+diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.h b/drivers/gpu/drm/i915/gvt/dmabuf.h
+index 3dcdb6570eda..93c0e00bdab9 100644
+--- a/drivers/gpu/drm/i915/gvt/dmabuf.h
++++ b/drivers/gpu/drm/i915/gvt/dmabuf.h
+@@ -57,7 +57,6 @@ struct intel_vgpu_dmabuf_obj {
+ 	__u32 dmabuf_id;
+ 	struct kref kref;
+ 	bool initref;
+-	struct list_head list;
+ };
+ 
+ int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args);
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+index 2d65800d8e93..1100c789f207 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.h
++++ b/drivers/gpu/drm/i915/gvt/gvt.h
+@@ -211,7 +211,6 @@ struct intel_vgpu {
+ 
+ 	struct dentry *debugfs;
+ 
+-	struct list_head dmabuf_obj_list_head;
+ 	struct mutex dmabuf_lock;
+ 	struct idr object_idr;
+ 	struct intel_vgpu_vblank_timer vblank_timer;
+diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/vgpu.c
+index 08ad1bd651f1..0a511cfef067 100644
+--- a/drivers/gpu/drm/i915/gvt/vgpu.c
++++ b/drivers/gpu/drm/i915/gvt/vgpu.c
+@@ -329,7 +329,6 @@ int intel_gvt_create_vgpu(struct intel_vgpu *vgpu,
+ 	vgpu->sched_ctl.weight = conf->weight;
+ 	mutex_init(&vgpu->vgpu_lock);
+ 	mutex_init(&vgpu->dmabuf_lock);
+-	INIT_LIST_HEAD(&vgpu->dmabuf_obj_list_head);
+ 	INIT_RADIX_TREE(&vgpu->page_track_tree, GFP_KERNEL);
+ 	idr_init_base(&vgpu->object_idr, 1);
+ 	intel_vgpu_init_cfg_space(vgpu, 1);
+-- 
+2.34.1
 
