@@ -1,136 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E334D6A8FD9
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 04:21:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B29D96A907B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Mar 2023 06:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCBFC10E56C;
-	Fri,  3 Mar 2023 03:21:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD13B10E5B3;
+	Fri,  3 Mar 2023 05:35:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F38AE10E10A;
- Fri,  3 Mar 2023 03:21:24 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B828910E10A;
+ Fri,  3 Mar 2023 05:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1677813685; x=1709349685;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=yGAVmQFLftsBVjoGRZ731DoB6VglmhE2iMIWUwlXq/c=;
- b=QahtiDqSUMhJqhLzk90LJLWfPJ9Z8Ff4kQIGqIYYg/Mw2HACbHhaERLQ
- bBU0GeU6ME+jhREM79bvXtghnKUOgHYFZFC/XGKJmVFbx1bpwFhV0yBiq
- SSRHgIhaeFXnZyZPAp1Tbxf08X1t2spCCu/a2Z1NP4tO/oO2KwmYIy36E
- YBHpyomdIwwpbjGyz88EpGLB6xOGhTMqHjh4D/QpPNEPoFn8BAn+rEULx
- QQ9wnL7J2GF5U2xARk8Z1Waed2kMo0m+e85ymlJL2/yHG2eZQhfmszAF8
- YkL5HSZCzhdp2RT/CE+ZU2rNJZSvGQbfinRMQCxHoEOHwPzC6o8BLHm1X Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="323236511"
-X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; d="scan'208";a="323236511"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Mar 2023 19:21:23 -0800
+ t=1677821730; x=1709357730;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=EgdYT1TPm1kL4DBDZa5e3UAX3EFNkYM2yPcv7646Xi8=;
+ b=ZDMxuV3Pf8hwIZRkLIphApLcmuYiwA/zg3gokAcfoEObpBoOmwdPiaj/
+ AyAErhpKiXGds/nBq7+Thn1pa2xxLvKf1MQWVTQXlhakA2j9dWtj5QlKa
+ sNX6MBbMhaOFq6Rgf6BoRvb+41wmsBwX/Ug4z36q7y9qfWjxY/ifimVZ7
+ DMUzLAg3hiNkAv+VFI/osUatxPqPT+Ii2xsZvAJOgxv2HfWx4tROZvjq/
+ eqOHqwdon+Ayp+FkKzizbWcxUO7+oBliigz//34h172bFosvCt4Tkgvwg
+ H2PkpzR1rrqjv0YOTypSlUOaFuA/wrApKqdXP0rupl0BT+4sgqvf9HWHb g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="318783284"
+X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; d="scan'208";a="318783284"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Mar 2023 21:35:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="799087956"
-X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; d="scan'208";a="799087956"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga004.jf.intel.com with ESMTP; 02 Mar 2023 19:21:23 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 2 Mar 2023 19:21:22 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 2 Mar 2023 19:21:22 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 2 Mar 2023 19:21:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y3obz2uAwlz3ylIxFBZvuwBnm4Q2F8E6mQfme5EWdsr8iSlLAZLModyNiqH2hVoT7x4nYrlB/EpRCTjPfjrFWwo4PJZ/ujguiH+vEPS8DbkoWN2k37UldJirh1GSZDsoqlG3WaRQ/WwUWzOJls+mtER5eu1PVKr0U878otUuGSfB01F3Ve7cespCMxkG4TK3rQpzmz31ORMNlKjtWQRf3DwdaGLTmgdQ9dB6HH2MVmvJFD++/lSLJDyJ1+vr/OOMkhu6c7TK1cN3qrVbQjRcVpHy6VonCOi6Ix+zbCBhjzjrf5Hx74qI6Cnj5AOiQaML+/QwJWBadB9nWTASvv+vsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jjva57Z52G3dXE6ON8HxfeZ2zS+FJb3IV8p00AbgBz4=;
- b=i3060JZNCG90he/42tEG4ZnS80/9nf4k2/lNCI9fM3b5q4BcPIw9kiHPlgXJw7B+I98XAsAvRaKZkslLbT9lzCPE0MBZMtKarsaTrLz41Ab8sjaQVG3cy+GU7EfMTOgGToQQMSSJB8SBLN3FieGAVLEFKimk5Y8mgcnantn9TlbAMDerPzPvHi9qNAo11XDXyBVQL/pYj6A7n1kN8JSmWF4CmMYJmWCLamFRIWTvQIUXfIfUR1zQeXpzpZJNAVwdv4wSxj2GThi6ztX59uspdoAVCxWltcOnKPt0hq6r72wFKsXzckf4Iphm4Ic86FTylO2yw4xTwn4U5cA7rE4iAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
- by MN2PR11MB4600.namprd11.prod.outlook.com (2603:10b6:208:26e::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.19; Fri, 3 Mar
- 2023 03:21:21 +0000
-Received: from MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::3bd5:710c:ebab:6158]) by MN0PR11MB6059.namprd11.prod.outlook.com
- ([fe80::3bd5:710c:ebab:6158%8]) with mapi id 15.20.6156.019; Fri, 3 Mar 2023
- 03:21:20 +0000
-Date: Thu, 2 Mar 2023 22:21:13 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v9 15/15] drm/i915: Add deadline based boost support
-Message-ID: <ZAFnqbycMleLmRe9@intel.com>
-References: <20230302235356.3148279-1-robdclark@gmail.com>
- <20230302235356.3148279-16-robdclark@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230302235356.3148279-16-robdclark@gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0176.namprd05.prod.outlook.com
- (2603:10b6:a03:339::31) To MN0PR11MB6059.namprd11.prod.outlook.com
- (2603:10b6:208:377::9)
+X-IronPort-AV: E=McAfee;i="6500,9779,10637"; a="764292581"
+X-IronPort-AV: E=Sophos;i="5.98,229,1673942400"; d="scan'208";a="764292581"
+Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.32])
+ by FMSMGA003.fm.intel.com with ESMTP; 02 Mar 2023 21:35:27 -0800
+From: Suraj Kandpal <suraj.kandpal@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 5/7] drm/i915/display: Fill in native_420 field
+Date: Fri,  3 Mar 2023 11:04:31 +0530
+Message-Id: <20230303053431.4123881-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230222053153.3658345-6-suraj.kandpal@intel.com>
+References: <20230222053153.3658345-6-suraj.kandpal@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|MN2PR11MB4600:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d18d276-ab59-4eb0-4525-08db1b965be8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ksXDrIENKngoyq1F5LykBTiuq7wxil5AQiC5UQb+/nsISOlGSKnZmCgOfeIJmGnfF2E/I30PXEAHlfjEoEwWIXJPDvTuRTpfYaYyjASCASKa7/8JqrzYtbTWQPgej2SDzBDgTzjJe/28PI2sGKNXBsEpMq6C9BNrmcqQqvS8N+NGhHcDBtKUTY9FHSFRsrDqqYz6ecwlMUgrV272rQLqNUZgEKoQaDdnealNqth6hv5is77/9fhRpMgZluqQFfkpgUNflvIiWFsHzV6ZFVKsCbAgce0sdQ9NpasgiOwulRfJ1JBYx+y4IIlpI54ntAiLyYUo0U+kkjsgqzxPgfNTpLsxLDKcqiB76zjDbnQcogAFrC4wI0XwuPxjUDscNEZV6c08B1o0sSfMlCtfnYDBi9ExKBJXsYroksQtieC8/jnfnjw0pbjZGL87aOqw/jBsOgKGwHctHYszmmxHl609udu2FUT/ene0cJEi/hxiKMMDMHUHhC2EOlX/lPTj7JEyF2JY/z7mUS48ICQgmZSwgTMdroJixV4L0I4DXnZdsOrqR3piq2wUXG3xbfw9JvSwOFZjSgGYlNKjBhYz5fwZZKeZx4gy99Mjo6EGRVEuspFKJuA0l2owfQp1UAuVVX8eivOVAziDRw4S461bOgoojA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(396003)(366004)(39860400002)(376002)(136003)(451199018)(36756003)(41300700001)(8936002)(6512007)(2616005)(54906003)(4326008)(6916009)(66556008)(8676002)(66476007)(186003)(66946007)(86362001)(2906002)(7416002)(44832011)(83380400001)(26005)(5660300002)(6506007)(478600001)(6666004)(6486002)(316002)(38100700002)(82960400001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EeryyZM4FOeVrO02bMW0NPubwNDrNWW8c8o5mTuhpYG25HQ0wEOb8POi/Fy/?=
- =?us-ascii?Q?zc3ayeBTOpTw6oH2CloAVu8QclTf/QfXtFlcntWw4oIEjE3LOQjOPY4OM/Qp?=
- =?us-ascii?Q?b8U8Cvhs2wd2lS+pWQeIdjlihQf5PMf4/1TvxmWUVkEprmxFvQw7T2T8lCJB?=
- =?us-ascii?Q?8KlrEj5OJjH2yUgEj551V524zjcIyFcuodTpg3zWwHkzc2Ye1RtP27jbVvuT?=
- =?us-ascii?Q?PRNi4Vr+KsI1qsZkxA/2K3+Bq0AiJvGfuB6bdq6R1wCch3bKBDY8EaK3We3J?=
- =?us-ascii?Q?o1mLsVuengPbyF4hG/gM6O6fl+Zm1tkEAKO+a5ZAsOLoddhK8OAlDvP5QPs3?=
- =?us-ascii?Q?Jnugvf/XMrzYdA/5K6X7/mJfJF4bRPtHP0FF8YEvr70PbvCvl0Rjfl762JCm?=
- =?us-ascii?Q?13bcZSgIw7uisbBGk2RB8HvgAVXv6Wl1LJ6GEkH6CPFfvRL5i0ZF6LonFbmU?=
- =?us-ascii?Q?x4dsssDlOQruzwVMpCc9Dn46PjOlOgtd/408Wey5osXHgx1nY3O54Ny0xiN1?=
- =?us-ascii?Q?++e5ls1ooMrlNYvSy/UGNVlnx/xbayAh8kIUZ0fePrNDLRBL1gWwTxeJ7L0X?=
- =?us-ascii?Q?aiQOLjh9jfNuApnAxELJP/Uk1qF/fMcE2of1kG+NDLvrxSQJaBY9HdCH8Lay?=
- =?us-ascii?Q?+ldsKB8Mzb+5D9rkl1+GA9Ou5bWLxUNNoS/SHPyLz74Qi4rrC/MH4OotaJRq?=
- =?us-ascii?Q?1Q8n+1QIzgoZlj6pA46IBEMimhxqdZBmdfOIx8AKz9AOsy2WA43Sft9if1iy?=
- =?us-ascii?Q?Ms4457kyuCEDtaWe4aYc4CWFgCjEvigR0VdN8gamnGMVhjHWqd0tX/8UMc1+?=
- =?us-ascii?Q?zECZoqA8VmfSq9ME5a6ioVCn8uJe4bp2z89P5km8/qIZw9YPMmyfMGNQWzFD?=
- =?us-ascii?Q?RGnV1XAr2/AdZ90y0/rYCzMfPBsZivNpRlYIP0UnVNjH/uxNTkSsJ5J2uUtK?=
- =?us-ascii?Q?lhvJ70i+6ecJTv3LOmkzGvYeQdXHiTwisjnNKQiqhy6i31Vg29cnjBNF++jG?=
- =?us-ascii?Q?eWvZxkHP+TxscRZQw4y7efNJbMzOx6p2yougbmNTO3cgHqfr8xaseBV0jIUC?=
- =?us-ascii?Q?3zU+dISOQKIhDuQrXgodhFyE6JDZ+7Bu8Y/Ppb+3XpXC54r5sTHltobi8CkT?=
- =?us-ascii?Q?jR76FaY/S1TETowYiwVX33jrJuS6fiwtSJhOxYY5CNUlTTE6HFI5MqUzjRqK?=
- =?us-ascii?Q?nsV66P2B3cUF3+c+dZ+Yr96bCQuJ3RaIJOz9CLuuU/LJ10WTMOgruWfr+3Pa?=
- =?us-ascii?Q?VaYB4OKfNakP27t8Xy7kmvYtCjN8mVAjHQmoZ6LLictXYct5DC6xZBtpOG89?=
- =?us-ascii?Q?qGaPqoA609mXSdX5jeds66z7GosbR6kp9MHwQeyyLv7BppPLDwo/DAUK+6Xy?=
- =?us-ascii?Q?slCDkJZlsigqtmZJNag4PHg9pHzVbZ2yhQaTjNC2w6pOmv2yWxNWmnlLvafO?=
- =?us-ascii?Q?4ACYva4PjjTzWntIQp8hTOORaYB86fyuLksAVrnLW+GVivuE+mm7PS7GOtYz?=
- =?us-ascii?Q?wVOI9Aclvj2iGCjO5JKALV+KLubXeaoak6epVLZYLB6hDb4A1ZzGyXV556Is?=
- =?us-ascii?Q?xMRMWZobK8/KrARdvNQDN1t40t8XawamvSE72oTQHaxBMXZtfp/IfAtVADW0?=
- =?us-ascii?Q?Og=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d18d276-ab59-4eb0-4525-08db1b965be8
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2023 03:21:20.8580 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yFqqQh0/V5ALCslhNRKGS4PDn2sNzMRGwumB/0ag778fatcMPMDmdOn9crqN/oDa4NpW7Rn6sYMPdDu4JoenYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4600
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,82 +57,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com,
+ Suraj Kandpal <suraj.kandpal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 02, 2023 at 03:53:37PM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
->
+Now that we have laid the groundwork for YUV420 Enablement
+we fill up native_420 field in vdsc_cfg and add appropriate
+checks wherever required.
 
-missing some wording here...
+---v2
+-adding native_422 field as 0 [Vandita]
+-filling in second_line_bpg_offset, second_line_offset_adj
+and nsl_bpg_offset in vds_cfg when native_420 is true
 
-> v2: rebase
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 7503dcb9043b..44491e7e214c 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
->  	return i915_request_enable_breadcrumb(to_request(fence));
->  }
->  
-> +static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> +{
-> +	struct i915_request *rq = to_request(fence);
-> +
-> +	if (i915_request_completed(rq))
-> +		return;
-> +
-> +	if (i915_request_started(rq))
-> +		return;
+---v3
+-adding display version check to solve igt issue
 
-why do we skip the boost if already started?
-don't we want to boost the freq anyway?
+--v7
+-remove is_pipe_dsc check as its always true for D14 [Jani]
 
-> +
-> +	/*
-> +	 * TODO something more clever for deadlines that are in the
-> +	 * future.  I think probably track the nearest deadline in
-> +	 * rq->timeline and set timer to trigger boost accordingly?
-> +	 */
+--v10
+-keep sink capability check [Jani]
+-move from !(x == y  || w == z) to x !=y && w != z [Jani]
 
-I'm afraid it will be very hard to find some heuristics of what's
-late enough for the boost no?
-I mean, how early to boost the freq on an upcoming deadline for the
-timer?
+--v11
+-avoid native_420 computation if not gen14 [Uma]
 
-> +
-> +	intel_rps_boost(rq);
-> +}
-> +
->  static signed long i915_fence_wait(struct dma_fence *fence,
->  				   bool interruptible,
->  				   signed long timeout)
-> @@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
->  	.signaled = i915_fence_signaled,
->  	.wait = i915_fence_wait,
->  	.release = i915_fence_release,
-> +	.set_deadline = i915_fence_set_deadline,
->  };
->  
->  static void irq_execute_cb(struct irq_work *wrk)
-> -- 
-> 2.39.1
-> 
+--v12
+-fix state mismatch issue of compressed_bpp
+
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+---
+ drivers/gpu/drm/i915/display/icl_dsi.c    |  2 -
+ drivers/gpu/drm/i915/display/intel_dp.c   | 16 +++-
+ drivers/gpu/drm/i915/display/intel_vdsc.c | 98 ++++++++++++++++++++---
+ 3 files changed, 100 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/icl_dsi.c b/drivers/gpu/drm/i915/display/icl_dsi.c
+index b5316715bb3b..fb7efab8e9e6 100644
+--- a/drivers/gpu/drm/i915/display/icl_dsi.c
++++ b/drivers/gpu/drm/i915/display/icl_dsi.c
+@@ -1539,8 +1539,6 @@ static int gen11_dsi_dsc_compute_config(struct intel_encoder *encoder,
+ 	if (crtc_state->dsc.slice_count > 1)
+ 		crtc_state->dsc.dsc_split = true;
+ 
+-	vdsc_cfg->convert_rgb = true;
+-
+ 	/* FIXME: initialize from VBT */
+ 	vdsc_cfg->rc_model_size = DSC_RC_MODEL_SIZE_CONST;
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 2649e8b8ef57..86b9348b74bb 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1467,9 +1467,10 @@ static int intel_dp_dsc_compute_params(struct intel_encoder *encoder,
+ 	vdsc_cfg->dsc_version_minor =
+ 		min(intel_dp_source_dsc_version_minor(intel_dp),
+ 		    intel_dp_sink_dsc_version_minor(intel_dp));
+-
+-	vdsc_cfg->convert_rgb = intel_dp->dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] &
+-		DP_DSC_RGB;
++	if (vdsc_cfg->convert_rgb)
++		vdsc_cfg->convert_rgb =
++			intel_dp->dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] &
++			DP_DSC_RGB;
+ 
+ 	line_buf_depth = drm_dp_dsc_sink_line_buf_depth(intel_dp->dsc_dpcd);
+ 	if (!line_buf_depth) {
+@@ -1587,6 +1588,15 @@ int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
+ 							    pipe_config->bigjoiner_pipes,
+ 							    pipe_bpp,
+ 							    timeslots);
++			/*
++			 * According to DSC 1.2a Section 4.1.1 Table 4.1 the maximum
++			 * supported PPS value can be 63.9375 and with the further
++			 * mention that bpp should be programmed double the target bpp
++			 * restricting our target bpp to be 31.9375 at max
++			 */
++			if (pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
++				dsc_max_output_bpp = min_t(u16, dsc_max_output_bpp, 31 << 4);
++
+ 			if (!dsc_max_output_bpp) {
+ 				drm_dbg_kms(&dev_priv->drm,
+ 					    "Compressed BPP not supported\n");
+diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
+index ed16f63d6355..44243fc81b46 100644
+--- a/drivers/gpu/drm/i915/display/intel_vdsc.c
++++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+@@ -460,14 +460,50 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
+ 	vdsc_cfg->pic_width = pipe_config->hw.adjusted_mode.crtc_hdisplay;
+ 	vdsc_cfg->slice_width = DIV_ROUND_UP(vdsc_cfg->pic_width,
+ 					     pipe_config->dsc.slice_count);
+-
+-	/* Gen 11 does not support YCbCr */
++	/*
++	 * According to DSC 1.2 specs if colorspace is YCbCr then convert_rgb is 0
++	 * else 1
++	 */
++	vdsc_cfg->convert_rgb = pipe_config->output_format != INTEL_OUTPUT_FORMAT_YCBCR420 &&
++				pipe_config->output_format != INTEL_OUTPUT_FORMAT_YCBCR444;
++
++	if (DISPLAY_VER(dev_priv) >= 14 &&
++	    pipe_config->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
++		vdsc_cfg->native_420 = true;
++	/* We do not support YcBCr422 as of now */
++	vdsc_cfg->native_422 = false;
+ 	vdsc_cfg->simple_422 = false;
+ 	/* Gen 11 does not support VBR */
+ 	vdsc_cfg->vbr_enable = false;
+ 
+ 	/* Gen 11 only supports integral values of bpp */
+ 	vdsc_cfg->bits_per_pixel = compressed_bpp << 4;
++
++	/*
++	 * According to DSC 1.2 specs in Section 4.1 if native_420 is set:
++	 * -We need to double the current bpp.
++	 * -second_line_bpg_offset is 12 in general and equal to 2*(slice_height-1) if slice
++	 * height < 8.
++	 * -second_line_offset_adj is 512 as shown by emperical values to yeild best chroma
++	 * preservation in second line.
++	 * -nsl_bpg_offset is calculated as second_line_offset/slice_height -1 then rounded
++	 * up to 16 fractional bits, we left shift second line offset by 11 to preserve 11
++	 * fractional bits.
++	 */
++	if (vdsc_cfg->native_420) {
++		vdsc_cfg->bits_per_pixel <<= 1;
++
++		if (vdsc_cfg->slice_height >= 8)
++			vdsc_cfg->second_line_bpg_offset = 12;
++		else
++			vdsc_cfg->second_line_bpg_offset =
++				2 * (vdsc_cfg->slice_height - 1);
++
++		vdsc_cfg->second_line_offset_adj = 512;
++		vdsc_cfg->nsl_bpg_offset = DIV_ROUND_UP(vdsc_cfg->second_line_bpg_offset << 11,
++							vdsc_cfg->slice_height - 1);
++	}
++
+ 	vdsc_cfg->bits_per_component = pipe_config->pipe_bpp / 3;
+ 
+ 	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+@@ -594,8 +630,13 @@ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
+ 		DSC_VER_MIN_SHIFT |
+ 		vdsc_cfg->bits_per_component << DSC_BPC_SHIFT |
+ 		vdsc_cfg->line_buf_depth << DSC_LINE_BUF_DEPTH_SHIFT;
+-	if (vdsc_cfg->dsc_version_minor == 2)
++	if (vdsc_cfg->dsc_version_minor == 2) {
+ 		pps_val |= DSC_ALT_ICH_SEL;
++		if (vdsc_cfg->native_420)
++			pps_val |= DSC_NATIVE_420_ENABLE;
++		if (vdsc_cfg->native_422)
++			pps_val |= DSC_NATIVE_422_ENABLE;
++	}
+ 	if (vdsc_cfg->block_pred_enable)
+ 		pps_val |= DSC_BLOCK_PREDICTION;
+ 	if (vdsc_cfg->convert_rgb)
+@@ -906,6 +947,33 @@ static void intel_dsc_pps_configure(const struct intel_crtc_state *crtc_state)
+ 				       pps_val);
+ 	}
+ 
++	if (DISPLAY_VER(dev_priv) >= 14) {
++		/* Populate PICTURE_PARAMETER_SET_17 registers */
++		pps_val = 0;
++		pps_val |= DSC_SL_BPG_OFFSET(vdsc_cfg->second_line_bpg_offset);
++		drm_dbg_kms(&dev_priv->drm, "PPS17 = 0x%08x\n", pps_val);
++		intel_de_write(dev_priv,
++			       MTL_DSC0_PICTURE_PARAMETER_SET_17(pipe),
++			       pps_val);
++		if (crtc_state->dsc.dsc_split)
++			intel_de_write(dev_priv,
++				       MTL_DSC1_PICTURE_PARAMETER_SET_17(pipe),
++				       pps_val);
++
++		/* Populate PICTURE_PARAMETER_SET_18 registers */
++		pps_val = 0;
++		pps_val |= DSC_NSL_BPG_OFFSET(vdsc_cfg->nsl_bpg_offset) |
++			   DSC_SL_OFFSET_ADJ(vdsc_cfg->second_line_offset_adj);
++		drm_dbg_kms(&dev_priv->drm, "PPS18 = 0x%08x\n", pps_val);
++		intel_de_write(dev_priv,
++			       MTL_DSC0_PICTURE_PARAMETER_SET_18(pipe),
++			       pps_val);
++		if (crtc_state->dsc.dsc_split)
++			intel_de_write(dev_priv,
++				       MTL_DSC1_PICTURE_PARAMETER_SET_18(pipe),
++				       pps_val);
++	}
++
+ 	/* Populate the RC_BUF_THRESH registers */
+ 	memset(rc_buf_thresh_dword, 0, sizeof(rc_buf_thresh_dword));
+ 	for (i = 0; i < DSC_NUM_BUF_RANGES - 1; i++) {
+@@ -1180,7 +1248,7 @@ void intel_dsc_get_config(struct intel_crtc_state *crtc_state)
+ 	enum pipe pipe = crtc->pipe;
+ 	enum intel_display_power_domain power_domain;
+ 	intel_wakeref_t wakeref;
+-	u32 dss_ctl1, dss_ctl2, val;
++	u32 dss_ctl1, dss_ctl2, pps0 = 0, pps1 = 0;
+ 
+ 	if (!intel_dsc_source_support(crtc_state))
+ 		return;
+@@ -1203,13 +1271,21 @@ void intel_dsc_get_config(struct intel_crtc_state *crtc_state)
+ 
+ 	/* FIXME: add more state readout as needed */
+ 
+-	/* PPS1 */
+-	if (!is_pipe_dsc(crtc, cpu_transcoder))
+-		val = intel_de_read(dev_priv, DSCA_PICTURE_PARAMETER_SET_1);
+-	else
+-		val = intel_de_read(dev_priv,
+-				    ICL_DSC0_PICTURE_PARAMETER_SET_1(pipe));
+-	vdsc_cfg->bits_per_pixel = val;
++	/* PPS0 & PPS1 */
++	if (!is_pipe_dsc(crtc, cpu_transcoder)) {
++		pps1 = intel_de_read(dev_priv, DSCA_PICTURE_PARAMETER_SET_1);
++	} else {
++		pps0 = intel_de_read(dev_priv,
++				     ICL_DSC0_PICTURE_PARAMETER_SET_0(pipe));
++		pps1 = intel_de_read(dev_priv,
++				     ICL_DSC0_PICTURE_PARAMETER_SET_1(pipe));
++	}
++
++	vdsc_cfg->bits_per_pixel = pps1;
++
++	if (pps0 & DSC_NATIVE_420_ENABLE)
++		vdsc_cfg->bits_per_pixel >>= 1;
++
+ 	crtc_state->dsc.compressed_bpp = vdsc_cfg->bits_per_pixel >> 4;
+ out:
+ 	intel_display_power_put(dev_priv, power_domain, wakeref);
+-- 
+2.25.1
+
