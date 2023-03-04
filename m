@@ -2,43 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF246AACE0
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 23:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55126AAD78
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 00:27:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 710C810E21D;
-	Sat,  4 Mar 2023 22:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23E7B10E169;
+	Sat,  4 Mar 2023 23:27:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA1210E21D
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Mar 2023 22:06:08 +0000 (UTC)
-Received: from workpc.. (unknown [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 5CF96660225B;
- Sat,  4 Mar 2023 22:06:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1677967567;
- bh=2eKMCTATYlFljPW4aNKFeI2xXrg1Vr8JjX3ydL1iphA=;
- h=From:To:Cc:Subject:Date:From;
- b=Mta7oilfDcpP/YPqBk+mVLhxrdHDWyRdFu4rrXqaTPyWyy+PviM+MY//n5dFkgA5l
- D8HBxiur4wjYfc7szaXnlB3DxFzlbNE78J6vj3teDaw0oke9hEKHZsDWroBTwprEFi
- UpZnKckWkdkespKstG/8C+YHt4AD68oU4w/Hg7I2AqZUkvzBJ/V5YKGag6ncWarr+0
- Cw58jG3zW6X37YSBYplutby4WmiMhfERG4/cAccYviyhVyovMd3Ix7VZZUJ65FT/+z
- Lg440TYsDe6sZfNtMiAn8uhLLA6jWAQNuJuKxfI5iLu4Hfp5hguHJtYs/1qSAfH/Zv
- U6rNa2Rd/G8rw==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
-	Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v1] drm/virtio: Fix handling CONFIG_DRM_VIRTIO_GPU_KMS option
-Date: Sun,  5 Mar 2023 01:05:10 +0300
-Message-Id: <20230304220510.964715-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C16B10E169;
+ Sat,  4 Mar 2023 23:27:22 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 324NA2m0008535; Sat, 4 Mar 2023 23:27:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=uMV/521wZ763/InQKiaTCiFoR/8aiLLMUS7d1eEihhg=;
+ b=ldzt/pgE2tEjrXJUkl4KEcfBdkL0i5aK5bIT87PNwCQ78lMnqTSwRoAZEadNlLYln/F/
+ NmtzgM15CBumsL+lDhvdEWkhwLGDi1Q3nWUw6mktImPY3pEdUIPhJkMHvO9hVo1UfB5Y
+ 1JfMpl7qhZ3u9IE2CTtmQZOGd7UWNzFt7vRHbzjWrc0zYtul+4KAH2R2TFWe+1LSH8Jm
+ Zcw1WrXHep8o3bwrUmRWfWRvyJq2X0aj/ss9zjKyIbKoaoxBui+4fGouV6VIVTmJ20e4
+ po2oc7ch7gj8YHuq4QD2IrhYQyy8RZVPBdU2sOwrTX10cP6i9GlS+QJY9Qz8PRH/GcgQ zQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p419118an-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 04 Mar 2023 23:27:19 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 324NRI5s022334
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 4 Mar 2023 23:27:18 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Sat, 4 Mar 2023 15:27:18 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH] MAINTAINERS: Update the URI for MSM DRM bugs
+Date: Sat, 4 Mar 2023 15:26:56 -0800
+Message-ID: <1677972416-7353-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: stUOeGoYkJE9b-6hlec_m711nU124Z6s
+X-Proofpoint-GUID: stUOeGoYkJE9b-6hlec_m711nU124Z6s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-04_14,2023-03-03_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=549
+ clxscore=1015 impostorscore=0 bulkscore=0 spamscore=0 phishscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303040206
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,62 +76,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- virtualization@lists.linux-foundation.org
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ dmitry.baryshkov@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VirtIO-GPU got a new config option for disabling KMS. There were two
-problems left unnoticed during review when the new option was added:
+Update the URI for MSM DRM bugs for users to be able
+to file bugs at a centralized location.
 
-1. The IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) check in the code was
-inverted, hence KMS was disabled when it should be enabled and vice versa.
-
-2. The disabled KMS crashed kernel with a NULL dereference in
-drm_kms_helper_hotplug_event(), which shall not be invoked with a
-disabled KMS.
-
-Fix the inverted config option check in the code and skip handling the
-VIRTIO_GPU_EVENT_DISPLAY sent by host when KMS is disabled in guest to fix
-the crash.
-
-Fixes: 72122c69d717 ("drm/virtio: Add option to disable KMS support")
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_kms.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 874ad6c2621a..7522fab2b709 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -45,9 +45,11 @@ static void virtio_gpu_config_changed_work_func(struct work_struct *work)
- 	if (events_read & VIRTIO_GPU_EVENT_DISPLAY) {
- 		if (vgdev->has_edid)
- 			virtio_gpu_cmd_get_edids(vgdev);
--		virtio_gpu_cmd_get_display_info(vgdev);
--		virtio_gpu_notify(vgdev);
--		drm_helper_hpd_irq_event(vgdev->ddev);
-+		if (vgdev->num_scanouts) {
-+			virtio_gpu_cmd_get_display_info(vgdev);
-+			virtio_gpu_notify(vgdev);
-+			drm_helper_hpd_irq_event(vgdev->ddev);
-+		}
- 		events_clear |= VIRTIO_GPU_EVENT_DISPLAY;
- 	}
- 	virtio_cwrite_le(vgdev->vdev, struct virtio_gpu_config,
-@@ -224,7 +226,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
- 				    VIRTIO_GPU_MAX_SCANOUTS);
- 
--	if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) || !vgdev->num_scanouts) {
-+	if (!IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) || !vgdev->num_scanouts) {
- 		DRM_INFO("KMS disabled\n");
- 		vgdev->num_scanouts = 0;
- 		vgdev->has_edid = false;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a47d963af3b8..504138e294ef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6641,6 +6641,7 @@ L:	linux-arm-msm@vger.kernel.org
+ L:	dri-devel@lists.freedesktop.org
+ L:	freedreno@lists.freedesktop.org
+ S:	Maintained
++B:	https://gitlab.freedesktop.org/drm/msm/-/issues
+ T:	git https://gitlab.freedesktop.org/drm/msm.git
+ F:	Documentation/devicetree/bindings/display/msm/
+ F:	drivers/gpu/drm/msm/
 -- 
-2.39.2
+2.7.4
 
