@@ -1,70 +1,148 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD6F6AA5ED
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 00:53:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A3C6AA618
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 01:10:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D747A10E78D;
-	Fri,  3 Mar 2023 23:53:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46C3910E78A;
+	Sat,  4 Mar 2023 00:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0E1010E78B
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Mar 2023 23:53:31 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id d30so16720121eda.4
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Mar 2023 15:53:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gnDZ9x2blH5V8YINfT6XOEOEFytwM5xt/JuAKzXCEWU=;
- b=CysvhjzJrWfpzLbmZMuln5F1LZXgBzBu4oR3PEjQqN/OQMt+Zh8GTxeYL9ZXR3QmSE
- tyHKB8gKDZRKXHxB0zBebHIXxH0FX3fNke1AHBevQacjZXOEyvedakh+rWEEdRE4HHAe
- D4Ci9kbvYC4wulP/eArIu7vNgMtZjjWcZG0OxuRi2gIxsqyFVj0ZZQobqXhgjoKFfcct
- dCLOTpYmzE01SHLQTatMXTNpuCNlej00nsQS+PVyBCgfb2manXjYDA12QXhAEfjSWtW+
- MqITV/TCHiEoJQJ3W9K4EGzf/rysfbK1CP/4eeauBSBf8P4A9s0zp9pktLwVtUGIyWIk
- +JtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gnDZ9x2blH5V8YINfT6XOEOEFytwM5xt/JuAKzXCEWU=;
- b=hRM7pUh+86q2tMeUtU/3fnUY2sfPWY6cwlkFd1HqY5GjJTW4dp43s3aCIxvSM8/X4G
- 3D9TNmAEFbqgtx6M+MdjJcaqVyYkA7EonSy7LnJ5J8k/6WZ8pg2RHUgrr6Smj6Yl1Isi
- NEu/fBquEmtvb28oLEhQjoitqSihzGodUo9t20bSqk1hl/HLed/i9hpGh/+a0kJEMRwJ
- b4uJI/sZTkydzua9jLLtnktkdROTnaK9ZyyBX7pFcz+aeeCuwjU2/wzMVV7xeZSGD9Xp
- j4SWmyJZ9HlBPrWsLnPBQvxbVMEDCzHhBjZfGSQ+Zd/L55WfrqCEGCsY6PYU5jfjPczG
- 0lZA==
-X-Gm-Message-State: AO0yUKU7D05T1QUPAFGT5/jezkDLRtx1Kbof/ih+FRYyEln8Hf1vc1K2
- 5tz2vw02GQ8jzdju/m1XKN0XNw==
-X-Google-Smtp-Source: AK7set9JmLUWJX+fB3FtuG1918iXvCOsgAoXJ70x5Nw9+h8/nbjmxtRgVk16QJDub3WUOofqGBZIpQ==
-X-Received: by 2002:a17:907:70e:b0:878:955e:b4a4 with SMTP id
- xb14-20020a170907070e00b00878955eb4a4mr4595666ejb.33.1677887610406; 
- Fri, 03 Mar 2023 15:53:30 -0800 (PST)
-Received: from [10.203.3.194] ([185.202.34.81])
- by smtp.gmail.com with ESMTPSA id
- h17-20020a17090634d100b008ee5356801dsm1463032ejb.187.2023.03.03.15.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Mar 2023 15:53:30 -0800 (PST)
-Message-ID: <b9a5778c-0eae-28c1-1806-33550345e619@linaro.org>
-Date: Sat, 4 Mar 2023 01:53:28 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6723110E78A;
+ Sat,  4 Mar 2023 00:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1677888627; x=1709424627;
+ h=message-id:date:subject:to:references:from:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=5ZQBu9IKKs8WORfuEqcy+c+sIKJLwBqop80WdQtB+aQ=;
+ b=QEKtsbnnGg1ooEGxqsipCZLpw/aYXSkV7bon6+Ct8uFdTB/B42/A9LoD
+ dyq24+6vjosg8pvHFsUTfBKup7kndV2oQtMYMTmX8gq81MO0DYwrwsH6O
+ jTiJUQ4lg803z9+gMfYeFhJ549Pa8KZ/U6FSnitX9lWHiKqIrfLbeczgZ
+ vr+oLcofb3cN/jFAgGIPe/Q7fDWV2CvTaHYtNzNiKE38GA1S7M5u4bEu+
+ DYe/nllu64aBZ8dEJlMVL58g5k9kPhAAnR1xykF5QxRUN1YV6MR4Fl7Qi
+ HpegurfvbRJkYIyczQAE9XUMdrrCIapkRWboSCfCPzYSB2Ui5faIarOfX Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="319016118"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; d="scan'208";a="319016118"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Mar 2023 16:10:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10638"; a="739689590"
+X-IronPort-AV: E=Sophos;i="5.98,232,1673942400"; d="scan'208";a="739689590"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga008.fm.intel.com with ESMTP; 03 Mar 2023 16:10:26 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 3 Mar 2023 16:10:25 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 3 Mar 2023 16:10:25 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.106)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 3 Mar 2023 16:10:25 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LPFAcnVRnf7yJB1Ny4UlZvDSNdZb8UrCQL/+gbljwnYOiLf/4P00uro8RrgziqA67/7f1EHr4AyF5EGA8rt4rox4GhM4jkYjwy+Kdv7JT64a/UGWvxHoE9bdf8IUfX23MJzpsC6QxRXG0AxedP2u0IqDh9dK3X6HfW4hpHuWJeRT/gW+QxeAlnfocwLHXvjKKQdT1so0bEyo9XHysXTSSJD5vvk2e9shos/2lqa2pVGgeDob922eSP4Ox6XhqqZr6g3stsiFqsHBunFPpIqBCSWzUm7bA0BbPoh/8h/di4rpBmntgdbYbT1lr/02Zyj58yVYOqYaCwgpyWEzST7o4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NNhJfZHi6KC6Dnyu1EmqjprgmdDfeFH717xf4HtZdxY=;
+ b=QNueoy5XDBdzRIffITy3Hxy/UOiwxfJl4a9RwYf7uj9CeB5bDvK7Oj1ibGTxkng8eakNCb/edS0veoE6T+izZ6KMyTD09G+vA5gnKbWFCkcNruKvUdjziN45NYzq8pQDKaGL3vOGatqaG26jl5k4QSVomGtdOVQdDP3DJQnLuFcB6xEN1GzuOjxXKRDcuTmC/03Tf8W1xzI4uCWLRG7Ztc06U4ZgEFuZTSZYDCbg0+HeZJNed4v4Bg+Hhdj5R7rwNKmaOF23aNs3h7mQDYfYt5OwwpZpF2QV/bZs1b6vAc6C9kACmzyToO33MNi0pDaMPG+VNcUQskErN2JK0axO3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ PH0PR11MB4920.namprd11.prod.outlook.com (2603:10b6:510:41::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6156.19; Sat, 4 Mar 2023 00:10:23 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::218f:c449:80c8:7ad9]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::218f:c449:80c8:7ad9%6]) with mapi id 15.20.6156.022; Sat, 4 Mar 2023
+ 00:10:23 +0000
+Message-ID: <32862f01-e7e8-150c-d1bb-4bd77c3410af@intel.com>
+Date: Fri, 3 Mar 2023 16:10:21 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+Subject: Re: [PATCH] drm/i915: Set wedged if enable guc communication failed
+Content-Language: en-US
+To: Zhanjun Dong <zhanjun.dong@intel.com>, <intel-gfx@lists.freedesktop.org>, 
+ <dri-devel@lists.freedesktop.org>
+References: <20230302215020.1307608-1-zhanjun.dong@intel.com>
+From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+In-Reply-To: <20230302215020.1307608-1-zhanjun.dong@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ2PR07CA0015.namprd07.prod.outlook.com
+ (2603:10b6:a03:505::28) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v9 12/15] drm/msm: Add deadline based boost support
-Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>
-References: <20230302235356.3148279-1-robdclark@gmail.com>
- <20230302235356.3148279-13-robdclark@gmail.com>
- <a5249009-0bec-61a5-4dd2-5728ee3017e3@linaro.org>
- <CAF6AEGtmQu-8LEdm68vXJJSpssXq2AShEdexqTGVW0WO5VmtDQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAF6AEGtmQu-8LEdm68vXJJSpssXq2AShEdexqTGVW0WO5VmtDQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|PH0PR11MB4920:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22876508-d519-4309-21f2-08db1c44d959
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zq9xT/1uS7P3jpHQdg8sEF/fqLhhdpFK3q6FbZDaHYqiDQXZvyTTiu0YEMCDOfeiNdME17X9fM9wwHB+XwtirOZOKSjWdJDjq0thXW/XbEZFRGH2w0DeDgcLt0rfDlemqeS5zsehqQUN7z+/n/nL0QeE1HaudqxvPmJ7mEMfVgj47s6Y4WAWhAb3G//SembGwTc9OwakP+yp/o+a5owCHg13kk5k6TAZSr4mubrAGXVb2Dmd/7cXCgJshVTIY7W3srsG8QuLR8pm2HOmCQqc6WtG6D7/XRZcRTQzb9HkZ9URrzmiFKrvHwIsjaLOHX4up2GovQ2Fidsm7G2xMUQlD8B2EuwSp5DOESL+Bi3+GLdnj33iuFg5mqCQlZjag3VFL8D7wv4ahpjBlnGBQHcbUcIw19SDBzc+fzl4EkVTBAVZbIxMUPV0xj49w8mPZrn6U/gv6CUfwPggKz9xxc/JsSd43TVvyBPrvSrjuMpGdkkP6H3Pb+sMP2gXG+KkeREMd9KKwJFJ8+KKYgxEcsQKBIB4q3418ys4sfFJXpDzkHWt/ew8InH8nS1qVJ5GM74Y7MlmEolQqYH1e2ulHZZmylSCzU23XIBsWWM1KVhvrQCP5hwfYYAK940tP19itJzoKWJjF2BvLweKT5eKHs5ziG4KpsZFULVnAIyD5HHljc+wwz51QqXDVTPhDAuapTEAZXLYEhNbqfBkqNWVVks2+sSUmfrxKIJrzFowDytdaTs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(376002)(396003)(346002)(39860400002)(366004)(136003)(451199018)(8936002)(5660300002)(8676002)(66476007)(66556008)(66946007)(450100002)(86362001)(36756003)(83380400001)(478600001)(316002)(41300700001)(6486002)(31696002)(31686004)(186003)(2906002)(82960400001)(2616005)(6512007)(6506007)(26005)(53546011)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?THQ5bTRZNEtXaXU4NDY4OTdTaE41c2hUcEd6aGdwWUtwRG5FWGVYS3llZEFz?=
+ =?utf-8?B?cHVpY052TnlrZ2NkK3JnaDJ4VDAvWDNqdEhPSUhEVGRPOFUrZ0NKOHpCaGFV?=
+ =?utf-8?B?RXQ1L050UDI3NTZ3VXJZNlY4ZStnbCtGUWp6ckJwSStmREU3MjVXWTVsSDRi?=
+ =?utf-8?B?NkxTUWIvS04zb1M3Qjc4UVNTcDBXdGgrMjhFV3dIZ3N2QXlPd0lYRDNva0do?=
+ =?utf-8?B?dVlQVm5obWc3ajVLUmt0VlppdWZKSlFhZGxNamlRSUo5dGIyQjJLSmxDRTBX?=
+ =?utf-8?B?MFcwZ1lwK0JmWWo4ZG9LUThjNlVZMjJLSCtOVjVXSWlnZGlUNEdmS0hTRUpH?=
+ =?utf-8?B?eUxybUo2dldreDVlK1Z4SUR2cDM1VHV4cURKUHNQdDhzejNVNjNxd3NPeGRy?=
+ =?utf-8?B?alFDWE5ldkxrTXMwTWZVb1hwWlo0SVdJYlBuRXlUeGhaVlA5aW5rTE1hWmMv?=
+ =?utf-8?B?c21yRU45dCs0UlhaM2x2RU5mcjJXN0xsNFlBNmlackVZSXdOaW1EdGphOU1I?=
+ =?utf-8?B?TW13cnlQdTduVFpMUUJDMmxMRFNjVVY4R2hTZkovYlYzSVJXOHhFNjB3U3NY?=
+ =?utf-8?B?RjR6NUFHRWEyQlRVb21rWEgyeFVFK1VWK1JTYjRtNXU0VnkrTTRvU09Tb3Jv?=
+ =?utf-8?B?VG9lQ2hNbjkyL0wwT2w3eEVmYkZuWmIvaTRQdVdEaUlSbmhWdmhMajRVTjcv?=
+ =?utf-8?B?dWZPckFWRUNhVXQ2SzgzWklodEhPUUJnOGErbktuRCtjWVB1eUFLSldNcFM1?=
+ =?utf-8?B?b0hoS3ZOalU2M2hiU0Rldk55MlVnU0hZQk5ZUTYrR2daTnNNZkxWNVc4OVFD?=
+ =?utf-8?B?RG8yMEZVTVN0ZDAxR1hHbnIyVjJycFUvQllSbUx0Zm1XV3RyTDdvSkxUdW9S?=
+ =?utf-8?B?K2VQVWtVTUw4S1pxQVcrQS9jR1lVNmxhS0JHTmpvMTN6dXpWclpqMEd2RGVi?=
+ =?utf-8?B?dUZIc1JWSUpIek5HNUFvT0FuQm85c3htaVZNNFpzMURYSnJhZXJ5OWhmVVVD?=
+ =?utf-8?B?OXlqRENjbjBFMUVORFJ6WC9kVG50V2hzSVVCODMrZlRtNGhRQ2RCVmVEVWdj?=
+ =?utf-8?B?dzUzcytmaHJSNktySllucUJsbFF1eVV6aEtmOGVxeFM3MVFNVlNIdnJIYUho?=
+ =?utf-8?B?ZFJPVFFvYjNvY0thU1VNVWVrcEpBOG1oR0NrR2ZpTldBWDBnYXd3UlZncFFX?=
+ =?utf-8?B?ejBXTjdRd01kdjdBd1JSNHBDK2dvWlpQSWJIZ2pwL0l2czFrZDJBSDJNNnpi?=
+ =?utf-8?B?K1BhTGNCZjhDQWtUUVlqSnVOaG5meTc2Tk9QakZnSXQ1NnZDK2hGV0g5MUpB?=
+ =?utf-8?B?eVZEdnJXalU3dkdMYk5hckZzeGVXVExTcVVBb2NyWVMzM2I0UWs2Wmo1aFNi?=
+ =?utf-8?B?Wno5eEl1cFBUQTNFYWJRRGVKMHRtaERoYmhxVW4rNk5URCs5WDRCMTBaeEwz?=
+ =?utf-8?B?MlFaSkMrbUNpbnRxaThlWjVDY204eFdsS0hRQXZsZCtlN29McHlZbk1rWUh2?=
+ =?utf-8?B?dzhFbW1IcEgzQmw3YzZBVjlBOVdPUWRmVndJS1lWRFZ0bnJQWTJkdjM5Q1Vo?=
+ =?utf-8?B?RWRPdUlKNXdPSVJPSVdwWW1vc0pTVlA0MjFreG9mRm1mZERnZ1R2SE1wVDIr?=
+ =?utf-8?B?cEJtbXdGMi9QL3NNUGE1YmM0ck9xYjd0NnhsZjhwbkdWU2gzUk41UFFKL3dE?=
+ =?utf-8?B?U2tvL0J5WHVTNWltSnFwS3pnWFpYTGw2OHNhdzRPTDNvUm53bUg2L0FndWZo?=
+ =?utf-8?B?L2djR1JGMHp5T1RuR0k3UTk1TWdndU05bU53QlYvR2h2MEkwdzVYTFd3NllW?=
+ =?utf-8?B?QnRadS83clNjbVBCejZ5NmNqT3RCaU9ocUNBM1lJcllMZk81bE5Ja2l6Qy8y?=
+ =?utf-8?B?SGUyRHZkZ3VYcXVnTi91Q0d6T0pyZFR0amdPc3JIbzVVaGg4TytxcFl0WXJn?=
+ =?utf-8?B?VE4rRnNjY3VKOHNCT28wb1hRSVlvUDBFUTBiMm1hVE8vdVVqSDdYUUZWOE96?=
+ =?utf-8?B?azlQMG5WT0JZQ1NtOFVXRFZjL3FnUmZyWWttMHVCWnpxZ0xuK1VzZjJReENI?=
+ =?utf-8?B?dHFVQU93dXd3Vmh3aXNNVWk1UGU3R2Vzbm9rZVNGZllQOFlpcy9UZ2MrU3RY?=
+ =?utf-8?B?WFE0QmpBa0dibDV2L3Y4NnNVc3U1bTlGSHlRamY1bVBkRmxxa1JzTXRqSElk?=
+ =?utf-8?Q?qO4Vdy025IJYyCaFxdP8Ues=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22876508-d519-4309-21f2-08db1c44d959
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2023 00:10:23.4782 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9HwBDhIrLFrpDwu6UoPmXP+eZV1L/Xd3eRb9ZP6M0/MrmMULWCsVPcoogFVVvZLHpaM1LNkPnM0b0IuTUyMgrs3DPZp4R0ffX0QtRYeshW0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4920
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,209 +155,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>, Pekka Paalanen <ppaalanen@gmail.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/03/2023 19:03, Rob Clark wrote:
-> On Fri, Mar 3, 2023 at 2:10 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On 03/03/2023 01:53, Rob Clark wrote:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> Track the nearest deadline on a fence timeline and set a timer to expire
->>> shortly before to trigger boost if the fence has not yet been signaled.
->>>
->>> v2: rebase
->>>
->>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>> ---
->>>    drivers/gpu/drm/msm/msm_fence.c | 74 +++++++++++++++++++++++++++++++++
->>>    drivers/gpu/drm/msm/msm_fence.h | 20 +++++++++
->>>    2 files changed, 94 insertions(+)
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>
->> A small question: do we boost to fit into the deadline or to miss the
->> deadline for as little as possible? If the former is the case, we might
->> need to adjust 3ms depending on the workload.
-> 
-> The goal is as much to run with higher clock on the next frame as it
-> is to not miss a deadline.  Ie. we don't want devfreq to come to the
-> conclusion that running at <50% clks is best due to the amount of
-> utilization caused by missing ever other vblank.
 
-Ack, thanks for the explanation.
 
-> 
-> But 3ms is mostly just "seems like a good compromise" value.  It might change.
-> 
-> BR,
-> -R
-> 
->>>
->>> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
->>> index 56641408ea74..51b461f32103 100644
->>> --- a/drivers/gpu/drm/msm/msm_fence.c
->>> +++ b/drivers/gpu/drm/msm/msm_fence.c
->>> @@ -8,6 +8,35 @@
->>>
->>>    #include "msm_drv.h"
->>>    #include "msm_fence.h"
->>> +#include "msm_gpu.h"
->>> +
->>> +static struct msm_gpu *fctx2gpu(struct msm_fence_context *fctx)
->>> +{
->>> +     struct msm_drm_private *priv = fctx->dev->dev_private;
->>> +     return priv->gpu;
->>> +}
->>> +
->>> +static enum hrtimer_restart deadline_timer(struct hrtimer *t)
->>> +{
->>> +     struct msm_fence_context *fctx = container_of(t,
->>> +                     struct msm_fence_context, deadline_timer);
->>> +
->>> +     kthread_queue_work(fctx2gpu(fctx)->worker, &fctx->deadline_work);
->>> +
->>> +     return HRTIMER_NORESTART;
->>> +}
->>> +
->>> +static void deadline_work(struct kthread_work *work)
->>> +{
->>> +     struct msm_fence_context *fctx = container_of(work,
->>> +                     struct msm_fence_context, deadline_work);
->>> +
->>> +     /* If deadline fence has already passed, nothing to do: */
->>> +     if (msm_fence_completed(fctx, fctx->next_deadline_fence))
->>> +             return;
->>> +
->>> +     msm_devfreq_boost(fctx2gpu(fctx), 2);
->>> +}
->>>
->>>
->>>    struct msm_fence_context *
->>> @@ -36,6 +65,13 @@ msm_fence_context_alloc(struct drm_device *dev, volatile uint32_t *fenceptr,
->>>        fctx->completed_fence = fctx->last_fence;
->>>        *fctx->fenceptr = fctx->last_fence;
->>>
->>> +     hrtimer_init(&fctx->deadline_timer, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
->>> +     fctx->deadline_timer.function = deadline_timer;
->>> +
->>> +     kthread_init_work(&fctx->deadline_work, deadline_work);
->>> +
->>> +     fctx->next_deadline = ktime_get();
->>> +
->>>        return fctx;
->>>    }
->>>
->>> @@ -62,6 +98,8 @@ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)
->>>        spin_lock_irqsave(&fctx->spinlock, flags);
->>>        if (fence_after(fence, fctx->completed_fence))
->>>                fctx->completed_fence = fence;
->>> +     if (msm_fence_completed(fctx, fctx->next_deadline_fence))
->>> +             hrtimer_cancel(&fctx->deadline_timer);
->>>        spin_unlock_irqrestore(&fctx->spinlock, flags);
->>>    }
->>>
->>> @@ -92,10 +130,46 @@ static bool msm_fence_signaled(struct dma_fence *fence)
->>>        return msm_fence_completed(f->fctx, f->base.seqno);
->>>    }
->>>
->>> +static void msm_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
->>> +{
->>> +     struct msm_fence *f = to_msm_fence(fence);
->>> +     struct msm_fence_context *fctx = f->fctx;
->>> +     unsigned long flags;
->>> +     ktime_t now;
->>> +
->>> +     spin_lock_irqsave(&fctx->spinlock, flags);
->>> +     now = ktime_get();
->>> +
->>> +     if (ktime_after(now, fctx->next_deadline) ||
->>> +                     ktime_before(deadline, fctx->next_deadline)) {
->>> +             fctx->next_deadline = deadline;
->>> +             fctx->next_deadline_fence =
->>> +                     max(fctx->next_deadline_fence, (uint32_t)fence->seqno);
->>> +
->>> +             /*
->>> +              * Set timer to trigger boost 3ms before deadline, or
->>> +              * if we are already less than 3ms before the deadline
->>> +              * schedule boost work immediately.
->>> +              */
->>> +             deadline = ktime_sub(deadline, ms_to_ktime(3));
->>> +
->>> +             if (ktime_after(now, deadline)) {
->>> +                     kthread_queue_work(fctx2gpu(fctx)->worker,
->>> +                                     &fctx->deadline_work);
->>> +             } else {
->>> +                     hrtimer_start(&fctx->deadline_timer, deadline,
->>> +                                     HRTIMER_MODE_ABS);
->>> +             }
->>> +     }
->>> +
->>> +     spin_unlock_irqrestore(&fctx->spinlock, flags);
->>> +}
->>> +
->>>    static const struct dma_fence_ops msm_fence_ops = {
->>>        .get_driver_name = msm_fence_get_driver_name,
->>>        .get_timeline_name = msm_fence_get_timeline_name,
->>>        .signaled = msm_fence_signaled,
->>> +     .set_deadline = msm_fence_set_deadline,
->>>    };
->>>
->>>    struct dma_fence *
->>> diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
->>> index 7f1798c54cd1..cdaebfb94f5c 100644
->>> --- a/drivers/gpu/drm/msm/msm_fence.h
->>> +++ b/drivers/gpu/drm/msm/msm_fence.h
->>> @@ -52,6 +52,26 @@ struct msm_fence_context {
->>>        volatile uint32_t *fenceptr;
->>>
->>>        spinlock_t spinlock;
->>> +
->>> +     /*
->>> +      * TODO this doesn't really deal with multiple deadlines, like
->>> +      * if userspace got multiple frames ahead.. OTOH atomic updates
->>> +      * don't queue, so maybe that is ok
->>> +      */
->>> +
->>> +     /** next_deadline: Time of next deadline */
->>> +     ktime_t next_deadline;
->>> +
->>> +     /**
->>> +      * next_deadline_fence:
->>> +      *
->>> +      * Fence value for next pending deadline.  The deadline timer is
->>> +      * canceled when this fence is signaled.
->>> +      */
->>> +     uint32_t next_deadline_fence;
->>> +
->>> +     struct hrtimer deadline_timer;
->>> +     struct kthread_work deadline_work;
->>>    };
->>>
->>>    struct msm_fence_context * msm_fence_context_alloc(struct drm_device *dev,
->>
->> --
->> With best wishes
->> Dmitry
->>
+On 3/2/2023 1:50 PM, Zhanjun Dong wrote:
+> Add err code check for enable_communication on resume path. When resume failed, we can no longer use the GPU, marking the GPU as wedged.
 
--- 
-With best wishes
-Dmitry
+This is slightly incorrect. If we fail to enable communication, the 
+consequence is that we can't use the GuC. That translates to a failure 
+to use the GT only if GuC submission is enabled; in execlists submission 
+mode we can keep going, although we might end up losing HuC 
+functionality (which is not considered a fatal error). Therefore, the 
+code below should be updated to reflect this.
+
+>
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.c | 7 ++++++-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc.c | 9 +++++++--
+>   2 files changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> index cef3d6f5c34e..42a7d75ce39e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+> @@ -401,8 +401,13 @@ int intel_gt_runtime_resume(struct intel_gt *gt)
+>   	intel_ggtt_restore_fences(gt->ggtt);
+>   
+>   	ret = intel_uc_runtime_resume(&gt->uc);
+> -	if (ret)
+> +	if (ret) {
+> +		/* Resume failed, we can no longer use the GPU, marking the GPU
+> +		 * as wedged.
+> +		 */
+> +		intel_gt_set_wedged(gt);
+
+intel_gt_set_wedged calls intel_runtime_pm_get, so it will deadlock if 
+you call if from within the runtime_resume flow.
+
+>   		return ret;
+> +	}
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> index 6648691bd645..d4f428acf20a 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> @@ -698,8 +698,13 @@ static int __uc_resume(struct intel_uc *uc, bool enable_communication)
+>   	/* Make sure we enable communication if and only if it's disabled */
+>   	GEM_BUG_ON(enable_communication == intel_guc_ct_enabled(&guc->ct));
+>   
+> -	if (enable_communication)
+> -		guc_enable_communication(guc);
+> +	if (enable_communication) {
+> +		err = guc_enable_communication(guc);
+> +		if (err) {
+> +			guc_dbg(guc, "Failed to resume, %pe", ERR_PTR(err));
+
+nit: this isn't exactly a failure to resume because the GuC is running. 
+It's more a failure to re-establish communication with the GuC.
+
+Daniele
+
+> +			return err;
+> +		}
+> +	}
+>   
+>   	/* If we are only resuming GuC communication but not reloading
+>   	 * GuC, we need to ensure the ARAT timer interrupt is enabled
 
