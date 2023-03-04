@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C180C6AACC5
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 22:45:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5127A6AACC9
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 22:53:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D94B10E20B;
-	Sat,  4 Mar 2023 21:45:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1DB10E22A;
+	Sat,  4 Mar 2023 21:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77FE710E20B
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Mar 2023 21:45:06 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id i34so23863852eda.7
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Mar 2023 13:45:06 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2EDA10E22A
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Mar 2023 21:53:14 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id i34so23903455eda.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Mar 2023 13:53:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=googlemail.com; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WKDIxvFH4F3D/Bp8+BmLpjtlutHoc8KA5An4csidBcU=;
- b=jzS3yeCClEU5ic+r6pgQ/vQwrY4Lj324IPOIkZYoWfvdmucb1ln4sYfsza2nWDWTNL
- 4mtcMhMyNlIRWv24QYhcwEtOU12QAYKj9EURBj5bcbmpQoF5570sCwvVOR+IWU30DjI/
- 7AB3YMigQcTKQX2rwSYrtfKZwOPcSK7sXlBMzB89QkV5CPJhzpYwTu0LTWwr1CPk5bfT
- 5fkm41zDUcAzcqfeaR4Sq3b9aKdO1oRkZ3f6dXusQwZ70heMW1IzC3n+O7Kpew8BPliH
- 4AQkZ6ptMn5c7dafr/RgoabPd0AAMGkJUl0j6IH8PTgxEdPCpRvcIzAKTKg/4oLKEwWd
- WXfw==
+ bh=glTmX378wFhL+15561BIoVBCccNOW4FDXoOgifMHBy8=;
+ b=EjDJ1R8FKouJnuSxadiRe5SiBIgUSITPbM9SnQjhYDyIZ+LuEOc2GfJjRvdd1K10zP
+ 0B+VLs/N+kcVjphefjob7VPueiCtPcbheJAVql624mVmTFTwLvvcp1iZwDpKctQLPUHW
+ 891sEv52O94DJnZ6KiXRE4F/ROjfjMTPMKKI+OF6yfwNHXTh46djS1YKS+5RgOvxGYeH
+ ZkMiXVI3btf5P7xmeL3czwdHnO3oxMI8+Piuk+XkuMFjbmF1+Tu4Euz0RahvlkxQA0+9
+ WfciGbFo0TezFdbslWClljVVfxIS/uCJg+p/6L25hJAymiS1NrGxJW4JFm2298dmi6Zx
+ AF8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WKDIxvFH4F3D/Bp8+BmLpjtlutHoc8KA5An4csidBcU=;
- b=sLfrNM4nm4DYFA2BwW3vabVJeRbiOwuvQ08qooTAcMlvl9yEU/7uwyflJ1347YisXa
- ADN4kZ/ITvdjgoG0VYW8K+MotW+ykjzNEjpwGmRFb3Kh0vdYduN67gx/W20Nox85ZINQ
- Fvn2X8yKocN+Wpa7kr3JwmjRQycE+Yn6VzLevuv/gAmF01X4ZuqD77gVpLbeiF2pKWx7
- sgpg8ZpKCDVlGRJ49IYq3gxl/PgvD2anpfIrFjdKqSOcP43Rh9uQjXj9gXQd2+yzPnVL
- TlhxtZQ5IUI93QfULUFF4vr9+XXyVH1Bpto8if3h+z1HraliOhMTjFgG9zGmcukxs5zM
- Evug==
-X-Gm-Message-State: AO0yUKUZ35gczvViOdp+vgqEDc1fKmZAVSy77v+81IGLTALQuoDKoJlb
- T58/xjZhvib43aEVOv8L+G2UtIuenAM3/URd2DA=
-X-Google-Smtp-Source: AK7set9wY0tIW78yGxDw99q432fpv27SQCH8++tgi5/mw5cQNNLf7m3KivFDf11whC1GeXIRw82onTzmkovP2vSJ4lI=
-X-Received: by 2002:a17:906:f18f:b0:8af:2ad8:3453 with SMTP id
- gs15-20020a170906f18f00b008af2ad83453mr5871550ejb.6.1677966304797; Sat, 04
- Mar 2023 13:45:04 -0800 (PST)
+ bh=glTmX378wFhL+15561BIoVBCccNOW4FDXoOgifMHBy8=;
+ b=JIPr4mtJivK6amReq0dvY+YSKTOynkNgcNiRDcnHgd4bqHLISe4RG6tK7SjsQ4dkix
+ +T5fm2D6CMWqdzk9oDnfTCeeIJjMSOwkyIEywzG91OIy1zXBIBLhe2apIft5b62HX3I+
+ zho+2ChpaO0WNbEeuARZqNyM/gHtvSXlT9z3ULHgs2zpsMxS8ErrqWqs6gQ7Vec/529B
+ nf4uDKsC9MUQnPnf+usuAStKwuzaAS5a0XWGMqusiNLIKpsud8sN/FGOTzZ/CzRFxvpO
+ tp/s7QUiKOQ/ZK1j/c7LRyQ9NR8bs0+6AThuPjVPrnShfksicnISdEECZn/kY+xuVL9L
+ mu0A==
+X-Gm-Message-State: AO0yUKXk4AxCWMs20eyOry4MNdSP1b5I0wGY3SsOB8KKWNCDtpmUqvYa
+ EVT68B6QwJnBVYZP+VD2Q0wcoQxCqLG4K4Nan1k=
+X-Google-Smtp-Source: AK7set+tmz2IUyxluM6H0uJ7rtHOVvVTQ1X6COH7sceQzb5b5yCqFKVzBbXboRNMEcYH9cGeInLEcv9muAb3OM5khBI=
+X-Received: by 2002:a50:ce19:0:b0:4bc:2776:5b61 with SMTP id
+ y25-20020a50ce19000000b004bc27765b61mr3356647edi.6.1677966793189; Sat, 04 Mar
+ 2023 13:53:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20230303123312.155164-1-christianshewitt@gmail.com>
-In-Reply-To: <20230303123312.155164-1-christianshewitt@gmail.com>
+References: <20230301153101.4282-1-tzimmermann@suse.de>
+ <20230301153101.4282-12-tzimmermann@suse.de>
+In-Reply-To: <20230301153101.4282-12-tzimmermann@suse.de>
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sat, 4 Mar 2023 22:44:53 +0100
-Message-ID: <CAFBinCDwGW-NaMx63t2v=Rt298MY1W13A1b1BDwHN72q7ifbZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/meson: fix 1px pink line on GXM when scaling video
- overlay
-To: Christian Hewitt <christianshewitt@gmail.com>
+Date: Sat, 4 Mar 2023 22:53:02 +0100
+Message-ID: <CAFBinCCV4yu1HszSaCJuNVMhDC35hA8cpzLMw1x=a3x+LNYrEw@mail.gmail.com>
+Subject: Re: [PATCH 11/22] drm/meson: Use GEM DMA fbdev emulation
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,36 +68,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-aspeed@lists.ozlabs.org, edmund.j.dea@intel.com,
+ alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, anitha.chrisanthus@intel.com,
+ linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com,
+ samuel@sholland.org, javierm@redhat.com, jernej.skrabec@gmail.com,
+ linux-imx@nxp.com, alain.volmat@foss.st.com, linux-sunxi@lists.linux.dev,
+ raphael.gallais-pou@foss.st.com, s.hauer@pengutronix.de,
+ laurentiu.palcu@oss.nxp.com, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ hyun.kwon@xilinx.com, tomba@kernel.org, andrew@aj.id.au, jyri.sarha@iki.fi,
+ yannick.fertre@foss.st.com, philippe.cornu@foss.st.com, kernel@pengutronix.de,
+ khilman@baylibre.com, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 3, 2023 at 1:33=E2=80=AFPM Christian Hewitt
-<christianshewitt@gmail.com> wrote:
+On Wed, Mar 1, 2023 at 4:31=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
 >
-> Playing media with a resolution smaller than the crtc size requires the
-> video overlay to be scaled for output and GXM boards display a 1px pink
-> line on the bottom of the scaled overlay. Comparing with the downstream
-> vendor driver revealed VPP_DUMMY_DATA not being set [0].
+> Use the fbdev emulation that is optimized for DMA helpers. Avoids
+> possible shadow buffering and makes the code simpler.
 >
-> Setting VPP_DUMMY_DATA prevents the 1px pink line from being seen.
->
-> [0] https://github.com/endlessm/linux-s905x/blob/master/drivers/amlogic/a=
-mports/video.c#L7869
->
-> Fixes: bbbe775ec5b5 ("drm: Add support for Amlogic Meson Graphic Controll=
-er")
-> Suggested-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-
-> ---
-> Change since v1:
-> This time I sent the right patch from the correct branch; the wording in
-> v1 is incorrect and the change to meson_registers.h is not required.
-Thanks Christian - I was about to ask whether you could isolate which
-part of the original patch fixes the issue, but you've been quicker
-:-)
