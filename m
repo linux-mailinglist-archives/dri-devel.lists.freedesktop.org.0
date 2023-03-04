@@ -2,79 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F45E6AAB02
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 16:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A91D6AAB18
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Mar 2023 17:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF51892A1;
-	Sat,  4 Mar 2023 15:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 067E710E1B9;
+	Sat,  4 Mar 2023 16:22:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFBFA10E1AB
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Mar 2023 15:55:49 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id r27so7306870lfe.10
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Mar 2023 07:55:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1677945348;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=UUfSWCmSqctfdIKxSMclQIa/UdA2xHO3GVwbTIGP+Jw=;
- b=PL4hOCXwcQwhChwJLWuT40JgbydMXX1w1Ok3GV2HcRNUnf8zEduVQ/ZjNa2m8PJtTc
- ntvKxL1jXYvoPFEflMcaOIiVGGXo+Hy2uVPCFAmW0AMcGFv58IzOkAco1KipXGQg0mqv
- h5/bRKwQxiCdTPOb45qWWQm+iKloXx+qcLDPc9PYgbdRZUBWblZalBGwXxCLsI8V6pwB
- rlgh6ZsAeHIQGkmEnM9BR/mUateJU96S6iV1/PFQ2pbG6M99Is17JFnl6WC9a/PmNqc8
- 6Wj2Xp6uCCpeU3xJajRTwbaOl3ZHTF03W2hBxVDxCtA15G4USoni4GXQa9GcUQc2crNG
- QG2g==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DD9010E1B3
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Mar 2023 16:22:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1677946944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dmotLXem4e3x/uxYnezILl2DZNq6o+kU9ZnW6R95Pzc=;
+ b=fktkH2vqk0bEsc7tKIxe76DHQIBzc9bVVRmELnjL6UjY8pzJcvqKKMetsUh9j8dZ3Yo8PU
+ XiRmy9VIwo6GS4am0iDdxipDjokqgoOXg+qu+9ZtrFbc7MZErVm5lDXUTCsKRi6yhQ86bM
+ pnNrGoAUMgnDoJgWQEvGREl0Id+MYTQ=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-84-JavRLJFyNP-QqVWa3Z1eiQ-1; Sat, 04 Mar 2023 11:22:22 -0500
+X-MC-Unique: JavRLJFyNP-QqVWa3Z1eiQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ c11-20020ac85a8b000000b003bfdd43ac76so3073857qtc.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Mar 2023 08:22:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1677945348;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UUfSWCmSqctfdIKxSMclQIa/UdA2xHO3GVwbTIGP+Jw=;
- b=oAilNInq2wrPLkh8Q84LbBWcjgO33QolCMHFXOU7dGvJ+6utlVK2qxyzmZnKwqlB9I
- lhDrQB6qSKTxlBKeDaU4yOm4jYziUmuFpKsQ4yYY/D5/PNnGyy8QRRQ180fAY1a1RWgi
- V85kUp4lM0W4UJyA7axqX9DVOAttHAy43jXX7YIpLg26TiOWD2U35rNjMpN3nqUbf7Dx
- scoFAoSgs7NN0e5r3cOHpvOJpVDMQYnrMTl0lSrTORz+h+yPV/Rbuq0o0m8muGLGLKcp
- 6dfhpod34mjX4zWg2SOvFEa6vv1PM1Z40ObB9jTZM2akszplMktmaIuuH+Y+FTWzdqMt
- S/bQ==
-X-Gm-Message-State: AO0yUKU1Np/cFTIv6o7d5mYv5NRi3Gt2GFwFzKXn7GDPUiND1pxd1WKV
- djMex41LcgOCSOJo3ViL99PkGNTma334Mek+yBI=
-X-Google-Smtp-Source: AK7set+voqdIxWURE/9hVlo/PHV3DGjojAixNk3U856OsXfzIgpki790/QTv3mY0chnqmCbFMMlI4Q==
-X-Received: by 2002:ac2:44cb:0:b0:4b5:a207:8d70 with SMTP id
- d11-20020ac244cb000000b004b5a2078d70mr1400947lfm.5.1677945347847; 
- Sat, 04 Mar 2023 07:55:47 -0800 (PST)
-Received: from [192.168.1.101] (abym99.neoplus.adsl.tpnet.pl. [83.9.32.99])
+ d=1e100.net; s=20210112; t=1677946942;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dmotLXem4e3x/uxYnezILl2DZNq6o+kU9ZnW6R95Pzc=;
+ b=XWqLZSjjj26iAwu1XANluWBEAl938iI6Fhruw5GCdW3/aE9NUDgoLWZHXTfRs4bloH
+ mKF2poZYbwC0qj0GNpEkdUIyRx8dTYvALah5VH0yk7U4R7+kYY6wJct8DiITnPmqXYmu
+ /IjiS0hRdLC9B8ShSMF2iQumoedsU+HOenZhaBgo3c42439mJAyTr2d7GU1STn6hoGUd
+ WZZCbgsc9ngZko8+WQrS971PNsDH5dJYEMYz0vivWTxP/rJYnG9p/bMW9WtEOBhLx2WX
+ 7e/2EF9TYHlRpq1LjKqFdnP95V002idZEYkh0BUMjor5d6WbUXchkbynsJQM87Z2A1Oe
+ 89yw==
+X-Gm-Message-State: AO0yUKUrIwPgltThGJtrFw0dCDWfG77oUoHqscZYL6LaTAi0EoFwGVBL
+ WoENO/uOYbXlFQRhC2o0cSuyEHuJyaizhdd1UNjVf+yfjUcV9+J0X907OBZF7+2lno2lEHrByxz
+ jLY8P1vd/ADm8iijC4VJGj43O9LBC
+X-Received: by 2002:a05:6214:f09:b0:577:5b89:577e with SMTP id
+ gw9-20020a0562140f0900b005775b89577emr10603079qvb.32.1677946942378; 
+ Sat, 04 Mar 2023 08:22:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set/JOVgua1W48N5/fE0WY936nqy/GjjBYTH7jYlDd1pCaIPB4j3tzfLMIQGDzqH29BsEliUTcQ==
+X-Received: by 2002:a05:6214:f09:b0:577:5b89:577e with SMTP id
+ gw9-20020a0562140f0900b005775b89577emr10603032qvb.32.1677946942084; 
+ Sat, 04 Mar 2023 08:22:22 -0800 (PST)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
  by smtp.gmail.com with ESMTPSA id
- n10-20020a19550a000000b004b40c2fccfdsm864128lfe.59.2023.03.04.07.55.46
+ s144-20020a374596000000b0073bb4312842sm3904539qka.128.2023.03.04.08.22.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Mar 2023 07:55:47 -0800 (PST)
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Sat, 04 Mar 2023 16:55:35 +0100
-Subject: [PATCH v3 2/2] dt-bindings: display: msm: sm6115-mdss: Fix DSI
- compatible
+ Sat, 04 Mar 2023 08:22:21 -0800 (PST)
+From: Tom Rix <trix@redhat.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, alvin.lee2@amd.com, javierm@redhat.com,
+ hamza.mahfooz@amd.com, eric.bernstein@amd.com, roman.li@amd.com,
+ wenjing.liu@amd.com, praful.swarnakar@amd.com, tzimmermann@suse.de,
+ jiapeng.chong@linux.alibaba.com, Pavle.Kotarac@amd.com,
+ hansen.dsouza@amd.com, Charlene.Liu@amd.com, Josip.Pavic@amd.com,
+ Jun.Lei@amd.com, chiahsuan.chung@amd.com
+Subject: [PATCH] drm/amd/display: change several dcn20 variables
+ storage-class-specifier to static
+Date: Sat,  4 Mar 2023 11:22:13 -0500
+Message-Id: <20230304162213.1939515-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230304-topic-dsi_fixup-v3-2-b8565944d0e6@linaro.org>
-References: <20230304-topic-dsi_fixup-v3-0-b8565944d0e6@linaro.org>
-In-Reply-To: <20230304-topic-dsi_fixup-v3-0-b8565944d0e6@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677945343; l=1143;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=+hbEivqnmBNoExWXUNGA4lvz7CNdOA406GKFbpznxOI=;
- b=ydR3fv88VhonRdoeqjo/P/BmNkD3Hjtm9lvD2paCBN6qQhef8xWMXJHwtprfDhE1Ur8n9Atfsmr4
- +zHVz7G7CvQfmi+rtosB8Q9ZQLtAr9zDvdNU9gNF2m8p+ZO16iRF
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +89,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>, freedreno@lists.freedesktop.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the DSI autodetection is bound to work correctly on 6115 now,
-switch to using the correct per-SoC + generic fallback compatible
-combo.
+smatch reports these similar problems in dcn20
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_dsc.c:53:24:
+  warning: symbol 'dcn20_dsc_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_dwb.c:304:25:
+  warning: symbol 'dcn20_dwbc_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_mmhubbub.c:300:28:
+  warning: symbol 'dcn20_mmhubbub_funcs' was not declared. Should it be static?
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn20/dcn20_mpc.c:545:24:
+  warning: symbol 'dcn20_mpc_funcs' was not declared. Should it be static?
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+All of these are only used in their definition file, so they should be static
+
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml         | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c      | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c      | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.c | 2 +-
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c      | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-index 2491cb100b33..605b1f654d78 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-@@ -40,7 +40,13 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,dsi-ctrl-6g-qcm2290
-+        oneOf:
-+          - items:
-+              - const: qcom,sm6115-dsi-ctrl
-+              - const: qcom,mdss-dsi-ctrl
-+          - description: Old binding, please don't use
-+            deprecated: true
-+            const: qcom,dsi-ctrl-6g-qcm2290
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
+index 42344aec60d6..5bd698cd6d20 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c
+@@ -50,7 +50,7 @@ static void dsc2_enable(struct display_stream_compressor *dsc, int opp_pipe);
+ static void dsc2_disable(struct display_stream_compressor *dsc);
+ static void dsc2_disconnect(struct display_stream_compressor *dsc);
  
-   "^phy@[0-9a-f]+$":
-     type: object
-
+-const struct dsc_funcs dcn20_dsc_funcs = {
++static const struct dsc_funcs dcn20_dsc_funcs = {
+ 	.dsc_get_enc_caps = dsc2_get_enc_caps,
+ 	.dsc_read_state = dsc2_read_state,
+ 	.dsc_validate_stream = dsc2_validate_stream,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c
+index f1490e97b6ce..f8667be57046 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_dwb.c
+@@ -301,7 +301,7 @@ void dwb2_set_scaler(struct dwbc *dwbc, struct dc_dwb_params *params)
+ 
+ }
+ 
+-const struct dwbc_funcs dcn20_dwbc_funcs = {
++static const struct dwbc_funcs dcn20_dwbc_funcs = {
+ 	.get_caps		= dwb2_get_caps,
+ 	.enable			= dwb2_enable,
+ 	.disable		= dwb2_disable,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.c
+index ccd91792991b..259a98e4ee2c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mmhubbub.c
+@@ -297,7 +297,7 @@ void mcifwb2_dump_frame(struct mcif_wb *mcif_wb,
+ 	dump_info->size		= dest_height * (mcif_params->luma_pitch + mcif_params->chroma_pitch);
+ }
+ 
+-const struct mcif_wb_funcs dcn20_mmhubbub_funcs = {
++static const struct mcif_wb_funcs dcn20_mmhubbub_funcs = {
+ 	.enable_mcif		= mmhubbub2_enable_mcif,
+ 	.disable_mcif		= mmhubbub2_disable_mcif,
+ 	.config_mcif_buf	= mmhubbub2_config_mcif_buf,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
+index 116f67a0b989..5da6e44f284a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_mpc.c
+@@ -542,7 +542,7 @@ static struct mpcc *mpc2_get_mpcc_for_dpp(struct mpc_tree *tree, int dpp_id)
+ 	return NULL;
+ }
+ 
+-const struct mpc_funcs dcn20_mpc_funcs = {
++static const struct mpc_funcs dcn20_mpc_funcs = {
+ 	.read_mpcc_state = mpc1_read_mpcc_state,
+ 	.insert_plane = mpc1_insert_plane,
+ 	.remove_mpcc = mpc1_remove_mpcc,
 -- 
-2.39.2
+2.27.0
 
