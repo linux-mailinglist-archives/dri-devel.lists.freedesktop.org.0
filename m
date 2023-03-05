@@ -1,42 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A925D6AB2F3
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 23:22:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 635E06AB2C9
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 23:11:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9F410E04B;
-	Sun,  5 Mar 2023 22:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E57B510E04C;
+	Sun,  5 Mar 2023 22:11:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch
- [185.70.41.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E00E10E013
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Mar 2023 21:24:44 +0000 (UTC)
-Date: Sun, 05 Mar 2023 21:24:22 +0000
-Authentication-Results: mail-41104.protonmail.ch;
- dkim=pass (2048-bit key) header.d=alshehhi.io header.i=@alshehhi.io
- header.b="EpyuNiAL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alshehhi.io;
- s=protonmail2; t=1678051477; x=1678310677;
- bh=963jAu3q+hN/mhIrEkuTDfHfmGad9Bx1Amr9B/r2pqE=;
- h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
- Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
- b=EpyuNiAL6Nn9Dbvoo8S15v1cX/km+KXIVe6VZ9/olGfbW/bT5r3NynEae/Eex3204
- M3OUtTid0dN1wGa/LqaA1oGgbX+mc/G0IKXY+elhMsGuCkPqq/YDVBXD4uCXPecWwL
- DhwT4QSISpGA26k32AHw+X/Qo0j4XnqxMzpY3U5++J8b6GY0RnfHDt2Ut2DlcA36oN
- r6Lah5KcNRomytPG90kiNOOysjkHjuM5vCRHXzqPUEHIBLVAL44yhZu4rFGiEcY1iJ
- PRUhFSoV/C07Mkw5P/30u9wruAH3Y2DXkNwboLZotvAvB2w9aSCyhUE8BFjkS0/Mg/
- 4X68HRqwAj+sQ==
-To: harry.wentland@amd.com
-From: Husain Alshehhi <husain@alshehhi.io>
-Subject: [PATCH] drivers/gpu: fix typo in comment
-Message-ID: <20230305212411.25727-1-husain@alshehhi.io>
-Feedback-ID: 31127354:user:proton
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E504410E013;
+ Sun,  5 Mar 2023 22:11:28 +0000 (UTC)
+Received: from workpc.. (unknown [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9DEDE6602097;
+ Sun,  5 Mar 2023 22:11:25 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1678054287;
+ bh=VtlMAkBh8fY9xCWhTSNCidwaxxi7vJ8HsX8hoUdvt7A=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WRPw6sZ8reGpJm+GDgk7+XNUy9kCbuV/JN9gd3zHRY0eDYVrEr7JzQaSA3j3EIKDp
+ 7WbOo1Pjlr6Cu+Wz8TU7pd2Ni0jdGcEGRxeuo/qAYxMtdgNYyVfJyAoRlc0wCnry/M
+ 5BE0IQb3zvm6R3WUQROVT06/GSWR0Yh2O+sLj58R2zkxN7vDD5I/iz8bHXBZUCknqv
+ NSGnqeK84a/9TuOPso+HBImBC55AkJ6nHuSMJB92O2M4m6ugkiW5RwdFqi/jzuV0VQ
+ c79TRjmirRP30J2y3lqwlY+w3LNBcqJU7bcJ/HhY+XM6T/kbkrzSGa1kjzoFweSp1I
+ mldqGDPJY50fw==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Herring <robh@kernel.org>
+Subject: [PATCH v12 00/11] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Date: Mon,  6 Mar 2023 01:10:00 +0300
+Message-Id: <20230305221011.1404672-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Sun, 05 Mar 2023 22:21:56 +0000
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,106 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Husain Alshehhi <husain@alshehhi.io>, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace "isntance" with "instance".
+This series:
 
-Signed-off-by: Husain Alshehhi <husain@alshehhi.io>
----
- .../gpu/drm/amd/display/dmub/inc/dmub_cmd.h    | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+  1. Adds common drm-shmem memory shrinker
+  2. Enables shrinker for VirtIO-GPU driver
+  3. Switches Panfrost driver to the common shrinker
 
-diff --git a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h b/drivers/gpu/=
-drm/amd/display/dmub/inc/dmub_cmd.h
-index 007d6bdc3e39..734b34902fa7 100644
---- a/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-+++ b/drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h
-@@ -1971,7 +1971,7 @@ struct dmub_cmd_psr_copy_settings_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2029,7 +2029,7 @@ struct dmub_cmd_psr_set_level_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2056,7 +2056,7 @@ struct dmub_rb_cmd_psr_enable_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2100,7 +2100,7 @@ struct dmub_cmd_psr_set_version_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2131,7 +2131,7 @@ struct dmub_cmd_psr_force_static_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2206,7 +2206,7 @@ struct dmub_cmd_update_dirty_rect_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2344,7 +2344,7 @@ struct dmub_cmd_update_cursor_payload0 {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2391,7 +2391,7 @@ struct dmub_cmd_psr_set_vtotal_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
-@@ -2429,7 +2429,7 @@ struct dmub_cmd_psr_set_power_opt_data {
- =09uint8_t cmd_version;
- =09/**
- =09 * Panel Instance.
--=09 * Panel isntance to identify which psr_state to use
-+=09 * Panel instance to identify which psr_state to use
- =09 * Currently the support is only for 0 or 1
- =09 */
- =09uint8_t panel_inst;
---
+Changelog:
+
+v12:- Fixed the "no previous prototype for function" warning reported by
+      kernel build bot for v11.
+
+    - Fixed the missing reservation lock reported by Intel CI for VGEM
+      driver. Other drivers using drm-shmem were affected similarly to
+      VGEM. The problem was in the dma-buf attachment code path that led
+      to drm-shmem pinning function which assumed the held reservation lock
+      by drm_gem_pin(). In the past that code path was causing trouble for
+      i915 driver and we've changed the locking scheme for the attachment
+      code path in the dma-buf core to let exporters to handle the locking
+      themselves. After a closer investigation, I realized that my assumption
+      about testing of dma-buf export code path using Panfrost driver was
+      incorrect. Now I created additional local test to exrecise the Panfrost
+      export path. I also reproduced the issue reported by the Intel CI for
+      v10. It's all fixed now by making the drm_gem_shmem_pin() to take the
+      resv lock by itself.
+
+    - Patches are based on top of drm-tip, CC'd intel-gfx CI for testing.
+
+v11:- Rebased on a recent linux-next. Added new patch as a result:
+
+        drm/shmem-helper: Export drm_gem_shmem_get_pages_sgt_locked()
+
+        It's needed by the virtio-gpu driver to swap-in/unevict shmem
+        object, previously get_pages_sgt() didn't use locking.
+
+    - Separated the "Add memory shrinker" patch into smaller parts to ease
+      the reviewing, as was requested by Thomas Zimmermann:
+
+        drm/shmem-helper: Factor out pages alloc/release from
+          drm_gem_shmem_get/put_pages()
+        drm/shmem-helper: Add pages_pin_count field
+        drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap to use pin/unpin
+        drm/shmem-helper: Factor out unpinning part from drm_gem_shmem_purge()
+
+    - Addessed the v10 review comments from Thomas Zimmermann: return errno
+      instead of bool, sort code alphabetically, rename function and etc
+      minor changes.
+
+    - Added new patch to remove the "map->is_iomem" from drm-shmem, as
+      was suggested by Thomas Zimmermann.
+
+    - Added acks and r-b's that were given to v10.
+
+v10:- Was partially applied to misc-fixes/next.
+
+      https://lore.kernel.org/dri-devel/6c16f303-81df-7ebe-85e9-51bb40a8b301@collabora.com/T/
+
+Dmitry Osipenko (11):
+  drm/shmem-helper: Switch to reservation lock
+  drm/shmem-helper: Factor out pages alloc/release from
+    drm_gem_shmem_get/put_pages()
+  drm/shmem-helper: Add pages_pin_count field
+  drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap to use pin/unpin
+  drm/shmem-helper: Factor out unpinning part from drm_gem_shmem_purge()
+  drm/shmem-helper: Add memory shrinker
+  drm/shmem-helper: Remove obsoleted is_iomem test
+  drm/shmem-helper: Export drm_gem_shmem_get_pages_sgt_locked()
+  drm/gem: Export drm_gem_pin/unpin()
+  drm/virtio: Support memory shrinking
+  drm/panfrost: Switch to generic memory shrinker
+
+ drivers/gpu/drm/drm_gem.c                     |   2 +
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 613 ++++++++++++++----
+ drivers/gpu/drm/drm_internal.h                |   2 -
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/panfrost/Makefile             |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  34 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  30 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ----
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |  18 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c          |  52 ++
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  37 ++
+ drivers/gpu/drm/virtio/virtgpu_kms.c          |   8 +
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 137 +++-
+ drivers/gpu/drm/virtio/virtgpu_plane.c        |  22 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c           |  40 ++
+ include/drm/drm_device.h                      |  10 +-
+ include/drm/drm_gem.h                         |   3 +
+ include/drm/drm_gem_shmem_helper.h            |  83 ++-
+ include/uapi/drm/virtgpu_drm.h                |  14 +
+ 23 files changed, 917 insertions(+), 369 deletions(-)
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+
+-- 
 2.39.2
-
 
