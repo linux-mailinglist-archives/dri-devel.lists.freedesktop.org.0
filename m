@@ -1,41 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20CB36AB1AA
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 19:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EE36AB182
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 18:03:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0471D10E313;
-	Sun,  5 Mar 2023 18:09:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A790C10E2FC;
+	Sun,  5 Mar 2023 17:03:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7588110E170
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Mar 2023 15:22:51 +0000 (UTC)
-Received: from submission (posteo.de [185.67.36.169]) 
- by mout01.posteo.de (Postfix) with ESMTPS id 9AFF0240053
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Mar 2023 16:22:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
- t=1678029769; bh=HraIK6gm6OETfvcUrxACKDYA3j56egB75Am4rplKIjs=;
- h=Date:From:To:Subject:From;
- b=WWsyMmC++B14sd86/xYTjUuisCEyIQ1ubwEBZws/eTgpTeQeHULGsyU5s55I3hH0d
- pSI+TpPJsqmQ5Fow9Ty/+yJqIAIFqkUWSFm/FUoAI9zU7FNWH7W+BlL8ktaHuPPonA
- v5RWnJcyB3bRKf7Ap+y06+ueNCuOsh/zE9Cly6KhLx4J9vawiQR6mPr/Q5RVjqCRiM
- mjAe8gA0/TxP6F1xz+Ky+mmScpje1vZPqiF07L96DfoBmIOUZgARRjwGMo1uej1Bye
- MX+DzbMxd/Wd4V4eCQQaGZN2GIXZ2FlVeFABCReNnabHcl8t4gf5YXWiLMEVJZGsdY
- 934hA8EA9pHPQ==
-Received: from customer (localhost [127.0.0.1])
- by submission (posteo.de) with ESMTPSA id 4PV57D6nbcz6trV
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Mar 2023 16:22:48 +0100 (CET)
-Date: Sun,  5 Mar 2023 15:22:48 +0000
-From: Patrick Boettcher <patrick.boettcher@posteo.de>
-To: dri-devel@lists.freedesktop.org
-Subject: IMX8MM: assign panel to mipi_dsi in a device tree
-Message-ID: <20230305162248.06ba45ab@yaise-pc1>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3006::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABF6F10E059
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Mar 2023 17:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202212;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Cs38wfc5mA6Ce7PjoH6p87kmK5wNacamBUAKTex6r7g=; b=qe22YpgnnF/4k5vBiP4PiZPE+v
+ Kzept7KD94dSh7ZhUebiOfCX1g9JBlvHGOMtjA1STDgm/DoMyqNIjpKiZeewCnYe1PJeMUov1Qwsy
+ 1pttcih54iFa+kBg8naVbyvgs5wiNA/c4/fnCjKhFuk9V6TkW2fcJUFefVQ12z+T8s8YUgInMCUrL
+ 4v7W3ockc7fiLUFcBWWINP3Y4PFkdqTwOzMLiufI/DxFS3VYnv7UOYLL02cMBaKQi+/Ytm1jmxiEO
+ tuadt+Jj938r4d/QmKD4l5aXZp4kGTUKb34MPVCGevoB652QBBQ2rlbbZD/iDhFPKqXzZNmroahPT
+ JgPlRMGg==;
+Received: from [2a01:799:961:2c00:5fc6:a9a5:c042:d1cd] (port=36446)
+ by smtp.domeneshop.no with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <noralf@tronnes.org>) id 1pYrlh-001823-0A;
+ Sun, 05 Mar 2023 18:03:29 +0100
+Message-ID: <aa580578-de68-736c-8568-2ff5887105a2@tronnes.org>
+Date: Sun, 5 Mar 2023 18:03:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: gud: set PATH connector property
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>, Peter Stuge <peter@stuge.se>
+References: <l85gVq-EKaN9dzH4I8FXxv-4FyPkLSh7R5SgmqwFuh-oBtzFXFfvK8VVnTdvWpKBDITXvGrnMM0VijQoUkXeWCMMaFb4GSYpaUcmXm2fvlM=@emersion.fr>
+ <20230228123134.1311.qmail@stuge.se>
+ <Rg-l1BDgSgbo04Mgca01xzLlg0MjL1P9SxE2GvPPQbOlkMLH1AtqvZ6zj6DItsDBfSIkScUbK4YIctzF57Y5Diinb99sXLqlgCCsAOEjNTc=@emersion.fr>
+ <20230228151654.6175.qmail@stuge.se>
+ <wuQMYhnV3GpWUX4DNccEvVlJspHv8B5GO_KUwDOd-Dp4Mj3yED93_ICPoPafUQuKjSgUSZYDSRenzpVmwu9ZuzK4G4NpkdYm_NtM2E83wMY=@emersion.fr>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <wuQMYhnV3GpWUX4DNccEvVlJspHv8B5GO_KUwDOd-Dp4Mj3yED93_ICPoPafUQuKjSgUSZYDSRenzpVmwu9ZuzK4G4NpkdYm_NtM2E83wMY=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Sun, 05 Mar 2023 18:09:03 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,98 +60,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: noralf@tronnes.org, DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi list,
-
-After several days of trying I realize my too small/old brain is unable
-to map around how to assign/connect a panel to the mipi_dsi-node in a
-device.
-
-We are using a 'tdo,tl070wsh30' panel connected to the
-mipi-dsi-interface of a imx8mm.
-
-Of all the references I found on the in public repositories none of
-them is using this exact panel. Well.
-
-Looking at other device trees I came up with the following dts-node add
-to the mipi_dsi-node:
-
-&mipi_dsi {
-	#address-cells = <1>;
-	#size-cells = <0>;
-	status = "okay";
-
-	port@0 {
-		reg = <0>;
-		mipi_dsi_panel0_out: endpoint {
-			remote-endpoint = <&panel0_in>;
-			attach-bridge;
-		};
-	};
-
-	panel@0 {
-		compatible = "tdo,tl070wsh30";
-		reg = <0>;
-
-		pinctrl-0 = <&pinctrl_mipi_dsi>;
-		pinctrl-names = "default";
-		reset-gpios = <&gpio4 4 GPIO_ACTIVE_LOW>;
-		enable-gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
-
-		backlight = <&panel_gpio_backlight>;
-		power-supply = <&panel_gpio_regulator>;
-
-		dsi-lanes = <4>;
-
-		video-mode = <0>; 
-
-		panel-width-mm = <157>;
-		panel-height-mm = <86>;
-
-		status = "okay";
-
-		port {
-			panel0_in: endpoint {
-				remote-endpoint =<&mipi_dsi_panel0_out>;
- 			};
-		};
-	};
-};
 
 
-You'll see that I used the attach-bridge-option, which is maybe not
-necessary. I found this during a debug-print-session in the
-drm-bridge-driver, it wasn't attaching a bridge. But maybe I don't need
-a bridge as the panel-driver contains everything to control the
-controllers of the panel. I don't really know.
+On 3/2/23 13:01, Simon Ser wrote:
+> On Tuesday, February 28th, 2023 at 16:16, Peter Stuge <peter@stuge.se> wrote:
+> 
+>> Simon Ser wrote:
+>>
+>>>>> Would it be possible to set the PATH connector property based on the
+>>>>> USB port used by gud?
+>>>>
+>>>> Sadly not really easily.
+>>>>
+>>>> The physical topology underneath each host controller is stable but
+>>>> bus numbers (usb1, usb2 etc.) are not.
+>>>
+>>> Oh, that's news to me. So if I unplug and replug a USB device, the bus
+>>> number and bus device number might change?
+>>
+>> The bus number is stable as long as the bus (host controller) exists.
+>>
+>>> Or does this happen after a power-cycle? Or is this hardware-specific?
+>>
+>> Consider a host controller on a plug-in card, like ExpressCard (usb1)
+>> and perhaps Thunderbolt (usb2) for a more modern example.
+>>
+>> The bus on each new host controller gets the next available bus number.
+>>
+>> Plug ExpressCard before Thunderbolt to get the order above. Unplug
+>> both (usb1+usb2 disappear) then plug Thunderbolt back in before
+>> ExpressCard; now Thunderbolt is usb1 and ExpressCard usb2.
+> 
+> Hm, right. With a first-come-first-served scheme, there is no way to
+> have stable identifiers.
+> 
+> I'm having a look at prior art: udev has similar needs for network
+> interface names. For USB they use [2] a scheme with
+> port/config/interface. I have no idea what meaning these have, but
+> would they be useful for building a PATH KMS property?
+> 
+> [1]: https://www.freedesktop.org/software/systemd/man/systemd.net-naming-scheme.html
+> [2]: https://github.com/systemd/systemd/blob/7a67afe33192ce4a55e6825b80554fb4ebbb4b03/src/udev/udev-builtin-net_id.c#L758
+> 
 
-However, with this I have the following messages:
+I'm no expert but that looks like a good idea, it has probably been well
+scrutinized.
 
-[    0.393985] [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@32c00000/mipi_dsi@32e10000 to encoder DSI-34: -19
-[    0.405626] imx_sec_dsim_drv 32e10000.mipi_dsi: Failed to attach bridge: 32e10000.mipi_dsi
-[    0.413974] imx_sec_dsim_drv 32e10000.mipi_dsi: failed to bind sec dsim bridge: -517
+Maybe we can do something like this, not tested:
 
-The panel driver is never instantiated.
+/* PATH=usb:[[P<domain>]s<slot>[f<function>]]u<usbpath>o<connector-index> */
+int drm_connector_set_path_property_usb(struct drm_connector *connector,
+struct usb_interface *intf)
+{
+	u8 config = intf->cur_altsetting->desc.bAlternateSetting;
+	u8 ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
+	struct usb_device *usb = interface_to_usbdev(intf);
+	struct device *dev = &intf->dev;
+	char path[255], temp[64];
 
-I'm using 5.15.51 (-imx). mipi_dsi and the panel-driver are built into
-the kernel.
+	strlcpy(path, "usb:", sizeof(path));
 
-I have to say that I'm basically trying to imitate the
-device-tree-implementation based on example rather than understanding
-the exact details of how to correctly work with mipi_dsi and the panel.
+	while (dev = dev->parent) {
+		struct pci_dev *pci;
 
-I'd appreciate any help and pointers which lead me into the right
-direction.
+		if (dev->bus != &pci_bus_type)
+			continue;
 
-Thanks in advance.
+		pci = to_pci_dev(dev);
 
---
-Patrick.
+		if (pci_domain_nr(pci->bus)) {
+			snprintf(temp, sizeof(temp), "P%u", pci_domain_nr(pci->bus));
+			strlcat(path, temp, sizeof(path));
+		}
 
+		snprintf(temp, sizeof(temp), "s%u", PCI_SLOT(pci->devfn));
+		strlcat(path, temp, sizeof(path));
 
+		if (pci->multifunction) {
+			snprintf(temp, sizeof(temp), "f%u", PCI_FUNC(pci->devfn));
+			strlcat(path, temp, sizeof(path));
+		}
 
+		break;
+	}
 
+	snprintf(temp, sizeof(temp), "u%s", usb->devpath);
+	strlcat(path, temp, sizeof(path));
 
+	if (config) {
+		snprintf(temp, sizeof(temp), "c%u", config);
+		strlcat(path, temp, sizeof(path));
+	}
 
+	if (ifnum) {
+		snprintf(temp, sizeof(temp), "i%u", ifnum);
+		strlcat(path, temp, sizeof(path));
+	}
+
+	snprintf(temp, sizeof(temp), "o%s", connector->index);
+	strlcat(path, temp, sizeof(path));
+
+	return drm_connector_set_path_property(connector, path);
+}
+
+Noralf.
