@@ -2,108 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBD36AAF00
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 11:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60606AAF1E
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 11:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3B9410E01F;
-	Sun,  5 Mar 2023 10:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F6410E037;
+	Sun,  5 Mar 2023 10:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2099.outbound.protection.outlook.com [40.107.94.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20D4110E20B;
- Sat,  4 Mar 2023 21:07:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IwMzCWwNuZaiVBVxkyyvt5G+eEhi6psBRcey8s+EzqATRSwdIDj+6eLANe04aClMhYBoTBghtXWI99Ehgie2gQbCA7qajQDKg4DpbSfqkbC8R5OAoCd9RUcVM+fS8DSQJODv0aP7uiSJQHjDVNqVhUGWTWFCoesLxdhBRYIOOXjJXSeVOlP+cNC1oVrcvKpCXZ4Qm6w1LewN/YCCoGOop1M5hDh0iQU+4zOkVp/qo3CwRDmeu5pd/lgiZCM8Gg0Y72+CTFdleeYzW4SBJ2k0KbGSLdnYjviEHlOB2x1WVZFa84cKmdW2IBdrEU3oymFoItVPgx9l7jFGHN/+hQZKjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8xp7wc2UPNF5h4UVQvNr9FWEl1Upk/fI2SAMwERvC/k=;
- b=T9o2cbRCOubcv52KVCYExv3lfVrU+rMzx2z9AcHUznOBKrirWFqmUwCm8eOr7N2npFV0P1tvym5LE8SOsG3QiUfn4PdxSQRdO/mYxo9MQD0HLU/yRTI/VEDpnKPU81BdjOV6Up9L0KiyFztZucPPF/17Hxg7Bdwm5xym2i8j1i0xWsSoarR0Qs/TWEkLrA2WVXiFamQc72nyM+TeaCzhrS5pgOGhhdYBRHhUAzua9ksPysh/El/2KtAxTKDLaWcIH0oUBurNbZxpOxXuDfZgSnuhIqghHUEL0Bwpz7CbZN24ZECGRqBzClpMYJaelX7Upqs/9lM3n6ljVfK7oxbzdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8xp7wc2UPNF5h4UVQvNr9FWEl1Upk/fI2SAMwERvC/k=;
- b=BYwYyrt7ZMuajcXh6sUlUgdZE6Z3VfWSQhhzI/pKi/oWV46mPBdzNrN/Kzeu1JEHaLt3vpQB59kRUeielk/gG1RJzijLJ7tFZKJ2lXz32M/YBi61fcszIdE112YuF8ChZ0NpqYXfuAJ0ItDAuKN4Va7A+qAcd7rJBULeAEWsD5Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by SA1PR13MB5053.namprd13.prod.outlook.com (2603:10b6:806:1aa::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.23; Sat, 4 Mar
- 2023 21:07:03 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::85f5:bdb:fb9e:294c]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::85f5:bdb:fb9e:294c%2]) with mapi id 15.20.6156.025; Sat, 4 Mar 2023
- 21:07:03 +0000
-Date: Sat, 4 Mar 2023 22:06:50 +0100
-From: Simon Horman <simon.horman@corigine.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: yamllint: Require a space after a comment '#'
-Message-ID: <ZAOy6jNd3gxBYCcS@corigine.com>
-References: <20230303214223.49451-1-robh@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230303214223.49451-1-robh@kernel.org>
-X-ClientProxiedBy: AM0PR01CA0084.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::25) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C3F10E037
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Mar 2023 10:35:20 +0000 (UTC)
+Date: Sun, 05 Mar 2023 10:35:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1678012517; x=1678271717;
+ bh=7hJ6A97it0ps/WtZC8AB7EH9QDA7ERJPWBt/OeZ5ktU=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=PjKU5GUMTlAKbSITGT8ZNGvwIVNETcdndrKcA9qVpWUCBXHqVI2fMe4ORVbQsnsIc
+ YrRjQTE4cIGpdxc3vuxNnkrfk9CD+pzz2MtlMc97TM+q2T4k1G+ItafHr0aEeowC9g
+ f9kiLNMie1d8B2gQXRvW6i3gSG1l56+uiGPxjP788/lzFptrempfqa3a8goiaoZnrH
+ Ef5NGBHChyzCgHyzMdbqyM1DQAj5T1bNMPMgvJ8SnctarblfnPKM+ggnm1iiotlinA
+ yPQaYjZmwWHKBQn0gwBqdinX3D75XbbGlziIR8+UUa+9u8pYaEOyQEgBuJCmTRP6AH
+ V6KbgqlTmUEVw==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm: fix typo in margin connector properties docs
+Message-ID: <20230305103503.42619-1-contact@emersion.fr>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|SA1PR13MB5053:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad1b7f64-5a59-4a1e-f3e0-08db1cf46686
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JU7IdMmGwhw8uvFM3cMrZ8Pba8l0SY2CJnj84em/zrUvIjMU1sO3NkvRAErfbZ6rWISKNs5oSKMcsErglh2h5Mq94XmI/5MYWTFYzllZzt7uENwwMAD8XOiBAIRcoJJpX+d94qmHZAj8vtVaj+qgIjPZGRoD0nsEvGRqlHbadIsgGiUV6+ONx+wzU+ZHqqYc57q4PGxFW+7gE2ims5ma0gdSwmpqQGoRAPsJmFICKSjh+yWA0RvC3GYzmHc6Ueu8xwEXuDqW0t+YdPOmBig9/ozp/W710eRFDKABhMmuT7ncPdObwKCItbv65Qegry+ckpRZH6IBy2ClG+zIKWII6lLy9hE3FJ64ZEJzZIiWA4fS/jjgEsNR7zQzNXqgskd9cGjslh1wy7SuTqgvc9qwQO5sG7EFtX9iP0iiyyOrydoWhZfPibPEj5mE2mJv/NILDCrLEabCrgnxM0hBh3b6vV/eQY7i3FQnnNJi3brNIQQ7TaNKNXmNTrcJjLOoHjSHKAWXKkuJtA0bkctE66jSawDStCwAE4yu9RzDg+6UzJ9BbTD/B/V6JTrwpUGxRsgu++BptLeSWOVOodYyWNxosXzBh9gTxyDlXEuqzZ6oIRSGcTqTgQqzB4HoP8ikCpe4ZGw3svuFyNal6Rffkxx3vIJ9BiFCNfzk928mWedVnhLCUodK7p8S1rIdfNQvWepE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR13MB4842.namprd13.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(366004)(39830400003)(396003)(376002)(136003)(451199018)(8936002)(7416002)(7406005)(5660300002)(4744005)(66476007)(41300700001)(66946007)(66556008)(2906002)(44832011)(8676002)(4326008)(6916009)(54906003)(316002)(478600001)(36756003)(6666004)(6506007)(6512007)(6486002)(2616005)(86362001)(83380400001)(186003)(38100700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+Bx3g8iaCaq1gYTwgTVzuxl0pZo52aXpGwKZp9UCAgJB8m7+fUP0cQlDtvvp?=
- =?us-ascii?Q?NUDnShiUkCXuYiSrKgS36+I5dMZYwcbYMrygZsy5D+LkKnKVRjwvmvJB6SxC?=
- =?us-ascii?Q?VmxXf9JGrLSa5HKpmiSGYllBbKj11vLRaJ5L1b8z6oA2O+CfPeNERfmdUzwy?=
- =?us-ascii?Q?Ydc5DM5fuR/QexYbAtsZ34NXSMJ5JGj3cHXEgAn02j1rBVYcz+J3sQvQ5v/H?=
- =?us-ascii?Q?5oV2LuLnDdYNNYGwlxz6Cgf/+uWPdEqUBd0zCg65F2WxRqcpOZODOzFh6gKy?=
- =?us-ascii?Q?VETriMFVlKGBz6ebGiygK5xujpb4zahKa/c5KfzG5zOT8ZFKL4OtaFDq4Ut1?=
- =?us-ascii?Q?7M6vmrvvDUm31WnZ7FfFkWZ0U+wrXzhKGidzktkXNjYxG1gr1PB7WhUapNZZ?=
- =?us-ascii?Q?v7gsST2WiGsV/E4N6ALiCPLAwrBhyYCf6bZc/yzKyW6Nx/uT6Rp8I7tUlhQ7?=
- =?us-ascii?Q?7uYyaCwEV9eJOhs9ocCil3Q1AI29u92Fgg7n+YnNNfRgpB2JQpsgNqcL9gWm?=
- =?us-ascii?Q?p3mSngYpmRp+PAp/6WInH1Fa6cEuUr+RVqEiz9MU50BDspw2oWbHG7kNWQId?=
- =?us-ascii?Q?TjAXtmX8edRiStjuc4fkBygPT63jNps5ncKdyhz308JlDxUE+9/3n6EHsgvT?=
- =?us-ascii?Q?+vy/Pka+WpLujr+DuWYoo6A7XsuOiRwsCOFcgzswHaFF304zalOkZ/l4Koby?=
- =?us-ascii?Q?b9XAKNHBfzQPUvKHifZYuC+eV5Cslfek0UtaW/HDh7o+8VFCBvT/9HsV3ja0?=
- =?us-ascii?Q?zLWIRebzcnsRTGKFfFSgMY1GdVFxS0jvMNfl6hJRQ2npdxK4twPsbATKXBR9?=
- =?us-ascii?Q?EZn4ZuW0m1/JuGhHa1DPB6jRDshA9o5AHNKYVjzWTn3VA2Zf1bp3UZo9q9cT?=
- =?us-ascii?Q?iiTkHrSHyXWS/yVyPkxw0wyII1IrFT5uP5cX8B2KomXNda5Ol6b18C3puxmE?=
- =?us-ascii?Q?4aX1V8BoQGn47Tf0t6GnXYgHobxs16WWxxQca4FJDTvTh0agT1HDpBq/2c0O?=
- =?us-ascii?Q?VpDDGEnbNjnz5NRxucsYOIiBdjF5g/kQVp6bcGlg7PDNL8TCTh4GO8UwWezM?=
- =?us-ascii?Q?LpDUFhSu3j+B9FnggcJ+8mugYLDuwwkrMfddrbeZ7Q8NzasnxxEcS+ObOJox?=
- =?us-ascii?Q?VMxN6HVc3wSY83JaGioUdjmj0zrvFp24E6HQ42a/o1B5h8i16raoNvg1ys72?=
- =?us-ascii?Q?D6satm5ABat3Y8LnUuAGYEQFrKe4IwtLTOPPitYfbaIn9PVm4PD58cR2KV0P?=
- =?us-ascii?Q?ViMsJyRhDFNaI3SHg85O62pKX4KEfume/hFyiKdsGgH/0Yy2oCYVbWgr3qm4?=
- =?us-ascii?Q?uO68/IG8BLNpS3Ov4LgKl8n2852CunOYi2RHjhG+R+kfrZ99DMA++5lWl2mT?=
- =?us-ascii?Q?B2SJHZnSjcEKpZBiqaZtwxFcjwWFgwTyZHS6Lp28nRoh/E3PGU9nbSSyyNg3?=
- =?us-ascii?Q?DmuEXXx89tnpdQkowL+tzXT6oy2dZqHuXXIy7QE3OqM8g6HcsqYNroi7DWFy?=
- =?us-ascii?Q?xSVyeebOxfRvcR5wB6pu0V7eDM/VoTlzZnKvpCdf0fU3fr4SagBcJb6Wu1FK?=
- =?us-ascii?Q?/rbHYS/VejDG5uGbH4ElmUnW9gGp+5ws7XDM8msRZM+GpSy2rSe8XJ9ldk5Q?=
- =?us-ascii?Q?ylHQB5cEhzU8eUdultiUyHEon8JHj9uBi3Wm2BIA6RZU25UnrV51xs1CmgTD?=
- =?us-ascii?Q?vFh+og=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad1b7f64-5a59-4a1e-f3e0-08db1cf46686
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2023 21:07:02.6690 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YT9kAw83Nw+cGzz7lxlz7Ou9GJIp/WAGH9u/vjlxl9chK4/3ygGPEsiyFlysDEN3h9ARq2q8VAeI1Pmnx0XqgM0yAefg8g2KUppks4q1RRM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR13MB5053
-X-Mailman-Approved-At: Sun, 05 Mar 2023 10:21:49 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,39 +44,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-phy@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-clk@vger.kernel.org, Kishon Vijay Abraham I <kishon@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Marc Zyngier <maz@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
- linux-spi@vger.kernel.org, linux-crypto@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 03, 2023 at 03:42:23PM -0600, Rob Herring wrote:
-> Enable yamllint to check the prefered commenting style of requiring a
+This was pointed out by Ville and Pekka in their replies, but
+forgot to apply the change properly before pushing. Sorry for
+the noise!
 
-fwiiw: prefered -> preferred
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Fixes: 409f07d353b3 ("drm: document connector margin properties")
+Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+ drivers/gpu/drm/drm_connector.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> space after a comment character '#'. Fix the cases in the tree which
-> have a warning with this enabled. Most cases just need a space after the
-> '#'. A couple of cases with comments which were not intended to be
-> comments are revealed. Those were in ti,sa2ul.yaml, ti,cal.yaml, and
-> brcm,bcmgenet.yaml.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connecto=
+r.c
+index 4b12c7a39ee3..48df7a5ea503 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1452,7 +1452,7 @@ static const struct drm_prop_enum_list dp_colorspaces=
+[] =3D {
+  *
+  * left margin, right margin, top margin, bottom margin:
+  *=09Add margins to the connector's viewport. This is typically used to
+- *=09mitigate underscan on TVs.
++ *=09mitigate overscan on TVs.
+  *
+  *=09The value is the size in pixels of the black border which will be
+  *=09added. The attached CRTC's content will be scaled to fill the whole
+--=20
+2.39.2
 
-...
+
