@@ -2,51 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C426AAD8E
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 00:53:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164056AAE4A
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 06:22:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104AA10E191;
-	Sat,  4 Mar 2023 23:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92AC710E047;
+	Sun,  5 Mar 2023 05:22:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 316 seconds by postgrey-1.36 at gabe;
- Sat, 04 Mar 2023 23:53:28 UTC
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com
- [216.40.44.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F8710E191;
- Sat,  4 Mar 2023 23:53:27 +0000 (UTC)
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay08.hostedemail.com (Postfix) with ESMTP id 4120D140557;
- Sat,  4 Mar 2023 23:48:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf13.hostedemail.com (Postfix) with ESMTPA id 417882000E; 
- Sat,  4 Mar 2023 23:48:06 +0000 (UTC)
-Message-ID: <ed3f46b20241a87f666a92441383e7fa55d9eadb.camel@perches.com>
-Subject: Re: [PATCH] drm/amd/display: Simplify same effect if/else blocks
-From: Joe Perches <joe@perches.com>
-To: Harry Wentland <harry.wentland@amd.com>, Deepak R Varma <drv@mailo.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Aurabindo Pillai <aurabindo.pillai@amd.com>
-Date: Sat, 04 Mar 2023 15:48:05 -0800
-In-Reply-To: <4d670a5c-b680-ba76-a640-88b3d945c0b0@amd.com>
-References: <Y8POxreeC3EvOXhC@ubun2204.myguest.virtualbox.org>
- <33ecbe8971bb9c90d72c67d43ca740abac160908.camel@perches.com>
- <Y82GHzOUHgEqTUq7@ubun2204.myguest.virtualbox.org>
- <Y/+z22xM7NNjX8VP@ubun2204.myguest.virtualbox.org>
- <f15b10a8-11f6-6c1f-c94e-71796aad9155@amd.com>
- <4d670a5c-b680-ba76-a640-88b3d945c0b0@amd.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEF510E047;
+ Sun,  5 Mar 2023 05:22:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id DC629B80924;
+ Sun,  5 Mar 2023 05:21:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7FF3C433D2;
+ Sun,  5 Mar 2023 05:21:55 +0000 (UTC)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>
+Subject: [PATCH] drm/amdgpu: Use uncached ioremap() for LoongArch
+Date: Sun,  5 Mar 2023 13:21:37 +0800
+Message-Id: <20230305052137.4030323-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 417882000E
-X-Spam-Status: No, score=-0.10
-X-Stat-Signature: q9xfrsjk38n5piktq6d4q37fccga1to1
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18QlYeO1+taMT/MFXb64RqiCoEVZ1/Sb8w=
-X-HE-Tag: 1677973686-276631
-X-HE-Meta: U2FsdGVkX19goUa4EftjyOuJipou1Ylsf6Z1FKTHQoXQEUdS0fJr4OAt8Vl+Sv2/VewZqmxFwEAnAlwEjOMI+A==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,21 +42,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Saurabh Singh Sengar <ssengar@microsoft.com>, Leo Li <sunpeng.li@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- dri-devel@lists.freedesktop.org,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Xuefeng Li <lixuefeng@loongson.cn>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Huacai Chen <chenhuacai@loongson.cn>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2023-03-03 at 15:35 -0500, Harry Wentland wrote:
-> Actually I was wrong. Too many similar-looking snippets in this
-> function made me look at the wrong thing. This change is fine and
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com.
+LoongArch maintains cache coherency in hardware, but its WUC attribute
+(Weak-ordered UnCached, which is similar to WC) is out of the scope of
+cache coherency machanism. This means WUC can only used for write-only
+memory regions. So use uncached ioremap() for LoongArch in the amdgpu
+driver.
 
-So why was the change made in the first place?
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Please explain commit 9114b55fabae.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index c5ef7f7bdc15..c6888a58819a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -1750,8 +1750,13 @@ int amdgpu_ttm_init(struct amdgpu_device *adev)
+ 
+ 	else
+ #endif
++#ifdef CONFIG_LOONGARCH
++		adev->mman.aper_base_kaddr = ioremap(adev->gmc.aper_base,
++				adev->gmc.visible_vram_size);
++#else
+ 		adev->mman.aper_base_kaddr = ioremap_wc(adev->gmc.aper_base,
+ 				adev->gmc.visible_vram_size);
++#endif
+ #endif
+ 
+ 	/*
+-- 
+2.39.1
 
