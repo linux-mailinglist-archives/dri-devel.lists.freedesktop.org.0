@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD6A6AB2D2
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 23:11:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B06A16AB2D5
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Mar 2023 23:12:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D87E810E06B;
-	Sun,  5 Mar 2023 22:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94C0010E077;
+	Sun,  5 Mar 2023 22:11:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8257910E062;
- Sun,  5 Mar 2023 22:11:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1D710E058;
+ Sun,  5 Mar 2023 22:11:37 +0000 (UTC)
 Received: from workpc.. (unknown [109.252.117.89])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id BDB686602154;
- Sun,  5 Mar 2023 22:11:32 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 884846602124;
+ Sun,  5 Mar 2023 22:11:34 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678054294;
- bh=A9/W4octTMJpwdtQTQZ+kGQ8wjAhQ4OpeboOYQ6R2gM=;
+ s=mail; t=1678054296;
+ bh=nRvK+a4SrZSQE5m68XGecVS9BQJoEYCbvEQ/J739IdU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e9QH2DffeTGtg8nm6Stilf2msOQvAGXnBffuvVUWNnA2oR9e19ep9ixRFotz9eUPA
- kG7IRt7QNkUXQlKA9ZuNRqc0QjwrwaDkMEoxLdvGdhsxrVyqPh34sEDUbOoUw0oA0M
- nmfWi5b18hAxiOpDE2se7JxgCixXNUsrFS9NGawtCmqcKjiD+ZuJPabNBiq+UlDTkT
- JN88dGvpyDNYsqNlcF6WQU1a7gIHTcD3/AUZ6fA6vNQFSVjDX/vHQYuMRIsqiAlGCi
- JmxAlIIAl3PaJKfe69Khhl+YG+YApEBUjxTiePBLGSKKgEo9bk7Vm4Y/z//AMaBRHQ
- xPOyAuJkPF4VQ==
+ b=QZKKD6tjNIjoQBJPoz/Mywwb8SiVxH2RMq54Nbm6NXATC75BBYGgujvCfUu6z/MKT
+ SXyVS+pRFpnnyeM2tDKERzFO3PMXo3FNe2rs2XJgjmGdWZteocXzz7OGYvDNS/YN8M
+ pYIlYWvA2igTowYxFEK1CFErakuG+p7ymFXaOvACrEBins61OEX+7GTY0TsRdS5lfV
+ WVpUs5buBrZVGgH7mt8hsuYl7SGm3Vp4BWArzOm6WhlOdkwfYLg9c6+prwnE6sDzI6
+ eslwhKat4uJEZUaaTJ1bYnYAhqA6xr+eKbp8zDwbMC/XjTUf6qAInxzjzae0B+ssrF
+ rZvYiYECZ1HTQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -44,10 +44,10 @@ To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Rob Herring <robh@kernel.org>
-Subject: [PATCH v12 04/11] drm/shmem-helper: Switch drm_gem_shmem_vmap/vunmap
- to use pin/unpin
-Date: Mon,  6 Mar 2023 01:10:04 +0300
-Message-Id: <20230305221011.1404672-5-dmitry.osipenko@collabora.com>
+Subject: [PATCH v12 05/11] drm/shmem-helper: Factor out unpinning part from
+ drm_gem_shmem_purge()
+Date: Mon,  6 Mar 2023 01:10:05 +0300
+Message-Id: <20230305221011.1404672-6-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230305221011.1404672-1-dmitry.osipenko@collabora.com>
 References: <20230305221011.1404672-1-dmitry.osipenko@collabora.com>
@@ -71,49 +71,65 @@ Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vmapped pages shall be pinned in memory. Previously get/put pages were
-implicitly pinning/unpinning the pages. This will no longer be the case
-with addition of memory shrinker because pages_use_count>0 won't determine
-whether pages are pinned anymore, while the new pages_pin_count will do
-that. Switch the vmap/vunmap to use pin/unpin functions in a preparation
-of addition of the memory shrinker support.
+Factor out pages unpinning code from drm_gem_shmem_purge() into new
+drm_gem_shmem_unpin_pages(). This prepares code for addition of memory
+shrinker support. The new common function will be used by shrinker for
+eviction of shmem pages.
 
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 0c3abb0c2ea2..e2324e857847 100644
+index e2324e857847..474918383b3e 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -380,7 +380,7 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
- 			return 0;
- 		}
+@@ -486,25 +486,29 @@ int drm_gem_shmem_madvise(struct drm_gem_shmem_object *shmem, int madv)
+ }
+ EXPORT_SYMBOL(drm_gem_shmem_madvise);
  
--		ret = drm_gem_shmem_get_pages(shmem);
-+		ret = drm_gem_shmem_pin_locked(shmem);
- 		if (ret)
- 			goto err_zero_use;
+-void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
++static void drm_gem_shmem_unpin_pages(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	struct drm_device *dev = obj->dev;
  
-@@ -403,7 +403,7 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
+ 	dma_resv_assert_held(shmem->base.resv);
  
- err_put_pages:
- 	if (!obj->import_attach)
--		drm_gem_shmem_put_pages(shmem);
-+		drm_gem_shmem_unpin_locked(shmem);
- err_zero_use:
- 	shmem->vmap_use_count = 0;
+-	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
+-
+ 	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
++	drm_gem_shmem_release_pages(shmem);
++	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
++
+ 	sg_free_table(shmem->sgt);
+ 	kfree(shmem->sgt);
+ 	shmem->sgt = NULL;
++}
  
-@@ -440,7 +440,7 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
- 			return;
+-	drm_gem_shmem_put_pages(shmem);
++void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
++{
++	struct drm_gem_object *obj = &shmem->base;
  
- 		vunmap(shmem->vaddr);
--		drm_gem_shmem_put_pages(shmem);
-+		drm_gem_shmem_unpin_locked(shmem);
- 	}
+-	shmem->madv = -1;
++	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
  
- 	shmem->vaddr = NULL;
+-	drm_vma_node_unmap(&obj->vma_node, dev->anon_inode->i_mapping);
++	drm_gem_shmem_unpin_pages(shmem);
+ 	drm_gem_free_mmap_offset(obj);
+ 
+ 	/* Our goal here is to return as much of the memory as
+@@ -515,6 +519,8 @@ void drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
+ 	shmem_truncate_range(file_inode(obj->filp), 0, (loff_t)-1);
+ 
+ 	invalidate_mapping_pages(file_inode(obj->filp)->i_mapping, 0, (loff_t)-1);
++
++	shmem->madv = -1;
+ }
+ EXPORT_SYMBOL(drm_gem_shmem_purge);
+ 
 -- 
 2.39.2
 
