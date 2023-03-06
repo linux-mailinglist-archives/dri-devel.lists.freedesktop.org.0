@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524D26ABD4F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 11:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8CB56ABD51
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 11:50:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8F2810E227;
-	Mon,  6 Mar 2023 10:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7809910E228;
+	Mon,  6 Mar 2023 10:50:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3541A10E226
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 10:49:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 897D510E226
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 10:49:58 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailout.nyi.internal (Postfix) with ESMTP id 8D45E5C0085;
- Mon,  6 Mar 2023 05:49:55 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id E2F365C01D1;
+ Mon,  6 Mar 2023 05:49:57 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 06 Mar 2023 05:49:55 -0500
+ by compute6.internal (MEProxy); Mon, 06 Mar 2023 05:49:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1678099795; x=1678186195; bh=U6WvYvGj+f6Jr+yF0TNYNLkePrZ5UiOb/5y
- LjPbLweU=; b=RhbmysweGmGMNXTZBJzGnra6qF60EdYNzt5UVON246FMWUbGd/B
- KP00jCpnjN+q/1azw8pPOoJoCmYlRyN10kQ+2vhFCByWyiH0rEXGrQFcecARj43I
- V+ycRC0irRR6cKl7Z3bMY81iOhMF6LU2wrmsKBUXQkesD4kWyyVABxpieWL6s1hQ
- P93TL3GuvT1COeYWs1Nv0pl2x9FOC+eJ0+rg9aS7h/qGVMWc08yfIamIWXDT0pR/
- 37ULKJc4+vFYZ/i4KrieJVvD7y6vLLR4t6OcAkHW2IPW7e3hbL+AYbrXnV4IUSD7
- 7Ywe353GUsXhrpaBkrQSGV97BPFXJVq6fiA==
+ 1678099797; x=1678186197; bh=3LgWprbX5kA5Va6btukRYvTCS0RBMIhdHYR
+ 4XuAfLz0=; b=afEgjWaZ9jP611VXN/fYX6bLaJqszML5NEiQnCn4MSVmsxLB6pc
+ dM4u8YHKHV918ptc41kqgx5QyEdNIxMNVf8nXaricQaOQxYUzmns8y+NnP9XlnhT
+ qxqHF5rFz7Ck8bP43Mvw3pbg8IW3K4xTPmgZJfgGY5vXx0eEkhEB4K36GqlxeF5P
+ OIMsG8p0ZP66eWwKsb3VntJOLyqL15ndsjV2/3n9eUORpm13oWX+O6h1UFSYYGii
+ Hsppjp0+Qdp7hbUPDhSyxoaCdRd+tb44LJv9P7HvStRWPd3Rb4ZPq1V3JMAst4EG
+ xPyOFnVlmzu0pRsHHeczENYn0P37T6YGJSw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1678099795; x=1678186195; bh=U6WvYvGj+f6Jr+yF0TNYNLkePrZ5UiOb/5y
- LjPbLweU=; b=Ev3X+XmUJ47svJjjlhjRy8i8oRZjlbgFMwZdphwADQ3e0f9hazO
- /n7e1O11A47ubz1KQzI7ITLNkY21HS01iVsANgKhHmIyOZ+81fNk2nZfD1IpGJk6
- w96nTsVKDl/Qo1yhH+gkHOUy2IHRvFGUI5JA1qQcEhOtp+syx0hnG2UBoKoL5U9m
- qg89ywrhLxEScMJTiuM5W4cibIk8LyG5Kr1fOhUhbf9gcFqnZUrwXLWFxf40oIz8
- w6odSny8DikIE0Q6/TThbQPEf3rR62C7tlp3E6ooGFKjEiYn2H23g9x5V9hn5JSI
- L8mluXB4a/jbNMrdXSC6B/ChR6h5J/Ra8JA==
-X-ME-Sender: <xms:U8UFZBTJlmCP1a-rA4TREYPwY3bGdN_SaT7WWasEgu-Wa_lurvyFeA>
- <xme:U8UFZKyxQZc6NSSwa_lFsuiY2XI8Qml0BUyBqI2CX8eNRJdsi8DOA8FFlq3drhBoD
- Gl80WpkC-F7eDgYVqU>
-X-ME-Received: <xmr:U8UFZG2GiVbbceOluh4HEpRkLiszdHRQij6ecAjje-M13jWb3r5uFeNFD7oE304zzmx6cBEWFQNAEizyNRdcC8rEmWeNTlc>
+ 1678099797; x=1678186197; bh=3LgWprbX5kA5Va6btukRYvTCS0RBMIhdHYR
+ 4XuAfLz0=; b=DDy9neEkmfzCQ7YhCL0ka9SaAdNkguHqmXmUUVHwDAwttD12KRs
+ KalbVrB4ZbohDmAMHSximmXFhDggODlbO+Kdvit1y1PlohTbYdPm3N+UE7otrtHx
+ tlZAa3YwrlYTCkH4FEC8tIfy0obkKLF5h0Y3HGcazyNTglnmiuxYTNdMbnqC9yQu
+ GMRTY2JzC4rOgpwzlVONrpYW3VNn4cM4HmqP7/FLiaFkRiLyHBTK/Nt9nPYfRhFD
+ IxZvpg9+O5zq0F132tYKQbs7uEvpAv8xD1s60/50hjcoRCO4zziTYgvUu4RQtzE0
+ UyzXnVgewwZAuQi3r8aMOnzRqJNmIuqDc1g==
+X-ME-Sender: <xms:VcUFZCqJGJFkjy6xCD0z2GPWCOqI6vctcmvecpz2Qv7YH1vnNIA-7g>
+ <xme:VcUFZAo_XPmCYlzJ_qya83iYaMXUFAAdKYI6UIGW2dBO6A0v33vBzMd9n41kycrNv
+ jI6KjS3z8rDkmsl2yQ>
+X-ME-Received: <xmr:VcUFZHMrgs3KoKRAPQZKs3ugwooLujsmUt003pqa2kxzD9O6cxTEirFSiXGh1m6n-E3llVomoUdUv6xy5IWUp50-EFsXdJk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtiedgvddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,31 +54,30 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddtiedgvddtucetufdoteggod
  grthhtvghrnhepvedvleeijeegvdekffehkeehieelhfeggfffheetkeeuledvtdeuffeh
  teeltdffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:U8UFZJCWsx5iE256JGw_uWFFsv3zpFXXCqDn_cK6v2DoAuhAFiH-GA>
- <xmx:U8UFZKg_wFQ6AdjB5rlH1t6M86Jiz9EKUX7yRYVyDqh9Rqfss5PCnQ>
- <xmx:U8UFZNqm0q5-w4Oz4dtmVCUwFliKADzyzXZ_iSCTDmJHbzNkQHkdkA>
- <xmx:U8UFZDZGWP9DIriMNAYW3PFtJ3Tiwmtq8xxZywdPpSv5OItxhtoqgQ>
+X-ME-Proxy: <xmx:VcUFZB4-XYDbJ2nAbi43JsHz7SsBpBoLSgPtY_naI1DWpptAc4GXHw>
+ <xmx:VcUFZB4rbvG9tkr2amFIz258Fl5dF1H06DfKZwo5fdH4YoiZPDf_xw>
+ <xmx:VcUFZBjsMwsgDDeD8Tg7hrbMAKFuvTzTJyyTY4lue13x4qrYIGvs_w>
+ <xmx:VcUFZOxjuQ4-5VmDnJYkXJ3OJJD6pVTOVMev3xVmrPh559nDwu7M4Q>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Mar 2023 05:49:54 -0500 (EST)
+ 6 Mar 2023 05:49:57 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-Date: Mon, 06 Mar 2023 11:46:48 +0100
-Subject: [PATCH v3 7/9] drm/vc4: hdmi: Add a function to retrieve the CSC
- matrix
+Date: Mon, 06 Mar 2023 11:46:49 +0100
+Subject: [PATCH v3 8/9] drm/vc4: hdmi: Add BT.601 Support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20221207-rpi-hdmi-improvements-v3-7-bdd54f66884e@cerno.tech>
+Message-Id: <20221207-rpi-hdmi-improvements-v3-8-bdd54f66884e@cerno.tech>
 References: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
 In-Reply-To: <20221207-rpi-hdmi-improvements-v3-0-bdd54f66884e@cerno.tech>
 To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>, 
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2847; i=maxime@cerno.tech;
- h=from:subject:message-id; bh=07Z626J9apTaH2nWy8eyHugnVc3F1Vi8gC2KI7yAn9Q=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCmsR2Z0JMw4P9OFdZ/4VrlOWffKhU/eyVrKlqZUVZv3HmP9
- YrSio5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABOJYGBk+Gsktsj3+gy2Wx4vdOb5SB
- WrXWF7fJX71Kq1CbKrBbbLczP8rzK7V/lgUnGleO6kKbdvad+f6ZYlfOq40PmLv1c2Rt9p5wIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2186; i=maxime@cerno.tech;
+ h=from:subject:message-id; bh=ycrDK940BO7WIBUGy7jz8rSeJQgc2LgRhkJYTmg16KI=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDCmsR2ZsndDGfDvypHiFoebbCo/3iTM5LG2Cb2Z02yStnN6w
+ 90NFRykLgxgXg6yYIkuMsPmSuFOzXney8c2DmcPKBDKEgYtTACbSp8Xwzzbl5YsjgVr+Tzm7xb7vS3
+ r5vc7rY+Tx8BzZfFFFicnTKhgZXsu7TynP6pLefNY77nIBy3y5P7UfXR0q3ty1Vvu68X82PwA=
 X-Developer-Key: i=maxime@cerno.tech; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,78 +101,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-The CSC matrix to use depends on the output format, its range and the
-colorspace.
-
-Since we're going to add more colorspaces, let's move the CSC matrix
-retrieval to a function.
+Even though we report that we support the BT601 Colorspace, we were
+always using the BT.709 conversion matrices. Let's add the BT601 ones.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index a3e0bf00e4c6..1424835bd83e 100644
+index 1424835bd83e..ad38cac3d1b9 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1299,6 +1299,20 @@ static void vc5_hdmi_set_csc_coeffs_swap(struct vc4_hdmi *vc4_hdmi,
- 	HDMI_WRITE(HDMI_CSC_34_33, (coeffs[0][3] << 16) | coeffs[0][2]);
- }
+@@ -1240,6 +1240,37 @@ static const u16 vc5_hdmi_csc_full_rgb_to_rgb[2][3][4] = {
+ 	},
+ };
  
-+static const u16
-+(*vc5_hdmi_find_yuv_csc_coeffs(struct vc4_hdmi *vc4_hdmi, u32 colorspace, bool limited))[4]
-+{
-+	switch (colorspace) {
-+	default:
-+	case DRM_MODE_COLORIMETRY_NO_DATA:
-+	case DRM_MODE_COLORIMETRY_BT709_YCC:
-+	case DRM_MODE_COLORIMETRY_XVYCC_709:
-+	case DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
-+	case DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
-+		return vc5_hdmi_csc_full_rgb_to_yuv_bt709[limited];
-+	}
-+}
++/*
++ * Conversion between Full Range RGB and YUV using the BT.601 Colorspace
++ *
++ * Matrices are signed 2p13 fixed point, with signed 9p6 offsets
++ */
++static const u16 vc5_hdmi_csc_full_rgb_to_yuv_bt601[2][3][4] = {
++	{
++		/*
++		 * Full Range
++		 *
++		 * [  0.299000  0.587000  0.114000  0   ]
++		 * [ -0.168736 -0.331264  0.500000  128 ]
++		 * [  0.500000 -0.418688 -0.081312  128 ]
++		 */
++		{ 0x0991, 0x12c9, 0x03a6, 0x0000 },
++		{ 0xfa9b, 0xf567, 0x1000, 0x2000 },
++		{ 0x1000, 0xf29b, 0xfd67, 0x2000 },
++	},
++	{
++		/* Limited Range
++		 *
++		 * [  0.255785  0.502160  0.097523  16  ]
++		 * [ -0.147644 -0.289856  0.437500  128 ]
++		 * [  0.437500 -0.366352 -0.071148  128 ]
++		 */
++		{ 0x082f, 0x1012, 0x031f, 0x0400 },
++		{ 0xfb48, 0xf6ba, 0x0e00, 0x2000 },
++		{ 0x0e00, 0xf448, 0xfdba, 0x2000 },
++	},
++};
 +
- static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 			       struct drm_connector_state *state,
- 			       const struct drm_display_mode *mode)
-@@ -1308,6 +1322,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 		conn_state_to_vc4_hdmi_conn_state(state);
- 	unsigned int lim_range = vc4_hdmi_is_full_range(vc4_hdmi, vc4_state) ? 0 : 1;
- 	unsigned long flags;
-+	const u16 (*csc)[4];
- 	u32 if_cfg = 0;
- 	u32 if_xbar = 0x543210;
- 	u32 csc_chan_ctl = 0;
-@@ -1322,11 +1337,14 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 
- 	switch (vc4_state->output_format) {
- 	case VC4_HDMI_OUTPUT_YUV444:
--		vc5_hdmi_set_csc_coeffs_swap(vc4_hdmi,
--					     vc5_hdmi_csc_full_rgb_to_yuv_bt709[lim_range]);
-+		csc = vc5_hdmi_find_yuv_csc_coeffs(vc4_hdmi, state->colorspace, !!lim_range);
+ /*
+  * Conversion between Full Range RGB and YUV using the BT.709 Colorspace
+  *
+@@ -1303,6 +1334,13 @@ static const u16
+ (*vc5_hdmi_find_yuv_csc_coeffs(struct vc4_hdmi *vc4_hdmi, u32 colorspace, bool limited))[4]
+ {
+ 	switch (colorspace) {
++	case DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
++	case DRM_MODE_COLORIMETRY_XVYCC_601:
++	case DRM_MODE_COLORIMETRY_SYCC_601:
++	case DRM_MODE_COLORIMETRY_OPYCC_601:
++	case DRM_MODE_COLORIMETRY_BT601_YCC:
++		return vc5_hdmi_csc_full_rgb_to_yuv_bt601[limited];
 +
-+		vc5_hdmi_set_csc_coeffs_swap(vc4_hdmi, csc);
- 		break;
- 
- 	case VC4_HDMI_OUTPUT_YUV422:
-+		csc = vc5_hdmi_find_yuv_csc_coeffs(vc4_hdmi, state->colorspace, !!lim_range);
-+
- 		csc_ctl |= VC4_SET_FIELD(VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422_STANDARD,
- 					 VC5_MT_CP_CSC_CTL_FILTER_MODE_444_TO_422) |
- 			VC5_MT_CP_CSC_CTL_USE_444_TO_422 |
-@@ -1338,7 +1356,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi,
- 		if_cfg |= VC4_SET_FIELD(VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422_FORMAT_422_LEGACY,
- 					VC5_DVP_HT_VEC_INTERFACE_CFG_SEL_422);
- 
--		vc5_hdmi_set_csc_coeffs(vc4_hdmi, vc5_hdmi_csc_full_rgb_to_yuv_bt709[lim_range]);
-+		vc5_hdmi_set_csc_coeffs(vc4_hdmi, csc);
- 		break;
- 
- 	case VC4_HDMI_OUTPUT_RGB:
+ 	default:
+ 	case DRM_MODE_COLORIMETRY_NO_DATA:
+ 	case DRM_MODE_COLORIMETRY_BT709_YCC:
 
 -- 
 2.39.2
