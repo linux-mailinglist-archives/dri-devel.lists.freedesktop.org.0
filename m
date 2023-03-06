@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512326ABB10
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 11:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E3B6ABB1E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 11:09:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4521710E209;
-	Mon,  6 Mar 2023 10:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39FC10E23F;
+	Mon,  6 Mar 2023 10:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3643810E1DF;
- Mon,  6 Mar 2023 10:09:20 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4436810E1F5;
+ Mon,  6 Mar 2023 10:09:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A920660DC4;
- Mon,  6 Mar 2023 10:09:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0204BC43443;
+ by ams.source.kernel.org (Postfix) with ESMTPS id BC43AB80D80;
+ Mon,  6 Mar 2023 10:09:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14371C43445;
  Mon,  6 Mar 2023 10:09:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1678097359;
- bh=3O2+vKPnLHdh79mUXLHW8Z5Q6SqDEjWRNnKKiIQoTyo=;
+ bh=b151yW+qXdaWwZr+uJKZCMaPRLko8VNYQPQR6bpEA/Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IOQ1dpwgPoDXO4aiBJSjYqIBjjTrJvx4ZM6BOucb21+jO367iDOtXc9uMsB2xp22s
- 4hx3KBEAws9s2wc9vNLId50VtSst4NzGH9V7rJvoFS/A11MUBW02HA+0jHS3yCsr8F
- x8Y/aK2QG7EHznQ7PU5t4uq4USyZh2NMntJ5LgVYZsEDIuyDW2VQ2sL29UXYFQ/0rl
- zV0hOYaV8DkkUePYi0FA1WuOr3B40kaUOBF4TREIf44sN1/mBHKdUAmbiO7z1rcTpv
- XhMP/mfQ5RzYfMB5YoMdxx3xgvawGJmdcqDNPZP6M1+SgwsTs8rBSa9tc5pIioox8j
- 7eXa/DguDGy/w==
+ b=CkpNJJsthW0e/lsNOja6kI178cQAVWSxRPwJbe7ITZtDKyFNkVC0OwHWMoVq1Wi0/
+ 6BhvtipTNV0HHiROwWY7E6EaLKiedZoxV5zlzzNs+mTHAFkuVN893iP1O1K3GJyQi3
+ VlDEVI45ff/2yTwyIrpuD1Tfri98WoFyyXeAOX3BuAIEnjdNndeb3RomSmR4iN+H0h
+ DZqR399MX86QV7gYtONI5PdqJPsG/oNlxMkNCPfW/rjAy8xuXXsjhptPYN9LBxpLwj
+ 8U8gU8Q3afvyLi+8J8FOETfZGBBNWhLBbdqD43+0DIIfW9sexuM+hjmIafGEedRj7D
+ n9PhgmHrzhLIg==
 Received: from johan by xi.lan with local (Exim 4.94.2)
  (envelope-from <johan+linaro@kernel.org>)
- id 1pZ7n5-0007Qx-NB; Mon, 06 Mar 2023 11:09:59 +0100
+ id 1pZ7n5-0007R0-Q4; Mon, 06 Mar 2023 11:09:59 +0100
 From: Johan Hovold <johan+linaro@kernel.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 09/10] drm/msm: use drmm_mode_config_init()
-Date: Mon,  6 Mar 2023 11:07:21 +0100
-Message-Id: <20230306100722.28485-10-johan+linaro@kernel.org>
+Subject: [PATCH 10/10] drm/msm: move include directive
+Date: Mon,  6 Mar 2023 11:07:22 +0100
+Message-Id: <20230306100722.28485-11-johan+linaro@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306100722.28485-1-johan+linaro@kernel.org>
 References: <20230306100722.28485-1-johan+linaro@kernel.org>
@@ -61,54 +61,35 @@ Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch to using drmm_mode_config_init() so that the mode config is
-released when the last reference to the DRM device is dropped rather
-than unconditionally at unbind() (which may be too soon).
+Move the include of of_address.h to the top of the file where it
+belongs.
 
 Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 73c597565f99..ade17947d1e5 100644
+index ade17947d1e5..42ae7575622b 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -247,8 +247,6 @@ static int msm_drm_uninit(struct device *dev)
- 	if (kms)
- 		msm_disp_snapshot_destroy(ddev);
+@@ -8,6 +8,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/fault-inject.h>
+ #include <linux/kthread.h>
++#include <linux/of_address.h>
+ #include <linux/sched/mm.h>
+ #include <linux/uaccess.h>
+ #include <uapi/linux/sched/types.h>
+@@ -272,8 +273,6 @@ static int msm_drm_uninit(struct device *dev)
+ 	return 0;
+ }
  
--	drm_mode_config_cleanup(ddev);
+-#include <linux/of_address.h>
 -
- 	for (i = 0; i < priv->num_bridges; i++)
- 		drm_bridge_remove(priv->bridges[i]);
- 	priv->num_bridges = 0;
-@@ -454,11 +452,13 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	might_lock(&priv->lru.lock);
- 	fs_reclaim_release(GFP_KERNEL);
- 
--	drm_mode_config_init(ddev);
-+	ret = drmm_mode_config_init(ddev);
-+	if (ret)
-+		goto err_destroy_wq;
- 
- 	ret = msm_init_vram(ddev);
- 	if (ret)
--		goto err_cleanup_mode_config;
-+		goto err_destroy_wq;
- 
- 	/* Bind all our sub-components: */
- 	ret = component_bind_all(dev, ddev);
-@@ -563,8 +563,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 
- err_deinit_vram:
- 	msm_deinit_vram(ddev);
--err_cleanup_mode_config:
--	drm_mode_config_cleanup(ddev);
-+err_destroy_wq:
- 	destroy_workqueue(priv->wq);
- err_put_dev:
- 	drm_dev_put(ddev);
+ struct msm_gem_address_space *msm_kms_init_aspace(struct drm_device *dev)
+ {
+ 	struct msm_gem_address_space *aspace;
 -- 
 2.39.2
 
