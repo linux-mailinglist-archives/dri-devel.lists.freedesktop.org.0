@@ -2,162 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D596AC9A2
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 18:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454F26AC9E4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 18:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5767F10E197;
-	Mon,  6 Mar 2023 17:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5D1010E2EF;
+	Mon,  6 Mar 2023 17:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1F3910E2EF
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 17:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678123165; x=1709659165;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=Tr5B3KsXUr00luTQ2CIfWUtMztpA6dDyGsuXLxy4wKE=;
- b=TAQQZYYNX+peYv4xIdzRzFxeg05MiUFWl8ef3QaHVHJ3zIOory4wpaW1
- lCS2x1xUfwjrJ8vT21h28NrJszYWym9gkaRdnNNM+a/A+/m1+QK/sfpRa
- AEO0riwrUJ7VUvhrhvPE7STRJIfhjoj82L12WvVAnEJpXSuZla6iTxO8C
- Ry2YECxb8BjLtiwjadSvDX537GqiSHLDBvaTXTnaJ0GFYRM/f6dZc6Lzt
- pQrMMNy/PP0AR74FkfEwXD0a6TYGG/E3xFd0MKyXSYsLYDTIrCTTrjwex
- ya8P8TJOObdVsdYna6z7LO4Q6+GP0Zuq1Y+7N3cEDD6Wr+4mYm4aH4jDt A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="334331371"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="334331371"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 09:19:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="922018483"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="922018483"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by fmsmga006.fm.intel.com with ESMTP; 06 Mar 2023 09:19:02 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 6 Mar 2023 09:18:57 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Mon, 6 Mar 2023 09:18:57 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Mon, 6 Mar 2023 09:18:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hn5jPZouL+50OCcFILh8Fr8eShvHm1x1dRG/iJYqvqIsqPnmvx1sP7rw3GHiIiyEbL+qHPeMa07ms48Owgz7Mj4uuqL2VKrEfngSjS5PtnHsOLPlKo1NPFUsMcDcU84cSAw7kXmRoAfw9vGdiMvqhKRQa5eACsaKj85u3INtMtULXahfcXaEMqLDfnhTbA2NGsCkGdgjOOi+2BrqgRvOzNCHeUAJyaWZCukvUgtD6bDPvw4pPyNCzG/FcreYzk2eYYpqAAg9LvVuvrcshoRZ6EjGDk6chc+Bj8h4nzvIdWA1x6/QfQHFFmoiLcZ4Kfc1fMOYSaBi04H6Jt9T3rhxLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gzUNWxRGI0sCBhpXAQOw5SttUlGiXdN6dT0IutBPOO4=;
- b=nI110PmtBU+jHt3IgxLNz6Ggil6QmZFv2Hd2aNr5pLSvoyduC4iL+VT9hoWuN2UqjS7a08hDDY9gK+zo9+IjKQcZluIV5vLZ/hacvXVV1E7ZEsYDcEz9w9eK7kiez5FLJdJ/patWKJy1kwgZKCjsAeJaQbWw3gENAqHYreRT0TXDzJRfHbWucc9sO06j+QN9A+8tMSWoZgJMD0PzyFuYFBO3wji3SroTyX4EZsHgiV9cv8/pSWxwJlhJ23UVXrK3SfzjV3zSv4bvknDq0QAt8trTIEasIpOzTg2v3xpV9wOW1P6yafRKt0+BtsJjvFzZ/VhpS1VsLvORGAHnWXgk6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by SJ0PR11MB5183.namprd11.prod.outlook.com (2603:10b6:a03:2d9::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Mon, 6 Mar
- 2023 17:18:51 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::8ce:88fe:a727:2c7d]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::8ce:88fe:a727:2c7d%7]) with mapi id 15.20.6156.028; Mon, 6 Mar 2023
- 17:18:50 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "javierm@redhat.com"
- <javierm@redhat.com>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "andrew@aj.id.au" <andrew@aj.id.au>,
- "laurentiu.palcu@oss.nxp.com" <laurentiu.palcu@oss.nxp.com>,
- "l.stach@pengutronix.de" <l.stach@pengutronix.de>, "shawnguo@kernel.org"
- <shawnguo@kernel.org>, "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>, "festevam@gmail.com"
- <festevam@gmail.com>, "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "edmund.j.dea@intel.com"
- <edmund.j.dea@intel.com>, "khilman@baylibre.com" <khilman@baylibre.com>,
- "jbrunet@baylibre.com" <jbrunet@baylibre.com>,
- "martin.blumenstingl@googlemail.com" <martin.blumenstingl@googlemail.com>,
- "alain.volmat@foss.st.com" <alain.volmat@foss.st.com>,
- "yannick.fertre@foss.st.com" <yannick.fertre@foss.st.com>,
- "raphael.gallais-pou@foss.st.com" <raphael.gallais-pou@foss.st.com>,
- "philippe.cornu@foss.st.com" <philippe.cornu@foss.st.com>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
- "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, "samuel@sholland.org"
- <samuel@sholland.org>, "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>,
- "tomba@kernel.org" <tomba@kernel.org>, "linus.walleij@linaro.org"
- <linus.walleij@linaro.org>, "hyun.kwon@xilinx.com" <hyun.kwon@xilinx.com>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
-Thread-Topic: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
-Thread-Index: AQHZTFLqT/G+20B44Uqk84Ghxzzz9q7uBlug
-Date: Mon, 6 Mar 2023 17:18:50 +0000
-Message-ID: <BY5PR11MB418232ED63F992E309C9B2D18CB69@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <20230301153101.4282-10-tzimmermann@suse.de>
-In-Reply-To: <20230301153101.4282-10-tzimmermann@suse.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BY5PR11MB4182:EE_|SJ0PR11MB5183:EE_
-x-ms-office365-filtering-correlation-id: a1ba9e34-b9fb-4384-4f6c-08db1e66da64
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /wAAl0bLOGE4tnjJP7vV9qlwQ4PRzD5R4UfHGfWP8yWVOCYAJ1EnyOBOUirE1LeZWmGqupsvXstU/C7e07+eaaQkoICgJ9yYA8KNVPuCmFFPugRjBo1B+0ybom4C+hFgS2XawGYAnR1W2UI84vx2dQwqjYMYUXsRSzu5MTawoeeZGs5Yw28/KpjtsyUqV3n+8f6j6TyYm1m5qJnaCDe7xwUF3P0eejpQtiU0TvZq3VmXNBqTjb/UiyLodQhEpgv94ie6uMmDBQwVLTBHe4Kz8kBl3FoC5duB0OrReCOlmDWNoKpUuHCNsJtCGS63Ocr2j3vRsHfFL4f+jvKFr4rdmnywJBcKe8jzHHUvXmWZlP9bNL8FKEhT0fyI7llgLECOGBQcIwr3mJXi+I5VLOecIu2LMg3MzE5RhGTE+toIdfQYFaAOD2LcRb9OcDHvCc3R08h92+csdAUcObEzAOKlZcZenx6egdlrZyibJGMjFR7CVpKOVPVuHSpCQXjH1uPcH90/2ypgH+vrEKwFn+6WHGzBQ1zib+TebbD4fsmn0d7Ssm9I/HyT2fV5Nm6UrYHi7RnKKWmE6YO+vsu2Xj7cqRnrmo6H3MZb/4J89Wzm+ZCgMwyq6SFgnTy9GUZ2gXg/iVjk+5+T6vBGfvlwBsCIFZjjeJcEbsRziZW/SP2aZjtZjXX6YmcV9gm2WiHavEGZD6CyBEfm0Osd+jawQkcHC2lI/iWc1RE002RPtXPNBnE=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199018)(110136005)(54906003)(316002)(83380400001)(55016003)(33656002)(86362001)(9686003)(186003)(2906002)(5660300002)(66476007)(76116006)(66446008)(66556008)(8936002)(66946007)(41300700001)(8676002)(4326008)(53546011)(478600001)(6506007)(26005)(64756008)(71200400001)(7416002)(7406005)(82960400001)(7696005)(122000001)(52536014)(921005)(38100700002)(38070700005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Y32UWqM8B7yUopZAxelLTE1aSq9ZaEpn6byispHi6ZJ3pCsPf91FrD80pDiE?=
- =?us-ascii?Q?Lpkn0IbqRpCcN68Xzyewcze9GFuslxznvYNGZ+r1QALGrPtTSjDR5ZZPT9Vo?=
- =?us-ascii?Q?vDqAFqCG3WIuCznlR+g1JpvOqVe740HSfeId+8l6tX9U0sibz/2+ICeT5qzQ?=
- =?us-ascii?Q?Ga4vu0hx6qWlI8H4kXM8ejv4owRh93v6lbU1r661NU2gMhy8gcevC7ZbW7eY?=
- =?us-ascii?Q?dt7eSYLpfxlg+0TN8w6deimIcT5LrnCzaP0P5df/FPWthUky60XgmsPwaq1x?=
- =?us-ascii?Q?LIOU8WMHZcXq7YRokuo4sfNybGqPPKN4USXQD86/lDTUZ52dLQf6xHkPkymV?=
- =?us-ascii?Q?Ekt+xGA5XpKcszqyuwpLduOSyn9m/yMcNq0CRVi3lyEhna+6Zd6C+c1VgGGu?=
- =?us-ascii?Q?LzBl//h1NrtAFTG0TUydfxvRagMcuBtiu6nKE0XeI7859042psjNv17J5Rh6?=
- =?us-ascii?Q?QKDdzOvcAA4c/sNrQjIyDUM7N0HHwziB/CowT0E+3lMifEWAPIOQcEn774VA?=
- =?us-ascii?Q?ZOGvB8/Upn0W7rlvxI+ReGXYc8RxaOfWfByHnhfOV3E1FKQKE7QkAVv4APOQ?=
- =?us-ascii?Q?mxJDN6e7WomqD+oKUhY36BunH6GY2vgPYX/Oxq92jhySYt6xG5eKymPaIP2M?=
- =?us-ascii?Q?mwNAqW+HQPhd2FVS866LI0gF0pLE583HwIHEDPe/lguf1HVtiIgNYNPuoK/b?=
- =?us-ascii?Q?S3BFaJdlqqi40lxjyXNtoVr+BNT66DTfWlHhp/JtWze9L8gS7/w7fuTUc2Bf?=
- =?us-ascii?Q?2arklfYXvS2mPp4d1+qgNgkPQvJgc0MgbqBvXNi3u3z6xNRKusOZE6/NNWvF?=
- =?us-ascii?Q?tEAIUGxXBxyR7XCZQBoQn/i2FxZsj/qJFEQS3Z2d4BYMoPEo9qMkL/2RXFl4?=
- =?us-ascii?Q?WQIA0tsARA3FbB/VEFHbmFArIbTfyjPo79xTBoOlH8QtIMXJm1L+41lUDKRE?=
- =?us-ascii?Q?bNuBlpxKiUdmVoFb3s402YCCMxENITacxMW3xpLqfCBZuO1BLNb8nGXdmrPI?=
- =?us-ascii?Q?/n8T84plhoaemWUjeQfZZRPn1s7M56VzZgE1n+qLCO/SnIWXFGmT+gZTinmR?=
- =?us-ascii?Q?XQmWbqLXtXqDM4cmavBGDd7/JNAQCP60MZHZ1/EwPVnuB2pzPNSuxe26vu+y?=
- =?us-ascii?Q?9SrOZAHIptJka9jtT8H6wJNIW3c1+GizNKyRgVLWMUWkRT1ETC/Jbn1fQo7U?=
- =?us-ascii?Q?5MYJjR+ArrWhXej7WWCP/F5zZXLXSbeTq30Z5R278JM2BH8c854QJt5lJ5n+?=
- =?us-ascii?Q?mil7UjD2boCbJRiZDRfJa7wNdIXDqIC1uQzVGbaFxkCTmaMUsQhT/2vh7V9b?=
- =?us-ascii?Q?pFdytV2MtPzIzDMt9sdix95uxXLPKIigiJLmpxYDVfFi2sxXv+GGaY9XMfA8?=
- =?us-ascii?Q?fGeRiwu9Y+l10D3Xa5W/kBKgXwFJ5ERxtKuBEgavw/s2EVU9wJRuerCif7b2?=
- =?us-ascii?Q?fK1vhcy3/i6lL5VfFjTn05EQpNrKZePbbXxaSnjKe1198dNnYDxQBoe0jmyc?=
- =?us-ascii?Q?MV5nnIZWsGpTacxcQDGQexWtcQgRMVercGKZBZh0jN/T4ciZF+MK/0OIApY9?=
- =?us-ascii?Q?GJVr1/B5mivBA7LOGeQ1I9ZgobCRz0ixX7TAxwjpOurIBvaiH0Ojdmlf/YMg?=
- =?us-ascii?Q?gw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
+ [IPv6:2607:f8b0:4864:20::b2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C15DE10E2BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 17:24:25 +0000 (UTC)
+Received: by mail-yb1-xb2e.google.com with SMTP id n18so8910703ybm.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 09:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1678123465;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VLf0GM/zB1BCP+zFJSVCu7zgZJrdW9kyzCRHpCeB9cc=;
+ b=Crw/174Qdb+vOS7V4/S0vHSfUGwwcMWip7NU22oi8WQKwKtPjhBrZH9RIf4+RX/8ib
+ q4rdXXshtLlFEiTR+1Zv82cZTGW+EtYRyJoE85nZ3wy5Mn55xfgNc8TgW350FylSosS2
+ 9H0UwLBCD+tu1izzsu+4rvkjcMrAO/PG1xPus=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678123465;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VLf0GM/zB1BCP+zFJSVCu7zgZJrdW9kyzCRHpCeB9cc=;
+ b=4CfPHAzVTrFNOyUIzcLidjnuC3In9CJvPRziId2xJBeKcVDVPaeBdKopG610qdibrl
+ eaZxJSJqrft1SauBwh03yzkfgubFIFEi0P0YVmTTrMo8bBqQN+dB2+K0w8nuGwwZv3t5
+ +xEi/a5NqHujrccyDCXwHiB+oXoxPgsoIWU90tWA9hNrOsD3LzrjKVdknuA55ZB4/k6Y
+ vTnYYldqNULfST2JJjcwDq879DRGEJ2h9zh4+s3civPf5nAo/+xj0xjVC5zCsmvxiUPU
+ uRl0pGOPUs3ejAlmvOqkv+jei4XpB8RekVtGAPcRRpfvwQBXsZHTyehRjNByjqX6bOYS
+ iyZw==
+X-Gm-Message-State: AO0yUKU1xv8aQ/LN8YtYdpft6xW0XrnXvZ7oq37gMt70BfpwIlwnJD8j
+ ycItZwGTG3zC4BbcwhFLldkF/cInGe5QTBtdAy+k6Q==
+X-Google-Smtp-Source: AK7set8TsU9xvfr6PQsCevTseZydSOkH/AgeTwrsBLD7Q6/7WzAw6UaZp6GL1E1/ZyxaWECiNOWpuWv2JW3g3jNhlLE=
+X-Received: by 2002:a05:6902:cf:b0:a02:a44e:585c with SMTP id
+ i15-20020a05690200cf00b00a02a44e585cmr6999792ybs.1.1678123464769; Mon, 06 Mar
+ 2023 09:24:24 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1ba9e34-b9fb-4384-4f6c-08db1e66da64
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2023 17:18:50.2092 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +leBX449Y6a3fBrjbgIpAOKIzEF4X6wS7tNiLwOAQ5tZ6U8MzwCAJ4B/k3U1z8rMBk0m4Eyl9HlAAcCf9OsukwNdBuYZrDN3cl4wbQVawY0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5183
-X-OriginatorOrg: intel.com
+References: <CGME20230303145219eucas1p218c2e302e41464432627c8ac074302f8@eucas1p2.samsung.com>
+ <20230303145138.29233-1-jagan@amarulasolutions.com>
+ <79c2e5cc-a488-09ae-dc68-18dbc47d963a@samsung.com>
+ <CAMty3ZC1U3eDmtWa_sx0Sop_V1vU3fSM=r21U9qPf0UmCYTOkA@mail.gmail.com>
+ <4b2624f6-b904-4daa-29ca-380cc7dbfc45@samsung.com>
+In-Reply-To: <4b2624f6-b904-4daa-29ca-380cc7dbfc45@samsung.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Mon, 6 Mar 2023 22:54:13 +0530
+Message-ID: <CAMty3ZDiBERymX=jgM_dtDBbd_rvw9E4Q05ECy+dtpnZa2nkJw@mail.gmail.com>
+Subject: Re: [PATCH v15 00/16] drm: Add Samsung MIPI DSIM bridge
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,73 +68,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>,
- "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Hi Marek,
 
-> -----Original Message-----
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> Sent: Wednesday, March 1, 2023 7:31 AM
-> To: javierm@redhat.com; maarten.lankhorst@linux.intel.com;
-> mripard@kernel.org; airlied@gmail.com; daniel@ffwll.ch; andrew@aj.id.au;
-> laurentiu.palcu@oss.nxp.com; l.stach@pengutronix.de;
-> shawnguo@kernel.org; s.hauer@pengutronix.de; kernel@pengutronix.de;
-> festevam@gmail.com; linux-imx@nxp.com; p.zabel@pengutronix.de;
-> Chrisanthus, Anitha <anitha.chrisanthus@intel.com>;
-> edmund.j.dea@intel.com; khilman@baylibre.com; jbrunet@baylibre.com;
-> martin.blumenstingl@googlemail.com; alain.volmat@foss.st.com;
-> yannick.fertre@foss.st.com; raphael.gallais-pou@foss.st.com;
-> philippe.cornu@foss.st.com; mcoquelin.stm32@gmail.com;
-> alexandre.torgue@foss.st.com; jernej.skrabec@gmail.com;
-> samuel@sholland.org; jyri.sarha@iki.fi; tomba@kernel.org;
-> linus.walleij@linaro.org; hyun.kwon@xilinx.com;
-> laurent.pinchart@ideasonboard.com
-> Cc: dri-devel@lists.freedesktop.org; linux-aspeed@lists.ozlabs.org; linux=
--arm-
-> kernel@lists.infradead.org; linux-amlogic@lists.infradead.org; linux-
-> stm32@st-md-mailman.stormreply.com; linux-sunxi@lists.linux.dev; Thomas
-> Zimmermann <tzimmermann@suse.de>
-> Subject: [PATCH 09/22] drm/kmb: Use GEM DMA fbdev emulation
->=20
-> Use the fbdev emulation that is optimized for DMA helpers. Avoids
-> possible shadow buffering and makes the code simpler.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/kmb/kmb_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/kmb/kmb_drv.c
-> b/drivers/gpu/drm/kmb/kmb_drv.c
-> index d29c678f6c91..24035b53441c 100644
-> --- a/drivers/gpu/drm/kmb/kmb_drv.c
-> +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-> @@ -15,7 +15,7 @@
->=20
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_drv.h>
-> -#include <drm/drm_fbdev_generic.h>
-> +#include <drm/drm_fbdev_dma.h>
->  #include <drm/drm_gem_dma_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_module.h>
-> @@ -562,7 +562,7 @@ static int kmb_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto err_register;
->=20
-> -	drm_fbdev_generic_setup(&kmb->drm, 0);
-> +	drm_fbdev_dma_setup(&kmb->drm, 0);
->=20
->  	return 0;
->=20
-> --
-> 2.39.2
+On Mon, Mar 6, 2023 at 4:32=E2=80=AFPM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi Jagan,
+>
+> On 04.03.2023 19:59, Jagan Teki wrote:
+> > On Sat, Mar 4, 2023 at 3:56=E2=80=AFAM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >> On 03.03.2023 15:51, Jagan Teki wrote:
+> >>> This series supports common bridge support for Samsung MIPI DSIM
+> >>> which is used in Exynos and i.MX8MM SoC's.
+> >>>
+> >>> The final bridge supports both the Exynos and i.MX8M Mini/Nano/Plus.
+> >>>
+> >>> Inki Dae: please note that this series added on top of exynos-drm-nex=
+t
+> >>> since few exynos dsi changes are not been part of drm-misc-next.
+> >>> Request you to pick these via exynos-drm-next, or let me know if you
+> >>> have any comments?
+> >> I gave it a try on Exynos TM2e and unfortunately it nukes again:
+> >>
+> >> exynos-drm exynos-drm: bound 13970000.hdmi (ops hdmi_component_ops)
+> >> Unable to handle kernel paging request at virtual address 003d454d414e=
+5675
+> >> ...
+> >> [003d454d414e5675] address between user and kernel address ranges
+> >> Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+> >> Modules linked in:
+> >> CPU: 4 PID: 9 Comm: kworker/u16:0 Not tainted 6.2.0-next-20230303+ #13=
+341
+> >> Hardware name: Samsung TM2E board (DT)
+> >> Workqueue: events_unbound deferred_probe_work_func
+> >> pstate: 000000c5 (nzcv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+> >> pc : drm_connector_list_iter_next+0x58/0x100
+> >> lr : drm_connector_list_iter_next+0x2c/0x100
+> >> sp : ffff80000bbab910
+> >> ...
+> >> Call trace:
+> >>    drm_connector_list_iter_next+0x58/0x100
+> >>    drm_mode_config_reset+0xfc/0x144
+> >>    exynos_drm_bind+0x160/0x1b8
+> >>    try_to_bring_up_aggregate_device+0x168/0x1d4
+> >>    __component_add+0xa8/0x170
+> >>    component_add+0x14/0x20
+> >>    hdmi_probe+0x3fc/0x6d4
+> >>    platform_probe+0x68/0xd8
+> >>    really_probe+0x148/0x2b4
+> >>    __driver_probe_device+0x78/0xe0
+> >>    driver_probe_device+0xd8/0x160
+> >>    __device_attach_driver+0xb8/0x138
+> >>    bus_for_each_drv+0x84/0xe0
+> >>    __device_attach+0xa8/0x1b0
+> >>    device_initial_probe+0x14/0x20
+> >>    bus_probe_device+0xb0/0xb4
+> >>    deferred_probe_work_func+0x8c/0xc8
+> >>    process_one_work+0x288/0x6c8
+> >>    worker_thread+0x24c/0x450
+> >>    kthread+0x118/0x11c
+> >>    ret_from_fork+0x10/0x20
+> > This looks not related to dsi to me since there is no exynos_drm_dsi
+> > call in the trace. look hdmi related. Moreover, I think the exynos dsi
+> > worked well on v10 and I couldn't find any potential differences in
+> > terms of call flow change.
+> > https://gitlab.com/openedev/kernel/-/commits/imx8mm-dsi-v10
+>
+> Well, the issue is definitely related to this patchset. On Friday, due
+> to other kernel messages, I missed the most important part of the log:
+>
+> [drm] Exynos DRM: using 13800000.decon device for DMA mapping operations
+> exynos-drm exynos-drm: bound 13800000.decon (ops decon_component_ops)
+> exynos-drm exynos-drm: bound 13880000.decon (ops decon_component_ops)
+> exynos-dsi 13900000.dsi: [drm:samsung_dsim_host_attach] Attached s6e3hf2
+> device
+> exynos-dsi 13900000.dsi: request interrupt failed with -22
+> panel-samsung-s6e3ha2: probe of 13900000.dsi.0 failed with error -22
+> exynos-drm exynos-drm: bound 13900000.dsi (ops exynos_dsi_component_ops)
+> exynos-drm exynos-drm: bound 13930000.mic (ops exynos_mic_component_ops)
+>
+> It looks that the are at least 2 issues. The first one related to TE
+> interrupt registration, the second is broken error path, which should
+> free allocated resources and stop DRM from binding/initialization.
+>
+> This patch fixes the issue (TE gpio/interrupt is optional!):
+>
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c
+> b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index b4a5348b763c..ed83495fe105 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1518,7 +1518,9 @@ static int samsung_dsim_register_te_irq(struct
+> samsung_dsim *dsi, struct device
+>          int ret;
+>
+>          dsi->te_gpio =3D devm_gpiod_get_optional(dev, "te", GPIOD_IN);
+> -       if (IS_ERR(dsi->te_gpio))
+> +       if (!dsi->te_gpio)
+> +               return 0;
+> +       else if (IS_ERR(dsi->te_gpio))
 
+I think I missed this change from v10 where Marek V commented to move
+this in dsim instead of in Exynos. anyway, I will correct this.
+
+>                  return dev_err_probe(dev, PTR_ERR(dsi->te_gpio),
+> "failed to get te GPIO\n");
+>
+>          te_gpio_irq =3D gpiod_to_irq(dsi->te_gpio);
+>
+>
+> The error path in samsung_dsim_host_attach() after
+> samsung_dsim_register_te_irq() failure is wrong. It lacks cleaning up
+> the allocated resources (removing the bridge, detaing the dsi device).
+
+This is because of the same discussion of moving TE GPIO in dsim instead ex=
+ynos.
+
+How about register TE GPIO before calling host attach like this,
+
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1598,9 +1598,6 @@ static int samsung_dsim_host_attach(struct
+mipi_dsi_host *host,
+
+        drm_bridge_add(&dsi->bridge);
+
+-       if (pdata->host_ops && pdata->host_ops->attach)
+-               pdata->host_ops->attach(dsi, device);
+-
+        /*
+         * This is a temporary solution and should be made by more generic =
+way.
+         *
+@@ -1613,6 +1610,9 @@ static int samsung_dsim_host_attach(struct
+mipi_dsi_host *host,
+                        return ret;
+        }
+
++       if (pdata->host_ops && pdata->host_ops->attach)
++               pdata->host_ops->attach(dsi, device);
++
+        dsi->lanes =3D device->lanes;
+        dsi->format =3D device->format;
+        dsi->mode_flags =3D device->mode_flags;
+
+Would you please check this?
+
+Thanks,
+Jagan.
