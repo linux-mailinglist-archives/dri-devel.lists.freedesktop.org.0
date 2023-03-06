@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0916AC61E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:00:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE116AC61B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:00:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AABF10E365;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 410B210E364;
 	Mon,  6 Mar 2023 16:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77D3C10E296
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE56310E29B
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:27 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E49BA22374;
- Mon,  6 Mar 2023 16:00:25 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 423AB1FDEE;
+ Mon,  6 Mar 2023 16:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678118425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678118426; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zjVYDbqjwwkw2fXJsfJw/E5OA0vR4qLTqrFh9CEDVls=;
- b=ZLVSod84jRFbPAgwcB/rSvYcuZWfcsxYuav+FTZqNFxsvnSfLRLU5huBmNGYVcvI8yno3A
- LA6pDjPT9aLuYAnnxhNodGwZ0RQ01ADMXbwahNoCcOCLwr3EeuDzjnOQEDy0IJnIyWT0tF
- 87OwqsKqf6RZr2exDvFhk8cgBNc17fg=
+ bh=gKnsmkdajV5dwt0y63rKnWXciLaSNmTMATxql+kzlXQ=;
+ b=m/l2WRz8+uGG7iRStMefAjKhRxVuhaUygsjz3Yr8sqUk+llkmsgNcoUOr66mqRK+5Ffkrt
+ X0yxS7twf85QTr3a/ZmX8cKQ+6QS1/xdTM3DNOtaXz8u16xa4X1ssc5vx8I9QlzPbsMHfY
+ OsnBJJWZsL+XR+YFy85KHEXB5nOE5uI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678118425;
+ s=susede2_ed25519; t=1678118426;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zjVYDbqjwwkw2fXJsfJw/E5OA0vR4qLTqrFh9CEDVls=;
- b=1qLnPhqDZxTWyF1Se8kIFwwbvl09iQB96aeANdlPfciPamDkNnuZwA/St9n7mOre6S3RgJ
- L7j9zubiyqevDiAw==
+ bh=gKnsmkdajV5dwt0y63rKnWXciLaSNmTMATxql+kzlXQ=;
+ b=RofdsvmIu4jmtpHMXRhMHrAiFIEazlA7oJ28EW/eNK35pX+FTLAl33+toZbUJ1oprN/cFn
+ LaxWe+nxW4VMXOAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9116313513;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7E0313A6A;
  Mon,  6 Mar 2023 16:00:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uF6yIhkOBmQ/PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id EAHaNxkOBmQ/PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
@@ -53,9 +53,10 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 04/99] fbdev/acornfb: Only init fb_info once
-Date: Mon,  6 Mar 2023 16:58:41 +0100
-Message-Id: <20230306160016.4459-5-tzimmermann@suse.de>
+Subject: [PATCH 05/99] fbdev/acornfb: Parse option string with struct
+ option_iter
+Date: Mon,  6 Mar 2023 16:58:42 +0100
+Message-Id: <20230306160016.4459-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,39 +79,65 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Init the fb_info instance once before parsing options. The current
-code initializes the instance once again after parsing options, which
-clears any resolution settings that have been given in the options
-string.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
+
+Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/acornfb.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/video/fbdev/acornfb.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/video/fbdev/acornfb.c b/drivers/video/fbdev/acornfb.c
-index 1b72edc01cfb..8642136a6bdc 100644
+index 8642136a6bdc..1d6dec45615c 100644
 --- a/drivers/video/fbdev/acornfb.c
 +++ b/drivers/video/fbdev/acornfb.c
-@@ -887,8 +887,6 @@ static int acornfb_setup(char *options)
- 	if (!options || !*options)
- 		return 0;
+@@ -14,6 +14,7 @@
+  *  - Blanking 8bpp displays with VIDC
+  */
  
--	acornfb_init_fbinfo();
--
- 	while ((opt = strsep(&options, ",")) != NULL) {
- 		if (!*opt)
- 			continue;
-@@ -930,9 +928,8 @@ static int acornfb_probe(struct platform_device *dev)
++#include <linux/cmdline.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+@@ -879,17 +880,15 @@ static struct options {
+ 	{ NULL, NULL }
+ };
  
- 	if (fb_get_options("acornfb", &option))
- 		return -ENODEV;
--	acornfb_setup(option);
--
- 	acornfb_init_fbinfo();
-+	acornfb_setup(option);
+-static int acornfb_setup(char *options)
++static int acornfb_setup(const char *options)
+ {
+-	struct options *optp;
+-	char *opt;
++	struct option_iter iter;
++	const char *opt;
  
- 	current_par.dev = &dev->dev;
+-	if (!options || !*options)
+-		return 0;
++	option_iter_init(&iter, options);
+ 
+-	while ((opt = strsep(&options, ",")) != NULL) {
+-		if (!*opt)
+-			continue;
++	while (option_iter_next(&iter, opt)) {
++		struct options *optp;
+ 
+ 		for (optp = opt_table; optp->name; optp++) {
+ 			int optlen;
+@@ -907,6 +906,9 @@ static int acornfb_setup(char *options)
+ 			printk(KERN_ERR "acornfb: unknown parameter: %s\n",
+ 			       opt);
+ 	}
++
++	option_iter_release(&iter);
++
+ 	return 0;
+ }
  
 -- 
 2.39.2
