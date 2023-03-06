@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533AD6AC6A2
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89AF6AC70B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317A610E3B0;
-	Mon,  6 Mar 2023 16:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A80A10E3E0;
+	Mon,  6 Mar 2023 16:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9081A10E292
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBBE410E0D6
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:52 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3A6591FECB;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 98CCE2242A;
  Mon,  6 Mar 2023 16:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIcCTHOdlnmOrevNPvQ6R5cfRaWzMuURTLQ3rJVomJ0=;
- b=wakMHB6YSWHElv0eseFqAQJHSUDEpOKBQ2zXWLIvvfR4rSj30bH5MoLOUQ95H6yt3gKYuE
- jwm6e1dhQNTPh4J37ezH7yIJ+7galbWoGDGi+1I24cwiHoqJSk/RKdQzHqfHqQBzSausPT
- 4gWnC37kChwr67oK+eeaciSpVvJbTEs=
+ bh=0DwH9PbkOKEqD3wmCjB0TQMZNUTuSApTKev00H3660E=;
+ b=Lk+8+JhT/+B3f0AwSzmLvFmEfURRKyVzWUrzHFGKzJ+mhJ98TLoYKnbcsJFoQp5T1KByW+
+ N47ktubG4HpzVPVQlOKinz0XONa5lwU3J3I7+rZKdK2y3PeTfS6UKzYuCfUywj/uJlh3fi
+ W0Y+RRvd7RnHuwWrANQ1KFIaAn0NiLk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118451;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIcCTHOdlnmOrevNPvQ6R5cfRaWzMuURTLQ3rJVomJ0=;
- b=E6gREROODWoRv7Ps324DQe5AXbef2Hfx+MAaoNEyCdB+xYdSRcvobbwsjkMYjR7SypeMWz
- rmH5CWOnl6qVUlDA==
+ bh=0DwH9PbkOKEqD3wmCjB0TQMZNUTuSApTKev00H3660E=;
+ b=Sd8cn0Wty4HjwI7jXy8sDdskYz0sboQCIYBR22NrZ+XNj8yXkNNQOUqcan8o6sLDrqABUp
+ 17idD2saMikjCrBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6D6913A6A;
- Mon,  6 Mar 2023 16:00:50 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E30D13513;
+ Mon,  6 Mar 2023 16:00:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kHKrMzIOBmQ/PwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:50 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id qB1eDjMOBmQ/PwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:51 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  linux@armlinux.org.uk, pjones@redhat.com, timur@kernel.org,
@@ -53,9 +53,10 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 70/99] fbdev/savagefb: Duplicate video-mode option string
-Date: Mon,  6 Mar 2023 16:59:47 +0100
-Message-Id: <20230306160016.4459-71-tzimmermann@suse.de>
+Subject: [PATCH 71/99] fbdev/savagefb: Parse option string with struct
+ option_iter
+Date: Mon,  6 Mar 2023 16:59:48 +0100
+Message-Id: <20230306160016.4459-72-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,41 +79,63 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Assume that the driver does not own the option string or its substrings
-and hence duplicate the option string for the video mode. The driver only
-parses the option string once as part of module initialization, so use
-a static buffer to store the duplicated mode option. Linux automatically
-frees the memory upon releasing the module.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
 
-Done in preparation of switching the driver to struct option_iter and
-constifying the option string.
+Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/savage/savagefb_driver.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/savage/savagefb_driver.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
-index 4a27b68798bf..19fffe0b6cdd 100644
+index 19fffe0b6cdd..94026848d67d 100644
 --- a/drivers/video/fbdev/savage/savagefb_driver.c
 +++ b/drivers/video/fbdev/savage/savagefb_driver.c
-@@ -2544,7 +2544,15 @@ static int __init savagefb_setup(char *options)
- 		return 0;
+@@ -42,6 +42,7 @@
+  */
  
- 	while ((this_opt = strsep(&options, ",")) != NULL) {
--		mode_option = this_opt;
-+		static char mode_option_buf[256];
-+		int ret;
-+
-+		ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", this_opt);
-+		if (WARN(ret < 0, "savagefb: ignoring invalid option, ret=%d\n", ret))
-+			continue;
-+		if (WARN(ret >= sizeof(mode_option_buf), "savagefb: option too long\n"))
-+			continue;
-+		mode_option = mode_option_buf;
+ #include <linux/aperture.h>
++#include <linux/cmdline.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+@@ -2535,15 +2536,15 @@ static void __exit savage_done(void)
+ 
+ /* ************************* init in-kernel code ************************** */
+ 
+-static int __init savagefb_setup(char *options)
++static int __init savagefb_setup(const char *options)
+ {
+ #ifndef MODULE
+-	char *this_opt;
++	struct option_iter iter;
++	const char *this_opt;
+ 
+-	if (!options || !*options)
+-		return 0;
++	option_iter_init(&iter, options);
+ 
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
++	while (option_iter_next(&iter, this_opt)) {
+ 		static char mode_option_buf[256];
+ 		int ret;
+ 
+@@ -2554,6 +2555,9 @@ static int __init savagefb_setup(char *options)
+ 			continue;
+ 		mode_option = mode_option_buf;
  	}
++
++	option_iter_release(&iter);
++
  #endif /* !MODULE */
  	return 0;
+ }
 -- 
 2.39.2
 
