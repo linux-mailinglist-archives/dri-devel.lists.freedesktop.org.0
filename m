@@ -2,62 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5FC6AB84B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 09:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0094F6AB8BF
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 09:48:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0F410E104;
-	Mon,  6 Mar 2023 08:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40A2A10E0A7;
+	Mon,  6 Mar 2023 08:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0706610E104
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:30:28 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id t11so11647297lfr.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 00:30:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678091427;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=aU1YjAUU/iFvVhvKaxFvWo0dvfjpSyP2e3R8zxMYNzY=;
- b=PQ7S3nY5VdXeauZHsRi3JhkbI935Asms738tDqWJPEQW+KK/FbfdbGvLhDd39jmZcc
- 0DC5tyAupR2U6181B89olt9rvOxRfHtF2nlNph+vEf0j8N1oG38SzD/MZl1/06leAF6x
- LrO/7md1ava7ARos090gujVfQljymN0GJ/PQ5vLzvasLyV1Vnw+IFe3lT+EJgBJZt9VQ
- LJuHB7pLJvWzxwKuzyJPXCjmSa6skSwg1keXpjLL1w6uhcncko3/hG4fO/srAO3lrzVn
- nVP+9xsS3uQHNKJCo0gWT/5NcN4d/V9Oc4F09+4yV1yl2pEmbPxoLXENwCGUy6g3n5Uv
- xcKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678091427;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aU1YjAUU/iFvVhvKaxFvWo0dvfjpSyP2e3R8zxMYNzY=;
- b=JA6ofT5W5oJjzOMjLjbvuVSx24gH8j7GuaqXReO92CG6x6dinlOiR1w+V40O0SLvPo
- x4Qnsdjow1+2v162TnkrZjWmhCRU84tvH/bGz7Po2dVA1370Q/fGI+S+E9tGLoUkZTCJ
- yad8ZDjJMRiISEEl4MPKOqu20QChTYULYfN7fecnOzl4+UBDsUjK/QEPjGJ6PJOiw29B
- E0oTJeBvRh6Hd3xmrwkt3Yd7nhZH9LQ3iBoQhb/ctNAP9wIyPNVatOMEwRnSfhiN2p24
- 6ehYDndUOELrpApZRvC/JZJPTmj4EwieQThBHM92C90yddXxfE3Fzt2iIAlLYv177V1/
- Zt8A==
-X-Gm-Message-State: AO0yUKWGlgBX4bAHE71reLEjBF2/tcLXdctvXDMfqRrsnMaVwO/BLZLs
- VYkRI6qRFr0l4Nl3lD/u/yc=
-X-Google-Smtp-Source: AK7set97oWrOCDZe34nt//4wZyETDwFuLtUmCUTaERf+gvAQPzbSqlIhR4oses+L2clK57jbK6p1Lw==
-X-Received: by 2002:a19:760e:0:b0:4df:2c71:57fb with SMTP id
- c14-20020a19760e000000b004df2c7157fbmr2510159lff.43.1678091426984; 
- Mon, 06 Mar 2023 00:30:26 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- a11-20020a05651c030b00b002959aecb63bsm1593604ljp.53.2023.03.06.00.30.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 00:30:26 -0800 (PST)
-Date: Mon, 6 Mar 2023 10:30:15 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: fix typo in margin connector properties docs
-Message-ID: <20230306103015.19bb5876@eldfell>
-In-Reply-To: <20230305103503.42619-1-contact@emersion.fr>
-References: <20230305103503.42619-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Mar 2023 08:48:02 UTC
+Received: from albert.telenet-ops.be (albert.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:1a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6112110E196
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:48:02 +0000 (UTC)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:b745:671d:a946:57fa])
+ by albert.telenet-ops.be with bizsmtp
+ id Uwiy2900F4LuvSS06wiyHW; Mon, 06 Mar 2023 09:42:59 +0100
+Received: from geert (helo=localhost)
+ by ramsan.of.borg with local-esmtp (Exim 4.95)
+ (envelope-from <geert@linux-m68k.org>) id 1pZ6Qs-00AzRe-ER;
+ Mon, 06 Mar 2023 09:42:58 +0100
+Date: Mon, 6 Mar 2023 09:42:58 +0100 (CET)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: linux-kernel@vger.kernel.org
+Subject: Re: Build regressions/improvements in v6.3-rc1
+In-Reply-To: <20230306082035.3709036-1-geert@linux-m68k.org>
+Message-ID: <148a4a5f-d228-e289-f333-8d5df6cad4f5@linux-m68k.org>
+References: <CAHk-=wgr1D8hb75Z+nn+4LXUnosp0HM+gP+YJEcEav1DgTC=Cw@mail.gmail.com>
+ <20230306082035.3709036-1-geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QfLE5Fsmt0Zg4db0u42lav=";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,73 +44,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
+Cc: linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QfLE5Fsmt0Zg4db0u42lav=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Mon, 6 Mar 2023, Geert Uytterhoeven wrote:
+> Below is the list of build error/warning regressions/improvements in
+> v6.3-rc1[1] compared to v6.2[2].
+>
+> Summarized:
+>  - build errors: +9/-14
+>  - build warnings: +4/-1447
+>
+> Happy fixing! ;-)
+>
+> Thanks to the linux-next team for providing the build service.
+>
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/fe15c26ee26efa11741a7b632e9f23b01aca4cc6/ (all 152 configs)
+> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/c9c3395d5e3dcc6daee66c6908354d47bf98cb0c/ (all 152 configs)
+>
+>
+> *** ERRORS ***
+>
+> 9 error regressions:
+>  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: error: 'struct cpuinfo_um' has no member named 'apicid':  => 2157:41, 2157:48
 
-On Sun, 05 Mar 2023 10:35:10 +0000
-Simon Ser <contact@emersion.fr> wrote:
+um-x86_64/um-all{mod,yes}config
+um-x86_64-gcc12/um-all{mod,yes}config
 
-> This was pointed out by Ville and Pekka in their replies, but
-> forgot to apply the change properly before pushing. Sorry for
-> the noise!
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Fixes: 409f07d353b3 ("drm: document connector margin properties")
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 4b12c7a39ee3..48df7a5ea503 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1452,7 +1452,7 @@ static const struct drm_prop_enum_list dp_colorspac=
-es[] =3D {
->   *
->   * left margin, right margin, top margin, bottom margin:
->   *	Add margins to the connector's viewport. This is typically used to
-> - *	mitigate underscan on TVs.
-> + *	mitigate overscan on TVs.
->   *
->   *	The value is the size in pixels of the black border which will be
->   *	added. The attached CRTC's content will be scaled to fill the whole
+>  + /kisskb/src/drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_mode_vba_31.c: error: the frame size of 2208 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]:  => 7086:1
 
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+arm64-gcc5/arm64-allmodconfig
 
+(Already improved from 2224 to 2208 bytes)
 
-Thanks,
-pq
+>  + /kisskb/src/drivers/gpu/drm/msm/msm_mdss.c: error: case label does not reduce to an integer constant:  => 299:2, 300:2, 296:2
 
---Sig_/QfLE5Fsmt0Zg4db0u42lav=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+powerpc-gcc5/{ppc32,ppc64_book3e,ppc64le}_allmodconfig
+powerpc-gcc5/powerpc-all{mod,yes}config
+arm64-gcc5/arm64-allmodconfig
 
------BEGIN PGP SIGNATURE-----
+>  + /kisskb/src/drivers/media/i2c/imx290.c: error: 'imx290_runtime_resume' defined but not used [-Werror=unused-function]:  => 1082:12
+>  + /kisskb/src/drivers/media/i2c/imx290.c: error: 'imx290_runtime_suspend' defined but not used [-Werror=unused-function]:  => 1090:12
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQFpJgACgkQI1/ltBGq
-qqfZPg/9ErTM8tiHUcj64YxpQUrNz4dSYjEQ8n//9RfYcsaezf8F4jJRPvkk6s87
-t1JGPjclOrzTuDno0fFWiVV6blDGdSPUDTtm8BBtaIDQbgG192fL/CxuPw7KKAvD
-ynvnFP9kYsAVE6e7aF2sH/cfHaoMkHpwnZhjQrYOi50oLpYmrVA2j8qIoBPU+eEE
-t/En8ofRmJO4vqnyJ9lBTfwZyjOQZcGb5Xu05t91q9Pjj7XfTg198rsYLKzuQx4T
-4N5K956YX5GSfu+0EDWV7wYzWQDz+A/TIZqY09tMm2DXVy9B3TIaqZVjMvA3oiW4
-gYgu9ZD5rQ+ryMBdVLyuqfkwSTkq+Hm/jTnbFO+qZ76YbRQoba7/mZ6cmbWIsZX2
-8r37y+bf7cVWMZMPYNIzkE0EPIaAt+fJq1MLratGwZNm69fRvEVZBb1jtrxzImAc
-rhLtidsOVXgc5SMv5Ev5muwiFXmLYluAnLJLG1b4csyLTtXnelSVEIwfCq06sFyy
-aopQZkmCff9sHswyuZiGQ/RtQoGkFRPy7m+mMcugTIlLkFyEzeLn+C9o44jtr295
-kuIel7VOjqmcxZJz0DMEuUfU+HJAmD/UlA12LA7pYN2qpM85UvFl56j/Kdu81Cs5
-m7MLJ/XgGlV+wGfBvo4Dydqg4K+Te6+WTlLVM7mfmhItD3jMzcg=
-=I/p6
------END PGP SIGNATURE-----
+m68k-gcc{8,11}/m68k-allmodconfig
+parisc-gcc{8,11}/parisc-allmodconfig
+s390x-gcc11/s390-all{mod,yes}config
 
---Sig_/QfLE5Fsmt0Zg4db0u42lav=--
+Fix available since Feb 7.
+
+>  + /kisskb/src/fs/btrfs/inode.c: error: 'location.type' may be used uninitialized [-Werror=maybe-uninitialized]:  => 5730:21
+
+sparc64-gcc11/sparc{,64}-allmodconfig
+parisc-gcc11/parisc-allmodconfig
+
+>  + /kisskb/src/fs/btrfs/send.c: error: 'right_gen' may be used uninitialized in this function [-Werror=maybe-uninitialized]:  => 1909:13, 1902:23
+
+powerpc-gcc5/powerpc-all{mod,yes}config
+powerpc-gcc5/{ppc32,ppc64_book3e,ppc64le}_allmodconfig
+powerpc-gcc5/{ppc64,ppc64le,pseries,pseries_le,skiroot}_defconfig
+
+>  + /opt/cross/kisskb/fe-x86-64-core-i7-2017.05/x86_64-buildroot-linux-gnu/sysroot/usr/include/bits/stdlib-float.h: error: SSE register return with SSE disabled:  => 27:1
+
+um-x86_64/um-allyesconfig
+
+>  + {standard input}: Error: unknown pseudo-op: `.':  => 1118
+
+sh4-gcc11/sh-all{mod,yes}config (ICE)
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
