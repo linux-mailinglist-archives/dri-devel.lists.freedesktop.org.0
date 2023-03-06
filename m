@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC03D6AC6B1
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:02:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E89846AC6E3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:02:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F60810E3C0;
-	Mon,  6 Mar 2023 16:01:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75CA210E3D6;
+	Mon,  6 Mar 2023 16:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1D710E3A8
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98D710E3AB
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:01:03 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3427B2245B;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8513B22464;
  Mon,  6 Mar 2023 16:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9jPw1gekX+dS3alKpIhYWuod0yFkaKVmgthd+u+9Q3I=;
- b=BZCIBnjT4VG2watd8QiYGZnfT3gnTX0oWbbZ/wo0QDvu1fLYkpFx8+kzl197N8PW9XiMgK
- dK8wIAlA4l5TYEOwT3EpDASIhkF5Ain2/FyssDJ9BvNyQDHPqWHxxabnciQI9Fc0rDeOnm
- HRLN5ZIRHvdY51yTQDrtWsM6emHsZAI=
+ bh=9yTAZ+fWm46H8QqfoRrnwlZTk5mIqjHDcgi+SJhTWtw=;
+ b=Br3YluVLuR6Ry7K8JR11i7Y6BwJ19Dy/SS6WvZZAGFao7VqxeQstljX9BKQYatqUH2U3rH
+ axSSd2rIfWBlmyfaMa12nNRbc/B5dJqqSdy25DF0nC1nEAOXc9jMTwPnxZ1BSMYnR/T49x
+ CPQiy+jEp9/hwLaVA9unYphnWPW5HHk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118462;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9jPw1gekX+dS3alKpIhYWuod0yFkaKVmgthd+u+9Q3I=;
- b=Xj87SiI0F2lYajydSZ9VDJqbuHcFCbMfqbg59Q1PzPiAgepDEYeJTtbYJQUfEIF9IdLmBR
- wyl+8GbplWzpOLDQ==
+ bh=9yTAZ+fWm46H8QqfoRrnwlZTk5mIqjHDcgi+SJhTWtw=;
+ b=MLgmOCvBzQ+4wPhXhi5GV8EsH1wxUxxiGUfGTH6NUSq1yo7nucXwNLckj5yvLlXfHg6gu2
+ 1YwmvZcohBoEQVCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BF9B813513;
- Mon,  6 Mar 2023 16:01:01 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C7AE13A6A;
+ Mon,  6 Mar 2023 16:01:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2EfpLT0OBmQ/PwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:01:01 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uHMGCj4OBmQ/PwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:01:02 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  linux@armlinux.org.uk, pjones@redhat.com, timur@kernel.org,
@@ -53,9 +53,10 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
-Date: Mon,  6 Mar 2023 17:00:14 +0100
-Message-Id: <20230306160016.4459-98-tzimmermann@suse.de>
+Subject: [PATCH 98/99] staging/sm750fb: Parse option string with struct
+ option_iter
+Date: Mon,  6 Mar 2023 17:00:15 +0100
+Message-Id: <20230306160016.4459-99-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,43 +79,126 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Assume that the driver does not own the option string or its substrings
-and hence duplicate the option string for the video mode. The driver only
-parses the option string once as part of module initialization, so use
-a static buffer to store the duplicated mode option. Linux automatically
-frees the memory upon releasing the module.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
 
 Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/vt8623fb.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 43 +++++++++++++++++----------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/video/fbdev/vt8623fb.c b/drivers/video/fbdev/vt8623fb.c
-index 034333ee6e45..cbdca42d1708 100644
---- a/drivers/video/fbdev/vt8623fb.c
-+++ b/drivers/video/fbdev/vt8623fb.c
-@@ -929,8 +929,17 @@ static int __init vt8623fb_init(void)
- 	if (fb_get_options("vt8623fb", &option))
- 		return -ENODEV;
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index effc7fcc3703..2eb223f0631e 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/aperture.h>
++#include <linux/cmdline.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/errno.h>
+@@ -867,9 +868,10 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ }
  
--	if (option && *option)
--		mode_option = option;
-+	if (option && *option) {
-+		static char mode_option_buf[256];
-+		int ret;
+ /*	chip specific g_option configuration routine */
+-static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
++static void sm750fb_setup(struct sm750_dev *sm750_dev, const char *src)
+ {
+-	char *opt;
++	struct option_iter iter;
++	const char *opt;
+ 	int swap;
+ 
+ 	swap = 0;
+@@ -889,9 +891,12 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 		goto NO_PARAM;
+ 	}
+ 
+-	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
++	dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
 +
-+		ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", option);
-+		if (WARN(ret < 0, "vt8623fb: ignoring invalid option, ret=%d\n", ret))
-+			break;
-+		if (WARN(ret >= sizeof(mode_option_buf), "vt8623fb: option too long\n"))
-+			break;
-+		mode_option = mode_option_buf;
-+	}
- #endif
++	option_iter_init(&iter, src);
++
++	while (option_iter_next(&iter, opt)) {
+ 		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+-		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
  
- 	pr_debug("vt8623fb: initializing\n");
+ 		if (!strncmp(opt, "swap", strlen("swap"))) {
+ 			swap = 1;
+@@ -924,6 +929,8 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 		}
+ 	}
+ 
++	option_iter_release(&iter);
++
+ NO_PARAM:
+ 	if (sm750_dev->revid != SM750LE_REVISION_ID) {
+ 		if (sm750_dev->fb_count > 1) {
+@@ -1096,10 +1103,12 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
+ 	kfree(g_settings);
+ }
+ 
+-static int __init lynxfb_setup(char *options)
++static int __init lynxfb_setup(const char *options)
+ {
++	struct option_iter iter;
++	const char *opt;
+ 	int len;
+-	char *opt, *tmp;
++	char *tmp;
+ 
+ 	if (!options || !*options) {
+ 		pr_warn("no options.\n");
+@@ -1112,19 +1121,11 @@ static int __init lynxfb_setup(char *options)
+ 	g_settings = kzalloc(len, GFP_KERNEL);
+ 	if (!g_settings)
+ 		return -ENOMEM;
+-
+ 	tmp = g_settings;
+ 
+-	/*
+-	 * Notes:
+-	 * char * strsep(char **s,const char * ct);
+-	 * @s: the string to be searched
+-	 * @ct :the characters to search for
+-	 *
+-	 * strsep() updates @options to pointer after the first found token
+-	 * it also returns the pointer ahead the token.
+-	 */
+-	while ((opt = strsep(&options, ":")) != NULL) {
++	option_iter_init(&iter, options);
++
++	while (option_iter_next(&iter, opt)) {
+ 		/* options that mean for any lynx chips are configured here */
+ 		if (!strncmp(opt, "noaccel", strlen("noaccel"))) {
+ 			g_noaccel = 1;
+@@ -1133,15 +1134,15 @@ static int __init lynxfb_setup(char *options)
+ 		} else if (!strncmp(opt, "dual", strlen("dual"))) {
+ 			g_dualview = 1;
+ 		} else {
++			if (tmp != g_settings)
++				*tmp++ = ':'; // add separator
+ 			strcat(tmp, opt);
+ 			tmp += strlen(opt);
+-			if (options)
+-				*tmp++ = ':';
+-			else
+-				*tmp++ = 0;
+ 		}
+ 	}
+ 
++	option_iter_release(&iter);
++
+ 	/* misc g_settings are transport to chip specific routines */
+ 	pr_info("parameter left for chip specific analysis:%s\n", g_settings);
+ 	return 0;
 -- 
 2.39.2
 
