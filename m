@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0A36AC69B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:01:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7736AC6B4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:02:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9249710E3A3;
-	Mon,  6 Mar 2023 16:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2E810E3BE;
+	Mon,  6 Mar 2023 16:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC2310E0D6
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B512310E292
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:56 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EC2961FED8;
- Mon,  6 Mar 2023 16:00:54 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6248D22441;
+ Mon,  6 Mar 2023 16:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678118454; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678118455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4CTiBWCUsSzOh1iLUcC+NpZPt+whzLfG50MTmUnIlMg=;
- b=P2PiTpZvGnfq2wqnAXUK7WniO3UNETfvcMcNJIAOiG/NMxPqrNH0HCDyrpDlHFjzFsKoJB
- qeoWv5tTsxRqWhVeKrOQDuwhad6PcPKffMHTGwU91L9ldvzyGl5jf89DZKsWYsCck57E4R
- QzeCPLqHkwcO+VyxhU38q+uhnA0raSY=
+ bh=Ls2zpWNQwKyUd6c7jGCzHsXipZg/epgyes0ZWs+tOkQ=;
+ b=cNab8bW1wtB1J/f7O9PqZI22+q4ZVQsMV4pMe7hlvQRnFEf2FPr9BV5rNnBMSNkw87suyy
+ zii8gpql9YZdZrPq0vHjPUBKJZOFrodN/3euKsE4QkBQaCEfJzeDTYSfXQ9Mr5fufwi6mE
+ hDzCrw90Q8EyEOCzGxOODTOVBUrhLjo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678118454;
+ s=susede2_ed25519; t=1678118455;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4CTiBWCUsSzOh1iLUcC+NpZPt+whzLfG50MTmUnIlMg=;
- b=PhP4C6vlnz9G4m2ojHstR0sRP9FOMkoiUnThczLryuI0RnRGr45EjGnIMmswtWGZpuutKM
- nr5uPv4MbkG+s2Cg==
+ bh=Ls2zpWNQwKyUd6c7jGCzHsXipZg/epgyes0ZWs+tOkQ=;
+ b=xpghlH3ap6xUl4eeycZ5M7CETfUlMyor5LQYwbIo+fkm9wcHjWroPP4metLpnX9FGP8sO6
+ vjEcTfbEu+BbryCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8A52F13513;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F090713A6A;
  Mon,  6 Mar 2023 16:00:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SFb6IDYOBmQ/PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2OXaOTYOBmQ/PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
@@ -53,9 +53,10 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 80/99] fbdev/tdfxfb: Duplicate video-mode option string
-Date: Mon,  6 Mar 2023 16:59:57 +0100
-Message-Id: <20230306160016.4459-81-tzimmermann@suse.de>
+Subject: [PATCH 81/99] fbdev/tdfxfb: Parse option string with struct
+ option_iter
+Date: Mon,  6 Mar 2023 16:59:58 +0100
+Message-Id: <20230306160016.4459-82-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,41 +79,63 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Assume that the driver does not own the option string or its substrings
-and hence duplicate the option string for the video mode. The driver only
-parses the option string once as part of module initialization, so use
-a static buffer to store the duplicated mode option. Linux automatically
-frees the memory upon releasing the module.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
 
-Done in preparation of switching the driver to struct option_iter and
-constifying the option string.
+Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/tdfxfb.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/tdfxfb.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
-index d17e5e1472aa..ed3d8491e724 100644
+index ed3d8491e724..54b19ce40bff 100644
 --- a/drivers/video/fbdev/tdfxfb.c
 +++ b/drivers/video/fbdev/tdfxfb.c
-@@ -1589,7 +1589,15 @@ static void __init tdfxfb_setup(char *options)
- 		} else if (!strncmp(this_opt, "nomtrr", 6)) {
- 			nomtrr = 1;
- 		} else {
--			mode_option = this_opt;
-+			static char mode_option_buf[256];
-+			int ret;
-+
-+			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", this_opt);
-+			if (WARN(ret < 0, "tdfxfb: ignoring invalid option, ret=%d\n", ret))
-+				continue;
-+			if (WARN(ret >= sizeof(mode_option_buf), "tdfxfb: option too long\n"))
-+				continue;
-+			mode_option = mode_option_buf;
+@@ -65,6 +65,7 @@
+  */
+ 
+ #include <linux/aperture.h>
++#include <linux/cmdline.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+@@ -1570,16 +1571,14 @@ static int tdfxfb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ }
+ 
+ #ifndef MODULE
+-static void __init tdfxfb_setup(char *options)
++static void __init tdfxfb_setup(const char *options)
+ {
+-	char *this_opt;
++	struct option_iter iter;
++	const char *this_opt;
+ 
+-	if (!options || !*options)
+-		return;
++	option_iter_init(&iter, options);
+ 
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
+-		if (!*this_opt)
+-			continue;
++	while (option_iter_next(&iter, this_opt)) {
+ 		if (!strcmp(this_opt, "nopan")) {
+ 			nopan = 1;
+ 		} else if (!strcmp(this_opt, "nowrap")) {
+@@ -1600,6 +1599,8 @@ static void __init tdfxfb_setup(char *options)
+ 			mode_option = mode_option_buf;
  		}
  	}
++
++	option_iter_release(&iter);
  }
+ #endif
+ 
 -- 
 2.39.2
 
