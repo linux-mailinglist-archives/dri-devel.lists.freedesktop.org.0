@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFE56ABF16
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 13:07:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF356ABF18
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 13:07:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95F7810E2FE;
-	Mon,  6 Mar 2023 12:07:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63B6010E361;
+	Mon,  6 Mar 2023 12:07:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5973610E2E2;
- Mon,  6 Mar 2023 12:07:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1673A10E2FE;
+ Mon,  6 Mar 2023 12:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678104461; x=1709640461;
+ t=1678104463; x=1709640463;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sW8IhlWIeROU2d4Zt4BL332Myyi+bypEEdT0KX9wnNw=;
- b=cbAEhs/cwleS6kh+5ZCjvS0b0vGR70rrg0y9JE6j7Lij8hCnFbJnu946
- vJ1s52hJg5W9V9WSrhupLNF0d/EJ9HzOZskMfu82HlJzYCNvEEgLYHh5C
- J5kUjoip4/rvVqs0OSypq5JoxlidbVKjHIky1gISpTvx7zVEIPMZdufYO
- 0o9jGP0ODkQ86QprUQl8lMWPzYp05n4puoYPuR+THw/+zp2EAsOqrJoJJ
- bB9rjtP5jBjw6pz8k+3pQEXXnoeSqKNgDSPHar2RjXPCs73jdCJWHQXr4
- FJTQ9sKX5J8G13MdiBtEV7d7xwFbg0xHq/McKEOiROsixKU3L+TpL0C4R g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="315196915"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="315196915"
+ bh=M84jNf4aUyYLv2UQIE5p33djHd9HeOdrxvHzPhsYdfs=;
+ b=Tj3QRhT4j9ottG5h7rx7IrZUspT73DvQBuTm5GmXt0HxWglppu2Ekpju
+ kXeOHOHfHsk/scfWYu1SIzX56n5aE7i9Qnvk6zu06VtnfmdOK5S+3spAN
+ 2E1ST3sayj2/RXYju/Y2rr9OC9w4fhthoO/wLTMv1YYjv0H0Hd8jDmoK9
+ D6ZCQ/GmR5nvmfvcnY2zY5IG5HHgKQtoZ0EgluIeAHvhkBkLkD+S8RlQx
+ yYvyDX33XsPQgcg5kpTejW2SeZvn/OL2YLHIdawFY8qEGUTD1c0yVXf5z
+ 1qsSbaDGqMVA0er3l/aQG7GdqPu348zDXUXw9fnjrGHqyf9mqMfLazrwN A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="315196917"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="315196917"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 04:07:41 -0800
+ 06 Mar 2023 04:07:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="819278240"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="819278240"
+X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="819278243"
+X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="819278243"
 Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 04:07:39 -0800
+ 06 Mar 2023 04:07:41 -0800
 From: Nirmoy Das <nirmoy.das@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/i915: Add a helper func for gem obj mmap
-Date: Mon,  6 Mar 2023 13:07:31 +0100
-Message-Id: <20230306120732.28656-2-nirmoy.das@intel.com>
+Subject: [PATCH RFC v2 3/3] drm/i915/display: Implement fb_mmap callback
+ function
+Date: Mon,  6 Mar 2023 13:07:32 +0100
+Message-Id: <20230306120732.28656-3-nirmoy.das@intel.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230306120732.28656-1-nirmoy.das@intel.com>
 References: <20230306120732.28656-1-nirmoy.das@intel.com>
@@ -65,110 +66,65 @@ Cc: andrzej.hajda@intel.com, andi.shyti@intel.com, matthew.auld@intel.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move gem obj mmap code to i915_gem_object_mmap() so that
-this can be used by others.
+If stolen memory allocation fails for fbdev, the driver will
+fallback to system memory. Calculation of smem_start is wrong
+for such framebuffer objs if the platform comes with no gmadr or
+no aperture. Solve this by adding fb_mmap callback which also gives
+driver more control.
+
+v2: Remove unused var.
 
 Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 20 ++---------------
- drivers/gpu/drm/i915/gem/i915_gem_mman.c   | 25 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_mman.h   |  1 +
- 3 files changed, 28 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index fd556a076d05..831dd8ebf819 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -12,6 +12,7 @@
- #include <asm/smp.h>
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index 98ae3a3a986a..161c2610976a 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -40,8 +40,10 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_gem_framebuffer_helper.h>
  
- #include "gem/i915_gem_dmabuf.h"
+ #include "gem/i915_gem_lmem.h"
 +#include "gem/i915_gem_mman.h"
+ 
  #include "i915_drv.h"
- #include "i915_gem_object.h"
- #include "i915_scatterlist.h"
-@@ -94,27 +95,10 @@ static void i915_gem_dmabuf_vunmap(struct dma_buf *dma_buf,
- static int i915_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
- {
- 	struct drm_i915_gem_object *obj = dma_buf_to_obj(dma_buf);
--	struct drm_i915_private *i915 = to_i915(obj->base.dev);
--	int ret;
- 
- 	dma_resv_assert_held(dma_buf->resv);
- 
--	if (obj->base.size < vma->vm_end - vma->vm_start)
--		return -EINVAL;
--
--	if (HAS_LMEM(i915))
--		return drm_gem_prime_mmap(&obj->base, vma);
--
--	if (!obj->base.filp)
--		return -ENODEV;
--
--	ret = call_mmap(obj->base.filp, vma);
--	if (ret)
--		return ret;
--
--	vma_set_file(vma, obj->base.filp);
--
--	return 0;
-+	return i915_gem_object_mmap(obj, vma);
+ #include "intel_display_types.h"
+@@ -120,6 +122,22 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
+ 	return ret;
  }
  
- static int i915_gem_begin_cpu_access(struct dma_buf *dma_buf, enum dma_data_direction direction)
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index 2aac6bf78740..d378720ca626 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -11,6 +11,8 @@
- 
- #include <drm/drm_cache.h>
- 
-+#include "gem/i915_gem_lmem.h"
-+
- #include "gt/intel_gt.h"
- #include "gt/intel_gt_requests.h"
- 
-@@ -1043,6 +1045,29 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	return 0;
- }
- 
-+int i915_gem_object_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma)
++#define to_intel_fbdev(x) container_of(x, struct intel_fbdev, helper)
++static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
 +{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	int ret;
++	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
++	struct drm_gem_object *bo = drm_gem_fb_get_obj(&fbdev->fb->base, 0);
++	struct drm_i915_gem_object *obj = to_intel_bo(bo);
 +
-+	if (obj->base.size < vma->vm_end - vma->vm_start)
-+		return -EINVAL;
++	vma->vm_page_prot =
++			pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
 +
-+	if (HAS_LMEM(i915))
-+		return drm_gem_prime_mmap(&obj->base, vma);
++	if (obj->stolen)
++		return vm_iomap_memory(vma, info->fix.smem_start,
++				       info->fix.smem_len);
 +
-+	if (obj->base.filp) {
-+		ret = call_mmap(obj->base.filp, vma);
-+		if (ret)
-+			return ret;
-+
-+		vma_set_file(vma, obj->base.filp);
-+		return 0;
-+	}
-+
-+	return -ENODEV;
++	return i915_gem_object_mmap(obj, vma);
 +}
-+
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/i915_gem_mman.c"
- #endif
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-index 1fa91b3033b3..303e81ddc5ba 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-@@ -30,4 +30,5 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
- void i915_gem_object_runtime_pm_release_mmap_offset(struct drm_i915_gem_object *obj);
- void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
+ static const struct fb_ops intelfb_ops = {
+ 	.owner = THIS_MODULE,
+ 	DRM_FB_HELPER_DEFAULT_OPS,
+@@ -131,6 +149,7 @@ static const struct fb_ops intelfb_ops = {
+ 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
+ 	.fb_pan_display = intel_fbdev_pan_display,
+ 	.fb_blank = intel_fbdev_blank,
++	.fb_mmap = intel_fbdev_mmap,
+ };
  
-+int i915_gem_object_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma);
- #endif
+ static int intelfb_alloc(struct drm_fb_helper *helper,
 -- 
 2.39.0
 
