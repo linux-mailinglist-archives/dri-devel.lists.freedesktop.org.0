@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205706AC65F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:01:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2FB6AC65C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:01:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87D6010E39A;
-	Mon,  6 Mar 2023 16:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 787CC10E389;
+	Mon,  6 Mar 2023 16:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9872210E378
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E697E10E375
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:34 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3E68A1FDEB;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9462F1FE05;
  Mon,  6 Mar 2023 16:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rlw6Y9HytpkB3h8X3sYp9Q/5dj2jl9fyg6laIqBFHmA=;
- b=UA0AU+8JNLwhTqGrlpZIn9kcDz7Pgg2tC5sBRfYuOum/1ZRLNPGUgOobCxgPjF/b49X92m
- X6VesbrhU3/K1VgbkEemX3jDIq9pyokGPfsW+8+AmMpIowBtz9z2WUGydPYIgwFjEXX6hx
- QryOCn3keLR0ITMjl5mQKPsguZo2B4I=
+ bh=FxTnA/4g2gQ8QoHWKF4602AiCImq3uJcQGAx0xAZhD0=;
+ b=R1JJfkm/Po0LNM1CAqRrM/YR42o67MYbo5KaZKOGJfLcTEyLBZ9ZsaP7wsOhttSMjHMGYp
+ 20bx9U5hifW5XESEpB9lAN8xFuPNFIkwKuAFbmm8H5OfZmbj30JcqLLpRxfhtYVUDTjyHh
+ f6d0E+pRl6FtacyKvH7UGcim1QXyQWs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118433;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rlw6Y9HytpkB3h8X3sYp9Q/5dj2jl9fyg6laIqBFHmA=;
- b=b8tJbPSYaNtJ/8Uk5mCRRx6gPRMZLLKvfcW2ZfPdtD11XP/hPD5110toEAPpfNQjnjhchb
- JJZWioCGPKdTbxDQ==
+ bh=FxTnA/4g2gQ8QoHWKF4602AiCImq3uJcQGAx0xAZhD0=;
+ b=ZH/y6rh99TWEiPVSauQR7+ZZYGNj4Hb9vv9syDGW1/KxBZrdHZuv5l2oWN2YvtL9VhImrN
+ 1xHXKFEjthqY+QAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E36AC13513;
- Mon,  6 Mar 2023 16:00:32 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 429C013A6A;
+ Mon,  6 Mar 2023 16:00:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EKPFNiAOBmQ/PwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:32 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id WOd+DyEOBmQ/PwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  linux@armlinux.org.uk, pjones@redhat.com, timur@kernel.org,
@@ -53,9 +53,9 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 24/99] fbdev/gbefb: Duplicate video-mode option string
-Date: Mon,  6 Mar 2023 16:59:01 +0100
-Message-Id: <20230306160016.4459-25-tzimmermann@suse.de>
+Subject: [PATCH 25/99] fbdev/gbefb: Parse option string with struct option_iter
+Date: Mon,  6 Mar 2023 16:59:02 +0100
+Message-Id: <20230306160016.4459-26-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,54 +78,71 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Assume that the driver does not own the option string or its substrings
-and hence duplicate the option string for the video mode. Allocate the
-copy's memory with devm_kstrdup(), as the driver parses the option string
-once per probed device. Linux will automatically free the memory upon
-releasing the device.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
 
-Done in preparation of switching the driver to struct option_iter and
-constifying the option string.
+Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/gbefb.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/gbefb.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/video/fbdev/gbefb.c b/drivers/video/fbdev/gbefb.c
-index 000b4aa44241..5330aa6029ca 100644
+index 5330aa6029ca..36651bb6006d 100644
 --- a/drivers/video/fbdev/gbefb.c
 +++ b/drivers/video/fbdev/gbefb.c
-@@ -1083,7 +1083,7 @@ ATTRIBUTE_GROUPS(gbefb);
+@@ -9,6 +9,7 @@
+  *  more details.
+  */
+ 
++#include <linux/cmdline.h>
+ #include <linux/delay.h>
+ #include <linux/platform_device.h>
+ #include <linux/dma-mapping.h>
+@@ -1083,14 +1084,14 @@ ATTRIBUTE_GROUPS(gbefb);
   * Initialization
   */
  
--static int gbefb_setup(char *options)
-+static int gbefb_setup(char *options, struct device *dev)
+-static int gbefb_setup(char *options, struct device *dev)
++static int gbefb_setup(const char *options, struct device *dev)
  {
- 	char *this_opt;
+-	char *this_opt;
++	struct option_iter iter;
++	const char *this_opt;
  
-@@ -1108,8 +1108,9 @@ static int gbefb_setup(char *options)
+-	if (!options || !*options)
+-		return 0;
++	option_iter_init(&iter, options);
+ 
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
++	while (option_iter_next(&iter, this_opt)) {
+ 		if (!strncmp(this_opt, "monitor:", 8)) {
+ 			if (!strncmp(this_opt + 8, "crt", 3)) {
+ 				flat_panel_enabled = 0;
+@@ -1103,7 +1104,7 @@ static int gbefb_setup(char *options, struct device *dev)
+ 				default_mode = &default_mode_LCD;
+ 			}
+ 		} else if (!strncmp(this_opt, "mem:", 4)) {
+-			gbe_mem_size = memparse(this_opt + 4, &this_opt);
++			gbe_mem_size = memparse(this_opt + 4, NULL);
+ 			if (gbe_mem_size > CONFIG_FB_GBE_MEM * 1024 * 1024)
  				gbe_mem_size = CONFIG_FB_GBE_MEM * 1024 * 1024;
  			if (gbe_mem_size < TILE_SIZE)
- 				gbe_mem_size = TILE_SIZE;
--		} else
--			mode_option = this_opt;
-+		} else {
-+			mode_option = devm_kstrdup(dev, this_opt, GFP_KERNEL);
-+		}
+@@ -1112,6 +1113,9 @@ static int gbefb_setup(char *options, struct device *dev)
+ 			mode_option = devm_kstrdup(dev, this_opt, GFP_KERNEL);
+ 		}
  	}
++
++	option_iter_release(&iter);
++
  	return 0;
  }
-@@ -1132,7 +1133,7 @@ static int gbefb_probe(struct platform_device *p_dev)
- 		ret = -ENODEV;
- 		goto out_release_framebuffer;
- 	}
--	gbefb_setup(options);
-+	gbefb_setup(options, &p_dev->dev);
- #endif
  
- 	if (!request_mem_region(GBE_BASE, sizeof(struct sgi_gbe), "GBE")) {
 -- 
 2.39.2
 
