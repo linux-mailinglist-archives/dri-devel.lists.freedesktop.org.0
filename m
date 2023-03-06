@@ -1,53 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EC46ACED6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 21:05:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7CD6ACEF6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 21:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A650710E45A;
-	Mon,  6 Mar 2023 20:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE8B10E45B;
+	Mon,  6 Mar 2023 20:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5266410E45A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 20:05:36 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9C76DB81104
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 20:05:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6562CC433A1
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 20:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678133133;
- bh=7aGV60npvHqtpD2KZbj09/ATSzY6ifh/i1if6W3gd4g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=D1K+iOlR+AIRbRv93QXZnzeNuquqsYjjqN4/YcPp/fZ6sUbv8KhpRrgL+ncUSlD07
- D5O0IYHWh7BRaLxbTo01mwwKB0TYCJcEd3QK3+aJpNXiycJtWiePMIzL/xVk3Tx2KN
- rDVC5N/jeZ4Qk3HR+uye77zvmWXuoP9GV8lRNFAIHlZW0fjT6XDoAMW60SZrvApIU8
- ksDqOYGBLmZ5OZRhMGA8udfSaAKU6ImROnXQ8rjbTAtadPkipuxhOQi5+WcxLIqEU8
- s7Zf2By11p7YhjJLYz1fxcJZHcH2qx9lDHqG2fNREvzhRYG7NNlaWgA2fLb2szHoHY
- mnf+BaH3AvHNA==
-Received: by mail-ed1-f54.google.com with SMTP id j11so24105663edq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 12:05:33 -0800 (PST)
-X-Gm-Message-State: AO0yUKUqfc9laMUGYr7VCK2/YttGInLFmDfvoEZmdtiSHXR4ufAuoWFc
- Nme2G/VIHiD8OPX5bCZefpSIZblRud3VW/rEkus=
-X-Google-Smtp-Source: AK7set/1eKTbJwQDLH579qb/v4dU5t+rNalaL06DcZNQXB8YFSECcnZJKc8FFLD3DOzXqQpD5dLXg9oxaE3QLoFBwDs=
-X-Received: by 2002:a50:d581:0:b0:4bf:5fd5:da40 with SMTP id
- v1-20020a50d581000000b004bf5fd5da40mr6349414edi.4.1678133131533; Mon, 06 Mar
- 2023 12:05:31 -0800 (PST)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 791F210E090;
+ Mon,  6 Mar 2023 20:12:52 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-176d93cd0daso3338740fac.4; 
+ Mon, 06 Mar 2023 12:12:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678133571;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UbyaZV7b8A27RO9P/Ml4RDfO75mDyTcd6vBEpKPjQxc=;
+ b=KtV2l90tYkf/jvdSRHt7ZTjxthhAr8goSAYQZrJePJMc5/fRLZlyEm3hkXC5HhZva4
+ R6IVTamH7c1SKnPPABHoQwOV/bftY5EsJDtmUNViFgjWxvH3S1K1w06+zlIQGygzYoVY
+ 8GlzIgdhwE5OhJczR5og8tzwYG0ySUIBWn1v2aPMBneiFkTYmWS5KGMpr03jL5nwsQAz
+ CywoHDKK24lRqVWxpyuCm09SjFDlxHB5HMOClPckudCW6zthiWtwkxg/qEZaODVllBJK
+ Te56K0L7SN5lDH0kcDA1ozBFvZD4FJs0nKp9LvAgFikjr+a8bYOQxVR0GhRJbvSwBnNm
+ nkvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678133571;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UbyaZV7b8A27RO9P/Ml4RDfO75mDyTcd6vBEpKPjQxc=;
+ b=OKdCG1QDWR6VEnnxpluJ6eKnVKzw+vVK9aGVKwG2kG5YsebIikH/g6dRtVrl6+4vF0
+ Ac+RHEWh0iCAJ/U0dH7As4OgqVtyLw95/09CoLi7ZjAwNOGKhvzvS1FcjALx0dGgwi5R
+ x+xI6eU2FHTlIzSGe36wf6Ki42objqzZsdvNsPceKmbNwEre79wOtYTBYm8gcRYOSX4n
+ kCoD/v4U9YsVxuEblg28yZeXA822RwcRbkb0WznvhX2hf+32k7EIbgG3kXXGPizOs+QM
+ 3onbWaRdkvw74Meyx61LzT77dmxZaxLipIw80ex6ouIKyAEnLMyLgh0ME5TIbCQB4U4n
+ +MSQ==
+X-Gm-Message-State: AO0yUKWOAuHup3Ieyv40D3BlonrbW/QOkc+AvcPUvFliNwjjV9jKBtiy
+ uyBzdf/rjjm2WJ4vNNgIndLa190DnKvIPHpFG0k=
+X-Google-Smtp-Source: AK7set+YxOwffgDMviQZHk9Ibnf6sl0nJK1oL10kk9xJO36ZJx+KOaq+Uh4do7+YaiVbeHNPEmU9/DKUucAdaR4qLf8=
+X-Received: by 2002:a05:6870:9597:b0:176:4750:554b with SMTP id
+ k23-20020a056870959700b001764750554bmr4315870oao.8.1678133571521; Mon, 06 Mar
+ 2023 12:12:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20230306160016.4459-1-tzimmermann@suse.de>
- <20230306160016.4459-23-tzimmermann@suse.de>
-In-Reply-To: <20230306160016.4459-23-tzimmermann@suse.de>
-From: Timur Tabi <timur@kernel.org>
-Date: Mon, 6 Mar 2023 14:04:54 -0600
-X-Gmail-Original-Message-ID: <CAOZdJXUtkyg5Gv3HYCK-U1pQpY0_QBk99wtqUvz5RVy2W3Ak9w@mail.gmail.com>
-Message-ID: <CAOZdJXUtkyg5Gv3HYCK-U1pQpY0_QBk99wtqUvz5RVy2W3Ak9w@mail.gmail.com>
-Subject: Re: [PATCH 22/99] fbdev/fsl-diu-fb: Duplicate video-mode option string
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20230303113423.3819-1-orlandoch.dev@gmail.com>
+In-Reply-To: <20230303113423.3819-1-orlandoch.dev@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 6 Mar 2023 15:12:40 -0500
+Message-ID: <CADnq5_MCYLDxFmjk6HZfSkQ-GXmduE7=gv2sbBg0uNkKLTsDrA@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] drm/amdgpu: register a vga_switcheroo client
+ for MacBooks with apple-gmux
+To: Orlando Chamberlain <orlandoch.dev@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,35 +67,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, adaplas@gmail.com, timur@kernel.org,
- corbet@lwn.net, deller@gmx.de, thomas@winischhofer.net, mbroemme@libmpq.org,
- linux@armlinux.org.uk, dri-devel@lists.freedesktop.org,
- sudipm.mukherjee@gmail.com, James.Bottomley@hansenpartnership.com,
- spock@gentoo.org, pjones@redhat.com, paulus@samba.org, geert+renesas@glider.be,
- shawnguo@kernel.org, s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
- teddy.wang@siliconmotion.com
+Cc: Aun-Ali Zaidi <admin@kodeit.net>, Evan Quan <evan.quan@amd.com>,
+ Pan Xinhui <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Aditya Garg <gargaditya08@live.com>,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Kerem Karabay <kekrby@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 6, 2023 at 10:01 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+Applied.  Thanks!
+
+Alex
+
+On Fri, Mar 3, 2023 at 6:35 AM Orlando Chamberlain
+<orlandoch.dev@gmail.com> wrote:
 >
-> Assume that the driver does not own the option string or its substrings
-> and hence duplicate the option string for the video mode. The driver only
-> parses the option string once as part of module initialization, so use
-> a static buffer to store the duplicated mode option. Linux automatically
-> frees the memory upon releasing the module.
-
-So after module_init is finished, mode_option_buf[] no longer exists?
-
-> +                       static char mode_option_buf[256];
-> +                       int ret;
+> Commit 3840c5bcc245 ("drm/amdgpu: disentangle runtime pm and
+> vga_switcheroo") made amdgpu only register a vga_switcheroo client for
+> GPU's with PX, however AMD GPUs in dual gpu Apple Macbooks do need to
+> register, but don't have PX. Instead of AMD's PX, they use apple-gmux.
+>
+> Use apple_gmux_detect() to identify these gpus, and
+> pci_is_thunderbolt_attached() to ensure eGPUs connected to Dual GPU
+> Macbooks don't register with vga_switcheroo.
+>
+> Fixes: 3840c5bcc245 ("drm/amdgpu: disentangle runtime pm and vga_switcheroo")
+> Link: https://lore.kernel.org/amd-gfx/20230210044826.9834-10-orlandoch.dev@gmail.com/
+> Signed-off-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
+> ---
+> v1->v2: Use apple_gmux_detect()
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 2f28a8c02f64..ef8b996f0622 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/devcoredump.h>
+>  #include <generated/utsrelease.h>
+>  #include <linux/pci-p2pdma.h>
+> +#include <linux/apple-gmux.h>
+>
+>  #include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -3919,12 +3920,15 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>         if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+>                 vga_client_register(adev->pdev, amdgpu_device_vga_set_decode);
+>
+> -       if (amdgpu_device_supports_px(ddev)) {
+> -               px = true;
+> +       px = amdgpu_device_supports_px(ddev);
 > +
-> +                       ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", opt);
-> +                       if (WARN(ret < 0, "fsl-diu-fb: ignoring invalid option, ret=%d\n", ret))
-> +                               continue;
-> +                       if (WARN(ret >= sizeof(mode_option_buf), "fsl-diu-fb: option too long\n"))
-> +                               continue;
-> +                       fb_mode = mode_option_buf;
-
-If so, then I'm not sure that's going to work.  fb_mode is used after
-module_init, in install_fb(), which is called by fsl_diu_probe().
+> +       if (px || (!pci_is_thunderbolt_attached(adev->pdev) &&
+> +                               apple_gmux_detect(NULL, NULL)))
+>                 vga_switcheroo_register_client(adev->pdev,
+>                                                &amdgpu_switcheroo_ops, px);
+> +
+> +       if (px)
+>                 vga_switcheroo_init_domain_pm_ops(adev->dev, &adev->vga_pm_domain);
+> -       }
+>
+>         if (adev->gmc.xgmi.pending_reset)
+>                 queue_delayed_work(system_wq, &mgpu_info.delayed_reset_work,
+> @@ -4029,6 +4033,7 @@ void amdgpu_device_fini_hw(struct amdgpu_device *adev)
+>  void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+>  {
+>         int idx;
+> +       bool px;
+>
+>         amdgpu_fence_driver_sw_fini(adev);
+>         amdgpu_device_ip_fini(adev);
+> @@ -4048,10 +4053,16 @@ void amdgpu_device_fini_sw(struct amdgpu_device *adev)
+>
+>         kfree(adev->bios);
+>         adev->bios = NULL;
+> -       if (amdgpu_device_supports_px(adev_to_drm(adev))) {
+> +
+> +       px = amdgpu_device_supports_px(adev_to_drm(adev));
+> +
+> +       if (px || (!pci_is_thunderbolt_attached(adev->pdev) &&
+> +                               apple_gmux_detect(NULL, NULL)))
+>                 vga_switcheroo_unregister_client(adev->pdev);
+> +
+> +       if (px)
+>                 vga_switcheroo_fini_domain_pm_ops(adev->dev);
+> -       }
+> +
+>         if ((adev->pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA)
+>                 vga_client_unregister(adev->pdev);
+>
+> --
+> 2.39.1
+>
