@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683056ACFF4
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 22:13:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A25D6AD07B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 22:32:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0719910E477;
-	Mon,  6 Mar 2023 21:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90F9110E0B8;
+	Mon,  6 Mar 2023 21:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4771B10E249
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 21:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678137221; x=1709673221;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=W+pwkRjL2XU/wrlakyvjwEDMpoQqOshgjsZ9AhZ+GLE=;
- b=g2mQZcBWSeddtWICKUIqFDyx7ielFT+haAHo3TyfYHXWXmzaoraMo6tP
- Iex3njjViLXjUAseZ/dSj+eqytnKrwbn/bapN9ytZsewAZy7JUw6LJrig
- wlegQH6HsDb171LpT0Odk3P36DYauIvQb6lAqxuP0WrwOxuPaNeesWY16
- B++ojBhPWsVSqKQEAcaYiyFlnfrCzSGvP1biyPyYTE902Fu6uBLeYnL7Q
- 9ka6msERDEFRzU6CZtxJQHBuVAiF3NAq9oriaS3t7TzM8cTa8cGFWiv+e
- FCh/JUmbFqbs5nl/3zzCn428lzquYLvbZMhxLXRVLb/dPAZ87csT+exn+ w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="421952433"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="421952433"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 13:13:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="740471266"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="740471266"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 06 Mar 2023 13:13:35 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pZI9G-0000df-21;
- Mon, 06 Mar 2023 21:13:34 +0000
-Date: Tue, 7 Mar 2023 05:12:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- paulus@samba.org, benh@kernel.crashing.org, linux@armlinux.org.uk,
- pjones@redhat.com, timur@kernel.org, adaplas@gmail.com,
- s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
- thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
- spock@gentoo.org, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com, geert+renesas@glider.be, corbet@lwn.net
-Subject: Re: [PATCH 08/99] fbdev/arkfb: Duplicate video-mode option string
-Message-ID: <202303070537.699fZDEm-lkp@intel.com>
-References: <20230306160016.4459-9-tzimmermann@suse.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9567C10E267
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 21:32:00 +0000 (UTC)
+Received: from arch-x395 (cpc92308-cmbg19-2-0-cust99.5-4.cable.virginm.net
+ [82.24.248.100])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: evelikov)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id B50106602F94;
+ Mon,  6 Mar 2023 21:31:58 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1678138319;
+ bh=YrH6bxbNrFtdi0yd6A8KwEnooS8cgezW2ipk9avAKew=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cwjWeMJZoEf7ZvlqFl16a0Q/4cgjku3LoIRMX/8kzp5nJwSlgcslyMJSqSIweWwGu
+ dFvX5PPO3o+w3fgkSCG9lM+VSYr4e1h8ZWSO/5dkwZ1OFoCPMrpvMxMc8K32H2P83o
+ KC9m5yOpIY/22TrpXtZCMu+yVp5N/lKWW0TZMAB03rGkleuzGziH7qNhM1/wDrkEUo
+ cg8H5eSGSHsNJYvhqVAjCSgQgGOKpqVqrr8VbY9M7BoxyD4fsPHajbxV1dN5rLpee3
+ mHM2v8u6QZqyu2if/FeY1cHx+waWQgkdotktcrAAezoBU1xdFkp6aKnaZ/JCjjzxDH
+ z8cjW8y4Y4qrw==
+Date: Mon, 6 Mar 2023 21:31:55 +0000
+From: Emil Velikov <emil.velikov@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v3] drm/virtio: Fix handling CONFIG_DRM_VIRTIO_GPU_KMS
+ option
+Message-ID: <ZAZbyyVQMkZq4f6H@arch-x395>
+References: <20230306163916.1595961-1-dmitry.osipenko@collabora.com>
+ <0341e228-a1a2-a42a-7b94-3509d17af56c@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230306160016.4459-9-tzimmermann@suse.de>
+In-Reply-To: <0341e228-a1a2-a42a-7b94-3509d17af56c@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,84 +53,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
+ David Airlie <airlied@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, kernel@collabora.com,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On 2023/03/06, Dmitry Osipenko wrote:
+> On 3/6/23 19:39, Dmitry Osipenko wrote:
+> > VirtIO-GPU got a new config option for disabling KMS. There were two
+> > problems left unnoticed during review when the new option was added:
+> > 
+> > 1. The IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) check in the code was
+> > inverted, hence KMS was disabled when it should be enabled and vice versa.
+> > 
+> > 2. The disabled KMS crashed kernel with a NULL dereference in
+> > drm_kms_helper_hotplug_event(), which shall not be invoked with a
+> > disabled KMS.
+> > 
+> > Fix the inverted config option check in the code and skip handling the
+> > VIRTIO_GPU_EVENT_DISPLAY sent by host when KMS is disabled in guest to fix
+> > the crash.
+> > 
+> > Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Fixes: 72122c69d717 ("drm/virtio: Add option to disable KMS support")
+> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > ---
+> 
+> Added r-b from Emil and applied to misc-next
+> 
 
-I love your patch! Yet something to improve:
+For anyone wondering: I've sent that in private, adding here for posterity
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.3-rc1 next-20230306]
-[cannot apply to deller-parisc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230306160016.4459-9-tzimmermann%40suse.de
-patch subject: [PATCH 08/99] fbdev/arkfb: Duplicate video-mode option string
-config: x86_64-randconfig-a016-20230306 (https://download.01.org/0day-ci/archive/20230307/202303070537.699fZDEm-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f8a56fb51ff846d7daca02280ac0355e1a82264e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
-        git checkout f8a56fb51ff846d7daca02280ac0355e1a82264e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070537.699fZDEm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/video/fbdev/arkfb.c:1205:4: error: 'continue' statement not in loop statement
-                           continue;
-                           ^
-   drivers/video/fbdev/arkfb.c:1207:4: error: 'continue' statement not in loop statement
-                           continue;
-                           ^
-   2 errors generated.
-
-
-vim +/continue +1205 drivers/video/fbdev/arkfb.c
-
-  1191	
-  1192		if (fb_modesetting_disabled("arkfb"))
-  1193			return -ENODEV;
-  1194	
-  1195	#ifndef MODULE
-  1196		if (fb_get_options("arkfb", &option))
-  1197			return -ENODEV;
-  1198	
-  1199		if (option && *option) {
-  1200			static char mode_option_buf[256];
-  1201			int ret;
-  1202	
-  1203			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", option);
-  1204			if (WARN(ret < 0, "arkfb: ignoring invalid option, ret=%d\n", ret))
-> 1205				continue;
-  1206			if (WARN(ret >= sizeof(mode_option_buf), "arkfb: option too long\n"))
-  1207				continue;
-  1208			mode_option = mode_option_buf;
-  1209		}
-  1210	#endif
-  1211	
-  1212		pr_debug("arkfb: initializing\n");
-  1213		return pci_register_driver(&arkfb_pci_driver);
-  1214	}
-  1215	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+-Emil
