@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458CD6AC6C9
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C4D6AC6D9
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D7F10E3CA;
-	Mon,  6 Mar 2023 16:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76DB810E3D3;
+	Mon,  6 Mar 2023 16:01:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7081610E374
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED9E10E392
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 30B48223F0;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 902811FE9D;
  Mon,  6 Mar 2023 16:00:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gYmDAktYqSKk16Nt3SCIyrh7JuKwp4gqEgQeRQha4rE=;
- b=jGqD8OG7NA+zxUIBZpS607qu9LoqogwbziuEQ7wE8IsvXasOWQ8sk5113lM4Y+Aoai1VjK
- V1zbFNmtoIOBi7CARgZrmLNEkMCwEljbaHEMS7NXihNFU4UAWiycDcf+QMzBR3/zfVURv9
- emwhEoGxwTySfU/TsMKcZ+nfow8VtMs=
+ bh=bNt7g7qk3sNz1zHUSaStHnUvLckbyLDyTgt+yojcOaU=;
+ b=sSn5L16MpIhjidLvMNCBDr4FRRQm/jwbp6ove7mwcqJnV62ScS4M1M4j7CBVp9L2gmTHfu
+ sql+Kb67O68OSpxuTInrxN+65Qbam2Q97DctYwxoweaACPcYMQ61dv/qIzeSUnA8o0nvWm
+ nlb5c0L67GkGSY/iUvxsJv9e53HZTj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118443;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gYmDAktYqSKk16Nt3SCIyrh7JuKwp4gqEgQeRQha4rE=;
- b=Yx9jMAbSCp9f9Fq3RNrZI9vyCIxqTNcX1eE2f3Ejd1rnk0M/TQNXaucXHpCnuLtVijIOGY
- R5buLDvH1HKHS+Aw==
+ bh=bNt7g7qk3sNz1zHUSaStHnUvLckbyLDyTgt+yojcOaU=;
+ b=2bcIZLSAwIvktfikfJeQXEEUi+WahZFzsbEkYrkLuT6pYFhDjMKNq2HYVeV9VKd8XIv68Z
+ 0gzvebfe1cw4VUCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C8F1713513;
- Mon,  6 Mar 2023 16:00:42 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3376313A6A;
+ Mon,  6 Mar 2023 16:00:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uMAkMCoOBmQ/PwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:42 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id 6Ou7CysOBmQ/PwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:43 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  linux@armlinux.org.uk, pjones@redhat.com, timur@kernel.org,
@@ -53,9 +53,9 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 49/99] fbdev/neofb: Parse option string with struct option_iter
-Date: Mon,  6 Mar 2023 16:59:26 +0100
-Message-Id: <20230306160016.4459-50-tzimmermann@suse.de>
+Subject: [PATCH 50/99] fbdev/nvidiafb: Duplicate video-mode option string
+Date: Mon,  6 Mar 2023 16:59:27 +0100
+Message-Id: <20230306160016.4459-51-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,67 +78,44 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use struct option_iter to walk over the individual options in the
-driver's option string. Replaces the hand-written strsep() loop with
-a clean interface. The helpers for struct option_iter handle empty
-option strings and empty options transparently. The struct's _init
-and _release functions duplicate and release the option string's
-memory buffer as needed.
+Assume that the driver does not own the option string or its substrings
+and hence duplicate the option string for the video mode. The driver only
+parses the option string once as part of module initialization, so use
+a static buffer to store the duplicated mode option. Linux automatically
+frees the memory upon releasing the module.
 
-Done in preparation of constifying the option string.
+Done in preparation of switching the driver to struct option_iter and
+constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/neofb.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/video/fbdev/nvidia/nvidia.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/neofb.c b/drivers/video/fbdev/neofb.c
-index 958111f7d63c..e9b132d660ab 100644
---- a/drivers/video/fbdev/neofb.c
-+++ b/drivers/video/fbdev/neofb.c
-@@ -55,6 +55,7 @@
-  */
- 
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -2175,19 +2176,16 @@ static struct pci_driver neofb_driver = {
- /* ************************* init in-kernel code ************************** */
- 
- #ifndef MODULE
--static int __init neofb_setup(char *options)
-+static int __init neofb_setup(const char *options)
- {
--	char *this_opt;
-+	struct option_iter iter;
-+	const char *this_opt;
- 
- 	DBG("neofb_setup");
- 
--	if (!options || !*options)
--		return 0;
--
--	while ((this_opt = strsep(&options, ",")) != NULL) {
--		if (!*this_opt)
--			continue;
-+	option_iter_init(&iter, options);
- 
-+	while (option_iter_next(&iter, this_opt)) {
- 		if (!strncmp(this_opt, "internal", 8))
- 			internal = 1;
- 		else if (!strncmp(this_opt, "external", 8))
-@@ -2210,6 +2208,9 @@ static int __init neofb_setup(char *options)
- 			mode_option = mode_option_buf;
- 		}
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index e60a276b4855..eb91201babd4 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -1498,8 +1498,17 @@ static int nvidiafb_setup(char *options)
+ 			fpdither = simple_strtol(this_opt+9, NULL, 0);
+ 		} else if (!strncmp(this_opt, "bpp:", 4)) {
+ 			bpp = simple_strtoul(this_opt+4, NULL, 0);
+-		} else
+-			mode_option = this_opt;
++		} else {
++			static char mode_option_buf[256];
++			int ret;
++
++			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", this_opt);
++			if (WARN(ret < 0, "nvidiafb: ignoring invalid option, ret=%d\n", ret))
++				continue;
++			if (WARN(ret >= sizeof(mode_option_buf), "nvidiafb: option too long\n"))
++				continue;
++			mode_option = mode_option_buf;
++		}
  	}
-+
-+	option_iter_release(&iter);
-+
+ 	NVTRACE_LEAVE();
  	return 0;
- }
- #endif  /*  MODULE  */
 -- 
 2.39.2
 
