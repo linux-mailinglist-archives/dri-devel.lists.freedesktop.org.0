@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23D26AC621
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:01:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 460D06AC61C
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:00:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE0D10E370;
-	Mon,  6 Mar 2023 16:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D58510E296;
+	Mon,  6 Mar 2023 16:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE38810E2CB
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD3710E29B
  for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:26 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D8AA72236F;
- Mon,  6 Mar 2023 16:00:24 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 38BFA22373;
+ Mon,  6 Mar 2023 16:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678118424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678118425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RzHUCgyDVd1/vFJIVF/yHXdWWow6tO5+rSrZEBgBa/c=;
- b=VyetxvZ3ORexkxsuy9ptjw4e5iKIRS6AtzM3owyFLAQtiKrEKVQ9OG/cR6tK3PRgu1sNRe
- 2i3fZa2NJQBfLehZT3TKF3vcS32wpe219jE6y7l2fYNtJL+CviITlg2rD8ml+KodbdSuUd
- J1rNF4avXuY8yMuQ5WLGlmqgrbGFNjg=
+ bh=b6D8FQBTb2yaZRkjP/3Zmj8yOkLU5mYNE2Q1swliLUA=;
+ b=q8ROvjUcrSXURP4NQC4Zg3u4Gw4+An+KGI1Kz4tT1+pf8x6qL8wrC00mYNJwkdWcszbg5g
+ tX72pAJlWDzpAc3ZuKEDcoSMaLFrSB4WMxkUhjCTS+K/hDHXwL/pU/Y0dOgZhUUlsZLJPi
+ COMOQEwJ1WdVegCTBs0GtRQXm5JvkPg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678118424;
+ s=susede2_ed25519; t=1678118425;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RzHUCgyDVd1/vFJIVF/yHXdWWow6tO5+rSrZEBgBa/c=;
- b=GVWq0zHJQbDPUNtYod/JQRKJmUcCoDbJRr7rn6i6IULWpMZKZlGML5Vr/quQhC851qTigA
- zZ/vYCslR9zsLOCQ==
+ bh=b6D8FQBTb2yaZRkjP/3Zmj8yOkLU5mYNE2Q1swliLUA=;
+ b=qnWYoxjTuASWAY95x+RCGYYuVtszvqtS7n4BHovqz0pZaA2P3xj7tUmgp0+ovDNZcGaSto
+ nst+SnyK6AarT9AA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8332F13A6A;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC4DB13513;
  Mon,  6 Mar 2023 16:00:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EA9EHxgOBmQ/PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id UBMDNRgOBmQ/PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
@@ -53,9 +53,9 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 01/99] lib: Add option iterator
-Date: Mon,  6 Mar 2023 16:58:38 +0100
-Message-Id: <20230306160016.4459-2-tzimmermann@suse.de>
+Subject: [PATCH 02/99] fbdev/68328fb: Remove trailing whitespaces
+Date: Mon,  6 Mar 2023 16:58:39 +0100
+Message-Id: <20230306160016.4459-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,208 +78,64 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add struct option_iter and helpers that walk over individual options
-of an option string. Add documentation.
-
-Kernel parameters often have the format of
-
-  param=opt1,opt2:val,opt3
-
-where the option string contains a number of comma-separated options.
-Drivers usually use strsep() in a loop to extract individual options
-from the string. Each call to strsep() modifies the given string, so
-callers have to duplicate kernel parameters that are to be parsed
-multiple times.
-
-The new struct option_iter and its helpers wrap this code behind a
-clean interface. Drivers can iterate over the options without having
-to know the details of the option-string format. The iterator handles
-string memory internally without modifying the original options.
+Fix coding style. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- Documentation/core-api/kernel-api.rst |  9 +++
- include/linux/cmdline.h               | 29 ++++++++
- lib/Makefile                          |  2 +-
- lib/cmdline_iter.c                    | 97 +++++++++++++++++++++++++++
- 4 files changed, 136 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/cmdline.h
- create mode 100644 lib/cmdline_iter.c
+ drivers/video/fbdev/68328fb.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 62f961610773..cdc7ba8decf9 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -93,9 +93,18 @@ Bitmap Operations
- Command-line Parsing
- --------------------
+diff --git a/drivers/video/fbdev/68328fb.c b/drivers/video/fbdev/68328fb.c
+index 7db03ed77c76..7fe56ecbe4e6 100644
+--- a/drivers/video/fbdev/68328fb.c
++++ b/drivers/video/fbdev/68328fb.c
+@@ -123,7 +123,7 @@ static u_long get_line_length(int xres_virtual, int bpp)
+      *  First part, xxxfb_check_var, must not write anything
+      *  to hardware, it should only verify and adjust var.
+      *  This means it doesn't alter par but it does use hardware
+-     *  data from it to check this var. 
++     *  data from it to check this var.
+      */
  
-+.. kernel-doc:: lib/cmdline_iter.c
-+   :doc: overview
-+
- .. kernel-doc:: lib/cmdline.c
-    :export:
+ static int mc68x328fb_check_var(struct fb_var_screeninfo *var,
+@@ -181,7 +181,7 @@ static int mc68x328fb_check_var(struct fb_var_screeninfo *var,
  
-+.. kernel-doc:: lib/cmdline_iter.c
-+   :export:
-+
-+.. kernel-doc:: include/linux/cmdline.h
-+   :internal:
-+
- Sorting
- -------
+ 	/*
+ 	 * Now that we checked it we alter var. The reason being is that the video
+-	 * mode passed in might not work but slight changes to it might make it 
++	 * mode passed in might not work but slight changes to it might make it
+ 	 * work. This way we let the user know what is acceptable.
+ 	 */
+ 	switch (var->bits_per_pixel) {
+@@ -256,8 +256,8 @@ static int mc68x328fb_check_var(struct fb_var_screeninfo *var,
+ }
  
-diff --git a/include/linux/cmdline.h b/include/linux/cmdline.h
-new file mode 100644
-index 000000000000..5d7e648e98a5
---- /dev/null
-+++ b/include/linux/cmdline.h
-@@ -0,0 +1,29 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef LINUX_CMDLINE_H
-+#define LINUX_CMDLINE_H
-+
-+/**
-+ * struct option_iter - Iterates over string of kernel or module options
-+ */
-+struct option_iter {
-+	char *optbuf;
-+	char *next_opt;
-+};
-+
-+void option_iter_init(struct option_iter *iter, const char *options);
-+void option_iter_release(struct option_iter *iter);
-+const char *option_iter_incr(struct option_iter *iter);
-+
-+/**
-+ * option_iter_next - Loop condition to move over options
-+ * @iter_:	the iterator
-+ * @opt_:	the name of the option variable
-+ *
-+ * Iterates over option strings as part of a while loop and
-+ * stores the current option in opt_.
-+ */
-+#define option_iter_next(iter_, opt_) \
-+	(((opt_) = option_iter_incr(iter_)) != NULL)
-+
-+#endif
-diff --git a/lib/Makefile b/lib/Makefile
-index 4d9461bfea42..829ea6647d7a 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -27,7 +27,7 @@ KASAN_SANITIZE_string.o := n
- CFLAGS_string.o += -fno-stack-protector
- endif
+ /* This routine actually sets the video mode. It's in here where we
+- * the hardware state info->par and fix which can be affected by the 
+- * change in par. For this driver it doesn't do much. 
++ * the hardware state info->par and fix which can be affected by the
++ * change in par. For this driver it doesn't do much.
+  */
+ static int mc68x328fb_set_par(struct fb_info *info)
+ {
+@@ -294,7 +294,7 @@ static int mc68x328fb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
+ 	 *   {hardwarespecific} contains width of RAMDAC
+ 	 *   cmap[X] is programmed to (X << red.offset) | (X << green.offset) | (X << blue.offset)
+ 	 *   RAMDAC[X] is programmed to (red, green, blue)
+-	 * 
++	 *
+ 	 * Pseudocolor:
+ 	 *    uses offset = 0 && length = RAMDAC register width.
+ 	 *    var->{color}.offset is 0
+@@ -383,7 +383,7 @@ static int mc68x328fb_pan_display(struct fb_var_screeninfo *var,
+ }
  
--lib-y := ctype.o string.o vsprintf.o cmdline.o \
-+lib-y := ctype.o string.o vsprintf.o cmdline.o cmdline_iter.o \
- 	 rbtree.o radix-tree.o timerqueue.o xarray.o \
- 	 maple_tree.o idr.o extable.o irq_regs.o argv_split.o \
- 	 flex_proportions.o ratelimit.o show_mem.o \
-diff --git a/lib/cmdline_iter.c b/lib/cmdline_iter.c
-new file mode 100644
-index 000000000000..d9371dfea08b
---- /dev/null
-+++ b/lib/cmdline_iter.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/cmdline.h>
-+#include <linux/export.h>
-+#include <linux/slab.h>
-+
-+/**
-+ * DOC: overview
-+ *
-+ * A kernel parameter's option string can contain multiple comma-separated
-+ * options. Modules can parse an option string with struct &option_iter and
-+ * its helpers. After obtaining the string, initialize and instance of the
-+ * option iterator and loop iver its content as show below.
-+ *
-+ * .. code-block:: c
-+ *
-+ *	const char *options = ...; // provided option string
-+ *
-+ *	struct option_iter iter;
-+ *	const char *opt;
-+ *
-+ *	option_iter_init(&iter, options);
-+ *
-+ *	while (option_iter_next(&iter, &opt)) {
-+ *		if (!strcmp(opt, "foo"))
-+ *			...
-+ *		else (strcmp(opt, "bar"))
-+ *			...
-+ *		else
-+ *			pr_warn("unknown option %s\n", opt);
-+ *	}
-+ *
-+ *	option_iter_release(&iter);
-+ *
-+ * The call to option_iter_init() initializes the iterator instance
-+ * from the option string. The while loop walks over the individual
-+ * options in the sting and returns each in the second argument. The
-+ * returned memory is owned by the iterator instance and callers may
-+ * not modify or free it. The call to option_iter_release() frees all
-+ * resources of the iterator. This process does not modify the original
-+ * option string. If the option string contains an empty option (i.e.,
-+ * two commas next to each other), option_iter_next() skips the empty
-+ * option automatically.
-+ */
-+
-+/**
-+ * option_iter_init - Initializes an option iterator
-+ * @iter:	the iterator to initialize
-+ * @options:	the options string
-+ */
-+void option_iter_init(struct option_iter *iter, const char *options)
-+{
-+	if (options && *options)
-+		iter->optbuf = kstrdup(options, GFP_KERNEL); // can be NULL
-+	else
-+		iter->optbuf = NULL;
-+	iter->next_opt = iter->optbuf;
-+}
-+EXPORT_SYMBOL(option_iter_init);
-+
-+/**
-+ * option_iter_release - Releases an option iterator's resources
-+ * @iter:	the iterator
-+ */
-+void option_iter_release(struct option_iter *iter)
-+{
-+	kfree(iter->optbuf);
-+	iter->next_opt = NULL;
-+}
-+EXPORT_SYMBOL(option_iter_release);
-+
-+/**
-+ * option_iter_incr - Return current option and advance to the next
-+ * @iter:	the iterator
-+ *
-+ * Returns:
-+ * The current option string, or NULL if there are no more options.
-+ */
-+const char *option_iter_incr(struct option_iter *iter)
-+{
-+	char *opt;
-+
-+	if (!iter->next_opt) { // can be OK if kstrdup failed
-+		if (iter->optbuf) // iter has already been released; logic error
-+			pr_err("Incrementing option iterator without string\n");
-+		return NULL;
-+	}
-+
-+	do {
-+		opt = strsep(&iter->next_opt, ",");
-+		if (!opt)
-+			return NULL;
-+	} while (!*opt); // found empty option string, try next
-+
-+	return opt;
-+}
-+EXPORT_SYMBOL(option_iter_incr);
+     /*
+-     *  Most drivers don't need their own mmap function 
++     *  Most drivers don't need their own mmap function
+      */
+ 
+ static int mc68x328fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
 -- 
 2.39.2
 
