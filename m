@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89AF6AC70B
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 282A26AC709
 	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:03:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A80A10E3E0;
-	Mon,  6 Mar 2023 16:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92CBA10E3EB;
+	Mon,  6 Mar 2023 16:01:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBBE410E0D6
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5191310E0D6
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:53 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 98CCE2242A;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F17472242C;
  Mon,  6 Mar 2023 16:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0DwH9PbkOKEqD3wmCjB0TQMZNUTuSApTKev00H3660E=;
- b=Lk+8+JhT/+B3f0AwSzmLvFmEfURRKyVzWUrzHFGKzJ+mhJ98TLoYKnbcsJFoQp5T1KByW+
- N47ktubG4HpzVPVQlOKinz0XONa5lwU3J3I7+rZKdK2y3PeTfS6UKzYuCfUywj/uJlh3fi
- W0Y+RRvd7RnHuwWrANQ1KFIaAn0NiLk=
+ bh=FHsw9G40HD12yWMfW+3kaONrrrxFvi6OorhBwRazvNw=;
+ b=jaLHBd2ZnCEawg3As+bdVniBuW//6UdlJDPreseZw6KPB5jjYCo604b2XU3tfyAff5vpfN
+ 8ukpj6sTWj8zQN/fDtjdBHUBt4Vku22YPBNa/wlRkSLqpGeqevGiB+3EbCbR+pn/DI7n1+
+ lXD4UbfcWIw0ppSmyiXrmep2077pRDc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118451;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0DwH9PbkOKEqD3wmCjB0TQMZNUTuSApTKev00H3660E=;
- b=Sd8cn0Wty4HjwI7jXy8sDdskYz0sboQCIYBR22NrZ+XNj8yXkNNQOUqcan8o6sLDrqABUp
- 17idD2saMikjCrBQ==
+ bh=FHsw9G40HD12yWMfW+3kaONrrrxFvi6OorhBwRazvNw=;
+ b=KoS8rLuFGGdDvRtgrX+jMTdBEh8GGfYNXVX0wj4gReGH1MfoyEZflEAyErznczRPIxhS+N
+ eVvjme4RGvyY9RAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E30D13513;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C20913A6A;
  Mon,  6 Mar 2023 16:00:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id qB1eDjMOBmQ/PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id KIVfJTMOBmQ/PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:51 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
@@ -53,10 +53,9 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 71/99] fbdev/savagefb: Parse option string with struct
- option_iter
-Date: Mon,  6 Mar 2023 16:59:48 +0100
-Message-Id: <20230306160016.4459-72-tzimmermann@suse.de>
+Subject: [PATCH 72/99] fbdev/sisfb: Constify mode string
+Date: Mon,  6 Mar 2023 16:59:49 +0100
+Message-Id: <20230306160016.4459-73-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -79,63 +78,44 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use struct option_iter to walk over the individual options in the
-driver's option string. Replaces the hand-written strsep() loop with
-a clean interface. The helpers for struct option_iter handle empty
-option strings and empty options transparently. The struct's _init
-and _release functions duplicate and release the option string's
-memory buffer as needed.
-
-Done in preparation of constifying the option string.
+Constify the intenal video-mode string that is passed around among
+functions. The caller owns the memory and callees do not modify its
+content. This change will later allow to constify the option string.
+No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/savage/savagefb_driver.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/sis/sis_main.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
-index 19fffe0b6cdd..94026848d67d 100644
---- a/drivers/video/fbdev/savage/savagefb_driver.c
-+++ b/drivers/video/fbdev/savage/savagefb_driver.c
-@@ -42,6 +42,7 @@
-  */
+diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
+index cfba776afcea..c16493d3ac4f 100644
+--- a/drivers/video/fbdev/sis/sis_main.c
++++ b/drivers/video/fbdev/sis/sis_main.c
+@@ -73,7 +73,7 @@ static int	sisfb_blank(int blank,
+ static void sisfb_handle_command(struct sis_video_info *ivideo,
+ 				 struct sisfb_cmd *sisfb_command);
  
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -2535,15 +2536,15 @@ static void __exit savage_done(void)
- 
- /* ************************* init in-kernel code ************************** */
- 
--static int __init savagefb_setup(char *options)
-+static int __init savagefb_setup(const char *options)
- {
- #ifndef MODULE
--	char *this_opt;
-+	struct option_iter iter;
-+	const char *this_opt;
- 
--	if (!options || !*options)
--		return 0;
-+	option_iter_init(&iter, options);
- 
--	while ((this_opt = strsep(&options, ",")) != NULL) {
-+	while (option_iter_next(&iter, this_opt)) {
- 		static char mode_option_buf[256];
- 		int ret;
- 
-@@ -2554,6 +2555,9 @@ static int __init savagefb_setup(char *options)
- 			continue;
- 		mode_option = mode_option_buf;
- 	}
-+
-+	option_iter_release(&iter);
-+
- #endif /* !MODULE */
- 	return 0;
+-static void	sisfb_search_mode(char *name, bool quiet);
++static void	sisfb_search_mode(const char *name, bool quiet);
+ static int	sisfb_validate_mode(struct sis_video_info *ivideo, int modeindex, u32 vbflags);
+ static u8	sisfb_search_refresh_rate(struct sis_video_info *ivideo, unsigned int rate,
+ 				int index);
+@@ -180,12 +180,12 @@ static void sisfb_search_vesamode(unsigned int vesamode, bool quiet)
+ 		printk(KERN_ERR "sisfb: Invalid VESA mode 0x%x'\n", vesamode);
  }
+ 
+-static void sisfb_search_mode(char *name, bool quiet)
++static void sisfb_search_mode(const char *name, bool quiet)
+ {
+ 	unsigned int j = 0, xres = 0, yres = 0, depth = 0, rate = 0;
+ 	int i = 0;
+ 	char strbuf[16], strbuf1[20];
+-	char *nameptr = name;
++	const char *nameptr = name;
+ 
+ 	/* We don't know the hardware specs yet and there is no ivideo */
+ 
 -- 
 2.39.2
 
