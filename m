@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853436AC0FC
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 14:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2025D6AC0FE
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 14:31:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B03110E24A;
-	Mon,  6 Mar 2023 13:31:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3368A10E250;
+	Mon,  6 Mar 2023 13:31:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6024310E246;
- Mon,  6 Mar 2023 13:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678109475; x=1709645475;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=YZzsV4aYN9HQIGk2BJpZQvV8a6WQZgubuKeI+OscAQE=;
- b=Li5CEFW9QLZoiCCgIvDGjojXdV/nQ3aAwbRQPZdQR5M1CpA7963I/XZt
- LfVxyMmWwm+C+pOkOTgNqeRihNYk3CTRHZCoIGiygV16Bq7TWSvqegqw0
- QtMqlaLx/tHMdc96vBkKHsFmGqvEIh53bJMYSwSXvELXsKAHpmZZYNlzV
- ThZF/++9xNEN0ucw9DU2Mqoq/BoquIU2wzvC3Lhk54y0U/9pRl1D9wdUD
- pjGupjakK3gYez2YW7PPkyMgS/pyIAWeeBTTcue9FH8rBJc7OF3Mcb/ii
- +n64payY8jOKRdxpx8OMvyF6zZbRPb90CiLjcYTuR0a7sM/EWtQ/qizun Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="421823733"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="421823733"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 05:31:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="765215273"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="765215273"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.46.174])
- ([10.252.46.174])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 05:31:13 -0800
-Message-ID: <e1be8dfd-ea15-15f8-c51c-759221be4188@linux.intel.com>
-Date: Mon, 6 Mar 2023 14:31:10 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7603D10E250
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 13:31:24 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pZAvy-0006n4-Oq; Mon, 06 Mar 2023 14:31:22 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1pZAvv-0002M7-LA; Mon, 06 Mar 2023 14:31:19 +0100
+Date: Mon, 6 Mar 2023 14:31:19 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 0/4] drm/rockchip: dw_hdmi: Add 4k@30 support
+Message-ID: <20230306133119.GP23347@pengutronix.de>
+References: <20230216102447.582905-1-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH 1/3] drm/i915: Set I915_BO_ALLOC_USER for
- framebuffer
-To: Matthew Auld <matthew.auld@intel.com>, Nirmoy Das <nirmoy.das@intel.com>, 
- intel-gfx@lists.freedesktop.org
-References: <20230306120732.28656-1-nirmoy.das@intel.com>
- <866f81b4-1968-95f8-49be-95b4927d8170@intel.com>
-Content-Language: en-US
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <866f81b4-1968-95f8-49be-95b4927d8170@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230216102447.582905-1-s.hauer@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,94 +53,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andi.shyti@intel.com, dri-devel@lists.freedesktop.org,
- andrzej.hajda@intel.com
+Cc: Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ FUKAUMI Naoki <naoki@radxa.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Robin Murphy <robin.murphy@arm.com>, Dan Johansen <strit@manjaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Hi,
 
-On 3/6/2023 1:25 PM, Matthew Auld wrote:
-> On 06/03/2023 12:07, Nirmoy Das wrote:
->> Framebuffer is exposed to userspace so set I915_BO_ALLOC_USER
->> flag for it. This also make sure that ttm allocates offset
->> for lmem objects.
->>
->> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
->> ---
->>   drivers/gpu/drm/i915/display/intel_dpt.c           | 4 +++-
->>   drivers/gpu/drm/i915/display/intel_fbdev.c         | 3 ++-
->>   drivers/gpu/drm/i915/display/intel_plane_initial.c | 3 ++-
->>   3 files changed, 7 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c 
->> b/drivers/gpu/drm/i915/display/intel_dpt.c
->> index ad1a37b515fb..2e6238881860 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dpt.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dpt.c
->> @@ -254,7 +254,9 @@ intel_dpt_create(struct intel_framebuffer *fb)
->>         size = round_up(size * sizeof(gen8_pte_t), I915_GTT_PAGE_SIZE);
->>   -    dpt_obj = i915_gem_object_create_lmem(i915, size, 
->> I915_BO_ALLOC_CONTIGUOUS);
->> +    dpt_obj = i915_gem_object_create_lmem(i915, size,
->> +                          I915_BO_ALLOC_CONTIGUOUS |
->> +                          I915_BO_ALLOC_USER);
->
-> AFAICT this is just some driver internal stuff for display page-table, 
-> which gets mapped through GGTT or something, and is not the actual fb. 
-> Is it really exposed to the user?
+No negative feedback anymore, so I think this series should be merged
+now.
 
+Heiko, can you take these patches? I just noticed that I didn't Cc you
+on this series, I just added you for this mail. Please let me know if
+I should resend.
 
-I misunderstood this for something else. I will remove this.
+Sascha
 
->
->>       if (IS_ERR(dpt_obj) && i915_ggtt_has_aperture(to_gt(i915)->ggtt))
->>           dpt_obj = i915_gem_object_create_stolen(i915, size);
->>       if (IS_ERR(dpt_obj) && !HAS_LMEM(i915)) {
->> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c 
->> b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> index 3659350061a7..98ae3a3a986a 100644
->> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
->> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
->> @@ -163,7 +163,8 @@ static int intelfb_alloc(struct drm_fb_helper 
->> *helper,
->>       obj = ERR_PTR(-ENODEV);
->>       if (HAS_LMEM(dev_priv)) {
->>           obj = i915_gem_object_create_lmem(dev_priv, size,
->> -                          I915_BO_ALLOC_CONTIGUOUS);
->> +                          I915_BO_ALLOC_CONTIGUOUS |
->> +                          I915_BO_ALLOC_USER);
->>       } else {
->>           /*
->>            * If the FB is too big, just don't use it since fbdev is 
->> not very
->> diff --git a/drivers/gpu/drm/i915/display/intel_plane_initial.c 
->> b/drivers/gpu/drm/i915/display/intel_plane_initial.c
->> index bb6ea7de5c61..4a3680f6a3f5 100644
->> --- a/drivers/gpu/drm/i915/display/intel_plane_initial.c
->> +++ b/drivers/gpu/drm/i915/display/intel_plane_initial.c
->> @@ -110,7 +110,8 @@ initial_plane_vma(struct drm_i915_private *i915,
->>           size * 2 > i915->dsm.usable_size)
->>           return NULL;
->>   -    obj = i915_gem_object_create_region_at(mem, phys_base, size, 0);
->> +    obj = i915_gem_object_create_region_at(mem, phys_base, size,
->> +                           I915_BO_ALLOC_USER);
->
-> ALLOC_USER has the side effect of also zeroing the memory underneath, 
-> IIRC. However this here is the pre-allocated fb (will have some boot 
-> logo stuff), so we shouldn't ever clear it.
+On Thu, Feb 16, 2023 at 11:24:43AM +0100, Sascha Hauer wrote:
+> One small fix compared to the last version, when checking for valid
+> resolutions I accidently compared the current mode width with the
+> maximum allowed height which resulted in wrong resolutions being
+> discarded.
+> 
+> Changes since v5:
+> - Fix wrong check width vs. height
+> 
+> Changes since v4:
+> - Use struct vop_reg to store resolutions
+> - Only check for valid clock rates when clock != NULL
+> 
+> Changes since v3:
+> - Add patch to limit VOP resolutions to hardware capabilities
+> 
+> Changes since v2:
+> - Use correct register values for mpll_cfg
+> - Add patch to discard modes we cannot achieve
+> 
+> Changes since v1:
+> - Allow non standard clock rates only on Synopsys phy as suggested by
+>   Robin Murphy
+> 
+> Sascha Hauer (4):
+>   drm/rockchip: vop: limit maximium resolution to hardware capabilities
+>   drm/rockchip: dw_hdmi: relax mode_valid hook
+>   drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+>   drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
+> 
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c  | 41 ++++++++++++++++----
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 15 +++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h  |  6 +++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  5 ---
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c  | 18 +++++++++
+>  5 files changed, 73 insertions(+), 12 deletions(-)
+> 
+> -- 
+> 2.30.2
+> 
+> 
 
-
-This was my concern.  I wonder if there is any other better way than to 
-use a temp buffer to copy the pre-allocated content and put it back 
-after getting i915_gem_object_create_region_at().
-
-
-Regards,
-
-Nirmoy
-
-
->
->>       if (IS_ERR(obj))
->>           return NULL;
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
