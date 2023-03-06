@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE14B6AC6FF
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:03:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F876AC70F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D9C10E3D9;
-	Mon,  6 Mar 2023 16:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84B9410E292;
+	Mon,  6 Mar 2023 16:01:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D777210E398
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450D610E36E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:47 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8406022401;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E6C4222402;
  Mon,  6 Mar 2023 16:00:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X5AyqMEb/dcQWrJZGyOdvA+a4qQMQbwFfZc6UsGJ8JQ=;
- b=dVFyUP2baBGf9dvkncsVlo9MYCWDNFG8nv4glDhW5tyv5c1l0SjKbjM+FjMOKBGjKzvXDy
- jweZm0u6aG5G07WS9UYXGJSNRBXgBZoVYPSOfyGiYMO4fYhrHEkjh/frYiRznSvOJtYBhj
- zUGTakJjpUYEdzuqiLmyi/so6lgsLBs=
+ bh=S9aOCeHqZlZesioi37B2NVNrU0985XVnrbCXRalDe94=;
+ b=B7MGPgkgov5u7qATe+/yiN/dQr13NYhlaJ9FfNoDPe7PD782it2Y6MrJ+fFt+5QlhICHFo
+ hnNdbx0inQS6diZWdefspyz3oeON+AfmrHiWdK9omvZVGOc8GRYZSNllaw0mlNCie2VA/g
+ E7dnWxbbXf5ADMqM8JSMTWH3fAoC1Xc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118445;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X5AyqMEb/dcQWrJZGyOdvA+a4qQMQbwFfZc6UsGJ8JQ=;
- b=GlZsmHoIHEMsPv5KnPss40JCrUMMeKcNWxpjxNgeEhiq6g7kiJkUvutwGy962jW7c/A738
- +EuUu6pvHsU/agBA==
+ bh=S9aOCeHqZlZesioi37B2NVNrU0985XVnrbCXRalDe94=;
+ b=y/FCJC70+qCLgBSyVm+GkBzzHpZaGORydb8TdcBUe6COteZgoSOHJmM2FDM/vfuhmY1zcZ
+ 9D6pBD1L487QYwCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 27D0513513;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 875E813A6A;
  Mon,  6 Mar 2023 16:00:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wH6GCC0OBmQ/PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id GAkjIC0OBmQ/PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:45 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
@@ -53,9 +53,10 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 55/99] fbdev/platinumfb: Remove trailing whitespaces
-Date: Mon,  6 Mar 2023 16:59:32 +0100
-Message-Id: <20230306160016.4459-56-tzimmermann@suse.de>
+Subject: [PATCH 56/99] fbdev/platinumfb: Parse option string with struct
+ option_iter
+Date: Mon,  6 Mar 2023 16:59:33 +0100
+Message-Id: <20230306160016.4459-57-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,129 +79,62 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix coding style. No functional changes.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
+
+Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/platinumfb.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/video/fbdev/platinumfb.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/video/fbdev/platinumfb.c b/drivers/video/fbdev/platinumfb.c
-index 5b9e26ea6449..c7172174c1b7 100644
+index c7172174c1b7..71d5b7c169e7 100644
 --- a/drivers/video/fbdev/platinumfb.c
 +++ b/drivers/video/fbdev/platinumfb.c
-@@ -52,17 +52,17 @@ struct fb_info_platinum {
- 		__u8 red, green, blue;
- 	}				palette[256];
- 	u32				pseudo_palette[16];
--	
-+
- 	volatile struct cmap_regs	__iomem *cmap_regs;
- 	unsigned long			cmap_regs_phys;
--	
-+
- 	volatile struct platinum_regs	__iomem *platinum_regs;
- 	unsigned long			platinum_regs_phys;
--	
-+
- 	__u8				__iomem *frame_buffer;
- 	volatile __u8			__iomem *base_frame_buffer;
- 	unsigned long			frame_buffer_phys;
--	
-+
- 	unsigned long			total_vram;
- 	int				clktype;
- 	int				dactype;
-@@ -133,7 +133,7 @@ static int platinumfb_set_par (struct fb_info *info)
- 	platinum_set_hardware(pinfo);
+@@ -19,6 +19,7 @@
  
- 	init = platinum_reg_init[pinfo->vmode-1];
--	
-+
-  	if ((pinfo->vmode == VMODE_832_624_75) && (pinfo->cmode > CMODE_8))
-   		offset = 0x10;
+ #undef DEBUG
  
-@@ -214,7 +214,7 @@ static int platinumfb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
- 			break;
- 		}
- 	}
--	
-+
- 	return 0;
- }
- 
-@@ -269,7 +269,7 @@ static void platinum_set_hardware(struct fb_info_platinum *pinfo)
- 	struct platinum_regvals		*init;
- 	int				i;
- 	int				vmode, cmode;
--	
-+
- 	vmode = pinfo->vmode;
- 	cmode = pinfo->cmode;
- 
-@@ -436,7 +436,7 @@ static int read_platinum_sense(struct fb_info_platinum *info)
-  * This routine takes a user-supplied var, and picks the best vmode/cmode from it.
-  * It also updates the var structure to the actual mode data obtained
-  */
--static int platinum_var_to_par(struct fb_var_screeninfo *var, 
-+static int platinum_var_to_par(struct fb_var_screeninfo *var,
- 			       struct fb_info_platinum *pinfo,
- 			       int check_only)
- {
-@@ -478,12 +478,12 @@ static int platinum_var_to_par(struct fb_var_screeninfo *var,
- 	pinfo->yoffset = 0;
- 	pinfo->vxres = pinfo->xres;
- 	pinfo->vyres = pinfo->yres;
--	
-+
- 	return 0;
- }
- 
- 
--/* 
-+/*
++#include <linux/cmdline.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+@@ -486,14 +487,14 @@ static int platinum_var_to_par(struct fb_var_screeninfo *var,
+ /*
   * Parse user specified options (`video=platinumfb:')
   */
- static int __init platinumfb_setup(char *options)
-@@ -624,7 +624,7 @@ static int platinumfb_probe(struct platform_device* odev)
- 		break;
- 	}
- 	dev_set_drvdata(&odev->dev, info);
--	
-+
- 	rc = platinum_init_fb(info);
- 	if (rc != 0) {
- 		iounmap(pinfo->frame_buffer);
-@@ -640,9 +640,9 @@ static int platinumfb_remove(struct platform_device* odev)
+-static int __init platinumfb_setup(char *options)
++static int __init platinumfb_setup(const char *options)
  {
- 	struct fb_info		*info = dev_get_drvdata(&odev->dev);
- 	struct fb_info_platinum	*pinfo = info->par;
--	
+-	char *this_opt;
++	struct option_iter iter;
++	const char *this_opt;
+ 
+-	if (!options || !*options)
+-		return 0;
++	option_iter_init(&iter, options);
+ 
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
++	while (option_iter_next(&iter, this_opt)) {
+ 		if (!strncmp(this_opt, "vmode:", 6)) {
+ 	    		int vmode = simple_strtoul(this_opt+6, NULL, 0);
+ 			if (vmode > 0 && vmode <= VMODE_MAX)
+@@ -516,6 +517,9 @@ static int __init platinumfb_setup(char *options)
+ 			}
+ 		}
+ 	}
 +
-         unregister_framebuffer (info);
--	
++	option_iter_release(&iter);
 +
- 	/* Unmap frame buffer and registers */
- 	iounmap(pinfo->frame_buffer);
- 	iounmap(pinfo->platinum_regs);
-@@ -658,7 +658,7 @@ static int platinumfb_remove(struct platform_device* odev)
  	return 0;
  }
  
--static struct of_device_id platinumfb_match[] = 
-+static struct of_device_id platinumfb_match[] =
- {
- 	{
- 	.name 		= "platinum",
-@@ -666,7 +666,7 @@ static struct of_device_id platinumfb_match[] =
- 	{},
- };
- 
--static struct platform_driver platinum_driver = 
-+static struct platform_driver platinum_driver =
- {
- 	.driver = {
- 		.name = "platinumfb",
 -- 
 2.39.2
 
