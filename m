@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98266ABC9B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 11:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDE46ABCE1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 11:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2087610E20E;
-	Mon,  6 Mar 2023 10:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9665110E0AE;
+	Mon,  6 Mar 2023 10:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2468810E1EB;
- Mon,  6 Mar 2023 10:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678098540; x=1709634540;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=o98yHmZBDxX8kIzndpSRhxsC3uJh1+fVE9iG80yOceU=;
- b=hMiJ3l9LWzLVKbEcbHs8SPuMaQVZgGNBL5QT7tbs3UZ7+R9gDDoYZv0c
- S8YzBU99zmXeKUTVOnm2LGm5BXpCrFdDBhVhLpfJRMnKPz2+SeiNLed2F
- Zx49JkI1QTKw9rSu+sgpg64emuJrRE4lB1PgC/0z5inAJkBTc8NmDFlcn
- 2rXSz1TpFGTpiUck4wvsQr3NIoaK75z8thVzUkLIid5ruoEmcY6tKF8BJ
- o41J7YfkEmXR19Om+JudzcMYLnG0QggcRoNUIh6wIFT5cr4iq640dOBLz
- qGH/me1nLNY3goIUk1dS8HbEwJOStj4MNV++5kw97R07mrTJ7hWR9z/vv Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="332995600"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="332995600"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 02:28:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="676119856"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="676119856"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 02:28:58 -0800
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH RFC 3/3] drm/i915/display: Implement fb_mmap callback function
-Date: Mon,  6 Mar 2023 11:28:50 +0100
-Message-Id: <20230306102850.18299-3-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230306102850.18299-1-nirmoy.das@intel.com>
-References: <20230306102850.18299-1-nirmoy.das@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2432B10E0AE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 10:32:58 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 67FC960DDC;
+ Mon,  6 Mar 2023 10:32:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37D54C433D2;
+ Mon,  6 Mar 2023 10:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678098777;
+ bh=s2fnw6i03aDUOVRceqTeJE5GhIX+8kNWvjFzOfwDk4s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=jiNOsXJjsaI2JlLF30jApPis06JPgizoX1wFUIyWw21iPDa61V3wQ2GP36JhldSTx
+ bTkJVFUAwDtaJYoUDNbDyW9RoSWiWNmRBRwM5D6Ofb2IHFidkM+dFp0RL4IXwbO5Ad
+ 1PS3FDGXFW/SxYoXnJAA4yCQ4gd3n0N9LZXjCeiauPvrFiHfYDln6E0Xd3g4k9ttuF
+ MGLf8Q2wsHlc8eJHiX31wUAZ5WZkT+0Lev32PJJm+urVpV6F743MqNh2JQzj9ISpm5
+ s0SSFUDdbBrEIOMxgsF2dLx4MkEjTqp8bpiv9xbNaUL+xSrwIg2ZlwqQE4thA4QByr
+ 8aU+IWpQp7WMA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan+linaro@kernel.org>)
+ id 1pZ89w-0001Fr-MP; Mon, 06 Mar 2023 11:33:37 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Subject: [PATCH] drm/sun4i: fix missing component unbind on bind errors
+Date: Mon,  6 Mar 2023 11:32:42 +0100
+Message-Id: <20230306103242.4775-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,68 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@intel.com>
+Cc: Boris Brezillon <bbrezillon@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Johan Hovold <johan+linaro@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, stable@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If stolen memory allocation fails for fbdev, the driver will
-fallback to system memory. Calculation of smem_start is wrong
-for such framebuffer objs if the platform comes with no gmadr or
-no aperture. Solve this by adding fb_mmap callback which also gives
-driver more control.
+Make sure to unbind all subcomponents when binding the aggregate device
+fails.
 
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Fixes: 9026e0d122ac ("drm: Add Allwinner A10 Display Engine support")
+Cc: stable@vger.kernel.org      # 4.7
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 ---
- drivers/gpu/drm/i915/display/intel_fbdev.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 98ae3a3a986a..ed0f9e2af3ed 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -40,8 +40,10 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
+Note that this one has only been compile tested.
+
+Johan
+
+
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index cc94efbbf2d4..d6c741716167 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -95,12 +95,12 @@ static int sun4i_drv_bind(struct device *dev)
+ 	/* drm_vblank_init calls kcalloc, which can fail */
+ 	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+ 	if (ret)
+-		goto cleanup_mode_config;
++		goto unbind_all;
  
- #include "gem/i915_gem_lmem.h"
-+#include "gem/i915_gem_mman.h"
+ 	/* Remove early framebuffers (ie. simplefb) */
+ 	ret = drm_aperture_remove_framebuffers(false, &sun4i_drv_driver);
+ 	if (ret)
+-		goto cleanup_mode_config;
++		goto unbind_all;
  
- #include "i915_drv.h"
- #include "intel_display_types.h"
-@@ -120,6 +122,23 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
- 	return ret;
- }
+ 	sun4i_framebuffer_init(drm);
  
-+#define to_intel_fbdev(x) container_of(x, struct intel_fbdev, helper)
-+static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
-+{
-+	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
-+	struct drm_gem_object *bo = drm_gem_fb_get_obj(&fbdev->fb->base, 0);
-+	struct drm_i915_gem_object *obj = to_intel_bo(bo);
-+	struct drm_device *dev = fbdev->helper.dev;
-+
-+	vma->vm_page_prot =
-+			pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
-+
-+	if (obj->stolen)
-+		return vm_iomap_memory(vma, info->fix.smem_start,
-+				       info->fix.smem_len);
-+
-+	return i915_gem_object_mmap(obj, vma);
-+}
- static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -131,6 +150,7 @@ static const struct fb_ops intelfb_ops = {
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
- 	.fb_pan_display = intel_fbdev_pan_display,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_mmap = intel_fbdev_mmap,
- };
+@@ -119,6 +119,8 @@ static int sun4i_drv_bind(struct device *dev)
  
- static int intelfb_alloc(struct drm_fb_helper *helper,
+ finish_poll:
+ 	drm_kms_helper_poll_fini(drm);
++unbind_all:
++	component_unbind_all(dev, NULL);
+ cleanup_mode_config:
+ 	drm_mode_config_cleanup(drm);
+ 	of_reserved_mem_device_release(dev);
 -- 
-2.39.0
+2.39.2
 
