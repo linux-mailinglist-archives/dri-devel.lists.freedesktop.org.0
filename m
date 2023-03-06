@@ -1,44 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8AF6AC359
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 15:33:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2344B6AC355
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 15:32:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3508510E255;
-	Mon,  6 Mar 2023 14:33:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 328BA10E247;
+	Mon,  6 Mar 2023 14:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A32510E255
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 14:33:07 +0000 (UTC)
-Received: from workpc.. (unknown [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 2A553660220B;
- Mon,  6 Mar 2023 14:33:05 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678113186;
- bh=gJrshKNUaitWNWbqYmQJvTDpbgAcQ7xq5COOHL06j48=;
- h=From:To:Cc:Subject:Date:From;
- b=VGYL25Nk+XguA0di2RClfj+YaJ7Z/yUfecAaaKgHQlu2cWiveT+N/ZkiXqQZ7ZBfv
- 66hnylM0mBMgus89gmzTNnWbJ5fzRbSOwmj3OvyO+r0TaunD8uhDqxKjtiKU8aSCfL
- 84WVBND/GmoitV0965ylpRG9ZH5dUyvGdMHljXxFK0eFR6FeKjlR8VrZm9R5KcWZD5
- rwv5qfVlh7YdYgOVpo7N9mKKcxS18BDm4NUikrXb0kcpjV0XCmu9hNesHp+si7H06b
- xdi+mkCoOcffTEpKjTRORXPfUkLg5RgpVmdShpmTICo5TdD2fa/lvWmSEjPneOFf9t
- bnDfiWFXi1A1A==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Gerd Hoffmann <kraxel@redhat.com>,
-	Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v2] drm/virtio: Fix handling CONFIG_DRM_VIRTIO_GPU_KMS option
-Date: Mon,  6 Mar 2023 17:32:34 +0300
-Message-Id: <20230306143234.1561759-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABB010E245;
+ Mon,  6 Mar 2023 14:32:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678113168; x=1709649168;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=1O7cMkx9/E9v8B5FjS74qJQ2rlDzNhvPdeLIFoee4xI=;
+ b=I22t/iXyGFO70ErOuFlrhZvZa5dAqaNfkpnTrPVwdb55T+vFnNuIn3Qp
+ zt+vZYlRJUQ2/vhRIFaznbACRxfDpNzEqlDkhXvikQ/4jxaiDZtGm0poo
+ xLamfpeRq8t18Z+yfWnywx6zFr3kiPNbpbJct0o2r9yDyyKUqFfbw8qIi
+ zbmlh1y8EZLmNpgu5nOcc//jA8ie3PRnRDCQeBry5Keo+RYK9QGkLpvgf
+ ciWc/PLeW+CdHls3lcwT9hd801POuUnfQJPbHEvM1qhsjVfw5eUAUaDD2
+ OSUI8BB3HW5kVhZQfmughn0dSMJ4Jo4gD5FNJTS3DpZZXiu41QWNKLyAh Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="337884921"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="337884921"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2023 06:32:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="708669703"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="708669703"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by orsmga001.jf.intel.com with SMTP; 06 Mar 2023 06:32:45 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 06 Mar 2023 16:32:44 +0200
+Date: Mon, 6 Mar 2023 16:32:44 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH RFC 3/3] drm/i915/display: Implement fb_mmap callback
+ function
+Message-ID: <ZAX5jC+E/aUgUW9X@intel.com>
+References: <20230306102850.18299-1-nirmoy.das@intel.com>
+ <20230306102850.18299-3-nirmoy.das@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230306102850.18299-3-nirmoy.das@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,72 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- virtualization@lists.linux-foundation.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VirtIO-GPU got a new config option for disabling KMS. There were two
-problems left unnoticed during review when the new option was added:
+On Mon, Mar 06, 2023 at 11:28:50AM +0100, Nirmoy Das wrote:
+> If stolen memory allocation fails for fbdev, the driver will
+> fallback to system memory. Calculation of smem_start is wrong
+> for such framebuffer objs if the platform comes with no gmadr or
+> no aperture. Solve this by adding fb_mmap callback which also gives
+> driver more control.
+> 
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_fbdev.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index 98ae3a3a986a..ed0f9e2af3ed 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -40,8 +40,10 @@
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_fb_helper.h>
+>  #include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+>  
+>  #include "gem/i915_gem_lmem.h"
+> +#include "gem/i915_gem_mman.h"
+>  
+>  #include "i915_drv.h"
+>  #include "intel_display_types.h"
+> @@ -120,6 +122,23 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
+>  	return ret;
+>  }
+>  
+> +#define to_intel_fbdev(x) container_of(x, struct intel_fbdev, helper)
+> +static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
+> +{
+> +	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
+> +	struct drm_gem_object *bo = drm_gem_fb_get_obj(&fbdev->fb->base, 0);
+> +	struct drm_i915_gem_object *obj = to_intel_bo(bo);
+> +	struct drm_device *dev = fbdev->helper.dev;
 
-1. The IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) check in the code was
-inverted, hence KMS was disabled when it should be enabled and vice versa.
+You seem to be missing the fb vs. mmio handling here entirely.
 
-2. The disabled KMS crashed kernel with a NULL dereference in
-drm_kms_helper_hotplug_event(), which shall not be invoked with a
-disabled KMS.
+> +
+> +	vma->vm_page_prot =
+> +			pgprot_writecombine(vm_get_page_prot(vma->vm_flags));
 
-Fix the inverted config option check in the code and skip handling the
-VIRTIO_GPU_EVENT_DISPLAY sent by host when KMS is disabled in guest to fix
-the crash.
+Does that do something sane on eg. !PAT?
 
-Fixes: 72122c69d717 ("drm/virtio: Add option to disable KMS support")
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
+> +
+> +	if (obj->stolen)
+> +		return vm_iomap_memory(vma, info->fix.smem_start,
+> +				       info->fix.smem_len);
 
-Changelog:
+Why doesn't i915_gem_object_mmap() know how to handle stolen?
 
-v2: - Moved the "has_edid" under the "num_scanouts" condition, like was
-      suggested by Gerd Hoffmann.
+> +
+> +	return i915_gem_object_mmap(obj, vma);
+> +}
+>  static const struct fb_ops intelfb_ops = {
+>  	.owner = THIS_MODULE,
+>  	DRM_FB_HELPER_DEFAULT_OPS,
+> @@ -131,6 +150,7 @@ static const struct fb_ops intelfb_ops = {
+>  	.fb_imageblit = drm_fb_helper_cfb_imageblit,
+>  	.fb_pan_display = intel_fbdev_pan_display,
+>  	.fb_blank = intel_fbdev_blank,
+> +	.fb_mmap = intel_fbdev_mmap,
+>  };
+>  
+>  static int intelfb_alloc(struct drm_fb_helper *helper,
+> -- 
+> 2.39.0
 
- drivers/gpu/drm/virtio/virtgpu_kms.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 874ad6c2621a..15f2519988e7 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -43,11 +43,13 @@ static void virtio_gpu_config_changed_work_func(struct work_struct *work)
- 	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
- 			events_read, &events_read);
- 	if (events_read & VIRTIO_GPU_EVENT_DISPLAY) {
--		if (vgdev->has_edid)
--			virtio_gpu_cmd_get_edids(vgdev);
--		virtio_gpu_cmd_get_display_info(vgdev);
--		virtio_gpu_notify(vgdev);
--		drm_helper_hpd_irq_event(vgdev->ddev);
-+		if (vgdev->num_scanouts) {
-+			if (vgdev->has_edid)
-+				virtio_gpu_cmd_get_edids(vgdev);
-+			virtio_gpu_cmd_get_display_info(vgdev);
-+			virtio_gpu_notify(vgdev);
-+			drm_helper_hpd_irq_event(vgdev->ddev);
-+		}
- 		events_clear |= VIRTIO_GPU_EVENT_DISPLAY;
- 	}
- 	virtio_cwrite_le(vgdev->vdev, struct virtio_gpu_config,
-@@ -224,7 +226,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
- 				    VIRTIO_GPU_MAX_SCANOUTS);
- 
--	if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) || !vgdev->num_scanouts) {
-+	if (!IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) || !vgdev->num_scanouts) {
- 		DRM_INFO("KMS disabled\n");
- 		vgdev->num_scanouts = 0;
- 		vgdev->has_edid = false;
 -- 
-2.39.2
-
+Ville Syrjälä
+Intel
