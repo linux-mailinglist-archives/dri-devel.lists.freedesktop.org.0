@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD7D6AC3EA
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 15:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A171A6AC3FA
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 15:52:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6761D10E109;
-	Mon,  6 Mar 2023 14:51:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1A2110E245;
+	Mon,  6 Mar 2023 14:52:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14B4010E109
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 14:51:57 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id y11so10637123plg.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 06:51:57 -0800 (PST)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7736710E245
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 14:52:38 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id ce7so5927530pfb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 06:52:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678114316;
+ d=gmail.com; s=20210112; t=1678114358;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g0Y9LfEsQikWSAiIDISu3D4c7Wwnrv6zc2XeGubCaSU=;
- b=oeQ/6OlPd9b4fiu+Ueael7UiUEWfTiLUczFOCcv5ilimmYDVvwMwPXyTQ0BlpBDpAe
- PUOLuLHJXQoAi27O7CzH/+NJrysTQCJTcQNTNk143dwfEUr0da7yg1CnCjjq2VroOwPT
- t2KNuLVblKjIvpm5Y4zXBSvPhAl7GDJXfyw/A5BQtavbdyx3K6Isx8Fu3OxmRa8ALpmn
- vvV61UmUexgfMMVLUlSb1Vb/9N5r0qA6d5Joh7SBN0sXqdiPwZ/viCL4Ai8nAKQazzhQ
- nU7CEtl4rRfYr6Y3//JEYbK7K0XQhAhk/HlD5yYABeSPET2G4su+02Aa3s00BZVCeZjD
- 9+lw==
+ bh=LHOGbF7s618g+6BK7GPivl7hxOhmlehIVaHk/foFcfs=;
+ b=V1TS/HP0g4oNplL7VySS0yv5Dh9CJr4TcTSNmxzKM7lHLQT5vjba0sM1PFjNlIly5a
+ 1JGYp8AJVWvJMt4n8/WrZ/ugmsgx4HvEoHKWUXBTfsPs5tuo/KRuvJYxSyP13Ji25ZPV
+ NNffJr8zTvidvwSbdse0NieT32Cqwpg959abkxiKz2yTcmOoqUSu0tBx+DHea2vr42xy
+ oj0H96a5MUqI1GtpJFX+O+1v5qR9yssTSJLCEiWavJ1HZKLnYj/Xs0Q8W/m557jFBf5j
+ 3PLm8GLQAigSH45sRNVlykuec5JIss6ZpEItVpIaQmijpX+IZPrDOE6hMnnZg3wY1/JK
+ BXTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678114316;
+ d=1e100.net; s=20210112; t=1678114358;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g0Y9LfEsQikWSAiIDISu3D4c7Wwnrv6zc2XeGubCaSU=;
- b=nd2M8f3CAhB3JhWzS3kEn4BeFTWaYs4r5mn+ajRjBlxGCVNdEJ3HwVOG5wIAkqvIjC
- m7RbeGNvZ6JtDp7a8Thy9xYfTznxWvDnKD6k3LLaj3kng6JK/2650Q6vclYyuL1e/kDc
- XXrwICrZ6itujup+PnDoHxOV+W4Yzpkqk7rc2rfAQ75YPcB/yXSMBGwcFnYVMeqGFzOy
- ma84yYP4zGheZTmfArr7iIXWtA3kMc4A4gntxiB0fDJzURKaUO/IYEzzAqu4rZQtXBSI
- P3SuGdmctIqYnOY57Kk1SX/tnFv9BboVaSAGVJl2NtWZ6DtFdjCzYsIsTyDEHYr32t3G
- qGqQ==
-X-Gm-Message-State: AO0yUKUnSy0pHbtHc7SZpFVoqNf+CO9ssAI6UwFjpw/s132GpsTGNrbM
- YtjajgwCtVco2r14yhGWlRpNuqC5vbzWAKVj4XKS5O1i
-X-Google-Smtp-Source: AK7set9cpnp5Qv3s1LcXhvXzAiSUcKTJzZdqg7ua+P2L7JQ/BFPjNsL/3IpY4eUTVkqjHtGophDn0p/aBqXYyL9F7Rk=
-X-Received: by 2002:a17:903:281:b0:19a:fdca:e3f1 with SMTP id
- j1-20020a170903028100b0019afdcae3f1mr4548634plr.3.1678114316463; Mon, 06 Mar
- 2023 06:51:56 -0800 (PST)
+ bh=LHOGbF7s618g+6BK7GPivl7hxOhmlehIVaHk/foFcfs=;
+ b=6XSZo3Z2Ab03UJipQJXIRZoJ9T4fV6D8Bs7LIIk1kM++POnqT/DLQ74U6CJ6/S5Jh/
+ 6L8M0IwTF1KUIASs1Xtdzh6zcX/sVdQZ/QzV8om0CYOjbYZ/Qrfr4TY8Z6tvpBD1aVvY
+ LYNtT+85ECo/Mptn3SVOPlE25TK7ePWBzQJ1g2DdDphoThwAe5Y4EaIuhp/e1WtlYWnA
+ b4NqhGXDx0z5Nn89qW5qE8P2b8LDvG++sqBFAoLxnzMSwt8cLZaLbsz6nRNl275MYG0m
+ e/9vsIGtFx/6N0L1H5v/xzIt7tCAtY5GhREohuoa5n90PutX8pgMLV691bEZCkkE9pV5
+ S9vA==
+X-Gm-Message-State: AO0yUKVxYMiPxHmHhibRuhMaeGM8KbZgxPXWL88P5CWHbX0x5pOwUY4o
+ 3TbnNHIbd7lNhUtjRhol3SSkT78d43D9ir1NaAo=
+X-Google-Smtp-Source: AK7set+EIAXMOolOz+aXhQa90qU2nwvKKxkbewJ65pQZR/msSarN2Ld/Gm3YyEvSj8VG/rvtUDzR0MDp74fps1cWERA=
+X-Received: by 2002:a63:2950:0:b0:503:2678:4f14 with SMTP id
+ bu16-20020a632950000000b0050326784f14mr3847854pgb.8.1678114357991; Mon, 06
+ Mar 2023 06:52:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20230223121733.12549-1-tzimmermann@suse.de>
- <20230223121733.12549-6-tzimmermann@suse.de>
-In-Reply-To: <20230223121733.12549-6-tzimmermann@suse.de>
+ <20230223121733.12549-8-tzimmermann@suse.de>
+In-Reply-To: <20230223121733.12549-8-tzimmermann@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Mon, 6 Mar 2023 15:51:45 +0100
-Message-ID: <CAMeQTsZPKEB4srFtOVLB9ojJsgMmmxYVPCpp2Lf_WDejrd75-Q@mail.gmail.com>
-Subject: Re: [PATCH 5/7] drm/gma500: Inline psbfb_create() into psbfb_probe()
+Date: Mon, 6 Mar 2023 15:52:26 +0100
+Message-ID: <CAMeQTsb+sa_F7nUDNQm=fNfszYbJBPTXtGx+nj15gOJA179XBQ@mail.gmail.com>
+Subject: Re: [PATCH 7/7] drm/gma500: Pass fb_info to psb_fbdev_vm_fault()
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,130 +75,110 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, Feb 23, 2023 at 1:17=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
 .de> wrote:
 >
-> Inline psbfb_create() into its only caller psbfb_probe(). Streamline
-> the color-depth selection.
+> Instead of the DRM framebuffer, pass the FB info strcuture to the
+> fbdev page-fault handler psb_fbdev_vm_fault(). The framebuffer is a
+> high-level data structure and does not belong into fault handling.
+> The fb_info has all necessary information. Also set fix.smem_start
+> to the correct value (the beginning of the framebuffer in physical
+> address space) and streamline the page-fault handler.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/gma500/fbdev.c | 65 ++++++++++++++--------------------
->  1 file changed, 26 insertions(+), 39 deletions(-)
+>  drivers/gpu/drm/gma500/fbdev.c | 39 ++++++++++++----------------------
+>  1 file changed, 14 insertions(+), 25 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbde=
 v.c
-> index 2c511359a7c6..083233692c55 100644
+> index a70ca4c5013f..c8dbcb33ddb5 100644
 > --- a/drivers/gpu/drm/gma500/fbdev.c
 > +++ b/drivers/gpu/drm/gma500/fbdev.c
-> @@ -137,31 +137,49 @@ static const struct fb_ops psb_fbdev_ops =3D {
->   * struct drm_fb_helper_funcs
->   */
->
-> -static int psbfb_create(struct drm_fb_helper *fb_helper,
-> -                       struct drm_fb_helper_surface_size *sizes)
-> +static int psbfb_probe(struct drm_fb_helper *fb_helper,
-
-Should this now be psb_fbdev_probe() ?
-
-
-> +                      struct drm_fb_helper_surface_size *sizes)
+> @@ -22,32 +22,24 @@
+>  static vm_fault_t psb_fbdev_vm_fault(struct vm_fault *vmf)
 >  {
->         struct drm_device *dev =3D fb_helper->dev;
->         struct drm_psb_private *dev_priv =3D to_drm_psb_private(dev);
->         struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->         struct fb_info *info;
->         struct drm_framebuffer *fb;
-> -       struct drm_mode_fb_cmd2 mode_cmd;
-> +       struct drm_mode_fb_cmd2 mode_cmd =3D { };
->         int size;
->         int ret;
->         struct psb_gem_object *backing;
->         struct drm_gem_object *obj;
->         u32 bpp, depth;
->
-> -       mode_cmd.width =3D sizes->surface_width;
-> -       mode_cmd.height =3D sizes->surface_height;
-> +       /* No 24-bit packed mode */
-> +       if (sizes->surface_bpp =3D=3D 24) {
-> +               sizes->surface_bpp =3D 32;
-> +               sizes->surface_depth =3D 24;
-> +       }
->         bpp =3D sizes->surface_bpp;
->         depth =3D sizes->surface_depth;
->
-> -       /* No 24bit packed */
-> -       if (bpp =3D=3D 24)
-> -               bpp =3D 32;
-> +       /*
-> +        * If the mode does not fit in 32 bit then switch to 16 bit to ge=
-t
-> +        * a console on full resolution. The X mode setting server will
-> +        * allocate its own 32-bit GEM framebuffer.
-> +        */
-> +       size =3D ALIGN(sizes->surface_width * DIV_ROUND_UP(bpp, 8), 64) *
-> +                    sizes->surface_height;
-> +       size =3D ALIGN(size, PAGE_SIZE);
-> +
-> +       if (size > dev_priv->vram_stolen_size) {
-> +               sizes->surface_bpp =3D 16;
-> +               sizes->surface_depth =3D 16;
-> +       }
-> +       bpp =3D sizes->surface_bpp;
-> +       depth =3D sizes->surface_depth;
->
-> +       mode_cmd.width =3D sizes->surface_width;
-> +       mode_cmd.height =3D sizes->surface_height;
->         mode_cmd.pitches[0] =3D ALIGN(mode_cmd.width * DIV_ROUND_UP(bpp, =
-8), 64);
-> +       mode_cmd.pixel_format =3D drm_mode_legacy_fb_format(bpp, depth);
->
->         size =3D mode_cmd.pitches[0] * mode_cmd.height;
->         size =3D ALIGN(size, PAGE_SIZE);
-> @@ -180,8 +198,6 @@ static int psbfb_create(struct drm_fb_helper *fb_help=
-er,
->                 goto err_drm_gem_object_put;
->         }
->
-> -       mode_cmd.pixel_format =3D drm_mode_legacy_fb_format(bpp, depth);
+>         struct vm_area_struct *vma =3D vmf->vma;
+> -       struct drm_framebuffer *fb =3D vma->vm_private_data;
+> -       struct drm_device *dev =3D fb->dev;
+> -       struct drm_psb_private *dev_priv =3D to_drm_psb_private(dev);
+> -       struct psb_gem_object *pobj =3D to_psb_gem_object(fb->obj[0]);
+> -       int page_num;
+> -       int i;
+> -       unsigned long address;
+> -       vm_fault_t ret =3D VM_FAULT_SIGBUS;
+> -       unsigned long pfn;
+> -       unsigned long phys_addr =3D (unsigned long)dev_priv->stolen_base =
++ pobj->offset;
 > -
->         fb =3D psb_framebuffer_create(dev, &mode_cmd, obj);
->         if (IS_ERR(fb)) {
->                 ret =3D PTR_ERR(fb);
-> @@ -217,35 +233,6 @@ static int psbfb_create(struct drm_fb_helper *fb_hel=
-per,
->         return ret;
+> -       page_num =3D vma_pages(vma);
+> -       address =3D vmf->address - (vmf->pgoff << PAGE_SHIFT);
+> +       struct fb_info *info =3D vma->vm_private_data;
+> +       unsigned long address =3D vmf->address - (vmf->pgoff << PAGE_SHIF=
+T);
+> +       unsigned long pfn =3D info->fix.smem_start >> PAGE_SHIFT;
+> +       vm_fault_t err =3D VM_FAULT_SIGBUS;
+> +       unsigned long page_num =3D vma_pages(vma);
+> +       unsigned long i;
+>
+>         vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot);
+>
+> -       for (i =3D 0; i < page_num; i++) {
+> -               pfn =3D (phys_addr >> PAGE_SHIFT);
+> -
+> -               ret =3D vmf_insert_mixed(vma, address, __pfn_to_pfn_t(pfn=
+, PFN_DEV));
+> -               if (unlikely(ret & VM_FAULT_ERROR))
+> +       for (i =3D 0; i < page_num; ++i) {
+> +               err =3D vmf_insert_mixed(vma, address, __pfn_to_pfn_t(pfn=
+, PFN_DEV));
+> +               if (unlikely(err & VM_FAULT_ERROR))
+>                         break;
+>                 address +=3D PAGE_SIZE;
+> -               phys_addr +=3D PAGE_SIZE;
+> +               ++pfn;
+>         }
+> -       return ret;
+> +
+> +       return err;
 >  }
 >
-> -static int psbfb_probe(struct drm_fb_helper *fb_helper,
-> -                               struct drm_fb_helper_surface_size *sizes)
-> -{
-> -       struct drm_device *dev =3D fb_helper->dev;
-> -       struct drm_psb_private *dev_priv =3D to_drm_psb_private(dev);
-> -       unsigned int fb_size;
-> -       int bytespp;
+>  static const struct vm_operations_struct psb_fbdev_vm_ops =3D {
+> @@ -102,9 +94,6 @@ static int psb_fbdev_fb_setcolreg(unsigned int regno,
+>
+>  static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct=
+ *vma)
+>  {
+> -       struct drm_fb_helper *fb_helper =3D info->par;
+> -       struct drm_framebuffer *fb =3D fb_helper->fb;
 > -
-> -       bytespp =3D sizes->surface_bpp / 8;
-> -       if (bytespp =3D=3D 3)       /* no 24bit packed */
-> -               bytespp =3D 4;
-> -
-> -       /*
-> -        * If the mode will not fit in 32bit then switch to 16bit to get
-> -        * a console on full resolution. The X mode setting server will
-> -        * allocate its own 32bit GEM framebuffer
-> -        */
-> -       fb_size =3D ALIGN(sizes->surface_width * bytespp, 64) *
-> -                 sizes->surface_height;
-> -       fb_size =3D ALIGN(fb_size, PAGE_SIZE);
-> -
-> -       if (fb_size > dev_priv->vram_stolen_size) {
-> -               sizes->surface_bpp =3D 16;
-> -               sizes->surface_depth =3D 16;
-> -       }
-> -
-> -       return psbfb_create(fb_helper, sizes);
-> -}
-> -
->  static const struct drm_fb_helper_funcs psb_fb_helper_funcs =3D {
->         .fb_probe =3D psbfb_probe,
->  };
+>         if (vma->vm_pgoff !=3D 0)
+>                 return -EINVAL;
+>         if (vma->vm_pgoff > (~0UL >> PAGE_SHIFT))
+> @@ -116,7 +105,7 @@ static int psb_fbdev_fb_mmap(struct fb_info *info, st=
+ruct vm_area_struct *vma)
+>          * suitable for our mmap work
+>          */
+>         vma->vm_ops =3D &psb_fbdev_vm_ops;
+> -       vma->vm_private_data =3D (void *)fb;
+> +       vma->vm_private_data =3D info;
+>         vma->vm_flags |=3D VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTD=
+UMP;
+>
+>         return 0;
+> @@ -235,7 +224,7 @@ static int psbfb_probe(struct drm_fb_helper *fb_helpe=
+r,
+>
+>         drm_fb_helper_fill_info(info, fb_helper, sizes);
+>
+> -       info->fix.smem_start =3D dev_priv->fb_base;
+> +       info->fix.smem_start =3D dev_priv->stolen_base + backing->offset;
+
+With this change, ->fb_base is no longer used and can be removed. We
+already store PSB_BSM (base of stolen memory) in ->stolen_base so no
+need to keep fb_base.
+
+
+>         info->fix.smem_len =3D size;
+>         info->fix.ywrapstep =3D 0;
+>         info->fix.ypanstep =3D 0;
 > --
 > 2.39.2
 >
