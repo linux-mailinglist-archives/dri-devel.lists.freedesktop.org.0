@@ -1,57 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0B16AB7EE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 09:07:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5FC6AB84B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 09:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D7210E09F;
-	Mon,  6 Mar 2023 08:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0F410E104;
+	Mon,  6 Mar 2023 08:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2891710E09F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:07:08 +0000 (UTC)
-X-UUID: dfd3e6e2bbf511ed945fc101203acc17-20230306
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=o8SGFnhNYsPrPiSui+QfoXNRbvtwOEOwSTGJgTC/ZUw=; 
- b=ss0gkYp8NOBDWCc9uSd9+IuYjlwZqnhEosBZMNCNOesQdLOXcNsuLhuaE5Us/faz1Czw1ZtY/8C/V6li3+dAYoyKHvsOT36Z73iKQkNf9uLjgwX7GPGugdGmh9oG7EHxKBCZxD/T6+mJz68w4MaIA1vKk/gWNb53boxONdLmsQk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.20, REQID:f30ab1af-4467-4b5c-9739-f7940f7fcf3b, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:25b5999, CLOUDID:ff6054b2-beed-4dfc-bd9c-e1b22fa6ccc4,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-UUID: dfd3e6e2bbf511ed945fc101203acc17-20230306
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 825895124; Mon, 06 Mar 2023 16:07:01 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Mon, 6 Mar 2023 16:07:00 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Mon, 6 Mar 2023 16:07:00 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v8 2/2] soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
-Date: Mon, 6 Mar 2023 16:06:59 +0800
-Message-ID: <20230306080659.15261-3-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230306080659.15261-1-jason-jh.lin@mediatek.com>
-References: <20230306080659.15261-1-jason-jh.lin@mediatek.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0706610E104
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:30:28 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id t11so11647297lfr.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 00:30:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678091427;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=aU1YjAUU/iFvVhvKaxFvWo0dvfjpSyP2e3R8zxMYNzY=;
+ b=PQ7S3nY5VdXeauZHsRi3JhkbI935Asms738tDqWJPEQW+KK/FbfdbGvLhDd39jmZcc
+ 0DC5tyAupR2U6181B89olt9rvOxRfHtF2nlNph+vEf0j8N1oG38SzD/MZl1/06leAF6x
+ LrO/7md1ava7ARos090gujVfQljymN0GJ/PQ5vLzvasLyV1Vnw+IFe3lT+EJgBJZt9VQ
+ LJuHB7pLJvWzxwKuzyJPXCjmSa6skSwg1keXpjLL1w6uhcncko3/hG4fO/srAO3lrzVn
+ nVP+9xsS3uQHNKJCo0gWT/5NcN4d/V9Oc4F09+4yV1yl2pEmbPxoLXENwCGUy6g3n5Uv
+ xcKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678091427;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aU1YjAUU/iFvVhvKaxFvWo0dvfjpSyP2e3R8zxMYNzY=;
+ b=JA6ofT5W5oJjzOMjLjbvuVSx24gH8j7GuaqXReO92CG6x6dinlOiR1w+V40O0SLvPo
+ x4Qnsdjow1+2v162TnkrZjWmhCRU84tvH/bGz7Po2dVA1370Q/fGI+S+E9tGLoUkZTCJ
+ yad8ZDjJMRiISEEl4MPKOqu20QChTYULYfN7fecnOzl4+UBDsUjK/QEPjGJ6PJOiw29B
+ E0oTJeBvRh6Hd3xmrwkt3Yd7nhZH9LQ3iBoQhb/ctNAP9wIyPNVatOMEwRnSfhiN2p24
+ 6ehYDndUOELrpApZRvC/JZJPTmj4EwieQThBHM92C90yddXxfE3Fzt2iIAlLYv177V1/
+ Zt8A==
+X-Gm-Message-State: AO0yUKWGlgBX4bAHE71reLEjBF2/tcLXdctvXDMfqRrsnMaVwO/BLZLs
+ VYkRI6qRFr0l4Nl3lD/u/yc=
+X-Google-Smtp-Source: AK7set97oWrOCDZe34nt//4wZyETDwFuLtUmCUTaERf+gvAQPzbSqlIhR4oses+L2clK57jbK6p1Lw==
+X-Received: by 2002:a19:760e:0:b0:4df:2c71:57fb with SMTP id
+ c14-20020a19760e000000b004df2c7157fbmr2510159lff.43.1678091426984; 
+ Mon, 06 Mar 2023 00:30:26 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ a11-20020a05651c030b00b002959aecb63bsm1593604ljp.53.2023.03.06.00.30.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Mar 2023 00:30:26 -0800 (PST)
+Date: Mon, 6 Mar 2023 10:30:15 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: fix typo in margin connector properties docs
+Message-ID: <20230306103015.19bb5876@eldfell>
+In-Reply-To: <20230305103503.42619-1-contact@emersion.fr>
+References: <20230305103503.42619-1-contact@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; boundary="Sig_/QfLE5Fsmt0Zg4db0u42lav=";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +70,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nathan Lu <nathan.lu@mediatek.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
-mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+--Sig_/QfLE5Fsmt0Zg4db0u42lav=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
-Acked-by: Matthias Brugger <matthias.bgg@gmail.com>
----
- include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Sun, 05 Mar 2023 10:35:10 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-index dc2963a0a0f7..8eb5846985b4 100644
---- a/include/linux/soc/mediatek/mtk-mmsys.h
-+++ b/include/linux/soc/mediatek/mtk-mmsys.h
-@@ -27,8 +27,7 @@ enum mtk_ddp_comp_id {
- 	DDP_COMPONENT_CCORR,
- 	DDP_COMPONENT_COLOR0,
- 	DDP_COMPONENT_COLOR1,
--	DDP_COMPONENT_DITHER,
--	DDP_COMPONENT_DITHER0 = DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_DITHER1,
- 	DDP_COMPONENT_DP_INTF0,
- 	DDP_COMPONENT_DP_INTF1,
--- 
-2.18.0
+> This was pointed out by Ville and Pekka in their replies, but
+> forgot to apply the change properly before pushing. Sorry for
+> the noise!
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Fixes: 409f07d353b3 ("drm: document connector margin properties")
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 4b12c7a39ee3..48df7a5ea503 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1452,7 +1452,7 @@ static const struct drm_prop_enum_list dp_colorspac=
+es[] =3D {
+>   *
+>   * left margin, right margin, top margin, bottom margin:
+>   *	Add margins to the connector's viewport. This is typically used to
+> - *	mitigate underscan on TVs.
+> + *	mitigate overscan on TVs.
+>   *
+>   *	The value is the size in pixels of the black border which will be
+>   *	added. The attached CRTC's content will be scaled to fill the whole
 
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+--Sig_/QfLE5Fsmt0Zg4db0u42lav=
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQFpJgACgkQI1/ltBGq
+qqfZPg/9ErTM8tiHUcj64YxpQUrNz4dSYjEQ8n//9RfYcsaezf8F4jJRPvkk6s87
+t1JGPjclOrzTuDno0fFWiVV6blDGdSPUDTtm8BBtaIDQbgG192fL/CxuPw7KKAvD
+ynvnFP9kYsAVE6e7aF2sH/cfHaoMkHpwnZhjQrYOi50oLpYmrVA2j8qIoBPU+eEE
+t/En8ofRmJO4vqnyJ9lBTfwZyjOQZcGb5Xu05t91q9Pjj7XfTg198rsYLKzuQx4T
+4N5K956YX5GSfu+0EDWV7wYzWQDz+A/TIZqY09tMm2DXVy9B3TIaqZVjMvA3oiW4
+gYgu9ZD5rQ+ryMBdVLyuqfkwSTkq+Hm/jTnbFO+qZ76YbRQoba7/mZ6cmbWIsZX2
+8r37y+bf7cVWMZMPYNIzkE0EPIaAt+fJq1MLratGwZNm69fRvEVZBb1jtrxzImAc
+rhLtidsOVXgc5SMv5Ev5muwiFXmLYluAnLJLG1b4csyLTtXnelSVEIwfCq06sFyy
+aopQZkmCff9sHswyuZiGQ/RtQoGkFRPy7m+mMcugTIlLkFyEzeLn+C9o44jtr295
+kuIel7VOjqmcxZJz0DMEuUfU+HJAmD/UlA12LA7pYN2qpM85UvFl56j/Kdu81Cs5
+m7MLJ/XgGlV+wGfBvo4Dydqg4K+Te6+WTlLVM7mfmhItD3jMzcg=
+=I/p6
+-----END PGP SIGNATURE-----
+
+--Sig_/QfLE5Fsmt0Zg4db0u42lav=--
