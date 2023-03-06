@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1FB6AB8E6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 09:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA876AB8FD
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 09:59:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4922A10E1B7;
-	Mon,  6 Mar 2023 08:57:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA9EF10E1B1;
+	Mon,  6 Mar 2023 08:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDFD610E1B1
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:57:13 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id s11so35323920edy.8
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 00:57:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678093032;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vNo+uuSekh3H7ze6n9zNYBHA+NkH+zV6npVC4VhhfNY=;
- b=dRWmz5HJXEbQsrxAVOqk7G0LiPKXDbLwoUQJy4TAJIwlDpPercz/1a34Arggibw+ZP
- rkti8UfsyNWoRMhfCedTthBDlwHYui8IHxo0a3ky9rnL1hyGt9DZXfxTePOo3hyVbT7A
- rCXvmkAoiqjtr7Ey4h/KXMgYascCITt9UPH66doEH1YJylLPLh6WC7+MTRJzNthnDJb5
- GS5WfvhEp9lPW0DiiPbr+93GAI9UzUF6hFDv1gypZ3j/b/aKkqHJVWjn4nd1av8OzvE9
- uo2Mm7+uxu8BCTrxGvxJXlsZW5fqugyvnDhX2JgYJrIkc91HthZFJOx4QwKVZtGgYo4G
- f2CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678093032;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vNo+uuSekh3H7ze6n9zNYBHA+NkH+zV6npVC4VhhfNY=;
- b=qrKvMr7n0BWc2lDusWwB75LvyYeJW+ANZGfeJ8fSpTfCvEcogAqifzahbPTz8s5xhj
- 9TncfYtLe7PQWghe8QusIXlHquYURjF6VU9/jmQTlJDaHcrZXEduosiJSsspcvwG76aX
- NrSK5wSD1gTRSK5qohaLThur5dhzq6zSs4DtY9f3xzJu9QyJd4elR1sn6r3Y0E2/8Oj2
- fM/kRMT3DJJbDVIEbULDUxBVsc1BIvvICBT+2MDgIaFMLNKjwCf1U4LmGqfCN7NxbDVq
- Gj9IgvTFSKctMtWymAfVvJFe0l4Eu9wh22WHFfRWDAoNvbkp9KNrCrSW/NqT0B1KRSGN
- le9Q==
-X-Gm-Message-State: AO0yUKVxXpPI/Kj4PR4JGxLV5upyOQL6l3i2IA61IEdrIVrv9cvRGwkn
- SpVoeBocL9psugGXMHf//3mJLw==
-X-Google-Smtp-Source: AK7set9E+9VfxFOl+4OpZLwOQ28HVvZerDzF2iisocUdWkDK+qdGEmtp6f6b2ZsGD8X10GG5v9YNrA==
-X-Received: by 2002:aa7:c585:0:b0:4bf:38dc:d78 with SMTP id
- g5-20020aa7c585000000b004bf38dc0d78mr10444081edq.21.1678093032310; 
- Mon, 06 Mar 2023 00:57:12 -0800 (PST)
-Received: from ?IPV6:2a02:810d:15c0:828:d85d:5a4b:9830:fcfe?
- ([2a02:810d:15c0:828:d85d:5a4b:9830:fcfe])
- by smtp.gmail.com with ESMTPSA id
- hy26-20020a1709068a7a00b008d92897cc29sm4271074ejc.37.2023.03.06.00.57.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 00:57:11 -0800 (PST)
-Message-ID: <e105eff0-816e-b9e8-b47a-5c85731c9ba0@linaro.org>
-Date: Mon, 6 Mar 2023 09:57:10 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B118210E1B1
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:59:10 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3A2B421DD8
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:59:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1678093149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=dvx5smsJi+q+2Pd5aL2t2RToEkg0sz3ay4PRFE5WzdU=;
+ b=EJCLCAv/H2abfalMoHAxWr+9yrpo3juKVVoyQTg5tAXPqc9mlNzufxdl+BUT9/1Ci3ukjz
+ i9cmz2p4sKmeQuLnXaHv8RpxDRXaWFuIzQ5Eo1cE/t2rP/qIXCSBwGfd32cWN49TbowthA
+ Jl/RnlLc2tpoO/o3LwiZaALbGHPpCyE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1678093149;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type;
+ bh=dvx5smsJi+q+2Pd5aL2t2RToEkg0sz3ay4PRFE5WzdU=;
+ b=sDCDaDxCDxPbtiRXJGT+lt4JYEyBWGOSZDlCRxRx9i/QXPqfDMwodN6coyQN8trjLhPnna
+ 7oy/kSIJlhuo+iAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2C54213513
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 08:59:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id gHPGCV2rBWSmUQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>)
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 08:59:09 +0000
+Message-ID: <de9355ca-955d-c127-dee9-c99acdd2135e@suse.de>
+Date: Mon, 6 Mar 2023 09:59:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v3 2/2] dt-bindings: display: msm: sm6115-mdss: Fix DSI
- compatible
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: PSA: drm-misc-next-fixes is closed
+To: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20230304-topic-dsi_fixup-v3-0-b8565944d0e6@linaro.org>
- <20230304-topic-dsi_fixup-v3-2-b8565944d0e6@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230304-topic-dsi_fixup-v3-2-b8565944d0e6@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------jUc4DWK9lsPsgDLrh0s0y8Iu"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,47 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/03/2023 16:55, Konrad Dybcio wrote:
-> Since the DSI autodetection is bound to work correctly on 6115 now,
-> switch to using the correct per-SoC + generic fallback compatible
-> combo.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml         | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> index 2491cb100b33..605b1f654d78 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml
-> @@ -40,7 +40,13 @@ patternProperties:
->      type: object
->      properties:
->        compatible:
-> -        const: qcom,dsi-ctrl-6g-qcm2290
-> +        oneOf:
-> +          - items:
-> +              - const: qcom,sm6115-dsi-ctrl
-> +              - const: qcom,mdss-dsi-ctrl
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------jUc4DWK9lsPsgDLrh0s0y8Iu
+Content-Type: multipart/mixed; boundary="------------MyPMKrxpovwuKBrj5IKfUs5d";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <de9355ca-955d-c127-dee9-c99acdd2135e@suse.de>
+Subject: PSA: drm-misc-next-fixes is closed
 
-Does it actually work? You did not define qcom,sm6115-dsi-ctrl in
-dsi-controller-main?
+--------------MyPMKrxpovwuKBrj5IKfUs5d
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> +          - description: Old binding, please don't use
-> +            deprecated: true
-> +            const: qcom,dsi-ctrl-6g-qcm2290
->  
->    "^phy@[0-9a-f]+$":
->      type: object
-> 
+SGksDQoNCkknbSBqdXN0IGxldHRpbmcgeW91IGtub3cgdGhhdCBkcm0tbWlzYy1uZXh0LWZp
+eGVzIGlzIGNsb3NlZCBhcyB2Ni4zLXJjMSANCmhhcyBiZWVuIHRhZ2dlZCBvbiBTdW5kYXku
+IERSTSdzIGRybS1uZXh0IHRyZWUgd2lsbCBiZSBvcGVuIGZvciBmZWF0dXJlcyANCmFuZCBi
+dWdmaXhlcyB1bnRpbCAtcmM2IGNvbWVzIG91dC4NCg0KVGhlIHRyYW5zaXRpb24gZnJvbS90
+byBkcm0tbWlzYy1maXhlcy1uZXh0IHNvbWV0aW1lcyByZXN1bHRzIGluIHBhdGNoZXMgDQpn
+ZXR0aW5nIGFwcGxpZWQgdG8gdGhlIHdyb25nIHRyZWUgYW5kL29yIGdldHRpbmcgc3R1Y2sg
+Zm9yIGEgbG9uZyB0aW1lLiANClNvbWUgcnVsZXMgb2YgdGh1bWIgYXJlOg0KDQogICogaWYg
+eW91ciBwYXRjaCBmaXhlcyBhIGJ1ZyBpbiB1cHN0cmVhbSwgcGxlYXNlIHB1dCBpdCBpbnRv
+IA0KZHJtLW1pc2MtZml4ZXMsDQoNCiAgKiBhbnl0aGluZyBlbHNlIHNob3VsZCBnbyBpbnRv
+IGRybS1taXNjLW5leHQuDQoNClRoZSBmbG93IGNoYXJ0IGlzIGF0IFsxXS4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KWzFdIA0KaHR0cHM6Ly9kcm0ucGFnZXMuZnJlZWRlc2t0b3Au
+b3JnL21haW50YWluZXItdG9vbHMvY29tbWl0dGVyLWRybS1taXNjLmh0bWwjd2hlcmUtZG8t
+aS1hcHBseS1teS1wYXRjaA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBE
+cml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgN
+Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwg
+QUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Best regards,
-Krzysztof
+--------------MyPMKrxpovwuKBrj5IKfUs5d--
 
+--------------jUc4DWK9lsPsgDLrh0s0y8Iu
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQFq1wFAwAAAAAACgkQlh/E3EQov+Dh
+hw//YbOPvYCGW26vQXMzRKyAfrvW8zRHERvvhieWcJlsQI+RDyymoetHLnWsnGwolRSM5SGE8stb
+csRo7UGz+2iyUAsPRhsCWg8u4pRf8ABOSKlgnC8Pvu4ojlgNu8YZSbPoyHOSihrQ+o2USpRaXHSA
+2DSY5+ArLHULgZ2yVzf6PciwDWGluLcp4mv03rVn92iL4NkqWivzNr5wJghTnLVnWQkZMMWQDzyh
+PZ9c1Rka1jtyvqm75ki8JUhGsSuwoniHtlEnJ5ZTDYC4wraweHRJtf3qxRRj6sfDe0IaHitw+al6
+pRnQJybnouBfxShrhS+KX7HZ5/q7+6o+YfEW/bzW/OfYLONoW9f/yNEJ5ZEAZhMKG3HemDXWYD7J
+2W4MKRdZlBbaWxNce1eRaaWYj73fhZyd8C653vx3t66LePBiGAzwTrDyXw0s5X1mwyOazV0dk+X9
+Oy6zRvS8Qigm2Mc1qPUuNSYqeISlSNaLojK6yUjDzNmhjN0VvguKb1/4WX+u6bCnazINZ2/Y6vde
+ECaYMgEXT526Y0RNNLKueutqZDICn5LwbVDyEz4/5qGm9+C9i9lTRF6I1O3u4oWTdVV39uw1ELcH
+1by/55esUqAOJ1+K5CsFL6q9C/5kE3Z1unz3ySPH6h0RlET9f95yXOCclCd0hhNgwLBggAK49RA2
+epQ=
+=R7ez
+-----END PGP SIGNATURE-----
+
+--------------jUc4DWK9lsPsgDLrh0s0y8Iu--
