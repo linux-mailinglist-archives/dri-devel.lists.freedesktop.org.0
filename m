@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54706AC622
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:01:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0916AC61E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:00:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E8310E37C;
-	Mon,  6 Mar 2023 16:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AABF10E365;
+	Mon,  6 Mar 2023 16:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F171410E296
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:26 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77D3C10E296
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:00:27 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8DEB21FDEC;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E49BA22374;
  Mon,  6 Mar 2023 16:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678118425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=orZgFs2QhwCWX9f0KA+V1/nLVg0I8YGwHRr+Xo7enX4=;
- b=PjMJpakJyWjNdOrVTyPj2whm1Q33z1V9wUnZWqwkUtjHSLFErYtTgTH2SHx5DFdTpOL8xh
- 6U9/pIC8C4gADDBCoL+OsiNYP2whZbl/yPCwxtP12ni0FEa5VlS+mDYeO1SguNBXEe9un4
- RUVVb3a1EKcTEJz4P+MuOTPRCOXbNYU=
+ bh=zjVYDbqjwwkw2fXJsfJw/E5OA0vR4qLTqrFh9CEDVls=;
+ b=ZLVSod84jRFbPAgwcB/rSvYcuZWfcsxYuav+FTZqNFxsvnSfLRLU5huBmNGYVcvI8yno3A
+ LA6pDjPT9aLuYAnnxhNodGwZ0RQ01ADMXbwahNoCcOCLwr3EeuDzjnOQEDy0IJnIyWT0tF
+ 87OwqsKqf6RZr2exDvFhk8cgBNc17fg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678118425;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=orZgFs2QhwCWX9f0KA+V1/nLVg0I8YGwHRr+Xo7enX4=;
- b=OmtTWYs01MYMpYFXZYpM+67wyYIDNpyh+TL9PhTnDhkL7aGA62VtvQqKMH7Uj5yneuLI6Q
- OusXg2kuAvcWbfCA==
+ bh=zjVYDbqjwwkw2fXJsfJw/E5OA0vR4qLTqrFh9CEDVls=;
+ b=1qLnPhqDZxTWyF1Se8kIFwwbvl09iQB96aeANdlPfciPamDkNnuZwA/St9n7mOre6S3RgJ
+ L7j9zubiyqevDiAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3C91913A6A;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9116313513;
  Mon,  6 Mar 2023 16:00:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0FAIDhkOBmQ/PwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id uF6yIhkOBmQ/PwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 06 Mar 2023 16:00:25 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
@@ -53,9 +53,9 @@ To: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
  James.Bottomley@HansenPartnership.com, spock@gentoo.org,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
  geert+renesas@glider.be, corbet@lwn.net
-Subject: [PATCH 03/99] fbdev/68328fb: Remove unused option string
-Date: Mon,  6 Mar 2023 16:58:40 +0100
-Message-Id: <20230306160016.4459-4-tzimmermann@suse.de>
+Subject: [PATCH 04/99] fbdev/acornfb: Only init fb_info once
+Date: Mon,  6 Mar 2023 16:58:41 +0100
+Message-Id: <20230306160016.4459-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230306160016.4459-1-tzimmermann@suse.de>
 References: <20230306160016.4459-1-tzimmermann@suse.de>
@@ -78,45 +78,40 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The option string is unused. Remove the variable and a related
-helper function. No functional change.
+Init the fb_info instance once before parsing options. The current
+code initializes the instance once again after parsing options, which
+clears any resolution settings that have been given in the options
+string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/68328fb.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/video/fbdev/acornfb.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/68328fb.c b/drivers/video/fbdev/68328fb.c
-index 7fe56ecbe4e6..f2d70df4104b 100644
---- a/drivers/video/fbdev/68328fb.c
-+++ b/drivers/video/fbdev/68328fb.c
-@@ -400,13 +400,6 @@ static int mc68x328fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- #endif
- }
+diff --git a/drivers/video/fbdev/acornfb.c b/drivers/video/fbdev/acornfb.c
+index 1b72edc01cfb..8642136a6bdc 100644
+--- a/drivers/video/fbdev/acornfb.c
++++ b/drivers/video/fbdev/acornfb.c
+@@ -887,8 +887,6 @@ static int acornfb_setup(char *options)
+ 	if (!options || !*options)
+ 		return 0;
  
--static int __init mc68x328fb_setup(char *options)
--{
--	if (!options || !*options)
--		return 1;
--	return 1;
--}
+-	acornfb_init_fbinfo();
 -
-     /*
-      *  Initialisation
-      */
-@@ -414,11 +407,8 @@ static int __init mc68x328fb_setup(char *options)
- static int __init mc68x328fb_init(void)
- {
- #ifndef MODULE
--	char *option = NULL;
--
--	if (fb_get_options("68328fb", &option))
-+	if (fb_get_options("68328fb", NULL))
+ 	while ((opt = strsep(&options, ",")) != NULL) {
+ 		if (!*opt)
+ 			continue;
+@@ -930,9 +928,8 @@ static int acornfb_probe(struct platform_device *dev)
+ 
+ 	if (fb_get_options("acornfb", &option))
  		return -ENODEV;
--	mc68x328fb_setup(option);
- #endif
- 	/*
- 	 *  initialize the default mode from the LCD controller registers
+-	acornfb_setup(option);
+-
+ 	acornfb_init_fbinfo();
++	acornfb_setup(option);
+ 
+ 	current_par.dev = &dev->dev;
+ 
 -- 
 2.39.2
 
