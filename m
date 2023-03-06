@@ -1,61 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A171A6AC3FA
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 15:52:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6766AC444
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 16:02:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A2110E245;
-	Mon,  6 Mar 2023 14:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4EC10E0DC;
+	Mon,  6 Mar 2023 15:02:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7736710E245
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 14:52:38 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id ce7so5927530pfb.9
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 06:52:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678114358;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LHOGbF7s618g+6BK7GPivl7hxOhmlehIVaHk/foFcfs=;
- b=V1TS/HP0g4oNplL7VySS0yv5Dh9CJr4TcTSNmxzKM7lHLQT5vjba0sM1PFjNlIly5a
- 1JGYp8AJVWvJMt4n8/WrZ/ugmsgx4HvEoHKWUXBTfsPs5tuo/KRuvJYxSyP13Ji25ZPV
- NNffJr8zTvidvwSbdse0NieT32Cqwpg959abkxiKz2yTcmOoqUSu0tBx+DHea2vr42xy
- oj0H96a5MUqI1GtpJFX+O+1v5qR9yssTSJLCEiWavJ1HZKLnYj/Xs0Q8W/m557jFBf5j
- 3PLm8GLQAigSH45sRNVlykuec5JIss6ZpEItVpIaQmijpX+IZPrDOE6hMnnZg3wY1/JK
- BXTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678114358;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LHOGbF7s618g+6BK7GPivl7hxOhmlehIVaHk/foFcfs=;
- b=6XSZo3Z2Ab03UJipQJXIRZoJ9T4fV6D8Bs7LIIk1kM++POnqT/DLQ74U6CJ6/S5Jh/
- 6L8M0IwTF1KUIASs1Xtdzh6zcX/sVdQZ/QzV8om0CYOjbYZ/Qrfr4TY8Z6tvpBD1aVvY
- LYNtT+85ECo/Mptn3SVOPlE25TK7ePWBzQJ1g2DdDphoThwAe5Y4EaIuhp/e1WtlYWnA
- b4NqhGXDx0z5Nn89qW5qE8P2b8LDvG++sqBFAoLxnzMSwt8cLZaLbsz6nRNl275MYG0m
- e/9vsIGtFx/6N0L1H5v/xzIt7tCAtY5GhREohuoa5n90PutX8pgMLV691bEZCkkE9pV5
- S9vA==
-X-Gm-Message-State: AO0yUKVxYMiPxHmHhibRuhMaeGM8KbZgxPXWL88P5CWHbX0x5pOwUY4o
- 3TbnNHIbd7lNhUtjRhol3SSkT78d43D9ir1NaAo=
-X-Google-Smtp-Source: AK7set+EIAXMOolOz+aXhQa90qU2nwvKKxkbewJ65pQZR/msSarN2Ld/Gm3YyEvSj8VG/rvtUDzR0MDp74fps1cWERA=
-X-Received: by 2002:a63:2950:0:b0:503:2678:4f14 with SMTP id
- bu16-20020a632950000000b0050326784f14mr3847854pgb.8.1678114357991; Mon, 06
- Mar 2023 06:52:37 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94C2E10E0DC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 15:02:08 +0000 (UTC)
+Received: from arch-x395 (unknown [IPv6:2a00:5f00:102:0:9d43:3ed5:ed77:842c])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: evelikov)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 2D3F066018CA;
+ Mon,  6 Mar 2023 15:02:07 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1678114927;
+ bh=imc7oHqxvqxmLW9aTXCorptkFhxj+2tr9Tu9ZKVTavw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=groQjaUtdb/65JFBoX/newBNJf6RZiLTnniV1HgrEVt/7ws5kseQ3iOK1Fj+ERPLx
+ x1fU3fpNkJJRzwtiZ4AzaNiyX3ym2cUUUSYEmilOzDBQyLgX1CFlFLKGKja1wwimkB
+ sBuTWTMabbMaLGDyiYBB8BM0mkscOGODDxzYmBn0uN44i93mfqW/9eo1XEArHEQ6DN
+ BMLoPVedLiJDUk7E7yC4O9L47jgR2uNSjxG/Q8o6OCxECZ88jClZCF+BjCQzbhsjDb
+ QRP/r4U5/Ri/zKsVP/4mjPBQW0HusZMZqlLc5U17HEvzz3T8HU6cDkey/r+HB/I2Ys
+ PaZuDjusywNEw==
+Date: Mon, 6 Mar 2023 15:02:04 +0000
+From: Emil Velikov <emil.velikov@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v2] drm/virtio: Fix handling CONFIG_DRM_VIRTIO_GPU_KMS
+ option
+Message-ID: <ZAYAbIXlLLkNCB6f@arch-x395>
+References: <20230306143234.1561759-1-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-References: <20230223121733.12549-1-tzimmermann@suse.de>
- <20230223121733.12549-8-tzimmermann@suse.de>
-In-Reply-To: <20230223121733.12549-8-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Mon, 6 Mar 2023 15:52:26 +0100
-Message-ID: <CAMeQTsb+sa_F7nUDNQm=fNfszYbJBPTXtGx+nj15gOJA179XBQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] drm/gma500: Pass fb_info to psb_fbdev_vm_fault()
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230306143234.1561759-1-dmitry.osipenko@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,117 +52,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ryan Neph <ryanneph@chromium.org>,
+ David Airlie <airlied@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, kernel@collabora.com,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 23, 2023 at 1:17=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Instead of the DRM framebuffer, pass the FB info strcuture to the
-> fbdev page-fault handler psb_fbdev_vm_fault(). The framebuffer is a
-> high-level data structure and does not belong into fault handling.
-> The fb_info has all necessary information. Also set fix.smem_start
-> to the correct value (the beginning of the framebuffer in physical
-> address space) and streamline the page-fault handler.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On 2023/03/06, Dmitry Osipenko wrote:
+> VirtIO-GPU got a new config option for disabling KMS. There were two
+> problems left unnoticed during review when the new option was added:
+> 
+> 1. The IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) check in the code was
+> inverted, hence KMS was disabled when it should be enabled and vice versa.
+> 
+> 2. The disabled KMS crashed kernel with a NULL dereference in
+> drm_kms_helper_hotplug_event(), which shall not be invoked with a
+> disabled KMS.
+> 
+> Fix the inverted config option check in the code and skip handling the
+> VIRTIO_GPU_EVENT_DISPLAY sent by host when KMS is disabled in guest to fix
+> the crash.
+> 
+> Fixes: 72122c69d717 ("drm/virtio: Add option to disable KMS support")
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 > ---
->  drivers/gpu/drm/gma500/fbdev.c | 39 ++++++++++++----------------------
->  1 file changed, 14 insertions(+), 25 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbde=
-v.c
-> index a70ca4c5013f..c8dbcb33ddb5 100644
-> --- a/drivers/gpu/drm/gma500/fbdev.c
-> +++ b/drivers/gpu/drm/gma500/fbdev.c
-> @@ -22,32 +22,24 @@
->  static vm_fault_t psb_fbdev_vm_fault(struct vm_fault *vmf)
->  {
->         struct vm_area_struct *vma =3D vmf->vma;
-> -       struct drm_framebuffer *fb =3D vma->vm_private_data;
-> -       struct drm_device *dev =3D fb->dev;
-> -       struct drm_psb_private *dev_priv =3D to_drm_psb_private(dev);
-> -       struct psb_gem_object *pobj =3D to_psb_gem_object(fb->obj[0]);
-> -       int page_num;
-> -       int i;
-> -       unsigned long address;
-> -       vm_fault_t ret =3D VM_FAULT_SIGBUS;
-> -       unsigned long pfn;
-> -       unsigned long phys_addr =3D (unsigned long)dev_priv->stolen_base =
-+ pobj->offset;
-> -
-> -       page_num =3D vma_pages(vma);
-> -       address =3D vmf->address - (vmf->pgoff << PAGE_SHIFT);
-> +       struct fb_info *info =3D vma->vm_private_data;
-> +       unsigned long address =3D vmf->address - (vmf->pgoff << PAGE_SHIF=
-T);
-> +       unsigned long pfn =3D info->fix.smem_start >> PAGE_SHIFT;
-> +       vm_fault_t err =3D VM_FAULT_SIGBUS;
-> +       unsigned long page_num =3D vma_pages(vma);
-> +       unsigned long i;
->
->         vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot);
->
-> -       for (i =3D 0; i < page_num; i++) {
-> -               pfn =3D (phys_addr >> PAGE_SHIFT);
-> -
-> -               ret =3D vmf_insert_mixed(vma, address, __pfn_to_pfn_t(pfn=
-, PFN_DEV));
-> -               if (unlikely(ret & VM_FAULT_ERROR))
-> +       for (i =3D 0; i < page_num; ++i) {
-> +               err =3D vmf_insert_mixed(vma, address, __pfn_to_pfn_t(pfn=
-, PFN_DEV));
-> +               if (unlikely(err & VM_FAULT_ERROR))
->                         break;
->                 address +=3D PAGE_SIZE;
-> -               phys_addr +=3D PAGE_SIZE;
-> +               ++pfn;
->         }
-> -       return ret;
-> +
-> +       return err;
->  }
->
->  static const struct vm_operations_struct psb_fbdev_vm_ops =3D {
-> @@ -102,9 +94,6 @@ static int psb_fbdev_fb_setcolreg(unsigned int regno,
->
->  static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct=
- *vma)
->  {
-> -       struct drm_fb_helper *fb_helper =3D info->par;
-> -       struct drm_framebuffer *fb =3D fb_helper->fb;
-> -
->         if (vma->vm_pgoff !=3D 0)
->                 return -EINVAL;
->         if (vma->vm_pgoff > (~0UL >> PAGE_SHIFT))
-> @@ -116,7 +105,7 @@ static int psb_fbdev_fb_mmap(struct fb_info *info, st=
-ruct vm_area_struct *vma)
->          * suitable for our mmap work
->          */
->         vma->vm_ops =3D &psb_fbdev_vm_ops;
-> -       vma->vm_private_data =3D (void *)fb;
-> +       vma->vm_private_data =3D info;
->         vma->vm_flags |=3D VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTD=
-UMP;
->
->         return 0;
-> @@ -235,7 +224,7 @@ static int psbfb_probe(struct drm_fb_helper *fb_helpe=
-r,
->
->         drm_fb_helper_fill_info(info, fb_helper, sizes);
->
-> -       info->fix.smem_start =3D dev_priv->fb_base;
-> +       info->fix.smem_start =3D dev_priv->stolen_base + backing->offset;
+> 
+> Changelog:
+> 
+> v2: - Moved the "has_edid" under the "num_scanouts" condition, like was
+>       suggested by Gerd Hoffmann.
+> 
 
-With this change, ->fb_base is no longer used and can be removed. We
-already store PSB_BSM (base of stolen memory) in ->stolen_base so no
-need to keep fb_base.
+Hi Dmitry, I think there's more than one piece like that in the driver.
 
+>  drivers/gpu/drm/virtio/virtgpu_kms.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> index 874ad6c2621a..15f2519988e7 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+> @@ -43,11 +43,13 @@ static void virtio_gpu_config_changed_work_func(struct work_struct *work)
+>  	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
+>  			events_read, &events_read);
+>  	if (events_read & VIRTIO_GPU_EVENT_DISPLAY) {
+> -		if (vgdev->has_edid)
+> -			virtio_gpu_cmd_get_edids(vgdev);
+> -		virtio_gpu_cmd_get_display_info(vgdev);
+> -		virtio_gpu_notify(vgdev);
+> -		drm_helper_hpd_irq_event(vgdev->ddev);
+> +		if (vgdev->num_scanouts) {
+> +			if (vgdev->has_edid)
+> +				virtio_gpu_cmd_get_edids(vgdev);
 
->         info->fix.smem_len =3D size;
->         info->fix.ywrapstep =3D 0;
->         info->fix.ypanstep =3D 0;
-> --
-> 2.39.2
->
+Worth doing the same thing in virtio_gpu_init()? Aka move the has_edid
+&& get_edids within the num_scanouts if block.
+
+HTH
+Emil
