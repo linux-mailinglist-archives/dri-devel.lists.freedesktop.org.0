@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08356ABEBF
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 12:52:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3246ABEBE
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 12:52:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3520B10E2DC;
-	Mon,  6 Mar 2023 11:52:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B7D10E2D1;
+	Mon,  6 Mar 2023 11:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B654710E26B
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 11:52:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678103520; x=1709639520;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+vJI7YuA2cKvI0b1Mt8oP5n5z7Z9J/WAV96Z+3jwwp0=;
- b=h6VLMXUkcb7ZyF1qUImBXYd+gNsxHDNf6QXc1plhRvw7wIwjy5UDHB6C
- dL8iNi0Zv16Fb7DV5ci+LfxR9PcZfq852YT+OKBSev0dbuIY642U8YPEh
- DMmzSnougUEqxDWLjonITO0N+8+yzH4Ol/pvlLy09q//UNN+8fTUaTqU8
- 35g5W+e1/ShgHJJxW0QQYya4eVDXnGpEeBsloyLMbb6GH55b82B9GBi7+
- c7KP8K2H26Gmm4aj2YE8GgLQeDOA3Kt1t4C63S8gX5uYv2VopI7MixWXo
- /nvHaazWPQXigcBQwp2nbZIy9GL2x8Q1S1bJeFmAx7h9c0JRtQ0yYmKZ6 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="421805992"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="421805992"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 03:51:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10640"; a="678444901"
-X-IronPort-AV: E=Sophos;i="5.98,236,1673942400"; d="scan'208";a="678444901"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by fmsmga007.fm.intel.com with ESMTP; 06 Mar 2023 03:51:48 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pZ9NY-00GKgD-22; Mon, 06 Mar 2023 13:51:44 +0200
-Date: Mon, 6 Mar 2023 13:51:44 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v13 05/10] drm/bridge: anx7625: Check for Type-C during
- panel registration
-Message-ID: <ZAXT0JFjERb8Q36f@smile.fi.intel.com>
-References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-6-treapking@chromium.org>
+Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E37310E29F;
+ Mon,  6 Mar 2023 11:51:59 +0000 (UTC)
+Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.183.169])
+ by gnuweeb.org (Postfix) with ESMTPSA id 93F598314F;
+ Mon,  6 Mar 2023 11:51:52 +0000 (UTC)
+X-GW-Data: lPqxHiMPbJw1wb7CM9QUryAGzr0yq5atzVDdxTR0iA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+ s=default; t=1678103518;
+ bh=7mp2IVJ+mYOWVTN/6Ljscq5f7jZl+nO1fDzxD+/mR7c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=B0xJQah7pjDgMM/+kwBLX8mlew7B9eLbWu8sc7emjX1hXKrNhB3TkrduSJID4sB42
+ AIW/ZVP9N8RtpJi0a/8v6yDhwTjbX6T4dWHOwwPPVv9SZyHyJJMrnDkgVtmzRDCcn2
+ HqqoD/MI5raOfTvTC6WUaq/VH/GlhgeW6p0Tc4LT8d84vIJFFKOMARe4Ahb3ywN9IB
+ mRCXfKfG29XOoTYwkCSoXuRGzGqikswnXIAJJjQFLQ/R7BH5a99RtxX1znauRvAuBi
+ 8t7U4A6XaF1lhGMRZ3hPx8ChNpfhhbP+kigP7HDaYlhL+Psv45wzc0jSheNIZUY+mr
+ rx2NDiKNG9xcg==
+Date: Mon, 6 Mar 2023 18:51:48 +0700
+From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: Linux 6.2.1 hits a display driver bug (list_del corruption,
+ ffff88811b4af298->next is NULL)
+Message-ID: <ZAXT1B1GTlmA78Ld@biznet-home.integral.gnuweeb.org>
+References: <6feae796-db3f-1135-a607-cfefb0259788@gnuweeb.org>
+ <ZAGqet3U8AMm4Uf1@debian.me>
+ <ZAOTU5CRwdEC1lGH@biznet-home.integral.gnuweeb.org>
+ <87v8jetaik.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230303143350.815623-6-treapking@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <87v8jetaik.fsf@intel.com>
+X-Bpl: hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +53,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+ Intel GFX Mailing List <intel-gfx@lists.freedesktop.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ linaro-mm-sig@lists.linaro.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Manasi Navare <manasi.d.navare@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 03, 2023 at 10:33:45PM +0800, Pin-yen Lin wrote:
-> The output port endpoints can be connected to USB-C connectors.
-> Running drm_of_find_panel_or_bridge() with such endpoints leads to
-> a continuous return value of -EPROBE_DEFER, even though there is
-> no panel present.
+On Mon, Mar 06, 2023 at 12:54:59PM +0200, Jani Nikula wrote:
+> Please file a bug at fdo gitlab:
 > 
-> To avoid this, check for the existence of a "mode-switch" property in
-> the port endpoint, and skip panel registration completely if so.
+> https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bugs
 
-...
+OK, I posted it here https://gitlab.freedesktop.org/drm/intel/-/issues/8274
 
-> +	port_node = of_graph_get_port_by_id(np, 1);
-> +	count = typec_mode_switch_node_count(&port_node->fwnode);
-
-Do you need to drop reference count here?
-(I don't know myself, so, please check this)
-
-If no, patch LGTM.
-
-> +	if (count)
-> +		return 0;
+Thanks,
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Ammar Faizi
 
+P.S:
+I had to create a new account because I forgot my previous freedesktop
+GitLab account password. I tried to use the forgot password feature but
+didn't get any email to reset my password. My old GitLab email address
+is ammarfaizi2@gmail.com.
+
+Just in case someone can tell what goes wrong with the forgot password
+feature on there...
 
