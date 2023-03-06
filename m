@@ -1,44 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF29D6AC854
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 17:39:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 151E46AC919
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Mar 2023 18:04:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA0F89FF7;
-	Mon,  6 Mar 2023 16:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EF5F10E412;
+	Mon,  6 Mar 2023 17:03:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 327AB89FF7
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 16:39:39 +0000 (UTC)
-Received: from workpc.. (unknown [109.252.117.89])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C67DD6602EE4;
- Mon,  6 Mar 2023 16:39:36 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678120777;
- bh=2qF0hUp8glqDQ1ktUcSd1pu0qhpff4ScS2Sp+BIuEaU=;
- h=From:To:Cc:Subject:Date:From;
- b=W+n6JtB8n30LcsAnOQBmt8DYkHssmRq4ybXRTK7ze63cYN5xZJVUlMFV3qx9bXVTD
- j/CIjJklOkgonUVbISB8pOqdQEyWUu916qZ7CzRH2fhoF61YjwPEgGXK2OXIjhFTRY
- MWIWty2OOEVJhkVzLYE0AAlqTGLuMApawktqS9i+kgx30nBKcAwwPXvvWTslHqSIPe
- jeeB88G3cA2qFqS9DNK7JjeF0WesAtmsy0Q5hJFEBoimyQ1y9wsfEGpR7kxmj9mK2D
- Hs1sK++8a8NiSh0iTCT8DTOhKx14TKSHD7ldpt7Bvk+DdnbmGngXx3FKYedRZ/PpV6
- RY8KK9bD0cOiQ==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, Rob Clark <robdclark@gmail.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Subject: [PATCH v3] drm/virtio: Fix handling CONFIG_DRM_VIRTIO_GPU_KMS option
-Date: Mon,  6 Mar 2023 19:39:16 +0300
-Message-Id: <20230306163916.1595961-1-dmitry.osipenko@collabora.com>
+X-Greylist: delayed 694 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Mar 2023 17:03:53 UTC
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF37110E0DB
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Mar 2023 17:03:53 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 326GphOg077387;
+ Mon, 6 Mar 2023 10:51:43 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1678121503;
+ bh=ph7tv8RlCVDGBwJJVB5s/5P21YkzOhXtmfn1KwSVtY4=;
+ h=From:To:CC:Subject:Date;
+ b=PkXM7HPUnWgtDX8nGWWEu8j+wuUfFSA9U4DUTZTH6Re4QiSa3Q9bkGURdASBOLNzz
+ JS8QLabNBx41vcf+pgpkx56JiHw8D0P34/lTAUilNOlHlP/zdaRdgt6NbTOR4sGt3T
+ 5Z0jtLNWOA23JREvcXqXQMYOngqQWLgHvngILfDk=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 326GphnA127700
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 6 Mar 2023 10:51:43 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 6
+ Mar 2023 10:51:43 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Mon, 6 Mar 2023 10:51:43 -0600
+Received: from ula0226330.dal.design.ti.com (ileaxei01-snat2.itg.ti.com
+ [10.180.69.6])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 326GphfX013025;
+ Mon, 6 Mar 2023 10:51:43 -0600
+From: Andrew Davis <afd@ti.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Liam Mark <lmark@codeaurora.org>, Brian
+ Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] dma-buf: cma_heap: Check for device max segment size when
+ attaching
+Date: Mon, 6 Mar 2023 10:51:43 -0600
+Message-ID: <20230306165143.1671-1-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,90 +68,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>,
- Ryan Neph <ryanneph@chromium.org>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- virtualization@lists.linux-foundation.org
+Cc: Andrew Davis <afd@ti.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VirtIO-GPU got a new config option for disabling KMS. There were two
-problems left unnoticed during review when the new option was added:
+Although there is usually not such a limitation (and when there is it is
+often only because the driver forgot to change the super small default),
+it is still correct here to break scatterlist element into chunks of
+dma_max_mapping_size().
 
-1. The IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) check in the code was
-inverted, hence KMS was disabled when it should be enabled and vice versa.
+This might cause some issues for users with misbehaving drivers. If
+bisecting has landed you on this commit, make sure your drivers both set
+dma_set_max_seg_size() and are checking for contiguousness correctly.
 
-2. The disabled KMS crashed kernel with a NULL dereference in
-drm_kms_helper_hotplug_event(), which shall not be invoked with a
-disabled KMS.
-
-Fix the inverted config option check in the code and skip handling the
-VIRTIO_GPU_EVENT_DISPLAY sent by host when KMS is disabled in guest to fix
-the crash.
-
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Fixes: 72122c69d717 ("drm/virtio: Add option to disable KMS support")
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Signed-off-by: Andrew Davis <afd@ti.com>
 ---
 
-Changelog:
+Changes from v2:
+ - Rebase v6.3-rc1
 
-v3: - Moved another similar "has_edid" occurence under the "num_scanouts"
-      condition in virtio_gpu_init(), like was suggested by Emil Velikov.
+Changes from v1:
+ - Fixed mixed declarations and code warning
 
-    - Added ack from Gerd Hoffmann.
+ drivers/dma-buf/heaps/cma_heap.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-v2: - Moved the "has_edid" under the "num_scanouts" condition, like was
-      suggested by Gerd Hoffmann.
-
- drivers/gpu/drm/virtio/virtgpu_kms.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 874ad6c2621a..43e237082cec 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -43,11 +43,13 @@ static void virtio_gpu_config_changed_work_func(struct work_struct *work)
- 	virtio_cread_le(vgdev->vdev, struct virtio_gpu_config,
- 			events_read, &events_read);
- 	if (events_read & VIRTIO_GPU_EVENT_DISPLAY) {
--		if (vgdev->has_edid)
--			virtio_gpu_cmd_get_edids(vgdev);
--		virtio_gpu_cmd_get_display_info(vgdev);
--		virtio_gpu_notify(vgdev);
--		drm_helper_hpd_irq_event(vgdev->ddev);
-+		if (vgdev->num_scanouts) {
-+			if (vgdev->has_edid)
-+				virtio_gpu_cmd_get_edids(vgdev);
-+			virtio_gpu_cmd_get_display_info(vgdev);
-+			virtio_gpu_notify(vgdev);
-+			drm_helper_hpd_irq_event(vgdev->ddev);
-+		}
- 		events_clear |= VIRTIO_GPU_EVENT_DISPLAY;
- 	}
- 	virtio_cwrite_le(vgdev->vdev, struct virtio_gpu_config,
-@@ -224,7 +226,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	vgdev->num_scanouts = min_t(uint32_t, num_scanouts,
- 				    VIRTIO_GPU_MAX_SCANOUTS);
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index 1131fb943992..579261a46fa3 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -53,16 +53,18 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
+ {
+ 	struct cma_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
++	size_t max_segment;
+ 	int ret;
  
--	if (IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) || !vgdev->num_scanouts) {
-+	if (!IS_ENABLED(CONFIG_DRM_VIRTIO_GPU_KMS) || !vgdev->num_scanouts) {
- 		DRM_INFO("KMS disabled\n");
- 		vgdev->num_scanouts = 0;
- 		vgdev->has_edid = false;
-@@ -253,9 +255,9 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
+ 	a = kzalloc(sizeof(*a), GFP_KERNEL);
+ 	if (!a)
+ 		return -ENOMEM;
  
- 	if (num_capsets)
- 		virtio_gpu_get_capsets(vgdev, num_capsets);
--	if (vgdev->has_edid)
--		virtio_gpu_cmd_get_edids(vgdev);
- 	if (vgdev->num_scanouts) {
-+		if (vgdev->has_edid)
-+			virtio_gpu_cmd_get_edids(vgdev);
- 		virtio_gpu_cmd_get_display_info(vgdev);
- 		virtio_gpu_notify(vgdev);
- 		wait_event_timeout(vgdev->resp_wq, !vgdev->display_info_pending,
+-	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
+-					buffer->pagecount, 0,
+-					buffer->pagecount << PAGE_SHIFT,
+-					GFP_KERNEL);
++	max_segment = dma_get_max_seg_size(attachment->dev);
++	ret = sg_alloc_table_from_pages_segment(&a->table, buffer->pages,
++						buffer->pagecount, 0,
++						buffer->pagecount << PAGE_SHIFT,
++						max_segment, GFP_KERNEL);
+ 	if (ret) {
+ 		kfree(a);
+ 		return ret;
 -- 
 2.39.2
 
