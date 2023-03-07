@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016A26ADC4A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:48:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F3A6ADC4E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:49:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A91310E441;
-	Tue,  7 Mar 2023 10:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC6610E46A;
+	Tue,  7 Mar 2023 10:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95FF410E40A;
- Tue,  7 Mar 2023 10:48:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A9210E433;
+ Tue,  7 Mar 2023 10:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678186114; x=1709722114;
+ t=1678186116; x=1709722116;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cVF2ra7oTnbq4fpvT5foqJGinYsgG/tHcRGOAr/1f3s=;
- b=FIORNnzMdDvdB9gXwiiH9d2RP8XYRymKxsLU+yuezKDsmDEb2jD5jISN
- nVI8/EavVSWWC4aBsbVyykeaPUstbNWeq9YM5Jb0rs0Frt5f1sAk9E5sV
- NqVPCJH92sDsSXEgx1Hys1HNEeTxqmdYaXNwk8qovLpH0W9NAgDDS0URk
- Te5p4ZP/E29VIncvfPyIl2syo3QRKq+07gv6h5RyZPUbcMwOUj0djF6dn
- N0BR5u+X8/stgeQDH0cuAc1RbYhOh+kxr5pvEmnj1C4U/VtPEQbf/LT7K
- Wj6T+x4jl/MwtHHAG5nwoDOkcZMOOnutgr30/Pw7NNGMpykKzseC88Nta Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400643406"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="400643406"
+ bh=VAdPNmhggk8AJ/HP2lLLsL16Brg57NuNdC29Ei5z0is=;
+ b=JSCsM7qYRW240ZzhnqqfOehWvno541IiTt2fvsa5EEII5AqATALb3hlS
+ 6yYFVQnUrwGVawRSskena34s4vKZsjCIOr8CZRMx1eaYmKvkWX3cLGFsD
+ kwXBleiQ/c1YU0pngJeMr75jCKCUwJPKhcWEvbaUK1nqQmdvQCOgOh/UJ
+ Z3vQFHM8csSXTiZuVVllCXllDiaD7G5slDmHhMRkbIMFGV1duwbst7/We
+ yyghbtyODaOz/kqrprIKWBSMS7bsa2x1odqkqyXSN+RIi28OJfWNmGcHu
+ F82gnKxe0GyYArp/1+44zwIaQ7FawJoMvn1r/rG/KxP2nn1IExv9K09Is A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400643410"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="400643410"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 02:48:34 -0800
+ 07 Mar 2023 02:48:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="819712802"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="819712802"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="819712811"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="819712811"
 Received: from tanzeelu-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.205.53])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 02:48:32 -0800
+ 07 Mar 2023 02:48:34 -0800
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 01/12] dma-fence: Move i915 helpers into common
-Date: Tue,  7 Mar 2023 10:48:13 +0000
-Message-Id: <20230307104824.231094-2-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 02/12] dma-fence: Add callback initialization helper
+Date: Tue,  7 Mar 2023 10:48:14 +0000
+Message-Id: <20230307104824.231094-3-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230307104824.231094-1-tvrtko.ursulin@linux.intel.com>
 References: <20230307104824.231094-1-tvrtko.ursulin@linux.intel.com>
@@ -65,124 +65,71 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Unhide some i915 helpers which are used for splitting the signalled
-check vs notification stages during en masse fence processing.
+In preparation of adding a new field to struct dma_fence_cb we will need
+an initialization helper for those callers who add callbacks by open-
+coding. That will ensure they initialize all the fields so common code
+does not get confused by potential garbage in some fields.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/dma-buf/dma-fence.c                 | 35 +++++++++++++++------
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c | 22 -------------
- include/linux/dma-fence.h                   |  4 +++
- 3 files changed, 30 insertions(+), 31 deletions(-)
+ drivers/dma-buf/dma-fence.c | 10 ++++------
+ include/linux/dma-fence.h   |  7 +++++++
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 0de0482cd36e..41da0da17eba 100644
+index 41da0da17eba..ea4a1f82c9bf 100644
 --- a/drivers/dma-buf/dma-fence.c
 +++ b/drivers/dma-buf/dma-fence.c
-@@ -344,6 +344,30 @@ void __dma_fence_might_wait(void)
- }
- #endif
+@@ -662,21 +662,19 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
+ 	unsigned long flags;
+ 	int ret = 0;
  
-+void __dma_fence_signal__timestamp(struct dma_fence *fence, ktime_t timestamp)
-+{
-+	lockdep_assert_held(fence->lock);
++	__dma_fence_cb_init(cb, func);
 +
-+	fence->timestamp = timestamp;
-+	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
-+	trace_dma_fence_signaled(fence);
-+}
-+EXPORT_SYMBOL(__dma_fence_signal__timestamp);
-+
-+void
-+__dma_fence_signal__notify(struct dma_fence *fence,
-+			   const struct list_head *list)
-+{
-+	struct dma_fence_cb *cur, *tmp;
-+
-+	lockdep_assert_held(fence->lock);
-+
-+	list_for_each_entry_safe(cur, tmp, list, node) {
-+		INIT_LIST_HEAD(&cur->node);
-+		cur->func(fence, cur);
-+	}
-+}
-+EXPORT_SYMBOL(__dma_fence_signal__notify);
+ 	if (WARN_ON(!fence || !func))
+ 		return -EINVAL;
  
- /**
-  * dma_fence_signal_timestamp_locked - signal completion of a fence
-@@ -366,7 +390,6 @@ void __dma_fence_might_wait(void)
- int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 				      ktime_t timestamp)
- {
--	struct dma_fence_cb *cur, *tmp;
- 	struct list_head cb_list;
- 
- 	lockdep_assert_held(fence->lock);
-@@ -378,14 +401,8 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 	/* Stash the cb_list before replacing it with the timestamp */
- 	list_replace(&fence->cb_list, &cb_list);
- 
--	fence->timestamp = timestamp;
--	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
--	trace_dma_fence_signaled(fence);
--
--	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
--		INIT_LIST_HEAD(&cur->node);
--		cur->func(fence, cur);
+-	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+-		INIT_LIST_HEAD(&cb->node);
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+ 		return -ENOENT;
 -	}
-+	__dma_fence_signal__timestamp(fence, timestamp);
-+	__dma_fence_signal__notify(fence, &cb_list);
  
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-index ecc990ec1b95..26b6b777c479 100644
---- a/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
-@@ -127,28 +127,6 @@ __dma_fence_signal(struct dma_fence *fence)
- 	return !test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
- }
+ 	spin_lock_irqsave(fence->lock, flags);
  
--static void
--__dma_fence_signal__timestamp(struct dma_fence *fence, ktime_t timestamp)
--{
--	fence->timestamp = timestamp;
--	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
--	trace_dma_fence_signaled(fence);
--}
--
--static void
--__dma_fence_signal__notify(struct dma_fence *fence,
--			   const struct list_head *list)
--{
--	struct dma_fence_cb *cur, *tmp;
--
--	lockdep_assert_held(fence->lock);
--
--	list_for_each_entry_safe(cur, tmp, list, node) {
--		INIT_LIST_HEAD(&cur->node);
--		cur->func(fence, cur);
--	}
--}
--
- static void add_retire(struct intel_breadcrumbs *b, struct intel_timeline *tl)
- {
- 	if (b->irq_engine)
+ 	if (__dma_fence_enable_signaling(fence)) {
+-		cb->func = func;
+ 		list_add_tail(&cb->node, &fence->cb_list);
+ 	} else {
+-		INIT_LIST_HEAD(&cb->node);
+ 		ret = -ENOENT;
+ 	}
+ 
+@@ -795,7 +793,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
+ 		goto out;
+ 	}
+ 
+-	cb.base.func = dma_fence_default_wait_cb;
++	__dma_fence_cb_init(&cb.base, dma_fence_default_wait_cb);
+ 	cb.task = current;
+ 	list_add(&cb.base.node, &fence->cb_list);
+ 
 diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 775cdc0b4f24..2af328a89468 100644
+index 2af328a89468..35933e0ae62c 100644
 --- a/include/linux/dma-fence.h
 +++ b/include/linux/dma-fence.h
-@@ -367,6 +367,10 @@ static inline void dma_fence_end_signalling(bool cookie) {}
- static inline void __dma_fence_might_wait(void) {}
- #endif
+@@ -629,4 +629,11 @@ static inline bool dma_fence_is_container(struct dma_fence *fence)
+ 	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+ }
  
-+void __dma_fence_signal__timestamp(struct dma_fence *fence, ktime_t timestamp);
-+void __dma_fence_signal__notify(struct dma_fence *fence,
-+				const struct list_head *list);
++static inline void __dma_fence_cb_init(struct dma_fence_cb *cb,
++				       dma_fence_func_t func)
++{
++	INIT_LIST_HEAD(&cb->node);
++	cb->func = func;
++}
 +
- int dma_fence_signal(struct dma_fence *fence);
- int dma_fence_signal_locked(struct dma_fence *fence);
- int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
+ #endif /* __LINUX_DMA_FENCE_H */
 -- 
 2.37.2
 
