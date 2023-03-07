@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C1E6ADB00
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 10:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1366ADB08
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 10:53:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24BE110E27A;
-	Tue,  7 Mar 2023 09:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E58610E114;
+	Tue,  7 Mar 2023 09:53:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com
- [IPv6:2607:f8b0:4864:20::92e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B93DA10E3C3
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 09:53:07 +0000 (UTC)
-Received: by mail-ua1-x92e.google.com with SMTP id s13so8423512uac.8
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 01:53:07 -0800 (PST)
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com
+ [IPv6:2607:f8b0:4864:20::936])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 464B810E114
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 09:53:36 +0000 (UTC)
+Received: by mail-ua1-x936.google.com with SMTP id f20so8450984uam.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 01:53:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678182787;
+ d=chromium.org; s=google; t=1678182815;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=3KQIAhdlXww65eUhy0j2w15z+KgD81bSw/EYAnBg8cI=;
- b=GqIUUxkGszWnMyOJ9v/BsV0SLfdciSErtv2GTbk1+4kZkly8MVF9kX6UN6NjIVjb32
- HKoSqSqoaG/6JON51LwZn+0Q0RhUULLXfVGKSoXK7kbasF/aigKMDSoXh/l9ADVNG9g3
- Vv3UPAnqRbJrkXBZry3fPmnF+a0p7piAnFTnA=
+ bh=g5DlCuYa7/0gszYKTKl13EbxZ9aUeXgRvcmWQ1j6cpk=;
+ b=iYVNJhITTewI0WpMkOykHA9MEJqLR9u5GxtRG70p5Zu/GSgLThwV/iZ8limQX6EPfM
+ QsUNbKXXHV4j72gPV9NqqX/s7VJ+8MlE3JEPlKPZsPCh9I1iLiORTPTvoXJG0S3jK7Ed
+ 2g14iWOM2PvMqyYjxVBaV1NDiYlCAidKKmc4c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678182787;
+ d=1e100.net; s=20210112; t=1678182815;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3KQIAhdlXww65eUhy0j2w15z+KgD81bSw/EYAnBg8cI=;
- b=UxXL6XBN4x3JlLiinJFsUyNls6dS5I4g2JC/78zIuVOrsU+79d5t1GTaKzFBsS7Sru
- Cxb7yZBr1t3cbd2KBbYONk5l3HORFpE/X9Le6QrDpp2btxR3X7OINE0Wh/PxWaGHeKIp
- AA6kbY9S0EGe167zo9VHE9WX7z/VaQr8EcZxz8jhnuo+R0Fg8CQxnG0U0qaBJ0ep6m7W
- W9yGr9VaqrplUbObnB1BTnEkC9DF+qODhZkmer/ubPk+j8Y8xVLd33B3uiyywG3fNsQ5
- PUVex6wbBKeZhIhqj0uh2rmTizNW6q6zu5/sP1KCEhu0HDZoVcoAZS1iRAfUSu0YBDWv
- dEqw==
-X-Gm-Message-State: AO0yUKVCkAGb50LnB6z8qu0i5yZ9tnBkmVMAErVNnQyMYO5EdDnYwH6k
- 3/q0I3cBC2JA0kocqnzk3HuZfUQK97BLK5w3KGvPrA==
-X-Google-Smtp-Source: AK7set/+w8N6bIxRsr/VdjA+rzkO3mjOWFu0972MmNK+MtYl7ZKujQy20Hpt6L+Qt7IMdIula/6V0iHxgFoTKB6NZYQ=
-X-Received: by 2002:ab0:544e:0:b0:68a:5c52:7f2b with SMTP id
- o14-20020ab0544e000000b0068a5c527f2bmr8829170uaa.1.1678182786803; Tue, 07 Mar
- 2023 01:53:06 -0800 (PST)
+ bh=g5DlCuYa7/0gszYKTKl13EbxZ9aUeXgRvcmWQ1j6cpk=;
+ b=vkcYbusYhifhavkrw0U2FLabObnuDpTKhrmtE/Xf3iUP/4x+aFePCNteAv6gMZmB1+
+ QEAGbNofKGhZR1J4lC1oas+tssXe5wiwSlJQaBsh8S48BxnKS9vy1jqjS9STjua7rK1C
+ 0Vo/mCg8+gG/drBIBWkgsBDXfm7eX3h00umWTr6Y77XKpeXvTluTM91y93P0MNooddKj
+ 3smCkEDXzDAR5+DUkE/y4QlIqqulR6Ddj0mfNq6bOSBP4HmitbefWC0ilSpiEkBWQw1m
+ 6mEUUaPyVHfFk9Jhb2FDVCrtarVrRfN9JEMJ9tXh47FASKNTf+k4Hb2oeGg0scwuuoMa
+ QT4Q==
+X-Gm-Message-State: AO0yUKUyesNjXaFY3o+lzW5SZpcIjjrmBW/RVbMc0kw2Z8gu1w7kydqb
+ WHkmZzM8GFlBmitDM4PQrarTjYDRagKw1t0bx9iIkA==
+X-Google-Smtp-Source: AK7set+q9jiPd9ivFHGiyrKW+e476+Rr3GZq5Ktk/6QxdnYWJr3wJ1xgCC/Coq26W/IugJcUukY4aCFPLpWw0ND7HAI=
+X-Received: by 2002:a1f:9dc2:0:b0:406:1fd2:bb76 with SMTP id
+ g185-20020a1f9dc2000000b004061fd2bb76mr8622549vke.0.1678182815197; Tue, 07
+ Mar 2023 01:53:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
- <20230228102704.708150-11-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230228102704.708150-11-angelogioacchino.delregno@collabora.com>
+ <20230228102704.708150-10-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230228102704.708150-10-angelogioacchino.delregno@collabora.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 7 Mar 2023 17:52:55 +0800
-Message-ID: <CAGXv+5G=fm_R8yqkFGXN0999uZVTjSRW-gyM+1FCA+=TmZFt7w@mail.gmail.com>
-Subject: Re: [PATCH v4 11/12] drm/panfrost: Add new compatible for Mali on the
- MT8183 SoC
+Date: Tue, 7 Mar 2023 17:53:24 +0800
+Message-ID: <CAGXv+5G-2knqWMd9EtbAqXDwmRH+-ou0w__uXAXcfzyMoWdbRQ@mail.gmail.com>
+Subject: Re: [PATCH v4 10/12] drm/panfrost: Add mediatek,
+ mt8192-mali compatible
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -77,22 +77,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Feb 28, 2023 at 6:27=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> The "mediatek,mt8183-mali" compatible uses platform data that calls for
-> getting (and managing) two regulators ("mali" and "sram") but devfreq
-> does not support this usecase, resulting in DVFS not working.
+> From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
 >
-> Since a lot of MediaTek SoCs need to set the voltages for the GPU SRAM
-> regulator in a specific relation to the GPU VCORE regulator, a MediaTek
-> SoC specific driver was introduced to automatically satisfy, through
-> coupling, these constraints: this means that there is at all no need to
-> manage both regulators in panfrost but to otherwise just manage the main
-> "mali" (-> gpu vcore) regulator instead.
+> Required for Mali-G57 on the Mediatek MT8192 and MT8195, which
+> uses even more power domains than the MT8183 before it.
 >
-> Keeping in mind that we cannot break the ABI, the most sensible route
-> (avoiding hacks and uselessly overcomplicated code) to get a MT8183
-> node with one power supply was to add a new "mediatek,mt8183b-mali"
-> compatible, which effectively deprecates the former.
->
+> Signed-off-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> [Angelo: Removed unneeded "sram" supply, added mt8195 to commit descripti=
+on]
+> Co-developed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@co=
+llabora.com>
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 > Reviewed-by: Steven Price <steven.price@arm.com>
