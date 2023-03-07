@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F3A6ADC4E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:49:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0488C6ADC4C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:48:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADC6610E46A;
-	Tue,  7 Mar 2023 10:48:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2DBA10E457;
+	Tue,  7 Mar 2023 10:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70A9210E433;
- Tue,  7 Mar 2023 10:48:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF64D10E457;
+ Tue,  7 Mar 2023 10:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678186116; x=1709722116;
+ t=1678186117; x=1709722117;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VAdPNmhggk8AJ/HP2lLLsL16Brg57NuNdC29Ei5z0is=;
- b=JSCsM7qYRW240ZzhnqqfOehWvno541IiTt2fvsa5EEII5AqATALb3hlS
- 6yYFVQnUrwGVawRSskena34s4vKZsjCIOr8CZRMx1eaYmKvkWX3cLGFsD
- kwXBleiQ/c1YU0pngJeMr75jCKCUwJPKhcWEvbaUK1nqQmdvQCOgOh/UJ
- Z3vQFHM8csSXTiZuVVllCXllDiaD7G5slDmHhMRkbIMFGV1duwbst7/We
- yyghbtyODaOz/kqrprIKWBSMS7bsa2x1odqkqyXSN+RIi28OJfWNmGcHu
- F82gnKxe0GyYArp/1+44zwIaQ7FawJoMvn1r/rG/KxP2nn1IExv9K09Is A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400643410"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="400643410"
+ bh=cDh25AJd19dIerLRDdnUajP2eq4D/mJT6rlMOV8EWbk=;
+ b=EsslgZp0dUteYenlG3QggyE/9eQNlFzRrHScDCaDusd2G63UpDoWPzNG
+ s5db1/vmi+RTNnzbN8KzzAt2+LadbVe0+n7dqYYK9plDGDciUWaCWMRu/
+ Cen2vgI/mH6RSuZfsXSdzmjLH4TnyR9YDJgSv6jNv1MPe+BSp51xMc+7h
+ EJWqREBUmNsSB1egdK/QsXmxk4cZRKj7z5mPiMNZXOtDm2NJq8qJU39Di
+ PQpV4+w+KCs6AX3KtcjXr5kqTEjCbCGDH/9zr7mR5syfnPg3DVrcdG4Jm
+ rZ/Ft34RXWk/c8+zY7bIzE3nBtUTO0tyIE+hwsyQAfaZW3LDAuTWZrDGy Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400643413"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="400643413"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 02:48:35 -0800
+ 07 Mar 2023 02:48:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="819712811"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="819712811"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="819712818"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="819712818"
 Received: from tanzeelu-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.205.53])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 02:48:34 -0800
+ 07 Mar 2023 02:48:36 -0800
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 02/12] dma-fence: Add callback initialization helper
-Date: Tue,  7 Mar 2023 10:48:14 +0000
-Message-Id: <20230307104824.231094-3-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 03/12] drm/i915: Use fence callback initialization helper
+Date: Tue,  7 Mar 2023 10:48:15 +0000
+Message-Id: <20230307104824.231094-4-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230307104824.231094-1-tvrtko.ursulin@linux.intel.com>
 References: <20230307104824.231094-1-tvrtko.ursulin@linux.intel.com>
@@ -65,71 +65,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-In preparation of adding a new field to struct dma_fence_cb we will need
-an initialization helper for those callers who add callbacks by open-
-coding. That will ensure they initialize all the fields so common code
-does not get confused by potential garbage in some fields.
+Use the previously added initialization helper to ensure correct operation
+of the common code.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/dma-buf/dma-fence.c | 10 ++++------
- include/linux/dma-fence.h   |  7 +++++++
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/i915/i915_active.c | 2 +-
+ drivers/gpu/drm/i915/i915_active.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 41da0da17eba..ea4a1f82c9bf 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -662,21 +662,19 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
- 	unsigned long flags;
- 	int ret = 0;
+diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+index a9fea115f2d2..a3ad64583520 100644
+--- a/drivers/gpu/drm/i915/i915_active.c
++++ b/drivers/gpu/drm/i915/i915_active.c
+@@ -890,7 +890,7 @@ int i915_active_acquire_preallocate_barrier(struct i915_active *ref,
+ 				goto unwind;
  
-+	__dma_fence_cb_init(cb, func);
-+
- 	if (WARN_ON(!fence || !func))
- 		return -EINVAL;
- 
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
--		INIT_LIST_HEAD(&cb->node);
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
- 		return -ENOENT;
--	}
- 
- 	spin_lock_irqsave(fence->lock, flags);
- 
- 	if (__dma_fence_enable_signaling(fence)) {
--		cb->func = func;
- 		list_add_tail(&cb->node, &fence->cb_list);
- 	} else {
--		INIT_LIST_HEAD(&cb->node);
- 		ret = -ENOENT;
- 	}
- 
-@@ -795,7 +793,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 		goto out;
- 	}
- 
--	cb.base.func = dma_fence_default_wait_cb;
-+	__dma_fence_cb_init(&cb.base, dma_fence_default_wait_cb);
- 	cb.task = current;
- 	list_add(&cb.base.node, &fence->cb_list);
- 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 2af328a89468..35933e0ae62c 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -629,4 +629,11 @@ static inline bool dma_fence_is_container(struct dma_fence *fence)
- 	return dma_fence_is_array(fence) || dma_fence_is_chain(fence);
+ 			RCU_INIT_POINTER(node->base.fence, NULL);
+-			node->base.cb.func = node_retire;
++			__dma_fence_cb_init(&node->base.cb, node_retire);
+ 			node->timeline = idx;
+ 			node->ref = ref;
+ 		}
+diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+index 7eb44132183a..da0c5b917cb1 100644
+--- a/drivers/gpu/drm/i915/i915_active.h
++++ b/drivers/gpu/drm/i915/i915_active.h
+@@ -65,7 +65,7 @@ __i915_active_fence_init(struct i915_active_fence *active,
+ 			 dma_fence_func_t fn)
+ {
+ 	RCU_INIT_POINTER(active->fence, fence);
+-	active->cb.func = fn ?: i915_active_noop;
++	__dma_fence_cb_init(&active->cb, fn ?: i915_active_noop);
  }
  
-+static inline void __dma_fence_cb_init(struct dma_fence_cb *cb,
-+				       dma_fence_func_t func)
-+{
-+	INIT_LIST_HEAD(&cb->node);
-+	cb->func = func;
-+}
-+
- #endif /* __LINUX_DMA_FENCE_H */
+ #define INIT_ACTIVE_FENCE(A) \
 -- 
 2.37.2
 
