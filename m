@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C956AE312
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 15:47:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E676AE314
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 15:47:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB4A910E4D0;
-	Tue,  7 Mar 2023 14:47:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 800B910E4D1;
+	Tue,  7 Mar 2023 14:47:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54F8410E4CF;
- Tue,  7 Mar 2023 14:47:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82AEF10E4D2;
+ Tue,  7 Mar 2023 14:47:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678200441; x=1709736441;
+ t=1678200444; x=1709736444;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CRPgf1xKFHcWA658lNSuu7NuieJPDoSzR7ZpHSl0A/0=;
- b=ZYw/RT3V+B+7AcYIokAXsBG0OIDAPqmeEP2UQEcxyuqA5lawGSwJJCJj
- Elx2T/1pYKIgKE/5FIu6aotSCxG2KhegcdYDC97sbOF4aqXHAY4lcHXTS
- AtjLop9W4T9HEpCccvDQQyGr9mhea+EVn0ywMz3rSRbHzf153zUQR5Ec2
- h6Kbht/THoQJWuFGBSxGUyLxlOe0fXeZm9UcEOlpgmJ/wxyFNgoUxSEeV
- 9Bk8ugYxuigBgcz0WhuirpEkWIkVckM+62Cp/JK+knck8Oskp33Ujt93/
- NugZi8vW294mNjNAtQHH5yPT8VXbeTtYYQNcNwVKCbKFrB4SxKQLIbGxy Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="400687279"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="400687279"
+ bh=RTl07B8IGLPgCHnpywvdwU8/wV68ZLNipyhheT0w5eg=;
+ b=jkOzO6CJAYx/Gdhy+gQsMlBLdJw7eVg4HERYla+xXnTrf3klztB4oaX4
+ KEJjv0qIN4b80jTabK/EhQhAG425Snz2twvF1J4tO7uXM4+czacLUtol/
+ bxHPX4MG47HDUrcVOfNPJspDKiWU4Ih5pl7gW4r+T7yfSU+990MGKXZy1
+ uy4mkXD7OssaenqCmWy1uMsYZbZ25taAxYtvdikaT22gp3C749/b64A1y
+ TAqNmJrpVxfqlGP+hQRr9GQeX92J9Mo8hvNdbZMpg3HAz+4onS2XVCcI+
+ VlX1z/2oFYUzFdGFAae591OpCukwfrgnp/qr8LZ3Z0HHdxC9Rd2FFp3R9 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="400687295"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="400687295"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 06:47:21 -0800
+ 07 Mar 2023 06:47:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="800414395"
-X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="800414395"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="800414409"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="800414409"
 Received: from peiwangc-mobl1.ccr.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.10])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 06:47:19 -0800
+ 07 Mar 2023 06:47:22 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/7] drm/ttm: Use the BIT macro for the TTM_TT_FLAGs
-Date: Tue,  7 Mar 2023 15:46:17 +0100
-Message-Id: <20230307144621.10748-4-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 4/7] drm/ttm: Unexport ttm_global_swapout()
+Date: Tue,  7 Mar 2023 15:46:18 +0100
+Message-Id: <20230307144621.10748-5-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
 References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
@@ -65,40 +65,25 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-New code is recommended to use the BIT macro instead of the explicit
-shifts. Change the older defines so that we can keep the style consistent
-with upcoming changes.
-
-v2:
-- Also change the value of the _PRIV_POPULATED bit (Christian König)
+Unexport ttm_global_swapout() since it is not used outside of TTM.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- include/drm/ttm/ttm_tt.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/ttm/ttm_device.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index b7d3f3843f1e..977ca195a536 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -83,12 +83,12 @@ struct ttm_tt {
- 	 * set by TTM after ttm_tt_populate() has successfully returned, and is
- 	 * then unset when TTM calls ttm_tt_unpopulate().
- 	 */
--#define TTM_TT_FLAG_SWAPPED		(1 << 0)
--#define TTM_TT_FLAG_ZERO_ALLOC		(1 << 1)
--#define TTM_TT_FLAG_EXTERNAL		(1 << 2)
--#define TTM_TT_FLAG_EXTERNAL_MAPPABLE	(1 << 3)
-+#define TTM_TT_FLAG_SWAPPED		BIT(0)
-+#define TTM_TT_FLAG_ZERO_ALLOC		BIT(1)
-+#define TTM_TT_FLAG_EXTERNAL		BIT(2)
-+#define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index ae2f19dc9f81..64a59f46f6c3 100644
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -137,7 +137,6 @@ int ttm_global_swapout(struct ttm_operation_ctx *ctx, gfp_t gfp_flags)
+ 	mutex_unlock(&ttm_global_mutex);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(ttm_global_swapout);
  
--#define TTM_TT_FLAG_PRIV_POPULATED  (1U << 31)
-+#define TTM_TT_FLAG_PRIV_POPULATED	BIT(4)
- 	uint32_t page_flags;
- 	/** @num_pages: Number of pages in the page array. */
- 	uint32_t num_pages;
+ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
+ 		       gfp_t gfp_flags)
 -- 
 2.39.2
 
