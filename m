@@ -2,120 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BACCA6AE75F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 17:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B586B6AE7DC
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B99A10E14A;
-	Tue,  7 Mar 2023 16:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 620AF10E1FF;
+	Tue,  7 Mar 2023 17:03:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2061f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe59::61f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD8A10E14A;
- Tue,  7 Mar 2023 16:55:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZcI0bejeqO9HLTRcpxOhtrzGBHWmyICUh1vAC7HPGLaZNz2xEAdZ4WJ+49wYi8lDWpQy3gltABjKJYmvF6r7TrRNmY9MyfEJAj6R6hlBsSYixeg4fEN4mzR+xJPpy+sraYFZ+QDh+14rChWOaMC3RgdjtmixlEYOfqBi4KKykltD+u+OJIw6DouuKVlcUGrFTqXwnRnB1otWCYOTBKFBMQ6OI3FIvqjSrHLGSSMDki+dhACSGlpf4UTIHTKHKlEU9I2eqS6VtWIRHvq03FIu4caEm43XpT341fv5d+SGwZ9PfJK6Zqg4UZqddo4ShpIHJ7YOMI3BFqXy+7HQnBUj5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FKc+wbTNzv2KeDvPSCyVQ3hoVRI3sJcbwMjxkTEireM=;
- b=i14AhZbLxql28Fh9G25+kMenq3O/KIr4Nn7aXfnvEUdAe7SRM++Ue5jl908PT0lKB7jrdaimxcQVkCM5BblIGJfJ/5FOdQ3VZ1HoHAnPWx/b7LZbeMWU4LYiIrCtNmxJDE9MsCpC1tCRrZZCilLfdSN3pgtei9gO8iEtZ9oaYH4LenL0eG3vIAZS5ufn5XS424hOMf5l/SwNAb1sY7OUcvM0hXJmh5AysyFOQHGE0SltyS3rcenFq6FJMPzkLgAv+2ErMPf2aNhncrw0AMsG52LQH7RaORgXsjJ6gtzzDCpVmpjHorzfamhBCoSLIzOZW/SKZFg0d4JOKo+jO8rygw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FKc+wbTNzv2KeDvPSCyVQ3hoVRI3sJcbwMjxkTEireM=;
- b=VX9JuBIxxzazkwEklo3b567O/U3Bkkqn65NgKjg2Vytg2C2SrpAbSQvJ2fth4KIX9qxnTen37xxQ4oiZfyGBU4V+xTtrmWYzZPblJDNe4iXKTi4yw49scf7CLBWGVrtmYKOoXf2YORWUd1Nq3b3bFQYUxXpxwoU52M01cqS43rI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS0PR12MB7777.namprd12.prod.outlook.com (2603:10b6:8:153::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.18; Tue, 7 Mar
- 2023 16:55:09 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6156.028; Tue, 7 Mar 2023
- 16:55:09 +0000
-Message-ID: <9383eed5-d3ad-d61f-9fce-6a543890ee83@amd.com>
-Date: Tue, 7 Mar 2023 17:55:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 1/7] drm/ttm: Fix a NULL pointer dereference
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
- <20230307144621.10748-2-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230307144621.10748-2-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15)
- To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C750410E108;
+ Tue,  7 Mar 2023 17:03:40 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-17711f56136so844065fac.12; 
+ Tue, 07 Mar 2023 09:03:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678208620;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NdV+EIKQxSDfQkTVA63x343wU63G4KYaV0wPPzqV5/s=;
+ b=Qq1SnZqYDYlz32YF5cGBN0zRyMORfuj70c5lZbdOxlSbUiqCrz/OL/WZ61RdSs5x4u
+ dSlUqnDUmC3OfsgBzBcjVkJYKmO1WoG42sOuWNopYco/gqy6xxZRB+SKsgB9tTANXzJj
+ gFAhiG1thN+NJw0wpqJbv7hlsq9uYOLvzNZonlt18ZDGzqA9oC+Uz8nI6pfj5HRRG853
+ d6GH6ehaZgNjxW0DXR3OmTEmCbP3ZBOe2T0+RyV2HJsiZy4emhjEefVBy1RuvslUkkiS
+ UVQ2x1oTzbg+x6NXUjk0Nkj1TKqEHP6ItfMkbsgwPqxWWNC0EL/mc8DsYilZoYw68qsU
+ upYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678208620;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NdV+EIKQxSDfQkTVA63x343wU63G4KYaV0wPPzqV5/s=;
+ b=YCRSZyrcexHFkSFhw27tsVuLBm+7qvfjzstmsSdzCXOVgozNvSP4DHhAmFlZZrF3ZV
+ kNm5WUIrWGupdWRu3w4vCY7gZICQW2B9MrANA4ZGid23dsJeHTGExVUuJImGk4BGZ3tB
+ aFqFItKgeUQ3dKAMiyC2RjYtDUQBcZ/8IEEmOeMVw9C6PiaGfoXsZCeYP2Ja7LMXHjIf
+ 2NwJTcM9GH8bV45GeBwjUD8n/3OU7HG3cd3gzgoimCZUn6DkhT2DcqxtHkpozh0+NY91
+ iZjfObFrB922iV7e/+sWhS7Iq9AnZs64f+ASLdEOtV/ouEDdAJQhCzxXSSMFO0VS1bSf
+ PPVA==
+X-Gm-Message-State: AO0yUKXjFVNXCgZEl2Yt7Aws+njyfMeofeAwzdDf3Ef0dJfXQY/jGfAD
+ HQrQGOuhVLbgwzqRUu8MPCH6PE1bvgmTcTOfZUk=
+X-Google-Smtp-Source: AK7set8e4ffmspjqbs62Heo6QeGYD8SGZ/8HGEUTTT6k0/ZgoiL4JJ/0EmN4Vjlr+r18Sym9+ekVD4YHYA7rghycyeg=
+X-Received: by 2002:a05:6871:6a81:b0:176:3e60:3269 with SMTP id
+ zf1-20020a0568716a8100b001763e603269mr5192990oab.8.1678208619654; Tue, 07 Mar
+ 2023 09:03:39 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS0PR12MB7777:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92ab1d51-940d-4391-47fe-08db1f2cb5cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FiyAiwPN4lHRJxcXZd/zcDlH7eBRfShJzd6OP0TtXtPyyaiSUbHoRssa7CJx5ffMmwtiotj9WJN5fdAf1fHWDrUrvqu1FH/wXBAmr47Iw6J9jUkGNR2XI8YqdRj3784qTNAkBlHeE29takjnzuXR1Nmf8mJhElU9UceG8sMTbd/9Lz2JT2QmFRZk5Z9FEfqxiyvlIAe5t9l0BCDUwixgFfXQg2xGaVzMnfKopCzqS/YVq9GqRJDA0N7v5/5pWEp2KRPt8cXsW87v2v5vW2nDONuAScEt85KAmXQksoUAHLzlJfwYPbJw10C6dZF7gqpMFGz+mZ5eQHyj2rr9vTVjKjLpQpirvsPPgQhTYcUj6PqyPM0+H6G5gKYPeKRLxibqFKKMv7mXEWMo4zhrQJ7cCTL7TM0cQOwZcZYp4sxhkydclRIDSFQndSkc+jNgm5rSPIzyK8AAOIbkOx56qKKbt3gc5Z0jkdyyLP7x/LIKAHOGn8fia5viG1GP+EFwxCZ/VX/lCBlk4sLzqNm36Y7J2/TRrO8p/fFuo8idDmtI+0OGQYE12X6+TFxTVduQTIvu36YHtquiku1ae6s1vux1lvtUHXN8Mt4yRs5KYJf+qPZo3dVFebsmh4WO1nmt26jXny0KKlyoDDWjEHal1n0exyTGcxZLYqYXU7jfR1Z0iMPMNzWY/jbWr4j0yElyoiAONE9XRe2MLxP2Zj0Sgm05hnzjTOpQtEOVgeSWCE0zqkU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(39860400002)(376002)(396003)(366004)(136003)(451199018)(41300700001)(5660300002)(38100700002)(86362001)(8936002)(31696002)(6506007)(6666004)(2906002)(6486002)(186003)(6512007)(66556008)(478600001)(66946007)(8676002)(4326008)(66574015)(54906003)(66476007)(2616005)(83380400001)(316002)(31686004)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eDZORlhBWG96SkFtVldEaWtjMkhCRVVLTm1zNDFRVTJlWWZTSllzT0JxcXNi?=
- =?utf-8?B?UE1Vd0QxOFlnV05ZZmx2TXhOY29MbWErNlhzZnVvNWc5Vmx2Y0cwYVJaU0cx?=
- =?utf-8?B?dUFSd1N6RDJxWWtnaHZTaVRZYmRHdlVvTWkzdXlGS0JrVS9Kd3A4Y213SE9T?=
- =?utf-8?B?Z05kbEppcnk1L0o4dVZFS3pYNExVazlRS2p0M05IVmhhSjRldEtHRWRXeVc4?=
- =?utf-8?B?ZlNQQmlVNnhnZThpNFg1M3RKcmc0STBaeDdSUmIrVm5mZDBtcWlaUWlTckdy?=
- =?utf-8?B?dXZkcDRKV0ptUnVEZlNrM1d1RWt5ZnVuK0xiNWlrYWs0ZDVRUWZXS0p0aXox?=
- =?utf-8?B?SjhxZWprb3YrNHlXa2ZrTS9XMTNrWVc4MDhSUU90UUtTZitJM3F6TzJETk9O?=
- =?utf-8?B?dVlqTVNoSDVrWHoycERJcEswOTZuODN4cTMyalQrekMrYld2YWVkMnBvMUpK?=
- =?utf-8?B?K1p5b0xmdHpDaVAyZWpJbXF1TG12Q0JTc1U1WkRxZ0xYUjhLbGJjMjJ0TTJo?=
- =?utf-8?B?SmdOUE56ZUZURFR5eFBhYVU0MTZadW1lNVlPb1Y5TWRpTFh2YlpwOWRIZ2FQ?=
- =?utf-8?B?eC9vR2twaGh1RFVaME83SjZDUzRBRWJBdWg2M0NaNmREbE1acDNSWkp6aWUy?=
- =?utf-8?B?eG9VWFRsOEtoaWNieGJIM2FoMnFFL1RuY2pYbFMwMEJMcXpxT3V3bkowK3NN?=
- =?utf-8?B?YmZTZDk1VEROOTltTE9RMzd1U0kxcS94ZjRLV3o4d25Lek9CMklMeUtacTEr?=
- =?utf-8?B?MFpVL0tXRWxxRUNhZWpmdCtXeW4xOE9SMjVNNFNSOGI5ck9OSC9qQVNRdE1T?=
- =?utf-8?B?Ti9SZlF4aHdSZHI3ekhxVHpXd1htUDFSREFPNXordU14aGxOMlduZ0dYOHVh?=
- =?utf-8?B?cDJYclNZTWk5NjdjSk0rMDJRUkVRN09GeHRNdWM1eGtVK1VTNTJGTXUyOXpD?=
- =?utf-8?B?WUtDT2RTVThyTEJWYjhsV1hESUd3elpPY2x2dUpibXJtYkZrVW1FZi9wU0pZ?=
- =?utf-8?B?Uk1lc25qUFRubzY5RGpPZGcwVFZTdXQ3bEZmL0ZwdVl6VWF6OGhLSjBWR0Zi?=
- =?utf-8?B?Rm1RNlhMTHFZd0J3OUxIWkhSa0gwaUsvVGpIZW54MVdUWkVOYk5SeCs4RTU0?=
- =?utf-8?B?K2w2amZMQmpyN1NLcE1QRnRmNW1jRnNhUmo5b2IwaGh6c3BpTEMwMHpUaDZT?=
- =?utf-8?B?dHFHZUlKOWorRW5CRm9kVVRLWW90bFJyMlBWdnFIWXlaaWYza1VzN096aCth?=
- =?utf-8?B?dXppYmF4SktwckVHYmdwRTZCbmhiZ0s5a3EvVXUwVXhZZVEvSHhkemNsS0s0?=
- =?utf-8?B?VzFwK0ZPWGFFMzhVOXhxbDVDVlVsTzdBQzh4RHJCOEp0QVdzTTBqQ1lGQUhy?=
- =?utf-8?B?VVYxS2lTREYrMWtGaSs1YWd4a0QwTmI4MXdDMzRDVW9zNDRCVXBaa0IzVEto?=
- =?utf-8?B?c3FSeXdQMWNDZVZKei84M1Fub1NudkMvSTdWaXdSdDlOMUpRbTZyM1E1M0Nu?=
- =?utf-8?B?YUNBbkUxbkwzcTBiR2QveXAyT3ErU2JkdmdqZmpGbjFNVGRaREZFZktqbUVF?=
- =?utf-8?B?a3hGUk9iMDFBcDdYZkpPRFJ4TGM0MU5jTXhzN2dwZ2VuL1FFWExyakdXb05v?=
- =?utf-8?B?aU1PdlduaU1NL1NWN3RCQ0Q0b1ZKN09GZjdJQ2p5WTBJZ1ZUTXJkUnhhRVcx?=
- =?utf-8?B?S1dJajc0dFN4b1JBRnJXanEwQTBNTGRWRTViN1UwVjhOcys5VitZQUpHMWNo?=
- =?utf-8?B?N3FEeGsyVm5jcW11ZHZIYVV3LzhEcDAwQ1c0RXRaMEVFUmJtRzZNdG00aFRn?=
- =?utf-8?B?aGZyMzQ4RUhaWlIxMlAvZTc3L0drVUZHRXNLQ2RTT1hNSHIva2VpV2thODRN?=
- =?utf-8?B?a0ExTXBjTm5wRHpRZFZBdXpqUWJYQy9qc1Y5Tm9iQnovUXgrSEptMnRTekJU?=
- =?utf-8?B?QmFmeVBOMngvUGR0dFJqTkxLZjhZTUtuSVZvaWo4cTBnOWh1WkVMd2k2LytP?=
- =?utf-8?B?M2pRNWpuc3dGaEZxL2N6VVNaUFlINTVDL0dGcVB5bGcvcFo4Y0d2SkF2ZXJx?=
- =?utf-8?B?aFlXak4wamNVSlFVNlRpdE9ZS3NReVdtbkpvdHVGOXJpQkFLRFZpZVMwbk90?=
- =?utf-8?B?VXJnZmh0YW1oNEZCMC93dTFwUkRKQ1VsSU1IZnFOelJ6V043Mk03SHZvYlZW?=
- =?utf-8?Q?iASuj1IaCdQhWjSSE+yZ/RmFQ289k0RShNNMi0fPrmLS?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92ab1d51-940d-4391-47fe-08db1f2cb5cf
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 16:55:09.4839 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7edn/qu5/h60iLHIDZ7bhDXFYCRScYU61Qh63tVOVKe7WXJXnBH7uWu21SWqG5yR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7777
+References: <20230306022427.437022-1-davidbtadokoro@gmail.com>
+In-Reply-To: <20230306022427.437022-1-davidbtadokoro@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 7 Mar 2023 12:03:27 -0500
+Message-ID: <CADnq5_OYT576v7ynfxiYE9xj2jQa58vVfyvpFS9k3saoGHMAuw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: add prefix to amdgpu_dm_plane.h functions
+To: David Tadokoro <davidbtadokoro@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,71 +66,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Qiang Yu <qiang.yu@amd.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ linux-kernel@vger.kernel.org, David Tadokoro <davidbtadokoro@usp.br>,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ Rodrigo.Siqueira@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.03.23 um 15:46 schrieb Thomas Hellström:
-> The LRU mechanism may look up a resource in the process of being removed
-> from an object. The locking rules here are a bit unclear but it looks
-> currently like res->bo assignment is protected by the LRU lock, whereas
-> bo->resource is protected by the object lock, while *clearing* of
-> bo->resource is also protected by the LRU lock. This means that if
-> we check that bo->resource points to the LRU resource under the LRU
-> lock we should be safe.
-> So perform that check before deciding to swap out a bo. That avoids
-> dereferencing a NULL bo->resource in ttm_bo_swapout().
-
-Please make sure that this is pushed to drm-misc-fixes ASAP.
-
-I've getting complains for this from different sides.
-
-Thanks,
-Christian.
-
+On Mon, Mar 6, 2023 at 3:23 AM David Tadokoro <davidbtadokoro@gmail.com> wrote:
 >
-> Fixes: 6a9b02899402 ("drm/ttm: move the LRU into resource handling v4")
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Christian Koenig <christian.koenig@amd.com>
-> Cc: Huang Rui <ray.huang@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: Philip Yang <Philip.Yang@amd.com>
-> Cc: Qiang Yu <qiang.yu@amd.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> Cc: Anshuman Gupta <anshuman.gupta@intel.com>
-> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+> From: David Tadokoro <davidbtadokoro@usp.br>
+>
+> The amdgpu_dm_plane.h functions didn't have names that indicated where
+> they were declared.
+>
+> To better filter results in debug tools like ftrace, prefix these
+> functions with 'amdgpu_dm_plane_'.
+>
+> Note that we may want to make this same change in other files like
+> amdgpu_dm_crtc.h.
+>
+> Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
+
+Applied.  Thanks!
+
+Alex
+
 > ---
->   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../gpu/amdgpu/display/display-manager.rst    |  2 +-
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++-------
+>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 20 +++++++++----------
+>  .../amd/display/amdgpu_dm/amdgpu_dm_plane.h   | 12 +++++------
+>  4 files changed, 24 insertions(+), 24 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-> index c7a1862f322a..ae2f19dc9f81 100644
-> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> @@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
->   			struct ttm_buffer_object *bo = res->bo;
->   			uint32_t num_pages;
->   
-> -			if (!bo)
-> +			if (!bo || bo->resource != res)
->   				continue;
->   
->   			num_pages = PFN_UP(bo->base.size);
-
+> diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
+> index b7abb18cfc82..be2651ecdd7f 100644
+> --- a/Documentation/gpu/amdgpu/display/display-manager.rst
+> +++ b/Documentation/gpu/amdgpu/display/display-manager.rst
+> @@ -173,7 +173,7 @@ The alpha blending equation is configured from DRM to DC interface by the
+>  following path:
+>
+>  1. When updating a :c:type:`drm_plane_state <drm_plane_state>`, DM calls
+> -   :c:type:`fill_blending_from_plane_state()` that maps
+> +   :c:type:`amdgpu_dm_plane_fill_blending_from_plane_state()` that maps
+>     :c:type:`drm_plane_state <drm_plane_state>` attributes to
+>     :c:type:`dc_plane_info <dc_plane_info>` struct to be handled in the
+>     OS-agnostic component (DC).
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 4217ebe6391b..f7111acd45cc 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -2923,7 +2923,7 @@ const struct amdgpu_ip_block_version dm_ip_block =
+>
+>  static const struct drm_mode_config_funcs amdgpu_dm_mode_funcs = {
+>         .fb_create = amdgpu_display_user_framebuffer_create,
+> -       .get_format_info = amd_get_format_info,
+> +       .get_format_info = amdgpu_dm_plane_get_format_info,
+>         .output_poll_changed = drm_fb_helper_output_poll_changed,
+>         .atomic_check = amdgpu_dm_atomic_check,
+>         .atomic_commit = drm_atomic_helper_commit,
+> @@ -4948,7 +4948,7 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+>         if (ret)
+>                 return ret;
+>
+> -       ret = fill_plane_buffer_attributes(adev, afb, plane_info->format,
+> +       ret = amdgpu_dm_plane_fill_plane_buffer_attributes(adev, afb, plane_info->format,
+>                                            plane_info->rotation, tiling_flags,
+>                                            &plane_info->tiling_info,
+>                                            &plane_info->plane_size,
+> @@ -4957,7 +4957,7 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
+>         if (ret)
+>                 return ret;
+>
+> -       fill_blending_from_plane_state(
+> +       amdgpu_dm_plane_fill_blending_from_plane_state(
+>                 plane_state, &plane_info->per_pixel_alpha, &plane_info->pre_multiplied_alpha,
+>                 &plane_info->global_alpha, &plane_info->global_alpha_value);
+>
+> @@ -4976,7 +4976,7 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
+>         int ret;
+>         bool force_disable_dcc = false;
+>
+> -       ret = fill_dc_scaling_info(adev, plane_state, &scaling_info);
+> +       ret = amdgpu_dm_plane_fill_dc_scaling_info(adev, plane_state, &scaling_info);
+>         if (ret)
+>                 return ret;
+>
+> @@ -7882,7 +7882,7 @@ static void amdgpu_dm_commit_cursors(struct drm_atomic_state *state)
+>          */
+>         for_each_old_plane_in_state(state, plane, old_plane_state, i)
+>                 if (plane->type == DRM_PLANE_TYPE_CURSOR)
+> -                       handle_cursor_update(plane, old_plane_state);
+> +                       amdgpu_dm_plane_handle_cursor_update(plane, old_plane_state);
+>  }
+>
+>  static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+> @@ -7967,7 +7967,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+>                         bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
+>                 }
+>
+> -               fill_dc_scaling_info(dm->adev, new_plane_state,
+> +               amdgpu_dm_plane_fill_dc_scaling_info(dm->adev, new_plane_state,
+>                                      &bundle->scaling_infos[planes_count]);
+>
+>                 bundle->surface_updates[planes_count].scaling_info =
+> @@ -9634,7 +9634,7 @@ static int dm_update_plane_state(struct dc *dc,
+>                 if (!needs_reset)
+>                         return 0;
+>
+> -               ret = dm_plane_helper_check_state(new_plane_state, new_crtc_state);
+> +               ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
+>                 if (ret)
+>                         return ret;
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 28fb1f02591a..dc23c788cdba 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -90,12 +90,12 @@ enum dm_micro_swizzle {
+>         MICRO_SWIZZLE_R = 3
+>  };
+>
+> -const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
+> +const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
+>  {
+>         return amdgpu_lookup_format_info(cmd->pixel_format, cmd->modifier[0]);
+>  }
+>
+> -void fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+> +void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+>                                bool *per_pixel_alpha, bool *pre_multiplied_alpha,
+>                                bool *global_alpha, int *global_alpha_value)
+>  {
+> @@ -759,7 +759,7 @@ static int attach_color_mgmt_properties(struct amdgpu_display_manager *dm, struc
+>  }
+>  #endif
+>
+> -int fill_plane_buffer_attributes(struct amdgpu_device *adev,
+> +int amdgpu_dm_plane_fill_plane_buffer_attributes(struct amdgpu_device *adev,
+>                              const struct amdgpu_framebuffer *afb,
+>                              const enum surface_pixel_format format,
+>                              const enum dc_rotation_angle rotation,
+> @@ -918,7 +918,7 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
+>                         dm_plane_state_new->dc_state;
+>                 bool force_disable_dcc = !plane_state->dcc.enable;
+>
+> -               fill_plane_buffer_attributes(
+> +               amdgpu_dm_plane_fill_plane_buffer_attributes(
+>                         adev, afb, plane_state->format, plane_state->rotation,
+>                         afb->tiling_flags,
+>                         &plane_state->tiling_info, &plane_state->plane_size,
+> @@ -999,7 +999,7 @@ static void get_min_max_dc_plane_scaling(struct drm_device *dev,
+>                 *min_downscale = 1000;
+>  }
+>
+> -int dm_plane_helper_check_state(struct drm_plane_state *state,
+> +int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
+>                                        struct drm_crtc_state *new_crtc_state)
+>  {
+>         struct drm_framebuffer *fb = state->fb;
+> @@ -1053,7 +1053,7 @@ int dm_plane_helper_check_state(struct drm_plane_state *state,
+>                 state, new_crtc_state, min_scale, max_scale, true, true);
+>  }
+>
+> -int fill_dc_scaling_info(struct amdgpu_device *adev,
+> +int amdgpu_dm_plane_fill_dc_scaling_info(struct amdgpu_device *adev,
+>                                 const struct drm_plane_state *state,
+>                                 struct dc_scaling_info *scaling_info)
+>  {
+> @@ -1161,11 +1161,11 @@ static int dm_plane_atomic_check(struct drm_plane *plane,
+>         if (!new_crtc_state)
+>                 return -EINVAL;
+>
+> -       ret = dm_plane_helper_check_state(new_plane_state, new_crtc_state);
+> +       ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
+>         if (ret)
+>                 return ret;
+>
+> -       ret = fill_dc_scaling_info(adev, new_plane_state, &scaling_info);
+> +       ret = amdgpu_dm_plane_fill_dc_scaling_info(adev, new_plane_state, &scaling_info);
+>         if (ret)
+>                 return ret;
+>
+> @@ -1229,7 +1229,7 @@ static int get_cursor_position(struct drm_plane *plane, struct drm_crtc *crtc,
+>         return 0;
+>  }
+>
+> -void handle_cursor_update(struct drm_plane *plane,
+> +void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+>                                  struct drm_plane_state *old_plane_state)
+>  {
+>         struct amdgpu_device *adev = drm_to_adev(plane->dev);
+> @@ -1314,7 +1314,7 @@ static void dm_plane_atomic_async_update(struct drm_plane *plane,
+>         plane->state->crtc_w = new_state->crtc_w;
+>         plane->state->crtc_h = new_state->crtc_h;
+>
+> -       handle_cursor_update(plane, old_state);
+> +       amdgpu_dm_plane_handle_cursor_update(plane, old_state);
+>  }
+>
+>  static const struct drm_plane_helper_funcs dm_plane_helper_funcs = {
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+> index a4bee8528a51..930f1572f898 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+> @@ -29,17 +29,17 @@
+>
+>  #include "dc.h"
+>
+> -void handle_cursor_update(struct drm_plane *plane,
+> +void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
+>                           struct drm_plane_state *old_plane_state);
+>
+> -int fill_dc_scaling_info(struct amdgpu_device *adev,
+> +int amdgpu_dm_plane_fill_dc_scaling_info(struct amdgpu_device *adev,
+>                          const struct drm_plane_state *state,
+>                          struct dc_scaling_info *scaling_info);
+>
+> -int dm_plane_helper_check_state(struct drm_plane_state *state,
+> +int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
+>                                 struct drm_crtc_state *new_crtc_state);
+>
+> -int fill_plane_buffer_attributes(struct amdgpu_device *adev,
+> +int amdgpu_dm_plane_fill_plane_buffer_attributes(struct amdgpu_device *adev,
+>                                  const struct amdgpu_framebuffer *afb,
+>                                  const enum surface_pixel_format format,
+>                                  const enum dc_rotation_angle rotation,
+> @@ -56,9 +56,9 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>                          unsigned long possible_crtcs,
+>                          const struct dc_plane_cap *plane_cap);
+>
+> -const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
+> +const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
+>
+> -void fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+> +void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+>                                     bool *per_pixel_alpha, bool *pre_multiplied_alpha,
+>                                     bool *global_alpha, int *global_alpha_value);
+>
+> --
+> 2.39.2
+>
