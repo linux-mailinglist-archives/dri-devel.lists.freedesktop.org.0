@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342B56AE426
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 16:12:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03856AE422
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 16:12:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8A5310E584;
-	Tue,  7 Mar 2023 15:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5605010E501;
+	Tue,  7 Mar 2023 15:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2074.outbound.protection.outlook.com [40.107.220.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C5B10E501;
- Tue,  7 Mar 2023 15:11:32 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2079.outbound.protection.outlook.com [40.107.102.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA42010E504;
+ Tue,  7 Mar 2023 15:11:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iFu/SgCB746MMYRhC9xS//6dOfI8MPXiIv4JQXiG7YQB9qHlEHEfxgZwvS8zQEtAmiHWrqd3cqynzXlxfoH0hK4wnuPQ+9U5G/2jtazeS8pwUQGfnyj98OJrln2fjAQ2dP5xNAqXXud0+yj6mA4o7yd/ANa+py/aCabEBEKCO3LPh7VYdHDnmKtF9hCCkyLWM9BnJ0VembPGj4CKuRttFfRnBFpOWu6HArhuc4ITJPY0zZemJ2zw7Pd1AmD9FhlAiQKIF+FewTxCeYv6HR4gA9Ho/nADqtWHQRb/5A5rDwu0bELsInAbIStxnoJUt7JmYZ2xi3ZThqAxxSBrofQVNA==
+ b=YBcULTTEyFqbOobrm0lgbuiIvE6fNBWhKtXP34jIffWG+/clYR2NjvW1wAQnkue/siybz58AcRT5hfyU06D9e7TLPv+95n6EJdMMSZZ4Ujmo6xkDwU1WlAFhBaPYPL2zlTvDQuKPq7Dy9zZ48TUuzHxZixQVJf9l8RyUGBcdIbiH8yA8HuYrAlhQY8gUL3Iz9Xhl1lM99Ik2X9pmK8BrOINtdGye6jEZYGMSwVGbN80EJOQDLzFWbyOT2qEn1OAofqHrq8ImyImZYKErfd+dnC+LySPca/ewjJJY6U2tasV6XOSvbm40abU2FaRSR+6HFC2lIxY1gLeBS0dXmABW6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kPUydsJ57swfTrqdb7Iz7Vi0iJfmOTUroLX4rBCHUS4=;
- b=NgwkUBQ/SEwaBmMo1oYwotof08Iq4rOZAvun4wUOC4Czyzsbl1Wftr54HLibHQ0gMbzj++wrPXAXw6uLnmp5JncrS/ZBfuhQK+iyd3Jdz+E4nA7ICKGaUV//zXmlNkVULjwRmHED/wOEddK+yzQf1RfIUI/67v/ankIEhIjZ3mdyCZgvGd6IsGie/8TyK/N2vVdhNZpn/rUs/LIchJiqZzV0s0RoCjM8h7xnwiviOu/wm9UlRRu5ktkq9slYDdXsq8FYmiFm6BahbicKH0IonrEB4DOSGp+VcRJ45VzMRJs+6GGufjZHfmY3gQbEoNBWLiDVfqXdYCwxON327aDH7w==
+ bh=OZjQ/ElliK6i9TnKrvkE9vyEF0Fd4l+cfTzXdK7RCtk=;
+ b=N4xB+rgbeNQRqYFIV5wIwDOjYpPMCGy51haHA0RlP8OfnoDlUqXD/DxGL8oDEIJos71jca303GYXH2pXtOmatYP5joZhvNHPltMSl0eoNi8DQ4J+eJq13J+6JFLW8b4k+m+uKhp3lYenwriexziKSU96fDtAEN9qA+Xw5d6dxyW3Fl+pMOAL10gA4sCZd8RK0R8pFkr0Sdco3Zz4t5MJUmLAz0KSUFAeUA09L+rTMZZbQmzq5yZ4I6CG+nLbHPKhG5xCUucdXKPfSE3G6RNKUwols6RyIrf8gvkbmiih0EGbo90zfIMxIrZPgFSr4DDf3hGw82sdKxSxujyHYuEeuA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kPUydsJ57swfTrqdb7Iz7Vi0iJfmOTUroLX4rBCHUS4=;
- b=OwDH6+HupvW/3U+5MNGjXKSqi/0cyUzxmM3cfps5mTRwmu4rtQVwlfBgqD1gMDkAYuvZX9AizSPPnhQUxSf5eJaCbeXP1YDScDsGsBC/QVvLnh3aa7cmAQfkE5W8Cmeue01Kh5pWzEQHpfOhehq6tYx69Cux8a7QwYOUUX4UFjM=
-Received: from DM6PR17CA0030.namprd17.prod.outlook.com (2603:10b6:5:1b3::43)
- by SA0PR12MB4480.namprd12.prod.outlook.com (2603:10b6:806:99::10) with
+ bh=OZjQ/ElliK6i9TnKrvkE9vyEF0Fd4l+cfTzXdK7RCtk=;
+ b=mV1hJbf1srBaeeHytLdklJM02EAEkoxLC5qs7SKtktI8rYMIOKimZQNtkxvMthuMkGb5HcbEb3rvouHJZR7p1vlFYtaomOj3RYcAgqDh7e3+gb7YESfVsQAotKjji58BaoO1nkErrDEHGDestkfXCETVc8ginQHAk8M8OgHccqY=
+Received: from DM6PR13CA0069.namprd13.prod.outlook.com (2603:10b6:5:134::46)
+ by CH2PR12MB5004.namprd12.prod.outlook.com (2603:10b6:610:62::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Tue, 7 Mar
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Tue, 7 Mar
  2023 15:11:30 +0000
-Received: from DS1PEPF0000E633.namprd02.prod.outlook.com
- (2603:10b6:5:1b3:cafe::9e) by DM6PR17CA0030.outlook.office365.com
- (2603:10b6:5:1b3::43) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DM6NAM11FT095.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:134:cafe::38) by DM6PR13CA0069.outlook.office365.com
+ (2603:10b6:5:134::46) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.16 via Frontend
  Transport; Tue, 7 Mar 2023 15:11:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
@@ -43,24 +43,28 @@ X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0000E633.mail.protection.outlook.com (10.167.17.137) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.13 via Frontend Transport; Tue, 7 Mar 2023 15:11:30 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT095.mail.protection.outlook.com (10.13.172.180) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.16 via Frontend Transport; Tue, 7 Mar 2023 15:11:30 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 7 Mar
- 2023 09:11:28 -0600
+ 2023 09:11:29 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 7 Mar
+ 2023 09:11:29 -0600
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 7 Mar 2023 09:11:27 -0600
+ Transport; Tue, 7 Mar 2023 09:11:28 -0600
 From: Harry Wentland <harry.wentland@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 14/17] drm/amd/display: Add debugfs for testing output
- colorspace
-Date: Tue, 7 Mar 2023 10:11:04 -0500
-Message-ID: <20230307151107.49649-15-harry.wentland@amd.com>
+Subject: [PATCH v3 15/17] drm/amd/display: Add default case for
+ output_color_space switch
+Date: Tue, 7 Mar 2023 10:11:05 -0500
+Message-ID: <20230307151107.49649-16-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307151107.49649-1-harry.wentland@amd.com>
 References: <20230307151107.49649-1-harry.wentland@amd.com>
@@ -69,26 +73,26 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E633:EE_|SA0PR12MB4480:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed336f66-7e2c-4bf0-b3f9-08db1f1e3b4f
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT095:EE_|CH2PR12MB5004:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea495a9b-45c6-4d45-fe4b-08db1f1e3b11
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Yz0gWNIQDtvdnocT9YuQTKEyACMFEpu60klOloHn8eYsJWpK1Un5UEpHa9XHOkWggiTOS5mWhPxgdWPXbxloIIMa/e7rLDU2w+CYajeFhozjLaSPOVYkitJSG4qRHO64GxSb7gwLOQ3EbUr4V0lbPdl/TTy4iYMJOVuJP7FyW3wL7F6yEORmRmapJr86on4ur4O9detzl3z8xdz/hpbh49pQAlwhat5xRk8SljEuGLxkTpNHvP0olwRQSSZwySRplmHjgoUuT4KhjiaKd+HY1ZZ4mfNNNNARMV3keuZ7jTgEXq38uzrOWoGthSb+Or2q9nUuqMi9MNCN9kTX+fM26kjgcinkjnS8EOTXem4pzLqmXhWIYuEJw9pl2K95ylK7fXD1/LuELSXwOz/qG+HSnQyZb35jalDccfMzsQLHXdvz+O7LvIk253+VFRW7jifZ0PTZRnNkptbhmgc8265QgqItyjIfvwJuCnbQ1jwF5TcFXk8NSx+NZmpn2d5S1t5qtGmjUuCrBTYFRQgYfIaqu70Lk8EpACgSz/lUYFe/yB2ALpLDmg1J/oyjgVmKuNC4AD7mPEMlWnt1UBKAaiiny9Xd5wWukeWhtAPewdHa3qbXwUNkYQFdpU4+nuA3fq8+A2X4leN1xiqv3J9mlIatJmmVlRHYx9ty11xML5dAD7s8StjTftsWFBgsmsWJni6eTZEQ/Mzx4mcFUld6fk9ZKTv6tm0pemu/YcWSGMOhc6A25PUhrUjvh9CmFvqHoofox+sH2Vt2gCQGpPdrftEKuGM7rhFbEN1FerNhrmzyLpk=
+X-Microsoft-Antispam-Message-Info: Cgkel1xEJMpCcI/j+Q/ToMOrUIWLzS79Vaqq7QMrkUuQM6kWx0V18ROOgVoQQYutiLg7SXwTn+6oSJzccVAxJre28vx1ZTxLEIGs5MZtRbTjCJl58D7PHUUT3VnFhgjL8HNVvQjfLW0qDhDAFw0/FOcYQNe1sUFEpiAUHjfFr2KmBIXj0Cfb33b49dF169lwxbcCVxBT/NzIQqv98n/CU80gRbHzUvfTHLGC5mqbfmTi71q8DC/cJTHngA/ogIMgriSEwKJpCfe/vhwWsTyw0pLIwaQhCvINkl0R9P4lWmX/siA7q1HtSTK/3/H/gW2ovZLBfPnkG2etDSRUPldR3LAO58auC0eo3rpQH3yqooZ10IceBzq2rvo6d041p/8KklNmNLHuccWUBTNmUEQ4bELfJCPrrvvRSqdFAeFkRBIfWPe2SeJ040qRdqJLY/SKRSZ1FulnY2tBcflMPh3b9TDV7h4pIyWEg9i7T0oPEsi3tdXdzKZtbaqKdd2H9JhwNYto56yJv3PGxcexiIB90eA7tc7IbI5aVjFXBvnQIR/QiFRE6vs7lb6ZDBa4qHfFcnK6AJnH4uBiZ/Ajz65mCCUfGwAAqwSMNhLXZmVW4d8odPK7jp4BAKxNACmZqEKAPM3va7o0oXW2Blm/wUNybJB2Z9EODwKqGw/sVIIVZSzKCXbpvRGrY8mQH3hwsagZILPf6U4XRM8LfQCR3nTAdO9QoGK+2Cjl1IIKAMTpyQ0=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(136003)(346002)(396003)(376002)(39860400002)(451199018)(46966006)(40470700004)(36840700001)(8936002)(5660300002)(44832011)(70206006)(70586007)(2906002)(8676002)(4326008)(54906003)(110136005)(316002)(478600001)(36756003)(426003)(6666004)(36860700001)(1076003)(47076005)(26005)(41300700001)(83380400001)(82310400005)(2616005)(81166007)(40480700001)(82740400003)(356005)(86362001)(40460700003)(186003)(336012)(36900700001);
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(346002)(39860400002)(376002)(136003)(451199018)(40470700004)(36840700001)(46966006)(478600001)(5660300002)(336012)(86362001)(47076005)(426003)(186003)(36756003)(26005)(40460700003)(1076003)(2906002)(2616005)(44832011)(82310400005)(70586007)(70206006)(81166007)(8676002)(4326008)(82740400003)(40480700001)(83380400001)(6666004)(8936002)(316002)(41300700001)(36860700001)(356005)(110136005)(54906003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 15:11:30.6835 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed336f66-7e2c-4bf0-b3f9-08db1f1e3b4f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 15:11:30.2790 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea495a9b-45c6-4d45-fe4b-08db1f1e3b11
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E633.namprd02.prod.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT095.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4480
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,14 +111,6 @@ Cc: Pekka Paalanen <ppaalanen@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to IGT test colorspace we'll want to print
-the currently enabled colorspace on a stream. We add
-a new debugfs to do so, using the same scheme as
-current bpc reporting.
-
-This might also come in handy when debugging display
-issues.
-
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
 Cc: Sebastian Wick <sebastian.wick@redhat.com>
@@ -124,84 +120,71 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org
 Reviewed-By: Joshua Ashton <joshua@froggi.es>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 43 ++++++++++---------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 4a5dae578d97..f0022c16b708 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -906,6 +906,61 @@ static int amdgpu_current_bpc_show(struct seq_file *m, void *data)
- }
- DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 7f77e226f1eb..a15b26962496 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5308,7 +5308,29 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
+ 	enum dc_color_space color_space = COLOR_SPACE_SRGB;
  
-+/*
-+ * Returns the current bpc for the crtc.
-+ * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_colorspace
-+ */
-+static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
-+{
-+	struct drm_crtc *crtc = m->private;
-+	struct drm_device *dev = crtc->dev;
-+	struct dm_crtc_state *dm_crtc_state = NULL;
-+	int res = -ENODEV;
-+
-+	mutex_lock(&dev->mode_config.mutex);
-+	drm_modeset_lock(&crtc->mutex, NULL);
-+	if (crtc->state == NULL)
-+		goto unlock;
-+
-+	dm_crtc_state = to_dm_crtc_state(crtc->state);
-+	if (dm_crtc_state->stream == NULL)
-+		goto unlock;
-+
-+	switch (dm_crtc_state->stream->output_color_space) {
-+	case COLOR_SPACE_SRGB:
-+		seq_printf(m, "RGB");
+ 	switch (connector_state->colorspace) {
++	case DRM_MODE_COLORIMETRY_BT601_YCC:
++		if (dc_crtc_timing->flags.Y_ONLY)
++			color_space = COLOR_SPACE_YCBCR601_LIMITED;
++		else
++			color_space = COLOR_SPACE_YCBCR601;
 +		break;
-+	case COLOR_SPACE_YCBCR601:
-+	case COLOR_SPACE_YCBCR601_LIMITED:
-+		seq_printf(m, "BT601_YCC");
++	case DRM_MODE_COLORIMETRY_BT709_YCC:
++		if (dc_crtc_timing->flags.Y_ONLY)
++			color_space = COLOR_SPACE_YCBCR709_LIMITED;
++		else
++			color_space = COLOR_SPACE_YCBCR709;
 +		break;
-+	case COLOR_SPACE_YCBCR709:
-+	case COLOR_SPACE_YCBCR709_LIMITED:
-+		seq_printf(m, "BT709_YCC");
++	case DRM_MODE_COLORIMETRY_OPRGB:
++		color_space = COLOR_SPACE_ADOBERGB;
 +		break;
-+	case COLOR_SPACE_ADOBERGB:
-+		seq_printf(m, "opRGB");
++	case DRM_MODE_COLORIMETRY_BT2020:
++		color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
 +		break;
-+	case COLOR_SPACE_2020_RGB_FULLRANGE:
-+		seq_printf(m, "BT2020_RGB");
++	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED:
++		color_space = COLOR_SPACE_2020_YCBCR;
 +		break;
-+	case COLOR_SPACE_2020_YCBCR:
-+		seq_printf(m, "BT2020_YCC");
-+		break;
+ 	case DRM_MODE_COLORIMETRY_DEFAULT: // ITU601
 +	default:
-+		goto unlock;
-+	}
-+	res = 0;
-+
-+unlock:
-+	drm_modeset_unlock(&crtc->mutex);
-+	mutex_unlock(&dev->mode_config.mutex);
-+
-+	return res;
-+}
-+DEFINE_SHOW_ATTRIBUTE(amdgpu_current_colorspace);
-+
-+
- /*
-  * Example usage:
-  * Disable dsc passthrough, i.e.,: have dsc decoding at converver, not external RX
-@@ -3235,6 +3290,8 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
- #endif
- 	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
- 			    crtc, &amdgpu_current_bpc_fops);
-+	debugfs_create_file("amdgpu_current_colorspace", 0644, crtc->debugfs_entry,
-+			    crtc, &amdgpu_current_colorspace_fops);
- }
+ 		if (dc_crtc_timing->pixel_encoding == PIXEL_ENCODING_RGB) {
+ 			color_space = COLOR_SPACE_SRGB;
+ 		/*
+@@ -5330,27 +5352,6 @@ get_output_color_space(const struct dc_crtc_timing *dc_crtc_timing,
+ 				color_space = COLOR_SPACE_YCBCR601;
+ 		}
+ 		break;
+-	case DRM_MODE_COLORIMETRY_BT601_YCC:
+-		if (dc_crtc_timing->flags.Y_ONLY)
+-			color_space = COLOR_SPACE_YCBCR601_LIMITED;
+-		else
+-			color_space = COLOR_SPACE_YCBCR601;
+-		break;
+-	case DRM_MODE_COLORIMETRY_BT709_YCC:
+-		if (dc_crtc_timing->flags.Y_ONLY)
+-			color_space = COLOR_SPACE_YCBCR709_LIMITED;
+-		else
+-			color_space = COLOR_SPACE_YCBCR709;
+-		break;
+-	case DRM_MODE_COLORIMETRY_OPRGB:
+-		color_space = COLOR_SPACE_ADOBERGB;
+-		break;
+-	case DRM_MODE_COLORIMETRY_BT2020:
+-		color_space = COLOR_SPACE_2020_RGB_FULLRANGE;
+-		break;
+-	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED:
+-		color_space = COLOR_SPACE_2020_YCBCR;
+-		break;
+ 	}
  
- /*
+ 	return color_space;
 -- 
 2.39.2
 
