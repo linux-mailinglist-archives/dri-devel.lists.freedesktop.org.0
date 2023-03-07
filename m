@@ -1,59 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC4D6AE4D5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 16:34:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 545B26AE5D4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 17:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE57710E586;
-	Tue,  7 Mar 2023 15:33:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6999010E13A;
+	Tue,  7 Mar 2023 16:04:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EB0B10E58A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 15:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=S/GRqk3YGMUri3X2GMvTfD9C6AMJhY+Iwb0CAG3dS+8=; b=dR+aCNSTGOVgRf5dumaPu489Xy
- tbDe/0XI4jsnTyAjymPM69Qob5JUPUta+FptlFezAEm1fZL9POPQqeaROY+9LWp9dVBFVHQ4bTXrm
- 5NlpIPUEEj3r//QkBndNdTLXP4LDiM6/uHCiucTfZGXjzYa858NFMkHAvJ7/4cGHOP9CEu55uYIie
- +gU1ekppajOQIYsxsjpE2z9m2ndnnrFcnrEUKhAHsvXZgLNYGB4mQLN8KUskb1dUYi9e6ZfMnkuUB
- gWEb0hMyhZ3cjv2XP+Gin6387IQzi+Z8grafdGA/WuW4U/8veQwWNMDQLLQVMRf/+Y1sjhv8I679e
- CGMTijSQ==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pZZJ6-007s1R-GE; Tue, 07 Mar 2023 16:32:52 +0100
-Message-ID: <c047e11f-33d0-6af4-21c3-adb384b68d8b@igalia.com>
-Date: Tue, 7 Mar 2023 12:32:39 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E5A10E13A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 16:04:11 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 327FwPZX032368; Tue, 7 Mar 2023 16:03:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=MndgLlDfvq7xGhJY7rAHmrKVYNjpcE8PYvN0WTzUxn4=;
+ b=gtbIQ9Kq4feFeS3WN5wLD3Uu9Bjzq1G9L+Dmm+Nw8OhOlzCrTRFra94TxVSNZptNaA4X
+ UEHzTRMVWfUfWNX0EpIT31ojfMHzh9gPvnblZJ/GPV8vgg9or25aIOoXlF4MQSh3Etw7
+ ZwSZ3jKqa+0JiEnhUDcgWCbF2QcgTT6jkelhQ7E1ewtQKrJdqXg8rsoM3jb2oBSlXU2G
+ R08oNqqJIi3S3xRDkQDvkbpLdZ2gMIIgxUi787iWEjSnWs5TRBt36BaF0H8eh3z5ejiw
+ zy5Hh4LWkokCtplzN71XlsG1VP3N66Tv2ynxzqZZFGScJkpID9RilQumVLyXEBWbL1gD fg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p68cqr169-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Mar 2023 16:03:51 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 327G3ocv007318
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 7 Mar 2023 16:03:50 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 7 Mar 2023
+ 08:03:49 -0800
+Message-ID: <babfe305-04cd-7213-8e1e-8fbcb2da10ae@quicinc.com>
+Date: Tue, 7 Mar 2023 09:03:48 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] accel: Link to compute accelerator subsystem intro
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Bagas Sanjaya <bagasdotme@gmail.com>, DRI Development List
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+References: <20230307043525.25660-1-bagasdotme@gmail.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230307043525.25660-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 32oURlT5IH4tkNgWpBZIiHdsdButyQB7
+X-Proofpoint-GUID: 32oURlT5IH4tkNgWpBZIiHdsdButyQB7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-07_11,2023-03-07_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 adultscore=0 mlxlogscore=314 impostorscore=0
+ spamscore=0 clxscore=1011 phishscore=0 suspectscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303070144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,157 +84,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mary <mary@mary.zone>, Faith Ekstrand <faith.ekstrand@collabora.com>,
- rust-for-linux@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, asahi@lists.linux.dev,
- linux-media@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-sgx@vger.kernel.org
+Cc: Dylan Le <self@dylanle.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oded Gabbay <ogabbay@kernel.org>, Melissa Wen <mwen@igalia.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/7/23 11:25, Asahi Lina wrote:
-> DRM drivers need to be able to declare which driver-specific ioctls they
-> support. This abstraction adds the required types and a helper macro to
-> generate the ioctl definition inside the DRM driver.
+On 3/6/2023 9:35 PM, Bagas Sanjaya wrote:
+> Commit 2c204f3d53218d ("accel: add dedicated minor for accelerator
+> devices") adds link to accelerator nodes section of DRM internals doc
+> (Documentation/gpu/drm-internals.rst), but the target doesn't exist.
+> Instead, there is only an introduction doc for computer accelerator
+> subsytem.
 > 
-> Note that this macro is not usable until further bits of the
-> abstraction are in place (but it will not fail to compile on its own, if
-> not called).
+> Link to that doc until there is documentation of accelerator internals.
 > 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->   drivers/gpu/drm/Kconfig         |   7 ++
->   rust/bindings/bindings_helper.h |   2 +
->   rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++++++++++
->   rust/kernel/drm/mod.rs          |   5 ++
->   rust/kernel/lib.rs              |   2 +
->   5 files changed, 163 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index dc0f94f02a82..dab8f0f9aa96 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -27,6 +27,13 @@ menuconfig DRM
->   	  details.  You should also select and configure AGP
->   	  (/dev/agpgart) support if it is available for your platform.
->   
+> Fixes: 2c204f3d53218d ("accel: add dedicated minor for accelerator devices")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-[...]
-
-> +
-> +/// Declare the DRM ioctls for a driver.
-> +///
-> +/// Each entry in the list should have the form:
-> +///
-> +/// `(ioctl_number, argument_type, flags, user_callback),`
-> +///
-> +/// `argument_type` is the type name within the `bindings` crate.
-> +/// `user_callback` should have the following prototype:
-> +///
-> +/// ```
-> +/// fn foo(device: &kernel::drm::device::Device<Self>,
-> +///        data: &mut bindings::argument_type,
-> +///        file: &kernel::drm::file::File<Self::File>,
-> +/// )
-> +/// ```
-> +/// where `Self` is the drm::drv::Driver implementation these ioctls are being declared within.
-> +///
-> +/// # Examples
-> +///
-> +/// ```
-> +/// kernel::declare_drm_ioctls! {
-> +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-> +/// }
-> +/// ```
-> +///
-> +#[macro_export]
-> +macro_rules! declare_drm_ioctls {
-> +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? ) => {
-> +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor] = {
-> +            const _:() = {
-> +                let i: u32 = $crate::bindings::DRM_COMMAND_BASE;
-> +                // Assert that all the IOCTLs are in the right order and there are no gaps,
-> +                // and that the sizeof of the specified type is correct.
-
-I believe that not necessarily the IOCTLs need to be in the right order and
-with no gaps. For example, armada_drm.h has a gap in between 0x00 and
-0x02 and exynos_drm.h also have gaps. Moreover, some drivers, like vgem and
-virtgpu, start their IOCTLs with 0x01.
-
-Best Regards,
-- Maíra Canal
-
-> +                $(
-> +                    let cmd: u32 = $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd);
-> +                    ::core::assert!(i == $crate::ioctl::_IOC_NR(cmd));
-> +                    ::core::assert!(core::mem::size_of::<$crate::bindings::$struct>() == $crate::ioctl::_IOC_SIZE(cmd));
-> +                    let i: u32 = i + 1;
-> +                )*
-> +            };
-> +
-> +            let ioctls = &[$(
-> +                $crate::bindings::drm_ioctl_desc {
-> +                    cmd: $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd) as u32,
-> +                    func: {
-> +                        #[allow(non_snake_case)]
-> +                        unsafe extern "C" fn $cmd(
-> +                                raw_dev: *mut $crate::bindings::drm_device,
-> +                                raw_data: *mut ::core::ffi::c_void,
-> +                                raw_file_priv: *mut $crate::bindings::drm_file,
-> +                        ) -> core::ffi::c_int {
-> +                            // SAFETY: We never drop this, and the DRM core ensures the device lives
-> +                            // while callbacks are being called.
-> +                            //
-> +                            // FIXME: Currently there is nothing enforcing that the types of the
-> +                            // dev/file match the current driver these ioctls are being declared
-> +                            // for, and it's not clear how to enforce this within the type system.
-> +                            let dev = ::core::mem::ManuallyDrop::new(unsafe {
-> +                                $crate::drm::device::Device::from_raw(raw_dev)
-> +                            });
-> +                            // SAFETY: This is just the ioctl argument, which hopefully has the right type
-> +                            // (we've done our best checking the size).
-> +                            let data = unsafe { &mut *(raw_data as *mut $crate::bindings::$struct) };
-> +                            // SAFETY: This is just the DRM file structure
-> +                            let file = unsafe { $crate::drm::file::File::from_raw(raw_file_priv) };
-> +
-> +                            match $func(&*dev, data, &file) {
-> +                                Err(e) => e.to_kernel_errno(),
-> +                                Ok(i) => i.try_into().unwrap_or(ERANGE.to_kernel_errno()),
-> +                            }
-> +                        }
-> +                        Some($cmd)
-> +                    },
-> +                    flags: $flags,
-> +                    name: $crate::c_str!(::core::stringify!($cmd)).as_char_ptr(),
-> +                }
-> +            ),*];
-> +            ioctls
-> +        };
-> +    };
-> +}
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> new file mode 100644
-> index 000000000000..9ec6d7cbcaf3
-> --- /dev/null
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +//! DRM subsystem abstractions.
-> +
-> +pub mod ioctl;
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 7903490816bf..cb23d24c6718 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -37,6 +37,8 @@ mod build_assert;
->   pub mod delay;
->   pub mod device;
->   pub mod driver;
-> +#[cfg(CONFIG_RUST_DRM)]
-> +pub mod drm;
->   pub mod error;
->   pub mod io_buffer;
->   pub mod io_mem;
-> 
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
