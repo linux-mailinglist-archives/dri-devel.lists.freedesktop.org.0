@@ -2,60 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CE56AEA40
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74556AEB9B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:46:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1730110E278;
-	Tue,  7 Mar 2023 17:32:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3829A10E120;
+	Tue,  7 Mar 2023 17:46:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DA810E075;
- Tue,  7 Mar 2023 17:32:06 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id be16so3465002oib.0;
- Tue, 07 Mar 2023 09:32:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678210326;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WMnHUwAy5pc1w+T7Jgak3PUg7pKDe3xFrRkk5NHVfc8=;
- b=XDlVbj6h/y2SEcS7l/u5dJQIcVGtH4KyRQlvX7kiv1aO58TchCgHydju1tkoQ1Gpex
- 8ZIkKzpRv5yVLUEpocQgmzn7459YVNRpvrqVTiHGUGg9ZoCfGlUsQTNSa9rQ01V6DS8A
- 0w0FXCz/7edUtiVXCZEkGQ8SS9fIEl+bKq2zLp8+L8mosbW56BIgE3TGZv0Lu17fThrN
- NFYwyAQz/m7xwmbLU1CKnaJJNmd1OitVs0QeAxhGGGBa+UZThjaENwO6Tmd1XRMbeKTk
- 9tBuPqUYYNyMVrRF4jyNhsY2PApkieEWV0xnId/PszQ1nCpsHtXiyoDikX7tBnkABOIu
- Xxbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678210326;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WMnHUwAy5pc1w+T7Jgak3PUg7pKDe3xFrRkk5NHVfc8=;
- b=5qE2+i4hoyn0VuHIbSys6QcYFxkajwOnLKu7Mc6Sge2Suc0kKqt1/FzhAQ2TFWMMu6
- OuRLYAr5QxEjf8fz1kxZkMHwoNt1MuNryF9bTs/8spD0m001Rt4lhKKRBkWFV9Vua0GD
- EE9qlwDdl1gzl8fP0qXqZmGBCmqT5AMmGAIK2eOojzmGSpgVwVCwoW4+x5kWZxvRt5GU
- q8gWXmCR3jxxeSeAX9w5kCGLa8v9xjDGxFaGFTymI42hO1gr6CPDt/3KkK1gd3rydJ+E
- 6mULbUe503Jcs/F8GYQk51k2dRosUweiWIVpc1TQfHcrNK4UllNqGs7DrwCrn8vWm1xV
- xEwg==
-X-Gm-Message-State: AO0yUKX6Okde5Q4H84z9j1slYa9EGeDhknumau2jq+rI75b89z18PXYa
- dz8Ohz4hbiwIAjBke//DhIBTHQ/WdT1MSAQOc6U=
-X-Google-Smtp-Source: AK7set9bdQBOUBXS+VMa4aA1TRGDtDFTVLl+ukUGIPW4rVdPocpbwHT9n/1nZMDm6ePrr5xUNHMdUKhr8M2TtJ5yd2A=
-X-Received: by 2002:aca:1206:0:b0:384:e059:c00a with SMTP id
- 6-20020aca1206000000b00384e059c00amr410124ois.8.1678210325839; Tue, 07 Mar
- 2023 09:32:05 -0800 (PST)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0B4210E102;
+ Tue,  7 Mar 2023 17:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=kEQsvK3MQxnkVxlI0sD7IiDrMvuokvi8WefyhXs11HM=; b=Q7unhmlaPKTnVfqQx9l4VGvx/k
+ OxcEG8ujTo3Jtr3wGonwqkyHoAmvyZE5YlNhMVSma9Vwm2vVISUahP8bq7eDhnuFwj1Zg9elJtiZ0
+ 9VB5TWOdO2TuZcLNMMxYd0UT4aQZIcODeWKf2uODP6lLFWtg06P42NClrlfqKEjf58hVeKpODH1il
+ OnhsO4mh/Q5cgw6n9guiVnGMPXW8uMclXL6r8uSCtSH1sYrRpN6rf4eYtLfL7t6xxWU7GtjOjEp+c
+ A3hQW2HP8EnnYxMEqBr67DKdBuuPnEpq/Ev8U365Zu9cfw6BsNaEkeUzg19+8lVHEGXSNgfj5zcTr
+ Fp3UEWZQ==;
+Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pZbOQ-001sqm-TV; Tue, 07 Mar 2023 17:46:30 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm: fix PM_DEVFREQ kconfig dependency warning
+Date: Tue,  7 Mar 2023 09:46:27 -0800
+Message-Id: <20230307174627.23787-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230112-amduml-v1-1-5e4a0d37de16@pefoley.com>
- <7212f65a-4d2d-5ecd-235d-95b60f45a0e8@amd.com>
-In-Reply-To: <7212f65a-4d2d-5ecd-235d-95b60f45a0e8@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Mar 2023 12:31:54 -0500
-Message-ID: <CADnq5_M31w7tND+5v4_iYuKterg79te4mUM_h9agJ3a+x5FNFQ@mail.gmail.com>
-Subject: Re: [PATCH] amdgpu: Avoid building on UML
-To: Felix Kuehling <felix.kuehling@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,67 +46,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Foley <pefoley2@pefoley.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>, kernel test robot <lkp@intel.com>,
+ Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks.
+Since DEVFREQ_GOV_SIMPLE_ONDEMAND depends on PM_DEVFREQ, the latter
+should either be selected or DRM_MSM should depend on PM_DEVFREQ.
+Since most drivers select PM_DEVFREQ instead of depending on it,
+add a select here to satisfy kconfig.
 
-Alex
+WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
+  Depends on [n]: PM_DEVFREQ [=n]
+  Selected by [y]:
+  - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=y] || QCOM_COMMAND_DB [=y]=n)
 
-On Mon, Mar 6, 2023 at 11:17 AM Felix Kuehling <felix.kuehling@amd.com> wro=
-te:
->
-> Looks like this patch got lost over the holidays. Alex, are you OK with
-> applying this patch? Or are people looking for a more general solution
-> to not build HW drivers for UML? FWIW:
->
-> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
->
->
-> Am 2023-01-12 um 23:30 schrieb Peter Foley:
-> > The amdgpu driver tries to use fields not supported by UML's cpuinfo
-> > struct. Disable the driver when targeting UML to avoid tripping up
-> > allyesconfig.
-> >
-> > e.g.
-> > ../drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c: In fu=
-nction =E2=80=98intel_core_rkl_chk=E2=80=99:
-> > ../drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:1742:3=
-3: error: initialization of =E2=80=98struct cpuinfo_x86 *=E2=80=99 from inc=
-ompatible pointer type =E2=80=98struct cpuinfo_um *=E2=80=99 [-Werror=3Dinc=
-ompatible-pointer-types
-> > ]
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: In function =E2=
-=80=98kfd_cpumask_to_apic_id=E2=80=99:
-> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2157:48: error: =
-=E2=80=98struct cpuinfo_um=E2=80=99 has no member named =E2=80=98apicid=E2=
-=80=99
-> >
-> > Signed-off-by: Peter Foley <pefoley2@pefoley.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/Kconfig | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/a=
-mdgpu/Kconfig
-> > index 5fcd510f1abb..aa0008ff8712 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
-> > +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
-> > @@ -3,6 +3,7 @@
-> >   config DRM_AMDGPU
-> >       tristate "AMD GPU"
-> >       depends on DRM && PCI && MMU
-> > +     depends on !UML
-> >       select FW_LOADER
-> >       select DRM_DISPLAY_DP_HELPER
-> >       select DRM_DISPLAY_HDMI_HELPER
-> >
-> > ---
-> > base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
-> > change-id: 20230112-amduml-565935d34bfb
-> >
-> > Best regards,
+Fixes: 6563f60f14cb ("drm/msm/gpu: Add devfreq tuning debugfs")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Link: lore.kernel.org/r/202303071922.wJqDWQpe-lkp@intel.com
+Cc: Rob Clark <robdclark@chromium.org>
+Cc: Paul Gazzillo <paul@pgazz.com>
+Cc: Necip Fazil Yildiran <fazilyildiran@gmail.com>
+Cc: Chia-I Wu <olvaffe@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+---
+ drivers/gpu/drm/msm/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff -- a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -23,6 +23,7 @@ config DRM_MSM
+ 	select SHMEM
+ 	select TMPFS
+ 	select QCOM_SCM
++	select PM_DEVFREQ
+ 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+ 	select WANT_DEV_COREDUMP
+ 	select SND_SOC_HDMI_CODEC if SND_SOC
