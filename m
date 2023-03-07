@@ -1,73 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984BA6AF5E1
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 20:38:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB796AF5F9
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 20:43:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F8A10E2FA;
-	Tue,  7 Mar 2023 19:38:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE2610E515;
+	Tue,  7 Mar 2023 19:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C3A10E2FA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 19:38:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678217925;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9/YUSlzGSxs7xfAmVqcyYxvP2dLSzFAel7vgkTdgImg=;
- b=bz8VtTZxZOqv7aCCkuzyXvNQpPcFWuSkxKN1dkbDtf+nD3+bv5a20n03cVPRVQ0n8xpNoG
- xafSaOJfcV/+Hs4B7JJEW3gjeODczNZ1paCbQkaI8/6uV9Qp6TVpjhVLF0ombk0P+RDqAD
- TuNF9yAN4CKUqW7imUhYZ6pysSro7XE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-540-tyXDivCFMe-K7VP7WmZXUA-1; Tue, 07 Mar 2023 14:38:44 -0500
-X-MC-Unique: tyXDivCFMe-K7VP7WmZXUA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- y11-20020a056000168b00b002ce179d1b90so2429149wrd.23
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 11:38:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678217923;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9/YUSlzGSxs7xfAmVqcyYxvP2dLSzFAel7vgkTdgImg=;
- b=UHuoVcNBaLTVhSMVb4UjEPcsRKAKzNlcBmi1V4UFpiSZ6FJRbK081/O01K4gFBViVI
- 4jd9BXk5W3zKBziU7dPWpy6Rlfug+HUF/ZoEbCFHHPHISpWW9gUnWQF9PJ/H7JbiCg31
- V/PRZKuCRkvn0GB9vDXMM0t2G9TGxVaHr+nYvLz7iSpU3xx+pfj/3jb3oF9pLXLiqtEW
- xgOQtYjcygi3C5XogON9Vwo1TCcbYMb4d6DvlLMPzzZqT+oBXfLscFx0C1/CA09PrZHG
- PnPtx1tByQgLcpgaqjSBw/hqBDMjlWAA84MXN96WfledQDeVqdd9JnGGQ1yplwHogU0i
- ImIg==
-X-Gm-Message-State: AO0yUKVOthSqqfYhG8VUjAxbaKJAsZFO9UtC5AIQTSq/Th1gCooOqON1
- 5JsT65Zv9cDl3RfzU/hAYiP/WOwintQcN53+EHiJ4sejE4BiS0VVOXSJu1oLYTTpAzyv/7yb9SA
- C44TyL/wm/fhfvteCBrvah9UKLeku
-X-Received: by 2002:adf:f686:0:b0:2c8:4bca:7fc6 with SMTP id
- v6-20020adff686000000b002c84bca7fc6mr10651782wrp.62.1678217923050; 
- Tue, 07 Mar 2023 11:38:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set9sqRaaWvCx+trk5j4xJ2KdsZv3yIUH6ggRbuzt8JftvpnJP95RYmY0cynhbzEW7TAtVGwuTg==
-X-Received: by 2002:adf:f686:0:b0:2c8:4bca:7fc6 with SMTP id
- v6-20020adff686000000b002c84bca7fc6mr10651766wrp.62.1678217922739; 
- Tue, 07 Mar 2023 11:38:42 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- w2-20020a5d6802000000b002c7163660a9sm13254454wru.105.2023.03.07.11.38.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 11:38:42 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/format_helper: Add Kunit tests for
- drm_fb_xrgb8888_to_mono()
-In-Reply-To: <20230302200131.754154-1-arthurgrillo@riseup.net>
-References: <20230302200131.754154-1-arthurgrillo@riseup.net>
-Date: Tue, 07 Mar 2023 20:38:41 +0100
-Message-ID: <87lek81hdq.fsf@minerva.mail-host-address-is-not-set>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D06D10E515;
+ Tue,  7 Mar 2023 19:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678218200; x=1709754200;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=VUM3crliIX0uYvF9HWA/HxYpm4UHhPf4pcjmsOAYsyA=;
+ b=ajebq3ggaRvbjRJcNkjL5Fth65KtM3yRbT/1CJ8tLwOCkLw/hWGV8QjU
+ vASJk3ePhzxYoFmygU0ovN4qV32uxl5Xj1lx2U6CharDbdIdXb5Fhzce6
+ F1kje6MNdUm7jFfnxhs/GDTNgwkwz/wuIwazER5EtvRixF4esJcDLoLSs
+ 7Xmbpdk0cNZ9i+/qq3hb/+jFF2S1CjHcT6Olmm6k1mO6m7nVMziQwQ7kS
+ YmGjeGtuHQToQiliZz6d64OP8MKvw93J1eNWAXLUKQFaLJt2fsqtLB5dO
+ n9nfnPXc/mzgSySok/XFeXBH1P4YbNe8zoIye5N1NqyDs6PjKOuH88GTb g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="334668320"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="334668320"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2023 11:43:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="654089691"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="654089691"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga006.jf.intel.com with ESMTP; 07 Mar 2023 11:43:17 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pZdDQ-0001YP-29;
+ Tue, 07 Mar 2023 19:43:16 +0000
+Date: Wed, 8 Mar 2023 03:42:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH v2 6/7] drm/ttm: Reduce the number of used
+ allocation orders for TTM pages
+Message-ID: <202303080352.azyeWwwt-lkp@intel.com>
+References: <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,83 +61,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, tales.aparecida@gmail.com, mairacanal@riseup.net,
- tzimmermann@suse.de, jose.exposito89@gmail.com, andrealmeid@riseup.net,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Thomas,
 
-Hello Arthur,
+Thank you for the patch! Yet something to improve:
 
-Thanks a lot for your patch!
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-intel/for-linux-next]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Arthur Grillo <arthurgrillo@riseup.net> writes:
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Fix-a-NULL-pointer-dereference/20230307-224931
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230307144621.10748-7-thomas.hellstrom%40linux.intel.com
+patch subject: [Intel-gfx] [PATCH v2 6/7] drm/ttm: Reduce the number of used allocation orders for TTM pages
+config: powerpc-randconfig-r006-20230306 (https://download.01.org/0day-ci/archive/20230308/202303080352.azyeWwwt-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0eee47dba298051fc49965d56cb17dd113ff0236
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Hellstr-m/drm-ttm-Fix-a-NULL-pointer-dereference/20230307-224931
+        git checkout 0eee47dba298051fc49965d56cb17dd113ff0236
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/drm/ttm/
 
-> Extend the existing test cases to test the conversion from XRGB8888 to
-> monochromatic.
->
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303080352.azyeWwwt-lkp@intel.com/
 
-[...]
+All error/warnings (new ones prefixed by >>):
 
-> +static size_t conversion_buf_size_mono(unsigned int dst_pitch, const struct drm_rect *clip)
-> +{
-> +	if (!dst_pitch) {
-> +		unsigned int linepixels = drm_rect_width(clip) * 1;
-> +
-> +		dst_pitch = DIV_ROUND_UP(linepixels, 8);
-> +	}
-> +
-> +	return dst_pitch * drm_rect_height(clip);
-> +}
-> +
+   In function 'ttm_pool_type_init',
+       inlined from 'ttm_pool_init' at drivers/gpu/drm/ttm/ttm_pool.c:557:5:
+>> drivers/gpu/drm/ttm/ttm_pool.c:264:18: warning: iteration 9 invokes undefined behavior [-Waggressive-loop-optimizations]
+     264 |         pt->pool = pool;
+         |         ~~~~~~~~~^~~~~~
+   drivers/gpu/drm/ttm/ttm_pool.c: In function 'ttm_pool_init':
+   drivers/gpu/drm/ttm/ttm_pool.c:556:39: note: within this loop
+     556 |                         for (j = 0; j < TTM_DIM_ORDER; ++j)
+         |                                       ^
+   In file included from <command-line>:
+   drivers/gpu/drm/ttm/ttm_pool.c: In function 'ttm_pool_mgr_init':
+>> include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_283' declared with attribute error: BUILD_BUG_ON failed: TTM_DIM_ORDER > MAX_ORDER
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
+     339 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_pool.c:744:9: note: in expansion of macro 'BUILD_BUG_ON'
+     744 |         BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
+         |         ^~~~~~~~~~~~
 
-I don't think you need a new helper only for this. There are other
-formats that have sub-byte pixels, so you may want to instead make
-the existing conversion_buf_size() function more general.
 
-Could you please base on the following patch that I just posted?
+vim +/__compiletime_assert_283 +358 include/linux/compiler_types.h
 
-https://lists.freedesktop.org/archives/dri-devel/2023-March/394466.html
-
-I believe with that you should be able to drop this format specific
-helper and just use the fourcc DRM_FORMAT_C1 instead.
-
-[...]
-
->  
-> +static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
-> +{
-> +	const struct convert_xrgb8888_case *params = test->param_value;
-> +	const struct convert_to_mono_result *result = &params->mono_result;
-> +	size_t dst_size;
-> +	u8 *buf = NULL;
-> +	__le32 *xrgb8888 = NULL;
-> +	struct iosys_map dst, src;
-> +
-> +	struct drm_framebuffer fb = {
-> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-> +		.pitches = { params->pitch, 0, 0 },
-> +	};
-> +
-> +	dst_size = conversion_buf_size_mono(result->dst_pitch, &params->clip);
-> +
-
-Then here you could just do:
-
-	dst_size = conversion_buf_size(DRM_FORMAT_C1, result->dst_pitch,
-				       &params->clip);
-
-If you do that, feel free to add:
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  356   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  357  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @358  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  359  
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
