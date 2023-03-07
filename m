@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A58D6AE252
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 15:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69CD6AE254
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 15:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 630BD10E4B3;
-	Tue,  7 Mar 2023 14:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90EB610E4BA;
+	Tue,  7 Mar 2023 14:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343F510E4B3
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 14:27:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F38610E4BA
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 14:27:49 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: linasend@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 61DA14261B;
- Tue,  7 Mar 2023 14:27:33 +0000 (UTC)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 125B5426E8;
+ Tue,  7 Mar 2023 14:27:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1678199260;
- bh=qxI6GJmNo0Y4+6c3Pa+ta2DSc4p6o+YuxslYcsGJFM4=;
+ s=default; t=1678199268;
+ bh=RXHMryixfrrNFrvpRW0yNj/9C2ku8y/xcsih3nh/K2g=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=ZcXSxP3Nj8rQiVFU5QoKVbKGsKDqHqTuptTxSXb/T++6CSJflmJ6UyjAAT2xKxLCF
- 5AeJuJyumpsVwn46UZijLtezdC7Z9aEhd734nS5JGxluZXzZQ/HlRiaXond8FeBdxU
- 45QdqLToECPJ/lWxzcqXZVR0u9dZzKqa5CuI643IONL5Uh0pUiBnRU1bAj8OOnjLdP
- L0krGvpuwnciNiPCT8lvsbIlRYzrCBerjLMwTQIH486utIZNAtUCgDcq2wsbTjN4h7
- KWq1FU+enwWdsvDLytFsYG5znXhtrKP1ziisN/AN1ufxC3thyf1Ohxy5oQLpUP+n6c
- aT0njZjUwaXFA==
+ b=NxIVR99EHxOkBhHnp9AFtyvk5YP6jlHLfi/ymoHar6CZ0n7F505Dd6iVAMRTL5QRp
+ +4SIidMOCx4/g+KSGpisxU2/M5dz7+AESAreRIsoj9D6ABquOse1rW23VrVV5DYbdM
+ REyTm1j7bW0+bVAeTDeyoqOU7COJjNXzHkCy4kyohj45fj1MAlXMoBWKCalQdM7zMj
+ MtpJdv4agSVmqjY+7miY7bQxiwl1gmN1DLafPoxC+ALSEJyPXxHL/+LeObnZ25V6Jg
+ j2vb34b1egvDVkBqiB9E+SgBbgXQ3G1g7lZs3x0lH84VkYPBFju/+dFy0LwyhA2PwA
+ 0Rm7RI3NbyHYg==
 From: Asahi Lina <lina@asahilina.net>
-Date: Tue, 07 Mar 2023 23:25:33 +0900
-Subject: [PATCH RFC 08/18] rust: dma_fence: Add DMA Fence abstraction
+Date: Tue, 07 Mar 2023 23:25:34 +0900
+Subject: [PATCH RFC 09/18] rust: drm: syncobj: Add DRM Sync Object abstraction
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230307-rust-drm-v1-8-917ff5bc80a8@asahilina.net>
+Message-Id: <20230307-rust-drm-v1-9-917ff5bc80a8@asahilina.net>
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
 In-Reply-To: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,11 +50,11 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
  Dave Hansen <dave.hansen@linux.intel.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1678199191; l=21370;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678199191; l=5195;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=qxI6GJmNo0Y4+6c3Pa+ta2DSc4p6o+YuxslYcsGJFM4=;
- b=mX8/ZtYERXNdbWtwabzrHCLIOywZes6UBii6Z13L/frmDi6cg/WtPxMZuURZwWM32yFmjCOEN
- JT3Dr3DG2L2AMfhB4cY+egFO/xkLF5EEkuU/9sOZLjXXs5VnxyMt2Ji
+ bh=RXHMryixfrrNFrvpRW0yNj/9C2ku8y/xcsih3nh/K2g=;
+ b=8Rqbn6Odm2BgzSdkvy7KVrq1XGagKtlDqBAW0tDTf1KXpEEO3aWA7ck+4e3ZI7TTnura3hbcK
+ h1M+YNWSgnKCLVM3okF8IHi1ZpkpnTFRO7R1YkEfo84kVI4X2h78Sq4
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,664 +79,159 @@ Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DMA fences are the internal synchronization primitive used for DMA
-operations like GPU rendering, video en/decoding, etc. Add an
-abstraction to allow Rust drivers to interact with this subsystem.
-
-Note: This uses a raw spinlock living next to the fence, since we do
-not interact with it other than for initialization.
-TODO: Expose this to the user at some point with a safe abstraction.
+DRM Sync Objects are a container for a DMA fence, and can be waited on
+signaled, exported, and imported from userspace. Add a Rust abstraction
+so Rust DRM drivers can support this functionality.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/bindings/bindings_helper.h |   2 +
- rust/helpers.c                  |  53 ++++
- rust/kernel/dma_fence.rs        | 532 ++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs              |   2 +
- 4 files changed, 589 insertions(+)
+ rust/bindings/bindings_helper.h |  1 +
+ rust/helpers.c                  | 19 ++++++++++
+ rust/kernel/drm/mod.rs          |  1 +
+ rust/kernel/drm/syncobj.rs      | 77 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 98 insertions(+)
 
 diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 9f152d373df8..705af292a5b4 100644
+index 705af292a5b4..b6696011f3a4 100644
 --- a/rust/bindings/bindings_helper.h
 +++ b/rust/bindings/bindings_helper.h
-@@ -14,6 +14,8 @@
+@@ -12,6 +12,7 @@
+ #include <drm/drm_gem.h>
+ #include <drm/drm_gem_shmem_helper.h>
  #include <drm/drm_ioctl.h>
++#include <drm/drm_syncobj.h>
  #include <linux/delay.h>
  #include <linux/device.h>
-+#include <linux/dma-fence.h>
-+#include <linux/dma-fence-chain.h>
- #include <linux/dma-mapping.h>
- #include <linux/fs.h>
- #include <linux/ioctl.h>
+ #include <linux/dma-fence.h>
 diff --git a/rust/helpers.c b/rust/helpers.c
-index 388ff1100ea5..8e906a7a7d8a 100644
+index 8e906a7a7d8a..11965b1e2f4e 100644
 --- a/rust/helpers.c
 +++ b/rust/helpers.c
-@@ -23,6 +23,8 @@
+@@ -20,6 +20,7 @@
+ 
+ #include <drm/drm_gem.h>
+ #include <drm/drm_gem_shmem_helper.h>
++#include <drm/drm_syncobj.h>
  #include <linux/bug.h>
  #include <linux/build_bug.h>
  #include <linux/device.h>
-+#include <linux/dma-fence.h>
-+#include <linux/dma-fence-chain.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
- #include <linux/errname.h>
-@@ -30,6 +32,7 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/spinlock.h>
- #include <linux/rcupdate.h>
- #include <linux/refcount.h>
- #include <linux/xarray.h>
-@@ -388,6 +391,56 @@ int rust_helper_sg_dma_len(const struct scatterlist *sg)
+@@ -461,6 +462,24 @@ __u64 rust_helper_drm_vma_node_offset_addr(struct drm_vma_offset_node *node)
  }
- EXPORT_SYMBOL_GPL(rust_helper_sg_dma_len);
+ EXPORT_SYMBOL_GPL(rust_helper_drm_vma_node_offset_addr);
  
-+void rust_helper___spin_lock_init(spinlock_t *lock, const char *name,
-+				  struct lock_class_key *key)
++void rust_helper_drm_syncobj_get(struct drm_syncobj *obj)
 +{
-+#ifdef CONFIG_DEBUG_SPINLOCK
-+# ifndef CONFIG_PREEMPT_RT
-+	__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
-+# else
-+	rt_mutex_base_init(&lock->lock);
-+	__rt_spin_lock_init(lock, name, key, false);
-+# endif
-+#else
-+	spin_lock_init(lock);
-+#endif
++	drm_syncobj_get(obj);
 +}
-+EXPORT_SYMBOL_GPL(rust_helper___spin_lock_init);
++EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_get);
 +
-+#ifdef CONFIG_DMA_SHARED_BUFFER
-+
-+void rust_helper_dma_fence_get(struct dma_fence *fence)
++void rust_helper_drm_syncobj_put(struct drm_syncobj *obj)
 +{
-+	dma_fence_get(fence);
++	drm_syncobj_put(obj);
 +}
-+EXPORT_SYMBOL_GPL(rust_helper_dma_fence_get);
++EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_put);
 +
-+void rust_helper_dma_fence_put(struct dma_fence *fence)
++struct dma_fence *rust_helper_drm_syncobj_fence_get(struct drm_syncobj *syncobj)
 +{
-+	dma_fence_put(fence);
++	return drm_syncobj_fence_get(syncobj);
 +}
-+EXPORT_SYMBOL_GPL(rust_helper_dma_fence_put);
++EXPORT_SYMBOL_GPL(rust_helper_drm_syncobj_fence_get);
 +
-+struct dma_fence_chain *rust_helper_dma_fence_chain_alloc(void)
-+{
-+	return dma_fence_chain_alloc();
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_dma_fence_chain_alloc);
-+
-+void rust_helper_dma_fence_chain_free(struct dma_fence_chain *chain)
-+{
-+	dma_fence_chain_free(chain);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_dma_fence_chain_free);
-+
-+void rust_helper_dma_fence_set_error(struct dma_fence *fence, int error)
-+{
-+	dma_fence_set_error(fence, error);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_dma_fence_set_error);
-+
-+#endif
-+
- #ifdef CONFIG_DRM
+ #ifdef CONFIG_DRM_GEM_SHMEM_HELPER
  
- void rust_helper_drm_gem_object_get(struct drm_gem_object *obj)
-diff --git a/rust/kernel/dma_fence.rs b/rust/kernel/dma_fence.rs
+ void rust_helper_drm_gem_shmem_object_free(struct drm_gem_object *obj)
+diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+index 73fab2dee3af..dae98826edfd 100644
+--- a/rust/kernel/drm/mod.rs
++++ b/rust/kernel/drm/mod.rs
+@@ -8,3 +8,4 @@ pub mod file;
+ pub mod gem;
+ pub mod ioctl;
+ pub mod mm;
++pub mod syncobj;
+diff --git a/rust/kernel/drm/syncobj.rs b/rust/kernel/drm/syncobj.rs
 new file mode 100644
-index 000000000000..ca93380d9da2
+index 000000000000..10eed05eb27a
 --- /dev/null
-+++ b/rust/kernel/dma_fence.rs
-@@ -0,0 +1,532 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/rust/kernel/drm/syncobj.rs
+@@ -0,0 +1,77 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
 +
-+//! DMA fence abstraction.
++//! DRM Sync Objects
 +//!
-+//! C header: [`include/linux/dma_fence.h`](../../include/linux/dma_fence.h)
++//! C header: [`include/linux/drm/drm_syncobj.h`](../../../../include/linux/drm/drm_syncobj.h)
 +
-+use crate::{
-+    bindings,
-+    error::{to_result, Result},
-+    prelude::*,
-+    sync::LockClassKey,
-+    types::Opaque,
-+};
-+use core::fmt::Write;
-+use core::ops::{Deref, DerefMut};
-+use core::ptr::addr_of_mut;
-+use core::sync::atomic::{AtomicU64, Ordering};
++use crate::{bindings, dma_fence::*, drm, error::Result, prelude::*};
 +
-+/// Any kind of DMA Fence Object
++/// A DRM Sync Object
 +///
 +/// # Invariants
-+/// raw() returns a valid pointer to a dma_fence and we own a reference to it.
-+pub trait RawDmaFence: crate::private::Sealed {
-+    /// Returns the raw `struct dma_fence` pointer.
-+    fn raw(&self) -> *mut bindings::dma_fence;
-+
-+    /// Returns the raw `struct dma_fence` pointer and consumes the object.
-+    ///
-+    /// The caller is responsible for dropping the reference.
-+    fn into_raw(self) -> *mut bindings::dma_fence
-+    where
-+        Self: Sized,
-+    {
-+        let ptr = self.raw();
-+        core::mem::forget(self);
-+        ptr
-+    }
-+
-+    /// Advances this fence to the chain node which will signal this sequence number.
-+    /// If no sequence number is provided, this returns `self` again.
-+    fn chain_find_seqno(self, seqno: u64) -> Result<Fence>
-+    where
-+        Self: Sized,
-+    {
-+        let mut ptr = self.into_raw();
-+
-+        // SAFETY: This will safely fail if this DmaFence is not a chain.
-+        // `ptr` is valid per the type invariant.
-+        let ret = unsafe { bindings::dma_fence_chain_find_seqno(&mut ptr, seqno) };
-+
-+        if ret != 0 {
-+            // SAFETY: This is either an owned reference or NULL, dma_fence_put can handle both.
-+            unsafe { bindings::dma_fence_put(ptr) };
-+            Err(Error::from_kernel_errno(ret))
-+        } else if ptr.is_null() {
-+            Err(EINVAL) // When can this happen?
-+        } else {
-+            // SAFETY: ptr is valid and non-NULL as checked above.
-+            Ok(unsafe { Fence::from_raw(ptr) })
-+        }
-+    }
-+
-+    /// Signal completion of this fence
-+    fn signal(&self) -> Result {
-+        to_result(unsafe { bindings::dma_fence_signal(self.raw()) })
-+    }
-+
-+    /// Set the error flag on this fence
-+    fn set_error(&self, err: Error) {
-+        unsafe { bindings::dma_fence_set_error(self.raw(), err.to_kernel_errno()) };
-+    }
++/// ptr is a valid pointer to a drm_syncobj and we own a reference to it.
++pub struct SyncObj {
++    ptr: *mut bindings::drm_syncobj,
 +}
 +
-+/// A generic DMA Fence Object
-+///
-+/// # Invariants
-+/// ptr is a valid pointer to a dma_fence and we own a reference to it.
-+pub struct Fence {
-+    ptr: *mut bindings::dma_fence,
-+}
-+
-+impl Fence {
-+    /// Create a new Fence object from a raw pointer to a dma_fence.
-+    ///
-+    /// # Safety
-+    /// The caller must own a reference to the dma_fence, which is transferred to the new object.
-+    pub(crate) unsafe fn from_raw(ptr: *mut bindings::dma_fence) -> Fence {
-+        Fence { ptr }
-+    }
-+
-+    /// Create a new Fence object from a raw pointer to a dma_fence.
-+    ///
-+    /// # Safety
-+    /// Takes a borrowed reference to the dma_fence, and increments the reference count.
-+    pub(crate) unsafe fn get_raw(ptr: *mut bindings::dma_fence) -> Fence {
-+        // SAFETY: Pointer is valid per the safety contract
-+        unsafe { bindings::dma_fence_get(ptr) };
-+        Fence { ptr }
-+    }
-+
-+    /// Create a new Fence object from a RawDmaFence.
-+    pub fn from_fence(fence: &dyn RawDmaFence) -> Fence {
-+        // SAFETY: Pointer is valid per the RawDmaFence contract
-+        unsafe { Self::get_raw(fence.raw()) }
-+    }
-+}
-+
-+impl crate::private::Sealed for Fence {}
-+
-+impl RawDmaFence for Fence {
-+    fn raw(&self) -> *mut bindings::dma_fence {
-+        self.ptr
-+    }
-+}
-+
-+impl Drop for Fence {
-+    fn drop(&mut self) {
-+        // SAFETY: We own a reference to this syncobj.
-+        unsafe { bindings::dma_fence_put(self.ptr) };
-+    }
-+}
-+
-+impl Clone for Fence {
-+    fn clone(&self) -> Self {
-+        // SAFETY: `ptr` is valid per the type invariant and we own a reference to it.
-+        unsafe {
-+            bindings::dma_fence_get(self.ptr);
-+            Self::from_raw(self.ptr)
-+        }
-+    }
-+}
-+
-+unsafe impl Sync for Fence {}
-+unsafe impl Send for Fence {}
-+
-+/// Trait which must be implemented by driver-specific fence objects.
-+#[vtable]
-+pub trait FenceOps: Sized + Send + Sync {
-+    /// True if this dma_fence implementation uses 64bit seqno, false otherwise.
-+    const USE_64BIT_SEQNO: bool;
-+
-+    /// Returns the driver name. This is a callback to allow drivers to compute the name at
-+    /// runtime, without having it to store permanently for each fence, or build a cache of
-+    /// some sort.
-+    fn get_driver_name<'a>(self: &'a FenceObject<Self>) -> &'a CStr;
-+
-+    /// Return the name of the context this fence belongs to. This is a callback to allow drivers
-+    /// to compute the name at runtime, without having it to store permanently for each fence, or
-+    /// build a cache of some sort.
-+    fn get_timeline_name<'a>(self: &'a FenceObject<Self>) -> &'a CStr;
-+
-+    /// Enable software signaling of fence.
-+    fn enable_signaling(self: &FenceObject<Self>) -> bool {
-+        false
-+    }
-+
-+    /// Peek whether the fence is signaled, as a fastpath optimization for e.g. dma_fence_wait() or
-+    /// dma_fence_add_callback().
-+    fn signaled(self: &FenceObject<Self>) -> bool {
-+        false
-+    }
-+
-+    /// Callback to fill in free-form debug info specific to this fence, like the sequence number.
-+    fn fence_value_str(self: &FenceObject<Self>, _output: &mut dyn Write) {}
-+
-+    /// Fills in the current value of the timeline as a string, like the sequence number. Note that
-+    /// the specific fence passed to this function should not matter, drivers should only use it to
-+    /// look up the corresponding timeline structures.
-+    fn timeline_value_str(self: &FenceObject<Self>, _output: &mut dyn Write) {}
-+}
-+
-+unsafe extern "C" fn get_driver_name_cb<T: FenceOps>(
-+    fence: *mut bindings::dma_fence,
-+) -> *const core::ffi::c_char {
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: The caller is responsible for passing a valid dma_fence subtype
-+    T::get_driver_name(unsafe { &mut *p }).as_char_ptr()
-+}
-+
-+unsafe extern "C" fn get_timeline_name_cb<T: FenceOps>(
-+    fence: *mut bindings::dma_fence,
-+) -> *const core::ffi::c_char {
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: The caller is responsible for passing a valid dma_fence subtype
-+    T::get_timeline_name(unsafe { &mut *p }).as_char_ptr()
-+}
-+
-+unsafe extern "C" fn enable_signaling_cb<T: FenceOps>(fence: *mut bindings::dma_fence) -> bool {
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: The caller is responsible for passing a valid dma_fence subtype
-+    T::enable_signaling(unsafe { &mut *p })
-+}
-+
-+unsafe extern "C" fn signaled_cb<T: FenceOps>(fence: *mut bindings::dma_fence) -> bool {
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: The caller is responsible for passing a valid dma_fence subtype
-+    T::signaled(unsafe { &mut *p })
-+}
-+
-+unsafe extern "C" fn release_cb<T: FenceOps>(fence: *mut bindings::dma_fence) {
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: p is never used after this
-+    unsafe {
-+        core::ptr::drop_in_place(&mut (*p).inner);
-+    }
-+
-+    // SAFETY: All of our fences are allocated using kmalloc, so this is safe.
-+    unsafe { bindings::dma_fence_free(fence) };
-+}
-+
-+unsafe extern "C" fn fence_value_str_cb<T: FenceOps>(
-+    fence: *mut bindings::dma_fence,
-+    string: *mut core::ffi::c_char,
-+    size: core::ffi::c_int,
-+) {
-+    let size: usize = size.try_into().unwrap_or(0);
-+
-+    if size == 0 {
-+        return;
-+    }
-+
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: The caller is responsible for the validity of string/size
-+    let mut f = unsafe { crate::str::Formatter::from_buffer(string as *mut _, size) };
-+
-+    // SAFETY: The caller is responsible for passing a valid dma_fence subtype
-+    T::fence_value_str(unsafe { &mut *p }, &mut f);
-+    let _ = f.write_str("\0");
-+
-+    // SAFETY: `size` is at least 1 per the check above
-+    unsafe { *string.add(size - 1) = 0 };
-+}
-+
-+unsafe extern "C" fn timeline_value_str_cb<T: FenceOps>(
-+    fence: *mut bindings::dma_fence,
-+    string: *mut core::ffi::c_char,
-+    size: core::ffi::c_int,
-+) {
-+    let size: usize = size.try_into().unwrap_or(0);
-+
-+    if size == 0 {
-+        return;
-+    }
-+
-+    // SAFETY: All of our fences are FenceObject<T>.
-+    let p = crate::container_of!(fence, FenceObject<T>, fence) as *mut FenceObject<T>;
-+
-+    // SAFETY: The caller is responsible for the validity of string/size
-+    let mut f = unsafe { crate::str::Formatter::from_buffer(string as *mut _, size) };
-+
-+    // SAFETY: The caller is responsible for passing a valid dma_fence subtype
-+    T::timeline_value_str(unsafe { &mut *p }, &mut f);
-+    let _ = f.write_str("\0");
-+
-+    // SAFETY: `size` is at least 1 per the check above
-+    unsafe { *string.add(size - 1) = 0 };
-+}
-+
-+// Allow FenceObject<Self> to be used as a self argument, for ergonomics
-+impl<T: FenceOps> core::ops::Receiver for FenceObject<T> {}
-+
-+/// A driver-specific DMA Fence Object
-+///
-+/// # Invariants
-+/// ptr is a valid pointer to a dma_fence and we own a reference to it.
-+#[repr(C)]
-+pub struct FenceObject<T: FenceOps> {
-+    fence: bindings::dma_fence,
-+    lock: Opaque<bindings::spinlock>,
-+    inner: T,
-+}
-+
-+impl<T: FenceOps> FenceObject<T> {
-+    const SIZE: usize = core::mem::size_of::<Self>();
-+
-+    const VTABLE: bindings::dma_fence_ops = bindings::dma_fence_ops {
-+        use_64bit_seqno: T::USE_64BIT_SEQNO,
-+        get_driver_name: Some(get_driver_name_cb::<T>),
-+        get_timeline_name: Some(get_timeline_name_cb::<T>),
-+        enable_signaling: if T::HAS_ENABLE_SIGNALING {
-+            Some(enable_signaling_cb::<T>)
-+        } else {
-+            None
-+        },
-+        signaled: if T::HAS_SIGNALED {
-+            Some(signaled_cb::<T>)
-+        } else {
-+            None
-+        },
-+        wait: None, // Deprecated
-+        release: Some(release_cb::<T>),
-+        fence_value_str: if T::HAS_FENCE_VALUE_STR {
-+            Some(fence_value_str_cb::<T>)
-+        } else {
-+            None
-+        },
-+        timeline_value_str: if T::HAS_TIMELINE_VALUE_STR {
-+            Some(timeline_value_str_cb::<T>)
-+        } else {
-+            None
-+        },
-+    };
-+}
-+
-+impl<T: FenceOps> Deref for FenceObject<T> {
-+    type Target = T;
-+
-+    fn deref(&self) -> &T {
-+        &self.inner
-+    }
-+}
-+
-+impl<T: FenceOps> DerefMut for FenceObject<T> {
-+    fn deref_mut(&mut self) -> &mut T {
-+        &mut self.inner
-+    }
-+}
-+
-+impl<T: FenceOps> crate::private::Sealed for FenceObject<T> {}
-+impl<T: FenceOps> RawDmaFence for FenceObject<T> {
-+    fn raw(&self) -> *mut bindings::dma_fence {
-+        &self.fence as *const _ as *mut _
-+    }
-+}
-+
-+/// A unique reference to a driver-specific fence object
-+pub struct UniqueFence<T: FenceOps>(*mut FenceObject<T>);
-+
-+impl<T: FenceOps> Deref for UniqueFence<T> {
-+    type Target = FenceObject<T>;
-+
-+    fn deref(&self) -> &FenceObject<T> {
-+        unsafe { &*self.0 }
-+    }
-+}
-+
-+impl<T: FenceOps> DerefMut for UniqueFence<T> {
-+    fn deref_mut(&mut self) -> &mut FenceObject<T> {
-+        unsafe { &mut *self.0 }
-+    }
-+}
-+
-+impl<T: FenceOps> crate::private::Sealed for UniqueFence<T> {}
-+impl<T: FenceOps> RawDmaFence for UniqueFence<T> {
-+    fn raw(&self) -> *mut bindings::dma_fence {
-+        unsafe { addr_of_mut!((*self.0).fence) }
-+    }
-+}
-+
-+impl<T: FenceOps> From<UniqueFence<T>> for UserFence<T> {
-+    fn from(value: UniqueFence<T>) -> Self {
-+        let ptr = value.0;
-+        core::mem::forget(value);
-+
-+        UserFence(ptr)
-+    }
-+}
-+
-+impl<T: FenceOps> Drop for UniqueFence<T> {
-+    fn drop(&mut self) {
-+        // SAFETY: We own a reference to this fence.
-+        unsafe { bindings::dma_fence_put(self.raw()) };
-+    }
-+}
-+
-+unsafe impl<T: FenceOps> Sync for UniqueFence<T> {}
-+unsafe impl<T: FenceOps> Send for UniqueFence<T> {}
-+
-+/// A shared reference to a driver-specific fence object
-+pub struct UserFence<T: FenceOps>(*mut FenceObject<T>);
-+
-+impl<T: FenceOps> Deref for UserFence<T> {
-+    type Target = FenceObject<T>;
-+
-+    fn deref(&self) -> &FenceObject<T> {
-+        unsafe { &*self.0 }
-+    }
-+}
-+
-+impl<T: FenceOps> Clone for UserFence<T> {
-+    fn clone(&self) -> Self {
-+        // SAFETY: `ptr` is valid per the type invariant and we own a reference to it.
-+        unsafe {
-+            bindings::dma_fence_get(self.raw());
-+            Self(self.0)
-+        }
-+    }
-+}
-+
-+impl<T: FenceOps> crate::private::Sealed for UserFence<T> {}
-+impl<T: FenceOps> RawDmaFence for UserFence<T> {
-+    fn raw(&self) -> *mut bindings::dma_fence {
-+        unsafe { addr_of_mut!((*self.0).fence) }
-+    }
-+}
-+
-+impl<T: FenceOps> Drop for UserFence<T> {
-+    fn drop(&mut self) {
-+        // SAFETY: We own a reference to this fence.
-+        unsafe { bindings::dma_fence_put(self.raw()) };
-+    }
-+}
-+
-+unsafe impl<T: FenceOps> Sync for UserFence<T> {}
-+unsafe impl<T: FenceOps> Send for UserFence<T> {}
-+
-+/// An array of fence contexts, out of which fences can be created.
-+pub struct FenceContexts {
-+    start: u64,
-+    count: u32,
-+    seqnos: Vec<AtomicU64>,
-+    lock_name: &'static CStr,
-+    lock_key: &'static LockClassKey,
-+}
-+
-+impl FenceContexts {
-+    /// Create a new set of fence contexts.
-+    pub fn new(
-+        count: u32,
-+        name: &'static CStr,
-+        key: &'static LockClassKey,
-+    ) -> Result<FenceContexts> {
-+        let mut seqnos: Vec<AtomicU64> = Vec::new();
-+
-+        seqnos.try_reserve(count as usize)?;
-+
-+        for _ in 0..count {
-+            seqnos.try_push(Default::default())?;
-+        }
-+
-+        let start = unsafe { bindings::dma_fence_context_alloc(count as core::ffi::c_uint) };
-+
-+        Ok(FenceContexts {
-+            start,
-+            count,
-+            seqnos,
-+            lock_name: name,
-+            lock_key: key,
-+        })
-+    }
-+
-+    /// Create a new fence in a given context index.
-+    pub fn new_fence<T: FenceOps>(&self, context: u32, inner: T) -> Result<UniqueFence<T>> {
-+        if context > self.count {
-+            return Err(EINVAL);
-+        }
-+
-+        let p = unsafe {
-+            bindings::krealloc(
-+                core::ptr::null_mut(),
-+                FenceObject::<T>::SIZE,
-+                bindings::GFP_KERNEL | bindings::__GFP_ZERO,
-+            ) as *mut FenceObject<T>
-+        };
-+
-+        if p.is_null() {
-+            return Err(ENOMEM);
-+        }
-+
-+        let seqno = self.seqnos[context as usize].fetch_add(1, Ordering::Relaxed);
-+
-+        // SAFETY: The pointer is valid, so pointers to members are too.
-+        // After this, all fields are initialized.
-+        unsafe {
-+            addr_of_mut!((*p).inner).write(inner);
-+            bindings::__spin_lock_init(
-+                addr_of_mut!((*p).lock) as *mut _,
-+                self.lock_name.as_char_ptr(),
-+                self.lock_key.get(),
-+            );
-+            bindings::dma_fence_init(
-+                addr_of_mut!((*p).fence),
-+                &FenceObject::<T>::VTABLE,
-+                addr_of_mut!((*p).lock) as *mut _,
-+                self.start + context as u64,
-+                seqno,
-+            );
-+        };
-+
-+        Ok(UniqueFence(p))
-+    }
-+}
-+
-+/// A DMA Fence Chain Object
-+///
-+/// # Invariants
-+/// ptr is a valid pointer to a dma_fence_chain which we own.
-+pub struct FenceChain {
-+    ptr: *mut bindings::dma_fence_chain,
-+}
-+
-+impl FenceChain {
-+    /// Create a new DmaFenceChain object.
-+    pub fn new() -> Result<Self> {
-+        // SAFETY: This function is safe to call and takes no arguments.
-+        let ptr = unsafe { bindings::dma_fence_chain_alloc() };
++impl SyncObj {
++    /// Looks up a sync object by its handle for a given `File`.
++    pub fn lookup_handle(file: &impl drm::file::GenericFile, handle: u32) -> Result<SyncObj> {
++        // SAFETY: The arguments are all valid per the type invariants.
++        let ptr = unsafe { bindings::drm_syncobj_find(file.raw() as *mut _, handle) };
 +
 +        if ptr.is_null() {
-+            Err(ENOMEM)
++            Err(ENOENT)
 +        } else {
-+            Ok(FenceChain { ptr })
++            Ok(SyncObj { ptr })
 +        }
 +    }
 +
-+    /// Convert the DmaFenceChain into the underlying raw pointer.
-+    ///
-+    /// This assumes the caller will take ownership of the object.
-+    pub(crate) fn into_raw(self) -> *mut bindings::dma_fence_chain {
-+        let ptr = self.ptr;
-+        core::mem::forget(self);
-+        ptr
++    /// Returns the DMA fence associated with this sync object, if any.
++    pub fn fence_get(&self) -> Option<Fence> {
++        let fence = unsafe { bindings::drm_syncobj_fence_get(self.ptr) };
++        if fence.is_null() {
++            None
++        } else {
++            // SAFETY: The pointer is non-NULL and drm_syncobj_fence_get acquired an
++            // additional reference.
++            Some(unsafe { Fence::from_raw(fence) })
++        }
++    }
++
++    /// Replaces the DMA fence with a new one, or removes it if fence is None.
++    pub fn replace_fence(&self, fence: Option<&Fence>) {
++        unsafe {
++            bindings::drm_syncobj_replace_fence(
++                self.ptr,
++                fence.map_or(core::ptr::null_mut(), |a| a.raw()),
++            )
++        };
++    }
++
++    /// Adds a new timeline point to the syncobj.
++    pub fn add_point(&self, chain: FenceChain, fence: &Fence, point: u64) {
++        // SAFETY: All arguments should be valid per the respective type invariants.
++        // This takes over the FenceChain ownership.
++        unsafe { bindings::drm_syncobj_add_point(self.ptr, chain.into_raw(), fence.raw(), point) };
 +    }
 +}
 +
-+impl Drop for FenceChain {
++impl Drop for SyncObj {
 +    fn drop(&mut self) {
-+        // SAFETY: We own this dma_fence_chain.
-+        unsafe { bindings::dma_fence_chain_free(self.ptr) };
++        // SAFETY: We own a reference to this syncobj.
++        unsafe { bindings::drm_syncobj_put(self.ptr) };
 +    }
 +}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index cb23d24c6718..31866069e0bc 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -36,6 +36,8 @@ mod allocator;
- mod build_assert;
- pub mod delay;
- pub mod device;
-+#[cfg(CONFIG_DMA_SHARED_BUFFER)]
-+pub mod dma_fence;
- pub mod driver;
- #[cfg(CONFIG_RUST_DRM)]
- pub mod drm;
++
++impl Clone for SyncObj {
++    fn clone(&self) -> Self {
++        // SAFETY: `ptr` is valid per the type invariant and we own a reference to it.
++        unsafe { bindings::drm_syncobj_get(self.ptr) };
++        SyncObj { ptr: self.ptr }
++    }
++}
++
++// SAFETY: drm_syncobj operations are internally locked.
++unsafe impl Sync for SyncObj {}
++unsafe impl Send for SyncObj {}
 
 -- 
 2.35.1
