@@ -2,78 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD95A6ADECD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 13:34:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1FB6ADF12
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 13:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBAE10E111;
-	Tue,  7 Mar 2023 12:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E73010E122;
+	Tue,  7 Mar 2023 12:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5448710E111
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 12:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678192468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nKnr0DUp/m2+BwAmLNBkIvjqUTFOrVYFFcfsOrK3Ipk=;
- b=LZjaafEIu4SaIUAEAn9bvra9Wv+4uMxPa3i3d6znwOCHUcY5Oq9qXdoC1z/eG3kircQ8mB
- VLnz5G+eM4zcTDSaI961ncWf5k0LGRRJIeZT2pa1Q8UlUYZEcggENiQzlR90f2EGAGMhl0
- jf2RBepQ11T/FwE9ZO+KrDAqC+vGjtk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-34-LsFB9sn5N6KtJVkl7sR8cg-1; Tue, 07 Mar 2023 07:34:26 -0500
-X-MC-Unique: LsFB9sn5N6KtJVkl7sR8cg-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h15-20020a056402280f00b004bf9e193c23so18912123ede.11
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 04:34:26 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE12B10E49B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 12:48:47 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id j11so32224775edq.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 04:48:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678193326;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gXMDjluJDUvPLUicyi9DzXJkAKHHUVttkvC/e23H4Xg=;
+ b=gBNpW4hE+viaph3Z9oHqJD+5k9T0kLFVksSmYDaYHCpYrjYet2Y7xzwCXwhRqORnWg
+ wE/6W9M/kc2+Vve5aDGSeGrXaWB8YjgQ1XUCQyjvp3SwsV+/jnfGbM0RdpGcyF9bbsYV
+ lOYcZyKaGNtFSN4ipuq8gqyuTT3TnA4YFmx2/+HNIVvKoDFUhMgSCOj0EOxNurAeeMHR
+ BKML1W/QnpTHpizWDwPqbpCTwS8V3VqmklGMmeFRE+B+KdKB43IAX7OGr9zWxyZm3Tp3
+ zA0DYbSuK1C1R2g2MQFf5E8PEfKrZpH6MuFnOzGHIORxpGRoS/T/AApE89N8YE7aN/l5
+ UWXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678192465;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1678193326;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nKnr0DUp/m2+BwAmLNBkIvjqUTFOrVYFFcfsOrK3Ipk=;
- b=VjfeOsAfDRXkigat1nelhIe5+GZuLT8DGXNOe2V3iCO/DFZ4CIlWVx+JfqtepnESfq
- nchgQqSSYnseR9aXHqaC7md7F3j6DvayJ+KZcqAPwOZobBy48U5AcVAm3ygm91ST5nNS
- 7OvQTT1jOxwho5GH6cPY3j+O6fftlCUsWl2Q03fit0SGX8Xri9QIrJFbJRaxznpiooM/
- YhLoFh1J1qcIJ4OtruxDP4koImNgjcIYSlzrUQD1RD+pZ3+mQjEvOy3j9nOJqEDcghM1
- Ii1q/9KZSe2maZBHMRW/Yq/6JIn7kUqyP6iLjJ//HK65XbklaJGcRlceqTgSRg2Lf7k+
- YIzQ==
-X-Gm-Message-State: AO0yUKVsE106LM4gqocmW0qZue4dlF9i+6uhqSVf+/UCV59aQUqTIHKl
- Zb/20dsn0x1E4Vv+hUEpMUG/iP5BSqtH4Ek2lxm44bC40Pnu/jDwagBy158q88rC74idsGWJK8E
- +aEk+pH9Se4e8QkurrCU5uJqp1GwW
-X-Received: by 2002:a17:906:fe0c:b0:8b3:b74:aeb5 with SMTP id
- wy12-20020a170906fe0c00b008b30b74aeb5mr18325980ejb.30.1678192465825; 
- Tue, 07 Mar 2023 04:34:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set8iX49b4+qtmGhtc9D6W+y2btz3BJ60OCfbE03rLGSf8RexIl8hvboRPNJlCF415awJ/SJcmQ==
-X-Received: by 2002:a17:906:fe0c:b0:8b3:b74:aeb5 with SMTP id
- wy12-20020a170906fe0c00b008b30b74aeb5mr18325953ejb.30.1678192465488; 
- Tue, 07 Mar 2023 04:34:25 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ bh=gXMDjluJDUvPLUicyi9DzXJkAKHHUVttkvC/e23H4Xg=;
+ b=SQNonbDBOlmWvlOa4gLpqYCRvkJd46Tip0g67heMuUI8tWOuyLL630RYt0AAuwSpTw
+ 0yruSb27+62cvEFPJ7HK9OMvnIKHggkLAMb02BFyokD3bzTTI0yQmrUjDRXXrmaeXm0h
+ DMVxFRxQmNz+vgmmtxxxYuGKcC7RJGV/rP15Z5Xebi+7teaNbMtx/QcAHs++WNXORdVd
+ FMrP2zLKMhSWt8CIOIChg6pdAGwiVZdyTYjpD23AjZ4EMlDgK2bpX+0SyJzpICY79ARP
+ iuH9Lk39WlEoUiUbYYOAg2C82JB1gz2qcivf4VdxLvLSSBopb322oS+2VJtQPXGkN+uL
+ SNUw==
+X-Gm-Message-State: AO0yUKUbzkbdN1lrdoMj5BwkIgysjpJn2fEK6csoAdreR1PJe4BO4qhk
+ oKtv4Os8wfzqvdn+HYwt4T6BtA==
+X-Google-Smtp-Source: AK7set8MCzzEe4umSH1sYZCblI6WJ1yy9vx+YgB8ty6up6YK0RjeqU1A/CLPMaRwTV8qico7a1qLyw==
+X-Received: by 2002:a05:6402:7ce:b0:4c0:57b:47a9 with SMTP id
+ u14-20020a05640207ce00b004c0057b47a9mr13267661edy.35.1678193326220; 
+ Tue, 07 Mar 2023 04:48:46 -0800 (PST)
+Received: from ?IPV6:2a02:810d:15c0:828:a60f:e604:c252:1f3d?
+ ([2a02:810d:15c0:828:a60f:e604:c252:1f3d])
  by smtp.gmail.com with ESMTPSA id
- bl15-20020a170906c24f00b008d83ad86fe8sm6048770ejb.59.2023.03.07.04.34.24
+ le16-20020a170907171000b008da6a37de1bsm6174070ejc.10.2023.03.07.04.48.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 04:34:24 -0800 (PST)
-Message-ID: <d3a285c6-2c0b-99e8-5d98-b5eb8d44d54a@redhat.com>
-Date: Tue, 7 Mar 2023 13:34:24 +0100
+ Tue, 07 Mar 2023 04:48:45 -0800 (PST)
+Message-ID: <de9d5cdb-29d5-8252-6884-dd50a22d1580@linaro.org>
+Date: Tue, 7 Mar 2023 13:48:44 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH] backlight: apple_bl: Use acpi_video_get_backlight_type()
-To: Andy Shevchenko <andy@kernel.org>
-References: <20230307120540.389920-1-hdegoede@redhat.com>
- <ZActl7YN+u7Yz58m@smile.fi.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZActl7YN+u7Yz58m@smile.fi.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 8/9] dt-bindings: display/msm: dsi-controller-main: Add
+ SM6115
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, agross@kernel.org
+References: <20230213121012.1768296-1-konrad.dybcio@linaro.org>
+ <20230213121012.1768296-9-konrad.dybcio@linaro.org>
+ <bcb5c17f-da78-9d68-66eb-b620ee583602@linaro.org>
+ <22970751-8bc0-9cbd-eec1-cbc92f0b4ea7@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <22970751-8bc0-9cbd-eec1-cbc92f0b4ea7@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -88,60 +81,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Garrett <mjg59@srcf.ucam.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, Mark Gross <markgross@kernel.org>,
- Aditya Garg <gargaditya08@live.com>
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 3/7/23 13:27, Andy Shevchenko wrote:
-> On Tue, Mar 07, 2023 at 01:05:40PM +0100, Hans de Goede wrote:
->> On some MacBooks both the apple_bl and the apple-gmux backlight drivers
->> may be able to export a /sys/class/backlight device.
->>
->> To avoid having 2 backlight devices for one LCD panel until now
->> the apple-gmux driver has been calling apple_bl_unregister() to move
->> the apple_bl backlight device out of the way when it loads.
->>
->> Similar problems exist on other x86 laptops and all backlight drivers
->> which may be used on x86 laptops have moved to using
->> acpi_video_get_backlight_type() to determine whether they should load
->> or not.
->>
->> Switch apple_bl to this model too, so that it is consistent with all
->> the other x86 backlight drivers.
->>
->> Besides code-simplification and consistency this has 2 other benefits:
->>
->> 1) It removes a race during boot where userspace will briefly see
->>    an apple_bl backlight and then have it disappear again, leading to e.g.:
->>    https://bbs.archlinux.org/viewtopic.php?id=269920
->>
->> 2) This allows user to switch between the drivers by passing
->>    acpi_backlight=apple_gmux or acpi_backlight=vendor on the kernel
->>    commandline.
+On 07/03/2023 12:14, Konrad Dybcio wrote:
 > 
-> ...
 > 
->> +	depends on ACPI_VIDEO=n || ACPI_VIDEO
+> On 7.03.2023 10:17, Krzysztof Kozlowski wrote:
+>> On 13/02/2023 13:10, Konrad Dybcio wrote:
+>>> Add a compatible for the DSI on SM6115.
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>> ---
+>>>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>> index 2494817c1bd6..f195530ae964 100644
+>>> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+>>> @@ -25,6 +25,7 @@ properties:
+>>>                - qcom,sc7280-dsi-ctrl
+>>>                - qcom,sdm660-dsi-ctrl
+>>>                - qcom,sdm845-dsi-ctrl
+>>> +              - qcom,sm6115-dsi-ctrl
+>>
+>> This looks incomplete. You also need to add it to MDSS binding.
+> https://lore.kernel.org/linux-arm-msm/145066db-5723-6baa-237d-7c2b8fd476d9@linaro.org/
 > 
-> I'm wondering if "imply ACPI_VIDEO" (i.o.w. weak dependency) is what suitable
-> here.
+> Does this.. but I guess I'll resend this as one series, as it only
+> makes sense.
 
-No, because then if apple_bl is builtin and acpi_video is a module
-we will get unresolved dependencies.
+It should be one commit. Adding sm6115 here is incomplete if other
+binding (using this one) does not allow it.
 
-The quoted bit of Kconfig magic is exactly to avoid that scenario,
-other combinations are fine (due to stubs in acpi/video.h when
-disabled).
-
-Regards,
-
-Hans
-
+Best regards,
+Krzysztof
 
