@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2362B6ADC59
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AF26ADC58
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:49:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F5A10E49A;
-	Tue,  7 Mar 2023 10:48:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F0A10E499;
+	Tue,  7 Mar 2023 10:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8378310E478;
- Tue,  7 Mar 2023 10:48:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0A910E488;
+ Tue,  7 Mar 2023 10:48:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678186125; x=1709722125;
+ t=1678186127; x=1709722127;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=HtfxNZ6V0OO/oxYVWnwzHilLqxmn1cFyQg7zcTM8kRg=;
- b=bTnFPl0gPFccIYAQbzDoHc69oiXjabwGF6UKF3D5tLHiJV0ZVHheBd9u
- AkNKhiQxsj4UNsCC39Obq4eExAf/RTl0knPE1CiZvn9ScRpRO4o0W+UFT
- O0c/MveJSP7rcZ8fKeVlbVtuJIXW35Gq1Q3DjJfRiXp6/TuoQglNTyAln
- DKAo6qqDHhVQW56qZ8uJB2O+i+zJxb9dnbEP39M5aAvaVJ11lHlCJPR9j
- 02GE6c//nFJKreUduHDJeC2NCoHXNFa8S805+8RKK4xowva+a4D3XuKS3
- E/wc1TKzm4LPib0woYxgehvxyQVO7f65Fae4crHqCwqJ1blMmWAiGJTSj Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400643441"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="400643441"
+ bh=rnzRe13qhrrA5ljmMARPkyyrz5Rg225kZeF/vZZHOAI=;
+ b=FpCj8au9euSKWul8i3Hy8qlYzNaQgsS7VGZAm7Kp5WrmLTW0+aa9QWOG
+ wLPNV5RqFj7JGIYdJaP8rLnRWsdUPd5bz0IoT7ctE8ejO6yx0K0ug7RJU
+ VXaCUTuRnLKrj+F9kd6KHtzysSRRmns4uFl/PslOioTirw5IEGF889nb4
+ 9rmyoMx2rAHmoBhnEqMjUDf3ReCUKn+BjVA62YF82k2+qaUTNrehopD7R
+ CeYktGxsbZXCeY4mH9lYNwk2zgZxQonjDF3MH/1xxtulXFZwBqL+nP6Ig
+ AAREcRUk9r8cjtBcSDnPT7jpC0jP3ssI0Wbg0kLqHAcGqViGMkRjvfPQ/ w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="400643449"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="400643449"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 02:48:45 -0800
+ 07 Mar 2023 02:48:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="819712889"
-X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="819712889"
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="819712903"
+X-IronPort-AV: E=Sophos;i="5.98,240,1673942400"; d="scan'208";a="819712903"
 Received: from tanzeelu-mobl1.ger.corp.intel.com (HELO localhost.localdomain)
  ([10.213.205.53])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 02:48:43 -0800
+ 07 Mar 2023 02:48:45 -0800
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: Intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [RFC 07/12] dma-fence-array: Propagate wait status to contained fences
-Date: Tue,  7 Mar 2023 10:48:19 +0000
-Message-Id: <20230307104824.231094-8-tvrtko.ursulin@linux.intel.com>
+Subject: [RFC 08/12] dma-fence-chain: Propagate wait status to contained fences
+Date: Tue,  7 Mar 2023 10:48:20 +0000
+Message-Id: <20230307104824.231094-9-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230307104824.231094-1-tvrtko.ursulin@linux.intel.com>
 References: <20230307104824.231094-1-tvrtko.ursulin@linux.intel.com>
@@ -71,25 +71,63 @@ drivers see it.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/dma-buf/dma-fence-array.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/dma-buf/dma-fence-chain.c | 22 ++++++++++++++++------
+ include/linux/dma-fence-chain.h   |  1 +
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-index 5c8a7084577b..e732adc230d1 100644
---- a/drivers/dma-buf/dma-fence-array.c
-+++ b/drivers/dma-buf/dma-fence-array.c
-@@ -84,8 +84,9 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
- 		 * insufficient).
- 		 */
- 		dma_fence_get(&array->base);
--		if (dma_fence_add_callback(array->fences[i], &cb[i].cb,
--					   dma_fence_array_cb_func)) {
-+		if (__dma_fence_add_callback(array->fences[i], &cb[i].cb,
-+					     dma_fence_array_cb_func,
-+					     fence->waitcount > 0)) {
- 			int error = array->fences[i]->error;
+diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
+index a0d920576ba6..ef6a5988c8aa 100644
+--- a/drivers/dma-buf/dma-fence-chain.c
++++ b/drivers/dma-buf/dma-fence-chain.c
+@@ -145,20 +145,30 @@ static void dma_fence_chain_cb(struct dma_fence *f, struct dma_fence_cb *cb)
+ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
+ {
+ 	struct dma_fence_chain *head = to_dma_fence_chain(fence);
++	struct dma_fence *callback = NULL;
  
- 			dma_fence_array_set_pending_error(array, error);
+ 	dma_fence_get(&head->base);
+ 	dma_fence_chain_for_each(fence, &head->base) {
+ 		struct dma_fence *f = dma_fence_chain_contained(fence);
+ 
+-		dma_fence_get(f);
+-		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
++		if (!callback) {
++			dma_fence_get(f);
++			if (!dma_fence_add_callback(f, &head->cb,
++						    dma_fence_chain_cb))
++				callback = f;
++			else
++				dma_fence_put(f);
++		} else if (head->base.waitcount && !head->waitcount) {
++			dma_fence_enable_sw_signaling(f);
++		} else {
+ 			dma_fence_put(fence);
+-			return true;
++			break;
+ 		}
+-		dma_fence_put(f);
+ 	}
+-	dma_fence_put(&head->base);
+-	return false;
++	head->waitcount = head->base.waitcount;
++	if (!callback)
++		dma_fence_put(&head->base);
++	return callback;
+ }
+ 
+ static bool dma_fence_chain_signaled(struct dma_fence *fence)
+diff --git a/include/linux/dma-fence-chain.h b/include/linux/dma-fence-chain.h
+index 4bdf0b96da28..349b882d31ea 100644
+--- a/include/linux/dma-fence-chain.h
++++ b/include/linux/dma-fence-chain.h
+@@ -25,6 +25,7 @@
+ struct dma_fence_chain {
+ 	struct dma_fence base;
+ 	struct dma_fence __rcu *prev;
++	bool waitcount;
+ 	u64 prev_seqno;
+ 	struct dma_fence *fence;
+ 	union {
 -- 
 2.37.2
 
