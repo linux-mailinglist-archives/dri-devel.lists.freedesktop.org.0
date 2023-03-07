@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5266B0064
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:00:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF72A6B0061
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:00:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8300D10E5A8;
-	Wed,  8 Mar 2023 08:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFA6210E59E;
+	Wed,  8 Mar 2023 08:00:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1ACA10E530
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 19:14:47 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-176eae36feaso5465617fac.6
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 11:14:47 -0800 (PST)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 480A210E564
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:53:53 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ q11-20020a056830440b00b00693c1a62101so8094836otv.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 14:53:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1678216486;
+ d=usp.br; s=usp-google; t=1678229632;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fOmFgPIp3hsAGCIR1UQk10Ns785Ii9Fwxb0/rzbOnLo=;
- b=UHWjvJrMrIq+eRFMDFQf/pbjkYRjQ5yIARLh2yEmCdtaNGcHLlx6+jNP/96jqtlcNu
- 1j8k7mMQLlpdSkJo6raWWeII1vbtUI420xR57K6e2JLGGT36jbw8KV41JX0NDhXnGExL
- PW7m0uKtf7Lcgevzhv8pzMwCf9K9vYXJ3IzgrVAhWg0CoyPdIE8SqiniN+qeKqt/vKrk
- 2E35u4Tl84WThv32YiJHu4HxVjmfUQJREY4P0k14fIrauow8hDvIuTsizqM88lTV09q/
- KWpjOc15QAqjvTjhwnC1ch/b1YVwgKfbR0eGMXI9gVO4lzY3a4MviKCZQrW5WSb/yRiz
- ojzQ==
+ bh=pKVqxub/Fk+VY98iPdnTOYqYL+oFSC0KdiMA5tq1zzQ=;
+ b=cjO2r2iCTHNkY+LCiq5PTW5GA9posA/IfRrUE3PgSJAgub8XuFtnDujBteNqeBeiKm
+ 9Ip4gcSwzNtDCsEd0lQUnFbSLel7lraorSoJJuLzPmHLe6gnRl/GmWxScST82K/BYYcs
+ kbeFTrZrNY+vkt9r1277I3/M4QvMqWrELhs2q0ld8Sar2C7RacUnJKvyjo6rYTTcPq2c
+ AG6ATsN6CORQxMEnklmjPKfe1IKIonNIWc5POfYDTaXqLxS+kI/hFExi1duHiV47je43
+ 6ZvPcrwL2tRZKisOIWbDfXms4QjxqtVXieaR8w8o06pWGAB+YeEYyQ2ytIp1VPUdiZvW
+ pHcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678216486;
+ d=1e100.net; s=20210112; t=1678229632;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=fOmFgPIp3hsAGCIR1UQk10Ns785Ii9Fwxb0/rzbOnLo=;
- b=U5xwUNmi5jHUgD+Jzx34xt00DA93qa/tccWwL86kDc+f93dvtkVeIzZCw4TUnNyzHr
- xmHS1jNXlOHU/HhaQjSXVoPJgUq2zahBwJqofb13gUOTuzIbNI8YWhfTJ/v0e99V/ZDD
- zFRLo2ZxtM698P93d7u5akvsaFQjvxLRF+8hr1naI+cRLyCzKJO4Qil1L1zsgsIyJVbW
- VFw5XRNPCdkoGZegxFDAlYLdfVxbxe2y3K6nos7ceVp3FA6GNQq/nmQUdq0BZBehf5uS
- 4bYE7OWr5g9h6DfSAChGj+8Iz18WllvTlChDz3I7YcuZ4L+kBR+P/Py527C8A+x/BA6/
- nNPw==
-X-Gm-Message-State: AO0yUKVpfHQ41fozjd/f/G3s5jKmqT7E6UrP6V4iAIh7EgJfOooi73++
- qL+MbY3i+R9S/v/nvbZr3pgAYQ==
-X-Google-Smtp-Source: AK7set8bM251vzn1Z7Yw0sjF24Yg41uoEcJULEUsr7v+wss7hrx/n1mS+3lgmuhxIJdiztwFJDE4XQ==
-X-Received: by 2002:a05:6870:9724:b0:16d:e3ce:a701 with SMTP id
- n36-20020a056870972400b0016de3cea701mr10537874oaq.35.1678216486652; 
- Tue, 07 Mar 2023 11:14:46 -0800 (PST)
+ bh=pKVqxub/Fk+VY98iPdnTOYqYL+oFSC0KdiMA5tq1zzQ=;
+ b=QQmOW6rmgdsqMI3cEfz13WpgD8jHoXsAKOr76Bfpn4nF/y2ShN7OgOmBe3yMkFuizd
+ lHry2SSBUu9zr2ZGM0pSjlCLDiZoKDA8W3P5dfchbEhU2HxQ9WNyu92CD5JKVBDixapj
+ HLc7TFi3t5vC7nNG8kEs0VNcQ0zzAfHk9CdP37tovvESuoCPmKWoPiLZSkf5nIew5hIg
+ pGB7/iwj2ROD4hfzkvxibWlR0HUiatRq5aaIKtiRJK3irc1wfQDg9Q3Ivnnk4Y4kinTx
+ /osKGZH63j2dGr2j5z39Lto4N8FhbLmuAQojezP03BX6KFD4KGVOfvmhVN23TArp9mz2
+ qv1Q==
+X-Gm-Message-State: AO0yUKWTvpQgbjkHx/urcg8qcrd3fw/RiY5XfIuNQPEkYYt0iPJwCcwl
+ M5Np0TElOv+oBM/Zk6wZUrBYig==
+X-Google-Smtp-Source: AK7set9wBHhbtGK0bt/+x7+CPlbUY/sT7o5N4KRvbzNLjC9F9hzn9NTWZpYjpUbJL2xzCAIMknEg8g==
+X-Received: by 2002:a05:6830:56c:b0:690:a6b3:a2f6 with SMTP id
+ f12-20020a056830056c00b00690a6b3a2f6mr7070475otc.0.1678229632403; 
+ Tue, 07 Mar 2023 14:53:52 -0800 (PST)
 Received: from localhost.localdomain ([2804:14c:63:8ae3:4d1f:9fc2:9fe6:c88e])
  by smtp.gmail.com with ESMTPSA id
- f5-20020a056870d30500b001724742cfcesm5341794oag.38.2023.03.07.11.14.43
+ w3-20020a9d70c3000000b0069451a9274bsm5251208otj.28.2023.03.07.14.53.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 11:14:46 -0800 (PST)
+ Tue, 07 Mar 2023 14:53:51 -0800 (PST)
 From: David Tadokoro <davidbtadokoro@usp.br>
 To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
  alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH] drm/amd/display: add prefix to amdgpu_dm_crtc.h functions
-Date: Tue,  7 Mar 2023 16:14:17 -0300
-Message-Id: <20230307191417.150823-1-davidbtadokoro@usp.br>
+Subject: [PATCH] drm/amd/display: remove legacy fields of dc_plane_cap struct
+Date: Tue,  7 Mar 2023 19:53:41 -0300
+Message-Id: <20230307225341.246596-1-davidbtadokoro@usp.br>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -78,287 +78,267 @@ Cc: David Tadokoro <davidbtadokoro@usp.br>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some amdgpu_dm_crtc.h functions didn't have names that indicated where
-they were declared.
+The fields blends_with_above and blends_with_below of struct
+dc_plane_cap (defined in dc/dc.h) are boolean and set to true by
+default. All instances of a dc_plane_cap maintain the default values of
+both. Also, there is only one if statement that checks those fields and
+there would be the same effect if it was deleted (assuming that those
+fields are always going to be true).
 
-To better filter results in debug tools like ftrace, prefix these
-functions with 'amdgpu_dm_crtc_'.
+For this reason, considering both fields as legacy ones, this commit
+removes them and the aforementioned if statement.
 
 Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 32 +++++++++----------
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 26 +++++++--------
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.h    | 14 ++++----
- 3 files changed, 36 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       | 3 ---
+ drivers/gpu/drm/amd/display/dc/dc.h                     | 2 --
+ drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c | 3 ---
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c   | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c   | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c   | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c   | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn303/dcn303_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c   | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.c | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c   | 2 --
+ drivers/gpu/drm/amd/display/dc/dcn321/dcn321_resource.c | 2 --
+ 17 files changed, 36 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index b472931cb7ca..b3e874589617 100644
+index b472931cb7ca..fdcb375e908a 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -342,7 +342,7 @@ static inline bool is_dc_timing_adjust_needed(struct dm_crtc_state *old_state,
- {
- 	if (new_state->freesync_config.state ==  VRR_STATE_ACTIVE_FIXED)
- 		return true;
--	else if (amdgpu_dm_vrr_active(old_state) != amdgpu_dm_vrr_active(new_state))
-+	else if (amdgpu_dm_crtc_vrr_active(old_state) != amdgpu_dm_crtc_vrr_active(new_state))
- 		return true;
- 	else
- 		return false;
-@@ -436,7 +436,7 @@ static void dm_pflip_high_irq(void *interrupt_params)
+@@ -4354,9 +4354,6 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
+ 		if (plane->type != DC_PLANE_TYPE_DCN_UNIVERSAL)
+ 			continue;
  
- 	WARN_ON(!e);
+-		if (!plane->blends_with_above || !plane->blends_with_below)
+-			continue;
+-
+ 		if (!plane->pixel_format_support.argb8888)
+ 			continue;
  
--	vrr_active = amdgpu_dm_vrr_active_irq(amdgpu_crtc);
-+	vrr_active = amdgpu_dm_crtc_vrr_active_irq(amdgpu_crtc);
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index f0a1934ebf8c..ccc27d482640 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -82,8 +82,6 @@ enum det_size {
  
- 	/* Fixed refresh rate, or VRR scanout position outside front-porch? */
- 	if (!vrr_active ||
-@@ -510,7 +510,7 @@ static void dm_vupdate_high_irq(void *interrupt_params)
- 	acrtc = get_crtc_by_otg_inst(adev, irq_params->irq_src - IRQ_TYPE_VUPDATE);
+ struct dc_plane_cap {
+ 	enum dc_plane_type type;
+-	uint32_t blends_with_above : 1;
+-	uint32_t blends_with_below : 1;
+ 	uint32_t per_pixel_alpha : 1;
+ 	struct {
+ 		uint32_t argb8888 : 1;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+index f808315b2835..a4a45a6ce61e 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dce110/dce110_resource.c
+@@ -401,8 +401,6 @@ static const struct resource_caps stoney_resource_cap = {
  
- 	if (acrtc) {
--		vrr_active = amdgpu_dm_vrr_active_irq(acrtc);
-+		vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
- 		drm_dev = acrtc->base.dev;
- 		vblank = &drm_dev->vblank[acrtc->base.index];
- 		previous_timestamp = atomic64_read(&irq_params->previous_timestamp);
-@@ -534,7 +534,7 @@ static void dm_vupdate_high_irq(void *interrupt_params)
- 		 * if a pageflip happened inside front-porch.
- 		 */
- 		if (vrr_active) {
--			dm_crtc_handle_vblank(acrtc);
-+			amdgpu_dm_crtc_handle_vblank(acrtc);
+ static const struct dc_plane_cap plane_cap = {
+ 		.type = DC_PLANE_TYPE_DCE_RGB,
+-		.blends_with_below = true,
+-		.blends_with_above = true,
+ 		.per_pixel_alpha = 1,
  
- 			/* BTR processing for pre-DCE12 ASICs */
- 			if (acrtc->dm_irq_params.stream &&
-@@ -574,7 +574,7 @@ static void dm_crtc_high_irq(void *interrupt_params)
- 	if (!acrtc)
- 		return;
+ 		.pixel_format_support = {
+@@ -428,7 +426,6 @@ static const struct dc_plane_cap plane_cap = {
  
--	vrr_active = amdgpu_dm_vrr_active_irq(acrtc);
-+	vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
+ static const struct dc_plane_cap underlay_plane_cap = {
+ 		.type = DC_PLANE_TYPE_DCE_UNDERLAY,
+-		.blends_with_above = true,
+ 		.per_pixel_alpha = 1,
  
- 	DC_LOG_VBLANK("crtc:%d, vupdate-vrr:%d, planes:%d\n", acrtc->crtc_id,
- 		      vrr_active, acrtc->dm_irq_params.active_planes);
-@@ -586,7 +586,7 @@ static void dm_crtc_high_irq(void *interrupt_params)
- 	 * to dm_vupdate_high_irq after end of front-porch.
- 	 */
- 	if (!vrr_active)
--		dm_crtc_handle_vblank(acrtc);
-+		amdgpu_dm_crtc_handle_vblank(acrtc);
+ 		.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+index 6bfac8088ab0..2bb8e11f26e0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c
+@@ -504,8 +504,6 @@ static const struct resource_caps rv2_res_cap = {
  
- 	/**
- 	 * Following stuff must happen at start of vblank, for crc
-@@ -2483,11 +2483,11 @@ static void dm_gpureset_toggle_interrupts(struct amdgpu_device *adev,
- 					 enable ? "enable" : "disable");
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
- 			if (enable) {
--				rc = dm_enable_vblank(&acrtc->base);
-+				rc = amdgpu_dm_crtc_enable_vblank(&acrtc->base);
- 				if (rc)
- 					DRM_WARN("Failed to enable vblank interrupts\n");
- 			} else {
--				dm_disable_vblank(&acrtc->base);
-+				amdgpu_dm_crtc_disable_vblank(&acrtc->base);
- 			}
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+index 3af24ef9cb2d..00668df0938e 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
+@@ -670,8 +670,6 @@ static const struct resource_caps res_cap_nv10 = {
  
- 		}
-@@ -7746,7 +7746,7 @@ static void update_freesync_state_on_stream(
- 			&vrr_params);
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
- 		if (adev->family < AMDGPU_FAMILY_AI &&
--		    amdgpu_dm_vrr_active(new_crtc_state)) {
-+		    amdgpu_dm_crtc_vrr_active(new_crtc_state)) {
- 			mod_freesync_handle_v_update(dm->freesync_module,
- 						     new_stream, &vrr_params);
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
+index cd46701398d9..6ea70da28aaa 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
+@@ -571,8 +571,6 @@ static const struct resource_caps res_cap_dnc201 = {
  
-@@ -7864,8 +7864,8 @@ static void update_stream_irq_parameters(
- static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
- 					    struct dm_crtc_state *new_state)
- {
--	bool old_vrr_active = amdgpu_dm_vrr_active(old_state);
--	bool new_vrr_active = amdgpu_dm_vrr_active(new_state);
-+	bool old_vrr_active = amdgpu_dm_crtc_vrr_active(old_state);
-+	bool new_vrr_active = amdgpu_dm_crtc_vrr_active(new_state);
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
- 	if (!old_vrr_active && new_vrr_active) {
- 		/* Transition VRR inactive -> active:
-@@ -7876,7 +7876,7 @@ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
- 		 * We also need vupdate irq for the actual core vblank handling
- 		 * at end of vblank.
- 		 */
--		WARN_ON(dm_set_vupdate_irq(new_state->base.crtc, true) != 0);
-+		WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, true) != 0);
- 		WARN_ON(drm_crtc_vblank_get(new_state->base.crtc) != 0);
- 		DRM_DEBUG_DRIVER("%s: crtc=%u VRR off->on: Get vblank ref\n",
- 				 __func__, new_state->base.crtc->base.id);
-@@ -7884,7 +7884,7 @@ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
- 		/* Transition VRR active -> inactive:
- 		 * Allow vblank irq disable again for fixed refresh rate.
- 		 */
--		WARN_ON(dm_set_vupdate_irq(new_state->base.crtc, false) != 0);
-+		WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, false) != 0);
- 		drm_crtc_vblank_put(new_state->base.crtc);
- 		DRM_DEBUG_DRIVER("%s: crtc=%u VRR on->off: Drop vblank ref\n",
- 				 __func__, new_state->base.crtc->base.id);
-@@ -7926,7 +7926,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
- 	int planes_count = 0, vpos, hpos;
- 	unsigned long flags;
- 	u32 target_vblank, last_flip_vblank;
--	bool vrr_active = amdgpu_dm_vrr_active(acrtc_state);
-+	bool vrr_active = amdgpu_dm_crtc_vrr_active(acrtc_state);
- 	bool cursor_update = false;
- 	bool pflip_present = false;
- 	bool dirty_rects_changed = false;
-@@ -8476,7 +8476,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 		 * aconnector as needed
- 		 */
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+index 8f9244fe5c86..3ac8c0282589 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_resource.c
+@@ -609,8 +609,6 @@ static const struct resource_caps res_cap_rn_FPGA_2pipe_dsc = {
  
--		if (modeset_required(new_crtc_state, dm_new_crtc_state->stream, dm_old_crtc_state->stream)) {
-+		if (amdgpu_dm_crtc_modeset_required(new_crtc_state, dm_new_crtc_state->stream, dm_old_crtc_state->stream)) {
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
- 			DRM_DEBUG_ATOMIC("Atomic commit: SET crtc id %d: [%p]\n", acrtc->crtc_id, acrtc);
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
+index b5b5320c7bef..d60c17d5a0d8 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_resource.c
+@@ -680,8 +680,6 @@ static const struct resource_caps res_cap_dcn3 = {
  
-@@ -9301,7 +9301,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
- 		if (modereset_required(new_crtc_state))
- 			goto skip_modeset;
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
--		if (modeset_required(new_crtc_state, new_stream,
-+		if (amdgpu_dm_crtc_modeset_required(new_crtc_state, new_stream,
- 				     dm_old_crtc_state->stream)) {
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+index ee62ae3eb98f..b93b4498dba4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn301/dcn301_resource.c
+@@ -651,8 +651,6 @@ static struct resource_caps res_cap_dcn301 = {
  
- 			WARN_ON(dm_new_crtc_state->stream);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index dc4f37240beb..1d924dc51a3e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -34,7 +34,7 @@
- #include "amdgpu_dm_trace.h"
- #include "amdgpu_dm_debugfs.h"
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
--void dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
-+void amdgpu_dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
- {
- 	struct drm_crtc *crtc = &acrtc->base;
- 	struct drm_device *dev = crtc->dev;
-@@ -54,14 +54,14 @@ void dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
- 	spin_unlock_irqrestore(&dev->event_lock, flags);
- }
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c b/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
+index 03ddf4f5f065..6ccad53f1e49 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn302/dcn302_resource.c
+@@ -147,8 +147,6 @@ static const struct resource_caps res_cap_dcn302 = {
  
--bool modeset_required(struct drm_crtc_state *crtc_state,
-+bool amdgpu_dm_crtc_modeset_required(struct drm_crtc_state *crtc_state,
- 			     struct dc_stream_state *new_stream,
- 			     struct dc_stream_state *old_stream)
- {
- 	return crtc_state->active && drm_atomic_crtc_needs_modeset(crtc_state);
- }
+ static const struct dc_plane_cap plane_cap = {
+ 		.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-		.blends_with_above = true,
+-		.blends_with_below = true,
+ 		.per_pixel_alpha = true,
+ 		.pixel_format_support = {
+ 				.argb8888 = true,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn303/dcn303_resource.c b/drivers/gpu/drm/amd/display/dc/dcn303/dcn303_resource.c
+index 727f458f6ee9..5c28f7151d13 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn303/dcn303_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn303/dcn303_resource.c
+@@ -126,8 +126,6 @@ static const struct resource_caps res_cap_dcn303 = {
  
--bool amdgpu_dm_vrr_active_irq(struct amdgpu_crtc *acrtc)
-+bool amdgpu_dm_crtc_vrr_active_irq(struct amdgpu_crtc *acrtc)
+ static const struct dc_plane_cap plane_cap = {
+ 		.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-		.blends_with_above = true,
+-		.blends_with_below = true,
+ 		.per_pixel_alpha = true,
+ 		.pixel_format_support = {
+ 				.argb8888 = true,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+index d3918a10773a..eaaa2e01f6d0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_resource.c
+@@ -827,8 +827,6 @@ static const struct resource_caps res_cap_dcn31 = {
  
- {
- 	return acrtc->dm_irq_params.freesync_config.state ==
-@@ -70,7 +70,7 @@ bool amdgpu_dm_vrr_active_irq(struct amdgpu_crtc *acrtc)
- 		       VRR_STATE_ACTIVE_FIXED;
- }
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
--int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
-+int amdgpu_dm_crtc_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
- {
- 	enum dc_irq_source irq_source;
- 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
-@@ -89,7 +89,7 @@ int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
- 	return rc;
- }
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
+index f9dfbc7407ee..50ed7e09d5ba 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn314/dcn314_resource.c
+@@ -855,8 +855,6 @@ static const struct resource_caps res_cap_dcn314 = {
  
--bool amdgpu_dm_vrr_active(struct dm_crtc_state *dm_state)
-+bool amdgpu_dm_crtc_vrr_active(struct dm_crtc_state *dm_state)
- {
- 	return dm_state->freesync_config.state == VRR_STATE_ACTIVE_VARIABLE ||
- 	       dm_state->freesync_config.state == VRR_STATE_ACTIVE_FIXED;
-@@ -159,11 +159,11 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
- 	if (enable) {
- 		/* vblank irq on -> Only need vupdate irq in vrr mode */
--		if (amdgpu_dm_vrr_active(acrtc_state))
--			rc = dm_set_vupdate_irq(crtc, true);
-+		if (amdgpu_dm_crtc_vrr_active(acrtc_state))
-+			rc = amdgpu_dm_crtc_set_vupdate_irq(crtc, true);
- 	} else {
- 		/* vblank irq off -> vupdate irq off */
--		rc = dm_set_vupdate_irq(crtc, false);
-+		rc = amdgpu_dm_crtc_set_vupdate_irq(crtc, false);
- 	}
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
+index 7887078c5f64..41c972c8eb19 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn315/dcn315_resource.c
+@@ -824,8 +824,6 @@ static const struct resource_caps res_cap_dcn31 = {
  
- 	if (rc)
-@@ -199,12 +199,12 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
- 	return 0;
- }
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
--int dm_enable_vblank(struct drm_crtc *crtc)
-+int amdgpu_dm_crtc_enable_vblank(struct drm_crtc *crtc)
- {
- 	return dm_set_vblank(crtc, true);
- }
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.c b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.c
+index dc0b49506275..9ead347a33e9 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn316/dcn316_resource.c
+@@ -824,8 +824,6 @@ static const struct resource_caps res_cap_dcn31 = {
  
--void dm_disable_vblank(struct drm_crtc *crtc)
-+void amdgpu_dm_crtc_disable_vblank(struct drm_crtc *crtc)
- {
- 	dm_set_vblank(crtc, false);
- }
-@@ -300,8 +300,8 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
- 	.verify_crc_source = amdgpu_dm_crtc_verify_crc_source,
- 	.get_crc_sources = amdgpu_dm_crtc_get_crc_sources,
- 	.get_vblank_counter = amdgpu_get_vblank_counter_kms,
--	.enable_vblank = dm_enable_vblank,
--	.disable_vblank = dm_disable_vblank,
-+	.enable_vblank = amdgpu_dm_crtc_enable_vblank,
-+	.disable_vblank = amdgpu_dm_crtc_disable_vblank,
- 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
- #if defined(CONFIG_DEBUG_FS)
- 	.late_register = amdgpu_dm_crtc_late_register,
-@@ -381,7 +381,7 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
- 	dm_update_crtc_active_planes(crtc, crtc_state);
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
- 	if (WARN_ON(unlikely(!dm_crtc_state->stream &&
--			modeset_required(crtc_state, NULL, dm_crtc_state->stream)))) {
-+			amdgpu_dm_crtc_modeset_required(crtc_state, NULL, dm_crtc_state->stream)))) {
- 		return ret;
- 	}
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+index 87f7669e81d7..100b6df33b33 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn32/dcn32_resource.c
+@@ -657,8 +657,6 @@ static const struct resource_caps res_cap_dcn32 = {
  
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h
-index 1ac8692354cf..17e948753f59 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h
-@@ -27,21 +27,21 @@
- #ifndef __AMDGPU_DM_CRTC_H__
- #define __AMDGPU_DM_CRTC_H__
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
--void dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc);
-+void amdgpu_dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc);
+ 	.pixel_format_support = {
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn321/dcn321_resource.c b/drivers/gpu/drm/amd/display/dc/dcn321/dcn321_resource.c
+index deaa4769be10..0f477d50e935 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn321/dcn321_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn321/dcn321_resource.c
+@@ -655,8 +655,6 @@ static const struct resource_caps res_cap_dcn321 = {
  
--bool modeset_required(struct drm_crtc_state *crtc_state,
-+bool amdgpu_dm_crtc_modeset_required(struct drm_crtc_state *crtc_state,
- 		      struct dc_stream_state *new_stream,
- 		      struct dc_stream_state *old_stream);
+ static const struct dc_plane_cap plane_cap = {
+ 	.type = DC_PLANE_TYPE_DCN_UNIVERSAL,
+-	.blends_with_above = true,
+-	.blends_with_below = true,
+ 	.per_pixel_alpha = true,
  
--int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable);
-+int amdgpu_dm_crtc_set_vupdate_irq(struct drm_crtc *crtc, bool enable);
- 
--bool amdgpu_dm_vrr_active_irq(struct amdgpu_crtc *acrtc);
-+bool amdgpu_dm_crtc_vrr_active_irq(struct amdgpu_crtc *acrtc);
- 
--bool amdgpu_dm_vrr_active(struct dm_crtc_state *dm_state);
-+bool amdgpu_dm_crtc_vrr_active(struct dm_crtc_state *dm_state);
- 
--int dm_enable_vblank(struct drm_crtc *crtc);
-+int amdgpu_dm_crtc_enable_vblank(struct drm_crtc *crtc);
- 
--void dm_disable_vblank(struct drm_crtc *crtc);
-+void amdgpu_dm_crtc_disable_vblank(struct drm_crtc *crtc);
- 
- int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
- 			struct drm_plane *plane,
+ 	.pixel_format_support = {
 -- 
 2.39.2
 
