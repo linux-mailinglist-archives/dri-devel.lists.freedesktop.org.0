@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7425D6AD33A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 01:20:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9783B6AD358
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 01:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC0D10E34F;
-	Tue,  7 Mar 2023 00:20:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6849E10E02A;
+	Tue,  7 Mar 2023 00:27:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799E510E286
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 00:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678148409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7+4tzxyqERGXd7AQ2o1b0aj9Gq2c77AeuI8QhLTg5i8=;
- b=Gucy5EU/48KSZY6P3z7x8WMddzm7ZY7BYDAEl8Y/mj+3zd/IpViPYu9CwodmXQEChdqL95
- Wp3nOAYlNXNH/Y6zSPwfcPan4cCtRvuhfZYJv4akxaGIEiFiMiV5YsQhUZPWxkl8a6Seq4
- ZZUn57DMEbOpgoMpXMWQlo+D9VZSVx0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-208-tL5ZCCs1ObOjWlrTzNl3cQ-1; Mon, 06 Mar 2023 19:20:08 -0500
-X-MC-Unique: tL5ZCCs1ObOjWlrTzNl3cQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- dw26-20020a05620a601a00b0074300c772c0so6448654qkb.11
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 16:20:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678148407;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3OO5g3ulKc98Lo7VM2vnzz9iptcrpwzftjrdFER2j9g=;
- b=MdHxTKYSNdw7bkYSuwrmN48a0yNr6zcdqbwZcLWD0+5sSOEanbsdgtTFmpySnYyytK
- ZUqsu3ld7B0uZEk+mY9H1aD7T83Ge1+pCnS49NszjIrgMjXOwrC8Aouw6CGDRs+xNQ5x
- RIcwfik0XqhdxaM1Qq5Sm754kMKnA05eNNQ6WX5bbPlsFQTc6Agj6TffEIfl6tF2CvQz
- XMRKksme9lp4He0XkNKevulXRAcDdiTrPXYjO/SzDTiVGDKv6Q4kDKF1xuiw7IPPIn2H
- bj43eMn2q/xvdU+ZA42Mh/opx0gh7zeMujPPxcscrg8YtqZ1HvrPa1YfGPVCC3umQgwA
- sxQg==
-X-Gm-Message-State: AO0yUKUF6Q0xMcGROIGDd+k9JXyW44TA+jo2axHUtXmyMMi57cTuGz5A
- ZQjqIyMp1l2/GR4bS60KrXR7HqQbh8gWgeVPoFNhXtr+/HGIN+/jqYTSbi+hpgxRB0HaG7Q5jSh
- qY3nhGHO8pK5IjAKRBROPu80g/WRK
-X-Received: by 2002:ac8:5e0c:0:b0:3bf:b1d6:359e with SMTP id
- h12-20020ac85e0c000000b003bfb1d6359emr17210010qtx.7.1678148407651; 
- Mon, 06 Mar 2023 16:20:07 -0800 (PST)
-X-Google-Smtp-Source: AK7set9G99b4/F24c6ODRtdenQOBsR+rNyjSK/ievkE2R8v6jyZs5TelbiEvYAAjwLxnvAJSnVjzCA==
-X-Received: by 2002:ac8:5e0c:0:b0:3bf:b1d6:359e with SMTP id
- h12-20020ac85e0c000000b003bfb1d6359emr17209989qtx.7.1678148407373; 
- Mon, 06 Mar 2023 16:20:07 -0800 (PST)
-Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
- by smtp.gmail.com with ESMTPSA id
- n132-20020a37408a000000b007425dade624sm8526056qka.41.2023.03.06.16.20.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Mar 2023 16:20:06 -0800 (PST)
-Message-ID: <cf9f2bba28420dd19e14f449f4049ed23cfc41a2.camel@redhat.com>
-Subject: Re: [PATCH RESEND] drm/nouveau/hwmon: Use sysfs_emit in show
- function callsbacks
-From: Lyude Paul <lyude@redhat.com>
-To: Deepak R Varma <drv@mailo.com>, Ben Skeggs <bskeggs@redhat.com>, Karol
- Herbst <kherbst@redhat.com>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>,  dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Date: Mon, 06 Mar 2023 19:20:05 -0500
-In-Reply-To: <Y/+pDaHOgG1x8Py2@ubun2204.myguest.virtualbox.org>
-References: <Y/+pDaHOgG1x8Py2@ubun2204.myguest.virtualbox.org>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B45CB10E02A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 00:27:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678148866; x=1709684866;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qU7r/0l12H9VC3ijVZNrTHRPP+flag7/E09IYJm8+eY=;
+ b=Z3m+YfWWgQmfoQPBGZ6CwBRD5lPnKp/7+Nv7S2rZGAwCo3HQf3niiVU1
+ FrPJ+hKyv9zgyLgbRRTSlJ0vTKEUT8yMkIvToLrHADv38ldX+7O9l5yW9
+ hIFUuRm7NxwuB3WApm6xdvZoWxQX/UvC7R9yFkmWIoFJpgZZlfMgO2maQ
+ f1QZlpLVExxa5n8sCxv3JSxQzg31Af5dwYAuavlhixmD1EQtleQX1Hnn3
+ DH2ajgGOKnisnvtNt1zhjv322GoX8BKaaFu1jZYRk7NmY3BhPg7aHOUnk
+ GW9ax7aikDv/1kF/i0Fu9Xyg0ZZKPSOCH/cMKsoZpWllrzaPjHLOsk1nZ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="319548321"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="319548321"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Mar 2023 16:27:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="706619626"
+X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="706619626"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga008.jf.intel.com with ESMTP; 06 Mar 2023 16:27:41 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pZLB6-0000lb-0A;
+ Tue, 07 Mar 2023 00:27:40 +0000
+Date: Tue, 7 Mar 2023 08:26:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+ paulus@samba.org, benh@kernel.crashing.org, linux@armlinux.org.uk,
+ pjones@redhat.com, timur@kernel.org, adaplas@gmail.com,
+ s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
+ thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
+ spock@gentoo.org, sudipm.mukherjee@gmail.com,
+ teddy.wang@siliconmotion.com, geert+renesas@glider.be, corbet@lwn.net
+Subject: Re: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
+Message-ID: <202303070859.8Y5URjpT-lkp@intel.com>
+References: <20230306160016.4459-98-tzimmermann@suse.de>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230306160016.4459-98-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,72 +65,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Praveen Kumar <kumarpraveen@linux.microsoft.com>,
- Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Hi Thomas,
 
-Will push upstream in a moment
+I love your patch! Yet something to improve:
 
-On Thu, 2023-03-02 at 01:05 +0530, Deepak R Varma wrote:
-> According to Documentation/filesystems/sysfs.rst, the show() callback
-> function of kobject attributes should strictly use sysfs_emit() instead
-> of sprintf() family functions. So, make this change.
-> Issue identified using the coccinelle device_attr_show.cocci script.
->=20
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
-> Note:
->    Resending the patch for review and feedback. No functional changes.
->=20
->=20
->  drivers/gpu/drm/nouveau/nouveau_hwmon.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_hwmon.c b/drivers/gpu/drm/no=
-uveau/nouveau_hwmon.c
-> index a7db7c31064b..e844be49e11e 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_hwmon.c
-> @@ -41,7 +41,7 @@ static ssize_t
->  nouveau_hwmon_show_temp1_auto_point1_pwm(struct device *d,
->  =09=09=09=09=09 struct device_attribute *a, char *buf)
->  {
-> -=09return snprintf(buf, PAGE_SIZE, "%d\n", 100);
-> +=09return sysfs_emit(buf, "%d\n", 100);
->  }
->  static SENSOR_DEVICE_ATTR(temp1_auto_point1_pwm, 0444,
->  =09=09=09  nouveau_hwmon_show_temp1_auto_point1_pwm, NULL, 0);
-> @@ -54,8 +54,8 @@ nouveau_hwmon_temp1_auto_point1_temp(struct device *d,
->  =09struct nouveau_drm *drm =3D nouveau_drm(dev);
->  =09struct nvkm_therm *therm =3D nvxx_therm(&drm->client.device);
-> =20
-> -=09return snprintf(buf, PAGE_SIZE, "%d\n",
-> -=09      therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST) * 1000);
-> +=09return sysfs_emit(buf, "%d\n",
-> +=09=09=09  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST) * 1000=
-);
->  }
->  static ssize_t
->  nouveau_hwmon_set_temp1_auto_point1_temp(struct device *d,
-> @@ -87,8 +87,8 @@ nouveau_hwmon_temp1_auto_point1_temp_hyst(struct device=
- *d,
->  =09struct nouveau_drm *drm =3D nouveau_drm(dev);
->  =09struct nvkm_therm *therm =3D nvxx_therm(&drm->client.device);
-> =20
-> -=09return snprintf(buf, PAGE_SIZE, "%d\n",
-> -=09 therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST_HYST) * 1000);
-> +=09return sysfs_emit(buf, "%d\n",
-> +=09=09=09  therm->attr_get(therm, NVKM_THERM_ATTR_THRS_FAN_BOOST_HYST) *=
- 1000);
->  }
->  static ssize_t
->  nouveau_hwmon_set_temp1_auto_point1_temp_hyst(struct device *d,
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to deller-parisc/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.3-rc1 next-20230306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230306160016.4459-98-tzimmermann%40suse.de
+patch subject: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
+config: x86_64-randconfig-a016-20230306 (https://download.01.org/0day-ci/archive/20230307/202303070859.8Y5URjpT-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/819a7fd9e1404efc4f2140bcb4c7e39643b7e4ab
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
+        git checkout 819a7fd9e1404efc4f2140bcb4c7e39643b7e4ab
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303070859.8Y5URjpT-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/video/fbdev/vt8623fb.c:938:4: error: 'break' statement not in loop or switch statement
+                           break;
+                           ^
+   drivers/video/fbdev/vt8623fb.c:940:4: error: 'break' statement not in loop or switch statement
+                           break;
+                           ^
+   2 errors generated.
+
+
+vim +/break +938 drivers/video/fbdev/vt8623fb.c
+
+   924	
+   925		if (fb_modesetting_disabled("vt8623fb"))
+   926			return -ENODEV;
+   927	
+   928	#ifndef MODULE
+   929		if (fb_get_options("vt8623fb", &option))
+   930			return -ENODEV;
+   931	
+   932		if (option && *option) {
+   933			static char mode_option_buf[256];
+   934			int ret;
+   935	
+   936			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", option);
+   937			if (WARN(ret < 0, "vt8623fb: ignoring invalid option, ret=%d\n", ret))
+ > 938				break;
+   939			if (WARN(ret >= sizeof(mode_option_buf), "vt8623fb: option too long\n"))
+   940				break;
+   941			mode_option = mode_option_buf;
+   942		}
+   943	#endif
+   944	
+   945		pr_debug("vt8623fb: initializing\n");
+   946		return pci_register_driver(&vt8623fb_pci_driver);
+   947	}
+   948	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
