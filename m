@@ -1,58 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9783B6AD358
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 01:27:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2EF6AD411
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 02:34:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6849E10E02A;
-	Tue,  7 Mar 2023 00:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0235410E04A;
+	Tue,  7 Mar 2023 01:34:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B45CB10E02A
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 00:27:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678148866; x=1709684866;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qU7r/0l12H9VC3ijVZNrTHRPP+flag7/E09IYJm8+eY=;
- b=Z3m+YfWWgQmfoQPBGZ6CwBRD5lPnKp/7+Nv7S2rZGAwCo3HQf3niiVU1
- FrPJ+hKyv9zgyLgbRRTSlJ0vTKEUT8yMkIvToLrHADv38ldX+7O9l5yW9
- hIFUuRm7NxwuB3WApm6xdvZoWxQX/UvC7R9yFkmWIoFJpgZZlfMgO2maQ
- f1QZlpLVExxa5n8sCxv3JSxQzg31Af5dwYAuavlhixmD1EQtleQX1Hnn3
- DH2ajgGOKnisnvtNt1zhjv322GoX8BKaaFu1jZYRk7NmY3BhPg7aHOUnk
- GW9ax7aikDv/1kF/i0Fu9Xyg0ZZKPSOCH/cMKsoZpWllrzaPjHLOsk1nZ g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="319548321"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="319548321"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Mar 2023 16:27:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10641"; a="706619626"
-X-IronPort-AV: E=Sophos;i="5.98,238,1673942400"; d="scan'208";a="706619626"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 06 Mar 2023 16:27:41 -0800
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pZLB6-0000lb-0A;
- Tue, 07 Mar 2023 00:27:40 +0000
-Date: Tue, 7 Mar 2023 08:26:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
- paulus@samba.org, benh@kernel.crashing.org, linux@armlinux.org.uk,
- pjones@redhat.com, timur@kernel.org, adaplas@gmail.com,
- s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
- thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
- spock@gentoo.org, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com, geert+renesas@glider.be, corbet@lwn.net
-Subject: Re: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
-Message-ID: <202303070859.8Y5URjpT-lkp@intel.com>
-References: <20230306160016.4459-98-tzimmermann@suse.de>
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 905A110E04A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 01:34:33 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id y11so12576276plg.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 17:34:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678152873;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yPR0+brHjZoqQtZO+fXmGA/3VIbn0at5kpY2oa01Goo=;
+ b=ZzsOiUFkovXfrLu5+zCbuz3k1Ge5qq+m+5pDUzByYC2TKkw+946Cpg7VUHNFzzFCW4
+ yHt95jMqISaIokc0ppTUE/t0FXgfqKRyQ94A/+LHmRx8XlerrmWla8SuZJ2XyM+MIldK
+ gRIXSCpRaTifRtJ6NKGd8UsucLf3Ra22NrH/w+2twUvQKn0xAdn1qHswmSNG+V3qRddn
+ Gsoners++l25PmZSTVi0TMIefTGZ3FbE2hK63Q3h/q96slMOSNPNPXbBzhiLyD9cMycC
+ lEQAH4JS8CRL+p5vCo4WZmA0HluEFGv5qenlYs0PH+mZHnTmp8G0lTFJwH78GorWy889
+ D0fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678152873;
+ h=content-transfer-encoding:content-language:cc:to:subject:from
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=yPR0+brHjZoqQtZO+fXmGA/3VIbn0at5kpY2oa01Goo=;
+ b=atBKm2R92Om2QJ6u1kAHOWVMWdSgA4/yw17+cKiHGEIjwVUpXXwHLVJ0yOa5GSgau1
+ LWgzALIlFdvoQLzrN6BnNH/6Sd7EP+2Di8WaFLBGsRdHRhyNLiw+yLeyWFrvFyM1lzH0
+ 2e/aAz5/QpUnpt0owcbk7K9ARaDcB+O9nQJVBQ7avPVfJy7xuVsoghp6KtKdSeGAQeCC
+ Hm5OoMrEuqUYyStX5n2Y9Q7JxbRp9j/q4hKZXUdVEmnMFhtceEFafpuqTPXof5dNwKxl
+ cDeB5lmG5TSUjnaObUqIrQqnzWyUS1nmudS/VKKBtc8BKQYz/gILFh3792RLM6k2gfdy
+ sxPg==
+X-Gm-Message-State: AO0yUKXnAl8/i6l9WkAuHjEHb4KRqZEzhurhD8jvfB0VE/smG5Nx+EEo
+ HIkXrkblgEd9p9vrKM9eDk0=
+X-Google-Smtp-Source: AK7set92/wJgWVlIwq7R7wJzs2hbh3DXTEytPcsRWrIHoz7OU7jfRBYhvxaXN1Km/tbBQCoC1oZUDQ==
+X-Received: by 2002:a05:6a20:918a:b0:cd:9664:3d5a with SMTP id
+ v10-20020a056a20918a00b000cd96643d5amr14598342pzd.22.1678152873019; 
+ Mon, 06 Mar 2023 17:34:33 -0800 (PST)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
+ [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
+ v25-20020aa78519000000b005d4e89b69e5sm6821422pfn.127.2023.03.06.17.34.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Mar 2023 17:34:32 -0800 (PST)
+Message-ID: <29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com>
+Date: Tue, 7 Mar 2023 10:34:28 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230306160016.4459-98-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2 1/2] media: Fix building pdfdocs
+To: linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,83 +75,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev
+Cc: Akira Yokosawa <akiyks@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-I love your patch! Yet something to improve:
+Commit 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats") added
+documentation for a few new RGB formats. The table has column-width
+specifiers for 34 columns used in pdfdocs build.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[cannot apply to deller-parisc/for-next staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.3-rc1 next-20230306]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+However, the new table has a couple of rows with 35 columns which
+confused Sphinx's latex builder. The resulting .tex file causes
+an error in a later stage of a pdfdocs build.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230306160016.4459-98-tzimmermann%40suse.de
-patch subject: [PATCH 97/99] fbdev/vt8623fb: Duplicate video-mode option string
-config: x86_64-randconfig-a016-20230306 (https://download.01.org/0day-ci/archive/20230307/202303070859.8Y5URjpT-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/819a7fd9e1404efc4f2140bcb4c7e39643b7e4ab
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/lib-Add-option-iterator/20230307-000524
-        git checkout 819a7fd9e1404efc4f2140bcb4c7e39643b7e4ab
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Remove the trailing empty dash lines to fix the issue.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303070859.8Y5URjpT-lkp@intel.com/
+Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
+Link: https://lore.kernel.org/r/12250823-8445-5854-dfb8-b92c0ff0851e@gmail.com/
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Tested-by: Akira Yokosawa <akiyks@gmail.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+  [akiyks: explain the cause of build error]
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+Hi all,
 
-All errors (new ones prefixed by >>):
+Now that this fix missed v6.3-rc1, I went forward and amended the
+Changelog to explain what was wrong in the offending commit.
+I see that docs-next is ready for fixes to v6.3-rc1, but when the -media
+tree gets ready, this can be picked by Mauro.
+Either route is fine by me.
+I'd really like to have this issue fixed sooner rather than later.
 
->> drivers/video/fbdev/vt8623fb.c:938:4: error: 'break' statement not in loop or switch statement
-                           break;
-                           ^
-   drivers/video/fbdev/vt8623fb.c:940:4: error: 'break' statement not in loop or switch statement
-                           break;
-                           ^
-   2 errors generated.
+As a follow-up, patch 2/2 adjusts the column width specifiers.
 
+        Thanks, Akira
+--
+v2: Changelog: explain the root cause,
+    rebased on v6.3-rc1,
+    picked tags from v1 thread.
+v1: https://lore.kernel.org/r/20230208082916.68377-1-tomi.valkeinen@ideasonboard.com/
 
-vim +/break +938 drivers/video/fbdev/vt8623fb.c
+Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-   924	
-   925		if (fb_modesetting_disabled("vt8623fb"))
-   926			return -ENODEV;
-   927	
-   928	#ifndef MODULE
-   929		if (fb_get_options("vt8623fb", &option))
-   930			return -ENODEV;
-   931	
-   932		if (option && *option) {
-   933			static char mode_option_buf[256];
-   934			int ret;
-   935	
-   936			ret = snprintf(mode_option_buf, sizeof(mode_option_buf), "%s", option);
-   937			if (WARN(ret < 0, "vt8623fb: ignoring invalid option, ret=%d\n", ret))
- > 938				break;
-   939			if (WARN(ret >= sizeof(mode_option_buf), "vt8623fb: option too long\n"))
-   940				break;
-   941			mode_option = mode_option_buf;
-   942		}
-   943	#endif
-   944	
-   945		pr_debug("vt8623fb: initializing\n");
-   946		return pci_register_driver(&vt8623fb_pci_driver);
-   947	}
-   948	
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+index d330aeb4d3eb..ea545ed1aeaa 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+@@ -868,7 +868,6 @@ number of bits for each component.
+       - r\ :sub:`4`
+       - r\ :sub:`3`
+       - r\ :sub:`2`
+-      -
+     * .. _V4L2-PIX-FMT-RGBA1010102:
+ 
+       - ``V4L2_PIX_FMT_RGBA1010102``
+@@ -909,7 +908,6 @@ number of bits for each component.
+       - r\ :sub:`4`
+       - r\ :sub:`3`
+       - r\ :sub:`2`
+-      -
+     * .. _V4L2-PIX-FMT-ARGB2101010:
+ 
+       - ``V4L2_PIX_FMT_ARGB2101010``
+@@ -950,7 +948,6 @@ number of bits for each component.
+       - r\ :sub:`6`
+       - r\ :sub:`5`
+       - r\ :sub:`4`
+-      -
+ 
+ .. raw:: latex
+ 
 
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.25.1
+
