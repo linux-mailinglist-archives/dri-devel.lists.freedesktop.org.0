@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBF66AF880
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 23:22:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2433F6AF8EB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 23:35:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1A9010E14B;
-	Tue,  7 Mar 2023 22:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128C110E552;
+	Tue,  7 Mar 2023 22:35:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80B5810E14B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:22:47 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id t39so12947165ybi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 14:22:47 -0800 (PST)
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8820910E552
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:35:07 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id t4so12941908ybg.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 14:35:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678227766;
+ d=linaro.org; s=google; t=1678228506;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5YjSGVFL23aGYtOKm1Ftz/b64+tciORVkVlETDnLgUk=;
- b=D2t4vF6DzPY+77yDIu1t4LFweWOShObHecQg5NqGy/oZK9AjKf5QnwOAFUwW2JwrY+
- vo2Ko3K76Hufbxsgketu/Kq7FNcZwnlOIgaF8CahifqfRieoDIA68MGTO/Nqua8tBp9o
- sa8B540PwXujUNNmfJ2jXarBM0DGPOOEQ3M24Opk+JJCqaza+atah7OXtgMVIFD49esI
- ARhh+ixJG6ViSTC+YegTevzvt35O5lZj9CVx5b3JLS3NMLsZxahY5NZmThxCFv53KokQ
- vWK+kPd40Cg7PJ//fEwHLYiMVoo5EUvsbysXQnchoSHa+i8LrZHgIIU6pe26OiY5IWio
- W/qw==
+ bh=Yyb0rhnuV7oh3CLMKShl+J+wi5X4qG87kgpZAdrNvLo=;
+ b=j2eJjWOeqSZqBlt1Ya6O396ehMlnu7bun7PacqdauNEkRClrB8l8duBGCZVtvxoS+N
+ RpjWcYF+kLNzDgxJiKJH7/eQWNNMu5Vh3/AyEuy+++8brALwbb1CfyaXBvFZuPuDv/46
+ e7+wyKEt41FixpsMi/mmgIACA2+6+MNGOfGRpBzHOw2DT2Ln98zlicoDcfiHFjxgnhGV
+ 0P+kxVAvbAVCjRaiKILKxjcQHTzFKgb+OIKfWKyCwN8BMUWIoyPUA7NLEM03KmA+VxnO
+ fo47X0aDdRhCRXOv4KCWvSCqWHyMubIrLBjt0T0IvaMMmMlIiL4QmpeWKpeUFImkc6o+
+ OR4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678227766;
+ d=1e100.net; s=20210112; t=1678228506;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5YjSGVFL23aGYtOKm1Ftz/b64+tciORVkVlETDnLgUk=;
- b=Vta9soR4dDEzJGIlFb1OGclvli2UBmwXZ98qHwV906nzPuguWwVsrb+KkELVK4/mYp
- hzrnEAaDo1P3+VNzEfj60xsmmwXWxOP0ycCtkExtwkzbNMCy8DOcD0GfCcBcCyvoZXP1
- uFPIiyJB8aivo+K0P3x6ia6gvgyRg6TiHbB24fK4M0APMcYKpmgpaLppgwykk/woWJ9+
- +KEAxSHrPLtLDqlHe7NpWTjx3rua6nPfYMnKj4D/68GAbKESAu+D5uJakDoc2cotewxl
- GSaWDyDdkHjIUWYx/enZPTAfm+dBe1KaSA6HNhsWJQZSaSbFIxMLojZ6ZXLLVOgH1WtS
- AIJg==
-X-Gm-Message-State: AO0yUKVr18Gv7NFkSA2HxLNvjKj0Q3H62jFtDTwhpMiNc1MnObURc+08
- JuPSdZjv0ZMeDMt2HJCQmJrJzIA1cRbvcxEFYJtUAA==
-X-Google-Smtp-Source: AK7set9r2P3aZtqkFd8o65fo0pR9pujvbwTr8Q0ckC+reGxZ6RbMx9OnXFP41k7NDPtIp8qWJODCk28Yw6NompBM0ek=
+ bh=Yyb0rhnuV7oh3CLMKShl+J+wi5X4qG87kgpZAdrNvLo=;
+ b=V+Dvcymc2bAF0HqnTJTtY4cnp9M2g0TsoCHEcwCfLRVxeSLFZ/w3bYvLiUxnohjCUN
+ F+GvyKA6Zi7kgkf08Nv+zD/YxwhayI5b1Sx3VCWG25V7j5mH+r5b6EwlwK1Tr33Ev7Bb
+ DshrfYGMVsz3YtHq7lU4QbpLpK8P+PPB4kltjuKDFnX9RC2/WsdpqfMNXZZBBAWHoyC3
+ FqPj4AyM8FNAgIze4z5+nLUcD+0rJUIIzCpn29OzIVkVVVBdNgPWnTYDfR22QGlccu2a
+ MT5mo/wGtHa8eUtv6CDMlSn1w0m8iv7v2gULFlXN95H5DwNFKK91FTKcPg+zzui5GCiF
+ 1Reg==
+X-Gm-Message-State: AO0yUKUAiIbMNHKYeskS4ha4za9Blv35qctijdLApa0i/u3PzpjObzIj
+ sY8mlwkecqC0tZGNhRPgsDQHxueWjALXiXZvwUr9iA==
+X-Google-Smtp-Source: AK7set+qjWLKdRokY0PE/Ly5XTIkGJNsmaouJx7H7eHeFmFlb5PHA7OryQsrT4nZo7WdvCLp9Fsxze+058KE7Clp5w4=
 X-Received: by 2002:a05:6902:c3:b0:9f1:6c48:f95f with SMTP id
- i3-20020a05690200c300b009f16c48f95fmr7759792ybs.5.1678227766488; Tue, 07 Mar
- 2023 14:22:46 -0800 (PST)
+ i3-20020a05690200c300b009f16c48f95fmr7774360ybs.5.1678228506476; Tue, 07 Mar
+ 2023 14:35:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20230220121258.10727-1-lujianhua000@gmail.com>
-In-Reply-To: <20230220121258.10727-1-lujianhua000@gmail.com>
+ <20230220121258.10727-2-lujianhua000@gmail.com>
+In-Reply-To: <20230220121258.10727-2-lujianhua000@gmail.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 7 Mar 2023 23:22:35 +0100
-Message-ID: <CACRpkdZ=6bU2gPv4zVzMBFaCgEY+fkRbrnLAB6NGOhWus1gwaA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: Add Novatek NT36523
- bindings
+Date: Tue, 7 Mar 2023 23:34:55 +0100
+Message-ID: <CACRpkdbZCZiMM_qeqMd9=txVvPVHEzM4szOnPR-gCYdiXW_9eA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/panel: Add driver for Novatek NT36523
 To: Jianhua Lu <lujianhua000@gmail.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
+ Konrad Dybcio <konrad.dybcio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,32 +77,71 @@ Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jianhua,
+
+thanks for your patch!
+
+It appears Konrad is working on a very similar driver, so I suggest merging
+them into one Novatek NT36523 driver.
+
+Possibly we can fix this up first and then add Konrads Lenovo-panel with
+a patch on top.
+
 On Mon, Feb 20, 2023 at 1:13=E2=80=AFPM Jianhua Lu <lujianhua000@gmail.com>=
  wrote:
 
-> Novatek NT36523 is a display driver IC used to drive DSI panels.
+> Add a driver for panels using the Novatek NT36523 display driver IC.
 >
 > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> ---
-> Changes in v2:
->   - Drop unnecessary description
->   - dsi0 -> dsi
->   - Correct indentation
 
-I'd like Konrad and Neil to look at this before we merge it.
+(...)
 
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vddio-supply
-> +  - vddpos-supply
-> +  - vddneg-supply
+I like how you abstract the panel with init commands in the panel info.
 
-It appears vddpos and vddneg are not necessary on
-all variants, can they be made non-required?
+> +enum dsi_cmd_type {
+> +       INIT_DCS_CMD,
+> +       DELAY_CMD,
+> +};
+> +
+> +struct panel_init_cmd {
+> +       enum dsi_cmd_type type;
+> +       size_t len;
+> +       const char *data;
+> +};
+> +
+> +#define _INIT_DCS_CMD(...) { \
+> +       .type =3D INIT_DCS_CMD, \
+> +       .len =3D sizeof((char[]){__VA_ARGS__}), \
+> +       .data =3D (char[]){__VA_ARGS__} }
+> +
+> +#define _INIT_DELAY_CMD(...) { \
+> +       .type =3D DELAY_CMD,\
+> +       .len =3D sizeof((char[]){__VA_ARGS__}), \
+> +       .data =3D (char[]){__VA_ARGS__} }
 
-It is also possible to do some - if -construction of course
-based on the compatible, if we want to be fancy.
+I have seen this type of reinvented wheels a few times now. Don't do this.
+
+Look into other recently merged drivers and look how they do it, for exampl=
+e
+drivers/gpu/drm/panel/panel-himax-hx8394.c
+
+For example:
+
+- Use mipi_dsi_dcs_write_seq()
+
+- If the delay is just used at one point in the sequence, do not invent
+  a command language like above for it, open code the delay instead
+
+- Try to decode as much magic as possible, if you look in Konrads
+  driver you clearly see some standard MIPI commands, I bet you have
+  some too.
+
+- Maybe use callbacks to send sequences instead of tables, like in
+  the himax driver?
+
+Other than that it seems like something that could also handle the Lenovo
+display, or the other way around, I don't know which driver is the best
+starting point, but this one has the right Novatek name at least.
 
 Yours,
 Linus Walleij
