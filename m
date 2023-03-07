@@ -1,63 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36F36AF510
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 20:21:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 360B16AF5C5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 20:35:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3820010E543;
-	Tue,  7 Mar 2023 19:21:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86C6810E142;
+	Tue,  7 Mar 2023 19:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E6A10E273;
- Tue,  7 Mar 2023 19:21:47 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-176b48a9a05so8766268fac.0; 
- Tue, 07 Mar 2023 11:21:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678216907;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zhRiVT/qBtmkjy7WxqhkqSdjANQulevS1fkYVnIeB8I=;
- b=Od1ozCy+5nFpaAn16UDS5EgVldYYsLMTpa5G8VLkLZclgAPeP8UfHk2L0ntM8oJAN8
- h4KAv2HFOE2i2y5BSReAp9mO2KOun1n4OT/or29Dx92Og088SGbykzTjyDGlfgxin4E9
- kb40QGVp01EPScKCduxS58CqLUM4Gtnzmr/RY2ADMv2uQLVggPgL5H1eQtGssPEyL1KF
- G3jDosjwHNKBFiBsn4FdCppC9Bx/nKdWzmbroCQFy0kfJQkA3m4ba3cIxZzzskpYivXD
- X4IOXkyIqvMS0Mga5d1qXhOVDerHeY7w+Lo4EyKIrhgHSJ4o1kN+LNkMYIySgJG5n2kg
- u3mg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D3310E142
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 19:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678217718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KYmc83GBs2GOcntamM7m0RX9zUZjNNeykOZSju7+M+k=;
+ b=SmmRW+1aKtTRub5R1du4wLsUmnyZsV6Wf1GmjMxQV9mRd+ugLXkleNZ9gq++n9/Sf5R3h9
+ MwTs7VAZ0HYUrNmj6WqOscvFwK/AagfMNfX+GzfGhBZZko4edWzCNdWIatxnI5C5v9mt/y
+ ckZe/SZC9Oy+CH+w3TfRvjIb+10yGHw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-675-PSCkgv_1M9ef-NsUT6uWJQ-1; Tue, 07 Mar 2023 14:35:17 -0500
+X-MC-Unique: PSCkgv_1M9ef-NsUT6uWJQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l31-20020a05600c1d1f00b003e8626cdd42so5166036wms.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 11:35:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678216907;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zhRiVT/qBtmkjy7WxqhkqSdjANQulevS1fkYVnIeB8I=;
- b=Motkk0StpTO/TobtAZ7pKYbqit1R/kz2bkTujHN/cLirmYNBwZFt2dFdcbyPvDotV0
- XYu5TTB13u0ZcakqSPASVXqTAciupiYdlCtT7Pilz2+KiI/hKJB927X/c21wvN2jlBiM
- 7TMRSrByLEQyt8tCKSEqOocoRlGAt8bb5i5hANMjCnNmTut9r1QQSWA4Rfq4Pct50TYR
- OJsdF3rWB/voOfo9hJsShWMtS8/xnKY4iDEaj7llKyT9AKHWzHCZkmSHuG8Tzv4XrYsC
- L2jN0MLLcfHBAUlMBYVPNAUFYjgtcIJKUi0CDr79qWqBEK87Qqil5737p6KCnY4qthBI
- p9Lw==
-X-Gm-Message-State: AO0yUKUJYLPYtHnYHA88k+2m/DJDOkZp7lQO/+4QAdwt9SFVQYgQuFBz
- RB8PJepZfrzU5BNWj7GIb6LjdEBvgve3wX/Iepc=
-X-Google-Smtp-Source: AK7set/z3NJWfYPgz3oGl/RPEjJKQCI8IMnZlfRg60l9fl5OgNDCuxjK5GrQrqP6rkl81nleyRQqyvXI5sxEKvhuZaI=
-X-Received: by 2002:a05:6870:d346:b0:172:426c:8304 with SMTP id
- h6-20020a056870d34600b00172426c8304mr4153366oag.3.1678216907057; Tue, 07 Mar
- 2023 11:21:47 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678217716;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KYmc83GBs2GOcntamM7m0RX9zUZjNNeykOZSju7+M+k=;
+ b=vk3bVo04+cbD3il/08D38Dxid2Y5ADcTSG0yRDj6umXnclTgYXuQQ+WqkubsSEFkYR
+ td0uoBtWkntum8kLcN57IGXTKpoqHnhto/MszUAxGK1M5cq/BrwBshBhwVssMT+Temwp
+ tkdkZLCVEiwx+8hELdUgQsgqeIIYdJ/6ZdpOwR2w/dJ/Ll2AjKumfmtWAfaY7R2GOVfl
+ NH7RT4PuFPCTSqX6FQ8w+aAFQy8p0kavf7XVi1+NOUQx9nNDM54bcwCshCeU6yf0m7fR
+ 1xrTu9y3pOUQqtoQQ8ANBrDDTyS3jjEliFxWSJ2qT0yy0puHy/23d7EcjqVGsQUQFjrs
+ a1yA==
+X-Gm-Message-State: AO0yUKWCeZp9jj9MYcLtXuL859Or2p8GOzQhD6OsdhqTnBkKuZeMs8qo
+ /Gts2iwt3iIg9w7YjLTCTytChYeTEzv7neiiAE8Y+zzH4P/wlgjJhWGq5KShLOupH+c8wys3dBQ
+ g9GGegUqA5dwTQiygkJ7Njgfw76zx
+X-Received: by 2002:a05:600c:468b:b0:3df:fcbd:3159 with SMTP id
+ p11-20020a05600c468b00b003dffcbd3159mr10930177wmo.3.1678217716325; 
+ Tue, 07 Mar 2023 11:35:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set9EF/utzGu8fX4TGyh6OXkCzZGiyskAxyksONYkz/GnN0X7MyJNW1dFFpEng/Xh1ROJ6z3ctw==
+X-Received: by 2002:a05:600c:468b:b0:3df:fcbd:3159 with SMTP id
+ p11-20020a05600c468b00b003dffcbd3159mr10930163wmo.3.1678217716056; 
+ Tue, 07 Mar 2023 11:35:16 -0800 (PST)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ b5-20020a05600c150500b003e91b9a92c9sm13617137wmg.24.2023.03.07.11.35.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 11:35:15 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/format-helper: Make conversion_buf_size() support
+ sub-byte pixel fmts
+Date: Tue,  7 Mar 2023 20:34:57 +0100
+Message-Id: <20230307193457.331360-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230307174627.23787-1-rdunlap@infradead.org>
- <CAOMZO5DDH=9MMbJX3O8yU7RQjudeC-oXhoT-nu91p1arqHcBGg@mail.gmail.com>
-In-Reply-To: <CAOMZO5DDH=9MMbJX3O8yU7RQjudeC-oXhoT-nu91p1arqHcBGg@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 7 Mar 2023 11:21:35 -0800
-Message-ID: <CAF6AEGtgMtRbP9OLh4P+2xL4SnyhP5ROgg2Yt=ZcoAY_+=S7rg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm: fix PM_DEVFREQ kconfig dependency
- warning
-To: Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +81,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, kernel test robot <lkp@intel.com>,
- Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Maxime Ripard <maxime@cerno.tech>, David Gow <davidgow@google.com>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 7, 2023 at 10:48=E2=80=AFAM Fabio Estevam <festevam@gmail.com> =
-wrote:
->
-> On Tue, Mar 7, 2023 at 2:46=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
-g> wrote:
-> >
-> > Since DEVFREQ_GOV_SIMPLE_ONDEMAND depends on PM_DEVFREQ, the latter
-> > should either be selected or DRM_MSM should depend on PM_DEVFREQ.
-> > Since most drivers select PM_DEVFREQ instead of depending on it,
-> > add a select here to satisfy kconfig.
-> >
-> > WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDE=
-MAND
-> >   Depends on [n]: PM_DEVFREQ [=3Dn]
-> >   Selected by [y]:
-> >   - DRM_MSM [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy] && (ARCH_QCOM || S=
-OC_IMX5 || COMPILE_TEST [=3Dy]) && COMMON_CLK [=3Dy] && IOMMU_SUPPORT [=3Dy=
-] && (QCOM_OCMEM [=3Dn] || QCOM_OCMEM [=3Dn]=3Dn) && (QCOM_LLCC [=3Dn] || Q=
-COM_LLCC [=3Dn]=3Dn) && (QCOM_COMMAND_DB [=3Dy] || QCOM_COMMAND_DB [=3Dy]=
-=3Dn)
-> >
-> > Fixes: 6563f60f14cb ("drm/msm/gpu: Add devfreq tuning debugfs")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Link: lore.kernel.org/r/202303071922.wJqDWQpe-lkp@intel.com
-> > Cc: Rob Clark <robdclark@chromium.org>
-> > Cc: Paul Gazzillo <paul@pgazz.com>
-> > Cc: Necip Fazil Yildiran <fazilyildiran@gmail.com>
-> > Cc: Chia-I Wu <olvaffe@gmail.com>
-> > Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: linux-arm-msm@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: freedreno@lists.freedesktop.org
->
-> This fixes the warning after running 'make imx_v6_v7_defconfig', thanks:
->
-> Tested-by: Fabio Estevam <festevam@gmail.com>
+There are DRM fourcc formats that have pixels smaller than a byte, but the
+conversion_buf_size() function assumes that pixels are a multiple of bytes
+and use the struct drm_format_info .cpp field to calculate the dst_pitch.
 
-https://patchwork.freedesktop.org/patch/523353 is the fix we actually
-want.. I thought I'd already pulled that into msm-fixes but it seems
-like it got lost somewhere.. I'll rectify that
+Instead, calculate it by using the bits per pixel (bpp) and char per pixel
+(cpp) to account for formats that have sub-byte pixels.
 
-BR,
--R
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+Tested by making sure that the following command still succeeds:
+
+./tools/testing/kunit/kunit.py run \
+--kunitconfig=drivers/gpu/drm/tests/.kunitconfig
+
+ drivers/gpu/drm/tests/drm_format_helper_test.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+index 9536829c6e3a..f200347a1db7 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -409,12 +409,16 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
+ 				  const struct drm_rect *clip)
+ {
+ 	const struct drm_format_info *dst_fi = drm_format_info(dst_format);
++	unsigned int bpp, cpp;
+ 
+ 	if (!dst_fi)
+ 		return -EINVAL;
+ 
+-	if (!dst_pitch)
+-		dst_pitch = drm_rect_width(clip) * dst_fi->cpp[0];
++	if (!dst_pitch) {
++		bpp = drm_format_info_bpp(dst_fi, 0);
++		cpp = DIV_ROUND_UP(bpp, 8);
++		dst_pitch = DIV_ROUND_UP(drm_rect_width(clip) * bpp, 8);
++	}
+ 
+ 	return dst_pitch * drm_rect_height(clip);
+ }
+-- 
+2.39.2
+
