@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915486ADBE0
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:28:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0220E6ADBE2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 11:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C476010E402;
-	Tue,  7 Mar 2023 10:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FB0410E3F8;
+	Tue,  7 Mar 2023 10:28:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com
- [IPv6:2607:f8b0:4864:20::92a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A6FF10E402
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 10:28:02 +0000 (UTC)
-Received: by mail-ua1-x92a.google.com with SMTP id bx14so8529368uab.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 02:28:02 -0800 (PST)
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com
+ [IPv6:2607:f8b0:4864:20::e2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EA810E3F8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 10:28:13 +0000 (UTC)
+Received: by mail-vs1-xe2f.google.com with SMTP id o2so11836220vss.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 02:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678184881;
+ d=chromium.org; s=google; t=1678184892;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=e3IFfZ13qRP77Th42gjrEoIf/Fv5yp9Te6g4rfCja/g=;
- b=Eb1zByjEKOExnu+tNlf2T0VWXBDVQVZyWGR4wHcACaXrTYPFfwm+L3H+ouePH9SVw0
- nSm0EQDWkfocza6ZSKpr6gFmNHjWZyTGLQNSi3ncAmKH2Cw4exaWsf8lOIQAp1zC0zxm
- dRrSdXqOmbW8Zob+dovbN4ZHH3LmK8bLwoCfE=
+ bh=3OjoZPsqIE5ZBDC6k5US7ft7Fv6D8y/Y9uWB8Kp8Q1I=;
+ b=Z+U2URwv5RAFmBuO1fEg8c71VhnLa2jYsgXMkp5j7Drw4naK5n5cxgxlNKPgrzSMyM
+ FQzNREXnLmEfxBfWr6zvUaR2Ht1/1Agw21HatM5/ytBEQiNUbxJJ3cQXusQVS7XcRkr9
+ OOzLIIWoz00nm4Y+rTN7eCzBboE0uhw5g0fq8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678184881;
+ d=1e100.net; s=20210112; t=1678184892;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=e3IFfZ13qRP77Th42gjrEoIf/Fv5yp9Te6g4rfCja/g=;
- b=XZey8PlLJihhBrUGScfgulX0StfAw1/3GtbJlMQezMsVejoNnwCWEptBuhC5TSXV0X
- unSq7YzZyEJ+1Ex1zrjLfRY6mSAkckEj1DqSUtyaU9oHQXveYgF60Czb1aN5BUxS/yrP
- 8Li7BNpbwk8/a8CdRCNaM5zWHFAcnQDizmK6erKokiXEVVJTKLz+xfnTiLVOtKGEWfcq
- eQbbOGdufjkTvvMg4wvKdLIceJlkt3mbTPYMx3w3SrJER/3UD/xmLxYfQTP4/aJxM4X0
- mQD+9JE3TsNlryi636NT54Mj4WQRV2yONZInhuMx+8r6viH9K3jcdUYSmXwt4aM9k1VI
- e0MA==
-X-Gm-Message-State: AO0yUKU0wTzQvv3dyaD3f/Da5EaHbecc7VwcfIOIdLOjkFEE1iKjYOx5
- xqXPQvV5foUrhMUy1MsOzIU3JL+0zEKvkl2uS2wing==
-X-Google-Smtp-Source: AK7set8/lmXFQ2Q8tP+xEm+sKmdCV9Kt/WO3yq7gKbFeKv90cNmH+N5U/jM1j+nH6ORz9vhUBxZNHa5P6CnunTtzeow=
-X-Received: by 2002:a1f:c507:0:b0:401:2297:b2e0 with SMTP id
- v7-20020a1fc507000000b004012297b2e0mr8280600vkf.0.1678184881167; Tue, 07 Mar
- 2023 02:28:01 -0800 (PST)
+ bh=3OjoZPsqIE5ZBDC6k5US7ft7Fv6D8y/Y9uWB8Kp8Q1I=;
+ b=eTRP+ediHE4lBwsPcSBafvv395zJ7aCiNS252FbqOhm6EfXzAszLH6FY/4EjEoIOSk
+ I7+q6hCbwLOjRJdUaR3I9Qs6isURpbDyP5waLCZm8NoBDbX0rzgG2wsIMpsx/I9gQX9E
+ 75QusH2nvZz3I8UWd2XwEl79QrPXDRsucj8H22ts5+4Yb8f6h5rlahKC6ro4tx3N7wwu
+ wKBNkXmKpTGYP13krdGzYeFeEHcmv5nZHOtgp2G7EIxF19DEjemQw3l9X9LG16wGgblC
+ 4TwDnWzsmdWpxuXe70SBHOI3ThYOKSTKmAs831ceDz/+MIIYqF3Ayd3UHQJkEefwyvO6
+ npVw==
+X-Gm-Message-State: AO0yUKWhnVAPF7rgCPspSpr/Og92VNZQTYzMiE9nQYgO62PnqYooun60
+ Wpe50yLPtqDPZZhFMtw/TRcOEv0HM03ZYuxwNk+7TQ==
+X-Google-Smtp-Source: AK7set/ITkAjaSaTIwYUailNdnAEo1658Tu042kqe1qbbCjUu+Xu1rTiwAP1U/AG7z8p4PHEwOzJI22d7OmcVvhg4Po=
+X-Received: by 2002:a67:e2c7:0:b0:412:2f46:4073 with SMTP id
+ i7-20020a67e2c7000000b004122f464073mr8850110vsm.3.1678184892533; Tue, 07 Mar
+ 2023 02:28:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
- <20230228102704.708150-2-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230228102704.708150-2-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 7 Mar 2023 18:27:50 +0800
-Message-ID: <CAGXv+5FZSZiTw7RH_VZyT2buk_i0eVpz-rKo9ds1M4yNt3fboQ@mail.gmail.com>
-Subject: Re: [PATCH v4 02/12] dt-bindings: gpu: mali-bifrost: Set
- power-domains maxItems to 5
+Date: Tue, 7 Mar 2023 18:28:01 +0800
+Message-ID: <CAGXv+5Fv7AbvMzZdfwvZXvRfLmmKSpPLeAJUOKWS_VSzeVE0wg@mail.gmail.com>
+Subject: Re: [PATCH v4 01/12] dt-bindings: gpu: mali-bifrost: Split out
+ MediaTek power-domains variation
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -77,8 +76,15 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Tue, Feb 28, 2023 at 6:27=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> In preparation for adding (and fixing) power-domain-names and MediaTek
-> MT8192 bindings, allow up to five items for power-domains.
+> In preparation for adding new bindings for new MediaTek SoCs, split out
+> the power-domains variation from the `else` in the current
+> mediatek,mt8183-mali conditional.
+>
+> The sram-supply part is left in place to be disallowed for anything
+> that is not compatible with "mediatek,mt8183-mali" as this regulator
+> is MediaTek-specific and it is, and will ever be, used only for this
+> specific string due to the addition of the mediatek-regulator-coupler
+> driver.
 >
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
