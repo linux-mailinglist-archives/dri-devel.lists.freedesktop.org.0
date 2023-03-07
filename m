@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF876AE411
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 16:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2093F6AE410
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 16:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AB6110E4F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B30810E4F2;
 	Tue,  7 Mar 2023 15:11:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20616.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::616])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E27310E4EA;
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2079.outbound.protection.outlook.com [40.107.223.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A740310E4E8;
  Tue,  7 Mar 2023 15:11:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jHXMkTaXhFcG2tcBo8MAKPfGRyhTpWISyNKCx8ptH74oIE3tZ/4F964kD+9vy53/rHY5vmBAJEwu4YfXkkkyS96QZNXBy+doinQDkGKApqrOdd9jMa8UBqjUpMgb3ejNYxXCnVvR3Xib+nVcFcNwpw9W7xEOIKYiQypF4LrA0f5CksxwEAuuovpEvFEBghZy0MNuH4xKCA4TGVG0/MUg0ew7axJ5QBZ263w2edLam6UCNcUtiqRvAMBBQ/FNX+c3nI/XgfC3mhS7x6KGqiotNqTCjlQPpu3Y6bz5kEWab9S5GiB9bYYMo8aeEotQI+u4GwagM/IcWIIARWn+n0cltA==
+ b=DKz1K1qeKZHYtFnY4jrHlwAErr/RtfVDgabFBp+RuKk0wfvMO1Yj5S8LaK4hl9GXrLmQ6M+gLt4N/TJzXAuahyVpp8qprf2e9A2LyT5YOXCaBZfgWY+y69Q8PTo2dl4yM2tANQIyiVkiYfpSO2tKO8Qcz0Cj9Q807gnXMn/x5EDdRNz8fVdctB5EesnbfX2Et+9+mxOBiW72dwMvdinnjhDJvhyklra+upSWKFK28Aacvn/uZHMk677NivjWrXsLHZASoQ3lK+Xb3VEbr0A+OVffCnPISVXpKVILKInl6ypKLdiydmDBlxKXmfaDy6fpW4H9Q8tGS0jArXs6V1SrIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6hqkM3UJ0lNVVhSYBUzRXI8xDkrz77a3byQZmDeT9vM=;
- b=bXnsQMrBV7QPDVRswgJUEVYLPXdT+LB14ZsaFZb8f/Xo1zO5U78ykF7v0wqDcuP/DU8W0IsqHbeZvdzSdMqZt3hATcZdxYfv/cPDu8bundBwLE2T9BaRKNqcHMyj3Qyeqm/t9KDeK0UmzrJ5i+PtDSMOZ/3kcnQxC6qoZJ7iJbv17UNbZYmz7SswNDexRvQGs10Fdi3YD69nyl6QQyeBRJCJrjZYe4d9hozi6OY/00Eu+Ih7eKDFvuTOqQKUG67XGW8b+HRnJNwgsqkMUat3rm/3l8+GQy6h9gKznZnKChVg4Fmga59zStWsBaCvVAXH5n7kbo4C7ADeVm4Ws6o+Gw==
+ bh=cdpNofxcQLjwx4frJIOEvNn3bj56ijS515mmkM4jlnw=;
+ b=GhTpEh+FRIP8AIdFk+GFczBCu2wj00wuFbhoD1vyMM6gAOaxffk5cnvFzJMd9K9Dj9QLRGclzmrp4CHMZJqfssrlXianpMlmaDewuFSeC/xzsGe/0jKhZa1sq/Sos8anOyO0mlmZhsFmmisyyg0X2WOD9RwWOb90t2HzalDuzcy/T2m17y0DkFJ9Hb6Sc/43uHs8DxzE137rg+R+TOvt433qFGN/hYKdMoEDbF7z2qPsy4VUkdL5g+xdJdiaVMb77b7zcqlGzxYOS2ZEFsRXroC6rwXmWSMxRDxTDmeXVVGFGAW+BwSZq/KRForf7WiUfbuZsmyqHWrXjoTkVW8/rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6hqkM3UJ0lNVVhSYBUzRXI8xDkrz77a3byQZmDeT9vM=;
- b=F39KEvamVKT0Auj1rizDyKLV1+hVj0pkXSb3E3OG0P7wnKIvBNg96Ielu8NKqCuFkCu/tQ2uGzhcygx/x6nZfO/VLRWRIDZ0kyy+ob5DzGvEMrXwJSNkzErthKKBkvm6xmMx6e8UNnKyFMRLAfytB3UV1XEAe0hIY+Et1JV/9tE=
+ bh=cdpNofxcQLjwx4frJIOEvNn3bj56ijS515mmkM4jlnw=;
+ b=i3rlhi2UcMxFBMg62WUp/b7V1KdPNIwjdaMM2ObFbJ0DdYDy/m4Uedm1L44te3XSx1StEjg845mX3wwnauOlSg+WP1RK0e6+Kzm5W6xAt32vrHzBTqY+HKci7lBAB5fO0SIK3quIu/vezHpxcvnix5/OHh7+UjVNU+zhKF05HQs=
 Received: from DM5PR07CA0081.namprd07.prod.outlook.com (2603:10b6:4:ad::46) by
- DS7PR12MB5720.namprd12.prod.outlook.com (2603:10b6:8:73::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6156.29; Tue, 7 Mar 2023 15:11:21 +0000
+ PH8PR12MB6724.namprd12.prod.outlook.com (2603:10b6:510:1cf::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29; Tue, 7 Mar
+ 2023 15:11:22 +0000
 Received: from DS1PEPF0000E631.namprd02.prod.outlook.com
- (2603:10b6:4:ad:cafe::58) by DM5PR07CA0081.outlook.office365.com
+ (2603:10b6:4:ad:cafe::ab) by DM5PR07CA0081.outlook.office365.com
  (2603:10b6:4:ad::46) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.29 via Frontend
- Transport; Tue, 7 Mar 2023 15:11:21 +0000
+ Transport; Tue, 7 Mar 2023 15:11:22 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,24 +47,24 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  DS1PEPF0000E631.mail.protection.outlook.com (10.167.17.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.13 via Frontend Transport; Tue, 7 Mar 2023 15:11:21 +0000
-Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB04.amd.com
+ 15.20.6178.13 via Frontend Transport; Tue, 7 Mar 2023 15:11:22 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 7 Mar
- 2023 09:11:20 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
- (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ 2023 09:11:21 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 7 Mar
- 2023 07:11:20 -0800
+ 2023 09:11:21 -0600
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 7 Mar 2023 09:11:19 -0600
+ Transport; Tue, 7 Mar 2023 09:11:20 -0600
 From: Harry Wentland <harry.wentland@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 06/17] drm/connector: Print connector colorspace in state
- debugfs
-Date: Tue, 7 Mar 2023 10:10:56 -0500
-Message-ID: <20230307151107.49649-7-harry.wentland@amd.com>
+Subject: [PATCH v3 07/17] drm/connector: Allow drivers to pass list of
+ supported colorspaces
+Date: Tue, 7 Mar 2023 10:10:57 -0500
+Message-ID: <20230307151107.49649-8-harry.wentland@amd.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230307151107.49649-1-harry.wentland@amd.com>
 References: <20230307151107.49649-1-harry.wentland@amd.com>
@@ -74,26 +73,26 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0000E631:EE_|DS7PR12MB5720:EE_
-X-MS-Office365-Filtering-Correlation-Id: f11044b5-a68f-423a-d4d8-08db1f1e360a
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E631:EE_|PH8PR12MB6724:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bf4c3c3-deb4-46df-488d-08db1f1e363f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2+b+pjb1av++Q9V5eTqC0eA2/twpoIx90LpS7r3Fjf2MXrMZ4W2fYbCpRpbbUbkfPu4T2uw4Va44QkPfqbVcnzZ3B9jYy9GMI5vgWI55Pg7bAYYPbH+C9WxIsnV0iA61OItwuLl8HO4VtfExxrfjEbCX8BzcRgUZlVPpTm4AkXnRZnVKnE7gD5hEq55864l6NfNQwPpLZ96OnFOI3wQamByLtnAEz+JmgedjXYIma83k3xtTP4Zmq5RtsehCFqx/vcVmYfYJ6lWyGqawaAEhM2MmiIs2leYbDFjW0LjuSPR66fESfrtNyaKzOiOCMZzfs84P/gYnjpR8ML6lJfHPNRD52Kavkfrf1+shUXjqw/MtMpALcoOS4vkcL8pAAORyWYn/qmgJdClu2dnrVjx9AFrqObD5tIGm+8uhMHdy0qcEjkrNvdeJVVOQFcSn/SmDH9xgsoX6qigCw9V9og8W90jeV80rJuKBumY1kgCsxTzGn3/0+AeHn4Wb+d1Y5/GXS0lidDVWQmi8MSxhgAToTDG2S19JM1NsGG8E2QCKZaeTnZ+FnAjKhIGcUQqPc5sVQ34xOANOPJat2kxSjaAYA3v2depHr2TwMjiN1g2GGg/zz6YjTGUaBJIIyER45R+T1U+KTxqmPTqW5h7+cw6Ohc9mbKuur/fVbwySsCA+3cFH6d4QkCrRMZ1gTTdq7ChMBOVVWPIrrHkB9MU/yaKF8iIbGbEw2txGXX9QFhl1wKM=
+X-Microsoft-Antispam-Message-Info: mgToDOYiR0ap4tE4CurMD1hzHUyu+RgKxjTkaAS3m05lLPgh0+9UBp5CrHm0tGk6PBHfMTYeNO3J8t19N0yhJJXQHwfbNRzcf7dTqgXdZRXMlR6cGjNEdcH8AoDPmhjXP7shjUVENXdVtoe60Ez6EZ3G7K8ImwAwaeofyp1CrujM09P4a9RRjMuOQcMegXWCJHKACCXBEqARyJPdMcdWn2XHd4wcF05GpBkVOXpeEvwRCIg/9qAnAub3UixhPfBgZ5cbcJscE94OApeMwwauNO98PGwErmlZQYABGbW2mZ6IOu/onGMy1vsSexl4kOSRAJAr0cUouyL5pVCsJ8P3a1PwR9od5KVHj//mTnQ0IC2PX3pU/s2SKkD1yLIiwG/DP/W/S+wfG+Dtvc7vs+WI83qHNYHAj7Fimf4/V8XYoYbDJ4N/RZvpDqADL2sRoYRfbFDWNJYcoUnvTxjKSKUAu887q0X2j1TMQ6Yeaw8fUJn0GN4iP5/qOiFyIWck9Ut61eVQWwjNVeXbDIq9xtkiZSiHS0ACzps2Tq9OalaFT+HE9YYta6fPHsgl9xjsJGSHXbUnfnylv9epskL9FG+IlK0KLcWBOiksed0Jxjr0eq6CrdZlFswqj5FVFGYEZKU/yZurnAzJqGqz8OCxIfMCJ3LVkXx395GKdYY7K0Sds1XuJTqFpwY1GHhV4KGgBIXzXyCN9GGei+9AX8RsJ6xkBAMSgELLd4/vVECGuRXUB8Y=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(39860400002)(396003)(376002)(136003)(451199018)(46966006)(40470700004)(36840700001)(2906002)(44832011)(8936002)(5660300002)(336012)(41300700001)(70206006)(8676002)(40460700003)(4326008)(70586007)(36756003)(316002)(54906003)(478600001)(40480700001)(86362001)(6666004)(81166007)(36860700001)(26005)(186003)(356005)(426003)(2616005)(47076005)(83380400001)(1076003)(110136005)(82310400005)(82740400003)(36900700001);
+ SFS:(13230025)(4636009)(39860400002)(396003)(376002)(346002)(136003)(451199018)(46966006)(36840700001)(40470700004)(8676002)(36756003)(40480700001)(4326008)(70586007)(8936002)(70206006)(44832011)(5660300002)(2906002)(81166007)(82740400003)(356005)(86362001)(36860700001)(41300700001)(6666004)(1076003)(316002)(54906003)(478600001)(110136005)(26005)(82310400005)(66574015)(47076005)(426003)(83380400001)(336012)(2616005)(40460700003)(186003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 15:11:21.8435 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f11044b5-a68f-423a-d4d8-08db1f1e360a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2023 15:11:22.1872 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bf4c3c3-deb4-46df-488d-08db1f1e363f
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E631.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5720
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6724
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,7 +111,22 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v3: Fix kerneldocs (kernel test robot)
+Drivers might not support all colorspaces defined in
+dp_colorspaces and hdmi_colorspaces. This results in
+undefined behavior when userspace is setting an
+unsupported colorspace.
+
+Allow drivers to pass the list of supported colorspaces
+when creating the colorspace property.
+
+v2:
+ - Use 0 to indicate support for all colorspaces (Jani)
+ - Print drm_dbg_kms message when drivers pass 0
+   to signal that drivers should specify supported
+   colorspaecs explicity (Jani)
+v3:
+ - Move changes to create a common colorspace_names array
+   to separate patch
 
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
@@ -126,61 +140,104 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org
 Reviewed-By: Joshua Ashton <joshua@froggi.es>
 ---
- drivers/gpu/drm/drm_atomic.c    |  1 +
- drivers/gpu/drm/drm_connector.c | 15 +++++++++++++++
- include/drm/drm_connector.h     |  1 +
- 3 files changed, 17 insertions(+)
+ drivers/gpu/drm/drm_connector.c                | 14 ++++++++++----
+ drivers/gpu/drm/i915/display/intel_connector.c |  4 ++--
+ drivers/gpu/drm/vc4/vc4_hdmi.c                 |  2 +-
+ include/drm/drm_connector.h                    |  7 +++++--
+ 4 files changed, 18 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index c0dc5858a723..d6d04c4ccfc0 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1071,6 +1071,7 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
- 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
- 	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
- 	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
-+	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
- 
- 	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
- 		if (state->writeback_job && state->writeback_job->fb)
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 7649f0ac454f..7ed48f9cbb20 100644
+index 7ed48f9cbb20..2581cab7f936 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -1044,6 +1044,21 @@ static const char * const colorspace_names[] = {
- 	[DRM_MODE_COLORIMETRY_BT601_YCC] = "BT601_YCC",
- };
+@@ -2043,9 +2043,12 @@ static int drm_mode_create_colorspace_property(struct drm_connector *connector,
+  * Returns:
+  * Zero on success, negative errno on failure.
+  */
+-int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector)
++int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector,
++					     u32 supported_colorspaces)
+ {
+-	return drm_mode_create_colorspace_property(connector, hdmi_colorspaces);
++	u32 colorspaces = supported_colorspaces & hdmi_colorspaces;
++
++	return drm_mode_create_colorspace_property(connector, colorspaces);
+ }
+ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
  
-+/**
-+ * drm_get_colorspace_name - return a string for color encoding
-+ * @colorspace: color space to compute name of
-+ *
-+ * In contrast to the other drm_get_*_name functions this one here returns a
-+ * const pointer and hence is threadsafe.
-+ */
-+const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
-+{
-+	if (WARN_ON(colorspace >= ARRAY_SIZE(colorspace_names)))
-+		return "unknown";
+@@ -2061,9 +2064,12 @@ EXPORT_SYMBOL(drm_mode_create_hdmi_colorspace_property);
+  * Returns:
+  * Zero on success, negative errno on failure.
+  */
+-int drm_mode_create_dp_colorspace_property(struct drm_connector *connector)
++int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
++					   u32 supported_colorspaces)
+ {
+-	return drm_mode_create_colorspace_property(connector, dp_colorspaces);
++	u32 colorspaces = supported_colorspaces & dp_colorspaces;
 +
-+	return colorspace_names[colorspace];
-+}
-+
- static const u32 hdmi_colorspaces =
- 	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
- 	BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
++	return drm_mode_create_colorspace_property(connector, colorspaces);
+ }
+ EXPORT_SYMBOL(drm_mode_create_dp_colorspace_property);
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
+index 6d5cbeb8df4d..9e4b054266ea 100644
+--- a/drivers/gpu/drm/i915/display/intel_connector.c
++++ b/drivers/gpu/drm/i915/display/intel_connector.c
+@@ -283,13 +283,13 @@ intel_attach_aspect_ratio_property(struct drm_connector *connector)
+ void
+ intel_attach_hdmi_colorspace_property(struct drm_connector *connector)
+ {
+-	if (!drm_mode_create_hdmi_colorspace_property(connector))
++	if (!drm_mode_create_hdmi_colorspace_property(connector, 0))
+ 		drm_connector_attach_colorspace_property(connector);
+ }
+ 
+ void
+ intel_attach_dp_colorspace_property(struct drm_connector *connector)
+ {
+-	if (!drm_mode_create_dp_colorspace_property(connector))
++	if (!drm_mode_create_dp_colorspace_property(connector, 0))
+ 		drm_connector_attach_colorspace_property(connector);
+ }
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 9e145690c480..95d73b817b05 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -605,7 +605,7 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = drm_mode_create_hdmi_colorspace_property(connector);
++	ret = drm_mode_create_hdmi_colorspace_property(connector, 0);
+ 	if (ret)
+ 		return ret;
+ 
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 46c064d9ffef..c77e42408522 100644
+index c77e42408522..693e4cba9cb5 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -1970,6 +1970,7 @@ void drm_connector_list_iter_end(struct drm_connector_list_iter *iter);
+@@ -30,6 +30,7 @@
+ #include <linux/notifier.h>
+ #include <drm/drm_mode_object.h>
+ #include <drm/drm_util.h>
++#include <drm/drm_property.h>
  
- bool drm_connector_has_possible_encoder(struct drm_connector *connector,
- 					struct drm_encoder *encoder);
-+const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+ #include <uapi/drm/drm_mode.h>
  
- /**
-  * drm_for_each_connector_iter - connector_list iterator macro
+@@ -1886,8 +1887,10 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
+ bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
+ 					     struct drm_connector_state *new_state);
+ int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
+-int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector);
+-int drm_mode_create_dp_colorspace_property(struct drm_connector *connector);
++int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector,
++					     u32 supported_colorspaces);
++int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
++					   u32 supported_colorspaces);
+ int drm_mode_create_content_type_property(struct drm_device *dev);
+ int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
+ 
 -- 
 2.39.2
 
