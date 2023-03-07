@@ -2,76 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783B76AE0B3
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 14:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DD86AE122
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 14:49:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAEB810E49F;
-	Tue,  7 Mar 2023 13:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70F1810E264;
+	Tue,  7 Mar 2023 13:49:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB7710E49F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 13:37:24 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id k14so17088449lfj.7
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 05:37:24 -0800 (PST)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE8110E264
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 13:49:04 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id a32so13189301ljr.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 05:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678196242;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=att8u7Sg5USMKd1JWAj5fcOvxLzquAm+yctu+vJJGmk=;
- b=u8jio6M4Bi1IlrmYfdfyYX69Nv3uGK3nF/sCLrFA5zvGkRs88KOrLJBo0V8kh4rDRv
- S+CN3pvqUd8eH23svbBD1gPKdL+QB1E5CmWcRgoFDW0u987cl+zWzZLOIElUBd+RplDy
- MH6AlJIB2OdsQYFFHNiRTM0T2DBO9XY0uoJm2f8WGDI0nxIytNy74fHndvMBAJwscsvI
- iQTXf4wLm88WgzzcLw/F8/qcKKDgyPRtS/syh+tfGLi4Ppe9ZlyvhQYlfr8+d84U4g0x
- yvF9pHL9CK4sM2O9udVjdMxdu2xlZ0JU4BlGVmoeRJMDAN6o0FQnnYqyF/cyRbmWQ1X9
- +Qjg==
+ d=linaro.org; s=google; t=1678196943;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pb2LmnLi9basFISjOnLYVYII1gXbNsybO5NwslYa35o=;
+ b=y5kdLG/CBTv1qYMVbgsbQeTOHeQMI8G9XDuZXNc96uOVtssp6YhJLSeXOrQ2jH50IZ
+ FljEbFw2e+IW6vy4QWULUdmNqTzbmIego6uGmRD1vhP/gZC623DDjvqdrChhhiSC1fPX
+ +vKNXogjsgeKk6A0H4etjM3EpEd0f8y1yjdQ6KmLD6iStAshFU86NKreH+5a2B8ll1zX
+ SxR+jbkueDbdARhXvTPob9Kozx4jYFP4Cbj12Pv4IPx0B9z6BGZaAR+jBZq+RXNTzMAP
+ cddh40ShcQxcB11Sp4/XDEcAcHuLLiHJGpDdV5IBpsqjNAlfvNHBdJroCW4LeANLwGuS
+ pJqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678196242;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=att8u7Sg5USMKd1JWAj5fcOvxLzquAm+yctu+vJJGmk=;
- b=h37DuLlMwRTsc1VP0/OWyl3yQIJWLZd4MT2121f9741KsJ+Jo91HZTSewf+/kb+9lb
- KhARib+Ghbp8PQbWLOXzSYVtOmdxU59ly9uGOscQhrUSfaUoH0enkzZKHWTYznOiQ5Af
- j0V4OCNZCluWNqLq25m+eTg0JASIUwoA09HWP6FJqg8SbTttSd4omd8BZ86rVo7XVTFM
- 4A6d3kFnvsamY1SeP1ku/HjBdNexkQiVxaLV6muOSkl0jzPHOf3TyUSouVbO+qGG3A9O
- T+GcvYYZEAuWyFmHzoTAuKhiYYcgXzWAFry7yuegWuxmZCM72E/baMJSjqxlVhHTMZmL
- i58g==
-X-Gm-Message-State: AO0yUKWHPNAmj8F+hlGbRu5bVuvtUZu0BEr9HPXRj6Lwl2DPE2F4BYxr
- 954HPruILXwAYEbykIHsB0mhyg==
-X-Google-Smtp-Source: AK7set/iUKVW9nOe4bWML5c3IaCFN7RLZmIEWrMcDr+hW+xy2LV1qA52wUvkDgDJASXLtisA+EjlGQ==
-X-Received: by 2002:ac2:59dc:0:b0:4d8:537a:753f with SMTP id
- x28-20020ac259dc000000b004d8537a753fmr4746540lfn.6.1678196242448; 
- Tue, 07 Mar 2023 05:37:22 -0800 (PST)
-Received: from [10.10.15.130] ([192.130.178.91])
+ d=1e100.net; s=20210112; t=1678196943;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Pb2LmnLi9basFISjOnLYVYII1gXbNsybO5NwslYa35o=;
+ b=PRY7EhQ2I3HzoD1LQmck5Mreu6KRQyQ3TQfDLESy5ram9YP+FuQdyAtCZgBR0b4PaN
+ gxi44l5Ml6K1oXV/3QmXi+Snr17/BslFvnnWFY56/EaF4G5zvPkcogSVUOImS6b6x174
+ tymeYLU1sSNyzCAe4QJwsSFNpzzmhErhn7wuLWuluxRxN9rybZaK7LJhEtEZw5v/+Fx3
+ H5Gwm8BApMrxNVGEtRe3QEqyHSFXU/coBo1tBv/WV00eXZLZ7+2Ra1pZOHFia6cRfxNj
+ kZHzoQyQDjBXMXhugC2u7Ge7vyJKntd6q8n3ryhx21BRx8VxD5bTzSYiap9M/A5g7Zyr
+ PRkQ==
+X-Gm-Message-State: AO0yUKVaVVZ6i74zu5O5XqMuRcnK8t/ycOkmoEnV78/QJ4970WkTD0mD
+ AlbZAul6soLHARf+CZXdeHyBAg==
+X-Google-Smtp-Source: AK7set9aCXsQLLKfITapXEIME/b4HoKdOBCdpKVV0DLrLhqwUFd2zh0HuWLHU7kJQQr/1adKaapnew==
+X-Received: by 2002:a2e:a58b:0:b0:294:7360:7966 with SMTP id
+ m11-20020a2ea58b000000b0029473607966mr6924106ljp.30.1678196942974; 
+ Tue, 07 Mar 2023 05:49:02 -0800 (PST)
+Received: from eriador.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a2eb5b0000000b00294692d8645sm2193108ljn.17.2023.03.07.05.37.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 05:37:22 -0800 (PST)
-Message-ID: <3f7a065b-fa41-36ee-2055-617979435be2@linaro.org>
-Date: Tue, 7 Mar 2023 15:37:21 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 07/10] drm/display/dsc: include the rest of pre-SCR
- parameters
-Content-Language: en-GB
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ u14-20020a2e91ce000000b0029597ebacd0sm2128991ljg.64.2023.03.07.05.49.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 05:49:02 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-References: <20230228113342.2051425-1-dmitry.baryshkov@linaro.org>
- <20230228113342.2051425-8-dmitry.baryshkov@linaro.org>
- <87pm9tycn5.fsf@intel.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <87pm9tycn5.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v2 00/10] drm/i915: move DSC RC tables to drm_dsc_helper.c
+Date: Tue,  7 Mar 2023 15:48:51 +0200
+Message-Id: <20230307134901.322560-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,25 +80,48 @@ Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/02/2023 18:31, Jani Nikula wrote:
-> On Tue, 28 Feb 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->> DSC model contains pre-SCR RC parameters for other bpp/bpc combinations,
->> include them here for completeness.
-> 
-> Need to run now, note to self:
-> 
-> Does i915 use the arrays to limit the bpp/bpc combos supported by
-> hardware? Do we need to add separate limiting in i915.
+Other platforms (msm) will benefit from sharing the DSC config setup
+functions. This series moves parts of static DSC config data from the
+i915 driver to the common helpers to be used by other drivers.
 
-There is already a limitation in intel_dsc_compute_params(): the driver 
-uses DRM_DSC_1_1_PRE_SCR only in a limited amount of cases (bpp 8 or 12, 
-bpc 8, 10 or 12). But thanks, I noticed a bug there.
+Note: the RC parameters were cross-checked against config files found in
+DSC model 2021062, 20161212 (and 20150914). The first patch modifies
+tables according to those config files, while preserving parameter
+values using the code. I have not changed one of the values in the
+pre-SCR config file as it clearly looks like a typo in the config file,
+considering the table E in DSC 1.1 and in the DSC 1.1 SCR.
 
-> 
-> BR,
-> Jani.
-> 
+Chances since v1:
+- Made drm_dsc_rc_buf_thresh static rather than exporting it
+- Switched drm_dsc_rc_buf_thresh loop to use ARRAY_SIZE. Added
+  BUILD_BUG_ON's to be sure that array sizes are correct
+- Fixed rc_parameters_data indentation to be logical and tidy
+- Fixed drm_dsc_setup_rc_params() kerneldoc
+- Added a clause to drm_dsc_setup_rc_params() to verify bpp and bpc
+  being set.
+- Fixed range_bpg_offset programming in calculate_rc_params()
+- Fixed bpp vs bpc bug in intel_dsc_compute_params()
+- Added FIXME comment next to the customizations in
+  intel_dsc_compute_params().
+
+Dmitry Baryshkov (10):
+  drm/i915/dsc: change DSC param tables to follow the DSC model
+  drm/i915/dsc: move rc_buf_thresh values to common helper
+  drm/i915/dsc: move DSC tables to DRM DSC helper
+  drm/i915/dsc: stop using interim structure for calculated params
+  drm/display/dsc: use flat array for rc_parameters lookup
+  drm/display/dsc: split DSC 1.2 and DSC 1.1 (pre-SCR) parameters
+  drm/display/dsc: include the rest of pre-SCR parameters
+  drm/display/dsc: add YCbCr 4:2:2 and 4:2:0 RC parameters
+  drm/display/dsc: add helper to set semi-const parameters
+  drm/msm/dsi: use new helpers for DSC setup
+
+ drivers/gpu/drm/display/drm_dsc_helper.c  | 1007 +++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_vdsc.c |  443 +--------
+ drivers/gpu/drm/msm/dsi/dsi_host.c        |   61 +-
+ include/drm/display/drm_dsc_helper.h      |   10 +
+ 4 files changed, 1072 insertions(+), 449 deletions(-)
+
 -- 
-With best wishes
-Dmitry
+2.39.2
 
