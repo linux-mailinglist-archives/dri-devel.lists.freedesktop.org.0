@@ -2,42 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049706B0066
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D5266B0064
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:00:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 175F910E5AB;
-	Wed,  8 Mar 2023 08:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8300D10E5A8;
+	Wed,  8 Mar 2023 08:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2738 seconds by postgrey-1.36 at gabe;
- Tue, 07 Mar 2023 18:20:09 UTC
-Received: from mail-4324.protonmail.ch (mail-4324.protonmail.ch [185.70.43.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF4410E52C
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 18:20:09 +0000 (UTC)
-Date: Tue, 07 Mar 2023 18:19:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1678213207; x=1678472407;
- bh=81yotlRkinPt+LgDPonYCzQeaxo1RZaEBv5T44I7zyc=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=VQ0fH7sd/cb/l+Ncxodj/10+Hes9nE5Kj3LVjit+cnzjtGOg15BfeIrjNy29i0gCZ
- GqBQsdZeMqk6QQYFpx/o17WGsj05txE7A5syzBI2EfX5F51GA0UXuNLI6h1TiDdFwa
- kuN7dWGB1KKWlQGQxVWsI5kqEF25/bpCKY6kLig1JEh/OvYEBuAquOaYU6RMofhpOT
- KAIWNZRQxT503z12fzKC6JNnnSfTvCqzkd/jz/MLimACKJFuiUCDicWglgc+C8+2vQ
- KPnlF76GC/5TsBtCbjWfD12AKvgZ50iF4Q91muaW71o0ZqLJX6DtXHkuD2o0BbN38L
- xldiF2qEpGRZA==
-To: Asahi Lina <lina@asahilina.net>
-From: =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Subject: Re: [PATCH RFC 02/18] rust: drm: Add Device and Driver abstractions
-Message-ID: <LgJBjn9Sl_vEeMPI8yvQkT5yQzZGk3eC8zdazRRupvjTuysDp8AJU1KY937LoPXugI78XH35UbTxn5tQzunr_pnr63bV_4HC_Ft6VW_mRL8=@protonmail.com>
-In-Reply-To: <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
-Feedback-ID: 27884398:user:proton
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1ACA10E530
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 19:14:47 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-176eae36feaso5465617fac.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 11:14:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=usp.br; s=usp-google; t=1678216486;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fOmFgPIp3hsAGCIR1UQk10Ns785Ii9Fwxb0/rzbOnLo=;
+ b=UHWjvJrMrIq+eRFMDFQf/pbjkYRjQ5yIARLh2yEmCdtaNGcHLlx6+jNP/96jqtlcNu
+ 1j8k7mMQLlpdSkJo6raWWeII1vbtUI420xR57K6e2JLGGT36jbw8KV41JX0NDhXnGExL
+ PW7m0uKtf7Lcgevzhv8pzMwCf9K9vYXJ3IzgrVAhWg0CoyPdIE8SqiniN+qeKqt/vKrk
+ 2E35u4Tl84WThv32YiJHu4HxVjmfUQJREY4P0k14fIrauow8hDvIuTsizqM88lTV09q/
+ KWpjOc15QAqjvTjhwnC1ch/b1YVwgKfbR0eGMXI9gVO4lzY3a4MviKCZQrW5WSb/yRiz
+ ojzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678216486;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fOmFgPIp3hsAGCIR1UQk10Ns785Ii9Fwxb0/rzbOnLo=;
+ b=U5xwUNmi5jHUgD+Jzx34xt00DA93qa/tccWwL86kDc+f93dvtkVeIzZCw4TUnNyzHr
+ xmHS1jNXlOHU/HhaQjSXVoPJgUq2zahBwJqofb13gUOTuzIbNI8YWhfTJ/v0e99V/ZDD
+ zFRLo2ZxtM698P93d7u5akvsaFQjvxLRF+8hr1naI+cRLyCzKJO4Qil1L1zsgsIyJVbW
+ VFw5XRNPCdkoGZegxFDAlYLdfVxbxe2y3K6nos7ceVp3FA6GNQq/nmQUdq0BZBehf5uS
+ 4bYE7OWr5g9h6DfSAChGj+8Iz18WllvTlChDz3I7YcuZ4L+kBR+P/Py527C8A+x/BA6/
+ nNPw==
+X-Gm-Message-State: AO0yUKVpfHQ41fozjd/f/G3s5jKmqT7E6UrP6V4iAIh7EgJfOooi73++
+ qL+MbY3i+R9S/v/nvbZr3pgAYQ==
+X-Google-Smtp-Source: AK7set8bM251vzn1Z7Yw0sjF24Yg41uoEcJULEUsr7v+wss7hrx/n1mS+3lgmuhxIJdiztwFJDE4XQ==
+X-Received: by 2002:a05:6870:9724:b0:16d:e3ce:a701 with SMTP id
+ n36-20020a056870972400b0016de3cea701mr10537874oaq.35.1678216486652; 
+ Tue, 07 Mar 2023 11:14:46 -0800 (PST)
+Received: from localhost.localdomain ([2804:14c:63:8ae3:4d1f:9fc2:9fe6:c88e])
+ by smtp.gmail.com with ESMTPSA id
+ f5-20020a056870d30500b001724742cfcesm5341794oag.38.2023.03.07.11.14.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Mar 2023 11:14:46 -0800 (PST)
+From: David Tadokoro <davidbtadokoro@usp.br>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/amd/display: add prefix to amdgpu_dm_crtc.h functions
+Date: Tue,  7 Mar 2023 16:14:17 -0300
+Message-Id: <20230307191417.150823-1-davidbtadokoro@usp.br>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Wed, 08 Mar 2023 08:00:29 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,550 +73,292 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
- Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
- linaro-mm-sig@lists.linaro.org, Faith Ekstrand <faith.ekstrand@collabora.com>,
- linux-sgx@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: David Tadokoro <davidbtadokoro@usp.br>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-------- Original Message -------
-On Tuesday, March 7th, 2023 at 15:25, Asahi Lina <lina@asahilina.net> wrote=
-:
+Some amdgpu_dm_crtc.h functions didn't have names that indicated where
+they were declared.
 
-> Add the initial abstractions for DRM drivers and devices. These go
-> together in one commit since they are fairly tightly coupled types.
->=20
-> A few things have been stubbed out, to be implemented as further bits of
-> the DRM subsystem are introduced.
->=20
-> Signed-off-by: Asahi Lina lina@asahilina.net
->=20
-> ---
->  rust/bindings/bindings_helper.h |   3 +
->  rust/kernel/drm/device.rs       |  76 +++++++++
->  rust/kernel/drm/drv.rs          | 339 ++++++++++++++++++++++++++++++++++=
-++++++
->  rust/kernel/drm/mod.rs          |   2 +
->  4 files changed, 420 insertions(+)
->=20
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_hel=
-per.h
-> index 2687bef1676f..2a999138c4ae 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -6,10 +6,13 @@
->   * Sorted alphabetically.
->   */
->=20
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_ioctl.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/fs.h>
->  #include <linux/ioctl.h>
->  #include <linux/io-pgtable.h>
->  #include <linux/ktime.h>
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> new file mode 100644
-> index 000000000000..6007f941137a
-> --- /dev/null
-> +++ b/rust/kernel/drm/device.rs
-> @@ -0,0 +1,76 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +//! DRM device.
-> +//!
-> +//! C header: [`include/linux/drm/drm_device.h`](../../../../include/lin=
-ux/drm/drm_device.h)
-> +
-> +use crate::{bindings, device, drm, types::ForeignOwnable};
-> +use core::marker::PhantomData;
-> +
-> +/// Represents a reference to a DRM device. The device is reference-coun=
-ted and is guaranteed to
-> +/// not be dropped while this object is alive.
-> +pub struct Device<T: drm::drv::Driver> {
-> +    // Type invariant: ptr must be a valid and initialized drm_device,
-> +    // and this value must either own a reference to it or the caller
-> +    // must ensure that it is never dropped if the reference is borrowed=
-.
-> +    pub(super) ptr: *mut bindings::drm_device,
-> +    _p: PhantomData<T>,
-> +}
-> +
-> +impl<T: drm::drv::Driver> Device<T> {
-> +    // Not intended to be called externally, except via declare_drm_ioct=
-ls!()
-> +    #[doc(hidden)]
-> +    pub unsafe fn from_raw(raw: *mut bindings::drm_device) -> Device<T> =
-{
-> +        Device {
-> +            ptr: raw,
-> +            _p: PhantomData,
-> +        }
-> +    }
-> +
-> +    #[allow(dead_code)]
-> +    pub(crate) fn raw(&self) -> *const bindings::drm_device {
-> +        self.ptr
-> +    }
-> +
-> +    pub(crate) fn raw_mut(&mut self) -> *mut bindings::drm_device {
-> +        self.ptr
-> +    }
-> +
-> +    /// Returns a borrowed reference to the user data associated with th=
-is Device.
-> +    pub fn data(&self) -> <T::Data as ForeignOwnable>::Borrowed<'_> {
-> +        unsafe { T::Data::borrow((*self.ptr).dev_private) }
-> +    }
-> +}
-> +
-> +impl<T: drm::drv::Driver> Drop for Device<T> {
-> +    fn drop(&mut self) {
-> +        // SAFETY: By the type invariants, we know that `self` owns a re=
-ference, so it is safe to
-> +        // relinquish it now.
-> +        unsafe { bindings::drm_dev_put(self.ptr) };
-> +    }
-> +}
-> +
-> +impl<T: drm::drv::Driver> Clone for Device<T> {
-> +    fn clone(&self) -> Self {
-> +        // SAFETY: We get a new reference and then create a new owning o=
-bject from the raw pointer
-> +        unsafe {
-> +            bindings::drm_dev_get(self.ptr);
-> +            Device::from_raw(self.ptr)
-> +        }
-> +    }
-> +}
-> +
-> +// SAFETY: `Device` only holds a pointer to a C device, which is safe to=
- be used from any thread.
-> +unsafe impl<T: drm::drv::Driver> Send for Device<T> {}
-> +
-> +// SAFETY: `Device` only holds a pointer to a C device, references to wh=
-ich are safe to be used
-> +// from any thread.
-> +unsafe impl<T: drm::drv::Driver> Sync for Device<T> {}
-> +
-> +// Make drm::Device work for dev_info!() and friends
-> +unsafe impl<T: drm::drv::Driver> device::RawDevice for Device<T> {
-> +    fn raw_device(&self) -> *mut bindings::device {
-> +        // SAFETY: ptr must be valid per the type invariant
-> +        unsafe { (*self.ptr).dev }
-> +    }
-> +}
-> diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
-> new file mode 100644
-> index 000000000000..29a465515dc9
-> --- /dev/null
-> +++ b/rust/kernel/drm/drv.rs
-> @@ -0,0 +1,339 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +//! DRM driver core.
-> +//!
-> +//! C header: [`include/linux/drm/drm_drv.h`](../../../../include/linux/=
-drm/drm_drv.h)
-> +
-> +use crate::{
-> +    bindings, device, drm,
-> +    error::code::*,
-> +    error::from_kernel_err_ptr,
-> +    error::{Error, Result},
-> +    prelude::*,
-> +    private::Sealed,
-> +    str::CStr,
-> +    types::ForeignOwnable,
-> +    ThisModule,
-> +};
-> +use core::{
-> +    marker::{PhantomData, PhantomPinned},
-> +    pin::Pin,
-> +};
-> +use macros::vtable;
-> +
-> +/// Driver use the GEM memory manager. This should be set for all modern=
- drivers.
-> +pub const FEAT_GEM: u32 =3D bindings::drm_driver_feature_DRIVER_GEM;
-> +/// Driver supports mode setting interfaces (KMS).
-> +pub const FEAT_MODESET: u32 =3D bindings::drm_driver_feature_DRIVER_MODE=
-SET;
-> +/// Driver supports dedicated render nodes.
-> +pub const FEAT_RENDER: u32 =3D bindings::drm_driver_feature_DRIVER_RENDE=
-R;
-> +/// Driver supports the full atomic modesetting userspace API.
-> +///
-> +/// Drivers which only use atomic internally, but do not support the ful=
-l userspace API (e.g. not
-> +/// all properties converted to atomic, or multi-plane updates are not g=
-uaranteed to be tear-free)
-> +/// should not set this flag.
-> +pub const FEAT_ATOMIC: u32 =3D bindings::drm_driver_feature_DRIVER_ATOMI=
-C;
-> +/// Driver supports DRM sync objects for explicit synchronization of com=
-mand submission.
-> +pub const FEAT_SYNCOBJ: u32 =3D bindings::drm_driver_feature_DRIVER_SYNC=
-OBJ;
-> +/// Driver supports the timeline flavor of DRM sync objects for explicit=
- synchronization of command
-> +/// submission.
-> +pub const FEAT_SYNCOBJ_TIMELINE: u32 =3D bindings::drm_driver_feature_DR=
-IVER_SYNCOBJ_TIMELINE;
-> +
-> +/// Information data for a DRM Driver.
-> +pub struct DriverInfo {
-> +    /// Driver major version.
-> +    pub major: i32,
-> +    /// Driver minor version.
-> +    pub minor: i32,
-> +    /// Driver patchlevel version.
-> +    pub patchlevel: i32,
-> +    /// Driver name.
-> +    pub name: &'static CStr,
-> +    /// Driver description.
-> +    pub desc: &'static CStr,
-> +    /// Driver date.
-> +    pub date: &'static CStr,
-> +}
-> +
+To better filter results in debug tools like ftrace, prefix these
+functions with 'amdgpu_dm_crtc_'.
 
-Could you please add an Invariants section to the doc comments indicating w=
-hat requirements these function pointers must satisfy?
+Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 32 +++++++++----------
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 26 +++++++--------
+ .../amd/display/amdgpu_dm/amdgpu_dm_crtc.h    | 14 ++++----
+ 3 files changed, 36 insertions(+), 36 deletions(-)
 
-> +/// Internal memory management operation set, normally created by memory=
- managers (e.g. GEM).
-> +///
-> +/// See `kernel::drm::gem` and `kernel::drm::gem::shmem`.
-> +pub struct AllocOps {
-> +    pub(crate) gem_create_object: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            size: usize,
-> +        ) -> *mut bindings::drm_gem_object,
-> +    >,
-> +    pub(crate) prime_handle_to_fd: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            file_priv: *mut bindings::drm_file,
-> +            handle: u32,
-> +            flags: u32,
-> +            prime_fd: *mut core::ffi::c_int,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) prime_fd_to_handle: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            file_priv: *mut bindings::drm_file,
-> +            prime_fd: core::ffi::c_int,
-> +            handle: *mut u32,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) gem_prime_import: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            dma_buf: *mut bindings::dma_buf,
-> +        ) -> *mut bindings::drm_gem_object,
-> +    >,
-> +    pub(crate) gem_prime_import_sg_table: Option<
-> +        unsafe extern "C" fn(
-> +            dev: *mut bindings::drm_device,
-> +            attach: *mut bindings::dma_buf_attachment,
-> +            sgt: *mut bindings::sg_table,
-> +        ) -> *mut bindings::drm_gem_object,
-> +    >,
-> +    pub(crate) gem_prime_mmap: Option<
-> +        unsafe extern "C" fn(
-> +            obj: *mut bindings::drm_gem_object,
-> +            vma: *mut bindings::vm_area_struct,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) dumb_create: Option<
-> +        unsafe extern "C" fn(
-> +            file_priv: *mut bindings::drm_file,
-> +            dev: *mut bindings::drm_device,
-> +            args: *mut bindings::drm_mode_create_dumb,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) dumb_map_offset: Option<
-> +        unsafe extern "C" fn(
-> +            file_priv: *mut bindings::drm_file,
-> +            dev: *mut bindings::drm_device,
-> +            handle: u32,
-> +            offset: *mut u64,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +    pub(crate) dumb_destroy: Option<
-> +        unsafe extern "C" fn(
-> +            file_priv: *mut bindings::drm_file,
-> +            dev: *mut bindings::drm_device,
-> +            handle: u32,
-> +        ) -> core::ffi::c_int,
-> +    >,
-> +}
-> +
-> +/// Trait for memory manager implementations. Implemented internally.
-> +pub trait AllocImpl: Sealed {
-> +    /// The C callback operations for this memory manager.
-> +    const ALLOC_OPS: AllocOps;
-> +}
-> +
-> +/// A DRM driver implementation.
-> +#[vtable]
-> +pub trait Driver {
-> +    /// Context data associated with the DRM driver
-> +    ///
-> +    /// Determines the type of the context data passed to each of the me=
-thods of the trait.
-> +    type Data: ForeignOwnable + Sync + Send;
-> +
-> +    /// The type used to manage memory for this driver.
-> +    ///
-> +    /// Should be either `drm::gem::Object<T>` or `drm::gem::shmem::Obje=
-ct<T>`.
-> +    type Object: AllocImpl;
-> +
-> +    /// Driver metadata
-> +    const INFO: DriverInfo;
-> +
-> +    /// Feature flags
-> +    const FEATURES: u32;
-> +
-> +    /// IOCTL list. See `kernel::drm::ioctl::declare_drm_ioctls!{}`.
-> +    const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor];
-> +}
-> +
-> +/// A registration of a DRM device
-> +///
-> +/// # Invariants:
-> +///
-> +/// drm is always a valid pointer to an allocated drm_device
-> +pub struct Registration<T: Driver> {
-> +    drm: drm::device::Device<T>,
-> +    registered: bool,
-> +    fops: bindings::file_operations,
-> +    vtable: Pin<Box<bindings::drm_driver>>,
-> +    _p: PhantomData<T>,
-> +    _pin: PhantomPinned,
-> +}
-> +
-> +#[cfg(CONFIG_DRM_LEGACY)]
-> +macro_rules! drm_legacy_fields {
-> +    ( $($field:ident: $val:expr),* $(,)? ) =3D> {
-> +        bindings::drm_driver {
-> +            $( $field: $val ),*,
-> +            firstopen: None,
-> +            preclose: None,
-> +            dma_ioctl: None,
-> +            dma_quiescent: None,
-> +            context_dtor: None,
-> +            irq_handler: None,
-> +            irq_preinstall: None,
-> +            irq_postinstall: None,
-> +            irq_uninstall: None,
-> +            get_vblank_counter: None,
-> +            enable_vblank: None,
-> +            disable_vblank: None,
-> +            dev_priv_size: 0,
-> +        }
-> +    }
-> +}
-> +
-> +#[cfg(not(CONFIG_DRM_LEGACY))]
-> +macro_rules! drm_legacy_fields {
-> +    ( $($field:ident: $val:expr),* $(,)? ) =3D> {
-> +        bindings::drm_driver {
-> +            $( $field: $val ),*
-> +        }
-> +    }
-> +}
-> +
-> +/// Registers a DRM device with the rest of the kernel.
-> +///
-> +/// It automatically picks up THIS_MODULE.
-> +#[allow(clippy::crate_in_macro_def)]
-> +#[macro_export]
-> +macro_rules! drm_device_register {
-> +    ($reg:expr, $data:expr, $flags:expr $(,)?) =3D> {{
-> +        $crate::drm::drv::Registration::register($reg, $data, $flags, &c=
-rate::THIS_MODULE)
-> +    }};
-> +}
-> +
-> +impl<T: Driver> Registration<T> {
-> +    const VTABLE: bindings::drm_driver =3D drm_legacy_fields! {
-> +        load: None,
-> +        open: None, // TODO: File abstraction
-> +        postclose: None, // TODO: File abstraction
-> +        lastclose: None,
-> +        unload: None,
-> +        release: None,
-> +        master_set: None,
-> +        master_drop: None,
-> +        debugfs_init: None,
-> +        gem_create_object: T::Object::ALLOC_OPS.gem_create_object,
-> +        prime_handle_to_fd: T::Object::ALLOC_OPS.prime_handle_to_fd,
-> +        prime_fd_to_handle: T::Object::ALLOC_OPS.prime_fd_to_handle,
-> +        gem_prime_import: T::Object::ALLOC_OPS.gem_prime_import,
-> +        gem_prime_import_sg_table: T::Object::ALLOC_OPS.gem_prime_import=
-_sg_table,
-> +        gem_prime_mmap: T::Object::ALLOC_OPS.gem_prime_mmap,
-> +        dumb_create: T::Object::ALLOC_OPS.dumb_create,
-> +        dumb_map_offset: T::Object::ALLOC_OPS.dumb_map_offset,
-> +        dumb_destroy: T::Object::ALLOC_OPS.dumb_destroy,
-> +
-> +        major: T::INFO.major,
-> +        minor: T::INFO.minor,
-> +        patchlevel: T::INFO.patchlevel,
-> +        name: T::INFO.name.as_char_ptr() as *mut _,
-> +        desc: T::INFO.desc.as_char_ptr() as *mut _,
-> +        date: T::INFO.date.as_char_ptr() as *mut _,
-> +
-> +        driver_features: T::FEATURES,
-> +        ioctls: T::IOCTLS.as_ptr(),
-> +        num_ioctls: T::IOCTLS.len() as i32,
-> +        fops: core::ptr::null_mut(),
-> +    };
-> +
-> +    /// Creates a new [`Registration`] but does not register it yet.
-> +    ///
-> +    /// It is allowed to move.
-> +    pub fn new(parent: &dyn device::RawDevice) -> Result<Self> {
-> +        let vtable =3D Pin::new(Box::try_new(Self::VTABLE)?);
-> +        let raw_drm =3D unsafe { bindings::drm_dev_alloc(&*vtable, paren=
-t.raw_device()) };
-> +        let raw_drm =3D from_kernel_err_ptr(raw_drm)?;
-> +
-> +        // The reference count is one, and now we take ownership of that=
- reference as a
-> +        // drm::device::Device.
-> +        let drm =3D unsafe { drm::device::Device::from_raw(raw_drm) };
-> +
-> +        Ok(Self {
-> +            drm,
-> +            registered: false,
-> +            vtable,
-> +            fops: Default::default(), // TODO: GEM abstraction
-> +            _pin: PhantomPinned,
-> +            _p: PhantomData,
-> +        })
-> +    }
-> +
-> +    /// Registers a DRM device with the rest of the kernel.
-> +    ///
-> +    /// Users are encouraged to use the [`drm_device_register!()`] macro=
- because it automatically
-> +    /// picks up the current module.
-> +    pub fn register(
-> +        self: Pin<&mut Self>,
-> +        data: T::Data,
-> +        flags: usize,
-> +        module: &'static ThisModule,
-> +    ) -> Result {
-> +        if self.registered {
-> +            // Already registered.
-> +            return Err(EINVAL);
-> +        }
-> +
-> +        // SAFETY: We never move out of `this`.
-> +        let this =3D unsafe { self.get_unchecked_mut() };
-> +        let data_pointer =3D <T::Data as ForeignOwnable>::into_foreign(d=
-ata);
-> +        // SAFETY: `drm` is valid per the type invariant
-> +        unsafe {
-> +            (*this.drm.raw_mut()).dev_private =3D data_pointer as *mut _=
-;
-> +        }
-> +
-> +        this.fops.owner =3D module.0;
-> +        this.vtable.fops =3D &this.fops;
-> +
-> +        // SAFETY: The device is now initialized and ready to be registe=
-red.
-> +        let ret =3D unsafe { bindings::drm_dev_register(this.drm.raw_mut=
-(), flags as u64) };
-> +        if ret < 0 {
-> +            // SAFETY: `data_pointer` was returned by `into_foreign` abo=
-ve.
-> +            unsafe { T::Data::from_foreign(data_pointer) };
-> +            return Err(Error::from_kernel_errno(ret));
-> +        }
-> +
-> +        this.registered =3D true;
-> +        Ok(())
-> +    }
-> +
-> +    /// Returns a reference to the `Device` instance for this registrati=
-on.
-> +    pub fn device(&self) -> &drm::device::Device<T> {
-> +        &self.drm
-> +    }
-> +}
-> +
-> +// SAFETY: `Registration` doesn't offer any methods or access to fields =
-when shared between threads
-> +// or CPUs, so it is safe to share it.
-> +unsafe impl<T: Driver> Sync for Registration<T> {}
-> +
-> +// SAFETY: Registration with and unregistration from the drm subsystem c=
-an happen from any thread.
-> +// Additionally, `T::Data` (which is dropped during unregistration) is `=
-Send`, so it is ok to move
-> +// `Registration` to different threads.
-> +#[allow(clippy::non_send_fields_in_send_ty)]
-> +unsafe impl<T: Driver> Send for Registration<T> {}
-> +
-> +impl<T: Driver> Drop for Registration<T> {
-> +    /// Removes the registration from the kernel if it has completed suc=
-cessfully before.
-> +    fn drop(&mut self) {
-> +        if self.registered {
-> +            // Get a pointer to the data stored in device before destroy=
-ing it.
-> +            // SAFETY: `drm` is valid per the type invariant
-> +            let data_pointer =3D unsafe { (*self.drm.raw_mut()).dev_priv=
-ate };
-> +
-> +            // SAFETY: Since `registered` is true, `self.drm` is both va=
-lid and registered.
-> +            unsafe { bindings::drm_dev_unregister(self.drm.raw_mut()) };
-> +
-> +            // Free data as well.
-> +            // SAFETY: `data_pointer` was returned by `into_foreign` dur=
-ing registration.
-> +            unsafe { <T::Data as ForeignOwnable>::from_foreign(data_poin=
-ter) };
-> +        }
-> +    }
-> +}
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> index 9ec6d7cbcaf3..69376b3c6db9 100644
-> --- a/rust/kernel/drm/mod.rs
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -2,4 +2,6 @@
->=20
->  //! DRM subsystem abstractions.
->=20
-> +pub mod device;
-> +pub mod drv;
->  pub mod ioctl;
->=20
-> --
-> 2.35.1
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b472931cb7ca..b3e874589617 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -342,7 +342,7 @@ static inline bool is_dc_timing_adjust_needed(struct dm_crtc_state *old_state,
+ {
+ 	if (new_state->freesync_config.state ==  VRR_STATE_ACTIVE_FIXED)
+ 		return true;
+-	else if (amdgpu_dm_vrr_active(old_state) != amdgpu_dm_vrr_active(new_state))
++	else if (amdgpu_dm_crtc_vrr_active(old_state) != amdgpu_dm_crtc_vrr_active(new_state))
+ 		return true;
+ 	else
+ 		return false;
+@@ -436,7 +436,7 @@ static void dm_pflip_high_irq(void *interrupt_params)
+ 
+ 	WARN_ON(!e);
+ 
+-	vrr_active = amdgpu_dm_vrr_active_irq(amdgpu_crtc);
++	vrr_active = amdgpu_dm_crtc_vrr_active_irq(amdgpu_crtc);
+ 
+ 	/* Fixed refresh rate, or VRR scanout position outside front-porch? */
+ 	if (!vrr_active ||
+@@ -510,7 +510,7 @@ static void dm_vupdate_high_irq(void *interrupt_params)
+ 	acrtc = get_crtc_by_otg_inst(adev, irq_params->irq_src - IRQ_TYPE_VUPDATE);
+ 
+ 	if (acrtc) {
+-		vrr_active = amdgpu_dm_vrr_active_irq(acrtc);
++		vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
+ 		drm_dev = acrtc->base.dev;
+ 		vblank = &drm_dev->vblank[acrtc->base.index];
+ 		previous_timestamp = atomic64_read(&irq_params->previous_timestamp);
+@@ -534,7 +534,7 @@ static void dm_vupdate_high_irq(void *interrupt_params)
+ 		 * if a pageflip happened inside front-porch.
+ 		 */
+ 		if (vrr_active) {
+-			dm_crtc_handle_vblank(acrtc);
++			amdgpu_dm_crtc_handle_vblank(acrtc);
+ 
+ 			/* BTR processing for pre-DCE12 ASICs */
+ 			if (acrtc->dm_irq_params.stream &&
+@@ -574,7 +574,7 @@ static void dm_crtc_high_irq(void *interrupt_params)
+ 	if (!acrtc)
+ 		return;
+ 
+-	vrr_active = amdgpu_dm_vrr_active_irq(acrtc);
++	vrr_active = amdgpu_dm_crtc_vrr_active_irq(acrtc);
+ 
+ 	DC_LOG_VBLANK("crtc:%d, vupdate-vrr:%d, planes:%d\n", acrtc->crtc_id,
+ 		      vrr_active, acrtc->dm_irq_params.active_planes);
+@@ -586,7 +586,7 @@ static void dm_crtc_high_irq(void *interrupt_params)
+ 	 * to dm_vupdate_high_irq after end of front-porch.
+ 	 */
+ 	if (!vrr_active)
+-		dm_crtc_handle_vblank(acrtc);
++		amdgpu_dm_crtc_handle_vblank(acrtc);
+ 
+ 	/**
+ 	 * Following stuff must happen at start of vblank, for crc
+@@ -2483,11 +2483,11 @@ static void dm_gpureset_toggle_interrupts(struct amdgpu_device *adev,
+ 					 enable ? "enable" : "disable");
+ 
+ 			if (enable) {
+-				rc = dm_enable_vblank(&acrtc->base);
++				rc = amdgpu_dm_crtc_enable_vblank(&acrtc->base);
+ 				if (rc)
+ 					DRM_WARN("Failed to enable vblank interrupts\n");
+ 			} else {
+-				dm_disable_vblank(&acrtc->base);
++				amdgpu_dm_crtc_disable_vblank(&acrtc->base);
+ 			}
+ 
+ 		}
+@@ -7746,7 +7746,7 @@ static void update_freesync_state_on_stream(
+ 			&vrr_params);
+ 
+ 		if (adev->family < AMDGPU_FAMILY_AI &&
+-		    amdgpu_dm_vrr_active(new_crtc_state)) {
++		    amdgpu_dm_crtc_vrr_active(new_crtc_state)) {
+ 			mod_freesync_handle_v_update(dm->freesync_module,
+ 						     new_stream, &vrr_params);
+ 
+@@ -7864,8 +7864,8 @@ static void update_stream_irq_parameters(
+ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
+ 					    struct dm_crtc_state *new_state)
+ {
+-	bool old_vrr_active = amdgpu_dm_vrr_active(old_state);
+-	bool new_vrr_active = amdgpu_dm_vrr_active(new_state);
++	bool old_vrr_active = amdgpu_dm_crtc_vrr_active(old_state);
++	bool new_vrr_active = amdgpu_dm_crtc_vrr_active(new_state);
+ 
+ 	if (!old_vrr_active && new_vrr_active) {
+ 		/* Transition VRR inactive -> active:
+@@ -7876,7 +7876,7 @@ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
+ 		 * We also need vupdate irq for the actual core vblank handling
+ 		 * at end of vblank.
+ 		 */
+-		WARN_ON(dm_set_vupdate_irq(new_state->base.crtc, true) != 0);
++		WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, true) != 0);
+ 		WARN_ON(drm_crtc_vblank_get(new_state->base.crtc) != 0);
+ 		DRM_DEBUG_DRIVER("%s: crtc=%u VRR off->on: Get vblank ref\n",
+ 				 __func__, new_state->base.crtc->base.id);
+@@ -7884,7 +7884,7 @@ static void amdgpu_dm_handle_vrr_transition(struct dm_crtc_state *old_state,
+ 		/* Transition VRR active -> inactive:
+ 		 * Allow vblank irq disable again for fixed refresh rate.
+ 		 */
+-		WARN_ON(dm_set_vupdate_irq(new_state->base.crtc, false) != 0);
++		WARN_ON(amdgpu_dm_crtc_set_vupdate_irq(new_state->base.crtc, false) != 0);
+ 		drm_crtc_vblank_put(new_state->base.crtc);
+ 		DRM_DEBUG_DRIVER("%s: crtc=%u VRR on->off: Drop vblank ref\n",
+ 				 __func__, new_state->base.crtc->base.id);
+@@ -7926,7 +7926,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
+ 	int planes_count = 0, vpos, hpos;
+ 	unsigned long flags;
+ 	u32 target_vblank, last_flip_vblank;
+-	bool vrr_active = amdgpu_dm_vrr_active(acrtc_state);
++	bool vrr_active = amdgpu_dm_crtc_vrr_active(acrtc_state);
+ 	bool cursor_update = false;
+ 	bool pflip_present = false;
+ 	bool dirty_rects_changed = false;
+@@ -8476,7 +8476,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 		 * aconnector as needed
+ 		 */
+ 
+-		if (modeset_required(new_crtc_state, dm_new_crtc_state->stream, dm_old_crtc_state->stream)) {
++		if (amdgpu_dm_crtc_modeset_required(new_crtc_state, dm_new_crtc_state->stream, dm_old_crtc_state->stream)) {
+ 
+ 			DRM_DEBUG_ATOMIC("Atomic commit: SET crtc id %d: [%p]\n", acrtc->crtc_id, acrtc);
+ 
+@@ -9301,7 +9301,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
+ 		if (modereset_required(new_crtc_state))
+ 			goto skip_modeset;
+ 
+-		if (modeset_required(new_crtc_state, new_stream,
++		if (amdgpu_dm_crtc_modeset_required(new_crtc_state, new_stream,
+ 				     dm_old_crtc_state->stream)) {
+ 
+ 			WARN_ON(dm_new_crtc_state->stream);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+index dc4f37240beb..1d924dc51a3e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
+@@ -34,7 +34,7 @@
+ #include "amdgpu_dm_trace.h"
+ #include "amdgpu_dm_debugfs.h"
+ 
+-void dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
++void amdgpu_dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
+ {
+ 	struct drm_crtc *crtc = &acrtc->base;
+ 	struct drm_device *dev = crtc->dev;
+@@ -54,14 +54,14 @@ void dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc)
+ 	spin_unlock_irqrestore(&dev->event_lock, flags);
+ }
+ 
+-bool modeset_required(struct drm_crtc_state *crtc_state,
++bool amdgpu_dm_crtc_modeset_required(struct drm_crtc_state *crtc_state,
+ 			     struct dc_stream_state *new_stream,
+ 			     struct dc_stream_state *old_stream)
+ {
+ 	return crtc_state->active && drm_atomic_crtc_needs_modeset(crtc_state);
+ }
+ 
+-bool amdgpu_dm_vrr_active_irq(struct amdgpu_crtc *acrtc)
++bool amdgpu_dm_crtc_vrr_active_irq(struct amdgpu_crtc *acrtc)
+ 
+ {
+ 	return acrtc->dm_irq_params.freesync_config.state ==
+@@ -70,7 +70,7 @@ bool amdgpu_dm_vrr_active_irq(struct amdgpu_crtc *acrtc)
+ 		       VRR_STATE_ACTIVE_FIXED;
+ }
+ 
+-int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
++int amdgpu_dm_crtc_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
+ {
+ 	enum dc_irq_source irq_source;
+ 	struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+@@ -89,7 +89,7 @@ int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
+ 	return rc;
+ }
+ 
+-bool amdgpu_dm_vrr_active(struct dm_crtc_state *dm_state)
++bool amdgpu_dm_crtc_vrr_active(struct dm_crtc_state *dm_state)
+ {
+ 	return dm_state->freesync_config.state == VRR_STATE_ACTIVE_VARIABLE ||
+ 	       dm_state->freesync_config.state == VRR_STATE_ACTIVE_FIXED;
+@@ -159,11 +159,11 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
+ 
+ 	if (enable) {
+ 		/* vblank irq on -> Only need vupdate irq in vrr mode */
+-		if (amdgpu_dm_vrr_active(acrtc_state))
+-			rc = dm_set_vupdate_irq(crtc, true);
++		if (amdgpu_dm_crtc_vrr_active(acrtc_state))
++			rc = amdgpu_dm_crtc_set_vupdate_irq(crtc, true);
+ 	} else {
+ 		/* vblank irq off -> vupdate irq off */
+-		rc = dm_set_vupdate_irq(crtc, false);
++		rc = amdgpu_dm_crtc_set_vupdate_irq(crtc, false);
+ 	}
+ 
+ 	if (rc)
+@@ -199,12 +199,12 @@ static inline int dm_set_vblank(struct drm_crtc *crtc, bool enable)
+ 	return 0;
+ }
+ 
+-int dm_enable_vblank(struct drm_crtc *crtc)
++int amdgpu_dm_crtc_enable_vblank(struct drm_crtc *crtc)
+ {
+ 	return dm_set_vblank(crtc, true);
+ }
+ 
+-void dm_disable_vblank(struct drm_crtc *crtc)
++void amdgpu_dm_crtc_disable_vblank(struct drm_crtc *crtc)
+ {
+ 	dm_set_vblank(crtc, false);
+ }
+@@ -300,8 +300,8 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
+ 	.verify_crc_source = amdgpu_dm_crtc_verify_crc_source,
+ 	.get_crc_sources = amdgpu_dm_crtc_get_crc_sources,
+ 	.get_vblank_counter = amdgpu_get_vblank_counter_kms,
+-	.enable_vblank = dm_enable_vblank,
+-	.disable_vblank = dm_disable_vblank,
++	.enable_vblank = amdgpu_dm_crtc_enable_vblank,
++	.disable_vblank = amdgpu_dm_crtc_disable_vblank,
+ 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+ #if defined(CONFIG_DEBUG_FS)
+ 	.late_register = amdgpu_dm_crtc_late_register,
+@@ -381,7 +381,7 @@ static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+ 	dm_update_crtc_active_planes(crtc, crtc_state);
+ 
+ 	if (WARN_ON(unlikely(!dm_crtc_state->stream &&
+-			modeset_required(crtc_state, NULL, dm_crtc_state->stream)))) {
++			amdgpu_dm_crtc_modeset_required(crtc_state, NULL, dm_crtc_state->stream)))) {
+ 		return ret;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h
+index 1ac8692354cf..17e948753f59 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h
+@@ -27,21 +27,21 @@
+ #ifndef __AMDGPU_DM_CRTC_H__
+ #define __AMDGPU_DM_CRTC_H__
+ 
+-void dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc);
++void amdgpu_dm_crtc_handle_vblank(struct amdgpu_crtc *acrtc);
+ 
+-bool modeset_required(struct drm_crtc_state *crtc_state,
++bool amdgpu_dm_crtc_modeset_required(struct drm_crtc_state *crtc_state,
+ 		      struct dc_stream_state *new_stream,
+ 		      struct dc_stream_state *old_stream);
+ 
+-int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable);
++int amdgpu_dm_crtc_set_vupdate_irq(struct drm_crtc *crtc, bool enable);
+ 
+-bool amdgpu_dm_vrr_active_irq(struct amdgpu_crtc *acrtc);
++bool amdgpu_dm_crtc_vrr_active_irq(struct amdgpu_crtc *acrtc);
+ 
+-bool amdgpu_dm_vrr_active(struct dm_crtc_state *dm_state);
++bool amdgpu_dm_crtc_vrr_active(struct dm_crtc_state *dm_state);
+ 
+-int dm_enable_vblank(struct drm_crtc *crtc);
++int amdgpu_dm_crtc_enable_vblank(struct drm_crtc *crtc);
+ 
+-void dm_disable_vblank(struct drm_crtc *crtc);
++void amdgpu_dm_crtc_disable_vblank(struct drm_crtc *crtc);
+ 
+ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
+ 			struct drm_plane *plane,
+-- 
+2.39.2
 
-Cheers,
-Bjorn
