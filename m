@@ -1,73 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B956AF928
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 23:46:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E936AF97D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 23:49:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 140C810E071;
-	Tue,  7 Mar 2023 22:46:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D15710E56A;
+	Tue,  7 Mar 2023 22:49:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 908FD10E071
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:46:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF26E10E56B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678229208;
+ s=mimecast20190719; t=1678229355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D+lMV0jdd+rVbHQRucIl145VMEMkgnli2TmhEhYF6aE=;
- b=N1eBZkRCyy+8lq3a5tWstwejp5m8lXwtjhUe+S2Emc9lkWM1V2rgtvowHqYq+OxJ0ROlvr
- sMlE9YBFoXsjCy1bmAgqh6BW24BVeVind5/A0RDsJicD93yUR2KD2U4Z7TK581Pd6OoAVO
- fr3a57pAc5OkvLnH4VHQ5qoRA2Bzzz8=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=urgniuwIBWeoGMPS8boRrlzhMscnLqM508A9kIsStfo=;
+ b=i6SJ0Zg44x2Ax5pSSqQpegP4RJreHuwl89IDqvv0JNTUUc33HF9sq6z+B3S43tMzkxZXIl
+ 3VQh8fL3Td9+TH7e2IkLFPghfHMpqqPSA6l23D8Lf/u+JsIRmnzXMeSzx/S82J/9PpPXYv
+ l+XFSv2SbTZBUByN/CAymSlpCb8PFTI=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-288-5ntDpWz9OEevXO31qeNy0w-1; Tue, 07 Mar 2023 17:46:47 -0500
-X-MC-Unique: 5ntDpWz9OEevXO31qeNy0w-1
-Received: by mail-qk1-f198.google.com with SMTP id
- x14-20020ae9e90e000000b007429af46d5eso8249872qkf.12
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 14:46:47 -0800 (PST)
+ us-mta-168-pYRZy0RnOTGcPSRNC-Pftw-1; Tue, 07 Mar 2023 17:49:11 -0500
+X-MC-Unique: pYRZy0RnOTGcPSRNC-Pftw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ t22-20020ac86a16000000b003bd1c0f74cfso8042844qtr.20
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 14:49:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678229207;
+ d=1e100.net; s=20210112; t=1678229351;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D+lMV0jdd+rVbHQRucIl145VMEMkgnli2TmhEhYF6aE=;
- b=dwrXPMunPB1vuOq1PlUl8BVQUWSbLWMwsIADo7IByudnwGVQF5awamxKngHZzRIQNw
- GxebycihOAcPgtaDRZvh4znJeDgxTEfWZo6FKGeJuJQXUJNaAEgKmy8yy/BHTOJzRm2K
- z7zUyP+pwHqvaRK0w5YNh9v/puazlqpkDCVwsM9oEJN8/AJYN7QG5XYISCerxg1ZFTif
- WSXG7W7b+uQEqMUowtxRV4c+yeZyrFV4/c0h8PkyF5T34FXH14GGLdhEDUesLQKs8Yxg
- jSXLKa7HQW7lA2dfvVlF9isKDQVAgCNvt76lpCbBPjWqkZcXIPYq9u+nOXxhiuEyrKUG
- Wc7Q==
-X-Gm-Message-State: AO0yUKXgPXQgFqSNLs4n0nfmWibO9e7T40grFPfJXiI3tu4+/YKX3MgZ
- BKSVEHx/2jkQKWcF23ydf+kf9MMkrSLB3EYbSpdrZOuVRHunP7u5a6+C83QIu56itP10fDxeDW0
- xEiXjqNPa3M1SUMnncwUZWRmgDs55
-X-Received: by 2002:a05:622a:24c:b0:3bf:d07e:ee17 with SMTP id
- c12-20020a05622a024c00b003bfd07eee17mr27703396qtx.39.1678229207428; 
- Tue, 07 Mar 2023 14:46:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set8P1yL5WfXGleyVYacQ3ibXaMhN21P0MtcWzIXGgZJYC6emze48ZF0Sor8oqXZOxb/jcDhmSA==
-X-Received: by 2002:a05:622a:24c:b0:3bf:d07e:ee17 with SMTP id
- c12-20020a05622a024c00b003bfd07eee17mr27703371qtx.39.1678229207119; 
- Tue, 07 Mar 2023 14:46:47 -0800 (PST)
+ bh=jpiPjWQVLrWJQByXN7/QqMdv5LfiV5aMULGXTdQqSWA=;
+ b=K8x5F9fU1n3DTBjRjdUr9U3jvJM2a5rZHgFjIBbzM7IesSg+Dc+h53fyE/fyGKZf1S
+ kDG49CV46IN0mG607XKf5XxJXgfRRxaMNot+LWXtEcI7hYktFWBrePp7Kpl2H14wsSuR
+ 16y1kRkTSqtboVtU9QxuuBlnb4pp+ckHgnKv/N/1U15WoLZzy9OWlH02JOfDKt9pEkCn
+ I8orZYYr+njZI/zvcbsscR5PcoxqYKgzJFZP+p7X0dLmWI4X3d07hfepfCfZwLPfj5Od
+ 25VPqS0OvHW0g12ehZc4IaOPd/3+wZYK24ElUuq5DjKdLcxILUpqcU1+l5/BpV+UwOhb
+ Bdsw==
+X-Gm-Message-State: AO0yUKVnDNyl2n1NhzsX9DFvR+XcIVei/VtXN932Ij7+y7xHWU7jE3E5
+ qDZ85J0nZ6mRpCKbL5vgCa7RqoFEti3RqY2dK9u9wRNy8ZU2yi3rwmJ254unkV/qN5Zo9xLgpwd
+ bSv458ToqJ/tPgZl6qx70t+dC07Gc
+X-Received: by 2002:a05:622a:15c6:b0:3bf:e39f:a9aa with SMTP id
+ d6-20020a05622a15c600b003bfe39fa9aamr29975769qty.27.1678229350750; 
+ Tue, 07 Mar 2023 14:49:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set8D0kt0w8UWfWFSmc8IGR59KwpNAYdDZegDL5U+4w/82o/iSmt73NW03WYqKFasWTrX/rU/LA==
+X-Received: by 2002:a05:622a:15c6:b0:3bf:e39f:a9aa with SMTP id
+ d6-20020a05622a15c600b003bfe39fa9aamr29975745qty.27.1678229350506; 
+ Tue, 07 Mar 2023 14:49:10 -0800 (PST)
 Received: from ?IPv6:2600:4040:5c68:6800::feb? ([2600:4040:5c68:6800::feb])
  by smtp.gmail.com with ESMTPSA id
- w19-20020ac843d3000000b003bfbf3afe51sm10369764qtn.93.2023.03.07.14.46.46
+ 191-20020a370cc8000000b007416c11ea03sm10364394qkm.26.2023.03.07.14.49.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 14:46:46 -0800 (PST)
-Message-ID: <160cbdb25510df6f2e3194c6dd4a2c47a4ee70b7.camel@redhat.com>
-Subject: Re: [PATCH 0/2] drm/nouveau: avoid usage of list iterator after loop
+ Tue, 07 Mar 2023 14:49:09 -0800 (PST)
+Message-ID: <361fb10adaa1cb3ff5360cbb0e36a3c1e99fe3e8.camel@redhat.com>
+Subject: Re: [PATCH 1/2] drm/nouveau/device: avoid usage of list iterator
+ after loop
 From: Lyude Paul <lyude@redhat.com>
 To: Jakob Koschel <jkl820.git@gmail.com>, Ben Skeggs <bskeggs@redhat.com>, 
  Karol Herbst <kherbst@redhat.com>, David Airlie <airlied@gmail.com>, Daniel
  Vetter <daniel@ffwll.ch>
-Date: Tue, 07 Mar 2023 17:46:45 -0500
-In-Reply-To: <2732d141a82c0f9410d001fe656d30c5e32311de.camel@redhat.com>
+Date: Tue, 07 Mar 2023 17:49:08 -0500
+In-Reply-To: <20230301-drm-nouveau-avoid-iter-after-loop-v1-1-0702ec23f970@gmail.com>
 References: <20230301-drm-nouveau-avoid-iter-after-loop-v1-0-0702ec23f970@gmail.com>
- <2732d141a82c0f9410d001fe656d30c5e32311de.camel@redhat.com>
+ <20230301-drm-nouveau-avoid-iter-after-loop-v1-1-0702ec23f970@gmail.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
 MIME-Version: 1.0
@@ -93,47 +94,64 @@ Cc: nouveau@lists.freedesktop.org, Pietro Borrello <borrello@diag.uniroma1.it>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Actually hm, dim is warning me about this and making me realize there's
-probably a better way to handle this, going to revoke the previous r-b I ga=
-ve
-and respond inline
+On Wed, 2023-03-01 at 18:25 +0100, Jakob Koschel wrote:
+> If potentially no valid element is found, 'pstate' would contain an
+> invalid pointer past the iterator loop. To ensure 'pstate' is always
+> valid, we only set it if the correct element was found. That allows
+> adding a BUG_ON in case the code works incorrectly, exposing currently
+> undetectable potential bugs.
+>=20
+> Additionally, Linus proposed to avoid any use of the list iterator
+> variable after the loop, in the attempt to move the list iterator
+> variable declaration into the marcro to avoid any potential misuse after
+> the loop [1].
+>=20
+> Link: https://lore.kernel.org/all/CAHk-=3DwgRr_D8CB-D9Kg-c=3DEHreAsk5SqXP=
+wr9Y7k9sA6cWXJ6w@mail.gmail.com/ [1]
+> Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
+> ---
+>  drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c b/drivers/=
+gpu/drm/nouveau/nvkm/engine/device/ctrl.c
+> index ce774579c89d..7c9dd91e98ee 100644
+> --- a/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c
+> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c
+> @@ -72,7 +72,7 @@ nvkm_control_mthd_pstate_attr(struct nvkm_control *ctrl=
+, void *data, u32 size)
+>  =09} *args =3D data;
+>  =09struct nvkm_clk *clk =3D ctrl->device->clk;
+>  =09const struct nvkm_domain *domain;
+> -=09struct nvkm_pstate *pstate;
+> +=09struct nvkm_pstate *pstate =3D NULL, *iter;
+>  =09struct nvkm_cstate *cstate;
+>  =09int i =3D 0, j =3D -1;
+>  =09u32 lo, hi;
+> @@ -103,11 +103,14 @@ nvkm_control_mthd_pstate_attr(struct nvkm_control *=
+ctrl, void *data, u32 size)
+>  =09=09return -EINVAL;
+> =20
+>  =09if (args->v0.state !=3D NVIF_CONTROL_PSTATE_ATTR_V0_STATE_CURRENT) {
+> -=09=09list_for_each_entry(pstate, &clk->states, head) {
+> -=09=09=09if (i++ =3D=3D args->v0.state)
+> +=09=09list_for_each_entry(iter, &clk->states, head) {
+> +=09=09=09if (i++ =3D=3D args->v0.state) {
+> +=09=09=09=09pstate =3D iter;
+>  =09=09=09=09break;
+> +=09=09=09}
+>  =09=09}
+> =20
+> +=09=09BUG_ON(!pstate);
 
-On Tue, 2023-03-07 at 17:43 -0500, Lyude Paul wrote:
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
->=20
-> Will push upstream in just a moment
->=20
-> On Wed, 2023-03-01 at 18:25 +0100, Jakob Koschel wrote:
-> > This patch set includes two instances where the list iterator variable
-> > 'pstate' is implicitly assumed to be valid after the iterator loop.
-> > While in pratice that is most likely the case (if
-> > 'pstatei'/'args->v0.state' is <=3D the elements in clk->states), we sho=
-uld
-> > explicitly only allow 'pstate' to always point to correct 'nvkm_pstate'
-> > structs.
-> >=20
-> > That allows catching potential bugs with BUG_ON(!pstate) that otherwise
-> > would be completely undetectable.
-> >=20
-> > It also helps the greater mission to hopefully move the list iterator
-> > variable into the iterating macro directly [1].
-> >=20
-> > Link: https://lore.kernel.org/all/CAHk-=3DwgRr_D8CB-D9Kg-c=3DEHreAsk5Sq=
-XPwr9Y7k9sA6cWXJ6w@mail.gmail.com/ [1]
-> > Signed-off-by: Jakob Koschel <jkl820.git@gmail.com>
-> > ---
-> > Jakob Koschel (2):
-> >       drm/nouveau/device: avoid usage of list iterator after loop
-> >       drm/nouveau/clk: avoid usage of list iterator after loop
-> >=20
-> >  drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c | 9 ++++++---
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/clk/base.c    | 9 ++++++---
-> >  2 files changed, 12 insertions(+), 6 deletions(-)
-> > ---
-> > base-commit: c0927a7a5391f7d8e593e5e50ead7505a23cadf9
-> > change-id: 20230301-drm-nouveau-avoid-iter-after-loop-4bff97166efa
-> >=20
-> > Best regards,
+Let's replace this with
+
+=09=09if (WARN_ON_ONCE(!pstate))
+=09=09=09return -EINVAL;
+
+>  =09=09lo =3D pstate->base.domain[domain->name];
+>  =09=09hi =3D lo;
+>  =09=09list_for_each_entry(cstate, &pstate->list, head) {
 >=20
 
 --=20
