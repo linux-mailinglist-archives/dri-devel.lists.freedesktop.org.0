@@ -1,71 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056AE6ADA0C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 10:17:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331326ADA18
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 10:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24F710E3B4;
-	Tue,  7 Mar 2023 09:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304F610E38E;
+	Tue,  7 Mar 2023 09:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D022710E3B8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 09:17:07 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id x3so49432037edb.10
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 01:17:07 -0800 (PST)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D8BF10E38A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 09:19:53 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id p16so7274611wmq.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 01:19:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678180626;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WFABy9U7esu++afwwpsJQiDnIZRoaCQ7T2FtObsP3io=;
- b=M9FcPcGCviYeDHBK3iUL8M9xZII/LkzvDQWrPLfi7uuNQkf6x6Y6ofBP4fGdNCgIA4
- ikkicI1LPvFBXsllIRa7ewtEZjZHtv/phVduUl7oBPegVP4QP1UJQgLjd7/QOsICnUMF
- qq1Vnj01oNURFjKZaZN+nNaVgTBiYhdJEgmiVG/dT6Jk6zlhFXUmwfEdeDHz1K+QKk7v
- Qr7QC231FBTwCgiD133Z8YTy/8aV7sAsPbj3sTUIg016uV1cE93r2Quaw1C2jJuHyNPJ
- /rx4HimNxva0J6WSHtlGJDY+5q7LDNPVCiJdljNmbg8n1dMoKMg/C3MRZrtELDYFvw3a
- awPg==
+ d=linaro.org; s=google; t=1678180792;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xvf3J0opIvDUcxf9EVO52WF3b9vkBrT7WnUb6TfxtQw=;
+ b=qlSONsvqCrRJCiKnQemhSWVzmW8IkLxHGjVLW+q3uPKfZB74eSAgFyNGsjVpOIppKR
+ N7WvqjftsfK69mezO3QyBdmQeRB48X/cA/zRMbjS401KI8VVZa/VpmnM0rgvi3WW/iAs
+ 4+JqUn3vf8CiUvM10mRD8HJgsZnRr9AzQJVu6K7xatmQF67cDI7+i98GC3FZV6qvsmzX
+ PSastNPqf1afvY4XteO+Y/ooO5tuuF/UIREF1YpZtfJ8cVrv8BwN+Q04csKll7eO7mUi
+ JKAvh8MKLkhF/bzJDgIzbLl3fLg4kwPJVEFLYRoiiT5N+zx2PpBCDVEdhWDYANtCSfNd
+ McmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678180626;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WFABy9U7esu++afwwpsJQiDnIZRoaCQ7T2FtObsP3io=;
- b=oIeduLRKUQnZAsDS5LvElqifogaFoMiyLVzoJkLC4+N9eBBvOJfXiaQZh9EN60HgUP
- Co+OBe7U7Ds786U25N+lsnQ1hq5ifpu2wv3ddWc7tdB0JtjejNFTP5T6V9fTi/hIXrB/
- 6SOzOcap1Gpw2O6itdjEIY2CPUQeMwpNOuy5M44Cw1lSuicJu0q9LEhF/o+3UhELlSqA
- ucw3gx9+kQOYFH6pytXi1gL5RRz/e2+/K3mxky9s8bYBhMAXKM2Qv1dWd68mPIurnKO9
- dWrtQbGUEVBE9RwsyA5v4Ly988JG01stNq4AlohMGFDe18jsNFDoV+1C+pXhNGPN87px
- U3lg==
-X-Gm-Message-State: AO0yUKV8GPV9d+EuAPYfMoG3QrgiH6BBBHktP8OiIm34fEPSANRSor7j
- 7ryuSPYpBvd58aB1bmNSyZDHFA==
-X-Google-Smtp-Source: AK7set+C7U+DtyopUxx2vW7YdSkRAjedWzNsOMtGriAwgL9ZCFn9LzJVtn+nGFhe7mYGjehkdPQYCA==
-X-Received: by 2002:aa7:d78b:0:b0:4ac:c029:ea72 with SMTP id
- s11-20020aa7d78b000000b004acc029ea72mr12779040edq.36.1678180626355; 
- Tue, 07 Mar 2023 01:17:06 -0800 (PST)
-Received: from ?IPV6:2a02:810d:15c0:828:5310:35c7:6f9e:2cd3?
- ([2a02:810d:15c0:828:5310:35c7:6f9e:2cd3])
+ d=1e100.net; s=20210112; t=1678180792;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xvf3J0opIvDUcxf9EVO52WF3b9vkBrT7WnUb6TfxtQw=;
+ b=JCOXpth4xGmxTm7CZACHD2i6tEkYT/GeIQj9oEVxn6jjSbqvRGTfnMZXuKc625HqxX
+ f0YmpRIOy4+o06PYNVLuXZBGCRYb2ixITK2x0wBscYIR6WMW0JT8v2oekCI/Efa9EVS7
+ KqrSQPXhWMtLLTs3KADhS8XEnyI99tbXaUDddAs1eeTIkhuALPzMIhLmDVfI9OnVPPWF
+ tbUfZ9gXOP+AXbeJ5Juf05Pxp9keCl8LLF428ZCAtqgro4jdcxvptJz7FmZ9McDx7Ky7
+ 5LkuGj+XCppUwyN9fNGU/uqPowCnbigHi8FRp03gssdrf38CNVzT25Pb9K0EXTfWLGd+
+ mpJg==
+X-Gm-Message-State: AO0yUKX3fnPEn7leMhIcOQr9EdePA2iajmaEl3cfpobZX5zKqbMlytXn
+ UAb58hbYOiGdqwGku8Si5Q5qBg==
+X-Google-Smtp-Source: AK7set/k5WpOi8Sz3yDYvf2/fNpy2N6KzP1JdktA73cysUhzQQJhzb0GXWO8S+TNxvAb6p0yyfaazA==
+X-Received: by 2002:a05:600c:4448:b0:3ea:82a9:3644 with SMTP id
+ v8-20020a05600c444800b003ea82a93644mr11655011wmn.34.1678180791874; 
+ Tue, 07 Mar 2023 01:19:51 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:6faa:6d13:586e:871d?
+ ([2a01:e0a:982:cbb0:6faa:6d13:586e:871d])
  by smtp.gmail.com with ESMTPSA id
- s30-20020a508d1e000000b004c5d1a15bd5sm2350448eds.69.2023.03.07.01.17.05
+ c12-20020a5d63cc000000b002c5801aa9b0sm12141821wrw.40.2023.03.07.01.19.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 01:17:05 -0800 (PST)
-Message-ID: <bcb5c17f-da78-9d68-66eb-b620ee583602@linaro.org>
-Date: Tue, 7 Mar 2023 10:17:04 +0100
+ Tue, 07 Mar 2023 01:19:51 -0800 (PST)
+Message-ID: <6c58497d-47c4-002f-4f39-977706f9df87@linaro.org>
+Date: Tue, 7 Mar 2023 10:19:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 8/9] dt-bindings: display/msm: dsi-controller-main: Add
- SM6115
+ Thunderbird/102.7.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 2/2] gpu/drm/panel: Add Lenovo NT36523W BOE panel
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org
-References: <20230213121012.1768296-1-konrad.dybcio@linaro.org>
- <20230213121012.1768296-9-konrad.dybcio@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230213121012.1768296-9-konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+To: Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230217-topic-lenovo-panel-v1-0-9d7ee1602089@linaro.org>
+ <20230217-topic-lenovo-panel-v1-2-9d7ee1602089@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230217-topic-lenovo-panel-v1-2-9d7ee1602089@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,37 +83,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Reply-To: neil.armstrong@linaro.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 13:10, Konrad Dybcio wrote:
-> Add a compatible for the DSI on SM6115.
+Hi,
+
+On 17/02/2023 12:29, Konrad Dybcio wrote:
+> Introduce support for the BOE panel with a NT36523W touch/driver IC
+> found on some Lenovo Tab P11 devices. It's a 2000x1200, 24bit RGB
+> MIPI DSI panel with integrated DCS-controlled backlight (that expects
+> big-endian communication).
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
->  1 file changed, 2 insertions(+)
+>   drivers/gpu/drm/panel/Kconfig                     |  12 +
+>   drivers/gpu/drm/panel/Makefile                    |   1 +
+>   drivers/gpu/drm/panel/panel-lenovo-nt36523w-boe.c | 751 ++++++++++++++++++++++
+>   3 files changed, 764 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> index 2494817c1bd6..f195530ae964 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> @@ -25,6 +25,7 @@ properties:
->                - qcom,sc7280-dsi-ctrl
->                - qcom,sdm660-dsi-ctrl
->                - qcom,sdm845-dsi-ctrl
-> +              - qcom,sm6115-dsi-ctrl
 
-This looks incomplete. You also need to add it to MDSS binding.
+<snip>
 
-Best regards,
-Krzysztof
+> diff --git a/drivers/gpu/drm/panel/panel-lenovo-nt36523w-boe.c b/drivers/gpu/drm/panel/panel-lenovo-nt36523w-boe.c
+> new file mode 100644
+> index 000000000000..83478e471493
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panel/panel-lenovo-nt36523w-boe.c
+> @@ -0,0 +1,751 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2023 Linaro Limited
+> + *
+> + * Generated with linux-mdss-dsi-panel-driver-generator with
+> + * some manual adjustments.
+> + */
 
+<snip>
+
+> +static int nt36523w_boe_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness = backlight_get_brightness(bl);
+> +	int ret;
+> +
+> +	brightness = cpu_to_be16(brightness);
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
+> +	if (ret < 0)
+> +		return ret;
+
+It's not wrong as is, but could you switch to mipi_dsi_dcs_set_display_brightness_large() ?
+
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	return 0;
+> +}
+> +
+> +static int nt36523w_boe_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct mipi_dsi_device *dsi = bl_get_data(bl);
+> +	u16 brightness;
+> +	int ret;
+> +
+> +	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +
+> +	ret = mipi_dsi_dcs_get_display_brightness(dsi, &brightness);
+
+And here to  mipi_dsi_dcs_get_display_brightness_large() ?
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +
+> +	brightness = be16_to_cpu(brightness);
+> +
+> +	return brightness;
+> +}
+> +
+Please send a v2 with those changes and keep my reviewed-by
+
+Thanks!
+Neil
