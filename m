@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B586B6AE7DC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F436AE8E7
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:19:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 620AF10E1FF;
-	Tue,  7 Mar 2023 17:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9958810E1D6;
+	Tue,  7 Mar 2023 17:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C750410E108;
- Tue,  7 Mar 2023 17:03:40 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-17711f56136so844065fac.12; 
- Tue, 07 Mar 2023 09:03:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678208620;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NdV+EIKQxSDfQkTVA63x343wU63G4KYaV0wPPzqV5/s=;
- b=Qq1SnZqYDYlz32YF5cGBN0zRyMORfuj70c5lZbdOxlSbUiqCrz/OL/WZ61RdSs5x4u
- dSlUqnDUmC3OfsgBzBcjVkJYKmO1WoG42sOuWNopYco/gqy6xxZRB+SKsgB9tTANXzJj
- gFAhiG1thN+NJw0wpqJbv7hlsq9uYOLvzNZonlt18ZDGzqA9oC+Uz8nI6pfj5HRRG853
- d6GH6ehaZgNjxW0DXR3OmTEmCbP3ZBOe2T0+RyV2HJsiZy4emhjEefVBy1RuvslUkkiS
- UVQ2x1oTzbg+x6NXUjk0Nkj1TKqEHP6ItfMkbsgwPqxWWNC0EL/mc8DsYilZoYw68qsU
- upYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678208620;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NdV+EIKQxSDfQkTVA63x343wU63G4KYaV0wPPzqV5/s=;
- b=YCRSZyrcexHFkSFhw27tsVuLBm+7qvfjzstmsSdzCXOVgozNvSP4DHhAmFlZZrF3ZV
- kNm5WUIrWGupdWRu3w4vCY7gZICQW2B9MrANA4ZGid23dsJeHTGExVUuJImGk4BGZ3tB
- aFqFItKgeUQ3dKAMiyC2RjYtDUQBcZ/8IEEmOeMVw9C6PiaGfoXsZCeYP2Ja7LMXHjIf
- 2NwJTcM9GH8bV45GeBwjUD8n/3OU7HG3cd3gzgoimCZUn6DkhT2DcqxtHkpozh0+NY91
- iZjfObFrB922iV7e/+sWhS7Iq9AnZs64f+ASLdEOtV/ouEDdAJQhCzxXSSMFO0VS1bSf
- PPVA==
-X-Gm-Message-State: AO0yUKXjFVNXCgZEl2Yt7Aws+njyfMeofeAwzdDf3Ef0dJfXQY/jGfAD
- HQrQGOuhVLbgwzqRUu8MPCH6PE1bvgmTcTOfZUk=
-X-Google-Smtp-Source: AK7set8e4ffmspjqbs62Heo6QeGYD8SGZ/8HGEUTTT6k0/ZgoiL4JJ/0EmN4Vjlr+r18Sym9+ekVD4YHYA7rghycyeg=
-X-Received: by 2002:a05:6871:6a81:b0:176:3e60:3269 with SMTP id
- zf1-20020a0568716a8100b001763e603269mr5192990oab.8.1678208619654; Tue, 07 Mar
- 2023 09:03:39 -0800 (PST)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC11C10E16C;
+ Tue,  7 Mar 2023 17:19:27 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3763AB819A9;
+ Tue,  7 Mar 2023 17:19:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A05CFC4339B;
+ Tue,  7 Mar 2023 17:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1678209564;
+ bh=4wcmjOK3au9c7YzgOC3bkT1t8nJpoFaFDjWP1hCHNd0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=L47y4j+KYbU8LnYFNSp8v4rLx78dyGttBEaD57W94DuFBL7+WWOvHb25kWefqeL4m
+ GvJjw3MSMIfiOIEG0r4maEGEVVyq0kx5/m0NLS1u6vCdpUI/W9Lg/sD2jYu6jDjcOR
+ 7thko4Y4lQRaip/R8MR7MwUKCkjt732Ss+WwH21g=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 6.2 0228/1001] drm/nouveau/disp: Fix nvif_outp_acquire_dp()
+ argument size
+Date: Tue,  7 Mar 2023 17:50:00 +0100
+Message-Id: <20230307170031.764563907@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230307170022.094103862@linuxfoundation.org>
+References: <20230307170022.094103862@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-References: <20230306022427.437022-1-davidbtadokoro@gmail.com>
-In-Reply-To: <20230306022427.437022-1-davidbtadokoro@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Mar 2023 12:03:27 -0500
-Message-ID: <CADnq5_OYT576v7ynfxiYE9xj2jQa58vVfyvpFS9k3saoGHMAuw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: add prefix to amdgpu_dm_plane.h functions
-To: David Tadokoro <davidbtadokoro@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,245 +52,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
- tzimmermann@suse.de, corbet@lwn.net, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, David Tadokoro <davidbtadokoro@usp.br>,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- Rodrigo.Siqueira@amd.com, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Kees Cook <keescook@chromium.org>,
+ Karol Herbst <kherbst@redhat.com>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
+ coverity-bot <keescook+coverity-bot@chromium.org>,
+ Ben Skeggs <bskeggs@redhat.com>, nouveau@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 6, 2023 at 3:23 AM David Tadokoro <davidbtadokoro@gmail.com> wrote:
->
-> From: David Tadokoro <davidbtadokoro@usp.br>
->
-> The amdgpu_dm_plane.h functions didn't have names that indicated where
-> they were declared.
->
-> To better filter results in debug tools like ftrace, prefix these
-> functions with 'amdgpu_dm_plane_'.
->
-> Note that we may want to make this same change in other files like
-> amdgpu_dm_crtc.h.
->
-> Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
+From: Kees Cook <keescook@chromium.org>
 
-Applied.  Thanks!
+[ Upstream commit 4076ea2419cf15bc1e1580f8b24ddf675fbdb02c ]
 
-Alex
+Both Coverity and GCC with -Wstringop-overflow noticed that
+nvif_outp_acquire_dp() accidentally defined its second argument with 1
+additional element:
 
-> ---
->  .../gpu/amdgpu/display/display-manager.rst    |  2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++-------
->  .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 20 +++++++++----------
->  .../amd/display/amdgpu_dm/amdgpu_dm_plane.h   | 12 +++++------
->  4 files changed, 24 insertions(+), 24 deletions(-)
->
-> diff --git a/Documentation/gpu/amdgpu/display/display-manager.rst b/Documentation/gpu/amdgpu/display/display-manager.rst
-> index b7abb18cfc82..be2651ecdd7f 100644
-> --- a/Documentation/gpu/amdgpu/display/display-manager.rst
-> +++ b/Documentation/gpu/amdgpu/display/display-manager.rst
-> @@ -173,7 +173,7 @@ The alpha blending equation is configured from DRM to DC interface by the
->  following path:
->
->  1. When updating a :c:type:`drm_plane_state <drm_plane_state>`, DM calls
-> -   :c:type:`fill_blending_from_plane_state()` that maps
-> +   :c:type:`amdgpu_dm_plane_fill_blending_from_plane_state()` that maps
->     :c:type:`drm_plane_state <drm_plane_state>` attributes to
->     :c:type:`dc_plane_info <dc_plane_info>` struct to be handled in the
->     OS-agnostic component (DC).
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 4217ebe6391b..f7111acd45cc 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -2923,7 +2923,7 @@ const struct amdgpu_ip_block_version dm_ip_block =
->
->  static const struct drm_mode_config_funcs amdgpu_dm_mode_funcs = {
->         .fb_create = amdgpu_display_user_framebuffer_create,
-> -       .get_format_info = amd_get_format_info,
-> +       .get_format_info = amdgpu_dm_plane_get_format_info,
->         .output_poll_changed = drm_fb_helper_output_poll_changed,
->         .atomic_check = amdgpu_dm_atomic_check,
->         .atomic_commit = drm_atomic_helper_commit,
-> @@ -4948,7 +4948,7 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
->         if (ret)
->                 return ret;
->
-> -       ret = fill_plane_buffer_attributes(adev, afb, plane_info->format,
-> +       ret = amdgpu_dm_plane_fill_plane_buffer_attributes(adev, afb, plane_info->format,
->                                            plane_info->rotation, tiling_flags,
->                                            &plane_info->tiling_info,
->                                            &plane_info->plane_size,
-> @@ -4957,7 +4957,7 @@ fill_dc_plane_info_and_addr(struct amdgpu_device *adev,
->         if (ret)
->                 return ret;
->
-> -       fill_blending_from_plane_state(
-> +       amdgpu_dm_plane_fill_blending_from_plane_state(
->                 plane_state, &plane_info->per_pixel_alpha, &plane_info->pre_multiplied_alpha,
->                 &plane_info->global_alpha, &plane_info->global_alpha_value);
->
-> @@ -4976,7 +4976,7 @@ static int fill_dc_plane_attributes(struct amdgpu_device *adev,
->         int ret;
->         bool force_disable_dcc = false;
->
-> -       ret = fill_dc_scaling_info(adev, plane_state, &scaling_info);
-> +       ret = amdgpu_dm_plane_fill_dc_scaling_info(adev, plane_state, &scaling_info);
->         if (ret)
->                 return ret;
->
-> @@ -7882,7 +7882,7 @@ static void amdgpu_dm_commit_cursors(struct drm_atomic_state *state)
->          */
->         for_each_old_plane_in_state(state, plane, old_plane_state, i)
->                 if (plane->type == DRM_PLANE_TYPE_CURSOR)
-> -                       handle_cursor_update(plane, old_plane_state);
-> +                       amdgpu_dm_plane_handle_cursor_update(plane, old_plane_state);
->  }
->
->  static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
-> @@ -7967,7 +7967,7 @@ static void amdgpu_dm_commit_planes(struct drm_atomic_state *state,
->                         bundle->surface_updates[planes_count].gamut_remap_matrix = &dc_plane->gamut_remap_matrix;
->                 }
->
-> -               fill_dc_scaling_info(dm->adev, new_plane_state,
-> +               amdgpu_dm_plane_fill_dc_scaling_info(dm->adev, new_plane_state,
->                                      &bundle->scaling_infos[planes_count]);
->
->                 bundle->surface_updates[planes_count].scaling_info =
-> @@ -9634,7 +9634,7 @@ static int dm_update_plane_state(struct dc *dc,
->                 if (!needs_reset)
->                         return 0;
->
-> -               ret = dm_plane_helper_check_state(new_plane_state, new_crtc_state);
-> +               ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
->                 if (ret)
->                         return ret;
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index 28fb1f02591a..dc23c788cdba 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -90,12 +90,12 @@ enum dm_micro_swizzle {
->         MICRO_SWIZZLE_R = 3
->  };
->
-> -const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
-> +const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
->  {
->         return amdgpu_lookup_format_info(cmd->pixel_format, cmd->modifier[0]);
->  }
->
-> -void fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
-> +void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
->                                bool *per_pixel_alpha, bool *pre_multiplied_alpha,
->                                bool *global_alpha, int *global_alpha_value)
->  {
-> @@ -759,7 +759,7 @@ static int attach_color_mgmt_properties(struct amdgpu_display_manager *dm, struc
->  }
->  #endif
->
-> -int fill_plane_buffer_attributes(struct amdgpu_device *adev,
-> +int amdgpu_dm_plane_fill_plane_buffer_attributes(struct amdgpu_device *adev,
->                              const struct amdgpu_framebuffer *afb,
->                              const enum surface_pixel_format format,
->                              const enum dc_rotation_angle rotation,
-> @@ -918,7 +918,7 @@ static int dm_plane_helper_prepare_fb(struct drm_plane *plane,
->                         dm_plane_state_new->dc_state;
->                 bool force_disable_dcc = !plane_state->dcc.enable;
->
-> -               fill_plane_buffer_attributes(
-> +               amdgpu_dm_plane_fill_plane_buffer_attributes(
->                         adev, afb, plane_state->format, plane_state->rotation,
->                         afb->tiling_flags,
->                         &plane_state->tiling_info, &plane_state->plane_size,
-> @@ -999,7 +999,7 @@ static void get_min_max_dc_plane_scaling(struct drm_device *dev,
->                 *min_downscale = 1000;
->  }
->
-> -int dm_plane_helper_check_state(struct drm_plane_state *state,
-> +int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
->                                        struct drm_crtc_state *new_crtc_state)
->  {
->         struct drm_framebuffer *fb = state->fb;
-> @@ -1053,7 +1053,7 @@ int dm_plane_helper_check_state(struct drm_plane_state *state,
->                 state, new_crtc_state, min_scale, max_scale, true, true);
->  }
->
-> -int fill_dc_scaling_info(struct amdgpu_device *adev,
-> +int amdgpu_dm_plane_fill_dc_scaling_info(struct amdgpu_device *adev,
->                                 const struct drm_plane_state *state,
->                                 struct dc_scaling_info *scaling_info)
->  {
-> @@ -1161,11 +1161,11 @@ static int dm_plane_atomic_check(struct drm_plane *plane,
->         if (!new_crtc_state)
->                 return -EINVAL;
->
-> -       ret = dm_plane_helper_check_state(new_plane_state, new_crtc_state);
-> +       ret = amdgpu_dm_plane_helper_check_state(new_plane_state, new_crtc_state);
->         if (ret)
->                 return ret;
->
-> -       ret = fill_dc_scaling_info(adev, new_plane_state, &scaling_info);
-> +       ret = amdgpu_dm_plane_fill_dc_scaling_info(adev, new_plane_state, &scaling_info);
->         if (ret)
->                 return ret;
->
-> @@ -1229,7 +1229,7 @@ static int get_cursor_position(struct drm_plane *plane, struct drm_crtc *crtc,
->         return 0;
->  }
->
-> -void handle_cursor_update(struct drm_plane *plane,
-> +void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
->                                  struct drm_plane_state *old_plane_state)
->  {
->         struct amdgpu_device *adev = drm_to_adev(plane->dev);
-> @@ -1314,7 +1314,7 @@ static void dm_plane_atomic_async_update(struct drm_plane *plane,
->         plane->state->crtc_w = new_state->crtc_w;
->         plane->state->crtc_h = new_state->crtc_h;
->
-> -       handle_cursor_update(plane, old_state);
-> +       amdgpu_dm_plane_handle_cursor_update(plane, old_state);
->  }
->
->  static const struct drm_plane_helper_funcs dm_plane_helper_funcs = {
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
-> index a4bee8528a51..930f1572f898 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
-> @@ -29,17 +29,17 @@
->
->  #include "dc.h"
->
-> -void handle_cursor_update(struct drm_plane *plane,
-> +void amdgpu_dm_plane_handle_cursor_update(struct drm_plane *plane,
->                           struct drm_plane_state *old_plane_state);
->
-> -int fill_dc_scaling_info(struct amdgpu_device *adev,
-> +int amdgpu_dm_plane_fill_dc_scaling_info(struct amdgpu_device *adev,
->                          const struct drm_plane_state *state,
->                          struct dc_scaling_info *scaling_info);
->
-> -int dm_plane_helper_check_state(struct drm_plane_state *state,
-> +int amdgpu_dm_plane_helper_check_state(struct drm_plane_state *state,
->                                 struct drm_crtc_state *new_crtc_state);
->
-> -int fill_plane_buffer_attributes(struct amdgpu_device *adev,
-> +int amdgpu_dm_plane_fill_plane_buffer_attributes(struct amdgpu_device *adev,
->                                  const struct amdgpu_framebuffer *afb,
->                                  const enum surface_pixel_format format,
->                                  const enum dc_rotation_angle rotation,
-> @@ -56,9 +56,9 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
->                          unsigned long possible_crtcs,
->                          const struct dc_plane_cap *plane_cap);
->
-> -const struct drm_format_info *amd_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
-> +const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
->
-> -void fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
-> +void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
->                                     bool *per_pixel_alpha, bool *pre_multiplied_alpha,
->                                     bool *global_alpha, int *global_alpha_value);
->
-> --
-> 2.39.2
->
+drivers/gpu/drm/nouveau/dispnv50/disp.c: In function 'nv50_pior_atomic_enable':
+drivers/gpu/drm/nouveau/dispnv50/disp.c:1813:17: error: 'nvif_outp_acquire_dp' accessing 16 bytes in a region of size 15 [-Werror=stringop-overflow=]
+ 1813 |                 nvif_outp_acquire_dp(&nv_encoder->outp, nv_encoder->dp.dpcd, 0, 0, false, false);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/nouveau/dispnv50/disp.c:1813:17: note: referencing argument 2 of type 'u8[16]' {aka 'unsigned char[16]'}
+drivers/gpu/drm/nouveau/include/nvif/outp.h:24:5: note: in a call to function 'nvif_outp_acquire_dp'
+   24 | int nvif_outp_acquire_dp(struct nvif_outp *, u8 dpcd[16],
+      |     ^~~~~~~~~~~~~~~~~~~~
+
+Avoid these warnings by defining the argument size using the matching
+define (DP_RECEIVER_CAP_SIZE, 15) instead of having it be a literal
+(and incorrect) value (16).
+
+Reported-by: coverity-bot <keescook+coverity-bot@chromium.org>
+Addresses-Coverity-ID: 1527269 ("Memory - corruptions")
+Addresses-Coverity-ID: 1527268 ("Memory - corruptions")
+Link: https://lore.kernel.org/lkml/202211100848.FFBA2432@keescook/
+Link: https://lore.kernel.org/lkml/202211100848.F4C2819BB@keescook/
+Fixes: 813443721331 ("drm/nouveau/disp: move DP link config into acquire")
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20221127183036.never.139-kees@kernel.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/nouveau/include/nvif/outp.h | 3 ++-
+ drivers/gpu/drm/nouveau/nvif/outp.c         | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/include/nvif/outp.h b/drivers/gpu/drm/nouveau/include/nvif/outp.h
+index 45daadec3c0c7..fa76a7b5e4b37 100644
+--- a/drivers/gpu/drm/nouveau/include/nvif/outp.h
++++ b/drivers/gpu/drm/nouveau/include/nvif/outp.h
+@@ -3,6 +3,7 @@
+ #define __NVIF_OUTP_H__
+ #include <nvif/object.h>
+ #include <nvif/if0012.h>
++#include <drm/display/drm_dp.h>
+ struct nvif_disp;
+ 
+ struct nvif_outp {
+@@ -21,7 +22,7 @@ int nvif_outp_acquire_rgb_crt(struct nvif_outp *);
+ int nvif_outp_acquire_tmds(struct nvif_outp *, int head,
+ 			   bool hdmi, u8 max_ac_packet, u8 rekey, u8 scdc, bool hda);
+ int nvif_outp_acquire_lvds(struct nvif_outp *, bool dual, bool bpc8);
+-int nvif_outp_acquire_dp(struct nvif_outp *, u8 dpcd[16],
++int nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 			 int link_nr, int link_bw, bool hda, bool mst);
+ void nvif_outp_release(struct nvif_outp *);
+ int nvif_outp_infoframe(struct nvif_outp *, u8 type, struct nvif_outp_infoframe_v0 *, u32 size);
+diff --git a/drivers/gpu/drm/nouveau/nvif/outp.c b/drivers/gpu/drm/nouveau/nvif/outp.c
+index 7da39f1eae9fb..c24bc5eae3ecf 100644
+--- a/drivers/gpu/drm/nouveau/nvif/outp.c
++++ b/drivers/gpu/drm/nouveau/nvif/outp.c
+@@ -127,7 +127,7 @@ nvif_outp_acquire(struct nvif_outp *outp, u8 proto, struct nvif_outp_acquire_v0
+ }
+ 
+ int
+-nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[16],
++nvif_outp_acquire_dp(struct nvif_outp *outp, u8 dpcd[DP_RECEIVER_CAP_SIZE],
+ 		     int link_nr, int link_bw, bool hda, bool mst)
+ {
+ 	struct nvif_outp_acquire_v0 args;
+-- 
+2.39.2
+
+
+
