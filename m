@@ -2,37 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74556AEB9B
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E9E6AEBA5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:47:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3829A10E120;
-	Tue,  7 Mar 2023 17:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63D7D10E244;
+	Tue,  7 Mar 2023 17:47:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0B4210E102;
- Tue,  7 Mar 2023 17:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=kEQsvK3MQxnkVxlI0sD7IiDrMvuokvi8WefyhXs11HM=; b=Q7unhmlaPKTnVfqQx9l4VGvx/k
- OxcEG8ujTo3Jtr3wGonwqkyHoAmvyZE5YlNhMVSma9Vwm2vVISUahP8bq7eDhnuFwj1Zg9elJtiZ0
- 9VB5TWOdO2TuZcLNMMxYd0UT4aQZIcODeWKf2uODP6lLFWtg06P42NClrlfqKEjf58hVeKpODH1il
- OnhsO4mh/Q5cgw6n9guiVnGMPXW8uMclXL6r8uSCtSH1sYrRpN6rf4eYtLfL7t6xxWU7GtjOjEp+c
- A3hQW2HP8EnnYxMEqBr67DKdBuuPnEpq/Ev8U365Zu9cfw6BsNaEkeUzg19+8lVHEGXSNgfj5zcTr
- Fp3UEWZQ==;
-Received: from [2601:1c2:980:9ec0::df2f] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pZbOQ-001sqm-TV; Tue, 07 Mar 2023 17:46:30 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: fix PM_DEVFREQ kconfig dependency warning
-Date: Tue,  7 Mar 2023 09:46:27 -0800
-Message-Id: <20230307174627.23787-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.39.2
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 580EC10E244;
+ Tue,  7 Mar 2023 17:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678211224; x=1709747224;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=VTdJ1Cp+B7PAYrF0xhhQyKtNPUtYt67rPYuWEClwc9M=;
+ b=ktzh8sCbUHmqw6e20UzePb1aTP+G4kqRWFjyRJX/xPpJXCcwduIxBruC
+ emqIJMUzxStIcOgYjzxCaYkL/qKPiaoVyRSZvbZeyBEHxX7fSTltsbltL
+ e8f1gq09l32V2ORqYQ8x0DEoawooD24+7s68EBL3TrW+bNT66n3Hbapo2
+ juKLYX7E8eUCmzEvhpaI48j/GrSkvumrdsK4Xjb9mJOQv+VMQ6970nei2
+ DBiA/lF40GGZBM9LCz467Ssl7wU+m3aIFfcSCzsjD8J8+/lGHrFBjQ/q3
+ IkQzz7u7y9sZXD/hE7PdAPY1tl9PHrL7fTnDNQRsfohVq7uDDVxcGoy4a A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="333391637"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="333391637"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2023 09:47:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="626624449"
+X-IronPort-AV: E=Sophos;i="5.98,241,1673942400"; d="scan'208";a="626624449"
+Received: from peiwangc-mobl1.ccr.corp.intel.com (HELO [10.249.254.10])
+ ([10.249.254.10])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2023 09:46:58 -0800
+Message-ID: <efc256f9-d0ea-fbae-c1c8-5dce778cf37b@linux.intel.com>
+Date: Tue, 7 Mar 2023 18:46:54 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 1/7] drm/ttm: Fix a NULL pointer dereference
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
+ <20230307144621.10748-2-thomas.hellstrom@linux.intel.com>
+ <9383eed5-d3ad-d61f-9fce-6a543890ee83@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <9383eed5-d3ad-d61f-9fce-6a543890ee83@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,50 +64,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, kernel test robot <lkp@intel.com>,
- Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Philip Yang <Philip.Yang@amd.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ Qiang Yu <qiang.yu@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since DEVFREQ_GOV_SIMPLE_ONDEMAND depends on PM_DEVFREQ, the latter
-should either be selected or DRM_MSM should depend on PM_DEVFREQ.
-Since most drivers select PM_DEVFREQ instead of depending on it,
-add a select here to satisfy kconfig.
 
-WARNING: unmet direct dependencies detected for DEVFREQ_GOV_SIMPLE_ONDEMAND
-  Depends on [n]: PM_DEVFREQ [=n]
-  Selected by [y]:
-  - DRM_MSM [=y] && HAS_IOMEM [=y] && DRM [=y] && (ARCH_QCOM || SOC_IMX5 || COMPILE_TEST [=y]) && COMMON_CLK [=y] && IOMMU_SUPPORT [=y] && (QCOM_OCMEM [=n] || QCOM_OCMEM [=n]=n) && (QCOM_LLCC [=n] || QCOM_LLCC [=n]=n) && (QCOM_COMMAND_DB [=y] || QCOM_COMMAND_DB [=y]=n)
+On 3/7/23 17:55, Christian König wrote:
+> Am 07.03.23 um 15:46 schrieb Thomas Hellström:
+>> The LRU mechanism may look up a resource in the process of being removed
+>> from an object. The locking rules here are a bit unclear but it looks
+>> currently like res->bo assignment is protected by the LRU lock, whereas
+>> bo->resource is protected by the object lock, while *clearing* of
+>> bo->resource is also protected by the LRU lock. This means that if
+>> we check that bo->resource points to the LRU resource under the LRU
+>> lock we should be safe.
+>> So perform that check before deciding to swap out a bo. That avoids
+>> dereferencing a NULL bo->resource in ttm_bo_swapout().
+>
+> Please make sure that this is pushed to drm-misc-fixes ASAP.
+>
+> I've getting complains for this from different sides.
+>
+> Thanks,
+> Christian.
 
-Fixes: 6563f60f14cb ("drm/msm/gpu: Add devfreq tuning debugfs")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Link: lore.kernel.org/r/202303071922.wJqDWQpe-lkp@intel.com
-Cc: Rob Clark <robdclark@chromium.org>
-Cc: Paul Gazzillo <paul@pgazz.com>
-Cc: Necip Fazil Yildiran <fazilyildiran@gmail.com>
-Cc: Chia-I Wu <olvaffe@gmail.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
----
- drivers/gpu/drm/msm/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+Done.
 
-diff -- a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -23,6 +23,7 @@ config DRM_MSM
- 	select SHMEM
- 	select TMPFS
- 	select QCOM_SCM
-+	select PM_DEVFREQ
- 	select DEVFREQ_GOV_SIMPLE_ONDEMAND
- 	select WANT_DEV_COREDUMP
- 	select SND_SOC_HDMI_CODEC if SND_SOC
+/Thomas
+
+
+>
+>>
+>> Fixes: 6a9b02899402 ("drm/ttm: move the LRU into resource handling v4")
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Christian Koenig <christian.koenig@amd.com>
+>> Cc: Huang Rui <ray.huang@amd.com>
+>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+>> Cc: Philip Yang <Philip.Yang@amd.com>
+>> Cc: Qiang Yu <qiang.yu@amd.com>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Nirmoy Das <nirmoy.das@intel.com>
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+>> Cc: Anshuman Gupta <anshuman.gupta@intel.com>
+>> Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_device.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c 
+>> b/drivers/gpu/drm/ttm/ttm_device.c
+>> index c7a1862f322a..ae2f19dc9f81 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>> @@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device *bdev, 
+>> struct ttm_operation_ctx *ctx,
+>>               struct ttm_buffer_object *bo = res->bo;
+>>               uint32_t num_pages;
+>>   -            if (!bo)
+>> +            if (!bo || bo->resource != res)
+>>                   continue;
+>>                 num_pages = PFN_UP(bo->base.size);
+>
