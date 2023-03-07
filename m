@@ -1,72 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1FB6ADF12
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 13:48:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C286ADF1D
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 13:50:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E73010E122;
-	Tue,  7 Mar 2023 12:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6CE088EFF;
+	Tue,  7 Mar 2023 12:50:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE12B10E49B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 12:48:47 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id j11so32224775edq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 04:48:47 -0800 (PST)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C4710E123
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 12:50:52 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id a25so51990204edb.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 04:50:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678193326;
+ d=linaro.org; s=google; t=1678193451;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gXMDjluJDUvPLUicyi9DzXJkAKHHUVttkvC/e23H4Xg=;
- b=gBNpW4hE+viaph3Z9oHqJD+5k9T0kLFVksSmYDaYHCpYrjYet2Y7xzwCXwhRqORnWg
- wE/6W9M/kc2+Vve5aDGSeGrXaWB8YjgQ1XUCQyjvp3SwsV+/jnfGbM0RdpGcyF9bbsYV
- lOYcZyKaGNtFSN4ipuq8gqyuTT3TnA4YFmx2/+HNIVvKoDFUhMgSCOj0EOxNurAeeMHR
- BKML1W/QnpTHpizWDwPqbpCTwS8V3VqmklGMmeFRE+B+KdKB43IAX7OGr9zWxyZm3Tp3
- zA0DYbSuK1C1R2g2MQFf5E8PEfKrZpH6MuFnOzGHIORxpGRoS/T/AApE89N8YE7aN/l5
- UWXA==
+ bh=9UY5iuEzddJy7Jsu/1PTiy8KE7WoMJiAayKTBsEV99c=;
+ b=b+bXytXwVgLrHVTUhYHA/o+BOCnksL/g7Qxp00rpVB1PeDBaCfpzd08Bu1xy8G7A1F
+ A5tQULIHCYSWRP7w/6qrYje6Xt2oJE9VzIoHyqJsd5YmRUS2x6BJijVkcrPT/ZCsQ5xt
+ kcb4VD2uNVgef8W8eEvXtjno/rfagdBix+CDNWXYsx9JtTOazq6Of2kulJgHHCbwyoA3
+ Bcj1FWl3oWamfjtxLohEkZ6rw1/97UX4I1qwPL2jHqVguB8cYuQ+PHKlkSX6oD+nBuqx
+ TDVp5xOKCwaC/6gFNglgJgO7efCGio1+ldQ3NvUYPfeyJ+z+0hsMwyUpKXOnSTQWVF6S
+ mQvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678193326;
+ d=1e100.net; s=20210112; t=1678193451;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gXMDjluJDUvPLUicyi9DzXJkAKHHUVttkvC/e23H4Xg=;
- b=SQNonbDBOlmWvlOa4gLpqYCRvkJd46Tip0g67heMuUI8tWOuyLL630RYt0AAuwSpTw
- 0yruSb27+62cvEFPJ7HK9OMvnIKHggkLAMb02BFyokD3bzTTI0yQmrUjDRXXrmaeXm0h
- DMVxFRxQmNz+vgmmtxxxYuGKcC7RJGV/rP15Z5Xebi+7teaNbMtx/QcAHs++WNXORdVd
- FMrP2zLKMhSWt8CIOIChg6pdAGwiVZdyTYjpD23AjZ4EMlDgK2bpX+0SyJzpICY79ARP
- iuH9Lk39WlEoUiUbYYOAg2C82JB1gz2qcivf4VdxLvLSSBopb322oS+2VJtQPXGkN+uL
- SNUw==
-X-Gm-Message-State: AO0yUKUbzkbdN1lrdoMj5BwkIgysjpJn2fEK6csoAdreR1PJe4BO4qhk
- oKtv4Os8wfzqvdn+HYwt4T6BtA==
-X-Google-Smtp-Source: AK7set8MCzzEe4umSH1sYZCblI6WJ1yy9vx+YgB8ty6up6YK0RjeqU1A/CLPMaRwTV8qico7a1qLyw==
-X-Received: by 2002:a05:6402:7ce:b0:4c0:57b:47a9 with SMTP id
- u14-20020a05640207ce00b004c0057b47a9mr13267661edy.35.1678193326220; 
- Tue, 07 Mar 2023 04:48:46 -0800 (PST)
+ bh=9UY5iuEzddJy7Jsu/1PTiy8KE7WoMJiAayKTBsEV99c=;
+ b=cGFv6SHYz5viwRINBETPMcHk3WJ03MalSgI62cI7F1DID+fG9+AzVtC5XPRX38RueZ
+ QYEs5zna7dFA0JvMA/jGTAwTnVs0smIg3Zm83ljWy8DxfMlhIzEIhXvhhWzTWBupF+b2
+ 0PnRrdwYw+A8oc1lnTRn0nQZtilFArTLgUlkuvLPD0xB1t20ZPbru32E2OMP/P7hvypi
+ 6kluhLlile17t9VrzekunULAr29aHv9lfdLiKUIJ24EbCLvZP4jWXM4hOCl+YlJipC09
+ 5IE5zEVyB0++Ek4s/qI77U9h2caGHP8z74QAP715vpVmZdN2HGldQ7TF6f6TvOpwPAXu
+ dx/A==
+X-Gm-Message-State: AO0yUKVx5PYVMrkuseU1qTCn9dVfp0SKG6fzuFr+I0tVVHbdLCtCbee4
+ ZM4PLwdJu66LXtf+N/JI6/w1PQ==
+X-Google-Smtp-Source: AK7set+pdgHLGptuoirUA/qeW3eypJ8kze1cqV+VkXp/vY5g9ijFcb6atsoRCHygwl7vA0Nuj441XA==
+X-Received: by 2002:aa7:c1c4:0:b0:4c5:bc48:d422 with SMTP id
+ d4-20020aa7c1c4000000b004c5bc48d422mr11627825edp.7.1678193450993; 
+ Tue, 07 Mar 2023 04:50:50 -0800 (PST)
 Received: from ?IPV6:2a02:810d:15c0:828:a60f:e604:c252:1f3d?
  ([2a02:810d:15c0:828:a60f:e604:c252:1f3d])
  by smtp.gmail.com with ESMTPSA id
- le16-20020a170907171000b008da6a37de1bsm6174070ejc.10.2023.03.07.04.48.45
+ n24-20020a509358000000b004af5001c7ecsm6666266eda.12.2023.03.07.04.50.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Mar 2023 04:48:45 -0800 (PST)
-Message-ID: <de9d5cdb-29d5-8252-6884-dd50a22d1580@linaro.org>
-Date: Tue, 7 Mar 2023 13:48:44 +0100
+ Tue, 07 Mar 2023 04:50:50 -0800 (PST)
+Message-ID: <caf54c57-f9a0-b434-8973-6734851153ff@linaro.org>
+Date: Tue, 7 Mar 2023 13:50:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 8/9] dt-bindings: display/msm: dsi-controller-main: Add
- SM6115
+Subject: Re: [PATCH v4] dt-bindings: display: mediatek: clean unnecessary item
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, agross@kernel.org
-References: <20230213121012.1768296-1-konrad.dybcio@linaro.org>
- <20230213121012.1768296-9-konrad.dybcio@linaro.org>
- <bcb5c17f-da78-9d68-66eb-b620ee583602@linaro.org>
- <22970751-8bc0-9cbd-eec1-cbc92f0b4ea7@linaro.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Mergnat <amergnat@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>
+References: <20230306-ccorr-binding-fix-v4-0-117daea88efb@baylibre.com>
+ <25019fb1-87f7-b863-48e8-a164d0e08265@collabora.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <22970751-8bc0-9cbd-eec1-cbc92f0b4ea7@linaro.org>
+In-Reply-To: <25019fb1-87f7-b863-48e8-a164d0e08265@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,47 +84,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/03/2023 12:14, Konrad Dybcio wrote:
-> 
-> 
-> On 7.03.2023 10:17, Krzysztof Kozlowski wrote:
->> On 13/02/2023 13:10, Konrad Dybcio wrote:
->>> Add a compatible for the DSI on SM6115.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 ++
->>>  1 file changed, 2 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->>> index 2494817c1bd6..f195530ae964 100644
->>> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->>> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
->>> @@ -25,6 +25,7 @@ properties:
->>>                - qcom,sc7280-dsi-ctrl
->>>                - qcom,sdm660-dsi-ctrl
->>>                - qcom,sdm845-dsi-ctrl
->>> +              - qcom,sm6115-dsi-ctrl
+On 07/03/2023 11:17, AngeloGioacchino Del Regno wrote:
+> Il 07/03/23 11:07, Alexandre Mergnat ha scritto:
+>> The item which have the mediatek,mt8192-disp-ccorr as const compatible
+>> already exist above. Merge all compatibles which have the same fallback
+>> under the same item.
 >>
->> This looks incomplete. You also need to add it to MDSS binding.
-> https://lore.kernel.org/linux-arm-msm/145066db-5723-6baa-237d-7c2b8fd476d9@linaro.org/
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > 
-> Does this.. but I guess I'll resend this as one series, as it only
-> makes sense.
+> Alexandre, the Acked-by tag from Krzysztof goes *after* your S-o-b :-)
 
-It should be one commit. Adding sm6115 here is incomplete if other
-binding (using this one) does not allow it.
+b4 puts them like this and there is even rationale from Konstantin about
+it. Anyway, it's not submitters job to correct b4. Our tools should
+implement the process, not us (the users), thus if the result is
+incorrect, then the tool should be fixed. Not the user.
 
 Best regards,
 Krzysztof
