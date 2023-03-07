@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DBA6AE7F8
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:10:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CE56AEA40
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 18:32:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D86F410E0F7;
-	Tue,  7 Mar 2023 17:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1730110E278;
+	Tue,  7 Mar 2023 17:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8507410E0F7
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 17:10:34 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id f13so12934481vsg.6
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 09:10:34 -0800 (PST)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2DA810E075;
+ Tue,  7 Mar 2023 17:32:06 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id be16so3465002oib.0;
+ Tue, 07 Mar 2023 09:32:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1678209033;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OB4n9NrEZLLLcCwlt8NGHLmv+Xrqk6ci4fN1QSWcPKA=;
- b=Gy+ObzFrdpcgLaZiqTxPXzpGmZ2OphvdY7j+BBGcmBkvX6P/BwTmeT+X/sTAWmYSlM
- H/rMej8oCkRXt5nqBc+CXzoPthSjTyFLOE1yj8gNR9X5NstaNJBFwqKvougn6jeQE+5X
- FYqp97u6+EUYcIC67CwzChok3KQF39qu8f3rsiNIy0smqIrmhp0vpYZwKl5GhVb28MMg
- nlG5+RJ+Tg+ZX0mEYZTRwkFM46Yl8AA46tHAJ11RCFb7mpNZEeVlqHwUscPtH3jPg/np
- /LDiFO+k/dxPntpEUsNzRLcNsuvnGxACyB3jfWJKwE5XT/Ya/DVdVZ3V9hFkOaWdikoL
- 9dUg==
+ d=gmail.com; s=20210112; t=1678210326;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WMnHUwAy5pc1w+T7Jgak3PUg7pKDe3xFrRkk5NHVfc8=;
+ b=XDlVbj6h/y2SEcS7l/u5dJQIcVGtH4KyRQlvX7kiv1aO58TchCgHydju1tkoQ1Gpex
+ 8ZIkKzpRv5yVLUEpocQgmzn7459YVNRpvrqVTiHGUGg9ZoCfGlUsQTNSa9rQ01V6DS8A
+ 0w0FXCz/7edUtiVXCZEkGQ8SS9fIEl+bKq2zLp8+L8mosbW56BIgE3TGZv0Lu17fThrN
+ NFYwyAQz/m7xwmbLU1CKnaJJNmd1OitVs0QeAxhGGGBa+UZThjaENwO6Tmd1XRMbeKTk
+ 9tBuPqUYYNyMVrRF4jyNhsY2PApkieEWV0xnId/PszQ1nCpsHtXiyoDikX7tBnkABOIu
+ Xxbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678209033;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OB4n9NrEZLLLcCwlt8NGHLmv+Xrqk6ci4fN1QSWcPKA=;
- b=yq7mXkMAt/cBJNXfFJmGNXlEEWrsGvmNz7hPStVOt4C8V37erJojttKabC4ZS/vMqB
- Z6V/ONnXCUbLKRL4jkljbGMo26A1PawnGGlC7QKZKvfJoE5wdBTjHk5zuyaG2ZqARNuF
- IZKR2bE0UzAhjA1k7j/k+VICVgwPr8Gwa5+LNG1cnKWZPPcA6O38HzQ8EPNYubdvqod/
- A+hWkPp61DpRxs9+G7wYEc2AA80wr/dWvqnaxs2hCIGCz74SDzkBN8bjkUJkaFtddsmx
- i4f2zywZqbQiCnmx6zvX5UwNGCmwmUkNuJn/ewHs1uq1CroKyUigMJ2P1CRyEU8ozSYa
- q0Hw==
-X-Gm-Message-State: AO0yUKU0O59L67aPEkLj9gsvGyc5wDz0JOEXW7HmrZSm0s8/EQpyrzfJ
- WbsxeEhYqj0ws0XzSSYnu6VDTwXDMln+8RBPc3OnuFBu9bYSPM+ONqs=
-X-Google-Smtp-Source: AK7set/3gPR4E9cMQaX/73Se9lzxtCbJV/ysTeZTMFfFha9dZKn3vdSSGAfEs2N/XdEjpcPj/srUnh/4IQAFSht2z8M=
-X-Received: by 2002:a05:6102:1266:b0:412:a97:4c11 with SMTP id
- q6-20020a056102126600b004120a974c11mr10190024vsg.1.1678209033513; Tue, 07 Mar
- 2023 09:10:33 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678210326;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WMnHUwAy5pc1w+T7Jgak3PUg7pKDe3xFrRkk5NHVfc8=;
+ b=5qE2+i4hoyn0VuHIbSys6QcYFxkajwOnLKu7Mc6Sge2Suc0kKqt1/FzhAQ2TFWMMu6
+ OuRLYAr5QxEjf8fz1kxZkMHwoNt1MuNryF9bTs/8spD0m001Rt4lhKKRBkWFV9Vua0GD
+ EE9qlwDdl1gzl8fP0qXqZmGBCmqT5AMmGAIK2eOojzmGSpgVwVCwoW4+x5kWZxvRt5GU
+ q8gWXmCR3jxxeSeAX9w5kCGLa8v9xjDGxFaGFTymI42hO1gr6CPDt/3KkK1gd3rydJ+E
+ 6mULbUe503Jcs/F8GYQk51k2dRosUweiWIVpc1TQfHcrNK4UllNqGs7DrwCrn8vWm1xV
+ xEwg==
+X-Gm-Message-State: AO0yUKX6Okde5Q4H84z9j1slYa9EGeDhknumau2jq+rI75b89z18PXYa
+ dz8Ohz4hbiwIAjBke//DhIBTHQ/WdT1MSAQOc6U=
+X-Google-Smtp-Source: AK7set9bdQBOUBXS+VMa4aA1TRGDtDFTVLl+ukUGIPW4rVdPocpbwHT9n/1nZMDm6ePrr5xUNHMdUKhr8M2TtJ5yd2A=
+X-Received: by 2002:aca:1206:0:b0:384:e059:c00a with SMTP id
+ 6-20020aca1206000000b00384e059c00amr410124ois.8.1678210325839; Tue, 07 Mar
+ 2023 09:32:05 -0800 (PST)
 MIME-Version: 1.0
-References: <7d216faea9647d328651460167bc27f6@rmail.be>
- <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
-In-Reply-To: <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 7 Mar 2023 17:10:16 +0000
-Message-ID: <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
-Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
- 5.16; and still broken in at least 6.1)
-To: AL13N <alien@rmail.be>
+References: <20230112-amduml-v1-1-5e4a0d37de16@pefoley.com>
+ <7212f65a-4d2d-5ecd-235d-95b60f45a0e8@amd.com>
+In-Reply-To: <7212f65a-4d2d-5ecd-235d-95b60f45a0e8@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 7 Mar 2023 12:31:54 -0500
+Message-ID: <CADnq5_M31w7tND+5v4_iYuKterg79te4mUM_h9agJ3a+x5FNFQ@mail.gmail.com>
+Subject: Re: [PATCH] amdgpu: Avoid building on UML
+To: Felix Kuehling <felix.kuehling@amd.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,206 +68,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>
+Cc: Peter Foley <pefoley2@pefoley.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maarten
+Applied.  Thanks.
 
-On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
+Alex
+
+On Mon, Mar 6, 2023 at 11:17 AM Felix Kuehling <felix.kuehling@amd.com> wro=
+te:
 >
-> AL13N schreef op 2023-03-06 17:34:
-> > Hi,
+> Looks like this patch got lost over the holidays. Alex, are you OK with
+> applying this patch? Or are people looking for a more general solution
+> to not build HW drivers for UML? FWIW:
+>
+> Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+>
+>
+> Am 2023-01-12 um 23:30 schrieb Peter Foley:
+> > The amdgpu driver tries to use fields not supported by UML's cpuinfo
+> > struct. Disable the driver when targeting UML to avoid tripping up
+> > allyesconfig.
 > >
-> > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
-> > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
-> > plymouth), the cause of no X is that EDID gives nothing, and in the
-> > journal; there is "Cannot find any crct or sizes". Only the kernel is
-> > changed for this.
+> > e.g.
+> > ../drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c: In fu=
+nction =E2=80=98intel_core_rkl_chk=E2=80=99:
+> > ../drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:1742:3=
+3: error: initialization of =E2=80=98struct cpuinfo_x86 *=E2=80=99 from inc=
+ompatible pointer type =E2=80=98struct cpuinfo_um *=E2=80=99 [-Werror=3Dinc=
+ompatible-pointer-types
+> > ]
+> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c: In function =E2=
+=80=98kfd_cpumask_to_apic_id=E2=80=99:
+> > ../drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2157:48: error: =
+=E2=80=98struct cpuinfo_um=E2=80=99 has no member named =E2=80=98apicid=E2=
+=80=99
 > >
-> > In 5.16 instead of this message there is a bunch of hex lines prefixed
-> > with BAD.
+> > Signed-off-by: Peter Foley <pefoley2@pefoley.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/Kconfig | 1 +
+> >   1 file changed, 1 insertion(+)
 > >
-> > It is still broken in 6.1 at the very least.
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/Kconfig b/drivers/gpu/drm/amd/a=
+mdgpu/Kconfig
+> > index 5fcd510f1abb..aa0008ff8712 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/Kconfig
+> > +++ b/drivers/gpu/drm/amd/amdgpu/Kconfig
+> > @@ -3,6 +3,7 @@
+> >   config DRM_AMDGPU
+> >       tristate "AMD GPU"
+> >       depends on DRM && PCI && MMU
+> > +     depends on !UML
+> >       select FW_LOADER
+> >       select DRM_DISPLAY_DP_HELPER
+> >       select DRM_DISPLAY_HDMI_HELPER
 > >
-> > I donno if this is related to this part, but I wanted to try a newer
-> > kernel, because the RPI4 seems to do all the video decoding in
-> > software and cannot seem to handle it.
+> > ---
+> > base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+> > change-id: 20230112-amduml-565935d34bfb
 > >
-> >
-> > logs:
-> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
-> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
-> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
-> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
-> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
-> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
-> > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
-> > fb0: switching to vc4 from simple
-> > Console: switching to colour dummy device 80x25
-> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-> > vc4-drm gpu: [drm] Cannot find any crtc or sizes
->
-> 5.16 log has:
->
-> vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
-> vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-> vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
-> [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
->         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
->         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
->         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
->         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
->         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
->         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
->         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
-> Console: switching to colour frame buffer device 240x67
-> vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
->
->
-> i donno what this bad is, but it doesn't happen in 5.17... maybe these
-> BAD got filtered out, but they did end up working for me? or something?
-> i donno...
-
-Run it through edid-decode - the checksum is wrong.
-
-Block 0, Base EDID:
-  EDID Structure Version & Revision: 1.3
-  Vendor & Product Identification:
-    Manufacturer: MST
-    Model: 0
-    Made in: week 11 of 2021
-  Basic Display Parameters & Features:
-    Analog display
-    Input voltage level: 0.7/0.3 V
-    Blank level equals black level
-    Maximum image size: 35 cm x 1 cm
-    Gamma: 2.20
-    RGB color display
-    First detailed timing is the preferred timing
-  Color Characteristics:
-    Red  : 0.6396, 0.3398
-    Green: 0.2998, 0.6904
-    Blue : 0.1376, 0.0380
-    White: 0.2822, 0.2968
-  Established Timings I & II: none
-  Standard Timings:
-    GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
-  Detailed Timing Descriptors:
-    DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz (708
-mm x 398 mm)
-                 Hfront  176 Hsync  88 Hback 296 Hpol P
-                 Vfront    8 Vsync  10 Vback  72 Vpol P
-    DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (708
-mm x 398 mm)
-                 Hfront   88 Hsync  44 Hback 148 Hpol P
-                 Vfront    4 Vsync   5 Vback  36 Vpol P
-    Display Product Name: 'SALORA'
-  Display Range Limits:
-    Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600 MHz
-  Extension blocks: 1
-Checksum: 0xaa (should be 0xeb)
-
-Weird that it also says that it's an analog display when it's
-connected over HDMI. Something rather bizarre there, and I think it'll
-hit problems in drm_edid at [1] as we end up with a connector having
-no color_formats defined. I was discussing this with Maxime only last
-week, but in relation to VGA monitors connected through HDMI to VGA
-adapters without rewriting the EDID.
-
-
-If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
-your monitor not asserting hotplug correctly. The raw hotplug status
-is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
-or 1 depending on the probe order of the vc4 and v3d drivers). Grep
-for HDMI_HOTPLUG.
-
-Incorrect hotplug behaviour causes grief when combined with HDMI2.0
-and scrambling. If you don' t know the other end has been
-disconnected, then you never know that scrambling needs to be
-re-negotiated over SCDC, and the display will typically end up just
-being blank.
-
-[1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edid.c#L6460
-[2] https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe793eb03c70fa
-
-> I also noticed that earlier in the logs there are more bound lines:
-> (some are double)
->
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->
-> and then here for some reason systemd does modprobe@drm.service ? is
-> this just a delayed starting log line, or does it actually try to unload
-> drm and reload? i doubt it?
-> in any case there is more that appears before:
->
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
->
->
-> so, the error message is weird, as it implies 2 possibilities. however,
-> i think it did find a crtc since all those pixelvalve things use crtc
-> functions?
->
-> So then why do i have this problem on my RPI4? do most people just use
-> the raspberry pi kernels?
-
-Largely, yes, people use our vendor kernels.
-
-Stefan Wahren has been co-ordinating Pi4 support in mainline. I
-believe [3] is tracking the current state.
-Maxime has been working on the vc4 driver, and it should be functional
-on most hardware. It looks like yours is not complying with the
-standards.
-
-  Dave
-
-[3] https://github.com/lategoodbye/rpi-zero/issues/43
-
-> I looked at what was changed in crtc between 5.16 and 5.17, but not
-> much:
->
-> 2022-02-17      drm/vc4: crtc: Fix runtime_pm reference counting        Maxime
-> Ripard  1       -3/+5
-> 2022-02-07      drm/vc4: crtc: Fix redundant variable assignment        Maxime
-> Ripard  1       -1/+0
-> 2021-11-05      drm/vc4: crtc: Copy assigned channel to the CRTC        Maxime
-> Ripard  1       -2/+2
-> 2021-11-05      drm/vc4: Fix non-blocking commit getting stuck forever  Maxime
-> Ripard  1       -1/+4
-> 2021-11-05      drm/vc4: crtc: Drop feed_txp from state Maxime Ripard   1       -2/+1
-> 2021-11-04      drm/vc4: Increase the core clock based on HVS load      Maxime
-> Ripard  1       -0/+15
-> 2021-11-04      drm/vc4: crtc: Add some logging Maxime Ripard   1       -0/+6
-> 2021-11-04      drm/vc4: crtc: Rework the encoder retrieval code
-> (again) Maxime Ripard   1       -21/+9
-> 2021-11-04      drm/vc4: crtc: Add encoder to vc4_crtc_config_pv
-> prototype       Maxime Ripard   1       -4/+3
-> 2021-11-04      drm/vc4: Make vc4_crtc_get_encoder public       Maxime
-> Ripard  1       -4/+4
-> 2021-10-25      drm/vc4: crtc: Make sure the HDMI controller is powered when
-> disabling       Maxime Ripard   1       -1/+18
->
->
-> I looked at them, but in my layman's knowledge, none of those really
-> seemed to have any impact?
->
-> So, maybe the problem is someplace else?
->
-> Can anyone help to find out where this problem might be? even though
-> this is old code, i still have this issue at least on 6.1 ?
->
-> Regards,
->
-> Maarten
+> > Best regards,
