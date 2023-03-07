@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7A36AD9A5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 09:55:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6856AD9B7
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 09:58:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96E9C10E0F6;
-	Tue,  7 Mar 2023 08:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5A510E105;
+	Tue,  7 Mar 2023 08:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE6710E0F6
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 08:55:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C1E131FE10;
- Tue,  7 Mar 2023 08:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678179330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jJvuxY7Q7W6lr3F8/22gRy6xoHYvuDzzJyI4xHrBvJ8=;
- b=aZQXG646NFuCeHIVNdmR0IYLUoqoqogIprpnNa+O+tbbsz3wdnRf+hQ73i32cVtbUXjvfx
- 7mYOpPPi02h9Z+pwpWgzAe2xfFRt9MHZJAk3Lb0TYuiIORnHpKfio1Kt2BkTDe6ZwrrCbm
- QTBuUuscgkiSMBDgIipq+1c+aP0MPow=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678179330;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jJvuxY7Q7W6lr3F8/22gRy6xoHYvuDzzJyI4xHrBvJ8=;
- b=ZuAKNjDQx5UiCYwiTcriSna9rcRvvy1+YnwXmOHQkvzQyiEEPFFiBaaAoV6yzz2b2krWgH
- 6y1OYHiJIBbbADBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1987013440;
- Tue,  7 Mar 2023 08:55:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hApkBQL8BmRrKAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Mar 2023 08:55:30 +0000
-Message-ID: <0e789778-03ca-e3cb-9c94-e8b55573894c@suse.de>
-Date: Tue, 7 Mar 2023 09:55:29 +0100
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396F710E105
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 08:58:06 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id c19so13536487qtn.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 00:58:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678179485;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mf9D3mYUVq4IaTZ5HVptNWacWozv4toT5Gz07corxFA=;
+ b=Cw5vxT8b+ZuLpPRMhrExdLyMQioKls98qgN2MOw7IdH+ykb+e4nSzytjnDsN6AYdpR
+ SWFu55+CfjpGPkfNoST0Cslphar0ecrcJCnkttJVJu9i+RYQkNM8QUK/ezm2FpOuipN4
+ Oqaix52ZVU/wmk0nMZQVNOFSuH0wT+KthFJ9CGmunDevicGCKd71i5ZsQuAU8twXcT3w
+ jiPSGJoZwnBIX+XrXIhJQaOW4ZyWTna83t53nksG46pR03R8Wm2EH+vjMtrH0J/0L3bv
+ ZOHQDdqyIGVI1gI8xyktUzoJaO1MlV7p9KOjK216fraEhsY96id/f2+Ht3VblQ2oeZxV
+ fqdQ==
+X-Gm-Message-State: AO0yUKU8pNky60NcqLL9iWQpXOkiMR4fksLcexHUyPW1xNAWlRf3zY1z
+ 8VbQ21wekms8z5n2IVefv8GU8XL8sOn3ug==
+X-Google-Smtp-Source: AK7set/D6KJQiPucNeAniCPnZ6NEMXAJReiaxtP3ey1LjgJoLa0KTrr80pBDnjPWtF6F6Bh7iBiylQ==
+X-Received: by 2002:ac8:7f4f:0:b0:3bf:c7f4:24b with SMTP id
+ g15-20020ac87f4f000000b003bfc7f4024bmr23465030qtk.42.1678179485046; 
+ Tue, 07 Mar 2023 00:58:05 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com.
+ [209.85.219.169]) by smtp.gmail.com with ESMTPSA id
+ q25-20020a37f719000000b007343fceee5fsm9087958qkj.8.2023.03.07.00.58.03
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Mar 2023 00:58:03 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 82so10690255ybn.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 00:58:03 -0800 (PST)
+X-Received: by 2002:a5b:542:0:b0:a67:c976:c910 with SMTP id
+ r2-20020a5b0542000000b00a67c976c910mr6389341ybp.7.1678179482859; Tue, 07 Mar
+ 2023 00:58:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
-Content-Language: en-US
-To: Linus Walleij <linus.walleij@linaro.org>
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0AKPEWDCojFXq3Qt40ngMipB"
+References: <20230306160016.4459-1-tzimmermann@suse.de>
+ <CAMuHMdU5AwE0pK=ppip4J81ByEye+jmvff1s8saeEuWZWZiqPw@mail.gmail.com>
+ <c560dd1c-03ac-1aa7-f3ac-2a2d9f411505@suse.de>
+In-Reply-To: <c560dd1c-03ac-1aa7-f3ac-2a2d9f411505@suse.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 Mar 2023 09:57:51 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUWRwN7Ks1ougy81Lh=NKLD+y04Xr6O+Ee+3k5Z4QH2Rg@mail.gmail.com>
+Message-ID: <CAMuHMdUWRwN7Ks1ougy81Lh=NKLD+y04Xr6O+Ee+3k5Z4QH2Rg@mail.gmail.com>
+Subject: Re: [PATCH 00/99] fbdev: Fix memory leak in option parsing
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,113 +69,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, edmund.j.dea@intel.com,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, anitha.chrisanthus@intel.com,
- linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com,
- samuel@sholland.org, javierm@redhat.com, jernej.skrabec@gmail.com,
- linux-imx@nxp.com, alain.volmat@foss.st.com, linux-sunxi@lists.linux.dev,
- raphael.gallais-pou@foss.st.com, martin.blumenstingl@googlemail.com,
- s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org,
- andrew@aj.id.au, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
- philippe.cornu@foss.st.com, kernel@pengutronix.de, khilman@baylibre.com,
- shawnguo@kernel.org
+Cc: linux-fbdev@vger.kernel.org, adaplas@gmail.com, timur@kernel.org,
+ corbet@lwn.net, deller@gmx.de, thomas@winischhofer.net, mbroemme@libmpq.org,
+ linux@armlinux.org.uk, dri-devel@lists.freedesktop.org,
+ sudipm.mukherjee@gmail.com, James.Bottomley@hansenpartnership.com,
+ pjones@redhat.com, paulus@samba.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ teddy.wang@siliconmotion.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0AKPEWDCojFXq3Qt40ngMipB
-Content-Type: multipart/mixed; boundary="------------BEwAduE2kZD6RTHO5irLjcAJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, andrew@aj.id.au,
- laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
- edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
- martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
- yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com, samuel@sholland.org,
- jyri.sarha@iki.fi, tomba@kernel.org, hyun.kwon@xilinx.com,
- laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev
-Message-ID: <0e789778-03ca-e3cb-9c94-e8b55573894c@suse.de>
-Subject: Re: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
-In-Reply-To: <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
+Hi Thomas,
 
---------------BEwAduE2kZD6RTHO5irLjcAJ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Tue, Mar 7, 2023 at 9:23=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+> Am 07.03.23 um 08:53 schrieb Geert Uytterhoeven:
+> > On Mon, Mar 6, 2023 at 5:00=E2=80=AFPM Thomas Zimmermann <tzimmermann@s=
+use.de> wrote:
+> >> Introduce struct option_iter and helpers to parse command-line
+> >> options with comma-separated key-value pairs. Then convert fbdev
+> >> drivers to the new interface. Fixes a memory leak in the parsing of
+> >> the video=3D option.
+> >>
+> >> Before commit 73ce73c30ba9 ("fbdev: Transfer video=3D option strings t=
+o
+> >> caller; clarify ownership"), a call to fb_get_options() either
+> >> returned an internal string or a duplicated string; hence ownership of
+> >> the string's memory buffer was not well defined, but depended on how
+> >> users specified the video=3D option on the kernel command line. For
+> >> global settings, the caller owned the returned memory and for per-driv=
+er
+> >> settings, fb_get_options() owned the memory. As calling drivers were
+> >> unable to detect the case, the memory was leaked.
+> >>
+> >> Commit 73ce73c30ba9 ("fbdev: Transfer video=3D option strings to calle=
+r;
+> >> clarify ownership") changed sematics to caller-owned strings. Drivers
+> >> still leaked the memory, but at least ownership was clear.
+> >>
+> >> This patchset fixes the memory leak and changes string ownership back
+> >> to fb_get_options(). Patch 1 introduces struct option_iter and a few
+> >> helpers. The interface takes an option string, such as video=3D, in th=
+e
+> >> common form value1,key2:value2,value3 etc and returns the individial
+> >> comma-separated pairs. Various modules use this pattern, so the code
+> >> is located under lib/.
+> >>
+> >> Patches 2 to 98 go through fbdev drivers and convert them to the new
+> >> interface. This often requires a number of cleanups. A driver would
+> >> typically refer to the option string's video mode. Such strings are no=
+w
+> >> copied to driver-allocated memory so that drivers don't refer directly
+> >> to the option string's memory. The option iterator then replaces manua=
+l
+> >> parsing loops based on strsep(",").
+> >
+> > Thanks for your series!
+> >
+> > Unfortunately I cannot say I'm thrilled about this: you are replacing
+> > a single small dynamic memory leak by 36 larger static memory leaks.
+>
+> That's fair enough.
+>
+> > Am I missing something?
+>
+> The current size of the videomode buffers is ridiculously large. I just
+> needed something that could hold the string. A long mode description
+> might look like
+>
+>    1920x1080MR-32@120ime
+>
+> which has 21 characters. 32-byte buffers would probably be more than enou=
+gh.
 
-SGkNCg0KQW0gMDYuMDMuMjMgdW0gMjM6MTkgc2NocmllYiBMaW51cyBXYWxsZWlqOg0KPiBP
-biBXZWQsIE1hciAxLCAyMDIzIGF0IDQ6MzHigK9QTSBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+IA0KPj4gQWRkIGZiZGV2IGVtdWxhdGlvbiB0
-aGF0IGlzIG9wdGltaXplZCBmb3IgRE1BIGhlbHBlcnMsIGFzIHVzZWQgYnkgbW9zdA0KPj4g
-ZHJpdmVycy4gSXQgb3BlcmF0ZXMgZGlyZWN0bHkgb24gR0VNIERNQSBidWZmZXJzIGluIHN5
-c3RlbSBtZW1vcnkuDQo+PiBNZW1vcnkgcGFnZXMgYXJlIG1tYXAnZWQgZGlyZWN0bHkgdG8g
-dXNlcnNwYWNlLiBObyBpbXBsaWNpdCBzaGFkb3cNCj4+IGJ1ZmZlcnMgbmVlZCB0byBiZSBh
-bGxvY2F0ZWQ7IGFzIGNhbiBoYXBwZW4gd2l0aCB0aGUgZ2VuZXJpYyBmYmRldg0KPj4gZW11
-bGF0aW9uLiBDb252ZXJ0IGRyaXZlcnMgdGhhdCBmdWxmaWwgdGhlIHJlcXVpcmVtZW50cy4N
-Cj4+DQo+PiBUZXN0ZWQgd2l0aCBmYmNvbiBhbmQgSUdUIG9uIHZjNC4NCj4+DQo+PiBGdXR1
-cmUgZGlyZWN0aW9uOiBwcm92aWRpbmcgYSBkZWRpY2F0ZWQgZmJkZXYgZW11bGF0aW9uIGZv
-ciBHRU0gRE1BDQo+PiBoZWxwZXJzIHdpbGwgYWxsb3cgdXMgdG8gcmVtb3ZlIHRoaXMgY2Fz
-ZSBmcm9tIHRoZSBnZW5lcmljIGZiZGV2IGNvZGUuDQo+PiBUaGUgbGF0dGVyIGNhbiB0aGVu
-IGJlIHNpbXBsaWZpZWQuDQo+IA0KPiAxKSBJIGxvdmUgeW91ciB3b3JrLg0KDQpUaGFuayB5
-b3UuIDopDQoNCj4gDQo+IDIpIFdoeSBpc24ndCB0aGlzIERSTSBkcml2ZXIgY2hhbmdlZD8N
-Cj4gZHJpdmVycy9ncHUvZHJtL21jZGUvbWNkZV9kcnYuYw0KPiBBRkFJQ1QgaXQgYWxzbyB1
-c2VzIEdFTSBidWZmZXJzIGluIHN5c3RlbSBtZW1vcnkuDQoNClRoaXMgZHJpdmVyIHJlcXVp
-cmVzIGRhbWFnZSBoYW5kbGluZw0KDQogDQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9s
-aW51eC92Ni4yL3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2Rydi5jI0w5Nw0K
-DQpmb3Igd2hpY2ggd2UgaGF2ZSB0byBjYWxsIHRoZSBmcmFtZWJ1ZmZlcidzIGRpcnR5IGNh
-bGxiYWNrDQoNCiANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y2LjIvc291
-cmNlL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5jI0wyODUN
-Cg0KYWZ0ZXIgZWFjaCB3cml0ZS4NCg0KRG9pbmcgdGhpcyB3aXRoIGZiZGV2IGVtdWxhdGlv
-biByZXF1aXJlcyB0cmFja2luZyBvZiBtbWFwJ2VkIHBhZ2VzIHZpYSANCmZiZGV2J3MgZGVm
-ZXJyZWQtSS9PIG1lY2hhbmlzbXMuIFRoYXQgbWFrZXMgdGhlIGZiZGV2LWVtdWxhdGlvbiBj
-b2RlIA0KbW9yZSBjb21wbGV4LiBBRkFJQ1QsIHRoZSBleGlzdGluZyBnZW5lcmljIGZiZGV2
-IGVtdWxhdGlvbiBhbHJlYWR5IA0KaW1wbGVtZW50cyB0aGlzIGNhc2UgJ2dvb2QgZW5vdWdo
-LicNCg0KPiANCj4gMykgVGhpcyBvbmU6DQo+IGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDEx
-MV9kcnYuYw0KPiBpcyBhbHNvIHZlcnkgc2ltaWxhciwgYnV0IGNhbiBzb21ldGltZXMgdXNl
-IGEgZGVkaWNhdGVkDQo+IFJBTSBtZW1vcnkgZm9yIGFsbG9jYXRpb25zIHVzaW5nIENNQSwg
-ZG9lcyB0aGF0IG1ha2UNCj4gaXQgbm90IGEgY2FuZGlkYXRlPw0KDQpUaGFua3MsIEkgdGhp
-bmsgSSBzaW1wbHkgbWlzc2VkIHBsMTExLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
-IA0KPiBUaGV5IGFyZW4ndCBtdWNoIGRpZmZlcmVudCBpbiBob3cgdGhleSB3b3JrIGZyb20g
-dGhlIFRWRTIwMC4NCj4gDQo+IFlvdXJzLA0KPiBMaW51cyBXYWxsZWlqDQoNCi0tIA0KVGhv
-bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
-cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5i
-ZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8
-aHJlcjogSXZvIFRvdGV2DQo=
+But there are a few exceptions...
 
---------------BEwAduE2kZD6RTHO5irLjcAJ--
+> I think it should also be possible to do a simple kstrdup() on the given
+> videomode string and free the copy in the module's _fini function.
 
---------------0AKPEWDCojFXq3Qt40ngMipB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+That sounds like the sanest approach to me.
 
------BEGIN PGP SIGNATURE-----
+> That also brings up the question of these MODULE ifdefs. Almost all of
+> the fbdev drivers only parse the command-line option if they are not
+> build as a module. Do you know why? Because of the awkward semantics of
+> the old fb_get_options()?
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQG/AEFAwAAAAAACgkQlh/E3EQov+DZ
-dRAAwJH7RKJhMWo0NmVD3hLGlh9SV/+0Z6rXXWaT119pdC7Qqd4OeVAiYuj4OXzkQBnO1BAE/OCn
-623FCxR3h/X6NHs03QD0Cw9FsUFaw6K44M7a+iJs8C0YWMXlG3uXefcIJYqi3SA7FOd7f8LfriGK
-w1fTag5CpmqLKLBtqFQbTuUgc8UrJRR7bmo8Y+kb7HZhPZEW3UGnn93dK+c5aVEM/W92hMP9T+QY
-F68SJ9+1s6VnX2c4VzSJW4BRi0ujNDw+5njK127CxTfTL++I2hY6ySC7ygOpN3tnOk1Xq9VD890m
-9pNVCGbmpiYWDVGiSZabqLPadf7srknsSYFz2q4Lo/lNNIa9caZ6m2VnUe376US8sipgDvusghPw
-Wjja8mOtgsTxLucjXySQd4z85fITbt5KME5/FtEvS23V/qxsbRyLdjUCLgfwzYZx9Ytn8uXFyMR8
-MlpkR+pSeujgMLrpSI1JQ7/nOPOkaP2jtKmvqDb7n8h7n0r9vzI7hcNjS88IrQxWC2hSzeyMIPJq
-EwwWt4qUA1hGWHyWHN4f4fjyjpAxuJ4sctNiRQ89ZYLG8Z2eEpD9o6h2h35tj+a39UdoNSywO6gM
-sxezN515EZlVaY85IrYAjSzRchAdtL6z+rgL8CTpd6FsCzzcY2I8h+JgS5BNX0KhmTojmMCnK3bw
-CnY=
-=Aoyh
------END PGP SIGNATURE-----
+That's just historical: to get to see anything on the console (on
+the graphics hardware without VGA text mode that fbdev was originally
+developed for), you needed to have your main fbdev driver builtin.
+Drivers for secondary displays could be loadable modules, and using
+fbset for those offered more flexibility than a module parameter.
 
---------------0AKPEWDCojFXq3Qt40ngMipB--
+> I think this should be changed so that they
+> always respect the video=3D parameter.
+
+I agree that makes sense.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
