@@ -1,78 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35036AEF26
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 19:21:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 361C16AEFB3
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 19:25:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5D0210E535;
-	Tue,  7 Mar 2023 18:20:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F17E710E52F;
+	Tue,  7 Mar 2023 18:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D230A10E52C;
- Tue,  7 Mar 2023 18:20:56 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 327DD7Ss024942; Tue, 7 Mar 2023 18:20:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=OBZ2dH5PXkoRA9viv95Gfz8S76KN1CxMxK2pe/vAuNM=;
- b=AiY/53wGX4LCaK8aQUA0Kzed63sy99rA6SVw2qeB24zRK/wBgPBsMuqZEEhyplRq0QFt
- OStNRtwUb65kSK2FH45YDaSJKwyFYosVN0kSaUnLFg/SFinWayTl88RFyAebZ/Lsf6Ho
- f20ugwtNCJ1GOCuGWYxtMdrpIjiUJQxa8RXFhQgdymjO5WpMF1ebwCJ7Qdv30SUDEVmn
- IzmyG/Js80rXGQX5Qhm3vm2V975sThvxhEyDOsu9lsfl6W0CzA8TprnCuMn5N9FYe7mr
- I5rYa1AGR3m1nwvbWzaui1jp7FvvYSMhYoWfCjHLNbHKyvO0T5hiHhh9zMZW9eWxFBkr cg== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p5x5ca2jh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Mar 2023 18:20:50 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 327IKn1M010109
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 7 Mar 2023 18:20:49 GMT
-Received: from [10.110.28.207] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 7 Mar 2023
- 10:20:48 -0800
-Message-ID: <5d2c1a44-7e07-ea12-e828-3b4f3c2d1009@quicinc.com>
-Date: Tue, 7 Mar 2023 10:20:36 -0800
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB8510E522;
+ Tue,  7 Mar 2023 18:25:20 +0000 (UTC)
+Received: from [192.168.2.57] (109-252-117-89.nat.spd-mgts.ru [109.252.117.89])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DD6FB6601F13;
+ Tue,  7 Mar 2023 18:25:16 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1678213518;
+ bh=7xmQlQpWEcyC/vbFYJQ2McbYpsrcK7QnlpUA/KHn1Wk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Zrglm6oKYgFbMjueScP15VIhZ1e8VIZcmHTOs1V+uaFq8lqpreoWLJJsP+xhKEn3A
+ CRyP+C1qQvEQ6mqj/+l+9azFbvrvfnJyH8+SvKyEUPUf87kLou7kCF3a61h9eJxZN1
+ M/l7hHHuD+So2fb0bCK8WSiBRG7Q5Clh38oAL71o+WmUHjuxN2wWO5cxxN5UDxfAwZ
+ iW57t6V1ciYldWG38Zc6w9IYwNqSDLtSLDetuB0IOR3YRUXetyjv3RT4WYQlcpLXeO
+ 6VZCv6oen7Ex10YDM2i750Mo0Ukwh6JXkacuN6qvMsRp2zOWp9N+06UKMgpo/eiwNt
+ qYPcpTZfu7Zeg==
+Message-ID: <66ddf54c-8396-2eb4-49ae-da479a997219@collabora.com>
+Date: Tue, 7 Mar 2023 21:25:13 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v2 00/50] drm/msm/dpu: rework HW catalog
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v12 10/11] drm/virtio: Support memory shrinking
+To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Herring <robh@kernel.org>
+References: <20230305221011.1404672-1-dmitry.osipenko@collabora.com>
+ <20230305221011.1404672-11-dmitry.osipenko@collabora.com>
+ <3afbc965-4117-7d45-9a8f-b726c04d1b0c@suse.de>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-References: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
- <dff314d3-782e-1550-394e-5f86b1de6a95@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <dff314d3-782e-1550-394e-5f86b1de6a95@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <3afbc965-4117-7d45-9a8f-b726c04d1b0c@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: CYd80B7o7IA8u5M6Aq0Xtf2UCgu_iHHn
-X-Proofpoint-GUID: CYd80B7o7IA8u5M6Aq0Xtf2UCgu_iHHn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-07_14,2023-03-07_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 clxscore=1015 adultscore=0 malwarescore=0
- bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303070162
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,168 +69,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry
-
-On 3/7/2023 10:02 AM, Dmitry Baryshkov wrote:
-> On 12/02/2023 01:12, Dmitry Baryshkov wrote:
->> This huge series attempts to restructure the DPU HW catalog into a
->> manageable and reviewable data set. In order to ease review and testing
->> I merged all the necessary fixes into this series. Also I cherry-picked
->> & slightly fixed Konrad's patch adding size to the SSPP and INTF macros.
->>
->> First 12 patches are catalog fixes, which can be probably picked into
->> the msm-fixes.
->>
->> Next 5 patches clean up the catalog a bit in order to make it more
->> suitable for refactoring.
->>
->> Then the next batch of 13 + 5 patches split the hw catalog entries into
->> per-SoC files.
->>
->> Next 8 patches rework catalog entries, mostly targeting QSEED cleanup
->> and deduplication of data used by several platforms. At this moment only
->> three pairs (out of 13 devices supported by DPU) are merged. However
->> this part lays out the ground to ease adding support for new platforms,
->> some of which use the same configuration as the existing platforms
->>
->> Last batch of 7 patches renames existing macros to ease using them while
->> adding support for new devices.
->>
->> This pile of patches is submitted in a sinle batch to allow one to
->> observe the final goal of the cleanup which otherwise might be hard to
->> assess.
->>
->> Changes since v1:
->> - Picked up Konrad's patch
->> - Picked up dependencies into the main series
->> - Moved qseed3lite vs qseed4 patches into the fixes part
->> - Fixed sm6115 in a similar manner.
+On 3/7/23 13:42, Thomas Zimmermann wrote:
+> Hi
 > 
-> Colleagues, could please take a look at this patchset? If nobody 
-> objects, I'd like to pick it after Rob merges Abhinav's msm-fixes pull 
-> request. Patches 1-13 are going through msm-fixes, patches 14-50 are 
-> pending.
+> Am 05.03.23 um 23:10 schrieb Dmitry Osipenko:
+> [...]
+>>         *bo_ptr = bo;
+>> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c
+>> b/drivers/gpu/drm/virtio/virtgpu_plane.c
+>> index 4c09e313bebc..3f21512ff153 100644
+>> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
+>> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+>> @@ -238,20 +238,32 @@ static int virtio_gpu_plane_prepare_fb(struct
+>> drm_plane *plane,
+>>       struct virtio_gpu_device *vgdev = dev->dev_private;
+>>       struct virtio_gpu_framebuffer *vgfb;
+>>       struct virtio_gpu_object *bo;
+>> +    int err;
+>>         if (!new_state->fb)
+>>           return 0;
+>>         vgfb = to_virtio_gpu_framebuffer(new_state->fb);
+>>       bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+>> -    if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY &&
+>> !bo->guest_blob))
+>> +
+>> +    if (virtio_gpu_is_shmem(bo)) {
 > 
+> Not really a problem with this patchset, but having such branches looks
+> like a bug in the driver's GEM design. Whatever your GEM object needs or
+> does, it should be hidden in the implementation. Why is virtio doing this?
 
-I will take a look at patches 14-50 by Friday or worst case early next 
-week. This week, I plan to finish validating the wide planes on sc7280 
-and give my Tested-by, hence cant get to this before that.
+There is another "VRAM" VirtIO-GPU BO type that doesn't implement the
+pin/unpin callbacks. Perhaps another option was to add the callbacks.
 
-Thanks
-
-Abhinav
-
->>
->> Dmitry Baryshkov (49):
->>    drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
->>    drm/msm/dpu: disable features unsupported by QCM2290
->>    drm/msm/dpu: fix typo in in sm8550's dma_sblk_5
->>    drm/msm/dpu: fix len of sc7180 ctl blocks
->>    drm/msm/dpu: fix sm6115 and qcm2290 mixer width limits
->>    drm/msm/dpu: correct sm8550 scaler
->>    drm/msm/dpu: correct sc8280xp scaler
->>    drm/msm/dpu: correct sm8450 scaler
->>    drm/msm/dpu: correct sm8250 and sm8350 scaler
->>    drm/msm/dpu: correct sm6115 scaler
->>    drm/msm/dpu: drop DPU_DIM_LAYER from MIXER_MSM8998_MASK
->>    drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
->>    drm/msm/dpu: don't use DPU_CLK_CTRL_CURSORn for DMA SSPP clocks
->>    drm/msm/dpu: constify DSC data structures
->>    drm/msm/dpu: mark remaining pp data as const
->>    drm/msm/dpu: move UBWC/memory configuration to separate struct
->>    drm/msm/dpu: split SM8550 catalog entry to the separate file
->>    drm/msm/dpu: split SM8450 catalog entry to the separate file
->>    drm/msm/dpu: split SC8280XP catalog entry to the separate file
->>    drm/msm/dpu: split SC7280 catalog entry to the separate file
->>    drm/msm/dpu: split SM8350 catalog entry to the separate file
->>    drm/msm/dpu: split SM6115 catalog entry to the separate file
->>    drm/msm/dpu: split QCM2290 catalog entry to the separate file
->>    drm/msm/dpu: split SC7180 catalog entry to the separate file
->>    drm/msm/dpu: split SM8250 catalog entry to the separate file
->>    drm/msm/dpu: split SC8180X catalog entry to the separate file
->>    drm/msm/dpu: split SM8150 catalog entry to the separate file
->>    drm/msm/dpu: split MSM8998 catalog entry to the separate file
->>    drm/msm/dpu: split SDM845 catalog entry to the separate file
->>    drm/msm/dpu: duplicate sdm845 catalog entries
->>    drm/msm/dpu: duplicate sc7180 catalog entries
->>    drm/msm/dpu: duplicate sm8150 catalog entries
->>    drm/msm/dpu: duplicate sm8250 catalog entries
->>    drm/msm/dpu: duplicate sm8350 catalog entries
->>    drm/msm/dpu: use defined symbol for sc8280xp's maxwidth
->>    drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for sc8280xp
->>    drm/msm/dpu: enable DSPP_2/3 for LM_2/3 on sm8450
->>    drm/msm/dpu: drop duplicate vig_sblk instances
->>    drm/msm/dpu: enable DSPP on sc8180x
->>    drm/msm/dpu: deduplicate sc8180x with sm8150
->>    drm/msm/dpu: deduplicate sm6115 with qcm2290
->>    drm/msm/dpu: deduplicate sc8280xp with sm8450
->>    drm/msm/dpu: drop unused macros from hw catalog
->>    drm/msm/dpu: inline IRQ_n_MASK defines
->>    drm/msm/dpu: rename INTF_foo_MASK to contain major DPU version
->>    drm/msm/dpu: rename CTL_foo_MASK to contain major DPU version
->>    drm/msm/dpu: rename VIG and DMA_foo_MASK to contain major DPU version
->>    drm/msm/dpu: rename MIXER_foo_MASK to contain major DPU version
->>    drm/msm/dpu: rename MERGE_3D_foo_MASK to contain major DPU version
->>
->> Konrad Dybcio (1):
->>    drm/msm/dpu: Allow variable SSPP/INTF_BLK size
->>
->>   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  211 ++
->>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  211 ++
->>   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |   97 +
->>   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |   91 +
->>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h |  152 ++
->>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  244 ++
->>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  152 ++
->>   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   92 +
->>   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   84 +
->>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h |   54 +
->>   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  226 ++
->>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  159 ++
->>   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  117 +
->>   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  123 +
->>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h |  118 +
->>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  209 ++
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 2193 +----------------
->>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   39 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |    4 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   18 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |    4 +-
->>   21 files changed, 2434 insertions(+), 2164 deletions(-)
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
->>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
->>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
->>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
->>   create mode 100644 
->> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>
+>> +        err = drm_gem_pin(&bo->base.base);
 > 
+> As the driver uses GEM SHMEM, please call drm_gem_shmem_object_pin()
+> directly and remove patch [09/11]. Same goes for the _unpin call below.
+> 
+> The problem with generic pinning interfaces is that there's no way of
+> specifying where to pin to BO.  The problem is most apparent with TTM,
+> where hardware often has multiple locations were buffer can be placed
+> (VRAM, GART, system memory). So it's really a detail between the driver
+> and the memory manager.
+> 
+> These generic internal GEM interfaces should only be used by DRM core
+> and helpers. Drivers should use their memory manager's interface.
+
+I'll switch to use drm_gem_shmem_object_pin() directly in v13, maybe add
+virtio_gpu_gem_pin() helper for that. Thanks!
+
+-- 
+Best regards,
+Dmitry
+
