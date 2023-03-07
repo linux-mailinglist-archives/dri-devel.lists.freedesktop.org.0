@@ -1,63 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3F26AF86E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 23:18:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7D26AF876
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 23:21:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34A3310E2A0;
-	Tue,  7 Mar 2023 22:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB0410E528;
+	Tue,  7 Mar 2023 22:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D511710E2A0
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:18:37 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-536bbef1c5eso271472227b3.9
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 14:18:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678227517;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E3DiUR/GgkhgxD2cosHQ9gtTM4EkXnRYU9WOulYy+fI=;
- b=uXQ6pTKn/U2liBv6xoaR1ke+Sh9LHgFqCMu07bxAsguGWrsAegY7rzgPRxpIpb4qk6
- CeaBMbGxoMqpib1QGU73lov1dIR23psWLel2MCzUxJaZzgBIdTc0lfm8f3qzBa5tXEha
- Ly643bvs3Uvtalj9HSi95RwxbLGj093nxULaG4RcPU14sWRsrl6O8AotxZse7oyej7JH
- QgbrLNWKIXF9+RbNS4CYW0E9U5GV/QysiawP03KpoWHaeMvdLjPAZCNCVYrc2g4RGEJm
- t5oVl86KKmdHuwGtV0voKm148Bah5/B8uANQH8WPfsqr/nQD3Bym6YK3CYL5SSIPMD9D
- dOGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678227517;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=E3DiUR/GgkhgxD2cosHQ9gtTM4EkXnRYU9WOulYy+fI=;
- b=Aapw/69rrh5z6/ILHgRCDYSTWUvQC2aEhoeYfvpS+tEQcXjjAh3q/oZnr3NfIGClUE
- Oot7bSxPXXXK7cZ2O/4LvEy+Ccc+EAWt+IdRd3E0ulMCOwiLXB2uoZVrGQPVpTr2dLYg
- +5x7xtPkBDpCSUcMbCfocA/VYirvLrcQy4X+Oi+tom+rcNi2WVnyoeMAzAxQxmVb0bVZ
- xdPOIuMO9BkYzQC3pM4QiUwCTaCV1gtetX80TciQuw2SeZxcD4LB3ulmK7CETqLjxXA0
- GxHiMHF/POzZjvneuKy5XU8UekLd1Mdur6zQwXK6OEA3JCEx2lGB2i8VjuKHUGxDDH9P
- HmKQ==
-X-Gm-Message-State: AO0yUKUfkdWDn3SoQrm6mehfx+obrq8rpJyrddBhujvc/Vpq9+l3QoK/
- 8xVTnY4jYxNq9O7lEPxLaTNPKezYpbaKHE69UQ6ZrA==
-X-Google-Smtp-Source: AK7set/SYnYyFvNE6h8dqT6SwfI0vZ82td/XxR+z0aS3Qpc3Vvvm8bzcKrJkYNLWOiue2Fju36euDI5bybr7bBVpeHE=
-X-Received: by 2002:a81:ad24:0:b0:52e:bb2d:2841 with SMTP id
- l36-20020a81ad24000000b0052ebb2d2841mr9656902ywh.10.1678227516874; Tue, 07
- Mar 2023 14:18:36 -0800 (PST)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A29A210E528
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 22:21:13 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1pZfgC-0001g0-HR; Tue, 07 Mar 2023 23:21:08 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 1/4] drm/rockchip: vop: limit maximium resolution to
+ hardware capabilities
+Date: Tue, 07 Mar 2023 23:21:16 +0100
+Message-ID: <839117967.0ifERbkFSE@diego>
+In-Reply-To: <20230216102447.582905-2-s.hauer@pengutronix.de>
+References: <20230216102447.582905-1-s.hauer@pengutronix.de>
+ <20230216102447.582905-2-s.hauer@pengutronix.de>
 MIME-Version: 1.0
-References: <20230217-topic-lenovo-panel-v2-0-2e2c64729330@linaro.org>
- <20230217-topic-lenovo-panel-v2-2-2e2c64729330@linaro.org>
-In-Reply-To: <20230217-topic-lenovo-panel-v2-2-2e2c64729330@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 7 Mar 2023 23:18:25 +0100
-Message-ID: <CACRpkdZ8RvFrieWXhx1WGO71M10H0-b3WbDXM7=xnngX7uWT6Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] gpu/drm/panel: Add Lenovo NT36523W BOE panel
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jianhua Lu <lujianhua000@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +41,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org
+Cc: Dan Johansen <strit@manjaro.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ FUKAUMI Naoki <naoki@radxa.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 7, 2023 at 2:26=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro.=
-org> wrote:
+Hi Sascha,
 
-> Introduce support for the BOE panel with a NT36523W touch/driver IC
-> found on some Lenovo Tab P11 devices. It's a 2000x1200, 24bit RGB
-> MIPI DSI panel with integrated DCS-controlled backlight (that expects
-> big-endian communication).
->
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Am Donnerstag, 16. Februar 2023, 11:24:44 CET schrieb Sascha Hauer:
+> The different VOP variants support different maximum resolutions. Reject
+> resolutions that are not supported by a specific variant.
+> 
+> This hasn't been a problem in the upstream driver so far as 1920x1080
+> has been the maximum resolution supported by the HDMI driver and that
+> resolution is supported by all VOP variants. Now with higher resolutions
+> supported in the HDMI driver we have to limit the resolutions to the
+> ones supported by the VOP.
+> 
+> The actual maximum resolutions are taken from the Rockchip downstream
+> Kernel.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+> 
+> Notes:
+>     Changes since v5:
+>     - fix wrong check height vs. width
+>     
+>     Changes since v4:
+>     - Use struct vop_rect for storing resolution
+>     
+>     Changes since v3:
+>     - new patch
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c  | 15 +++++++++++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h  |  6 ++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  5 -----
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c  | 18 ++++++++++++++++++
+>  4 files changed, 39 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index fa1f4ee6d1950..40c688529d44e 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1174,6 +1174,20 @@ static void vop_crtc_disable_vblank(struct drm_crtc *crtc)
+>  	spin_unlock_irqrestore(&vop->irq_lock, flags);
+>  }
+>  
+> +static enum drm_mode_status vop_crtc_mode_valid(struct drm_crtc *crtc,
+> +						const struct drm_display_mode *mode)
+> +{
+> +	struct vop *vop = to_vop(crtc);
+> +
+> +	if (vop->data->max_output.width && mode->hdisplay > vop->data->max_output.width)
+> +		return MODE_BAD_HVALUE;
+> +
+> +	if (vop->data->max_output.height && mode->vdisplay > vop->data->max_output.height)
+> +		return MODE_BAD_VVALUE;
+> +
+> +	return MODE_OK;
+> +}
 
-I will think this is some variant of the Novatek NT36523 display
-controller packaged up with Lenovo electronics until proven how
-wrong I am.
+I'm very much in favor of codifying the possible resolutions. Hopefully
+this will also enable better vop-selection down the road.
 
-I will listen to reason if it can be demonstrated that NT36523 and
-NT36523W are considerably different and need very different
-drivers, but I seriously doubt it. (For reasons see below.)
+But ...
 
->  drivers/gpu/drm/panel/panel-lenovo-nt36523w-boe.c | 747 ++++++++++++++++=
-++++++
+The above does break the px30-minievb display.
+While the px30 TRM does say it supports a 1920x1080 resolution only, the
+px30-minievb comes with a 720x1280 DSI display and normally runs just
+fine with it.
 
-We usually share code with different displays using the
-same display controller, so panel-novatek-nt36523.c should
-be used as name.
+Looking at the vendor-code [0], it seems they only seem to check for the
+hvalue. Looking deeper, the height-check was present in the beginning [1],
+but then was removed later on.
 
-> +config DRM_PANEL_LENOVO_NT36523W_BOE
-> +       tristate "Lenovo NT36523W BOE panel"
+Looking a bit more, I find [2] which says that
+	"Actually vop hardware has no output height limit"
 
-Name it after the display controller like the other examples
-in the Kconfig, DRM_PANEL_NOVATEK_NT36523
+I re-checked this on both px30+dsi and rock64+1080p-hdmi and with
+> +	if (vop->data->max_output.height && mode->vdisplay > vop->data->max_output.height)
+> +		return MODE_BAD_VVALUE;
+line gone, rock64 is still happy and the px30 works correctly again.
 
-> +       mipi_dsi_dcs_write_seq(dsi, 0xff, 0x20);
-> +       mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x05, 0xd9);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x78);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x5a);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0d, 0x63);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0e, 0x91);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x0f, 0x73);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x95, 0xeb);
-> +       mipi_dsi_dcs_write_seq(dsi, 0x96, 0xeb);
-> +       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0x11);
+So, do you see an issue with removing the output-height check?
 
-I think it looks very similar to Jianhua:s driver:
-https://lore.kernel.org/lkml/20230220121258.10727-1-lujianhua000@gmail.com/=
-T/
 
-Can't you just add this special magic sequence into
-that driver instead?
+Heiko
 
-Would it help if we merge Jianhua's driver first so you can patch on
-top of it?
 
-Yours,
-Linus Walleij
+[0] https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/gpu/drm/rockchip/rockchip_drm_vop.c#L2446
+[1] https://github.com/rockchip-linux/kernel/commit/7e3e0c5e2eb16901ab5dce1cb981e1ac58fe42c6
+[2] https://github.com/rockchip-linux/kernel/commit/28c41da2693fe448aeda7c03070c376290b93805
+
+
