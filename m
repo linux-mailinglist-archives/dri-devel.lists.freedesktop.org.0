@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEF96AD419
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 02:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC896AD4FF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Mar 2023 03:48:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F2B10E0A2;
-	Tue,  7 Mar 2023 01:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA2110E043;
+	Tue,  7 Mar 2023 02:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 920A410E34B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 01:36:39 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- qa18-20020a17090b4fd200b0023750b675f5so15048240pjb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 17:36:39 -0800 (PST)
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 435D210E043
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Mar 2023 02:48:50 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-536c02c9dfbso220565297b3.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Mar 2023 18:48:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678152999;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JOYQlgcH4lD1Ha4i8w6bRHjoNTM7YfPZ9WX5HZ9QO3I=;
- b=WaTSDjMCZBclEN8svJcq9Pmi6JcG+tKiz00sPCtEyk7uTzRSZJAJnijU2VlOya9vmP
- FoBiwEd58sL8cAsMjOL0W2CD1dQzqC1LAYHwTXgfJIKBjWwwCjsE9VzmjqxFq0zOES8F
- mMv5hlD7kaK3SOmyej8qjhaGXidp2hwJnFNvunBAjc8McjE75AHz7dsoFHXcf+O3XAbZ
- xirvX8OLJ9ehz0FXt+AHD0jS55AYRminnBrs2CPGAz3as9e5925AVmFvjeow+SdoJ1+4
- jOnYwyolUyItxekQqRECZXxKAbUpKGiOb37g0la+5ORFtKbQCRWUuWxOfB10OEuc0Llm
- tN1Q==
+ d=google.com; s=20210112; t=1678157329;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lgt5jS4yhQSzCPdn/ZYUqLkl8CzdntpQ4aotvK0s7Ps=;
+ b=bC6kQALSLNuqRTQaZ9igs0e7tU+DTMVX5l5fByB2rDw3UpbJvuu4T4oK5oVM5Rk5Ll
+ 8tNu6u+ARj5BDUkLjlpb/lWKave+lwglVLoJW+jFM8RpDgJA9W+2vfXnvqiMxMoXdefi
+ iO34NjNBfN1UcOL7SAPpSeMHim7rP8rzFEMbuNPyEV1Giw+C9U5DhMRNvd0bryLVE8XZ
+ Wun1sSNfTcMaxK5PpcAjejMKFzAwJ3WFKA63gcj+m7bPbfebZ+imgMZQgeLBHFjyZeip
+ Lb+g+O93DLWbhXJLzekN1UG4Qe6St9jVVW7AMlNiDNko/G5KKb3jh3T6GLWsUSX+d2Qr
+ YrEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678152999;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JOYQlgcH4lD1Ha4i8w6bRHjoNTM7YfPZ9WX5HZ9QO3I=;
- b=J6n8SSthmyHWBMLA/cNgXzTB7AhE3Z9u0/H4/CHPBWrxP6jA4fGJ+cNYoG+ET+xdME
- xNMBzfIxLupPLbtNqzoVF8mmEUzwe0ac6/apSvlEVW/SC6sTuvEkbWB47AIOumKjbSTg
- Os6V4iSFKuU06qNUT8PanCsPxiD9ptoXhTsC+WHUWlbUJ0N0zK6ctyyC1co8YkF/jmEo
- clgbZUaq4F0rKE6q+GyNmhmX21WL70vKVy1suPNGo86d7TnCm2jOKU5enmOEfOtrnRMI
- li4ol8nCu37iQuUPbW7tnLk+IGbFZKDw+EiNxxrdxFN/YMXkZ2Qvl07URXrfyDE4Gj3a
- GQ5g==
-X-Gm-Message-State: AO0yUKWcxPLuwTErLi+dhksM96Uzfy0fC15hcZ/cyaPNTdC1hTkFgefm
- qd6+NwWfL/sP4wlgQnTGHj0=
-X-Google-Smtp-Source: AK7set9TNDTtw5wgGGIsWh6Oli4TjGs+OdUfBpBXy+tm8dWZa7Cute5zIaKXRlix9l0CLbc/IYdq4Q==
-X-Received: by 2002:a17:903:11cc:b0:19c:aa09:c455 with SMTP id
- q12-20020a17090311cc00b0019caa09c455mr15955641plh.25.1678152999128; 
- Mon, 06 Mar 2023 17:36:39 -0800 (PST)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp.
- [106.167.171.201]) by smtp.gmail.com with ESMTPSA id
- l19-20020a170902f69300b0019956488546sm7311718plg.277.2023.03.06.17.36.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Mar 2023 17:36:38 -0800 (PST)
-Message-ID: <f94e3ada-212c-eef7-9e7b-03760bb29521@gmail.com>
-Date: Tue, 7 Mar 2023 10:36:34 +0900
+ d=1e100.net; s=20210112; t=1678157329;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lgt5jS4yhQSzCPdn/ZYUqLkl8CzdntpQ4aotvK0s7Ps=;
+ b=GnnHmzQ+OSjUSJEw1mytoOfjxRnY0WGAJ6GdwIIfuAFj875gW2mta0OWaAiBgl//cy
+ nEociblFFWg1DnEo+NTV8aPwgbwthk6AtPoUV8mH2Ec81Azlz4IkDifM32JHu2PRbyqT
+ btXbfLroZ6o182e2wb9l0Z5Zp/ajuf0CTubzi810kCMUiNvLY5khkVmFFhTQFgQQaDye
+ DaJ9hVNhxrx9XI+Mns02kbTPGfAEWQbOkUPeLDtm87UFBbTS5Ioh1guT1U/4fKpSOgLQ
+ GOS5mFmhGNRToLfpN3P0SESFXDOvYZUPxNOqqX6ilXMVCNwnWk2P875L1fxPsjp4gH/x
+ tC3Q==
+X-Gm-Message-State: AO0yUKVZprzcJqIkxjQKmj4b8h96YpLNMvJMbgEWLWiNzIh3R9rL8TOZ
+ xltY3qRDR8PX/X0Prgfmc8kGD/VNxuYj7HaHSiIN
+X-Google-Smtp-Source: AK7set+7qSth69cARYvLTy3vreAuG4eBzkkkrdpMtT+rT9KG8bg3ULr3mNo/gsLruekyoNHGRNGr/PNwa95c+Mbf36Q=
+X-Received: by 2002:a81:b604:0:b0:52f:2695:5d05 with SMTP id
+ u4-20020a81b604000000b0052f26955d05mr6829568ywh.3.1678157329171; Mon, 06 Mar
+ 2023 18:48:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: [PATCH v2 2/2] media: Adjust column width for pdfdocs
-Content-Language: en-US
-To: linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <29380b3e-1daa-3aef-1749-dbd9960ba620@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230306165143.1671-1-afd@ti.com>
+In-Reply-To: <20230306165143.1671-1-afd@ti.com>
+From: John Stultz <jstultz@google.com>
+Date: Mon, 6 Mar 2023 18:48:38 -0800
+Message-ID: <CANDhNCrzi+9BszTj+9v9t6cHOcxv=4C1yQZnZZ-_7FWoxwAd5A@mail.gmail.com>
+Subject: Re: [PATCH v3] dma-buf: cma_heap: Check for device max segment size
+ when attaching
+To: Andrew Davis <afd@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,41 +69,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Akira Yokosawa <akiyks@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The column width specifiers added in commit 8d0e3fc61abd ("media:
-Add 2-10-10-10 RGB formats") don't suffice for column 1 and too
-wide for column 2.
+On Mon, Mar 6, 2023 at 8:52=E2=80=AFAM Andrew Davis <afd@ti.com> wrote:
+>
+> Although there is usually not such a limitation (and when there is it is
+> often only because the driver forgot to change the super small default),
+> it is still correct here to break scatterlist element into chunks of
+> dma_max_mapping_size().
 
-Adjust them to get a good looking table.
+Hey Andrew!
+  Thanks for sending this out!
 
-Fixes: 8d0e3fc61abd ("media: Add 2-10-10-10 RGB formats")
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
-new to v2
+So *why* is it "correct here to break scatterlist element into chunks
+of  dma_max_mapping_size()." ?
 
- Documentation/userspace-api/media/v4l/pixfmt-rgb.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> This might cause some issues for users with misbehaving drivers. If
+> bisecting has landed you on this commit, make sure your drivers both set
+> dma_set_max_seg_size() and are checking for contiguousness correctly.
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-index ea545ed1aeaa..d9d7b7621d8c 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-@@ -778,7 +778,7 @@ number of bits for each component.
-     \tiny
-     \setlength{\tabcolsep}{2pt}
- 
--.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
-+.. tabularcolumns:: |p{3.2cm}|p{0.8cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
- 
- 
- .. flat-table:: RGB Formats 10 Bits Per Color Component
--- 
-2.25.1
+Why is this change worth the risk? (If this is really likely to break
+folks, should we maybe provide warnings initially instead? Maybe
+falling back to the old code if we can catch the failure?)
 
+I don't really object to the change, just want to make sure the commit
+message is more clear on why we should make this change, what the
+benefit will be along with the potential downsides.
 
+thanks
+-john
