@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B036B0529
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:58:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1219F6B0532
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 12:00:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED4F910E66C;
-	Wed,  8 Mar 2023 10:58:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9CFB10E66B;
+	Wed,  8 Mar 2023 10:59:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D90F10E5F7;
- Wed,  8 Mar 2023 10:58:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E259E10E5F7;
+ Wed,  8 Mar 2023 10:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678273091; x=1709809091;
+ t=1678273194; x=1709809194;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=RidooafDuAh1jsRFETo8soejqPe47VcmXpSHXZVXMsI=;
- b=Il5SPtBnoLMO8tKc3qcuT1crRtyPEF/7+nEtIDqwhjYO4RgtAowqpvCm
- n9eUFL3Eyy2lXhW0qLKKNnyE7bzt8LeAuSv0VqbKDVFhNB5wV9tlVMfhb
- h0BDya7lMef3hv3WdtWj62uPjpT4tLftBY3ttC0m1M7HbdMgWEEnqcGsR
- e3RkutEZrdCNeLCGkrFbji3MjOt/lM4qnS+mLx2Pmaxi9IDX+v+J4I0Ng
- ElTAjOWRe+2xsePIiC4C6dfavhPdw3Dd86TrVkCaCQvOJJhjgsz6xmlNY
- l2EoCT2bI5+dymF2YsKCBQQ2lvAPPefxsPs2p9E0/w9wwTG2ieDu2We4S A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="319955668"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="319955668"
+ bh=d9A3Nr/HYpD8idq1qZmqEm7NrxxLxfBN97nNgsC0Hkk=;
+ b=hUWO0wR5gYH0ijz7B/qIOh2pTnLOQ2SFhUQdOrHkFiuuH6wmD7zJyVeB
+ VbRohXSRJiU+qOcB9+29DmOjDfNetB1jGK5jysd+BHsbf0jahsQ/au0Mp
+ 7BwOs52ZvmGlH2XqafK0eAu4u1By5JSUXtFKo6f8DnH0vgoHDAsbJ2rpm
+ mu2pxJraDHatqKlk+s5aqhKMIrDWbFy1OzC5gHKz9R53ha+ZAiPoceCln
+ Wio0+3IBI0Me+KPDamxRJvCKrMqxEYM7G0UoQvJUCnS6HY6qFglX0VeQW
+ oXuBQBEJtlhww94W4lqBhhx9aSJrX/AQ/dFYS+fzjCeJKqmiZE7s/aTa0 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="319956099"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="319956099"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 02:58:10 -0800
+ 08 Mar 2023 02:59:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="707141739"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="707141739"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="707141968"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="707141968"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orsmga008.jf.intel.com with ESMTP; 08 Mar 2023 02:58:10 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ by orsmga008.jf.intel.com with ESMTP; 08 Mar 2023 02:59:54 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
  ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 8 Mar 2023 02:58:09 -0800
+ 15.1.2507.21; Wed, 8 Mar 2023 02:59:54 -0800
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 8 Mar 2023 02:58:09 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ 15.1.2507.21 via Frontend Transport; Wed, 8 Mar 2023 02:59:54 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
  edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Wed, 8 Mar 2023 02:58:09 -0800
+ 15.1.2507.21; Wed, 8 Mar 2023 02:59:53 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=guF/J7pj2iFfuNtjHgx4j25SlHVPtgM6c1Mau37wskH7Je6qpviQC8bWPiU5n8kcTvdKShGGX6Xbcw4ku46+7SLEbaATwJ3Xbui3UYiflZxVTgXHvFPur7Yh5lbTB0LYA1CoaxHFr24E+D1CMuIbYiVGXt1EdkadYnZKlHlXXKzenLl8KXKL7OftzhtvZbhaiOkNz9YZ7CcPWE21z+vdptDYVuCeYTWUP+SbWAVqynDFjcLDR74TszxFqpt2tDUMkoA+lasbNnKuD8s0UCwZ5lbeL1Nm5G4IRxrraj/XNROdsBULU+EVEpNiJJX0gMlo24eOgbh/tYgb+rdBu8o3sg==
+ b=a4XSxNTOHQS+SKhfrFioi31p49obXyz56JA89V0uXYaIulVOsnW8k//zwyHmOB5D7MccBFPNXmHLlFBR+KggsB9C2sBUHE021vj3L0ii12opLnJTM06IfHgYGynJaPrZ87y6JQiZarJbmc1oGWEQayryHIa75vsDd35ABHpnksaDcecmXP9Yni+YoYkUatmcZCCNuuadAsbm9OYTy6IdM5HQdmAVFNzwPbISo1vIxAiQYRhVcTlQdrU7YFolKJDUDHHE66TZUqdH3VL4S2rpCojNMsbRinzKwW69uNMqk8Ux7cPSkBwpPSjTNOlSZwR/yApWKKkPtMdLGxXBkwQzLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xw8dwDjUyHHJ+zQkQxnU/WPIrARigZPM//dduxhrtnY=;
- b=OfoiGP9aTw+2cAJwigxRvpZISGyrmJyc8Z/5/f6RKtbpoDDKxQLVJQpXERjVK28owZ2GKFZBA4owVZuzfLNHg1K+aA9rme9hjWK9mqWTfaEUvPCAnf/21elP6w/boV947aWEGdIwn5ntyJUaDCQm7zwjRX+LO8QL8dN+L7A6lzPPe5WM2ZJUPV9kF30pXeIqrSugIf3nVRIcw8gISxCQSjHt99FbMzMKNBra4lbyboZZCOHkrCMf+e9CiQFJJ8nY3S/T1SmgHxWEuI5klDbXyCllrXEq4gKLGsCVn+aOYPLhSpGFutPrRE/3OKwGA0oEJVwr+UHImkWHShwpIZLzLA==
+ bh=ajTzvXpSYrzwkyiX9ubBhmRU1y+2Ql7F928p/D+3veU=;
+ b=fseaRXuflWYnaoT6HooAJTVETW6HNFh4Ap/HKeoOV4j53kfJPZSx8jbfQg0+/Rx2yWHNE7pfXmD/8E3iptXYMRKaJh07zz2e6lHvKHuxBzoWjmUh+bSVOp3U59kB7kesR7YH4h3YxYVYVYJP6ZPbzb+LW8Et7dyWPXftbkGzES3cY/a/4+FSw46H+0h32Vh2LjhL6yTfr6PmvE4NJr4WQ9fUabFEw+nbhGpSDbs9dcp706W2XZk6nX3KXY15FgYBFqDtq7XUe4FRUPXkUNiSOVgSzM6CEGOm7yXABouEyS6R8Z8j72Kovq3tWUE+e2RjYemBBRUeSKOCNSzWa7J2rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -60,23 +60,23 @@ Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
  IA1PR11MB6513.namprd11.prod.outlook.com (2603:10b6:208:3a3::7) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6156.28; Wed, 8 Mar 2023 10:58:08 +0000
+ 15.20.6156.28; Wed, 8 Mar 2023 10:59:47 +0000
 Received: from DM4PR11MB6360.namprd11.prod.outlook.com
  ([fe80::f677:36e:9fae:b45e]) by DM4PR11MB6360.namprd11.prod.outlook.com
  ([fe80::f677:36e:9fae:b45e%6]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 10:58:07 +0000
+ 10:59:47 +0000
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH 3/7] drm/i915: Adding the new registers for DSC
-Thread-Topic: [PATCH 3/7] drm/i915: Adding the new registers for DSC
-Thread-Index: AQHZRn8rnz9sjE84nkC7IJf1Pbvkqa7wzFkg
-Date: Wed, 8 Mar 2023 10:58:07 +0000
-Message-ID: <DM4PR11MB63608B360592329EF088351DF4B49@DM4PR11MB6360.namprd11.prod.outlook.com>
+Subject: RE: [PATCH 4/7] drm/i915: Enable YCbCr420 for VDSC
+Thread-Topic: [PATCH 4/7] drm/i915: Enable YCbCr420 for VDSC
+Thread-Index: AQHZRn8q+AHAgpcE/EafZaR11pQfOa7wzO7w
+Date: Wed, 8 Mar 2023 10:59:47 +0000
+Message-ID: <DM4PR11MB63600FA8866FEEF788CE5F91F4B49@DM4PR11MB6360.namprd11.prod.outlook.com>
 References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
- <20230222053153.3658345-4-suraj.kandpal@intel.com>
-In-Reply-To: <20230222053153.3658345-4-suraj.kandpal@intel.com>
+ <20230222053153.3658345-5-suraj.kandpal@intel.com>
+In-Reply-To: <20230222053153.3658345-5-suraj.kandpal@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -85,54 +85,54 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|IA1PR11MB6513:EE_
-x-ms-office365-filtering-correlation-id: 659e73ff-2574-423e-ce16-08db1fc4000d
+x-ms-office365-filtering-correlation-id: 76a4c1ed-ad7b-4a39-4a89-08db1fc43b39
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kYUHN2+JklylToH90021IJeyDnwOhwFVnHFG9fO8RvMWdPKYswNyIGNHlj599XR3TDzy4S14gVbxQ8OTefhLCLGobh7D0ejj3OrgWe/chHaVylIMoQ+UJGrj5Bxs9ieMZFt07EiTrmUE0y8ZhZzYNf6N0Dqde478YSPY6xU94iMfhaca0vB3kcnsEPpIx7oeiLxcuZLlZj42t4OzhONw0EAMwG5mI+fJdotvSz1Vioh8USDXnKTni8CvR75QBI1aK4MCPSVG8ng4b6ckpa0ZTogZFUxf1uG/asy+UOPG27x3YNQdn9yYQFg3AtO22KllVupQYBEcVPp3g8eqHTtRbhIa+/NsJBK/rZpw7geeGcWWuiar4k5/+vA156yCoBvV+vfqG+8kWnl5LwOmmC2sSj4vFDgSgIfsajbV5GpouJPR2Mc82r4qsc4QyJR/Unj3aLBmzAZtIZ7vZPqLZl/K8c1xQWVeriGvsUcby9TiImFw/UcELsTskHCu6MWMhXi4NaNROi0wFN0mzveecbMfNqUBOivY+NJgHCxCO9PLZdZxwBVtXXD0A6U5O1P2r5xYRjYw1jtMqjVO7okzVoV30FhM7nbnduQgRUjiBPIU2GP2YXFwWqJmzRE/6CRre9rGteJww1K9IAXmTBIE3YPkZXjWNUq88RonzzkLxA1eHeIle/RHMTdOACz97HmE8DhUmCAOOxWFEFTKWXSuqUm9Tg==
+x-microsoft-antispam-message-info: o/Ul3Cia+ZwSbGKZS5zfV8sZFMkijsXiaVVDffDMXm3opLYBXWVSAcuzbohLAlSbWsKqfd3YAjWUN3LANMjWnb0hYJ4+ENrSJ8uKc6FETpaAiCXuAW8vpvq1HaTEioo1Exq5mJbjKJLF8iS6oATN6eunUvvol3UXOEM2Thgh3CG/pgZBbv7qvywh/xdUtSScl0/j2kCt6TycchmfBIdwOQaHAziYPrKpnBIoEmOutw3SCjvrpfwdPV8bwmLkL2kF4J9w3shu3cgU+VaxfzUMZIXArp0VDLyjzIW5h5i8r4pSth98RH9LEJ8LDJnS/4zQm77NEofnidpMD9lxpd75eFCEbZXJugz+TsWhOw5t5/M7yEC4iihetHUGM47vSfJBPtU25uRqi+WlKeHQxc11DkTsvjIJX9oerNlvQ89miUzE/Cq8jmuaWWKVMUQIbndutYXJIAc1VMFaGTNFSDNoKfAuLycsRCXg8hpEY99w3vJpFtwmhPE+kZLcgnd+hVEYJsRaPmwnO+ZYplJd73nqqfim7xk+F8y7cRTYXG6FcQfK9BJVZCd1YgPESs5ni5A/ueDjSaetltt4QHw8ycsrh4MPdlCjonSGQivDDjVkV0dOkJVWXzZXlcWcJ9v/SNdn61Zf5rKuv5b+R0ezb7E3Y9tmJUB8zizt5MLmN5ymHvtfSUsTKS96blAWaPGzJ5Rzp0X7l3eznLGGpvwWK+BiNg==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB6360.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(39860400002)(396003)(366004)(376002)(136003)(451199018)(26005)(6506007)(53546011)(107886003)(83380400001)(38070700005)(33656002)(122000001)(38100700002)(9686003)(86362001)(55016003)(82960400001)(186003)(66946007)(66556008)(41300700001)(66476007)(66446008)(4326008)(8676002)(2906002)(76116006)(52536014)(64756008)(5660300002)(8936002)(478600001)(71200400001)(450100002)(7696005)(316002)(54906003)(110136005);
+ SFS:(13230025)(6029001)(346002)(39860400002)(396003)(366004)(376002)(136003)(451199018)(26005)(6506007)(53546011)(107886003)(83380400001)(38070700005)(33656002)(122000001)(38100700002)(9686003)(86362001)(55016003)(82960400001)(186003)(66946007)(66556008)(41300700001)(66476007)(66446008)(4326008)(8676002)(2906002)(76116006)(30864003)(52536014)(64756008)(5660300002)(8936002)(478600001)(71200400001)(450100002)(7696005)(316002)(54906003)(110136005);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/aiL1Wrm9BP5n4YVpu2U+Ltcr2Nt4DwZ/SL5wP5iTg3kNsF7bKvbEnyZznDi?=
- =?us-ascii?Q?1QImXfDiFGixNBPwW+5NWLUlnbwG9cQryMuB8XHrezMeH6koOy/ATgqzFlAV?=
- =?us-ascii?Q?ZrCt0dTzw6eicgRe4Ssy/DTQkEQsAHFEBOpqS5YyVuJE4eLY2r4iwc43D/06?=
- =?us-ascii?Q?skOAIuuBcaRaIkjcjrEiW08ix+eAxINaBvFpmXo2zaWnH5rtBXuOLorOtsT2?=
- =?us-ascii?Q?yMxEjNuyGF6FJdTjNzU/YfyzJfAYo0Ib4Csv1HuYBNDH6LZEmLDZ9FkKMpLV?=
- =?us-ascii?Q?PjZCMQzdfRRtdLBtX1yCCa4uk03gHQL0NVg2+CGXXTYWnfjhlhyZ18DYt4cx?=
- =?us-ascii?Q?rK8iFdT0Bm/sm2mnewzmZKOS3Vf6aQ1BKJGm7gXy7k8j6/YbogqP24a1iv7J?=
- =?us-ascii?Q?tlxcj8ZdhepaUmTxb7ZURyzNF4kCRi6oXMjojN/chL6Hj0zd+CqMgilMXyP6?=
- =?us-ascii?Q?fsf6aem/8rQKj3teEwS7bLRVQYm9WDj/j8B2ZH1Ziz5r5bB0xgaHNWKGw7xo?=
- =?us-ascii?Q?w0+7N+qj3HMPQb2RUNcaa12k8iujfQ/zcqyjBj6mstxWTjYUSnsizoD5vEl9?=
- =?us-ascii?Q?L69ik3bjYgl+Er+UGSI4HAgAXjKCqnjIkYU8ZuaBac2K4Pmd15yAWUnhldFN?=
- =?us-ascii?Q?lBc8nJyS8YTPglHQqiikDvGFDfm8Z8xo2yA8ACxgqt7FvIAOuADN/tZK2vGb?=
- =?us-ascii?Q?Li8TLCAZmNfVV7et/qR+cK3o3CANUb3DAZHMAbwid9ZpqPAJ4t8NMqlbzYYk?=
- =?us-ascii?Q?poWxtiIGjGokSFKRVZ5p7FndMTAy6LwFmza180SX7CSNYP8ckJsiHw8pvdLZ?=
- =?us-ascii?Q?JHF9U/Yi6M4eu7PDi09eS1nXTcrBLaK5AXcfi8mhQGXElGw1ElyDNT5/d7HY?=
- =?us-ascii?Q?eH5v1r+aHNlda1iu+30Gh5uLjPjauw4C+wjU7fgID7sJR3UFCkwXasnT+6S8?=
- =?us-ascii?Q?DblrAw70eENtm6yMynsHO2/5Q7uyqsaKFgyJHAxJEH1IZcNW7kxR366e/t+b?=
- =?us-ascii?Q?cmYxNSOdrytF2TOC9TffBDYXriH7WBA3qS61B6JB3hr2tv2G4p36kcsRQdkl?=
- =?us-ascii?Q?RHxm15Q4kUyH/LGePMwKaw+wW0iFR9U1UxKvCfZEx929SR75FsTa97d2Akl0?=
- =?us-ascii?Q?FM1OvnjAVj+Vw99Vx0E2ZXAOGPRKABgPi0hCx8dpVPbmGM0gE/hdtInsBIw+?=
- =?us-ascii?Q?GIAhI8ee7qhgSVuJC8kjKZtQDnl6eS+DeTAWlQA/++ULB4cdFbECw8qILBdT?=
- =?us-ascii?Q?/GI/cEk4vbeN71sel/mutgxVvQij8SeRFOlBob4YLRLpgzq7AAsyfmdJ1igf?=
- =?us-ascii?Q?v+H88RwSDMYzO2GW6eB6pEUcQzmT1/VsSQTEQCktcMJ+kvUK5PvKwQHUNbIi?=
- =?us-ascii?Q?oYYuJRcccJ3X3uGFxyWcdyJzoYK6RCxGLv+yN71wWzvldeyDjHyjyhV6dch4?=
- =?us-ascii?Q?dR2prYMThhjmdfk/PBpyS5X8MmfzHUnowCGBJig/Wa7R++1pADtitwyt6w7V?=
- =?us-ascii?Q?BRqQ2pPweOtGvyK6Gd/icXAKnW65OTjNJkBlwVP31+J6MAX0GSfFkbn+Yb/A?=
- =?us-ascii?Q?zXRHGarPNhSG77eseJuYrGrsAEjOxMqnrWfOvq6x?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PMSD9yWq80aZmPfMrm4wUurT2TouVVgM4C70ddUvr7yr0ydBob9Z66HWhMJB?=
+ =?us-ascii?Q?pqbaMwNvKf3lwolN6ug4WhsswgI56g3sUpEgi255d6r7ZggoggpzPLL4ZV4l?=
+ =?us-ascii?Q?CsuX5QKA1nkLUx5vgnW7/4P8PfUFXXl6fRdptfbfTfPztP8eue2Un9N0DYZp?=
+ =?us-ascii?Q?ZBJLMlT2o8BQdDc6Xccn0Enb3Mfq8lVj4h9wEfpL12Z1cubGSse1kzaaOdo3?=
+ =?us-ascii?Q?JSgGUWHRBLcd8ir7oxn/zkcgt3oWLrZZ9kYCvNlOEIh6B4XI5B3/zAluLJZK?=
+ =?us-ascii?Q?0cyeBSEQJ7xsy9Ob5xXP3N0+TWhiJJ50uJ1jPA87xXJbp9qHnXECs8DCJ2V0?=
+ =?us-ascii?Q?YTVxOssT2+2WuyR78rOnXsaHPlj8omC3J0pG4esgW1VA//BbPk66TlkQk0xv?=
+ =?us-ascii?Q?Gx5+BOS7UxCiyQBghjBEbQsHc6jG3tdIuJMstHGZZ/IMa6cXKr/DeOo5bptt?=
+ =?us-ascii?Q?R9Lv/qnKj7PtAiYu+ml1uTOZuFJSMeHn25Bsgw5TjuxBPtfLIKQFVIPWjVEp?=
+ =?us-ascii?Q?q+9DmP3WX1N3JkOwtcLLvunxGne8Nl3AqdxoKegX34B6+aDhsWRuj8DRsUKK?=
+ =?us-ascii?Q?KVOppMElDL//qfcBLYqAMyK0QArLX3D8YQL34wGpcfjWCymIJBThUlwyxod6?=
+ =?us-ascii?Q?a5jnBAfJMJBx9PDRKgbWNnr8w+JwZga1WOSQZut0R23ewpZLOB91qJjN9xYJ?=
+ =?us-ascii?Q?kmMbV8iM/SEnIIwOcWAyNeqpyEyKGm8SSwoT9/3LwPBQGGxfBH/3ed4wQKBv?=
+ =?us-ascii?Q?i5Cejq6epdV/zbvqLg8kd62s3Vq2vU7UlR5Vp5EjJbKMMwK/IzLMC1JWUbD+?=
+ =?us-ascii?Q?dBKUAOvq/rDVKH8MaPfumZLVEaoPS5kN5fZ4eozFRw9kblc2O/Z2Bhr5w+Ke?=
+ =?us-ascii?Q?8qIjy18kwTzMw2A6pP6po2PJR3MHd7Amh3fsd455n2c2WKgCe/Vv55Q4+kK4?=
+ =?us-ascii?Q?xDfu67gZ0ZbgzgBgCt0LWQezgnhATKMDZaGXlnlsU29Kvfk97Skmk462KKUP?=
+ =?us-ascii?Q?7Y3VaZjCQRKSI/1CIdHO54lGp935R99CpJpz0EA8hKq3ELSA8b4+oy7L+S16?=
+ =?us-ascii?Q?i0MQKWTxMPqUSajwYfyEzJvOI6/DUXS4Cb5AcIBagsy8bdL6iZFzSaVedam5?=
+ =?us-ascii?Q?obbzZNvKfQycZlHY67hXIvy4SN9lLKYYENaq4qihz0hNqGnRcKrISCOIpqfg?=
+ =?us-ascii?Q?2ODmSurI+ny7Vje43GODhA8tmOr1unF0IIBu8cTkp+HG5I/m25WVhR1W53pf?=
+ =?us-ascii?Q?Buis25hhhFQAwB/9b2Q6fXsI6XVwZzruW/qQuWLrs0Jluqif6HTfaiyZrSTV?=
+ =?us-ascii?Q?bhekwO9dq8SjlvyD2c1U7S0N7KAEmalgT0ie9l07U26LEiIY2jESlgV3yA5O?=
+ =?us-ascii?Q?Xz565/vw6K0wdUzz3nZy9tTAuUISPW5rCeUG9yZ1GwsxbaFQOtcaUDOQb/Xy?=
+ =?us-ascii?Q?JzdlnA9MWxmk8VnFivkG8cI1iDwAo0aF5yg1gVcbn0zVQFjgmY8xaxBpoNBV?=
+ =?us-ascii?Q?tkMcznVmw613WQxBbUYsYOa3w+Ozvxsy11bIQdgdsfyZ5fw5Ufbwd9+GC0Cn?=
+ =?us-ascii?Q?ZNmYpShwpXAcXm4FtbPz7lvM2nrntNwnv8v24G4T?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 659e73ff-2574-423e-ce16-08db1fc4000d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2023 10:58:07.7856 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76a4c1ed-ad7b-4a39-4a89-08db1fc43b39
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2023 10:59:47.0405 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Nun1KTAqncxREx5NZ5GMnQ6alO6Lsh4u2KpTDavZuXeH+YqhpcAMhr6f2Dk2j9jljElh8KYscu77UhjTFtCyPQ==
+X-MS-Exchange-CrossTenant-userprincipalname: p3mN8vu8CJwky56QjvGwV/Mq+NdknejlcovjzYh+E7CxQUo1rlTYVzUhROzNXg2jwTr927J1SBd3ZpfteUGHkA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6513
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -162,84 +162,357 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > <ankit.k.nautiyal@intel.com>; Kandpal, Suraj <suraj.kandpal@intel.com>; K=
 ulkarni,
 > Vandita <vandita.kulkarni@intel.com>
-> Subject: [PATCH 3/7] drm/i915: Adding the new registers for DSC
+> Subject: [PATCH 4/7] drm/i915: Enable YCbCr420 for VDSC
 
-Nit: drm/i915/dsc would be better.
+drm/i915/dsc is better
 
 Looks Good to me.
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
-> Adding new DSC register which are introducted MTL onwards
->=20
+> Implementation of VDSC for YCbCr420.
+> Add QP tables for 8,10,12 BPC from rc_tables.h in intel_qp_tables.c (Deri=
+ved from C-
+> Model, which is given along with DSC1.2a Spec from Vesa)
+> intel_lookup_range_min/max_qp functons need to take into account the outp=
+ut
+> format. Based on that appropriate qp table need to be chosen.
+> Other rc_parameters need to be set where currently values for 444 format =
+is
+> hardcoded in calculate_rc_parameters( ).
+> vdsc_cfg struct needs to be filled with output format information, where =
+these are
+> hardcoded for 444 format.
+> Bspec: 49259
 > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 > Reviewed-by: Vandita Kulkarni <Vandita.kulkarni@intel.com>
 > ---
->  drivers/gpu/drm/i915/i915_reg.h | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
+>  .../gpu/drm/i915/display/intel_qp_tables.c    | 187 ++++++++++++++++--
+>  .../gpu/drm/i915/display/intel_qp_tables.h    |   4 +-
+>  drivers/gpu/drm/i915/display/intel_vdsc.c     |   4 +-
+>  3 files changed, 180 insertions(+), 15 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_=
-reg.h
-> index 596efc940ee7..9e25e21d37e4 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -7715,6 +7715,8 @@ enum skl_power_gate {
->  #define ICL_DSC1_PICTURE_PARAMETER_SET_0(pipe)	_MMIO_PIPE((pipe) -
-> PIPE_B, \
+> diff --git a/drivers/gpu/drm/i915/display/intel_qp_tables.c
+> b/drivers/gpu/drm/i915/display/intel_qp_tables.c
+> index 6f8e4ec5c0fb..6e86c0971d24 100644
+> --- a/drivers/gpu/drm/i915/display/intel_qp_tables.c
+> +++ b/drivers/gpu/drm/i915/display/intel_qp_tables.c
+> @@ -17,6 +17,15 @@
+>  /* from BPP 6 to 36 in steps of 0.5 */
+>  #define RC_RANGE_QP444_12BPC_MAX_NUM_BPP	61
 >=20
-> _ICL_DSC1_PICTURE_PARAMETER_SET_0_PB, \
+> +/* from BPP 6 to 24 in steps of 0.5 */
+> +#define RC_RANGE_QP420_8BPC_MAX_NUM_BPP		17
+> +
+> +/* from BPP 6 to 30 in steps of 0.5 */
+> +#define RC_RANGE_QP420_10BPC_MAX_NUM_BPP	23
+> +
+> +/* from BPP 6 to 36 in steps of 0.5 */
+> +#define RC_RANGE_QP420_12BPC_MAX_NUM_BPP	29
+> +
+>  /*
+>   * These qp tables are as per the C model
+>   * and it has the rows pointing to bpps which increment @@ -283,26 +292,=
+182 @@
+> static const u8
+> rc_range_maxqp444_12bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP444_12BPC
+>  	  11, 11, 10, 10, 10, 10, 10, 9, 9, 8, 8, 8, 8, 8, 7, 7, 6, 6, 6, 6, 5,=
+ 5, 4 }  };
 >=20
-> _ICL_DSC1_PICTURE_PARAMETER_SET_0_PC)
-> +#define  DSC_NATIVE_422_ENABLE		BIT(23)
-> +#define  DSC_NATIVE_420_ENABLE		BIT(22)
->  #define  DSC_ALT_ICH_SEL		(1 << 20)
->  #define  DSC_VBR_ENABLE			(1 << 19)
->  #define  DSC_422_ENABLE			(1 << 18)
-> @@ -7959,6 +7961,32 @@ enum skl_power_gate {
->  #define  DSC_SLICE_PER_LINE(slice_per_line)		((slice_per_line) << 16)
->  #define  DSC_SLICE_CHUNK_SIZE(slice_chunk_size)		((slice_chunk_size)
-> << 0)
+> -#define PARAM_TABLE(_minmax, _bpc, _row, _col)  do { \
+> -	if (bpc =3D=3D (_bpc)) \
+> -		return rc_range_##_minmax##qp444_##_bpc##bpc[_row][_col]; \
+> +static const u8
+> rc_range_minqp420_8bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_8BPC_MA
+> X_NUM_BPP] =3D {
+> +	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+> +	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+> +	{ 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+> +	{ 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+> +	{ 3, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0 },
+> +	{ 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0 },
+> +	{ 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0 },
+> +	{ 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0 },
+> +	{ 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 0 },
+> +	{ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1 },
+> +	{ 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 1, 1 },
+> +	{ 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1 },
+> +	{ 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 3, 3, 2, 1 },
+> +	{ 9, 8, 8, 7, 7, 7, 7, 7, 7, 6, 5, 5, 4, 3, 3, 3, 2 },
+> +	{ 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, 5, 4, 4, 3 } };
+> +
+> +static const u8
+> rc_range_maxqp420_8bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_8BPC_MA
+> X_NUM_BPP] =3D {
+> +	{ 4, 4, 3, 3, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+> +	{ 4, 4, 4, 4, 4, 3, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
+> +	{ 5, 5, 5, 5, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0 },
+> +	{ 6, 6, 6, 6, 6, 5, 4, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0 },
+> +	{ 7, 7, 7, 7, 7, 5, 4, 3, 2, 2, 2, 2, 2, 1, 1, 1, 0 },
+> +	{ 7, 7, 7, 7, 7, 6, 5, 4, 3, 3, 3, 2, 2, 2, 1, 1, 0 },
+> +	{ 7, 7, 7, 7, 7, 6, 5, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1 },
+> +	{ 8, 8, 8, 8, 8, 7, 6, 5, 4, 4, 4, 3, 3, 2, 2, 2, 1 },
+> +	{ 9, 9, 9, 8, 8, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1 },
+> +	{ 10, 10, 9, 9, 9, 8, 7, 6, 5, 5, 5, 4, 4, 3, 3, 2, 2 },
+> +	{ 10, 10, 10, 9, 9, 8, 8, 7, 6, 6, 5, 5, 4, 4, 3, 2, 2 },
+> +	{ 11, 11, 10, 10, 9, 9, 8, 7, 7, 6, 6, 5, 5, 4, 3, 3, 2 },
+> +	{ 11, 11, 11, 10, 9, 9, 9, 8, 7, 7, 6, 5, 5, 4, 4, 3, 2 },
+> +	{ 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, 4, 4, 4, 3 },
+> +	{ 14, 13, 13, 12, 11, 11, 10, 9, 9, 8, 7, 7, 6, 6, 5, 5, 4 } };
+> +
+> +static const u8
+> rc_range_minqp420_10bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_10BPC_
+> MAX_NUM_BPP] =3D {
+> +	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }=
+,
+> +	{ 4, 4, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }=
+,
+> +	{ 4, 4, 4, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0 }=
+,
+> +	{ 5, 5, 5, 4, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0 }=
+,
+> +	{ 7, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0 }=
+,
+> +	{ 7, 7, 7, 7, 7, 6, 5, 5, 5, 5, 5, 4, 3, 3, 2, 2, 1, 1, 1, 1, 1, 0, 0 }=
+,
+> +	{ 7, 7, 7, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 3, 2, 2, 2, 2, 1, 1, 1, 0 }=
+,
+> +	{ 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 6, 5, 4, 4, 4, 3, 2, 2, 2, 1, 1, 1, 0 }=
+,
+> +	{ 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 2, 1, 1 }=
+,
+> +	{ 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1 }=
+,
+> +	{ 9, 9, 9, 9, 9, 8, 8, 8, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1 }=
+,
+> +	{ 9, 9, 9, 9, 9, 9, 8, 8, 8, 8, 8, 8, 8, 7, 6, 6, 5, 4, 4, 3, 3, 2, 1 }=
+,
+> +	{ 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 8, 8, 7, 7, 6, 5, 4, 4, 3, 3, 2, 1 }=
+,
+> +	{ 13, 12, 12, 11, 11, 11, 11, 11, 11, 10, 9, 9, 8, 7, 7, 6, 5, 5, 4, 3,=
+ 3,
+> +	  2, 2 },
+> +	{ 17, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 10, 10, 9, 8, 8, 7, 6, 6,=
+ 5,
+> +	  5, 4, 4 }
+> +};
+> +
+> +static const u8
+> rc_range_maxqp420_10bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_10BPC_
+> MAX_NUM_BPP] =3D {
+> +	{ 8, 8, 7, 6, 4, 4, 3, 3, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 }=
+,
+> +	{ 8, 8, 8, 7, 6, 5, 4, 4, 3, 3, 3, 3, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 }=
+,
+> +	{ 9, 9, 9, 8, 8, 7, 6, 5, 4, 3, 3, 3, 3, 3, 2, 1, 1, 1, 0, 0, 0, 0, 0 }=
+,
+> +	{ 10, 10, 10, 9, 9, 8, 7, 6, 5, 4, 4, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 0,
+> +	  0 },
+> +	{ 11, 11, 11, 10, 10, 8, 7, 6, 5, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1=
+,
+> +	  0 },
+> +	{ 11, 11, 11, 10, 10, 9, 8, 7, 6, 6, 6, 5, 4, 4, 3, 3, 2, 2, 2, 2, 2, 1=
+,
+> +	  1 },
+> +	{ 11, 11, 11, 11, 11, 10, 9, 8, 7, 7, 7, 6, 5, 5, 4, 3, 3, 3, 3, 2, 2, =
+2,
+> +	  1 },
+> +	{ 12, 12, 12, 12, 12, 11, 10, 9, 8, 8, 8, 7, 6, 5, 5, 4, 3, 3, 3, 2, 2,
+> +	  2, 1 },
+> +	{ 13, 13, 13, 12, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 6, 5, 4, 4, 3, 3, 3=
+,
+> +	  2, 2 },
+> +	{ 14, 14, 13, 13, 13, 12, 11, 10, 9, 9, 9, 8, 8, 7, 7, 6, 5, 4, 4, 3, 3=
+,
+> +	  2, 2 },
+> +	{ 14, 14, 14, 13, 13, 12, 12, 11, 10, 10, 9, 9, 8, 8, 7, 6, 5, 5, 4, 4,
+> +	  3, 3, 2 },
+> +	{ 15, 15, 14, 14, 13, 13, 12, 11, 11, 10, 10, 9, 9, 8, 7, 7, 6, 5, 5, 4=
+,
+> +	  4, 3, 2 },
+> +	{ 15, 15, 15, 14, 13, 13, 13, 12, 11, 11, 10, 9, 9, 8, 8, 7, 6, 5, 5, 4=
+,
+> +	  4, 3, 2 },
+> +	{ 17, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, =
+4,
+> +	  4, 3, 3 },
+> +	{ 18, 17, 17, 16, 15, 15, 14, 13, 13, 12, 11, 11, 11, 10, 9, 9, 8, 7, 7=
+,
+> +	  6, 6, 5, 5 }
+> +};
+> +
+> +static const u8
+> rc_range_minqp420_12bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_12BPC_
+> MAX_NUM_BPP] =3D {
+> +	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, =
+0,
+> +	  0, 0, 0, 0, 0 },
+> +	{ 4, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, =
+0,
+> +	  0, 0, 0, 0, 0 },
+> +	{ 9, 8, 8, 7, 7, 6, 5, 5, 4, 4, 4, 4, 3, 3, 3, 2, 2, 1, 0, 0, 0, 0, 0, =
+0,
+> +	  0, 0, 0, 0, 0 },
+> +	{ 10, 9, 9, 8, 8, 8, 7, 7, 6, 6, 6, 5, 5, 4, 4, 3, 2, 2, 1, 1, 1, 0, 0,=
+ 0,
+> +	  0, 0, 0, 0, 0 },
+> +	{ 11, 10, 10, 10, 10, 9, 9, 8, 7, 6, 6, 6, 6, 5, 5, 4, 3, 3, 3, 2, 2, 1=
+,
+> +	  0, 0, 0, 0, 0, 0, 0 },
+> +	{ 11, 11, 11, 11, 11, 10, 10, 9, 9, 9, 9, 8, 7, 6, 5, 5, 4, 4, 3, 3, 3,=
+ 2,
+> +	  1, 1, 0, 0, 0, 0, 0 },
+> +	{ 11, 11, 11, 11, 11, 11, 10, 10, 9, 9, 9, 8, 8, 7, 6, 5, 5, 5, 5, 4, 3=
+, 3,
+> +	  2, 1, 1, 1, 1, 1, 0 },
+> +	{ 11, 11, 11, 11, 11, 11, 11, 10, 10, 10, 10, 9, 8, 8, 8, 7, 6, 6, 5, 4=
+, 4,
+> +	  3, 2, 2, 1, 1, 1, 1, 1 },
+> +	{ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 10, 10, 9, 9, 8, 8, 7, 7, 6, =
+5,
+> +	  5, 4, 4, 2, 2, 1, 1, 1, 1 },
+> +	{ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 10, 10, 9, 9, 8, 8, 7, 7,=
+ 6,
+> +	  5, 4, 4, 3, 2, 2, 1, 1, 1 },
+> +	{ 13, 13, 13, 13, 13, 13, 13, 12, 12, 12, 11, 11, 10, 10, 9, 9, 8, 8, 7=
+, 7,
+> +	  6, 5, 4, 3, 3, 2, 2, 1, 1 },
+> +	{ 13, 13, 13, 13, 13, 13, 13, 13, 13, 12, 12, 12, 12, 11, 10, 10, 9, 8,=
+ 8,
+> +	  7, 7, 6, 5, 4, 3, 3, 2, 2, 1 },
+> +	{ 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 12, 12, 11, 11, 10, 9, 8,=
+ 8,
+> +	  7, 7, 6, 5, 4, 4, 3, 2, 2, 1 },
+> +	{ 15, 15, 15, 15, 15, 15, 15, 15, 15, 14, 13, 13, 12, 11, 11, 10, 9, 9,=
+ 8,
+> +	  8, 7, 6, 6, 5, 4, 4, 3, 3, 2 },
+> +	{ 21, 20, 20, 19, 18, 18, 17, 16, 16, 15, 14, 14, 14, 13, 12, 12, 11, 1=
+0,
+> +	  10, 10, 9, 8, 8, 7, 6, 6, 5, 5, 4 }
+> +};
+> +
+> +static const u8
+> rc_range_maxqp420_12bpc[DSC_NUM_BUF_RANGES][RC_RANGE_QP420_12BPC_
+> MAX_NUM_BPP] =3D {
+> +	{ 11, 10, 9, 8, 6, 6, 5, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 0=
+,
+> +	  0, 0, 0, 0, 0, 0 },
+> +	{ 12, 11, 11, 10, 9, 8, 7, 7, 6, 6, 5, 5, 4, 3, 3, 2, 1, 1, 1, 1, 1, 1,
+> +	  1, 0, 0, 0, 0, 0, 0 },
+> +	{ 13, 12, 12, 11, 11, 10, 9, 8, 7, 6, 6, 6, 5, 5, 4, 3, 3, 2, 1, 1, 1, =
+1,
+> +	  1, 0, 0, 0, 0, 0, 0 },
+> +	{ 14, 13, 13, 12, 12, 11, 10, 9, 8, 7, 7, 6, 6, 5, 5, 4, 3, 3, 2, 2, 2,=
+ 1,
+> +	  1, 1, 0, 0, 0, 0, 0 },
+> +	{ 15, 14, 14, 13, 13, 11, 10, 9, 8, 7, 7, 7, 7, 6, 6, 5, 4, 4, 4, 3, 3,=
+ 2,
+> +	  1, 1, 1, 0, 0, 0, 0 },
+> +	{ 15, 15, 15, 14, 14, 13, 12, 11, 10, 10, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4=
+,
+> +	  4, 3, 2, 2, 1, 1, 0, 0, 0 },
+> +	{ 15, 15, 15, 15, 15, 14, 13, 12, 11, 11, 11, 10, 9, 8, 7, 6, 6, 6, 6, =
+5,
+> +	  4, 4, 3, 2, 2, 2, 1, 1, 0 },
+> +	{ 16, 16, 16, 16, 16, 15, 14, 13, 12, 12, 12, 11, 10, 9, 9, 8, 7, 7, 6,=
+ 5,
+> +	  5, 4, 3, 3, 2, 2, 2, 1, 1 },
+> +	{ 17, 17, 17, 16, 16, 15, 14, 14, 13, 13, 12, 12, 11, 11, 10, 9, 8, 8, =
+7,
+> +	  6, 6, 5, 5, 3, 3, 2, 2, 1, 1 },
+> +	{ 18, 18, 17, 17, 17, 16, 15, 14, 13, 13, 13, 12, 12, 11, 11, 10, 9, 8,=
+ 8,
+> +	  7, 6, 5, 5, 4, 3, 3, 2, 2, 1 },
+> +	{ 18, 18, 18, 17, 17, 16, 16, 15, 14, 14, 13, 13, 12, 12, 11, 10, 9, 9,=
+ 8,
+> +	  8, 7, 6, 5, 4, 4, 3, 3, 2, 2 },
+> +	{ 19, 19, 18, 18, 17, 17, 16, 15, 15, 14, 14, 13, 13, 12, 11, 11, 10, 9=
+,
+> +	  9, 8, 8, 7, 6, 5, 4, 4, 3, 3, 2 },
+> +	{ 19, 19, 19, 18, 17, 17, 17, 16, 15, 15, 14, 13, 13, 12, 12, 11, 10, 9=
+,
+> +	  9, 8, 8, 7, 6, 5, 5, 4, 3, 3, 2 },
+> +	{ 21, 20, 20, 19, 18, 18, 17, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 1=
+0,
+> +	  9, 9, 8, 7, 7, 6, 5, 5, 4, 4, 3 },
+> +	{ 22, 21, 21, 20, 19, 19, 18, 17, 17, 16, 15, 15, 15, 14, 13, 13, 12, 1=
+1,
+> +	  11, 11, 10, 9, 9, 8, 7, 7, 6, 6, 5 } };
+> +
+> +#define PARAM_TABLE(_minmax, _bpc, _row, _col, _is_420)  do { \
+> +	if (bpc =3D=3D (_bpc)) {	\
+> +		if (_is_420)	\
+> +			return
+> rc_range_##_minmax##qp420_##_bpc##bpc[_row][_col]; \
+> +		else	\
+> +			return
+> rc_range_##_minmax##qp444_##_bpc##bpc[_row][_col]; \
+> +	}	\
+>  } while (0)
 >=20
-> +/* MTL Display Stream Compression registers */
-> +#define _MTL_DSC0_PICTURE_PARAMETER_SET_17_PB	0x782B4
-> +#define _MTL_DSC1_PICTURE_PARAMETER_SET_17_PB	0x783B4
-> +#define _MTL_DSC0_PICTURE_PARAMETER_SET_17_PC	0x784B4
-> +#define _MTL_DSC1_PICTURE_PARAMETER_SET_17_PC	0x785B4
-> +#define MTL_DSC0_PICTURE_PARAMETER_SET_17(pipe)
-> 	_MMIO_PIPE((pipe) - PIPE_B, \
-> +
-> _MTL_DSC0_PICTURE_PARAMETER_SET_17_PB, \
-> +
-> _MTL_DSC0_PICTURE_PARAMETER_SET_17_PC)
-> +#define MTL_DSC1_PICTURE_PARAMETER_SET_17(pipe)
-> 	_MMIO_PIPE((pipe) - PIPE_B, \
-> +
-> _MTL_DSC1_PICTURE_PARAMETER_SET_17_PB, \
-> +
-> _MTL_DSC1_PICTURE_PARAMETER_SET_17_PC)
-> +#define DSC_SL_BPG_OFFSET(offset)		((offset) << 27)
-> +
-> +#define _MTL_DSC0_PICTURE_PARAMETER_SET_18_PB	0x782B8
-> +#define _MTL_DSC1_PICTURE_PARAMETER_SET_18_PB	0x783B8
-> +#define _MTL_DSC0_PICTURE_PARAMETER_SET_18_PC	0x784B8
-> +#define _MTL_DSC1_PICTURE_PARAMETER_SET_18_PC	0x785B8
-> +#define MTL_DSC0_PICTURE_PARAMETER_SET_18(pipe)
-> 	_MMIO_PIPE((pipe) - PIPE_B, \
-> +
-> _MTL_DSC0_PICTURE_PARAMETER_SET_18_PB, \
-> +
-> _MTL_DSC0_PICTURE_PARAMETER_SET_18_PC)
-> +#define MTL_DSC1_PICTURE_PARAMETER_SET_18(pipe)
-> 	_MMIO_PIPE((pipe) - PIPE_B, \
-> +
-> _MTL_DSC1_PICTURE_PARAMETER_SET_18_PB, \
-> +
-> _MTL_DSC1_PICTURE_PARAMETER_SET_18_PC)
-> +#define DSC_NSL_BPG_OFFSET(offset)		((offset) << 16)
-> +#define DSC_SL_OFFSET_ADJ(offset)		((offset) << 0)
-> +
->  /* Icelake Rate Control Buffer Threshold Registers */
->  #define DSCA_RC_BUF_THRESH_0			_MMIO(0x6B230)
->  #define DSCA_RC_BUF_THRESH_0_UDW		_MMIO(0x6B230 + 4)
+> -u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i)
+> +u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i, bool
+> +is_420)
+>  {
+> -	PARAM_TABLE(min, 8, buf_i, bpp_i);
+> -	PARAM_TABLE(min, 10, buf_i, bpp_i);
+> -	PARAM_TABLE(min, 12, buf_i, bpp_i);
+> +	PARAM_TABLE(min, 8, buf_i, bpp_i, is_420);
+> +	PARAM_TABLE(min, 10, buf_i, bpp_i, is_420);
+> +	PARAM_TABLE(min, 12, buf_i, bpp_i, is_420);
+>=20
+>  	MISSING_CASE(bpc);
+>  	return 0;
+>  }
+>=20
+> -u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i)
+> +u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i, bool
+> +is_420)
+>  {
+> -	PARAM_TABLE(max, 8, buf_i, bpp_i);
+> -	PARAM_TABLE(max, 10, buf_i, bpp_i);
+> -	PARAM_TABLE(max, 12, buf_i, bpp_i);
+> +	PARAM_TABLE(max, 8, buf_i, bpp_i, is_420);
+> +	PARAM_TABLE(max, 10, buf_i, bpp_i, is_420);
+> +	PARAM_TABLE(max, 12, buf_i, bpp_i, is_420);
+>=20
+>  	MISSING_CASE(bpc);
+>  	return 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_qp_tables.h
+> b/drivers/gpu/drm/i915/display/intel_qp_tables.h
+> index 9fb3c36bd7c6..a9ff9ca29938 100644
+> --- a/drivers/gpu/drm/i915/display/intel_qp_tables.h
+> +++ b/drivers/gpu/drm/i915/display/intel_qp_tables.h
+> @@ -8,7 +8,7 @@
+>=20
+>  #include <linux/types.h>
+>=20
+> -u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i);
+> -u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i);
+> +u8 intel_lookup_range_min_qp(int bpc, int buf_i, int bpp_i, bool
+> +is_420);
+> +u8 intel_lookup_range_max_qp(int bpc, int buf_i, int bpp_i, bool
+> +is_420);
+>=20
+>  #endif
+> diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c
+> b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> index 207b2a648d32..ed16f63d6355 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
+> @@ -422,9 +422,9 @@ calculate_rc_params(struct rc_parameters *rc,
+>  	for (buf_i =3D 0; buf_i < DSC_NUM_BUF_RANGES; buf_i++) {
+>  		/* Read range_minqp and range_max_qp from qp tables */
+>  		rc->rc_range_params[buf_i].range_min_qp =3D
+> -			intel_lookup_range_min_qp(bpc, buf_i, bpp_i);
+> +			intel_lookup_range_min_qp(bpc, buf_i, bpp_i, vdsc_cfg-
+> >native_420);
+>  		rc->rc_range_params[buf_i].range_max_qp =3D
+> -			intel_lookup_range_max_qp(bpc, buf_i, bpp_i);
+> +			intel_lookup_range_max_qp(bpc, buf_i, bpp_i, vdsc_cfg-
+> >native_420);
+>=20
+>  		/* Calculate range_bgp_offset */
+>  		if (bpp <=3D 6) {
 > --
 > 2.25.1
 
