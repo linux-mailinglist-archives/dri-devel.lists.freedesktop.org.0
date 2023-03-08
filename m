@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBE66B0D10
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 16:40:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB9F6B0D1E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 16:41:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7FE810E621;
-	Wed,  8 Mar 2023 15:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB6210E616;
+	Wed,  8 Mar 2023 15:41:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED80910E623;
- Wed,  8 Mar 2023 15:39:59 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id s41so12439214oiw.13;
- Wed, 08 Mar 2023 07:39:59 -0800 (PST)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19C3210E60E;
+ Wed,  8 Mar 2023 15:40:59 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ r23-20020a05683001d700b00690eb18529fso9208437ota.1; 
+ Wed, 08 Mar 2023 07:40:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678289999;
+ d=gmail.com; s=20210112; t=1678290058;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BaAUtb/N9UL1YS9AZl0SE37nPbeXIoJeDvkrLAar53k=;
- b=kpbqi66Gx1HUmzbNTjMnEaY0fUaP1rVbAomOrfPAi6GcirN4TmHcJZpl5yUCh4UNdS
- U4IDL+DM0ggo2lH3wHX/dnuTn/mpin2tE/Gj8L7gY5gv/NyN2Gge346/MazBZ4W2N2fg
- jgao/+S/aHEmZbK3Jk6+1IjLZmTiWLxYTTdgbUBb76oHb/wY08vCu88wfQf6y+IOZvao
- H3AML1UGkdJgfPY1UtiJhSHPjt7nNXel5yiWfJ1V8y9HF1dzPGsQ6WMzcHUEekR09tGC
- dcX/F9eBZF3eUUSdNU1G+3HRSSW45zh/JrcRmFjnnocojr2YSAQjfE2mZimv+iTK0ykr
- Nlbw==
+ bh=l1eaevzD/VPDBLno7am529FO5BQItrE1PVYk+UmlJ30=;
+ b=jo7rya6xSxN51x9Agv7lCoYt3NELUGNXEedCdddprWZMyEetydQ+VAzjhfsveqPncT
+ U4OyFqbRxprUag/By3VxXdmsuY2RVJU/msDixT15maV8wgkSpTAv3wXuVsKS7DB9SKeL
+ wqB8/HNzPeUWM15t6WQz3t8RRJrSsAd3inuqxvUgnUCLvP03jMmjh7XNmNuJVKRGd+hI
+ jLqruPfGAiNzz5wFrUsJgqPPj9Kcg5+ToW18Zr/vrJligw92oiYGcWq8H6/wNNA6THGq
+ 32iu2QBeI7T+IKQz4/WtUGE4Pamkdfwm7P0UNgeizuDfP1cVfy1y6hfRvT8DHsseOfYa
+ jHTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678289999;
+ d=1e100.net; s=20210112; t=1678290058;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BaAUtb/N9UL1YS9AZl0SE37nPbeXIoJeDvkrLAar53k=;
- b=D2ficiN/mNcZOWZqhLkH6/c4qd7jj2gmgA4nkCqQUTZY90DlRuzWK5IdKU5zzIdwMX
- vXZ5aGeRRN71UkV86j6eanIDZ2R7kpWMmEofZik+pXHE7cJtIqy3zvaUFp4psHI4vc25
- 9RK0dgKRzKO/2Xz6x6e+oDAEeXlP//3J3V8bFZ2BFefmmDV9jXPYAQAktj9v+hXVhnJi
- Lh0LeqxuX04UgQKc4WTjXltMO5Xrur40vgvdPHdrPRgfW0ndcfcD+VD1LAQM9OmT101g
- BuMRcexpg+vo+rgeu2MLsLA8B7p54dQw/k0VQ/sxADMfqc2nlYuV51SGYUFJwuQ4BkfK
- wVBg==
-X-Gm-Message-State: AO0yUKX4xYRBh9PdjVSHCXNRniUHRpnNmci5R2dsc8bI8d4Qi2QokDmU
- UAgRB70ZnAB3ottCg9Uh4uLVlToWb4bY6x51YH8=
-X-Google-Smtp-Source: AK7set/l1y6f5wm26prcQWrhc6hlrODYBjN/jrOtHMUH61GhN/Z+0wVcB3PTAdG/g3xV47wB9O//ChhmmBH37L39xEw=
-X-Received: by 2002:a05:6808:8f7:b0:36e:f6f5:5cf0 with SMTP id
- d23-20020a05680808f700b0036ef6f55cf0mr5499115oic.3.1678289999154; Wed, 08 Mar
- 2023 07:39:59 -0800 (PST)
+ bh=l1eaevzD/VPDBLno7am529FO5BQItrE1PVYk+UmlJ30=;
+ b=4L86tm+giMHbLmTWq69u4ibGlH68hhTdhLIxlk5khaLAHyLWHm4ZXfCsVKPRu+j56P
+ E7eyjkn/l+7A7ewxDpB1Oo0z+/JeGxawyz+puzWcq6VVaDB8vIeguXKio/f3LUdlFIwI
+ uFageM3hrsgFZTHIzKc3+kCoaD0Vc/KJeN33OdHKrJEcMNeiOEhqKa0+lsQwOKgMi5nB
+ K1pENexQDK18JlacB/hZpjPtJw/J5T/VRhk6rAWHNxjlOS/8/XRsuU7UGfFz55kzePmJ
+ 18c5CZippD5vMMu7ERssYiZC2203q1bQbmL7Ocpo8YKELL/I6x0emfFJRBjK+bwHP4Nc
+ C9Qg==
+X-Gm-Message-State: AO0yUKXDt6NHtdhkkyj+PXcQGGXUlY1+yayUqdQlytvWcQfxEd035wkx
+ pmlMAMv2bLAibzqL6cXdKGCyb9t7kwEl9WtefSg=
+X-Google-Smtp-Source: AK7set/3YXnoE0ouW6QKye+UdVIfFc6/NcrKfnpl+KoXnboudNx6jNlvIiSmQTAgHzhdNCUl12UfKeVmimwBzUUsk9Y=
+X-Received: by 2002:a9d:724c:0:b0:68b:ccee:5ead with SMTP id
+ a12-20020a9d724c000000b0068bccee5eadmr6361844otk.3.1678290058340; Wed, 08 Mar
+ 2023 07:40:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20230308140943.2009970-1-trix@redhat.com>
-In-Reply-To: <20230308140943.2009970-1-trix@redhat.com>
+References: <20230308141057.2010361-1-trix@redhat.com>
+In-Reply-To: <20230308141057.2010361-1-trix@redhat.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Mar 2023 10:39:47 -0500
-Message-ID: <CADnq5_PdEGjvc59HjaYdffrNmAfFWuVe5M23wenHZMyF9LdCOA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove unused variable res_pool
+Date: Wed, 8 Mar 2023 10:40:46 -0500
+Message-ID: <CADnq5_PtFqWKvVePq+jydpC06QG35q420-9iQErv6OcgYcPzJQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: remove unused variable available
 To: Tom Rix <trix@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -67,56 +68,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jerry.Zuo@amd.com, hersenxs.wu@amd.com,
- hamza.mahfooz@amd.com, Wayne.Lin@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
+Cc: candice.li@amd.com, sunpeng.li@amd.com, qingqing.zhuo@amd.com,
+ Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, wenjing.liu@amd.com,
+ amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com, Jun.Lei@amd.com,
+ christian.koenig@amd.com, mghaddar@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-On Wed, Mar 8, 2023 at 9:10 AM Tom Rix <trix@redhat.com> wrote:
+On Wed, Mar 8, 2023 at 9:11 AM Tom Rix <trix@redhat.com> wrote:
 >
 > With gcc and W=3D1, there is this error
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_mst_types.c:121=
-4:31:
->   error: variable =E2=80=98res_pool=E2=80=99 set but not used [-Werror=3D=
-unused-but-set-variable]
->  1214 |         struct resource_pool *res_pool;
->       |                               ^~~~~~~~
+> drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_dpia_bw.c=
+:297:13: error:
+>   variable =E2=80=98available=E2=80=99 set but not used [-Werror=3Dunused=
+-but-set-variable]
+>   297 |         int available =3D 0;
+>       |             ^~~~~~~~~
 >
-> Since res_pool is unused, remove it.
+> Since available is unused, remove it.
 >
 > Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 2 --
->  1 file changed, 2 deletions(-)
+>  .../drm/amd/display/dc/link/protocols/link_dp_dpia_bw.c   | 8 --------
+>  1 file changed, 8 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 2739bef9b90c..4b9b5e4050fc 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -1211,7 +1211,6 @@ static int pre_compute_mst_dsc_configs_for_state(st=
-ruct drm_atomic_state *state,
->         bool computed_streams[MAX_PIPES];
->         struct amdgpu_dm_connector *aconnector;
->         struct drm_dp_mst_topology_mgr *mst_mgr;
-> -       struct resource_pool *res_pool;
->         int link_vars_start_index =3D 0;
->         int ret =3D 0;
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_dpia_b=
+w.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_dpia_bw.c
+> index f14217cc16fd..2f0311c42f90 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_dpia_bw.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_dpia_bw.c
+> @@ -294,7 +294,6 @@ bool link_dp_dpia_set_dptx_usb4_bw_alloc_support(stru=
+ct dc_link *link)
+>  void dpia_handle_bw_alloc_response(struct dc_link *link, uint8_t bw, uin=
+t8_t result)
+>  {
+>         int bw_needed =3D 0;
+> -       int available =3D 0;
+>         int estimated =3D 0;
+>         int host_router_total_estimated_bw =3D 0;
 >
-> @@ -1220,7 +1219,6 @@ static int pre_compute_mst_dsc_configs_for_state(st=
-ruct drm_atomic_state *state,
+> @@ -373,20 +372,13 @@ void dpia_handle_bw_alloc_response(struct dc_link *=
+link, uint8_t bw, uint8_t res
 >
->         for (i =3D 0; i < dc_state->stream_count; i++) {
->                 stream =3D dc_state->streams[i];
-> -               res_pool =3D stream->ctx->dc->res_pool;
->
->                 if (stream->signal !=3D SIGNAL_TYPE_DISPLAY_PORT_MST)
->                         continue;
+>                 // 1. If due to unplug of other sink
+>                 if (estimated =3D=3D host_router_total_estimated_bw) {
+> -
+>                         // First update the estimated & max_bw fields
+>                         if (link->dpia_bw_alloc_config.estimated_bw < est=
+imated) {
+> -                               available =3D estimated - link->dpia_bw_a=
+lloc_config.estimated_bw;
+>                                 link->dpia_bw_alloc_config.estimated_bw =
+=3D estimated;
+>                         }
+>                 }
+>                 // 2. If due to realloc bw btw 2 dpia due to plug OR real=
+loc unused Bw
+>                 else {
+> -
+> -                       // We took from another unplugged/problematic sin=
+k to give to us
+> -                       if (link->dpia_bw_alloc_config.estimated_bw < est=
+imated)
+> -                               available =3D estimated - link->dpia_bw_a=
+lloc_config.estimated_bw;
+> -
+>                         // We lost estimated bw usually due to plug event=
+ of other dpia
+>                         link->dpia_bw_alloc_config.estimated_bw =3D estim=
+ated;
+>                 }
 > --
 > 2.27.0
 >
