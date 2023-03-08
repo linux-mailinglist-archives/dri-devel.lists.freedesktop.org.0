@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC506B1199
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 20:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E329D6B11A3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 20:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8535610E6E9;
-	Wed,  8 Mar 2023 19:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BD7710E134;
+	Wed,  8 Mar 2023 19:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
  [209.85.160.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11A2D10E6E9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 19:02:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3145410E134
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 19:03:22 +0000 (UTC)
 Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-17683b570b8so17021951fac.13
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 11:02:59 -0800 (PST)
+ 586e51a60fabf-17683b570b8so17023316fac.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 11:03:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678302178;
+ d=1e100.net; s=20210112; t=1678302202;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5FrWOB0uVxHx56X9xrWxuDWJ/kb3JEYgMVQs34PVT2U=;
- b=jWEu82bsvNZfSdE8qCGkLIazdvUPtH7e+i8w62bBShpUf2onXh92mLDuIw+jy0mGe6
- ZdtJQHdupqh0aeVTdVmnixeVp/0YDYqvPIROr7ARsRYSucRKD2VqtoDv1sQb5Yzc0BCV
- SZbCwwbQzrwjgl22W0Ng+jqt8jJXWAvddF/cejLvGp5rHdpXEz0QyivIp52+mHqPOkFb
- aUki6tVEVcQvCPba/OvjS4Fs6WDE+sSW259+qkdiqnEISX1pN42CgRqZ+FnKxC2KdnQ3
- sjif6ZD+QQEB0Ht+rwZiMr0nGKbuy10b0NNtksuVv3bWZR0eTDHIVUq7KDY4XzC8W6PI
- Zutw==
-X-Gm-Message-State: AO0yUKUJpIBI1+D1L54f3lg3kzXK9u3dRNbBH9LEvaM3ZsUox9XaU9Wx
- 4D7CyZ+tDmoUHO3rZfkhiQ==
-X-Google-Smtp-Source: AK7set+DvjoWc1KWq2h3sKBZx+8CoWicRMFGWsEt1KRrNByZmsCl9/pHwHZRNzh/c5BtXW6lqvK2cw==
-X-Received: by 2002:a05:6870:b14d:b0:172:80f9:a545 with SMTP id
- a13-20020a056870b14d00b0017280f9a545mr13141161oal.25.1678302178217; 
- Wed, 08 Mar 2023 11:02:58 -0800 (PST)
+ bh=9il/DGJIQiu6Ue8jvxZUwoY7ORjCm0v/Im7Io+dDxPs=;
+ b=Ml6BNVngU1mpJu1GK+jnreQd4TMmS0GRfNf/zQl3dXVZa9WLgxE1deBa+VO4baS+QB
+ Sfqb2P8aQo+rYNdmy0ZxbeAsACq1OUv53TAPhpe19ALm2YNGj6Sxu1MFm1313a8memPB
+ fInb03PxjkXX8YYE/6CZ+7AceUrlbm8B9JKyNjq2TAAjvpKsCmW94luCmu8M56ujEb+m
+ k4gnlDBYVkkizchKBZvWxuAfWiA9m90XAeQ2dx7HHafY/JAQIuTrJwNxXJeqc7gCcO0G
+ VdA3/0Frmi2nqTNCSx1L8yj67iMZoyIQPnzsdyocuH+9xRrBd1lbS4CE5a970b5OBJ6h
+ 9FSw==
+X-Gm-Message-State: AO0yUKW6xSdkvKJgd7z4oq8tRlezlpLmB6RbFbQGEc3UBzBSXdaYFSCU
+ WLT/loerxOu0ADh4KxqC2hwJxz1ooQ==
+X-Google-Smtp-Source: AK7set/POqWuscJib/lrSJTB9epA2owd4C+73BtnHIuJFrEFJL2xeHZhaNT4yQoIOLqI2Iaqknu/XQ==
+X-Received: by 2002:a05:6870:f292:b0:172:c578:d78b with SMTP id
+ u18-20020a056870f29200b00172c578d78bmr1164117oap.23.1678302201744; 
+ Wed, 08 Mar 2023 11:03:21 -0800 (PST)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- d199-20020a4a52d0000000b005264a1472adsm1543777oob.15.2023.03.08.11.02.57
+ dx12-20020a056870768c00b0017281100b75sm6506505oab.42.2023.03.08.11.03.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 11:02:57 -0800 (PST)
-Received: (nullmailer pid 3604331 invoked by uid 1000);
- Wed, 08 Mar 2023 19:02:57 -0000
-Date: Wed, 8 Mar 2023 13:02:57 -0600
+ Wed, 08 Mar 2023 11:03:21 -0800 (PST)
+Received: (nullmailer pid 3605141 invoked by uid 1000);
+ Wed, 08 Mar 2023 19:03:20 -0000
+Date: Wed, 8 Mar 2023 13:03:20 -0600
 From: Rob Herring <robh@kernel.org>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v4 03/12] dt-bindings: gpu: mali-bifrost: Fix
- power-domain-names validation
-Message-ID: <20230308190257.GA3601415-robh@kernel.org>
+Subject: Re: [PATCH v4 06/12] dt-bindings: gpu: mali-bifrost: Add support for
+ MediaTek MT8186
+Message-ID: <167830220018.3605078.16960763301333635462.robh@kernel.org>
 References: <20230228102704.708150-1-angelogioacchino.delregno@collabora.com>
- <20230228102704.708150-3-angelogioacchino.delregno@collabora.com>
+ <20230228102704.708150-6-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230228102704.708150-3-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230228102704.708150-6-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,72 +66,24 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
  linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
  krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 28, 2023 at 11:26:55AM +0100, AngeloGioacchino Del Regno wrote:
-> Commit ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
-> incorrectly introduced power domain names for MT8183, causing
-> validation issues.
-> 
-> Add power-domain-names to the base schema, allowing a maximum of
-> five elements; since platforms having a single power domain don't
-> need any actual domain name, disallow that for each sub-schema.
-> 
-> Fixes: a7a596cd3115 ("dt-bindings: gpu: mali-bifrost: Add Mediatek MT8183")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml          | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 5b7f1c9d2b30..bf0f7f1f71e0 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -65,6 +65,10 @@ properties:
->      minItems: 1
->      maxItems: 5
->  
-> +  power-domain-names:
-> +    minItems: 1
 
-If you are disallowing for a single domain, then this could be 2...
+On Tue, 28 Feb 2023 11:26:58 +0100, AngeloGioacchino Del Regno wrote:
+> MT8186 has a Mali-G52 MC2 2EE GPU (two cores): add a binding with
+> two power domains (one per core) for it.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+>  .../bindings/gpu/arm,mali-bifrost.yaml         | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
 
-> +    maxItems: 5
-> +
->    resets:
->      minItems: 1
->      maxItems: 3
-> @@ -112,6 +116,7 @@ allOf:
->        properties:
->          power-domains:
->            maxItems: 1
-> +        power-domain-names: false
->        required:
->          - resets
->    - if:
-> @@ -136,6 +141,7 @@ allOf:
->              - const: bus_ace
->          power-domains:
->            maxItems: 1
-> +        power-domain-names: false
->          resets:
->            minItems: 3
->          reset-names:
-> @@ -186,6 +192,7 @@ allOf:
->              - const: bus
->          power-domains:
->            maxItems: 1
-> +        power-domain-names: false
->        required:
->          - clock-names
->  
-> -- 
-> 2.39.2
-> 
