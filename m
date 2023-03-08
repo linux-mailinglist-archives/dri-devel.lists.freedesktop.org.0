@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30256B0300
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C626B0305
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:35:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A846910E5EF;
-	Wed,  8 Mar 2023 09:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC3310E60A;
+	Wed,  8 Mar 2023 09:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0AA310E5EF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 09:35:03 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- h11-20020a17090a2ecb00b00237c740335cso1321897pjs.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 01:35:03 -0800 (PST)
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1930310E608;
+ Wed,  8 Mar 2023 09:35:16 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id b13so15926694ljf.6;
+ Wed, 08 Mar 2023 01:35:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678268103;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CIp47ayWe59+VWKhH9jfCtYK/GFGqKCWyjnngDque6c=;
- b=Cc+E1Uks3GPCBi+uVQ8Q1bxA242495kRlYnjygJIcW0ttuukBE0hKfF/G4HtH0HGcw
- ZSLSv3maU9K8fpsnB/lasDILBMu+G66n2g28h8UzQLfYaVtRE/v9BpJumos/l+xT0QSg
- EXyKUlKn8IjZvK1CTaNIOI/O52HtQ0PEAlbcOBfjUrOyPuuW6qkh6//4YZSLROGOB62o
- FcrwecFPUocDjdxj4BEWrjdFLGV3eWfpzdygoyrp7LQFhgOMNw9Fbb6zObt/VK7hnvCo
- 7bEyGflDAFixQfiteufSq2mu0o8ayAxucG6cpIGSMTxSCox6m8vnOMTIl3HVvsYAddbz
- OhTA==
+ d=gmail.com; s=20210112; t=1678268114;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=B9gQSU1hE4pHwNZBTdVKkwllbDTQKBkHL8xqSvdMqIk=;
+ b=OK2PjgGiRk4MGijFYrDl+uNqPJmJ1+61aPDKVaAnIk1SJev0G18kzoOvxb8kmfuqvv
+ 8FIqUVuFYB7Q2JpZQSbTT4xHP8lK8wJfh7yLVgsaCejbLud6HtxrN18tK5ysk5AKBzrJ
+ SyvlFaREbZAn1NdUBqW/eYNNEt0OQ0I+Uwj+WiXN0r8aEFRF5UmHyDo5e4l/4UASL/B/
+ 8MVz6OnwAqWSoa6sXI6WhzNjoa3EINRunc/83VWRxtN89YVILsx1fbXzJA10xgFB3c3f
+ xjpx9HijyCUwcN3u9MkLAY64Xijlv0OLXDx8kvwxzNuuWRcl1bZWpYO6ftwu3N495kPL
+ rFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678268103;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CIp47ayWe59+VWKhH9jfCtYK/GFGqKCWyjnngDque6c=;
- b=q3os4cD16ARAuWz30lGsXplRmhKc2wx8FWRQHHdbY3UsTa6DLSlBYyo7hWKn/AZ4V2
- tA4SURFwrFl15PGU88ja4JFQiVYhTEXJviKFoizU8P/7Sg2PzRBZmmm9XEx4LNCM6CdB
- X5DNCRJQra5dabHOil0hvgJwfh7hfLRe55grzRlTTOGicwBNaqbUg/s5Pq7VWBppk8/p
- cEEi6NiRh/mtKI/hMOL7CaNYIQLuMDTpsXHQF5sevX5R6muhcYEiu7ZUWkB5QKYQEBpV
- RhTMKJk9vKYXX9XYZ7PekBPBStAGvQCG2+ywfLjbpxTRv5SZkAROR+IOXSYB/3ps381g
- Iqsw==
-X-Gm-Message-State: AO0yUKVpfmn8RZ2M4slQoVfmK81LNkkXwj3BZppsGutu82ZW1QFyvw4V
- TSPuoSvd5wu6uegtW8f/Dou5ioLj2fq7dyeGI8s=
-X-Google-Smtp-Source: AK7set+g9/JXVrtZuGiSSDbXHvja+DfYo0/TVYxq59r9hAEn3FcwO4JpGiYOFO8cgm5MHGSE0G+q3mCbuRrCnu4w3+0=
-X-Received: by 2002:a17:902:ab45:b0:19b:e4c:2039 with SMTP id
- ij5-20020a170902ab4500b0019b0e4c2039mr7130742plb.4.1678268103137; Wed, 08 Mar
- 2023 01:35:03 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678268114;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=B9gQSU1hE4pHwNZBTdVKkwllbDTQKBkHL8xqSvdMqIk=;
+ b=aAKljghPMaPzhZk986+DQ+imobkhnBb1unTVey2KgX2rGT8VJQsud+T7fBZJUDmJMO
+ GqrSG9axnz41gldw/H0Lwkb+aYsIelHL0BUxPTQTnSAKs8KaFRC2C5m69AT/sS+2LXRw
+ mbMwj3NISUCvmKnHOQMuvLR8ltwPMozeA+Ki9vmXDy4P20JWbPKGj3QSGe6UvuCsd8NW
+ loyQrmrjvgvW4a1EcCsRglsi0DZrQ3/y/OhHIlu+AMJlM6jSOtGfLxDJgFvs2LTM927b
+ WNsDhzokAaTBL5Kf87rfOBaP+O7sI7IM9ePKYBRVxsawsZJvdE8sY0zKv7H99hfzIokO
+ THmw==
+X-Gm-Message-State: AO0yUKUAp97LAL1Srk8zOpU+lfVz7Q+ojC+fqLizZbWblgS+1XopPnI0
+ HSzUgQH4q8q/guyv8FWTq4c=
+X-Google-Smtp-Source: AK7set+rvIm/UgplTUxnwTk4ieFNE7h2CPFIrmucSKik9P+S0RFZPqowB59v7hh35gw0264HzzUbyg==
+X-Received: by 2002:a2e:960d:0:b0:295:d633:7401 with SMTP id
+ v13-20020a2e960d000000b00295d6337401mr5072878ljh.47.1678268114313; 
+ Wed, 08 Mar 2023 01:35:14 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ j8-20020a2eb708000000b00295b0c0e0c1sm2499726ljo.118.2023.03.08.01.35.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Mar 2023 01:35:13 -0800 (PST)
+Date: Wed, 8 Mar 2023 11:35:10 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v3 15/17] drm/amd/display: Add default case for
+ output_color_space switch
+Message-ID: <20230308113510.4165d1bc@eldfell>
+In-Reply-To: <20230307151107.49649-16-harry.wentland@amd.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-16-harry.wentland@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20230308063628.15233-1-tiwai@suse.de>
- <CAMeQTsYSgXm=Sku99USE+Up+uuJHUFdE8zPj7_B=BUi5SH=6KQ@mail.gmail.com>
- <87v8jbhag1.wl-tiwai@suse.de>
-In-Reply-To: <87v8jbhag1.wl-tiwai@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 8 Mar 2023 10:34:51 +0100
-Message-ID: <CAMeQTsYuD=umBxom7yha89ZS2GtuapEua28Uo+K1Wb1ApKKT6Q@mail.gmail.com>
-Subject: Re: [PATCH] fbdev: Fix incorrect page mapping clearance at
- fb_deferred_io_release()
-To: Takashi Iwai <tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/XX+CFOwIDpI3rfKZn/d.Jy.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,145 +72,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Miko Larsson <mikoxyzzz@gmail.com>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Joshua Ashton <joshua@froggi.es>,
+ Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 8, 2023 at 10:14=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Wed, 08 Mar 2023 10:08:24 +0100,
-> Patrik Jakobsson wrote:
-> >
-> > On Wed, Mar 8, 2023 at 7:36=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wro=
-te:
-> > >
-> > > The recent fix for the deferred I/O by the commit
-> > >   3efc61d95259 ("fbdev: Fix invalid page access after closing deferre=
-d I/O devices")
-> > > caused a regression when the same fb device is opened/closed while
-> > > it's being used.  It resulted in a frozen screen even if something
-> > > is redrawn there after the close.  The breakage is because the patch
-> > > was made under a wrong assumption of a single open; in the current
-> > > code, fb_deferred_io_release() cleans up the page mapping of the
-> > > pageref list and it calls cancel_delayed_work_sync() unconditionally,
-> > > where both are no correct behavior for multiple opens.
-> > >
-> > > This patch adds a refcount for the opens of the device, and applies
-> > > the cleanup only when all files get closed.
-> > >
-> > > Fixes: 3efc61d95259 ("fbdev: Fix invalid page access after closing de=
-ferred I/O devices")
-> > > Cc: <stable@vger.kernel.org>
-> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > > ---
-> > >  drivers/video/fbdev/core/fb_defio.c | 16 +++++++++++++---
-> > >  include/linux/fb.h                  |  1 +
-> > >  2 files changed, 14 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbde=
-v/core/fb_defio.c
-> > > index aa5f059d0222..9dcec9e020b6 100644
-> > > --- a/drivers/video/fbdev/core/fb_defio.c
-> > > +++ b/drivers/video/fbdev/core/fb_defio.c
-> > > @@ -305,17 +305,19 @@ void fb_deferred_io_open(struct fb_info *info,
-> > >                          struct inode *inode,
-> > >                          struct file *file)
-> > >  {
-> > > +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
-> > > +
-> > >         file->f_mapping->a_ops =3D &fb_deferred_io_aops;
-> > > +       fbdefio->opens++;
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
-> > >
-> > > -void fb_deferred_io_release(struct fb_info *info)
-> > > +static void fb_deferred_io_release_internal(struct fb_info *info)
-> >
-> > Maybe a better name would be fb_deferred_io_lastclose() to be more in
-> > line with DRM?
->
-> Sounds good.
->
-> > >  {
-> > >         struct fb_deferred_io *fbdefio =3D info->fbdefio;
-> > >         struct page *page;
-> > >         int i;
-> > >
-> > > -       BUG_ON(!fbdefio);
-> >
-> > Should the BUG_ON be put back into fb_deferred_io_release()?
->
-> It can be, but honestly speaking, such a BUG_ON() is utterly useless.
-> It should be WARN_ON() and return, if the sanity check is inevitably
-> needed.
+--Sig_/XX+CFOwIDpI3rfKZn/d.Jy.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I agree. It's rather pointless since it's already checked in fb_release().
+On Tue, 7 Mar 2023 10:11:05 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
->
-> > >         cancel_delayed_work_sync(&info->deferred_work);
-> > >
-> > >         /* clear out the mapping that we setup */
-> > > @@ -324,13 +326,21 @@ void fb_deferred_io_release(struct fb_info *inf=
-o)
-> > >                 page->mapping =3D NULL;
-> > >         }
-> > >  }
-> > > +
-> > > +void fb_deferred_io_release(struct fb_info *info)
-> > > +{
-> > > +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
-> > > +
-> > > +       if (!--fbdefio->opens)
-> > > +               fb_deferred_io_release_internal(info);
-> >
-> > I think this can race so we need locking.
->
-> This one is fine, as it's always called inside the fb lock in the
-> caller side.  Maybe worth to comment in the code.
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Vitaly.Prosyak@amd.com
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Reviewed-By: Joshua Ashton <joshua@froggi.es>
 
-Ah, yes, fb_release() locks around everything. Then we are fine. A
-comment would be nice.
+Hi,
 
->
-> > > +}
-> > >  EXPORT_SYMBOL_GPL(fb_deferred_io_release);
-> > >
-> > >  void fb_deferred_io_cleanup(struct fb_info *info)
-> > >  {
-> > >         struct fb_deferred_io *fbdefio =3D info->fbdefio;
-> > >
-> > > -       fb_deferred_io_release(info);
-> > > +       fb_deferred_io_release_internal(info);
-> > >
-> > >         kvfree(info->pagerefs);
-> > >         mutex_destroy(&fbdefio->lock);
-> > > diff --git a/include/linux/fb.h b/include/linux/fb.h
-> > > index d8d20514ea05..29674a29d1c4 100644
-> > > --- a/include/linux/fb.h
-> > > +++ b/include/linux/fb.h
-> > > @@ -212,6 +212,7 @@ struct fb_deferred_io {
-> > >         /* delay between mkwrite and deferred handler */
-> > >         unsigned long delay;
-> > >         bool sort_pagereflist; /* sort pagelist by offset */
-> > > +       int opens; /* number of opened files */
-> >
-> > I would prefer the name num_opens (or open_count as in DRM) instead of
-> > opens since it can be interpreted as a verb.
->
-> I don't mind either way.  I'd choose the latter.
->
-> > Also, don't we need it to be atomic_t?
->
-> It's always in the fb lock, so that should be fine with the standard
-> int.
+why?
 
-Yes
+Isn't the bitmask of supported values supposed to stop arbitrary values
+from coming through?
 
->
->
-> thanks,
->
-> Takashi
+Why handle unsupported values like DEFAULT instead of as a kernel bug?
+
+If this is only to stop compiler warnings of not handling all enum
+values in a switch, is the commit ordering in this series even
+bisectable?
+
+
+Thanks,
+pq
+
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 43 ++++++++++---------
+>  1 file changed, 22 insertions(+), 21 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 7f77e226f1eb..a15b26962496 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5308,7 +5308,29 @@ get_output_color_space(const struct dc_crtc_timing=
+ *dc_crtc_timing,
+>  	enum dc_color_space color_space =3D COLOR_SPACE_SRGB;
+> =20
+>  	switch (connector_state->colorspace) {
+> +	case DRM_MODE_COLORIMETRY_BT601_YCC:
+> +		if (dc_crtc_timing->flags.Y_ONLY)
+> +			color_space =3D COLOR_SPACE_YCBCR601_LIMITED;
+> +		else
+> +			color_space =3D COLOR_SPACE_YCBCR601;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_BT709_YCC:
+> +		if (dc_crtc_timing->flags.Y_ONLY)
+> +			color_space =3D COLOR_SPACE_YCBCR709_LIMITED;
+> +		else
+> +			color_space =3D COLOR_SPACE_YCBCR709;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_OPRGB:
+> +		color_space =3D COLOR_SPACE_ADOBERGB;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_BT2020:
+> +		color_space =3D COLOR_SPACE_2020_RGB_FULLRANGE;
+> +		break;
+> +	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED:
+> +		color_space =3D COLOR_SPACE_2020_YCBCR;
+> +		break;
+>  	case DRM_MODE_COLORIMETRY_DEFAULT: // ITU601
+> +	default:
+>  		if (dc_crtc_timing->pixel_encoding =3D=3D PIXEL_ENCODING_RGB) {
+>  			color_space =3D COLOR_SPACE_SRGB;
+>  		/*
+> @@ -5330,27 +5352,6 @@ get_output_color_space(const struct dc_crtc_timing=
+ *dc_crtc_timing,
+>  				color_space =3D COLOR_SPACE_YCBCR601;
+>  		}
+>  		break;
+> -	case DRM_MODE_COLORIMETRY_BT601_YCC:
+> -		if (dc_crtc_timing->flags.Y_ONLY)
+> -			color_space =3D COLOR_SPACE_YCBCR601_LIMITED;
+> -		else
+> -			color_space =3D COLOR_SPACE_YCBCR601;
+> -		break;
+> -	case DRM_MODE_COLORIMETRY_BT709_YCC:
+> -		if (dc_crtc_timing->flags.Y_ONLY)
+> -			color_space =3D COLOR_SPACE_YCBCR709_LIMITED;
+> -		else
+> -			color_space =3D COLOR_SPACE_YCBCR709;
+> -		break;
+> -	case DRM_MODE_COLORIMETRY_OPRGB:
+> -		color_space =3D COLOR_SPACE_ADOBERGB;
+> -		break;
+> -	case DRM_MODE_COLORIMETRY_BT2020:
+> -		color_space =3D COLOR_SPACE_2020_RGB_FULLRANGE;
+> -		break;
+> -	case DRM_MODE_COLORIMETRY_BT2020_DEPRECATED:
+> -		color_space =3D COLOR_SPACE_2020_YCBCR;
+> -		break;
+>  	}
+> =20
+>  	return color_space;
+
+
+--Sig_/XX+CFOwIDpI3rfKZn/d.Jy.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIVs4ACgkQI1/ltBGq
+qqfUGw/7BRoOJKeB9W+OcsO5MBRu9hDhujse5eYhZ3HtxbKIHMqKh9DoGD8Q/ZE9
+PILYNaWtW+60zkGBvGSrEkIrkOF46yxYqvELcP4fXAHL+k8litUGPHua1aG/eS4D
+DQlSwJ2uCyw7x7fHxbjDeBDrKIvvSW8jsgARSdNl/V/d5ygg0ydt2knRxpvYk9Zo
+N+vaEnDqeL7bttuVoe07tUgIOMkEPcD6ILIN9J8COVaE2HFgfw5qvRax/VGx+TBr
+rItwtgvMxr07S2ZJ+8cO/85LcYBt1JZhABs4uk8aNemR7ov+7JtyA9iRv3OsK5Yu
+MOY0Q2uUemlyGpjFnQawpavkDRU716iJ7SbDTZWO8CWpRd0YQh7RwWeCtbopUfpS
+h5amPo+O+rENV/z428m+iS0qLN5RhpSagbL2TMirAHxDF4Wv4738gTULnME4eGEa
+rj4dRb218/XBJNGzvgtXg8T/Y4HtavjEPSpUrT+RqGjRRrSOb2Z8mD320jhNfagl
+8HY2ovauRCzkilQeXeAD3B/aoG0WVzG+hF3ltzi0C8ZlwfmvJ4/Bvs2JUfgTI5Sq
+kIQuizaSleJshQb176cDwII1LrnlBeKPKpxrA1mRzSV5gcrS5UIJ7I1opeGYETN/
+iepj9Om8peTE1ix1oNLz/6CfkociPFbCgECpd+y4Tb8rImvwfz8=
+=DJ/T
+-----END PGP SIGNATURE-----
+
+--Sig_/XX+CFOwIDpI3rfKZn/d.Jy.--
