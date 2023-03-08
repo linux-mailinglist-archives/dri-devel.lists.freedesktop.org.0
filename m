@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6005A6B121F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 20:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038D96B125F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 20:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 511F610E146;
-	Wed,  8 Mar 2023 19:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD18510E6F7;
+	Wed,  8 Mar 2023 19:46:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6D2510E146
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 19:37:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6891010E6F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 19:46:08 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested)
  (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 04F8542037;
- Wed,  8 Mar 2023 19:37:29 +0000 (UTC)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id C4A4842037;
+ Wed,  8 Mar 2023 19:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1678304256;
- bh=bGSmqve6Q1FPtd+ajYOJkWVDvwsz5IUECf9DYdAEDq8=;
+ s=default; t=1678304766;
+ bh=371amrNIWdOrt1eX/rE/8QZd18kWMNJmNXDp2QdVSbs=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=l3KAZBz67DIrADlxVjsP9aADwc9MBYSxeSyma5bbE93n86EbwmPw9vWiJXjtisZ0q
- avjhhsIer/a3PCMUONJ3FCN5X2lotXnD4Idi4OAu7A4RRMj01UltcWD6a7t71cLIIj
- vuJtJEqAfbJatpwrhRFu3viIJ9h7Oh+qvHoElRhHBHiSB/oZaK0qfAq7YmBlcJNCs6
- VUShYYsOqisv5556rqHxCkLcPWxWCdiQGeDbXo5DaAcIEabW+7FrzTFwSut4xDgVHh
- FRT3wP9tWXZZ2sOcN2Mp8wSumycilGPywC3ixe22hABaSyK1G7Ma4p6sMQGVCQe2aF
- RqTsnWpyB/Zyw==
-Message-ID: <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
-Date: Thu, 9 Mar 2023 04:37:28 +0900
+ b=yGK2eXhVMDT3UcH3lltkf8vpz7BK33d21ZigE2QwncNn4koTKZf90jqyk41sFXyp/
+ hCVYoec52IPuKLTdg8ImtH/hjN/ym4zWtZt5fw9ikDSLCKIEi3jIsdirbn7zRpIYwI
+ sRiJ+y91O7fPhmVFFdjjSKo4af7KCCYZGexuOnmdFwyKkK5dcFL2tFdMT4pgAZpsUo
+ sUt7oqPOFJNSbrS1U4HsWxouSmgeKt9R9dRHvlxLiJ0/pnfBoBUFfNbVrAANhAlqxF
+ Kl7eIy+TonptlKOSkRhyAh9k4oVsIxOYVYCF56uABdqu2Tlpg4EAXwcIjXkxB8mkux
+ H9MLMH0cWml/Q==
+Message-ID: <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
+Date: Thu, 9 Mar 2023 04:45:58 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
 Content-Language: en-US
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,15 +48,18 @@ To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  Jarkko Sakkinen <jarkko@kernel.org>,
  Dave Hansen <dave.hansen@linux.intel.com>
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
- <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+ <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+ <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+ <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+ <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+ <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
+ <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
+ <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
+ <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
 From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
+In-Reply-To: <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,135 +83,81 @@ Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/03/2023 03.12, Christian König wrote:
-> Am 08.03.23 um 18:32 schrieb Asahi Lina:
+On 09/03/2023 04.12, Christian König wrote:
+> Am 08.03.23 um 20:05 schrieb Asahi Lina:
 >> [SNIP]
->> Yes but... none of this cleans up jobs that are already submitted by the
->> scheduler and in its pending list, with registered completion callbacks,
->> which were already popped off of the entities.
+>>> Well it's not the better way, it's the only way that works.
+>>>
+>>> I have to admit that my bet on your intentions was wrong, but even that
+>>> use case doesn't work correctly.
+>>>
+>>> See when your callback returns false it is perfectly possible that all
+>>> hw fences are signaled between returning that information and processing it.
+>>>
+>>> The result would be that the scheduler goes to sleep and never wakes up
+>>> again.
+>> That can't happen, because it will just go into another iteration of the
+>> drm_sched main loop since there is an entity available still.
 >>
->> *That* is the problem this patch fixes!
-> 
-> Ah! Yes that makes more sense now.
-> 
->>> We could add a warning when users of this API doesn't do this
->>> correctly, but cleaning up incorrect API use is clearly something we
->>> don't want here.
->> It is the job of the Rust abstractions to make incorrect API use that
->> leads to memory unsafety impossible. So even if you don't want that in
->> C, it's my job to do that for Rust... and right now, I just can't
->> because drm_sched doesn't provide an API that can be safely wrapped
->> without weird bits of babysitting functionality on top (like tracking
->> jobs outside or awkwardly making jobs hold a reference to the scheduler
->> and defer dropping it to another thread).
-> 
-> Yeah, that was discussed before but rejected.
-> 
-> The argument was that upper layer needs to wait for the hw to become 
-> idle before the scheduler can be destroyed anyway.
-
-Unfortunately, that's not a requirement you can encode in the Rust type
-system easily as far as I know, and Rust safety rules mean we need to
-make it safe even if the upper layer doesn't do this... (or else we have
-to mark the entire drm_sched abstraction unsafe, but that would be a pity).
-
-I know it's a different way of thinking, but it has pretty clear
-benefits since with Rust you can actually guarantee that things are safe
-overall by just auditing explicitly unsafe code. If we just mark all of
-drm_sched unsafe, that means we now need to audit all details about how
-the driver uses it for safety. It makes more sense to just make the
-abstraction safe, which is much easier to audit.
-
->>>> Right now, it is not possible to create a safe Rust abstraction for
->>>> drm_sched without doing something like duplicating all job tracking in
->>>> the abstraction, or the above backreference + deferred cleanup mess, or
->>>> something equally silly. So let's just fix the C side please ^^
->>> Nope, as far as I can see this is just not correctly tearing down the
->>> objects in the right order.
->> There's no API to clean up in-flight jobs in a drm_sched at all.
->> Destroying an entity won't do it. So there is no reasonable way to do
->> this at all...
-> 
-> Yes, this was removed.
-> 
->>> So you are trying to do something which is not supposed to work in the
->>> first place.
->> I need to make things that aren't supposed to work impossible to do in
->> the first place, or at least fail gracefully instead of just oopsing
->> like drm_sched does today...
+>> Rather there is probably the opposite bug in this patch: the can_run_job
+>> logic should be moved into the wait_event_interruptible() condition
+>> check, otherwise I think it can end up busy-looping since the condition
+>> itself can be true even when the can_run_job check blocks it.
 >>
->> If you're convinced there's a way to do this, can you tell me exactly
->> what code sequence I need to run to safely shut down a scheduler
->> assuming all entities are already destroyed? You can't ask me for a list
->> of pending jobs (the scheduler knows this, it doesn't make any sense to
->> duplicate that outside), and you can't ask me to just not do this until
->> all jobs complete execution (because then we either end up with the
->> messy deadlock situation I described if I take a reference, or more
->> duplicative in-flight job count tracking and blocking in the free path
->> of the Rust abstraction, which doesn't make any sense either).
+>> But there is no risk of it going to sleep and never waking up because
+>> job completions will wake up the waitqueue by definition, and that
+>> happens after the driver-side queues are popped. If this problem could
+>> happen, then the existing hw_submission_limit logic would be broken in
+>> the same way. It is logically equivalent in how it works.
+>>
+>> Basically, if properly done in wait_event_interruptible, it is exactly
+>> the logic of that macro that prevents this race condition and makes
+>> everything work at all. Without it, drm_sched would be completely broken.
+>>
+>>> As I said we exercised those ideas before and yes this approach here
+>>> came up before as well and no it doesn't work.
+>> It can never deadlock with this patch as it stands (though it could busy
+>> loop), and if properly moved into the wait_event_interruptible(), it
+>> would also never busy loop and work entirely as intended. The actual API
+>> change is sound.
+>>
+>> I don't know why you're trying so hard to convince everyone that this
+>> approach is fundamentally broken... It might be a bad idea for other
+>> reasons, it might encourage incorrect usage, it might not be the best
+>> option, there are plenty of arguments you can make... but you just keep
+>> trying to make an argument that it just can't work at all for some
+>> reason. Why? I already said I'm happy dropping it in favor of the fences...
 > 
-> Good question. We don't have anybody upstream which uses the scheduler 
-> lifetime like this.
+> Well because it is broken.
 > 
-> Essentially the job list in the scheduler is something we wanted to 
-> remove because it causes tons of race conditions during hw recovery.
-> 
-> When you tear down the firmware queue how do you handle already 
-> submitted jobs there?
+> When you move the check into the wait_event_interruptible condition then 
+> who is going to call wait_event_interruptible when the condition changes?
 
-The firmware queue is itself reference counted and any firmware queue
-that has acquired an event notification resource (that is, which is busy
-with running or upcoming jobs) hands off a reference to itself into the
-event subsystem, so it can get notified of job completions by the
-firmware. Then once it becomes idle it unregisters itself, and at that
-point if it has no owning userspace queue, that would be the last
-reference and it gets dropped. So we don't tear down firmware queues
-until they are idle.
+I think you mean wake_up_interruptible(). That would be
+drm_sched_job_done(), on the fence callback when a job completes, which
+as I keep saying is the same logic used for
+hw_rq_count/hw_submission_limit tracking.
 
-(There is a subtle deadlock break in the event module to make this work
-out, where we clone a reference to the queue and drop the event
-subsystem lock before signaling it of completions, so it can call back
-in and take the lock as it unregisters itself if needed. Then the actual
-teardown happens when the signaling is complete and that reference clone
-is the last one to get dropped.)
+Please think about it for a second, it's really not that complicated to
+see why it works:
 
-If a queue is idle at the firmware level but has upcoming jobs queued in
-drm_sched, when those get deleted as part of an explicit drm_sched
-teardown (free_job()) the queue notices it lost its upcoming jobs and
-relinquishes the event resource if there are no running jobs. I'm not
-even sure exactly what order this all happens in in practice (it depends
-on structure field order in Rust!), but it doesn't really matter because
-either way everything gets cleaned up one way or another.
+- Driver pops off completed commands <-- can_run_job condition satisfied
+- Driver signals fence
+ - drm_sched_job_done_cb()
+  - drm_sched_job_done()
+   - atomic_dec(&sched->hw_rq_count); <-- hw_submission_limit satisfied
+   - ...
+   - wake_up_interruptible(&sched->wake_up_worker);
+      ^- happens after both conditions are potentially satisfied
 
-I actually don't know of any way to actively abort jobs on the firmware,
-so this is pretty much the only option I have. I've even seen
-long-running compute jobs on macOS run to completion even if you kill
-the submitting process, so there might be no way to do this at all.
-Though in practice since we unmap everything from the VM anyway when the
-userspace stuff gets torn down, almost any normal GPU work is going to
-immediately fault at that point (macOS doesn't do this because macOS
-effectively does implicit sync with BO tracking at the kernel level...).
+It really is completely equivalent to just making the hw_rq_count logic
+customizable by the driver. The actual flow is the same. As long as the
+driver guarantees it satisfies the can_run_job() condition before
+signaling the completion fence that triggered that change, it works fine.
 
-By the way, I don't really use the hardware recovery stuff right now.
-I'm not even sure if there is a sensible way I could use it, since as I
-said we can't exactly abort jobs. I know there are ways to lock up the
-firmware/GPU, but so far those have all been things the kernel driver
-can prevent, and I'm not even sure if there is any way to recover from
-that anyway. The firmware itself has its own timeouts and recovery for
-"normal" problems. From the point of view of the driver and everything
-above it, in-flight commands during a GPU fault or timeout are just
-marked complete by the firmware, after a firmware recovery cycle where
-the driver gets notified of the problem (that's when we mark the
-commands failed so we can propagate the error). There is no
-re-submission or anything, userspace just gets told of the problem but
-the queue survives. In the future it might be possible to re-submit
-innocent commands (it is possible for a GPU fault to break another
-process running concurrently, and this is a problem macOS has too...),
-which is still not perfect due to side effects but might work most of
-the time, but that depends on the "command patching" stuff I mentioned,
-and I'm still not even sure if it will be possible to do safely. There's
-a lot of subtlety around what we can and can't do during a firmware
-recovery cycle that I haven't even started to investigate yet (the
-answer could be "nothing" even).
+> As I said this idea came up before and was rejected multiple times.
+
+Maybe it was a different idea, or maybe it was rejected for other
+reasons, or maybe it was wrongly rejected for being broken when it isn't ^^
 
 ~~ Lina
