@@ -1,72 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609896B0750
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 13:40:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401F46B0766
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 13:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05CE610E5D7;
-	Wed,  8 Mar 2023 12:40:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 291E210E674;
+	Wed,  8 Mar 2023 12:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1902D10E5D8
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 12:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678279205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VJeOz/TwjDaJpvxJ/JatQ2Vwz4TDO8vQcbmv9Au+kic=;
- b=F4qkSjbXSApu2cJ80Imxb025z0UlOV7cs+ynHGoCnXTx7PJDeOes5bbSH3CAJ4C2a5mrd3
- VOcTNlVOTchFM0RgdIxDEUjEld3MQP5dDl4bqwAfwn5emsW3yYxsjcFvKf1BkmwppB2vt+
- XaTHHZd8YgOASb/n913Drl4IAVET8OA=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-awhL03ohNUK0T06npD_C6Q-1; Wed, 08 Mar 2023 07:40:04 -0500
-X-MC-Unique: awhL03ohNUK0T06npD_C6Q-1
-Received: by mail-lj1-f197.google.com with SMTP id
- z10-20020a2ebe0a000000b00295d38461a4so5447247ljq.23
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 04:40:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678279198;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VJeOz/TwjDaJpvxJ/JatQ2Vwz4TDO8vQcbmv9Au+kic=;
- b=SJE/SJ+IImh1NOj9muHTGkkQgqVENMpsgaAW6wdXjpl6AHKc9UaI3B24+6QC/Je1zh
- 9wJb2dYKGFthK2IhxzJbCWW86Z9yiW59IbCTVMq8gL8ppSwPbYJf6jdowOl/yjNtH4sE
- b8jeTIApeEO++8M7npEWZ3GVMxHAbpgcA1zl2no/UpwzkOqAXOtxIBmntMQsNJu6gRY4
- CVyyZ6+YaPYurTYz3FWZh/BhxXlIUUZtywGIgzxPyeRw3s84cWSMTxJ+ccApQ8258DiQ
- hteAXOf1mWumd7P5Zna2yBDUe9i+XZULTI1d+lGkKJntyrQPwj5ZD/9bgUcymkfeVmyw
- 6tDw==
-X-Gm-Message-State: AO0yUKUUJWcc8yFfV6sacRbtheJMoYM0XKTcMcYUldcf4RpeT5+GaYg3
- zXrhSRuuqqdu6x/d+mwYASq0ZQv4AP2EqzZXWxkgZVq1k9LhyS3sLJqF1pgrcEucO3vyjM4NXzS
- Oj5MkwcWrhdIirQVHqX7JbjAmX2qZWrD1rhysWJxb8s2o
-X-Received: by 2002:ac2:4117:0:b0:4d5:ca32:7bc5 with SMTP id
- b23-20020ac24117000000b004d5ca327bc5mr5524041lfi.12.1678279198478; 
- Wed, 08 Mar 2023 04:39:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set8FUpPht+EPsUrSn5a6+Tar9OiMu+wlN+EYgOwEqyTMD6viZtSkh1MIdkQE1nv3hutVyBf4yr0OssgVzKPbdmA=
-X-Received: by 2002:ac2:4117:0:b0:4d5:ca32:7bc5 with SMTP id
- b23-20020ac24117000000b004d5ca327bc5mr5524019lfi.12.1678279198181; Wed, 08
- Mar 2023 04:39:58 -0800 (PST)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D46410E5D8;
+ Wed,  8 Mar 2023 12:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678279634; x=1709815634;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=KOQ3EIRyeOz73H2k2pXOZ69mXfTnkaJuS8xZ8IBgDoc=;
+ b=nXiAeffK6UwCA99m+liXnbXjpMAnR5wn5jB7Aw3otaeqKW5EkBfBLUgM
+ Jh6FSHidRFtZ23er1D/N8blYADb8Xjk96qRKozZmEn7GHU2A00rGiTjrH
+ Ik6uFngukLPwYz/r9/VpjWFxqzBSUVM1vJvFuh70HdSw0Dzf8lmGSTvu7
+ TweFFTpWDUCKM2+aTMslm7g9I5IV/xeR1j9dnwxTVw3ASSlCalPNfS0Q8
+ sBx2UDM9NKV+qdxBzdmJOTnbVlwM23uLGsej3RoVRSm2Q0F/UorAxfqWQ
+ I4fmfE5401qCLli5olio6W9WR/GZV8c7AiJAr7q6XnvoVMiCHRjWs4vRf Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="337660557"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="337660557"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 04:47:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="765981826"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="765981826"
+Received: from eharan-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.58.177])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 04:47:11 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Suraj Kandpal
+ <suraj.kandpal@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 0/7] Enable YCbCr420 format for VDSC
+In-Reply-To: <6bd9b493-01da-0542-2a21-10602dba6a1a@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
+ <87ttyvbhuz.fsf@intel.com>
+ <6bd9b493-01da-0542-2a21-10602dba6a1a@linaro.org>
+Date: Wed, 08 Mar 2023 14:47:08 +0200
+Message-ID: <87r0tzbeb7.fsf@intel.com>
 MIME-Version: 1.0
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
-In-Reply-To: <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Wed, 8 Mar 2023 13:39:45 +0100
-Message-ID: <CACO55tsnCMQt8UW5_UCY139kpZOdNXbMkBkFfUiB12jW5UgVmA@mail.gmail.com>
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,124 +62,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Asahi Lina <lina@asahilina.net>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Mary <mary@mary.zone>,
- Gary Guo <gary@garyguo.net>, Ella Stanforth <ella@iglunix.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 8, 2023 at 9:46=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
+On Wed, 08 Mar 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> On 08/03/2023 13:30, Jani Nikula wrote:
+>> On Wed, 22 Feb 2023, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
+>>> This patch series aims to enable the YCbCr420 format
+>>> for DSC. Changes are mostly compute params related for
+>>> hdmi,dp and dsi along with the addition of new rc_tables
+>>> for native_420 and corresponding changes to macros used to
+>>> fetch them.
+>>> There have been discussions prior to this series in which some patches
+>>> have gotten rb and can be found in the below link
+>>> https://patchwork.freedesktop.org/series/113729
+>> 
+>> I think it would be useful to get [1] from Dmitry merged to
+>> drm-misc-next first, have that in drm-next, and again backmerged to
+>> drm-intel-next before this. At least patches 1-5.
+>> 
+>> There's not much point in all drivers duplicating the parameters, and we
+>> need to move towards common code. Dmitry has been helpful in
+>> contributing this to us.
 >
-> Am 07.03.23 um 15:25 schrieb Asahi Lina:
-> > Some hardware may require more complex resource utilization accounting
-> > than the simple job count supported by drm_sched internally. Add a
-> > can_run_job callback to allow drivers to implement more logic before
-> > deciding whether to run a GPU job.
+> Note, while I slightly reworked the calculate_rc_params() function, I 
+> did not touch the intel_qp_tables (mostly since we do not need them for 
+> drm/msm (at least for now). Our current plan is to use fixed params (at 
+> least in the short notice). We might have to reconsider it at some point.
+
+Yeah, this isn't a big conflict, but AFAICT it'll conflict in
+intel_vdsc.c.
+
+> However it might be wise to merge them with amdgpu's qp tables. amdgpu 
+> driver also contains code to calculate RC params. It might be worth 
+> moving RC calculation to the common helper.
+
+Agreed.
+
+BR,
+Jani.
+
+
 >
-> Well complete NAK.
->
+>> 
+>> BR,
+>> Jani.
+>> 
+>> 
+>> [1] https://patchwork.freedesktop.org/series/114473/
+>> 
+>>>
+>>> Ankit Nautiyal (2):
+>>>    drm/dp_helper: Add helper to check DSC support with given o/p format
+>>>    drm/i915/dp: Check if DSC supports the given output_format
+>>>
+>>> Suraj Kandpal (4):
+>>>    drm/i915: Adding the new registers for DSC
+>>>    drm/i915: Enable YCbCr420 for VDSC
+>>>    drm/i915/display: Fill in native_420 field
+>>>    drm/i915/vdsc: Check slice design requirement
+>>>
+>>> Swati Sharma (1):
+>>>    drm/i915/dsc: Add debugfs entry to validate DSC output formats
+>>>
+>>>   drivers/gpu/drm/i915/display/icl_dsi.c        |   2 -
+>>>   .../drm/i915/display/intel_crtc_state_dump.c  |   4 +-
+>>>   .../drm/i915/display/intel_crtc_state_dump.h  |   2 +
+>>>   .../drm/i915/display/intel_display_debugfs.c  |  78 ++++++++
+>>>   .../drm/i915/display/intel_display_types.h    |   1 +
+>>>   drivers/gpu/drm/i915/display/intel_dp.c       |  39 +++-
+>>>   .../gpu/drm/i915/display/intel_qp_tables.c    | 187 ++++++++++++++++--
+>>>   .../gpu/drm/i915/display/intel_qp_tables.h    |   4 +-
+>>>   drivers/gpu/drm/i915/display/intel_vdsc.c     | 108 +++++++++-
+>>>   drivers/gpu/drm/i915/i915_reg.h               |  28 +++
+>>>   include/drm/display/drm_dp_helper.h           |  13 ++
+>>>   11 files changed, 442 insertions(+), 24 deletions(-)
+>> 
 
-There hasn't even been any kind of discussion yet you already come
-around with a "Well complete NAK"
-
-First, this can be seen as rude behavior and me being part of the drm
-community I don't want to have to see this kind of thing.
-
-Obviously, any kind of strong "technical" review point is a nak until
-people settle with an agreement on what to land, there is no point in
-pointing out a "NAK", especially if that's the first thing you say. If
-you want to express your strong disagreement with the proposed
-solution, then state what your pain points are directly.
-
-If there is a long discussion and a maintainer feels it's going
-nowhere and no conclusion will be reached it might be this kind of
-"speaking with authority" point has to be made. But not as the starter
-into a discussion. This is unnecessarily hostile towards the
-contributor. And I wished we wouldn't have to see this kind of
-behavior here.
-
-Yes, some kernel maintainers do this a lot, but kernel maintainers
-also have this kind of reputation and people don't want to have to
-deal with this nonsense and decide to not contribute at all. So please
-just drop this attitude.
-
-> This is clearly going against the idea of having jobs only depend on
-> fences and nothing else which is mandatory for correct memory management.
->
-
-I'm sure it's all documented and there is a design document on how
-things have to look like you can point out? Might help to get a better
-understanding on how things should be.
-
-> If the hw is busy with something you need to return the fence for this
-> from the prepare_job callback so that the scheduler can be notified when
-> the hw is available again.
->
-> Regards,
-> Christian.
->
-> >
-> > Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > ---
-> >   drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
-> >   include/drm/gpu_scheduler.h            |  8 ++++++++
-> >   2 files changed, 18 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
-cheduler/sched_main.c
-> > index 4e6ad6e122bc..5c0add2c7546 100644
-> > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
-> >               if (!entity)
-> >                       continue;
-> >
-> > +             if (sched->ops->can_run_job) {
-> > +                     sched_job =3D to_drm_sched_job(spsc_queue_peek(&e=
-ntity->job_queue));
-> > +                     if (!sched_job) {
-> > +                             complete_all(&entity->entity_idle);
-> > +                             continue;
-> > +                     }
-> > +                     if (!sched->ops->can_run_job(sched_job))
-> > +                             continue;
-> > +             }
-> > +
-> >               sched_job =3D drm_sched_entity_pop_job(entity);
-> >
-> >               if (!sched_job) {
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 9db9e5e504ee..bd89ea9507b9 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
-> >       struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
-> >                                        struct drm_sched_entity *s_entit=
-y);
-> >
-> > +     /**
-> > +      * @can_run_job: Called before job execution to check whether the
-> > +      * hardware is free enough to run the job.  This can be used to
-> > +      * implement more complex hardware resource policies than the
-> > +      * hw_submission limit.
-> > +      */
-> > +     bool (*can_run_job)(struct drm_sched_job *sched_job);
-> > +
-> >       /**
-> >            * @run_job: Called to execute the job once all of the depend=
-encies
-> >            * have been resolved.  This may be called multiple times, if
-> >
->
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
