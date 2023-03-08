@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D660C6AFFEC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 08:40:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F8A6AFFF5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 08:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A297810E58D;
-	Wed,  8 Mar 2023 07:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D991F10E594;
+	Wed,  8 Mar 2023 07:40:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D0F10E58D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 07:39:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F57010E58B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 07:39:56 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pZoOu-0007Oh-8j; Wed, 08 Mar 2023 08:39:52 +0100
+ id 1pZoOu-0007Qy-PT; Wed, 08 Mar 2023 08:39:52 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pZoOt-002fIS-Jl; Wed, 08 Mar 2023 08:39:51 +0100
+ id 1pZoOu-002fIa-1L; Wed, 08 Mar 2023 08:39:52 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pZoOs-003EME-Un; Wed, 08 Mar 2023 08:39:50 +0100
+ id 1pZoOt-003EMJ-5y; Wed, 08 Mar 2023 08:39:51 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Lee Jones <lee@kernel.org>, Daniel Thompson <daniel.thompson@linaro.org>,
  Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
-Subject: [PATCH 07/13] backlight: lm3533_bl: Convert to platform remove
+Subject: [PATCH 08/13] backlight: lp8788_bl: Convert to platform remove
  callback returning void
-Date: Wed,  8 Mar 2023 08:39:39 +0100
-Message-Id: <20230308073945.2336302-8-u.kleine-koenig@pengutronix.de>
+Date: Wed,  8 Mar 2023 08:39:40 +0100
+Message-Id: <20230308073945.2336302-9-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230308073945.2336302-1-u.kleine-koenig@pengutronix.de>
 References: <20230308073945.2336302-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1806;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1781;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=B10aYkfZ10FicDbAmbArgdL8NIfQOPQPQfoyXrHPbeo=;
- b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkCDuoNu328oHteZgsiA+uD3pMoYQH5hzb/hbSm
- XEg4dcEQUiJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAg7qAAKCRDB/BR4rcrs
- CVXyB/9oqCZo+mKUEcEePjXGWgM2GQIIQj0rSQo/n1Fm2sY+G3KQthTpNcK993asVg2EmPK3BGq
- yUHh1hDFwLrlJ1D81fAeYIy04xIAXh51Qs0ECGkfY0/0dFjzzk9ym44XBQiPMLNK+abO6Xt2m4N
- R3TX3pQSDasgkyjfdmfJBjdistYqC5cCqck6MbP4yicoXKsWmf8bBOI87Qrdaak2k8g2k8UXMO8
- WOK8JbRGalQBmNs/KKuYNsWjR47l1SgPD5HhyTqvMh96wH1wx44oDnV3qm1u6OwgQMlNYp2C+WB
- prSJnK5tlFHIYfFSum8LPJIuHDJGI6tLkZOAGApmbgnlTC+n
+ bh=eZI2qgwe+z8FxS6pbJzftF3JfolPn27Am+dAm+EqCn4=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBkCDurfYrDtgJfwBic1T4d+VfIM8TB6g012i0x+
+ Je7+gATV6yJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCZAg7qwAKCRDB/BR4rcrs
+ CZZ0B/0QhsnRPRM0EqgHnN2TxIbhgVISwtWaMPMoi2eqmn+RMBDOiGiTRcIN7cLgdllOuf/oizt
+ pG50D8bVhyHyfyjJVKSnT+JNeEWCWfiC9U0hEuw+L8Okat1sr6vEXaFWtoK4sV9hI5lIX7nwYco
+ /NqQUHbz35SJG2zM97u1SLneo/Ix5Vg3LfD94EwNLD8IU/2Y61M6JLwKBldlMMlCPnlLiibxzix
+ 0kvQvebJZmNRHiFT0OuH9pCVQ2plhZsfdSLpPfXsLwFlBUsNZ3FpHY4Pm8oro/VL/E9nHdwBEJX
+ vdOT8yFWO6eXaRF1/OoYntrPb5jEgJlo+rJsUGwzYEB3SRKk
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -85,40 +85,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/backlight/lm3533_bl.c | 6 ++----
+ drivers/video/backlight/lp8788_bl.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/backlight/lm3533_bl.c b/drivers/video/backlight/lm3533_bl.c
-index 1df1b6643c0b..3e10d480cb7f 100644
---- a/drivers/video/backlight/lm3533_bl.c
-+++ b/drivers/video/backlight/lm3533_bl.c
-@@ -337,7 +337,7 @@ static int lm3533_bl_probe(struct platform_device *pdev)
+diff --git a/drivers/video/backlight/lp8788_bl.c b/drivers/video/backlight/lp8788_bl.c
+index ba42f3fe0c73..d1a14b0db265 100644
+--- a/drivers/video/backlight/lp8788_bl.c
++++ b/drivers/video/backlight/lp8788_bl.c
+@@ -298,7 +298,7 @@ static int lp8788_backlight_probe(struct platform_device *pdev)
  	return ret;
  }
  
--static int lm3533_bl_remove(struct platform_device *pdev)
-+static void lm3533_bl_remove(struct platform_device *pdev)
+-static int lp8788_backlight_remove(struct platform_device *pdev)
++static void lp8788_backlight_remove(struct platform_device *pdev)
  {
- 	struct lm3533_bl *bl = platform_get_drvdata(pdev);
- 	struct backlight_device *bd = bl->bd;
-@@ -349,8 +349,6 @@ static int lm3533_bl_remove(struct platform_device *pdev)
- 
- 	lm3533_ctrlbank_disable(&bl->cb);
- 	sysfs_remove_group(&bd->dev.kobj, &lm3533_bl_attribute_group);
+ 	struct lp8788_bl *bl = platform_get_drvdata(pdev);
+ 	struct backlight_device *bl_dev = bl->bl_dev;
+@@ -307,13 +307,11 @@ static int lp8788_backlight_remove(struct platform_device *pdev)
+ 	backlight_update_status(bl_dev);
+ 	sysfs_remove_group(&pdev->dev.kobj, &lp8788_attr_group);
+ 	lp8788_backlight_unregister(bl);
 -
 -	return 0;
  }
  
- #ifdef CONFIG_PM_SLEEP
-@@ -390,7 +388,7 @@ static struct platform_driver lm3533_bl_driver = {
- 		.pm	= &lm3533_bl_pm_ops,
+ static struct platform_driver lp8788_bl_driver = {
+ 	.probe = lp8788_backlight_probe,
+-	.remove = lp8788_backlight_remove,
++	.remove_new = lp8788_backlight_remove,
+ 	.driver = {
+ 		.name = LP8788_DEV_BACKLIGHT,
  	},
- 	.probe		= lm3533_bl_probe,
--	.remove		= lm3533_bl_remove,
-+	.remove_new	= lm3533_bl_remove,
- 	.shutdown	= lm3533_bl_shutdown,
- };
- module_platform_driver(lm3533_bl_driver);
 -- 
 2.39.1
 
