@@ -1,72 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D456B0273
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:10:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F9A6B028E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:14:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E0C10E5C4;
-	Wed,  8 Mar 2023 09:10:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2728F10E5C5;
+	Wed,  8 Mar 2023 09:14:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A72EC10E5C1;
- Wed,  8 Mar 2023 09:10:23 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id k10so38943680edk.13;
- Wed, 08 Mar 2023 01:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678266622;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=motbEo3NY6mz81D1y0KA7IQCNZEkkbhCWQoBlwAGzho=;
- b=eZI3iwUggAzDYYSxhTJwvcrSMoW+xzU7eHbJRQhiHcPmwowxvZyvcpoZhhV5Og4lJD
- NKsBTisfG1ofmTLyhmAveDnX3i8nVSwIgLNNtEdZ2q/GZz9CqeeGzMTWrp1vwymQsbgi
- YaV7FJ0vEzEfZ71bp+kNU9GQpCHBE3ttyChliSU+60J7V52OFmzpSsv083AkoHlJbn+O
- 6I6BUvGY7E4rAfjqdJRDk9YHuE4/IXRDndzAJvgKOAl+0zMOIDvDk8otTzCyYQ3LWvZw
- UmJTy3NmX+oQKwAEKfEnFGzvGU9QI9YX9cH2o9ymiANIl8FWsGbz05ELsiiHetfpdgBQ
- GZ2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678266622;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=motbEo3NY6mz81D1y0KA7IQCNZEkkbhCWQoBlwAGzho=;
- b=rt1oVyHgZ8hNrRTML256ZiyhC2h0gKCBkwBTvzLEKg4m8zlTGfXBoObh73jHnpS7Wv
- FaI/CvFQqsPCmRQojmoc7aCdr+VFMzNhmf8vYYOes75a9D5xRH08hzczdqOMTJ84L3JF
- HUsVMGWxolBjlBHCiPkq8EKpn7NSTQyTEshPcHizNb+zjqtsVUoAkrROGwDc+bGBaDew
- gZQeYccfIhFikThIm9NtIxmbmlDSoWHl6H3AqZs3q587gGol447hqfXyvad2HBB/wstt
- 8CFLfwzyfF2Evaeh1mfR+j17OMEFaI7EAT6YoK5Q7K5IPwMbJRJnL2i9FneHLqy650GA
- TIAA==
-X-Gm-Message-State: AO0yUKU43rWmbwrfyzOw7Sc/p6w51hngzrM3jDXxd7QjXVzQxiji3C5y
- IAvjt71v5IVvUplbZoxzuAk=
-X-Google-Smtp-Source: AK7set/kgopdSIQ0DTRZY/nQjjK7esGlN3bsq+wWKCESF5S+lh5CRex0X9Hj7hiv+eVUpF7RwN0c4g==
-X-Received: by 2002:a05:6402:8d1:b0:4af:60c1:1961 with SMTP id
- d17-20020a05640208d100b004af60c11961mr17084363edz.23.1678266622027; 
- Wed, 08 Mar 2023 01:10:22 -0800 (PST)
-Received: from ?IPV6:2a02:908:1256:79a0:423c:7396:17af:cdf?
- ([2a02:908:1256:79a0:423c:7396:17af:cdf])
- by smtp.gmail.com with ESMTPSA id
- 20-20020a508e54000000b004d8d2735251sm5834286edx.43.2023.03.08.01.10.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Mar 2023 01:10:21 -0800 (PST)
-Message-ID: <6933b07b-af79-5350-b161-12ee73732b30@gmail.com>
-Date: Wed, 8 Mar 2023 10:10:20 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 9/9] drm: move ttm_execbuf_util into vmwgfx
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20230228083406.1720795-1-christian.koenig@amd.com>
- <20230228083406.1720795-10-christian.koenig@amd.com>
- <b4beeee4b2a004938adc6c502443f7b3311aad50.camel@vmware.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <b4beeee4b2a004938adc6c502443f7b3311aad50.camel@vmware.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA1F10E5C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 09:14:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4C3B01FE35;
+ Wed,  8 Mar 2023 09:14:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1678266847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fRaWynr3tS9Gd1iMOPELjf4hezpfqsUYPVFcjNrpBrg=;
+ b=TCfcvei1pfvv6Vd5+YUPvgrTeEyq/GA7ZRVxgWxGLSK8rYhsfEBwFn/nYYx1f4bTqG/9gG
+ VKCU/6AcifGg0JVZNkKPUpjvv/zqabZTE2GAvosvURl4zPI/3e8kGhiThi2rvZtvzlYIcP
+ 0eBnqchBO41qGg/qTGJRS42V7CjWqL4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1678266847;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fRaWynr3tS9Gd1iMOPELjf4hezpfqsUYPVFcjNrpBrg=;
+ b=I8Bw13PXanMRuskETotuPmiCxnzX3b8Y3OV7SVn5zEHSAhhu2lU94sGlNLx+BlpCOGgp5D
+ 4U4usekN3dqTeAAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 17D891348D;
+ Wed,  8 Mar 2023 09:14:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id emXrBN9RCGSQMgAAMHmgww
+ (envelope-from <tiwai@suse.de>); Wed, 08 Mar 2023 09:14:07 +0000
+Date: Wed, 08 Mar 2023 10:14:06 +0100
+Message-ID: <87v8jbhag1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: Re: [PATCH] fbdev: Fix incorrect page mapping clearance at
+ fb_deferred_io_release()
+In-Reply-To: <CAMeQTsYSgXm=Sku99USE+Up+uuJHUFdE8zPj7_B=BUi5SH=6KQ@mail.gmail.com>
+References: <20230308063628.15233-1-tiwai@suse.de>
+ <CAMeQTsYSgXm=Sku99USE+Up+uuJHUFdE8zPj7_B=BUi5SH=6KQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,31 +70,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dakr@redhat.com" <dakr@redhat.com>,
- "arunpravin.paneerselvam@amd.com" <arunpravin.paneerselvam@amd.com>
+Cc: linux-fbdev@vger.kernel.org, Miko Larsson <mikoxyzzz@gmail.com>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 08.03.23 um 06:14 schrieb Zack Rusin:
-> On Tue, 2023-02-28 at 09:34 +0100, Christian König wrote:
->> VMWGFX is the only remaining user of this and should probably moved over
->> to drm_exec when it starts using GEM as well.
-> Is this because vmwgfx piggybacks buffer-id relocations on top of ttm validations or
-> did you just find it too hard to port it over? I'd prefer to avoid ttm moves to
-> vmwgfx and at least have a clear idea of what we need to do to port.
+On Wed, 08 Mar 2023 10:08:24 +0100,
+Patrik Jakobsson wrote:
+> 
+> On Wed, Mar 8, 2023 at 7:36 AM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > The recent fix for the deferred I/O by the commit
+> >   3efc61d95259 ("fbdev: Fix invalid page access after closing deferred I/O devices")
+> > caused a regression when the same fb device is opened/closed while
+> > it's being used.  It resulted in a frozen screen even if something
+> > is redrawn there after the close.  The breakage is because the patch
+> > was made under a wrong assumption of a single open; in the current
+> > code, fb_deferred_io_release() cleans up the page mapping of the
+> > pageref list and it calls cancel_delayed_work_sync() unconditionally,
+> > where both are no correct behavior for multiple opens.
+> >
+> > This patch adds a refcount for the opens of the device, and applies
+> > the cleanup only when all files get closed.
+> >
+> > Fixes: 3efc61d95259 ("fbdev: Fix invalid page access after closing deferred I/O devices")
+> > Cc: <stable@vger.kernel.org>
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > ---
+> >  drivers/video/fbdev/core/fb_defio.c | 16 +++++++++++++---
+> >  include/linux/fb.h                  |  1 +
+> >  2 files changed, 14 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> > index aa5f059d0222..9dcec9e020b6 100644
+> > --- a/drivers/video/fbdev/core/fb_defio.c
+> > +++ b/drivers/video/fbdev/core/fb_defio.c
+> > @@ -305,17 +305,19 @@ void fb_deferred_io_open(struct fb_info *info,
+> >                          struct inode *inode,
+> >                          struct file *file)
+> >  {
+> > +       struct fb_deferred_io *fbdefio = info->fbdefio;
+> > +
+> >         file->f_mapping->a_ops = &fb_deferred_io_aops;
+> > +       fbdefio->opens++;
+> >  }
+> >  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+> >
+> > -void fb_deferred_io_release(struct fb_info *info)
+> > +static void fb_deferred_io_release_internal(struct fb_info *info)
+> 
+> Maybe a better name would be fb_deferred_io_lastclose() to be more in
+> line with DRM?
 
-I've just found it to hard to port it over because vmwgfx does some 
-strange things with the validation code here.
+Sounds good.
 
-If you want we can take a deeper look at this together, but I need to 
-find some time.
+> >  {
+> >         struct fb_deferred_io *fbdefio = info->fbdefio;
+> >         struct page *page;
+> >         int i;
+> >
+> > -       BUG_ON(!fbdefio);
+> 
+> Should the BUG_ON be put back into fb_deferred_io_release()?
 
-Alternatively just tell me how to do it and I will add that to the patch 
-set :)
+It can be, but honestly speaking, such a BUG_ON() is utterly useless.
+It should be WARN_ON() and return, if the sanity check is inevitably
+needed.
 
-Regards,
-Christian.
+> >         cancel_delayed_work_sync(&info->deferred_work);
+> >
+> >         /* clear out the mapping that we setup */
+> > @@ -324,13 +326,21 @@ void fb_deferred_io_release(struct fb_info *info)
+> >                 page->mapping = NULL;
+> >         }
+> >  }
+> > +
+> > +void fb_deferred_io_release(struct fb_info *info)
+> > +{
+> > +       struct fb_deferred_io *fbdefio = info->fbdefio;
+> > +
+> > +       if (!--fbdefio->opens)
+> > +               fb_deferred_io_release_internal(info);
+> 
+> I think this can race so we need locking.
 
->
-> z
+This one is fine, as it's always called inside the fb lock in the
+caller side.  Maybe worth to comment in the code.
 
+> > +}
+> >  EXPORT_SYMBOL_GPL(fb_deferred_io_release);
+> >
+> >  void fb_deferred_io_cleanup(struct fb_info *info)
+> >  {
+> >         struct fb_deferred_io *fbdefio = info->fbdefio;
+> >
+> > -       fb_deferred_io_release(info);
+> > +       fb_deferred_io_release_internal(info);
+> >
+> >         kvfree(info->pagerefs);
+> >         mutex_destroy(&fbdefio->lock);
+> > diff --git a/include/linux/fb.h b/include/linux/fb.h
+> > index d8d20514ea05..29674a29d1c4 100644
+> > --- a/include/linux/fb.h
+> > +++ b/include/linux/fb.h
+> > @@ -212,6 +212,7 @@ struct fb_deferred_io {
+> >         /* delay between mkwrite and deferred handler */
+> >         unsigned long delay;
+> >         bool sort_pagereflist; /* sort pagelist by offset */
+> > +       int opens; /* number of opened files */
+> 
+> I would prefer the name num_opens (or open_count as in DRM) instead of
+> opens since it can be interpreted as a verb.
+
+I don't mind either way.  I'd choose the latter.
+
+> Also, don't we need it to be atomic_t?
+
+It's always in the fb lock, so that should be fine with the standard
+int.
+
+
+thanks,
+
+Takashi
