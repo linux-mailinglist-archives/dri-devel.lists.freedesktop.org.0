@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688C26B04F9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16E966B0503
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:52:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0546210E41A;
-	Wed,  8 Mar 2023 10:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AFE610E0D8;
+	Wed,  8 Mar 2023 10:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD5E10E41A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 10:50:16 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DD22C1F383;
- Wed,  8 Mar 2023 10:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678272614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=2GKjvL4PQIy1GppZpfJGaCUWdO9wqTIKFREqa/GK/B8=;
- b=Q6qgl3gFnc+Hf7h10S1aP6tXZGb0f3+eh4+UejbNnJuN549hmvkC3a1b5kw1Ui94bSn6ut
- gtF8WeqrMavzoF7J8v83n1PcRFS4VhflWckcJwJo2NtjVDZwGzSaUdToxIwAo8QG/E54P1
- 04BobeOFrP/CyZEx6UMJghB88t78obY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678272614;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=2GKjvL4PQIy1GppZpfJGaCUWdO9wqTIKFREqa/GK/B8=;
- b=pwFM4uIoQvZpxJKjV37bZY3AXR+FojnNqV2X6HFCiIBvSo1Wbk8H2ECJ0JF6u4qlNsOUDw
- sQdeEwuU9wWkIfBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA8EF1348D;
- Wed,  8 Mar 2023 10:50:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id NC8aMWZoCGTuaQAAMHmgww
- (envelope-from <tiwai@suse.de>); Wed, 08 Mar 2023 10:50:14 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2] fbdev: Fix incorrect page mapping clearance at
- fb_deferred_io_release()
-Date: Wed,  8 Mar 2023 11:50:12 +0100
-Message-Id: <20230308105012.1845-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.35.3
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD66310E0D8;
+ Wed,  8 Mar 2023 10:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678272764; x=1709808764;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8GGeXOVNPdAPA4se2KMZEzZWeXw8zxBtmfQj54e1x2U=;
+ b=iXsNSkNgtuqiYy8oL0iMidVGtERsrCk3SBGW4Sp8RAuXdT68mvhZg0+M
+ XTTzVQqbZjLgrbkgPJazZCEtvuBOob41QkbQdnAnwLNCfJpgFRDPpXzuA
+ Ucl/IisapD3rb/AU61Nw0Rkf4ScxBowRuvhCNQxVOIGbt0N97StmDv+qG
+ 9CBVWPAUXQm1BhS2znQ15r8v04R9SOY1NVuFSKohI5SliVO33WSm+2/B/
+ pvEza3xNnrXoW5bf5wvWl3kBtOhQss01hVXWWGkiZ5xsIGYt3bvBT4gu8
+ Xid+36X1/pojeMalQAy+QCBVfJCopyp5rGDyDIgfcg5Ny3Nf2qihOXHxN Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="334837709"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="334837709"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 02:52:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="679296486"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="679296486"
+Received: from dodonogh-mobl.ger.corp.intel.com (HELO [10.213.219.205])
+ ([10.213.219.205])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 02:52:43 -0800
+Message-ID: <70e694cd-45d0-7b98-b0d2-eebb15283239@linux.intel.com>
+Date: Wed, 8 Mar 2023 10:52:41 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 2/2] drm/i915/pmu: Use correct requested freq for SLPC
+Content-Language: en-US
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+References: <20230304012705.70003-1-ashutosh.dixit@intel.com>
+ <20230304012705.70003-3-ashutosh.dixit@intel.com>
+ <6c005534-9919-aad7-eb6c-fba0c8e12448@linux.intel.com>
+ <87ilfbn6s0.wl-ashutosh.dixit@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <87ilfbn6s0.wl-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,106 +65,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Miko Larsson <mikoxyzzz@gmail.com>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The recent fix for the deferred I/O by the commit
-  3efc61d95259 ("fbdev: Fix invalid page access after closing deferred I/O devices")
-caused a regression when the same fb device is opened/closed while
-it's being used.  It resulted in a frozen screen even if something
-is redrawn there after the close.  The breakage is because the patch
-was made under a wrong assumption of a single open; in the current
-code, fb_deferred_io_release() cleans up the page mapping of the
-pageref list and it calls cancel_delayed_work_sync() unconditionally,
-where both are no correct behavior for multiple opens.
 
-This patch adds a refcount for the opens of the device, and applies
-the cleanup only when all files get closed.
+On 08/03/2023 05:36, Dixit, Ashutosh wrote:
+> On Mon, 06 Mar 2023 03:10:24 -0800, Tvrtko Ursulin wrote:
+>>
+> 
+> Hi Tvrtko,
+> 
+>> On 04/03/2023 01:27, Ashutosh Dixit wrote:
+>>> SLPC does not use 'struct intel_rps'. Use UNSLICE_RATIO bits from
+>>
+>> Would it be more accurate to say 'SLPC does not use rps->cur_freq' rather
+>> than it not using struct intel_rps?
+> 
+> No actually SLPC maintains a separate 'struct intel_guc_slpc' and does not
+> use 'struct intel_rps' at all so all of 'struct intel_rps' is 0.
 
-As both fb_deferred_io_open() and _close() are called always in the
-fb_info lock (mutex), it's safe to use the normal int for the
-refcounting.
+I keep forgetting how there is zero code / data sharing with all this.. :(
 
-Also, a useless BUG_ON() is dropped.
+>> Fixes: / stable ? CI chances of catching this?
+> 
+> Same issue as Patch 1, I have answered this there.
 
-Fixes: 3efc61d95259 ("fbdev: Fix invalid page access after closing deferred I/O devices")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-v1->v2:
-* Rename to fb_deferred_io_lastclose()
-* Rename the new field from opens to open_count
-* Removed unused variable
-* More comments about fb_info locking
+Okay lets see it clarified there.
 
- drivers/video/fbdev/core/fb_defio.c | 17 +++++++++++++----
- include/linux/fb.h                  |  1 +
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Regards,
 
-diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-index aa5f059d0222..274f5d0fa247 100644
---- a/drivers/video/fbdev/core/fb_defio.c
-+++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -305,17 +305,18 @@ void fb_deferred_io_open(struct fb_info *info,
- 			 struct inode *inode,
- 			 struct file *file)
- {
-+	struct fb_deferred_io *fbdefio = info->fbdefio;
-+
- 	file->f_mapping->a_ops = &fb_deferred_io_aops;
-+	fbdefio->open_count++;
- }
- EXPORT_SYMBOL_GPL(fb_deferred_io_open);
- 
--void fb_deferred_io_release(struct fb_info *info)
-+static void fb_deferred_io_lastclose(struct fb_info *info)
- {
--	struct fb_deferred_io *fbdefio = info->fbdefio;
- 	struct page *page;
- 	int i;
- 
--	BUG_ON(!fbdefio);
- 	cancel_delayed_work_sync(&info->deferred_work);
- 
- 	/* clear out the mapping that we setup */
-@@ -324,13 +325,21 @@ void fb_deferred_io_release(struct fb_info *info)
- 		page->mapping = NULL;
- 	}
- }
-+
-+void fb_deferred_io_release(struct fb_info *info)
-+{
-+	struct fb_deferred_io *fbdefio = info->fbdefio;
-+
-+	if (!--fbdefio->open_count)
-+		fb_deferred_io_lastclose(info);
-+}
- EXPORT_SYMBOL_GPL(fb_deferred_io_release);
- 
- void fb_deferred_io_cleanup(struct fb_info *info)
- {
- 	struct fb_deferred_io *fbdefio = info->fbdefio;
- 
--	fb_deferred_io_release(info);
-+	fb_deferred_io_lastclose(info);
- 
- 	kvfree(info->pagerefs);
- 	mutex_destroy(&fbdefio->lock);
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index d8d20514ea05..02d09cb57f6c 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -212,6 +212,7 @@ struct fb_deferred_io {
- 	/* delay between mkwrite and deferred handler */
- 	unsigned long delay;
- 	bool sort_pagereflist; /* sort pagelist by offset */
-+	int open_count; /* number of opened files; protected by fb_info lock */
- 	struct mutex lock; /* mutex that protects the pageref list */
- 	struct list_head pagereflist; /* list of pagerefs for touched pages */
- 	/* callback */
--- 
-2.35.3
-
+Tvrtko
