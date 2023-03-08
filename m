@@ -1,42 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62FC6B1288
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 21:01:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D7E6B1291
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 21:03:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7922B10E00B;
-	Wed,  8 Mar 2023 20:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE79010E704;
+	Wed,  8 Mar 2023 20:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 474DD10E00B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 20:01:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=VHBqNuY0x1wxfPhHVQhisSv8VveYnM+bpNzuUcj7maw=; b=QsbvVsbo95uqiUQ+u8JFvQ518z
- V5F2rcstU9wf3BOZjyhsTy80HKciKLqA7C14qMCSfqBzZ1KHmQfO5BarLsBQjON8VhmhTfD4E8v8N
- Ay1lYX9BjQwNAR/mvrNrDq+5gM49bap//5a/DKAB8Giq6IF3UlDstW9ya8c8i4jerLCVZ9uUtswrx
- dEI6EPvcZckPC6tcmbgoHTJrrf3mrcCuf1ngncIgFqJJuRKlRqW4WKieMX0zO0Nd6mVDErZ2TwWib
- wrqBsyJGkc+C/nbyErpVX/GVqfwMldJMf4Qilms8fJSjmgqZ+2ECdfmTnMHTr3ZmgT99hupAIshNB
- 8JBgY0QA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
- (Red Hat Linux)) id 1pZzyH-006cUe-Bn; Wed, 08 Mar 2023 20:01:09 +0000
-Date: Wed, 8 Mar 2023 12:01:09 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Baoquan He <bhe@redhat.com>
-Subject: Re: [PATCH v4 1/4] video: fbdev: atyfb: only use ioremap_uc() on
- i386 and ia64
-Message-ID: <ZAjphWYHDoDw9sQS@bombadil.infradead.org>
-References: <20230308130710.368085-1-bhe@redhat.com>
- <20230308130710.368085-2-bhe@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A6A10E715;
+ Wed,  8 Mar 2023 20:03:05 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 328JutMj023205; Wed, 8 Mar 2023 20:02:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=nMxjjnPSwfFAKxJPvgOonuQ7wRmjI2Qr3fReR4+Kh0w=;
+ b=LT1qRITEoa+NBq3yt5XJJeM/tvfbEhHfgCXq5X2p8UjPo9P3rPCsl5Pt84OkQLA7DeTZ
+ 6VdhDYHmotJTQr/x9BdTiYx+l0XsXhZdWoBReFQAsScwLwtu9dybhExSeNpnBIEtneLt
+ Ez7qE59tvVhn32540tXM7+ZFKw0ksuiD9TM9hanCUThuMdo4m/RVpVbIPYfWplwRSJRM
+ vau9fQSw1jNR1eGKfdsPbjpkAnfwNEbDt93FYDKnKyfXThoMFqD5i9l20pcsMhiO5uaK
+ 0xbdtkplWx8WYUZcXq02gMw3m5Auu2lNM/V78YbkkkBr1o7tn79rx3slGugctunyHwsW 1w== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3p6wcmgkwn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Mar 2023 20:02:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 328K2uY6013127
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 8 Mar 2023 20:02:56 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Wed, 8 Mar 2023 12:02:56 -0800
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [RFC] drm: property: use vzalloc() instead of kvzalloc() for large
+ blobs
+Date: Wed, 8 Mar 2023 12:02:42 -0800
+Message-ID: <1678305762-32381-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230308130710.368085-2-bhe@redhat.com>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: F6vysVz5vf5tUboSO8FnVc9dDHZFEdX3
+X-Proofpoint-ORIG-GUID: F6vysVz5vf5tUboSO8FnVc9dDHZFEdX3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-08_15,2023-03-08_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ spamscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303080168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +77,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, linux-fbdev@vger.kernel.org, arnd@arndb.de,
- mpe@ellerman.id.au, Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- Christophe Leroy <christophe.leroy@csgroup.eu>, hch@infradead.org,
- linux-mm@kvack.org, geert@linux-m68k.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 08, 2023 at 09:07:07PM +0800, Baoquan He wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> ioremap_uc() is only meaningful on old x86-32 systems with the PAT
-> extension, and on ia64 with its slightly unconventional ioremap()
-> behavior, everywhere else this is the same as ioremap() anyway.
-> 
-> Change the only driver that still references ioremap_uc() to only do so
-> on x86-32/ia64 in order to allow removing that interface at some
-> point in the future for the other architectures.
-> 
-> On some architectures, ioremap_uc() just returns NULL, changing
-> the driver to call ioremap() means that they now have a chance
-> of working correctly.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Baoquan He <bhe@redhat.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
+For DRM property blobs created by user mode using
+drm_property_create_blob(), if the blob value needs to be updated the
+only way is to destroy the previous blob and create a new one instead.
 
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+For some of the property blobs, if the size of the blob is more
+than one page size, kvzalloc() can slow down system as it will first
+try to allocate physically contiguous memory but upon failure will
+fall back to non-contiguous (vmalloc) allocation.
 
-Is anyone using this driver these days? How often do fbdev drivers get
-audited to see what can be nuked?
+If the blob property being used is bigger than one page size, in a
+heavily loaded system, this causes performance issues because
+some of the blobs are updated on a per-frame basis.
 
+To mitigate the performance impact of kvzalloc(), use it only when
+the size of allocation is less than a page size when creating property
+blobs
 
-  Luis
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/drm_property.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+index dfec479830e4..40c2a3142038 100644
+--- a/drivers/gpu/drm/drm_property.c
++++ b/drivers/gpu/drm/drm_property.c
+@@ -561,7 +561,11 @@ drm_property_create_blob(struct drm_device *dev, size_t length,
+ 	if (!length || length > INT_MAX - sizeof(struct drm_property_blob))
+ 		return ERR_PTR(-EINVAL);
+ 
+-	blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
++	if (sizeof(struct drm_property_blob) + length > PAGE_SIZE)
++		blob = vzalloc(sizeof(struct drm_property_blob)+length);
++	else
++		blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
++
+ 	if (!blob)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-- 
+2.7.4
 
