@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807476AFB57
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 01:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46846AFB6F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 01:45:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E4F10E57B;
-	Wed,  8 Mar 2023 00:37:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3177510E57F;
+	Wed,  8 Mar 2023 00:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 015DD10E57B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 00:37:35 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id y11so16138829plg.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 16:37:35 -0800 (PST)
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 894C810E57F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 00:45:45 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id 130so8733666pgg.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 16:45:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678235855;
+ d=gmail.com; s=20210112; t=1678236345;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=SR/547FI3dqnvDn6OGe6fd1eQrMxuzZlhfxHSEijotM=;
- b=jSHi7HiOYmICS2einqkRKlS3BB6yDS8GWRRqvlKgJ83cDSAEFpchQlYT65HgZatLld
- xo5dCXUzEAaOlz8q+Z99Ky/55G4zU8SwJ6y2a1z+AusQZz2c23pDbbTsEuxo7dyonXQw
- 6Y8Zk/7/WCynhK9sC+VZSDKTd8Nz+ruO6cred+KXkgv1VnoPvOLySw/kuSASgnos9UeZ
- jkJiGxUO8KDwyPEb3RiTFEBWDKnAWlAF1BbJqWcnc9T+iRIMTHRhOChF5oW9g2qV6ydD
- iKCLgt7VbgdmV1OwOOdr6lCYOUqLb5yO0Gj7NtOjm90Q5pLXDjnDyArhXihmY2AF4QFM
- DOlw==
+ bh=D0ax2sgEUzQvZjIaGlw0Pyd5UALWxKyMm5VBST2yrms=;
+ b=S6zpXba3J9uT8dvc2HWZijtfHcp2L7rJl2Ast5TkGZ8YVO/H6ll3ykNJjFHJsXnqux
+ ei6hh093Jk8HfmQwlRBUr7zzRDjo7T56wfbTsVrbwEpu55KtMBquJw7KWq8ZyLnNk2IN
+ /Hz0Uh9ce7j7kIf9FpHj4n2rpx7xJ9fYs75zCggSHD9pORo5XLVatbqSYvLThpz9i33j
+ +C2p5tIT3PGUOu7YHiNjtX6R0x8BCYDjSWowJvKqk8BP6Fd82fTSP69ESk2W8p3UNCpK
+ 5wJCySoPBNXgQpKgvLVxMGxPKBfNTgBgrNVJjC40b7MS43p/nbppitfdNEdFglU6i6K+
+ +4SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678235855;
+ d=1e100.net; s=20210112; t=1678236345;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SR/547FI3dqnvDn6OGe6fd1eQrMxuzZlhfxHSEijotM=;
- b=k+9RtXLFx34EiRQhZfTx1EfsqwI3i6IDz4AIRF6Ui+Hy+ynQxp5hgnGzoi8at2Uy4Y
- SUKBxaxWt6JXJvClVM4CC/B9Kxc0zKqw+8eh1Vzu2urW0qoSP7DQfN67lWENkHMMOCcM
- 9rLDCcu0aj6tfq5Q2kzl9KIl9mZ4nMf2yTCZI4Gxt2s/JOU8D5iP+b94gPUfbo5WfDSO
- mSLEo5kahZVbSzIub+GG6b4E6K4I9vSjz/1pLp9ozz2ec2p2KkxQ8LD6ciIPdFMrRlNw
- CcHoVuJbeAb0aN4nKBBLlyFY8tFjHPhIdGgkCEsWZ3yyQa5p8iE8ErL7IxBnlX0yA6ne
- I0vA==
-X-Gm-Message-State: AO0yUKVXuxZkb13KilHxGavzB+pRx47BuVSk2tszn4EW6K2DRSuSD4Tv
- TvS95VUWAN7LAgFpabUmJDE=
-X-Google-Smtp-Source: AK7set/se6v/Sndm89S1Z/vrVsycl4pwMfQjcUCTQghs6L4+WuIXgEpNbcCUDIjHdCHeCV/t/+JKLQ==
-X-Received: by 2002:a17:90a:1946:b0:233:c9e7:c885 with SMTP id
- 6-20020a17090a194600b00233c9e7c885mr16960269pjh.36.1678235855549; 
- Tue, 07 Mar 2023 16:37:35 -0800 (PST)
+ bh=D0ax2sgEUzQvZjIaGlw0Pyd5UALWxKyMm5VBST2yrms=;
+ b=Zv3PhhD511JNO/tho3qe50S5/Ncw34j4Q2b5pszeRJOLUSIiXTkys/azUI1XzW4fRj
+ ak0GK/UFEpONpr3XtBQ7hv7tN/wmQCI3pNz3TmlBPeHiePmbazp3ySBJvxx4BLQ9hTDV
+ OkLWzp9NsAFxze8erGqYcwWymLypvJ2snHs+EhCeCVZvjvqGdOUl188vfyxjbem5sosO
+ 6XCKE1OeJyCAM9mwsj5tGT67huB3hdZZZ9/yflT5Zq9lCW0GGwE/Ccg1dgev5biJV2A5
+ 0O5Pi0YEiJ9V5PJBbGGQAAHY8cTainfi0B5FiBS3+SmzQHc6c/A4vbjYg8hDtmgKPtV4
+ KxcQ==
+X-Gm-Message-State: AO0yUKUa/VvfoSQe7RlfRSfNWJtKuj/IadSokMG/Fay6dRLoC0TS9jTU
+ MhA0FBaiSDdTqn21f2eKxMM=
+X-Google-Smtp-Source: AK7set/rVZxSWwprvQ/WvKDRZWKKzRf3KDO7wMLtXsnaYD8WLoki0emzW55feMtlyajY9GwzZAtmPQ==
+X-Received: by 2002:a62:1741:0:b0:5b9:49a5:5ddc with SMTP id
+ 62-20020a621741000000b005b949a55ddcmr14301856pfx.3.1678236345021; 
+ Tue, 07 Mar 2023 16:45:45 -0800 (PST)
 Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
  by smtp.gmail.com with ESMTPSA id
- y20-20020a17090aca9400b0023317104415sm9767834pjt.17.2023.03.07.16.37.31
+ 25-20020aa79259000000b005d866d184b5sm8345765pfp.46.2023.03.07.16.45.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 16:37:35 -0800 (PST)
-Date: Wed, 8 Mar 2023 08:37:27 +0800
+ Tue, 07 Mar 2023 16:45:44 -0800 (PST)
+Date: Wed, 8 Mar 2023 08:45:37 +0800
 From: Jianhua Lu <lujianhua000@gmail.com>
 To: Linus Walleij <linus.walleij@linaro.org>
 Subject: Re: [PATCH v2 2/2] drm/panel: Add driver for Novatek NT36523
-Message-ID: <ZAfYx9Im0j5LMuMn@Gentoo>
+Message-ID: <ZAfasb9aKTgyjbFc@Gentoo>
 References: <20230220121258.10727-1-lujianhua000@gmail.com>
  <20230220121258.10727-2-lujianhua000@gmail.com>
  <CACRpkdbZCZiMM_qeqMd9=txVvPVHEzM4szOnPR-gCYdiXW_9eA@mail.gmail.com>
@@ -144,9 +144,7 @@ On Tue, Mar 07, 2023 at 11:34:55PM +0100, Linus Walleij wrote:
 > 
 > - Maybe use callbacks to send sequences instead of tables, like in
 >   the himax driver?
-I use init cmd tables in order to send init sequences to dsi0 and dsi1 at the
-same time (sync dual dsi mode). I don't found a convenient way to use
-mipi_dsi_dcs_write_seq() for sync dual dsi mode.
+Maybe I should create a wrapper of mipi_dsi_dcs_write_seq() for sync dual dsi mode.
 > 
 > Other than that it seems like something that could also handle the Lenovo
 > display, or the other way around, I don't know which driver is the best
