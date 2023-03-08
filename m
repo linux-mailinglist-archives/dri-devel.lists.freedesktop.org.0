@@ -1,65 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8954C6B0CEC
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 16:34:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2316B0D07
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 16:39:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF9E010E60D;
-	Wed,  8 Mar 2023 15:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB5010E610;
+	Wed,  8 Mar 2023 15:39:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CF1310E60B
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 15:34:20 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id ks17so11313754qvb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 07:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678289659;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rd0pXPWFNXejSLhEyKT2rFb5IqInkH4mtznmiVegFkA=;
- b=fbtcVf78wm2MkSmtDAJmRhaQh1osCKcowM4XAkX+nCcGF6az0qTlAyto4b3XzMMEX8
- 1tWYJB2tGCwuoFs/SKIAAromzTNWKoDnp9kWRseyGcwp3MqEWUqh+tI4bK2RS0vIpbU7
- 5nJHnHuuaiLHIKo98wHgib+iOiPcGFwS0xSrI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678289659;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Rd0pXPWFNXejSLhEyKT2rFb5IqInkH4mtznmiVegFkA=;
- b=JUG9Ow30Y4xxRUeHTgNbHNyHWhaV/+hFYcw+IJ4PqACcvubkUzFXa7aeuTRE8BiXkB
- hgObVCRAyRGrUxS783ykadEhK4Q1FMErmFcQ/MWirgQ6U/VNqmR669veVwQhaD4nCKtB
- COka9vXp845Dj8p0KJ2xy55pO2njLN969Kq7lDjATb2ZozFQ7crmGvgPE4aEaNuIpBAw
- YzffuCOBPJ3oGio0Nrv4C2zg1vvYsrUfrHBFZgzQWcTioayi9nDLB0mPLopKBVprKbq7
- TLYjiL26s83ipvMZWQRtfJitabf5adUGE3cANYqzb/dOwx6fEXZCmW428m2+P02oz+42
- XmlQ==
-X-Gm-Message-State: AO0yUKXc2Q2rLE5K5KUxIy8xpu/epVZC9sVtYDEM2TyW2vGq9WehG5Ai
- d2cQdMKKNgQsjnTQTM3fe1M62JEP8kA5ZhG0scyRJQ==
-X-Google-Smtp-Source: AK7set+/Yh8U5nfOjnXXD2FUZZsh5QPgFOmkiVgcnLubTQxADoPInKttBVk6EZO8zlHUC1jUa+tgiw==
-X-Received: by 2002:a05:6214:493:b0:56e:9986:4fa9 with SMTP id
- pt19-20020a056214049300b0056e99864fa9mr36817046qvb.7.1678289659298; 
- Wed, 08 Mar 2023 07:34:19 -0800 (PST)
-Received: from greenjustin3.nyc.corp.google.com
- ([2620:0:1003:314:8752:d0ab:8bcc:f9a8])
- by smtp.gmail.com with ESMTPSA id
- c134-20020ae9ed8c000000b0073d873df3fesm10506884qkg.30.2023.03.08.07.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 07:34:19 -0800 (PST)
-From: Justin Green <greenjustin@chromium.org>
-To: linux-mediatek@lists.infradead.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 RESEND 3/3] drm/mediatek: Enable AR30 and BA30 overlays on
- MT8195
-Date: Wed,  8 Mar 2023 10:33:58 -0500
-Message-Id: <20230308153358.333297-4-greenjustin@chromium.org>
-X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
-In-Reply-To: <20230308153358.333297-1-greenjustin@chromium.org>
-References: <20230308153358.333297-1-greenjustin@chromium.org>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3718E10E610;
+ Wed,  8 Mar 2023 15:39:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678289988; x=1709825988;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=JZPPyfomcM6RPed2Z6objclkx7X74pCD0nLjOtDOZ2w=;
+ b=BewPIDW2s1lUAFJmrD3svTH+TDr4N1YC9+DKseXgH39XW1jTMdqaYfn5
+ kFUUfql1xvibcUZ2nsTodVWrQ5bu63sPucqcH0mUrKzYbnc53IXyIzEcV
+ UkJ+/1yubu16wh56uT4cWqmRwCS3gOxeksWcG3ilVfYeFGM4PW40p82bV
+ siZ9YogQBmd3iHo/xcOrUe/sumdzSmi/qCQ3Esb+pndNIRTo3HqkAsnP5
+ OQo55KxuhJ19Xlc32tFmWjdtxU8bnW3Hj09iglOnBtexBNRnisZge2TBh
+ /DL/puCIrLnkN/PFt/ye3wX/PUj+DY5NQ3Vt+Wv101O2+uOmKvHLxrkYn g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="337703534"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="337703534"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 07:39:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="787160232"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="787160232"
+Received: from lab-ah.igk.intel.com ([10.102.42.211])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 07:39:42 -0800
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: [PATCH v5 0/4] drm/i915: add guard page to ggtt->error_capture
+Date: Wed, 08 Mar 2023 16:39:03 +0100
+Message-Id: <20230308-guard_error_capture-v5-0-6d1410d13540@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABesCGQC/x2N0QqDMAwAf0XyvEAxE2S/IkNim2oerCXVMRD/f
+ XWPx3HcCUVMpcCrOcHko0W3VKF7NOAXTrOghsrQupYcuR7ngy2MYrbZ6DnvhwlGikRPEd93EWo5
+ cRGcjJNf7jbYirvm22STqN//b3hf1w9xA2EcfwAAAA==
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +62,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chunkuang.hu@kernel.org, greenjustin@chromium.org,
- jason-jh.lin@mediatek.com, justin.yeh@mediatek.com, wenst@chromium.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested using "modetest -P" on an MT8195 device.
+This patch tries to diminish plague of DMAR read errors present
+in CI for ADL*, RPL*, DG2 platforms, see for example [1] (grep DMAR).
+CI is usually tolerant for these errors, so the scale of the problem
+is not really visible.
+To show it I have counted lines containing DMAR read errors in dmesgs
+produced by CI for all three versions of the patch, but in contrast to v2
+I have grepped only for lines containing "PTE Read access".
+Below stats for kernel w/o patchset vs patched one.
+v1: 210 vs 0
+v2: 201 vs 0
+v3: 214 vs 0
+Apparently the patchset fixes all common PTE read errors.
 
-Signed-off-by: Justin Green <greenjustin@chromium.org>
+Changelog:
+v2:
+    - modified commit message (I hope the diagnosis is correct),
+    - added bug checks to ensure scratch is initialized on gen3 platforms.
+      CI produces strange stacktrace for it suggesting scratch[0] is NULL,
+      to be removed after resolving the issue with gen3 platforms.
+v3:
+    - removed bug checks, replaced with gen check.
+v4:
+    - change code for scratch page insertion to support all platforms,
+    - add info in commit message there could be more similar issues
+v5:
+    - changed to patchset adding nop_clear_range related code,
+    - re-insert scratch PTEs on resume
+
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+Andrzej Hajda (4):
+      drm/i915/gt: make nop_clear_range public
+      drm/i915/display: use nop_clear_range instead of local function
+      drm/i915/selftests: use nop_clear_range instead of local function
+      drm/i915: add guard page to ggtt->error_capture
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index a6255e847104..7d26f7055751 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -85,6 +85,22 @@ static const u32 mt8173_formats[] = {
- 	DRM_FORMAT_YUYV,
- };
- 
-+static const u32 mt8195_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_ARGB2101010,
-+	DRM_FORMAT_BGRX8888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_BGRA1010102,
-+	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_BGR888,
-+	DRM_FORMAT_RGB565,
-+	DRM_FORMAT_UYVY,
-+	DRM_FORMAT_YUYV,
-+};
-+
- struct mtk_disp_ovl_data {
- 	unsigned int addr;
- 	unsigned int gmc_bits;
-@@ -616,8 +632,9 @@ static const struct mtk_disp_ovl_data mt8195_ovl_driver_data = {
- 	.fmt_rgb565_is_0 = true,
- 	.smi_id_en = true,
- 	.supports_afbc = true,
--	.formats = mt8173_formats,
--	.num_formats = ARRAY_SIZE(mt8173_formats),
-+	.formats = mt8195_formats,
-+	.num_formats = ARRAY_SIZE(mt8195_formats),
-+	.supports_clrfmt_ext = true,
- };
- 
- static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
+ drivers/gpu/drm/i915/display/intel_dpt.c  |  7 +-----
+ drivers/gpu/drm/i915/gt/intel_ggtt.c      | 38 ++++++++++++++++++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_gtt.h       |  2 ++
+ drivers/gpu/drm/i915/selftests/mock_gtt.c |  9 ++------
+ 4 files changed, 37 insertions(+), 19 deletions(-)
+---
+base-commit: 3cd6c251f39c14df9ab711e3eb56e703b359ff54
+change-id: 20230308-guard_error_capture-f3f334eec85f
+
+Best regards,
 -- 
-2.39.1.456.gfc5497dd1b-goog
-
+Andrzej Hajda <andrzej.hajda@intel.com>
