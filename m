@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401F46B0766
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 13:47:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E936B076A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 13:47:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 291E210E674;
-	Wed,  8 Mar 2023 12:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D13D10E675;
+	Wed,  8 Mar 2023 12:47:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D46410E5D8;
- Wed,  8 Mar 2023 12:47:14 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D64D710E675;
+ Wed,  8 Mar 2023 12:47:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678279634; x=1709815634;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=KOQ3EIRyeOz73H2k2pXOZ69mXfTnkaJuS8xZ8IBgDoc=;
- b=nXiAeffK6UwCA99m+liXnbXjpMAnR5wn5jB7Aw3otaeqKW5EkBfBLUgM
- Jh6FSHidRFtZ23er1D/N8blYADb8Xjk96qRKozZmEn7GHU2A00rGiTjrH
- Ik6uFngukLPwYz/r9/VpjWFxqzBSUVM1vJvFuh70HdSw0Dzf8lmGSTvu7
- TweFFTpWDUCKM2+aTMslm7g9I5IV/xeR1j9dnwxTVw3ASSlCalPNfS0Q8
- sBx2UDM9NKV+qdxBzdmJOTnbVlwM23uLGsej3RoVRSm2Q0F/UorAxfqWQ
- I4fmfE5401qCLli5olio6W9WR/GZV8c7AiJAr7q6XnvoVMiCHRjWs4vRf Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="337660557"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="337660557"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 04:47:14 -0800
+ t=1678279650; x=1709815650;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=U3P1nY7bvd8EKHMnEs/zpMQih9FlKYMCHu/GGGoAKeY=;
+ b=VzSxRc6EH3crcGKrplnq+gdTkAnPPeljkc2+sars5A6dUxo6DOmdWSIW
+ 2md11WeDhKMqv4+EG8ZnMsH4YR1ujzEPPrBk+mdyWQQKWvEvIFvOR0pnT
+ nJk1JgbOdQ3gkxiv45kOaJBf9tWPqU3EPiOzVG0Y91v7xrRlRnngbBOV2
+ hr7GqPQb5T+a7+3bwYXtB0rPhG/nJ95Bh2GaXqKJFzckf3Iy20IpURo8T
+ IrBJRjx8DHJKuEq47BYPr8Oo1rEK9WA9tvUpfj+jS2TCZ0aSzfuhYjNnd
+ e5MOBAnVgIf/9o5fbS5l+gPjn4n0b6gruTbz+6JkaBW32iGb9M1bRCCgg Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398721789"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="398721789"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 04:47:16 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="765981826"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="765981826"
-Received: from eharan-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.58.177])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 04:47:11 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Suraj Kandpal
- <suraj.kandpal@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 0/7] Enable YCbCr420 format for VDSC
-In-Reply-To: <6bd9b493-01da-0542-2a21-10602dba6a1a@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
- <87ttyvbhuz.fsf@intel.com>
- <6bd9b493-01da-0542-2a21-10602dba6a1a@linaro.org>
-Date: Wed, 08 Mar 2023 14:47:08 +0200
-Message-ID: <87r0tzbeb7.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="676961756"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="676961756"
+Received: from lcojocar-mobl.ger.corp.intel.com (HELO [10.251.219.243])
+ ([10.251.219.243])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 04:47:14 -0800
+Message-ID: <fc1c5bf4-8174-50e4-5109-cbf73aafe771@linux.intel.com>
+Date: Wed, 8 Mar 2023 13:47:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [Intel-xe] [PATCH] drm/xe/display: Do not use i915
+ frontbuffer tracking implementation
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20230306141638.196359-1-maarten.lankhorst@linux.intel.com>
+ <edae44735190c4d5fbbe8959f999ad7ca65f3677.camel@intel.com>
+ <073f5ef3-523a-2997-c7e9-771cce8f4c24@linux.intel.com>
+ <ZAZT6jJlsiTF1A5a@intel.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <ZAZT6jJlsiTF1A5a@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,83 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Souza,
+ Jose" <jose.souza@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 08 Mar 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On 08/03/2023 13:30, Jani Nikula wrote:
->> On Wed, 22 Feb 2023, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
->>> This patch series aims to enable the YCbCr420 format
->>> for DSC. Changes are mostly compute params related for
->>> hdmi,dp and dsi along with the addition of new rc_tables
->>> for native_420 and corresponding changes to macros used to
->>> fetch them.
->>> There have been discussions prior to this series in which some patches
->>> have gotten rb and can be found in the below link
->>> https://patchwork.freedesktop.org/series/113729
->> 
->> I think it would be useful to get [1] from Dmitry merged to
->> drm-misc-next first, have that in drm-next, and again backmerged to
->> drm-intel-next before this. At least patches 1-5.
->> 
->> There's not much point in all drivers duplicating the parameters, and we
->> need to move towards common code. Dmitry has been helpful in
->> contributing this to us.
+
+On 2023-03-06 21:58, Ville Syrjälä wrote:
+> On Mon, Mar 06, 2023 at 09:23:50PM +0100, Maarten Lankhorst wrote:
+>> Hey,
+>>
+>> On 2023-03-06 16:23, Souza, Jose wrote:
+>>> On Mon, 2023-03-06 at 15:16 +0100, Maarten Lankhorst wrote:
+>>>> As a fallback if we decide not to merge the frontbuffer tracking, allow
+>>>> i915 to keep its own implementation, and do the right thing in Xe.
+>>>>
+>>>> The frontbuffer tracking for Xe is still done per-fb, while i915 can
+>>>> keep doing the weird intel_frontbuffer + i915_active thing without
+>>>> blocking Xe.
+>>> Please also disable PSR and FBC with this or at least add a way for users to disable those features.
+>>> Without frontbuffer tracker those two features will break in some cases.
+>> FBC and PSR work completely as expected. I don't remove frontbuffer
+>> tracking; I only remove the GEM parts.
+>>
+>> Explicit invalidation using pageflip or CPU rendering + DirtyFB continue
+>> to work, as I validated on my laptop with FBC.
+> Neither of which are relevant to the removal of the gem hooks.
 >
-> Note, while I slightly reworked the calculate_rc_params() function, I 
-> did not touch the intel_qp_tables (mostly since we do not need them for 
-> drm/msm (at least for now). Our current plan is to use fixed params (at 
-> least in the short notice). We might have to reconsider it at some point.
-
-Yeah, this isn't a big conflict, but AFAICT it'll conflict in
-intel_vdsc.c.
-
-> However it might be wise to merge them with amdgpu's qp tables. amdgpu 
-> driver also contains code to calculate RC params. It might be worth 
-> moving RC calculation to the common helper.
-
-Agreed.
-
-BR,
-Jani.
-
-
+> Like I already said ~10 times in the last meeting, we need a proper
+> testcase. Here's a rough idea what it should do:
 >
->> 
->> BR,
->> Jani.
->> 
->> 
->> [1] https://patchwork.freedesktop.org/series/114473/
->> 
->>>
->>> Ankit Nautiyal (2):
->>>    drm/dp_helper: Add helper to check DSC support with given o/p format
->>>    drm/i915/dp: Check if DSC supports the given output_format
->>>
->>> Suraj Kandpal (4):
->>>    drm/i915: Adding the new registers for DSC
->>>    drm/i915: Enable YCbCr420 for VDSC
->>>    drm/i915/display: Fill in native_420 field
->>>    drm/i915/vdsc: Check slice design requirement
->>>
->>> Swati Sharma (1):
->>>    drm/i915/dsc: Add debugfs entry to validate DSC output formats
->>>
->>>   drivers/gpu/drm/i915/display/icl_dsi.c        |   2 -
->>>   .../drm/i915/display/intel_crtc_state_dump.c  |   4 +-
->>>   .../drm/i915/display/intel_crtc_state_dump.h  |   2 +
->>>   .../drm/i915/display/intel_display_debugfs.c  |  78 ++++++++
->>>   .../drm/i915/display/intel_display_types.h    |   1 +
->>>   drivers/gpu/drm/i915/display/intel_dp.c       |  39 +++-
->>>   .../gpu/drm/i915/display/intel_qp_tables.c    | 187 ++++++++++++++++--
->>>   .../gpu/drm/i915/display/intel_qp_tables.h    |   4 +-
->>>   drivers/gpu/drm/i915/display/intel_vdsc.c     | 108 +++++++++-
->>>   drivers/gpu/drm/i915/i915_reg.h               |  28 +++
->>>   include/drm/display/drm_dp_helper.h           |  13 ++
->>>   11 files changed, 442 insertions(+), 24 deletions(-)
->> 
+> prepare a batch with
+> 1. spinner
+> 2. something that clobbers the fb
+>
+> Then
+> 1. grab reference crc
+> 2. execbuffer
+> 3. dirtyfb
+> 4. wait long enough for fbc to recompress
+> 5. terminate spinner
+> 6. gem_sync
+> 7. grab crc and compare with reference
+>
+> No idea what the current status of PSR+CRC is, so not sure
+> whether we can actually test PSR or not.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+This test doesn't make sense. DirtyFB should simply not return before 
+execbuffer finishes.
+
+~Maarten
+
