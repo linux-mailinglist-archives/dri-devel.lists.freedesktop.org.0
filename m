@@ -1,54 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713176B13BE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 22:23:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC326B139F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 22:16:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99FC710E71B;
-	Wed,  8 Mar 2023 21:23:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACC710E718;
+	Wed,  8 Mar 2023 21:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098E710E71B;
- Wed,  8 Mar 2023 21:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678310611; x=1709846611;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=vl4wY6flQp8MD2Ellil5QsYMewyUgb9M54xrBxBlHmU=;
- b=P8WOeQjYCgB8UqUUK6tWqtf42e4h739kHjmv+2SDNhxXJndiCRabNJZz
- HOI9fND5gsFL8SpB2l3rO+G4aiIvQrfR47a3xjrbAY+49Bt+iVb2F+11/
- cjY6sxB1cJJvCpc7lQWFMuT1hsyKefxrID/dri0S7Afj3Dag25tTEHvA/
- pD0+NwfuHmalbQ1l4EKghRfwgGP1rIoduGG4dGMvULgopI4twyAEPiejH
- luxq7/SbOb9HQNu1cmOzyiqa+xyJHu0sgOFzZX6hevBXptzSqkQxS6Zmi
- 5tGk1bbRPEfDewmUZKf/iTFd/wDxGK2IjCWzP00ETfZ3Z/jcbjGC4Ec3O A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="324594675"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="324594675"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 13:23:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="709572576"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="709572576"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga001.jf.intel.com with SMTP; 08 Mar 2023 12:26:27 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 08 Mar 2023 22:26:27 +0200
-Date: Wed, 8 Mar 2023 22:26:27 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [RFC] drm: property: use vzalloc() instead of kvzalloc() for
- large blobs
-Message-ID: <ZAjvc7jjKDNSJcjq@intel.com>
-References: <1678305762-32381-1-git-send-email-quic_abhinavk@quicinc.com>
+Received: from mail.rmail.be (mail.rmail.be [85.234.218.189])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3212510E719
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 21:16:44 +0000 (UTC)
+Received: from mail.rmail.be (domotica.rmail.be [10.238.9.4])
+ by mail.rmail.be (Postfix) with ESMTP id B3F453480D;
+ Wed,  8 Mar 2023 22:16:42 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1678305762-32381-1-git-send-email-quic_abhinavk@quicinc.com>
-X-Patchwork-Hint: comment
+Date: Wed, 08 Mar 2023 22:16:42 +0100
+From: AL13N <alien@rmail.be>
+To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
+Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
+ 5.16; and still broken in at least 6.1)
+In-Reply-To: <20230308123540.zqqe4mnhzumvnjfk@houat>
+References: <7d216faea9647d328651460167bc27f6@rmail.be>
+ <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
+ <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
+ <20230308123540.zqqe4mnhzumvnjfk@houat>
+Message-ID: <004db85e5114674bfc432043376bcd00@rmail.be>
+X-Sender: alien@rmail.be
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +43,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
- dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 08, 2023 at 12:02:42PM -0800, Abhinav Kumar wrote:
-> For DRM property blobs created by user mode using
-> drm_property_create_blob(), if the blob value needs to be updated the
-> only way is to destroy the previous blob and create a new one instead.
+Maxime Ripard schreef op 2023-03-08 13:35:
+> Hi,
 > 
-> For some of the property blobs, if the size of the blob is more
-> than one page size, kvzalloc() can slow down system as it will first
-> try to allocate physically contiguous memory but upon failure will
-> fall back to non-contiguous (vmalloc) allocation.
+> On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
+>> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
+>> > AL13N schreef op 2023-03-06 17:34:
+>> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
+>> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
+>> > > plymouth), the cause of no X is that EDID gives nothing, and in the
+>> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
+>> > > changed for this.
+>> > >
+>> > > In 5.16 instead of this message there is a bunch of hex lines prefixed
+>> > > with BAD.
+>> > >
+>> > > It is still broken in 6.1 at the very least.
+>> > >
+>> > > I donno if this is related to this part, but I wanted to try a newer
+>> > > kernel, because the RPI4 seems to do all the video decoding in
+>> > > software and cannot seem to handle it.
+>> > >
+>> > >
+>> > > logs:
+>> > > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+>> > > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+>> > > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
+>> > > fb0: switching to vc4 from simple
+>> > > Console: switching to colour dummy device 80x25
+>> > > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>> > > vc4-drm gpu: [drm] Cannot find any crtc or sizes
+>> >
+>> > 5.16 log has:
+>> >
+>> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+>> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+>> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+>> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>> >         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
+>> >         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
+>> >         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
+>> >         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
+>> >         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
+>> >         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
+>> >         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
+>> >         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
+>> > Console: switching to colour frame buffer device 240x67
+>> > vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
+>> >
+>> >
+>> > i donno what this bad is, but it doesn't happen in 5.17... maybe these
+>> > BAD got filtered out, but they did end up working for me? or something?
+>> > i donno...
+>> 
+>> Run it through edid-decode - the checksum is wrong.
+>> 
+>> Block 0, Base EDID:
+>>   EDID Structure Version & Revision: 1.3
+>>   Vendor & Product Identification:
+>>     Manufacturer: MST
+>>     Model: 0
+>>     Made in: week 11 of 2021
+>>   Basic Display Parameters & Features:
+>>     Analog display
+>>     Input voltage level: 0.7/0.3 V
+>>     Blank level equals black level
+>>     Maximum image size: 35 cm x 1 cm
+>>     Gamma: 2.20
+>>     RGB color display
+>>     First detailed timing is the preferred timing
+>>   Color Characteristics:
+>>     Red  : 0.6396, 0.3398
+>>     Green: 0.2998, 0.6904
+>>     Blue : 0.1376, 0.0380
+>>     White: 0.2822, 0.2968
+>>   Established Timings I & II: none
+>>   Standard Timings:
+>>     GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
+>>   Detailed Timing Descriptors:
+>>     DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz (708
+>> mm x 398 mm)
+>>                  Hfront  176 Hsync  88 Hback 296 Hpol P
+>>                  Vfront    8 Vsync  10 Vback  72 Vpol P
+>>     DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (708
+>> mm x 398 mm)
+>>                  Hfront   88 Hsync  44 Hback 148 Hpol P
+>>                  Vfront    4 Vsync   5 Vback  36 Vpol P
+>>     Display Product Name: 'SALORA'
+>>   Display Range Limits:
+>>     Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600 
+>> MHz
+>>   Extension blocks: 1
+>> Checksum: 0xaa (should be 0xeb)
+>> 
+>> Weird that it also says that it's an analog display when it's
+>> connected over HDMI. Something rather bizarre there, and I think it'll
+>> hit problems in drm_edid at [1] as we end up with a connector having
+>> no color_formats defined. I was discussing this with Maxime only last
+>> week, but in relation to VGA monitors connected through HDMI to VGA
+>> adapters without rewriting the EDID.
+>> 
+>> If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
+>> your monitor not asserting hotplug correctly. The raw hotplug status
+>> is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
+>> or 1 depending on the probe order of the vc4 and v3d drivers). Grep
+>> for HDMI_HOTPLUG.
 > 
-> If the blob property being used is bigger than one page size, in a
-> heavily loaded system, this causes performance issues because
-> some of the blobs are updated on a per-frame basis.
+> If it's an option, bisecting between 5.16 and 5.17 which commit
+> introduced the regression would be nice.
 > 
-> To mitigate the performance impact of kvzalloc(), use it only when
-> the size of allocation is less than a page size when creating property
-> blobs
+>> Incorrect hotplug behaviour causes grief when combined with HDMI2.0
+>> and scrambling. If you don' t know the other end has been
+>> disconnected, then you never know that scrambling needs to be
+>> re-negotiated over SCDC, and the display will typically end up just
+>> being blank.
+>> 
+>> [1] 
+>> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edid.c#L6460
+>> [2] 
+>> https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe793eb03c70fa
+> 
+> We can easily test that: could you try booting with video=HDMI-A-1:D 
+> (or
+> HDMI-A-2, depending on whether you use HDMI0 or HDMI1) and see if it
+> helps?
 
-Not sure how badly this will eat into the vmalloc area.
+in kernel 6.1 or kernel 5.17 ?
 
-Is there no GFP flag to avoid the expensive stuff instead?
-
+>> > I also noticed that earlier in the logs there are more bound lines:
+>> > (some are double)
+>> >
+>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> >
+>> > and then here for some reason systemd does modprobe@drm.service ? is
+>> > this just a delayed starting log line, or does it actually try to unload
+>> > drm and reload? i doubt it?
+>> > in any case there is more that appears before:
+>> >
+>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+>> >
+>> >
+>> > so, the error message is weird, as it implies 2 possibilities. however,
+>> > i think it did find a crtc since all those pixelvalve things use crtc
+>> > functions?
+>> >
+>> > So then why do i have this problem on my RPI4? do most people just use
+>> > the raspberry pi kernels?
+>> 
+>> Largely, yes, people use our vendor kernels.
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/drm_property.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> tbf, the downstream kernel has pretty much the same code here, so the
+> issue is very likely to affect it too.
 > 
-> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
-> index dfec479830e4..40c2a3142038 100644
-> --- a/drivers/gpu/drm/drm_property.c
-> +++ b/drivers/gpu/drm/drm_property.c
-> @@ -561,7 +561,11 @@ drm_property_create_blob(struct drm_device *dev, size_t length,
->  	if (!length || length > INT_MAX - sizeof(struct drm_property_blob))
->  		return ERR_PTR(-EINVAL);
->  
-> -	blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
-> +	if (sizeof(struct drm_property_blob) + length > PAGE_SIZE)
-> +		blob = vzalloc(sizeof(struct drm_property_blob)+length);
-> +	else
-> +		blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
-> +
->  	if (!blob)
->  		return ERR_PTR(-ENOMEM);
->  
-> -- 
-> 2.7.4
+> I would just assume that your TV has some unusual behaviour that throws
+> the driver off, and most people won't.
 
--- 
-Ville Syrjälä
-Intel
+IC, the TV also has an option somewhere to choose EDID 2.0, i thought i 
+chose that but if that decode says 1.3, maybe i didn't... Is it worth it 
+to retry this?
