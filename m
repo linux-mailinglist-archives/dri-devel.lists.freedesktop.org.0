@@ -2,54 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE806B0871
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 14:19:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E206B0891
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 14:24:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8377A10E5D8;
-	Wed,  8 Mar 2023 13:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7784210E147;
+	Wed,  8 Mar 2023 13:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55B8F10E147;
- Wed,  8 Mar 2023 13:19:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA8F310E147;
+ Wed,  8 Mar 2023 13:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678281578; x=1709817578;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=D2Anq1p3blmLcbAnUL/3EMfPaTwxDXaBDMRthxKOOOc=;
- b=RGW4VTRHKgua4gCG57yjojMCcrDwU5+XFO/0ONGqGaIOpMtuVTfauhq3
- W0R1ix8I1NiaE0c2dmDiG7glpE6sTTC4TgYp/21zeMWOX2MgY7rP2oJ4X
- svK48RevqsX9drQpk46cPijFFlt3ajBiwBs6bImoPWyFC0t4dKrge4wP/
- aTvj6c2ONvlQL7czEBgtL2sPBgKWJB/xyFknbAIQC0hq0bDCSDeMKxa7i
- fAeWZVmlRTOW77GqVEA0kvbO01aCRvzy1sZ+VCEiXo4VWOr8Op/qpZL9+
- iSlPkOEaYplDgHQmsytZnpn+u7g9M79g8DCv74Hgy0p60v0ETV4vle0s6 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="363784446"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="363784446"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ t=1678281874; x=1709817874;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=Xg7WtaJAdRO+zeb0+T9LzWOvuwr7cmHQTKSGk0bV1Qo=;
+ b=Ivt2yoQm2HLsiw8CzLnThE9nsJEU3+adj//Mmo532M9jxwMn08zg9631
+ 7FlnxeSq+M0pRCi40+FOFdxH9yV13fI9hlkVcA96n0ZtP96tP3bP/BhJP
+ R+tdiCptoxDZkQ7GsXVLmYa1wgU+3uuVcQGbZRZyAEfexA7xZ0ziBYHJR
+ gAQUd6HVwkYFX2cxf4/nk+xzPXKRGd/JzLrQShdNxGQh1vwUtnG3WePKn
+ wd979aILuBKj/y9uczLbPuNldyrwk88QFon3DxtQKUAFRQyg5tzzxy4pi
+ 5ePXQyaat5A8HG0/snf6EBj1XS770BzeOjTjPrUwPZ/dVJ7LsY6ffpdjq g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="363785191"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="363785191"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 05:19:37 -0800
+ 08 Mar 2023 05:24:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="741121381"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="741121381"
-Received: from eharan-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.58.177])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 05:19:32 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 06/10] drm/display/dsc: split DSC 1.2 and DSC 1.1
- (pre-SCR) parameters
-In-Reply-To: <CAA8EJprgvhS0YavBi2QfMLnkr+KhRge4FhfQz09ani794uYDcQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230307134901.322560-1-dmitry.baryshkov@linaro.org>
- <20230307134901.322560-7-dmitry.baryshkov@linaro.org>
- <874jqvczy1.fsf@intel.com>
- <CAA8EJprgvhS0YavBi2QfMLnkr+KhRge4FhfQz09ani794uYDcQ@mail.gmail.com>
-Date: Wed, 08 Mar 2023 15:19:29 +0200
-Message-ID: <87lek7bcta.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="670333488"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="670333488"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga007.jf.intel.com with ESMTP; 08 Mar 2023 05:24:33 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Wed, 8 Mar 2023 05:24:33 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Wed, 8 Mar 2023 05:24:33 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Wed, 8 Mar 2023 05:24:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K0fKpdNWp3xKSlwPy2ec1CoRVhxqM50NnlY1gOB8NLlkR9TLJSIt/gtdcu/h7X1wXWKB6NTgnRGSbMBngp5bzrk8SEWolzGrdHBNc6XdpNkA91PCNVCVOwIGaJK/rIHJvlrNGW0ILf53mWiXWFoazPMuyFJE58AV6aRxdfZjMiM3vWeZUG2PpToaoNT/OS5RcC+juEemUSN/02UbYhFS1uF0weh/YW4GKbhdNGAYZRCFcZBt9my0FYw0OFanODpxw9xXAqNWIBh83vPN1ezyjrvq1E2ExwZo8JbxeWeyGLPlqvvNYaOVP7JB+v4dFQdxSvnFSDtVhCNL/pY3R3aJFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=75JwvWcw2XSNpSs9agh9B1xENmPFjvXwUq47k27wUcQ=;
+ b=LZFch3WgldyAqggL8ScarH+lcKqlsTFEV4yFlS/AA47RIZQl9Q2BeS31qPXoJkedigyulERB+XTzdXKBjh1NQIuf0OzlFsyFEuVevZ85ZyR+dya8hMX8bcK0k4nXEW6oZTIF5oKYnnuxLLuNC8xI7JLSbZENah9HZRqCcK8ZdeT8mdanDfHguaj1R1DBjFEn5WyBDZ20WIASLCMzQUMGVNWaS7V5h0CPbnn/ZAbfSqBeNA031aEwVb1GCOpL6W+x3ODpKNObcJEobD6lcwJNZnox8PtsR/wyI2FjQGR2QJKn/0Pmib4OerNYRPxXlpZSLYBtDkmjhP+DHl0MARZw4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by CH3PR11MB8211.namprd11.prod.outlook.com (2603:10b6:610:15f::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Wed, 8 Mar
+ 2023 13:24:31 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::3bd5:710c:ebab:6158]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::3bd5:710c:ebab:6158%9]) with mapi id 15.20.6156.029; Wed, 8 Mar 2023
+ 13:24:31 +0000
+Date: Wed, 8 Mar 2023 08:24:26 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [Intel-gfx] [PULL] drm-intel-next
+Message-ID: <ZAiMihOpRv1Gzre9@intel.com>
+References: <ZAez4aekcob8fTeh@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZAez4aekcob8fTeh@intel.com>
+X-ClientProxiedBy: SJ0PR05CA0193.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::18) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|CH3PR11MB8211:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d59380c-8f63-4690-e59f-08db1fd8737f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: e0WgkJK7w5PIoPrp3VIIKe5sIaqzRFIwSKOlyqa/FW+XbQuabB8YyK4X6ij7IDbrgKEd7MZbHYW3Ekr2b60mPhCF/kvK8Dl/lZEyLeszNnQTcN97Y6DP5/jkfFFN9Qby9WwuizH+Si9SOmDLCB6M0Vp1zP91vOby/BUOY4F8xZF+dxnKiMEf2RCo/Q1IVnwz3NcnAesEQsGm8GlqMmIJAmyOQTtL6PStLxt3cwXdyUNJ6r5tCmjmwrCX741vkVe044yzR8V1himY3gcOXIB729E8IU6b5djuiPZcHOvk1bkMJQZcqHacWmVKeDTs5i4QQZL2g6v122MAysUCH7JDVJs2I5NYmEASbLyIPQuF1q5mLQ9lLeAqpMTfjjs6URXfLwz2mi+PR4Tz+vmv9bXYBlGQ8D2/X2liXKlHsZlzvyLTkpuCRQsFGoweN2oUdbKdXB1u6vQiM3RLSfUpan/wGOQxGExVbk5IWQ3wp3hy/pS0joK7Xh8mHNAfe1SAoOz9X+/YX2uoNz/Snw79Lnn3x/tsMcTFt0MnqI0F3inVeK9GVGWcbN8okzCW2RgC6PHTGxh7ygXYQGi8z91FQdqlCFcglZeewWde/qN3a28Rtw/PAJXFTy6GK2nalvP4eylKKATgdu1LHyjgE67blF9aVw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(346002)(396003)(376002)(39860400002)(136003)(451199018)(66574015)(38100700002)(110136005)(54906003)(316002)(186003)(36756003)(6512007)(86362001)(82960400001)(6506007)(83380400001)(26005)(2616005)(8936002)(5660300002)(478600001)(6486002)(4326008)(41300700001)(6666004)(44832011)(30864003)(2906002)(66946007)(8676002)(66476007)(66556008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?gehGHjAxzof8b7uHloUlGKfg8ivvWhVF0gMohu7lc78efDMShr8yzP8TII?=
+ =?iso-8859-1?Q?mUZKYped1dAeR3/OiVAcXdu9L3Z6s2cm5amPMsgaZtA8lNmXLCzJ/u7yNu?=
+ =?iso-8859-1?Q?XOYDQFI5Vl9Q45UBKmJhN9c7nshgCUzEBJWPxkdVyqKDogQ0Iprw2vYjZg?=
+ =?iso-8859-1?Q?y9iBStrV5V5stHMeKNbQVSQsZ4JUsN4VzsdrDZlY3WChg8C66CXisFwb0l?=
+ =?iso-8859-1?Q?70xqytcgQZR+LDfBupxSuzjd6Lqt+hX7xWgG/zq6bztH40Z665Z1MG78Hs?=
+ =?iso-8859-1?Q?1m2A4cJS+7+1FzUA3A7dS1uKXZTsNF1KmDMs6+bVtn6Xork4k+at5thEOc?=
+ =?iso-8859-1?Q?HbgP3JRvNfz/nzKNKWzROlVCvaThZ+IOMWLETE2ba9SxJkuDAVobUQFfAA?=
+ =?iso-8859-1?Q?1lqQpwakcTp+vYbqPsZ98bczWEUZmZ20kRTFltJWL8vMM97fNQN3nQIKXG?=
+ =?iso-8859-1?Q?ZdgSdn4hInHvplwrrR03U+enRAOUxCl3m3fgYDxIYlSab1QkLTVp6tQgZk?=
+ =?iso-8859-1?Q?t2mlIdqlygwf9kdGwEvvZSKGhogPBGnLct+TfQG46w1OhzHHHNX4dk8ZGJ?=
+ =?iso-8859-1?Q?MkgPJ9pBbE6tDVuFu3MeUpSBLbZbjNMkzvuxDfHOS72FgzrjGHDkcSvPO3?=
+ =?iso-8859-1?Q?zxWfON5+BYFxQZ/Qwd8Lv+LUGeLRvfcQAEGrf/wrQ3wVTgyVM39Fyb511J?=
+ =?iso-8859-1?Q?YEb86O17eVuwqANm41FitBbaejYe9f6Se2jFWN/ySPlKW/iFysm5JL3DaQ?=
+ =?iso-8859-1?Q?uyMALXCXf8ExkxWfWQtL+7GB7/LEaodJN8BsVOFqHikZnpfj0bXOQKcPO7?=
+ =?iso-8859-1?Q?2rwPOV29eDzkpO+N+OZMefw/mNsVCA5Ubtkce2y5ixA3Hl1qrmUKVJR6SJ?=
+ =?iso-8859-1?Q?aFSM4dkp+70TFj45dhYyHXyUXD5SJLseCbfJZ7sUdXcicU2zPIwpJKHUHU?=
+ =?iso-8859-1?Q?oR0mA/XYYlLyYZ/GSm7/V/SO4NrOZsZGw9MdJ13UHn3XoDE1w+TboGxx/Q?=
+ =?iso-8859-1?Q?X/gyWg24mxUCYhIVn/f1y8nR8vE6NhTdiKa2Wta43cH+wsNgs2njrYeoLL?=
+ =?iso-8859-1?Q?39IuN4xOiACMjlJGjpt1V3i+6I6crU5jZWO3qy3XYSSLz5DNGF4SG30Y6g?=
+ =?iso-8859-1?Q?qWKAMLuzS79BpcZZq3rAwia08ibh95a8TdsLfq2+Hk+82hCYnkByvsM5L+?=
+ =?iso-8859-1?Q?4+NQc5QMuw4z1Ef6NL3HCRQECB9Z2WfufP0NEfg/BlLuiPmoxnYieE6nU0?=
+ =?iso-8859-1?Q?/FDYn4hiO3dxZIrVUEFB65O4cH6Vli6regMAZeoco3I+Er6bWjbWTR4rC/?=
+ =?iso-8859-1?Q?McL0ibxKGU3rzGwp6vZ0HGZA+kdgNz9kSc4LksgApeTKZB5CiGAK7PNcK/?=
+ =?iso-8859-1?Q?lgGOV9XqCEtRQadZGwnkDeI1yjhNX8stpZz+aCQzKOhpmqAqa3iPlvjmV/?=
+ =?iso-8859-1?Q?mlqvEkidF/WNbsHlnsK7v1a1F1eDNXzVWr55I8E6ZTxVrTGCowAMCSNDEQ?=
+ =?iso-8859-1?Q?khkaAbcPocgIaZmXiGYRqnONgSIzEPSEEcb73g4mmigy8gbiZQ1nMoi7Fz?=
+ =?iso-8859-1?Q?8I09oXWgghIu8MgxUn+8+n3cdAkFMwAzpJ873wzpRMA15Vf380b6K0tfuf?=
+ =?iso-8859-1?Q?etGmhvUtjkpQzOJ1rWVRcMDb4mdL/ooTdNPtiCx1qJjNDQ/k1k/hravA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d59380c-8f63-4690-e59f-08db1fd8737f
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 13:24:31.6731 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SwHZrHcGuqv6Fpmm8t+20pcj63wAMMeUbFm+iSnrXBC5NC4KXGMBFNTpidU4c1yyg5p0aSOvve7/FQbCQHAvpw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8211
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,348 +144,460 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 08 Mar 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Wed, 8 Mar 2023 at 12:14, Jani Nikula <jani.nikula@linux.intel.com> wrote:
->>
->> On Tue, 07 Mar 2023, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->> > The array of rc_parameters contains a mixture of parameters from DSC 1.1
->> > and DSC 1.2 standards. Split these tow configuration arrays in
->> > preparation to adding more configuration data.
->> >
->> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> > ---
->> >  drivers/gpu/drm/display/drm_dsc_helper.c  | 127 ++++++++++++++++++----
->> >  drivers/gpu/drm/i915/display/intel_vdsc.c |  10 +-
->> >  include/drm/display/drm_dsc_helper.h      |   7 +-
->> >  3 files changed, 119 insertions(+), 25 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/display/drm_dsc_helper.c b/drivers/gpu/drm/display/drm_dsc_helper.c
->> > index acb93d4116e0..35b39f3109c4 100644
->> > --- a/drivers/gpu/drm/display/drm_dsc_helper.c
->> > +++ b/drivers/gpu/drm/display/drm_dsc_helper.c
->> > @@ -324,11 +324,81 @@ struct rc_parameters_data {
->> >
->> >  #define DSC_BPP(bpp) ((bpp) << 4)
->> >
->> > +static const struct rc_parameters_data rc_parameters_pre_scr[] = {
->> > +     {
->> > +             .bpp = DSC_BPP(8), .bpc = 8,
->> > +             { 512, 12, 6144, 3, 12, 11, 11, {
->> > +                     { 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
->> > +                     { 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
->> > +                     { 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
->> > +                     { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
->> > +                     }
->> > +             }
->> > +     },
->> > +     {
->> > +             .bpp = DSC_BPP(8), .bpc = 10,
->> > +             { 512, 12, 6144, 7, 16, 15, 15, {
->> > +                     /*
->> > +                      * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
->> > +                      * VESA DSC 1.1 Table E-5 sets it to 4.
->> > +                      */
->> > +                     { 0, 4, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
->> > +                     { 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
->> > +                     { 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
->> > +                     { 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
->> > +                     }
->> > +             }
->> > +     },
->> > +     {
->> > +             .bpp = DSC_BPP(8), .bpc = 12,
->> > +             { 512, 12, 6144, 11, 20, 19, 19, {
->> > +                     { 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
->> > +                     { 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
->> > +                     { 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
->> > +                     { 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
->> > +                     { 21, 23, -12 }
->> > +                     }
->> > +             }
->> > +     },
->> > +     {
->> > +             .bpp = DSC_BPP(12), .bpc = 8,
->> > +             { 341, 15, 2048, 3, 12, 11, 11, {
->> > +                     { 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
->> > +                     { 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
->> > +                     { 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
->> > +                     { 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
->> > +                     }
->> > +             }
->> > +     },
->> > +     {
->> > +             .bpp = DSC_BPP(12), .bpc = 10,
->> > +             { 341, 15, 2048, 7, 16, 15, 15, {
->> > +                     { 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
->> > +                     { 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
->> > +                     { 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
->> > +                     { 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
->> > +                     }
->> > +             }
->> > +     },
->> > +     {
->> > +             .bpp = DSC_BPP(12), .bpc = 12,
->> > +             { 341, 15, 2048, 11, 20, 19, 19, {
->> > +                     { 0, 6, 2 }, { 4, 9, 0 }, { 7, 11, 0 }, { 8, 12, -2 },
->> > +                     { 10, 13, -4 }, { 11, 14, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
->> > +                     { 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
->> > +                     { 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
->> > +                     { 21, 23, -12 }
->> > +                     }
->> > +             }
->> > +     },
->> > +     { /* sentinel */ }
->> > +};
->> > +
->> >  /*
->> >   * Selected Rate Control Related Parameter Recommended Values
->> >   * from DSC_v1.11 spec & C Model release: DSC_model_20161212
->> >   */
->>
->> The comment is no longer accurate, is it?
->
-> Ugh, yes. it is no longer DSC 1.1. I cross-checked, the rc*cfg files
-> are the same between 20161212 and 20210623
->
->>
->> There are various ways to determine the parameters to use. There's even
->> an application note "VESA DSC v1.2a Guidance on Deriving DSC Rate
->> Control Parameters" that lists the options. They are all valid and
->> should "provide visually lossless quality".
->>
->> Would it be simplest to always use the C model parameters in the tables
->> here, referencing the zip file name with date above each table? That
->> could at least be consistent, and drivers could override parameters
->> using other methods if they desire. And it would be easiest to review.
->
-> Do you mean the calculated RC parameters?
+On Tue, Mar 07, 2023 at 05:00:01PM -0500, Rodrigo Vivi wrote:
+> Hi Dave and Daniel,
+> 
+> Here goes our first pull request towards 6.3.
 
-No, I simply mean using the values from the .cfg files, and clearly
-stating that in the source. Your reply below implies this is exactly
-what you're doing. What we currently have in intel_vdsc.c isn't clear by
-any means.
+You know, I meant 6.4. :)
 
-Moreover, I started checking some of the values against the *specs* and
-those actually differ from the .cfg files. I just want to get rid of the
-ambiguity.
+Thank you Joonas for noticing that.
 
-> As I mentioned in another
-> email, it is at least worth investigating. I haven't looked into that,
-> as my primary goal (driven by the forthcoming drm/msm needs) were the
-> .cfg tables. I targeted cleaning up the simplest path to reduce
-> duplication (see [1]). Anyway, with the proposed patches we have the
-> API, which tells nothing about the way it fills out the RC tables.
-> They can be based on top of the cfg files (method 2) or calculated
-> (methods 3, 4).
->
-> [1] https://patchwork.freedesktop.org/patch/524051/?series=114355&rev=1
->
->>
->> I'm having a hard time finding time to review all this in a timely
->> fashion. Would be good to try to get other folks to review the rest,
->> it's really not very i915 specific anyway. In the mean time I think
->> patches 1-5 are okay to merge via drm-misc.
->
-> For reference, the tables here are a direct conversion of the rc*cfg
-> files found in the DSC model. If you wish, I can post the program that
-> I used to convert these files into C arrays. Will that help the
-> review?
-
-Probably; it's a bit annoying to cross check as the values aren't in the
-same order.
-
-BR,
-Jani.
-
-
->
->>
->> BR,
->> Jani.
->>
->> > -static const struct rc_parameters_data rc_parameters[] = {
->> > +static const struct rc_parameters_data rc_parameters_1_2_444[] = {
->> >       {
->> >               .bpp = DSC_BPP(6), .bpc = 8,
->> >               { 768, 15, 6144, 3, 13, 11, 11, {
->> > @@ -388,22 +458,18 @@ static const struct rc_parameters_data rc_parameters[] = {
->> >               { 512, 12, 6144, 3, 12, 11, 11, {
->> >                       { 0, 4, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
->> >                       { 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
->> > -                     { 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 }, { 5, 12, -12 },
->> > -                     { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
->> > +                     { 3, 9, -8 }, { 3, 10, -10 }, { 5, 10, -10 }, { 5, 11, -12 },
->> > +                     { 5, 11, -12 }, { 9, 12, -12 }, { 12, 13, -12 }
->> >                       }
->> >               }
->> >       },
->> >       {
->> >               .bpp = DSC_BPP(8), .bpc = 10,
->> >               { 512, 12, 6144, 7, 16, 15, 15, {
->> > -                     /*
->> > -                      * DSC model/pre-SCR-cfg has 8 for range_max_qp[0], however
->> > -                      * VESA DSC 1.1 Table E-5 sets it to 4.
->> > -                      */
->> > -                     { 0, 4, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
->> > +                     { 0, 8, 2 }, { 4, 8, 0 }, { 5, 9, 0 }, { 5, 10, -2 },
->> >                       { 7, 11, -4 }, { 7, 11, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
->> > -                     { 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
->> > -                     { 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
->> > +                     { 7, 13, -8 }, { 7, 14, -10 }, { 9, 14, -10 }, { 9, 15, -12 },
->> > +                     { 9, 15, -12 }, { 13, 16, -12 }, { 16, 17, -12 }
->> >                       }
->> >               }
->> >       },
->> > @@ -412,9 +478,9 @@ static const struct rc_parameters_data rc_parameters[] = {
->> >               { 512, 12, 6144, 11, 20, 19, 19, {
->> >                       { 0, 12, 2 }, { 4, 12, 0 }, { 9, 13, 0 }, { 9, 14, -2 },
->> >                       { 11, 15, -4 }, { 11, 15, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
->> > -                     { 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
->> > -                     { 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
->> > -                     { 21, 23, -12 }
->> > +                     { 11, 17, -8 }, { 11, 18, -10 }, { 13, 18, -10 },
->> > +                     { 13, 19, -12 }, { 13, 19, -12 }, { 17, 20, -12 },
->> > +                     { 20, 21, -12 }
->> >                       }
->> >               }
->> >       },
->> > @@ -498,8 +564,8 @@ static const struct rc_parameters_data rc_parameters[] = {
->> >               { 341, 15, 2048, 3, 12, 11, 11, {
->> >                       { 0, 2, 2 }, { 0, 4, 0 }, { 1, 5, 0 }, { 1, 6, -2 },
->> >                       { 3, 7, -4 }, { 3, 7, -6 }, { 3, 7, -8 }, { 3, 8, -8 },
->> > -                     { 3, 9, -8 }, { 3, 10, -10 }, { 5, 11, -10 },
->> > -                     { 5, 12, -12 }, { 5, 13, -12 }, { 7, 13, -12 }, { 13, 15, -12 }
->> > +                     { 3, 8, -8 }, { 3, 9, -10 }, { 5, 9, -10 }, { 5, 9, -12 },
->> > +                     { 5, 9, -12 }, { 7, 10, -12 }, { 10, 11, -12 }
->> >                       }
->> >               }
->> >       },
->> > @@ -508,8 +574,8 @@ static const struct rc_parameters_data rc_parameters[] = {
->> >               { 341, 15, 2048, 7, 16, 15, 15, {
->> >                       { 0, 2, 2 }, { 2, 5, 0 }, { 3, 7, 0 }, { 4, 8, -2 },
->> >                       { 6, 9, -4 }, { 7, 10, -6 }, { 7, 11, -8 }, { 7, 12, -8 },
->> > -                     { 7, 13, -8 }, { 7, 14, -10 }, { 9, 15, -10 }, { 9, 16, -12 },
->> > -                     { 9, 17, -12 }, { 11, 17, -12 }, { 17, 19, -12 }
->> > +                     { 7, 12, -8 }, { 7, 13, -10 }, { 9, 13, -10 }, { 9, 13, -12 },
->> > +                     { 9, 13, -12 }, { 11, 14, -12 }, { 14, 15, -12 }
->> >                       }
->> >               }
->> >       },
->> > @@ -518,9 +584,9 @@ static const struct rc_parameters_data rc_parameters[] = {
->> >               { 341, 15, 2048, 11, 20, 19, 19, {
->> >                       { 0, 6, 2 }, { 4, 9, 0 }, { 7, 11, 0 }, { 8, 12, -2 },
->> >                       { 10, 13, -4 }, { 11, 14, -6 }, { 11, 15, -8 }, { 11, 16, -8 },
->> > -                     { 11, 17, -8 }, { 11, 18, -10 }, { 13, 19, -10 },
->> > -                     { 13, 20, -12 }, { 13, 21, -12 }, { 15, 21, -12 },
->> > -                     { 21, 23, -12 }
->> > +                     { 11, 16, -8 }, { 11, 17, -10 }, { 13, 17, -10 },
->> > +                     { 13, 17, -12 }, { 13, 17, -12 }, { 15, 18, -12 },
->> > +                     { 18, 19, -12 }
->> >                       }
->> >               }
->> >       },
->> > @@ -602,7 +668,8 @@ static const struct rc_parameters_data rc_parameters[] = {
->> >       { /* sentinel */ }
->> >  };
->> >
->> > -static const struct rc_parameters *get_rc_params(u16 dsc_bpp,
->> > +static const struct rc_parameters *get_rc_params(const struct rc_parameters_data *rc_parameters,
->> > +                                              u16 dsc_bpp,
->> >                                                u8 bits_per_component)
->> >  {
->> >       int i;
->> > @@ -622,11 +689,13 @@ static const struct rc_parameters *get_rc_params(u16 dsc_bpp,
->> >   * function.
->> >   *
->> >   * @vdsc_cfg: DSC Configuration data partially filled by driver
->> > + * @kind: operating mode and standard to follow
->> >   *
->> >   * Return: 0 or -error code in case of an error
->> >   */
->> > -int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg)
->> > +int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_kind kind)
->> >  {
->> > +     const struct rc_parameters_data *data;
->> >       const struct rc_parameters *rc_params;
->> >       int i;
->> >
->> > @@ -634,7 +703,19 @@ int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg)
->> >                        !vdsc_cfg->bits_per_component))
->> >               return -EINVAL;
->> >
->> > -     rc_params = get_rc_params(vdsc_cfg->bits_per_pixel,
->> > +     switch (kind) {
->> > +     case DRM_DSC_1_2_444:
->> > +             data = rc_parameters_1_2_444;
->> > +             break;
->> > +     case DRM_DSC_1_1_PRE_SCR:
->> > +             data = rc_parameters_pre_scr;
->> > +             break;
->> > +     default:
->> > +             return -EINVAL;
->> > +     }
->> > +
->> > +     rc_params = get_rc_params(data,
->> > +                               vdsc_cfg->bits_per_pixel,
->> >                                 vdsc_cfg->bits_per_component);
->> >       if (!rc_params)
->> >               return -EINVAL;
->> > diff --git a/drivers/gpu/drm/i915/display/intel_vdsc.c b/drivers/gpu/drm/i915/display/intel_vdsc.c
->> > index 20a4c2f343fe..a4d1d2ba71bb 100644
->> > --- a/drivers/gpu/drm/i915/display/intel_vdsc.c
->> > +++ b/drivers/gpu/drm/i915/display/intel_vdsc.c
->> > @@ -157,7 +157,15 @@ int intel_dsc_compute_params(struct intel_crtc_state *pipe_config)
->> >       if (DISPLAY_VER(dev_priv) >= 13) {
->> >               calculate_rc_params(vdsc_cfg);
->> >       } else {
->> > -             ret = drm_dsc_setup_rc_params(vdsc_cfg);
->> > +             if ((compressed_bpp == 8 ||
->> > +                  compressed_bpp == 12) &&
->> > +                 (vdsc_cfg->bits_per_component == 8 ||
->> > +                  vdsc_cfg->bits_per_component == 10 ||
->> > +                  vdsc_cfg->bits_per_component == 12))
->> > +                     ret = drm_dsc_setup_rc_params(vdsc_cfg, DRM_DSC_1_1_PRE_SCR);
->> > +             else
->> > +                     ret = drm_dsc_setup_rc_params(vdsc_cfg, DRM_DSC_1_2_444);
->> > +
->> >               if (ret)
->> >                       return ret;
->> >
->> > diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
->> > index 1681791f65a5..c634bb2935d3 100644
->> > --- a/include/drm/display/drm_dsc_helper.h
->> > +++ b/include/drm/display/drm_dsc_helper.h
->> > @@ -10,12 +10,17 @@
->> >
->> >  #include <drm/display/drm_dsc.h>
->> >
->> > +enum drm_dsc_params_kind {
->> > +     DRM_DSC_1_2_444,
->> > +     DRM_DSC_1_1_PRE_SCR, /* legacy params from DSC 1.1 */
->> > +};
->> > +
->> >  void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
->> >  int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
->> >  void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
->> >                             const struct drm_dsc_config *dsc_cfg);
->> >  void drm_dsc_set_rc_buf_thresh(struct drm_dsc_config *vdsc_cfg);
->> > -int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg);
->> > +int drm_dsc_setup_rc_params(struct drm_dsc_config *vdsc_cfg, enum drm_dsc_params_kind kind);
->> >  int drm_dsc_compute_rc_parameters(struct drm_dsc_config *vdsc_cfg);
->> >
->> >  #endif /* _DRM_DSC_HELPER_H_ */
->>
->> --
->> Jani Nikula, Intel Open Source Graphics Center
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> 
+> drm-intel-next-2023-03-07:
+> 
+> Cross-subsystem Changes:
+> - MEI patches to fix suspend/resume issues with the i915's PXP. (Alexander)
+> 
+> Driver Changes:
+> - Registers helpers and clean-ups. (Lucas)
+> - PXP fixes and clean-ups. (Alan, Alexander)
+> - CDCLK related fixes and w/a (Chaitanya, Stanislav)
+> - Move display code to use RMW whenever possible (Andrzej)
+> - PSR fixes (Jouni, Ville)
+> - Implement async_flip mode per plane tracking (Andrzej)
+> - Remove pre-production Workarounds (Matt)
+> - HDMI related fixes (Ankit)
+> - LVDS cleanup (Ville)
+> - Watermark fixes and cleanups (Ville, Jani, Stanilav)
+> - DMC code related fixes, cleanups and improvements (Jani)
+> - Implement fb_dirty for PSR,FBC,DRRS fixes (Jouni)
+> - Initial DSB improvements targeting LUTs loading (Ville)
+> - HWMON related fixes (Ashutosh)
+> - PCI ID updates (Jonathan, Matt Roper)
+> - Fix leak in scatterlist (Matt Atwood)
+> - Fix eDP+DSI dual panel systems (Ville)
+> - Cast iomem to avoid sparese warnings (Jani)
+> - Set default backlight controller index (Jani)
+> - More MTL enabling (RK)
+> - Conversion of display dev_priv towards i915 (Nirmoy)
+> - Improvements in log/debug messages (Ville)
+> - Increase slice_height for DP VDSC (Suraj)
+> - VBT ports improvements (Ville)
+> - Fix platforms without Display (Imre)
+> - Other generic display code clean-ups (Ville, Jani, Rodrigo)
+> - Add RPL-U sub platform (Chaitanya)
+> - Add inverted backlight quirk for HP 14-r206nv (Mavroudis)
+> - Transcoder timing improvements (Ville)
+> - Track audio state per-transcoder (Ville)
+> - Error/underrun interrupt fixes (Ville)
+> - Update combo PHY init sequence (Matt Roper)
+> - Get HDR DPCD refresh timeout (Ville)
+> - Vblank improvements (Ville)
+> - DSS fixes and cleanups (Jani)
+> - PM code cleanup (Jani)
+> - Split display parts related to RPS (Jani)
+> 
+> Thanks,
+> Rodrigo.
+> 
+> The following changes since commit d3eb347da1148fdb1c2462ae83090a4553d3f46f:
+> 
+>   drm/i915/mtl: Apply Wa_14013475917 for all MTL steppings (2023-01-26 13:54:05 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2023-03-07
+> 
+> for you to fetch changes up to 4b736ed40583631e0cf32c55dbc1e5ec0434a74b:
+> 
+>   drm/i915: Get rid of the gm45 HPD live state nonsense (2023-03-07 19:09:20 +0200)
+> 
+> ----------------------------------------------------------------
+> Cross-subsystem Changes:
+> - MEI patches to fix suspend/resume issues with the i915's PXP. (Alexander)
+> 
+> Driver Changes:
+> - Registers helpers and clean-ups. (Lucas)
+> - PXP fixes and clean-ups. (Alan, Alexander)
+> - CDCLK related fixes and w/a (Chaitanya, Stanislav)
+> - Move display code to use RMW whenever possible (Andrzej)
+> - PSR fixes (Jouni, Ville)
+> - Implement async_flip mode per plane tracking (Andrzej)
+> - Remove pre-production Workarounds (Matt)
+> - HDMI related fixes (Ankit)
+> - LVDS cleanup (Ville)
+> - Watermark fixes and cleanups (Ville, Jani, Stanilav)
+> - DMC code related fixes, cleanups and improvements (Jani)
+> - Implement fb_dirty for PSR,FBC,DRRS fixes (Jouni)
+> - Initial DSB improvements targeting LUTs loading (Ville)
+> - HWMON related fixes (Ashutosh)
+> - PCI ID updates (Jonathan, Matt Roper)
+> - Fix leak in scatterlist (Matt Atwood)
+> - Fix eDP+DSI dual panel systems (Ville)
+> - Cast iomem to avoid sparese warnings (Jani)
+> - Set default backlight controller index (Jani)
+> - More MTL enabling (RK)
+> - Conversion of display dev_priv towards i915 (Nirmoy)
+> - Improvements in log/debug messages (Ville)
+> - Increase slice_height for DP VDSC (Suraj)
+> - VBT ports improvements (Ville)
+> - Fix platforms without Display (Imre)
+> - Other generic display code clean-ups (Ville, Jani, Rodrigo)
+> - Add RPL-U sub platform (Chaitanya)
+> - Add inverted backlight quirk for HP 14-r206nv (Mavroudis)
+> - Transcoder timing improvements (Ville)
+> - Track audio state per-transcoder (Ville)
+> - Error/underrun interrupt fixes (Ville)
+> - Update combo PHY init sequence (Matt Roper)
+> - Get HDR DPCD refresh timeout (Ville)
+> - Vblank improvements (Ville)
+> - DSS fixes and cleanups (Jani)
+> - PM code cleanup (Jani)
+> - Split display parts related to RPS (Jani)
+> 
+> ----------------------------------------------------------------
+> Alan Previn (3):
+>       drm/i915/pxp: Invalidate all PXP fw sessions during teardown
+>       drm/i915/pxp: Trigger the global teardown for before suspending
+>       drm/i915/pxp: Pxp hw init should be in resume_complete
+> 
+> Alexander Usyskin (3):
+>       mei: mei-me: resume device in prepare
+>       drm/i915/pxp: add device link between i915 and mei_pxp
+>       mei: clean pending read with vtag on bus
+> 
+> Andrzej Hajda (14):
+>       drm/i915/display/fdi: use intel_de_rmw if possible
+>       drm/i915/display/vlv: fix pixel overlap register update
+>       drm/i915/display/vlv: use intel_de_rmw if possible
+>       drm/i915/display/dsi: use intel_de_rmw if possible
+>       drm/i915: implement async_flip mode per plane tracking
+>       drm/i915/display/core: use intel_de_rmw if possible
+>       drm/i915/display/dpll: use intel_de_rmw if possible
+>       drm/i915/display/phys: use intel_de_rmw if possible
+>       drm/i915/display/pch: use intel_de_rmw if possible
+>       drm/i915/display/hdmi: use intel_de_rmw if possible
+>       drm/i915/display/panel: use intel_de_rmw if possible in panel related code
+>       drm/i915/display/interfaces: use intel_de_rmw if possible
+>       drm/i915/display/misc: use intel_de_rmw if possible
+>       drm/i915/display/power: use intel_de_rmw if possible
+> 
+> Ankit Nautiyal (2):
+>       drm/i915/hdmi: Go for scrambling only if platform supports TMDS clock > 340MHz
+>       drm/i915/dg2: Add HDMI pixel clock frequencies 267.30 and 319.89 MHz
+> 
+> Ashutosh Dixit (5):
+>       drm/i915/hwmon: Enable PL1 power limit
+>       Revert "drm/i915/hwmon: Enable PL1 power limit"
+>       drm/i915/hwmon: Replace hwm_field_scale_and_write with hwm_power_max_write
+>       drm/i915/hwmon: Enable PL1 limit when writing limit value to HW
+>       drm/i915/hwmon: Accept writes of value 0 to power1_max_interval
+> 
+> Chaitanya Kumar Borah (3):
+>       drm/i915/adlp: Fix typo for reference clock
+>       drm/i915: Add RPL-U sub platform
+>       drm/i915/display: Add 480 MHz CDCLK steps for RPL-U
+> 
+> Imre Deak (4):
+>       drm/i915: Fix system suspend without fbdev being initialized
+>       drm/i915: Move display power initialization during driver probing later
+>       drm/i915/dgfx, mtl+: Disable display functionality if the display is not present
+>       drm/i915: Sanitize the display fused-off check on GEN7/8
+> 
+> Jani Nikula (29):
+>       drm/i915/dmc: add proper name to dmc id enum and use it
+>       drm/i915/dmc: add for_each_dmc_id() and use it
+>       drm/i915/dmc: remove unnecessary dmc_id validity check
+>       drm/i915/dmc: add is_valid_dmc_id() and use it
+>       drm/i915/dmc: check incoming dmc id validity
+>       drm/i915/dmc: drop "ucode" from function names
+>       drm/i915/uncore: cast iomem to avoid sparse warning
+>       drm/i915/bios: set default backlight controller index
+>       drm/i915: move memory frequency detection to intel_dram.c
+>       drm/i915/wm: move remaining watermark code out of intel_pm.c
+>       drm/i915/wm: move functions to call watermark hooks to intel_wm.[ch]
+>       drm/i915/wm: add .get_hw_state to watermark funcs
+>       drm/i915/wm: move ILK watermark sanitization to i9xx_wm.[ch]
+>       drm/i915/wm: warn about ilk_wm_sanitize() on display ver 9+
+>       drm/i915/wm: move watermark debugfs to intel_wm.c
+>       drm/i915: rename intel_pm_types.h -> display/intel_wm_types.h
+>       drm/i915/wm: remove ILK+ nop funcs fallback
+>       drm/i915/dsi: fix DSS CTL register offsets for TGL+
+>       drm/i915/display: split out DSC and DSS registers
+>       drm/i915/wm: remove display/ prefix from include
+>       drm/i915/pm: drop intel_pm_setup()
+>       drm/i915/pm: drop intel_suspend_hw()
+>       drm/i915: remove unnecessary intel_pm.h includes
+>       drm/i915/power: move dc state members to struct i915_power_domains
+>       drm/i915/dmc: use has_dmc_id_fw() instead of poking dmc->dmc_info directly
+>       drm/i915/dmc: add i915_to_dmc() and dmc->i915 and use them
+>       drm/i915/dmc: allocate dmc structure dynamically
+>       drm/i915/dmc: mass rename dev_priv to i915
+>       drm/i915/rps: split out display rps parts to a separate file
+> 
+> Jonathan Gray (1):
+>       drm/i915: Add another EHL pci id
+> 
+> Jouni Högander (3):
+>       drm/i915/psr: Split sel fetch plane configuration into arm and noarm
+>       drm/i915/fbdev: Implement fb_dirty for intel custom fb helper
+>       drm/i915/psr: Use calculated io and fast wake lines
+> 
+> Lucas De Marchi (9):
+>       drm/i915: Add _PICK_EVEN_2RANGES()
+>       drm/i915: Fix coding style on DPLL*_ENABLE defines
+>       drm/i915: Convert pll macros to _PICK_EVEN_2RANGES
+>       drm/i915: Replace _MMIO_PHY3() with _PICK_EVEN_2RANGES()
+>       drm/i915: Convert PIPE3/PORT3 to _PICK_EVEN_2RANGES()
+>       drm/i915: Convert _FIA() to _PICK_EVEN_2RANGES()
+>       drm/i915: Convert MBUS_ABOX_CTL() to _PICK_EVEN_2RANGES()
+>       drm/i915: Convert PALETTE() to _PICK_EVEN_2RANGES()
+>       drm/i915: Move MCR_REG define to i915_reg_defs.h
+> 
+> Matt Atwood (1):
+>       drm/i915: Fix memory leaks in scatterlist
+> 
+> Matt Roper (5):
+>       drm/i915/tgl: Drop support for pre-production steppings
+>       drm/i915/dg1: Drop support for pre-production steppings
+>       drm/i915/dg1: Drop final use of IS_DG1_GRAPHICS_STEP
+>       drm/i915/dg2: Drop one PCI ID
+>       drm/i915/gen12: Update combo PHY init sequence
+> 
+> Mavroudis Chatzilaridis (1):
+>       drm/i915/quirks: Add inverted backlight quirk for HP 14-r206nv
+> 
+> Nirmoy Das (1):
+>       drm/i915/display: Pass drm_i915_private as param to i915 funcs
+> 
+> Radhakrishna Sripada (1):
+>       drm/i915/mtl: Initialize empty clockgating hooks for MTL
+> 
+> Rodrigo Vivi (1):
+>       drm/i915: Remove unused tmp assignment.
+> 
+> Stanislav Lisovskiy (2):
+>       drm/i915: Implement workaround for CDCLK PLL disable/enable
+>       drm/i915: Copy highest enabled wm level to disabled wm levels for gen >= 9
+> 
+> Suraj Kandpal (1):
+>       drm/i915/dp: Increase slice_height for DP
+> 
+> Ville Syrjälä (74):
+>       drm/i915/lvds: Split long lines
+>       drm/i915/lvds: Use intel_de_rmw()
+>       drm/i915/lvds: Use REG_BIT() & co.
+>       drm/i915/lvds: Extract intel_lvds_regs.h
+>       drm/i915/lvds: Fix whitespace
+>       drm/i915/lvds: s/dev_priv/i915/
+>       drm/i915/lvds: s/intel_encoder/encoder/ etc.
+>       drm/i915/lvds: s/pipe_config/crtc_state/
+>       drm/i915: Don't do the WM0->WM1 copy w/a if WM1 is already enabled
+>       drm/i915: Introduce HAS_SAGV()
+>       drm/i915: Keep sagv status updated on icl+
+>       drm/i915: Expose SAGV state via debugfs
+>       drm/i915/dsb: Pimp debug/error prints
+>       drm/i915/dsb: Split intel_dsb_wait() from intel_dsb_commit()
+>       drm/i915/dsb: Introduce intel_dsb_finish()
+>       drm/i915: Fix VBT DSI DVO port handling
+>       drm/i915: Populate encoder->devdata for DSI on icl+
+>       drm/i915: Pick the backlight controller based on VBT on ICP+
+>       drm/i915: Populate wm.max_level for everyone
+>       drm/i915: Replace wm.max_levels with wm.num_levels and use it everywhere
+>       drm/i915: Include stepping information in device info dump
+>       drm/i915: Prefix hex numbers with 0x
+>       drm/i915: Pass the whole encoder to hotplug_enables()
+>       drm/i915: Move variables to loop context
+>       drm/i915: Replace intel_bios_is_lspcon_present() with intel_bios_encoder_is_lspcon()
+>       drm/i915: Replace intel_bios_is_lane_reversal_needed() with intel_bios_encoder_lane_reversal()
+>       drm/i915: Replace intel_bios_is_port_hpd_inverted() with intel_bios_encoder_hpd_invert()
+>       drm/i915: Consult the registered encoders for the ICL combo PHY w/a
+>       drm/i915: Populate encoder->devdata for g4x+ DP/HDMI ports
+>       drm/i915: Pass devdata to intel_bios_port_aux_ch()
+>       drm/i915: Iterate all child devs in intel_bios_is_port_present()
+>       drm/i915: Use encoder->devdata in eDP init
+>       drm/i915: Make backlight setup debugs consistent
+>       drm/i915: Don't hide function calls with side effects
+>       drm/i915: Clean up g4x+ sprite TILEOFF programming
+>       drm/i915: Include connector id+name in all backlight debugs/errors
+>       drm/i915: Reduce ELD hex dumps a bit
+>       drm/i915: Don't leak the DPT if drm_framebuffer_init() fails
+>       drm/i915: Add a few more debugs for failed framebuffer creation
+>       drm/i915: Use encoder->devdata more
+>       drm/i915: Restructure intel_bios_port_aux_ch()
+>       drm/i915: Pimp encoder ddc_pin/aux_ch debug messages
+>       drm/i915: Fix platform default aux ch for skl
+>       drm/i915: Rename intel_ddi_{enable,disable}_pipe_clock()
+>       drm/i915: Flatten intel_ddi_{enable,disable}_transcoder_clock()
+>       drm/i915: Give CPU transcoder timing registers TRANS_ prefix
+>       drm/i915: s/PIPECONF/TRANSCONF/
+>       drm/i915: Dump blanking start/end
+>       drm/i915: Define the "unmodified vblank" interrupt bit
+>       drm/i915: Add local adjusted_mode variable
+>       drm/i915: Define transcoder timing register bitmasks
+>       drm/i915/psr: Stop clobbering TRANS_SET_CONTEXT_LATENCY
+>       drm/i915/dsb: Define more DSB registers
+>       drm/i915/dsb: Allow vblank synchronized DSB execution
+>       drm/i915/dsb: Nuke the DSB debug
+>       drm/i915/dsb: Skip DSB command buffer setup if we have no LUTs
+>       drm/i915: Configure TRANS_SET_CONTEXT_LATENCY correctly on ADL+
+>       drm/i915: Sprinkle some FIXMEs about TGL+ DSI transcoder timing mess
+>       drm/i915: Remove pointless register read
+>       drm/i915/audio: Track audio state per-transcoder
+>       drm/i915: Mark FIFO underrun disabled earlier
+>       drm/i915: Undo rmw damage to gen3 error interrupt handler
+>       drm/i915: Dump PGTBL_ER on gen2/3/4 error interrupt
+>       drm/i915: Extract {i9xx,i965)_error_mask()
+>       drm/i915: Mask page table errors on gen2/3 with FBC
+>       drm/i915: Fix audio ELD handling for DP MST
+>       drm/i915: Drop useless intel_dp_has_audio() argument
+>       drm/i915: Get HDR DPCD refresh timeout from VBT
+>       drm/i915/vrr: Fix "window2" handling
+>       drm/i915/psr: Fix the delayed vblank w/a
+>       drm/i915: Bump VBT version for expected child dev size check
+>       drm/i915: Populate dig_port->connected() before connector init
+>       drm/i915: Fix SKL DDI A digital port .connected()
+>       drm/i915: Get rid of the gm45 HPD live state nonsense
+> 
+>  drivers/gpu/drm/i915/Makefile                      |    3 +
+>  drivers/gpu/drm/i915/display/g4x_dp.c              |   53 +-
+>  drivers/gpu/drm/i915/display/g4x_hdmi.c            |   21 +-
+>  drivers/gpu/drm/i915/display/i9xx_wm.c             | 4047 +++++++++++++++++++
+>  drivers/gpu/drm/i915/display/i9xx_wm.h             |   21 +
+>  drivers/gpu/drm/i915/display/icl_dsi.c             |  317 +-
+>  drivers/gpu/drm/i915/display/intel_atomic_plane.c  |   84 +-
+>  drivers/gpu/drm/i915/display/intel_audio.c         |   86 +-
+>  drivers/gpu/drm/i915/display/intel_backlight.c     |  193 +-
+>  drivers/gpu/drm/i915/display/intel_bios.c          |  269 +-
+>  drivers/gpu/drm/i915/display/intel_bios.h          |   27 +-
+>  drivers/gpu/drm/i915/display/intel_bw.c            |   49 +-
+>  drivers/gpu/drm/i915/display/intel_cdclk.c         |   43 +-
+>  drivers/gpu/drm/i915/display/intel_color.c         |   18 +-
+>  drivers/gpu/drm/i915/display/intel_combo_phy.c     |   48 +-
+>  .../gpu/drm/i915/display/intel_combo_phy_regs.h    |    4 +-
+>  drivers/gpu/drm/i915/display/intel_crt.c           |   46 +-
+>  drivers/gpu/drm/i915/display/intel_crtc.c          |    3 +
+>  .../gpu/drm/i915/display/intel_crtc_state_dump.c   |   16 +-
+>  drivers/gpu/drm/i915/display/intel_cursor.c        |    5 +-
+>  drivers/gpu/drm/i915/display/intel_ddi.c           |  173 +-
+>  drivers/gpu/drm/i915/display/intel_ddi.h           |    6 +-
+>  drivers/gpu/drm/i915/display/intel_display.c       |  603 ++-
+>  drivers/gpu/drm/i915/display/intel_display.h       |    4 +
+>  drivers/gpu/drm/i915/display/intel_display_core.h  |   15 +-
+>  .../gpu/drm/i915/display/intel_display_debugfs.c   |  239 +-
+>  drivers/gpu/drm/i915/display/intel_display_power.c |   80 +-
+>  drivers/gpu/drm/i915/display/intel_display_power.h |    4 +
+>  .../drm/i915/display/intel_display_power_well.c    |  134 +-
+>  .../gpu/drm/i915/display/intel_display_reg_defs.h  |   10 +-
+>  drivers/gpu/drm/i915/display/intel_display_rps.c   |   81 +
+>  drivers/gpu/drm/i915/display/intel_display_rps.h   |   22 +
+>  drivers/gpu/drm/i915/display/intel_display_types.h |   19 +-
+>  drivers/gpu/drm/i915/display/intel_dmc.c           |  395 +-
+>  drivers/gpu/drm/i915/display/intel_dmc.h           |   44 +-
+>  drivers/gpu/drm/i915/display/intel_dp.c            |   89 +-
+>  drivers/gpu/drm/i915/display/intel_dp_aux.c        |   35 +
+>  drivers/gpu/drm/i915/display/intel_dp_aux.h        |    4 +
+>  .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |   84 +-
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c        |   29 +-
+>  drivers/gpu/drm/i915/display/intel_dpio_phy.c      |   51 +-
+>  drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |  165 +-
+>  drivers/gpu/drm/i915/display/intel_drrs.c          |   16 +-
+>  drivers/gpu/drm/i915/display/intel_dsb.c           |   41 +-
+>  drivers/gpu/drm/i915/display/intel_dsb.h           |    5 +-
+>  .../gpu/drm/i915/display/intel_dsi_dcs_backlight.c |    5 +
+>  drivers/gpu/drm/i915/display/intel_dvo.c           |    7 +-
+>  drivers/gpu/drm/i915/display/intel_fb.c            |    7 +-
+>  drivers/gpu/drm/i915/display/intel_fbdev.c         |   28 +-
+>  drivers/gpu/drm/i915/display/intel_fbdev.h         |    8 +-
+>  drivers/gpu/drm/i915/display/intel_fdi.c           |  159 +-
+>  drivers/gpu/drm/i915/display/intel_fifo_underrun.c |   20 +
+>  drivers/gpu/drm/i915/display/intel_fifo_underrun.h |    3 +
+>  drivers/gpu/drm/i915/display/intel_gmbus.c         |   30 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c          |   15 +-
+>  drivers/gpu/drm/i915/display/intel_hdmi.c          |   79 +-
+>  drivers/gpu/drm/i915/display/intel_lpe_audio.c     |    6 +-
+>  drivers/gpu/drm/i915/display/intel_lpe_audio.h     |    4 +-
+>  drivers/gpu/drm/i915/display/intel_lspcon.c        |    2 +-
+>  drivers/gpu/drm/i915/display/intel_lvds.c          |  338 +-
+>  drivers/gpu/drm/i915/display/intel_lvds_regs.h     |   65 +
+>  drivers/gpu/drm/i915/display/intel_mg_phy_regs.h   |    4 +-
+>  drivers/gpu/drm/i915/display/intel_modeset_setup.c |   58 +-
+>  drivers/gpu/drm/i915/display/intel_panel.c         |    1 +
+>  drivers/gpu/drm/i915/display/intel_pch_display.c   |   72 +-
+>  drivers/gpu/drm/i915/display/intel_pch_refclk.c    |   10 +-
+>  drivers/gpu/drm/i915/display/intel_pps.c           |   15 +-
+>  drivers/gpu/drm/i915/display/intel_psr.c           |  209 +-
+>  drivers/gpu/drm/i915/display/intel_psr.h           |   16 +-
+>  drivers/gpu/drm/i915/display/intel_quirks.c        |    2 +
+>  drivers/gpu/drm/i915/display/intel_snps_phy.c      |   62 +
+>  drivers/gpu/drm/i915/display/intel_sprite.c        |    3 +-
+>  drivers/gpu/drm/i915/display/intel_tv.c            |    6 +-
+>  drivers/gpu/drm/i915/display/intel_vblank.c        |    4 +-
+>  drivers/gpu/drm/i915/display/intel_vdsc.c          |    1 +
+>  drivers/gpu/drm/i915/display/intel_vdsc_regs.h     |  461 +++
+>  drivers/gpu/drm/i915/display/intel_vrr.c           |   10 +-
+>  drivers/gpu/drm/i915/display/intel_wm.c            |  408 ++
+>  drivers/gpu/drm/i915/display/intel_wm.h            |   37 +
+>  .../{intel_pm_types.h => display/intel_wm_types.h} |    8 +-
+>  drivers/gpu/drm/i915/display/skl_universal_plane.c |    8 +-
+>  drivers/gpu/drm/i915/display/skl_watermark.c       |  152 +-
+>  drivers/gpu/drm/i915/display/skl_watermark.h       |    7 +-
+>  drivers/gpu/drm/i915/display/vlv_dsi.c             |  158 +-
+>  drivers/gpu/drm/i915/display/vlv_dsi_pll.c         |   18 +-
+>  drivers/gpu/drm/i915/gt/intel_gt.c                 |    1 -
+>  drivers/gpu/drm/i915/gt/intel_gt_pm.c              |    1 -
+>  drivers/gpu/drm/i915/gt/intel_gt_regs.h            |    2 -
+>  drivers/gpu/drm/i915/gt/intel_region_lmem.c        |    2 +-
+>  drivers/gpu/drm/i915/gt/intel_rps.c                |   29 -
+>  drivers/gpu/drm/i915/gt/intel_workarounds.c        |   86 +-
+>  drivers/gpu/drm/i915/gt/selftest_llc.c             |    1 -
+>  drivers/gpu/drm/i915/gvt/display.c                 |   16 +-
+>  drivers/gpu/drm/i915/gvt/handlers.c                |   18 +-
+>  drivers/gpu/drm/i915/i915_debugfs.c                |    1 -
+>  drivers/gpu/drm/i915/i915_driver.c                 |   40 +-
+>  drivers/gpu/drm/i915/i915_drv.h                    |   18 +-
+>  drivers/gpu/drm/i915/i915_hwmon.c                  |   51 +-
+>  drivers/gpu/drm/i915/i915_irq.c                    |  142 +-
+>  drivers/gpu/drm/i915/i915_pmu.c                    |    1 -
+>  drivers/gpu/drm/i915/i915_reg.h                    |  901 ++---
+>  drivers/gpu/drm/i915/i915_reg_defs.h               |   31 +
+>  drivers/gpu/drm/i915/i915_request.c                |    1 -
+>  drivers/gpu/drm/i915/i915_scatterlist.c            |    8 +-
+>  drivers/gpu/drm/i915/i915_sysfs.c                  |    1 -
+>  drivers/gpu/drm/i915/intel_device_info.c           |   28 +-
+>  drivers/gpu/drm/i915/intel_device_info.h           |    1 +
+>  drivers/gpu/drm/i915/intel_gvt_mmio_table.c        |   71 +-
+>  drivers/gpu/drm/i915/intel_pm.c                    | 4224 +-------------------
+>  drivers/gpu/drm/i915/intel_pm.h                    |   16 -
+>  drivers/gpu/drm/i915/intel_runtime_pm.c            |    2 +
+>  drivers/gpu/drm/i915/intel_uncore.c                |    6 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp.c               |   65 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp.h               |    2 +
+>  .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_42.h  |   15 +
+>  .../gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h |    3 +
+>  drivers/gpu/drm/i915/pxp/intel_pxp_pm.c            |    4 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_pm.h            |    6 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_session.c       |    8 +-
+>  drivers/gpu/drm/i915/pxp/intel_pxp_session.h       |    5 +
+>  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c           |   46 +
+>  drivers/gpu/drm/i915/pxp/intel_pxp_types.h         |    3 +
+>  drivers/gpu/drm/i915/soc/intel_dram.c              |  152 +
+>  drivers/misc/mei/client.c                          |    4 +-
+>  drivers/misc/mei/pci-me.c                          |   20 +-
+>  include/drm/i915_pciids.h                          |   14 +-
+>  126 files changed, 8279 insertions(+), 7974 deletions(-)
+>  create mode 100644 drivers/gpu/drm/i915/display/i9xx_wm.c
+>  create mode 100644 drivers/gpu/drm/i915/display/i9xx_wm.h
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_display_rps.c
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_display_rps.h
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_lvds_regs.h
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_vdsc_regs.h
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_wm.c
+>  create mode 100644 drivers/gpu/drm/i915/display/intel_wm.h
+>  rename drivers/gpu/drm/i915/{intel_pm_types.h => display/intel_wm_types.h} (89%)
