@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6321D6B02BB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C730E6B02D0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:24:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE5F510E0FB;
-	Wed,  8 Mar 2023 09:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16FB310E5E9;
+	Wed,  8 Mar 2023 09:24:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC6210E0FB;
- Wed,  8 Mar 2023 09:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678267354; x=1709803354;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=9izBVTVBjpPieuMOYSLXXB/j5rqpaahDJT/7Blx9C4M=;
- b=aGCNflKgtZDg3PmgPRdx+Gi+0p3EfSDHj2wh/HwpNdBOqbSFnT5Go3rn
- 1Yyv6VSFwnoc2cmG1tr03QfIB1zyAWNng1SJliCPtsD+EBGeuFaUrixKj
- DHQYIConxrxM/nZiJ8K4ItYt3oKlW89Lxed3haYRJgvLXh9F658KVIvBP
- LT2z8/kJ2JiC/FMnvDyyGdQTvtivhwWI3zWbH/KnqJ/JEKCB/TaYlO+SW
- cJ0vFqSIJ2HcnvZj1cPz98eKtRDE/ML/nXCc3UaCg8+/Dq2Rzyso2PCWe
- SddCnBM4y6w7cBviOG6/vM4p3BedVwz5LEWRlLrF7LYVQF4lSnEZETtYH Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="316507911"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="316507911"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 01:22:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="654283802"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="654283802"
-Received: from qingruih-mobl.ccr.corp.intel.com (HELO [10.249.254.16])
- ([10.249.254.16])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 01:22:32 -0800
-Message-ID: <e9406a98-7bc1-790f-8aeb-4a0f70e701cc@linux.intel.com>
-Date: Wed, 8 Mar 2023 10:22:29 +0100
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F9510E06A;
+ Wed,  8 Mar 2023 09:24:34 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id t11so20487721lfr.1;
+ Wed, 08 Mar 2023 01:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678267472;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uxbbdgsaeX2SJFAau96Av8LR1f6xTscUwN+mV0QH0Rk=;
+ b=EVxM3RSCrYqvkulcdEsUxnSa6yq/7gDQ3fmkA501JIUUyOSzdQqIY8z1vze0NkmFp0
+ xrS8Uw8PaZiZXEuciAQp4tJvP2nItrBBgd4aJhhxspf/jGLRNV55bUIVu57I/T8usRd+
+ 4klc0B1Ddk6EEwTjqhUpuwwOHnGEIxoWMXRTOa9/O4meSLynjSpGFZgEWcayCdxXITNv
+ g+xcTweC+7/XfutCuk2PaCKybc6kx6C+8I5VnoZe+sULzOcCFjWdVsrXmK1z81PIwoTh
+ lV7kozh25Cnx6JOLMdMprKT3DfARDaxVLNgOS6fsE2GtC51xQNz+D28n3QN7oDsZz+Ib
+ 8oJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678267472;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uxbbdgsaeX2SJFAau96Av8LR1f6xTscUwN+mV0QH0Rk=;
+ b=AEmwhewr6Gbn9AMwK9xSmDQ9CCLWZra2TRje1FbcPuJwfeQ3c9DZGv9xvJMl0BEd27
+ bmiFQvK3gUoTvkGYVrQDUyqpAEPSZx3T7mZ9ip9XcuQS63fTbd51IjE6FHtcbgySdASf
+ 7LDhQKeWJJuLvBvwf0+r3/g/8A/dyY21GVUdZB/UPJre9ZHcBlybo4nZ3vd3DH8TuYdz
+ onQxmgt6k5EcK57WS6KPHsAkp/a/whEnb7BlJioOEXDiTsdgFXmdII4ITJCNbETmV9Fg
+ zEaQbLAeASm5llkS7pHvgXrE9pxTpEhcmMxtS5xL2YB3LdV/kuGC4jEUYx+d3ImZ/6Be
+ IUrA==
+X-Gm-Message-State: AO0yUKV6VpQv0JrTing2LVkw3++St2zeg+3VrLRGVBq9Cv1En69/pUGA
+ 8a3I8Yf+ZG8ZLQo5P4pltXY=
+X-Google-Smtp-Source: AK7set/TcUCsHit7D7nWxfo+2cMWAM6dWqEZKxdFPBxlJXiRUPMdeU/xNydiocC9TKPdKC42ThklJA==
+X-Received: by 2002:ac2:5969:0:b0:4d8:65c5:8684 with SMTP id
+ h9-20020ac25969000000b004d865c58684mr5994748lfp.58.1678267472226; 
+ Wed, 08 Mar 2023 01:24:32 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ h23-20020ac250d7000000b004db3eff4b12sm2289945lfm.171.2023.03.08.01.24.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Mar 2023 01:24:31 -0800 (PST)
+Date: Wed, 8 Mar 2023 11:24:28 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
+ for DP and HDMI
+Message-ID: <20230308112428.162e4160@eldfell>
+In-Reply-To: <20230307151107.49649-10-harry.wentland@amd.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-10-harry.wentland@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 6/7] drm/ttm: Reduce the number of used allocation
- orders for TTM pages
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
- <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
- <151b48d3-3ca4-292a-547b-628eb362c2ae@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <151b48d3-3ca4-292a-547b-628eb362c2ae@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/k4s_qTmYcInQhGdePE0z+yW";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,143 +72,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: Joshua Ashton <joshua@froggi.es>,
+ Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/k4s_qTmYcInQhGdePE0z+yW
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On 3/8/23 10:15, Christian König wrote:
-> Am 07.03.23 um 15:46 schrieb Thomas Hellström:
->> When swapping out, we will split multi-order pages both in order to
->> move them to the swap-cache and to be able to return memory to the
->> swap cache as soon as possible on a page-by-page basis.
->> Reduce the page max order to the system PMD size, as we can then be 
->> nicer
->> to the system and avoid splitting gigantic pages.
->
-> Mhm, we actually have a todo to start supporting giant pages at some 
-> time.
->
-> Using the folio directly just saves tons of overhead when you don't 
-> need to allocate 2MiG page array any more for each 1GiB you allocate.
->
-> But that probably needs tons of work anyway, so feel free to add my rb 
-> for now.
+On Tue, 7 Mar 2023 10:10:59 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-Thanks, I need to fix this anyway for powerpc where it seems PMD_ORDER > 
-MAX_ORDER :/
+> We want compositors to be able to set the output
+> colorspace on DP and HDMI outputs, based on the
+> caps reported from the receiver via EDID.
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Vitaly.Prosyak@amd.com
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Reviewed-By: Joshua Ashton <joshua@froggi.es>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index f91b2ea13d96..2d883c6dae90 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(struct dr=
+m_connector *connector)
+>  	return amdgpu_dm_connector->num_modes;
+>  }
+> =20
+> +static const u32 supported_colorspaces =3D
+> +	BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
+> +	BIT(DRM_MODE_COLORIMETRY_OPRGB) |
+> +	BIT(DRM_MODE_COLORIMETRY_BT2020) |
+> +	BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
 
-It might be we'd want to replace the ttm page arrays with scatter-gather 
-tables at some point?
-I think at least vmwgfx, i915 and xe would benefit from that...
+No DEFAULT?
+No BT.709 RGB, i.e. sRGB?
 
-/Thomas
+Doesn't DRM core reject enum uint values that are not listed in the enum
+property?
 
->
-> Regards,
-> Christian.
->
->>
->> Looking forward to when we might be able to swap out PMD size folios
->> without splitting, this will also be a benefit.
->>
->> v2:
->> - Include all orders up to the PMD size (Christian König)
->>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/ttm/ttm_pool.c | 27 ++++++++++++++++-----------
->>   1 file changed, 16 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
->> b/drivers/gpu/drm/ttm/ttm_pool.c
->> index 0b6e20613d19..939845d853af 100644
->> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->> @@ -47,6 +47,9 @@
->>     #include "ttm_module.h"
->>   +#define TTM_MAX_ORDER (PMD_SHIFT - PAGE_SHIFT)
->> +#define TTM_DIM_ORDER (TTM_MAX_ORDER + 1)
->> +
->>   /**
->>    * struct ttm_pool_dma - Helper object for coherent DMA mappings
->>    *
->> @@ -65,11 +68,11 @@ module_param(page_pool_size, ulong, 0644);
->>     static atomic_long_t allocated_pages;
->>   -static struct ttm_pool_type global_write_combined[MAX_ORDER];
->> -static struct ttm_pool_type global_uncached[MAX_ORDER];
->> +static struct ttm_pool_type global_write_combined[TTM_DIM_ORDER];
->> +static struct ttm_pool_type global_uncached[TTM_DIM_ORDER];
->>   -static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
->> -static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
->> +static struct ttm_pool_type global_dma32_write_combined[TTM_DIM_ORDER];
->> +static struct ttm_pool_type global_dma32_uncached[TTM_DIM_ORDER];
->>     static spinlock_t shrinker_lock;
->>   static struct list_head shrinker_list;
->> @@ -431,7 +434,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct 
->> ttm_tt *tt,
->>       else
->>           gfp_flags |= GFP_HIGHUSER;
->>   -    for (order = min_t(unsigned int, MAX_ORDER - 1, 
->> __fls(num_pages));
->> +    for (order = min_t(unsigned int, TTM_MAX_ORDER, __fls(num_pages));
->>            num_pages;
->>            order = min_t(unsigned int, order, __fls(num_pages))) {
->>           struct ttm_pool_type *pt;
->> @@ -550,7 +553,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct 
->> device *dev,
->>         if (use_dma_alloc) {
->>           for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->> -            for (j = 0; j < MAX_ORDER; ++j)
->> +            for (j = 0; j < TTM_DIM_ORDER; ++j)
->> ttm_pool_type_init(&pool->caching[i].orders[j],
->>                              pool, i, j);
->>       }
->> @@ -570,7 +573,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
->>         if (pool->use_dma_alloc) {
->>           for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
->> -            for (j = 0; j < MAX_ORDER; ++j)
->> +            for (j = 0; j < TTM_DIM_ORDER; ++j)
->> ttm_pool_type_fini(&pool->caching[i].orders[j]);
->>       }
->>   @@ -624,7 +627,7 @@ static void ttm_pool_debugfs_header(struct 
->> seq_file *m)
->>       unsigned int i;
->>         seq_puts(m, "\t ");
->> -    for (i = 0; i < MAX_ORDER; ++i)
->> +    for (i = 0; i < TTM_DIM_ORDER; ++i)
->>           seq_printf(m, " ---%2u---", i);
->>       seq_puts(m, "\n");
->>   }
->> @@ -635,7 +638,7 @@ static void ttm_pool_debugfs_orders(struct 
->> ttm_pool_type *pt,
->>   {
->>       unsigned int i;
->>   -    for (i = 0; i < MAX_ORDER; ++i)
->> +    for (i = 0; i < TTM_DIM_ORDER; ++i)
->>           seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
->>       seq_puts(m, "\n");
->>   }
->> @@ -738,13 +741,15 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->>   {
->>       unsigned int i;
->>   +    BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
->> +
->>       if (!page_pool_size)
->>           page_pool_size = num_pages;
->>         spin_lock_init(&shrinker_lock);
->>       INIT_LIST_HEAD(&shrinker_list);
->>   -    for (i = 0; i < MAX_ORDER; ++i) {
->> +    for (i = 0; i < TTM_DIM_ORDER; ++i) {
->>           ttm_pool_type_init(&global_write_combined[i], NULL,
->>                      ttm_write_combined, i);
->>           ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, 
->> i);
->> @@ -777,7 +782,7 @@ void ttm_pool_mgr_fini(void)
->>   {
->>       unsigned int i;
->>   -    for (i = 0; i < MAX_ORDER; ++i) {
->> +    for (i = 0; i < TTM_DIM_ORDER; ++i) {
->>           ttm_pool_type_fini(&global_write_combined[i]);
->>           ttm_pool_type_fini(&global_uncached[i]);
->
+
+Thanks,
+pq
+
+> +
+>  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+>  				     struct amdgpu_dm_connector *aconnector,
+>  				     int connector_type,
+> @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struct amdgpu=
+_display_manager *dm,
+>  				adev->mode_info.abm_level_property, 0);
+>  	}
+> =20
+> +	if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
+> +		if (!drm_mode_create_hdmi_colorspace_property(&aconnector->base, suppo=
+rted_colorspaces))
+> +			drm_connector_attach_colorspace_property(&aconnector->base);
+> +	} else if (connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort ||
+> +		   connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+> +		if (!drm_mode_create_dp_colorspace_property(&aconnector->base, support=
+ed_colorspaces))
+> +			drm_connector_attach_colorspace_property(&aconnector->base);
+> +	}
+> +
+>  	if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+>  	    connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort ||
+>  	    connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+
+
+--Sig_/k4s_qTmYcInQhGdePE0z+yW
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIVEwACgkQI1/ltBGq
+qqcOaBAAl/ZpEailuwu0FeJfKEqJXUrK+Wdzuyikckhg7RGGEKY5FssVVFurfAwy
+lczbWcKKu2u9ZcaYjR6UjIlH5DenSewcIRP34Rp9vnw1rLTn6W6kpmGCpzHOpU/8
+Re1cuCSSDgtKOK4+28XjdI1eNiw+EWcsVkSe6wvcfiCAjDi9eBr8/Nuq2Xhjfo60
+g509l8KiuEPf6FGNrFsDZ9lHIcDvCBeVbqPbbnKn6Lpe7BJCFQoj8oLynz7o9xac
+ecGvACZkh+NUQ/7Y9ADEuRZS0kNXUVKT1fhz40N8KICy4c6DaZrspVQSXXnNyY4d
+bQ6BXb83xjfXfwbbaIIRvz2mmf8HGRwrZidJzrlWpz06/J5PTIGQqyFgJxGeOyQy
+tqZSBocMC9kbBipvT0hwAvHH2NP+UwJhLlGl+jq8SxnPGBuAM4tsQeEjK4yOZUM/
+G8pooP6HavUNnrRMwoEEhKM6gYjjXzeta8G5gq4vbeRmpICeyDr18E3Xb/0b8rpR
+sd0y1HuMeJoE6ShKV+T9957W9XR8SX8RVgQKdEzREWoNyTpT9gihgeub4zJ4MRs1
+L1n1fJnipNHJVum6tl+E6POvPc+ByMuDNL61jnKxq6+VXq4PjNEul+1pMDMSg+su
+xuxd8FnwqXy8E4ljTh08A9cz0Td5dgZcF2wUdimtbFMIOFPNF/U=
+=sCEb
+-----END PGP SIGNATURE-----
+
+--Sig_/k4s_qTmYcInQhGdePE0z+yW--
