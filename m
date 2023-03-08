@@ -2,45 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5D76B0ECD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 17:32:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9031D6B0ECE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 17:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1E910E687;
-	Wed,  8 Mar 2023 16:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 354F110E689;
+	Wed,  8 Mar 2023 16:32:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3FB410E687
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 16:32:33 +0000 (UTC)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4PWyXK1cDszDrQD;
- Wed,  8 Mar 2023 16:32:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1678293153; bh=qTQvs76Gzx8XlCRBXCeVVEuPdx6L/7umWvsZg+qFslE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=p9q4qQtn80a+pLNEVVlz1w1NBa8t8DJkdL9OhnrDBpI7wfZp87gHB2epEQoCStRhD
- kvcvQXDhpxOv2pN/rViBYK6aT99zybQ/7Ffv5iPrslK5Boifn4+NACtAaXBmyhf6L9
- TQMZmJhrC2lKk9wOgLJ7ZhIKVNM2R3VHHMfSxzCA=
-X-Riseup-User-ID: A5EFA69D78B7F7A4E7A02215CEC472608F4A51D76EC60D9E454E7D0EBAE16453
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4PWyXF1pCNz1y7V;
- Wed,  8 Mar 2023 16:32:28 +0000 (UTC)
-Message-ID: <6cddfeb2-ceb6-fcb6-07bd-df3317c05a64@riseup.net>
-Date: Wed, 8 Mar 2023 13:32:26 -0300
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793B810E689;
+ Wed,  8 Mar 2023 16:32:51 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id D483D5C0064;
+ Wed,  8 Mar 2023 11:32:50 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 08 Mar 2023 11:32:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1678293170; x=1678379570; bh=OL
+ dmqZ+wBaNxA7qddBghZ19djChtoa8PmE05C1OKz2w=; b=AN3+m1K6vcJD5ngzDz
+ sPRzBlWRUuoYQp7acyXautlrKA36TOkI3Ri9Sr41Vod5cy2L4XQhRTA6bF9uvxfB
+ +hyPUzuv153YBiF3IT4rUtuWYz/RF64dQHQRRx9CSE8b6VFu6Dq5VYn6SXC77cAP
+ VehqBnecW49F/eqYrKeWL8SfcOKg+aF9vJLdhgqtdyaD5uvIzF8ekxbmbavPuBdZ
+ 0C+EH5VBK6z5+/Rd/G6Egrp7iR36RzId8KZV9j8Cux9RYiEfbkEM3rURJeVR3EMc
+ ORfkS1Vfllzww3l+XOwPyw8ELGuxFy5ECkafqyhFpWqlzydpQ/mh95Cu5vnsByB5
+ ubcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1678293170; x=1678379570; bh=OLdmqZ+wBaNxA
+ 7qddBghZ19djChtoa8PmE05C1OKz2w=; b=TpNdGgHV8DYRutGsEGRX3/aUTuucM
+ cuLFh5Tu/pdfy6Bp58ovSAmrQGYu7XnPr9zFNsxeZtyZBKap0zG+U/pZBmAABqNK
+ JUwVztZVt6ErBEoEpCyFwtEEovannerPinXJEXtiJY2nsvVthbZaYW2sALCJdHLg
+ colGb5PhLJIJqHMHEBUAD9jPdHGIewVxDW5S3Vw1W+LJMfM2MOziWG+BakY4J0Ci
+ c3F1rwI3TP5Bkh8fGRpSs8HCI6cbd2VLuuGBY6WF38ZriQjIVnUTDNLsFi90VtO8
+ HuU2ekZnYx/9QNrZvN49mD+NfhOBKxCJ/NVU7peWqRPozYKX1dlIRhUjQ==
+X-ME-Sender: <xms:srgIZPrLp5ZykcfZ3VflpPEnPcrnNXeu8P3MmgNom9-R6KcrcLeq0w>
+ <xme:srgIZJqRIgU89Q3khW7tB7G_koSbP-rb4hBhizS89uxIMUy0k9eXN4qH9e4aXDhqU
+ m4YjOlaykK7deqG-0E>
+X-ME-Received: <xmr:srgIZMOy4PtQIQEIvHWM--p5bwscf448FDzWeZJG6_AEVAU0MiSY0B-FqcOKghuyniPWrJp310AUAp5iERU1QCoUFZpn5U8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddufedggedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejgeeiveevvdfgffeftdevuefhheduveejieefgeejveeuhfetkeelgfev
+ teefffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:srgIZC677knkE7y1Nr4XFTIwLVvKrL3lMk5106LWox4b8Lp1l8fCrA>
+ <xmx:srgIZO7KfKUs0y1mYm6aAZoOIMtvXgCXC4JY8GkfcPtw3cVoiAk92Q>
+ <xmx:srgIZKjXwoxbCXG8nqHUP-ZSpISKDxzLvvYiBrvYpiBKjizqmAR02Q>
+ <xmx:srgIZNSnFzGXXndzY7hgCilOVVJV2HMMYt_WvJqpF_umahqTQn_ILA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Mar 2023 11:32:49 -0500 (EST)
+Date: Wed, 8 Mar 2023 17:32:48 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: "Zhuo, Qingqing (Lillian)" <Qingqing.Zhuo@amd.com>
+Subject: Re: [PATCH 1/2] drm/vc4: Fix build error with undefined label
+Message-ID: <20230308163248.u7rvtadhlre3yua5@houat>
+References: <20230308093408.239331-1-qingqing.zhuo@amd.com>
+ <ac8fed53-6f05-6ec7-9ef5-61110cd83c0b@amd.com>
+ <20230308161945.svooztnablyvm75e@houat>
+ <PH7PR12MB58315E9E7362E8A750393B6FFBB49@PH7PR12MB5831.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/format_helper: Add Kunit tests for
- drm_fb_xrgb8888_to_mono()
-Content-Language: en-US
-To: dri-devel@lists.freedesktop.org
-References: <20230302200131.754154-1-arthurgrillo@riseup.net>
-From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
-In-Reply-To: <20230302200131.754154-1-arthurgrillo@riseup.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="qkfsks6ei5ns2qea"
+Content-Disposition: inline
+In-Reply-To: <PH7PR12MB58315E9E7362E8A750393B6FFBB49@PH7PR12MB5831.namprd12.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,163 +86,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, tales.aparecida@gmail.com, javierm@redhat.com,
- mairacanal@riseup.net, tzimmermann@suse.de, jose.exposito89@gmail.com,
- andrealmeid@riseup.net
+Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Emma Anholt <emma@anholt.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Mahfooz,
+ Hamza" <Hamza.Mahfooz@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--qkfsks6ei5ns2qea
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 02/03/23 17:01, Arthur Grillo wrote:
-> Extend the existing test cases to test the conversion from XRGB8888 to
-> monochromatic.
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->  .../gpu/drm/tests/drm_format_helper_test.c    | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> index 9536829c6e3a..0610341e7349 100644
-> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-> @@ -67,6 +67,11 @@ struct convert_to_argb2101010_result {
->  	const u32 expected[TEST_BUF_SIZE];
->  };
->  
-> +struct convert_to_mono_result {
-> +	unsigned int dst_pitch;
-> +	const u8 expected[TEST_BUF_SIZE];
-> +};
-> +
->  struct convert_xrgb8888_case {
->  	const char *name;
->  	unsigned int pitch;
-> @@ -82,6 +87,7 @@ struct convert_xrgb8888_case {
->  	struct convert_to_argb8888_result argb8888_result;
->  	struct convert_to_xrgb2101010_result xrgb2101010_result;
->  	struct convert_to_argb2101010_result argb2101010_result;
-> +	struct convert_to_mono_result mono_result;
->  };
->  
->  static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
-> @@ -131,6 +137,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  			.dst_pitch = 0,
->  			.expected = { 0xFFF00000 },
->  		},
-> +		.mono_result = {
-> +			.dst_pitch = 0,
-> +			.expected = { 0x00 },
-> +		},
->  	},
->  	{
->  		.name = "single_pixel_clip_rectangle",
-> @@ -181,6 +191,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  			.dst_pitch = 0,
->  			.expected = { 0xFFF00000 },
->  		},
-> +		.mono_result = {
-> +			.dst_pitch = 0,
-> +			.expected = { 0x00 },
-> +		},
->  	},
->  	{
->  		/* Well known colors: White, black, red, green, blue, magenta,
-> @@ -293,6 +307,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  				0xFFFFFC00, 0xC00FFFFF,
->  			},
->  		},
-> +		.mono_result = {
-> +			.dst_pitch = 0,
-> +			.expected = {
-> +				0x01,
-> +				0x02,
-> +				0x00,
-> +				0x03,
-> +			},
-> +		},
->  	},
->  	{
->  		/* Randomly picked colors. Full buffer within the clip area. */
-> @@ -392,6 +415,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
->  				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
->  			},
->  		},
-> +		.mono_result = {
-> +			.dst_pitch = 0,
-> +			.expected = {
-> +				0x00,
-> +				0x00,
-> +				0x00,
-> +			},
-> +		},
-Now I notice that this test is not so useful for this conversion.
-Maybe I will change the colors of the test to stop the expected
-array from being just zeros on the v2.
->  	},
->  };
->  
-> @@ -419,6 +450,17 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
->  	return dst_pitch * drm_rect_height(clip);
->  }
->  
-> +static size_t conversion_buf_size_mono(unsigned int dst_pitch, const struct drm_rect *clip)
-> +{
-> +	if (!dst_pitch) {
-> +		unsigned int linepixels = drm_rect_width(clip) * 1;
-> +
-> +		dst_pitch = DIV_ROUND_UP(linepixels, 8);
-> +	}
-> +
-> +	return dst_pitch * drm_rect_height(clip);
-> +}
-> +
->  static u16 *le16buf_to_cpu(struct kunit *test, const __le16 *buf, size_t buf_size)
->  {
->  	u16 *dst = NULL;
-> @@ -789,6 +831,36 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
->  	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
->  }
->  
-> +static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
-> +{
-> +	const struct convert_xrgb8888_case *params = test->param_value;
-> +	const struct convert_to_mono_result *result = &params->mono_result;
-> +	size_t dst_size;
-> +	u8 *buf = NULL;
-> +	__le32 *xrgb8888 = NULL;
-> +	struct iosys_map dst, src;
-> +
-> +	struct drm_framebuffer fb = {
-> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-> +		.pitches = { params->pitch, 0, 0 },
-> +	};
-> +
-> +	dst_size = conversion_buf_size_mono(result->dst_pitch, &params->clip);
-> +
-> +	KUNIT_ASSERT_GT(test, dst_size, 0);
-> +
-> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-> +	iosys_map_set_vaddr(&dst, buf);
-> +
-> +	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-> +	iosys_map_set_vaddr(&src, xrgb8888);
-> +
-> +	drm_fb_xrgb8888_to_mono(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
-> +}
-> +
->  static struct kunit_case drm_format_helper_test_cases[] = {
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-> @@ -800,6 +872,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
->  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
-> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
->  	{}
->  };
->  
+On Wed, Mar 08, 2023 at 04:27:01PM +0000, Zhuo, Qingqing (Lillian) wrote:
+> [AMD Official Use Only - General]
+>=20
+> > Hi,
+>=20
+> On Wed, Mar 08, 2023 at 11:11:22AM -0500, Hamza Mahfooz wrote:
+> > + vc4 maintainers
+> >=20
+> > On 3/8/23 04:34, Qingqing Zhuo wrote:
+> > > [Why]
+> > > drivers/gpu/drm/vc4/vc4_hdmi.c: In function =E2=80=98vc4_hdmi_bind=E2=
+=80=99:
+> > > drivers/gpu/drm/vc4/vc4_hdmi.c:3448:17: error: label=20
+> > > =E2=80=98err_disable_runtime_pm=E2=80=99 used but not defined
+> > >=20
+> > > [How]
+> > > update err_disable_runtime_pm to err_put_runtime_pm.
+> > >=20
+> > > Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+> > > ---
+> > >   drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c=20
+> > > b/drivers/gpu/drm/vc4/vc4_hdmi.c index 9e145690c480..edf882360d24=20
+> > > 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > @@ -3445,7 +3445,7 @@ static int vc4_hdmi_bind(struct device *dev, st=
+ruct device *master, void *data)
+> > >   	 */
+> > >   	ret =3D pm_runtime_resume_and_get(dev);
+> > >   	if (ret)
+> > > -		goto err_disable_runtime_pm;
+> > > +		goto err_put_runtime_pm;
+> > >   	if ((of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi0") ||
+> > >   	     of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi1"))=
+=20
+> > > &&
+>=20
+> > The current drm-misc-next branch doesn't have that context at all. What=
+ tree is this based on?
+>
+> This is for amd-staging-drm-next.
+
+I don't get it, why is there a vc4 patch in an AMD tree?
+
+Maxime
+
+--qkfsks6ei5ns2qea
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZAi4sAAKCRDj7w1vZxhR
+xd/AAPkB71ZVlsaXmgv3N3XxGXAM/abwFnF9JhIQpClvj3P3tQD+PAA8Fex7MXhD
+LEtOEcSBvngbEbYBl+1r0wpj7wBATA8=
+=zOVq
+-----END PGP SIGNATURE-----
+
+--qkfsks6ei5ns2qea--
