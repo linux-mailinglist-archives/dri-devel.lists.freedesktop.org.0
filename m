@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33656B0296
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:15:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B036B02B3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:20:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB6310E5E6;
-	Wed,  8 Mar 2023 09:15:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC0A410E5DA;
+	Wed,  8 Mar 2023 09:19:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7B410E5C7;
- Wed,  8 Mar 2023 09:15:17 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id g17so20463336lfv.4;
- Wed, 08 Mar 2023 01:15:17 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A992910E06A;
+ Wed,  8 Mar 2023 09:19:56 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id z42so15834579ljq.13;
+ Wed, 08 Mar 2023 01:19:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678266916;
+ d=gmail.com; s=20210112; t=1678267195;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:from:to:cc:subject:date:message-id:reply-to;
- bh=AwKRPT4TXKEm82H2u2CV6fnnoU6b+DAtqngrDF+0Ppk=;
- b=is1heQ8IMeQrr1uPon5P5YBt2V7N2lY/FY9yEEysHFBenytLzkC8LWDdCy7qrF2Kkf
- +9soc3VAYN+ty10b7yk86IUFulApk/YcH//xs31KCOKzCzZ/1w2rfGvXR7dyPwD8VgH8
- 7GoSt3+4aY3yqU8K7GQegRmvuw1TwNtHiQUcG7khWgEenABUWDYKyOyBnf+p5FWNxH1S
- gfBOhL5SWxYUpYvTKOz/7lnSCC9qmMH3XMdfgztTJ4hSkVXRY2dh5I0LjxuVgmoQJj3X
- H/QE/KkAucoJDHH1Zzb9OuTBj4A7CWn9sszaCZZ/jOw9drqPOQ0zxaEwhYcCYIKVmhWQ
- Geeg==
+ bh=Jsa4k0Q27Z2jrXWpJJwbGeRZ1J9wE6m0cu7n4+3Tcfs=;
+ b=KCZJJea7y2PQ5XTqFw4e/QseuXBRkmLrf1w5S388zEroTtCcCawP8vNnPCxiU5GLMS
+ OEJwFh9HAgOYxaUXZpHfpxGy8fUxz2GKxNzH2ITlaQmSCVI8M7zf4QOgJsGuAeetm658
+ 2Dysi5C/Y5lGD/nfd9RQj/3MJChFuUtmIteIxRalEriw6515mzI8rRvR1Zou6XlQKml6
+ TtLPDcDktRVaJiM+rb7Tj8H2lkkv9NkrZudsdpqPL+a+h9P7JLEo/+StUDLrKBts3JKm
+ sZBc7xYiKsjDC7m85ux0gWNwBkdW2bZCsIOVEdDPld2uZCqLDvWMuiPS5+UWSp78ql7x
+ y8Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678266916;
+ d=1e100.net; s=20210112; t=1678267195;
  h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
  :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AwKRPT4TXKEm82H2u2CV6fnnoU6b+DAtqngrDF+0Ppk=;
- b=RIZstiUIszB9eAdonP4laVkSAruaYbzH/hcoic03Xgq29RM/tEAwxKY3WD20C+c+52
- GY+hp5HdjwPKOZyyv8gPkZr5CLgGS79bVDXi6evLZaOdNINASOJj37kQcxZJqD1i0lPe
- Rphp2VXD2fU72RVATiF1ZM/tbJjYYxPTaelngOVqXKgc2YkhEaXSUnA6yaL9iyEz0NyW
- 22CxAuBDGkUk4oPvwGLNcfspGtOLpyYauZd6uuFaJiTTsFoG7fK1sGr3TMaQUVff5JPX
- a/n9wU9vHyhBqMCzUur+VVpnriRco8Iw+GR+3Mfd/St0hlVTXtyEEahdf/EWMaSkilE6
- htAA==
-X-Gm-Message-State: AO0yUKWJxf4ZBNDCn5DkRbdYOGc3MX5lldo1G0yCApmGv/tp0R9C5N7q
- Hv4G4dJQ8HPOuD/HGX1o05c=
-X-Google-Smtp-Source: AK7set8UMMbpZQhVUL4gBig67f5Ovu3wsRQl3STnjmewYgqPoiDfIN7Ow6DnXdXfu9c3vt2stUZoWQ==
-X-Received: by 2002:a19:f00e:0:b0:4db:1b30:e634 with SMTP id
- p14-20020a19f00e000000b004db1b30e634mr4372635lfc.65.1678266915771; 
- Wed, 08 Mar 2023 01:15:15 -0800 (PST)
+ bh=Jsa4k0Q27Z2jrXWpJJwbGeRZ1J9wE6m0cu7n4+3Tcfs=;
+ b=RwNIKh4a7GDkgZMI+A2yYrv2pTqM3qhqg5NDuP8fHhEgRtRCBV1JY97R+2qrjQKV2i
+ Udsx2TczOwBZVGQTAsj9IvPpwkSQjcX0uNGqsaNVDcI/cOCfz4/2SESq2UaC2E2jpy9Z
+ burSZTJc5+Ngo7eiu0FXzvkD67SYwKY2sX5eREtqJQAgfupYCCV7U06bO/Bztez8jjNz
+ VmrLUJejIwm58+LruZFWxZq3L4s+fvDOjMcRY+8Inr8txc9SWKJX1lrzbon9GaucyIkp
+ UH+GQITbmAXh/LsqVXAYL8Yq7y/aIomgpgt/Lu9QOl1eqQIIoJzkQwQr2HlLhly+esQo
+ QObQ==
+X-Gm-Message-State: AO0yUKXObHfyREV0HDwjXugtjexxIUtnkAtCL3M+2Bld8I/eQqNudiZe
+ CiAgpjCWu3TOC90weThyKDg=
+X-Google-Smtp-Source: AK7set92OM1hFQmwpCxUs+d+J1D4AztRytLyzG5KH/QuTXqGlGH960mazO/aThblArzfMKHZPmBEuw==
+X-Received: by 2002:a2e:a3d7:0:b0:290:6c15:ee26 with SMTP id
+ w23-20020a2ea3d7000000b002906c15ee26mr4715204lje.31.1678267194632; 
+ Wed, 08 Mar 2023 01:19:54 -0800 (PST)
 Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- s9-20020ac25fa9000000b004dc807b904bsm2272367lfe.120.2023.03.08.01.15.15
+ q22-20020a2e8756000000b002986f36dd6bsm161924ljj.59.2023.03.08.01.19.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 01:15:15 -0800 (PST)
-Date: Wed, 8 Mar 2023 11:15:11 +0200
+ Wed, 08 Mar 2023 01:19:54 -0800 (PST)
+Date: Wed, 8 Mar 2023 11:19:50 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v3 05/17] drm/connector: Use common colorspace_names array
-Message-ID: <20230308111511.175c9cf6@eldfell>
-In-Reply-To: <20230307151107.49649-6-harry.wentland@amd.com>
+Subject: Re: [PATCH v3 06/17] drm/connector: Print connector colorspace in
+ state debugfs
+Message-ID: <20230308111950.58f222a9@eldfell>
+In-Reply-To: <20230307151107.49649-7-harry.wentland@amd.com>
 References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-6-harry.wentland@amd.com>
+ <20230307151107.49649-7-harry.wentland@amd.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QoPo.N4v9WVhK3k+SzJHvRt";
+Content-Type: multipart/signed; boundary="Sig_/4ArZIroc+JrTbpPfbAhT0O1";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,17 +78,14 @@ Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QoPo.N4v9WVhK3k+SzJHvRt
+--Sig_/4ArZIroc+JrTbpPfbAhT0O1
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Mar 2023 10:10:55 -0500
+On Tue, 7 Mar 2023 10:10:56 -0500
 Harry Wentland <harry.wentland@amd.com> wrote:
 
-> We an use bitfields to track the support ones for HDMI
-> and DP. This allows us to print colorspaces in a consistent
-> manner without needing to know whether we're dealing with
-> DP or HDMI.
+> v3: Fix kerneldocs (kernel test robot)
 >=20
 > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 > Cc: Pekka Paalanen <ppaalanen@gmail.com>
@@ -99,53 +97,99 @@ Harry Wentland <harry.wentland@amd.com> wrote:
 > Cc: Jani Nikula <jani.nikula@linux.intel.com>
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: amd-gfx@lists.freedesktop.org
+> Reviewed-By: Joshua Ashton <joshua@froggi.es>
 > ---
->  drivers/gpu/drm/drm_connector.c | 131 +++++++++++++++++++-------------
->  include/drm/drm_connector.h     |   1 +
->  2 files changed, 78 insertions(+), 54 deletions(-)
+>  drivers/gpu/drm/drm_atomic.c    |  1 +
+>  drivers/gpu/drm/drm_connector.c | 15 +++++++++++++++
+>  include/drm/drm_connector.h     |  1 +
+>  3 files changed, 17 insertions(+)
 >=20
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index c0dc5858a723..d6d04c4ccfc0 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -1071,6 +1071,7 @@ static void drm_atomic_connector_print_state(struct=
+ drm_printer *p,
+>  	drm_printf(p, "\tcrtc=3D%s\n", state->crtc ? state->crtc->name : "(null=
+)");
+>  	drm_printf(p, "\tself_refresh_aware=3D%d\n", state->self_refresh_aware);
+>  	drm_printf(p, "\tmax_requested_bpc=3D%d\n", state->max_requested_bpc);
+> +	drm_printf(p, "\tcolorspace=3D%s\n", drm_get_colorspace_name(state->col=
+orspace));
+> =20
+>  	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
+>  		if (state->writeback_job && state->writeback_job->fb)
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 7649f0ac454f..7ed48f9cbb20 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1044,6 +1044,21 @@ static const char * const colorspace_names[] =3D {
+>  	[DRM_MODE_COLORIMETRY_BT601_YCC] =3D "BT601_YCC",
+>  };
+> =20
+> +/**
+> + * drm_get_colorspace_name - return a string for color encoding
+> + * @colorspace: color space to compute name of
+> + *
+> + * In contrast to the other drm_get_*_name functions this one here retur=
+ns a
+> + * const pointer and hence is threadsafe.
+> + */
+> +const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
+> +{
+> +	if (WARN_ON(colorspace >=3D ARRAY_SIZE(colorspace_names)))
+> +		return "unknown";
+> +
+> +	return colorspace_names[colorspace];
 
-...
-
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 3e2e1bc7aa04..46c064d9ffef 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -460,6 +460,7 @@ enum drm_colorspace {
->  	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED	=3D 13,
->  	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT	=3D 14,
->  	DRM_MODE_COLORIMETRY_BT601_YCC		=3D 15,
-> +	DRM_MODE_COLORIMETRY_MAX
-
-Maybe a comment to say that MAX is not a valid value?
-Given that things like iccMAX exist (even though it makes no sense as a
-colorspace), MAX could perhaps be confused with something.
-
-Or call it DRM_MODE_COLORIMETRY__COUNT? or __END?
+Should this protect against returning NULL? Well, I suppose that cannot
+happen right now, and probably holes will not be added in the enum. But
+should kernel code still be more paranoid?
 
 
 Thanks,
 pq
 
---Sig_/QoPo.N4v9WVhK3k+SzJHvRt
+> +}
+> +
+>  static const u32 hdmi_colorspaces =3D
+>  	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
+>  	BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 46c064d9ffef..c77e42408522 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1970,6 +1970,7 @@ void drm_connector_list_iter_end(struct drm_connect=
+or_list_iter *iter);
+> =20
+>  bool drm_connector_has_possible_encoder(struct drm_connector *connector,
+>  					struct drm_encoder *encoder);
+> +const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+> =20
+>  /**
+>   * drm_for_each_connector_iter - connector_list iterator macro
+
+
+--Sig_/4ArZIroc+JrTbpPfbAhT0O1
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIUh8ACgkQI1/ltBGq
-qqcI6w/9Hih4Wlnhy4mxeri05lkao3cZn415K1D9ZGnx3l5HcHVOTJW5mMUo4NCD
-cMa5mkbDcixRYHg1Tvk486fWIiVt92wIQbERvf7M3MeiZXtLdB7q6Fg/v4lD0A8k
-SbVoygJ1Tu2+XfHhYfC8zIImRZ5M/BLdyIYi38uae2rhOsmG6kERutSDOeLY+tsg
-VIE06TLAJWw7xoshIj0Nx1richQll2VtE4f5zTQm0QIoKIQ12nh+8ffJ3s4MLo/L
-ZragC0zHwLCTL5UVFeqD5KcLs40Z9Agwous7sgq3P6uS6Lmt+SD9jxRo/fxzFrx3
-pAAYeZiPwXgywAtD7ZB5GmfRsQwLygfjFAqvm3RcUA6dlQFeXnmigcmPycIrXjTW
-yhLJjc6/2B6yfvw4dMEQ37QxTm0Hivbj4RDqB540NWnTu5V9MX8Pl+3wEJawxucM
-lkKha4rTT07PXFJFJtLmIdCiEs9ial3Xn56pnoCgGi9ldLLH4ZyXpC8KYiXzV/Yf
-07FXpY6ZM4OL1P5GlIa3iK/pv0mHsQsadi6qOIXAIazPnObz1Oj4sqvYY+dhHJ9M
-06mO0DN1RxFGNGwRLlnPOXyyUx2/DkB7SwmyL8kWF14BOeeB1plY1sePDTL35NMr
-Ldi2VtNS63BrLDNMrr+0euWucJAChYxaMzthB0jwwUi5gl7ejhI=
-=y34t
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIUzcACgkQI1/ltBGq
+qqeeiQ//cW6a4chtAv+aEMAbpV1/23uddSc1eTYmqz8iQn2SE9b3QF6ryW4qnLfv
+lqwraaCqNORkrU1HpibpuAACr2YGBgrt12biuWQ4LjICOZShPiIatH95nVMKQmkr
+aJr3Io2RyNMM6c6k0iszNsADJbngWUeOGFn+Hi6/Y4INdtlxoZUsYVqJYOyqbTOM
+vHrBgEvDcxbCRfiNOE3/QIBquiLgdlYtkOlM8QCKuQxJAzxGMq1U4HwTLnsg1AJG
+80HCa+ej/4/1TgueSa5/Awxw1a1Qy6VOCuckcwr4MEKI39i85J9G8HdCvbu1pNr/
+Ddvl99zx9dW9rieCiDlNe7r5GJ5gRAE1AUjDXKBlMA/7Bc9AZMXbY9RfNNSAY9bY
+WmpLrlTU2UWIqTQrcpCGKwvDc9HoTsLYF7vFEihkocp4iOrBfOsHiOnOlmZH94Ss
+saPcaxBU8hp4Lv1XuEdQFYTI+KXjIwA5azoUq1DaaAZlgd/WFtyYNDhcZno6z1Rx
+jAWOLGpPj/iRdvRE3nRpbcmO6xAlDW3Oe4pX+VRiUnUPqs/pgAVn4I1p7b4Lutrq
+F/NLP5NN0HoG35ab5N49K2GHPhC58TNifdd4GTz4nXuJ58na5H4ivBSITd3lZQ9p
+dBX2deFBce5u3npNarXNN67ntLu4pb3iBi+V9IpKpj8WUjXAjkE=
+=wuIS
 -----END PGP SIGNATURE-----
 
---Sig_/QoPo.N4v9WVhK3k+SzJHvRt--
+--Sig_/4ArZIroc+JrTbpPfbAhT0O1--
