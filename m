@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C166B0227
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503096B022C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:59:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7681F10E5B7;
-	Wed,  8 Mar 2023 08:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63B7D10E5BA;
+	Wed,  8 Mar 2023 08:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2008010E5B7;
- Wed,  8 Mar 2023 08:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678265904; x=1709801904;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=HRyzlSmBYK/udT5C1HrII5pojG0BOEHOJS8vcuRwQC4=;
- b=C0IJfr12iSOhErF5JnGPt9hgg+yfLInCxpwgm5TaWmiDTjlMPU/eayid
- MtMxCLnZ4kYrhbbNN+19FZKu9OL42NtcFBlQdzoVeDjfQBLCvjy8N0+iu
- trf30MMzclhqHyqieaN4aqRgS6WKHLYP3ujEYLKIvtPAUfbFU11H2iCm6
- eu8cwrAlkyDzrIiEoPwijXWu1Hun7gFp8B3H5+KUXBIcH/sSxon4Fvdt+
- j3HVtGHTNQURenrNdyYb7KLQYmLGCfUlnJ5BgTA/mbtQ/fHz+mg1SXZJq
- MpQTLr5lRxr5b9CX4McR2iewl9zrtS3MjUbHEiHZjG9uMi44pHlgXUY7X g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="400930999"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="400930999"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 00:58:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="1006251089"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="1006251089"
-Received: from qingruih-mobl.ccr.corp.intel.com (HELO [10.249.254.16])
- ([10.249.254.16])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 00:58:13 -0800
-Message-ID: <679bfb0d-d886-ec42-ae3f-1c5def21b0cb@linux.intel.com>
-Date: Wed, 8 Mar 2023 09:58:11 +0100
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7F3510E5B2;
+ Wed,  8 Mar 2023 08:59:49 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id a32so15821078ljr.9;
+ Wed, 08 Mar 2023 00:59:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678265988;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=sK8aILZorQRHY1+kB9RK81UOD/Jv43ORSJlUC3NmrKM=;
+ b=dbm5Gvy01K7tA/ckdnegfD9uba5jzv6OFfVPd5PjrasNjZ6vvOfjFOlYObjKrN+tDk
+ aNaP6+rPITARvJGKMW5Y4bZVxcYKNCtdYdOnEpIhWMcmlSIObiT8X/Osztlb20GUQdJe
+ 7WOz8JZ6w3mo/vTlWmAY/4wpABzYkDH3zaUMd6FZEm3bDMHqHmXwpKLGfL+t1d9haKtz
+ +V9eWJOvh2lQh1CaKyLNqzjg78L9fSpGvCz22XEOChqd1zvD7oYlkncfDNnYoMQKYAJz
+ PnF1QksQ0hgvDcBM/CeQ4ZpE5jAZgNZH64X+L0zIwwOHQhoicGJuwWLqGt+IvKyom3S0
+ WagA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678265988;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sK8aILZorQRHY1+kB9RK81UOD/Jv43ORSJlUC3NmrKM=;
+ b=lgCuviTwEdtmedN03ah95agjK/iTLYZ96lQmAD49yz/w6B+V+7mdIlD/UU3EBQi1Bi
+ 9RLutrgbPxYuu3Vk4MKDzpY7XmeWVFQJlVtP6cG3I1XFQEGzJ2eu3xDUo0HZsbD2R4pe
+ Za+Qv0LldzbeKk8nASL4k0eRtgtHyZpNDxncTKqGVq1ZR8zRbGa/T0xp4AT21iyOUbMG
+ 15Nbq09xcNLtNeSITmWsoZofeYx14OMlC3BkI/Ppecdfbtljre0jRul3Kop/rDt0+8IG
+ L0TVZuxMrst3hLFhSvgQBzKM88XWmii5bQAEV3VBtcEJrXVsg46sOqPctPkWb9QctR5K
+ 2Jsg==
+X-Gm-Message-State: AO0yUKXZ29wByv/pU03iDOWxnDlSqw+W4CvgQ6/UuRtm1J1XIg47mb0U
+ Hm9d+jXkkkraDIWIXUbCP24=
+X-Google-Smtp-Source: AK7set9lqkKh4fyMFW8ApaUl7rNq+RTCPD+WCd+ferxz3QsAuH2CoNEhLc8hw9yanAfA3EeoPBYVIg==
+X-Received: by 2002:a2e:90cc:0:b0:293:4b61:2657 with SMTP id
+ o12-20020a2e90cc000000b002934b612657mr6585676ljg.33.1678265987951; 
+ Wed, 08 Mar 2023 00:59:47 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ y18-20020a2e9d52000000b00298593e3a01sm679801ljj.70.2023.03.08.00.59.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Mar 2023 00:59:47 -0800 (PST)
+Date: Wed, 8 Mar 2023 10:59:44 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v3 02/17] drm/connector: Add enum documentation to
+ drm_colorspace
+Message-ID: <20230308105944.05fb9377@eldfell>
+In-Reply-To: <20230307151107.49649-3-harry.wentland@amd.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-3-harry.wentland@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/7] drm/ttm/pool: Fix ttm_pool_alloc error path
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
- <20230307144621.10748-3-thomas.hellstrom@linux.intel.com>
- <49aa2475-cce5-d6ec-8ad8-4744542c56df@amd.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <49aa2475-cce5-d6ec-8ad8-4744542c56df@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/QGxcggDuSCp6h/7zFmq3NYi";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,185 +72,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/QGxcggDuSCp6h/7zFmq3NYi
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 3/8/23 09:48, Christian König wrote:
-> Am 07.03.23 um 15:46 schrieb Thomas Hellström:
->> When hitting an error, the error path forgot to unmap dma mappings and
->> could call set_pages_wb() on already uncached pages.
->>
->> Fix this by introducing a common __ttm_pool_free() function that
->> does the right thing.
->>
->> v2:
->> - Simplify __ttm_pool_free() (Christian König)
->>
->> Fixes: d099fc8f540a ("drm/ttm: new TT backend allocation pool v3")
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Cc: Christian Koenig <christian.koenig@amd.com>
->> Cc: Huang Rui <ray.huang@amd.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/ttm/ttm_pool.c | 68 +++++++++++++++++++---------------
->>   1 file changed, 38 insertions(+), 30 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
->> b/drivers/gpu/drm/ttm/ttm_pool.c
->> index aa116a7bbae3..0b6e20613d19 100644
->> --- a/drivers/gpu/drm/ttm/ttm_pool.c
->> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
->> @@ -367,6 +367,30 @@ static int ttm_pool_page_allocated(struct 
->> ttm_pool *pool, unsigned int order,
->>       return 0;
->>   }
->>   +static void __ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt,
->
-> Maybe name that ttm_pool_free_range() and add a comment why we need 
-> it. Something like "/* Cleanup all pages in the tt between start_page 
-> till end_page */".
+On Tue, 7 Mar 2023 10:10:52 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-Sure, will do.
+> From: Joshua Ashton <joshua@froggi.es>
+>=20
+> To match the other enums, and add more information about these values.
+>=20
+> v2:
+>  - Specify where an enum entry comes from
+>  - Clarify DEFAULT and NO_DATA behavior
+>  - BT.2020 CYCC is "constant luminance"
+>  - correct type for BT.601
+>=20
+> Signed-off-by: Joshua Ashton <joshua@froggi.es>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 
-/Thomas
+Hi,
 
->
-> Apart from that looks good to me.
->
-> Regards,
-> Christian.
->
->> +                enum ttm_caching caching,
->> +                pgoff_t start_page, pgoff_t end_page)
->> +{
->> +    struct page **pages = tt->pages;
->> +    unsigned int order;
->> +    pgoff_t i, nr;
->> +
->> +    for (i = start_page; i < end_page; i += nr, pages += nr) {
->> +        struct ttm_pool_type *pt = NULL;
->> +
->> +        order = ttm_pool_page_order(pool, *pages);
->> +        nr = (1UL << order);
->> +        if (tt->dma_address)
->> +            ttm_pool_unmap(pool, tt->dma_address[i], nr);
->> +
->> +        pt = ttm_pool_select_type(pool, caching, order);
->> +        if (pt)
->> +            ttm_pool_type_give(pt, *pages);
->> +        else
->> +            ttm_pool_free_page(pool, caching, order, *pages);
->> +    }
->> +}
->> +
->>   /**
->>    * ttm_pool_alloc - Fill a ttm_tt object
->>    *
->> @@ -382,12 +406,14 @@ static int ttm_pool_page_allocated(struct 
->> ttm_pool *pool, unsigned int order,
->>   int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->>              struct ttm_operation_ctx *ctx)
->>   {
->> -    unsigned long num_pages = tt->num_pages;
->> +    pgoff_t num_pages = tt->num_pages;
->>       dma_addr_t *dma_addr = tt->dma_address;
->>       struct page **caching = tt->pages;
->>       struct page **pages = tt->pages;
->> +    enum ttm_caching page_caching;
->>       gfp_t gfp_flags = GFP_USER;
->> -    unsigned int i, order;
->> +    pgoff_t caching_divide;
->> +    unsigned int order;
->>       struct page *p;
->>       int r;
->>   @@ -410,6 +436,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, 
->> struct ttm_tt *tt,
->>            order = min_t(unsigned int, order, __fls(num_pages))) {
->>           struct ttm_pool_type *pt;
->>   +        page_caching = tt->caching;
->>           pt = ttm_pool_select_type(pool, tt->caching, order);
->>           p = pt ? ttm_pool_type_take(pt) : NULL;
->>           if (p) {
->> @@ -418,6 +445,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct 
->> ttm_tt *tt,
->>               if (r)
->>                   goto error_free_page;
->>   +            caching = pages;
->>               do {
->>                   r = ttm_pool_page_allocated(pool, order, p,
->>                                   &dma_addr,
->> @@ -426,14 +454,15 @@ int ttm_pool_alloc(struct ttm_pool *pool, 
->> struct ttm_tt *tt,
->>                   if (r)
->>                       goto error_free_page;
->>   +                caching = pages;
->>                   if (num_pages < (1 << order))
->>                       break;
->>                     p = ttm_pool_type_take(pt);
->>               } while (p);
->> -            caching = pages;
->>           }
->>   +        page_caching = ttm_cached;
->>           while (num_pages >= (1 << order) &&
->>                  (p = ttm_pool_alloc_page(pool, gfp_flags, order))) {
->>   @@ -442,6 +471,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, 
->> struct ttm_tt *tt,
->>                                  tt->caching);
->>                   if (r)
->>                       goto error_free_page;
->> +                caching = pages;
->>               }
->>               r = ttm_pool_page_allocated(pool, order, p, &dma_addr,
->>                               &num_pages, &pages);
->> @@ -468,15 +498,13 @@ int ttm_pool_alloc(struct ttm_pool *pool, 
->> struct ttm_tt *tt,
->>       return 0;
->>     error_free_page:
->> -    ttm_pool_free_page(pool, tt->caching, order, p);
->> +    ttm_pool_free_page(pool, page_caching, order, p);
->>     error_free_all:
->>       num_pages = tt->num_pages - num_pages;
->> -    for (i = 0; i < num_pages; ) {
->> -        order = ttm_pool_page_order(pool, tt->pages[i]);
->> -        ttm_pool_free_page(pool, tt->caching, order, tt->pages[i]);
->> -        i += 1 << order;
->> -    }
->> +    caching_divide = caching - tt->pages;
->> +    __ttm_pool_free(pool, tt, tt->caching, 0, caching_divide);
->> +    __ttm_pool_free(pool, tt, ttm_cached, caching_divide, num_pages);
->>         return r;
->>   }
->> @@ -492,27 +520,7 @@ EXPORT_SYMBOL(ttm_pool_alloc);
->>    */
->>   void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
->>   {
->> -    unsigned int i;
->> -
->> -    for (i = 0; i < tt->num_pages; ) {
->> -        struct page *p = tt->pages[i];
->> -        unsigned int order, num_pages;
->> -        struct ttm_pool_type *pt;
->> -
->> -        order = ttm_pool_page_order(pool, p);
->> -        num_pages = 1ULL << order;
->> -        if (tt->dma_address)
->> -            ttm_pool_unmap(pool, tt->dma_address[i], num_pages);
->> -
->> -        pt = ttm_pool_select_type(pool, tt->caching, order);
->> -        if (pt)
->> -            ttm_pool_type_give(pt, tt->pages[i]);
->> -        else
->> -            ttm_pool_free_page(pool, tt->caching, order,
->> -                       tt->pages[i]);
->> -
->> -        i += num_pages;
->> -    }
->> +    __ttm_pool_free(pool, tt, tt->caching, 0, tt->num_pages);
->>         while (atomic_long_read(&allocated_pages) > page_pool_size)
->>           ttm_pool_shrink();
->
+this effort is really good, but of course I still find things to
+nitpick about. If there is no answer to my questions, then I would
+prefer the documentation to spell out the unknowns and ambiguities.
+
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Vitaly.Prosyak@amd.com
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> ---
+>  include/drm/drm_connector.h | 67 +++++++++++++++++++++++++++++++++++--
+>  1 file changed, 65 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 6d6a53a6b010..bb078666dc34 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -363,13 +363,76 @@ enum drm_privacy_screen_status {
+>  	PRIVACY_SCREEN_ENABLED_LOCKED,
+>  };
+> =20
+> -/*
+> - * This is a consolidated colorimetry list supported by HDMI and
+> +/**
+> + * enum drm_colorspace - color space
+> + *
+> + * This enum is a consolidated colorimetry list supported by HDMI and
+>   * DP protocol standard. The respective connectors will register
+>   * a property with the subset of this list (supported by that
+>   * respective protocol). Userspace will set the colorspace through
+>   * a colorspace property which will be created and exposed to
+>   * userspace.
+> + *
+> + * DP definitions come from the DP v2.0 spec
+> + * HDMI definitions come from the CTA-861-H spec
+> + *
+> + * @DRM_MODE_COLORIMETRY_DEFAULT:
+> + *   Driver specific behavior.
+> + *   For DP:
+> + *   	RGB encoded: sRGB (IEC 61966-2-1)
+> + *   	YCbCr encoded: ITU-R BT.601 colorimetry format
+
+Does this mean that HDMI behavior is driver-specific while DP behavior
+is as defined?
+
+Is it intentional that YCbCr encoding also uses different RGB-primaries
+than RGB-encoded signal? (BT.601 vs. BT.709/sRGB)
+
+Or do you need to be more explicit on which parts of each spec apply
+(ColourPrimaries vs. TransferCharacteristics vs. MatrixCoefficients in
+CICP parlance)?
+
+E.g. BT.709/sRGB ColourPrimaries with BT.601 MatrixCoefficients.
+
+> + * @DRM_MODE_COLORIMETRY_NO_DATA:
+> + *   Driver specific behavior.
+> + *   For HDMI:
+> + * 	Sets "No Data" in infoframe
+
+Does DEFAULT mean that something else than "No Data" may be set in the
+HDMI infoframe?
+
+If so, since these two have the same value, where is the difference? Is
+DEFAULT purely an UAPI token, and NO_DATA used internally? Or NO_DATA
+used only when crafting actual infoframe packets?
+
+Should NO_DATA be documented to be a strictly driver-internal value,
+and not documented with UAPI?
+
+I am unclear if userspace is using these enum values directly, or do
+they use the string names only.
+
+> + * @DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
+> + *   (HDMI)
+> + *   SMPTE ST 170M colorimetry format
+
+Does "colorimetry format" mean that the spec is used in full, for all
+of ColourPrimaries, TransferCharacteristics and MatrixCoefficients?
+
+If yes, good. If not, the wording misleads me.
+
+> + * @DRM_MODE_COLORIMETRY_BT709_YCC:
+> + *   (HDMI, DP)
+> + *   ITU-R BT.709 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_XVYCC_601:
+> + *   (HDMI, DP)
+> + *   xvYCC601 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_XVYCC_709:
+> + *   (HDMI, DP)
+> + *   xvYCC709 colorimetry format
+
+Btw. xvYCC are funny because they require limited quantization range
+encoding, but use the foot- and headroom to encode out-of-nominal-range
+values in order to expand the color gamut with negative and greater
+than unity values.
+
+Just for curiosity, is it in any way possible today to make use of that
+extended color gamut through KMS? Has it ever been possible?
+
+I mean, the KMS color pipeline assumes full-range RGB, so I don't see
+any way to make use of xvYCC.
+
+> + * @DRM_MODE_COLORIMETRY_SYCC_601:
+> + *   (HDMI, DP)
+> + *   sYCC601 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_OPYCC_601:
+> + *   (HDMI, DP)
+> + *   opYCC601 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_OPRGB:
+> + *   (HDMI, DP)
+> + *   opRGB colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
+> + *   (HDMI, DP)
+> + *   ITU-R BT.2020 Y'c C'bc C'rc (constant luminance) colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT2020_RGB:
+> + *   (HDMI, DP)
+> + *   ITU-R BT.2020 R' G' B' colorimetry format
+> + * @DRM_MODE_COLORIMETRY_BT2020_YCC:
+> + *   (HDMI, DP)
+> + *   ITU-R BT.2020 Y' C'b C'r colorimetry format
+> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+> + *   (HDMI)
+> + *   SMPTE ST 2113 P3D65 colorimetry format
+> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+> + *   (HDMI)
+> + *   SMPTE ST 2113 P3DCI colorimetry format
+> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
+> + *   (DP)
+> + *   RGB wide gamut fixed point colorimetry format
+> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
+> + *   (DP)
+> + *   RGB wide gamut floating point
+> + *   (scRGB (IEC 61966-2-2)) colorimetry format
+
+Again, there is no way to actually make use of WIDE since the KMS color
+pipeline is limited to the unit range color values, right? Or is it
+possible by setting all color pipeline KMS properties to pass-through
+and using a floating-point FB?
+
+I suppose the FIXED vs. FLOAT has the exact same problems as BT2020_YCC
+vs. BT2020_RGB, but I would be surprised if anyone cared.
+
+> + * @DRM_MODE_COLORIMETRY_BT601_YCC:
+> + *   (DP)
+> + *   ITU-R BT.601 colorimetry format
+> + *   The DP spec does not say whether this is the 525 or the 625
+> + *   line version.
+
+Good to note that ambiguity here. :-)
+
+Or maybe the DP spec writer was thinking about BT.709 ColourPrimaries
+and BT.601 MatrixCoefficients...
+
+>   */
+>  enum drm_colorspace {
+>  	/* For Default case, driver will set the colorspace */
+
+
+Thanks,
+pq
+
+--Sig_/QGxcggDuSCp6h/7zFmq3NYi
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIToAACgkQI1/ltBGq
+qqcAXw/4kpwIY8Ytsb7W9BjKTEGyczFDgW2MTO0FDWu2eeTuf54o5SmGTTj9DE0B
+EIBFRJHGCIlWSLD4clWKv4eMHr7lIOwEVSQYSwaxfUZhLypFbBPfhnUenDqueMHk
+3sOh4zH+COR0+bAS74aEj6s3eP2behPHlg2R+fqeKF0Mr3gw436CL17JqRoqaTAm
+/Dd1f+2f6uRHqRYTvA1i3ZY1GK81QuyOQd+PKK9r6M6KqlRfzoj+969K5t0qthWw
+9iLHfFF9yCtkfTR/mjyRcK5CGWBr+sOklccQpYzakJn8BguNaRX8E/y7IjZRKJ2Y
+88cxkfIHVYAR1LBudT0rsXATnQbZ3vEb/8LTrP6loPtSMwJOiQMJtk8BuQUxya22
+jZ48xCzAO7PkK9/0xWMJnzaehTw1N/+Gnh4Pz95JdzyqHEybzAfAXsTeDcyuuaoQ
+5EMOT8VXN2EbXketZWydRjK0A6l5udibB3xvQj2xRiGfgW0Cc9dmbL5xCR7+96YH
+P6vVi9A0oqntCs8WCBr+Ptd5MAS825uo+AcJ3/PrP7cEDD5+cHYzzXBWAvRKR+ZL
+Ha0Os1oSZsttsHN1E1Ay+jUikSg6x/O1KNc2VH0n0cJ5J8gfjyJPbVxxeQ2j/kQf
+BY++RTs4ON8ySlgZoSk07rnkSZeUGzg6hXgXA9AYhxauwJrLeA==
+=7PhS
+-----END PGP SIGNATURE-----
+
+--Sig_/QGxcggDuSCp6h/7zFmq3NYi--
