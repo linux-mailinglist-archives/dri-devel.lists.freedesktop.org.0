@@ -2,64 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5DD6B00D3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3DC6B01E6
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:46:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BCDD10E0C7;
-	Wed,  8 Mar 2023 08:21:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 483FD10E12D;
+	Wed,  8 Mar 2023 08:46:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955CB10E07C;
- Wed,  8 Mar 2023 08:21:51 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id b10so15810144ljr.0;
- Wed, 08 Mar 2023 00:21:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678263710;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=mj9Y0t+zzOmEeCodEn2+PYLjGbVNUJE2Y9Cga3Ja96M=;
- b=IZ/0tAS3eQbcYrlkS1Hv4IKIryRKxZ7mAhvq3+W2XhTh+tTUPl+9qK7Ut/Qq2wkdfF
- aaL+DuYoyB7LdrYmzwLwLXtGcMMFyaPzy2AiDH06/zp8ZYvtZ0gmIBtLzRUyunvEJwYa
- 5AgyUMCxgSldPacrCZWtI6YUF1WFJEqoTee7JpCMMxO7tGQFRyzQCZ+nINv62KFD+0d1
- zxLIV7EUQs1bzqoyPZ+yIQVJWdVLomvQt+jUyrBb+gAtPcm3Euy75art1kJhplhUhpZL
- 2z0AV68TPPLXgvA7fTC66+vg07iuc1tFgo06EIOYK2021BXotbwWRIEva7UEkIqVIhel
- NHTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678263710;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mj9Y0t+zzOmEeCodEn2+PYLjGbVNUJE2Y9Cga3Ja96M=;
- b=LJJKfHCDvYgmLFGiWW//vSqfbjv57PjcDK6eIM8JBx2ClMe6bAOeVOuGzvd9vYbgw1
- jIkjtzTF+EfIyYy15Qt1rJp8DoC6JJol0OqtYz75xh1uz0lsYJXpcoocplhzit9srzdj
- 0ZcGJzchYUS5Y6adE0/Gni/RUScZYYvNhdkrlu5b8usfJVF2d9SUQECY5c8MYxQgARQC
- xLFlAk+dkQpv7PcT2sUHEIhVrMZADCSVmlBob7ENs/T6Kkkk/iRXUGwzk26aMCjQD23H
- sJlj2OmhCjebNd9MN/+M81iSNW8yKe2w3LfAfW351awKoYgPuCH/1ZJiPE4Av4GExFMZ
- +QwA==
-X-Gm-Message-State: AO0yUKV8KbB86twH77dwAq1EuNpt0/GkR48rGFjKcnPPF2kjqxmd3a97
- 5Lm/oTDfpSNky9cwlLttBGw=
-X-Google-Smtp-Source: AK7set8Qx7MBnNXrKEfR+sh/hv0G3Iz7uM3Zu6Sbpdfx79OKURmGdzH+YLBFrFiqSlfKuZ5Sdwnqjg==
-X-Received: by 2002:a2e:b55c:0:b0:290:4e1c:96c9 with SMTP id
- a28-20020a2eb55c000000b002904e1c96c9mr5062715ljn.32.1678263709562; 
- Wed, 08 Mar 2023 00:21:49 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- 22-20020ac24836000000b0049c29389b98sm2260667lft.151.2023.03.08.00.21.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 00:21:49 -0800 (PST)
-Date: Wed, 8 Mar 2023 10:21:37 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v4 01/17] drm/connector: Convert DRM_MODE_COLORIMETRY to
- enum
-Message-ID: <20230308102137.23b649dc@eldfell>
-In-Reply-To: <20230307152934.53372-1-harry.wentland@amd.com>
-References: <vT46Q_J1ih6YRi8a30VhwbuI43l7uCbTnS9ReApjeTZFD79HaDTZ-9FiNu_sS4iDn-XHhOsQYVQT-Bc699_qGmqMSSyc6XG7YYHVq-EJ-2s=@emersion.fr>
- <20230307152934.53372-1-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2062.outbound.protection.outlook.com [40.107.101.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAB3C10E12D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 08:46:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=grixCilKwcFfqazWUzCU04YSGzQV505MwDKVkPM2tuVnZ7VGnVm8HewliPtoYiraeIYMx9c0UKTfaq2g4TMpqvyCHREu+dyl3KGecmP7IMFvKiSqBuCj1qmAOLYsMjaCU3r4PrEa2f+ndIWGasMdueSoI/x2mABZjLCYp+Af4NeKhGKtEScUlXv6kO3H3gCkyJRAhxkVt9z/oyrlNl/orOowjW6yCd5983/4sLfd94QycZ6Ceqsz2bpTWp4KSeqTsqPZhtzVD/z02gLv1JPsHidQuTVN2YoN2oUPxQM0hUwz2k1ofjhJBXzryD2b0WuPFWg4YC1nXrJ9/Co0lVdYXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pVXRzxfVsfdpdo+eb5haV4SJjK7YF6HK19r6YZixgDk=;
+ b=DaYEiTGcEz4ZF8tJ0E/48hvC5mgBZ/0JV29TDs39DB0BJU6mXngdirt1yA3Ms5JSlCI2PIlmMYUNolpJZK2C2HDjKsKv9SBUflgRFKDmc2uYV12tvDzsRY8hKiRFZWPG+Ou16u51kV9TXjdYALECpILCDjhCMngcxp/sBNbH2EuXoX4tLW36Inic/kA3XFxYW0sMB2HxSU2f4h6Ms79Xadk+O9Kz0TVB9q4qKuMBgeULeKXkMa4C8IPV1zpvYAO85R1QN5MsSVQSZoBCQGlGbKoGnsUdXdSvILGhmnXf93mrE404lZJvhc0afl3elv2IPAu37jdOfQD2pMcPO4AfmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pVXRzxfVsfdpdo+eb5haV4SJjK7YF6HK19r6YZixgDk=;
+ b=EDtQlAVUaoDokqoTwoP2/KPw2/Z3qlOhsD8HReHMLOBsMyrju3V/pstzOpwWE9PGvA38PqeVAGy73YbgNCh/9KcBO9CDGWfr1T7BZY6Nr8HqX/XJskSRI9VgnXrA1IffQp3wl382JgNeS3WvzKIyEye6RfM/OgnYQDZrrwjFcDI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DS7PR12MB6144.namprd12.prod.outlook.com (2603:10b6:8:98::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.16; Wed, 8 Mar 2023 08:46:46 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
+ 08:46:46 +0000
+Message-ID: <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+Date: Wed, 8 Mar 2023 09:46:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Content-Language: en-US
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0082.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::9) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YLPktixQIp8dgk58zlf6WFR";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB6144:EE_
+X-MS-Office365-Filtering-Correlation-Id: 158e4127-3c50-4188-7549-08db1fb1a5fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Z20FVIsgxTAYY5/9ZZ0nnyM9OLbzHVHaNkB0k2ZAgFE+U4H7E+9ebaFejn3S8YVzxtW9xhiIrO0BI6EDwYjrzUPn1g83iW0GHFOVegIeIvgBXIp5A5tq/h6Fri2z32TWPFUMgq9zY8vpFLL7LFYSpGdDwKNKYa5nXNwBUWsFepdAruJJhSYUoTSHekCjzsam6Ie9sYhKRy77H+QfTaFJrpPvQO3cEbwmfrOp26LJERubXPG3K/fZjy5q1MohzmaJrSEX5HpONFtK61Yi5kOf4UntaR5IkcJT0FHSzGh08pgcyLcJCw6VFgpZVbLWg8GQfGD5UxLmsLj4PYXw4gNlGxgRJoB2mzrwGAKWsAARgYREL50H7MEAfww/v+vhexsmo7CMIeP6lRzI4VjKqHKhC+ATRZ9qeP7Xyt15Zs1esXIefamVH3wNhzde2FLMA09fLq6WR7POizA+g7eGyEf3ojk2f4q7nFWkV3D3u+iDIJA6mNNuXYHP/ZRrA2//GVDVbkF/L2SptTtuwh2Wf0pHgf6v7+AQMfUGBSPT2w8ufL4onGPzwD7AUeny6ZEyPsX/Va4dobWOqnWTEnVrHVKNdHy2HPhm8rQNd3XKo8pin1QLVK1v5dqZq4lFeCzbDEINitsf8viVnVL1/fi4P4GkiIkQueIskwP+Xsb4Lc7jU1qBX47ehA+EoynCf/ZY3Qk4EMhMelCa6dOkn44nHHFekTGAzFHoTnjma0P5OU1Owb8xnilsgEwa57domi0ZEAzI
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(451199018)(2906002)(6486002)(186003)(38100700002)(6666004)(6506007)(83380400001)(6512007)(86362001)(31696002)(41300700001)(66946007)(66556008)(66476007)(8676002)(31686004)(110136005)(54906003)(2616005)(36756003)(478600001)(921005)(7416002)(4326008)(316002)(5660300002)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUFieEVsQzVPcmc5ZkdXZWx3WnU5T0w4cTJOcmlrRzJhU3p0bjNXYUdOVTRM?=
+ =?utf-8?B?VjYwcCthTGpoRThuVzc5VGpZcTk3QTNIZ2ZmcXltWHdCU2VUdDNuY25RcW1V?=
+ =?utf-8?B?bVhrdTRsSXNucVhXRFIwVHFvNGRWZHlVTkNuMm9mRlU2QmdHSDRKMmU2Q0hH?=
+ =?utf-8?B?dXlBbnlHY2t6UDduNVpad1VDb0w0bEY1bjVudENOeE1zbXJGbkFabFQ4c3ZZ?=
+ =?utf-8?B?QmNHZ01zOGYrV0F3QUNPd2V5MmFhR2lEWXBJdjM5b0JrcnUzL0RlYytjdzZP?=
+ =?utf-8?B?SjFrTXpuODVUSzNFblJXa3dCWWlVR0R6Y2VBNTJMRi9SdHppUVcwMlRtcjRm?=
+ =?utf-8?B?TUt0WHVXOGpoQVlTR29ZWFBMNVpVMTRqUnRVMmZGWHBtcldtVy9xWFdqaVRl?=
+ =?utf-8?B?QzZnbFlGeEx2UGxtZDBtVW5QcEx5TkI2Q2hhOUczMTQ1TUZVWUpUZ25ISTRY?=
+ =?utf-8?B?UjJDdDRickQwKzFLSUpZNk1YTU1YUm55TE5pTTdTYng0ZkxQbzczRUthRkNq?=
+ =?utf-8?B?TzE2cjBuS3dCTHV6ZEVnUDdud1JwdXNZcnY0U2tnWHpkVHZ5b0Y5d21xRmlw?=
+ =?utf-8?B?MFN1Rmk0dmF6Q0c2YjVLL1c0REZYbHRLWlY2bVlPZndzclM4R21mTTBnMTB4?=
+ =?utf-8?B?Z3phWE1TUFBCakFWU2hobGxyNUlaK3pYb3VlelVGMWVLNXBTQzMwTFJxZjhs?=
+ =?utf-8?B?d01keFRGUk5qK3c2TjdQTHJVK2thZ0h6Sk84Um85K2JsU24ydlZYa2VJOUxE?=
+ =?utf-8?B?azRSNERYZVJPMVV2Zk1pUk1ZczRFbVFCd2gzQ0JUS2psa01wMHRTdE1IU1Bq?=
+ =?utf-8?B?bWFDY2NlRlN3VXNxanA0UmpvWUw1NjRYSndPVlJqYktnY1M3L2FnTGl5VXlx?=
+ =?utf-8?B?WTNjUmtJbTBWTWRUT0RMYXVHMDNkUUFMaWpJdjV2bndzU283cDJKUmFWV2Z6?=
+ =?utf-8?B?QW5RZ3BoSVJHUmFIbnFVMnR5RDV3UUdqaEJlSEoyNnNvcU1NUzM2eVZwZDZI?=
+ =?utf-8?B?NmdVODM2K2x1Yk5DSVJjWC9xZGRzT0g5b1hZQmd5Sm1tVGE0N1kvOGRMelZo?=
+ =?utf-8?B?NDFvVEd2djZvRW1LdHozanFVNkJQc1h1RE1UZXZIRVFxL0kxRnV4anVLTWZr?=
+ =?utf-8?B?bTY0ZDRJdGd0ZFRzQ0tzSzFDVDNxWHNkTklaTTlhRXNQSStMaUVNanJQRFlR?=
+ =?utf-8?B?ZFVKLzdmZEtmS1diSXBTdldxRllEQVl0M0RZRVB6SzZpSVlMa1c1dS91Zm9v?=
+ =?utf-8?B?cGx0SWdkdCsvOFpiMCtOQ3YyTXRWYkJuRGRhcDhKZmxxYW85ZWQ0MXc0ektC?=
+ =?utf-8?B?eGZOMWxscm03RkRYV2lwb1YyeStueThUbFlHVmRaZFhpRDArdUh3K3RRYVF3?=
+ =?utf-8?B?anRBWDVnSVJzSHp5V2p5Y2VlWVFTb2diWGhlYVRINHZkMW5RalRPeWNPR2tP?=
+ =?utf-8?B?YUxKNGVjb0c2alIwNFVjNW9IMXRyRWc2VUp1R3kyV0RuNHI0S1c5VVFOT0Nn?=
+ =?utf-8?B?cmZPL3VBU1YwUlp6NGI1a1k1M0J0dzRoT2JMYVhteGpGOUVldVMvbG9Maysr?=
+ =?utf-8?B?OVVjVk5CWGR1WlYrNzR6azNUUlFwenVOb01FYzJUMmgrSEcvQm1EdEQzTWRR?=
+ =?utf-8?B?WnUrODc2TGswOFBIbXVuTy9pbzJvM3lxaFptT0RDdkZvTitoZ3RDcWpCcUpU?=
+ =?utf-8?B?b3MxaVptNXNxNk9ZSkhRMVV2dFg2c21ibUtHYTRjbHdPYm4ydjFLZ0p5VHY2?=
+ =?utf-8?B?NSt5N00xR0F0TGVKOFpiZ1pWRlBHWXBpNWt1SDk2VlRnY21PeEtmeXV4cVJ3?=
+ =?utf-8?B?cHozSFNFbzV4UEFyZVdEeVJNWStXeFZ5cG5saXNpbUdPcFloeWNqLzNpWlN5?=
+ =?utf-8?B?aU9wZjdsM1RuNmREcnVZUkdMbithYjNPWXlFZnJPUitMb3ZwU3JEaWdMMU82?=
+ =?utf-8?B?YmszOVV1QVczVjg4d0Z4TXIwOHc2U1VFeXk0ZzV1ei81dGtiajgwb1lDbzlz?=
+ =?utf-8?B?T3FWZEZZUVNPejlZWUM3Y1pLcWxWZXJBWFRGeVQyNmpxSFZpR1I0YnBxSUJv?=
+ =?utf-8?B?VUVJK1l3MGFNcmhWS3U1R1B5S01TeEFPZ05lbS9ZV2owd0oreFlrV2E0WkZr?=
+ =?utf-8?B?VFVsMUNLUUNtODM1RkEzV3V0bElGNlAwYUNoeHZlcVM3dFRQZ2dNTTQ1NkxO?=
+ =?utf-8?Q?vFQkzj7RX6ZAQaj/Fc3iRHeXyGwTydL4pIYCyvyAnVN7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 158e4127-3c50-4188-7549-08db1fb1a5fd
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 08:46:46.0861 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DpcddRteAkCW14Mjtb2ma293L1byNgAoKhxmd1yiV5iFhsXFX4rBDvx+gpIiBW1F
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6144
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,160 +136,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/YLPktixQIp8dgk58zlf6WFR
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Am 07.03.23 um 15:25 schrieb Asahi Lina:
+> Some hardware may require more complex resource utilization accounting
+> than the simple job count supported by drm_sched internally. Add a
+> can_run_job callback to allow drivers to implement more logic before
+> deciding whether to run a GPU job.
 
-On Tue, 7 Mar 2023 10:29:34 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+Well complete NAK.
 
-> This allows us to use strongly typed arguments.
->=20
-> v2:
->  - Bring NO_DATA back
->  - Provide explicit enum values
->=20
-> v4: Drop unnecessary '&' from kerneldoc (emersion)
->=20
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Reviewed-by: Simon Ser <contact@emersion.fr>
->=20
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
+This is clearly going against the idea of having jobs only depend on 
+fences and nothing else which is mandatory for correct memory management.
+
+If the hw is busy with something you need to return the fence for this 
+from the prepare_job callback so that the scheduler can be notified when 
+the hw is available again.
+
+Regards,
+Christian.
+
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  include/drm/display/drm_dp.h |  2 +-
->  include/drm/drm_connector.h  | 49 ++++++++++++++++++------------------
->  2 files changed, 26 insertions(+), 25 deletions(-)
->=20
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index ed10e6b6f99d..dae5e9c201e4 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -1623,7 +1623,7 @@ enum dp_pixelformat {
->   *
->   * This enum is used to indicate DP VSC SDP Colorimetry formats.
->   * It is based on DP 1.4 spec [Table 2-117: VSC SDP Payload for DB16 thr=
-ough
-> - * DB18] and a name of enum member follows DRM_MODE_COLORIMETRY definiti=
-on.
-> + * DB18] and a name of enum member follows enum drm_colorimetry definiti=
-on.
->   *
->   * @DP_COLORIMETRY_DEFAULT: sRGB (IEC 61966-2-1) or
->   *                          ITU-R BT.601 colorimetry format
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 4d830fc55a3d..6d6a53a6b010 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -371,29 +371,30 @@ enum drm_privacy_screen_status {
->   * a colorspace property which will be created and exposed to
->   * userspace.
->   */
-> -
-> -/* For Default case, driver will set the colorspace */
-> -#define DRM_MODE_COLORIMETRY_DEFAULT			0
-> -/* CEA 861 Normal Colorimetry options */
-> -#define DRM_MODE_COLORIMETRY_NO_DATA			0
-> -#define DRM_MODE_COLORIMETRY_SMPTE_170M_YCC		1
-> -#define DRM_MODE_COLORIMETRY_BT709_YCC			2
-> -/* CEA 861 Extended Colorimetry Options */
-> -#define DRM_MODE_COLORIMETRY_XVYCC_601			3
-> -#define DRM_MODE_COLORIMETRY_XVYCC_709			4
-> -#define DRM_MODE_COLORIMETRY_SYCC_601			5
-> -#define DRM_MODE_COLORIMETRY_OPYCC_601			6
-> -#define DRM_MODE_COLORIMETRY_OPRGB			7
-> -#define DRM_MODE_COLORIMETRY_BT2020_CYCC		8
-> -#define DRM_MODE_COLORIMETRY_BT2020_RGB			9
-> -#define DRM_MODE_COLORIMETRY_BT2020_YCC			10
-> -/* Additional Colorimetry extension added as part of CTA 861.G */
-> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65		11
-> -#define DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER		12
-> -/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry Form=
-at */
-> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED		13
-> -#define DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT		14
-> -#define DRM_MODE_COLORIMETRY_BT601_YCC			15
-> +enum drm_colorspace {
-> +	/* For Default case, driver will set the colorspace */
-> +	DRM_MODE_COLORIMETRY_DEFAULT 		=3D 0,
-> +	DRM_MODE_COLORIMETRY_NO_DATA		=3D 0,
-> +	/* CEA 861 Normal Colorimetry options */
+>   drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
+>   include/drm/gpu_scheduler.h            |  8 ++++++++
+>   2 files changed, 18 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 4e6ad6e122bc..5c0add2c7546 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
+>   		if (!entity)
+>   			continue;
+>   
+> +		if (sched->ops->can_run_job) {
+> +			sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+> +			if (!sched_job) {
+> +				complete_all(&entity->entity_idle);
+> +				continue;
+> +			}
+> +			if (!sched->ops->can_run_job(sched_job))
+> +				continue;
+> +		}
+> +
+>   		sched_job = drm_sched_entity_pop_job(entity);
+>   
+>   		if (!sched_job) {
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 9db9e5e504ee..bd89ea9507b9 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
+>   	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
+>   					 struct drm_sched_entity *s_entity);
+>   
+> +	/**
+> +	 * @can_run_job: Called before job execution to check whether the
+> +	 * hardware is free enough to run the job.  This can be used to
+> +	 * implement more complex hardware resource policies than the
+> +	 * hw_submission limit.
+> +	 */
+> +	bool (*can_run_job)(struct drm_sched_job *sched_job);
+> +
+>   	/**
+>            * @run_job: Called to execute the job once all of the dependencies
+>            * have been resolved.  This may be called multiple times, if
+>
 
-This comment seems to be in the wrong place, NO_DATA should be under
-this comment.
-
-With that fixed:
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
-> +	DRM_MODE_COLORIMETRY_SMPTE_170M_YCC	=3D 1,
-> +	DRM_MODE_COLORIMETRY_BT709_YCC		=3D 2,
-> +	/* CEA 861 Extended Colorimetry Options */
-> +	DRM_MODE_COLORIMETRY_XVYCC_601		=3D 3,
-> +	DRM_MODE_COLORIMETRY_XVYCC_709		=3D 4,
-> +	DRM_MODE_COLORIMETRY_SYCC_601		=3D 5,
-> +	DRM_MODE_COLORIMETRY_OPYCC_601		=3D 6,
-> +	DRM_MODE_COLORIMETRY_OPRGB		=3D 7,
-> +	DRM_MODE_COLORIMETRY_BT2020_CYCC	=3D 8,
-> +	DRM_MODE_COLORIMETRY_BT2020_RGB		=3D 9,
-> +	DRM_MODE_COLORIMETRY_BT2020_YCC		=3D 10,
-> +	/* Additional Colorimetry extension added as part of CTA 861.G */
-> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65	=3D 11,
-> +	DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER	=3D 12,
-> +	/* Additional Colorimetry Options added for DP 1.4a VSC Colorimetry For=
-mat */
-> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED	=3D 13,
-> +	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT	=3D 14,
-> +	DRM_MODE_COLORIMETRY_BT601_YCC		=3D 15,
-> +};
-> =20
->  /**
->   * enum drm_bus_flags - bus_flags info for &drm_display_info
-> @@ -826,7 +827,7 @@ struct drm_connector_state {
->  	 * colorspace change on Sink. This is most commonly used to switch
->  	 * to wider color gamuts like BT2020.
->  	 */
-> -	u32 colorspace;
-> +	enum drm_colorspace colorspace;
-> =20
->  	/**
->  	 * @writeback_job: Writeback job for writeback connectors
-
-
---Sig_/YLPktixQIp8dgk58zlf6WFR
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIRZEACgkQI1/ltBGq
-qqcX6g/+OnYayOWGrgJf1foOGo3xBwqnrv19SjTXbYONlfQ6WdZdqvqy7InFFX41
-MSaIk1MNcgcK5m58A70v2WVAWAuF+zmZDshnLamCpYC8jh55Ft91KcSNITDc8EP8
-wHDrSoJ23duljb/wKY129l7TOmgN5viI1oM3uaZrHlsTayCt2IXmCf2mkuHhae39
-Bj20YNviWJVXNgf95E0/00s6oZV8BOMk8sFU59zao72F4Fw0ZW6c8unKQDWofj+b
-c1Qh8LARBnK2heQurKqROFovzP41EKhR5dZAPePwNS3ds7jbwJtdfajygEK46kr7
-ViRkOvSBmpyVIzgG/mEMcHlSQPTMsLO6ANO2gweYkWo3fnJwWSG2+3v41AyrLEUB
-jP3N0yecVDaiMzQ2pV458pzUvN/C5hE5MeYbQpsOqlC5wONnnH2R/lniiO9T1DsE
-Y1ej/nMB1Z6KjWr1xNg4zQymzUH1pOEfRX0Tm7+zZgNEURQJfIa4Qwu/BHU0fVIO
-i1awdurjfTI2zz93HEPmbtYV95gFwna4bnyiae4pyKsbWw/oFq+FpuGmKt14gQlb
-dvMx7TSHGyr1gdzKShlUDkcdrVpoqcynyUA87aScCSjOid33Lkk/M9PQuyiOu8Za
-YHbdwuAL35CnOAJJu/Q4TnvkHsAFifcKOq887xkCTnXB+/fzZdk=
-=2Umf
------END PGP SIGNATURE-----
-
---Sig_/YLPktixQIp8dgk58zlf6WFR--
