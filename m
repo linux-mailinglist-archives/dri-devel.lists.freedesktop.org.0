@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131196B0419
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7F96B04BE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:40:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0202810E0D4;
-	Wed,  8 Mar 2023 10:25:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28DDD10E0E2;
+	Wed,  8 Mar 2023 10:40:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A06110E0D4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 10:25:12 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id v10so6582056iox.8
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 02:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678271111;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vk4eRG0LrzbHDKK00dsD4iBuyY/4ZAQyp3TpAqYJX3Q=;
- b=EftcY01/oCV/raNvODG0Gy7CAtfgmEemBydzNyAQ/5Z8JDAjqoXLq8pFoIQpGEcWYn
- nu75sxupN/sQVT1eTmTNkYDC4NGXFqPitKQCL4odiDhzr0iZEhGrzCytxWkP57LBugz1
- ovgS6RvevaA0mF6dPaeC7GeF5zW7+oi9/DjqY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678271111;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vk4eRG0LrzbHDKK00dsD4iBuyY/4ZAQyp3TpAqYJX3Q=;
- b=rf11hI4AhmCMlKTNsGej3mQFTsQKKgoLNLrObkEaCk78SqP5L5CXCR+wdYQZ9vMB8B
- 4877HNwxcX9PNUn7gnWKziWhPTY2KT1WhEllab5IBCElLwQ9NS7dbczJPRP0mxHDh6Oa
- Yt3AGoZmbuBlBNxPM0hufE9ZZb9L3aqtefZIXCJ2K6UsQshAG/dUn9cMjONIM3agF3Wk
- FAe0j/47TUu+rp+4yH0jEaJd0NV4b0ToRPIPFDSkSk3aHtBOMs+/L0pmRHdKRol2+7bz
- /EZtLym3awb2MMxHqKmBKX0tugvP00JV7Ot9BRwiNHe4Se9s6KrgXT0unJbWT52D8rUz
- TNxA==
-X-Gm-Message-State: AO0yUKVSCTxXOBFLpQZlzsCUKPd7y1iMFebFz8isHiCgB/ihKUCZCSJp
- 2TXaIRIOIAeMI3ZUiel8rsKfdqQ275hE4RnycKy+NA==
-X-Google-Smtp-Source: AK7set+QhdrKShMQqdGse4Hq6359ifcnSCbtiqiWfe6LuBFF3HsmSOEUtWdcF89t709UweFPbwi9ZG1akiBqjkVk2co=
-X-Received: by 2002:a05:6602:154:b0:74c:8243:9290 with SMTP id
- v20-20020a056602015400b0074c82439290mr8204213iot.4.1678271111488; Wed, 08 Mar
- 2023 02:25:11 -0800 (PST)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28D2410E0E2;
+ Wed,  8 Mar 2023 10:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678272019; x=1709808019;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=+qOge1LfEnhfM8TnH9jyEMF9TfY8UXpoI9DmR/PF7Iw=;
+ b=nc8mXfJXrbav/LVFOQHRa+lTiU9VUNAd6gzZHlxcBZxGt9hGwUVy92kn
+ 08F3ylZ0qrEDLoV6X/z6owoezIGtPW7/+1T+N/rbOL5V+h6qJgnM3xG1j
+ 8GGtJ7BmeHhoEnLlepUBbCphbm195ESIQAtXzG0wftRztRmZyWrb2ArYn
+ FLXIrJrTxj0pA/0kIryjTg+MMRwjd1IjxD1vPv9WYM5fgdxttQuTNVyal
+ 2inRQ9fSTuyXPsg+xc5UkgnMoNolEwx8lX84josdYYOMZKnmqVLqyCgFq
+ Kq/93IhQ/IjJ3j6vEhRLdiMrd+YSPVo3OBcUGiR7qGffb9CgMlVBt+Tff Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="338448840"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="338448840"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 02:40:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="670266622"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="670266622"
+Received: from dodonogh-mobl.ger.corp.intel.com (HELO [10.213.219.205])
+ ([10.213.219.205])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 02:40:16 -0800
+Message-ID: <04b5f3e6-ebda-df99-e251-f2aed99ab0e6@linux.intel.com>
+Date: Wed, 8 Mar 2023 10:40:15 +0000
 MIME-Version: 1.0
-References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-6-treapking@chromium.org>
- <ZAXT0JFjERb8Q36f@smile.fi.intel.com>
-In-Reply-To: <ZAXT0JFjERb8Q36f@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Wed, 8 Mar 2023 18:25:00 +0800
-Message-ID: <CAEXTbpecGhEDrffDobb4NgLw8+vMK2_yVmJw8JGUDruTALm4-w@mail.gmail.com>
-Subject: Re: [PATCH v13 05/10] drm/bridge: anx7625: Check for Type-C during
- panel registration
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/2] drm/i915/pmu: Use only freq bits for falling back to
+ requested freq
+Content-Language: en-US
+To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+References: <20230304012705.70003-1-ashutosh.dixit@intel.com>
+ <20230304012705.70003-2-ashutosh.dixit@intel.com>
+ <6abc2ea5-4d60-765b-a830-ee0225c63871@linux.intel.com>
+ <87jzzrn6t6.wl-ashutosh.dixit@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <87jzzrn6t6.wl-ashutosh.dixit@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,64 +66,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-HI Andy,
 
-On Mon, Mar 6, 2023 at 7:52=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Fri, Mar 03, 2023 at 10:33:45PM +0800, Pin-yen Lin wrote:
-> > The output port endpoints can be connected to USB-C connectors.
-> > Running drm_of_find_panel_or_bridge() with such endpoints leads to
-> > a continuous return value of -EPROBE_DEFER, even though there is
-> > no panel present.
-> >
-> > To avoid this, check for the existence of a "mode-switch" property in
-> > the port endpoint, and skip panel registration completely if so.
->
-> ...
->
-> > +     port_node =3D of_graph_get_port_by_id(np, 1);
-> > +     count =3D typec_mode_switch_node_count(&port_node->fwnode);
->
-> Do you need to drop reference count here?
-> (I don't know myself, so, please check this)
->
-> If no, patch LGTM.
+On 08/03/2023 05:36, Dixit, Ashutosh wrote:
+> On Mon, 06 Mar 2023 03:04:40 -0800, Tvrtko Ursulin wrote:
+>>
+> 
+> Hi Tvrtko,
+> 
+>> On 04/03/2023 01:27, Ashutosh Dixit wrote:
+>>> On newer generations, the GEN12_RPSTAT1 register contains more than freq
+>>> information, e.g. see GEN12_VOLTAGE_MASK. Therefore use only the freq bits
+>>> to decide whether to fall back to requested freq.
+>>
+> 
+>> CI is not catching the problem?
+> 
+> This is because as we know PMU freq sampling happens only when gt is
+> unparked (actively processing requests) so it is highly unlikely that gt
+> will be in rc6 when it might have to fall back to requested freq (I checked
+> this and it seems it is only at the end of the workload that we see it
+> entering the fallback code path). Deleting the fallback path completely
+> will not make much difference to the output and is an option too. Anyway I
+> have retained it for now.
 
-The helper completes the for-loop of fwnode_for_each_child_node, which
-drops the reference count whenever the next node is get. So we don't
-need drop the reference count here.
->
-> > +     if (count)
-> > +             return 0;
->
+Ah got it now, it is about false positive and not the garbage bits fed 
+in as I initially misunderstood.
+
+>> Could you find an appropriate Fixes: tag please? If it can affects a
+>> platform out of force probe then cc: stable to.
+> 
+> Cc stable is anyway not needed because affected platforms (DG1 onwards) are
+> under force probe. Also because the issue does not affect real metrics (as
+> mentioned above) as well as because it is a really a missing patch rather
+> than a broken previous patch I am skipping the Fixes tag.
+
+"DG1 onwards" - DG2? Should have at least Fixes: if so.
+
+>>> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/i915_pmu.c | 6 ++----
+>>>    1 file changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+>>> index 52531ab28c5f..f0a1e36915b8 100644
+>>> --- a/drivers/gpu/drm/i915/i915_pmu.c
+>>> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+>>> @@ -393,10 +393,8 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+>>> 		 * case we assume the system is running at the intended
+>>> 		 * frequency. Fortunately, the read should rarely fail!
+>>> 		 */
+>>> -		val = intel_rps_read_rpstat_fw(rps);
+>>> -		if (val)
+>>> -			val = intel_rps_get_cagf(rps, val);
+>>> -		else
+>>> +		val = intel_rps_get_cagf(rps, intel_rps_read_rpstat_fw(rps));
+>>
+>> Will this work with gen5_invert_freq as called by intel_rps_get_cagf?
+> 
+> PMU has ever only supported Gen6+. See intel_rps_read_rpstat_fw (Gen5 does
+> not have a GEN6_RPSTAT1 register) as well as 01b8c2e60e96.
+
+PMU _frequency_ not before Gen6, okay, I forgot about that.
+
+Regards,
+
+Tvrtko
+
+> More importantly PMU was missing support for MTL. It is to avoid these
+> kinds of issues I have submitted a new series with a different approach
+> which should now take care of both MTL+ as well as Gen5-:
+> 
+> https://patchwork.freedesktop.org/series/114814/
+> 
+>>> +		if (!val)
+>>> 			val = rps->cur_freq;
+>>> 			add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
+> 
+> Thanks.
 > --
-> With Best Regards,
-> Andy Shevchenko
->
->
-Best regards,
-Pin-yen
+> Ashutosh
