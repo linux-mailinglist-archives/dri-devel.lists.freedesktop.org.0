@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A466B03ED
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:20:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 131196B0419
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E15B10E668;
-	Wed,  8 Mar 2023 10:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0202810E0D4;
+	Wed,  8 Mar 2023 10:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F1610E665;
- Wed,  8 Mar 2023 10:20:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B5165616FD;
- Wed,  8 Mar 2023 10:20:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20DF2C433D2;
- Wed,  8 Mar 2023 10:20:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678270847;
- bh=dYw3bdt8OjkT1450pHMtn1/VHR8mYUBh6b33Wlzd3XQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MFEL2qBiZBurw4QDN9H95DGzJWDBWsf9UdBA2S/YKVnvXd0M7FCQgvFjGO69Dks6H
- EcRYmvLx1nCsWAErtohgslo3ST41Uy7bEwZS7rImsNYHWWf4l5Sn/3OSnfeP+xp9cV
- kGUt+e9jBgsWhF+c6NwwovRSEq49ioFeKAXjQ4z2kmwgamea630Ge2E0PZ7ZaJfNDf
- nEaZq4SOgWb1sB6iO7QIsxlw1XCF9Z0v+jDZPvVNCcJIXHrA/SoSRp/bO9qwz4j2qC
- FNLYRH8UiyMg8RHwuuPy3l/JFbpJPPuJnqm1a0QIhP3GS/z75Bl1HrudJOeUJqmvQ7
- zKxys6vO/s5IA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1pZqvM-0005Xx-0H; Wed, 08 Mar 2023 11:21:32 +0100
-Date: Wed, 8 Mar 2023 11:21:32 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v3 5/7] drm/msm/hdmi: stop using
- drm_bridge_connector_en/disable_hpd()
-Message-ID: <ZAhhrG6CliC83Oxr@hovoldconsulting.com>
-References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
- <20221102180705.459294-6-dmitry.baryshkov@linaro.org>
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A06110E0D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 10:25:12 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id v10so6582056iox.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 02:25:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1678271111;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vk4eRG0LrzbHDKK00dsD4iBuyY/4ZAQyp3TpAqYJX3Q=;
+ b=EftcY01/oCV/raNvODG0Gy7CAtfgmEemBydzNyAQ/5Z8JDAjqoXLq8pFoIQpGEcWYn
+ nu75sxupN/sQVT1eTmTNkYDC4NGXFqPitKQCL4odiDhzr0iZEhGrzCytxWkP57LBugz1
+ ovgS6RvevaA0mF6dPaeC7GeF5zW7+oi9/DjqY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678271111;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vk4eRG0LrzbHDKK00dsD4iBuyY/4ZAQyp3TpAqYJX3Q=;
+ b=rf11hI4AhmCMlKTNsGej3mQFTsQKKgoLNLrObkEaCk78SqP5L5CXCR+wdYQZ9vMB8B
+ 4877HNwxcX9PNUn7gnWKziWhPTY2KT1WhEllab5IBCElLwQ9NS7dbczJPRP0mxHDh6Oa
+ Yt3AGoZmbuBlBNxPM0hufE9ZZb9L3aqtefZIXCJ2K6UsQshAG/dUn9cMjONIM3agF3Wk
+ FAe0j/47TUu+rp+4yH0jEaJd0NV4b0ToRPIPFDSkSk3aHtBOMs+/L0pmRHdKRol2+7bz
+ /EZtLym3awb2MMxHqKmBKX0tugvP00JV7Ot9BRwiNHe4Se9s6KrgXT0unJbWT52D8rUz
+ TNxA==
+X-Gm-Message-State: AO0yUKVSCTxXOBFLpQZlzsCUKPd7y1iMFebFz8isHiCgB/ihKUCZCSJp
+ 2TXaIRIOIAeMI3ZUiel8rsKfdqQ275hE4RnycKy+NA==
+X-Google-Smtp-Source: AK7set+QhdrKShMQqdGse4Hq6359ifcnSCbtiqiWfe6LuBFF3HsmSOEUtWdcF89t709UweFPbwi9ZG1akiBqjkVk2co=
+X-Received: by 2002:a05:6602:154:b0:74c:8243:9290 with SMTP id
+ v20-20020a056602015400b0074c82439290mr8204213iot.4.1678271111488; Wed, 08 Mar
+ 2023 02:25:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221102180705.459294-6-dmitry.baryshkov@linaro.org>
+References: <20230303143350.815623-1-treapking@chromium.org>
+ <20230303143350.815623-6-treapking@chromium.org>
+ <ZAXT0JFjERb8Q36f@smile.fi.intel.com>
+In-Reply-To: <ZAXT0JFjERb8Q36f@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 8 Mar 2023 18:25:00 +0800
+Message-ID: <CAEXTbpecGhEDrffDobb4NgLw8+vMK2_yVmJw8JGUDruTALm4-w@mail.gmail.com>
+Subject: Re: [PATCH v13 05/10] drm/bridge: anx7625: Check for Type-C during
+ panel registration
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,53 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 02, 2022 at 09:07:03PM +0300, Dmitry Baryshkov wrote:
-> The functionality of drm_bridge_connector_enable_hpd() and
-> drm_bridge_connector_disable_hpd() is provided automatically by the
-> drm_kms_poll helpers. Stop calling these functions manually.
+HI Andy,
 
-I stumbled over this one when investigating a hotplug-related crash in
-the MSM DRM driver which this series prevents by moving hotplug
-notification enable to drm_kms_helper_poll_enable().
+On Mon, Mar 6, 2023 at 7:52=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Fri, Mar 03, 2023 at 10:33:45PM +0800, Pin-yen Lin wrote:
+> > The output port endpoints can be connected to USB-C connectors.
+> > Running drm_of_find_panel_or_bridge() with such endpoints leads to
+> > a continuous return value of -EPROBE_DEFER, even though there is
+> > no panel present.
+> >
+> > To avoid this, check for the existence of a "mode-switch" property in
+> > the port endpoint, and skip panel registration completely if so.
+>
+> ...
+>
+> > +     port_node =3D of_graph_get_port_by_id(np, 1);
+> > +     count =3D typec_mode_switch_node_count(&port_node->fwnode);
+>
+> Do you need to drop reference count here?
+> (I don't know myself, so, please check this)
+>
+> If no, patch LGTM.
 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/msm/hdmi/hdmi.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> index 93fe61b86967..a540c45d4fd3 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> @@ -348,8 +348,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->  		goto fail;
->  	}
->  
-> -	drm_bridge_connector_enable_hpd(hdmi->connector);
-> -
->  	ret = msm_hdmi_hpd_enable(hdmi->bridge);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(&hdmi->pdev->dev, "failed to enable HPD: %d\n", ret);
-
-It looks like you are now enabling hotplug events before the DRM driver
-is ready to receive them (i.e. msm_hdmi_hpd_enable() is called before
-drm_bridge_connector_enable_hpd()).
-
-Could this not lead to missed events or is the state being setup
-correctly somewhere else?
-
-Shouldn't the call to msm_hdmi_hpd_enable() be moved to when HPD is
-enabled either way (e.g. by being converted to a hpd_enable callback)?
-
-Johan
+The helper completes the for-loop of fwnode_for_each_child_node, which
+drops the reference count whenever the next node is get. So we don't
+need drop the reference count here.
+>
+> > +     if (count)
+> > +             return 0;
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+Best regards,
+Pin-yen
