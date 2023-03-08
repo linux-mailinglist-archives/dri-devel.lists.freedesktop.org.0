@@ -1,58 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7F96B04BE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:40:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2114C6B04D5
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 11:42:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28DDD10E0E2;
-	Wed,  8 Mar 2023 10:40:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D2E10E0F1;
+	Wed,  8 Mar 2023 10:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28D2410E0E2;
- Wed,  8 Mar 2023 10:40:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678272019; x=1709808019;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=+qOge1LfEnhfM8TnH9jyEMF9TfY8UXpoI9DmR/PF7Iw=;
- b=nc8mXfJXrbav/LVFOQHRa+lTiU9VUNAd6gzZHlxcBZxGt9hGwUVy92kn
- 08F3ylZ0qrEDLoV6X/z6owoezIGtPW7/+1T+N/rbOL5V+h6qJgnM3xG1j
- 8GGtJ7BmeHhoEnLlepUBbCphbm195ESIQAtXzG0wftRztRmZyWrb2ArYn
- FLXIrJrTxj0pA/0kIryjTg+MMRwjd1IjxD1vPv9WYM5fgdxttQuTNVyal
- 2inRQ9fSTuyXPsg+xc5UkgnMoNolEwx8lX84josdYYOMZKnmqVLqyCgFq
- Kq/93IhQ/IjJ3j6vEhRLdiMrd+YSPVo3OBcUGiR7qGffb9CgMlVBt+Tff Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="338448840"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="338448840"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 02:40:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="670266622"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="670266622"
-Received: from dodonogh-mobl.ger.corp.intel.com (HELO [10.213.219.205])
- ([10.213.219.205])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 02:40:16 -0800
-Message-ID: <04b5f3e6-ebda-df99-e251-f2aed99ab0e6@linux.intel.com>
-Date: Wed, 8 Mar 2023 10:40:15 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F9AE10E10A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 10:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678272132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GXwtob7mHiGV/HDAwC/8VbKaxcTJLMG7xjqq8FDlVMk=;
+ b=EJvtgMfy1uDXtOH8Dves4jYfV9vfpTSQKR3JMUaU5RDPuBpwhWKmy7j6/d8pZvcx+FOWiG
+ FKwnTMLRK5vJY9QX+pEzhAnGxXs2+2xd5BtY0neHtREeirR2lZaIe0+7uE08YAdZ9EKedL
+ wRbS9ZpMD0Mi1/x9XFuXdMSPu1eA2TU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-359-NdUdLpDVNZunWGc2xzNH-A-1; Wed, 08 Mar 2023 05:42:11 -0500
+X-MC-Unique: NdUdLpDVNZunWGc2xzNH-A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ fi8-20020a056402550800b004a26cc7f6cbso23265357edb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 02:42:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678272130;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GXwtob7mHiGV/HDAwC/8VbKaxcTJLMG7xjqq8FDlVMk=;
+ b=EaUhb4ls8y2Ke3avZJrz9APv04dbnWvOi3dFqcOkdBV+OnqLhE6DJEt/fe3l4cBb6l
+ FsrSunuvNCOXAnLrcOsNz3FWmdIaAhZgjQ/zfEBJ1idpOc+g6ZzfClYE66BLOD3RJ6u5
+ sbHJ5AWpshC7yWJGKFDfv5OwOZ9YpnrAcZERUqnOtc9EbXg7zKPRS5X3fA4Czu8Zbffs
+ vaxqi140Evt6bl+w4XLmp4tU1zfnwgsWKO+eNJFcjf5fWziieAY4EKY4uuPCxam7+q4l
+ hj3cKcyU82bScqNAA11bgkqOGz8eOnnD7kUhi2Q602ostfBDtw41gtzbjRs7vi0AUmQt
+ sogg==
+X-Gm-Message-State: AO0yUKWFQhVciitjN1WQdP5xAPzs55vSaDenvI4lSzAXSC8T1wlbT/gg
+ sWm4JIsLoB5pzEz7mQpuhsjO4RmrIf1iw3MTcQFFzvbBe8Brq+VHM+2BE8CHd6wOtMzpt80Bf6W
+ 5nU1gGzi/MCVAiu1oO5fBsJo0fAGu
+X-Received: by 2002:a17:906:3002:b0:8b2:fb3d:9f22 with SMTP id
+ 2-20020a170906300200b008b2fb3d9f22mr16818135ejz.33.1678272123539; 
+ Wed, 08 Mar 2023 02:42:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set9MuC60mZ5Ycylm2kSUYIx4Veowf3DJRuxRTVdYipVCktABmp02rpAjKlcUcnC2sPx4jWcbDA==
+X-Received: by 2002:a17:906:3002:b0:8b2:fb3d:9f22 with SMTP id
+ 2-20020a170906300200b008b2fb3d9f22mr16818121ejz.33.1678272123295; 
+ Wed, 08 Mar 2023 02:42:03 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ 21-20020a170906309500b008b1779ba3c1sm7275516ejv.115.2023.03.08.02.42.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Mar 2023 02:42:02 -0800 (PST)
+Message-ID: <b64a6aa0-bae9-71bc-7672-18481daf963f@redhat.com>
+Date: Wed, 8 Mar 2023 11:42:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] drm/i915/pmu: Use only freq bits for falling back to
- requested freq
-Content-Language: en-US
-To: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-References: <20230304012705.70003-1-ashutosh.dixit@intel.com>
- <20230304012705.70003-2-ashutosh.dixit@intel.com>
- <6abc2ea5-4d60-765b-a830-ee0225c63871@linux.intel.com>
- <87jzzrn6t6.wl-ashutosh.dixit@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <87jzzrn6t6.wl-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.7.1
+Subject: Re: [RFC] drm/amd/display: Pass proper parent for DM backlight device
+ registration
+To: Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>
+References: <20230215113833.477999-1-hdegoede@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230215113833.477999-1-hdegoede@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,88 +89,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 08/03/2023 05:36, Dixit, Ashutosh wrote:
-> On Mon, 06 Mar 2023 03:04:40 -0800, Tvrtko Ursulin wrote:
->>
+On 2/15/23 12:38, Hans de Goede wrote:
+> The parent for the backlight device should be the drm-connector object,
+> not the PCI device.
 > 
-> Hi Tvrtko,
+> Userspace relies on this to be able to detect which backlight class device
+> to use on hybrid gfx devices where there may be multiple native (raw)
+> backlight devices registered.
 > 
->> On 04/03/2023 01:27, Ashutosh Dixit wrote:
->>> On newer generations, the GEN12_RPSTAT1 register contains more than freq
->>> information, e.g. see GEN12_VOLTAGE_MASK. Therefore use only the freq bits
->>> to decide whether to fall back to requested freq.
->>
+> Specifically gnome-settings-daemon expects the parent device to have
+> an "enabled" sysfs attribute (as drm_connector devices do) and tests
+> that this returns "enabled" when read.
 > 
->> CI is not catching the problem?
+> This aligns the parent of the backlight device with i915, nouveau, radeon.
+> Note that drivers/gpu/drm/amd/amdgpu/atombios_encoders.c also already
+> uses the drm_connector as parent, only amdgpu_dm.c used the PCI device
+> as parent before this change.
 > 
-> This is because as we know PMU freq sampling happens only when gt is
-> unparked (actively processing requests) so it is highly unlikely that gt
-> will be in rc6 when it might have to fall back to requested freq (I checked
-> this and it seems it is only at the end of the workload that we see it
-> entering the fallback code path). Deleting the fallback path completely
-> will not make much difference to the output and is an option too. Anyway I
-> have retained it for now.
+> Note this is marked as a RFC because I don't have hw to test, so this
+> has only been compile tested! If someone can test this on actual
+> hw which hits the changed code path that would be great.
+> 
+> Link: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/730
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Ah got it now, it is about false positive and not the garbage bits fed 
-in as I initially misunderstood.
+Self NACK. This has been tested by 2 reporters of:
 
->> Could you find an appropriate Fixes: tag please? If it can affects a
->> platform out of force probe then cc: stable to.
-> 
-> Cc stable is anyway not needed because affected platforms (DG1 onwards) are
-> under force probe. Also because the issue does not affect real metrics (as
-> mentioned above) as well as because it is a really a missing patch rather
-> than a broken previous patch I am skipping the Fixes tag.
+https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/730
 
-"DG1 onwards" - DG2? Should have at least Fixes: if so.
+Now and it does not work. Instead of setting the parent device pointer correctly,
+this makes the backlight device not have a parent device any more at all.
+I already was afraid this might happen, since the drm_connector object is not yet
+registered at the time when the amdgpu code calls backlight_device_register().
 
->>> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/i915_pmu.c | 6 ++----
->>>    1 file changed, 2 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
->>> index 52531ab28c5f..f0a1e36915b8 100644
->>> --- a/drivers/gpu/drm/i915/i915_pmu.c
->>> +++ b/drivers/gpu/drm/i915/i915_pmu.c
->>> @@ -393,10 +393,8 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
->>> 		 * case we assume the system is running at the intended
->>> 		 * frequency. Fortunately, the read should rarely fail!
->>> 		 */
->>> -		val = intel_rps_read_rpstat_fw(rps);
->>> -		if (val)
->>> -			val = intel_rps_get_cagf(rps, val);
->>> -		else
->>> +		val = intel_rps_get_cagf(rps, intel_rps_read_rpstat_fw(rps));
->>
->> Will this work with gen5_invert_freq as called by intel_rps_get_cagf?
-> 
-> PMU has ever only supported Gen6+. See intel_rps_read_rpstat_fw (Gen5 does
-> not have a GEN6_RPSTAT1 register) as well as 01b8c2e60e96.
+Other drivers like e.g. nouveau register the backlight later from
+a drm_connector_funcs.late_register callback. I was hoping doing it
+the simple way as this patch did would work, but it looks like some bigger
+changes to the amdgpu code (using a drm_connector_funcs.late_register callback)
+are necessary.
 
-PMU _frequency_ not before Gen6, okay, I forgot about that.
+I'll try to make some time to prepare a new patch.
 
 Regards,
 
-Tvrtko
+Hans
 
-> More importantly PMU was missing support for MTL. It is to avoid these
-> kinds of issues I have submitted a new series with a different approach
-> which should now take care of both MTL+ as well as Gen5-:
+
+
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> https://patchwork.freedesktop.org/series/114814/
-> 
->>> +		if (!val)
->>> 			val = rps->cur_freq;
->>> 			add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
-> 
-> Thanks.
-> --
-> Ashutosh
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 31bce529f685..33b0e1de2770 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -4065,7 +4065,8 @@ static const struct backlight_ops amdgpu_dm_backlight_ops = {
+>  };
+>  
+>  static void
+> -amdgpu_dm_register_backlight_device(struct amdgpu_display_manager *dm)
+> +amdgpu_dm_register_backlight_device(struct amdgpu_display_manager *dm,
+> +				    struct amdgpu_dm_connector *aconnector)
+>  {
+>  	char bl_name[16];
+>  	struct backlight_properties props = { 0 };
+> @@ -4088,7 +4089,7 @@ amdgpu_dm_register_backlight_device(struct amdgpu_display_manager *dm)
+>  		 adev_to_drm(dm->adev)->primary->index + dm->num_of_edps);
+>  
+>  	dm->backlight_dev[dm->num_of_edps] = backlight_device_register(bl_name,
+> -								       adev_to_drm(dm->adev)->dev,
+> +								       aconnector->base.kdev,
+>  								       dm,
+>  								       &amdgpu_dm_backlight_ops,
+>  								       &props);
+> @@ -4141,6 +4142,7 @@ static int initialize_plane(struct amdgpu_display_manager *dm,
+>  
+>  
+>  static void register_backlight_device(struct amdgpu_display_manager *dm,
+> +				      struct amdgpu_dm_connector *aconnector,
+>  				      struct dc_link *link)
+>  {
+>  	if ((link->connector_signal & (SIGNAL_TYPE_EDP | SIGNAL_TYPE_LVDS)) &&
+> @@ -4151,7 +4153,7 @@ static void register_backlight_device(struct amdgpu_display_manager *dm,
+>  		 * is better then a black screen.
+>  		 */
+>  		if (!dm->backlight_dev[dm->num_of_edps])
+> -			amdgpu_dm_register_backlight_device(dm);
+> +			amdgpu_dm_register_backlight_device(dm, aconnector);
+>  
+>  		if (dm->backlight_dev[dm->num_of_edps]) {
+>  			dm->backlight_link[dm->num_of_edps] = link;
+> @@ -4337,7 +4339,7 @@ static int amdgpu_dm_initialize_drm_device(struct amdgpu_device *adev)
+>  
+>  			if (ret) {
+>  				amdgpu_dm_update_connector_after_detect(aconnector);
+> -				register_backlight_device(dm, link);
+> +				register_backlight_device(dm, aconnector, link);
+>  
+>  				if (dm->num_of_edps)
+>  					update_connector_ext_caps(aconnector);
+
