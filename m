@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503096B022C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91A26B0267
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:08:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63B7D10E5BA;
-	Wed,  8 Mar 2023 08:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96C3F10E0FC;
+	Wed,  8 Mar 2023 09:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7F3510E5B2;
- Wed,  8 Mar 2023 08:59:49 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id a32so15821078ljr.9;
- Wed, 08 Mar 2023 00:59:49 -0800 (PST)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E495710E0FC
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 09:08:35 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id v11so17033166plz.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 01:08:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678265988;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=sK8aILZorQRHY1+kB9RK81UOD/Jv43ORSJlUC3NmrKM=;
- b=dbm5Gvy01K7tA/ckdnegfD9uba5jzv6OFfVPd5PjrasNjZ6vvOfjFOlYObjKrN+tDk
- aNaP6+rPITARvJGKMW5Y4bZVxcYKNCtdYdOnEpIhWMcmlSIObiT8X/Osztlb20GUQdJe
- 7WOz8JZ6w3mo/vTlWmAY/4wpABzYkDH3zaUMd6FZEm3bDMHqHmXwpKLGfL+t1d9haKtz
- +V9eWJOvh2lQh1CaKyLNqzjg78L9fSpGvCz22XEOChqd1zvD7oYlkncfDNnYoMQKYAJz
- PnF1QksQ0hgvDcBM/CeQ4ZpE5jAZgNZH64X+L0zIwwOHQhoicGJuwWLqGt+IvKyom3S0
- WagA==
+ d=gmail.com; s=20210112; t=1678266515;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=sdds9wfgs29gdzt8sKvKPTyIOCg9hqKMEvaBr114uy4=;
+ b=XdvK6v3pSk6FcKi8RUyxgG3I61e4nDI5t1H7Mqjd5NSsrLz0HxnDRxLuYNkkbhkmpg
+ wWbZAuVh7PfVpELOcHLp/oTw2KTkxVbXRW5WCNs/1tXRoU/2ncIkVsjChyeJsD5dEFo0
+ fvwTrpeWS2QwLdW7AnV8C2Y51DdAeCtvU2afrGfYX1scHmlQtgMgCVqzp7X8/QFJRBm2
+ +YdFGFr70xC1GXga7GZGfjzhoWBw2dV1u+Dfy4s4DxSb9YY+WqItDe2hI56LNYBKe178
+ IGB0MJsWx8jJpRnkLa1iyzObBdhAcXjrusS/RsUJUuUg+GhUB93NtzCWrT3HtTjA/9UY
+ 2zhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678265988;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sK8aILZorQRHY1+kB9RK81UOD/Jv43ORSJlUC3NmrKM=;
- b=lgCuviTwEdtmedN03ah95agjK/iTLYZ96lQmAD49yz/w6B+V+7mdIlD/UU3EBQi1Bi
- 9RLutrgbPxYuu3Vk4MKDzpY7XmeWVFQJlVtP6cG3I1XFQEGzJ2eu3xDUo0HZsbD2R4pe
- Za+Qv0LldzbeKk8nASL4k0eRtgtHyZpNDxncTKqGVq1ZR8zRbGa/T0xp4AT21iyOUbMG
- 15Nbq09xcNLtNeSITmWsoZofeYx14OMlC3BkI/Ppecdfbtljre0jRul3Kop/rDt0+8IG
- L0TVZuxMrst3hLFhSvgQBzKM88XWmii5bQAEV3VBtcEJrXVsg46sOqPctPkWb9QctR5K
- 2Jsg==
-X-Gm-Message-State: AO0yUKXZ29wByv/pU03iDOWxnDlSqw+W4CvgQ6/UuRtm1J1XIg47mb0U
- Hm9d+jXkkkraDIWIXUbCP24=
-X-Google-Smtp-Source: AK7set9lqkKh4fyMFW8ApaUl7rNq+RTCPD+WCd+ferxz3QsAuH2CoNEhLc8hw9yanAfA3EeoPBYVIg==
-X-Received: by 2002:a2e:90cc:0:b0:293:4b61:2657 with SMTP id
- o12-20020a2e90cc000000b002934b612657mr6585676ljg.33.1678265987951; 
- Wed, 08 Mar 2023 00:59:47 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- y18-20020a2e9d52000000b00298593e3a01sm679801ljj.70.2023.03.08.00.59.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 00:59:47 -0800 (PST)
-Date: Wed, 8 Mar 2023 10:59:44 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v3 02/17] drm/connector: Add enum documentation to
- drm_colorspace
-Message-ID: <20230308105944.05fb9377@eldfell>
-In-Reply-To: <20230307151107.49649-3-harry.wentland@amd.com>
-References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-3-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20210112; t=1678266515;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=sdds9wfgs29gdzt8sKvKPTyIOCg9hqKMEvaBr114uy4=;
+ b=ddMkNwwWuGI/cJq4SDtMYycEcpa2nX9rRrqMWOeLcvs+Ji46vuzRGM56yp2mEkNMVE
+ 0aMQdCvjy7T47grPQelqYPc/7TRxXSBloKl4mZxwYi9yYEa9FDucztTI0mQ4baajG8sV
+ 1PgPYnLcjurDv/ynJVcZ+HVlh6RmR5U5DwUk89UhxO7QXkCYZj/GuFbQ6VuQSQaa+U2a
+ 75DCaj1yrCKEv75sWfhx+8PE000qCp5tVQvJxD7OGxe2DyKfYDpw3MnEUBGGU0671qyz
+ 3n9ERpN/0U0/LYM+JA02gPNZSQc4kvJ1Jfqeid2tqhgihZ4GuMMZrwoA60xpVw3tPWar
+ e/8A==
+X-Gm-Message-State: AO0yUKUwadHqWXrAj60OWABSFaWHlrWCsHz/KG4hmcm1UQyDnp5S2JAw
+ /o/fPET6MsdFWvU3wUy32pk9ODXmJnjUWgF6mKA=
+X-Google-Smtp-Source: AK7set/t4WjcIseNy7HgHhXJu/mVmHYGr8n+kDDLwcJ9O3Ozy2MkSBarTAF0TdNVuc1B4pEIM/ypGE6/jYq8x4NqXKw=
+X-Received: by 2002:a17:903:2614:b0:19b:b17:6610 with SMTP id
+ jd20-20020a170903261400b0019b0b176610mr7066566plb.4.1678266515368; Wed, 08
+ Mar 2023 01:08:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/QGxcggDuSCp6h/7zFmq3NYi";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20230308063628.15233-1-tiwai@suse.de>
+In-Reply-To: <20230308063628.15233-1-tiwai@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 8 Mar 2023 10:08:24 +0100
+Message-ID: <CAMeQTsYSgXm=Sku99USE+Up+uuJHUFdE8zPj7_B=BUi5SH=6KQ@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: Fix incorrect page mapping clearance at
+ fb_deferred_io_release()
+To: Takashi Iwai <tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,218 +68,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: linux-fbdev@vger.kernel.org, Miko Larsson <mikoxyzzz@gmail.com>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/QGxcggDuSCp6h/7zFmq3NYi
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 7 Mar 2023 10:10:52 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
-
-> From: Joshua Ashton <joshua@froggi.es>
->=20
-> To match the other enums, and add more information about these values.
->=20
-> v2:
->  - Specify where an enum entry comes from
->  - Clarify DEFAULT and NO_DATA behavior
->  - BT.2020 CYCC is "constant luminance"
->  - correct type for BT.601
->=20
-> Signed-off-by: Joshua Ashton <joshua@froggi.es>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-
-Hi,
-
-this effort is really good, but of course I still find things to
-nitpick about. If there is no answer to my questions, then I would
-prefer the documentation to spell out the unknowns and ambiguities.
-
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
+On Wed, Mar 8, 2023 at 7:36=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> The recent fix for the deferred I/O by the commit
+>   3efc61d95259 ("fbdev: Fix invalid page access after closing deferred I/=
+O devices")
+> caused a regression when the same fb device is opened/closed while
+> it's being used.  It resulted in a frozen screen even if something
+> is redrawn there after the close.  The breakage is because the patch
+> was made under a wrong assumption of a single open; in the current
+> code, fb_deferred_io_release() cleans up the page mapping of the
+> pageref list and it calls cancel_delayed_work_sync() unconditionally,
+> where both are no correct behavior for multiple opens.
+>
+> This patch adds a refcount for the opens of the device, and applies
+> the cleanup only when all files get closed.
+>
+> Fixes: 3efc61d95259 ("fbdev: Fix invalid page access after closing deferr=
+ed I/O devices")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 > ---
->  include/drm/drm_connector.h | 67 +++++++++++++++++++++++++++++++++++--
->  1 file changed, 65 insertions(+), 2 deletions(-)
->=20
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 6d6a53a6b010..bb078666dc34 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -363,13 +363,76 @@ enum drm_privacy_screen_status {
->  	PRIVACY_SCREEN_ENABLED_LOCKED,
->  };
-> =20
-> -/*
-> - * This is a consolidated colorimetry list supported by HDMI and
-> +/**
-> + * enum drm_colorspace - color space
-> + *
-> + * This enum is a consolidated colorimetry list supported by HDMI and
->   * DP protocol standard. The respective connectors will register
->   * a property with the subset of this list (supported by that
->   * respective protocol). Userspace will set the colorspace through
->   * a colorspace property which will be created and exposed to
->   * userspace.
-> + *
-> + * DP definitions come from the DP v2.0 spec
-> + * HDMI definitions come from the CTA-861-H spec
-> + *
-> + * @DRM_MODE_COLORIMETRY_DEFAULT:
-> + *   Driver specific behavior.
-> + *   For DP:
-> + *   	RGB encoded: sRGB (IEC 61966-2-1)
-> + *   	YCbCr encoded: ITU-R BT.601 colorimetry format
+>  drivers/video/fbdev/core/fb_defio.c | 16 +++++++++++++---
+>  include/linux/fb.h                  |  1 +
+>  2 files changed, 14 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/co=
+re/fb_defio.c
+> index aa5f059d0222..9dcec9e020b6 100644
+> --- a/drivers/video/fbdev/core/fb_defio.c
+> +++ b/drivers/video/fbdev/core/fb_defio.c
+> @@ -305,17 +305,19 @@ void fb_deferred_io_open(struct fb_info *info,
+>                          struct inode *inode,
+>                          struct file *file)
+>  {
+> +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
+> +
+>         file->f_mapping->a_ops =3D &fb_deferred_io_aops;
+> +       fbdefio->opens++;
+>  }
+>  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+>
+> -void fb_deferred_io_release(struct fb_info *info)
+> +static void fb_deferred_io_release_internal(struct fb_info *info)
 
-Does this mean that HDMI behavior is driver-specific while DP behavior
-is as defined?
+Maybe a better name would be fb_deferred_io_lastclose() to be more in
+line with DRM?
 
-Is it intentional that YCbCr encoding also uses different RGB-primaries
-than RGB-encoded signal? (BT.601 vs. BT.709/sRGB)
+>  {
+>         struct fb_deferred_io *fbdefio =3D info->fbdefio;
+>         struct page *page;
+>         int i;
+>
+> -       BUG_ON(!fbdefio);
 
-Or do you need to be more explicit on which parts of each spec apply
-(ColourPrimaries vs. TransferCharacteristics vs. MatrixCoefficients in
-CICP parlance)?
+Should the BUG_ON be put back into fb_deferred_io_release()?
 
-E.g. BT.709/sRGB ColourPrimaries with BT.601 MatrixCoefficients.
+>         cancel_delayed_work_sync(&info->deferred_work);
+>
+>         /* clear out the mapping that we setup */
+> @@ -324,13 +326,21 @@ void fb_deferred_io_release(struct fb_info *info)
+>                 page->mapping =3D NULL;
+>         }
+>  }
+> +
+> +void fb_deferred_io_release(struct fb_info *info)
+> +{
+> +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
+> +
+> +       if (!--fbdefio->opens)
+> +               fb_deferred_io_release_internal(info);
 
-> + * @DRM_MODE_COLORIMETRY_NO_DATA:
-> + *   Driver specific behavior.
-> + *   For HDMI:
-> + * 	Sets "No Data" in infoframe
+I think this can race so we need locking.
 
-Does DEFAULT mean that something else than "No Data" may be set in the
-HDMI infoframe?
+> +}
+>  EXPORT_SYMBOL_GPL(fb_deferred_io_release);
+>
+>  void fb_deferred_io_cleanup(struct fb_info *info)
+>  {
+>         struct fb_deferred_io *fbdefio =3D info->fbdefio;
+>
+> -       fb_deferred_io_release(info);
+> +       fb_deferred_io_release_internal(info);
+>
+>         kvfree(info->pagerefs);
+>         mutex_destroy(&fbdefio->lock);
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index d8d20514ea05..29674a29d1c4 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -212,6 +212,7 @@ struct fb_deferred_io {
+>         /* delay between mkwrite and deferred handler */
+>         unsigned long delay;
+>         bool sort_pagereflist; /* sort pagelist by offset */
+> +       int opens; /* number of opened files */
 
-If so, since these two have the same value, where is the difference? Is
-DEFAULT purely an UAPI token, and NO_DATA used internally? Or NO_DATA
-used only when crafting actual infoframe packets?
+I would prefer the name num_opens (or open_count as in DRM) instead of
+opens since it can be interpreted as a verb.
+Also, don't we need it to be atomic_t?
 
-Should NO_DATA be documented to be a strictly driver-internal value,
-and not documented with UAPI?
-
-I am unclear if userspace is using these enum values directly, or do
-they use the string names only.
-
-> + * @DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
-> + *   (HDMI)
-> + *   SMPTE ST 170M colorimetry format
-
-Does "colorimetry format" mean that the spec is used in full, for all
-of ColourPrimaries, TransferCharacteristics and MatrixCoefficients?
-
-If yes, good. If not, the wording misleads me.
-
-> + * @DRM_MODE_COLORIMETRY_BT709_YCC:
-> + *   (HDMI, DP)
-> + *   ITU-R BT.709 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_XVYCC_601:
-> + *   (HDMI, DP)
-> + *   xvYCC601 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_XVYCC_709:
-> + *   (HDMI, DP)
-> + *   xvYCC709 colorimetry format
-
-Btw. xvYCC are funny because they require limited quantization range
-encoding, but use the foot- and headroom to encode out-of-nominal-range
-values in order to expand the color gamut with negative and greater
-than unity values.
-
-Just for curiosity, is it in any way possible today to make use of that
-extended color gamut through KMS? Has it ever been possible?
-
-I mean, the KMS color pipeline assumes full-range RGB, so I don't see
-any way to make use of xvYCC.
-
-> + * @DRM_MODE_COLORIMETRY_SYCC_601:
-> + *   (HDMI, DP)
-> + *   sYCC601 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_OPYCC_601:
-> + *   (HDMI, DP)
-> + *   opYCC601 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_OPRGB:
-> + *   (HDMI, DP)
-> + *   opRGB colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT2020_CYCC:
-> + *   (HDMI, DP)
-> + *   ITU-R BT.2020 Y'c C'bc C'rc (constant luminance) colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT2020_RGB:
-> + *   (HDMI, DP)
-> + *   ITU-R BT.2020 R' G' B' colorimetry format
-> + * @DRM_MODE_COLORIMETRY_BT2020_YCC:
-> + *   (HDMI, DP)
-> + *   ITU-R BT.2020 Y' C'b C'r colorimetry format
-> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
-> + *   (HDMI)
-> + *   SMPTE ST 2113 P3D65 colorimetry format
-> + * @DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
-> + *   (HDMI)
-> + *   SMPTE ST 2113 P3DCI colorimetry format
-> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
-> + *   (DP)
-> + *   RGB wide gamut fixed point colorimetry format
-> + * @DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
-> + *   (DP)
-> + *   RGB wide gamut floating point
-> + *   (scRGB (IEC 61966-2-2)) colorimetry format
-
-Again, there is no way to actually make use of WIDE since the KMS color
-pipeline is limited to the unit range color values, right? Or is it
-possible by setting all color pipeline KMS properties to pass-through
-and using a floating-point FB?
-
-I suppose the FIXED vs. FLOAT has the exact same problems as BT2020_YCC
-vs. BT2020_RGB, but I would be surprised if anyone cared.
-
-> + * @DRM_MODE_COLORIMETRY_BT601_YCC:
-> + *   (DP)
-> + *   ITU-R BT.601 colorimetry format
-> + *   The DP spec does not say whether this is the 525 or the 625
-> + *   line version.
-
-Good to note that ambiguity here. :-)
-
-Or maybe the DP spec writer was thinking about BT.709 ColourPrimaries
-and BT.601 MatrixCoefficients...
-
->   */
->  enum drm_colorspace {
->  	/* For Default case, driver will set the colorspace */
-
-
-Thanks,
-pq
-
---Sig_/QGxcggDuSCp6h/7zFmq3NYi
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIToAACgkQI1/ltBGq
-qqcAXw/4kpwIY8Ytsb7W9BjKTEGyczFDgW2MTO0FDWu2eeTuf54o5SmGTTj9DE0B
-EIBFRJHGCIlWSLD4clWKv4eMHr7lIOwEVSQYSwaxfUZhLypFbBPfhnUenDqueMHk
-3sOh4zH+COR0+bAS74aEj6s3eP2behPHlg2R+fqeKF0Mr3gw436CL17JqRoqaTAm
-/Dd1f+2f6uRHqRYTvA1i3ZY1GK81QuyOQd+PKK9r6M6KqlRfzoj+969K5t0qthWw
-9iLHfFF9yCtkfTR/mjyRcK5CGWBr+sOklccQpYzakJn8BguNaRX8E/y7IjZRKJ2Y
-88cxkfIHVYAR1LBudT0rsXATnQbZ3vEb/8LTrP6loPtSMwJOiQMJtk8BuQUxya22
-jZ48xCzAO7PkK9/0xWMJnzaehTw1N/+Gnh4Pz95JdzyqHEybzAfAXsTeDcyuuaoQ
-5EMOT8VXN2EbXketZWydRjK0A6l5udibB3xvQj2xRiGfgW0Cc9dmbL5xCR7+96YH
-P6vVi9A0oqntCs8WCBr+Ptd5MAS825uo+AcJ3/PrP7cEDD5+cHYzzXBWAvRKR+ZL
-Ha0Os1oSZsttsHN1E1Ay+jUikSg6x/O1KNc2VH0n0cJ5J8gfjyJPbVxxeQ2j/kQf
-BY++RTs4ON8ySlgZoSk07rnkSZeUGzg6hXgXA9AYhxauwJrLeA==
-=7PhS
------END PGP SIGNATURE-----
-
---Sig_/QGxcggDuSCp6h/7zFmq3NYi--
+>         struct mutex lock; /* mutex that protects the pageref list */
+>         struct list_head pagereflist; /* list of pagerefs for touched pag=
+es */
+>         /* callback */
+> --
+> 2.35.3
+>
