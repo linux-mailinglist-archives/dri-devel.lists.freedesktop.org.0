@@ -1,65 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B036B02B3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:20:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6321D6B02BB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC0A410E5DA;
-	Wed,  8 Mar 2023 09:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE5F510E0FB;
+	Wed,  8 Mar 2023 09:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A992910E06A;
- Wed,  8 Mar 2023 09:19:56 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id z42so15834579ljq.13;
- Wed, 08 Mar 2023 01:19:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678267195;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=Jsa4k0Q27Z2jrXWpJJwbGeRZ1J9wE6m0cu7n4+3Tcfs=;
- b=KCZJJea7y2PQ5XTqFw4e/QseuXBRkmLrf1w5S388zEroTtCcCawP8vNnPCxiU5GLMS
- OEJwFh9HAgOYxaUXZpHfpxGy8fUxz2GKxNzH2ITlaQmSCVI8M7zf4QOgJsGuAeetm658
- 2Dysi5C/Y5lGD/nfd9RQj/3MJChFuUtmIteIxRalEriw6515mzI8rRvR1Zou6XlQKml6
- TtLPDcDktRVaJiM+rb7Tj8H2lkkv9NkrZudsdpqPL+a+h9P7JLEo/+StUDLrKBts3JKm
- sZBc7xYiKsjDC7m85ux0gWNwBkdW2bZCsIOVEdDPld2uZCqLDvWMuiPS5+UWSp78ql7x
- y8Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678267195;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Jsa4k0Q27Z2jrXWpJJwbGeRZ1J9wE6m0cu7n4+3Tcfs=;
- b=RwNIKh4a7GDkgZMI+A2yYrv2pTqM3qhqg5NDuP8fHhEgRtRCBV1JY97R+2qrjQKV2i
- Udsx2TczOwBZVGQTAsj9IvPpwkSQjcX0uNGqsaNVDcI/cOCfz4/2SESq2UaC2E2jpy9Z
- burSZTJc5+Ngo7eiu0FXzvkD67SYwKY2sX5eREtqJQAgfupYCCV7U06bO/Bztez8jjNz
- VmrLUJejIwm58+LruZFWxZq3L4s+fvDOjMcRY+8Inr8txc9SWKJX1lrzbon9GaucyIkp
- UH+GQITbmAXh/LsqVXAYL8Yq7y/aIomgpgt/Lu9QOl1eqQIIoJzkQwQr2HlLhly+esQo
- QObQ==
-X-Gm-Message-State: AO0yUKXObHfyREV0HDwjXugtjexxIUtnkAtCL3M+2Bld8I/eQqNudiZe
- CiAgpjCWu3TOC90weThyKDg=
-X-Google-Smtp-Source: AK7set92OM1hFQmwpCxUs+d+J1D4AztRytLyzG5KH/QuTXqGlGH960mazO/aThblArzfMKHZPmBEuw==
-X-Received: by 2002:a2e:a3d7:0:b0:290:6c15:ee26 with SMTP id
- w23-20020a2ea3d7000000b002906c15ee26mr4715204lje.31.1678267194632; 
- Wed, 08 Mar 2023 01:19:54 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- q22-20020a2e8756000000b002986f36dd6bsm161924ljj.59.2023.03.08.01.19.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 01:19:54 -0800 (PST)
-Date: Wed, 8 Mar 2023 11:19:50 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v3 06/17] drm/connector: Print connector colorspace in
- state debugfs
-Message-ID: <20230308111950.58f222a9@eldfell>
-In-Reply-To: <20230307151107.49649-7-harry.wentland@amd.com>
-References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-7-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEC6210E0FB;
+ Wed,  8 Mar 2023 09:22:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678267354; x=1709803354;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=9izBVTVBjpPieuMOYSLXXB/j5rqpaahDJT/7Blx9C4M=;
+ b=aGCNflKgtZDg3PmgPRdx+Gi+0p3EfSDHj2wh/HwpNdBOqbSFnT5Go3rn
+ 1Yyv6VSFwnoc2cmG1tr03QfIB1zyAWNng1SJliCPtsD+EBGeuFaUrixKj
+ DHQYIConxrxM/nZiJ8K4ItYt3oKlW89Lxed3haYRJgvLXh9F658KVIvBP
+ LT2z8/kJ2JiC/FMnvDyyGdQTvtivhwWI3zWbH/KnqJ/JEKCB/TaYlO+SW
+ cJ0vFqSIJ2HcnvZj1cPz98eKtRDE/ML/nXCc3UaCg8+/Dq2Rzyso2PCWe
+ SddCnBM4y6w7cBviOG6/vM4p3BedVwz5LEWRlLrF7LYVQF4lSnEZETtYH Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="316507911"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="316507911"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 01:22:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="654283802"
+X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="654283802"
+Received: from qingruih-mobl.ccr.corp.intel.com (HELO [10.249.254.16])
+ ([10.249.254.16])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 01:22:32 -0800
+Message-ID: <e9406a98-7bc1-790f-8aeb-4a0f70e701cc@linux.intel.com>
+Date: Wed, 8 Mar 2023 10:22:29 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/4ArZIroc+JrTbpPfbAhT0O1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 6/7] drm/ttm: Reduce the number of used allocation
+ orders for TTM pages
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
+ <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
+ <151b48d3-3ca4-292a-547b-628eb362c2ae@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <151b48d3-3ca4-292a-547b-628eb362c2ae@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,124 +65,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
- Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
+Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/4ArZIroc+JrTbpPfbAhT0O1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Mar 2023 10:10:56 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+On 3/8/23 10:15, Christian König wrote:
+> Am 07.03.23 um 15:46 schrieb Thomas Hellström:
+>> When swapping out, we will split multi-order pages both in order to
+>> move them to the swap-cache and to be able to return memory to the
+>> swap cache as soon as possible on a page-by-page basis.
+>> Reduce the page max order to the system PMD size, as we can then be 
+>> nicer
+>> to the system and avoid splitting gigantic pages.
+>
+> Mhm, we actually have a todo to start supporting giant pages at some 
+> time.
+>
+> Using the folio directly just saves tons of overhead when you don't 
+> need to allocate 2MiG page array any more for each 1GiB you allocate.
+>
+> But that probably needs tons of work anyway, so feel free to add my rb 
+> for now.
 
-> v3: Fix kerneldocs (kernel test robot)
->=20
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Reviewed-By: Joshua Ashton <joshua@froggi.es>
-> ---
->  drivers/gpu/drm/drm_atomic.c    |  1 +
->  drivers/gpu/drm/drm_connector.c | 15 +++++++++++++++
->  include/drm/drm_connector.h     |  1 +
->  3 files changed, 17 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index c0dc5858a723..d6d04c4ccfc0 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1071,6 +1071,7 @@ static void drm_atomic_connector_print_state(struct=
- drm_printer *p,
->  	drm_printf(p, "\tcrtc=3D%s\n", state->crtc ? state->crtc->name : "(null=
-)");
->  	drm_printf(p, "\tself_refresh_aware=3D%d\n", state->self_refresh_aware);
->  	drm_printf(p, "\tmax_requested_bpc=3D%d\n", state->max_requested_bpc);
-> +	drm_printf(p, "\tcolorspace=3D%s\n", drm_get_colorspace_name(state->col=
-orspace));
-> =20
->  	if (connector->connector_type =3D=3D DRM_MODE_CONNECTOR_WRITEBACK)
->  		if (state->writeback_job && state->writeback_job->fb)
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 7649f0ac454f..7ed48f9cbb20 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1044,6 +1044,21 @@ static const char * const colorspace_names[] =3D {
->  	[DRM_MODE_COLORIMETRY_BT601_YCC] =3D "BT601_YCC",
->  };
-> =20
-> +/**
-> + * drm_get_colorspace_name - return a string for color encoding
-> + * @colorspace: color space to compute name of
-> + *
-> + * In contrast to the other drm_get_*_name functions this one here retur=
-ns a
-> + * const pointer and hence is threadsafe.
-> + */
-> +const char *drm_get_colorspace_name(enum drm_colorspace colorspace)
-> +{
-> +	if (WARN_ON(colorspace >=3D ARRAY_SIZE(colorspace_names)))
-> +		return "unknown";
-> +
-> +	return colorspace_names[colorspace];
+Thanks, I need to fix this anyway for powerpc where it seems PMD_ORDER > 
+MAX_ORDER :/
 
-Should this protect against returning NULL? Well, I suppose that cannot
-happen right now, and probably holes will not be added in the enum. But
-should kernel code still be more paranoid?
+It might be we'd want to replace the ttm page arrays with scatter-gather 
+tables at some point?
+I think at least vmwgfx, i915 and xe would benefit from that...
 
+/Thomas
 
-Thanks,
-pq
-
-> +}
-> +
->  static const u32 hdmi_colorspaces =3D
->  	BIT(DRM_MODE_COLORIMETRY_SMPTE_170M_YCC) |
->  	BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 46c064d9ffef..c77e42408522 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1970,6 +1970,7 @@ void drm_connector_list_iter_end(struct drm_connect=
-or_list_iter *iter);
-> =20
->  bool drm_connector_has_possible_encoder(struct drm_connector *connector,
->  					struct drm_encoder *encoder);
-> +const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
-> =20
->  /**
->   * drm_for_each_connector_iter - connector_list iterator macro
-
-
---Sig_/4ArZIroc+JrTbpPfbAhT0O1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIUzcACgkQI1/ltBGq
-qqeeiQ//cW6a4chtAv+aEMAbpV1/23uddSc1eTYmqz8iQn2SE9b3QF6ryW4qnLfv
-lqwraaCqNORkrU1HpibpuAACr2YGBgrt12biuWQ4LjICOZShPiIatH95nVMKQmkr
-aJr3Io2RyNMM6c6k0iszNsADJbngWUeOGFn+Hi6/Y4INdtlxoZUsYVqJYOyqbTOM
-vHrBgEvDcxbCRfiNOE3/QIBquiLgdlYtkOlM8QCKuQxJAzxGMq1U4HwTLnsg1AJG
-80HCa+ej/4/1TgueSa5/Awxw1a1Qy6VOCuckcwr4MEKI39i85J9G8HdCvbu1pNr/
-Ddvl99zx9dW9rieCiDlNe7r5GJ5gRAE1AUjDXKBlMA/7Bc9AZMXbY9RfNNSAY9bY
-WmpLrlTU2UWIqTQrcpCGKwvDc9HoTsLYF7vFEihkocp4iOrBfOsHiOnOlmZH94Ss
-saPcaxBU8hp4Lv1XuEdQFYTI+KXjIwA5azoUq1DaaAZlgd/WFtyYNDhcZno6z1Rx
-jAWOLGpPj/iRdvRE3nRpbcmO6xAlDW3Oe4pX+VRiUnUPqs/pgAVn4I1p7b4Lutrq
-F/NLP5NN0HoG35ab5N49K2GHPhC58TNifdd4GTz4nXuJ58na5H4ivBSITd3lZQ9p
-dBX2deFBce5u3npNarXNN67ntLu4pb3iBi+V9IpKpj8WUjXAjkE=
-=wuIS
------END PGP SIGNATURE-----
-
---Sig_/4ArZIroc+JrTbpPfbAhT0O1--
+>
+> Regards,
+> Christian.
+>
+>>
+>> Looking forward to when we might be able to swap out PMD size folios
+>> without splitting, this will also be a benefit.
+>>
+>> v2:
+>> - Include all orders up to the PMD size (Christian König)
+>>
+>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_pool.c | 27 ++++++++++++++++-----------
+>>   1 file changed, 16 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c 
+>> b/drivers/gpu/drm/ttm/ttm_pool.c
+>> index 0b6e20613d19..939845d853af 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+>> @@ -47,6 +47,9 @@
+>>     #include "ttm_module.h"
+>>   +#define TTM_MAX_ORDER (PMD_SHIFT - PAGE_SHIFT)
+>> +#define TTM_DIM_ORDER (TTM_MAX_ORDER + 1)
+>> +
+>>   /**
+>>    * struct ttm_pool_dma - Helper object for coherent DMA mappings
+>>    *
+>> @@ -65,11 +68,11 @@ module_param(page_pool_size, ulong, 0644);
+>>     static atomic_long_t allocated_pages;
+>>   -static struct ttm_pool_type global_write_combined[MAX_ORDER];
+>> -static struct ttm_pool_type global_uncached[MAX_ORDER];
+>> +static struct ttm_pool_type global_write_combined[TTM_DIM_ORDER];
+>> +static struct ttm_pool_type global_uncached[TTM_DIM_ORDER];
+>>   -static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
+>> -static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
+>> +static struct ttm_pool_type global_dma32_write_combined[TTM_DIM_ORDER];
+>> +static struct ttm_pool_type global_dma32_uncached[TTM_DIM_ORDER];
+>>     static spinlock_t shrinker_lock;
+>>   static struct list_head shrinker_list;
+>> @@ -431,7 +434,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct 
+>> ttm_tt *tt,
+>>       else
+>>           gfp_flags |= GFP_HIGHUSER;
+>>   -    for (order = min_t(unsigned int, MAX_ORDER - 1, 
+>> __fls(num_pages));
+>> +    for (order = min_t(unsigned int, TTM_MAX_ORDER, __fls(num_pages));
+>>            num_pages;
+>>            order = min_t(unsigned int, order, __fls(num_pages))) {
+>>           struct ttm_pool_type *pt;
+>> @@ -550,7 +553,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct 
+>> device *dev,
+>>         if (use_dma_alloc) {
+>>           for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>> -            for (j = 0; j < MAX_ORDER; ++j)
+>> +            for (j = 0; j < TTM_DIM_ORDER; ++j)
+>> ttm_pool_type_init(&pool->caching[i].orders[j],
+>>                              pool, i, j);
+>>       }
+>> @@ -570,7 +573,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>>         if (pool->use_dma_alloc) {
+>>           for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>> -            for (j = 0; j < MAX_ORDER; ++j)
+>> +            for (j = 0; j < TTM_DIM_ORDER; ++j)
+>> ttm_pool_type_fini(&pool->caching[i].orders[j]);
+>>       }
+>>   @@ -624,7 +627,7 @@ static void ttm_pool_debugfs_header(struct 
+>> seq_file *m)
+>>       unsigned int i;
+>>         seq_puts(m, "\t ");
+>> -    for (i = 0; i < MAX_ORDER; ++i)
+>> +    for (i = 0; i < TTM_DIM_ORDER; ++i)
+>>           seq_printf(m, " ---%2u---", i);
+>>       seq_puts(m, "\n");
+>>   }
+>> @@ -635,7 +638,7 @@ static void ttm_pool_debugfs_orders(struct 
+>> ttm_pool_type *pt,
+>>   {
+>>       unsigned int i;
+>>   -    for (i = 0; i < MAX_ORDER; ++i)
+>> +    for (i = 0; i < TTM_DIM_ORDER; ++i)
+>>           seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
+>>       seq_puts(m, "\n");
+>>   }
+>> @@ -738,13 +741,15 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>>   {
+>>       unsigned int i;
+>>   +    BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
+>> +
+>>       if (!page_pool_size)
+>>           page_pool_size = num_pages;
+>>         spin_lock_init(&shrinker_lock);
+>>       INIT_LIST_HEAD(&shrinker_list);
+>>   -    for (i = 0; i < MAX_ORDER; ++i) {
+>> +    for (i = 0; i < TTM_DIM_ORDER; ++i) {
+>>           ttm_pool_type_init(&global_write_combined[i], NULL,
+>>                      ttm_write_combined, i);
+>>           ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, 
+>> i);
+>> @@ -777,7 +782,7 @@ void ttm_pool_mgr_fini(void)
+>>   {
+>>       unsigned int i;
+>>   -    for (i = 0; i < MAX_ORDER; ++i) {
+>> +    for (i = 0; i < TTM_DIM_ORDER; ++i) {
+>>           ttm_pool_type_fini(&global_write_combined[i]);
+>>           ttm_pool_type_fini(&global_uncached[i]);
+>
