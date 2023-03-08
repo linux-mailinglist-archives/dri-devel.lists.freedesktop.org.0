@@ -1,129 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3DC6B01E6
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:46:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7450E6B01F4
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 09:48:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 483FD10E12D;
-	Wed,  8 Mar 2023 08:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A11610E30A;
+	Wed,  8 Mar 2023 08:48:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2062.outbound.protection.outlook.com [40.107.101.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAB3C10E12D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 08:46:51 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on20605.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e88::605])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705CC10E30A;
+ Wed,  8 Mar 2023 08:48:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=grixCilKwcFfqazWUzCU04YSGzQV505MwDKVkPM2tuVnZ7VGnVm8HewliPtoYiraeIYMx9c0UKTfaq2g4TMpqvyCHREu+dyl3KGecmP7IMFvKiSqBuCj1qmAOLYsMjaCU3r4PrEa2f+ndIWGasMdueSoI/x2mABZjLCYp+Af4NeKhGKtEScUlXv6kO3H3gCkyJRAhxkVt9z/oyrlNl/orOowjW6yCd5983/4sLfd94QycZ6Ceqsz2bpTWp4KSeqTsqPZhtzVD/z02gLv1JPsHidQuTVN2YoN2oUPxQM0hUwz2k1ofjhJBXzryD2b0WuPFWg4YC1nXrJ9/Co0lVdYXQ==
+ b=Oqjb2iJOzPbGdz63mwjP4DXAH7Pl1+DzRk9qDnNUwkB4vG1ryNdmdgYVHXUqWxCP7iTOkrF3YA/GGDge6gR+L7MUsrTCTVZGrUzTLbQdOJ3bHU1/lbfIRchbRacXQhJQB+ac05avqseFimsON8FCnanTdrhi88my8TRxgjYLeM+cDpJdG8yS+SddGK3EaQyQw+7fV5eotzxcu+ItZ7GhmPs86+74H3/ZVCVCjedaSDxjtbohBGROGa6FHxUuyCFNCtkg9JDE6Rkw9j9pKTBAi9yVcBXhUUhos1FtedIEuCXwS69LaoMB0OE3FdDj7AeR94bp5EtRT4vigF9BpxhKVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pVXRzxfVsfdpdo+eb5haV4SJjK7YF6HK19r6YZixgDk=;
- b=DaYEiTGcEz4ZF8tJ0E/48hvC5mgBZ/0JV29TDs39DB0BJU6mXngdirt1yA3Ms5JSlCI2PIlmMYUNolpJZK2C2HDjKsKv9SBUflgRFKDmc2uYV12tvDzsRY8hKiRFZWPG+Ou16u51kV9TXjdYALECpILCDjhCMngcxp/sBNbH2EuXoX4tLW36Inic/kA3XFxYW0sMB2HxSU2f4h6Ms79Xadk+O9Kz0TVB9q4qKuMBgeULeKXkMa4C8IPV1zpvYAO85R1QN5MsSVQSZoBCQGlGbKoGnsUdXdSvILGhmnXf93mrE404lZJvhc0afl3elv2IPAu37jdOfQD2pMcPO4AfmQ==
+ bh=Kka5P/RmuaIx/yk6HqTxJyleuq8R0fgFX2D+ShGH/iQ=;
+ b=I1M1vqZ3zhzONabEwHZFY4AEYBTeBUflQJ8Q2Ww8ERRVgQ/d3XZZau5p2PVTzScpU81EbiPhfcGEDnt8QDCg1Rp96F5v06o4ikhhsMrdQoqA0oDh00cqKodKfO/s5LNbhgvGv3rgmjbUJwGIYB51vWnQEh7SbO5d/4b9kN5mNHJHECcZXtQmvcdziKH8V/kUOLLPIXRmxlZVNyULAuCD84tbCHKLxDyrQdGLWn3/oTJ7Bs59beENIRF/sTOAXPlEZ6FM96USPGomYXHfFH10arVlAp2fJtg+NUli8KVPn/quFJhXDEx7MjOpLe2uH9hcXO0p/vBJ5yDjrRoD5Y+ggw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pVXRzxfVsfdpdo+eb5haV4SJjK7YF6HK19r6YZixgDk=;
- b=EDtQlAVUaoDokqoTwoP2/KPw2/Z3qlOhsD8HReHMLOBsMyrju3V/pstzOpwWE9PGvA38PqeVAGy73YbgNCh/9KcBO9CDGWfr1T7BZY6Nr8HqX/XJskSRI9VgnXrA1IffQp3wl382JgNeS3WvzKIyEye6RfM/OgnYQDZrrwjFcDI=
+ bh=Kka5P/RmuaIx/yk6HqTxJyleuq8R0fgFX2D+ShGH/iQ=;
+ b=nhUktELQ/pWhk5T4ndO+EMIjADC38FO2GnDTBHnqCa5tjlEHQ/AdRq5dlXEwt6L5DlkaHaI2WoWVTAfbe4RXJPEWLCboG5ZxRDWRE7OQjcKcTMigObnpKtqjZXXldLtkXSxDYcvCquygBpBv+cYXGZH6dzdHK0Vsy53CaSNkSeI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DS7PR12MB6144.namprd12.prod.outlook.com (2603:10b6:8:98::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.16; Wed, 8 Mar 2023 08:46:46 +0000
+ by DM4PR12MB7670.namprd12.prod.outlook.com (2603:10b6:8:105::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.31; Wed, 8 Mar
+ 2023 08:48:49 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 08:46:46 +0000
-Message-ID: <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
-Date: Wed, 8 Mar 2023 09:46:38 +0100
+ 08:48:49 +0000
+Message-ID: <49aa2475-cce5-d6ec-8ad8-4744542c56df@amd.com>
+Date: Wed, 8 Mar 2023 09:48:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Subject: Re: [PATCH v2 2/7] drm/ttm/pool: Fix ttm_pool_alloc error path
 Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
+ <20230307144621.10748-3-thomas.hellstrom@linux.intel.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+In-Reply-To: <20230307144621.10748-3-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0082.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9b::9) To BN8PR12MB3587.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0166.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:99::13) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DS7PR12MB6144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 158e4127-3c50-4188-7549-08db1fb1a5fd
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB7670:EE_
+X-MS-Office365-Filtering-Correlation-Id: b873a264-5397-443b-62e0-08db1fb1ef58
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z20FVIsgxTAYY5/9ZZ0nnyM9OLbzHVHaNkB0k2ZAgFE+U4H7E+9ebaFejn3S8YVzxtW9xhiIrO0BI6EDwYjrzUPn1g83iW0GHFOVegIeIvgBXIp5A5tq/h6Fri2z32TWPFUMgq9zY8vpFLL7LFYSpGdDwKNKYa5nXNwBUWsFepdAruJJhSYUoTSHekCjzsam6Ie9sYhKRy77H+QfTaFJrpPvQO3cEbwmfrOp26LJERubXPG3K/fZjy5q1MohzmaJrSEX5HpONFtK61Yi5kOf4UntaR5IkcJT0FHSzGh08pgcyLcJCw6VFgpZVbLWg8GQfGD5UxLmsLj4PYXw4gNlGxgRJoB2mzrwGAKWsAARgYREL50H7MEAfww/v+vhexsmo7CMIeP6lRzI4VjKqHKhC+ATRZ9qeP7Xyt15Zs1esXIefamVH3wNhzde2FLMA09fLq6WR7POizA+g7eGyEf3ojk2f4q7nFWkV3D3u+iDIJA6mNNuXYHP/ZRrA2//GVDVbkF/L2SptTtuwh2Wf0pHgf6v7+AQMfUGBSPT2w8ufL4onGPzwD7AUeny6ZEyPsX/Va4dobWOqnWTEnVrHVKNdHy2HPhm8rQNd3XKo8pin1QLVK1v5dqZq4lFeCzbDEINitsf8viVnVL1/fi4P4GkiIkQueIskwP+Xsb4Lc7jU1qBX47ehA+EoynCf/ZY3Qk4EMhMelCa6dOkn44nHHFekTGAzFHoTnjma0P5OU1Owb8xnilsgEwa57domi0ZEAzI
+X-Microsoft-Antispam-Message-Info: VVF4wLTTBOb0YGYaX/RBX6JXW7FBeAIt8RlpQWZl7vsBiLe1+uUgyu78cckzE9jViOhK6ITg1Vyl7dUGcyiqbBE9wKStObFHRi2skBGMvkZnV8yCt4KXpnbAvZEidu+g5LLnXWLchaqe41t/lUTTERRZFF3bdh1XojT+aHYGKd05FE6k3CKcl71FAk52uQt4BqRC1d01NhJmd7hRJ1pY/vSY1qAjjmaR0xl1PqNfUh7i+xRTWE5Ub9l+peBi70dzTBPq6gMbjqX/OaqfEGjju6kyHmjmFckKQde5CkCoPvqWrBNMXeiFIjHXH7YnMgL6k+0bngGJavVXOZRnSgWwgDz0m6DwChMOIbytSqsc+GOw/AXaWXi2xggbYQb0wLDOZIeAnI6xfWzIAMZuEJjoC4HCxkBYbKfhVvnyKIrD/fYedpYolkYO1AwIRxt+0gT+SqV8rLMSsXytPLQ150+6XTgsC/tiGDYnlNf6GpAU29Z1QPFfeXT47na1HaAXEyPmVsHD6nYorVHaTIkm9Z8DdgHaWG9dpd2uOOZJOXm185+Usf5XlNtWMUKsp8f08BbEJfYSdSOUv0hDRGfZ8yNoz9eva3lr6v7K6Db0wGmUiwC2lYk0JG+haW2jBhNN/XAHH45cIB9nD0SjehQuMEEujZMer8Azv4bXEPYxRkn1fZ5VLpfytL0ToH7wpVi8J716OnMlAyqLD0msLM+vGXORLjb/GqC6eKxL5JwvBB4x140=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(451199018)(2906002)(6486002)(186003)(38100700002)(6666004)(6506007)(83380400001)(6512007)(86362001)(31696002)(41300700001)(66946007)(66556008)(66476007)(8676002)(31686004)(110136005)(54906003)(2616005)(36756003)(478600001)(921005)(7416002)(4326008)(316002)(5660300002)(8936002)(43740500002)(45980500001);
+ SFS:(13230025)(4636009)(39860400002)(136003)(396003)(376002)(346002)(366004)(451199018)(4326008)(31686004)(41300700001)(66574015)(8676002)(66556008)(66946007)(66476007)(316002)(38100700002)(54906003)(186003)(36756003)(2616005)(8936002)(2906002)(6486002)(478600001)(5660300002)(6666004)(86362001)(31696002)(83380400001)(6512007)(6506007)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUFieEVsQzVPcmc5ZkdXZWx3WnU5T0w4cTJOcmlrRzJhU3p0bjNXYUdOVTRM?=
- =?utf-8?B?VjYwcCthTGpoRThuVzc5VGpZcTk3QTNIZ2ZmcXltWHdCU2VUdDNuY25RcW1V?=
- =?utf-8?B?bVhrdTRsSXNucVhXRFIwVHFvNGRWZHlVTkNuMm9mRlU2QmdHSDRKMmU2Q0hH?=
- =?utf-8?B?dXlBbnlHY2t6UDduNVpad1VDb0w0bEY1bjVudENOeE1zbXJGbkFabFQ4c3ZZ?=
- =?utf-8?B?QmNHZ01zOGYrV0F3QUNPd2V5MmFhR2lEWXBJdjM5b0JrcnUzL0RlYytjdzZP?=
- =?utf-8?B?SjFrTXpuODVUSzNFblJXa3dCWWlVR0R6Y2VBNTJMRi9SdHppUVcwMlRtcjRm?=
- =?utf-8?B?TUt0WHVXOGpoQVlTR29ZWFBMNVpVMTRqUnRVMmZGWHBtcldtVy9xWFdqaVRl?=
- =?utf-8?B?QzZnbFlGeEx2UGxtZDBtVW5QcEx5TkI2Q2hhOUczMTQ1TUZVWUpUZ25ISTRY?=
- =?utf-8?B?UjJDdDRickQwKzFLSUpZNk1YTU1YUm55TE5pTTdTYng0ZkxQbzczRUthRkNq?=
- =?utf-8?B?TzE2cjBuS3dCTHV6ZEVnUDdud1JwdXNZcnY0U2tnWHpkVHZ5b0Y5d21xRmlw?=
- =?utf-8?B?MFN1Rmk0dmF6Q0c2YjVLL1c0REZYbHRLWlY2bVlPZndzclM4R21mTTBnMTB4?=
- =?utf-8?B?Z3phWE1TUFBCakFWU2hobGxyNUlaK3pYb3VlelVGMWVLNXBTQzMwTFJxZjhs?=
- =?utf-8?B?d01keFRGUk5qK3c2TjdQTHJVK2thZ0h6Sk84Um85K2JsU24ydlZYa2VJOUxE?=
- =?utf-8?B?azRSNERYZVJPMVV2Zk1pUk1ZczRFbVFCd2gzQ0JUS2psa01wMHRTdE1IU1Bq?=
- =?utf-8?B?bWFDY2NlRlN3VXNxanA0UmpvWUw1NjRYSndPVlJqYktnY1M3L2FnTGl5VXlx?=
- =?utf-8?B?WTNjUmtJbTBWTWRUT0RMYXVHMDNkUUFMaWpJdjV2bndzU283cDJKUmFWV2Z6?=
- =?utf-8?B?QW5RZ3BoSVJHUmFIbnFVMnR5RDV3UUdqaEJlSEoyNnNvcU1NUzM2eVZwZDZI?=
- =?utf-8?B?NmdVODM2K2x1Yk5DSVJjWC9xZGRzT0g5b1hZQmd5Sm1tVGE0N1kvOGRMelZo?=
- =?utf-8?B?NDFvVEd2djZvRW1LdHozanFVNkJQc1h1RE1UZXZIRVFxL0kxRnV4anVLTWZr?=
- =?utf-8?B?bTY0ZDRJdGd0ZFRzQ0tzSzFDVDNxWHNkTklaTTlhRXNQSStMaUVNanJQRFlR?=
- =?utf-8?B?ZFVKLzdmZEtmS1diSXBTdldxRllEQVl0M0RZRVB6SzZpSVlMa1c1dS91Zm9v?=
- =?utf-8?B?cGx0SWdkdCsvOFpiMCtOQ3YyTXRWYkJuRGRhcDhKZmxxYW85ZWQ0MXc0ektC?=
- =?utf-8?B?eGZOMWxscm03RkRYV2lwb1YyeStueThUbFlHVmRaZFhpRDArdUh3K3RRYVF3?=
- =?utf-8?B?anRBWDVnSVJzSHp5V2p5Y2VlWVFTb2diWGhlYVRINHZkMW5RalRPeWNPR2tP?=
- =?utf-8?B?YUxKNGVjb0c2alIwNFVjNW9IMXRyRWc2VUp1R3kyV0RuNHI0S1c5VVFOT0Nn?=
- =?utf-8?B?cmZPL3VBU1YwUlp6NGI1a1k1M0J0dzRoT2JMYVhteGpGOUVldVMvbG9Maysr?=
- =?utf-8?B?OVVjVk5CWGR1WlYrNzR6azNUUlFwenVOb01FYzJUMmgrSEcvQm1EdEQzTWRR?=
- =?utf-8?B?WnUrODc2TGswOFBIbXVuTy9pbzJvM3lxaFptT0RDdkZvTitoZ3RDcWpCcUpU?=
- =?utf-8?B?b3MxaVptNXNxNk9ZSkhRMVV2dFg2c21ibUtHYTRjbHdPYm4ydjFLZ0p5VHY2?=
- =?utf-8?B?NSt5N00xR0F0TGVKOFpiZ1pWRlBHWXBpNWt1SDk2VlRnY21PeEtmeXV4cVJ3?=
- =?utf-8?B?cHozSFNFbzV4UEFyZVdEeVJNWStXeFZ5cG5saXNpbUdPcFloeWNqLzNpWlN5?=
- =?utf-8?B?aU9wZjdsM1RuNmREcnVZUkdMbithYjNPWXlFZnJPUitMb3ZwU3JEaWdMMU82?=
- =?utf-8?B?YmszOVV1QVczVjg4d0Z4TXIwOHc2U1VFeXk0ZzV1ei81dGtiajgwb1lDbzlz?=
- =?utf-8?B?T3FWZEZZUVNPejlZWUM3Y1pLcWxWZXJBWFRGeVQyNmpxSFZpR1I0YnBxSUJv?=
- =?utf-8?B?VUVJK1l3MGFNcmhWS3U1R1B5S01TeEFPZ05lbS9ZV2owd0oreFlrV2E0WkZr?=
- =?utf-8?B?VFVsMUNLUUNtODM1RkEzV3V0bElGNlAwYUNoeHZlcVM3dFRQZ2dNTTQ1NkxO?=
- =?utf-8?Q?vFQkzj7RX6ZAQaj/Fc3iRHeXyGwTydL4pIYCyvyAnVN7?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHBsWkRKQzdRSlB5YmVRenpJQUJnVXR1dmxLMnpiL2dkeUNmamxuY3ljRk1N?=
+ =?utf-8?B?TnVyNW5YbFJUUWtMeGJweXNjK3kvMTlLbWpYY2NleWFyVUVCMGtQdnFYa2g2?=
+ =?utf-8?B?L2pKNkNqTEtOblBjOGxoMlo0RS9iZUlvdjUrNUNLOGJJcmxUMmczZ1Jyc2hi?=
+ =?utf-8?B?c2xQVkh4ZlZQeDFVbFdVdGpUeWpWOURzWnVQWko0dDQwZWpjQzRBSkN1MHR2?=
+ =?utf-8?B?TWRLNFJRbHZQdFBrR2NnVWI5RzFwNUlzd3NBZk1EUlNTMXpLYkJKMEZZWUxh?=
+ =?utf-8?B?cFVNbHdWdS9wL1RiZ3VZR08yKy9DeWhjOWtFRU9tUzFmVGFPaWJ6bUUzM2tK?=
+ =?utf-8?B?Unlhd0pHalZXM3pmQ0krZUZyMVloZGt0eVJ3Tzd1VkJneU9FektMYlZubkV4?=
+ =?utf-8?B?dXlONU5YRjFFVm85VnlIbVliUUhHME1TcmJwYUh5R01BcithSmNQUnhUVlc5?=
+ =?utf-8?B?NFNmV3JBUEh2SDIxaGhGMTlOUTgxR2hyUUJPRk4zUGRsaFlkWDdXS2cxeW1o?=
+ =?utf-8?B?UnlyQXVGRTFCd1lkT1JwNHlkeTZNbmlFR2tXMVkxWUZTR1BWT2FZdjRBWHBt?=
+ =?utf-8?B?enA5bUxhZHZmWHcrUExiL3R5aEl5OVhiSWVmRjlPZ1E5Z0ZrekxQQjhhcVBV?=
+ =?utf-8?B?Vkx0UVNtR20wK3BtcU90ZndPUGtjd2dsYiszbHEyNnpzZW9iQXdrTnJBeXdr?=
+ =?utf-8?B?UWZ1L3BQL0ZhWDdxcWFVL25RVFd6Ym1PaHd1b0JNTEpUWWV2bC9VazhMekNi?=
+ =?utf-8?B?S0k0NXVIY2ZsSEVoQlRMKzJ3eHkrdU1TajQvN0QyOFdKc2V3Si9TU0p0bjBw?=
+ =?utf-8?B?Y0NhaHVDSi9hTWdiQnYvTko5TVZ1YWdrQVVxSitxUnhTRnFlNjJabzAxTVAy?=
+ =?utf-8?B?Mlp5VEtUTUZ5Y1ZtSXJPbFZNRWh4bjdJSFh3SUVKZWxwVjJLWjlHZ0U0Vi9k?=
+ =?utf-8?B?cTlLTjBoaDdoV1BTY20yQkpPcmpkZEh0eUdQdFM2eTFselBmM0VKL2dTclVm?=
+ =?utf-8?B?cFpRYmRFeklPVDA3OTFjeGZNNVd6S0VDNFh0K2hoQ3JzTXhmcUVCc2hGVjFR?=
+ =?utf-8?B?eS9RVHlxdDZ1S0tMVHJBUmpPYkdOSTBzc2ljSm1oZEZTeXFlaFdBNUNZWDBP?=
+ =?utf-8?B?RHJNOXFEOTR0SmJwU3VLOVZtYlNKOE43RlFtSW0yanpwYlVuWHF0MnQzKzlS?=
+ =?utf-8?B?V0Z5RGxyMkFiTjJNVHk4NmF5QlFSVHlKckxDdkpqZHJGZVJiVnVnRjFicXNB?=
+ =?utf-8?B?RXVscVRFQlN0eGlnRXZzMjgyeU9HejNMMjRXeHAwZTNBVEN4blhla0grcmFi?=
+ =?utf-8?B?dXF1cGViVnJ2WE1TTFhNOW9wY0NhbVRWOU9QcHhPakVjNW5YSGlab2pTYTVK?=
+ =?utf-8?B?aW9RNUM1N1FxNDl2NGV0YlRMQzR4L2ZYSE9IazZmb3F0MTNrM1pzaTVBWXhu?=
+ =?utf-8?B?Q3ZMdkFXS21JU1Fydys3b2tOZERKNjZ1Y09jZHlucVAvUXp5SGdZV25SWkYv?=
+ =?utf-8?B?Z2h0cEEvTGlxQkJseHovcGxuTkhrVEFBUm51VmlXZkJEOXJYaEdNSFRVTDNE?=
+ =?utf-8?B?Q1JycFlrajhBdXF5bE5KVGdCQjlnaUFZbm91ZEN1c3pqY3dnTUVmRTRxcGFt?=
+ =?utf-8?B?M2pOM3JmQTVRR0oxMmNDV00xZUFldTJFQTRZNVNnaFAwQXYwQ0VzNE9TcjlG?=
+ =?utf-8?B?RXl0NXpPQ0l2UDBhaFFrNVB6ZEFkMUV2UXhCd21pMjBmdERRMHIzTTl1YkJC?=
+ =?utf-8?B?NGVEZUQ3bC95eEU5QXlPdnpmK1l5VWFyQm5WRG5ldExCaDczY3BnK2crcXBu?=
+ =?utf-8?B?UC91dWVmWlp0VEs0ZGd4Nmpaa2FvQTFLcnlCU2hUa0xlL1dnOWF2ci95LzJB?=
+ =?utf-8?B?dXd4U0J4T2oxQWJlbkREMzBXVVc3N2JFTi91TWdxY29wR1A2RXRhMjRuTndr?=
+ =?utf-8?B?cDRQL1AxZVhvUG8rUlRZOVZYYlZwSTQ3Z2tGRHFKNGxOYW0zVmM4S0YrMHhm?=
+ =?utf-8?B?ZnhrMTloOXBzZUhGK3FyZVdXTjFYOTREMU5ReS83S0o2WUFtNklXUDVZU0J4?=
+ =?utf-8?B?TTZIMUMvUEh1TVFCSXZqQUt1L0JjM0F4Ym1ESjNBdENTbmFYdFdhMGEzNWpy?=
+ =?utf-8?B?M1lOVFZOaGQvWmJGRWwreVE2WlBLN2JoM1N0RWZWOWU5SHlEZ080UjNpSUtw?=
+ =?utf-8?Q?JS/TdaL17hRbCi/olbw/artBbS8548QcejzR1p5L66vI?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 158e4127-3c50-4188-7549-08db1fb1a5fd
+X-MS-Exchange-CrossTenant-Network-Message-Id: b873a264-5397-443b-62e0-08db1fb1ef58
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 08:46:46.0861 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 08:48:48.9995 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DpcddRteAkCW14Mjtb2ma293L1byNgAoKhxmd1yiV5iFhsXFX4rBDvx+gpIiBW1F
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6144
+X-MS-Exchange-CrossTenant-UserPrincipalName: OJlTxA4iEqZMM1kM7YkY9HnWHWegtUD+ZnI8iw3wDw7uuBpVeIc6+9ygO2RquaL/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7670
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,79 +128,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.03.23 um 15:25 schrieb Asahi Lina:
-> Some hardware may require more complex resource utilization accounting
-> than the simple job count supported by drm_sched internally. Add a
-> can_run_job callback to allow drivers to implement more logic before
-> deciding whether to run a GPU job.
+Am 07.03.23 um 15:46 schrieb Thomas Hellström:
+> When hitting an error, the error path forgot to unmap dma mappings and
+> could call set_pages_wb() on already uncached pages.
+>
+> Fix this by introducing a common __ttm_pool_free() function that
+> does the right thing.
+>
+> v2:
+> - Simplify __ttm_pool_free() (Christian König)
+>
+> Fixes: d099fc8f540a ("drm/ttm: new TT backend allocation pool v3")
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_pool.c | 68 +++++++++++++++++++---------------
+>   1 file changed, 38 insertions(+), 30 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index aa116a7bbae3..0b6e20613d19 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -367,6 +367,30 @@ static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
+>   	return 0;
+>   }
+>   
+> +static void __ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt,
 
-Well complete NAK.
+Maybe name that ttm_pool_free_range() and add a comment why we need it. 
+Something like "/* Cleanup all pages in the tt between start_page till 
+end_page */".
 
-This is clearly going against the idea of having jobs only depend on 
-fences and nothing else which is mandatory for correct memory management.
-
-If the hw is busy with something you need to return the fence for this 
-from the prepare_job callback so that the scheduler can be notified when 
-the hw is available again.
+Apart from that looks good to me.
 
 Regards,
 Christian.
 
->
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
->   include/drm/gpu_scheduler.h            |  8 ++++++++
->   2 files changed, 18 insertions(+)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 4e6ad6e122bc..5c0add2c7546 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
->   		if (!entity)
->   			continue;
->   
-> +		if (sched->ops->can_run_job) {
-> +			sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
-> +			if (!sched_job) {
-> +				complete_all(&entity->entity_idle);
-> +				continue;
-> +			}
-> +			if (!sched->ops->can_run_job(sched_job))
-> +				continue;
-> +		}
+> +			    enum ttm_caching caching,
+> +			    pgoff_t start_page, pgoff_t end_page)
+> +{
+> +	struct page **pages = tt->pages;
+> +	unsigned int order;
+> +	pgoff_t i, nr;
 > +
->   		sched_job = drm_sched_entity_pop_job(entity);
->   
->   		if (!sched_job) {
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 9db9e5e504ee..bd89ea9507b9 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
->   	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
->   					 struct drm_sched_entity *s_entity);
->   
-> +	/**
-> +	 * @can_run_job: Called before job execution to check whether the
-> +	 * hardware is free enough to run the job.  This can be used to
-> +	 * implement more complex hardware resource policies than the
-> +	 * hw_submission limit.
-> +	 */
-> +	bool (*can_run_job)(struct drm_sched_job *sched_job);
+> +	for (i = start_page; i < end_page; i += nr, pages += nr) {
+> +		struct ttm_pool_type *pt = NULL;
 > +
->   	/**
->            * @run_job: Called to execute the job once all of the dependencies
->            * have been resolved.  This may be called multiple times, if
->
+> +		order = ttm_pool_page_order(pool, *pages);
+> +		nr = (1UL << order);
+> +		if (tt->dma_address)
+> +			ttm_pool_unmap(pool, tt->dma_address[i], nr);
+> +
+> +		pt = ttm_pool_select_type(pool, caching, order);
+> +		if (pt)
+> +			ttm_pool_type_give(pt, *pages);
+> +		else
+> +			ttm_pool_free_page(pool, caching, order, *pages);
+> +	}
+> +}
+> +
+>   /**
+>    * ttm_pool_alloc - Fill a ttm_tt object
+>    *
+> @@ -382,12 +406,14 @@ static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
+>   int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   		   struct ttm_operation_ctx *ctx)
+>   {
+> -	unsigned long num_pages = tt->num_pages;
+> +	pgoff_t num_pages = tt->num_pages;
+>   	dma_addr_t *dma_addr = tt->dma_address;
+>   	struct page **caching = tt->pages;
+>   	struct page **pages = tt->pages;
+> +	enum ttm_caching page_caching;
+>   	gfp_t gfp_flags = GFP_USER;
+> -	unsigned int i, order;
+> +	pgoff_t caching_divide;
+> +	unsigned int order;
+>   	struct page *p;
+>   	int r;
+>   
+> @@ -410,6 +436,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   	     order = min_t(unsigned int, order, __fls(num_pages))) {
+>   		struct ttm_pool_type *pt;
+>   
+> +		page_caching = tt->caching;
+>   		pt = ttm_pool_select_type(pool, tt->caching, order);
+>   		p = pt ? ttm_pool_type_take(pt) : NULL;
+>   		if (p) {
+> @@ -418,6 +445,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   			if (r)
+>   				goto error_free_page;
+>   
+> +			caching = pages;
+>   			do {
+>   				r = ttm_pool_page_allocated(pool, order, p,
+>   							    &dma_addr,
+> @@ -426,14 +454,15 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   				if (r)
+>   					goto error_free_page;
+>   
+> +				caching = pages;
+>   				if (num_pages < (1 << order))
+>   					break;
+>   
+>   				p = ttm_pool_type_take(pt);
+>   			} while (p);
+> -			caching = pages;
+>   		}
+>   
+> +		page_caching = ttm_cached;
+>   		while (num_pages >= (1 << order) &&
+>   		       (p = ttm_pool_alloc_page(pool, gfp_flags, order))) {
+>   
+> @@ -442,6 +471,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   							   tt->caching);
+>   				if (r)
+>   					goto error_free_page;
+> +				caching = pages;
+>   			}
+>   			r = ttm_pool_page_allocated(pool, order, p, &dma_addr,
+>   						    &num_pages, &pages);
+> @@ -468,15 +498,13 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   	return 0;
+>   
+>   error_free_page:
+> -	ttm_pool_free_page(pool, tt->caching, order, p);
+> +	ttm_pool_free_page(pool, page_caching, order, p);
+>   
+>   error_free_all:
+>   	num_pages = tt->num_pages - num_pages;
+> -	for (i = 0; i < num_pages; ) {
+> -		order = ttm_pool_page_order(pool, tt->pages[i]);
+> -		ttm_pool_free_page(pool, tt->caching, order, tt->pages[i]);
+> -		i += 1 << order;
+> -	}
+> +	caching_divide = caching - tt->pages;
+> +	__ttm_pool_free(pool, tt, tt->caching, 0, caching_divide);
+> +	__ttm_pool_free(pool, tt, ttm_cached, caching_divide, num_pages);
+>   
+>   	return r;
+>   }
+> @@ -492,27 +520,7 @@ EXPORT_SYMBOL(ttm_pool_alloc);
+>    */
+>   void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+>   {
+> -	unsigned int i;
+> -
+> -	for (i = 0; i < tt->num_pages; ) {
+> -		struct page *p = tt->pages[i];
+> -		unsigned int order, num_pages;
+> -		struct ttm_pool_type *pt;
+> -
+> -		order = ttm_pool_page_order(pool, p);
+> -		num_pages = 1ULL << order;
+> -		if (tt->dma_address)
+> -			ttm_pool_unmap(pool, tt->dma_address[i], num_pages);
+> -
+> -		pt = ttm_pool_select_type(pool, tt->caching, order);
+> -		if (pt)
+> -			ttm_pool_type_give(pt, tt->pages[i]);
+> -		else
+> -			ttm_pool_free_page(pool, tt->caching, order,
+> -					   tt->pages[i]);
+> -
+> -		i += num_pages;
+> -	}
+> +	__ttm_pool_free(pool, tt, tt->caching, 0, tt->num_pages);
+>   
+>   	while (atomic_long_read(&allocated_pages) > page_pool_size)
+>   		ttm_pool_shrink();
 
