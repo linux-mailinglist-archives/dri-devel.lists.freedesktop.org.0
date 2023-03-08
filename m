@@ -1,69 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E866B054C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 12:03:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F335F6B0554
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 12:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFBED10E665;
-	Wed,  8 Mar 2023 11:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0185B10E66E;
+	Wed,  8 Mar 2023 11:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12E1210E665
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 11:03:23 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id g18so16183544ljl.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 03:03:22 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F7E10E670
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 11:04:23 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id by8so16161376ljb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 03:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678273401;
+ d=linaro.org; s=google; t=1678273461;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=c0ktoYXDYataVjP7ajflebW7wQwIQSEUi8W+XgUX6Uc=;
- b=p0SeZU485J/5Xp6XJ61Iox9/Wcq0Bt5vZZL75ahJLr2WZIeXcG0slSR1NpFgB5zIrr
- TGtTyvlNjx0U5afGR6Z6p0bt3/opkY4hBK/2yoNNHQ/guwDkh5dXr+8rWcY8dfcUuXo/
- tku7mC0+i3SVA9ZlwO4TZ2ZKjlmSYjFOlxs0cOfW2t0Rgdz1+zCbDWBTLVsFa5c1znK2
- C2r+hJRu7g2AjLyLMXoHLW7U9zYmpZDI82kWN4TY0UtcvKbUKm+DOclB0W/Efbac60PX
- o6AerUWByY88lpr6sN9/8WRuTUAIo87YQTfDctYGwzfAY44tjodV7tSFNMc3lU40/m1m
- GRbg==
+ bh=8VV/rTwRnKU6UEDzet7JK45QLgODlSkCmiX3BH1I/DM=;
+ b=HQOU5vTycAVVSRYho/hu0pGY10vRB6gem4HEXKnxf+e6Kio8lh9290+DjmqanEo/uR
+ SUTVd0ixFCjUXhTI20G0c1OSsRFE7mlHOfggVuhtY/EzovMdj+jiTql//MUHgNnK/RSN
+ 6++wErjIBKvMsB12VTgOlvoFOOC4mlQuCFexib4jJ50fFEE/Uh10luiQ/wVoV/oOHwrI
+ HgZSDpJYAJm6v9ySVAaz76eohfO4qADYgjPuA7zww4CQDB/QbKjeP0d2bQS9s/OFcMv/
+ 8WRdwNGoiP+q5MFW5HQ8IlSZE8dRZg+nwW7hmz1G+HX7XAbgWu/VXw05s6AXM5LMhvJc
+ 3cyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678273401;
+ d=1e100.net; s=20210112; t=1678273461;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c0ktoYXDYataVjP7ajflebW7wQwIQSEUi8W+XgUX6Uc=;
- b=ppK0eO806RQyxqrEPfFRI9zQ838WPVxL8pO2oVzgiYp7B908nETWJMBuQPGzckgexK
- P5VbGXNnLgnay6u5cI0Rtn6p4ipSt2us+JeZ6h/GjQo6bgDTFPdXNOyF6Nfu6zC+PdY4
- RLnwGUO6xhoJV0JoKa7Jxk9Fylt0Hfu0swq8OCOzI5TQSJ231eM4X/YHeNUIGD7r+lIf
- g4PRKV/HzUk/1Eqs6YCm1euX2PbhAmqXLK0C9Ayo694sKuVggMKfbeLFgCNiR5koWFHA
- vblKuJwpgXp7MWLQ1Zh+VfkT8iOaBUUD4zUz24EF9JH8yf8pxaskacj95cfc+WtnsKPj
- 47Rw==
-X-Gm-Message-State: AO0yUKX+zigiCVtwIk8YLNz1mM2covAZmgM/qM7NYP3opTl+oZOO9Dvp
- p6v2ioMyLYtSRmAbLLSlNC9HsA==
-X-Google-Smtp-Source: AK7set9Z4ZGOP6Fsh7liszYtVH27S1FUcTMnqPjPIib1BGTpW/anBmkQ+ECe7xGhGTVowgP0g69g1g==
-X-Received: by 2002:a05:651c:221a:b0:295:b0c6:834c with SMTP id
- y26-20020a05651c221a00b00295b0c6834cmr6673532ljq.41.1678273401426; 
- Wed, 08 Mar 2023 03:03:21 -0800 (PST)
+ bh=8VV/rTwRnKU6UEDzet7JK45QLgODlSkCmiX3BH1I/DM=;
+ b=BH6dJihl9x4oGcS1L2h5c4g9y3YnL7bP54jCTVNlD/jPn1inzAZw8oJpp+qtL9k22F
+ BR1WPBcKuaBLHcPAnEWzpW+z6nCSv3uFxtX4Dgos6QeSmlTARC570zLMo9A/PsuQnB6j
+ Ag/gH7biVRSVqq1LPAMkmviFm5bgeHC5qY9n9dd6oHa5x6UjV1ReQeg36CN0skjYX/rf
+ u0bznYv6lYtbLAq51RQir/h+4B0I8LhQwjHp0P3imU1inMF2A4qwoXIArXl+hmxPywYj
+ l7ZnpMEvIBZo7aEfJymEfJIq+D50f6Jq0ewfBX1L9zEBktKMdlgfrnS6Yf5Gm+NaS3CV
+ II4w==
+X-Gm-Message-State: AO0yUKXyizlJc50lrn00easZ1GVcLUMIqiEl8pgECQy2tCcXfLN6/XLy
+ mP8B9bTJoe+7Jt8BOhNx/EmG+g==
+X-Google-Smtp-Source: AK7set8sOg8LE4msTJbUjDfsJsqcsmqcDij63xRlHars6UR3HN5ROaMU5DoLkueW01X5wuMKUb1Q9Q==
+X-Received: by 2002:a2e:3002:0:b0:295:a8fa:c627 with SMTP id
+ w2-20020a2e3002000000b00295a8fac627mr5389644ljw.14.1678273461605; 
+ Wed, 08 Mar 2023 03:04:21 -0800 (PST)
 Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
  by smtp.gmail.com with ESMTPSA id
- r10-20020a2e8e2a000000b002934d555783sm2528022ljk.6.2023.03.08.03.03.20
+ k19-20020a2e8893000000b002934fe524d2sm2527508lji.83.2023.03.08.03.04.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Mar 2023 03:03:21 -0800 (PST)
-Message-ID: <9dc9814e-22ae-7b89-80cc-dc1d92898a2f@linaro.org>
-Date: Wed, 8 Mar 2023 12:03:19 +0100
+ Wed, 08 Mar 2023 03:04:21 -0800 (PST)
+Message-ID: <dff4732c-df1f-0df8-b414-b039ab34c54b@linaro.org>
+Date: Wed, 8 Mar 2023 12:04:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] gpu/drm/panel: Add Lenovo NT36523W BOE panel
+Subject: Re: [PATCH v2 2/2] drm/panel: Add driver for Novatek NT36523
 Content-Language: en-US
-To: Linus Walleij <linus.walleij@linaro.org>,
- Jianhua Lu <lujianhua000@gmail.com>
-References: <20230217-topic-lenovo-panel-v2-0-2e2c64729330@linaro.org>
- <20230217-topic-lenovo-panel-v2-2-2e2c64729330@linaro.org>
- <CACRpkdZ8RvFrieWXhx1WGO71M10H0-b3WbDXM7=xnngX7uWT6Q@mail.gmail.com>
+To: Jianhua Lu <lujianhua000@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+References: <20230220121258.10727-1-lujianhua000@gmail.com>
+ <20230220121258.10727-2-lujianhua000@gmail.com>
+ <CACRpkdbZCZiMM_qeqMd9=txVvPVHEzM4szOnPR-gCYdiXW_9eA@mail.gmail.com>
+ <ZAfasb9aKTgyjbFc@Gentoo>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <CACRpkdZ8RvFrieWXhx1WGO71M10H0-b3WbDXM7=xnngX7uWT6Q@mail.gmail.com>
+In-Reply-To: <ZAfasb9aKTgyjbFc@Gentoo>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,73 +79,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7.03.2023 23:18, Linus Walleij wrote:
-> On Tue, Mar 7, 2023 at 2:26 PM Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
-> 
->> Introduce support for the BOE panel with a NT36523W touch/driver IC
->> found on some Lenovo Tab P11 devices. It's a 2000x1200, 24bit RGB
->> MIPI DSI panel with integrated DCS-controlled backlight (that expects
->> big-endian communication).
+On 8.03.2023 01:45, Jianhua Lu wrote:
+> On Tue, Mar 07, 2023 at 11:34:55PM +0100, Linus Walleij wrote:
+>> Hi Jianhua,
 >>
->> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> 
-> I will think this is some variant of the Novatek NT36523 display
-> controller packaged up with Lenovo electronics until proven how
-> wrong I am.
-> 
-> I will listen to reason if it can be demonstrated that NT36523 and
-> NT36523W are considerably different and need very different
-> drivers, but I seriously doubt it. (For reasons see below.)
-> 
->>  drivers/gpu/drm/panel/panel-lenovo-nt36523w-boe.c | 747 ++++++++++++++++++++++
-> 
-> We usually share code with different displays using the
-> same display controller, so panel-novatek-nt36523.c should
-> be used as name.
-> 
->> +config DRM_PANEL_LENOVO_NT36523W_BOE
->> +       tristate "Lenovo NT36523W BOE panel"
-> 
-> Name it after the display controller like the other examples
-> in the Kconfig, DRM_PANEL_NOVATEK_NT36523
-> 
->> +       mipi_dsi_dcs_write_seq(dsi, 0xff, 0x20);
->> +       mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x05, 0xd9);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x07, 0x78);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x08, 0x5a);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x0d, 0x63);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x0e, 0x91);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x0f, 0x73);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x95, 0xeb);
->> +       mipi_dsi_dcs_write_seq(dsi, 0x96, 0xeb);
->> +       mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0x11);
-> 
-> I think it looks very similar to Jianhua:s driver:
-> https://lore.kernel.org/lkml/20230220121258.10727-1-lujianhua000@gmail.com/T/
-> 
-> Can't you just add this special magic sequence into
-> that driver instead?
-Yeah I'll try doing that.
-
-> 
-> Would it help if we merge Jianhua's driver first so you can patch on
-> top of it?
-Definitely.
+>> thanks for your patch!
+>>
+>> It appears Konrad is working on a very similar driver, so I suggest merging
+>> them into one Novatek NT36523 driver.
+>>
+>> Possibly we can fix this up first and then add Konrads Lenovo-panel with
+>> a patch on top.
+>>
+>> On Mon, Feb 20, 2023 at 1:13 PM Jianhua Lu <lujianhua000@gmail.com> wrote:
+>>
+>>> Add a driver for panels using the Novatek NT36523 display driver IC.
+>>>
+>>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+>>
+>> (...)
+>>
+>> I like how you abstract the panel with init commands in the panel info.
+>>
+>>> +enum dsi_cmd_type {
+>>> +       INIT_DCS_CMD,
+>>> +       DELAY_CMD,
+>>> +};
+>>> +
+>>> +struct panel_init_cmd {
+>>> +       enum dsi_cmd_type type;
+>>> +       size_t len;
+>>> +       const char *data;
+>>> +};
+>>> +
+>>> +#define _INIT_DCS_CMD(...) { \
+>>> +       .type = INIT_DCS_CMD, \
+>>> +       .len = sizeof((char[]){__VA_ARGS__}), \
+>>> +       .data = (char[]){__VA_ARGS__} }
+>>> +
+>>> +#define _INIT_DELAY_CMD(...) { \
+>>> +       .type = DELAY_CMD,\
+>>> +       .len = sizeof((char[]){__VA_ARGS__}), \
+>>> +       .data = (char[]){__VA_ARGS__} }
+>>
+>> I have seen this type of reinvented wheels a few times now. Don't do this.
+>>
+>> Look into other recently merged drivers and look how they do it, for example
+>> drivers/gpu/drm/panel/panel-himax-hx8394.c
+>>
+>> For example:
+>>
+>> - Use mipi_dsi_dcs_write_seq()
+>>
+>> - If the delay is just used at one point in the sequence, do not invent
+>>   a command language like above for it, open code the delay instead
+>>
+>> - Try to decode as much magic as possible, if you look in Konrads
+>>   driver you clearly see some standard MIPI commands, I bet you have
+>>   some too.
+>>
+>> - Maybe use callbacks to send sequences instead of tables, like in
+>>   the himax driver?
+> Maybe I should create a wrapper of mipi_dsi_dcs_write_seq() for sync dual dsi mode.
+Yes please, it'll come in useful.
 
 Konrad
-> 
-> Yours,
-> Linus Walleij
+>>
+>> Other than that it seems like something that could also handle the Lenovo
+>> display, or the other way around, I don't know which driver is the best
+>> starting point, but this one has the right Novatek name at least.
+>>
+>> Yours,
+>> Linus Walleij
