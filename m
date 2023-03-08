@@ -1,36 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC326B139F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 22:16:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8234B6B13F2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 22:35:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACC710E718;
-	Wed,  8 Mar 2023 21:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD09510E71D;
+	Wed,  8 Mar 2023 21:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.rmail.be (mail.rmail.be [85.234.218.189])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3212510E719
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 21:16:44 +0000 (UTC)
-Received: from mail.rmail.be (domotica.rmail.be [10.238.9.4])
- by mail.rmail.be (Postfix) with ESMTP id B3F453480D;
- Wed,  8 Mar 2023 22:16:42 +0100 (CET)
-MIME-Version: 1.0
-Date: Wed, 08 Mar 2023 22:16:42 +0100
-From: AL13N <alien@rmail.be>
-To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
-Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
- 5.16; and still broken in at least 6.1)
-In-Reply-To: <20230308123540.zqqe4mnhzumvnjfk@houat>
-References: <7d216faea9647d328651460167bc27f6@rmail.be>
- <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
- <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
- <20230308123540.zqqe4mnhzumvnjfk@houat>
-Message-ID: <004db85e5114674bfc432043376bcd00@rmail.be>
-X-Sender: alien@rmail.be
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FFE10E71D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 21:35:23 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id E12FF3200893;
+ Wed,  8 Mar 2023 16:35:19 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+ by compute6.internal (MEProxy); Wed, 08 Mar 2023 16:35:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1678311319; x=1678397719; bh=3M
+ jqPl34s3Z0DxZ95SEFHFqhYpQWxX80N5mapvV1olM=; b=D774f+OS+fX5cAxotv
+ 20JQC+4otb0th+n+4wcvY86S9jjTZNvssk8H7nRHmyjPe4Vjo0k3YaDiBMy+ENys
+ YGGJ3tZjpUPLC7PUUffVBNxV6x6MAxzPKKHnTR5S2t5aqmF4sNV4tz6hp1zRT+Yh
+ Q8it4dbcSs4+IlWVwQ9oGYRGAE97Sgfrf9z7PzbPUu9wy3PChkGK2jTsVBcxC7tk
+ XL2BhUX64Gx4UKBPeo6/nbq11cQiAt038aJrc3RzbhXKh99kLsVyGOBlxx3IfKEl
+ W+6QZ+6eIeZLMbbBPlqH0WbJ2DPsnLGmwdfkRZtF6l9dveKucmQaY1izxNhB2Ud6
+ n6EQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1678311319; x=1678397719; bh=3MjqPl34s3Z0D
+ xZ95SEFHFqhYpQWxX80N5mapvV1olM=; b=sU2i1B0PgZASHrK4oSqIjXMY3C6oJ
+ juI6YpQbT1VDN7wtHTd2UeNclaos9/UVOJ+0BwrYgAd53flvOSkx2BxBGcvdTC3L
+ c/oOK9/xCMowr2YbfJYsGiOX3G/6l8lSih09mIylvGaFNzQgXemVXDgPNrt2X1i5
+ 7atX89gN4zeQr4dAIecquhLSWcZvhNCd9dl/L3ZwP54STLon5z7EJ98fd45SKjJm
+ BHNlvwY+c6LNw7eGA/p50N8j6WfI0Nf1eXM41Qd72dbnVywzFoCRUAZE/BUdHC8k
+ uXgODE2UuNX0yHH01KRVIQCRi9d4uwI8sU6NPNwWfFuvY4YbtzXu9Q8xg==
+X-ME-Sender: <xms:lv8IZA1tOXVUQtPtleY3hiQBxGCr9d_Rncr1hKFCXmzX9rkApbr5Gg>
+ <xme:lv8IZLE4X5dazOcpmAEjnWQQ12zoXkvla3hMKkD5D9_Sb8lhGF-lWgr1YmHj2eXbu
+ agfmBE7YlsKm_3VBXA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddufedguddtfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+ rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+ htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+ keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:lv8IZI6BBrkUHOLA1QEcbacVbVjAjvlIAsorK8j0FRdA247ZoPUOPQ>
+ <xmx:lv8IZJ0p9ndc4Nnaz6oY5NyU1R6evB7bhMb6sGhV-ib_sNHTxPwzPQ>
+ <xmx:lv8IZDGKMvxaB1nXpOGabWk-dlUyt4u00ekcK8gAZ23ub8bzyKq-rw>
+ <xmx:l_8IZL8KhPzeLvgFCsinpmEYV8ANhzIXWP7nmGrmqfONml54WtP77w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 4524AB60086; Wed,  8 Mar 2023 16:35:18 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-206-g57c8fdedf8-fm-20230227.001-g57c8fded
+Mime-Version: 1.0
+Message-Id: <74915109-446a-4c1f-91bc-95dc6e3be200@app.fastmail.com>
+In-Reply-To: <ZAjphWYHDoDw9sQS@bombadil.infradead.org>
+References: <20230308130710.368085-1-bhe@redhat.com>
+ <20230308130710.368085-2-bhe@redhat.com>
+ <ZAjphWYHDoDw9sQS@bombadil.infradead.org>
+Date: Wed, 08 Mar 2023 22:34:57 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Luis Chamberlain" <mcgrof@kernel.org>, "Baoquan He" <bhe@redhat.com>
+Subject: Re: [PATCH v4 1/4] video: fbdev: atyfb: only use ioremap_uc() on i386
+ and ia64
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,181 +85,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard schreef op 2023-03-08 13:35:
-> Hi,
-> 
-> On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
->> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
->> > AL13N schreef op 2023-03-06 17:34:
->> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
->> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
->> > > plymouth), the cause of no X is that EDID gives nothing, and in the
->> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
->> > > changed for this.
->> > >
->> > > In 5.16 instead of this message there is a bunch of hex lines prefixed
->> > > with BAD.
->> > >
->> > > It is still broken in 6.1 at the very least.
->> > >
->> > > I donno if this is related to this part, but I wanted to try a newer
->> > > kernel, because the RPI4 seems to do all the video decoding in
->> > > software and cannot seem to handle it.
->> > >
->> > >
->> > > logs:
->> > > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
->> > > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> > > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
->> > > fb0: switching to vc4 from simple
->> > > Console: switching to colour dummy device 80x25
->> > > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->> > > vc4-drm gpu: [drm] Cannot find any crtc or sizes
->> >
->> > 5.16 log has:
->> >
->> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
->> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
->> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->> >         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
->> >         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
->> >         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
->> >         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
->> >         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
->> >         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
->> >         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
->> >         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
->> > Console: switching to colour frame buffer device 240x67
->> > vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
->> >
->> >
->> > i donno what this bad is, but it doesn't happen in 5.17... maybe these
->> > BAD got filtered out, but they did end up working for me? or something?
->> > i donno...
+0On Wed, Mar 8, 2023, at 21:01, Luis Chamberlain wrote:
+> On Wed, Mar 08, 2023 at 09:07:07PM +0800, Baoquan He wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
 >> 
->> Run it through edid-decode - the checksum is wrong.
+>> ioremap_uc() is only meaningful on old x86-32 systems with the PAT
+>> extension, and on ia64 with its slightly unconventional ioremap()
+>> behavior, everywhere else this is the same as ioremap() anyway.
 >> 
->> Block 0, Base EDID:
->>   EDID Structure Version & Revision: 1.3
->>   Vendor & Product Identification:
->>     Manufacturer: MST
->>     Model: 0
->>     Made in: week 11 of 2021
->>   Basic Display Parameters & Features:
->>     Analog display
->>     Input voltage level: 0.7/0.3 V
->>     Blank level equals black level
->>     Maximum image size: 35 cm x 1 cm
->>     Gamma: 2.20
->>     RGB color display
->>     First detailed timing is the preferred timing
->>   Color Characteristics:
->>     Red  : 0.6396, 0.3398
->>     Green: 0.2998, 0.6904
->>     Blue : 0.1376, 0.0380
->>     White: 0.2822, 0.2968
->>   Established Timings I & II: none
->>   Standard Timings:
->>     GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
->>   Detailed Timing Descriptors:
->>     DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz (708
->> mm x 398 mm)
->>                  Hfront  176 Hsync  88 Hback 296 Hpol P
->>                  Vfront    8 Vsync  10 Vback  72 Vpol P
->>     DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (708
->> mm x 398 mm)
->>                  Hfront   88 Hsync  44 Hback 148 Hpol P
->>                  Vfront    4 Vsync   5 Vback  36 Vpol P
->>     Display Product Name: 'SALORA'
->>   Display Range Limits:
->>     Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600 
->> MHz
->>   Extension blocks: 1
->> Checksum: 0xaa (should be 0xeb)
+>> Change the only driver that still references ioremap_uc() to only do so
+>> on x86-32/ia64 in order to allow removing that interface at some
+>> point in the future for the other architectures.
 >> 
->> Weird that it also says that it's an analog display when it's
->> connected over HDMI. Something rather bizarre there, and I think it'll
->> hit problems in drm_edid at [1] as we end up with a connector having
->> no color_formats defined. I was discussing this with Maxime only last
->> week, but in relation to VGA monitors connected through HDMI to VGA
->> adapters without rewriting the EDID.
+>> On some architectures, ioremap_uc() just returns NULL, changing
+>> the driver to call ioremap() means that they now have a chance
+>> of working correctly.
 >> 
->> If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
->> your monitor not asserting hotplug correctly. The raw hotplug status
->> is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
->> or 1 depending on the probe order of the vc4 and v3d drivers). Grep
->> for HDMI_HOTPLUG.
-> 
-> If it's an option, bisecting between 5.16 and 5.17 which commit
-> introduced the regression would be nice.
-> 
->> Incorrect hotplug behaviour causes grief when combined with HDMI2.0
->> and scrambling. If you don' t know the other end has been
->> disconnected, then you never know that scrambling needs to be
->> re-negotiated over SCDC, and the display will typically end up just
->> being blank.
->> 
->> [1] 
->> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edid.c#L6460
->> [2] 
->> https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe793eb03c70fa
-> 
-> We can easily test that: could you try booting with video=HDMI-A-1:D 
-> (or
-> HDMI-A-2, depending on whether you use HDMI0 or HDMI1) and see if it
-> helps?
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>> Signed-off-by: Baoquan He <bhe@redhat.com>
+>> Cc: Helge Deller <deller@gmx.de>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+>> Cc: linux-fbdev@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+>
+> Is anyone using this driver these days? How often do fbdev drivers get
+> audited to see what can be nuked?
 
-in kernel 6.1 or kernel 5.17 ?
+Geert already mentioned that this one is likely used on old
+powermac systems. I think my arm boardfile removal orphaned
+some other fbdev drivers though. I removed the ones that can
+no longer be enabled, but think a bunch of other ones
+are still selectable but have no platform_device definition
+or DT support: FB_PXA168, FB_DA8XX, FB_MX3, and MMP_FB.
 
->> > I also noticed that earlier in the logs there are more bound lines:
->> > (some are double)
->> >
->> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >
->> > and then here for some reason systemd does modprobe@drm.service ? is
->> > this just a delayed starting log line, or does it actually try to unload
->> > drm and reload? i doubt it?
->> > in any case there is more that appears before:
->> >
->> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
->> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
->> >
->> >
->> > so, the error message is weird, as it implies 2 possibilities. however,
->> > i think it did find a crtc since all those pixelvalve things use crtc
->> > functions?
->> >
->> > So then why do i have this problem on my RPI4? do most people just use
->> > the raspberry pi kernels?
->> 
->> Largely, yes, people use our vendor kernels.
-> 
-> tbf, the downstream kernel has pretty much the same code here, so the
-> issue is very likely to affect it too.
-> 
-> I would just assume that your TV has some unusual behaviour that throws
-> the driver off, and most people won't.
+These four platforms are all still supported with DT, but
+over time it gets less likely that anyone is still interested
+in adding DT support to the fbdev drivers.
 
-IC, the TV also has an option somewhere to choose EDID 2.0, i thought i 
-chose that but if that decode says 1.3, maybe i didn't... Is it worth it 
-to retry this?
+    Arnd
