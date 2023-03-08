@@ -1,61 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42D86B0733
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 13:35:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 166CB6B073A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 13:35:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C50EE10E5CB;
-	Wed,  8 Mar 2023 12:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B84310E11C;
+	Wed,  8 Mar 2023 12:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C43510E11C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 12:35:24 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id e82so14422975ybh.9
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 04:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678278923;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Te0Wm1LBiLHbyjBQ4apLHzIYIeF5VCMITHqDeFoeL3c=;
- b=wjrI5GBxcLK2TpY/oAthDy4jtf1z+fsJuQ9xjcbxHaIlP6smp1deqrOVtdOkNnjFIA
- 2UrygRCRUkSvYhYIP206gLrLjl0xPM+AD4S5GNdOAcW4d8tIqfe3pZYgXtRsu5Y6lGcH
- j16ROAYlk8/QmUFivnX7oGT1kpc1TF2IyACh3W9NPSJUUaFMKuOvXh7itExrkzx08ERc
- PyntbpEt932gCKkR86biuXCM/rCAdWH4X1ofg+KEsTel8id7WapS80VxZU77UhUOU/Rw
- e70eEtSpzO80RkRXAQg+49btgEFiOrqzTapKjhJrIL/0rBejgJQOCpfPh+HJmAmXw0Xc
- tW7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678278923;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Te0Wm1LBiLHbyjBQ4apLHzIYIeF5VCMITHqDeFoeL3c=;
- b=EKRpvyJPstdhXTsA8e+SdR9kGlH/tFpYAfT9KXTrY/EizwSMmF5lEljyYMR7leGllw
- r2C5jcY4J8YnIcY+A/tC4HaGYT4+p0C8jjuZhSArpzVXq9IEAb0lQzxsZH6U/Dd95oTg
- 7rqOBlXMxiG4BxduZXBtQOoFGh2XcID66RmoFplm9J77nsRiV1sHOzos14M5v1E9Dh8W
- YN5CqsA6RCVv+nxzD7dLWNDWZnPnlnh9iSfqvaORS0aKvdPUL2Enk7yUimKcEgNsUfEq
- oCSVKmiVnkhP7Ibkcz64dxi2HuLVSiOHpn7pnNwMWJu1XtYS4+s7MRuPAa/VUSjvM42p
- tvqw==
-X-Gm-Message-State: AO0yUKW04lTW7Jum/vsI88mI58PEnIYi2rmihDh0mfQqn1NRGtNPc0WC
- p2eTEdxSt1KU2MagGbACVKrbpMW3slnx8SL+UoOGgw==
-X-Google-Smtp-Source: AK7set+wT84PGBj+94QLZa9jjubNNjq68RKKqm41jG5BChuSqdm07c0307nCBlq5YlWDhnsqSvsRE1NW+v6KzhRiMcM=
-X-Received: by 2002:a5b:70c:0:b0:a30:38fb:a0b8 with SMTP id
- g12-20020a5b070c000000b00a3038fba0b8mr11038426ybq.9.1678278923492; Wed, 08
- Mar 2023 04:35:23 -0800 (PST)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6401610E11C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 12:35:46 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8F6395C0134;
+ Wed,  8 Mar 2023 07:35:43 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 08 Mar 2023 07:35:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+ 1678278943; x=1678365343; bh=CwwjxYk6OJS8JqPdEK5wTQMb0BH4QYZn4ki
+ tIq2d/w8=; b=jQa/baVWKLS2UxWo+MOjHNBPJpdscSfTFh4wP7CpQJqnIk6WISh
+ G7N4pVbqxug4UGAMfqOAVWAu9B1x8QeMaFaIIQELsMGhfj8qfm/Es5dLvww/X4Ux
+ L8/qTZxLQO/5oMte6QvMQPT+i6D+u3wR2ZCt4jM4RoPB+E0WdnAtQZfXsfOr5fXR
+ aUzUKPTzzo1oeTKGuuvHAQeP0jUOT3XC5Lgl7IiC5cWad8be0y6L7LKkKV57ikXO
+ dB2CRH5X+4ZCH3hsbZ5ybG/AE+PX2fxMhcXOqXBK4MqfUr0wOv3bZDC3FHxGleUx
+ oBQ1CeG1Ghsozm432yFMkGCbUsGixzMZgow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1678278943; x=1678365343; bh=CwwjxYk6OJS8JqPdEK5wTQMb0BH4QYZn4ki
+ tIq2d/w8=; b=HVSxZwpju5yrjBP7ZxQ6+3xpsXrz0R74cBbYouPXZH9X4z1CfO3
+ phRl6RVHuCTgBYDbL6tMAMf0h8w9VtADKp+ngH2bt5qpRSh8nxaATMH5uIA3sUrx
+ JhCbtDN5HCEePIdUP5zFfUpT5mUgDfDpKz2gzhv4TPwWWn/kOIKOY4S/JYRtaMte
+ 1FjfOkZUHiO5gFGTx35nUYuqjHK03pUJnPRioQLkfKeMuzhQnqA+eJxIzrxSrXwh
+ uzUr+48bcnnvf/a2bS6WplmxGntMWLnogVrdAS78OtXYxSaOOBlJcKfsO4Eun5bx
+ 8lM9x+/pRphc07WIPXIzPIVPuZsx4nocpeQ==
+X-ME-Sender: <xms:H4EIZNlNsiB2bw0lF1jR1Rwf1GqZ4o1sR2cxWurVnmf6vvG02EqX_Q>
+ <xme:H4EIZI033ldGHQOV40vmkKJdanqrFQBA1Z0noEqiET8zpn_y6F88rShqrCLK4DD32
+ VkM7HlOKl9JYdEgx0k>
+X-ME-Received: <xmr:H4EIZDqt4oJXrmAZEMsJkzosvW4iGODPRGO4F-7e4PfNYbPItuNK1pRn0sojfjgnjWQ2zZqxqqLaBi6egELz3FChi6z4prs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdduvddgvdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepuddtjefgffdtheehteetudfhkeegveegffetteefjeduhfduudekfedv
+ geegueelnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgv
+ tghh
+X-ME-Proxy: <xmx:H4EIZNlJgaRud3FqFac_6xrva2LcpucaczzhYeqg2QXGn4UrC_WPLg>
+ <xmx:H4EIZL0rtbFih8OjsBFlC0bmekefWEYKQ-CwN57DVXBEJprS18-lsQ>
+ <xmx:H4EIZMsJkijU3grGsQiJWs4WG4hLBq0wE9OgqKUAxP-ylXxv6ZcZww>
+ <xmx:H4EIZFrbogO5ro3mxnDW4z3zIqKB3nxjQjrHAHopqiNNCOVQhKsSnw>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Mar 2023 07:35:42 -0500 (EST)
+Date: Wed, 8 Mar 2023 13:35:40 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works
+ in 5.16; and still broken in at least 6.1)
+Message-ID: <20230308123540.zqqe4mnhzumvnjfk@houat>
+References: <7d216faea9647d328651460167bc27f6@rmail.be>
+ <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
+ <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221102180705.459294-1-dmitry.baryshkov@linaro.org>
- <20221102180705.459294-6-dmitry.baryshkov@linaro.org>
- <ZAhhrG6CliC83Oxr@hovoldconsulting.com>
-In-Reply-To: <ZAhhrG6CliC83Oxr@hovoldconsulting.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 8 Mar 2023 14:35:12 +0200
-Message-ID: <CAA8EJprKDXYjd2zUdAGZkUEVt++XtA03RnCoYAfb-gJUz7tMsg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] drm/msm/hdmi: stop using
- drm_bridge_connector_en/disable_hpd()
-To: Johan Hovold <johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,68 +88,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, AL13N <alien@rmail.be>,
+ Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Mar 2023 at 12:20, Johan Hovold <johan@kernel.org> wrote:
->
-> On Wed, Nov 02, 2022 at 09:07:03PM +0300, Dmitry Baryshkov wrote:
-> > The functionality of drm_bridge_connector_enable_hpd() and
-> > drm_bridge_connector_disable_hpd() is provided automatically by the
-> > drm_kms_poll helpers. Stop calling these functions manually.
->
-> I stumbled over this one when investigating a hotplug-related crash in
-> the MSM DRM driver which this series prevents by moving hotplug
-> notification enable to drm_kms_helper_poll_enable().
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/hdmi/hdmi.c | 2 --
-> >  1 file changed, 2 deletions(-)
+Hi,
+
+On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
+> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
+> > AL13N schreef op 2023-03-06 17:34:
+> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
+> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
+> > > plymouth), the cause of no X is that EDID gives nothing, and in the
+> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
+> > > changed for this.
+> > >
+> > > In 5.16 instead of this message there is a bunch of hex lines prefixed
+> > > with BAD.
+> > >
+> > > It is still broken in 6.1 at the very least.
+> > >
+> > > I donno if this is related to this part, but I wanted to try a newer
+> > > kernel, because the RPI4 seems to do all the video decoding in
+> > > software and cannot seem to handle it.
+> > >
+> > >
+> > > logs:
+> > > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+> > > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+> > > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
+> > > fb0: switching to vc4 from simple
+> > > Console: switching to colour dummy device 80x25
+> > > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+> > > vc4-drm gpu: [drm] Cannot find any crtc or sizes
 > >
-> > diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> > index 93fe61b86967..a540c45d4fd3 100644
-> > --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-> > +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-> > @@ -348,8 +348,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
-> >               goto fail;
-> >       }
+> > 5.16 log has:
 > >
-> > -     drm_bridge_connector_enable_hpd(hdmi->connector);
-> > -
-> >       ret = msm_hdmi_hpd_enable(hdmi->bridge);
-> >       if (ret < 0) {
-> >               DRM_DEV_ERROR(&hdmi->pdev->dev, "failed to enable HPD: %d\n", ret);
+> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+> >         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
+> >         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
+> >         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
+> >         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
+> >         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
+> >         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
+> >         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
+> >         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
+> > Console: switching to colour frame buffer device 240x67
+> > vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
+> >
+> >
+> > i donno what this bad is, but it doesn't happen in 5.17... maybe these
+> > BAD got filtered out, but they did end up working for me? or something?
+> > i donno...
+>=20
+> Run it through edid-decode - the checksum is wrong.
+>=20
+> Block 0, Base EDID:
+>   EDID Structure Version & Revision: 1.3
+>   Vendor & Product Identification:
+>     Manufacturer: MST
+>     Model: 0
+>     Made in: week 11 of 2021
+>   Basic Display Parameters & Features:
+>     Analog display
+>     Input voltage level: 0.7/0.3 V
+>     Blank level equals black level
+>     Maximum image size: 35 cm x 1 cm
+>     Gamma: 2.20
+>     RGB color display
+>     First detailed timing is the preferred timing
+>   Color Characteristics:
+>     Red  : 0.6396, 0.3398
+>     Green: 0.2998, 0.6904
+>     Blue : 0.1376, 0.0380
+>     White: 0.2822, 0.2968
+>   Established Timings I & II: none
+>   Standard Timings:
+>     GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
+>   Detailed Timing Descriptors:
+>     DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz (708
+> mm x 398 mm)
+>                  Hfront  176 Hsync  88 Hback 296 Hpol P
+>                  Vfront    8 Vsync  10 Vback  72 Vpol P
+>     DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz (708
+> mm x 398 mm)
+>                  Hfront   88 Hsync  44 Hback 148 Hpol P
+>                  Vfront    4 Vsync   5 Vback  36 Vpol P
+>     Display Product Name: 'SALORA'
+>   Display Range Limits:
+>     Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600 MHz
+>   Extension blocks: 1
+> Checksum: 0xaa (should be 0xeb)
+>=20
+> Weird that it also says that it's an analog display when it's
+> connected over HDMI. Something rather bizarre there, and I think it'll
+> hit problems in drm_edid at [1] as we end up with a connector having
+> no color_formats defined. I was discussing this with Maxime only last
+> week, but in relation to VGA monitors connected through HDMI to VGA
+> adapters without rewriting the EDID.
 >
-> It looks like you are now enabling hotplug events before the DRM driver
-> is ready to receive them (i.e. msm_hdmi_hpd_enable() is called before
-> drm_bridge_connector_enable_hpd()).
->
-> Could this not lead to missed events or is the state being setup
-> correctly somewhere else?
->
-> Shouldn't the call to msm_hdmi_hpd_enable() be moved to when HPD is
-> enabled either way (e.g. by being converted to a hpd_enable callback)?
+> If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
+> your monitor not asserting hotplug correctly. The raw hotplug status
+> is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
+> or 1 depending on the probe order of the vc4 and v3d drivers). Grep
+> for HDMI_HOTPLUG.
 
-Eventually I'll get to it (hopefully during this weekend). There is
-one item which needs to be investigated, see [1]. I have to check if
-this is applicable to earlier generations, which also means
-resurrecting the msm8974 HDMI PHY patchset posted ages ago. I think
-the initial status is determined correctly using the .detect(). At
-least I saw no issues with this patchset. However, thanks for the
-pointer.
+If it's an option, bisecting between 5.16 and 5.17 which commit
+introduced the regression would be nice.
 
-[1] https://git.codelinaro.org/linaro/qcomlt/kernel/-/commit/6ae2c308555f470ba63f90b7171519a242f96a67
+> Incorrect hotplug behaviour causes grief when combined with HDMI2.0
+> and scrambling. If you don' t know the other end has been
+> disconnected, then you never know that scrambling needs to be
+> re-negotiated over SCDC, and the display will typically end up just
+> being blank.
+>=20
+> [1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edi=
+d.c#L6460
+> [2] https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe=
+793eb03c70fa
 
+We can easily test that: could you try booting with video=3DHDMI-A-1:D (or
+HDMI-A-2, depending on whether you use HDMI0 or HDMI1) and see if it
+helps?
 
--- 
-With best wishes
-Dmitry
+> > I also noticed that earlier in the logs there are more bound lines:
+> > (some are double)
+> >
+> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >
+> > and then here for some reason systemd does modprobe@drm.service ? is
+> > this just a delayed starting log line, or does it actually try to unload
+> > drm and reload? i doubt it?
+> > in any case there is more that appears before:
+> >
+> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+> >
+> >
+> > so, the error message is weird, as it implies 2 possibilities. however,
+> > i think it did find a crtc since all those pixelvalve things use crtc
+> > functions?
+> >
+> > So then why do i have this problem on my RPI4? do most people just use
+> > the raspberry pi kernels?
+>=20
+> Largely, yes, people use our vendor kernels.
+
+tbf, the downstream kernel has pretty much the same code here, so the
+issue is very likely to affect it too.
+
+I would just assume that your TV has some unusual behaviour that throws
+the driver off, and most people won't.
+
+Maxime
