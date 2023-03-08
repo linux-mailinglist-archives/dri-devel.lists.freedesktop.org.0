@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F766AFE75
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 06:36:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4956AFE78
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 06:36:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8686410E2AB;
-	Wed,  8 Mar 2023 05:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7784E10E320;
+	Wed,  8 Mar 2023 05:36:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 830FA10E2AB;
- Wed,  8 Mar 2023 05:36:06 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 172DF10E320;
+ Wed,  8 Mar 2023 05:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678253766; x=1709789766;
+ t=1678253809; x=1709789809;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=Y1rsL1rkgiQXdtTZqMp0wlABoY/a8HncB2KN6HKdbuc=;
- b=hLy7NDP/p2ehjl8z1+b0dTrc8zezHEuV0BiIRF13r2TTAVS29J8mh9Kr
- aBIu1Hn1PVAEuqahFcmU9AX9i51l6VPFbbl4iAbmrrSjXG1r+XQzF7s9G
- GzxbjFlOVLoHa1o4rad5T5l24SqBTviO+pm2SUXtJ7dqLeEJNJcSwCc/Z
- L5ZQqbxEuPiGIs/tyIPkJP627MDyPH2DZzHFugwNUt/h62I2T0cVKehBb
- 998lSYcRbI4uI72a+lvYEXhzb6Aed8YusEB38lRAwEVFMcclgmBSiAmY6
- y22fv58U3mziHbKXmahtNtuBzSpo6YwrJtjE6u8cxaT5kW+eiGBylVIFn A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="334781937"
-X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; d="scan'208";a="334781937"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 21:36:06 -0800
+ bh=EN7nZIx9AeWGW3dJFjmj92yVmKEaOgpm/fTa17NDrwA=;
+ b=IY7CgvyimmiLojPr8meePr0qiI31hQOYuDW0qSivoQtLSNOJZPTcf4U1
+ ix4yYUFgffNIhXgnEQl29FyVwu6rdynPrMgY9OKAso4LcXz49RAd4BFs/
+ 5HP/UvFzESvXKsJ6PbO3eK5LniUWxH2j0x/XRrQ7ZQzm5iB4DZ5VOHAQ6
+ 9WGAcEO23OOO0yOFrnt3hAFMfSJty3VKM6E3iF6XhtO4e8VY7qFvBo8oF
+ p7Iopm74Kc4driJ502GgNqVBLLnx1cjql1Jhh7HU87zrCPqfr238DsV4k
+ Aao7BdiUX21xh2aI7VqWPpUEt+c7NALizy6eZ+yZErTfZy/8Ho/Jg78XT A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="422334765"
+X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; d="scan'208";a="422334765"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2023 21:36:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="745777129"
-X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; d="scan'208";a="745777129"
+X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="740987360"
+X-IronPort-AV: E=Sophos;i="5.98,242,1673942400"; d="scan'208";a="740987360"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.87.208])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2023 21:36:05 -0800
-Date: Tue, 07 Mar 2023 21:36:05 -0800
-Message-ID: <87jzzrn6t6.wl-ashutosh.dixit@intel.com>
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2023 21:36:48 -0800
+Date: Tue, 07 Mar 2023 21:36:47 -0800
+Message-ID: <87ilfbn6s0.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
 To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/pmu: Use only freq bits for falling back to
- requested freq
-In-Reply-To: <6abc2ea5-4d60-765b-a830-ee0225c63871@linux.intel.com>
-References: <20230304012705.70003-1-ashutosh.dixit@intel.com>	<20230304012705.70003-2-ashutosh.dixit@intel.com>	<6abc2ea5-4d60-765b-a830-ee0225c63871@linux.intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/pmu: Use correct requested freq for SLPC
+In-Reply-To: <6c005534-9919-aad7-eb6c-fba0c8e12448@linux.intel.com>
+References: <20230304012705.70003-1-ashutosh.dixit@intel.com>	<20230304012705.70003-3-ashutosh.dixit@intel.com>	<6c005534-9919-aad7-eb6c-fba0c8e12448@linux.intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -67,68 +66,60 @@ Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 06 Mar 2023 03:04:40 -0800, Tvrtko Ursulin wrote:
+On Mon, 06 Mar 2023 03:10:24 -0800, Tvrtko Ursulin wrote:
 >
 
 Hi Tvrtko,
 
 > On 04/03/2023 01:27, Ashutosh Dixit wrote:
-> > On newer generations, the GEN12_RPSTAT1 register contains more than freq
-> > information, e.g. see GEN12_VOLTAGE_MASK. Therefore use only the freq bits
-> > to decide whether to fall back to requested freq.
+> > SLPC does not use 'struct intel_rps'. Use UNSLICE_RATIO bits from
 >
+> Would it be more accurate to say 'SLPC does not use rps->cur_freq' rather
+> than it not using struct intel_rps?
 
-> CI is not catching the problem?
+No actually SLPC maintains a separate 'struct intel_guc_slpc' and does not
+use 'struct intel_rps' at all so all of 'struct intel_rps' is 0.
 
-This is because as we know PMU freq sampling happens only when gt is
-unparked (actively processing requests) so it is highly unlikely that gt
-will be in rc6 when it might have to fall back to requested freq (I checked
-this and it seems it is only at the end of the workload that we see it
-entering the fallback code path). Deleting the fallback path completely
-will not make much difference to the output and is an option too. Anyway I
-have retained it for now.
+> Fixes: / stable ? CI chances of catching this?
 
-> Could you find an appropriate Fixes: tag please? If it can affects a
-> platform out of force probe then cc: stable to.
+Same issue as Patch 1, I have answered this there.
 
-Cc stable is anyway not needed because affected platforms (DG1 onwards) are
-under force probe. Also because the issue does not affect real metrics (as
-mentioned above) as well as because it is a really a missing patch rather
-than a broken previous patch I am skipping the Fixes tag.
-
+> > GEN6_RPNSWREQ for SLPC. See intel_rps_get_requested_frequency.
+> >
+> > Bspec: 52745
+> >
 > > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
 > > ---
-> >   drivers/gpu/drm/i915/i915_pmu.c | 6 ++----
-> >   1 file changed, 2 insertions(+), 4 deletions(-)
+> >   drivers/gpu/drm/i915/i915_pmu.c | 9 +++++++--
+> >   1 file changed, 7 insertions(+), 2 deletions(-)
 > >
 > > diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
-> > index 52531ab28c5f..f0a1e36915b8 100644
+> > index f0a1e36915b8..5ee836610801 100644
 > > --- a/drivers/gpu/drm/i915/i915_pmu.c
 > > +++ b/drivers/gpu/drm/i915/i915_pmu.c
-> > @@ -393,10 +393,8 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
-> >		 * case we assume the system is running at the intended
+> > @@ -394,8 +394,13 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
 > >		 * frequency. Fortunately, the read should rarely fail!
 > >		 */
-> > -		val = intel_rps_read_rpstat_fw(rps);
-> > -		if (val)
-> > -			val = intel_rps_get_cagf(rps, val);
-> > -		else
-> > +		val = intel_rps_get_cagf(rps, intel_rps_read_rpstat_fw(rps));
+> >		val = intel_rps_get_cagf(rps, intel_rps_read_rpstat_fw(rps));
+> > -		if (!val)
+> > -			val = rps->cur_freq;
+> > +		if (!val) {
+> > +			if (intel_uc_uses_guc_slpc(&gt->uc))
+> > +				val = intel_rps_read_punit_req(rps) >>
+> > +						GEN9_SW_REQ_UNSLICE_RATIO_SHIFT;
+> > +			else
+> > +				val = rps->cur_freq;
+> > +		}
 >
-> Will this work with gen5_invert_freq as called by intel_rps_get_cagf?
+> That's a bunch of duplication from intel_rps.c so perhaps the appropriate
+> helpers should be exported (some way) from there.
 
-PMU has ever only supported Gen6+. See intel_rps_read_rpstat_fw (Gen5 does
-not have a GEN6_RPSTAT1 register) as well as 01b8c2e60e96.
-
-More importantly PMU was missing support for MTL. It is to avoid these
-kinds of issues I have submitted a new series with a different approach
-which should now take care of both MTL+ as well as Gen5-:
+This is also addressed in the new series:
 
 https://patchwork.freedesktop.org/series/114814/
 
-> > +		if (!val)
-> >			val = rps->cur_freq;
 > >			add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
+> >				intel_gpu_freq(rps, val), period_ns / 1000);
 
 Thanks.
 --
