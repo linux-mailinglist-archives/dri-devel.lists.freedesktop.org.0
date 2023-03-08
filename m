@@ -2,56 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2F96AFB21
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 01:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807476AFB57
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 01:37:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64CBD10E576;
-	Wed,  8 Mar 2023 00:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94E4F10E57B;
+	Wed,  8 Mar 2023 00:37:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
- [209.85.160.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF8FF10E576
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 00:31:24 +0000 (UTC)
-Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-176d93cd0daso7720823fac.4
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 16:31:24 -0800 (PST)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 015DD10E57B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 00:37:35 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id y11so16138829plg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 16:37:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678235855;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SR/547FI3dqnvDn6OGe6fd1eQrMxuzZlhfxHSEijotM=;
+ b=jSHi7HiOYmICS2einqkRKlS3BB6yDS8GWRRqvlKgJ83cDSAEFpchQlYT65HgZatLld
+ xo5dCXUzEAaOlz8q+Z99Ky/55G4zU8SwJ6y2a1z+AusQZz2c23pDbbTsEuxo7dyonXQw
+ 6Y8Zk/7/WCynhK9sC+VZSDKTd8Nz+ruO6cred+KXkgv1VnoPvOLySw/kuSASgnos9UeZ
+ jkJiGxUO8KDwyPEb3RiTFEBWDKnAWlAF1BbJqWcnc9T+iRIMTHRhOChF5oW9g2qV6ydD
+ iKCLgt7VbgdmV1OwOOdr6lCYOUqLb5yO0Gj7NtOjm90Q5pLXDjnDyArhXihmY2AF4QFM
+ DOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678235484;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p0N0vVa1h3Mrpxxp+FacYSNAxWlsrmv0a+CI104Imq8=;
- b=501NtZxGvuecXhU0difUcL/mP43YGSGJ0pwj0SqPv8/WRgOxD2y3y1FXJ+j0w430nb
- liEEtcBuKoaR1qXmjdOCX0FsnFWQcvTctdrzA3rMDn9CEeh5xfCiTYWABV7bmDJbGTkQ
- 8H0bYmkiDTpVSgEj7ZE+6x0fApYatGf+8FH1wtN/k48lioXOhvPLFujWI/sS9yu3tXNR
- NZvTbmZZ338rQeGxmUAzZzmbwV5fcbUSLqsKldOE6KSj8hs01TwGChsGjJ+5hJA/qYcR
- asBdf2ujmf7eOTsXNtEoJ2UnZum9GP+Pe74JgCxUj3cYaVfg5sqXejliMj9iTlOjKvx1
- j4ww==
-X-Gm-Message-State: AO0yUKUVEOhzoEkmtFe4qeGBSXC9fl3x1cA3MGtOIX4Wncha+mECEQ9k
- KA3i2GHsLVweGsGhw+Rcxg==
-X-Google-Smtp-Source: AK7set8urRj86KjT6p6ca6TH+1d7WiTNHwu7LwngJMmJXYNx4lNvyYL4MUVFcNoMxtMf6owAX0HfHw==
-X-Received: by 2002:a05:6870:14cc:b0:172:5b7b:19d6 with SMTP id
- l12-20020a05687014cc00b001725b7b19d6mr10893062oab.9.1678235483937; 
- Tue, 07 Mar 2023 16:31:23 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- x38-20020a4a97e9000000b005251f71250dsm5587810ooi.37.2023.03.07.16.31.22
+ d=1e100.net; s=20210112; t=1678235855;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SR/547FI3dqnvDn6OGe6fd1eQrMxuzZlhfxHSEijotM=;
+ b=k+9RtXLFx34EiRQhZfTx1EfsqwI3i6IDz4AIRF6Ui+Hy+ynQxp5hgnGzoi8at2Uy4Y
+ SUKBxaxWt6JXJvClVM4CC/B9Kxc0zKqw+8eh1Vzu2urW0qoSP7DQfN67lWENkHMMOCcM
+ 9rLDCcu0aj6tfq5Q2kzl9KIl9mZ4nMf2yTCZI4Gxt2s/JOU8D5iP+b94gPUfbo5WfDSO
+ mSLEo5kahZVbSzIub+GG6b4E6K4I9vSjz/1pLp9ozz2ec2p2KkxQ8LD6ciIPdFMrRlNw
+ CcHoVuJbeAb0aN4nKBBLlyFY8tFjHPhIdGgkCEsWZ3yyQa5p8iE8ErL7IxBnlX0yA6ne
+ I0vA==
+X-Gm-Message-State: AO0yUKVXuxZkb13KilHxGavzB+pRx47BuVSk2tszn4EW6K2DRSuSD4Tv
+ TvS95VUWAN7LAgFpabUmJDE=
+X-Google-Smtp-Source: AK7set/se6v/Sndm89S1Z/vrVsycl4pwMfQjcUCTQghs6L4+WuIXgEpNbcCUDIjHdCHeCV/t/+JKLQ==
+X-Received: by 2002:a17:90a:1946:b0:233:c9e7:c885 with SMTP id
+ 6-20020a17090a194600b00233c9e7c885mr16960269pjh.36.1678235855549; 
+ Tue, 07 Mar 2023 16:37:35 -0800 (PST)
+Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
+ by smtp.gmail.com with ESMTPSA id
+ y20-20020a17090aca9400b0023317104415sm9767834pjt.17.2023.03.07.16.37.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 16:31:23 -0800 (PST)
-Received: (nullmailer pid 538253 invoked by uid 1000);
- Wed, 08 Mar 2023 00:31:22 -0000
-Date: Tue, 7 Mar 2023 18:31:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display/bridge: toshiba,tc358764:
- convert to dtschema
-Message-ID: <167823547806.538132.10458902840268879408.robh@kernel.org>
-References: <20230225160252.18737-1-krzysztof.kozlowski@linaro.org>
+ Tue, 07 Mar 2023 16:37:35 -0800 (PST)
+Date: Wed, 8 Mar 2023 08:37:27 +0800
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 2/2] drm/panel: Add driver for Novatek NT36523
+Message-ID: <ZAfYx9Im0j5LMuMn@Gentoo>
+References: <20230220121258.10727-1-lujianhua000@gmail.com>
+ <20230220121258.10727-2-lujianhua000@gmail.com>
+ <CACRpkdbZCZiMM_qeqMd9=txVvPVHEzM4szOnPR-gCYdiXW_9eA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230225160252.18737-1-krzysztof.kozlowski@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdbZCZiMM_qeqMd9=txVvPVHEzM4szOnPR-gCYdiXW_9eA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,30 +75,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Cc: devicetree@vger.kernel.org,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, linux-arm-kernel@lists.infradead.org,
- Andrzej Hajda <andrzej.hajda@intel.com>
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Sat, 25 Feb 2023 17:02:51 +0100, Krzysztof Kozlowski wrote:
-> Convert the Toshiba TC358764 bridge bindings to DT schema.
+On Tue, Mar 07, 2023 at 11:34:55PM +0100, Linus Walleij wrote:
+> Hi Jianhua,
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../display/bridge/toshiba,tc358764.txt       | 35 --------
->  .../display/bridge/toshiba,tc358764.yaml      | 89 +++++++++++++++++++
->  2 files changed, 89 insertions(+), 35 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
+> thanks for your patch!
 > 
-
-Applied, thanks!
-
+> It appears Konrad is working on a very similar driver, so I suggest merging
+> them into one Novatek NT36523 driver.
+> 
+> Possibly we can fix this up first and then add Konrads Lenovo-panel with
+> a patch on top.
+> 
+> On Mon, Feb 20, 2023 at 1:13 PM Jianhua Lu <lujianhua000@gmail.com> wrote:
+> 
+> > Add a driver for panels using the Novatek NT36523 display driver IC.
+> >
+> > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> 
+> (...)
+> 
+> I like how you abstract the panel with init commands in the panel info.
+> 
+> > +enum dsi_cmd_type {
+> > +       INIT_DCS_CMD,
+> > +       DELAY_CMD,
+> > +};
+> > +
+> > +struct panel_init_cmd {
+> > +       enum dsi_cmd_type type;
+> > +       size_t len;
+> > +       const char *data;
+> > +};
+> > +
+> > +#define _INIT_DCS_CMD(...) { \
+> > +       .type = INIT_DCS_CMD, \
+> > +       .len = sizeof((char[]){__VA_ARGS__}), \
+> > +       .data = (char[]){__VA_ARGS__} }
+> > +
+> > +#define _INIT_DELAY_CMD(...) { \
+> > +       .type = DELAY_CMD,\
+> > +       .len = sizeof((char[]){__VA_ARGS__}), \
+> > +       .data = (char[]){__VA_ARGS__} }
+> 
+> I have seen this type of reinvented wheels a few times now. Don't do this.
+> 
+> Look into other recently merged drivers and look how they do it, for example
+> drivers/gpu/drm/panel/panel-himax-hx8394.c
+> 
+> For example:
+> 
+> - Use mipi_dsi_dcs_write_seq()
+> 
+> - If the delay is just used at one point in the sequence, do not invent
+>   a command language like above for it, open code the delay instead
+> 
+> - Try to decode as much magic as possible, if you look in Konrads
+>   driver you clearly see some standard MIPI commands, I bet you have
+>   some too.
+> 
+> - Maybe use callbacks to send sequences instead of tables, like in
+>   the himax driver?
+I use init cmd tables in order to send init sequences to dsi0 and dsi1 at the
+same time (sync dual dsi mode). I don't found a convenient way to use
+mipi_dsi_dcs_write_seq() for sync dual dsi mode.
+> 
+> Other than that it seems like something that could also handle the Lenovo
+> display, or the other way around, I don't know which driver is the best
+> starting point, but this one has the right Novatek name at least.
+> 
+> Yours,
+> Linus Walleij
