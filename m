@@ -1,64 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBE36AFAF7
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 01:19:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F8E6AFB18
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 01:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7612E10E575;
-	Wed,  8 Mar 2023 00:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF22E10E57A;
+	Wed,  8 Mar 2023 00:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1C2D10E576;
- Wed,  8 Mar 2023 00:19:20 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- y15-20020a17090aa40f00b00237ad8ee3a0so403665pjp.2; 
- Tue, 07 Mar 2023 16:19:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678234760;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jbbkKWGQad1Yo20rF0OSP26kDIz9idmRlHUsiPHwLP0=;
- b=Rm+qhWk2qemYa9svIsqx6TTWMg1Zx0Ip5gtBEEpY6kzQhHMvkEt/VCl9Z2/F1e4Rqp
- ml1bDveChx60PEPlfF88iBrkNnEJFZQpyAxM92NXbhnf9TeofmIeqa+EVGNzENmZuTuN
- MT6JO7vCpYcEFlD2qYn7UipubEAjLGmSJKyeZ1ZCqY7vfU1JnRmCBAzpJoG4UqpjL8/W
- yGUhcM4dJ2jnHol+XsR32P/w898aLZSmPFzNAp6iseI4ht2ZfbUi/YwesGUlSWpYxheU
- ok4cWjpLDK3xOjM4gyYsA99zBXvB6aSah3TYFwA3bh+ygGWd8Sp/wbN/CwSDZ8HS75xi
- l5dg==
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com
+ [209.85.160.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D07C10E57A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 00:29:23 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id
+ 586e51a60fabf-17711f56136so2213372fac.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Mar 2023 16:29:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678234760;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jbbkKWGQad1Yo20rF0OSP26kDIz9idmRlHUsiPHwLP0=;
- b=2dHRW9Gl5841Kdi4M/fNL1j4OSpywaLXOG7wAEDLGOiueqf/Tb2DfupD+eGE2Jc9OV
- 5Ss8keNG58ubKrqdd65JVZY8HiDm6A4rADpNhOjBiJybtVgmhYQO8cMXVvjlV1iFp130
- 5i0btt64EwRrbwOSp2MSoE/FbQeAQwWhVqxHdZ0FMn1ypj/VQEgogW/FE+e+FFSiYpEF
- qaaXU85LCm+F+N/QeA3MAi5HJzLJy0CxfkPSkc/QFgGrpcHJYz3uoQSMHwLDMkIlECSQ
- E8DxpkLP03GkISEAJ8N1AlqMK4PCsDMyMKE03SZPf9Cgq+yGy09+ZTFHF0zMhSnhVI2M
- VyaA==
-X-Gm-Message-State: AO0yUKUwJGj1BXtE4td8lAh2XjbmoqJ11lThkQUIEY8OnjMvHpfBiDlF
- 3pdMBXpJ5ZmPo/IBpeRZ96W6bjec4N4=
-X-Google-Smtp-Source: AK7set8AFivGG9BQh9psczFalSR8xG8ofPsLWNbpH6SfZcW/EPMaaAmp91RyP6uKjST1thbRzcRLAw==
-X-Received: by 2002:a05:6a20:8404:b0:c7:af88:3dd8 with SMTP id
- c4-20020a056a20840400b000c7af883dd8mr20385425pzd.6.1678234760003; 
- Tue, 07 Mar 2023 16:19:20 -0800 (PST)
-Received: from olv-ct-22.c.googlers.com.com
- (132.111.125.34.bc.googleusercontent.com. [34.125.111.132])
- by smtp.gmail.com with ESMTPSA id
- b9-20020aa78109000000b005a8e97fc71bsm8366463pfi.84.2023.03.07.16.19.19
+ d=1e100.net; s=20210112; t=1678235362;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GbkJoaBSLlit3t2d1saVpRVwe6uVOOAmLerdrHEmPA4=;
+ b=uYor4MDpb+Fo40RjQ8OYE9aAuWfTgc9z/bwKV4KLpyG2blFIXnrPqIbkt4zRdcFxzs
+ UxsxghhWwf8zv9W609ifLoqttXBeuTZE9ScLQ/r3gw2rhCiEtxbFx1HBqo8zbjxqn+bc
+ yK/Hx4Mu5AX23BQ6W/EJu0Z7+tM3iCTMbTJfAUcRrV9xGdQfSJivjE38X/qu6k5FG7VB
+ pAwiZaFzVtT9iA0T8w1K8lDPPpp/q1n2tW6eE7CduAnl83j1YjDIeKBPWFRShSGiH5er
+ xM3Ylz/FXHLOVbIwqKM5L5jJyTWZtvf+KvinwNHC/KnjwctALxblPbT9NOdY0VPN1R5l
+ AseQ==
+X-Gm-Message-State: AO0yUKXnoWKHcZgddZY9+q4Dmq+F/sgiqz4L+qBdsKa4vRYrPGk9tual
+ 3YjFgkv7Pp59N2x6Chv3bA==
+X-Google-Smtp-Source: AK7set83LoWLF5mpats1V58zuDPQ+pBXFeCwEfyRTuwpQDFg/1Md/+txVRbI6H1CFcRNahYc39uAKg==
+X-Received: by 2002:a05:6870:c0d5:b0:176:55ad:9237 with SMTP id
+ e21-20020a056870c0d500b0017655ad9237mr9249005oad.38.1678235362468; 
+ Tue, 07 Mar 2023 16:29:22 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ c22-20020a056870a59600b0017197629658sm5660538oam.56.2023.03.07.16.29.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Mar 2023 16:19:19 -0800 (PST)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amdkfd: fix a potential double free in pqm_create_queue
-Date: Tue,  7 Mar 2023 16:19:02 -0800
-Message-Id: <20230308001903.2841087-1-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.40.0.rc0.216.gc4246ad0f0-goog
+ Tue, 07 Mar 2023 16:29:21 -0800 (PST)
+Received: (nullmailer pid 535800 invoked by uid 1000);
+ Wed, 08 Mar 2023 00:29:21 -0000
+Date: Tue, 7 Mar 2023 18:29:21 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] dt-bindings: display: bridge: parade,ps8622: convert to
+ dtschema
+Message-ID: <167823536016.535746.4969388774205630189.robh@kernel.org>
+References: <20230221170955.62448-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230221170955.62448-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +64,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set *q to NULL on errors, otherwise pqm_create_queue would free it
-again.
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, 21 Feb 2023 18:09:55 +0100, Krzysztof Kozlowski wrote:
+> Convert the Parade PS8622/PS8625 DisplayPort to LVDS Converter bindings
+> to DT schema.  Changes during conversion: add missing vdd12-supply, used
+> by Linux driver.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../display/bridge/parade,ps8622.yaml         | 115 ++++++++++++++++++
+>  .../bindings/display/bridge/ps8622.txt        |  31 -----
+>  2 files changed, 115 insertions(+), 31 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/parade,ps8622.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/ps8622.txt
+> 
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-index 5137476ec18e6..4236539d9f932 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
-@@ -218,8 +218,8 @@ static int init_user_queue(struct process_queue_manager *pqm,
- 	return 0;
- 
- cleanup:
--	if (dev->shared_resources.enable_mes)
--		uninit_queue(*q);
-+	uninit_queue(*q);
-+	*q = NULL;
- 	return retval;
- }
- 
--- 
-2.40.0.rc0.216.gc4246ad0f0-goog
+Applied, thanks!
 
