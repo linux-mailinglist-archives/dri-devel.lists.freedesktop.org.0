@@ -2,76 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC62D6B0E7E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 17:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CD16B0EB2
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 17:27:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8217010E64A;
-	Wed,  8 Mar 2023 16:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D29110E677;
+	Wed,  8 Mar 2023 16:27:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19F3510E64A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 16:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678292511;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EaA41pwr6Ce6DxEWLNg9TqHaP57RU2dh04eggDkEhJA=;
- b=a1W81YrASSgY5C1oLuQ3Sa576F46UiE7qagXKpq4Ot75fs+nNFQr20SNXbZQEjSW+q3rAx
- KSpqW+XUtcbTN4oh+Sf2VJbZf1UX9dvABYmBzbqUU/KfBfhc+8YH9X9CzTTBlpTv7kV8Wb
- Yru8+hUY9f3pnqn3oisGgoNxgSFSAEk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-124-DtOrPR2ONAm1tsoaTDBb_g-1; Wed, 08 Mar 2023 11:21:48 -0500
-X-MC-Unique: DtOrPR2ONAm1tsoaTDBb_g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- n6-20020a5d51c6000000b002ca3c48ba46so2995388wrv.4
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 08:21:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678292507;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EaA41pwr6Ce6DxEWLNg9TqHaP57RU2dh04eggDkEhJA=;
- b=qw0WaseR8Qww/XSyPvRzU7TCYWZpGruqwTeco+W/Zd/qzrjeJy2185SgKEP1btCyW6
- rgBMJ4cGusUMhK0KOriVUbbWbuefICc32V9H0osCyOqBuFyfy0B+gSaCnoddyh9+kHsZ
- //VLyWZg+l508tvwjRQ6Vch/Mfo/Zvpe45z//uNOnDdV+1YUCPwJFxx524e3P6Pk+wES
- RZebO09EAQ1Fl78E0aBxhL/LCL8v5qxTWX4nVbcjwRspfCT8q9ea3E8yugr2jCs1r9f1
- fq2PZEP/CLdoXpbYEH1WictXE60HrrdptCZ5BFwhuRywE5xc01VTuwpkf8P4CDzaH2UB
- 30ww==
-X-Gm-Message-State: AO0yUKVKpvk3eD/Fl+izPni7dTyj0Ei+iQ/rBHV83p6TqpPmC4vaO09W
- Fc0lXf9C7KdpEjc4n0OzdAQSM2PrcnM4/yVe+LI4rKCcZ3KFdD+i5gWMX6EPDAOnO9s/7vfbDp9
- mQ4Ijzi5FabeKSHU/9NKYUOLsbHXb
-X-Received: by 2002:a05:600c:358a:b0:3ea:c101:72b with SMTP id
- p10-20020a05600c358a00b003eac101072bmr15756833wmq.17.1678292506919; 
- Wed, 08 Mar 2023 08:21:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set9GK6A1i4nIq35W3oRPQUpLeYiYcz7lckrn857nPieviyVMg8I4rhRqvS/dOLJAT1SJM6bG7g==
-X-Received: by 2002:a05:600c:358a:b0:3ea:c101:72b with SMTP id
- p10-20020a05600c358a00b003eac101072bmr15756815wmq.17.1678292506643; 
- Wed, 08 Mar 2023 08:21:46 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f5-20020a7bc8c5000000b003e896d953a8sm20384179wml.17.2023.03.08.08.21.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 08:21:46 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/format_helper: Add Kunit tests for
- drm_fb_xrgb8888_to_mono()
-In-Reply-To: <782e6705-9799-b87e-60fd-ad88031ff909@riseup.net>
-References: <20230302200131.754154-1-arthurgrillo@riseup.net>
- <87lek81hdq.fsf@minerva.mail-host-address-is-not-set>
- <87mt4ow7ji.fsf@minerva.mail-host-address-is-not-set>
- <782e6705-9799-b87e-60fd-ad88031ff909@riseup.net>
-Date: Wed, 08 Mar 2023 17:21:45 +0100
-Message-ID: <87ilfbw6w6.fsf@minerva.mail-host-address-is-not-set>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44FE010E677
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 16:27:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 64E7DB81DA1
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 16:27:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B3AC433A0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 16:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678292833;
+ bh=JbxCyI0huIIANoxirPXgBTBH1si+npk+dR+RaZC1gzg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=YBZP76Ad87hnY4xkxLVRdMFSnnkcSazWx7ctmmBO3jZVceNLqFo7l/o98Wy2QDQu8
+ KCm5hO2UoC4cgZ2At1VLFNv3t20NJCitR1wMZmwV6/Ijn6HFGydmu/pFkZA1hSQNaj
+ 2IoTojH/fyvBOxze9JfDeWsadU+aHiRwP58joHNRgUBdsiX77E3Ma64odWj+Pzxy2W
+ pIKWg0AGt+xk1eakynuaU0yiixiUatM6EY+Enbosfw7gJ8C4PGlZRf8z9mkoDrZn9b
+ OnX2dP6smKxPO9ltvuAks+krZ/DgL4wVuOT1A2Ni0y9iNvezRHmB1fAWkKR+Uwt5tp
+ HipwG++0kQTKw==
+Received: by mail-ed1-f51.google.com with SMTP id k10so44126521edk.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 08:27:12 -0800 (PST)
+X-Gm-Message-State: AO0yUKWLO0jCf52HJyuKKgIn2L40SiidCSjhmYMNawWYuHea/O7KyMsT
+ UroLAYJOQhIVP+aPQbsw8z7GvuMkYKi4dYPkWFc=
+X-Google-Smtp-Source: AK7set8tv9oj0Cs64+dvjPmRThogjRBhvrPYlr0s1Jxp6xg8NhIzAjly/ShQhG8oQbSbN3jKigayPafGtW24VNutDRs=
+X-Received: by 2002:a17:906:9143:b0:8ad:d366:54c4 with SMTP id
+ y3-20020a170906914300b008add36654c4mr12974560ejw.4.1678292831332; Wed, 08 Mar
+ 2023 08:27:11 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20230306160016.4459-1-tzimmermann@suse.de>
+ <20230306160016.4459-23-tzimmermann@suse.de>
+ <CAOZdJXUtkyg5Gv3HYCK-U1pQpY0_QBk99wtqUvz5RVy2W3Ak9w@mail.gmail.com>
+ <aac88d8e-52e8-e2d5-2f41-bed7886bb3dc@suse.de>
+In-Reply-To: <aac88d8e-52e8-e2d5-2f41-bed7886bb3dc@suse.de>
+From: Timur Tabi <timur@kernel.org>
+Date: Wed, 8 Mar 2023 10:26:34 -0600
+X-Gmail-Original-Message-ID: <CAOZdJXWGNBHMPRmkBYeVL31=Q0Y=fLa8RG0KS668xQ9ozD+Xtg@mail.gmail.com>
+Message-ID: <CAOZdJXWGNBHMPRmkBYeVL31=Q0Y=fLa8RG0KS668xQ9ozD+Xtg@mail.gmail.com>
+Subject: Re: [PATCH 22/99] fbdev/fsl-diu-fb: Duplicate video-mode option string
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,33 +63,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, tales.aparecida@gmail.com, mairacanal@riseup.net,
- tzimmermann@suse.de, jose.exposito89@gmail.com, andrealmeid@riseup.net
+Cc: linux-fbdev@vger.kernel.org, teddy.wang@siliconmotion.com,
+ adaplas@gmail.com, corbet@lwn.net, deller@gmx.de, thomas@winischhofer.net,
+ mbroemme@libmpq.org, linux@armlinux.org.uk, dri-devel@lists.freedesktop.org,
+ sudipm.mukherjee@gmail.com, James.Bottomley@hansenpartnership.com,
+ spock@gentoo.org, pjones@redhat.com, paulus@samba.org, geert+renesas@glider.be,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net> writes:
-
-> On 07/03/23 18:55, Javier Martinez Canillas wrote:
-
-[...]
-
+On Tue, Mar 7, 2023 at 2:28=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+> > So after module_init is finished, mode_option_buf[] no longer exists?
 >
-> Hi Javier. Thank you for your review :)
->
+> Does the __init attribute on a function affect the static variables in
+> that function?
 
-You are welcome!
+That is an excellent question.
 
-> Thank you for your patch! I too think that a new helper is not needed.
-> I will send the v2 when your patch is applied.
->
+https://stackoverflow.com/questions/64558614/what-happens-to-local-static-i=
+dentifiers-in-init-function
 
-Great.
+I don't think the compiler is naturally aware of whatever section a
+variable or function is placed in, so it can't really know that
+mode_option_buf[] is suppose to have a limited lifetime.
 
--- 
-Best regards,
+Either way, the code seems wrong.  If mode_option_buf[] is marked as
+__initdata, then it will disappear before the probe() function is
+called.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+If mode_option_buf[] remains resident, then we are wasting 256 bytes.
