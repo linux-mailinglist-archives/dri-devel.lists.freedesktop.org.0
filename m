@@ -1,78 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2036B0E72
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 17:19:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC62D6B0E7E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 17:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9243810E62F;
-	Wed,  8 Mar 2023 16:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8217010E64A;
+	Wed,  8 Mar 2023 16:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A311C10E62F;
- Wed,  8 Mar 2023 16:19:49 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id A816E5C01A4;
- Wed,  8 Mar 2023 11:19:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 08 Mar 2023 11:19:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
- 1678292388; x=1678378788; bh=4BGPsBHltNIepRB4bBznr59yu4gvz8M0IJw
- 0ynw0Iaw=; b=a3fwyrNt5xzn9xwDsz0zHVY6faNC8rNq9CHUlVCQJ/twVEUGvyv
- 8QYABRLNNGeNUjolCQ/E/JYUs6UxrwOtAvpA9iK2bAVZO0Ecd+ZsDeL8790dliTH
- Svb61cPNyCPrzmWGZEjl9Y04XRau7KRuujwHDsmQ9E0UoZMXuoXRE7ZGRxUxPH6e
- M4LBPlYXhwkUZHKhxhh35evXSxvYdqT1PFbQ17UtvCAH+HFt8DSpERNAMRpko1uF
- yc5a3pKK2G9OD56tTkn1SaZdotIB3U4veGmyElwt8gX42z/hR8ZEir7UXsB0DmKy
- TbrC81OaZxVDcgJHyOxF/LO26XBIVxK+w8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1678292388; x=1678378788; bh=4BGPsBHltNIepRB4bBznr59yu4gvz8M0IJw
- 0ynw0Iaw=; b=UQY5goGX+E12D4QZ2nn2jiIN9d3yDTYNmNyyP1RnGdIdauYYKxb
- unp+4XclTj8NMPNc3QVFCvQBObM5UG1Mmv+wd/d4Z9NhaBij6pSfMsRmGzrS/a5W
- bL48eLXShNVeq9VQLQ2pB77EI5LyFGnsMmgImY2mSxxxmLk2kNdSAibpiwakBVvQ
- P4TsIG5k5nD7up37s1NqIo2L25IGvZg8HRW+ajLnE+tMJuLW4kRLEmrm4NI+JSji
- xX4bF8JRjf0zHNymSAmPz/VFb/+7RSP1gTTvrDjc8k75jCBU7G+BpBgbw1dHpLKE
- gQdg1UPkCaoqPFUL/L0cbYVRjQo4MflrdlQ==
-X-ME-Sender: <xms:pLUIZEPM2lTYLRgflEsCuij5iGkbGau0Xetzdjss0wruCqhDMWjF8g>
- <xme:pLUIZK9GZ2S2-Uhr1Cw9cGIBOjAXkuAo5R3YQ8sAgE8znkm-Kurgd6T4jb6L9ik7g
- GTeqNBbBOQoXRUuDy4>
-X-ME-Received: <xmr:pLUIZLSqLmwvi_GCUt60sHdZNNqSavmSWBVO2w8EEmdtJfmMLdaLwZ9W8DvUrmm4CfnX7my2UI4W_uNom390zJ6l8_x69y0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddufedgfeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttdejnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnhepffdttdeufefgffegtdejffevuddvudfhudegjeegkeetuefgfefhheek
- udfhvdfhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:pLUIZMvSD7g1gHN4N0QufVJY-jGSmbwQeqk47L5BLKTZfg0Mh9Qxxg>
- <xmx:pLUIZMfmhi_a-yI02T84zQg43DmQOansYKrSeCiTUP31mQB3-p10sQ>
- <xmx:pLUIZA2pIUIUSWk-VAa88tX2RsgGmAi40FFMY37Fm9isedsSlxylcA>
- <xmx:pLUIZH30EUI72BLHCdVyKRviMTDlvhCF05y_Tid1lgG7R3mWXB8fxw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Mar 2023 11:19:47 -0500 (EST)
-Date: Wed, 8 Mar 2023 17:19:45 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Subject: Re: [PATCH 1/2] drm/vc4: Fix build error with undefined label
-Message-ID: <20230308161945.svooztnablyvm75e@houat>
-References: <20230308093408.239331-1-qingqing.zhuo@amd.com>
- <ac8fed53-6f05-6ec7-9ef5-61110cd83c0b@amd.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19F3510E64A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 16:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678292511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EaA41pwr6Ce6DxEWLNg9TqHaP57RU2dh04eggDkEhJA=;
+ b=a1W81YrASSgY5C1oLuQ3Sa576F46UiE7qagXKpq4Ot75fs+nNFQr20SNXbZQEjSW+q3rAx
+ KSpqW+XUtcbTN4oh+Sf2VJbZf1UX9dvABYmBzbqUU/KfBfhc+8YH9X9CzTTBlpTv7kV8Wb
+ Yru8+hUY9f3pnqn3oisGgoNxgSFSAEk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-124-DtOrPR2ONAm1tsoaTDBb_g-1; Wed, 08 Mar 2023 11:21:48 -0500
+X-MC-Unique: DtOrPR2ONAm1tsoaTDBb_g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n6-20020a5d51c6000000b002ca3c48ba46so2995388wrv.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 08:21:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678292507;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EaA41pwr6Ce6DxEWLNg9TqHaP57RU2dh04eggDkEhJA=;
+ b=qw0WaseR8Qww/XSyPvRzU7TCYWZpGruqwTeco+W/Zd/qzrjeJy2185SgKEP1btCyW6
+ rgBMJ4cGusUMhK0KOriVUbbWbuefICc32V9H0osCyOqBuFyfy0B+gSaCnoddyh9+kHsZ
+ //VLyWZg+l508tvwjRQ6Vch/Mfo/Zvpe45z//uNOnDdV+1YUCPwJFxx524e3P6Pk+wES
+ RZebO09EAQ1Fl78E0aBxhL/LCL8v5qxTWX4nVbcjwRspfCT8q9ea3E8yugr2jCs1r9f1
+ fq2PZEP/CLdoXpbYEH1WictXE60HrrdptCZ5BFwhuRywE5xc01VTuwpkf8P4CDzaH2UB
+ 30ww==
+X-Gm-Message-State: AO0yUKVKpvk3eD/Fl+izPni7dTyj0Ei+iQ/rBHV83p6TqpPmC4vaO09W
+ Fc0lXf9C7KdpEjc4n0OzdAQSM2PrcnM4/yVe+LI4rKCcZ3KFdD+i5gWMX6EPDAOnO9s/7vfbDp9
+ mQ4Ijzi5FabeKSHU/9NKYUOLsbHXb
+X-Received: by 2002:a05:600c:358a:b0:3ea:c101:72b with SMTP id
+ p10-20020a05600c358a00b003eac101072bmr15756833wmq.17.1678292506919; 
+ Wed, 08 Mar 2023 08:21:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set9GK6A1i4nIq35W3oRPQUpLeYiYcz7lckrn857nPieviyVMg8I4rhRqvS/dOLJAT1SJM6bG7g==
+X-Received: by 2002:a05:600c:358a:b0:3ea:c101:72b with SMTP id
+ p10-20020a05600c358a00b003eac101072bmr15756815wmq.17.1678292506643; 
+ Wed, 08 Mar 2023 08:21:46 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ f5-20020a7bc8c5000000b003e896d953a8sm20384179wml.17.2023.03.08.08.21.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Mar 2023 08:21:46 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/format_helper: Add Kunit tests for
+ drm_fb_xrgb8888_to_mono()
+In-Reply-To: <782e6705-9799-b87e-60fd-ad88031ff909@riseup.net>
+References: <20230302200131.754154-1-arthurgrillo@riseup.net>
+ <87lek81hdq.fsf@minerva.mail-host-address-is-not-set>
+ <87mt4ow7ji.fsf@minerva.mail-host-address-is-not-set>
+ <782e6705-9799-b87e-60fd-ad88031ff909@riseup.net>
+Date: Wed, 08 Mar 2023 17:21:45 +0100
+Message-ID: <87ilfbw6w6.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ac8fed53-6f05-6ec7-9ef5-61110cd83c0b@amd.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,49 +84,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- amd-gfx@lists.freedesktop.org
+Cc: davidgow@google.com, tales.aparecida@gmail.com, mairacanal@riseup.net,
+ tzimmermann@suse.de, jose.exposito89@gmail.com, andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net> writes:
 
-On Wed, Mar 08, 2023 at 11:11:22AM -0500, Hamza Mahfooz wrote:
-> + vc4 maintainers
->=20
-> On 3/8/23 04:34, Qingqing Zhuo wrote:
-> > [Why]
-> > drivers/gpu/drm/vc4/vc4_hdmi.c: In function =E2=80=98vc4_hdmi_bind=E2=
-=80=99:
-> > drivers/gpu/drm/vc4/vc4_hdmi.c:3448:17: error: label =E2=80=98err_disab=
-le_runtime_pm=E2=80=99 used but not defined
-> >=20
-> > [How]
-> > update err_disable_runtime_pm to err_put_runtime_pm.
-> >=20
-> > Signed-off-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-> > ---
-> >   drivers/gpu/drm/vc4/vc4_hdmi.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
-> > index 9e145690c480..edf882360d24 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -3445,7 +3445,7 @@ static int vc4_hdmi_bind(struct device *dev, stru=
-ct device *master, void *data)
-> >   	 */
-> >   	ret =3D pm_runtime_resume_and_get(dev);
-> >   	if (ret)
-> > -		goto err_disable_runtime_pm;
-> > +		goto err_put_runtime_pm;
-> >   	if ((of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi0") ||
-> >   	     of_device_is_compatible(dev->of_node, "brcm,bcm2711-hdmi1")) &&
+> On 07/03/23 18:55, Javier Martinez Canillas wrote:
 
-The current drm-misc-next branch doesn't have that context at all. What
-tree is this based on?
+[...]
 
-Maxime
+>
+> Hi Javier. Thank you for your review :)
+>
+
+You are welcome!
+
+> Thank you for your patch! I too think that a new helper is not needed.
+> I will send the v2 when your patch is applied.
+>
+
+Great.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
