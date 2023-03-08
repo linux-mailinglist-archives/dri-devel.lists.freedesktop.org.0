@@ -1,121 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682F96B0298
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:15:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A33656B0296
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:15:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE0C10E5E8;
-	Wed,  8 Mar 2023 09:15:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FB6310E5E6;
+	Wed,  8 Mar 2023 09:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3BD10E5D2;
- Wed,  8 Mar 2023 09:15:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NjNW3rZizVDRhHRXTfxhgr1409l40mZn7ZiIFQEal2EH42+IuuhzcnI2+1R7oMiRThu6PzLonHbC3F1C139d1CrRty2gxiquPXPzVmv+uM/aHpVXib3gLcIoHU4hl1MAMtlNo+5wtWAeFDeARpi1Kz/2HYTIXYD5Bu632+jksx9vmLosKnqYmojqubkanm5vgRANdNEEOhRslW1IxZjTwjZjc5+WR+wNssIg3isQ5hW8E5peYvUF3dRvtpROWrkkrZKgJpekUg0svtcB/2+wuLY2DM7K98hmyWyjLbJfAamiUO3mTQKzCP9Jr/seI7+qCA39kTGz02GtH8Be/JJYeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ne+Gy1vL9neSJJw87STKpA5GouA7M8MzyGZjHVZnuD8=;
- b=TKd5iwJse9FA1UpVC4BalAj+E5871IYgGDVCqfvQy66hI/UO9Db0HH4KNRreQrhqLA10kTDcsLqmwZcexVJ0f7J4VpiPhFam3ukJf6axolGoMcSimgTXlTPLdzZraJ/aoSZwugfZAw3kLkpMhTTMNLtf4wltFvc3b/RjjyAg3P5bfAHuuP7TSXKembswt3ikVQM1lTHpR/+b9BZ/dgsmUyytB0AuWDPLvaXEUnHEmc6xlvnkb1nPouCNxZnghCuD4dT5ubEqdAgIGRZIyR+0Q+XC9RAq0VmyqZ8hIQgTtrtFFjqJExPIJicoHDwpRcKEq8/PgvYJvk93N7RAp4/3XQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ne+Gy1vL9neSJJw87STKpA5GouA7M8MzyGZjHVZnuD8=;
- b=3nhg+h5YBTMUFiFG7QiqbIW9HdTjVtd7zAM2RkXFbgRnC/JLnrImuSM3X01A3qTU3uvvzZManIgk7ERh4Ab5FQa9bzteJAd7wOvt5ymNQIDUgyLnUsGOLZCdkwj8qahShmTSmegl92m4m+8z9tzukvLT+yczfY/Vf++1J5Z+YZs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH0PR12MB5027.namprd12.prod.outlook.com (2603:10b6:610:e2::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.16; Wed, 8 Mar
- 2023 09:15:16 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 09:15:15 +0000
-Message-ID: <151b48d3-3ca4-292a-547b-628eb362c2ae@amd.com>
-Date: Wed, 8 Mar 2023 10:15:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v2 6/7] drm/ttm: Reduce the number of used allocation
- orders for TTM pages
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
- <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230307144621.10748-7-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0141.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::20) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB7B410E5C7;
+ Wed,  8 Mar 2023 09:15:17 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id g17so20463336lfv.4;
+ Wed, 08 Mar 2023 01:15:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678266916;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=AwKRPT4TXKEm82H2u2CV6fnnoU6b+DAtqngrDF+0Ppk=;
+ b=is1heQ8IMeQrr1uPon5P5YBt2V7N2lY/FY9yEEysHFBenytLzkC8LWDdCy7qrF2Kkf
+ +9soc3VAYN+ty10b7yk86IUFulApk/YcH//xs31KCOKzCzZ/1w2rfGvXR7dyPwD8VgH8
+ 7GoSt3+4aY3yqU8K7GQegRmvuw1TwNtHiQUcG7khWgEenABUWDYKyOyBnf+p5FWNxH1S
+ gfBOhL5SWxYUpYvTKOz/7lnSCC9qmMH3XMdfgztTJ4hSkVXRY2dh5I0LjxuVgmoQJj3X
+ H/QE/KkAucoJDHH1Zzb9OuTBj4A7CWn9sszaCZZ/jOw9drqPOQ0zxaEwhYcCYIKVmhWQ
+ Geeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678266916;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AwKRPT4TXKEm82H2u2CV6fnnoU6b+DAtqngrDF+0Ppk=;
+ b=RIZstiUIszB9eAdonP4laVkSAruaYbzH/hcoic03Xgq29RM/tEAwxKY3WD20C+c+52
+ GY+hp5HdjwPKOZyyv8gPkZr5CLgGS79bVDXi6evLZaOdNINASOJj37kQcxZJqD1i0lPe
+ Rphp2VXD2fU72RVATiF1ZM/tbJjYYxPTaelngOVqXKgc2YkhEaXSUnA6yaL9iyEz0NyW
+ 22CxAuBDGkUk4oPvwGLNcfspGtOLpyYauZd6uuFaJiTTsFoG7fK1sGr3TMaQUVff5JPX
+ a/n9wU9vHyhBqMCzUur+VVpnriRco8Iw+GR+3Mfd/St0hlVTXtyEEahdf/EWMaSkilE6
+ htAA==
+X-Gm-Message-State: AO0yUKWJxf4ZBNDCn5DkRbdYOGc3MX5lldo1G0yCApmGv/tp0R9C5N7q
+ Hv4G4dJQ8HPOuD/HGX1o05c=
+X-Google-Smtp-Source: AK7set8UMMbpZQhVUL4gBig67f5Ovu3wsRQl3STnjmewYgqPoiDfIN7Ow6DnXdXfu9c3vt2stUZoWQ==
+X-Received: by 2002:a19:f00e:0:b0:4db:1b30:e634 with SMTP id
+ p14-20020a19f00e000000b004db1b30e634mr4372635lfc.65.1678266915771; 
+ Wed, 08 Mar 2023 01:15:15 -0800 (PST)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ s9-20020ac25fa9000000b004dc807b904bsm2272367lfe.120.2023.03.08.01.15.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Mar 2023 01:15:15 -0800 (PST)
+Date: Wed, 8 Mar 2023 11:15:11 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Subject: Re: [PATCH v3 05/17] drm/connector: Use common colorspace_names array
+Message-ID: <20230308111511.175c9cf6@eldfell>
+In-Reply-To: <20230307151107.49649-6-harry.wentland@amd.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-6-harry.wentland@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH0PR12MB5027:EE_
-X-MS-Office365-Filtering-Correlation-Id: 684f194c-17ea-482c-893d-08db1fb5a11c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OVR5yT9uYR092yN4mZBleBe27fB9ifEEoKOTqAiRo1euASCYtAVXnqdGfLLgiRhXgYF4JlmLb/JA5RcR8fNCXPAJTXMHivjCaKjZbfBHZe3QEJJIqYz1iyB+KHVInc5da1QTGuwh6hIH7o1SVOD+x0FKTbJ6qHIJ4GoQuCl7hKXT7DE6pHE/WYdx8bnmihw1eHv5RD/tMCjjrdHu0AxhZ/h8fVVJ6RQQm6lxnnhxLfO+Ldo6nam1856CfCTwOjolZoIXaSVF6TGOGy4doQ5xdDy7hKAkJF7Opzlxb2ur4S32+deZFC/JaYWtZF1MKGTUL/055mLGhA19jmIWLsDxM4HjKbOTtlFeWf5o7O6Zodist3Y6/Iy+sXVox1PuZB8GHrYVIvXeRgAfLkrt0UUMngcBGZkca9445OXPt+/jWTM3m6dtabGuRQqLkAoejhFkyBmnp2hGrd7v4QXSlBHRDMXsAoSjZFr7m7WI3meCE2mmUSpzY4aU9GUO0YOLVo5sURk7i0evRhydYguVSRsyT+8XR3DrjfXbLSyC8LCpLDu89gLsOVxBk1mEsct1A6a0o0EPPvGYAQJ0R/S0vwEY8XAXQpY5zK1yxLo9X+D0yThtSknpNym0ptHoC8KVuEB0vKLHIf66g4uuXvzpnZU4906uyVzlqERREeN5/bSTMnGYvjtb0BCV1F+Y5m9ZZKjM2U+Biza+Dpz1vpzDdNunMCQAsGqBDRNAk1WKSLNMY0M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(366004)(136003)(396003)(39860400002)(346002)(451199018)(66574015)(86362001)(31696002)(41300700001)(31686004)(8676002)(66556008)(66946007)(66476007)(6506007)(6512007)(83380400001)(316002)(4326008)(5660300002)(8936002)(2616005)(36756003)(478600001)(2906002)(6666004)(186003)(38100700002)(6486002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0JQeWpNeWZUb1Jnb2dpbkpId0owM1E3RlMvRUI5WEJ5VkcxdWdZd2hpU0d6?=
- =?utf-8?B?TUFzQU9HWGhldVp1bldwRDJDUEpvVm1JR0x3OUZHT0RJdk91d2JLUnVpZVJx?=
- =?utf-8?B?b01oWFpMZ2xhU3BOdkdjNVBxUnhzT0Z0bmcvVEZXbmRIb1hLa1c4UllXbGRt?=
- =?utf-8?B?TjV6S3RCSjErZFhzaVhKU0FKVVhiZVZ0aWpnSDFtOWlXUlc5ekJFNy9sQVZH?=
- =?utf-8?B?TE5OWmx2UEVQMGpHV1o2UnhDTFBzZzBMSFI1UWZXRU93bk9RSnR6NkVPYVly?=
- =?utf-8?B?SHJRdUw1K2Q5RytIUDJveTNtcVNBU2ZWaU95WGFpOUhRM29zMzl0Yis1T0Vy?=
- =?utf-8?B?NUlZTHFlWEVQVTJIS3lFdUVOZWxaa2V6cXJRTURwd3BudEpVQTVBdkRUNnpD?=
- =?utf-8?B?UGVZU1RyOC9oV2FWNlBpTzFUNGptd1dKN2o5RXlGTHVMZ0cxRnlWTUhnOEFk?=
- =?utf-8?B?SkVzemxWTzllQ2VESk9NSmsrVXdQalR1dENSZ09JT2FtMC9SQ2kzU2hsUlZp?=
- =?utf-8?B?R2pJVUNMY0pSdVBFRzVtTURyS2RqRDJYenA1TlA4dk5BbjNESVd2cDgxL2hT?=
- =?utf-8?B?cXI4aFNVOTlKMW1FYi9lV29sVHQrMDF2RHllSkdkY1dGWTl4UUNEZFdjb2ww?=
- =?utf-8?B?WTE0M0ZTanpiOUJmckhJZVcyV0dsQXBTY2JHMStsR3laNUo0Zjg5Wm0wWWlQ?=
- =?utf-8?B?QlVSWm5UQndBTGM0VmxqLzRFQ21TTTYxS3drU0lUZWJTajVYeU9BSVpleGRU?=
- =?utf-8?B?bmdNZXRoaGZyMGdwN3BuTE9qeitRalVwdU5xMzdJV1Y2VEdJL1QvK2VTQWNZ?=
- =?utf-8?B?ZWJyOTJSR08wd285VXpNZ3VJQVVFQVJ1VTJCR2REUVRWenlPV3dqclBaL2FP?=
- =?utf-8?B?UG1BSzhNMnExanZ1ZVltMVY5YWY4TTZjd0hqN2QvZXpURW1MeUhjSUVvYzVI?=
- =?utf-8?B?bTZPY0phOVRGMzg1WWJUTnhId09RSGs0WTdFZGMrbFYwRlJFY1c0T2Uzak9q?=
- =?utf-8?B?TjhaZDVObDBTWkJ4TlZNSFgyWjlqZ3g2QzAreGQ1TUNmR040dWtDOXEvK3A3?=
- =?utf-8?B?Rzl3Nktsb2xmbERYdU9qL3R3eGlaM0IzQzNJcUI4MUoxaGhSZVpQajVzS0p2?=
- =?utf-8?B?cUVEYW1RZ0wvendIbGxqTnhOckZSOHg3V2I4Ni9PMGVibFI2cXl0Rk5PZmFB?=
- =?utf-8?B?dVh2Q3VwcU15dE8xZHVqbThLY21pbGkxWHRRQUpyVmZ4YXR5RW1SUG9kQWhK?=
- =?utf-8?B?MnFZOW5jTG1aR3JxU2pFaSs0YlpScHMycURESk90UExKT3pidUxkSC9KbzVS?=
- =?utf-8?B?QTlIQklTNWpucmNNRlZJclVMUHk2MnJicXFGUjRHaFppUG9WNDVBQjZGdnRs?=
- =?utf-8?B?WWhDK3A1RnFFT25wc1NlVGVIbXBkRW5NSlBDK0hWSWNrRXZSM0trdVB2ek5k?=
- =?utf-8?B?KzZoZS9ONEF4aTNjQ3ZyeVNURXBEb3hmYVVuTHJMUjlENXAvaUhsWndRRDRL?=
- =?utf-8?B?d1FTRUhuWDlnZEhWU250WjRrbjdGdmtXWlpFcXRVVnQ1M2hkWU11eE45RHl6?=
- =?utf-8?B?Z01jQ1NseWpqaEpPdXNlMjIxd2hOek9DVURDczU0Q0pOb0dBUlVMNWpXaW9n?=
- =?utf-8?B?V214WktqS0xwZWwxNk5pMzVDVEltL0hwMW5jNVJ1MTdFNHhqY0F3L0hNMEJU?=
- =?utf-8?B?VGkyaFdZdjU4aDJsUnA0K24zSWEwblU3ZDEzOGJKMytjaExFNEJVTGExc0VE?=
- =?utf-8?B?dDFLUjJEbXBOQUgxRXpObml2azVUMVZ1b1ZCRWcwNWV1ekgvNFhNcDFLeExR?=
- =?utf-8?B?Szc4MHJJeHZYSlNKVzExYlZUbXdlOS9xV2JQVTd3Y3J1aFM2QUhGQ0hwWC9m?=
- =?utf-8?B?cUZlY01SSjJ2MXV1dEVRYTFjMzNMU1lPWnNIOGZ6RHBQRWF2VWtVTGppQkQ4?=
- =?utf-8?B?K0NDSmlqRndRRU9hT0VTKytZK1ZxNkVPbTRDb1FnbGNKRlk1ZkFZSHVaeUhS?=
- =?utf-8?B?Ynd0MFFaaUNUazk5bGlLVjJlWlhlbU9oTGR5YVJXenhEdjdZQlA2dkZORGlL?=
- =?utf-8?B?RWNkV25KOTVpMXhocEtDbzZZUG5VVFVPSUZ1Qkh6cDFxNm5ORDlLYU9GbUlw?=
- =?utf-8?B?eXA3cFk1S0Vuc0M2eGFia2ZiM1MwUG03TTlMaUtWTlJoK1h0cHRvR1o3N1hQ?=
- =?utf-8?Q?azRZC1zW80tH3Jy0g2QvjbywBTXF4QPIHeLNyE6CKbzt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 684f194c-17ea-482c-893d-08db1fb5a11c
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 09:15:15.7944 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QW9kQqc7BdU5vfwvPTVJ4C/uzwZFxWQyePVyU3uANveaiLZVosZbu+sTBBSrNx2g
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5027
+Content-Type: multipart/signed; boundary="Sig_/QoPo.N4v9WVhK3k+SzJHvRt";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,139 +71,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
+ Uma Shankar <uma.shankar@intel.com>, amd-gfx@lists.freedesktop.org,
+ Joshua Ashton <joshua@froggi.es>, Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.03.23 um 15:46 schrieb Thomas Hellström:
-> When swapping out, we will split multi-order pages both in order to
-> move them to the swap-cache and to be able to return memory to the
-> swap cache as soon as possible on a page-by-page basis.
-> Reduce the page max order to the system PMD size, as we can then be nicer
-> to the system and avoid splitting gigantic pages.
+--Sig_/QoPo.N4v9WVhK3k+SzJHvRt
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Mhm, we actually have a todo to start supporting giant pages at some time.
+On Tue, 7 Mar 2023 10:10:55 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-Using the folio directly just saves tons of overhead when you don't need 
-to allocate 2MiG page array any more for each 1GiB you allocate.
-
-But that probably needs tons of work anyway, so feel free to add my rb 
-for now.
-
-Regards,
-Christian.
-
->
-> Looking forward to when we might be able to swap out PMD size folios
-> without splitting, this will also be a benefit.
->
-> v2:
-> - Include all orders up to the PMD size (Christian König)
->
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> We an use bitfields to track the support ones for HDMI
+> and DP. This allows us to print colorspaces in a consistent
+> manner without needing to know whether we're dealing with
+> DP or HDMI.
+>=20
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> Cc: Vitaly.Prosyak@amd.com
+> Cc: Uma Shankar <uma.shankar@intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> Cc: Joshua Ashton <joshua@froggi.es>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
 > ---
->   drivers/gpu/drm/ttm/ttm_pool.c | 27 ++++++++++++++++-----------
->   1 file changed, 16 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index 0b6e20613d19..939845d853af 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -47,6 +47,9 @@
->   
->   #include "ttm_module.h"
->   
-> +#define TTM_MAX_ORDER (PMD_SHIFT - PAGE_SHIFT)
-> +#define TTM_DIM_ORDER (TTM_MAX_ORDER + 1)
-> +
->   /**
->    * struct ttm_pool_dma - Helper object for coherent DMA mappings
->    *
-> @@ -65,11 +68,11 @@ module_param(page_pool_size, ulong, 0644);
->   
->   static atomic_long_t allocated_pages;
->   
-> -static struct ttm_pool_type global_write_combined[MAX_ORDER];
-> -static struct ttm_pool_type global_uncached[MAX_ORDER];
-> +static struct ttm_pool_type global_write_combined[TTM_DIM_ORDER];
-> +static struct ttm_pool_type global_uncached[TTM_DIM_ORDER];
->   
-> -static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
-> -static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
-> +static struct ttm_pool_type global_dma32_write_combined[TTM_DIM_ORDER];
-> +static struct ttm_pool_type global_dma32_uncached[TTM_DIM_ORDER];
->   
->   static spinlock_t shrinker_lock;
->   static struct list_head shrinker_list;
-> @@ -431,7 +434,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   	else
->   		gfp_flags |= GFP_HIGHUSER;
->   
-> -	for (order = min_t(unsigned int, MAX_ORDER - 1, __fls(num_pages));
-> +	for (order = min_t(unsigned int, TTM_MAX_ORDER, __fls(num_pages));
->   	     num_pages;
->   	     order = min_t(unsigned int, order, __fls(num_pages))) {
->   		struct ttm_pool_type *pt;
-> @@ -550,7 +553,7 @@ void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
->   
->   	if (use_dma_alloc) {
->   		for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> -			for (j = 0; j < MAX_ORDER; ++j)
-> +			for (j = 0; j < TTM_DIM_ORDER; ++j)
->   				ttm_pool_type_init(&pool->caching[i].orders[j],
->   						   pool, i, j);
->   	}
-> @@ -570,7 +573,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
->   
->   	if (pool->use_dma_alloc) {
->   		for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> -			for (j = 0; j < MAX_ORDER; ++j)
-> +			for (j = 0; j < TTM_DIM_ORDER; ++j)
->   				ttm_pool_type_fini(&pool->caching[i].orders[j]);
->   	}
->   
-> @@ -624,7 +627,7 @@ static void ttm_pool_debugfs_header(struct seq_file *m)
->   	unsigned int i;
->   
->   	seq_puts(m, "\t ");
-> -	for (i = 0; i < MAX_ORDER; ++i)
-> +	for (i = 0; i < TTM_DIM_ORDER; ++i)
->   		seq_printf(m, " ---%2u---", i);
->   	seq_puts(m, "\n");
->   }
-> @@ -635,7 +638,7 @@ static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
->   {
->   	unsigned int i;
->   
-> -	for (i = 0; i < MAX_ORDER; ++i)
-> +	for (i = 0; i < TTM_DIM_ORDER; ++i)
->   		seq_printf(m, " %8u", ttm_pool_type_count(&pt[i]));
->   	seq_puts(m, "\n");
->   }
-> @@ -738,13 +741,15 @@ int ttm_pool_mgr_init(unsigned long num_pages)
->   {
->   	unsigned int i;
->   
-> +	BUILD_BUG_ON(TTM_DIM_ORDER > MAX_ORDER);
-> +
->   	if (!page_pool_size)
->   		page_pool_size = num_pages;
->   
->   	spin_lock_init(&shrinker_lock);
->   	INIT_LIST_HEAD(&shrinker_list);
->   
-> -	for (i = 0; i < MAX_ORDER; ++i) {
-> +	for (i = 0; i < TTM_DIM_ORDER; ++i) {
->   		ttm_pool_type_init(&global_write_combined[i], NULL,
->   				   ttm_write_combined, i);
->   		ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
-> @@ -777,7 +782,7 @@ void ttm_pool_mgr_fini(void)
->   {
->   	unsigned int i;
->   
-> -	for (i = 0; i < MAX_ORDER; ++i) {
-> +	for (i = 0; i < TTM_DIM_ORDER; ++i) {
->   		ttm_pool_type_fini(&global_write_combined[i]);
->   		ttm_pool_type_fini(&global_uncached[i]);
->   
+>  drivers/gpu/drm/drm_connector.c | 131 +++++++++++++++++++-------------
+>  include/drm/drm_connector.h     |   1 +
+>  2 files changed, 78 insertions(+), 54 deletions(-)
+>=20
 
+...
+
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 3e2e1bc7aa04..46c064d9ffef 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -460,6 +460,7 @@ enum drm_colorspace {
+>  	DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED	=3D 13,
+>  	DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT	=3D 14,
+>  	DRM_MODE_COLORIMETRY_BT601_YCC		=3D 15,
+> +	DRM_MODE_COLORIMETRY_MAX
+
+Maybe a comment to say that MAX is not a valid value?
+Given that things like iccMAX exist (even though it makes no sense as a
+colorspace), MAX could perhaps be confused with something.
+
+Or call it DRM_MODE_COLORIMETRY__COUNT? or __END?
+
+
+Thanks,
+pq
+
+--Sig_/QoPo.N4v9WVhK3k+SzJHvRt
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIUh8ACgkQI1/ltBGq
+qqcI6w/9Hih4Wlnhy4mxeri05lkao3cZn415K1D9ZGnx3l5HcHVOTJW5mMUo4NCD
+cMa5mkbDcixRYHg1Tvk486fWIiVt92wIQbERvf7M3MeiZXtLdB7q6Fg/v4lD0A8k
+SbVoygJ1Tu2+XfHhYfC8zIImRZ5M/BLdyIYi38uae2rhOsmG6kERutSDOeLY+tsg
+VIE06TLAJWw7xoshIj0Nx1richQll2VtE4f5zTQm0QIoKIQ12nh+8ffJ3s4MLo/L
+ZragC0zHwLCTL5UVFeqD5KcLs40Z9Agwous7sgq3P6uS6Lmt+SD9jxRo/fxzFrx3
+pAAYeZiPwXgywAtD7ZB5GmfRsQwLygfjFAqvm3RcUA6dlQFeXnmigcmPycIrXjTW
+yhLJjc6/2B6yfvw4dMEQ37QxTm0Hivbj4RDqB540NWnTu5V9MX8Pl+3wEJawxucM
+lkKha4rTT07PXFJFJtLmIdCiEs9ial3Xn56pnoCgGi9ldLLH4ZyXpC8KYiXzV/Yf
+07FXpY6ZM4OL1P5GlIa3iK/pv0mHsQsadi6qOIXAIazPnObz1Oj4sqvYY+dhHJ9M
+06mO0DN1RxFGNGwRLlnPOXyyUx2/DkB7SwmyL8kWF14BOeeB1plY1sePDTL35NMr
+Ldi2VtNS63BrLDNMrr+0euWucJAChYxaMzthB0jwwUi5gl7ejhI=
+=y34t
+-----END PGP SIGNATURE-----
+
+--Sig_/QoPo.N4v9WVhK3k+SzJHvRt--
