@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162016B098E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 14:39:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56166B09A0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 14:45:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3257E10E5DC;
-	Wed,  8 Mar 2023 13:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92FE510E045;
+	Wed,  8 Mar 2023 13:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E108D10E5DC
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 13:39:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dsRxEvWTXlZ1Z9zA/KLb+az2ZLLklSO9elGidPpvfTc=; b=h3Ei16lZnMKSYeZAEeTTVivXkG
- b+h/iD4X6zVIlIZ0UiEpIa0rIQZSuf/jqianep9Nl0aHAYhPwLvNCIJJ9JFaN8vCpRIbNfMit5SJu
- uvu0D+m0Oq9V2PQGdaw1HU3SLs7VsdYJhXJ91DuWYxjZwl5qKGH1CuT94z8NAuKmC0zWMBbaF/3s9
- JLCn5THoXfNZhvUZj6c4LxO4Oy0HZCQMPmAGK5dqc0ijlRZoG1Oz5L9vicubvMERdx7WfauEmbK+2
- gHGKBJEWasHbBydLQkR7w/bZprZOUy4kFeNsYjwTXRRFvCILay7bumy4+rs75FZXACut0gwuP1xo2
- sINUrBNQ==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1pZu0E-000Hmc-MM; Wed, 08 Mar 2023 14:38:47 +0100
-Message-ID: <ff51483e-2d72-3a7b-0632-58ea36cc3d8e@igalia.com>
-Date: Wed, 8 Mar 2023 10:38:33 -0300
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com
+ [IPv6:2607:f8b0:4864:20::d32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BEAD10E045
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 13:45:10 +0000 (UTC)
+Received: by mail-io1-xd32.google.com with SMTP id e11so6781656ioe.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 05:45:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1678283110;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8Gz/Fal0kRuGQs4te+QLHZr2SvmaC9a9yoIN2O4rmEs=;
+ b=FzOehmgGzILhkooEFO0biilFd7kiTA0NZcKrhcfEw83BGlvb/DRX3HApX0gd0asQu+
+ zXYldxA3v4VRudBB014jDadWTIgo79RaVquXI8m+ip2DXj5WS98GeAQOpgEvrX+7tpbU
+ SWqY8TrecDN3LvK2tWghCzQbSw+b/IEJKg1ys=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678283110;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8Gz/Fal0kRuGQs4te+QLHZr2SvmaC9a9yoIN2O4rmEs=;
+ b=IxsXVZrmuk8/tV9NeFB9NH3cNyNd+2QEsrnPnkxmlWVD+3mu+DmnH1gA+aoOcsu6pP
+ ETF9T/EwDZpU4vX2cuQdVPt0yoO6IUJQ3cpExaByH33/i/xFYB+Ftlu2jVs6lo9iiahb
+ HEP/rusfpxhY0UBv4Qk56QxOwL43kit7SamBhzXm6MI+0mnS+Eq/1a/Isv+w666hhwNq
+ KEq6lBKYI2H/9CvG5WbLuIMImharEdMHaLilCycqlcRBR+wKn/PKBXIAlw5efXPR0A4U
+ NVpKr0eBUd7fjfD/PrQDVR0qAXkqc19janWDucp6lDzPsR/FYLbBgBxpQCY2FACNJ3AK
+ CmQg==
+X-Gm-Message-State: AO0yUKXF++W0CTRVAqwJpd7zpu1G9rCrZSOYDKszElQRigsnEDXOD2Xn
+ 4NlSsc4qBjyA/P1Ya5AfZgUvjApqhQwv8SP7WqgSMQ==
+X-Google-Smtp-Source: AK7set9vEwKu1Idu63ibGwE2iFEiZ7o1hncWOqoEWkYY6ycvzgr26jaWtmtsgD0Zy8mBVQpsXMl2fE6U84RedlItoHs=
+X-Received: by 2002:a05:6602:4287:b0:745:50e5:c861 with SMTP id
+ cd7-20020a056602428700b0074550e5c861mr8454903iob.4.1678283109499; Wed, 08 Mar
+ 2023 05:45:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC 06/18] rust: drm: gem: shmem: Add DRM shmem helper
- abstraction
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-6-917ff5bc80a8@asahilina.net>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20230307-rust-drm-v1-6-917ff5bc80a8@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230303143350.815623-1-treapking@chromium.org>
+ <20230303143350.815623-8-treapking@chromium.org>
+ <ZAXUrJDtHmm7+50H@smile.fi.intel.com>
+In-Reply-To: <ZAXUrJDtHmm7+50H@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Wed, 8 Mar 2023 21:44:58 +0800
+Message-ID: <CAEXTbpftCVFBQK0bNiWvF0NnbNoMoF=dFStHy1HXOq8LvWYjsA@mail.gmail.com>
+Subject: Re: [PATCH v13 07/10] drm/bridge: anx7625: Register Type C mode
+ switches
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,343 +67,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mary <mary@mary.zone>, Faith Ekstrand <faith.ekstrand@collabora.com>,
- rust-for-linux@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, asahi@lists.linux.dev,
- linux-media@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-sgx@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/7/23 11:25, Asahi Lina wrote:
-> The DRM shmem helper includes common code useful for drivers which
-> allocate GEM objects as anonymous shmem. Add a Rust abstraction for
-> this. Drivers can choose the raw GEM implementation or the shmem layer,
-> depending on their needs.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->   drivers/gpu/drm/Kconfig         |   5 +
->   rust/bindings/bindings_helper.h |   2 +
->   rust/helpers.c                  |  67 +++++++
->   rust/kernel/drm/gem/mod.rs      |   3 +
->   rust/kernel/drm/gem/shmem.rs    | 381 ++++++++++++++++++++++++++++++++++++++++
->   5 files changed, 458 insertions(+)
-> 
+Hi Andy,
 
-[...]
+Thanks for the review.
 
-> +unsafe extern "C" fn gem_create_object<T: DriverObject>(
-> +    raw_dev: *mut bindings::drm_device,
-> +    size: usize,
-> +) -> *mut bindings::drm_gem_object {
-> +    // SAFETY: GEM ensures the device lives as long as its objects live,
-> +    // so we can conjure up a reference from thin air and never drop it.
-> +    let dev = ManuallyDrop::new(unsafe { device::Device::from_raw(raw_dev) });
-> +
-> +    let inner = match T::new(&*dev, size) {
-> +        Ok(v) => v,
-> +        Err(e) => return e.to_ptr(),
-> +    };
-> +
-> +    let p = unsafe {
-> +        bindings::krealloc(
-> +            core::ptr::null(),
-> +            Object::<T>::SIZE,
-> +            bindings::GFP_KERNEL | bindings::__GFP_ZERO,
-> +        ) as *mut Object<T>
-> +    };
-> +
-> +    if p.is_null() {
-> +        return ENOMEM.to_ptr();
-> +    }
-> +
-> +    // SAFETY: p is valid as long as the alloc succeeded
-> +    unsafe {
-> +        addr_of_mut!((*p).dev).write(dev);
-> +        addr_of_mut!((*p).inner).write(inner);
-> +    }
-> +
-> +    // SAFETY: drm_gem_shmem_object is safe to zero-init, and
-> +    // the rest of Object has been initialized
-> +    let new: &mut Object<T> = unsafe { &mut *(p as *mut _) };
-> +
-> +    new.obj.base.funcs = &Object::<T>::VTABLE;
-> +    &mut new.obj.base
-> +}
+On Mon, Mar 6, 2023 at 7:55=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Fri, Mar 03, 2023 at 10:33:47PM +0800, Pin-yen Lin wrote:
+> > Register USB Type-C mode switches when the "mode-switch" property and
+> > relevant ports are available in Device Tree. Configure the crosspoint
+> > switch based on the entered alternate mode for a specific Type-C
+> > connector.
+> >
+> > Crosspoint switch can also be used for switching the output signal for
+> > different orientations of a single USB Type-C connector, but the
+> > orientation switch is not implemented yet. A TODO is added for this.
+>
+> ...
+>
+> > +     ctx->port_data =3D devm_kcalloc(
+> > +             dev, switch_desc->num_typec_switches,
+> > +             sizeof(struct anx7625_typec_port_data), GFP_KERNEL);
+>
+> I believe I have commented on this (indentation)...
+>
+> > +
+>
+> ...and this (blank line).
 
-It would be nice to allow to set wc inside the gem_create_object callback,
-as some drivers do it so, like v3d, vc4, panfrost, lima...
+Sorry for missing this one. I'll fix this in v14.
+>
+> > +     if (!ctx->port_data) {
+> > +             ret =3D -ENOMEM;
+> > +             goto unregister_mux;
+> > +     }
+>
+> ...
+>
+> > +             ctx->port_data[i].orientation =3D (dp_lanes[0] / 2 =3D=3D=
+ 0) ?
+> > +                     TYPEC_ORIENTATION_REVERSE : TYPEC_ORIENTATION_NOR=
+MAL;
+>
+> I believe that this is an error prone check, you should rather do the opp=
+osite,
+> i.e.  ' % 2  =3D=3D 0'.
+>
+The orientation should be TYPEC_ORIENTATION_REVERSE when the
+data-lanes value is 0/1, so ` / 2` is what I meant here.
 
-Best Regards,
-- Maíra Canal
-
-> +
-> +unsafe extern "C" fn free_callback<T: DriverObject>(obj: *mut bindings::drm_gem_object) {
-> +    // SAFETY: All of our objects are Object<T>.
-> +    let p = crate::container_of!(obj, Object<T>, obj) as *mut Object<T>;
-> +
-> +    // SAFETY: p is never used after this
-> +    unsafe {
-> +        core::ptr::drop_in_place(&mut (*p).inner);
-> +    }
-> +
-> +    // SAFETY: This pointer has to be valid, since p is valid
-> +    unsafe {
-> +        bindings::drm_gem_shmem_free(&mut (*p).obj);
-> +    }
-> +}
-> +
-> +impl<T: DriverObject> Object<T> {
-> +    /// The size of this object's structure.
-> +    const SIZE: usize = mem::size_of::<Self>();
-> +
-> +    /// `drm_gem_object_funcs` vtable suitable for GEM shmem objects.
-> +    const VTABLE: bindings::drm_gem_object_funcs = bindings::drm_gem_object_funcs {
-> +        free: Some(free_callback::<T>),
-> +        open: Some(super::open_callback::<T, Object<T>>),
-> +        close: Some(super::close_callback::<T, Object<T>>),
-> +        print_info: Some(bindings::drm_gem_shmem_object_print_info),
-> +        export: None,
-> +        pin: Some(bindings::drm_gem_shmem_object_pin),
-> +        unpin: Some(bindings::drm_gem_shmem_object_unpin),
-> +        get_sg_table: Some(bindings::drm_gem_shmem_object_get_sg_table),
-> +        vmap: Some(bindings::drm_gem_shmem_object_vmap),
-> +        vunmap: Some(bindings::drm_gem_shmem_object_vunmap),
-> +        mmap: Some(bindings::drm_gem_shmem_object_mmap),
-> +        vm_ops: &SHMEM_VM_OPS,
-> +    };
-> +
-> +    // SAFETY: Must only be used with DRM functions that are thread-safe
-> +    unsafe fn mut_shmem(&self) -> *mut bindings::drm_gem_shmem_object {
-> +        &self.obj as *const _ as *mut _
-> +    }
-> +
-> +    /// Create a new shmem-backed DRM object of the given size.
-> +    pub fn new(dev: &device::Device<T::Driver>, size: usize) -> Result<gem::UniqueObjectRef<Self>> {
-> +        // SAFETY: This function can be called as long as the ALLOC_OPS are set properly
-> +        // for this driver, and the gem_create_object is called.
-> +        let p = unsafe { bindings::drm_gem_shmem_create(dev.raw() as *mut _, size) };
-> +        let p = crate::container_of!(p, Object<T>, obj) as *mut _;
-> +
-> +        // SAFETY: The gem_create_object callback ensures this is a valid Object<T>,
-> +        // so we can take a unique reference to it.
-> +        let obj_ref = gem::UniqueObjectRef { ptr: p };
-> +
-> +        Ok(obj_ref)
-> +    }
-> +
-> +    /// Returns the `Device` that owns this GEM object.
-> +    pub fn dev(&self) -> &device::Device<T::Driver> {
-> +        &self.dev
-> +    }
-> +
-> +    /// Creates (if necessary) and returns a scatter-gather table of DMA pages for this object.
-> +    ///
-> +    /// This will pin the object in memory.
-> +    pub fn sg_table(&self) -> Result<SGTable<T>> {
-> +        // SAFETY: drm_gem_shmem_get_pages_sgt is thread-safe.
-> +        let sgt = from_kernel_err_ptr(unsafe {
-> +            bindings::drm_gem_shmem_get_pages_sgt(self.mut_shmem())
-> +        })?;
-> +
-> +        Ok(SGTable {
-> +            sgt,
-> +            _owner: self.reference(),
-> +        })
-> +    }
-> +
-> +    /// Creates and returns a virtual kernel memory mapping for this object.
-> +    pub fn vmap(&self) -> Result<VMap<T>> {
-> +        let mut map: MaybeUninit<bindings::iosys_map> = MaybeUninit::uninit();
-> +
-> +        // SAFETY: drm_gem_shmem_vmap is thread-safe
-> +        to_result(unsafe { bindings::drm_gem_shmem_vmap(self.mut_shmem(), map.as_mut_ptr()) })?;
-> +
-> +        // SAFETY: if drm_gem_shmem_vmap did not fail, map is initialized now
-> +        let map = unsafe { map.assume_init() };
-> +
-> +        Ok(VMap {
-> +            map,
-> +            owner: self.reference(),
-> +        })
-> +    }
-> +
-> +    /// Set the write-combine flag for this object.
-> +    ///
-> +    /// Should be called before any mappings are made.
-> +    pub fn set_wc(&mut self, map_wc: bool) {
-> +        unsafe { (*self.mut_shmem()).map_wc = map_wc };
-> +    }
-> +}
-> +
-> +impl<T: DriverObject> Deref for Object<T> {
-> +    type Target = T;
-> +
-> +    fn deref(&self) -> &Self::Target {
-> +        &self.inner
-> +    }
-> +}
-> +
-> +impl<T: DriverObject> DerefMut for Object<T> {
-> +    fn deref_mut(&mut self) -> &mut Self::Target {
-> +        &mut self.inner
-> +    }
-> +}
-> +
-> +impl<T: DriverObject> crate::private::Sealed for Object<T> {}
-> +
-> +impl<T: DriverObject> gem::IntoGEMObject for Object<T> {
-> +    type Driver = T::Driver;
-> +
-> +    fn gem_obj(&self) -> *mut bindings::drm_gem_object {
-> +        &self.obj.base as *const _ as *mut _
-> +    }
-> +
-> +    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Object<T> {
-> +        crate::container_of!(obj, Object<T>, obj) as *mut Object<T>
-> +    }
-> +}
-> +
-> +impl<T: DriverObject> drv::AllocImpl for Object<T> {
-> +    const ALLOC_OPS: drv::AllocOps = drv::AllocOps {
-> +        gem_create_object: Some(gem_create_object::<T>),
-> +        prime_handle_to_fd: Some(bindings::drm_gem_prime_handle_to_fd),
-> +        prime_fd_to_handle: Some(bindings::drm_gem_prime_fd_to_handle),
-> +        gem_prime_import: None,
-> +        gem_prime_import_sg_table: Some(bindings::drm_gem_shmem_prime_import_sg_table),
-> +        gem_prime_mmap: Some(bindings::drm_gem_prime_mmap),
-> +        dumb_create: Some(bindings::drm_gem_shmem_dumb_create),
-> +        dumb_map_offset: None,
-> +        dumb_destroy: None,
-> +    };
-> +}
-> +
-> +/// A virtual mapping for a shmem-backed GEM object in kernel address space.
-> +pub struct VMap<T: DriverObject> {
-> +    map: bindings::iosys_map,
-> +    owner: gem::ObjectRef<Object<T>>,
-> +}
-> +
-> +impl<T: DriverObject> VMap<T> {
-> +    /// Returns a const raw pointer to the start of the mapping.
-> +    pub fn as_ptr(&self) -> *const core::ffi::c_void {
-> +        // SAFETY: The shmem helpers always return non-iomem maps
-> +        unsafe { self.map.__bindgen_anon_1.vaddr }
-> +    }
-> +
-> +    /// Returns a mutable raw pointer to the start of the mapping.
-> +    pub fn as_mut_ptr(&mut self) -> *mut core::ffi::c_void {
-> +        // SAFETY: The shmem helpers always return non-iomem maps
-> +        unsafe { self.map.__bindgen_anon_1.vaddr }
-> +    }
-> +
-> +    /// Returns a byte slice view of the mapping.
-> +    pub fn as_slice(&self) -> &[u8] {
-> +        // SAFETY: The vmap maps valid memory up to the owner size
-> +        unsafe { slice::from_raw_parts(self.as_ptr() as *const u8, self.owner.size()) }
-> +    }
-> +
-> +    /// Returns mutable a byte slice view of the mapping.
-> +    pub fn as_mut_slice(&mut self) -> &mut [u8] {
-> +        // SAFETY: The vmap maps valid memory up to the owner size
-> +        unsafe { slice::from_raw_parts_mut(self.as_mut_ptr() as *mut u8, self.owner.size()) }
-> +    }
-> +
-> +    /// Borrows a reference to the object that owns this virtual mapping.
-> +    pub fn owner(&self) -> &gem::ObjectRef<Object<T>> {
-> +        &self.owner
-> +    }
-> +}
-> +
-> +impl<T: DriverObject> Drop for VMap<T> {
-> +    fn drop(&mut self) {
-> +        // SAFETY: This function is thread-safe
-> +        unsafe {
-> +            bindings::drm_gem_shmem_vunmap(self.owner.mut_shmem(), &mut self.map);
-> +        }
-> +    }
-> +}
-> +
-> +/// SAFETY: `iosys_map` objects are safe to send across threads.
-> +unsafe impl<T: DriverObject> Send for VMap<T> {}
-> +unsafe impl<T: DriverObject> Sync for VMap<T> {}
-> +
-> +/// A single scatter-gather entry, representing a span of pages in the device's DMA address space.
-> +///
-> +/// For devices not behind a standalone IOMMU, this corresponds to physical addresses.
-> +#[repr(transparent)]
-> +pub struct SGEntry(bindings::scatterlist);
-> +
-> +impl SGEntry {
-> +    /// Returns the starting DMA address of this span
-> +    pub fn dma_address(&self) -> usize {
-> +        (unsafe { bindings::sg_dma_address(&self.0) }) as usize
-> +    }
-> +
-> +    /// Returns the length of this span in bytes
-> +    pub fn dma_len(&self) -> usize {
-> +        (unsafe { bindings::sg_dma_len(&self.0) }) as usize
-> +    }
-> +}
-> +
-> +/// A scatter-gather table of DMA address spans for a GEM shmem object.
-> +///
-> +/// # Invariants
-> +/// `sgt` must be a valid pointer to the `sg_table`, which must correspond to the owned
-> +/// object in `_owner` (which ensures it remains valid).
-> +pub struct SGTable<T: DriverObject> {
-> +    sgt: *const bindings::sg_table,
-> +    _owner: gem::ObjectRef<Object<T>>,
-> +}
-> +
-> +impl<T: DriverObject> SGTable<T> {
-> +    /// Returns an iterator through the SGTable's entries
-> +    pub fn iter(&'_ self) -> SGTableIter<'_> {
-> +        SGTableIter {
-> +            left: unsafe { (*self.sgt).nents } as usize,
-> +            sg: unsafe { (*self.sgt).sgl },
-> +            _p: PhantomData,
-> +        }
-> +    }
-> +}
-> +
-> +impl<'a, T: DriverObject> IntoIterator for &'a SGTable<T> {
-> +    type Item = &'a SGEntry;
-> +    type IntoIter = SGTableIter<'a>;
-> +
-> +    fn into_iter(self) -> Self::IntoIter {
-> +        self.iter()
-> +    }
-> +}
-> +
-> +/// SAFETY: `sg_table` objects are safe to send across threads.
-> +unsafe impl<T: DriverObject> Send for SGTable<T> {}
-> +unsafe impl<T: DriverObject> Sync for SGTable<T> {}
-> +
-> +/// An iterator through `SGTable` entries.
-> +///
-> +/// # Invariants
-> +/// `sg` must be a valid pointer to the scatterlist, which must outlive our lifetime.
-> +pub struct SGTableIter<'a> {
-> +    sg: *mut bindings::scatterlist,
-> +    left: usize,
-> +    _p: PhantomData<&'a ()>,
-> +}
-> +
-> +impl<'a> Iterator for SGTableIter<'a> {
-> +    type Item = &'a SGEntry;
-> +
-> +    fn next(&mut self) -> Option<Self::Item> {
-> +        if self.left == 0 {
-> +            None
-> +        } else {
-> +            let sg = self.sg;
-> +            self.sg = unsafe { bindings::sg_next(self.sg) };
-> +            self.left -= 1;
-> +            Some(unsafe { &(*(sg as *const SGEntry)) })
-> +        }
-> +    }
-> +}
-> 
+Though, after second thought, I think it would be clearer if I use
+`dp_lanes[0] < 2`. I'll update this in v14 as well.
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+Best regards,
+Pin-yen
