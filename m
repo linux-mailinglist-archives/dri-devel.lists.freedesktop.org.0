@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE076B02EE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30256B0300
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:35:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD7E10E5EC;
-	Wed,  8 Mar 2023 09:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A846910E5EF;
+	Wed,  8 Mar 2023 09:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85CC210E5EC;
- Wed,  8 Mar 2023 09:31:03 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id a32so15897989ljr.9;
- Wed, 08 Mar 2023 01:31:03 -0800 (PST)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0AA310E5EF
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 09:35:03 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ h11-20020a17090a2ecb00b00237c740335cso1321897pjs.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Mar 2023 01:35:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678267862;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=0mD9RHfQ+H+/sYvMR53JwuBQ7X7+YVMcCbNjbk0mzJA=;
- b=dGkWisOh8q/0cQQxeZcJFdBShNVbcpexv4htNwzvfC8GER+8V9i6CJOR4vWxFvXUyb
- vZehIUEdsNMcdNcve3TsBSgxTxhTZvhFZ4kH9x+1vJzNFBhblbZQupTOx2CZB0Ur/qy7
- QcXjxFk5nF91tIHl4IE1RO+VDbM1K0Sh57fe8ztZ/iUYNCjna0pzdEDiNMb1J9IyyxR6
- veXqsWChD04TFhoTKcxkSz7bN2QIBrXIy2e/NT3iQBEg3abLhOt2/PPIE/XLPJEHmSA4
- +sstIhjGmqoCDSxTESYatgy5WkKEAff+lHrd3qNHehScDM/YKJ8/a9rKkkCA5EigzETc
- +nnw==
+ d=gmail.com; s=20210112; t=1678268103;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CIp47ayWe59+VWKhH9jfCtYK/GFGqKCWyjnngDque6c=;
+ b=Cc+E1Uks3GPCBi+uVQ8Q1bxA242495kRlYnjygJIcW0ttuukBE0hKfF/G4HtH0HGcw
+ ZSLSv3maU9K8fpsnB/lasDILBMu+G66n2g28h8UzQLfYaVtRE/v9BpJumos/l+xT0QSg
+ EXyKUlKn8IjZvK1CTaNIOI/O52HtQ0PEAlbcOBfjUrOyPuuW6qkh6//4YZSLROGOB62o
+ FcrwecFPUocDjdxj4BEWrjdFLGV3eWfpzdygoyrp7LQFhgOMNw9Fbb6zObt/VK7hnvCo
+ 7bEyGflDAFixQfiteufSq2mu0o8ayAxucG6cpIGSMTxSCox6m8vnOMTIl3HVvsYAddbz
+ OhTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678267862;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0mD9RHfQ+H+/sYvMR53JwuBQ7X7+YVMcCbNjbk0mzJA=;
- b=aR+Ew9i6TV59qab0FfDlj/JQ5UgHWZx4K4TT3wmJarcjBdhhuA6Qm/+X3H0CQ3O5eP
- SrLwK2lGQmvo4qAH5ohJBNg6NJUnAh1CkQ1ph9YoN/i5naqsEjdUgsEIh4+JAFsHuPxY
- XSgEcxWrK6e679ZqkOZ9/m+KMq6E66JxuQyY3vsazzCNEEhSn8HZ3nLCR3Z4ZjeArUQ3
- nEuPPd3oPe93a048VQONg8fi/SIdfjWdOOiYHwoI1XFCYbf9DMKKD40uI62Pi/HwskF5
- y0FCBDtslzjajhNAzcYSQBJsREJGI6q1O1v9U+skq1V2mRRU7usAM52YNid/HmIFKBor
- NSJw==
-X-Gm-Message-State: AO0yUKUytYFaZbLzy1he4QbyxPDjasqDcyH5H8g8oBKJ7MMz5Rp9Eold
- 5pPFCeb+H92bA/6fXrEIrRU=
-X-Google-Smtp-Source: AK7set9rgVW6uHFGKvr0j6R0RF4PF94fVp7oNdl0zlxOXPP/VVTrW9kYLB818L94JcONwCkz1UYiCA==
-X-Received: by 2002:a05:651c:318:b0:295:a6cb:f51c with SMTP id
- a24-20020a05651c031800b00295a6cbf51cmr4641293ljp.16.1678267861645; 
- Wed, 08 Mar 2023 01:31:01 -0800 (PST)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- h12-20020a19700c000000b004e7fa99f3f4sm1804141lfc.265.2023.03.08.01.31.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 01:31:01 -0800 (PST)
-Date: Wed, 8 Mar 2023 11:30:57 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH v3 14/17] drm/amd/display: Add debugfs for testing
- output colorspace
-Message-ID: <20230308113057.2f76b4b8@eldfell>
-In-Reply-To: <20230307151107.49649-15-harry.wentland@amd.com>
-References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-15-harry.wentland@amd.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ d=1e100.net; s=20210112; t=1678268103;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CIp47ayWe59+VWKhH9jfCtYK/GFGqKCWyjnngDque6c=;
+ b=q3os4cD16ARAuWz30lGsXplRmhKc2wx8FWRQHHdbY3UsTa6DLSlBYyo7hWKn/AZ4V2
+ tA4SURFwrFl15PGU88ja4JFQiVYhTEXJviKFoizU8P/7Sg2PzRBZmmm9XEx4LNCM6CdB
+ X5DNCRJQra5dabHOil0hvgJwfh7hfLRe55grzRlTTOGicwBNaqbUg/s5Pq7VWBppk8/p
+ cEEi6NiRh/mtKI/hMOL7CaNYIQLuMDTpsXHQF5sevX5R6muhcYEiu7ZUWkB5QKYQEBpV
+ RhTMKJk9vKYXX9XYZ7PekBPBStAGvQCG2+ywfLjbpxTRv5SZkAROR+IOXSYB/3ps381g
+ Iqsw==
+X-Gm-Message-State: AO0yUKVpfmn8RZ2M4slQoVfmK81LNkkXwj3BZppsGutu82ZW1QFyvw4V
+ TSPuoSvd5wu6uegtW8f/Dou5ioLj2fq7dyeGI8s=
+X-Google-Smtp-Source: AK7set+g9/JXVrtZuGiSSDbXHvja+DfYo0/TVYxq59r9hAEn3FcwO4JpGiYOFO8cgm5MHGSE0G+q3mCbuRrCnu4w3+0=
+X-Received: by 2002:a17:902:ab45:b0:19b:e4c:2039 with SMTP id
+ ij5-20020a170902ab4500b0019b0e4c2039mr7130742plb.4.1678268103137; Wed, 08 Mar
+ 2023 01:35:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/q36b+EZoc9ESYqs5HwM0XuG";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20230308063628.15233-1-tiwai@suse.de>
+ <CAMeQTsYSgXm=Sku99USE+Up+uuJHUFdE8zPj7_B=BUi5SH=6KQ@mail.gmail.com>
+ <87v8jbhag1.wl-tiwai@suse.de>
+In-Reply-To: <87v8jbhag1.wl-tiwai@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Wed, 8 Mar 2023 10:34:51 +0100
+Message-ID: <CAMeQTsYuD=umBxom7yha89ZS2GtuapEua28Uo+K1Wb1ApKKT6Q@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: Fix incorrect page mapping clearance at
+ fb_deferred_io_release()
+To: Takashi Iwai <tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,150 +71,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joshua Ashton <joshua@froggi.es>,
- Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Vitaly.Prosyak@amd.com
+Cc: linux-fbdev@vger.kernel.org, Miko Larsson <mikoxyzzz@gmail.com>,
+ Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/q36b+EZoc9ESYqs5HwM0XuG
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, Mar 8, 2023 at 10:14=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Wed, 08 Mar 2023 10:08:24 +0100,
+> Patrik Jakobsson wrote:
+> >
+> > On Wed, Mar 8, 2023 at 7:36=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wro=
+te:
+> > >
+> > > The recent fix for the deferred I/O by the commit
+> > >   3efc61d95259 ("fbdev: Fix invalid page access after closing deferre=
+d I/O devices")
+> > > caused a regression when the same fb device is opened/closed while
+> > > it's being used.  It resulted in a frozen screen even if something
+> > > is redrawn there after the close.  The breakage is because the patch
+> > > was made under a wrong assumption of a single open; in the current
+> > > code, fb_deferred_io_release() cleans up the page mapping of the
+> > > pageref list and it calls cancel_delayed_work_sync() unconditionally,
+> > > where both are no correct behavior for multiple opens.
+> > >
+> > > This patch adds a refcount for the opens of the device, and applies
+> > > the cleanup only when all files get closed.
+> > >
+> > > Fixes: 3efc61d95259 ("fbdev: Fix invalid page access after closing de=
+ferred I/O devices")
+> > > Cc: <stable@vger.kernel.org>
+> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > > ---
+> > >  drivers/video/fbdev/core/fb_defio.c | 16 +++++++++++++---
+> > >  include/linux/fb.h                  |  1 +
+> > >  2 files changed, 14 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbde=
+v/core/fb_defio.c
+> > > index aa5f059d0222..9dcec9e020b6 100644
+> > > --- a/drivers/video/fbdev/core/fb_defio.c
+> > > +++ b/drivers/video/fbdev/core/fb_defio.c
+> > > @@ -305,17 +305,19 @@ void fb_deferred_io_open(struct fb_info *info,
+> > >                          struct inode *inode,
+> > >                          struct file *file)
+> > >  {
+> > > +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
+> > > +
+> > >         file->f_mapping->a_ops =3D &fb_deferred_io_aops;
+> > > +       fbdefio->opens++;
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+> > >
+> > > -void fb_deferred_io_release(struct fb_info *info)
+> > > +static void fb_deferred_io_release_internal(struct fb_info *info)
+> >
+> > Maybe a better name would be fb_deferred_io_lastclose() to be more in
+> > line with DRM?
+>
+> Sounds good.
+>
+> > >  {
+> > >         struct fb_deferred_io *fbdefio =3D info->fbdefio;
+> > >         struct page *page;
+> > >         int i;
+> > >
+> > > -       BUG_ON(!fbdefio);
+> >
+> > Should the BUG_ON be put back into fb_deferred_io_release()?
+>
+> It can be, but honestly speaking, such a BUG_ON() is utterly useless.
+> It should be WARN_ON() and return, if the sanity check is inevitably
+> needed.
 
-On Tue, 7 Mar 2023 10:11:04 -0500
-Harry Wentland <harry.wentland@amd.com> wrote:
+I agree. It's rather pointless since it's already checked in fb_release().
 
-> In order to IGT test colorspace we'll want to print
-> the currently enabled colorspace on a stream. We add
-> a new debugfs to do so, using the same scheme as
-> current bpc reporting.
->=20
-> This might also come in handy when debugging display
-> issues.
->=20
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Reviewed-By: Joshua Ashton <joshua@froggi.es>
-> ---
->  .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 57 +++++++++++++++++++
->  1 file changed, 57 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> index 4a5dae578d97..f0022c16b708 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-> @@ -906,6 +906,61 @@ static int amdgpu_current_bpc_show(struct seq_file *=
-m, void *data)
->  }
->  DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
-> =20
-> +/*
-> + * Returns the current bpc for the crtc.
+>
+> > >         cancel_delayed_work_sync(&info->deferred_work);
+> > >
+> > >         /* clear out the mapping that we setup */
+> > > @@ -324,13 +326,21 @@ void fb_deferred_io_release(struct fb_info *inf=
+o)
+> > >                 page->mapping =3D NULL;
+> > >         }
+> > >  }
+> > > +
+> > > +void fb_deferred_io_release(struct fb_info *info)
+> > > +{
+> > > +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
+> > > +
+> > > +       if (!--fbdefio->opens)
+> > > +               fb_deferred_io_release_internal(info);
+> >
+> > I think this can race so we need locking.
+>
+> This one is fine, as it's always called inside the fb lock in the
+> caller side.  Maybe worth to comment in the code.
 
-Hi,
+Ah, yes, fb_release() locks around everything. Then we are fine. A
+comment would be nice.
 
-bpc?
+>
+> > > +}
+> > >  EXPORT_SYMBOL_GPL(fb_deferred_io_release);
+> > >
+> > >  void fb_deferred_io_cleanup(struct fb_info *info)
+> > >  {
+> > >         struct fb_deferred_io *fbdefio =3D info->fbdefio;
+> > >
+> > > -       fb_deferred_io_release(info);
+> > > +       fb_deferred_io_release_internal(info);
+> > >
+> > >         kvfree(info->pagerefs);
+> > >         mutex_destroy(&fbdefio->lock);
+> > > diff --git a/include/linux/fb.h b/include/linux/fb.h
+> > > index d8d20514ea05..29674a29d1c4 100644
+> > > --- a/include/linux/fb.h
+> > > +++ b/include/linux/fb.h
+> > > @@ -212,6 +212,7 @@ struct fb_deferred_io {
+> > >         /* delay between mkwrite and deferred handler */
+> > >         unsigned long delay;
+> > >         bool sort_pagereflist; /* sort pagelist by offset */
+> > > +       int opens; /* number of opened files */
+> >
+> > I would prefer the name num_opens (or open_count as in DRM) instead of
+> > opens since it can be interpreted as a verb.
+>
+> I don't mind either way.  I'd choose the latter.
+>
+> > Also, don't we need it to be atomic_t?
+>
+> It's always in the fb lock, so that should be fine with the standard
+> int.
 
-> + * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_colo=
-rspace
-> + */
-> +static int amdgpu_current_colorspace_show(struct seq_file *m, void *data)
+Yes
 
-
-Thanks,
-pq
-
-> +{
-> +	struct drm_crtc *crtc =3D m->private;
-> +	struct drm_device *dev =3D crtc->dev;
-> +	struct dm_crtc_state *dm_crtc_state =3D NULL;
-> +	int res =3D -ENODEV;
-> +
-> +	mutex_lock(&dev->mode_config.mutex);
-> +	drm_modeset_lock(&crtc->mutex, NULL);
-> +	if (crtc->state =3D=3D NULL)
-> +		goto unlock;
-> +
-> +	dm_crtc_state =3D to_dm_crtc_state(crtc->state);
-> +	if (dm_crtc_state->stream =3D=3D NULL)
-> +		goto unlock;
-> +
-> +	switch (dm_crtc_state->stream->output_color_space) {
-> +	case COLOR_SPACE_SRGB:
-> +		seq_printf(m, "RGB");
-> +		break;
-> +	case COLOR_SPACE_YCBCR601:
-> +	case COLOR_SPACE_YCBCR601_LIMITED:
-> +		seq_printf(m, "BT601_YCC");
-> +		break;
-> +	case COLOR_SPACE_YCBCR709:
-> +	case COLOR_SPACE_YCBCR709_LIMITED:
-> +		seq_printf(m, "BT709_YCC");
-> +		break;
-> +	case COLOR_SPACE_ADOBERGB:
-> +		seq_printf(m, "opRGB");
-> +		break;
-> +	case COLOR_SPACE_2020_RGB_FULLRANGE:
-> +		seq_printf(m, "BT2020_RGB");
-> +		break;
-> +	case COLOR_SPACE_2020_YCBCR:
-> +		seq_printf(m, "BT2020_YCC");
-> +		break;
-> +	default:
-> +		goto unlock;
-> +	}
-> +	res =3D 0;
-> +
-> +unlock:
-> +	drm_modeset_unlock(&crtc->mutex);
-> +	mutex_unlock(&dev->mode_config.mutex);
-> +
-> +	return res;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(amdgpu_current_colorspace);
-> +
-> +
->  /*
->   * Example usage:
->   * Disable dsc passthrough, i.e.,: have dsc decoding at converver, not e=
-xternal RX
-> @@ -3235,6 +3290,8 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
->  #endif
->  	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
->  			    crtc, &amdgpu_current_bpc_fops);
-> +	debugfs_create_file("amdgpu_current_colorspace", 0644, crtc->debugfs_en=
-try,
-> +			    crtc, &amdgpu_current_colorspace_fops);
->  }
-> =20
->  /*
-
-
---Sig_/q36b+EZoc9ESYqs5HwM0XuG
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQIVdEACgkQI1/ltBGq
-qqen7g/+Pxg86h53kREDIW/OWHS6AH6oSz0nRy6H61njyfg8Y2dRhy6xaX7TSkdK
-lUa33/p8K/XU/igQ8pqKXkni68fqUT08KUSKcpoM+Iu8NvTYdSERSUvJeQqKElAp
-5jlY/szB7FIkvwkrArjEGHER7frc4ft3z6Wq7+vIqzqj5IoaLRkJ/0Fx0KQMJIyU
-5w2QVFmIX9s3An8Ueg32s6xn53VZABZmdlXHlXvPGvSyAPgDPnLSj8i89p1mwjZo
-n08Ck6FLLXiRb3w6yHObleeKXM87kFEXSIYFMmEHdU/VGpJBtRajLNPALvczVKoD
-xBrDPF1wzj8btQn5dnmeGJuNfeD6ySRtOvS17kOTIM68U970M//b2K9v7gjmN0Y7
-+lBi8CqhNSKHlNsHOizYUyBDimI4jOCOl4M+w6C3+eqo+jgyTx0mThAJBTF7B8s6
-hC3FidSHj9k96DOwhi45OVArPyJF1KYp1ssebc71iCOJUA3tn5w/93ekyu9KLH/P
-Y8a5lyrbiNSuL0Ryd+LXUmZip7RXtfMYbHdffg8vnARRRFc4FANZ5n0tqwjHPywe
-yc/2vxPPNMotfCjrIHtPdq6bKTTUDA3qSbAs3iq+HEPSLt5v5ZAgXS/km8USZ2A3
-zeylUi45+S4DzFBxrFzR4G10dYi1NwNHOe6iNKj1R0GiMo1NQFU=
-=OG8k
------END PGP SIGNATURE-----
-
---Sig_/q36b+EZoc9ESYqs5HwM0XuG--
+>
+>
+> thanks,
+>
+> Takashi
