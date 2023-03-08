@@ -2,47 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01016B167F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 00:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20D06B1689
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 00:34:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD4CE10E75B;
-	Wed,  8 Mar 2023 23:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D257510E75A;
+	Wed,  8 Mar 2023 23:34:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD3610E75A;
- Wed,  8 Mar 2023 23:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678318002; x=1709854002;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8rM4PkkqkuOyk+npwJMLFoGxt+MQmeGmfcAenhHlzDY=;
- b=LACgnnQOUsjrnrYchbTB/Y369ctQ4nxYPn30X3I4F4wzxdqCYX2bEgRc
- /Dr43DPhWoD6PeGeXHalaX9TjXDvrhjdKBizPeObbTosOmfNZhgUYE7pY
- 2eZarz/FWiPuGxtG9nR12QOE7FRnu0DjVkvb2DpgqRYXE4DmlBty4w++x
- rlM2haFe4c2rVWOwEaxlWaNCj227GJu1PFtLE1KI886A2Fjzevan3llCw
- qy2KLEro+cytgpYYmRRsIPCgai+mWNxFgxKl5iZALQNd0BHlVMrT5spMq
- 1D87FNKRPLRnMmiRici5qOf4m+qzvP4EJ05IH/zrvnWd6d+6JMKOsWpc4 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320131760"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="320131760"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 15:26:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="654529155"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="654529155"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 15:26:41 -0800
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/selftests: keep same cache settings as timeline
-Date: Wed,  8 Mar 2023 15:28:26 -0800
-Message-Id: <20230308232826.1542846-1-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
+ [IPv6:2607:f8b0:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5AF10E75A;
+ Wed,  8 Mar 2023 23:34:00 +0000 (UTC)
+Received: by mail-oi1-x22a.google.com with SMTP id s41so332539oiw.13;
+ Wed, 08 Mar 2023 15:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678318439;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nKUiLVCrv6sWYIIB9vh7FoNv1/LPd9DHV86kLY+wfAA=;
+ b=oH2lP2gJxfBjAe8IiOErFway8XzMxmINHz9QbcNvV1HhQPpYF4w7nliMEAubFkBVi2
+ cks3TfK0MhvKcSUgRqiKvH2oEQFbeY1WwlNcj+mDOEqgNKaGPAV3+Sh9oEM34SDgfS76
+ 94Ekpx4FOJrh3IisxtWLo7VbAVWUcT00t+TIWc9Y71nmKMWY7WaLZuC8N8kQBB9L7mRz
+ K7cNvVjFKQwAbUXCjosc2n4jZcI4Jl5wECk+S9gN9rr0Mql+IVk1D2SM2Y0pwMis9Yye
+ XIFaN0dYE9Bi2INqVwURi9MVQxXFaNQI0IRAh4DT/z+vFwBQSndy2jUUc3cRLV1oOxjo
+ nJTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678318439;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nKUiLVCrv6sWYIIB9vh7FoNv1/LPd9DHV86kLY+wfAA=;
+ b=WXkdPPjAJTrWNJ9HzzIG7VjAwaCj+v4sDphbPPRgQhlL6BY+aWwwkzSp1LMAeM4J3Z
+ ++IwbNzEUcTa8rIufNrVrylChm2PbUJZAaIE+GdSc5fuVCa8ugaK7eQXWFP0VWUtHqyC
+ BeKFBAvkLsNxu/GeIOiz6v2jim+2KMC/Ns3E4z2jzBdEHCzUsR/reXLzoV23GA9Ttjq3
+ OvMF5kdDSy4yK8aq6sczPNbrr3qcqBLKSnY+Kzv21uHhpwSqqasHm6uLtfPq6c2EdPQH
+ K1xR8lCSjWTfe1BKod5MkDYJWIxmrZgsDAWLseLnAuK5+ng3njGl8+HKJlk+GHA3ZC4w
+ h4Qg==
+X-Gm-Message-State: AO0yUKXBHofJntVItOsKzh69jPsyTByiOYP8BPXA8goVtgLaifeG2MPU
+ smtD+NDC1AHbyV0dpbEA9eV/bfD5xsBfpxzom2Q=
+X-Google-Smtp-Source: AK7set9Qz7nkbaFWTYIgBvI2ydooLjOtTcqfk+KQhW5WId8g4I0dRkTIscRr8lL3MYXoLKizsTmFEfq7yVqSaIKPDFA=
+X-Received: by 2002:aca:2111:0:b0:384:e145:e8b8 with SMTP id
+ 17-20020aca2111000000b00384e145e8b8mr2054810oiz.5.1678318439716; Wed, 08 Mar
+ 2023 15:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1678305762-32381-1-git-send-email-quic_abhinavk@quicinc.com>
+ <ZAjvc7jjKDNSJcjq@intel.com>
+In-Reply-To: <ZAjvc7jjKDNSJcjq@intel.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 8 Mar 2023 15:33:48 -0800
+Message-ID: <CAF6AEGvMyDb7kwZU5Uk14nRNOe1-eFUVmXEsnLiGKL7R0kOjPQ@mail.gmail.com>
+Subject: Re: [RFC] drm: property: use vzalloc() instead of kvzalloc() for
+ large blobs
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,85 +69,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>, Fei Yang <fei.yang@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+On Wed, Mar 8, 2023 at 1:23=E2=80=AFPM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Wed, Mar 08, 2023 at 12:02:42PM -0800, Abhinav Kumar wrote:
+> > For DRM property blobs created by user mode using
+> > drm_property_create_blob(), if the blob value needs to be updated the
+> > only way is to destroy the previous blob and create a new one instead.
+> >
+> > For some of the property blobs, if the size of the blob is more
+> > than one page size, kvzalloc() can slow down system as it will first
+> > try to allocate physically contiguous memory but upon failure will
+> > fall back to non-contiguous (vmalloc) allocation.
+> >
+> > If the blob property being used is bigger than one page size, in a
+> > heavily loaded system, this causes performance issues because
+> > some of the blobs are updated on a per-frame basis.
+> >
+> > To mitigate the performance impact of kvzalloc(), use it only when
+> > the size of allocation is less than a page size when creating property
+> > blobs
+>
+> Not sure how badly this will eat into the vmalloc area.
 
-On MTL, objects allocated through i915_gem_object_create_internal() are
-mapped as uncached in GPU by default because HAS_LLC is false. However
-in the live_hwsp_read selftest these watcher objects are mapped as WB
-on CPU side. The conseqence is that the updates done by the GPU are not
-immediately visible to CPU, thus the selftest is randomly failing due to
-the stale data in CPU cache. Solution can be either setting WC for CPU +
-UC for GPU, or WB for CPU + 1-way coherent WB for GPU.
-To keep the consistency, let's simply inherit the same cache settings
-from the timeline, which is WB for CPU + 1-way coherent WB for GPU,
-because this test is supposed to emulate the behavior of the timeline
-anyway.
+Normally I wouldn't expect this to be much of a problem, but we don't
+appear to restrict CREATEBLOBPROP to DRM_MASTER, which seems like it
+might have been a mistake.. so perhaps we want to either restrict
+CREATEBLOBPROP or put an upper threshold limit on total size of all
+allocated blob props using vmalloc area?
 
-v2: copy cache settings from timeline instead of setting it to WC
-    (Suggested by Chris)
+BR,
+-R
 
-Signed-off-by: Fei Yang <fei.yang@intel.com>
-Reviewed-by: Chris Wilson <chris.p.wilson@linux.intel.com>
-Acked-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Acked-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/gt/selftest_timeline.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
-index 522d0190509c..631aaed9bc3d 100644
---- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
-@@ -825,7 +825,8 @@ static bool cmp_gte(u32 a, u32 b)
- 	return a >= b;
- }
- 
--static int setup_watcher(struct hwsp_watcher *w, struct intel_gt *gt)
-+static int setup_watcher(struct hwsp_watcher *w, struct intel_gt *gt,
-+			 struct intel_timeline *tl)
- {
- 	struct drm_i915_gem_object *obj;
- 	struct i915_vma *vma;
-@@ -834,7 +835,10 @@ static int setup_watcher(struct hwsp_watcher *w, struct intel_gt *gt)
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
- 
--	w->map = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
-+	/* keep the same cache settings as timeline */
-+	i915_gem_object_set_cache_coherency(obj, tl->hwsp_ggtt->obj->cache_level);
-+	w->map = i915_gem_object_pin_map_unlocked(obj,
-+			page_unmask_bits(tl->hwsp_ggtt->obj->mm.mapping));
- 	if (IS_ERR(w->map)) {
- 		i915_gem_object_put(obj);
- 		return PTR_ERR(w->map);
-@@ -1004,8 +1008,10 @@ static int live_hwsp_read(void *arg)
- 	if (!tl->has_initial_breadcrumb)
- 		goto out_free;
- 
-+	selftest_tl_pin(tl);
-+
- 	for (i = 0; i < ARRAY_SIZE(watcher); i++) {
--		err = setup_watcher(&watcher[i], gt);
-+		err = setup_watcher(&watcher[i], gt, tl);
- 		if (err)
- 			goto out;
- 	}
-@@ -1160,6 +1166,8 @@ static int live_hwsp_read(void *arg)
- 	for (i = 0; i < ARRAY_SIZE(watcher); i++)
- 		cleanup_watcher(&watcher[i]);
- 
-+	intel_timeline_unpin(tl);
-+
- 	if (igt_flush_test(gt->i915))
- 		err = -EIO;
- 
--- 
-2.25.1
-
+> Is there no GFP flag to avoid the expensive stuff instead?
+>
+> >
+> > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/drm_property.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_prope=
+rty.c
+> > index dfec479830e4..40c2a3142038 100644
+> > --- a/drivers/gpu/drm/drm_property.c
+> > +++ b/drivers/gpu/drm/drm_property.c
+> > @@ -561,7 +561,11 @@ drm_property_create_blob(struct drm_device *dev, s=
+ize_t length,
+> >       if (!length || length > INT_MAX - sizeof(struct drm_property_blob=
+))
+> >               return ERR_PTR(-EINVAL);
+> >
+> > -     blob =3D kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KE=
+RNEL);
+> > +     if (sizeof(struct drm_property_blob) + length > PAGE_SIZE)
+> > +             blob =3D vzalloc(sizeof(struct drm_property_blob)+length)=
+;
+> > +     else
+> > +             blob =3D kvzalloc(sizeof(struct drm_property_blob)+length=
+, GFP_KERNEL);
+> > +
+> >       if (!blob)
+> >               return ERR_PTR(-ENOMEM);
+> >
+> > --
+> > 2.7.4
+>
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
