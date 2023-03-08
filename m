@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CC66B0387
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D323B6B037D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 10:57:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2383E10E5CC;
-	Wed,  8 Mar 2023 09:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB4B510E653;
+	Wed,  8 Mar 2023 09:57:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2171610E5CC
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 09:58:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678269491; x=1709805491;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=pZyVPEEWN847EU+VtMs2axVi8WRcs92TdSJoLK4IpVI=;
- b=aQTiBCqRO8wo3Ry/HXGBG2rSptKLDNFhgSS7Uvpp5x6N5c+3T4P0ooh0
- 0Rn7gJAsyGL9US1Ao0Z5Akl4O80TtNpoNM8SKD8M/vLkjlO1CLDCVIa7x
- sh84Gc7HgdP6ch5byRsmn40pe/huE9FZzhfzVCs8B3nsnv3exMraP9z9p
- yXsuHvUHZmqPeOyhlMhImNg7VX/CQOtmqRi+i/Dnp1VFxqvzaazADJL/c
- ldII9ZSXCP6J+4k/NiTPcqpw2Ez16aHJGdq+ArX5/b9hMO5C6ee2I6It7
- ZOW2k0TR/6rzpzO4/imWHDPd9376BVF0ygNGMP1sebNVmYQpekAmhKRAq w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="398693148"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="398693148"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 01:58:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10642"; a="787059832"
-X-IronPort-AV: E=Sophos;i="5.98,243,1673942400"; d="scan'208";a="787059832"
-Received: from lcojocar-mobl.ger.corp.intel.com (HELO [10.251.219.243])
- ([10.251.219.243])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 01:57:49 -0800
-Message-ID: <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
-Date: Wed, 8 Mar 2023 10:57:47 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0F0C10E5CC;
+ Wed,  8 Mar 2023 09:57:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 58311B81C14;
+ Wed,  8 Mar 2023 09:57:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC892C433EF;
+ Wed,  8 Mar 2023 09:57:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678269454;
+ bh=/qd+skQp3D3bicLZ6MDaLy4rcvPFVnyfrpif2N5UNN0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MgfbJIUMMRwxpwbWXHv6F6txlDaVJzWlSLHHT79scaIj2Ljo/M0nFl6jp+ndsgA9R
+ RDbPJoCs03kwJFzHeJf39GpgygjC86yeFSuRG2rHEJGzMb96ynm2Hbwii6Q45MasdM
+ qSvINrUmWM3qK6ARRlAtHSEyfomEU2mNqylhZy6QSSPrZ+eomHiQ6GwIFRTNSlU6XE
+ mjvsZJ89ZG6SoDqkvlQVhX1iAbFShSYBDpPcX/TlzXgEVngYcLO0uoBt9I9rknm/kO
+ lCBZutn/gfd4/+gLirBJg5J0FkXOvQ1xSkXMqWKYtNKF4d0FiZXJHR8iMMVWw3CUqZ
+ t0aJfADwYxkJA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1pZqYs-0005Lo-R4; Wed, 08 Mar 2023 10:58:19 +0100
+Date: Wed, 8 Mar 2023 10:58:18 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Subject: Re: [PATCH] drm/msm: Initialize mode_config earlier
+Message-ID: <ZAhcOiHhlMd/IKu/@hovoldconsulting.com>
+References: <20230113041051.4189063-1-quic_bjorande@quicinc.com>
+ <eea1c5dc-6bc5-4246-f0e1-0c790de9f078@linaro.org>
+ <9a64c685-9ff0-bc1d-e604-e3773ff9edd7@linaro.org>
+ <20230117025122.jt3wrjkqfnogu4ci@builder.lan>
+ <Y8ZWl85gSpOaLgO4@hovoldconsulting.com>
+ <Y86vaTQR7INWezyj@hovoldconsulting.com>
+ <20230123171749.GA623918@hu-bjorande-lv.qualcomm.com>
+ <Y8+SHQ/klPwusQRj@hovoldconsulting.com>
+ <Y/9aGus6jzIHqjoK@hovoldconsulting.com>
+ <20230302231704.GA1373835@hu-bjorande-lv.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230302231704.GA1373835@hu-bjorande-lv.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,79 +64,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Mar 02, 2023 at 03:17:04PM -0800, Bjorn Andersson wrote:
+> On Wed, Mar 01, 2023 at 02:58:50PM +0100, Johan Hovold wrote:
 
-On 2023-03-07 15:25, Asahi Lina wrote:
-> drm_sched_fini() currently leaves any pending jobs dangling, which
-> causes segfaults and other badness when job completion fences are
-> signaled after the scheduler is torn down.
->
-> Explicitly detach all jobs from their completion callbacks and free
-> them. This makes it possible to write a sensible safe abstraction for
-> drm_sched, without having to externally duplicate the tracking of
-> in-flight jobs.
->
-> This shouldn't regress any existing drivers, since calling
-> drm_sched_fini() with any pending jobs is broken and this change should
-> be a no-op if there are no pending jobs.
->
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 27 +++++++++++++++++++++++++--
->   1 file changed, 25 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 5c0add2c7546..0aab1e0aebdd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1119,10 +1119,33 @@ EXPORT_SYMBOL(drm_sched_init);
->   void drm_sched_fini(struct drm_gpu_scheduler *sched)
->   {
->   	struct drm_sched_entity *s_entity;
-> +	struct drm_sched_job *s_job, *tmp;
->   	int i;
->   
-> -	if (sched->thread)
-> -		kthread_stop(sched->thread);
-> +	if (!sched->thread)
-> +		return;
-> +
-> +	/*
-> +	 * Stop the scheduler, detaching all jobs from their hardware callbacks
-> +	 * and cleaning up complete jobs.
-> +	 */
-> +	drm_sched_stop(sched, NULL);
-> +
-> +	/*
-> +	 * Iterate through the pending job list and free all jobs.
-> +	 * This assumes the driver has either guaranteed jobs are already stopped, or that
-> +	 * otherwise it is responsible for keeping any necessary data structures for
-> +	 * in-progress jobs alive even when the free_job() callback is called early (e.g. by
-> +	 * putting them in its own queue or doing its own refcounting).
-> +	 */
-> +	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
-> +		spin_lock(&sched->job_list_lock);
-> +		list_del_init(&s_job->list);
-> +		spin_unlock(&sched->job_list_lock);
-> +		sched->ops->free_job(s_job);
-> +	}
+> > So after debugging this issue a third time, I can conclude that it is
+> > still very much present in 6.2.
+> > 
+> > It appears you looked at the linux-next tree when you concluded that
+> > this patch was not needed. In 6.2 the bridge->hpd_cb callback is set
+> > before mode_config.funcs is initialised as part of
+> > kms->funcs->hw_init(kms).
+> > 
+> > The hpd DRM changes heading into 6.3 do appear to avoid the NULL-pointer
+> > dereference by moving the bridge->hpd_cb initialisation to
+> > drm_kms_helper_poll_init() as you mention above.
 
-I would stop the kthread first, then delete all jobs without spinlock 
-since nothing else can race against sched_fini?
+I can confirm that as expected my reproducer no longer triggers with
+6.3-rc1.
+ 
+> > The PMIC GLINK altmode driver still happily forwards notifications
+> > regardless of the DRM driver state though, which can lead to missed
+> > hotplug events. It seems you need to implement the
+> > hpd_enable()/disable() callbacks and either cache or not enable events
+> > in fw until the DRM driver is ready.
+> > 
+> 
+> It's not clear to me what the expectation from the DRM framework is on
+> this point. We register a drm_bridge which is only capable of signaling
+> HPD events (DRM_BRIDGE_OP_HPD), not querying HPD state (DRM_BRIDGE_OP_DETECT).
 
-If you do need the spinlock, It would need to guard list_for_each_entry too.
+I think the assumption is that any bridge that can generate hotplug
+events also has a way of detecting whether it is connected (i.e.
+DRM_BRIDGE_OP_HPD => DRM_BRIDGE_OP_DETECT).
 
-> +
-> +	kthread_stop(sched->thread);
->   
->   	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
->   		struct drm_sched_rq *rq = &sched->sched_rq[i];
->
+The pmic_glink_altmode driver appears to be the only driver that sets
+DRM_BRIDGE_OP_HPD but not DRM_BRIDGE_OP_DETECT.
+
+> Does this imply that any such bridge must ensure that hpd events are
+> re-delivered once hpd_enable() has been invoked (we can't invoke it from
+> hpd_enable...)?
+> 
+> Is it reasonable to do this retriggering in the altmode driver? Or is it
+> the job of the TCPM (it seems reasonable to not send the PAN_EN message
+> until we get hpd_enable()...)?
+
+Are you sure there is no way to query the firmware about the connected
+state?
+
+Otherwise, enabling the notification messages when hpd_enable() is
+called looks like it should work as the fw currently appears to always
+send a disconnected event followed by a connect event if connected.
+
+But that's not going to be enough unless you can also disable events in
+fw on hpd_disable() so that the state can again be updated on the next
+hpd_enable().
+
+If that's not possible, it seems you need to cache the state in the
+driver and hope you get a notification after a suspend cycle if the
+state has changed.
+
+But in any case, the DRM documentation is pretty clear on that a bridge
+driver should not be calling drm_bridge_hpd_notify() until hpd_enable()
+is called (and also not after hpd_disable()) as the pmic_glink_altmode
+driver currently do.
+
+	hpd_enable
+
+	Enable hot plug detection. From now on the bridge shall call
+	drm_bridge_hpd_notify() each time a change is detected in the
+	output connection status, until hot plug detection gets disabled
+	with hpd_disable.
+
+	This callback is optional and shall only be implemented by
+	bridges that support hot-plug notification without polling.
+	Bridges that implement it shall also implement the hpd_disable
+	callback and set the DRM_BRIDGE_OP_HPD flag in their
+	drm_bridge->ops.
+
+	https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html#c.drm_bridge_funcs
+
+Johan
