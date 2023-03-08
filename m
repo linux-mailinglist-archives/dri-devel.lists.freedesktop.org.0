@@ -1,65 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A49436B0DB5
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 16:54:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 696966B0DC7
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Mar 2023 16:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4616610E62C;
-	Wed,  8 Mar 2023 15:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5453D10E62B;
+	Wed,  8 Mar 2023 15:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB88910E62C;
- Wed,  8 Mar 2023 15:54:30 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id q23so9885401pgt.7;
- Wed, 08 Mar 2023 07:54:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678290870;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qRQ1dHdIY/cau10a8E821pdOJBm+YYqmFlRisJrtcpU=;
- b=VInRsevL5hoOa24Y230bcVyeMLhH1aYIW9bUbR0nGfdeB6sMlUDfsB/IW5G+fFUrdS
- xq6loIUgrztEsywE69ZAUqsW/L7mtKOytKAxltZ3p9YKFi2P++DogG9K8Wzc4VJz9IkR
- eIWO7Ytce4BgJ/1k5T/PIexTpPW9HU/10m6MSvCYXZGAWm6rKl2YTRWJh9dj9zV/5Xcm
- ECw0NTffFqx4DWlIb59auEPRrYN6tUrv0DAG1fPg6lIXMqGtWwUlR9x0+Muci1Ohe032
- oiCRyrQ7zikzViwwCe93VCwvd/UimZPs2bcwJ5HysU/y6zbQohofGorhDeC9UnlH4d6l
- t5jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678290870;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qRQ1dHdIY/cau10a8E821pdOJBm+YYqmFlRisJrtcpU=;
- b=1BotfAEDiByJzWh1HVWKVLdhh7C6y1mP4GN/7oe1KWBdQyralk+F3GS+DcPMhKFele
- xvPOeiUQkkyTwX0GXdze/K/7nBAqi0Ub5w169X9OzS7SBjx2eJVQG8pCmSesTm4HSMi0
- dPYgxrJ2UEiCM98Esou0+ozRNQrnMRN79YhShoVBXU+eRxM7kUlQOSBXlLEzZ+BVk1WY
- SKRQyKo8hRVd7pL0/QowDbnbhl4xnE8r3DTr880rLz1R7ZICmHarDu51o16B92/fBfLh
- VEm83Dk/xPr/9pyJc6e1X7ezDZHk/u0Z7+4NrTJVi7StJ7uVnT/+ypKJ7JDb7jmoF3SG
- Dlzg==
-X-Gm-Message-State: AO0yUKUSsMJrLOO5wIz3+bdmfQ8Wr2IGLVJkeCJnJy/uAoPN9C1SSWXG
- 9PEGsMP0V5ea7NvLSyd1ZEHLnCRxliI=
-X-Google-Smtp-Source: AK7set/qurbajmx0drbw1A0UnfJ3nB9Otb6mpv7CbrkCjVlUVasHmbmab9vdSeIaq9fwrT8DYoD/PA==
-X-Received: by 2002:a62:7bc4:0:b0:5e2:62b7:f785 with SMTP id
- w187-20020a627bc4000000b005e262b7f785mr15546331pfc.29.1678290870363; 
- Wed, 08 Mar 2023 07:54:30 -0800 (PST)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
- by smtp.gmail.com with ESMTPSA id
- u5-20020aa78385000000b005a91d570972sm9486660pfm.41.2023.03.08.07.54.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Mar 2023 07:54:29 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 15/15] drm/i915: Add deadline based boost support
-Date: Wed,  8 Mar 2023 07:53:06 -0800
-Message-Id: <20230308155322.344664-16-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230308155322.344664-1-robdclark@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C53D510E62B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Mar 2023 15:55:40 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4PWxjm1qVdzDr4k;
+ Wed,  8 Mar 2023 15:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1678290940; bh=Tz83ZQjt8FrBye0ysrxwnpkehK3rSTcOomNT4SmhE5Q=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MjShpYxgZ6PzbTshAz5cnvHsnHK52xRtWb9qdF5wf0EvfOE0KK1TvM21yyor1Gkmy
+ gfM0poJlxu6bwEf1CzCn//peV+aB9UUsJ8hZGx+qMfTHafDBFLQ8sWHwGXdm8+bjyE
+ V1FqE1Xqr9m9tn79tRshrcPWC7VxTQw1KImHzELA=
+X-Riseup-User-ID: 508B4FEE875B9176399F6CD58DC30FD31858A48CBCC3F3DA1267BB2CCE97739E
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PWxjj2RTmz1y8Z;
+ Wed,  8 Mar 2023 15:55:37 +0000 (UTC)
+Message-ID: <782e6705-9799-b87e-60fd-ad88031ff909@riseup.net>
+Date: Wed, 8 Mar 2023 12:55:34 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/format_helper: Add Kunit tests for
+ drm_fb_xrgb8888_to_mono()
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230302200131.754154-1-arthurgrillo@riseup.net>
+ <87lek81hdq.fsf@minerva.mail-host-address-is-not-set>
+ <87mt4ow7ji.fsf@minerva.mail-host-address-is-not-set>
+From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
+In-Reply-To: <87mt4ow7ji.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,66 +56,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matt Turner <mattst88@gmail.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: davidgow@google.com, tales.aparecida@gmail.com, mairacanal@riseup.net,
+ tzimmermann@suse.de, jose.exposito89@gmail.com, andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
 
-I expect this patch to be replaced by someone who knows i915 better.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/i915/i915_request.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+On 07/03/23 18:55, Javier Martinez Canillas wrote:
+> Javier Martinez Canillas <javierm@redhat.com> writes:
+> 
+> [...]
+> 
+>>
+>>> +static size_t conversion_buf_size_mono(unsigned int dst_pitch, const struct drm_rect *clip)
+>>> +{
+>>> +	if (!dst_pitch) {
+>>> +		unsigned int linepixels = drm_rect_width(clip) * 1;
+>>> +
+>>> +		dst_pitch = DIV_ROUND_UP(linepixels, 8);
+>>> +	}
+>>> +
+>>> +	return dst_pitch * drm_rect_height(clip);
+>>> +}
+>>> +
+>>
+>> I don't think you need a new helper only for this. There are other
+>> formats that have sub-byte pixels, so you may want to instead make
+>> the existing conversion_buf_size() function more general.
+>>
+>> Could you please base on the following patch that I just posted?
+>>
+>> https://lists.freedesktop.org/archives/dri-devel/2023-March/394466.html
+>>
+> 
+> I've posted a v2 since the kernel robot found a build warning on v1:
+> 
+> https://lists.freedesktop.org/archives/dri-devel/2023-March/394473.html
+> 
+> This time I have also tested your patch rebased on top of my v2, and
+> your tests are passing too:
+> 
+> [22:46:16] ============== drm_test_fb_xrgb8888_to_mono  ===============
+> [22:46:16] [PASSED] single_pixel_source_buffer                                                                         
+> [22:46:16] [PASSED] single_pixel_clip_rectangle     
+> [22:46:16] [PASSED] well_known_colors                                                                                  
+> [22:46:16] [PASSED] destination_pitch
+> 
+> The version of your patch I that tested is the following:
+> 
+> From def1b2c04c812d53ebcda17c2d34d16f311ad406 Mon Sep 17 00:00:00 2001
+> From: Arthur Grillo <arthurgrillo@riseup.net>
+> Date: Thu, 2 Mar 2023 17:01:31 -0300
+> Subject: [PATCH] drm/format_helper: Add Kunit tests for
+>  drm_fb_xrgb8888_to_mono()
+> 
+> Extend the existing test cases to test the conversion from XRGB8888 to
+> monochromatic.
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>  .../gpu/drm/tests/drm_format_helper_test.c    | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index 84b5cc29c8fc..c9cd8a7741ee 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -67,6 +67,11 @@ struct convert_to_argb2101010_result {
+>  	const u32 expected[TEST_BUF_SIZE];
+>  };
+>  
+> +struct convert_to_mono_result {
+> +	unsigned int dst_pitch;
+> +	const u8 expected[TEST_BUF_SIZE];
+> +};
+> +
+>  struct convert_xrgb8888_case {
+>  	const char *name;
+>  	unsigned int pitch;
+> @@ -82,6 +87,7 @@ struct convert_xrgb8888_case {
+>  	struct convert_to_argb8888_result argb8888_result;
+>  	struct convert_to_xrgb2101010_result xrgb2101010_result;
+>  	struct convert_to_argb2101010_result argb2101010_result;
+> +	struct convert_to_mono_result mono_result;
+>  };
+>  
+>  static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+> @@ -131,6 +137,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>  			.dst_pitch = 0,
+>  			.expected = { 0xFFF00000 },
+>  		},
+> +		.mono_result = {
+> +			.dst_pitch = 0,
+> +			.expected = { 0x00 },
+> +		},
+>  	},
+>  	{
+>  		.name = "single_pixel_clip_rectangle",
+> @@ -181,6 +191,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>  			.dst_pitch = 0,
+>  			.expected = { 0xFFF00000 },
+>  		},
+> +		.mono_result = {
+> +			.dst_pitch = 0,
+> +			.expected = { 0x00 },
+> +		},
+>  	},
+>  	{
+>  		/* Well known colors: White, black, red, green, blue, magenta,
+> @@ -293,6 +307,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>  				0xFFFFFC00, 0xC00FFFFF,
+>  			},
+>  		},
+> +		.mono_result = {
+> +			.dst_pitch = 0,
+> +			.expected = {
+> +				0x01,
+> +				0x02,
+> +				0x00,
+> +				0x03,
+> +			},
+> +		},
+>  	},
+>  	{
+>  		/* Randomly picked colors. Full buffer within the clip area. */
+> @@ -392,6 +415,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+>  				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
+>  			},
+>  		},
+> +		.mono_result = {
+> +			.dst_pitch = 0,
+> +			.expected = {
+> +				0x00,
+> +				0x00,
+> +				0x00,
+> +			},
+> +		},
+>  	},
+>  };
+>  
+> @@ -792,6 +823,37 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
+>  	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>  }
+>  
+> +static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
+> +{
+> +	const struct convert_xrgb8888_case *params = test->param_value;
+> +	const struct convert_to_mono_result *result = &params->mono_result;
+> +	size_t dst_size;
+> +	u8 *buf = NULL;
+> +	__le32 *xrgb8888 = NULL;
+> +	struct iosys_map dst, src;
+> +
+> +	struct drm_framebuffer fb = {
+> +		.format = drm_format_info(DRM_FORMAT_XRGB8888),
+> +		.pitches = { params->pitch, 0, 0 },
+> +	};
+> +
+> +	dst_size = conversion_buf_size(DRM_FORMAT_C1, result->dst_pitch,
+> +				       &params->clip);
+> +
+> +	KUNIT_ASSERT_GT(test, dst_size, 0);
+> +
+> +	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
+> +	iosys_map_set_vaddr(&dst, buf);
+> +
+> +	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
+> +	iosys_map_set_vaddr(&src, xrgb8888);
+> +
+> +	drm_fb_xrgb8888_to_mono(&dst, &result->dst_pitch, &src, &fb, &params->clip);
+> +	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+> +}
+> +
+>  static struct kunit_case drm_format_helper_test_cases[] = {
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
+> @@ -803,6 +865,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
+>  	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
+> +	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
+>  	{}
+>  };
+>  
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 7503dcb9043b..44491e7e214c 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -97,6 +97,25 @@ static bool i915_fence_enable_signaling(struct dma_fence *fence)
- 	return i915_request_enable_breadcrumb(to_request(fence));
- }
- 
-+static void i915_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-+{
-+	struct i915_request *rq = to_request(fence);
-+
-+	if (i915_request_completed(rq))
-+		return;
-+
-+	if (i915_request_started(rq))
-+		return;
-+
-+	/*
-+	 * TODO something more clever for deadlines that are in the
-+	 * future.  I think probably track the nearest deadline in
-+	 * rq->timeline and set timer to trigger boost accordingly?
-+	 */
-+
-+	intel_rps_boost(rq);
-+}
-+
- static signed long i915_fence_wait(struct dma_fence *fence,
- 				   bool interruptible,
- 				   signed long timeout)
-@@ -182,6 +201,7 @@ const struct dma_fence_ops i915_fence_ops = {
- 	.signaled = i915_fence_signaled,
- 	.wait = i915_fence_wait,
- 	.release = i915_fence_release,
-+	.set_deadline = i915_fence_set_deadline,
- };
- 
- static void irq_execute_cb(struct irq_work *wrk)
--- 
-2.39.2
+Hi Javier. Thank you for your review :)
 
+Thank you for your patch! I too think that a new helper is not needed.
+I will send the v2 when your patch is applied.
