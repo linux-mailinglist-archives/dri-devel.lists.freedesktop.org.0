@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B42F6B2956
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:02:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3766B2995
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A68310E870;
-	Thu,  9 Mar 2023 16:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB2A10E89C;
+	Thu,  9 Mar 2023 16:02:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6E6510E038
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:10 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAAA10E038
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:11 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 73A842017D;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D9A1522140;
  Thu,  9 Mar 2023 16:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+FUi3cC4ZbNfnVzDlRVuUkJNsL1SkMquCeIFMmvAC8o=;
- b=IUPQEEYnXT7GyVhVVIVQfYM1bet8PDGuc1h2UDerjes0SxQAn2C/FlvGez6Ic/PqalEUDD
- 49x+fRHdnUJGSmwspY4kgfcCJcXJGr0qXuD+yvcfq5r4Co+jFz7McSNgO83mkT2+QqbQco
- clCYFpog5JZXedsiH8jEaZ+BSeBABa8=
+ bh=BakC+qpuW38aK0OvnJ1f/WEGdxh5L35SOezAYZ73eHU=;
+ b=XFi7a4C45OfxOHx5jgZ+i0LKNg8gAwwfcG3ShZqKuRXRvUkqWivkW2ccfIGNTCXLYSoE4j
+ qNBQORlM3eqc2qAnUBVeuPmN1TspI/Kgo2IxshP2Nx3bHhJKiDOlw7/c2LJZWBB4tXC/xB
+ Ent68vf/FIDuj+AYJPa+IIcpSxHB0bM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377729;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+FUi3cC4ZbNfnVzDlRVuUkJNsL1SkMquCeIFMmvAC8o=;
- b=04hFjl3HX3Hs4/ETS8p0/KG+5HcDpCm4C1v6z24G2Oa2NO/APnZuQK90gwFrwfZ40Y+tDF
- /0HyodwPVhZ2lgDg==
+ bh=BakC+qpuW38aK0OvnJ1f/WEGdxh5L35SOezAYZ73eHU=;
+ b=Ef6P6ITBLVfSGVJO3NvkatljcdmXt75pT+KY1K9qlZnnXcUypKQX1VufQCoBjDUfpvNt9r
+ pQ9vkEojb+plrEAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 13C0C1391B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7840613A73;
  Thu,  9 Mar 2023 16:02:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MJniAwEDCmQHbgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id oNJwHAEDCmQHbgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:09 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
@@ -52,10 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 012/101] fbdev/aty: Parse option string with struct
+Subject: [PATCH v2 013/101] fbdev/au1100fb: Parse option string with struct
  option_iter
-Date: Thu,  9 Mar 2023 17:00:32 +0100
-Message-Id: <20230309160201.5163-13-tzimmermann@suse.de>
+Date: Thu,  9 Mar 2023 17:00:33 +0100
+Message-Id: <20230309160201.5163-14-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,137 +89,55 @@ Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/aty/aty128fb.c    | 12 ++++++++----
- drivers/video/fbdev/aty/atyfb_base.c  | 12 ++++++++----
- drivers/video/fbdev/aty/radeon_base.c | 15 ++++++++-------
- 3 files changed, 24 insertions(+), 15 deletions(-)
+ drivers/video/fbdev/au1100fb.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index 0e725a6eb40b..ee2be122de2d 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -48,6 +48,7 @@
- 
- 
- #include <linux/aperture.h>
+diff --git a/drivers/video/fbdev/au1100fb.c b/drivers/video/fbdev/au1100fb.c
+index 519313b8bb00..0c063c8e6312 100644
+--- a/drivers/video/fbdev/au1100fb.c
++++ b/drivers/video/fbdev/au1100fb.c
+@@ -42,6 +42,7 @@
+  *  675 Mass Ave, Cambridge, MA 02139, USA.
+  */
+ #include <linux/clk.h>
 +#include <linux/cmdline.h>
  #include <linux/module.h>
- #include <linux/moduleparam.h>
  #include <linux/kernel.h>
-@@ -1674,14 +1675,14 @@ static int aty128fb_sync(struct fb_info *info)
- }
+ #include <linux/errno.h>
+@@ -365,7 +366,9 @@ static const struct fb_ops au1100fb_ops =
  
- #ifndef MODULE
--static int aty128fb_setup(char *options)
-+static int aty128fb_setup(const char *options)
+ static int au1100fb_setup(struct au1100fb_device *fbdev)
  {
+-	char *this_opt, *options;
++	char *options;
 +	struct option_iter iter;
- 	char *this_opt;
++	char *this_opt;
+ 	int num_panels = ARRAY_SIZE(known_lcd_panels);
  
--	if (!options || !*options)
--		return 0;
-+	option_iter_init(&iter, options);
+ 	if (num_panels <= 0) {
+@@ -375,10 +378,10 @@ static int au1100fb_setup(struct au1100fb_device *fbdev)
+ 
+ 	if (fb_get_options(DRIVER_NAME, &options))
+ 		return -ENODEV;
+-	if (!options)
+-		return -ENODEV;
  
 -	while ((this_opt = strsep(&options, ",")) != NULL) {
-+	while (option_iter_next(&iter, &this_opt)) {
- 		if (!strncmp(this_opt, "lcd:", 4)) {
- 			default_lcd_on = simple_strtoul(this_opt+4, NULL, 0);
- 			continue;
-@@ -1730,6 +1731,9 @@ static int aty128fb_setup(char *options)
- 			mode_option = mode_option_buf;
- 		}
- 	}
-+
-+	option_iter_release(&iter);
-+
- 	return 0;
- }
- #endif  /*  MODULE  */
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index d83b3dae795b..f4b22d2f0d3d 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -49,6 +49,7 @@
- ******************************************************************************/
- 
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/compat.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
-@@ -3832,14 +3833,14 @@ static struct pci_driver atyfb_driver = {
- #endif /* CONFIG_PCI */
- 
- #ifndef MODULE
--static int __init atyfb_setup(char *options)
-+static int __init atyfb_setup(const char *options)
- {
-+	struct option_iter iter;
- 	char *this_opt;
- 
--	if (!options || !*options)
--		return 0;
 +	option_iter_init(&iter, options);
- 
--	while ((this_opt = strsep(&options, ",")) != NULL) {
-+	while (option_iter_next(&iter, &this_opt)) {
- 		if (!strncmp(this_opt, "noaccel", 7)) {
- 			noaccel = true;
- 		} else if (!strncmp(this_opt, "nomtrr", 6)) {
-@@ -3903,6 +3904,9 @@ static int __init atyfb_setup(char *options)
- 			mode = mode_buf;
- 		}
- 	}
 +
++	while (option_iter_next(&iter, &this_opt)) {
+ 		/* Panel option */
+ 		if (!strncmp(this_opt, "panel:", 6)) {
+ 			int i;
+@@ -401,6 +404,8 @@ static int au1100fb_setup(struct au1100fb_device *fbdev)
+ 			print_warn("Unsupported option \"%s\"", this_opt);
+ 	}
+ 
 +	option_iter_release(&iter);
 +
+ 	print_info("Panel=%s", fbdev->panel->name);
+ 
  	return 0;
- }
- #endif  /*  MODULE  */
-diff --git a/drivers/video/fbdev/aty/radeon_base.c b/drivers/video/fbdev/aty/radeon_base.c
-index dc2657ae96f2..975323e82f52 100644
---- a/drivers/video/fbdev/aty/radeon_base.c
-+++ b/drivers/video/fbdev/aty/radeon_base.c
-@@ -55,6 +55,7 @@
- #include "radeonfb.h"
- 
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/kernel.h>
-@@ -2562,17 +2563,14 @@ static struct pci_driver radeonfb_driver = {
- };
- 
- #ifndef MODULE
--static int __init radeonfb_setup (char *options)
-+static int __init radeonfb_setup (const char *options)
- {
-+	struct option_iter iter;
- 	char *this_opt;
- 
--	if (!options || !*options)
--		return 0;
--
--	while ((this_opt = strsep (&options, ",")) != NULL) {
--		if (!*this_opt)
--			continue;
-+	option_iter_init(&iter, options);
- 
-+	while (option_iter_next(&iter, &this_opt)) {
- 		if (!strncmp(this_opt, "noaccel", 7)) {
- 			noaccel = 1;
- 		} else if (!strncmp(this_opt, "mirror", 6)) {
-@@ -2603,6 +2601,9 @@ static int __init radeonfb_setup (char *options)
- 			mode_option = mode_option_buf;
- 		}
- 	}
-+
-+	option_iter_release(&iter);
-+
- 	return 0;
- }
- #endif  /*  MODULE  */
 -- 
 2.39.2
 
