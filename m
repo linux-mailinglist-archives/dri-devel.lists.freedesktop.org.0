@@ -2,61 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E474E6B2144
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 11:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE986B2232
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 12:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6E0010E7DC;
-	Thu,  9 Mar 2023 10:22:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8F110E0D2;
+	Thu,  9 Mar 2023 11:04:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com
- [IPv6:2607:f8b0:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40D2410E7DC
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 10:22:00 +0000 (UTC)
-Received: by mail-il1-x135.google.com with SMTP id i19so747781ila.10
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 02:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678357319;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/Ah1TtdVxfPgfmW7zrYGGBKwFiIK5NMV4NPzf8pIYnM=;
- b=B72T8/xcJkjQz7mlADugAXF75gmsMItZFaKG06Dg/eKa38XtjEmB5TesT6Tgp6ASVa
- y7A4CQ+1SKnIFvNYlOo3PnP0nSTd+8rsz+m7vcdsxyqsxg5jUheyJ7M22oT4FGRUwJFe
- UlqCyzjG+7geAfz15PsLpJSOKheBGW/Vk39Kc=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A8B10E0D2
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 11:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678359875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to; bh=rIKq23+uaKpJ1OE/0bOsZp271hw8KGnFAFpE9HnsfKM=;
+ b=PeYuYhxH9BCdeO/ViemcYdtNtEu5dbcJR5Rix1vQpVQjCA1O8hwbtgyITkup+EEtNM9nTW
+ phznnx7/DVI65NVO57jMez4UZDOeTfmXLBcFJUcbQJloTZ3io2LxW7SCg6+673s2N6xO9C
+ ENxsH/lyhjGoJvsuhYBOX2q37y1md+M=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-90-6dR3yY1qN3S3kXbGZOXRaA-1; Thu, 09 Mar 2023 06:04:34 -0500
+X-MC-Unique: 6dR3yY1qN3S3kXbGZOXRaA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n27-20020a05600c3b9b00b003e9ca0f4677so627551wms.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 03:04:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678357319;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/Ah1TtdVxfPgfmW7zrYGGBKwFiIK5NMV4NPzf8pIYnM=;
- b=CmfouE34iJibvdrCDbflfd9HkLF0iZDaYFXioKPS7ZfnkQ+vtW8qy2zIFS9QjGHDKm
- V3XgDETAWsBliTaBbXF5AxcaS5ew4yaP3FulmVFfKFkhBdA4Og8BdHyaHbTXmHxzNbk7
- 9PV1MiLpsgbPwjDPS1U8tEzfLDmKl6qabfcD86ghpF17ABTkgKowLsHzVazXBFwE91Qj
- bTKnAa+WV02Kx4MSg4YyEgqha3wfWOz45WMKq59B61HcMvTd3fuIMjE07w2OtEL6dImy
- I+M/cndHZn36nYkQNAJsDKsTTO2idAOMVJuQgEcaNbIvBiKjrClg3juEjllyMRQMM7Jd
- 1QoQ==
-X-Gm-Message-State: AO0yUKXVwt+v4jB5wNB6LLRD1xf22EfOKOrEYspLzHuQYd1e16dI+DIf
- dwZzTq00a1TOZ06K/eLPreq7P96FjJiQUVKwVazHxA==
-X-Google-Smtp-Source: AK7set/8LE04Zm+2ShiPru3Ucvo7TBxa+dRVhoQ8TlB/lSr0SCiXxU6ZSWYbEzWNlrck7ayKIPUPGHnsRZrsJ3nY8As=
-X-Received: by 2002:a92:b512:0:b0:30f:543d:e52c with SMTP id
- f18-20020a92b512000000b0030f543de52cmr10301852ile.2.1678357319507; Thu, 09
- Mar 2023 02:21:59 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678359873;
+ h=mime-version:message-id:date:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rIKq23+uaKpJ1OE/0bOsZp271hw8KGnFAFpE9HnsfKM=;
+ b=CJF4Xj+YoTNp9XgF31z5+FK/SNVsBua7EfGK2Oa4Nf5tw+sOg0HvNWJo7QBlZX0IfQ
+ gjjQjYRqWMX1XjWkGjzXl58EPm4gLYltX4IzspybWRwCugoDqk8TfBl5BiYVXZHVAUZ4
+ KiBGr1c7VpbKG6D12tNUaLE+B/wi3jlRJU0N0ZfFWSCK0g4FAhRDgndaBMmUNY4mpOp1
+ KX+22Jp7Vxf/4irmWIG8lqnzN1Oz6opbGZlC4XXYrhZa1tbSk2WII4mN6J6eZUrcU8dT
+ hOlLj3EkUbbqzZRaRXviiX/mON1++prh+NpGXBh8xoD0w83yLDEremKHVa3lexDF3foz
+ WcXA==
+X-Gm-Message-State: AO0yUKW4ijWfwBekzw6By0/dsXnoXZCx0nKNHfMiKdbDHUzicX7xxkDg
+ MwyprJxNERQc4JrAHFKdGQkkVSOsihSwuBfyhy0suA30hDs2cNNTl+9EMAFGcMUbBBvyusQuRwT
+ flmLXH3cxepzwx1h/N7WvvX1Dng87
+X-Received: by 2002:adf:dd4d:0:b0:2c7:dfc:47a8 with SMTP id
+ u13-20020adfdd4d000000b002c70dfc47a8mr13928091wrm.66.1678359873461; 
+ Thu, 09 Mar 2023 03:04:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set/WEjfKPC+jhxXW6ijuedDfyidmiJJoYJDI9DsQt9cbEhaxwvCHVmnIbZ4cOwrnEzJA2b9WDA==
+X-Received: by 2002:adf:dd4d:0:b0:2c7:dfc:47a8 with SMTP id
+ u13-20020adfdd4d000000b002c70dfc47a8mr13928071wrm.66.1678359873107; 
+ Thu, 09 Mar 2023 03:04:33 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ o6-20020a5d6706000000b002c573778432sm17174423wru.102.2023.03.09.03.04.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Mar 2023 03:04:32 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ daniel@ffwll.ch, andrew@aj.id.au, laurentiu.palcu@oss.nxp.com,
+ l.stach@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ p.zabel@pengutronix.de, anitha.chrisanthus@intel.com,
+ edmund.j.dea@intel.com, khilman@baylibre.com, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, alain.volmat@foss.st.com,
+ yannick.fertre@foss.st.com, raphael.gallais-pou@foss.st.com,
+ philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, jernej.skrabec@gmail.com,
+ samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
+ linus.walleij@linaro.org, hyun.kwon@xilinx.com,
+ laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 01/22] drm/fbdev-dma: Implement fbdev emulation for GEM
+ DMA helpers
+In-Reply-To: <20230301153101.4282-2-tzimmermann@suse.de>
+Date: Thu, 09 Mar 2023 12:04:31 +0100
+Message-ID: <87o7p2p4n4.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230303143350.815623-1-treapking@chromium.org>
- <20230303143350.815623-11-treapking@chromium.org>
- <ZAXWbkq4oLfrWUR7@smile.fi.intel.com>
- <CAEXTbpe=e1iA7cnzuTtcsyFxpG37YCWSK_SqZb2A8hxcyCnJBg@mail.gmail.com>
- <ZAiqPIm6O1JCPF7f@smile.fi.intel.com>
-In-Reply-To: <ZAiqPIm6O1JCPF7f@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Thu, 9 Mar 2023 18:21:48 +0800
-Message-ID: <CAEXTbpcQAJ1HiF0eGbBFzFU2K-K7vnEEyqGtqJFHbUOxWGG3iA@mail.gmail.com>
-Subject: Re: [PATCH v13 10/10] drm/bridge: it6505: Register Type C mode
- switches
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,55 +91,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-amlogic@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On Wed, Mar 8, 2023 at 11:31=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+> Implement fbdev emulation that is optimized for drivers that use
+> DMA helpers. The buffers may no tbe moveable, may not require damage
+
+"may not be"
+
+Is may the correct verb here though? I guess you meant "shall not".
+
+> handling and have to be located in system memory. This allows fbdev
+> emulation to operate directly on the buffer and mmap it to userspace.
 >
-> On Wed, Mar 08, 2023 at 09:51:19PM +0800, Pin-yen Lin wrote:
-> > On Mon, Mar 6, 2023 at 8:03=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > > On Fri, Mar 03, 2023 at 10:33:50PM +0800, Pin-yen Lin wrote:
+> Besides those constraints, the emulation works like in the generic
+> code. As an internal DRM client provides, it receives hotplug, restore
+> and unregister events. The DRM client is independent from the fbdev
+> probing, which runs on the first successful hotplug event.
 >
-> ...
+> The emulation is part of the DMA helper module and not build unless
+> DMA helpers and fbdev emulation has been configured.
 >
-> > > > +             it6505->port_data[i].lane_swap =3D (dp_lanes[0] / 2 =
-=3D=3D 1);
-> > >
-> > > ' % 2 =3D=3D 0' ?
-> > >
-> > Per another patch, I'll update this into `< 2`
+> Tested with vc4.
 >
-> But here it should be >=3D 2 then, no?
->
-Yes it should be >=3D 2 here. I wasn't really using my brain when I
-replied to the mail....
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+
+[...]
+
+> +static int drm_fbdev_dma_fb_open(struct fb_info *info, int user)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +
+> +	/* No need to take a ref for fbcon because it unbinds on unregister */
+> +	if (user && !try_module_get(fb_helper->dev->driver->fops->owner))
+> +		return -ENODEV;
+> +
+> +	return 0;
+> +}
+> +
+> +static int drm_fbdev_dma_fb_release(struct fb_info *info, int user)
+> +{
+> +	struct drm_fb_helper *fb_helper = info->par;
+> +
+> +	if (user)
+> +		module_put(fb_helper->dev->driver->fops->owner);
+> +
+> +	return 0;
+> +}
+> +
+
+These two functions are the same than what's used by the generic fbdev
+emulation. Maybe they could be moved to drivers/gpu/drm/drm_fb_helper.c
+and be reused ?
+
+> +static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+> +					 struct drm_fb_helper_surface_size *sizes)
+> +{
+> +	struct drm_client_dev *client = &fb_helper->client;
+> +	struct drm_device *dev = fb_helper->dev;
+> +	struct drm_client_buffer *buffer;
+> +	struct drm_gem_dma_object *dma_obj;
+> +	struct drm_framebuffer *fb;
+> +	struct fb_info *info;
+> +	u32 format;
+> +	struct iosys_map map;
+> +	int ret;
+> +
+> +	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
+> +		    sizes->surface_width, sizes->surface_height,
+> +		    sizes->surface_bpp);
+> +
+> +	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
+> +	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
+> +					       sizes->surface_height, format);
+> +	if (IS_ERR(buffer))
+> +		return PTR_ERR(buffer);
+> +	dma_obj = to_drm_gem_dma_obj(buffer->gem);
+> +
+> +	fb = buffer->fb;
+> +	if (drm_WARN_ON(dev, fb->funcs->dirty)) {
+> +		ret = -ENODEV; /* damage handling not supported; use generic emulation */
+> +		goto err_drm_client_buffer_delete;
+> +	}
+
+Should we have a similar check for drm_fbdev_use_shadow_fb(fb_helper)
+and warn on ?
+
+> +
+> +	ret = drm_client_buffer_vmap(buffer, &map);
+> +	if (ret) {
+> +		goto err_drm_client_buffer_delete;
+> +	} else if (drm_WARN_ON(dev, map.is_iomem)) {
+> +		ret = -ENODEV; /* I/O memory not supported; use generic emulation */
+
+I also wonder if here and above instead of the warn on, there should
+just be a normal check and print more verbose warning messages.
+
+[...]
+
+> +static void drm_fbdev_dma_client_unregister(struct drm_client_dev *client)
+> +{
+> +	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+> +
+> +	if (fb_helper->info) {
+> +		drm_fb_helper_unregister_info(fb_helper);
+> +	} else {
+> +		drm_client_release(&fb_helper->client);
+> +		drm_fb_helper_unprepare(fb_helper);
+> +		kfree(fb_helper);
+> +	}
+> +}
+
+This is again the same than drm_fbdev_client_unregister() so I think
+that can be made a helper and shared bewteen the two implementations.
+
+> +
+> +static int drm_fbdev_dma_client_restore(struct drm_client_dev *client)
+> +{
+> +	drm_fb_helper_lastclose(client->dev);
+> +
+> +	return 0;
+> +}
+
+Same for this one.
+
+> +
+> +static int drm_fbdev_dma_client_hotplug(struct drm_client_dev *client)
+> +{
+> +	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+> +	struct drm_device *dev = client->dev;
+> +	int ret;
+> +
+> +	if (dev->fb_helper)
+> +		return drm_fb_helper_hotplug_event(dev->fb_helper);
+> +
+> +	ret = drm_fb_helper_init(dev, fb_helper);
+> +	if (ret)
+> +		goto err_drm_err;
+> +
+> +	if (!drm_drv_uses_atomic_modeset(dev))
+> +		drm_helper_disable_unused_functions(dev);
+> +
+> +	ret = drm_fb_helper_initial_config(fb_helper);
+> +	if (ret)
+> +		goto err_drm_fb_helper_fini;
+> +
+> +	return 0;
+> +
+> +err_drm_fb_helper_fini:
+> +	drm_fb_helper_fini(fb_helper);
+> +err_drm_err:
+> +	drm_err(dev, "fbdev-dma: Failed to setup generic emulation (ret=%d)\n", ret);
+> +	return ret;
+> +}
+
+And this one.
+
+> +/**
+> + * drm_fbdev_dma_setup() - Setup fbdev emulation for GEM DMA helpers
+> + * @dev: DRM device
+> + * @preferred_bpp: Preferred bits per pixel for the device.
+> + *                 @dev->mode_config.preferred_depth is used if this is zero.
+> + *
+> + * This function sets up fbdev emulation for GEM DMA drivers that support
+> + * dumb buffers with a virtual address and that can be mmap'ed.
+> + * drm_fbdev_dma_setup() shall be called after the DRM driver registered
+> + * the new DRM device with drm_dev_register().
+> + *
+> + * Restore, hotplug events and teardown are all taken care of. Drivers that do
+> + * suspend/resume need to call drm_fb_helper_set_suspend_unlocked() themselves.
+> + * Simple drivers might use drm_mode_config_helper_suspend().
+> + *
+> + * This function is safe to call even when there are no connectors present.
+> + * Setup will be retried on the next hotplug event.
+> + *
+> + * The fbdev is destroyed by drm_dev_unregister().
+> + */
+> +void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp)
+> +{
+> +	struct drm_fb_helper *fb_helper;
+> +	int ret;
+> +
+> +	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
+> +	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
+> +
+> +	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+> +	if (!fb_helper)
+> +		return;
+> +	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &drm_fbdev_dma_helper_funcs);
+> +
+> +	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_dma_client_funcs);
+> +	if (ret) {
+> +		drm_err(dev, "Failed to register client: %d\n", ret);
+> +		goto err_drm_client_init;
+> +	}
+> +
+> +	ret = drm_fbdev_dma_client_hotplug(&fb_helper->client);
+> +	if (ret)
+> +		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+> +
+> +	drm_client_register(&fb_helper->client);
+> +
+> +	return;
+> +
+> +err_drm_client_init:
+> +	drm_fb_helper_unprepare(fb_helper);
+> +	kfree(fb_helper);
+> +}
+> +EXPORT_SYMBOL(drm_fbdev_dma_setup);
+
+And this one could also be shared AFAICT if drm_fbdev_client_hotplug()
+is used instead.
+
+> diff --git a/include/drm/drm_fbdev_dma.h b/include/drm/drm_fbdev_dma.h
+> new file mode 100644
+> index 000000000000..2da7ee784133
+> --- /dev/null
+> +++ b/include/drm/drm_fbdev_dma.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +#ifndef DRM_FBDEV_DMA_H
+> +#define DRM_FBDEV_DMA_H
+> +
+> +struct drm_device;
+> +
+> +#ifdef CONFIG_DRM_FBDEV_EMULATION
+> +void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp);
+> +#else
+> +static inline void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp)
+> +{ }
+> +#endif
+> +
+> +#endif
+> -- 
+
+And you should be able to drop this header too if split the common
+helpers from drm_fbdev_generic.c or maybe I'm missing something ?
+
+-- 
 Best regards,
-Pin-yen
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
