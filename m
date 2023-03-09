@@ -1,71 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918B66B1E95
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:49:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B51E76B1EB9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:51:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D7F010E7B1;
-	Thu,  9 Mar 2023 08:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36A1F10E167;
+	Thu,  9 Mar 2023 08:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE5210E7B1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:49:03 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id a32so1071992ljq.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 00:49:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678351741;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ndQH7nAbuFcVR/u/HQsjMbEiAKZj5mUlBWSv1hdxxug=;
- b=Fb9OmPAOd5KS4H8D3+pBZFeBepyfAqDGqkOEsG924nynzRB+ZBVaIz1bl2j8WLJEkp
- oi+4tFWoo/vjLODwyQPBN5pd6St6I8WvEr7ycr31AXzAsuwKVrOhO8UFY2FfBbaW8RL/
- wziauTtv6gr+1DCr+Gbb1RiQcnyUhNGaM5Ug155ZwSp/utUU0t9xNycdxsVOO+C4xMKL
- TqU7CUqL0+bQ4NAA4wydrczSYbATVJm1mgcByyHu3wqukezabLUMN9bZda1R4im74ttC
- 46261RaP2oF/9CH9PuxFfyIqRuFlLrS/LDIcsf1NqG8pKbkAoP6277NvrxLlSxkbMuuo
- QMkw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89C3810E7AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:51:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678351909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Iz+YxaxbQLLfNssBhmL+3wl9ODU3eDTosuVxq/5D9Ek=;
+ b=i68iO4lITRj0DDYeeP5nfP6ONGPFGG8tJo10B3GGfKQaxfta8e95ApG7WxmSXuCpjZfb6L
+ 7BI+AEw2E61uLYL1NnTPEWaAyOqt7d/2sxkuG4yPg8uQCSu8iATCmfRD9m0KvAzRB5dX+l
+ GfHCoAyXl3rpBl2US0yyEkTYqidl8E0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-166-0OOHbcSxMkOzU9gQblKIpg-1; Thu, 09 Mar 2023 03:51:47 -0500
+X-MC-Unique: 0OOHbcSxMkOzU9gQblKIpg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ ev6-20020a056402540600b004bc2358ac04so1900902edb.21
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 00:51:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678351741;
- h=content-transfer-encoding:in-reply-to:from:references:to
+ d=1e100.net; s=20210112; t=1678351906;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ndQH7nAbuFcVR/u/HQsjMbEiAKZj5mUlBWSv1hdxxug=;
- b=v85ehGAKm3o9okY1M+0REurE/0QEHmjnmWJYKu00vM/ZP5LUrvBxsep4ztmr9PN/t6
- wdSCXhNGM/sxJD4UTte20lc3NeTguP2/O9Kxo2Vbn4XFjJVdjHeVP3nvdjpx9FhqV3aw
- 2vn4ScXTV7AYhSo4ANvmmoullQF13egCTxRrWuagOSE9j7T21Q9ihZ+X2ZQ+agzifY/u
- /OTooPrXWgjCbUyrKjdec1EsWsMaPTwpDgGvbl5j/6tTiC0vxyT/Y8HdufYpho9Z6GVl
- 5QbsY/KtCUwFYAYr4+SViOy1H8i4xhqAeD2nKg0shk8/ErAk2Cxoto9lJsfke0Y2ai93
- f8BA==
-X-Gm-Message-State: AO0yUKVJHmgSisYjOlAEkKxcILsJK7jne0Yuok/laQn2em1oQltfvUkg
- S5i6QCMd6z5bURbqljcToaV9Ew==
-X-Google-Smtp-Source: AK7set8LMu/BEMahbfX8gOyx7vqpoCvyQcWjOT4Pg5tbVcOM9eItld6zLilvF6VjTTGz35wNktmXUA==
-X-Received: by 2002:a2e:b613:0:b0:295:b0ee:666d with SMTP id
- r19-20020a2eb613000000b00295b0ee666dmr5604860ljn.53.1678351741139; 
- Thu, 09 Mar 2023 00:49:01 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ bh=Iz+YxaxbQLLfNssBhmL+3wl9ODU3eDTosuVxq/5D9Ek=;
+ b=7W3TtwBUPD8UtcondP5Vqleiifup1OV6iOTQRVB0MZdwBppSk+n8C3Xya69TCOXTbJ
+ +YWfQSd6xnFPzPCA8/YoCSBF7SnsD9bAs5Lmt4wxnLAafpZdaB7XQlzGXq/oAtNUoVDR
+ mJ6xujb9uoipNJwVX2IC9sYhbmSBNDSWSVMFBaZj8YYQKPsh0tbJe2uMbDfrLyT7NIUH
+ gRqTJqM2IeePwJVKtdb5TaR9mxgl3JAyv0Ney4P7mSqzv3UOQpHF8UfOv1mG+8GLhrWG
+ a0Ac9IC2rP6qtMdgLW/GjUPAWM05klEwFn4SL/Xsesp7EhgKnV3fTE8cGPkifGlZMruM
+ NCcg==
+X-Gm-Message-State: AO0yUKWgRSh9PQ5tgNZOlcvtSIYsr9/7gqEOi0EQKwbkRa1Ohy2qCFAO
+ ABBi8uQPUtre5esedsWZFeKXO3HZmp09B8SGepAd860bHRjEpGhFSy3dichpmpdk9tb+ntPUlvB
+ qBdnrNZ0nbzgn2HMueIaLVhdrNPyAQM+AcgF4
+X-Received: by 2002:a17:907:3f18:b0:8f6:5a70:cccc with SMTP id
+ hq24-20020a1709073f1800b008f65a70ccccmr27296548ejc.66.1678351906376; 
+ Thu, 09 Mar 2023 00:51:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set8ZJlKmr7LwwY7HzE4thVVJydV0N08hZGQJFDfZIGiK/yyptwohH0nXi/zVnjrQOmaW2x/LmQ==
+X-Received: by 2002:a17:907:3f18:b0:8f6:5a70:cccc with SMTP id
+ hq24-20020a1709073f1800b008f65a70ccccmr27296534ejc.66.1678351906128; 
+ Thu, 09 Mar 2023 00:51:46 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
  by smtp.gmail.com with ESMTPSA id
- s15-20020a2e98cf000000b002986d306698sm584002ljj.95.2023.03.09.00.49.00
+ i9-20020a1709063c4900b008d427df3245sm8596552ejg.58.2023.03.09.00.51.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Mar 2023 00:49:00 -0800 (PST)
-Message-ID: <55b40f8f-b1d8-71ba-0af5-91e08e69160f@linaro.org>
-Date: Thu, 9 Mar 2023 10:49:00 +0200
+ Thu, 09 Mar 2023 00:51:45 -0800 (PST)
+Message-ID: <40b30b48-9d5c-f223-c31c-b3e094b224b3@redhat.com>
+Date: Thu, 9 Mar 2023 09:51:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 2/2] drm/probe_helper: warning on poll_enabled for issue
- catching
-Content-Language: en-GB
-To: Guchun Chen <guchun.chen@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- hawking.zhang@amd.com, spasswolf@web.de, mike@fireburn.co.uk
-References: <20230309054839.2709424-1-guchun.chen@amd.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230309054839.2709424-1-guchun.chen@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.7.1
+Subject: Re: [RFC v2 0/6] drm/amd/display: Pass proper parent for DM backlight
+ device v2
+From: Hans de Goede <hdegoede@redhat.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20230308215831.782266-1-hdegoede@redhat.com>
+ <08364719-3ae7-7213-2e90-a0aa1c5fee48@redhat.com>
+In-Reply-To: <08364719-3ae7-7213-2e90-a0aa1c5fee48@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,43 +90,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/03/2023 07:48, Guchun Chen wrote:
-> In order to catch issues in other drivers to ensure proper call
-> sequence of polling function.
+Hi all,
+
+On 3/8/23 23:10, Hans de Goede wrote:
+> Hi,
 > 
-> Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/2411
-> Fixes: a4e771729a51("drm/probe_helper: sort out poll_running vs poll_enabled")
-
-Previously it was suggested that this is not a fix, so the Fixes header 
-is incorrect.
-
-Also please use -vN when preparing/sending patchsets. This is v2.
-
-> Reported-by: Bert Karwatzki <spasswolf@web.de>
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-> ---
->   drivers/gpu/drm/drm_probe_helper.c | 2 ++
->   1 file changed, 2 insertions(+)
+> On 3/8/23 22:58, Hans de Goede wrote:
+>> Hi All,
+>>
+>> Here is version 2 of my patch series to pass the proper parent device
+>> to backlight_device_register().
+>>
+>> New in version 2 is delaying the registering of the backlight_dev till
+>> after the drm_connector is registered by doing it from
+>> drm_connector_funcs.late_register.
+>>
+>> This involves first reworking the code a bit to allow delaying
+>> the registering, so this has turned from a single patch into
+>> a 6 patch set.
+>>
+>> Regards,
+>>
+>> Hans
 > 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 8127be134c39..85e0e80d4a52 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -852,6 +852,8 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
->    */
->   void drm_kms_helper_poll_disable(struct drm_device *dev)
->   {
-> +	WARN_ON(!dev->mode_config.poll_enabled);
-> +
->   	if (dev->mode_config.poll_running)
->   		drm_kms_helper_disable_hpd(dev);
->   
+> p.s.
+> 
+> Like last time this series is marked as RFC because I don't have hw
+> to test the fix myself. The previous version was tested by 2 reporters
+> of: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/730
+> 
+> I hope to get test results from them for this new version soon.
 
--- 
-With best wishes
-Dmitry
+I just heard back from one of the reporters that this fixes gnome-settings-daemon
+picking the wrong backlight device on a hybrid gfx laptop where both GPU-s
+register a native backlight control.
+
+So this series no longer is RFC, but is ready for merging (from my pov) now.
+
+Regards,
+
+Hans
+
+
+
+
+
+>> Hans de Goede (6):
+>>   drm/amd/display/amdgpu_dm: Fix backlight_device_register() error
+>>     handling
+>>   drm/amd/display/amdgpu_dm: Refactor register_backlight_device()
+>>   drm/amd/display/amdgpu_dm: Add a bl_idx to amdgpu_dm_connector
+>>   drm/amd/display/amdgpu_dm: Move most backlight setup into
+>>     setup_backlight_device()
+>>   drm/amd/display/amdgpu_dm: Make amdgpu_dm_register_backlight_device()
+>>     take an amdgpu_dm_connector
+>>   drm/amd/display: Pass proper parent for DM backlight device
+>>     registration v2
+>>
+>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 99 ++++++++-----------
+>>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
+>>  2 files changed, 44 insertions(+), 56 deletions(-)
+>>
+> 
 
