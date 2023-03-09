@@ -2,45 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EB1A6B1EFC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:55:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561BE6B1EFF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:55:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D68A710E7AE;
-	Thu,  9 Mar 2023 08:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C673010E7B2;
+	Thu,  9 Mar 2023 08:55:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB5D10E7AE
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:55:07 +0000 (UTC)
-Received: from localhost (unknown [213.194.153.37])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested) (Authenticated sender: rcn)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 98FF76601F5E;
- Thu,  9 Mar 2023 08:55:05 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678352105;
- bh=nYgiFa82gCCufozEGyI2yeBaToeM51OP28Sx8fZOeAE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QV4JHmn5M85iK+ZCjqmuYiiqfnjT6etGBsizyuqaq/30OIxCq8DXBStNapKcthdHy
- /aastzkIOi2JuKNRZ2r0Y+PcDUF3JlzAUiBZc3lT+WP3MgqAT0ht8fAJPfQOX1QHEQ
- +6kEnEZDz168h8uQN8+wxx5Iyo9o1g9Dxs9MtB6s5Q3wHjo4lNeBLqnPVMBgyh1rfU
- CEDkH84ekfmtssYum8UWxY9ot6mlzJRAGB4S36hw+v+hBzcse7RBbfR0cILlQlqv3T
- Xsh8FH6cKGQV+5diqMhLdZDM2rcl7JjiOMsIh+eN05UVfO4CadiAUSRWKtKgH++VST
- QZ2y45vyLgO7w==
-Date: Thu, 9 Mar 2023 09:55:01 +0100
-From: Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*()
- conversion
-Message-ID: <20230309085501.et7ngd32u25befqu@rcn-XPS-13-9305>
-References: <CGME20230109220056eucas1p26418012878272961a3a21a365192ef60@eucas1p2.samsung.com>
- <20230109220033.31202-1-m.szyprowski@samsung.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1238610E7B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:55:28 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id h9so1084284ljq.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 00:55:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678352126;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vLBDAeGfi6fykGB3Tt3PujkB5zxsvtk+q1HFLQn1pv8=;
+ b=n5CjXjQJy3XvX4EqSVAUkwBkvfzUBq2gpFIvFTzHRbutv6cJtuXaZz89UJkZT6aObo
+ TTdfX4Rf5ZE6x+PVWd5I07yA1EecUY6nAAz5jotfS3pVWapndAaD9Ms1hMshctES6r5s
+ 5BQOQHTl8fc3w7M8EjC5a+wBzY9R/X5hjoISI7NXqCgwAVnJgBtVINw3XH4Ccn2dacF0
+ MvgvYCRVxF0mWIvQ2smci6DVslCDY1LboH7y4KUTk8zTq4/aov3bFQDgMdFp7tBQxFHp
+ FXeLwqwfI1tLxLEEeaACJ6GnKuvGv1qirtdWnBN+SvpcSNjqTeuK4lATr1SE25QILzfv
+ 7Pjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678352126;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vLBDAeGfi6fykGB3Tt3PujkB5zxsvtk+q1HFLQn1pv8=;
+ b=n8lFSNUdlcmav5WMuQff9bgRVrCvuJWy2onoKctFmWnCfIh5gEJ0EHjxYqb/Gqe399
+ O5zuUJKDmI5dCdwUrq8jRSZq5Y/16MhHyLEiey7nAyhjoij8796+BVfB9YvRfI7BDmmS
+ vmgl7JcvPo3WQ+x7KlxyMD5QkY5/WJO6w64EH+xzQXmKIPKcBTiihKUNSWMENYwsHpq0
+ QU0rNyvxJCtGJ7KtP+HOdpY8vFKpdy3CmEvOzsUZNDilJ4b68a3RMafP9/r2ii4Z8jXb
+ cis/0kP8ouN9VBEB5tmdqHR2PsgKx6iJX3u3LUqmkKyv9RXKLUJvU9DaiZoldkWD1U5q
+ 3JAA==
+X-Gm-Message-State: AO0yUKXQUOn9OXFdTjZ3wymXZh+L40QG0e7spgiq22bHv3TNLBNC06xF
+ J+kfhdnSX5T5rxzTS+aiP5wwEA==
+X-Google-Smtp-Source: AK7set+5eGFPe5LwpRknNFPmVr5Zn+raNlFoV5fuEy8mgKlZr5bnCH0CJVo+9hOvmznMcjmlEXH91w==
+X-Received: by 2002:a2e:9ccc:0:b0:295:b29f:5b15 with SMTP id
+ g12-20020a2e9ccc000000b00295b29f5b15mr5880143ljj.24.1678352126304; 
+ Thu, 09 Mar 2023 00:55:26 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ p11-20020a2e9acb000000b0029347612e94sm2887280ljj.123.2023.03.09.00.55.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Mar 2023 00:55:25 -0800 (PST)
+Message-ID: <9a9a8279-c634-b595-7a19-fe95540a3540@linaro.org>
+Date: Thu, 9 Mar 2023 10:55:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230109220033.31202-1-m.szyprowski@samsung.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC] drm: property: use vzalloc() instead of kvzalloc() for
+ large blobs
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org
+References: <1678305762-32381-1-git-send-email-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1678305762-32381-1-git-send-email-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,161 +77,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Cc: freedreno@lists.freedesktop.org, laurent.pinchart@ideasonboard.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
-
-On lun 09-01-2023 23:00:33, Marek Szyprowski wrote:
-> devm_regulator_get_enable_optional() function returns 0 on success, so
-> use it for the check if function succeded instead of the -ENODEV value.
+On 08/03/2023 22:02, Abhinav Kumar wrote:
+> For DRM property blobs created by user mode using
+> drm_property_create_blob(), if the blob value needs to be updated the
+> only way is to destroy the previous blob and create a new one instead.
 > 
-> Fixes: 429e87063661 ("drm/meson: dw-hdmi: Use devm_regulator_*get_enable*()")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> For some of the property blobs, if the size of the blob is more
+> than one page size, kvzalloc() can slow down system as it will first
+> try to allocate physically contiguous memory but upon failure will
+> fall back to non-contiguous (vmalloc) allocation.
+> 
+> If the blob property being used is bigger than one page size, in a
+> heavily loaded system, this causes performance issues because
+> some of the blobs are updated on a per-frame basis.
+> 
+> To mitigate the performance impact of kvzalloc(), use it only when
+> the size of allocation is less than a page size when creating property
+> blobs
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/drm_property.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 7642f740272b..534621a13a34 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -718,7 +718,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
->  	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
->  
->  	ret = devm_regulator_get_enable_optional(dev, "hdmi");
-> -	if (ret != -ENODEV)
-> +	if (ret < 0)
->  		return ret;
->  
->  	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
-> -- 
-> 2.39.0
+> diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+> index dfec479830e4..40c2a3142038 100644
+> --- a/drivers/gpu/drm/drm_property.c
+> +++ b/drivers/gpu/drm/drm_property.c
+> @@ -561,7 +561,11 @@ drm_property_create_blob(struct drm_device *dev, size_t length,
+>   	if (!length || length > INT_MAX - sizeof(struct drm_property_blob))
+>   		return ERR_PTR(-EINVAL);
+>   
+> -	blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
+> +	if (sizeof(struct drm_property_blob) + length > PAGE_SIZE)
+> +		blob = vzalloc(sizeof(struct drm_property_blob)+length);
+> +	else
+> +		blob = kvzalloc(sizeof(struct drm_property_blob)+length, GFP_KERNEL);
+> +
 
-This patch seems to have caused (or uncovered) a regression in the
-bootrr.deferred-probe-empty test for meson-g12a-sei510. Apparently, this
-causes a driver to stay in the deferred probe list after boot.
+Seeing the same expression repeated three times in a row is a bad sign.
+Also, I think in the else branch you can use kzalloc directly, kvzalloc 
+will end up there anyway.
 
-The bisection was found on mainline/master. Here's the full report:
+>   	if (!blob)
+>   		return ERR_PTR(-ENOMEM);
+>   
 
+-- 
+With best wishes
+Dmitry
 
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-* This automated bisection report was sent to you on the basis  *
-* that you may be involved with the breaking commit it has      *
-* found.  No manual investigation has been done to verify it,   *
-* and the root cause of the problem may be somewhere else.      *
-*                                                               *
-* If you do send a fix, please include this trailer:            *
-*   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
-*                                                               *
-* Hope this helps!                                              *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
-mainline/master bisection: baseline.bootrr.deferred-probe-empty on meson-g12a-sei510
-
-Summary:
-  Start:      fe15c26ee26e Linux 6.3-rc1
-  Plain log:  https://storage.kernelci.org/mainline/master/v6.3-rc1/arm64/defconfig/clang-11/lab-baylibre/baseline-meson-g12a-sei510.txt
-  HTML log:   https://storage.kernelci.org/mainline/master/v6.3-rc1/arm64/defconfig/clang-11/lab-baylibre/baseline-meson-g12a-sei510.html
-  Result:     67d0a30128c9 drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion
-
-Checks:
-  revert:     PASS
-  verify:     PASS
-
-Parameters:
-  Tree:       mainline
-  URL:        https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-  Branch:     master
-  Target:     meson-g12a-sei510
-  CPU arch:   arm64
-  Lab:        lab-baylibre
-  Compiler:   clang-11
-  Config:     defconfig
-  Test case:  baseline.bootrr.deferred-probe-empty
-
-Breaking commit found:
-
--------------------------------------------------------------------------------
-commit 67d0a30128c9f644595dfe67ac0fb941a716a6c9
-Author: Marek Szyprowski <m.szyprowski@samsung.com>
-Date:   Mon Jan 9 23:00:33 2023 +0100
-
-    drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion
-    
-    devm_regulator_get_enable_optional() function returns 0 on success, so
-    use it for the check if function succeeded instead of the -ENODEV value.
-    
-    Fixes: 429e87063661 ("drm/meson: dw-hdmi: Use devm_regulator_*get_enable*()")
-    Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-    Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-    Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-    [narmstrong: s/succeeded/succeeded/ in commit message]
-    Link: https://patchwork.freedesktop.org/patch/msgid/20230109220033.31202-1-m.szyprowski@samsung.com
-
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-index 7642f740272b..534621a13a34 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -718,7 +718,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
- 	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
- 
- 	ret = devm_regulator_get_enable_optional(dev, "hdmi");
--	if (ret != -ENODEV)
-+	if (ret < 0)
- 		return ret;
- 
- 	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
--------------------------------------------------------------------------------
-
-
-Git bisection log:
-
--------------------------------------------------------------------------------
-git bisect start
-# good: [307e14c039063f0c9bd7a18a7add8f940580dcc9] Merge tag '6.3-rc-smb3-client-fixes' of git://git.samba.org/sfrench/cifs-2.6
-git bisect good 307e14c039063f0c9bd7a18a7add8f940580dcc9
-# bad: [fe15c26ee26efa11741a7b632e9f23b01aca4cc6] Linux 6.3-rc1
-git bisect bad fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-# bad: [693fed981eb9bf6e70bfda66bb872e2bb8155671] Merge tag 'char-misc-6.3-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc
-git bisect bad 693fed981eb9bf6e70bfda66bb872e2bb8155671
-# bad: [b72b5fecc1b8a2e595bd03d7d257c88ea3f9fd45] Merge tag 'trace-v6.3' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
-git bisect bad b72b5fecc1b8a2e595bd03d7d257c88ea3f9fd45
-# bad: [7dd1be30f02f7115002fe00f1f6802bbcf79f857] Merge tag 'amd-drm-next-6.3-2023-01-20' of https://gitlab.freedesktop.org/agd5f/linux into drm-next
-git bisect bad 7dd1be30f02f7115002fe00f1f6802bbcf79f857
-# bad: [c37ea39c1fa880da0d7fd2c719e5c96be19f0fc5] Merge tag 'drm-misc-next-2023-01-12' of git://anongit.freedesktop.org/drm/drm-misc into drm-next
-git bisect bad c37ea39c1fa880da0d7fd2c719e5c96be19f0fc5
-# good: [fe91e41a6170c9fd73fa0bf9a1a3f3cc6ee5c1d2] drm/format-helper: Remove unnecessary conversion helpers
-git bisect good fe91e41a6170c9fd73fa0bf9a1a3f3cc6ee5c1d2
-# good: [e045aec89d1b6cd677ec3e253d87f85d44b17559] drm/amd: Load GFX11 microcode during early_init
-git bisect good e045aec89d1b6cd677ec3e253d87f85d44b17559
-# bad: [9cce08cadc6ce8670280d0a042cf0b6d2987d9f9] drm/panel-edp: fix name for IVO product id 854b
-git bisect bad 9cce08cadc6ce8670280d0a042cf0b6d2987d9f9
-# good: [977374cf481d3bea916b2775e6ecc682b9689550] drm/vc4: plane: Add 3:3:2 and 4:4:4:4 RGB/RGBX/RGBA formats
-git bisect good 977374cf481d3bea916b2775e6ecc682b9689550
-# bad: [0e4dcffd331fa7d2a6ae628b51a7f418dfa90367] drm/panel: raspberrypi-touchscreen: Convert to i2c's .probe_new()
-git bisect bad 0e4dcffd331fa7d2a6ae628b51a7f418dfa90367
-# bad: [67d0a30128c9f644595dfe67ac0fb941a716a6c9] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion
-git bisect bad 67d0a30128c9f644595dfe67ac0fb941a716a6c9
-# good: [771d6539f27bd55f43d8a95d53a7eeaaffa2681c] drm/vc4: hdmi: Correct interlaced timings again
-git bisect good 771d6539f27bd55f43d8a95d53a7eeaaffa2681c
-# good: [ef85db911134d103a7f713eae6689dbb15c3f96a] dt-bindings: display: panel: document the Visionox VTDR6130 AMOLED DSI Panel
-git bisect good ef85db911134d103a7f713eae6689dbb15c3f96a
-# good: [2349183d32d83a7635baa804934813bcad13fd62] drm/panel: add visionox vtdr6130 DSI panel driver
-git bisect good 2349183d32d83a7635baa804934813bcad13fd62
-# first bad commit: [67d0a30128c9f644595dfe67ac0fb941a716a6c9] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion
--------------------------------------------------------------------------------
-
-
--=-=-=-=-=-=-=-=-=-=-=-
-Groups.io Links: You receive all messages sent to this group.
-View/Reply Online (#38919): https://groups.io/g/kernelci-results/message/38919
-Mute This Topic: https://groups.io/mt/97420961/7285812
-Group Owner: kernelci-results+owner@groups.io
-Unsubscribe: https://groups.io/g/kernelci-results/unsub [ricardo.canuelo@collabora.com]
--=-=-=-=-=-=-=-=-=-=-=-
