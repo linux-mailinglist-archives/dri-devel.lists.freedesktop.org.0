@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2A26B29A0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E63FB6B2A1A
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7E810E881;
-	Thu,  9 Mar 2023 16:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8FD710E889;
+	Thu,  9 Mar 2023 16:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97C2B10E871
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6DCC10E872
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:35 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 44B6420179;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A52DF22166;
  Thu,  9 Mar 2023 16:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k8XeD13siGTPg6ur3jYfV0pIQmZ74GbDCRGpLHT3KYY=;
- b=usVstNaMvRiiNGybfSZtuWZwo3o9DGS90YmiNS0IerHlu++zx9+fuYsOeVk4z0EgLQTlP8
- 14EDFUpo8H9GZmISw0ir5bUUpescdqkii0CWQ9VMU9VZvUb4BxdVaAytuOV9oq0xdv0TOG
- uHSraghKEl2vhKBCAMaVsBA1wC6TXuA=
+ bh=0gZ1Tmm3JEgeMqN/NPKY8oH5C/7S9gy9JQ3mKL7gtCM=;
+ b=aClCiEjhtEvWWtKnoezDVvFJ/0p8+II1/ANYf4pu5EiDL7XF2rdltVl0y85P+Ha4Dn4ZNH
+ zwMyiHi4MWV1eiin5k+j/f+5rLop399Dwzr+Ch3RBWzELK6MsXeMNTcWo3Tk5STdrD/tFI
+ 04JdiAGAHPMFYJ40iwVJCCMsxvqG+Eg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377754;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k8XeD13siGTPg6ur3jYfV0pIQmZ74GbDCRGpLHT3KYY=;
- b=/A7j3hhwjwv8mVq2lH3pzqblM4RD5k5cYFw3kOjsSVifHYNdq7tqboxQQcrw+F+RpFjPDD
- OeM8vPaucJ9tCuBg==
+ bh=0gZ1Tmm3JEgeMqN/NPKY8oH5C/7S9gy9JQ3mKL7gtCM=;
+ b=u2IBZGAN1hguKZ934fTSEqBEE8/y5bWBVazblvDiXW5m5qNf9v2Uth46VrOGnZkWdgS5qR
+ m/u8q/ceCBwgOIBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9D8613A73;
- Thu,  9 Mar 2023 16:02:33 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 496031391B;
+ Thu,  9 Mar 2023 16:02:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SMUxNBkDCmQHbgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:33 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id OJ4JERoDCmQHbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:34 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  rdunlap@infradead.org, paulus@samba.org, benh@kernel.crashing.org,
@@ -52,10 +52,9 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 074/101] fbdev/skeletonfb: Parse option string with struct
- option_iter
-Date: Thu,  9 Mar 2023 17:01:34 +0100
-Message-Id: <20230309160201.5163-75-tzimmermann@suse.de>
+Subject: [PATCH v2 075/101] fbdev/sm712fb: Duplicate video-mode option string
+Date: Thu,  9 Mar 2023 17:01:35 +0100
+Message-Id: <20230309160201.5163-76-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -78,54 +77,56 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use struct option_iter to walk over the individual options in the
-driver's option string. Replaces the hand-written strsep() loop with
-a clean interface. The helpers for struct option_iter handle empty
-option strings and empty options transparently. The struct's _init
-and _release functions duplicate and release the option string's
-memory buffer as needed.
+Assume that the driver does not own the option string or its substrings
+and hence duplicate the option string for the video mode. Allocate the
+copy's memory with kstrdup() and free it in the module's exit function.
 
-Done in preparation of constifying the option string.
+Done in preparation of switching the driver to struct option_iter and
+constifying the option string.
+
+v2:
+	* replace static memory with kstrdup()/kfree() (Geert)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/skeletonfb.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/sm712fb.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/skeletonfb.c b/drivers/video/fbdev/skeletonfb.c
-index 40c130ab6b38..ee6944d0ebc1 100644
---- a/drivers/video/fbdev/skeletonfb.c
-+++ b/drivers/video/fbdev/skeletonfb.c
-@@ -43,6 +43,7 @@
-  */
+diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
+index b528776c7612..a83f48fce5b1 100644
+--- a/drivers/video/fbdev/sm712fb.c
++++ b/drivers/video/fbdev/sm712fb.c
+@@ -831,6 +831,7 @@ static const struct modeinit vgamode[] = {
  
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -973,9 +974,19 @@ static struct platform_device *xxxfb_device;
-  * Only necessary if your driver takes special options,
-  * otherwise we fall back on the generic fb_setup().
-  */
--static int __init xxxfb_setup(char *options)
-+static int __init xxxfb_setup(const char *options)
- {
--    /* Parse user specified options (`video=xxxfb:') */
-+	/* Parse user-specified options (`video=xxxfb:') */
+ static struct screen_info smtc_scr_info;
+ 
++static char *mode_option_buf;
+ static char *mode_option;
+ 
+ /* process command line options, get vga parameter */
+@@ -1761,8 +1762,12 @@ static int __init sm712fb_init(void)
+ 
+ 	if (fb_get_options("sm712fb", &option))
+ 		return -ENODEV;
+-	if (option && *option)
+-		mode_option = option;
 +
-+	struct option_iter iter;
-+	char *this_opt;
-+
-+	option_iter_init(&iter, options);
-+
-+	while (option_iter_next(&iter, &this_opt)) {
++	if (option && *option) {
++		mode_option_buf = kstrdup(option, GFP_KERNEL); // ignore errors
++		mode_option = mode_option_buf;
 +	}
 +
-+	option_iter_release(&iter);
- }
- #endif /* MODULE */
+ 	sm7xx_vga_setup(mode_option);
  
+ 	return pci_register_driver(&smtcfb_driver);
+@@ -1773,6 +1778,7 @@ module_init(sm712fb_init);
+ static void __exit sm712fb_exit(void)
+ {
+ 	pci_unregister_driver(&smtcfb_driver);
++	kfree(mode_option_buf);
+ }
+ 
+ module_exit(sm712fb_exit);
 -- 
 2.39.2
 
