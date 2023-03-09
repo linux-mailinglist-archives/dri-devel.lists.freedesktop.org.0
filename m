@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0466B1B5A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 07:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C71D6B1B79
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 07:29:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73FAA10E798;
-	Thu,  9 Mar 2023 06:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB55910E799;
+	Thu,  9 Mar 2023 06:29:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDB8010E798
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 06:23:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2492A619E0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 06:23:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B558C433EF
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 06:23:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678342985;
- bh=2sjIKESzv9QBFUm6Oy3gTwyA3zUQctN5fZDqnvPQGcU=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=q0UsFRgnqClvqMiMCP5de+B3xvjo1YfjCnw0X1++w4Q6gnQuZxkANuSlSIZQAezWT
- vHQDmqMBt2VfZ28YMNHB0kaQFtVOYe5wUmBtKT7Q3x/sWnhgM3qVpKmi/10rqlAteV
- TLwI/32YamQ+KinTG3uf3xTcg01B/jWqrkK6TyF9aApuVLPeozaeIoRKkwwDF/thsj
- bi7oYfSph0ak0mPjJrT+E9g+nUnjDoGc+W33txREVmOuRkeAE0BcbWzf8Hpf2ayxDX
- RRw71JqMa+EvYqzsC1HUdtd9fV6uLBUkn5FYFQRnjxJ7Ah4JRXmnHQcJnv7VKbOTwf
- Hg8pueIh2IRzw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 76DA4C43144; Thu,  9 Mar 2023 06:23:05 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 216625] [regression] GPU lockup on Radeon R7 Kaveri
-Date: Thu, 09 Mar 2023 06:23:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-bugzilla@ossman.eu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-216625-2300-QQFAjQUq6R@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-216625-2300@https.bugzilla.kernel.org/>
-References: <bug-216625-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 714CD10E799;
+ Thu,  9 Mar 2023 06:29:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678343388; x=1709879388;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=N3/FXjxPSkuVUGxirAgj9t82jbGzuRAha8eOGocvIWc=;
+ b=Ql6T3FhrtDuzVz79bZkDxuQGlZ+ubLorwkl47FUBBg+Ap38soUsQFmzZ
+ CG3gRIE3ReNDccpGiIJUgwDo4v9Tu2M+nEn1tSsauPP66A2o3PuxALejl
+ 39PtW93aDESlSa0k//4wHt9gqCvJNY3aIsTF1g3siTAn5AjwRzt5gtm3V
+ lC+BLqf39brPBg4OFnpM3ghtUc6wGBbO4dKLnq2bNTUsqiNxyk602QUwZ
+ RZLTUb2Ar8sBfmBWgZIXMw7TXKdpE9JZuJwzhWIU9zlje0SOtAmyzkqO4
+ 1RQLLMDw2xSB9EIzBNuErpA0BfOo192eqY/96k71wJQT6KAN4mG/Zyuq0 A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="335070000"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; d="scan'208";a="335070000"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 22:29:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="1006614849"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; d="scan'208";a="1006614849"
+Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.32])
+ by fmsmga005.fm.intel.com with ESMTP; 08 Mar 2023 22:29:46 -0800
+From: Suraj Kandpal <suraj.kandpal@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Subject: [PATCH v3 0/7] Enable YCbCr420 format for VDSC
+Date: Thu,  9 Mar 2023 11:58:48 +0530
+Message-Id: <20230309062855.393087-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +55,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com,
+ Suraj Kandpal <suraj.kandpal@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D216625
+This patch series aims to enable the YCbCr420 format
+for DSC. Changes are mostly compute params related for
+hdmi,dp and dsi along with the addition of new rc_tables
+for native_420 and corresponding changes to macros used to
+fetch them.
+There have been discussions prior to this series in which some patches
+have gotten rb and can be found in the below link
+https://patchwork.freedesktop.org/series/113729
 
---- Comment #10 from Pierre Ossman (pierre-bugzilla@ossman.eu) ---
-I finally got that old version of mesa to build. Unfortunately, the hangs s=
-till
-happen even with that. :/
+Ankit Nautiyal (2):
+  drm/dp_helper: Add helper to check DSC support with given o/p format
+  drm/i915/dp: Check if DSC supports the given output_format
 
-> Mar 09 07:18:30 kernel: radeon 0000:00:01.0: ring 3 stalled for more than
-> 10028msec
-> Mar 09 07:18:30 kernel: radeon 0000:00:01.0: GPU lockup (current fence id
-> 0x000000000000fa91 last fence id 0x000000000000fabc on ring 3)
-> Mar 09 07:18:31 kernel: radeon 0000:00:01.0: ring 5 stalled for more than
-> 10077msec
-> Mar 09 07:18:31 kernel: radeon 0000:00:01.0: GPU lockup (current fence id
-> 0x00000000000018fb last fence id 0x00000000000018fe on ring 5)
-> Mar 09 07:18:31 kernel: radeon 0000:00:01.0: ring 0 stalled for more than
-> 10202msec
-> ...
+Suraj Kandpal (4):
+  drm/i915/dsc: Adding the new registers for DSC
+  drm/i915/dsc: Enable YCbCr420 for VDSC
+  drm/i915/dsc: Fill in native_420 field
+  drm/i915/vdsc: Check slice design requirement
 
-What can we do next to pinpoint this?
+Swati Sharma (1):
+  drm/i915/dsc: Add debugfs entry to validate DSC output formats
 
-It seems to fail rather reliably after a suspend/resume. Is there some test
-suite I can run to provoke things?
+ drivers/gpu/drm/i915/display/icl_dsi.c        |   2 -
+ .../drm/i915/display/intel_crtc_state_dump.c  |   4 +-
+ .../drm/i915/display/intel_crtc_state_dump.h  |   2 +
+ .../drm/i915/display/intel_display_debugfs.c  |  78 ++++++++
+ .../drm/i915/display/intel_display_types.h    |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |  48 ++++-
+ .../gpu/drm/i915/display/intel_qp_tables.c    | 187 ++++++++++++++++--
+ .../gpu/drm/i915/display/intel_qp_tables.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_vdsc.c     | 132 +++++++++++--
+ .../gpu/drm/i915/display/intel_vdsc_regs.h    |  28 +++
+ include/drm/display/drm_dp_helper.h           |  13 ++
+ 11 files changed, 467 insertions(+), 32 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+-- 
+2.25.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
