@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D946B2998
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32706B29CE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 256C010E895;
-	Thu,  9 Mar 2023 16:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D26EF10E8B0;
+	Thu,  9 Mar 2023 16:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4068710E1A8
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C09EA10E1A8
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:34 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 02C5C22162;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6DA9522163;
  Thu,  9 Mar 2023 16:02:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LrR4dEV8fvot4krXRpemBNzsGqKxI9Iidiw4W2qbfcs=;
- b=ae6f8RbIy2Rv+yRmon5XxI4seRFmyMdyJOQsgGV+2HydP0zUWHk7HHsifkPYnKLIYZC9/0
- Pyxr7sE69YfCOtNMuW3hi9Kxe8uBAQBHdNECFnYgbyAyaTHteLKJSALCLE/vVCHZC517Wj
- PdaCKJVkqobG0szMc/ZRUj2X4u7Abhg=
+ bh=FHsw9G40HD12yWMfW+3kaONrrrxFvi6OorhBwRazvNw=;
+ b=B6Nvx8dkSj/OuX3zLARuzm8vSuXgcocSuJ64uOslQxtq5UrlzuVeuxSn1ErjZi3/1k1HPx
+ Hl2QEF0xiXJvD044nqLxt6sXP6l5YM4rCR07kznwZ2T91F55Sfz77toaePc2oEQ5yLb0i9
+ J7yB4F0craiC8zEvcQP4oJzcfH/Q06A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377753;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LrR4dEV8fvot4krXRpemBNzsGqKxI9Iidiw4W2qbfcs=;
- b=QECZeFxqwtZvMCizXWX7OraDZ3sytS0NpgbSyW9YFP6OWcxicrmEQvBtHYvmh8ZO7P+JLl
- zZg/1Cbxo1k/GfDA==
+ bh=FHsw9G40HD12yWMfW+3kaONrrrxFvi6OorhBwRazvNw=;
+ b=U6ZELyDp1F44OU7kM0Bc/rgo3cqI2drgIFZ4W2eywOt8CWDyHqIbljR/CH9s4oXdcfv6TA
+ PpioaS121e3OYbAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 985B61391B;
- Thu,  9 Mar 2023 16:02:32 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 079B513A73;
+ Thu,  9 Mar 2023 16:02:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id KIZQJBgDCmQHbgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:32 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id gHXcABkDCmQHbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  rdunlap@infradead.org, paulus@samba.org, benh@kernel.crashing.org,
@@ -52,10 +52,9 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 071/101] fbdev/savagefb: Parse option string with struct
- option_iter
-Date: Thu,  9 Mar 2023 17:01:31 +0100
-Message-Id: <20230309160201.5163-72-tzimmermann@suse.de>
+Subject: [PATCH v2 072/101] fbdev/sisfb: Constify mode string
+Date: Thu,  9 Mar 2023 17:01:32 +0100
+Message-Id: <20230309160201.5163-73-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -78,59 +77,44 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use struct option_iter to walk over the individual options in the
-driver's option string. Replaces the hand-written strsep() loop with
-a clean interface. The helpers for struct option_iter handle empty
-option strings and empty options transparently. The struct's _init
-and _release functions duplicate and release the option string's
-memory buffer as needed.
-
-Done in preparation of constifying the option string.
+Constify the intenal video-mode string that is passed around among
+functions. The caller owns the memory and callees do not modify its
+content. This change will later allow to constify the option string.
+No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/savage/savagefb_driver.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/sis/sis_main.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/savage/savagefb_driver.c b/drivers/video/fbdev/savage/savagefb_driver.c
-index 0ca5894114c9..4650688fd23c 100644
---- a/drivers/video/fbdev/savage/savagefb_driver.c
-+++ b/drivers/video/fbdev/savage/savagefb_driver.c
-@@ -42,6 +42,7 @@
-  */
+diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
+index cfba776afcea..c16493d3ac4f 100644
+--- a/drivers/video/fbdev/sis/sis_main.c
++++ b/drivers/video/fbdev/sis/sis_main.c
+@@ -73,7 +73,7 @@ static int	sisfb_blank(int blank,
+ static void sisfb_handle_command(struct sis_video_info *ivideo,
+ 				 struct sisfb_cmd *sisfb_command);
  
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -2537,19 +2538,22 @@ static void __exit savage_done(void)
- 
- /* ************************* init in-kernel code ************************** */
- 
--static int __init savagefb_setup(char *options)
-+static int __init savagefb_setup(const char *options)
- {
- #ifndef MODULE
-+	struct option_iter iter;
- 	char *this_opt;
- 
--	if (!options || !*options)
--		return 0;
-+	option_iter_init(&iter, options);
- 
--	while ((this_opt = strsep(&options, ",")) != NULL) {
-+	while (option_iter_next(&iter, &this_opt)) {
- 		kfree(mode_option_buf);
- 		mode_option_buf = kstrdup(this_opt, GFP_KERNEL); // ignore errors
- 		mode_option = mode_option_buf;
- 	}
-+
-+	option_iter_release(&iter);
-+
- #endif /* !MODULE */
- 	return 0;
+-static void	sisfb_search_mode(char *name, bool quiet);
++static void	sisfb_search_mode(const char *name, bool quiet);
+ static int	sisfb_validate_mode(struct sis_video_info *ivideo, int modeindex, u32 vbflags);
+ static u8	sisfb_search_refresh_rate(struct sis_video_info *ivideo, unsigned int rate,
+ 				int index);
+@@ -180,12 +180,12 @@ static void sisfb_search_vesamode(unsigned int vesamode, bool quiet)
+ 		printk(KERN_ERR "sisfb: Invalid VESA mode 0x%x'\n", vesamode);
  }
+ 
+-static void sisfb_search_mode(char *name, bool quiet)
++static void sisfb_search_mode(const char *name, bool quiet)
+ {
+ 	unsigned int j = 0, xres = 0, yres = 0, depth = 0, rate = 0;
+ 	int i = 0;
+ 	char strbuf[16], strbuf1[20];
+-	char *nameptr = name;
++	const char *nameptr = name;
+ 
+ 	/* We don't know the hardware specs yet and there is no ivideo */
+ 
 -- 
 2.39.2
 
