@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB916B1DAD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B90D6B1DDF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:24:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF8AC10E16B;
-	Thu,  9 Mar 2023 08:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B87910E17E;
+	Thu,  9 Mar 2023 08:24:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57A410E16B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:17:28 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-536cb25982eso20437807b3.13
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 00:17:28 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5073610E17E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:24:26 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id s22so1242506lfi.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 00:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678349848;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2l5Id5YkQHVcDPnMRyRmnfI/ab4qev+27T/LcA5p4xY=;
- b=zHNKNBYRp8ZMtYES6iOOJZdPs+/VrS4r4YOJIdMcn27ttfxXw+5AQLOM553VKzbfnu
- vLHmIOaLbVGba0VsvH1A00WV2qAWWgRg6OCdzr0CGE6bztDfQMn/g9Y5OsP9YhvR9IvQ
- MBPkKaiastTwTZvY+KgDfsVknQjxIsmsmH17UUOwZlFCPeT099gAT1AvqRLyWYGb78VF
- buB27vSGCDqka04+hzRqEy0gBl5mSK5NjjfTzm/G9U23TwZT1xq5DqboEq5enhwfaKIC
- YzzD9CYsGf0djIqiap2rDOQQywTt+nLUZAXM8IkxeeJ6AXIvCT0l3gLpZjJP6pzCZ/ff
- Vvng==
+ d=linaro.org; s=google; t=1678350264;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QzEKFG/aktpDJ9N/nYMNYqb4XM+dS4l7JrgzOb9ZeCI=;
+ b=gdbqYPy0VDDgMYHC9gt5Hmwd2pB0j4shL/PDoUP1Of5ZOG0m93gyd+bTsAw6lt/J1W
+ jMycGzL6N2zngqxBohlWeT0+xloz+sxo918YzUn8Lvrz6nR0+uJOYMOAbkP1Wa7JTLsJ
+ Ee7ZpmV0Hian3Rwm9bOw7UBagZHP25Dz3ureTC6kDm2BLh1/JkD83nHyYDM3i+E9rzFg
+ qykplrbt82Q1KqSLPHf2+iGEC9T6wTWDKeUWcIcfCC9ub+1RNwnLqEy1KQvV3U74LSJ/
+ tvIwZr1THXGiPKlV9pRSNFRjFSsJra37z4rvS0RUxX4A5AfHLdgqkatdtcagwrTtJ3xM
+ 6GSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678349848;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2l5Id5YkQHVcDPnMRyRmnfI/ab4qev+27T/LcA5p4xY=;
- b=VHlHmyorGMlOPqgCTHXjQCrR+y7ZJiA4U/tgiT55FPtiHDazaQyM+NMe7RFgkaAg5g
- jpuzk7asfzo3TUCHzkY34mNXJx5sMDsynyr8il92u8ij/wl/xG8lk94ePD9YyUVUcfuX
- Ynx+ZpBj22eMyfsfMjVcwoWGbTJLRJKel8P6jNs8r+Uy3blWr1eoT2W+b88nUAwq1uMh
- mN6nC0F4hu/a3QCEDnodUNntFnONKc1KTuc56u+chMnmIzFX1Pm5GYuyUt8v7dVvtxLW
- nnPnyk2+Ia++hXPMIP+SxbdnYUp/nCsYIMc0be6udYMp9U1OfclmavNzFDSjRV29l+Kq
- 2SwQ==
-X-Gm-Message-State: AO0yUKUGy2bCriFhXrmrvnLVbSA5Q/u7pfdBVolX0ansLjYshEoOyAkK
- yW9xQ3Y80w1POvmL8/PjymSMVVMOIRgwBJ7iNul7sw==
-X-Google-Smtp-Source: AK7set9NqrT7RUuXgHnInuqDO8U0SE1ojud6SJk/FpmB3GQVriAzuG0269C9t+4xeg2JU5VBcDK6EbBkG9E/pM7QunM=
-X-Received: by 2002:a81:4312:0:b0:52e:b718:24d5 with SMTP id
- q18-20020a814312000000b0052eb71824d5mr13477522ywa.9.1678349847927; Thu, 09
- Mar 2023 00:17:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20230301153101.4282-1-tzimmermann@suse.de>
- <CACRpkdawSQsNqKJkSSoSw3HmMHyNXFUywxkdszpTC-a_uZA+tQ@mail.gmail.com>
- <0e789778-03ca-e3cb-9c94-e8b55573894c@suse.de>
-In-Reply-To: <0e789778-03ca-e3cb-9c94-e8b55573894c@suse.de>
+ d=1e100.net; s=20210112; t=1678350264;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QzEKFG/aktpDJ9N/nYMNYqb4XM+dS4l7JrgzOb9ZeCI=;
+ b=5LoahGfDl7FLmjv7jTkl2Ce7KLbN/6uthVfK1VZF4L60E7CpM2u79MzerZ5j+dg77C
+ 1D9NQWAkuEvzBnMWPV18sk/LkVDjRkYw0VWZ+dGn8eiuxQgQUOlFvXsIw/vLroxDWBrN
+ OyuO/c1qwd8dX1ev9WSRupGHwo2hLOdRGOrAfpPA/y5InV0+28QVXSpooffNu6iHCN5l
+ B28YDWUs3F3FwZmqjvLGHsG0IbU3d3ShK2bh8zwPQ5y2cG50X+ePuw657r7QO5f8qyup
+ PNDauvwMGrkQ/hhZeC34XfXsGCL3IHZ3SJ8yfl5LAppQpR+np3CdyM69QaOKS0WkDoWB
+ Eu0g==
+X-Gm-Message-State: AO0yUKVTH47VEVlhWxhDrBfQehIUW7Q9m8HJCYLRhcoiXAQvVAInvGJf
+ Bm4x8xjfUD4eOAwaQmGahI521DSL1T8tSPN4I+A=
+X-Google-Smtp-Source: AK7set/h9zf2W+rGgcIN/k5zjr0nU0CYmzkwtFJXAfZXQQ7VXD2xUYvPgmrH4542xF/RjbElh4eckA==
+X-Received: by 2002:a19:c216:0:b0:4b4:8f01:f8b1 with SMTP id
+ l22-20020a19c216000000b004b48f01f8b1mr5498065lfc.31.1678350264247; 
+ Thu, 09 Mar 2023 00:24:24 -0800 (PST)
+Received: from Fecusia.lan (c-05d8225c.014-348-6c756e10.bbcust.telenor.se.
+ [92.34.216.5]) by smtp.gmail.com with ESMTPSA id
+ u17-20020ac25191000000b004db3aa3c542sm2565489lfi.47.2023.03.09.00.24.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Mar 2023 00:24:23 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 9 Mar 2023 09:17:16 +0100
-Message-ID: <CACRpkdYUVBq_-iZxtoe65eh3ruUOprF_JEG-sZfUSNVhjacVLA@mail.gmail.com>
-Subject: Re: [PATCH 00/22] drm/dma-helper: Add dedicated fbdev emulation
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>
+Subject: [PATCH] drm/mcde: Do not use dirty GEM FB handling
+Date: Thu,  9 Mar 2023 09:24:21 +0100
+Message-Id: <20230309082421.439813-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.39.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,51 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, edmund.j.dea@intel.com,
- alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
- laurent.pinchart@ideasonboard.com, anitha.chrisanthus@intel.com,
- linux-stm32@st-md-mailman.stormreply.com, jbrunet@baylibre.com,
- samuel@sholland.org, javierm@redhat.com, jernej.skrabec@gmail.com,
- linux-imx@nxp.com, alain.volmat@foss.st.com, linux-sunxi@lists.linux.dev,
- raphael.gallais-pou@foss.st.com, martin.blumenstingl@googlemail.com,
- s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org,
- andrew@aj.id.au, jyri.sarha@iki.fi, yannick.fertre@foss.st.com,
- philippe.cornu@foss.st.com, kernel@pengutronix.de, khilman@baylibre.com,
- shawnguo@kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 7, 2023 at 9:55=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
-> Am 06.03.23 um 23:19 schrieb Linus Walleij:
+This driver has no way to handle damage, the reason the
+drm_gem_fb_create_with_dirty() was used was because I had the
+ambition that the driver would only send out updates to DSI
+command displays whenever something changed, so as to
+minimize traffic.
 
-> > 2) Why isn't this DRM driver changed?
-> > drivers/gpu/drm/mcde/mcde_drv.c
-> > AFAICT it also uses GEM buffers in system memory.
->
-> This driver requires damage handling
-> https://elixir.bootlin.com/linux/v6.2/source/drivers/gpu/drm/mcde/mcde_dr=
-v.c#L97
->
-> for which we have to call the framebuffer's dirty callback
+It turns out this ambition with command mode isn't working
+in practice because all the MCDE does is to create a
+continuous stream of DSI commands and while it is possible to
+send single frame updates with it, it's not been worthwhile.
+So we are just setting up continuous updates.
 
-Oh that one is on me ... I no longer remember exactly why I used
-drm_gem_fb_create_with_dirty() but I think it was because I had the
-ambition that the driver would only send out updates to DSI command
-displays whenever something changed, so as to minimize traffic.
+Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Thomas you can pick this as a prerequisite into your series
+or just ACK it and I will merge it into drm-misc-next so you
+can base your work on it.
+---
+ drivers/gpu/drm/mcde/mcde_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It turns out this ambition with command mode isn't working in
-practice because all the MCDE does is to create a continuous stream
-of DSI commands and while it is possible to send single frame
-updates with it, it's not working in practice. So we are just setting
-up continuous updates. We turn of the VBLANK IRQs a bit, but I
-guess the DRM framework does that for us when nothing goes on.
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 4aedb050d2a5..a592ad0d7886 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -94,7 +94,7 @@
+ #define MCDE_PID_MAJOR_VERSION_MASK 0xFF000000
+ 
+ static const struct drm_mode_config_funcs mcde_mode_config_funcs = {
+-	.fb_create = drm_gem_fb_create_with_dirty,
++	.fb_create = drm_gem_fb_create,
+ 	.atomic_check = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+-- 
+2.39.1
 
-I tested to replace this with drm_gem_fb_create and it works just
-fine. I'll send out a patch so you can make this change also to the
-MCDE driver.
-
-Yours,
-Linus Walleij
