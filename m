@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC1D6B29B3
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2A26B29A0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8BF110E887;
-	Thu,  9 Mar 2023 16:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7E810E881;
+	Thu,  9 Mar 2023 16:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 356F110E86C
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97C2B10E871
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:35 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D464322164;
- Thu,  9 Mar 2023 16:02:33 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 44B6420179;
+ Thu,  9 Mar 2023 16:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678377753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678377754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lTED/VgPHa5wOEvVPPDcN/pf/+4+mXP+rnXQB1MZTbI=;
- b=ivrPro47qs/FUUYxTMSy9TTlxQwM6PjsxdmAQuR0jJqj+3eYk028UGvVMQLgWojig86pkz
- hlbUUYnGoPW6gBkRX1sjK9RDucyT264XOyNIkimtM9dNACDlQ3r7bPO3DXLjTYk0C0Fj6c
- FWyfND0mMLxLoFmDILdS1kWOn5COid4=
+ bh=k8XeD13siGTPg6ur3jYfV0pIQmZ74GbDCRGpLHT3KYY=;
+ b=usVstNaMvRiiNGybfSZtuWZwo3o9DGS90YmiNS0IerHlu++zx9+fuYsOeVk4z0EgLQTlP8
+ 14EDFUpo8H9GZmISw0ir5bUUpescdqkii0CWQ9VMU9VZvUb4BxdVaAytuOV9oq0xdv0TOG
+ uHSraghKEl2vhKBCAMaVsBA1wC6TXuA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678377753;
+ s=susede2_ed25519; t=1678377754;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lTED/VgPHa5wOEvVPPDcN/pf/+4+mXP+rnXQB1MZTbI=;
- b=TD+0JkuVOLoSVfrQvFdVZML9zV5qJRYVYV+7HFuBB1aUuMxo/VMpgRTScyuMuCD4FNi+l2
- aIwqV+1tCxUACrCQ==
+ bh=k8XeD13siGTPg6ur3jYfV0pIQmZ74GbDCRGpLHT3KYY=;
+ b=/A7j3hhwjwv8mVq2lH3pzqblM4RD5k5cYFw3kOjsSVifHYNdq7tqboxQQcrw+F+RpFjPDD
+ OeM8vPaucJ9tCuBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 728F61391B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9D8613A73;
  Thu,  9 Mar 2023 16:02:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4G/lGhkDCmQHbgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id SMUxNBkDCmQHbgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:33 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
@@ -52,10 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 073/101] fbdev/sisfb: Parse option string with struct
+Subject: [PATCH v2 074/101] fbdev/skeletonfb: Parse option string with struct
  option_iter
-Date: Thu,  9 Mar 2023 17:01:33 +0100
-Message-Id: <20230309160201.5163-74-tzimmermann@suse.de>
+Date: Thu,  9 Mar 2023 17:01:34 +0100
+Message-Id: <20230309160201.5163-75-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,63 +89,43 @@ Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/sis/sis_main.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/video/fbdev/skeletonfb.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
-index c16493d3ac4f..9f63812a5f66 100644
---- a/drivers/video/fbdev/sis/sis_main.c
-+++ b/drivers/video/fbdev/sis/sis_main.c
-@@ -20,6 +20,7 @@
+diff --git a/drivers/video/fbdev/skeletonfb.c b/drivers/video/fbdev/skeletonfb.c
+index 40c130ab6b38..ee6944d0ebc1 100644
+--- a/drivers/video/fbdev/skeletonfb.c
++++ b/drivers/video/fbdev/skeletonfb.c
+@@ -43,6 +43,7 @@
   */
  
  #include <linux/aperture.h>
 +#include <linux/cmdline.h>
  #include <linux/module.h>
- #include <linux/moduleparam.h>
  #include <linux/kernel.h>
-@@ -54,7 +55,7 @@
- 
- /* Interface used by the world */
- #ifndef MODULE
--static int sisfb_setup(char *options);
-+static int sisfb_setup(const char *options);
- #endif
- 
- /* Interface to the low level console driver */
-@@ -3987,19 +3988,16 @@ sisfb_handle_command(struct sis_video_info *ivideo, struct sisfb_cmd *sisfb_comm
- }
- 
- #ifndef MODULE
--static int __init sisfb_setup(char *options)
-+static int __init sisfb_setup(const char *options)
+ #include <linux/errno.h>
+@@ -973,9 +974,19 @@ static struct platform_device *xxxfb_device;
+  * Only necessary if your driver takes special options,
+  * otherwise we fall back on the generic fb_setup().
+  */
+-static int __init xxxfb_setup(char *options)
++static int __init xxxfb_setup(const char *options)
  {
-+	struct option_iter iter;
- 	char *this_opt;
- 
- 	sisfb_setdefaultparms();
- 
--	if(!options || !(*options))
--		return 0;
--
--	while((this_opt = strsep(&options, ",")) != NULL) {
--
--		if(!(*this_opt)) continue;
-+	option_iter_init(&iter, options);
- 
-+	while (option_iter_next(&iter, &this_opt)) {
- 		if(!strncasecmp(this_opt, "off", 3)) {
- 			sisfb_off = 1;
- 		} else if(!strncasecmp(this_opt, "forcecrt2type:", 14)) {
-@@ -4081,6 +4079,8 @@ static int __init sisfb_setup(char *options)
- 
- 	}
- 
-+	option_iter_release(&iter);
+-    /* Parse user specified options (`video=xxxfb:') */
++	/* Parse user-specified options (`video=xxxfb:') */
 +
- 	return 0;
++	struct option_iter iter;
++	char *this_opt;
++
++	option_iter_init(&iter, options);
++
++	while (option_iter_next(&iter, &this_opt)) {
++	}
++
++	option_iter_release(&iter);
  }
- #endif
+ #endif /* MODULE */
+ 
 -- 
 2.39.2
 
