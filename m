@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133806B211B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 11:17:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D81556B2134
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 11:21:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB73210E7DB;
-	Thu,  9 Mar 2023 10:17:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5179810E7DA;
+	Thu,  9 Mar 2023 10:20:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D35210E7DA;
- Thu,  9 Mar 2023 10:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678357036; x=1709893036;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PqiamAYu6WsjA2TFzZCOCWevy0v60e4fUpTa8FsawEk=;
- b=fLGRRStyTG5MQx8knehOB4HlqF8kUSDp3qBHqE3+9NRJnAtFNhjNiBf5
- Z5qpZSLO0pjdPvCDASZJp5bNz+u1M35alkwpv5WkvcBdz65UU7JSHFLui
- DzS5c3HHhyIG6ETQQq7RKUWbCQsCuYIGbdBP25HOD45LboPvsyvYprUGI
- rDgw6CKW5mNbbpYHlpuicoZ54uyoPAZUHzBqoIELdcSb26XowQIsDrtIL
- wgvJ6+akEgxruUmTXDxz/hilom8dRd1uC4nAEJfkhyUHa2T3fK5uNp6KS
- jGNuf5VZX2AFU+6tqacq1/8EKVPypHK1bbGEmCkYgumGLS9Z26BRgnIkh A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="338746028"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="338746028"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2023 02:17:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="670672529"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="670672529"
-Received: from doylejix-mobl1.ger.corp.intel.com (HELO [10.213.221.148])
- ([10.213.221.148])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2023 02:17:13 -0800
-Message-ID: <286b82dd-3d0b-22e3-45ac-b40705aed78d@linux.intel.com>
-Date: Thu, 9 Mar 2023 10:17:11 +0000
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7D2E10E7DA
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 10:20:55 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id bf15so495814iob.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 02:20:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1678357255;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mIU3HMuVNTJJMDhnoEUvCOuAE75z3O7Qyl1/k3U1zyU=;
+ b=BVW4T3AssvDhpzvR5OQ1nO3YwRaVAGkl6KA4fAJ7wye5I5nb4s/ipZO3wq7VlN/S6l
+ aR82jJKHvaE12XBrcriVHD2/jAUxNDABHtALxwu0o95JAOJqZyzGJomUAh/iHfj7AZMj
+ VVy8FM3OW+YzvBVfjTY9lglRcnfPOYKRuVtFA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678357255;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mIU3HMuVNTJJMDhnoEUvCOuAE75z3O7Qyl1/k3U1zyU=;
+ b=QuE2elkmCmiVX5+nS3Z9CH/cOOO1BdOMv0Bqg15kSuJ3g7waxqBWhtmN3Yt65yx87G
+ DtqZBRq8d8IAtpS65l/HNJtz16MMEKWOUTwGmXFBmulAEvOiMJ4lKXbb5J46bny2ufN7
+ mEbUu8/EXsrRlXSTrYNPdtEjGs7McYzUOYAH2utrLIA1aKHCf3UckotQANtVGBjiSAHC
+ SrWh9j40F2+GO/Xn8bbj4klPjnkr1KeXLpsIqf72jrFmf6qcFtHcbJJUhlkbqS4fuKZq
+ lM46xYgzY8lFRsEP5zFjIas/YqPbG+4yz2N2PTy4WgC8YBpFZo2H5X2sRSdfqVhzc2Qt
+ gmtw==
+X-Gm-Message-State: AO0yUKVixGKEUAqU0oM8VeiLKa3ji3X4fuLlin9k4oTahNynaCwhNPJD
+ +Q6JGuG1NW65KYQ1L3FI0pOw4V3WFmDWoOthGtdu8A==
+X-Google-Smtp-Source: AK7set8yQOFHurTiJsdWOlEy9y+Eh5psaAfvl621J543EP4BUiv7QH2QzIQMnElcHbQnb2xLNM/JQ9lkCoOlRDsgqQk=
+X-Received: by 2002:a02:7310:0:b0:3ca:61cc:4bbc with SMTP id
+ y16-20020a027310000000b003ca61cc4bbcmr10772903jab.2.1678357254876; Thu, 09
+ Mar 2023 02:20:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 4/4] drm/i915: add guard page to ggtt->error_capture
-Content-Language: en-US
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20230308-guard_error_capture-v5-0-6d1410d13540@intel.com>
- <20230308-guard_error_capture-v5-4-6d1410d13540@intel.com>
- <93cbaa9f-6ec3-5843-7527-8e81b3ee091d@linux.intel.com>
- <1372db7c-7d65-cd28-43fc-1b04f57bef11@intel.com>
- <b90e8e31-1729-175c-2fdb-85fb51db4fdc@linux.intel.com>
- <21879b92-35d7-6a80-7c27-b681860906ec@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <21879b92-35d7-6a80-7c27-b681860906ec@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230303143350.815623-1-treapking@chromium.org>
+ <20230303143350.815623-4-treapking@chromium.org>
+ <ZAXTVCAQpHvSj+6C@smile.fi.intel.com>
+ <CAEXTbpf4zM+70BCef6rdfz35TQnQ+ozaXAvOaEZVnqqe6MDOOg@mail.gmail.com>
+ <ZAiptm03HzQila0M@smile.fi.intel.com>
+In-Reply-To: <ZAiptm03HzQila0M@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 9 Mar 2023 18:20:44 +0800
+Message-ID: <CAEXTbpfQTGsZVy4m0MXQ0AK-N66F3OHwFmT_kNThMPxZFVP6ow@mail.gmail.com>
+Subject: Re: [PATCH v13 03/10] drm/display: Add Type-C switch helpers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,163 +68,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy,
 
-On 09/03/2023 09:59, Andrzej Hajda wrote:
-> 
-> 
-> On 09.03.2023 10:43, Tvrtko Ursulin wrote:
->>
->> On 09/03/2023 09:34, Andrzej Hajda wrote:
->>>
->>>
->>> On 09.03.2023 10:08, Tvrtko Ursulin wrote:
->>>>
->>>> On 08/03/2023 15:39, Andrzej Hajda wrote:
->>>>> Write-combining memory allows speculative reads by CPU.
->>>>> ggtt->error_capture is WC mapped to CPU, so CPU/MMU can try
->>>>> to prefetch memory beyond the error_capture, ie it tries
->>>>> to read memory pointed by next PTE in GGTT.
->>>>> If this PTE points to invalid address DMAR errors will occur.
->>>>> This behaviour was observed on ADL and RPL platforms.
->>>>> To avoid it, guard scratch page should be added after error_capture.
->>>>> The patch fixes the most annoying issue with error capture but
->>>>> since WC reads are used also in other places there is a risk similar
->>>>> problem can affect them as well.
->>>>>
->>>>> v2:
->>>>>    - modified commit message (I hope the diagnosis is correct),
->>>>>    - added bug checks to ensure scratch is initialized on gen3 
->>>>> platforms.
->>>>>      CI produces strange stacktrace for it suggesting scratch[0] is 
->>>>> NULL,
->>>>>      to be removed after resolving the issue with gen3 platforms.
->>>>> v3:
->>>>>    - removed bug checks, replaced with gen check.
->>>>> v4:
->>>>>    - change code for scratch page insertion to support all platforms,
->>>>>    - add info in commit message there could be more similar issues
->>>>> v5:
->>>>>    - check for nop_clear_range instead of gen8 (Tvrtko),
->>>>>    - re-insert scratch pages on resume (Tvrtko)
->>>>>
->>>>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
->>>>> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->>>>> ---
->>>>>   drivers/gpu/drm/i915/gt/intel_ggtt.c | 35 
->>>>> +++++++++++++++++++++++++++++++----
->>>>>   1 file changed, 31 insertions(+), 4 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c 
->>>>> b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> index b925da42c7cfc4..8fb700fde85c8f 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
->>>>> @@ -502,6 +502,21 @@ static void cleanup_init_ggtt(struct i915_ggtt 
->>>>> *ggtt)
->>>>>       mutex_destroy(&ggtt->error_mutex);
->>>>>   }
->>>>>   +static void
->>>>> +ggtt_insert_scratch_pages(struct i915_ggtt *ggtt, u64 offset, u64 
->>>>> length)
->>>>> +{
->>>>> +    struct i915_address_space *vm = &ggtt->vm;
->>>>> +
->>>>> +    if (vm->clear_range != nop_clear_range)
->>>>
->>>> Hm I thought usually we would add a prefix for exported stuff, like 
->>>> in this case i915_vm_nop_clear_range, however I see intel_gtt.h 
->>>> exports a bunch of stuff with no prefixes already so I guess you 
->>>> could continue like that by inertia. The conundrum also could have 
->>>> been avoided if you left it static (leaving out dpt and mock_gtt 
->>>> patches) but no strong opinion from me.
->>>>
->>>>> +        return vm->clear_range(vm, offset, length);
->>>>> +
->>>>> +    while (length > 0) {
->>>>> +        vm->insert_page(vm, px_dma(vm->scratch[0]), offset, 
->>>>> I915_CACHE_NONE, 0);
->>>>> +        offset += I915_GTT_PAGE_SIZE;
->>>>> +        length -= I915_GTT_PAGE_SIZE;
->>>>> +    }
->>>>> +}
->>>>> +
->>>>>   static int init_ggtt(struct i915_ggtt *ggtt)
->>>>>   {
->>>>>       /*
->>>>> @@ -550,8 +565,12 @@ static int init_ggtt(struct i915_ggtt *ggtt)
->>>>>            * paths, and we trust that 0 will remain reserved. However,
->>>>>            * the only likely reason for failure to insert is a driver
->>>>>            * bug, which we expect to cause other failures...
->>>>> +         *
->>>>> +         * Since CPU can perform speculative reads on error capture
->>>>> +         * (write-combining allows it) add scratch page after error
->>>>> +         * capture to avoid DMAR errors.
->>>>>            */
->>>>> -        ggtt->error_capture.size = I915_GTT_PAGE_SIZE;
->>>>> +        ggtt->error_capture.size = 2 * I915_GTT_PAGE_SIZE;
->>>>>           ggtt->error_capture.color = I915_COLOR_UNEVICTABLE;
->>>>>           if (drm_mm_reserve_node(&ggtt->vm.mm, &ggtt->error_capture))
->>>>> drm_mm_insert_node_in_range(&ggtt->vm.mm,
->>>>> @@ -561,11 +580,15 @@ static int init_ggtt(struct i915_ggtt *ggtt)
->>>>>                               0, ggtt->mappable_end,
->>>>>                               DRM_MM_INSERT_LOW);
->>>>>       }
->>>>> -    if (drm_mm_node_allocated(&ggtt->error_capture))
->>>>> +    if (drm_mm_node_allocated(&ggtt->error_capture)) {
->>>>> +        u64 start = ggtt->error_capture.start;
->>>>> +        u64 size = ggtt->error_capture.size;
->>>>> +
->>>>> +        ggtt_insert_scratch_pages(ggtt, start, size);
->>>>>           drm_dbg(&ggtt->vm.i915->drm,
->>>>>               "Reserved GGTT:[%llx, %llx] for use by error capture\n",
->>>>> -            ggtt->error_capture.start,
->>>>> -            ggtt->error_capture.start + ggtt->error_capture.size);
->>>>> +            start, start + size);
->>>>> +    }
->>>>>         /*
->>>>>        * The upper portion of the GuC address space has a sizeable 
->>>>> hole
->>>>> @@ -1256,6 +1279,10 @@ void i915_ggtt_resume(struct i915_ggtt *ggtt)
->>>>>         flush = i915_ggtt_resume_vm(&ggtt->vm);
->>>>>   +    if (drm_mm_node_allocated(&ggtt->error_capture))
->>>>> +        ggtt_insert_scratch_pages(ggtt, ggtt->error_capture.start,
->>>>> +                      ggtt->error_capture.size);
->>>>
->>>> Maybe it belongs in i915_ggtt_resume_vm since that one deals with 
->>>> PTEs? Looks like it to me, but ack either way.
->>>
->>> i915_ggtt_resume_vm is called for ggtt and dpt. Of course I could add 
->>> conditionals there checking if it is ggtt, but in such situation 
->>> i915_ggtt_resume seems more natural candidate.
->>
->> "if (drm_mm_node_allocated(&ggtt->error_capture))" check would handle 
->> that automatically, no? i915_ggtt_resume has nothing about PTEs at the 
->> moment..
-> 
-> Yes but since i915_ggtt_resume_vm  has vm as an argument (ie it operates 
-> on generic vm), there will be needed downcasting somewhere:
-> if (vm->is_ggtt) {
->      struct i915_ggtt *ggtt = i915_vm_to_ggtt(vm);
->      if (drm_mm_node_allocated(&ggtt->error_capture))
->          ...
-> }
-> 
-> In i915_ggtt_resume we have it for free, but moreover 
-> i915_ggtt_resume_vm (despite its name) seems to handle common stuff of 
-> ggtt and dpt, and i915_ggtt_resume looks as specific for ggtt, similarly 
-> intel_dpt_resume is specific for dpt.
-> If it does not convince you, I will update patch with above code.
+On Wed, Mar 8, 2023 at 11:29=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Mar 08, 2023 at 06:20:14PM +0800, Pin-yen Lin wrote:
+> > On Mon, Mar 6, 2023 at 7:49=E2=80=AFPM Andy Shevchenko
+> > > On Fri, Mar 03, 2023 at 10:33:43PM +0800, Pin-yen Lin wrote:
+>
+> ...
+>
+> > > > +     switch_desc->typec_ports =3D devm_kcalloc(dev, switch_desc->n=
+um_typec_switches,
+> > > > +                                             sizeof(struct drm_dp_=
+typec_port_data),
+> > > > +                                             GFP_KERNEL);
+> > > > +     if (!switch_desc->typec_ports)
+> > > > +             return -ENOMEM;
+> > >
+> > > How often this function _can_ be called during the runtime?
+> > > If it's _possible_ to call it infinite times, consider *not* using de=
+vm.
+> >
+> > I would expect this function to be only called during driver probing,
+> > and this is the case for the current users in this series. So I think
+> > this is only called once if EPROBDE_DEFER doesn't count.
+>
+> No, deferred probe is not counted.
+>
+> Can you add a word somewhere in the comment(?) to make this clear?
 
-Right, I see your point - I was mislead by the name i915_ggtt_resume_vm 
-thinking it signifies it working on i915_ggtt. It's all good then.
-
-Regards,
-
-Tvrtko
+Sure. I'll add some note in the comments about this.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+Thanks and regards,
+Pin-yen
