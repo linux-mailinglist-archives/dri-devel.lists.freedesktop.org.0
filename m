@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635C66B2961
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:02:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE9F6B2955
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:02:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B42010E86B;
-	Thu,  9 Mar 2023 16:02:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1BE910E866;
+	Thu,  9 Mar 2023 16:02:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EDEA10E1A8
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D8910E85E
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:13 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EC80A2214B;
- Thu,  9 Mar 2023 16:02:11 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5D44820182;
+ Thu,  9 Mar 2023 16:02:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678377731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678377732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yiri3tc/a1MXdsd+j79tZAwP26XU744YZButEfhgQbE=;
- b=070go3KipUxMIObSkyt1ar879i99/CaFVQa+B8/HlgVXaI5PIj5+RV5jgjrZfjZRDwt+Je
- ZOMRUVB0EvGdDZpRLn9DV0BNp4+e71kmvf7kV8QglGKDREyZ7UfD2dYh4jEuvUI1uI3syu
- 54KWh7ePUe630ooMf+Q2v4GlzhzNhn0=
+ bh=armA2RVjP0J+ugM2i/E2t8spkqjiPSbrGaAq9XUWPvU=;
+ b=ryF/T115JDXa1uFGASX6UK1HG1fza/6drBaEOmioYeQn9KKVXgpgSpyGoYaSBhZhssTrOf
+ qApRUfvU4k2yqTbanYsL1ubQB0oDFNXJ9xKE7XzsoJOG00V0mpKgdnTuBBNLqMiFkyRqPm
+ BjubRDhc4vkZNe9Ywe3VlPdGe56eHJI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678377731;
+ s=susede2_ed25519; t=1678377732;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yiri3tc/a1MXdsd+j79tZAwP26XU744YZButEfhgQbE=;
- b=bmV9xsaxTmBlD4rVnIpNT+ss9CvC4ALPa0sCOYGgaIMlK7ZMQkkgWY/vrMx+aAFqnVNsxX
- hbjPh4XgwBi2uODw==
+ bh=armA2RVjP0J+ugM2i/E2t8spkqjiPSbrGaAq9XUWPvU=;
+ b=dC+nM6CuGsA4PcOJxaE5DvmTCXOaMIl3hitx8lFT7ahO/oCmUYIOAXnuQTAbNVo0ItX05y
+ 0j3G/lB5NsWFD+CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8CEA11391B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F262E13A73;
  Thu,  9 Mar 2023 16:02:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iC2DIQMDCmQHbgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id CKAOOgMDCmQHbgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:11 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
@@ -52,10 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 018/101] fbdev/controlfb: Parse option string with struct
+Subject: [PATCH v2 019/101] fbdev/cyber2000fb: Parse option string with struct
  option_iter
-Date: Thu,  9 Mar 2023 17:00:38 +0100
-Message-Id: <20230309160201.5163-19-tzimmermann@suse.de>
+Date: Thu,  9 Mar 2023 17:00:39 +0100
+Message-Id: <20230309160201.5163-20-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,49 +89,53 @@ Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/controlfb.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/cyber2000fb.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/controlfb.c
-index 82eeb139c4eb..65e2f9949420 100644
---- a/drivers/video/fbdev/controlfb.c
-+++ b/drivers/video/fbdev/controlfb.c
-@@ -31,6 +31,7 @@
-  *  more details.
+diff --git a/drivers/video/fbdev/cyber2000fb.c b/drivers/video/fbdev/cyber2000fb.c
+index 38c0a6866d76..f21d11a73455 100644
+--- a/drivers/video/fbdev/cyber2000fb.c
++++ b/drivers/video/fbdev/cyber2000fb.c
+@@ -34,6 +34,7 @@
+  * entering standby mode.)
   */
- 
+ #include <linux/aperture.h>
 +#include <linux/cmdline.h>
+ #include <linux/module.h>
  #include <linux/kernel.h>
  #include <linux/errno.h>
- #include <linux/string.h>
-@@ -795,14 +796,14 @@ static void __init control_init_info(struct fb_info *info, struct fb_info_contro
- /*
-  * Parse user specified options (`video=controlfb:')
+@@ -1486,17 +1487,14 @@ static void cyberpro_free_fb_info(struct cfb_info *cfb)
+  *  video=cyber2000:font:fontname
   */
--static void __init control_setup(char *options)
-+static void __init control_setup(const char *options)
+ #ifndef MODULE
+-static int cyber2000fb_setup(char *options)
++static int cyber2000fb_setup(const char *options)
  {
 +	struct option_iter iter;
- 	char *this_opt;
+ 	char *opt;
  
 -	if (!options || !*options)
--		return;
+-		return 0;
+-
+-	while ((opt = strsep(&options, ",")) != NULL) {
+-		if (!*opt)
+-			continue;
 +	option_iter_init(&iter, options);
  
--	while ((this_opt = strsep(&options, ",")) != NULL) {
-+	while (option_iter_next(&iter, &this_opt)) {
- 		if (!strncmp(this_opt, "vmode:", 6)) {
- 			int vmode = simple_strtoul(this_opt+6, NULL, 0);
- 			if (vmode > 0 && vmode <= VMODE_MAX &&
-@@ -830,6 +831,8 @@ static void __init control_setup(char *options)
- 			}
- 		}
++	while (option_iter_next(&iter, &opt)) {
+ 		if (strncmp(opt, "font:", 5) == 0) {
+ 			static char default_font_storage[40];
+ 
+@@ -1508,6 +1506,9 @@ static int cyber2000fb_setup(char *options)
+ 
+ 		printk(KERN_ERR "CyberPro20x0: unknown parameter: %s\n", opt);
  	}
 +
 +	option_iter_release(&iter);
++
+ 	return 0;
  }
- 
- /*
+ #endif  /*  MODULE  */
 -- 
 2.39.2
 
