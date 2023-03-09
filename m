@@ -2,50 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E246B2512
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 14:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D117F6B25CD
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 14:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D0B710E17B;
-	Thu,  9 Mar 2023 13:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED3710E17F;
+	Thu,  9 Mar 2023 13:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F153510E80C;
- Thu,  9 Mar 2023 13:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678367848; x=1709903848;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=GbTzUhMfzi25AYS27DoltRyE946Bi/6TFoDTOoGgsH8=;
- b=fj8fGTJb3IxiJx5ZeOXei6/225vMYd1dfzytv6LtIsedO1BcirEKuJV7
- t8Il9TIyBqkWifugRQyDFc176UVV1ZWX4aO72NIdsNtTaabU89l9bpIFq
- ZTKVi5LeFoRRAvgnqe5ZuI0VphEsE2iXiLkPdNc/Zi+B0ze+UIF+zx/ah
- tjBq1JxHqYQiaI6WwjEVwk7Sx4fW9LJtPL51jl7GyWa/6Vlyy7SzTM37F
- m9K23w6MNrZ0YIX98OTL5lm5aqClfYIDgO1C/G+AoqDmthnzcY3ccIw5q
- wV0GUzYzdJ6Mzstly/45i0XLVLZ+5taTQBU0EkEB3EpYMP3T3kyobmjjp A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320270457"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="320270457"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2023 05:17:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="787551640"
-X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="787551640"
-Received: from harith2x-mobl1.gar.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.196])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2023 05:17:22 -0800
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/3] drm/ttm: Make the call to ttm_tt_populate()
- interruptible when faulting
-Date: Thu,  9 Mar 2023 14:17:01 +0100
-Message-Id: <20230309131701.65312-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230309131701.65312-1-thomas.hellstrom@linux.intel.com>
-References: <20230309131701.65312-1-thomas.hellstrom@linux.intel.com>
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE6F10E17F
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 13:48:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 0EE6F42037;
+ Thu,  9 Mar 2023 13:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1678369725;
+ bh=AE3z/Hbuidfh0VnEdFu5MrRvC3cGbJJCXqEsPKkKv1I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=KTG/4UqJc8WfavSUh7tqLucA9Wp0OzX4DyjTmJUOp0sRWjLxntOHlni3Y7XaywGDd
+ hU4uXroyp55O6O1tp6qYAIxz+d8FeMIxLBPltCQDvMDCPDO11JEXrxE97V9VaoDS2N
+ JXflI7UOyImooOYtVzFxbWaF3BGr5UNDZFXoGWpcURhEzBPFGOXzZstYOndJg7wJu9
+ o3zByU3WOc1Ihx4z7svazX+2gQOlWDYn5sacZcA4MLiiP9AsOfzTjfi7Bd36YumoOJ
+ 6aVufEmspdikuXAb6yavwZ2tJ5pzEC4mrfqcvUBqMQeJM0LXdYFW523hFD7GDmEmuG
+ dd2HP9y7U3aBw==
+Message-ID: <e517dc90-0289-7339-e36e-54ba2635ed1f@asahilina.net>
+Date: Thu, 9 Mar 2023 22:48:37 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
+ is torn down
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+ <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
+ <585fa052-4eff-940e-b307-2415c315686a@amd.com>
+ <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
+ <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
+ <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
+ <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
+ <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
+ <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
+ <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
+ <ac92cea6-89e7-6147-a8fb-8b76e89cdcb6@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ac92cea6-89e7-6147-a8fb-8b76e89cdcb6@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,55 +76,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Christian Koenig <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When swapping in, or under memory pressure ttm_tt_populate() may sleep
-for a substantiable amount of time. Allow interrupts during the sleep.
-This will also allow us to inject -EINTR errors during swapin in upcoming
-patches.
+On 09/03/2023 20.47, Christian König wrote:
+> Am 09.03.23 um 10:43 schrieb Asahi Lina:
+>> On 09/03/2023 17.42, Christian König wrote:
+>>> Am 08.03.23 um 20:37 schrieb Asahi Lina:
+>>>> On 09/03/2023 03.12, Christian König wrote:
+>>>>> Am 08.03.23 um 18:32 schrieb Asahi Lina:
+>>>>>> [SNIP]
+>>>>>> Yes but... none of this cleans up jobs that are already submitted by the
+>>>>>> scheduler and in its pending list, with registered completion callbacks,
+>>>>>> which were already popped off of the entities.
+>>>>>>
+>>>>>> *That* is the problem this patch fixes!
+>>>>> Ah! Yes that makes more sense now.
+>>>>>
+>>>>>>> We could add a warning when users of this API doesn't do this
+>>>>>>> correctly, but cleaning up incorrect API use is clearly something we
+>>>>>>> don't want here.
+>>>>>> It is the job of the Rust abstractions to make incorrect API use that
+>>>>>> leads to memory unsafety impossible. So even if you don't want that in
+>>>>>> C, it's my job to do that for Rust... and right now, I just can't
+>>>>>> because drm_sched doesn't provide an API that can be safely wrapped
+>>>>>> without weird bits of babysitting functionality on top (like tracking
+>>>>>> jobs outside or awkwardly making jobs hold a reference to the scheduler
+>>>>>> and defer dropping it to another thread).
+>>>>> Yeah, that was discussed before but rejected.
+>>>>>
+>>>>> The argument was that upper layer needs to wait for the hw to become
+>>>>> idle before the scheduler can be destroyed anyway.
+>>>> Unfortunately, that's not a requirement you can encode in the Rust type
+>>>> system easily as far as I know, and Rust safety rules mean we need to
+>>>> make it safe even if the upper layer doesn't do this... (or else we have
+>>>> to mark the entire drm_sched abstraction unsafe, but that would be a pity).
+>>> Yeah, that should really not be something we should do.
+>>>
+>>> But you could make the scheduler depend on your fw context object, don't
+>>> you?
+>> Yes, and that would fix the problem for this driver, but it wouldn't
+>> make the abstraction safe. The thing is we have to make it *impossible*
+>> to misuse drm_sched in such a way that it crashes, at the Rust
+>> abstraction level. If we start depending on the driver following rules
+>> like that, that means the drm_sched abstraction has to be marked unsafe.
+>>
+>>> Detaching the scheduler from the underlying hw fences is certainly
+>>> possible, but we removed that functionality because some people people
+>>> tried to force push some Windows recovery module into Linux. We are in
+>>> the process of reverting that and cleaning things up once more, but that
+>>> will take a while.
+>> Okay, but I don't see why that should block the Rust abstractions...
+> 
+> Because even with removing the fence callback this is inherently unsafe.
+> 
+> You not only need to remove the callback, but also make sure that no 
+> parallel timeout handling is running.
 
-Also avoid returning VM_FAULT_OOM, since that will confuse the core
-mm, making it print out a confused message and retrying the fault.
-Return VM_FAULT_SIGBUS also under OOM conditions.
+If by that you mean that the timeout handling functions aren't being
+called by the driver, then that's implied. If the scheduler is being
+dropped, by definition there are no references left to call into the
+scheduler directly from the Rust side. So we only need to worry about
+what drm_sched itself does.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/ttm/ttm_bo_vm.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+Right now the cleanup function tears down the timeout work at the end,
+but it probably makes sense to do it at the start? Then if we do that
+and stop the kthread, we can be really sure nothing else is accessing
+the scheduler and we can clean up without taking any locks:
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index ca7744b852f5..4bca6b54520a 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -218,14 +218,21 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
- 	prot = ttm_io_prot(bo, bo->resource, prot);
- 	if (!bo->resource->bus.is_iomem) {
- 		struct ttm_operation_ctx ctx = {
--			.interruptible = false,
-+			.interruptible = true,
- 			.no_wait_gpu = false,
- 			.force_alloc = true
- 		};
- 
- 		ttm = bo->ttm;
--		if (ttm_tt_populate(bdev, bo->ttm, &ctx))
--			return VM_FAULT_OOM;
-+		err = ttm_tt_populate(bdev, bo->ttm, &ctx);
-+		if (err) {
-+			if (err == -EINTR || err == -ERESTARTSYS ||
-+			    err == -EAGAIN)
-+				return VM_FAULT_NOPAGE;
-+
-+			pr_debug("TTM fault hit %pe.\n", ERR_PTR(err));
-+			return VM_FAULT_SIGBUS;
-+		}
- 	} else {
- 		/* Iomem should not be marked encrypted */
- 		prot = pgprot_decrypted(prot);
--- 
-2.39.2
+Roughly:
 
+void drm_sched_fini(struct drm_gpu_scheduler *sched)
+{
+    sched->ready = false; /* Should probably do this first? */
+    kthread_stop(sched->thread);
+    cancel_delayed_work_sync(&sched->work_tdr);
+
+    /* Clean up the pending_list here */
+}
+
+I'm also not sure what the rest of the drm_sched_fini() function is
+doing right now. It's going through all entities and removing them, and
+then wakes up entities stuck in drm_sched_entity_flush()... but didn't
+we just agree that the API requires users to tear down entities before
+tearing down the scheduler anyway?
+
+~~ Lina
