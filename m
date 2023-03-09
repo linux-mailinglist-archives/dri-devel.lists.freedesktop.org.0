@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5063D6B2952
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:02:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 371006B2972
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A61FB10E85E;
-	Thu,  9 Mar 2023 16:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 179BB10E86A;
+	Thu,  9 Mar 2023 16:02:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2774E10E1A8
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DFE310E1A8
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C8DAA20183;
- Thu,  9 Mar 2023 16:02:12 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3814E2214D;
+ Thu,  9 Mar 2023 16:02:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678377732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678377733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PVdpUcThieHjdBQBTJhLTZp8YL7s1ZuPBMFCE/O3DfA=;
- b=16Hw9Sfr6Z2pS0gL7MptHMWvTf11QUZOFD9jaXUqUcma/ijNYD6dWj95PKRUBgzn+4ROgT
- hv9vWl5weWTtTeR651/eU2I3Sh1mFmRJ9tBjByxuuJiPAliq0ThR5nlMC2LeKxSTFTtEeu
- z5iP0+h5DxNe+WXAyg3dQL1TgYHvL9g=
+ bh=Np3KLwLTug/nY/Fdd85EALZxqT4po64Lr1C8Ggq6sKU=;
+ b=qvbadaxKvp1noT6DoGvm+AwRmeC6+21r6LfXUfUDvwRu0mb/OxVeBXKEHcGHW6A+uaJ2NC
+ XN586IeAxIbL/ffgerbQqAb//Ho1djkmuB1acbrdxBkaHCS5tQf4pSp6jRYEK8Xb5vc0E/
+ 9G3CLxpHuKhTO+u6SrCLAL4eniXryLE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678377732;
+ s=susede2_ed25519; t=1678377733;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PVdpUcThieHjdBQBTJhLTZp8YL7s1ZuPBMFCE/O3DfA=;
- b=nlEd+LNVfDtgynpThxA8Ms6+nW6bkD4nYQo3XkK+bvgmVFMlPUzEig0NE/Q7QYPW1HY8Jf
- 3tVPZCAUwX8XNxAw==
+ bh=Np3KLwLTug/nY/Fdd85EALZxqT4po64Lr1C8Ggq6sKU=;
+ b=pjO7IvuP4Vs4aCtukvv53fpiuI2YNdDpNI5GArfbsx4voonpeNabkDl9wD8yP7pW1as614
+ gC5DNeizEYxJZfAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 62EFF1391B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CC5FA13A73;
  Thu,  9 Mar 2023 16:02:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aAomFwQDCmQHbgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id YJv2MAQDCmQHbgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
@@ -52,10 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 020/101] fbdev/efifb: Parse option string with struct
+Subject: [PATCH v2 021/101] fbdev/fm2fb: Parse option string with struct
  option_iter
-Date: Thu,  9 Mar 2023 17:00:40 +0100
-Message-Id: <20230309160201.5163-21-tzimmermann@suse.de>
+Date: Thu,  9 Mar 2023 17:00:41 +0100
+Message-Id: <20230309160201.5163-22-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,69 +89,43 @@ Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/efifb.c | 42 +++++++++++++++++++------------------
- 1 file changed, 22 insertions(+), 20 deletions(-)
+ drivers/video/fbdev/fm2fb.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index a5779fb453a2..be77a76f7d1d 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -8,6 +8,7 @@
+diff --git a/drivers/video/fbdev/fm2fb.c b/drivers/video/fbdev/fm2fb.c
+index 942e382cf1cf..a787884a6a7f 100644
+--- a/drivers/video/fbdev/fm2fb.c
++++ b/drivers/video/fbdev/fm2fb.c
+@@ -14,6 +14,7 @@
+  *  more details.
   */
  
- #include <linux/aperture.h>
 +#include <linux/cmdline.h>
- #include <linux/kernel.h>
- #include <linux/efi.h>
- #include <linux/efi-bgrt.h>
-@@ -284,31 +285,32 @@ static const struct fb_ops efifb_ops = {
- 	.fb_imageblit	= cfb_imageblit,
- };
+ #include <linux/module.h>
+ #include <linux/mm.h>
+ #include <linux/fb.h>
+@@ -293,19 +294,22 @@ static int fm2fb_probe(struct zorro_dev *z, const struct zorro_device_id *id)
+ 	return 0;
+ }
  
--static int efifb_setup(char *options)
-+static int efifb_setup(const char *options)
+-static int __init fm2fb_setup(char *options)
++static int __init fm2fb_setup(const char *options)
  {
 +	struct option_iter iter;
  	char *this_opt;
  
--	if (options && *options) {
--		while ((this_opt = strsep(&options, ",")) != NULL) {
--			if (!*this_opt) continue;
--
--			efifb_setup_from_dmi(&screen_info, this_opt);
--
--			if (!strncmp(this_opt, "base:", 5))
--				screen_info.lfb_base = simple_strtoul(this_opt+5, NULL, 0);
--			else if (!strncmp(this_opt, "stride:", 7))
--				screen_info.lfb_linelength = simple_strtoul(this_opt+7, NULL, 0) * 4;
--			else if (!strncmp(this_opt, "height:", 7))
--				screen_info.lfb_height = simple_strtoul(this_opt+7, NULL, 0);
--			else if (!strncmp(this_opt, "width:", 6))
--				screen_info.lfb_width = simple_strtoul(this_opt+6, NULL, 0);
--			else if (!strcmp(this_opt, "nowc"))
--				mem_flags &= ~EFI_MEMORY_WC;
--			else if (!strcmp(this_opt, "nobgrt"))
--				use_bgrt = false;
--		}
+-	if (!options || !*options)
+-		return 0;
 +	option_iter_init(&iter, options);
-+
-+	while (option_iter_next(&iter, &this_opt)) {
-+		efifb_setup_from_dmi(&screen_info, this_opt);
-+
-+		if (!strncmp(this_opt, "base:", 5))
-+			screen_info.lfb_base = simple_strtoul(this_opt+5, NULL, 0);
-+		else if (!strncmp(this_opt, "stride:", 7))
-+			screen_info.lfb_linelength = simple_strtoul(this_opt+7, NULL, 0) * 4;
-+		else if (!strncmp(this_opt, "height:", 7))
-+			screen_info.lfb_height = simple_strtoul(this_opt+7, NULL, 0);
-+		else if (!strncmp(this_opt, "width:", 6))
-+			screen_info.lfb_width = simple_strtoul(this_opt+6, NULL, 0);
-+		else if (!strcmp(this_opt, "nowc"))
-+			mem_flags &= ~EFI_MEMORY_WC;
-+		else if (!strcmp(this_opt, "nobgrt"))
-+			use_bgrt = false;
- 	}
  
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
++	while (option_iter_next(&iter, &this_opt)) {
+ 		if (!strncmp(this_opt, "pal", 3))
+ 			fm2fb_mode = FM2FB_MODE_PAL;
+ 		else if (!strncmp(this_opt, "ntsc", 4))
+ 			fm2fb_mode = FM2FB_MODE_NTSC;
+ 	}
++
 +	option_iter_release(&iter);
 +
  	return 0;
