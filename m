@@ -1,66 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A08F6B23D8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 13:16:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 598406B2438
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 13:34:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6E410E7FE;
-	Thu,  9 Mar 2023 12:15:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B98DB10E801;
+	Thu,  9 Mar 2023 12:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80F5410E7FE
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 12:15:52 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2F3A721C46;
- Thu,  9 Mar 2023 12:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678364151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T6d0mfEWoU7ehUj1+7+GbMa7Q18xp8CCOW6idolWJhg=;
- b=ZKRY48pyCuIoFJrNrq9CF51wtOXDKeJB/gu9FHOdFLBrSU9JRyk7yRB20rEVY2nspvmuzW
- LI75wG/vhgVQZtbp36rmIFmBwIHJidz7vntzzukkIoM3E4MQ0xE9vbkZGrFkTyRCOsWJu1
- daR6+fF/sh+mCX0JRRFpNIg1or0rd7A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678364151;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T6d0mfEWoU7ehUj1+7+GbMa7Q18xp8CCOW6idolWJhg=;
- b=jIA4cgMzL5lnLel/QnFPLh3dXrBGHRFdATI/6YObYmhxacDvMMw+OH9rUYpIUV7QghOe9Z
- Xi6kMxCAJ3FtrKAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C050D13A10;
- Thu,  9 Mar 2023 12:15:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Z8L4LfbNCWTRagAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 12:15:50 +0000
-Message-ID: <1b599122-5e23-b5a8-054d-80c2d939a710@suse.de>
-Date: Thu, 9 Mar 2023 13:15:49 +0100
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C3710E7FF;
+ Thu,  9 Mar 2023 12:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678365273; x=1709901273;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=1fJVDXEkwaMvtK85ONFUTT0TBGpr/t89w4ePePPKumw=;
+ b=CX3/7NakYlGRBajcZL6B53RO8xOFMh+tzM0S2CzXakPyy7hQH+8OWwZh
+ Omr3ovM/3MoOV/Q5GgNkoPA+IFXWXMxqPA2NeuX8aUDHPoLl/hjAOFLaq
+ 2v7P07l5q3A5V5CZ2JaAfrWQ/cvCvVgKAZNqhJxZhyWaIPqQ33Sy/CPc+
+ eXO/04/ehUuE/5xEqUnBHLDQVI2tFSTig9tzNj7wxv9SgbQgG5pLiZcRt
+ Gb7OQjXkG4kj8oO8fYFiqpYfENFSVzgsrCpRi60k6V6R2qyjLi8bPhN2X
+ wpkAbskXSibvLF8+GHkdK9X3qd5NzVOO0dAC9Xdow7jQov2FcncJNeFiE g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="335136696"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="335136696"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2023 04:34:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="820588773"
+X-IronPort-AV: E=Sophos;i="5.98,246,1673942400"; d="scan'208";a="820588773"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga001.fm.intel.com with SMTP; 09 Mar 2023 04:34:29 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 09 Mar 2023 14:34:28 +0200
+Date: Thu, 9 Mar 2023 14:34:28 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [Intel-gfx] [Intel-xe] [PATCH] drm/xe/display: Do not use i915
+ frontbuffer tracking implementation
+Message-ID: <ZAnSVOrUThPUSBes@intel.com>
+References: <20230306141638.196359-1-maarten.lankhorst@linux.intel.com>
+ <edae44735190c4d5fbbe8959f999ad7ca65f3677.camel@intel.com>
+ <073f5ef3-523a-2997-c7e9-771cce8f4c24@linux.intel.com>
+ <ZAZT6jJlsiTF1A5a@intel.com>
+ <3dc66e2540e3dcf8c626d8fe79c6334b1f1066e9.camel@intel.com>
+ <34de1995-7c27-c548-fbd0-00de11b5b346@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 22/99] fbdev/fsl-diu-fb: Duplicate video-mode option string
-To: Timur Tabi <timur@kernel.org>
-References: <20230306160016.4459-1-tzimmermann@suse.de>
- <20230306160016.4459-23-tzimmermann@suse.de>
- <CAOZdJXUtkyg5Gv3HYCK-U1pQpY0_QBk99wtqUvz5RVy2W3Ak9w@mail.gmail.com>
- <aac88d8e-52e8-e2d5-2f41-bed7886bb3dc@suse.de>
- <CAOZdJXWGNBHMPRmkBYeVL31=Q0Y=fLa8RG0KS668xQ9ozD+Xtg@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAOZdJXWGNBHMPRmkBYeVL31=Q0Y=fLa8RG0KS668xQ9ozD+Xtg@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------KfkvwXAsm6zC4C56bmHFiANz"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34de1995-7c27-c548-fbd0-00de11b5b346@linux.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +66,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, teddy.wang@siliconmotion.com,
- adaplas@gmail.com, corbet@lwn.net, deller@gmx.de, thomas@winischhofer.net,
- mbroemme@libmpq.org, linux@armlinux.org.uk, dri-devel@lists.freedesktop.org,
- sudipm.mukherjee@gmail.com, James.Bottomley@hansenpartnership.com,
- spock@gentoo.org, pjones@redhat.com, paulus@samba.org, geert+renesas@glider.be,
- shawnguo@kernel.org, s.hauer@pengutronix.de, linux-kernel@vger.kernel.org
+Cc: "Hogander, Jouni" <jouni.hogander@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Souza,
+ Jose" <jose.souza@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------KfkvwXAsm6zC4C56bmHFiANz
-Content-Type: multipart/mixed; boundary="------------3eJ0L1XqQTgWKfL9INWDNoxp";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Timur Tabi <timur@kernel.org>
-Cc: deller@gmx.de, paulus@samba.org, benh@kernel.crashing.org,
- linux@armlinux.org.uk, pjones@redhat.com, adaplas@gmail.com,
- s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
- thomas@winischhofer.net, James.Bottomley@hansenpartnership.com,
- spock@gentoo.org, sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
- geert+renesas@glider.be, corbet@lwn.net, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-ID: <1b599122-5e23-b5a8-054d-80c2d939a710@suse.de>
-Subject: Re: [PATCH 22/99] fbdev/fsl-diu-fb: Duplicate video-mode option
- string
-References: <20230306160016.4459-1-tzimmermann@suse.de>
- <20230306160016.4459-23-tzimmermann@suse.de>
- <CAOZdJXUtkyg5Gv3HYCK-U1pQpY0_QBk99wtqUvz5RVy2W3Ak9w@mail.gmail.com>
- <aac88d8e-52e8-e2d5-2f41-bed7886bb3dc@suse.de>
- <CAOZdJXWGNBHMPRmkBYeVL31=Q0Y=fLa8RG0KS668xQ9ozD+Xtg@mail.gmail.com>
-In-Reply-To: <CAOZdJXWGNBHMPRmkBYeVL31=Q0Y=fLa8RG0KS668xQ9ozD+Xtg@mail.gmail.com>
+On Thu, Mar 09, 2023 at 12:09:55PM +0100, Maarten Lankhorst wrote:
+> 
+> On 2023-03-09 12:04, Hogander, Jouni wrote:
+> > On Mon, 2023-03-06 at 22:58 +0200, Ville Syrjälä wrote:
+> >> On Mon, Mar 06, 2023 at 09:23:50PM +0100, Maarten Lankhorst wrote:
+> >>> Hey,
+> >>>
+> >>> On 2023-03-06 16:23, Souza, Jose wrote:
+> >>>> On Mon, 2023-03-06 at 15:16 +0100, Maarten Lankhorst wrote:
+> >>>>> As a fallback if we decide not to merge the frontbuffer
+> >>>>> tracking, allow
+> >>>>> i915 to keep its own implementation, and do the right thing in
+> >>>>> Xe.
+> >>>>>
+> >>>>> The frontbuffer tracking for Xe is still done per-fb, while
+> >>>>> i915 can
+> >>>>> keep doing the weird intel_frontbuffer + i915_active thing
+> >>>>> without
+> >>>>> blocking Xe.
+> >>>> Please also disable PSR and FBC with this or at least add a way
+> >>>> for users to disable those features.
+> >>>> Without frontbuffer tracker those two features will break in some
+> >>>> cases.
+> >>> FBC and PSR work completely as expected. I don't remove frontbuffer
+> >>> tracking; I only remove the GEM parts.
+> >>>
+> >>> Explicit invalidation using pageflip or CPU rendering + DirtyFB
+> >>> continue
+> >>> to work, as I validated on my laptop with FBC.
+> >> Neither of which are relevant to the removal of the gem hooks.
+> >>
+> >> Like I already said ~10 times in the last meeting, we need a proper
+> >> testcase. Here's a rough idea what it should do:
+> >>
+> >> prepare a batch with
+> >> 1. spinner
+> >> 2. something that clobbers the fb
+> >>
+> >> Then
+> >> 1. grab reference crc
+> >> 2. execbuffer
+> >> 3. dirtyfb
+> >> 4. wait long enough for fbc to recompress
+> >> 5. terminate spinner
+> >> 6. gem_sync
+> >> 7. grab crc and compare with reference
+> >>
+> >> No idea what the current status of PSR+CRC is, so not sure
+> >> whether we can actually test PSR or not.
+> >>
+> > CRC calculation doesn't work with PSR currently. PSR is disabled if CRC
+> > capture is requested.
+> >
+> > Are we supposed to support frontbuffer rendering using GPU?
+> 
+> No other driver does that.
 
---------------3eJ0L1XqQTgWKfL9INWDNoxp
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Every driver does that when you run X w/o a compositor. Assuming
+there is an actual GPU in there.
 
-SGkNCg0KQW0gMDguMDMuMjMgdW0gMTc6MjYgc2NocmllYiBUaW11ciBUYWJpOg0KPiBPbiBU
-dWUsIE1hciA3LCAyMDIzIGF0IDI6MjjigK9BTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pj4gU28gYWZ0ZXIgbW9kdWxlX2luaXQgaXMgZmlu
-aXNoZWQsIG1vZGVfb3B0aW9uX2J1ZltdIG5vIGxvbmdlciBleGlzdHM/DQo+Pg0KPj4gRG9l
-cyB0aGUgX19pbml0IGF0dHJpYnV0ZSBvbiBhIGZ1bmN0aW9uIGFmZmVjdCB0aGUgc3RhdGlj
-IHZhcmlhYmxlcyBpbg0KPj4gdGhhdCBmdW5jdGlvbj8NCj4gDQo+IFRoYXQgaXMgYW4gZXhj
-ZWxsZW50IHF1ZXN0aW9uLg0KPiANCj4gaHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVz
-dGlvbnMvNjQ1NTg2MTQvd2hhdC1oYXBwZW5zLXRvLWxvY2FsLXN0YXRpYy1pZGVudGlmaWVy
-cy1pbi1pbml0LWZ1bmN0aW9uDQo+IA0KPiBJIGRvbid0IHRoaW5rIHRoZSBjb21waWxlciBp
-cyBuYXR1cmFsbHkgYXdhcmUgb2Ygd2hhdGV2ZXIgc2VjdGlvbiBhDQo+IHZhcmlhYmxlIG9y
-IGZ1bmN0aW9uIGlzIHBsYWNlZCBpbiwgc28gaXQgY2FuJ3QgcmVhbGx5IGtub3cgdGhhdA0K
-PiBtb2RlX29wdGlvbl9idWZbXSBpcyBzdXBwb3NlIHRvIGhhdmUgYSBsaW1pdGVkIGxpZmV0
-aW1lLg0KPiANCj4gRWl0aGVyIHdheSwgdGhlIGNvZGUgc2VlbXMgd3JvbmcuICBJZiBtb2Rl
-X29wdGlvbl9idWZbXSBpcyBtYXJrZWQgYXMNCj4gX19pbml0ZGF0YSwgdGhlbiBpdCB3aWxs
-IGRpc2FwcGVhciBiZWZvcmUgdGhlIHByb2JlKCkgZnVuY3Rpb24gaXMNCj4gY2FsbGVkLg0K
-PiANCj4gSWYgbW9kZV9vcHRpb25fYnVmW10gcmVtYWlucyByZXNpZGVudCwgdGhlbiB3ZSBh
-cmUgd2FzdGluZyAyNTYgYnl0ZXMuDQoNCkknbSBwcmVwYXJpbmcgYW4gdXBkYXRlIHRvIHRo
-aXMgc2VyaWVzLiBUaGUgc3RyaW5nIHdpbGwgYmUgYWxsb2NhdGVkIGFuZCANCmZyZWVkIHdp
-dGgga3N0cmR1cCgpIGFuZCBrZnJlZSgpLiBTbyB0aGVzZSBpc3N1ZXMgc2hvdWxkIGJlIHJl
-c29sdmVkIHRoZW4uDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCg0KLS0gDQpUaG9tYXMg
-WmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBT
-b2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcs
-IEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVy
-OiBJdm8gVG90ZXYNCg==
+> It's fine if DirtyFB hangs instead until the 
+> job it waits on completes.
 
---------------3eJ0L1XqQTgWKfL9INWDNoxp--
+No one tried to make it just wait for the fence(s) w/o doing
+a full blown atomic commit. It might work, but might also
+still suck too much. I guess depends on how overloaded the GPU
+is.
 
---------------KfkvwXAsm6zC4C56bmHFiANz
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+What we could do is do a frontbuffer invalidate on dirtyfb
+invocation, and then once the fence(s) signal we do a frontbuffer
+flush. That would most closely match the gem hook behaviour, except
+the invalidate comes in a bit later. The alternative would be to
+skip the invalidate, which should still guarantee correctness in
+the end, just with possibly jankier interactivity.
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQJzfYFAwAAAAAACgkQlh/E3EQov+Dr
-bA//eu0F5YkgKXiqCN5mDzjx0Vetejr5RsDzTifLbMwjsO55eVEkb10ANH24L1T2li0D7lXdLKm0
-ODz0e0qMKpK6rIAN6RumFcHJymnuyxuuktiiUTWJJkQe6uE32CqA9M7qCB/ERaQOEKuYPybQh8lB
-I12HhlRtXULvKiUn7SHhP5sUOWHvIotmbshoiPlaM/O9fghqOOPzZe8K/VWmXQES82vyMFBLkaM/
-H1bSjZDPKBAxKgubfYrd0HohnXJY1DL2bYBfTpQTtJDsbwsEKJzgAEZ70TChiuYhEpDGvpe7n0+I
-Uw+Fcb8uZoyy6Gjr8aJBKsSrpl4uV1sc4ddGxt34KK+DSX+mmpG314n7NZMhRNcjDdfcwinAapOH
-Tyi0nLTWxpa4mD+sQ/NfjzbeHekt8BgF0A1Fdn4ChIVVFo6w7tFa6Wt88+tgnhS0gga+TkQROXfg
-k2sCLyxxhejL6o0yaBFGWqBXdRTZX6UHNkJyzbNrPtLrE7Ztx5veNRZNfzAG05NKGvHWHm1Ey2y0
-twLiqwguQY5fxOeXsOR148JqrdqDL0W+BYb7U3SHPP9Ceyt2N68b0v3BnVwN58MhABgkl4HzIsAv
-oWzjnBOo+ULyL+nsylrKR6XrhijPpzO9bkKpATn/RjDVIvgkub0DXca5b7dXgQun5uojNolWPIjM
-5GI=
-=6ba6
------END PGP SIGNATURE-----
-
---------------KfkvwXAsm6zC4C56bmHFiANz--
+-- 
+Ville Syrjälä
+Intel
