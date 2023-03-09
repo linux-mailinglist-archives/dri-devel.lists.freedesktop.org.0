@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B90D6B1DDF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:24:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C14256B1E41
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B87910E17E;
-	Thu,  9 Mar 2023 08:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8C6310E7A6;
+	Thu,  9 Mar 2023 08:33:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5073610E17E
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:24:26 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id s22so1242506lfi.9
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 00:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678350264;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=QzEKFG/aktpDJ9N/nYMNYqb4XM+dS4l7JrgzOb9ZeCI=;
- b=gdbqYPy0VDDgMYHC9gt5Hmwd2pB0j4shL/PDoUP1Of5ZOG0m93gyd+bTsAw6lt/J1W
- jMycGzL6N2zngqxBohlWeT0+xloz+sxo918YzUn8Lvrz6nR0+uJOYMOAbkP1Wa7JTLsJ
- Ee7ZpmV0Hian3Rwm9bOw7UBagZHP25Dz3ureTC6kDm2BLh1/JkD83nHyYDM3i+E9rzFg
- qykplrbt82Q1KqSLPHf2+iGEC9T6wTWDKeUWcIcfCC9ub+1RNwnLqEy1KQvV3U74LSJ/
- tvIwZr1THXGiPKlV9pRSNFRjFSsJra37z4rvS0RUxX4A5AfHLdgqkatdtcagwrTtJ3xM
- 6GSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678350264;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QzEKFG/aktpDJ9N/nYMNYqb4XM+dS4l7JrgzOb9ZeCI=;
- b=5LoahGfDl7FLmjv7jTkl2Ce7KLbN/6uthVfK1VZF4L60E7CpM2u79MzerZ5j+dg77C
- 1D9NQWAkuEvzBnMWPV18sk/LkVDjRkYw0VWZ+dGn8eiuxQgQUOlFvXsIw/vLroxDWBrN
- OyuO/c1qwd8dX1ev9WSRupGHwo2hLOdRGOrAfpPA/y5InV0+28QVXSpooffNu6iHCN5l
- B28YDWUs3F3FwZmqjvLGHsG0IbU3d3ShK2bh8zwPQ5y2cG50X+ePuw657r7QO5f8qyup
- PNDauvwMGrkQ/hhZeC34XfXsGCL3IHZ3SJ8yfl5LAppQpR+np3CdyM69QaOKS0WkDoWB
- Eu0g==
-X-Gm-Message-State: AO0yUKVTH47VEVlhWxhDrBfQehIUW7Q9m8HJCYLRhcoiXAQvVAInvGJf
- Bm4x8xjfUD4eOAwaQmGahI521DSL1T8tSPN4I+A=
-X-Google-Smtp-Source: AK7set/h9zf2W+rGgcIN/k5zjr0nU0CYmzkwtFJXAfZXQQ7VXD2xUYvPgmrH4542xF/RjbElh4eckA==
-X-Received: by 2002:a19:c216:0:b0:4b4:8f01:f8b1 with SMTP id
- l22-20020a19c216000000b004b48f01f8b1mr5498065lfc.31.1678350264247; 
- Thu, 09 Mar 2023 00:24:24 -0800 (PST)
-Received: from Fecusia.lan (c-05d8225c.014-348-6c756e10.bbcust.telenor.se.
- [92.34.216.5]) by smtp.gmail.com with ESMTPSA id
- u17-20020ac25191000000b004db3aa3c542sm2565489lfi.47.2023.03.09.00.24.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 00:24:23 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>
-Subject: [PATCH] drm/mcde: Do not use dirty GEM FB handling
-Date: Thu,  9 Mar 2023 09:24:21 +0100
-Message-Id: <20230309082421.439813-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.39.1
+X-Greylist: delayed 416 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Mar 2023 08:33:52 UTC
+Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 488A210E7B0;
+ Thu,  9 Mar 2023 08:33:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 0643B3FC59;
+ Thu,  9 Mar 2023 09:26:54 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: pio-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Vm4R8wD9F9hQ; Thu,  9 Mar 2023 09:26:53 +0100 (CET)
+Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 26F553FBBA;
+ Thu,  9 Mar 2023 09:26:51 +0100 (CET)
+Received: from [192.168.0.209] (unknown [134.191.232.81])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 883D236282E;
+ Thu,  9 Mar 2023 09:26:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1678350411; bh=o3fpVkC4JEAowJfwwTzpjQqBTQsfq4yAsJ+zbt3Xr5g=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=mc+8YIzCIAmuQ/l6GuFyVHOQaU8EngomCGfPZardpO3bVYgoK6tbRyTkvCIbc94Me
+ tGctiuK5tbZxQDbN/Xxt4YxmrR+q1HhkNP/cL/BYA6L7+FhFznaIHYAWDletmd+gf/
+ D3SiYGtwG3/JREXn0bUdr5xV/OKiLEkiNF0sBUXM=
+Message-ID: <f88566ae-b450-9183-b262-07c0b63d45c3@shipmail.org>
+Date: Thu, 9 Mar 2023 09:26:46 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 9/9] drm: move ttm_execbuf_util into vmwgfx
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Zack Rusin <zackr@vmware.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20230228083406.1720795-1-christian.koenig@amd.com>
+ <20230228083406.1720795-10-christian.koenig@amd.com>
+ <b4beeee4b2a004938adc6c502443f7b3311aad50.camel@vmware.com>
+ <6933b07b-af79-5350-b161-12ee73732b30@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <6933b07b-af79-5350-b161-12ee73732b30@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,45 +72,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "dakr@redhat.com" <dakr@redhat.com>,
+ "arunpravin.paneerselvam@amd.com" <arunpravin.paneerselvam@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver has no way to handle damage, the reason the
-drm_gem_fb_create_with_dirty() was used was because I had the
-ambition that the driver would only send out updates to DSI
-command displays whenever something changed, so as to
-minimize traffic.
 
-It turns out this ambition with command mode isn't working
-in practice because all the MCDE does is to create a
-continuous stream of DSI commands and while it is possible to
-send single frame updates with it, it's not been worthwhile.
-So we are just setting up continuous updates.
+On 3/8/23 10:10, Christian König wrote:
+> Am 08.03.23 um 06:14 schrieb Zack Rusin:
+>> On Tue, 2023-02-28 at 09:34 +0100, Christian König wrote:
+>>> VMWGFX is the only remaining user of this and should probably moved 
+>>> over
+>>> to drm_exec when it starts using GEM as well.
+>> Is this because vmwgfx piggybacks buffer-id relocations on top of ttm 
+>> validations or
+>> did you just find it too hard to port it over? I'd prefer to avoid 
+>> ttm moves to
+>> vmwgfx and at least have a clear idea of what we need to do to port.
+>
+> I've just found it to hard to port it over because vmwgfx does some 
+> strange things with the validation code here.
+>
+> If you want we can take a deeper look at this together, but I need to 
+> find some time.
+>
+> Alternatively just tell me how to do it and I will add that to the 
+> patch set :)
+>
+> Regards,
+> Christian.
 
-Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-Thomas you can pick this as a prerequisite into your series
-or just ACK it and I will merge it into drm-misc-next so you
-can base your work on it.
----
- drivers/gpu/drm/mcde/mcde_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hmm.
 
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 4aedb050d2a5..a592ad0d7886 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -94,7 +94,7 @@
- #define MCDE_PID_MAJOR_VERSION_MASK 0xFF000000
- 
- static const struct drm_mode_config_funcs mcde_mode_config_funcs = {
--	.fb_create = drm_gem_fb_create_with_dirty,
-+	.fb_create = drm_gem_fb_create,
- 	.atomic_check = drm_atomic_helper_check,
- 	.atomic_commit = drm_atomic_helper_commit,
- };
--- 
-2.39.1
+It turns out Xe was using these from the very start as well. But I will 
+take a look at what it take to deprecate that usage, so don't let that 
+stop this removal. We need a more flexible WW transaction handling anyway.
 
+/Thomas
+
+>
+>>
+>> z
