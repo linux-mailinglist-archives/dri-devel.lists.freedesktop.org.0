@@ -2,73 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCF96B2ECF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 21:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D669F6B2F38
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 22:05:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D53710E2B1;
-	Thu,  9 Mar 2023 20:40:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 330DF10E2B8;
+	Thu,  9 Mar 2023 21:05:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA5AE10E2B1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 20:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678394398;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zeMyLQ59ICXaR3k0fXJSK8w4EuWIRJHEotPWxBc3jeE=;
- b=f5sKTEgT79tXTnbDv8cU6vAaQC8NLMnPsxT50EpBTu85qtzezMrSXvZECMRpCcZ69LQOdG
- eqiHbBEQw+0xAQNzyl8oUTxC4Ewe3J6lg0HBsfWGkjplIZ5ayhTkYrTU6wr/xiWpYwG5v+
- t0bMvWYGzcpqGyAdV8mLEs9VF5idwpo=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-487-GeS0Pih9NimL2Xn7xJzCLA-1; Thu, 09 Mar 2023 15:39:57 -0500
-X-MC-Unique: GeS0Pih9NimL2Xn7xJzCLA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- e9-20020a196909000000b004cca10c5ae6so956011lfc.9
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 12:39:57 -0800 (PST)
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2039010E2B7
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 21:05:32 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id l13so3605771qtv.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 13:05:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1678395931;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=5fdk5ddG0VI4+eLcH5P8m0R0KTm1sGVdyuOV57yiRLM=;
+ b=RBqNVCm8GUHGKKA3VwyZcbBavXznAkMiwwEZ2Eulet3wzdElxSkFVXad1g1rMIlR2Y
+ FGf9HpescsayfQswXulDzaf1RxBm9Le4JfAx2ANqoHZm1kEOkzz+JyOPf5Ofj9dTHHHv
+ XJlKkUHI/0gRhYUePhLV1dYdxm9bx/WuPJ8tw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678394396;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zeMyLQ59ICXaR3k0fXJSK8w4EuWIRJHEotPWxBc3jeE=;
- b=UPg0AqiHsGXvmCTYYmQBgrK4D2cNxHBY/8klwWs2IduKMoqUtCL00RPoO5aFpkAvMy
- GWYjJCOrYfcfF5e/4spB3xQWnj+4zJYvfOacge3uh2WbEj23H+yKK+WIZ3kWxG7iSniq
- jKZqUskwP4gALy7mvP0p2Rte/s6S5BS3YYrKWSCQDVZSZ6F6vW/7vNnAdaFEzwciJK5d
- Vl4j9VHmGrNkET2UBHN9hrjcmuCOJsR5T3a5PRjqpw3VObl4/u6cUS1uz33l4CuvDdZ9
- t8N2iniTur+RAh8/GePBAXTsXBcIOzYswfFpGDAKhCjyukSvO0QuPme+FedE3PM2TCUT
- Xtzw==
-X-Gm-Message-State: AO0yUKUqXBf6HikV+yfnOTy6LBCVaUwu1ls0CYiEohdhHBgIXXmxfWqB
- 5p2LJKwXbHVRp+lVUvB6uUDjhu08W4AHcDl5aM5tgBzCmLKinD7JKxruuLR3VNWtlDLIGDhl0PP
- Asa1Ztjv9yd8l5fVeXvYPhrBdKOo+NSfsAakKsXSVW9zk
-X-Received: by 2002:a05:6512:24f:b0:4dd:fd4e:5a21 with SMTP id
- b15-20020a056512024f00b004ddfd4e5a21mr7221209lfo.11.1678394396020; 
- Thu, 09 Mar 2023 12:39:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Ggw77nlrwunPRgDCpaIaB7tQGweTebDCE7OESc24dT5ASfvD1foGPomTGYfbg4tMplkm2UwvTs8/qSogzdS0=
-X-Received: by 2002:a05:6512:24f:b0:4dd:fd4e:5a21 with SMTP id
- b15-20020a056512024f00b004ddfd4e5a21mr7221181lfo.11.1678394395659; Thu, 09
- Mar 2023 12:39:55 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678395931;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5fdk5ddG0VI4+eLcH5P8m0R0KTm1sGVdyuOV57yiRLM=;
+ b=4hSGBH5CyD83bPe4GLHzNsO9oxFvHz3ZSpoAS+e2cAUYzjR42wOxTaK+bDHmyZEwni
+ V3xueI2eDgYjdfGNb7m/Qo6cMenh/rsl0Cxa3um1oZ0osa4jsOdYPM0uQGSBXjCi/9AW
+ +uQlsDP7Q2taiU46imOqYmmB+PweHB0rFJYnrjbFxXhMQNhsYbRbdINhVYb3roYVKvM1
+ e77D4olhyfRcRAqYkxDOAJr5qdPcMM8Vwt8Bk+jpXb7YvjrSd/X50pK+fQjISjzDsBc7
+ NP6jASmCHYRRprBwWunk5CnVPX4xgyTWIKDdktsw1iBDuTRnateh1XHJy/46e7mGmaCu
+ 7q0g==
+X-Gm-Message-State: AO0yUKUchWo7o1Gj1WC8EkwnCIk1Z8BO7KYdwVbvYeCpG9pjmvv93MmW
+ +WPFeehDU150BKJTOO318aANkw==
+X-Google-Smtp-Source: AK7set+w4EWBSOO5zfRJ+E2Yd08TsXQt0IbgUpDwnMvWNZ+EuowMhItpb0iWBXDHVpAub6dbY1Q2cw==
+X-Received: by 2002:a05:622a:44a:b0:3bf:da1b:8023 with SMTP id
+ o10-20020a05622a044a00b003bfda1b8023mr3569483qtx.38.1678395930899; 
+ Thu, 09 Mar 2023 13:05:30 -0800 (PST)
+Received: from greenjustin3.nyc.corp.google.com
+ ([2620:0:1003:314:a575:2520:a8e1:989d])
+ by smtp.gmail.com with ESMTPSA id
+ 69-20020a370548000000b007426f115a4esm14302375qkf.129.2023.03.09.13.05.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Mar 2023 13:05:30 -0800 (PST)
+From: Justin Green <greenjustin@chromium.org>
+To: linux-mediatek@lists.infradead.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 0/3] drm/mediatek: Add support for 10-bit overlays
+Date: Thu,  9 Mar 2023 16:04:13 -0500
+Message-Id: <20230309210416.1167020-1-greenjustin@chromium.org>
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 MIME-Version: 1.0
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
- <D9Cyx-9kbjaeb8QVBFqapDyctoDdVyu5uXEJDR41sdXUDXM1VgdRicV5huJDwfC3-T2J-R_DYHH8JZ1_aRdgbeYZFT78J9QveeeYbiTq4yU=@protonmail.com>
- <11ce9291-c17f-e73d-fb5d-13d5386fe6be@asahilina.net>
- <c9e0c6fdcd642192a59a2fea95941a773ea7b3e3.camel@collabora.com>
-In-Reply-To: <c9e0c6fdcd642192a59a2fea95941a773ea7b3e3.camel@collabora.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 9 Mar 2023 21:39:43 +0100
-Message-ID: <CACO55tukF-+HWUHve0YUPbq4jPFgU3szuedKLjAw55h_3uX5gg@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
-To: Faith Ekstrand <faith.ekstrand@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,62 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Asahi Lina <lina@asahilina.net>, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Mary <mary@mary.zone>,
- Gary Guo <gary@garyguo.net>, Ella Stanforth <ella@iglunix.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, rust-for-linux@vger.kernel.org,
- Boqun Feng <boqun.feng@gmail.com>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- linux-sgx@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
- asahi@lists.linux.dev,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: chunkuang.hu@kernel.org, greenjustin@chromium.org,
+ jason-jh.lin@mediatek.com, justin.yeh@mediatek.com, wenst@chromium.org,
+ matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 9, 2023 at 9:24=E2=80=AFPM Faith Ekstrand
-<faith.ekstrand@collabora.com> wrote:
->
-> On Thu, 2023-03-09 at 15:04 +0900, Asahi Lina wrote:
-> > On 08/03/2023 02.34, Bj=C3=B6rn Roy Baron wrote:
-> > > > +                            // SAFETY: This is just the ioctl
-> > > > argument, which hopefully has the right type
-> > > > +                            // (we've done our best checking the
-> > > > size).
-> > >
-> > > In the rust tree there is the ReadableFromBytes [1] trait which
-> > > indicates that it is safe to read arbitrary bytes into the type.
-> > > Maybe you could add it as bound on the argument type when it lands
-> > > in rust-next? This way you can't end up with for example a struct
-> > > containing a bool with the byte value 2, which is UB.
-> >
-> > There's actually a much bigger story here, because that trait isn't
-> > really very useful without a way to auto-derive it. I need the same
-> > kind
-> > of guarantee for all the GPU firmware structs...
-> >
-> > There's one using only declarative macros [1] and one using proc
-> > macros
-> > [2]. And then, since ioctl arguments are declared in C UAPI header
-> > files, we need a way to be able to derive those traits for them...
-> > which
-> > I guess means bindgen changes?
->
-> It'd be cool to be able to auto-verify that uAPI structs are all
-> tightly packed and use the right subset of types.  Maybe not possible
-> this iteration but it'd be cool to see in future.  I'd like to see it
-> for C as well, ideally.
->
-> ~Faith
->
+This patch series adds support for 10-bit overlays to the Mediatek DRM driver.
+Specifically, we add support for AR30 and BA30 overlays on MT8195 devices and
+lay the groundwork for supporting more 10-bit formats on more devices.
 
-I'm sure that with a macro you could verify that a struct definition
-doesn't contain any gaps, just not sure on how one would enforce that.
-Could add a trait which can only be implemented through a proc_macro?
-Maybe we can have a proc_macro ensuring no gaps? Would be cool tech to
-have indeed.
+1. Refactor plane initialization logic to allow individual DDP components to
+provide their supported pixel formats.
+
+2. Add AR30 and BA30 support to overlay driver.
+
+3. Enable AR30 and BA30 overlays on MT8195.
+
+
+Version history:
+v2:
+ * Rebase and resolve merge conflicts with the AFBC patch.
+v3:
+ * Moved 10-bit support detection to mtk_disk_ovl.c
+v4:
+ * Moved formats to mtk_disp_ovl.c and mtk_disp_rdma.c
+v5:
+ * Minor style adjustments per checkpatch.pl
+v6:
+ * Refactor patch into patch series.
+ * Add formats directly to private data.
+v7:
+ * Gate setting OVL_CLRFMT_EXT register on compatibility.
+ * Split patches for adding 10-bit support and enabling 10-bit support on
+   MT8195.
+v8:
+ * Updated descriptions for patches 2 and 3 in the series.
+
+
+Justin Green (3):
+  drm/mediatek: Refactor pixel format logic
+  drm/mediatek: Add support for AR30 and BA30 overlays
+  drm/mediatek: Enable AR30 and BA30 overlays on MT8195
+
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  4 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 94 +++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    | 38 +++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  4 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 20 +++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 24 ++----
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h    |  3 +-
+ 8 files changed, 173 insertions(+), 18 deletions(-)
+
+-- 
+2.39.1.456.gfc5497dd1b-goog
 
