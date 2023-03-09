@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2296B22FD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 12:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057466B2301
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 12:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A55110E7F0;
-	Thu,  9 Mar 2023 11:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0177E10E7F2;
+	Thu,  9 Mar 2023 11:29:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B9710E7F0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 11:28:45 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A622A10E7F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 11:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678361324;
+ s=mimecast20190719; t=1678361346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
  bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
- b=Y0w9WY0anRnaOp5s5PVvSnqnK0gUmSfQDPj5w7KRjHBA9isrVwZCevt0G13wpgMz5zKWs5
- u+hrjU8ksyk/DJxBACl24ZHXKRoZltK9pOdOjn3sn/zpPvvhNsdYIwAXpYnd41d/Vy6yBa
- xTqWMM3TgbGklMK0X2X4eODs1ytlQJk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-402-NunqkXTxOF-yT9-PAaGztw-1; Thu, 09 Mar 2023 06:28:43 -0500
-X-MC-Unique: NunqkXTxOF-yT9-PAaGztw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m31-20020a05600c3b1f00b003e9de8c95easo547549wms.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 03:28:43 -0800 (PST)
+ b=QGtKIkAUDfax/IoBNEytpljnWwNlAd5TGdI7mxG9OyrPt13m1KB3h8HlHEySbVuStsGkzI
+ DokXitxMdSnZXYDxdJMthC8yhk1SbzwGyA9V+lZSHqxiiTbGAxsjXJedhhNmzEFygy8mPl
+ 99lWZ8WoYWmx3Abv1pnaKZJQPLFwXhU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-5Bzv1SMGMfypoRnLMDLoow-1; Thu, 09 Mar 2023 06:29:05 -0500
+X-MC-Unique: 5Bzv1SMGMfypoRnLMDLoow-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ az39-20020a05600c602700b003e97eb80524so2256677wmb.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 03:29:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678361322;
+ d=1e100.net; s=20210112; t=1678361345;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=ZE/7iJwefnAXFkAm0lKDfvx+6HRiN8eOH8p7Wvai0wo=;
- b=afA9Pj7B75HlWLceqRyEZy/GRi+OotqbkPNIOLAXy0MKC0tl3ROm+3bmSgPz4mslpk
- Bz9mnUTvpkc2veLFFwcBklNH2h4kqOqQK+FnRuQlJCNG0+ndkgbibxuAP94W4K4cjw8A
- XG/m9od5F3uwlPAOSoop9G8GQHE0zQWoQRPj2fEly4WAif+NfPrtXlYviGb5wPqBop0l
- kUhd9gk4vcnFzC8dNMe/vfm5LX7OpdtRrkMfGdlVBR8Nhsd+ZPe/PoFQgJcc73/pRuw5
- zcyFksFTF7uBQO8TNSSoWGBkXtB6EcJXYL/I2um/TQZ4NCo3R2bHPh9Wsy0vXhhTYC5n
- PtBQ==
-X-Gm-Message-State: AO0yUKVr9yKwE647sS7AoBFs2CQ5UMIeNsI+0A8/4J93pVEK7OukZJBd
- H2ndQ9/ruAnjCL7097uQuGsBN/LHFdOiseAxM1j37WHl+uPZMKb9s2J7ftddkbexFkBLm3vuvWm
- waNBcJFa3NME60CvKB423FsovLCQ/
-X-Received: by 2002:adf:fb51:0:b0:2ce:7219:42b8 with SMTP id
- c17-20020adffb51000000b002ce721942b8mr7244760wrs.32.1678361322366; 
- Thu, 09 Mar 2023 03:28:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Mn2JIY54bbfAArMm1jwHLD5d38GNHioh3xaVKkpiDjrBseSSAAHghi7SxByPhaXqMV5nmpg==
-X-Received: by 2002:adf:fb51:0:b0:2ce:7219:42b8 with SMTP id
- c17-20020adffb51000000b002ce721942b8mr7244719wrs.32.1678361322054; 
- Thu, 09 Mar 2023 03:28:42 -0800 (PST)
+ b=28efDPcQLrtA50+XBd2ex1HvQlCOGFpGYAbR96VY9AjEgMfWGB3gd05c3cYMwNNcjD
+ PrICf2suDaBAmAry/q9rAK6Cy6UJreTeq3YrT/D1+p+gCdnP7pWDOtVAHzL1DEhhh/7Z
+ DgfhSwfOT7bnUWwKEVrErnOIZ8B2aFL5qPfX4fiWPRMRerWNt7SKQpqrIjeXLHmlsOuf
+ 9CwLIu0MGjPFXVCRuWZK76gsew1JLmatLx0zN6dCwjdON/guWNDlyCDy+LufLh4ftCGg
+ W9BVUvceZnsiemYyKo6ycJarohkutJAIqw9S8P3Xl8xkXI3DoRZOsaXn8KAOAqShojzv
+ H89Q==
+X-Gm-Message-State: AO0yUKXG46KxVoLOyMVM3b9ykXAYxNnH/1ZkW0OMpna9My5+Lh9Hckvo
+ I+jerkWxT+pgMH7RBuYyZKxOcsyxHuCf3L4WAD9Z9oqbISo6hQxJshv/tpLrWN+rb7N5pRMJPhR
+ h4k2AKGejJQVjRrJq3uhjXwmtkIuQ
+X-Received: by 2002:a5d:6505:0:b0:2c6:e682:e55b with SMTP id
+ x5-20020a5d6505000000b002c6e682e55bmr11934478wru.48.1678361344740; 
+ Thu, 09 Mar 2023 03:29:04 -0800 (PST)
+X-Google-Smtp-Source: AK7set/SuOlGzNjzuB+/71QhRoDFVzQZ5KDl1yemHeUwxjB4OayINr1XWjAGx9mSH74oqRW7vJe0XA==
+X-Received: by 2002:a5d:6505:0:b0:2c6:e682:e55b with SMTP id
+ x5-20020a5d6505000000b002c6e682e55bmr11934447wru.48.1678361344548; 
+ Thu, 09 Mar 2023 03:29:04 -0800 (PST)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c22-20020a7bc856000000b003dc4a47605fsm2372395wml.8.2023.03.09.03.28.41
+ bg2-20020a05600c3c8200b003e214803343sm2615371wmb.46.2023.03.09.03.29.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 03:28:41 -0800 (PST)
+ Thu, 09 Mar 2023 03:29:04 -0800 (PST)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
@@ -71,12 +71,12 @@ To: Thomas Zimmermann <tzimmermann@suse.de>,
  samuel@sholland.org, jyri.sarha@iki.fi, tomba@kernel.org,
  linus.walleij@linaro.org, hyun.kwon@xilinx.com,
  laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 21/22] drm/vc4: Use GEM DMA fbdev emulation
-In-Reply-To: <20230301153101.4282-22-tzimmermann@suse.de>
+Subject: Re: [PATCH 22/22] drm/xlnx: Use GEM DMA fbdev emulation
+In-Reply-To: <20230301153101.4282-23-tzimmermann@suse.de>
 References: <20230301153101.4282-1-tzimmermann@suse.de>
- <20230301153101.4282-22-tzimmermann@suse.de>
-Date: Thu, 09 Mar 2023 12:28:41 +0100
-Message-ID: <878rg66u52.fsf@minerva.mail-host-address-is-not-set>
+ <20230301153101.4282-23-tzimmermann@suse.de>
+Date: Thu, 09 Mar 2023 12:29:03 +0100
+Message-ID: <875yba6u4g.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
