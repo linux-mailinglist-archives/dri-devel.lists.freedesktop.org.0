@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63FB6B2A1A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B916C6B2A17
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8FD710E889;
-	Thu,  9 Mar 2023 16:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED7B10E87A;
+	Thu,  9 Mar 2023 16:03:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6DCC10E872
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:35 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7014510E876
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:36 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A52DF22166;
- Thu,  9 Mar 2023 16:02:34 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 14ED120188;
+ Thu,  9 Mar 2023 16:02:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678377754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1678377755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0gZ1Tmm3JEgeMqN/NPKY8oH5C/7S9gy9JQ3mKL7gtCM=;
- b=aClCiEjhtEvWWtKnoezDVvFJ/0p8+II1/ANYf4pu5EiDL7XF2rdltVl0y85P+Ha4Dn4ZNH
- zwMyiHi4MWV1eiin5k+j/f+5rLop399Dwzr+Ch3RBWzELK6MsXeMNTcWo3Tk5STdrD/tFI
- 04JdiAGAHPMFYJ40iwVJCCMsxvqG+Eg=
+ bh=JVZXeFOij00kRcHliLoRJrMyHyqeyRSXeS/4JiKw1+4=;
+ b=oycjPTqX0Nu9kVuARt5SyGrF4xBlSmhXVQTpgeM0jHtxkgEDQ9Sycw+FpNBC1aJYAc3B4g
+ nTHE/VRCf+2lto6LOSXg9ylMDlKD1kB9rbdqJ6DxrJIRxd8RpHVyOGwx4s0N+U6c5vB4zs
+ Q6g4PygtLOu6Ra/I7MEJPj/GMaGHm8Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678377754;
+ s=susede2_ed25519; t=1678377755;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0gZ1Tmm3JEgeMqN/NPKY8oH5C/7S9gy9JQ3mKL7gtCM=;
- b=u2IBZGAN1hguKZ934fTSEqBEE8/y5bWBVazblvDiXW5m5qNf9v2Uth46VrOGnZkWdgS5qR
- m/u8q/ceCBwgOIBQ==
+ bh=JVZXeFOij00kRcHliLoRJrMyHyqeyRSXeS/4JiKw1+4=;
+ b=iU9zauDRacbuOoy7KnMjtREgfUQLKh4m4lqK+t7ilZ2003HWOx3Zq+waNLG5fWMeFCu9kZ
+ 9EWupGJkvHEIsmAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 496031391B;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9F6613A73;
  Thu,  9 Mar 2023 16:02:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OJ4JERoDCmQHbgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id cL2VKBoDCmQHbgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:34 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
@@ -52,9 +52,9 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 075/101] fbdev/sm712fb: Duplicate video-mode option string
-Date: Thu,  9 Mar 2023 17:01:35 +0100
-Message-Id: <20230309160201.5163-76-tzimmermann@suse.de>
+Subject: [PATCH v2 076/101] fbdev/sstfb: Duplicate video-mode option string
+Date: Thu,  9 Mar 2023 17:01:36 +0100
+Message-Id: <20230309160201.5163-77-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,44 +89,43 @@ v2:
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/sm712fb.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/sstfb.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/sm712fb.c b/drivers/video/fbdev/sm712fb.c
-index b528776c7612..a83f48fce5b1 100644
---- a/drivers/video/fbdev/sm712fb.c
-+++ b/drivers/video/fbdev/sm712fb.c
-@@ -831,6 +831,7 @@ static const struct modeinit vgamode[] = {
- 
- static struct screen_info smtc_scr_info;
+diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
+index da296b2ab54a..f422b1882950 100644
+--- a/drivers/video/fbdev/sstfb.c
++++ b/drivers/video/fbdev/sstfb.c
+@@ -106,6 +106,7 @@ static bool slowpci;		/* slow PCI settings */
+ */
+ #define DEFAULT_VIDEO_MODE "640x480@60"
  
 +static char *mode_option_buf;
- static char *mode_option;
+ static char *mode_option = DEFAULT_VIDEO_MODE;
  
- /* process command line options, get vga parameter */
-@@ -1761,8 +1762,12 @@ static int __init sm712fb_init(void)
- 
- 	if (fb_get_options("sm712fb", &option))
- 		return -ENODEV;
--	if (option && *option)
--		mode_option = option;
-+
-+	if (option && *option) {
-+		mode_option_buf = kstrdup(option, GFP_KERNEL); // ignore errors
-+		mode_option = mode_option_buf;
-+	}
-+
- 	sm7xx_vga_setup(mode_option);
- 
- 	return pci_register_driver(&smtcfb_driver);
-@@ -1773,6 +1778,7 @@ module_init(sm712fb_init);
- static void __exit sm712fb_exit(void)
+ enum {
+@@ -1301,8 +1302,11 @@ static int sstfb_setup(char *options)
+ 			mem = simple_strtoul (this_opt+4, NULL, 0);
+ 		else if (!strncmp(this_opt, "gfxclk:",7))
+ 			gfxclk = simple_strtoul (this_opt+7, NULL, 0);
+-		else
+-			mode_option = this_opt;
++		else {
++			kfree(mode_option_buf);
++			mode_option_buf = kstrdup(this_opt, GFP_KERNEL); // ignore errors
++			mode_option = mode_option_buf;
++		}
+ 	}
+ 	return 0;
+ }
+@@ -1516,6 +1520,7 @@ static int sstfb_init(void)
+ static void sstfb_exit(void)
  {
- 	pci_unregister_driver(&smtcfb_driver);
+ 	pci_unregister_driver(&sstfb_driver);
 +	kfree(mode_option_buf);
  }
  
- module_exit(sm712fb_exit);
+ 
 -- 
 2.39.2
 
