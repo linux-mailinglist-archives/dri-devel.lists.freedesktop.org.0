@@ -1,64 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306ED6B24C7
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 13:59:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 980D36B24F1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 14:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB9B10E177;
-	Thu,  9 Mar 2023 12:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAB5710E19A;
+	Thu,  9 Mar 2023 13:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com
- [IPv6:2607:f8b0:4864:20::929])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D6910E177
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 12:59:37 +0000 (UTC)
-Received: by mail-ua1-x929.google.com with SMTP id v48so1053575uad.6
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 04:59:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1678366777;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=QIosVn5zVrq46kTsOtAg4e078ucc9FC6ZfPVZPsyTAA=;
- b=p2kocsfmt5ED+30eWGIc9tqj7oXONB+L4L/gTDzZdtNy7AlPfBJkovQ4Lt8N4sAF9d
- nX+v/xUcXOndxOe+cBzfeLViVoUV2bN5BTP2jHKm7GwNUYm12SGYN06sAFiaCFgzW3jH
- CaJQxK4DPdYR5CYuZujv7MGTOcp0i2FTFAbDLkRbDQQK/a6wEdwGmruj8/mX7sLXwXMG
- EJ8f4TZMFrqwe5zI2hfxfCfYP7erE3mSRfza18x+uP5D1+tLZMysK4Pt675M9Hgl3bFi
- RdRA97URqMPilIbwC7b+aywtUP1T2G9h/NlvTaQYsdB1eadTFtrnBetTpogFj4DFzXkn
- 8CjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678366777;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=QIosVn5zVrq46kTsOtAg4e078ucc9FC6ZfPVZPsyTAA=;
- b=fw/OnfZ10fHTMWe90CwvsmaNyyBRSav+vfiG6JllQMCsOpbsTv8/8tCU0HqbCDrfIF
- nxacCmgrDMOS0Vr8hgjYl6uxI7HvnnMcCWfP0nyrN8/hd0d/0bTLylxgeZoBq3HIyY+Q
- 6yEmYCPpgxE+gVWIMh93SZSByeMoEGhlOkSutaL2quxlANs1iB6ylpO/TFW9fhrxIi/a
- IguTPN8OGvSgZZwGBBE3Rx1aBiUQDt5Tf1jNvwAPWsZoIE8rXEH8PIZLaHnmnm6Ib0UY
- /P504ZSP4rdl9z4TcwQHBwGckQ3rpcI2VCQJEXgSpiPRnL539cw0pfe0rL3b9a2tcn/+
- udKg==
-X-Gm-Message-State: AO0yUKV0JdMIBFntGE5WaQAg0+xq1TiAMEV0do2xrwKH6v6lzkJaFQGv
- 49UVPMeWdBBbfHkSlrO9hVqoCIzqhPooar6gLdhLTA==
-X-Google-Smtp-Source: AK7set8ID+SRYYoGk4fZmXol2lulydZSKnJ+gz6p7GYou9kFqhcyOjyXQK28WeymOK4m+dDvk/Pnv5N1iiT7/0ioJjo=
-X-Received: by 2002:ab0:4a12:0:b0:68b:b624:7b86 with SMTP id
- q18-20020ab04a12000000b0068bb6247b86mr14420483uae.2.1678366776544; Thu, 09
- Mar 2023 04:59:36 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2050.outbound.protection.outlook.com [40.107.243.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF26E10E193;
+ Thu,  9 Mar 2023 13:08:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xte+voxQRI2PZqLZG17ypLM1X6cuXUDx/QHTSIXvq/26JOvxEDzVKcRLJrBveWJ7Za6wQhV65frsT8R5hfBIXg8NSYXjEmlb0fpIrpOKN6ox0eKo2b8pmJ9hDPomi6BWe9PD0saqbcBDi7eMf6xxBmjT/iCCtETvmEjCDODB8FG/AdueB8z2ABuWPf/P8U8BJmRxT45ximHOwIjaqIVWSRnyp/ZyRdsCL5bojbGjTSobWLOCPNG8ZEcDnPNJzQtuCgG1H2QXjkfQN3Y4M0NhhwfKRUTozytg8UKCasyeDIJ4ppbnaHKQkWaFPEEaJlxMAiPwNrohGJ+/BIDaRk0WbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9v9oSzaq1KISJCVamf/b24KGm6z0P8urLivRplwPzc8=;
+ b=UD9LNrmAHaCASg/h9UL264HcQK3BZcC8ldGWHWcCmLKxTHYEnmtExElEEHGsVkCtH8QSTyNkRVc3Lc6W/NAbiNagL2xevv2nkYgEkIEL01hIF2gEPJh/Hi0M3wT5RhyukhxfsIvmlRqIoQjkeyQebfSKI4aiQvywUpTykmhgqLMMxz+tImtPldJu45JIgiR1NKQIuwkxmg7umlZefeyxIx1WG0R2cJPvIeJJH17q/u7kRlzEpWt2U9kGUISziRf/VSuvpcDcgPygrP4j+Bk+8r6CpdfiXpcILyA99PSFsO/JeOqUSYNGs1WtCu7l5hmq/iuWrNIo/cvoinOPtIIcTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9v9oSzaq1KISJCVamf/b24KGm6z0P8urLivRplwPzc8=;
+ b=zarYfjo4MndSGh+wsm7bZS+0RELMDUPZW/g7pzjPgpbI2E7fdmKynA84jtWePS6tEFuVvpRC/9wIPfMlN0dk2SdtwPRRGzvZURUDobS7a2eHRrEKdEeijOfNCDc9LiMIYDkUeOT1g1jZ76qsS5iFsDlXFMhJnJ3RRddlshmiXYc=
+Received: from DM5PR12MB2469.namprd12.prod.outlook.com (2603:10b6:4:af::38) by
+ DS0PR12MB7897.namprd12.prod.outlook.com (2603:10b6:8:146::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.17; Thu, 9 Mar 2023 13:08:24 +0000
+Received: from DM5PR12MB2469.namprd12.prod.outlook.com
+ ([fe80::5ca6:3a18:d6ee:c103]) by DM5PR12MB2469.namprd12.prod.outlook.com
+ ([fe80::5ca6:3a18:d6ee:c103%7]) with mapi id 15.20.6156.028; Thu, 9 Mar 2023
+ 13:08:24 +0000
+From: "Chen, Guchun" <Guchun.Chen@amd.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Zhang, Hawking"
+ <Hawking.Zhang@amd.com>, "spasswolf@web.de" <spasswolf@web.de>,
+ "mike@fireburn.co.uk" <mike@fireburn.co.uk>
+Subject: RE: [PATCH 2/2] drm/probe_helper: warning on poll_enabled for issue
+ catching
+Thread-Topic: [PATCH 2/2] drm/probe_helper: warning on poll_enabled for issue
+ catching
+Thread-Index: AQHZUkrW7S/6g5YgGE2ESYQquCWL0K7yI2YAgABICTA=
+Date: Thu, 9 Mar 2023 13:08:24 +0000
+Message-ID: <DM5PR12MB24697A79C29109E2B3CCB757F1B59@DM5PR12MB2469.namprd12.prod.outlook.com>
+References: <20230309054839.2709424-1-guchun.chen@amd.com>
+ <55b40f8f-b1d8-71ba-0af5-91e08e69160f@linaro.org>
+In-Reply-To: <55b40f8f-b1d8-71ba-0af5-91e08e69160f@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM5PR12MB2469:EE_|DS0PR12MB7897:EE_
+x-ms-office365-filtering-correlation-id: 13268c18-220e-4bf3-227f-08db209f5d9c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ArBoZYXi3NrsM/0X/5NKWFbto0w6P+8Yd9Q7lAPWHr6tVm+m1GBDpI2VOAxstgzrCkex3XQfYbdvXKvfF5ITvNjyniuTklaAITjaQ1S1Z5/PODcwi9eEIzTFRrs7UIFdePxmX1+KFO80GAQ5isu+aBpDniPRkCEdmiVjT7PU5gLJr/2Z2hMDzMH6xviYngio1DPHlB2J4tMb9mIWwZQNbwx3naMO7QoFCjVQFCaRN75lysYNzp1BbD9lZDK6jMel1CS/c+mFsPf4VdGDj3o9uRFUTB9YZ+OjXBqnU3fdw27u3GOoadiFa4oCiW2RqMQ1iBIDxptccHYtc4eG57+cYQGsaHAAX/tCJlinp02jo8/hGXb99AmPBYJJMZjYM4GF2GOuddxzZuHMP2hbjix6+05NA6hD6I+C57EIXVVJmHsmICurhx2DmfcVex0W8yoVrcxL1ScGH7KNd12AccaBwpckUYE2BwRxSrtVvyVYjJVM5HLHSO9EE13AOMKEK8XxY0CzF2BqS0GzibNAFH+wzAfBvPv0BQkJpnadlCNb0T01lMrh3GpTAmB1i76z3qJjLGarRY7sRDtATNBOd/ri5VqL+jnC81HDGprzpbgvF9Q2fUMHaQ4BofN5/pcN32sLanJ7FJnn8Ihcb6bA14xGfp4vWl9/wiSM1oZ9vDHtSWtQ8S8h5vDBqIFGH6lEesr2Zqsi12+Mo56VUgflJjIMfA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2469.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(366004)(39860400002)(136003)(346002)(396003)(376002)(451199018)(2906002)(186003)(9686003)(64756008)(8676002)(66556008)(66946007)(66446008)(76116006)(38100700002)(66476007)(122000001)(38070700005)(53546011)(26005)(41300700001)(6506007)(86362001)(33656002)(52536014)(316002)(110136005)(478600001)(83380400001)(966005)(55016003)(7696005)(8936002)(5660300002)(71200400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YUlGUU00M2V3cFhqWFl0MEV3OTl4VTFPWDVoUG5GVGhRSzF4dlBaYXFvOTJH?=
+ =?utf-8?B?SkV6RTV6SzRRUGlGaU0vbGIvSUUrMHozZFREY1RRbXlJRU82ZVo4bzY1UFQ5?=
+ =?utf-8?B?MFhQb2s1UVJPcU1HanR6ZERJcEZuRFpTbXRqTDluWHRJbnhNdTVFMjR6MlJa?=
+ =?utf-8?B?bTNhSHhJbExBcTU3YVJScTdlbHBrZ2Zkc2ZjSlZTVWVReFoxd1htUHVwVGJG?=
+ =?utf-8?B?WTdSNVQrS05hNVprZ3c0YVVpV01kQnRTZkkvcFVXQXFjVWpXMWx2U0VYYk1u?=
+ =?utf-8?B?YzRFYUpCODhYNVcxRjBjMXgzQUJKeFNzVlBHKzBpeEtYQ3pkTEE2RFg0MDNx?=
+ =?utf-8?B?dDVCMnBpSWFaYy94ZUtla0dXZ1N6aFhjT3hKaFFWcnZnQTBSaTJZUEJyWmZL?=
+ =?utf-8?B?WU51eXVJcGxaRnlqL0N3V0pVd3FXeVdic2FhSXFKSjhIcTg5TVJFekxlLzJZ?=
+ =?utf-8?B?ckFrcUJTTXRyNm13SE1lTXd2MnBWdmt3Ukc4ZUF6TVROTjV4R2lITE03VzVS?=
+ =?utf-8?B?cElxYnduYUMxbHA3WUdRRzIwNWwxVkdBY3N4Rk9JTk9Jek8wMG5WNmtuWS82?=
+ =?utf-8?B?Q3BIeDE3QjUxc1c3QlY0RHF4QUxUbDlpQWZRNUc3bEthMFhoV1NFemZxdXor?=
+ =?utf-8?B?dEFRaWxIc0lxbkR6aUY2TEJlOU1VYzJlY0lWY2JBY0h0SWVBTXlmTitYNmFY?=
+ =?utf-8?B?ci9rSVVIRUVtR2h3aGwzMGRtc3R2UzVDcDhMOTltSVRWWXRuUTU0aUx0b3ZY?=
+ =?utf-8?B?c2NVZHZoVjBsc0MyZENKdzlpd2xKTGMxSEI2NVNQa1hGaThvTTRVakNBNnUy?=
+ =?utf-8?B?U2ZRZXMwRkJabm1iNWtnSTg3NU4yMytML3ZxZ2p6WlZBZDlMVXNBTWs3a2l4?=
+ =?utf-8?B?WVV3SHJsQkQwR1ZibTZ3NVhiUG1scGNkQmh2QzUrTGk1MWVrbVV4Rk9KZ0Uz?=
+ =?utf-8?B?b0lENDBMc0hWVTBhaWNJb0N6eTBJRWxadzlKeklMRmM3dGZBbSs2d2FxS1RH?=
+ =?utf-8?B?dytyYXppL0ZCVyt5UWNITytqQVREc3ozNnZZQjJrM3FTL29EbkY5aC9GWEZK?=
+ =?utf-8?B?WTRRMzlVcTJqREtzK3dnTzhtSkRadHRkMFV0YzFxVkhwbWduMmREL2YzVlo4?=
+ =?utf-8?B?RlNtajJ3SlIrNVJDQnp0RVZna2ZXOUFxbjRyZHh5eHc2WVROVXc4WGFTeHMz?=
+ =?utf-8?B?aDFqcHAwR1dreXduYzJjR2E5UTRKbk5GaEdkcVo3dlc5Z3lhZ0hVYWxsRUNi?=
+ =?utf-8?B?SE9Penk4UXNFSlhWejBEdnlIZkYzcGtNaFl3ZDFXMXVGQk0rOFdIM1pDS2M3?=
+ =?utf-8?B?TnFBSjlmbU9VMUlOVUJ4bFJadVphNUxGRDVWbEdwbWl6UlU1Q2p3eW1jMFdK?=
+ =?utf-8?B?L2NYL0lGL1VHbEhFd2ZIU3pycWZvMjQrTXlqQW9uZkpyZFRVR2JjTG1mVGw2?=
+ =?utf-8?B?aHBiRDA5eWZrdWhwOTN6MTVIdXJueUROWkZlZUFlTjg5UlU0ZW1kT3RHSyt0?=
+ =?utf-8?B?LzF3T2RoSVBnRFhLWXovYVhkQktOSmxKQVFTWDE4STdLS1Y2SVBQLzdUQk14?=
+ =?utf-8?B?SGJBd2ZiTlZjdlZET0hRc1NVRDJTQzJvaS9qUk0xQkhMbmpWSFNaZm5Gazkw?=
+ =?utf-8?B?RXlkQjhRNnFVdzkrOE9ZOTRJemk3eHJPb04vekJnaG1ocGRSTlJBWFhjSFhP?=
+ =?utf-8?B?S2g2bFRJb1RrVmdoc1FMT2hPVEkwT2JyV2ZsbFROQUdaWVJPSUpCcmkrS1BK?=
+ =?utf-8?B?UVZrNkxjNmJEUE92a1lkRGRIU2I3WGw0Um1Lem1HS2U3NE0wRGhyQVRhRHlE?=
+ =?utf-8?B?ZTc5aXJMd1ZaQWszOHY1c0JaU0xWZGRLeGNGNGN0em9pSzVXT0NSeGxCSGpo?=
+ =?utf-8?B?UnM3WVN1cmU0dEtWUlFncTEzNksvNEhzNWF6cWMyUlVDRWlUbkFsNmI0UGFR?=
+ =?utf-8?B?TkpkUEFZenF2djNRcnRLNWtjS1JNK3V0ZUdhYU56TVd6d0tkcE5iN29pcURW?=
+ =?utf-8?B?TXZ3MmFYd3pGWklNNXJuRnRpZEZ6RnNNVGlXWFN0MThFb0pKa3JRR2dCeWx0?=
+ =?utf-8?B?ZEVvTEVBTXhoRDFlbC9BNlVrQnE1K29ReENaWnFzaTlnSzdvTUMrWkhkK1ho?=
+ =?utf-8?Q?EDbB6KhvrzadU2M7TyAM/5jhv?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <7d216faea9647d328651460167bc27f6@rmail.be>
- <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
- <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
- <20230308123540.zqqe4mnhzumvnjfk@houat>
- <004db85e5114674bfc432043376bcd00@rmail.be>
- <4862350fa507612e03bb6a73977db178@rmail.be>
-In-Reply-To: <4862350fa507612e03bb6a73977db178@rmail.be>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 9 Mar 2023 12:59:19 +0000
-Message-ID: <CAPY8ntB6WaCF4H2Bk7Zq9cCE-iR8fMFq-vDULH_rp_+O4xp+EA@mail.gmail.com>
-Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
- 5.16; and still broken in at least 6.1)
-To: AL13N <alien@rmail.be>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2469.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13268c18-220e-4bf3-227f-08db209f5d9c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2023 13:08:24.5147 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6uQOJhUTZkcDGauNOmO9vl1pHjXo222rxI+e+ZFlwG66M8jhIi+1Vl+HVq8kD0I49Pz+rucvfk/omYJyWHEvcQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7897
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,278 +132,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Mar 2023 at 22:46, AL13N <alien@rmail.be> wrote:
->
-> AL13N schreef op 2023-03-08 22:16:
-> > Maxime Ripard schreef op 2023-03-08 13:35:
-> >> Hi,
-> >>
-> >> On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
-> >>> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
-> >>> > AL13N schreef op 2023-03-06 17:34:
-> >>> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
-> >>> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
-> >>> > > plymouth), the cause of no X is that EDID gives nothing, and in the
-> >>> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
-> >>> > > changed for this.
-> >>> > >
-> >>> > > In 5.16 instead of this message there is a bunch of hex lines prefixed
-> >>> > > with BAD.
-> >>> > >
-> >>> > > It is still broken in 6.1 at the very least.
-> >>> > >
-> >>> > > I donno if this is related to this part, but I wanted to try a newer
-> >>> > > kernel, because the RPI4 seems to do all the video decoding in
-> >>> > > software and cannot seem to handle it.
-> >>> > >
-> >>> > >
-> >>> > > logs:
-> >>> > > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
-> >>> > > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-> >>> > > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
-> >>> > > fb0: switching to vc4 from simple
-> >>> > > Console: switching to colour dummy device 80x25
-> >>> > > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-> >>> > > vc4-drm gpu: [drm] Cannot find any crtc or sizes
-> >>> >
-> >>> > 5.16 log has:
-> >>> >
-> >>> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
-> >>> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-> >>> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
-> >>> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-> >>> >         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
-> >>> >         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
-> >>> >         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
-> >>> >         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
-> >>> >         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
-> >>> >         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
-> >>> >         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
-> >>> >         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
-> >>> > Console: switching to colour frame buffer device 240x67
-> >>> > vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
-> >>> >
-> >>> >
-> >>> > i donno what this bad is, but it doesn't happen in 5.17... maybe these
-> >>> > BAD got filtered out, but they did end up working for me? or something?
-> >>> > i donno...
-> >>>
-> >>> Run it through edid-decode - the checksum is wrong.
-> >>>
-> >>> Block 0, Base EDID:
-> >>>   EDID Structure Version & Revision: 1.3
-> >>>   Vendor & Product Identification:
-> >>>     Manufacturer: MST
-> >>>     Model: 0
-> >>>     Made in: week 11 of 2021
-> >>>   Basic Display Parameters & Features:
-> >>>     Analog display
-> >>>     Input voltage level: 0.7/0.3 V
-> >>>     Blank level equals black level
-> >>>     Maximum image size: 35 cm x 1 cm
-> >>>     Gamma: 2.20
-> >>>     RGB color display
-> >>>     First detailed timing is the preferred timing
-> >>>   Color Characteristics:
-> >>>     Red  : 0.6396, 0.3398
-> >>>     Green: 0.2998, 0.6904
-> >>>     Blue : 0.1376, 0.0380
-> >>>     White: 0.2822, 0.2968
-> >>>   Established Timings I & II: none
-> >>>   Standard Timings:
-> >>>     GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
-> >>>   Detailed Timing Descriptors:
-> >>>     DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz
-> >>> (708
-> >>> mm x 398 mm)
-> >>>                  Hfront  176 Hsync  88 Hback 296 Hpol P
-> >>>                  Vfront    8 Vsync  10 Vback  72 Vpol P
-> >>>     DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz
-> >>> (708
-> >>> mm x 398 mm)
-> >>>                  Hfront   88 Hsync  44 Hback 148 Hpol P
-> >>>                  Vfront    4 Vsync   5 Vback  36 Vpol P
-> >>>     Display Product Name: 'SALORA'
-> >>>   Display Range Limits:
-> >>>     Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600
-> >>> MHz
-> >>>   Extension blocks: 1
-> >>> Checksum: 0xaa (should be 0xeb)
-> >>>
-> >>> Weird that it also says that it's an analog display when it's
-> >>> connected over HDMI. Something rather bizarre there, and I think
-> >>> it'll
-> >>> hit problems in drm_edid at [1] as we end up with a connector having
-> >>> no color_formats defined. I was discussing this with Maxime only last
-> >>> week, but in relation to VGA monitors connected through HDMI to VGA
-> >>> adapters without rewriting the EDID.
-> >>>
-> >>> If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
-> >>> your monitor not asserting hotplug correctly. The raw hotplug status
-> >>> is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
-> >>> or 1 depending on the probe order of the vc4 and v3d drivers). Grep
-> >>> for HDMI_HOTPLUG.
-> >>
-> >> If it's an option, bisecting between 5.16 and 5.17 which commit
-> >> introduced the regression would be nice.
-> >>
-> >>> Incorrect hotplug behaviour causes grief when combined with HDMI2.0
-> >>> and scrambling. If you don' t know the other end has been
-> >>> disconnected, then you never know that scrambling needs to be
-> >>> re-negotiated over SCDC, and the display will typically end up just
-> >>> being blank.
-> >>>
-> >>> [1]
-> >>> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edid.c#L6460
-> >>> [2]
-> >>> https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe793eb03c70fa
-> >>
-> >> We can easily test that: could you try booting with video=HDMI-A-1:D
-> >> (or
-> >> HDMI-A-2, depending on whether you use HDMI0 or HDMI1) and see if it
-> >> helps?
-> >
-> > in kernel 6.1 or kernel 5.17 ?
->
-> in 6.1 at least i booted with video=HDMI-A-2:D (i'm plugged into the
-> hdmi farthest from the power)
->
-> and I did see BAD stuff here too:
->
->
-> [drm] Initialized v3d 1.0.0 20180419 for fec00000.v3d on minor 0
-> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> Registered IR keymap rc-cec
-> rc rc0: vc4 as /devices/platform/soc/fef00700.hdmi/rc/rc0
-> input: vc4 as /devices/platform/soc/fef00700.hdmi/rc/rc0/input0
-> vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
-> [drm] forcing HDMI-A-2 connector on
-> Registered IR keymap rc-cec
-> rc rc1: vc4 as /devices/platform/soc/fef05700.hdmi/rc/rc1
-> input: vc4 as /devices/platform/soc/fef05700.hdmi/rc/rc1/input1
-> vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
-> vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-> vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
-> vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
-> [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 1
-> EDID block 0 (tag 0x00) checksum is invalid, remainder is 235
->         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
->         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
->         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
->         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
->         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
->         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
->         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
->         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
-> vc4-drm gpu: [drm] Cannot find any crtc or sizes
-> EDID block 0 (tag 0x00) checksum is invalid, remainder is 125
-> vc4-drm gpu: [drm] Cannot find any crtc or sizes
->
->
-> a bit puzzling why it does EDID block twice and it's twice checksum
-> invalid?
-> I also see forcing connector on.
->
-> earlier, i did try to make an edid file from a modeline that worked on
-> 5.16 and pass it using drm_kms_helper.edid_firmware= ; but that didn't
-> work, there only was some kind of warning that i should use something
-> else...
-
-It always helps to actually quote warnings or errors.
-Almost certainly "drm_kms_helper.edid_firmware is deprecated, please
-use drm.edid_firmware instead.", in which case do as it tells you and
-use "drm.edid_firmware=<filename>".
-
-> reading through all your messages, does this mean, that i should be able
-> to boot if we were to "fix" this edid file? and pass it? or is this
-> something that needs change in kernel?
-
-At present you have 2 issues
-- the monitor or cable doesn't handle the hotplug line correctly
-- the monitor doesn't provide a valid EDID.
-
-The first you can workaround with "video=HDMI-A-2:D".
-
-The second you can work around by capturing the EDID, fixing it, and
-then using "drm.edid_firmware=<filename>".
-The first fix is to just fixup the checksum (edid-decode even tells
-you the correct value as 0xEB). That doesn't solve the fact that the
-EDID contains other rubbish like being an analog display which may
-cause further issues. The simplest fix for reporting as an analog
-display is to change byte 20 from 0x00 to 0x80, and then correct the
-checksum again.
-
-The EDID advertises 4k60, 1080p60, and GTF 2288x1432 @ 61Hz.
-In order to support 4k60 it needs to support HDMI2.0 and enabling
-scrambling via SCDC. That should also be signalled in the EDID Sink
-Capability Data Structure block but isn't, so 4k60 support may be
-compromised.
-
-Sorry, all of this comes back to the monitor vendor shipping rubbish.
-None of this is the fault of the vc4 driver, and it only worked under
-5.16 by chance.
-
-> >
-> >>> > I also noticed that earlier in the logs there are more bound lines:
-> >>> > (some are double)
-> >>> >
-> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> >>> >
-> >>> > and then here for some reason systemd does modprobe@drm.service ? is
-> >>> > this just a delayed starting log line, or does it actually try to unload
-> >>> > drm and reload? i doubt it?
-> >>> > in any case there is more that appears before:
-> >>> >
-> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
-> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
-> >>> >
-> >>> >
-> >>> > so, the error message is weird, as it implies 2 possibilities. however,
-> >>> > i think it did find a crtc since all those pixelvalve things use crtc
-> >>> > functions?
-> >>> >
-> >>> > So then why do i have this problem on my RPI4? do most people just use
-> >>> > the raspberry pi kernels?
-> >>>
-> >>> Largely, yes, people use our vendor kernels.
-> >>
-> >> tbf, the downstream kernel has pretty much the same code here, so the
-> >> issue is very likely to affect it too.
-> >>
-> >> I would just assume that your TV has some unusual behaviour that
-> >> throws
-> >> the driver off, and most people won't.
-> >
-> > IC, the TV also has an option somewhere to choose EDID 2.0, i thought
-> > i chose that but if that decode says 1.3, maybe i didn't... Is it
-> > worth it to retry this?
->
-> actually, the TV was set to EDID 2.0 the other option was 1.4 (?)
-
-I would guess that the HDMI 1.4 setting drops the 4k60 mode as HDMI1.4
-maxes out at 4k30. It's impossible for us to say if it fixes any of
-the other issues with the EDID.
-
-  Dave
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRG1pdHJ5IEJhcnlzaGtv
+diA8ZG1pdHJ5LmJhcnlzaGtvdkBsaW5hcm8ub3JnPg0KPiBTZW50OiBUaHVyc2RheSwgTWFyY2gg
+OSwgMjAyMyA0OjQ5IFBNDQo+IFRvOiBDaGVuLCBHdWNodW4gPEd1Y2h1bi5DaGVuQGFtZC5jb20+
+OyBhbWQtDQo+IGdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmc7IERldWNoZXIsDQo+IEFsZXhhbmRlciA8QWxleGFuZGVyLkRldWNoZXJAYW1k
+LmNvbT47IFpoYW5nLCBIYXdraW5nDQo+IDxIYXdraW5nLlpoYW5nQGFtZC5jb20+OyBzcGFzc3dv
+bGZAd2ViLmRlOyBtaWtlQGZpcmVidXJuLmNvLnVrDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMi8y
+XSBkcm0vcHJvYmVfaGVscGVyOiB3YXJuaW5nIG9uIHBvbGxfZW5hYmxlZCBmb3INCj4gaXNzdWUg
+Y2F0Y2hpbmcNCj4gDQo+IE9uIDA5LzAzLzIwMjMgMDc6NDgsIEd1Y2h1biBDaGVuIHdyb3RlOg0K
+PiA+IEluIG9yZGVyIHRvIGNhdGNoIGlzc3VlcyBpbiBvdGhlciBkcml2ZXJzIHRvIGVuc3VyZSBw
+cm9wZXIgY2FsbA0KPiA+IHNlcXVlbmNlIG9mIHBvbGxpbmcgZnVuY3Rpb24uDQo+ID4NCj4gPiBC
+dWc6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0vYW1kLy0vaXNzdWVzLzI0MTEN
+Cj4gPiBGaXhlczogYTRlNzcxNzI5YTUxKCJkcm0vcHJvYmVfaGVscGVyOiBzb3J0IG91dCBwb2xs
+X3J1bm5pbmcgdnMNCj4gPiBwb2xsX2VuYWJsZWQiKQ0KPiANCj4gUHJldmlvdXNseSBpdCB3YXMg
+c3VnZ2VzdGVkIHRoYXQgdGhpcyBpcyBub3QgYSBmaXgsIHNvIHRoZSBGaXhlcyBoZWFkZXIgaXMN
+Cj4gaW5jb3JyZWN0Lg0KPiANCj4gQWxzbyBwbGVhc2UgdXNlIC12TiB3aGVuIHByZXBhcmluZy9z
+ZW5kaW5nIHBhdGNoc2V0cy4gVGhpcyBpcyB2Mi4NCg0KV2lsbCBmaXggdGhlc2UgaW4gVjMuDQog
+DQpSZWdhcmRzLA0KR3VjaHVuDQoNCj4gPiBSZXBvcnRlZC1ieTogQmVydCBLYXJ3YXR6a2kgPHNw
+YXNzd29sZkB3ZWIuZGU+DQo+ID4gU3VnZ2VzdGVkLWJ5OiBEbWl0cnkgQmFyeXNoa292IDxkbWl0
+cnkuYmFyeXNoa292QGxpbmFyby5vcmc+DQo+ID4gU2lnbmVkLW9mZi1ieTogR3VjaHVuIENoZW4g
+PGd1Y2h1bi5jaGVuQGFtZC5jb20+DQo+ID4gLS0tDQo+ID4gICBkcml2ZXJzL2dwdS9kcm0vZHJt
+X3Byb2JlX2hlbHBlci5jIHwgMiArKw0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
+cygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVs
+cGVyLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcHJvYmVfaGVscGVyLmMNCj4gPiBpbmRl
+eCA4MTI3YmUxMzRjMzkuLjg1ZTBlODBkNGE1MiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX3Byb2JlX2hlbHBlci5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9w
+cm9iZV9oZWxwZXIuYw0KPiA+IEBAIC04NTIsNiArODUyLDggQEANCj4gRVhQT1JUX1NZTUJPTChk
+cm1fa21zX2hlbHBlcl9pc19wb2xsX3dvcmtlcik7DQo+ID4gICAgKi8NCj4gPiAgIHZvaWQgZHJt
+X2ttc19oZWxwZXJfcG9sbF9kaXNhYmxlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpDQo+ID4gICB7
+DQo+ID4gKwlXQVJOX09OKCFkZXYtPm1vZGVfY29uZmlnLnBvbGxfZW5hYmxlZCk7DQo+ID4gKw0K
+PiA+ICAgCWlmIChkZXYtPm1vZGVfY29uZmlnLnBvbGxfcnVubmluZykNCj4gPiAgIAkJZHJtX2tt
+c19oZWxwZXJfZGlzYWJsZV9ocGQoZGV2KTsNCj4gPg0KPiANCj4gLS0NCj4gV2l0aCBiZXN0IHdp
+c2hlcw0KPiBEbWl0cnkNCg0K
