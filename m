@@ -2,102 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0A36B28C9
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 16:25:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0616B294C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1F0010E819;
-	Thu,  9 Mar 2023 15:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8817310E813;
+	Thu,  9 Mar 2023 16:02:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24AA810E819
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 15:24:55 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20230309152454euoutp02b3b392eee6a48bc09aaeb1dcfce902e9~KyZ6jqamI3040530405euoutp02G
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 15:24:54 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20230309152454euoutp02b3b392eee6a48bc09aaeb1dcfce902e9~KyZ6jqamI3040530405euoutp02G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1678375494;
- bh=1faJVX5Kb2yIpI/XJhLzAq6nIArsD3/2jIyL3Bmnadk=;
- h=From:To:Cc:Subject:Date:References:From;
- b=QjUsqYzdG7A1ccT2lwgn563RaocmGY8vIV8F/dybIExFKHC3Fw/qzG0r8+JVueUH2
- hFSTCDCAIXlRvyA27uzVJRu6Ch2AKW8CUHIvq2GKBJ69te4R7avcBWtTPk1wZ01IsD
- beGKJWu7esd/hHmadXtxX6W51Zrw9h/uYeDt5uOo=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20230309152453eucas1p293142f0eadcb75bf2e31465ff1ab487d~KyZ6H4uNN0249702497eucas1p2N;
- Thu,  9 Mar 2023 15:24:53 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 8D.07.09503.54AF9046; Thu,  9
- Mar 2023 15:24:53 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20230309152453eucas1p28e1870593875304648243c9dead4b256~KyZ5yQBgG2942629426eucas1p2D;
- Thu,  9 Mar 2023 15:24:53 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20230309152453eusmtrp1165f6ce04162f3de2bc7626c34f181d1~KyZ5xoz8i2522825228eusmtrp1-;
- Thu,  9 Mar 2023 15:24:53 +0000 (GMT)
-X-AuditID: cbfec7f2-e8fff7000000251f-0f-6409fa459bad
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 29.8E.09583.54AF9046; Thu,  9
- Mar 2023 15:24:53 +0000 (GMT)
-Received: from AMDC2765.eu.corp.samsungelectronics.net (unknown
- [106.120.51.73]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20230309152452eusmtip1c87ad0d57cf96c16cc4c3d4c7e496311~KyZ5DA5uI0767807678eusmtip1B;
- Thu,  9 Mar 2023 15:24:52 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
-Subject: [PATCH] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*()
- conversion again
-Date: Thu,  9 Mar 2023 16:24:46 +0100
-Message-Id: <20230309152446.104913-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFC7C10E038
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:05 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6BE3422143;
+ Thu,  9 Mar 2023 16:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1678377724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=JSy3IOe6HAwVADCc+hI/Uqf0bdfoESCu+tTk0BOF+MI=;
+ b=bz6qb5Bx+kU6fy0DFJbxLODvavLeoLYfrzPhmOW97GSASjQRENThgOtkikza8AonRjLEQt
+ VivNH1ZGrAtanmx/1nvdrWvKpcklJsLhopsdlO1oqE1E2Q89r2fVzrienGO/l7Vgq8iaD9
+ 4zv0CpykPLR0A/c2eQ86nhFq9hg/8M8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1678377724;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=JSy3IOe6HAwVADCc+hI/Uqf0bdfoESCu+tTk0BOF+MI=;
+ b=llMqymtgLc4cOviOVHdyzcRHtQ68ua2MXLLsY8y3soHCsPeOViZQmNAQQMsy09U8KYaLuf
+ tnkykul4AHXu9tBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0B40C1391B;
+ Thu,  9 Mar 2023 16:02:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id go3iAfwCCmQHbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:04 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
+ rdunlap@infradead.org, paulus@samba.org, benh@kernel.crashing.org,
+ linux@armlinux.org.uk, pjones@redhat.com, adaplas@gmail.com,
+ s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
+ thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
+Subject: [PATCH v2 000/101] fbdev: Fix memory leak in option parsing
+Date: Thu,  9 Mar 2023 17:00:20 +0100
+Message-Id: <20230309160201.5163-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7djP87quvzhTDD63GFqcuL6IyWLqwyds
- Fv+3TWS2uPL1PZvFm0dHmC1+tm9hslgwm9ti7ZG77BbHFp1ksZiz9ASLxfudtxgt/h39zuzA
- 4/H+Riu7x467Sxg99n5bwOKxc9Zddo+nEyaze2xa1cnmcefaHjaP+93HmTw2L6n36NuyijGA
- K4rLJiU1J7MstUjfLoEr4+CvNywFrzgq3v1eytzAeI69i5GTQ0LARGLuzvXMXYxcHEICKxgl
- Ol//Z4dwvjBKNO7rY4RwPjNK/Jh8iA2m5XJ/P1TVcqCWlUug+luZJHbcaQAbzCZgKNH1tgus
- Q0TATeLHgclgo5gFDjBLHNn+HKiIg0NYIFLi4AI5kBoWAVWJ/d2rmEBsXgE7iZbJX6EOlJfY
- f/AsM0RcUOLkzCcsIDYzULx562ywxRICPzgkGluusUI0uEis3z8H6lRhiVfHt0ANkpE4PbmH
- BaKhnVFiwe/7TBDOBEaJhue3GCGqrCXunPvFBnIds4CmxPpd+hBhR4mfK7aDHS0hwCdx460g
- xBF8EpO2TWeGCPNKdLQJQVSrScw6vg5u7cELl5ghbA+JH3OPgJ0pJBArsXfPLPYJjAqzkLw2
- C8lrsxBuWMDIvIpRPLW0ODc9tdgwL7Vcrzgxt7g0L10vOT93EyMwoZ3+d/zTDsa5rz7qHWJk
- 4mA8xCjBwawkwvtdiiNFiDclsbIqtSg/vqg0J7X4EKM0B4uSOK+27clkIYH0xJLU7NTUgtQi
- mCwTB6dUA5NM04mEpbP/LvarZmN61xtkxWIdpnlaXdZ/0xmTsGWZZkomoi+vlnPuPhC0k/Pi
- 4oVc3hJuO/oul0WEbhNwuWG4ydjS/3zs6a8cv8TS/YwiUuLWCLbqJMeIXFY8en+Ns42oZLmV
- 6JNrWzd5O9YpzVBf2ha8Xnm1z271R0ePn32ZLvW2ad/D7/HhDavEzzpe0EvcL938RuagyzvW
- 6Yl22xtfHljwTpSjwYK1M3na+7xKBgG9I5ziNxM0ONbLFFzYZfEy2ajhR6OzIdOkc7ZWP70d
- nq/5IPpD8ciM7s8cmwSnPD8SUujzZWV7jcWFfXqMkqtqPvxR12+QsZ42zfLZrPjmqVo8GrwP
- v349eKNXRImlOCPRUIu5qDgRAN7QKHTXAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRmVeSWpSXmKPExsVy+t/xu7quvzhTDH5vELU4cX0Rk8XUh0/Y
- LP5vm8hsceXrezaLN4+OMFv8bN/CZLFgNrfF2iN32S2OLTrJYjFn6QkWi/c7bzFa/Dv6ndmB
- x+P9jVZ2jx13lzB67P22gMVj56y77B5PJ0xm99i0qpPN4861PWwe97uPM3lsXlLv0bdlFWMA
- V5SeTVF+aUmqQkZ+cYmtUrShhZGeoaWFnpGJpZ6hsXmslZGpkr6dTUpqTmZZapG+XYJexsFf
- b1gKXnFUvPu9lLmB8Rx7FyMnh4SAicTl/n4gm4tDSGApo0THz05miISMxMlpDawQtrDEn2td
- bCC2kEAzk0TzC00Qm03AUKLrLURcRMBD4uLrBjaQQcwCx5gl9i3pB0sIC4RLtHZ+AxvKIqAq
- sb97FROIzStgJ9Ey+SvUFfIS+w+eZYaIC0qcnPmEpYuRA2iQusT6eUIgYWagkuats5knMPLP
- QlI1C6FqFpKqBYzMqxhFUkuLc9Nzi430ihNzi0vz0vWS83M3MQJjbtuxn1t2MK589VHvECMT
- B+MhRgkOZiUR3u9SHClCvCmJlVWpRfnxRaU5qcWHGE2Brp7ILCWanA+M+rySeEMzA1NDEzNL
- A1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6pBqaQBfYLYoX5e4tmhTYa7S54cSXUadvV
- j9/jreQjwmOqeLbOj1wUXaGz+FTB5PO6u6NUZO7vTH0pkfNxZtK9A3ctjqyQ2D1/V1W/nVFV
- SQDLe4ugq2fC+Tymfn7xPSBA8bsbp+zljQs+nD3g16b57MOtdWHFIo9na+32lvZ8d+fhKjVr
- nmTL+ruzK24XXGTh0Lu49v9Pl6w4lY3BqVo8ptarbTSa1++L6pa877Veds6D8hs9u9+23tsn
- knxOti/F/o7Ii5nK9xe0v2j5k2LlqL1HoLD01vrn+7OfmrzQ9qpRWPzr9oaLwl0el7h51jVf
- W7Fi2b8lIYZvooK/Cj6xY2G1ls463SehWdB7Rcy1z1uJpTgj0VCLuag4EQACR+XWQgMAAA==
-X-CMS-MailID: 20230309152453eucas1p28e1870593875304648243c9dead4b256
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20230309152453eucas1p28e1870593875304648243c9dead4b256
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20230309152453eucas1p28e1870593875304648243c9dead4b256
-References: <CGME20230309152453eucas1p28e1870593875304648243c9dead4b256@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,41 +66,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, Mark Brown <broonie@kernel.org>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_regulator_get_enable_optional() returns -ENODEV if requested
-optional regulator is not present. Adjust code for that, because in the
-67d0a30128c9 I've incorrectly assumed that it also returns 0 when
-regulator is not present.
+Introduce struct option_iter and helpers to parse command-line
+options with comma-separated key-value pairs. Then convert fbdev
+drivers to the new interface. Fixes a memory leak in the parsing of
+the video= option.
 
-Reported-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
-Fixes: 67d0a30128c9 ("drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Before commit 73ce73c30ba9 ("fbdev: Transfer video= option strings to
+caller; clarify ownership"), a call to fb_get_options() either
+returned an internal string or a duplicated string; hence ownership of
+the string's memory buffer was not well defined, but depended on how
+users specified the video= option on the kernel command line. For
+global settings, the caller owned the returned memory and for per-driver
+settings, fb_get_options() owned the memory. As calling drivers were
+unable to detect the case, they had no option but to leak the the memory.
 
-diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-index 534621a13a34..3d046878ce6c 100644
---- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-@@ -718,7 +718,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
- 	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
- 
- 	ret = devm_regulator_get_enable_optional(dev, "hdmi");
--	if (ret < 0)
-+	if (ret < 0 && ret != -ENODEV)
- 		return ret;
- 
- 	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
+Commit 73ce73c30ba9 ("fbdev: Transfer video= option strings to caller;
+clarify ownership") changed semantics to caller-owned strings. Drivers
+still leaked the memory, but at least ownership was clear.
+
+This patchset fixes the memory leak and changes string ownership back
+to fb_get_options(). Patch 1 introduces struct option_iter and a few
+helpers. The interface takes an option string, such as video=, in the
+common form value1,key2:value2,value3 etc and returns the individual
+comma-separated pairs. Various modules use this pattern, so the code
+is located under lib/.
+
+Patches 2 to 100 go through fbdev drivers and convert them to the new
+interface. This often requires a number of cleanups. A driver would
+typically refer to the option string's video mode. Such strings are now
+copied to driver-allocated memory so that drivers don't refer directly
+to the option string's memory. The option iterator then replaces manual
+parsing loops based on strsep(","). All driver-allocated memory is
+released by removing the device or unloading the module.
+
+Patch 101 finally changes the ownership of the option string to be
+internal to fb_get_option(); thereby fixing the memory leak. The option
+iterator holds its own copy of the string and is not affected by the
+change.
+
+Most fbdev drivers only support to parse option strings if they are
+built-in. I assume that's because of the original fuzzy semantics of
+fb_get_options(). A later patchset could change the driver to respect
+video= settings in any configuration.
+
+v2:
+	* use kstrdup()/kfree() for video strings (Geert, Timur)
+	* fix iterator docs (Randy)
+	* update iterator interface
+
+Thomas Zimmermann (101):
+  lib: Add option iterator
+  fbdev/68328fb: Remove trailing whitespaces
+  fbdev/68328fb: Remove unused option string
+  fbdev/acornfb: Only init fb_info once
+  fbdev/acornfb: Parse option string with struct option_iter
+  fbdev/amifb: Duplicate video-mode option string
+  fbdev/amifb: Parse option string with struct option_iter
+  fbdev/arkfb: Duplicate video-mode option string
+  fbdev/atafb: Duplicate video-mode option string
+  fbdev/atafb: Parse option string with struct option_iter
+  fbdev/aty: Duplicate video-mode option string
+  fbdev/aty: Parse option string with struct option_iter
+  fbdev/au1100fb: Parse option string with struct option_iter
+  fbdev/au1200fb: Parse option string with struct option_iter
+  fbdev/cirrusfb: Duplicate video-mode option string
+  fbdev/cirrusfb: Parse option string with struct option_iter
+  fbdev/controlfb: Remove trailing whitespaces
+  fbdev/controlfb: Parse option string with struct option_iter
+  fbdev/cyber2000fb: Parse option string with struct option_iter
+  fbdev/efifb: Parse option string with struct option_iter
+  fbdev/fm2fb: Parse option string with struct option_iter
+  fbdev/fsl-diu-fb: Duplicate video-mode option string
+  fbdev/fsl-diu-fb: Parse option string with struct option_iter
+  fbdev/gbefb: Duplicate video-mode option string
+  fbdev/gbefb: Parse option string with struct option_iter
+  fbdev/geode: Duplicate video-mode option string
+  fbdev/geode: Parse option string with struct option_iter
+  fbdev/grvga: Duplicate video-mode option string
+  fbdev/grvga: Parse option string with struct option_iter
+  fbdev/gxt4500: Duplicate video-mode option string
+  fbdev/hyperv_fb: Duplicate video-mode option string
+  fbdev/i740fb: Duplicate video-mode option string
+  fbdev/i740fb: Parse option string with struct option_iter
+  fbdev/i810: Duplicate video-mode option string
+  fbdev/i810: Parse option string with struct option_iter
+  fbdev/imsttfb: Parse option string with struct option_iter
+  fbdev/intelfb: Duplicate video-mode option string
+  fbdev/intelfb: Parse option string with struct option_iter
+  fbdev/imxfb: Duplicate video-mode option string
+  fbdev/imxfb: Parse option string with struct option_iter
+  fbdev/kyrofb: Duplicate video-mode option string
+  fbdev/kyrofb: Parse option string with struct option_iter
+  fbdev/macfb: Remove trailing whitespaces
+  fbdev/macfb: Parse option string with struct option_iter
+  fbdev/matroxfb: Parse option string with struct option_iter
+  fbdev/mx3fb: Duplicate video-mode option string
+  fbdev/mx3fb: Parse option string with struct option_iter
+  fbdev/neofb: Duplicate video-mode option string
+  fbdev/neofb: Parse option string with struct option_iter
+  fbdev/nvidiafb: Duplicate video-mode option string
+  fbdev/nvidiafb: Parse option string with struct option_iter
+  fbdev/ocfb: Duplicate video-mode option string
+  fbdev/ocfb: Parse option string with struct option_iter
+  fbdev/omapfb: Parse option string with struct option_iter
+  fbdev/platinumfb: Remove trailing whitespaces
+  fbdev/platinumfb: Parse option string with struct option_iter
+  fbdev/pm2fb: Duplicate video-mode option string
+  fbdev/pm2fb: Parse option string with struct option_iter
+  fbdev/pm3fb: Duplicate video-mode option string
+  fbdev/pm3fb: Parse option string with struct option_iter
+  fbdev/ps3fb: Duplicate video-mode option string
+  fbdev/ps3fb: Parse option string with struct option_iter
+  fbdev/pvr2fb: Duplicate video-mode option string
+  fbdev/pvr2fb: Parse option string with struct option_iter
+  fbdev/pxafb: Parse option string with struct option_iter
+  fbdev/rivafb: Duplicate video-mode option string
+  fbdev/rivafb: Parse option string with struct option_iter
+  fbdev/s3fb: Duplicate video-mode option string
+  fbdev/s3fb: Parse option string with struct option_iter
+  fbdev/savagefb: Duplicate video-mode option string
+  fbdev/savagefb: Parse option string with struct option_iter
+  fbdev/sisfb: Constify mode string
+  fbdev/sisfb: Parse option string with struct option_iter
+  fbdev/skeletonfb: Parse option string with struct option_iter
+  fbdev/sm712fb: Duplicate video-mode option string
+  fbdev/sstfb: Duplicate video-mode option string
+  fbdev/sstfb: Parse option string with struct option_iter
+  fbdev/stifb: Remove trailing whitespaces
+  fbdev/stifb: Constify option string
+  fbdev/tdfxfb: Duplicate video-mode option string
+  fbdev/tdfxfb: Parse option string with struct option_iter
+  fbdev/tgafb: Duplicate video-mode option string
+  fbdev/tgafb: Parse option string with struct option_iter
+  fbdev/tmiofb: Remove unused option string
+  fbdev/tridentfb: Duplicate video-mode option string
+  fbdev/tridentfb: Parse option string with struct option_iter
+  fbdev/uvesafb: Duplicate video-mode option string
+  fbdev/uvesafb: Parse option string with struct option_iter
+  fbdev/valkyriefb: Remove trailing whitespaces
+  fbdev/valkyriefb: Parse option string with struct option_iter
+  fbdev/vermilion: Remove unused option string
+  fbdev/vesafb: Parse option string with struct option_iter
+  fbdev/vfb: Remove trailing whitespaces
+  fbdev/vfb: Duplicate video-mode option string
+  fbdev/vfb: Parse option string with struct option_iter
+  fbdev/viafb: Parse option string with struct option_iter
+  fbdev/vt8623fb: Duplicate video-mode option string
+  staging/sm750fb: Release g_settings in module-exit function
+  staging/sm750fb: Duplicate video-mode option string
+  staging/sm750fb: Parse option string with struct option_iter
+  fbdev: Constify option strings
+
+ Documentation/core-api/kernel-api.rst        |   9 ++
+ drivers/staging/sm750fb/sm750.c              |  63 ++++----
+ drivers/video/fbdev/68328fb.c                |  24 +--
+ drivers/video/fbdev/acornfb.c                |  23 ++-
+ drivers/video/fbdev/amifb.c                  |  23 +--
+ drivers/video/fbdev/arkfb.c                  |  10 +-
+ drivers/video/fbdev/atafb.c                  |  21 +--
+ drivers/video/fbdev/aty/aty128fb.c           |  22 ++-
+ drivers/video/fbdev/aty/atyfb_base.c         |  23 ++-
+ drivers/video/fbdev/aty/radeon_base.c        |  26 +--
+ drivers/video/fbdev/au1100fb.c               |  13 +-
+ drivers/video/fbdev/au1200fb.c               |  15 +-
+ drivers/video/fbdev/cirrusfb.c               |  30 ++--
+ drivers/video/fbdev/controlfb.c              |  47 +++---
+ drivers/video/fbdev/core/fb_cmdline.c        |  13 +-
+ drivers/video/fbdev/core/modedb.c            |   8 +-
+ drivers/video/fbdev/cyber2000fb.c            |  17 +-
+ drivers/video/fbdev/efifb.c                  |  44 ++---
+ drivers/video/fbdev/ep93xx-fb.c              |   2 +-
+ drivers/video/fbdev/fm2fb.c                  |  14 +-
+ drivers/video/fbdev/fsl-diu-fb.c             |  24 +--
+ drivers/video/fbdev/gbefb.c                  |  23 +--
+ drivers/video/fbdev/geode/gx1fb_core.c       |  16 +-
+ drivers/video/fbdev/geode/gxfb_core.c        |  23 +--
+ drivers/video/fbdev/geode/lxfb_core.c        |  25 +--
+ drivers/video/fbdev/grvga.c                  |  18 ++-
+ drivers/video/fbdev/gxt4500.c                |  13 +-
+ drivers/video/fbdev/hyperv_fb.c              |  18 ++-
+ drivers/video/fbdev/i740fb.c                 |  26 +--
+ drivers/video/fbdev/i810/i810_main.c         |  26 ++-
+ drivers/video/fbdev/imsttfb.c                |  16 +-
+ drivers/video/fbdev/imxfb.c                  |  21 +--
+ drivers/video/fbdev/intelfb/intelfbdrv.c     |  23 ++-
+ drivers/video/fbdev/kyro/fbdev.c             |  21 ++-
+ drivers/video/fbdev/macfb.c                  |  26 +--
+ drivers/video/fbdev/matrox/matroxfb_base.c   |  19 +--
+ drivers/video/fbdev/mx3fb.c                  |  23 ++-
+ drivers/video/fbdev/neofb.c                  |  26 +--
+ drivers/video/fbdev/nvidia/nvidia.c          |  26 ++-
+ drivers/video/fbdev/ocfb.c                   |  21 ++-
+ drivers/video/fbdev/omap/omapfb_main.c       |  15 +-
+ drivers/video/fbdev/platinumfb.c             |  44 ++---
+ drivers/video/fbdev/pm2fb.c                  |  25 +--
+ drivers/video/fbdev/pm3fb.c                  |  27 ++--
+ drivers/video/fbdev/ps3fb.c                  |  28 ++--
+ drivers/video/fbdev/pvr2fb.c                 |  32 ++--
+ drivers/video/fbdev/pxafb.c                  |  18 ++-
+ drivers/video/fbdev/riva/fbdev.c             |  26 ++-
+ drivers/video/fbdev/s3fb.c                   |  27 ++--
+ drivers/video/fbdev/savage/savagefb_driver.c |  20 ++-
+ drivers/video/fbdev/sis/sis_main.c           |  24 +--
+ drivers/video/fbdev/skeletonfb.c             |  17 +-
+ drivers/video/fbdev/sm712fb.c                |  12 +-
+ drivers/video/fbdev/sstfb.c                  |  25 +--
+ drivers/video/fbdev/stifb.c                  | 162 +++++++++----------
+ drivers/video/fbdev/tdfxfb.c                 |  21 ++-
+ drivers/video/fbdev/tgafb.c                  |  30 ++--
+ drivers/video/fbdev/tmiofb.c                 |  24 +--
+ drivers/video/fbdev/tridentfb.c              |  27 ++--
+ drivers/video/fbdev/uvesafb.c                |  21 ++-
+ drivers/video/fbdev/valkyriefb.c             |  30 ++--
+ drivers/video/fbdev/vermilion/vermilion.c    |   7 +-
+ drivers/video/fbdev/vesafb.c                 |  16 +-
+ drivers/video/fbdev/vfb.c                    |  35 ++--
+ drivers/video/fbdev/via/viafbdev.c           |  15 +-
+ drivers/video/fbdev/vt8623fb.c               |  11 +-
+ include/linux/cmdline.h                      |  36 +++++
+ include/linux/fb.h                           |   2 +-
+ lib/Makefile                                 |   2 +-
+ lib/cmdline_iter.c                           | 109 +++++++++++++
+ 70 files changed, 1087 insertions(+), 682 deletions(-)
+ create mode 100644 include/linux/cmdline.h
+ create mode 100644 lib/cmdline_iter.c
+
 -- 
-2.34.1
+2.39.2
 
