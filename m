@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A65B6B29F2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 900C36B296D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C60B710E86E;
-	Thu,  9 Mar 2023 16:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5932910E874;
+	Thu,  9 Mar 2023 16:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F16F10E864
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4C9410E862
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:24 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F3CC920189;
- Thu,  9 Mar 2023 16:02:22 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5754A22158;
+ Thu,  9 Mar 2023 16:02:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8sTlmFAIEYjGf/xMWjBdmdvaz1qIS9TL0x1Z8/8ESg=;
- b=Jx/cdr4saXpUkoi5xNEm0dH6/pc+Nm9w1N47Q9Y3wj24Jvq3WZreC8KxOjqGHI5eFbAdj8
- 4Wa0rwhaMD5EK2UBDyUdldSUPkMMqs0rjJPd0LLIjS3VrMtXKeaTeejRZly8Ky7/biDATh
- KWLiIirbeCcla0AwDz5x7Xknw1Mqi2I=
+ bh=ai+UeCW+AhsoKfqWG5QFx6U/VSD9FuiIhsYKiqWB00A=;
+ b=nxteKXOcJTnmZ+AfjBKZCbhwRbte4JILVsUC4GnBe5KlaPlLHXmTuGtVu+ViN+ECW+44P/
+ Ly+dus4n/DRJHs2ySjeVVOF6Tzz5e/rNNJvysuW1h7tYti59rXT29y7lqTHHM/3enOOUIW
+ a7CI5LbqIYbCVSYm1UGD3ocJMpq/un8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377743;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8sTlmFAIEYjGf/xMWjBdmdvaz1qIS9TL0x1Z8/8ESg=;
- b=E1tv0ydMgl1akO+Ymzgw1Y15ff7EzGNdKqau/hDrgJ6hrLZi/oqdhH/safjC1XW0/PdrPC
- cjAGhE2wOkqzL1Dw==
+ bh=ai+UeCW+AhsoKfqWG5QFx6U/VSD9FuiIhsYKiqWB00A=;
+ b=qCR2hPQslBhn94hWgs9F4HlXq7ylQCuN35HGlZHqBA5tV8/mpI6q/xgjZg6Utr/YKiGfc/
+ /zofyFiq7pUsA0Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9BDD013A73;
- Thu,  9 Mar 2023 16:02:22 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 03F3C1391B;
+ Thu,  9 Mar 2023 16:02:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AF42JQ4DCmQHbgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:22 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id CKobAA8DCmQHbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:23 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  rdunlap@infradead.org, paulus@samba.org, benh@kernel.crashing.org,
@@ -52,10 +52,9 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 045/101] fbdev/matroxfb: Parse option string with struct
- option_iter
-Date: Thu,  9 Mar 2023 17:01:05 +0100
-Message-Id: <20230309160201.5163-46-tzimmermann@suse.de>
+Subject: [PATCH v2 046/101] fbdev/mx3fb: Duplicate video-mode option string
+Date: Thu,  9 Mar 2023 17:01:06 +0100
+Message-Id: <20230309160201.5163-47-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -78,65 +77,55 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use struct option_iter to walk over the individual options in the
-driver's option string. Replaces the hand-written strsep() loop with
-a clean interface. The helpers for struct option_iter handle empty
-option strings and empty options transparently. The struct's _init
-and _release functions duplicate and release the option string's
-memory buffer as needed.
+Assume that the driver does not own the option string or its substrings
+and hence duplicate the option string for the video mode. Allocate the
+copy's memory with kstrdup() and free it in the module's exit function.
 
-Done in preparation of constifying the option string.
+Done in preparation of switching the driver to struct option_iter and
+constifying the option string.
+
+v2:
+	* replace static memory with kstrdup()/kfree() (Geert)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/matrox/matroxfb_base.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/video/fbdev/mx3fb.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/matrox/matroxfb_base.c b/drivers/video/fbdev/matrox/matroxfb_base.c
-index a043a737ea9f..4c2086136e9b 100644
---- a/drivers/video/fbdev/matrox/matroxfb_base.c
-+++ b/drivers/video/fbdev/matrox/matroxfb_base.c
-@@ -101,6 +101,7 @@
-  */
+diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
+index 76771e126d0a..e33ad125318f 100644
+--- a/drivers/video/fbdev/mx3fb.c
++++ b/drivers/video/fbdev/mx3fb.c
+@@ -332,6 +332,7 @@ static void mx3fb_exit_backlight(struct mx3fb_data *fbd)
+ static void mx3fb_dma_done(void *);
  
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/version.h>
+ /* Used fb-mode and bpp. Can be set on kernel command line, therefore file-static. */
++static const char *fb_mode_buf;
+ static const char *fb_mode;
+ static unsigned long default_bpp = 16;
  
- #include "matroxfb_base.h"
-@@ -2333,17 +2334,14 @@ static void __exit matrox_done(void) {
- 
- /* ************************* init in-kernel code ************************** */
- 
--static int __init matroxfb_setup(char *options) {
-+static int __init matroxfb_setup(const char *options)
-+{
-+	struct option_iter iter;
- 	char *this_opt;
- 
--	DBG(__func__)
--
--	if (!options || !*options)
--		return 0;
--
--	while ((this_opt = strsep(&options, ",")) != NULL) {
--		if (!*this_opt) continue;
-+	option_iter_init(&iter, options);
- 
-+	while (option_iter_next(&iter, &this_opt)) {
- 		dprintk("matroxfb_setup: option %s\n", this_opt);
- 
- 		if (!strncmp(this_opt, "dev:", 4))
-@@ -2467,6 +2465,9 @@ static int __init matroxfb_setup(char *options) {
- 			}
- 		}
+@@ -1666,8 +1667,11 @@ static int __init mx3fb_setup(void)
+ 			continue;
+ 		if (!strncmp(opt, "bpp=", 4))
+ 			default_bpp = simple_strtoul(opt + 4, NULL, 0);
+-		else
+-			fb_mode = opt;
++		else {
++			kfree(fb_mode_buf);
++			fb_mode_buf = kstrdup(opt, GFP_KERNEL); // ignore errors
++			fb_mode = fb_mode_buf;
++		}
  	}
-+
-+	option_iter_release(&iter);
-+
- 	return 0;
+ #endif
+ 
+@@ -1688,6 +1692,7 @@ static int __init mx3fb_init(void)
+ static void __exit mx3fb_exit(void)
+ {
+ 	platform_driver_unregister(&mx3fb_driver);
++	kfree(fb_mode_buf);
  }
  
+ module_init(mx3fb_init);
 -- 
 2.39.2
 
