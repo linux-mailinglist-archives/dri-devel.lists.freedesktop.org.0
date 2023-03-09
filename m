@@ -2,62 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073976B2A5D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C636B2A6E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:09:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF21410E180;
-	Thu,  9 Mar 2023 16:07:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4594189D63;
+	Thu,  9 Mar 2023 16:09:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36F0310E188
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:07:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B6A1C61C40
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:07:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 690DBC433EF
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:07:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678378064;
- bh=FafPvJlGoCLnPeKY0wGjLcSzRYX3ZndUDyw4uheNIuw=;
- h=From:To:Subject:Date:From;
- b=rC8mBhTZgrxtRgH5FB3F5T1RTo2BZhJDW9ZLA9GKh3FUVJhWNfq33CDy8s3GfNAaS
- EIPA46mJrZect1VshT/jMMze3452ji9Ac4bB1+2viJIFmizoYrXrKenA/1EfGyinAL
- qH45qUBMHbmn53/KBSlJQraj4fEDJd/aRRa6PjJSSnk9IiBMnjlKaE28JzNQx5ldJV
- IRkwn4BG8oR4z4iFrgTwwt69NZzNAgoFzgnHdveqTwxNoq59KKJd4U8jZUfoP5jcdY
- jEbfnn4jGh6xgeYOX7G1glJmTVZx+NzpzGZYiOTX7Jk+TTBOUkgiZ6MoRLyb2LMUXe
- vlsFrW9rdUnoA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 541C9C43143; Thu,  9 Mar 2023 16:07:44 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217168] New: mmap length not validated in drm_gem_dma_mmap()
-Date: Thu, 09 Mar 2023 16:07:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mk@maintech.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-217168-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65CF289D63
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:09:27 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id c18so1517638wmr.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 08:09:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678378166;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=baM3HjE9DHLDRhWVfhwj4CxYGrNduMCVIYgW3lJTrXk=;
+ b=iaa/1vV1rmISH0Ji0xGX1OzifywbERYgyvuDecuzcJOkhUt4LmFcJUpILJWa4bnadW
+ JRkFU61L6fCQU1oia8nnXtry9uhoYL7NCFdXs2CrKDXCvlIgvd8n7Odx8TK87Or57hAQ
+ mKMUVWoMqD8nLBo4LZpAF3AH55oTY8FRfsRMmqsafX5k36uWJIVRRGl8mHez7IiqDe7o
+ vimG3FTnFTJ4sZQHGMsd3i6wYpE2FdkpGLCY/jq6AhyVSTkP1uVatZjoAu5WG5plA9xz
+ LKySpBsMjYqJQ8FXGsLu8A58gVsYy5MAwtUKlZ5v2re5OBisMlx6CFcFjrXu8nU1wzae
+ blKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678378166;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=baM3HjE9DHLDRhWVfhwj4CxYGrNduMCVIYgW3lJTrXk=;
+ b=AiS656aJ/96V3rLZ2LJJ3wruH2ieryWFY5nNIh3WUPPbbha7GmYyy9FNvOPQby4KUN
+ ZlLccr+DxGNkN+RfOXXeJI8csjZGZe1GV6FkO821iyRp4Eb6DT7lLEO935LZ6huhPnP/
+ J/B8p9XfU2Q5BHi+WtE+wFy05nt+F/0mZDByYeeDodzeenI25mKBnByXeOK5ZsbQTG6/
+ WLcLvxshJyBjTmXt0d0uo9yxb3RGrPhRcOJv0bIscdDCpyunEXVQ9ZXDFqDs5DM9MK+X
+ GWE11DlnxsWJuPGLZxUK/ItkAEYA4uxSZ1Iy/bA9XHd6f94rT9/dM74AdLroxCGoY0v4
+ BQSw==
+X-Gm-Message-State: AO0yUKWg3xtx8EO3iGpY4EjQr8cJFoId9/mt1mKoyhjDsNNJPb91g8LK
+ 98O1tz4caqa+rNXBeG6RdiQOSg==
+X-Google-Smtp-Source: AK7set9lWqVBezY8rlJKRdM/6lwliOySmAqXpeWCr+d3/Ss6zcbxSKWYzxPcdKzRhY/uCL02e259/w==
+X-Received: by 2002:a1c:7417:0:b0:3eb:2b69:c3c4 with SMTP id
+ p23-20020a1c7417000000b003eb2b69c3c4mr21108056wmc.36.1678378165794; 
+ Thu, 09 Mar 2023 08:09:25 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:9df7:bf3e:9813:995a?
+ ([2a01:e0a:982:cbb0:9df7:bf3e:9813:995a])
+ by smtp.gmail.com with ESMTPSA id
+ p9-20020a05600c468900b003ebf73acf9asm338152wmo.3.2023.03.09.08.09.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Mar 2023 08:09:25 -0800 (PST)
+Message-ID: <c0eecc5e-4ad9-b9ea-137c-903abfad849f@linaro.org>
+Date: Thu, 9 Mar 2023 17:09:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*()
+ conversion again
+Content-Language: en-US
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+References: <CGME20230309152453eucas1p28e1870593875304648243c9dead4b256@eucas1p2.samsung.com>
+ <20230309152446.104913-1-m.szyprowski@samsung.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230309152446.104913-1-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,61 +81,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217168
+On 09/03/2023 16:24, Marek Szyprowski wrote:
+> devm_regulator_get_enable_optional() returns -ENODEV if requested
+> optional regulator is not present. Adjust code for that, because in the
+> 67d0a30128c9 I've incorrectly assumed that it also returns 0 when
+> regulator is not present.
+> 
+> Reported-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
+> Fixes: 67d0a30128c9 ("drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+>   drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> index 534621a13a34..3d046878ce6c 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -718,7 +718,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>   	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
+>   
+>   	ret = devm_regulator_get_enable_optional(dev, "hdmi");
+> -	if (ret < 0)
+> +	if (ret < 0 && ret != -ENODEV)
+>   		return ret;
+>   
+>   	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
 
-            Bug ID: 217168
-           Summary: mmap length not validated in drm_gem_dma_mmap()
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 6.2
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: mk@maintech.de
-        Regression: No
-
-In the drm_gem_dma_mmap() function (drm_gem_cma_mmap() for kernel versions
-before 6.1), the length of the requested mapping does not get validated aga=
-inst
-the length of the GEM buffer object. Therefore the user can gain full acces=
-s to
-the physical memory after the GEM buffer by just mmap-ing the buffer with a
-larger length.
-
-
-I *think* the correct way to fix this issue is to pass the actual size of t=
-he
-buffer as 'size' argument to the dma_mmap_wc/dma_mmap_pages function, inste=
-ad
-of the user-requested length. (=3D> replace "vma->vm_end - vma->vm_start" by
-"dma_obj->base.size"). These functions then will validate the requested len=
-gth
-against the buffer size and return -ENXIO if the length is too large. But I=
- am
-in no means an expert in this area, so somebody with more experience should
-definitely confirm this.=20
-
-
-I have discovered this issue by using mmap on on an fbdev (/dev/fb0) create=
-d by
-the Xilinx 'ZynqMP DisplayPort Subsystem' DRM driver
-(/drivers/gpu/drm/xlnx/zynqmp_dpsub.c) and validated that I can actually use
-this to gain access to the physical memory behind the framebuffer. But as t=
-his
-is an generic helper function of the DRM GEM framework used by many differe=
-nt
-DRM drivers, I assume other DRM drivers are affected in a similar way.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
