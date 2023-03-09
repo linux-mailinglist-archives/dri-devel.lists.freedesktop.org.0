@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B364C6B29C7
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BE16B299D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E20410E8A3;
-	Thu,  9 Mar 2023 16:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E91EE10E85C;
+	Thu,  9 Mar 2023 16:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5297710E86E
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC1CD10E86E
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 155E02019B;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7CB1622158;
  Thu,  9 Mar 2023 16:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zGetZdXUeEv2x/Fcv995cdEBibV8mYINv0DLdPj96AI=;
- b=Fj94byZ460xsDFnplb2N0lh+i6F2zk4puOsHbXCPjyxeu9EIjRHqZ1KOqmkx+IX5aIzlFq
- fpNQ+Xg8w2QRQhw0EqbkCTtQk1MJNC9YXJU5EN2MQXrZkyrnAg94vRNtL/4GmsaIxp3G19
- 2/6C0BRhxN4zzzZCFcY4COzQ6qYikNg=
+ bh=jWp/QupJ7lE9lZrkHkA8/CsL9Gj47AgqbuLGp0xrG1c=;
+ b=XRSsNo3dtACqfxy0a48JxdH15rwMVIHpG1l3WXc2kEYIigrEdk28EP+Nn76+l4FNgLwVHz
+ zr4pBxNmpg8zZTyVJdW3FoVYQg+Aihdd4UMunIwiMopFYYjQbpYBaNXdIYjZlzuQqsWjGn
+ 6MRaiG04ik99uB6GQUFFFBsVk2U+7aQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377763;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zGetZdXUeEv2x/Fcv995cdEBibV8mYINv0DLdPj96AI=;
- b=WSDB0EaMEQ6OrPVnvB+sj+PxPuuOIVv3m+vlhqu+M3atDbMsIKvCtMHCCdSee0SPLuAGHh
- EwdIAt+s6WVpWqBg==
+ bh=jWp/QupJ7lE9lZrkHkA8/CsL9Gj47AgqbuLGp0xrG1c=;
+ b=1VLdQckklPlS8Lm6AMQ7rfktOYxy4ECYo2JAc26tLf8sFvOswz6SWNJ+7EI3SRphcrBRsc
+ 5Felkaa2IufKu6Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A9C1D1391B;
- Thu,  9 Mar 2023 16:02:42 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B7D01391B;
+ Thu,  9 Mar 2023 16:02:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id gMGGKCIDCmQHbgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:42 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id KKKyBSMDCmQHbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:43 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  rdunlap@infradead.org, paulus@samba.org, benh@kernel.crashing.org,
@@ -52,10 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 095/101] fbdev/vfb: Parse option string with struct
+Subject: [PATCH v2 096/101] fbdev/viafb: Parse option string with struct
  option_iter
-Date: Thu,  9 Mar 2023 17:01:55 +0100
-Message-Id: <20230309160201.5163-96-tzimmermann@suse.de>
+Date: Thu,  9 Mar 2023 17:01:56 +0100
+Message-Id: <20230309160201.5163-97-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,57 +89,57 @@ Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/vfb.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/via/viafbdev.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
-index de27fe84d820..7694e5026155 100644
---- a/drivers/video/fbdev/vfb.c
-+++ b/drivers/video/fbdev/vfb.c
-@@ -10,6 +10,7 @@
-  *  more details.
+diff --git a/drivers/video/fbdev/via/viafbdev.c b/drivers/video/fbdev/via/viafbdev.c
+index 2d67c92c5774..749aee9f6c56 100644
+--- a/drivers/video/fbdev/via/viafbdev.c
++++ b/drivers/video/fbdev/via/viafbdev.c
+@@ -5,6 +5,7 @@
+ 
   */
  
 +#include <linux/cmdline.h>
+ #include <linux/compiler.h>
  #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -393,8 +394,9 @@ static int vfb_mmap(struct fb_info *info,
-  * The virtual framebuffer driver is only enabled if explicitly
-  * requested by passing 'video=vfb:' (or any actual options).
-  */
--static int __init vfb_setup(char *options)
-+static int __init vfb_setup(const char *options)
+ #include <linux/seq_file.h>
+@@ -1922,21 +1923,18 @@ void via_fb_pci_remove(struct pci_dev *pdev)
+ #ifndef MODULE
+ static int __init viafb_setup(void)
  {
+-	char *this_opt;
+ 	char *options;
 +	struct option_iter iter;
- 	char *this_opt;
++	char *this_opt;
  
- 	vfb_enable = 0;
-@@ -404,12 +406,9 @@ static int __init vfb_setup(char *options)
+ 	DEBUG_MSG(KERN_INFO "viafb_setup!\n");
  
- 	vfb_enable = 1;
+ 	if (fb_get_options("viafb", &options))
+ 		return -ENODEV;
  
--	if (!*options)
--		return 1;
-+	option_iter_init(&iter, options);
- 
+-	if (!options || !*options)
+-		return 0;
+-
 -	while ((this_opt = strsep(&options, ",")) != NULL) {
 -		if (!*this_opt)
 -			continue;
++	option_iter_init(&iter, options);
+ 
 +	while (option_iter_next(&iter, &this_opt)) {
- 		/* Test disable for backwards compatibility */
- 		if (!strcmp(this_opt, "disable"))
- 			vfb_enable = 0;
-@@ -419,6 +418,9 @@ static int __init vfb_setup(char *options)
- 			mode_option = mode_option_buf;
+ 		if (!strncmp(this_opt, "viafb_mode1=", 12)) {
+ 			viafb_mode1 = kstrdup(this_opt + 12, GFP_KERNEL);
+ 			if (!viafb_mode1)
+@@ -2009,6 +2007,9 @@ static int __init viafb_setup(void)
+ 				return -ENOMEM;
  		}
  	}
 +
 +	option_iter_release(&iter);
 +
- 	return 1;
+ 	return 0;
  }
- #endif  /*  MODULE  */
+ #endif
 -- 
 2.39.2
 
