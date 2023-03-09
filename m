@@ -2,30 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075C16B1A03
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 04:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB136B1A17
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 04:46:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D2010E782;
-	Thu,  9 Mar 2023 03:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D98910E784;
+	Thu,  9 Mar 2023 03:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-98.freemail.mail.aliyun.com
- (out30-98.freemail.mail.aliyun.com [115.124.30.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2352410E782;
- Thu,  9 Mar 2023 03:37:02 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R151e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
- TI=SMTPD_---0VdRlr5N_1678333015; 
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0VdRlr5N_1678333015) by smtp.aliyun-inc.com;
- Thu, 09 Mar 2023 11:36:59 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Subject: [PATCH] drm/amdgpu: Remove useless else if
-Date: Thu,  9 Mar 2023 11:36:54 +0800
-Message-Id: <20230309033654.64762-1-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D74E010E138;
+ Thu,  9 Mar 2023 03:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678333585; x=1709869585;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+Ld0ypTFpiWU31BLU4ZnwPNaCuLiZBdh/oRuI9ppKX4=;
+ b=V3uktxbqn6fSLuVQcbZmFL1I8VFJLXdXBkMaYU/wDixwZb1jVsFdEduU
+ xV5p8m7MgITnhrWG6r9rsDT24LLtG5MbCLgwZvXyqmuM2ItGFqP47Fo8H
+ n0lkWsS9SH2hMu1YkjwCWF6Rsa4jptavVOqKgHcRIs5fNlKuxM/+ZljEn
+ bwfeCWAo7NgfMhqYNiD2gE/7trlmvZ6SD0c7my51p4WKbSmFTICpHIxkt
+ 7QT1RSk6wCSrdKGWouR2Ea0kcrQRtiGb1NZS2i5GrG5BvnVztF6cbe7e6
+ XoMDWw1WDTmXtb0JuxNt2D993qIRjiWZrr6AkV9VhENRTKe+VnruPBRFP w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="320173788"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; d="scan'208";a="320173788"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 19:46:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="820462272"
+X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; d="scan'208";a="820462272"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 19:46:24 -0800
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/i915/pmu: Use common freq functions with sysfs
+Date: Wed,  8 Mar 2023 19:46:19 -0800
+Message-Id: <20230309034621.1008458-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -40,54 +55,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
- Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Badal Nilawar <badal.nilawar@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The assignment of the else and if branches is the same, so the if else
-here is redundant, so we remove it.
+Expose intel_rps_read_actual_frequency_fw to read the actual freq without
+taking forcewake for use by PMU. The code is refactored to use a common set
+of functions across sysfs and PMU. Using common functions with sysfs in PMU
+solves the issues of missing support for MTL and missing support for older
+generations (prior to Gen6). It also future proofs the PMU where sometimes
+code has been updated for sysfs and PMU has been missed.
 
-./drivers/gpu/drm/amd/amdgpu/nv.c:1048:2-4: WARNING: possible condition with no effect (if == else).
+Ashutosh Dixit (2):
+  drm/i915/pmu: Use functions common with sysfs to read actual freq
+  drm/i915/pmu: Remove fallback to requested freq for SLPC
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4454
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdgpu/nv.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_rps.c | 46 +++++++++++++++++++----------
+ drivers/gpu/drm/i915/gt/intel_rps.h |  2 +-
+ drivers/gpu/drm/i915/i915_pmu.c     | 17 +++++++----
+ 3 files changed, 43 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/nv.c b/drivers/gpu/drm/amd/amdgpu/nv.c
-index 855d390c41de..84803929f7d9 100644
---- a/drivers/gpu/drm/amd/amdgpu/nv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/nv.c
-@@ -1045,19 +1045,11 @@ static int nv_common_late_init(void *handle)
- 
- 	if (amdgpu_sriov_vf(adev)) {
- 		xgpu_nv_mailbox_get_irq(adev);
--		if (adev->vcn.harvest_config & AMDGPU_VCN_HARVEST_VCN0) {
--			amdgpu_virt_update_sriov_video_codec(adev,
--							     sriov_sc_video_codecs_encode_array,
--							     ARRAY_SIZE(sriov_sc_video_codecs_encode_array),
--							     sriov_sc_video_codecs_decode_array_vcn1,
--							     ARRAY_SIZE(sriov_sc_video_codecs_decode_array_vcn1));
--		} else {
--			amdgpu_virt_update_sriov_video_codec(adev,
--							     sriov_sc_video_codecs_encode_array,
--							     ARRAY_SIZE(sriov_sc_video_codecs_encode_array),
--							     sriov_sc_video_codecs_decode_array_vcn1,
--							     ARRAY_SIZE(sriov_sc_video_codecs_decode_array_vcn1));
--		}
-+		amdgpu_virt_update_sriov_video_codec(adev,
-+						     sriov_sc_video_codecs_encode_array,
-+						     ARRAY_SIZE(sriov_sc_video_codecs_encode_array),
-+						     sriov_sc_video_codecs_decode_array_vcn1,
-+						     ARRAY_SIZE(sriov_sc_video_codecs_decode_array_vcn1));
- 	}
- 
- 	return 0;
 -- 
-2.20.1.7.g153144c
+2.38.0
 
