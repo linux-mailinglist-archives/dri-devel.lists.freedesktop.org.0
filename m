@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6C26B29F8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A47E86B2A0B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7BF10E8B4;
-	Thu,  9 Mar 2023 16:03:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17BC710E8B8;
+	Thu,  9 Mar 2023 16:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99ECD10E1A8
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0FFC10E862
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:31 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 423EF20191;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9D54C20192;
  Thu,  9 Mar 2023 16:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wUduy0AuOjKoirEH3M4ZgQWRTKWt0MXYaCWhrGLsjaw=;
- b=tvjhW16Wva/AA4h26PDcnH3qVIk7m64jqixdJMYwVnvZhbr+HoV8r8MvvgoiLUD4ZU8jgO
- Hw6YKrCXDrrasvxTHac2Z7n6KCkmM5/wY5vzZlHBLORr/DqkeaadTp+8VGNfkxVbR4il59
- YcmPUm5WT8xLjNrtVkDtT3VaBWTpMig=
+ bh=i9kXMRzl84QLn/fJf6kdz3b+HhhBrJcv0BrlgL/PbEg=;
+ b=lcW5jkLqcuR67+A4lDjPzUQmUXrC1v0MNNCKRJEl+PUF2DjZ1Z5p8aI59In8NRD2grpFi8
+ L3x+183urkgRk2mUMZ2d/Vofzua7YVUSrMEXHIVzMj1wN8mGAsbqxI4v+XDe2zjM2URfb9
+ e0zsFsbXMNLaAJJ9tkn/YHbBj961978=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377750;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wUduy0AuOjKoirEH3M4ZgQWRTKWt0MXYaCWhrGLsjaw=;
- b=L0zcwibam7U69C5b9SNulUE2ace4gMAgny98/CFfo6soy3LxgN2bPxaZT0dV5MXhTs718V
- BENdEmvFEJf6izDg==
+ bh=i9kXMRzl84QLn/fJf6kdz3b+HhhBrJcv0BrlgL/PbEg=;
+ b=3He5Ygju0enbSqJS3GobyTos5rFr008eOHgqKgbqqs3295oCQSSiLg15pj8L5QjzPxotmw
+ AMejKys/mzYKzkAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC3E313A73;
- Thu,  9 Mar 2023 16:02:29 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 45B561391B;
+ Thu,  9 Mar 2023 16:02:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id SKXdNBUDCmQHbgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:29 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id QHc4EBYDCmQHbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:30 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  rdunlap@infradead.org, paulus@samba.org, benh@kernel.crashing.org,
@@ -52,10 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 064/101] fbdev/pvr2fb: Parse option string with struct
+Subject: [PATCH v2 065/101] fbdev/pxafb: Parse option string with struct
  option_iter
-Date: Thu,  9 Mar 2023 17:01:24 +0100
-Message-Id: <20230309160201.5163-65-tzimmermann@suse.de>
+Date: Thu,  9 Mar 2023 17:01:25 +0100
+Message-Id: <20230309160201.5163-66-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -89,57 +89,54 @@ Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/pvr2fb.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/video/fbdev/pxafb.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/pvr2fb.c b/drivers/video/fbdev/pvr2fb.c
-index f6be2649840d..c332f2c38114 100644
---- a/drivers/video/fbdev/pvr2fb.c
-+++ b/drivers/video/fbdev/pvr2fb.c
-@@ -46,6 +46,7 @@
- #undef DEBUG
- 
- #include <linux/aperture.h>
-+#include <linux/cmdline.h>
- #include <linux/module.h>
- #include <linux/kernel.h>
- #include <linux/errno.h>
-@@ -1025,20 +1026,18 @@ static void pvr2fb_pci_exit(void)
+diff --git a/drivers/video/fbdev/pxafb.c b/drivers/video/fbdev/pxafb.c
+index c46ed78298ae..d2db9c20d515 100644
+--- a/drivers/video/fbdev/pxafb.c
++++ b/drivers/video/fbdev/pxafb.c
+@@ -32,6 +32,7 @@
+  *   All Rights Reserved
   */
  
- #ifndef MODULE
--static int __init pvr2fb_setup(char *options)
-+static int __init pvr2fb_setup(const char *options)
++#include <linux/cmdline.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/kernel.h>
+@@ -2011,23 +2012,26 @@ static int parse_opt(struct device *dev, char *this_opt,
+ 	return 0;
+ }
+ 
+-static int pxafb_parse_options(struct device *dev, char *options,
++static int pxafb_parse_options(struct device *dev, const char *options,
+ 			       struct pxafb_mach_info *inf)
  {
--	char *this_opt;
- 	char cable_arg[80];
- 	char output_arg[80];
--
++	struct option_iter iter;
+ 	char *this_opt;
+ 	int ret;
+ 
 -	if (!options || !*options)
 -		return 0;
-+	struct option_iter iter;
-+	char *this_opt;
+-
+ 	dev_dbg(dev, "options are \"%s\"\n", options ? options : "null");
  
- 	cable_arg[0] = output_arg[0] = 0;
- 
--	while ((this_opt = strsep(&options, ","))) {
--		if (!*this_opt)
--			continue;
+-	/* could be made table driven or similar?... */
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
 +	option_iter_init(&iter, options);
 +
 +	while (option_iter_next(&iter, &this_opt)) {
- 		if (!strcmp(this_opt, "inverse")) {
- 			fb_invert_cmaps();
- 		} else if (!strncmp(this_opt, "cable:", 6)) {
-@@ -1056,6 +1055,8 @@ static int __init pvr2fb_setup(char *options)
- 		}
++		/* could be made table driven or similar?... */
+ 		ret = parse_opt(dev, this_opt, inf);
+ 		if (ret)
+ 			return ret;
  	}
- 
++
 +	option_iter_release(&iter);
 +
- 	if (*cable_arg)
- 		cable_type = pvr2_get_param_val(cables, cable_arg, 3);
- 	if (*output_arg)
+ 	return 0;
+ }
+ 
 -- 
 2.39.2
 
