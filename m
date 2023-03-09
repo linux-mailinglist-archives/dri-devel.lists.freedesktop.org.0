@@ -1,102 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A06E6B1D3A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 08:59:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6366B1D4B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:06:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F0F10E7A5;
-	Thu,  9 Mar 2023 07:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D8110E7A8;
+	Thu,  9 Mar 2023 08:06:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-db3eur04olkn2061.outbound.protection.outlook.com [40.92.74.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF0F10E7A5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 07:59:36 +0000 (UTC)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2062d.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17EB510E7A6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:06:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XnqSXUNQHaab1a6G0AiW1wMz3geC5s4+ApOX2IAx6YRTEIHINMg14PJdHZMHekQO5Fky1E1pXQEDP+cyjHGs/b5LiQNHK6BuV8GcQ9qe9uOIM8SeEUSCd3bnObTuv3UPwhLRg7rMEh7tgOlNak2g0tiKTftRU23ZtvTmsFWko6tB9PV3k2e6fb8hlAru03oPTaEHb6kneUEIenPL6tqJqpGTVTM+nNbJr/4bOMUmrJEaXW5symBTOiVPzJYKaeHlV7sZv7PDzOfKM/FjGgL4cFkOyxvrli34VYEcBv90VeMjcXk+EQu/Ym26spUNFmNlLwXEy9gGj6ZnKjGuvyc2zA==
+ b=aOz8R6LWeAuv0U+Di+X1aoYSorF1vwF9QtqqZd75ZrIO/BinBD4LaeixyAXrxvUAWWg470NfbvV2XPPkKGS0z2/WvZNw/y20LrUMpgWHg87Wm1S42gKeH5aPdYFk/lUu5yLUE4T4OLzUtZEtyeNFeC4HXkQwHhvHAarYGRTZi/J5mSb4y8paO8wOubgMb4/gwv1mX6dnYufg40EupI8bX2uHyPW8EIeAa8f9TM25AyJpKq67YaEhqRUDAfZ+fU8IlsYO9kcc3lV29H32NF3POWTbnWsWSzq+MARXKWLv0v052rgQQMFk6LeMNM67kYGX6cEFIdZCCtCvgKFFb16aHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/8b7SxGseP+5wQHkldzYve7cq5e4a9ngQSM3Zv9ahzk=;
- b=C9/kSmFg63ggFNGfagMu7OAu62CjzM7TA6Ufz7v83KUeCDjnw7RHd4yDyoDRcZfohLILM1HDBTw5kkcT3uyTTeYgcDXMQ6xaUVoVztYTr75Nrs/ju/4RFxX/fQlP5r0AidX1u3uB2di2E1jJL9kD2qE9IwNq//hW2YXxpKfS3WBC5kejRn/C6F8zyXl0VtdPj4A38/SoweMGxLkKNA3Oc8xG17IIQykr3+J5gfIusf63NQs+E3BQfWjMaZHNLyziZn/0MCn7wKVun+A7YhI+o28Gc6kGQAlQtsYJuIWwmIbYO+pq1YzQoM88+eWOVVpDCPHe6qqh75hckjG4hGNFIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
+ bh=k7Zsip1WQpEb5AxlIi9nL3EM+jx/pA438H0eFny95q0=;
+ b=ZrUAAGy3OZWi44uxKGU9SdZLz36FV79Id2W6ydEnyx4IAjya1nH0cXJCc0LsT4EDg0rxDTN02zBwMh5KWt6rcEWdB1oRLoHlgUTr5dLW+JRCKhhK9coEk9B3gAm/O0fs7mc30eR1qrXOzZ1uKsioi3qkHVaVnQtceGEH8TjhcxF64RNVAl8cQG13IKakl7ECih0gSxmycdJf1+5ltxS/bT3h31mCQQbmk71sllTiniclm8jft4a0lJmtukc3Txzx/iIiXwk11HadaMXwBelKac/jFutBQETRz0+vyvttxnLP7ErmdJmAlxnA9kjGcXnuGg5I6nBDdHp2urC+T0Vu3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/8b7SxGseP+5wQHkldzYve7cq5e4a9ngQSM3Zv9ahzk=;
- b=dkhV3q/FIoZ5O0prW6nPzxDqBV4IbBKv7udsrsWm/BF+8ZMDCrB/wfHIn7cQl12DNrtcuF9fe/2oK1U1d9O7Pya8XpZEIoZBNFIUJXAkOLb3N632u3zi0SOzz+Tk9qK9OIHIUHuB/AqwxRvTR87xrvMIVESlzKApt7x3wBPrryk7N4XdAy0v2ZxVsyjp3JhxrLz4aBYIC/EdSKLqgWZxI6v/HGHVrrnmGWqw6A7xUbYe6edQSJRTVJ7G3RBGGHLqzb5Qn5L3cDhUyeapRsR1wbdWASQLHBvN/1QKbWNfl0NUNm7jM1K2AYt8Tmajw1amnutjFdUHZ0KMUB1pt4CVLQ==
-Received: from DB6P189MB0568.EURP189.PROD.OUTLOOK.COM (2603:10a6:6:31::16) by
- DU0P189MB2042.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:3be::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6156.29; Thu, 9 Mar 2023 07:59:34 +0000
-Received: from DB6P189MB0568.EURP189.PROD.OUTLOOK.COM
- ([fe80::325a:fba5:af4e:4484]) by DB6P189MB0568.EURP189.PROD.OUTLOOK.COM
- ([fe80::325a:fba5:af4e:4484%7]) with mapi id 15.20.6178.017; Thu, 9 Mar 2023
- 07:59:34 +0000
-From: David Binderman <dcb314@hotmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: drivers/gpu/drm/bridge/fsl-ldb.c:101: possible loss of
- information.
-Thread-Topic: drivers/gpu/drm/bridge/fsl-ldb.c:101: possible loss of
- information.
-Thread-Index: AQHZUROWy83Z6Qqx6EKYMWjImUxUIK7xh4YAgACLKmI=
-Date: Thu, 9 Mar 2023 07:59:34 +0000
-Message-ID: <DB6P189MB056810B266B656706ECF7EAB9CB59@DB6P189MB0568.EURP189.PROD.OUTLOOK.COM>
-References: <DB6P189MB0568FCA97758B820EAC036989CB79@DB6P189MB0568.EURP189.PROD.OUTLOOK.COM>
- <20230308232224.GG31765@pendragon.ideasonboard.com>
-In-Reply-To: <20230308232224.GG31765@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [Fq7hAptDT/PK2UcbynpokWA1/h8EpR5s]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB6P189MB0568:EE_|DU0P189MB2042:EE_
-x-ms-office365-filtering-correlation-id: b3638ad5-15e5-4777-1fd5-08db20743898
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: i96XP+UZ0N4Ro7Ofmmq33cdBz4vDFtIpTuCAo+zmSOpqV4n98QQA7neS8E6VGpeV5Kcy5ZqyWqX329dZ1F+0G8cIVj1vdCib9IEV3A3wBs0Jn3OiVn81IWjL3kCKI+HGFLuL9JjkzKk14kCheoiCONtS31Jvp2x3620zruogDHqiX45nVFZO4c89Rup3gftwtMQmvaZ2cNJExKGSin3MBKJjhBlAOuKZf7sOHIvHqOJY0D2NNJ41BK/TNk0J3jbmkoXcbmizDXUcbZ21wvyxUBrUuRe5386C+embkdUEl8sJ0EkLvLe4AgODdjgIO+IBEnrk/lvgjZze9yXSdMgGirm0H7YEVkGwF91yVENdU/rKzCbwVilVr1C1ui2bfz5ywY1hSEz9WWWhI9Ivrb3q4FTcZxzj6c0p0sWC1ulHUfNEXoVq4GhkrrL+pRvxoRSUai8ULmnuktJnvS6cT0ea6XE+3K+Tl+AlMTi/4NZB+NR6NFUX0M43ubEQxs0fE26y5nAOAspqP+uU4hGmNb8r8gcwl6qIogdlIE70ESBDefgeCNTy6tP4pFbiXH2XbHhGHnmq3hKDmvDXy9H/ofP0qk28yrfZFmQWtQdEuA0SbZmXRqCq1eaXW3/6tJSuC/dRsnpp2/WVQqUlaWUt+u0UVQ==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?9wkscA2rehL5DEyJa3jTl8wUpCFNAJcGX22xbEYAEIjIElWoncAjicvi7x?=
- =?iso-8859-1?Q?WGRVS7rV0MaUoUBzc3V6aHMI0++86o32x7nuLgDSvV7/w9KUSKDLu3FBui?=
- =?iso-8859-1?Q?nfFxPtucq+tCzn+aY2BPdv/G8f3b653RhTeNK2Zer4qShyx6uJncm35m8D?=
- =?iso-8859-1?Q?1x1uB8Z0s3p0O3hUG/9lgvUdRj2fG1qXXvWW/v4VOomoSBAbD56062ru2p?=
- =?iso-8859-1?Q?yY88dGxpendF4aQFiinpbPHEvRwHgaDNxpv5M2Wp4YHVUx1EogCwoGX30m?=
- =?iso-8859-1?Q?iArizNT3Wy5KcI5Xp3UPNLhL0oSzeuva+RFFNkNJsOb7kbHucwEuWkuopZ?=
- =?iso-8859-1?Q?lYBe5ZGVTKdkLR+ALBblzQgDkobGskWQQBuGvVao2avVyv2+TzH8HBsQnu?=
- =?iso-8859-1?Q?43HAdcPtvW/7UGq/fUyok5Uci5hApLJljUb59btiMeWcpcJE252FWmPB+H?=
- =?iso-8859-1?Q?Uaxm3V+Ogk121BMPPATDSLjGTfF4vqIYC+XVxxJVF0FbGaFA9OiLP7zflU?=
- =?iso-8859-1?Q?rWTXgtm9CnZYF2R87oAAfJpKXG+WAkORnFNQAsIFR8LUF2sQ71kVqXXb0M?=
- =?iso-8859-1?Q?BMl1Ug1OJxq6J/M7HWc4hnjiG02kk5y80m2op98zoaODULduvtA4TZdHc9?=
- =?iso-8859-1?Q?3HUJv/MC4Nz5CMaRgH4A61zPE0EzmAdGaKTDjqOIzV3jsJoRJxfZhHHool?=
- =?iso-8859-1?Q?lQtvWr0X3scbAlxWG9NAweeU7qmZcCcaDnzPmkvPZz/9Ch6jEmM3fk/nmm?=
- =?iso-8859-1?Q?FQUGI7EkD08ym01pSKAHsE1oEeKRkxCy8qKeQh7yULORoLbfXVtsHo+lkv?=
- =?iso-8859-1?Q?juEtHs7nJ9g3e2fctm041AdT7c5coT1GSpQR9YNpt7rc/MYfr/KBk/Od0O?=
- =?iso-8859-1?Q?W6Q8I6JX88SNKKZgRl67NMjoEATRiqywkM+B2u3nbJRPblul6sSYY1AOQo?=
- =?iso-8859-1?Q?GX5K8oeH7qsR0l1As3QYaADZTQOVQtlMd+b/+c06n1uox1Cb28/uYT4Jr5?=
- =?iso-8859-1?Q?nn71q+RooA4TFjQKwFtzY4FTK3d7Ob231kZ3GbcX1fGyQJZvjyT3guoNPA?=
- =?iso-8859-1?Q?g1Ho4MExVJ4cQLBYqpeBKv5rRX3ybmL/hOm6Xc4KA8RtQV6EJP4l1GhDhP?=
- =?iso-8859-1?Q?5p7pMHqR6wNyvUj+eVg8PDJIG6k3Zlz7MInd6cQwsYypjXCk/mya1zCOxz?=
- =?iso-8859-1?Q?emKzsM5hj5+yR+P5Ip56TEfVzt65S07/zhCfnKGaJlkEJNhOL9MjzHDeMC?=
- =?iso-8859-1?Q?NRihnShk88Fu3miNUb/YxvKqdSAfiSJ04suGZRT3v7d58p6fo0vQ4Hljws?=
- =?iso-8859-1?Q?qy5F?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ bh=k7Zsip1WQpEb5AxlIi9nL3EM+jx/pA438H0eFny95q0=;
+ b=DyUf4QUtP/6ZT38+uzgvqdpM2gTLtlOMYNC7IA1gtzP//U78eXopCtPDHBr+LP+qbh9YuqEFJGCzoQIFABWMOZj5dJ8OgUFOFHOnhChtc9F7VJOeh4EwVCnJBZxZSmo76olT55i3dB1fwJacIHhpxSOC/Ra52oEjYXN4/zHF11o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by DM4PR12MB5328.namprd12.prod.outlook.com (2603:10b6:5:39f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Thu, 9 Mar
+ 2023 08:06:06 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Thu, 9 Mar 2023
+ 08:06:05 +0000
+Message-ID: <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
+Date: Thu, 9 Mar 2023 09:05:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Content-Language: en-US
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+ <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+ <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+ <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+ <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+ <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
+ <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
+ <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
+ <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
+ <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
+ <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
+ <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0024.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB5328:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ae74c51-6a11-40e2-9080-08db207521fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YgFdnB5iYuuMzG4JjUA0NRNwMBHsXasK9slfyi0G6sJ5PV2XYGgVVIDUN3FTeOO9d+krRx4moMhoIAIwfquGXSF3lZAPtLifvnCP8e89UwKp1rcDXFnXHHaJZBhJ558sB6Lt+haEv+qX1UZ/LeSqatSfBHSncG6J01LQLxMb9zRAy62wsUVrt14zYeonGptqaQVgF3p773AZ5FtYwWBpj5OGgHMXAErH+55lYk93n+qoL2ndpRHQxVAnawAF2t1k4K8HLZiZoCAWxEXthWnU3w2X+5BCylhp6o3XyiM2LK0jSf/lcEcug+jvyoEvkisPZFcySODsHeqasQiyohkCrAfOYQVfI9CeLhoNDbqok54aPuU8pKfpuPVXDbLfLG/0SIAPNSMqU21LHHLUnw590wicuXgVMC8ma3tRP7uV+Oqk7YBx0sJQH/6f8mz/WOM5vdJl6yvnJsWpoSVtSGjp8uh+H0zX4hhWVNQmNFEM2hJe1FbPY8ZiUNIrduDNzJyvJ97EpdLtaoZrTLcdVOmEThjqeaqP/GtmOAxQpw8Pfh8rt+xoMSphY6CR/xqEvGWT8pKYBM64s2KpA01WCDYoCAUJXnmRKfITKDFSkF9WrsDAlQEuobNTzh5ELYelleH/0gigGP7e1YDPdH6KqmUKerUv23PwFPzMWYEFWf2Dl0jvcmf+x5YNUqHkJSD4mTg3jDb1DeHOmJOajFu8QbjAp+K6opkN0uDjKkceg7nlXkzvfVzBd/57zah/1anaYqaz
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(396003)(366004)(136003)(39860400002)(346002)(451199018)(66476007)(66946007)(66556008)(316002)(66574015)(41300700001)(83380400001)(8676002)(4326008)(31686004)(54906003)(36756003)(110136005)(7416002)(8936002)(38100700002)(2906002)(2616005)(921005)(5660300002)(186003)(478600001)(86362001)(6666004)(31696002)(6486002)(26005)(6506007)(6512007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXhTejdqVlpKZ1c4TlFoanorTW1GWDBSWTZQVVV4UE5lcFpHVFAwdHVyZ2Qx?=
+ =?utf-8?B?MXZFaWNBQ2tMeWs2ME96enRWSU1tQzZkcTdGeVN4N3ovUDFESm1LWUNzK0VH?=
+ =?utf-8?B?cStEUzlJSnpXWENnNFQyY2F6UlNtakdHcEdYY1BSL3hORDdCTnpacGRHSUlU?=
+ =?utf-8?B?dXNtbnJBTFZXdklQOG1DQ2YvUXp4NnJ5UUxMZ2VtODNaaHhXVWFnMitjVXZO?=
+ =?utf-8?B?KzB4a2Fad2ZWN05hV0VEck8vaG5TaWMyNUVCWWxRb2R2UWVnVEN4SHREalRj?=
+ =?utf-8?B?UzJ1VnhSL1EwSmZOcktRb1Z1bGZGNHRYZ05nK28wMGU5MEZ1M0tBc1FKb1lM?=
+ =?utf-8?B?anFaa3A0R2M2Qm9CcXhOTnY5RTNJbU5COWxCdmJKa0FneUpYYWlobFdmc3kz?=
+ =?utf-8?B?dmZZOUpIWkxRRnBXTGMxUVczbUFOQk1wZGpkUUxrUEVOVHdsT0RQbGJVWkp5?=
+ =?utf-8?B?R1Z4MlJEemRxN0k1cW9JVlFTY0Q1TDQxT3cwN2FGWUsrbXNGemltVEVLZTJz?=
+ =?utf-8?B?S1FiYnBFY2ViM2c2UHBtYlBMYmYwWG5LSk1Ya3Zid09vUjVobkY0OUVPdEhr?=
+ =?utf-8?B?bkljYWFMMlJIWXE0akNvUFJSTitCazVMUU9qSUR1TExITkN5WlNFWEtWdWVI?=
+ =?utf-8?B?YkpTRFFsTGtkNjNITVI2SC9ZKzVVV2dDZzVvZE4ySTVRanJva3J4Vk0yVnRQ?=
+ =?utf-8?B?SnIyVmZybmU2ZXBuV3d2U3VsL3h2WEZOMUNxYWlHNlN6UjMyUGx4TzRmcWt4?=
+ =?utf-8?B?M3RwRlRBTDIwdG1nTzlIQzVHWHJPRXRLa2FISlRic3Brb0YvZlhQemZKV1c4?=
+ =?utf-8?B?UDNydzVpTEttUVd6MXlnTi9TdjJQYmw4UzM2SXpHekN5N2VrMmc1aW5PV1ZH?=
+ =?utf-8?B?ZUlHSTRFR24wNnJSK3pqZjVWNE9CcjA4WDJGYVJDVzJwQnZNblA1aGx3NzA3?=
+ =?utf-8?B?dXU2eEd1TFVKZG4yQ1R3eWNHc1ZZVDg1N3ZFQkM3YzBYMkJ6VWdGS0xPV2lM?=
+ =?utf-8?B?am5KNHR3NUxsNlpic2hvVzc0U0R2Q2l3OXpyN3JhaGlWQVNjb2szSVdrMHhH?=
+ =?utf-8?B?RUVnV3JhS0ZxWmgxZkhkRm5OTjBON0V6T255bnhieU5IVnBadXdzalRSdkJZ?=
+ =?utf-8?B?amJYeXpLbDF4WlIwYlZYOWtWdStlbGJxZTZBZ2xlbmsxKzJwVjVPcEEwZklV?=
+ =?utf-8?B?ekZmcjkrS0lKY1RnanVSZW81eTY4WDhXMDRvRTljc1F3ajJUZmVidy9qTEEr?=
+ =?utf-8?B?UnRuTW9hOWhJTlRJZGhFam52T1dWcFhnMG5oamd2aUtwMVBsL3pKc1NmRytx?=
+ =?utf-8?B?c2N1L1g4L1VEQzV1MGllVHlpaGYvcjN6dWgzTm5KVmhTVlA5b0M4YXRvUlhI?=
+ =?utf-8?B?c0Y1UTF4L2h1bVNxU1NlcmZ0R1E3YVBpUDRra0NOZWoxM2dUVGRDc1VPb2xw?=
+ =?utf-8?B?V0hFYkZZWjV5Qkx2dkdEL05NZnhGNFVyckVFYzZtOURhTDFWdjZ0WHJHRGY0?=
+ =?utf-8?B?UEtmeEFaakNTb2JhcENqN1lvSUd0S2R4VEdkeUJsUXF6RVdQd3dLTTRGeGc4?=
+ =?utf-8?B?RWE3bVR0cnBFZk1JL05GZGJWSnMrNWdSSUYzTEdBUUZSZ1c0aXE0MG4wS3FY?=
+ =?utf-8?B?ZnpubXUxZ3dqU3huVVRzWWJLS3JLNE1rd21NY0txUy9ESjRIdkJ2cENYY0Zz?=
+ =?utf-8?B?SlNibjRaSjNFZG5vY2NJN1BVVXhCRUJjSzcrREJ6ZUROM0k0Um9iRXc2NDZj?=
+ =?utf-8?B?bzB6SWxGdkxaWHZWMitpQU1mVHM2WmQ4YU9oWUF0eXhacFp2M0w2NFh2RHhl?=
+ =?utf-8?B?SXNmL0p1bDR2UU5qZzhVZ0N4NkR6aU1XcHQ4WGNCNjNBWUxVbzh0OEd3b0hz?=
+ =?utf-8?B?Rm5GOWJ2RW1ibDVoT1ZDOUg4bldMTHM4cnVSSHI5cmp2M1NFcU1KODZ2SWtO?=
+ =?utf-8?B?NSswQkx1TysyV0t3a01mbUt0WjFhbWhReGtQcGdCUEE1OEdLTjdqWFdxQ2hW?=
+ =?utf-8?B?V0NXWFZXZXZJQ2ZyTTQ5a3V3VWVmdm9lQUttaXA4b09Salphbng3ZzBvTkww?=
+ =?utf-8?B?RUlSOEFSUXlBS3dYamQ4aUw1bWxPQlAyZzZHN3BIdlJDeWZtUkVqTFErZGgz?=
+ =?utf-8?Q?1PhrdaGUY0pvL5oF6rtO477+2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae74c51-6a11-40e2-9080-08db207521fb
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6P189MB0568.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3638ad5-15e5-4777-1fd5-08db20743898
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2023 07:59:34.0377 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2042
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 08:06:05.8172 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cEsDZJ+Mj0HcqTIWT9xZfIOEqaOrJIttAGsVMuu5mrplSrOUf2VdlzQZzIftB8R2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5328
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,35 +148,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, "jonas@kwiboo.se" <jonas@kwiboo.se>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>
+Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello there Laurent,=0A=
-=0A=
->We could, but I don't think it will make any difference in practice as=0A=
->the maximum pixel clock frequency supported by the SoC is 80MHz (per=0A=
->LVDS channel). That would result in a 560MHz frequency returned by this=0A=
->function, well below the 31 bits limit.=0A=
-=0A=
-Thanks for your explanation. I have a couple of suggestions for possible im=
-provements:=0A=
-=0A=
-1. Your explanatory text in a comment nearby. This helps all readers of the=
- code.=0A=
-=0A=
-2. Might the frequency go up to 300 MHz anytime soon ? The code will stop w=
-orking then. =0A=
-In this case, I would suggest to put in a run time sanity check to make sur=
-e no 31 bit overflow. =0A=
-=0A=
-Just a couple of ideas for the code.=0A=
-=0A=
-Regards=0A=
-=0A=
-David Binderman=0A=
+Am 09.03.23 um 07:30 schrieb Asahi Lina:
+> On 09/03/2023 05.14, Christian König wrote:
+>>> I think you mean wake_up_interruptible(). That would be
+>>> drm_sched_job_done(), on the fence callback when a job completes, which
+>>> as I keep saying is the same logic used for
+>>> hw_rq_count/hw_submission_limit tracking.
+>> As the documentation to wait_event says:
+>>
+>>    * wake_up() has to be called after changing any variable that could
+>>    * change the result of the wait condition.
+>>
+>> So what you essentially try to do here is to skip that and say
+>> drm_sched_job_done() would call that anyway, but when you read any
+>> variable to determine that state then as far as I can see nothing is
+>> guarantying that order.
+> The driver needs to guarantee that any changes to that state precede a
+> job completion fence signal of course, that's the entire idea of the
+> API. It's supposed to represent a check for per-scheduler (or more
+> specific, but not more global) resources that are released on job
+> completion. Of course if you misuse the API you could cause a problem,
+> but what I'm trying to say is that the API as designed and when used as
+> intended does work properly.
+>
+> Put another way: job completions always need to cause the sched main
+> loop to run an iteration anyway (otherwise we wouldn't make forward
+> progress), and job completions are exactly the signal that the
+> can_run_job() condition may have changed.
+>
+>> The only other possibility how you could use the callback correctly
+>> would be to call drm_fence_is_signaled() to query the state of your hw
+>> submission from the same fence which is then signaled. But then the
+>> question is once more why you don't give that fence directly to the
+>> scheduler?
+> But the driver is supposed to guarantee that the ordering is always 1.
+> resources freed, 2. fence signaled. So you don't need to check for the
+> fence, you can just check for the resource state.
+
+Yeah, but this is exactly what the dma_fence framework tried to prevent. 
+We try very hard to avoid such side channel signaling :)
+
+But putting that issue aside for a moment. What I don't get is when you 
+have such intra queue dependencies, then why can't you check that at a 
+much higher level?
+
+In other words even userspace should be able to predict that for it's 
+submissions X amount of resources are needed and when all of my 
+submissions run in parallel that won't work.
+
+Asking the firmware for a status is usually a magnitudes slower than 
+just computing it before submission.
+
+Regards,
+Christian.
+
+
+> If the callback
+> returns false then by definition the fence wasn't yet signaled at some
+> point during its execution (because the resources weren't yet freed),
+> and since it would be in the wait_event_interruptible() check path, by
+> definition the fence signaling at any point during or after the check
+> would cause the thread to wake up again and re-check.
+>
+> Thread 1                                          Thread 2
+> 1. wait_event_interruptible() arms wq             1. Free resources
+> 2. can_run_job() checks resources                 2. Signal fence
+> 3. wait_event_interruptible() sleeps on wq        3. Fence wakes up wq
+> 4. loop
+>
+> There is no possible interleaving of those sequences that leads to a
+> lost event and the thread not waking up:
+> - If T2.3 happens before T1.1, that means T2.1 happened earlier and T1.2
+> must return true.
+> - If T2.3 happens after T1.1 but before T1.3, the wq code will ensure
+> the wq does not sleep (or immediately wakes up) at T1.3 since it was
+> signaled during the condition check, after the wq was armed. At the next
+> check loop, T1.2 will then return true, since T2.1 already happened
+> before T2.3.
+> - If T2.3 happens during T1.3, the wq wakes up normally and does another
+> check, and at that point T1.2 returns true.
+>
+> QED.
+>
+> ~~ Lina
+
