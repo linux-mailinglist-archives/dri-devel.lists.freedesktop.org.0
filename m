@@ -1,140 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6366B1D4B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:06:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC5B6B1D4F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 09:07:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D8110E7A8;
-	Thu,  9 Mar 2023 08:06:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1864710E7AD;
+	Thu,  9 Mar 2023 08:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2062d.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17EB510E7A6
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 08:06:09 +0000 (UTC)
+ (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CC8110E7AC;
+ Thu,  9 Mar 2023 08:06:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aOz8R6LWeAuv0U+Di+X1aoYSorF1vwF9QtqqZd75ZrIO/BinBD4LaeixyAXrxvUAWWg470NfbvV2XPPkKGS0z2/WvZNw/y20LrUMpgWHg87Wm1S42gKeH5aPdYFk/lUu5yLUE4T4OLzUtZEtyeNFeC4HXkQwHhvHAarYGRTZi/J5mSb4y8paO8wOubgMb4/gwv1mX6dnYufg40EupI8bX2uHyPW8EIeAa8f9TM25AyJpKq67YaEhqRUDAfZ+fU8IlsYO9kcc3lV29H32NF3POWTbnWsWSzq+MARXKWLv0v052rgQQMFk6LeMNM67kYGX6cEFIdZCCtCvgKFFb16aHw==
+ b=YRhuGT4MV7cDFUZfLZnmAj22Yng5OqY5BWySuPfu51bCq4/8efcD+ZLWkRElsetcMs1cMCgi7X625ShL4z0WOQPCq3F4bd6pEPZIXACbmg8WljfeoX10zBaWQlyQwNKEiTnWRYrKKzVdlDwZaRKszKAla7O9xzp5nTLFVSQQMdrS9cWRlG1GMs5AQkjnTDYjBgqAErcuKXotaBuFXzCybblhzjE4HkUAgjCcd4FwxOdDiKl5cq+G+l3Hh4CvGCke7lD+eXJD/pGqO6tNWg6Cct6B3Awztf85EPHXpbz1VURE8RmnQs6ncd07whQ6lRZ6FC4E9+JECEytSN+mGsV5jQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k7Zsip1WQpEb5AxlIi9nL3EM+jx/pA438H0eFny95q0=;
- b=ZrUAAGy3OZWi44uxKGU9SdZLz36FV79Id2W6ydEnyx4IAjya1nH0cXJCc0LsT4EDg0rxDTN02zBwMh5KWt6rcEWdB1oRLoHlgUTr5dLW+JRCKhhK9coEk9B3gAm/O0fs7mc30eR1qrXOzZ1uKsioi3qkHVaVnQtceGEH8TjhcxF64RNVAl8cQG13IKakl7ECih0gSxmycdJf1+5ltxS/bT3h31mCQQbmk71sllTiniclm8jft4a0lJmtukc3Txzx/iIiXwk11HadaMXwBelKac/jFutBQETRz0+vyvttxnLP7ErmdJmAlxnA9kjGcXnuGg5I6nBDdHp2urC+T0Vu3g==
+ bh=X5M2muPEpy7TSb/KlWef+2gfaF9KL/IJWccuyBP1RuU=;
+ b=GPShgS7vXtpb+Ep74QUYP5SLFe2La3ej3XvFYzRl6hTvBhcv6CrqZImjTvdnoKVBKJWA34JxhmdaaYdfzktjZKOTaLJ4LwHfqjx80fLwaAAQ/Kc2BbFZw0tG2Pp27FJ2jIynS46N0a1jWZXn4UmVpCGu6DqRvVUCsHH1apot4/erXOAhRznn2wQxkroK/C+7egVrj/m+Qyx56AVAqCRQVZ/+NJPCJsd/TsNOw+kAZRd0TtWJEIn2bErR4dVwFYBZrwQMcDnIzIGKsSh9t9PgndGMLgb2CffPSX6ax+0BiSFME58tNMLOfV+zzs8huLqFP4+20eCUEjbdLs2N/Cqjfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k7Zsip1WQpEb5AxlIi9nL3EM+jx/pA438H0eFny95q0=;
- b=DyUf4QUtP/6ZT38+uzgvqdpM2gTLtlOMYNC7IA1gtzP//U78eXopCtPDHBr+LP+qbh9YuqEFJGCzoQIFABWMOZj5dJ8OgUFOFHOnhChtc9F7VJOeh4EwVCnJBZxZSmo76olT55i3dB1fwJacIHhpxSOC/Ra52oEjYXN4/zHF11o=
+ bh=X5M2muPEpy7TSb/KlWef+2gfaF9KL/IJWccuyBP1RuU=;
+ b=W8G1idiwSIS2ffyxQ7Jcz0d7js755loWDJKsBS8+SLdifScjvB6PgQVamHonVPazPrho9rewsERX7ChVodp5Hh9Gey0/r9fIk382p8mRA9zelVPofGOOp8BY2SyjlEjLtrrpYxuGB4nFwZzT/i3wxSB1GE9IEyZ1uZflGoGLsfg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
  by DM4PR12MB5328.namprd12.prod.outlook.com (2603:10b6:5:39f::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Thu, 9 Mar
- 2023 08:06:06 +0000
+ 2023 08:06:53 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Thu, 9 Mar 2023
- 08:06:05 +0000
-Message-ID: <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
-Date: Thu, 9 Mar 2023 09:05:57 +0100
+ 08:06:53 +0000
+Message-ID: <39300a86-d348-b0cd-e07f-197ba696fdd1@amd.com>
+Date: Thu, 9 Mar 2023 09:06:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.1
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Subject: Re: [PATCH v2 3/7] drm/ttm: Use the BIT macro for the TTM_TT_FLAGs
 Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
- <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
- <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
- <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
- <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
- <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
- <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
- <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
- <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
- <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
- <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
- <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
+References: <20230307144621.10748-1-thomas.hellstrom@linux.intel.com>
+ <20230307144621.10748-4-thomas.hellstrom@linux.intel.com>
+ <c1a9f255-9ee4-c020-9767-afb2591faaec@amd.com>
+ <68a6a01a-6a98-0f9e-9d4b-ede48ac6665f@linux.intel.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+In-Reply-To: <68a6a01a-6a98-0f9e-9d4b-ede48ac6665f@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0024.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::15) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0034.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::20) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM4PR12MB5328:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ae74c51-6a11-40e2-9080-08db207521fb
+X-MS-Office365-Filtering-Correlation-Id: e4ea0d03-db43-4e71-d0e0-08db20753e81
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YgFdnB5iYuuMzG4JjUA0NRNwMBHsXasK9slfyi0G6sJ5PV2XYGgVVIDUN3FTeOO9d+krRx4moMhoIAIwfquGXSF3lZAPtLifvnCP8e89UwKp1rcDXFnXHHaJZBhJ558sB6Lt+haEv+qX1UZ/LeSqatSfBHSncG6J01LQLxMb9zRAy62wsUVrt14zYeonGptqaQVgF3p773AZ5FtYwWBpj5OGgHMXAErH+55lYk93n+qoL2ndpRHQxVAnawAF2t1k4K8HLZiZoCAWxEXthWnU3w2X+5BCylhp6o3XyiM2LK0jSf/lcEcug+jvyoEvkisPZFcySODsHeqasQiyohkCrAfOYQVfI9CeLhoNDbqok54aPuU8pKfpuPVXDbLfLG/0SIAPNSMqU21LHHLUnw590wicuXgVMC8ma3tRP7uV+Oqk7YBx0sJQH/6f8mz/WOM5vdJl6yvnJsWpoSVtSGjp8uh+H0zX4hhWVNQmNFEM2hJe1FbPY8ZiUNIrduDNzJyvJ97EpdLtaoZrTLcdVOmEThjqeaqP/GtmOAxQpw8Pfh8rt+xoMSphY6CR/xqEvGWT8pKYBM64s2KpA01WCDYoCAUJXnmRKfITKDFSkF9WrsDAlQEuobNTzh5ELYelleH/0gigGP7e1YDPdH6KqmUKerUv23PwFPzMWYEFWf2Dl0jvcmf+x5YNUqHkJSD4mTg3jDb1DeHOmJOajFu8QbjAp+K6opkN0uDjKkceg7nlXkzvfVzBd/57zah/1anaYqaz
+X-Microsoft-Antispam-Message-Info: 7FM2Zya/cXpmv+/Vi+HQ5C50VVCknaIjp0MIixDRJo11QVT1bXW8oSLgMbWu1/h0eTWstUTTZ8DnrGP/mLrppVADV8LEG50uQAOvqkURHBMZB/wQpnuQMnawYCUXYjLC+rpkMX2yOX8x+78bPEkivl5/304RNVT614aCzQXnD5W/9cU5arUj6fp2vnYNAvr2zH5eLtQ8KOY7Vku4lb2/FZPQxc7JE9QKV/n5lKaLEgI8PwIZJBfF/VOnTrf7l+uZoWJlINZ8eQ0VNWcffz+1/CXC0hrZX25PwHspx1A55VMIRAyhBl8azkE92sle/wu9wKT+s4w3ryDdtKXulDcGPtvTSLgc6iGgwxLQWDy5CQPIESIihGbweiyWnOsUSgpe4+PlV7xDZQu21SgwlW8slJxwu5sT172GVHvD4JTjPi1vpVtI7oc3XQbcVWhNN6dfGn5oMWxhJyyWyvchIVcCHZxYDMH4iwFixMgKPGntyoKQSWid5tPRp05ZS1UABWTRi8f5HVVZHBJBr7c47PV1OgqMdX3JrtDr5ud6+vg5wEBbI0Bf373qiHUhidRQR8tu97rYDD9/WNRG8wWgwvvP07hS00QocZnVleqSRw6oMgAW5zPPELRwgie7rCdh2m2auh8nn3e0gBqKxveSnGaQewH35Ghjrd8SaNMVFvXMvsU292vE7Dsjvi7sx+Hi0QGBjsXn8ImvAnQCT+52qeUSLux+vlGLANi3yZIxLh9sx0I=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(396003)(366004)(136003)(39860400002)(346002)(451199018)(66476007)(66946007)(66556008)(316002)(66574015)(41300700001)(83380400001)(8676002)(4326008)(31686004)(54906003)(36756003)(110136005)(7416002)(8936002)(38100700002)(2906002)(2616005)(921005)(5660300002)(186003)(478600001)(86362001)(6666004)(31696002)(6486002)(26005)(6506007)(6512007)(43740500002)(45980500001);
+ SFS:(13230025)(4636009)(376002)(396003)(366004)(136003)(39860400002)(346002)(451199018)(66476007)(66946007)(66556008)(316002)(41300700001)(83380400001)(8676002)(4326008)(31686004)(36756003)(8936002)(38100700002)(2906002)(2616005)(5660300002)(186003)(478600001)(86362001)(6666004)(31696002)(6486002)(53546011)(26005)(6506007)(6512007)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXhTejdqVlpKZ1c4TlFoanorTW1GWDBSWTZQVVV4UE5lcFpHVFAwdHVyZ2Qx?=
- =?utf-8?B?MXZFaWNBQ2tMeWs2ME96enRWSU1tQzZkcTdGeVN4N3ovUDFESm1LWUNzK0VH?=
- =?utf-8?B?cStEUzlJSnpXWENnNFQyY2F6UlNtakdHcEdYY1BSL3hORDdCTnpacGRHSUlU?=
- =?utf-8?B?dXNtbnJBTFZXdklQOG1DQ2YvUXp4NnJ5UUxMZ2VtODNaaHhXVWFnMitjVXZO?=
- =?utf-8?B?KzB4a2Fad2ZWN05hV0VEck8vaG5TaWMyNUVCWWxRb2R2UWVnVEN4SHREalRj?=
- =?utf-8?B?UzJ1VnhSL1EwSmZOcktRb1Z1bGZGNHRYZ05nK28wMGU5MEZ1M0tBc1FKb1lM?=
- =?utf-8?B?anFaa3A0R2M2Qm9CcXhOTnY5RTNJbU5COWxCdmJKa0FneUpYYWlobFdmc3kz?=
- =?utf-8?B?dmZZOUpIWkxRRnBXTGMxUVczbUFOQk1wZGpkUUxrUEVOVHdsT0RQbGJVWkp5?=
- =?utf-8?B?R1Z4MlJEemRxN0k1cW9JVlFTY0Q1TDQxT3cwN2FGWUsrbXNGemltVEVLZTJz?=
- =?utf-8?B?S1FiYnBFY2ViM2c2UHBtYlBMYmYwWG5LSk1Ya3Zid09vUjVobkY0OUVPdEhr?=
- =?utf-8?B?bkljYWFMMlJIWXE0akNvUFJSTitCazVMUU9qSUR1TExITkN5WlNFWEtWdWVI?=
- =?utf-8?B?YkpTRFFsTGtkNjNITVI2SC9ZKzVVV2dDZzVvZE4ySTVRanJva3J4Vk0yVnRQ?=
- =?utf-8?B?SnIyVmZybmU2ZXBuV3d2U3VsL3h2WEZOMUNxYWlHNlN6UjMyUGx4TzRmcWt4?=
- =?utf-8?B?M3RwRlRBTDIwdG1nTzlIQzVHWHJPRXRLa2FISlRic3Brb0YvZlhQemZKV1c4?=
- =?utf-8?B?UDNydzVpTEttUVd6MXlnTi9TdjJQYmw4UzM2SXpHekN5N2VrMmc1aW5PV1ZH?=
- =?utf-8?B?ZUlHSTRFR24wNnJSK3pqZjVWNE9CcjA4WDJGYVJDVzJwQnZNblA1aGx3NzA3?=
- =?utf-8?B?dXU2eEd1TFVKZG4yQ1R3eWNHc1ZZVDg1N3ZFQkM3YzBYMkJ6VWdGS0xPV2lM?=
- =?utf-8?B?am5KNHR3NUxsNlpic2hvVzc0U0R2Q2l3OXpyN3JhaGlWQVNjb2szSVdrMHhH?=
- =?utf-8?B?RUVnV3JhS0ZxWmgxZkhkRm5OTjBON0V6T255bnhieU5IVnBadXdzalRSdkJZ?=
- =?utf-8?B?amJYeXpLbDF4WlIwYlZYOWtWdStlbGJxZTZBZ2xlbmsxKzJwVjVPcEEwZklV?=
- =?utf-8?B?ekZmcjkrS0lKY1RnanVSZW81eTY4WDhXMDRvRTljc1F3ajJUZmVidy9qTEEr?=
- =?utf-8?B?UnRuTW9hOWhJTlRJZGhFam52T1dWcFhnMG5oamd2aUtwMVBsL3pKc1NmRytx?=
- =?utf-8?B?c2N1L1g4L1VEQzV1MGllVHlpaGYvcjN6dWgzTm5KVmhTVlA5b0M4YXRvUlhI?=
- =?utf-8?B?c0Y1UTF4L2h1bVNxU1NlcmZ0R1E3YVBpUDRra0NOZWoxM2dUVGRDc1VPb2xw?=
- =?utf-8?B?V0hFYkZZWjV5Qkx2dkdEL05NZnhGNFVyckVFYzZtOURhTDFWdjZ0WHJHRGY0?=
- =?utf-8?B?UEtmeEFaakNTb2JhcENqN1lvSUd0S2R4VEdkeUJsUXF6RVdQd3dLTTRGeGc4?=
- =?utf-8?B?RWE3bVR0cnBFZk1JL05GZGJWSnMrNWdSSUYzTEdBUUZSZ1c0aXE0MG4wS3FY?=
- =?utf-8?B?ZnpubXUxZ3dqU3huVVRzWWJLS3JLNE1rd21NY0txUy9ESjRIdkJ2cENYY0Zz?=
- =?utf-8?B?SlNibjRaSjNFZG5vY2NJN1BVVXhCRUJjSzcrREJ6ZUROM0k0Um9iRXc2NDZj?=
- =?utf-8?B?bzB6SWxGdkxaWHZWMitpQU1mVHM2WmQ4YU9oWUF0eXhacFp2M0w2NFh2RHhl?=
- =?utf-8?B?SXNmL0p1bDR2UU5qZzhVZ0N4NkR6aU1XcHQ4WGNCNjNBWUxVbzh0OEd3b0hz?=
- =?utf-8?B?Rm5GOWJ2RW1ibDVoT1ZDOUg4bldMTHM4cnVSSHI5cmp2M1NFcU1KODZ2SWtO?=
- =?utf-8?B?NSswQkx1TysyV0t3a01mbUt0WjFhbWhReGtQcGdCUEE1OEdLTjdqWFdxQ2hW?=
- =?utf-8?B?V0NXWFZXZXZJQ2ZyTTQ5a3V3VWVmdm9lQUttaXA4b09Salphbng3ZzBvTkww?=
- =?utf-8?B?RUlSOEFSUXlBS3dYamQ4aUw1bWxPQlAyZzZHN3BIdlJDeWZtUkVqTFErZGgz?=
- =?utf-8?Q?1PhrdaGUY0pvL5oF6rtO477+2?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGYyRktmNjl1TFc2NzJPRUQrUitwZ2dzWXQySjJkdTRxMEE2MGxicElnVEl4?=
+ =?utf-8?B?VzhobkdEYjY1Sy9lNHYzSkNUb3pyZHhDOTVtcENvVEpCVTE1VVRSbGJ0a05i?=
+ =?utf-8?B?aUZVWE5MN3BVRFNhU0srT0ZCcy9CSUNHY0p2dVhKS051THYrZTRINGNsR3cy?=
+ =?utf-8?B?YUFHbGU4QTBleGdvZW9wVWlIUFAxeXFRQkQvY0lIcUttWUppdTE0UHBwRDZK?=
+ =?utf-8?B?UUZXVDJTalRETnIrQ0Q5LzA4K2JWUlRQYSs2TFVpSy8wSlNIRWU0QjRyQzVm?=
+ =?utf-8?B?MzVBS0RHMng4NlAzSm5LSXB1RGRxcUNMSXV2VnRSZnJ6T0E3QkRzT0premhX?=
+ =?utf-8?B?T2FrdkcwYjdwYkYrNTdoc1lXVnNyUHpaS1N6ZzVzNVlpV2RNR2IrMU5GWk9n?=
+ =?utf-8?B?U0RhYUNVd1JHdCs2cVJzUWZLUUpCUjdtYkV2elYyTmxuaThKQndzSmNJRkFS?=
+ =?utf-8?B?K2tjcGJ5Y2JPdXFaa0xJUG96ejRITm1BaFNyZWx4ZEd1SVdITXY3NXJKY3Zx?=
+ =?utf-8?B?aWh4d1A3QXFiQ3ljbkVFbVNkSzZtTTZpMzhieTVaWTd3Z2YzTEtTN1ZraVVJ?=
+ =?utf-8?B?a2hlQ25HWDZxVGVzK1l6TjUxdkRnWmRrMjY3NklCN3M2U1E5Z3NUOFR3eTMr?=
+ =?utf-8?B?SDBpdEFNbHVER2RVUmE2YTFEQ3lkbi9CMFo5TDVXOEVmSGRONzJ0R1BRam9j?=
+ =?utf-8?B?SlBJTVN2OFE4dnRMVWM4ZHRySHFqVzd6a3lMUUtKZitNU0xoTHdFdDdMN2Nn?=
+ =?utf-8?B?bUxneWFnWmQwVkNVL2hBTk9ZRElPUldNVG5WM3J5cU1DaTBST09MU1R2V2ND?=
+ =?utf-8?B?eWRBdDdBK25KVDdYTXlFWGx1YTlEMjRhN0RDWTkvZXQzUS80K2hqY1QrSS9X?=
+ =?utf-8?B?ODhPbXZPWnBFZTJYS1FwTE9WWFM4MjIzS1c1U3YyaGhua3JmMUxkR1dra3My?=
+ =?utf-8?B?Y281aVYwRWVRR0NNUTZQY1o0OVY3NmQxbDAzKy9Dc0xFZk8zSHNjMFFqRTVq?=
+ =?utf-8?B?WVVwVERYUVhGMDFGU1hkc2RsZHV0OUtyaXhHQWRWblFoUHo5RHF4N0tIQ3hN?=
+ =?utf-8?B?VG42cjdPTE1VVmN3MUlFNXVRMUVhRklZSUg4UmxQNHNyV3hCcVJJK0JrTTBB?=
+ =?utf-8?B?OXdKdVp1N2krOGJVSEpmaXJQVXgvQmtxeXlFSWdwV08wNHNtSW9wakVYdzdM?=
+ =?utf-8?B?YkpxeGFNWUliUGxBNzNvMTRVMEZtWlVETnNzY2IxY2UzOW5zaTRNZWNuYWtB?=
+ =?utf-8?B?NmVjUGxXdGpIbnFsVlJ0ckZFNlR4U25mZVVIRUUrVWhXWUwzdFp3L0tySFdC?=
+ =?utf-8?B?VTBvRFlxb0M2NCtuT3l0WnJnT1NobG12bUY3dUlCMFlub2UvOWtMM0dpeFpW?=
+ =?utf-8?B?ZFYrWjVqdHN2N25TUStzejVqRktqdVNDTENDbklDRGRFcjZqdmcrdXZjUjNv?=
+ =?utf-8?B?MGg2eC9ISTZFUWdvODErSFlvd1UzV1RFZ1lYejBnbms2ZHFzU29hSlIrMDVS?=
+ =?utf-8?B?T2t4VGJnVE1xOXRIenFPREdieDFnUkJkMHpVb0h3YjloNWhxUGZ4WTAxZ2F0?=
+ =?utf-8?B?Wkxqd1lkYzZScFUvT3VCcVI3VnhCQzRGU3MwNGF5NEE2OG4yKzQ0dDExRDQ1?=
+ =?utf-8?B?YnFaZXNETGptbVJ6OGlhSnNXaGZGaFowY0d2NlVGRDFmWCtBeGtqZHFkTklt?=
+ =?utf-8?B?RS9PQVdtclQwTEMzTmxTbTRkdjExRnpTOW9HczAram8yWTdERi9Wb3NNSzIz?=
+ =?utf-8?B?VDMzY3F0Q0xsdmlvVkkvb2lLMVhROUZ2UkpwY3NKL3ZyWW9QR1REZnlRSUpu?=
+ =?utf-8?B?UWVRUTJGd2loWC9OTjFLSDRpM0VHOFhEa0lHWkZmOWZMMFBiczAzYjhjdEo5?=
+ =?utf-8?B?SnpNbkdSSE1YZ2pNd0hZYzQrcGYrbXJ4LzJBUm1oYWhWWlNtNWN4TG9uWVpv?=
+ =?utf-8?B?NnhtcDFNYXplZ3RPeHdOeDNPOGNBSnViY0xnRTBpRzB2OFp4M1hndDhSUjZi?=
+ =?utf-8?B?NkoxYWI4Mzl6bE5xcEh5aVBVR3Z3L3E4ZWc4N20xZTB1TXdHc1VQelFvVU51?=
+ =?utf-8?B?T3R2VEtTamxiZDNnV2NRNlVLeDY5RTRQVEo0bVYzU2JEdjhSRExHdlFRbDV0?=
+ =?utf-8?Q?tWETBDkKhwi5ZHMVVv2TrtNHw?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae74c51-6a11-40e2-9080-08db207521fb
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4ea0d03-db43-4e71-d0e0-08db20753e81
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 08:06:05.8172 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 08:06:53.7045 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cEsDZJ+Mj0HcqTIWT9xZfIOEqaOrJIttAGsVMuu5mrplSrOUf2VdlzQZzIftB8R2
+X-MS-Exchange-CrossTenant-UserPrincipalName: zNujm3xpuM+s27U2XwDp7ROzYMuJ4UKW0K/Erpgsn4s4CIBx6gTcXJ5mMmaV0SIw
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5328
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -148,96 +128,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.03.23 um 07:30 schrieb Asahi Lina:
-> On 09/03/2023 05.14, Christian König wrote:
->>> I think you mean wake_up_interruptible(). That would be
->>> drm_sched_job_done(), on the fence callback when a job completes, which
->>> as I keep saying is the same logic used for
->>> hw_rq_count/hw_submission_limit tracking.
->> As the documentation to wait_event says:
->>
->>    * wake_up() has to be called after changing any variable that could
->>    * change the result of the wait condition.
->>
->> So what you essentially try to do here is to skip that and say
->> drm_sched_job_done() would call that anyway, but when you read any
->> variable to determine that state then as far as I can see nothing is
->> guarantying that order.
-> The driver needs to guarantee that any changes to that state precede a
-> job completion fence signal of course, that's the entire idea of the
-> API. It's supposed to represent a check for per-scheduler (or more
-> specific, but not more global) resources that are released on job
-> completion. Of course if you misuse the API you could cause a problem,
-> but what I'm trying to say is that the API as designed and when used as
-> intended does work properly.
+Am 09.03.23 um 08:06 schrieb Thomas Hellström:
+> Hi, Christian,
 >
-> Put another way: job completions always need to cause the sched main
-> loop to run an iteration anyway (otherwise we wouldn't make forward
-> progress), and job completions are exactly the signal that the
-> can_run_job() condition may have changed.
+> Thanks for reviewing these.
 >
->> The only other possibility how you could use the callback correctly
->> would be to call drm_fence_is_signaled() to query the state of your hw
->> submission from the same fence which is then signaled. But then the
->> question is once more why you don't give that fence directly to the
->> scheduler?
-> But the driver is supposed to guarantee that the ordering is always 1.
-> resources freed, 2. fence signaled. So you don't need to check for the
-> fence, you can just check for the resource state.
+> Ack to merge reviewed patches through drm-misc-next?
 
-Yeah, but this is exactly what the dma_fence framework tried to prevent. 
-We try very hard to avoid such side channel signaling :)
+Sure.
 
-But putting that issue aside for a moment. What I don't get is when you 
-have such intra queue dependencies, then why can't you check that at a 
-much higher level?
-
-In other words even userspace should be able to predict that for it's 
-submissions X amount of resources are needed and when all of my 
-submissions run in parallel that won't work.
-
-Asking the firmware for a status is usually a magnitudes slower than 
-just computing it before submission.
-
-Regards,
 Christian.
 
-
-> If the callback
-> returns false then by definition the fence wasn't yet signaled at some
-> point during its execution (because the resources weren't yet freed),
-> and since it would be in the wait_event_interruptible() check path, by
-> definition the fence signaling at any point during or after the check
-> would cause the thread to wake up again and re-check.
 >
-> Thread 1                                          Thread 2
-> 1. wait_event_interruptible() arms wq             1. Free resources
-> 2. can_run_job() checks resources                 2. Signal fence
-> 3. wait_event_interruptible() sleeps on wq        3. Fence wakes up wq
-> 4. loop
+> Thanks,
 >
-> There is no possible interleaving of those sequences that leads to a
-> lost event and the thread not waking up:
-> - If T2.3 happens before T1.1, that means T2.1 happened earlier and T1.2
-> must return true.
-> - If T2.3 happens after T1.1 but before T1.3, the wq code will ensure
-> the wq does not sleep (or immediately wakes up) at T1.3 since it was
-> signaled during the condition check, after the wq was armed. At the next
-> check loop, T1.2 will then return true, since T2.1 already happened
-> before T2.3.
-> - If T2.3 happens during T1.3, the wq wakes up normally and does another
-> check, and at that point T1.2 returns true.
+> Thomas
 >
-> QED.
 >
-> ~~ Lina
+> On 3/8/23 09:49, Christian König wrote:
+>> Am 07.03.23 um 15:46 schrieb Thomas Hellström:
+>>> New code is recommended to use the BIT macro instead of the explicit
+>>> shifts. Change the older defines so that we can keep the style 
+>>> consistent
+>>> with upcoming changes.
+>>>
+>>> v2:
+>>> - Also change the value of the _PRIV_POPULATED bit (Christian König)
+>>>
+>>> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>
+>>> ---
+>>>   include/drm/ttm/ttm_tt.h | 10 +++++-----
+>>>   1 file changed, 5 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+>>> index b7d3f3843f1e..977ca195a536 100644
+>>> --- a/include/drm/ttm/ttm_tt.h
+>>> +++ b/include/drm/ttm/ttm_tt.h
+>>> @@ -83,12 +83,12 @@ struct ttm_tt {
+>>>        * set by TTM after ttm_tt_populate() has successfully 
+>>> returned, and is
+>>>        * then unset when TTM calls ttm_tt_unpopulate().
+>>>        */
+>>> -#define TTM_TT_FLAG_SWAPPED        (1 << 0)
+>>> -#define TTM_TT_FLAG_ZERO_ALLOC        (1 << 1)
+>>> -#define TTM_TT_FLAG_EXTERNAL        (1 << 2)
+>>> -#define TTM_TT_FLAG_EXTERNAL_MAPPABLE    (1 << 3)
+>>> +#define TTM_TT_FLAG_SWAPPED        BIT(0)
+>>> +#define TTM_TT_FLAG_ZERO_ALLOC        BIT(1)
+>>> +#define TTM_TT_FLAG_EXTERNAL        BIT(2)
+>>> +#define TTM_TT_FLAG_EXTERNAL_MAPPABLE    BIT(3)
+>>>   -#define TTM_TT_FLAG_PRIV_POPULATED  (1U << 31)
+>>> +#define TTM_TT_FLAG_PRIV_POPULATED    BIT(4)
+>>>       uint32_t page_flags;
+>>>       /** @num_pages: Number of pages in the page array. */
+>>>       uint32_t num_pages;
+>>
 
