@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 424FC6B299F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:03:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D5F6B29CA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 17:04:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57C8910E882;
-	Thu,  9 Mar 2023 16:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBCF10E8AD;
+	Thu,  9 Mar 2023 16:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2577510E878
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE73410E86E
  for <dri-devel@lists.freedesktop.org>; Thu,  9 Mar 2023 16:02:43 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6BC6922170;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D381522171;
  Thu,  9 Mar 2023 16:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678377761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q00Utiwa/F841Bfuw5zq1QJNoc8fZ3VllqOH/C02QCE=;
- b=0P8Tgh1FoQAhGrSiCMIv50ZZoyI5J3PnrRMmYmdVLK2Aq5JGua3ZkSiBLMlhMqVQ+1GYyU
- QTXRyHEfrzzc7o9PZg3tJKC66D1cjWk/fzcRcudCTj1IFQbZ2y0100O0ipCGX8pcCpOIYZ
- /3l9s/RWTmfgrz3Q8Tu1urzKjhCEz60=
+ bh=6WgjdpbBXxXsBLz/IEVgF5fpRgaJeZorG1YR+YEngSE=;
+ b=081B+YgdqGdjrANr1SgbBsH3kOj3puNl3kjuTwrcxp2hAH+anEiJYpe7qicjtl3HnEyEWp
+ KWIaYFbl1xCVjipCwYvq8G9XWWzjobnPydit04fo/tZL5AYFHV4qQnD6V835zTThXuP45x
+ TgMzMMw1mJwPLc/CvqEOiVmPXBOE7AA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678377761;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q00Utiwa/F841Bfuw5zq1QJNoc8fZ3VllqOH/C02QCE=;
- b=TB6WBT+lJi7vvrTaYSYiIbfmp1jlbBWpJme2pc8J3M+NesAZ0kjqd/m8JODdEtERVjV8tL
- F5fkTgZRBKYTBeAg==
+ bh=6WgjdpbBXxXsBLz/IEVgF5fpRgaJeZorG1YR+YEngSE=;
+ b=6MNvP2gLdKTMeRozmrfx5c7pVwULUAclNq27A4YBqUN2kyjKkib9aUFGdWtL4Gg5yvudtz
+ ffM/WXRMxfrqrYDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0525013A73;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 70DBC1391B;
  Thu,  9 Mar 2023 16:02:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MAZRACEDCmQHbgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 4NGrGiEDCmQHbgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 09 Mar 2023 16:02:41 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
@@ -52,9 +52,10 @@ To: deller@gmx.de, geert+renesas@glider.be, timur@kernel.org,
  s.hauer@pengutronix.de, shawnguo@kernel.org, mbroemme@libmpq.org,
  thomas@winischhofer.net, James.Bottomley@HansenPartnership.com,
  sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, corbet@lwn.net
-Subject: [PATCH v2 091/101] fbdev/vermilion: Remove unused option string
-Date: Thu,  9 Mar 2023 17:01:51 +0100
-Message-Id: <20230309160201.5163-92-tzimmermann@suse.de>
+Subject: [PATCH v2 092/101] fbdev/vesafb: Parse option string with struct
+ option_iter
+Date: Thu,  9 Mar 2023 17:01:52 +0100
+Message-Id: <20230309160201.5163-93-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230309160201.5163-1-tzimmermann@suse.de>
 References: <20230309160201.5163-1-tzimmermann@suse.de>
@@ -77,35 +78,62 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The option string is unused. Remove the variable. No functional
-changes.
+Use struct option_iter to walk over the individual options in the
+driver's option string. Replaces the hand-written strsep() loop with
+a clean interface. The helpers for struct option_iter handle empty
+option strings and empty options transparently. The struct's _init
+and _release functions duplicate and release the option string's
+memory buffer as needed.
+
+Done in preparation of constifying the option string.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/fbdev/vermilion/vermilion.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/video/fbdev/vesafb.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/vermilion/vermilion.c b/drivers/video/fbdev/vermilion/vermilion.c
-index 0374ee6b6d03..bea318504475 100644
---- a/drivers/video/fbdev/vermilion/vermilion.c
-+++ b/drivers/video/fbdev/vermilion/vermilion.c
-@@ -1056,16 +1056,11 @@ static void __exit vmlfb_cleanup(void)
+diff --git a/drivers/video/fbdev/vesafb.c b/drivers/video/fbdev/vesafb.c
+index 3f8bdfcf51f0..7299cebb6962 100644
+--- a/drivers/video/fbdev/vesafb.c
++++ b/drivers/video/fbdev/vesafb.c
+@@ -10,6 +10,7 @@
+  */
  
- static int __init vmlfb_init(void)
+ #include <linux/aperture.h>
++#include <linux/cmdline.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+@@ -209,16 +210,14 @@ static struct fb_ops vesafb_ops = {
+ 	.fb_imageblit	= cfb_imageblit,
+ };
+ 
+-static int vesafb_setup(char *options)
++static int vesafb_setup(const char *options)
  {
--
--#ifndef MODULE
--	char *option = NULL;
--#endif
--
- 	if (fb_modesetting_disabled("vmlfb"))
- 		return -ENODEV;
++	struct option_iter iter;
+ 	char *this_opt;
  
- #ifndef MODULE
--	if (fb_get_options(MODULE_NAME, &option))
-+	if (fb_get_options(MODULE_NAME, NULL))
- 		return -ENODEV;
- #endif
+-	if (!options || !*options)
+-		return 0;
+-
+-	while ((this_opt = strsep(&options, ",")) != NULL) {
+-		if (!*this_opt) continue;
++	option_iter_init(&iter, options);
+ 
++	while (option_iter_next(&iter, &this_opt)) {
+ 		if (! strcmp(this_opt, "inverse"))
+ 			inverse=1;
+ 		else if (! strcmp(this_opt, "redraw"))
+@@ -240,6 +239,9 @@ static int vesafb_setup(char *options)
+ 		else if (! strncmp(this_opt, "vremap:", 7))
+ 			vram_remap = simple_strtoul(this_opt+7, NULL, 0);
+ 	}
++
++	option_iter_release(&iter);
++
+ 	return 0;
+ }
  
 -- 
 2.39.2
