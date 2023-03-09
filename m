@@ -1,53 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F076B1AEC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 06:42:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9970E6B1AF2
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 06:48:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2888A10E78E;
-	Thu,  9 Mar 2023 05:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B04A10E78D;
+	Thu,  9 Mar 2023 05:48:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F355310E78C;
- Thu,  9 Mar 2023 05:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678340562; x=1709876562;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=uCAzubwyGzB49kfOfD/iqib1FthJTGQPSb2PAavTWeQ=;
- b=BhNgzPwwCcm9uh/gbE0EG4q/jagiFH1jjyp6Zt2KfoW3qqkZyjm+Ki1b
- habNOAsmx737AkRF0pP8tZCvISV0Bh7+TfNdoiTVm0eLPyqTWFj3erhVK
- HOe4noP6McunlmZ+bPOyneHoJ+hK0SOAFc6xcmIdgmm5qfWsJMeiR59dp
- RdQlyvfx2Y0/8cg8d91TpZ+GKnEVZY3Oxt/Vdp7tOumcM2HPNRc5Ja/UE
- X4dXLkJxFVxzuCFwTcLBMLSqg0/v6AhokrbNFrTmsLkWgNlN5nuURsB37
- 2kes2nVsvXmWoS3iYCYXe3ezi0AZ/FQbSgLjT0G/RtlZrmsrp32JwYXRD A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="338695607"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
- d="asc'?scan'208";a="338695607"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 21:42:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="801047130"
-X-IronPort-AV: E=Sophos;i="5.98,245,1673942400"; 
- d="asc'?scan'208";a="801047130"
-Received: from debian-skl.sh.intel.com (HELO debian-skl) ([10.239.159.40])
- by orsmga004.jf.intel.com with ESMTP; 08 Mar 2023 21:42:37 -0800
-Date: Thu, 9 Mar 2023 13:41:21 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v2] drm/i915/gvt: Make use of idr_find and
- idr_for_each_entry in dmabuf
-Message-ID: <ZAlxge8ENvruScGf@debian-scheme>
-References: <20230303140718.25355-1-cai.huoqing@linux.dev>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2045.outbound.protection.outlook.com [40.107.237.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A9E10E0BF;
+ Thu,  9 Mar 2023 05:48:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k/Jd6zyMwa/yR2K8IyWraBcBqTL2f03W1Oov4Wdo0kNIgw1SPotgg/xn0tvP5pfkUg4xKAm9cS390tsqG7Za4ebJTXfeLZRNa3HbPAhosySiyA/zoW2GltX5jQwi9MudtLi/LTyqgekyGmwP6waEHCi2En7dTdOONwvUNjMBysECLIOXD6rHIt0KxlCShb2TTD5avdC7/Z0pdZR4Ag+hsfVGL4AyNYHftZRbGtBFcYaODu3W0hCpuUCsDO3Qm+g0hdY6BOTTPgvka0VeYKBtRa15c8MsDfjzYtiT+M87sJiuX001bEMtD7QmW9qkNCRjkOeODJjaizxEbJ9N9kHNLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pUxrncIEplV1dk1Zto5rY5xzp8SKpKpkEIzU4l6PLVY=;
+ b=OfMi2oYUFz+KGvpeoXLnTKZr3wZfmKNikJNC3CrFO/dRCfTKOwBrO5OeBe70jZLph5/1znXYDRMEPbhFBUjdD4VoUKSlZGartBLFnSBJu2B29g7WkHrhBgPsU/GPunccJj2E+K0tch+sni9Inu3pAEg/p6AvMYUo1OVhWXJVv83qjNq/OpBT3lAi80Oj78qC/VIlQqy2voe9Pd4g71evhywI24l3ZfBZY01etrGcEGnvuP/x3gI1TV9yBMJz4wxufJUk/sCqQun0j+d7fjaAWCQb7/+Dtfo9EvIQ6U3AnG7fLBTCdrjozSO/pEa/whFJAWrXOSXdinhYGyDO73v2XQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pUxrncIEplV1dk1Zto5rY5xzp8SKpKpkEIzU4l6PLVY=;
+ b=gVYMfmB5velXujBKJSHvmRFKJqJkeEXF/r0FHoTBfPhCBy+joAfqIMWcVHPMIC+NPev6Qpb/k8tznZTqaGEQy5HeliRNIFZaLWwc/IxYbAE5sIOyOFpztBvKtR5unjmOMzSMN0liQYcnonUx2MAwXY7MKQ2On+vZv2otlCVXgYY=
+Received: from CY5PR22CA0002.namprd22.prod.outlook.com (2603:10b6:930:16::11)
+ by SN7PR12MB8130.namprd12.prod.outlook.com (2603:10b6:806:32e::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.16; Thu, 9 Mar
+ 2023 05:48:25 +0000
+Received: from CY4PEPF0000C977.namprd02.prod.outlook.com
+ (2603:10b6:930:16:cafe::e6) by CY5PR22CA0002.outlook.office365.com
+ (2603:10b6:930:16::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19 via Frontend
+ Transport; Thu, 9 Mar 2023 05:48:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000C977.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.13 via Frontend Transport; Thu, 9 Mar 2023 05:48:25 +0000
+Received: from guchchen-System-Product-Name.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Wed, 8 Mar 2023 23:48:22 -0600
+From: Guchun Chen <guchun.chen@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <alexander.deucher@amd.com>, <hawking.zhang@amd.com>,
+ <dmitry.baryshkov@linaro.org>, <spasswolf@web.de>, <mike@fireburn.co.uk>
+Subject: [PATCH 1/2] drm/amdgpu: move poll enabled/disable into non DC path
+Date: Thu, 9 Mar 2023 13:48:01 +0800
+Message-ID: <20230309054801.2709152-1-guchun.chen@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="duxpWjsI3Cucd3ft"
-Content-Disposition: inline
-In-Reply-To: <20230303140718.25355-1-cai.huoqing@linux.dev>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C977:EE_|SN7PR12MB8130:EE_
+X-MS-Office365-Filtering-Correlation-Id: f218ab99-964e-48fd-ce15-08db2061e651
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: brHOxEkkzYmQN2SEUkqUCzdUSsAe5qjaY0giVh3bp0vUaXJ+Ub9aM9WhPJpqvqa/xfogK/voVH+O7vXlBxNnc5N5iWqX+bNsV+JZ/dIJndHtyCHFuValKRFxkwLKm/6LYeIuHeDTgV3DFuR8ginf7+rFmZ34QDzkDRX1xLmqs8xurwMTCEDeizPmAijIp+Y9tie3j8fxycLt1ospWc977vZmmtRKJv/pjEo+Ll5ETEb3LO4Fz2mrEXCTY0s8ak7Y0YA7UQJf0qLRzxAXNegDVs2rZUicd0bprEKZUXWvRnwEBKOIgf4OUMDyDjahIxt5I5ZOmc40oGjKQ5sNnVPbcqHL7VYkYHsebeaEhP/Lr+NN1Bcfv9ZQWJwI0JFZGRFs3aS+E0ZpGF3H2EGUuo8pq69e1+xppoTKHJFxZe6nE9RVVgitTNR9Tsp/TpxrXKAXA8YZYVHvVELqNgoU/uQtzs9G8kiZzvWlwv1kCYLHsvcghHmVLIrT1a/1n1bltL0TuT/AiHrtq+oGQne/jQUG5jjS+4t5K6c/oF2As0n2sCAcBAsIcAKhwR8UIDRfOcbc2ubqVl2wfMM/8pjro3TZMPVjTD+g+S8EyL8pDCsM9I2MEqY3zYIlcBmdd5+C8tnZXWt5Lw70qRdlSui7qG0uorStgVOZ5QXYg0P2YqwMPBKP+MENFEH1/cPTkZfci8tc
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(396003)(376002)(346002)(39860400002)(451199018)(46966006)(36840700001)(40470700004)(110136005)(82740400003)(316002)(2616005)(36756003)(6666004)(478600001)(26005)(81166007)(1076003)(36860700001)(336012)(70586007)(8676002)(70206006)(2906002)(4326008)(40480700001)(41300700001)(86362001)(82310400005)(47076005)(356005)(8936002)(426003)(44832011)(83380400001)(186003)(5660300002)(7696005)(966005)(16526019)(40460700003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 05:48:25.0000 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f218ab99-964e-48fd-ce15-08db2061e651
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C977.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,230 +100,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Guchun Chen <guchun.chen@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Some amd asics having reliable hotplug support don't call
+drm_kms_helper_poll_init in driver init sequence. However,
+due to the unified suspend/resume path for all asics, because
+the output_poll_work->func is not set for these asics, a warning
+arrives when suspending.
 
---duxpWjsI3Cucd3ft
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[   90.656049]  <TASK>
+[   90.656050]  ? console_unlock+0x4d/0x100
+[   90.656053]  ? __irq_work_queue_local+0x27/0x60
+[   90.656056]  ? irq_work_queue+0x2b/0x50
+[   90.656057]  ? __wake_up_klogd+0x40/0x60
+[   90.656059]  __cancel_work_timer+0xed/0x180
+[   90.656061]  drm_kms_helper_poll_disable.cold+0x1f/0x2c [drm_kms_helper]
+[   90.656072]  amdgpu_device_suspend+0x81/0x170 [amdgpu]
+[   90.656180]  amdgpu_pmops_runtime_suspend+0xb5/0x1b0 [amdgpu]
+[   90.656269]  pci_pm_runtime_suspend+0x61/0x1b0
 
-On 2023.03.03 22:07:18 +0800, Cai Huoqing wrote:
-> This patch uses the already existing IDR mechanism to simplify
-> and improve the dmabuf code.
->=20
-> Using 'vgpu.object_idr' directly instead of 'dmabuf_obj_list_head'
-> or 'dmabuf.list', because the dmabuf_obj can be found by 'idr_find'
-> or 'idr_for_each_entry'.
->=20
-> Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> ---
-> v1->v2:
-> 	1.Use idr_find to get the target one and free it instead of free all dma=
- objs.
-> 	2.Revert the original code 'ret' related
-> 	3.Add '&& !idr_is_empty()' like the original code '&& !list_empty()'
+drm_kms_helper_poll_enable/disable is valid when poll_init is called in
+amdgpu code, which is only used in non DC path. So move such codes into
+non-DC path code to get rid of such warnings.
 
-Looks good to me. I'll send it for some regression test before upstream.
+Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/2411
+Fixes: a4e771729a51("drm/probe_helper: sort out poll_running vs poll_enabled")
+Reported-by: Bert Karwatzki <spasswolf@web.de>
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Suggested-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Guchun Chen <guchun.chen@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  | 4 ----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 4 ++++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index c4a4e2fe6681..da5b0258a237 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -4145,8 +4145,6 @@ int amdgpu_device_suspend(struct drm_device *dev, bool fbcon)
+ 	if (amdgpu_acpi_smart_shift_update(dev, AMDGPU_SS_DEV_D3))
+ 		DRM_WARN("smart shift update failed\n");
+ 
+-	drm_kms_helper_poll_disable(dev);
+-
+ 	if (fbcon)
+ 		drm_fb_helper_set_suspend_unlocked(adev_to_drm(adev)->fb_helper, true);
+ 
+@@ -4243,8 +4241,6 @@ int amdgpu_device_resume(struct drm_device *dev, bool fbcon)
+ 	if (fbcon)
+ 		drm_fb_helper_set_suspend_unlocked(adev_to_drm(adev)->fb_helper, false);
+ 
+-	drm_kms_helper_poll_enable(dev);
+-
+ 	amdgpu_ras_resume(adev);
+ 
+ 	if (adev->mode_info.num_crtc) {
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 503f89a766c3..d60fe7eb5579 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1618,6 +1618,8 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
+ 	struct drm_connector_list_iter iter;
+ 	int r;
+ 
++	drm_kms_helper_poll_disable(dev);
++
+ 	/* turn off display hw */
+ 	drm_modeset_lock_all(dev);
+ 	drm_connector_list_iter_begin(dev, &iter);
+@@ -1694,6 +1696,8 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev)
+ 
+ 	drm_modeset_unlock_all(dev);
+ 
++	drm_kms_helper_poll_enable(dev);
++
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
 
-Thanks!
-
->=20
-> v1 link:
-> 	https://lore.kernel.org/lkml/20230302115318.79487-1-cai.huoqing@linux.de=
-v/
->=20
->  drivers/gpu/drm/i915/gvt/dmabuf.c | 58 +++++++------------------------
->  drivers/gpu/drm/i915/gvt/dmabuf.h |  1 -
->  drivers/gpu/drm/i915/gvt/gvt.h    |  1 -
->  drivers/gpu/drm/i915/gvt/vgpu.c   |  1 -
->  4 files changed, 12 insertions(+), 49 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.c b/drivers/gpu/drm/i915/gvt=
-/dmabuf.c
-> index 6834f9fe40cf..cf619b1ed3ad 100644
-> --- a/drivers/gpu/drm/i915/gvt/dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gvt/dmabuf.c
-> @@ -133,21 +133,15 @@ static void dmabuf_gem_object_free(struct kref *kre=
-f)
->  	struct intel_vgpu_dmabuf_obj *obj =3D
->  		container_of(kref, struct intel_vgpu_dmabuf_obj, kref);
->  	struct intel_vgpu *vgpu =3D obj->vgpu;
-> -	struct list_head *pos;
->  	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
-> =20
->  	if (vgpu && test_bit(INTEL_VGPU_STATUS_ACTIVE, vgpu->status) &&
-> -	    !list_empty(&vgpu->dmabuf_obj_list_head)) {
-> -		list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
-> -			dmabuf_obj =3D list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> -			if (dmabuf_obj =3D=3D obj) {
-> -				list_del(pos);
-> -				idr_remove(&vgpu->object_idr,
-> -					   dmabuf_obj->dmabuf_id);
-> -				kfree(dmabuf_obj->info);
-> -				kfree(dmabuf_obj);
-> -				break;
-> -			}
-> +	    !idr_is_empty(&vgpu->object_idr)) {
-> +		dmabuf_obj =3D idr_find(&vgpu->object_idr, obj->dmabuf_id);
-> +		if (dmabuf_obj) {
-> +			idr_remove(&vgpu->object_idr, obj->dmabuf_id);
-> +			kfree(dmabuf_obj->info);
-> +			kfree(dmabuf_obj);
->  		}
->  	} else {
->  		/* Free the orphan dmabuf_objs here */
-> @@ -340,13 +334,12 @@ static struct intel_vgpu_dmabuf_obj *
->  pick_dmabuf_by_info(struct intel_vgpu *vgpu,
->  		    struct intel_vgpu_fb_info *latest_info)
->  {
-> -	struct list_head *pos;
->  	struct intel_vgpu_fb_info *fb_info;
->  	struct intel_vgpu_dmabuf_obj *dmabuf_obj =3D NULL;
->  	struct intel_vgpu_dmabuf_obj *ret =3D NULL;
-> +	int id;
-> =20
-> -	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
-> -		dmabuf_obj =3D list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> +	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
->  		if (!dmabuf_obj->info)
->  			continue;
-> =20
-> @@ -366,24 +359,6 @@ pick_dmabuf_by_info(struct intel_vgpu *vgpu,
->  	return ret;
->  }
-> =20
-> -static struct intel_vgpu_dmabuf_obj *
-> -pick_dmabuf_by_num(struct intel_vgpu *vgpu, u32 id)
-> -{
-> -	struct list_head *pos;
-> -	struct intel_vgpu_dmabuf_obj *dmabuf_obj =3D NULL;
-> -	struct intel_vgpu_dmabuf_obj *ret =3D NULL;
-> -
-> -	list_for_each(pos, &vgpu->dmabuf_obj_list_head) {
-> -		dmabuf_obj =3D list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> -		if (dmabuf_obj->dmabuf_id =3D=3D id) {
-> -			ret =3D dmabuf_obj;
-> -			break;
-> -		}
-> -	}
-> -
-> -	return ret;
-> -}
-> -
->  static void update_fb_info(struct vfio_device_gfx_plane_info *gvt_dmabuf,
->  		      struct intel_vgpu_fb_info *fb_info)
->  {
-> @@ -477,11 +452,6 @@ int intel_vgpu_query_plane(struct intel_vgpu *vgpu, =
-void *args)
-> =20
->  	update_fb_info(gfx_plane_info, &fb_info);
-> =20
-> -	INIT_LIST_HEAD(&dmabuf_obj->list);
-> -	mutex_lock(&vgpu->dmabuf_lock);
-> -	list_add_tail(&dmabuf_obj->list, &vgpu->dmabuf_obj_list_head);
-> -	mutex_unlock(&vgpu->dmabuf_lock);
-> -
->  	gvt_dbg_dpy("vgpu%d: %s new dmabuf_obj ref %d, id %d\n", vgpu->id,
->  		    __func__, kref_read(&dmabuf_obj->kref), ret);
-> =20
-> @@ -508,7 +478,7 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, un=
-signed int dmabuf_id)
-> =20
->  	mutex_lock(&vgpu->dmabuf_lock);
-> =20
-> -	dmabuf_obj =3D pick_dmabuf_by_num(vgpu, dmabuf_id);
-> +	dmabuf_obj =3D idr_find(&vgpu->object_idr, dmabuf_id);
->  	if (dmabuf_obj =3D=3D NULL) {
->  		gvt_vgpu_err("invalid dmabuf id:%d\n", dmabuf_id);
->  		ret =3D -EINVAL;
-> @@ -570,23 +540,19 @@ int intel_vgpu_get_dmabuf(struct intel_vgpu *vgpu, =
-unsigned int dmabuf_id)
-> =20
->  void intel_vgpu_dmabuf_cleanup(struct intel_vgpu *vgpu)
->  {
-> -	struct list_head *pos, *n;
->  	struct intel_vgpu_dmabuf_obj *dmabuf_obj;
-> +	int id;
-> =20
->  	mutex_lock(&vgpu->dmabuf_lock);
-> -	list_for_each_safe(pos, n, &vgpu->dmabuf_obj_list_head) {
-> -		dmabuf_obj =3D list_entry(pos, struct intel_vgpu_dmabuf_obj, list);
-> +	idr_for_each_entry(&vgpu->object_idr, dmabuf_obj, id) {
->  		dmabuf_obj->vgpu =3D NULL;
-> =20
-> -		idr_remove(&vgpu->object_idr, dmabuf_obj->dmabuf_id);
-> -		list_del(pos);
-> -
-> +		idr_remove(&vgpu->object_idr, id);
->  		/* dmabuf_obj might be freed in dmabuf_obj_put */
->  		if (dmabuf_obj->initref) {
->  			dmabuf_obj->initref =3D false;
->  			dmabuf_obj_put(dmabuf_obj);
->  		}
-> -
->  	}
->  	mutex_unlock(&vgpu->dmabuf_lock);
->  }
-> diff --git a/drivers/gpu/drm/i915/gvt/dmabuf.h b/drivers/gpu/drm/i915/gvt=
-/dmabuf.h
-> index 3dcdb6570eda..93c0e00bdab9 100644
-> --- a/drivers/gpu/drm/i915/gvt/dmabuf.h
-> +++ b/drivers/gpu/drm/i915/gvt/dmabuf.h
-> @@ -57,7 +57,6 @@ struct intel_vgpu_dmabuf_obj {
->  	__u32 dmabuf_id;
->  	struct kref kref;
->  	bool initref;
-> -	struct list_head list;
->  };
-> =20
->  int intel_vgpu_query_plane(struct intel_vgpu *vgpu, void *args);
-> diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gv=
-t.h
-> index 2d65800d8e93..1100c789f207 100644
-> --- a/drivers/gpu/drm/i915/gvt/gvt.h
-> +++ b/drivers/gpu/drm/i915/gvt/gvt.h
-> @@ -211,7 +211,6 @@ struct intel_vgpu {
-> =20
->  	struct dentry *debugfs;
-> =20
-> -	struct list_head dmabuf_obj_list_head;
->  	struct mutex dmabuf_lock;
->  	struct idr object_idr;
->  	struct intel_vgpu_vblank_timer vblank_timer;
-> diff --git a/drivers/gpu/drm/i915/gvt/vgpu.c b/drivers/gpu/drm/i915/gvt/v=
-gpu.c
-> index 08ad1bd651f1..0a511cfef067 100644
-> --- a/drivers/gpu/drm/i915/gvt/vgpu.c
-> +++ b/drivers/gpu/drm/i915/gvt/vgpu.c
-> @@ -329,7 +329,6 @@ int intel_gvt_create_vgpu(struct intel_vgpu *vgpu,
->  	vgpu->sched_ctl.weight =3D conf->weight;
->  	mutex_init(&vgpu->vgpu_lock);
->  	mutex_init(&vgpu->dmabuf_lock);
-> -	INIT_LIST_HEAD(&vgpu->dmabuf_obj_list_head);
->  	INIT_RADIX_TREE(&vgpu->page_track_tree, GFP_KERNEL);
->  	idr_init_base(&vgpu->object_idr, 1);
->  	intel_vgpu_init_cfg_space(vgpu, 1);
-> --=20
-> 2.34.1
->=20
-
---duxpWjsI3Cucd3ft
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCZAlxfAAKCRCxBBozTXgY
-J3ejAJ0QUaHuKKpb39kOTgKluWoSr+TGBQCeNkphZrUv4D9Ai64H2SOGGeLhUrU=
-=9Zt+
------END PGP SIGNATURE-----
-
---duxpWjsI3Cucd3ft--
