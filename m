@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2381F6B1765
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 01:02:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E31A6B176C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Mar 2023 01:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E877F10E75D;
-	Thu,  9 Mar 2023 00:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8430F10E764;
+	Thu,  9 Mar 2023 00:02:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D50910E762;
- Thu,  9 Mar 2023 00:01:57 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D4910E157;
+ Thu,  9 Mar 2023 00:02:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678320117; x=1709856117;
+ t=1678320144; x=1709856144;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=L8mJFeEuib6omOevxs+0qneHqkgXoH+0dfoFaHakng0=;
- b=I5MBFS7NTrWl+3VNYyBcA0LawOGjWxohI2Rm7uMWCrli/mqsMwwr9f78
- GDHjvfWnkMps4wHbuEr/N9NCZrZ+Fi8leLBn4huXDtYf5GWN9PaF3xAXB
- I0Tcgwb6pS9LFCrRV1lWgcR2+N0jEY1VJQYfHGs5cDqdUseLx9mJMjtdo
- SXJlKSyvmm0vLjH+1ioXHRh/tX0IIB9J5DjCyhcgiw8Xf+Q1cvUW46QWf
- Li8PGcaqfq1Vfgwy9ZG/QRmy7uqy4WTHnKperG0XPyNGVLEeX1v7RA9am
- jU31cErui3wsn+Yu3StZHWi1SpRYBydztjRZ/AvJzoTti6/uq1Di9Fy9w A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="398890707"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="398890707"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 16:01:56 -0800
+ bh=0Ti/HKdse3vtp4gGV+yH/2hnO+BkMioCYWNo45U+7hE=;
+ b=e8I1X/FZ4Xz5iBtu+kYFzIMC7QyopV7DISMAfSFwkehbA+IWQmXHrVKF
+ Lnwi9+1CmOzvSHLyITiA+jW67Abg2Vw0kVpYCmlIBq2XpkN29uRZ3Ypod
+ 96CJlQZSs22MXU7J36VNZFrT2YPSRmNRU5xh08nbYenAuCBizUSniBlqZ
+ S+T8N5V7E2x0buptBRNBIRzM/0QgLswD5l3+goA1x8ETnTuakX+TfgWsK
+ JDo2PXJTJolNX6pAfVNLmdjQ9IkTLdo7PY9Kt8CmDYs33jmKZj3zF3z2I
+ RqtNfbhNWjkl7aM6+X24cN1wLBkmxu9T/Iep/M16QowdgGWKclnAeyY2h Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="363947497"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="363947497"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 16:02:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="766202216"
-X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="766202216"
+X-IronPort-AV: E=McAfee;i="6500,9779,10643"; a="679528032"
+X-IronPort-AV: E=Sophos;i="5.98,244,1673942400"; d="scan'208";a="679528032"
 Received: from gbain-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.252.47.108])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Mar 2023 16:01:42 -0800
-Date: Thu, 9 Mar 2023 01:01:39 +0100
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Mar 2023 16:02:21 -0800
+Date: Thu, 9 Mar 2023 01:02:18 +0100
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH v5 2/4] drm/i915/display: use nop_clear_range instead of
- local function
-Message-ID: <ZAkh4x1SOMT8x/bx@ashyti-mobl2.lan>
+Subject: Re: [PATCH v5 3/4] drm/i915/selftests: use nop_clear_range instead
+ of local function
+Message-ID: <ZAkiCsnVYq+c7YqI@ashyti-mobl2.lan>
 References: <20230308-guard_error_capture-v5-0-6d1410d13540@intel.com>
- <20230308-guard_error_capture-v5-2-6d1410d13540@intel.com>
+ <20230308-guard_error_capture-v5-3-6d1410d13540@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230308-guard_error_capture-v5-2-6d1410d13540@intel.com>
+In-Reply-To: <20230308-guard_error_capture-v5-3-6d1410d13540@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,7 +71,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Andrzej,
 
-On Wed, Mar 08, 2023 at 04:39:04PM +0100, Andrzej Hajda wrote:
+On Wed, Mar 08, 2023 at 04:39:05PM +0100, Andrzej Hajda wrote:
 > Since nop_clear_range is visible it can be used here.
 > 
 > Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
