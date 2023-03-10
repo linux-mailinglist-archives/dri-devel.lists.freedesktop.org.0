@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8326B3F95
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 13:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23C46B3FD0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 13:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A6610E184;
-	Fri, 10 Mar 2023 12:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCCB810E1CA;
+	Fri, 10 Mar 2023 12:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B8110E184
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 12:44:32 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F3E3C21EB4;
- Fri, 10 Mar 2023 12:44:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678452271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Chly14tZPoFUh+0hkeoUe9IpO/gyXwV3d8UVTu36ak8=;
- b=piFyduczo2WZmPNri+ULZNDqzC6q20h+j4XKbxx0cTPKQzL/f8Tp2yDlv3xvADesOkjBRR
- NRIbotjdcafAu0jK3ggSMgnb62BtRzzx4ApMqcq6Gfxj8YVlIlMcxTPZdXWX8WOa+0hk4M
- BrIyFCIApKYfd7QdGFRykC/kT3LhaOs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678452271;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Chly14tZPoFUh+0hkeoUe9IpO/gyXwV3d8UVTu36ak8=;
- b=H+ZPMVbJ6+tEWLTkiD1aXIAJhn2fA7HNyIJSE1hAJXnmlP/vXRdQGume51Lm/E99Klytod
- aF6Ot2rSXCjW8sAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 95EF413592;
- Fri, 10 Mar 2023 12:44:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CVCzIy4mC2ScKAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 10 Mar 2023 12:44:30 +0000
-Message-ID: <123794b6-f3e1-7866-f618-4b3534186e80@suse.de>
-Date: Fri, 10 Mar 2023 13:44:30 +0100
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com
+ [IPv6:2607:f8b0:4864:20::930])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F11F610E1CA
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 12:58:56 +0000 (UTC)
+Received: by mail-ua1-x930.google.com with SMTP id s13so3415673uac.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 04:58:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1678453136;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/RIWO5C7AzU+h78A0ar/3/O1DQlkXqjFU+oB2xsWTyM=;
+ b=ZBvKtE7XY6G9i9Tq8qOl8jis3VkQG1Q1hJDgBgS3Am3UdJyTmVU5YnPnaEdeBhbW+1
+ YgJlniuj4ILWDjy+wHs7vArthjelwZXhvX1Ps+Itm3ttzmmSfN56BXr1P5ENsyqdgNkY
+ T6tGsoPhdshdppRyR/czmbzA9nBJnqrVxz/alct7mfwQSiaxozfq1+B7PQpUhxuoMFCf
+ 4zCaDfjDpD177/AT0GjiVq1J4PciecmNmZsGecaE71aN0jg6R0svqBCBHq1Jq+aYK+6+
+ vF7INeF3/yxsEt1mRG5V3wi+7T9Xiw35yW1IFsTjhYipdLYDhawbwhsGqKWCJ1jNR3RC
+ 4xkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678453136;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/RIWO5C7AzU+h78A0ar/3/O1DQlkXqjFU+oB2xsWTyM=;
+ b=pMnL4QFou98f7eCpnBYYEztrNhw48/efwS4cAgUAd0qKi9re5ypckCCVc0AF8Gu3bk
+ Qq3XFr1sAW9yjDKoPaxiZwiivyiObcoNL7qnYp+xGar64aY7nuJKLaRnuX9mrs9yUn/U
+ HKTPyDPRt59AeOy7Ua/wgMIMt+zPesE21T3gaVY2jo9bP5AVDnltSM/BIezjaTdWpQ6Y
+ sPfC5nU7W5hDdXVlMNgAxn0oJsZQIry8qQqHdrumVozYHQ3j+d/GJZyAFwF4iiO7SnKb
+ GHorw5GwlXW9/cI7PwhmhrEPQiWylPobSUMcM4pb1rLSw6aZrrGSam1PKjag1//DopHz
+ iMrQ==
+X-Gm-Message-State: AO0yUKX2hkAP8e2PiVUGXeWfZ6lxLbu2Zb/4pzoOxBrvqnjGHdxFQXT1
+ PD5FH0VHbnW3OYTBIcjhwaphlxdzJ4XW1j+rKApJIg==
+X-Google-Smtp-Source: AK7set9GsKjOdBQ25EuuTV3JVLnncUT5if3cxkUVO5FN2QdCbyLYuRMO/XY+vz02R1RHsmnzMyp5RkNYQMown68jGTM=
+X-Received: by 2002:ab0:4a12:0:b0:68d:6360:77b with SMTP id
+ q18-20020ab04a12000000b0068d6360077bmr16663766uae.1.1678453135848; Fri, 10
+ Mar 2023 04:58:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 000/101] fbdev: Fix memory leak in option parsing
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230309160201.5163-1-tzimmermann@suse.de>
- <CAMuHMdX9mmPDvTpeHQWMoi1pAqoDn1go4in995pGkamOQmBXjA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAMuHMdX9mmPDvTpeHQWMoi1pAqoDn1go4in995pGkamOQmBXjA@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3gtrrVnUNz0A7nL0VRjfkriZ"
+References: <7d216faea9647d328651460167bc27f6@rmail.be>
+ <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
+ <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
+ <20230308123540.zqqe4mnhzumvnjfk@houat>
+ <004db85e5114674bfc432043376bcd00@rmail.be>
+ <4862350fa507612e03bb6a73977db178@rmail.be>
+ <CAPY8ntB6WaCF4H2Bk7Zq9cCE-iR8fMFq-vDULH_rp_+O4xp+EA@mail.gmail.com>
+ <67bdf359746cfc732286ca4e139ed2b4@rmail.be>
+In-Reply-To: <67bdf359746cfc732286ca4e139ed2b4@rmail.be>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Fri, 10 Mar 2023 12:58:39 +0000
+Message-ID: <CAPY8ntAJDn32dNP=yXZ47zVyOpdCQ1UdOV51dfeYMGbuAaLmFA@mail.gmail.com>
+Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
+ 5.16; and still broken in at least 6.1)
+To: AL13N <alien@rmail.be>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,125 +73,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, thomas@winischhofer.net, adaplas@gmail.com,
- timur@kernel.org, corbet@lwn.net, deller@gmx.de, rdunlap@infradead.org,
- mbroemme@libmpq.org, linux@armlinux.org.uk, dri-devel@lists.freedesktop.org,
- sudipm.mukherjee@gmail.com, James.Bottomley@hansenpartnership.com,
- pjones@redhat.com, paulus@samba.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
- teddy.wang@siliconmotion.com
+Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
+ Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3gtrrVnUNz0A7nL0VRjfkriZ
-Content-Type: multipart/mixed; boundary="------------k90Yue8T06fhBe0A7HPjImg6";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: deller@gmx.de, timur@kernel.org, rdunlap@infradead.org, paulus@samba.org,
- benh@kernel.crashing.org, linux@armlinux.org.uk, pjones@redhat.com,
- adaplas@gmail.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
- mbroemme@libmpq.org, thomas@winischhofer.net,
- James.Bottomley@hansenpartnership.com, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com, corbet@lwn.net, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <123794b6-f3e1-7866-f618-4b3534186e80@suse.de>
-Subject: Re: [PATCH v2 000/101] fbdev: Fix memory leak in option parsing
-References: <20230309160201.5163-1-tzimmermann@suse.de>
- <CAMuHMdX9mmPDvTpeHQWMoi1pAqoDn1go4in995pGkamOQmBXjA@mail.gmail.com>
-In-Reply-To: <CAMuHMdX9mmPDvTpeHQWMoi1pAqoDn1go4in995pGkamOQmBXjA@mail.gmail.com>
+On Fri, 10 Mar 2023 at 09:10, AL13N <alien@rmail.be> wrote:
+>
+> Dave Stevenson schreef op 2023-03-09 13:59:
+> > On Wed, 8 Mar 2023 at 22:46, AL13N <alien@rmail.be> wrote:
+> >>
+> >> AL13N schreef op 2023-03-08 22:16:
+> >> > Maxime Ripard schreef op 2023-03-08 13:35:
+> >> >> Hi,
+> >> >>
+> >> >> On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
+> >> >>> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
+> >> >>> > AL13N schreef op 2023-03-06 17:34:
+> >> >>> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
+> >> >>> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
+> >> >>> > > plymouth), the cause of no X is that EDID gives nothing, and in the
+> >> >>> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
+> >> >>> > > changed for this.
+> >> >>> > >
+<snip>
+> >>
+> >> a bit puzzling why it does EDID block twice and it's twice checksum
+> >> invalid?
+> >> I also see forcing connector on.
+> >>
+> >> earlier, i did try to make an edid file from a modeline that worked on
+> >> 5.16 and pass it using drm_kms_helper.edid_firmware= ; but that didn't
+> >> work, there only was some kind of warning that i should use something
+> >> else...
+> >
+> > It always helps to actually quote warnings or errors.
+> > Almost certainly "drm_kms_helper.edid_firmware is deprecated, please
+> > use drm.edid_firmware instead.", in which case do as it tells you and
+> > use "drm.edid_firmware=<filename>".
+>
+> oh, i interpreted this as "it works for now, but will be removed later"
+> ? are you saying it really doesn't work and i should retest with
+> "drm.edid_firmware=" ?
 
---------------k90Yue8T06fhBe0A7HPjImg6
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Reporting that you got a warning or error message which you then
+ignored doesn't help the debug process.
+Seeing it's been deprecated since 5.4 in 2017, it would be a fair
+candidate to disappear.
 
-SGkgR2VlcnQNCg0KQW0gMTAuMDMuMjMgdW0gMDk6MjQgc2NocmllYiBHZWVydCBVeXR0ZXJo
-b2V2ZW46DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIFRodSwgTWFyIDksIDIwMjMgYXQgNTow
-MuKAr1BNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToN
-Cj4+IEludHJvZHVjZSBzdHJ1Y3Qgb3B0aW9uX2l0ZXIgYW5kIGhlbHBlcnMgdG8gcGFyc2Ug
-Y29tbWFuZC1saW5lDQo+PiBvcHRpb25zIHdpdGggY29tbWEtc2VwYXJhdGVkIGtleS12YWx1
-ZSBwYWlycy4gVGhlbiBjb252ZXJ0IGZiZGV2DQo+PiBkcml2ZXJzIHRvIHRoZSBuZXcgaW50
-ZXJmYWNlLiBGaXhlcyBhIG1lbW9yeSBsZWFrIGluIHRoZSBwYXJzaW5nIG9mDQo+PiB0aGUg
-dmlkZW89IG9wdGlvbi4NCj4+DQo+PiBCZWZvcmUgY29tbWl0IDczY2U3M2MzMGJhOSAoImZi
-ZGV2OiBUcmFuc2ZlciB2aWRlbz0gb3B0aW9uIHN0cmluZ3MgdG8NCj4+IGNhbGxlcjsgY2xh
-cmlmeSBvd25lcnNoaXAiKSwgYSBjYWxsIHRvIGZiX2dldF9vcHRpb25zKCkgZWl0aGVyDQo+
-PiByZXR1cm5lZCBhbiBpbnRlcm5hbCBzdHJpbmcgb3IgYSBkdXBsaWNhdGVkIHN0cmluZzsg
-aGVuY2Ugb3duZXJzaGlwIG9mDQo+PiB0aGUgc3RyaW5nJ3MgbWVtb3J5IGJ1ZmZlciB3YXMg
-bm90IHdlbGwgZGVmaW5lZCwgYnV0IGRlcGVuZGVkIG9uIGhvdw0KPj4gdXNlcnMgc3BlY2lm
-aWVkIHRoZSB2aWRlbz0gb3B0aW9uIG9uIHRoZSBrZXJuZWwgY29tbWFuZCBsaW5lLiBGb3IN
-Cj4+IGdsb2JhbCBzZXR0aW5ncywgdGhlIGNhbGxlciBvd25lZCB0aGUgcmV0dXJuZWQgbWVt
-b3J5IGFuZCBmb3IgcGVyLWRyaXZlcg0KPj4gc2V0dGluZ3MsIGZiX2dldF9vcHRpb25zKCkg
-b3duZWQgdGhlIG1lbW9yeS4gQXMgY2FsbGluZyBkcml2ZXJzIHdlcmUNCj4+IHVuYWJsZSB0
-byBkZXRlY3QgdGhlIGNhc2UsIHRoZXkgaGFkIG5vIG9wdGlvbiBidXQgdG8gbGVhayB0aGUg
-dGhlIG1lbW9yeS4NCj4+DQo+PiBDb21taXQgNzNjZTczYzMwYmE5ICgiZmJkZXY6IFRyYW5z
-ZmVyIHZpZGVvPSBvcHRpb24gc3RyaW5ncyB0byBjYWxsZXI7DQo+PiBjbGFyaWZ5IG93bmVy
-c2hpcCIpIGNoYW5nZWQgc2VtYW50aWNzIHRvIGNhbGxlci1vd25lZCBzdHJpbmdzLiBEcml2
-ZXJzDQo+PiBzdGlsbCBsZWFrZWQgdGhlIG1lbW9yeSwgYnV0IGF0IGxlYXN0IG93bmVyc2hp
-cCB3YXMgY2xlYXIuDQo+IA0KPiBXaGlsZSBJIGNhbiBmaW5kIHRoZSBhY3R1YWwgcGF0Y2hb
-MV0sIEkgY2Fubm90IGZpbmQgdGhpcyBjb21taXQ/DQo+IFdoZXJlIHdhcyBpdCBhcHBsaWVk
-Pw0KDQpJdCdzIGN1cnJlbnRseSBpbiBkcm0tbWlzYy1uZXh0Lg0KDQogDQpodHRwczovL2Nn
-aXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYy9jb21taXQvP2lkPTczY2U3M2MzMGJh
-OWFlNGQ5MGZkZmFkN2ViZTkxMDQwMDFkNWQ4NTENCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
-Cg0KPiANCj4gWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDIzMDIwOTEzNTUw
-OS43Nzg2LTMtdHppbW1lcm1hbm5Ac3VzZS5kZQ0KPiANCj4+IFRoaXMgcGF0Y2hzZXQgZml4
-ZXMgdGhlIG1lbW9yeSBsZWFrIGFuZCBjaGFuZ2VzIHN0cmluZyBvd25lcnNoaXAgYmFjaw0K
-Pj4gdG8gZmJfZ2V0X29wdGlvbnMoKS4gUGF0Y2ggMSBpbnRyb2R1Y2VzIHN0cnVjdCBvcHRp
-b25faXRlciBhbmQgYSBmZXcNCj4+IGhlbHBlcnMuIFRoZSBpbnRlcmZhY2UgdGFrZXMgYW4g
-b3B0aW9uIHN0cmluZywgc3VjaCBhcyB2aWRlbz0sIGluIHRoZQ0KPj4gY29tbW9uIGZvcm0g
-dmFsdWUxLGtleTI6dmFsdWUyLHZhbHVlMyBldGMgYW5kIHJldHVybnMgdGhlIGluZGl2aWR1
-YWwNCj4+IGNvbW1hLXNlcGFyYXRlZCBwYWlycy4gVmFyaW91cyBtb2R1bGVzIHVzZSB0aGlz
-IHBhdHRlcm4sIHNvIHRoZSBjb2RlDQo+PiBpcyBsb2NhdGVkIHVuZGVyIGxpYi8uDQo+Pg0K
-Pj4gUGF0Y2hlcyAyIHRvIDEwMCBnbyB0aHJvdWdoIGZiZGV2IGRyaXZlcnMgYW5kIGNvbnZl
-cnQgdGhlbSB0byB0aGUgbmV3DQo+PiBpbnRlcmZhY2UuIFRoaXMgb2Z0ZW4gcmVxdWlyZXMg
-YSBudW1iZXIgb2YgY2xlYW51cHMuIEEgZHJpdmVyIHdvdWxkDQo+PiB0eXBpY2FsbHkgcmVm
-ZXIgdG8gdGhlIG9wdGlvbiBzdHJpbmcncyB2aWRlbyBtb2RlLiBTdWNoIHN0cmluZ3MgYXJl
-IG5vdw0KPj4gY29waWVkIHRvIGRyaXZlci1hbGxvY2F0ZWQgbWVtb3J5IHNvIHRoYXQgZHJp
-dmVycyBkb24ndCByZWZlciBkaXJlY3RseQ0KPj4gdG8gdGhlIG9wdGlvbiBzdHJpbmcncyBt
-ZW1vcnkuIFRoZSBvcHRpb24gaXRlcmF0b3IgdGhlbiByZXBsYWNlcyBtYW51YWwNCj4+IHBh
-cnNpbmcgbG9vcHMgYmFzZWQgb24gc3Ryc2VwKCIsIikuIEFsbCBkcml2ZXItYWxsb2NhdGVk
-IG1lbW9yeSBpcw0KPj4gcmVsZWFzZWQgYnkgcmVtb3ZpbmcgdGhlIGRldmljZSBvciB1bmxv
-YWRpbmcgdGhlIG1vZHVsZS4NCj4+DQo+PiBQYXRjaCAxMDEgZmluYWxseSBjaGFuZ2VzIHRo
-ZSBvd25lcnNoaXAgb2YgdGhlIG9wdGlvbiBzdHJpbmcgdG8gYmUNCj4+IGludGVybmFsIHRv
-IGZiX2dldF9vcHRpb24oKTsgdGhlcmVieSBmaXhpbmcgdGhlIG1lbW9yeSBsZWFrLiBUaGUg
-b3B0aW9uDQo+PiBpdGVyYXRvciBob2xkcyBpdHMgb3duIGNvcHkgb2YgdGhlIHN0cmluZyBh
-bmQgaXMgbm90IGFmZmVjdGVkIGJ5IHRoZQ0KPj4gY2hhbmdlLg0KPj4NCj4+IE1vc3QgZmJk
-ZXYgZHJpdmVycyBvbmx5IHN1cHBvcnQgdG8gcGFyc2Ugb3B0aW9uIHN0cmluZ3MgaWYgdGhl
-eSBhcmUNCj4+IGJ1aWx0LWluLiBJIGFzc3VtZSB0aGF0J3MgYmVjYXVzZSBvZiB0aGUgb3Jp
-Z2luYWwgZnV6enkgc2VtYW50aWNzIG9mDQo+PiBmYl9nZXRfb3B0aW9ucygpLiBBIGxhdGVy
-IHBhdGNoc2V0IGNvdWxkIGNoYW5nZSB0aGUgZHJpdmVyIHRvIHJlc3BlY3QNCj4+IHZpZGVv
-PSBzZXR0aW5ncyBpbiBhbnkgY29uZmlndXJhdGlvbi4NCj4+DQo+PiB2MjoNCj4+ICAgICAg
-ICAgICogdXNlIGtzdHJkdXAoKS9rZnJlZSgpIGZvciB2aWRlbyBzdHJpbmdzIChHZWVydCwg
-VGltdXIpDQo+PiAgICAgICAgICAqIGZpeCBpdGVyYXRvciBkb2NzIChSYW5keSkNCj4+ICAg
-ICAgICAgICogdXBkYXRlIGl0ZXJhdG9yIGludGVyZmFjZQ0KPiANCj4gVGhhbmtzIGZvciB0
-aGUgdXBkYXRlLCB0aGlzIGxvb2tzIG11Y2ggYmV0dGVyIQ0KPiANCj4gR3J7b2V0amUsZWV0
-aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
-TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
-ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> >> reading through all your messages, does this mean, that i should be
+> >> able
+> >> to boot if we were to "fix" this edid file? and pass it? or is this
+> >> something that needs change in kernel?
+> >
+> > At present you have 2 issues
+> > - the monitor or cable doesn't handle the hotplug line correctly
+> > - the monitor doesn't provide a valid EDID.
+> >
+> > The first you can workaround with "video=HDMI-A-2:D".
+>
+> I thought the video= had to be turned off for drm.edid_firmware= to work
+> well?
 
---------------k90Yue8T06fhBe0A7HPjImg6--
+No - they do 2 different jobs.
+video=HDMI-A-2:D will force the connector to report connected, and
+therefore trigger a read of the EDID.
+drm.edid_firmware means that the EDID used will be read from that file
+rather than over the DDC link.
 
---------------3gtrrVnUNz0A7nL0VRjfkriZ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> rpi4 config.txt has a disable_fw_kms_setup=1 that disables the video
+> tags that are auto-added to cmdline (this option is commented atm)
+> there is also a hdmi_force_hotplug=1 option that is turned on atm
 
------BEGIN PGP SIGNATURE-----
+hdmi_force_hotplug=1 only affects the firmware, not the vc4 kernel driver.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQLJi4FAwAAAAAACgkQlh/E3EQov+DE
-wg/9GgmCIB8MXJTBXgyzRjaCY8maQ9BjeGcjuL/P1+XKF45IRp6VZo6aEtZyAlhEVFhD+cE6Ig7J
-Y8GbFCYde3aPEv/6ok/9PEZznYz/e87s5rygWY7WWpPCm46KEul7QJ0/fh/HJ6G3BL8xVwtU6DzA
-+KeGa/Pp0RJViUbNEie90bAVYbCwVqEuykZWl5Yg6bpyw8S8kiL4x+3kjuj+7cOd8dTHghk2xUiL
-q979SE4uf58UzxtHECdNR6+006Cf5PsbiOhI2wGFT7/LTJzn5NK5P+vNMgktRnZMojqpwpCX1ntb
-h+XS20KswWa6oRZy+SC2bjeRw7a8WC84/1uJBAGCkRgeeyfW/ImiHG/Es/t+Kcev0LKkHNSE8yhm
-WNF+ycz9G03IwFE1q3qt9d+m/tLl3KZx6yC+yIGgAN9SIQHbme5i7kxbXi3aiQOWsVIz3hkt+L8c
-mbYxwYk+3HR0aDpYZlWTrdpdgThpR3uCcGLgk7JZTampH31XsYuwLmiBJv7XDXEPH7JDOLlRZlsn
-Bnu0UM0BCdztLhhD3tpwxgQUB+DPbG6mitP/ZI7N2eSSzyt9G8M2Rnyg9qd5iziiAeGwF2Tj768v
-I1biigDBMn0eU+zkIrUgA6xUC0GiisR1pV1XehNLO7y9qy5Td2bmpzhdj2UVqvU1gYbdapKoHny/
-6Zk=
-=jQ+Q
------END PGP SIGNATURE-----
+> > The second you can work around by capturing the EDID, fixing it, and
+> > then using "drm.edid_firmware=<filename>".
+> > The first fix is to just fixup the checksum (edid-decode even tells
+> > you the correct value as 0xEB). That doesn't solve the fact that the
+> > EDID contains other rubbish like being an analog display which may
+> > cause further issues. The simplest fix for reporting as an analog
+> > display is to change byte 20 from 0x00 to 0x80, and then correct the
+> > checksum again.
+> >
+> > The EDID advertises 4k60, 1080p60, and GTF 2288x1432 @ 61Hz.
+> > In order to support 4k60 it needs to support HDMI2.0 and enabling
+> > scrambling via SCDC. That should also be signalled in the EDID Sink
+> > Capability Data Structure block but isn't, so 4k60 support may be
+> > compromised.
+>
+> the rpi4 also has in config.txt a hdmi_enable_4kp60=1, which i have not
+> turned on atm; i don't know if that has any impact here...
 
---------------3gtrrVnUNz0A7nL0VRjfkriZ--
+Without that then any mode that requires a pixel clock above the
+340MHz limit of HDMI 1.4 will be filtered out. 4k60 will therefore not
+be available to you on your system.
+
+> > Sorry, all of this comes back to the monitor vendor shipping rubbish.
+> > None of this is the fault of the vc4 driver, and it only worked under
+> > 5.16 by chance.
+>
+> do the config.txt directives on the rpi4 have any impact here? I always
+> figured these options only changed the cmdline video= parameters, it
+> can't really have any impact to the edid, no?
+
+Most of them only affect the firmware. The firmware does try to pass
+some information across to the kernel to set some defaults, but it
+can't do everything.
+
+> also, i assume there's lots of monitors/TVs that have rubbish EDID
+> files, how is this generally handled: are you guys trying to cater to
+> these weird EDID's or is it like: "nope, bad EDID, they should fix it,
+> no screen for now"?
+
+Actually reputable display manufacturers do a very good job on
+providing good EDIDs. There is very little excuse to ship a product
+with an invalid checksum in the EDID.
+
+Behaviour depends how bad the EDID is, and note that bad hotplug
+behaviour is a separate issue to the bad EDID.
+vc4 is now using the same EDID parsing code as the majority of the DRM
+drivers. Your EDID is bad enough that I suspect it will cause grief on
+many Linux systems, not just vc4 (I was going to test that, but my
+test rig appears to be playing up at present).
+
+DRM relies on the EDID being reasonable. There may be some corner
+cases that cause some grief (declaring a display as being analog for
+one), but actually they seem to be relatively rare.
+
+> >> >
+> >> >>> > I also noticed that earlier in the logs there are more bound lines:
+> >> >>> > (some are double)
+> >> >>> >
+> >> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >> >>> >
+> >> >>> > and then here for some reason systemd does modprobe@drm.service ? is
+> >> >>> > this just a delayed starting log line, or does it actually try to unload
+> >> >>> > drm and reload? i doubt it?
+> >> >>> > in any case there is more that appears before:
+> >> >>> >
+> >> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+> >> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> >> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+> >> >>> >
+> >> >>> >
+> >> >>> > so, the error message is weird, as it implies 2 possibilities. however,
+> >> >>> > i think it did find a crtc since all those pixelvalve things use crtc
+> >> >>> > functions?
+> >> >>> >
+> >> >>> > So then why do i have this problem on my RPI4? do most people just use
+> >> >>> > the raspberry pi kernels?
+> >> >>>
+> >> >>> Largely, yes, people use our vendor kernels.
+> >> >>
+> >> >> tbf, the downstream kernel has pretty much the same code here, so the
+> >> >> issue is very likely to affect it too.
+> >> >>
+> >> >> I would just assume that your TV has some unusual behaviour that
+> >> >> throws
+> >> >> the driver off, and most people won't.
+> >> >
+> >> > IC, the TV also has an option somewhere to choose EDID 2.0, i thought
+> >> > i chose that but if that decode says 1.3, maybe i didn't... Is it
+> >> > worth it to retry this?
+> >>
+> >> actually, the TV was set to EDID 2.0 the other option was 1.4 (?)
+> >
+> > I would guess that the HDMI 1.4 setting drops the 4k60 mode as HDMI1.4
+> > maxes out at 4k30. It's impossible for us to say if it fixes any of
+> > the other issues with the EDID.
+>
+> So, the edid needs to be changed to:
+>   - not be analog
+>   - set to 2.0
+>   - add scrambling capability on SCDC
+>   - fix checksum
+>
+> I'm wondering if the config.txt actually changes these values without
+> fixing checksum and that is the cause? but that seems very unlikely...
+>
+> thanks a lot for the responses, maybe I should just try to fix the EDID
+> and then just supply it to the company in question, I was in contact
+> with them asking for the EDID file earlier (to see if they have an
+> updated file someplace).
