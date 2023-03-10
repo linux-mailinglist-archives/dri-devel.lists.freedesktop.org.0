@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E019C6B38E7
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 09:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5D36B38E8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 09:38:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE2510E981;
-	Fri, 10 Mar 2023 08:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD32710E989;
+	Fri, 10 Mar 2023 08:38:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067AF10E981
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:38:13 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id i34so17370899eda.7
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:38:12 -0800 (PST)
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8683810E984
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:38:21 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id ay14so17305126edb.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:38:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678437491;
+ d=linaro.org; s=google; t=1678437500;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pDVe/ilGCM1upNn+sXA7kF6veY8qJPcVwvcThxhDa6I=;
- b=Pppuz/JUxawEDgmha2lSlsuKf9XEo5uJceQZxG8fZOdPlDwIRI++f8KUoyTdi1SIHS
- X4sXlMNXDbkeuKb3jIUN4o7S7NEkEG05vm7lD5PCJnPhjmgOzY89IEQtKS8dxyxk8J1p
- CfyhenjkMXgLzXcACM5LDZPpRa8/h28POLoty99ux4Xb0Q86qvvbHHOXRmxkf5MV+Kc6
- QdP7NdvX7H5WiLeysJM+Aj6g9JV9sy6/1kkXK3r7A6IdtKIkQar1kh768C/tV89f1G8l
- yzL1HXgEv/znoQ72yptz3rHrY2mOypVUIlhUmH9q0mw/tr9JSHfiV630dBNEKEq1uHas
- L5Gw==
+ bh=b8P0RjPPjJ6gDx/O+UOt7XYuZJFBYo2c+dJvtzrcfc8=;
+ b=Qm6w9iISowR+oMVJYM/hQSnZ4JRKkanoVQFKUhlTESl8dqbNr4Qghw4HziigDxrHb+
+ 3uCO8RrB0vZVGj3UAekguMmehIXsYMTd1fjEMpnGTvZWSntMe9MxdJc9TCxeN1qRnss1
+ 9x/nQEu0IpMw3T+pD7CKP1FZIqqKK3F54sneBXx1k+LoI2TVcVgBMOdtduWQIqOMNt5E
+ F8xY8xlmYVP+l3SrXc3O9D7anX14xNKTDiBvRrCnIK91MDso/N8+UvT+qJ1iwRDjSu9E
+ h+xcHj5cMsZYP8lylmurMTu8vfkN8t8MS0IluatHJWeHR8WkV+ikebzhhc6GDU/bIGIg
+ StaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678437491;
+ d=1e100.net; s=20210112; t=1678437500;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pDVe/ilGCM1upNn+sXA7kF6veY8qJPcVwvcThxhDa6I=;
- b=4lqrxkYB49M+BXQ53u3SUb4SAV0D7HHED12jMtvuPhxadYpTzLwyN/K6TbRG4Y0519
- JGClmreqd0CV7WPlTgRC/REN5/nnEQnPqOIJoET4pb4SDY6nhUsbZFrQUzZgApLZkm+Y
- dxKHploTrtwa98l7hBhU3UQEUl8+hl/taqpAYepSf7KOIx39z0+ksLpxKkJ2meDqj5RR
- QogJL7ACC+MCq/HzLM/+h19YQ2apQ76gJhTvDqP+fladnyXTHojAIrq2F5a+qSkVJ8vi
- 6D7rfj72RJYBPSMUrT/RZjAawzJ2kDLuKtfcnO47IjGYhK1wM0zozKUMZt8ktzQOqy2n
- W7Bw==
-X-Gm-Message-State: AO0yUKW1xFVlYu8fe2QUJNfc4eldNEHHseSdpL2aIZEeo6CBk2G60cH5
- qx0xe7kg/5n21w9Gfy2I3SDzVw==
-X-Google-Smtp-Source: AK7set/A9FqHxSnqzhC3hpME6V/vzWuY7o2BpQIjGMxyMR4uXXCeSmQQGuphYw5/Z1RGHpprlaNx2Q==
-X-Received: by 2002:a17:907:1b1e:b0:7c4:fa17:7203 with SMTP id
- mp30-20020a1709071b1e00b007c4fa177203mr31355684ejc.63.1678437491488; 
- Fri, 10 Mar 2023 00:38:11 -0800 (PST)
+ bh=b8P0RjPPjJ6gDx/O+UOt7XYuZJFBYo2c+dJvtzrcfc8=;
+ b=XmDaG65p4JUfiroO/AgOT6eyFg/ZVDbnzK6xqNXNMs9i6JRJzEEUfMqilA0EH2IN7a
+ 3ydezV0dy37jGB2uJKazPbfCLD27ER7t1r0GnnIjJESV/gBNkwqToyytCQLzwKj6ViWT
+ UWXsUr3cQDspfOxthKYRWEbHJl5rwJBIuzSIJzgC991I/R9HzBwsE5x41uXL6E0jyKdq
+ KJQbnPyi2hkac8WCGWE5R9A+6N36ADpSWdTkM2I9Bz+mTYVlHKV2IIegkg4JkDNg8DOC
+ YFJy4LSNMW9W0CU+uWZ6YUZOJBqGTCyt3P+TvhAeSNaypGyEBaQqOIzEU+yrueFHW1+1
+ U0mQ==
+X-Gm-Message-State: AO0yUKUREgtn5JWYc7mwcxZ6NiOWLnE0RFoxn3iXVRBDpO+g30Ir0Rvl
+ MotGTbacmnju9/YF68A2UlR28A==
+X-Google-Smtp-Source: AK7set9lDeUYOs5nAUvtFokDH1WpVjNALEB4b0oSQYXxs4FuVsLXJyZ8SKM7u+8wBouXS4esT6UkBQ==
+X-Received: by 2002:a17:906:2a55:b0:878:66bc:2280 with SMTP id
+ k21-20020a1709062a5500b0087866bc2280mr24741630eje.12.1678437500095; 
+ Fri, 10 Mar 2023 00:38:20 -0800 (PST)
 Received: from ?IPV6:2a02:810d:15c0:828:2a59:841a:ebc:7974?
  ([2a02:810d:15c0:828:2a59:841a:ebc:7974])
  by smtp.gmail.com with ESMTPSA id
- 22-20020a170906319600b008ee5356801dsm661622ejy.187.2023.03.10.00.38.10
+ y5-20020a17090668c500b008ee64893786sm681605ejr.99.2023.03.10.00.38.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 00:38:11 -0800 (PST)
-Message-ID: <f908e9f1-2cee-8f9f-5da1-f231febf107b@linaro.org>
-Date: Fri, 10 Mar 2023 09:38:09 +0100
+ Fri, 10 Mar 2023 00:38:19 -0800 (PST)
+Message-ID: <89e8b1a4-8063-da12-1b91-a9d7bf82fcde@linaro.org>
+Date: Fri, 10 Mar 2023 09:38:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 07/21] dt-bindings: display: mediatek: dpi: add binding
- for MT8365
+Subject: Re: [PATCH 08/21] dt-bindings: display: mediatek: gamma: add binding
+ for MT8365 SoC
 Content-Language: en-US
 To: Alexandre Mergnat <amergnat@baylibre.com>, Daniel Vetter
  <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
@@ -70,9 +70,9 @@ To: Alexandre Mergnat <amergnat@baylibre.com>, Daniel Vetter
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Xinlei Lee <xinlei.lee@mediatek.com>
 References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-7-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-8-45cbc68e188b@baylibre.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230220-display-v1-7-45cbc68e188b@baylibre.com>
+In-Reply-To: <20230220-display-v1-8-45cbc68e188b@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,93 +96,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/03/2023 15:22, Alexandre Mergnat wrote:
-> From: Fabien Parent <fparent@baylibre.com>
+> Display GAMMA for MT8365 is compatible with another SoC.
+> Then, add MT8365 binding along with MT8183 SoC.
 > 
-> DPI for MT8365 is compatible with MT8192 but requires an additional
-> clock. Modify the documentation to requires this clock only on MT8365 SoCs.
-> 
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  .../bindings/display/mediatek/mediatek,dpi.yaml    | 48 ++++++++++++++++++----
->  1 file changed, 39 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> index 56511c4d4b9b..3f6cca81340c 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> @@ -17,15 +17,20 @@ description: |
->  
->  properties:
->    compatible:
-> -    enum:
-> -      - mediatek,mt2701-dpi
-> -      - mediatek,mt7623-dpi
-> -      - mediatek,mt8173-dpi
-> -      - mediatek,mt8183-dpi
-> -      - mediatek,mt8186-dpi
-> -      - mediatek,mt8188-dp-intf
-> -      - mediatek,mt8192-dpi
-> -      - mediatek,mt8195-dp-intf
-> +    oneOf:
-> +      - enum:
-> +          - mediatek,mt2701-dpi
-> +          - mediatek,mt7623-dpi
-> +          - mediatek,mt8173-dpi
-> +          - mediatek,mt8183-dpi
-> +          - mediatek,mt8186-dpi
-> +          - mediatek,mt8188-dp-intf
-> +          - mediatek,mt8192-dpi
-> +          - mediatek,mt8195-dp-intf
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8365-dpi
-> +          - const: mediatek,mt8192-dpi
->  
->    reg:
->      maxItems: 1
-> @@ -34,16 +39,20 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> +    minItems: 3
->      items:
->        - description: Pixel Clock
->        - description: Engine Clock
->        - description: DPI PLL
-> +      - description: DPI Clock
->  
->    clock-names:
-> +    minItems: 3
->      items:
->        - const: pixel
->        - const: engine
->        - const: pll
-> +      - const: dpi
->  
->    pinctrl-0: true
->    pinctrl-1: true
-> @@ -72,6 +81,27 @@ required:
->  
->  additionalProperties: false
->  
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8365-dpi
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 4
-
-We usually set minItems, so it is clear readable that you raise the
-lower bracket. Code should be equivalent, but I would say this is less
-readable (maxItems: 4 was actually implied by top-level list).
 
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
