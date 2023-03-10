@@ -2,38 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE8F6B39B4
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 10:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD7E6B3A14
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 10:17:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3788810E028;
-	Fri, 10 Mar 2023 09:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A26E710E991;
+	Fri, 10 Mar 2023 09:17:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.rmail.be (mail.rmail.be [85.234.218.189])
- by gabe.freedesktop.org (Postfix) with ESMTP id 19EA510E028
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 09:10:40 +0000 (UTC)
-Received: from mail.rmail.be (domotica.rmail.be [10.238.9.4])
- by mail.rmail.be (Postfix) with ESMTP id 8AB5B34917;
- Fri, 10 Mar 2023 10:10:38 +0100 (CET)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256E210E991
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 09:17:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: lina@asahilina.net)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id C911242458;
+ Fri, 10 Mar 2023 09:16:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1678439823;
+ bh=byVIkKMWTjR5Cmmkm2Sp0a3H/NhMOyuFcm8eO+lduw0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=GFcv0+O/5n+8+AJuByxDlTv+ETZEtPpn0IGI1rL3l+wdJRFBLIFKEi20htg6gpqYC
+ gKhQFbAjkpgl8b9Bom9Oe2pDywjci1y671teftJpwKSbxBfKREWnx0ALiD+lQk48qL
+ x3u30njGL1YIyrKgvmGBM7/wku/rawL3uupmvSQ4qLNboPqku9ZMK+hun9JP8/mESk
+ SowUGQcrRTGiiUlgSYHV2LXRlhw78QOqbLOkV4SIGlelO/4ekH6D5av4SdSqx0xxXs
+ DQcfpvFXU/ONTz6Cnn05CtrYZukcnBM4gdVO0alOrehj5kbxxcFL5VSQ9SKkGpZxSh
+ Wox7Qpbe39hyQ==
+Message-ID: <146ef94e-d3ac-c978-025a-b3a9ec3026a6@asahilina.net>
+Date: Fri, 10 Mar 2023 18:16:53 +0900
 MIME-Version: 1.0
-Date: Fri, 10 Mar 2023 10:10:38 +0100
-From: AL13N <alien@rmail.be>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
- 5.16; and still broken in at least 6.1)
-In-Reply-To: <CAPY8ntB6WaCF4H2Bk7Zq9cCE-iR8fMFq-vDULH_rp_+O4xp+EA@mail.gmail.com>
-References: <7d216faea9647d328651460167bc27f6@rmail.be>
- <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
- <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
- <20230308123540.zqqe4mnhzumvnjfk@houat>
- <004db85e5114674bfc432043376bcd00@rmail.be>
- <4862350fa507612e03bb6a73977db178@rmail.be>
- <CAPY8ntB6WaCF4H2Bk7Zq9cCE-iR8fMFq-vDULH_rp_+O4xp+EA@mail.gmail.com>
-Message-ID: <67bdf359746cfc732286ca4e139ed2b4@rmail.be>
-X-Sender: alien@rmail.be
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Content-Language: en-US
+To: Faith Ekstrand <faith.ekstrand@collabora.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+ <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+ <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+ <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+ <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+ <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
+ <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
+ <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
+ <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
+ <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
+ <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
+ <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+ <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
+ <d36046e6-acf5-89a3-46b4-1c813ca925c8@asahilina.net>
+ <f89fad4d05bc1e603fb166569e20102ceb09fb4c.camel@collabora.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <f89fad4d05bc1e603fb166569e20102ceb09fb4c.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,314 +81,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Emma Anholt <emma@anholt.net>
+Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mary <mary@mary.zone>, asahi@lists.linux.dev,
+ linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dave Stevenson schreef op 2023-03-09 13:59:
-> On Wed, 8 Mar 2023 at 22:46, AL13N <alien@rmail.be> wrote:
->> 
->> AL13N schreef op 2023-03-08 22:16:
->> > Maxime Ripard schreef op 2023-03-08 13:35:
->> >> Hi,
->> >>
->> >> On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
->> >>> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
->> >>> > AL13N schreef op 2023-03-06 17:34:
->> >>> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
->> >>> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
->> >>> > > plymouth), the cause of no X is that EDID gives nothing, and in the
->> >>> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
->> >>> > > changed for this.
->> >>> > >
->> >>> > > In 5.16 instead of this message there is a bunch of hex lines prefixed
->> >>> > > with BAD.
->> >>> > >
->> >>> > > It is still broken in 6.1 at the very least.
->> >>> > >
->> >>> > > I donno if this is related to this part, but I wanted to try a newer
->> >>> > > kernel, because the RPI4 seems to do all the video decoding in
->> >>> > > software and cannot seem to handle it.
->> >>> > >
->> >>> > >
->> >>> > > logs:
->> >>> > > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
->> >>> > > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> >>> > > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
->> >>> > > fb0: switching to vc4 from simple
->> >>> > > Console: switching to colour dummy device 80x25
->> >>> > > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->> >>> > > vc4-drm gpu: [drm] Cannot find any crtc or sizes
->> >>> >
->> >>> > 5.16 log has:
->> >>> >
->> >>> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
->> >>> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> >>> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
->> >>> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
->> >>> >         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
->> >>> >         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
->> >>> >         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
->> >>> >         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
->> >>> >         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
->> >>> >         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
->> >>> >         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
->> >>> >         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
->> >>> > Console: switching to colour frame buffer device 240x67
->> >>> > vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
->> >>> >
->> >>> >
->> >>> > i donno what this bad is, but it doesn't happen in 5.17... maybe these
->> >>> > BAD got filtered out, but they did end up working for me? or something?
->> >>> > i donno...
->> >>>
->> >>> Run it through edid-decode - the checksum is wrong.
->> >>>
->> >>> Block 0, Base EDID:
->> >>>   EDID Structure Version & Revision: 1.3
->> >>>   Vendor & Product Identification:
->> >>>     Manufacturer: MST
->> >>>     Model: 0
->> >>>     Made in: week 11 of 2021
->> >>>   Basic Display Parameters & Features:
->> >>>     Analog display
->> >>>     Input voltage level: 0.7/0.3 V
->> >>>     Blank level equals black level
->> >>>     Maximum image size: 35 cm x 1 cm
->> >>>     Gamma: 2.20
->> >>>     RGB color display
->> >>>     First detailed timing is the preferred timing
->> >>>   Color Characteristics:
->> >>>     Red  : 0.6396, 0.3398
->> >>>     Green: 0.2998, 0.6904
->> >>>     Blue : 0.1376, 0.0380
->> >>>     White: 0.2822, 0.2968
->> >>>   Established Timings I & II: none
->> >>>   Standard Timings:
->> >>>     GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
->> >>>   Detailed Timing Descriptors:
->> >>>     DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz
->> >>> (708
->> >>> mm x 398 mm)
->> >>>                  Hfront  176 Hsync  88 Hback 296 Hpol P
->> >>>                  Vfront    8 Vsync  10 Vback  72 Vpol P
->> >>>     DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz
->> >>> (708
->> >>> mm x 398 mm)
->> >>>                  Hfront   88 Hsync  44 Hback 148 Hpol P
->> >>>                  Vfront    4 Vsync   5 Vback  36 Vpol P
->> >>>     Display Product Name: 'SALORA'
->> >>>   Display Range Limits:
->> >>>     Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600
->> >>> MHz
->> >>>   Extension blocks: 1
->> >>> Checksum: 0xaa (should be 0xeb)
->> >>>
->> >>> Weird that it also says that it's an analog display when it's
->> >>> connected over HDMI. Something rather bizarre there, and I think
->> >>> it'll
->> >>> hit problems in drm_edid at [1] as we end up with a connector having
->> >>> no color_formats defined. I was discussing this with Maxime only last
->> >>> week, but in relation to VGA monitors connected through HDMI to VGA
->> >>> adapters without rewriting the EDID.
->> >>>
->> >>> If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
->> >>> your monitor not asserting hotplug correctly. The raw hotplug status
->> >>> is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
->> >>> or 1 depending on the probe order of the vc4 and v3d drivers). Grep
->> >>> for HDMI_HOTPLUG.
->> >>
->> >> If it's an option, bisecting between 5.16 and 5.17 which commit
->> >> introduced the regression would be nice.
->> >>
->> >>> Incorrect hotplug behaviour causes grief when combined with HDMI2.0
->> >>> and scrambling. If you don' t know the other end has been
->> >>> disconnected, then you never know that scrambling needs to be
->> >>> re-negotiated over SCDC, and the display will typically end up just
->> >>> being blank.
->> >>>
->> >>> [1]
->> >>> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edid.c#L6460
->> >>> [2]
->> >>> https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe793eb03c70fa
->> >>
->> >> We can easily test that: could you try booting with video=HDMI-A-1:D
->> >> (or
->> >> HDMI-A-2, depending on whether you use HDMI0 or HDMI1) and see if it
->> >> helps?
->> >
->> > in kernel 6.1 or kernel 5.17 ?
->> 
->> in 6.1 at least i booted with video=HDMI-A-2:D (i'm plugged into the
->> hdmi farthest from the power)
->> 
->> and I did see BAD stuff here too:
->> 
->> 
->> [drm] Initialized v3d 1.0.0 20180419 for fec00000.v3d on minor 0
->> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> Registered IR keymap rc-cec
->> rc rc0: vc4 as /devices/platform/soc/fef00700.hdmi/rc/rc0
->> input: vc4 as /devices/platform/soc/fef00700.hdmi/rc/rc0/input0
->> vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
->> [drm] forcing HDMI-A-2 connector on
->> Registered IR keymap rc-cec
->> rc rc1: vc4 as /devices/platform/soc/fef05700.hdmi/rc/rc1
->> input: vc4 as /devices/platform/soc/fef05700.hdmi/rc/rc1/input1
->> vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
->> vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
->> vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
->> vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
->> vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
->> vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
->> vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
->> [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 1
->> EDID block 0 (tag 0x00) checksum is invalid, remainder is 235
->>         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
->>         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
->>         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
->>         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
->>         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
->>         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
->>         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
->>         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
->> vc4-drm gpu: [drm] Cannot find any crtc or sizes
->> EDID block 0 (tag 0x00) checksum is invalid, remainder is 125
->> vc4-drm gpu: [drm] Cannot find any crtc or sizes
->> 
->> 
->> a bit puzzling why it does EDID block twice and it's twice checksum
->> invalid?
->> I also see forcing connector on.
->> 
->> earlier, i did try to make an edid file from a modeline that worked on
->> 5.16 and pass it using drm_kms_helper.edid_firmware= ; but that didn't
->> work, there only was some kind of warning that i should use something
->> else...
+On 10/03/2023 03.50, Faith Ekstrand wrote:
+> Jumping in here quick... (Sorry, I was out yesterday and was ignoring
+> my e-mail on Tuesday so I could finally type some compiler code.)
 > 
-> It always helps to actually quote warnings or errors.
-> Almost certainly "drm_kms_helper.edid_firmware is deprecated, please
-> use drm.edid_firmware instead.", in which case do as it tells you and
-> use "drm.edid_firmware=<filename>".
-
-oh, i interpreted this as "it works for now, but will be removed later" 
-? are you saying it really doesn't work and i should retest with 
-"drm.edid_firmware=" ?
-
->> reading through all your messages, does this mean, that i should be 
->> able
->> to boot if we were to "fix" this edid file? and pass it? or is this
->> something that needs change in kernel?
+> On Thu, 2023-03-09 at 18:14 +0900, Asahi Lina wrote:
+>> On 09/03/2023 17.05, Christian König wrote:
+>>> Am 09.03.23 um 07:30 schrieb Asahi Lina:
+>>>> On 09/03/2023 05.14, Christian König wrote:
+>>>>>> I think you mean wake_up_interruptible(). That would be
+>>>>>> drm_sched_job_done(), on the fence callback when a job
+>>>>>> completes, which
+>>>>>> as I keep saying is the same logic used for
+>>>>>> hw_rq_count/hw_submission_limit tracking.
+>>>>> As the documentation to wait_event says:
+>>>>>
+>>>>>    * wake_up() has to be called after changing any variable
+>>>>> that could
+>>>>>    * change the result of the wait condition.
+>>>>>
+>>>>> So what you essentially try to do here is to skip that and say
+>>>>> drm_sched_job_done() would call that anyway, but when you read
+>>>>> any
+>>>>> variable to determine that state then as far as I can see
+>>>>> nothing is
+>>>>> guarantying that order.
+>>>> The driver needs to guarantee that any changes to that state
+>>>> precede a
+>>>> job completion fence signal of course, that's the entire idea of
+>>>> the
+>>>> API. It's supposed to represent a check for per-scheduler (or
+>>>> more
+>>>> specific, but not more global) resources that are released on job
+>>>> completion. Of course if you misuse the API you could cause a
+>>>> problem,
+>>>> but what I'm trying to say is that the API as designed and when
+>>>> used as
+>>>> intended does work properly.
+>>>>
+>>>> Put another way: job completions always need to cause the sched
+>>>> main
+>>>> loop to run an iteration anyway (otherwise we wouldn't make
+>>>> forward
+>>>> progress), and job completions are exactly the signal that the
+>>>> can_run_job() condition may have changed.
+>>>>
+>>>>> The only other possibility how you could use the callback
+>>>>> correctly
+>>>>> would be to call drm_fence_is_signaled() to query the state of
+>>>>> your hw
+>>>>> submission from the same fence which is then signaled. But then
+>>>>> the
+>>>>> question is once more why you don't give that fence directly to
+>>>>> the
+>>>>> scheduler?
+>>>> But the driver is supposed to guarantee that the ordering is
+>>>> always 1.
+>>>> resources freed, 2. fence signaled. So you don't need to check
+>>>> for the
+>>>> fence, you can just check for the resource state.
+>>>
+>>> Yeah, but this is exactly what the dma_fence framework tried to
+>>> prevent. 
+>>> We try very hard to avoid such side channel signaling :)
+>>
+>> Right, and it's fine, I can use the fences directly easily enough.
+>> I'm
+>> just trying to explain why my original idea works too, even if it's
+>> not
+>> the best solution for other reasons!
+>>
+>> Of course I don't have the context of what other drivers are doing or
+>> did historically and what the pitfalls are, so I can't know what the
+>> "right" solution for any of this is in that context. I did my best to
+>> understand the drm_sched code and come up with a solution that works
+>> (which it does) without any more info. When I saw the hw submission
+>> limit stuff, I thought "okay, I need the same thing but with slightly
+>> more complex logic, so let's add a callback so the driver can
+>> customize
+>> it and do its own inflight counting".
 > 
-> At present you have 2 issues
-> - the monitor or cable doesn't handle the hotplug line correctly
-> - the monitor doesn't provide a valid EDID.
+> So, I think there's a difference here between "impossible to implement
+> correctly", "likely to be implemented correctly", and "impossible to
+> implement incorrectly".  It's obviously possible to implement
+> correctly.  You can just always return true or do exactly the same
+> check or do some simple thing where you can guarantee that it will only
+> ever return false when there's a bunch of other stuff in the queue. 
+> That doesn't mean that it's likely to be implemented correctly by some
+> other driver.  Some idiot will come along and try to take advantage of
+> it and cause themselves horrible problems.
 > 
-> The first you can workaround with "video=HDMI-A-2:D".
-
-I thought the video= had to be turned off for drm.edid_firmware= to work 
-well?
-rpi4 config.txt has a disable_fw_kms_setup=1 that disables the video 
-tags that are auto-added to cmdline (this option is commented atm)
-there is also a hdmi_force_hotplug=1 option that is turned on atm
-
-> The second you can work around by capturing the EDID, fixing it, and
-> then using "drm.edid_firmware=<filename>".
-> The first fix is to just fixup the checksum (edid-decode even tells
-> you the correct value as 0xEB). That doesn't solve the fact that the
-> EDID contains other rubbish like being an analog display which may
-> cause further issues. The simplest fix for reporting as an analog
-> display is to change byte 20 from 0x00 to 0x80, and then correct the
-> checksum again.
+> And, to be clear, for the purposes of this discussion, we're ALL
+> idiots, myself included.  If there's one thing the DRM community has
+> learned over the years, it's that drivers are so complex that we all
+> turn into idiots at some point, relative to the complexity of the code
+> and hardware behavior.  That's why things like dma_fence are written so
+> incredibly defensively and why we're so harsh about the rules.  It's
+> the rules and not our individual smarts that keep us from making
+> mistakes.  (Kinda like Rust, in a way.)  So while I appreciate the
+> frustration of "I'm just trying to do something that's clearly correct
+> here", that doesn't mean that then next person to come by and fix a bug
+> by tweaking that callback isn't going to screw it up irreparably.  That
+> person may even be you in 6 to 12 months after this e-mail thread is a
+> distant memory.
 > 
-> The EDID advertises 4k60, 1080p60, and GTF 2288x1432 @ 61Hz.
-> In order to support 4k60 it needs to support HDMI2.0 and enabling
-> scrambling via SCDC. That should also be signalled in the EDID Sink
-> Capability Data Structure block but isn't, so 4k60 support may be
-> compromised.
+> So, yes, does the implementation you have today work without deadlocks
+> or starvation?  Maybe it does.  I've not verified.  Is the suggested
+> callback a giant foot-gun in the already treacherous territory of
+> scheduling and fencing?  Yeah, it probably is and there's another way
+> to implement the same behavior which is likely safer in the long run.
 
-the rpi4 also has in config.txt a hdmi_enable_4kp60=1, which i have not 
-turned on atm; i don't know if that has any impact here...
+I understand that... I just wish the response had been along the lines
+of "this is a huge footgun for these reasons, and you don't need it
+because you can do it this other way instead", not "the concept is
+completely broken, NAK".
 
-> Sorry, all of this comes back to the monitor vendor shipping rubbish.
-> None of this is the fault of the vc4 driver, and it only worked under
-> 5.16 by chance.
+If the discussion were phrased around how the API can be used and
+abused, then I can understand what the concern is. But it was somehow
+always about me and what I'm doing...
 
-do the config.txt directives on the rpi4 have any impact here? I always 
-figured these options only changed the cmdline video= parameters, it 
-can't really have any impact to the edid, no?
+> This is clearly going against the idea of having jobs only depend on 
+> fences and nothing else which is mandatory for correct memory management.
 
-also, i assume there's lots of monitors/TVs that have rubbish EDID 
-files, how is this generally handled: are you guys trying to cater to 
-these weird EDID's or is it like: "nope, bad EDID, they should fix it, 
-no screen for now"?
+That implies what I'm doing breaks memory management (and that it is
+obvious).
 
->> >
->> >>> > I also noticed that earlier in the logs there are more bound lines:
->> >>> > (some are double)
->> >>> >
->> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >>> >
->> >>> > and then here for some reason systemd does modprobe@drm.service ? is
->> >>> > this just a delayed starting log line, or does it actually try to unload
->> >>> > drm and reload? i doubt it?
->> >>> > in any case there is more that appears before:
->> >>> >
->> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
->> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
->> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
->> >>> >
->> >>> >
->> >>> > so, the error message is weird, as it implies 2 possibilities. however,
->> >>> > i think it did find a crtc since all those pixelvalve things use crtc
->> >>> > functions?
->> >>> >
->> >>> > So then why do i have this problem on my RPI4? do most people just use
->> >>> > the raspberry pi kernels?
->> >>>
->> >>> Largely, yes, people use our vendor kernels.
->> >>
->> >> tbf, the downstream kernel has pretty much the same code here, so the
->> >> issue is very likely to affect it too.
->> >>
->> >> I would just assume that your TV has some unusual behaviour that
->> >> throws
->> >> the driver off, and most people won't.
->> >
->> > IC, the TV also has an option somewhere to choose EDID 2.0, i thought
->> > i chose that but if that decode says 1.3, maybe i didn't... Is it
->> > worth it to retry this?
->> 
->> actually, the TV was set to EDID 2.0 the other option was 1.4 (?)
+> And to make it clear this is unfortunately a complete NAK to this 
+> approach! You can't do this!
+
+Again that I can't do it... and then we got an argument over whether the
+code is actually broken or not. But that doesn't even matter, since the
+issue is how easy the API is to use or misuse, not whether I actually
+misuse it...
+
+I'll switch to prepare_job() fences for the next version, so it's not an
+issue. Using that didn't even cross my mind because, knowing nothing
+about the intended usage here, the prepare_job() callback docs are quite
+obtuse:
+
+> Called when the scheduler is considering scheduling this job next> to get another struct dma_fence for this job to block on. Once i>
+returns NULL, run_job() may be called.
 > 
-> I would guess that the HDMI 1.4 setting drops the 4k60 mode as HDMI1.4
-> maxes out at 4k30. It's impossible for us to say if it fixes any of
-> the other issues with the EDID.
+> Can be NULL if no additional preparation to the dependencies are necessary.> Skipped when jobs are killed instead of run.
 
-So, the edid needs to be changed to:
-  - not be analog
-  - set to 2.0
-  - add scrambling capability on SCDC
-  - fix checksum
+What's a "dependency"? To me that sounded like execution dependencies,
+and we clearly express those in the jobs themselves ahead of time. But
+it turns out the purpose of this callback is to grab resources just in
+time before execution or block on them becoming available through a
+fence, and then it makes a lot more sense how to use it to do in-flight
+command count limiting.
 
-I'm wondering if the config.txt actually changes these values without 
-fixing checksum and that is the cause? but that seems very unlikely...
+Aside: now that I understand this, I'm tempted to make the Rust
+signature for this return a Result<(), Fence>. Returning a fence is
+essentially the "error" case here, and that means in the implementation
+you can just do:
 
-thanks a lot for the responses, maybe I should just try to fix the EDID 
-and then just supply it to the company in question, I was in contact 
-with them asking for the EDID file earlier (to see if they have an 
-updated file someplace).
+if job.foo_res.is_none() {
+    job.foo_res = Some(foo.get_resource()?);
+}
+if job.bar_res.is_none() {
+    job.bar_res = Some(bar.get_resource()?);
+}
+
+As long as all the get_resource() calls return a Result<Resource, Fence>.
+
+There's even more undocumented subtlety here though, since as far as I
+can tell if all the resources aren't always grabbed in the same order,
+or more than one of a single resource is grabbed separately you could
+deadlock or even livelock?
+
+This is theoretical since right now I don't handle this properly at all
+other than the command count limit (I need the command struct fixup
+system for this to be reasonably possible), but for example, I'll need
+1-3 event IDs per job, and if I grab them one by one, you could end up
+deadlocking with all event IDs used by jobs waiting for more. And if I
+don't store them eagerly (so drop the IDs if you can't get all of them),
+then you can end up with livelocks where every scheduler is grabbing an
+ID, then dropping it when we can't get another one, which signals a
+fence for another blocked scheduler to grab another ID, which then drops
+it because it can't get more, etc. So I probably need to grab a number
+of event IDs atomically.
+
+> Also, in a weird way, I think these conversations are sometimes better
+> than documentation.  It took a while to get around to it all but
+> there's a lot of context that was brought together in this e-mail
+> thread that wouldn't have been in the docs no matter how good they are.
+> A lot of it isn't an isolated thing that should clearly be explained in
+> the run_job docs.  It's subtle interactions which happen when all the
+> pieces come together.  I see this complaint a lot about Vulkan as well.
+> There are behaviors which only become evident when you find the right 5
+> pieces of the spec and put them all together and squint.  It'd be good
+> to call those out sometimes but there's no way we can document all of
+> them.
+
+That's true, but I think we could improve things a lot even with just
+better docs and more hyperlinking between docs... For example, the GEM
+and DMA fence docs do have quite a bit of prose that gets you some
+context (even if it's a bit outdated and not complete). But drm_sched
+just has one paragraph and a list giving a high-level design, and then
+goes straight into function docs. It definitely takes putting together
+the sched, fence, dma_resv, etc. docs together to get the big picture,
+but if those docs all at least point at each other and are individually
+reasonably complete, then we'd have a chance ^^
+
+~~ Lina
