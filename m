@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0A36B4C41
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 17:11:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4D46B4D73
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 17:46:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACF310E1F4;
-	Fri, 10 Mar 2023 16:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB2F10E2D0;
+	Fri, 10 Mar 2023 16:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F1110E054
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 16:11:48 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id m6so7277112lfq.5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:11:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678464706;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cgrrtVXcXoBhLHwYlL2ZmjJulTfMAxf2BJAvZD5H/sU=;
- b=kVCzvjeX96TdNxosuIrSFG5os1W065hthaq9nDITldNm8lJesKKkugkTSW4zO4pH1k
- TtVHvC0uQEGA51VyoaLbcfAcAftW42JLGYq3HJu7Tt+JkmOInELoeC+dHxJw69dwBu9H
- p2vLVqVH4oC0ZbM+QSlWtO0d6cbxsQPNt9PDi/yeOusnuy4qXQqs9RIhsfKJNS64aygI
- s1EVXxBOyG3gQf4wPJzYaKqYSBSPxGDmOSjUY7D5biEMSZ6HkBVV0QcLT80t8q76VbVK
- i9xNHjZjs536UToVWEsju6/lWEPVLriO/pzn+AjtmTsRSuEvAlbj86IFFj4qB8i7E7e1
- ubjw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3F310E057
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 16:46:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678466764;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U1nV2/qDntqDJZlPcxYfsT9dw0Ma0q80Z3zjf/0HtgY=;
+ b=Cwj9W/dUrvsjMFIfDbaCDG7ukzGehFBlCkwH0Ej0cgpgZCfld3sYrTpy13mpXey5mAgeWa
+ rZmVEH6mT4tIA9RAFzzcDfu1bbxu4CkYxqPeBH7CTyUWKa91Wvffe0jDNmSbl5qXJx7o62
+ Bafx7mUqYFz3B6uCEQOoUDuRa+BOSok=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-119-BrBzmZyRPCiaes6_3vZdyA-1; Fri, 10 Mar 2023 11:46:02 -0500
+X-MC-Unique: BrBzmZyRPCiaes6_3vZdyA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b7-20020a056402350700b004d2a3d5cd3fso8443144edd.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:46:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678464706;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cgrrtVXcXoBhLHwYlL2ZmjJulTfMAxf2BJAvZD5H/sU=;
- b=BeNGDeTT6w6+JxOnlzgM1H1Ixkfw0hhXwEnP/PSXrXke1Dn09H772gwn+cno0fYGhN
- Dk/bFlH7x0iPnWNL9zJe0SDRUgqUjMAkyv7VbpO1CnckAkpZ3sXJ0bzK2lPsef+Y9vCg
- aUUlol5n7CUJ22ID6SOheCLSmmluprxOw1YUKDWi2KEKMPzeDe9xouqwG1JsramT+bQX
- XkxZRVcp9T7mfC5wwVQ1Kk1OdW9Cf6MUuhtc0i4kwSHR+zZbG6gNMRJ/4y5fenjcZiWL
- IPmlWXmRv9BuvP+o2r8LNnPTtE9GMSV/UXRqvA/PCWoRV8Pqlxe+6Dyy2EZVH3tHiwJW
- 2Omw==
-X-Gm-Message-State: AO0yUKXj2UVBT2zTgnD42yFa9eXZM1QHRWZP+Oqgq+LelCqBjAFPZR6c
- qcA663lh3jJJwZJAOuH8j2Wwww==
-X-Google-Smtp-Source: AK7set8J5jtfiYfv5YJAjgU7fZImKJYY+vgWRAuLrjMUdpQruM+6QMUBDqq1V6xNPdHM4ytZ9vNmNg==
-X-Received: by 2002:ac2:50d6:0:b0:4b0:2a2f:ea6d with SMTP id
- h22-20020ac250d6000000b004b02a2fea6dmr7766049lfm.35.1678464706414; 
- Fri, 10 Mar 2023 08:11:46 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ d=1e100.net; s=20210112; t=1678466761;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=U1nV2/qDntqDJZlPcxYfsT9dw0Ma0q80Z3zjf/0HtgY=;
+ b=mSSUuWAyzyDu6o4y3R0ujRhUTONuvz0PKu4YXVcHAzScIsJugV6bqsfRiiy2UeY0fy
+ RU0yN9Fl+3bdNOfvpCLr/AoLG5kAYeJimce58FstZ4d43qBuqlGGsd/8NjNvoXCEGJ9h
+ 5AtmA9WomvdtuLIirdEmxD6STod7jUi/kRJDvy0N4UoIR4tk92/eENNW4A+vhMlGN1LF
+ 2Bbl5Dd/Tnu7KBuQPbTGLgOieP/YbnSlOCrfKgnQ0sAgHKC0QnIsIdfXhxBozpBKqguN
+ 6cy3MdzagCCK1uwBnBv/2bMEsoAvksSL2pa9DjSyPC0KMxAaeGap9EJ3Mg7fabivixd7
+ ecwQ==
+X-Gm-Message-State: AO0yUKVOpIr3vtB4/1uFahI+MgmsiHY+TVjxEscnB+ffv3huSRl3gMXo
+ OHdAUjOIuBsTVrFVrfuzje0WkQJQKLSFnSx03W/n7g+gAoExM6foQTaSNpiixN36UlfMgalpkrW
+ dxjZu4ADXhujA55RQXr9wthKvjEbY
+X-Received: by 2002:aa7:c147:0:b0:4bd:e63c:d3be with SMTP id
+ r7-20020aa7c147000000b004bde63cd3bemr24297883edp.20.1678466761652; 
+ Fri, 10 Mar 2023 08:46:01 -0800 (PST)
+X-Google-Smtp-Source: AK7set9dpP4chv/p3br8fwfdqT8BO6VAbkXs+gurJic+F3oSvI/bhsLhmsg9mPQUDdSjr+l64ivZqA==
+X-Received: by 2002:aa7:c147:0:b0:4bd:e63c:d3be with SMTP id
+ r7-20020aa7c147000000b004bde63cd3bemr24297854edp.20.1678466761360; 
+ Fri, 10 Mar 2023 08:46:01 -0800 (PST)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
  by smtp.gmail.com with ESMTPSA id
- z15-20020a056512376f00b004d58bf6a61asm28800lft.230.2023.03.10.08.11.45
+ t21-20020a50d715000000b004accf3a63cbsm217252edi.68.2023.03.10.08.45.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 08:11:46 -0800 (PST)
-Message-ID: <a3ef8bf7-8ed7-b9c3-e682-db26671b0d57@linaro.org>
-Date: Fri, 10 Mar 2023 18:11:45 +0200
+ Fri, 10 Mar 2023 08:46:00 -0800 (PST)
+Message-ID: <d0e59837-703b-964a-877e-38c244f58a85@redhat.com>
+Date: Fri, 10 Mar 2023 17:45:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] drm: Use of_property_present() for testing DT property
- presence
-Content-Language: en-GB
-To: Rob Herring <robh@kernel.org>, Liu Ying <victor.liu@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>, Emma Anholt <emma@anholt.net>
-References: <20230310144705.1542207-1-robh@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230310144705.1542207-1-robh@kernel.org>
+Subject: Re: [PATCH drm-next v2 00/16] [RFC] DRM GPUVA Manager & Nouveau
+ VM_BIND UAPI
+To: Boris Brezillon <boris.brezillon@collabora.com>
+References: <20230217134422.14116-1-dakr@redhat.com>
+ <20230309101243.1150506f@collabora.com>
+ <20230309104841.7c03d5b4@collabora.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <20230309104841.7c03d5b4@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,35 +91,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: matthew.brost@intel.com, willy@infradead.org,
+ dri-devel@lists.freedesktop.org, corbet@lwn.net, nouveau@lists.freedesktop.org,
+ ogabbay@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, bskeggs@redhat.com, tzimmermann@suse.de,
+ Liam.Howlett@oracle.com, bagasdotme@gmail.com, christian.koenig@amd.com,
+ jason@jlekstrand.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/03/2023 16:47, Rob Herring wrote:
-> It is preferred to use typed property access functions (i.e.
-> of_property_read_<type> functions) rather than low-level
-> of_get_property/of_find_property functions for reading properties. As
-> part of this, convert of_get_property/of_find_property calls to the
-> recently added of_property_present() helper when we just want to test
-> for presence of a property and nothing more.
+Hi Boris,
+
+On 3/9/23 10:48, Boris Brezillon wrote:
+> On Thu, 9 Mar 2023 10:12:43 +0100
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->   drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c | 2 +-
->   drivers/gpu/drm/drm_mipi_dsi.c                  | 2 +-
->   drivers/gpu/drm/msm/adreno/adreno_gpu.c         | 2 +-
+>> Hi Danilo,
+>>
+>> On Fri, 17 Feb 2023 14:44:06 +0100
+>> Danilo Krummrich <dakr@redhat.com> wrote:
+>>
+>>> Changes in V2:
+>>> ==============
+>>>    Nouveau:
+>>>      - Reworked the Nouveau VM_BIND UAPI to avoid memory allocations in fence
+>>>        signalling critical sections. Updates to the VA space are split up in three
+>>>        separate stages, where only the 2. stage executes in a fence signalling
+>>>        critical section:
+>>>
+>>>          1. update the VA space, allocate new structures and page tables
+>>
+>> Sorry for the silly question, but I didn't find where the page tables
+>> pre-allocation happens. Mind pointing it to me? It's also unclear when
+>> this step happens. Is this at bind-job submission time, when the job is
+>> not necessarily ready to run, potentially waiting for other deps to be
+>> signaled. Or is it done when all deps are met, as an extra step before
+>> jumping to step 2. If that's the former, then I don't see how the VA
+>> space update can happen, since the bind-job might depend on other
+>> bind-jobs modifying the same portion of the VA space (unbind ops might
+>> lead to intermediate page table levels disappearing while we were
+>> waiting for deps). If it's the latter, I wonder why this is not
+>> considered as an allocation in the fence signaling path (for the
+>> bind-job out-fence to be signaled, you need these allocations to
+>> succeed, unless failing to allocate page-tables is considered like a HW
+>> misbehavior and the fence is signaled with an error in that case).
+> 
+> Ok, so I just noticed you only have one bind queue per drm_file
+> (cli->sched_entity), and jobs are executed in-order on a given queue,
+> so I guess that allows you to modify the VA space at submit time
+> without risking any modifications to the VA space coming from other
+> bind-queues targeting the same VM. And, if I'm correct, synchronous
+> bind/unbind ops take the same path, so no risk for those to modify the
+> VA space either (just wonder if it's a good thing to have to sync
+> bind/unbind operations waiting on async ones, but that's a different
+> topic).
 
-For msm part:
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Yes, that's all correct.
 
->   drivers/gpu/drm/sun4i/sun4i_backend.c           | 2 +-
->   drivers/gpu/drm/sun4i/sun8i_mixer.c             | 2 +-
->   drivers/gpu/drm/vc4/vc4_hdmi.c                  | 2 +-
->   6 files changed, 6 insertions(+), 6 deletions(-)
--- 
-With best wishes
-Dmitry
+The page table allocation happens through nouveau_uvmm_vmm_get() which 
+either allocates the corresponding page tables or increases the 
+reference count, in case they already exist, accordingly.
+The call goes all the way through nvif into the nvkm layer (not the 
+easiest to follow the call chain) and ends up in nvkm_vmm_ptes_get().
+
+There are multiple reasons for updating the VA space at submit time in 
+Nouveau.
+
+1) Subsequent EXEC ioctl() calls would need to wait for the bind jobs 
+they depend on within the ioctl() rather than in the scheduler queue, 
+because at the point of time where the ioctl() happens the VA space 
+wouldn't be up-to-date.
+
+2) Let's assume a new mapping is requested and within it's range other 
+mappings already exist. Let's also assume that those existing mappings 
+aren't contiguous, such that there are gaps between them. In such a case 
+I need to allocate page tables only for the gaps between the existing 
+mappings, or alternatively, allocate them for the whole range of the new 
+mapping, but free / decrease the reference count of the page tables for 
+the ranges of the previously existing mappings afterwards.
+In the first case I need to know the gaps to allocate page tables for 
+when submitting the job, which means the VA space must be up-to-date. In 
+the latter one I must save the ranges of the previously existing 
+mappings somewhere in order to clean them up, hence I need to allocate 
+memory to store this information. Since I can't allocate this memory in 
+the jobs run() callback (fence signalling critical section) I need to do 
+it when submitting the job already and hence the VA space must be 
+up-to-date again.
+However, this is due to how page table management currently works in 
+Nouveau and we might change that in the future.
+
+Synchronous binds/unbinds taking the same path through the scheduler is 
+a downside of this approach.
+
+- Danilo
+
+> 
+>>
+>> Note that I'm not familiar at all with Nouveau or TTM, and it might
+>> be something that's solved by another component, or I'm just
+>> misunderstanding how the whole thing is supposed to work. This being
+>> said, I'd really like to implement a VM_BIND-like uAPI in pancsf using
+>> the gpuva_manager infra you're proposing here, so please bare with me
+>> :-).
+>>
+>>>          2. (un-)map the requested memory bindings
+>>>          3. free structures and page tables
+>>>
+>>>      - Separated generic job scheduler code from specific job implementations.
+>>>      - Separated the EXEC and VM_BIND implementation of the UAPI.
+>>>      - Reworked the locking parts of the nvkm/vmm RAW interface, such that
+>>>        (un-)map operations can be executed in fence signalling critical sections.
+>>>    
+>>
+>> Regards,
+>>
+>> Boris
+>>
+> 
 
