@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9208E6B5175
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 21:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDB76B5176
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 21:09:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95DF910E33D;
-	Fri, 10 Mar 2023 20:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 481C510E33E;
+	Fri, 10 Mar 2023 20:09:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 94641 seconds by postgrey-1.36 at gabe;
- Fri, 10 Mar 2023 20:09:25 UTC
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E17A10E33D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 20:09:25 +0000 (UTC)
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84A4F10E33E
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 20:09:28 +0000 (UTC)
 Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4PYHFd0fldz9tJs;
- Fri, 10 Mar 2023 20:09:25 +0000 (UTC)
+ by mx1.riseup.net (Postfix) with ESMTPS id 4PYHFh00r7zDq78;
+ Fri, 10 Mar 2023 20:09:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1678478965; bh=+igAAEarnB/0nHRTFwadueKRRB1NLnf9bDgUo6/5wYI=;
+ t=1678478968; bh=irf73HML+0H9U7LgnXDd2lN1EprFhUw/kh+jMph6nq0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YPQzlv/Y1rFRjWIX7aPqrO/2F3n4+yU64DN6GGM7WZRSYYe9r9AF7b2pYu4hTpeee
- lQpCHAjq2lYcPnyep2TaP5tO3D7eUcu4+1fV9Ba/bgtPtQjV/JKnQTOh5nTli2rEjx
- pptPlbIca0OmSMv3O8K+fGSrVhTl1o57gOc45l10=
-X-Riseup-User-ID: CA022DD88F7CBB9BF68B7F65BC79FD5F2F9DBAB5EF508E623E8B0ECDFB37CA76
+ b=rYbAvmShSJClDUE2MOush/4I1TVlmbWdLkWra2eEn+Z3kW4Af9DtngeG/xhWt0aC3
+ hEGFJH5OFxmXD3JrDX27a2df829PnvMR9e/HKpynlp9naDBZO6diI4hEXn0h01EWhT
+ S1RJq4xmydTLS841JXPUNGEEygmxPCOKAhvLd/1A=
+X-Riseup-User-ID: 7DADD0E63C6D11ABF869A7B0EBB3C9AE2F6F40B2F3E6EB69AD96EB3B47812C88
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4PYHFZ06J8z1y8Z;
- Fri, 10 Mar 2023 20:09:21 +0000 (UTC)
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PYHFd2FLTz1yPW;
+ Fri, 10 Mar 2023 20:09:25 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/2] drm/format-helper: Add Kunit tests for
- drm_fb_xrgb8888_to_mono()
-Date: Fri, 10 Mar 2023 17:09:00 -0300
-Message-Id: <20230310200901.216971-2-arthurgrillo@riseup.net>
+Subject: [PATCH v2 2/2] drm/format-helper: Make "destination_pitch" test case
+ usable for the monochrome case
+Date: Fri, 10 Mar 2023 17:09:01 -0300
+Message-Id: <20230310200901.216971-3-arthurgrillo@riseup.net>
 In-Reply-To: <20230310200901.216971-1-arthurgrillo@riseup.net>
 References: <20230310200901.216971-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
@@ -59,136 +57,166 @@ Cc: davidgow@google.com, tales.aparecida@gmail.com, javierm@redhat.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend the existing test cases to test the conversion from XRGB8888 to
-monochromatic.
+This test case uses an arbitrary pitch size, different of the default
+one, to test if the conversions methods obey.
+
+Change the "destination_pitch" colors to change the monochrome expected
+result from being just zeros, as this makes the arbitrary pitch use
+unusable.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- .../gpu/drm/tests/drm_format_helper_test.c    | 62 +++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ .../gpu/drm/tests/drm_format_helper_test.c    | 78 +++++++++----------
+ 1 file changed, 39 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 84b5cc29c8fc..00f7acd54828 100644
+index 00f7acd54828..5cc721655d28 100644
 --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
 +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -67,6 +67,11 @@ struct convert_to_argb2101010_result {
- 	const u32 expected[TEST_BUF_SIZE];
- };
- 
-+struct convert_to_mono_result {
-+	unsigned int dst_pitch;
-+	const u8 expected[TEST_BUF_SIZE];
-+};
-+
- struct convert_xrgb8888_case {
- 	const char *name;
- 	unsigned int pitch;
-@@ -82,6 +87,7 @@ struct convert_xrgb8888_case {
- 	struct convert_to_argb8888_result argb8888_result;
- 	struct convert_to_xrgb2101010_result xrgb2101010_result;
- 	struct convert_to_argb2101010_result argb2101010_result;
-+	struct convert_to_mono_result mono_result;
- };
- 
- static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
-@@ -131,6 +137,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 			.dst_pitch = 0,
- 			.expected = { 0xFFF00000 },
+@@ -323,104 +323,104 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
+ 		.pitch = 3 * 4,
+ 		.clip = DRM_RECT_INIT(0, 0, 3, 3),
+ 		.xrgb8888 = {
+-			0xA10E449C, 0xB1114D05, 0xC1A80303,
+-			0xD16C7073, 0xA20E449C, 0xB2114D05,
+-			0xC2A80303, 0xD26C7073, 0xA30E449C,
++			0xA10E449C, 0xB1114D05, 0xC1A8F303,
++			0xD16CF073, 0xA20E449C, 0xB2114D05,
++			0xC2A80303, 0xD26CF073, 0xA30E449C,
  		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = { !BIT(0) },
-+		},
- 	},
- 	{
- 		.name = "single_pixel_clip_rectangle",
-@@ -181,6 +191,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 			.dst_pitch = 0,
- 			.expected = { 0xFFF00000 },
- 		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = { !BIT(0) },
-+		},
- 	},
- 	{
- 		/* Well known colors: White, black, red, green, blue, magenta,
-@@ -293,6 +307,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 				0xFFFFFC00, 0xC00FFFFF,
+ 		.gray8_result = {
+ 			.dst_pitch = 5,
+ 			.expected = {
+-				0x3C, 0x33, 0x34, 0x00, 0x00,
+-				0x6F, 0x3C, 0x33, 0x00, 0x00,
+-				0x34, 0x6F, 0x3C, 0x00, 0x00,
++				0x3C, 0x33, 0xC4, 0x00, 0x00,
++				0xBB, 0x3C, 0x33, 0x00, 0x00,
++				0x34, 0xBB, 0x3C, 0x00, 0x00,
  			},
  		},
-+		.mono_result = {
-+			.dst_pitch = 0,
-+			.expected = {
-+				BIT(0) | !BIT(1),
-+				!BIT(0) | BIT(1),
-+				!BIT(0) | !BIT(1),
-+				BIT(0) | BIT(1),
-+			},
-+		},
- 	},
- 	{
- 		/* Randomly picked colors. Full buffer within the clip area. */
-@@ -392,6 +415,14 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
+ 		.rgb332_result = {
+ 			.dst_pitch = 5,
+ 			.expected = {
+-				0x0A, 0x08, 0xA0, 0x00, 0x00,
+-				0x6D, 0x0A, 0x08, 0x00, 0x00,
+-				0xA0, 0x6D, 0x0A, 0x00, 0x00,
++				0x0A, 0x08, 0xBC, 0x00, 0x00,
++				0x7D, 0x0A, 0x08, 0x00, 0x00,
++				0xA0, 0x7D, 0x0A, 0x00, 0x00,
  			},
  		},
-+		.mono_result = {
-+			.dst_pitch = 2,
-+			.expected = {
-+				!BIT(0) | !BIT(1) | !BIT(2), 0x00,
-+				!BIT(0) | !BIT(1) | !BIT(2), 0x00,
-+				!BIT(0) | !BIT(1) | !BIT(2), 0x00,
-+			},
-+		},
+ 		.rgb565_result = {
+ 			.dst_pitch = 10,
+ 			.expected = {
+-				0x0A33, 0x1260, 0xA800, 0x0000, 0x0000,
+-				0x6B8E, 0x0A33, 0x1260, 0x0000, 0x0000,
+-				0xA800, 0x6B8E, 0x0A33, 0x0000, 0x0000,
++				0x0A33, 0x1260, 0xAF80, 0x0000, 0x0000,
++				0x6F8E, 0x0A33, 0x1260, 0x0000, 0x0000,
++				0xA800, 0x6F8E, 0x0A33, 0x0000, 0x0000,
+ 			},
+ 			.expected_swab = {
+-				0x330A, 0x6012, 0x00A8, 0x0000, 0x0000,
+-				0x8E6B, 0x330A, 0x6012, 0x0000, 0x0000,
+-				0x00A8, 0x8E6B, 0x330A, 0x0000, 0x0000,
++				0x330A, 0x6012, 0x80AF, 0x0000, 0x0000,
++				0x8E6F, 0x330A, 0x6012, 0x0000, 0x0000,
++				0x00A8, 0x8E6F, 0x330A, 0x0000, 0x0000,
+ 			},
+ 		},
+ 		.xrgb1555_result = {
+ 			.dst_pitch = 10,
+ 			.expected = {
+-				0x0513, 0x0920, 0x5400, 0x0000, 0x0000,
+-				0x35CE, 0x0513, 0x0920, 0x0000, 0x0000,
+-				0x5400, 0x35CE, 0x0513, 0x0000, 0x0000,
++				0x0513, 0x0920, 0x57C0, 0x0000, 0x0000,
++				0x37CE, 0x0513, 0x0920, 0x0000, 0x0000,
++				0x5400, 0x37CE, 0x0513, 0x0000, 0x0000,
+ 			},
+ 		},
+ 		.argb1555_result = {
+ 			.dst_pitch = 10,
+ 			.expected = {
+-				0x8513, 0x8920, 0xD400, 0x0000, 0x0000,
+-				0xB5CE, 0x8513, 0x8920, 0x0000, 0x0000,
+-				0xD400, 0xB5CE, 0x8513, 0x0000, 0x0000,
++				0x8513, 0x8920, 0xD7C0, 0x0000, 0x0000,
++				0xB7CE, 0x8513, 0x8920, 0x0000, 0x0000,
++				0xD400, 0xB7CE, 0x8513, 0x0000, 0x0000,
+ 			},
+ 		},
+ 		.rgba5551_result = {
+ 			.dst_pitch = 10,
+ 			.expected = {
+-				0x0A27, 0x1241, 0xA801, 0x0000, 0x0000,
+-				0x6B9D, 0x0A27, 0x1241, 0x0000, 0x0000,
+-				0xA801, 0x6B9D, 0x0A27, 0x0000, 0x0000,
++				0x0A27, 0x1241, 0xAF81, 0x0000, 0x0000,
++				0x6F9D, 0x0A27, 0x1241, 0x0000, 0x0000,
++				0xA801, 0x6F9D, 0x0A27, 0x0000, 0x0000,
+ 			},
+ 		},
+ 		.rgb888_result = {
+ 			.dst_pitch = 15,
+ 			.expected = {
+-				0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11, 0x03, 0x03, 0xA8,
++				0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11, 0x03, 0xF3, 0xA8,
+ 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-				0x73, 0x70, 0x6C, 0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11,
++				0x73, 0xF0, 0x6C, 0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11,
+ 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-				0x03, 0x03, 0xA8, 0x73, 0x70, 0x6C, 0x9C, 0x44, 0x0E,
++				0x03, 0x03, 0xA8, 0x73, 0xF0, 0x6C, 0x9C, 0x44, 0x0E,
+ 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			},
+ 		},
+ 		.argb8888_result = {
+ 			.dst_pitch = 20,
+ 			.expected = {
+-				0xFF0E449C, 0xFF114D05, 0xFFA80303, 0x00000000, 0x00000000,
+-				0xFF6C7073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
+-				0xFFA80303, 0xFF6C7073, 0xFF0E449C, 0x00000000, 0x00000000,
++				0xFF0E449C, 0xFF114D05, 0xFFA8F303, 0x00000000, 0x00000000,
++				0xFF6CF073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
++				0xFFA80303, 0xFF6CF073, 0xFF0E449C, 0x00000000, 0x00000000,
+ 			},
+ 		},
+ 		.xrgb2101010_result = {
+ 			.dst_pitch = 20,
+ 			.expected = {
+-				0x03844672, 0x0444D414, 0x2A20300C, 0x00000000, 0x00000000,
+-				0x1B1705CD, 0x03844672, 0x0444D414, 0x00000000, 0x00000000,
+-				0x2A20300C, 0x1B1705CD, 0x03844672, 0x00000000, 0x00000000,
++				0x03844672, 0x0444D414, 0x2A2F3C0C, 0x00000000, 0x00000000,
++				0x1B1F0DCD, 0x03844672, 0x0444D414, 0x00000000, 0x00000000,
++				0x2A20300C, 0x1B1F0DCD, 0x03844672, 0x00000000, 0x00000000,
+ 			},
+ 		},
+ 		.argb2101010_result = {
+ 			.dst_pitch = 20,
+ 			.expected = {
+-				0xC3844672, 0xC444D414, 0xEA20300C, 0x00000000, 0x00000000,
+-				0xDB1705CD, 0xC3844672, 0xC444D414, 0x00000000, 0x00000000,
+-				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
++				0xC3844672, 0xC444D414, 0xEA2F3C0C, 0x00000000, 0x00000000,
++				0xDB1F0DCD, 0xC3844672, 0xC444D414, 0x00000000, 0x00000000,
++				0xEA20300C, 0xDB1F0DCD, 0xC3844672, 0x00000000, 0x00000000,
+ 			},
+ 		},
+ 		.mono_result = {
+ 			.dst_pitch = 2,
+ 			.expected = {
+-				!BIT(0) | !BIT(1) | !BIT(2), 0x00,
+-				!BIT(0) | !BIT(1) | !BIT(2), 0x00,
+-				!BIT(0) | !BIT(1) | !BIT(2), 0x00,
++				!BIT(0) | !BIT(1) | BIT(2), 0x00,
++				BIT(0) | !BIT(1) | !BIT(2), 0x00,
++				!BIT(0) | BIT(1) | !BIT(2), 0x00,
+ 			},
+ 		},
  	},
- };
- 
-@@ -792,6 +823,36 @@ static void drm_test_fb_xrgb8888_to_argb2101010(struct kunit *test)
- 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
- }
- 
-+static void drm_test_fb_xrgb8888_to_mono(struct kunit *test)
-+{
-+	const struct convert_xrgb8888_case *params = test->param_value;
-+	const struct convert_to_mono_result *result = &params->mono_result;
-+	size_t dst_size;
-+	u8 *buf = NULL;
-+	__le32 *xrgb8888 = NULL;
-+	struct iosys_map dst, src;
-+
-+	struct drm_framebuffer fb = {
-+		.format = drm_format_info(DRM_FORMAT_XRGB8888),
-+		.pitches = { params->pitch, 0, 0 },
-+	};
-+
-+	dst_size = conversion_buf_size(DRM_FORMAT_C1, result->dst_pitch, &params->clip);
-+
-+	KUNIT_ASSERT_GT(test, dst_size, 0);
-+
-+	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
-+	iosys_map_set_vaddr(&dst, buf);
-+
-+	xrgb8888 = cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
-+	iosys_map_set_vaddr(&src, xrgb8888);
-+
-+	drm_fb_xrgb8888_to_mono(&dst, &result->dst_pitch, &src, &fb, &params->clip);
-+	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
-+}
-+
- static struct kunit_case drm_format_helper_test_cases[] = {
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_gray8, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb332, convert_xrgb8888_gen_params),
-@@ -803,6 +864,7 @@ static struct kunit_case drm_format_helper_test_cases[] = {
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_mono, convert_xrgb8888_gen_params),
- 	{}
- };
- 
 -- 
 2.39.2
 
