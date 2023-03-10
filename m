@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA40C6B38D0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 09:35:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F4A6B38D3
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 09:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE96F10E982;
-	Fri, 10 Mar 2023 08:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A8510E97F;
+	Fri, 10 Mar 2023 08:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
- [IPv6:2a00:1450:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F9D10E97F
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:35:19 +0000 (UTC)
-Received: by mail-ed1-x52d.google.com with SMTP id j11so17394158edq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:35:19 -0800 (PST)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C48B710E97F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:35:28 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id cy23so17257671edb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:35:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678437317;
+ d=linaro.org; s=google; t=1678437327;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=SFsIUvQhnh2wbwHqMLG7mN4Mz01L3GW7UAQC2+jEkIo=;
- b=fYVytIbt0kRF0tnnLPcwQ7EF7XcCYv8OYZL5/yoNCRnv8tAcHblkanGpQ6JgV540qy
- WTNSxJfv8NIfoWNrswkv8xcwveQt7yMHOP1s+ei/Y1ocjefH37NAuC5JvViV8j8v3B7P
- pXbFsWMp8NFOeQOSBznsU208r6uF2UP2EyGv1Z6H8YCU17FOy5ja6t9TtuvLGnEaO5gq
- i/HzF9WKrQhg5ZcXC7dSpeJZrkSZfKGhQq5V/OL8HE7CqamcOR1WNRHUV7JnpeX+2p11
- vUNpFu4PHTU2z7DD5E13TkmCLb/1JM1gzQ4mY/VDbPwTxjfg5y/MkZl9Ce2W8iC0Ii2P
- ReOw==
+ bh=pJcUaaupxC0Cesm+olJlrB4JiVcGZmcF1bEfkcOLpFI=;
+ b=zztfA9qPNw1B7ChjfD6USbohMrg+ZdoZ+JjKrIEDhaJERv9YNUUUQA1X1MYjz51uKR
+ 31cOuv6NTiT5mbHRx4VVFO/fLvmc6dEtsHOvB/JhvBKy/W3SfiRXVIxspinsqMKpHk71
+ Ohyk5en+I2XdyMp7RQzAftVAY53VhRcipdTO/jpldfsrK3XqBiBRPT3D81j5DfxhhroN
+ +UZsxlgxInFQQOlcNXCPbfakmwzJgJz4/fLsWn6a6gJkwKQkwF4lvwNb/Q1wCAIYfSGr
+ mVYdb5SQwYtmu37jDJrzCVexyecDa1PMdsaS/6WHX+wtWHTghlwfYJqQ8Iy71DilruNc
+ jL8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678437317;
+ d=1e100.net; s=20210112; t=1678437327;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SFsIUvQhnh2wbwHqMLG7mN4Mz01L3GW7UAQC2+jEkIo=;
- b=mh+NfDfeZbqg9Ykw7hYnznK2lgMeZYYDWL5SlexXDWtaMnv4BfcU7TTpuecWNRGWEa
- TFDbp79JuToSErbwtQ4o7+Y3h27mJJoKYSSMKDQUcTmMdVtySNkLJwnWMBbKyNnULyfr
- LRic4ptz+TJWSVxhTvfHuaMhYC1LVSmqoXL1j4sCjQPI6jquJkrjRszcX2zP42qmTFVw
- jEDqIz+YTlAZltGvCyO6u4DxVK11v3YYYjTwHoU8g5WIRtFErUV5tQmS0YBU/9ASmimA
- CfJyEZf4Rc/VohLwgocX2zHB6/pYpEy117RtOiBbRuXfIWTsZrPgAxfEVDzWmyfbNngX
- ++Qg==
-X-Gm-Message-State: AO0yUKWJRjzGYuwF1VP/i/q9tGj6S3SfsSKr42S/0pt5cnne4urQLdlp
- /NCEj1xXZ8PCFiMZYublJYP2Fw==
-X-Google-Smtp-Source: AK7set9I5xoClWzOboxhwkIqcXcQKYAuUC4Krc6brpIBR2aX71Y2At8rBXzZdBkd+8bMsc88kMSK1g==
-X-Received: by 2002:aa7:c153:0:b0:4ac:b614:dcfc with SMTP id
- r19-20020aa7c153000000b004acb614dcfcmr24012037edp.9.1678437317709; 
- Fri, 10 Mar 2023 00:35:17 -0800 (PST)
+ bh=pJcUaaupxC0Cesm+olJlrB4JiVcGZmcF1bEfkcOLpFI=;
+ b=31mHnbR7OWYIzq+Vbu0EKebnVx4VLSJkNX3fcCAX6Nug9QNMdlNYpOwXou7MD9J6wu
+ aS6erF/mtxGtvHyubM1ijAyUV1CbhHhDfcfI0QgkIPfnsMQeZ4qyjZIxGQQkPQ+wm2RU
+ FkFR+gFMhZdroGiyuvsdn9deh2pqSbZARaApATFTLBQIbxIeIBx0aWbkyRhNd57AjL+g
+ fO8yeru6JePQcyKK1xDQSXF+pLhG0npJP0QFzt571sg+uFTEaa5fsr44d9r+gIDjAlBE
+ kcFvcSUOH+PPM6j8+lZanFU+LG4Bq9PNQiOmtvKDb5Tqv80T0pBYUDKxI93Zy+7A7LkB
+ IXXg==
+X-Gm-Message-State: AO0yUKWAqYkQiS6f6U4p/kxThoAglYU1k0Lwwzj8s6OktB4H1EF4b3hS
+ c3oyKXKv+927X5lvUXvcdkU+VA==
+X-Google-Smtp-Source: AK7set+DBGNE0cU7kyarjTZodaPg1LsewOJQmmlUqoGRgEFs7ZUUw7tEf5XmIBJ8/sY4WBxI3pQ6dA==
+X-Received: by 2002:a17:906:6dd3:b0:878:8249:bef6 with SMTP id
+ j19-20020a1709066dd300b008788249bef6mr24440085ejt.59.1678437327185; 
+ Fri, 10 Mar 2023 00:35:27 -0800 (PST)
 Received: from ?IPV6:2a02:810d:15c0:828:2a59:841a:ebc:7974?
  ([2a02:810d:15c0:828:2a59:841a:ebc:7974])
  by smtp.gmail.com with ESMTPSA id
- y94-20020a50bb67000000b004d47ce55e57sm541331ede.10.2023.03.10.00.35.16
+ zg12-20020a170907248c00b008c76facbbf7sm679116ejb.171.2023.03.10.00.35.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 00:35:17 -0800 (PST)
-Message-ID: <81466b52-826f-b4ab-5a1d-d4d49381d7f7@linaro.org>
-Date: Fri, 10 Mar 2023 09:35:15 +0100
+ Fri, 10 Mar 2023 00:35:26 -0800 (PST)
+Message-ID: <f76edb9c-a3e9-456d-30c8-bd1af074a0cc@linaro.org>
+Date: Fri, 10 Mar 2023 09:35:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH 03/21] dt-bindings: display: mediatek: color: add binding
+Subject: Re: [PATCH 04/21] dt-bindings: display: mediatek: dither: add binding
  for MT8365 SoC
 Content-Language: en-US
 To: Alexandre Mergnat <amergnat@baylibre.com>, Daniel Vetter
@@ -70,9 +70,9 @@ To: Alexandre Mergnat <amergnat@baylibre.com>, Daniel Vetter
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Xinlei Lee <xinlei.lee@mediatek.com>
 References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-3-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-4-45cbc68e188b@baylibre.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230220-display-v1-3-45cbc68e188b@baylibre.com>
+In-Reply-To: <20230220-display-v1-4-45cbc68e188b@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,7 +96,7 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 09/03/2023 15:22, Alexandre Mergnat wrote:
-> Display Color for MT8365 is compatible with another SoC.
+> Display Dither for MT8365 is compatible with another SoC.
 > Then, add MT8365 binding along with MT8183 SoC.
 > 
 
