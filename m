@@ -2,66 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CF26B4B7C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 16:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3C96B4BB7
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 16:55:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FC8210E053;
-	Fri, 10 Mar 2023 15:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006B010E1F3;
+	Fri, 10 Mar 2023 15:55:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3BAD10E04F;
- Fri, 10 Mar 2023 15:45:59 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id bi9so7169130lfb.2;
- Fri, 10 Mar 2023 07:45:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678463158;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0AGkxAlBYXX/Z2S16SKpXnZXTnF2Z5IaHkyIEFDi/ME=;
- b=VEz9ohMuno+DEbnSf4WW21JokIcYlbj2EJU+8DEQSOSi0Pxfjd/6xLH4vNXSRGf9H0
- QZk4achaOlWOedHmxfWjYy1PR1i0E0QqIsZw/WPEmk2P7oHhvff5Y/Kmg2fFAnUkp592
- n81tWygRoF+b95Cr24Cb4ekDWujuXuSuFD1R66txhW5gLTx7SqLRdvqX+WRBfubTlpxs
- f+9yWFImjDIKgevYqYHwKEhE1gaKHcX/hKoT2UoS1Q057myCAjZJ8ELiRR4rBAQqO37Y
- sUy4hJH29SPxhN1ww9RmweIrZUpizpLXeA8Z6mQbrlmZpX+IIL8rZbRGO28KpDrdIMid
- bnJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678463158;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0AGkxAlBYXX/Z2S16SKpXnZXTnF2Z5IaHkyIEFDi/ME=;
- b=jIUwpt7SCVFw6ueg3SJNWudImJrM5eUA6v90lF+f88CfIIq4DnHR4cXDKjWzqi7lsJ
- 3VlO9k88WzMvObb/pGsPjm62vSwVvLA566ohDlRh9cN1dsHAJUmW/0rs4SCtctVa0TeM
- 5D9fa6fG425jrv8Kc6cjDqkMsE37QWbcyRqfQQg6TZoX5DXw3tzR859s9Qgyi4J1/Rdl
- 1zk6Ul4Qqbkb3fZXoTEm+c8NPDbOCSu9pyGRaoCvk22Ujp+EKvGgRxps3490dBlbwAb5
- 9cVxvmhXooep8DKdkj68T2PXVY9NSn+zUubhYKyy6t83+6yipjLbV4JKLgHrd6CExWt2
- KtnA==
-X-Gm-Message-State: AO0yUKU/7srMTcttrH5QUweijsOKZemb11CPPOxHy7LSBWO1cCk5+2zx
- 36nHe1nupZLBXTJBYvW4F/Y=
-X-Google-Smtp-Source: AK7set8SLblBVupI+yVdlPp0ni+W1a7WVdI12StisJp4d6ODMGYLfW8aS9MEVe4/AXMoJXkFELJQ6A==
-X-Received: by 2002:ac2:5238:0:b0:4d8:6e26:c74c with SMTP id
- i24-20020ac25238000000b004d86e26c74cmr7520718lfl.53.1678463157768; 
- Fri, 10 Mar 2023 07:45:57 -0800 (PST)
-Received: from gmail.com (host-95-193-64-255.mobileonline.telia.com.
- [95.193.64.255]) by smtp.gmail.com with ESMTPSA id
- q11-20020a19a40b000000b004a6f66eed7fsm24181lfc.165.2023.03.10.07.45.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 07:45:57 -0800 (PST)
-Date: Fri, 10 Mar 2023 16:45:54 +0100
-From: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-Message-ID: <ZAtQspuFjPtGy7ze@gmail.com>
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8822C10E1F3;
+ Fri, 10 Mar 2023 15:55:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jJuI6caZGgeLk4+b0ksOGyyFR4jXgTteWr79ofERXCYX1x14tcnCOXbXY+kAjcFnNy/NMy6DLVgOoYAdaRrFXqI7v8cjXCpzwbmnU9UBR77lKW2gfBwR+M9/RDxk8CrqBjmna0wgfRz4GzkzE36zJXaIwJCMnVMr+Upb3vB4DBtHJbA5HfY8g/BWo9vpICbTube+R8GwW8n4RrBjonCx/efcgvVJx79AZke4tLHMONOZBfGFw8hn8RQ8yXeLpfL32MVh2A/h91jyn/ykdwBmHRP76kF/ymj+klBsZxtsWYYRuLS7axX3dixrU3+yHgoLtVwB1v12+yJQL6Das2PiIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s3jfglRaKWUPUmxMMhJeUe23C1OVw/4+WlNr45t8rS4=;
+ b=W1LJ7SnrmLIPJC/P/q0quTZHafOUhZyenL20otsNivmlP4DbdB2MMbPLKoQEweuawx3APu1bl9KIW3o1AAhTztD5GCNkOP8UDUkJDMI8xkNPOdrt1inWwX6LNvCQ9gdr1zt+DKRapHgE/WWD+VjTWlPGuBde5YSejSS8zG9IkbD1Stvai3hGgNAa6EDxUg1GZr8SsGupwUPgbHe+b+CCyNsCnB6HqtDX0ontTOJVXwBKTEXb8if1c5qBor5tGXYWP//U2jcOEtPtLESEg9ktJxo4cF/fYo0fWcWc1PK3RmFsvw7V9u5arjLXdDAagkDYZbThj08XpDr36JYPboVXlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s3jfglRaKWUPUmxMMhJeUe23C1OVw/4+WlNr45t8rS4=;
+ b=HKvxkiVChSl8LnBmFDkVMnxhY1ImwoRGdCtljU8flvqPSa2/0sGtnKXkrqlvlao9baNhzMJMwOdYZJ2UAdiOG6YHfwKQLJY6R51pFFctykrDOqn2fjdVUUbcp0vSFrDaAmmQCBuBoA3Diq3OokXttqxLMVd1WQaEw+f2Xw6TCWo=
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
+ by BY5PR12MB4886.namprd12.prod.outlook.com (2603:10b6:a03:1c5::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Fri, 10 Mar
+ 2023 15:55:03 +0000
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::3e46:4948:b543:8dba]) by BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::3e46:4948:b543:8dba%2]) with mapi id 15.20.6178.019; Fri, 10 Mar 2023
+ 15:55:02 +0000
+From: "Lazar, Lijo" <Lijo.Lazar@amd.com>
+To: Alex Deucher <alexdeucher@gmail.com>, "Chen, Guchun" <Guchun.Chen@amd.com>
+Subject: Re: [PATCH] drm/amdgpu: resove reboot exception for si oland
+Thread-Topic: [PATCH] drm/amdgpu: resove reboot exception for si oland
+Thread-Index: AQHZUyayQsObnHYUakqC8qgg99fvaK7zq5SAgAB1/ACAAAjaOg==
+Date: Fri, 10 Mar 2023 15:55:02 +0000
+Message-ID: <BYAPR12MB4614BA9C8C2E28A686B0AB6E97BA9@BYAPR12MB4614.namprd12.prod.outlook.com>
+References: <20230310074000.2078124-1-lizhenneng@kylinos.cn>
+ <DM5PR12MB2469FEB1E81CA99C51E7DAF0F1BA9@DM5PR12MB2469.namprd12.prod.outlook.com>
+ <CADnq5_OzDzi_LKeNdk4LNa2SwWg8Jpieci8omJye_ASDyjW3sA@mail.gmail.com>
+In-Reply-To: <CADnq5_OzDzi_LKeNdk4LNa2SwWg8Jpieci8omJye_ASDyjW3sA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Enabled=True;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_SetDate=2023-03-10T15:52:46.9036497Z;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_ContentBits=0;
+ MSIP_Label_4342314e-0df4-4b58-84bf-38bed6170a0f_Method=Standard
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR12MB4614:EE_|BY5PR12MB4886:EE_
+x-ms-office365-filtering-correlation-id: 959e4608-7ac2-480e-b0fe-08db217fcf74
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: D7BI/792XUtoYhDygmQmOSwtcdy9tkmPVtBMCQeOwfWbi9CKzIiKAb0iYb5yQlV9H3fTLwwR+okL4TWvcD1l3Xp1p4g/rGMFxYkI+s0lSBkKou+x3hFVeZo8DbHvmPjXhb63Ytry+We9dmJ3+39OEEy1XSDhq/WJkkTwCfOPUT10Ri0iG8rS2FKfmRGj+YRGzdKRFcaYllUtQ1aVECBxSoIqpO7dEFgN1mjGlj8DeUA6zvuFW7ruuMXYA1imosGtdOm9MAbM6VlM8aMUWBaQoP4/FcLvz0uq98sf1Bl4a58tkp2eLRB30qPn4MqvPJopsHmmteX7dBKKPbKtAiiVOLvP1vAQYwXBkipxP4FpAfawsNOJdGxVEVRfYO4o8Lipb53ORiIFijAMCPqqAkA/MUsGpwTEX8RR/PfnCar4g8xf5aH433yVjNB0f84mydex09aAx3iiuYYgHHojufG+vdvt5cXI+9onvXiWvTaPjD8VUY1jIEdc9qzKWCbhc2Cy0J00j6D2aJRgynTI59czJqa0NhmHQyR9sqN26hRSaErvO2Z+e4aWpYPP5G23GDAXFhzJJvAhsAG76HKv4tmqN0tH2YtjjrkYX7dGQlEIwE0XBHWaNDdFU5x4wmSFyCVYwrKHk7IIsmMhq4biscn1l/xxz9fxjdvP0X8lD56r40NjZ3N4ACxdWKibsEqsHzokSfkTv+9r7eJE1UdyCwyAuQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB4614.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(346002)(366004)(136003)(39860400002)(396003)(376002)(451199018)(33656002)(6636002)(316002)(110136005)(54906003)(186003)(478600001)(2906002)(7696005)(71200400001)(5660300002)(52536014)(66446008)(66946007)(76116006)(66556008)(64756008)(8676002)(4326008)(66476007)(91956017)(8936002)(41300700001)(122000001)(38070700005)(55016003)(38100700002)(86362001)(9686003)(53546011)(6506007)(26005)(83380400001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?m1PWYcq9yL2ccoAmwvkejUqoXCENGbwLy+gppafqKOWGZXUQ54d3J11c9OD1?=
+ =?us-ascii?Q?8lQHkEov9KNd9U54qld7pnvnXz+MaQxboL7MsoI3FlKtINRzw+R4lOPb1H2f?=
+ =?us-ascii?Q?D4T7T3uw6yvYafOMi62AXiytQtmDEiKruCgqkaN32RdNBE9VLU5KvxMnw69W?=
+ =?us-ascii?Q?dmhPsEebDjVL8Qwf5O4/CXyCgcKK3AXZ8wnVtfYCb1iOk4A+gnr4lDOt8wu/?=
+ =?us-ascii?Q?1qJ0OKqxdRiMJQIS7A3DlInB69qIJv9oYd3TNwHOiQ2TmdgDt+HP/pJ5X7Ig?=
+ =?us-ascii?Q?m4CmbpTCbdp+sksjq44fcUIVW/qUzIqpJ4NrBLhlhca46ZTi+r6OFVG2WWYG?=
+ =?us-ascii?Q?Qx27TrDuSixzRgI+kL+OTnFWoBqjbH5enhldH34X7XelQ7wEbRxXPqth2aSm?=
+ =?us-ascii?Q?lhpZO0wA/nkHvtZaFGeW7CP7y7b55Wu1Y4L0bn1JLsYTxvt96GEKFiC5d3e5?=
+ =?us-ascii?Q?KIRuyAIL0CF+gZ4FhuSFOoyo+fqPkkotsOPykPfpOlLQSpz5wi3fMJbayGy9?=
+ =?us-ascii?Q?UT8clLEsuFGbecJqbswJwa6zEwYZ2U5IAKaTGEyKjuSIc6J0jPRaqS1dkVtx?=
+ =?us-ascii?Q?sJrMTy9phiCOrx2aaggL4A/MeZw3hMODGqIoUwI02eS83JTEng25DeoeW6ek?=
+ =?us-ascii?Q?vSmBaKeTrt59iRefIZr6NIARMu/XGuBh9TtTksu4Qc3Ph6jJTXnMbeLuWm5Q?=
+ =?us-ascii?Q?9bsmSi/immES221Vhq8Zx+k2Me3gAV3AkP6EKzweGOKHQU+jruaF+/lNry8m?=
+ =?us-ascii?Q?q0viUjRDwgYZalL5TuiaM1bZ7ReD0l06MKpMy1RatknSawlFy5jnVa+0ZAwM?=
+ =?us-ascii?Q?EiO7URjhbmU0FwEUQadyOSSamF+//MLMe6jjyBxD3KFAIGYssHF6acDp1AXw?=
+ =?us-ascii?Q?bME0U2hl8HJlJkWpZCRG8ZYcEQaOUqezRuBE0x3eJvhMIz1Q2YlUEVmKhiNJ?=
+ =?us-ascii?Q?WkwvcSlBXeaX+Jryf69PHKiBh9xDEjBkvRjO6Xgos6CtDxvnpWYd6WrECeKB?=
+ =?us-ascii?Q?i1VYsCzW1u6Sg0wFfwndI3plCSu0zk1Uv5TscuPv1gs1KxJHlwyvWszUGB6X?=
+ =?us-ascii?Q?7MY7IoKq/HONDcwTnMYMey+qiFRNNNucercAuuHZcOTLSIXDxImP/KaQ2qSr?=
+ =?us-ascii?Q?LcbxQZJXDgO7E1SYWbTfva8XiyZ/M5ih3tGdLJRZAuGxknHTnXHtW9FfHi6q?=
+ =?us-ascii?Q?4AJTQpu7ItKgR8c6QJTnSMQo92cn0W1uma5/liEmKx96tnC6o+3Uw6qrS035?=
+ =?us-ascii?Q?SUQdhnDXS98bpmimZdUTM63G5idOLvnMWOuhf4a84dXHKVaCYKfq9RdAsoC/?=
+ =?us-ascii?Q?RCqTrttI3ZjX7CCBW6b7RldKcOSmOt69CQo20XxzmJF2ZJ4l15TFnZOYtsPe?=
+ =?us-ascii?Q?UzVyVqnxLqoo4P6O37MjxfJuGGpINuqX70CW6xHbr7xERhp0XMvFTt9ep1hR?=
+ =?us-ascii?Q?WNGON39dKIcdVr6fsDukBs0UA1r20MrBGK0pVLcVxeO+cdm+uWgFK4i9rlWf?=
+ =?us-ascii?Q?xUO27KV2kjZDw3xZZ5p15P9eyf9IKIK5KT9had+aE2MRtpJeNUbKswUHhbCP?=
+ =?us-ascii?Q?vGgNlUM7pW3v4ymyIuHcwhFv/ThPld4mue6RAMw3?=
+Content-Type: multipart/alternative;
+ boundary="_000_BYAPR12MB4614BA9C8C2E28A686B0AB6E97BA9BYAPR12MB4614namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308155322.344664-2-robdclark@gmail.com>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 959e4608-7ac2-480e-b0fe-08db217fcf74
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2023 15:55:02.7526 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XgwgLy6ua4uqnAKmK+N7EYBbNMrAspnDnHCAwi7f+SF4BrtmA9SPdN069ZmyMEZw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4886
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,227 +122,236 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Gustavo Padovan <gustavo@padovan.org>,
- Matt Turner <mattst88@gmail.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Zhenneng Li <lizhenneng@kylinos.cn>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher, 
+ Alexander" <Alexander.Deucher@amd.com>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add a way to hint to the fence signaler of an upcoming deadline, such as
-> vblank, which the fence waiter would prefer not to miss.  This is to aid
-> the fence signaler in making power management decisions, like boosting
-> frequency as the deadline approaches and awareness of missing deadlines
-> so that can be factored in to the frequency scaling.
-> 
-> v2: Drop dma_fence::deadline and related logic to filter duplicate
->     deadlines, to avoid increasing dma_fence size.  The fence-context
->     implementation will need similar logic to track deadlines of all
->     the fences on the same timeline.  [ckoenig]
-> v3: Clarify locking wrt. set_deadline callback
-> v4: Clarify in docs comment that this is a hint
-> v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> v6: More docs
-> v7: Fix typo, clarify past deadlines
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
+--_000_BYAPR12MB4614BA9C8C2E28A686B0AB6E97BA9BYAPR12MB4614namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rob!
+[AMD Official Use Only - General]
 
->  Documentation/driver-api/dma-buf.rst |  6 +++
->  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++++++++++
->  include/linux/dma-fence.h            | 22 +++++++++++
->  3 files changed, 87 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 622b8156d212..183e480d8cea 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
->  .. kernel-doc:: drivers/dma-buf/dma-fence.c
->     :doc: fence signalling annotation
->  
-> +DMA Fence Deadline Hints
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> +   :doc: deadline hints
-> +
->  DMA Fences Functions Reference
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 0de0482cd36e..f177c56269bb 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
->  }
->  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->  
-> +/**
-> + * DOC: deadline hints
-> + *
-> + * In an ideal world, it would be possible to pipeline a workload sufficiently
-> + * that a utilization based device frequency governor could arrive at a minimum
-> + * frequency that meets the requirements of the use-case, in order to minimize
-> + * power consumption.  But in the real world there are many workloads which
-> + * defy this ideal.  For example, but not limited to:
-> + *
-> + * * Workloads that ping-pong between device and CPU, with alternating periods
-> + *   of CPU waiting for device, and device waiting on CPU.  This can result in
-> + *   devfreq and cpufreq seeing idle time in their respective domains and in
-> + *   result reduce frequency.
-> + *
-> + * * Workloads that interact with a periodic time based deadline, such as double
-> + *   buffered GPU rendering vs vblank sync'd page flipping.  In this scenario,
-> + *   missing a vblank deadline results in an *increase* in idle time on the GPU
-> + *   (since it has to wait an additional vblank period), sending a signal to
-> + *   the GPU's devfreq to reduce frequency, when in fact the opposite is what is
-> + *   needed.
+I recall that there was a previous discussion around this and that time we =
+found that the range is already set earlier during DPM enablement.
 
-This is the use case I'd like to get some better understanding about how
-this series intends to work, as the problematic scheduling behavior
-triggered by missed deadlines has plagued compositing display servers
-for a long time.
+The suspected root cause was enable/disable of thermal alert within this ca=
+ll to set range again.
 
-I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-developer, so I will need some hand holding when it comes to
-understanding exactly what piece of software is responsible for
-communicating what piece of information.
+Thanks,
+Lijo
+________________________________
+From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> on behalf of Alex Deu=
+cher <alexdeucher@gmail.com>
+Sent: Friday, March 10, 2023 8:51:06 PM
+To: Chen, Guchun <Guchun.Chen@amd.com>
+Cc: David Airlie <airlied@linux.ie>; Pan, Xinhui <Xinhui.Pan@amd.com>; Zhen=
+neng Li <lizhenneng@kylinos.cn>; amd-gfx@lists.freedesktop.org <amd-gfx@lis=
+ts.freedesktop.org>; linux-kernel@vger.kernel.org <linux-kernel@vger.kernel=
+.org>; dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; D=
+aniel Vetter <daniel@ffwll.ch>; Deucher, Alexander <Alexander.Deucher@amd.c=
+om>; Koenig, Christian <Christian.Koenig@amd.com>
+Subject: Re: [PATCH] drm/amdgpu: resove reboot exception for si oland
 
-> + *
-> + * To this end, deadline hint(s) can be set on a &dma_fence via &dma_fence_set_deadline.
-> + * The deadline hint provides a way for the waiting driver, or userspace, to
-> + * convey an appropriate sense of urgency to the signaling driver.
-> + *
-> + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC for userspace
-> + * facing APIs).  The time could either be some point in the future (such as
-> + * the vblank based deadline for page-flipping, or the start of a compositor's
-> + * composition cycle), or the current time to indicate an immediate deadline
-> + * hint (Ie. forward progress cannot be made until this fence is signaled).
+On Fri, Mar 10, 2023 at 3:18 AM Chen, Guchun <Guchun.Chen@amd.com> wrote:
+>
+>
+> > -----Original Message-----
+> > From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
+> > Zhenneng Li
+> > Sent: Friday, March 10, 2023 3:40 PM
+> > To: Deucher, Alexander <Alexander.Deucher@amd.com>
+> > Cc: David Airlie <airlied@linux.ie>; Pan, Xinhui <Xinhui.Pan@amd.com>;
+> > linux-kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; Zhenneng=
+ Li
+> > <lizhenneng@kylinos.cn>; amd-gfx@lists.freedesktop.org; Daniel Vetter
+> > <daniel@ffwll.ch>; Koenig, Christian <Christian.Koenig@amd.com>
+> > Subject: [PATCH] drm/amdgpu: resove reboot exception for si oland
+> >
+> > During reboot test on arm64 platform, it may failure on boot.
+> >
+> > The error message are as follows:
+> > [    6.996395][ 7] [  T295] [drm:amdgpu_device_ip_late_init [amdgpu]]
+> > *ERROR*
+> >                           late_init of IP block <si_dpm> failed -22
+> > [    7.006919][ 7] [  T295] amdgpu 0000:04:00.0: amdgpu_device_ip_late_=
+init
+> > failed
+> > [    7.014224][ 7] [  T295] amdgpu 0000:04:00.0: Fatal error during GPU=
+ init
+> > ---
+> >  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 3 ---
+> >  1 file changed, 3 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> > b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> > index d6d9e3b1b2c0..dee51c757ac0 100644
+> > --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> > +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> > @@ -7632,9 +7632,6 @@ static int si_dpm_late_init(void *handle)
+> >       if (!adev->pm.dpm_enabled)
+> >               return 0;
+> >
+> > -     ret =3D si_set_temperature_range(adev);
+> > -     if (ret)
+> > -             return ret;
+>
+> si_set_temperature_range should be platform agnostic. Can you please elab=
+orate more?
+>
 
-Is it guaranteed that a GPU driver will use the actual start of the
-vblank as the effective deadline? I have some memories of seing
-something about vblank evasion browsing driver code, which I might have
-misunderstood, but I have yet to find whether this is something
-userspace can actually expect to be something it can rely on.
+Yes.  Not setting this means we won't get thermal interrupts.  We
+shouldn't skip this.
 
-Can userspace set a deadline that targets the next vblank deadline
-before GPU work has been flushed e.g. at the start of a paint cycle, and
-still be sure that the kernel has the information it needs to know it should
-make its clocks increase their speed in time for when the actual work
-has been actually flushed? Or is it needed that the this deadline is set
-at the end?
-
-What I'm more or less trying to ask is, will a mode setting compositor
-be able to tell the kernel to boost its clocks at the time it knows is
-best, and how will it in practice achieve this?
-
-For example relying on the atomic mode setting commit setting the
-deadline is fundamentally flawed, since user space will at times want to
-purposefully delay committing until as late as possible, without doing
-so causing an increased risk of missing the deadline due to the kernel
-not speeding up clocks at the right time for GPU work that has already
-been flushed long ago.
-
-Relying on commits also has no effect on GPU work queued by
-a compositor drawing only to dma-bufs that are never intended to be
-presented using mode setting. How can we make sure a compositor can
-provide hints that the kernel will know to respect despite the
-compositor not being drm master?
+Alex
 
 
-Jonas
+> Regards,
+> Guchun
+>
+> >  #if 0 //TODO ?
+> >       si_dpm_powergate_uvd(adev, true);
+> >  #endif
+> > --
+> > 2.25.1
+>
 
-> + *
-> + * Multiple deadlines may be set on a given fence, even in parallel.  See the
-> + * documentation for &dma_fence_ops.set_deadline.
-> + *
-> + * The deadline hint is just that, a hint.  The driver that created the fence
-> + * may react by increasing frequency, making different scheduling choices, etc.
-> + * Or doing nothing at all.
-> + */
-> +
-> +/**
-> + * dma_fence_set_deadline - set desired fence-wait deadline hint
-> + * @fence:    the fence that is to be waited on
-> + * @deadline: the time by which the waiter hopes for the fence to be
-> + *            signaled
-> + *
-> + * Give the fence signaler a hint about an upcoming deadline, such as
-> + * vblank, by which point the waiter would prefer the fence to be
-> + * signaled by.  This is intended to give feedback to the fence signaler
-> + * to aid in power management decisions, such as boosting GPU frequency
-> + * if a periodic vblank deadline is approaching but the fence is not
-> + * yet signaled..
-> + */
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
-> +{
-> +	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
-> +		fence->ops->set_deadline(fence, deadline);
-> +}
-> +EXPORT_SYMBOL(dma_fence_set_deadline);
-> +
->  /**
->   * dma_fence_describe - Dump fence describtion into seq_file
->   * @fence: the 6fence to describe
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 775cdc0b4f24..d54b595a0fe0 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -257,6 +257,26 @@ struct dma_fence_ops {
->  	 */
->  	void (*timeline_value_str)(struct dma_fence *fence,
->  				   char *str, int size);
-> +
-> +	/**
-> +	 * @set_deadline:
-> +	 *
-> +	 * Callback to allow a fence waiter to inform the fence signaler of
-> +	 * an upcoming deadline, such as vblank, by which point the waiter
-> +	 * would prefer the fence to be signaled by.  This is intended to
-> +	 * give feedback to the fence signaler to aid in power management
-> +	 * decisions, such as boosting GPU frequency.
-> +	 *
-> +	 * This is called without &dma_fence.lock held, it can be called
-> +	 * multiple times and from any context.  Locking is up to the callee
-> +	 * if it has some state to manage.  If multiple deadlines are set,
-> +	 * the expectation is to track the soonest one.  If the deadline is
-> +	 * before the current time, it should be interpreted as an immediate
-> +	 * deadline.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	void (*set_deadline)(struct dma_fence *fence, ktime_t deadline);
->  };
->  
->  void dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
-> @@ -583,6 +603,8 @@ static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
->  	return ret < 0 ? ret : 0;
->  }
->  
-> +void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
-> +
->  struct dma_fence *dma_fence_get_stub(void);
->  struct dma_fence *dma_fence_allocate_private_stub(void);
->  u64 dma_fence_context_alloc(unsigned num);
-> -- 
-> 2.39.2
-> 
+--_000_BYAPR12MB4614BA9C8C2E28A686B0AB6E97BA9BYAPR12MB4614namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+</head>
+<body>
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;" ali=
+gn=3D"Left">
+[AMD Official Use Only - General]<br>
+</p>
+<br>
+<div>
+<div style=3D"" dir=3D"auto">I recall that there was a previous discussion =
+around this and that time we found that the range is already set earlier du=
+ring DPM enablement.</div>
+<div style=3D"" dir=3D"auto"><br>
+</div>
+<div style=3D"" dir=3D"auto">The suspected root cause was enable/disable of=
+ thermal alert within this call to set range again.</div>
+<div id=3D"ms-outlook-mobile-signature" dir=3D"auto">
+<div><br>
+</div>
+Thanks,<br>
+Lijo</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> amd-gfx &lt;amd-gfx-b=
+ounces@lists.freedesktop.org&gt; on behalf of Alex Deucher &lt;alexdeucher@=
+gmail.com&gt;<br>
+<b>Sent:</b> Friday, March 10, 2023 8:51:06 PM<br>
+<b>To:</b> Chen, Guchun &lt;Guchun.Chen@amd.com&gt;<br>
+<b>Cc:</b> David Airlie &lt;airlied@linux.ie&gt;; Pan, Xinhui &lt;Xinhui.Pa=
+n@amd.com&gt;; Zhenneng Li &lt;lizhenneng@kylinos.cn&gt;; amd-gfx@lists.fre=
+edesktop.org &lt;amd-gfx@lists.freedesktop.org&gt;; linux-kernel@vger.kerne=
+l.org &lt;linux-kernel@vger.kernel.org&gt;; dri-devel@lists.freedesktop.org
+ &lt;dri-devel@lists.freedesktop.org&gt;; Daniel Vetter &lt;daniel@ffwll.ch=
+&gt;; Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Koenig, Christi=
+an &lt;Christian.Koenig@amd.com&gt;<br>
+<b>Subject:</b> Re: [PATCH] drm/amdgpu: resove reboot exception for si olan=
+d</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Fri, Mar 10, 2023 at 3:18 AM Chen, Guchun &lt;G=
+uchun.Chen@amd.com&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: amd-gfx &lt;amd-gfx-bounces@lists.freedesktop.org&gt; On Be=
+half Of<br>
+&gt; &gt; Zhenneng Li<br>
+&gt; &gt; Sent: Friday, March 10, 2023 3:40 PM<br>
+&gt; &gt; To: Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;<br>
+&gt; &gt; Cc: David Airlie &lt;airlied@linux.ie&gt;; Pan, Xinhui &lt;Xinhui=
+.Pan@amd.com&gt;;<br>
+&gt; &gt; linux-kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; Zh=
+enneng Li<br>
+&gt; &gt; &lt;lizhenneng@kylinos.cn&gt;; amd-gfx@lists.freedesktop.org; Dan=
+iel Vetter<br>
+&gt; &gt; &lt;daniel@ffwll.ch&gt;; Koenig, Christian &lt;Christian.Koenig@a=
+md.com&gt;<br>
+&gt; &gt; Subject: [PATCH] drm/amdgpu: resove reboot exception for si oland=
+<br>
+&gt; &gt;<br>
+&gt; &gt; During reboot test on arm64 platform, it may failure on boot.<br>
+&gt; &gt;<br>
+&gt; &gt; The error message are as follows:<br>
+&gt; &gt; [&nbsp;&nbsp;&nbsp; 6.996395][ 7] [&nbsp; T295] [drm:amdgpu_devic=
+e_ip_late_init [amdgpu]]<br>
+&gt; &gt; *ERROR*<br>
+&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; late_init of IP block &lt;si_dpm&gt; failed -22<br>
+&gt; &gt; [&nbsp;&nbsp;&nbsp; 7.006919][ 7] [&nbsp; T295] amdgpu 0000:04:00=
+.0: amdgpu_device_ip_late_init<br>
+&gt; &gt; failed<br>
+&gt; &gt; [&nbsp;&nbsp;&nbsp; 7.014224][ 7] [&nbsp; T295] amdgpu 0000:04:00=
+.0: Fatal error during GPU init<br>
+&gt; &gt; ---<br>
+&gt; &gt;&nbsp; drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 3 ---<br>
+&gt; &gt;&nbsp; 1 file changed, 3 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c<br>
+&gt; &gt; b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c<br>
+&gt; &gt; index d6d9e3b1b2c0..dee51c757ac0 100644<br>
+&gt; &gt; --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c<br>
+&gt; &gt; +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c<br>
+&gt; &gt; @@ -7632,9 +7632,6 @@ static int si_dpm_late_init(void *handle)<b=
+r>
+&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!adev-&gt;pm.dpm_enabled)=
+<br>
+&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt; &gt;<br>
+&gt; &gt; -&nbsp;&nbsp;&nbsp;&nbsp; ret =3D si_set_temperature_range(adev);=
+<br>
+&gt; &gt; -&nbsp;&nbsp;&nbsp;&nbsp; if (ret)<br>
+&gt; &gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; return ret;<br>
+&gt;<br>
+&gt; si_set_temperature_range should be platform agnostic. Can you please e=
+laborate more?<br>
+&gt;<br>
+<br>
+Yes.&nbsp; Not setting this means we won't get thermal interrupts.&nbsp; We=
+<br>
+shouldn't skip this.<br>
+<br>
+Alex<br>
+<br>
+<br>
+&gt; Regards,<br>
+&gt; Guchun<br>
+&gt;<br>
+&gt; &gt;&nbsp; #if 0 //TODO ?<br>
+&gt; &gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; si_dpm_powergate_uvd(adev, tr=
+ue);<br>
+&gt; &gt;&nbsp; #endif<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.25.1<br>
+&gt;<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_BYAPR12MB4614BA9C8C2E28A686B0AB6E97BA9BYAPR12MB4614namp_--
