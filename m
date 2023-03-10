@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB2B6B5AAC
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 11:52:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313336B5AAD
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 11:52:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 701FC10E0A3;
-	Sat, 11 Mar 2023 10:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 094F310E0A7;
+	Sat, 11 Mar 2023 10:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
- Fri, 10 Mar 2023 12:31:15 UTC
-Received: from mail.nfschina.com (unknown [42.101.60.237])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B041310E1AA
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 12:31:15 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
- by mail.nfschina.com (Postfix) with ESMTP id ED2971A00A6E;
- Fri, 10 Mar 2023 20:21:58 +0800 (CST)
-X-Virus-Scanned: amavisd-new at nfschina.com
-Received: from mail.nfschina.com ([127.0.0.1])
- by localhost (localhost.localdomain [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qyMEBFZUfzQZ; Fri, 10 Mar 2023 20:21:58 +0800 (CST)
-Received: from localhost.localdomain.localdomain (unknown [219.141.250.2])
- (Authenticated sender: zhounan@nfschina.com)
- by mail.nfschina.com (Postfix) with ESMTPA id 0DF5D1A00888;
- Fri, 10 Mar 2023 20:21:58 +0800 (CST)
-From: zhounan <zhounan@nfschina.com>
-To: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
- bskeggs@redhat.com
-Subject: [PATCH] gpu/drm: Remove unnecessary semicolon
-Date: Fri, 10 Mar 2023 04:21:05 -0800
-Message-Id: <20230310122105.5742-1-zhounan@nfschina.com>
-X-Mailer: git-send-email 2.39.1
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69C1D10E2BD;
+ Fri, 10 Mar 2023 14:05:39 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id cy23so20755702edb.12;
+ Fri, 10 Mar 2023 06:05:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678457138;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=iLhizSz8ia61+0lMbmLI0pe2qS6ODf4DwRiQ9ckWTdo=;
+ b=miInNn6F2CUQoYieBI2NSKGT8/ajG3dfKT20KCnPFXEnQRaeNyxBhmF9JPXBfD6W9r
+ zcbQ3HCWH4ElbRt+PfznObegLNm0zMfPOyGOrozRD8CDeGl0+lpf5vvVBuTUnLozt67X
+ eE7DtBurhbFXt28STMeT53cq0fAp9kLW2qVxAGiqliqDdUxOda/CPyYB8d8emghoauMW
+ JrA63iPpNBYjS0y9yLBFi8Qh9qVnDcNvbzn/H9WviSnur1Me6J9/odE2PSU58uRJV4N3
+ jATurXycI3Ty+6Zf8Uwg8kEu6lu6cy4eMSJDB47oRGBpSqnFD2s5zqwtpxFpf5/DpvMf
+ 8WVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678457138;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=iLhizSz8ia61+0lMbmLI0pe2qS6ODf4DwRiQ9ckWTdo=;
+ b=YXakMWON6gHm7oNs9WzMiVqJUqCdfZLRQD+VPFmIxpKLnx2PVn92rRGUif6R0t1HXf
+ iYKStaFRF0C1TcvHum29l4GeZqqZ74o4PhKtJndMnBcrHxSWpi48S4qPXbjSe7w4y19O
+ dB1/dkisb1UIk2sEDZs4/Pdpglg+h4DoaDJIF34BGQnr+STVgWXFOEcOuBAoKupWJggc
+ oNbu6lepK2adz/cUHfgMy799SJDOQoMBNBIFwOriOWfZQUkU2ihs/sWxE+vNkIwQMS+1
+ XrhVXJHp7fr7BdZK++NgnS09P+rIKgqI7fIXNM04GlmSnYqpcvy1MFaOFCUJTATtV55h
+ OKng==
+X-Gm-Message-State: AO0yUKW3aJpb9TGtNGpkp1Wl0U6rPSdcBpAZW4yr55JDT/LfFbuKw3Hq
+ CF6exZIKp26Nbya/LSzBe72Kxtl9hjQ+k78HTUVJEPmL4EQ=
+X-Google-Smtp-Source: AK7set+lTCEXGQyryaeH6WgQGibtvgtn1T6/vDnDsrH5ma8ayyGlYIGz0Fa2mQOmdQE6eVn9CM8C40X6/IhkrbK1iCo=
+X-Received: by 2002:a17:906:36d6:b0:8b2:23fb:dfd8 with SMTP id
+ b22-20020a17090636d600b008b223fbdfd8mr13091536ejc.12.1678457137724; Fri, 10
+ Mar 2023 06:05:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Brandi Gulbin <brandigulbin@gmail.com>
+Date: Fri, 10 Mar 2023 08:05:26 -0600
+Message-ID: <CAG2qGDhvDO1uJa5mpCJJBwXFVX5wSAcv0khMnKE2Lh5O1sz-bw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] x86/PCI: Enable a 64bit BAR on AMD Family 15h (Models
+ 30h-3fh) Processors
+To: deathsimple@vodafone.de
+Content-Type: multipart/alternative; boundary="00000000000076ff0c05f68c41bc"
 X-Mailman-Approved-At: Sat, 11 Mar 2023 10:52:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,31 +64,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhounan <zhounan@nfschina.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ helgaas@kernel.org, amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the extra semicolon after nvkm_memory_map() call.
+--00000000000076ff0c05f68c41bc
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: zhounan <zhounan@nfschina.com>
----
- drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-index 5f20079c3660..204516891ece 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
-@@ -420,7 +420,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_fifo_chan *fifoch,
- 			return ret;
- 	} else {
- 		ret = nvkm_memory_map(gr->attrib_cb, 0, chan->vmm, chan->attrib_cb,
--				      &args, sizeof(args));;
-+				      &args, sizeof(args));
- 		if (ret)
- 			return ret;
- 	}
 -- 
-2.39.1
+Brandi B Gulbin
 
+--00000000000076ff0c05f68c41bc
+Content-Type: text/html; charset="UTF-8"
+
+-- <br><div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">Brandi B Gulbin </div>
+
+--00000000000076ff0c05f68c41bc--
