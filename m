@@ -2,64 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7F26B3D38
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:05:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F86B3DA1
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:25:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFF8B10E2D5;
-	Fri, 10 Mar 2023 11:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B03810E03B;
+	Fri, 10 Mar 2023 11:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
- [IPv6:2607:f8b0:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B46E710E2D5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:05:51 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id y10so3362484pfi.8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 03:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678446351;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=mGDXehSv6v2/D0JVf9XtETXZgmT2wS6LdL23tIL4g10=;
- b=ge7D1BbJ4Alm9bFtz18cnSDZjuLOmJjClVb4OQIEIZvKSELkBpUdP6juxrj5O6os2H
- nAnjjZGuWn4/iw1eb9hBi6I62RapyKOq45rrwmydepWzKiw83ltKiPXl+VRArXzgcl9I
- 6HsLXRa+HMrCSFwSI54Uh9O7kuH3nYPC1gJoPrcxZIgQb7f4fkBvNKMbYuBfpOrCeTBi
- MAeQ3eNif4CceQr71Q9JPapootB0ACJ/LeB2rd2IjeRW2Nuc1fB4JrpvinElR+lu2aeX
- WWOFMZvEPF836T0YEcwt7W9wycvOMKgRuDulX5GQbsVzhyj+ANTl6PaSI7l2beWfJIUX
- BnmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678446351;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mGDXehSv6v2/D0JVf9XtETXZgmT2wS6LdL23tIL4g10=;
- b=LvhirhNB/dlvh6h9WbV3Re0VOcv9f3tmH66/QxQQR639qmksr+BRXODMGWLtuKWnQf
- HgsAork++2Xzu/M/oHz+4OZckpzhkiQ2OgtrLTdZbdSNCh1SG4YXHBL+YF/ha2kYMXfD
- n4VXV5bvhoMGY8NAZObbmn2v06eebswgks1zHbRQDjvRw3F2nRUGTlmCNACuKhLpIQL3
- /ysypjgUxYHJhpEabXYroP9DZXPi1ZSX3x3Efe5dJQ2Fb9c28DI97O07MYoXEF2d3S+A
- zSt3hZMN7AkXw1gAQ36MhuURabC0ce/8LbUovaPg3FqCUr5svnfhKqgmkjiiG1O9W1DS
- +xoA==
-X-Gm-Message-State: AO0yUKXvdeONrpshpdvDPhHHo0mwo04sw1SI+VbLgerXn7e0yWXFUc7m
- FRaaZ+jK7VaGdN+dbo/TXY4=
-X-Google-Smtp-Source: AK7set80h3e9ZU13GZnCB2/z6kk4c+Jx02r0J4nPo1t+JZz1/n6ZHQufX+AkCBRe8Lk+QproaTFffA==
-X-Received: by 2002:aa7:940b:0:b0:5a8:b705:4dd3 with SMTP id
- x11-20020aa7940b000000b005a8b7054dd3mr21395673pfo.13.1678446351208; 
- Fri, 10 Mar 2023 03:05:51 -0800 (PST)
-Received: from localhost.localdomain (n220246252084.netvigator.com.
- [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
- h12-20020a62b40c000000b005a8b4dcd213sm1170602pfn.78.2023.03.10.03.05.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 03:05:50 -0800 (PST)
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/mipi-dsi: Add a mipi_dual_dsi_dcs_write_seq() macro
-Date: Fri, 10 Mar 2023 19:05:42 +0800
-Message-Id: <20230310110542.6649-1-lujianhua000@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC8310E198
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:25:40 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 059E761376;
+ Fri, 10 Mar 2023 11:25:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C5ECC433EF;
+ Fri, 10 Mar 2023 11:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1678447539;
+ bh=5xlUGgFlZrpTKEABsOPDNJPrOOCrS04w8+cL8hyLxZs=;
+ h=Subject:To:Cc:From:Date:From;
+ b=LhGfXlHqQi2J8WBEXSgkxHWq9iZjYzvAN01xH0uOJdr+YUoXocZEsmTFIrU2V2AMK
+ fUMzIZA8slf/cWsOTPkXv7JG+SwsunWphvyiOz7vZWS3q9zh6+voHFWXPrkEMyCpRz
+ GKCZed6vgZWOAa6t4d0ehUv3qR3kIWqv2VIsU/Q4=
+Subject: Patch "drm/display/dp_mst: Add
+ drm_atomic_get_old_mst_topology_state()" has been added to the 6.1-stable
+ tree
+To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, imre.deak@intel.com, jani.nikula@intel.com,
+ lyude@redhat.com, ville.syrjala@linux.intel.com, wayne.lin@amd.com
+From: <gregkh@linuxfoundation.org>
+Date: Fri, 10 Mar 2023 12:25:36 +0100
+Message-ID: <1678447536127205@kroah.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +52,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, Jianhua Lu <lujianhua000@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panels with two dsi connected (sync dual dsi mode) need to transmit
-dcs command to the two dsi host simultaneously, let's add
-mipi_dual_dsi_dcs_write_seq() macro for this kind of panels.
 
-Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+This is a note to let you know that I've just added the patch titled
+
+    drm/display/dp_mst: Add drm_atomic_get_old_mst_topology_state()
+
+to the 6.1-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
+and it can be found in the queue-6.1 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 9ffdb67af0ee625ae127711845532f670cc6a4e7 Mon Sep 17 00:00:00 2001
+From: Imre Deak <imre.deak@intel.com>
+Date: Mon, 6 Feb 2023 13:48:55 +0200
+Subject: drm/display/dp_mst: Add drm_atomic_get_old_mst_topology_state()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Imre Deak <imre.deak@intel.com>
+
+commit 9ffdb67af0ee625ae127711845532f670cc6a4e7 upstream.
+
+Add a function to get the old MST topology state, required by a
+follow-up i915 patch.
+
+While at it clarify the code comment of
+drm_atomic_get_new_mst_topology_state() and add _new prefix
+to the new state pointer to remind about its difference from the old
+state.
+
+v2: Use old_/new_ prefixes for the state pointers. (Ville)
+
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: stable@vger.kernel.org # 6.1
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Lyude Paul <lyude@redhat.com>
+Acked-by: Daniel Vetter <daniel@ffwll.ch>
+Acked-by: Wayne Lin <wayne.lin@amd.com>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+Signed-off-by: Imre Deak <imre.deak@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230206114856.2665066-3-imre.deak@intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/drm/drm_mipi_dsi.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c |   33 ++++++++++++++++++++++----
+ include/drm/display/drm_dp_mst_helper.h       |    3 ++
+ 2 files changed, 32 insertions(+), 4 deletions(-)
 
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index c9df0407980c..d0f0f75d4d83 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -336,6 +336,21 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
- 		}                                                          \
- 	} while (0)
+--- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+@@ -5355,27 +5355,52 @@ struct drm_dp_mst_topology_state *drm_at
+ EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
  
-+/**
-+ * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
-+ * @dsi: array of 2 DSI peripheral devices
-+ * @cmd: Command
-+ * @seq: buffer containing data to be transmitted
-+ */
-+#define mipi_dual_dsi_dcs_write_seq(dsi, cmd, seq...)                   \
-+	do {                                                             \
-+		if (ARRAY_SIZE(dsi) > 2)                                 \
-+			return -EINVAL;                                  \
-+		int i;                                                   \
-+		for (i = 0; i < ARRAY_SIZE(dsi); i++)                    \
-+			mipi_dsi_dcs_write_seq(dsi[i], cmd, seq);        \
-+	} while (0)
-+
  /**
-  * struct mipi_dsi_driver - DSI driver
-  * @driver: device driver model driver
--- 
-2.39.2
++ * drm_atomic_get_old_mst_topology_state: get old MST topology state in atomic state, if any
++ * @state: global atomic state
++ * @mgr: MST topology manager, also the private object in this case
++ *
++ * This function wraps drm_atomic_get_old_private_obj_state() passing in the MST atomic
++ * state vtable so that the private object state returned is that of a MST
++ * topology object.
++ *
++ * Returns:
++ *
++ * The old MST topology state, or NULL if there's no topology state for this MST mgr
++ * in the global atomic state
++ */
++struct drm_dp_mst_topology_state *
++drm_atomic_get_old_mst_topology_state(struct drm_atomic_state *state,
++				      struct drm_dp_mst_topology_mgr *mgr)
++{
++	struct drm_private_state *old_priv_state =
++		drm_atomic_get_old_private_obj_state(state, &mgr->base);
++
++	return old_priv_state ? to_dp_mst_topology_state(old_priv_state) : NULL;
++}
++EXPORT_SYMBOL(drm_atomic_get_old_mst_topology_state);
++
++/**
+  * drm_atomic_get_new_mst_topology_state: get new MST topology state in atomic state, if any
+  * @state: global atomic state
+  * @mgr: MST topology manager, also the private object in this case
+  *
+- * This function wraps drm_atomic_get_priv_obj_state() passing in the MST atomic
++ * This function wraps drm_atomic_get_new_private_obj_state() passing in the MST atomic
+  * state vtable so that the private object state returned is that of a MST
+  * topology object.
+  *
+  * Returns:
+  *
+- * The MST topology state, or NULL if there's no topology state for this MST mgr
++ * The new MST topology state, or NULL if there's no topology state for this MST mgr
+  * in the global atomic state
+  */
+ struct drm_dp_mst_topology_state *
+ drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
+ 				      struct drm_dp_mst_topology_mgr *mgr)
+ {
+-	struct drm_private_state *priv_state =
++	struct drm_private_state *new_priv_state =
+ 		drm_atomic_get_new_private_obj_state(state, &mgr->base);
+ 
+-	return priv_state ? to_dp_mst_topology_state(priv_state) : NULL;
++	return new_priv_state ? to_dp_mst_topology_state(new_priv_state) : NULL;
+ }
+ EXPORT_SYMBOL(drm_atomic_get_new_mst_topology_state);
+ 
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -867,6 +867,9 @@ struct drm_dp_mst_topology_state *
+ drm_atomic_get_mst_topology_state(struct drm_atomic_state *state,
+ 				  struct drm_dp_mst_topology_mgr *mgr);
+ struct drm_dp_mst_topology_state *
++drm_atomic_get_old_mst_topology_state(struct drm_atomic_state *state,
++				      struct drm_dp_mst_topology_mgr *mgr);
++struct drm_dp_mst_topology_state *
+ drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
+ 				      struct drm_dp_mst_topology_mgr *mgr);
+ struct drm_dp_mst_atomic_payload *
 
+
+Patches currently in stable-queue which might be from imre.deak@intel.com are
+
+queue-6.1/drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
