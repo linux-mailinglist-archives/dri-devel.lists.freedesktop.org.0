@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D646B3E77
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF6D6B3EA2
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 13:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECA6C10E070;
-	Fri, 10 Mar 2023 11:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E8310E05F;
+	Fri, 10 Mar 2023 12:04:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1B010E110
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:54:26 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB7210E002;
+ Fri, 10 Mar 2023 12:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678449266; x=1709985266;
+ t=1678449884; x=1709985884;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=nIWpHw2BCcdfQcmlIB8R1kJOhrf+WWeFFtoqhQep9NA=;
- b=G7xJkccJwjRe4S40wf6pn+86IMEW8YvD2Jc6xe5zkLkwlngHPJcOatQY
- GIOo5U124hPm+Izqz8tUsG8rJWyjdMZcNRykZnZXu0KQBIJzP37DYghRs
- M7R/yp9wdDvuSyVHmJuaTBSh7v2tO28Edqyq+QMxdhjiuF9EXCC40m9ug
- F8tp1D7CcKLRzWKmJfEJphVXI4gGOM5GMGU4Y6eJ3n4v6xY9zVJd+087Z
- 3dsXDdW/nCHmw3m9fKOzrGsxRwULbjNEd1GL0GlrLofiLoUSCumQCfwUS
- wkzmyiDEDtGawRWkUU64jlVS3omWINVOcyMqY2UhqfQ3FnckYgdxZm6I3 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="339075350"
-X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; d="scan'208";a="339075350"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2023 03:54:25 -0800
+ bh=3PdppEc6oq0RQ3vaPpjd+qrYqHZTvxoL5rKOBXVnBzA=;
+ b=BF8wDBh0dgl2ly6k8KNXhwfsjofZS1EBlUf08pwkXxPIx3QwXMYRGlg9
+ dMRCQ7CLwT0MGOCHc4oaGtsmXUFbQD2Akoi05DCHoctRwSmNgFxv8u7RF
+ gVtL06ZGva2BAGM5FpwIn6PL1SqUjQAJvwF4NbsX4kKrMTj3g++OHY8fW
+ dGPymVIkci0NuwxXoorsXR5V/LPZ++gBrhreXPF51SfbnaVTgbEN+5nHH
+ X4q0ALxOF1QIktisewUL5pdMkrIthvgndpVB3qV8mO24GQsln2NQKqM2d
+ mTZeHGh6pPC/jiHGdwMrieTczD/o4ycruyCNwrX5fnaArVXavVP9nnnt+ Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="335409793"
+X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; d="scan'208";a="335409793"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2023 04:04:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="821021118"
-X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; d="scan'208";a="821021118"
+X-IronPort-AV: E=McAfee;i="6500,9779,10644"; a="677787670"
+X-IronPort-AV: E=Sophos;i="5.98,249,1673942400"; d="scan'208";a="677787670"
 Received: from klausuhl-mobl.ger.corp.intel.com (HELO localhost)
  ([10.252.33.190])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2023 03:54:21 -0800
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Mar 2023 04:04:39 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jianhua Lu <lujianhua000@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/mipi-dsi: Add a mipi_dual_dsi_dcs_write_seq() macro
-In-Reply-To: <20230310110542.6649-1-lujianhua000@gmail.com>
+To: Guchun Chen <guchun.chen@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ hawking.zhang@amd.com, dmitry.baryshkov@linaro.org, spasswolf@web.de,
+ mike@fireburn.co.uk
+Subject: Re: [PATCH v3 2/2] drm/probe_helper: warning on poll_enabled for
+ issue catching
+In-Reply-To: <20230310010136.2810776-1-guchun.chen@amd.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230310110542.6649-1-lujianhua000@gmail.com>
-Date: Fri, 10 Mar 2023 13:54:18 +0200
-Message-ID: <87mt4k95zp.fsf@intel.com>
+References: <20230310010136.2810776-1-guchun.chen@amd.com>
+Date: Fri, 10 Mar 2023 14:04:36 +0200
+Message-ID: <87jzzo95ij.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,96 +62,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, Jianhua Lu <lujianhua000@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- ~postmarketos/upstreaming@lists.sr.ht
+Cc: Guchun Chen <guchun.chen@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Mar 2023, Jianhua Lu <lujianhua000@gmail.com> wrote:
-> The panels with two dsi connected (sync dual dsi mode) need to transmit
-> dcs command to the two dsi host simultaneously, let's add
-> mipi_dual_dsi_dcs_write_seq() macro for this kind of panels.
-
-If we were to add a helper for this case, it should be a proper function
-and not a macro like this.
-
-We'd also need to see a user for this upstream.
-
+On Fri, 10 Mar 2023, Guchun Chen <guchun.chen@amd.com> wrote:
+> In order to catch issues in other drivers to ensure proper call
+> sequence of polling function.
 >
-> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> v2: drop Fixes tag in commit message
+>
+> Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/2411
+> Reported-by: Bert Karwatzki <spasswolf@web.de>
+> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Guchun Chen <guchun.chen@amd.com>
 > ---
->  include/drm/drm_mipi_dsi.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  drivers/gpu/drm/drm_probe_helper.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-> index c9df0407980c..d0f0f75d4d83 100644
-> --- a/include/drm/drm_mipi_dsi.h
-> +++ b/include/drm/drm_mipi_dsi.h
-> @@ -336,6 +336,21 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
->  		}                                                          \
->  	} while (0)
->  
-> +/**
-> + * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
-> + * @dsi: array of 2 DSI peripheral devices
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> index 8127be134c39..85e0e80d4a52 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -852,6 +852,8 @@ EXPORT_SYMBOL(drm_kms_helper_is_poll_worker);
+>   */
+>  void drm_kms_helper_poll_disable(struct drm_device *dev)
+>  {
+> +	WARN_ON(!dev->mode_config.poll_enabled);
 
-This makes the assumption the devices are stored in an array. What if
-drivers want to store them differently, for whatever reason? Maybe they
-have an array of some container structs that have the devices? Maybe
-they just have two struct mipi_dsi_device pointers?
-
-> + * @cmd: Command
-> + * @seq: buffer containing data to be transmitted
-> + */
-> +#define mipi_dual_dsi_dcs_write_seq(dsi, cmd, seq...)                   \
-> +	do {                                                             \
-> +		if (ARRAY_SIZE(dsi) > 2)                                 \
-> +			return -EINVAL;                                  \
-> +		int i;                                                   \
-
-I believe this should lead to a warning for mixing code and
-declarations.
-
-> +		for (i = 0; i < ARRAY_SIZE(dsi); i++)                    \
-> +			mipi_dsi_dcs_write_seq(dsi[i], cmd, seq);        \
-
-This ignores errors.
-
-> +	} while (0)
-> +
-
-Without an example user, I'm not yet convinced about the usefulness of
-the helper, but I'd imagine something like this would be a more generic
-approach, not enforcing the array, and handling errors properly:
-
-ssize_t mipi_dsi_dual_dcs_write(struct mipi_dsi_device *dsi0,
-                                struct mipi_dsi_device *dsi1,
-                                u8 cmd, const void *data, size_t len)
-{
-	ssize_t err = 0;
-
-	if (dsi0)
-        	err = mipi_dsi_dcs_write(dsi0, cmd, data, len);
-
-	if (dsi1 && !err)
-        	err = mipi_dsi_dcs_write(dsi1, cmd, data, len);
-
-	return err;
-}
-
-But even that begs the question where does it end? There are a lot of
-mipi_dsi_dcs_*() functions as well as mipi_dsi_generic_write(). Dual
-wrappers for all of them? :o
-
+Please address all previous review comments [1].
 
 BR,
 Jani.
 
 
->  /**
->   * struct mipi_dsi_driver - DSI driver
->   * @driver: device driver model driver
+[1] https://lore.kernel.org/r/87o7p3bde6.fsf@intel.com
+
+
+> +
+>  	if (dev->mode_config.poll_running)
+>  		drm_kms_helper_disable_hpd(dev);
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
