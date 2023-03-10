@@ -2,91 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD026B5067
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 19:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437416B5102
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 20:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF0E10E31C;
-	Fri, 10 Mar 2023 18:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B562D10E061;
+	Fri, 10 Mar 2023 19:35:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5D410E31C
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 18:57:40 +0000 (UTC)
-Received: by mail-qt1-x82a.google.com with SMTP id r16so6825513qtx.9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 10:57:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678474659;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iYsCaNsSgngNKZcdLQcf6Ufpk9ToxZLFdwVZ9rpQa4I=;
- b=X08bB+yklbWwlcTtt2aeNgmaxess2TPKnELiAEk9OTqJPHuz+3/M9Tmq+KpCSIfM0f
- jD0APM2OhnjVRgXxux5Jran0ExHQPN0mQlneMTl6sIrkmKBwNPbgnNqDlrZ0e9vmTRda
- vjNSQQJBQJ+r7zirpHMIeDU/udZbkxHbku0star9P0mSAMUORFbrWFRMAJcJzUAcYotm
- Uti2604Hf+UKs07gy9+nPPywgNaEIbCrcDdotdF7kCvsZH9Eapmykh+3okNVcDPNrDdi
- OD9nWY2u/J4phmSp18O6CqUa5+TewrEkVAjwF7LWgvHms4ak00DKbbJpNhxXOO7NCOM/
- XZmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678474659;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iYsCaNsSgngNKZcdLQcf6Ufpk9ToxZLFdwVZ9rpQa4I=;
- b=Y0KzVDmVU0AozdO4QIKs6pNJBNYchNT47hamw5YqeSVF+UeIqRIVi1sWW19zmoUjn4
- jRgKH+7NomqNztOjM86Ytpu/0tmdpUHxlWVKoGgzD6zKXUsisDo7eaKQ1qjRZTr7AnL9
- I4VTD0TZITViYO+qhPUJCznAp1MyEqkCwX66FQojvAhFzyH0onCgVATWS8+87ricKDZ8
- YxnRQ/qJTjZyHvPB+vSP16xP0yRU36tW7d546YIb70fnjpeagTp6JXEFdUpUXfWOMpVw
- HTsrldpLjjwgYRdZHnh3ETnPl34tNl0MaSGrsx3Sf5lyM5KPXaeqovvGeaSkWP7wol8Z
- 1xug==
-X-Gm-Message-State: AO0yUKVhte4ax+lb8Ff86jPN3NN+tJ1Zt+PxMy6PI5h1ZuoQrc84BE6D
- AsuJ3tVaNAIYWM+nQwgz8xE=
-X-Google-Smtp-Source: AK7set+4zSWuXwAS3gf17d063Xj+Ph3v0EPqWJGTs3qx7Dqyh0WAYgbNyBItJeOyToWCKILdkt9WAA==
-X-Received: by 2002:ac8:5e4a:0:b0:3b8:2ea9:a09c with SMTP id
- i10-20020ac85e4a000000b003b82ea9a09cmr11028163qtx.1.1678474659251; 
- Fri, 10 Mar 2023 10:57:39 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com.
- [66.111.4.227]) by smtp.gmail.com with ESMTPSA id
- a8-20020aed2788000000b003b62e8b77e7sm342021qtd.68.2023.03.10.10.57.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 10:57:38 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailauth.nyi.internal (Postfix) with ESMTP id BD05F27C0054;
- Fri, 10 Mar 2023 13:57:37 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 10 Mar 2023 13:57:37 -0500
-X-ME-Sender: <xms:oH0LZKRLdsP7S-ODRUr5NQxPKLRM043tk4HBpFPML5ny56aOMc1WKA>
- <xme:oH0LZPyoebzZatMZAuu6P_73GVuEHtNN69KxZr64O2-UPfZdk1ohaIHA1YNTOmA_r
- KAkwArw5YzolSql6g>
-X-ME-Received: <xmr:oH0LZH2zT9VTIey8ILSfvM1iTiewrf9ia19JsONvub11ZyqXtExdx7oEEi8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddukedguddujecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhq
- uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
- grthhtvghrnhepfeduvddvleeigeeugfevffdvffduieeujeeivdduhfeljeeghfegffev
- fffhkeffnecuffhomhgrihhnpehpthhrrdguvghvnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
- rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
- gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:oH0LZGAmUZAA0WaAkOpaN91r1NTQfHex41rDqaXOgp7XltObtE-y4Q>
- <xmx:oH0LZDhbyzfoZ9B-1L4Zs_Qb4Brv9uR5ds8IbGPyn9TAqabJ4deWLw>
- <xmx:oH0LZCrDEJ4ut9DJmmL9U5wz_K5XqnyQlUZYnc_Ay2xgLVJ4PQ1cMQ>
- <xmx:oX0LZPDMVZoKkaOWLRxjIng7KbgqOLDTOoYJ_0CZLCFD9tpM_5bBfg>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Mar 2023 13:57:36 -0500 (EST)
-Date: Fri, 10 Mar 2023 10:56:31 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH RFC 02/18] rust: drm: Add Device and Driver abstractions
-Message-ID: <ZAt9X8qDUHQ/YnW8@boqun-archlinux>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
+X-Greylist: delayed 9597 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Mar 2023 19:35:30 UTC
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D750C10E061
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 19:35:30 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 32AGsv0Y113532;
+ Fri, 10 Mar 2023 10:54:57 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1678467297;
+ bh=rZ1TuA9PdwIqFv9PvRAEz3S9AdKRMMl+xNizKrzmmLk=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=PbIPMIR1IXX8yGepL2NHxfC/JVoEl3zJ3At/oXcIoIcSL0PAyOec/ZxpnhEnMnghv
+ bOUui4t2BcOmo7kv4xi7LBiRGnLQn4EZE7GlEa0MuZr6A2qYQZ+burmribXCCKr1ns
+ ZwplzSJkEnONzM4aTg9PoYewRnawBE5pJiF0QYjI=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 32AGsvoC013877
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 10 Mar 2023 10:54:57 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Fri, 10
+ Mar 2023 10:54:57 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Fri, 10 Mar 2023 10:54:57 -0600
+Received: from [128.247.81.39] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 32AGsvH9037518;
+ Fri, 10 Mar 2023 10:54:57 -0600
+Message-ID: <8f8f131d-437c-6bf8-9e44-1c3a6c01e68f@ti.com>
+Date: Fri, 10 Mar 2023 10:54:57 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v3] dma-buf: cma_heap: Check for device max segment size
+ when attaching
+Content-Language: en-US
+To: John Stultz <jstultz@google.com>
+References: <20230306165143.1671-1-afd@ti.com>
+ <CANDhNCrzi+9BszTj+9v9t6cHOcxv=4C1yQZnZZ-_7FWoxwAd5A@mail.gmail.com>
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <CANDhNCrzi+9BszTj+9v9t6cHOcxv=4C1yQZnZZ-_7FWoxwAd5A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,62 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
- Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- rust-for-linux@vger.kernel.org,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Jarkko Sakkinen <jarkko@kernel.org>, asahi@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ Liam Mark <lmark@codeaurora.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 07, 2023 at 11:25:27PM +0900, Asahi Lina wrote:
-[...]
-> +
-> +// SAFETY: `Device` only holds a pointer to a C device, which is safe to be used from any thread.
-> +unsafe impl<T: drm::drv::Driver> Send for Device<T> {}
-> +
-> +// SAFETY: `Device` only holds a pointer to a C device, references to which are safe to be used
-> +// from any thread.
-> +unsafe impl<T: drm::drv::Driver> Sync for Device<T> {}
-> +
+On 3/6/23 8:48 PM, John Stultz wrote:
+> On Mon, Mar 6, 2023 at 8:52 AM Andrew Davis <afd@ti.com> wrote:
+>>
+>> Although there is usually not such a limitation (and when there is it is
+>> often only because the driver forgot to change the super small default),
+>> it is still correct here to break scatterlist element into chunks of
+>> dma_max_mapping_size().
+> 
+> Hey Andrew!
+>    Thanks for sending this out!
+> 
+> So *why* is it "correct here to break scatterlist element into chunks
+> of  dma_max_mapping_size()." ?
+> 
 
-Here is the mind model I use to check whether a type is `Send` or
-`Sync`
+Good question, I'm not 100% sure on the background myself. It seems
+since some devices have restrictions on how large a mapping they can
+handle in a single run, we should not hand out single scatterlist
+elements longer than that.
 
-*	If an object of a type can be created on one thread and dropped
-	on the another thread, then it's `Send`.
+It is still a contiguous buffer, but some drivers forget to set their
+mapping limits and also only check the number of elements == 1 to determine
+if a sg is contiguous (which is not correct as there is no rule that
+contiguous runs must be merged into a single scatterlist). For those
+driver this would be an issue (I've only found one such case in-tree and
+sent a fix, https://lore.kernel.org/lkml/20220825162609.14076-1-afd@ti.com/)
 
-*	If multiple threads can call the immutable functions (i.e.
-	functions with `&self`) of the same object of a type, then the
-	it's `Sync`.
+>> This might cause some issues for users with misbehaving drivers. If
+>> bisecting has landed you on this commit, make sure your drivers both set
+>> dma_set_max_seg_size() and are checking for contiguousness correctly.
+> 
+> Why is this change worth the risk? (If this is really likely to break
+> folks, should we maybe provide warnings initially instead? Maybe
+> falling back to the old code if we can catch the failure?)
+> 
+> I don't really object to the change, just want to make sure the commit
+> message is more clear on why we should make this change, what the
+> benefit will be along with the potential downsides.
+> 
 
-Maybe it's incomplete, but at least I find it useful to determine
-whether a type is `Send` or `Sync`: it's not just the struct
-representation, the behaviors (functions) of the struct also matter.
+I'm not sure it is worth the risk today either, but figured this being a
+young enough exporter it could be a good spot to start with for exposing
+misbehaving drivers vs some legacy GPU driver exporter. Plus better to
+make this change now rather than later in any case.
 
-If that looks reasonable to you, maybe update the "SAFETY" comments in
-the future version? Thanks ;-)
+I don't have any strong reason for this yet though, so I'm find with
+just considering this patch an RFC for now.
 
-(I know you brought this up in the meeting, sorry I guess I wasn't fully
-woken when answering you ;-))
+Thanks,
+Andrew
 
-Regards,
-Boqun
-
-> +// Make drm::Device work for dev_info!() and friends
-> +unsafe impl<T: drm::drv::Driver> device::RawDevice for Device<T> {
-> +    fn raw_device(&self) -> *mut bindings::device {
-> +        // SAFETY: ptr must be valid per the type invariant
-> +        unsafe { (*self.ptr).dev }
-> +    }
-> +}
-[...]
+> thanks
+> -john
