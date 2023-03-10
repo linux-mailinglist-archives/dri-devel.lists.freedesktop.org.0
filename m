@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45006B3338
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 01:57:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2732D6B3342
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 01:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE55C10E91D;
-	Fri, 10 Mar 2023 00:57:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 158A410E92A;
+	Fri, 10 Mar 2023 00:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C87610E91B
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEDD110E91C
  for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:57:19 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id bi9so4628537lfb.2
+Received: by mail-lf1-x130.google.com with SMTP id g17so4629725lfv.4
  for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 16:57:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678409838;
+ d=linaro.org; s=google; t=1678409839;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SX3XoqkFCdUUV2+61wn53mkmsoqHMRkqdhyvkDnbsTI=;
- b=Kayu5Va4InK/6MuEhImrSw8NnrtJSGOijBZa6kx+ltiaQS+5tQeDtUlYABPn/qGi91
- bPan1XpJP2TfWReBOX7iK5kHUuW3gDc5kgNIeIFp2iMIpOUIscMIcCnSoWPrG6KnGp5f
- JCKZbkdbW0RFPynBENoPr5H7YarMdXmdZMlP2DHGJewRsJJKLInPRRFWJxErPK9vi0E+
- 7S5S67AOK1iAODU6xmDK0LH3At7Tgj/GJ6c7E33oNqEnLittfX0YkDPqKHwK9rV+matb
- JP55SRw3iENjCyFLm+0CIFHN1i9BbRDcf74fl3zq12u4b9r6BbLjgut5hyS9UVThn7q2
- GUjA==
+ bh=xEAIHuUQdGe9FEucwOtRTiTV00TrrhD3yB1aXPp2/rA=;
+ b=h7clikgF0RXkODZNzHz1hMVISn9JW0FnPnvLgsB4jlNE0fwtytpQQjCMu9A5F+nRf4
+ wbLiIlUwJBFzPSEFqTA2wjXbamdEO+UTj9z4ho0cFDrzsHkFz2eM6/hjUBLvOZamatws
+ mnSMULAqEN4Bx8f5s6+xyctyFY3kCcEt3thWwEPQuf8jQTnETOEN29G6Mwb/kyyErHkh
+ q6BbzKrz64zW4YRKhwQ4zWA1XtpIDkLl0qP9d7nWJPRbh7+aDUyTjI3wv22s1t0TfU15
+ E+ZhB1PzWqrsv/zQT31IOOA5LgxlGB6yDIILiZHmNbNH1mX+dfUafbZ309jjsTNKiXba
+ uXEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678409838;
+ d=1e100.net; s=20210112; t=1678409839;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SX3XoqkFCdUUV2+61wn53mkmsoqHMRkqdhyvkDnbsTI=;
- b=b+Ao/s3mTBV5lPtQZBAzmUA1K1Yle15h+JGrB7nSiU57JcT049+j7qNCUHN9ECMgJ7
- A6xHseDchzPIW2jq8C0bLxMVditNyi/xMC/G08ZW2bxnVn523r8hQu910KLgwXBY/z9Y
- PRJwPYTo63CZs8fEkkd/BtXZoI4GK9v6mqA3u/nIBG+4ve5Wfi18N8W0lCHdxyiE8i9L
- 4Co3HwxQY6jHU6JiYHBApxFxTHG/wCYqVl42jakcA0/VZp+gqeJIBec9Jn5wqGy9v9ZL
- sK8PmmuXWCvP0+rGMICzbV4C5zDJBYfCTjf3AMPITD+FozEap0GvtVIkWZ4ewyKtaGak
- n5eQ==
-X-Gm-Message-State: AO0yUKUGFXMyQn9EBvn5JFW4Z4/IrxkRpc4wkUxsrIMqKnP6BfldTVIe
- tlBaXyvLaOr32rKotIO/LTrVcg==
-X-Google-Smtp-Source: AK7set89VNqishtL6tunk/Q5NRkqvlrC34//16oDgobaUKDD42HboVTeiBjUGlnP3/clg18/GDblyQ==
-X-Received: by 2002:a19:ae0f:0:b0:4ca:ffe0:e754 with SMTP id
- f15-20020a19ae0f000000b004caffe0e754mr145638lfc.18.1678409838606; 
- Thu, 09 Mar 2023 16:57:18 -0800 (PST)
+ bh=xEAIHuUQdGe9FEucwOtRTiTV00TrrhD3yB1aXPp2/rA=;
+ b=iF7AeIXHsFXXdHhgdVXN+OtPKJaT3J5E4/c/9t4Gi+5S9sEEDlOsMKRCvm8b2ZYwQk
+ blPZjvW7YdVvsqrO8LJ2JCbl+18RbCqp7O//4LYqaE1enwxudZPusaDWBs1y3YJmZcfJ
+ UEf626P8Q1Fu0vDxZwLSgGxUzRtpJQc4m9DKKwJZ/GpF1gZ77MQX+YDQnvY8z5ZSvFPV
+ Cc5q3wav3vsZThqG74M+kXQPtWPa4mAmcQhMI6xkEVUOp2yU137zbLm2sgfpYrrrGjc/
+ dbFpFpmN5HUQXo0mZS2hH/Fhfs+yoPo41ozGaeQ+8wliExaLxxGioHPy9gUB1b/sCai3
+ P/VQ==
+X-Gm-Message-State: AO0yUKUwdKDS0rT2kHWQflQ83SKJ9Hj+2jWHiOgOKpzhFzb//eT2kocQ
+ UKkqbgRjzLeb9WuIL95cAJ/5AA==
+X-Google-Smtp-Source: AK7set8I/eZYUGBKl6TftSAhkKytjV3vLBKBs19ZG9SyOMXVqE3+yTERgW5jfIAcsONux/n/NmTjvw==
+X-Received: by 2002:ac2:55a9:0:b0:4dd:9f4d:7459 with SMTP id
+ y9-20020ac255a9000000b004dd9f4d7459mr6761930lfg.67.1678409839504; 
+ Thu, 09 Mar 2023 16:57:19 -0800 (PST)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- m13-20020ac2428d000000b004d8540b947asm75280lfh.56.2023.03.09.16.57.17
+ m13-20020ac2428d000000b004d8540b947asm75280lfh.56.2023.03.09.16.57.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Mar 2023 16:57:17 -0800 (PST)
+ Thu, 09 Mar 2023 16:57:19 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v5 14/32] drm/msm/dpu: drop src_split and multirect check from
- dpu_crtc_atomic_check
-Date: Fri, 10 Mar 2023 02:56:46 +0200
-Message-Id: <20230310005704.1332368-15-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v5 15/32] drm/msm/dpu: don't use unsupported blend stages
+Date: Fri, 10 Mar 2023 02:56:47 +0200
+Message-Id: <20230310005704.1332368-16-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230310005704.1332368-1-dmitry.baryshkov@linaro.org>
 References: <20230310005704.1332368-1-dmitry.baryshkov@linaro.org>
@@ -80,273 +79,62 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Neither source split nor multirect are properly supported at this
-moment. Both of these checks depend on normalized_zpos being equal for
-several planes (which is never the case for normalized zpos).
-Drop these checks to simplify dpu_crtc_atomic_check(). The actual
-support for either of these features is not removed from the backend
-code (sspp, ctl, etc).
+The dpu_crtc_atomic_check() compares blending stage with DPU_STAGE_MAX
+(maximum amount of blending stages supported by the driver), however we
+should compare it against .max_mixer_blendstages, the maximum blend
+stage supported by the mixer.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 168 ++---------------------
- 1 file changed, 12 insertions(+), 156 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 037347e51eb8..c1579d6f5060 100644
+index c1579d6f5060..0260c4d6ded7 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1108,13 +1108,6 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
- 	drm_crtc_vblank_on(crtc);
- }
- 
--struct plane_state {
--	struct dpu_plane_state *dpu_pstate;
--	const struct drm_plane_state *drm_pstate;
--	int stage;
--	u32 pipe_id;
--};
--
- static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
- {
- 	struct drm_crtc *crtc = cstate->crtc;
-@@ -1136,31 +1129,22 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+@@ -1129,6 +1129,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
  									  crtc);
  	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
  	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
--	struct plane_state *pstates;
++	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
  
  	const struct drm_plane_state *pstate;
  	struct drm_plane *plane;
- 	struct drm_display_mode *mode;
- 
--	int cnt = 0, rc = 0, mixer_width = 0, i, z_pos;
-+	int rc = 0;
- 
--	struct dpu_multirect_plane_states multirect_plane[DPU_STAGE_MAX * 2];
--	int multirect_count = 0;
--	const struct drm_plane_state *pipe_staged[SSPP_MAX];
--	int left_zpos_cnt = 0, right_zpos_cnt = 0;
- 	struct drm_rect crtc_rect = { 0 };
- 	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
- 
--	pstates = kzalloc(sizeof(*pstates) * DPU_STAGE_MAX * 4, GFP_KERNEL);
--	if (!pstates)
--		return -ENOMEM;
--
- 	if (!crtc_state->enable || !crtc_state->active) {
- 		DRM_DEBUG_ATOMIC("crtc%d -> enable %d, active %d, skip atomic_check\n",
- 				crtc->base.id, crtc_state->enable,
- 				crtc_state->active);
- 		memset(&cstate->new_perf, 0, sizeof(cstate->new_perf));
--		goto end;
-+		return 0;
- 	}
- 
- 	mode = &crtc_state->adjusted_mode;
-@@ -1170,13 +1154,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (crtc_state->active_changed)
- 		crtc_state->mode_changed = true;
- 
--	memset(pipe_staged, 0, sizeof(pipe_staged));
--
--	if (cstate->num_mixers) {
--		mixer_width = mode->hdisplay / cstate->num_mixers;
--
-+	if (cstate->num_mixers)
- 		_dpu_crtc_setup_lm_bounds(crtc, crtc_state);
--	}
- 
- 	crtc_rect.x2 = mode->hdisplay;
- 	crtc_rect.y2 = mode->vdisplay;
-@@ -1185,38 +1164,21 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+@@ -1164,7 +1165,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
  	drm_atomic_crtc_state_for_each_plane_state(plane, pstate, crtc_state) {
  		struct dpu_plane_state *dpu_pstate = to_dpu_plane_state(pstate);
  		struct drm_rect dst, clip = crtc_rect;
-+		int z_pos;
+-		int z_pos;
++		int stage;
  
  		if (IS_ERR_OR_NULL(pstate)) {
  			rc = PTR_ERR(pstate);
- 			DPU_ERROR("%s: failed to get plane%d state, %d\n",
- 					dpu_crtc->name, plane->base.id, rc);
--			goto end;
-+			return rc;
+@@ -1189,17 +1190,16 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 			return -E2BIG;
  		}
--		if (cnt >= DPU_STAGE_MAX * 4)
--			continue;
  
- 		if (!pstate->visible)
- 			continue;
- 
--		pstates[cnt].dpu_pstate = dpu_pstate;
--		pstates[cnt].drm_pstate = pstate;
--		pstates[cnt].stage = pstate->normalized_zpos;
--		pstates[cnt].pipe_id = to_dpu_plane_state(pstate)->pipe.sspp->idx;
+-		z_pos = pstate->normalized_zpos;
 -
- 		dpu_pstate->needs_dirtyfb = needs_dirtyfb;
- 
--		if (pipe_staged[pstates[cnt].pipe_id]) {
--			multirect_plane[multirect_count].r0 =
--				pipe_staged[pstates[cnt].pipe_id];
--			multirect_plane[multirect_count].r1 = pstate;
--			multirect_count++;
--
--			pipe_staged[pstates[cnt].pipe_id] = NULL;
--		} else {
--			pipe_staged[pstates[cnt].pipe_id] = pstate;
--		}
--
--		cnt++;
-+		dpu_plane_clear_multirect(pstate);
- 
- 		dst = drm_plane_state_dest(pstate);
- 		if (!drm_rect_intersect(&clip, &dst)) {
-@@ -1224,63 +1186,21 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 			DPU_ERROR("display: " DRM_RECT_FMT " plane: "
- 				  DRM_RECT_FMT "\n", DRM_RECT_ARG(&crtc_rect),
- 				  DRM_RECT_ARG(&dst));
--			rc = -E2BIG;
--			goto end;
-+			return -E2BIG;
- 		}
--	}
- 
--	for (i = 1; i < SSPP_MAX; i++) {
--		if (pipe_staged[i])
--			dpu_plane_clear_multirect(pipe_staged[i]);
--	}
--
--	z_pos = -1;
--	for (i = 0; i < cnt; i++) {
--		/* reset counts at every new blend stage */
--		if (pstates[i].stage != z_pos) {
--			left_zpos_cnt = 0;
--			right_zpos_cnt = 0;
--			z_pos = pstates[i].stage;
--		}
-+		z_pos = pstate->normalized_zpos;
- 
- 		/* verify z_pos setting before using it */
- 		if (z_pos >= DPU_STAGE_MAX - DPU_STAGE_0) {
+-		/* verify z_pos setting before using it */
+-		if (z_pos >= DPU_STAGE_MAX - DPU_STAGE_0) {
++		/* verify stage setting before using it */
++		stage = DPU_STAGE_0 + pstate->normalized_zpos;
++		if (stage >= dpu_kms->catalog->caps->max_mixer_blendstages) {
  			DPU_ERROR("> %d plane stages assigned\n",
- 					DPU_STAGE_MAX - DPU_STAGE_0);
--			rc = -EINVAL;
--			goto end;
--		} else if (pstates[i].drm_pstate->crtc_x < mixer_width) {
--			if (left_zpos_cnt == 2) {
--				DPU_ERROR("> 2 planes @ stage %d on left\n",
--					z_pos);
--				rc = -EINVAL;
--				goto end;
--			}
--			left_zpos_cnt++;
--
--		} else {
--			if (right_zpos_cnt == 2) {
--				DPU_ERROR("> 2 planes @ stage %d on right\n",
--					z_pos);
--				rc = -EINVAL;
--				goto end;
--			}
--			right_zpos_cnt++;
-+			return -EINVAL;
+-					DPU_STAGE_MAX - DPU_STAGE_0);
++				  dpu_kms->catalog->caps->max_mixer_blendstages - DPU_STAGE_0);
+ 			return -EINVAL;
  		}
  
--		pstates[i].dpu_pstate->stage = z_pos + DPU_STAGE_0;
-+		to_dpu_plane_state(pstate)->stage = z_pos + DPU_STAGE_0;
- 		DRM_DEBUG_ATOMIC("%s: zpos %d\n", dpu_crtc->name, z_pos);
--	}
+-		to_dpu_plane_state(pstate)->stage = z_pos + DPU_STAGE_0;
+-		DRM_DEBUG_ATOMIC("%s: zpos %d\n", dpu_crtc->name, z_pos);
++		to_dpu_plane_state(pstate)->stage = stage;
++		DRM_DEBUG_ATOMIC("%s: stage %d\n", dpu_crtc->name, stage);
  
--	for (i = 0; i < multirect_count; i++) {
--		if (dpu_plane_validate_multirect_v2(&multirect_plane[i])) {
--			DPU_ERROR(
--			"multirect validation failed for planes (%d - %d)\n",
--					multirect_plane[i].r0->plane->base.id,
--					multirect_plane[i].r1->plane->base.id);
--			rc = -EINVAL;
--			goto end;
--		}
  	}
  
- 	atomic_inc(&_dpu_crtc_get_kms(crtc)->bandwidth_ref);
-@@ -1289,74 +1209,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 	if (rc) {
- 		DPU_ERROR("crtc%d failed performance check %d\n",
- 				crtc->base.id, rc);
--		goto end;
--	}
--
--	/* validate source split:
--	 * use pstates sorted by stage to check planes on same stage
--	 * we assume that all pipes are in source split so its valid to compare
--	 * without taking into account left/right mixer placement
--	 */
--	for (i = 1; i < cnt; i++) {
--		struct plane_state *prv_pstate, *cur_pstate;
--		struct drm_rect left_rect, right_rect;
--		int32_t left_pid, right_pid;
--		int32_t stage;
--
--		prv_pstate = &pstates[i - 1];
--		cur_pstate = &pstates[i];
--		if (prv_pstate->stage != cur_pstate->stage)
--			continue;
--
--		stage = cur_pstate->stage;
--
--		left_pid = prv_pstate->dpu_pstate->base.plane->base.id;
--		left_rect = drm_plane_state_dest(prv_pstate->drm_pstate);
--
--		right_pid = cur_pstate->dpu_pstate->base.plane->base.id;
--		right_rect = drm_plane_state_dest(cur_pstate->drm_pstate);
--
--		if (right_rect.x1 < left_rect.x1) {
--			swap(left_pid, right_pid);
--			swap(left_rect, right_rect);
--		}
--
--		/**
--		 * - planes are enumerated in pipe-priority order such that
--		 *   planes with lower drm_id must be left-most in a shared
--		 *   blend-stage when using source split.
--		 * - planes in source split must be contiguous in width
--		 * - planes in source split must have same dest yoff and height
--		 */
--		if (right_pid < left_pid) {
--			DPU_ERROR(
--				"invalid src split cfg. priority mismatch. stage: %d left: %d right: %d\n",
--				stage, left_pid, right_pid);
--			rc = -EINVAL;
--			goto end;
--		} else if (right_rect.x1 != drm_rect_width(&left_rect)) {
--			DPU_ERROR("non-contiguous coordinates for src split. "
--				  "stage: %d left: " DRM_RECT_FMT " right: "
--				  DRM_RECT_FMT "\n", stage,
--				  DRM_RECT_ARG(&left_rect),
--				  DRM_RECT_ARG(&right_rect));
--			rc = -EINVAL;
--			goto end;
--		} else if (left_rect.y1 != right_rect.y1 ||
--			   drm_rect_height(&left_rect) != drm_rect_height(&right_rect)) {
--			DPU_ERROR("source split at stage: %d. invalid "
--				  "yoff/height: left: " DRM_RECT_FMT " right: "
--				  DRM_RECT_FMT "\n", stage,
--				  DRM_RECT_ARG(&left_rect),
--				  DRM_RECT_ARG(&right_rect));
--			rc = -EINVAL;
--			goto end;
--		}
-+		return rc;
- 	}
- 
--end:
--	kfree(pstates);
--	return rc;
-+	return 0;
- }
- 
- int dpu_crtc_vblank(struct drm_crtc *crtc, bool en)
 -- 
 2.39.2
 
