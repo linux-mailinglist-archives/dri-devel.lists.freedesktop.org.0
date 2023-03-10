@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626C06B4215
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 14:59:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434586B42EF
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 15:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B527510E2B0;
-	Fri, 10 Mar 2023 13:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2C310E2D9;
+	Fri, 10 Mar 2023 14:08:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F75610E2B0;
- Fri, 10 Mar 2023 13:59:25 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05DCA10E2BD;
+ Fri, 10 Mar 2023 14:08:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 96ABA617B4;
- Fri, 10 Mar 2023 13:59:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A58C4339B;
- Fri, 10 Mar 2023 13:59:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7411E6191F;
+ Fri, 10 Mar 2023 14:08:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5527C433D2;
+ Fri, 10 Mar 2023 14:08:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678456764;
+ s=korg; t=1678457325;
  bh=FiGWTSRi8jwQPxcgYZ80FI0oc0kERnP0xwXyK8GlclA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ewcl2s42hOBuS7bvmFdp9M4QLVoPUTv22xBkhIMe1osZc+2sX9RUgmYseIvDF/imY
- ey0s+aujCRLLFajRzBPMheckI5jSbxbYrOc6bCAhYFqGx/7VJIA2NLFjyD8Vpo7A/H
- EiKCis9c9qLa+P7ExoLkjhBwzm7mMynLk0abkl1M=
+ b=FyNuBhpoMrdlrhL/jRt1l617Bdp01O/XInLgMmhModzYCZODGil09HH9+16D41Eyf
+ jR7VPo0qUBRMy5ZwrM/sFP4aJwgCFPXvrxC2WAqeh4UJNsQqsF9voGM5gzvc+ljpEE
+ PMIbniSxC4O+TxR+nwMAGCk8hIJtsYMXp7n0Gjhw=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.2 075/211] drm/i915: move a Kconfig symbol to unbreak the
+Subject: [PATCH 6.1 068/200] drm/i915: move a Kconfig symbol to unbreak the
  menu presentation
-Date: Fri, 10 Mar 2023 14:37:35 +0100
-Message-Id: <20230310133721.064604104@linuxfoundation.org>
+Date: Fri, 10 Mar 2023 14:37:55 +0100
+Message-Id: <20230310133719.213346000@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230310133718.689332661@linuxfoundation.org>
-References: <20230310133718.689332661@linuxfoundation.org>
+In-Reply-To: <20230310133717.050159289@linuxfoundation.org>
+References: <20230310133717.050159289@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
