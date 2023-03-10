@@ -1,66 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34416B502F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 19:35:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B1F6B503A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 19:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C438910E313;
-	Fri, 10 Mar 2023 18:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 450ED10E31B;
+	Fri, 10 Mar 2023 18:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE4410E313
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 18:35:50 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id h8so6554712plf.10
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 10:35:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678473349;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=GjDJnkJNNAJbXwdKnKmvqHOdy6ToT/pvrm8g38w5r54=;
- b=ZzMuF4kMHU+5smEmUAovshyGYjdBDGE0/WNbHZ5O3zVYz+h9qB2795ijzOpH6DMnRp
- pff9AiD2dm8suhUDbnjbeU+uaKZxs6ryaMOtMKBaVJzv3SSRf3X14xRM+fPelMDmzje7
- FFPBkrczl68cUgv2gbpg/NRUvn78IFkfDZe8cLFgjh4QokWlf5GmJlWoKGRn4fYoCzP/
- BwIBKD3LNAeRuSaobGQt+9p7a6szTpfpiqjyMFNc+xVOjbvBCGVN3nIDMyJmHc2w3lXh
- GEbzXRtwRghn3sW8BD0l5EEGSh7S4E/hyzvcbBBNYON1xJuxEhDZazVeoBaRe3EP/y5M
- /XhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678473349;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GjDJnkJNNAJbXwdKnKmvqHOdy6ToT/pvrm8g38w5r54=;
- b=WuM5GEzNih8CJwrtt8wIaldlfshZvDUtJjjqON2mx7+h78QALlM1x+ok3DBA82sirX
- H906gx+PEkgXfHPeL/j3PRPIZifXd6SwXrXGJNV4cQp6Q+U51s4w2QrDAgKleSJd1+JZ
- Ny2lDKmdFjcrqPgxLorQQrCbG05xlzdzZhnukFNjaxKTLUEIUgTsaWVyB8w461KiKsya
- jWAe7bnN2WVwTppexgQdiXdzN17M5hWgyz9UzhFTJBdsBvaMo8tIi4p3BBuGeio58BBq
- b0/tZCx0dJcowpCO593fDfKyW/vMBYfTPA98yDc02spjFIdLLCDFjVcEPjB1HmD/R2jU
- ZM/Q==
-X-Gm-Message-State: AO0yUKWygYEPnQiACPh8Vi7yP+IrUCuS70+VEETOIPTiQyds104g8/Fi
- oJOXbJq9oo8614En4tSvSZg=
-X-Google-Smtp-Source: AK7set8xICoqLIhqThDBYpzCx8RUPZU7gjm6qumv6hrox/SDbD0SidOLIsgxSU5eLDZt0s4WI+rknQ==
-X-Received: by 2002:a17:902:cece:b0:19c:d316:309a with SMTP id
- d14-20020a170902cece00b0019cd316309amr33238099plg.4.1678473349574; 
- Fri, 10 Mar 2023 10:35:49 -0800 (PST)
-Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
- by smtp.gmail.com with ESMTPSA id
- y4-20020a170902ed4400b0019aa5528a5csm315671plb.144.2023.03.10.10.35.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 10:35:49 -0800 (PST)
-Date: Sat, 11 Mar 2023 02:35:41 +0800
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v4 2/2] drm/panel: Add driver for Novatek NT36523
-Message-ID: <ZAt4fTNEnyLteaas@Gentoo>
-References: <20230310132144.2241-1-lujianhua000@gmail.com>
- <20230310132144.2241-2-lujianhua000@gmail.com>
- <6539f132-c740-b9b6-8810-0affd6ab91ba@linaro.org>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2074.outbound.protection.outlook.com [40.107.237.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959EB10E319;
+ Fri, 10 Mar 2023 18:41:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O7BVvSBTg4Pg7XO8cItxIK1jwX7e7a05u1v13OnLx4n5GgKqbfNcJLAz3TCpstfUkvzn5yqrrADqm40idqJO/ucsc7HIp5LrCKkKmbv5pAT5GiZyqX0WDWqTpRp9Bk02jDhfGF13KpaiEvasLzru9xfoj38b9AyGf4t3ddpqo/IJwPx786nd7pCsXlDR4+cwD/SuGsLZs83fjRc9gRT2ePIsEtspNQx1DUwcxY2HG/qZaqaNnctGQTmfEpMNOTyImgb4vP/fihMvZvA2QIAKvX0BN/KcYH/W+k5OAzEuw+6vLzvWSxxbuWpvFjoiOCnlG3j4MlYiJuTPE/shdvpeXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r3mb7OXmR0KQmFQhUL3FGCV0dKKCgMQqJOF2eQ9Cazs=;
+ b=D3Zx0FgulPEzTb3XXmiM6PY618cs/7Vxepx7OxnqSVhq/BYUW6etZfmxxpeUtB9AXjho5davIJe9Y3bcNZkPBMFYRqKg9ngVDpiGWRpevfXB7/6XycQMyS7pfi5+tXaUy2ZCv6VdiJZkZidrrohyIIxza5UGV+KMHgyNdo2plvVuOGnGTwjtsysjBV4TKzWF2sw1KIn1+oqlc1T9tW/vvfjSay3MIGZuaIvoOR7sGgxy86O+DWURMzJWL0QiodZwqtSjZ1N0VI5n1PbbNDs/mjLjSqLjs+OyqSzSFrAuo2SFe75cFQVVwusrJMIcgKUqmMuHDqpaerGjBhNXOmjd7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r3mb7OXmR0KQmFQhUL3FGCV0dKKCgMQqJOF2eQ9Cazs=;
+ b=slZacDEdEAL6gpmpEE73+ykj/f+LEuOZlvIVrgI1aYUMFgfgoAM+vNy+V0IAjp16WU9+CBfALJVT+pUiqgB87ID6KgYHGKCFfLauBhRuxrYxB0/70Mcadune+K77FTODV8RgTjcMpLyy509SPk0+B4e8zVcli5IdHFv/Kk0iNmM=
+Received: from DS7PR05CA0104.namprd05.prod.outlook.com (2603:10b6:8:56::16) by
+ BL0PR12MB4852.namprd12.prod.outlook.com (2603:10b6:208:1ce::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.20; Fri, 10 Mar
+ 2023 18:41:28 +0000
+Received: from DS1PEPF0000E630.namprd02.prod.outlook.com
+ (2603:10b6:8:56:cafe::85) by DS7PR05CA0104.outlook.office365.com
+ (2603:10b6:8:56::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.20 via Frontend
+ Transport; Fri, 10 Mar 2023 18:41:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0000E630.mail.protection.outlook.com (10.167.17.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6178.12 via Frontend Transport; Fri, 10 Mar 2023 18:41:28 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 10 Mar
+ 2023 12:41:26 -0600
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+Subject: [PATCH v2] drm/amd/display: use a more accurate check in
+ dm_helpers_dp_read_dpcd()
+Date: Fri, 10 Mar 2023 13:42:33 -0500
+Message-ID: <20230310184233.284388-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6539f132-c740-b9b6-8810-0affd6ab91ba@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF0000E630:EE_|BL0PR12MB4852:EE_
+X-MS-Office365-Filtering-Correlation-Id: c849887f-e3cc-4c8e-0790-08db21970f24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 52BE22lALr5ZleHAOjxJTQuZNjZ6T4+Z68CIp4m02hdGG6ffRl6+cdF81caML/3Zpfr5qNwXLdLlQkp8b9I6cnTmjMktuJZpGsxPf6OiCIAibPKFznd8N4oyxhvsJ3LDGeyYNM64nlrXsHC0r2MDrjukQlVYqtkl6oRALymsBLNWiAUoxXoZntjve5s//mlQCLABxapoHJqab8XcHvGNKtjrRS+K+dNzsJN5LfKxVR7X9Jb8a3bVmmTg3ey5s1Yg1wgTuQyG2FihiEym2dY6YWoipWkRLWgVG8o/QkEZzoLPIDqHfv3R7FZ1v3xfq8/8h8oVGHTNGIHbse1lRtXOzQyuejMWjAcMsHNfZba5rSCIQUl7TgpWvA+Ou/HLWyYTctKe1KEwhQCp5/tGKti3qr+Ya41A6neunuJVs3RU1VaPTLJyoOqgPTDv6z6KuoT1gfzgDOzW2BEdWMvGSk+Oh6MnZjDr8shf+RIApF+Up7gAMU/53aoISXAxC+DRx+T/YOzeOKASg+aOFDOFho9Tpn8vXvMbrDJOz4RVGg4uABSajyX/0NIynuxvkhGEyxP1DInWb1Lf9naIQciQAjBmDfTJ0V53nQxMQUPmMUZekmJsXbqUEqCn3T378fiTRx172Bz4mlKlQJtlXFWq/Uy63Wu58+p5qB9NRjrWETqhusnNTp2+7gQwju9WoQHzXYocqlR4eoKjDkqT276ypqDGWnz8YW7H9uRDOlnkRnuXIyXSwKVmbhwuy8zX+d7xUGRBaGjPtxagQ8ZV2RPyByJTXw==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(346002)(136003)(376002)(39860400002)(451199018)(46966006)(36840700001)(40470700004)(2906002)(81166007)(82740400003)(83380400001)(4744005)(44832011)(5660300002)(36756003)(40460700003)(40480700001)(41300700001)(70206006)(8936002)(356005)(8676002)(4326008)(6916009)(316002)(36860700001)(86362001)(54906003)(478600001)(82310400005)(186003)(426003)(47076005)(70586007)(2616005)(336012)(16526019)(1076003)(26005)(6666004)(36900700001)(16060500005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 18:41:28.0229 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c849887f-e3cc-4c8e-0790-08db21970f24
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0000E630.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4852
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,199 +99,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: Leo Li <sunpeng.li@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Wenjing Liu <wenjing.liu@amd.com>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sung Joon Kim <sungjoon.kim@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 10, 2023 at 07:10:21PM +0100, Konrad Dybcio wrote:
-> 
-> > +#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)        \
-> > +		do {                                                 \
-> > +			mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
-> > +			mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
-> > +		} while (0)
-> This should be in the same file as mipi_dsi_dcs_write_seq, imo
-I have sent a patch to do it, upstream don't think this wrapper is a proper
-approach to deal with dual dsi and wrap all of mipi_dsi_* function is
-useless.
-https://lore.kernel.org/lkml/20230310110542.6649-1-lujianhua000@gmail.com/
-> 
-> [...]
-> 
-> > +static int elish_boe_init_sequence(struct panel_info *pinfo)
-> > +{
-> > +	struct mipi_dsi_device *dsi0 = pinfo->dsi[0];
-> > +	struct mipi_dsi_device *dsi1 = pinfo->dsi[1];
-> > +	/* No datasheet, so write magic init sequence directly */
-> > +	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xFF, 0x10);
-> > +	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xFB, 0x01);
-> > +	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xB9, 0x05);
-> Non-#defines should use lowercase hex
-Acked
-> 
-> [...]
-> 
-> > +	msleep(70);
-> > +	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29);
-> > +	return 0;
-> I think it's a general practice to add a newline before the return
-> statement, but that's just a nit that triggered my OCD..
-Acked
-> 
-> [...]
-> 
-> > +			       struct drm_connector *connector)
-> > +{
-> > +	struct panel_info *pinfo = to_panel_info(panel);
-> > +	int i;
-> > +
-> > +	for (i =0; i < pinfo->desc->num_modes; i++) {
-> missing space after =
-Acked
-> > +		const struct drm_display_mode *m = &pinfo->desc->modes[i];
-> > +		struct drm_display_mode *mode;
-> Missing newline between declarations and code
-Acked
-> 
-> > +		mode = drm_mode_duplicate(connector->dev, m);
-> > +		if (!mode) {
-> > +			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-> > +				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-> > +			return -ENOMEM;
-> > +		}
-> > +		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> DRM_MODE_TYPE_PREFERRED: Preferred mode, usually the native resolution of an LCD panel. There should only be one preferred mode per connector at any given time.
-> 
-> https://docs.kernel.org/gpu/drm-kms.html
-> 
-> I'd suggest adding something like:
-> 
-> if (i == 0)
-> 	mode->type |= DRM_MODE_TYPE_PREFERRED
-> 
-Acked
-> 
-> I think I've ran out of things to complain about.. And that's
-> a good thing! :D
-> 
-> Konrad
-> > +		drm_mode_set_name(mode);
-> > +		drm_mode_probed_add(connector, mode);
-> > +	}
-> > +
-> > +	connector->display_info.width_mm = pinfo->desc->width_mm;
-> > +	connector->display_info.height_mm = pinfo->desc->height_mm;
-> > +	connector->display_info.bpc = pinfo->desc->bpc;
-> > +
-> > +	return pinfo->desc->num_modes;
-> > +}
-> > +
-> > +static const struct drm_panel_funcs nt36523_panel_funcs = {
-> > +	.disable = nt36523_disable,
-> > +	.prepare = nt36523_prepare,
-> > +	.unprepare = nt36523_unprepare,
-> > +	.get_modes = nt36523_get_modes,
-> > +};
-> > +
-> > +static int nt36523_probe(struct mipi_dsi_device *dsi)
-> > +{
-> > +	struct device *dev = &dsi->dev;
-> > +	struct device_node *dsi1;
-> > +	struct mipi_dsi_host *dsi1_host;
-> > +	struct panel_info *pinfo;
-> > +	const struct mipi_dsi_device_info *info;
-> > +	int i, ret;
-> > +
-> > +	pinfo = devm_kzalloc(dev, sizeof(*pinfo), GFP_KERNEL);
-> > +	if (!pinfo)
-> > +		return -ENOMEM;
-> > +
-> > +	pinfo->vddio = devm_regulator_get(dev, "vddio");
-> > +	if (IS_ERR(pinfo->vddio))
-> > +		return dev_err_probe(dev, PTR_ERR(pinfo->vddio), "failed to get vddio regulator\n");
-> > +
-> > +	pinfo->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(pinfo->reset_gpio))
-> > +		return dev_err_probe(dev, PTR_ERR(pinfo->reset_gpio), "failed to get reset gpio\n");
-> > +
-> > +	pinfo->desc = of_device_get_match_data(dev);
-> > +	if (!pinfo->desc)
-> > +		return -ENODEV;
-> > +
-> > +	/* If the panel is dual dsi, register DSI1 */
-> > +	if (pinfo->desc->is_dual_dsi) {
-> > +		info = &pinfo->desc->dsi_info;
-> > +
-> > +		dsi1 = of_graph_get_remote_node(dsi->dev.of_node, 1, -1);
-> > +		if (!dsi1) {
-> > +			dev_err(dev, "cannot get secondary DSI node.\n");
-> > +			return -ENODEV;
-> > +		}
-> > +
-> > +		dsi1_host = of_find_mipi_dsi_host_by_node(dsi1);
-> > +		of_node_put(dsi1);
-> > +		if (!dsi1_host) {
-> > +			return dev_err_probe(dev, -EPROBE_DEFER, "cannot get secondary DSI host\n");
-> > +		}
-> > +
-> > +		pinfo->dsi[1] = mipi_dsi_device_register_full(dsi1_host, info);
-> > +		if (!pinfo->dsi[1]) {
-> > +			dev_err(dev, "cannot get secondary DSI device\n");
-> > +			return -ENODEV;
-> > +		}
-> > +	}
-> > +
-> > +	pinfo->dsi[0] = dsi;
-> > +	mipi_dsi_set_drvdata(dsi, pinfo);
-> > +	drm_panel_init(&pinfo->panel, dev, &nt36523_panel_funcs, DRM_MODE_CONNECTOR_DSI);
-> > +
-> > +	ret = drm_panel_of_backlight(&pinfo->panel);
-> > +	if (ret)
-> > +		return dev_err_probe(dev, ret, "failed to get backlight\n");
-> > +
-> > +	drm_panel_add(&pinfo->panel);
-> > +
-> > +	for (i = 0; i < DSI_NUM_MIN + pinfo->desc->is_dual_dsi; i++) {
-> > +		pinfo->dsi[i]->lanes = pinfo->desc->lanes;
-> > +		pinfo->dsi[i]->format = pinfo->desc->format;
-> > +		pinfo->dsi[i]->mode_flags = pinfo->desc->mode_flags;
-> > +
-> > +		ret = mipi_dsi_attach(pinfo->dsi[i]);
-> > +		if (ret < 0)
-> > +			return dev_err_probe(dev, ret, "cannot attach to DSI%d host.\n", i);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id nt36523_of_match[] = {
-> > +	{
-> > +		.compatible = "xiaomi,elish-boe-nt36523",
-> > +		.data = &elish_boe_desc,
-> > +	},
-> > +	{
-> > +		.compatible = "xiaomi,elish-csot-nt36523",
-> > +		.data = &elish_csot_desc,
-> > +	},
-> > +	{},
-> > +};
-> > +MODULE_DEVICE_TABLE(of, nt36523_of_match);
-> > +
-> > +static struct mipi_dsi_driver nt36523_driver = {
-> > +	.probe = nt36523_probe,
-> > +	.remove = nt36523_remove,
-> > +	.driver = {
-> > +		.name = "panel-novatek-nt36523",
-> > +		.of_match_table = nt36523_of_match,
-> > +	},
-> > +};
-> > +module_mipi_dsi_driver(nt36523_driver);
-> > +
-> > +MODULE_AUTHOR("Jianhua Lu <lujianhua000@gmail.com>");
-> > +MODULE_DESCRIPTION("DRM driver for Novatek NT36523 based MIPI DSI panels");
-> > +MODULE_LICENSE("GPL");
+We should be checking if drm_dp_dpcd_read() returns the size that we are
+asking it to read instead of just checking if it is greater than zero.
+So, compare the return value of drm_dp_dpcd_read() to the requested
+read size.
+
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+v2: drop the WARN_ON().
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index 8d598b322e5b..9c1e91c2179e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -511,8 +511,8 @@ bool dm_helpers_dp_read_dpcd(
+ 		return false;
+ 	}
+ 
+-	return drm_dp_dpcd_read(&aconnector->dm_dp_aux.aux, address,
+-			data, size) > 0;
++	return drm_dp_dpcd_read(&aconnector->dm_dp_aux.aux, address, data,
++				size) == size;
+ }
+ 
+ bool dm_helpers_dp_write_dpcd(
+-- 
+2.39.2
+
