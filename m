@@ -1,70 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34656B3A9C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 10:33:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A16706B3B27
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 10:45:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6EF010E9B3;
-	Fri, 10 Mar 2023 09:33:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C0710E9B6;
+	Fri, 10 Mar 2023 09:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D75210E9B3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 09:33:36 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id p6so4997674plf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 01:33:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678440816;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sAFEXOe7wgsyLbBLPoY5abX+Iy4JMH27UPzyBAnZiOs=;
- b=algmRXAmw/PTACbZXDj+h5hzSPXyXWmQ5V72lVynjL3emQQs6L1JcbtUpqKC/oD0qV
- +Z2fugA9+G/J2FOxB+faEcy+HDAdOC1b8vNiA9JyuPz1NJM02byxh7+TKGV3r/SRvFBx
- cmSPF1w3TZdiCJqglUnVbyMpBjHFI1ycxacbs4bkLIFUXBNiFZHAmTWGqkzxIm/ubdby
- vskqkfbquFIGeFuW+jDwgnBlPkWWN67lENx592waOxVmAtZWuJVmdNNgbAif8suLATOc
- MSEpQhJvXArDhj5l0TAHfUQppuh7X4IY6IO/HizZQushmhNNrmcv+6aba2RmvlHhcnm3
- 7G4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678440816;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sAFEXOe7wgsyLbBLPoY5abX+Iy4JMH27UPzyBAnZiOs=;
- b=FhSB5hsUWgqnA7DFHHE/eMANZ1k2crGmRxvvpcya7wOEwZzPJPDq6ZzJ0xIM1bCVie
- iMUqpHlhHGl33SVURsnezQvTmFo95kS+93ieqQty0MZUg/NLGobIjLe/RzSetFz+9vR7
- Yb3hcoy2LEYUdGubwZaVVYlfIhXakfKpGGuNacapsQzctYn3VWcJrf4tZ9JH46oVJ8GO
- GyYw+RPIxpMi91iHU0+d1hDIR6592YRCVGTdvXkonV0KH7bYPQGsiAxxDhmZgMMQ6mgm
- 4swCSx36j4DvaRRizMQgbituVOE7KWKyRcBYy/6uRIwCO2YzfIYuT/FHJGKD5X60xwnX
- K/5Q==
-X-Gm-Message-State: AO0yUKWphyPOTQbtazBtqX/e/58CNDmspTAC5Qb4Dvu78g5A59ZxhKnv
- k6ZS5qttIZ3yJ+4R+Vit1Os=
-X-Google-Smtp-Source: AK7set+wVmUJflBiERXkVgtH8PJDpvz6KI8ttDs/c84M6LdycwYb06z/rwzgOHJOF+hekfz0ogXRdg==
-X-Received: by 2002:a05:6a20:bc97:b0:cc:ce95:7dcb with SMTP id
- fx23-20020a056a20bc9700b000ccce957dcbmr20997681pzb.13.1678440816140; 
- Fri, 10 Mar 2023 01:33:36 -0800 (PST)
-Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
- by smtp.gmail.com with ESMTPSA id
- i3-20020a63e443000000b00478ca052819sm916856pgk.47.2023.03.10.01.33.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 01:33:35 -0800 (PST)
-Date: Fri, 10 Mar 2023 17:33:28 +0800
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v3 2/2] drm/panel: Add driver for Novatek NT36523
-Message-ID: <ZAr5aO0BpSeW5iXD@Gentoo>
-References: <20230308043706.16318-1-lujianhua000@gmail.com>
- <20230308043706.16318-2-lujianhua000@gmail.com>
- <66d293a8-f850-cb80-0c83-2ebf7e29d0c2@linaro.org>
- <ZAh3MSpQ30YyPAVe@Gentoo>
- <1cbe9e29-13a4-574e-6d8c-b2506e7a36b3@linaro.org>
- <ZAiPTat/kmLyaJmA@Gentoo>
- <aac6ba9c-4230-aff7-c93d-23eaf6895464@linaro.org>
+Received: from mail.rmail.be (mail.rmail.be [85.234.218.189])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C6B8210E9B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 09:45:16 +0000 (UTC)
+Received: from mail.rmail.be (domotica.rmail.be [10.238.9.4])
+ by mail.rmail.be (Postfix) with ESMTP id C4A6F3491D;
+ Fri, 10 Mar 2023 10:45:15 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aac6ba9c-4230-aff7-c93d-23eaf6895464@linaro.org>
+Date: Fri, 10 Mar 2023 10:45:15 +0100
+From: AL13N <alien@rmail.be>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [regression] RPI4B drm vc4: no crtc or sizes since 5.17 (works in
+ 5.16; and still broken in at least 6.1)
+In-Reply-To: <67bdf359746cfc732286ca4e139ed2b4@rmail.be>
+References: <7d216faea9647d328651460167bc27f6@rmail.be>
+ <f9499ac65afe3d23079c5bca5e3c40bd@rmail.be>
+ <CAPY8ntAGvQdSVt7meb2ddz+UejxpKPvmAcgYUyPWR2+R3e=wRg@mail.gmail.com>
+ <20230308123540.zqqe4mnhzumvnjfk@houat>
+ <004db85e5114674bfc432043376bcd00@rmail.be>
+ <4862350fa507612e03bb6a73977db178@rmail.be>
+ <CAPY8ntB6WaCF4H2Bk7Zq9cCE-iR8fMFq-vDULH_rp_+O4xp+EA@mail.gmail.com>
+ <67bdf359746cfc732286ca4e139ed2b4@rmail.be>
+Message-ID: <ce6ee48ab3b355e5355b782761c97c11@rmail.be>
+X-Sender: alien@rmail.be
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,38 +48,335 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 09, 2023 at 11:37:17PM +0100, Konrad Dybcio wrote:
+AL13N schreef op 2023-03-10 10:10:
+> Dave Stevenson schreef op 2023-03-09 13:59:
+>> On Wed, 8 Mar 2023 at 22:46, AL13N <alien@rmail.be> wrote:
+>>> 
+>>> AL13N schreef op 2023-03-08 22:16:
+>>> > Maxime Ripard schreef op 2023-03-08 13:35:
+>>> >> Hi,
+>>> >>
+>>> >> On Tue, Mar 07, 2023 at 05:10:16PM +0000, Dave Stevenson wrote:
+>>> >>> On Tue, 7 Mar 2023 at 16:25, AL13N <alien@rmail.be> wrote:
+>>> >>> > AL13N schreef op 2023-03-06 17:34:
+>>> >>> > > I have a RPI4B connected on 2nd HDMI port (furthest away from power)
+>>> >>> > > to a 4K TV, which works until 5.16, from 5.17 there is no X (or
+>>> >>> > > plymouth), the cause of no X is that EDID gives nothing, and in the
+>>> >>> > > journal; there is "Cannot find any crct or sizes". Only the kernel is
+>>> >>> > > changed for this.
+>>> >>> > >
+>>> >>> > > In 5.16 instead of this message there is a bunch of hex lines prefixed
+>>> >>> > > with BAD.
+>>> >>> > >
+>>> >>> > > It is still broken in 6.1 at the very least.
+>>> >>> > >
+>>> >>> > > I donno if this is related to this part, but I wanted to try a newer
+>>> >>> > > kernel, because the RPI4 seems to do all the video decoding in
+>>> >>> > > software and cannot seem to handle it.
+>>> >>> > >
+>>> >>> > >
+>>> >>> > > logs:
+>>> >>> > > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+>>> >>> > > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+>>> >>> > > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > > checking generic (3ea81000 12c000) vs hw (0 ffffffffffffffff)
+>>> >>> > > fb0: switching to vc4 from simple
+>>> >>> > > Console: switching to colour dummy device 80x25
+>>> >>> > > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>>> >>> > > vc4-drm gpu: [drm] Cannot find any crtc or sizes
+>>> >>> >
+>>> >>> > 5.16 log has:
+>>> >>> >
+>>> >>> > vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> >>> > [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>>> >>> >         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
+>>> >>> >         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
+>>> >>> >         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
+>>> >>> >         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
+>>> >>> >         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
+>>> >>> >         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
+>>> >>> >         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
+>>> >>> >         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
+>>> >>> > Console: switching to colour frame buffer device 240x67
+>>> >>> > vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
+>>> >>> >
+>>> >>> >
+>>> >>> > i donno what this bad is, but it doesn't happen in 5.17... maybe these
+>>> >>> > BAD got filtered out, but they did end up working for me? or something?
+>>> >>> > i donno...
+>>> >>>
+>>> >>> Run it through edid-decode - the checksum is wrong.
+>>> >>>
+>>> >>> Block 0, Base EDID:
+>>> >>>   EDID Structure Version & Revision: 1.3
+>>> >>>   Vendor & Product Identification:
+>>> >>>     Manufacturer: MST
+>>> >>>     Model: 0
+>>> >>>     Made in: week 11 of 2021
+>>> >>>   Basic Display Parameters & Features:
+>>> >>>     Analog display
+>>> >>>     Input voltage level: 0.7/0.3 V
+>>> >>>     Blank level equals black level
+>>> >>>     Maximum image size: 35 cm x 1 cm
+>>> >>>     Gamma: 2.20
+>>> >>>     RGB color display
+>>> >>>     First detailed timing is the preferred timing
+>>> >>>   Color Characteristics:
+>>> >>>     Red  : 0.6396, 0.3398
+>>> >>>     Green: 0.2998, 0.6904
+>>> >>>     Blue : 0.1376, 0.0380
+>>> >>>     White: 0.2822, 0.2968
+>>> >>>   Established Timings I & II: none
+>>> >>>   Standard Timings:
+>>> >>>     GTF     :  2288x1432   61.000 Hz  16:10   90.463 kHz 282.245 MHz
+>>> >>>   Detailed Timing Descriptors:
+>>> >>>     DTD 1:  3840x2160   60.000 Hz  16:9   135.000 kHz 594.000 MHz
+>>> >>> (708
+>>> >>> mm x 398 mm)
+>>> >>>                  Hfront  176 Hsync  88 Hback 296 Hpol P
+>>> >>>                  Vfront    8 Vsync  10 Vback  72 Vpol P
+>>> >>>     DTD 2:  1920x1080   60.000 Hz  16:9    67.500 kHz 148.500 MHz
+>>> >>> (708
+>>> >>> mm x 398 mm)
+>>> >>>                  Hfront   88 Hsync  44 Hback 148 Hpol P
+>>> >>>                  Vfront    4 Vsync   5 Vback  36 Vpol P
+>>> >>>     Display Product Name: 'SALORA'
+>>> >>>   Display Range Limits:
+>>> >>>     Monitor ranges (GTF): 59-70 Hz V, 31-140 kHz H, max dotclock 600
+>>> >>> MHz
+>>> >>>   Extension blocks: 1
+>>> >>> Checksum: 0xaa (should be 0xeb)
+
+after looking at this in a bit more detail;
+
+i was puzzled by the extension blocks, because in the data, the 0xaa is 
+the very next byte, maybe this 0xaa is the first byte of this extension 
+block and the binary output here assumes no extension block? or the 
+extension blocks could be after the checksum, i donno...
+
+Also, there seem to be 4 descriptors, but DTD 3 and 4 are not shown 
+here? maybe something bad is there too, and is ignored, but there seems 
+to be partial data there.
+
+It would be great to capture the original edid data, but i just get 
+nothing when i cat the specific /sys stuff, i also tried these read edid 
+programs, but nothing...
+
+>>> >>> Weird that it also says that it's an analog display when it's
+>>> >>> connected over HDMI. Something rather bizarre there, and I think
+>>> >>> it'll
+>>> >>> hit problems in drm_edid at [1] as we end up with a connector having
+>>> >>> no color_formats defined. I was discussing this with Maxime only last
+>>> >>> week, but in relation to VGA monitors connected through HDMI to VGA
+>>> >>> adapters without rewriting the EDID.
+>>> >>>
+>>> >>> If you have an issue between 5.16 and 5.17, then I'd guess at [2] and
+>>> >>> your monitor not asserting hotplug correctly. The raw hotplug status
+>>> >>> is reported in /sys/kernel/debug/dri/N/hdmi0_regs (N will be either 0
+>>> >>> or 1 depending on the probe order of the vc4 and v3d drivers). Grep
+>>> >>> for HDMI_HOTPLUG.
+>>> >>
+>>> >> If it's an option, bisecting between 5.16 and 5.17 which commit
+>>> >> introduced the regression would be nice.
+>>> >>
+>>> >>> Incorrect hotplug behaviour causes grief when combined with HDMI2.0
+>>> >>> and scrambling. If you don' t know the other end has been
+>>> >>> disconnected, then you never know that scrambling needs to be
+>>> >>> re-negotiated over SCDC, and the display will typically end up just
+>>> >>> being blank.
+>>> >>>
+>>> >>> [1]
+>>> >>> https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_edid.c#L6460
+>>> >>> [2]
+>>> >>> https://github.com/torvalds/linux/commit/cc5f1cbbc1e12ad5b11d594159fe793eb03c70fa
+>>> >>
+>>> >> We can easily test that: could you try booting with video=HDMI-A-1:D
+>>> >> (or
+>>> >> HDMI-A-2, depending on whether you use HDMI0 or HDMI1) and see if it
+>>> >> helps?
+>>> >
+>>> > in kernel 6.1 or kernel 5.17 ?
+>>> 
+>>> in 6.1 at least i booted with video=HDMI-A-2:D (i'm plugged into the
+>>> hdmi farthest from the power)
+>>> 
+>>> and I did see BAD stuff here too:
+>>> 
+>>> 
+>>> [drm] Initialized v3d 1.0.0 20180419 for fec00000.v3d on minor 0
+>>> vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> Registered IR keymap rc-cec
+>>> rc rc0: vc4 as /devices/platform/soc/fef00700.hdmi/rc/rc0
+>>> input: vc4 as /devices/platform/soc/fef00700.hdmi/rc/rc0/input0
+>>> vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+>>> [drm] forcing HDMI-A-2 connector on
+>>> Registered IR keymap rc-cec
+>>> rc rc1: vc4 as /devices/platform/soc/fef05700.hdmi/rc/rc1
+>>> input: vc4 as /devices/platform/soc/fef05700.hdmi/rc/rc1/input1
+>>> vc4-drm gpu: bound fef05700.hdmi (ops vc4_hdmi_ops [vc4])
+>>> vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
+>>> vc4-drm gpu: bound fe206000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> vc4-drm gpu: bound fe207000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> vc4-drm gpu: bound fe20a000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> vc4-drm gpu: bound fe216000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops [vc4])
+>>> [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 1
+>>> EDID block 0 (tag 0x00) checksum is invalid, remainder is 235
+>>>         [00] BAD  00 ff ff ff ff ff ff 00 36 74 00 00 00 00 00 00
+>>>         [00] BAD  0b 1f 01 03 00 23 01 78 0a cf 74 a3 57 4c b0 23
+>>>         [00] BAD  09 48 4c 00 00 00 01 01 01 ff 01 ff ff 01 01 01
+>>>         [00] BAD  01 01 01 01 01 20 08 e8 00 30 f2 70 5a 80 b0 58
+>>>         [00] BAD  8a 00 c4 8e 21 00 00 1e 02 3a 80 18 71 38 2d 40
+>>>         [00] BAD  58 2c 45 00 c4 8e 21 00 00 1e 00 00 00 fc 00 53
+>>>         [00] BAD  41 4c 4f 52 41 0a 20 20 20 20 20 20 00 00 00 fd
+>>>         [00] BAD  00 3b 46 1f 8c 3c 00 0a 20 20 20 20 20 20 01 aa
+>>> vc4-drm gpu: [drm] Cannot find any crtc or sizes
+>>> EDID block 0 (tag 0x00) checksum is invalid, remainder is 125
+>>> vc4-drm gpu: [drm] Cannot find any crtc or sizes
+>>> 
+>>> 
+>>> a bit puzzling why it does EDID block twice and it's twice checksum
+>>> invalid?
+>>> I also see forcing connector on.
+>>> 
+>>> earlier, i did try to make an edid file from a modeline that worked 
+>>> on
+>>> 5.16 and pass it using drm_kms_helper.edid_firmware= ; but that 
+>>> didn't
+>>> work, there only was some kind of warning that i should use something
+>>> else...
+>> 
+>> It always helps to actually quote warnings or errors.
+>> Almost certainly "drm_kms_helper.edid_firmware is deprecated, please
+>> use drm.edid_firmware instead.", in which case do as it tells you and
+>> use "drm.edid_firmware=<filename>".
 > 
-> [...]
-> = of_graph_get_remote_node(dsi->dev.of_node, 1, -1);
-> >>>>> +		if (!dsi1) {
-> >>>>> +			dev_err(dev, "cannot get secondary DSI node.\n");
-> >>>>> +			return -ENODEV;
-> >>>>> +		}
-> >>>>> +
-> >>>>> +		dsi1_host = of_find_mipi_dsi_host_by_node(dsi1);
-> >>>>> +		of_node_put(dsi1);
-> >>>> Shouldn't you put the reference only if it's found?
-> >>> thanks for spot it.
-> Apparently not.. please don't change this
-OK
+> oh, i interpreted this as "it works for now, but will be removed
+> later" ? are you saying it really doesn't work and i should retest
+> with "drm.edid_firmware=" ?
 > 
-> Konrad
-> >>>>
-> >>>>> +		if (!dsi1_host) {
-> >>>>> +			dev_err(dev, "cannot get secondary DSI host\n");
-> >>>>> +			return -EPROBE_DEFER;
-> >>>> dev_err_probe, here and in neighbouring exit return paths?
-> >>> Acked.
-> >>>>
-> >>>>
-> >>>> Konrad
+>>> reading through all your messages, does this mean, that i should be 
+>>> able
+>>> to boot if we were to "fix" this edid file? and pass it? or is this
+>>> something that needs change in kernel?
+>> 
+>> At present you have 2 issues
+>> - the monitor or cable doesn't handle the hotplug line correctly
+>> - the monitor doesn't provide a valid EDID.
+>> 
+>> The first you can workaround with "video=HDMI-A-2:D".
+
+Well, i should be clear to say that i did have no video at all with or 
+without the video= option, i guess i just got further and/or have more 
+debug, not sure that still fixed it?
+
+> I thought the video= had to be turned off for drm.edid_firmware= to 
+> work well?
+> rpi4 config.txt has a disable_fw_kms_setup=1 that disables the video
+> tags that are auto-added to cmdline (this option is commented atm)
+> there is also a hdmi_force_hotplug=1 option that is turned on atm
+> 
+>> The second you can work around by capturing the EDID, fixing it, and
+>> then using "drm.edid_firmware=<filename>".
+>> The first fix is to just fixup the checksum (edid-decode even tells
+>> you the correct value as 0xEB). That doesn't solve the fact that the
+>> EDID contains other rubbish like being an analog display which may
+>> cause further issues. The simplest fix for reporting as an analog
+>> display is to change byte 20 from 0x00 to 0x80, and then correct the
+>> checksum again.
+>> 
+>> The EDID advertises 4k60, 1080p60, and GTF 2288x1432 @ 61Hz.
+>> In order to support 4k60 it needs to support HDMI2.0 and enabling
+>> scrambling via SCDC. That should also be signalled in the EDID Sink
+>> Capability Data Structure block but isn't, so 4k60 support may be
+>> compromised.
+> 
+> the rpi4 also has in config.txt a hdmi_enable_4kp60=1, which i have
+> not turned on atm; i don't know if that has any impact here...
+> 
+>> Sorry, all of this comes back to the monitor vendor shipping rubbish.
+>> None of this is the fault of the vc4 driver, and it only worked under
+>> 5.16 by chance.
+> 
+> do the config.txt directives on the rpi4 have any impact here? I
+> always figured these options only changed the cmdline video=
+> parameters, it can't really have any impact to the edid, no?
+> 
+> also, i assume there's lots of monitors/TVs that have rubbish EDID
+> files, how is this generally handled: are you guys trying to cater to
+> these weird EDID's or is it like: "nope, bad EDID, they should fix it,
+> no screen for now"?
+> 
+>>> >
+>>> >>> > I also noticed that earlier in the logs there are more bound lines:
+>>> >>> > (some are double)
+>>> >>> >
+>>> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> >>> >
+>>> >>> > and then here for some reason systemd does modprobe@drm.service ? is
+>>> >>> > this just a delayed starting log line, or does it actually try to unload
+>>> >>> > drm and reload? i doubt it?
+>>> >>> > in any case there is more that appears before:
+>>> >>> >
+>>> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+>>> >>> > vc4-drm gpu: bound fef00700.hdmi (ops vc4_hdmi_ops [vc4])
+>>> >>> >
+>>> >>> >
+>>> >>> > so, the error message is weird, as it implies 2 possibilities. however,
+>>> >>> > i think it did find a crtc since all those pixelvalve things use crtc
+>>> >>> > functions?
+>>> >>> >
+>>> >>> > So then why do i have this problem on my RPI4? do most people just use
+>>> >>> > the raspberry pi kernels?
+>>> >>>
+>>> >>> Largely, yes, people use our vendor kernels.
+>>> >>
+>>> >> tbf, the downstream kernel has pretty much the same code here, so the
+>>> >> issue is very likely to affect it too.
+>>> >>
+>>> >> I would just assume that your TV has some unusual behaviour that
+>>> >> throws
+>>> >> the driver off, and most people won't.
+>>> >
+>>> > IC, the TV also has an option somewhere to choose EDID 2.0, i thought
+>>> > i chose that but if that decode says 1.3, maybe i didn't... Is it
+>>> > worth it to retry this?
+>>> 
+>>> actually, the TV was set to EDID 2.0 the other option was 1.4 (?)
+>> 
+>> I would guess that the HDMI 1.4 setting drops the 4k60 mode as HDMI1.4
+>> maxes out at 4k30. It's impossible for us to say if it fixes any of
+>> the other issues with the EDID.
+> 
+> So, the edid needs to be changed to:
+>  - not be analog
+>  - set to 2.0
+>  - add scrambling capability on SCDC
+>  - fix checksum
+> 
+> I'm wondering if the config.txt actually changes these values without
+> fixing checksum and that is the cause? but that seems very unlikely...
+> 
+> thanks a lot for the responses, maybe I should just try to fix the
+> EDID and then just supply it to the company in question, I was in
+> contact with them asking for the EDID file earlier (to see if they
+> have an updated file someplace).
