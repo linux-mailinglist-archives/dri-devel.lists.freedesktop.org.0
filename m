@@ -2,62 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587396B4024
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 14:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FFB6B4029
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 14:21:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE53010E1E1;
-	Fri, 10 Mar 2023 13:20:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B854110E1F1;
+	Fri, 10 Mar 2023 13:21:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE09C10E1E1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 13:20:30 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 741F222AB9;
- Fri, 10 Mar 2023 13:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678454429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Na7IReUqp04yyYni6gLzqdg28AZY0BZDGd6IjPJJaxo=;
- b=i1yiuv+xQXiPmy1Vzn1pcxQHYP6cRFvd4fIWhc6Q3lzJtumHP8HfzdTbjquhrRwIZ6fznx
- LBsDaWiqLAKmH+UPTsWRdTSIndIkRETMrgZff8YltEMUWBh064Jza/YinMhXbtmeq4Anm+
- ka+fGzK9ssqKjkw3i1luzhiv0AKLxT4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678454429;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Na7IReUqp04yyYni6gLzqdg28AZY0BZDGd6IjPJJaxo=;
- b=NElPwiuJaEfuSCu1YzakYOO+cvdidG/jtCl3MvmAJj9FiQgoYZxEwiz/wWeF1hIWo2hsaJ
- Avy87IdKhRlY23BQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2FDAE134F7;
- Fri, 10 Mar 2023 13:20:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2RVuCp0uC2SYPAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 10 Mar 2023 13:20:29 +0000
-Message-ID: <6c556799-6a78-4b67-a4c7-4de0a8f082fa@suse.de>
-Date: Fri, 10 Mar 2023 14:20:28 +0100
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 076BA10E1F1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 13:21:55 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id i5so5528375pla.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 05:21:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678454514;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OfHCteNV7q+dsb4Bbdwo2yP63fJ16IUesnNAhcskNRU=;
+ b=KzoY5clJwBNute/PoW2MQ6oouocVxaydnQP7158oMa776/X3aRPhiTNkSB8lMxnzj4
+ DtVmyK9GibAPj9fImIEinHv4LbGohSYZgkq/WnghAlkhZfpMv/Vv/1bVQStzwiKFNgIC
+ MdkJyaT8KcQ8P1UtvNaXwxulnHN5afDecv3Zi0r7xFYlVfI/Eo9sRGlTWSK7x9zGOXuy
+ SCT7TwjU+oXvUjPwytDrRJjvB5rRsmiOQAZirKb6jAEHhwEYuXQditq6LB2emrxMw/D3
+ S1dkW1nt2jUC4+/Lc1/1qT4NCdnZ1fmO3nYQaWF6/4dlN3xYneRBZG+y6ixARyyMEVim
+ a2lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678454514;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OfHCteNV7q+dsb4Bbdwo2yP63fJ16IUesnNAhcskNRU=;
+ b=cCKMZ3x4lfsrwVf5dqKSgSS+vyZqq5MK7KE1tHXCI1OEvxO8lhpIO++U6Re/njhJqu
+ 91FznHEPsXDX6lXVybm/5P0Y1k85vd1GoUQD8LRLPAxpYQvPXALg/bO0zLwzWGHMDc7w
+ UtGcnBlMonm5kMx7N5MOo4pQRDmpdaWSE/3XG33KNXBMUIV33sYMhaIam1/1ylWtqYNv
+ BtKtqb6fVd9Eo5dY/PpDiuL/Nt0IkmRP1FYpgemoj8lEOSEUMTCs2EojGP5E+DwVduiv
+ bZcGPMUzdRRxmgajz7hWJdCvtPPVMdwjrntDmmm4f9AmM5mSf7XDgQVNxwyRNqvIcFBj
+ DyCA==
+X-Gm-Message-State: AO0yUKUfbWOyzlkPqZ2DZIac5pGDi00AJ07pqEZbfhiYhh5OqUvzzajW
+ 1jMQFry2oqBTQyqgcR3z2H0=
+X-Google-Smtp-Source: AK7set98iPwBwFkq5myreeZkbP0DGiyTHoZ2q34nC3mEd9GMRiAi+I6LYrXirgJ0+rMnqa8ClZTqWg==
+X-Received: by 2002:a17:902:c40d:b0:19e:6760:3a5d with SMTP id
+ k13-20020a170902c40d00b0019e67603a5dmr30054230plk.18.1678454514624; 
+ Fri, 10 Mar 2023 05:21:54 -0800 (PST)
+Received: from localhost.localdomain (n220246252084.netvigator.com.
+ [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
+ e6-20020a170902b78600b0019a95baaaa6sm1421711pls.222.2023.03.10.05.21.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 05:21:54 -0800 (PST)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v4 1/2] dt-bindings: display: panel: Add Novatek NT36523
+ bindings
+Date: Fri, 10 Mar 2023 21:21:43 +0800
+Message-Id: <20230310132144.2241-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/virtio: Enable fb damage clips property for the
- primary plane
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20230310125943.912514-1-javierm@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230310125943.912514-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------H0HUDGi9zGc6QAbfhXC4QAHh"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +76,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Enric Balletbo i Serra <eballetb@redhat.com>,
- Bilal Elmoussaoui <belmouss@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org,
- Christian Hergert <chergert@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jianhua Lu <lujianhua000@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------H0HUDGi9zGc6QAbfhXC4QAHh
-Content-Type: multipart/mixed; boundary="------------0tC6cVnrTiqjK9gsD3MhcpKk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: Bilal Elmoussaoui <belmouss@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Enric Balletbo i Serra <eballetb@redhat.com>,
- Christian Hergert <chergert@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Message-ID: <6c556799-6a78-4b67-a4c7-4de0a8f082fa@suse.de>
-Subject: Re: [PATCH] drm/virtio: Enable fb damage clips property for the
- primary plane
-References: <20230310125943.912514-1-javierm@redhat.com>
-In-Reply-To: <20230310125943.912514-1-javierm@redhat.com>
+Novatek NT36523 is a display driver IC used to drive DSI panels.
 
---------------0tC6cVnrTiqjK9gsD3MhcpKk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+No changes in v4
 
-SGkgSmF2aWVyDQoNCkFtIDEwLjAzLjIzIHVtIDEzOjU5IHNjaHJpZWIgSmF2aWVyIE1hcnRp
-bmV6IENhbmlsbGFzOg0KPiBDaHJpc3RpYW4gSGVyZ2VydCByZXBvcnRzIHRoYXQgdGhlIGRy
-aXZlciBkb2Vzbid0IGVuYWJsZSB0aGUgcHJvcGVydHkgYW5kDQo+IHRoYXQgbGVhZHMgdG8g
-YWx3YXlzIGRvaW5nIGEgZnVsbCBwbGFuZSB1cGRhdGUsIGV2ZW4gd2hlbiB0aGUgZHJpdmVy
-IGRvZXMNCj4gc3VwcG9ydCBkYW1hZ2UgY2xpcHBpbmcgZm9yIHRoZSBwcmltYXJ5IHBsYW5l
-Lg0KPiANCj4gRG9uJ3QgZW5hYmxlIGl0IGZvciB0aGUgY3Vyc29yIHBsYW5lLCBiZWNhdXNl
-IGl0cyAuYXRvbWljX3VwZGF0ZSBjYWxsYmFjaw0KPiBkb2Vzbid0IGhhbmRsZSBkYW1hZ2Ug
-Y2xpcHMuDQo+IA0KPiBSZXBvcnRlZC1ieTogQ2hyaXN0aWFuIEhlcmdlcnQgPGNoZXJnZXJ0
-QHJlZGhhdC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxh
-cyA8amF2aWVybUByZWRoYXQuY29tPg0KPiAtLS0NCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3ZpcnRpby92aXJ0Z3B1X3BsYW5lLmMgfCA0ICsrKysNCj4gICAxIGZpbGUgY2hhbmdlZCwg
-NCBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Zp
-cnRpby92aXJ0Z3B1X3BsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVf
-cGxhbmUuYw0KPiBpbmRleCA0YzA5ZTMxM2JlYmMuLmEyZTA0NWYzYTAwMCAxMDA2NDQNCj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3BsYW5lLmMNCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3BsYW5lLmMNCj4gQEAgLTM5MCw1ICsz
-OTAsOSBAQCBzdHJ1Y3QgZHJtX3BsYW5lICp2aXJ0aW9fZ3B1X3BsYW5lX2luaXQoc3RydWN0
-IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwNCg0KdmlydGlvX2dwdV9wbGFuZV9pbml0KCkg
-c2hvdWxkIHJlYWxseSBiZSB0d28gc2VwYXJhdGUgZnVuY3Rpb25zLiBCdXQgDQp3aXRoaW5n
-IHRoZSBjb25zdHJhaW5zIG9mIHRoZSBjdXJyZW50IGNvZGUNCg0KUmV2aWV3ZWQtYnk6IFRo
-b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpCZXN0IHJlZ2FyZHMN
-ClRob21hcw0KDQo+ICAgCQlyZXR1cm4gcGxhbmU7DQo+ICAgDQo+ICAgCWRybV9wbGFuZV9o
-ZWxwZXJfYWRkKHBsYW5lLCBmdW5jcyk7DQo+ICsNCj4gKwlpZiAodHlwZSA9PSBEUk1fUExB
-TkVfVFlQRV9QUklNQVJZKQ0KPiArCQlkcm1fcGxhbmVfZW5hYmxlX2ZiX2RhbWFnZV9jbGlw
-cyhwbGFuZSk7DQo+ICsNCj4gICAJcmV0dXJuIHBsYW5lOw0KPiAgIH0NCj4gDQo+IGJhc2Ut
-Y29tbWl0OiAzZTg1M2I5Zjg5ZTRiY2M4YWEzNDJmYTM1MGQ4M2ZmMGRmNjdkN2U5DQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkg
-TsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOk
-ZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Changes in v3:
+  - pick up Krzysztof's R-b
+  - remove vddpos and vddneg supply
 
---------------0tC6cVnrTiqjK9gsD3MhcpKk--
+Changes in v2:
+  - Drop unnecessary description
+  - dsi0 -> dsi
+  - Correct indentation
 
---------------H0HUDGi9zGc6QAbfhXC4QAHh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+ .../display/panel/novatek,nt36523.yaml        | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
 
------BEGIN PGP SIGNATURE-----
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+new file mode 100644
+index 000000000000..0039561ef04c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Novatek NT36523 based DSI display Panels
++
++maintainers:
++  - Jianhua Lu <lujianhua000@gmail.com>
++
++description: |
++  The Novatek NT36523 is a generic DSI Panel IC used to drive dsi
++  panels. Support video mode panels from China Star Optoelectronics
++  Technology (CSOT) and BOE Technology.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - xiaomi,elish-boe-nt36523
++          - xiaomi,elish-csot-nt36523
++      - const: novatek,nt36523
++
++  reset-gpios:
++    maxItems: 1
++    description: phandle of gpio for reset line - This should be 8mA
++
++  vddio-supply:
++    description: regulator that supplies the I/O voltage
++
++  reg: true
++  ports: true
++  backlight: true
++
++required:
++  - compatible
++  - reg
++  - vddio-supply
++  - reset-gpios
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "xiaomi,elish-csot-nt36523", "novatek,nt36523";
++            reg = <0>;
++
++            vddio-supply = <&vreg_l14a_1p88>;
++            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
++            backlight = <&backlight>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    panel_in_0: endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                    };
++                };
++
++                port@1{
++                    reg = <1>;
++                    panel_in_1: endpoint {
++                        remote-endpoint = <&dsi1_out>;
++                    };
++                };
++            };
++        };
++    };
++
++...
+-- 
+2.39.2
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQLLpwFAwAAAAAACgkQlh/E3EQov+Am
-GBAAvJ3XEh+sW5ic+HXC4WBZJdHwDSW2DMjgbbn2NHT/Fs4DA7BuLK5F4uGp0zNTWUZ3nOfTRAIm
-45lVRZtefYzzM+/thEEomZtpZxpg7NLU1eZ48nMCvJiaZsqe5ujzN2MNej+Z299z+z5n0dVIYPdT
-XF3mRsAVlFqmCKEH8+7rbnWyQwkwEJkX5YqC/MT2e+pXWm/dNbU40cZsPKXdtY14elSkaJyEcZuY
-f7xuKdvuptb/0rb6J2JXpeb8QWjCu3ogKBoHxK+Ofl+RiNaJjHaFldOvtOWLsqKhiHGKeQpTwXZ+
-IXZTFk6266ju2SSGxLa8M2XABJOStIw58NkksxoBK4dLMZarKSBgoAsOY1xG2pPKTNCcoqGK9re0
-erK/ZPT2nkZei+pW8KzX5vGVRcYtVSxdQZ8p0kHCU5z9w12DM2YkHSztJprvBgIre0S5KFBGoQtn
-GoqcNffQ4XYnZfIIjsTUEZm7gPc799KWpJZtlkxG+E209AOtUk2jFVttZhnVrHNeoGw1MwcBz3BQ
-PD1TRYP49fPlQGLOXHskqpTI0cTkFViA8VuCTRLJIrLQByHRu5JqEubxdFXyhBjzV1kcyNI0GcgX
-60lWEBoPR5HjkrjgMECgegVksP1GSq170/adkQmxwqcHAR6FOLPtcDLCgbL9QWCc2JqUqI68mMqr
-r+s=
-=/TF1
------END PGP SIGNATURE-----
-
---------------H0HUDGi9zGc6QAbfhXC4QAHh--
