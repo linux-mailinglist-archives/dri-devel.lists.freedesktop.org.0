@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DA46B3F01
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 13:18:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0BD6B3F0A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 13:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1904110E086;
-	Fri, 10 Mar 2023 12:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E8FB10E1CF;
+	Fri, 10 Mar 2023 12:20:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 940F010E21D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 12:18:33 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id c4so3512768pfl.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 04:18:33 -0800 (PST)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E83A310E1C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 12:20:15 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id ky4so5355333plb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 04:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678450713;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PQWRSFkOKg9T+y+gldqtOznj/eHaxJktJYeXp0a1CHE=;
- b=X0m1GIXnFLZSnUIMC8tXN3MjJv2mxoBg8j2HZE1gg2EljBsDDqNYawAJnqQehG+RDZ
- jREisZCDSP7uiTfTAzwc3iYvaxlipaIEe4mVodlCBoTZWs8w6U7akm8BvQ+aWBONC1Ma
- eMo92jTbE2ZwwnlBKTpzCSdPq+/Jj5e6H3mNm1wDenRXdNr5rXW/7S/kmgvV/kVSOi0o
- 6NZsvabnM3diJ2x45r8E1KnETDQhbIW6zA367SagnJtl4kDNP1sDJGBjjMLF/D5uyxI7
- /+xD6E14oxPxTw9wQu39kcQgH4J4ZORMsSrYgdK6smLGNG1OOVp4D3C2Vsqqtphi3ZCd
- IHXg==
+ d=gmail.com; s=20210112; t=1678450815;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=asTNFVHYBUFSk4GRlqWZV4x4IVPoPxPEyap0sAN5uo0=;
+ b=TTjFr9R1KsSh9rAJfVF8DAclSK8JnmgWe6xfLOscVmUDIgjal25Y4E8PqQ1psDZHzN
+ Q/D4dqpggx1RSnZPn+1ZV59/MKNC0NH20Qcd3tZ8NrFy2QbQQh+3eYOdezwKgmnS4VaW
+ mIp3ZY+icrOd3gYT26edt20K31VKeN6jOH2tDnO8hC19e6RgZYburtH6OewoOK/nONTO
+ aFEhfgX1XU29/PAWAFHNWor54qOtesM3CQVKSez1vY2YUr43ALL4DKHMyRkC3x/dVjhe
+ LoZwK3Q9wTZCDZCJqeG7nGThLPXXiNk+DtEahK3QdUPbHqBiiNUmghN0qHbHB/usTCn1
+ OHSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678450713;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PQWRSFkOKg9T+y+gldqtOznj/eHaxJktJYeXp0a1CHE=;
- b=J+C9vHl0qd5zK1zTogk8a80eG32J5CppdfhDBbEZvsiOS3usa4C443rWRb3HHIiAz3
- khgGyDcBQLjkAyII+ehnzODMvqKjcAgiVC3iHay/qRxx74htucGBF3CWQGh7UlJnFcQb
- Pyy8LcLYGy9rgXPU5ocvoi8NFK18iXDJW2iRDpoKO4lu9vbeTar/mXpIrTGlOMspaXoW
- tRSmWoEusjIls5ji6tnf2/Bz3D2OAv/pjtvgBp28Wdb8mn1/6u88DdtzaSUQ54hgtcfn
- t0L8chzYVlaG6cfYnSzmDGcauuok3GALbdCr+l77dw1x1IwCT5d+nVhSy/OQ2MVm0CMI
- evQg==
-X-Gm-Message-State: AO0yUKUqgVYMuv7R9gRiiX4Ppl4PaOvfhyVHvjOYFhf8gkvqwcAebHyM
- 1x+enV15beTpbiKwkTNXzw+HhgJsOCxk3IEFBnE=
-X-Google-Smtp-Source: AK7set+IE1/l1QhMtQeSm2c0wnMVPaxpSDAntt8hngJitI03+uAOBDkn81AVlY6BxhtlRQmUYaAGdEm2Y/elvAsSZTg=
-X-Received: by 2002:a62:cd83:0:b0:5e5:7675:88e3 with SMTP id
- o125-20020a62cd83000000b005e5767588e3mr10322774pfg.5.1678450713012; Fri, 10
- Mar 2023 04:18:33 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678450815;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=asTNFVHYBUFSk4GRlqWZV4x4IVPoPxPEyap0sAN5uo0=;
+ b=UMsYOAoTMAUG3cT1wggsXNkrgC93FoT1NkAWTtqBCgZMFb7lJAryRGe1pNFgM6PHb8
+ RafdPxBMlqs9wcg+998Ryt3Rs4oYuMK4JmM968UeKgtTAXOid5I2j+5zoGzsIvRoCvGC
+ e/tbRuZPfkzcSs+OMkqqKGzEDeCL+LOYmmvqhhjqUjigcpYVMUQOtetIqMzkoMW3OxBU
+ xNJjHjyY37O81BGKDb+ozB3QJfzSrygKfAw/5JzYX0Rf6gNcKYAhpVk5tcHWOGz6go0x
+ hA4Sy6NLnk8a7pyjqZRfgPcLL9k7zkzogzkn/Gim0oF5YrVuSzIpWhuPqwLLzvXN4LhC
+ shjw==
+X-Gm-Message-State: AO0yUKViHZJFfhZ2TjgLCsKDhS66ahm6RPS63Vd9Sz2V08NDctfMb3cE
+ 0aNZCTj6eUDBepsnCUbE2Us=
+X-Google-Smtp-Source: AK7set/6w9Q7LNt7cBPWqygAgpU6M+EF0xKmpp5LjpvMUnv8kXk2kOyu9IBEi3J5RXqYJVNoQ+mUSA==
+X-Received: by 2002:a17:903:2603:b0:19d:16ed:3e34 with SMTP id
+ jd3-20020a170903260300b0019d16ed3e34mr22466860plb.26.1678450815375; 
+ Fri, 10 Mar 2023 04:20:15 -0800 (PST)
+Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
+ by smtp.gmail.com with ESMTPSA id
+ w2-20020a1709026f0200b0019aa6bf4450sm1307414plk.188.2023.03.10.04.20.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 04:20:14 -0800 (PST)
+Date: Fri, 10 Mar 2023 20:20:07 +0800
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] drm/mipi-dsi: Add a mipi_dual_dsi_dcs_write_seq() macro
+Message-ID: <ZAsgd4zsgbvWT0U0@Gentoo>
+References: <20230310110542.6649-1-lujianhua000@gmail.com>
+ <87mt4k95zp.fsf@intel.com>
 MIME-Version: 1.0
-References: <20230308105012.1845-1-tiwai@suse.de>
-In-Reply-To: <20230308105012.1845-1-tiwai@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 10 Mar 2023 13:18:21 +0100
-Message-ID: <CAMeQTsbFuoP4KXmMm4xbwvXOjYw5CYJs6q2nnMuRYHsutrX0aw@mail.gmail.com>
-Subject: Re: [PATCH v2] fbdev: Fix incorrect page mapping clearance at
- fb_deferred_io_release()
-To: Takashi Iwai <tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mt4k95zp.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,119 +72,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Miko Larsson <mikoxyzzz@gmail.com>,
- Helge Deller <deller@gmx.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Patrik Jakobsson <pjakobsson@suse.de>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 8, 2023 at 11:50=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> The recent fix for the deferred I/O by the commit
->   3efc61d95259 ("fbdev: Fix invalid page access after closing deferred I/=
-O devices")
-> caused a regression when the same fb device is opened/closed while
-> it's being used.  It resulted in a frozen screen even if something
-> is redrawn there after the close.  The breakage is because the patch
-> was made under a wrong assumption of a single open; in the current
-> code, fb_deferred_io_release() cleans up the page mapping of the
-> pageref list and it calls cancel_delayed_work_sync() unconditionally,
-> where both are no correct behavior for multiple opens.
->
-> This patch adds a refcount for the opens of the device, and applies
-> the cleanup only when all files get closed.
->
-> As both fb_deferred_io_open() and _close() are called always in the
-> fb_info lock (mutex), it's safe to use the normal int for the
-> refcounting.
->
-> Also, a useless BUG_ON() is dropped.
->
-> Fixes: 3efc61d95259 ("fbdev: Fix invalid page access after closing deferr=
-ed I/O devices")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-
-Looks good to me
-
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-
-> ---
-> v1->v2:
-> * Rename to fb_deferred_io_lastclose()
-> * Rename the new field from opens to open_count
-> * Removed unused variable
-> * More comments about fb_info locking
->
->  drivers/video/fbdev/core/fb_defio.c | 17 +++++++++++++----
->  include/linux/fb.h                  |  1 +
->  2 files changed, 14 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/co=
-re/fb_defio.c
-> index aa5f059d0222..274f5d0fa247 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -305,17 +305,18 @@ void fb_deferred_io_open(struct fb_info *info,
->                          struct inode *inode,
->                          struct file *file)
->  {
-> +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
-> +
->         file->f_mapping->a_ops =3D &fb_deferred_io_aops;
-> +       fbdefio->open_count++;
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_open);
->
-> -void fb_deferred_io_release(struct fb_info *info)
-> +static void fb_deferred_io_lastclose(struct fb_info *info)
->  {
-> -       struct fb_deferred_io *fbdefio =3D info->fbdefio;
->         struct page *page;
->         int i;
->
-> -       BUG_ON(!fbdefio);
->         cancel_delayed_work_sync(&info->deferred_work);
->
->         /* clear out the mapping that we setup */
-> @@ -324,13 +325,21 @@ void fb_deferred_io_release(struct fb_info *info)
->                 page->mapping =3D NULL;
->         }
->  }
-> +
-> +void fb_deferred_io_release(struct fb_info *info)
-> +{
-> +       struct fb_deferred_io *fbdefio =3D info->fbdefio;
-> +
-> +       if (!--fbdefio->open_count)
-> +               fb_deferred_io_lastclose(info);
-> +}
->  EXPORT_SYMBOL_GPL(fb_deferred_io_release);
->
->  void fb_deferred_io_cleanup(struct fb_info *info)
->  {
->         struct fb_deferred_io *fbdefio =3D info->fbdefio;
->
-> -       fb_deferred_io_release(info);
-> +       fb_deferred_io_lastclose(info);
->
->         kvfree(info->pagerefs);
->         mutex_destroy(&fbdefio->lock);
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index d8d20514ea05..02d09cb57f6c 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -212,6 +212,7 @@ struct fb_deferred_io {
->         /* delay between mkwrite and deferred handler */
->         unsigned long delay;
->         bool sort_pagereflist; /* sort pagelist by offset */
-> +       int open_count; /* number of opened files; protected by fb_info l=
-ock */
->         struct mutex lock; /* mutex that protects the pageref list */
->         struct list_head pagereflist; /* list of pagerefs for touched pag=
-es */
->         /* callback */
-> --
-> 2.35.3
->
+On Fri, Mar 10, 2023 at 01:54:18PM +0200, Jani Nikula wrote:
+> On Fri, 10 Mar 2023, Jianhua Lu <lujianhua000@gmail.com> wrote:
+> > The panels with two dsi connected (sync dual dsi mode) need to transmit
+> > dcs command to the two dsi host simultaneously, let's add
+> > mipi_dual_dsi_dcs_write_seq() macro for this kind of panels.
+> 
+> If we were to add a helper for this case, it should be a proper function
+> and not a macro like this.
+> 
+> We'd also need to see a user for this upstream.
+> 
+> >
+> > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+> > ---
+> >  include/drm/drm_mipi_dsi.h | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >
+> > diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> > index c9df0407980c..d0f0f75d4d83 100644
+> > --- a/include/drm/drm_mipi_dsi.h
+> > +++ b/include/drm/drm_mipi_dsi.h
+> > @@ -336,6 +336,21 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+> >  		}                                                          \
+> >  	} while (0)
+> >  
+> > +/**
+> > + * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
+> > + * @dsi: array of 2 DSI peripheral devices
+> 
+> This makes the assumption the devices are stored in an array. What if
+> drivers want to store them differently, for whatever reason? Maybe they
+> have an array of some container structs that have the devices? Maybe
+> they just have two struct mipi_dsi_device pointers?
+This array just store two struct mipi_dsi_device pointers
+> 
+> > + * @cmd: Command
+> > + * @seq: buffer containing data to be transmitted
+> > + */
+> > +#define mipi_dual_dsi_dcs_write_seq(dsi, cmd, seq...)                   \
+> > +	do {                                                             \
+> > +		if (ARRAY_SIZE(dsi) > 2)                                 \
+> > +			return -EINVAL;                                  \
+> > +		int i;                                                   \
+> 
+> I believe this should lead to a warning for mixing code and
+> declarations.
+> 
+> > +		for (i = 0; i < ARRAY_SIZE(dsi); i++)                    \
+> > +			mipi_dsi_dcs_write_seq(dsi[i], cmd, seq);        \
+> 
+> This ignores errors.
+mipi_dsi_dcs_write_seq is also a macro, contains error checks in the body block.
+> 
+> > +	} while (0)
+> > +
+> 
+> Without an example user, I'm not yet convinced about the usefulness of
+> the helper, but I'd imagine something like this would be a more generic
+> approach, not enforcing the array, and handling errors properly:
+> 
+> ssize_t mipi_dsi_dual_dcs_write(struct mipi_dsi_device *dsi0,
+>                                 struct mipi_dsi_device *dsi1,
+>                                 u8 cmd, const void *data, size_t len)
+> {
+> 	ssize_t err = 0;
+> 
+> 	if (dsi0)
+>         	err = mipi_dsi_dcs_write(dsi0, cmd, data, len);
+> 
+> 	if (dsi1 && !err)
+>         	err = mipi_dsi_dcs_write(dsi1, cmd, data, len);
+> 
+> 	return err;
+> }
+Thanks for your explanation and this looks more reasonable.
+> 
+> But even that begs the question where does it end? There are a lot of
+> mipi_dsi_dcs_*() functions as well as mipi_dsi_generic_write(). Dual
+> wrappers for all of them? :o
+It's definitly useless to wrap all of them. Please ignore this patch.
+> 
+> 
+> BR,
+> Jani.
+> 
+> 
+> >  /**
+> >   * struct mipi_dsi_driver - DSI driver
+> >   * @driver: device driver model driver
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
