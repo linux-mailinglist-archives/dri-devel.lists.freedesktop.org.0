@@ -1,106 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FC56B34AE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 04:19:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2626B35B8
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 05:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D208F10E930;
-	Fri, 10 Mar 2023 03:19:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA6C310E029;
+	Fri, 10 Mar 2023 04:44:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on20626.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe12::626])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADF6310E930
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 03:19:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lWijqVnflaMEAQLLkzUCAANTpOchOZQzQ3+yvuvREYcbLwgeYgsDZ9zJ6QwJh7TgOxwfQZ28CaAHAADRn0ymAH6Ajo1FABE4Umgz3ePf03reF+btXUCiYUwHBPg6SoNXho7K06+mhEagx3JSw65YrZJH5MGZjkgFAuRj26hrOqjKW8tuwiD/Px73fzhDcdrhUF4CQOixzw944vTNxSlXupMrWy/rrh4ZICWTdE+qcISf1p1hU0fyuJFL71Sr/b9+O36FA4S1cQr00/lXnIEQQ1Os8yQGSTdACZhQpNjG7XWUwJN5y65r4Y0DbYMrH0ZTOdt5m1aTl47lWM2BdJ0vvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r7yH4C3XMeeaCqp0mdVWS1m/sRhKph1tbMUF6m3X5ZU=;
- b=SvhWUZkhCizQ6nuncGpqdQjfigPlBNZywa5MmsIY/nRioBKpwejhHzgthEpTAiLJuB9nxelJL3Nd6xPA3N81/zFQdzW2/19K0DnZIfwyJAP03tuLgRuXtd0YvFug1PznTDfAdqUwKmf1PXTC4aliwqiATdarTRmtQe80yJzV2FzoFPKXoqzBUSPJmDgPcIP+ii1QALFB6Cp1vawjqtDQhL4nX/yWNrjzShlHLK8eQmc59Apy9KTZk7DkOZf0Fcz0SY/nb5+TpPccl6mL3Pg6h0Z+n+pbVYQUXoTDnB3Cgc49lgpyMTrUwy5G6KbduG9ERixQZrjOtsUabJ/ouagk7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r7yH4C3XMeeaCqp0mdVWS1m/sRhKph1tbMUF6m3X5ZU=;
- b=nlSmveiKu/TVl20NXSyBDornsUawC9Qdcp4rYdcaEXZeyiH6jrkAhhHwtwE26wzp4rwCAfgD0kJfQCqIBFLy43okqJJ8o7DTs9iXWTvRErxUN8247Fxu/A4npLO+iHIukkl6oENPamO75ypeLtv4H/MV+nZ5mIuBBrVsF9hwVOE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM0PR04MB6961.eurprd04.prod.outlook.com (2603:10a6:208:180::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.19; Fri, 10 Mar
- 2023 03:19:24 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d555:5ebe:1938:29e2]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d555:5ebe:1938:29e2%8]) with mapi id 15.20.6178.019; Fri, 10 Mar 2023
- 03:19:24 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/bridge: Fix returned array size name for
- atomic_get_input_bus_fmts kdoc
-Date: Fri, 10 Mar 2023 11:24:17 +0800
-Message-Id: <20230310032417.1170476-1-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2P153CA0036.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::11) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 889C410E029
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 04:44:47 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id ay14so15599276edb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Mar 2023 20:44:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678423486;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=APGAiUlIJpJRbYAIZ5nOkr0hb7mWXQrPffrcm6b20tU=;
+ b=TXuOteR1nB594M1W2K9ahWNO5scYh2QRDv2zkmHCQBvkqn3pkbWyAmRF9QyT9UgXyC
+ W7TsMrRrmgVdxppiFCgPz3IO+fK9d2rmkN3+d8wqd/BBrDcsf29/JdgaR70CEHPswAIw
+ WGleQ3ex3JWMebDv/s9EoQprvJ2ejuz0J709uVA/YzdCMSvG0tSjxVfgHN54XmIoi7LW
+ 8cSYTOCrQCmZmvxa5QQJsTAMdkVzMb26buBXoUAxrEgM4pXHDIdg8Zr7+JI+5pf2knBZ
+ ctUlAU4PltbSCHICndar9dKCRZbTDeNOVoaEMH6BUuPR9n/O+uDCJEu0wUBtpDdJbTOt
+ /KPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678423486;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=APGAiUlIJpJRbYAIZ5nOkr0hb7mWXQrPffrcm6b20tU=;
+ b=JMwO3FRwpneolyKmkwB3ZDSS6JNmymM1GmYxar9+4cO3ead0B7lzwJJzz06gcb+7+D
+ 3Z6eJK5iZX7gRTRk94ElnsIU2s+l3TGdct3+mb6SQ5/7o9ISo/2NIQkva1dSKFtCWHqM
+ pxjmIWQt8GdAFEsTiFsdyz9FBLvquq8LctigCetH+r18yKRnaYyVquyuPpIltNHCwk9W
+ XnA2bmhWuGzkYT9it8hKet5ohGxlHDKS++edquoWYL2v48pVkqYpAxLOdsCfAjlc/S+S
+ UVaL4kWsfjPWWS4ZMIMGy3XvqF/EWkihGWOZuqD4CQ2/gM+ox7vIjkKsEaHyTx3+YVzY
+ /3EA==
+X-Gm-Message-State: AO0yUKX+pixYNkXTJsAV4gzEhNvBlOHoRjrAeGgUcNrasIFetXt9FYIv
+ wf4fNeKJSJ102YTzJQiibXmSGQJkWgaeuL+Bzin2dDPGkQQriA==
+X-Google-Smtp-Source: AK7set9yoa4QwF4rkrjxDH7pV8iyy+fdFGuFgU9IA0gRWkBHTEs8N7wextGh/oXfUpFzo7kZaIkQ+EXAkqfRMBzhpjI=
+X-Received: by 2002:a17:906:a14:b0:8b1:38d6:9853 with SMTP id
+ w20-20020a1709060a1400b008b138d69853mr11495105ejf.2.1678423485737; Thu, 09
+ Mar 2023 20:44:45 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM0PR04MB6961:EE_
-X-MS-Office365-Filtering-Correlation-Id: acf88056-ac3e-41e4-5662-08db21163f71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xjz8O5jrS8+IJTZ6nWW0T8NjkCXbImHbOGqvmPd+6rGXZ0tGf1N7UYLA7jrNhhjmpRcRI7bteHRW6FxJpsb1Ewgt9RiOfqXzfPqlKAyEgIT8ef85DtlgFI+AEAtJJOC+tAmZUK9UGkFPTFqkISpKC0b2b5Ip4U2yt0GNewYIngkKs7TzPbujohjtsCvQib6C274ZI5bjqVk44IUQpCPP3GaeT9P7F4r2iK/HKco+zMMXTYh3s/MkROojkzvlJvg67rvz+YQQ0dsdNsTw/MMhSlIAol49QGcjCP0rLgp2+09akQVWAMddUXyehkEN0q/zyFWGMj1Slu7A5mAssDQBiMt83yvJj9SmPYR0KWKy6XV+ILVUddmdk+OpZaB88ljf7j/EmbrGkbKe2qJI7lu9q8+/jXEoWmXPQkuCrakwjPIq81cu2ZcFBzJfHa67rOT6y3OIxuQ7pc4SWZ5ZV/1AhkJ17bifvswm4UTj+dRO7lrSXS4n9qtA6a6Nhd7zwkqdYCX3WYxO+tL3jdY1nWe3fR+blSoK6941eDuHFyPgvzqYXu3TFMD5Dbo/myTYJOIBCCcwi4iKXPxHyXvwKLotZaeUQgZUfOeIq2FNohRIdmefRozaJX4WHtkssRbvrKPnZ2ZRj3R57QYSnxpJ9gTy1aKHvxdnQdtfkz3HaNRghglkpqAMlFvTnUjsCK2zHYBmY+3ZMDcPBFnDE5mt7uRgrw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(451199018)(36756003)(316002)(38100700002)(6486002)(52116002)(8936002)(5660300002)(6916009)(2906002)(66476007)(4326008)(8676002)(66946007)(66556008)(41300700001)(86362001)(186003)(478600001)(38350700002)(2616005)(1076003)(6506007)(6512007)(6666004)(26005)(83380400001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jsksaLfnu3UEedJpqd5PjZ1vltSxLnwWDuQh5vgZJXLeJ1q4VT40AxzaSRog?=
- =?us-ascii?Q?k2qfL7uhBa1SyN91xCRr02Me0rabL60X6hIPuZAGlHypTITNXafncWRm8EBU?=
- =?us-ascii?Q?eYYUZhzGazWznQs1z7MrfJnjkeqMWAKBUVgZtQ6IFE4G6Rr17tUchQJDsdTk?=
- =?us-ascii?Q?usWyuLIFLNRjrhuAFhvlqXmE6Va1oJUECWSP2KMo14c1Y1eLf0En3Cz3eUeg?=
- =?us-ascii?Q?rRjksmuGzqZwrTiWHFPoNugxhGUtVhuM03uFWej+gM/sQF63tRHwjZXpplpF?=
- =?us-ascii?Q?/bmMhdOcvIJhFCmu6+vUpoBvx0pCpr7BqPrvY0+gJ82bWYa2wuy6cEzpBMSX?=
- =?us-ascii?Q?nt7sM5rdRR9/+fYTTD4Pgu+J91vHGMXs622DAJMtqqZmokhESKkOL4ch1vlS?=
- =?us-ascii?Q?eIFfNorvKv0n2dIJCaMVoGVmSX0sFt9b8fU3Rub+YA+e92CjqFX0qOLtPC5S?=
- =?us-ascii?Q?d7Zhk+4G8+ovqMxmQBzUBh2PS7tRkf9QqSgoOTL3YceqLAwa85DyKNa/VK6B?=
- =?us-ascii?Q?JL9eSMckblpMyRgODp1KkVPrpv2iZIS7Xq1DpM89tBv3rRsfWY1dN939RIkJ?=
- =?us-ascii?Q?INxrYAFmF+o4CKIXUtWkETXlec3640OOLaw9dOAwFqUK/R+8GOLJ4cLnYvCK?=
- =?us-ascii?Q?2/QNMitt4syz4lCYyrPy9WnWX95lklNqhRq62wkXSKFjv4d7OaGbZp6KoHGk?=
- =?us-ascii?Q?2DRHWtLv7bxeV8S37uxRZ6wRZVJqtQVI4gY7NP3eiPNWsva/UFgR/mHii1XB?=
- =?us-ascii?Q?R62BLzHAB60RECmZC9itTt7ny4a02KiiZuj3Wfvzi9RF+c9yUrRlzpXLPWfj?=
- =?us-ascii?Q?hTviwAFSdhq1E9GQL0UJ1HD/LWpqQz0q49bR2Qp20XM+cSbjuLbR4Ci+Cg82?=
- =?us-ascii?Q?Yh0Wm0w2Rl56AQNvqaBW9vbKQU+BUYQtvkFvaufGit10TGT9mUSY6JQ4QJJ7?=
- =?us-ascii?Q?1nKWX8CUrWiEKaxo5M0gAMDXapjMgxfpTvLdqCU28YuF5YC74ffdy/PTOK/5?=
- =?us-ascii?Q?dERb7QgJ/0RAwTUFL8KLH7no4FfnU5w2grJcSZFh243eRaPcgN4/Ejhw7/eS?=
- =?us-ascii?Q?dZgq7MDJq6cq55neaFSzen6x1viPGhtwwP9uTboP9zytNNnzwk+tzF/wXONr?=
- =?us-ascii?Q?YDk9Cq+jpnu2wncePOPKFISRSZ7j+SWeDt+1KPbjnOwxYLF4yBcl949UviRv?=
- =?us-ascii?Q?/N8EqnfDhfBNpzmPqigUOHUQUkW2cpd0AT2fywXqXSS5PpZIojW7bYwpXsAL?=
- =?us-ascii?Q?fRmtmQBzEhDT4+KJgNLsmKspLX+P09FeVvjQiwhKAZvo5kKP2pnJ06a3m8L+?=
- =?us-ascii?Q?jlSuKGbY/bFS09z6ekN+sKlme8raAHRrDcqhOYxXQPvjVoJwb1eU8j9O7cXN?=
- =?us-ascii?Q?RTwnto3hpoJXo/2zZPXHEaQO08ZB704JrYqT/cE2UvBVddKGvYqAXo85+Wju?=
- =?us-ascii?Q?3CyvTHGg1QOB/I2IXmNyWsCsY/WusxWATvkZwZEhaoxkzL+OQAf1zYxnF0fP?=
- =?us-ascii?Q?rHwYSmY++okFspMPjCcIUCD7SjVoL4WmjqQDPiQJpYC3GYUnVQJcyNdQWb0Q?=
- =?us-ascii?Q?c0YgrtYlN9sWGg1/9FKN4NBxtq6W/arciM/Q0Yut?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acf88056-ac3e-41e4-5662-08db21163f71
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2023 03:19:24.2321 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4F8hD1pVzl0pXOkM3i7+fz1ZMpmGW+UdTXvXj5CRJ3s0gz2mvZqnhOz3lCNMrQVMYa+/6vj6C27rMHoDHCWQiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6961
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 10 Mar 2023 14:44:33 +1000
+Message-ID: <CAPM=9tw4eFsBCha-h2FvM_ofXMcEJAEsoT_HqxZc9gWe20J+yA@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.3-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,40 +63,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The returned array size for input formats is set through
-atomic_get_input_bus_fmts()'s 'num_input_fmts' argument, so use
-'num_input_fmts' to represent the array size in the function's kdoc,
-not 'num_output_fmts'.
+Hi Linus,
 
-Fixes: ("91ea83306bfa drm/bridge: Fix the bridge kernel doc")
-Fixes: ("f32df58acc68 drm/bridge: Add the necessary bits to support bus format negotiation")
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
- include/drm/drm_bridge.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Weekly fixes, msm and amdgpu are the vast majority of these, otherwise
+some straggler misc from last week for nouveau and cirrus and a
+mailmap update for a drm developer.
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 6b65b0dfb4fb..288c6feda5de 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -447,11 +447,11 @@ struct drm_bridge_funcs {
- 	 *
- 	 * The returned array must be allocated with kmalloc() and will be
- 	 * freed by the caller. If the allocation fails, NULL should be
--	 * returned. num_output_fmts must be set to the returned array size.
-+	 * returned. num_input_fmts must be set to the returned array size.
- 	 * Formats listed in the returned array should be listed in decreasing
- 	 * preference order (the core will try all formats until it finds one
- 	 * that works). When the format is not supported NULL should be
--	 * returned and num_output_fmts should be set to 0.
-+	 * returned and num_input_fmts should be set to 0.
- 	 *
- 	 * This method is called on all elements of the bridge chain as part of
- 	 * the bus format negotiation process that happens in
--- 
-2.37.1
+Regards,
+Dave.
 
+drm-fixes-2023-03-10:
+drm fixes for 6.3-rc2
+
+mailmap
+- add an entry
+
+nouveau:
+- fix system shutdown regression
+- build warning fix
+
+cirrus:
+- NULL ptr deref fix
+
+msm:
+- fix invalid ptr free in syncobj cleanup
+- sync GMU removal in teardown
+- a5xx preemption fixes
+- fix runpm imbalance
+- DPU hw fixes
+- stack corruption fix
+- clear DSPP reservation
+
+amdgpu:
+- Misc display fixes
+- UMC 8.10 fixes
+- Driver unload fixes
+- NBIO 7.3.0 fix
+- Error checking fixes for soc15, nv, soc21 read register interface
+- Fix video cap query for VCN 4.0.4
+
+amdkfd:
+- Fix return check in doorbell handling
+The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
+
+  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2023-03-10
+
+for you to fetch changes up to 519b23310aa100073f0b58c39df120a486ed7f8e:
+
+  Merge tag 'amd-drm-fixes-6.3-2023-03-09' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2023-03-10
+14:17:35 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.3-rc2
+
+mailmap
+- add an entry
+
+nouveau:
+- fix system shutdown regression
+- build warning fix
+
+cirrus:
+- NULL ptr deref fix
+
+msm:
+- fix invalid ptr free in syncobj cleanup
+- sync GMU removal in teardown
+- a5xx preemption fixes
+- fix runpm imbalance
+- DPU hw fixes
+- stack corruption fix
+- clear DSPP reservation
+
+amdgpu:
+- Misc display fixes
+- UMC 8.10 fixes
+- Driver unload fixes
+- NBIO 7.3.0 fix
+- Error checking fixes for soc15, nv, soc21 read register interface
+- Fix video cap query for VCN 4.0.4
+
+amdkfd:
+- Fix return check in doorbell handling
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      drm/amdgpu: fix error checking in amdgpu_read_mm_registers for soc15
+      drm/amdgpu: fix error checking in amdgpu_read_mm_registers for soc21
+      drm/amdgpu: fix error checking in amdgpu_read_mm_registers for nv
+
+Alexandr Sapozhnikov (1):
+      drm/cirrus: NULL-check pipe->plane.state->fb in cirrus_pipe_update()
+
+Ben Skeggs (1):
+      drm/nouveau/fb/gp102-: cache scrubber binary on first load
+
+Candice Li (2):
+      drm/amdgpu: Support umc node harvest config on umc v8_10
+      drm/amd/pm: Enable ecc_info table support for smu v13_0_10
+
+Dave Airlie (4):
+      Merge tag 'drm-misc-fixes-2023-02-23' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      mailmap: add mailmap entries for Faith.
+      Merge tag 'drm-msm-fixes-2023-03-09' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+      Merge tag 'amd-drm-fixes-6.3-2023-03-09' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Dmitry Baryshkov (18):
+      drm/msm/a5xx: fix setting of the CP_PREEMPT_ENABLE_LOCAL register
+      drm/msm/a5xx: fix highest bank bit for a530
+      drm/msm/a5xx: fix the emptyness check in the preempt code
+      drm/msm/a5xx: fix context faults during ring switch
+      drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
+      drm/msm/dpu: disable features unsupported by QCM2290
+      drm/msm/dpu: fix typo in in sm8550's dma_sblk_5
+      drm/msm/dpu: fix len of sc7180 ctl blocks
+      drm/msm/dpu: fix sm6115 and qcm2290 mixer width limits
+      drm/msm/dpu: correct sm8550 scaler
+      drm/msm/dpu: correct sc8280xp scaler
+      drm/msm/dpu: correct sm8450 scaler
+      drm/msm/dpu: correct sm8250 and sm8350 scaler
+      drm/msm/dpu: correct sm6115 scaler
+      drm/msm/dpu: drop DPU_DIM_LAYER from MIXER_MSM8998_MASK
+      drm/msm/dpu: fix clocks settings for msm8998 SSPP blocks
+      drm/msm/dpu: don't use DPU_CLK_CTRL_CURSORn for DMA SSPP clocks
+      drm/msm/dpu: fix stack smashing in dpu_hw_ctl_setup_blendstage
+
+Douglas Anderson (1):
+      drm/msm/a6xx: Make GPU destroy a bit safer
+
+Harry Wentland (2):
+      drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF
+      drm/connector: print max_requested_bpc in state debugfs
+
+Jiri Slaby (SUSE) (1):
+      drm/nouveau/kms/nv50: fix nv50_wndw_new_ prototype
+
+Johan Hovold (1):
+      drm/msm/adreno: fix runtime PM imbalance at unbind
+
+Kalyan Thota (1):
+      drm/msm/dpu: clear DSPP reservations in rm release
+
+Kuogee Hsieh (1):
+      drm/msm/disp/dpu: fix sc7280_pp base offset
+
+Mario Limonciello (1):
+      drm/amd: Fix initialization mistake for NBIO 7.3.0
+
+Randy Dunlap (1):
+      drm/msm: DEVFREQ_GOV_SIMPLE_ONDEMAND is no longer needed
+
+Rob Clark (2):
+      Merge tag 'drm-msm-fixes-2023-01-16' into msm-fixes
+      drm/msm: Fix potential invalid ptr free
+
+Shashank Sharma (1):
+      drm/amdgpu: fix return value check in kfd
+
+Swapnil Patel (1):
+      drm/amd/display: Update clock table to include highest clock setting
+
+Thomas Zimmermann (1):
+      drm/msm: Fix possible uninitialized access in fbdev
+
+Veerabadhran Gopalakrishnan (1):
+      drm/amdgpu/soc21: Add video cap query support for VCN_4_0_4
+
+lyndonli (2):
+      drm/amdgpu: Fix call trace warning and hang when removing amdgpu device
+      drm/amdgpu: Fix the warning info when removing amdgpu device
+
+ .mailmap                                           |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  17 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umc.h            |   7 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c             |   1 -
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c             |  14 +-
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |   7 +-
+ drivers/gpu/drm/amd/amdgpu/soc15.c                 |   5 +-
+ drivers/gpu/drm/amd/amdgpu/soc21.c                 |   8 +-
+ drivers/gpu/drm/amd/amdgpu/umc_v8_10.h             |   4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_doorbell.c          |   2 +-
+ .../drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c |  19 ++-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  75 ++++++++++
+ drivers/gpu/drm/display/drm_hdmi_helper.c          |   6 +-
+ drivers/gpu/drm/drm_atomic.c                       |   1 +
+ drivers/gpu/drm/msm/Kconfig                        |   1 -
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c          |   4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |   2 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c         |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     | 166 ++++++++++-----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |   2 +
+ drivers/gpu/drm/msm/msm_gem_submit.c               |   5 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndw.h            |   5 +-
+ drivers/gpu/drm/nouveau/include/nvkm/subdev/fb.h   |   3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/base.c      |   8 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga100.c     |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/ga102.c     |  21 +--
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gp102.c     |  41 ++---
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/gv100.c     |   4 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/priv.h      |   3 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/fb/tu102.c     |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c                      |   2 +-
+ 37 files changed, 280 insertions(+), 191 deletions(-)
