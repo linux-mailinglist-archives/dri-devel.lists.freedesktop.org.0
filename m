@@ -1,80 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD756B3905
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 09:41:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B086D6B3916
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 09:45:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEA110E97B;
-	Fri, 10 Mar 2023 08:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6D9010E98B;
+	Fri, 10 Mar 2023 08:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D0B910E97B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:41:54 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id o12so17413403edb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:41:54 -0800 (PST)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5893310E98B
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 08:45:43 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id l25so4310927wrb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 00:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678437713;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jY19RBdXGErSuK96SQ9CO/VfqzR61PSiwucTWNRVDbE=;
- b=ZdR6O1tBpHF+lilFpQQlvhYUaj1uscCMv151wALtJiKxx7nhMroGk7Zx2dHnMxKrHy
- UBAiF40+9XQLG7M5KcFaMhqxRjOdmpJvsgHFOXkNg+MgU8aGx8qWtNy9Qn3/8E4o4TF6
- mbeqrU7JwF0dVu2x6LVeN2wbGOkHfYwdvH2eS8RZwUyYbxkoTh0aziit6x9MCaerboWJ
- K5iMFTV4m96ZEdgcv/OagZ5f9ZKR9pUjcSiLywCJcIQthGgrnbxDQ2IwcUBv4D3qfNRx
- 0iCsNZifm1/3Ej2552eb7fjQv/mbyIUpOsDK/UxUnoNQlJlEd30jLxn8KKAEiUCvCzCs
- 5BoQ==
+ d=linaro.org; s=google; t=1678437941;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=a5HfvYhncPc5WkXrx7TXneqdnHtHjSlY0/csmSTBCvo=;
+ b=d5DjCqtS1+wN5j6vUJj7e3Eh3ats3MfHXSD61no9fO/w96/O2QtOiJgXFVhIiqxDcH
+ zS9jLB7ReWNugjGwREbBgZqmSkUg9imCpwV1NN3LKCtr2O+E/1fSHNNMcz3yPcO2djRS
+ SZQZcKbtFzA5Z0hFKeHuWZBvED7P8ADQRDUkskjd25TWB1ixPiXeluhVoIaMt86xPCE1
+ fs1oCox37wkeJL55NerrEfOMPh1Xqxu/HvSaomnTgZN59R67im5Cy1WxYgcqWXhjug+L
+ RaEoNuvPZQOeyCh1RdZdCphyM+7nvUGpj8t7BgzdYUFO9fW7rhJYvkLn7pPgkoyTSK/p
+ 77EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678437713;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jY19RBdXGErSuK96SQ9CO/VfqzR61PSiwucTWNRVDbE=;
- b=5ntt7/HMga/XHRCj2aiwTbAMokmWaBN07xqN9s3yzBte3MhrtcQEDpJXdXAYa6upmF
- eVuLxpQ2W9869e7MZEPsyMDu6uWvE0j/pR7Qwo5ZCipqslvgAJBftFUVKtNW+FEopDnC
- yygQ9eUBesIA6aQvHbhmP7OvXgN3QoVyzG8flN8BEr8YcEwcj1kjp2EKwOzzP/vHP1cj
- W+ATYs8zED3rO/ft7SnnPe9a1s6qCKXPm5BN77slCA6SV3z7JX0S4bN63PcQWIckSmBe
- EA+q9aNbxuLnt/REObCXR9T/yusunL5n07z9L+Xuw0b6nN8ouhVT9h9I8QHWODoOIN/W
- SEFQ==
-X-Gm-Message-State: AO0yUKW+AIo/kILTe0stp8I2V4haEzXvC5AaEx11Tm7Uf6kZS7sHPqQo
- JqASVMNFnFabTGUUsI4XoOaffw==
-X-Google-Smtp-Source: AK7set/wf4w9jzDPoANKQB4e+0Ofo51LjennRsoVP/tsxVTpy93y5J3W+5W5VhClHpcVl0kpfmkn7A==
-X-Received: by 2002:a17:906:9c8b:b0:8b1:76dd:f5ef with SMTP id
- fj11-20020a1709069c8b00b008b176ddf5efmr25974741ejc.5.1678437713153; 
- Fri, 10 Mar 2023 00:41:53 -0800 (PST)
-Received: from ?IPV6:2a02:810d:15c0:828:2a59:841a:ebc:7974?
- ([2a02:810d:15c0:828:2a59:841a:ebc:7974])
+ d=1e100.net; s=20210112; t=1678437941;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a5HfvYhncPc5WkXrx7TXneqdnHtHjSlY0/csmSTBCvo=;
+ b=b7WaEfDnJztsyumSLDPSVxZ3eTFs3aeSASNMJX1GclpgFq/p0K50a7UlJ6RsDuj6VH
+ h8sfbivf9jNu79SBBkvUyk6RlSwMKRGQwjyDTrB2iEzM+ktRaq9qms5TRM9up3A2g5Fx
+ M2RWQWx+c82Z4jm2Hh7mVEZiS0Vazubsaag4NRUgyWdJfoXYQ3edNCljFxvTUHJBHzKF
+ G5XYlWAV+Fh48ERytbRbnbQN+FDqCa+GrZ3aDQtJeLxtZtIUEbS6cwap7QoDSGGbiEjK
+ 2TTF54DkHwAjUA52EULcuZOqx7SK8nwHHn4fkM4Sg/WmsxHWIDQXodL2Xd12+J3BHOlg
+ Ba3A==
+X-Gm-Message-State: AO0yUKUPXzJQJbAdGELnQNVmStgbLctuU7tSgF4ebV+CcgeEyK2wMVzt
+ 7uydf34cJ17uXlKTaBr4THEvug==
+X-Google-Smtp-Source: AK7set8UnLvEQ6jzYl0bMA8Ja77/zqGkBDrnSBl43cDzrY0EJHmrPi2vPwdTN7pXsULDyM93kionLg==
+X-Received: by 2002:a05:6000:110d:b0:2c5:4c0e:3736 with SMTP id
+ z13-20020a056000110d00b002c54c0e3736mr16024988wrw.24.1678437941380; 
+ Fri, 10 Mar 2023 00:45:41 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:566:5b64:c228:1137?
+ ([2a01:e0a:982:cbb0:566:5b64:c228:1137])
  by smtp.gmail.com with ESMTPSA id
- m9-20020a170906720900b008b133f9b33dsm665646ejk.169.2023.03.10.00.41.52
+ s8-20020adfdb08000000b002c70d97af78sm1513245wri.85.2023.03.10.00.45.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Mar 2023 00:41:52 -0800 (PST)
-Message-ID: <02174928-2071-512a-3cc6-d24bcc75cc32@linaro.org>
-Date: Fri, 10 Mar 2023 09:41:51 +0100
+ Fri, 10 Mar 2023 00:45:40 -0800 (PST)
+Message-ID: <1ef5f606-ffe5-eefb-c3fe-e81093e1a35b@linaro.org>
+Date: Fri, 10 Mar 2023 09:45:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 01/21] dt-bindings: display: mediatek: aal: add binding
- for MT8365 SoC
+ Thunderbird/102.7.2
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*()
+ conversion again
 Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>, Daniel Vetter
- <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
- Jitao Shi <jitao.shi@mediatek.com>, Thierry Reding
- <thierry.reding@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Xinlei Lee <xinlei.lee@mediatek.com>
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-1-45cbc68e188b@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230220-display-v1-1-45cbc68e188b@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+References: <CGME20230309152453eucas1p28e1870593875304648243c9dead4b256@eucas1p2.samsung.com>
+ <20230309152446.104913-1-m.szyprowski@samsung.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230309152446.104913-1-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,23 +81,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-pwm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Fabien Parent <fparent@baylibre.com>, devicetree@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Guillaume La Roque <glaroque@baylibre.com>,
- linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, Mark Brown <broonie@kernel.org>,
+ =?UTF-8?Q?Ricardo_Ca=c3=b1uelo?= <ricardo.canuelo@collabora.com>,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/03/2023 15:22, Alexandre Mergnat wrote:
-> Display Adaptive Ambient Light for MT8365 is compatible with another SoC.
-> Then, add MT8365 binding along with MT8183 SoC.
+On 09/03/2023 16:24, Marek Szyprowski wrote:
+> devm_regulator_get_enable_optional() returns -ENODEV if requested
+> optional regulator is not present. Adjust code for that, because in the
+> 67d0a30128c9 I've incorrectly assumed that it also returns 0 when
+> regulator is not present.
 > 
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Reported-by: Ricardo Cañuelo <ricardo.canuelo@collabora.com>
+> Fixes: 67d0a30128c9 ("drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+>   drivers/gpu/drm/meson/meson_dw_hdmi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> index 534621a13a34..3d046878ce6c 100644
+> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+> @@ -718,7 +718,7 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>   	dw_plat_data = &meson_dw_hdmi->dw_plat_data;
+>   
+>   	ret = devm_regulator_get_enable_optional(dev, "hdmi");
+> -	if (ret < 0)
+> +	if (ret < 0 && ret != -ENODEV)
+>   		return ret;
+>   
+>   	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
 
+I'll need to wait until v6.3-rc1 is backmerged into drm-misc-fixes to apply it.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Thanks,
+Neil
