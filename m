@@ -2,45 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B6C6B3DA6
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81FB6B3E4B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E368610E9CF;
-	Fri, 10 Mar 2023 11:26:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C232910E037;
+	Fri, 10 Mar 2023 11:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B141110E198
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:26:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1F7926137F;
- Fri, 10 Mar 2023 11:26:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304C8C433D2;
- Fri, 10 Mar 2023 11:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678447588;
- bh=3zbDR0R2B0q8uNSnStzY60cOVxRlxpyppDVpj8TGcBs=;
- h=Subject:To:Cc:From:Date:From;
- b=hykUh+bPomPv1YxgMz+pO7aUpXMUX35kDIxnSzPHkQExeyfW9coeqc6muaKla1Fnc
- dt/N4flePwnqWwbpdu0r19A4KFqgKHe2U5+cfiPGBSMBvd2hjCmzxpfpoEagiJb5oi
- 9MY3iwM2HkWR+tE9qGNniGPFlQfpyk5fp4TlQY1E=
-Subject: Patch "drm/display/dp_mst: Add
- drm_atomic_get_old_mst_topology_state()" has been added to the 6.2-stable
- tree
-To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, imre.deak@intel.com, jani.nikula@intel.com,
- lyude@redhat.com, ville.syrjala@linux.intel.com, wayne.lin@amd.com
-From: <gregkh@linuxfoundation.org>
-Date: Fri, 10 Mar 2023 12:26:02 +0100
-Message-ID: <167844756113181@kroah.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2D8810E052
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:46:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678448793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=drSrYgcBUUgWnWmYCUtrRpfKjp0+Me1c7+7zXqYrcnk=;
+ b=O7hDBmQ1ZEJbfrJs5HudZcaBq+bKADXJD68LVUvNJcb6VbpF/7KEbN0JAZxMuHlf2Nrzrf
+ EKmdXERHOVOd9kcgy+vJbI4MkWzby2mpfdnINmuTZ9K/zqaB3O5c76uzs+OhVOAx0qy3nr
+ u4u+v69P06CMlWU0Xy4UxY+kDZ7q0P0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-632-W1_RfewhMdGkTINxtQcImw-1; Fri, 10 Mar 2023 06:46:30 -0500
+X-MC-Unique: W1_RfewhMdGkTINxtQcImw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ z6-20020a7bc7c6000000b003e0107732f4so1711540wmk.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 03:46:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678448789;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=drSrYgcBUUgWnWmYCUtrRpfKjp0+Me1c7+7zXqYrcnk=;
+ b=NXT2cB/vMGh69BxPDXMOnatNYXu3hqK6QXfoGGPCENQ7drH+zvsK4LlxA3FwE/i/ZM
+ 5U8pseqWGqlrKkiC4mIYr0BHHyMPNBkDFfXx8SYwlFfpspSiKJSMYZ523Y+yI/Wsuyle
+ 20Suo6n+b1coEU3I0Vg3gkQqAWR5tevqYNSUWBoNGR1SYCeh4dGX9c5NMZakgMMvMbSo
+ 5R7LGL8brgqT6sGf76PLgo/qXNpllN9jiHrv8hR01MYwsDvktH617NNIIXr3bUOPsKkl
+ kO1eLynb9cWL+iMR3Zj8OoAt/0KmPHfCIwK56LeIxj5SZ78QYx78lHtg+K9iTvDf5wEy
+ opLw==
+X-Gm-Message-State: AO0yUKXcCahadGPGohsfh3Yz6qme+ZH6sv7qrcXfuLujktEu9n6rLjIx
+ FpfHILldReMkSUAF9sFswR3toOIQSY7iEVhU9Sue6KgEg0E/IwiIrkxOYSavSXO9ot2J9xnwZ8U
+ NGRMuXXi5kgexho/YbnqLno2k++6T
+X-Received: by 2002:a05:600c:1d97:b0:3ea:f132:63d8 with SMTP id
+ p23-20020a05600c1d9700b003eaf13263d8mr2275215wms.5.1678448789326; 
+ Fri, 10 Mar 2023 03:46:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set95RqeyUjLpfSJSMVbnJpHJXacJuVI6Mhcpdv2FAdeyuuMUCcplTBJqcn5CMAxsXTKPTAWs5Q==
+X-Received: by 2002:a05:600c:1d97:b0:3ea:f132:63d8 with SMTP id
+ p23-20020a05600c1d9700b003eaf13263d8mr2275205wms.5.1678448789020; 
+ Fri, 10 Mar 2023 03:46:29 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ c3-20020a7bc843000000b003eb596cbc54sm1982288wml.0.2023.03.10.03.46.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Mar 2023 03:46:28 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/format-helper: Make conversion_buf_size()
+ support sub-byte pixel fmts
+In-Reply-To: <20230307215039.346863-1-javierm@redhat.com>
+References: <20230307215039.346863-1-javierm@redhat.com>
+Date: Fri, 10 Mar 2023 12:46:27 +0100
+Message-ID: <87wn3okewc.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,139 +80,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
+ Maxime Ripard <maxime@cerno.tech>, David Gow <davidgow@google.com>,
+ =?utf-8?Q?Jos=C3=A9?= =?utf-8?Q?_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-This is a note to let you know that I've just added the patch titled
+> There are DRM fourcc formats that have pixels smaller than a byte, but the
+> conversion_buf_size() function assumes that pixels are a multiple of bytes
+> and use the struct drm_format_info .cpp field to calculate the dst_pitch.
+>
+> Instead, calculate it by using the bits per pixel (bpp) and divide it by 8
+> to account for formats that have sub-byte pixels.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
 
-    drm/display/dp_mst: Add drm_atomic_get_old_mst_topology_state()
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-to the 6.2-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+-- 
+Best regards,
 
-The filename of the patch is:
-     drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
-and it can be found in the queue-6.2 subdirectory.
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 9ffdb67af0ee625ae127711845532f670cc6a4e7 Mon Sep 17 00:00:00 2001
-From: Imre Deak <imre.deak@intel.com>
-Date: Mon, 6 Feb 2023 13:48:55 +0200
-Subject: drm/display/dp_mst: Add drm_atomic_get_old_mst_topology_state()
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Imre Deak <imre.deak@intel.com>
-
-commit 9ffdb67af0ee625ae127711845532f670cc6a4e7 upstream.
-
-Add a function to get the old MST topology state, required by a
-follow-up i915 patch.
-
-While at it clarify the code comment of
-drm_atomic_get_new_mst_topology_state() and add _new prefix
-to the new state pointer to remind about its difference from the old
-state.
-
-v2: Use old_/new_ prefixes for the state pointers. (Ville)
-
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: stable@vger.kernel.org # 6.1
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Acked-by: Lyude Paul <lyude@redhat.com>
-Acked-by: Daniel Vetter <daniel@ffwll.ch>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230206114856.2665066-3-imre.deak@intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c |   33 ++++++++++++++++++++++----
- include/drm/display/drm_dp_mst_helper.h       |    3 ++
- 2 files changed, 32 insertions(+), 4 deletions(-)
-
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -5355,27 +5355,52 @@ struct drm_dp_mst_topology_state *drm_at
- EXPORT_SYMBOL(drm_atomic_get_mst_topology_state);
- 
- /**
-+ * drm_atomic_get_old_mst_topology_state: get old MST topology state in atomic state, if any
-+ * @state: global atomic state
-+ * @mgr: MST topology manager, also the private object in this case
-+ *
-+ * This function wraps drm_atomic_get_old_private_obj_state() passing in the MST atomic
-+ * state vtable so that the private object state returned is that of a MST
-+ * topology object.
-+ *
-+ * Returns:
-+ *
-+ * The old MST topology state, or NULL if there's no topology state for this MST mgr
-+ * in the global atomic state
-+ */
-+struct drm_dp_mst_topology_state *
-+drm_atomic_get_old_mst_topology_state(struct drm_atomic_state *state,
-+				      struct drm_dp_mst_topology_mgr *mgr)
-+{
-+	struct drm_private_state *old_priv_state =
-+		drm_atomic_get_old_private_obj_state(state, &mgr->base);
-+
-+	return old_priv_state ? to_dp_mst_topology_state(old_priv_state) : NULL;
-+}
-+EXPORT_SYMBOL(drm_atomic_get_old_mst_topology_state);
-+
-+/**
-  * drm_atomic_get_new_mst_topology_state: get new MST topology state in atomic state, if any
-  * @state: global atomic state
-  * @mgr: MST topology manager, also the private object in this case
-  *
-- * This function wraps drm_atomic_get_priv_obj_state() passing in the MST atomic
-+ * This function wraps drm_atomic_get_new_private_obj_state() passing in the MST atomic
-  * state vtable so that the private object state returned is that of a MST
-  * topology object.
-  *
-  * Returns:
-  *
-- * The MST topology state, or NULL if there's no topology state for this MST mgr
-+ * The new MST topology state, or NULL if there's no topology state for this MST mgr
-  * in the global atomic state
-  */
- struct drm_dp_mst_topology_state *
- drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
- 				      struct drm_dp_mst_topology_mgr *mgr)
- {
--	struct drm_private_state *priv_state =
-+	struct drm_private_state *new_priv_state =
- 		drm_atomic_get_new_private_obj_state(state, &mgr->base);
- 
--	return priv_state ? to_dp_mst_topology_state(priv_state) : NULL;
-+	return new_priv_state ? to_dp_mst_topology_state(new_priv_state) : NULL;
- }
- EXPORT_SYMBOL(drm_atomic_get_new_mst_topology_state);
- 
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -867,6 +867,9 @@ struct drm_dp_mst_topology_state *
- drm_atomic_get_mst_topology_state(struct drm_atomic_state *state,
- 				  struct drm_dp_mst_topology_mgr *mgr);
- struct drm_dp_mst_topology_state *
-+drm_atomic_get_old_mst_topology_state(struct drm_atomic_state *state,
-+				      struct drm_dp_mst_topology_mgr *mgr);
-+struct drm_dp_mst_topology_state *
- drm_atomic_get_new_mst_topology_state(struct drm_atomic_state *state,
- 				      struct drm_dp_mst_topology_mgr *mgr);
- struct drm_dp_mst_atomic_payload *
-
-
-Patches currently in stable-queue which might be from imre.deak@intel.com are
-
-queue-6.2/drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
