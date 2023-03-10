@@ -2,50 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A147D6B5905
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 07:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB2B6B5AAC
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 11:52:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A863810EA5C;
-	Sat, 11 Mar 2023 06:38:18 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C19610E0D1;
- Sat, 11 Mar 2023 06:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678516696; x=1710052696;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=d8h4HW5/JM9xOCNH7wDZWckq71z5KOcSv3cidNaFdQo=;
- b=QMgk3a0qGgtcrwV+jsRSB90Ipl/P5n2DmP1LU/sEOmxdh7lpMWkc1zhi
- UEp5mbBmqcekjP2HxCrcC64TNt4OleogzdUlEUi3l9019wF/aXhksFp4V
- mGcWpLbwc2b95Xrw5D8bpsWpXVMX0R4W9vdagM3UCIA/00qTRb+yfe2rO
- gHnCOxc5iO5kRW16uNsZ/elBwRcpZYIxkEtG3S+lTAAaxGNryVcNfvrLk
- 2sWxANChx6Cp1LwIeFVYcsbUrRlWrSzuAhzcCGZAPqm5WRJ9GpMEgOlYz
- qsFgaTNiPMQ9Dvq+7G3LWU8R9sLnJch4QrFo45cA0x9iW6027MvpwGApX A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="335579554"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="335579554"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2023 22:38:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="678086700"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="678086700"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga002.jf.intel.com with ESMTP; 10 Mar 2023 22:38:15 -0800
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 3/3] drm/i915: Include timeline seqno in error capture
-Date: Fri, 10 Mar 2023 22:37:14 -0800
-Message-Id: <20230311063714.570389-4-John.C.Harrison@Intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701FC10E0A3;
+	Sat, 11 Mar 2023 10:52:11 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
+ Fri, 10 Mar 2023 12:31:15 UTC
+Received: from mail.nfschina.com (unknown [42.101.60.237])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B041310E1AA
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 12:31:15 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+ by mail.nfschina.com (Postfix) with ESMTP id ED2971A00A6E;
+ Fri, 10 Mar 2023 20:21:58 +0800 (CST)
+X-Virus-Scanned: amavisd-new at nfschina.com
+Received: from mail.nfschina.com ([127.0.0.1])
+ by localhost (localhost.localdomain [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qyMEBFZUfzQZ; Fri, 10 Mar 2023 20:21:58 +0800 (CST)
+Received: from localhost.localdomain.localdomain (unknown [219.141.250.2])
+ (Authenticated sender: zhounan@nfschina.com)
+ by mail.nfschina.com (Postfix) with ESMTPA id 0DF5D1A00888;
+ Fri, 10 Mar 2023 20:21:58 +0800 (CST)
+From: zhounan <zhounan@nfschina.com>
+To: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
+ bskeggs@redhat.com
+Subject: [PATCH] gpu/drm: Remove unnecessary semicolon
+Date: Fri, 10 Mar 2023 04:21:05 -0800
+Message-Id: <20230310122105.5742-1-zhounan@nfschina.com>
 X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230311063714.570389-1-John.C.Harrison@Intel.com>
-References: <20230311063714.570389-1-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 11 Mar 2023 10:52:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,60 +47,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
+Cc: zhounan <zhounan@nfschina.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+Drop the extra semicolon after nvkm_memory_map() call.
 
-The seqno value actually written out to memory is no longer in the
-regular HWSP. Instead, it is now in its own private timeline buffer.
-Thus, it is no longer visible in an error capture. So, explicitly read
-the value and include that in the capture.
-
-v2: %d -> %u (Alan)
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
+Signed-off-by: zhounan <zhounan@nfschina.com>
 ---
- drivers/gpu/drm/i915/i915_gpu_error.c | 3 +++
- drivers/gpu/drm/i915/i915_gpu_error.h | 1 +
- 2 files changed, 4 insertions(+)
+ drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
-index 904f21e1380cd..f020c0086fbcd 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.c
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.c
-@@ -505,6 +505,7 @@ static void error_print_context(struct drm_i915_error_state_buf *m,
- 		   header, ctx->comm, ctx->pid, ctx->sched_attr.priority,
- 		   ctx->guilty, ctx->active,
- 		   ctx->total_runtime, ctx->avg_runtime);
-+	err_printf(m, "  context timeline seqno %u\n", ctx->hwsp_seqno);
- }
- 
- static struct i915_vma_coredump *
-@@ -1395,6 +1396,8 @@ static bool record_context(struct i915_gem_context_coredump *e,
- 	e->sched_attr = ctx->sched;
- 	e->guilty = atomic_read(&ctx->guilty_count);
- 	e->active = atomic_read(&ctx->active_count);
-+	e->hwsp_seqno = (ce->timeline && ce->timeline->hwsp_seqno) ?
-+				*ce->timeline->hwsp_seqno : ~0U;
- 
- 	e->total_runtime = intel_context_get_total_runtime_ns(ce);
- 	e->avg_runtime = intel_context_get_avg_runtime_ns(ce);
-diff --git a/drivers/gpu/drm/i915/i915_gpu_error.h b/drivers/gpu/drm/i915/i915_gpu_error.h
-index 56027ffbce51f..a91932cc65317 100644
---- a/drivers/gpu/drm/i915/i915_gpu_error.h
-+++ b/drivers/gpu/drm/i915/i915_gpu_error.h
-@@ -107,6 +107,7 @@ struct intel_engine_coredump {
- 		int active;
- 		int guilty;
- 		struct i915_sched_attr sched_attr;
-+		u32 hwsp_seqno;
- 	} context;
- 
- 	struct i915_vma_coredump *vma;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+index 5f20079c3660..204516891ece 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/gr/gf100.c
+@@ -420,7 +420,7 @@ gf100_gr_chan_new(struct nvkm_gr *base, struct nvkm_fifo_chan *fifoch,
+ 			return ret;
+ 	} else {
+ 		ret = nvkm_memory_map(gr->attrib_cb, 0, chan->vmm, chan->attrib_cb,
+-				      &args, sizeof(args));;
++				      &args, sizeof(args));
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
 2.39.1
 
