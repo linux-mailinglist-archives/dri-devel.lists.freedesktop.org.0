@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3F86B3DA1
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:25:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B6C6B3DA6
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 12:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B03810E03B;
-	Fri, 10 Mar 2023 11:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E368610E9CF;
+	Fri, 10 Mar 2023 11:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDC8310E198
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:25:40 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B141110E198
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 11:26:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 059E761376;
- Fri, 10 Mar 2023 11:25:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C5ECC433EF;
- Fri, 10 Mar 2023 11:25:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1F7926137F;
+ Fri, 10 Mar 2023 11:26:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304C8C433D2;
+ Fri, 10 Mar 2023 11:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678447539;
- bh=5xlUGgFlZrpTKEABsOPDNJPrOOCrS04w8+cL8hyLxZs=;
+ s=korg; t=1678447588;
+ bh=3zbDR0R2B0q8uNSnStzY60cOVxRlxpyppDVpj8TGcBs=;
  h=Subject:To:Cc:From:Date:From;
- b=LhGfXlHqQi2J8WBEXSgkxHWq9iZjYzvAN01xH0uOJdr+YUoXocZEsmTFIrU2V2AMK
- fUMzIZA8slf/cWsOTPkXv7JG+SwsunWphvyiOz7vZWS3q9zh6+voHFWXPrkEMyCpRz
- GKCZed6vgZWOAa6t4d0ehUv3qR3kIWqv2VIsU/Q4=
+ b=hykUh+bPomPv1YxgMz+pO7aUpXMUX35kDIxnSzPHkQExeyfW9coeqc6muaKla1Fnc
+ dt/N4flePwnqWwbpdu0r19A4KFqgKHe2U5+cfiPGBSMBvd2hjCmzxpfpoEagiJb5oi
+ 9MY3iwM2HkWR+tE9qGNniGPFlQfpyk5fp4TlQY1E=
 Subject: Patch "drm/display/dp_mst: Add
- drm_atomic_get_old_mst_topology_state()" has been added to the 6.1-stable
+ drm_atomic_get_old_mst_topology_state()" has been added to the 6.2-stable
  tree
 To: daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, imre.deak@intel.com, jani.nikula@intel.com,
  lyude@redhat.com, ville.syrjala@linux.intel.com, wayne.lin@amd.com
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 10 Mar 2023 12:25:36 +0100
-Message-ID: <1678447536127205@kroah.com>
+Date: Fri, 10 Mar 2023 12:26:02 +0100
+Message-ID: <167844756113181@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/display/dp_mst: Add drm_atomic_get_old_mst_topology_state()
 
-to the 6.1-stable tree which can be found at:
+to the 6.2-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.2 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -187,4 +188,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from imre.deak@intel.com are
 
-queue-6.1/drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
+queue-6.2/drm-display-dp_mst-add-drm_atomic_get_old_mst_topology_state.patch
