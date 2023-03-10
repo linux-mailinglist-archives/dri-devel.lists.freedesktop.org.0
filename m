@@ -2,73 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FD86B4066
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 14:27:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626C06B4215
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Mar 2023 14:59:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B8310E1FD;
-	Fri, 10 Mar 2023 13:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B527510E2B0;
+	Fri, 10 Mar 2023 13:59:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2392410E1FD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 13:27:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678454866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/oDoMqLVnOuZxZgE4flgShP8OtqI4S89KmGHHiU1L20=;
- b=U5l0mq+LS+kJXyglZcZE9j2qkGRQ42c/l9wBEBOtIePyxo9PbWyRVhcDn/EeY2Lim92hcA
- sDtXm4paEZMoLD7uXzftDQ0Ulib8knQvzZxPbpPybUNHv3+unMkSVYoXQ8yzu0kk1nRGoj
- CQQnL4jUF/QPR0vfaovw7cWeuN4t9vQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-127-je3NF4oROSSjtfWve9hCFA-1; Fri, 10 Mar 2023 08:27:44 -0500
-X-MC-Unique: je3NF4oROSSjtfWve9hCFA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z6-20020a7bc7c6000000b003e0107732f4so1822604wmk.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Mar 2023 05:27:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678454864;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/oDoMqLVnOuZxZgE4flgShP8OtqI4S89KmGHHiU1L20=;
- b=RL+xdv05gzfCMzujS2gJEvwPlwbxrx9O+fSdeMf8M2/8WVHc9gkLQXBXJsIgfEPKkw
- peOFumUOxO3yaD83q75qECotphMNSwAOVaBrtUiclfNQtzX6dJCF/USrHkIRgYe14YBn
- G8B1vj607mv/Dmk2rL0Ed5gdlI3ytCLdujDY8M2AGfxlGMt4MfRba+j5aFmgEt30B72g
- GVxbr+PgtjH76DQdzGbj5tPesMELVQxNYaEFX9erTWcBpU+cxRlNlfXg+iMqfu0mJRLJ
- HlKVCxIE2VcqgkszIL4Qy5ZuUh/30frWBqNWuiCX6t186HK3Llc9ajwgQvM8CoasO8tC
- J65g==
-X-Gm-Message-State: AO0yUKWhHapX4+adnQnDph7b64Qijnq3PnlgYNZOZygUbkC9OruNIidK
- hnntrKhu1NyA5D9gdKV/C3o1XAujpJMAHTR9X57CMPsE8EIUHlL5RmidXVIpsRcz86oT1md42hg
- VdMkY3Cy2kmC3yM2qP9anNm7eCk+5
-X-Received: by 2002:adf:e5cf:0:b0:2c7:e60:abe8 with SMTP id
- a15-20020adfe5cf000000b002c70e60abe8mr1364276wrn.9.1678454863886; 
- Fri, 10 Mar 2023 05:27:43 -0800 (PST)
-X-Google-Smtp-Source: AK7set+/F5VlfIt9oBwbVxs0Diw/+nCO6V0/XYKj4aznLE1oCJqsevDI6s1JsyAlPJIAU5Rh/oqB3A==
-X-Received: by 2002:adf:e5cf:0:b0:2c7:e60:abe8 with SMTP id
- a15-20020adfe5cf000000b002c70e60abe8mr1364253wrn.9.1678454863604; 
- Fri, 10 Mar 2023 05:27:43 -0800 (PST)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- h19-20020a05600c351300b003e2058a7109sm3339325wmq.14.2023.03.10.05.27.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Mar 2023 05:27:43 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/virtio: Enable fb damage clips property for the
- primary plane
-In-Reply-To: <6c556799-6a78-4b67-a4c7-4de0a8f082fa@suse.de>
-References: <20230310125943.912514-1-javierm@redhat.com>
- <6c556799-6a78-4b67-a4c7-4de0a8f082fa@suse.de>
-Date: Fri, 10 Mar 2023 14:27:42 +0100
-Message-ID: <87fsac7n3l.fsf@minerva.mail-host-address-is-not-set>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F75610E2B0;
+ Fri, 10 Mar 2023 13:59:25 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 96ABA617B4;
+ Fri, 10 Mar 2023 13:59:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71A58C4339B;
+ Fri, 10 Mar 2023 13:59:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1678456764;
+ bh=FiGWTSRi8jwQPxcgYZ80FI0oc0kERnP0xwXyK8GlclA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Ewcl2s42hOBuS7bvmFdp9M4QLVoPUTv22xBkhIMe1osZc+2sX9RUgmYseIvDF/imY
+ ey0s+aujCRLLFajRzBPMheckI5jSbxbYrOc6bCAhYFqGx/7VJIA2NLFjyD8Vpo7A/H
+ EiKCis9c9qLa+P7ExoLkjhBwzm7mMynLk0abkl1M=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 6.2 075/211] drm/i915: move a Kconfig symbol to unbreak the
+ menu presentation
+Date: Fri, 10 Mar 2023 14:37:35 +0100
+Message-Id: <20230310133721.064604104@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230310133718.689332661@linuxfoundation.org>
+References: <20230310133718.689332661@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,58 +51,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Enric Balletbo i Serra <eballetb@redhat.com>,
- Bilal Elmoussaoui <belmouss@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- virtualization@lists.linux-foundation.org,
- Christian Hergert <chergert@redhat.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Randy Dunlap <rdunlap@infradead.org>,
+ patches@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gvt-dev@lists.freedesktop.org, Christoph Hellwig <hch@lst.de>,
+ Zhi Wang <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Hello Thomas,
+[ Upstream commit 0b93efca3659f6d55ed31cff6722dca5f6e4d6e2 ]
 
-> Hi Javier
->
-> Am 10.03.23 um 13:59 schrieb Javier Martinez Canillas:
->> Christian Hergert reports that the driver doesn't enable the property and
->> that leads to always doing a full plane update, even when the driver does
->> support damage clipping for the primary plane.
->> 
->> Don't enable it for the cursor plane, because its .atomic_update callback
->> doesn't handle damage clips.
->> 
->> Reported-by: Christian Hergert <chergert@redhat.com>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->> 
->>   drivers/gpu/drm/virtio/virtgpu_plane.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->> 
->> diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
->> index 4c09e313bebc..a2e045f3a000 100644
->> --- a/drivers/gpu/drm/virtio/virtgpu_plane.c
->> +++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
->> @@ -390,5 +390,9 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
->
-> virtio_gpu_plane_init() should really be two separate functions. But 
-> withing the constrains of the current code
->
+Inserting a Kconfig symbol that does not have a dependency (DRM_I915_GVT)
+into a list of other symbols that do have a dependency (on DRM_I915)
+breaks the driver menu presentation in 'make *config'.
 
-Agreed, I thought the same. I may post a follow-up patch once this lands.
+Relocate the DRM_I915_GVT symbol so that it does not cause this
+problem.
 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
+Fixes: 8b750bf74418 ("drm/i915/gvt: move the gvt code into kvmgt.ko")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Zhi Wang <zhi.a.wang@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-gvt-dev@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+Signed-off-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+Link: http://patchwork.freedesktop.org/patch/msgid/20230215044533.4847-1-rdunlap@infradead.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/i915/Kconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks!
-
+diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
+index 3efce05d7b57c..3a6e176d77aa5 100644
+--- a/drivers/gpu/drm/i915/Kconfig
++++ b/drivers/gpu/drm/i915/Kconfig
+@@ -107,9 +107,6 @@ config DRM_I915_USERPTR
+ 
+ 	  If in doubt, say "Y".
+ 
+-config DRM_I915_GVT
+-	bool
+-
+ config DRM_I915_GVT_KVMGT
+ 	tristate "Enable KVM host support Intel GVT-g graphics virtualization"
+ 	depends on DRM_I915
+@@ -160,3 +157,6 @@ menu "drm/i915 Unstable Evolution"
+ 	depends on DRM_I915
+ 	source "drivers/gpu/drm/i915/Kconfig.unstable"
+ endmenu
++
++config DRM_I915_GVT
++	bool
 -- 
-Best regards,
+2.39.2
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+
 
