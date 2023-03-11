@@ -2,63 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2356B5B6A
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 13:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8A56B5BBE
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 13:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D33B10E0B0;
-	Sat, 11 Mar 2023 12:02:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B3310E0B7;
+	Sat, 11 Mar 2023 12:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A824410E0B0
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Mar 2023 12:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1678536128; i=deller@gmx.de;
- bh=XHzjB+riYZupE9URm53jbBdbmmPt9aIVp+oDZubbiSk=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=XwvIerXlT2mounaGkH4bPd70VnPtb06B4Et9Zm1GSzNjQeF46OxOv+XOJx/POi+nW
- yz0uHVg5mJlA0+7JWQk+QAXNMYLwalZTf2qCuWevYvxJL4guI3hAe3FJzhjTbkuq8z
- EF5HN9UrL52LU7TZC98ooKdJsfGRdokX8rgN+tKb84/wt0FwupvA40oBBjY7bHubdu
- HyEWUdcSLsJ89F1G3nwjsVdy2iCxKUupQDluv8M/gCGgF0Edx8QvVyjwk8xaj0mYA7
- Z47W77i9b1EdrxzJCvJa02pu+X04ClF82Au2qdjO11st1A00mUGkh7NL5j+zktY+gy
- JbjBP0kKSElDw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.154.207]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MDhhX-1pjS7T004l-00AoJM; Sat, 11
- Mar 2023 13:02:08 +0100
-Message-ID: <3a1432d1-e31b-55bd-c7cc-fe8645f4a188@gmx.de>
-Date: Sat, 11 Mar 2023 13:02:06 +0100
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A533510E0B7
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Mar 2023 12:32:44 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id i10so8283284plr.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Mar 2023 04:32:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678537964;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zeBGEGBy3GzypDRtMJAMW7+H/dC0tKTZg1B8rKisPPg=;
+ b=ozYBtX+oLCLwTDq0vgGPi/UV5U3VCNOx0hgd8raVBdxqET0UET+vr6lFr+Sj5DulQv
+ yy6p1/GTWJD+/1j5mD9CPQHQs0dTjysHRI5EGelYq+hUSr39ExzUZ2iBdtdCjvPqGGM/
+ I0lB7mJzQCzIVpGLR6jbcxIAxpDavqedDI3ITFMQQXstOo/1fmcCQVwxTUPidbkTyyBw
+ i2RTCskqTCZO6LccgnhQ66HUzUgKyxZUbuBBUo5hsPEMAwSfxvlHsp3g6KtkCKfYUQc8
+ mom00/wjigb4i1JOD0fo3Y1j1TUZ8W+wtnvnmXXAimdhsINpzeeHPndz7Jed8pAu+163
+ PdtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678537964;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zeBGEGBy3GzypDRtMJAMW7+H/dC0tKTZg1B8rKisPPg=;
+ b=mCiwiCtT1htgtlnzwXuzffsstc7vOLBlgidINTOue4CTU/NoA4nKmVkiRIIstMejd1
+ Sk9qOnzakTlUq/UGNwW1PFH3jCwk4ewh9K6A1K0c+WjeVC5/6okJVhtACEJ4UwYWfBCG
+ lC0dippdqm7BmZpn9AsEFbFhBMj0kORtdZ3djrwj6beWUmp9gsu/J9fe0OQClE6f4seC
+ JIcme8ex6aNitqshbchG4918xCfN2+bWYENul8ZSGIRDXc5y2B39ksrU3MSH4t19Sogb
+ uCJXZ0mRH7zUvWF5wHGJcDwPDITM824Y3tt8i7Dobu54sNlzmyRfV5L+/rA1r20d5J7u
+ yAiw==
+X-Gm-Message-State: AO0yUKWarvN6DGEACxR2LbjpgOcYg6WfX8kP3DgVgmCgN1ukhXWO6Yf1
+ MTTLlbt+FSyb4gHjJ0k74xU=
+X-Google-Smtp-Source: AK7set9M6K7Ck2qJ+kyt/yPQ4Vwm1QYaDduE/QAC7LceldmLdWyR9N7INxoglPg3eg/bykJOjTe6Pw==
+X-Received: by 2002:a05:6a20:440c:b0:ce:5c14:2838 with SMTP id
+ ce12-20020a056a20440c00b000ce5c142838mr39315872pzb.54.1678537964189; 
+ Sat, 11 Mar 2023 04:32:44 -0800 (PST)
+Received: from localhost.localdomain (n220246252084.netvigator.com.
+ [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
+ g4-20020a62e304000000b005a8173829d5sm1406754pfh.66.2023.03.11.04.32.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Mar 2023 04:32:43 -0800 (PST)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v5 1/2] dt-bindings: display: panel: Add Novatek NT36523
+ bindings
+Date: Sat, 11 Mar 2023 20:32:30 +0800
+Message-Id: <20230311123231.20771-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] fbdev: Use of_property_read_bool() for boolean properties
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Michal Simek <michal.simek@xilinx.com>
-References: <20230310144730.1546031-1-robh@kernel.org>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230310144730.1546031-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:X0J2z7aRj6j/qMuUHRdtmzCsXbISKEB333XHampK4aM+SECg9EJ
- D4HuvbyC4huv/cXgI86KQIVrhug1XQsYgjd1EVW9w65X4W8Bp2ycALX90Ti/0cuUwNBP+Tk
- 3Tj6dBLbEcRi3uT8LkDNIO0s9yA0EbcWK77Sqv5dfr4IBzLJDmVgRxKwLr3rKssEoc9Hhlt
- I6MUOx4SpmcDEQg0e/lTQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:7d9rmOsCyLE=;E3XyDPaK+7R9zNu0Md/kvsEoh29
- ZWAkr4g1glgIG0NCK/kYaWz1WQrIqBk2krw0EjFZXe5ZSBYaFLKFrtvtuFLD1G646h0s4ooYl
- jenU9WTYplIATATZnLSex+YIHX+C8J7j2OQWQlsOGu8t6ZmrSSqhkPoXBQmrlIWBZEoUAtMss
- UvXv6/KhEtskttYG+eGfcJunaBIWDgHjhJM1Qam5UaqIwl1ZP6MLu0ooucYCISYfbQdNLYO46
- EHQHDCwwLOSRkpDh1/xBT/fRFk+dNjdO5iOLBbkkZfNpf27+zi6i7imbnAe1Phq7xU+Dp8M7G
- lta/mtJ9mvsEk1e5UsYYivWZRwk5zcJwFWgsHKZ8JxRioJIGVd9tQTPCZcrHiTkZn/f+qyCBW
- 23BBgEZZMtglMNhzrou+xhpWq0k4+dkczeLTSYzIxI/0NK0DUmAO1K7y274X4ZkD64krqiipF
- /nY2K22rSI6thrReKuyyVYsPKLArxGACcBDdLzrXw2lMGqtVGHsZpqoqk9asnnM/NqePsyGxD
- ko1oT5fikdFn4o/stOUWc2Su2Kg9VfNfXPGQo0aHWUw35bS+/z6ta6gzKNs0djv7zxRdZkPqN
- 91CeUzPhACCAMIwgwyfn/eAYMfDDMxnn4MGWwDSLOswq3AFqsSjmmyyeSkPugbc28IviFU/b/
- ISOtw8bJPAlBBbogNS7Owv+HnJbRTeI9L00rQFWfWhv/xdss01CPsehYIvnd7490kZgBbURyw
- mLHjWyYCFH+ckHG2XmRdkpUbIbIOlzrrPoqCUQgko+/G1/YxEHiX8pKxWRVlXgsNqFodjZTwo
- mInnIqEU1M4hC1fD1jxElVR87zhNLrOe4kGef4KvfqSpUSI9ny6rCseauC246zy2CJ0K25eKE
- VOZssyWK5JWos1b9FsCYLhpvWtJJLwVLsPGPUxyptRLvaoh3nesnPTwb1Y9oez7ZlDoAeacE8
- EEBdug==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,100 +76,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jianhua Lu <lujianhua000@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/10/23 15:47, Rob Herring wrote:
-> It is preferred to use typed property access functions (i.e.
-> of_property_read_<type> functions) rather than low-level
-> of_get_property/of_find_property functions for reading properties.
-> Convert reading boolean properties to to of_property_read_bool().
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Novatek NT36523 is a display driver IC used to drive DSI panels.
 
-applied.
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+No changes in v5
 
-Thanks,
-Helge
+No changes in v4
 
-> ---
->   drivers/video/fbdev/offb.c     | 4 ++--
->   drivers/video/fbdev/sm501fb.c  | 4 ++--
->   drivers/video/fbdev/tcx.c      | 3 +--
->   drivers/video/fbdev/xilinxfb.c | 3 +--
->   4 files changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/video/fbdev/offb.c b/drivers/video/fbdev/offb.c
-> index f7ad6bc9d02d..b97d251d894b 100644
-> --- a/drivers/video/fbdev/offb.c
-> +++ b/drivers/video/fbdev/offb.c
-> @@ -549,10 +549,10 @@ static void offb_init_nodriver(struct platform_dev=
-ice *parent, struct device_nod
->   	int foreign_endian =3D 0;
->
->   #ifdef __BIG_ENDIAN
-> -	if (of_get_property(dp, "little-endian", NULL))
-> +	if (of_property_read_bool(dp, "little-endian"))
->   		foreign_endian =3D FBINFO_FOREIGN_ENDIAN;
->   #else
-> -	if (of_get_property(dp, "big-endian", NULL))
-> +	if (of_property_read_bool(dp, "big-endian"))
->   		foreign_endian =3D FBINFO_FOREIGN_ENDIAN;
->   #endif
->
-> diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb=
-.c
-> index f743bfbde2a6..1f3cbe723def 100644
-> --- a/drivers/video/fbdev/sm501fb.c
-> +++ b/drivers/video/fbdev/sm501fb.c
-> @@ -1737,10 +1737,10 @@ static int sm501fb_init_fb(struct fb_info *fb, e=
-num sm501_controller head,
->
->   #if defined(CONFIG_OF)
->   #ifdef __BIG_ENDIAN
-> -	if (of_get_property(info->dev->parent->of_node, "little-endian", NULL)=
-)
-> +	if (of_property_read_bool(info->dev->parent->of_node, "little-endian")=
-)
->   		fb->flags |=3D FBINFO_FOREIGN_ENDIAN;
->   #else
-> -	if (of_get_property(info->dev->parent->of_node, "big-endian", NULL))
-> +	if (of_property_read_bool(info->dev->parent->of_node, "big-endian"))
->   		fb->flags |=3D FBINFO_FOREIGN_ENDIAN;
->   #endif
->   #endif
-> diff --git a/drivers/video/fbdev/tcx.c b/drivers/video/fbdev/tcx.c
-> index 01d87f53324d..f2eaf6e7fff6 100644
-> --- a/drivers/video/fbdev/tcx.c
-> +++ b/drivers/video/fbdev/tcx.c
-> @@ -379,8 +379,7 @@ static int tcx_probe(struct platform_device *op)
->
->   	spin_lock_init(&par->lock);
->
-> -	par->lowdepth =3D
-> -		(of_find_property(dp, "tcx-8-bit", NULL) !=3D NULL);
-> +	par->lowdepth =3D of_property_read_bool(dp, "tcx-8-bit");
->
->   	sbusfb_fill_var(&info->var, dp, 8);
->   	info->var.red.length =3D 8;
-> diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinx=
-fb.c
-> index 1ac83900a21c..c17cfffd9a84 100644
-> --- a/drivers/video/fbdev/xilinxfb.c
-> +++ b/drivers/video/fbdev/xilinxfb.c
-> @@ -469,8 +469,7 @@ static int xilinxfb_of_probe(struct platform_device =
-*pdev)
->   		pdata.yvirt =3D prop[1];
->   	}
->
-> -	if (of_find_property(pdev->dev.of_node, "rotate-display", NULL))
-> -		pdata.rotate_screen =3D 1;
-> +	pdata.rotate_screen =3D of_property_read_bool(pdev->dev.of_node, "rota=
-te-display");
->
->   	platform_set_drvdata(pdev, drvdata);
->   	return xilinxfb_assign(pdev, drvdata, &pdata);
+Changes in v3:
+  - pick up Krzysztof's R-b
+  - remove vddpos and vddneg supply
+
+Changes in v2:
+  - Drop unnecessary description
+  - dsi0 -> dsi
+  - Correct indentation
+
+ .../display/panel/novatek,nt36523.yaml        | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+new file mode 100644
+index 000000000000..0039561ef04c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Novatek NT36523 based DSI display Panels
++
++maintainers:
++  - Jianhua Lu <lujianhua000@gmail.com>
++
++description: |
++  The Novatek NT36523 is a generic DSI Panel IC used to drive dsi
++  panels. Support video mode panels from China Star Optoelectronics
++  Technology (CSOT) and BOE Technology.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - xiaomi,elish-boe-nt36523
++          - xiaomi,elish-csot-nt36523
++      - const: novatek,nt36523
++
++  reset-gpios:
++    maxItems: 1
++    description: phandle of gpio for reset line - This should be 8mA
++
++  vddio-supply:
++    description: regulator that supplies the I/O voltage
++
++  reg: true
++  ports: true
++  backlight: true
++
++required:
++  - compatible
++  - reg
++  - vddio-supply
++  - reset-gpios
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "xiaomi,elish-csot-nt36523", "novatek,nt36523";
++            reg = <0>;
++
++            vddio-supply = <&vreg_l14a_1p88>;
++            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
++            backlight = <&backlight>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    panel_in_0: endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                    };
++                };
++
++                port@1{
++                    reg = <1>;
++                    panel_in_1: endpoint {
++                        remote-endpoint = <&dsi1_out>;
++                    };
++                };
++            };
++        };
++    };
++
++...
+-- 
+2.39.2
 
