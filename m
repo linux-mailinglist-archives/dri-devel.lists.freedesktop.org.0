@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6846B5BFC
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 13:52:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E31046B5C5A
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 14:43:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E83E910E1DF;
-	Sat, 11 Mar 2023 12:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81B8710E0BB;
+	Sat, 11 Mar 2023 13:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B278F10E196
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Mar 2023 12:52:02 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4PYjVV2CNrz9t60;
- Sat, 11 Mar 2023 12:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1678539122; bh=EU/oFBOVUgpw36DyJScG2/NMtHZZRKuBKPrQ8vjoLDE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CIb1I803aiTr0kCfAhW70cebsXj8FVnB/yd4aZ26d6vcY48p/NyFND4hH5Ar1lSJj
- dKQYbjGF4+Nwx0KeM4g+sO7hRxs2+ruIIa3lYKNmZJegPLxYZ5EzH7KLuxE3ey1Pkn
- 7/4IlU5c/GGk8uKKbze4SqKG3/DibFBDzrvZNQ10=
-X-Riseup-User-ID: DEB316794C0594CD4721FDBE013A3145FDD28066446E4AA964B9690195C698A5
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4PYjVR5DSfz5vW0;
- Sat, 11 Mar 2023 12:51:59 +0000 (UTC)
-From: Arthur Grillo <arthurgrillo@riseup.net>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/format-helper: Make "destination_pitch" test case
- usable for the monochrome case
-Date: Sat, 11 Mar 2023 09:51:41 -0300
-Message-Id: <20230311125141.564801-3-arthurgrillo@riseup.net>
-In-Reply-To: <20230311125141.564801-1-arthurgrillo@riseup.net>
-References: <20230311125141.564801-1-arthurgrillo@riseup.net>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B3C410E0AC
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Mar 2023 13:42:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678542175; x=1710078175;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=x+ZRr0pj7ADlwQU5k8M99g/tAgS3JVQU+0XabB88Cew=;
+ b=ifixLZ3iyI3mSRH1UqDpTh08bhiEFl8bpf7aov3H36sAz8C2A8wV2AeK
+ aNB6XOoT94hdLnPaiiBeyWvG1OuhmG2v36XdlOh4E6azYa+7m9vjtARY7
+ gkTk6w39pCVr6ylWgPXuJdZY5d/XA3Y6mnh8ufxFmB2upLTi/vwRiBhPq
+ 0Em/1jYttHh9QHDN3n31tlIFK+LkrZwd+zrJdAPwgdpOaY2v0BdEOzQqy
+ jfC7D5TNZwunjvfXvYMtXSIuyybK6p+dhjm60yURMkU0pekCfRRWvrQ2B
+ BHeWqK5h4rUMnVeST/Zp2g+2VREl5VyQ1AA4BCgdsnvvOGKguC+CB9CI7 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325260777"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="325260777"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2023 05:42:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="678156174"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="678156174"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga002.jf.intel.com with ESMTP; 11 Mar 2023 05:42:52 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pazUq-0004bR-0O;
+ Sat, 11 Mar 2023 13:42:52 +0000
+Date: Sat, 11 Mar 2023 21:42:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH] fbdev: Use of_property_present() for testing DT property
+ presence
+Message-ID: <202303112153.uPbFjEUI-lkp@intel.com>
+References: <20230310144729.1545943-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230310144729.1545943-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,172 +61,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: davidgow@google.com, tales.aparecida@gmail.com, javierm@redhat.com,
- mairacanal@riseup.net, tzimmermann@suse.de, jose.exposito89@gmail.com,
- andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev, linux-omap@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This test case uses an arbitrary pitch size, different of the default
-one, to test if the conversions methods obey.
+Hi Rob,
 
-Change the "destination_pitch" colors to change the monochrome expected
-result from being just zeros, as this makes the arbitrary pitch use
-unusable.
+I love your patch! Yet something to improve:
 
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
----
- .../gpu/drm/tests/drm_format_helper_test.c    | 78 +++++++++----------
- 1 file changed, 39 insertions(+), 39 deletions(-)
+[auto build test ERROR on drm-misc/drm-misc-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index 041b3d2f100f..bfa47f8ffd09 100644
---- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -323,104 +323,104 @@ static struct convert_xrgb8888_case convert_xrgb8888_cases[] = {
- 		.pitch = 3 * 4,
- 		.clip = DRM_RECT_INIT(0, 0, 3, 3),
- 		.xrgb8888 = {
--			0xA10E449C, 0xB1114D05, 0xC1A80303,
--			0xD16C7073, 0xA20E449C, 0xB2114D05,
--			0xC2A80303, 0xD26C7073, 0xA30E449C,
-+			0xA10E449C, 0xB1114D05, 0xC1A8F303,
-+			0xD16CF073, 0xA20E449C, 0xB2114D05,
-+			0xC2A80303, 0xD26CF073, 0xA30E449C,
- 		},
- 		.gray8_result = {
- 			.dst_pitch = 5,
- 			.expected = {
--				0x3C, 0x33, 0x34, 0x00, 0x00,
--				0x6F, 0x3C, 0x33, 0x00, 0x00,
--				0x34, 0x6F, 0x3C, 0x00, 0x00,
-+				0x3C, 0x33, 0xC4, 0x00, 0x00,
-+				0xBB, 0x3C, 0x33, 0x00, 0x00,
-+				0x34, 0xBB, 0x3C, 0x00, 0x00,
- 			},
- 		},
- 		.rgb332_result = {
- 			.dst_pitch = 5,
- 			.expected = {
--				0x0A, 0x08, 0xA0, 0x00, 0x00,
--				0x6D, 0x0A, 0x08, 0x00, 0x00,
--				0xA0, 0x6D, 0x0A, 0x00, 0x00,
-+				0x0A, 0x08, 0xBC, 0x00, 0x00,
-+				0x7D, 0x0A, 0x08, 0x00, 0x00,
-+				0xA0, 0x7D, 0x0A, 0x00, 0x00,
- 			},
- 		},
- 		.rgb565_result = {
- 			.dst_pitch = 10,
- 			.expected = {
--				0x0A33, 0x1260, 0xA800, 0x0000, 0x0000,
--				0x6B8E, 0x0A33, 0x1260, 0x0000, 0x0000,
--				0xA800, 0x6B8E, 0x0A33, 0x0000, 0x0000,
-+				0x0A33, 0x1260, 0xAF80, 0x0000, 0x0000,
-+				0x6F8E, 0x0A33, 0x1260, 0x0000, 0x0000,
-+				0xA800, 0x6F8E, 0x0A33, 0x0000, 0x0000,
- 			},
- 			.expected_swab = {
--				0x330A, 0x6012, 0x00A8, 0x0000, 0x0000,
--				0x8E6B, 0x330A, 0x6012, 0x0000, 0x0000,
--				0x00A8, 0x8E6B, 0x330A, 0x0000, 0x0000,
-+				0x330A, 0x6012, 0x80AF, 0x0000, 0x0000,
-+				0x8E6F, 0x330A, 0x6012, 0x0000, 0x0000,
-+				0x00A8, 0x8E6F, 0x330A, 0x0000, 0x0000,
- 			},
- 		},
- 		.xrgb1555_result = {
- 			.dst_pitch = 10,
- 			.expected = {
--				0x0513, 0x0920, 0x5400, 0x0000, 0x0000,
--				0x35CE, 0x0513, 0x0920, 0x0000, 0x0000,
--				0x5400, 0x35CE, 0x0513, 0x0000, 0x0000,
-+				0x0513, 0x0920, 0x57C0, 0x0000, 0x0000,
-+				0x37CE, 0x0513, 0x0920, 0x0000, 0x0000,
-+				0x5400, 0x37CE, 0x0513, 0x0000, 0x0000,
- 			},
- 		},
- 		.argb1555_result = {
- 			.dst_pitch = 10,
- 			.expected = {
--				0x8513, 0x8920, 0xD400, 0x0000, 0x0000,
--				0xB5CE, 0x8513, 0x8920, 0x0000, 0x0000,
--				0xD400, 0xB5CE, 0x8513, 0x0000, 0x0000,
-+				0x8513, 0x8920, 0xD7C0, 0x0000, 0x0000,
-+				0xB7CE, 0x8513, 0x8920, 0x0000, 0x0000,
-+				0xD400, 0xB7CE, 0x8513, 0x0000, 0x0000,
- 			},
- 		},
- 		.rgba5551_result = {
- 			.dst_pitch = 10,
- 			.expected = {
--				0x0A27, 0x1241, 0xA801, 0x0000, 0x0000,
--				0x6B9D, 0x0A27, 0x1241, 0x0000, 0x0000,
--				0xA801, 0x6B9D, 0x0A27, 0x0000, 0x0000,
-+				0x0A27, 0x1241, 0xAF81, 0x0000, 0x0000,
-+				0x6F9D, 0x0A27, 0x1241, 0x0000, 0x0000,
-+				0xA801, 0x6F9D, 0x0A27, 0x0000, 0x0000,
- 			},
- 		},
- 		.rgb888_result = {
- 			.dst_pitch = 15,
- 			.expected = {
--				0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11, 0x03, 0x03, 0xA8,
-+				0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11, 0x03, 0xF3, 0xA8,
- 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--				0x73, 0x70, 0x6C, 0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11,
-+				0x73, 0xF0, 0x6C, 0x9C, 0x44, 0x0E, 0x05, 0x4D, 0x11,
- 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--				0x03, 0x03, 0xA8, 0x73, 0x70, 0x6C, 0x9C, 0x44, 0x0E,
-+				0x03, 0x03, 0xA8, 0x73, 0xF0, 0x6C, 0x9C, 0x44, 0x0E,
- 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 			},
- 		},
- 		.argb8888_result = {
- 			.dst_pitch = 20,
- 			.expected = {
--				0xFF0E449C, 0xFF114D05, 0xFFA80303, 0x00000000, 0x00000000,
--				0xFF6C7073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
--				0xFFA80303, 0xFF6C7073, 0xFF0E449C, 0x00000000, 0x00000000,
-+				0xFF0E449C, 0xFF114D05, 0xFFA8F303, 0x00000000, 0x00000000,
-+				0xFF6CF073, 0xFF0E449C, 0xFF114D05, 0x00000000, 0x00000000,
-+				0xFFA80303, 0xFF6CF073, 0xFF0E449C, 0x00000000, 0x00000000,
- 			},
- 		},
- 		.xrgb2101010_result = {
- 			.dst_pitch = 20,
- 			.expected = {
--				0x03844672, 0x0444D414, 0x2A20300C, 0x00000000, 0x00000000,
--				0x1B1705CD, 0x03844672, 0x0444D414, 0x00000000, 0x00000000,
--				0x2A20300C, 0x1B1705CD, 0x03844672, 0x00000000, 0x00000000,
-+				0x03844672, 0x0444D414, 0x2A2F3C0C, 0x00000000, 0x00000000,
-+				0x1B1F0DCD, 0x03844672, 0x0444D414, 0x00000000, 0x00000000,
-+				0x2A20300C, 0x1B1F0DCD, 0x03844672, 0x00000000, 0x00000000,
- 			},
- 		},
- 		.argb2101010_result = {
- 			.dst_pitch = 20,
- 			.expected = {
--				0xC3844672, 0xC444D414, 0xEA20300C, 0x00000000, 0x00000000,
--				0xDB1705CD, 0xC3844672, 0xC444D414, 0x00000000, 0x00000000,
--				0xEA20300C, 0xDB1705CD, 0xC3844672, 0x00000000, 0x00000000,
-+				0xC3844672, 0xC444D414, 0xEA2F3C0C, 0x00000000, 0x00000000,
-+				0xDB1F0DCD, 0xC3844672, 0xC444D414, 0x00000000, 0x00000000,
-+				0xEA20300C, 0xDB1F0DCD, 0xC3844672, 0x00000000, 0x00000000,
- 			},
- 		},
- 		.mono_result = {
- 			.dst_pitch = 2,
- 			.expected = {
--				0b000, 0b000,
--				0b000, 0b000,
--				0b000, 0b000,
-+				0b100, 0b000,
-+				0b001, 0b000,
-+				0b010, 0b000,
- 			},
- 		},
- 	},
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/fbdev-Use-of_property_present-for-testing-DT-property-presence/20230310-225754
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230310144729.1545943-1-robh%40kernel.org
+patch subject: [PATCH] fbdev: Use of_property_present() for testing DT property presence
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230311/202303112153.uPbFjEUI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c013f4111f36b0b4327e7fbf46c0dd93399e9209
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rob-Herring/fbdev-Use-of_property_present-for-testing-DT-property-presence/20230310-225754
+        git checkout c013f4111f36b0b4327e7fbf46c0dd93399e9209
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303112153.uPbFjEUI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/video/fbdev/amba-clcd.c: In function 'clcdfb_of_get_board':
+>> drivers/video/fbdev/amba-clcd.c:857:13: error: implicit declaration of function 'of_property_present'; did you mean 'fwnode_property_present'? [-Werror=implicit-function-declaration]
+     857 |         if (of_property_present(node, "memory-region")) {
+         |             ^~~~~~~~~~~~~~~~~~~
+         |             fwnode_property_present
+   cc1: some warnings being treated as errors
+
+
+vim +857 drivers/video/fbdev/amba-clcd.c
+
+   843	
+   844	static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
+   845	{
+   846		struct clcd_board *board = devm_kzalloc(&dev->dev, sizeof(*board),
+   847				GFP_KERNEL);
+   848		struct device_node *node = dev->dev.of_node;
+   849	
+   850		if (!board)
+   851			return NULL;
+   852	
+   853		board->name = of_node_full_name(node);
+   854		board->caps = CLCD_CAP_ALL;
+   855		board->check = clcdfb_check;
+   856		board->decode = clcdfb_decode;
+ > 857		if (of_property_present(node, "memory-region")) {
+   858			board->setup = clcdfb_of_vram_setup;
+   859			board->mmap = clcdfb_of_vram_mmap;
+   860			board->remove = clcdfb_of_vram_remove;
+   861		} else {
+   862			board->setup = clcdfb_of_dma_setup;
+   863			board->mmap = clcdfb_of_dma_mmap;
+   864			board->remove = clcdfb_of_dma_remove;
+   865		}
+   866	
+   867		return board;
+   868	}
+   869	#else
+   870	static struct clcd_board *clcdfb_of_get_board(struct amba_device *dev)
+   871	{
+   872		return NULL;
+   873	}
+   874	#endif
+   875	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
