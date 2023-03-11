@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75C96B5903
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 07:38:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A147D6B5905
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Mar 2023 07:38:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9934F10EA5B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A863810EA5C;
 	Sat, 11 Mar 2023 06:38:18 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD3010E09D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C19610E0D1;
  Sat, 11 Mar 2023 06:38:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1678516696; x=1710052696;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9xJ78ZPjSwZj2s9QdeqUFq5jM7hTALRDfyEnmi9fAbM=;
- b=jjDpuox6jjcwYcKY5CJgOj3o9OsJ3yxYsn6SEuBgnGP7FQxdHWifsbKe
- C55frbMI5Q0xoSx9840OwYY1q3Fu3ZxboggcvXkhAc6RdGyNcH2o7g+Wt
- r9Hh4sJSIRdPzNrTnvRGS3/7qefr+0LxKVlEb2XrTJqgdkVbZa685DUmu
- EE6E/x4aycKoqCMeZmdaRKfDfQ9MmiSVOSr9foLbXcVo2ku6sfSOKVKyy
- /W9u8hHu8O2TIdxiqRVP5l8rklsDPxook3wQopi4fsGMJk9cCNSk3GVij
- bxbqEjtwyBCeabsYjU5tX+7y7eQP/RhCxUszbGx4qNKwWCj2zHdVpTbeT g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="335579553"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="335579553"
+ bh=d8h4HW5/JM9xOCNH7wDZWckq71z5KOcSv3cidNaFdQo=;
+ b=QMgk3a0qGgtcrwV+jsRSB90Ipl/P5n2DmP1LU/sEOmxdh7lpMWkc1zhi
+ UEp5mbBmqcekjP2HxCrcC64TNt4OleogzdUlEUi3l9019wF/aXhksFp4V
+ mGcWpLbwc2b95Xrw5D8bpsWpXVMX0R4W9vdagM3UCIA/00qTRb+yfe2rO
+ gHnCOxc5iO5kRW16uNsZ/elBwRcpZYIxkEtG3S+lTAAaxGNryVcNfvrLk
+ 2sWxANChx6Cp1LwIeFVYcsbUrRlWrSzuAhzcCGZAPqm5WRJ9GpMEgOlYz
+ qsFgaTNiPMQ9Dvq+7G3LWU8R9sLnJch4QrFo45cA0x9iW6027MvpwGApX A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="335579554"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="335579554"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Mar 2023 22:38:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="678086697"
-X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="678086697"
+X-IronPort-AV: E=McAfee;i="6500,9779,10645"; a="678086700"
+X-IronPort-AV: E=Sophos;i="5.98,252,1673942400"; d="scan'208";a="678086700"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
  by orsmga002.jf.intel.com with ESMTP; 10 Mar 2023 22:38:15 -0800
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH v3 2/3] drm/i915/guc: Clean up of register capture search
-Date: Fri, 10 Mar 2023 22:37:13 -0800
-Message-Id: <20230311063714.570389-3-John.C.Harrison@Intel.com>
+Subject: [PATCH v3 3/3] drm/i915: Include timeline seqno in error capture
+Date: Fri, 10 Mar 2023 22:37:14 -0800
+Message-Id: <20230311063714.570389-4-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230311063714.570389-1-John.C.Harrison@Intel.com>
 References: <20230311063714.570389-1-John.C.Harrison@Intel.com>
@@ -65,34 +65,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: John Harrison <John.C.Harrison@Intel.com>
 
-The comparison in the search for a matching register capture node was
-not the most readable. It was also assuming that a zero GuC id means
-invalid, which it does not. So remove one invalid term, one redundant
-term and re-format to keep each term on a single line, and only one
-term per line.
+The seqno value actually written out to memory is no longer in the
+regular HWSP. Instead, it is now in its own private timeline buffer.
+Thus, it is no longer visible in an error capture. So, explicitly read
+the value and include that in the capture.
+
+v2: %d -> %u (Alan)
 
 Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Reviewed-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 ---
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/i915_gpu_error.c | 3 +++
+ drivers/gpu/drm/i915/i915_gpu_error.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-index 36196cbb24c6b..cf49188db6a6e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-@@ -1616,9 +1616,8 @@ void intel_guc_capture_get_matching_node(struct intel_gt *gt,
- 	list_for_each_entry_safe(n, ntmp, &guc->capture->outlist, link) {
- 		if (n->eng_inst == GUC_ID_TO_ENGINE_INSTANCE(ee->engine->guc_id) &&
- 		    n->eng_class == GUC_ID_TO_ENGINE_CLASS(ee->engine->guc_id) &&
--		    n->guc_id && n->guc_id == ce->guc_id.id &&
--		    (n->lrca & CTX_GTT_ADDRESS_MASK) && (n->lrca & CTX_GTT_ADDRESS_MASK) ==
--		    (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK)) {
-+		    n->guc_id == ce->guc_id.id &&
-+		    (n->lrca & CTX_GTT_ADDRESS_MASK) == (ce->lrc.lrca & CTX_GTT_ADDRESS_MASK)) {
- 			list_del(&n->link);
- 			ee->guc_capture_node = n;
- 			ee->guc_capture = guc->capture;
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+index 904f21e1380cd..f020c0086fbcd 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.c
++++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+@@ -505,6 +505,7 @@ static void error_print_context(struct drm_i915_error_state_buf *m,
+ 		   header, ctx->comm, ctx->pid, ctx->sched_attr.priority,
+ 		   ctx->guilty, ctx->active,
+ 		   ctx->total_runtime, ctx->avg_runtime);
++	err_printf(m, "  context timeline seqno %u\n", ctx->hwsp_seqno);
+ }
+ 
+ static struct i915_vma_coredump *
+@@ -1395,6 +1396,8 @@ static bool record_context(struct i915_gem_context_coredump *e,
+ 	e->sched_attr = ctx->sched;
+ 	e->guilty = atomic_read(&ctx->guilty_count);
+ 	e->active = atomic_read(&ctx->active_count);
++	e->hwsp_seqno = (ce->timeline && ce->timeline->hwsp_seqno) ?
++				*ce->timeline->hwsp_seqno : ~0U;
+ 
+ 	e->total_runtime = intel_context_get_total_runtime_ns(ce);
+ 	e->avg_runtime = intel_context_get_avg_runtime_ns(ce);
+diff --git a/drivers/gpu/drm/i915/i915_gpu_error.h b/drivers/gpu/drm/i915/i915_gpu_error.h
+index 56027ffbce51f..a91932cc65317 100644
+--- a/drivers/gpu/drm/i915/i915_gpu_error.h
++++ b/drivers/gpu/drm/i915/i915_gpu_error.h
+@@ -107,6 +107,7 @@ struct intel_engine_coredump {
+ 		int active;
+ 		int guilty;
+ 		struct i915_sched_attr sched_attr;
++		u32 hwsp_seqno;
+ 	} context;
+ 
+ 	struct i915_vma_coredump *vma;
 -- 
 2.39.1
 
