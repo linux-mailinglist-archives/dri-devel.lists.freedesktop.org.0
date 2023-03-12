@@ -1,70 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340446B62A1
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 02:10:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 448AD6B6363
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 06:44:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1865210E02A;
-	Sun, 12 Mar 2023 01:10:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CDB10E34B;
+	Sun, 12 Mar 2023 05:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4B0D10E02A
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 01:10:13 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id bp27so1115390lfb.6
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Mar 2023 17:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678583412;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QiwsY9OJEcjxZFm1rjoIDbhErPmPuAzTuewFchOar48=;
- b=syH/JXmWXHXbR7jpOmJoUM2Pr8/47bxsNI1/v2/nDYHf6cF6rnIpfjiA6verpTDREe
- GP7KxOSNgUpvuc36JYeVSkRZDj0/6oEB/oFlh3lxicLk8bXkmqAXTbGcdTvQkpaL2SZA
- YGjdlonKL7h4d0/5jSheAh1RmvUTqEU7tbTktQg1ndIII2TVaZCPNFagmMiHDsYTtu94
- uKDnnDMph/dL/1iksJRxZ1dFjUjzAGl7TtYm/1axeW6JlW2DcOpwJTE/s5VqLCCKKwkA
- wu+zEoTA/EK7Kj4HDdjQmzTOCcRKThDU1eCJu5JpvdJ6ZMm2wVFAlD5b7G3jn9FV1x7w
- J7AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678583412;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QiwsY9OJEcjxZFm1rjoIDbhErPmPuAzTuewFchOar48=;
- b=znewskrItErvKu+E7u1gvbUGh9XPr97SdN+aIBdPyMS9+eOoni6dI+X9jRZuuiN8Ux
- rA5U25AZKBoxO2h3xdp/q7Z1AIRwBVvuMX9kPhNBMIYeSCQKRvWJgT9+No/an8UCAU21
- hC51pJJ/EZqqSQIzt8DCVOYJhREp0sK1b9fLsMxIyqGX675olqD6AMRvUSGz6ooTPhoE
- GVFvoGLLZ1D6OS5ICpHEbE8WXTLbQu/juucpl8zeILFVB68+5rVnjsiPO4VxZQuglM4w
- Ag74zHlOEGSV4nRtmkryHxzJWWiYzT0pvVcMZBKC0hm/BVYk6gfZ2UsESHAYDo59Eq83
- IM9g==
-X-Gm-Message-State: AO0yUKUlTkvAc3Uj30Qq16bLbF9nPUK5nfZtLr7ZPJtU65bsrurCOlWs
- 3eM2c5t3qfYKsUo3HUjsVb5/7g==
-X-Google-Smtp-Source: AK7set/klWxn5UxnMNH3MedgzFr8F3gXSvz8nvQja+oFF0eYvNFnnFkeVyP2h5Rm4xWD/cD6lQtkuA==
-X-Received: by 2002:ac2:489a:0:b0:4dc:807b:9040 with SMTP id
- x26-20020ac2489a000000b004dc807b9040mr8723477lfc.5.1678583411712; 
- Sat, 11 Mar 2023 17:10:11 -0800 (PST)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- q18-20020a19a412000000b004b56bebdc4esm475185lfc.14.2023.03.11.17.10.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Mar 2023 17:10:11 -0800 (PST)
-Message-ID: <6ae67215-28b6-04bf-b61d-1ba99ffdf6fb@linaro.org>
-Date: Sun, 12 Mar 2023 03:10:10 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF3210E344;
+ Sun, 12 Mar 2023 05:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678599855; x=1710135855;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=5rpbwkC/T7Ge8tXMUt4r72Ai90k4S0R5laITXbhGfzQ=;
+ b=SMYcPKN4FvM/J/8TH+FY83sjX2tAp9HjDNGKYazeRjrA3gHYNmlFlXSa
+ PtwqZ5129qbBkIluPmjx/9Jqj/Vov0M7YHavkgdIx5i13RaRhicnV90X3
+ v5Y2dW4yqbZJeLNfQkRAmNi5j3Cmg2rRwcsGgz1rIZWlRstBdNRZpcJo4
+ rL9QT08zpGeRatse/grN4BDqOPlNOhAXyo4XDqOVGEmRbXm9YxRiXH43+
+ 8DhwcY1EraU1FUEhR8uqmwXtLbaATAouR/7nZHxFIwu2ZtvcVoxB5Yvnk
+ kB4W9KYalcH/pgGXXKZ71VPSeiEsGUDQ1D5DeWN+ioolrf6jgclhbba1z A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="325319702"
+X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; d="scan'208";a="325319702"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Mar 2023 21:44:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10646"; a="747203005"
+X-IronPort-AV: E=Sophos;i="5.98,254,1673942400"; d="scan'208";a="747203005"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 11 Mar 2023 21:44:13 -0800
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pbEVA-00051I-0O;
+ Sun, 12 Mar 2023 05:44:12 +0000
+Date: Sun, 12 Mar 2023 13:43:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [drm-tip:drm-tip 5/7]
+ drivers/gpu/drm/i915/gt/intel_workarounds.c:1479:34: error: unused variable
+ 'i915'
+Message-ID: <202303121304.7ijxTeDU-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/bridge: adv7533: Fix adv7533_mode_valid for adv7533
- and adv7535
-Content-Language: en-GB
-To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230311231007.46174-1-aford173@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230311231007.46174-1-aford173@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +58,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- aford@beaconembedded.com, Jernej Skrabec <jernej.skrabec@gmail.com>,
- quic_abhinavk@quicinc.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/03/2023 01:10, Adam Ford wrote:
-> When dynamically switching lanes was removed, the intent of the code
-> was to check to make sure that higher speed items used 4 lanes, but
-> it had the unintended consequence of removing the slower speeds for
-> 4-lane users.
-> 
-> This attempts to remedy this by doing a check to see that the
-> max frequency doesn't exceed the chip limit, and a second
-> check to make sure that the max bit-rate doesn't exceed the
-> number of lanes * max bit rate / lane.
-> 
-> Fixes: 9a0cdcd6649b ("drm/bridge: adv7533: remove dynamic lane switching from adv7533 bridge")
-> 
+tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+head:   b21ced77ae1dbc3d8b01d3aef3c99bba7377a69b
+commit: 878ab630c6059f436bdf6bdef59f97eb5753a155 [5/7] Merge remote-tracking branch 'drm-intel/drm-intel-gt-next' into drm-tip
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230312/202303121304.7ijxTeDU-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
+        git fetch --no-tags drm-tip drm-tip
+        git checkout 878ab630c6059f436bdf6bdef59f97eb5753a155
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Please remove the empty line here. There should be no empty lines 
-between the tags
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303121304.7ijxTeDU-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/i915/gt/intel_workarounds.c: In function 'dg1_gt_workarounds_init':
+>> drivers/gpu/drm/i915/gt/intel_workarounds.c:1479:34: error: unused variable 'i915' [-Werror=unused-variable]
+    1479 |         struct drm_i915_private *i915 = gt->i915;
+         |                                  ^~~~
+   cc1: all warnings being treated as errors
 
 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> index fdfeadcefe80..10a112d36945 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> @@ -103,13 +103,9 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
->   enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
->   					const struct drm_display_mode *mode)
->   {
-> -	int lanes;
-> +	unsigned long max_lane_freq;
->   	struct mipi_dsi_device *dsi = adv->dsi;
-> -
-> -	if (mode->clock > 80000)
-> -		lanes = 4;
-> -	else
-> -		lanes = 3;
-> +	u8 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
->   
->   	/*
->   	 * TODO: add support for dynamic switching of lanes
+vim +/i915 +1479 drivers/gpu/drm/i915/gt/intel_workarounds.c
 
-Drop the comment please. It makes little sense with your new implementation.
+f52fa57ae70e2e Matt Roper                  2020-07-16  1475  
+da942750928a03 Stuart Summers              2020-10-14  1476  static void
+d0a652493abd86 Venkata Sandeep Dhanalakota 2021-09-17  1477  dg1_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+da942750928a03 Stuart Summers              2020-10-14  1478  {
+d0a652493abd86 Venkata Sandeep Dhanalakota 2021-09-17 @1479  	struct drm_i915_private *i915 = gt->i915;
+d0a652493abd86 Venkata Sandeep Dhanalakota 2021-09-17  1480  
+d0a652493abd86 Venkata Sandeep Dhanalakota 2021-09-17  1481  	gen12_gt_workarounds_init(gt, wal);
+da942750928a03 Stuart Summers              2020-10-14  1482  
+da942750928a03 Stuart Summers              2020-10-14  1483  	/* Wa_1409420604:dg1 */
+d1b3657fb5b66a Lucas De Marchi             2023-03-06  1484  	wa_mcr_write_or(wal, SUBSLICE_UNIT_LEVEL_CLKGATE2,
+da942750928a03 Stuart Summers              2020-10-14  1485  			CPSSUNIT_CLKGATE_DIS);
+da942750928a03 Stuart Summers              2020-10-14  1486  
+da942750928a03 Stuart Summers              2020-10-14  1487  	/* Wa_1408615072:dg1 */
+da942750928a03 Stuart Summers              2020-10-14  1488  	/* Empirical testing shows this register is unaffected by engine reset. */
+d1b3657fb5b66a Lucas De Marchi             2023-03-06  1489  	wa_write_or(wal, UNSLICE_UNIT_LEVEL_CLKGATE2, VSUNIT_CLKGATE_DIS_TGL);
+da942750928a03 Stuart Summers              2020-10-14  1490  }
+da942750928a03 Stuart Summers              2020-10-14  1491  
 
-> @@ -117,8 +113,16 @@ enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
->   	 * out the modes which shall need different number of lanes
->   	 * than what was configured in the device tree.
->   	 */
-> -	if (lanes != dsi->lanes)
-> -		return MODE_BAD;
-> +
-> +	/* Check max clock for either 7533 or 7535 */
-> +	if (mode->clock > (adv->type == ADV7533 ? 80000 : 148500))
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	/* Check max clock for each lane */
-> +	max_lane_freq = (adv->type == ADV7533 ? 800000 : 891000);
-> +
-> +	if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
-> +		return MODE_CLOCK_HIGH;
->   
->   	return MODE_OK;
->   }
+:::::: The code at line 1479 was first introduced by commit
+:::::: d0a652493abd86180ad0cc0ed44427831d37fabe drm/i915: Make wa list per-gt
+
+:::::: TO: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+:::::: CC: Matt Roper <matthew.d.roper@intel.com>
 
 -- 
-With best wishes
-Dmitry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
