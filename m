@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33C46B6795
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 16:41:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F71E6B6869
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 17:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B30A210E352;
-	Sun, 12 Mar 2023 15:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8C7110E10E;
+	Sun, 12 Mar 2023 16:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D8010E352
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 15:41:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9714660F5A
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 15:41:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C75AC433A7
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 15:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678635705;
- bh=o9txECpxOStZ4lEk7MbenubZLU/t1F2jRrj8TI3/DK4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=nICM0YirOa0QJ1qDKCG0Tn9jcP5bqDn7WJWLOMSN9+FhpIqOrA5Jwqj+V2Pe7h+dE
- Z6KyiJjlJdoQIQE1TAyVSa/BHs/4n/sWkEAj7kElaFFWC4m4IiNkxeN3nUl2hO7jim
- IcfHPmWB/iFUwf/IalB4FFL8qBZlcqt4r5e45R3oK5IIyk+gsxrW0MG0WO0TkJpPS4
- 65/8aLmA2gJdk6uw5fo5+Buz0J5D23sQ5ca2gCoBi9T7S7ZBMWeRxIKTGaxRzcCkiQ
- gpu2SYRnq3MsY3vsdiMTpsW/0b3UMtN7cYKetDlTeTZiPesHsimy8bFv+gXZNq8Qz9
- yJT7UPPowMygA==
-Received: by mail-lj1-f175.google.com with SMTP id h3so10178495lja.12
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 08:41:45 -0700 (PDT)
-X-Gm-Message-State: AO0yUKUH+cmeglts5Sz1LEHGbjYlTKg1HR+QqQQTjnAQd4TNZVOvKxri
- dykZOulh0KC/z96t8UwLipGRShgAJ73YLQhKEw==
-X-Google-Smtp-Source: AK7set/JnYxeve0nDAXri0t02WExqjWC+ImSGEpC8YZHj1h3xzkeP8L25/oKwG9AWC1n3SNm1DT/3bGQ08Fc1lFbtAQ=
-X-Received: by 2002:a05:651c:336:b0:293:2f6e:91bf with SMTP id
- b22-20020a05651c033600b002932f6e91bfmr9669363ljp.7.1678635703439; Sun, 12 Mar
- 2023 08:41:43 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2438B10E10E;
+ Sun, 12 Mar 2023 16:51:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=GAu1eVy6Biexs9th0W7Cw1rvI9YrVlV1Or3DJhCK/lQ=; b=hJcUZg6pXjs9CSysPhjUKhXv7E
+ ee/hyKIWW0NDYfrnnDdfTFQYoiK12DaDgH6WgtEYMFPXtP+OjmKY6FXyOZqrVD32MsPWcrxEntNmW
+ 2PQacaJkQT+e4b+CTr0rr/CR7alRU2ZENZFUgUOWPkPehiK2lpDvjeqyZG6p+N8Qk8uw36VyY9oo5
+ FBA8vsanFGrWx6wpaQ1H6W/WCkrr+LiCjFoHuvw4h4k22FeJqJekponXo37Nu5hJyzGINO5AatZ7u
+ FgDtdVDdasbaxw0qDQPGp1EZwf8RGz3MRWF1Eyd5U+sJGS1ZUgnx1Uqo5sU5lB0sj6TxEuOTLkioz
+ dBsFAk9g==;
+Received: from [152.254.169.34] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pbOuf-00674a-1Y; Sun, 12 Mar 2023 17:51:13 +0100
+From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+To: amd-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/amdgpu/vcn: Disable indirect SRAM on Vangogh broken BIOSes
+Date: Sun, 12 Mar 2023 13:51:00 -0300
+Message-Id: <20230312165100.1204682-1-gpiccoli@igalia.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230202045734.2773503-1-wenst@chromium.org>
-In-Reply-To: <20230202045734.2773503-1-wenst@chromium.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 12 Mar 2023 23:41:31 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8yhi2Vd01ph-W0HOmULs=tC5yARi_89Wddei=BTo5VKg@mail.gmail.com>
-Message-ID: <CAAOTY_8yhi2Vd01ph-W0HOmULs=tC5yARi_89Wddei=BTo5VKg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: dp: Only trigger DRM HPD events if
- bridge is attached
-To: Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,66 +49,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Guillaume Ranquet <granquet@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Cc: kernel@gpiccoli.net, johns@valvesoftware.com,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, Xinhui.Pan@amd.com,
+ dri-devel@lists.freedesktop.org, cristian.ciocaltea@collabora.com,
+ stable@vger.kernel.org, kernel-dev@igalia.com, alexander.deucher@amd.com,
+ James Zhu <James.Zhu@amd.com>, Leo Liu <leo.liu@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Chen-Yu:
+The VCN firmware loading path enables the indirect SRAM mode if it's
+advertised as supported. We might have some cases of FW issues that
+prevents this mode to working properly though, ending-up in a failed
+probe. An example below, observed in the Steam Deck:
 
-Chen-Yu Tsai <wenst@chromium.org> =E6=96=BC 2023=E5=B9=B42=E6=9C=882=E6=97=
-=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:57=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> The MediaTek DisplayPort interface bridge driver starts its interrupts
-> as soon as its probed. However when the interrupts trigger the bridge
-> might not have been attached to a DRM device. As drm_helper_hpd_irq_event=
-()
-> does not check whether the passed in drm_device is valid or not, a NULL
-> pointer passed in results in a kernel NULL pointer dereference in it.
->
-> Check whether the bridge is attached and only trigger an HPD event if
-> it is.
+[...]
+[drm] failed to load ucode VCN0_RAM(0x3A)
+[drm] psp gfx command LOAD_IP_FW(0x6) failed and response status is (0xFFFF0000)
+amdgpu 0000:04:00.0: [drm:amdgpu_ring_test_helper [amdgpu]] *ERROR* ring vcn_dec_0 test failed (-110)
+[drm:amdgpu_device_init.cold [amdgpu]] *ERROR* hw_init of IP block <vcn_v3_0> failed -110
+amdgpu 0000:04:00.0: amdgpu: amdgpu_device_ip_init failed
+amdgpu 0000:04:00.0: amdgpu: Fatal error during GPU init
+[...]
 
-Applied to mediatek-drm-next [1], thanks.
+Disabling the VCN block circumvents this, but it's a very invasive
+workaround that turns off the entire feature. So, let's add a quirk
+on VCN loading that checks for known problematic BIOSes on Vangogh,
+so we can proactively disable the indirect SRAM mode and allow the
+HW proper probe and VCN IP block to work fine.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/2385
+Fixes: 82132ecc5432 ("drm/amdgpu: enable Vangogh VCN indirect sram mode")
+Cc: stable@vger.kernel.org
+Cc: James Zhu <James.Zhu@amd.com>
+Cc: Leo Liu <leo.liu@amd.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
+---
 
-Regards,
-Chun-Kuang.
 
->
-> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort drive=
-r")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> Reviewed-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
-> Changes since v1
-> - Dropped prerequisite-patch-ids
-> - Added Guillaume's Reviewed-by
->
-> This applies on top of mediatek-drm-next.
->
->  drivers/gpu/drm/mediatek/mtk_dp.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
-/mtk_dp.c
-> index 1f94fcc144d3..a82f53e1a146 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -1823,7 +1823,8 @@ static irqreturn_t mtk_dp_hpd_event_thread(int hpd,=
- void *dev)
->         spin_unlock_irqrestore(&mtk_dp->irq_thread_lock, flags);
->
->         if (status & MTK_DP_THREAD_CABLE_STATE_CHG) {
-> -               drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
-> +               if (mtk_dp->bridge.dev)
-> +                       drm_helper_hpd_irq_event(mtk_dp->bridge.dev);
->
->                 if (!mtk_dp->train_info.cable_plugged_in) {
->                         mtk_dp_disable_sdp_aui(mtk_dp);
-> --
-> 2.39.1.456.gfc5497dd1b-goog
->
+Hi folks, based on the feedback from the gitlab issue, here is the upstream
+attempt to quirk the Steam Deck's BIOSes having known issues with the
+indirect SRAM mode. I've tested it on both the quirked BIOSes, and also
+with some working ones. This patch is based on agd5f/amd-staging-drm-next.
+
+Thanks in advance for reviews!
+Cheers,
+
+Guilherme
+
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+index 02d428ddf2f8..dc4f3f4cb644 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c
+@@ -26,6 +26,7 @@
+ 
+ #include <linux/firmware.h>
+ #include <linux/module.h>
++#include <linux/dmi.h>
+ #include <linux/pci.h>
+ #include <linux/debugfs.h>
+ #include <drm/drm_drv.h>
+@@ -114,6 +115,24 @@ int amdgpu_vcn_sw_init(struct amdgpu_device *adev)
+ 	    (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG))
+ 		adev->vcn.indirect_sram = true;
+ 
++	/*
++	 * Some Steam Deck's BIOS versions are incompatible with the
++	 * indirect SRAM mode, leading to amdgpu being unable to get
++	 * properly probed (and even potentially crashing the kernel).
++	 * Hence, check for these versions here - notice this is
++	 * restricted to Vangogh (Deck's APU).
++	 */
++	if (adev->ip_versions[UVD_HWIP][0] == IP_VERSION(3, 0, 2)) {
++		const char *bios_ver = dmi_get_system_info(DMI_BIOS_VERSION);
++
++		if (bios_ver && (!strncmp("F7A0113", bios_ver, 7) ||
++		     !strncmp("F7A0114", bios_ver, 7))) {
++			adev->vcn.indirect_sram = false;
++			dev_info(adev->dev,
++				"Steam Deck quirk: indirect SRAM disabled on BIOS %s\n", bios_ver);
++		}
++	}
++
+ 	hdr = (const struct common_firmware_header *)adev->vcn.fw->data;
+ 	adev->vcn.fw_version = le32_to_cpu(hdr->ucode_version);
+ 
+-- 
+2.39.2
+
