@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4FD6B6A99
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 20:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25AB16B6AA6
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 20:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7417B10E40B;
-	Sun, 12 Mar 2023 19:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3E5310E102;
+	Sun, 12 Mar 2023 19:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2510410E407
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 19:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678648689;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G0SzzBiS4z8SGKpg1ohcVHeqsWN3YhZe2Z0qrBPj4Og=;
- b=frD1PbfZQVDbRqvSWKtnyTV6fJgsSjLNqJuM4gLaHEhq5dChcxc82uHcL4wIjWawv9UDoa
- 3H+/zB/DWLqbpsRE9XkWhtH7MnQwPDtPSNV+WiqGuAmnu5lnbTID6GOpbUIKw5aFZ2ITyJ
- ccnFfRde7CFM/umgic/NE9ClLK+b8SU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-4qNmlBDkMy6NxsruBb2yDg-1; Sun, 12 Mar 2023 15:18:05 -0400
-X-MC-Unique: 4qNmlBDkMy6NxsruBb2yDg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F337185A794;
- Sun, 12 Mar 2023 19:18:04 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1556140EBF4;
- Sun, 12 Mar 2023 19:18:03 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
-Subject: [PATCH v3 6/6] drm/amd/display/amdgpu_dm: Pass proper parent for
- backlight device registration v3
-Date: Sun, 12 Mar 2023 20:17:51 +0100
-Message-Id: <20230312191751.183450-7-hdegoede@redhat.com>
-In-Reply-To: <20230312191751.183450-1-hdegoede@redhat.com>
-References: <20230312191751.183450-1-hdegoede@redhat.com>
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0020F10E102
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 19:28:56 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id nn12so9945773pjb.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 12:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678649336;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=qfhIXoQOHQJr+gGO2qxo4oT4JoKm/10nWr5b3EbxW40=;
+ b=Izm1xtXUrM5ET2LFvnd9qHyz2wuer8S4f0kqpsoe6aV2R7hdUbRk4Y5j4/bbOgGI+z
+ RvIbIb9Z697jvIbHAC5lHHo1P3s0GpO9h14HyRwX3Hp9AMJZsxF/9kMozJ0irjgwKf6v
+ M99Lkn004juVqxQRx6Rhh6p5BaSvxIVHHOHZshP/uc6XPc0BzF6qNpJgDnAp3B+5FDHZ
+ zbgiApcjam4s+U1La0LbTdLOoWnWHFGKZhCyY8VhgaeoPv2U7tsudi1EKEgC1+XMpipV
+ p0rgqf19aHsK3J1VeIAWukvmSicd3ga8IcQ6CqIidw1OgZX4XXNOGG1HxuQEq/PAXm2B
+ 1u5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678649336;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qfhIXoQOHQJr+gGO2qxo4oT4JoKm/10nWr5b3EbxW40=;
+ b=JKqoGz69eU+HAybEUfKbgbe9UcyIrZIOuW8D9J7ci8G5m3eRf/HexTNi7dlWxVOuFQ
+ h2PhRMNxpdsfXpPO7UESJbmXwsUo/ZGV1LAi6kV3WMifd4SZU7SmiNOefHdjwBqZQJvd
+ hpCTQVoFNRgU1+zCjoi0LEfc2jzBtGQcoKMitpxM+Bg2fdacK5KvdbeOs4mdebZY7wDi
+ k4kqFMb3JcHjXPl7UricZUKYeS6/e++JetIaxkZpfFt6N/Z4KBnYIH6V/hKR4/O5evRC
+ DI0xH8pR/+p9KN5zZrRsgbxNuofzEU9UIWnwQbrh/27yq03OIn8wIU5R5GxeWjBHSl6b
+ Jv9g==
+X-Gm-Message-State: AO0yUKX/SwJDhZVfTZ+235IHJ+cg5J64Bh3WxQM3h0rTe1tTju6gFA6x
+ Bt3UAU+/Tx66EAWq+yXoKeJ5N3mnpmaw7toW9e4=
+X-Google-Smtp-Source: AK7set+Ujk1wsgXpvSnRx5mIG+1Ilcjk1Xpo2ZGuCMkVBMpDf41SDnjqHHM8VTZ1TpnWOY3pZu/dWNZX8KpyGOJclvY=
+X-Received: by 2002:a17:903:710:b0:19f:30be:e9f6 with SMTP id
+ kk16-20020a170903071000b0019f30bee9f6mr1424089plb.6.1678649336371; Sun, 12
+ Mar 2023 12:28:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+From: Adam Ford <aford173@gmail.com>
+Date: Sun, 12 Mar 2023 14:28:45 -0500
+Message-ID: <CAHCN7xJXMmwYqD=Eb2=_vJw390KAd6NgkWCpq6yCbAyaJ3xK5A@mail.gmail.com>
+Subject: MXSFB and Video PLL clock on i.MX8M Mini/Nano Question
+To: arm-soc <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The parent for the backlight device should be the drm-connector object,
-not the PCI device.
+I am trying to work through a series that was submitted for enabling
+the DSI on the i.MX8M Mini and Nano.  I have extended this series to
+route the DSI to an HDMI bridge, and I am able to get several
+resolutions to properly sync on my monitor.  However, there are also a
+ bunch that appear on the list when I run modetest that do not sync on
+my monitor.
 
-Userspace relies on this to be able to detect which backlight class device
-to use on hybrid gfx devices where there may be multiple native (raw)
-backlight devices registered.
+When running some debug code, it appears that it's related to the
+clocking of the MXSFB driver.
 
-Specifically gnome-settings-daemon expects the parent device to have
-an "enabled" sysfs attribute (as drm_connector devices do) and tests
-that this returns "enabled" when read.
+From what I can tell, the MSXFB driver attempts to set the clock based
+on the desired resolution and refresh rate.  When the default
+VIDEO_PLL clock is set to 594MHz, many of the resolutions that cleanly
+divide from the 594MHz clock appear to sync with my monitor.  However,
+in order to get other resolutions to appear, I have to manually change
+the device tree to set VIDEO_PLL to a different clock rate so MSXFB
+can use it.  Unfortunately, that breaks the resolutions that used to
+work.
 
-This aligns the parent of the backlight device with i915, nouveau, radeon.
-Note that drivers/gpu/drm/amd/amdgpu/atombios_encoders.c also already
-uses the drm_connector as parent, only amdgpu_dm.c used the PCI device
-as parent before this change.
+I threw together a hack into the MXSFB driver which adds a new
+optional clock to the MSXFB driver.  When I pass VIDEO_PLL to this
+driver, it can automatically set the clock rate to match that of
+whatever the desired clock is, and I can get many more resolutions to
+appear.
+Another advantage of this is that the Video_PLL can be the minimum
+speed needed for a given rate instead of setting a higher rate, then
+dividing it down.
 
-Changes in v3:
-Make amdgpu_dm_register_backlight_device() check bl_idx != 1 before
-registering the backlight since amdgpu_dm_connector_late_register()
-now calls it for _all_ connectors.
+I wasn't sure if that would be the best way to approach this, or if
+someone had a better suggestion.
 
-Changes in v2:
-Together with changing the parent, also move the registration to
-drm_connector_funcs.late_register() this is necessary because the parent
-device (which now is the drm_connector) must be registered before
-the backlight class device is, otherwise the backlight class device ends
-up without any parent set at all.
+If this is the best approach, I can try to clean up my patch and
+submit it to the mailing list for review.
 
-This brings the backlight class device registration timing inline with
-nouveau and i915 which also use drm_connector_funcs.late_register()
-for this.
+thanks,
 
-Note this slightly changes backlight_device_register() error handling,
-instead of not increasing dm->num_of_edps and re-using the current
-bl_idx for a potential other backlight device, dm->backlight_dev[bl_idx]
-is now simply left NULL on failure. This is ok because all code
-looking at dm->backlight_dev[i] also checks it is not NULL.
-
-Link: https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/issues/730
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 038bf897cc28..169b307888c1 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -4147,6 +4147,9 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 	struct backlight_properties props = { 0 };
- 	char bl_name[16];
- 
-+	if (aconnector->bl_idx == -1)
-+		return;
-+
- 	if (!acpi_video_backlight_use_native()) {
- 		drm_info(drm, "Skipping amdgpu DM backlight registration\n");
- 		/* Try registering an ACPI video backlight device instead. */
-@@ -4162,7 +4165,7 @@ amdgpu_dm_register_backlight_device(struct amdgpu_dm_connector *aconnector)
- 		 drm->primary->index + aconnector->bl_idx);
- 
- 	dm->backlight_dev[aconnector->bl_idx] =
--		backlight_device_register(bl_name, drm->dev, dm,
-+		backlight_device_register(bl_name, aconnector->base.kdev, dm,
- 					  &amdgpu_dm_backlight_ops, &props);
- 
- 	if (IS_ERR(dm->backlight_dev[aconnector->bl_idx])) {
-@@ -4232,13 +4235,6 @@ static void setup_backlight_device(struct amdgpu_display_manager *dm,
- 
- 	amdgpu_dm_update_backlight_caps(dm, bl_idx);
- 	dm->brightness[bl_idx] = AMDGPU_MAX_BL_LEVEL;
--
--	amdgpu_dm_register_backlight_device(aconnector);
--	if (!dm->backlight_dev[bl_idx]) {
--		aconnector->bl_idx = -1;
--		return;
--	}
--
- 	dm->backlight_link[bl_idx] = link;
- 	dm->num_of_edps++;
- 
-@@ -6297,6 +6293,8 @@ amdgpu_dm_connector_late_register(struct drm_connector *connector)
- 		to_amdgpu_dm_connector(connector);
- 	int r;
- 
-+	amdgpu_dm_register_backlight_device(amdgpu_dm_connector);
-+
- 	if ((connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort) ||
- 	    (connector->connector_type == DRM_MODE_CONNECTOR_eDP)) {
- 		amdgpu_dm_connector->dm_dp_aux.aux.dev = connector->kdev;
--- 
-2.39.1
-
+adam
