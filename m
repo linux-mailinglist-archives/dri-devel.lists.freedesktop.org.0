@@ -2,46 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937256B66FB
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 14:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344006B6777
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Mar 2023 16:17:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47D3C10E129;
-	Sun, 12 Mar 2023 13:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 087A610E06D;
+	Sun, 12 Mar 2023 15:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 66227 seconds by postgrey-1.36 at gabe;
- Sun, 12 Mar 2023 13:51:30 UTC
-Received: from smtp50.i.mail.ru (smtp50.i.mail.ru [95.163.41.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44E1D10E129;
- Sun, 12 Mar 2023 13:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru;
- s=mail4; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
- bh=9e2qemlQ+qu6TtpeSILCd8YXgDshgLNwa7t+UxrGEOg=; 
- t=1678629090;x=1678719090; 
- b=hGpJQzbEqCqCVXZUQZbMIyD28sdtfyQsA675Iq+HtmwRXsuTNnKgdDCyO0030WRRcRmgy6KhMK7A7hWEt7hyIt+K5kenzB2RE8R/IOl7f0d/3MK1opE/cfYlRE7Orqeb65wIpcMlkaLOuLOw0eoP9roftTgZQMAdOiH2Qj8xW4lOqXNdrQSDFYgAib7NAp1whzrohwE6p5M4wQxTwy6m1u9xT8wpnH5c29QrObFPJhfgB/eFYwRoFKqTx1RKadHayjKrVa39UFTOza6L+Zmh0WhhMsxFePG73UT9TMr1h1mWzovbD8F2ajz1ebUPncUibpccj9P3zoDO/y0a14YTNw==;
-Received: by smtp50.i.mail.ru with esmtpa (envelope-from <listdansp@mail.ru>)
- id 1pbM6h-00C5Oi-7t; Sun, 12 Mar 2023 16:51:27 +0300
-From: Danila Chernetsov <listdansp@mail.ru>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: [PATCH v5.10 1/1] drm/amdgpu: add error handling for
- drm_fb_helper_initial_config
-Date: Sun, 12 Mar 2023 13:50:53 +0000
-Message-Id: <20230312135053.7218-1-listdansp@mail.ru>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64AF010E06D
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 15:17:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4FCA760F55
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 15:17:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7BFAC4339B
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 15:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678634254;
+ bh=tru9IYsAeEZs7842zmcwYj45aS79A6X70s7CoPhRUS4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=l3MqaJjWlPq6mnTP9FFQRgrKxLJSbnd3e/0j95wRnw1EcG2TDHvsvUWcbkYGcs6mZ
+ EuwlYj72RxWqCLDx4evZyvDsVjdQYC9/2pBJmdBw28UiAsLnfxWbyhT/O1tstMz4/l
+ 5G410X0yOwk0P/BhZiRWW1sQNZBdRxzew2IkNJ1Hn1mFzs8JMRYuID9PyD09OQuq4D
+ zkHiN0DeXliRyUh6X79P9NcDgNegsFWFmy5Xg7tCMsC5gnJmC8hZoGEBCfqnFg2NE4
+ ndbLs98USqQz+2J6HODfORCi0fyE57/0T5GHNKN4Y5CmpB94oXl5DNrWjVNWCaWs5y
+ VqnyenHA8XPzA==
+Received: by mail-lf1-f51.google.com with SMTP id d36so12654330lfv.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Mar 2023 08:17:34 -0700 (PDT)
+X-Gm-Message-State: AO0yUKXF3e6jYgHqEOhALQAjye+BnuPPM3yXBWfD9bUq+fyPsxDBzHFj
+ oJWAgJtNI227W9DYdLTUbPT8Ozz3NQuszxbmMg==
+X-Google-Smtp-Source: AK7set8/I9MPGwlCzSSF7k8LkXr9Fx2O+jLzHm+erabCx2bDfUoxf2kd9EGkdr3s+tml8ANOCBpwUGzBEAFf8iBYLHM=
+X-Received: by 2002:ac2:509a:0:b0:4e8:44ee:e2d with SMTP id
+ f26-20020ac2509a000000b004e844ee0e2dmr159592lfm.5.1678634252782; Sun, 12 Mar
+ 2023 08:17:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp50.i.mail.ru; auth=pass smtp.auth=listdansp@mail.ru
- smtp.mailfrom=listdansp@mail.ru
-X-Mailru-Src: smtp
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD9BCEC41593EBD8357D61703A5C7370B1E319F7344C6651618182A05F5380850404101E7A95639D66F46B724D4AD22814152705C147E0509B9A98EC30680F39800
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE710FC7AC39A8009ECEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637525B22DCF689D4638638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8A8B962F2C513871FF9C52E85DFF075466F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7F588D4452561E4D79FA2833FD35BB23D9E625A9149C048EE0AC5B80A05675ACDF6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F79006379BABF3D50D9A3D87389733CBF5DBD5E9B5C8C57E37DE458BD9DD9810294C998ED8FC6C240DEA76428AA50765F7900637A9329C8D8D988D4ED81D268191BDAD3DBD4B6F7A4D31EC0BEA7A3FFF5B025636D81D268191BDAD3D78DA827A17800CE72AA49236079A88D2EC76A7562686271ED91E3A1F190DE8FD2E808ACE2090B5E14AD6D5ED66289B5259CC434672EE63711DD303D21008E298D5E8D9A59859A8B6B372FE9A2E580EFC725E5C173C3A84C3443DF20DE7AF59D235872C767BF85DA2F004C90652538430E4A6367B16DE6309
-X-C1DE0DAB: 0D63561A33F958A5C7C8BD3663FA951A02515BEC82C141FC4BF0A345B7E33DD84EAF44D9B582CE87C8A4C02DF684249CC203C45FEA855C8F
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34EB7BD66E9101C1008FCF4C881EC454412423020562D60783A1B62AE67F12488AE155D5A1E56565E71D7E09C32AA3244C38C2F3B520FDC88ABB7C7E14A63851DABBA718C7E6A9E04227AC49D2B05FCCD8
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojN3wBDQf4j7MC6g2skIIJpw==
-X-Mailru-Sender: 4CE1109FD677D2770147F6A9E21DCA7B011BF7C6691D941B53F16FEE055C45F2C79AF7ED9535CCE97E3C9C7AF06D9E7B78274A4A9E9E44FD3C3897ABF9FF211DE8284E426C7B2D9A5FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
+References: <20230309210416.1167020-1-greenjustin@chromium.org>
+In-Reply-To: <20230309210416.1167020-1-greenjustin@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sun, 12 Mar 2023 23:17:20 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-Bobq8nfbBjabbXjxK_xw6uPZa2nBLv_ePJuKfCwpQwA@mail.gmail.com>
+Message-ID: <CAAOTY_-Bobq8nfbBjabbXjxK_xw6uPZa2nBLv_ePJuKfCwpQwA@mail.gmail.com>
+Subject: Re: [PATCH v8 0/3] drm/mediatek: Add support for 10-bit overlays
+To: Justin Green <greenjustin@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,50 +61,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lvc-project@linuxtesting.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danila Chernetsov <listdansp@mail.ru>
+Cc: chunkuang.hu@kernel.org, jason-jh.lin@mediatek.com, justin.yeh@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ wenst@chromium.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The type of return value of drm_fb_helper_initial_config is int, 
-which may return wrong result, so we add error handling for it 
-to reclaim memory resource, and return when an error occurs.          
+Hi, Justin:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Justin Green <greenjustin@chromium.org> =E6=96=BC 2023=E5=B9=B43=E6=9C=8810=
+=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=885:05=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> This patch series adds support for 10-bit overlays to the Mediatek DRM dr=
+iver.
+> Specifically, we add support for AR30 and BA30 overlays on MT8195 devices=
+ and
+> lay the groundwork for supporting more 10-bit formats on more devices.
 
-Fixes: d38ceaf99ed0 (drm/amdgpu: add core driver (v4))
-Signed-off-by: Danila Chernetsov <listdansp@mail.ru>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+I've applied this series to mediatek-drm-next [1] with fix up for
+checkpatch warning. Remember to fix checkpatch warning and error
+before sending patches.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
-index 43f29ee0e3b0..e445a2c9f569 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c
-@@ -348,8 +348,17 @@ int amdgpu_fbdev_init(struct amdgpu_device *adev)
- 	if (!amdgpu_device_has_dc_support(adev))
- 		drm_helper_disable_unused_functions(adev_to_drm(adev));
- 
--	drm_fb_helper_initial_config(&rfbdev->helper, bpp_sel);
--	return 0;
-+	ret = drm_fb_helper_initial_config(&rfbdev->helper, bpp_sel);
-+	if (ret)
-+		goto fini;
-+
-+	return 0;
-+
-+fini:
-+	drm_fb_helper_fini(&rfbdev->helper);
-+
-+	kfree(rfbdev);
-+	return ret;
- }
- 
- void amdgpu_fbdev_fini(struct amdgpu_device *adev)
--- 
-2.25.1
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
+Regards,
+Chun-Kuang.
+
+>
+> 1. Refactor plane initialization logic to allow individual DDP components=
+ to
+> provide their supported pixel formats.
+>
+> 2. Add AR30 and BA30 support to overlay driver.
+>
+> 3. Enable AR30 and BA30 overlays on MT8195.
+>
+>
+> Version history:
+> v2:
+>  * Rebase and resolve merge conflicts with the AFBC patch.
+> v3:
+>  * Moved 10-bit support detection to mtk_disk_ovl.c
+> v4:
+>  * Moved formats to mtk_disp_ovl.c and mtk_disp_rdma.c
+> v5:
+>  * Minor style adjustments per checkpatch.pl
+> v6:
+>  * Refactor patch into patch series.
+>  * Add formats directly to private data.
+> v7:
+>  * Gate setting OVL_CLRFMT_EXT register on compatibility.
+>  * Split patches for adding 10-bit support and enabling 10-bit support on
+>    MT8195.
+> v8:
+>  * Updated descriptions for patches 2 and 3 in the series.
+>
+>
+> Justin Green (3):
+>   drm/mediatek: Refactor pixel format logic
+>   drm/mediatek: Add support for AR30 and BA30 overlays
+>   drm/mediatek: Enable AR30 and BA30 overlays on MT8195
+>
+>  drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  4 +
+>  drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 94 +++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c    | 38 +++++++++
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  4 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  4 +
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 20 +++++
+>  drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 24 ++----
+>  drivers/gpu/drm/mediatek/mtk_drm_plane.h    |  3 +-
+>  8 files changed, 173 insertions(+), 18 deletions(-)
+>
+> --
+> 2.39.1.456.gfc5497dd1b-goog
+>
