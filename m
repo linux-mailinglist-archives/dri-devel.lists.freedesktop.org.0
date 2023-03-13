@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891CE6B7ACB
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:47:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767586B7B12
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:52:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAFD10E558;
-	Mon, 13 Mar 2023 14:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FBE210E55F;
+	Mon, 13 Mar 2023 14:52:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C6B10E558
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:47:05 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id bi17so9591541oib.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 07:47:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678718825;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=923lbrDnlGJSqSY3Xt8v6D4PUhcMD5WLpjqFY9Dv+lQ=;
- b=N6JPqulPkDgn21ORqIZqJ56J1lBbYUaeHV0aEIemOsHOhKxKuf3/iru8tdPyO7R0H1
- QFzf0lEcpgB79Bu2NByEFGGIPtq348JwvO1PfstrN1dtLTKtrA9fcIUf4yQn6S7dt02o
- jalgj97ykc1GBx0mp+fb4Uq/sAGxsPlk4+Wb3soj3besvYBfIG4PIihVtbNny4orImCN
- 82LbcI35gstnU64OECe7g4KBBxw6nqQsc5CVs8s4rt4rSLRY7emXIQ8WTNpO3Qmf6SjD
- 4G7MY6RfnzMXYV91AKB1wVIr23FRKpxvNMDLPvnGhfUwpr76C7JROHqze7au8tSF52pX
- /pdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678718825;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=923lbrDnlGJSqSY3Xt8v6D4PUhcMD5WLpjqFY9Dv+lQ=;
- b=r3NTOKtwHdBycWXfSUfDBRA+OeCS+Qiyt8gXzgIylN0GVAQfC8iAIN+QkVAaeWQPM4
- C0R0bzw0+8wpp/mejmN8mUGVmL3jLgPt9I0bYLiejnIMfYLWalrNCKFWs82lwa4upsO3
- fxLskdY0CxMbFtXeG00XHsVCOh0Gs1QFdAPbGKCY3yUevmc7cV5vSIwM/NsY/XGTyy03
- L4O6T+iRtOvmn2e42C1l34vVjp2n2lWtWYSRo79JS07uzF3TCTG1qj7owsSwRmEJMwkZ
- qLkeY2n50zNJ8kV1AkVNHZsx5iy7Pn5OjG1TsLUHphKlkpqxTFoBwPTaBbAz4DCUfIPG
- jPgg==
-X-Gm-Message-State: AO0yUKXOmrXpBKQ5G18L/yycvXQ4zYlJb5UzFI0pZERoNRImdDeAuOtL
- CFueH8Ks++3NNImRIrfgPXLx55MqjyNzaeYIeD4=
-X-Google-Smtp-Source: AK7set+t6Zd0ULAt1RXgYIU+6YQcPZGwFKu1FRMUu2gsq4o+CZmjaWhnRZBvBJFJVHUMQWkpBWPI8LlTbokFdPkkWH4=
-X-Received: by 2002:a05:6808:220a:b0:383:db64:65 with SMTP id
- bd10-20020a056808220a00b00383db640065mr5427713oib.4.1678718824817; Mon, 13
- Mar 2023 07:47:04 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89A1910E55F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:52:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E2C6C6132D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:52:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57754C433AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678719142;
+ bh=U2MqS6kyxhQiLdwVlKalP2bSs4K0XighMTWsX41Gi/w=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=J3q5ehobb57atQWdCuphh5upCJ1h/1caTXcCliCoCmfhVKXa6ct2MB7NVZbRYxP9o
+ 02Xh/DBLUNAJ5v5qRr9Y+dZYjJtsML6vjFdde2XazSWmTke7pUtKC11MDwXOuaeaOd
+ 2DYvpYVOGMTVUvFetN9GwQ8CxBJT8cdcKFMKAjloW0d2BFU2gSyqFs0UjycYzg4UnW
+ AgKrajr61788diT80RgcE7Vyxi1EbsVC5bMTWDTxiDOqTae9ScDf8iEWQTqS1wFYos
+ YndgrcThBt6lA6lvM8kdypVifZJIO2mnXPX5px9frUTvz/ULDVLyqYlNphZRe3sXKl
+ HxQexLUkZ/UyA==
+Received: by mail-lf1-f41.google.com with SMTP id j11so16017286lfg.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 07:52:22 -0700 (PDT)
+X-Gm-Message-State: AO0yUKUXWz9Uan0Qtsuih8TR2SyAmMAXlbSS6GQttrUj0simWcT9xIOu
+ P52D6esRD7+xwqddJbD6hV7vqlBWbQuK5oShrg==
+X-Google-Smtp-Source: AK7set8X94msxVXedXhmMyx7ozcIXRIQjjj/hP3IIwwprdTSlUQCO0NlUMVovHxCkY5Sw2tXL186oPXe7fqueIj4uYE=
+X-Received: by 2002:ac2:4c29:0:b0:4e8:4117:67c8 with SMTP id
+ u9-20020ac24c29000000b004e8411767c8mr1600006lfq.7.1678719140352; Mon, 13 Mar
+ 2023 07:52:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230312204150.1353517-1-robdclark@gmail.com>
- <20230312204150.1353517-11-robdclark@gmail.com>
- <CAJZ5v0gEmFj5Yrm0OZx5XhvGStHXx1OsPXGQqmbFQpeYSADkwA@mail.gmail.com>
-In-Reply-To: <CAJZ5v0gEmFj5Yrm0OZx5XhvGStHXx1OsPXGQqmbFQpeYSADkwA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 13 Mar 2023 07:46:53 -0700
-Message-ID: <CAF6AEGvDf0R3xhjhQn9Qub16FmP0wEM=vTO7xTmcQc4s0iY1cA@mail.gmail.com>
-Subject: Re: [PATCH 10/13] PM / QoS: Teach lockdep about dev_pm_qos_mtx
- locking order
-To: "Rafael J. Wysocki" <rafael@kernel.org>
+References: <20230306-ccorr-binding-fix-v5-0-6c56aaecc3b1@baylibre.com>
+In-Reply-To: <20230306-ccorr-binding-fix-v5-0-6c56aaecc3b1@baylibre.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 13 Mar 2023 22:52:08 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9_i7RCcmPKUvD5jjWL1hUB6=Xr3TxGSkZ2u9eP3gMynA@mail.gmail.com>
+Message-ID: <CAAOTY_9_i7RCcmPKUvD5jjWL1hUB6=Xr3TxGSkZ2u9eP3gMynA@mail.gmail.com>
+Subject: Re: [PATCH v5] dt-bindings: display: mediatek: clean unnecessary item
+To: Alexandre Mergnat <amergnat@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,58 +60,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
- "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>,
- linux-arm-msm@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Allen-KH Cheng <allen-kh.cheng@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 13, 2023 at 5:31=E2=80=AFAM Rafael J. Wysocki <rafael@kernel.or=
-g> wrote:
+Hi, Alexandre:
+
+Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=88=
+9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:06=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> On Sun, Mar 12, 2023 at 9:42=E2=80=AFPM Rob Clark <robdclark@gmail.com> w=
-rote:
-> >
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Annotate dev_pm_qos_mtx to teach lockdep to scream about allocations
-> > that could trigger reclaim under dev_pm_qos_mtx.
+> The item which have the mediatek,mt8192-disp-ccorr as const compatible
+> already exist above. Merge all compatibles which have the same fallback
+> under the same item.
+
+Applied to mediatek-drm-next [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
 >
-> So why is this needed?
-
-Because it allows lockdep to warn about problems even if it hasn't
-seen recursion into shrinker yet.
-
-BR,
--R
-
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >  drivers/base/power/qos.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/drivers/base/power/qos.c b/drivers/base/power/qos.c
-> > index 9cba334b3729..d4addda3944a 100644
-> > --- a/drivers/base/power/qos.c
-> > +++ b/drivers/base/power/qos.c
-> > @@ -1012,3 +1012,14 @@ void dev_pm_qos_hide_latency_tolerance(struct de=
-vice *dev)
-> >         pm_runtime_put(dev);
-> >  }
-> >  EXPORT_SYMBOL_GPL(dev_pm_qos_hide_latency_tolerance);
-> > +
-> > +static int __init dev_pm_qos_init(void)
-> > +{
-> > +       /* Teach lockdep about lock ordering wrt. shrinker: */
-> > +       fs_reclaim_acquire(GFP_KERNEL);
-> > +       might_lock(&dev_pm_qos_mtx);
-> > +       fs_reclaim_release(GFP_KERNEL);
-> > +
-> > +       return 0;
-> > +}
-> > +early_initcall(dev_pm_qos_init);
-> > --
-> > 2.39.2
-> >
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+> Fix MTK color correction binding
+>
+> The fallback compatible has been duplicated in the 137272ef1b0f commit.
+>
+> To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Rob Herring <robh+dt@kernel.org>
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: Matthias Brugger <matthias.bgg@gmail.com>
+> To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> To: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> Changes in v5:
+> - Add trailers.
+> - Link to v4: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v4-0-1=
+17daea88efb@baylibre.com
+>
+> Changes in v4:
+> - Reword commit title and message.
+> - Link to v3: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v3-0-7=
+877613a35cb@baylibre.com
+>
+> Changes in v3:
+> - Re-order compatible.
+> - Link to v2: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v2-0-4=
+822939a837d@baylibre.com
+>
+> Changes in v2:
+> - Fix commit title.
+> - Link to v1: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v1-0-1=
+77d81d60c69@baylibre.com
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml         | 5=
+ +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,cc=
+orr.yaml
+> index b04820c95b22..bda86e6857f5 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y=
+aml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y=
+aml
+> @@ -27,13 +27,10 @@ properties:
+>            - const: mediatek,mt8192-disp-ccorr
+>        - items:
+>            - enum:
+> +              - mediatek,mt8186-disp-ccorr
+>                - mediatek,mt8188-disp-ccorr
+>                - mediatek,mt8195-disp-ccorr
+>            - const: mediatek,mt8192-disp-ccorr
+> -      - items:
+> -          - enum:
+> -              - mediatek,mt8186-disp-ccorr
+> -          - const: mediatek,mt8192-disp-ccorr
+>
+>    reg:
+>      maxItems: 1
+>
+> ---
+> base-commit: add072536971d7ce891fde3cdbf68c55e7cfa95a
+> change-id: 20230306-ccorr-binding-fix-718c6d725088
+>
+> Best regards,
+> --
+> Alexandre Mergnat <amergnat@baylibre.com>
