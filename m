@@ -1,51 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84596B7F6D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 18:25:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB89C6B7F7C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 18:28:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFCCA10E5D2;
-	Mon, 13 Mar 2023 17:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E7B210E5E0;
+	Mon, 13 Mar 2023 17:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F17B10E5E0;
- Mon, 13 Mar 2023 17:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678728294; x=1710264294;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/GnihSDIpsDjCoyoxBnL+YJx4ACoHDwigG2Aer3CR7w=;
- b=Qv+S9/eDpiqkwwE/LL/3ezG66mpgWsQ3uTlSPGciOX/yGVbIYW5OqHEF
- eMNZa59mmlaacd2l34jWXsMl5o4UxPrsdwMUeGscAP18p7JuBSUAZD6ZN
- NKxdg062KeDHeIcWo5sfKvNnrnwgbivu+osrpEvtd1KPT7aazS4qP02lC
- q5JqbpvdLLFY2+DphI/LHbrjyRKynp+jdDVqjjrD56qxOt4VyjxnvTO/Q
- 2K4R/f4SYKZJxlaB1dlVFZ2lEJBDK3is2qr9j8ZYuEZstqPPMQlILs7A/
- ASC6SXihIhNVjiorxvSWsNj4L+MOt1vprvTpRrDKSI0SZLiueo/aiS/si A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="321062340"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="321062340"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 10:24:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="924586811"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="924586811"
-Received: from jkrzyszt-mobl1.ger.corp.intel.com (HELO
- jkrzyszt-mobl1.intranet) ([10.213.1.93])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 10:24:50 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/active: Simplify llist search-and-delete
-Date: Mon, 13 Mar 2023 18:24:15 +0100
-Message-Id: <20230313172415.125932-4-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230313172415.125932-1-janusz.krzysztofik@linux.intel.com>
-References: <20230313172415.125932-1-janusz.krzysztofik@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB40610E5E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 17:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678728486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0evT8Vtbk81R/TosIabCJgTCcIOpvJ7DhYFh1FtAtkk=;
+ b=TCKg/ab99BjIiwH43yGKxB4srqPagU3cZtdoF++if9nBRNi9nrIlfSZRfClLECBVil+MIz
+ BBRxH8ZtTbERwENVJB2Vx+6gJKtNXtmSe28vd5oH/QZsuhHi6v7V600g3vv89CAklRTHUt
+ +JXusmnEVOBUwxkcFMyRfDUa4+KQWAs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-13-6r1yVwR3NJG-a4GrGzEg9w-1; Mon, 13 Mar 2023 13:28:04 -0400
+X-MC-Unique: 6r1yVwR3NJG-a4GrGzEg9w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bi27-20020a05600c3d9b00b003e9d0925341so4430983wmb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 10:28:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678728483;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0evT8Vtbk81R/TosIabCJgTCcIOpvJ7DhYFh1FtAtkk=;
+ b=phQThQ2LEuRdt06T+yX6/8ttU+VbQsEedlKUToAvwbE1/6PaGnCDcPmNsvUkZlUnwh
+ r5FKupwQ7pAprr4Ayz8LxnYoCu6szxkMKpqFMkdTBr3pVDeU8l61PQbTzPGYPtadmPsr
+ 5AijzDPT4oVD6nt7VpjsPn5iuCSKsyryL8nrB989f7dFtT4zezWMZpBLYPN0rttIQanj
+ aUphmLXxSHk+5ArwO7iqSqA+gl9rIX2JQaWPNv43ykXAubt2cZeKZOOYE0mTAE3xeYok
+ olsJiJqIs6OENUIswkAmsoLp8+kM992k4ilnucrvZEWAek7tD6sRb6u/X5aTgY6OnFS5
+ CqCg==
+X-Gm-Message-State: AO0yUKV9dCSlY2MuodX68fMg3bnyTTN178Tb65d+ZXKQrWXeAhJJct3n
+ chYPPgIY/+XUCtkPJ3RaNXXwn8cufnpkfknGQlmgR6EmWiJQD9LCvR6OoxlEk/n1IVFxfANYLqc
+ czFL6H5R0m4krnyqLHM3By7L2KBAV
+X-Received: by 2002:a5d:67c5:0:b0:2cf:a4a4:4990 with SMTP id
+ n5-20020a5d67c5000000b002cfa4a44990mr2719452wrw.12.1678728483489; 
+ Mon, 13 Mar 2023 10:28:03 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/7GgtuVqfDGuMBUhrVNWrlcKe6Ov6XP2yqoEXeAWGzA4mJRnXO1p4TuJbvR1Qp74HfmtJO/Q==
+X-Received: by 2002:a5d:67c5:0:b0:2cf:a4a4:4990 with SMTP id
+ n5-20020a5d67c5000000b002cfa4a44990mr2719430wrw.12.1678728483226; 
+ Mon, 13 Mar 2023 10:28:03 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ a16-20020a5d4570000000b002c5539171d1sm35268wrc.41.2023.03.13.10.28.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 10:28:03 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/virtio: Enable fb damage clips property for the
+ primary plane
+In-Reply-To: <20230310125943.912514-1-javierm@redhat.com>
+References: <20230310125943.912514-1-javierm@redhat.com>
+Date: Mon, 13 Mar 2023 18:28:02 +0100
+Message-ID: <87ilf4lfx9.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,56 +80,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Albert Esteve <aesteve@redhat.com>,
+ Enric Balletbo i Serra <eballetb@redhat.com>,
+ Bilal Elmoussaoui <belmouss@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ dri-devel@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@redhat.com>, virtualization@lists.linux-foundation.org,
+ Christian Hergert <chergert@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Inside ____active_del_barrier(), while searching for a node to be deleted,
-we now rebuild barrier_tasks llist content in reverse order.
-Theoretically neutral, that method was observed to provide an undocumented
-workaround for unexpected loops of llist nodes appearing now and again due
-to races, silently breaking those llist node loops, then protecting
-llist_for_each_safe() from spinning indefinitely.
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-Having all races hopefully fixed, make that function behavior more
-predictable, more easy to follow -- switch to an alternative, equally
-simple but less invasive algorithm that only updates a link between list
-nodes that precede and follow the deleted node.
+> Christian Hergert reports that the driver doesn't enable the property and
+> that leads to always doing a full plane update, even when the driver does
+> support damage clipping for the primary plane.
+>
+> Don't enable it for the cursor plane, because its .atomic_update callback
+> doesn't handle damage clips.
+>
+> Reported-by: Christian Hergert <chergert@redhat.com>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
 
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/gpu/drm/i915/i915_active.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Pushed to drm-misc (drm-misc-next). Thanks!
 
-diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
-index 8eb10af7928f4..10f52eb4a4592 100644
---- a/drivers/gpu/drm/i915/i915_active.c
-+++ b/drivers/gpu/drm/i915/i915_active.c
-@@ -391,13 +391,14 @@ static bool ____active_del_barrier(struct i915_active *ref,
- 	llist_for_each_safe(pos, next, llist_del_all(&engine->barrier_tasks)) {
- 		if (node == barrier_from_ll(pos)) {
- 			node = NULL;
-+			if (tail)
-+				tail->next = next;
- 			continue;
- 		}
- 
--		pos->next = head;
--		head = pos;
--		if (!tail)
--			tail = pos;
-+		if (!head)
-+			head = pos;
-+		tail = pos;
- 	}
- 	if (head)
- 		llist_add_batch(head, tail, &engine->barrier_tasks);
 -- 
-2.25.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
