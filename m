@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF6D6B7C97
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:52:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640846B7C9B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:52:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E49D10E58B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABD210E59C;
 	Mon, 13 Mar 2023 15:51:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D717710E584
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:51:45 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A28C10E585
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:51:46 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 71B921FE1C;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B1CCC22ADC;
  Mon, 13 Mar 2023 15:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678722704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gI4OaAtbM26LV2A1893cD8w+HeuYtYS/hY0+uW4tXYM=;
- b=b9L/u308rqWHUJTJzdeLzM0/hV3X7EPsI1ISkNuLtSBBSdYU586gN6v3yzOiuuTbgM5xlC
- xhgefKnQFTcSAVHEaNqjb28KJoVDI7ZghWn2PEU4lp7UyFT0oHEEp+EVvxXjeSGFMNpgwx
- ipcrHRBp80CQPwNgCKSSb+tnCPCwah8=
+ bh=wHsNxN+T58moHCXZIMlhkta+G9FLgtSCtd15ChHYnck=;
+ b=vbM6OwQQpTsz4iVgCDUC3B9qBjgAo06mLqIyFLUNHBJPpZ8tC7Qzua4EM8ertQHJG2xard
+ QuGlnUsR9QE5fsm6Bko7aDlr6DunpgtwM7dKOYV2rdEzoBZdqVETPIWXr7NMYdYhOhqWNP
+ ylrNWpj+xoC3/chVgbdqM+MbOKiug9U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678722704;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gI4OaAtbM26LV2A1893cD8w+HeuYtYS/hY0+uW4tXYM=;
- b=+NhRsMbPsn0LPBVxh7zIZg+O/NBHwZ9/mmsZgEtbpdjshImbNdFe+dNk/E2kInUN7lzr9N
- VQCXa/qWJI1gmqBg==
+ bh=wHsNxN+T58moHCXZIMlhkta+G9FLgtSCtd15ChHYnck=;
+ b=R8viqkEBJlP9yneK1cqaHz5HZ474nl7LOCuB4XShUeLGwDnkkw8d7d5zrXqEtQiZui/IzW
+ /BfFteOZq7bO4vCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3645013517;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 75936139F9;
  Mon, 13 Mar 2023 15:51:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yK1fDJBGD2RhegAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id QMbOG5BGD2RhegAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, linus.walleij@linaro.org
-Subject: [PATCH v2 16/25] drm/sun4i: Use GEM DMA fbdev emulation
-Date: Mon, 13 Mar 2023 16:51:29 +0100
-Message-Id: <20230313155138.20584-17-tzimmermann@suse.de>
+Subject: [PATCH v2 17/25] drm/tidss: Use GEM DMA fbdev emulation
+Date: Mon, 13 Mar 2023 16:51:30 +0100
+Message-Id: <20230313155138.20584-18-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
 References: <20230313155138.20584-1-tzimmermann@suse.de>
@@ -81,30 +81,30 @@ possible shadow buffering and makes the code simpler.
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++--
+ drivers/gpu/drm/tidss/tidss_drv.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index d6c741716167..e49f78a6a8cf 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -17,7 +17,7 @@
- #include <drm/drm_aperture.h>
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
+index 2dac8727d2f4..3f5f27fb6ebc 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.c
++++ b/drivers/gpu/drm/tidss/tidss_drv.c
+@@ -13,7 +13,7 @@
  #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
  #include <drm/drm_drv.h>
 -#include <drm/drm_fbdev_generic.h>
 +#include <drm/drm_fbdev_dma.h>
  #include <drm/drm_gem_dma_helper.h>
+ #include <drm/drm_managed.h>
  #include <drm/drm_module.h>
- #include <drm/drm_of.h>
-@@ -111,7 +111,7 @@ static int sun4i_drv_bind(struct device *dev)
- 	if (ret)
- 		goto finish_poll;
+@@ -179,7 +179,7 @@ static int tidss_probe(struct platform_device *pdev)
+ 		goto err_irq_uninstall;
+ 	}
  
--	drm_fbdev_generic_setup(drm, 32);
-+	drm_fbdev_dma_setup(drm, 32);
+-	drm_fbdev_generic_setup(ddev, 32);
++	drm_fbdev_dma_setup(ddev, 32);
  
- 	dev_set_drvdata(dev, drm);
+ 	dev_dbg(dev, "%s done\n", __func__);
  
 -- 
 2.39.2
