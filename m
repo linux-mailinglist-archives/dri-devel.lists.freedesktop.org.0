@@ -1,55 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391D66B7B8E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:09:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCCE6B7B96
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:10:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6FC10E568;
-	Mon, 13 Mar 2023 15:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1565910E57A;
+	Mon, 13 Mar 2023 15:10:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D83F10E568
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:09:27 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D3461B81189
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:09:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 168E9C433A1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:09:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678720164;
- bh=ABGxWlMLqbyavyMKxfAJ8Yv5/bIE4zdXAaxBqDMvysU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UOK8+pPJnG1oG72RthJEFWUXiwBteXj9z7goUmZjJyuoFCrla1DIG+1l38K+v+H2C
- ZLWLbIx+PyRlzubEWGyr9Ebmo8yjjbnNRL0RvToc+qH/zjQvesaeLam1r3juwHdYR6
- thokqpK3Sk9e43sXmeOi3zbKTNwz5CxQ4guel8dojAC+6PmvpihPTqSSSmrsu0Bu/+
- bhu7gsGexK949o6DN5v4cWzQZWE7mEndUFGWjgesPyhLS7GfpETnNBfQs1Ucv2tZft
- aYUaFPdHLdT8xWfI2Ex2YSTxIUbmt3BTjvonCoM+omnx87EyJSGKZUCIcDLrE8di4N
- xGNeS1cDCcv3w==
-Received: by mail-lj1-f175.google.com with SMTP id z5so12947572ljc.8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 08:09:23 -0700 (PDT)
-X-Gm-Message-State: AO0yUKXm6FWS9duvrMNzXdq+1zTPg9gfVrzy+PLMbyUPV7NbPWfrCUUr
- KOKCw1pbn1TUc/t75YUpYOXb6z8MvVUbbsnQnw==
-X-Google-Smtp-Source: AK7set87aBjxPKP90yGcSHiuYgmixt1jWtk6mNAEmALcrl1Kxtk5Rvp1SIvV36Rvbv2XbdaMPVz/gU4SP9I5l+DwFNU=
-X-Received: by 2002:a2e:aa1c:0:b0:298:7998:4e36 with SMTP id
- bf28-20020a2eaa1c000000b0029879984e36mr4244033ljb.10.1678720162162; Mon, 13
- Mar 2023 08:09:22 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A82410E574
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:10:15 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id q16so11654966wrw.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 08:10:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678720214;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XUCpRORXYheczJ2BQGJRtZxa6Mp6r71UmdeitjQxYvs=;
+ b=vEISzWGhiiacHYL0o52p3JLVWsJJAPdmabMYBnS2nesKpktQWvCXn2KMfv0IXkNpWq
+ +Q3LbHC+GTrzs7kM6THam9xBzj6gGzfuse00gsCVO3rOHQpZqvnF27fQyhW1NiaBQXdG
+ ZZiIDvWA6G1Uqyg7hIzn7SXIeUKX1ICx8E6UUNZ+cRljV/bWrg93/Ito1H0ULCzG8gY3
+ s+8kBhgFqskd+ByOqmJcOlfK7Rreon1MUmlE0sGZa+l2OT00cMo49N7bqkaEXyuO2jR7
+ 2t24HoUXpolSg5FlaplkfthhfAf9vp3b+vimF4sMu1kCVbWA1+VoF7XmEGzUkX2Bb48j
+ AVcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678720214;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XUCpRORXYheczJ2BQGJRtZxa6Mp6r71UmdeitjQxYvs=;
+ b=xy2+8urQSjVHM7eDbll5Q2dSRKlppZUZmtDaVHJ9dD3b+S+ab+NjP58uRtCWQt/2fe
+ VLZO2MyRUyA+V6S+fMJropSqNnxpdZTPWL4GotuFpDESKjSn4Y5RgSdj62qeDYKSbdBm
+ r32E0dZss0ShQY03V/PyPRlpON9o0lowBHXKWhpVzS+T5TIeczhwTq4JQrHKT2pUNbaE
+ 8HrzryBmmP+gqLcQ+ckTQtQswuOl5KfXWixnVLeGA7wVYTMXz0ggV0qazLQhm07jwN2t
+ pfH8YWeFQAqBF1kdKugxVBGNzCWfKClLps6puQ86UZLmSbie9EHJbgplh/yX6GkMnzzY
+ L8pg==
+X-Gm-Message-State: AO0yUKUWdj6GUofyNjfZgxHhmm+IsXQ1n0HXlqtXBxvV4um0qPohDUR/
+ xBdgGA/WA6cnIsf4tyK9inRf3A==
+X-Google-Smtp-Source: AK7set/+LGifNvhK/I/kv9BBxsO4hCHbe7swNwWhTfx8XTxPTiY1Ws2H0VTcFWYtxno3NiyHa1z1yA==
+X-Received: by 2002:a5d:69c7:0:b0:2ce:ac62:65ef with SMTP id
+ s7-20020a5d69c7000000b002ceac6265efmr3809937wrw.31.1678720213839; 
+ Mon, 13 Mar 2023 08:10:13 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ a9-20020a056000100900b002cfe466e894sm1713054wrx.38.2023.03.13.08.10.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 08:10:13 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Jianhua Lu <lujianhua000@gmail.com>
+In-Reply-To: <20230313101858.14611-1-lujianhua000@gmail.com>
+References: <20230313101858.14611-1-lujianhua000@gmail.com>
+Subject: Re: [PATCH v6 1/2] dt-bindings: display: panel: Add Novatek
+ NT36523 bindings
+Message-Id: <167872021291.3272635.16381286857035586957.b4-ty@linaro.org>
+Date: Mon, 13 Mar 2023 16:10:12 +0100
 MIME-Version: 1.0
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-10-45cbc68e188b@baylibre.com>
-In-Reply-To: <20230220-display-v1-10-45cbc68e188b@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 13 Mar 2023 23:09:10 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__oYGD4KwK8enhy4WGiyJ_aoAPm2yTVY4vZodkAkaVdDQ@mail.gmail.com>
-Message-ID: <CAAOTY__oYGD4KwK8enhy4WGiyJ_aoAPm2yTVY4vZodkAkaVdDQ@mail.gmail.com>
-Subject: Re: [PATCH 10/21] dt-bindings: display: mediatek: rdma: add binding
- for MT8365 SoC
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,55 +80,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Fabien Parent <fparent@baylibre.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Xinlei Lee <xinlei.lee@mediatek.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Alexandre:
+Hi,
 
-Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=88=
-9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8810:23=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Display Data Path Read DMA for MT8365 is compatible with another SoC.
-> Then, add MT8365 binding along with MT8183 SoC.
+On Mon, 13 Mar 2023 18:18:57 +0800, Jianhua Lu wrote:
+> Novatek NT36523 is a display driver IC used to drive DSI panels.
+> 
+> 
 
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next-fixes)
 
->
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.yaml | =
-1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdm=
-a.yaml
-> index 0882ae86e6c4..3bc914785976 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya=
-ml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya=
-ml
-> @@ -40,6 +40,7 @@ properties:
->            - enum:
->                - mediatek,mt8186-disp-rdma
->                - mediatek,mt8192-disp-rdma
-> +              - mediatek,mt8365-disp-rdma
->            - const: mediatek,mt8183-disp-rdma
->
->    reg:
->
-> --
-> b4 0.10.1
+[1/2] dt-bindings: display: panel: Add Novatek NT36523 bindings
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c61093b56a2ff15e449e8af56e96dc5a312baf25
+[2/2] drm/panel: Add driver for Novatek NT36523
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0993234a00451e0a5c3e47d8b0f2e01dac6cedbf
+
+-- 
+Neil
+
