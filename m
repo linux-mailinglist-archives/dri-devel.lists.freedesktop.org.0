@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072BC6B74BC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:54:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580B26B74BD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:54:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E51C710E07B;
-	Mon, 13 Mar 2023 10:54:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9298910E4C8;
+	Mon, 13 Mar 2023 10:54:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEAA810E07B;
- Mon, 13 Mar 2023 10:54:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF4AD10E4C8;
+ Mon, 13 Mar 2023 10:54:18 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 40B92B80FF1;
- Mon, 13 Mar 2023 10:54:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92395C433EF;
- Mon, 13 Mar 2023 10:54:05 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 90BB9B80FCD;
+ Mon, 13 Mar 2023 10:54:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F99DC433EF;
+ Mon, 13 Mar 2023 10:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678704845;
- bh=no0tVcOHNxCx0/vxyz9HOtg+RYZbopfPvZfdxMNzE3I=;
+ s=korg; t=1678704856;
+ bh=FCUT08V/nT1+ePXcC5OvueRi2B3W311XnJvf4h51yJs=;
  h=Subject:To:Cc:From:Date:From;
- b=HCo+up6gUksXHD9M6gbf2e3t9E8UheCTMoyMs8WIoWnmNkMaUQLaF7mNLBCLieBNI
- Wco26NcQC1TzapQn3eorbwwwEI9PBi+CPgNUJxdG+gbfF1nwF/t9x3ROvzvCBIkNxQ
- 0q9uLg982we5EM8mBRZIuq3C38i9dj87G3g1gL0o=
+ b=dtqY1yV/DNw1HoT+iyQIOytWiki8VZBy3cg2YSRIj/dimALmbhkFQySD5oPxNDpvN
+ kmFMYzWZIioks6wtzBufLAKy/ECiSyL5KwVwekQ1MNzK0G889rICB1Idh0pIrhhvcd
+ iKq39xr0LLWVhH5FkD827/lmg1p3UGEWZIpE7y4o=
 Subject: Patch "drm/connector: print max_requested_bpc in state debugfs" has
- been added to the 5.4-stable tree
+ been added to the 5.10-stable tree
 To: Vitaly.Prosyak@amd.com, alexander.deucher@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, harry.wentland@amd.com,
@@ -35,8 +35,8 @@ To: Vitaly.Prosyak@amd.com, alexander.deucher@amd.com,
  sebastian.wick@redhat.com, uma.shankar@intel.com,
  ville.syrjala@linux.intel.com
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 13 Mar 2023 11:53:32 +0100
-Message-ID: <167870481279184@kroah.com>
+Date: Mon, 13 Mar 2023 11:53:42 +0100
+Message-ID: <16787048227829@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,12 +63,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/connector: print max_requested_bpc in state debugfs
 
-to the 5.4-stable tree which can be found at:
+to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-connector-print-max_requested_bpc-in-state-debugfs.patch
-and it can be found in the queue-5.4 subdirectory.
+and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -110,7 +110,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_atomic.c
 +++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1006,6 +1006,7 @@ static void drm_atomic_connector_print_s
+@@ -1010,6 +1010,7 @@ static void drm_atomic_connector_print_s
  	drm_printf(p, "connector[%u]: %s\n", connector->base.id, connector->name);
  	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
  	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
@@ -122,4 +122,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from harry.wentland@amd.com are
 
-queue-5.4/drm-connector-print-max_requested_bpc-in-state-debugfs.patch
+queue-5.10/drm-connector-print-max_requested_bpc-in-state-debugfs.patch
