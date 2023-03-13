@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791E16B72B1
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 10:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2B56B72B8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 10:36:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA5C10E010;
-	Mon, 13 Mar 2023 09:34:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B87B010E30A;
+	Mon, 13 Mar 2023 09:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
- [IPv6:2607:f8b0:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 540EB10E010
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 09:34:33 +0000 (UTC)
-Received: by mail-pg1-x532.google.com with SMTP id q23so6504848pgt.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 02:34:33 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF7510E12D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 09:36:34 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ o5-20020a05600c510500b003ec0e4ec6deso4344019wms.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 02:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678700073;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OI7Db7BHeqVEz8L9hVGNwbJcVk46KjMrg/IvivHmeU0=;
- b=dzdnfahlvokvl0+fMpuS0JMeiuX8ty68pK/cITnN9rlO/l+0tuE3mlmAnwfWV/osI7
- 3vSLfYBH9PGTECDWFyJLy81VDQcFqr1g6CbC+v68gwSHpwvCncMMBmCsjO0wheaBsNkr
- 6rDXggn69h3mOlqzYGfxX0rk0o17xEw9ATjr8R76Ci0Sqs/b7aHn/9Nr/Fg/YqRpMAM6
- x9G8L0R5GjWv4LAuF32BeFZd/FEyNXdTXri9T0uAgc6NzdLdWlQOl15yieRK7POcmql3
- VJ/xQDYWet6E2GFgBHyoW4tH0zna+QyrqmvwuM/DwD4Cszm2SzvfQewP4QPaHnrcO3+T
- LwcA==
+ d=linaro.org; s=google; t=1678700193;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=/voBu6XJv3Cuj4S1ZjmI/oeTZAcic/pgfze+nCN+AT0=;
+ b=ZqJSmKTV8NfA58WB+WzePvSMWdfCwDddQE/PtoPdRV8N4+TIhZES7HK8mHwH5Zk4Rj
+ Z0UByrMNGXFIkeUhPflzyVJ0sPJuMhQw6rDkZbFPAqhXp6VnU51OZwe8+O4Xko4B+dJV
+ 3hinDiIYhXEZFPz3riHzj+V5XPLbzktxlE/+pDGFP6rtxrZ+LJIwnRp7a9MkonLkqJi/
+ jrh7zFobZUaJ3nmDLQeUWrGIigNZ3RYq1E0rLiJStf/M3a6ZVwc+N7gAYuxm6yls4bSC
+ kzA4bS3a9tRfH05HYHE3aVNYpYu5PqkP5raXMwUayuwtyPDT1S7Jxi+3ysmRWEVdoJVx
+ DZGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678700073;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OI7Db7BHeqVEz8L9hVGNwbJcVk46KjMrg/IvivHmeU0=;
- b=FsCbS+WmgZUOsXrPRL4Jcrv7rU87SzpeLu4Ku7BJzn93RFyGenQS9CpUMTgMXMMXWo
- D/OMHfM2IGbt4+DDe1nlV6fHW21qV8uFI4N5+38pZq3FUgcAOhvHYEIrERvVjQg8PLnK
- WBcpdu/HM/xqpFM3ZKhA9iZY2nPtYYHOiQU5QSRZ7+Ede1PV3SBHKk5THH8kNVvuW4J3
- rhyDpOC2gIL62NWWloobtMTOJuaVqpzEFnu1WaOILFCUuB7RHVaFsEBbPkMGepjbJs0W
- pUVPatLxbIjlyIq2KiDSWJqlH5RkcbKM5JQMQtzJs1UiE0OloCuRGD0Vu9nCjuc7/Xbv
- u0lQ==
-X-Gm-Message-State: AO0yUKWeLSyidqIBMZFyNd9jA2wvg3mR8jA787fr6e0nw3pPhEgipI1a
- C2pAFuw28Cc/7OQUTvAhFTtdJB4siqU=
-X-Google-Smtp-Source: AK7set+YvKu0xE5cKX91dxboKMZosjDQqSF8ZN05inC82xLe1eG6h0f6ThJti9wYHTG+A0zZT5FLTA==
-X-Received: by 2002:a62:1a4c:0:b0:623:79d9:a8e6 with SMTP id
- a73-20020a621a4c000000b0062379d9a8e6mr3154233pfa.19.1678700072883; 
- Mon, 13 Mar 2023 02:34:32 -0700 (PDT)
-Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
+ d=1e100.net; s=20210112; t=1678700193;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/voBu6XJv3Cuj4S1ZjmI/oeTZAcic/pgfze+nCN+AT0=;
+ b=ZMGX+Sg7CISE+q8wXaNIzcImdHwUp4b4zOEgIzfhRYoSF3MjXYIPUKgGgDku3yzBPR
+ w0xV0W/jJhPuCzbvEmtUobbVWTm9+W7eZ2qeUR1QPa3CpOCgAMtKAGqWZRbkEcX8mD9R
+ YZUoQbXcwMx3iMbcWaoWwdz1sFFuVi6dJXnvACDRm5eH2b/Vr8f01Tn9M+ehuVRLVUpO
+ OHoCB2C+GT5aq1BlkQqhb6wqU3qrobPriFV0Ollj90ngWZfAKsnKGJudgo4VX7sbWLW1
+ H5W4F0jjRTYEYaojiZXEaX6eskdQGlxoECGfu7bjnf6moImPev6MvBhjCF0wTWFqrk2J
+ PYCQ==
+X-Gm-Message-State: AO0yUKWoiZLotr8+EC4ma8axh/f6ebe5TwMiNYKA9Ab++F9q2BWqj650
+ dYSxRo8kVXO8TFZX4yjkZxc97S0ChEa4T4uc9JgHrg==
+X-Google-Smtp-Source: AK7set+f9cpJyxCSLO6I2npjkfIwt56hnr9ULKBRmRjuy9MEkUdHAMeS9NJlzhQt8QuW3LddJn4H0w==
+X-Received: by 2002:a05:600c:c8e:b0:3db:2e06:4091 with SMTP id
+ fj14-20020a05600c0c8e00b003db2e064091mr11333479wmb.37.1678700192785; 
+ Mon, 13 Mar 2023 02:36:32 -0700 (PDT)
+Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- j11-20020aa7800b000000b005b0853a1a3esm4006367pfi.159.2023.03.13.02.34.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 02:34:32 -0700 (PDT)
-Date: Mon, 13 Mar 2023 17:34:23 +0800
-From: Jianhua Lu <lujianhua000@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 2/2] drm/panel: Add driver for Novatek NT36523
-Message-ID: <ZA7uH173ZmbGWzv8@Gentoo>
-References: <20230311123231.20771-1-lujianhua000@gmail.com>
- <20230311123231.20771-2-lujianhua000@gmail.com>
- <904bc493-7160-32fd-9709-1dcb978ddbab@linaro.org>
- <ZAx4KqXw+an555d4@Gentoo>
- <6c02557d-372d-05b1-2998-7c2cde99fac7@linaro.org>
+ v7-20020a05600c470700b003e8dc7a03basm8792434wmo.41.2023.03.13.02.36.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Mar 2023 02:36:32 -0700 (PDT)
+Message-ID: <292f25d7-2b2b-ba2a-36c3-c207960141f9@linaro.org>
+Date: Mon, 13 Mar 2023 10:36:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c02557d-372d-05b1-2998-7c2cde99fac7@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.2
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH] MAINTAINERS: Add include/drm/drm_bridge.h to DRM DRIVERS
+ FOR BRIDGE CHIPS
+Content-Language: en-US
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20230313055951.2997299-1-victor.liu@nxp.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230313055951.2997299-1-victor.liu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,67 +80,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Reply-To: neil.armstrong@linaro.org
+Cc: jernej.skrabec@gmail.com, rfoss@kernel.org, tzimmermann@suse.de,
+ jonas@kwiboo.se, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 13, 2023 at 09:06:50AM +0100, Neil Armstrong wrote:
-> On 11/03/2023 13:46, Jianhua Lu wrote:
-> > On Sat, Mar 11, 2023 at 01:38:52PM +0100, Konrad Dybcio wrote:
-> >>
-> >>
-> >> On 11.03.2023 13:32, Jianhua Lu wrote:
-> >>> Add a driver for panels using the Novatek NT36523 display driver IC.
-> >>>
-> >>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> >>> ---
-> >> [...]
-> >>
-> >>> +
-> >>> +static int nt36523_get_modes(struct drm_panel *panel,
-> >>> +			       struct drm_connector *connector)
-> >>> +{
-> >>> +	struct panel_info *pinfo = to_panel_info(panel);
-> >>> +	int i;
-> >>> +
-> >>> +	for (i = 0; i < pinfo->desc->num_modes; i++) {
-> >>> +		const struct drm_display_mode *m = &pinfo->desc->modes[i];
-> >>> +		struct drm_display_mode *mode;
-> >>> +
-> >>> +		mode = drm_mode_duplicate(connector->dev, m);
-> >>> +		if (!mode) {
-> >>> +			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-> >>> +				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-> >>> +			return -ENOMEM;
-> >>> +		}
-> >>> +
-> >>> +		mode->type = DRM_MODE_TYPE_DRIVER;
-> >>> +		if (pinfo->desc->num_modes == 1)
-> >>> +			mode->type |= DRM_MODE_TYPE_PREFERRED;
-> >> That's not quite correct, as that means "if you have more than one
-> >> defined panel mode (say 60Hz and 120 Hz), there will be no preferred one".
-> > This piece of code I see in the other panels, so I'm not sure if it is
-> > correct. Should
-> > if (pinfo->desc->num_modes > 1)
-> > 			mode->type |= DRM_MODE_TYPE_PREFERRED;
-> > is correct?
+On 13/03/2023 06:59, Liu Ying wrote:
+> Appropriate maintainers should be suggested for changes to the
+> include/drm/drm_bridge.h header file, so add the header file to the
+> 'DRM DRIVERS FOR BRIDGE CHIPS' section.
 > 
-> I think only a single mode with DRM_MODE_TYPE_PREFERRED is preferred,
-> so:
-> if (i == 0)
-> 	mode->type |= DRM_MODE_TYPE_PREFERRED;		
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>   MAINTAINERS | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> would be the right thing to do.
-Thanks for your explanation.
-> 
-> 
-> Neil
-> >>
-> >> Konrad
-> >>>
-> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3d409875740d..b6e7ac70b8a8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6824,6 +6824,7 @@ S:	Maintained
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   F:	Documentation/devicetree/bindings/display/bridge/
+>   F:	drivers/gpu/drm/bridge/
+> +F:	include/drm/drm_bridge.h
+>   
+>   DRM DRIVERS FOR EXYNOS
+>   M:	Inki Dae <inki.dae@samsung.com>
+
+
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
