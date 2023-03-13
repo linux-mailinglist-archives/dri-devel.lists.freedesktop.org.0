@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1C96B73AA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:19:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2A36B73AE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:19:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCC410E4B2;
-	Mon, 13 Mar 2023 10:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3059810E4C9;
+	Mon, 13 Mar 2023 10:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
  [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B74210E4B2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 10:19:17 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id ix20so5853262plb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 03:19:17 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8046E10E4C9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 10:19:26 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id ix20so5853733plb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 03:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678702756;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NgZncveY2O/txV/R7OP3ZoBdtRLxTenrDfGCPy6Jz1s=;
- b=av8QqSRHixcRjhUE79qpQGAhBtayUig4shkCBjrBNatklj1vswZy4RYKRj3HnJHWi/
- 7oN276bUX5jLU+DHgCWSXpfH8l9ZSm+MfLsY4RmnsQgbUXAP8z57YdIKZbYBV5MKqB6E
- 4I1T15vnrtfK5uZMfwRM3w9ZAMgd48TJeMMLAOu7s4GtlOlvGrkWdHGXcMI5l1jiP5SH
- sdSUpzWqOA1daG45IuqksT8q5kLfMcNS2oZ2u8qa8hFPm6ycrs2zoXPW4utjNA6xKpJV
- ZtnTrXS70BvGPv3YS7/cfAhTGbqt7HrTXYDAc1YJZ9j3KqYmgYsgpnDZ2gvbvT5bwGKh
- hM8g==
+ d=gmail.com; s=20210112; t=1678702766;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pBbOgCOMIJmwbFRm1d3BOh6m1u2hZCsSK63jlthxeuk=;
+ b=KqKFN4TKKoD8SuvXsXcVH0KP8yH/XCmoXRQt3gHWEhD3jMI0Jq9vntmXntD2lXU3JR
+ tRb2N3dYGKORJUuuROLrfy3IVURzH7tfmHbtoNlGWBKut+PSg5SD9mvrjxuQk1kHz7W8
+ vZpW5rNQmn5LFDcGllrJxLXtuWYOJ+KCazCR6k0fOSDCZ/qk4fz/Be9UutnU7AOUxBgc
+ l4XHa6d8OlQt/3NV7i338BP3WCyyN5myXrl3jZphlSCP1hH8JedL8CngnDqJFinIjq4s
+ mrVJ2pFyXMmG+AOjsu3ERGClmzXSCWcljUAJpQVRMtvHX58Kro3f8cmKk8FnnN4ZLSmm
+ hmwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678702756;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NgZncveY2O/txV/R7OP3ZoBdtRLxTenrDfGCPy6Jz1s=;
- b=o7UsyJRgxe74hNCI/ObXRshZw+YGz6szUlCjJ4QOM7qAZ4FI97bkkNYqdi1iizBKAS
- VULWBevdaFnMWBe1LtMTqHUbBmGO1UmtRpnBHy/AWcs4/BNnP70MH+sh2pyArp/1x6Op
- 9EBoGG/uk7Hgt3Stq0iOOx9BOGqhaq5GuBrJNZbdkp3ljJs4+FxPK6W05XdUByhdvNYR
- QpPCYG5XqrXNfYe89vDwiXuBgS4K9WGXcoPpuc+YC7jxVgVTr/01mJoz6Sswif41an2K
- QFyc0ZfhhzyFGvCjrMxks6fqLyWJMIA8wsNMW6mB72K2ZbkCKKve9DHldAGFJN/VreUb
- Ez6g==
-X-Gm-Message-State: AO0yUKVMqaXs3gx7ABdhiXOOgYUKSdHAastBynvxwUyNGKfTfz+sXyns
- Z76uDli3XtfXRtBhu3xFUGA=
-X-Google-Smtp-Source: AK7set+afB5U1j55sApwQnuVUKDwLFCeDjQ8c0UTiwdl5hDF5V5WHR9uiWmGdtLkeySb+DZVcWdr5w==
-X-Received: by 2002:a17:902:e550:b0:1a0:42c0:b2a5 with SMTP id
- n16-20020a170902e55000b001a042c0b2a5mr4499185plf.24.1678702756602; 
- Mon, 13 Mar 2023 03:19:16 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678702766;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pBbOgCOMIJmwbFRm1d3BOh6m1u2hZCsSK63jlthxeuk=;
+ b=7YxoCk8PqNtCVUHPCRFPpz2vNBvsHv3gWOXaChIi8svZO8EPqTWNU25YB7y2nHbxF5
+ TXGpV4abyYjZ5IGsBxPAydaLCariaQh/zavbDeXJQQDaCU3q6LiAipRjV2bws5RLxpcd
+ A0WCJap4P6jVDjTmOWu+KiLydSdRwTTlmWD3ZVPXactoRU5j3kA3s59VHds8tovlFNw2
+ MB1MHZWgtIw8Wwg6p+zarEhBMEPjbLgj+4pH/2Ef6kkII2aPt0a4Ws+drrPNmWuEgosN
+ ODOnufPoOnfmW/s8dSOWiZsZda4MVjjXjovZqx6iOviDYmGRR1uFAE445o4vgLnP7she
+ IY/Q==
+X-Gm-Message-State: AO0yUKWRx0A11skYbJHfXAtzlC/BkjqJJsRUp5gAHwif7EV+VsLXSchI
+ SHoIlrJorHLP3XHK9x6BIwI=
+X-Google-Smtp-Source: AK7set/eOqN3nXJOwunu/RczVRZmB4U9ezRdtuyibTdsR4RZpmS91+z3vjv7FdnWjWvTfQXzxcy2lQ==
+X-Received: by 2002:a17:903:2292:b0:19f:3bf1:a2f with SMTP id
+ b18-20020a170903229200b0019f3bf10a2fmr6300428plh.40.1678702766029; 
+ Mon, 13 Mar 2023 03:19:26 -0700 (PDT)
 Received: from localhost.localdomain (n220246252084.netvigator.com.
  [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
- 13-20020a170902ee4d00b0019a7c890c5asm1270652plo.263.2023.03.13.03.19.09
+ 13-20020a170902ee4d00b0019a7c890c5asm1270652plo.263.2023.03.13.03.19.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 03:19:16 -0700 (PDT)
+ Mon, 13 Mar 2023 03:19:25 -0700 (PDT)
 From: Jianhua Lu <lujianhua000@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -57,11 +58,12 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>,
  Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v6 1/2] dt-bindings: display: panel: Add Novatek NT36523
- bindings
-Date: Mon, 13 Mar 2023 18:18:57 +0800
-Message-Id: <20230313101858.14611-1-lujianhua000@gmail.com>
+Subject: [PATCH v6 2/2] drm/panel: Add driver for Novatek NT36523
+Date: Mon, 13 Mar 2023 18:18:58 +0800
+Message-Id: <20230313101858.14611-2-lujianhua000@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230313101858.14611-1-lujianhua000@gmail.com>
+References: <20230313101858.14611-1-lujianhua000@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,128 +79,876 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Jianhua Lu <lujianhua000@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org
+ dri-devel@lists.freedesktop.org, Jianhua Lu <lujianhua000@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Novatek NT36523 is a display driver IC used to drive DSI panels.
+Add a driver for panels using the Novatek NT36523 display driver IC.
 
 Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-No changes in v6
+Changes in v6:
+  - Make the first mode to be DRM_MODE_TYPE_PREFERRED.
 
-No changes in v5
+Changes in v5:
+  - use lowercase hex for init sequence
+  - fix code style
+  - enable DRM_MODE_TYPE_PREFERRED if where is only one mode.
 
-No changes in v4
+Changes in v4:
+  - add multiple modes support
+  - use dev_err_probe helper
+  - fix dsi_info type string
+  - reimplement mipi_dsi_dual_dcs_write_seq() macro
 
 Changes in v3:
-  - pick up Krzysztof's R-b
-  - remove vddpos and vddneg supply
+  - Refactor source code
 
 Changes in v2:
-  - Drop unnecessary description
-  - dsi0 -> dsi
-  - Correct indentation
+  - Refactor and clean up source code
 
- .../display/panel/novatek,nt36523.yaml        | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+ MAINTAINERS                                   |   7 +
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c | 777 ++++++++++++++++++
+ 4 files changed, 795 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-novatek-nt36523.c
 
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5383af5d3b45..3586248bb05d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6537,6 +6537,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
+ F:	drivers/gpu/drm/panel/panel-novatek-nt35560.c
+ 
++DRM DRIVER FOR NOVATEK NT36523 PANELS
++M:	Jianhua Lu <lujianhua000@gmail.com>
++S:	Maintained
++T:	git git://anongit.freedesktop.org/drm/drm-misc
++F:	Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
++F:	drivers/gpu/drm/panel/panel-novatek-nt36523.c
++
+ DRM DRIVER FOR NOVATEK NT36672A PANELS
+ M:	Sumit Semwal <sumit.semwal@linaro.org>
+ S:	Maintained
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index 8eeee71c0000..268508743b5c 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -377,6 +377,16 @@ config DRM_PANEL_NOVATEK_NT35950
+ 	  Sharp panels used in Sony Xperia Z5 Premium and XZ Premium
+ 	  mobile phones.
+ 
++config DRM_PANEL_NOVATEK_NT36523
++	tristate "Novatek NT36523 panel driver"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	help
++	  Say Y here if you want to enable support for the panels built
++	  around the Novatek NT36523 display controller, such as some
++	  Boe panels used in Xiaomi Mi Pad 5 and 5 Pro tablets.
++
+ config DRM_PANEL_NOVATEK_NT36672A
+ 	tristate "Novatek NT36672A DSI panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index c05aa9e23907..570eab8bf2b2 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -35,6 +35,7 @@ obj-$(CONFIG_DRM_PANEL_NEWVISION_NV3052C) += panel-newvision-nv3052c.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35510) += panel-novatek-nt35510.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35560) += panel-novatek-nt35560.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT35950) += panel-novatek-nt35950.o
++obj-$(CONFIG_DRM_PANEL_NOVATEK_NT36523) += panel-novatek-nt36523.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT36672A) += panel-novatek-nt36672a.o
+ obj-$(CONFIG_DRM_PANEL_NOVATEK_NT39016) += panel-novatek-nt39016.o
+ obj-$(CONFIG_DRM_PANEL_MANTIX_MLAF057WE51) += panel-mantix-mlaf057we51.o
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36523.c b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
 new file mode 100644
-index 000000000000..0039561ef04c
+index 000000000000..d30dbbfb67b1
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
-@@ -0,0 +1,85 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36523.c
+@@ -0,0 +1,777 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Novatek NT36523 DriverIC panels driver
++ *
++ * Copyright (c) 2022, 2023 Jianhua Lu <lujianhua000@gmail.com>
++ */
 +
-+title: Novatek NT36523 based DSI display Panels
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/of_graph.h>
++#include <linux/regulator/consumer.h>
 +
-+maintainers:
-+  - Jianhua Lu <lujianhua000@gmail.com>
++#include <drm/drm_connector.h>
++#include <drm/drm_crtc.h>
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
 +
-+description: |
-+  The Novatek NT36523 is a generic DSI Panel IC used to drive dsi
-+  panels. Support video mode panels from China Star Optoelectronics
-+  Technology (CSOT) and BOE Technology.
++#define DSI_NUM_MIN 1
 +
-+allOf:
-+  - $ref: panel-common.yaml#
++#define mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, cmd, seq...)        \
++		do {                                                 \
++			mipi_dsi_dcs_write_seq(dsi0, cmd, seq);      \
++			mipi_dsi_dcs_write_seq(dsi1, cmd, seq);      \
++		} while (0)
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - xiaomi,elish-boe-nt36523
-+          - xiaomi,elish-csot-nt36523
-+      - const: novatek,nt36523
++struct panel_info {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi[2];
++	const struct panel_desc *desc;
 +
-+  reset-gpios:
-+    maxItems: 1
-+    description: phandle of gpio for reset line - This should be 8mA
++	struct gpio_desc *reset_gpio;
++	struct backlight_device *backlight;
++	struct regulator *vddio;
 +
-+  vddio-supply:
-+    description: regulator that supplies the I/O voltage
++	bool prepared;
++};
 +
-+  reg: true
-+  ports: true
-+  backlight: true
++struct panel_desc {
++	unsigned int width_mm;
++	unsigned int height_mm;
 +
-+required:
-+  - compatible
-+  - reg
-+  - vddio-supply
-+  - reset-gpios
-+  - ports
++	unsigned int bpc;
++	unsigned int lanes;
++	unsigned long mode_flags;
++	enum mipi_dsi_pixel_format format;
 +
-+unevaluatedProperties: false
++	const struct drm_display_mode *modes;
++	unsigned int num_modes;
++	const struct mipi_dsi_device_info dsi_info;
++	int (*init_sequence)(struct panel_info *pinfo);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++	bool is_dual_dsi;
++};
 +
-+    dsi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++static inline struct panel_info *to_panel_info(struct drm_panel *panel)
++{
++	return container_of(panel, struct panel_info, panel);
++}
 +
-+        panel@0 {
-+            compatible = "xiaomi,elish-csot-nt36523", "novatek,nt36523";
-+            reg = <0>;
++static int elish_boe_init_sequence(struct panel_info *pinfo)
++{
++	struct mipi_dsi_device *dsi0 = pinfo->dsi[0];
++	struct mipi_dsi_device *dsi1 = pinfo->dsi[1];
++	/* No datasheet, so write magic init sequence directly */
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x05);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x18, 0x40);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x23);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0x84);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x05, 0x2d);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x06, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x07, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x08, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0x45);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x12, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x15, 0x83);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x16, 0x0c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29, 0x0a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x31, 0xfe);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x32, 0xfd);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x33, 0xfb);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x34, 0xf8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0xf5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x36, 0xf3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x37, 0xf2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x38, 0xf2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0xf2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0xef);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0xec);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3d, 0xe9);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3f, 0xe5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x40, 0xe5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x41, 0xe5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x13);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x45, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x46, 0xf4);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x47, 0xe7);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x48, 0xda);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x49, 0xcd);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4a, 0xc0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4b, 0xb3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4c, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4d, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4e, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x99);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x50, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x68);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x52, 0x66);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x66);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x54, 0x66);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0x0e);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x58, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x59, 0xfb);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5a, 0xf7);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5b, 0xf3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5c, 0xef);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5d, 0xe3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5e, 0xda);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5f, 0xd8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x60, 0xd8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x61, 0xd8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x62, 0xcb);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x63, 0xbf);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x64, 0xb3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x65, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x66, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x67, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x25, 0x47);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0x47);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0x47);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1a, 0xe0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0xe0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x84, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x85, 0x0c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x91, 0x1f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x92, 0x0f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x93, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x94, 0x18);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x95, 0x03);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x96, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb0, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x1f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x1b);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x24);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x28);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x27);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x31);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd1, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd2, 0x30);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xde, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdf, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x81);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0xb0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x22);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9f, 0x50);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x6f, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x70, 0x11);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x73, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x74, 0x49);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x76, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x77, 0x49);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa0, 0x3f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa9, 0x50);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xaa, 0x28);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xab, 0x28);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xad, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x49);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xba, 0x49);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x49);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbe, 0x04);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbf, 0x49);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc0, 0x04);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc1, 0x59);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc2, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc5, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc6, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc7, 0x48);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xca, 0x43);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcb, 0x3c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xce, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcf, 0x43);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x3c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd3, 0x43);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x3c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd7, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdc, 0x43);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdd, 0x3c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xe1, 0x43);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xe2, 0x3c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xf2, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xf3, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xf4, 0x48);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x13, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x14, 0x23);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbc, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbd, 0x23);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x97, 0x3c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x98, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x99, 0x95);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9a, 0x03);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9b, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9c, 0x0b);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9d, 0x0a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9e, 0x90);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x22);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9f, 0x50);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x23);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa3, 0x50);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xe0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x14, 0x60);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x16, 0xc0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xd0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x02, 0xaf);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0xee);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x99);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1d, 0x09);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x0f, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x2c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x13);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0x03, 0xac, 0x1a, 0x04, 0x04);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11);
++	msleep(70);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29);
 +
-+            vddio-supply = <&vreg_l14a_1p88>;
-+            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
-+            backlight = <&backlight>;
++	return 0;
++}
 +
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
++static int elish_csot_init_sequence(struct panel_info *pinfo)
++{
++	struct mipi_dsi_device *dsi0 = pinfo->dsi[0];
++	struct mipi_dsi_device *dsi1 = pinfo->dsi[1];
++	/* No datasheet, so write magic init sequence directly */
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x05);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x18, 0x40);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xd0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x02, 0xaf);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x30);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0xee);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x99);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1d, 0x09);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xe0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x58, 0x40);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x23);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0x84);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x05, 0x2d);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x06, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x07, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x08, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x09, 0x45);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x12, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x15, 0x83);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x16, 0x0c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29, 0x0a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x31, 0xfe);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x32, 0xfd);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x33, 0xfb);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x34, 0xf8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x35, 0xf5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x36, 0xf3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x37, 0xf2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x38, 0xf2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0xf2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3a, 0xef);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0xec);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3d, 0xe9);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3f, 0xe5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x40, 0xe5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x41, 0xe5);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x13);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x45, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x46, 0xf4);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x47, 0xe7);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x48, 0xda);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x49, 0xcd);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4a, 0xc0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4b, 0xb3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4c, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4d, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4e, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x4f, 0x99);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x50, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x68);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x52, 0x66);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x66);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x54, 0x66);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0x0e);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x58, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x59, 0xfb);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5a, 0xf7);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5b, 0xf3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5c, 0xef);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5d, 0xe3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5e, 0xda);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x5f, 0xd8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x60, 0xd8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x61, 0xd8);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x62, 0xcb);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x63, 0xbf);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x64, 0xb3);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x65, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x66, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x67, 0xb2);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x0f, 0xff);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x53, 0x2c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x55, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x13);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x3b, 0x03, 0xac, 0x1a, 0x04, 0x04);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x25, 0x46);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x30, 0x46);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x39, 0x46);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0xb0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1a, 0xe0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1c, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2a, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x2b, 0xe0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0xf0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x84, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x85, 0x0c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x51, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x91, 0x1f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x92, 0x0f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x93, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x94, 0x18);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x95, 0x03);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x96, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb0, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x19, 0x1f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x1b, 0x1b);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x24);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x28);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x27);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x31);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd1, 0x20);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xde, 0x80);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xdf, 0x02);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x26);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x00, 0x81);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x01, 0xb0);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x22);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x6f, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x70, 0x11);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x73, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x74, 0x4d);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa0, 0x3f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xa9, 0x50);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xaa, 0x28);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xab, 0x28);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xad, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb8, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xb9, 0x4b);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xba, 0x96);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbb, 0x4b);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbe, 0x07);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbf, 0x4b);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc0, 0x07);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc1, 0x5c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc2, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc5, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc6, 0x3f);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xc7, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xca, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcb, 0x40);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xce, 0x00);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xcf, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd0, 0x40);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd3, 0x08);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xd4, 0x40);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x25);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbc, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xbd, 0x1c);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x2a);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xfb, 0x01);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x9a, 0x03);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0xff, 0x10);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x11);
++	msleep(70);
++	mipi_dsi_dual_dcs_write_seq(dsi0, dsi1, 0x29);
 +
-+                port@0 {
-+                    reg = <0>;
-+                    panel_in_0: endpoint {
-+                        remote-endpoint = <&dsi0_out>;
-+                    };
-+                };
++	return 0;
++}
 +
-+                port@1{
-+                    reg = <1>;
-+                    panel_in_1: endpoint {
-+                        remote-endpoint = <&dsi1_out>;
-+                    };
-+                };
-+            };
-+        };
-+    };
++static const struct drm_display_mode elish_boe_modes[] = {
++	{
++		/* There is only one 120 Hz timing, but it doesn't work perfectly, 104 Hz preferred */
++		.clock = (1600 + 60 + 8 + 60) * (2560 + 26 + 4 + 168) * 104 / 1000,
++		.hdisplay = 1600,
++		.hsync_start = 1600 + 60,
++		.hsync_end = 1600 + 60 + 8,
++		.htotal = 1600 + 60 + 8 + 60,
++		.vdisplay = 2560,
++		.vsync_start = 2560 + 26,
++		.vsync_end = 2560 + 26 + 4,
++		.vtotal = 2560 + 26 + 4 + 168,
++	},
++};
 +
-+...
++static const struct drm_display_mode elish_csot_modes[] = {
++	{
++		/* There is only one 120 Hz timing, but it doesn't work perfectly, 104 Hz preferred */
++		.clock = (1600 + 200 + 40 + 52) * (2560 + 26 + 4 + 168) * 104 / 1000,
++		.hdisplay = 1600,
++		.hsync_start = 1600 + 200,
++		.hsync_end = 1600 + 200 + 40,
++		.htotal = 1600 + 200 + 40 + 52,
++		.vdisplay = 2560,
++		.vsync_start = 2560 + 26,
++		.vsync_end = 2560 + 26 + 4,
++		.vtotal = 2560 + 26 + 4 + 168,
++	},
++};
++
++static const struct panel_desc elish_boe_desc = {
++	.modes = elish_boe_modes,
++	.num_modes = ARRAY_SIZE(elish_boe_modes),
++	.dsi_info = {
++		.type = "BOE-elish",
++		.channel = 0,
++		.node = NULL,
++	},
++	.width_mm = 127,
++	.height_mm = 203,
++	.bpc = 8,
++	.lanes = 3,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
++	.init_sequence = elish_boe_init_sequence,
++	.is_dual_dsi = true,
++};
++
++static const struct panel_desc elish_csot_desc = {
++	.modes = elish_csot_modes,
++	.num_modes = ARRAY_SIZE(elish_csot_modes),
++	.dsi_info = {
++		.type = "CSOT-elish",
++		.channel = 0,
++		.node = NULL,
++	},
++	.width_mm = 127,
++	.height_mm = 203,
++	.bpc = 8,
++	.lanes = 3,
++	.format = MIPI_DSI_FMT_RGB888,
++	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM,
++	.init_sequence = elish_csot_init_sequence,
++	.is_dual_dsi = true,
++};
++
++static void nt36523_reset(struct panel_info *pinfo)
++{
++	gpiod_set_value_cansleep(pinfo->reset_gpio, 1);
++	usleep_range(12000, 13000);
++	gpiod_set_value_cansleep(pinfo->reset_gpio, 0);
++	usleep_range(12000, 13000);
++	gpiod_set_value_cansleep(pinfo->reset_gpio, 1);
++	usleep_range(12000, 13000);
++	gpiod_set_value_cansleep(pinfo->reset_gpio, 0);
++	usleep_range(12000, 13000);
++}
++
++static int nt36523_prepare(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int ret;
++
++	if (pinfo->prepared)
++		return 0;
++
++	ret = regulator_enable(pinfo->vddio);
++	if (ret) {
++		dev_err(panel->dev, "failed to enable vddio regulator: %d\n", ret);
++		return ret;
++	}
++
++	nt36523_reset(pinfo);
++
++	ret = pinfo->desc->init_sequence(pinfo);
++	if (ret < 0) {
++		regulator_disable(pinfo->vddio);
++		dev_err(panel->dev, "failed to initialize panel: %d\n", ret);
++		return ret;
++	}
++
++	pinfo->prepared = true;
++
++	return 0;
++}
++
++static int nt36523_disable(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int i, ret;
++
++	for (i = 0; i < DSI_NUM_MIN + pinfo->desc->is_dual_dsi; i++) {
++		ret = mipi_dsi_dcs_set_display_off(pinfo->dsi[i]);
++		if (ret < 0)
++			dev_err(&pinfo->dsi[i]->dev, "failed to set display off: %d\n", ret);
++	}
++
++	for (i = 0; i < DSI_NUM_MIN + pinfo->desc->is_dual_dsi; i++) {
++		ret = mipi_dsi_dcs_enter_sleep_mode(pinfo->dsi[i]);
++		if (ret < 0)
++			dev_err(&pinfo->dsi[i]->dev, "failed to enter sleep mode: %d\n", ret);
++	}
++
++	msleep(70);
++
++	return 0;
++}
++
++static int nt36523_unprepare(struct drm_panel *panel)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++
++	if (!pinfo->prepared)
++		return 0;
++
++	gpiod_set_value_cansleep(pinfo->reset_gpio, 1);
++	regulator_disable(pinfo->vddio);
++
++	pinfo->prepared = false;
++
++	return 0;
++}
++
++static void nt36523_remove(struct mipi_dsi_device *dsi)
++{
++	struct panel_info *pinfo = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(pinfo->dsi[0]);
++	if (ret < 0)
++		dev_err(&dsi->dev, "failed to detach from DSI0 host: %d\n", ret);
++
++	if (pinfo->desc->is_dual_dsi) {
++		ret = mipi_dsi_detach(pinfo->dsi[1]);
++		if (ret < 0)
++			dev_err(&pinfo->dsi[1]->dev, "failed to detach from DSI1 host: %d\n", ret);
++		mipi_dsi_device_unregister(pinfo->dsi[1]);
++	}
++
++	drm_panel_remove(&pinfo->panel);
++}
++
++static int nt36523_get_modes(struct drm_panel *panel,
++			       struct drm_connector *connector)
++{
++	struct panel_info *pinfo = to_panel_info(panel);
++	int i;
++
++	for (i = 0; i < pinfo->desc->num_modes; i++) {
++		const struct drm_display_mode *m = &pinfo->desc->modes[i];
++		struct drm_display_mode *mode;
++
++		mode = drm_mode_duplicate(connector->dev, m);
++		if (!mode) {
++			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
++				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
++			return -ENOMEM;
++		}
++
++		mode->type = DRM_MODE_TYPE_DRIVER;
++		if (i == 0)
++			mode->type |= DRM_MODE_TYPE_PREFERRED;
++
++		drm_mode_set_name(mode);
++		drm_mode_probed_add(connector, mode);
++	}
++
++	connector->display_info.width_mm = pinfo->desc->width_mm;
++	connector->display_info.height_mm = pinfo->desc->height_mm;
++	connector->display_info.bpc = pinfo->desc->bpc;
++
++	return pinfo->desc->num_modes;
++}
++
++static const struct drm_panel_funcs nt36523_panel_funcs = {
++	.disable = nt36523_disable,
++	.prepare = nt36523_prepare,
++	.unprepare = nt36523_unprepare,
++	.get_modes = nt36523_get_modes,
++};
++
++static int nt36523_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct device_node *dsi1;
++	struct mipi_dsi_host *dsi1_host;
++	struct panel_info *pinfo;
++	const struct mipi_dsi_device_info *info;
++	int i, ret;
++
++	pinfo = devm_kzalloc(dev, sizeof(*pinfo), GFP_KERNEL);
++	if (!pinfo)
++		return -ENOMEM;
++
++	pinfo->vddio = devm_regulator_get(dev, "vddio");
++	if (IS_ERR(pinfo->vddio))
++		return dev_err_probe(dev, PTR_ERR(pinfo->vddio), "failed to get vddio regulator\n");
++
++	pinfo->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(pinfo->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(pinfo->reset_gpio), "failed to get reset gpio\n");
++
++	pinfo->desc = of_device_get_match_data(dev);
++	if (!pinfo->desc)
++		return -ENODEV;
++
++	/* If the panel is dual dsi, register DSI1 */
++	if (pinfo->desc->is_dual_dsi) {
++		info = &pinfo->desc->dsi_info;
++
++		dsi1 = of_graph_get_remote_node(dsi->dev.of_node, 1, -1);
++		if (!dsi1) {
++			dev_err(dev, "cannot get secondary DSI node.\n");
++			return -ENODEV;
++		}
++
++		dsi1_host = of_find_mipi_dsi_host_by_node(dsi1);
++		of_node_put(dsi1);
++		if (!dsi1_host)
++			return dev_err_probe(dev, -EPROBE_DEFER, "cannot get secondary DSI host\n");
++
++		pinfo->dsi[1] = mipi_dsi_device_register_full(dsi1_host, info);
++		if (!pinfo->dsi[1]) {
++			dev_err(dev, "cannot get secondary DSI device\n");
++			return -ENODEV;
++		}
++	}
++
++	pinfo->dsi[0] = dsi;
++	mipi_dsi_set_drvdata(dsi, pinfo);
++	drm_panel_init(&pinfo->panel, dev, &nt36523_panel_funcs, DRM_MODE_CONNECTOR_DSI);
++
++	ret = drm_panel_of_backlight(&pinfo->panel);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to get backlight\n");
++
++	drm_panel_add(&pinfo->panel);
++
++	for (i = 0; i < DSI_NUM_MIN + pinfo->desc->is_dual_dsi; i++) {
++		pinfo->dsi[i]->lanes = pinfo->desc->lanes;
++		pinfo->dsi[i]->format = pinfo->desc->format;
++		pinfo->dsi[i]->mode_flags = pinfo->desc->mode_flags;
++
++		ret = mipi_dsi_attach(pinfo->dsi[i]);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "cannot attach to DSI%d host.\n", i);
++	}
++
++	return 0;
++}
++
++static const struct of_device_id nt36523_of_match[] = {
++	{
++		.compatible = "xiaomi,elish-boe-nt36523",
++		.data = &elish_boe_desc,
++	},
++	{
++		.compatible = "xiaomi,elish-csot-nt36523",
++		.data = &elish_csot_desc,
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(of, nt36523_of_match);
++
++static struct mipi_dsi_driver nt36523_driver = {
++	.probe = nt36523_probe,
++	.remove = nt36523_remove,
++	.driver = {
++		.name = "panel-novatek-nt36523",
++		.of_match_table = nt36523_of_match,
++	},
++};
++module_mipi_dsi_driver(nt36523_driver);
++
++MODULE_AUTHOR("Jianhua Lu <lujianhua000@gmail.com>");
++MODULE_DESCRIPTION("DRM driver for Novatek NT36523 based MIPI DSI panels");
++MODULE_LICENSE("GPL");
 -- 
 2.39.2
 
