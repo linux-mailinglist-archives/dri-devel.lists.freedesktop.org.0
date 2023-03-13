@@ -1,49 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418186B8647
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 00:49:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB7F6B864F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 00:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9508B10E662;
-	Mon, 13 Mar 2023 23:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13D9910E665;
+	Mon, 13 Mar 2023 23:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C31110E665;
- Mon, 13 Mar 2023 23:49:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678751382; x=1710287382;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8d4hFQyBu/Oxe2xTn4gNzwamSvMsRpIQH/J4nS6ile8=;
- b=OjFEVvRcwUHaPkbObpAXBVYGyPkid9YSWRV6XCnE1Z1Y/untnvVrxmoM
- 4EuKTuYwprC9z67lY4V6sjz+/ndzjqJXBQWptjz/KMrPnActEXCZV/R2p
- M7NChQEh+dApTMnsjpnn8kkZ4BrNZVhW28C0gTK3GDl+Z25X3EFLtmq2Z
- jB3bV2eeBwaJ01tI40wKY0gfByZ2XfJSMcEjJKh/hOETxWKGqw4wC8FcT
- jgIxwVJQv8a5RHaq9s7an5Kju5GCVFEW+WFXn6Doxx3DMj19CgPoCe3Co
- CLSNGut732CUrQYSDPhg1EXBZT9t+FcrEnCCbhggcpL6s4QQi4mNAw5NK Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="364948622"
-X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="364948622"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 16:49:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="767890411"
-X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="767890411"
-Received: from orsosgc001.jf.intel.com ([10.165.21.138])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 16:49:41 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/guc: Disable PL1 power limit when loading GuC
- firmware
-Date: Mon, 13 Mar 2023 16:49:36 -0700
-Message-Id: <20230313234936.2005565-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.38.0
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4F410E668
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 23:51:13 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id EF0DB202FA;
+ Tue, 14 Mar 2023 00:51:10 +0100 (CET)
+Date: Tue, 14 Mar 2023 00:51:09 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v3 03/10] drm/msm/dsi: Fix DSI index detection when
+ version clash occurs
+Message-ID: <20230313235109.u7cpusjr6t2xyxmk@SoMainline.org>
+References: <20230307-topic-dsi_qcm-v3-0-8bd7e1add38a@linaro.org>
+ <20230307-topic-dsi_qcm-v3-3-8bd7e1add38a@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230307-topic-dsi_qcm-v3-3-8bd7e1add38a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,157 +44,258 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- John Harrison <john.c.harrison@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On dGfx, the PL1 power limit being enabled and set to a low value results
-in a low GPU operating freq. It also negates the freq raise operation which
-is done before GuC firmware load. As a result GuC firmware load can time
-out. Such timeouts were seen in the GL #8062 bug below (where the PL1 power
-limit was enabled and set to a low value). Therefore disable the PL1 power
-limit when allowed by HW when loading GuC firmware.
+On 2023-03-07 14:01:41, Konrad Dybcio wrote:
+> Currently, we allow for MAX_DSI entries in io_start to facilitate for
+> MAX_DSI number of DSI hosts at different addresses. The configuration
+> is matched against the DSI CTRL hardware revision read back from the
+> component. We need a way to resolve situations where multiple SoCs
+> with different register maps may use the same version of DSI CTRL. In
+> preparation to do so, make msm_dsi_config a 2d array where each entry
+> represents a set of configurations adequate for a given SoC.
 
-v2:
- - Take mutex (to disallow writes to power1_max) across GuC reset/fw load
- - Add hwm_power_max_restore to error return code path
+Note that this code isn't fool-proof against different SoCs sharing the
+same DSI host address but for different indices (for example, the
+address at variant 0 DSI 0 could be the same as variant 1 DSI 1) and the
+matching logic would wrongly return ID 0 instead of 1 for SoC variant 1,
+because that's the first matching address it finds.
 
-Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_uc.c | 10 ++++++-
- drivers/gpu/drm/i915/i915_hwmon.c     | 39 +++++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_hwmon.h     |  7 +++++
- 3 files changed, 55 insertions(+), 1 deletion(-)
+> This is totally fine to do, as the only differentiating factors
+> between same-version-different-SoCs configurations are the number of
+> DSI hosts (1 or 2, at least as of today) and the set of base registers.
+> The regulator setup is the same, because the DSI hardware is the same,
+> regardless of the SoC it was implemented in.
+> 
+> In addition to that, update the matching logic such that it will loop
+> over VARIANTS_MAX variants, making sure they are all taken into account.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-index 4ccb4be4c9cb..15f8e94edc61 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-@@ -18,6 +18,7 @@
- #include "intel_uc.h"
- 
- #include "i915_drv.h"
-+#include "i915_hwmon.h"
- 
- static const struct intel_uc_ops uc_ops_off;
- static const struct intel_uc_ops uc_ops_on;
-@@ -460,7 +461,7 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	struct drm_i915_private *i915 = gt->i915;
- 	struct intel_guc *guc = &uc->guc;
- 	struct intel_huc *huc = &uc->huc;
--	int ret, attempts;
-+	int ret, attempts, pl1en;
- 
- 	GEM_BUG_ON(!intel_uc_supports_guc(uc));
- 	GEM_BUG_ON(!intel_uc_wants_guc(uc));
-@@ -491,6 +492,9 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	else
- 		attempts = 1;
- 
-+	/* Disable PL1 limit before raising freq */
-+	hwm_power_max_disable(gt, &pl1en);
-+
- 	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
- 
- 	while (attempts--) {
-@@ -547,6 +551,8 @@ static int __uc_init_hw(struct intel_uc *uc)
- 		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
- 	}
- 
-+	hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
-+
- 	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
- 	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
- 
-@@ -563,6 +569,8 @@ static int __uc_init_hw(struct intel_uc *uc)
- 	/* Return GT back to RPn */
- 	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
- 
-+	hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
-+
- 	__uc_sanitize(uc);
- 
- 	if (!ret) {
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-index ee63a8fd88fc..2bbca75ac477 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.c
-+++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -444,6 +444,45 @@ hwm_power_write(struct hwm_drvdata *ddat, u32 attr, int chan, long val)
- 	}
- }
- 
-+void hwm_power_max_disable(struct intel_gt *gt, u32 *old)
-+{
-+	struct i915_hwmon *hwmon = gt->i915->hwmon;
-+	intel_wakeref_t wakeref;
-+	u32 r;
-+
-+	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-+		return;
-+
-+	/* Take mutex to prevent concurrent hwm_power_max_write */
-+	mutex_lock(&hwmon->hwmon_lock);
-+
-+	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
-+		r = intel_uncore_rmw(hwmon->ddat.uncore,
-+				     hwmon->rg.pkg_rapl_limit,
-+				     PKG_PWR_LIM_1_EN, 0);
-+
-+	*old = !!(r & PKG_PWR_LIM_1_EN);
-+
-+	/* hwmon_lock mutex is unlocked in hwm_power_max_restore */
-+}
-+
-+void hwm_power_max_restore(struct intel_gt *gt, u32 old)
-+{
-+	struct i915_hwmon *hwmon = gt->i915->hwmon;
-+	intel_wakeref_t wakeref;
-+
-+	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-+		return;
-+
-+	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
-+		intel_uncore_rmw(hwmon->ddat.uncore,
-+				 hwmon->rg.pkg_rapl_limit,
-+				 PKG_PWR_LIM_1_EN,
-+				 old ? PKG_PWR_LIM_1_EN : 0);
-+
-+	mutex_unlock(&hwmon->hwmon_lock);
-+}
-+
- static umode_t
- hwm_energy_is_visible(const struct hwm_drvdata *ddat, u32 attr)
- {
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
-index 7ca9cf2c34c9..0c2db11be2e2 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.h
-+++ b/drivers/gpu/drm/i915/i915_hwmon.h
-@@ -7,14 +7,21 @@
- #ifndef __I915_HWMON_H__
- #define __I915_HWMON_H__
- 
-+#include <linux/types.h>
-+
- struct drm_i915_private;
-+struct intel_gt;
- 
- #if IS_REACHABLE(CONFIG_HWMON)
- void i915_hwmon_register(struct drm_i915_private *i915);
- void i915_hwmon_unregister(struct drm_i915_private *i915);
-+void hwm_power_max_disable(struct intel_gt *gt, u32 *old);
-+void hwm_power_max_restore(struct intel_gt *gt, u32 old);
- #else
- static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
- static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
-+void hwm_power_max_disable(struct intel_gt *gt, u32 *old) { };
-+void hwm_power_max_restore(struct intel_gt *gt, u32 old) { };
- #endif
- 
- #endif /* __I915_HWMON_H__ */
--- 
-2.38.0
+"in addition to that" makes it sound like you're doing a separate new
+thing in this patch, when the match logic must in fact be updated to
+make it compatible with the change described above (as in, it doesn't
+compile if you don't account for the extra depth in the array).
 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Regardless of the above, I don't think it's a problem right now and I
+really like the direction this is headed in: miles better than having a
+single distinct SoC with a separate way (compatible) of selecting the
+host DSI CTRL, rather than the hw revision readback.
+
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi_cfg.c  | 52 ++++++++++++++++++++++++++++----------
+>  drivers/gpu/drm/msm/dsi/dsi_cfg.h  |  5 +++-
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 10 ++++----
+>  3 files changed, 48 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+> index 4515f52b407a..6c192963c100 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
+> @@ -21,7 +21,9 @@ static const struct msm_dsi_config apq8064_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(apq8064_dsi_regulators),
+>  	.bus_clk_names = dsi_v2_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_v2_bus_clk_names),
+> -	.io_start = { 0x4700000, 0x5800000 },
+> +	.io_start = {
+> +		{ 0x4700000, 0x5800000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_6g_bus_clk_names[] = {
+> @@ -40,7 +42,9 @@ static const struct msm_dsi_config msm8974_apq8084_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(msm8974_apq8084_regulators),
+>  	.bus_clk_names = dsi_6g_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_6g_bus_clk_names),
+> -	.io_start = { 0xfd922800, 0xfd922b00 },
+> +	.io_start = {
+> +		{ 0xfd922800, 0xfd922b00 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_8916_bus_clk_names[] = {
+> @@ -58,7 +62,9 @@ static const struct msm_dsi_config msm8916_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(msm8916_dsi_regulators),
+>  	.bus_clk_names = dsi_8916_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_8916_bus_clk_names),
+> -	.io_start = { 0x1a98000 },
+> +	.io_start = {
+> +		{ 0x1a98000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_8976_bus_clk_names[] = {
+> @@ -76,7 +82,9 @@ static const struct msm_dsi_config msm8976_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(msm8976_dsi_regulators),
+>  	.bus_clk_names = dsi_8976_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_8976_bus_clk_names),
+> -	.io_start = { 0x1a94000, 0x1a96000 },
+> +	.io_start = {
+> +		{ 0x1a94000, 0x1a96000 },
+> +	},
+>  };
+>  
+>  static const struct regulator_bulk_data msm8994_dsi_regulators[] = {
+> @@ -94,7 +102,9 @@ static const struct msm_dsi_config msm8994_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(msm8994_dsi_regulators),
+>  	.bus_clk_names = dsi_6g_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_6g_bus_clk_names),
+> -	.io_start = { 0xfd998000, 0xfd9a0000 },
+> +	.io_start = {
+> +		{ 0xfd998000, 0xfd9a0000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_8996_bus_clk_names[] = {
+> @@ -113,7 +123,9 @@ static const struct msm_dsi_config msm8996_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(msm8996_dsi_regulators),
+>  	.bus_clk_names = dsi_8996_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_8996_bus_clk_names),
+> -	.io_start = { 0x994000, 0x996000 },
+> +	.io_start = {
+> +		{ 0x994000, 0x996000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_msm8998_bus_clk_names[] = {
+> @@ -131,7 +143,9 @@ static const struct msm_dsi_config msm8998_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(msm8998_dsi_regulators),
+>  	.bus_clk_names = dsi_msm8998_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_msm8998_bus_clk_names),
+> -	.io_start = { 0xc994000, 0xc996000 },
+> +	.io_start = {
+> +		{ 0xc994000, 0xc996000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_sdm660_bus_clk_names[] = {
+> @@ -148,7 +162,9 @@ static const struct msm_dsi_config sdm660_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(sdm660_dsi_regulators),
+>  	.bus_clk_names = dsi_sdm660_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_sdm660_bus_clk_names),
+> -	.io_start = { 0xc994000, 0xc996000 },
+> +	.io_start = {
+> +		{ 0xc994000, 0xc996000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_sdm845_bus_clk_names[] = {
+> @@ -169,7 +185,9 @@ static const struct msm_dsi_config sdm845_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(sdm845_dsi_regulators),
+>  	.bus_clk_names = dsi_sdm845_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_sdm845_bus_clk_names),
+> -	.io_start = { 0xae94000, 0xae96000 },
+> +	.io_start = {
+> +		{ 0xae94000, 0xae96000 },
+> +	},
+>  };
+>  
+>  static const struct regulator_bulk_data sm8550_dsi_regulators[] = {
+> @@ -182,7 +200,9 @@ static const struct msm_dsi_config sm8550_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(sm8550_dsi_regulators),
+>  	.bus_clk_names = dsi_sdm845_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_sdm845_bus_clk_names),
+> -	.io_start = { 0xae94000, 0xae96000 },
+> +	.io_start = {
+> +		{ 0xae94000, 0xae96000 },
+> +	},
+>  };
+>  
+>  static const struct regulator_bulk_data sc7180_dsi_regulators[] = {
+> @@ -195,7 +215,9 @@ static const struct msm_dsi_config sc7180_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(sc7180_dsi_regulators),
+>  	.bus_clk_names = dsi_sc7180_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_sc7180_bus_clk_names),
+> -	.io_start = { 0xae94000 },
+> +	.io_start = {
+> +		{ 0xae94000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_sc7280_bus_clk_names[] = {
+> @@ -212,7 +234,9 @@ static const struct msm_dsi_config sc7280_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(sc7280_dsi_regulators),
+>  	.bus_clk_names = dsi_sc7280_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_sc7280_bus_clk_names),
+> -	.io_start = { 0xae94000, 0xae96000 },
+> +	.io_start = {
+> +		{ 0xae94000, 0xae96000 },
+> +	},
+>  };
+>  
+>  static const char * const dsi_qcm2290_bus_clk_names[] = {
+> @@ -229,7 +253,9 @@ static const struct msm_dsi_config qcm2290_dsi_cfg = {
+>  	.num_regulators = ARRAY_SIZE(qcm2290_dsi_cfg_regulators),
+>  	.bus_clk_names = dsi_qcm2290_bus_clk_names,
+>  	.num_bus_clks = ARRAY_SIZE(dsi_qcm2290_bus_clk_names),
+> -	.io_start = { 0x5e94000 },
+> +	.io_start = {
+> +		{ 0x5e94000 },
+> +	},
+>  };
+>  
+>  static const struct msm_dsi_host_cfg_ops msm_dsi_v2_host_ops = {
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+> index 6b6b16c5fd25..8772a3631ac1 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+> @@ -32,13 +32,16 @@
+>  
+>  #define DSI_6G_REG_SHIFT	4
+>  
+> +/* Maximum number of configurations matched against the same hw revision */
+> +#define VARIANTS_MAX			2
+> +
+>  struct msm_dsi_config {
+>  	u32 io_offset;
+>  	const struct regulator_bulk_data *regulator_data;
+>  	int num_regulators;
+>  	const char * const *bus_clk_names;
+>  	const int num_bus_clks;
+> -	const resource_size_t io_start[DSI_MAX];
+> +	const resource_size_t io_start[VARIANTS_MAX][DSI_MAX];
+>  };
+>  
+>  struct msm_dsi_host_cfg_ops {
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 9021f0d65515..9cfb9e91bfea 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -1862,16 +1862,16 @@ static int dsi_host_get_id(struct msm_dsi_host *msm_host)
+>  	struct platform_device *pdev = msm_host->pdev;
+>  	const struct msm_dsi_config *cfg = msm_host->cfg_hnd->cfg;
+>  	struct resource *res;
+> -	int i;
+> +	int i, j;
+>  
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dsi_ctrl");
+>  	if (!res)
+>  		return -EINVAL;
+>  
+> -	for (i = 0; i < DSI_MAX; i++) {
+> -		if (cfg->io_start[i] == res->start)
+> -			return i;
+> -	}
+> +	for (i = 0; i < VARIANTS_MAX; i++)
+> +		for (j = 0; j < DSI_MAX; j++)
+> +			if (cfg->io_start[i][j] == res->start)
+> +				return j;
+>  
+>  	return -EINVAL;
+>  }
+> 
+> -- 
+> 2.39.2
+> 
