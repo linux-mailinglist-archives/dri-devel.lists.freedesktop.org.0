@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A3D6B6DD8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 04:10:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A05686B6DE7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 04:19:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABB710E041;
-	Mon, 13 Mar 2023 03:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 579E510E0B4;
+	Mon, 13 Mar 2023 03:19:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
- [IPv6:2607:f8b0:4864:20::e33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2A9B10E041;
- Mon, 13 Mar 2023 03:09:57 +0000 (UTC)
-Received: by mail-vs1-xe33.google.com with SMTP id s1so9806275vsk.5;
- Sun, 12 Mar 2023 20:09:57 -0700 (PDT)
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com
+ [IPv6:2607:f8b0:4864:20::932])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFF810E0B4;
+ Mon, 13 Mar 2023 03:19:39 +0000 (UTC)
+Received: by mail-ua1-x932.google.com with SMTP id x33so1396491uaf.12;
+ Sun, 12 Mar 2023 20:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678676997;
+ d=gmail.com; s=20210112; t=1678677578;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+psd8R+vmD5RvwTYlxJi1wP8fKpHP1Zmc7TIxsJKEsY=;
- b=N53/ggGiWuPqPDdRDrleVmQHpqQDjdpIzClBdpOvnrvQCwLuZaZKJ+rhC0c2rVybLY
- tbzZgnnkJoKcVeHk7Lzixl0Bug8WOYjc1nbrgHt8BDumgI8aUN00G38xUUo7O9MGXQ4d
- Y/LnnhrXgdv0XCwEhGgzvxX5Y1E+22diMyFyV9nxpWiV8qWSUQgAc2SzSEw9EqrMt0mo
- p/eLJ01lDu5Gcpgv+efW2pkArDOJJe1lncaTHJqauycAbQJG1BtQixYkYgJTknm/tTpE
- v7UFcQmW9bmd1QO5Ouj/iZNYQ/rdkugE/68wW+fOFkI2D9Tuyc6kCgykGK3IBwlrRQEh
- aWsw==
+ bh=5CBzKOAoVsQ0Am8mlT1jHXzf8az9DxCgFAJOcWtAcSc=;
+ b=TZj/meOTUwSnXbzkQn+RIvQLo3eH50QtMJKvzchI1mMAb5f+Sa0hdGEZIAB/oTqV19
+ 6X17jVhONyQvG9f9mL4RdoX+njPO1DYk9uNHirGzShNwARJmpiKjg/W+HEf3TXlplZM4
+ aCrEs2eQkEftlHMLCgufcOXtbER0qK/ayNev3zUCpvXWMu/9+Op8I93KPbTiv+wnaTEe
+ 3dG6JSgunxw1A1MGY0SkmyR+0e3bez02Pq7Oc7cc/ciI2A18Vj7ZRUEh6MSyXYi08Z8q
+ CmEw0ts6R/+l2CRow6U3sjXtrhN4lyaUz1AWmslx0n8LWev8x1spsRVXL+N8SMYAIuq3
+ vrmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678676997;
+ d=1e100.net; s=20210112; t=1678677578;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+psd8R+vmD5RvwTYlxJi1wP8fKpHP1Zmc7TIxsJKEsY=;
- b=sKa1Av4D7/WLyYOFEUSF/MtSCcrb9XH1c9oBhfTbaP4y/XIsgNwSS+HF9Di7Boqtuz
- mH2LvMMId/j1QNQYrl09JwT1ivL9Lfb7ieME3vDIuzKdh9yqGZOOb0743SO/j9Qj0QhM
- iExg4fiWTOP6FnGV0sPQhhnzrhIhJJhqMyUhy6cGtkNZMHmE6TLXxG+pdgapGN0iE7CS
- BkFjOO2x0qo4azCah6FIh6sAMoVhmuTyiaco2R2BQCZ/H0RLcB61uo9GUMYmL/CiIzQx
- ldfaSMm0EBFHIegVqhy8nG91NodYB/Wk1HyVCsfNTJ9LWxfDxLuASzPKPWELqt6iFYY9
- JFjQ==
-X-Gm-Message-State: AO0yUKWg4jQOXQTZiILeGZOerkD1htHZS0qWKNB/hhD0xTKYNBO5VB0p
- AHMGjrTo1szkuiO75xRPONXC1t+Du3fcaGqGx9U=
-X-Google-Smtp-Source: AK7set+Mgs0Wzj9y04plk97b2hXgIXMfAcRVkPbSLMt3jPbr/TY3cmzFA9SDaxnbZoHhfZwO5l3ePrcLDSxwAToxsfA=
-X-Received: by 2002:a67:fe54:0:b0:412:2d80:b0a3 with SMTP id
- m20-20020a67fe54000000b004122d80b0a3mr21468291vsr.4.1678676996739; Sun, 12
- Mar 2023 20:09:56 -0700 (PDT)
+ bh=5CBzKOAoVsQ0Am8mlT1jHXzf8az9DxCgFAJOcWtAcSc=;
+ b=760DG3ceNyjf3cSfa4GCMR2I/WnTDvYZWtVL9diUjwXxDkS1c3ASmxsyytAo9VO0sK
+ 8Wta2dySwJuyIBGfFMeTp5oaNS8M/6R4uyoXIHHhjO/3/Q/v/6JjvZGjkfISkTvwByNr
+ tpJdUh2fXj5tk6SPgPP2brrjsC0uD6KvQrW3CXgnnwgIaxwinf4jlkq6d1NJVRnNglrd
+ VanT7XeVfjPRYbBgF6rRw89PHn6j7kwcQ7F2KSQVEfa83O8frclLn3gK7mx+NIdSbkOY
+ WP3C3FIwxAIzHnWZuneuAf4BsXagxay4HqxV50bGuIN/5YzsUyv7d+SVCm4G2aPVwU4o
+ m3hw==
+X-Gm-Message-State: AO0yUKX+jQRtbp3BP1DFuH/qblIAg7ofL9wgK86ZOfPIZd0AkmllYi7B
+ WVw8ymbnxHvQxVbPxRT33UbDRN8ZTaArRWZaz9E=
+X-Google-Smtp-Source: AK7set+IT4ESRy7R0eRjEecC/IgyCezMd2n9zrYkSOOv33MMlHY7E7J8AQDoCNjNPaecdgdG37JsI9O7T8CNnOWsxXo=
+X-Received: by 2002:a1f:4507:0:b0:42d:5ea6:bd58 with SMTP id
+ s7-20020a1f4507000000b0042d5ea6bd58mr10716118vka.3.1678677578595; Sun, 12 Mar
+ 2023 20:19:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230312233052.21095-1-nunes.erico@gmail.com>
-In-Reply-To: <20230312233052.21095-1-nunes.erico@gmail.com>
+References: <20230224214133.411966-1-mcanal@igalia.com>
+In-Reply-To: <20230224214133.411966-1-mcanal@igalia.com>
 From: Qiang Yu <yuq825@gmail.com>
-Date: Mon, 13 Mar 2023 11:09:45 +0800
-Message-ID: <CAKGbVbs2ZRGyYOy9yYUMJ+apQm=NaXXb58C-97CaoTe5KPNqgw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm/lima: expose usage statistics via fdinfo
-To: Erico Nunes <nunes.erico@gmail.com>
+Date: Mon, 13 Mar 2023 11:19:27 +0800
+Message-ID: <CAKGbVbu-9j4jeAUp7WUbjeE7YCwcNYF3-Dks8Q_97dTm==tgPA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/lima: Use drm_sched_job_add_syncobj_dependency()
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,72 +67,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, lima@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <mwen@igalia.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Patch set is:
+Patch is:
 Reviewed-by: Qiang Yu <yuq825@gmail.com>
 
-Looks like drm-misc-next does not contain "df622729ddbf drm/scheduler:
-track GPU active time per entity" yet.
-Will apply later.
-
-Regards,
-Qiang
-
-On Mon, Mar 13, 2023 at 7:31=E2=80=AFAM Erico Nunes <nunes.erico@gmail.com>=
- wrote:
+On Sat, Feb 25, 2023 at 5:41=E2=80=AFAM Ma=C3=ADra Canal <mcanal@igalia.com=
+> wrote:
 >
-> Expose lima gp and pp usage stats through fdinfo, following
-> Documentation/gpu/drm-usage-stats.rst.
-> Borrowed from these previous implementations:
+> As lima_gem_add_deps() performs the same steps as
+> drm_sched_job_add_syncobj_dependency(), replace the open-coded
+> implementation in Lima in order to simply use the DRM function.
 >
-> "df622729ddbf drm/scheduler: track GPU active time per entity" added
-> usage time accounting to drm scheduler, which is where the data used
-> here comes from.
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+>  drivers/gpu/drm/lima/lima_gem.c | 12 ++----------
+>  1 file changed, 2 insertions(+), 10 deletions(-)
 >
-> Then the main implementation is based on these etnaviv commits:
-> "d306788b6e1b drm/etnaviv: allocate unique ID per drm_file" and
-> "97804a133c68 drm/etnaviv: export client GPU usage statistics via
-> fdinfo"
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_=
+gem.c
+> index 0f1ca0b0db49..10252dc11a22 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -277,21 +277,13 @@ static int lima_gem_add_deps(struct drm_file *file,=
+ struct lima_submit *submit)
+>         int i, err;
 >
-> Also "874442541133 drm/amdgpu: Add show_fdinfo() interface" since lima
-> has a context manager very similar to amdgpu and all contexts created
-> (and released) at the ctx_mgr level need to be accounted for.
+>         for (i =3D 0; i < ARRAY_SIZE(submit->in_sync); i++) {
+> -               struct dma_fence *fence =3D NULL;
+> -
+>                 if (!submit->in_sync[i])
+>                         continue;
 >
-> Tested with the generic "gputop" tool currently available as patches to
-> igt, a sample run with this patchset looks like this:
+> -               err =3D drm_syncobj_find_fence(file, submit->in_sync[i],
+> -                                            0, 0, &fence);
+> +               err =3D drm_sched_job_add_syncobj_dependency(&submit->tas=
+k->base, file,
+> +                                                          submit->in_syn=
+c[i], 0);
+>                 if (err)
+>                         return err;
+> -
+> -               err =3D drm_sched_job_add_dependency(&submit->task->base,=
+ fence);
+> -               if (err) {
+> -                       dma_fence_put(fence);
+> -                       return err;
+> -               }
+>         }
 >
-> DRM minor 128
->     PID               NAME             gp                        pp
->     4322   glmark2-es2-way |=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=
-=E2=96=8A                  ||=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=
-=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
-=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88      |
->     3561            weston |=E2=96=8E                       ||=E2=96=88=
-=E2=96=88=E2=96=88=E2=96=8C                    |
->     4159          Xwayland |=E2=96=8F                       ||=E2=96=89  =
-                     |
->     4154          glxgears |=E2=96=8F                       ||=E2=96=8E  =
-                     |
->     3661           firefox |=E2=96=8F                       ||=E2=96=8F  =
-                     |
->
->
-> Erico Nunes (3):
->   drm/lima: add usage counting method to ctx_mgr
->   drm/lima: allocate unique id per drm_file
->   drm/lima: add show_fdinfo for drm usage stats
->
->  drivers/gpu/drm/lima/lima_ctx.c    | 30 ++++++++++++++++++++-
->  drivers/gpu/drm/lima/lima_ctx.h    |  3 +++
->  drivers/gpu/drm/lima/lima_device.h |  3 +++
->  drivers/gpu/drm/lima/lima_drv.c    | 43 +++++++++++++++++++++++++++++-
->  drivers/gpu/drm/lima/lima_drv.h    |  1 +
->  5 files changed, 78 insertions(+), 2 deletions(-)
->
+>         return 0;
 > --
 > 2.39.2
 >
