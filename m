@@ -1,48 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62C56B832F
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 21:56:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C306B840C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 22:38:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3951210E62C;
-	Mon, 13 Mar 2023 20:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBAF810E021;
+	Mon, 13 Mar 2023 21:38:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA05A10E62B;
- Mon, 13 Mar 2023 20:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678740969; x=1710276969;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=THTDwnCqhVLz4biurwKN/PQ3gMDzRpGjfirl/XaLMq8=;
- b=CmILjQk94t120XeKe9DtwhPxAOvQ/IATIAvscfsIHdw8ASSAWxl2Bfz5
- GDQAIgmNmBU10Ce9Dg3HZ/2M4fBP/zOLQ5VWoXvjhzamtUzk/Iy4efE47
- zSfGzeSnT1qrwdytdGKcHGlIihHiytwbE2X/87qRltsv3GvS2TI4sBBEH
- POH0aVDvzx3l9dYMehs1wPyoLaImbXMVoLngFF99/TIjKNG12P0lcVmMP
- +WWwAqg2WV5o99BS3wo4yEXNbBodpLCypEFwavbmDlDtJOpSc7wrddYhx
- 79P5S5GjWOxGM0WWpqPYqSMVSTgqVqMF4zaJ13a4BtDTYh/YK/NoodPPS w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399850516"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="399850516"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 13:56:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="656090768"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="656090768"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 13:56:08 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/huc: Cancel HuC delayed load timer on reset.
-Date: Mon, 13 Mar 2023 13:55:56 -0700
-Message-Id: <20230313205556.1174503-1-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4D0010E021
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 21:38:08 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-540cb2fb5b9so162912137b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:38:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678743488;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5MoCrv9jwtexNbM0NP+aK8vItTXphA3RLnXqGbEpBLs=;
+ b=oBqnejAr+cRAwqwSDggHbvyESDCGAm0IT2diFdiMbosVlO5Ebuhv06xmTVl9Mh/HiC
+ neV3kaLcXxQXZ8rWMN8gaBnTm1Qs4vHbNOBsKiKclKcZXxdswwbW7rBFUKdItfCnI55B
+ 2ciaYsFh+G7t/+4hYcljFYbfjyaEpP3SMr2C9qEUP/kIQsFIHhlZF56rBM4WUzFRQ661
+ MMseawNEKdVEkMrE+QDWzPun/jDHPZLOHsF0+5oWgZmpKX/eGOmxBPDExhV/iJDyeQ53
+ 7MDPKM5XS+1UdJ2cwhsUmyEm2WnUYeGW2PETZiXrAbRMWy1JxeNHHzOrvI5hsaoqnfPl
+ S05A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678743488;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5MoCrv9jwtexNbM0NP+aK8vItTXphA3RLnXqGbEpBLs=;
+ b=J8Z0/J6wqJYG0gSKsVSZ5saMS/2xzh/b5QnAVza7ha/0w+StFK5YqopVIEmMEUm7cP
+ ED4SImNzKU100AEyQ4ZrM79qwQKIgEm6WiuTiAflFpqaEyWJmgTaG6rfpvrFnzE2Yj9h
+ HXNDu4Rbx10KlQFP2lH2RUmbovXQOS2p5Y5HGqCFbD9n2Ud02x45JBhzCoekWxRoBfMj
+ Dg2M+EGeuC1lCOgYuPmg701jStyFU0uXDRbzxYHzi88FJgceAfW5578+63fdEFxFZEWy
+ 0RSHFwZvHBdtMzVOJDr1VSTcvIJ/FBrZpZzPutSYnlHFEn9I0/z2+QYQWYBrbWdpuCgA
+ JwJw==
+X-Gm-Message-State: AO0yUKUPE57FzKcvU5oGdYH2t4q1jL2UOaLsxUTL8IcZlOZICPlw4/oX
+ XX9oGXU3q11qGLofJQtIGQ9lorVbj273eB9J04NjsTp6XaHqend6
+X-Google-Smtp-Source: AK7set8L1lXLBOk8wvAHM9wRqKPNXWlxKrtxI+qzt+FALwwKZEBkTpnXYO0qQldUzFZLmRJDWTgYnC/ZzTNl4HJfoug=
+X-Received: by 2002:a81:ae04:0:b0:534:d71f:14e6 with SMTP id
+ m4-20020a81ae04000000b00534d71f14e6mr5550337ywh.9.1678743487766; Mon, 13 Mar
+ 2023 14:38:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230313155138.20584-1-tzimmermann@suse.de>
+In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 13 Mar 2023 22:37:56 +0100
+Message-ID: <CACRpkdZngHNjW0=ZtnjvNV=rfR8tip_iqTE-FDWY+ggsU6DCmw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/25] drm/dma-helper: Add dedicated fbdev emulation
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,68 +68,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: linux-aspeed@lists.ozlabs.org, javierm@redhat.com,
+ linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the rare case where we do a full GT reset after starting the HuC
-load and before it completes (which basically boils down to i915 hanging
-during init), we need to cancel the delayed load fence, as it will be
-re-initialized in the post-reset recovery.
+On Mon, Mar 13, 2023 at 4:51=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
 
-Fixes: 27536e03271d ("drm/i915/huc: track delayed HuC load with a fence")
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_huc.c | 7 +++++++
- drivers/gpu/drm/i915/gt/uc/intel_huc.h | 7 +------
- 2 files changed, 8 insertions(+), 6 deletions(-)
+> Tested with fbcon and IGT on vc4.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-index 72884e21470b..aefdaa62da99 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-@@ -241,6 +241,13 @@ static void delayed_huc_load_fini(struct intel_huc *huc)
- 	i915_sw_fence_fini(&huc->delayed_load.fence);
- }
- 
-+int intel_huc_sanitize(struct intel_huc *huc)
-+{
-+	delayed_huc_load_complete(huc);
-+	intel_uc_fw_sanitize(&huc->fw);
-+	return 0;
-+}
-+
- static bool vcs_supported(struct intel_gt *gt)
- {
- 	intel_engine_mask_t mask = gt->info.engine_mask;
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.h b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-index 52db03620c60..db555b3c1f56 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
-@@ -41,6 +41,7 @@ struct intel_huc {
- 	} delayed_load;
- };
- 
-+int intel_huc_sanitize(struct intel_huc *huc);
- void intel_huc_init_early(struct intel_huc *huc);
- int intel_huc_init(struct intel_huc *huc);
- void intel_huc_fini(struct intel_huc *huc);
-@@ -54,12 +55,6 @@ bool intel_huc_is_authenticated(struct intel_huc *huc);
- void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus);
- void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, struct bus_type *bus);
- 
--static inline int intel_huc_sanitize(struct intel_huc *huc)
--{
--	intel_uc_fw_sanitize(&huc->fw);
--	return 0;
--}
--
- static inline bool intel_huc_is_supported(struct intel_huc *huc)
- {
- 	return intel_uc_fw_is_supported(&huc->fw);
--- 
-2.37.3
+Also tested on the U8500 MCDE on Samsung GT-I8190 (Golden)
+successfully.
 
+Yours,
+Linus Walleij
