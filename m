@@ -1,58 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548A76B7FB5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 18:50:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDC56B809C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 19:31:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2633010E5F6;
-	Mon, 13 Mar 2023 17:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE58E10E5FA;
+	Mon, 13 Mar 2023 18:30:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D4810E5F6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 17:50:09 +0000 (UTC)
-Received: from 2603-8080-2102-63d7-c4a8-7e10-0391-f3ff.res6.spectrum.com
- (2603-8080-2102-63d7-c4a8-7e10-0391-f3ff.res6.spectrum.com
- [IPv6:2603:8080:2102:63d7:c4a8:7e10:391:f3ff])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: gfxstrand)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id C57FB6602179;
- Mon, 13 Mar 2023 17:50:02 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678729807;
- bh=xAoSrt6ok3rZEBjY+weW5rQvZBVH8IFHlHFW3Km1xIE=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=oSWXTgrlnOu+4tRAuaTAhAxxQPeXH9BthRHi10Q9cQbXmnkh3bucEb9d2wQJZCWD1
- 1z2j9H6C9DXjOv5OEyK4Sj2jinbBdVER4qizvl/SDiNngN4X2GK8ibY5HMN/jUiM0K
- Lgb6wuw6jRM3dxATRJR2vIIU09devvxy61sEzOWeK1nF1Hze8dC35r9dSuGxJ6P9Yc
- ubFZnsGEb/WR1Wv+c0FzKfGuK2UsjxOC/6d/SCbm6mqA6pSMvvmy447L/+HmcuH2gC
- fdCmebbYSohZS2wJXNt1zOCWQ2qcBzDZexbOxd7dTRFDn4ZnANbAx4hk0gT+L5AsRJ
- FJff+kwAI+EYA==
-Message-ID: <5a0db63c043adc47b289b3f1d22935a0a63c926e.camel@collabora.com>
-Subject: Re: [PATCH RFC 03/18] rust: drm: file: Add File abstraction
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
-To: Asahi Lina <lina@asahilina.net>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Alex
- Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>, Sumit Semwal
- <sumit.semwal@linaro.org>,  Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Luben Tuikov <luben.tuikov@amd.com>, Jarkko
- Sakkinen <jarkko@kernel.org>, Dave Hansen <dave.hansen@linux.intel.com>
-Date: Mon, 13 Mar 2023 12:49:57 -0500
-In-Reply-To: <28fa3f97-4c7c-212e-2be2-fb1c05f7f576@asahilina.net>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-3-917ff5bc80a8@asahilina.net>
- <9ba89e97155400fb379f5101ccb8960d0bcbc025.camel@collabora.com>
- <28fa3f97-4c7c-212e-2be2-fb1c05f7f576@asahilina.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9A510E143;
+ Mon, 13 Mar 2023 18:30:55 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B5E166147C;
+ Mon, 13 Mar 2023 18:30:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1439C433D2;
+ Mon, 13 Mar 2023 18:30:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1678732254;
+ bh=xXfHOtpB42Nc5WnZyQQpmBHFWLUExBdm6jawq0Jm084=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=0FMXy6Knts0+zZgypoJ0GS2NVaLO5tLbDYgKvXx7LMo+bv1jhAWytcutb/BiI1vmD
+ yBEXUeCTIezUvb7qFu7X1zL/BBLS5n8X+R2ydR39/TuRmUuIlR6blTMiIf1xBYy5xQ
+ 19+sdyeK0HrYZKr/HzYzLfOdhn58D730PvNR5Cdo=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 30/36] drm/i915/huc: use const struct bus_type pointers
+Date: Mon, 13 Mar 2023 19:29:12 +0100
+Message-Id: <20230313182918.1312597-30-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230313182918.1312597-1-gregkh@linuxfoundation.org>
+References: <20230313182918.1312597-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3256;
+ i=gregkh@linuxfoundation.org; h=from:subject;
+ bh=xXfHOtpB42Nc5WnZyQQpmBHFWLUExBdm6jawq0Jm084=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDCn82dUOV8LkZs1rW1FbEZ2+du0D7wfbfUpebF2pHn7h+
+ 5lpjir1HbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjARsTcM82y+VjUWN7TzOscl
+ xYtl2WzK7ZLcwbDg8GWOaEHppcYb97/63/6QcaXxlcd/AA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,233 +57,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mary <mary@mary.zone>, asahi@lists.linux.dev,
- linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-media@vger.kernel.org
+Cc: Tony Ye <tony.ye@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>, rafael@kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vitaly Lubart <vitaly.lubart@intel.com>,
+ John Harrison <John.C.Harrison@Intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2023-03-10 at 07:16 +0900, Asahi Lina wrote:
-> On 10/03/2023 06.16, Faith Ekstrand wrote:
-> > On Tue, 2023-03-07 at 23:25 +0900, Asahi Lina wrote:
-> > > A DRM File is the DRM counterpart to a kernel file structure,
-> > > representing an open DRM file descriptor. Add a Rust abstraction
-> > > to
-> > > allow drivers to implement their own File types that implement
-> > > the
-> > > DriverFile trait.
-> > >=20
-> > > Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > > ---
-> > > =C2=A0rust/bindings/bindings_helper.h |=C2=A0=C2=A0 1 +
-> > > =C2=A0rust/kernel/drm/drv.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 ++-
-> > > =C2=A0rust/kernel/drm/file.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 113
-> > > ++++++++++++++++++++++++++++++++++++++++
-> > > =C2=A0rust/kernel/drm/mod.rs=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> > > =C2=A04 files changed, 120 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/rust/bindings/bindings_helper.h
-> > > b/rust/bindings/bindings_helper.h
-> > > index 2a999138c4ae..7d7828faf89c 100644
-> > > --- a/rust/bindings/bindings_helper.h
-> > > +++ b/rust/bindings/bindings_helper.h
-> > > @@ -8,6 +8,7 @@
-> > > =C2=A0
-> > > =C2=A0#include <drm/drm_device.h>
-> > > =C2=A0#include <drm/drm_drv.h>
-> > > +#include <drm/drm_file.h>
-> > > =C2=A0#include <drm/drm_ioctl.h>
-> > > =C2=A0#include <linux/delay.h>
-> > > =C2=A0#include <linux/device.h>
-> > > diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
-> > > index 29a465515dc9..1dcb651e1417 100644
-> > > --- a/rust/kernel/drm/drv.rs
-> > > +++ b/rust/kernel/drm/drv.rs
-> > > @@ -144,6 +144,9 @@ pub trait Driver {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 /// Should be either `drm::gem::Object<T>` o=
-r
-> > > `drm::gem::shmem::Object<T>`.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 type Object: AllocImpl;
-> > > =C2=A0
-> > > +=C2=A0=C2=A0=C2=A0 /// The type used to represent a DRM File (client=
-)
-> > > +=C2=A0=C2=A0=C2=A0 type File: drm::file::DriverFile;
-> > > +
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 /// Driver metadata
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 const INFO: DriverInfo;
-> > > =C2=A0
-> > > @@ -213,8 +216,8 @@ macro_rules! drm_device_register {
-> > > =C2=A0impl<T: Driver> Registration<T> {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 const VTABLE: bindings::drm_driver =3D drm_l=
-egacy_fields! {
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 load: None,
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 open: None, // TODO: File=
- abstraction
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 postclose: None, // TODO:=
- File abstraction
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 open: Some(drm::file::ope=
-n_callback::<T::File>),
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 postclose:
-> > > Some(drm::file::postclose_callback::<T::File>),
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lastclose: None,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unload: None,
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 release: None,
-> > > diff --git a/rust/kernel/drm/file.rs b/rust/kernel/drm/file.rs
-> > > new file mode 100644
-> > > index 000000000000..48751e93c38a
-> > > --- /dev/null
-> > > +++ b/rust/kernel/drm/file.rs
-> > > @@ -0,0 +1,113 @@
-> > > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > > +
-> > > +//! DRM File objects.
-> > > +//!
-> > > +//! C header:
-> > > [`include/linux/drm/drm_file.h`](../../../../include/linux/drm/dr
-> > > m_fi
-> > > le.h)
-> > > +
-> > > +use crate::{bindings, drm, error::Result};
-> > > +use alloc::boxed::Box;
-> > > +use core::marker::PhantomData;
-> > > +use core::ops::Deref;
-> > > +
-> > > +/// Trait that must be implemented by DRM drivers to represent a
-> > > DRM
-> > > File (a client instance).
-> > > +pub trait DriverFile {
-> > > +=C2=A0=C2=A0=C2=A0 /// The parent `Driver` implementation for this
-> > > `DriverFile`.
-> > > +=C2=A0=C2=A0=C2=A0 type Driver: drm::drv::Driver;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 /// Open a new file (called when a client opens t=
-he DRM
-> > > device).
-> > > +=C2=A0=C2=A0=C2=A0 fn open(device: &drm::device::Device<Self::Driver=
->) ->
-> > > Result<Box<Self>>;
-> > > +}
-> > > +
-> > > +/// An open DRM File.
-> > > +///
-> > > +/// # Invariants
-> > > +/// `raw` is a valid pointer to a `drm_file` struct.
-> > > +#[repr(transparent)]
-> > > +pub struct File<T: DriverFile> {
-> > > +=C2=A0=C2=A0=C2=A0 raw: *mut bindings::drm_file,
-> > > +=C2=A0=C2=A0=C2=A0 _p: PhantomData<T>,
-> > > +}
-> > > +
-> > > +pub(super) unsafe extern "C" fn open_callback<T: DriverFile>(
-> > > +=C2=A0=C2=A0=C2=A0 raw_dev: *mut bindings::drm_device,
-> > > +=C2=A0=C2=A0=C2=A0 raw_file: *mut bindings::drm_file,
-> > > +) -> core::ffi::c_int {
-> > > +=C2=A0=C2=A0=C2=A0 let drm =3D core::mem::ManuallyDrop::new(unsafe {
-> > > drm::device::Device::from_raw(raw_dev) });
-> >=20
-> > Maybe you can help educate me a bit here... This feels like a
-> > really
-> > sketchy pattern.=C2=A0 We're creating a Device from a pointer, an
-> > operation
-> > which inherently consumes a reference but then marking it
-> > ManuallyDrop
-> > so drm_device_put() never gets called.=C2=A0 It took me a while but I
-> > think
-> > I figured out what you're trying to do: Make it so all the Rust
-> > stuff
-> > works with Device, not drm_device but it still feels really wrong.=C2=
-=A0
-> > It
-> > works, it just feels like there's a lot of unsafe abstraction
-> > juggling
-> > happening here and I expect this operation is going to be pretty
-> > common
-> > in the Rust abstraction layer.
->=20
-> So I think this is going to be a pretty common pattern in this kind
-> of
-> abstraction. The problem is that, of course, in C there is no
-> distinction between an owned reference and a borrowed one. Here we
-> have
-> a borrowed reference to a struct drm_device, and we need to turn it
-> into
-> a &Device (which is the Rust equivalent type). But for &Device to
-> exist
-> we need a Device to exist in the first place, and Device normally
-> implies ownership of the underlying drm_device.
+The struct bus_type pointers in the functions
+intel_huc_register_gsc_notifier() and
+intel_huc_unregister_gsc_notifier() should be a const pointer, as the
+structure is not modified anywhere in the functions, and the pointer
+they are passed will be a const * in the near future.
 
-Thanks! Putting it in terms of borrow really helps clear up the
-difference.
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: John Harrison <John.C.Harrison@Intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tony Ye <tony.ye@intel.com>
+Cc: Vitaly Lubart <vitaly.lubart@intel.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+Note, this is a patch that is a prepatory cleanup as part of a larger
+series of patches that is working on resolving some old driver core
+design mistakes.  It will build and apply cleanly on top of 6.3-rc2 on
+its own, but I'd prefer if I could take it through my driver-core tree
+so that the driver core changes can be taken through there for 6.4-rc1.
 
-> We could just acquire a reference here, but then we're needlessly
-> grabbing a ref only to drop it at the end of the function, which is
-> pointless when the caller is holding another reference for us while
-> the
-> callback runs. And of course Rust likes to claim to offer zero-cost
-> abstractions, so it would be kind of sad to have to do that... ^^
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c | 4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_huc.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Yeah, I agree we don't want to take extra references.
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index 410905da8e97..8b453bd7c953 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -183,7 +183,7 @@ static int gsc_notifier(struct notifier_block *nb, unsigned long action, void *d
+ 	return 0;
+ }
+ 
+-void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus)
++void intel_huc_register_gsc_notifier(struct intel_huc *huc, const struct bus_type *bus)
+ {
+ 	int ret;
+ 
+@@ -200,7 +200,7 @@ void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus
+ 	}
+ }
+ 
+-void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, struct bus_type *bus)
++void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, const struct bus_type *bus)
+ {
+ 	if (!huc->delayed_load.nb.notifier_call)
+ 		return;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.h b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
+index 52db03620c60..05d4832f8461 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.h
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.h
+@@ -51,8 +51,8 @@ int intel_huc_check_status(struct intel_huc *huc);
+ void intel_huc_update_auth_status(struct intel_huc *huc);
+ bool intel_huc_is_authenticated(struct intel_huc *huc);
+ 
+-void intel_huc_register_gsc_notifier(struct intel_huc *huc, struct bus_type *bus);
+-void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, struct bus_type *bus);
++void intel_huc_register_gsc_notifier(struct intel_huc *huc, const struct bus_type *bus);
++void intel_huc_unregister_gsc_notifier(struct intel_huc *huc, const struct bus_type *bus);
+ 
+ static inline int intel_huc_sanitize(struct intel_huc *huc)
+ {
+-- 
+2.39.2
 
-> Just doing drm::device::Device::from_raw(raw_dev) is a ticking time
-> bomb, because we haven't acquired a reference (which would normally
-> be
-> required). If that Device ever gets dropped, we've messed up the
-> refcounting and stolen the caller's reference. We could try to ensure
-> it
-> gets passed to core::mem::forget in all paths out, but that gets
-> error-prone very quickly when trying to cover error paths. So
-> instead,
-> we put it into a ManuallyDrop. That takes care of neutering the ref
-> drop, so we don't have to worry about messing that up. Then the only
-> remaining safety requirement is that that the ManuallyDrop<Device>
-> never
-> escape the callback function, and that's easy to ensure: we only pass
-> a
-> &ref to the user (which via auto-deref ends up being a &Device), and
-> then nothing bad can happen. If the user wants an owned reference to
-> the
-> device to keep around, they can call .clone() on it and that's when
-> the
-> incref happens.
->=20
-> Basically, ManuallyDrop<T> where T is a reference counted type
-> represents a borrowed reference to a T coming from the C side. You
-> can
-> see another use of this pattern in gem::Object, which contains a
-> ManuallyDrop<Device> that represents a borrowed reference to the
-> device
-> that owns that object. The DRM core (as far as I know!) guarantees
-> that
-> DRM devices outlive all of their GEM objects, so we can materialize a
-> borrowed reference and as long as it never leaves the GEM object, it
-> will be sound. Then we can take &Device references from it whenever
-> we
-> want, and the usual Rust borrow checker rules ensure we can't do
-> something illegal.
-
-Ok, that all matches my understanding of what I thought was going on. I
-do wonder if it would be good to wrap this up in a
-
-struct DeviceBorrow {
-   dev: ManuallyDrop<Device>
-}
-
-impl DeviceBorrow {
-   pub unsafe fn from_raw(*mut bindings::drm_device) -> DeviceBorrow;
-}
-
-impl Deref<Device> for DeviceBorrow {
-   ...
-}
-
-with documentation, etc.  Seeing a ManuallyDrop which is never dropped
-sets my rust senses tingling.  Maybe that's too much typing for each
-object?  I don't want to add a bunch of extra work but this seems like
-a pretty common pattern we're going to hit everywhere.
-
-~Faith
