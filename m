@@ -2,41 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D056B7A02
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:11:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F79D6B7A78
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:36:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F290810E52D;
-	Mon, 13 Mar 2023 14:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721CB10E05D;
+	Mon, 13 Mar 2023 14:36:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A58010E52D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:11:42 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1pbitn-0002Tg-IN; Mon, 13 Mar 2023 15:11:39 +0100
-Message-ID: <71c8e22793330e413792824bd1affc36159a2de5.camel@pengutronix.de>
-Subject: Re: MXSFB and Video PLL clock on i.MX8M Mini/Nano Question
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>, Adam Ford <aford173@gmail.com>
-Date: Mon, 13 Mar 2023 15:11:37 +0100
-In-Reply-To: <20230313112937.GC7446@pengutronix.de>
-References: <CAHCN7xJXMmwYqD=Eb2=_vJw390KAd6NgkWCpq6yCbAyaJ3xK5A@mail.gmail.com>
- <20230313085105.GB7446@pengutronix.de>
- <CAHCN7xJxBrN5aQgvkV8LrqoTATinr0kFYKht2_YKqTF71UCoKw@mail.gmail.com>
- <20230313112937.GC7446@pengutronix.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 176D610E05D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:36:23 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4CADC61306
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:36:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1074C4339C
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:36:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678718181;
+ bh=yHmE3CK4PUjMZSs461uAsslkr23vQXpACGQ1NBY42hs=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=B8iz5g5WCveFOEXQqlPaoTjL1SmG08N4own9rMBVqtwLNVbyMloglGRtWK/nm/IY8
+ aVuyS0lwoAVQKESQPaakANgwDTdb3ulyqUKJyJSZEuAaGFh7DDncsF9gT1C1ozpWXJ
+ m9bYZhE4Naj6XYCJY2dHCR1uofheFiPM9IXwDzqTt5RV3ujuGi0X1+SY+P6upkY98i
+ 79f6AzFhfoS/5ssuhr50H94mDSE9dMhrGZMgzvgfOgGZYBRg3SoujSFOYc9lp6H3TL
+ IS0dbq92Auy8Wbo+Fjg8kBS9RTYIfr+X9cEMalEMismk25YEChlIOUw580WkQ/P0Gr
+ dR8XNtzJ9hu6A==
+Received: by mail-lj1-f171.google.com with SMTP id z42so12799647ljq.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 07:36:21 -0700 (PDT)
+X-Gm-Message-State: AO0yUKVU4OqWqEhiEh8kkiC0Sr3kU89FHGZDhwD9g+CarZgewWgC7r9Z
+ B+YPRqdxqCcYxBrkcgVgXEA/syrTLhxPUB/8+g==
+X-Google-Smtp-Source: AK7set/Dt6QdzPA2g5/CmVOJgocA2bwpvyNuirK/Gl06x9LG1R7kvogNrTf8a1qUunnCZkox9DzU0vUuHivXacBmt5M=
+X-Received: by 2002:a2e:b55c:0:b0:295:d632:ba20 with SMTP id
+ a28-20020a2eb55c000000b00295d632ba20mr10841792ljn.10.1678718179737; Mon, 13
+ Mar 2023 07:36:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230306-ccorr-binding-fix-v3-0-7877613a35cb@baylibre.com>
+In-Reply-To: <20230306-ccorr-binding-fix-v3-0-7877613a35cb@baylibre.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 13 Mar 2023 22:36:07 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__dkDOpyzRXWeevj_agPdZZ60-=-6Vt-HbBTKy8ai20Yg@mail.gmail.com>
+Message-ID: <CAAOTY__dkDOpyzRXWeevj_agPdZZ60-=-6Vt-HbBTKy8ai20Yg@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: display: mediatek: Fix the duplicated
+ fallback
+To: Alexandre Mergnat <amergnat@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,89 +61,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- NXP Linux Team <linux-imx@nxp.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Montag, dem 13.03.2023 um 12:29 +0100 schrieb Sascha Hauer:
-> On Mon, Mar 13, 2023 at 06:08:05AM -0500, Adam Ford wrote:
-> > On Mon, Mar 13, 2023 at 3:51=E2=80=AFAM Sascha Hauer <s.hauer@pengutron=
-ix.de> wrote:
-> > >=20
-> > > On Sun, Mar 12, 2023 at 02:28:45PM -0500, Adam Ford wrote:
-> > > > I am trying to work through a series that was submitted for enablin=
-g
-> > > > the DSI on the i.MX8M Mini and Nano.  I have extended this series t=
-o
-> > > > route the DSI to an HDMI bridge, and I am able to get several
-> > > > resolutions to properly sync on my monitor.  However, there are als=
-o a
-> > > >  bunch that appear on the list when I run modetest that do not sync=
- on
-> > > > my monitor.
-> > > >=20
-> > > > When running some debug code, it appears that it's related to the
-> > > > clocking of the MXSFB driver.
-> > > >=20
-> > > > From what I can tell, the MSXFB driver attempts to set the clock ba=
-sed
-> > > > on the desired resolution and refresh rate.  When the default
-> > > > VIDEO_PLL clock is set to 594MHz, many of the resolutions that clea=
-nly
-> > > > divide from the 594MHz clock appear to sync with my monitor.  Howev=
-er,
-> > > > in order to get other resolutions to appear, I have to manually cha=
-nge
-> > > > the device tree to set VIDEO_PLL to a different clock rate so MSXFB
-> > > > can use it.  Unfortunately, that breaks the resolutions that used t=
-o
-> > > > work.
-> > > >=20
-> > > > I threw together a hack into the MXSFB driver which adds a new
-> > > > optional clock to the MSXFB driver.  When I pass VIDEO_PLL to this
-> > > > driver, it can automatically set the clock rate to match that of
-> > > > whatever the desired clock is, and I can get many more resolutions =
-to
-> > > > appear.
-> > > > Another advantage of this is that the Video_PLL can be the minimum
-> > > > speed needed for a given rate instead of setting a higher rate, the=
-n
-> > > > dividing it down.
-> > >=20
-> > > Isn't it possible to add the CLK_SET_RATE_PARENT flag to the pixel
-> > > clock? That's what i.MX6sx and i.MX7 do.
-> >=20
-> > I thought about that, but on the Nano, the video_pll is several layers =
-up.
-> >=20
-> > video_pll -> video_pll_bypass -> disp_pixel -> disp_pixel_clk
-> >=20
-> > Do I just set that flag for each of these?
->=20
-> Yes, that's what I would suggest. I don't know the i.MX8M clock tree
-> very well, so I don't know which other clocks might be influenced when
-> the video_pll clock changes its rate. But if you have to change the PLL
-> rate anyway it shouldn't make a difference if you change it directly
-> or if you let the rate change propagate up from disp_pixel_clk.
->=20
-The problem with a simple CLK_SET_RATE_PARENT is that the rate changes
-propagate upwards in the tree for all possible sources. If the source
-is the video PLL then the rate propagation is exactly what you want to
-happen. If the display clock is sourced from a system PLL, you really
-don't want to change the PLL rate, so we need something more clever
-here.
+Hi, Alexandre:
 
-Either the mux part of the composite clock needs to learn to only
-propagate rate requests for specific sources, or we need to deny rate
-changes to the system PLLs, but not sure if there are other similar
-cases for other sources.
+Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=88=
+7=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=8812:20=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> The item which have the mediatek,mt8192-disp-ccorr const compatible alrea=
+dy
+> exist above. Remove duplicated fallback.
+
+Applied to mediatek-drm-next [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
 Regards,
-Lucas
+Chun-Kuang.
 
+>
+> Fixes: 137272ef1b0f ("dt-bindings: display: mediatek: Fix the fallback fo=
+r mediatek,mt8186-disp-ccorr")
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> ---
+> Fix MTK color correction binding
+>
+> The fallback compatible has been duplicated in the 137272ef1b0f commit.
+>
+> To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Rob Herring <robh+dt@kernel.org>
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: Matthias Brugger <matthias.bgg@gmail.com>
+> To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> To: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> Changes in v3:
+> - Re-order compatible.
+> - Link to v2: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v2-0-4=
+822939a837d@baylibre.com
+>
+> Changes in v2:
+> - Fix commit title.
+> - Link to v1: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v1-0-1=
+77d81d60c69@baylibre.com
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,ccorr.yaml         | 5=
+ +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,cc=
+orr.yaml
+> index b04820c95b22..bda86e6857f5 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y=
+aml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y=
+aml
+> @@ -27,13 +27,10 @@ properties:
+>            - const: mediatek,mt8192-disp-ccorr
+>        - items:
+>            - enum:
+> +              - mediatek,mt8186-disp-ccorr
+>                - mediatek,mt8188-disp-ccorr
+>                - mediatek,mt8195-disp-ccorr
+>            - const: mediatek,mt8192-disp-ccorr
+> -      - items:
+> -          - enum:
+> -              - mediatek,mt8186-disp-ccorr
+> -          - const: mediatek,mt8192-disp-ccorr
+>
+>    reg:
+>      maxItems: 1
+>
+> ---
+> base-commit: add072536971d7ce891fde3cdbf68c55e7cfa95a
+> change-id: 20230306-ccorr-binding-fix-718c6d725088
+>
+> Best regards,
+> --
+> Alexandre Mergnat <amergnat@baylibre.com>
