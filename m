@@ -2,29 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F856B73C6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072BC6B74BC
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:54:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDF6410E4CC;
-	Mon, 13 Mar 2023 10:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51C710E07B;
+	Mon, 13 Mar 2023 10:54:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id F332F10E4CC
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 10:22:18 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 101E44B3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 03:23:02 -0700 (PDT)
-Received: from e123756.cambridge.arm.com (e123756.cambridge.arm.com
- [10.1.199.49])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 19FC03F71A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 03:22:17 -0700 (PDT)
-From: patrik.berglund@arm.com
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/komeda: Take over EFI framebuffer properly
-Date: Mon, 13 Mar 2023 10:22:09 +0000
-Message-Id: <20230313102209.53966-1-patrik.berglund@arm.com>
-X-Mailer: git-send-email 2.17.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEAA810E07B;
+ Mon, 13 Mar 2023 10:54:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 40B92B80FF1;
+ Mon, 13 Mar 2023 10:54:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92395C433EF;
+ Mon, 13 Mar 2023 10:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1678704845;
+ bh=no0tVcOHNxCx0/vxyz9HOtg+RYZbopfPvZfdxMNzE3I=;
+ h=Subject:To:Cc:From:Date:From;
+ b=HCo+up6gUksXHD9M6gbf2e3t9E8UheCTMoyMs8WIoWnmNkMaUQLaF7mNLBCLieBNI
+ Wco26NcQC1TzapQn3eorbwwwEI9PBi+CPgNUJxdG+gbfF1nwF/t9x3ROvzvCBIkNxQ
+ 0q9uLg982we5EM8mBRZIuq3C38i9dj87G3g1gL0o=
+Subject: Patch "drm/connector: print max_requested_bpc in state debugfs" has
+ been added to the 5.4-stable tree
+To: Vitaly.Prosyak@amd.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, harry.wentland@amd.com,
+ jani.nikula@linux.intel.com, joshua@froggi.es, ppaalanen@gmail.com,
+ sebastian.wick@redhat.com, uma.shankar@intel.com,
+ ville.syrjala@linux.intel.com
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 13 Mar 2023 11:53:32 +0100
+Message-ID: <167870481279184@kroah.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -37,92 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Patrik Berglund <patrik.berglund@arm.com>
 
-The Arm Morello board EDK2 port already provides an EFI GOP display for
-Ceti/Cetus (Komeda) with more boards incoming.
-However, once the Komeda driver probes and takes over the hardware,
-it should take over the logical framebuffer as well, otherwise,
-the now-defunct GOP device hangs around and virtual console output
-inevitably disappears into the wrong place most of the time.
+This is a note to let you know that I've just added the patch titled
 
-We'll do this right before doing the SRST because that is the point
-when the GOP will stop working.
-The GOP might also fail because the encoder driver do things but this
-is better than nothing.
+    drm/connector: print max_requested_bpc in state debugfs
 
-Signed-off-by: Patrik Berglund <patrik.berglund@arm.com>
+to the 5.4-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-connector-print-max_requested_bpc-in-state-debugfs.patch
+and it can be found in the queue-5.4 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 7d386975f6a495902e679a3a250a7456d7e54765 Mon Sep 17 00:00:00 2001
+From: Harry Wentland <harry.wentland@amd.com>
+Date: Fri, 13 Jan 2023 11:24:09 -0500
+Subject: drm/connector: print max_requested_bpc in state debugfs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Harry Wentland <harry.wentland@amd.com>
+
+commit 7d386975f6a495902e679a3a250a7456d7e54765 upstream.
+
+This is useful to understand the bpc defaults and
+support of a driver.
+
+Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Vitaly.Prosyak@amd.com
+Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Joshua Ashton <joshua@froggi.es>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org
+Reviewed-By: Joshua Ashton <joshua@froggi.es>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230113162428.33874-3-harry.wentland@amd.com
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c | 12 ++++++++++++
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c  |  6 ++++++
- drivers/gpu/drm/arm/display/komeda/komeda_kms.h  |  1 +
- 3 files changed, 19 insertions(+)
+ drivers/gpu/drm/drm_atomic.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-index 6c56f5662bc7..72035af9bc5f 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-@@ -8,6 +8,7 @@
- #include <drm/drm_blend.h>
- #include <drm/drm_print.h>
- #include "d71_dev.h"
-+#include "komeda_kms.h"
- #include "malidp_io.h"
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1006,6 +1006,7 @@ static void drm_atomic_connector_print_s
+ 	drm_printf(p, "connector[%u]: %s\n", connector->base.id, connector->name);
+ 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
+ 	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
++	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
  
- static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
-@@ -310,6 +311,17 @@ static int d71_reset(struct d71_dev *d71)
- 	u32 __iomem *gcu = d71->gcu_addr;
- 	int ret;
- 
-+	/*
-+	 * If we are already running, the most likely reason is that the EFI left
-+	 * us running (GOP), so make sure to take over from simple framebuffer
-+	 * drivers.
-+	 */
-+	if (malidp_read32(gcu, BLK_STATUS) & GCU_STATUS_ACTIVE) {
-+		ret = komeda_kms_remove_framebuffers();
-+		if (ret)
-+			return ret;
-+	}
-+
- 	malidp_write32(gcu, BLK_CONTROL, GCU_CONTROL_SRST);
- 
- 	ret = dp_wait_cond(!(malidp_read32(gcu, BLK_CONTROL) & GCU_CONTROL_SRST),
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-index 62dc64550793..12af409aeabb 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
-@@ -7,6 +7,7 @@
- #include <linux/component.h>
- #include <linux/interrupt.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-@@ -349,3 +350,8 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
- 	komeda_kms_cleanup_private_objs(kms);
- 	drm->dev_private = NULL;
- }
-+
-+int komeda_kms_remove_framebuffers(void)
-+{
-+	return drm_aperture_remove_framebuffers(false, &komeda_kms_driver);
-+}
-diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-index 3a872c292091..1a43707ed68f 100644
---- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-+++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
-@@ -187,5 +187,6 @@ void komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
- 
- struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev);
- void komeda_kms_detach(struct komeda_kms_dev *kms);
-+int komeda_kms_remove_framebuffers(void);
- 
- #endif /*_KOMEDA_KMS_H_*/
--- 
-2.17.1
+ 	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+ 		if (state->writeback_job && state->writeback_job->fb)
 
+
+Patches currently in stable-queue which might be from harry.wentland@amd.com are
+
+queue-5.4/drm-connector-print-max_requested_bpc-in-state-debugfs.patch
