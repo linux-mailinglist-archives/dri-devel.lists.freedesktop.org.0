@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBCF6B6C8A
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 00:31:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543056B6CF8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 02:05:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D32E10E446;
-	Sun, 12 Mar 2023 23:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1009910E44E;
+	Mon, 13 Mar 2023 01:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD8910E441;
- Sun, 12 Mar 2023 23:31:46 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id g10so13052473eda.1;
- Sun, 12 Mar 2023 16:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678663905;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fhdKUD0TAzd/uf+JAXT2IFzkYdIwo6ITZjySQ+D1PHE=;
- b=azPy5XcGlzr++jtHV3Dz2BfDG54xn1DZmdZVW/yrxOPDggNzgdJCe5NY/N53tgfy5y
- 5ylErCksi1wEOEr9GpO1WtOqQ+TYwO+/oHNzuwjvSoheLsq7bj9ZViSJdmWOX3okfz3O
- AYnYl64mFt4m/NqNtAzN8lRCzTQYp0jlwYR8S/ItddVUV5lyH5ACOVuo5/rmCol7a1dD
- R14jFVP+Fji9b/FiVFFwdP1ExLJPFKH6x2PTDnd/uIEFeOiyj5m7EoBjDmlspAqUveDD
- nWF1LYVIdpve7VMYQ5b/MM57G8ONaFV91d5kOWspMK2fl9SogHMYE9J5X1tm+cvjjZuI
- +MJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678663905;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fhdKUD0TAzd/uf+JAXT2IFzkYdIwo6ITZjySQ+D1PHE=;
- b=vJ6m8m5KPjU3rpyueSYClDkeNRVIFZJF36YEXSY1epRU2L/qp8FI8Hv21acYWgIBAU
- p8IytDs6UvRkDNgEYX4Dh8TFAfWkrEac6yKxeVZ52g4LLFMmVgDTfhCYuvnfvCwbFX7X
- /p617Mcn6Q5waXNw8S5691NBaa3lYXPOC0aHfxOm+Y3x5A8wW2PjK+N0NOw/udGeCfkA
- 3RnQcpNt/XQ8hokRqelBHomC0XiRJoMVUGidfoydh3g4OvH4itWBEvGcJIvbbkPWY7Om
- hAI4yyenkA8i68FN8WV3BoChhUdykvLrWqCe2f9MfiD+B5nEHG8bksdixFCdGEW9255o
- kTnQ==
-X-Gm-Message-State: AO0yUKWkXTh8+d7eV38g8qNGICy2nsKU5zw3WHKyvJP9PZ6cxK8Ckuks
- GU4kZnK97hjCwpU4w0A8FRY=
-X-Google-Smtp-Source: AK7set+nzU3s/+PxT8hDjsADugoTfEsghkmA9lYqthx06STAreKzJ43EtL1b8gNvii1ClfkTzC5WYQ==
-X-Received: by 2002:a17:907:7f12:b0:928:d4f6:6f7b with SMTP id
- qf18-20020a1709077f1200b00928d4f66f7bmr2138268ejc.66.1678663904834; 
- Sun, 12 Mar 2023 16:31:44 -0700 (PDT)
-Received: from centennial.enunes.eu (ip-78-45-66-209.bb.vodafone.cz.
- [78.45.66.209]) by smtp.gmail.com with ESMTPSA id
- vv11-20020a170907a68b00b009226f644a07sm2009958ejc.139.2023.03.12.16.31.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Mar 2023 16:31:43 -0700 (PDT)
-From: Erico Nunes <nunes.erico@gmail.com>
-To: Qiang Yu <yuq825@gmail.com>,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/lima: add show_fdinfo for drm usage stats
-Date: Mon, 13 Mar 2023 00:30:52 +0100
-Message-Id: <20230312233052.21095-4-nunes.erico@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230312233052.21095-1-nunes.erico@gmail.com>
-References: <20230312233052.21095-1-nunes.erico@gmail.com>
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A4C10E44E;
+ Mon, 13 Mar 2023 01:05:12 +0000 (UTC)
+X-UUID: 5d474a64498641cdba043aa07568a6fc-20230313
+X-CID-UNFAMILIAR: 1
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_HamU
+X-CID-O-INFO: VERSION:1.1.20, REQID:3981b3c5-5dcb-4ca8-b8be-32d1c492d406, IP:5,
+ U
+ RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:4,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:4
+X-CID-INFO: VERSION:1.1.20, REQID:3981b3c5-5dcb-4ca8-b8be-32d1c492d406, IP:5,
+ URL
+ :0,TC:0,Content:-5,EDM:0,RT:0,SF:4,FILE:0,BULK:0,RULE:Release_HamU,ACTION:
+ release,TS:4
+X-CID-META: VersionHash:25b5999, CLOUDID:29b52028-564d-42d9-9875-7c868ee415ec,
+ B
+ ulkID:2303102321273592KAR8,BulkQuantity:4,Recheck:0,SF:23|16|19|42|102,TC:
+ nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
+ :0,OSA:0,AV:0
+X-CID-BVR: 0
+X-UUID: 5d474a64498641cdba043aa07568a6fc-20230313
+X-User: lizhenneng@kylinos.cn
+Received: from [172.20.124.41] [(116.128.244.169)] by mailgw
+ (envelope-from <lizhenneng@kylinos.cn>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
+ with ESMTP id 1932184781; Mon, 13 Mar 2023 09:05:00 +0800
+Message-ID: <ff8eb2c4-c567-2765-effb-d26d55b32af7@kylinos.cn>
+Date: Mon, 13 Mar 2023 09:04:58 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH] drm/amdgpu: resove reboot exception for si oland
+To: "Chen, Guchun" <Guchun.Chen@amd.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>
+References: <20230310074000.2078124-1-lizhenneng@kylinos.cn>
+ <DM5PR12MB2469FEB1E81CA99C51E7DAF0F1BA9@DM5PR12MB2469.namprd12.prod.outlook.com>
+From: =?UTF-8?B?5p2O55yf6IO9?= <lizhenneng@kylinos.cn>
+In-Reply-To: <DM5PR12MB2469FEB1E81CA99C51E7DAF0F1BA9@DM5PR12MB2469.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,63 +62,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Erico Nunes <nunes.erico@gmail.com>,
- lima@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Koenig,
+ Christian" <Christian.Koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This exposes an accumulated active time per client via the fdinfo
-infrastructure per execution engine, following
-Documentation/gpu/drm-usage-stats.rst.
-In lima, the exposed execution engines are gp and pp.
+This bug is first reported here:
 
-Signed-off-by: Erico Nunes <nunes.erico@gmail.com>
----
- drivers/gpu/drm/lima/lima_drv.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+https://lore.kernel.org/lkml/1a620e7c-5b71-3d16-001a-0d79b292aca7@amd.com/
 
-diff --git a/drivers/gpu/drm/lima/lima_drv.c b/drivers/gpu/drm/lima/lima_drv.c
-index d23c0b77a252..c044a31493a4 100644
---- a/drivers/gpu/drm/lima/lima_drv.c
-+++ b/drivers/gpu/drm/lima/lima_drv.c
-@@ -261,7 +261,36 @@ static const struct drm_ioctl_desc lima_drm_driver_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(LIMA_CTX_FREE, lima_ioctl_ctx_free, DRM_RENDER_ALLOW),
- };
- 
--DEFINE_DRM_GEM_FOPS(lima_drm_driver_fops);
-+static void lima_drm_driver_show_fdinfo(struct seq_file *m, struct file *filp)
-+{
-+	struct drm_file *file = filp->private_data;
-+	struct drm_device *dev = file->minor->dev;
-+	struct lima_device *ldev = dev->dev_private;
-+	struct lima_drm_priv *priv = file->driver_priv;
-+	struct lima_ctx_mgr *ctx_mgr = &priv->ctx_mgr;
-+	u64 usage[lima_pipe_num];
-+
-+	lima_ctx_mgr_usage(ctx_mgr, usage);
-+
-+	/*
-+	 * For a description of the text output format used here, see
-+	 * Documentation/gpu/drm-usage-stats.rst.
-+	 */
-+	seq_printf(m, "drm-driver:\t%s\n", dev->driver->name);
-+	seq_printf(m, "drm-client-id:\t%u\n", priv->id);
-+	for (int i = 0; i < lima_pipe_num; i++) {
-+		struct lima_sched_pipe *pipe = &ldev->pipe[i];
-+		struct drm_gpu_scheduler *sched = &pipe->base;
-+
-+		seq_printf(m, "drm-engine-%s:\t%llu ns\n", sched->name, usage[i]);
-+	}
-+}
-+
-+static const struct file_operations lima_drm_driver_fops = {
-+	.owner = THIS_MODULE,
-+	DRM_GEM_FOPS,
-+	.show_fdinfo = lima_drm_driver_show_fdinfo,
-+};
- 
- /*
-  * Changelog:
--- 
-2.39.2
+I modify the patch accroding mail list's discusstion,   and I do reboot 
+test for tens of thousands of times about 10 machines on arm64,  there's 
+no bug reported.
 
+在 2023/3/10 16:18, Chen, Guchun 写道:
+>> -----Original Message-----
+>> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of
+>> Zhenneng Li
+>> Sent: Friday, March 10, 2023 3:40 PM
+>> To: Deucher, Alexander <Alexander.Deucher@amd.com>
+>> Cc: David Airlie <airlied@linux.ie>; Pan, Xinhui <Xinhui.Pan@amd.com>;
+>> linux-kernel@vger.kernel.org; dri-devel@lists.freedesktop.org; Zhenneng Li
+>> <lizhenneng@kylinos.cn>; amd-gfx@lists.freedesktop.org; Daniel Vetter
+>> <daniel@ffwll.ch>; Koenig, Christian <Christian.Koenig@amd.com>
+>> Subject: [PATCH] drm/amdgpu: resove reboot exception for si oland
+>>
+>> During reboot test on arm64 platform, it may failure on boot.
+>>
+>> The error message are as follows:
+>> [    6.996395][ 7] [  T295] [drm:amdgpu_device_ip_late_init [amdgpu]]
+>> *ERROR*
+>> 			    late_init of IP block <si_dpm> failed -22
+>> [    7.006919][ 7] [  T295] amdgpu 0000:04:00.0: amdgpu_device_ip_late_init
+>> failed
+>> [    7.014224][ 7] [  T295] amdgpu 0000:04:00.0: Fatal error during GPU init
+>> ---
+>>   drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 3 ---
+>>   1 file changed, 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> index d6d9e3b1b2c0..dee51c757ac0 100644
+>> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+>> @@ -7632,9 +7632,6 @@ static int si_dpm_late_init(void *handle)
+>>   	if (!adev->pm.dpm_enabled)
+>>   		return 0;
+>>
+>> -	ret = si_set_temperature_range(adev);
+>> -	if (ret)
+>> -		return ret;
+> si_set_temperature_range should be platform agnostic. Can you please elaborate more?
+>
+> Regards,
+> Guchun
+>
+>>   #if 0 //TODO ?
+>>   	si_dpm_powergate_uvd(adev, true);
+>>   #endif
+>> --
+>> 2.25.1
