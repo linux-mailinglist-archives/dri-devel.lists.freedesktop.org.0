@@ -1,52 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122476B7D9E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 17:33:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36EDD6B7DDF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 17:43:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B57A10E450;
-	Mon, 13 Mar 2023 16:33:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4CD510E53D;
+	Mon, 13 Mar 2023 16:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96E810E450;
- Mon, 13 Mar 2023 16:33:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678725198; x=1710261198;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=f+iHmflMkTV+ApaWzgusggwwjy4cShJNuTBde6+GIPY=;
- b=P9DbIS96g87/LgERi3hZW0JYwCjl0j2yzG6PZuov+i6LBKGkJZW7nRwK
- hQCy+fISgpWpYd2NnxSnUeE92fq8Mtr1fABwK3HXwYnR/0KtOchnR+vLN
- 4sa3gv1IXrgtsQmbI7TfbFrfqiTZlc7CFNnA2H62IbzU797WAB6HzwPJB
- 2lglkGQKdF4/NNTVl83Fkj1UHv7p2S2A74AVNEvHlCVoNxijV6zWa69yS
- DBx4JVbOmkynsDQChmeYTU99/kIZTiiytNYcTN9pvQ9eX1UrCDLukWEL8
- 8MQgkqfo5ox05qOzqjTBWqlRfVoYNFc3LyXCrWLlkC356swt/wrI+Scmr w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="423465523"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="423465523"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 09:33:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="708934703"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="708934703"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga008.jf.intel.com with SMTP; 13 Mar 2023 09:33:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 13 Mar 2023 18:33:11 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 1/2] drm: Introduce plane SIZE_HINTS property
-Date: Mon, 13 Mar 2023 18:33:11 +0200
-Message-Id: <20230313163311.11379-1-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
-References: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44F7110E4DA;
+ Mon, 13 Mar 2023 16:43:30 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-17997ccf711so789977fac.0; 
+ Mon, 13 Mar 2023 09:43:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678725809;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VgyR+Thhbr0FuHdIQhF7qy2mK/AxSo/8SviTeetvkXs=;
+ b=lt9JUNwdkNIT+5dzth4QSsZAjt7rMEDZ3VoenOeB6O9nqKZCJ4Pf/3ADgQnoEBD0Zc
+ 9AYHfS1hLYo7ke0USbPmz+xacz0/0ZCv6A5cZAcfFvbBm1jzh1kIdNcA+waD1Uq/tEXI
+ SlD9v5Ky57powOfnhgb/+knvkKbBFF/nb/vcSulLF1fJoGMwlpmivq4aVhznIVaJA3//
+ EDf+TuYSYVoFgWNxFbgVOcKQfFimtGrN9xviAvo2FgsY4EF4pNWwkkSrTxwHopHXazk9
+ md1jc9fnDACGlZ1c4/u5kYM+9Zoi6MFRtlEuhsXJhMQhpvHHeSHVDYOoM9P0ZHdSuQ+K
+ 3uJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678725809;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VgyR+Thhbr0FuHdIQhF7qy2mK/AxSo/8SviTeetvkXs=;
+ b=RSrMB/vjxKi8/ZGUNNqN0R17wG8oGWkQBKWehpAgH0vm1tk9sLmWPN+MWAmq7MCOy8
+ a+5JNrNLHzD9FkNfHTk0EK9w9m8TzttG+l7sz5GjG7XhSDFOxMp/Om6bHZzPKFUtYDUK
+ e2/U7MQHRxLffU3aTx3r93uFmrhfrHz2uEFiSKNQHuMp4CO0DmM6CuksAylYLFGsALqF
+ naVT/7QYZoeLmZzaoimq+vzmHV3gOeVbqcUWtsw5dGFnWCV0yY9gnd/ntdhBfhKw+qji
+ NMAiBtS9ndEjBGOUdVAJGmfm8k20K1njs6If0exxaseO1E6g5pjRsWhHMr69nk3EGqRM
+ H1Jg==
+X-Gm-Message-State: AO0yUKUwH5by52QjA5Rt87/AaKp6F/jj+oEEnB/0pogOdk6xEpxJ2AEr
+ dz/5T//hvJFxAiGnfitQRlM9Udq4RwZO0g/qQbE=
+X-Google-Smtp-Source: AK7set8mCms2PgaT0OYxKYOKQQqd9uWLZT2sc7yo+IZrY4bA1gnTHpI8HOLFt/Fq8VxwfYM8AjtucX2HgTO1i53z+TI=
+X-Received: by 2002:a05:6870:7729:b0:176:3897:6928 with SMTP id
+ dw41-20020a056870772900b0017638976928mr12623541oab.5.1678725809280; Mon, 13
+ Mar 2023 09:43:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230311173513.1080397-1-robdclark@gmail.com>
+ <20230311173513.1080397-3-robdclark@gmail.com>
+ <b846101c-e6ef-2d3e-9db9-077003b72e57@amd.com>
+ <CAF6AEGvH==PPLpdxim4Pi=Q7RA8Ou4NYxvYBW=N8sh9amEqQVQ@mail.gmail.com>
+ <0bc78dea-72cb-cadf-5708-39c765f2b7a8@amd.com>
+In-Reply-To: <0bc78dea-72cb-cadf-5708-39c765f2b7a8@amd.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 13 Mar 2023 09:43:17 -0700
+Message-ID: <CAF6AEGv_UVPLpH4H5083FaQYTEkRz4AbyMq9441ZXZjVbuwH7w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/msm: Embed the hw_fence in msm_gem_submit
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,205 +72,360 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- intel-gfx@lists.freedesktop.org,
- =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Sean Paul <sean@poorly.run>, "Tuikov, Luben" <Luben.Tuikov@amd.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On Mon, Mar 13, 2023 at 9:15=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 13.03.23 um 15:45 schrieb Rob Clark:
+> > On Mon, Mar 13, 2023 at 12:19=E2=80=AFAM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Am 11.03.23 um 18:35 schrieb Rob Clark:
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Avoid allocating memory in job_run() by embedding the fence in the
+> >>> submit object.  Since msm gpu fences are always 1:1 with msm_gem_subm=
+it
+> >>> we can just use the fence's refcnt to track the submit.  And since we
+> >>> can get the fence ctx from the submit we can just drop the msm_fence
+> >>> struct altogether.  This uses the new dma_fence_init_noref() to deal
+> >>> with the fact that the fence's refcnt is initialized when the submit =
+is
+> >>> created, long before job_run().
+> >> Well this is a very very bad idea, we made the same mistake with amdgp=
+u
+> >> as well.
+> >>
+> >> It's true that you should not have any memory allocation in your run_j=
+ob
+> >> callback, but you could also just allocate the hw fence during job
+> >> creation and initializing it later on.
+> >>
+> >> I've suggested to embed the fence into the job for amdgpu because some
+> >> people insisted of re-submitting jobs during timeout and GPU reset. Th=
+is
+> >> turned into a nightmare with tons of bug fixes on top of bug fixes on
+> >> top of bug fixes because it messes up the job and fence lifetime as
+> >> defined by the DRM scheduler and DMA-buf framework.
+> >>
+> >> Luben is currently working on cleaning all this up.
+> > This actually shouldn't be a problem with msm, as the fence doesn't
+> > change if there is a gpu reset.  We simply signal the fence for the
+> > offending job, reset the GPU, and re-play the remaining in-flight jobs
+> > (ie. things that already had their job_run() called) with the original
+> > fences.  (We don't use gpu sched's reset/timeout handling.. when I
+> > migrated to gpu sched I kept our existing hangcheck/recovery
+> > mechanism.)
+>
+> That sounds much saner than what we did.
+>
+> So you basically need the dma_fence reference counting separate to
+> initializing the other dma_fence fields?
 
-Add a new immutable plane property by which a plane can advertise
-a handful of recommended plane sizes. This would be mostly exposed
-by cursor planes as a slightly more capable replacement for
-the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
-a one size fits all limit for the whole device.
+yeah, that was the idea
 
-Currently eg. amdgpu/i915/nouveau just advertize the max cursor
-size via the cursor size caps. But always using the max sized
-cursor can waste a surprising amount of power, so a better
-stragey is desirable.
+> What would happen if a dma_fence which is not completely initialized
+> gets freed? E.g. because of an error?
 
-Most other drivers don't specify any cursor size at all, in
-which case the ioctl code just claims that 64x64 is a great
-choice. Whether that is actually true is debatable.
+hmm, yes, this would be a problem since ops->release is not set yet..
+and I'm relying on that to free the submit
 
-A poll of various compositor developers informs us that
-blindly probing with setcursor/atomic ioctl to determine
-suitable cursor sizes is not acceptable, thus the
-introduction of the new property to supplant the cursor
-size caps. The compositor will now be free to select a
-more optimal cursor size from the short list of options.
+> Would it be to much to just keep the handling as it is today and only
+> allocate the dma_fence without initializing it? If necessary we could
+> easily add a dma_fence_is_initialized() function which checks the
+> fence_ops for NULL.
 
-Note that the reported sizes (either via the property or the
-caps) make no claims about things such as plane scaling. So
-these things should only really be consulted for simple
-"cursor like" use cases.
+Yeah, that would also be possible
 
-v2: Try to add some docs
-v3: Specify that value 0 is reserved for future use (basic idea from Jonas)
-    Drop the note about typical hardware (Pekka)
+I guess we could split creation of the fence (initializing ops,
+refcount) and "arming" it later when the seqno is known?  But maybe
+that is going to too many lengths to avoid a separate allocation..
 
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Jonas Ådahl <jadahl@redhat.com>
-Cc: Daniel Stone <daniel@fooishbar.org>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Acked-by: Harry Wentland <harry.wentland@amd.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_mode_config.c |  7 ++++
- drivers/gpu/drm/drm_plane.c       | 53 +++++++++++++++++++++++++++++++
- include/drm/drm_mode_config.h     |  5 +++
- include/drm/drm_plane.h           |  4 +++
- include/uapi/drm/drm_mode.h       | 11 +++++++
- 5 files changed, 80 insertions(+)
+BR,
+-R
 
-diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index 87eb591fe9b5..21860f94a18c 100644
---- a/drivers/gpu/drm/drm_mode_config.c
-+++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
- 		return -ENOMEM;
- 	dev->mode_config.modifiers_property = prop;
- 
-+	prop = drm_property_create(dev,
-+				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-+				   "SIZE_HINTS", 0);
-+	if (!prop)
-+		return -ENOMEM;
-+	dev->mode_config.size_hints_property = prop;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-index 24e7998d1731..d2a6fdff1a57 100644
---- a/drivers/gpu/drm/drm_plane.c
-+++ b/drivers/gpu/drm/drm_plane.c
-@@ -140,6 +140,26 @@
-  *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
-  *     various bugs in this area with inconsistencies between the capability
-  *     flag and per-plane properties.
-+ *
-+ * SIZE_HINTS:
-+ *     Blob property which contains the set of recommended plane size
-+ *     which can used for simple "cursor like" use cases (eg. no scaling).
-+ *     Using these hints frees userspace from extensive probing of
-+ *     supported plane sizes through atomic/setcursor ioctls.
-+ *
-+ *     For optimal usage userspace should pick the smallest size
-+ *     that satisfies its own requirements.
-+ *
-+ *     The blob contains an array of struct drm_plane_size_hint.
-+ *
-+ *     Drivers should only attach this property to planes that
-+ *     support a very limited set of sizes.
-+ *
-+ *     Note that property value 0 (ie. no blob) is reserved for potential
-+ *     future use. Current userspace is expected to ignore the property
-+ *     if the value is 0, and fall back to some other means (eg.
-+ *     &DRM_CAP_CURSOR_WIDTH and &DRM_CAP_CURSOR_HEIGHT) to determine
-+ *     the appropriate plane size to use.
-  */
- 
- static unsigned int drm_num_planes(struct drm_device *dev)
-@@ -1582,3 +1602,36 @@ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
- 	return 0;
- }
- EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
-+
-+/**
-+ * drm_plane_add_size_hint_property - create a size hint property
-+ *
-+ * @plane: drm plane
-+ * @hints: size hints
-+ * @num_hints: number of size hints
-+ *
-+ * Create a size hints property for the plane.
-+ *
-+ * RETURNS:
-+ * Zero for success or -errno
-+ */
-+int drm_plane_add_size_hints_property(struct drm_plane *plane,
-+				      const struct drm_plane_size_hint *hints,
-+				      int num_hints)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct drm_mode_config *config = &dev->mode_config;
-+	struct drm_property_blob *blob;
-+
-+	blob = drm_property_create_blob(dev,
-+					array_size(sizeof(hints[0]), num_hints),
-+					hints);
-+	if (IS_ERR(blob))
-+		return PTR_ERR(blob);
-+
-+	drm_object_attach_property(&plane->base, config->size_hints_property,
-+				   blob->base.id);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_plane_add_size_hints_property);
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index e5b053001d22..5bc8aed9b445 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -949,6 +949,11 @@ struct drm_mode_config {
- 	 */
- 	struct drm_property *modifiers_property;
- 
-+	/**
-+	 * @size_hints_propertty: Plane SIZE_HINTS property.
-+	 */
-+	struct drm_property *size_hints_property;
-+
- 	/* cursor size */
- 	uint32_t cursor_width, cursor_height;
- 
-diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-index 51291983ea44..1997d7d64b69 100644
---- a/include/drm/drm_plane.h
-+++ b/include/drm/drm_plane.h
-@@ -32,6 +32,7 @@
- #include <drm/drm_util.h>
- 
- struct drm_crtc;
-+struct drm_plane_size_hint;
- struct drm_printer;
- struct drm_modeset_acquire_ctx;
- 
-@@ -945,5 +946,8 @@ drm_plane_get_damage_clips(const struct drm_plane_state *state);
- 
- int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
- 					     unsigned int supported_filters);
-+int drm_plane_add_size_hints_property(struct drm_plane *plane,
-+				      const struct drm_plane_size_hint *hints,
-+				      int num_hints);
- 
- #endif
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 46becedf5b2f..9d7c5967264f 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -849,6 +849,17 @@ struct drm_color_lut {
- 	__u16 reserved;
- };
- 
-+/**
-+ * struct drm_plane_size_hint - Plane size hints
-+ *
-+ * The plane SIZE_HINTS property blob contains an
-+ * array of struct drm_plane_size_hint.
-+ */
-+struct drm_plane_size_hint {
-+	__u16 width;
-+	__u16 height;
-+};
-+
- /**
-  * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
-  *
--- 
-2.39.2
-
+>
+> Thanks,
+> Christian.
+>
+> >
+> > BR,
+> > -R
+> >
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>> ---
+> >>> Note that this applies on top of https://patchwork.freedesktop.org/se=
+ries/93035/
+> >>> out of convenience for myself, but I can re-work it to go before
+> >>> depending on the order that things land.
+> >>>
+> >>>    drivers/gpu/drm/msm/msm_fence.c      | 45 +++++++++++-------------=
+----
+> >>>    drivers/gpu/drm/msm/msm_fence.h      |  2 +-
+> >>>    drivers/gpu/drm/msm/msm_gem.h        | 10 +++----
+> >>>    drivers/gpu/drm/msm/msm_gem_submit.c |  8 ++---
+> >>>    drivers/gpu/drm/msm/msm_gpu.c        |  4 +--
+> >>>    drivers/gpu/drm/msm/msm_ringbuffer.c |  4 +--
+> >>>    6 files changed, 31 insertions(+), 42 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/ms=
+m_fence.c
+> >>> index 51b461f32103..51f9f1f0cb66 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_fence.c
+> >>> +++ b/drivers/gpu/drm/msm/msm_fence.c
+> >>> @@ -103,14 +103,9 @@ void msm_update_fence(struct msm_fence_context *=
+fctx, uint32_t fence)
+> >>>        spin_unlock_irqrestore(&fctx->spinlock, flags);
+> >>>    }
+> >>>
+> >>> -struct msm_fence {
+> >>> -     struct dma_fence base;
+> >>> -     struct msm_fence_context *fctx;
+> >>> -};
+> >>> -
+> >>> -static inline struct msm_fence *to_msm_fence(struct dma_fence *fence=
+)
+> >>> +static inline struct msm_gem_submit *fence_to_submit(struct dma_fenc=
+e *fence)
+> >>>    {
+> >>> -     return container_of(fence, struct msm_fence, base);
+> >>> +     return container_of(fence, struct msm_gem_submit, hw_fence);
+> >>>    }
+> >>>
+> >>>    static const char *msm_fence_get_driver_name(struct dma_fence *fen=
+ce)
+> >>> @@ -120,20 +115,20 @@ static const char *msm_fence_get_driver_name(st=
+ruct dma_fence *fence)
+> >>>
+> >>>    static const char *msm_fence_get_timeline_name(struct dma_fence *f=
+ence)
+> >>>    {
+> >>> -     struct msm_fence *f =3D to_msm_fence(fence);
+> >>> -     return f->fctx->name;
+> >>> +     struct msm_gem_submit *submit =3D fence_to_submit(fence);
+> >>> +     return submit->ring->fctx->name;
+> >>>    }
+> >>>
+> >>>    static bool msm_fence_signaled(struct dma_fence *fence)
+> >>>    {
+> >>> -     struct msm_fence *f =3D to_msm_fence(fence);
+> >>> -     return msm_fence_completed(f->fctx, f->base.seqno);
+> >>> +     struct msm_gem_submit *submit =3D fence_to_submit(fence);
+> >>> +     return msm_fence_completed(submit->ring->fctx, fence->seqno);
+> >>>    }
+> >>>
+> >>>    static void msm_fence_set_deadline(struct dma_fence *fence, ktime_=
+t deadline)
+> >>>    {
+> >>> -     struct msm_fence *f =3D to_msm_fence(fence);
+> >>> -     struct msm_fence_context *fctx =3D f->fctx;
+> >>> +     struct msm_gem_submit *submit =3D fence_to_submit(fence);
+> >>> +     struct msm_fence_context *fctx =3D submit->ring->fctx;
+> >>>        unsigned long flags;
+> >>>        ktime_t now;
+> >>>
+> >>> @@ -165,26 +160,22 @@ static void msm_fence_set_deadline(struct dma_f=
+ence *fence, ktime_t deadline)
+> >>>        spin_unlock_irqrestore(&fctx->spinlock, flags);
+> >>>    }
+> >>>
+> >>> +static void msm_fence_release(struct dma_fence *fence)
+> >>> +{
+> >>> +     __msm_gem_submit_destroy(fence_to_submit(fence));
+> >>> +}
+> >>> +
+> >>>    static const struct dma_fence_ops msm_fence_ops =3D {
+> >>>        .get_driver_name =3D msm_fence_get_driver_name,
+> >>>        .get_timeline_name =3D msm_fence_get_timeline_name,
+> >>>        .signaled =3D msm_fence_signaled,
+> >>>        .set_deadline =3D msm_fence_set_deadline,
+> >>> +     .release =3D msm_fence_release,
+> >>>    };
+> >>>
+> >>> -struct dma_fence *
+> >>> -msm_fence_alloc(struct msm_fence_context *fctx)
+> >>> +void
+> >>> +msm_fence_init(struct msm_fence_context *fctx, struct dma_fence *f)
+> >>>    {
+> >>> -     struct msm_fence *f;
+> >>> -
+> >>> -     f =3D kzalloc(sizeof(*f), GFP_KERNEL);
+> >>> -     if (!f)
+> >>> -             return ERR_PTR(-ENOMEM);
+> >>> -
+> >>> -     f->fctx =3D fctx;
+> >>> -
+> >>> -     dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
+> >>> -                    fctx->context, ++fctx->last_fence);
+> >>> -
+> >>> -     return &f->base;
+> >>> +     dma_fence_init_noref(f, &msm_fence_ops, &fctx->spinlock,
+> >>> +                          fctx->context, ++fctx->last_fence);
+> >>>    }
+> >>> diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/ms=
+m_fence.h
+> >>> index cdaebfb94f5c..8fca37e9773b 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_fence.h
+> >>> +++ b/drivers/gpu/drm/msm/msm_fence.h
+> >>> @@ -81,7 +81,7 @@ void msm_fence_context_free(struct msm_fence_contex=
+t *fctx);
+> >>>    bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t =
+fence);
+> >>>    void msm_update_fence(struct msm_fence_context *fctx, uint32_t fen=
+ce);
+> >>>
+> >>> -struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
+> >>> +void msm_fence_init(struct msm_fence_context *fctx, struct dma_fence=
+ *f);
+> >>>
+> >>>    static inline bool
+> >>>    fence_before(uint32_t a, uint32_t b)
+> >>> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_=
+gem.h
+> >>> index c4844cf3a585..e06afed99d5b 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_gem.h
+> >>> +++ b/drivers/gpu/drm/msm/msm_gem.h
+> >>> @@ -259,10 +259,10 @@ struct msm_gem_submit {
+> >>>        struct ww_acquire_ctx ticket;
+> >>>        uint32_t seqno;         /* Sequence number of the submit on th=
+e ring */
+> >>>
+> >>> -     /* Hw fence, which is created when the scheduler executes the j=
+ob, and
+> >>> +     /* Hw fence, which is initialized when the scheduler executes t=
+he job, and
+> >>>         * is signaled when the hw finishes (via seqno write from cmds=
+tream)
+> >>>         */
+> >>> -     struct dma_fence *hw_fence;
+> >>> +     struct dma_fence hw_fence;
+> >>>
+> >>>        /* Userspace visible fence, which is signaled by the scheduler=
+ after
+> >>>         * the hw_fence is signaled.
+> >>> @@ -309,16 +309,16 @@ static inline struct msm_gem_submit *to_msm_sub=
+mit(struct drm_sched_job *job)
+> >>>        return container_of(job, struct msm_gem_submit, base);
+> >>>    }
+> >>>
+> >>> -void __msm_gem_submit_destroy(struct kref *kref);
+> >>> +void __msm_gem_submit_destroy(struct msm_gem_submit *submit);
+> >>>
+> >>>    static inline void msm_gem_submit_get(struct msm_gem_submit *submi=
+t)
+> >>>    {
+> >>> -     kref_get(&submit->ref);
+> >>> +     dma_fence_get(&submit->hw_fence);
+> >>>    }
+> >>>
+> >>>    static inline void msm_gem_submit_put(struct msm_gem_submit *submi=
+t)
+> >>>    {
+> >>> -     kref_put(&submit->ref, __msm_gem_submit_destroy);
+> >>> +     dma_fence_put(&submit->hw_fence);
+> >>>    }
+> >>>
+> >>>    void msm_submit_retire(struct msm_gem_submit *submit);
+> >>> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/m=
+sm/msm_gem_submit.c
+> >>> index be4bf77103cd..522c8c82e827 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> >>> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> >>> @@ -47,7 +47,7 @@ static struct msm_gem_submit *submit_create(struct =
+drm_device *dev,
+> >>>                return ERR_PTR(ret);
+> >>>        }
+> >>>
+> >>> -     kref_init(&submit->ref);
+> >>> +     kref_init(&submit->hw_fence.refcount);
+> >>>        submit->dev =3D dev;
+> >>>        submit->aspace =3D queue->ctx->aspace;
+> >>>        submit->gpu =3D gpu;
+> >>> @@ -65,10 +65,9 @@ static struct msm_gem_submit *submit_create(struct=
+ drm_device *dev,
+> >>>        return submit;
+> >>>    }
+> >>>
+> >>> -void __msm_gem_submit_destroy(struct kref *kref)
+> >>> +/* Called when the hw_fence is destroyed: */
+> >>> +void __msm_gem_submit_destroy(struct msm_gem_submit *submit)
+> >>>    {
+> >>> -     struct msm_gem_submit *submit =3D
+> >>> -                     container_of(kref, struct msm_gem_submit, ref);
+> >>>        unsigned i;
+> >>>
+> >>>        if (submit->fence_id) {
+> >>> @@ -78,7 +77,6 @@ void __msm_gem_submit_destroy(struct kref *kref)
+> >>>        }
+> >>>
+> >>>        dma_fence_put(submit->user_fence);
+> >>> -     dma_fence_put(submit->hw_fence);
+> >>>
+> >>>        put_pid(submit->pid);
+> >>>        msm_submitqueue_put(submit->queue);
+> >>> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_=
+gpu.c
+> >>> index 380249500325..a82d11dd5fcf 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_gpu.c
+> >>> +++ b/drivers/gpu/drm/msm/msm_gpu.c
+> >>> @@ -716,7 +716,7 @@ static void retire_submits(struct msm_gpu *gpu)
+> >>>                         * been signalled, then later submits are not =
+signalled
+> >>>                         * either, so we are also done.
+> >>>                         */
+> >>> -                     if (submit && dma_fence_is_signaled(submit->hw_=
+fence)) {
+> >>> +                     if (submit && dma_fence_is_signaled(&submit->hw=
+_fence)) {
+> >>>                                retire_submit(gpu, ring, submit);
+> >>>                        } else {
+> >>>                                break;
+> >>> @@ -760,7 +760,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct m=
+sm_gem_submit *submit)
+> >>>
+> >>>        msm_gpu_hw_init(gpu);
+> >>>
+> >>> -     submit->seqno =3D submit->hw_fence->seqno;
+> >>> +     submit->seqno =3D submit->hw_fence.seqno;
+> >>>
+> >>>        msm_rd_dump_submit(priv->rd, submit, NULL);
+> >>>
+> >>> diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/m=
+sm/msm_ringbuffer.c
+> >>> index 57a8e9564540..5c54befa2427 100644
+> >>> --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
+> >>> +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
+> >>> @@ -18,7 +18,7 @@ static struct dma_fence *msm_job_run(struct drm_sch=
+ed_job *job)
+> >>>        struct msm_gpu *gpu =3D submit->gpu;
+> >>>        int i;
+> >>>
+> >>> -     submit->hw_fence =3D msm_fence_alloc(fctx);
+> >>> +     msm_fence_init(fctx, &submit->hw_fence);
+> >>>
+> >>>        for (i =3D 0; i < submit->nr_bos; i++) {
+> >>>                struct drm_gem_object *obj =3D &submit->bos[i].obj->ba=
+se;
+> >>> @@ -37,7 +37,7 @@ static struct dma_fence *msm_job_run(struct drm_sch=
+ed_job *job)
+> >>>
+> >>>        mutex_unlock(&gpu->lock);
+> >>>
+> >>> -     return dma_fence_get(submit->hw_fence);
+> >>> +     return dma_fence_get(&submit->hw_fence);
+> >>>    }
+> >>>
+> >>>    static void msm_job_free(struct drm_sched_job *job)
+>
