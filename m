@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA826B74CE
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:57:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4446B74CF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:57:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0144810E4D5;
-	Mon, 13 Mar 2023 10:57:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66EE110E4DB;
+	Mon, 13 Mar 2023 10:57:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F033D10E4D5;
- Mon, 13 Mar 2023 10:56:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30DCB10E4DB;
+ Mon, 13 Mar 2023 10:57:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 73E25B81002;
- Mon, 13 Mar 2023 10:56:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C64C4339B;
- Mon, 13 Mar 2023 10:56:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ABBD1611CC;
+ Mon, 13 Mar 2023 10:57:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE141C433EF;
+ Mon, 13 Mar 2023 10:57:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678705015;
- bh=qX4BlrY6ijXKXnCFF00JzXCHSVQATjA25IOKqmYHpjY=;
+ s=korg; t=1678705028;
+ bh=dzid3AOct63MVlrkCg/dDgzaLRlt2EhD3OpRgsV1ZH0=;
  h=Subject:To:Cc:From:Date:From;
- b=wHOEoZCr5bzEzZrk1VaDs/aSgTBRdrkIWGM26g3hPT36IWYYNaHQMbTuxpP/f5Kxj
- SgpbVFWdlTNTV7I7Zeor6ofCidjxvna6SJNuZEtsW5iQjbUqxmSKhZA/9okQ/uicou
- iCbrbict+WdsyeF1/nKlBpP1Py7W4pKR2E17mgV0=
-Subject: Patch "drm/connector: print max_requested_bpc in state debugfs" has
- been added to the 6.2-stable tree
+ b=O9cfxhJw/F4GODQKEOO4dtdSrhrpYYXnemaDABRXbHeVsVg0W3zeyTFX1xz/oGs2j
+ onJNwmPUKrZR6yOuYhS2LQvJOmL0ZFSEGNZVMtnRPFPrBXL/YvmOzzn7uKr3Eibww8
+ Ax2CmUCrK7JENTET89br9iGvFzVAi0bh4CnVaE18=
+Subject: Patch "drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF"
+ has been added to the 6.2-stable tree
 To: Vitaly.Prosyak@amd.com, alexander.deucher@amd.com,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, harry.wentland@amd.com,
- jani.nikula@linux.intel.com, joshua@froggi.es, ppaalanen@gmail.com,
- sebastian.wick@redhat.com, uma.shankar@intel.com,
+ jani.nikula@linux.intel.com, joshua@froggi.es, pekka.paalanen@collabora.com,
+ ppaalanen@gmail.com, sebastian.wick@redhat.com, uma.shankar@intel.com,
  ville.syrjala@linux.intel.com
 From: <gregkh@linuxfoundation.org>
 Date: Mon, 13 Mar 2023 11:55:21 +0100
-Message-ID: <1678704921255103@kroah.com>
+Message-ID: <167870492122588@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,33 +61,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/connector: print max_requested_bpc in state debugfs
+    drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF
 
 to the 6.2-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-connector-print-max_requested_bpc-in-state-debugfs.patch
+     drm-display-don-t-block-hdr_output_metadata-on-unknown-eotf.patch
 and it can be found in the queue-6.2 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From 7d386975f6a495902e679a3a250a7456d7e54765 Mon Sep 17 00:00:00 2001
+From e5eef23e267c72521d81f23f7f82d1f523d4a253 Mon Sep 17 00:00:00 2001
 From: Harry Wentland <harry.wentland@amd.com>
-Date: Fri, 13 Jan 2023 11:24:09 -0500
-Subject: drm/connector: print max_requested_bpc in state debugfs
+Date: Fri, 13 Jan 2023 11:24:08 -0500
+Subject: drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-commit 7d386975f6a495902e679a3a250a7456d7e54765 upstream.
+commit e5eef23e267c72521d81f23f7f82d1f523d4a253 upstream.
 
-This is useful to understand the bpc defaults and
-support of a driver.
+The EDID of an HDR display defines EOTFs that are supported
+by the display and can be set in the HDR metadata infoframe.
+Userspace is expected to read the EDID and set an appropriate
+HDR_OUTPUT_METADATA.
+
+In drm_parse_hdr_metadata_block the kernel reads the supported
+EOTFs from the EDID and stores them in the
+drm_connector->hdr_sink_metadata. While doing so it also
+filters the EOTFs to the EOTFs the kernel knows about.
+When an HDR_OUTPUT_METADATA is set it then checks to
+make sure the EOTF is a supported EOTF. In cases where
+the kernel doesn't know about a new EOTF this check will
+fail, even if the EDID advertises support.
+
+Since it is expected that userspace reads the EDID to understand
+what the display supports it doesn't make sense for DRM to block
+an HDR_OUTPUT_METADATA if it contains an EOTF the kernel doesn't
+understand.
+
+This comes with the added benefit of future-proofing metadata
+support. If the spec defines a new EOTF there is no need to
+update DRM and an compositor can immediately make use of it.
+
+Bug: https://gitlab.freedesktop.org/wayland/weston/-/issues/609
+
+v2: Distinguish EOTFs defind in kernel and ones defined
+    in EDID in the commit description (Pekka)
+
+v3: Rebase; drm_hdmi_infoframe_set_hdr_metadata moved
+    to drm_hdmi_helper.c
 
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
@@ -99,25 +127,31 @@ Cc: Joshua Ashton <joshua@froggi.es>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Reviewed-By: Joshua Ashton <joshua@froggi.es>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230113162428.33874-3-harry.wentland@amd.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20230113162428.33874-2-harry.wentland@amd.com
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/drm_atomic.c |    1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/display/drm_hdmi_helper.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1070,6 +1070,7 @@ static void drm_atomic_connector_print_s
- 	drm_printf(p, "connector[%u]: %s\n", connector->base.id, connector->name);
- 	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
- 	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
-+	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
+--- a/drivers/gpu/drm/display/drm_hdmi_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+@@ -44,10 +44,8 @@ int drm_hdmi_infoframe_set_hdr_metadata(
  
- 	if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
- 		if (state->writeback_job && state->writeback_job->fb)
+ 	/* Sink EOTF is Bit map while infoframe is absolute values */
+ 	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
+-	    connector->hdr_sink_metadata.hdmi_type1.eotf)) {
+-		DRM_DEBUG_KMS("EOTF Not Supported\n");
+-		return -EINVAL;
+-	}
++	    connector->hdr_sink_metadata.hdmi_type1.eotf))
++		DRM_DEBUG_KMS("Unknown EOTF %d\n", hdr_metadata->hdmi_metadata_type1.eotf);
+ 
+ 	err = hdmi_drm_infoframe_init(frame);
+ 	if (err < 0)
 
 
 Patches currently in stable-queue which might be from harry.wentland@amd.com are
