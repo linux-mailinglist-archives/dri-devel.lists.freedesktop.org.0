@@ -1,59 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764516B78C3
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 14:21:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDE06B78CB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 14:24:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46F8A10E51A;
-	Mon, 13 Mar 2023 13:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E0B10E51D;
+	Mon, 13 Mar 2023 13:24:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8488A10E51A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 13:21:31 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23C7810E51D;
+ Mon, 13 Mar 2023 13:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678713691; x=1710249691;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=uLU0rWNPYViHJh7p3OpLPnAUf6dU8U9O9Mk1Vds3nY4=;
- b=PlbQGTTBEO7zOTI7I8MY73RePd8Q0JqNyTCvXJtvy9N/RLIU5gJhhGDm
- vbxBlHHQiXGhkaDQ6VtBVBMOgq84ojuij8BJWfgdATC22GHyoI/Wnk6jw
- Rz6hygRudHACkftnYj+RvbEg6Y08VM1eN6u1/7dZDiM4tlio7ebDQlJwB
- pAfr0i7p/u05uO48/5KTCGjg3nOxS/Y8tys3j00N3C6RyDdzPvXkTmHlr
- u1WquSAEnx6ESjfOLXsxSq13ycCmKvwy6ap1D1t/fMGtTlW9OMpk/UX+m
- SWVnFAvma1Gft8Dc+4J+7PyD1Nfcfmr9dDPb6QomUVZEW0PM3wOsO2LgT w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="320993015"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="320993015"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 06:21:29 -0700
+ t=1678713844; x=1710249844;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=do5K5L3vaCQlfw4M2RzVOMZAkd4SH7I0IeG2mermsxU=;
+ b=Y9/tJNWljMRZg6CwyNddjewyqz/AKJ21DKjkV7vUE7bMKEL5BYISbbip
+ HCAw0pvMlT3lrl1i7+n/X78yAc7aEgap0YA0QrEHmkQ3CK9T7t7rDYKwP
+ BIvyEW8m8GXdK4SIVtACUD1ek0RQuKIuzIxx9Ix66tNsXXK85SmA4wQxv
+ CVdW+ffyEONA0BGuOZaviu9e9Zl5FPZG2P65UOYF47noxwQGO4/1RC3nd
+ Xo6VlN+rv5LlfTMFHVNH8SOjCUGJmjem5WGlSshq2JPJvQf/GzbZRwXMO
+ XThCDhunWfeRUtDFNM+8VpzukDm4LUTZNegvjHH6oUZjqeEaVeBQZ8DIL A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="402013381"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="402013381"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2023 06:24:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="802441527"
-X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="802441527"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.136.90])
- ([10.249.136.90])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 06:21:25 -0700
-Message-ID: <fcdababa-2ad1-bb2f-c306-c6f6950d9485@linux.intel.com>
-Date: Mon, 13 Mar 2023 14:21:23 +0100
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="1007983614"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="1007983614"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga005.fm.intel.com with ESMTP; 13 Mar 2023 06:24:03 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 13 Mar 2023 06:24:02 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Mon, 13 Mar 2023 06:24:02 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.174)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Mon, 13 Mar 2023 06:24:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SQHP12AfwmO0CnKkISroAgNdb92WSZ01jUGwQg1rnusZ1mvv6Uhqmy+kI5F4ouVEXTUNH/skkSJxxQ7IkrbQ8i2QhEH1eOEoSEpaM1PdA/iclFT/6pGqfis8VGku2SPr/hPSql2yiy5f5/61ACyvWT+AeUI6zQrWP2xN/zW1KW+4JdCWSQx/N86UqPWYTw5Q006b+TB+4CGl8P50qjrBmsVLutVkg3KbArPP+bMWauols2ml4ZagKnnrinV5FXOmUVeSOdHUqsSjSBuHfduKA6AjgBgjRzGN4TJH3nZE5bfsF66xg7n7SU9j4qBE/gmIF9P2k+E+xXn6Se+x7PmHkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VzgRUoYo/17PmQc9MvsyQp0VXmrno1otEX+OiByvp5o=;
+ b=cjFlEdWPsG8K3PHNkrCmqEkpkV+SkBtda5IChaN+FKt/gs6y4/Hadr0Yob8IgPgZZb8t1T4TXi3zuKsVAIEag3yNLOOx1iu5oYm1e/Drj4NAO+eyKiF1MBxIJ/b9V0sZNgssg9c1SZTYRKZVpF0mcnKuW3JUSF71Ds4k71GvM0uthkEd9KjgbtQa4e9BJUWO5hWkK0B0fwnTp7tFSN9HYV0QknFwlNxXjaUJKOjyG+YHMtLge3ZxsFs0TDzWp09sKMciKOTa1EQtaKxafPBiWHzeN3moYMeubPk7JqMG4fPpbsywaBFgnk4BA4YG6RBZs3pxNh+qlByIPukat1LJsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.24; Mon, 13 Mar
+ 2023 13:24:01 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::2629:fb12:6221:3745]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::2629:fb12:6221:3745%4]) with mapi id 15.20.6178.017; Mon, 13 Mar 2023
+ 13:24:01 +0000
+Date: Mon, 13 Mar 2023 06:23:59 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 1/3] drm/i915: Remove redundant check for DG1
+Message-ID: <20230313132359.xahyrz3d4o2rgw7s@ldmartin-desk2.lan>
+References: <20230306204954.753739-1-lucas.demarchi@intel.com>
+ <ZA7oghE7c6eM/Dkr@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZA7oghE7c6eM/Dkr@intel.com>
+X-ClientProxiedBy: BY5PR17CA0006.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::19) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 2/8] accel/qaic: Add uapi and core driver file
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
- ogabbay@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
- stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-3-git-send-email-quic_jhugo@quicinc.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1678138443-2760-3-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CY8PR11MB7846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7eb9b190-b93a-496d-2838-08db23c63561
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kqcL/91bziPB9KUfyfCxypQEvpZriePz4p0CTNrYoe+ll55NplkO/kLfVNbYcrxnbnWk8jG9fcdma5RXjimuQZvE3bo62FYfzysb+dRc83lDaI75pz8K9JCSJrUtroeOEN1oiiGcL11Gd+OzKAGYUWXv0dKhkrLJ3bK7bzgkGla0eQ9IxWA4bk4VVHqqdmKIEDOUsaPNoMuBeRAlmjcHW/AX6neHT9f74D7f+SkvkldZ8vdAoziqXaulyqJf97LCVv1lKXvGE7NM8oQxP0rw5+W9zoOD3P6UIWOGze5SOFlVX6RIzAQgf4x+eiEcahHHU/SCwZQAM5hMlFjm0FmgSwoDJpIY+RsukeSZTYJvVCWQEkMrppv+3kIBNnEFFuQMz7wFSVCnXk9Gdz5L45RAC18rMMmdC7y0h4ps2TRalT9gk4vPBw2QsDfNIyHf1GvdOqwqYaX/HSbavb6nkv47/+wYlOSnHnUURRhLFJl0qtHWODPyaXJuUJPj7GFT+2Kb3pD4G2BecpV0KGQ84kYFOXZw3ysZBj5EJ3M07vbgGJMZUzs7V4xb3SGUFz4MxpTx1p6XFQvbVkbRZnvGbPHsKPde5vlaJoxvspXnt0Khtj+ySeALhokaxkb5+2sTOlkqA/bNsYfyzotuU+lJLioNTw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(396003)(136003)(366004)(346002)(376002)(39860400002)(451199018)(36756003)(5660300002)(8936002)(2906002)(82960400001)(86362001)(38100700002)(66946007)(478600001)(66556008)(66476007)(8676002)(6486002)(41300700001)(4326008)(6916009)(316002)(83380400001)(9686003)(6512007)(1076003)(6506007)(26005)(186003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?8PGD0ZM3SJmynPCBE751meMxGHRvnKHLY1Z4JQ08KW0yoR942eTgfxJJmC?=
+ =?iso-8859-1?Q?Ru/zqV3OHaSvG/Lktc8xwGtqOyCOLemRCLzbd6ZvYjK7gRU+etyeHwBwJE?=
+ =?iso-8859-1?Q?zBxrJwLAi+eW296Sz3FzkycKJndvoJjXFdSh+lzzje8Vg2DW7vKvwH29UN?=
+ =?iso-8859-1?Q?dRPh0DPXB6ivxzflclSldXFoWDrunt2GM8K89svHhZeDM1yXYAt/Pq8qEG?=
+ =?iso-8859-1?Q?b/xC7kCEYr0Oq2wqcDSPJdBLTepOIImCYuX64aMudGUkUKTGXVMAPlKOfq?=
+ =?iso-8859-1?Q?8UkH/sC4r5WHxO5XOCFDADYE9tagr9MabPlucozf3TrAg1zDjIJcqAyypS?=
+ =?iso-8859-1?Q?WBfv8pSuy4W6mXCLH6/qDt/38/aQ+Z9PqygMUAmAmooYcSfmD5L5IceQNu?=
+ =?iso-8859-1?Q?ZRYimSQELQxq2XVKiGxedbN28raU/iRerYt6lEqnDFCpWRnfmJSpm2z+s6?=
+ =?iso-8859-1?Q?uX+dV7MyxJT+ZFxo/y3ac+c9/eBhn6f9H3aYrAzv0J6eGBk37SMRSLeFQb?=
+ =?iso-8859-1?Q?wxID2ke0ybYQryRYpimVRqptJIHQKcBS9otJr+cR3AMBHSHts3UUcCWr53?=
+ =?iso-8859-1?Q?XX3t3K2Pd8h8Ti6/6LmFiql08gqNetKriN7J+P88BEwW7Y5nle+qLNjOBe?=
+ =?iso-8859-1?Q?7Lecsp5c9ty3iz+MMzAEljnu080ydAzGZIlpOPzY6t19qiwk2xTxxOYsxx?=
+ =?iso-8859-1?Q?pYYFuT5DL3lMNcAk4mcxSGC5NfMZetDuFCxHP8oUPUFXFPKnj0EAfD4mvf?=
+ =?iso-8859-1?Q?9WylzmuVjRQom53ijWdknL3K2u81axSrgUXPd8ab2KqLfbU0KuZZI1ZNyU?=
+ =?iso-8859-1?Q?9sRmWGh6otvYS2Fvwnx8VV89mjim3H9p3c/vPqbwroeSvvW/fVZ3sAt61J?=
+ =?iso-8859-1?Q?h7dbWGpz0hXnYaC/DroE+LOIp3nLD28uymkqmpJ28TljC3vRkYQauXsnaj?=
+ =?iso-8859-1?Q?yeoD+EyEKKzZZ26o//iipHwXofeCZZ3uCDbfY7piUDQwuGOQ8GUHHZrqXB?=
+ =?iso-8859-1?Q?4tr2O5Pgc7Qfab7icHOq+hxNXFpd5C+in4xPtI4AfdLmVPrdIOvfbTPnuL?=
+ =?iso-8859-1?Q?HFtCTCMv9i2KfWlxyLwq0oPyG5h5hmFxNDoMUzsoCxh/S8CZ7mz6fTzLL/?=
+ =?iso-8859-1?Q?016mId3M6wzxm+94xq9ZMEvlI7X2yQUuzdpSf4EStXZl4Vxo1czOsLHFMy?=
+ =?iso-8859-1?Q?OCzb4jfg9ktpyQqftaEdzU6KK2gdzJbmxUCVxj9Wl9x0gr4MdtI47G1eyM?=
+ =?iso-8859-1?Q?MVdMelmHZV+Gojh3bbWM5eMgiTCF0WGR2NAH+vDESZ8aBCqLpiN303c97O?=
+ =?iso-8859-1?Q?2rGxBCFpGrgcngAnGOmHXq2PYFj1YqVpAgswNTgq/KQDr2gV5Pon6U2Lk1?=
+ =?iso-8859-1?Q?a/r/iCsFFlwYN+h2QR3ucLgHJ9M8TnKFunTCOo7Kg/eL7nqWGcZSUTMwqE?=
+ =?iso-8859-1?Q?NrL263Q6i4Sr/hos/DjgVvYmRlQk1SyXrjj6ip+aIAbDMFYDZWjD4Nnfsn?=
+ =?iso-8859-1?Q?gcqZCtiCqjmA/ee5X7nforHrjHwXxghqKFL+HJYadR8QzMAbW5XMe6jYUl?=
+ =?iso-8859-1?Q?BsmrXoOKBuRDLkn54q0JOGuyToaHqPnvG9miQiCNjVOlMhPOTh0YV3PMjd?=
+ =?iso-8859-1?Q?t1ZKDoOXLviTcKQecZdv3uDGpfTcZYaGGSGhogfDz1rov3maAn2Ujt6A?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7eb9b190-b93a-496d-2838-08db23c63561
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2023 13:24:01.1626 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 973Qx65+TT50b3F+SIS4cuhmKRyWn32Tzlz69ZJ8RFYyQbiBtasQmT8KV7gP1s60kDocLlWCVJgBaUHrn226Q5eO/KTY6nFXjwjGc4UiRDg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7846
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,654 +145,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_carlv@quicinc.com, quic_ajitpals@quicinc.com, linux-doc@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Mar 13, 2023 at 11:10:26AM +0200, Ville Syrjälä wrote:
+>On Mon, Mar 06, 2023 at 12:49:52PM -0800, Lucas De Marchi wrote:
+>> dg1_gt_workarounds_init() is only ever called for DG1, so there is no
+>> point checking it again.
+>>
+>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/gt/intel_workarounds.c | 12 +++---------
+>>  1 file changed, 3 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>> index 32aa1647721a..eb6cc4867d67 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+>> @@ -1472,21 +1472,15 @@ gen12_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+>>  static void
+>>  dg1_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+>>  {
+>> -	struct drm_i915_private *i915 = gt->i915;
+>> -
+>
+>Looks like you pushed some stale version of this patch which
+>didn't remove this variable. Now the CONFIG_DRM_I915_WERROR=y
+>build is broken.
+>
+>Did you lose that from your pre-push build .config?
 
-On 06.03.2023 22:33, Jeffrey Hugo wrote:
-> Add the QAIC driver uapi file and core driver file that binds to the PCIe
-> device. The core driver file also creates the accel device and manages
-> all the interconnections between the different parts of the driver.
-> 
-> The driver can be built as a module. If so, it will be called "qaic.ko".
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> ---
->  drivers/accel/qaic/qaic.h     | 282 ++++++++++++++++++
->  drivers/accel/qaic/qaic_drv.c | 648 ++++++++++++++++++++++++++++++++++++++++++
->  include/uapi/drm/qaic_accel.h | 397 ++++++++++++++++++++++++++
->  3 files changed, 1327 insertions(+)
->  create mode 100644 drivers/accel/qaic/qaic.h
->  create mode 100644 drivers/accel/qaic/qaic_drv.c
->  create mode 100644 include/uapi/drm/qaic_accel.h
-> 
-> diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-> new file mode 100644
-> index 0000000..996a68f
-> --- /dev/null
-> +++ b/drivers/accel/qaic/qaic.h
-> @@ -0,0 +1,282 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only
-> + *
-> + * Copyright (c) 2019-2021, The Linux Foundation. All rights reserved.
-> + * Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef _QAIC_H_
-> +#define _QAIC_H_
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/kref.h>
-> +#include <linux/mhi.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pci.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/srcu.h>
-> +#include <linux/wait.h>
-> +#include <linux/workqueue.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_gem.h>
-> +
-> +#define QAIC_DBC_BASE		SZ_128K
-> +#define QAIC_DBC_SIZE		SZ_4K
-> +
-> +#define QAIC_NO_PARTITION	-1
-> +
-> +#define QAIC_DBC_OFF(i)		((i) * QAIC_DBC_SIZE + QAIC_DBC_BASE)
-> +
-> +#define to_qaic_bo(obj) container_of(obj, struct qaic_bo, base)
-> +
-> +extern bool poll_datapath;
-> +
-> +struct qaic_user {
-> +	/* Uniquely identifies this user for the device */
-> +	int			handle;
-> +	struct kref		ref_count;
-> +	/* Char device opened by this user */
-> +	struct qaic_drm_device	*qddev;
-> +	/* Node in list of users that opened this drm device */
-> +	struct list_head	node;
-> +	/* SRCU used to synchronize this user during cleanup */
-> +	struct srcu_struct	qddev_lock;
-> +	atomic_t		chunk_id;
-> +};
-> +
-> +struct dma_bridge_chan {
-> +	/* Pointer to device strcut maintained by driver */
-> +	struct qaic_device	*qdev;
-> +	/* ID of this DMA bridge channel(DBC) */
-> +	unsigned int		id;
-> +	/* Synchronizes access to xfer_list */
-> +	spinlock_t		xfer_lock;
-> +	/* Base address of request queue */
-> +	void			*req_q_base;
-> +	/* Base address of response queue */
-> +	void			*rsp_q_base;
-> +	/*
-> +	 * Base bus address of request queue. Response queue bus address can be
-> +	 * calculated by adding request queue size to this variable
-> +	 */
-> +	dma_addr_t		dma_addr;
-> +	/* Total size of request and response queue in byte */
-> +	u32			total_size;
-> +	/* Capacity of request/response queue */
-> +	u32			nelem;
-> +	/* The user that opened this DBC */
-> +	struct qaic_user	*usr;
-> +	/*
-> +	 * Request ID of next memory handle that goes in request queue. One
-> +	 * memory handle can enqueue more than one request elements, all
-> +	 * this requests that belong to same memory handle have same request ID
-> +	 */
-> +	u16			next_req_id;
-> +	/* true: DBC is in use; false: DBC not in use */
-> +	bool			in_use;
-> +	/*
-> +	 * Base address of device registers. Used to read/write request and
-> +	 * response queue's head and tail pointer of this DBC.
-> +	 */
-> +	void __iomem		*dbc_base;
-> +	/* Head of list where each node is a memory handle queued in request queue */
-> +	struct list_head	xfer_list;
-> +	/* Synchronizes DBC readers during cleanup */
-> +	struct srcu_struct	ch_lock;
-> +	/*
-> +	 * When this DBC is released, any thread waiting on this wait queue is
-> +	 * woken up
-> +	 */
-> +	wait_queue_head_t	dbc_release;
-> +	/* Head of list where each node is a bo associated with this DBC */
-> +	struct list_head	bo_lists;
-> +	/* The irq line for this DBC. Used for polling */
-> +	unsigned int		irq;
-> +	/* Polling work item to simulate interrupts */
-> +	struct work_struct	poll_work;
-> +};
-> +
-> +struct qaic_device {
-> +	/* Pointer to base PCI device struct of our physical device */
-> +	struct pci_dev		*pdev;
-> +	/* Req. ID of request that will be queued next in MHI control device */
-> +	u32			next_seq_num;
-> +	/* Base address of bar 0 */
-> +	void __iomem		*bar_0;
-> +	/* Base address of bar 2 */
-> +	void __iomem		*bar_2;
-> +	/* Controller structure for MHI devices */
-> +	struct mhi_controller	*mhi_cntl;
-> +	/* MHI control channel device */
-> +	struct mhi_device	*cntl_ch;
-> +	/* List of requests queued in MHI control device */
-> +	struct list_head	cntl_xfer_list;
-> +	/* Synchronizes MHI control device transactions and its xfer list */
-> +	struct mutex		cntl_mutex;
-> +	/* Array of DBC struct of this device */
-> +	struct dma_bridge_chan	*dbc;
-> +	/* Work queue for tasks related to MHI control device */
-> +	struct workqueue_struct	*cntl_wq;
-> +	/* Synchronizes all the users of device during cleanup */
-> +	struct srcu_struct	dev_lock;
-> +	/* true: Device under reset; false: Device not under reset */
-> +	bool			in_reset;
-> +	/*
-> +	 * true: A tx MHI transaction has failed and a rx buffer is still queued
-> +	 * in control device. Such a buffer is considered lost rx buffer
-> +	 * false: No rx buffer is lost in control device
-> +	 */
-> +	bool			cntl_lost_buf;
-> +	/* Maximum number of DBC supported by this device */
-> +	u32			num_dbc;
-> +	/* Reference to the drm_device for this device when it is created */
-> +	struct qaic_drm_device	*qddev;
-> +	/* Generate the CRC of a control message */
-> +	u32 (*gen_crc)(void *msg);
-> +	/* Validate the CRC of a control message */
-> +	bool (*valid_crc)(void *msg);
-> +};
-> +
-> +struct qaic_drm_device {
-> +	/* Pointer to the root device struct driven by this driver */
-> +	struct qaic_device	*qdev;
-> +	/*
-> +	 * The physical device can be partition in number of logical devices.
-> +	 * And each logical device is given a partition id. This member stores
-> +	 * that id. QAIC_NO_PARTITION is a sentinel used to mark that this drm
-> +	 * device is the actual physical device
-> +	 */
-> +	s32			partition_id;
-> +	/* Pointer to the drm device struct of this drm device */
-> +	struct drm_device	*ddev;
-> +	/* Head in list of users who have opened this drm device */
-> +	struct list_head	users;
-> +	/* Synchronizes access to users list */
-> +	struct mutex		users_mutex;
-> +};
-> +
-> +struct qaic_bo {
-> +	struct drm_gem_object	base;
-> +	/* Scatter/gather table for allocate/imported BO */
-> +	struct sg_table		*sgt;
-> +	/* BO size requested by user. GEM object might be bigger in size. */
-> +	u64			size;
-> +	/* Head in list of slices of this BO */
-> +	struct list_head	slices;
-> +	/* Total nents, for all slices of this BO */
-> +	int			total_slice_nents;
-> +	/*
-> +	 * Direction of transfer. It can assume only two value DMA_TO_DEVICE and
-> +	 * DMA_FROM_DEVICE.
-> +	 */
-> +	int			dir;
-> +	/* The pointer of the DBC which operates on this BO */
-> +	struct dma_bridge_chan	*dbc;
-> +	/* Number of slice that belongs to this buffer */
-> +	u32			nr_slice;
-> +	/* Number of slice that have been transferred by DMA engine */
-> +	u32			nr_slice_xfer_done;
-> +	/* true = BO is queued for execution, true = BO is not queued */
-> +	bool			queued;
-> +	/*
-> +	 * If true then user has attached slicing information to this BO by
-> +	 * calling DRM_IOCTL_QAIC_ATTACH_SLICE_BO ioctl.
-> +	 */
-> +	bool			sliced;
-> +	/* Request ID of this BO if it is queued for execution */
-> +	u16			req_id;
-> +	/* Handle assigned to this BO */
-> +	u32			handle;
-> +	/* Wait on this for completion of DMA transfer of this BO */
-> +	struct completion	xfer_done;
-> +	/*
-> +	 * Node in linked list where head is dbc->xfer_list.
-> +	 * This link list contain BO's that are queued for DMA transfer.
-> +	 */
-> +	struct list_head	xfer_list;
-> +	/*
-> +	 * Node in linked list where head is dbc->bo_lists.
-> +	 * This link list contain BO's that are associated with the DBC it is
-> +	 * linked to.
-> +	 */
-> +	struct list_head	bo_list;
-> +	struct {
-> +		/*
-> +		 * Latest timestamp(ns) at which kernel received a request to
-> +		 * execute this BO
-> +		 */
-> +		u64		req_received_ts;
-> +		/*
-> +		 * Latest timestamp(ns) at which kernel enqueued requests of
-> +		 * this BO for execution in DMA queue
-> +		 */
-> +		u64		req_submit_ts;
-> +		/*
-> +		 * Latest timestamp(ns) at which kernel received a completion
-> +		 * interrupt for requests of this BO
-> +		 */
-> +		u64		req_processed_ts;
-> +		/*
-> +		 * Number of elements already enqueued in DMA queue before
-> +		 * enqueuing requests of this BO
-> +		 */
-> +		u32		queue_level_before;
-> +	} perf_stats;
-> +
-> +};
-> +
-> +struct bo_slice {
-> +	/* Mapped pages */
-> +	struct sg_table		*sgt;
-> +	/* Number of requests required to queue in DMA queue */
-> +	int			nents;
-> +	/* See enum dma_data_direction */
-> +	int			dir;
-> +	/* Actual requests that will be copied in DMA queue */
-> +	struct dbc_req		*reqs;
-> +	struct kref		ref_count;
-> +	/* true: No DMA transfer required */
-> +	bool			no_xfer;
-> +	/* Pointer to the parent BO handle */
-> +	struct qaic_bo		*bo;
-> +	/* Node in list of slices maintained by parent BO */
-> +	struct list_head	slice;
-> +	/* Size of this slice in bytes */
-> +	u64			size;
-> +	/* Offset of this slice in buffer */
-> +	u64			offset;
-> +};
-> +
-> +int get_dbc_req_elem_size(void);
-> +int get_dbc_rsp_elem_size(void);
-> +int get_cntl_version(struct qaic_device *qdev, struct qaic_user *usr, u16 *major, u16 *minor);
-> +int qaic_manage_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +void qaic_mhi_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result);
-> +
-> +void qaic_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result);
-> +
-> +int qaic_control_open(struct qaic_device *qdev);
-> +void qaic_control_close(struct qaic_device *qdev);
-> +void qaic_release_usr(struct qaic_device *qdev, struct qaic_user *usr);
-> +
-> +irqreturn_t dbc_irq_threaded_fn(int irq, void *data);
-> +irqreturn_t dbc_irq_handler(int irq, void *data);
-> +int disable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
-> +void enable_dbc(struct qaic_device *qdev, u32 dbc_id, struct qaic_user *usr);
-> +void wakeup_dbc(struct qaic_device *qdev, u32 dbc_id);
-> +void release_dbc(struct qaic_device *qdev, u32 dbc_id);
-> +
-> +void wake_all_cntl(struct qaic_device *qdev);
-> +void qaic_dev_reset_clean_local_state(struct qaic_device *qdev, bool exit_reset);
-> +
-> +struct drm_gem_object *qaic_gem_prime_import(struct drm_device *dev, struct dma_buf *dma_buf);
-> +
-> +int qaic_create_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +int qaic_mmap_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +int qaic_attach_slice_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +int qaic_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +int qaic_partial_execute_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +int qaic_wait_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +int qaic_perf_stats_bo_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +void irq_polling_work(struct work_struct *work);
-> +
-> +#endif /* _QAIC_H_ */
-> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-> new file mode 100644
-> index 0000000..9172799
-> --- /dev/null
-> +++ b/drivers/accel/qaic/qaic_drv.c
-> @@ -0,0 +1,648 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
-> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/idr.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/list.h>
-> +#include <linux/kref.h>
-> +#include <linux/mhi.h>
-> +#include <linux/module.h>
-> +#include <linux/msi.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pci.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/wait.h>
-> +#include <drm/drm_accel.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_ioctl.h>
-> +#include <uapi/drm/qaic_accel.h>
-> +
-> +#include "mhi_controller.h"
-> +#include "mhi_qaic_ctrl.h"
-> +#include "qaic.h"
-> +
-> +MODULE_IMPORT_NS(DMA_BUF);
-> +
-> +#define PCI_DEV_AIC100			0xa100
-> +#define QAIC_NAME			"qaic"
-> +#define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
-> +#define CNTL_MAJOR			5
-> +#define CNTL_MINOR			0
-> +
-> +static unsigned int datapath_polling;
-> +module_param(datapath_polling, uint, 0400);
-> +bool poll_datapath;
+no, looks like a conflict between drm-intel-gt-next and drm-intel-next
 
-You can define this param as:
-  static bool poll_datapath;
-  module_param_named(poll_datapath, datapath_polling, bool, 0400);
+69ea87e1591a ("drm/i915/dg1: Drop support for pre-production steppings")
+merged in drm-intel-next dropped the only user.
 
-You woudn't have to set poll_datapath manually.
-I would also consider using a single name for the param and adding documentation using MODULE_PARM_DESC().
+This patch was merged in drm-intel-gt-next and I didn't realize the
+race was with the other branch rather than with the same branch due to
+taking a long time for me to apply. Let me rebuild drm-tip to fix it up.
 
+Lucas De Marchi
 
-> +static bool link_up;
-> +static DEFINE_IDA(qaic_usrs);
-> +
-> +static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id);
-> +static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id);
-> +
-> +static void free_usr(struct kref *kref)
-> +{
-> +	struct qaic_user *usr = container_of(kref, struct qaic_user, ref_count);
-> +
-> +	cleanup_srcu_struct(&usr->qddev_lock);
-> +	ida_free(&qaic_usrs, usr->handle);
-> +	kfree(usr);
-> +}
-> +
-> +static int qaic_open(struct drm_device *dev, struct drm_file *file)
-> +{
-> +	struct qaic_drm_device *qddev = dev->dev_private;
-> +	struct qaic_device *qdev = qddev->qdev;
-> +	struct qaic_user *usr;
-> +	int rcu_id;
-> +	int ret;
-> +
-> +	rcu_id = srcu_read_lock(&qdev->dev_lock);
-> +	if (qdev->in_reset) {
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	usr = kmalloc(sizeof(*usr), GFP_KERNEL);
-> +	if (!usr) {
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	usr->handle = ida_alloc(&qaic_usrs, GFP_KERNEL);
-> +	if (usr->handle < 0) {
-> +		ret = usr->handle;
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +		kfree(usr);
-> +		return ret;
-> +	}
-> +	usr->qddev = qddev;
-> +	atomic_set(&usr->chunk_id, 0);
-> +	init_srcu_struct(&usr->qddev_lock);
-> +	kref_init(&usr->ref_count);
-> +
-> +	ret = mutex_lock_interruptible(&qddev->users_mutex);
-> +	if (ret) {
-> +		cleanup_srcu_struct(&usr->qddev_lock);
-> +		kfree(usr);
-> +		srcu_read_unlock(&qdev->dev_lock, rcu_id);
-
-It looks like you are leaking usr->handle here.
-Also the order of kfree() and srcu_read_unlock() is not consistent with other error cases above.
-I would suggest using goto to handle errors in this function.
-
-> +		return ret;
-> +	}
-> +
-> +	list_add(&usr->node, &qddev->users);
-> +	mutex_unlock(&qddev->users_mutex);
-> +
-> +	file->driver_priv = usr;
-> +
-> +	srcu_read_unlock(&qdev->dev_lock, rcu_id);
-> +	return 0;
-> +}
-> +
-> +static void qaic_postclose(struct drm_device *dev, struct drm_file *file)
-> +{
-> +	struct qaic_user *usr = file->driver_priv;
-> +	struct qaic_drm_device *qddev;
-> +	struct qaic_device *qdev;
-> +	int qdev_rcu_id;
-> +	int usr_rcu_id;
-> +	int i;
-> +
-> +	qddev = usr->qddev;
-> +	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
-> +	if (qddev) {
-> +		qdev = qddev->qdev;
-> +		qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
-> +		if (!qdev->in_reset) {
-> +			qaic_release_usr(qdev, usr);
-> +			for (i = 0; i < qdev->num_dbc; ++i)
-> +				if (qdev->dbc[i].usr && qdev->dbc[i].usr->handle == usr->handle)
-> +					release_dbc(qdev, i);
-> +		}
-> +		srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
-> +
-> +		mutex_lock(&qddev->users_mutex);
-> +		if (!list_empty(&usr->node))
-> +			list_del_init(&usr->node);
-> +		mutex_unlock(&qddev->users_mutex);
-> +	}
-> +
-> +	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +	kref_put(&usr->ref_count, free_usr);
-> +
-> +	file->driver_priv = NULL;
-> +}
-> +
-> +DEFINE_DRM_ACCEL_FOPS(qaic_accel_fops);
-> +
-> +static const struct drm_ioctl_desc qaic_drm_ioctls[] = {
-> +	DRM_IOCTL_DEF_DRV(QAIC_MANAGE, qaic_manage_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_CREATE_BO, qaic_create_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_MMAP_BO, qaic_mmap_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_ATTACH_SLICE_BO, qaic_attach_slice_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_EXECUTE_BO, qaic_execute_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_PARTIAL_EXECUTE_BO, qaic_partial_execute_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_WAIT_BO, qaic_wait_bo_ioctl, DRM_RENDER_ALLOW),
-> +	DRM_IOCTL_DEF_DRV(QAIC_PERF_STATS_BO, qaic_perf_stats_bo_ioctl, DRM_RENDER_ALLOW),
-> +};
-> +
-> +static const struct drm_driver qaic_accel_driver = {
-> +	.driver_features	= DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
-> +
-> +	.name			= QAIC_NAME,
-> +	.desc			= QAIC_DESC,
-> +	.date			= "20190618",
-> +
-> +	.fops			= &qaic_accel_fops,
-> +	.open			= qaic_open,
-> +	.postclose		= qaic_postclose,
-> +
-> +	.ioctls			= qaic_drm_ioctls,
-> +	.num_ioctls		= ARRAY_SIZE(qaic_drm_ioctls),
-> +	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> +	.gem_prime_import	= qaic_gem_prime_import,
-> +};
-> +
-> +static int qaic_create_drm_device(struct qaic_device *qdev, s32 partition_id)
-> +{
-> +	struct qaic_drm_device *qddev;
-> +	struct drm_device *ddev;
-> +	struct device *pdev;
-> +	int ret;
-> +
-> +	/* Hold off implementing partitions until the uapi is determined */
-> +	if (partition_id != QAIC_NO_PARTITION)
-> +		return -EINVAL;
-> +
-> +	pdev = &qdev->pdev->dev;
-> +
-> +	qddev = kzalloc(sizeof(*qddev), GFP_KERNEL);
-> +	if (!qddev)
-> +		return -ENOMEM;
-> +
-> +	ddev = drm_dev_alloc(&qaic_accel_driver, pdev);
-> +	if (IS_ERR(ddev)) {
-> +		ret = PTR_ERR(ddev);
-> +		goto ddev_fail;
-> +	}
-> +
-> +	ddev->dev_private = qddev;
-> +	qddev->ddev = ddev;
-> +
-> +	qddev->qdev = qdev;
-> +	qddev->partition_id = partition_id;
-> +	INIT_LIST_HEAD(&qddev->users);
-> +	mutex_init(&qddev->users_mutex);
-> +
-> +	qdev->qddev = qddev;
-> +
-> +	ret = drm_dev_register(ddev, 0);
-> +	if (ret) {
-> +		pci_dbg(qdev->pdev, "%s: drm_dev_register failed %d\n", __func__, ret);
-> +		goto drm_reg_fail;
-> +	}
-> +
-> +	return 0;
-> +
-> +drm_reg_fail:
-> +	mutex_destroy(&qddev->users_mutex);
-> +	qdev->qddev = NULL;
-> +	drm_dev_put(ddev);
-> +ddev_fail:
-> +	kfree(qddev);
-> +	return ret;
-> +}
-> +
-> +static void qaic_destroy_drm_device(struct qaic_device *qdev, s32 partition_id)
-> +{
-> +	struct qaic_drm_device *qddev;
-> +	struct qaic_user *usr;
-> +
-> +	qddev = qdev->qddev;
-> +
-> +	/*
-> +	 * Existing users get unresolvable errors till they close FDs.
-> +	 * Need to sync carefully with users calling close(). The
-> +	 * list of users can be modified elsewhere when the lock isn't
-> +	 * held here, but the sync'ing the srcu with the mutex held
-> +	 * could deadlock. Grab the mutex so that the list will be
-> +	 * unmodified. The user we get will exist as long as the
-> +	 * lock is held. Signal that the qcdev is going away, and
-> +	 * grab a reference to the user so they don't go away for
-> +	 * synchronize_srcu(). Then release the mutex to avoid
-> +	 * deadlock and make sure the user has observed the signal.
-> +	 * With the lock released, we cannot maintain any state of the
-> +	 * user list.
-> +	 */
-> +	mutex_lock(&qddev->users_mutex);
-> +	while (!list_empty(&qddev->users)) {
-> +		usr = list_first_entry(&qddev->users, struct qaic_user, node);
-> +		list_del_init(&usr->node);
-> +		kref_get(&usr->ref_count);
-> +		usr->qddev = NULL;
-> +		mutex_unlock(&qddev->users_mutex);
-> +		synchronize_srcu(&usr->qddev_lock);
-> +		kref_put(&usr->ref_count, free_usr);
-> +		mutex_lock(&qddev->users_mutex);
-> +	}
-> +	mutex_unlock(&qddev->users_mutex);
-> +
-> +	if (qddev->ddev) {
-> +		drm_dev_unregister(qddev->ddev);
-> +		drm_dev_put(qddev->ddev);
-> +	}
-> +
-> +	kfree(qddev);
-> +}
-> +
-> +static int qaic_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
-> +{
-> +	struct qaic_device *qdev;
-> +	u16 major, minor;
-> +	int ret;
-> +
-> +	/*
-> +	 * Invoking this function indicates that the control channel to the
-> +	 * device is available. We use that as a signal to indicate that
-> +	 * the device side firmware has booted. The device side firmware
-> +	 * manages the device resources, so we need to communicate with it
-> +	 * via the control channel in order to utilize the device. Therefore
-> +	 * we wait until this signal to create the drm dev that userspace will
-> +	 * use to control the device, because without the device side firmware,
-> +	 * userspace can't do anything useful.
-> +	 */
-> +
-> +	qdev = pci_get_drvdata(to_pci_dev(mhi_dev->mhi_cntrl->cntrl_dev));
-> +
-> +	qdev->in_reset = false;
-> +
-> +	dev_set_drvdata(&mhi_dev->dev, qdev);
-> +	qdev->cntl_ch = mhi_dev;
-> +
-> +	ret = qaic_control_open(qdev);
-> +	if (ret) {
-> +		pci_dbg(qdev->pdev, "%s: control_open failed %d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = get_cntl_version(qdev, NULL, &major, &minor);
-> +	if (ret || major != CNTL_MAJOR || minor > CNTL_MINOR) {
-> +		pci_err(qdev->pdev, "%s: Control protocol version (%d.%d) not supported. Supported version is (%d.%d). Ret: %d\n",
-> +			__func__, major, minor, CNTL_MAJOR, CNTL_MINOR, ret);
-> +		ret = -EINVAL;
-> +		goto close_control;
-> +	}
-> +
-> +	ret = qaic_create_drm_device(qdev, QAIC_NO_PARTITION);
-> +
-> +	return ret;
-> +
-> +close_control:
-> +	qaic_control_close(qdev);
-> +	return ret;
-> +}
-> +
-> +static void qaic_mhi_remove(struct mhi_device *mhi_dev)
-> +{
-> + /* This is redundant since we have already observed the device crash *
-
-Use tab instead of space for indent.
-
-Regards,
-Jacek
-
+>
+>>  	gen12_gt_workarounds_init(gt, wal);
+>>
+>>  	/* Wa_1409420604:dg1 */
+>> -	if (IS_DG1(i915))
+>> -		wa_mcr_write_or(wal,
+>> -				SUBSLICE_UNIT_LEVEL_CLKGATE2,
+>> -				CPSSUNIT_CLKGATE_DIS);
+>> +	wa_mcr_write_or(wal, SUBSLICE_UNIT_LEVEL_CLKGATE2,
+>> +			CPSSUNIT_CLKGATE_DIS);
+>>
+>>  	/* Wa_1408615072:dg1 */
+>>  	/* Empirical testing shows this register is unaffected by engine reset. */
+>> -	if (IS_DG1(i915))
+>> -		wa_write_or(wal, UNSLICE_UNIT_LEVEL_CLKGATE2,
+>> -			    VSUNIT_CLKGATE_DIS_TGL);
+>> +	wa_write_or(wal, UNSLICE_UNIT_LEVEL_CLKGATE2, VSUNIT_CLKGATE_DIS_TGL);
+>>  }
+>>
+>>  static void
+>> --
+>> 2.39.0
+>
+>-- 
+>Ville Syrjälä
+>Intel
