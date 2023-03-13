@@ -1,53 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E946B7BBA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:17:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6736B7BCD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:21:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1001D10E57C;
-	Mon, 13 Mar 2023 15:17:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC0010E56C;
+	Mon, 13 Mar 2023 15:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5BFF10E57C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:17:54 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C500410E573
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:21:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6403B6132A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:17:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9BD6C433A0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:17:53 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 70AEBB81188
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:21:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3542EC4339E
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:21:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678720673;
- bh=awclzWjo3ZjrHCTZJMdtn2p6ahLIZ4FFTLYy9k9B69A=;
+ s=k20201202; t=1678720882;
+ bh=wOHm5m6ReGiTMjg65yU9qaHxrijWEjIw7pPKeJiQgZU=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=S3wcXWOLOwilJsnCncZ78ULfc4hA1xwTN5IJ9hr7lL7NnE6DEKzchyTvZPJBrNjXA
- UtT7HhZUg05Bi5C/oBwQJsx02WiV5UOXIEaEu4VpxStdj7ASx2zLnGul905VqKEOa2
- wuaUlWd/H0VwiDoG9kYSh+kX9Y9ZiBt0Tu254KPE3EHXA0QJs8Hj8+9w11AURSOh1j
- pInAJsLVdXj1B72/xJVde1Z3rTEkamgYV12XCytUnt4DqZNye8FSCCcTxWTNSCB68D
- Lg5MIYJF75lsvE0WfDM5pJDiHyryB9anbjHgfc7kN4loB//RjLIZwhtfv63NT2j1ff
- fVFwEBWSi7jEQ==
-Received: by mail-lf1-f42.google.com with SMTP id d36so16150188lfv.8
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 08:17:53 -0700 (PDT)
-X-Gm-Message-State: AO0yUKUI2FjMNU9WvWtCAUNeO428aUVbbEO+z+Qy/hoPaqCNyi1u1qOa
- rk/pBKUbVM1tCE4RF3y+2bPhuCQG4ku94hRE2A==
-X-Google-Smtp-Source: AK7set86mnj3FsQgbZ6mpvlfRcHIoiad+NxerOC3kDGXfs3UJQWEeEVwmPmVf5iLCvah5HaDTyfK7Hn2bZ3DkcHy+Fo=
-X-Received: by 2002:ac2:54b9:0:b0:4d8:62e5:4f66 with SMTP id
- w25-20020ac254b9000000b004d862e54f66mr10714755lfk.7.1678720671801; Mon, 13
- Mar 2023 08:17:51 -0700 (PDT)
+ b=OUUHQodE9JDEhnimPb4A+ScsqyQWzs2ZXXN56JZUxx013GW7PBsqzY2YzYB4iYFT/
+ 7o4gdJUaWQvP3x5cZhLFhQrnNFyx4J9sfDqS1Bhqo2UnCTtJ1YjjlALi/zckbPdQ5N
+ ymDPvXulN2SHf5q3ji061uodkQKq00m/6YHwHxgBvpgwhSLvStTdfmJZ9I6RmP/XHI
+ rjd0nrnk/s/dFkXEFhLer1DWz5Zbgw8QWbYm1meM45C29w2ChJCzYt2UZYjovp1K9t
+ oPRNcx1c7VtU60XzJQMh5XJNaztVN1Zl6yT3mEmrTgcaadgxieLmCV7WbRVFMyhF8D
+ fxCurl6qT/6Rg==
+Received: by mail-lf1-f49.google.com with SMTP id s22so16167636lfi.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 08:21:22 -0700 (PDT)
+X-Gm-Message-State: AO0yUKV0NiPYit7jnKCfhJSEtbRHSROpihisrNtkxCzhxe1qX3bqnbLr
+ s1Q7rrOuM0ZJPilfXwH6rtAKiCwSBS2EfgMAoQ==
+X-Google-Smtp-Source: AK7set8c5sO7hWTagu0j7z99ZxWvxbRa9EwPdzCx0PtR3FDTJLZOe1sVBKQ3Vev10nkQOZOgZI/r80Ju5W7KnZEDkS0=
+X-Received: by 2002:ac2:52a9:0:b0:4e8:3fba:621d with SMTP id
+ r9-20020ac252a9000000b004e83fba621dmr1728626lfm.7.1678720880217; Mon, 13 Mar
+ 2023 08:21:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-7-45cbc68e188b@baylibre.com>
-In-Reply-To: <20230220-display-v1-7-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-19-45cbc68e188b@baylibre.com>
+In-Reply-To: <20230220-display-v1-19-45cbc68e188b@baylibre.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 13 Mar 2023 23:17:40 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_819JuuidLgTOm+Ps=WnueW0Quos+abEDjrx8q8GifGKA@mail.gmail.com>
-Message-ID: <CAAOTY_819JuuidLgTOm+Ps=WnueW0Quos+abEDjrx8q8GifGKA@mail.gmail.com>
-Subject: Re: [PATCH 07/21] dt-bindings: display: mediatek: dpi: add binding
- for MT8365
+Date: Mon, 13 Mar 2023 23:21:08 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-wEzu6JavEAyRo8njOLRMq3i3wEcemNsuMaK00W9QqpQ@mail.gmail.com>
+Message-ID: <CAAOTY_-wEzu6JavEAyRo8njOLRMq3i3wEcemNsuMaK00W9QqpQ@mail.gmail.com>
+Subject: Re: [PATCH 19/21] drm/mediatek: dpi: add support for dpi clock
 To: Alexandre Mergnat <amergnat@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -86,113 +84,87 @@ Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=88=
 >
 > From: Fabien Parent <fparent@baylibre.com>
 >
-> DPI for MT8365 is compatible with MT8192 but requires an additional
-> clock. Modify the documentation to requires this clock only on MT8365 SoC=
-s.
-
-If MT8365 DPI has additional clock, why it is compatible with MT8192 DPI?
-I think some part of MT8165 DPI works under the speed control by the
-DPI clock and this is different with MT8192 DPI, how could these two
-are compatible?
-
-Regards,
-Chun-Kuang.
-
+> MT8365 requires an additional clock for DPI. Add support for that
+> additional clock.
 >
 > Signed-off-by: Fabien Parent <fparent@baylibre.com>
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
->  .../bindings/display/mediatek/mediatek,dpi.yaml    | 48 ++++++++++++++++=
-++----
->  1 file changed, 39 insertions(+), 9 deletions(-)
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 >
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
-yaml
-> index 56511c4d4b9b..3f6cca81340c 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
-l
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam=
-l
-> @@ -17,15 +17,20 @@ description: |
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index 4317595a15d1..474c6e5bbf04 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -68,6 +68,7 @@ struct mtk_dpi {
+>         struct device *dev;
+>         struct clk *engine_clk;
+>         struct clk *pixel_clk;
+> +       struct clk *dpi_clk;
+>         struct clk *tvd_clk;
+>         int irq;
+>         struct drm_display_mode mode;
+> @@ -464,6 +465,7 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
+>         mtk_dpi_disable(dpi);
+>         clk_disable_unprepare(dpi->pixel_clk);
+>         clk_disable_unprepare(dpi->engine_clk);
+> +       clk_disable_unprepare(dpi->dpi_clk);
+>  }
 >
->  properties:
->    compatible:
-> -    enum:
-> -      - mediatek,mt2701-dpi
-> -      - mediatek,mt7623-dpi
-> -      - mediatek,mt8173-dpi
-> -      - mediatek,mt8183-dpi
-> -      - mediatek,mt8186-dpi
-> -      - mediatek,mt8188-dp-intf
-> -      - mediatek,mt8192-dpi
-> -      - mediatek,mt8195-dp-intf
-> +    oneOf:
-> +      - enum:
-> +          - mediatek,mt2701-dpi
-> +          - mediatek,mt7623-dpi
-> +          - mediatek,mt8173-dpi
-> +          - mediatek,mt8183-dpi
-> +          - mediatek,mt8186-dpi
-> +          - mediatek,mt8188-dp-intf
-> +          - mediatek,mt8192-dpi
-> +          - mediatek,mt8195-dp-intf
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt8365-dpi
-> +          - const: mediatek,mt8192-dpi
+>  static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+> @@ -473,10 +475,16 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+>         if (++dpi->refcount !=3D 1)
+>                 return 0;
 >
->    reg:
->      maxItems: 1
-> @@ -34,16 +39,20 @@ properties:
->      maxItems: 1
->
->    clocks:
-> +    minItems: 3
->      items:
->        - description: Pixel Clock
->        - description: Engine Clock
->        - description: DPI PLL
-> +      - description: DPI Clock
->
->    clock-names:
-> +    minItems: 3
->      items:
->        - const: pixel
->        - const: engine
->        - const: pll
-> +      - const: dpi
->
->    pinctrl-0: true
->    pinctrl-1: true
-> @@ -72,6 +81,27 @@ required:
->
->  additionalProperties: false
->
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8365-dpi
+> +       ret =3D clk_prepare_enable(dpi->dpi_clk);
+> +       if (ret) {
+> +               dev_err(dpi->dev, "failed to enable dpi clock: %d\n", ret=
+);
+> +               goto err_refcount;
+> +       }
 > +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 4
-> +        clock-names:
-> +          maxItems: 4
+>         ret =3D clk_prepare_enable(dpi->engine_clk);
+>         if (ret) {
+>                 dev_err(dpi->dev, "Failed to enable engine clock: %d\n", =
+ret);
+> -               goto err_refcount;
+> +               goto err_engine;
+>         }
+>
+>         ret =3D clk_prepare_enable(dpi->pixel_clk);
+> @@ -489,6 +497,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
+>
+>  err_pixel:
+>         clk_disable_unprepare(dpi->engine_clk);
+> +err_engine:
+> +       clk_disable_unprepare(dpi->dpi_clk);
+>  err_refcount:
+>         dpi->refcount--;
+>         return ret;
+> @@ -1044,6 +1054,12 @@ static int mtk_dpi_probe(struct platform_device *p=
+dev)
+>                 return ret;
+>         }
+>
+> +       dpi->dpi_clk =3D devm_clk_get_optional(dev, "dpi");
+
+For MT8365, DPI clock is not optional, so make sure that MT8365 DPI
+should have this clock.
+
+Regards,
+Chun-Kuang.
+
+> +       if (IS_ERR(dpi->dpi_clk)) {
+> +               return dev_err_probe(dev, ret, "Failed to get dpi clock: =
+%p\n",
+> +                                    dpi->dpi_clk);
+> +       }
 > +
-> +    else:
-> +      properties:
-> +        clocks:
-> +          maxItems: 3
-> +        clock-names:
-> +          maxItems: 3
-> +
->  examples:
->    - |
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
+>         dpi->irq =3D platform_get_irq(pdev, 0);
+>         if (dpi->irq <=3D 0)
+>                 return -EINVAL;
 >
 > --
 > b4 0.10.1
