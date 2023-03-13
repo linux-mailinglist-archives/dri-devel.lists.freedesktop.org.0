@@ -1,73 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2B56B72B8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 10:36:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8636B730F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 10:47:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87B010E30A;
-	Mon, 13 Mar 2023 09:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 846A010E0FB;
+	Mon, 13 Mar 2023 09:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF7510E12D
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 09:36:34 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- o5-20020a05600c510500b003ec0e4ec6deso4344019wms.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 02:36:34 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5767610E0FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 09:47:14 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ az3-20020a05600c600300b003ed2920d585so545881wmb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 02:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678700193;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=/voBu6XJv3Cuj4S1ZjmI/oeTZAcic/pgfze+nCN+AT0=;
- b=ZqJSmKTV8NfA58WB+WzePvSMWdfCwDddQE/PtoPdRV8N4+TIhZES7HK8mHwH5Zk4Rj
- Z0UByrMNGXFIkeUhPflzyVJ0sPJuMhQw6rDkZbFPAqhXp6VnU51OZwe8+O4Xko4B+dJV
- 3hinDiIYhXEZFPz3riHzj+V5XPLbzktxlE/+pDGFP6rtxrZ+LJIwnRp7a9MkonLkqJi/
- jrh7zFobZUaJ3nmDLQeUWrGIigNZ3RYq1E0rLiJStf/M3a6ZVwc+N7gAYuxm6yls4bSC
- kzA4bS3a9tRfH05HYHE3aVNYpYu5PqkP5raXMwUayuwtyPDT1S7Jxi+3ysmRWEVdoJVx
- DZGw==
+ d=linaro.org; s=google; t=1678700833;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iYmD5MsF3oIPjX0k1aZdNm+DBHk9Xc24//Dz7MF2Y9A=;
+ b=wkmGW7wc2pdyPdIU+Nm357li92G76oKI9w/bmdVrHlXV/QG2Ez37OEMxc7dIJPLvMf
+ Cu666skGNPCFLE5/XrAVnWCBWpeATwrtPxtYqPkwZ7qSYZU2rhOji0tKhTgkHycLKEuL
+ v7QjibKtqqBPtrLnEj1UQxGdp0l2PXSStc1kJxIybIvQu/2WHL6Xn+SpM/UKVfKtSkpl
+ V5XeMo7e470oKaYKCkS4XCIBlq7lddvBH2YR5DjE4bwVe+wpNAxWB1Vekz1n6u4cdYUd
+ I/4RlJ2Uet6JsF8lP4cgafvyKliIrIk64Jkw1JYwRR2xMR0s+Urzuo/WrtGNSVdhgxju
+ Dbrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678700193;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/voBu6XJv3Cuj4S1ZjmI/oeTZAcic/pgfze+nCN+AT0=;
- b=ZMGX+Sg7CISE+q8wXaNIzcImdHwUp4b4zOEgIzfhRYoSF3MjXYIPUKgGgDku3yzBPR
- w0xV0W/jJhPuCzbvEmtUobbVWTm9+W7eZ2qeUR1QPa3CpOCgAMtKAGqWZRbkEcX8mD9R
- YZUoQbXcwMx3iMbcWaoWwdz1sFFuVi6dJXnvACDRm5eH2b/Vr8f01Tn9M+ehuVRLVUpO
- OHoCB2C+GT5aq1BlkQqhb6wqU3qrobPriFV0Ollj90ngWZfAKsnKGJudgo4VX7sbWLW1
- H5W4F0jjRTYEYaojiZXEaX6eskdQGlxoECGfu7bjnf6moImPev6MvBhjCF0wTWFqrk2J
- PYCQ==
-X-Gm-Message-State: AO0yUKWoiZLotr8+EC4ma8axh/f6ebe5TwMiNYKA9Ab++F9q2BWqj650
- dYSxRo8kVXO8TFZX4yjkZxc97S0ChEa4T4uc9JgHrg==
-X-Google-Smtp-Source: AK7set+f9cpJyxCSLO6I2npjkfIwt56hnr9ULKBRmRjuy9MEkUdHAMeS9NJlzhQt8QuW3LddJn4H0w==
-X-Received: by 2002:a05:600c:c8e:b0:3db:2e06:4091 with SMTP id
- fj14-20020a05600c0c8e00b003db2e064091mr11333479wmb.37.1678700192785; 
- Mon, 13 Mar 2023 02:36:32 -0700 (PDT)
-Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
- by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c470700b003e8dc7a03basm8792434wmo.41.2023.03.13.02.36.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Mar 2023 02:36:32 -0700 (PDT)
-Message-ID: <292f25d7-2b2b-ba2a-36c3-c207960141f9@linaro.org>
-Date: Mon, 13 Mar 2023 10:36:31 +0100
+ d=1e100.net; s=20210112; t=1678700833;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iYmD5MsF3oIPjX0k1aZdNm+DBHk9Xc24//Dz7MF2Y9A=;
+ b=XaYIyF+TKEmVhOaSkCXfp0t35pWhcKG8pwNfASWj8IYlobh8Q8XK48obvzf7QiCw1K
+ Eh6T7UZ14jcKjz1V+KqIAK2AacxWGMP2Sya6A1AvGgES+sidQAvt61LUFaGor+veer3g
+ adqwNh2OjSiGpZn2GSxD/OJlzV19eiZpqJXf09wq3Chd2aBvwvobC1+ogch8ws1rRSbI
+ PpLFcuz4q6RViThORTkgCXeoqliQ3tXK6dGyZPd4iKSeHemO7M0Lxzdr9mwIrDh1gwkB
+ G7EhWt8KIdk3Kl10PzXOM2Zip88y0MRrg7tHPyDpxDqo/4voaZs1/qYRktT4b913goP/
+ +dWg==
+X-Gm-Message-State: AO0yUKVWCCjaYTDKM35HK3z3wDB9KWJgF29Uw8EdphXaTTs8FB7g5or4
+ FhdJDQo9Twrz+1M/tngWlkcAv0Vun1qBJDUNW4hqYw==
+X-Google-Smtp-Source: AK7set9Sg80xuB9cO8VB2x2eShv9xTBr9GnHLZPdvslFpUZbRRXOJJT3ZkwrYl/Y1o84knGB9MDhow==
+X-Received: by 2002:a05:600c:4fcb:b0:3eb:2e32:72c3 with SMTP id
+ o11-20020a05600c4fcb00b003eb2e3272c3mr10209094wmq.22.1678700832758; 
+ Mon, 13 Mar 2023 02:47:12 -0700 (PDT)
+Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ z10-20020a05600c220a00b003ed25c0e124sm1907853wml.35.2023.03.13.02.47.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 02:47:12 -0700 (PDT)
+Date: Mon, 13 Mar 2023 09:47:10 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] backlight: hx8357: Use of_property_present() for testing
+ DT property presence
+Message-ID: <20230313094710.GA55049@aspen.lan>
+References: <20230310144730.1546101-1-robh@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] MAINTAINERS: Add include/drm/drm_bridge.h to DRM DRIVERS
- FOR BRIDGE CHIPS
-Content-Language: en-US
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20230313055951.2997299-1-victor.liu@nxp.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20230313055951.2997299-1-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230310144730.1546101-1-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,34 +73,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: jernej.skrabec@gmail.com, rfoss@kernel.org, tzimmermann@suse.de,
- jonas@kwiboo.se, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ Lee Jones <lee@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/03/2023 06:59, Liu Ying wrote:
-> Appropriate maintainers should be suggested for changes to the
-> include/drm/drm_bridge.h header file, so add the header file to the
-> 'DRM DRIVERS FOR BRIDGE CHIPS' section.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3d409875740d..b6e7ac70b8a8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6824,6 +6824,7 @@ S:	Maintained
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   F:	Documentation/devicetree/bindings/display/bridge/
->   F:	drivers/gpu/drm/bridge/
-> +F:	include/drm/drm_bridge.h
->   
->   DRM DRIVERS FOR EXYNOS
->   M:	Inki Dae <inki.dae@samsung.com>
+On Fri, Mar 10, 2023 at 08:47:30AM -0600, Rob Herring wrote:
+> It is preferred to use typed property access functions (i.e.
+> of_property_read_<type> functions) rather than low-level
+> of_get_property/of_find_property functions for reading properties. As
+> part of this, convert of_get_property/of_find_property calls to the
+> recently added of_property_present() helper when we just want to test
+> for presence of a property and nothing more.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
