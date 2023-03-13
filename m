@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338CA6B7B49
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:58:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B98B6B7B52
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0CDA10E561;
-	Mon, 13 Mar 2023 14:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F72A10E562;
+	Mon, 13 Mar 2023 14:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E015410E561
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:58:27 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA24210E562
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:59:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4354A6131B
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:58:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8993C4339E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:58:26 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 57A53B8111F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:59:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91510C433A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:59:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678719506;
- bh=jxq03yf7Xaet9VvXtMUxebKs/p10RnENOfVyO8UP0Lk=;
+ s=k20201202; t=1678719577;
+ bh=aor2P1UgUGdPxdi86bjLDcwfFhylwJzACimW7kInbvY=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DLFsLjwo+BuHJT1ZiIB6bTBvN4gZMT25idQ6lmBXeqJaNIAChRP+0fDpi3hUr6C9Q
- oOMKZXCBRRoUSXHlmcEnePsR06R6o2cr+/GSXH6tE2nKh6nXZpVl/MG4QLbquyNKDC
- LWITduQsZqaKKdGI/crSA/t0VYnNvkz9V/TCHY02eLUFMgJiBvsQX/Za52pNDiF2l+
- uGQscnQyTocAPZSec3mVWpRxME/rEL9V9SOwumrPhDYcmxmBkGsMAK6D2D7u9WFagf
- YKdUJqMkT7E7eBtKI8izB8gWyG14cYQuPpUZxwUtX8q7ul4S8AchypF2U6knDo8Uhr
- 76rn2PJNZ11Iw==
-Received: by mail-lj1-f170.google.com with SMTP id t14so12920718ljd.5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 07:58:26 -0700 (PDT)
-X-Gm-Message-State: AO0yUKVPkX1Y/DcFdyT4fECvp8R6L+g81A3YjXQEUSsOlRqFO+FbB6nt
- x2Ao2Q5H9YTcrGzDtY7t7urJrqBnZFqqslRZZA==
-X-Google-Smtp-Source: AK7set93ppgf/8A7GowcaF9AMzop4M7RVXL14Ayxlc7lTWoPuXT4WNBru8d2Tw5m+TfhTYQd+XOp94bBcFBQulE38wc=
+ b=ohdN82SqGXRPJX3cyxSWQf7frIUq0JfGIXjdIMSBt+ODshEooBncUrzBJMWUejGvQ
+ TVqEgCw1SAcdZhShx4HKRmVC6L/jo1TumrNmv9IYzJ6uGQqseaqe+WDQkSiz1X6EAA
+ /v2Uuj4zRaNcWKEeeQdjMhl7OasG/jyZN5TFKVR4cik9TUFUl2im4NPDP/nvqosyZ9
+ OnKo0gCMIuvWcubKsDfYYfBa4CNZXMhXxEVIByMn1gEzK3ALcplzpXbjE6JbtKl2Ak
+ 5PhETfpa+eNm/MkD9yBHkR6T8DYaHd2I9LoPQzTIzri9QWBAOSnJEhPGQ4ysBPrxma
+ 8TkJR2PgPrcUA==
+Received: by mail-lj1-f173.google.com with SMTP id t14so12924684ljd.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 07:59:37 -0700 (PDT)
+X-Gm-Message-State: AO0yUKVWIe5w33IjsnuX82vTvDQRUYNOOg11fTaIvBpEPfAZxThg+iAx
+ 0ba4oc2xaJ87+zn4jj/X1MEJ5xkgK9Y6le2ylg==
+X-Google-Smtp-Source: AK7set9FaEtus4V62k/yFd+Xl5REF0wUiIoL+llixgQGs2HHbtV1FOqc3QoH58tm6Az3ceEjZOG27aSTKnhUcRUDXCY=
 X-Received: by 2002:a2e:a36a:0:b0:295:9040:fb0b with SMTP id
- i10-20020a2ea36a000000b002959040fb0bmr10850100ljn.10.1678719504691; Mon, 13
- Mar 2023 07:58:24 -0700 (PDT)
+ i10-20020a2ea36a000000b002959040fb0bmr10851484ljn.10.1678719575627; Mon, 13
+ Mar 2023 07:59:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-3-45cbc68e188b@baylibre.com>
-In-Reply-To: <20230220-display-v1-3-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-4-45cbc68e188b@baylibre.com>
+In-Reply-To: <20230220-display-v1-4-45cbc68e188b@baylibre.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 13 Mar 2023 22:58:12 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__Qam0O+VhU1st20O=srxggPXNyrCE2T76E+E8hd3Q7qQ@mail.gmail.com>
-Message-ID: <CAAOTY__Qam0O+VhU1st20O=srxggPXNyrCE2T76E+E8hd3Q7qQ@mail.gmail.com>
-Subject: Re: [PATCH 03/21] dt-bindings: display: mediatek: color: add binding
+Date: Mon, 13 Mar 2023 22:59:23 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9zsX1CF6xf3TRm6+ZWkMNuXijYC_ErOHdgUi=O2kVVzA@mail.gmail.com>
+Message-ID: <CAAOTY_9zsX1CF6xf3TRm6+ZWkMNuXijYC_ErOHdgUi=O2kVVzA@mail.gmail.com>
+Subject: Re: [PATCH 04/21] dt-bindings: display: mediatek: dither: add binding
  for MT8365 SoC
 To: Alexandre Mergnat <amergnat@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -83,7 +83,7 @@ Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=88=
 9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8810:23=E5=AF=AB=E9=81=93=EF=
 =BC=9A
 >
-> Display Color for MT8365 is compatible with another SoC.
+> Display Dither for MT8365 is compatible with another SoC.
 > Then, add MT8365 binding along with MT8183 SoC.
 
 Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
@@ -91,26 +91,26 @@ Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 >
 > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
->  Documentation/devicetree/bindings/display/mediatek/mediatek,color.yaml |=
- 1 +
+>  Documentation/devicetree/bindings/display/mediatek/mediatek,dither.yaml =
+| 1 +
 >  1 file changed, 1 insertion(+)
 >
 > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-color.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,co=
-lor.yaml
-> index d2f89ee7996f..9d081da433e8 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y=
-aml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y=
-aml
-> @@ -39,6 +39,7 @@ properties:
->                - mediatek,mt8186-disp-color
->                - mediatek,mt8192-disp-color
->                - mediatek,mt8195-disp-color
-> +              - mediatek,mt8365-disp-color
->            - const: mediatek,mt8173-disp-color
+dither.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,d=
+ither.yaml
+> index 8ad8187c02d1..a7706cd65675 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.=
+yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.=
+yaml
+> @@ -29,6 +29,7 @@ properties:
+>                - mediatek,mt8186-disp-dither
+>                - mediatek,mt8192-disp-dither
+>                - mediatek,mt8195-disp-dither
+> +              - mediatek,mt8365-disp-dither
+>            - const: mediatek,mt8183-disp-dither
+>
 >    reg:
->      maxItems: 1
 >
 > --
 > b4 0.10.1
