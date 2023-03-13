@@ -2,45 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B153D6B7EC8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 18:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 848366B7F67
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 18:24:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A091310E5C1;
-	Mon, 13 Mar 2023 17:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F43310E5D6;
+	Mon, 13 Mar 2023 17:24:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF75710E5C1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 17:06:07 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 316F36140C;
- Mon, 13 Mar 2023 17:06:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0089CC433D2;
- Mon, 13 Mar 2023 17:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678727167;
- bh=EV3CRIXlQTm/Q61HwT5ekp+KlCI04uPQhJRqRcCEn4w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t+7bPAcbsUxfx0YYD3S/+4/0dpZzavp9DZjd6tOq2JBeRTRkzYFBAS6LXBhDTQbDT
- kOlH0mBDH5tspnNX/d90ht9/nlL+sEU+q8i5i9nAXVI58JAnbzlOD2PatVQ1tskkcE
- pztFHZTb42W7lSrypCv+KDNLOpVVlMbZA/Hz6lx/pEmWWRn1pb63VO4diDQmkUVSe6
- sFcYOw0Qr3p5ZkxN8Ti+MgLk2LndYaPg+MXJp6PT4GdRC0d+V9YhZLhNlg4zHEASNm
- PvB74+kT+Hia5vkj5X5Ijkg9mpxajXPfHr0CuXCRdRp4q0QLE6NENqCjSRlQ28C5Et
- 3RWtvE+n8RMsQ==
-Date: Mon, 13 Mar 2023 17:06:01 +0000
-From: Lee Jones <lee@kernel.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH] backlight: apple_bl: Use acpi_video_get_backlight_type()
-Message-ID: <20230313170601.GW9667@google.com>
-References: <20230307120540.389920-1-hdegoede@redhat.com>
- <20230309170911.GC96419@aspen.lan>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BF2910E5D3;
+ Mon, 13 Mar 2023 17:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678728285; x=1710264285;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=M+8llYfU5DkATQH8XYEVBx0dwEiKJNGHgN32m1zPY2I=;
+ b=NY0MJxdtU7J+X3duvYTC4clu1skg+BKj8DBtJwlsakQWUNx2nvRCXdxK
+ v+RJiZNP89yiOI1J2lTnTZrBP9sfFoatOlP6XQiCXueoQpuaLn+0s4pht
+ LNxmaaoq6WVRfNKmdcahNuACWkdvRezO5KVa0JZORIJcv3xDk2Qk53X3y
+ 7rx6oyirYzEND/YcL06tfhEvSAeqoLxGGKURcfVAWkewjWfFfSBiqqFl5
+ iBJV6f6oYXxwKOrqdEvHn6raw28vnvr4T/I7fZ2FJtSrejLT6baJLAOEn
+ 0r0RS7KhavJWicYlcINyEmCgGe22JAoN8jIjKNmZEowoMEo8Hf33Ka+HT A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="321062293"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="321062293"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2023 10:24:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="924586728"
+X-IronPort-AV: E=Sophos;i="5.98,257,1673942400"; d="scan'208";a="924586728"
+Received: from jkrzyszt-mobl1.ger.corp.intel.com (HELO
+ jkrzyszt-mobl1.intranet) ([10.213.1.93])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2023 10:24:40 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/i915/active: Fix other potential list corruption root
+ causes
+Date: Mon, 13 Mar 2023 18:24:12 +0100
+Message-Id: <20230313172415.125932-1-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230309170911.GC96419@aspen.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,54 +57,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andy@kernel.org>, Matthew Garrett <mjg59@srcf.ucam.org>,
- Jingoo Han <jingoohan1@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Aditya Garg <gargaditya08@live.com>,
- Mark Gross <markgross@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- platform-driver-x86@vger.kernel.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 09 Mar 2023, Daniel Thompson wrote:
+While perfroming root cause analyses of fence callback list corruptions,
+a couple of other potential though less likely root causes have been
+identified in addition to barrier tasks list deletion results ignored.
+This series tries to fix those potential issues, also in longterm stable
+releases starting from v5.10.  The third patch, while not fixing any real
+bug, is believed to make the code more predictable and easy to understand,
+then more easy to debug should other barrier related issue still exist.
 
-> On Tue, Mar 07, 2023 at 01:05:40PM +0100, Hans de Goede wrote:
-> > On some MacBooks both the apple_bl and the apple-gmux backlight drivers
-> > may be able to export a /sys/class/backlight device.
-> >
-> > To avoid having 2 backlight devices for one LCD panel until now
-> > the apple-gmux driver has been calling apple_bl_unregister() to move
-> > the apple_bl backlight device out of the way when it loads.
-> >
-> > Similar problems exist on other x86 laptops and all backlight drivers
-> > which may be used on x86 laptops have moved to using
-> > acpi_video_get_backlight_type() to determine whether they should load
-> > or not.
-> >
-> > Switch apple_bl to this model too, so that it is consistent with all
-> > the other x86 backlight drivers.
-> > [snip]
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
->
-> but...
->
-> > ---
-> > A note to the backlight class / subsystem maintainers, this change
-> > applies on top of a similar patch for drivers/platform/x86/apple-gmux.c
-> > which makes that driver use acpi_video_get_backlight_type(). See:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-> >
-> > I believe it is easiest to also merge this patch through
-> > the platform-drivers-x86 tree, may I please have your Ack for this ?
-> > ---
->
-> ... please don't treat above as an ack. Lee Jones will hopefully be
-> along shortly to discuss that!
+Janusz Krzysztofik (3):
+  drm/i915/active: Serialize preallocation of idle barriers
+  drm/i915/active: Serialize use of barriers as fence trackers
+  drm/i915/active: Simplify llist search-and-delete
 
-That's fine.  I will need a succinct, immutable pull-request though.
+ drivers/gpu/drm/i915/i915_active.c | 124 ++++++++++++++++++-----------
+ 1 file changed, 78 insertions(+), 46 deletions(-)
 
-Acked-by: Lee Jones <lee@kernel.org>
+-- 
+2.25.1
 
---
-Lee Jones [李琼斯]
