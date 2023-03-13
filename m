@@ -1,47 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4446B74CF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:57:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DF76B7559
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 12:08:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66EE110E4DB;
-	Mon, 13 Mar 2023 10:57:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 562CF10E4E0;
+	Mon, 13 Mar 2023 11:08:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30DCB10E4DB;
- Mon, 13 Mar 2023 10:57:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ABBD1611CC;
- Mon, 13 Mar 2023 10:57:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE141C433EF;
- Mon, 13 Mar 2023 10:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678705028;
- bh=dzid3AOct63MVlrkCg/dDgzaLRlt2EhD3OpRgsV1ZH0=;
- h=Subject:To:Cc:From:Date:From;
- b=O9cfxhJw/F4GODQKEOO4dtdSrhrpYYXnemaDABRXbHeVsVg0W3zeyTFX1xz/oGs2j
- onJNwmPUKrZR6yOuYhS2LQvJOmL0ZFSEGNZVMtnRPFPrBXL/YvmOzzn7uKr3Eibww8
- Ax2CmUCrK7JENTET89br9iGvFzVAi0bh4CnVaE18=
-Subject: Patch "drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF"
- has been added to the 6.2-stable tree
-To: Vitaly.Prosyak@amd.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, harry.wentland@amd.com,
- jani.nikula@linux.intel.com, joshua@froggi.es, pekka.paalanen@collabora.com,
- ppaalanen@gmail.com, sebastian.wick@redhat.com, uma.shankar@intel.com,
- ville.syrjala@linux.intel.com
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 13 Mar 2023 11:55:21 +0100
-Message-ID: <167870492122588@kroah.com>
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76C3D10E4E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 11:08:18 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id s17so6647284pgv.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 04:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678705698;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nMfIcPw24eAIaxANk5dvKrsQWn+L+1o2hPI8u1Bd4r8=;
+ b=g/GAPic/XSvU4iEU3zMBU9tlU+p851NwZqiXr0aa35i3EXQ5/btu8wqfRCPqwbY7Wt
+ /p5FSgAWZ+ZyETwbSNXR+ZgBZLI+/ay7auCL1GkmD6CkTlCQ4sbS7bzea9N+0OEG35BE
+ YLfjSO7RIrRiWFm4wIfFcmdH/b1mrVNxfAJoo79UbSfbV3ZAWMron8M/7JrmnVOEUFCf
+ oZ5IHv1CSW6TZ2Zw97nFfLp0p8b6ptVxPBnl/0/XddXKoEXte7B2vXqMxERN7Ih4cuC5
+ WnFFha8hepJTnT9HK4X6bZwuxPzO6E8lOGrzcE3Fy5cb8PPDbC5FylQWnSvxpuDVesME
+ RE4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678705698;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nMfIcPw24eAIaxANk5dvKrsQWn+L+1o2hPI8u1Bd4r8=;
+ b=0UKMY1sIwTU3I6dDAzecjHVbBbeOEDYsgolQ8f4Cc5RBBuFv7d3DperH7jHJNmrtfp
+ YxH/AlmCVXd0TaTBAV2Ubq1t3IK0Vk303FLwzRqq4oDYtMBlPtjVE23T0QrLkU3SksyQ
+ QVASynEYJX6yU3npDXGY/2I/lKEwvgZZsdG+DwsyAK0kPA/dJJA7rJjc+VamrsSm/iIp
+ IXzybwMJenOKIAPUb76JAYqPazBUuhfQUAlqhS47wLFRFDXYKMoj0GZWnwt+TRQwcqKB
+ nFN/hd6HcDKg5qV+lojBbWBfhLT7bfgJ8iaREjaZyiuIBJRR5p6rXMtVs9Fd9FtuPAm/
+ Cj9Q==
+X-Gm-Message-State: AO0yUKWS1RcC4lf+8WcG1JzlWd8EMXOZb7St4cq1tjR4ZXvtiYCt7490
+ fpWHppMsiFWBSUNMUpjV1ys7jwrPfkXFF2sYAQc=
+X-Google-Smtp-Source: AK7set+C5h1Ucyyg+GQdjN8ADb5vMD5w5MLyG6dEw/6w1G4peIVgYoOZrBrp2x73DcS+x3tIyRUnfx6w9p+4IWr/h70=
+X-Received: by 2002:a62:79c4:0:b0:622:65eb:f6bd with SMTP id
+ u187-20020a6279c4000000b0062265ebf6bdmr2191781pfc.2.1678705697790; Mon, 13
+ Mar 2023 04:08:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+References: <CAHCN7xJXMmwYqD=Eb2=_vJw390KAd6NgkWCpq6yCbAyaJ3xK5A@mail.gmail.com>
+ <20230313085105.GB7446@pengutronix.de>
+In-Reply-To: <20230313085105.GB7446@pengutronix.de>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 13 Mar 2023 06:08:05 -0500
+Message-ID: <CAHCN7xJxBrN5aQgvkV8LrqoTATinr0kFYKht2_YKqTF71UCoKw@mail.gmail.com>
+Subject: Re: MXSFB and Video PLL clock on i.MX8M Mini/Nano Question
+To: Sascha Hauer <s.hauer@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,107 +68,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Mar 13, 2023 at 3:51=E2=80=AFAM Sascha Hauer <s.hauer@pengutronix.d=
+e> wrote:
+>
+> On Sun, Mar 12, 2023 at 02:28:45PM -0500, Adam Ford wrote:
+> > I am trying to work through a series that was submitted for enabling
+> > the DSI on the i.MX8M Mini and Nano.  I have extended this series to
+> > route the DSI to an HDMI bridge, and I am able to get several
+> > resolutions to properly sync on my monitor.  However, there are also a
+> >  bunch that appear on the list when I run modetest that do not sync on
+> > my monitor.
+> >
+> > When running some debug code, it appears that it's related to the
+> > clocking of the MXSFB driver.
+> >
+> > From what I can tell, the MSXFB driver attempts to set the clock based
+> > on the desired resolution and refresh rate.  When the default
+> > VIDEO_PLL clock is set to 594MHz, many of the resolutions that cleanly
+> > divide from the 594MHz clock appear to sync with my monitor.  However,
+> > in order to get other resolutions to appear, I have to manually change
+> > the device tree to set VIDEO_PLL to a different clock rate so MSXFB
+> > can use it.  Unfortunately, that breaks the resolutions that used to
+> > work.
+> >
+> > I threw together a hack into the MXSFB driver which adds a new
+> > optional clock to the MSXFB driver.  When I pass VIDEO_PLL to this
+> > driver, it can automatically set the clock rate to match that of
+> > whatever the desired clock is, and I can get many more resolutions to
+> > appear.
+> > Another advantage of this is that the Video_PLL can be the minimum
+> > speed needed for a given rate instead of setting a higher rate, then
+> > dividing it down.
+>
+> Isn't it possible to add the CLK_SET_RATE_PARENT flag to the pixel
+> clock? That's what i.MX6sx and i.MX7 do.
 
-This is a note to let you know that I've just added the patch titled
+I thought about that, but on the Nano, the video_pll is several layers up.
 
-    drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF
+video_pll -> video_pll_bypass -> disp_pixel -> disp_pixel_clk
 
-to the 6.2-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Do I just set that flag for each of these?
 
-The filename of the patch is:
-     drm-display-don-t-block-hdr_output_metadata-on-unknown-eotf.patch
-and it can be found in the queue-6.2 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From e5eef23e267c72521d81f23f7f82d1f523d4a253 Mon Sep 17 00:00:00 2001
-From: Harry Wentland <harry.wentland@amd.com>
-Date: Fri, 13 Jan 2023 11:24:08 -0500
-Subject: drm/display: Don't block HDR_OUTPUT_METADATA on unknown EOTF
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Harry Wentland <harry.wentland@amd.com>
-
-commit e5eef23e267c72521d81f23f7f82d1f523d4a253 upstream.
-
-The EDID of an HDR display defines EOTFs that are supported
-by the display and can be set in the HDR metadata infoframe.
-Userspace is expected to read the EDID and set an appropriate
-HDR_OUTPUT_METADATA.
-
-In drm_parse_hdr_metadata_block the kernel reads the supported
-EOTFs from the EDID and stores them in the
-drm_connector->hdr_sink_metadata. While doing so it also
-filters the EOTFs to the EOTFs the kernel knows about.
-When an HDR_OUTPUT_METADATA is set it then checks to
-make sure the EOTF is a supported EOTF. In cases where
-the kernel doesn't know about a new EOTF this check will
-fail, even if the EDID advertises support.
-
-Since it is expected that userspace reads the EDID to understand
-what the display supports it doesn't make sense for DRM to block
-an HDR_OUTPUT_METADATA if it contains an EOTF the kernel doesn't
-understand.
-
-This comes with the added benefit of future-proofing metadata
-support. If the spec defines a new EOTF there is no need to
-update DRM and an compositor can immediately make use of it.
-
-Bug: https://gitlab.freedesktop.org/wayland/weston/-/issues/609
-
-v2: Distinguish EOTFs defind in kernel and ones defined
-    in EDID in the commit description (Pekka)
-
-v3: Rebase; drm_hdmi_infoframe_set_hdr_metadata moved
-    to drm_hdmi_helper.c
-
-Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Vitaly.Prosyak@amd.com
-Cc: Uma Shankar <uma.shankar@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Joshua Ashton <joshua@froggi.es>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Reviewed-By: Joshua Ashton <joshua@froggi.es>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230113162428.33874-2-harry.wentland@amd.com
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/display/drm_hdmi_helper.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
---- a/drivers/gpu/drm/display/drm_hdmi_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
-@@ -44,10 +44,8 @@ int drm_hdmi_infoframe_set_hdr_metadata(
- 
- 	/* Sink EOTF is Bit map while infoframe is absolute values */
- 	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
--	    connector->hdr_sink_metadata.hdmi_type1.eotf)) {
--		DRM_DEBUG_KMS("EOTF Not Supported\n");
--		return -EINVAL;
--	}
-+	    connector->hdr_sink_metadata.hdmi_type1.eotf))
-+		DRM_DEBUG_KMS("Unknown EOTF %d\n", hdr_metadata->hdmi_metadata_type1.eotf);
- 
- 	err = hdmi_drm_infoframe_init(frame);
- 	if (err < 0)
-
-
-Patches currently in stable-queue which might be from harry.wentland@amd.com are
-
-queue-6.2/drm-connector-print-max_requested_bpc-in-state-debugfs.patch
-queue-6.2/drm-display-don-t-block-hdr_output_metadata-on-unknown-eotf.patch
+adam
+>
+> Sascha
+>
+> --
+> Pengutronix e.K.                           |                             =
+|
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  =
+|
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
+|
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
+|
