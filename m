@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727936B7BB8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:16:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF67A6B7BB6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5789F10E57D;
-	Mon, 13 Mar 2023 15:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7C910E579;
+	Mon, 13 Mar 2023 15:16:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B3010E56C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:16:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0503910E56F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:16:14 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 92C2422ADA;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B17F622ADB;
  Mon, 13 Mar 2023 15:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678720572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rOLjkqoY/KCvuqKhGazVsO6xgdWKlQsvIWWjxASYyEg=;
- b=uP9C1vWtxw2RYrt/4Nf74D+ZGbo7i0rrFH9fyu8sVhD0bIpPdag6Jhfv+nuB+7C0/ehN27
- Tw//pBfxfdmJ7VSlA+F3fDHeA0UZRk47fKdNGpVpsbD069yuGvTKRr23bOh0dLXnFCzVfB
- p4zPsoLDEMoYiMc4U3WKKUQj3ObRqXY=
+ bh=McT4chpUmHJMKEuourQFifyfsvon+kQCmiS9bLiSF3E=;
+ b=fOcpk/IKPbvFCsQHBYdDC4qJ7nYGm1pzkHLIttgyCBef0xbtjho8GVcWGO5PTETAx18I6/
+ uCqZn7sHJHGKjLFHJF5vDPXhXcVqSojMtXtgzws0++BRNcKi9qJi8Nvh2ejDdnyIRWUCo0
+ x72Up0FpiXhh80cuRNscBaF/ztQWPDA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678720572;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rOLjkqoY/KCvuqKhGazVsO6xgdWKlQsvIWWjxASYyEg=;
- b=qZMqp17wXXsy+L+TsfJJLTk/tku3RQZtxRqncTH6PFqpvIueuAO03CSXv9LKjiImmwZZAo
- 1oGX9WW1XT+OIHAw==
+ bh=McT4chpUmHJMKEuourQFifyfsvon+kQCmiS9bLiSF3E=;
+ b=7AB23ZWVB5piBOJHZQEaG4oYYIIca7qanvYCMT2Kut9GnRBVV1mWKHewjhFbZvxlXNC4wx
+ tIHK9EGpTayXjADw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6D26013582;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 948DE139F9;
  Mon, 13 Mar 2023 15:16:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +EjcGTw+D2Q5ZgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aOV1Izw+D2Q5ZgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:16:12 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com,
 	airlied@gmail.com,
 	daniel@ffwll.ch
-Subject: [PATCH v2 6/7] drm/gma500: Implement client-based fbdev emulation
-Date: Mon, 13 Mar 2023 16:16:09 +0100
-Message-Id: <20230313151610.14367-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/7] drm/gma500: Pass fb_info to psb_fbdev_vm_fault()
+Date: Mon, 13 Mar 2023 16:16:10 +0100
+Message-Id: <20230313151610.14367-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230313151610.14367-1-tzimmermann@suse.de>
 References: <20230313151610.14367-1-tzimmermann@suse.de>
@@ -73,378 +73,136 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement fbdevemulation on top of struct drm_client and its helpers.
-This ad-hoc interfaces for restoring and closing fbdev emulation with
-per-client callback for hotplugging, restoring and unregistering.
-
-A single function, psb_fbdev_setup(), starts fbdev emulation after
-the DRM device has been registered. Hence, fbdev acts like a regular
-DRM client.
-
-The setup call only prepares the fbdev emulation. It then implements
-connector hotplugging. The first successful hotplug event initializes
-fbdev emulation.
-
-Unregistering depends on the hotplugging. Fully initialized emulation
-is cleaned up through drm_fb_helper_unregister_info() and fb_destroy.
-For prepared-only setups, unregistering unprepares the emulation and
-releases all resources. In both cases, fbdev emulation will be cleaned
-up.
+Instead of the DRM framebuffer, pass the FB info strcuture to the
+fbdev page-fault handler psb_fbdev_vm_fault(). The framebuffer is a
+high-level data structure and does not belong into fault handling.
+The fb_info has all necessary information. Also set fix.smem_start
+to the correct value (the beginning of the framebuffer in physical
+address space) and streamline the page-fault handler.
 
 v2:
-	* declare empty setup function as 'static inline' (kernel
-	  test robot)
+	* remove unused struct drm_psb_private.fb_base (Patrik)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/fbdev.c       | 153 ++++++++++++++++++---------
- drivers/gpu/drm/gma500/framebuffer.c |   3 -
- drivers/gpu/drm/gma500/psb_drv.c     |   5 +-
- drivers/gpu/drm/gma500/psb_drv.h     |  12 +--
- 4 files changed, 106 insertions(+), 67 deletions(-)
+ drivers/gpu/drm/gma500/fbdev.c       | 39 ++++++++++------------------
+ drivers/gpu/drm/gma500/framebuffer.c |  5 ----
+ drivers/gpu/drm/gma500/psb_drv.h     |  2 --
+ 3 files changed, 14 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
-index 74e843f8e64d..0433392c7fbf 100644
+index 0433392c7fbf..62287407e717 100644
 --- a/drivers/gpu/drm/gma500/fbdev.c
 +++ b/drivers/gpu/drm/gma500/fbdev.c
-@@ -8,6 +8,7 @@
- #include <linux/pfn_t.h>
+@@ -22,32 +22,24 @@
+ static vm_fault_t psb_fbdev_vm_fault(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+-	struct drm_framebuffer *fb = vma->vm_private_data;
+-	struct drm_device *dev = fb->dev;
+-	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+-	struct psb_gem_object *pobj = to_psb_gem_object(fb->obj[0]);
+-	int page_num;
+-	int i;
+-	unsigned long address;
+-	vm_fault_t ret = VM_FAULT_SIGBUS;
+-	unsigned long pfn;
+-	unsigned long phys_addr = (unsigned long)dev_priv->stolen_base + pobj->offset;
+-
+-	page_num = vma_pages(vma);
+-	address = vmf->address - (vmf->pgoff << PAGE_SHIFT);
++	struct fb_info *info = vma->vm_private_data;
++	unsigned long address = vmf->address - (vmf->pgoff << PAGE_SHIFT);
++	unsigned long pfn = info->fix.smem_start >> PAGE_SHIFT;
++	vm_fault_t err = VM_FAULT_SIGBUS;
++	unsigned long page_num = vma_pages(vma);
++	unsigned long i;
  
- #include <drm/drm_crtc_helper.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
+ 	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
  
-@@ -121,6 +122,27 @@ static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 	return 0;
+-	for (i = 0; i < page_num; i++) {
+-		pfn = (phys_addr >> PAGE_SHIFT);
+-
+-		ret = vmf_insert_mixed(vma, address, __pfn_to_pfn_t(pfn, PFN_DEV));
+-		if (unlikely(ret & VM_FAULT_ERROR))
++	for (i = 0; i < page_num; ++i) {
++		err = vmf_insert_mixed(vma, address, __pfn_to_pfn_t(pfn, PFN_DEV));
++		if (unlikely(err & VM_FAULT_ERROR))
+ 			break;
+ 		address += PAGE_SIZE;
+-		phys_addr += PAGE_SIZE;
++		++pfn;
+ 	}
+-	return ret;
++
++	return err;
  }
  
-+static void psb_fbdev_fb_destroy(struct fb_info *info)
-+{
-+	struct drm_fb_helper *fb_helper = info->par;
-+	struct drm_framebuffer *fb = fb_helper->fb;
-+	struct drm_gem_object *obj = fb->obj[0];
-+
-+	drm_fb_helper_fini(fb_helper);
-+
-+	drm_framebuffer_unregister_private(fb);
-+	fb->obj[0] = NULL;
-+	drm_framebuffer_cleanup(fb);
-+	kfree(fb);
-+
-+	drm_gem_object_put(obj);
-+
-+	drm_client_release(&fb_helper->client);
-+
-+	drm_fb_helper_unprepare(fb_helper);
-+	kfree(fb_helper);
-+}
-+
- static const struct fb_ops psb_fbdev_fb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -131,6 +153,7 @@ static const struct fb_ops psb_fbdev_fb_ops = {
- 	.fb_copyarea = drm_fb_helper_cfb_copyarea,
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
- 	.fb_mmap = psb_fbdev_fb_mmap,
-+	.fb_destroy = psb_fbdev_fb_destroy,
- };
+ static const struct vm_operations_struct psb_fbdev_vm_ops = {
+@@ -102,9 +94,6 @@ static int psb_fbdev_fb_setcolreg(unsigned int regno,
  
- /*
-@@ -190,14 +213,6 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 		return PTR_ERR(backing);
- 	obj = &backing->base;
- 
--	memset(dev_priv->vram_addr + backing->offset, 0, size);
+ static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ {
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct drm_framebuffer *fb = fb_helper->fb;
 -
--	info = drm_fb_helper_alloc_info(fb_helper);
--	if (IS_ERR(info)) {
--		ret = PTR_ERR(info);
--		goto err_drm_gem_object_put;
--	}
--
- 	fb = psb_framebuffer_create(dev, &mode_cmd, obj);
- 	if (IS_ERR(fb)) {
- 		ret = PTR_ERR(fb);
-@@ -206,28 +221,40 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 	if (vma->vm_pgoff != 0)
+ 		return -EINVAL;
+ 	if (vma->vm_pgoff > (~0UL >> PAGE_SHIFT))
+@@ -116,7 +105,7 @@ static int psb_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
+ 	 * suitable for our mmap work
+ 	 */
+ 	vma->vm_ops = &psb_fbdev_vm_ops;
+-	vma->vm_private_data = (void *)fb;
++	vma->vm_private_data = info;
+ 	vm_flags_set(vma, VM_IO | VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDUMP);
  
- 	fb_helper->fb = fb;
- 
--	info->fbops = &psb_fbdev_fb_ops;
--
--	info->fix.smem_start = dev_priv->fb_base;
--	info->fix.smem_len = size;
--	info->fix.ywrapstep = 0;
--	info->fix.ypanstep = 0;
-+	info = drm_fb_helper_alloc_info(fb_helper);
-+	if (IS_ERR(info)) {
-+		ret = PTR_ERR(info);
-+		goto err_drm_framebuffer_unregister_private;
-+	}
- 
-+	info->fbops = &psb_fbdev_fb_ops;
-+	info->flags = FBINFO_DEFAULT;
- 	/* Accessed stolen memory directly */
- 	info->screen_base = dev_priv->vram_addr + backing->offset;
- 	info->screen_size = size;
+ 	return 0;
+@@ -235,7 +224,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
  
  	drm_fb_helper_fill_info(info, fb_helper, sizes);
  
-+	info->fix.smem_start = dev_priv->fb_base;
-+	info->fix.smem_len = size;
-+	info->fix.ywrapstep = 0;
-+	info->fix.ypanstep = 0;
- 	info->fix.mmio_start = pci_resource_start(pdev, 0);
- 	info->fix.mmio_len = pci_resource_len(pdev, 0);
- 
-+	memset(info->screen_base, 0, info->screen_size);
-+
- 	/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
- 
- 	dev_dbg(dev->dev, "allocated %dx%d fb\n", fb->width, fb->height);
- 
- 	return 0;
- 
-+err_drm_framebuffer_unregister_private:
-+	drm_framebuffer_unregister_private(fb);
-+	fb->obj[0] = NULL;
-+	drm_framebuffer_cleanup(fb);
-+	kfree(fb);
- err_drm_gem_object_put:
- 	drm_gem_object_put(obj);
- 	return ret;
-@@ -237,68 +264,92 @@ static const struct drm_fb_helper_funcs psb_fbdev_fb_helper_funcs = {
- 	.fb_probe = psb_fbdev_fb_probe,
- };
- 
--static int psb_fbdev_destroy(struct drm_device *dev,
--			     struct drm_fb_helper *fb_helper)
--{
--	struct drm_framebuffer *fb = fb_helper->fb;
--
--	drm_fb_helper_unregister_info(fb_helper);
-+/*
-+ * struct drm_client_funcs and setup code
-+ */
- 
--	drm_fb_helper_fini(fb_helper);
--	drm_framebuffer_unregister_private(fb);
--	drm_framebuffer_cleanup(fb);
-+static void psb_fbdev_client_unregister(struct drm_client_dev *client)
-+{
-+	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-+
-+	if (fb_helper->info) {
-+		drm_fb_helper_unregister_info(fb_helper);
-+	} else {
-+		drm_fb_helper_unprepare(fb_helper);
-+		drm_client_release(&fb_helper->client);
-+		kfree(fb_helper);
-+	}
-+}
- 
--	if (fb->obj[0])
--		drm_gem_object_put(fb->obj[0]);
--	kfree(fb);
-+static int psb_fbdev_client_restore(struct drm_client_dev *client)
-+{
-+	drm_fb_helper_lastclose(client->dev);
- 
- 	return 0;
- }
- 
--int psb_fbdev_init(struct drm_device *dev)
-+static int psb_fbdev_client_hotplug(struct drm_client_dev *client)
- {
--	struct drm_fb_helper *fb_helper;
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
-+	struct drm_device *dev = client->dev;
- 	int ret;
- 
--	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
--	if (!fb_helper)
--		return -ENOMEM;
--
--	dev_priv->fb_helper = fb_helper;
--
--	drm_fb_helper_prepare(dev, fb_helper, 32, &psb_fbdev_fb_helper_funcs);
-+	if (dev->fb_helper)
-+		return drm_fb_helper_hotplug_event(dev->fb_helper);
- 
- 	ret = drm_fb_helper_init(dev, fb_helper);
- 	if (ret)
--		goto free;
-+		goto err_drm_err;
- 
--	/* disable all the possible outputs/crtcs before entering KMS mode */
--	drm_helper_disable_unused_functions(dev);
-+	if (!drm_drv_uses_atomic_modeset(dev))
-+		drm_helper_disable_unused_functions(dev);
- 
- 	ret = drm_fb_helper_initial_config(fb_helper);
- 	if (ret)
--		goto fini;
-+		goto err_drm_fb_helper_fini;
- 
- 	return 0;
- 
--fini:
-+err_drm_fb_helper_fini:
- 	drm_fb_helper_fini(fb_helper);
--free:
--	drm_fb_helper_unprepare(fb_helper);
--	kfree(fb_helper);
-+err_drm_err:
-+	drm_err(dev, "Failed to setup gma500 fbdev emulation (ret=%d)\n", ret);
- 	return ret;
- }
- 
--void psb_fbdev_fini(struct drm_device *dev)
-+static const struct drm_client_funcs psb_fbdev_client_funcs = {
-+	.owner		= THIS_MODULE,
-+	.unregister	= psb_fbdev_client_unregister,
-+	.restore	= psb_fbdev_client_restore,
-+	.hotplug	= psb_fbdev_client_hotplug,
-+};
-+
-+void psb_fbdev_setup(struct drm_psb_private *dev_priv)
- {
--	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct drm_device *dev = &dev_priv->dev;
-+	struct drm_fb_helper *fb_helper;
-+	int ret;
- 
--	if (!dev_priv->fb_helper)
-+	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
-+	if (!fb_helper)
- 		return;
-+	drm_fb_helper_prepare(dev, fb_helper, 32, &psb_fbdev_fb_helper_funcs);
-+
-+	ret = drm_client_init(dev, &fb_helper->client, "fbdev-gma500", &psb_fbdev_client_funcs);
-+	if (ret) {
-+		drm_err(dev, "Failed to register client: %d\n", ret);
-+		goto err_drm_fb_helper_unprepare;
-+	}
-+
-+	ret = psb_fbdev_client_hotplug(&fb_helper->client);
-+	if (ret)
-+		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
-+
-+	drm_client_register(&fb_helper->client);
-+
-+	return;
- 
--	psb_fbdev_destroy(dev, dev_priv->fb_helper);
--	drm_fb_helper_unprepare(dev_priv->fb_helper);
--	kfree(dev_priv->fb_helper);
--	dev_priv->fb_helper = NULL;
-+err_drm_fb_helper_unprepare:
-+	drm_fb_helper_unprepare(fb_helper);
-+	kfree(fb_helper);
- }
+-	info->fix.smem_start = dev_priv->fb_base;
++	info->fix.smem_start = dev_priv->stolen_base + backing->offset;
+ 	info->fix.smem_len = size;
+ 	info->fix.ywrapstep = 0;
+ 	info->fix.ypanstep = 0;
 diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 506b881a7b24..f5c3bae95eb5 100644
+index f5c3bae95eb5..1a374702b696 100644
 --- a/drivers/gpu/drm/gma500/framebuffer.c
 +++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -5,7 +5,6 @@
-  *
-  **************************************************************************/
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_modeset_helper.h>
-@@ -120,7 +119,6 @@ static struct drm_framebuffer *psb_user_framebuffer_create
- 
- static const struct drm_mode_config_funcs psb_mode_funcs = {
- 	.fb_create = psb_user_framebuffer_create,
--	.output_poll_changed = drm_fb_helper_output_poll_changed,
- };
- 
- static void psb_setup_outputs(struct drm_device *dev)
-@@ -223,6 +221,5 @@ void psb_modeset_cleanup(struct drm_device *dev)
+@@ -186,7 +186,6 @@ void psb_modeset_init(struct drm_device *dev)
+ {
  	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	if (dev_priv->modeset) {
- 		drm_kms_helper_poll_fini(dev);
--		psb_fbdev_fini(dev);
- 	}
- }
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index cd9c73f5a64a..2ce96b1b9c74 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -21,7 +21,6 @@
- #include <drm/drm.h>
- #include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_pciids.h>
-@@ -387,7 +386,6 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 	dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
+ 	struct psb_intel_mode_device *mode_dev = &dev_priv->mode_dev;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int i;
  
- 	psb_modeset_init(dev);
--	psb_fbdev_init(dev);
- 	drm_kms_helper_poll_init(dev);
+ 	if (drmm_mode_config_init(dev))
+@@ -197,10 +196,6 @@ void psb_modeset_init(struct drm_device *dev)
  
- 	/* Only add backlight support if we have LVDS or MIPI output */
-@@ -452,6 +450,8 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
+ 	dev->mode_config.funcs = &psb_mode_funcs;
  
-+	psb_fbdev_setup(dev_priv);
-+
- 	return 0;
- }
- 
-@@ -477,7 +477,6 @@ static const struct file_operations psb_gem_fops = {
- 
- static const struct drm_driver driver = {
- 	.driver_features = DRIVER_MODESET | DRIVER_GEM,
--	.lastclose = drm_fb_helper_lastclose,
- 
- 	.num_ioctls = ARRAY_SIZE(psb_ioctls),
- 
+-	/* set memory base */
+-	/* Oaktrail and Poulsbo should use BAR 2*/
+-	pci_read_config_dword(pdev, PSB_BSM, (u32 *)&(dev_priv->fb_base));
+-
+ 	/* num pipes is 2 for PSB but 1 for Mrst */
+ 	for (i = 0; i < dev_priv->num_pipe; i++)
+ 		psb_intel_crtc_init(dev, i, mode_dev);
 diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index 5d2ccb5280a4..931f62c1d942 100644
+index 931f62c1d942..f7f709df99b4 100644
 --- a/drivers/gpu/drm/gma500/psb_drv.h
 +++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -193,8 +193,6 @@
- #define KSEL_BYPASS_25 6
- #define KSEL_BYPASS_83_100 7
- 
--struct drm_fb_helper;
--
- struct opregion_header;
- struct opregion_acpi;
- struct opregion_swsci;
-@@ -522,7 +520,6 @@ struct drm_psb_private {
+@@ -520,8 +520,6 @@ struct drm_psb_private {
  	uint32_t blc_adj1;
  	uint32_t blc_adj2;
  
--	struct drm_fb_helper *fb_helper;
- 	resource_size_t fb_base;
- 
+-	resource_size_t fb_base;
+-
  	bool dsr_enable;
-@@ -618,14 +615,9 @@ struct drm_framebuffer *psb_framebuffer_create(struct drm_device *dev,
- 
- /* fbdev */
- #if defined(CONFIG_DRM_FBDEV_EMULATION)
--extern int psb_fbdev_init(struct drm_device *dev);
--extern void psb_fbdev_fini(struct drm_device *dev);
-+void psb_fbdev_setup(struct drm_psb_private *dev_priv);
- #else
--static inline int psb_fbdev_init(struct drm_device *dev)
--{
--	return 0;
--}
--static inline void psb_fbdev_fini(struct drm_device *dev)
-+static inline void psb_fbdev_setup(struct drm_psb_private *dev_priv)
- { }
- #endif
- 
+ 	u32 dsr_fb_update;
+ 	bool dpi_panel_on[3];
 -- 
 2.39.2
 
