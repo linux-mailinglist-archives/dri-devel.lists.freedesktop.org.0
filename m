@@ -1,67 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9AF6B738E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:14:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1C96B73AA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 11:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D1F810E4C7;
-	Mon, 13 Mar 2023 10:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BCC410E4B2;
+	Mon, 13 Mar 2023 10:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A40B210E4C7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 10:14:48 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id g3so10745210wri.6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 03:14:48 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B74210E4B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 10:19:17 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id ix20so5853262plb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 03:19:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678702487;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=LFf8imUXGJ740YH30H8G1wP3R9KYJHw0iP0NBgTQYjg=;
- b=vFNwZo6RCHXiM9iiMArLPMPbJCFc/TRgHdwWgiREr79AhocZJC4USZsObQ2FuO45qf
- /pYOUkBfHdUJyqlNEi2VlUGnNEgay8UO1jJIcF98bJJd0t1+80wfuCAmpy6ttHVnpicF
- S6xbPBQifPCWFghEzurSI479fm+E/lS7GvHvcur+Ni6/yFUh50ABzZmCUgZw82bsVyYm
- CCmqON5iJgMlhnUMKIRzUp6/TzBtAGYeyjuacVbeasFqrd5NRa2/31+Dx5Rd1oCukOIy
- RW+FIo8fvSWDEhx8MREr4tuJ1yF6LRjbzW9bCfsro6jEyRcH3ZUnXLhvbahXnJRTWtE3
- n7rw==
+ d=gmail.com; s=20210112; t=1678702756;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NgZncveY2O/txV/R7OP3ZoBdtRLxTenrDfGCPy6Jz1s=;
+ b=av8QqSRHixcRjhUE79qpQGAhBtayUig4shkCBjrBNatklj1vswZy4RYKRj3HnJHWi/
+ 7oN276bUX5jLU+DHgCWSXpfH8l9ZSm+MfLsY4RmnsQgbUXAP8z57YdIKZbYBV5MKqB6E
+ 4I1T15vnrtfK5uZMfwRM3w9ZAMgd48TJeMMLAOu7s4GtlOlvGrkWdHGXcMI5l1jiP5SH
+ sdSUpzWqOA1daG45IuqksT8q5kLfMcNS2oZ2u8qa8hFPm6ycrs2zoXPW4utjNA6xKpJV
+ ZtnTrXS70BvGPv3YS7/cfAhTGbqt7HrTXYDAc1YJZ9j3KqYmgYsgpnDZ2gvbvT5bwGKh
+ hM8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678702487;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LFf8imUXGJ740YH30H8G1wP3R9KYJHw0iP0NBgTQYjg=;
- b=y/fy4yCfPIH7D8MkB146vvEABefYWXsGLiY7AI8kf8TlpxM+UJ+6Jo7COUBGwkMprF
- nEQBt9jfBRk4x/NfB5sYYUbi4bbVFNb0xdrzzdmY20pWvJk/RoUja45mGDUY3CNloNUJ
- jX8NMonbe/g2O6wpst+FCSxO7uysfF1jQBD3zUqFPBiGPCtrefZy99d7J18j5AhT/mQ9
- 03N0nockAXp+niLI2g1A9wOVz7ZHEgg4QVzcmSOYXFty/ZU/qt4NPyK7UGz5fsmeiriv
- WMbQolwkftIbn7RmrMxPWNWQ5wzYzUu53ej3nfOpED3+bwIRiEjBInn6CyOfQg0DuG5s
- Ebfg==
-X-Gm-Message-State: AO0yUKWCscr2lGgV7xpTlBhkNXCz2Jr82K+PILDLwQnEJOMK6z2YYqAM
- nBR49ioLkH4Y2iuGW9SWTPFIew==
-X-Google-Smtp-Source: AK7set8yLU2cIhBgVUD2MrkZNSiTLmoACOPx2vcTRtog66hQ7l61dtZLkzmt+UbOf2oZpjyAn50keg==
-X-Received: by 2002:adf:eb4b:0:b0:2c6:e744:cf71 with SMTP id
- u11-20020adfeb4b000000b002c6e744cf71mr20498231wrn.52.1678702486687; 
- Mon, 13 Mar 2023 03:14:46 -0700 (PDT)
-Received: from aspen.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
- y7-20020a5d4ac7000000b002cea8664304sm5554039wrs.91.2023.03.13.03.14.45
+ d=1e100.net; s=20210112; t=1678702756;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NgZncveY2O/txV/R7OP3ZoBdtRLxTenrDfGCPy6Jz1s=;
+ b=o7UsyJRgxe74hNCI/ObXRshZw+YGz6szUlCjJ4QOM7qAZ4FI97bkkNYqdi1iizBKAS
+ VULWBevdaFnMWBe1LtMTqHUbBmGO1UmtRpnBHy/AWcs4/BNnP70MH+sh2pyArp/1x6Op
+ 9EBoGG/uk7Hgt3Stq0iOOx9BOGqhaq5GuBrJNZbdkp3ljJs4+FxPK6W05XdUByhdvNYR
+ QpPCYG5XqrXNfYe89vDwiXuBgS4K9WGXcoPpuc+YC7jxVgVTr/01mJoz6Sswif41an2K
+ QFyc0ZfhhzyFGvCjrMxks6fqLyWJMIA8wsNMW6mB72K2ZbkCKKve9DHldAGFJN/VreUb
+ Ez6g==
+X-Gm-Message-State: AO0yUKVMqaXs3gx7ABdhiXOOgYUKSdHAastBynvxwUyNGKfTfz+sXyns
+ Z76uDli3XtfXRtBhu3xFUGA=
+X-Google-Smtp-Source: AK7set+afB5U1j55sApwQnuVUKDwLFCeDjQ8c0UTiwdl5hDF5V5WHR9uiWmGdtLkeySb+DZVcWdr5w==
+X-Received: by 2002:a17:902:e550:b0:1a0:42c0:b2a5 with SMTP id
+ n16-20020a170902e55000b001a042c0b2a5mr4499185plf.24.1678702756602; 
+ Mon, 13 Mar 2023 03:19:16 -0700 (PDT)
+Received: from localhost.localdomain (n220246252084.netvigator.com.
+ [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
+ 13-20020a170902ee4d00b0019a7c890c5asm1270652plo.263.2023.03.13.03.19.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Mar 2023 03:14:46 -0700 (PDT)
-Date: Mon, 13 Mar 2023 10:14:44 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 2/2] backlight: arcxcnn_bl: drop of_match_ptr for ID table
-Message-ID: <20230313101444.GD55049@aspen.lan>
-References: <20230311173556.263086-1-krzysztof.kozlowski@linaro.org>
- <20230311173556.263086-2-krzysztof.kozlowski@linaro.org>
+ Mon, 13 Mar 2023 03:19:16 -0700 (PDT)
+From: Jianhua Lu <lujianhua000@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v6 1/2] dt-bindings: display: panel: Add Novatek NT36523
+ bindings
+Date: Mon, 13 Mar 2023 18:18:57 +0800
+Message-Id: <20230313101858.14611-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230311173556.263086-2-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,19 +76,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Jianhua Lu <lujianhua000@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 11, 2023 at 06:35:56PM +0100, Krzysztof Kozlowski wrote:
-> The driver will match mostly by DT table (even thought there is regular
-> ID table) so there is little benefit in of_match_ptr (this also allows
-> ACPI matching via PRP0001, even though it might not be relevant here).
->
->   drivers/video/backlight/arcxcnn_bl.c:378:34: error: ‘arcxcnn_dt_ids’ defined but not used [-Werror=unused-const-variable=]
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Novatek NT36523 is a display driver IC used to drive DSI panels.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+No changes in v6
+
+No changes in v5
+
+No changes in v4
+
+Changes in v3:
+  - pick up Krzysztof's R-b
+  - remove vddpos and vddneg supply
+
+Changes in v2:
+  - Drop unnecessary description
+  - dsi0 -> dsi
+  - Correct indentation
+
+ .../display/panel/novatek,nt36523.yaml        | 85 +++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+new file mode 100644
+index 000000000000..0039561ef04c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36523.yaml
+@@ -0,0 +1,85 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/novatek,nt36523.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Novatek NT36523 based DSI display Panels
++
++maintainers:
++  - Jianhua Lu <lujianhua000@gmail.com>
++
++description: |
++  The Novatek NT36523 is a generic DSI Panel IC used to drive dsi
++  panels. Support video mode panels from China Star Optoelectronics
++  Technology (CSOT) and BOE Technology.
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - xiaomi,elish-boe-nt36523
++          - xiaomi,elish-csot-nt36523
++      - const: novatek,nt36523
++
++  reset-gpios:
++    maxItems: 1
++    description: phandle of gpio for reset line - This should be 8mA
++
++  vddio-supply:
++    description: regulator that supplies the I/O voltage
++
++  reg: true
++  ports: true
++  backlight: true
++
++required:
++  - compatible
++  - reg
++  - vddio-supply
++  - reset-gpios
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "xiaomi,elish-csot-nt36523", "novatek,nt36523";
++            reg = <0>;
++
++            vddio-supply = <&vreg_l14a_1p88>;
++            reset-gpios = <&tlmm 75 GPIO_ACTIVE_LOW>;
++            backlight = <&backlight>;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    panel_in_0: endpoint {
++                        remote-endpoint = <&dsi0_out>;
++                    };
++                };
++
++                port@1{
++                    reg = <1>;
++                    panel_in_1: endpoint {
++                        remote-endpoint = <&dsi1_out>;
++                    };
++                };
++            };
++        };
++    };
++
++...
+-- 
+2.39.2
+
