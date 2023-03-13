@@ -1,53 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CA56B7C88
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:51:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FF46B7C7F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:51:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6FB10E582;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D56810E589;
 	Mon, 13 Mar 2023 15:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81B9410E582
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D361010E584
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:51:41 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2A1A61FE0E;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7039D1FE0F;
  Mon, 13 Mar 2023 15:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678722700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=47A4YXQ11MpeBJn1Uq9igqUu87CbauQsH7PzCpVKLYs=;
- b=mDP/gC9Cpoqys6XsSv0Z2byMXySgxxZUj5gPc+bAOyHdJVSxBDB5W4gAcwBejKoqJ+WKR1
- +tlFS3kAigGODyc2xc8Qpf4SStsbhrQL3K37dVpmNq4WFpQuskoSWYTNk8slm2tzB2INm4
- T0tKZegDMYzadP1WsEr3KxyWWWnTe+k=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p532xRUWBiuDPUEGC7aXFLCPvj+NzD7g9LrLjnd2wgk=;
+ b=TsvXNvChis9ecdXD1hwWq2ixLiX6YoTEMYT66wBPiudp+1SyGYgDUv9Py7TVc7logtfiex
+ qEcmKxRQ+kwetnp6PfBWrbUrDyYyS7lJpSH9DFzSfegFVNIYSENca6fbZcUV4rn1GfLUml
+ c3LT/wEAi/JiVhgmzlvj544PoeqH+No=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678722700;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=47A4YXQ11MpeBJn1Uq9igqUu87CbauQsH7PzCpVKLYs=;
- b=uAOnQ4AYZqwVx/tSGur4PPPV0yjkl7p1dZ1luN8QZS/LCWRpfNkbBSJAqxnkiv0qdDzo7W
- IZGy8YGc69SYoACQ==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p532xRUWBiuDPUEGC7aXFLCPvj+NzD7g9LrLjnd2wgk=;
+ b=6GRfMy3qx8Dr50KUa5SVqzND5mQu0x0eHsOpJGO1D9D5I1QO58ZpFlEOHcV97uxEZ9SN/F
+ dDwWiG8afiUA6ZBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DED4713517;
- Mon, 13 Mar 2023 15:51:39 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2F447139F9;
+ Mon, 13 Mar 2023 15:51:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 9Wp9NYtGD2RhegAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:39 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id oDqiCoxGD2RhegAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 13 Mar 2023 15:51:40 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  airlied@gmail.com, daniel@ffwll.ch, linus.walleij@linaro.org
-Subject: [PATCH v2 00/25] drm/dma-helper: Add dedicated fbdev emulation
-Date: Mon, 13 Mar 2023 16:51:13 +0100
-Message-Id: <20230313155138.20584-1-tzimmermann@suse.de>
+Subject: [PATCH v2 01/25] drm/fbdev-dma: Implement fbdev emulation for GEM DMA
+ helpers
+Date: Mon, 13 Mar 2023 16:51:14 +0100
+Message-Id: <20230313155138.20584-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230313155138.20584-1-tzimmermann@suse.de>
+References: <20230313155138.20584-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,102 +76,345 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add fbdev emulation that is optimized for DMA helpers, as used by most
-drivers. It operates directly on GEM DMA buffers in system memory.
-Memory pages are mmap'ed directly to userspace. No implicit shadow
-buffers need to be allocated; as can happen with the generic fbdev
-emulation. Convert drivers that fulfil the requirements.
+Implement fbdev emulation that is optimized for drivers that use
+DMA helpers. The buffers may no tbe moveable, may not require damage
+handling and have to be located in system memory. This allows fbdev
+emulation to operate directly on the buffer and mmap it to userspace.
 
-Tested with fbcon and IGT on vc4.
+Besides those constraints, the emulation works like in the generic
+code. As an internal DRM client provides, it receives hotplug, restore
+and unregister events. The DRM client is independent from the fbdev
+probing, which runs on the first successful hotplug event.
 
-Future direction: providing a dedicated fbdev emulation for GEM DMA
-helpers will allow us to remove this case from the generic fbdev code.
-The latter can then be simplified.
+The emulation is part of the DMA helper module and not build unless
+DMA helpers and fbdev emulation has been configured.
 
-v2:
-	* update mcde and pl111 as well (Linus)
+Tested with vc4.
 
-Linus Walleij (1):
-  drm/mcde: Do not use dirty GEM FB handling
-
-Thomas Zimmermann (24):
-  drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers
-  arm/hdlcd: Use GEM DMA fbdev emulation
-  arm/malidp: Use GEM DMA fbdev emulation
-  drm/aspeed: Use GEM DMA fbdev emulation
-  drm/atmel-hlcdc: Use GEM DMA fbdev emulation
-  drm/fsl-dcu: Use GEM DMA fbdev emulation
-  drm/imx/dcss: Use GEM DMA fbdev emulation
-  drm/imx: Use GEM DMA fbdev emulation
-  drm/kmb: Use GEM DMA fbdev emulation
-  drm/logicvc: Use GEM DMA fbdev emulation
-  drm/meson: Use GEM DMA fbdev emulation
-  drm/mxsfb/lcdif: Use GEM DMA fbdev emulation
-  drm/mxsfb: Use GEM DMA fbdev emulation
-  drm/sti: Use GEM DMA fbdev emulation
-  drm/stm: Use GEM DMA fbdev emulation
-  drm/sun4i: Use GEM DMA fbdev emulation
-  drm/tidss: Use GEM DMA fbdev emulation
-  drm/tilcdc: Use GEM DMA fbdev emulation
-  drm/arcpgu: Use GEM DMA fbdev emulation
-  drm/tve200: Use GEM DMA fbdev emulation
-  drm/vc4: Use GEM DMA fbdev emulation
-  drm/xlnx: Use GEM DMA fbdev emulation
-  drm/mcde: Use GEM DMA fbdev emulation
-  drm/pl111: Use GEM DMA fbdev emulation
-
- drivers/gpu/drm/Makefile                     |   1 +
- drivers/gpu/drm/arm/hdlcd_drv.c              |   4 +-
- drivers/gpu/drm/arm/malidp_drv.c             |   4 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c      |   4 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c |   4 +-
- drivers/gpu/drm/drm_fbdev_dma.c              | 275 +++++++++++++++++++
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c    |   4 +-
- drivers/gpu/drm/imx/dcss/dcss-kms.c          |   4 +-
- drivers/gpu/drm/imx/ipuv3/imx-drm-core.c     |   4 +-
- drivers/gpu/drm/kmb/kmb_drv.c                |   4 +-
- drivers/gpu/drm/logicvc/logicvc_drm.c        |   4 +-
- drivers/gpu/drm/mcde/mcde_drv.c              |   6 +-
- drivers/gpu/drm/meson/meson_drv.c            |   4 +-
- drivers/gpu/drm/mxsfb/lcdif_drv.c            |   4 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c            |   4 +-
- drivers/gpu/drm/pl111/pl111_drv.c            |   4 +-
- drivers/gpu/drm/sti/sti_drv.c                |   4 +-
- drivers/gpu/drm/stm/drv.c                    |   4 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c            |   4 +-
- drivers/gpu/drm/tidss/tidss_drv.c            |   4 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c          |   4 +-
- drivers/gpu/drm/tiny/arcpgu.c                |   4 +-
- drivers/gpu/drm/tve200/tve200_drv.c          |   4 +-
- drivers/gpu/drm/vc4/vc4_drv.c                |   4 +-
- drivers/gpu/drm/xlnx/zynqmp_kms.c            |   4 +-
- include/drm/drm_fbdev_dma.h                  |  15 +
- 26 files changed, 338 insertions(+), 47 deletions(-)
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/gpu/drm/Makefile        |   1 +
+ drivers/gpu/drm/drm_fbdev_dma.c | 275 ++++++++++++++++++++++++++++++++
+ include/drm/drm_fbdev_dma.h     |  15 ++
+ 3 files changed, 291 insertions(+)
  create mode 100644 drivers/gpu/drm/drm_fbdev_dma.c
  create mode 100644 include/drm/drm_fbdev_dma.h
 
-
-base-commit: b21ced77ae1dbc3d8b01d3aef3c99bba7377a69b
-prerequisite-patch-id: 0aa359f6144c4015c140c8a6750be19099c676fb
-prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
-prerequisite-patch-id: 75f2ebf12693f23508f00d574b2b57488723e474
-prerequisite-patch-id: 718531bf5cf15716834cfaf3008ea0e2366ec927
-prerequisite-patch-id: a793aa283cf41f290d970404881f24bffc48caff
-prerequisite-patch-id: e74f259d1923247a74d5bf7d996afb0e6ca01883
-prerequisite-patch-id: a1d12b9548110b1f5e9aa3803b21e2a7f9f8c19d
-prerequisite-patch-id: 033f10da72f10d82f113a5066a3b3a7ff91d13aa
-prerequisite-patch-id: 976264fafbd69d0996209a90a3d546d9be3f3779
-prerequisite-patch-id: 617c74af5e16717898a23ced9c8badfff1e0ade7
-prerequisite-patch-id: 5e0cfa9c81aa7ceb2cc48c5cbc9934496251fac4
-prerequisite-patch-id: 13594c3cc8102960bb195bc7f572fefba8eb19d7
-prerequisite-patch-id: 99d9da7e08369050d135c23d32dead811bb9cf97
-prerequisite-patch-id: 833f9d8341a287961ee653b04730da57ce987b06
-prerequisite-patch-id: 5d5c9caaf9489a6c2f688d632a57a0fb65fcb5f7
-prerequisite-patch-id: b64758ecd64ec0c0acd96d0766ba891378c5c539
-prerequisite-patch-id: 37a7d3e9fb3e4e2b7ebeac3f77da6610f12beea3
-prerequisite-patch-id: 99073429dafdc98cdd31464ce28e795696a149f9
-prerequisite-patch-id: c2247eca44927569cd2b6d9f370195965346adb4
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 1e04d135e866..a33257d2bc7f 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -82,6 +82,7 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
+ obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
+ 
+ drm_dma_helper-y := drm_gem_dma_helper.o
++drm_dma_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_dma.o
+ drm_dma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_dma_helper.o
+ obj-$(CONFIG_DRM_GEM_DMA_HELPER) += drm_dma_helper.o
+ 
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+new file mode 100644
+index 000000000000..cf553ac12a0f
+--- /dev/null
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -0,0 +1,275 @@
++// SPDX-License-Identifier: MIT
++
++#include <drm/drm_crtc_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_fb_helper.h>
++#include <drm/drm_framebuffer.h>
++#include <drm/drm_gem_dma_helper.h>
++
++#include <drm/drm_fbdev_dma.h>
++
++/*
++ * struct fb_ops
++ */
++
++static int drm_fbdev_dma_fb_open(struct fb_info *info, int user)
++{
++	struct drm_fb_helper *fb_helper = info->par;
++
++	/* No need to take a ref for fbcon because it unbinds on unregister */
++	if (user && !try_module_get(fb_helper->dev->driver->fops->owner))
++		return -ENODEV;
++
++	return 0;
++}
++
++static int drm_fbdev_dma_fb_release(struct fb_info *info, int user)
++{
++	struct drm_fb_helper *fb_helper = info->par;
++
++	if (user)
++		module_put(fb_helper->dev->driver->fops->owner);
++
++	return 0;
++}
++
++static void drm_fbdev_dma_fb_destroy(struct fb_info *info)
++{
++	struct drm_fb_helper *fb_helper = info->par;
++
++	if (!fb_helper->dev)
++		return;
++
++	drm_fb_helper_fini(fb_helper);
++
++	drm_client_buffer_vunmap(fb_helper->buffer);
++	drm_client_framebuffer_delete(fb_helper->buffer);
++	drm_client_release(&fb_helper->client);
++	drm_fb_helper_unprepare(fb_helper);
++	kfree(fb_helper);
++}
++
++static int drm_fbdev_dma_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
++{
++	struct drm_fb_helper *fb_helper = info->par;
++	struct drm_device *dev = fb_helper->dev;
++
++	if (drm_WARN_ON_ONCE(dev, !fb_helper->dev->driver->gem_prime_mmap))
++		return -ENODEV;
++
++	return fb_helper->dev->driver->gem_prime_mmap(fb_helper->buffer->gem, vma);
++}
++
++static const struct fb_ops drm_fbdev_dma_fb_ops = {
++	.owner = THIS_MODULE,
++	.fb_open = drm_fbdev_dma_fb_open,
++	.fb_release = drm_fbdev_dma_fb_release,
++	.fb_read = drm_fb_helper_sys_read,
++	.fb_write = drm_fb_helper_sys_write,
++	DRM_FB_HELPER_DEFAULT_OPS,
++	.fb_fillrect = drm_fb_helper_sys_fillrect,
++	.fb_copyarea = drm_fb_helper_sys_copyarea,
++	.fb_imageblit = drm_fb_helper_sys_imageblit,
++	.fb_destroy = drm_fbdev_dma_fb_destroy,
++	.fb_mmap = drm_fbdev_dma_fb_mmap,
++};
++
++/*
++ * struct drm_fb_helper
++ */
++
++static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
++					 struct drm_fb_helper_surface_size *sizes)
++{
++	struct drm_client_dev *client = &fb_helper->client;
++	struct drm_device *dev = fb_helper->dev;
++	struct drm_client_buffer *buffer;
++	struct drm_gem_dma_object *dma_obj;
++	struct drm_framebuffer *fb;
++	struct fb_info *info;
++	u32 format;
++	struct iosys_map map;
++	int ret;
++
++	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
++		    sizes->surface_width, sizes->surface_height,
++		    sizes->surface_bpp);
++
++	format = drm_mode_legacy_fb_format(sizes->surface_bpp, sizes->surface_depth);
++	buffer = drm_client_framebuffer_create(client, sizes->surface_width,
++					       sizes->surface_height, format);
++	if (IS_ERR(buffer))
++		return PTR_ERR(buffer);
++	dma_obj = to_drm_gem_dma_obj(buffer->gem);
++
++	fb = buffer->fb;
++	if (drm_WARN_ON(dev, fb->funcs->dirty)) {
++		ret = -ENODEV; /* damage handling not supported; use generic emulation */
++		goto err_drm_client_buffer_delete;
++	}
++
++	ret = drm_client_buffer_vmap(buffer, &map);
++	if (ret) {
++		goto err_drm_client_buffer_delete;
++	} else if (drm_WARN_ON(dev, map.is_iomem)) {
++		ret = -ENODEV; /* I/O memory not supported; use generic emulation */
++		goto err_drm_client_buffer_delete;
++	}
++
++	fb_helper->buffer = buffer;
++	fb_helper->fb = buffer->fb;
++
++	info = drm_fb_helper_alloc_info(fb_helper);
++	if (IS_ERR(info)) {
++		ret = PTR_ERR(info);
++		goto err_drm_client_buffer_vunmap;
++	}
++
++	drm_fb_helper_fill_info(info, fb_helper, sizes);
++
++	info->fbops = &drm_fbdev_dma_fb_ops;
++	info->flags = FBINFO_DEFAULT;
++
++	/* screen */
++	info->flags |= FBINFO_VIRTFB; /* system memory */
++	if (dma_obj->map_noncoherent)
++		info->flags |= FBINFO_READS_FAST; /* signal caching */
++	info->screen_size = sizes->surface_height * fb->pitches[0];
++	info->screen_buffer = map.vaddr;
++	info->fix.smem_len = info->screen_size;
++
++#if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
++	/*
++	 * Shamelessly leak the physical address to user-space.
++	 */
++	if (fb_helper->hint_leak_smem_start && !info->fix.smem_start)
++		info->fix.smem_start = page_to_phys(virt_to_page(info->screen_buffer));
++#endif
++
++	return 0;
++
++err_drm_client_buffer_vunmap:
++	fb_helper->fb = NULL;
++	fb_helper->buffer = NULL;
++	drm_client_buffer_vunmap(buffer);
++err_drm_client_buffer_delete:
++	drm_client_framebuffer_delete(buffer);
++	return ret;
++}
++
++static const struct drm_fb_helper_funcs drm_fbdev_dma_helper_funcs = {
++	.fb_probe = drm_fbdev_dma_helper_fb_probe,
++};
++
++/*
++ * struct drm_client_funcs
++ */
++
++static void drm_fbdev_dma_client_unregister(struct drm_client_dev *client)
++{
++	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
++
++	if (fb_helper->info) {
++		drm_fb_helper_unregister_info(fb_helper);
++	} else {
++		drm_client_release(&fb_helper->client);
++		drm_fb_helper_unprepare(fb_helper);
++		kfree(fb_helper);
++	}
++}
++
++static int drm_fbdev_dma_client_restore(struct drm_client_dev *client)
++{
++	drm_fb_helper_lastclose(client->dev);
++
++	return 0;
++}
++
++static int drm_fbdev_dma_client_hotplug(struct drm_client_dev *client)
++{
++	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
++	struct drm_device *dev = client->dev;
++	int ret;
++
++	if (dev->fb_helper)
++		return drm_fb_helper_hotplug_event(dev->fb_helper);
++
++	ret = drm_fb_helper_init(dev, fb_helper);
++	if (ret)
++		goto err_drm_err;
++
++	if (!drm_drv_uses_atomic_modeset(dev))
++		drm_helper_disable_unused_functions(dev);
++
++	ret = drm_fb_helper_initial_config(fb_helper);
++	if (ret)
++		goto err_drm_fb_helper_fini;
++
++	return 0;
++
++err_drm_fb_helper_fini:
++	drm_fb_helper_fini(fb_helper);
++err_drm_err:
++	drm_err(dev, "fbdev-dma: Failed to setup generic emulation (ret=%d)\n", ret);
++	return ret;
++}
++
++static const struct drm_client_funcs drm_fbdev_dma_client_funcs = {
++	.owner		= THIS_MODULE,
++	.unregister	= drm_fbdev_dma_client_unregister,
++	.restore	= drm_fbdev_dma_client_restore,
++	.hotplug	= drm_fbdev_dma_client_hotplug,
++};
++
++/**
++ * drm_fbdev_dma_setup() - Setup fbdev emulation for GEM DMA helpers
++ * @dev: DRM device
++ * @preferred_bpp: Preferred bits per pixel for the device.
++ *                 @dev->mode_config.preferred_depth is used if this is zero.
++ *
++ * This function sets up fbdev emulation for GEM DMA drivers that support
++ * dumb buffers with a virtual address and that can be mmap'ed.
++ * drm_fbdev_dma_setup() shall be called after the DRM driver registered
++ * the new DRM device with drm_dev_register().
++ *
++ * Restore, hotplug events and teardown are all taken care of. Drivers that do
++ * suspend/resume need to call drm_fb_helper_set_suspend_unlocked() themselves.
++ * Simple drivers might use drm_mode_config_helper_suspend().
++ *
++ * This function is safe to call even when there are no connectors present.
++ * Setup will be retried on the next hotplug event.
++ *
++ * The fbdev is destroyed by drm_dev_unregister().
++ */
++void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp)
++{
++	struct drm_fb_helper *fb_helper;
++	int ret;
++
++	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
++	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
++
++	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
++	if (!fb_helper)
++		return;
++	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &drm_fbdev_dma_helper_funcs);
++
++	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_dma_client_funcs);
++	if (ret) {
++		drm_err(dev, "Failed to register client: %d\n", ret);
++		goto err_drm_client_init;
++	}
++
++	ret = drm_fbdev_dma_client_hotplug(&fb_helper->client);
++	if (ret)
++		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
++
++	drm_client_register(&fb_helper->client);
++
++	return;
++
++err_drm_client_init:
++	drm_fb_helper_unprepare(fb_helper);
++	kfree(fb_helper);
++}
++EXPORT_SYMBOL(drm_fbdev_dma_setup);
+diff --git a/include/drm/drm_fbdev_dma.h b/include/drm/drm_fbdev_dma.h
+new file mode 100644
+index 000000000000..2da7ee784133
+--- /dev/null
++++ b/include/drm/drm_fbdev_dma.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: MIT */
++
++#ifndef DRM_FBDEV_DMA_H
++#define DRM_FBDEV_DMA_H
++
++struct drm_device;
++
++#ifdef CONFIG_DRM_FBDEV_EMULATION
++void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp);
++#else
++static inline void drm_fbdev_dma_setup(struct drm_device *dev, unsigned int preferred_bpp)
++{ }
++#endif
++
++#endif
 -- 
 2.39.2
 
