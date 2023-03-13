@@ -1,54 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6736B7BCD
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:21:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C236B7C25
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 16:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC0010E56C;
-	Mon, 13 Mar 2023 15:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A902110E0FE;
+	Mon, 13 Mar 2023 15:40:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C500410E573
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:21:24 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 70AEBB81188
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:21:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3542EC4339E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:21:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678720882;
- bh=wOHm5m6ReGiTMjg65yU9qaHxrijWEjIw7pPKeJiQgZU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=OUUHQodE9JDEhnimPb4A+ScsqyQWzs2ZXXN56JZUxx013GW7PBsqzY2YzYB4iYFT/
- 7o4gdJUaWQvP3x5cZhLFhQrnNFyx4J9sfDqS1Bhqo2UnCTtJ1YjjlALi/zckbPdQ5N
- ymDPvXulN2SHf5q3ji061uodkQKq00m/6YHwHxgBvpgwhSLvStTdfmJZ9I6RmP/XHI
- rjd0nrnk/s/dFkXEFhLer1DWz5Zbgw8QWbYm1meM45C29w2ChJCzYt2UZYjovp1K9t
- oPRNcx1c7VtU60XzJQMh5XJNaztVN1Zl6yT3mEmrTgcaadgxieLmCV7WbRVFMyhF8D
- fxCurl6qT/6Rg==
-Received: by mail-lf1-f49.google.com with SMTP id s22so16167636lfi.9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 08:21:22 -0700 (PDT)
-X-Gm-Message-State: AO0yUKV0NiPYit7jnKCfhJSEtbRHSROpihisrNtkxCzhxe1qX3bqnbLr
- s1Q7rrOuM0ZJPilfXwH6rtAKiCwSBS2EfgMAoQ==
-X-Google-Smtp-Source: AK7set8c5sO7hWTagu0j7z99ZxWvxbRa9EwPdzCx0PtR3FDTJLZOe1sVBKQ3Vev10nkQOZOgZI/r80Ju5W7KnZEDkS0=
-X-Received: by 2002:ac2:52a9:0:b0:4e8:3fba:621d with SMTP id
- r9-20020ac252a9000000b004e83fba621dmr1728626lfm.7.1678720880217; Mon, 13 Mar
- 2023 08:21:20 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6CCC10E0FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 15:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678722001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=iYhxW9yYEPbaCNDEelBPozVEWCc4cZuZvNFI8mqUC+Q=;
+ b=HF1bN6uyVyuQ6hUvd+sCploR9OVv59UJVFVCPsZrJwgE7qXe+YKs9TyRJrsfIMM5D4dWtl
+ VNPW9MEiqJ+MarjbPkQKS4kdiNfUr2d3sATVIriCFVEQ7jJxIRMO2fiFTq6k8BqymE7JCR
+ G4Ehtnsb2MX3XzKVFqdzzaZ/IPYqLcc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-669-dN9P9XoaOqCy0P4g1Xf7lg-1; Mon, 13 Mar 2023 11:40:00 -0400
+X-MC-Unique: dN9P9XoaOqCy0P4g1Xf7lg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j36-20020a05600c1c2400b003ed245a452fso920326wms.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 08:40:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678721999;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=iYhxW9yYEPbaCNDEelBPozVEWCc4cZuZvNFI8mqUC+Q=;
+ b=snuCBqTk6ed3J7dnlTAFtCYKnItiumvat/iznbUR67lBZsImJ21SKJ9uUiWxY20PVQ
+ 07/qG2HNre2hJ+52wlU0BZ9zj/KUzPvI5wrqYXVhBP39k7aOQueSJFdu4sOyEMWpXfji
+ KjhX21vtAhmUN2xPNE8gkUF5WLrom//p1uvx6cjY2YJXMpe+C0fR7RnXAyZ+56y8LzeH
+ q3vs7/uk5kfo1Ukx2gnMP+W9yWkSXas/ntqrounSGJb/GHq3jqk9Gd25KAmAH6ajBw/6
+ Y/SXLy46yd3oKPwaT9t3cJQcG2OG/7wQe+jAJUm/ZvC/w3cmz6gvBbu54DWK9k6/5yR/
+ Y+MQ==
+X-Gm-Message-State: AO0yUKUmdgLJ2htwPK98BUPZjXhlSjQIcx+mZMy1fY7CxR+YQmZB4DPu
+ im99Haxd5fH8fQ8ExfM/eXr3l/idVlMTiQYBmuCo+4htXwEewdNVIDiAf2jth/mFs8cn4xkuDNn
+ IbJwLAt3BmmUPehEwTri98OqtnMTQ
+X-Received: by 2002:a05:600c:3d88:b0:3eb:33fb:9dcf with SMTP id
+ bi8-20020a05600c3d8800b003eb33fb9dcfmr11808126wmb.5.1678721999413; 
+ Mon, 13 Mar 2023 08:39:59 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+uXz49YVPrd470sPqCVeE9lyNwUUZjBnLV3rubeof/cokTc8IOYjSe2V+fqjkSZ0A2YpcsAA==
+X-Received: by 2002:a05:600c:3d88:b0:3eb:33fb:9dcf with SMTP id
+ bi8-20020a05600c3d8800b003eb33fb9dcfmr11808114wmb.5.1678721999106; 
+ Mon, 13 Mar 2023 08:39:59 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ y23-20020a1c4b17000000b003daffc2ecdesm102968wma.13.2023.03.13.08.39.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Mar 2023 08:39:58 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for Lenovo
+ Yoga Book X90F
+In-Reply-To: <20230301095218.28457-1-hdegoede@redhat.com>
+References: <20230301095218.28457-1-hdegoede@redhat.com>
+Date: Mon, 13 Mar 2023 16:39:58 +0100
+Message-ID: <87mt4glkxd.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-19-45cbc68e188b@baylibre.com>
-In-Reply-To: <20230220-display-v1-19-45cbc68e188b@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 13 Mar 2023 23:21:08 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-wEzu6JavEAyRo8njOLRMq3i3wEcemNsuMaK00W9QqpQ@mail.gmail.com>
-Message-ID: <CAAOTY_-wEzu6JavEAyRo8njOLRMq3i3wEcemNsuMaK00W9QqpQ@mail.gmail.com>
-Subject: Re: [PATCH 19/21] drm/mediatek: dpi: add support for dpi clock
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,110 +82,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Fabien Parent <fparent@baylibre.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Xinlei Lee <xinlei.lee@mediatek.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Alexandre:
+Hans de Goede <hdegoede@redhat.com> writes:
 
-Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=88=
-9=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8810:23=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+Hello Hans,
+
+> Like the Windows Lenovo Yoga Book X91F/L the Android Lenovo Yoga Book
+> X90F/L has a portrait 1200x1920 screen used in landscape mode,
+> add a quirk for this.
 >
-> From: Fabien Parent <fparent@baylibre.com>
+> When the quirk for the X91F/L was initially added it was written to
+> also apply to the X90F/L but this does not work because the Android
+> version of the Yoga Book uses completely different DMI strings.
+> Also adjust the X91F/L quirk to reflect that it only applies to
+> the X91F/L models.
 >
-> MT8365 requires an additional clock for DPI. Add support for that
-> additional clock.
->
-> Signed-off-by: Fabien Parent <fparent@baylibre.com>
-> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dpi.c | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
-k/mtk_dpi.c
-> index 4317595a15d1..474c6e5bbf04 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> @@ -68,6 +68,7 @@ struct mtk_dpi {
->         struct device *dev;
->         struct clk *engine_clk;
->         struct clk *pixel_clk;
-> +       struct clk *dpi_clk;
->         struct clk *tvd_clk;
->         int irq;
->         struct drm_display_mode mode;
-> @@ -464,6 +465,7 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
->         mtk_dpi_disable(dpi);
->         clk_disable_unprepare(dpi->pixel_clk);
->         clk_disable_unprepare(dpi->engine_clk);
-> +       clk_disable_unprepare(dpi->dpi_clk);
->  }
->
->  static int mtk_dpi_power_on(struct mtk_dpi *dpi)
-> @@ -473,10 +475,16 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
->         if (++dpi->refcount !=3D 1)
->                 return 0;
->
-> +       ret =3D clk_prepare_enable(dpi->dpi_clk);
-> +       if (ret) {
-> +               dev_err(dpi->dev, "failed to enable dpi clock: %d\n", ret=
-);
-> +               goto err_refcount;
-> +       }
-> +
->         ret =3D clk_prepare_enable(dpi->engine_clk);
->         if (ret) {
->                 dev_err(dpi->dev, "Failed to enable engine clock: %d\n", =
-ret);
-> -               goto err_refcount;
-> +               goto err_engine;
->         }
->
->         ret =3D clk_prepare_enable(dpi->pixel_clk);
-> @@ -489,6 +497,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
->
->  err_pixel:
->         clk_disable_unprepare(dpi->engine_clk);
-> +err_engine:
-> +       clk_disable_unprepare(dpi->dpi_clk);
->  err_refcount:
->         dpi->refcount--;
->         return ret;
-> @@ -1044,6 +1054,12 @@ static int mtk_dpi_probe(struct platform_device *p=
-dev)
->                 return ret;
->         }
->
-> +       dpi->dpi_clk =3D devm_clk_get_optional(dev, "dpi");
 
-For MT8365, DPI clock is not optional, so make sure that MT8365 DPI
-should have this clock.
+Patch looks good to me.
 
-Regards,
-Chun-Kuang.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> +       if (IS_ERR(dpi->dpi_clk)) {
-> +               return dev_err_probe(dev, ret, "Failed to get dpi clock: =
-%p\n",
-> +                                    dpi->dpi_clk);
-> +       }
-> +
->         dpi->irq =3D platform_get_irq(pdev, 0);
->         if (dpi->irq <=3D 0)
->                 return -EINVAL;
->
-> --
-> b4 0.10.1
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
