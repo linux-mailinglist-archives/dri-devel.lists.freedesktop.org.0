@@ -2,50 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F6B6B848D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 23:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5016B860E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 00:26:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C8B510E666;
-	Mon, 13 Mar 2023 22:12:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42DEF10E0B5;
+	Mon, 13 Mar 2023 23:26:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8BD10E663;
- Mon, 13 Mar 2023 22:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678745568; x=1710281568;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=yftl17BZxZsClnG+TrLnyFDplrR8SOH//R7wiZ60t2Y=;
- b=JZwxz7QUvUaDDCw7KhupXglYiHprqRLKQYTMYVRxuSVe6rRcHRQblOm4
- NFa1k+S0s3KYy6AgNX1rMmdxxs7TBIi/jRcbB6zpQfMWcvpjO00Kou6Mm
- 6oNdfBGMfwA8TlnC+9qvrdgl3ovaM/zBNq2ekgvl11KcKdXk78Bq7pzM1
- SCrOLMXQS9/m/yyCVnI0uADaGZ5eTpE1TU4iSQKgilD4hf+vj5uFIXqVW
- /lrrbxoCH7GruwPKjKc3GDF6xrtWtMcl26awVSBLQwK36h+NTKq65c6Sd
- TGRbEOSDC5toMxNqyVIdDFw4YO6cxUjaI8YWZ0mWnBlyRfqYod1LASTiM g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="335967696"
-X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="335967696"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 15:12:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="767871006"
-X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="767871006"
-Received: from mwajdecz-mobl.ger.corp.intel.com ([10.249.159.27])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2023 15:12:47 -0700
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/xe: Use GT oriented log messages in xe_gt.c
-Date: Mon, 13 Mar 2023 23:12:34 +0100
-Message-Id: <20230313221234.2628-2-michal.wajdeczko@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20230313221234.2628-1-michal.wajdeczko@intel.com>
-References: <20230313221234.2628-1-michal.wajdeczko@intel.com>
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2EF10E08D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 23:26:38 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 4B7C52036C;
+ Tue, 14 Mar 2023 00:26:35 +0100 (CET)
+Date: Tue, 14 Mar 2023 00:26:32 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v2 1/9] dt-bindings: display/msm: dsi-controller-main:
+ Fix deprecated QCM2290 compatible
+Message-ID: <20230313232632.ahz7wmvt23tslmmp@SoMainline.org>
+References: <20230213121012.1768296-1-konrad.dybcio@linaro.org>
+ <20230213121012.1768296-2-konrad.dybcio@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230213121012.1768296-2-konrad.dybcio@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,149 +43,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: freedreno@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, krzysztof.kozlowski@linaro.org,
+ Rob Herring <robh+dt@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ agross@kernel.org, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace generic log messages with ones dedicated for the GT.
+On 2023-02-13 13:10:04, Konrad Dybcio wrote:
+> The qcom, prefix was missed previously. Fix it.
+> 
+> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
----
- drivers/gpu/drm/xe/xe_gt.c | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
-index daa433d0f2f5..a46399c24eb8 100644
---- a/drivers/gpu/drm/xe/xe_gt.c
-+++ b/drivers/gpu/drm/xe/xe_gt.c
-@@ -20,6 +20,7 @@
- #include "xe_gt_clock.h"
- #include "xe_gt_mcr.h"
- #include "xe_gt_pagefault.h"
-+#include "xe_gt_printk.h"
- #include "xe_gt_sysfs.h"
- #include "xe_gt_tlb_invalidation.h"
- #include "xe_gt_topology.h"
-@@ -612,15 +613,14 @@ int xe_gt_init(struct xe_gt *gt)
- 
- static int do_gt_reset(struct xe_gt *gt)
- {
--	struct xe_device *xe = gt_to_xe(gt);
- 	int err;
- 
- 	xe_mmio_write32(gt, GEN6_GDRST.reg, GEN11_GRDOM_FULL);
- 	err = xe_mmio_wait32(gt, GEN6_GDRST.reg, 0, GEN11_GRDOM_FULL, 5000,
- 			     NULL, false);
- 	if (err)
--		drm_err(&xe->drm,
--			"GT reset failed to clear GEN11_GRDOM_FULL\n");
-+		xe_gt_err(gt, "failed to clear GEN11_GRDOM_FULL (%pe)\n",
-+			  ERR_PTR(err));
- 
- 	return err;
- }
-@@ -663,14 +663,13 @@ static int do_gt_restart(struct xe_gt *gt)
- 
- static int gt_reset(struct xe_gt *gt)
- {
--	struct xe_device *xe = gt_to_xe(gt);
- 	int err;
- 
- 	/* We only support GT resets with GuC submission */
- 	if (!xe_device_guc_submission_enabled(gt_to_xe(gt)))
- 		return -ENODEV;
- 
--	drm_info(&xe->drm, "GT reset started\n");
-+	xe_gt_info(gt, "reset started\n");
- 
- 	xe_gt_sanitize(gt);
- 
-@@ -699,7 +698,7 @@ static int gt_reset(struct xe_gt *gt)
- 	err = xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL);
- 	XE_WARN_ON(err);
- 
--	drm_info(&xe->drm, "GT reset done\n");
-+	xe_gt_info(gt, "reset done\n");
- 
- 	return 0;
- 
-@@ -708,7 +707,7 @@ static int gt_reset(struct xe_gt *gt)
- err_msg:
- 	XE_WARN_ON(xe_uc_start(&gt->uc));
- 	xe_device_mem_access_put(gt_to_xe(gt));
--	drm_err(&xe->drm, "GT reset failed, err=%d\n", err);
-+	xe_gt_err(gt, "reset failed (%pe)\n", ERR_PTR(err));
- 
- 	return err;
- }
-@@ -722,15 +721,13 @@ static void gt_reset_worker(struct work_struct *w)
- 
- void xe_gt_reset_async(struct xe_gt *gt)
- {
--	struct xe_device *xe = gt_to_xe(gt);
--
--	drm_info(&xe->drm, "Try GT reset\n");
-+	xe_gt_info(gt, "trying reset\n");
- 
- 	/* Don't do a reset while one is already in flight */
- 	if (xe_uc_reset_prepare(&gt->uc))
- 		return;
- 
--	drm_info(&xe->drm, "Doing GT reset\n");
-+	xe_gt_info(gt, "reset queued\n");
- 	queue_work(gt->ordered_wq, &gt->reset.worker);
- }
- 
-@@ -747,7 +744,6 @@ void xe_gt_suspend_prepare(struct xe_gt *gt)
- 
- int xe_gt_suspend(struct xe_gt *gt)
- {
--	struct xe_device *xe = gt_to_xe(gt);
- 	int err;
- 
- 	/* For now suspend/resume is only allowed with GuC */
-@@ -767,7 +763,7 @@ int xe_gt_suspend(struct xe_gt *gt)
- 
- 	xe_device_mem_access_put(gt_to_xe(gt));
- 	XE_WARN_ON(xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL));
--	drm_info(&xe->drm, "GT suspended\n");
-+	xe_gt_info(gt, "suspended\n");
- 
- 	return 0;
- 
-@@ -775,14 +771,13 @@ int xe_gt_suspend(struct xe_gt *gt)
- 	XE_WARN_ON(xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL));
- err_msg:
- 	xe_device_mem_access_put(gt_to_xe(gt));
--	drm_err(&xe->drm, "GT suspend failed: %d\n", err);
-+	xe_gt_err(gt, "suspend failed (%pe)\n", ERR_PTR(err));
- 
- 	return err;
- }
- 
- int xe_gt_resume(struct xe_gt *gt)
- {
--	struct xe_device *xe = gt_to_xe(gt);
- 	int err;
- 
- 	xe_device_mem_access_get(gt_to_xe(gt));
-@@ -796,7 +791,7 @@ int xe_gt_resume(struct xe_gt *gt)
- 
- 	xe_device_mem_access_put(gt_to_xe(gt));
- 	XE_WARN_ON(xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL));
--	drm_info(&xe->drm, "GT resumed\n");
-+	xe_gt_info(gt, "resumed\n");
- 
- 	return 0;
- 
-@@ -804,7 +799,7 @@ int xe_gt_resume(struct xe_gt *gt)
- 	XE_WARN_ON(xe_force_wake_put(gt_to_fw(gt), XE_FORCEWAKE_ALL));
- err_msg:
- 	xe_device_mem_access_put(gt_to_xe(gt));
--	drm_err(&xe->drm, "GT resume failed: %d\n", err);
-+	xe_gt_err(gt, "resume failed (%pe)\n", ERR_PTR(err));
- 
- 	return err;
- }
--- 
-2.25.1
-
+> ---
+>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> index e75a3efe4dac..2494817c1bd6 100644
+> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+> @@ -33,7 +33,7 @@ properties:
+>            - const: qcom,mdss-dsi-ctrl
+>        - items:
+>            - enum:
+> -              - dsi-ctrl-6g-qcm2290
+> +              - qcom,dsi-ctrl-6g-qcm2290
+>            - const: qcom,mdss-dsi-ctrl
+>          deprecated: true
+>  
+> -- 
+> 2.39.1
+> 
