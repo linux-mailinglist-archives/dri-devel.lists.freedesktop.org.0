@@ -1,55 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7336B7997
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 14:56:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D056B7A02
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Mar 2023 15:11:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD82310E527;
-	Mon, 13 Mar 2023 13:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F290810E52D;
+	Mon, 13 Mar 2023 14:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A60A10E527
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 13:56:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A230EB8112C
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 13:56:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FCFC433A1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 13:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678715793;
- bh=9enmi3Gn/b59unt9NzTmjRn+DkaYf8lxMijYqi6LByU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=LLXrWgpq32g5HaQAzF2QEWhCE14oooMdUQrTIUmzMdOI6fg6i7UG7GNSb4QItJvZv
- PDqeCdYOp4So9dcoUg8Yv4wxVqX4Wlgx2Ykd4CbT0U5vCdiZHXT/SF+uQFYotSDpna
- ADupU4lOAE9CH39ZpK4t/wkJeVbPV98QCzwZigvYev7OzQxOdvZAFRcPOAm9/I1ogw
- 9yron9yLOCnJfBg9S/5rMUDkuhkp7W70uB7vXgIMVmIw/k77E7J0r7upO7C4F0v3I4
- 13/Lv6H8neWeSbM7T5Ns2qIkbFOEleYAVo0y8Shqi8vQ2g7DWtj8sBS9lHGqrFBMmx
- u8KDYB/NpnP2g==
-Received: by mail-pj1-f49.google.com with SMTP id l1so12139116pjt.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 06:56:33 -0700 (PDT)
-X-Gm-Message-State: AO0yUKXS7qn8nnbecpCKXwq97goDCan4+Z0vtDYRneVBUehjl+4C/Bme
- IAi2dsA8iI/4mxGg4DZWEyItVPVBkoWULOXyQQ21Jw==
-X-Google-Smtp-Source: AK7set9Yx7vZO3xt+ZXR4S1QpCPobp7lXA5M2uLIIfNkxCe8ho04BUmv6bpxz2XUjfdKoiOdTxANLeY4DjsETNDnZCI=
-X-Received: by 2002:a17:90a:5d0b:b0:23b:3611:e42c with SMTP id
- s11-20020a17090a5d0b00b0023b3611e42cmr2367012pji.5.1678715793432; Mon, 13 Mar
- 2023 06:56:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230311231007.46174-1-aford173@gmail.com>
- <6ae67215-28b6-04bf-b61d-1ba99ffdf6fb@linaro.org>
-In-Reply-To: <6ae67215-28b6-04bf-b61d-1ba99ffdf6fb@linaro.org>
-From: Robert Foss <rfoss@kernel.org>
-Date: Mon, 13 Mar 2023 14:56:22 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi5jW8QOGe3yMQzFMsU7f9=HKOx8a_2azV3rTRNaz-v=0g@mail.gmail.com>
-Message-ID: <CAN6tsi5jW8QOGe3yMQzFMsU7f9=HKOx8a_2azV3rTRNaz-v=0g@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: adv7533: Fix adv7533_mode_valid for adv7533
- and adv7535
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A58010E52D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 14:11:42 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1pbitn-0002Tg-IN; Mon, 13 Mar 2023 15:11:39 +0100
+Message-ID: <71c8e22793330e413792824bd1affc36159a2de5.camel@pengutronix.de>
+Subject: Re: MXSFB and Video PLL clock on i.MX8M Mini/Nano Question
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>, Adam Ford <aford173@gmail.com>
+Date: Mon, 13 Mar 2023 15:11:37 +0100
+In-Reply-To: <20230313112937.GC7446@pengutronix.de>
+References: <CAHCN7xJXMmwYqD=Eb2=_vJw390KAd6NgkWCpq6yCbAyaJ3xK5A@mail.gmail.com>
+ <20230313085105.GB7446@pengutronix.de>
+ <CAHCN7xJxBrN5aQgvkV8LrqoTATinr0kFYKht2_YKqTF71UCoKw@mail.gmail.com>
+ <20230313112937.GC7446@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,90 +49,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- aford@beaconembedded.com, dri-devel@lists.freedesktop.org,
- quic_abhinavk@quicinc.com,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Adam Ford <aford173@gmail.com>,
- linux-kernel@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 12, 2023 at 2:10=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On 12/03/2023 01:10, Adam Ford wrote:
-> > When dynamically switching lanes was removed, the intent of the code
-> > was to check to make sure that higher speed items used 4 lanes, but
-> > it had the unintended consequence of removing the slower speeds for
-> > 4-lane users.
-> >
-> > This attempts to remedy this by doing a check to see that the
-> > max frequency doesn't exceed the chip limit, and a second
-> > check to make sure that the max bit-rate doesn't exceed the
-> > number of lanes * max bit rate / lane.
-> >
-> > Fixes: 9a0cdcd6649b ("drm/bridge: adv7533: remove dynamic lane switchin=
-g from adv7533 bridge")
-> >
->
-> Please remove the empty line here. There should be no empty lines
-> between the tags
->
->
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm=
-/bridge/adv7511/adv7533.c
-> > index fdfeadcefe80..10a112d36945 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-> > @@ -103,13 +103,9 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
-> >   enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
-> >                                       const struct drm_display_mode *mo=
-de)
-> >   {
-> > -     int lanes;
-> > +     unsigned long max_lane_freq;
-> >       struct mipi_dsi_device *dsi =3D adv->dsi;
-> > -
-> > -     if (mode->clock > 80000)
-> > -             lanes =3D 4;
-> > -     else
-> > -             lanes =3D 3;
-> > +     u8 bpp =3D mipi_dsi_pixel_format_to_bpp(dsi->format);
-> >
-> >       /*
-> >        * TODO: add support for dynamic switching of lanes
->
-> Drop the comment please. It makes little sense with your new implementati=
-on.
->
-> > @@ -117,8 +113,16 @@ enum drm_mode_status adv7533_mode_valid(struct adv=
-7511 *adv,
-> >        * out the modes which shall need different number of lanes
-> >        * than what was configured in the device tree.
-> >        */
-> > -     if (lanes !=3D dsi->lanes)
-> > -             return MODE_BAD;
-> > +
-> > +     /* Check max clock for either 7533 or 7535 */
-> > +     if (mode->clock > (adv->type =3D=3D ADV7533 ? 80000 : 148500))
-> > +             return MODE_CLOCK_HIGH;
-> > +
-> > +     /* Check max clock for each lane */
-> > +     max_lane_freq =3D (adv->type =3D=3D ADV7533 ? 800000 : 891000);
-> > +
-> > +     if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
-> > +             return MODE_CLOCK_HIGH;
-> >
-> >       return MODE_OK;
-> >   }
->
-> --
-> With best wishes
-> Dmitry
->
+Am Montag, dem 13.03.2023 um 12:29 +0100 schrieb Sascha Hauer:
+> On Mon, Mar 13, 2023 at 06:08:05AM -0500, Adam Ford wrote:
+> > On Mon, Mar 13, 2023 at 3:51=E2=80=AFAM Sascha Hauer <s.hauer@pengutron=
+ix.de> wrote:
+> > >=20
+> > > On Sun, Mar 12, 2023 at 02:28:45PM -0500, Adam Ford wrote:
+> > > > I am trying to work through a series that was submitted for enablin=
+g
+> > > > the DSI on the i.MX8M Mini and Nano.  I have extended this series t=
+o
+> > > > route the DSI to an HDMI bridge, and I am able to get several
+> > > > resolutions to properly sync on my monitor.  However, there are als=
+o a
+> > > >  bunch that appear on the list when I run modetest that do not sync=
+ on
+> > > > my monitor.
+> > > >=20
+> > > > When running some debug code, it appears that it's related to the
+> > > > clocking of the MXSFB driver.
+> > > >=20
+> > > > From what I can tell, the MSXFB driver attempts to set the clock ba=
+sed
+> > > > on the desired resolution and refresh rate.  When the default
+> > > > VIDEO_PLL clock is set to 594MHz, many of the resolutions that clea=
+nly
+> > > > divide from the 594MHz clock appear to sync with my monitor.  Howev=
+er,
+> > > > in order to get other resolutions to appear, I have to manually cha=
+nge
+> > > > the device tree to set VIDEO_PLL to a different clock rate so MSXFB
+> > > > can use it.  Unfortunately, that breaks the resolutions that used t=
+o
+> > > > work.
+> > > >=20
+> > > > I threw together a hack into the MXSFB driver which adds a new
+> > > > optional clock to the MSXFB driver.  When I pass VIDEO_PLL to this
+> > > > driver, it can automatically set the clock rate to match that of
+> > > > whatever the desired clock is, and I can get many more resolutions =
+to
+> > > > appear.
+> > > > Another advantage of this is that the Video_PLL can be the minimum
+> > > > speed needed for a given rate instead of setting a higher rate, the=
+n
+> > > > dividing it down.
+> > >=20
+> > > Isn't it possible to add the CLK_SET_RATE_PARENT flag to the pixel
+> > > clock? That's what i.MX6sx and i.MX7 do.
+> >=20
+> > I thought about that, but on the Nano, the video_pll is several layers =
+up.
+> >=20
+> > video_pll -> video_pll_bypass -> disp_pixel -> disp_pixel_clk
+> >=20
+> > Do I just set that flag for each of these?
+>=20
+> Yes, that's what I would suggest. I don't know the i.MX8M clock tree
+> very well, so I don't know which other clocks might be influenced when
+> the video_pll clock changes its rate. But if you have to change the PLL
+> rate anyway it shouldn't make a difference if you change it directly
+> or if you let the rate change propagate up from disp_pixel_clk.
+>=20
+The problem with a simple CLK_SET_RATE_PARENT is that the rate changes
+propagate upwards in the tree for all possible sources. If the source
+is the video PLL then the rate propagation is exactly what you want to
+happen. If the display clock is sourced from a system PLL, you really
+don't want to change the PLL rate, so we need something more clever
+here.
 
-With Dmitrys feedback, feel free to add my Reviewed-by.
+Either the mux part of the composite clock needs to learn to only
+propagate rate requests for specific sources, or we need to deny rate
+changes to the system PLLs, but not sure if there are other similar
+cases for other sources.
+
+Regards,
+Lucas
+
