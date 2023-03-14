@@ -2,42 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA386B94EE
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:53:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4395E6B9510
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 14:00:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3FC10E7CF;
-	Tue, 14 Mar 2023 12:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB7BE10E7C4;
+	Tue, 14 Mar 2023 12:59:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
- by gabe.freedesktop.org (Postfix) with ESMTP id BBD5110E7CF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 12:53:16 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:37148.1527112473
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 01481100210;
- Tue, 14 Mar 2023 20:53:07 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-698c9d7bb7-s8g24 with ESMTP id
- b02789160bc149b7bddb9270b1f317fc for maarten.lankhorst@linux.intel.com; 
- Tue, 14 Mar 2023 20:53:13 CST
-X-Transaction-ID: b02789160bc149b7bddb9270b1f317fc
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
- liyi <liyi@loongson.cn>
-Subject: [PATCH] drm/drm_gem.c: remove surplus else after return clause
-Date: Tue, 14 Mar 2023 20:53:05 +0800
-Message-Id: <20230314125305.2278964-1-15330273260@189.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F15610E7C4;
+ Tue, 14 Mar 2023 12:59:55 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 3CF2C202F6;
+ Tue, 14 Mar 2023 13:59:52 +0100 (CET)
+Date: Tue, 14 Mar 2023 13:59:50 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v3 03/10] drm/msm/dsi: Fix DSI index detection when
+ version clash occurs
+Message-ID: <20230314125950.a2qsrrkxdf37ww7d@SoMainline.org>
+References: <20230307-topic-dsi_qcm-v3-0-8bd7e1add38a@linaro.org>
+ <20230307-topic-dsi_qcm-v3-3-8bd7e1add38a@linaro.org>
+ <20230313235109.u7cpusjr6t2xyxmk@SoMainline.org>
+ <1eea079d-c0e8-b941-60d2-e0656cbb73be@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1eea079d-c0e8-b941-60d2-e0656cbb73be@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,42 +46,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- else is not generally useful after return
+On 2023-03-14 12:59:40, Konrad Dybcio wrote:
+> 
+> 
+> On 14.03.2023 00:51, Marijn Suijten wrote:
+> > On 2023-03-07 14:01:41, Konrad Dybcio wrote:
+> >> Currently, we allow for MAX_DSI entries in io_start to facilitate for
+> >> MAX_DSI number of DSI hosts at different addresses. The configuration
+> >> is matched against the DSI CTRL hardware revision read back from the
+> >> component. We need a way to resolve situations where multiple SoCs
+> >> with different register maps may use the same version of DSI CTRL. In
+> >> preparation to do so, make msm_dsi_config a 2d array where each entry
+> >> represents a set of configurations adequate for a given SoC.
+> > 
+> > Note that this code isn't fool-proof against different SoCs sharing the
+> > same DSI host address but for different indices (for example, the
+> > address at variant 0 DSI 0 could be the same as variant 1 DSI 1) and the
+> > matching logic would wrongly return ID 0 instead of 1 for SoC variant 1,
+> > because that's the first matching address it finds.
+> I don't think we've had that happen yet, but if it ever does, that's out
+> of scope of this patchset.
 
-Signed-off-by: Sui Jingfeng <15330273260@189.cn>
----
- drivers/gpu/drm/drm_gem.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Sure, as long as we're at least aware of this.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index a6208e2c089b..364e3733af98 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1150,8 +1150,8 @@ int drm_gem_pin(struct drm_gem_object *obj)
- {
- 	if (obj->funcs->pin)
- 		return obj->funcs->pin(obj);
--	else
--		return 0;
-+
-+	return 0;
- }
- 
- void drm_gem_unpin(struct drm_gem_object *obj)
-@@ -1172,7 +1172,8 @@ int drm_gem_vmap(struct drm_gem_object *obj, struct iosys_map *map)
- 	ret = obj->funcs->vmap(obj, map);
- 	if (ret)
- 		return ret;
--	else if (iosys_map_is_null(map))
-+
-+	if (iosys_map_is_null(map))
- 		return -ENOMEM;
- 
- 	return 0;
--- 
-2.25.1
+> >> This is totally fine to do, as the only differentiating factors
+> >> between same-version-different-SoCs configurations are the number of
+> >> DSI hosts (1 or 2, at least as of today) and the set of base registers.
+> >> The regulator setup is the same, because the DSI hardware is the same,
+> >> regardless of the SoC it was implemented in.
+> >>
+> >> In addition to that, update the matching logic such that it will loop
+> >> over VARIANTS_MAX variants, making sure they are all taken into account.
+> > 
+> > "in addition to that" makes it sound like you're doing a separate new
+> > thing in this patch, when the match logic must in fact be updated to
+> > make it compatible with the change described above (as in, it doesn't
+> > compile if you don't account for the extra depth in the array).
+> I really think you're nitpicking here..
 
+It's not, this genuinely had me confused for a while.  Could have at
+least been addressed as part of v4 that had to be sent regardless.
+
+- Marijn
