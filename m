@@ -2,87 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D446B92C5
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0966B92CA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:13:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51E0310E12C;
-	Tue, 14 Mar 2023 12:12:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1760D10E15C;
+	Tue, 14 Mar 2023 12:13:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359AE10E12C;
- Tue, 14 Mar 2023 12:12:39 +0000 (UTC)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32EBv91v021398; Tue, 14 Mar 2023 12:12:32 GMT
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1808C10E78A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 12:13:10 +0000 (UTC)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32EC3jt4016882; Tue, 14 Mar 2023 12:13:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=NdgmMlIoea7vJyu4oX4UGluHVaQmygSR6zFwM3C2qWw=;
- b=rugV2xCrbZC2AC3daXfZeZZ4C8YQFuyY1jm9vVzG+pqQxYX5GVR1AZxrtpmXGLKb64sq
- 2NNWolcnl4Pze2jdOQQrp1cvDaI4e0uuJmQpKb1UXZXxN/npZ9JLmsSJxdwNxe4ecnp4
- LJq4Bavr/tBBVFb0Ic5LaO6zrBF6ZW5MSrtJq2/frTUcsR6dOaXxkxvnpIXZrYz8O4VO
- NNU9/lnd6NfmIdEvF7Hn1O0avCSPxnX0dMjBQ5+GoKYlgMPjzeQ5yU2kBMZcEJa33mSY
- 74GRRQ9iBJ09OettwUNJFqjuDGcpI/p/CbVsa2P3FNW9FsXiMGLMQl5DvtimlxVw55vB rw== 
+ bh=O942In25Yu2mZYuvL6QTrePnZ+WIZkGekEOO4J9v2AQ=;
+ b=frzSk8XhHfoXd4g1E4kShTC4GuLVfZrJizasiRcenxFR+903tExpJA7cWLH4WhCcPFly
+ by4W6nfC6J3DXKP4vy0F5k/E5IZEtgYpS9B1+GFITaoeHcBjJjiNeZCflvmTb8YOfFV1
+ kypzZlT8bCkAkipErEme2LzqKWTgx1h2ICKG+442G6GaiDH1o4oB9TqSWs/bHCVpgv6U
+ hdPNhj4R/h+i/AxHuKvAyUPLU5TiTY/hv+w48Q0Ys/ki4zgyVD9SoMdEQDDJZYo6LhJJ
+ XxlfyKlTmnGQ+ApTOLr+ub6hd8sOTdcmwxgqrM1cNLM0EdlpejivHM3ZifWKD9B1yx/O 7A== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3papenbxj8-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3paph23upy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 12:12:32 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32E9bfU1027062;
- Tue, 14 Mar 2023 12:12:31 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3papenbxh4-1
+ Tue, 14 Mar 2023 12:13:00 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32EBM4MH025738;
+ Tue, 14 Mar 2023 12:13:00 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3paph23un9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 12:12:31 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E8XmM3029496;
- Tue, 14 Mar 2023 12:12:29 GMT
+ Tue, 14 Mar 2023 12:12:59 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32E87EXG029926;
+ Tue, 14 Mar 2023 12:12:57 GMT
 Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma06fra.de.ibm.com (PPS) with ESMTPS id 3p8gwfks4x-1
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3p8gwfct73-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 12:12:29 +0000
+ Tue, 14 Mar 2023 12:12:57 +0000
 Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
  [10.20.54.104])
  by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 32ECCQIC17236240
+ 32ECCsEI21103082
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Mar 2023 12:12:26 GMT
+ Tue, 14 Mar 2023 12:12:54 GMT
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9FA742007D;
- Tue, 14 Mar 2023 12:12:26 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BFE252007C;
+ Tue, 14 Mar 2023 12:12:54 +0000 (GMT)
 Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1977F2007C;
- Tue, 14 Mar 2023 12:12:26 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4FA7E2007A;
+ Tue, 14 Mar 2023 12:12:54 +0000 (GMT)
 Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
  by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Tue, 14 Mar 2023 12:12:26 +0000 (GMT)
+ Tue, 14 Mar 2023 12:12:54 +0000 (GMT)
 From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Arnd Bergmann <arnd@arndb.de>, Dave Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v3 07/38] drm: handle HAS_IOPORT dependencies
-Date: Tue, 14 Mar 2023 13:11:45 +0100
-Message-Id: <20230314121216.413434-8-schnelle@linux.ibm.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH v3 35/38] video: handle HAS_IOPORT dependencies
+Date: Tue, 14 Mar 2023 13:12:13 +0100
+Message-Id: <20230314121216.413434-36-schnelle@linux.ibm.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230314121216.413434-1-schnelle@linux.ibm.com>
 References: <20230314121216.413434-1-schnelle@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PlSVZJS_jwBDQj_1Psq3uoo-swEz2CGf
-X-Proofpoint-GUID: 75W8jY6oJVtl2VT6uX7aBB4ogE891Uc4
+X-Proofpoint-ORIG-GUID: B1ctgrp6SxEWcEbcEFKV-ldm6Wd0WtOe
+X-Proofpoint-GUID: hGDvDQKXIfIRNmn4kehnJnOwRfRSO81m
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-14_06,2023-03-14_02,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- mlxlogscore=654 mlxscore=0 adultscore=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1011 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 malwarescore=0
+ suspectscore=0 adultscore=0 phishscore=0 bulkscore=0 mlxscore=0
+ mlxlogscore=999 spamscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2303140103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,14 +97,12 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Alan Stern <stern@rowland.harvard.edu>, spice-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Geert Uytterhoeven <geert@linux-m68k.org>,
  =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Bjorn Helgaas <bhelgaas@google.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Alan Stern <stern@rowland.harvard.edu>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -112,114 +110,179 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
 not being declared. We thus need to add HAS_IOPORT as dependency for
-those drivers using them. In the bochs driver there is optional MMIO
-support detected at runtime, warn if this isn't taken when
-HAS_IOPORT is not defined.
-
-There is also a direct and hard coded use in cirrus.c which according to
-the comment is only necessary during resume.  Let's just skip this as
-for example s390 which doesn't have I/O port support also doesen't
-support suspend/resume.
+those drivers using them and guard inline code in headers.
 
 Co-developed-by: Arnd Bergmann <arnd@kernel.org>
 Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 ---
- drivers/gpu/drm/qxl/Kconfig   |  1 +
- drivers/gpu/drm/tiny/bochs.c  | 19 +++++++++++++++++++
- drivers/gpu/drm/tiny/cirrus.c |  2 ++
- 3 files changed, 22 insertions(+)
+ drivers/video/console/Kconfig |  1 +
+ drivers/video/fbdev/Kconfig   | 25 +++++++++++++------------
+ include/video/vga.h           |  8 ++++++++
+ 3 files changed, 22 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/Kconfig b/drivers/gpu/drm/qxl/Kconfig
-index ca3f51c2a8fe..d0e0d440c8d9 100644
---- a/drivers/gpu/drm/qxl/Kconfig
-+++ b/drivers/gpu/drm/qxl/Kconfig
-@@ -2,6 +2,7 @@
- config DRM_QXL
- 	tristate "QXL virtual GPU"
- 	depends on DRM && PCI && MMU
+diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
+index 22cea5082ac4..64974eaa3ac5 100644
+--- a/drivers/video/console/Kconfig
++++ b/drivers/video/console/Kconfig
+@@ -10,6 +10,7 @@ config VGA_CONSOLE
+ 	depends on !4xx && !PPC_8xx && !SPARC && !M68K && !PARISC &&  !SUPERH && \
+ 		(!ARM || ARCH_FOOTBRIDGE || ARCH_INTEGRATOR || ARCH_NETWINDER) && \
+ 		!ARM64 && !ARC && !MICROBLAZE && !OPENRISC && !S390 && !UML
 +	depends on HAS_IOPORT
- 	select DRM_KMS_HELPER
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 024346054c70..da4a5d53b003 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -2,6 +2,7 @@
+ 	select APERTURE_HELPERS if (DRM || FB || VFIO_PCI_CORE)
+ 	default y
+ 	help
+diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+index ff3646c30d0d..b21a37497d22 100644
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -338,7 +338,7 @@ config FB_IMX
  
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <asm/bug.h>
+ config FB_CYBER2000
+ 	tristate "CyberPro 2000/2010/5000 support"
+-	depends on FB && PCI && (BROKEN || !SPARC64)
++	depends on FB && PCI && HAS_IOPORT && (BROKEN || !SPARC64)
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -432,6 +432,7 @@ config FB_FM2
+ config FB_ARC
+ 	tristate "Arc Monochrome LCD board support"
+ 	depends on FB && (X86 || COMPILE_TEST)
++	depends on HAS_IOPORT
+ 	select FB_SYS_FILLRECT
+ 	select FB_SYS_COPYAREA
+ 	select FB_SYS_IMAGEBLIT
+@@ -1260,7 +1261,7 @@ config FB_RADEON_DEBUG
  
- #include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
-@@ -105,7 +106,11 @@ static void bochs_vga_writeb(struct bochs_device *bochs, u16 ioport, u8 val)
+ config FB_ATY128
+ 	tristate "ATI Rage128 display support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1284,7 +1285,7 @@ config FB_ATY128_BACKLIGHT
  
- 		writeb(val, bochs->mmio + offset);
- 	} else {
-+#ifdef HAS_IOPORT
- 		outb(val, ioport);
-+#else
-+		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
-+#endif
- 	}
- }
+ config FB_ATY
+ 	tristate "ATI Mach64 display support" if PCI || ATARI
+-	depends on FB && !SPARC32
++	depends on FB && HAS_IOPORT && !SPARC32
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1335,7 +1336,7 @@ config FB_ATY_BACKLIGHT
  
-@@ -119,7 +124,12 @@ static u8 bochs_vga_readb(struct bochs_device *bochs, u16 ioport)
+ config FB_S3
+ 	tristate "S3 Trio/Virge support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1396,7 +1397,7 @@ config FB_SAVAGE_ACCEL
  
- 		return readb(bochs->mmio + offset);
- 	} else {
-+#ifdef HAS_IOPORT
- 		return inb(ioport);
-+#else
-+		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
-+		return 0xff;
-+#endif
- 	}
- }
+ config FB_SIS
+ 	tristate "SiS/XGI display support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1427,7 +1428,7 @@ config FB_SIS_315
  
-@@ -132,8 +142,13 @@ static u16 bochs_dispi_read(struct bochs_device *bochs, u16 reg)
+ config FB_VIA
+ 	tristate "VIA UniChrome (Pro) and Chrome9 display support"
+-	depends on FB && PCI && GPIOLIB && I2C && (X86 || COMPILE_TEST)
++	depends on FB && PCI && GPIOLIB && I2C && HAS_IOPORT && (X86 || COMPILE_TEST)
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1466,7 +1467,7 @@ endif
  
- 		ret = readw(bochs->mmio + offset);
- 	} else {
-+#ifdef HAS_IOPORT
- 		outw(reg, VBE_DISPI_IOPORT_INDEX);
- 		ret = inw(VBE_DISPI_IOPORT_DATA);
-+#else
-+		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
-+		ret = 0xffff;
-+#endif
- 	}
- 	return ret;
- }
-@@ -145,8 +160,12 @@ static void bochs_dispi_write(struct bochs_device *bochs, u16 reg, u16 val)
+ config FB_NEOMAGIC
+ 	tristate "NeoMagic display support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_MODE_HELPERS
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+@@ -1496,7 +1497,7 @@ config FB_KYRO
  
- 		writew(val, bochs->mmio + offset);
- 	} else {
-+#ifdef HAS_IOPORT
- 		outw(reg, VBE_DISPI_IOPORT_INDEX);
- 		outw(val, VBE_DISPI_IOPORT_DATA);
-+#else
-+		WARN_ONCE(1, "Non-MMIO bochs device needs HAS_IOPORT");
-+#endif
- 	}
- }
+ config FB_3DFX
+ 	tristate "3Dfx Banshee/Voodoo3/Voodoo5 display support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_IMAGEBLIT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+@@ -1546,7 +1547,7 @@ config FB_VOODOO1
  
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index accfa52e78c5..9da89732c5ac 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -308,8 +308,10 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
+ config FB_VT8623
+ 	tristate "VIA VT8623 support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1561,7 +1562,7 @@ config FB_VT8623
  
- 	cirrus_set_start_address(cirrus, 0);
+ config FB_TRIDENT
+ 	tristate "Trident/CyberXXX/CyberBlade support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -1584,7 +1585,7 @@ config FB_TRIDENT
  
+ config FB_ARK
+ 	tristate "ARK 2000PV support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -2198,7 +2199,7 @@ config FB_SSD1307
+ 
+ config FB_SM712
+ 	tristate "Silicon Motion SM712 framebuffer support"
+-	depends on FB && PCI
++	depends on FB && PCI && HAS_IOPORT
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+diff --git a/include/video/vga.h b/include/video/vga.h
+index 947c0abd04ef..f4b806b85c86 100644
+--- a/include/video/vga.h
++++ b/include/video/vga.h
+@@ -203,18 +203,26 @@ extern int restore_vga(struct vgastate *state);
+ 
+ static inline unsigned char vga_io_r (unsigned short port)
+ {
 +#ifdef CONFIG_HAS_IOPORT
- 	/* Unblank (needed on S3 resume, vgabios doesn't do it then) */
- 	outb(0x20, 0x3c0);
+ 	return inb_p(port);
++#else
++	return 0xff;
 +#endif
+ }
  
- 	drm_dev_exit(idx);
- 	return 0;
+ static inline void vga_io_w (unsigned short port, unsigned char val)
+ {
++#ifdef CONFIG_HAS_IOPORT
+ 	outb_p(val, port);
++#endif
+ }
+ 
+ static inline void vga_io_w_fast (unsigned short port, unsigned char reg,
+ 				  unsigned char val)
+ {
++#ifdef CONFIG_HAS_IOPORT
+ 	outw(VGA_OUT16VAL (val, reg), port);
++#endif
+ }
+ 
+ static inline unsigned char vga_mm_r (void __iomem *regbase, unsigned short port)
 -- 
 2.37.2
 
