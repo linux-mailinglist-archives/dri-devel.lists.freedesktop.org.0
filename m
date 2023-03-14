@@ -1,80 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C5C6B9BB7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 17:36:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 449586B9BDB
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 17:41:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED1F10E03A;
-	Tue, 14 Mar 2023 16:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E28FF10E80B;
+	Tue, 14 Mar 2023 16:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5AAD10E863;
- Tue, 14 Mar 2023 16:36:01 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32EEuYCL029403; Tue, 14 Mar 2023 16:35:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=xE78rOhENvxzwN/jZO3oIOvhx6dV/6fT2Bvwxfynab4=;
- b=ZcaFvVT/u6bMROEFbQZ5gGSpzIP7YQ7MJX6kaloaQ7O9EgCgJdNFNENLioQiEA6ts7Uj
- non8071AFsWZT6Q9tUFmIdFgBD2z+C4eDIROPjyguKrkbn0Q4LU+M8Ct7E9wUL+xc4OR
- 3VW7UuITT3IazA95oNHKHPmY1d0Yr5pWTjBTOzFzaSNkwW2Ip2jmmpiXyDd8iU7a8EBK
- x/rjjDhGJDkJ63DffmKmWwtKxTqgxcZezogCEVo0oMYYrWLsZIWl417Nx7EPyYA8nUEe
- WDZQKHQOJNRZ+yxDpDvL7SvkxmwNwYJzgiFG+ZKmflZFz9ZLLgRhrJ/2UrN8TBwn+/Te Uw== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pau4mga0n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 16:35:59 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32EGZw6a015874
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Mar 2023 16:35:58 GMT
-Received: from [10.110.64.241] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 14 Mar
- 2023 09:35:57 -0700
-Message-ID: <9dc6c74f-8982-0ccb-af1b-e6ef22276886@quicinc.com>
-Date: Tue, 14 Mar 2023 09:35:56 -0700
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5907210E188;
+ Tue, 14 Mar 2023 16:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678812086; x=1710348086;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=Kavj2ZC1tyLBPrTUaz3HxM6qfeVURMkk0MyVlbxYicg=;
+ b=THoyKBy975J0oUXlHFT6/h5x4hc2cJsQXvX5ShBWqAevukEVvnAOAL1O
+ cXTbRLow1f0vWwqM9yDAxAVxviEMgpxvqbRTfI5wjlxEPgEQvvjSkudch
+ 5GMIMHOlt9NO2S7mRdJgneod8aX0coYEe6/BJLOPOP8SB3sx00uFlxfKs
+ W2eWAfj61hRzQF8Af3s7cvP/hKmzaXHSJ/aEVPdM3tWSH5jVZcFghYhKw
+ 7czzrWUpLTP6Wto4NuU/IL3DkbujVafhDaiTxPHCV9G+amT8sjWhQOQS3
+ QSB7Yni8Vwt62NDgab6YSN6g6OZEven0LejQTGaU2Fkm1uHzfLhHaCQrl A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="402345869"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; d="scan'208";a="402345869"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2023 09:41:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="768163491"
+X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; d="scan'208";a="768163491"
+Received: from ideak-desk.fi.intel.com ([10.237.72.58])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2023 09:41:22 -0700
+Date: Tue, 14 Mar 2023 18:41:18 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH] drm/i915/opregion: add missing intel_opregion_cleanup()
+ dummy
+Message-ID: <ZBCjrsFd7PkWnBm/@ideak-desk.fi.intel.com>
+References: <20230314162523.631652-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH][next] drm/msm/dp: Fix spelling mistake "Capabiity" ->
- "Capability"
-Content-Language: en-US
-To: Colin Ian King <colin.i.king@gmail.com>, Rob Clark <robdclark@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-References: <20230314082050.26331-1-colin.i.king@gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20230314082050.26331-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: AixY7ideUSUqI-B9Au3qBmqNQiHVj_eP
-X-Proofpoint-ORIG-GUID: AixY7ideUSUqI-B9Au3qBmqNQiHVj_eP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-14_10,2023-03-14_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 spamscore=0 clxscore=1011
- priorityscore=1501 bulkscore=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2303140137
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230314162523.631652-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,33 +58,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Reply-To: imre.deak@intel.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/14/2023 1:20 AM, Colin Ian King wrote:
-> There is a spelling mistake in a drm_dbg_dp message. Fix it.
+On Tue, Mar 14, 2023 at 05:25:18PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> When ACPI is disabled, i915 fails to build because of a missing
+> declaration:
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Hi Arnd,
 
+thanks for catching this, I sent the same after the lkp note about the
+build failure:
+
+https://lore.kernel.org/intel-gfx/3238742c-0c57-b8cf-11fe-fd4a57979049@linux.intel.com/T/#me164308b49e975efb8d760e07a5ec9f4489916b9
+
+--Imre
+
+> 
+> drivers/gpu/drm/i915/i915_driver.c: In function 'i915_driver_hw_probe':
+> drivers/gpu/drm/i915/i915_driver.c:556:9: error: implicit declaration of function 'intel_opregion_cleanup'; did you mean 'intel_opregion_setup'? [-Werror=implicit-function-declaration]
+>   556 |         intel_opregion_cleanup(dev_priv);
+> 
+> Add another empty dummy helper next to intel_opregion_setup().
+> 
+> Fixes: 3e226e4a2180 ("drm/i915/opregion: Cleanup opregion after errors during driver loading")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->   drivers/gpu/drm/msm/dp/dp_link.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/display/intel_opregion.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
-> index 5a4817ac086f..42427129acea 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_link.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_link.c
-> @@ -1090,7 +1090,7 @@ int dp_link_process_request(struct dp_link *dp_link)
->   	} else if (dp_link_read_psr_error_status(link)) {
->   		DRM_ERROR("PSR IRQ_HPD received\n");
->   	} else if (dp_link_psr_capability_changed(link)) {
-> -		drm_dbg_dp(link->drm_dev, "PSR Capabiity changed");
-> +		drm_dbg_dp(link->drm_dev, "PSR Capability changed");
->   	} else {
->   		ret = dp_link_process_link_status_update(link);
->   		if (!ret) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_opregion.h b/drivers/gpu/drm/i915/display/intel_opregion.h
+> index 181eb3e9abbf..fd2ea8ef0fa2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_opregion.h
+> +++ b/drivers/gpu/drm/i915/display/intel_opregion.h
+> @@ -86,6 +86,10 @@ static inline int intel_opregion_setup(struct drm_i915_private *dev_priv)
+>  	return 0;
+>  }
+>  
+> +static inline void intel_opregion_cleanup(struct drm_i915_private *i915)
+> +{
+> +}
+> +
+>  static inline void intel_opregion_register(struct drm_i915_private *dev_priv)
+>  {
+>  }
+> -- 
+> 2.39.2
+> 
