@@ -1,59 +1,157 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B22BC6B9001
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 11:29:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECE186B9010
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 11:32:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1BED10E754;
-	Tue, 14 Mar 2023 10:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8152D10E75E;
+	Tue, 14 Mar 2023 10:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F92810E755
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 10:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678789777; x=1710325777;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=b05oNeIvs8A3Cg3OXin8+XD6BbRTWB5T/uvk+K+llZw=;
- b=f9qhCvmSInUtsgVanG6rRQicHVMGsUo2+rInstxON5maFHl2j7Rbh+Xl
- KZXhY0m9Pk1kGbng2GZVpFJJ6aKkc4f6+mlT2adHWYWjpY9mb6gFBeQJd
- RZK/1yOc2O4mY1rc35AowEIlrQyQS5zh5qaGmZjL3A7fGkRj1XTBO83dH
- JXXIx3Wn1dVdL/e+lDnUvLQ/XXygW2cvJVIAcnzkHognoln3Un2vDgOBV
- XFp5rtfZkkBdZs+eO+xmTdDpcgDXOWY2QcM4WSWPG7Hc+KCL6JhtKhX/T
- 22TjSd5SKGDUYlprCaY25OBA34//aAjzsx5LI9mTeJ8EQ30kPI5w0fQhj Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="337412017"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; d="scan'208";a="337412017"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2023 03:29:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="747972204"
-X-IronPort-AV: E=Sophos;i="5.98,259,1673942400"; d="scan'208";a="747972204"
-Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.237.142.115])
- ([10.237.142.115])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2023 03:29:33 -0700
-Message-ID: <0cc39e26-ecaf-634e-5a93-07b9112f8e70@linux.intel.com>
-Date: Tue, 14 Mar 2023 11:29:31 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 4/8] accel/qaic: Add control path
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9635A10E0CE;
+ Tue, 14 Mar 2023 10:32:20 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32EASKUL011058; Tue, 14 Mar 2023 10:32:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=TPjVMa8Sdly776bdESCy60jZJUxyunhAdfGxtZU7ISc=;
+ b=Ir5QRA5FQ+xtRzMXCsnxGPXNoqYiC67YfNqID+b+CVRvVo+ET1fNcP3boJKUaDKH62ny
+ +7SZgUg32fqWJIlFa7iVmRfmJnySqbn4P2UmpoM5wtADi2qBXs2jIyWsEKs8wmkGbtVX
+ gAiA02KclnSyHVEt4r11kr044mwlH4sKrxrs/41C/OyCNZz8wJ2FiTNl2lPID71NMppf
+ fV/Kcwa3tMjgYAZeRCrscG4K51FJ97nW48wB0VCDlYhXjR9IKpVLBFo9a8HjEyypdlv9
+ 4xx6oirUKuc/wLvSf5qlFmtcpYycj2fbVFry6zmC/1vAr7hfLLTVL05KafiyDdG/Wg0O hg== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pa203ufe6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Mar 2023 10:32:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IdYkJAfw0FWSPLP/yA4RSJsV9JVmhhFkEPuVN/z9dk1XVhOprtC/hf2r76BI4wgwulxIxdu7Hnq+XNlYP7oJaTK6x9w6xu5VJdmh9tZPbvKCL/v5sWJ2L80UDKrxhMtntoiS7MnEkNMMbQPzPilUNY65TpnNztHZyMXKQ78YsOIzHiVifgQHrNKj/IABeEruPmDId1sALky22TzcM2CRKo5UYU3o0tbBcxpB3E78MKyi0XWz+b5tXKkzyTi2IAuQNZNWPadIEDmdTnqS7BlhZyQ1f6oZJS4aKpC4GzaUxY54CCeANnYY4CXnBkrfyKxKI4woLvk2zUcbcsAKSnZKmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TPjVMa8Sdly776bdESCy60jZJUxyunhAdfGxtZU7ISc=;
+ b=kCl93Ar+ZA1dL/e7G/AdWr01dHWnUhJtn8ESFFSAV4Sh4DB3ogjGYjEtzds9Nwd5pu5H5yFqbE2AFw7jpU/Lf7TV/9rUdI76gZjBxgDv7B0YnNK7/zO2pY3rqYJTKuzYYoqt9eEh3pOH+zUct9a/18pzx950UJvokxlGEo2wSeqkiMqQqEub29LULY4ePi/n60d2H9E7Xjshn8nA0onYJuP2ZF/E+lhTeM1Q+ZMlcibTiAS8XjtMXKRbuXpyAPa32DBartfq01SSJvgViDlmrjXF9HpOVfKzLxm0zTkHbMfyUvoQ47qRvmoYyd9O3eGpQfy/jUY0LCI3G6vRlpX9VA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from BN0PR02MB8173.namprd02.prod.outlook.com (2603:10b6:408:166::9)
+ by CH3PR02MB9478.namprd02.prod.outlook.com (2603:10b6:610:122::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Tue, 14 Mar
+ 2023 10:32:15 +0000
+Received: from BN0PR02MB8173.namprd02.prod.outlook.com
+ ([fe80::b5e6:371c:98fc:7915]) by BN0PR02MB8173.namprd02.prod.outlook.com
+ ([fe80::b5e6:371c:98fc:7915%6]) with mapi id 15.20.6178.026; Tue, 14 Mar 2023
+ 10:32:15 +0000
+From: Vinod Polimera <vpolimer@qti.qualcomm.com>
+To: "Vinod Polimera (QUIC)" <quic_vpolimer@quicinc.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH v14 13/14] drm/msm/disp/dpu: update dpu_enc crtc state on
+ crtc enable/disable during self refresh
+Thread-Topic: [PATCH v14 13/14] drm/msm/disp/dpu: update dpu_enc crtc state on
+ crtc enable/disable during self refresh
+Thread-Index: AQHZTSTpI88N9UdGvU2ET0AKvZsa7a76JW0g
+Date: Tue, 14 Mar 2023 10:32:14 +0000
+Message-ID: <BN0PR02MB817342CCDDC0442AD533765BE4BE9@BN0PR02MB8173.namprd02.prod.outlook.com>
+References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1677774797-31063-14-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1677774797-31063-14-git-send-email-quic_vpolimer@quicinc.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
- ogabbay@kernel.org, airlied@gmail.com, daniel@ffwll.ch,
- stanislaw.gruszka@linux.intel.com, dri-devel@lists.freedesktop.org
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-5-git-send-email-quic_jhugo@quicinc.com>
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <1678138443-2760-5-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN0PR02MB8173:EE_|CH3PR02MB9478:EE_
+x-ms-office365-filtering-correlation-id: 47ff23c4-df55-4bdc-d611-08db247760e8
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: y39xcy4V6cbS6um5Rbl07aCstCB5fNLytLmlJsE3iflSez/aJmZU04xHml/5Mlf9tN4a6quorGE37iPC/jjLPD/m22VPS2xeJZr99ME7jlzzU70G0R97wm3wNl5nObnt08zAE4x+Co0xzXYDqOia9Sr52yAZniTB7aL7mHRJM19MnAiqqeYWssbx7nH9vJedSMUVlaT+Oj23Kp3NQPjJCFBmEOSH5Kg1UK4elnKU9N1CsW0cXt3Y8HkbOY5fJqLeObCig4dKzyWL9uwDgBCuSeIREW9TpD8Wo1+2E6uLCoZtpDWdSBnvTfDx+i9+f18ZxF7nqzJR1NPotsZQtbXtQ9TDiNxpEiBYBLV91DOY/6XIhKa3F28HWFEH7reHWOQW10hg0FPKaelr+/JyjTWg7CsJrPtqX/EzPmQGhxdN7DT17Aen9vva/f1ewCl6I/pL0Sgnu6TaX101gL8LXhN6NQR7t8V+CF5iJkW9UNN0RxgCQjzOWRKiUKIFT6mvylqG8V9TOPiRplwq89qYae5D+IcfIUYQOC84bQWPyEzODsgcyfjmKF24n4BnPgdR75iXrkva/E9qMLhcpWRnkMa/VkSBKEL10TtgUzJ55hU0I2DQJY5FcJ9dOBYvylW3HdqX0divR19Ry1bQwNw9rXmo65e/tkn8+FV9NXVqjb7s0vk9EcqQqwewn1AOp78s2fCs+2Fl9v1KOt+2qVRM7bwjug==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR02MB8173.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(376002)(366004)(346002)(39860400002)(396003)(451199018)(52536014)(5660300002)(8936002)(15650500001)(2906002)(41300700001)(38100700002)(122000001)(38070700005)(86362001)(33656002)(7696005)(71200400001)(478600001)(76116006)(66946007)(66556008)(66476007)(66446008)(8676002)(64756008)(107886003)(55016003)(4326008)(83380400001)(110136005)(54906003)(316002)(9686003)(186003)(26005)(6506007)(53546011);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?H5uBjdcyKswxFJGt0LMgc96/oWpmMXhEwAZFkrKXG5oMqFi9nUwXbTn8Z8+z?=
+ =?us-ascii?Q?WVwHnX7p3yXUKuosjMwwvjAUpTF5CdnH7WKyz0OZnnLvxRBTu2qHHmM8CHTo?=
+ =?us-ascii?Q?GrOxTisWbVzhS9hAkBj/PFZoX4rMubvtgVvv5qF4BBDy5/uU7x1LnwaCuRJX?=
+ =?us-ascii?Q?PGEp5B4+Y1D9PAxXJXhFYZuQeqwsTm/reNSwlYVLHSO2gaU978WKxy3pNtul?=
+ =?us-ascii?Q?MSw6xR4OGAC5vZtWeaMpYirrAg5psxlwkUafxfcevXHtE+U9TVk0Op/8gdn6?=
+ =?us-ascii?Q?YxnfIiBYMxhv05wZyu73Rj1cKX6r0o6vcGBaj5nSjtsC1inEjtGCeDaE5g7Z?=
+ =?us-ascii?Q?e5Y2MXXIjs/DyvLS3rSl3Bp7e1VCVjdJpONmGgbMY1NPwi8ncrefX6xLF7bC?=
+ =?us-ascii?Q?hbKSyGaWTocK4OdoL3R2gxGj40q18V2KTba0ae4AVsw02dqtyUX4JkYL1Yl4?=
+ =?us-ascii?Q?0s3HzeboVirjY/SuvCzEhiWDU5yWeU0ycLZj0s0rWQ8X8Bey9gFga8fXDmQS?=
+ =?us-ascii?Q?5PB22Oy/mWFRS7t1Lb+bmHyHSL6RKyJShpSbFzHl0xjviOT/64FrhBPoutwv?=
+ =?us-ascii?Q?ty0KvOA9tC/EC9AfVHpjDh6pIoW8rNihd+tqTVMCOBvGNgVm6lg/zRTn/3z/?=
+ =?us-ascii?Q?NdQH1Cy4I03OQTa5lcSOw2QfIcJ1aCAIru4jCQTCl7q1UcNCacJac/jSS18t?=
+ =?us-ascii?Q?4LcAxgYjhlzW1Po8d3yhFMluMtN+V/CP5NiOqr2eD9oELI5G+ooVYrZfgN+8?=
+ =?us-ascii?Q?4bMsXQ9jic9nnnEOhO1fQ9l51dpw2vj09nBnlWdMxsyZeSJPP1eskZpYE7Nu?=
+ =?us-ascii?Q?LU3jkmxUucKT46zrvMayAwzxkEXcW5Waqveapdqp7s5v7FtTO6O5ANX64ZHY?=
+ =?us-ascii?Q?PYkuNeik6LXiNHV9YKMiQTtzAfAKplP7/3A6ijDxMzTREtXGGPEv0SKBcoWP?=
+ =?us-ascii?Q?iV4rFMExa/cF58AIQZDEcc1LLcmGMFSB0glDNBzhMqpb3iJQeV0rvTsO3fCR?=
+ =?us-ascii?Q?V3VK7cE4RsMkrywcJs/cCMym6DlwTh82xcEa5JlJkEA5jAI0EXMfBZWRJcyt?=
+ =?us-ascii?Q?rI9faR6zzEPF1uzVsulQauNcjBkQD0cLKJPu+y7ElGlT42cMkiBeqUIzrlWS?=
+ =?us-ascii?Q?0zxegnkNQBNh9B5xilVUW4BJdIMDYPn1PGShBSwlVHMKwWw1xOshMufsNdS2?=
+ =?us-ascii?Q?YdiZYCA1CSWroguspOSI11TknibVls83CQVvnZH2t3TLOlxfSom5i7yCsfB/?=
+ =?us-ascii?Q?ALssmc/Rw+rvCIwTzsd3FVGbibmuc2Osk2FZNqk20lshdzUUVahxdz6mF3tS?=
+ =?us-ascii?Q?eOvN/GGdvhZhX1Gy6ghmpn6k0uixTvlcpisZLNKohKXJDd80M4ySPfNhFM1H?=
+ =?us-ascii?Q?tQGZh5NytScYBCQdRvx39UiIe/CE0m3XFWBHHN0vCbazA92hb0+9DDn6bBZP?=
+ =?us-ascii?Q?BGl5hbwaGdClCgzLntoI7+4XY23Ox2+UPUwn2DcsdSsgHJE6btuFoR0zLbG5?=
+ =?us-ascii?Q?M9k8kF4op/l0LXTeHetS0OSnNHlGiELOs2B8lCiidWa9kdpTui4P5NLAdfEv?=
+ =?us-ascii?Q?zZETqC572SmsTIgV4sKiBbStq1+r1MKOCbop/Istryo570Kz8stgcN9GHXcf?=
+ =?us-ascii?Q?iw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?lMV+XP6M+8U87cXjBSMpkqfdwMvNLBXZGk9yGNsRY0iOhCLY5YBB1qiXsX9d?=
+ =?us-ascii?Q?d4r3j+dTy+I01/gKRm2sKijOfOG6nCPnI/5MHBf7lGaw4P1AUrxReXC/5onz?=
+ =?us-ascii?Q?/3bOgFu+IWDyjhoKCWbpQoxDmZeAuSw7JrUFugQ8IL+y/VvcTyjU9CtB3/Br?=
+ =?us-ascii?Q?cTQ8TEsGnFaxj4fzdy0ZabwptGSLuo+2E0ctqrDUX+U/KA5xyJcYF/L7WVoU?=
+ =?us-ascii?Q?viv8pQgQsQIUyMclRs3fuLyRy2uS6gQKT57wVn+qP2sgnSHtLDJHHwGgeQjR?=
+ =?us-ascii?Q?JRfP6NbOl3cxjhuVPoaLhyuiP1KlwBb/2KNEmPScwbRlSqQ8Niw94NCVVddj?=
+ =?us-ascii?Q?HWtFAqIanaAPxPRJgKFiG5jQdvKlMnzH7RXSDKOLlVfW92u7TpSoOvqWwqb2?=
+ =?us-ascii?Q?I3zxCbr7MpFwjfvm18blTBAvN0h2YdB7UsHQiJJlinah33NzTQui2pvRGmrl?=
+ =?us-ascii?Q?bMLPC2wYuwA73bBxuyC33OPoJQAJM3J02P7UM4RduFTPvSVBXkZ7c1ZqMJ6X?=
+ =?us-ascii?Q?zVmGHJzM9PibNGPFj4toPvGXrSvwuYu1GUpXPIcoD+rtCRssbHn8dOeSF1l3?=
+ =?us-ascii?Q?083qVOHTSUNh3OQj7y68MuqW6AI2KHeEyZKikeuJA14YLo5sgIj+aS8XLuEe?=
+ =?us-ascii?Q?edxhSG6JstShrGFdRqJeybuWJcOhMIO2rzirjIQr5i8WIALCKex0gZ5YUvmx?=
+ =?us-ascii?Q?J+ddFtldUf0B+kI95b/lJv8fi3e/saWe7LQirQiXd7zGLFSxloG3cLJYMdpf?=
+ =?us-ascii?Q?4wF4btWT90wMggjmq06ZHJIWvjT+lAmuw9fIYhMJKFlm9AF9JEN+kCDE/HYN?=
+ =?us-ascii?Q?/JDOW93n0YV6fMFNyZK84iN7MUqonJKocU457ko+oZ8DA00DEFFKDgaulSBU?=
+ =?us-ascii?Q?YZIHv9o6MbD3Vug5iZHe4Y7N22QLFhANLckA8Ci/XNIhIv+7oJR8XlivKedS?=
+X-OriginatorOrg: qti.qualcomm.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR02MB8173.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47ff23c4-df55-4bdc-d611-08db247760e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2023 10:32:14.8168 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4h7u4jQiSxKBfc6Cp5k7LmYBCEfRSbdhh4EJ+JYzZEMzapW9SL7WLbbRZa/YlnTcb5zGmUmtepL4Kdun3+ZM+TatW6QoukHZqkiq3AyNyU8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR02MB9478
+X-Proofpoint-ORIG-GUID: cWfkInFFB9M58ECqsdA3J5Iwp4YV5oVC
+X-Proofpoint-GUID: cWfkInFFB9M58ECqsdA3J5Iwp4YV5oVC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-14_04,2023-03-14_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ clxscore=1015 phishscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303140090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,1550 +164,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_pkanojiy@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_carlv@quicinc.com, quic_ajitpals@quicinc.com, linux-doc@vger.kernel.org
+Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
+ "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "Bjorn Andersson \(QUIC\)" <quic_bjorande@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 06.03.2023 22:33, Jeffrey Hugo wrote:
-> Add the control path component that talks to the management processor (QSM)
-> to load workloads onto the AIC100 device. This implements the KMD portion
-> of the NNC protocol over the QAIC_CONTROL MHI channel and the
-> DRM_IOCTL_QAIC_MANAGE IOCTL to userspace. With this functionality, QAIC
-> clients are able to load, run, and cleanup their workloads on the device
-> but not interact with the workloads (run inferences).
-> 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+
+> -----Original Message-----
+> From: Vinod Polimera (QUIC) <quic_vpolimer@quicinc.com>
+> Sent: Thursday, March 2, 2023 10:03 PM
+> To: dri-devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org;
+> freedreno@lists.freedesktop.org; devicetree@vger.kernel.org
+> Cc: Vinod Polimera (QUIC) <quic_vpolimer@quicinc.com>; linux-
+> kernel@vger.kernel.org; robdclark@gmail.com; dianders@chromium.org;
+> swboyd@chromium.org; Kalyan Thota (QUIC) <quic_kalyant@quicinc.com>;
+> dmitry.baryshkov@linaro.org; Kuogee Hsieh (QUIC)
+> <quic_khsieh@quicinc.com>; Vishnuvardhan Prodduturi (QUIC)
+> <quic_vproddut@quicinc.com>; Bjorn Andersson (QUIC)
+> <quic_bjorande@quicinc.com>; Abhinav Kumar (QUIC)
+> <quic_abhinavk@quicinc.com>; Sankeerth Billakanti (QUIC)
+> <quic_sbillaka@quicinc.com>
+> Subject: [PATCH v14 13/14] drm/msm/disp/dpu: update dpu_enc crtc state
+> on crtc enable/disable during self refresh
+>=20
+> Populate the enocder software structure to reflect the updated
+> crtc appropriately during crtc enable/disable for a new commit
+> while taking care of the self refresh transitions when crtc
+> disable is triggered from the drm self refresh library.
+>=20
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Adding the RB tag which was reviewed by Dmitry on V13.
+
 > ---
->  drivers/accel/qaic/qaic_control.c | 1496 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 1496 insertions(+)
->  create mode 100644 drivers/accel/qaic/qaic_control.c
-> 
-> diff --git a/drivers/accel/qaic/qaic_control.c b/drivers/accel/qaic/qaic_control.c
-> new file mode 100644
-> index 0000000..2643747
-> --- /dev/null
-> +++ b/drivers/accel/qaic/qaic_control.c
-> @@ -0,0 +1,1496 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +/* Copyright (c) 2019-2021, The Linux Foundation. All rights reserved. */
-> +/* Copyright (c) 2021-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
-> +
-> +#include <asm/byteorder.h>
-> +#include <linux/completion.h>
-> +#include <linux/crc32.h>
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/kref.h>
-> +#include <linux/list.h>
-> +#include <linux/mhi.h>
-> +#include <linux/mm.h>
-> +#include <linux/moduleparam.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pci.h>
-> +#include <linux/scatterlist.h>
-> +#include <linux/types.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/wait.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_file.h>
-> +#include <uapi/drm/qaic_accel.h>
-> +
-> +#include "qaic.h"
-> +
-> +#define MANAGE_MAGIC_NUMBER		((__force __le32)0x43494151) /* "QAIC" in little endian */
-> +#define QAIC_DBC_Q_GAP			SZ_256
-> +#define QAIC_DBC_Q_BUF_ALIGN		SZ_4K
-> +#define QAIC_MANAGE_EXT_MSG_LENGTH	SZ_64K /* Max DMA message length */
-> +#define QAIC_WRAPPER_MAX_SIZE		SZ_4K
-> +#define QAIC_MHI_RETRY_WAIT_MS		100
-> +#define QAIC_MHI_RETRY_MAX		20
-> +
-> +static unsigned int control_resp_timeout = 60; /* 60 sec default */
-> +module_param(control_resp_timeout, uint, 0600);
-
-I suggest adding _sec postfix or at least document this param.
-
-> +
-> +struct manage_msg {
-> +	u32 len;
-> +	u32 count;
-> +	u8 data[];
-> +};
-> +
-> +/*
-> + * wire encoding structures for the manage protocol.
-> + * All fields are little endian on the wire
-> + */
-> +struct _msg_hdr {
-> +	__le32 crc32; /* crc of everything following this field in the message */
-> +	__le32 magic_number;
-> +	__le32 sequence_number;
-> +	__le32 len; /* length of this message */
-> +	__le32 count; /* number of transactions in this message */
-> +	__le32 handle; /* unique id to track the resources consumed */
-> +	__le32 partition_id; /* partition id for the request (signed)*/
-> +	__le32 padding; /* must be 0 */
-> +} __packed;
-> +
-> +struct _msg {
-
-I don't love these underlines prefixes.
-I would suggest removing them and making the structure names a little longer.
-
-> +	struct _msg_hdr hdr;
-> +	u8 data[];
-> +} __packed;
-> +
-> +struct _trans_hdr {
-> +	__le32 type;
-> +	__le32 len;
-> +} __packed;
-> +
-> +/* Each message sent from driver to device are organized in a list of wrapper_msg */
-> +struct wrapper_msg {
-> +	struct list_head list;
-> +	struct kref ref_count;
-> +	u32 len; /* length of data to transfer */
-> +	struct wrapper_list *head;
-> +	union {
-> +		struct _msg msg;
-> +		struct _trans_hdr trans;
-> +	};
-> +};
-> +
-> +struct wrapper_list {
-> +	struct list_head list;
-> +	spinlock_t lock;
-> +};
-> +
-> +struct _trans_passthrough {
-> +	struct _trans_hdr hdr;
-> +	u8 data[];
-> +} __packed;
-> +
-> +struct _addr_size_pair {
-> +	__le64 addr;
-> +	__le64 size;
-> +} __packed;
-> +
-> +struct _trans_dma_xfer {
-> +	struct _trans_hdr hdr;
-> +	__le32 tag;
-> +	__le32 count;
-> +	__le32 dma_chunk_id;
-> +	__le32 padding;
-> +	struct _addr_size_pair data[];
-> +} __packed;
-> +
-> +/* Initiated by device to continue the DMA xfer of a large piece of data */
-> +struct _trans_dma_xfer_cont {
-> +	struct _trans_hdr hdr;
-> +	__le32 dma_chunk_id;
-> +	__le32 padding;
-> +	__le64 xferred_size;
-> +} __packed;
-> +
-> +struct _trans_activate_to_dev {
-> +	struct _trans_hdr hdr;
-> +	__le64 req_q_addr;
-> +	__le64 rsp_q_addr;
-> +	__le32 req_q_size;
-> +	__le32 rsp_q_size;
-> +	__le32 buf_len;
-> +	__le32 options; /* unused, but BIT(16) has meaning to the device */
-> +} __packed;
-> +
-> +struct _trans_activate_from_dev {
-> +	struct _trans_hdr hdr;
-> +	__le32 status;
-> +	__le32 dbc_id;
-> +	__le64 options; /* unused */
-> +} __packed;
-> +
-> +struct _trans_deactivate_from_dev {
-> +	struct _trans_hdr hdr;
-> +	__le32 status;
-> +	__le32 dbc_id;
-> +} __packed;
-> +
-> +struct _trans_terminate_to_dev {
-> +	struct _trans_hdr hdr;
-> +	__le32 handle;
-> +	__le32 padding;
-> +} __packed;
-> +
-> +struct _trans_terminate_from_dev {
-> +	struct _trans_hdr hdr;
-> +	__le32 status;
-> +	__le32 padding;
-> +} __packed;
-> +
-> +struct _trans_status_to_dev {
-> +	struct _trans_hdr hdr;
-> +} __packed;
-> +
-> +struct _trans_status_from_dev {
-> +	struct _trans_hdr hdr;
-> +	__le16 major;
-> +	__le16 minor;
-> +	__le32 status;
-> +	__le64 status_flags;
-> +} __packed;
-> +
-> +struct _trans_validate_part_to_dev {
-> +	struct _trans_hdr hdr;
-> +	__le32 part_id;
-> +	__le32 padding;
-> +} __packed;
-> +
-> +struct _trans_validate_part_from_dev {
-> +	struct _trans_hdr hdr;
-> +	__le32 status;
-> +	__le32 padding;
-> +} __packed;
-> +
-> +struct xfer_queue_elem {
-> +	/*
-> +	 * Node in list of ongoing transfer request on control channel.
-> +	 * Maintained by root device struct
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 29
+> +++++++++++++++++++++++++----
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 60e5984..b1ec0c3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1022,8 +1022,17 @@ static void dpu_crtc_disable(struct drm_crtc *crtc=
+,
+>=20
+>  	DRM_DEBUG_KMS("crtc%d\n", crtc->base.id);
+>=20
+> -	if (old_crtc_state->self_refresh_active)
+> +	/* If disable is triggered while in self refresh mode,
+> +	 * reset the encoder software state so that in enable
+> +	 * it won't trigger a warn while assigning crtc.
 > +	 */
-> +	struct list_head list;
-> +	/* Sequence number of this transfer request */
-> +	u32 seq_num;
-> +	/* This is used to wait on until completion of transfer request */
-> +	struct completion xfer_done;
-> +	/* Received data from device */
-> +	void *buf;
-> +};
-> +
-> +struct dma_xfer {
-> +	/* Node in list of DMA transfers which is used for cleanup */
-> +	struct list_head list;
-> +	/* SG table of memory used for DMA */
-> +	struct sg_table *sgt;
-> +	/* Array pages used for DMA */
-> +	struct page **page_list;
-> +	/* Number of pages used for DMA */
-> +	unsigned long nr_pages;
-> +};
-> +
-> +struct ioctl_resources {
-> +	/* List of all DMA transfers which is used later for cleanup */
-> +	struct list_head dma_xfers;
-> +	/* Base address of request queue which belongs to a DBC */
-> +	void *buf;
-> +	/*
-> +	 * Base bus address of request queue which belongs to a DBC. Response
-> +	 * queue base bus address can be calculated by adding size of request
-> +	 * queue to base bus address of request queue.
-> +	 */
-> +	dma_addr_t dma_addr;
-> +	/* Total size of request queue and response queue in byte */
-> +	u32 total_size;
-> +	/* Total number of elements that can be queued in each of request and response queue */
-> +	u32 nelem;
-> +	/* Base address of response queue which belongs to a DBC */
-> +	void *rsp_q_base;
-> +	/* Status of the NNC message received */
-> +	u32 status;
-> +	/* DBC id of the DBC received from device */
-> +	u32 dbc_id;
-> +	/*
-> +	 * DMA transfer request messages can be big in size and it may not be
-> +	 * possible to send them in one shot. In such cases the messages are
-> +	 * broken into chunks, this field stores ID of such chunks.
-> +	 */
-> +	u32 dma_chunk_id;
-> +	/* Total number of bytes transferred for a DMA xfer request */
-> +	u64 xferred_dma_size;
-> +	/* Header of transaction message received from user. Used during DMA xfer request */
-> +	void *trans_hdr;
-> +};
-> +
-> +struct resp_work {
-> +	struct work_struct work;
-> +	struct qaic_device *qdev;
-> +	void *buf;
-> +};
-> +
-> +/*
-> + * Since we're working with little endian messages, its useful to be able to
-> + * increment without filling a whole line with conversions back and forth just
-> + * to add one(1) to a message count.
-> + */
-> +static __le32 incr_le32(__le32 val)
-> +{
-> +	return cpu_to_le32(le32_to_cpu(val) + 1);
-> +}
-> +
-> +static u32 gen_crc(void *msg)
-> +{
-> +	struct wrapper_list *wrappers = msg;
-> +	struct wrapper_msg *w;
-> +	u32 crc = ~0;
-> +
-> +	list_for_each_entry(w, &wrappers->list, list)
-> +		crc = crc32(crc, &w->msg, w->len);
-> +
-> +	return crc ^ ~0;
-> +}
-> +
-> +static u32 gen_crc_stub(void *msg)
-> +{
-> +	return 0;
-> +}
-> +
-> +static bool valid_crc(void *msg)
-> +{
-> +	struct _msg_hdr *hdr = msg;
-> +	bool ret;
-> +	u32 crc;
-> +
-> +	/*
-> +	 * The output of this algorithm is always converted to the native
-> +	 * endianness.
-> +	 */
-> +	crc = le32_to_cpu(hdr->crc32);
-> +	hdr->crc32 = 0;
-> +	ret = (crc32(~0, msg, le32_to_cpu(hdr->len)) ^ ~0) == crc;
-
-I think it would be better to use sized U32_MAX instead of ~0 here.
-
-> +	hdr->crc32 = cpu_to_le32(crc);
-> +	return ret;
-> +}
-> +
-> +static bool valid_crc_stub(void *msg)
-> +{
-> +	return true;
-> +}
-> +
-> +static void free_wrapper(struct kref *ref)
-> +{
-> +	struct wrapper_msg *wrapper = container_of(ref, struct wrapper_msg, ref_count);
-> +
-> +	list_del(&wrapper->list);
-> +	kfree(wrapper);
-> +}
-> +
-> +static void save_dbc_buf(struct qaic_device *qdev, struct ioctl_resources *resources,
-> +			 struct qaic_user *usr)
-> +{
-> +	u32 dbc_id = resources->dbc_id;
-> +
-> +	if (resources->buf) {
-> +		wait_event_interruptible(qdev->dbc[dbc_id].dbc_release, !qdev->dbc[dbc_id].in_use);
-> +		qdev->dbc[dbc_id].req_q_base = resources->buf;
-> +		qdev->dbc[dbc_id].rsp_q_base = resources->rsp_q_base;
-> +		qdev->dbc[dbc_id].dma_addr = resources->dma_addr;
-> +		qdev->dbc[dbc_id].total_size = resources->total_size;
-> +		qdev->dbc[dbc_id].nelem = resources->nelem;
-> +		enable_dbc(qdev, dbc_id, usr);
-> +		qdev->dbc[dbc_id].in_use = true;
-> +		resources->buf = NULL;
-> +	}
-> +}
-> +
-> +static void free_dbc_buf(struct qaic_device *qdev, struct ioctl_resources *resources)
-> +{
-> +	if (resources->buf)
-> +		dma_free_coherent(&qdev->pdev->dev, resources->total_size, resources->buf,
-> +				  resources->dma_addr);
-> +	resources->buf = NULL;
-> +}
-> +
-> +static void free_dma_xfers(struct qaic_device *qdev, struct ioctl_resources *resources)
-> +{
-> +	struct dma_xfer *xfer;
-> +	struct dma_xfer *x;
-> +	int i;
-> +
-> +	list_for_each_entry_safe(xfer, x, &resources->dma_xfers, list) {
-> +		dma_unmap_sgtable(&qdev->pdev->dev, xfer->sgt, DMA_TO_DEVICE, 0);
-> +		sg_free_table(xfer->sgt);
-> +		kfree(xfer->sgt);
-> +		for (i = 0; i < xfer->nr_pages; ++i)
-> +			put_page(xfer->page_list[i]);
-> +		kfree(xfer->page_list);
-> +		list_del(&xfer->list);
-> +		kfree(xfer);
-> +	}
-> +}
-> +
-> +static struct wrapper_msg *add_wrapper(struct wrapper_list *wrappers, u32 size)
-> +{
-> +	struct wrapper_msg *w = kzalloc(size, GFP_KERNEL);
-> +
-> +	if (!w)
-> +		return NULL;
-> +	list_add_tail(&w->list, &wrappers->list);
-> +	kref_init(&w->ref_count);
-> +	w->head = wrappers;
-> +	return w;
-> +}
-> +
-> +static int encode_passthrough(struct qaic_device *qdev, void *trans, struct wrapper_list *wrappers,
-> +			      u32 *user_len)
-> +{
-> +	struct qaic_manage_trans_passthrough *in_trans = trans;
-> +	struct _trans_passthrough *out_trans;
-> +	struct wrapper_msg *trans_wrapper;
-> +	struct wrapper_msg *wrapper;
-> +	struct _msg *msg;
-> +	u32 msg_hdr_len;
-> +
-> +	wrapper = list_first_entry(&wrappers->list, struct wrapper_msg, list);
-> +	msg = &wrapper->msg;
-> +	msg_hdr_len = le32_to_cpu(msg->hdr.len);
-> +
-> +	if (in_trans->hdr.len % 8 != 0)
-> +		return -EINVAL;
-> +
-> +	if (msg_hdr_len + in_trans->hdr.len > QAIC_MANAGE_EXT_MSG_LENGTH)
-> +		return -ENOSPC;
-> +
-> +	trans_wrapper = add_wrapper(wrappers,
-> +				    offsetof(struct wrapper_msg, trans) + in_trans->hdr.len);
-> +	if (!trans_wrapper)
-> +		return -ENOMEM;
-> +	trans_wrapper->len = in_trans->hdr.len;
-> +	out_trans = (struct _trans_passthrough *)&trans_wrapper->trans;
-> +
-> +	memcpy(out_trans->data, in_trans->data, in_trans->hdr.len - sizeof(in_trans->hdr));
-> +	msg->hdr.len = cpu_to_le32(msg_hdr_len + in_trans->hdr.len);
-> +	msg->hdr.count = incr_le32(msg->hdr.count);
-> +	*user_len += in_trans->hdr.len;
-> +	out_trans->hdr.type = cpu_to_le32(QAIC_TRANS_PASSTHROUGH_TO_DEV);
-> +	out_trans->hdr.len = cpu_to_le32(in_trans->hdr.len);
-> +
-> +	return 0;
-> +}
-> +
-> +static int encode_dma(struct qaic_device *qdev, void *trans, struct wrapper_list *wrappers,
-> +		      u32 *user_len, struct ioctl_resources *resources, struct qaic_user *usr)
-> +{
-> +	struct qaic_manage_trans_dma_xfer *in_trans = trans;
-> +	struct _trans_dma_xfer *out_trans;
-> +	struct wrapper_msg *trans_wrapper;
-> +	struct wrapper_msg *wrapper;
-> +	struct _addr_size_pair *asp;
-> +	unsigned long need_pages;
-> +	struct page **page_list;
-> +	unsigned long nr_pages;
-> +	struct scatterlist *sg;
-> +	struct wrapper_msg *w;
-> +	struct dma_xfer *xfer;
-> +	struct sg_table *sgt;
-> +	unsigned int dma_len;
-> +	u64 dma_chunk_len;
-> +	struct _msg *msg;
-> +	u32 msg_hdr_len;
-> +	void *boundary;
-> +	int nents_dma;
-> +	int nents;
-> +	u32 size;
-> +	int ret;
-> +	int i;
-
-These definitions look like ASCII art :)
-I think it is a sign this function should be divided into smaller ones.
-
-> +	wrapper = list_first_entry(&wrappers->list, struct wrapper_msg, list);
-> +	msg = &wrapper->msg;
-> +	msg_hdr_len = le32_to_cpu(msg->hdr.len);
-> +
-> +	if (msg_hdr_len > (UINT_MAX - QAIC_MANAGE_EXT_MSG_LENGTH)) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	/* There should be enough space to hold at least one ASP entry. */
-> +	if (msg_hdr_len + sizeof(*out_trans) + sizeof(*asp) > QAIC_MANAGE_EXT_MSG_LENGTH) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	if (in_trans->addr + in_trans->size < in_trans->addr || !in_trans->size) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	xfer = kmalloc(sizeof(*xfer), GFP_KERNEL);
-> +	if (!xfer) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	need_pages = DIV_ROUND_UP(in_trans->size + offset_in_page(in_trans->addr +
-> +				  resources->xferred_dma_size) - resources->xferred_dma_size,
-> +				  PAGE_SIZE);
-> +
-> +	nr_pages = need_pages;
-> +
-> +	while (1) {
-> +		page_list = kmalloc_array(nr_pages, sizeof(*page_list), GFP_KERNEL | __GFP_NOWARN);
-> +		if (!page_list) {
-> +			nr_pages = nr_pages / 2;
-> +			if (!nr_pages) {
-> +				ret = -ENOMEM;
-> +				goto free_resource;
-> +			}
-> +		} else {
-> +			break;
+> +	if (old_crtc_state->self_refresh_active) {
+> +		drm_for_each_encoder_mask(encoder, crtc->dev,
+> +					old_crtc_state->encoder_mask) {
+> +			dpu_encoder_assign_crtc(encoder, NULL);
 > +		}
+>  		return;
 > +	}
+>=20
+>  	/* Disable/save vblank irq handling */
+>  	drm_crtc_vblank_off(crtc);
+> @@ -1036,7 +1045,14 @@ static void dpu_crtc_disable(struct drm_crtc *crtc=
+,
+>  		 */
+>  		if (dpu_encoder_get_intf_mode(encoder) =3D=3D
+> INTF_MODE_VIDEO)
+>  			release_bandwidth =3D true;
+> -		dpu_encoder_assign_crtc(encoder, NULL);
 > +
-> +	ret = get_user_pages_fast(in_trans->addr + resources->xferred_dma_size, nr_pages, 0,
-> +				  page_list);
-> +	if (ret < 0 || ret != nr_pages) {
-> +		ret = -EFAULT;
-> +		goto free_page_list;
-> +	}
-> +
-> +	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
-> +	if (!sgt) {
-> +		ret = -ENOMEM;
-> +		goto put_pages;
-> +	}
-> +
-> +	ret = sg_alloc_table_from_pages(sgt, page_list, nr_pages,
-> +					offset_in_page(in_trans->addr +
-> +						       resources->xferred_dma_size),
-> +					in_trans->size - resources->xferred_dma_size, GFP_KERNEL);
-> +	if (ret) {
-> +		ret = -ENOMEM;
-> +		goto free_sgt;
-> +	}
-> +
-> +	ret = dma_map_sgtable(&qdev->pdev->dev, sgt, DMA_TO_DEVICE, 0);
-> +	if (ret)
-> +		goto free_table;
-> +
-> +	nents = sgt->nents;
-> +	nents_dma = nents;
-> +	size = QAIC_MANAGE_EXT_MSG_LENGTH - msg_hdr_len - sizeof(*out_trans);
-> +	for_each_sgtable_sg(sgt, sg, i) {
-> +		size -= sizeof(*asp);
-> +		/* Save 1K for possible follow-up transactions. */
-> +		if (size < SZ_1K) {
-> +			nents_dma = i;
-> +			break;
-> +		}
-> +	}
-> +
-> +	trans_wrapper = add_wrapper(wrappers, QAIC_WRAPPER_MAX_SIZE);
-> +	if (!trans_wrapper) {
-> +		ret = -ENOMEM;
-> +		goto dma_unmap;
-> +	}
-> +	out_trans = (struct _trans_dma_xfer *)&trans_wrapper->trans;
-> +
-> +	asp = out_trans->data;
-> +	boundary = (void *)trans_wrapper + QAIC_WRAPPER_MAX_SIZE;
-> +	size = 0;
-> +
-> +	dma_len = 0;
-> +	w = trans_wrapper;
-> +	dma_chunk_len = 0;
-> +	for_each_sg(sgt->sgl, sg, nents_dma, i) {
-> +		asp->size = cpu_to_le64(dma_len);
-> +		dma_chunk_len += dma_len;
-> +		if (dma_len) {
-> +			asp++;
-> +			if ((void *)asp + sizeof(*asp) > boundary) {
-> +				w->len = (void *)asp - (void *)&w->msg;
-> +				size += w->len;
-> +				w = add_wrapper(wrappers, QAIC_WRAPPER_MAX_SIZE);
-> +				if (!w) {
-> +					ret = -ENOMEM;
-> +					goto dma_unmap;
-> +				}
-> +				boundary = (void *)w + QAIC_WRAPPER_MAX_SIZE;
-> +				asp = (struct _addr_size_pair *)&w->msg;
-> +			}
-> +		}
-> +		dma_len = 0;
-> +		asp->addr = cpu_to_le64(sg_dma_address(sg));
-> +		dma_len += sg_dma_len(sg);
-> +	}
-> +	/* finalize the last segment */
-> +	asp->size = cpu_to_le64(dma_len);
-> +	w->len = (void *)asp + sizeof(*asp) - (void *)&w->msg;
-> +	size += w->len;
-> +
-> +	msg->hdr.len = cpu_to_le32(msg_hdr_len + size);
-> +	msg->hdr.count = incr_le32(msg->hdr.count);
-> +
-> +	out_trans->hdr.type = cpu_to_le32(QAIC_TRANS_DMA_XFER_TO_DEV);
-> +	out_trans->hdr.len = cpu_to_le32(size);
-> +	out_trans->tag = cpu_to_le32(in_trans->tag);
-> +	out_trans->count = cpu_to_le32((size - sizeof(*out_trans)) / sizeof(*asp));
-> +	dma_chunk_len += dma_len;
-> +
-> +	*user_len += in_trans->hdr.len;
-> +
-> +	if (resources->dma_chunk_id) {
-> +		out_trans->dma_chunk_id = cpu_to_le32(resources->dma_chunk_id);
-> +	} else if (need_pages > nr_pages || nents_dma < nents) {
-> +		while (resources->dma_chunk_id == 0)
-> +			resources->dma_chunk_id = atomic_inc_return(&usr->chunk_id);
-> +
-> +		out_trans->dma_chunk_id = cpu_to_le32(resources->dma_chunk_id);
-> +	}
-> +	resources->xferred_dma_size += dma_chunk_len;
-> +	resources->trans_hdr = trans;
-> +
-> +	xfer->sgt = sgt;
-> +	xfer->page_list = page_list;
-> +	xfer->nr_pages = nr_pages;
-> +	list_add(&xfer->list, &resources->dma_xfers);
-> +	return 0;
-> +
-> +dma_unmap:
-> +	dma_unmap_sgtable(&qdev->pdev->dev, sgt, DMA_TO_DEVICE, 0);
-> +free_table:
-> +	sg_free_table(sgt);
-> +free_sgt:
-> +	kfree(sgt);
-> +put_pages:
-> +	for (i = 0; i < nr_pages; ++i)
-> +		put_page(page_list[i]);
-> +free_page_list:
-> +	kfree(page_list);
-> +free_resource:
-> +	kfree(xfer);
-> +out:
-> +	return ret;
-> +}
-> +
-> +static int encode_activate(struct qaic_device *qdev, void *trans, struct wrapper_list *wrappers,
-> +			   u32 *user_len, struct ioctl_resources *resources)
-> +{
-> +	struct qaic_manage_trans_activate_to_dev *in_trans = trans;
-> +	struct _trans_activate_to_dev *out_trans;
-> +	struct wrapper_msg *trans_wrapper;
-> +	struct wrapper_msg *wrapper;
-> +	dma_addr_t dma_addr;
-> +	struct _msg *msg;
-> +	u32 msg_hdr_len;
-> +	void *buf;
-> +	u32 nelem;
-> +	u32 size;
-> +	int ret;
-> +
-> +	wrapper = list_first_entry(&wrappers->list, struct wrapper_msg, list);
-> +	msg = &wrapper->msg;
-> +	msg_hdr_len = le32_to_cpu(msg->hdr.len);
-> +
-> +	if (msg_hdr_len + sizeof(*out_trans) > QAIC_MANAGE_MAX_MSG_LENGTH)
-> +		return -ENOSPC;
-> +
-> +	if (!in_trans->queue_size)
-> +		return -EINVAL;
-> +
-> +	if (in_trans->pad)
-> +		return -EINVAL;
-> +
-> +	nelem = in_trans->queue_size;
-> +	size = (get_dbc_req_elem_size() + get_dbc_rsp_elem_size()) * nelem;
-> +	if (size / nelem != get_dbc_req_elem_size() + get_dbc_rsp_elem_size())
-> +		return -EINVAL;
-> +
-> +	if (size + QAIC_DBC_Q_GAP + QAIC_DBC_Q_BUF_ALIGN < size)
-> +		return -EINVAL;
-> +
-> +	size = ALIGN((size + QAIC_DBC_Q_GAP), QAIC_DBC_Q_BUF_ALIGN);
-> +
-> +	buf = dma_alloc_coherent(&qdev->pdev->dev, size, &dma_addr, GFP_KERNEL);
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	trans_wrapper = add_wrapper(wrappers,
-> +				    offsetof(struct wrapper_msg, trans) + sizeof(*out_trans));
-> +	if (!trans_wrapper) {
-> +		ret = -ENOMEM;
-> +		goto free_dma;
-> +	}
-> +	trans_wrapper->len = sizeof(*out_trans);
-> +	out_trans = (struct _trans_activate_to_dev *)&trans_wrapper->trans;
-> +
-> +	out_trans->hdr.type = cpu_to_le32(QAIC_TRANS_ACTIVATE_TO_DEV);
-> +	out_trans->hdr.len = cpu_to_le32(sizeof(*out_trans));
-> +	out_trans->buf_len = cpu_to_le32(size);
-> +	out_trans->req_q_addr = cpu_to_le64(dma_addr);
-> +	out_trans->req_q_size = cpu_to_le32(nelem);
-> +	out_trans->rsp_q_addr = cpu_to_le64(dma_addr + size - nelem * get_dbc_rsp_elem_size());
-> +	out_trans->rsp_q_size = cpu_to_le32(nelem);
-> +	out_trans->options = cpu_to_le32(in_trans->options);
-> +
-> +	*user_len += in_trans->hdr.len;
-> +	msg->hdr.len = cpu_to_le32(msg_hdr_len + sizeof(*out_trans));
-> +	msg->hdr.count = incr_le32(msg->hdr.count);
-> +
-> +	resources->buf = buf;
-> +	resources->dma_addr = dma_addr;
-> +	resources->total_size = size;
-> +	resources->nelem = nelem;
-> +	resources->rsp_q_base = buf + size - nelem * get_dbc_rsp_elem_size();
-> +	return 0;
-> +
-> +free_dma:
-> +	dma_free_coherent(&qdev->pdev->dev, size, buf, dma_addr);
-> +	return ret;
-> +}
-> +
-> +static int encode_deactivate(struct qaic_device *qdev, void *trans,
-> +			     u32 *user_len, struct qaic_user *usr)
-> +{
-> +	struct qaic_manage_trans_deactivate *in_trans = trans;
-> +
-> +	if (in_trans->dbc_id >= qdev->num_dbc || in_trans->pad)
-> +		return -EINVAL;
-> +
-> +	*user_len += in_trans->hdr.len;
-> +
-> +	return disable_dbc(qdev, in_trans->dbc_id, usr);
-> +}
-> +
-> +static int encode_status(struct qaic_device *qdev, void *trans, struct wrapper_list *wrappers,
-> +			 u32 *user_len)
-> +{
-> +	struct qaic_manage_trans_status_to_dev *in_trans = trans;
-> +	struct _trans_status_to_dev *out_trans;
-> +	struct wrapper_msg *trans_wrapper;
-> +	struct wrapper_msg *wrapper;
-> +	struct _msg *msg;
-> +	u32 msg_hdr_len;
-> +
-> +	wrapper = list_first_entry(&wrappers->list, struct wrapper_msg, list);
-> +	msg = &wrapper->msg;
-> +	msg_hdr_len = le32_to_cpu(msg->hdr.len);
-> +
-> +	if (msg_hdr_len + in_trans->hdr.len > QAIC_MANAGE_MAX_MSG_LENGTH)
-> +		return -ENOSPC;
-> +
-> +	trans_wrapper = add_wrapper(wrappers, sizeof(*trans_wrapper));
-> +	if (!trans_wrapper)
-> +		return -ENOMEM;
-> +
-> +	trans_wrapper->len = sizeof(*out_trans);
-> +	out_trans = (struct _trans_status_to_dev *)&trans_wrapper->trans;
-> +
-> +	out_trans->hdr.type = cpu_to_le32(QAIC_TRANS_STATUS_TO_DEV);
-> +	out_trans->hdr.len = cpu_to_le32(in_trans->hdr.len);
-> +	msg->hdr.len = cpu_to_le32(msg_hdr_len + in_trans->hdr.len);
-> +	msg->hdr.count = incr_le32(msg->hdr.count);
-> +	*user_len += in_trans->hdr.len;
-> +
-> +	return 0;
-> +}
-> +
-> +static int encode_message(struct qaic_device *qdev, struct manage_msg *user_msg,
-> +			  struct wrapper_list *wrappers, struct ioctl_resources *resources,
-> +			  struct qaic_user *usr)
-> +{
-> +	struct qaic_manage_trans_hdr *trans_hdr;
-> +	struct wrapper_msg *wrapper;
-> +	struct _msg *msg;
-> +	u32 user_len = 0;
-> +	int ret;
-> +	int i;
-> +
-> +	if (!user_msg->count) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	wrapper = list_first_entry(&wrappers->list, struct wrapper_msg, list);
-> +	msg = &wrapper->msg;
-> +
-> +	msg->hdr.len = cpu_to_le32(sizeof(msg->hdr));
-> +
-> +	if (resources->dma_chunk_id) {
-> +		ret = encode_dma(qdev, resources->trans_hdr, wrappers, &user_len, resources, usr);
-> +		msg->hdr.count = cpu_to_le32(1);
-> +		goto out;
-> +	}
-> +
-> +	for (i = 0; i < user_msg->count; ++i) {
-> +		if (user_len >= user_msg->len) {
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +		trans_hdr = (struct qaic_manage_trans_hdr *)(user_msg->data + user_len);
-> +		if (user_len + trans_hdr->len > user_msg->len) {
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		switch (trans_hdr->type) {
-> +		case QAIC_TRANS_PASSTHROUGH_FROM_USR:
-> +			ret = encode_passthrough(qdev, trans_hdr, wrappers, &user_len);
-> +			break;
-> +		case QAIC_TRANS_DMA_XFER_FROM_USR:
-> +			ret = encode_dma(qdev, trans_hdr, wrappers, &user_len, resources, usr);
-> +			break;
-> +		case QAIC_TRANS_ACTIVATE_FROM_USR:
-> +			ret = encode_activate(qdev, trans_hdr, wrappers, &user_len, resources);
-> +			break;
-> +		case QAIC_TRANS_DEACTIVATE_FROM_USR:
-> +			ret = encode_deactivate(qdev, trans_hdr, &user_len, usr);
-> +			break;
-> +		case QAIC_TRANS_STATUS_FROM_USR:
-> +			ret = encode_status(qdev, trans_hdr, wrappers, &user_len);
-> +			break;
-> +		default:
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	if (user_len != user_msg->len)
-> +		ret = -EINVAL;
-> +out:
-> +	if (ret) {
-> +		free_dma_xfers(qdev, resources);
-> +		free_dbc_buf(qdev, resources);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int decode_passthrough(struct qaic_device *qdev, void *trans, struct manage_msg *user_msg,
-> +			      u32 *msg_len)
-> +{
-> +	struct qaic_manage_trans_passthrough *out_trans;
-> +	struct _trans_passthrough *in_trans = trans;
-> +	u32 len;
-> +
-> +	out_trans = (void *)user_msg->data + user_msg->len;
-> +
-> +	len = le32_to_cpu(in_trans->hdr.len);
-> +	if (len % 8 != 0)
-> +		return -EINVAL;
-> +
-> +	if (user_msg->len + len > QAIC_MANAGE_MAX_MSG_LENGTH)
-> +		return -ENOSPC;
-> +
-> +	memcpy(out_trans->data, in_trans->data, len - sizeof(in_trans->hdr));
-> +	user_msg->len += len;
-> +	*msg_len += len;
-> +	out_trans->hdr.type = le32_to_cpu(in_trans->hdr.type);
-> +	out_trans->hdr.len = len;
-> +
-> +	return 0;
-> +}
-> +
-> +static int decode_activate(struct qaic_device *qdev, void *trans, struct manage_msg *user_msg,
-> +			   u32 *msg_len, struct ioctl_resources *resources, struct qaic_user *usr)
-> +{
-> +	struct qaic_manage_trans_activate_from_dev *out_trans;
-> +	struct _trans_activate_from_dev *in_trans = trans;
-> +	u32 len;
-> +
-> +	out_trans = (void *)user_msg->data + user_msg->len;
-> +
-> +	len = le32_to_cpu(in_trans->hdr.len);
-> +	if (user_msg->len + len > QAIC_MANAGE_MAX_MSG_LENGTH)
-> +		return -ENOSPC;
-> +
-> +	user_msg->len += len;
-> +	*msg_len += len;
-> +	out_trans->hdr.type = le32_to_cpu(in_trans->hdr.type);
-> +	out_trans->hdr.len = len;
-> +	out_trans->status = le32_to_cpu(in_trans->status);
-> +	out_trans->dbc_id = le32_to_cpu(in_trans->dbc_id);
-> +	out_trans->options = le64_to_cpu(in_trans->options);
-> +
-> +	if (!resources->buf)
-> +		/* how did we get an activate response without a request? */
-> +		return -EINVAL;
-> +
-> +	if (out_trans->dbc_id >= qdev->num_dbc)
 > +		/*
-> +		 * The device assigned an invalid resource, which should never
-> +		 * happen. Return an error so the user can try to recover.
+> +		 * If disable is triggered during psr active(e.g: screen dim in
+> PSR),
+> +		 * we will need encoder->crtc connection to process the
+> device sleep &
+> +		 * preserve it during psr sequence.
 > +		 */
-> +		return -ENODEV;
+> +		if (!crtc->state->self_refresh_active)
+> +			dpu_encoder_assign_crtc(encoder, NULL);
+>  	}
+>=20
+>  	/* wait for frame_event_done completion */
+> @@ -1084,6 +1100,9 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+>  	struct dpu_crtc *dpu_crtc =3D to_dpu_crtc(crtc);
+>  	struct drm_encoder *encoder;
+>  	bool request_bandwidth =3D false;
+> +	struct drm_crtc_state *old_crtc_state;
 > +
-> +	if (out_trans->status)
-> +		/*
-> +		 * Allocating resources failed on device side. This is not an
-> +		 * expected behaviour, user is expected to handle this situation.
-> +		 */
-> +		return -ECANCELED;
-> +
-> +	resources->status = out_trans->status;
-> +	resources->dbc_id = out_trans->dbc_id;
-> +	save_dbc_buf(qdev, resources, usr);
-> +
-> +	return 0;
-> +}
-> +
-> +static int decode_deactivate(struct qaic_device *qdev, void *trans, u32 *msg_len,
-> +			     struct qaic_user *usr)
-> +{
-> +	struct _trans_deactivate_from_dev *in_trans = trans;
-> +	u32 dbc_id = le32_to_cpu(in_trans->dbc_id);
-> +	u32 status = le32_to_cpu(in_trans->status);
-> +
-> +	if (dbc_id >= qdev->num_dbc)
-> +		/*
-> +		 * The device assigned an invalid resource, which should never
-> +		 * happen. Inject an error so the user can try to recover.
-> +		 */
-> +		return -ENODEV;
-> +
-> +	if (status) {
-> +		/*
-> +		 * Releasing resources failed on the device side, which puts
-> +		 * us in a bind since they may still be in use, so enable the
-> +		 * dbc. User is expected to retry deactivation.
-> +		 */
-> +		enable_dbc(qdev, dbc_id, usr);
-> +		return -ECANCELED;
+> +	old_crtc_state =3D drm_atomic_get_old_crtc_state(state, crtc);
+>=20
+>  	pm_runtime_get_sync(crtc->dev->dev);
+>=20
+> @@ -1106,8 +1125,10 @@ static void dpu_crtc_enable(struct drm_crtc *crtc,
+>  	trace_dpu_crtc_enable(DRMID(crtc), true, dpu_crtc);
+>  	dpu_crtc->enabled =3D true;
+>=20
+> -	drm_for_each_encoder_mask(encoder, crtc->dev, crtc->state-
+> >encoder_mask)
+> -		dpu_encoder_assign_crtc(encoder, crtc);
+> +	if (!old_crtc_state->self_refresh_active) {
+> +		drm_for_each_encoder_mask(encoder, crtc->dev, crtc-
+> >state->encoder_mask)
+> +			dpu_encoder_assign_crtc(encoder, crtc);
 > +	}
-> +
-> +	release_dbc(qdev, dbc_id);
-> +	*msg_len += sizeof(*in_trans);
-> +
-> +	return 0;
-> +}
-> +
-> +static int decode_status(struct qaic_device *qdev, void *trans, struct manage_msg *user_msg,
-> +			 u32 *user_len, struct _msg *msg)
-> +{
-> +	struct qaic_manage_trans_status_from_dev *out_trans;
-> +	struct _trans_status_from_dev *in_trans = trans;
-> +	u32 len;
-> +
-> +	out_trans = (void *)user_msg->data + user_msg->len;
-> +
-> +	len = le32_to_cpu(in_trans->hdr.len);
-> +	if (user_msg->len + len > QAIC_MANAGE_MAX_MSG_LENGTH)
-> +		return -ENOSPC;
-> +
-> +	out_trans->hdr.type = QAIC_TRANS_STATUS_FROM_DEV;
-> +	out_trans->hdr.len = len;
-> +	out_trans->major = le16_to_cpu(in_trans->major);
-> +	out_trans->minor = le16_to_cpu(in_trans->minor);
-> +	out_trans->status_flags = le64_to_cpu(in_trans->status_flags);
-> +	out_trans->status = le32_to_cpu(in_trans->status);
-> +	*user_len += le32_to_cpu(in_trans->hdr.len);
-> +	user_msg->len += len;
-> +
-> +	if (out_trans->status)
-> +		return -ECANCELED;
-> +	if (out_trans->status_flags & BIT(0) && !valid_crc(msg))
-> +		return -EPIPE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int decode_message(struct qaic_device *qdev, struct manage_msg *user_msg, struct _msg *msg,
-> +			  struct ioctl_resources *resources, struct qaic_user *usr)
-> +{
-> +	struct _trans_hdr *trans_hdr;
-> +	u32 msg_len = 0;
-> +	u32 msg_hdr_len = le32_to_cpu(msg->hdr.len);
-> +	int ret;
-> +	int i;
-> +
-> +	if (msg_hdr_len > QAIC_MANAGE_MAX_MSG_LENGTH)
-> +		return -EINVAL;
-> +
-> +	user_msg->len = 0;
-> +	user_msg->count = le32_to_cpu(msg->hdr.count);
-> +
-> +	for (i = 0; i < user_msg->count; ++i) {
-> +		trans_hdr = (struct _trans_hdr *)(msg->data + msg_len);
-> +		if (msg_len + le32_to_cpu(trans_hdr->len) > msg_hdr_len)
-> +			return -EINVAL;
-> +
-> +		switch (le32_to_cpu(trans_hdr->type)) {
-> +		case QAIC_TRANS_PASSTHROUGH_FROM_DEV:
-> +			ret = decode_passthrough(qdev, trans_hdr, user_msg, &msg_len);
-> +			break;
-> +		case QAIC_TRANS_ACTIVATE_FROM_DEV:
-> +			ret = decode_activate(qdev, trans_hdr, user_msg, &msg_len, resources, usr);
-> +			break;
-> +		case QAIC_TRANS_DEACTIVATE_FROM_DEV:
-> +			ret = decode_deactivate(qdev, trans_hdr, &msg_len, usr);
-> +			break;
-> +		case QAIC_TRANS_STATUS_FROM_DEV:
-> +			ret = decode_status(qdev, trans_hdr, user_msg, &msg_len, msg);
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (msg_len != (msg_hdr_len - sizeof(msg->hdr)))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static void *msg_xfer(struct qaic_device *qdev, struct wrapper_list *wrappers, u32 seq_num,
-> +		      bool ignore_signal)
-> +{
-> +	struct xfer_queue_elem elem;
-> +	struct wrapper_msg *w;
-> +	struct _msg *out_buf;
-> +	int retry_count;
-> +	long ret;
-> +
-> +	if (qdev->in_reset) {
-> +		mutex_unlock(&qdev->cntl_mutex);
-> +		return ERR_PTR(-ENODEV);
-> +	}
-> +
-> +	elem.seq_num = seq_num;
-> +	elem.buf = NULL;
-> +	init_completion(&elem.xfer_done);
-> +	if (likely(!qdev->cntl_lost_buf)) {
-> +		/*
-> +		 * The max size of request to device is QAIC_MANAGE_EXT_MSG_LENGTH.
-> +		 * The max size of response from device is QAIC_MANAGE_MAX_MSG_LENGTH.
-> +		 */
-> +		out_buf = kmalloc(QAIC_MANAGE_MAX_MSG_LENGTH, GFP_KERNEL);
-> +		if (!out_buf) {
-> +			mutex_unlock(&qdev->cntl_mutex);
-> +			return ERR_PTR(-ENOMEM);
-> +		}
-> +
-> +		ret = mhi_queue_buf(qdev->cntl_ch, DMA_FROM_DEVICE, out_buf,
-> +				    QAIC_MANAGE_MAX_MSG_LENGTH, MHI_EOT);
-> +		if (ret) {
-> +			mutex_unlock(&qdev->cntl_mutex);
-> +			return ERR_PTR(ret);
-> +		}
-> +	} else {
-> +		/*
-> +		 * we lost a buffer because we queued a recv buf, but then
-> +		 * queuing the corresponding tx buf failed. To try to avoid
-> +		 * a memory leak, lets reclaim it and use it for this
-> +		 * transaction.
-> +		 */
-> +		qdev->cntl_lost_buf = false;
-> +	}
-> +
-> +	list_for_each_entry(w, &wrappers->list, list) {
-> +		kref_get(&w->ref_count);
-> +		retry_count = 0;
-> +retry:
-> +		ret = mhi_queue_buf(qdev->cntl_ch, DMA_TO_DEVICE, &w->msg, w->len,
-> +				    list_is_last(&w->list, &wrappers->list) ? MHI_EOT : MHI_CHAIN);
-> +		if (ret) {
-> +			if (ret == -EAGAIN && retry_count++ < QAIC_MHI_RETRY_MAX) {
-> +				msleep_interruptible(QAIC_MHI_RETRY_WAIT_MS);
-> +				if (!signal_pending(current))
-> +					goto retry;
-> +			}
-> +
-> +			qdev->cntl_lost_buf = true;
-> +			kref_put(&w->ref_count, free_wrapper);
-> +			mutex_unlock(&qdev->cntl_mutex);
-> +			return ERR_PTR(ret);
-> +		}
-> +	}
-> +
-> +	list_add_tail(&elem.list, &qdev->cntl_xfer_list);
-> +	mutex_unlock(&qdev->cntl_mutex);
-> +
-> +	if (ignore_signal)
-> +		ret = wait_for_completion_timeout(&elem.xfer_done, control_resp_timeout * HZ);
-> +	else
-> +		ret = wait_for_completion_interruptible_timeout(&elem.xfer_done,
-> +								control_resp_timeout * HZ);
-> +	/*
-> +	 * not using _interruptable because we have to cleanup or we'll
-> +	 * likely cause memory corruption
-> +	 */
-> +	mutex_lock(&qdev->cntl_mutex);
-> +	if (!list_empty(&elem.list))
-> +		list_del(&elem.list);
-> +	if (!ret && !elem.buf)
-> +		ret = -ETIMEDOUT;
-> +	else if (ret > 0 && !elem.buf)
-> +		ret = -EIO;
-> +	mutex_unlock(&qdev->cntl_mutex);
-> +
-> +	if (ret < 0) {
-> +		kfree(elem.buf);
-> +		return ERR_PTR(ret);
-> +	} else if (!qdev->valid_crc(elem.buf)) {
-> +		kfree(elem.buf);
-> +		return ERR_PTR(-EPIPE);
-> +	}
-> +
-> +	return elem.buf;
-> +}
-> +
-> +/* Add a transaction to abort the outstanding DMA continuation */
-> +static int abort_dma_cont(struct qaic_device *qdev, struct wrapper_list *wrappers, u32 dma_chunk_id)
-> +{
-> +	struct _trans_dma_xfer *out_trans;
-> +	u32 size = sizeof(*out_trans);
-> +	struct wrapper_msg *wrapper;
-> +	struct wrapper_msg *w;
-> +	struct _msg *msg;
-> +
-> +	wrapper = list_first_entry(&wrappers->list, struct wrapper_msg, list);
-> +	msg = &wrapper->msg;
-> +
-> +	/* Remove all but the first wrapper which has the msg header */
-> +	list_for_each_entry_safe(wrapper, w, &wrappers->list, list)
-> +		if (!list_is_first(&wrapper->list, &wrappers->list))
-> +			kref_put(&wrapper->ref_count, free_wrapper);
-> +
-> +	wrapper = add_wrapper(wrappers, offsetof(struct wrapper_msg, trans) + sizeof(*out_trans));
-> +
-> +	if (!wrapper)
-> +		return -ENOMEM;
-> +
-> +	out_trans = (struct _trans_dma_xfer *)&wrapper->trans;
-> +	out_trans->hdr.type = cpu_to_le32(QAIC_TRANS_DMA_XFER_TO_DEV);
-> +	out_trans->hdr.len = cpu_to_le32(size);
-> +	out_trans->tag = cpu_to_le32(0);
-> +	out_trans->count = cpu_to_le32(0);
-> +	out_trans->dma_chunk_id = cpu_to_le32(dma_chunk_id);
-> +
-> +	msg->hdr.len = cpu_to_le32(size + sizeof(*msg));
-> +	msg->hdr.count = cpu_to_le32(1);
-> +	wrapper->len = size;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct wrapper_list *alloc_wrapper_list(void)
-> +{
-> +	struct wrapper_list *wrappers;
-> +
-> +	wrappers = kmalloc(sizeof(*wrappers), GFP_KERNEL);
-> +	if (!wrappers)
-> +		return NULL;
-> +	INIT_LIST_HEAD(&wrappers->list);
-> +	spin_lock_init(&wrappers->lock);
-> +
-> +	return wrappers;
-> +}
-> +
-> +static int __qaic_manage(struct qaic_device *qdev, struct qaic_user *usr,
-> +			 struct manage_msg *user_msg, struct ioctl_resources *resources,
-> +			 struct _msg **rsp)
-> +{
-> +	struct wrapper_list *wrappers;
-> +	struct wrapper_msg *wrapper;
-> +	struct wrapper_msg *w;
-> +	bool all_done = false;
-> +	struct _msg *msg;
-> +	int ret;
-> +
-> +	wrappers = alloc_wrapper_list();
-> +	if (!wrappers)
-> +		return -ENOMEM;
-> +
-> +	wrapper = add_wrapper(wrappers, sizeof(*wrapper));
-> +	if (!wrapper) {
-> +		kfree(wrappers);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	msg = &wrapper->msg;
-> +	wrapper->len = sizeof(*msg);
-> +
-> +	ret = encode_message(qdev, user_msg, wrappers, resources, usr);
-> +	if (ret && resources->dma_chunk_id)
-> +		ret = abort_dma_cont(qdev, wrappers, resources->dma_chunk_id);
-> +	if (ret)
-> +		goto encode_failed;
-> +
-> +	ret = mutex_lock_interruptible(&qdev->cntl_mutex);
-> +	if (ret)
-> +		goto lock_failed;
-> +
-> +	msg->hdr.magic_number = MANAGE_MAGIC_NUMBER;
-> +	msg->hdr.sequence_number = cpu_to_le32(qdev->next_seq_num++);
-> +
-> +	if (usr) {
-> +		msg->hdr.handle = cpu_to_le32(usr->handle);
-> +		msg->hdr.partition_id = cpu_to_le32(usr->qddev->partition_id);
-> +	} else {
-> +		msg->hdr.handle = 0;
-> +		msg->hdr.partition_id = cpu_to_le32(QAIC_NO_PARTITION);
-> +	}
-> +
-> +	msg->hdr.padding = cpu_to_le32(0);
-> +	msg->hdr.crc32 = cpu_to_le32(qdev->gen_crc(wrappers));
-> +
-> +	/* msg_xfer releases the mutex */
-> +	*rsp = msg_xfer(qdev, wrappers, qdev->next_seq_num - 1, false);
-> +	if (IS_ERR(*rsp))
-> +		ret = PTR_ERR(*rsp);
-> +
-> +lock_failed:
-> +	free_dma_xfers(qdev, resources);
-> +encode_failed:
-> +	spin_lock(&wrappers->lock);
-> +	list_for_each_entry_safe(wrapper, w, &wrappers->list, list)
-> +		kref_put(&wrapper->ref_count, free_wrapper);
-> +	all_done = list_empty(&wrappers->list);
-> +	spin_unlock(&wrappers->lock);
-> +	if (all_done)
-> +		kfree(wrappers);
-> +
-> +	return ret;
-> +}
-> +
-> +static int qaic_manage(struct qaic_device *qdev, struct qaic_user *usr, struct manage_msg *user_msg)
-> +{
-> +	struct _trans_dma_xfer_cont *dma_cont = NULL;
-> +	struct ioctl_resources resources;
-> +	struct _msg *rsp = NULL;
-> +	int ret;
-> +
-> +	memset(&resources, 0, sizeof(struct ioctl_resources));
-> +
-> +	INIT_LIST_HEAD(&resources.dma_xfers);
-> +
-> +	if (user_msg->len > QAIC_MANAGE_MAX_MSG_LENGTH ||
-> +	    user_msg->count > QAIC_MANAGE_MAX_MSG_LENGTH / sizeof(struct qaic_manage_trans_hdr))
-> +		return -EINVAL;
-> +
-> +dma_xfer_continue:
-> +	ret = __qaic_manage(qdev, usr, user_msg, &resources, &rsp);
+>=20
+>  	/* Enable/restore vblank irq handling */
+>  	drm_crtc_vblank_on(crtc);
+> --
+> 2.7.4
 
-Maybe something like qaic_manage_msg_xfer instead of __qaic_manage would be easier to read here.
-
-> +	if (ret)
-> +		return ret;
-> +	/* dma_cont should be the only transaction if present */
-> +	if (le32_to_cpu(rsp->hdr.count) == 1) {
-> +		dma_cont = (struct _trans_dma_xfer_cont *)rsp->data;
-> +		if (le32_to_cpu(dma_cont->hdr.type) != QAIC_TRANS_DMA_XFER_CONT)
-> +			dma_cont = NULL;
-> +	}
-> +	if (dma_cont) {
-> +		if (le32_to_cpu(dma_cont->dma_chunk_id) == resources.dma_chunk_id &&
-> +		    le64_to_cpu(dma_cont->xferred_size) == resources.xferred_dma_size) {
-> +			kfree(rsp);
-> +			goto dma_xfer_continue;
-> +		}
-> +
-> +		ret = -EINVAL;
-> +		goto dma_cont_failed;
-> +	}
-> +
-> +	ret = decode_message(qdev, user_msg, rsp, &resources, usr);
-> +
-> +dma_cont_failed:
-> +	free_dbc_buf(qdev, &resources);
-> +	kfree(rsp);
-> +	return ret;
-> +}
-> +
-> +int qaic_manage_ioctl(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> +{
-> +	struct qaic_manage_msg *user_msg;
-> +	struct qaic_device *qdev;
-> +	struct manage_msg *msg;
-> +	struct qaic_user *usr;
-> +	u8 __user *user_data;
-> +	int qdev_rcu_id;
-> +	int usr_rcu_id;
-> +	int ret;
-> +
-> +	usr = file_priv->driver_priv;
-> +
-> +	usr_rcu_id = srcu_read_lock(&usr->qddev_lock);
-> +	if (!usr->qddev) {
-> +		srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	qdev = usr->qddev->qdev;
-> +
-> +	qdev_rcu_id = srcu_read_lock(&qdev->dev_lock);
-> +	if (qdev->in_reset) {
-> +		srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
-> +		srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +		return -ENODEV;
-> +	}
-> +
-> +	user_msg = data;
-> +
-> +	if (user_msg->len > QAIC_MANAGE_MAX_MSG_LENGTH) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	msg = kzalloc(QAIC_MANAGE_MAX_MSG_LENGTH + sizeof(*msg), GFP_KERNEL);
-> +	if (!msg) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +
-> +	msg->len = user_msg->len;
-> +	msg->count = user_msg->count;
-> +
-> +	user_data = u64_to_user_ptr(user_msg->data);
-> +
-> +	if (copy_from_user(msg->data, user_data, user_msg->len)) {
-> +		ret = -EFAULT;
-> +		goto free_msg;
-> +	}
-> +
-> +	ret = qaic_manage(qdev, usr, msg);
-> +
-> +	/*
-> +	 * If the qaic_manage() is successful then we copy the message onto
-> +	 * userspace memory but we have an exception for -ECANCELED.
-> +	 * For -ECANCELED, it means that device has NACKed the message with a
-> +	 * status error code which userspace would like to know.
-> +	 */
-> +	if (ret == -ECANCELED || !ret) {
-> +		if (copy_to_user(user_data, msg->data, msg->len)) {
-> +			ret = -EFAULT;
-> +		} else {
-> +			user_msg->len = msg->len;
-> +			user_msg->count = msg->count;
-> +		}
-> +	}
-> +
-> +free_msg:
-> +	kfree(msg);
-> +out:
-> +	srcu_read_unlock(&qdev->dev_lock, qdev_rcu_id);
-> +	srcu_read_unlock(&usr->qddev_lock, usr_rcu_id);
-> +	return ret;
-> +}
-> +
-> +int get_cntl_version(struct qaic_device *qdev, struct qaic_user *usr, u16 *major, u16 *minor)
-> +{
-> +	struct qaic_manage_trans_status_from_dev *status_result;
-> +	struct qaic_manage_trans_status_to_dev *status_query;
-> +	struct manage_msg *user_msg;
-> +	int ret;
-> +
-> +	user_msg = kmalloc(sizeof(*user_msg) + sizeof(*status_result), GFP_KERNEL);
-> +	if (!user_msg) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +	user_msg->len = sizeof(*status_query);
-> +	user_msg->count = 1;
-> +
-> +	status_query = (struct qaic_manage_trans_status_to_dev *)user_msg->data;
-> +	status_query->hdr.type = QAIC_TRANS_STATUS_FROM_USR;
-> +	status_query->hdr.len = sizeof(status_query->hdr);
-> +
-> +	ret = qaic_manage(qdev, usr, user_msg);
-> +	if (ret)
-> +		goto kfree_user_msg;
-> +	status_result = (struct qaic_manage_trans_status_from_dev *)user_msg->data;
-> +	*major = status_result->major;
-> +	*minor = status_result->minor;
-> +
-> +	if (status_result->status_flags & BIT(0)) { /* device is using CRC */
-> +		/* By default qdev->gen_crc is programmed to generate CRC */
-> +		qdev->valid_crc = valid_crc;
-> +	} else {
-> +		/* By default qdev->valid_crc is programmed to bypass CRC */
-> +		qdev->gen_crc = gen_crc_stub;
-> +	}
-> +
-> +kfree_user_msg:
-> +	kfree(user_msg);
-> +out:
-> +	return ret;
-> +}
-> +
-> +static void resp_worker(struct work_struct *work)
-> +{
-> +	struct resp_work *resp = container_of(work, struct resp_work, work);
-> +	struct qaic_device *qdev = resp->qdev;
-> +	struct _msg *msg = resp->buf;
-> +	struct xfer_queue_elem *elem;
-> +	struct xfer_queue_elem *i;
-> +	bool found = false;
-> +
-> +	if (msg->hdr.magic_number != MANAGE_MAGIC_NUMBER) {
-
-Woudn't it make sense to check this in qaic_mhi_dl_xfer_cb() before queuing the work?
-
-> +		kfree(msg);
-> +		kfree(resp);
-> +		return;
-> +	}
-> +
-> +	mutex_lock(&qdev->cntl_mutex);
-> +	list_for_each_entry_safe(elem, i, &qdev->cntl_xfer_list, list) {
-> +		if (elem->seq_num == le32_to_cpu(msg->hdr.sequence_number)) {
-> +			found = true;
-> +			list_del_init(&elem->list);
-> +			elem->buf = msg;
-> +			complete_all(&elem->xfer_done);
-> +			break;
-> +		}
-> +	}
-> +	mutex_unlock(&qdev->cntl_mutex);
-> +
-> +	if (!found)
-> +		/* request must have timed out, drop packet */
-> +		kfree(msg);
-> +
-> +	kfree(resp);
-> +}
-> +
-> +static void free_wrapper_from_list(struct wrapper_list *wrappers, struct wrapper_msg *wrapper)
-> +{
-> +	bool all_done = false;
-> +
-> +	spin_lock(&wrappers->lock);
-> +	kref_put(&wrapper->ref_count, free_wrapper);
-> +	all_done = list_empty(&wrappers->list);
-> +	spin_unlock(&wrappers->lock);
-> +
-> +	if (all_done)
-> +		kfree(wrappers);
-> +}
-> +
-> +void qaic_mhi_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-> +{
-> +	struct _msg *msg = mhi_result->buf_addr;
-> +	struct wrapper_msg *wrapper = container_of(msg, struct wrapper_msg, msg);
-> +
-> +	free_wrapper_from_list(wrapper->head, wrapper);
-> +}
-> +
-> +void qaic_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-> +{
-> +	struct qaic_device *qdev = dev_get_drvdata(&mhi_dev->dev);
-> +	struct _msg *msg = mhi_result->buf_addr;
-> +	struct resp_work *resp;
-> +
-> +	if (mhi_result->transaction_status) {
-> +		kfree(msg);
-> +		return;
-> +	}
-> +
-> +	resp = kmalloc(sizeof(*resp), GFP_ATOMIC);
-> +	if (!resp) {
-> +		pci_err(qdev->pdev, "dl_xfer_cb alloc fail, dropping message\n");
-> +		kfree(msg);
-> +		return;
-> +	}
-> +
-> +	INIT_WORK(&resp->work, resp_worker);
-> +	resp->qdev = qdev;
-> +	resp->buf = msg;
-> +	queue_work(qdev->cntl_wq, &resp->work);
-> +}
-> +
-> +int qaic_control_open(struct qaic_device *qdev)
-> +{
-> +	if (!qdev->cntl_ch)
-> +		return -ENODEV;
-> +
-> +	qdev->cntl_lost_buf = false;
-> +	/*
-> +	 * By default qaic should assume that device has CRC enabled.
-> +	 * Qaic comes to know if device has CRC enabled or disabled during the
-> +	 * device status transaction, which is the first transaction performed
-> +	 * on control channel.
-> +	 *
-> +	 * So CRC validation of first device status transaction response is
-> +	 * ignored (by calling valid_crc_stub) and is done later during decoding
-> +	 * if device has CRC enabled.
-> +	 * Now that qaic knows whether device has CRC enabled or not it acts
-> +	 * accordingly
-> +	 */
-> +	qdev->gen_crc = gen_crc;
-> +	qdev->valid_crc = valid_crc_stub;
-> +
-> +	return mhi_prepare_for_transfer(qdev->cntl_ch);
-> +}
-> +
-> +void qaic_control_close(struct qaic_device *qdev)
-> +{
-> +	mhi_unprepare_from_transfer(qdev->cntl_ch);
-> +}
-> +
-> +void qaic_release_usr(struct qaic_device *qdev, struct qaic_user *usr)
-> +{
-> +	struct _trans_terminate_to_dev *trans;
-> +	struct wrapper_list *wrappers;
-> +	struct wrapper_msg *wrapper;
-> +	struct _msg *msg;
-> +	struct _msg *rsp;
-> +
-> +	wrappers = alloc_wrapper_list();
-> +	if (!wrappers)
-> +		return;
-> +
-> +	wrapper = add_wrapper(wrappers, sizeof(*wrapper) + sizeof(*msg) + sizeof(*trans));
-> +	if (!wrapper)
-> +		return;
-> +
-> +	msg = &wrapper->msg;
-> +
-> +	trans = (struct _trans_terminate_to_dev *)msg->data;
-> +
-> +	trans->hdr.type = cpu_to_le32(QAIC_TRANS_TERMINATE_TO_DEV);
-> +	trans->hdr.len = cpu_to_le32(sizeof(*trans));
-> +	trans->handle = cpu_to_le32(usr->handle);
-> +
-> +	mutex_lock(&qdev->cntl_mutex);
-> +	wrapper->len = sizeof(msg->hdr) + sizeof(*trans);
-> +	msg->hdr.magic_number = MANAGE_MAGIC_NUMBER;
-> +	msg->hdr.sequence_number = cpu_to_le32(qdev->next_seq_num++);
-> +	msg->hdr.len = cpu_to_le32(wrapper->len);
-> +	msg->hdr.count = cpu_to_le32(1);
-> +	msg->hdr.handle = cpu_to_le32(usr->handle);
-> +	msg->hdr.padding = cpu_to_le32(0);
-> +	msg->hdr.crc32 = cpu_to_le32(qdev->gen_crc(wrappers));
-> +
-> +	/*
-> +	 * msg_xfer releases the mutex
-> +	 * We don't care about the return of msg_xfer since we will not do
-> +	 * anything different based on what happens.
-> +	 * We ignore pending signals since one will be set if the user is
-> +	 * killed, and we need give the device a chance to cleanup, otherwise
-> +	 * DMA may still be in progress when we return.
-> +	 */
-> +	rsp = msg_xfer(qdev, wrappers, qdev->next_seq_num - 1, true);
-> +	if (!IS_ERR(rsp))
-> +		kfree(rsp);
-> +	free_wrapper_from_list(wrappers, wrapper);
-> +}
-> +
-> +void wake_all_cntl(struct qaic_device *qdev)
-> +{
-> +	struct xfer_queue_elem *elem;
-> +	struct xfer_queue_elem *i;
-> +
-> +	mutex_lock(&qdev->cntl_mutex);
-> +	list_for_each_entry_safe(elem, i, &qdev->cntl_xfer_list, list) {
-> +		list_del_init(&elem->list);
-> +		complete_all(&elem->xfer_done);
-> +	}
-> +	mutex_unlock(&qdev->cntl_mutex);
-> +}
-
-Regards,
-Jacek
