@@ -1,43 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DB36B9B67
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 17:27:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA7A6B9B90
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 17:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29F6510E038;
-	Tue, 14 Mar 2023 16:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0E410E180;
+	Tue, 14 Mar 2023 16:32:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0B1C10E038
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 16:27:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 68E0161853;
- Tue, 14 Mar 2023 16:27:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6338FC433D2;
- Tue, 14 Mar 2023 16:27:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678811246;
- bh=0BszSclPkYdHyPcXZhoiYKeed+oHxWdTrNdyBbP781U=;
- h=From:To:Cc:Subject:Date:From;
- b=jv09Olof29476Ze1LNP0JHkAenz7t5P4LXFqp9DIzK4pctMbjFjdXB9aijuL0rrNH
- FOmtxnJMPnag6Y/JPO5AojOKd1HfUYV0RnR2oPIIUQUkZmf5FMeKyWc18G/I2uOtZ+
- F96gvwk8KMmgA0y2SctEWEXeOiFG+KiUT+Fk7Ff0iJ0AHvih4GZpIYo1WzDoHk8Zkv
- 8Xf+OQ5l5K9PftoN+sUlCO69HJvbFtnlqyEXPsW9HvCz5e0l5/LFVGmm2K6TorIlwQ
- nGGZi9xJnrHPNq5MmOqG4Gf6pgLowWuDLp4kMrnfFMa5NyvdRPTlIxHBKSJHfkAiEl
- JO8QiE8oci8OA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH] fbdev: omapfb: remove omap1 osk driver
-Date: Tue, 14 Mar 2023 17:27:10 +0100
-Message-Id: <20230314162720.759220-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 406BA10E180
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 16:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678811556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ENuFieBhxiHtLNw0jCbF63V+Z/gQ5SLpJHpUyZoTfIU=;
+ b=Xdojz2MAojHH0owFC2nMyCSvX5sBSQKp46fdfnwgWWN4mgk/i0ax8NNRVdPD6XdkYaBHK4
+ DQvOwQnWUcgBDFHiTWSDaiJ+19nt6ezRp5JbEycGhGkQfXC1uRSACwlKBxGO5J5Xm+0Q10
+ mVs0BAtBrqLfoThwTao+FwMVSvpeGUw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-376-Uy7hFXSoNq-ag-uX_Sz0PA-1; Tue, 14 Mar 2023 12:32:35 -0400
+X-MC-Unique: Uy7hFXSoNq-ag-uX_Sz0PA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bi27-20020a05600c3d9b00b003e9d0925341so5713054wmb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 09:32:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678811554;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ENuFieBhxiHtLNw0jCbF63V+Z/gQ5SLpJHpUyZoTfIU=;
+ b=VZxY8hZScQy5PPLomjfW0NDSCA9BJuQ255vhNBQO4EI0/dqnpzmSoIyK6gJCA/rOtT
+ mJ1WHB1t7tUHepg0OXW5+7vRylQuoU85+3r8ESjAUFKWTTiPgeNqn0Jdrzo5ip8FialA
+ 6EHkkj0nCWmQa9W0kqBnQnFXQAQqGZFeyxkxFX26UasXlki5yPEdvTw+FVQY6kZ86cYG
+ tHPrTY0GfdYdx2kJSXr1ifyzSs04Vy84ndZcw6mzoOkdr/PAm0TPrJ49fnDJaSSq6+dC
+ gJe7SnoWTnXoi3xsFGJXYiyilieX4gz7RkXef4IPYIwUtsucweJdLI2mfFPxLXK1FXLO
+ XT0g==
+X-Gm-Message-State: AO0yUKV11TIKDsI1BkhEPkbAhu/fM3GnuU4W/YGUNhkU+bvVk7IM7wBK
+ NHLCmmC+io1b83vuJvvP49/LDhM2ZbUcjqKTx9qCbTArc2qpLjkvnpHWtlk8lbFZcmSnq7YLqGr
+ kzSoiFV4sbjtr3Cjs+ohvlHnKs4UR
+X-Received: by 2002:a05:600c:3b99:b0:3ed:234d:b0c0 with SMTP id
+ n25-20020a05600c3b9900b003ed234db0c0mr7627209wms.13.1678811553861; 
+ Tue, 14 Mar 2023 09:32:33 -0700 (PDT)
+X-Google-Smtp-Source: AK7set83ZCHUGW/upSbL2NTJtL0Ht3VQsjtWJkbu2JlZJDbSTbrLj6MLNQ2M53zNysaSVXtrIug+Bw==
+X-Received: by 2002:a05:600c:3b99:b0:3ed:234d:b0c0 with SMTP id
+ n25-20020a05600c3b9900b003ed234db0c0mr7627193wms.13.1678811553599; 
+ Tue, 14 Mar 2023 09:32:33 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ l17-20020a7bc351000000b003e21f959453sm3258953wmj.32.2023.03.14.09.32.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 09:32:33 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH 1/2] efi: sysfb_efi: Fix DMI quirks not working for
+ simpledrm
+In-Reply-To: <20230314123103.522115-1-hdegoede@redhat.com>
+References: <20230314123103.522115-1-hdegoede@redhat.com>
+Date: Tue, 14 Mar 2023 17:32:32 +0100
+Message-ID: <87fsa7l2e7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,130 +80,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tony Lindgren <tony@atomide.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>, stable@vger.kernel.org,
+ linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hans de Goede <hdegoede@redhat.com> writes:
 
-Commit 21a3e6eed423 ("ARM: omap1: remove osk-mistral add-on board
-support") removed the platform_device definition for the "lcd_osk"
-device, so this driver is now unused and can be removed as well.
+Hello Hans,
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/video/fbdev/omap/Makefile  |  1 -
- drivers/video/fbdev/omap/lcd_osk.c | 86 ------------------------------
- 2 files changed, 87 deletions(-)
- delete mode 100644 drivers/video/fbdev/omap/lcd_osk.c
+> Commit 8633ef82f101 ("drivers/firmware: consolidate EFI framebuffer setup
+> for all arches") moved the sysfb_apply_efi_quirks() call in sysfb_init()
+> from before the [sysfb_]parse_mode() call to after it.
+> But sysfb_apply_efi_quirks() modifies the global screen_info struct which
+> [sysfb_]parse_mode() parses, so doing it later is too late.
+>
+> This has broken all DMI based quirks for correcting wrong firmware efifb
+> settings when simpledrm is used.
+>
 
-diff --git a/drivers/video/fbdev/omap/Makefile b/drivers/video/fbdev/omap/Makefile
-index 504edb9c09dd..6d5082c76919 100644
---- a/drivers/video/fbdev/omap/Makefile
-+++ b/drivers/video/fbdev/omap/Makefile
-@@ -18,7 +18,6 @@ objs-y$(CONFIG_FB_OMAP_LCDC_HWA742) += hwa742.o
- 
- lcds-y$(CONFIG_MACH_AMS_DELTA) += lcd_ams_delta.o
- lcds-y$(CONFIG_MACH_OMAP_PALMTE) += lcd_palmte.o
--lcds-y$(CONFIG_MACH_OMAP_OSK) += lcd_osk.o
- 
- lcds-y$(CONFIG_FB_OMAP_LCD_MIPID) += lcd_mipid.o
- 
-diff --git a/drivers/video/fbdev/omap/lcd_osk.c b/drivers/video/fbdev/omap/lcd_osk.c
-deleted file mode 100644
-index 8168ba0d47fd..000000000000
---- a/drivers/video/fbdev/omap/lcd_osk.c
-+++ /dev/null
-@@ -1,86 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- * LCD panel support for the TI OMAP OSK board
-- *
-- * Copyright (C) 2004 Nokia Corporation
-- * Author: Imre Deak <imre.deak@nokia.com>
-- * Adapted for OSK by <dirk.behme@de.bosch.com>
-- */
--
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/gpio.h>
--
--#include <linux/soc/ti/omap1-io.h>
--#include <linux/soc/ti/omap1-mux.h>
--
--#include "omapfb.h"
--
--static int osk_panel_enable(struct lcd_panel *panel)
--{
--	/* configure PWL pin */
--	omap_cfg_reg(PWL);
--
--	/* Enable PWL unit */
--	omap_writeb(0x01, OMAP_PWL_CLK_ENABLE);
--
--	/* Set PWL level */
--	omap_writeb(0xFF, OMAP_PWL_ENABLE);
--
--	/* set GPIO2 high (lcd power enabled) */
--	gpio_set_value(2, 1);
--
--	return 0;
--}
--
--static void osk_panel_disable(struct lcd_panel *panel)
--{
--	/* Set PWL level to zero */
--	omap_writeb(0x00, OMAP_PWL_ENABLE);
--
--	/* Disable PWL unit */
--	omap_writeb(0x00, OMAP_PWL_CLK_ENABLE);
--
--	/* set GPIO2 low */
--	gpio_set_value(2, 0);
--}
--
--static struct lcd_panel osk_panel = {
--	.name		= "osk",
--	.config		= OMAP_LCDC_PANEL_TFT,
--
--	.bpp		= 16,
--	.data_lines	= 16,
--	.x_res		= 240,
--	.y_res		= 320,
--	.pixel_clock	= 12500,
--	.hsw		= 40,
--	.hfp		= 40,
--	.hbp		= 72,
--	.vsw		= 1,
--	.vfp		= 1,
--	.vbp		= 0,
--	.pcd		= 12,
--
--	.enable		= osk_panel_enable,
--	.disable	= osk_panel_disable,
--};
--
--static int osk_panel_probe(struct platform_device *pdev)
--{
--	omapfb_register_panel(&osk_panel);
--	return 0;
--}
--
--static struct platform_driver osk_panel_driver = {
--	.probe		= osk_panel_probe,
--	.driver		= {
--		.name	= "lcd_osk",
--	},
--};
--
--module_platform_driver(osk_panel_driver);
--
--MODULE_AUTHOR("Imre Deak");
--MODULE_DESCRIPTION("LCD panel support for the TI OMAP OSK board");
--MODULE_LICENSE("GPL");
+Indeed... sorry for missing this.
+
+> To fix this move the sysfb_apply_efi_quirks() call back to its old place
+> and split the new setup of the efifb_fwnode (which requires
+> the platform_device) into its own function and call that at
+> the place of the moved sysfb_apply_efi_quirks(pd) calls.
+>
+> Fixes: 8633ef82f101 ("drivers/firmware: consolidate EFI framebuffer setup for all arches")
+> Cc: stable@vger.kernel.org
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
 -- 
-2.39.2
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
