@@ -1,35 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C196B955F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 14:05:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA966B956A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 14:06:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348BF10E7D7;
-	Tue, 14 Mar 2023 13:05:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3ADE10E7E3;
+	Tue, 14 Mar 2023 13:06:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5C210E7D6
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 13:05:26 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id C57DE2010C;
- Tue, 14 Mar 2023 14:05:23 +0100 (CET)
-Date: Tue, 14 Mar 2023 14:05:22 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v4 07/10] drm/msm/dsi: Remove custom DSI config handling
-Message-ID: <20230314130522.wimbrf7d6lqwdbgz@SoMainline.org>
-References: <20230307-topic-dsi_qcm-v4-0-54b4898189cb@linaro.org>
- <20230307-topic-dsi_qcm-v4-7-54b4898189cb@linaro.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4901D10E7E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 13:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678799185;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hMEgWvZUG6qO1PqKglF/V8CaNHty0qtVjMQOxDeWDFc=;
+ b=DUL6CFuMbIOoD4c4OFi6hJsSx+/q4oxNAUeJGKQWCOksmErY1KxdPotw/qH+H9NKs9AISr
+ 1ss7k8IFtt98Yj2ZyLYz4VunoiWORxBJb+kqRgFzUU+v38q2EiHahDCf2to8zhtTcCd4wQ
+ PB0HwA2mpxvhMLkJy2P7h09JW7GubOs=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-647-voWz7tHbNFaSjtbbLQU3hw-1; Tue, 14 Mar 2023 09:06:23 -0400
+X-MC-Unique: voWz7tHbNFaSjtbbLQU3hw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ l27-20020a05620a211b00b00745b3e62004so2102528qkl.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 06:06:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678799182;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hMEgWvZUG6qO1PqKglF/V8CaNHty0qtVjMQOxDeWDFc=;
+ b=qXViEq+4H3zJvYARRO+6jskn/QcVYccRDg2hooIf7c5jc9gPC7hEJ+JdVizh5b87QO
+ Nu3Nfd7/NrytJhF7YOlZ8x+2oCp+ftlBsqB/SDFF8NGKZMLyPJlEcTDgw3OPeLdNtpD4
+ fQPkNmpZAN4T9sCLVn5F0m2l7IQgLZfk4uSfhZLohQA+O9DxFgT7WXTDKlzG3IkqxDGi
+ MfCp0oklfdWnei8uKd84GHfkEXFdYzKfASUaxRaehk4R80lm0LaQ3Fd7rupucArh/6y4
+ tyZjcqFmH3vnuLC321BZKnGFJNbVMiI6bvQ5p3oJ/1VykIGJ5DXEN+beXlOkgeo35DQG
+ CcpQ==
+X-Gm-Message-State: AO0yUKUTE1uex5pN71ZjducqUAaachtLCsP7z004Caf4uIvRKdn6nrGf
+ e+SC4PmFwxaDeTjzNkk6didpFRHS+9eE/0jL2+xWfBAej6esZde/1Tju9JS2K0UvrIabT23K00E
+ 7zVr2v+7LZsOvJsCkMFohkgzqfbc+
+X-Received: by 2002:ac8:5e08:0:b0:3bf:c83d:5d4c with SMTP id
+ h8-20020ac85e08000000b003bfc83d5d4cmr59779105qtx.64.1678799182203; 
+ Tue, 14 Mar 2023 06:06:22 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9k9IedTfQ65vtzZ6gDRjmULVgJGaURZvyzzIxUwogrHRw3OQKTz3pFVe2b8l6tkgGNH294DA==
+X-Received: by 2002:ac8:5e08:0:b0:3bf:c83d:5d4c with SMTP id
+ h8-20020ac85e08000000b003bfc83d5d4cmr59779062qtx.64.1678799181828; 
+ Tue, 14 Mar 2023 06:06:21 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ 185-20020a3706c2000000b0070648cf78bdsm1731416qkg.54.2023.03.14.06.06.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 06:06:21 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH] drm/radeon: remove unused variable rbo
+Date: Tue, 14 Mar 2023 09:06:16 -0400
+Message-Id: <20230314130616.2170856-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307-topic-dsi_qcm-v4-7-54b4898189cb@linaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,85 +82,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-03-14 13:13:45, Konrad Dybcio wrote:
-> Now that the only user is handled by common code, remove the option to
-> specify custom handlers through match data.
-> 
-> This is effectively a revert of commit:
-> 5ae15e76271 ("drm/msm/dsi: Allow to specify dsi config as pdata")
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dsi/dsi.c      | 4 ++--
->  drivers/gpu/drm/msm/dsi/dsi_cfg.h  | 3 ---
->  drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ----
->  3 files changed, 2 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index f761973e4cba..baab79ab6e74 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -172,10 +172,10 @@ static int dsi_dev_remove(struct platform_device *pdev)
->  }
->  
->  static const struct of_device_id dt_match[] = {
-> -	{ .compatible = "qcom,mdss-dsi-ctrl", .data = NULL /* autodetect cfg */ },
-> +	{ .compatible = "qcom,mdss-dsi-ctrl" },
->  
->  	/* Deprecated, don't use */
-> -	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290", .data = NULL },
-> +	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290" },
->  	{}
->  };
->  
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> index 8772a3631ac1..91bdaf50bb1a 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
-> @@ -65,8 +65,5 @@ struct msm_dsi_cfg_handler {
->  
->  const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor);
->  
-> -/* Non autodetect configs */
-> -extern const struct msm_dsi_cfg_handler qcm2290_dsi_cfg_handler;
-> -
+gcc with W=1 reports this error
+drivers/gpu/drm/radeon/radeon_ttm.c:201:27: error:
+  variable ‘rbo’ set but not used [-Werror=unused-but-set-variable]
+  201 |         struct radeon_bo *rbo;
+      |                           ^~~
 
-Probably the wrong `fixup!` commit: this should have been part of patch
-6 where the struct is removed, not patch 7 (this patch).
+rbo use was removed with
+commit f87c1f0b7b79 ("drm/ttm: prevent moving of pinned BOs")
+Since the variable is not used, remove it.
 
-- Marijn
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/radeon/radeon_ttm.c | 2 --
+ 1 file changed, 2 deletions(-)
 
->  #endif /* __MSM_DSI_CFG_H__ */
->  
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index 9cfb9e91bfea..961689a255c4 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -214,10 +214,6 @@ static const struct msm_dsi_cfg_handler *dsi_get_config(
->  	int ret;
->  	u32 major = 0, minor = 0;
->  
-> -	cfg_hnd = device_get_match_data(dev);
-> -	if (cfg_hnd)
-> -		return cfg_hnd;
-> -
->  	ahb_clk = msm_clk_get(msm_host->pdev, "iface");
->  	if (IS_ERR(ahb_clk)) {
->  		pr_err("%s: cannot get interface clock\n", __func__);
-> 
-> -- 
-> 2.39.2
-> 
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 2220cdf6a3f6..0ea430ee5256 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -198,7 +198,6 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ {
+ 	struct ttm_resource *old_mem = bo->resource;
+ 	struct radeon_device *rdev;
+-	struct radeon_bo *rbo;
+ 	int r;
+ 
+ 	if (new_mem->mem_type == TTM_PL_TT) {
+@@ -211,7 +210,6 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	if (r)
+ 		return r;
+ 
+-	rbo = container_of(bo, struct radeon_bo, tbo);
+ 	rdev = radeon_get_rdev(bo->bdev);
+ 	if (!old_mem || (old_mem->mem_type == TTM_PL_SYSTEM &&
+ 			 bo->ttm == NULL)) {
+-- 
+2.27.0
+
