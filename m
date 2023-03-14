@@ -2,68 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E6E6B91D7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 12:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B056B91F7
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 12:45:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D6410E0DA;
-	Tue, 14 Mar 2023 11:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E68510E162;
+	Tue, 14 Mar 2023 11:45:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C46C010E162
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:40:32 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id i5so16282549pla.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 04:40:32 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77C0A10E162
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:45:49 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id u5so16274974plq.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 04:45:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678794032;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=eH82WTYd39GPKAXdpbYy5VSkOFc2jW21usmU+S6UzaM=;
- b=WkXPZHabqVtCtmPiPhbTpbqbUbZAf7UDuh35/WLuHqxQ0p18Psv889vDS/yPUe1yI2
- ggWGepP5WBzmK50RVsxuLn/LTsnoSHRXI7VSThcnCfGf6CrdN6VXb0FYTdfyz9sg2fiv
- XDGhycxUNZa14Wmubkp+cdO+FLTGMlBF57CjDDyicxY6bry1eNQH364qoOasqilO3s2z
- 4VFgfquWKyo05UDWSslDjvS/xrX5SD6SoSS5WKD86sJadAQd2YiGmnKTzgI9FLFhFPVA
- tbOYgkpNMEo5D5+ORWlpOT1V32oqmlKsQ88Mz6TxO3cxhWYOvxjRN9Nv3q6qM7s9Ly6v
- vqDA==
+ d=gmail.com; s=20210112; t=1678794349;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qV3+UTpq0pSz8mRuhUKGGTuipB28dMrQVCgnigpzu1A=;
+ b=O2B7CVGfEgWoI6RYFDWPugPGwgPAETohlAGWwrHjyPunHR5yEIt1R3oBNw2xqNBzuR
+ cfG0Wiwm+Q/piOb2kw5qZwnKh5t56N3vVWwGB76aEYE1yLs0/fCfssteSt2Fjhx5gmit
+ zv280aTKo/+pGmWKfqm6A3T9jEFmlr0FqWjl+hHIpMIRYb7gEq4+3nlBY71Kyc0Xjxl4
+ j/kfPqgBjBFltqN4iatQWK7dO9RO2eLIDMLIHctDuPPNat5Kg7G4Xju+AvxV3hc+EB/N
+ aS4ziw4svSiL3+hRQCpzlZMKiJpwhJm52J2ZkxnxbhkeE0UXiUBDNJH+Lx3j64JtpMeF
+ MeVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678794032;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eH82WTYd39GPKAXdpbYy5VSkOFc2jW21usmU+S6UzaM=;
- b=ZiVF7ZDn4j6aYLtVh5GkiHf1hG9hqaBAq2T+/L4Cqh9H+vH1PK881+2b4on245AgeU
- 106/yR3rB6blo+y+CZ2crme/DZsRyObT326n/4duVf1uqdigMMDvZ2PYjtDBY/a+Bxi7
- /n5JWQbiW2a/6iFJCQaJZ7zwuBfDlytJygh+CmQeZ3t3QGurlnR2S8DzXp7HKrjRQj65
- GjWd2rfTHpxlkLOZlFY2l+ZeI3iQv82sj0Gos5+yqQYSKk1rvjomAUwGMwMvd0K2exFp
- /XJh6A2QZjNsxie2g4eToZ0wAZ7cgMPpoLtiNTo2ZLHcY8Qp5JUyHbV3iFu8jJ2xO/vz
- aFng==
-X-Gm-Message-State: AO0yUKV6/1sQ1Yi7v2+l1skT0uv8Kvnv/kkpbR5xytiz0OCLXsNjJotw
- SV5rLGlQYo6iixosbU1F9VM=
-X-Google-Smtp-Source: AK7set9ftIWNNWDAHaADJAqiYdsj9tGVmw6svnfxG3uh7QWFxSecTPu9P+X9UtwpFti87PjPTHXSNg==
-X-Received: by 2002:a17:902:f685:b0:19c:d49f:4296 with SMTP id
- l5-20020a170902f68500b0019cd49f4296mr45244363plg.67.1678794032284; 
- Tue, 14 Mar 2023 04:40:32 -0700 (PDT)
-Received: from Gentoo (n220246252084.netvigator.com. [220.246.252.84])
- by smtp.gmail.com with ESMTPSA id
- ju17-20020a170903429100b0019cbd37a335sm1580589plb.93.2023.03.14.04.40.26
+ d=1e100.net; s=20210112; t=1678794349;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qV3+UTpq0pSz8mRuhUKGGTuipB28dMrQVCgnigpzu1A=;
+ b=Ei/vo19dCzY9g/QcpYBM6cXkkinIDf+jq1xBQYWINDWWTxGzaCKyIkPZ6fPVw1jEZ9
+ eE2mfSvisgU1zUa7w23Lk4MemS1Yn6A3Nep7kyXIXSiXCb01EK0K1BBW+un3lwYKfVet
+ 083T9Ef2V9t7v4v1+GAN/O6O2tRlpKUxs7QcIo3oZ1M7CUW2V8tYQQ0bZps8Txb9hMQ4
+ KwxJk2r948F7etYvwOIh2aBpz2P1tLtK4TcDtR9VX3NmSL7rdjv8TQlfTRQ0y61LKWnv
+ IMV3PV7TvX4Ih7lILqx6btjpYCRjECZRWq20BEfcYUEG1J8d38U4swY6IsncvXwf/NQH
+ uKAw==
+X-Gm-Message-State: AO0yUKV91X2JCFL8gEmYDP598Fr7L5rr/1PIJNnKSNv8ir8LvWbnKNB9
+ 7+/MZjw1alNsXhiUat8vaPw=
+X-Google-Smtp-Source: AK7set9PKfihUYTXB8p+orPWZbQgLOddt/tlxE2NkCMzZJS9SJRZO8ZIWfXsulm4WK7zjuOS8xRniw==
+X-Received: by 2002:a17:90b:2241:b0:237:29b1:1893 with SMTP id
+ hk1-20020a17090b224100b0023729b11893mr37600112pjb.46.1678794349047; 
+ Tue, 14 Mar 2023 04:45:49 -0700 (PDT)
+Received: from localhost.localdomain (n220246252084.netvigator.com.
+ [220.246.252.84]) by smtp.gmail.com with ESMTPSA id
+ t3-20020a170902a5c300b0019a6e8ceb49sm1540101plq.259.2023.03.14.04.45.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 04:40:31 -0700 (PDT)
-Date: Tue, 14 Mar 2023 19:40:21 +0800
+ Tue, 14 Mar 2023 04:45:48 -0700 (PDT)
 From: Jianhua Lu <lujianhua000@gmail.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v5 2/2] drm/panel: Add driver for Novatek NT36523
-Message-ID: <ZBBdJcvR6I6HZ4MS@Gentoo>
-References: <20230311123231.20771-1-lujianhua000@gmail.com>
- <20230311123231.20771-2-lujianhua000@gmail.com>
- <904bc493-7160-32fd-9709-1dcb978ddbab@linaro.org>
- <ZAx4KqXw+an555d4@Gentoo>
- <6c02557d-372d-05b1-2998-7c2cde99fac7@linaro.org>
- <ZA9xKlScy9/LS753@ravnborg.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Douglas Anderson <dianders@chromium.org>
+Subject: [PATCH] drm/panel: Fix panel mode type setting logic
+Date: Tue, 14 Mar 2023 19:44:51 +0800
+Message-Id: <20230314114451.8872-1-lujianhua000@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZA9xKlScy9/LS753@ravnborg.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +71,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Cc: Jianhua Lu <lujianhua000@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 13, 2023 at 07:53:30PM +0100, Sam Ravnborg wrote:
-> On Mon, Mar 13, 2023 at 09:06:50AM +0100, Neil Armstrong wrote:
-> > On 11/03/2023 13:46, Jianhua Lu wrote:
-> > > On Sat, Mar 11, 2023 at 01:38:52PM +0100, Konrad Dybcio wrote:
-> > > > 
-> > > > 
-> > > > On 11.03.2023 13:32, Jianhua Lu wrote:
-> > > > > Add a driver for panels using the Novatek NT36523 display driver IC.
-> > > > > 
-> > > > > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> > > > > ---
-> > > > [...]
-> > > > 
-> > > > > +
-> > > > > +static int nt36523_get_modes(struct drm_panel *panel,
-> > > > > +			       struct drm_connector *connector)
-> > > > > +{
-> > > > > +	struct panel_info *pinfo = to_panel_info(panel);
-> > > > > +	int i;
-> > > > > +
-> > > > > +	for (i = 0; i < pinfo->desc->num_modes; i++) {
-> > > > > +		const struct drm_display_mode *m = &pinfo->desc->modes[i];
-> > > > > +		struct drm_display_mode *mode;
-> > > > > +
-> > > > > +		mode = drm_mode_duplicate(connector->dev, m);
-> > > > > +		if (!mode) {
-> > > > > +			dev_err(panel->dev, "failed to add mode %ux%u@%u\n",
-> > > > > +				m->hdisplay, m->vdisplay, drm_mode_vrefresh(m));
-> > > > > +			return -ENOMEM;
-> > > > > +		}
-> > > > > +
-> > > > > +		mode->type = DRM_MODE_TYPE_DRIVER;
-> > > > > +		if (pinfo->desc->num_modes == 1)
-> > > > > +			mode->type |= DRM_MODE_TYPE_PREFERRED;
-> > > > That's not quite correct, as that means "if you have more than one
-> > > > defined panel mode (say 60Hz and 120 Hz), there will be no preferred one".
-> > > This piece of code I see in the other panels, so I'm not sure if it is
-> > > correct.
-> Jianhua is correct that the same code exists in several places,
-> and from a quick browse I consider all the cases bogus.
-> 
-> It would be fine if someone volunteered to fix all the panels so we
-> avoid this bug to creep into more panel drivers.
-I'm glad to send a patch to fix it soon.
-> 
-> 	Sam
+Some panels set mode type to DRM_MODE_TYPE_PREFERRED by the number
+of modes. It isn't reasonable, so set the first mode type to
+DRM_MODE_TYPE_PREFERRED. This should be more reasonable.
+
+Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+---
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c     | 2 +-
+ drivers/gpu/drm/panel/panel-auo-a030jtn01.c      | 2 +-
+ drivers/gpu/drm/panel/panel-edp.c                | 4 ++--
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c    | 2 +-
+ drivers/gpu/drm/panel/panel-newvision-nv3051d.c  | 2 +-
+ drivers/gpu/drm/panel/panel-newvision-nv3052c.c  | 2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c    | 2 +-
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c    | 2 +-
+ drivers/gpu/drm/panel/panel-orisetech-ota5601a.c | 2 +-
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c      | 4 ++--
+ drivers/gpu/drm/panel/panel-simple.c             | 4 ++--
+ 11 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+index 1cc0f1d09684..9ce62513e3a5 100644
+--- a/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
++++ b/drivers/gpu/drm/panel/panel-abt-y030xx067a.c
+@@ -240,7 +240,7 @@ static int y030xx067a_get_modes(struct drm_panel *panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+index 3c976a98de6a..3850dc5a1eb1 100644
+--- a/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
++++ b/drivers/gpu/drm/panel/panel-auo-a030jtn01.c
+@@ -151,7 +151,7 @@ static int a030jtn01_get_modes(struct drm_panel *panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 01bfe0783304..df7e59485793 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -260,7 +260,7 @@ static unsigned int panel_edp_get_timings_modes(struct panel_edp *panel,
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+ 
+-		if (panel->desc->num_timings == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+@@ -289,7 +289,7 @@ static unsigned int panel_edp_get_display_modes(struct panel_edp *panel,
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+ 
+-		if (panel->desc->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_set_name(mode);
+diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+index b2b0ebc9e943..6c49c93eaa23 100644
+--- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
++++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
+@@ -166,7 +166,7 @@ static int ej030na_get_modes(struct drm_panel *panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+index a07958038ffd..65ff9a3df62a 100644
+--- a/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
++++ b/drivers/gpu/drm/panel/panel-newvision-nv3051d.c
+@@ -331,7 +331,7 @@ static int panel_nv3051d_get_modes(struct drm_panel *panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+index cf078f0d3cd3..70a7b36c2956 100644
+--- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
++++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+@@ -347,7 +347,7 @@ static int nv3052c_get_modes(struct drm_panel *panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35950.c b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+index abf752b36a52..62f7895af072 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt35950.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt35950.c
+@@ -508,7 +508,7 @@ static int nt35950_get_modes(struct drm_panel *panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+-		if (nt->desc->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+index f58cfb10b58a..7938dd68f4f4 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
+@@ -216,7 +216,7 @@ static int nt39016_get_modes(struct drm_panel *drm_panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c b/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
+index e46be5014d42..d232c02eba20 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-ota5601a.c
+@@ -206,7 +206,7 @@ static int ota5601a_get_modes(struct drm_panel *drm_panel,
+ 		drm_mode_set_name(mode);
+ 
+ 		mode->type = DRM_MODE_TYPE_DRIVER;
+-		if (panel_info->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+index 76160e5d43bd..dad103615c7f 100644
+--- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
++++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+@@ -80,7 +80,7 @@ static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+ 
+-		if (panel->desc->num_timings == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+@@ -100,7 +100,7 @@ static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+ 
+-		if (panel->desc->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_set_name(mode);
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 065f378bba9d..fc617969c2be 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -185,7 +185,7 @@ static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel,
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+ 
+-		if (panel->desc->num_timings == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_probed_add(connector, mode);
+@@ -214,7 +214,7 @@ static unsigned int panel_simple_get_display_modes(struct panel_simple *panel,
+ 
+ 		mode->type |= DRM_MODE_TYPE_DRIVER;
+ 
+-		if (panel->desc->num_modes == 1)
++		if (i == 0)
+ 			mode->type |= DRM_MODE_TYPE_PREFERRED;
+ 
+ 		drm_mode_set_name(mode);
+-- 
+2.39.2
+
