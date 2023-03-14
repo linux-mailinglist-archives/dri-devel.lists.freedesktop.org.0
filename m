@@ -1,45 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791DB6B9453
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:44:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A28546B9456
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93D7B10E7CC;
-	Tue, 14 Mar 2023 12:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6549B10E7CD;
+	Tue, 14 Mar 2023 12:44:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82A6D10E7CA;
- Tue, 14 Mar 2023 12:44:13 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB7710E7CE;
+ Tue, 14 Mar 2023 12:44:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 101CE6176B;
- Tue, 14 Mar 2023 12:44:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365F7C433D2;
- Tue, 14 Mar 2023 12:44:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4BF906178E;
+ Tue, 14 Mar 2023 12:44:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A76C433A1;
+ Tue, 14 Mar 2023 12:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678797852;
- bh=3DZKPSB3eGEDg/foRv0B/RKMlE+9sgeTdtFENIatV2o=;
+ s=k20201202; t=1678797862;
+ bh=6mnJ02aYnibZUK89exexsNsvgLET+QSfQH75tsMeHe8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IlbTpUrTHImHkjvR6wVLCs1b9LMRPr4Dhib+xFIQxRode0F9r7L0XFl/va642TGWk
- 0sr2D6apZ/SNeVrw+WgARYIkkt5W3alloReWJRfbm4WDF0dlp74cKIlmSkxawQKZzp
- 9Agx8kYxhazy5rpEyu1IQb+ChDYK7iSD8B4wX6iZj3u2sG0rLhwdpOlQy8780sYd90
- HtdMWuIyZJGZ2jipOcuwF/i+iajGmkBTJZXdCBhH3MxPEMP3GbNIfbwCyGCj+wYpZA
- VER/fT3VT5ot/4G3xLfL6Nj4ELcnh+S91b5jCAmZjK5UAyso9NRF82Jvg0zHA7yJLq
- QLtNdv8U7qbTg==
+ b=LYtJblLL9ZWkQ3jln+IpmmEgQ/0i1OkDBOCbYCY+/mLnLl3yD1YZj0z4Idl4wqcty
+ blEmvy2Upv5BEEQlv3KTzuOLe43a8DYsF1VOx1GIecHKmuAswVmKRz9kK+Sf3ppxId
+ 9kK5pikKpMQ6ZElQE/ngJUZa95gKsyN96XYkfttUBhZl34uLFwSNrULqBNNH61YITD
+ 6zCZ7ol7nacRCwZ/MtIM+1ssUIayCH6HdFXXEVJ1iVsL6swMti0YTS+vAwLntxs4Rh
+ oEcfIOF0eWB1X0XETXnR57qcJpCMmwWWyqLdJB7Kri9v1C6H8Y432bKmgCQvFXNxUB
+ dGq/VghbsgZrw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 8/8] drm/amd/display: fix shift-out-of-bounds in
- CalculateVMAndRowBytes
-Date: Tue, 14 Mar 2023 08:44:00 -0400
-Message-Id: <20230314124400.471257-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 6/7] drm/amdkfd: Fix an illegal memory access
+Date: Tue, 14 Mar 2023 08:44:11 -0400
+Message-Id: <20230314124412.471364-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230314124400.471257-1-sashal@kernel.org>
-References: <20230314124400.471257-1-sashal@kernel.org>
+In-Reply-To: <20230314124412.471364-1-sashal@kernel.org>
+References: <20230314124412.471364-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,55 +54,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Alex Hung <alex.hung@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, amd-gfx@lists.freedesktop.org,
- airlied@linux.ie, Daniel Wheeler <daniel.wheeler@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Jun Lei <Jun.Lei@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Qu Huang <qu.huang@linux.dev>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Hung <alex.hung@amd.com>
+From: Qu Huang <qu.huang@linux.dev>
 
-[ Upstream commit 031f196d1b1b6d5dfcb0533b431e3ab1750e6189 ]
+[ Upstream commit 4fc8fff378b2f2039f2a666d9f8c570f4e58352c ]
 
-[WHY]
-When PTEBufferSizeInRequests is zero, UBSAN reports the following
-warning because dml_log2 returns an unexpected negative value:
+In the kfd_wait_on_events() function, the kfd_event_waiter structure is
+allocated by alloc_event_waiters(), but the event field of the waiter
+structure is not initialized; When copy_from_user() fails in the
+kfd_wait_on_events() function, it will enter exception handling to
+release the previously allocated memory of the waiter structure;
+Due to the event field of the waiters structure being accessed
+in the free_waiters() function, this results in illegal memory access
+and system crash, here is the crash log:
 
-  shift exponent 4294966273 is too large for 32-bit type 'int'
+localhost kernel: RIP: 0010:native_queued_spin_lock_slowpath+0x185/0x1e0
+localhost kernel: RSP: 0018:ffffaa53c362bd60 EFLAGS: 00010082
+localhost kernel: RAX: ff3d3d6bff4007cb RBX: 0000000000000282 RCX: 00000000002c0000
+localhost kernel: RDX: ffff9e855eeacb80 RSI: 000000000000279c RDI: ffffe7088f6a21d0
+localhost kernel: RBP: ffffe7088f6a21d0 R08: 00000000002c0000 R09: ffffaa53c362be64
+localhost kernel: R10: ffffaa53c362bbd8 R11: 0000000000000001 R12: 0000000000000002
+localhost kernel: R13: ffff9e7ead15d600 R14: 0000000000000000 R15: ffff9e7ead15d698
+localhost kernel: FS:  0000152a3d111700(0000) GS:ffff9e855ee80000(0000) knlGS:0000000000000000
+localhost kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+localhost kernel: CR2: 0000152938000010 CR3: 000000044d7a4000 CR4: 00000000003506e0
+localhost kernel: Call Trace:
+localhost kernel: _raw_spin_lock_irqsave+0x30/0x40
+localhost kernel: remove_wait_queue+0x12/0x50
+localhost kernel: kfd_wait_on_events+0x1b6/0x490 [hydcu]
+localhost kernel: ? ftrace_graph_caller+0xa0/0xa0
+localhost kernel: kfd_ioctl+0x38c/0x4a0 [hydcu]
+localhost kernel: ? kfd_ioctl_set_trap_handler+0x70/0x70 [hydcu]
+localhost kernel: ? kfd_ioctl_create_queue+0x5a0/0x5a0 [hydcu]
+localhost kernel: ? ftrace_graph_caller+0xa0/0xa0
+localhost kernel: __x64_sys_ioctl+0x8e/0xd0
+localhost kernel: ? syscall_trace_enter.isra.18+0x143/0x1b0
+localhost kernel: do_syscall_64+0x33/0x80
+localhost kernel: entry_SYSCALL_64_after_hwframe+0x44/0xa9
+localhost kernel: RIP: 0033:0x152a4dff68d7
 
-[HOW]
+Allocate the structure with kcalloc, and remove redundant 0-initialization
+and a redundant loop condition check.
 
-In the case PTEBufferSizeInRequests is zero, skip the dml_log2() and
-assign the result directly.
-
-Reviewed-by: Jun Lei <Jun.Lei@amd.com>
-Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Qu Huang <qu.huang@linux.dev>
+Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c   | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-index e427f4ffa0807..e5b1002d7f3f0 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-@@ -1868,7 +1868,10 @@ static unsigned int CalculateVMAndRowBytes(
- 	}
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+index adbb2fec2e0f2..4fd7dcef2e382 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+@@ -529,16 +529,13 @@ static struct kfd_event_waiter *alloc_event_waiters(uint32_t num_events)
+ 	struct kfd_event_waiter *event_waiters;
+ 	uint32_t i;
  
- 	if (SurfaceTiling == dm_sw_linear) {
--		*dpte_row_height = dml_min(128, 1 << (unsigned int) dml_floor(dml_log2(PTEBufferSizeInRequests * *PixelPTEReqWidth / Pitch), 1));
-+		if (PTEBufferSizeInRequests == 0)
-+			*dpte_row_height = 1;
-+		else
-+			*dpte_row_height = dml_min(128, 1 << (unsigned int) dml_floor(dml_log2(PTEBufferSizeInRequests * *PixelPTEReqWidth / Pitch), 1));
- 		*dpte_row_width_ub = (dml_ceil(((double) SwathWidth - 1) / *PixelPTEReqWidth, 1) + 1) * *PixelPTEReqWidth;
- 		*PixelPTEBytesPerRow = *dpte_row_width_ub / *PixelPTEReqWidth * *PTERequestSize;
- 	} else if (ScanDirection != dm_vert) {
+-	event_waiters = kmalloc_array(num_events,
+-					sizeof(struct kfd_event_waiter),
+-					GFP_KERNEL);
++	event_waiters = kcalloc(num_events, sizeof(struct kfd_event_waiter),
++				GFP_KERNEL);
+ 	if (!event_waiters)
+ 		return NULL;
+ 
+-	for (i = 0; (event_waiters) && (i < num_events) ; i++) {
++	for (i = 0; i < num_events; i++)
+ 		init_wait(&event_waiters[i].wait);
+-		event_waiters[i].activated = false;
+-	}
+ 
+ 	return event_waiters;
+ }
 -- 
 2.39.2
 
