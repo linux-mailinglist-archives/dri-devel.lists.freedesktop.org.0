@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0178A6B99A7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E83CB6B99AA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:36:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76CC910EAB0;
-	Tue, 14 Mar 2023 15:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5706410EAB2;
+	Tue, 14 Mar 2023 15:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8B110EA9A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:36:00 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id f16so16425830ljq.10
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:36:00 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4849010EA85
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:36:02 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id t14so16447901ljd.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:36:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google; t=1678808160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LHSszKzrQ1LK42Ehi6sO2Un2Gwa/0oELUzNlugFsZyE=;
- b=PICt0uQYquqW8tmQFiMqEv1atWu0to92lKqiUDVJNOCdk2Ryc6BQmlhzFQuzL1hNvL
- wG0GUP5meLGHhLkqdl+2Z5l58ZiLDVXkx6LbQFOsnApO6Nxaz26HOsqmWibdtALAKFSR
- EO4y/TQ3pKrAOBnJjSOWzLmR1YVXqdCGcKDhEeTqmCeDtwJ7umoLEUq8orJEvvHnpPw0
- rfCzz5pfcVzdBy11+zw9UOk8q6bErALqGqPDa4iUpldI/Rn7wepFPvdkSkE7GXQfdaMF
- iN19tPqW2Gd7+ZiNtNzWg2KpYbaQgghlwRSkgcWxHP3T4SJqMZtpaX01L3TvCpv2i/yS
- ox/Q==
+ bh=NGe8XTWLBCygcKPx+WU/oocdnT3P6tEBtNfnD+3SiAM=;
+ b=H5XqVzLPQJT729urhlhh11zy0TCRxRhJgUGDTpQnnNr5891HRLZXQ/DX0tyiE/i80b
+ c43/AAK6cvjSuqp9BYme5FlGg7l4kwYULV7pGdxKq4F55QpRXkQw0MsIyyEUIPwNG7Sg
+ WWCa4Xzx0+vLrmSp18yDCe+KgjmqwWRhTLNrFVTJE0VJjmPowyu0pbch+hC/2nOH6mJo
+ 89gNdmrRjpCk8V+vMNnTBZmiCzQV6Ogcpqh2or0BUL287EXNpZu+GTZm049GZdTDHjW8
+ MegIHDNg1epp2etvNVEf+DrEiY/7Idpvq6gpy+pRoIw3iLvkP9mwbIZT6YQOSpvpmGFk
+ lHHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112; t=1678808160;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LHSszKzrQ1LK42Ehi6sO2Un2Gwa/0oELUzNlugFsZyE=;
- b=ELsed0bUw//RkjyshH9bIi8ZW2z0FvO4q/1hdWsHmCK4SegAw0HKZHUGmB11rr/xOI
- TLEVzva/iwtuxouczzBUeUS+Nj3GTq/3nbmlV/m18BgeJhfzAoz7b6CBjITg17HK7TN4
- IZmGlbaCWJC7xvaHhqfUUpqdvJetyvP/Hx+Svvad4v4uthS9YheP6qoB3EzSPB3JHbzm
- DrURkfzFqf5oHOudRGh+V2Q531fUGozRvwUxEJxTLebtxqLFwUaY2vQKQ/a1r1MlTNYP
- XkUMaxZj1i1yqUDDPWc+4DOlOPNiU8QquwdBPdh4TLv3nipasoKFxqwU/VOyYMWrXMIM
- oaFA==
-X-Gm-Message-State: AO0yUKXVv0eQx+/v3JK5/VWFeV2E0aBLV+AYZvhmDMRSwnW9KV3SbNW1
- RG/iNCHl8uK73Pd7gSM8cSicyQ==
-X-Google-Smtp-Source: AK7set8jPd8q7rSu5bALug9eO8HoRSNLRx7lo4jN+QajXCMltU6Aw5b9Oo8sfrIp/SjmMGJ1lPa+PQ==
-X-Received: by 2002:a2e:7c07:0:b0:294:69aa:a2e4 with SMTP id
- x7-20020a2e7c07000000b0029469aaa2e4mr3794938ljc.16.1678808159935; 
- Tue, 14 Mar 2023 08:35:59 -0700 (PDT)
+ bh=NGe8XTWLBCygcKPx+WU/oocdnT3P6tEBtNfnD+3SiAM=;
+ b=o3rRGZqYFGgfeCX9PLHb4L/IhxLraNgfZ7ZTboXtX5CVNrrAnBzkAQSIdpVnUqkXHf
+ YzEi7qcyFbufXesSmSCJXkICCiAAF4f6wHcVsA0wsP5tnaRSXFP3rts0vOgauRDlJJ7i
+ 0yUpY7RBOc99b1+67FLVEsGBQ0Fpc0zXtYA3hsHy/sUTid2ILXz6s1a2kKgJVU2/7/qP
+ Y6CPvBXsq4x8dmt20Dip/bXVfsjoTqS66RnGfPCvX4G0pEjCNxbraW778SieqA1cflso
+ MWFbD/ZyLHjmQKOyyl7ifA1FJxiNOnKiqmdU9ZHcnaPFe070uUaFI9rz7mlMX3CdUU5o
+ FbFg==
+X-Gm-Message-State: AO0yUKXKwo+R7rzT/yBfZSjA1EKZqL0Gpv7nG2TEDPV5eGBa7xZauB1B
+ 1RSXXLUftRXcv2MBpZZO797NIQ==
+X-Google-Smtp-Source: AK7set9vbYaGEY9fcrE/tvbv2SNx+kfRX3Y8sSoAzqhL7ToYR/GKT8hPMKWOurLd31SncVPGTELf0g==
+X-Received: by 2002:a2e:a551:0:b0:28d:9dbe:227a with SMTP id
+ e17-20020a2ea551000000b0028d9dbe227amr15121646ljn.42.1678808160647; 
+ Tue, 14 Mar 2023 08:36:00 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a2eb528000000b0029573844d03sm470854ljm.109.2023.03.14.08.35.59
+ z8-20020a2eb528000000b0029573844d03sm470854ljm.109.2023.03.14.08.36.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 08:35:59 -0700 (PDT)
+ Tue, 14 Mar 2023 08:36:00 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v6 19/32] drm/msm/dpu: make _dpu_plane_calc_clk accept mode
- directly
-Date: Tue, 14 Mar 2023 18:35:32 +0300
-Message-Id: <20230314153545.3442879-20-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 20/32] drm/msm/dpu: add dpu_hw_sspp_cfg to dpu_plane_state
+Date: Tue, 14 Mar 2023 18:35:33 +0300
+Message-Id: <20230314153545.3442879-21-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
 References: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
@@ -80,123 +79,196 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework bandwidth/clock calculation functions to use mode directly rather
-than fetching it through the plane data.
+Now as all accesses to pipe_cfg and pstate have been cleaned, add
+struct dpu_hw_sspp_cfg to struct dpu_plane_state, so that
+dpu_plane_atomic_check() and dpu_plane_atomic_update() do not have a
+chance to disagree about src/dst rectangles (currently
+dpu_plane_atomic_check() uses unclipped rectangles, while
+dpu_plane_atomic_update() uses clipped rectangles calculated by
+drm_atomic_helper_check_plane_state()).
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 39 ++++++++++-------------
- 1 file changed, 17 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 66 +++++++++++------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  2 +
+ 2 files changed, 32 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index aaea7c63d944..6cd787e85be8 100644
+index 6cd787e85be8..ba850e9feb9b 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -127,20 +127,19 @@ static struct dpu_kms *_dpu_plane_get_kms(struct drm_plane *plane)
- 
- /**
-  * _dpu_plane_calc_bw - calculate bandwidth required for a plane
-- * @plane: Pointer to drm plane.
-+ * @catalog: Points to dpu catalog structure
-  * @fmt: Pointer to source buffer format
-+ * @mode: Pointer to drm display mode
-  * @pipe_cfg: Pointer to pipe configuration
-  * Result: Updates calculated bandwidth in the plane state.
-  * BW Equation: src_w * src_h * bpp * fps * (v_total / v_dest)
-  * Prefill BW Equation: line src bytes * line_time
-  */
--static void _dpu_plane_calc_bw(struct drm_plane *plane,
-+static u64 _dpu_plane_calc_bw(const struct dpu_mdss_cfg *catalog,
- 	const struct dpu_format *fmt,
-+	const struct drm_display_mode *mode,
- 	struct dpu_sw_pipe_cfg *pipe_cfg)
- {
--	struct dpu_plane_state *pstate;
--	struct drm_display_mode *mode;
--	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
- 	int src_width, src_height, dst_height, fps;
- 	u64 plane_prefill_bw;
- 	u64 plane_bw;
-@@ -148,9 +147,6 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
- 	u64 scale_factor;
- 	int vbp, vpw, vfp;
- 
--	pstate = to_dpu_plane_state(plane->state);
--	mode = &plane->state->crtc->mode;
--
- 	src_width = drm_rect_width(&pipe_cfg->src_rect);
- 	src_height = drm_rect_height(&pipe_cfg->src_rect);
- 	dst_height = drm_rect_height(&pipe_cfg->dst_rect);
-@@ -158,7 +154,7 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
- 	vbp = mode->vtotal - mode->vsync_end;
- 	vpw = mode->vsync_end - mode->vsync_start;
- 	vfp = mode->vsync_start - mode->vdisplay;
--	hw_latency_lines =  dpu_kms->catalog->perf->min_prefill_lines;
-+	hw_latency_lines =  catalog->perf->min_prefill_lines;
- 	scale_factor = src_height > dst_height ?
- 		mult_frac(src_height, 1, dst_height) : 1;
- 
-@@ -178,37 +174,36 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
- 		do_div(plane_prefill_bw, hw_latency_lines);
- 
- 
--	pstate->plane_fetch_bw = max(plane_bw, plane_prefill_bw);
-+	return max(plane_bw, plane_prefill_bw);
- }
- 
- /**
-  * _dpu_plane_calc_clk - calculate clock required for a plane
-- * @plane: Pointer to drm plane.
-+ * @mode: Pointer to drm display mode
-  * @pipe_cfg: Pointer to pipe configuration
-  * Result: Updates calculated clock in the plane state.
-  * Clock equation: dst_w * v_total * fps * (src_h / dst_h)
-  */
--static void _dpu_plane_calc_clk(struct drm_plane *plane, struct dpu_sw_pipe_cfg *pipe_cfg)
-+static u64 _dpu_plane_calc_clk(const struct drm_display_mode *mode,
-+		struct dpu_sw_pipe_cfg *pipe_cfg)
- {
--	struct dpu_plane_state *pstate;
--	struct drm_display_mode *mode;
- 	int dst_width, src_height, dst_height, fps;
--
--	pstate = to_dpu_plane_state(plane->state);
--	mode = &plane->state->crtc->mode;
-+	u64 plane_clk;
- 
- 	src_height = drm_rect_height(&pipe_cfg->src_rect);
- 	dst_width = drm_rect_width(&pipe_cfg->dst_rect);
- 	dst_height = drm_rect_height(&pipe_cfg->dst_rect);
- 	fps = drm_mode_vrefresh(mode);
- 
--	pstate->plane_clk =
-+	plane_clk =
- 		dst_width * mode->vtotal * fps;
- 
- 	if (src_height > dst_height) {
--		pstate->plane_clk *= src_height;
--		do_div(pstate->plane_clk, dst_height);
-+		plane_clk *= src_height;
-+		do_div(plane_clk, dst_height);
+@@ -951,7 +951,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
+ 	const struct drm_crtc_state *crtc_state = NULL;
+ 	const struct dpu_format *fmt;
+-	struct drm_rect src, dst, fb_rect = { 0 };
++	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
++	struct drm_rect fb_rect = { 0 };
+ 	uint32_t min_src_size, max_linewidth;
+ 	unsigned int rotation;
+ 	uint32_t supported_rotations;
+@@ -984,12 +985,15 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
  	}
-+
-+	return plane_clk;
- }
  
- /**
-@@ -1219,9 +1214,9 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+-	src.x1 = new_plane_state->src_x >> 16;
+-	src.y1 = new_plane_state->src_y >> 16;
+-	src.x2 = src.x1 + (new_plane_state->src_w >> 16);
+-	src.y2 = src.y1 + (new_plane_state->src_h >> 16);
++	pipe_cfg->src_rect = new_plane_state->src;
+ 
+-	dst = drm_plane_state_dest(new_plane_state);
++	/* state->src is 16.16, src_rect is not */
++	pipe_cfg->src_rect.x1 >>= 16;
++	pipe_cfg->src_rect.x2 >>= 16;
++	pipe_cfg->src_rect.y1 >>= 16;
++	pipe_cfg->src_rect.y2 >>= 16;
++
++	pipe_cfg->dst_rect = new_plane_state->dst;
+ 
+ 	fb_rect.x2 = new_plane_state->fb->width;
+ 	fb_rect.y2 = new_plane_state->fb->height;
+@@ -1008,30 +1012,31 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 		return -EINVAL;
+ 
+ 	/* check src bounds */
+-	} else if (!dpu_plane_validate_src(&src, &fb_rect, min_src_size)) {
++	} else if (!dpu_plane_validate_src(&pipe_cfg->src_rect, &fb_rect, min_src_size)) {
+ 		DPU_DEBUG_PLANE(pdpu, "invalid source " DRM_RECT_FMT "\n",
+-				DRM_RECT_ARG(&src));
++				DRM_RECT_ARG(&pipe_cfg->src_rect));
+ 		return -E2BIG;
+ 
+ 	/* valid yuv image */
+ 	} else if (DPU_FORMAT_IS_YUV(fmt) &&
+-		   (src.x1 & 0x1 || src.y1 & 0x1 ||
+-		    drm_rect_width(&src) & 0x1 ||
+-		    drm_rect_height(&src) & 0x1)) {
++		   (pipe_cfg->src_rect.x1 & 0x1 || pipe_cfg->src_rect.y1 & 0x1 ||
++		    drm_rect_width(&pipe_cfg->src_rect) & 0x1 ||
++		    drm_rect_height(&pipe_cfg->src_rect) & 0x1)) {
+ 		DPU_DEBUG_PLANE(pdpu, "invalid yuv source " DRM_RECT_FMT "\n",
+-				DRM_RECT_ARG(&src));
++				DRM_RECT_ARG(&pipe_cfg->src_rect));
+ 		return -EINVAL;
+ 
+ 	/* min dst support */
+-	} else if (drm_rect_width(&dst) < 0x1 || drm_rect_height(&dst) < 0x1) {
++	} else if (drm_rect_width(&pipe_cfg->dst_rect) < 0x1 ||
++		   drm_rect_height(&pipe_cfg->dst_rect) < 0x1) {
+ 		DPU_DEBUG_PLANE(pdpu, "invalid dest rect " DRM_RECT_FMT "\n",
+-				DRM_RECT_ARG(&dst));
++				DRM_RECT_ARG(&pipe_cfg->dst_rect));
+ 		return -EINVAL;
+ 
+ 	/* check decimated source width */
+-	} else if (drm_rect_width(&src) > max_linewidth) {
++	} else if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+ 		DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+-				DRM_RECT_ARG(&src), max_linewidth);
++				DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+ 		return -E2BIG;
+ 	}
+ 
+@@ -1045,7 +1050,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 
+ 	if ((pipe_hw_caps->features & BIT(DPU_SSPP_INLINE_ROTATION)) &&
+ 		(rotation & DRM_MODE_ROTATE_90)) {
+-		ret = dpu_plane_check_inline_rotation(pdpu, sblk, src, fmt);
++		ret = dpu_plane_check_inline_rotation(pdpu, sblk, pipe_cfg->src_rect, fmt);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1120,9 +1125,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 	bool is_rt_pipe;
+ 	const struct dpu_format *fmt =
+ 		to_dpu_format(msm_framebuffer_format(fb));
+-	struct dpu_sw_pipe_cfg pipe_cfg;
+-
+-	memset(&pipe_cfg, 0, sizeof(struct dpu_sw_pipe_cfg));
++	struct dpu_sw_pipe_cfg *pipe_cfg = &pstate->pipe_cfg;
+ 
+ 	_dpu_plane_set_scanout(plane, pstate, fb);
+ 
+@@ -1139,16 +1142,6 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 			crtc->base.id, DRM_RECT_ARG(&state->dst),
+ 			(char *)&fmt->base.pixel_format, DPU_FORMAT_IS_UBWC(fmt));
+ 
+-	pipe_cfg.src_rect = state->src;
+-
+-	/* state->src is 16.16, src_rect is not */
+-	pipe_cfg.src_rect.x1 >>= 16;
+-	pipe_cfg.src_rect.x2 >>= 16;
+-	pipe_cfg.src_rect.y1 >>= 16;
+-	pipe_cfg.src_rect.y2 >>= 16;
+-
+-	pipe_cfg.dst_rect = state->dst;
+-
+ 	/* override for color fill */
+ 	if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG) {
+ 		/* skip remaining processing on color fill */
+@@ -1157,10 +1150,10 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 
+ 	if (pipe->sspp->ops.setup_rects) {
+ 		pipe->sspp->ops.setup_rects(pipe,
+-				&pipe_cfg);
++				pipe_cfg);
+ 	}
+ 
+-	_dpu_plane_setup_scaler(pipe, fmt, false, &pipe_cfg, pstate->rotation);
++	_dpu_plane_setup_scaler(pipe, fmt, false, pipe_cfg, pstate->rotation);
+ 
+ 	if (pipe->sspp->ops.setup_multirect)
+ 		pipe->sspp->ops.setup_multirect(
+@@ -1201,12 +1194,12 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 		}
+ 	}
+ 
+-	_dpu_plane_set_qos_lut(plane, pipe, fmt, &pipe_cfg);
++	_dpu_plane_set_qos_lut(plane, pipe, fmt, &pstate->pipe_cfg);
+ 	_dpu_plane_set_danger_lut(plane, pipe, fmt);
+ 
+ 	if (plane->type != DRM_PLANE_TYPE_CURSOR) {
+ 		_dpu_plane_set_qos_ctrl(plane, pipe, true, DPU_PLANE_QOS_PANIC_CTRL);
+-		_dpu_plane_set_ot_limit(plane, pipe, crtc, &pipe_cfg);
++		_dpu_plane_set_ot_limit(plane, pipe, crtc, &pstate->pipe_cfg);
+ 	}
+ 
+ 	if (pstate->needs_qos_remap) {
+@@ -1214,9 +1207,10 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
  		_dpu_plane_set_qos_remap(plane, pipe);
  	}
  
--	_dpu_plane_calc_bw(plane, fmt, &pipe_cfg);
-+	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, &pipe_cfg);
+-	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt, &crtc->mode, &pipe_cfg);
++	pstate->plane_fetch_bw = _dpu_plane_calc_bw(pdpu->catalog, fmt,
++						    &crtc->mode, &pstate->pipe_cfg);
  
--	_dpu_plane_calc_clk(plane, &pipe_cfg);
-+	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, &pipe_cfg);
+-	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, &pipe_cfg);
++	pstate->plane_clk = _dpu_plane_calc_clk(&crtc->mode, &pstate->pipe_cfg);
  }
  
  static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+index a08b0539513b..0ca9002015ff 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
+@@ -19,6 +19,7 @@
+  * @base:	base drm plane state object
+  * @aspace:	pointer to address space for input/output buffers
+  * @pipe:	software pipe description
++ * @pipe_cfg:	software pipe configuration
+  * @stage:	assigned by crtc blender
+  * @needs_qos_remap: qos remap settings need to be updated
+  * @multirect_index: index of the rectangle of SSPP
+@@ -33,6 +34,7 @@ struct dpu_plane_state {
+ 	struct drm_plane_state base;
+ 	struct msm_gem_address_space *aspace;
+ 	struct dpu_sw_pipe pipe;
++	struct dpu_sw_pipe_cfg pipe_cfg;
+ 	enum dpu_stage stage;
+ 	bool needs_qos_remap;
+ 	bool pending;
 -- 
 2.30.2
 
