@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4846B998D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:36:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8211C6B9984
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:36:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3C8B10EA9A;
-	Tue, 14 Mar 2023 15:36:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4963110EAA9;
+	Tue, 14 Mar 2023 15:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A05A89048
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:35:53 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id y14so16442838ljq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:35:53 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9868A89048
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:35:52 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id h9so16447475ljq.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678808151;
+ d=linaro.org; s=google; t=1678808152;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FI+AunMGegIEQjIKuu5xVHew2OJX2ZPs5OQJ05sZe+Y=;
- b=z02KAv12i7aof00bKqg43znhugcWcZ8+5qdeGysu4jEtpZNqCBCFMegjtljQiWQKfj
- om74lxuU0Dcm69g+Ww3KGq1Zd6co09ZamDD7q7fvi9G8+XlSVkNspp14sIL/CbcxN/l1
- UUpqSZ6SLzYhMX3igwAzzVvLxoQZ6e0JxClzNjNuvqRDCj7F43VlGR5vLelSltbrNnv+
- +zkpEUJfRKPJ3v1g7sn9HstJcdanlJygxN7UU61DG89QyNk+u5iKPYyd/YYugsyLKXrO
- LwLJpViJnIgSiPa0Or2sIHsQBhNDYabVvg0UPCEVV2R9M/TSJ1+erleYCZCzcJQmhbKW
- oKTg==
+ bh=pRJiyruca+XEPy1zuI06ONM+B1Ubhz0WZOxlKyV8opo=;
+ b=Bfg1V4vXQccqaVqKFvJVrmaTR6OWqu01CTaI0b720qchaOdrwWgX3ZeOJ7O6qE/YJd
+ Rtazt7GDK6TJBaC0CccZxExeVb2CgLB2ZMi5XFCOixsypKTxhqo8B3qxJjKoMNeyQab4
+ K8XsNux/pP6K5+xg9bGb1+mQPdf8MuHkVEFG0SJIYyceM6tx7pAchytYASVgawKFqsRR
+ eVhzNvHGyn4M52vsb9iP3WajND1WtGOQkM2GxtxBu6+0n/HIR/O2x8UTFipJ5GtU1Fnk
+ wPvBYsWHPXQwvNoqFsEcHZrwo9EWv/e7JKjlnjhh57h2bQBMhmxFpS4lIL/7j25ybKUh
+ xAoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678808151;
+ d=1e100.net; s=20210112; t=1678808152;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FI+AunMGegIEQjIKuu5xVHew2OJX2ZPs5OQJ05sZe+Y=;
- b=yfh0fhKnnd+2mfXGE9XsFX2MFVQjrUwqrgbXLkb0IAutYVVrJEuaNcGhY3094iMNTH
- 94scSjKK6Gi/CJ62KL1UuLuL7FUhO2ZU969Rvmw+TlTAGgRQ0aOOr+bHb8VNRxhbXqcq
- BofpJ0Zxw0tkej7erVU4vJNtCnwguPGeAcVv0TGy8sBx5vf6IhByKcVHURsj80r9tH9p
- OUi+UdGqXVgHu+w+CpnX92zozr62EX93kGUfjze0INaSi1RRxbioUrbHiqkbHIfFJatL
- mFxCTcoy73/C+Pf3uacCtuPcTuNE1+LosioVZ9vejqLfOGCVcECcnMcucnpDItzgyd0N
- sVxA==
-X-Gm-Message-State: AO0yUKVI4xTWzxq0us58ffmYO/fk2/WFddMlySm4Su8udfhAMvd+sUzl
- gDmb2HE7FiM2pC9POyTlnDeS6g==
-X-Google-Smtp-Source: AK7set9vGyykaFMrszpvnl1ec5NAaXRVP52OF4Nh/jM6xdoLlpfYaa6AqjWHIb/JaSbHWBEvivyljA==
-X-Received: by 2002:a2e:9807:0:b0:298:a840:ec60 with SMTP id
- a7-20020a2e9807000000b00298a840ec60mr214630ljj.12.1678808151528; 
- Tue, 14 Mar 2023 08:35:51 -0700 (PDT)
+ bh=pRJiyruca+XEPy1zuI06ONM+B1Ubhz0WZOxlKyV8opo=;
+ b=SGsxeqm8laC9gJ1mMzjt7v/DG9QMoTb2wUerv8FIS8LWvajd+20NUQqJzSGfCg0EUz
+ 797AzHznztha+qyTcwRyjyMHw8+EKDWUdW5Cs3k0TPm8GM8mLkBSkPsnQzpSGm/N17l4
+ SV4JBWCKj3uwwPBYJ7sSxVdpo5wWqMfh5/BQL08rmabOM4cvvwxO04JuV2oAUZ9yvwtL
+ 1PhPJ8OFwNBk5fyYXfoT51sWMCv7/28wb7Iw4AB0c0H3CF70LhtMa2YhRdI+d4N4qIwx
+ Kx20ZgKEk+KQ22D4eDnItEM1TqXNdoQkPlqax4wrzn0SlK82YsFHUh7xaIg8dvvUgLpO
+ 9iGQ==
+X-Gm-Message-State: AO0yUKUVxubiT/tJEjPFcQN51GgvctET3eb6Go5prNpuQEtiol66eceH
+ qwuxJlnhU+CKJbsAzVyco3CcoA==
+X-Google-Smtp-Source: AK7set/piCTViqCtyl6Ptr2ydDD7m2Zki+Y2VsIPTDrUUxmlMqnR9mWEPyfaX/frE68DbjHZJdQT1A==
+X-Received: by 2002:a05:651c:513:b0:295:9659:fba5 with SMTP id
+ o19-20020a05651c051300b002959659fba5mr15349870ljp.37.1678808152134; 
+ Tue, 14 Mar 2023 08:35:52 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a2eb528000000b0029573844d03sm470854ljm.109.2023.03.14.08.35.50
+ z8-20020a2eb528000000b0029573844d03sm470854ljm.109.2023.03.14.08.35.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 14 Mar 2023 08:35:51 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v6 07/32] drm/msm/dpu: introduce struct dpu_sw_pipe
-Date: Tue, 14 Mar 2023 18:35:20 +0300
-Message-Id: <20230314153545.3442879-8-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 08/32] drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp
+ callbacks
+Date: Tue, 14 Mar 2023 18:35:21 +0300
+Message-Id: <20230314153545.3442879-9-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
 References: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
@@ -79,229 +80,372 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Wrap SSPP and multirect index/mode into a single structure that
-represents software view on the pipe used.
+Where feasible, use dpu_sw_pipe rather than a combo of dpu_hw_sspp and
+multirect_index/_mode arguments.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |   9 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |  16 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 133 ++++++++++----------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |   6 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   |  10 +-
- 5 files changed, 90 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 59 +++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 46 +++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 73 ++++++++++-----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   |  9 ++-
+ 4 files changed, 84 insertions(+), 103 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index c059090e9479..3dcc71997f44 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -432,7 +432,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
- 		pstate = to_dpu_plane_state(state);
- 		fb = state->fb;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 3e65bfd65b62..a1492a7e43ce 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -168,17 +168,16 @@ static int _sspp_subblk_offset(struct dpu_hw_sspp *ctx,
+ 	return rc;
+ }
  
--		sspp_idx = pstate->hw_sspp->idx;
-+		sspp_idx = pstate->pipe.sspp->idx;
- 		set_bit(sspp_idx, fetch_active);
+-static void dpu_hw_sspp_setup_multirect(struct dpu_hw_sspp *ctx,
+-		enum dpu_sspp_multirect_index index,
+-		enum dpu_sspp_multirect_mode mode)
++static void dpu_hw_sspp_setup_multirect(struct dpu_sw_pipe *pipe)
+ {
++	struct dpu_hw_sspp *ctx = pipe->sspp;
+ 	u32 mode_mask;
+ 	u32 idx;
  
- 		DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d\n",
-@@ -451,11 +451,10 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
- 		stage_cfg->stage[pstate->stage][stage_idx] =
- 					sspp_idx;
- 		stage_cfg->multirect_index[pstate->stage][stage_idx] =
--					pstate->multirect_index;
-+					pstate->pipe.multirect_index;
+ 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+ 		return;
  
- 		trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
- 					   state, pstate, stage_idx,
--					   sspp_idx - SSPP_VIG0,
- 					   format->base.pixel_format,
- 					   fb ? fb->modifier : 0);
+-	if (index == DPU_SSPP_RECT_SOLO) {
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+ 		/**
+ 		 * if rect index is RECT_SOLO, we cannot expect a
+ 		 * virtual plane sharing the same SSPP id. So we go
+@@ -187,8 +186,8 @@ static void dpu_hw_sspp_setup_multirect(struct dpu_hw_sspp *ctx,
+ 		mode_mask = 0;
+ 	} else {
+ 		mode_mask = DPU_REG_READ(&ctx->hw, SSPP_MULTIRECT_OPMODE + idx);
+-		mode_mask |= index;
+-		if (mode == DPU_SSPP_MULTIRECT_TIME_MX)
++		mode_mask |= pipe->multirect_index;
++		if (pipe->multirect_mode == DPU_SSPP_MULTIRECT_TIME_MX)
+ 			mode_mask |= BIT(2);
+ 		else
+ 			mode_mask &= ~BIT(2);
+@@ -239,10 +238,10 @@ static void _sspp_setup_csc10_opmode(struct dpu_hw_sspp *ctx,
+ /*
+  * Setup source pixel format, flip,
+  */
+-static void dpu_hw_sspp_setup_format(struct dpu_hw_sspp *ctx,
+-		const struct dpu_format *fmt, u32 flags,
+-		enum dpu_sspp_multirect_index rect_mode)
++static void dpu_hw_sspp_setup_format(struct dpu_sw_pipe *pipe,
++		const struct dpu_format *fmt, u32 flags)
+ {
++	struct dpu_hw_sspp *ctx = pipe->sspp;
+ 	struct dpu_hw_blk_reg_map *c;
+ 	u32 chroma_samp, unpack, src_format;
+ 	u32 opmode = 0;
+@@ -253,7 +252,8 @@ static void dpu_hw_sspp_setup_format(struct dpu_hw_sspp *ctx,
+ 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx) || !fmt)
+ 		return;
  
-@@ -1227,7 +1226,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 		pstates[cnt].dpu_pstate = dpu_pstate;
- 		pstates[cnt].drm_pstate = pstate;
- 		pstates[cnt].stage = pstate->normalized_zpos;
--		pstates[cnt].pipe_id = to_dpu_plane_state(pstate)->hw_sspp->idx;
-+		pstates[cnt].pipe_id = to_dpu_plane_state(pstate)->pipe.sspp->idx;
+-	if (rect_mode == DPU_SSPP_RECT_SOLO || rect_mode == DPU_SSPP_RECT_0) {
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
++	    pipe->multirect_index == DPU_SSPP_RECT_0) {
+ 		op_mode_off = SSPP_SRC_OP_MODE;
+ 		unpack_pat_off = SSPP_SRC_UNPACK_PATTERN;
+ 		format_off = SSPP_SRC_FORMAT;
+@@ -447,10 +447,10 @@ static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_sspp *ctx)
+ /*
+  * dpu_hw_sspp_setup_rects()
+  */
+-static void dpu_hw_sspp_setup_rects(struct dpu_hw_sspp *ctx,
+-		struct dpu_hw_sspp_cfg *cfg,
+-		enum dpu_sspp_multirect_index rect_index)
++static void dpu_hw_sspp_setup_rects(struct dpu_sw_pipe *pipe,
++		struct dpu_hw_sspp_cfg *cfg)
+ {
++	struct dpu_hw_sspp *ctx = pipe->sspp;
+ 	struct dpu_hw_blk_reg_map *c;
+ 	u32 src_size, src_xy, dst_size, dst_xy, ystride0, ystride1;
+ 	u32 src_size_off, src_xy_off, out_size_off, out_xy_off;
+@@ -461,7 +461,8 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_sspp *ctx,
  
- 		dpu_pstate->needs_dirtyfb = needs_dirtyfb;
+ 	c = &ctx->hw;
  
-@@ -1500,7 +1499,7 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
- 			state->crtc_x, state->crtc_y, state->crtc_w,
- 			state->crtc_h);
- 		seq_printf(s, "\tmultirect: mode: %d index: %d\n",
--			pstate->multirect_mode, pstate->multirect_index);
-+			pstate->pipe.multirect_mode, pstate->pipe.multirect_index);
+-	if (rect_index == DPU_SSPP_RECT_SOLO || rect_index == DPU_SSPP_RECT_0) {
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
++	    pipe->multirect_index == DPU_SSPP_RECT_0) {
+ 		src_size_off = SSPP_SRC_SIZE;
+ 		src_xy_off = SSPP_SRC_XY;
+ 		out_size_off = SSPP_OUT_SIZE;
+@@ -482,7 +483,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_sspp *ctx,
+ 	dst_size = (drm_rect_height(&cfg->dst_rect) << 16) |
+ 		drm_rect_width(&cfg->dst_rect);
  
- 		seq_puts(s, "\n");
- 	}
+-	if (rect_index == DPU_SSPP_RECT_SOLO) {
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+ 		ystride0 = (cfg->layout.plane_pitch[0]) |
+ 			(cfg->layout.plane_pitch[1] << 16);
+ 		ystride1 = (cfg->layout.plane_pitch[2]) |
+@@ -491,7 +492,7 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_sspp *ctx,
+ 		ystride0 = DPU_REG_READ(c, SSPP_SRC_YSTRIDE0 + idx);
+ 		ystride1 = DPU_REG_READ(c, SSPP_SRC_YSTRIDE1 + idx);
+ 
+-		if (rect_index == DPU_SSPP_RECT_0) {
++		if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+ 			ystride0 = (ystride0 & 0xFFFF0000) |
+ 				(cfg->layout.plane_pitch[0] & 0x0000FFFF);
+ 			ystride1 = (ystride1 & 0xFFFF0000)|
+@@ -516,21 +517,21 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_sspp *ctx,
+ 	DPU_REG_WRITE(c, SSPP_SRC_YSTRIDE1 + idx, ystride1);
+ }
+ 
+-static void dpu_hw_sspp_setup_sourceaddress(struct dpu_hw_sspp *ctx,
+-		struct dpu_hw_sspp_cfg *cfg,
+-		enum dpu_sspp_multirect_index rect_mode)
++static void dpu_hw_sspp_setup_sourceaddress(struct dpu_sw_pipe *pipe,
++		struct dpu_hw_sspp_cfg *cfg)
+ {
++	struct dpu_hw_sspp *ctx = pipe->sspp;
+ 	int i;
+ 	u32 idx;
+ 
+ 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+ 		return;
+ 
+-	if (rect_mode == DPU_SSPP_RECT_SOLO) {
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO) {
+ 		for (i = 0; i < ARRAY_SIZE(cfg->layout.plane_addr); i++)
+ 			DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx + i * 0x4,
+ 					cfg->layout.plane_addr[i]);
+-	} else if (rect_mode == DPU_SSPP_RECT_0) {
++	} else if (pipe->multirect_index == DPU_SSPP_RECT_0) {
+ 		DPU_REG_WRITE(&ctx->hw, SSPP_SRC0_ADDR + idx,
+ 				cfg->layout.plane_addr[0]);
+ 		DPU_REG_WRITE(&ctx->hw, SSPP_SRC2_ADDR + idx,
+@@ -560,15 +561,16 @@ static void dpu_hw_sspp_setup_csc(struct dpu_hw_sspp *ctx,
+ 	dpu_hw_csc_setup(&ctx->hw, idx, data, csc10);
+ }
+ 
+-static void dpu_hw_sspp_setup_solidfill(struct dpu_hw_sspp *ctx, u32 color, enum
+-		dpu_sspp_multirect_index rect_index)
++static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
+ {
++	struct dpu_hw_sspp *ctx = pipe->sspp;
+ 	u32 idx;
+ 
+ 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+ 		return;
+ 
+-	if (rect_index == DPU_SSPP_RECT_SOLO || rect_index == DPU_SSPP_RECT_0)
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
++	    pipe->multirect_index == DPU_SSPP_RECT_0)
+ 		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR + idx, color);
+ 	else
+ 		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR_REC1 + idx,
+@@ -630,10 +632,10 @@ static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_sspp *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, SSPP_QOS_CTRL + idx, qos_ctrl);
+ }
+ 
+-static void dpu_hw_sspp_setup_cdp(struct dpu_hw_sspp *ctx,
+-		struct dpu_hw_cdp_cfg *cfg,
+-		enum dpu_sspp_multirect_index index)
++static void dpu_hw_sspp_setup_cdp(struct dpu_sw_pipe *pipe,
++		struct dpu_hw_cdp_cfg *cfg)
+ {
++	struct dpu_hw_sspp *ctx = pipe->sspp;
+ 	u32 idx;
+ 	u32 cdp_cntl = 0;
+ 	u32 cdp_cntl_offset = 0;
+@@ -644,7 +646,8 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_sspp *ctx,
+ 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
+ 		return;
+ 
+-	if (index == DPU_SSPP_RECT_SOLO || index == DPU_SSPP_RECT_0)
++	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
++	    pipe->multirect_index == DPU_SSPP_RECT_0)
+ 		cdp_cntl_offset = SSPP_CDP_CNTL;
+ 	else
+ 		cdp_cntl_offset = SSPP_CDP_CNTL_REC1;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index c30f168b6c0a..13d9e04a5153 100644
+index 13d9e04a5153..5903413256ea 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -158,15 +158,11 @@ struct dpu_hw_pixel_ext {
-  * @src_rect:  src ROI, caller takes into account the different operations
-  *             such as decimation, flip etc to program this field
-  * @dest_rect: destination ROI.
-- * @index:     index of the rectangle of SSPP
-- * @mode:      parallel or time multiplex multirect mode
-  */
- struct dpu_hw_sspp_cfg {
- 	struct dpu_hw_fmt_layout layout;
- 	struct drm_rect src_rect;
- 	struct drm_rect dst_rect;
--	enum dpu_sspp_multirect_index index;
--	enum dpu_sspp_multirect_mode mode;
+@@ -217,24 +217,20 @@ struct dpu_sw_pipe {
+ struct dpu_hw_sspp_ops {
+ 	/**
+ 	 * setup_format - setup pixel format cropping rectangle, flip
+-	 * @ctx: Pointer to pipe context
++	 * @pipe: Pointer to software pipe context
+ 	 * @cfg: Pointer to pipe config structure
+ 	 * @flags: Extra flags for format config
+-	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_format)(struct dpu_hw_sspp *ctx,
+-			const struct dpu_format *fmt, u32 flags,
+-			enum dpu_sspp_multirect_index index);
++	void (*setup_format)(struct dpu_sw_pipe *pipe,
++			     const struct dpu_format *fmt, u32 flags);
+ 
+ 	/**
+ 	 * setup_rects - setup pipe ROI rectangles
+-	 * @ctx: Pointer to pipe context
++	 * @pipe: Pointer to software pipe context
+ 	 * @cfg: Pointer to pipe config structure
+-	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_rects)(struct dpu_hw_sspp *ctx,
+-			struct dpu_hw_sspp_cfg *cfg,
+-			enum dpu_sspp_multirect_index index);
++	void (*setup_rects)(struct dpu_sw_pipe *pipe,
++			    struct dpu_hw_sspp_cfg *cfg);
+ 
+ 	/**
+ 	 * setup_pe - setup pipe pixel extension
+@@ -246,13 +242,11 @@ struct dpu_hw_sspp_ops {
+ 
+ 	/**
+ 	 * setup_sourceaddress - setup pipe source addresses
+-	 * @ctx: Pointer to pipe context
++	 * @pipe: Pointer to software pipe context
+ 	 * @cfg: Pointer to pipe config structure
+-	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_sourceaddress)(struct dpu_hw_sspp *ctx,
+-			struct dpu_hw_sspp_cfg *cfg,
+-			enum dpu_sspp_multirect_index index);
++	void (*setup_sourceaddress)(struct dpu_sw_pipe *ctx,
++				    struct dpu_hw_sspp_cfg *cfg);
+ 
+ 	/**
+ 	 * setup_csc - setup color space coversion
+@@ -263,24 +257,18 @@ struct dpu_hw_sspp_ops {
+ 
+ 	/**
+ 	 * setup_solidfill - enable/disable colorfill
+-	 * @ctx: Pointer to pipe context
++	 * @pipe: Pointer to software pipe context
+ 	 * @const_color: Fill color value
+ 	 * @flags: Pipe flags
+-	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_solidfill)(struct dpu_hw_sspp *ctx, u32 color,
+-			enum dpu_sspp_multirect_index index);
++	void (*setup_solidfill)(struct dpu_sw_pipe *pipe, u32 color);
+ 
+ 	/**
+ 	 * setup_multirect - setup multirect configuration
+-	 * @ctx: Pointer to pipe context
+-	 * @index: rectangle index in multirect
+-	 * @mode: parallel fetch / time multiplex multirect mode
++	 * @pipe: Pointer to software pipe context
+ 	 */
+ 
+-	void (*setup_multirect)(struct dpu_hw_sspp *ctx,
+-			enum dpu_sspp_multirect_index index,
+-			enum dpu_sspp_multirect_mode mode);
++	void (*setup_multirect)(struct dpu_sw_pipe *pipe);
+ 
+ 	/**
+ 	 * setup_sharpening - setup sharpening
+@@ -345,13 +333,11 @@ struct dpu_hw_sspp_ops {
+ 
+ 	/**
+ 	 * setup_cdp - setup client driven prefetch
+-	 * @ctx: Pointer to pipe context
++	 * @pipe: Pointer to software pipe context
+ 	 * @cfg: Pointer to cdp configuration
+-	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_cdp)(struct dpu_hw_sspp *ctx,
+-			struct dpu_hw_cdp_cfg *cfg,
+-			enum dpu_sspp_multirect_index index);
++	void (*setup_cdp)(struct dpu_sw_pipe *pipe,
++			  struct dpu_hw_cdp_cfg *cfg);
  };
  
  /**
-@@ -201,6 +197,18 @@ struct dpu_hw_pipe_ts_cfg {
- 	u64 time;
- };
- 
-+/**
-+ * struct dpu_sw_pipe - software pipe description
-+ * @sspp:      backing SSPP pipe
-+ * @index:     index of the rectangle of SSPP
-+ * @mode:      parallel or time multiplex multirect mode
-+ */
-+struct dpu_sw_pipe {
-+	struct dpu_hw_sspp *sspp;
-+	enum dpu_sspp_multirect_index multirect_index;
-+	enum dpu_sspp_multirect_mode multirect_mode;
-+};
-+
- /**
-  * struct dpu_hw_sspp_ops - interface to the SSPP Hw driver functions
-  * Caller must call the init function to get the pipe context for each pipe
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 10678f6502a2..ce726bec0c31 100644
+index ce726bec0c31..6ec39f937042 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -251,7 +251,7 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
- 				((src_width + 32) * fmt->bpp);
- 		}
- 	} else {
--		if (pstate->multirect_mode == DPU_SSPP_MULTIRECT_PARALLEL) {
-+		if (pstate->pipe.multirect_mode == DPU_SSPP_MULTIRECT_PARALLEL) {
- 			total_fl = (fixed_buff_size / 2) * 2 /
- 				((src_width + 32) * fmt->bpp);
- 		} else {
-@@ -310,7 +310,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 			fmt ? (char *)&fmt->base.pixel_format : NULL,
- 			pdpu->is_rt_pipe, total_fl, qos_lut);
- 
--	pstate->hw_sspp->ops.setup_creq_lut(pstate->hw_sspp, qos_lut);
-+	pstate->pipe.sspp->ops.setup_creq_lut(pstate->pipe.sspp, qos_lut);
- }
- 
- /**
-@@ -362,7 +362,7 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
- 		danger_lut,
- 		safe_lut);
- 
--	pstate->hw_sspp->ops.setup_danger_safe_lut(pstate->hw_sspp,
-+	pstate->pipe.sspp->ops.setup_danger_safe_lut(pstate->pipe.sspp,
- 			danger_lut, safe_lut);
- }
- 
-@@ -382,9 +382,9 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 	memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
- 
- 	if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
--		pipe_qos_cfg.creq_vblank = pstate->hw_sspp->cap->sblk->creq_vblank;
-+		pipe_qos_cfg.creq_vblank = pstate->pipe.sspp->cap->sblk->creq_vblank;
- 		pipe_qos_cfg.danger_vblank =
--				pstate->hw_sspp->cap->sblk->danger_vblank;
-+				pstate->pipe.sspp->cap->sblk->danger_vblank;
- 		pipe_qos_cfg.vblank_en = enable;
- 	}
- 
-@@ -410,7 +410,7 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 		pipe_qos_cfg.danger_vblank,
- 		pdpu->is_rt_pipe);
- 
--	pstate->hw_sspp->ops.setup_qos_ctrl(pstate->hw_sspp,
-+	pstate->pipe.sspp->ops.setup_qos_ctrl(pstate->pipe.sspp,
- 			&pipe_qos_cfg);
- }
- 
-@@ -429,14 +429,14 @@ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
- 	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
- 
- 	memset(&ot_params, 0, sizeof(ot_params));
--	ot_params.xin_id = pstate->hw_sspp->cap->xin_id;
--	ot_params.num = pstate->hw_sspp->idx - SSPP_NONE;
-+	ot_params.xin_id = pstate->pipe.sspp->cap->xin_id;
-+	ot_params.num = pstate->pipe.sspp->idx - SSPP_NONE;
- 	ot_params.width = drm_rect_width(&pipe_cfg->src_rect);
- 	ot_params.height = drm_rect_height(&pipe_cfg->src_rect);
- 	ot_params.is_wfd = !pdpu->is_rt_pipe;
- 	ot_params.frame_rate = drm_mode_vrefresh(&crtc->mode);
- 	ot_params.vbif_idx = VBIF_RT;
--	ot_params.clk_ctrl = pstate->hw_sspp->cap->clk_ctrl;
-+	ot_params.clk_ctrl = pstate->pipe.sspp->cap->clk_ctrl;
- 	ot_params.rd = true;
- 
- 	dpu_vbif_set_ot_limit(dpu_kms, &ot_params);
-@@ -455,9 +455,9 @@ static void _dpu_plane_set_qos_remap(struct drm_plane *plane)
- 
- 	memset(&qos_params, 0, sizeof(qos_params));
- 	qos_params.vbif_idx = VBIF_RT;
--	qos_params.clk_ctrl = pstate->hw_sspp->cap->clk_ctrl;
--	qos_params.xin_id = pstate->hw_sspp->cap->xin_id;
--	qos_params.num = pstate->hw_sspp->idx - SSPP_VIG0;
-+	qos_params.clk_ctrl = pstate->pipe.sspp->cap->clk_ctrl;
-+	qos_params.xin_id = pstate->pipe.sspp->cap->xin_id;
-+	qos_params.num = pstate->pipe.sspp->idx - SSPP_VIG0;
- 	qos_params.is_rt = pdpu->is_rt_pipe;
- 
- 	DPU_DEBUG_PLANE(pdpu, "pipe:%d vbif:%d xin:%d rt:%d, clk_ctrl:%d\n",
-@@ -482,12 +482,12 @@ static void _dpu_plane_set_scanout(struct drm_plane *plane,
- 	ret = dpu_format_populate_layout(aspace, fb, &pipe_cfg->layout);
+@@ -483,23 +483,21 @@ static void _dpu_plane_set_scanout(struct drm_plane *plane,
  	if (ret)
  		DPU_ERROR_PLANE(pdpu, "failed to get format layout, %d\n", ret);
--	else if (pstate->hw_sspp->ops.setup_sourceaddress) {
--		trace_dpu_plane_set_scanout(pstate->hw_sspp->idx,
-+	else if (pstate->pipe.sspp->ops.setup_sourceaddress) {
-+		trace_dpu_plane_set_scanout(pstate->pipe.sspp->idx,
- 					    &pipe_cfg->layout,
--					    pstate->multirect_index);
--		pstate->hw_sspp->ops.setup_sourceaddress(pstate->hw_sspp, pipe_cfg,
--						pstate->multirect_index);
-+					    pstate->pipe.multirect_index);
-+		pstate->pipe.sspp->ops.setup_sourceaddress(pstate->pipe.sspp, pipe_cfg,
-+						pstate->pipe.multirect_index);
+ 	else if (pstate->pipe.sspp->ops.setup_sourceaddress) {
+-		trace_dpu_plane_set_scanout(pstate->pipe.sspp->idx,
+-					    &pipe_cfg->layout,
+-					    pstate->pipe.multirect_index);
+-		pstate->pipe.sspp->ops.setup_sourceaddress(pstate->pipe.sspp, pipe_cfg,
+-						pstate->pipe.multirect_index);
++		trace_dpu_plane_set_scanout(&pstate->pipe,
++					    &pipe_cfg->layout);
++		pstate->pipe.sspp->ops.setup_sourceaddress(&pstate->pipe, pipe_cfg);
  	}
  }
  
-@@ -538,7 +538,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+-static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
+-		struct dpu_plane_state *pstate,
++static void _dpu_plane_setup_scaler3(struct dpu_hw_sspp *pipe_hw,
+ 		uint32_t src_w, uint32_t src_h, uint32_t dst_w, uint32_t dst_h,
+ 		struct dpu_hw_scaler3_cfg *scale_cfg,
+ 		const struct dpu_format *fmt,
+-		uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v)
++		uint32_t chroma_subsmpl_h, uint32_t chroma_subsmpl_v,
++		unsigned int rotation)
+ {
+ 	uint32_t i;
+-	bool inline_rotation = pstate->rotation & DRM_MODE_ROTATE_90;
++	bool inline_rotation = rotation & DRM_MODE_ROTATE_90;
+ 
+ 	/*
+ 	 * For inline rotation cases, scaler config is post-rotation,
+@@ -538,7 +536,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
  			scale_cfg->src_height[i] /= chroma_subsmpl_v;
  		}
  
--		if (pstate->hw_sspp->cap->features &
-+		if (pstate->pipe.sspp->cap->features &
+-		if (pstate->pipe.sspp->cap->features &
++		if (pipe_hw->cap->features &
  			BIT(DPU_SSPP_SCALER_QSEED4)) {
  			scale_cfg->preload_x[i] = DPU_QSEED4_DEFAULT_PRELOAD_H;
  			scale_cfg->preload_y[i] = DPU_QSEED4_DEFAULT_PRELOAD_V;
-@@ -622,7 +622,7 @@ static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, cons
- 	if (!DPU_FORMAT_IS_YUV(fmt))
- 		return NULL;
+@@ -635,11 +633,12 @@ static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, cons
+ 	return csc_ptr;
+ }
  
--	if (BIT(DPU_SSPP_CSC_10BIT) & pstate->hw_sspp->cap->features)
-+	if (BIT(DPU_SSPP_CSC_10BIT) & pstate->pipe.sspp->cap->features)
- 		csc_ptr = &dpu_csc10_YUV2RGB_601L;
- 	else
- 		csc_ptr = &dpu_csc_YUV2RGB_601L;
-@@ -665,8 +665,8 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+-static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+-		struct dpu_plane_state *pstate,
++static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
+ 		const struct dpu_format *fmt, bool color_fill,
+-		struct dpu_hw_sspp_cfg *pipe_cfg)
++		struct dpu_hw_sspp_cfg *pipe_cfg,
++		unsigned int rotation)
+ {
++	struct dpu_hw_sspp *pipe_hw = pipe->sspp;
+ 	const struct drm_format_info *info = drm_format_info(fmt->base.pixel_format);
+ 	struct dpu_hw_scaler3_cfg scaler3_cfg;
+ 	struct dpu_hw_pixel_ext pixel_ext;
+@@ -653,20 +652,21 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+ 
+ 	/* don't chroma subsample if decimating */
+ 	/* update scaler. calculate default config for QSEED3 */
+-	_dpu_plane_setup_scaler3(pdpu, pstate,
++	_dpu_plane_setup_scaler3(pipe_hw,
+ 			src_width,
+ 			src_height,
+ 			dst_width,
+ 			dst_height,
+ 			&scaler3_cfg, fmt,
+-			info->hsub, info->vsub);
++			info->hsub, info->vsub,
++			rotation);
+ 
+ 	/* configure pixel extension based on scalar config */
  	_dpu_plane_setup_pixel_ext(&scaler3_cfg, &pixel_ext,
  			src_width, src_height, info->hsub, info->vsub);
  
--	if (pstate->hw_sspp->ops.setup_pe)
--		pstate->hw_sspp->ops.setup_pe(pstate->hw_sspp,
-+	if (pstate->pipe.sspp->ops.setup_pe)
-+		pstate->pipe.sspp->ops.setup_pe(pstate->pipe.sspp,
+-	if (pstate->pipe.sspp->ops.setup_pe)
+-		pstate->pipe.sspp->ops.setup_pe(pstate->pipe.sspp,
++	if (pipe_hw->ops.setup_pe)
++		pipe_hw->ops.setup_pe(pipe_hw,
  				&pixel_ext);
  
  	/**
@@ -309,278 +453,118 @@ index 10678f6502a2..ce726bec0c31 100644
  	 * bypassed. Still we need to update alpha and bitwidth
  	 * ONLY for RECT0
  	 */
--	if (pstate->hw_sspp->ops.setup_scaler &&
--			pstate->multirect_index != DPU_SSPP_RECT_1)
--		pstate->hw_sspp->ops.setup_scaler(pstate->hw_sspp,
-+	if (pstate->pipe.sspp->ops.setup_scaler &&
-+			pstate->pipe.multirect_index != DPU_SSPP_RECT_1)
-+		pstate->pipe.sspp->ops.setup_scaler(pstate->pipe.sspp,
+-	if (pstate->pipe.sspp->ops.setup_scaler &&
+-			pstate->pipe.multirect_index != DPU_SSPP_RECT_1)
+-		pstate->pipe.sspp->ops.setup_scaler(pstate->pipe.sspp,
++	if (pipe_hw->ops.setup_scaler &&
++			pipe->multirect_index != DPU_SSPP_RECT_1)
++		pipe_hw->ops.setup_scaler(pipe_hw,
  				pipe_cfg,
  				&scaler3_cfg);
  }
-@@ -705,10 +705,10 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
- 	fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
+@@ -706,9 +706,8 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
  
  	/* update sspp */
--	if (fmt && pstate->hw_sspp->ops.setup_solidfill) {
--		pstate->hw_sspp->ops.setup_solidfill(pstate->hw_sspp,
-+	if (fmt && pstate->pipe.sspp->ops.setup_solidfill) {
-+		pstate->pipe.sspp->ops.setup_solidfill(pstate->pipe.sspp,
- 				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24),
--				pstate->multirect_index);
-+				pstate->pipe.multirect_index);
+ 	if (fmt && pstate->pipe.sspp->ops.setup_solidfill) {
+-		pstate->pipe.sspp->ops.setup_solidfill(pstate->pipe.sspp,
+-				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24),
+-				pstate->pipe.multirect_index);
++		pstate->pipe.sspp->ops.setup_solidfill(&pstate->pipe,
++				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24));
  
  		/* override scaler/decimation if solid fill */
  		pipe_cfg.dst_rect = pstate->base.dst;
-@@ -720,15 +720,15 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
- 		pipe_cfg.src_rect.y2 =
+@@ -721,16 +720,14 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
  			drm_rect_height(&pipe_cfg.dst_rect);
  
--		if (pstate->hw_sspp->ops.setup_format)
--			pstate->hw_sspp->ops.setup_format(pstate->hw_sspp,
-+		if (pstate->pipe.sspp->ops.setup_format)
-+			pstate->pipe.sspp->ops.setup_format(pstate->pipe.sspp,
- 					fmt, DPU_SSPP_SOLID_FILL,
--					pstate->multirect_index);
-+					pstate->pipe.multirect_index);
+ 		if (pstate->pipe.sspp->ops.setup_format)
+-			pstate->pipe.sspp->ops.setup_format(pstate->pipe.sspp,
+-					fmt, DPU_SSPP_SOLID_FILL,
+-					pstate->pipe.multirect_index);
++			pstate->pipe.sspp->ops.setup_format(&pstate->pipe,
++					fmt, DPU_SSPP_SOLID_FILL);
  
--		if (pstate->hw_sspp->ops.setup_rects)
--			pstate->hw_sspp->ops.setup_rects(pstate->hw_sspp,
-+		if (pstate->pipe.sspp->ops.setup_rects)
-+			pstate->pipe.sspp->ops.setup_rects(pstate->pipe.sspp,
- 					&pipe_cfg,
--					pstate->multirect_index);
-+					pstate->pipe.multirect_index);
+ 		if (pstate->pipe.sspp->ops.setup_rects)
+-			pstate->pipe.sspp->ops.setup_rects(pstate->pipe.sspp,
+-					&pipe_cfg,
+-					pstate->pipe.multirect_index);
++			pstate->pipe.sspp->ops.setup_rects(&pstate->pipe,
++					&pipe_cfg);
  
- 		_dpu_plane_setup_scaler(pdpu, pstate, fmt, true, &pipe_cfg);
- 	}
-@@ -740,8 +740,8 @@ void dpu_plane_clear_multirect(const struct drm_plane_state *drm_state)
- {
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(drm_state);
- 
--	pstate->multirect_index = DPU_SSPP_RECT_SOLO;
--	pstate->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
-+	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
-+	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
- }
- 
- int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
-@@ -823,8 +823,8 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
- 
- 	/* Prefer PARALLEL FETCH Mode over TIME_MX Mode */
- 	if (parallel_fetch_qualified) {
--		pstate[R0]->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
--		pstate[R1]->multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-+		pstate[R0]->pipe.multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
-+		pstate[R1]->pipe.multirect_mode = DPU_SSPP_MULTIRECT_PARALLEL;
- 
- 		goto done;
- 	}
-@@ -834,8 +834,8 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
- 
- 	if (dst[R1].y1 >= dst[R0].y2 + buffer_lines ||
- 	    dst[R0].y1 >= dst[R1].y2 + buffer_lines) {
--		pstate[R0]->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
--		pstate[R1]->multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
-+		pstate[R0]->pipe.multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
-+		pstate[R1]->pipe.multirect_mode = DPU_SSPP_MULTIRECT_TIME_MX;
- 	} else {
- 		DPU_ERROR(
- 			"No multirect mode possible for the planes (%d - %d)\n",
-@@ -845,13 +845,13 @@ int dpu_plane_validate_multirect_v2(struct dpu_multirect_plane_states *plane)
+-		_dpu_plane_setup_scaler(pdpu, pstate, fmt, true, &pipe_cfg);
++		_dpu_plane_setup_scaler(&pstate->pipe, fmt, true, &pipe_cfg, pstate->rotation);
  	}
  
- done:
--	pstate[R0]->multirect_index = DPU_SSPP_RECT_0;
--	pstate[R1]->multirect_index = DPU_SSPP_RECT_1;
-+	pstate[R0]->pipe.multirect_index = DPU_SSPP_RECT_0;
-+	pstate[R1]->pipe.multirect_index = DPU_SSPP_RECT_1;
- 
- 	DPU_DEBUG_PLANE(dpu_plane[R0], "R0: %d - %d\n",
--		pstate[R0]->multirect_mode, pstate[R0]->multirect_index);
-+		pstate[R0]->pipe.multirect_mode, pstate[R0]->pipe.multirect_index);
- 	DPU_DEBUG_PLANE(dpu_plane[R1], "R1: %d - %d\n",
--		pstate[R1]->multirect_mode, pstate[R1]->multirect_index);
-+		pstate[R1]->pipe.multirect_mode, pstate[R1]->pipe.multirect_index);
  	return 0;
- }
- 
-@@ -978,8 +978,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	uint32_t min_src_size, max_linewidth;
- 	unsigned int rotation;
- 	uint32_t supported_rotations;
--	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->hw_sspp->cap;
--	const struct dpu_sspp_sub_blks *sblk = pstate->hw_sspp->cap->sblk;
-+	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->pipe.sspp->cap;
-+	const struct dpu_sspp_sub_blks *sblk = pstate->pipe.sspp->cap->sblk;
- 
- 	if (new_plane_state->crtc)
- 		crtc_state = drm_atomic_get_new_crtc_state(state,
-@@ -1092,12 +1092,12 @@ void dpu_plane_flush(struct drm_plane *plane)
- 	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
- 		/* force 100% alpha */
- 		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
--	else if (pstate->hw_sspp && pstate->hw_sspp->ops.setup_csc) {
-+	else if (pstate->pipe.sspp && pstate->pipe.sspp->ops.setup_csc) {
- 		const struct dpu_format *fmt = to_dpu_format(msm_framebuffer_format(plane->state->fb));
- 		const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
- 
- 		if (csc_ptr)
--			pstate->hw_sspp->ops.setup_csc(pstate->hw_sspp, csc_ptr);
-+			pstate->pipe.sspp->ops.setup_csc(pstate->pipe.sspp, csc_ptr);
+@@ -1169,18 +1166,15 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
  	}
  
- 	/* flag h/w flush complete */
-@@ -1127,6 +1127,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
- 	struct drm_plane_state *state = plane->state;
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
-+	struct dpu_sw_pipe *pipe = &pstate->pipe;
- 	struct drm_crtc *crtc = state->crtc;
- 	struct drm_framebuffer *fb = state->fb;
- 	bool is_rt_pipe;
-@@ -1167,21 +1168,21 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 		return;
+ 	if (pipe->sspp->ops.setup_rects) {
+-		pipe->sspp->ops.setup_rects(pipe->sspp,
+-				&pipe_cfg,
+-				pipe->multirect_index);
++		pipe->sspp->ops.setup_rects(pipe,
++				&pipe_cfg);
  	}
  
--	if (pstate->hw_sspp->ops.setup_rects) {
--		pstate->hw_sspp->ops.setup_rects(pstate->hw_sspp,
-+	if (pipe->sspp->ops.setup_rects) {
-+		pipe->sspp->ops.setup_rects(pipe->sspp,
- 				&pipe_cfg,
--				pstate->multirect_index);
-+				pipe->multirect_index);
- 	}
+-	_dpu_plane_setup_scaler(pdpu, pstate, fmt, false, &pipe_cfg);
++	_dpu_plane_setup_scaler(pipe, fmt, false, &pipe_cfg, pstate->rotation);
  
- 	_dpu_plane_setup_scaler(pdpu, pstate, fmt, false, &pipe_cfg);
+ 	if (pipe->sspp->ops.setup_multirect)
+ 		pipe->sspp->ops.setup_multirect(
+-				pipe->sspp,
+-				pipe->multirect_index,
+-				pipe->multirect_mode);
++				pipe);
  
--	if (pstate->hw_sspp->ops.setup_multirect)
--		pstate->hw_sspp->ops.setup_multirect(
--				pstate->hw_sspp,
--				pstate->multirect_index,
--				pstate->multirect_mode);
-+	if (pipe->sspp->ops.setup_multirect)
-+		pipe->sspp->ops.setup_multirect(
-+				pipe->sspp,
-+				pipe->multirect_index,
-+				pipe->multirect_mode);
- 
--	if (pstate->hw_sspp->ops.setup_format) {
-+	if (pipe->sspp->ops.setup_format) {
+ 	if (pipe->sspp->ops.setup_format) {
  		unsigned int rotation = pstate->rotation;
- 
- 		src_flags = 0x0;
-@@ -1196,10 +1197,10 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+@@ -1197,8 +1191,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
  			src_flags |= DPU_SSPP_ROT_90;
  
  		/* update format */
--		pstate->hw_sspp->ops.setup_format(pstate->hw_sspp, fmt, src_flags,
--				pstate->multirect_index);
-+		pipe->sspp->ops.setup_format(pipe->sspp, fmt, src_flags,
-+				pipe->multirect_index);
+-		pipe->sspp->ops.setup_format(pipe->sspp, fmt, src_flags,
+-				pipe->multirect_index);
++		pipe->sspp->ops.setup_format(pipe, fmt, src_flags);
  
--		if (pstate->hw_sspp->ops.setup_cdp) {
-+		if (pipe->sspp->ops.setup_cdp) {
+ 		if (pipe->sspp->ops.setup_cdp) {
  			struct dpu_hw_cdp_cfg cdp_cfg;
- 
- 			memset(&cdp_cfg, 0, sizeof(struct dpu_hw_cdp_cfg));
-@@ -1213,8 +1214,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+@@ -1214,7 +1207,7 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
  					DPU_FORMAT_IS_TILE(fmt);
  			cdp_cfg.preload_ahead = DPU_SSPP_CDP_PRELOAD_AHEAD_64;
  
--			pstate->hw_sspp->ops.setup_cdp(pstate->hw_sspp, &cdp_cfg,
--						       pstate->multirect_index);
-+			pipe->sspp->ops.setup_cdp(pipe->sspp, &cdp_cfg, pipe->multirect_index);
+-			pipe->sspp->ops.setup_cdp(pipe->sspp, &cdp_cfg, pipe->multirect_index);
++			pipe->sspp->ops.setup_cdp(pipe, &cdp_cfg);
  		}
  	}
  
-@@ -1242,7 +1242,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
- 	struct dpu_plane_state *pstate = to_dpu_plane_state(state);
- 
- 	trace_dpu_plane_disable(DRMID(plane), false,
--				pstate->multirect_mode);
-+				pstate->pipe.multirect_mode);
- 
- 	pstate->pending = true;
- }
-@@ -1356,9 +1356,10 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
- 	const struct dpu_plane_state *pstate = to_dpu_plane_state(state);
- 
- 	drm_printf(p, "\tstage=%d\n", pstate->stage);
--	drm_printf(p, "\tsspp=%s\n", pstate->hw_sspp->cap->name);
--	drm_printf(p, "\tmultirect_mode=%s\n", dpu_get_multirect_mode(pstate->multirect_mode));
--	drm_printf(p, "\tmultirect_index=%s\n", dpu_get_multirect_index(pstate->multirect_index));
-+	drm_printf(p, "\tsspp=%s\n", pstate->pipe.sspp->cap->name);
-+	drm_printf(p, "\tmultirect_mode=%s\n", dpu_get_multirect_mode(pstate->pipe.multirect_mode));
-+	drm_printf(p, "\tmultirect_index=%s\n",
-+		   dpu_get_multirect_index(pstate->pipe.multirect_index));
- }
- 
- static void dpu_plane_reset(struct drm_plane *plane)
-@@ -1391,7 +1392,7 @@ static void dpu_plane_reset(struct drm_plane *plane)
- 	 * Set the SSPP here until we have proper virtualized DPU planes.
- 	 * This is the place where the state is allocated, so fill it fully.
- 	 */
--	pstate->hw_sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-+	pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
- 
- 	__drm_atomic_helper_plane_reset(plane, &pstate->base);
- }
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index 25e261cabadc..228db401e905 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -18,7 +18,7 @@
-  * struct dpu_plane_state: Define dpu extension of drm plane state object
-  * @base:	base drm plane state object
-  * @aspace:	pointer to address space for input/output buffers
-- * @hw_sspp:	pointer to corresponding SSPP instance
-+ * @pipe:	software pipe description
-  * @stage:	assigned by crtc blender
-  * @needs_qos_remap: qos remap settings need to be updated
-  * @multirect_index: index of the rectangle of SSPP
-@@ -32,11 +32,9 @@
- struct dpu_plane_state {
- 	struct drm_plane_state base;
- 	struct msm_gem_address_space *aspace;
--	struct dpu_hw_sspp *hw_sspp;
-+	struct dpu_sw_pipe pipe;
- 	enum dpu_stage stage;
- 	bool needs_qos_remap;
--	uint32_t multirect_index;
--	uint32_t multirect_mode;
- 	bool pending;
- 
- 	u64 plane_fetch_bw;
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-index 76169f406505..d7059972499f 100644
+index d7059972499f..0ad148cc2fb8 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-@@ -633,9 +633,9 @@ TRACE_EVENT(dpu_enc_phys_vid_irq_ctrl,
- TRACE_EVENT(dpu_crtc_setup_mixer,
- 	TP_PROTO(uint32_t crtc_id, uint32_t plane_id,
- 		 struct drm_plane_state *state, struct dpu_plane_state *pstate,
--		 uint32_t stage_idx, enum dpu_sspp sspp, uint32_t pixel_format,
-+		 uint32_t stage_idx, uint32_t pixel_format,
- 		 uint64_t modifier),
--	TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx, sspp,
-+	TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx,
- 		pixel_format, modifier),
+@@ -762,18 +762,17 @@ TRACE_EVENT(dpu_crtc_disable_frame_pending,
+ );
+ 
+ TRACE_EVENT(dpu_plane_set_scanout,
+-	TP_PROTO(enum dpu_sspp index, struct dpu_hw_fmt_layout *layout,
+-		 enum dpu_sspp_multirect_index multirect_index),
+-	TP_ARGS(index, layout, multirect_index),
++	TP_PROTO(struct dpu_sw_pipe *pipe, struct dpu_hw_fmt_layout *layout),
++	TP_ARGS(pipe, layout),
  	TP_STRUCT__entry(
- 		__field(	uint32_t,		crtc_id		)
-@@ -659,9 +659,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
- 		__entry->dst_rect = drm_plane_state_dest(state);
- 		__entry->stage_idx = stage_idx;
- 		__entry->stage = pstate->stage;
--		__entry->sspp = sspp;
--		__entry->multirect_idx = pstate->multirect_index;
--		__entry->multirect_mode = pstate->multirect_mode;
-+		__entry->sspp = pstate->pipe.sspp->idx;
-+		__entry->multirect_idx = pstate->pipe.multirect_index;
-+		__entry->multirect_mode = pstate->pipe.multirect_mode;
- 		__entry->pixel_format = pixel_format;
- 		__entry->modifier = modifier;
+ 		__field(	enum dpu_sspp,			index	)
+ 		__field_struct(	struct dpu_hw_fmt_layout,	layout	)
+ 		__field(	enum dpu_sspp_multirect_index,	multirect_index)
  	),
+ 	TP_fast_assign(
+-		__entry->index = index;
++		__entry->index = pipe->sspp->idx;
+ 		__entry->layout = *layout;
+-		__entry->multirect_index = multirect_index;
++		__entry->multirect_index = pipe->multirect_index;
+ 	),
+ 	TP_printk("index:%d layout:{%ux%u @ [%u/%u, %u/%u, %u/%u, %u/%u]} "
+ 		  "multirect_index:%d", __entry->index, __entry->layout.width,
 -- 
 2.30.2
 
