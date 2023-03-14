@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AA96B868A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 01:03:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A291A6B8697
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 01:07:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC16310E691;
-	Tue, 14 Mar 2023 00:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA4910E692;
+	Tue, 14 Mar 2023 00:07:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9F3710E690;
- Tue, 14 Mar 2023 00:03:25 +0000 (UTC)
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F4110E690
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 00:07:48 +0000 (UTC)
 Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
  [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id CC7BD202E5;
- Tue, 14 Mar 2023 01:03:23 +0100 (CET)
-Date: Tue, 14 Mar 2023 01:03:22 +0100
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id C28D620112;
+ Tue, 14 Mar 2023 01:07:45 +0100 (CET)
+Date: Tue, 14 Mar 2023 01:07:44 +0100
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v3 06/10] drm/msm/dsi: Switch the QCM2290-specific
- compatible to index autodetection
-Message-ID: <20230314000322.ptxs5d5mx54vdopa@SoMainline.org>
+Subject: Re: [PATCH v3 07/10] drm/msm/dsi: Remove custom DSI config handling
+Message-ID: <20230314000744.otbglr33ndizq5pc@SoMainline.org>
 References: <20230307-topic-dsi_qcm-v3-0-8bd7e1add38a@linaro.org>
- <20230307-topic-dsi_qcm-v3-6-8bd7e1add38a@linaro.org>
+ <20230307-topic-dsi_qcm-v3-7-8bd7e1add38a@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230307-topic-dsi_qcm-v3-6-8bd7e1add38a@linaro.org>
+In-Reply-To: <20230307-topic-dsi_qcm-v3-7-8bd7e1add38a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,93 +53,60 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-03-07 14:01:44, Konrad Dybcio wrote:
-> Now that the logic can handle multiple sets of registers, move
-> the QCM2290 to the common logic and mark it deprecated. This allows us
-> to remove a couple of structs, saving some memory.
+On 2023-03-07 14:01:45, Konrad Dybcio wrote:
+> Now that the only user is handled by common code, remove the option to
+> specify custom handlers through match data.
 > 
+> This is effectively a revert of commit:
+> 5ae15e76271 ("drm/msm/dsi: Allow to specify dsi config as pdata")
+
+Would it also be worth to mention something along these lines in the
+previous patch, but for ee1f09678f14 ("drm/msm/dsi: Add support for
+qcm2290 dsi controller")?
+
 > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+
 > ---
->  drivers/gpu/drm/msm/dsi/dsi.c     |  4 +++-
->  drivers/gpu/drm/msm/dsi/dsi_cfg.c | 28 ++--------------------------
->  2 files changed, 5 insertions(+), 27 deletions(-)
+>  drivers/gpu/drm/msm/dsi/dsi.c      | 4 ++--
+>  drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ----
+>  2 files changed, 2 insertions(+), 6 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-> index 31fdee2052be..90d43628b22b 100644
+> index 90d43628b22b..e0b911af618d 100644
 > --- a/drivers/gpu/drm/msm/dsi/dsi.c
 > +++ b/drivers/gpu/drm/msm/dsi/dsi.c
-> @@ -174,7 +174,9 @@ static int dsi_dev_remove(struct platform_device *pdev)
+> @@ -173,10 +173,10 @@ static int dsi_dev_remove(struct platform_device *pdev)
+>  }
 >  
 >  static const struct of_device_id dt_match[] = {
->  	{ .compatible = "qcom,mdss-dsi-ctrl", .data = NULL /* autodetect cfg */ },
-> -	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290", .data = &qcm2290_dsi_cfg_handler },
-> +
-> +	/* Deprecated, don't use */
-> +	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290", .data = NULL },
+> -	{ .compatible = "qcom,mdss-dsi-ctrl", .data = NULL /* autodetect cfg */ },
+> +	{ .compatible = "qcom,mdss-dsi-ctrl" },
+>  
+>  	/* Deprecated, don't use */
+> -	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290", .data = NULL },
+> +	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290" },
 >  	{}
 >  };
 >  
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> index 6d4b2ce4b918..29ccd755cc2e 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
-> @@ -169,7 +169,8 @@ static const struct msm_dsi_config sdm845_dsi_cfg = {
->  	.bus_clk_names = dsi_v2_4_clk_names,
->  	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
->  	.io_start = {
-> -		{ 0xae94000, 0xae96000 }, /* SDM845 / SDM670 / SC7180 */
-> +		{ 0xae94000, 0xae96000 }, /* SDM845 / SDM670 */
-> +		{ 0x5e94000 }, /* QCM2290 / SM6115 / SM6125 / SM6375 */
->  	},
->  };
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index 9cfb9e91bfea..961689a255c4 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -214,10 +214,6 @@ static const struct msm_dsi_cfg_handler *dsi_get_config(
+>  	int ret;
+>  	u32 major = 0, minor = 0;
 >  
-> @@ -203,25 +204,6 @@ static const struct msm_dsi_config sc7280_dsi_cfg = {
->  	},
->  };
->  
-> -static const char * const dsi_qcm2290_bus_clk_names[] = {
-> -	"iface", "bus",
-> -};
+> -	cfg_hnd = device_get_match_data(dev);
+> -	if (cfg_hnd)
+> -		return cfg_hnd;
 > -
-> -static const struct regulator_bulk_data qcm2290_dsi_cfg_regulators[] = {
-> -	{ .supply = "vdda", .init_load_uA = 21800 },	/* 1.2 V */
-> -};
-
-These two consts should really have already been deleted as part of
-04/10: drm/msm/dsi: dsi_cfg: Deduplicate identical structs.
-
-> -static const struct msm_dsi_config qcm2290_dsi_cfg = {
-> -	.io_offset = DSI_6G_REG_SHIFT,
-> -	.regulator_data = qcm2290_dsi_cfg_regulators,
-> -	.num_regulators = ARRAY_SIZE(qcm2290_dsi_cfg_regulators),
-> -	.bus_clk_names = dsi_qcm2290_bus_clk_names,
-> -	.num_bus_clks = ARRAY_SIZE(dsi_qcm2290_bus_clk_names),
-> -	.io_start = {
-> -		{ 0x5e94000 },
-> -	},
-> -};
-> -
->  static const struct msm_dsi_host_cfg_ops msm_dsi_v2_host_ops = {
->  	.link_clk_set_rate = dsi_link_clk_set_rate_v2,
->  	.link_clk_enable = dsi_link_clk_enable_v2,
-> @@ -312,9 +294,3 @@ const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
->  
->  	return cfg_hnd;
->  }
-> -
-> -/*  Non autodetect configs */
-> -const struct msm_dsi_cfg_handler qcm2290_dsi_cfg_handler = {
-> -	.cfg = &qcm2290_dsi_cfg,
-> -	.ops = &msm_dsi_6g_v2_host_ops,
-> -};
-
-And how do you think dsi.c is able to reference this... don't forget to
-remove it from dsi_cfg.h in v4.  In fact, if you look at how this was
-implemented you should also be able to remove #include "dsi_cfg.h" from
-dsi.c.  A clean revert of that patch would be nice, or just use it as
-reference to find the remnants:
-
-https://lore.kernel.org/all/1644853060-12222-2-git-send-email-loic.poulain@linaro.org/
-
-- Marijn
+>  	ahb_clk = msm_clk_get(msm_host->pdev, "iface");
+>  	if (IS_ERR(ahb_clk)) {
+>  		pr_err("%s: cannot get interface clock\n", __func__);
+> 
+> -- 
+> 2.39.2
+> 
