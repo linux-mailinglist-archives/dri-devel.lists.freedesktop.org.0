@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBE86B99E7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:38:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77DA06B9A06
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:41:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B07D10E83F;
-	Tue, 14 Mar 2023 15:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E25EE10EA8A;
+	Tue, 14 Mar 2023 15:41:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 033FD10E83F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:38:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3AE12B819F4;
- Tue, 14 Mar 2023 15:38:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D9BDC433D2;
- Tue, 14 Mar 2023 15:38:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678808302;
- bh=DLDxlhOLPnktraFE2/3JBXLe7fPvmLFetbLKdPk5yhE=;
- h=From:Date:Subject:To:Cc:From;
- b=VUmWcjQSkfaeLGd3H1VApOX/EjhlCYgjLY9cL3zf5/JdQYF6Wig7gcUAAaoZjqojZ
- cl2VWyWdk9SwdXaBarb6c1BhpfKHMBsjWT/IEUQNl+7bcXleFYeDhxIFOGem60newc
- 7SHUya1Tu215vyBzQf6FNGT9hxq84PgO9IskiyZIhWRGcaLiMrQtqUXUZrGzoMmGZb
- MSPbblxu7s96n7kO0duZdubwSZgDwZl3RsaKdDD/wwWsIw1KSM6htD9NDcaBXzn4DF
- ZszZmBHzoTmkfbICCjc5FQ01+U4uGbQ6boEWMHhHhcAbeuP7ki9ck0YZE4GNe+EDSG
- iqvYTeTInJy4A==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 14 Mar 2023 08:38:08 -0700
-Subject: [PATCH] drm/vmwgfx: Fix uninitialized use of dst_pitch in
- vmw_stdu_bo_cpu_commit()
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62A3210E83A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:41:54 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-5445009c26bso87169817b3.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678808513;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=r2eydF/1OI43/2Qfy2ViK1gUkj+J848Ww0RP8NZLzkg=;
+ b=CRM/UqAq5qfr1H0agZTquPf7F6XZuZziTHQKjqGa2GtNhGUA0uIqR4AonYy3BjkNxR
+ Dn2x2pvh2jDuYX0/8HTrQ9QvEP1Bra13gN7RFFv0MO+ybviQOMHeA1t7tlVDaffhlCFb
+ fpY6FBaKNbEOpr8FTpOCJTniJVqyBvnou6HfJcc2gGTbn9i1KEymDgKCmKDnAbgIfLAv
+ Oo6aiBLVDCOmURKlhw5YBLvM0jZ14ygUriLyY/DytvNkZzhTy+IvSRl4c2fBgN8hrBBl
+ iP2NhVkLmhgI2Wgf7iX4M82kSp5oPF/7PBGy/xzE8C6Htuu8pAszxxoN4RBTwbMHMOjB
+ OxiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678808513;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=r2eydF/1OI43/2Qfy2ViK1gUkj+J848Ww0RP8NZLzkg=;
+ b=FztBSvclzDB1xLRIzIUX8sUSv9353IEoWAwvfbTNltuvE/t22Fi3w5ixsa43W5NSr2
+ UfeGcS3VnkrPN/t3fGM5EyQGAg/oTOPiXXbQn5EHernonZEydkdWF3FGtqYHYH0/VydF
+ u2XwtiBvujonWMC6fOF4vhgOUi82/6KdUsLxqu/slyYjIS+9qIm+I9ikf33lVAX9ywoy
+ HPg3TYzBNQIAkpWhtipzV1gSjZr3V2dq0WgU5359pgdR7QBVCStH+G01mpTSpzcMCNnZ
+ x2tAy4A/GqedEsWJQImYaMfpJflo7B/XJlVUScyaOmtLxjmnM+xhhJyYLdBOOgIZhEbX
+ zRHQ==
+X-Gm-Message-State: AO0yUKU4v1lhJJhCdm25/MISdzimye6samGKK5QwOdxio6YimxOPBvIc
+ 9vssnByXqLrrGtibC2DfibHdaxdvLDlU1fofEHkU3Q==
+X-Google-Smtp-Source: AK7set9v/eRM4FHR0LXUi+liNzAoAGgf5LamjGr4AG1H13f4k9tvPJTy1x7RYWvaReVp2v+ylEUat+sM+RsbXH7uYuY=
+X-Received: by 2002:a81:ac16:0:b0:541:6d4c:9276 with SMTP id
+ k22-20020a81ac16000000b005416d4c9276mr7853585ywh.5.1678808513389; Tue, 14 Mar
+ 2023 08:41:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230314-vmware-wuninitialized-v1-1-1bb4b0989758@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAN+UEGQC/x2NQQqDQAwAvyI5N6CrXUq/UnrIaqyBmpbEalH8e
- 9ceh2GYDZxN2OFabGA8i8tLM1SnAtqB9MEoXWYIZajLumpwHhcyxuWjojIJPWXlDsMlxtinM8W
- QILeJnDEZaTsc9Ug+sR3ibdzL9z+83ff9B6yIDneAAAAA
-To: zackr@vmware.com
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2281; i=nathan@kernel.org;
- h=from:subject:message-id; bh=DLDxlhOLPnktraFE2/3JBXLe7fPvmLFetbLKdPk5yhE=;
- b=owGbwMvMwCEmm602sfCA1DTG02pJDCkCU94aRb7dWmlQWy319OrGLGHeHW1r7yj+ez/9N2dUQ
- du5Os6qjlIWBjEOBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjARJWuG/+mT/jLIH9lZ8nVt
- cPCFkoOnCzfbpWwPf85lIDt929ef3zgZGeZnXdRUWT9n44H6PMP52uYh69b5l3Gy8H+W0LDr/PX
- TiR8A
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+References: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
+ <20230314153545.3442879-28-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230314153545.3442879-28-dmitry.baryshkov@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 14 Mar 2023 17:41:42 +0200
+Message-ID: <CAA8EJpqTT1BK5oDNbL=t8BMwVjK_swDdD-L4o2PZ2Zec09qSnQ@mail.gmail.com>
+Subject: Re: [PATCH v6 27/32] drm/msm/dpu: add support for wide planes
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,65 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: trix@redhat.com, llvm@lists.linux.dev, ndesaulniers@google.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
- krastevm@vmware.com, linux-graphics-maintainer@vmware.com, tzimmermann@suse.de,
- mombasawalam@vmware.com
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Clang warns (or errors with CONFIG_WERROR):
+On Tue, 14 Mar 2023 at 17:36, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> It is possible to use multirect feature and split source to use the SSPP
+> to output two consecutive rectangles. This commit brings in this
+> capability to support wider screen resolutions.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  19 +++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 127 +++++++++++++++++++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |   4 +
+>  3 files changed, 133 insertions(+), 17 deletions(-)
+>
 
-  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:509:29: error: variable 'dst_pitch' is uninitialized when used here [-Werror,-Wuninitialized]
-          src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
-                                     ^~~~~~~~~
-  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:492:26: note: initialize the variable 'dst_pitch' to silence this warning
-          s32 src_pitch, dst_pitch;
-                                  ^
-                                   = 0
-  1 error generated.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index f52120b05b6e..494c1144075a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 
-The assignments were switched around in such a way that dst_pitch was
-used before it was assigned. Swap the pitch assignments to fix the issue
-and make it clear which section they are used in.
+[...]
 
-Fixes: 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
-Link: https://github.com/ClangBuiltLinux/linux/issues/1811
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-I am not sure if this is the right fix, as it was not entirely clear to
-me that src_pitch and dst_pitch were being used in the right assignments
-but this is the obvious fix otherwise. Consider this a bug report if
-not :)
----
- drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> @@ -1016,21 +1026,58 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+>                 return -E2BIG;
+>         }
+>
+> +       fmt = to_dpu_format(msm_framebuffer_format(new_plane_state->fb));
+> +
+>         max_linewidth = pdpu->catalog->caps->max_linewidth;
+> +       if (DPU_FORMAT_IS_UBWC(fmt))
+> +               max_linewidth /= 2;
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-index d79a6eccfaa4..030e977c68e2 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-@@ -504,11 +504,11 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
- 		return;
- 
- 	/* Assume we are blitting from Guest (bo) to Host (display_srf) */
--	src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
-+	dst_pitch = ddirty->pitch;
- 	src_bo = &stdu->display_srf->res.guest_memory_bo->tbo;
- 	src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
- 
--	dst_pitch = ddirty->pitch;
-+	src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
- 	dst_bo = &ddirty->buf->tbo;
- 	dst_offset = ddirty->fb_top * src_pitch + ddirty->fb_left * stdu->cpp;
- 
+I added this check and only after sending it caught my mind that this
+check should not be applied in the non-multirec case. Please ignore
+the series, I will resend it later.
 
----
-base-commit: c87e859cdeb5d106cb861326e3135c606d61f88d
-change-id: 20230314-vmware-wuninitialized-28666fb5a62b
+>
+> -       /* check decimated source width */
+>         if (drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) {
+> -               DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> -                               DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> -               return -E2BIG;
+> -       }
+> +               if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewidth) {
+> +                       DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT " line:%u\n",
+> +                                       DRM_RECT_ARG(&pipe_cfg->src_rect), max_linewidth);
+> +                       return -E2BIG;
+> +               }
+>
 
-Best regards,
+[skipped the rest]
+
 -- 
-Nathan Chancellor <nathan@kernel.org>
-
+With best wishes
+Dmitry
