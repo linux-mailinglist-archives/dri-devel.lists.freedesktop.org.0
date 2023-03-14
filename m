@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28546B9456
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:44:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8906C6B9459
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:44:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6549B10E7CD;
-	Tue, 14 Mar 2023 12:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76FBE10E7D0;
+	Tue, 14 Mar 2023 12:44:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CB7710E7CE;
- Tue, 14 Mar 2023 12:44:24 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC9110E7CE;
+ Tue, 14 Mar 2023 12:44:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 4BF906178E;
- Tue, 14 Mar 2023 12:44:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A76C433A1;
- Tue, 14 Mar 2023 12:44:21 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CF7F0B81928;
+ Tue, 14 Mar 2023 12:44:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FED0C4339B;
+ Tue, 14 Mar 2023 12:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678797862;
- bh=6mnJ02aYnibZUK89exexsNsvgLET+QSfQH75tsMeHe8=;
+ s=k20201202; t=1678797873;
+ bh=Vvlkfw1XBPKnsH1TRnFkFFGGOcbsDu06ehvesBWwqbs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LYtJblLL9ZWkQ3jln+IpmmEgQ/0i1OkDBOCbYCY+/mLnLl3yD1YZj0z4Idl4wqcty
- blEmvy2Upv5BEEQlv3KTzuOLe43a8DYsF1VOx1GIecHKmuAswVmKRz9kK+Sf3ppxId
- 9kK5pikKpMQ6ZElQE/ngJUZa95gKsyN96XYkfttUBhZl34uLFwSNrULqBNNH61YITD
- 6zCZ7ol7nacRCwZ/MtIM+1ssUIayCH6HdFXXEVJ1iVsL6swMti0YTS+vAwLntxs4Rh
- oEcfIOF0eWB1X0XETXnR57qcJpCMmwWWyqLdJB7Kri9v1C6H8Y432bKmgCQvFXNxUB
- dGq/VghbsgZrw==
+ b=osfMhknKMZwDNevKq/filbkSqHQdS0SXowxS2pSC+dXBaFfwBfR4s/4mPuCOgToDU
+ HQOyUk+E4DoqypaGt1qM+rKR3vq3Gl6BBGMmiU8bX8iaacIA/tRT81LcbWWIMmqOMy
+ d3pPBHjm6YfuvtgdmwADVvW+m2bsWaGeLou/4HPPqy43y4DnWqXnegMxjjD4iQZSpj
+ Jyf8pxBx/nFIG80JRJsrMGFHTlZwZMl8gX3HYsHM/6KwyNcv+DELgSiNgFtnxQ5Rp5
+ VRx2TsFHRIDb5RxlEXqxFZqT+gBIl8LV9Ol3+w4qqiF99hAMm5xuUnArQQv9sQTjBG
+ Z/AVTItjJlCoA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 6/7] drm/amdkfd: Fix an illegal memory access
-Date: Tue, 14 Mar 2023 08:44:11 -0400
-Message-Id: <20230314124412.471364-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 6/7] drm/amdkfd: Fix an illegal memory access
+Date: Tue, 14 Mar 2023 08:44:23 -0400
+Message-Id: <20230314124424.471460-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230314124412.471364-1-sashal@kernel.org>
-References: <20230314124412.471364-1-sashal@kernel.org>
+In-Reply-To: <20230314124424.471460-1-sashal@kernel.org>
+References: <20230314124424.471460-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -112,7 +112,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-index adbb2fec2e0f2..4fd7dcef2e382 100644
+index 892077377339a..8f23192b67095 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
 @@ -529,16 +529,13 @@ static struct kfd_event_waiter *alloc_event_waiters(uint32_t num_events)
