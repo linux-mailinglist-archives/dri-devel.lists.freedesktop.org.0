@@ -2,64 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EB86B9083
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 11:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1676B90A7
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 11:53:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3564E10E76D;
-	Tue, 14 Mar 2023 10:48:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3480310E772;
+	Tue, 14 Mar 2023 10:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F86310E76D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 10:48:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1678790882; i=deller@gmx.de;
- bh=+H999tQFo7smOtY8vl9Sq4foFE7+8XAXs6vN0vwnsCg=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=oBLE1QyMpuuoR1cS0O6DRUI4nCpZeHo3qlFTw5vK3WrqsQZipdvY9g5+d4RWFww0I
- Swc3UNSbl+OmGDETIsRw55tlCgIoVUSkO4OoG3ppY+ZQNYVcU2dj3shQbAyjkiL07R
- hIHroHTBQxiH1LmCorORaZJt09iE5YqrFjhmftq5vLDIGqr0q77GnMq1uv9dX9AI6M
- k+BLiBY+YFMQ+06MqLUESm3+5ehmkLpcLyfs4OBTsq1+VUTazjQ+SDSkJzoiBmPm7e
- 04wTTspujkcMMC8uQhLgTT63nIohVQoJZG5h3KbxRD64h4YKH+BcS+ftsGboIdQAh0
- KcxxWXeSOja6w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([94.134.156.222]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M9Wyy-1pYiog0gIG-005cDM; Tue, 14
- Mar 2023 11:48:02 +0100
-Message-ID: <8e402daa-a9ba-59c2-92c4-f1ecd155acda@gmx.de>
-Date: Tue, 14 Mar 2023 11:48:01 +0100
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85D210E771
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 10:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1678791191;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lWG+KFc/Ei6/o+9Wu4zuAiJ8/qhoZmSrQx365/6Oshk=;
+ b=fUjwl/GTGcJeOfWYXXFY58YwTQ3Vq4QMsk3coead00trx0lcSAqYvNHlYUHM1jjAik9aEC
+ e41Tc9t2VdvlK6F3/9913vt7NWs9yRmfxb9QXk+Ap583R8pZEVWs7vkah6OnQY1EIdjzFM
+ hnjvZbaZk1hiQncj6By5PKHHSAkrNaE=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 0/2] usb: gadget: functionfs: DMABUF import interface
+Date: Tue, 14 Mar 2023 11:52:55 +0100
+Message-Id: <20230314105257.17345-1-paul@crapouillou.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH -next 1/3] video: fbdev: pxa3xx-gcu: Use
- devm_platform_get_and_ioremap_resource()
-Content-Language: en-US
-To: Yang Li <yang.lee@linux.alibaba.com>
-References: <20230314054219.80441-1-yang.lee@linux.alibaba.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230314054219.80441-1-yang.lee@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:COWrltcDftZwEH+WQ+1z1WpXjeLD2DaQry6p1pznqypdP8qXABj
- KHU3O/ZUN9Uj6ZJSbYFEVW0shSyut/P2oppX/bSeAJ6qvvvuuDHCcEQcGepkptijfFAtxhN
- obVm/UHfvmd34X0TXZClEK6rQ4WEA745BZH5QXrXUmwQBWrno5VOAHaNNlhdlV+DHun2X9I
- 8FKOBmS+7G3WCklyeuFnA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:bhN6TB1bLJM=;Oh5EPKU3hhF4QPWCwTgxxnd+FXV
- OXFu+/UM6E2zVQmLXUeI1jUknJIytDkupCrY6XRlK1A+RcBOmUD3JsXZQg0fntH8jPgd3j+0i
- qcVmDCcUDFRbWGatbuJ3pVjfOSdXyK11nQF8lzKTOQQv2WjiombRfog+MHGARMPWfN5faKYbA
- 9ahYXk+KYxKH0ARONCoQC7KLyFeLjmlad2dU/xZrLNAgQhyzoQD+mApYfLgVZtx/aACLL50SK
- xk9fgzPomHDl/9SHvZUuqgt9DuU7Hmi8g3rDkQa2m5K+yIay786YaJx+VyLjlmrrb/7Wj57K2
- hjYttI8GVQbhfdubtx3Eq6kUBq2YossvdQ4FUAXgq+hRmSj8z7oyMvfHCbtZOSRFoe1cQ4AYU
- IIj6F2x/VPBLFBfpfa+VUSouA33RZl9y5Lamvi25S9IG32EXt4ci9oKIj+dp6mojzDrkJ7xMX
- chGrWHcCgONZolf7D9g1x5iWrmurnxY9jOtAI1crIDKM/JgrjST0ar3lP4faU8F1uyzHewOeV
- xAtAt/nJ6qpm1LT1wtQy+qi+TrNyABIRfYT7wDa0JjU1H0RO1i/W4Sz3ivt36HwNV+UNrRPAN
- JjTZ42M54wi6xNnHeFEI1So5pEfN7/Cvft756QyPYMdn32aiTnnUZTnm/CV0qy625ZMUdS4BC
- UrptGxSqlN5Ys5tdD3aU0VQwY9BkOJZGqOZfdiCNY3J5BkF/KBppRGawCh4xhCgfNq0wrNwir
- at7i+GwCtA0PhEYSm8WPpwdpYGQDQR+Jy0RkLExm4hBJsR4owH4p3D4oZVZcGg+qLP1WJg13p
- 5DDttsuxqJQRWFJC6Y1J01ykz/FJMU9Rf0ti0lDeM7T99F4Yoc2BdTYgF46/fICo5b69PWy4m
- QI6Z7s4JLfHZT49jU0c7AoxisEd0YH31zFsMldo2QGXPh1jyESFCj84thEub4QoNvEI4BTiOc
- /pbthbU65VjJtHWoWjhUEiVEXAg=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +42,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Paul Cercueil <paul@crapouillou.net>, michael.hennerich@analog.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nuno.sa@analog.com,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/14/23 06:42, Yang Li wrote:
-> According to commit 890cc39a8799 ("drivers: provide
-> devm_platform_get_and_ioremap_resource()"), convert
-> platform_get_resource(), devm_ioremap_resource() to a single
-> call to devm_platform_get_and_ioremap_resource(), as this is exactly
-> what this function does.
->
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Hi,
 
-series applied to fbdev git tree.
+This small patchset adds three new IOCTLs that can be used to attach,
+detach, or transfer from/to a DMABUF object.
 
-Thanks!
-Helge
+This was surprisingly easy to add, as the functionfs code only uses
+scatterlists for transfers and allows specifying the number of bytes to
+transfer. The bulk of the code is then for general DMABUF accounting.
 
-> ---
->   drivers/video/fbdev/pxa3xx-gcu.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3=
-xx-gcu.c
-> index c3cd1e1cc01b..d16729215423 100644
-> --- a/drivers/video/fbdev/pxa3xx-gcu.c
-> +++ b/drivers/video/fbdev/pxa3xx-gcu.c
-> @@ -599,8 +599,7 @@ static int pxa3xx_gcu_probe(struct platform_device *=
-pdev)
->   	priv->misc_dev.fops	=3D &pxa3xx_gcu_miscdev_fops;
->
->   	/* handle IO resources */
-> -	r =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	priv->mmio_base =3D devm_ioremap_resource(dev, r);
-> +	priv->mmio_base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &r=
-);
->   	if (IS_ERR(priv->mmio_base))
->   		return PTR_ERR(priv->mmio_base);
->
+The patchset isn't tagged RFC but comments are very welcome, there are
+some things I am not 100% sure about: ffs_dma_resv_lock (with no
+ww_acquire_ctx), and I'm using pr_debug which feels wrong. Also, I
+should probably add documentation? The current IOCTLs for functionfs
+were not documented, as far as I can tell.
+
+We use it with DMABUFs created with udmabuf, that we attach to the
+functionfs interface and to IIO devices (with a DMABUF interface for
+IIO, on its way to upstream too), to transfer samples from high-speed
+transceivers to USB in a zero-copy fashion.
+
+Cheers,
+-Paul
+
+
+Paul Cercueil (2):
+  usb: gadget: Support already-mapped DMA SGs
+  usb: gadget: functionfs: Add DMABUF import interface
+
+ drivers/usb/gadget/function/f_fs.c  | 398 ++++++++++++++++++++++++++++
+ drivers/usb/gadget/udc/core.c       |   7 +-
+ include/linux/usb/gadget.h          |   2 +
+ include/uapi/linux/usb/functionfs.h |  14 +-
+ 4 files changed, 419 insertions(+), 2 deletions(-)
+
+-- 
+2.39.2
 
