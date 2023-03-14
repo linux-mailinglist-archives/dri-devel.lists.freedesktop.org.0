@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 312F46B8CEA
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 09:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A14E6B8D09
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 09:20:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E67CD10E72D;
-	Tue, 14 Mar 2023 08:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A517710E730;
+	Tue, 14 Mar 2023 08:20:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1F410E72D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:18:16 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id v16so13513142wrn.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 01:18:16 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5C010E730;
+ Tue, 14 Mar 2023 08:20:54 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id t15so13460439wrz.7;
+ Tue, 14 Mar 2023 01:20:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678781894;
+ d=gmail.com; s=20210112; t=1678782052;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2214dcZRNnFFU9/Etuq7BnZaeDVA1LLzT7N7JzpJVnM=;
- b=A5j3q9dJ2yC101SHzOx+ouKXXw2OXhxVZbUgszPQ0lwmy6tvtDFY7fsvg6bmpfVvK0
- ewiepno8BqXtp+uqpPKC4jFD6gAyinz4sKNMjmA59+bJ5C0SfChfpgHfS/0Vpfl7oj7d
- 4Y4xeBXQTU78clGG8QD9xOwHlqNGPsLNTCyZOfZz/Xbf5hn0F0xD+NBLW8yR5AL6fkNj
- yhQOSsSWOLBx99YrD8tB4vTDc/Q04vtcDCtQIcKsCUNd4s7qgH+r2rz/NNBIMR5RpoT/
- ZfTymqsA8qB4Ca07KVX8Tw2/mI6mqq5e3GVUovSnoZEbPOutOHmO0b+OPbu8n0Sr+dkY
- xFvA==
+ bh=1NYMBiRuz7vfmt2Wpyeig2UyQ+79mH3kKnB3rm+kmQY=;
+ b=n0GhsvE/3f+lSCHHtQcsmKLzTCo8UCOPV8n4FQL86IpRQzqFX9+9853Jg4KV6qlztJ
+ OginLJoBPA0BpKvlFk+CIpJ/pAGmMMcBizLl+eKSjGrTtPSZ1xm7oYYBZd7M6fRc4+De
+ 5+mE6V1nXwSFgagI6IAiY9pYzLWtixvRtqISh7ORqmL9Gjk/LVERrQ6RT8Dm2qjryEyq
+ kCRON/bfHwCYzESFJ7fWgT5Tgjw29o+MD1pNu/OX4WwtLZp8M3y8HSqMfnNdHp9Qv+Os
+ 5SxRaHpi2oMMrHwgLEh9YCdEYaHFgarLakuigRqkaHBrvROFteSqgTVoQNSBDiosGtm1
+ HDow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678781894;
+ d=1e100.net; s=20210112; t=1678782052;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=2214dcZRNnFFU9/Etuq7BnZaeDVA1LLzT7N7JzpJVnM=;
- b=kSwQo1me20KgS8ofN7ibFNVon7S+yDm6fXz41iww/dXRKFHXUqcJ5GRxPs5jinkVcg
- PZvBr7hl8LhcV97lDPKhAJLNmIuABoIPC1mDbLUDzoy/5XmR4UgQo478eOEtLTLch3N4
- nlAhNsR3JadGy9MhvF7Wja/jG82iT58UlQqY2QEBzltAk3eRU+n1HcczuB2vJ8hroTsl
- 53j1cIRb10b9qNZpJJJ/beKHmTyg/j+AOsjrj4Viq4h0krEgjevbZ+zn2g0xdRESlsqi
- N/jal1Qd3RzttRlEHKMimxUJhc2YaO5OD0vXbq8uAgGtH6vdWRp9EGRa/IBUeog3q16W
- NTZg==
-X-Gm-Message-State: AO0yUKXty5grN5YZIZ+2bQz4Ew5anDJ0zLsjmfUSYkA5vVcfjKpTIcPJ
- t7LqzXYar+oY3eCTIcbrPSI=
-X-Google-Smtp-Source: AK7set9iRHCKWKPm+mnreWBZ1a1d7cE4kIhCrdrICssPEdiPtuBsjjhazUr3f1fAUw3y2IGFlhP5iw==
-X-Received: by 2002:a05:6000:1004:b0:2cf:e517:c138 with SMTP id
- a4-20020a056000100400b002cfe517c138mr2828443wrx.66.1678781894551; 
- Tue, 14 Mar 2023 01:18:14 -0700 (PDT)
+ bh=1NYMBiRuz7vfmt2Wpyeig2UyQ+79mH3kKnB3rm+kmQY=;
+ b=fTfOYQmqgNe+tn5dZQsMkZYdF2QitxfR4uPMZaxbGPAOAMg4o1MHsdv+OnWWXRDGtQ
+ VXtsj/sNrj3/MmZgmT/67yznBj/gFVv0HGu2StVJk8OuW8aYbZY6NMkRF4GfoYPQR3W+
+ JntKXaStYTNdrTxz1PtwMyFF/QSgfY4mwaOMVitU42vc/ojyxPev9dDRQTKNwN4+0cjR
+ EztP5KEi8vPF5IxZK+f6IWyKR/twG3ct2fjPhvA4mU4GkOTxDVfNoPrLCDufxl0dZ/TO
+ skQK5xdJ+V1vOumKGgaiMvV2ACZv17dhcsgfeNaLzeKuk65r8hyfnPxS12ZsJwlNNogm
+ bl7Q==
+X-Gm-Message-State: AO0yUKUe2XOx8bNHi85ebcb2/Cpq411a7Ak/GCoG2X3v0/Gp36WNxYaE
+ SquBDTQQDCnbyy/wQtrbziheLFWfiMPkjg==
+X-Google-Smtp-Source: AK7set9PVFdLcKIPrfyDAWsSHFrgTZUfxU2m79g3kogwCE0yFQts0BNhT2cvYR6MhXj0pQOEi14JvA==
+X-Received: by 2002:a5d:4209:0:b0:2c5:519f:307a with SMTP id
+ n9-20020a5d4209000000b002c5519f307amr10246437wrq.30.1678782052616; 
+ Tue, 14 Mar 2023 01:20:52 -0700 (PDT)
 Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
  [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- t2-20020a5d49c2000000b002ce72cff2ecsm1416846wrs.72.2023.03.14.01.18.13
+ e25-20020a5d5959000000b002c8ed82c56csm1366019wri.116.2023.03.14.01.20.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 01:18:13 -0700 (PDT)
+ Tue, 14 Mar 2023 01:20:52 -0700 (PDT)
 From: Colin Ian King <colin.i.king@gmail.com>
-To: Oded Gabbay <ogabbay@kernel.org>, dri-devel@lists.freedesktop.org,
- Yuri Nudelman <ynudelman@habana.ai>
-Subject: [PATCH][next] habanalabs: Fix spelling mistake "maped" -> "mapped"
-Date: Tue, 14 Mar 2023 08:18:12 +0000
-Message-Id: <20230314081812.26065-1-colin.i.king@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: [PATCH][next] drm/msm/dp: Fix spelling mistake "Capabiity" ->
+ "Capability"
+Date: Tue, 14 Mar 2023 08:20:50 +0000
+Message-Id: <20230314082050.26331-1-colin.i.king@gmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -71,30 +75,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in a dev_err message. Fix it.
+There is a spelling mistake in a drm_dbg_dp message. Fix it.
 
 Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- drivers/accel/habanalabs/common/memory_mgr.c | 2 +-
+ drivers/gpu/drm/msm/dp/dp_link.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/habanalabs/common/memory_mgr.c b/drivers/accel/habanalabs/common/memory_mgr.c
-index 30f8059f28c2..c4d84df355b0 100644
---- a/drivers/accel/habanalabs/common/memory_mgr.c
-+++ b/drivers/accel/habanalabs/common/memory_mgr.c
-@@ -275,7 +275,7 @@ int hl_mem_mgr_mmap(struct hl_mem_mgr *mmg, struct vm_area_struct *vma,
- 
- 	if (atomic_cmpxchg(&buf->mmap, 0, 1)) {
- 		dev_err(mmg->dev,
--			"%s, Memory mmap failed, already maped to user\n",
-+			"%s, Memory mmap failed, already mapped to user\n",
- 			buf->behavior->topic);
- 		rc = -EINVAL;
- 		goto put_mem;
+diff --git a/drivers/gpu/drm/msm/dp/dp_link.c b/drivers/gpu/drm/msm/dp/dp_link.c
+index 5a4817ac086f..42427129acea 100644
+--- a/drivers/gpu/drm/msm/dp/dp_link.c
++++ b/drivers/gpu/drm/msm/dp/dp_link.c
+@@ -1090,7 +1090,7 @@ int dp_link_process_request(struct dp_link *dp_link)
+ 	} else if (dp_link_read_psr_error_status(link)) {
+ 		DRM_ERROR("PSR IRQ_HPD received\n");
+ 	} else if (dp_link_psr_capability_changed(link)) {
+-		drm_dbg_dp(link->drm_dev, "PSR Capabiity changed");
++		drm_dbg_dp(link->drm_dev, "PSR Capability changed");
+ 	} else {
+ 		ret = dp_link_process_link_status_update(link);
+ 		if (!ret) {
 -- 
 2.30.2
 
