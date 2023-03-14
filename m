@@ -1,73 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866456B906B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 11:45:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EB86B9083
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 11:48:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4521D10E769;
-	Tue, 14 Mar 2023 10:45:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3564E10E76D;
+	Tue, 14 Mar 2023 10:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2972210E769
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 10:45:13 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id j11so19355321lfg.13
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 03:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678790711;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ShxiHC0Rhg1UPin7KQtsZbyHHx1N7ivCqUU6bNrksTs=;
- b=Jkqeao4FAapprb9b8Jx4gpZzOfC9C3LrN4mW6W69carg034590yXJoJK16BepmeL46
- AJvHBM1DJ9dwsVNE/2achVtlwZV/i1llD8cbScSqS7pU/4ilD/UFodBdCvkyXFClidGR
- Q/Xsd3dTYULVzyvQYcOw88Z1Q1V/aebiGjfgd9bf5tDXEryZUzjE6YzELSXOKb1ZfHRZ
- gpoVas/GZvZPv7KBx5ya/+rdeB2KRO/bYc0RjyChNxlv6Xx0NBybrz4dakHexisknrMU
- luTtwwZxyVCbFG0Bxk6NjIGKM23PRFWHPAft4kz0OkLVsSPiaXy57rir/6K9VaWMFHNZ
- LAYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678790711;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ShxiHC0Rhg1UPin7KQtsZbyHHx1N7ivCqUU6bNrksTs=;
- b=P8CGPldcVTb/DHCJBXuIy9w7irzBG4MPbd+TPTGAQMJPYD0eOP1L+3BsRtbBa+iC1s
- fIqNuX2hyXrpLcrVXvuacOc0ESy+X7LzXAeCwyRV1c/tvi7aJsyrGgaqgYLlfGwB0d8y
- EYkv9MHM6mwDwCkq6mtfhQxWqGIVhaj9o3tiAn6zqBQceOOItk4LmAECoQxOesgQKXs4
- 1kecRk+3U4lbFoo7kWc0OQ+8IH+eN7nx9imADLeG/iLvG1kLlL3oXnfbYbbbFW4YKJN9
- y5ZomSsofa/sJ0OS7Oxn47l9N1dm1MtG3hgGLJ1unRtWRy8HgzA5+Ia63ItR5/CbDmLJ
- EYyA==
-X-Gm-Message-State: AO0yUKWbdkNcgFfDJcNe90nYDW//SjYTWgPmnroXK1tUufBFWGrEaN9N
- CnHglbJ/OymbJUyjezjQqJy/Hw==
-X-Google-Smtp-Source: AK7set8v4npFYo9eTHAmk8y6U1yWqLP1Y79WNkD45A4aiBzidm2Tl4qoX9bIz+Xpvn/GFeX17rl+Ew==
-X-Received: by 2002:a05:6512:3743:b0:4dd:afad:8afe with SMTP id
- a3-20020a056512374300b004ddafad8afemr710968lfs.27.1678790711545; 
- Tue, 14 Mar 2023 03:45:11 -0700 (PDT)
-Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
- by smtp.gmail.com with ESMTPSA id
- i8-20020ac25d28000000b004cf07a0051csm347916lfb.228.2023.03.14.03.45.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Mar 2023 03:45:10 -0700 (PDT)
-Message-ID: <91df0342-428e-562c-56dc-172588ad6954@linaro.org>
-Date: Tue, 14 Mar 2023 11:45:06 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F86310E76D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 10:48:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1678790882; i=deller@gmx.de;
+ bh=+H999tQFo7smOtY8vl9Sq4foFE7+8XAXs6vN0vwnsCg=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=oBLE1QyMpuuoR1cS0O6DRUI4nCpZeHo3qlFTw5vK3WrqsQZipdvY9g5+d4RWFww0I
+ Swc3UNSbl+OmGDETIsRw55tlCgIoVUSkO4OoG3ppY+ZQNYVcU2dj3shQbAyjkiL07R
+ hIHroHTBQxiH1LmCorORaZJt09iE5YqrFjhmftq5vLDIGqr0q77GnMq1uv9dX9AI6M
+ k+BLiBY+YFMQ+06MqLUESm3+5ehmkLpcLyfs4OBTsq1+VUTazjQ+SDSkJzoiBmPm7e
+ 04wTTspujkcMMC8uQhLgTT63nIohVQoJZG5h3KbxRD64h4YKH+BcS+ftsGboIdQAh0
+ KcxxWXeSOja6w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.156.222]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M9Wyy-1pYiog0gIG-005cDM; Tue, 14
+ Mar 2023 11:48:02 +0100
+Message-ID: <8e402daa-a9ba-59c2-92c4-f1ecd155acda@gmx.de>
+Date: Tue, 14 Mar 2023 11:48:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v3 09/10] dt-bindings: display/msm: dsi-controller-main:
- Add SM6115
+Subject: Re: [PATCH -next 1/3] video: fbdev: pxa3xx-gcu: Use
+ devm_platform_get_and_ioremap_resource()
 Content-Language: en-US
-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Herring <robh@kernel.org>
-References: <20230307-topic-dsi_qcm-v3-0-8bd7e1add38a@linaro.org>
- <20230307-topic-dsi_qcm-v3-9-8bd7e1add38a@linaro.org>
- <167830146346.3587111.3542934829511061872.robh@kernel.org>
- <20230314001829.dzkxkqgrrbfiu2lq@SoMainline.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230314001829.dzkxkqgrrbfiu2lq@SoMainline.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Yang Li <yang.lee@linux.alibaba.com>
+References: <20230314054219.80441-1-yang.lee@linux.alibaba.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230314054219.80441-1-yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:COWrltcDftZwEH+WQ+1z1WpXjeLD2DaQry6p1pznqypdP8qXABj
+ KHU3O/ZUN9Uj6ZJSbYFEVW0shSyut/P2oppX/bSeAJ6qvvvuuDHCcEQcGepkptijfFAtxhN
+ obVm/UHfvmd34X0TXZClEK6rQ4WEA745BZH5QXrXUmwQBWrno5VOAHaNNlhdlV+DHun2X9I
+ 8FKOBmS+7G3WCklyeuFnA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:bhN6TB1bLJM=;Oh5EPKU3hhF4QPWCwTgxxnd+FXV
+ OXFu+/UM6E2zVQmLXUeI1jUknJIytDkupCrY6XRlK1A+RcBOmUD3JsXZQg0fntH8jPgd3j+0i
+ qcVmDCcUDFRbWGatbuJ3pVjfOSdXyK11nQF8lzKTOQQv2WjiombRfog+MHGARMPWfN5faKYbA
+ 9ahYXk+KYxKH0ARONCoQC7KLyFeLjmlad2dU/xZrLNAgQhyzoQD+mApYfLgVZtx/aACLL50SK
+ xk9fgzPomHDl/9SHvZUuqgt9DuU7Hmi8g3rDkQa2m5K+yIay786YaJx+VyLjlmrrb/7Wj57K2
+ hjYttI8GVQbhfdubtx3Eq6kUBq2YossvdQ4FUAXgq+hRmSj8z7oyMvfHCbtZOSRFoe1cQ4AYU
+ IIj6F2x/VPBLFBfpfa+VUSouA33RZl9y5Lamvi25S9IG32EXt4ci9oKIj+dp6mojzDrkJ7xMX
+ chGrWHcCgONZolf7D9g1x5iWrmurnxY9jOtAI1crIDKM/JgrjST0ar3lP4faU8F1uyzHewOeV
+ xAtAt/nJ6qpm1LT1wtQy+qi+TrNyABIRfYT7wDa0JjU1H0RO1i/W4Sz3ivt36HwNV+UNrRPAN
+ JjTZ42M54wi6xNnHeFEI1So5pEfN7/Cvft756QyPYMdn32aiTnnUZTnm/CV0qy625ZMUdS4BC
+ UrptGxSqlN5Ys5tdD3aU0VQwY9BkOJZGqOZfdiCNY3J5BkF/KBppRGawCh4xhCgfNq0wrNwir
+ at7i+GwCtA0PhEYSm8WPpwdpYGQDQR+Jy0RkLExm4hBJsR4owH4p3D4oZVZcGg+qLP1WJg13p
+ 5DDttsuxqJQRWFJC6Y1J01ykz/FJMU9Rf0ti0lDeM7T99F4Yoc2BdTYgF46/fICo5b69PWy4m
+ QI6Z7s4JLfHZT49jU0c7AoxisEd0YH31zFsMldo2QGXPh1jyESFCj84thEub4QoNvEI4BTiOc
+ /pbthbU65VjJtHWoWjhUEiVEXAg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,36 +72,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 3/14/23 06:42, Yang Li wrote:
+> According to commit 890cc39a8799 ("drivers: provide
+> devm_platform_get_and_ioremap_resource()"), convert
+> platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_get_and_ioremap_resource(), as this is exactly
+> what this function does.
+>
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 
+series applied to fbdev git tree.
 
-On 14.03.2023 01:18, Marijn Suijten wrote:
-> On 2023-03-08 12:51:03, Rob Herring wrote:
->>
->> On Tue, 07 Mar 2023 14:01:47 +0100, Konrad Dybcio wrote:
->>> Add a compatible for the DSI on SM6115.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>  .../devicetree/bindings/display/msm/dsi-controller-main.yaml      | 2 ++
->>>  .../devicetree/bindings/display/msm/qcom,sm6115-mdss.yaml         | 8 +++++++-
->>>  2 files changed, 9 insertions(+), 1 deletion(-)
->>>
->>
->> Acked-by: Rob Herring <robh@kernel.org>
-> 
-> Shouldn't the examples in qcom,sm6115-mdss.yaml be updated below to
-> reflect the binding changes?
-Yes it should, willfix
+Thanks!
+Helge
 
-Konrad
+> ---
+>   drivers/video/fbdev/pxa3xx-gcu.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/pxa3xx-gcu.c b/drivers/video/fbdev/pxa3=
+xx-gcu.c
+> index c3cd1e1cc01b..d16729215423 100644
+> --- a/drivers/video/fbdev/pxa3xx-gcu.c
+> +++ b/drivers/video/fbdev/pxa3xx-gcu.c
+> @@ -599,8 +599,7 @@ static int pxa3xx_gcu_probe(struct platform_device *=
+pdev)
+>   	priv->misc_dev.fops	=3D &pxa3xx_gcu_miscdev_fops;
+>
+>   	/* handle IO resources */
+> -	r =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -	priv->mmio_base =3D devm_ioremap_resource(dev, r);
+> +	priv->mmio_base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &r=
+);
+>   	if (IS_ERR(priv->mmio_base))
+>   		return PTR_ERR(priv->mmio_base);
+>
+
