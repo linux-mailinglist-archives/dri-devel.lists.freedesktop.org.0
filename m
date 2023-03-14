@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80C116B942E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:43:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A706B9432
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 13:43:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E51210E7A1;
-	Tue, 14 Mar 2023 12:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD67C10E7B7;
+	Tue, 14 Mar 2023 12:43:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8949A10E7A1;
- Tue, 14 Mar 2023 12:43:19 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E23A10E7AF;
+ Tue, 14 Mar 2023 12:43:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 06F5EB8190C;
- Tue, 14 Mar 2023 12:43:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A46E7C433D2;
- Tue, 14 Mar 2023 12:43:16 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2DC0AB81907;
+ Tue, 14 Mar 2023 12:43:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6CB6C4339B;
+ Tue, 14 Mar 2023 12:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678797797;
- bh=W2xaRwu29lXGrWYplvesH7lPWne/wjmURsL1F3YUssQ=;
+ s=k20201202; t=1678797802;
+ bh=QvcSXIXmzvexRS2Gq4ddVraMPszs0S4VB18ZYyuUotU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iU6kZdJPre0BGtiAdgQXcYe0MlnbiH7M/FF+5BkhQV/2lZYWr2jmx3An1bNZlsy6W
- EnaIi6/KqB9iQmZ+oiltCdtUMYZyPv2+YOy7rVV4m/pPEKtiD+q6Nc7ggGSKxkz+sa
- +QJlSYxx/8n8/zLq18bX4Y4K0BKUaVEohjXtNhBqAN6lFJp+uwkBdbAcz7TFl3+d+r
- nd+NwU4GJny8MdtDJor8kBnUYEsc3xEjRWu9W6oIH2s14HG3woUfM1LwwJ0zEKpxW+
- JNz16ndZwBsuG4wCV/d9BbZJi/AYxf4iQ6LXDK7FRdqstxXVCD4Fz0p/Gbm08A20ku
- ZQvY/UHsUYVfQ==
+ b=d35hl92lMhBdOs9NtZGkZm9oCJi7axYwCSnvFMSgTC5xH6ipGcQnxIlMT3wZRVij4
+ HIPyTOfvMuFwIYlN9eQWh55RQeH9U/bP+wz/qeC8dxgJT0Nop5IrE0ZShuckbUth1x
+ RIjnBdR3rPvkxNO8Mb5xEcXxtfYHidSZq/NvJrRMmgC9tMwewSgTn8ohqY7T9qzsee
+ iT8SfVmlaNnTE0DO1nrlDfa7E7X8dTQ7fmeZY1zygJXc4inTuYA/9nVMzH07ZMXINS
+ AOLlLIVPIZKx0bboS+Vm11HraZTPMXef3Ll/NkjUevrAJI6LgGA0yEei9mejy0wFxV
+ 9dXiPAGPcKw6g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 08/13] drm/amdkfd: Fix an illegal memory access
-Date: Tue, 14 Mar 2023 08:43:00 -0400
-Message-Id: <20230314124305.470657-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 12/13] drm/amdgpu: fix ttm_bo calltrace warning in
+ psp_hw_fini
+Date: Tue, 14 Mar 2023 08:43:04 -0400
+Message-Id: <20230314124305.470657-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230314124305.470657-1-sashal@kernel.org>
 References: <20230314124305.470657-1-sashal@kernel.org>
@@ -54,87 +56,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Felix Kuehling <Felix.Kuehling@amd.com>, Qu Huang <qu.huang@linux.dev>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Horatio Zhang <Hongkun.Zhang@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>, longlyao <Longlong.Yao@amd.com>,
+ amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Qu Huang <qu.huang@linux.dev>
+From: Horatio Zhang <Hongkun.Zhang@amd.com>
 
-[ Upstream commit 4fc8fff378b2f2039f2a666d9f8c570f4e58352c ]
+[ Upstream commit 23f4a2d29ba57bf88095f817de5809d427fcbe7e ]
 
-In the kfd_wait_on_events() function, the kfd_event_waiter structure is
-allocated by alloc_event_waiters(), but the event field of the waiter
-structure is not initialized; When copy_from_user() fails in the
-kfd_wait_on_events() function, it will enter exception handling to
-release the previously allocated memory of the waiter structure;
-Due to the event field of the waiters structure being accessed
-in the free_waiters() function, this results in illegal memory access
-and system crash, here is the crash log:
+The call trace occurs when the amdgpu is removed after
+the mode1 reset. During mode1 reset, from suspend to resume,
+there is no need to reinitialize the ta firmware buffer
+which caused the bo pin_count increase redundantly.
 
-localhost kernel: RIP: 0010:native_queued_spin_lock_slowpath+0x185/0x1e0
-localhost kernel: RSP: 0018:ffffaa53c362bd60 EFLAGS: 00010082
-localhost kernel: RAX: ff3d3d6bff4007cb RBX: 0000000000000282 RCX: 00000000002c0000
-localhost kernel: RDX: ffff9e855eeacb80 RSI: 000000000000279c RDI: ffffe7088f6a21d0
-localhost kernel: RBP: ffffe7088f6a21d0 R08: 00000000002c0000 R09: ffffaa53c362be64
-localhost kernel: R10: ffffaa53c362bbd8 R11: 0000000000000001 R12: 0000000000000002
-localhost kernel: R13: ffff9e7ead15d600 R14: 0000000000000000 R15: ffff9e7ead15d698
-localhost kernel: FS:  0000152a3d111700(0000) GS:ffff9e855ee80000(0000) knlGS:0000000000000000
-localhost kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-localhost kernel: CR2: 0000152938000010 CR3: 000000044d7a4000 CR4: 00000000003506e0
-localhost kernel: Call Trace:
-localhost kernel: _raw_spin_lock_irqsave+0x30/0x40
-localhost kernel: remove_wait_queue+0x12/0x50
-localhost kernel: kfd_wait_on_events+0x1b6/0x490 [hydcu]
-localhost kernel: ? ftrace_graph_caller+0xa0/0xa0
-localhost kernel: kfd_ioctl+0x38c/0x4a0 [hydcu]
-localhost kernel: ? kfd_ioctl_set_trap_handler+0x70/0x70 [hydcu]
-localhost kernel: ? kfd_ioctl_create_queue+0x5a0/0x5a0 [hydcu]
-localhost kernel: ? ftrace_graph_caller+0xa0/0xa0
-localhost kernel: __x64_sys_ioctl+0x8e/0xd0
-localhost kernel: ? syscall_trace_enter.isra.18+0x143/0x1b0
-localhost kernel: do_syscall_64+0x33/0x80
-localhost kernel: entry_SYSCALL_64_after_hwframe+0x44/0xa9
-localhost kernel: RIP: 0033:0x152a4dff68d7
+[  489.885525] Call Trace:
+[  489.885525]  <TASK>
+[  489.885526]  amdttm_bo_put+0x34/0x50 [amdttm]
+[  489.885529]  amdgpu_bo_free_kernel+0xe8/0x130 [amdgpu]
+[  489.885620]  psp_free_shared_bufs+0xb7/0x150 [amdgpu]
+[  489.885720]  psp_hw_fini+0xce/0x170 [amdgpu]
+[  489.885815]  amdgpu_device_fini_hw+0x2ff/0x413 [amdgpu]
+[  489.885960]  ? blocking_notifier_chain_unregister+0x56/0xb0
+[  489.885962]  amdgpu_driver_unload_kms+0x51/0x60 [amdgpu]
+[  489.886049]  amdgpu_pci_remove+0x5a/0x140 [amdgpu]
+[  489.886132]  ? __pm_runtime_resume+0x60/0x90
+[  489.886134]  pci_device_remove+0x3e/0xb0
+[  489.886135]  __device_release_driver+0x1ab/0x2a0
+[  489.886137]  driver_detach+0xf3/0x140
+[  489.886138]  bus_remove_driver+0x6c/0xf0
+[  489.886140]  driver_unregister+0x31/0x60
+[  489.886141]  pci_unregister_driver+0x40/0x90
+[  489.886142]  amdgpu_exit+0x15/0x451 [amdgpu]
 
-Allocate the structure with kcalloc, and remove redundant 0-initialization
-and a redundant loop condition check.
-
-Signed-off-by: Qu Huang <qu.huang@linux.dev>
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Signed-off-by: Horatio Zhang <Hongkun.Zhang@amd.com>
+Signed-off-by: longlyao <Longlong.Yao@amd.com>
+Reviewed-by: Guchun Chen <guchun.chen@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_events.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-index 729d26d648af3..2880ed96ac2e3 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-@@ -778,16 +778,13 @@ static struct kfd_event_waiter *alloc_event_waiters(uint32_t num_events)
- 	struct kfd_event_waiter *event_waiters;
- 	uint32_t i;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+index ba092072308fa..1b4105110f398 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+@@ -1685,7 +1685,7 @@ static int psp_hdcp_initialize(struct psp_context *psp)
+ 	psp->hdcp_context.context.mem_context.shared_mem_size = PSP_HDCP_SHARED_MEM_SIZE;
+ 	psp->hdcp_context.context.ta_load_type = GFX_CMD_ID_LOAD_TA;
  
--	event_waiters = kmalloc_array(num_events,
--					sizeof(struct kfd_event_waiter),
--					GFP_KERNEL);
-+	event_waiters = kcalloc(num_events, sizeof(struct kfd_event_waiter),
-+				GFP_KERNEL);
- 	if (!event_waiters)
- 		return NULL;
+-	if (!psp->hdcp_context.context.initialized) {
++	if (!psp->hdcp_context.context.mem_context.shared_buf) {
+ 		ret = psp_ta_init_shared_buf(psp, &psp->hdcp_context.context.mem_context);
+ 		if (ret)
+ 			return ret;
+@@ -1752,7 +1752,7 @@ static int psp_dtm_initialize(struct psp_context *psp)
+ 	psp->dtm_context.context.mem_context.shared_mem_size = PSP_DTM_SHARED_MEM_SIZE;
+ 	psp->dtm_context.context.ta_load_type = GFX_CMD_ID_LOAD_TA;
  
--	for (i = 0; (event_waiters) && (i < num_events) ; i++) {
-+	for (i = 0; i < num_events; i++)
- 		init_wait(&event_waiters[i].wait);
--		event_waiters[i].activated = false;
--	}
+-	if (!psp->dtm_context.context.initialized) {
++	if (!psp->dtm_context.context.mem_context.shared_buf) {
+ 		ret = psp_ta_init_shared_buf(psp, &psp->dtm_context.context.mem_context);
+ 		if (ret)
+ 			return ret;
+@@ -1820,7 +1820,7 @@ static int psp_rap_initialize(struct psp_context *psp)
+ 	psp->rap_context.context.mem_context.shared_mem_size = PSP_RAP_SHARED_MEM_SIZE;
+ 	psp->rap_context.context.ta_load_type = GFX_CMD_ID_LOAD_TA;
  
- 	return event_waiters;
- }
+-	if (!psp->rap_context.context.initialized) {
++	if (!psp->rap_context.context.mem_context.shared_buf) {
+ 		ret = psp_ta_init_shared_buf(psp, &psp->rap_context.context.mem_context);
+ 		if (ret)
+ 			return ret;
 -- 
 2.39.2
 
