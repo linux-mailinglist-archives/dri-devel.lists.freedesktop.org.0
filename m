@@ -2,53 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB3F6B9186
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 12:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D449A6B91B1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 12:34:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B11E10E0EF;
-	Tue, 14 Mar 2023 11:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3706910E160;
+	Tue, 14 Mar 2023 11:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36C5D10E0EF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:22:04 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A82C4B818EF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:22:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D08BC433AE
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:22:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678792921;
- bh=WcmHdukAAWnKHyT1lmhk8rqdI01TwcKCJXLI5msFU+o=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=bkPbngrVp5gYsluTdQdfvyyYImMJfk4GJcRKyu78v3VPa/T23esLe35kAr7fPDpNy
- ftwr5ufj5FWV/xzRKQHSGOE/sPoHR18N6O9iiahgQn8xe9bIJPeD/AZJ7THdLf89+a
- uQnm9dae4+l1PRj4sU/vnxFF31YInmjFejde01IUIs67wPwyny3YWdNajcaOzWUhOR
- 5HCtH+mkbonjfDJ6tIZd8FG39jPiUHtNMcJeedENU/kxerYC1IO8RpltzQY1ZLJa5U
- n14D8HWKuuPpPNTgX209MNMmPyPcn9se2VJJ0awYkvo9OOR4rSLaVbJ1OBb6PbxD4H
- F2Z+bHRxksQmg==
-Received: by mail-pg1-f170.google.com with SMTP id q23so8685671pgt.7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 04:22:01 -0700 (PDT)
-X-Gm-Message-State: AO0yUKVpYqnObd4bOCKnS2HdbxHryzOqpcf922VTj4E6d21388t8zlXC
- vGSA6x815kFICDdxbcywglCf4u6KwzW6HhJXjvAgVg==
-X-Google-Smtp-Source: AK7set/VAfSsBsAfO1Xryc7MK9UHJ+TtCdwj7eGXE0kxOM9mZjM2PFSoEJLc5P0UJ68ciFAv8z+hs0WGeDIFE5U2kvA=
-X-Received: by 2002:a62:1d04:0:b0:623:8a88:1bba with SMTP id
- d4-20020a621d04000000b006238a881bbamr2817951pfd.2.1678792920917; Tue, 14 Mar
- 2023 04:22:00 -0700 (PDT)
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
+ [IPv6:2607:f8b0:4864:20::b2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B919010E160
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:34:24 +0000 (UTC)
+Received: by mail-yb1-xb2e.google.com with SMTP id v196so7760964ybe.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 04:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678793664;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7sn1x82VonxdCN50JryyWnXZYhbsUZ9GIzo/+lVkZxY=;
+ b=QE3qD2pRwc3eEvECC1fz9Tjv61evU8CZ97cRMEovyHjzF6BuMW8UOgaPB3D8EP/1If
+ qufbg9paUvVpj4i2wnwP+J2GXgbwQ8O0vPbDcggC8YWhzwWsl30vnqq+GOfcnT3zf/7b
+ PlUZACrbVGCMLiN51DY8z2GCasVeFkD4ETEF0kP+cd8AbCNe52/eIROgKGo2En8lnWZb
+ vspha5TbK2vliKK0S9ie7nR7NYUVqgMlsCMhn0DOuQr6lLh8dUfrVdQEXQTphiVz6e2U
+ JAowlfmVhNDpcNiUfoLkE33yiNXqZKCx8trvkK0e2qkbYdp1YikHbP6qXWLwxax70FBS
+ QCrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678793664;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7sn1x82VonxdCN50JryyWnXZYhbsUZ9GIzo/+lVkZxY=;
+ b=Zc2bCSVNz+yuJD2ihPHx/WPT+KTXnnDgNtQbH2x3+Cxo71UKSUumrxH62ValhoK6Qy
+ eH56hUoIdFcmr7Rs8kH69ivB0LntcnEAGVc+8Uv8SBXxTWQElN9YOnSizfmgkFSwubPo
+ DdPMs+XAlfVP9dhqougXxuxI7stEbc/c6Yqo1v3LA6zw57gU0QxbhlKZK5zqVs2f+SQ6
+ iiuqUTpeyRk2hMuhlW8ESdry64FoReAhXb1ZpDigRIO8AvRO1IyJ9lPJhFE73PL/edtW
+ vV1VznWZuGskqY9MaDOuQo6AtMXyWBV/GnNmYhcjRFFAyQ9kJM/I/MzkYjn7IzBsv8+v
+ lCDw==
+X-Gm-Message-State: AO0yUKV5U/T+KQSK4qzsPi3kxwH2PiCv8YVQmpeywFLNGE3cjwbZ0qr+
+ tRBbIe7NLbQnrTEPxkYUeo4TsRi4JLKIMVyzxd6VTA==
+X-Google-Smtp-Source: AK7set/32MHzGhOOXcTZmEd5hYEG4p1mHLaWtn49tTFw0EYcjdGdz8jQiVNCCRliLlp2jyQg7xzhs+qwnnQETxP3L28=
+X-Received: by 2002:a5b:108:0:b0:8bb:dfe8:a33b with SMTP id
+ 8-20020a5b0108000000b008bbdfe8a33bmr23143766ybx.9.1678793663589; Tue, 14 Mar
+ 2023 04:34:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230314110043.2139111-1-treapking@chromium.org>
- <20230314110043.2139111-2-treapking@chromium.org>
-In-Reply-To: <20230314110043.2139111-2-treapking@chromium.org>
-From: Robert Foss <rfoss@kernel.org>
-Date: Tue, 14 Mar 2023 12:21:50 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi5YT6Bb85GUn3+Cit=F2doh_up9nqDNQDyMUP9Ttxb09w@mail.gmail.com>
-Message-ID: <CAN6tsi5YT6Bb85GUn3+Cit=F2doh_up9nqDNQDyMUP9Ttxb09w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: ps8640: Add a cache for EDID
-To: Pin-yen Lin <treapking@chromium.org>
+References: <20230223135635.30659-1-quic_sbillaka@quicinc.com>
+ <20230223135635.30659-2-quic_sbillaka@quicinc.com>
+ <CAA8EJprGzCBcWVkHHJxAtVOTuH5DeyYwKw-hHp+T1QvhvHXjsA@mail.gmail.com>
+ <72b9c34357a443df8cbb55c6eddd8a21@quicinc.com>
+ <5453e551-340a-ce98-1c8e-2ca32ff5b7c5@linaro.org>
+ <60a96e55bb1048c4974f185bf4547fbe@quicinc.com>
+In-Reply-To: <60a96e55bb1048c4974f185bf4547fbe@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 14 Mar 2023 13:34:11 +0200
+Message-ID: <CAA8EJpoL15vW0MnW2af4RLsW9_G3PQAxBdJJb0rvFY7Jfv2uPA@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] drm/msm/dp: enumerate edp panel during driver
+ probe
+To: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,142 +71,597 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "Bjorn Andersson \(QUIC\)" <quic_bjorande@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 14, 2023 at 12:01=E2=80=AFPM Pin-yen Lin <treapking@chromium.or=
-g> wrote:
+On Tue, 14 Mar 2023 at 12:23, Sankeerth Billakanti (QUIC)
+<quic_sbillaka@quicinc.com> wrote:
 >
-> When there are multiple EDID reads, the bridge will be repeatedly
-> enabled and disabled. Add a cache for EDID to speed this up.
+> Hi Dmitry,
 >
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> ---
+> >>>>
+> >>>> The eDP panel is identified and enumerated during probe of the
+> >>>> panel-edp driver. The current DP driver triggers this panel-edp
+> >>>> driver probe while getting the panel-bridge associated with the eDP
+> >>>> panel from the platform driver bind. If the panel-edp probe is
+> >>>> deferred, then the whole bunch of MDSS parent and child drivers have
+> >>>> to defer and
+> >>> roll back.
+> >>>
+> >>> No, MDSS has not been rolled back since 5.19. Please shift your
+> >>> development on top of the current msm-next.
+> >>>
+> >>
+> >> Okay, I will move to the msm-next tip.
+> >>
+> >>>>
+> >>>> So, we want to move the panel enumeration from bind to probe so that
+> >>>> the probe defer is easier to handle and also both the drivers appear
+> >>>> consistent in panel enumeration. This change moves the DP driver
+> >>>> panel-bridge enumeration to probe.
+> >>>>
+> >>>> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> >>>> ---
+> >>>>   drivers/gpu/drm/msm/dp/dp_aux.c     | 149
+> >>> ++++++++++++++++++++++++++--
+> >>>>   drivers/gpu/drm/msm/dp/dp_catalog.c |  12 +++
+> >>>>   drivers/gpu/drm/msm/dp/dp_catalog.h |   1 +
+> >>>>   drivers/gpu/drm/msm/dp/dp_display.c |  80 ++++++---------
+> >>>>   4 files changed, 182 insertions(+), 60 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c
+> >>>> b/drivers/gpu/drm/msm/dp/dp_aux.c index
+> >cc3efed593aa..5da95dfdeede
+> >>>> 100644
+> >>>> --- a/drivers/gpu/drm/msm/dp/dp_aux.c
+> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+> >>>> @@ -110,7 +110,7 @@ static ssize_t dp_aux_write(struct
+> >>>> dp_aux_private *aux,  }
+> >>>>
+> >>>>   static ssize_t dp_aux_cmd_fifo_tx(struct dp_aux_private *aux,
+> >>>> -                             struct drm_dp_aux_msg *msg)
+> >>>> +                             struct drm_dp_aux_msg *msg, bool poll)
+> >>>
+> >>> What is the reason for working in polled mode rather than always
+> >>> using the interrupts?
+> >>>
+> >>
+> >> The mdss interrupts will be enabled and can be used after msm_irq_install
+> >from msm_drm_bind.
+> >> We want to perform aux transactions during probe. The aux data
+> >> transmission is followed by an interrupt to indicate successful transmission
+> >status and reply information.
+> >
+> >This is the price of developing on, let me guess, 5.15. Nowadays MDSS
+> >interrupts are enabled and can be used during dp_display_probe() and
+> >dp_display_bind(). If they can not for some reason, this is an issue that must
+> >be fixed. Please reconsider your approach after rebasing onto msm-next or
+> >6.3-rc1.
+> >
 >
->  drivers/gpu/drm/bridge/parade-ps8640.c | 61 ++++++++++++++++----------
->  1 file changed, 37 insertions(+), 24 deletions(-)
+> On the msm-next also, I see the mdss irq is enabled from bind (in msm_drv.c).
+> msm_drm_bind -> msm_drm_init -> msm_irq_install
+
+MDSS IRQ domain is registered from mdss_probe() -> msm_mdss_init() ->
+_msm_mdss_irq_domain_add().
+
+Please note the difference between MDSS IRQs (handled by MDSS) vs
+MDP/DPU irq (registered by msm_irq_install()).
+
+> Currently, interrupts will not be available during the dp_display_probe.
+
+I can not agree with you here.
+
+> Is there a patch series which is enabling IRQs during mdss probe?
+
+https://patchwork.freedesktop.org/series/98525/, merged for 5.19.
+
 >
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bri=
-dge/parade-ps8640.c
-> index 08de501c436e..4d594be8b89c 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -105,6 +105,7 @@ struct ps8640 {
->         struct gpio_desc *gpio_reset;
->         struct gpio_desc *gpio_powerdown;
->         struct device_link *link;
-> +       struct edid *edid;
->         bool pre_enabled;
->         bool need_post_hpd_delay;
->  };
-> @@ -543,34 +544,37 @@ static struct edid *ps8640_bridge_get_edid(struct d=
-rm_bridge *bridge,
->  {
->         struct ps8640 *ps_bridge =3D bridge_to_ps8640(bridge);
->         bool poweroff =3D !ps_bridge->pre_enabled;
-> -       struct edid *edid;
+> >>
+> >> As interrupts are not enabled, I took this polling approach for aux interrupts
+> >during probe.
+> >>
+> >>>>   {
+> >>>>          ssize_t ret;
+> >>>>          unsigned long time_left;
+> >>>> @@ -121,10 +121,16 @@ static ssize_t dp_aux_cmd_fifo_tx(struct
+> >>> dp_aux_private *aux,
+> >>>>          if (ret < 0)
+> >>>>                  return ret;
+> >>>>
+> >>>> -       time_left = wait_for_completion_timeout(&aux->comp,
+> >>>> +       if (!poll) {
+> >>>> +               time_left = wait_for_completion_timeout(&aux->comp,
+> >>>>                                                  msecs_to_jiffies(250));
+> >>>> -       if (!time_left)
+> >>>> -               return -ETIMEDOUT;
+> >>>> +               if (!time_left)
+> >>>> +                       return -ETIMEDOUT;
+> >>>> +       } else {
+> >>>> +               ret = dp_catalog_aux_poll_and_get_hw_interrupt(aux-
+> >>catalog);
+> >>>> +               if (!ret)
+> >>>> +                       dp_aux_isr(&aux->dp_aux);
+> >>>> +       }
+> >>>>
+> >>>>          return ret;
+> >>>>   }
+> >>>> @@ -238,7 +244,7 @@ static void
+> >>> dp_aux_update_offset_and_segment(struct dp_aux_private *aux,
+> >>>>    */
+> >>>>   static void dp_aux_transfer_helper(struct dp_aux_private *aux,
+> >>>>                                     struct drm_dp_aux_msg *input_msg,
+> >>>> -                                  bool send_seg)
+> >>>> +                                  bool send_seg, bool poll)
+> >>>>   {
+> >>>>          struct drm_dp_aux_msg helper_msg;
+> >>>>          u32 message_size = 0x10;
+> >>>> @@ -278,7 +284,7 @@ static void dp_aux_transfer_helper(struct
+> >>> dp_aux_private *aux,
+> >>>>                  helper_msg.address = segment_address;
+> >>>>                  helper_msg.buffer = &aux->segment;
+> >>>>                  helper_msg.size = 1;
+> >>>> -               dp_aux_cmd_fifo_tx(aux, &helper_msg);
+> >>>> +               dp_aux_cmd_fifo_tx(aux, &helper_msg, poll);
+> >>>>          }
+> >>>>
+> >>>>          /*
+> >>>> @@ -292,7 +298,7 @@ static void dp_aux_transfer_helper(struct
+> >>> dp_aux_private *aux,
+> >>>>          helper_msg.address = input_msg->address;
+> >>>>          helper_msg.buffer = &aux->offset;
+> >>>>          helper_msg.size = 1;
+> >>>> -       dp_aux_cmd_fifo_tx(aux, &helper_msg);
+> >>>> +       dp_aux_cmd_fifo_tx(aux, &helper_msg, poll);
+> >>>>
+> >>>>   end:
+> >>>>          aux->offset += message_size; @@ -300,6 +306,122 @@ static
+> >>>> void dp_aux_transfer_helper(struct
+> >>> dp_aux_private *aux,
+> >>>>                  aux->segment = 0x0; /* reset segment at end of
+> >>>> block */  }
+> >>>>
+> >>>> +/*
+> >>>> + * This function does the real job to process an AUX transaction.
+> >>>> + * It will call aux_reset() function to reset the AUX channel,
+> >>>> + * if the waiting is timeout.
+> >>>> + */
+> >>>> +static ssize_t dp_aux_transfer_init(struct drm_dp_aux *dp_aux,
+> >>>> +                              struct drm_dp_aux_msg *msg) {
+> >>>> +       ssize_t ret;
+> >>>> +       int const aux_cmd_native_max = 16;
+> >>>> +       int const aux_cmd_i2c_max = 128;
+> >>>> +       struct dp_aux_private *aux;
+> >>>> +
+> >>>> +       aux = container_of(dp_aux, struct dp_aux_private, dp_aux);
+> >>>> +
+> >>>> +       aux->native = msg->request & (DP_AUX_NATIVE_WRITE &
+> >>>> + DP_AUX_NATIVE_READ);
+> >>>> +
+> >>>> +       /* Ignore address only message */
+> >>>> +       if (msg->size == 0 || !msg->buffer) {
+> >>>> +               msg->reply = aux->native ?
+> >>>> +                       DP_AUX_NATIVE_REPLY_ACK : DP_AUX_I2C_REPLY_ACK;
+> >>>> +               return msg->size;
+> >>>> +       }
+> >>>> +
+> >>>> +       /* msg sanity check */
+> >>>> +       if ((aux->native && msg->size > aux_cmd_native_max) ||
+> >>>> +           msg->size > aux_cmd_i2c_max) {
+> >>>> +               DRM_ERROR("%s: invalid msg: size(%zu), request(%x)\n",
+> >>>> +                       __func__, msg->size, msg->request);
+> >>>> +               return -EINVAL;
+> >>>> +       }
+> >>>> +
+> >>>> +       mutex_lock(&aux->mutex);
+> >>>> +       if (!aux->initted) {
+> >>>> +               ret = -EIO;
+> >>>> +               goto exit;
+> >>>> +       }
+> >>>> +
+> >>>> +       /*
+> >>>> +        * For eDP it's important to give a reasonably long wait here for HPD
+> >>>> +        * to be asserted. This is because the panel driver may have _just_
+> >>>> +        * turned on the panel and then tried to do an AUX transfer. The
+> >panel
+> >>>> +        * driver has no way of knowing when the panel is ready, so it's up
+> >>>> +        * to us to wait. For DP we never get into this situation so let's
+> >>>> +        * avoid ever doing the extra long wait for DP.
+> >>>> +        */
+> >>>> +       if (aux->is_edp) {
+> >>>> +               ret = dp_catalog_aux_wait_for_hpd_connect_state(aux-
+> >>catalog);
+> >>>> +               if (ret) {
+> >>>> +                       DRM_DEBUG_DP("Panel not ready for aux transactions\n");
+> >>>> +                       goto exit;
+> >>>> +               }
+> >>>> +       }
+> >>>> +
+> >>>> +       dp_aux_update_offset_and_segment(aux, msg);
+> >>>> +       dp_aux_transfer_helper(aux, msg, true, true);
+> >>>> +
+> >>>> +       aux->read = msg->request & (DP_AUX_I2C_READ &
+> >>> DP_AUX_NATIVE_READ);
+> >>>> +       aux->cmd_busy = true;
+> >>>> +
+> >>>> +       if (aux->read) {
+> >>>> +               aux->no_send_addr = true;
+> >>>> +               aux->no_send_stop = false;
+> >>>> +       } else {
+> >>>> +               aux->no_send_addr = true;
+> >>>> +               aux->no_send_stop = true;
+> >>>> +       }
+> >>>> +
+> >>>> +       ret = dp_aux_cmd_fifo_tx(aux, msg, true);
+> >>>> +
+> >>>> +       /* TODO: why is fifo_rx necessary here?
+> >>>> +        * Ideally fifo_rx need not be executed for an aux write
+> >>>> +        */
+> >>>> +       ret = dp_aux_cmd_fifo_rx(aux, msg);
+> >>>> +
+> >>>> +       if (ret < 0) {
+> >>>> +               if (aux->native) {
+> >>>> +                       aux->retry_cnt++;
+> >>>> +                       if (!(aux->retry_cnt % MAX_AUX_RETRIES))
+> >>>> +                               dp_catalog_aux_update_cfg(aux->catalog);
+> >>>> +               }
+> >>>> +               /* reset aux if link is in connected state */
+> >>>> +               if (dp_catalog_link_is_connected(aux->catalog))
+> >>>> +                       dp_catalog_aux_reset(aux->catalog);
+> >>>> +       } else {
+> >>>> +               aux->retry_cnt = 0;
+> >>>> +               switch (aux->aux_error_num) {
+> >>>> +               case DP_AUX_ERR_NONE:
+> >>>> +                       if (aux->read)
+> >>>> +                               ret = dp_aux_cmd_fifo_rx(aux, msg);
+> >>>> +                       msg->reply = aux->native ? DP_AUX_NATIVE_REPLY_ACK :
+> >>> DP_AUX_I2C_REPLY_ACK;
+> >>>> +                       break;
+> >>>> +               case DP_AUX_ERR_DEFER:
+> >>>> +                       msg->reply = aux->native ?
+> >>>> +                               DP_AUX_NATIVE_REPLY_DEFER :
+> >>> DP_AUX_I2C_REPLY_DEFER;
+> >>>> +                       break;
+> >>>> +               case DP_AUX_ERR_PHY:
+> >>>> +               case DP_AUX_ERR_ADDR:
+> >>>> +               case DP_AUX_ERR_NACK:
+> >>>> +               case DP_AUX_ERR_NACK_DEFER:
+> >>>> +                       msg->reply = aux->native ? DP_AUX_NATIVE_REPLY_NACK :
+> >>> DP_AUX_I2C_REPLY_NACK;
+> >>>> +                       break;
+> >>>> +               case DP_AUX_ERR_TOUT:
+> >>>> +                       ret = -ETIMEDOUT;
+> >>>> +                       break;
+> >>>> +               }
+> >>>> +       }
+> >>>> +
+> >>>> +       aux->cmd_busy = false;
+> >>>> +
+> >>>> +exit:
+> >>>> +       mutex_unlock(&aux->mutex);
+> >>>> +
+> >>>> +       return ret;
+> >>>> +}
+> >>>> +
+> >>>>   /*
+> >>>>    * This function does the real job to process an AUX transaction.
+> >>>>    * It will call aux_reset() function to reset the AUX channel, @@
+> >>>> -355,7 +477,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux
+> >>> *dp_aux,
+> >>>>          }
+> >>>>
+> >>>>          dp_aux_update_offset_and_segment(aux, msg);
+> >>>> -       dp_aux_transfer_helper(aux, msg, true);
+> >>>> +       dp_aux_transfer_helper(aux, msg, true, false);
+> >>>>
+> >>>>          aux->read = msg->request & (DP_AUX_I2C_READ &
+> >>> DP_AUX_NATIVE_READ);
+> >>>>          aux->cmd_busy = true;
+> >>>> @@ -368,7 +490,7 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux
+> >>> *dp_aux,
+> >>>>                  aux->no_send_stop = true;
+> >>>>          }
+> >>>>
+> >>>> -       ret = dp_aux_cmd_fifo_tx(aux, msg);
+> >>>> +       ret = dp_aux_cmd_fifo_tx(aux, msg, false);
+> >>>>          if (ret < 0) {
+> >>>>                  if (aux->native) {
+> >>>>                          aux->retry_cnt++; @@ -535,6 +657,15 @@
+> >>>> struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog
+> >*catalog,
+> >>>>          aux->catalog = catalog;
+> >>>>          aux->retry_cnt = 0;
+> >>>>
+> >>>> +       /*
+> >>>> +        * Use the drm_dp_aux_init() to use the aux adapter
+> >>>> +        * before registering aux with the DRM device.
+> >>>> +        */
+> >>>> +       aux->dp_aux.name = "dpu_dp_aux";
+> >>>> +       aux->dp_aux.dev = dev;
+> >>>> +       aux->dp_aux.transfer = dp_aux_transfer_init;
+> >>>> +       drm_dp_aux_init(&aux->dp_aux);
+> >>>
+> >>> How do you use the aux adapter? It should not be used before
+> >>> aux->drm_dev is setup.
+> >>>
+> >>
+> >> The drm_dev registration happens during the bind. But we need to use aux
+> >during probe.
+> >>
+> >> The kernel doc for the drm_dp_aux_init function suggested we can use
+> >> the adapter before drm_dev registration. So, I used this function to enable
+> >the aux usage during probe.
+> >
+> >Then please also change __drm_printk() to use (drm) ? (drm->dev) : NULL as
+> >a first argument to dev_##level##type. Otherwise the first AUX transfer error
+> >before aux->drm_dev is set will oops the kernel. See how
+> >drm_err() is expanded.
+> >
 >
-> -       /*
-> -        * When we end calling get_edid() triggered by an ioctl, i.e
-> -        *
-> -        *   drm_mode_getconnector (ioctl)
-> -        *     -> drm_helper_probe_single_connector_modes
-> -        *        -> drm_bridge_connector_get_modes
-> -        *           -> ps8640_bridge_get_edid
-> -        *
-> -        * We need to make sure that what we need is enabled before readi=
-ng
-> -        * EDID, for this chip, we need to do a full poweron, otherwise i=
-t will
-> -        * fail.
-> -        */
-> -       if (poweroff)
-> -               drm_atomic_bridge_chain_pre_enable(bridge, connector->sta=
-te->state);
-> +       if (!ps_bridge->edid) {
-> +               /*
-> +                * When we end calling get_edid() triggered by an ioctl, =
-i.e
-> +                *
-> +                *   drm_mode_getconnector (ioctl)
-> +                *     -> drm_helper_probe_single_connector_modes
-> +                *        -> drm_bridge_connector_get_modes
-> +                *           -> ps8640_bridge_get_edid
-> +                *
-> +                * We need to make sure that what we need is enabled befo=
-re
-> +                * reading EDID, for this chip, we need to do a full powe=
-ron,
-> +                * otherwise it will fail.
-> +                */
-> +               if (poweroff)
-> +                       drm_atomic_bridge_chain_pre_enable(bridge,
-> +                                                          connector->sta=
-te->state);
+> Okay, will add this also.
+
+Good.
+
 >
-> -       edid =3D drm_get_edid(connector,
-> -                           ps_bridge->page[PAGE0_DP_CNTL]->adapter);
-> +               ps_bridge->edid =3D drm_get_edid(connector,
-> +                                              ps_bridge->page[PAGE0_DP_C=
-NTL]->adapter);
+> >>
+> >> /**
+> >>   * drm_dp_aux_init() - minimally initialise an aux channel
+> >>   * @aux: DisplayPort AUX channel
+> >>   *
+> >>   * If you need to use the drm_dp_aux's i2c adapter prior to registering it
+> >with
+> >>   * the outside world, call drm_dp_aux_init() first.
+> >>
+> >>>> +
+> >>>>          return &aux->dp_aux;
+> >>>>   }
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> >>>> b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> >>>> index 676279d0ca8d..ccf0400176f0 100644
+> >>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> >>>> @@ -258,6 +258,18 @@ int
+> >>> dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog
+> >>> *dp_catalog)
+> >>>>                                  2000, 500000);  }
+> >>>>
+> >>>> +int dp_catalog_aux_poll_and_get_hw_interrupt(struct dp_catalog
+> >>>> +*dp_catalog) {
+> >>>> +       u32 aux;
+> >>>> +       struct dp_catalog_private *catalog = container_of(dp_catalog,
+> >>>> +                               struct dp_catalog_private,
+> >>>> +dp_catalog);
+> >>>> +
+> >>>> +       return readl_poll_timeout(catalog->io->dp_controller.ahb.base +
+> >>>> +                               REG_DP_INTR_STATUS,
+> >>>> +                               aux, aux & DP_INTERRUPT_STATUS1,
+> >>>> +                               250, 250000); }
+> >>>> +
+> >>>>   static void dump_regs(void __iomem *base, int len)  {
+> >>>>          int i;
+> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> >>>> b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> >>>> index 1f717f45c115..ad4a9e0f71f2 100644
+> >>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> >>>> @@ -87,6 +87,7 @@ void dp_catalog_aux_enable(struct dp_catalog
+> >>>> *dp_catalog, bool enable);  void dp_catalog_aux_update_cfg(struct
+> >>>> dp_catalog *dp_catalog);  int
+> >>>> dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog
+> >>>> *dp_catalog);
+> >>>>   u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog);
+> >>>> +int dp_catalog_aux_poll_and_get_hw_interrupt(struct dp_catalog
+> >>>> +*dp_catalog);
+> >>>>
+> >>>>   /* DP Controller APIs */
+> >>>>   void dp_catalog_ctrl_state_ctrl(struct dp_catalog *dp_catalog, u32
+> >>>> state); diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> b/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> index bde1a7ce442f..a5dcef040b74 100644
+> >>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> >>>> @@ -275,13 +275,6 @@ static int dp_display_bind(struct device *dev,
+> >struct
+> >>> device *master,
+> >>>>          dp->dp_display.drm_dev = drm;
+> >>>>          priv->dp[dp->id] = &dp->dp_display;
+> >>>>
+> >>>> -       rc = dp->parser->parse(dp->parser);
+> >>>> -       if (rc) {
+> >>>> -               DRM_ERROR("device tree parsing failed\n");
+> >>>> -               goto end;
+> >>>> -       }
+> >>>> -
+> >>>> -
+> >>>>          dp->drm_dev = drm;
+> >>>>          dp->aux->drm_dev = drm;
+> >>>>          rc = dp_aux_register(dp->aux); @@ -290,12 +283,6 @@ static int
+> >>>> dp_display_bind(struct device *dev, struct device *master,
+> >>>>                  goto end;
+> >>>>          }
+> >>>>
+> >>>> -       rc = dp_power_client_init(dp->power);
+> >>>> -       if (rc) {
+> >>>> -               DRM_ERROR("Power client create failed\n");
+> >>>> -               goto end;
+> >>>> -       }
+> >>>> -
+> >>>>          rc = dp_register_audio_driver(dev, dp->audio);
+> >>>>          if (rc) {
+> >>>>                  DRM_ERROR("Audio registration Dp failed\n"); @@ -787,6
+> >>>> +774,12 @@ static int dp_init_sub_modules(struct dp_display_private
+> >*dp)
+> >>>>                  goto error;
+> >>>>          }
+> >>>>
+> >>>> +       rc = dp->parser->parse(dp->parser);
+> >>>> +       if (rc) {
+> >>>> +               DRM_ERROR("device tree parsing failed\n");
+> >>>> +               goto error;
+> >>>> +       }
+> >>>> +
+> >>>>          dp->catalog = dp_catalog_get(dev, &dp->parser->io);
+> >>>>          if (IS_ERR(dp->catalog)) {
+> >>>>                  rc = PTR_ERR(dp->catalog); @@ -803,6 +796,12 @@ static
+> >>>> int dp_init_sub_modules(struct dp_display_private *dp)
+> >>>>                  goto error;
+> >>>>          }
+> >>>>
+> >>>> +       rc = dp_power_client_init(dp->power);
+> >>>> +       if (rc) {
+> >>>> +               DRM_ERROR("Power client create failed\n");
+> >>>> +               goto error;
+> >>>> +       }
+> >>>> +
+> >>>>          dp->aux = dp_aux_get(dev, dp->catalog, dp->dp_display.is_edp);
+> >>>>          if (IS_ERR(dp->aux)) {
+> >>>>                  rc = PTR_ERR(dp->aux); @@ -1338,12 +1337,29 @@ static
+> >>>> int dp_display_probe(struct platform_device *pdev)
+> >>>>
+> >>>>          platform_set_drvdata(pdev, &dp->dp_display);
+> >>>>
+> >>>> +       if (dp->dp_display.is_edp) {
+> >>>> +               dp_display_host_init(dp);
+> >>>> +               dp_display_host_phy_init(dp);
+> >>>> +               dp_catalog_ctrl_hpd_config(dp->catalog);
+> >>>> +
+> >>>> +               rc = devm_of_dp_aux_populate_bus(dp->aux, NULL);
+> >>>
+> >>> You should pass a real done_probing handler here, if you are going to
+> >refactor
+> >>> this piece of code. The done_probing should then shut down the
+> >resources
+> >>> and bind the component.
+> >>>
+> >>
+> >> I removed the resource enabling part from probe in the next patch where I
+> >implemented pm_runtime_ops.
+> >> I moved the host_init, phy_init and hpd_config into runtime_resume and
+> >calling pm_runtime_get_sync from aux_transfer.
+> >
+> >Next patch doesn't exist at this point. So, please, either reorder them,
+> >or make this patch correct per se.
+> >
+> >Also, the key part is a call to component_add(). It should come from
+> >done_probing callback. AUX bus probing is asynchronous. The kernel
+> >registers a device and then it might take some time for the correct
+> >driver to be loaded, etc. We clearly expect dp_display_bind to be used
+> >only when the panel has been probed.
+> >
 >
-> -       /*
-> -        * If we call the get_edid() function without having enabled the =
-chip
-> -        * before, return the chip to its original power state.
-> -        */
-> -       if (poweroff)
-> -               drm_atomic_bridge_chain_post_disable(bridge, connector->s=
-tate->state);
-> +               /*
-> +                * If we call the get_edid() function without having enab=
-led the
-> +                * chip before, return the chip to its original power sta=
-te.
-> +                */
-> +               if (poweroff)
-> +                       drm_atomic_bridge_chain_post_disable(bridge,
-> +                                                            connector->s=
-tate->state);
-> +       }
 >
-> -       return edid;
-> +       return drm_edid_duplicate(ps_bridge->edid);
->  }
+> Okay, will add the done_probe function
+
+Thank you.
+
 >
->  static void ps8640_runtime_disable(void *data)
-> @@ -767,6 +771,14 @@ static int ps8640_probe(struct i2c_client *client)
->         return ret;
->  }
->
-> +static void ps8640_remove(struct i2c_client *client)
-> +{
-> +       struct ps8640 *ps_bridge =3D i2c_get_clientdata(client);
-> +
-> +       kfree(ps_bridge->edid);
-> +       ps_bridge->edid =3D NULL;
-> +}
-> +
->  static const struct of_device_id ps8640_match[] =3D {
->         { .compatible =3D "parade,ps8640" },
->         { }
-> @@ -775,6 +787,7 @@ MODULE_DEVICE_TABLE(of, ps8640_match);
->
->  static struct i2c_driver ps8640_driver =3D {
->         .probe_new =3D ps8640_probe,
-> +       .remove =3D ps8640_remove,
->         .driver =3D {
->                 .name =3D "ps8640",
->                 .of_match_table =3D ps8640_match,
-> --
-> 2.40.0.rc1.284.g88254d51c5-goog
+> >>
+> >>>> +
+> >>>> +               dp_display_host_phy_exit(dp);
+> >>>> +               dp_display_host_deinit(dp);
+> >>>> +
+> >>>> +               if (rc) {
+> >>>> +                       DRM_ERROR("failed to initialize panel, rc = %d\n", rc);
+> >>>> +                       goto error;
+> >>>> +               }
+> >>>> +       }
+> >>>> +
+> >>>>          rc = component_add(&pdev->dev, &dp_display_comp_ops);
+> >>>>          if (rc) {
+> >>>>                  DRM_ERROR("component add failed, rc=%d\n", rc);
+> >>>>                  dp_display_deinit_sub_modules(dp);
+> >>>>          }
+> >>>>
+> >>>> +error:
+> >>>>          return rc;
+> >>>>   }
+> >>>>
+> >>>> @@ -1546,40 +1562,8 @@ static int dp_display_get_next_bridge(struct
+> >>>> msm_dp *dp)  {
+> >>>>          int rc;
+> >>>>          struct dp_display_private *dp_priv;
+> >>>> -       struct device_node *aux_bus;
+> >>>> -       struct device *dev;
+> >>>>
+> >>>>          dp_priv = container_of(dp, struct dp_display_private, dp_display);
+> >>>> -       dev = &dp_priv->pdev->dev;
+> >>>> -       aux_bus = of_get_child_by_name(dev->of_node, "aux-bus");
+> >>>> -
+> >>>> -       if (aux_bus && dp->is_edp) {
+> >>>> -               dp_display_host_init(dp_priv);
+> >>>> -               dp_catalog_ctrl_hpd_config(dp_priv->catalog);
+> >>>> -               dp_display_host_phy_init(dp_priv);
+> >>>> -               enable_irq(dp_priv->irq);
+> >>>> -
+> >>>> -               /*
+> >>>> -                * The code below assumes that the panel will finish probing
+> >>>> -                * by the time devm_of_dp_aux_populate_ep_devices()
+> >returns.
+> >>>> -                * This isn't a great assumption since it will fail if the
+> >>>> -                * panel driver is probed asynchronously but is the best we
+> >>>> -                * can do without a bigger driver reorganization.
+> >>>> -                */
+> >>>> -               rc = of_dp_aux_populate_bus(dp_priv->aux, NULL);
+> >>>> -               of_node_put(aux_bus);
+> >>>> -               if (rc)
+> >>>> -                       goto error;
+> >>>> -
+> >>>> -               rc = devm_add_action_or_reset(dp->drm_dev->dev,
+> >>>> -                                               of_dp_aux_depopulate_bus_void,
+> >>>> -                                               dp_priv->aux);
+> >>>> -               if (rc)
+> >>>> -                       goto error;
+> >>>> -       } else if (dp->is_edp) {
+> >>>> -               DRM_ERROR("eDP aux_bus not found\n");
+> >>>> -               return -ENODEV;
+> >>>> -       }
+> >>>>
+> >>>>          /*
+> >>>>           * External bridges are mandatory for eDP interfaces: one has
+> >>>> to @@ -1597,12 +1581,6 @@ static int dp_display_get_next_bridge(struct
+> >>> msm_dp *dp)
+> >>>>                  return 0;
+> >>>>          }
+> >>>>
+> >>>> -error:
+> >>>> -       if (dp->is_edp) {
+> >>>> -               disable_irq(dp_priv->irq);
+> >>>> -               dp_display_host_phy_exit(dp_priv);
+> >>>> -               dp_display_host_deinit(dp_priv);
+> >>>> -       }
+> >>>>          return rc;
+> >>>>   }
+> >>>>
+> >>>> --
+> >>>> 2.39.0
+> >>>>
+> >>>
+> >>>
+> >>> --
+> >>> With best wishes
+> >>> Dmitry
+> >
+> >--
+> >With best wishes
+> >Dmitry
 >
 
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+-- 
+With best wishes
+Dmitry
