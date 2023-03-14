@@ -2,63 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869FF6B9EE8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 19:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6961E6B9F5E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 20:08:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBBCF10E882;
-	Tue, 14 Mar 2023 18:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA2B310E88A;
+	Tue, 14 Mar 2023 19:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4584310E882
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 18:45:30 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id e71so8317956ybc.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:45:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678819529;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=y8OE7w+4I+vParG7ILLLYFEi6tsPBU1Dfdg7jrl2/A0=;
- b=vaay+BVhvth7wEHfAouviS+jgCuQdGu+dNaLoZXJGJqT28dwC1VvV6+/HCSE+rSX3i
- u/Pjj/qHzlMS0HjQacAkG8N0zmlorNIIwcyUBen5LxigO1ezN2GJOkPeMW3LPXGnG6tl
- GfmbAXAoVxSAt5llnFxPz6alyU0Xct24ZsAwKU/RVEYyproTDiWlON+7Ew831dTUe6Ky
- XmYYIZ/DN3icrvxaxWwiympHPo7Dy+3BUO/Eu0cvTkf/s7xwB2nqEtFeUvKhHsdZp+me
- aQoPIufA9aITuIiZ855sWpqYqFz+XvsBmKI4okWJ+Rjw556fEjeanUawunJt7zwrHOlU
- TNKQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF22510E88A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 19:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678820918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lNWYgyqpL0kkvls3E2pegU9Km1BHkvTF5mInuI5lUZI=;
+ b=aFhwTl0PUzv/wsUYqS6QqmDq3DraQy6KBy6SW2S4d+aOwzbpAU7SDpuqzXjzTX/HsFF75j
+ s/KlrdRTQ+kXpHmwLGu1BMPvJrYNGjixqHemkhyg2JW+vx0ljAW1WBZ7n8x8FKqs20D1Zj
+ 9K9QWcr0KbGmLlM9XvhP20x8Fsm2v+k=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-303-TKo94e8cPcqzCUnUkYUoPA-1; Tue, 14 Mar 2023 15:08:36 -0400
+X-MC-Unique: TKo94e8cPcqzCUnUkYUoPA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b8-20020a05600c4e0800b003ed2d729092so1154402wmq.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 12:08:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678819529;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=y8OE7w+4I+vParG7ILLLYFEi6tsPBU1Dfdg7jrl2/A0=;
- b=UOCQG3QwCoWUY/8HB1me+Y288ijKiaK7zjiEoGgY4lJFLod0amk/1fx8PAD/g5pj7E
- gkjl5SDjTl3Eymg0gHMOr+QgJvKgW7m7jdnJHKdgz7KIensjw8ohFjQkLEVKKbxr4sQu
- VWbBYJ0er7ccJdqEHLlKVFCMfvQBdG32ZVjWMX7WfdVfHnWqMe5pZf6P9+nLHyF9RF8T
- lbaPeyVZaHqON33+bBSDP2OIWX7Jd8lZ3QGxrUcJQ4D8+qCLh0KFJhXZWD9X8Wz22/Bw
- 5Zhldsg2pGJQrp/2/EjSz10R4UvpGELR/BuVAsr3bVRKTFIqbZafWHv/L6e60jc/Tu7s
- Rtkw==
-X-Gm-Message-State: AO0yUKWrozd6yc1LqsfhyLY2DjaZ2ZuX+Rg58hBPwrKuUSkBLdtJXx11
- bcLvzDFbKwApslaVKiYidw+PLP2gOCrgZD/taGXOMw==
-X-Google-Smtp-Source: AK7set+UhF+wVRcTtm+dgNrnZSOkyWuMoQIxlxPqjjlJxOyU4N+ppq/c4ZzWCkjIkwj/xBqFI90UC2De42EYSu+KXbU=
-X-Received: by 2002:a5b:209:0:b0:aa9:bd2e:3746 with SMTP id
- z9-20020a5b0209000000b00aa9bd2e3746mr16977021ybl.4.1678819529283; Tue, 14 Mar
- 2023 11:45:29 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678820915;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lNWYgyqpL0kkvls3E2pegU9Km1BHkvTF5mInuI5lUZI=;
+ b=OSfTNjsRgxVim/jfF+mu39uW+kSui4M4h2PCPk+Vwoc4a7AyX5W2tXpp8Avt2mQYhH
+ wwn+AOyj6sDgBQQeZCF/wPhQcWY8fSFtCllYDMVMGArUo8dq4Vy858Z/3PvCYuGG5jNi
+ t8G0iPzn+1e37Iao3mAGZDOWffG6AQ8PZon1ocQEWG7o8mynNIHZySDbb8uyANT7Dh3C
+ ZmE7laLj2f+XRXz7P/qVvJ/cxF7SOJM56N9FyXeeP7rvlOTB1zlveT71Rdvx6SeKEcVS
+ csoPZp38qWVlv/tj9LcfPf1uIhAkGVyuYUQY50gpq0keZDPf8IK7Kn+UgL4y8eq+tBhp
+ 11AA==
+X-Gm-Message-State: AO0yUKX4M1N6/1IUUwTajfmAaJgMScwBtLprWSO/8RNU3s+nnzFxb7zH
+ AWV8iUC5Xe/E2HrZtOsCHg/pecds2fe/wfQlCkvrAFbQIOmPx7IG6N8C02aFdr2647dvc8G+RFu
+ KJITljsFDWX88AmDLWWj72QYAwOlh
+X-Received: by 2002:a05:600c:1f0f:b0:3df:ef18:b0a1 with SMTP id
+ bd15-20020a05600c1f0f00b003dfef18b0a1mr16024963wmb.12.1678820915325; 
+ Tue, 14 Mar 2023 12:08:35 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/oJ3kHP6b9+XZidTEo5Mltane1EZAOPkHWz7r0OSgAihZ1HZi+Eya7qoiaIl4nYclowLmInA==
+X-Received: by 2002:a05:600c:1f0f:b0:3df:ef18:b0a1 with SMTP id
+ bd15-20020a05600c1f0f00b003dfef18b0a1mr16024944wmb.12.1678820915005; 
+ Tue, 14 Mar 2023 12:08:35 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ n6-20020a7bcbc6000000b003ed2fb86f85sm1105291wmi.47.2023.03.14.12.08.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Mar 2023 12:08:34 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/2] drm/format-helper: Add Kunit tests for
+ drm_fb_xrgb8888_to_mono()
+In-Reply-To: <20230311125141.564801-2-arthurgrillo@riseup.net>
+References: <20230311125141.564801-1-arthurgrillo@riseup.net>
+ <20230311125141.564801-2-arthurgrillo@riseup.net>
+Date: Tue, 14 Mar 2023 20:08:33 +0100
+Message-ID: <87cz5b40cu.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-References: <20230217-topic-lenovo-panel-v2-0-2e2c64729330@linaro.org>
- <20230217-topic-lenovo-panel-v2-1-2e2c64729330@linaro.org>
- <CACRpkda7=Y4ZRBDOhxE974qV-yXuFyZZs7m_aBwtF9qivV5WQg@mail.gmail.com>
- <aa963fa9-e2d6-a7e1-8396-745de5f996d4@linaro.org>
-In-Reply-To: <aa963fa9-e2d6-a7e1-8396-745de5f996d4@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 14 Mar 2023 19:45:17 +0100
-Message-ID: <CACRpkdZdeJNDPNvQhUMzwid67jcVNKv7TuNzvm3hQxsnfFst9w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display/panel: Add Lenovo NT36523W
- BOE panel
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,31 +81,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Jianhua Lu <lujianhua000@gmail.com>, dri-devel@lists.freedesktop.org,
- phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Cc: davidgow@google.com, tales.aparecida@gmail.com, mairacanal@riseup.net,
+ tzimmermann@suse.de, jose.exposito89@gmail.com, andrealmeid@riseup.net,
+ Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 8, 2023 at 12:02=E2=80=AFPM Konrad Dybcio <konrad.dybcio@linaro=
-.org> wrote:
+Arthur Grillo <arthurgrillo@riseup.net> writes:
 
-> > It would not be helpful for driver writers to have two different bindin=
-gs
-> > for similar hardware hand having to write code to handle different
-> > properties depending on which binding is used, so please unify into
-> > one binding by cooperating with Jianhua.
-> I'll look into Jianhua's patchset and try to work atop that!
+Hello Arthur,
 
-Jianhua's driver is merged to drm-misc-next so you can make
-your addendum now!
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3Dc61093b56a2ff15e449e=
-8af56e96dc5a312baf25
-https://cgit.freedesktop.org/drm/drm-misc/commit/?id=3D0993234a00451e0a5c3e=
-47d8b0f2e01dac6cedbf
+> Extend the existing test cases to test the conversion from XRGB8888 to
+> monochromatic.
+>
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
 
-Yours,
-Linus Walleij
+Patch looks good to me:
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Please let me know if you need someone to push this to the drm-misc tree.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
