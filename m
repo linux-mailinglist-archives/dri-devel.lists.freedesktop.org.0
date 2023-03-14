@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5CE6B889A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 03:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DDC6B88C3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 03:55:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C86610E6E1;
-	Tue, 14 Mar 2023 02:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0946C10E6C5;
+	Tue, 14 Mar 2023 02:55:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBEA10E6DD;
- Tue, 14 Mar 2023 02:28:27 +0000 (UTC)
-Received: from workpc.. (109-252-120-116.nat.spd-mgts.ru [109.252.120.116])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id BE9C86602135;
- Tue, 14 Mar 2023 02:28:24 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678760906;
- bh=LcaxA50WjxrDFH5bNIJfvjRrO6UWYUML1G2Xu25Injg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d8txqCLXgz0JMrGsqmtQVq+7uxkXw8ANvpIEnBOBx2RqU0GQp2ewyNqN8fZxDmcIb
- 857oyyK8fXbRPYcmlE2ihfCcENFhjxHI+rHwrQxTPJsUpTVdptBESbnLSfWJgsXZxS
- 6DHP0W2eVJwsCMP4Gz2rI9qGMyaJP0Z/gCTlLHRZrKe6rYLuolq0ivIqn/bsDrSVqn
- dKB7cGaoxwYftzGEUAQcr9yq6aPFVQsbx3yHtGhLzTw/tIxGx5eicR2WSi+tmgmQUP
- tG5oSOzjR/c/H8rPxEY9y9Qv6sO+eNXFcpPYLx/ieAS7Pb4lGZDB2tabowXt5JDYt9
- 2a4h1EiKajpDQ==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Qiang Yu <yuq825@gmail.com>, Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Herring <robh@kernel.org>
-Subject: [PATCH v13 10/10] drm/panfrost: Switch to generic memory shrinker
-Date: Tue, 14 Mar 2023 05:26:59 +0300
-Message-Id: <20230314022659.1816246-11-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230314022659.1816246-1-dmitry.osipenko@collabora.com>
-References: <20230314022659.1816246-1-dmitry.osipenko@collabora.com>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A67BF10E6C5;
+ Tue, 14 Mar 2023 02:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678762513; x=1710298513;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=NFzAXXoB1e7+XH5IaSm2cBjMNsWm1wKGgsZ/Zq0L7zA=;
+ b=mYg8aS8U5MfWvtKLKb/bBAbooF3ABj6Ye/7ddLldZe1GriOcNRWypmlq
+ DBIyDmoSBprzaNIBdKLWFDloYgbczWMxrtPFagtyATGZ/gZqCByxeHkp5
+ dPSbnEbmJYokf6Ma7mv/Ym1I8zJpfu9kLOsO4pn4PO0A90CySZpul1E6J
+ y+NKml4NQrGds6qI09MKQ8zzuCRDXXXY4N3RbgVt9bL9O6T53bOA0WPbR
+ 7+cfy4mjJMzo5IDGDiN7qyq6kyEzDxF+tA4SST2fUtRPUGWdSY0PTwRLC
+ 9yxDco9BxDJw9UPcMKiJKnyP2FKsWW3wyMTzf+qeLcCy0pojpisaw5HR6 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="399904818"
+X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="399904818"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Mar 2023 19:55:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="789166479"
+X-IronPort-AV: E=Sophos;i="5.98,258,1673942400"; d="scan'208";a="789166479"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 13 Mar 2023 19:55:10 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pbuof-0006Qq-0g;
+ Tue, 14 Mar 2023 02:55:09 +0000
+Date: Tue, 14 Mar 2023 10:54:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2] drm/i915/guc: Disable PL1 power limit when loading
+ GuC firmware
+Message-ID: <202303141032.GnWWCyaD-lkp@intel.com>
+References: <20230313234936.2005565-1-ashutosh.dixit@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230313234936.2005565-1-ashutosh.dixit@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,422 +61,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, kernel@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Badal Nilawar <badal.nilawar@intel.com>,
+ oe-kbuild-all@lists.linux.dev, Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace Panfrost's custom memory shrinker with a common drm-shmem
-memory shrinker.
+Hi Ashutosh,
 
-Tested-by: Steven Price <steven.price@arm.com> # Firefly-RK3288
-Reviewed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/panfrost/Makefile             |   1 -
- drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
- drivers/gpu/drm/panfrost/panfrost_drv.c       |  27 ++--
- drivers/gpu/drm/panfrost/panfrost_gem.c       |  30 ++--
- drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 --
- .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 129 ------------------
- drivers/gpu/drm/panfrost/panfrost_job.c       |  18 ++-
- include/drm/drm_gem_shmem_helper.h            |   7 -
- 8 files changed, 47 insertions(+), 178 deletions(-)
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+Thank you for the patch! Perhaps something to improve:
 
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index 7da2b3f02ed9..11622e22cf15 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -5,7 +5,6 @@ panfrost-y := \
- 	panfrost_device.o \
- 	panfrost_devfreq.o \
- 	panfrost_gem.o \
--	panfrost_gem_shrinker.o \
- 	panfrost_gpu.o \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index d9ba68cffb77..28f28bbdbda9 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -116,10 +116,6 @@ struct panfrost_device {
- 		atomic_t pending;
- 	} reset;
- 
--	struct mutex shrinker_lock;
--	struct list_head shrinker_list;
--	struct shrinker shrinker;
--
- 	struct panfrost_devfreq pfdevfreq;
- };
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index aa292e4a86eb..e29a2e604257 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -169,7 +169,6 @@ panfrost_lookup_bos(struct drm_device *dev,
- 			break;
- 		}
- 
--		atomic_inc(&bo->gpu_usecount);
- 		job->mappings[i] = mapping;
- 	}
- 
-@@ -394,7 +393,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- {
- 	struct panfrost_file_priv *priv = file_priv->driver_priv;
- 	struct drm_panfrost_madvise *args = data;
--	struct panfrost_device *pfdev = dev->dev_private;
- 	struct drm_gem_object *gem_obj;
- 	struct panfrost_gem_object *bo;
- 	int ret = 0;
-@@ -407,11 +405,15 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 
- 	bo = to_panfrost_bo(gem_obj);
- 
-+	if (bo->is_heap) {
-+		args->retained = 1;
-+		goto out_put_object;
-+	}
-+
- 	ret = dma_resv_lock_interruptible(bo->base.base.resv, NULL);
- 	if (ret)
- 		goto out_put_object;
- 
--	mutex_lock(&pfdev->shrinker_lock);
- 	mutex_lock(&bo->mappings.lock);
- 	if (args->madv == PANFROST_MADV_DONTNEED) {
- 		struct panfrost_gem_mapping *first;
-@@ -437,17 +439,8 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
- 
- 	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
- 
--	if (args->retained) {
--		if (args->madv == PANFROST_MADV_DONTNEED)
--			list_move_tail(&bo->base.madv_list,
--				       &pfdev->shrinker_list);
--		else if (args->madv == PANFROST_MADV_WILLNEED)
--			list_del_init(&bo->base.madv_list);
--	}
--
- out_unlock_mappings:
- 	mutex_unlock(&bo->mappings.lock);
--	mutex_unlock(&pfdev->shrinker_lock);
- 	dma_resv_unlock(bo->base.base.resv);
- out_put_object:
- 	drm_gem_object_put(gem_obj);
-@@ -579,9 +572,6 @@ static int panfrost_probe(struct platform_device *pdev)
- 	ddev->dev_private = pfdev;
- 	pfdev->ddev = ddev;
- 
--	mutex_init(&pfdev->shrinker_lock);
--	INIT_LIST_HEAD(&pfdev->shrinker_list);
--
- 	err = panfrost_device_init(pfdev);
- 	if (err) {
- 		if (err != -EPROBE_DEFER)
-@@ -603,10 +593,14 @@ static int panfrost_probe(struct platform_device *pdev)
- 	if (err < 0)
- 		goto err_out1;
- 
--	panfrost_gem_shrinker_init(ddev);
-+	err = drmm_gem_shmem_init(ddev);
-+	if (err < 0)
-+		goto err_out2;
- 
- 	return 0;
- 
-+err_out2:
-+	drm_dev_unregister(ddev);
- err_out1:
- 	pm_runtime_disable(pfdev->dev);
- 	panfrost_device_fini(pfdev);
-@@ -622,7 +616,6 @@ static int panfrost_remove(struct platform_device *pdev)
- 	struct drm_device *ddev = pfdev->ddev;
- 
- 	drm_dev_unregister(ddev);
--	panfrost_gem_shrinker_cleanup(ddev);
- 
- 	pm_runtime_get_sync(pfdev->dev);
- 	pm_runtime_disable(pfdev->dev);
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 3c812fbd126f..08d795c28b4e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -19,16 +19,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
- 	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
- 	struct panfrost_device *pfdev = obj->dev->dev_private;
- 
--	/*
--	 * Make sure the BO is no longer inserted in the shrinker list before
--	 * taking care of the destruction itself. If we don't do that we have a
--	 * race condition between this function and what's done in
--	 * panfrost_gem_shrinker_scan().
--	 */
--	mutex_lock(&pfdev->shrinker_lock);
--	list_del_init(&bo->base.madv_list);
--	mutex_unlock(&pfdev->shrinker_lock);
--
- 	/*
- 	 * If we still have mappings attached to the BO, there's a problem in
- 	 * our refcounting.
-@@ -195,6 +185,25 @@ static int panfrost_gem_pin(struct drm_gem_object *obj)
- 	return drm_gem_shmem_pin(&bo->base);
- }
- 
-+static int panfrost_shmem_evict(struct drm_gem_object *obj)
-+{
-+	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-+
-+	if (!drm_gem_shmem_is_purgeable(&bo->base))
-+		return -EBUSY;
-+
-+	if (!mutex_trylock(&bo->mappings.lock))
-+		return -EBUSY;
-+
-+	panfrost_gem_teardown_mappings_locked(bo);
-+
-+	drm_gem_shmem_purge(&bo->base);
-+
-+	mutex_unlock(&bo->mappings.lock);
-+
-+	return 0;
-+}
-+
- static const struct drm_gem_object_funcs panfrost_gem_funcs = {
- 	.free = panfrost_gem_free_object,
- 	.open = panfrost_gem_open,
-@@ -207,6 +216,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
- 	.vunmap = drm_gem_shmem_object_vunmap,
- 	.mmap = drm_gem_shmem_object_mmap,
- 	.vm_ops = &drm_gem_shmem_vm_ops,
-+	.evict = panfrost_shmem_evict,
- };
- 
- /**
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-index ad2877eeeccd..6ad1bcedb932 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-@@ -30,12 +30,6 @@ struct panfrost_gem_object {
- 		struct mutex lock;
- 	} mappings;
- 
--	/*
--	 * Count the number of jobs referencing this BO so we don't let the
--	 * shrinker reclaim this object prematurely.
--	 */
--	atomic_t gpu_usecount;
--
- 	bool noexec		:1;
- 	bool is_heap		:1;
- };
-@@ -81,7 +75,4 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
- void panfrost_gem_mapping_put(struct panfrost_gem_mapping *mapping);
- void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo);
- 
--void panfrost_gem_shrinker_init(struct drm_device *dev);
--void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
--
- #endif /* __PANFROST_GEM_H__ */
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-deleted file mode 100644
-index 865a989d67c8..000000000000
---- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
-+++ /dev/null
-@@ -1,129 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Copyright (C) 2019 Arm Ltd.
-- *
-- * Based on msm_gem_freedreno.c:
-- * Copyright (C) 2016 Red Hat
-- * Author: Rob Clark <robdclark@gmail.com>
-- */
--
--#include <linux/list.h>
--
--#include <drm/drm_device.h>
--#include <drm/drm_gem_shmem_helper.h>
--
--#include "panfrost_device.h"
--#include "panfrost_gem.h"
--#include "panfrost_mmu.h"
--
--static bool panfrost_gem_shmem_is_purgeable(struct drm_gem_shmem_object *shmem)
--{
--	return (shmem->madv > 0) &&
--		!shmem->pages_pin_count && shmem->sgt &&
--		!shmem->base.dma_buf && !shmem->base.import_attach;
--}
--
--static unsigned long
--panfrost_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
--{
--	struct panfrost_device *pfdev =
--		container_of(shrinker, struct panfrost_device, shrinker);
--	struct drm_gem_shmem_object *shmem;
--	unsigned long count = 0;
--
--	if (!mutex_trylock(&pfdev->shrinker_lock))
--		return 0;
--
--	list_for_each_entry(shmem, &pfdev->shrinker_list, madv_list) {
--		if (panfrost_gem_shmem_is_purgeable(shmem))
--			count += shmem->base.size >> PAGE_SHIFT;
--	}
--
--	mutex_unlock(&pfdev->shrinker_lock);
--
--	return count;
--}
--
--static bool panfrost_gem_purge(struct drm_gem_object *obj)
--{
--	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
--	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
--	bool ret = false;
--
--	if (atomic_read(&bo->gpu_usecount))
--		return false;
--
--	if (!mutex_trylock(&bo->mappings.lock))
--		return false;
--
--	if (!dma_resv_trylock(shmem->base.resv))
--		goto unlock_mappings;
--
--	panfrost_gem_teardown_mappings_locked(bo);
--	drm_gem_shmem_purge(&bo->base);
--	ret = true;
--
--	dma_resv_unlock(shmem->base.resv);
--
--unlock_mappings:
--	mutex_unlock(&bo->mappings.lock);
--	return ret;
--}
--
--static unsigned long
--panfrost_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
--{
--	struct panfrost_device *pfdev =
--		container_of(shrinker, struct panfrost_device, shrinker);
--	struct drm_gem_shmem_object *shmem, *tmp;
--	unsigned long freed = 0;
--
--	if (!mutex_trylock(&pfdev->shrinker_lock))
--		return SHRINK_STOP;
--
--	list_for_each_entry_safe(shmem, tmp, &pfdev->shrinker_list, madv_list) {
--		if (freed >= sc->nr_to_scan)
--			break;
--		if (drm_gem_shmem_is_purgeable(shmem) &&
--		    panfrost_gem_purge(&shmem->base)) {
--			freed += shmem->base.size >> PAGE_SHIFT;
--			list_del_init(&shmem->madv_list);
--		}
--	}
--
--	mutex_unlock(&pfdev->shrinker_lock);
--
--	if (freed > 0)
--		pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
--
--	return freed;
--}
--
--/**
-- * panfrost_gem_shrinker_init - Initialize panfrost shrinker
-- * @dev: DRM device
-- *
-- * This function registers and sets up the panfrost shrinker.
-- */
--void panfrost_gem_shrinker_init(struct drm_device *dev)
--{
--	struct panfrost_device *pfdev = dev->dev_private;
--	pfdev->shrinker.count_objects = panfrost_gem_shrinker_count;
--	pfdev->shrinker.scan_objects = panfrost_gem_shrinker_scan;
--	pfdev->shrinker.seeks = DEFAULT_SEEKS;
--	WARN_ON(register_shrinker(&pfdev->shrinker, "drm-panfrost"));
--}
--
--/**
-- * panfrost_gem_shrinker_cleanup - Clean up panfrost shrinker
-- * @dev: DRM device
-- *
-- * This function unregisters the panfrost shrinker.
-- */
--void panfrost_gem_shrinker_cleanup(struct drm_device *dev)
--{
--	struct panfrost_device *pfdev = dev->dev_private;
--
--	if (pfdev->shrinker.nr_deferred) {
--		unregister_shrinker(&pfdev->shrinker);
--	}
--}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index dbc597ab46fb..98d9751d2b2c 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -272,6 +272,19 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
- 		dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
- }
- 
-+static int panfrost_objects_prepare(struct drm_gem_object **bos, int bo_count)
-+{
-+	struct panfrost_gem_object *bo;
-+	int ret = 0;
-+
-+	while (!ret && bo_count--) {
-+		bo = to_panfrost_bo(bos[bo_count]);
-+		ret = bo->base.madv ? -ENOMEM : 0;
-+	}
-+
-+	return ret;
-+}
-+
- int panfrost_job_push(struct panfrost_job *job)
- {
- 	struct panfrost_device *pfdev = job->pfdev;
-@@ -283,6 +296,10 @@ int panfrost_job_push(struct panfrost_job *job)
- 	if (ret)
- 		return ret;
- 
-+	ret = panfrost_objects_prepare(job->bos, job->bo_count);
-+	if (ret)
-+		goto unlock;
-+
- 	mutex_lock(&pfdev->sched_lock);
- 	drm_sched_job_arm(&job->base);
- 
-@@ -324,7 +341,6 @@ static void panfrost_job_cleanup(struct kref *ref)
- 			if (!job->mappings[i])
- 				break;
- 
--			atomic_dec(&job->mappings[i]->obj->gpu_usecount);
- 			panfrost_gem_mapping_put(job->mappings[i]);
- 		}
- 		kvfree(job->mappings);
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 61aaacc6cb99..bdd4b7402355 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -59,13 +59,6 @@ struct drm_gem_shmem_object {
- 	 */
- 	int madv;
- 
--	/**
--	 * @madv_list: List entry for madvise tracking
--	 *
--	 * Typically used by drivers to track purgeable objects
--	 */
--	struct list_head madv_list;
--
- 	/**
- 	 * @sgt: Scatter/gather table for imported PRIME buffers
- 	 */
+[auto build test WARNING on drm-tip/drm-tip]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm/drm-next drm-exynos/exynos-drm-next drm-misc/drm-misc-next linus/master v6.3-rc2 next-20230310]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashutosh-Dixit/drm-i915-guc-Disable-PL1-power-limit-when-loading-GuC-firmware/20230314-075114
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230313234936.2005565-1-ashutosh.dixit%40intel.com
+patch subject: [PATCH v2] drm/i915/guc: Disable PL1 power limit when loading GuC firmware
+config: x86_64-randconfig-a016-20230313 (https://download.01.org/0day-ci/archive/20230314/202303141032.GnWWCyaD-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/931e5a87acb79926043e557341fb0dfd68a9b88d
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ashutosh-Dixit/drm-i915-guc-Disable-PL1-power-limit-when-loading-GuC-firmware/20230314-075114
+        git checkout 931e5a87acb79926043e557341fb0dfd68a9b88d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303141032.GnWWCyaD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/gt/uc/intel_uc.c:483:6: warning: variable 'pl1en' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (ret)
+               ^~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:572:28: note: uninitialized use occurs here
+           hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
+                                     ^~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:483:2: note: remove the 'if' if its condition is always false
+           if (ret)
+           ^~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:474:6: warning: variable 'pl1en' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (!intel_uc_fw_is_loadable(&guc->fw)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:572:28: note: uninitialized use occurs here
+           hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
+                                     ^~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:474:2: note: remove the 'if' if its condition is always false
+           if (!intel_uc_fw_is_loadable(&guc->fw)) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gt/uc/intel_uc.c:464:26: note: initialize the variable 'pl1en' to silence this warning
+           int ret, attempts, pl1en;
+                                   ^
+                                    = 0
+   2 warnings generated.
+
+
+vim +483 drivers/gpu/drm/i915/gt/uc/intel_uc.c
+
+afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  457  
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  458  static int __uc_init_hw(struct intel_uc *uc)
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  459  {
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  460  	struct intel_gt *gt = uc_to_gt(uc);
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  461  	struct drm_i915_private *i915 = gt->i915;
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  462  	struct intel_guc *guc = &uc->guc;
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  463  	struct intel_huc *huc = &uc->huc;
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  464  	int ret, attempts, pl1en;
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  465  
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  466  	GEM_BUG_ON(!intel_uc_supports_guc(uc));
+bfe5a40a7b9a96 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2020-02-18  467  	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+356c484822e6ac drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-16  468  
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  469  	print_fw_ver(gt, &guc->fw);
+afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  470  
+afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  471  	if (intel_uc_uses_huc(uc))
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  472  		print_fw_ver(gt, &huc->fw);
+afd088ac05f120 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2022-01-06  473  
+42f96e5bd41e91 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2020-02-18  474  	if (!intel_uc_fw_is_loadable(&guc->fw)) {
+6fbeda0bfd210f drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2020-01-10  475  		ret = __uc_check_hw(uc) ||
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  476  		      intel_uc_fw_is_overridden(&guc->fw) ||
+202c98e7169248 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2020-02-18  477  		      intel_uc_wants_guc_submission(uc) ?
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  478  		      intel_uc_fw_status_to_error(guc->fw.status) : 0;
+ae7a3166a708be drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  479  		goto err_out;
+ae7a3166a708be drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  480  	}
+ae7a3166a708be drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  481  
+63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30  482  	ret = uc_init_wopcm(uc);
+63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30 @483  	if (ret)
+63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30  484  		goto err_out;
+63064d822c964c drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-30  485  
+e5a1ad035938e6 drivers/gpu/drm/i915/gt/uc/intel_uc.c Matthew Brost          2021-07-26  486  	intel_guc_reset_interrupts(guc);
+61b5c1587dd82a drivers/gpu/drm/i915/intel_uc.c       Michał Winiarski       2017-12-13  487  
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  488  	/* WaEnableuKernelHeaderValidFix:skl */
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  489  	/* WaEnableGuCBootHashCheckNotSet:skl,bxt,kbl */
+c816723b6b8a62 drivers/gpu/drm/i915/gt/uc/intel_uc.c Lucas De Marchi        2021-06-05  490  	if (GRAPHICS_VER(i915) == 9)
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  491  		attempts = 3;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  492  	else
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  493  		attempts = 1;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  494  
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  495  	/* Disable PL1 limit before raising freq */
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  496  	hwm_power_max_disable(gt, &pl1en);
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  497  
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  498  	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  499  
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  500  	while (attempts--) {
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  501  		/*
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  502  		 * Always reset the GuC just before (re)loading, so
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  503  		 * that the state and timing are fairly predictable
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  504  		 */
+771051eaa74661 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-02  505  		ret = __uc_sanitize(uc);
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  506  		if (ret)
+61b5c1587dd82a drivers/gpu/drm/i915/intel_uc.c       Michał Winiarski       2017-12-13  507  			goto err_out;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  508  
+a8dc0f6d187bcc drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  509  		intel_huc_fw_upload(huc);
+386e300fe9fae7 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2019-05-27  510  		intel_guc_ads_reset(guc);
+2bf8fb39eb70b6 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-24  511  		intel_guc_write_params(guc);
+e8668bbcb0f91c drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-10-16  512  		ret = intel_guc_fw_upload(guc);
+52b832606038c5 drivers/gpu/drm/i915/intel_uc.c       Robert M. Fosha        2019-03-29  513  		if (ret == 0)
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  514  			break;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  515  
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  516  		gt_dbg(gt, "GuC fw load failed (%pe) will reset and retry %d more time(s)\n",
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  517  		       ERR_PTR(ret), attempts);
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  518  	}
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  519  
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  520  	/* Did we succeded or run out of retries? */
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  521  	if (ret)
+ac58d2ab0ad9c8 drivers/gpu/drm/i915/intel_uc.c       Daniele Ceraolo Spurio 2017-05-22  522  		goto err_log_capture;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  523  
+789a625158b0c0 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-05-02  524  	ret = guc_enable_communication(guc);
+789a625158b0c0 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-05-02  525  	if (ret)
+ac58d2ab0ad9c8 drivers/gpu/drm/i915/intel_uc.c       Daniele Ceraolo Spurio 2017-05-22  526  		goto err_log_capture;
+789a625158b0c0 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-05-02  527  
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  528  	/*
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  529  	 * GSC-loaded HuC is authenticated by the GSC, so we don't need to
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  530  	 * trigger the auth here. However, given that the HuC loaded this way
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  531  	 * survive GT reset, we still need to update our SW bookkeeping to make
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  532  	 * sure it reflects the correct HW status.
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  533  	 */
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  534  	if (intel_huc_is_loaded_by_gsc(huc))
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  535  		intel_huc_update_auth_status(huc);
+6f67930af78f10 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2022-05-04  536  	else
+a8dc0f6d187bcc drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  537  		intel_huc_auth(huc);
+0dfa1cee613e03 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-12-06  538  
+cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  539  	if (intel_uc_uses_guc_submission(uc)) {
+cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  540  		ret = intel_guc_submission_enable(guc);
+cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  541  		if (ret)
+cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  542  			goto err_log_capture;
+cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-17  543  	}
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  544  
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  545  	if (intel_uc_uses_guc_slpc(uc)) {
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  546  		ret = intel_guc_slpc_enable(&guc->slpc);
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  547  		if (ret)
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  548  			goto err_submission;
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  549  	} else {
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  550  		/* Restore GT back to RPn for non-SLPC path */
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  551  		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  552  	}
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  553  
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  554  	hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  555  
+4fd4fde8e42e16 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-06  556  	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
+4fd4fde8e42e16 drivers/gpu/drm/i915/gt/uc/intel_uc.c John Harrison          2023-02-06  557  	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  558  
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  559  	return 0;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  560  
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  561  	/*
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  562  	 * We've failed to load the firmware :(
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  563  	 */
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  564  err_submission:
+63c0eb30bfe926 drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-07-30  565  	intel_guc_submission_disable(guc);
+ac58d2ab0ad9c8 drivers/gpu/drm/i915/intel_uc.c       Daniele Ceraolo Spurio 2017-05-22  566  err_log_capture:
+32ff76e80c2400 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-02  567  	__uc_capture_load_err_log(uc);
+121981fafe699d drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2017-12-06  568  err_out:
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  569  	/* Return GT back to RPn */
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  570  	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+1c40d40f6835cd drivers/gpu/drm/i915/gt/uc/intel_uc.c Vinay Belgaumkar       2021-12-16  571  
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  572  	hwm_power_max_restore(gt, pl1en); /* Restore PL1 limit */
+931e5a87acb799 drivers/gpu/drm/i915/gt/uc/intel_uc.c Ashutosh Dixit         2023-03-13  573  
+ca7b2c1bbede61 drivers/gpu/drm/i915/gt/uc/intel_uc.c Daniele Ceraolo Spurio 2019-07-13  574  	__uc_sanitize(uc);
+89195bab5d8c54 drivers/gpu/drm/i915/intel_uc.c       Michal Wajdeczko       2019-05-22  575  
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  576  	if (!ret) {
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  577  		gt_notice(gt, "GuC is uninitialized\n");
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  578  		/* We want to run without GuC submission */
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  579  		return 0;
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  580  	}
+ee402140274e87 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-18  581  
+2f8c06cb6622b5 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2023-01-28  582  	gt_probe_error(gt, "GuC initialization failed %pe\n", ERR_PTR(ret));
+a5f978c3609f02 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  583  
+a5f978c3609f02 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  584  	/* We want to keep KMS alive */
+a5f978c3609f02 drivers/gpu/drm/i915/gt/uc/intel_uc.c Michal Wajdeczko       2019-08-11  585  	return -EIO;
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  586  }
+6cd5a72c357732 drivers/gpu/drm/i915/intel_uc.c       Arkadiusz Hiler        2017-03-14  587  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
