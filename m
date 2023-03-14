@@ -1,40 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0D96B96A7
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 14:45:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D40566B9728
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 15:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8642210E7EF;
-	Tue, 14 Mar 2023 13:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C8D10E801;
+	Tue, 14 Mar 2023 14:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2098310E7ED
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 13:45:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1678801532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i/T9c4oh6jhKm3lkBJe8ywcuorjh7EGMXCUOVMZ96g4=;
- b=sWxk1PG1Pj5OVsatfswgHlPo2d7i9shtR7gtMsjiz0b3pgfUVFGMhR2XguF0dGXLfgqxIv
- /pfjgergo3cA2BFSzTGr63cEfraGKSOVTaMjche3PqXUT+mf+gub+YwDmRsRR4MZ4x1GVR
- +kEJB+xpbYLyHUxAVLKOkW1SwEmjG28=
-Message-ID: <861288e8c685eb9cbbf9f71cd031e7015de3aced.camel@crapouillou.net>
-Subject: Re: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
-From: Paul Cercueil <paul@crapouillou.net>
-To: kernel test robot <lkp@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Date: Tue, 14 Mar 2023 14:45:19 +0100
-In-Reply-To: <202303142140.ZQsw4C4V-lkp@intel.com>
-References: <20230314105257.17345-3-paul@crapouillou.net>
- <202303142140.ZQsw4C4V-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B9010E177;
+ Tue, 14 Mar 2023 14:04:21 +0000 (UTC)
+Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
+ [94.211.6.86])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 2088920145;
+ Tue, 14 Mar 2023 15:04:19 +0100 (CET)
+Date: Tue, 14 Mar 2023 15:04:15 +0100
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v4 07/10] drm/msm/dsi: Remove custom DSI config handling
+Message-ID: <20230314140415.4aensrq6ntj3j25w@SoMainline.org>
+References: <20230307-topic-dsi_qcm-v4-0-54b4898189cb@linaro.org>
+ <20230307-topic-dsi_qcm-v4-7-54b4898189cb@linaro.org>
+ <20230314130522.wimbrf7d6lqwdbgz@SoMainline.org>
+ <441030fa-afcb-8e5f-ea5a-f467d9d11937@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <441030fa-afcb-8e5f-ea5a-f467d9d11937@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,75 +44,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: michael.hennerich@analog.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nuno.sa@analog.com, linaro-mm-sig@lists.linaro.org,
- oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgbWFyZGkgMTQgbWFycyAyMDIzIMOgIDIxOjQxICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCBh
-IMOpY3JpdMKgOgo+IEhpIFBhdWwsCj4gCj4gSSBsb3ZlIHlvdXIgcGF0Y2ghIFBlcmhhcHMgc29t
-ZXRoaW5nIHRvIGltcHJvdmU6Cj4gCj4gW2F1dG8gYnVpbGQgdGVzdCBXQVJOSU5HIG9uIHVzYi91
-c2ItdGVzdGluZ10KPiBbYWxzbyBidWlsZCB0ZXN0IFdBUk5JTkcgb24gdXNiL3VzYi1uZXh0IHVz
-Yi91c2ItbGludXMgbGludXMvbWFzdGVyCj4gdjYuMy1yYzIgbmV4dC0yMDIzMDMxNF0KPiBbSWYg
-eW91ciBwYXRjaCBpcyBhcHBsaWVkIHRvIHRoZSB3cm9uZyBnaXQgdHJlZSwga2luZGx5IGRyb3Ag
-dXMgYQo+IG5vdGUuCj4gQW5kIHdoZW4gc3VibWl0dGluZyBwYXRjaCwgd2Ugc3VnZ2VzdCB0byB1
-c2UgJy0tYmFzZScgYXMgZG9jdW1lbnRlZAo+IGluCj4gaHR0cHM6Ly9naXQtc2NtLmNvbS9kb2Nz
-L2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2VfdHJlZV9pbmZvcm1hdGlvbl0KPiAKPiB1cmw6wqDCoMKg
-Cj4gaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0cy9QYXVsLUNl
-cmN1ZWlsL3VzYi1nYWRnZXQtU3VwcG9ydC1hbHJlYWR5LW1hcHBlZC1ETUEtU0dzLzIwMjMwMzE0
-LTE4NTUyMgo+IGJhc2U6wqDCoAo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51
-eC9rZXJuZWwvZ2l0L2dyZWdraC91c2IuZ2l0wqB1c2ItCj4gdGVzdGluZwo+IHBhdGNoIGxpbms6
-wqDCoMKgCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDIzMDMxNDEwNTI1Ny4xNzM0NS0z
-LXBhdWwlNDBjcmFwb3VpbGxvdS5uZXQKPiBwYXRjaCBzdWJqZWN0OiBbUEFUQ0ggMi8yXSB1c2I6
-IGdhZGdldDogZnVuY3Rpb25mczogQWRkIERNQUJVRiBpbXBvcnQKPiBpbnRlcmZhY2UKPiBjb25m
-aWc6IG02OGstYWxseWVzY29uZmlnCj4gKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kv
-YXJjaGl2ZS8yMDIzMDMxNC8yMDIzMDMxNDIxNDAuWlFzdzRDCj4gNFYtbGtwQGludGVsLmNvbS9j
-b25maWcpCj4gY29tcGlsZXI6IG02OGstbGludXgtZ2NjIChHQ0MpIDEyLjEuMAo+IHJlcHJvZHVj
-ZSAodGhpcyBpcyBhIFc9MSBidWlsZCk6Cj4gwqDCoMKgwqDCoMKgwqAgd2dldAo+IGh0dHBzOi8v
-cmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9pbnRlbC9sa3AtdGVzdHMvbWFzdGVyL3NiaW4vbWFr
-ZS5jcm9zcwo+IMKgLU8gfi9iaW4vbWFrZS5jcm9zcwo+IMKgwqDCoMKgwqDCoMKgIGNobW9kICt4
-IH4vYmluL21ha2UuY3Jvc3MKPiDCoMKgwqDCoMKgwqDCoCAjCj4gaHR0cHM6Ly9naXRodWIuY29t
-L2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0LzRlZTM2NGVkNWQxMTJjNDU1MDM0NGZkMDM3ZjRl
-MWVmN2NjNDE4NzgKPiDCoMKgwqDCoMKgwqDCoCBnaXQgcmVtb3RlIGFkZCBsaW51eC1yZXZpZXcK
-PiBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwtbGFiLWxrcC9saW51eAo+IMKgwqDCoMKgwqDCoMKg
-IGdpdCBmZXRjaCAtLW5vLXRhZ3MgbGludXgtcmV2aWV3IFBhdWwtQ2VyY3VlaWwvdXNiLWdhZGdl
-dC0KPiBTdXBwb3J0LWFscmVhZHktbWFwcGVkLURNQS1TR3MvMjAyMzAzMTQtMTg1NTIyCj4gwqDC
-oMKgwqDCoMKgwqAgZ2l0IGNoZWNrb3V0IDRlZTM2NGVkNWQxMTJjNDU1MDM0NGZkMDM3ZjRlMWVm
-N2NjNDE4NzgKPiDCoMKgwqDCoMKgwqDCoCAjIHNhdmUgdGhlIGNvbmZpZyBmaWxlCj4gwqDCoMKg
-wqDCoMKgwqAgbWtkaXIgYnVpbGRfZGlyICYmIGNwIGNvbmZpZyBidWlsZF9kaXIvLmNvbmZpZwo+
-IMKgwqDCoMKgwqDCoMKgIENPTVBJTEVSX0lOU1RBTExfUEFUSD0kSE9NRS8wZGF5IENPTVBJTEVS
-PWdjYy0xMi4xLjAKPiBtYWtlLmNyb3NzIFc9MSBPPWJ1aWxkX2RpciBBUkNIPW02OGsgb2xkZGVm
-Y29uZmlnCj4gwqDCoMKgwqDCoMKgwqAgQ09NUElMRVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkg
-Q09NUElMRVI9Z2NjLTEyLjEuMAo+IG1ha2UuY3Jvc3MgVz0xIE89YnVpbGRfZGlyIEFSQ0g9bTY4
-ayBTSEVMTD0vYmluL2Jhc2ggZHJpdmVycy91c2IvCj4gCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUs
-IGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZyB3aGVyZSBhcHBsaWNhYmxlCj4gPiBSZXBvcnRlZC1i
-eToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cj4gPiBMaW5rOgo+ID4gaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDIzMDMxNDIxNDAuWlFzdzRDNFYtbGtw
-QGludGVsLmNvbS8KPiAKPiBBbGwgd2FybmluZ3MgKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+KToK
-PiAKPiA+ID4gZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL2ZfZnMuYzoxNDAxOjU6IHdhcm5p
-bmc6IG5vIHByZXZpb3VzCj4gPiA+IHByb3RvdHlwZSBmb3IgJ2Zmc19kbWFfcmVzdl9sb2NrJyBb
-LVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gwqDCoMKgIDE0MDEgfCBpbnQgZmZzX2RtYV9yZXN2X2xv
-Y2soc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwgYm9vbAo+IG5vbmJsb2NrKQo+IMKgwqDCoMKgwqDC
-oMKgwqAgfMKgwqDCoMKgIF5+fn5+fn5+fn5+fn5+fn5+CgpJbmRlZWQsIG1pc3NpbmcgYSAic3Rh
-dGljIiBoZXJlLiBUaGFuayB5b3UgUm9ib3QuCgpDaGVlcnMsCi1QYXVsCgo+IAo+IAo+IHZpbSAr
-L2Zmc19kbWFfcmVzdl9sb2NrICsxNDAxIGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2Zz
-LmMKPiAKPiDCoCAxNDAwwqDCoAo+ID4gMTQwMcKgwqDCoMKgaW50IGZmc19kbWFfcmVzdl9sb2Nr
-KHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGJvb2wKPiA+IG5vbmJsb2NrKQo+IMKgIDE0MDLCoMKg
-ewo+IMKgIDE0MDPCoMKgwqDCoMKgwqDCoMKgwqDCoGludCByZXQ7Cj4gwqAgMTQwNMKgwqAKPiDC
-oCAxNDA1wqDCoMKgwqDCoMKgwqDCoMKgwqByZXQgPSBkbWFfcmVzdl9sb2NrX2ludGVycnVwdGli
-bGUoZG1hYnVmLT5yZXN2LAo+IE5VTEwpOwo+IMKgIDE0MDbCoMKgwqDCoMKgwqDCoMKgwqDCoGlm
-IChyZXQpIHsKPiDCoCAxNDA3wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaWYg
-KHJldCAhPSAtRURFQURMSykKPiDCoCAxNDA4wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gb3V0Owo+IMKgIDE0MDnCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAobm9uYmxvY2spIHsKPiDCoCAxNDEwwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IC1FQlVTWTsKPiDC
-oCAxNDExwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oGdvdG8gb3V0Owo+IMKgIDE0MTLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9
-Cj4gwqAgMTQxM8KgwqAKPiDCoCAxNDE0wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgcmV0ID0KPiBkbWFfcmVzdl9sb2NrX3Nsb3dfaW50ZXJydXB0aWJsZShkbWFidWYtPnJlc3Ys
-IE5VTEwpOwo+IMKgIDE0MTXCoMKgwqDCoMKgwqDCoMKgwqDCoH0KPiDCoCAxNDE2wqDCoAo+IMKg
-IDE0MTfCoMKgb3V0Ogo+IMKgIDE0MTjCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiByZXQ7Cj4g
-wqAgMTQxOcKgwqB9Cj4gwqAgMTQyMMKgwqAKPiAKCg==
+On 2023-03-14 14:44:06, Konrad Dybcio wrote:
+> 
+> 
+> On 14.03.2023 14:05, Marijn Suijten wrote:
+> > On 2023-03-14 13:13:45, Konrad Dybcio wrote:
+> >> Now that the only user is handled by common code, remove the option to
+> >> specify custom handlers through match data.
+> >>
+> >> This is effectively a revert of commit:
+> >> 5ae15e76271 ("drm/msm/dsi: Allow to specify dsi config as pdata")
+> >>
+> >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> >> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> >> ---
+> [...]
+> >> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+> >> index 8772a3631ac1..91bdaf50bb1a 100644
+> >> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+> >> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+> >> @@ -65,8 +65,5 @@ struct msm_dsi_cfg_handler {
+> >>  
+> >>  const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor);
+> >>  
+> >> -/* Non autodetect configs */
+> >> -extern const struct msm_dsi_cfg_handler qcm2290_dsi_cfg_handler;
+> >> -
+> > 
+> > Probably the wrong `fixup!` commit: this should have been part of patch
+> > 6 where the struct is removed, not patch 7 (this patch).
+> Yeah, that's most likely what happened.. Does that warrant another resend?
 
+For proper cleanliness it should have been... but maybe Dmitry can patch
+this up while applying?  In that case, at least have my:
+
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
