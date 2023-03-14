@@ -1,31 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 081BC6B8AB4
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 06:42:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F2D6B8AB3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 06:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 675AD10E701;
-	Tue, 14 Mar 2023 05:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65C4210E6FB;
+	Tue, 14 Mar 2023 05:42:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-111.freemail.mail.aliyun.com
- (out30-111.freemail.mail.aliyun.com [115.124.30.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BFFC10E6FA
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 05:42:26 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
- MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VdqmRdO_1678772542; 
+Received: from out30-133.freemail.mail.aliyun.com
+ (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81AB310E6FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 05:42:29 +0000 (UTC)
 Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
- fp:SMTPD_---0VdqmRdO_1678772542) by smtp.aliyun-inc.com;
- Tue, 14 Mar 2023 13:42:23 +0800
+ fp:SMTPD_---0VdqljY2_1678772543) by smtp.aliyun-inc.com;
+ Tue, 14 Mar 2023 13:42:24 +0800
 From: Yang Li <yang.lee@linux.alibaba.com>
 To: deller@gmx.de
-Subject: [PATCH -next 2/3] video: fbdev: wm8505fb: Use
- devm_platform_ioremap_resource()
-Date: Tue, 14 Mar 2023 13:42:18 +0800
-Message-Id: <20230314054219.80441-2-yang.lee@linux.alibaba.com>
+Subject: [PATCH -next 3/3] video: fbdev: xilinxfb: Use
+ devm_platform_get_and_ioremap_resource()
+Date: Tue, 14 Mar 2023 13:42:19 +0800
+Message-Id: <20230314054219.80441-3-yang.lee@linux.alibaba.com>
 X-Mailer: git-send-email 2.20.1.7.g153144c
 In-Reply-To: <20230314054219.80441-1-yang.lee@linux.alibaba.com>
 References: <20230314054219.80441-1-yang.lee@linux.alibaba.com>
@@ -48,38 +44,30 @@ Cc: linux-fbdev@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to commit 7945f929f1a7 ("drivers: provide
-devm_platform_ioremap_resource()"), convert platform_get_resource(),
-devm_ioremap_resource() to a single call to Use
-devm_platform_ioremap_resource(), as this is exactly what this function
-does.
+According to commit 890cc39a8799 ("drivers: provide
+devm_platform_get_and_ioremap_resource()"), convert
+platform_get_resource(), devm_ioremap_resource() to a single
+call to devm_platform_get_and_ioremap_resource(), as this is exactly
+what this function does.
 
 Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/video/fbdev/wm8505fb.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/video/fbdev/xilinxfb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/wm8505fb.c b/drivers/video/fbdev/wm8505fb.c
-index 8f4d674fa0d0..96a6f7623e19 100644
---- a/drivers/video/fbdev/wm8505fb.c
-+++ b/drivers/video/fbdev/wm8505fb.c
-@@ -261,7 +261,6 @@ static const struct fb_ops wm8505fb_ops = {
- static int wm8505fb_probe(struct platform_device *pdev)
- {
- 	struct wm8505fb_info	*fbi;
--	struct resource	*res;
- 	struct display_timings *disp_timing;
- 	void			*addr;
- 	int ret;
-@@ -299,8 +298,7 @@ static int wm8505fb_probe(struct platform_device *pdev)
- 	addr = addr + sizeof(struct wm8505fb_info);
- 	fbi->fb.pseudo_palette	= addr;
+diff --git a/drivers/video/fbdev/xilinxfb.c b/drivers/video/fbdev/xilinxfb.c
+index c17cfffd9a84..7911354827dc 100644
+--- a/drivers/video/fbdev/xilinxfb.c
++++ b/drivers/video/fbdev/xilinxfb.c
+@@ -273,8 +273,7 @@ static int xilinxfb_assign(struct platform_device *pdev,
+ 	if (drvdata->flags & BUS_ACCESS_FLAG) {
+ 		struct resource *res;
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	fbi->regbase = devm_ioremap_resource(&pdev->dev, res);
-+	fbi->regbase = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(fbi->regbase))
- 		return PTR_ERR(fbi->regbase);
+-		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-		drvdata->regs = devm_ioremap_resource(&pdev->dev, res);
++		drvdata->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 		if (IS_ERR(drvdata->regs))
+ 			return PTR_ERR(drvdata->regs);
  
 -- 
 2.20.1.7.g153144c
