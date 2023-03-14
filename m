@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6961E6B9F5E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 20:08:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B28A6B9F63
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 20:11:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2B310E88A;
-	Tue, 14 Mar 2023 19:08:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE7B10E899;
+	Tue, 14 Mar 2023 19:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF22510E88A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 19:08:38 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDAC510E89A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 19:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678820918;
+ s=mimecast20190719; t=1678821074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lNWYgyqpL0kkvls3E2pegU9Km1BHkvTF5mInuI5lUZI=;
- b=aFhwTl0PUzv/wsUYqS6QqmDq3DraQy6KBy6SW2S4d+aOwzbpAU7SDpuqzXjzTX/HsFF75j
- s/KlrdRTQ+kXpHmwLGu1BMPvJrYNGjixqHemkhyg2JW+vx0ljAW1WBZ7n8x8FKqs20D1Zj
- 9K9QWcr0KbGmLlM9XvhP20x8Fsm2v+k=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Nm5JlAixJNm8SOf2KMwlfPbY5E7UDjrHFGUB5x1Bt7s=;
+ b=AULyKBkkcURu0XlLosOCDf15VXciRDqotPL3HGOq+7byRO7Ev+dfHP6FmffBIEZB97yt20
+ z06+cWORiw58o4IV+Ho2LvcfrgYkCITr+8zRkK6e6dxodEtYbI5/OcJVCMlxkgzhhm3jV3
+ SJelWRjLlVDH5whzzdGVlg5rPRvyPHk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-303-TKo94e8cPcqzCUnUkYUoPA-1; Tue, 14 Mar 2023 15:08:36 -0400
-X-MC-Unique: TKo94e8cPcqzCUnUkYUoPA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- b8-20020a05600c4e0800b003ed2d729092so1154402wmq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 12:08:36 -0700 (PDT)
+ us-mta-256-fF2eXO4kNRC4LfPzu393Rg-1; Tue, 14 Mar 2023 15:11:11 -0400
+X-MC-Unique: fF2eXO4kNRC4LfPzu393Rg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o2-20020a05600c510200b003ed2c898324so1227347wms.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 12:11:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678820915;
+ d=1e100.net; s=20210112; t=1678821070;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lNWYgyqpL0kkvls3E2pegU9Km1BHkvTF5mInuI5lUZI=;
- b=OSfTNjsRgxVim/jfF+mu39uW+kSui4M4h2PCPk+Vwoc4a7AyX5W2tXpp8Avt2mQYhH
- wwn+AOyj6sDgBQQeZCF/wPhQcWY8fSFtCllYDMVMGArUo8dq4Vy858Z/3PvCYuGG5jNi
- t8G0iPzn+1e37Iao3mAGZDOWffG6AQ8PZon1ocQEWG7o8mynNIHZySDbb8uyANT7Dh3C
- ZmE7laLj2f+XRXz7P/qVvJ/cxF7SOJM56N9FyXeeP7rvlOTB1zlveT71Rdvx6SeKEcVS
- csoPZp38qWVlv/tj9LcfPf1uIhAkGVyuYUQY50gpq0keZDPf8IK7Kn+UgL4y8eq+tBhp
- 11AA==
-X-Gm-Message-State: AO0yUKX4M1N6/1IUUwTajfmAaJgMScwBtLprWSO/8RNU3s+nnzFxb7zH
- AWV8iUC5Xe/E2HrZtOsCHg/pecds2fe/wfQlCkvrAFbQIOmPx7IG6N8C02aFdr2647dvc8G+RFu
- KJITljsFDWX88AmDLWWj72QYAwOlh
-X-Received: by 2002:a05:600c:1f0f:b0:3df:ef18:b0a1 with SMTP id
- bd15-20020a05600c1f0f00b003dfef18b0a1mr16024963wmb.12.1678820915325; 
- Tue, 14 Mar 2023 12:08:35 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/oJ3kHP6b9+XZidTEo5Mltane1EZAOPkHWz7r0OSgAihZ1HZi+Eya7qoiaIl4nYclowLmInA==
-X-Received: by 2002:a05:600c:1f0f:b0:3df:ef18:b0a1 with SMTP id
- bd15-20020a05600c1f0f00b003dfef18b0a1mr16024944wmb.12.1678820915005; 
- Tue, 14 Mar 2023 12:08:35 -0700 (PDT)
+ bh=Nm5JlAixJNm8SOf2KMwlfPbY5E7UDjrHFGUB5x1Bt7s=;
+ b=BJ7DU4NO2F0hkVi6Rz/GzAqUe9gy1el3vDMzLTORg/k6IM00w0pvQV1tk/3X2D29V3
+ +Kmz+hzLwQHhgJ1Xkyx2b8B2ojmk/tbZK1v7kxR7xFO6Fqw60jqINWTgWJXeUMqlNPUS
+ 9jzLFDqYg3yNP9jmxNPYj6bvOdIfWqbeuv1MMOnfJF85zlCE5Wx65lpKOyYUc+Fj5eGh
+ L42kJa55iA7SgQzxjdOhdv2wKuyWnFKSBHYIgqBzw8q+4RxJYrCb8qLNwnnLchMuZK0x
+ WqPzgDS4sX/kqD1Gr8k/Cl/EcuINxrbD3Oj9qu3MmpHTQssf7zrUdqZGf1A5/Zmgo8r9
+ mILQ==
+X-Gm-Message-State: AO0yUKVFMjcBXLs4/UtC9H8s75PD4yLrO9LeOlop/JR+vMxAwFxCxk6G
+ h7Xp5MguLBfNq179Z2iYr81Hi0/8HinsZXPUiqkuzTC/qUEDwZJrCp6Xj3q60O71RdaNjDem5B4
+ nCJb4y+ypUIt6I1Q8B75h1CU1Fizz
+X-Received: by 2002:a05:600c:3553:b0:3ea:f6c4:5f2a with SMTP id
+ i19-20020a05600c355300b003eaf6c45f2amr14572234wmq.17.1678821070315; 
+ Tue, 14 Mar 2023 12:11:10 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8LTdhPeCHiIS9YDDGWYw5WywWzomh56UL3XD+dt5IrhPldW/vGnz6coFANySToj7wn9BrIug==
+X-Received: by 2002:a05:600c:3553:b0:3ea:f6c4:5f2a with SMTP id
+ i19-20020a05600c355300b003eaf6c45f2amr14572223wmq.17.1678821070063; 
+ Tue, 14 Mar 2023 12:11:10 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- n6-20020a7bcbc6000000b003ed2fb86f85sm1105291wmi.47.2023.03.14.12.08.34
+ t10-20020a1c770a000000b003e9ded91c27sm3767438wmi.4.2023.03.14.12.11.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 12:08:34 -0700 (PDT)
+ Tue, 14 Mar 2023 12:11:09 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 1/2] drm/format-helper: Add Kunit tests for
- drm_fb_xrgb8888_to_mono()
-In-Reply-To: <20230311125141.564801-2-arthurgrillo@riseup.net>
+Subject: Re: [PATCH v3 2/2] drm/format-helper: Make "destination_pitch" test
+ case usable for the monochrome case
+In-Reply-To: <20230311125141.564801-3-arthurgrillo@riseup.net>
 References: <20230311125141.564801-1-arthurgrillo@riseup.net>
- <20230311125141.564801-2-arthurgrillo@riseup.net>
-Date: Tue, 14 Mar 2023 20:08:33 +0100
-Message-ID: <87cz5b40cu.fsf@minerva.mail-host-address-is-not-set>
+ <20230311125141.564801-3-arthurgrillo@riseup.net>
+Date: Tue, 14 Mar 2023 20:11:09 +0100
+Message-ID: <87a60f408i.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -89,19 +89,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Arthur Grillo <arthurgrillo@riseup.net> writes:
 
-Hello Arthur,
-
-> Extend the existing test cases to test the conversion from XRGB8888 to
-> monochromatic.
+> This test case uses an arbitrary pitch size, different of the default
+> one, to test if the conversions methods obey.
+>
+> Change the "destination_pitch" colors to change the monochrome expected
+> result from being just zeros, as this makes the arbitrary pitch use
+> unusable.
 >
 > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > ---
 
-Patch looks good to me:
-
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
-Please let me know if you need someone to push this to the drm-misc tree.
 
 -- 
 Best regards,
