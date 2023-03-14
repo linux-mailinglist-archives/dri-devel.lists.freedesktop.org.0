@@ -1,51 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449586B9BDB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 17:41:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE206B9BE8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 17:43:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E28FF10E80B;
-	Tue, 14 Mar 2023 16:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF69210E188;
+	Tue, 14 Mar 2023 16:43:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5907210E188;
- Tue, 14 Mar 2023 16:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678812086; x=1710348086;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=Kavj2ZC1tyLBPrTUaz3HxM6qfeVURMkk0MyVlbxYicg=;
- b=THoyKBy975J0oUXlHFT6/h5x4hc2cJsQXvX5ShBWqAevukEVvnAOAL1O
- cXTbRLow1f0vWwqM9yDAxAVxviEMgpxvqbRTfI5wjlxEPgEQvvjSkudch
- 5GMIMHOlt9NO2S7mRdJgneod8aX0coYEe6/BJLOPOP8SB3sx00uFlxfKs
- W2eWAfj61hRzQF8Af3s7cvP/hKmzaXHSJ/aEVPdM3tWSH5jVZcFghYhKw
- 7czzrWUpLTP6Wto4NuU/IL3DkbujVafhDaiTxPHCV9G+amT8sjWhQOQS3
- QSB7Yni8Vwt62NDgab6YSN6g6OZEven0LejQTGaU2Fkm1uHzfLhHaCQrl A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="402345869"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; d="scan'208";a="402345869"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2023 09:41:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="768163491"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; d="scan'208";a="768163491"
-Received: from ideak-desk.fi.intel.com ([10.237.72.58])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2023 09:41:22 -0700
-Date: Tue, 14 Mar 2023 18:41:18 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] drm/i915/opregion: add missing intel_opregion_cleanup()
- dummy
-Message-ID: <ZBCjrsFd7PkWnBm/@ideak-desk.fi.intel.com>
-References: <20230314162523.631652-1-arnd@kernel.org>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC0610E188
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 16:43:11 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id j11so20790427lfg.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 09:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678812190;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8/TWjd4CBothCXIvTP9DgULpqkXSW7ceaVVJBiGEEwE=;
+ b=wnG3gjILLlyAswcJ1j7KdJKtUCwW4s99e3wcACD4beKplDdzwnlQ/XrrqgeYhupf/U
+ YNkbbTiIZtHSTgHfbBRKMi6PLZdDz8kTGDXNHBdBLO3HjoHACEVEWkqD6IVMwi7OCLQZ
+ qS0NDHsaIPMg3Y6U5Gd4N30JoYWl8rfAj1dRKyb4MNmiNdkSp/fcSAOeORc5T82wHIV5
+ CWyKkWLlQYe6h7HigHrE3XMMgl7/a3OcHo/SxEVnYT3zjX9EMDNtPGZ+6T4bjU8dKBzd
+ ZX66va28nqISbmGVuAZg2GDBCpTvv6VDYwp0SW4YwXEp5XliClggiNgeqChdCK4sFJSJ
+ mD1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678812190;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8/TWjd4CBothCXIvTP9DgULpqkXSW7ceaVVJBiGEEwE=;
+ b=4Sjr6aDwIdK+8bMNPQ+LIGUF2ayqidc0nUe7dbz67EfmE8p4m2KkcWZsY08pBJEbvN
+ FncqY36A6LszQDImCCac0niQ5vjU/ugn5wASXanSyy3lOEB6LEuHy4WxTe1SGoaDcKka
+ i3vUPDCqFAEwLrnK2puqTDD+LtcWJEDkBCTS5l5TLHExCYaDfxX5BmVy7itGeAttRsaZ
+ BCyd2+7Jz41vNi9i35yTgQJ9Qu19rPyBppq+BOoUfjU82C1gBusPvxeMn46Skq2onMDP
+ hCWjXDavpOnCbw+7lY/0z7rQSSotzBacmlMrxilTTs2z1XnyIHjC4GvZJSifb3O+Jcat
+ 87eg==
+X-Gm-Message-State: AO0yUKUWddJFA+3bGeX6RGuRhS3lWpNvxpBk7x96epEugrgySlvR5HSm
+ z3P4t/zXxJVTqVs2PNN+Rw4F9A==
+X-Google-Smtp-Source: AK7set86DDTP/MBc/8VsLF0QuHYgI2xkOlxzcWektugVg6a59Dlmkl4uK0uRWfNd91QM3zrbzLXkhQ==
+X-Received: by 2002:a05:6512:518:b0:4e8:4595:4a7c with SMTP id
+ o24-20020a056512051800b004e845954a7cmr943352lfb.5.1678812189753; 
+ Tue, 14 Mar 2023 09:43:09 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ u14-20020a056512094e00b004db0d26adb4sm459839lft.182.2023.03.14.09.43.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Mar 2023 09:43:09 -0700 (PDT)
+Message-ID: <7e2cfd1b-d1a1-acd1-91fd-1abbd1a86a1b@linaro.org>
+Date: Tue, 14 Mar 2023 18:43:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314162523.631652-1-arnd@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 29/32] drm/msm/dpu: enable SmartDMA for the rest of the
+ platforms
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
+References: <20230310005704.1332368-1-dmitry.baryshkov@linaro.org>
+ <20230310005704.1332368-30-dmitry.baryshkov@linaro.org>
+ <ec51367b-db01-9922-baeb-3233f56f056f@quicinc.com>
+ <b5f6b856-4e15-3476-e5e7-4585641398ac@linaro.org>
+ <6a570e7d-f67e-a95d-4e15-db78a8b4a29d@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <6a570e7d-f67e-a95d-4e15-db78a8b4a29d@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,58 +82,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 14, 2023 at 05:25:18PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 14/03/2023 18:35, Abhinav Kumar wrote:
 > 
-> When ACPI is disabled, i915 fails to build because of a missing
-> declaration:
+> 
+> On 3/14/2023 3:58 AM, Dmitry Baryshkov wrote:
+>> On 14/03/2023 07:08, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 3/9/2023 4:57 PM, Dmitry Baryshkov wrote:
+>>>> Enable SmartDMA features for the rest of the platforms where it is
+>>>> supposed to work.
+>>>>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>
+>>> I am so glad we split this. Without visual validation check we 
+>>> wouldnt have caught the issues and would have ended up with a blank 
+>>> half screen on our sc7280 CBs on DP.
+>>
+>> yes, the r_pipe was indeed mea culpa, when I didn't fully validate the 
+>> results of a rebase. However this doesn't seem to be an 
+>> sc7280-specific question. Are there any platform-specific issues with 
+>> SmartDMA/multirect/planes revealed during testing? In other words, 
+>> were there any issues which warrant this split?
+>>
+>>>
+>>> For sc7280, I validated the foll cases:
+>>
+>> Thanks a lot!
+>>
+>>>
+>>> 1) Basic Chrome UI comes up
+>>> 2) Validated some browser use-cases and played some youtube videos
+>>> 3) Validated multiple plug-in/plug-out cases with DP connected
+>>> 4) IGT test cases with DP connected:
+>>>      - kms_atomic
+>>>      - kms_atomic_transition
+>>>      - kms_pipe_basic_crc
+>>>
+>>> Some notes:
+>>>
+>>> 1) I wanted to test 4k with this too but my monitor only supports 
+>>> 4k@60 which is not possible with 24bpp with 2 lanes and due to the 
+>>> HBR3 black screen issue I could not test that so far. But since I 
+>>> have that issue even with 1080P and without these changes, it should 
+>>> have no effect due to this series.
+>>>
+>>> 2) I wanted to test some YUV overlay cases but I still cannot find 
+>>> one on chrome. Its always using RGB. Will check with others.
+>>
+>> Testing YUV would definitely be a must, especially for the SSPP 
+>> allocation. Can you possibly check whether contemporaty Xv 
+>> implementation employs YUV planes? You can try that using `mpv -xo xv` 
+>> or `mplayer -vo xv`
+>>
+> 
+> Let me get some feedback from CrOS folks here instead of just trial and 
+> error to find out.
+> 
+>>>
+>>> With these two noted, this change and this series has my
+>>>
+>>> Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>
+> 
+> There is no guarantee we will end up finding the YUV case, you could 
+> have retained the Tested-by for the efforts which were already put in 
+> instead of just blatantly removing it.
 
-Hi Arnd,
+I can add it back for v6 (or move sc7280 to the previous patch if you'd 
+prefer that). Also I think the Tested-by should have included the 
+#sc7280 comment. If you don't mind I'll add it.
 
-thanks for catching this, I sent the same after the lkp note about the
-build failure:
+>>> Only for sc7280 device.
+>>>
+>>> I still cannot give my R-b on this change till others validate 
+>>> visually and ensure things arent broken for them.
+>>>
+>>> If we don't get enough validation and if only sc7280 remains in this 
+>>> change, please re-post it with only that and I will give my R-b too.
+>>
 
-https://lore.kernel.org/intel-gfx/3238742c-0c57-b8cf-11fe-fd4a57979049@linux.intel.com/T/#me164308b49e975efb8d760e07a5ec9f4489916b9
+-- 
+With best wishes
+Dmitry
 
---Imre
-
-> 
-> drivers/gpu/drm/i915/i915_driver.c: In function 'i915_driver_hw_probe':
-> drivers/gpu/drm/i915/i915_driver.c:556:9: error: implicit declaration of function 'intel_opregion_cleanup'; did you mean 'intel_opregion_setup'? [-Werror=implicit-function-declaration]
->   556 |         intel_opregion_cleanup(dev_priv);
-> 
-> Add another empty dummy helper next to intel_opregion_setup().
-> 
-> Fixes: 3e226e4a2180 ("drm/i915/opregion: Cleanup opregion after errors during driver loading")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/i915/display/intel_opregion.h | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_opregion.h b/drivers/gpu/drm/i915/display/intel_opregion.h
-> index 181eb3e9abbf..fd2ea8ef0fa2 100644
-> --- a/drivers/gpu/drm/i915/display/intel_opregion.h
-> +++ b/drivers/gpu/drm/i915/display/intel_opregion.h
-> @@ -86,6 +86,10 @@ static inline int intel_opregion_setup(struct drm_i915_private *dev_priv)
->  	return 0;
->  }
->  
-> +static inline void intel_opregion_cleanup(struct drm_i915_private *i915)
-> +{
-> +}
-> +
->  static inline void intel_opregion_register(struct drm_i915_private *dev_priv)
->  {
->  }
-> -- 
-> 2.39.2
-> 
