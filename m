@@ -2,54 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396926B9692
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 14:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677E16B96A0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 14:44:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58B9910E7EA;
-	Tue, 14 Mar 2023 13:42:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8206010E7EC;
+	Tue, 14 Mar 2023 13:44:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D64710E7ED
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 13:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678801367; x=1710337367;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=UButox8DsgHsAktpejVz/McnXXMI5zf9XAuDW8i/fMU=;
- b=DUlNYVEedvi2KRO1vT8O8CP3FWAgbIkWK57sktNj2cdkN/LujSk+7bvJ
- SYbY406pzDGrw0Hk4yzpBFkYGwXAGKqkuFC6XjwnaBifKeFXb5S0D1XxP
- 0NVYOP07YLO1+tArjMlj1vtJ7/UIfVEWg7GoHPqa2J5sZ+FBtY8n6FCDv
- guQhQX/xNHiCL0FJXRFlJwu27N+UabVGO3UmPrD6ar6s+iquJWHwjy/14
- b4iswv7WcK1eB5kxBUWeRnuEVZa0A0YKduDvdMKk1xEWtK2/SPnMHcmiY
- 9kR575I9H5iawRcIeeBGjW/dHK/4br04RCUA4zoUHeOLRrgXzep+GdkE/ A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="317815142"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; d="scan'208";a="317815142"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Mar 2023 06:42:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10648"; a="672341803"
-X-IronPort-AV: E=Sophos;i="5.98,260,1673942400"; d="scan'208";a="672341803"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 14 Mar 2023 06:42:43 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pc4vG-0006wz-0R;
- Tue, 14 Mar 2023 13:42:38 +0000
-Date: Tue, 14 Mar 2023 21:41:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
-Message-ID: <202303142140.ZQsw4C4V-lkp@intel.com>
-References: <20230314105257.17345-3-paul@crapouillou.net>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1EB10E7EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 13:44:11 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id s22so20079631lfi.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 06:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678801449;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jmYDXc1m4ipXRhKVGpFbbcTg2x+quYyEc2SUvpi4ZtI=;
+ b=V0gxCeN0uLEo7r2ZFnoxXs9uCSWWjH4cHQFIC4LOAbBQDPbX5XdqXPmLdPihUYECH1
+ t1ZbUjxOoptLd9c4WxUL3hS755syjxtd9q2LO+Xi8OQe6ZXnkAd2FLr1dP0XAQRJ46Xd
+ rMT0WCY57CUB/yko+paqEn6LJmwq+wHtgwnPHPjpiUokv+n0SbukMJv9DXtCP8tpldDD
+ 5v+/dO/Mvln9ahaANsudX+hE6OGLN2lD9rm9i+8aQL8hLwIJRZ0+h3g7QU3IcLjO/FC5
+ i5m+Mc8fnLgE4azgp75Boq/aBoO/FfQHvvEaWCv9e/CTdq8BAf6Q+jELNsTBCoaRNUnS
+ STxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678801449;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jmYDXc1m4ipXRhKVGpFbbcTg2x+quYyEc2SUvpi4ZtI=;
+ b=r8nxmQXIvG6l+E0lim63Rid9uODM0svYWyDAyTGsyzCwD8L/lP/2GOciy3WJ3EknvB
+ eoIKzajZeCPUN8dVQttBGcgj5JsH8CJc3BqWsXtsY2Wc7AN01qWABq57QJbJxDwx7jJE
+ KX0KPbXEMLgHd0mEYEHp3NlBfTpe/aCqYAFs+Jji5Vbiw1gMiNQ3gtZYR+tFPvLJ4qC1
+ DM2D4L5uV6zRB2ekAxqX94g57UrDqOD7s7b7KUsrRPvcAsyMw+jeLSiK5gAfmgJ4Y+vb
+ KLa+JEvNFqo1+U9a3AQQS1A64u6zCe4jZqUnl+R4c/JUNvLnGTIFkPe4IkzaI7QuVT7H
+ VwyQ==
+X-Gm-Message-State: AO0yUKVk8hfMqsCuOKcwXLQNxWeoUBecond7a8qoHbKbT6OqpETSeq5a
+ mj7zvxcl02WHnVAqncWYhT+6xQ==
+X-Google-Smtp-Source: AK7set+NO6qaZeOqdzmcNO441RgYsVfp5nhWf8D6N1x6R7+Jj7PVVuYDxPH74EcVS5M7ls0+qtz6uA==
+X-Received: by 2002:ac2:50c3:0:b0:4a4:68b7:deab with SMTP id
+ h3-20020ac250c3000000b004a468b7deabmr813430lfm.7.1678801449609; 
+ Tue, 14 Mar 2023 06:44:09 -0700 (PDT)
+Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
+ by smtp.gmail.com with ESMTPSA id
+ z9-20020ac24189000000b004d5813386fdsm405637lfh.139.2023.03.14.06.44.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Mar 2023 06:44:09 -0700 (PDT)
+Message-ID: <441030fa-afcb-8e5f-ea5a-f467d9d11937@linaro.org>
+Date: Tue, 14 Mar 2023 14:44:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314105257.17345-3-paul@crapouillou.net>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 07/10] drm/msm/dsi: Remove custom DSI config handling
+Content-Language: en-US
+To: Marijn Suijten <marijn.suijten@somainline.org>
+References: <20230307-topic-dsi_qcm-v4-0-54b4898189cb@linaro.org>
+ <20230307-topic-dsi_qcm-v4-7-54b4898189cb@linaro.org>
+ <20230314130522.wimbrf7d6lqwdbgz@SoMainline.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230314130522.wimbrf7d6lqwdbgz@SoMainline.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,77 +77,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, michael.hennerich@analog.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nuno.sa@analog.com,
- Paul Cercueil <paul@crapouillou.net>, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.3-rc2 next-20230314]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230314105257.17345-3-paul%40crapouillou.net
-patch subject: [PATCH 2/2] usb: gadget: functionfs: Add DMABUF import interface
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230314/202303142140.ZQsw4C4V-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4ee364ed5d112c4550344fd037f4e1ef7cc41878
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Paul-Cercueil/usb-gadget-Support-already-mapped-DMA-SGs/20230314-185522
-        git checkout 4ee364ed5d112c4550344fd037f4e1ef7cc41878
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/usb/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303142140.ZQsw4C4V-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/usb/gadget/function/f_fs.c:1401:5: warning: no previous prototype for 'ffs_dma_resv_lock' [-Wmissing-prototypes]
-    1401 | int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
-         |     ^~~~~~~~~~~~~~~~~
 
 
-vim +/ffs_dma_resv_lock +1401 drivers/usb/gadget/function/f_fs.c
+On 14.03.2023 14:05, Marijn Suijten wrote:
+> On 2023-03-14 13:13:45, Konrad Dybcio wrote:
+>> Now that the only user is handled by common code, remove the option to
+>> specify custom handlers through match data.
+>>
+>> This is effectively a revert of commit:
+>> 5ae15e76271 ("drm/msm/dsi: Allow to specify dsi config as pdata")
+>>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+[...]
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>> index 8772a3631ac1..91bdaf50bb1a 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
+>> @@ -65,8 +65,5 @@ struct msm_dsi_cfg_handler {
+>>  
+>>  const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor);
+>>  
+>> -/* Non autodetect configs */
+>> -extern const struct msm_dsi_cfg_handler qcm2290_dsi_cfg_handler;
+>> -
+> 
+> Probably the wrong `fixup!` commit: this should have been part of patch
+> 6 where the struct is removed, not patch 7 (this patch).
+Yeah, that's most likely what happened.. Does that warrant another resend?
 
-  1400	
-> 1401	int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
-  1402	{
-  1403		int ret;
-  1404	
-  1405		ret = dma_resv_lock_interruptible(dmabuf->resv, NULL);
-  1406		if (ret) {
-  1407			if (ret != -EDEADLK)
-  1408				goto out;
-  1409			if (nonblock) {
-  1410				ret = -EBUSY;
-  1411				goto out;
-  1412			}
-  1413	
-  1414			ret = dma_resv_lock_slow_interruptible(dmabuf->resv, NULL);
-  1415		}
-  1416	
-  1417	out:
-  1418		return ret;
-  1419	}
-  1420	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Konrad
+> 
+> - Marijn
+> 
+>>  #endif /* __MSM_DSI_CFG_H__ */
+>>  
+>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> index 9cfb9e91bfea..961689a255c4 100644
+>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>> @@ -214,10 +214,6 @@ static const struct msm_dsi_cfg_handler *dsi_get_config(
+>>  	int ret;
+>>  	u32 major = 0, minor = 0;
+>>  
+>> -	cfg_hnd = device_get_match_data(dev);
+>> -	if (cfg_hnd)
+>> -		return cfg_hnd;
+>> -
+>>  	ahb_clk = msm_clk_get(msm_host->pdev, "iface");
+>>  	if (IS_ERR(ahb_clk)) {
+>>  		pr_err("%s: cannot get interface clock\n", __func__);
+>>
+>> -- 
+>> 2.39.2
+>>
