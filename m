@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440ED6B9974
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9526B9979
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 16:36:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A66210E848;
-	Tue, 14 Mar 2023 15:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9A9E89048;
+	Tue, 14 Mar 2023 15:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE28310E14E
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:35:47 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id a32so16435500ljr.9
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:35:47 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E2710E83F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 15:35:48 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id g18so16471615ljl.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 08:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678808146;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dDdFsS1jiDMqM3DzNBOspA41ZkDPAbEzOGcQYfHY7bY=;
- b=UtaPZF1lqlcFBdhV8b8AXRNfZFHfPBKxqloVJuduvYtUY7nLbJamqg09AhDYS4lh3V
- jIoGfXV7ZWPVO9hPX5eaLPuYcVCO/XP8Ab17S6pxtFzdxCFtOVHrUL+ogjgfYfI9f4MQ
- MEVDIYNPR/zDiQ2UeVotkOc+DSClf0NdxSyGW8Bfuxu4WaLQ7HD9nmvCxa8/ZCr+ALkh
- H7kYZfnK6iWi1/2xOKEc676giCpJiAexDGQabznx2GanxviwhePseX8A+4ROyE3VHYYH
- jS/vcruFAdMUSelz+TfxEYv/3iwbXPD67rTO+FfydiGMLQK5zvC+CXMUuuaX4Q9vlDDM
- //rg==
+ d=linaro.org; s=google; t=1678808147;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+pwGiOq8ySCHGR9BgwiEDJzdBTwNE350ubqbi3dwCQ0=;
+ b=ys+nNYQxs1uLvN9aubiXzwodFIGbv+Oz0ruNDWWNe53gHmWJvZh73+0T8mS0Ey06hN
+ otUoWSwSRUBBUMFkUbWTjbtw7Pq0RtqERCfHq0GXpIVcpW4ce5LeKi1Y7E1FfalFQ/WD
+ MrlDPQ3gMQKGIvavPza4nqATXDKZ3VZDpv5wjj4oN9iQgtWVAhGNcZLFmQJFTm9PtYEy
+ LzjbbG22LqGd6lLNa7T1C9RLgGxVU7Z/NNjFHlWL3XnQzADE7eyU8A6muyV4KZCahAc4
+ UyQnqj04LzWjfTWvhkQF5MtER3AHhdioS6kTsFkdrNGLlV3PM+NcFRIUsy6uizzjZx+b
+ FxSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678808146;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dDdFsS1jiDMqM3DzNBOspA41ZkDPAbEzOGcQYfHY7bY=;
- b=ZMG5bknC2p8YSs6U2Yjb5W9jgJBAakNWC3Iv4BVo4C+SMssU0bxkRyP+POnNJgZpua
- hXpUz3N4EnyQGoCg6IUoggpP/IFd98QDLnorR9wLPzsYZZK77qK9y3maY1XIiCO/4JEu
- iis60db+2RBmpOm6dquTigvHD6N45c1BHEQO1UuI5VDZr/eZkn5+fIBq1qzfd7yd3iJl
- K5GhL9ibsrsZxVQ/is6au10rbF7n8UR3KM67xR6RaFBQ9EbWOyLVbROSUb6uSe+44Mjc
- 9Asnm9nDhNsYbIYeuX3DhblqWcF7xfRjzG6znb16i8gH5muA1VETRjWWB5IK2CKK0mYb
- 1vPQ==
-X-Gm-Message-State: AO0yUKW5Ps1R4aDXIiwuL/eE24SJT8QeGWl14FgYmwZt2Y6GOx/V3jp4
- nZlGgeyWVA5kaGZPDgLbz5/GYw==
-X-Google-Smtp-Source: AK7set8rirzvbek2Df3pFfcMGfbgU0WgIHZmrN78ZucZoeJsBu7L6cnTeQ/8pGn8GMD/HExW7Z9g6A==
-X-Received: by 2002:a2e:909a:0:b0:295:a829:1c57 with SMTP id
- l26-20020a2e909a000000b00295a8291c57mr12088304ljg.20.1678808146201; 
+ d=1e100.net; s=20210112; t=1678808147;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+pwGiOq8ySCHGR9BgwiEDJzdBTwNE350ubqbi3dwCQ0=;
+ b=ju0bd14q4TBuv/OSgJgXUwjr80fWiRYgOPpL+cXbHvz8CMh1JBTozHjFmVft5PRo+P
+ fTnMlkfLrhvGSZLfTRdxV19X6ni0a2KYUlwe1ycHxfduitRd/yGrQlbVnhTYyBMalJm/
+ m0lNSU83spIFuLL42LzFOJC7+4o2P09FCJeMv7DsubcbqDf4QNcG7WrKcCJy9QEAo+Cy
+ 3avrFeDVQiZ6E7VAGiOlBtlMytRA9hP5lwzjwXxgxIYbdyC6qHkzBFL+x5SRsSQZBmGG
+ lxB/dEjojMuVQUINrqzK51EcyU/9BPeXD0fkD7UjojlGlsFVZcvcF6QR/94wsCWbGXSW
+ cH5g==
+X-Gm-Message-State: AO0yUKXz+Erj4S6EUIDvqvIMPc/7XL4McLVUufcBHNTVkuUBusHRPxMr
+ w0xpvfKcwxxOof1nKWKMqStLSg==
+X-Google-Smtp-Source: AK7set9oy4L8YdwO8fplnuUWXGC53bJ773pZBBTXchBFWIcQVf8xDZzbz9LVCev8Zdm/lUjbxU1dkA==
+X-Received: by 2002:a2e:7410:0:b0:293:5284:d330 with SMTP id
+ p16-20020a2e7410000000b002935284d330mr11800124ljc.22.1678808146933; 
  Tue, 14 Mar 2023 08:35:46 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a2eb528000000b0029573844d03sm470854ljm.109.2023.03.14.08.35.45
+ z8-20020a2eb528000000b0029573844d03sm470854ljm.109.2023.03.14.08.35.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Mar 2023 08:35:45 -0700 (PDT)
+ Tue, 14 Mar 2023 08:35:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v6 00/32] drm/msm/dpu: wide planes support
-Date: Tue, 14 Mar 2023 18:35:13 +0300
-Message-Id: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v6 01/32] drm/msm/dpu: rename struct dpu_hw_pipe(_cfg) to
+ dpu_hw_sspp(_cfg)
+Date: Tue, 14 Mar 2023 18:35:14 +0300
+Message-Id: <20230314153545.3442879-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
+References: <20230314153545.3442879-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,104 +80,512 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset brings in multirect usage to support using two SSPP
-rectangles for a single plane. Full virtual planes support is omitted
-from this pull request, it will come later.
+For all hardware blocks except SSPP the corresponding struct is named
+after the block. Rename dpu_hw_pipe (SSPP structure) to dpu_hw_sspp.
+Also rename struct dpu_hw_pipe_cfg to dpu_hw_sspp_cfg to follow this
+change.
 
-Abhinav, note, I removed your Tested-by tag for now, pending additional
-verification from your side.
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 49 +++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 53 +++++++++++----------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 20 ++++----
+ 3 files changed, 62 insertions(+), 60 deletions(-)
 
-Changes since v5:
-- Rephrased wide planes commit message
-- Fixed line width check for UBWC formats (Abhinav)
-- Also drop struct dpu_multirect_plane_states, unused now
-
-Changes since v4:
-- Incorporate two fixes and two cleanup patches from Abhinav
-
-Changes since v3:
-
-- moved if (!pipe->sspp) checks back to the calling site, the caller
-  should know if there is a backing SSPP or not.
-- Restored state_idx argument of trace_dpu_crtc_setup_mixer trace point
-- Removed .smart_dma_rev from dpu_caps
-- Added cleaning of multirect to _dpu_plane_atomic_disable()
-- Per Abhinavs request split the SmartDMA enablement patch into the
-  "verified by me" and "the rest of the platforms" patches, which is not
-  supposed to be merged in. Users of other platforms are supposed to
-  verify multirect support on their platforms and then send patches
-  enabling SmartDMA for their SoC.
-- Expanded several commit messages
-
-Changes since v2:
-
-- Renamed dpu_hw_pipe_cfg to dpu_hw_sspp_cfg
-- Added a patch to clean up src add / layout for the solid fill planes
-- Fixed several comments and commit messages which caused confusion
-- Added documentation for new dpu_plane_state members
-- Slightly reworked dpu_plane_atomic_check() to make it more logical and obvious.
-
-Changes since v1 (which was ages ago):
-- Rebased on top of 6.2-rc1
-- Dropped the controversial _dpu_crtc_blend_setup() split patch
-- Renamed dpu_hw_pipe to dpu_hw_sspp
-- Other misc changes
-
-Abhinav Kumar (2):
-  drm/msm/dpu: log the multirect_index in _dpu_crtc_blend_setup_pipe
-  drm/msm/dpu: remove unused dpu_plane_validate_multirect_v2 function
-
-Dmitry Baryshkov (30):
-  drm/msm/dpu: rename struct dpu_hw_pipe(_cfg) to dpu_hw_sspp(_cfg)
-  drm/msm/dpu: move SSPP allocation to the RM
-  drm/msm/dpu: move SSPP debugfs creation to dpu_kms.c
-  drm/msm/dpu: drop EAGAIN check from dpu_format_populate_layout
-  drm/msm/dpu: move pipe_hw to dpu_plane_state
-  drm/msm/dpu: drop dpu_plane_pipe function
-  drm/msm/dpu: introduce struct dpu_sw_pipe
-  drm/msm/dpu: use dpu_sw_pipe for dpu_hw_sspp callbacks
-  drm/msm/dpu: pass dpu_format to _dpu_hw_sspp_setup_scaler3()
-  drm/msm/dpu: clean up SRC addresses when setting up SSPP for solid
-    fill
-  drm/msm/dpu: move stride programming to
-    dpu_hw_sspp_setup_sourceaddress
-  drm/msm/dpu: remove dpu_hw_fmt_layout from struct dpu_hw_sspp_cfg
-  drm/msm/dpu: rename dpu_hw_sspp_cfg to dpu_sw_pipe_cfg
-  drm/msm/dpu: drop src_split and multirect check from
-    dpu_crtc_atomic_check
-  drm/msm/dpu: don't use unsupported blend stages
-  drm/msm/dpu: move the rest of plane checks to dpu_plane_atomic_check()
-  drm/msm/dpu: drop redundant plane dst check from
-    dpu_crtc_atomic_check()
-  drm/msm/dpu: rewrite plane's QoS-related functions to take dpu_sw_pipe
-    and dpu_format
-  drm/msm/dpu: make _dpu_plane_calc_clk accept mode directly
-  drm/msm/dpu: add dpu_hw_sspp_cfg to dpu_plane_state
-  drm/msm/dpu: simplify dpu_plane_validate_src()
-  drm/msm/dpu: rework dpu_plane_sspp_atomic_update()
-  drm/msm/dpu: rework dpu_plane_atomic_check()
-  drm/msm/dpu: rework plane CSC setting
-  drm/msm/dpu: rework static color fill code
-  drm/msm/dpu: split pipe handling from _dpu_crtc_blend_setup_mixer
-  drm/msm/dpu: add support for wide planes
-  drm/msm/dpu: populate SmartDMA features in hw catalog
-  drm/msm/dpu: enable SmartDMA for the rest of the platforms
-  drm/msm/dpu: drop smart_dma_rev from dpu_caps
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 290 ++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |  10 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  20 +-
- .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   2 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   | 169 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   | 111 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  18 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 850 +++++++++---------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |  40 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  22 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  12 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |  19 +-
- 12 files changed, 709 insertions(+), 854 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index 4246ab0b3bee..3e65bfd65b62 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -136,7 +136,7 @@
+ #define TS_CLK			19200000
+ 
+ 
+-static int _sspp_subblk_offset(struct dpu_hw_pipe *ctx,
++static int _sspp_subblk_offset(struct dpu_hw_sspp *ctx,
+ 		int s_id,
+ 		u32 *idx)
+ {
+@@ -168,7 +168,7 @@ static int _sspp_subblk_offset(struct dpu_hw_pipe *ctx,
+ 	return rc;
+ }
+ 
+-static void dpu_hw_sspp_setup_multirect(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_multirect(struct dpu_hw_sspp *ctx,
+ 		enum dpu_sspp_multirect_index index,
+ 		enum dpu_sspp_multirect_mode mode)
+ {
+@@ -197,7 +197,7 @@ static void dpu_hw_sspp_setup_multirect(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, SSPP_MULTIRECT_OPMODE + idx, mode_mask);
+ }
+ 
+-static void _sspp_setup_opmode(struct dpu_hw_pipe *ctx,
++static void _sspp_setup_opmode(struct dpu_hw_sspp *ctx,
+ 		u32 mask, u8 en)
+ {
+ 	u32 idx;
+@@ -218,7 +218,7 @@ static void _sspp_setup_opmode(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, SSPP_VIG_OP_MODE + idx, opmode);
+ }
+ 
+-static void _sspp_setup_csc10_opmode(struct dpu_hw_pipe *ctx,
++static void _sspp_setup_csc10_opmode(struct dpu_hw_sspp *ctx,
+ 		u32 mask, u8 en)
+ {
+ 	u32 idx;
+@@ -239,7 +239,7 @@ static void _sspp_setup_csc10_opmode(struct dpu_hw_pipe *ctx,
+ /*
+  * Setup source pixel format, flip,
+  */
+-static void dpu_hw_sspp_setup_format(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_format(struct dpu_hw_sspp *ctx,
+ 		const struct dpu_format *fmt, u32 flags,
+ 		enum dpu_sspp_multirect_index rect_mode)
+ {
+@@ -360,7 +360,7 @@ static void dpu_hw_sspp_setup_format(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(c, SSPP_UBWC_ERROR_STATUS + idx, BIT(31));
+ }
+ 
+-static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_sspp *ctx,
+ 		struct dpu_hw_pixel_ext *pe_ext)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -418,8 +418,8 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_pipe *ctx,
+ 			tot_req_pixels[3]);
+ }
+ 
+-static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_pipe *ctx,
+-		struct dpu_hw_pipe_cfg *sspp,
++static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_sspp *ctx,
++		struct dpu_hw_sspp_cfg *sspp,
+ 		void *scaler_cfg)
+ {
+ 	u32 idx;
+@@ -434,7 +434,7 @@ static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_pipe *ctx,
+ 			sspp->layout.format);
+ }
+ 
+-static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_pipe *ctx)
++static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_sspp *ctx)
+ {
+ 	u32 idx;
+ 
+@@ -447,8 +447,8 @@ static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_pipe *ctx)
+ /*
+  * dpu_hw_sspp_setup_rects()
+  */
+-static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+-		struct dpu_hw_pipe_cfg *cfg,
++static void dpu_hw_sspp_setup_rects(struct dpu_hw_sspp *ctx,
++		struct dpu_hw_sspp_cfg *cfg,
+ 		enum dpu_sspp_multirect_index rect_index)
+ {
+ 	struct dpu_hw_blk_reg_map *c;
+@@ -516,8 +516,8 @@ static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(c, SSPP_SRC_YSTRIDE1 + idx, ystride1);
+ }
+ 
+-static void dpu_hw_sspp_setup_sourceaddress(struct dpu_hw_pipe *ctx,
+-		struct dpu_hw_pipe_cfg *cfg,
++static void dpu_hw_sspp_setup_sourceaddress(struct dpu_hw_sspp *ctx,
++		struct dpu_hw_sspp_cfg *cfg,
+ 		enum dpu_sspp_multirect_index rect_mode)
+ {
+ 	int i;
+@@ -543,7 +543,7 @@ static void dpu_hw_sspp_setup_sourceaddress(struct dpu_hw_pipe *ctx,
+ 	}
+ }
+ 
+-static void dpu_hw_sspp_setup_csc(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_csc(struct dpu_hw_sspp *ctx,
+ 		const struct dpu_csc_cfg *data)
+ {
+ 	u32 idx;
+@@ -560,7 +560,7 @@ static void dpu_hw_sspp_setup_csc(struct dpu_hw_pipe *ctx,
+ 	dpu_hw_csc_setup(&ctx->hw, idx, data, csc10);
+ }
+ 
+-static void dpu_hw_sspp_setup_solidfill(struct dpu_hw_pipe *ctx, u32 color, enum
++static void dpu_hw_sspp_setup_solidfill(struct dpu_hw_sspp *ctx, u32 color, enum
+ 		dpu_sspp_multirect_index rect_index)
+ {
+ 	u32 idx;
+@@ -575,7 +575,7 @@ static void dpu_hw_sspp_setup_solidfill(struct dpu_hw_pipe *ctx, u32 color, enum
+ 				color);
+ }
+ 
+-static void dpu_hw_sspp_setup_danger_safe_lut(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_danger_safe_lut(struct dpu_hw_sspp *ctx,
+ 			u32 danger_lut,
+ 			u32 safe_lut)
+ {
+@@ -588,7 +588,7 @@ static void dpu_hw_sspp_setup_danger_safe_lut(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, SSPP_SAFE_LUT + idx, safe_lut);
+ }
+ 
+-static void dpu_hw_sspp_setup_creq_lut(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_creq_lut(struct dpu_hw_sspp *ctx,
+ 			u64 creq_lut)
+ {
+ 	u32 idx;
+@@ -605,7 +605,7 @@ static void dpu_hw_sspp_setup_creq_lut(struct dpu_hw_pipe *ctx,
+ 	}
+ }
+ 
+-static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_sspp *ctx,
+ 		struct dpu_hw_pipe_qos_cfg *cfg)
+ {
+ 	u32 idx;
+@@ -630,7 +630,7 @@ static void dpu_hw_sspp_setup_qos_ctrl(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, SSPP_QOS_CTRL + idx, qos_ctrl);
+ }
+ 
+-static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
++static void dpu_hw_sspp_setup_cdp(struct dpu_hw_sspp *ctx,
+ 		struct dpu_hw_cdp_cfg *cfg,
+ 		enum dpu_sspp_multirect_index index)
+ {
+@@ -661,7 +661,7 @@ static void dpu_hw_sspp_setup_cdp(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, cdp_cntl_offset, cdp_cntl);
+ }
+ 
+-static void _setup_layer_ops(struct dpu_hw_pipe *c,
++static void _setup_layer_ops(struct dpu_hw_sspp *c,
+ 		unsigned long features)
+ {
+ 	if (test_bit(DPU_SSPP_SRC, &features)) {
+@@ -699,7 +699,8 @@ static void _setup_layer_ops(struct dpu_hw_pipe *c,
+ }
+ 
+ #ifdef CONFIG_DEBUG_FS
+-int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct dpu_kms *kms, struct dentry *entry)
++int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
++			      struct dentry *entry)
+ {
+ 	const struct dpu_sspp_cfg *cfg = hw_pipe->cap;
+ 	const struct dpu_sspp_sub_blks *sblk = cfg->sblk;
+@@ -783,10 +784,10 @@ static const struct dpu_sspp_cfg *_sspp_offset(enum dpu_sspp sspp,
+ 	return ERR_PTR(-ENOMEM);
+ }
+ 
+-struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
++struct dpu_hw_sspp *dpu_hw_sspp_init(enum dpu_sspp idx,
+ 		void __iomem *addr, const struct dpu_mdss_cfg *catalog)
+ {
+-	struct dpu_hw_pipe *hw_pipe;
++	struct dpu_hw_sspp *hw_pipe;
+ 	const struct dpu_sspp_cfg *cfg;
+ 
+ 	if (!addr || !catalog)
+@@ -812,7 +813,7 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
+ 	return hw_pipe;
+ }
+ 
+-void dpu_hw_sspp_destroy(struct dpu_hw_pipe *ctx)
++void dpu_hw_sspp_destroy(struct dpu_hw_sspp *ctx)
+ {
+ 	kfree(ctx);
+ }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+index 0c95b7e64f6c..bbff908e6dbe 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+@@ -10,7 +10,7 @@
+ #include "dpu_hw_util.h"
+ #include "dpu_formats.h"
+ 
+-struct dpu_hw_pipe;
++struct dpu_hw_sspp;
+ 
+ /**
+  * Flags
+@@ -153,7 +153,7 @@ struct dpu_hw_pixel_ext {
+ };
+ 
+ /**
+- * struct dpu_hw_pipe_cfg : Pipe description
++ * struct dpu_hw_sspp_cfg : SSPP configuration
+  * @layout:    format layout information for programming buffer to hardware
+  * @src_rect:  src ROI, caller takes into account the different operations
+  *             such as decimation, flip etc to program this field
+@@ -161,7 +161,7 @@ struct dpu_hw_pixel_ext {
+  * @index:     index of the rectangle of SSPP
+  * @mode:      parallel or time multiplex multirect mode
+  */
+-struct dpu_hw_pipe_cfg {
++struct dpu_hw_sspp_cfg {
+ 	struct dpu_hw_fmt_layout layout;
+ 	struct drm_rect src_rect;
+ 	struct drm_rect dst_rect;
+@@ -214,7 +214,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @flags: Extra flags for format config
+ 	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_format)(struct dpu_hw_pipe *ctx,
++	void (*setup_format)(struct dpu_hw_sspp *ctx,
+ 			const struct dpu_format *fmt, u32 flags,
+ 			enum dpu_sspp_multirect_index index);
+ 
+@@ -224,8 +224,8 @@ struct dpu_hw_sspp_ops {
+ 	 * @cfg: Pointer to pipe config structure
+ 	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_rects)(struct dpu_hw_pipe *ctx,
+-			struct dpu_hw_pipe_cfg *cfg,
++	void (*setup_rects)(struct dpu_hw_sspp *ctx,
++			struct dpu_hw_sspp_cfg *cfg,
+ 			enum dpu_sspp_multirect_index index);
+ 
+ 	/**
+@@ -233,7 +233,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @ctx: Pointer to pipe context
+ 	 * @pe_ext: Pointer to pixel ext settings
+ 	 */
+-	void (*setup_pe)(struct dpu_hw_pipe *ctx,
++	void (*setup_pe)(struct dpu_hw_sspp *ctx,
+ 			struct dpu_hw_pixel_ext *pe_ext);
+ 
+ 	/**
+@@ -242,8 +242,8 @@ struct dpu_hw_sspp_ops {
+ 	 * @cfg: Pointer to pipe config structure
+ 	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_sourceaddress)(struct dpu_hw_pipe *ctx,
+-			struct dpu_hw_pipe_cfg *cfg,
++	void (*setup_sourceaddress)(struct dpu_hw_sspp *ctx,
++			struct dpu_hw_sspp_cfg *cfg,
+ 			enum dpu_sspp_multirect_index index);
+ 
+ 	/**
+@@ -251,7 +251,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @ctx: Pointer to pipe context
+ 	 * @data: Pointer to config structure
+ 	 */
+-	void (*setup_csc)(struct dpu_hw_pipe *ctx, const struct dpu_csc_cfg *data);
++	void (*setup_csc)(struct dpu_hw_sspp *ctx, const struct dpu_csc_cfg *data);
+ 
+ 	/**
+ 	 * setup_solidfill - enable/disable colorfill
+@@ -260,7 +260,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @flags: Pipe flags
+ 	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_solidfill)(struct dpu_hw_pipe *ctx, u32 color,
++	void (*setup_solidfill)(struct dpu_hw_sspp *ctx, u32 color,
+ 			enum dpu_sspp_multirect_index index);
+ 
+ 	/**
+@@ -270,7 +270,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @mode: parallel fetch / time multiplex multirect mode
+ 	 */
+ 
+-	void (*setup_multirect)(struct dpu_hw_pipe *ctx,
++	void (*setup_multirect)(struct dpu_hw_sspp *ctx,
+ 			enum dpu_sspp_multirect_index index,
+ 			enum dpu_sspp_multirect_mode mode);
+ 
+@@ -279,7 +279,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @ctx: Pointer to pipe context
+ 	 * @cfg: Pointer to config structure
+ 	 */
+-	void (*setup_sharpening)(struct dpu_hw_pipe *ctx,
++	void (*setup_sharpening)(struct dpu_hw_sspp *ctx,
+ 			struct dpu_hw_sharp_cfg *cfg);
+ 
+ 	/**
+@@ -289,7 +289,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @safe_lut: LUT for generate safe level based on fill level
+ 	 *
+ 	 */
+-	void (*setup_danger_safe_lut)(struct dpu_hw_pipe *ctx,
++	void (*setup_danger_safe_lut)(struct dpu_hw_sspp *ctx,
+ 			u32 danger_lut,
+ 			u32 safe_lut);
+ 
+@@ -299,7 +299,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @creq_lut: LUT for generate creq level based on fill level
+ 	 *
+ 	 */
+-	void (*setup_creq_lut)(struct dpu_hw_pipe *ctx,
++	void (*setup_creq_lut)(struct dpu_hw_sspp *ctx,
+ 			u64 creq_lut);
+ 
+ 	/**
+@@ -308,7 +308,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @cfg: Pointer to pipe QoS configuration
+ 	 *
+ 	 */
+-	void (*setup_qos_ctrl)(struct dpu_hw_pipe *ctx,
++	void (*setup_qos_ctrl)(struct dpu_hw_sspp *ctx,
+ 			struct dpu_hw_pipe_qos_cfg *cfg);
+ 
+ 	/**
+@@ -316,7 +316,7 @@ struct dpu_hw_sspp_ops {
+ 	 * @ctx: Pointer to pipe context
+ 	 * @cfg: Pointer to histogram configuration
+ 	 */
+-	void (*setup_histogram)(struct dpu_hw_pipe *ctx,
++	void (*setup_histogram)(struct dpu_hw_sspp *ctx,
+ 			void *cfg);
+ 
+ 	/**
+@@ -325,15 +325,15 @@ struct dpu_hw_sspp_ops {
+ 	 * @pipe_cfg: Pointer to pipe configuration
+ 	 * @scaler_cfg: Pointer to scaler configuration
+ 	 */
+-	void (*setup_scaler)(struct dpu_hw_pipe *ctx,
+-		struct dpu_hw_pipe_cfg *pipe_cfg,
++	void (*setup_scaler)(struct dpu_hw_sspp *ctx,
++		struct dpu_hw_sspp_cfg *pipe_cfg,
+ 		void *scaler_cfg);
+ 
+ 	/**
+ 	 * get_scaler_ver - get scaler h/w version
+ 	 * @ctx: Pointer to pipe context
+ 	 */
+-	u32 (*get_scaler_ver)(struct dpu_hw_pipe *ctx);
++	u32 (*get_scaler_ver)(struct dpu_hw_sspp *ctx);
+ 
+ 	/**
+ 	 * setup_cdp - setup client driven prefetch
+@@ -341,13 +341,13 @@ struct dpu_hw_sspp_ops {
+ 	 * @cfg: Pointer to cdp configuration
+ 	 * @index: rectangle index in multirect
+ 	 */
+-	void (*setup_cdp)(struct dpu_hw_pipe *ctx,
++	void (*setup_cdp)(struct dpu_hw_sspp *ctx,
+ 			struct dpu_hw_cdp_cfg *cfg,
+ 			enum dpu_sspp_multirect_index index);
+ };
+ 
+ /**
+- * struct dpu_hw_pipe - pipe description
++ * struct dpu_hw_sspp - pipe description
+  * @base: hardware block base structure
+  * @hw: block hardware details
+  * @catalog: back pointer to catalog
+@@ -356,7 +356,7 @@ struct dpu_hw_sspp_ops {
+  * @cap: pointer to layer_cfg
+  * @ops: pointer to operations possible for this pipe
+  */
+-struct dpu_hw_pipe {
++struct dpu_hw_sspp {
+ 	struct dpu_hw_blk base;
+ 	struct dpu_hw_blk_reg_map hw;
+ 	const struct dpu_mdss_cfg *catalog;
+@@ -378,7 +378,7 @@ struct dpu_kms;
+  * @addr: Mapped register io address of MDP
+  * @catalog : Pointer to mdss catalog data
+  */
+-struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
++struct dpu_hw_sspp *dpu_hw_sspp_init(enum dpu_sspp idx,
+ 		void __iomem *addr, const struct dpu_mdss_cfg *catalog);
+ 
+ /**
+@@ -386,10 +386,11 @@ struct dpu_hw_pipe *dpu_hw_sspp_init(enum dpu_sspp idx,
+  * should be called during Hw pipe cleanup.
+  * @ctx:  Pointer to SSPP driver context returned by dpu_hw_sspp_init
+  */
+-void dpu_hw_sspp_destroy(struct dpu_hw_pipe *ctx);
++void dpu_hw_sspp_destroy(struct dpu_hw_sspp *ctx);
+ 
+ void dpu_debugfs_sspp_init(struct dpu_kms *dpu_kms, struct dentry *debugfs_root);
+-int _dpu_hw_sspp_init_debugfs(struct dpu_hw_pipe *hw_pipe, struct dpu_kms *kms, struct dentry *entry);
++int _dpu_hw_sspp_init_debugfs(struct dpu_hw_sspp *hw_pipe, struct dpu_kms *kms,
++			      struct dentry *entry);
+ 
+ #endif /*_DPU_HW_SSPP_H */
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index bfd5be89e8b8..5a4578ab62a6 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -104,7 +104,7 @@ struct dpu_plane {
+ 
+ 	enum dpu_sspp pipe;
+ 
+-	struct dpu_hw_pipe *pipe_hw;
++	struct dpu_hw_sspp *pipe_hw;
+ 	uint32_t color_fill;
+ 	bool is_error;
+ 	bool is_rt_pipe;
+@@ -137,7 +137,7 @@ static struct dpu_kms *_dpu_plane_get_kms(struct drm_plane *plane)
+  */
+ static void _dpu_plane_calc_bw(struct drm_plane *plane,
+ 	struct drm_framebuffer *fb,
+-	struct dpu_hw_pipe_cfg *pipe_cfg)
++	struct dpu_hw_sspp_cfg *pipe_cfg)
+ {
+ 	struct dpu_plane_state *pstate;
+ 	struct drm_display_mode *mode;
+@@ -192,7 +192,7 @@ static void _dpu_plane_calc_bw(struct drm_plane *plane,
+  * Result: Updates calculated clock in the plane state.
+  * Clock equation: dst_w * v_total * fps * (src_h / dst_h)
+  */
+-static void _dpu_plane_calc_clk(struct drm_plane *plane, struct dpu_hw_pipe_cfg *pipe_cfg)
++static void _dpu_plane_calc_clk(struct drm_plane *plane, struct dpu_hw_sspp_cfg *pipe_cfg)
+ {
+ 	struct dpu_plane_state *pstate;
+ 	struct drm_display_mode *mode;
+@@ -276,7 +276,7 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
+  * @pipe_cfg:		Pointer to pipe configuration
+  */
+ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
+-		struct drm_framebuffer *fb, struct dpu_hw_pipe_cfg *pipe_cfg)
++		struct drm_framebuffer *fb, struct dpu_hw_sspp_cfg *pipe_cfg)
+ {
+ 	struct dpu_plane *pdpu = to_dpu_plane(plane);
+ 	const struct dpu_format *fmt = NULL;
+@@ -419,7 +419,7 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
+  * @pipe_cfg:		Pointer to pipe configuration
+  */
+ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
+-		struct drm_crtc *crtc, struct dpu_hw_pipe_cfg *pipe_cfg)
++		struct drm_crtc *crtc, struct dpu_hw_sspp_cfg *pipe_cfg)
+ {
+ 	struct dpu_plane *pdpu = to_dpu_plane(plane);
+ 	struct dpu_vbif_set_ot_params ot_params;
+@@ -467,7 +467,7 @@ static void _dpu_plane_set_qos_remap(struct drm_plane *plane)
+ 
+ static void _dpu_plane_set_scanout(struct drm_plane *plane,
+ 		struct dpu_plane_state *pstate,
+-		struct dpu_hw_pipe_cfg *pipe_cfg,
++		struct dpu_hw_sspp_cfg *pipe_cfg,
+ 		struct drm_framebuffer *fb)
+ {
+ 	struct dpu_plane *pdpu = to_dpu_plane(plane);
+@@ -635,7 +635,7 @@ static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, cons
+ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
+ 		struct dpu_plane_state *pstate,
+ 		const struct dpu_format *fmt, bool color_fill,
+-		struct dpu_hw_pipe_cfg *pipe_cfg)
++		struct dpu_hw_sspp_cfg *pipe_cfg)
+ {
+ 	const struct drm_format_info *info = drm_format_info(fmt->base.pixel_format);
+ 	struct dpu_hw_scaler3_cfg scaler3_cfg;
+@@ -691,7 +691,7 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
+ 	const struct dpu_format *fmt;
+ 	const struct drm_plane *plane = &pdpu->base;
+ 	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
+-	struct dpu_hw_pipe_cfg pipe_cfg;
++	struct dpu_hw_sspp_cfg pipe_cfg;
+ 
+ 	DPU_DEBUG_PLANE(pdpu, "\n");
+ 
+@@ -1129,9 +1129,9 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
+ 	bool is_rt_pipe;
+ 	const struct dpu_format *fmt =
+ 		to_dpu_format(msm_framebuffer_format(fb));
+-	struct dpu_hw_pipe_cfg pipe_cfg;
++	struct dpu_hw_sspp_cfg pipe_cfg;
+ 
+-	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_pipe_cfg));
++	memset(&pipe_cfg, 0, sizeof(struct dpu_hw_sspp_cfg));
+ 
+ 	_dpu_plane_set_scanout(plane, pstate, &pipe_cfg, fb);
+ 
 -- 
 2.30.2
 
