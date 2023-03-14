@@ -1,37 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEF06B86C8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 01:19:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 445626B86EC
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 01:31:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C1510E6A5;
-	Tue, 14 Mar 2023 00:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD0510E6A8;
+	Tue, 14 Mar 2023 00:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51BB010E6A5;
- Tue, 14 Mar 2023 00:19:48 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 4FEB81F4A5;
- Tue, 14 Mar 2023 01:19:46 +0100 (CET)
-Date: Tue, 14 Mar 2023 01:19:45 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v3 10/10] arm64: dts: qcom: sm6115: Use the correct DSI
- compatible
-Message-ID: <20230314001945.jc3bmfrnhxbtfwkl@SoMainline.org>
-References: <20230307-topic-dsi_qcm-v3-0-8bd7e1add38a@linaro.org>
- <20230307-topic-dsi_qcm-v3-10-8bd7e1add38a@linaro.org>
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE3F10E6A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 00:31:44 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id b20so8725773pfo.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Mar 2023 17:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678753904;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RTki4dq5GO7SRaR6dQWVXUZKBjk5cuLTvV6wXNGOXZI=;
+ b=kG9SDioQdfpzSQqbDMldHb4Yp9/tE/B0C7md2nApwBu2DmrxG++UGk/9Pvut12KT7W
+ FJF2qQTQn3pYC+w80lV4oUJhCaRt1pT4sz1V6e19kg7MtuPK8M+/wnyJbV4FRm06gai7
+ fNLIRfzB8tvxfITyklM0JYygh4mCZGW499fUSnQSWfNIprNob7oeCNC8i8/yfOZF86xp
+ 1B7mW+oS5Oi/BHZwDS8MylzsbelLSf3wj64wyUwrtRo7HsQT1uTqCE08XFM+RGYueRF9
+ XZ86GkPxEhmdJuhPtdaD1d5Hg5Cd60Bmdvdth7CheviariDJpZvaZWdAg1GFqu78VSH9
+ hDNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678753904;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RTki4dq5GO7SRaR6dQWVXUZKBjk5cuLTvV6wXNGOXZI=;
+ b=7BDziIadvj+BtTFF6mBGuaKrxMko6Hf/LB5w1F1fq/BtZJMEyi73mDdO4QYduI3MkJ
+ Da7zEYItdo+1cwYNvsIGmIIGjsOtYIxwu5x2UgDpEgqpGuUxwFsdW5tlebVIWtXO7t4k
+ ditN4MHp0O0XQHByWeOC5Kz5gZvnVWvx1a3oZN4pTM8+yeQ9m/tpzZDaAZxjibiaR8rm
+ 2JTm8MZtW1BfJMQqQELCX0kzDsL7diFCpsPFKUPXSNBO+7yIKbUMTo873ivyEoEqMRX2
+ S5P5hVDQMxoex5vpflC3CW+1xb/pReO/y+GosxXCrB393inQmRQ8Xwfc4Yt3Nd6zXvc4
+ yvdg==
+X-Gm-Message-State: AO0yUKXSyghdbGESXk8sz14F24unJToTwy0+O18gYR1WBebIIgbcw45O
+ kTCWjuW8/OdD39sAhppU+vVy4n5KPK0Ze/pGb+8=
+X-Google-Smtp-Source: AK7set8Vv87JbVevNVFuCmJU7DZp3vlkh+pkO9cJwwzGyhMTFMNrcFLcN653o0pHhYKr8woQJeggOfYoA+tDUWzjTow=
+X-Received: by 2002:a63:4d07:0:b0:507:46cb:f45b with SMTP id
+ a7-20020a634d07000000b0050746cbf45bmr4300161pgb.1.1678753904383; Mon, 13 Mar
+ 2023 17:31:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307-topic-dsi_qcm-v3-10-8bd7e1add38a@linaro.org>
+References: <CGME20230303145218epcas1p2e77bc610f57337830924e3c6c02ca291@epcas1p2.samsung.com>
+ <20230303145138.29233-1-jagan@amarulasolutions.com>
+ <000001d94feb$ef651bb0$ce2f5310$@samsung.com>
+In-Reply-To: <000001d94feb$ef651bb0$ce2f5310$@samsung.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 13 Mar 2023 21:31:33 -0300
+Message-ID: <CAOMZO5DFhFTh9kd2NdEe1m2AEs7Se0PNeWZ+5q-cSAz-QVoPDg@mail.gmail.com>
+Subject: Re: [PATCH v15 00/16] drm: Add Samsung MIPI DSIM bridge
+To: =?UTF-8?B?64yA7J246riwL1RpemVuIFBsYXRmb3JtIExhYihTUikv7IK87ISx7KCE7J6Q?=
+ <inki.dae@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,48 +70,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>, Andy Gross <agross@kernel.org>,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, freedreno@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Matteo Lisi <matteo.lisi@engicam.com>,
+ Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-03-07 14:01:48, Konrad Dybcio wrote:
-> Use the non-deprecated, SoC-specific DSI compatible.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Hi Inki,
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+On Mon, Mar 6, 2023 at 2:24=E2=80=AFAM =EB=8C=80=EC=9D=B8=EA=B8=B0/Tizen Pl=
+atform Lab(SR)/=EC=82=BC=EC=84=B1=EC=A0=84=EC=9E=90
+<inki.dae@samsung.com> wrote:
 
-> ---
->  arch/arm64/boot/dts/qcom/sm6115.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> index 4d6ec815b78b..26e2c7919961 100644
-> --- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
-> @@ -1218,7 +1218,7 @@ opp-384000000 {
->  			};
->  
->  			mdss_dsi0: dsi@5e94000 {
-> -				compatible = "qcom,dsi-ctrl-6g-qcm2290";
-> +				compatible = "qcom,sm6115-dsi-ctrl", "qcom,mdss-dsi-ctrl";
+> Seems some issue Marek found on testing. If fixed then I will try to pick=
+ this
+> patch series up.
 
-This is what the example should look like in qcom,sm6115-mdss.yaml, too.
+Marek has successfully tested v16.
 
-- Marijn
+Could you please apply v16?
 
->  				reg = <0x0 0x05e94000 0x0 0x400>;
->  				reg-names = "dsi_ctrl";
->  
-> 
-> -- 
-> 2.39.2
-> 
+Thanks
