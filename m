@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BD76B925A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 12:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479216B9259
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Mar 2023 12:57:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F53410E786;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC1910E785;
 	Tue, 14 Mar 2023 11:57:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR02-AM0-obe.outbound.protection.outlook.com
  (mail-am0eur02on2056.outbound.protection.outlook.com [40.107.247.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 581B810E785
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:57:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CE0510E786
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Mar 2023 11:57:13 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mki+RNQBQijV016nWR5GMnq4oN7ENEqKOzYMs2qbDx72IoA+6lDuHbDgNhxtmo2KXnbr2MkBCCm3JnHhQMhI8oNdTN381H+xELnOridgWScs3kYP1kUyHCHHuJ+2gLLp/CsySDLIh0MQ44gPdgO4jljPcyTfXKk73d2TBCyq+NuX5B5sI9i0dpsrTMWVipE/rBDQQ/34mAr8O2V2PeTFPtQaBZ7BaAYy0q1a5ArEzSqxhYEVsgoE3znQm/6BWDSITkhSIwXJ413y6u0SL1aYjm6K0yhDxM8j/1PtXUCIUTmzNHK7wkeIyZwAQPhH2pgYKIYdBlj4obiD1N/fv8y+nA==
+ b=R0tCS4oKu9QJJDI7tHLwdkD6SNm3QAeh5NULYq7hFZRIn4MGyXGil0jqNGoUmDR/+XzaCLZMGwvGTnkpz8knmpUI8d3ncGMm7RsPRaNX7RorepkD1jCtY9vU22pBl6mPBQk6D9n4AOwCRVbxX7j1G/ptK7s7x8fzdFtKVm8MrMUH2/xkVEhABBuHQPDjVp8LKtNjCRp5u/zKEtJTWPbfrP/2oyMwu9D8x8twjgQLEncuv742H5zqTDySa57O7IM3WxLa0XMommjBcF25yFaMD3mVQF63WEhsjfuk13Tvvo+yHZK71zSxvLowVSvnXUl7ysVi1T9ndn26MlF1peKOeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Okpc1bDi/B0xkMFvcjnbnh5IX9hb+SBNk9blhpsuyU4=;
- b=HfkZGmR84B0HnwB0sfcpXwYBEP4dOk91uHsjsBzLl7ku8Fut7wZREp90gpRBMtNIOCGWQUGvQLq1QbQerAkCt4rkGq59UkaxVoZBGI5tDYpNR9fl71pKYv83xSOCxMb52/4RIovq0M9qBFCwY2C+KCBOLhxeldsPs7FxQZJ34tdfo4/JyBq+48ZUh5FM3WpyBZtcSpbYizyzcVJEwqIEQmkQKFtu7SSEXIgxowRBwGKl9kk/W2T90de87h4fCDtFlCDrxRdAhrWnh+TuJ/CNl9Ayj3nP67tdv06MbDm91jzmgVWDCKVtT73+Fp8JewAtZXFlaXn4s7OAPcoszvHRlg==
+ bh=iyzrg9ClFD1gCBL4xDfxIUxvo3lZIeCuT3Bu0s0q6mU=;
+ b=QP0ctOr3Cb1VKxwtbx7wps8H60qffAgt9PecI6wp9T+MKFG/1oZuPcqgVXgP6iHjR/CvLz3yGSz8QA8bH5Z51ZCtlKx8JsqeJFH3icgROUKQ0P6jP4w3hYr0yVuGHJ3nj8PYlesneGfPIbr9/WW049EX+v6DdDxUL8lNwnHIukgnXoHRJZwHfryVy0ET0m6QvztTXnSMeUKPoLDnyPDy24b5kTw5iNrKIDj+4GtId1QmAdX1gIRdcs7p44zJPXhMElfuZGp3flxvoAJGev3c6SThP1hVe2ENIaz9IBy/hGcOH+a/FMyZZ5gCZUuDEDm7VzSEUN37I6ot/3lCJz+o5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Okpc1bDi/B0xkMFvcjnbnh5IX9hb+SBNk9blhpsuyU4=;
- b=sJTUNYuLxsNocbh1QbHIpY99GGOD14tNuYkdIqNWWw2qVcJXRJTZClune5nn+ho4Q6wQZ34tPyN0uzJ6LhjCOKXdDjumwgf7sgDaCRWIjflw5CFRO5pRXuEhbt3BXItmflbhy/f9Yax/8VR1IuL9ZDF5Y0L1fz/u7or6ZUU5UGM=
+ bh=iyzrg9ClFD1gCBL4xDfxIUxvo3lZIeCuT3Bu0s0q6mU=;
+ b=vt8NrAGk+0Wqp3Rv34iMA0/IojGkrm3ZsCofXbZBouj8x0N9KTbAKWxk4ZbWhPNSGuoGb0GXZ785l42Rd+LiumA5d4GlfN4SYtmQGl0GeEbqNXA+FAVin53iSW66UtRhJ5VunE+UY/tLhvlCKE9PKAxp/gf2hXwHdxjqrAP7eM0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from VI1PR08MB4544.eurprd08.prod.outlook.com (2603:10a6:803:100::13)
  by AS8PR08MB9313.eurprd08.prod.outlook.com (2603:10a6:20b:5a4::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.26; Tue, 14 Mar
- 2023 11:57:09 +0000
+ 2023 11:57:10 +0000
 Received: from VI1PR08MB4544.eurprd08.prod.outlook.com
  ([fe80::b094:4fd2:abe3:9f08]) by VI1PR08MB4544.eurprd08.prod.outlook.com
  ([fe80::b094:4fd2:abe3:9f08%4]) with mapi id 15.20.6178.024; Tue, 14 Mar 2023
- 11:57:09 +0000
+ 11:57:10 +0000
 From: Gerald Loacker <gerald.loacker@wolfvision.net>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 6/7] dt-bindings: display: add rotation property to sitronix,
- st7789v
-Date: Tue, 14 Mar 2023 12:56:43 +0100
-Message-Id: <20230314115644.3775169-7-gerald.loacker@wolfvision.net>
+Subject: [PATCH 7/7] dt-bindings: display: add panel-timing property to
+ sitronix, st7789v
+Date: Tue, 14 Mar 2023 12:56:44 +0100
+Message-Id: <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
 References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
@@ -57,53 +57,53 @@ X-ClientProxiedBy: VI1PR0802CA0032.eurprd08.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: VI1PR08MB4544:EE_|AS8PR08MB9313:EE_
-X-MS-Office365-Filtering-Correlation-Id: de0e0d12-9ea4-42f5-5120-08db24833d5b
+X-MS-Office365-Filtering-Correlation-Id: 6eec2d57-fdf5-4ff9-e4f9-08db24833df3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1HNU2ZnQnNh9WXxogv//XchLkTL4DnFvArVEDwa8CbCYfM/u8QewFtBF2+xCzoMrjskrurQDTTWee/nlK5+9FgpUBfQPVcKzERK6W0yNNRPamFD/znLNpW30JEYbC4YH/rF8hvjMjMVybFn5jAWQJAKPW81Rr+yzjSInMz6rr+2OwMg8RpwzXgD9vjyU06OvKSpZx4t3C8rFgkRSCHRiRQy0OPHeUcYUNdIl3YGBFZkdAzfLzTy1QrpG7z+/dvnSG3LGytEy00KZ3BzTdyVvn553zrCfxJ7iGSHrMHxNZfPo01BTIX3a6xrXY6SVtNZ6tqc3c1TuJVO3Ge06T1UCsPPhTDDTTMPZnVxQcLMxaTk4NWVNEkRKGTtFkLbQpsPEihF2JbCWPVaR0DoDIOqFFGgTN/+Kq/InYCp9CqKLMaz4peKYYUxGJkbOg1c4t/dFqn/aj8sunzJe59YZlVjkfd/cW7xq7YXbI00sydVSgBXAEBCK+pycje7knERGE8GdrkRAy32nSGHWStRvrtxasetkWamgJuXYnmlQFfXKZHgXI6FDI3Vccyneg+BO8qDeU7YFknIK7QCS22K/D/h3px5t51hrISd6CYFI6GnQT5yn9DBnLZcnStBobCqlRJAUT/Nouq0bQS0iCqfZXRTRWaOCzfjJeDCY2m2sCPBPzKD5LWvFKBmq0dVndzepkX2+FbNuFfjj1gRZhUunuMisXQ==
+X-Microsoft-Antispam-Message-Info: r+jPk7yndMG9zzFLnHGquYyUAgIc1hPKRTcDaSbJJ+GQ7Q4lgs1FDJJmssgFtkQchAJIfCoxSl0xMPYnL8xsh7jYg6nVmV9S9x9L7RwD2pdfk8zBUtlQPBybL+mPkFP0QCByIVcnfWPrAcjKeOXVB2/9Or2rV1Z6RsDTZIOrEykQ3ybZ1xXy4xxt/dFYytyNjYIqkUq7I5XV93zl3Wbxh+csmmrDzmi9LcCOfNMpkGxEYKHmaK+kZX7pZBpE70eTbizuc1A0YZzqyGY6of7Ic3DAg6b2pWvVg+z/iBeccxu7WSrSnoPBLzNOBMbHxJ0h6/fgocEIQjxeCR5S6H3QazZYRpNFP/TlMw6U2LoiUy7A9RpMtkIXjxFHZYzCkz0vc7jFrtz0kOV0JnWLzH7soH/vKefi+dQrbch1YRYEjXPm1tRufVdzzoLQbsLM9+XrtP3PlJORq92sPMy7TEL1/6y+m1MlxRMfNVXjp8xHF71sFxKyqhyDSVghQg1kfLNFnfSWaO9ORrnCiW5xbmPy/JqwjyeJdjBhHspqbycV2HADUuvtHPqTXfUgwxzY4Ap+m0kRlYFFEGYQVWs0V+IILRM5A4GwpjpCKeniv/6X5G4hshojbi9FGt5Uce5pcHt3qdMpaH5KChW+0nZ5Y7xC2TBX7WXLR70D7ucBxNFn2121mOlOni5by8KiwNDekcumQR7NgzvejxiMIs4BVylyXg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR08MB4544.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(346002)(376002)(396003)(39850400004)(136003)(451199018)(478600001)(52116002)(186003)(26005)(107886003)(6666004)(6486002)(66556008)(54906003)(66476007)(316002)(6506007)(2616005)(66946007)(6512007)(8676002)(41300700001)(4326008)(1076003)(8936002)(44832011)(5660300002)(7416002)(38100700002)(38350700002)(2906002)(36756003)(86362001);
+ SFS:(13230025)(4636009)(366004)(346002)(376002)(396003)(39850400004)(136003)(451199018)(478600001)(52116002)(186003)(26005)(83380400001)(107886003)(6666004)(6486002)(66556008)(54906003)(66476007)(316002)(6506007)(2616005)(66946007)(6512007)(8676002)(41300700001)(4326008)(1076003)(8936002)(44832011)(5660300002)(7416002)(38100700002)(38350700002)(2906002)(36756003)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hOYt42ce50FEHBxBksK1+xlyB8KYdHPEO2q6eWbxo80cvg46N0rl7+JCMyC3?=
- =?us-ascii?Q?++9hPDY//fh7WnMRzJJ0I4x3eVZ8djcXKmOnsdlEZMz9Daw7ez9ScreNL+Rw?=
- =?us-ascii?Q?PKvQZ5wr1Nd/bHzKxb9RiDqWWAkrsY0EihW0m8B72tRy7goGbUcmCdmI3j17?=
- =?us-ascii?Q?+m+SBx2NIpiRT5xg6iTHo1X+xlR/7m86bOmy50NV47Ptxf2ea/La4wcA4pyS?=
- =?us-ascii?Q?ZewmG/vnwl5w2EbERBtm8BLEzbjVhx5edqheLV0XI3pTRlvXkHV7hpkX/XXv?=
- =?us-ascii?Q?UTcJVlhbUQkr6vRO0iHRJ8jqWqVMHXHyxML5kAXuB9zKu2RkxMvKoiA1PFLn?=
- =?us-ascii?Q?rhgAVhval4JDLl6uGUPLVe/QVdk6pA2sTXAS5l8oy0wslQXUp8hcUl7GjZ+K?=
- =?us-ascii?Q?Torze6tRF9JzGe3eT5ELS+HDh700JuJFIgJLvPskjlHyfIp29RzebzfZL6i/?=
- =?us-ascii?Q?slKoGxuKNCUQk/hEXBbXMYxZf+SSo6C8U0gva2ZMtRKCAJQQ8PUpPzi2HsyO?=
- =?us-ascii?Q?oFdgrGAeAsx9qvAJ9SEd4NVUajRer+PQ6wchYRIwrTbgwOcuNHVA/2oyf1Az?=
- =?us-ascii?Q?mrr1/R4nZ56P4ve2mE0mIhqXdxqhV3LVLnCv221+D5U+6k63Sg1wb1CmIgar?=
- =?us-ascii?Q?rhTn66WyDOiaIsP45opsMJ1YULELwncXfdySLAVBQHDvI51pzgTHhbfexLMp?=
- =?us-ascii?Q?pGk8DqBJXKpJwfXrfzN7rVq60DJB2ahwOI2WjI7VwixkKOm36HQpj3qOUQrI?=
- =?us-ascii?Q?kXaEJFVFS+ZNrYPWjVx+R0Y0PspmM2O8AP7hILpHxxGG3XLLqKlzWA/leeT5?=
- =?us-ascii?Q?AW/grCLaaBGe9V3csNFPV3IItMddx/ETG5kgZdoVG62QyGWQhU0CM5yVUaZr?=
- =?us-ascii?Q?uzTkpCu0YQsXCQIZEiMv/JmJIoNJN8JsXZs+kv3sEJ+dNK0/9uDtQ4zgku5I?=
- =?us-ascii?Q?HGYnV3QJMfo4jHXn8u3IVwLlZ3T8G27Bx+K6H8AgB5gTzmtwQuk7Yshwcx3T?=
- =?us-ascii?Q?gERi+5ZZS2pvmSUpX560OVYLxKPuONfis6er0S5URGf6maC5HC/1U/zBJXZn?=
- =?us-ascii?Q?VJ/CrjodFzF90ofLuyfcSwEgXVIJ3SdT4DRpay2wG7t5FaFvtueY5DsttnZM?=
- =?us-ascii?Q?J5kn6q2wz6lIoU5IgG4jUf1/ebrI5vEejMknzwGQi2bVW5i26pYEmmH1RJiT?=
- =?us-ascii?Q?eLfMQzbCT3whmliTYSVjZmjxnpZQjIX3tuqlN8pzrUIHGNlaMaGnYscda7o4?=
- =?us-ascii?Q?0ts9W7uf6eCeET9I+SFeKTTlVkU3SZ5Wrkb0Wa+aCj25KS1bRv94uS7r+NVb?=
- =?us-ascii?Q?ARVLkNwVL6XizW7FjX4Q22hn55zPCHGDREfrogx+Au8txvSQRis7oBdZvAga?=
- =?us-ascii?Q?kxJEIuaoep7cUTsUZnL7jh8xqzWg1Yr6O8IuKF/t60MQsNob4wvJDtEANd1+?=
- =?us-ascii?Q?PioEfGBDQaaO/TvgrWKwHaMqiYSZNv1wCIjNbKNkr63b27TCv/xXVKaISeXe?=
- =?us-ascii?Q?Sj4Li2HqsYmPWST+jNdnScavF7cNmaPSPB04IRDiXdOGav8SeFe58fCh9uLK?=
- =?us-ascii?Q?/pZmCgcFVY9liyVun3XTBw1kqFBO/QRhlOnxiG3CtrTcZs/mm/PHv6YtGY28?=
- =?us-ascii?Q?C2FwdIRnOCkYXVhcMf7873E=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZIctTdp6IT9lGQeUfXGsx6aBI0Tgtitqz2Q68KPYZdkg4sVD0zqPyU6Z6DiP?=
+ =?us-ascii?Q?awEk0eifs/XQatH513JwT44Aog9O6oEbk0S4Itad1fmB1YKmwS+iuhaTMM5Q?=
+ =?us-ascii?Q?gIw8NnjYxuX6xrQww+TToO3DaBJbJI3kGa9yfJ8hTgiXGpGG9oGrwKDI6vbc?=
+ =?us-ascii?Q?Ayc6mCAIMc5YZGINwHZabUjpiN5xDACJJkeNRCHk2gWq3txd/9x2odFOeaMd?=
+ =?us-ascii?Q?v4BL/Y8gKY07gnbqmGicpImsM4VM/3f9aUWK/1yNKttvpY1357twYJ7ZBwQQ?=
+ =?us-ascii?Q?N2a93TpQk4RuUbnjJS971PR3goQua26yKvSnd76qT7VNmnVDFM8L2HOQS+H3?=
+ =?us-ascii?Q?aEKnMLohG+YpbKOnWJrtwehE9zlCnjc1fzvqgb/ixgiaprWu62ADLvsvMjl7?=
+ =?us-ascii?Q?J7zXp50pJuAri9SgqyMSrI3vNrLhC6vqucCmE4BNH309U+tyfM7/Bmiip70g?=
+ =?us-ascii?Q?VmD4Hu5EtThiMs6rXH/rWGn7f1LGWZW/wkOFeuj/v38MY6Ni//yXK9fpIzAs?=
+ =?us-ascii?Q?+vCJYgp6a3x86EK8hHFieEWC1+q5sscUrCLaQ/SPqTyW6J6IAyW628LKRAxk?=
+ =?us-ascii?Q?ZqL810kkPehmNFcSaS0SVOH4gbmE2KgKGH8F2BVR2bZStbks7KFMsZsx9eaj?=
+ =?us-ascii?Q?45+a4Q13jU5H7L3Z7dsRew+FU3owSYR0qHifOg9wQfAK4gYfstz0+h9fwcBW?=
+ =?us-ascii?Q?pkv1e7ewysxfdvW1+WnvJ0w52rvAMOahHNshCZsbygjF1tYbDpBIf2kMLYJ6?=
+ =?us-ascii?Q?YvB6Gs0+BcRiW9+6WR18hCVCczCMmDySvdtwHR693ZRuLlfMOGF1GANg1OgL?=
+ =?us-ascii?Q?CuZ6kswEymFDMD3lQhEnWTSZ9T16k1Ugq8k5woaIThJ7VVR/USZ+e73dKo+6?=
+ =?us-ascii?Q?EtexKl3x3rBGY11TALbYeLde1cQRAsXuP/siR9m1UB3s3TcG+hGh67DAt88/?=
+ =?us-ascii?Q?PLFkRXLYDhrzww1cu+5S5xCEItInGuK72Y85uKyPr7uI8P2XGeOXVRIVIp2s?=
+ =?us-ascii?Q?YTGCbOljJqIww0VZ28o8qAKvrFBvvvNq2es6HF4dMHm45FcCMTXM5WA4olU3?=
+ =?us-ascii?Q?xT2+VcmDheN8IyzjLLPM9aRI25qro04EKQtKLX4GpQtBxAMkeyOg1mLrTcCE?=
+ =?us-ascii?Q?hJc0Bn2jIHLxXN32KRwtuIZfv7aoIqR/79eyCrSkn25kzW9txhfMAK/X6x5f?=
+ =?us-ascii?Q?ohLtQVT0q653AYFlKESBN5BVh9H2uI977gB2sQW1MXVZsGSNS0m+UuuWNh8K?=
+ =?us-ascii?Q?XdrWW5PwqwpEL1ACwDeWhxNHJJ3ovXV0gyLq83FGI7V4vm6APo0aYrc4d4+C?=
+ =?us-ascii?Q?QBNJ+ihF1CivU20EIpNAb0VbYFD8P9mzBeJiroYJJftr74U4ALXn5cfMDaMe?=
+ =?us-ascii?Q?k7r7SXKjw+jMuqSX4poiKUIQkDV9IyvTNJ3TNt2vjGb/0oSUcX6MJOqZqdHh?=
+ =?us-ascii?Q?lOYvuMrPd4lTOufXze+L7IniE0EtmediRzH6hHp9LX2Vlye3ptRC0kjnHe97?=
+ =?us-ascii?Q?OEdvFUXFrcTZcfqR1Dq/M4gM21jl0c3ycQUdGBTahLWQIv6N2kKntwnzuHV6?=
+ =?us-ascii?Q?Y45H8Al95V9cobClU5oyXZy45MDjob26oz+T0DRgLC2cyDRENXGUllUWdmlt?=
+ =?us-ascii?Q?rKQk7vEETSPh7o9IBUVl364=3D?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: de0e0d12-9ea4-42f5-5120-08db24833d5b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6eec2d57-fdf5-4ff9-e4f9-08db24833df3
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB4544.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 11:57:09.3486 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2023 11:57:10.3173 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TTDUkM6zASa72bR6HXKCVe256ciLHW/6n9zXSZg8oJLIhjjBdu0/dAMAX96UQHqL4cmyeKKha5L3FadvI9uByLfkJsjPb6qc3SLBjibBquY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: vuII/TWDWdLnvurTZb7qisEo1xLTwo4zuvUB8qIcs4NdleyUHgy0b6D0m0yqidC97B0KWEnfavRLCeLBHWTodXOHpFJxwMSBDQTkLPRRm2Y=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB9313
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,37 +125,49 @@ Cc: Gerald Loacker <gerald.loacker@wolfvision.net>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michael Riesch <michael.riesch@wolfvision.net>
-
-The sitronix-st7789v driver now considers the rotation property.
+The sitronix-st7789v driver now considers the panel-timing property.
 Add the property to the documentation.
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Gerald Loacker <gerald.loacker@wolfvision.net>
 ---
- .../devicetree/bindings/display/panel/sitronix,st7789v.yaml     | 2 ++
- 1 file changed, 2 insertions(+)
+ .../display/panel/sitronix,st7789v.yaml         | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-index d984b59daa4a..ed942cd3620f 100644
+index ed942cd3620f..8810f123dedf 100644
 --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-@@ -22,6 +22,7 @@ properties:
+@@ -21,6 +21,7 @@ properties:
+   reset-gpios: true
    power-supply: true
    backlight: true
++  panel-timing: true
    port: true
-+  rotation: true
+   rotation: true
  
-   spi-cpha: true
-   spi-cpol: true
-@@ -48,6 +49,7 @@ examples:
-             reset-gpios = <&pio 6 11 GPIO_ACTIVE_LOW>;
-             backlight = <&pwm_bl>;
-             power-supply = <&power>;
-+            rotation = <180>;
-             spi-max-frequency = <100000>;
+@@ -54,6 +55,22 @@ examples:
              spi-cpol;
              spi-cpha;
+ 
++            panel-timing {
++                clock-frequency = <7000000>;
++                hactive = <240>;
++                vactive = <320>;
++                hfront-porch = <38>;
++                hback-porch = <10>;
++                hsync-len = <10>;
++                vfront-porch = <8>;
++                vback-porch = <4>;
++                vsync-len = <4>;
++                hsync-active = <1>;
++                vsync-active = <1>;
++                de-active = <1>;
++                pixelclk-active = <1>;
++            };
++
+             port {
+                 panel_input: endpoint {
+                     remote-endpoint = <&tcon0_out_panel>;
 -- 
 2.37.2
 
