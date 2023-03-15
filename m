@@ -1,61 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D5586BBEC9
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 22:18:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F160C6BBECB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 22:18:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2913810E350;
-	Wed, 15 Mar 2023 21:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63DA10E9D5;
+	Wed, 15 Mar 2023 21:18:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF63710E350
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 21:18:25 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id x13so33437106edd.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 14:18:25 -0700 (PDT)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A04B810E35E;
+ Wed, 15 Mar 2023 21:18:30 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-17ab3a48158so6281288fac.1; 
+ Wed, 15 Mar 2023 14:18:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678915104;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SBqLUoUpF3OF7zxZU/l2FdHELYPCmOM+mGZbmPLqr9o=;
- b=XaV5eGty7CcjSosYmEqRFrtejjDEjWmwe5NI9ZBdeuZwicvrZXD+JFTdyfWMRvqNc4
- wOpGJJ+GyLCv55RnBY4v1ULS7y9rvgyVnBi41ncT+KIRvtbnE9iX4IfYkrgXCHztLodh
- Q63+4Zw5XxOrr00L8mB/pCDRTnA37MB0vRoKFZtKMGr4nsGAfNpFqrPK97f0QGyGH72g
- cxYMFIANCG0uvfeoLi1GjwPQZUdCwBp2mvblr/QJAniijknZ/QwTU1wVtjQD0ShuAaNC
- zPjTHX/baI0OZsJD9F2y7M17mJWhWcXkAVlGSxTihWDkbMX1WRNMy9D5RvvhfPVh566r
- 72Hw==
+ d=gmail.com; s=20210112; t=1678915110;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=bdnBdXjPaPq22bh3GzRy4ABzX+bcEMJKNRNVLLGgBsg=;
+ b=ZuL2udCMxwn5gI+q6+YtLJPvHyiQauuHTEAkzSR37Mf9S/l7ajIqmQYYZluoNVYV+S
+ r7amWms85839VXN9elIXHTNnEMMNzZ9mSnouOURlIUn1OqIBuKDwrVokNg5NZn4MRVad
+ on9OwOrcpEr8EgFzS++1+/nbd734g0uOW0dDjD1WuLoRsoLrBFZfKkGxNHyNSm1KikhZ
+ RGtkIuPeyeG0Yiis8XNXkMsa/nXaUxBH4zwTpWSKJUy8dOB2w6rXrXioQ5tcda+wjtDm
+ 407b2/CM+yuUzPwLKZXlqnBsRGbY+hp6Jl1QCSLgxnAB/AH51dnHL06bIRUsoPsRUqBg
+ 2Wxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678915104;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SBqLUoUpF3OF7zxZU/l2FdHELYPCmOM+mGZbmPLqr9o=;
- b=oLf7SAPAy9Ydlwi7maZRTwIu3IqrVCnieeEAOJivVJl+wJ4WqRgPln+LbtLM6vSkU0
- NhSAjRF6Yu3gjQEnxtnnSZ0mgUV155QvA6HN1idHSSZx9RopQU+zNqqiyOJZdl0WN6J6
- YydaR73ZBZNuvaNoJYhI7EVh3/L3+VdCiGFj3xR/boAJyi12E/lnp+mRLsOxqD8FCEK/
- OjQwkPNDoFGBdsofyVWa9TDioado/203EOAyaj+X7/4VrDohOGnLB72YANJD/3qb/sJR
- O9SPmRCh9sUGg/ZYkDZtwu9ScVp6bvXn3m3pf77IU0oMjy4lLf3LkYkk8gMN+Yd/YKHZ
- P1fg==
-X-Gm-Message-State: AO0yUKVsquYl2lVe57+5MEGO4U5gEENwGgy7TMwH0VZMwH5+wildqkLt
- IBC5mU20uGVwIn2cw3nihoHKYVno0mNDyEIHOpc=
-X-Google-Smtp-Source: AK7set8jwZL7fgymUE6xxgKxGLXRpJ2c9p/Oc0D75Nr5lj2nNzbBhCi/Td3TIGMjK5vhD0soO0x6en6uysyJya2As6Y=
-X-Received: by 2002:a17:906:3106:b0:877:747d:4a90 with SMTP id
- 6-20020a170906310600b00877747d4a90mr4132308ejx.14.1678915104137; Wed, 15 Mar
- 2023 14:18:24 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678915110;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bdnBdXjPaPq22bh3GzRy4ABzX+bcEMJKNRNVLLGgBsg=;
+ b=6PKeelg5KZkDgRnKuUpA+MJ5UKOh/PZXsMAiYRDqACmYHfuJbNiZvZW6X/6Laf6jkU
+ a3MPln0wTVLdoNyAKEgdU9Zui/V9LwbBKmy/cz8N+/FInjnLN7Oq3UWnI5+rirvi8z16
+ FgC7m4fGQ/MBozO3YSM8IOJOlo1fxNUOeuhx+3D8xyaqviUuGwhahNajnnepVkz2PNim
+ bFbMWRIccYuEe/mYbGwwjRMtkmJ7yE5L2YRmvRPy086iTUEyX30ic5g4YSv+BnXsTG7j
+ fSeiPCAUPXh4nMt13eqHv+65foBMGiIPPNfijZhvoHKNjhBb+Sbwb6fXoSUPJCYp3G7r
+ aZ6w==
+X-Gm-Message-State: AO0yUKXZchb/iuA65rOtkpzSi8KT2NQVxqOCP+bbA7SDZBHTGUCxUuSP
+ Pw7obgK5FoGSKaN+1AaikxMJLxrRrq58CLU9DyU=
+X-Google-Smtp-Source: AK7set/jIUXiHKsEUbCoIzuLYS6XHPxHBp77q+c5ZikbCCIGYHgBEO0xRM1r9B0hFYKNvoXYN55JfPSCWpuoRnXBB38=
+X-Received: by 2002:a05:6870:11d1:b0:17a:d52e:77de with SMTP id
+ 17-20020a05687011d100b0017ad52e77demr891023oav.5.1678915109865; Wed, 15 Mar
+ 2023 14:18:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAPM=9txaQfHkjs6nWcwBtnYQXtr996dyht7wasJ7QOovjepmAw@mail.gmail.com>
- <CADnq5_PdxFdvVwVnQ2n4vXXPYKe0ZOVYBPT0Kf+6aPuQLc960g@mail.gmail.com>
-In-Reply-To: <CADnq5_PdxFdvVwVnQ2n4vXXPYKe0ZOVYBPT0Kf+6aPuQLc960g@mail.gmail.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Thu, 16 Mar 2023 07:18:11 +1000
-Message-ID: <CAPM=9txGT2hFNAQbY8Fncz_zGr0nNeQ4KbN_s=D0XXueCtDmLQ@mail.gmail.com>
-Subject: Re: enhancing module info to allow grouping of firmwares
-To: Alex Deucher <alexdeucher@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 15 Mar 2023 14:18:18 -0700
+Message-ID: <CAF6AEGurNEeARQjVRH3gVcE+qznnfd_NB2n-1s+Tsozcm0t8oQ@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2023-03-15 for v6.4
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,85 +63,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Luis R. Rodriguez" <mcgrof@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-modules@vger.kernel.org
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vinod Polimera <quic_vpolimer@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Mar 2023 at 06:56, Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Wed, Mar 15, 2023 at 4:35=E2=80=AFPM Dave Airlie <airlied@gmail.com> w=
-rote:
-> >
-> > Hey moduly/firmware people,
-> >
-> > We are facing a problem in the future of NVIDIA providing giant
-> > firmwares for their devices that are version locked with unstable
-> > APIs. Even if they weren't version locked we'd likely have to support
-> > multiple major versions over time.
-> >
-> > Now this becomes a problem because when you generate multiple
-> > initramfs and stick them into /boot over time the number of firmwares
-> > MODULE_FIRMWARE will match will increase and dracut will shove them
-> > all into the initramfs.
-> >
-> > I think one way to mitigate that would be to provide some sort of
-> > grouping of module firmwares that are acceptable, and having dracut
-> > only pick one from the list to provide in the initramfs (hopefully the
-> > latest one). That way the driver can provide a list of MODULE_FIRMWARE
-> > lines and userspace knows they are a group.
-> >
-> > I've just little idea how we could expose this via current module
-> > info, happy to try and come up with an enhanced scheme maybe with a
-> > fallback to just include all of them but was just wanting to get some
-> > feedback on whether this was something that anyone has ever considered
-> > before now.
->
-> What about bundling the compatible FWs together into one big FW
-> package and tag it with some sort of common metadata header that the
-> driver can parse.  That would keep all cross FW compatibilities
-> together.  Then on the driver side, change the firmware name specified
-> in the kernel to match whatever is required for that kernel version.
-> E.g., one kernel could specify nv_fw_1_0.bin and another could specify
-> nv_fw_2_1.bin, etc.  It's pretty ugly and not a great user experience
-> if there is no backwards compat, but it should work as only the
-> compatible FW would be copied to the initrd.
+Hi Dave,
 
-The main thing here is to reduce on-disk size, which I don't think
-this will achieve.
+As discussed, an early msm-next pull req for v6.4 with PSR and related
+core helper bits.
 
-I'd rather have the driver say it can support v1, v2, v3 fw and dracut
-just put v3 in the initramfs if it's available, else put v2 in etc.
+The following changes since commit dbd7a2a941b8cbf9e5f79a777ed9fe0090eebb61:
 
-Obviously for newer hw support people will have to ship new fw
-versions, and if something gets deprecated then we'd have to move the
-fw for that to an always include list.
+  PM / devfreq: Fix build issues with devfreq disabled (2023-01-30
+07:37:40 -0800)
 
-I envisaged something like
+are available in the Git repository at:
 
-MODULE_FIRMWARE_GROUP("g1")
-MODULE_FIRMWARE("fwv1.bin")
-MODULE_FIRMWARE("fwv2.bin")
-MODULE_FIRMWARE_GROUP_END("g2")
+  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2023-03-15
 
-or
+for you to fetch changes up to 1844e680d56bb0c4e0489138f2b7ba2dc1c988e3:
 
-MODULE_FIRMWARE("fwv1.bin#g1")
-MODULE_FIRMWARE("fwv2.bin#g2")
+  drm/msm/dp: set self refresh aware based on PSR support (2023-03-13
+04:43:50 +0300)
 
-I also don't want to encourage any firmware teams from abandoning the
-stable API principles I think this is mostly to deal with
-hostile/semi-hostile and non-vendor drivers where we have no control.
+----------------------------------------------------------------
+msm-next for v6.4
 
-It would be nice though for the couple of amdgpu hiccups we've had over tim=
-e.
+Early pull req with PSR and related drm core helpers
 
-Dave.
->
-> Alex
->
->
-> >
-> > Thanks,
-> > Dave.
+----------------------------------------------------------------
+Vinod Polimera (14):
+      drm: add helper functions to retrieve old and new crtc
+      drm/bridge: use atomic enable/disable callbacks for panel bridge
+      drm/bridge: add psr support for panel bridge callbacks
+      drm/msm/disp/dpu: check for crtc enable rather than crtc active
+to release shared resources
+      drm/msm/disp/dpu: get timing engine status from intf status register
+      drm/msm/disp/dpu: wait for extra vsync till timing engine status
+is disabled
+      drm/msm/disp/dpu: reset the datapath after timing engine disable
+      drm/msm/dp: use atomic callbacks for DP bridge ops
+      drm/msm/dp: Add basic PSR support for eDP
+      drm/msm/dp: use the eDP bridge ops to validate eDP modes
+      drm/msm/disp/dpu: use atomic enable/disable callbacks for
+encoder functions
+      drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
+      drm/msm/disp/dpu: update dpu_enc crtc state on crtc
+enable/disable during self refresh
+      drm/msm/dp: set self refresh aware based on PSR support
+
+ drivers/gpu/drm/bridge/panel.c                     |  68 +++++++-
+ drivers/gpu/drm/drm_atomic.c                       |  60 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  40 ++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |  26 +++-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |  22 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c                |  80 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |   4 +
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |  80 ++++++++++
+ drivers/gpu/drm/msm/dp/dp_ctrl.h                   |   3 +
+ drivers/gpu/drm/msm/dp/dp_display.c                |  36 +++--
+ drivers/gpu/drm/msm/dp/dp_display.h                |   2 +
+ drivers/gpu/drm/msm/dp/dp_drm.c                    | 173 ++++++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   9 +-
+ drivers/gpu/drm/msm/dp/dp_link.c                   |  36 +++++
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  22 +++
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |   6 +
+ drivers/gpu/drm/msm/dp/dp_reg.h                    |  27 ++++
+ include/drm/drm_atomic.h                           |   7 +
+ 22 files changed, 683 insertions(+), 43 deletions(-)
