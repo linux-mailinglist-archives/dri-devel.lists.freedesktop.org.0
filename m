@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C08E6BABB6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:10:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7278F6BABD9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7424910E97E;
-	Wed, 15 Mar 2023 09:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEEF10E977;
+	Wed, 15 Mar 2023 09:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C2610E97A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:10:03 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id r18so16618608wrx.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:10:03 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A4D10E977
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:13:51 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ p23-20020a05600c1d9700b003ead4835046so1725065wms.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678871402;
+ d=linaro.org; s=google; t=1678871629;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T7puLWjaNKxxHkmZMPs3rGGP8G3q/ZvxMzkPfypERJM=;
- b=QlRTxYWiisHphqfKIOiHko2c8h2lD9GHUUhG70cOnj5Xa6lnBJOQT7eeX0h9gN/DhP
- CFn29otV1WW/SXeD4ROOefDyzekEc5wPtapJ29wWdikuBvflWWwA+yzcuXIZEtkvr8bi
- VqZTfI5qNLemmpvC6KaV2MCcIjelpnH76T2au0wI+MQaeZj8t79EBYLm7pYbWM/qgLgb
- mp2yNXpkOLJytYHQHuR7jl/jqbghO5KS2mPQFs8m88FS8NgG2HYOEE/OcveXoRNhXFV8
- v+K+oDyhZ+P2xnb21HfL56iFo3z+/f1OONJ8Mr0t1kaP5ppql3MtNaFp2gi0FsJu5D4n
- xBlA==
+ bh=1uTYqdvS7CTqX6IUu3AFWJKisW4+Wnz2lhp7ImHDpKA=;
+ b=mKyM+6+HKdqL526yAvlvsBE+dJA4oHbWFu8jV3a/1gUpN0TCBWQbVL6y7qVMis9C7g
+ aOZWppvVYdAOOFgLAgPp/K1/3SRUpZ+7z/VgCp5TDAKKNBG2/UQiEJBAAAqTRb65AJp9
+ dYX7wvWzVTNsSqDvdMCwJ/7k9dYgmBhQF+AEe3a1tNaN8Kh+Iptmxrg3iZnOgCtDAX8X
+ Fbqe3FpjzLs0xpXwIIGVPDAvZxwKhARWaVwizzpVj7UmmixMQFGKVyQre7cLf6AoTjEi
+ JzeimVrMleuLbj8ugfIvDToFUxZtWXMApUQLiziW4/nhqWjexYPX+ATA8DkIccNQ0E9r
+ S9Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678871402;
+ d=1e100.net; s=20210112; t=1678871629;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=T7puLWjaNKxxHkmZMPs3rGGP8G3q/ZvxMzkPfypERJM=;
- b=iwqav44dDlBwH3fGgjP5kavINdZwOAJWS5xih7ySGtiZlENam73GEtUpsNxGeqoLNE
- /rtFtAQKFGO4RGWSZFDOTr79iW98Evj0OVFtl33ssPFe0R9/gCWUwrmyvn82pX9RveJ/
- IhrOccsLWqZXFZwNdrEQleEp9F8JHt4aaea/O0/vGUIOb3PiFEwd/D8IlMuGXcMM+N7p
- 3inzkaiitWOT55V+n6Pwg7qnPoN0AErXojysuObcqQ9u+I0rNrn1lcM4iOQ2pRqhQ3Ea
- 5X2seKMprRPYQfl/pXzortPNCxu+XJKzCnfvWWDovgEDHmJA8dUPZrtRIDmZpWmU7Wdd
- taDQ==
-X-Gm-Message-State: AO0yUKXWFbxsKIzleY26Ulx4IRpj9HbrbXJ69EKmXNYn6SSsvjfBl8RS
- fqRL0gBzYKh1cVddo2EfsRnb1w==
-X-Google-Smtp-Source: AK7set8n83f5Svzc5S+4zKm6dyc5e2ulRKNeqSJsXmr187cK7f3EWES/FpE2heLi5ar+WKfMU+dzkA==
-X-Received: by 2002:a5d:4f91:0:b0:2d0:a74a:2b15 with SMTP id
- d17-20020a5d4f91000000b002d0a74a2b15mr429014wru.37.1678871402112; 
- Wed, 15 Mar 2023 02:10:02 -0700 (PDT)
+ bh=1uTYqdvS7CTqX6IUu3AFWJKisW4+Wnz2lhp7ImHDpKA=;
+ b=5UvM+eVlOYVgrcyLhCuAkH0jamXBp8HPAssN8Y2OJtTDdhT2JyNaeEksNCraqSfdTw
+ x18nSCTWLM9688GhMxVG+3rt9KC0SBc06zOiTY4WK6si1S/aTINY2pqqUNNzJQtp/nYs
+ YSRU4UIozZf0B0ptPfe+h88w0lj2j0aS59QDKIG/4cWWuth9FszArjyvVqbr2DU3+3l+
+ kFT2gg5ObnyLk8JYesq8ViN0gMwI1wOjreGO5jO7v3FSW+jv3+A8WH4mX+T868IM2njn
+ TR5tSowB9OwqdI8oUEYfSjS0c+nDcoeJdfgYnutxKW73pIcO+HXLMXx2XqBsbnXruR0w
+ rxFg==
+X-Gm-Message-State: AO0yUKWp2Cn9svtiuuDwYvPwnmBJtZD/lszYkJQkjLY7deJPAvKUR1Qn
+ GbaJJ0HtFpDZBSlLXITQSmjm2w==
+X-Google-Smtp-Source: AK7set/Md5DRQey8UO3qNiwZdaJHsk4PoYK2Vc1uHAestzEkUcF5GDWcB8ctU6IvucKUgVX1Czt7pg==
+X-Received: by 2002:a05:600c:4748:b0:3e7:f108:664c with SMTP id
+ w8-20020a05600c474800b003e7f108664cmr16536728wmo.40.1678871629526; 
+ Wed, 15 Mar 2023 02:13:49 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- i2-20020a5d55c2000000b002c53f6c7599sm4017953wrw.29.2023.03.15.02.10.01
+ y16-20020a05600c365000b003ed23845666sm1136212wmq.45.2023.03.15.02.13.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 02:10:01 -0700 (PDT)
+ Wed, 15 Mar 2023 02:13:49 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
- Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20230309152446.104913-1-m.szyprowski@samsung.com>
-References: <CGME20230309152453eucas1p28e1870593875304648243c9dead4b256@eucas1p2.samsung.com>
- <20230309152446.104913-1-m.szyprowski@samsung.com>
-Subject: Re: [PATCH] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*()
- conversion again
-Message-Id: <167887140130.2153628.1837993177267622343.b4-ty@linaro.org>
-Date: Wed, 15 Mar 2023 10:10:01 +0100
+To: sam@ravnborg.org, daniel@ffwll.ch, 
+ Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>
+In-Reply-To: <20230314090549.11418-1-zhouruihai@huaqin.corp-partner.google.com>
+References: <20230314090549.11418-1-zhouruihai@huaqin.corp-partner.google.com>
+Subject: Re: [PATCH 2/2] drm/panel: support for STARRY 2081101QFH032011-53G
+ MIPI-DSI panel
+Message-Id: <167887162888.2174720.11455500671990621678.b4-ty@linaro.org>
+Date: Wed, 15 Mar 2023 10:13:48 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -76,28 +76,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, Mark Brown <broonie@kernel.org>,
- =?utf-8?q?Ricardo_Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
- Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, 09 Mar 2023 16:24:46 +0100, Marek Szyprowski wrote:
-> devm_regulator_get_enable_optional() returns -ENODEV if requested
-> optional regulator is not present. Adjust code for that, because in the
-> 67d0a30128c9 I've incorrectly assumed that it also returns 0 when
-> regulator is not present.
+On Tue, 14 Mar 2023 17:05:49 +0800, Ruihai Zhou wrote:
+> The STARRY 2081101QFH032011-53G is a 10.1" WUXGA TFT LCD panel,
+> which fits in nicely with the existing panel-boe-tv101wum-nl6
+> driver. Hence, we add a new compatible with panel specific config.
 > 
 > 
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next-fixes)
 
-[1/1] drm/meson: dw-hdmi: Fix devm_regulator_*get_enable*() conversion again
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=4028cbf867f70a3c599c9b0c9509334c56ed97d7
+[2/2] drm/panel: support for STARRY 2081101QFH032011-53G MIPI-DSI panel
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=6069b66cd9622c4b29817d4e19737e6f023b909a
 
 -- 
 Neil
