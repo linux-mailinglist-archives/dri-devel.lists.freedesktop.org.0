@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958516BAC0C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:23:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3816BAC19
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:26:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6E110E973;
-	Wed, 15 Mar 2023 09:23:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21BE810E975;
+	Wed, 15 Mar 2023 09:26:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48AB810E973
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:23:06 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-17ab3a48158so4071471fac.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:23:06 -0700 (PDT)
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7CC910E975
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:26:35 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id n125so4746428ybg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:26:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678872185;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YIlDmOhHfzUv00AnBDlY+LrTEjW0fV7JmMX/NObYM/0=;
- b=jMwS04iE8sVc508yTw9rVt892u9Rx8nIWzDE5QGMJFsTaUDANTrUlNIsCG6yP5o3pu
- LDq2LfysPHaMkjGL3j9ODWL1DA3syFL55sDXFj70tGRHmR6FlSiD87AkrDjb3TPJqvjH
- NyvgT/ZmlxD/mplejH8J3tRK9SroSe/gXIiUXr4kjiN6w3+4Js+9XZjU4XRY1TGZtfC1
- V/xY2lkfNuaU6Xzsb1UT4vH9MPGKqL5KAkCNxKTSgucGvV3ratbp1Bn1e8d04rpmfE5j
- V49tuMg/Be72TYhgkZymUVkjjrEPICEUok0rFpXWcTx1OGVG8kIQctvpTa934wxhR7Bt
- nlVQ==
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678872395;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ah3hCHxRKLhXbUb0/zDpGbrf+oZe//U+DP3mMWw+T8c=;
+ b=d5zFDRwPxETDMQPbed+EfhECDqFpfx8TgxdVjJLVO33pllTKXnCeZ6Hk9QAQn7Dw4+
+ oWwetYLyd4CtHpCifM8AroVKcjrw/2ujfEkNx21G9ysAvCmRlxgPsHRPxWKrE2hdexcp
+ 2idemqhli6FqtgkUkuZRShsSSKCkHav0hjtzcnLS7vLs5njq0I3+r1M58wEZWZSRe/5w
+ MCX69ZCeDYaPs4V+n656TCYSZm7Bait5OLJkSVV06dPD39msVSlk9Vj+T+JqXAaZEp+K
+ GA8c9VFqG4DPd1462qMWj+Lsk0Zv64cNfsfFiHVdem5Z+73jTMqu/Y35+PZOiQVe4uUq
+ AS9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678872185;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YIlDmOhHfzUv00AnBDlY+LrTEjW0fV7JmMX/NObYM/0=;
- b=DE80Be3xIcexpZCicdlHphdYMOukN+pEOK5ewAQw/6TNaBo80LFIa8EVeh5ok6jboW
- WsF8mBAXDAhrjhBcqRaWjsNcTgal4BP/0Dn07Q4jMslWgo3aXx+OJ8gKXQf7x1dX4TXq
- GAja8wJGDvp123MTfy7kiYKR3+MLbQRANVF1z/W6ZmUVRLF2gvCtHkCaKzTnbu7Sordf
- 7bFr9FY3lnJS+7I6o4tG2WGSS1SIVrue5TzPciXCtYSES30R6u1lZE5X2/Dw2A9oFCID
- 2CHIugh82BN2tMJEBH1rQt7KmUHvxM07ejpRw5oO5YrtNWooTkB7dGm4QFP+SGVvXcJa
- 1Ocw==
-X-Gm-Message-State: AO0yUKUD85nw6BV29YJZWS9lvRMjmRC0ZOSZPbAHBCh20fLm8yMwLtcX
- VIA7DPqmk9K1eqPcI/3B89j17zEgLfSXBVxj
-X-Google-Smtp-Source: AK7set8yMP0V/w7VMNSJFYtaq7Neq+UbYjbv3HegPrjxBGGWs99G4sBOjg56b7JQRhAyGxJeYGeFJw==
-X-Received: by 2002:a05:6870:a446:b0:17a:c38e:823f with SMTP id
- n6-20020a056870a44600b0017ac38e823fmr1205376oal.51.1678872185553; 
- Wed, 15 Mar 2023 02:23:05 -0700 (PDT)
-Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk.
- [143.89.191.119]) by smtp.gmail.com with ESMTPSA id
- v5-20020a056870e28500b00176209a6d6asm2037335oad.10.2023.03.15.02.23.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 02:23:05 -0700 (PDT)
-From: Wei Chen <harperchen1110@gmail.com>
-To: deller@gmx.de
-Subject: [PATCH] fbdev: au1200fb: Fix potential divide by zero
-Date: Wed, 15 Mar 2023 09:22:54 +0000
-Message-Id: <20230315092254.1042615-1-harperchen1110@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20210112; t=1678872395;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ah3hCHxRKLhXbUb0/zDpGbrf+oZe//U+DP3mMWw+T8c=;
+ b=JkCh/C3ibs/ph+re1WbdAoZv/dm7tdGP+J+To6DLAqqo+Afp50Pr/b7v4WEN7zT6sm
+ Dk2j+jDQO35ra5uacbJLiny+1zd/lyC8EUEoMZ5yQppSYCh6x9aOlhyoQrPokvv4aRxP
+ v6p52XMhdneEhOaq7uaLBiu34VjLUNl6Ck3SAFxSekM4KCPMqZb6cx8qQ+z9Y34wzWJQ
+ UL/sDVwFxPSPoyt0xbVhWBlJJF7LkgCGTViNqbFHY51giFto1gyqtxvSFrmiUrBpPTMs
+ mJTMOGKy56gFQ9LhiZrrrd4tsrcefXgc1PnIyCBKsXBbx2eMRDHdZpGlp2N/qn8/uYmD
+ 7LeQ==
+X-Gm-Message-State: AO0yUKXe0GCjds0YaCQuRmkjUFG91/TvWZObra4zWfMy0dKKXGSuQhZg
+ d891mxhlcNsJMC+LsBihG0Y0Oxp5kvefNvGhLddmBQ==
+X-Google-Smtp-Source: AK7set85Tksbs5R01RThGTgUkuOcBof0bxceE3ivDeTB4gA3qDm/+jVks8dAQC4UN3fTwJGP5ML+MUn6x7iNEe2KU4g=
+X-Received: by 2002:a05:6902:10e:b0:98e:6280:74ca with SMTP id
+ o14-20020a056902010e00b0098e628074camr23209983ybh.1.1678872394826; Wed, 15
+ Mar 2023 02:26:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-7-45cbc68e188b@baylibre.com>
+ <CAAOTY_819JuuidLgTOm+Ps=WnueW0Quos+abEDjrx8q8GifGKA@mail.gmail.com>
+In-Reply-To: <CAAOTY_819JuuidLgTOm+Ps=WnueW0Quos+abEDjrx8q8GifGKA@mail.gmail.com>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Date: Wed, 15 Mar 2023 10:26:23 +0100
+Message-ID: <CAFGrd9qVhJb--COXJmGHuW6NxDnXZGdQnxbHGRvaA5Jqhx-yNg@mail.gmail.com>
+Subject: Re: [PATCH 07/21] dt-bindings: display: mediatek: dpi: add binding
+ for MT8365
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +70,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Chen <harperchen1110@gmail.com>, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jitao Shi <jitao.shi@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Fabien Parent <fparent@baylibre.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-pwm@vger.kernel.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Guillaume La Roque <glaroque@baylibre.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-mediatek@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org, Xinlei Lee <xinlei.lee@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-var->pixclock can be assigned to zero by user. Without
-proper check, divide by zero would occur when invoking
-macro PICOS2KHZ in au1200fb_fb_check_var.
+Hi Chun-Kuang,
 
-Error out if var->pixclock is zero.
+Le lun. 13 mars 2023 =C3=A0 16:17, Chun-Kuang Hu <chunkuang.hu@kernel.org> =
+a =C3=A9crit :
+>
+> Hi, Alexandre:
+>
+> Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=
+=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8810:23=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+> >
+> > From: Fabien Parent <fparent@baylibre.com>
+> >
+> > DPI for MT8365 is compatible with MT8192 but requires an additional
+> > clock. Modify the documentation to requires this clock only on MT8365 S=
+oCs.
+>
+> If MT8365 DPI has additional clock, why it is compatible with MT8192 DPI?
+> I think some part of MT8165 DPI works under the speed control by the
+> DPI clock and this is different with MT8192 DPI, how could these two
+> are compatible?
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
----
- drivers/video/fbdev/au1200fb.c | 3 +++
- 1 file changed, 3 insertions(+)
+AFAII, The mtk_dpi driver manage the 4th clock as optional
+dpi->dpi_clk =3D devm_clk_get_optional(dev, "dpi");
+And all configuration variables for mt8192 are the same for mt8365.
+These configuration clock variables (like cal_factor) aren't
+correlated with the 4th clock.
+The clock number doesn't impact the configuration variable because the
+4th clock is simply retrieved from DTS, saved in the driver structure
+and prepare/unprepare/enable/disable, like other clocks.
 
-diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
-index 81c315454428..b6b22fa4a8a0 100644
---- a/drivers/video/fbdev/au1200fb.c
-+++ b/drivers/video/fbdev/au1200fb.c
-@@ -1040,6 +1040,9 @@ static int au1200fb_fb_check_var(struct fb_var_screeninfo *var,
- 	u32 pixclock;
- 	int screen_size, plane;
- 
-+	if (!var->pixclock)
-+		return -EINVAL;
-+
- 	plane = fbdev->plane;
- 
- 	/* Make sure that the mode respect all LCD controller and
--- 
-2.25.1
-
+Regards,
+Alex
