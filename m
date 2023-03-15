@@ -1,63 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F368E6BB8DC
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 16:59:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A4D6BB945
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 17:14:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4653A10E971;
-	Wed, 15 Mar 2023 15:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A6F10E97C;
+	Wed, 15 Mar 2023 16:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C4D010E971
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 15:59:41 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id n125so6162808ybg.7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 08:59:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678895980;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4Hkb0Z/tYYZSdI2YGR7CKQ+EDo9PzMXn0G/3i+Y5MwM=;
- b=HAvxY2y0K98/w3C339mOOAQzkXNU7suKDrE+oReOnAWfju0KoSCgolXdK+X4r8CHgN
- afroLwSaC3Wk3W9YQ9WmLcLtBWLq8ohidkk5GyWA1ua9r58tBWi716eqikZ6WWjMnjX6
- 3HpK5Y2MjFvO5Aecw1aUn4xEjsk4IEZARbMPHMmUNRYnyEhc0dERnPIcwEuIIkioSz7v
- qKI+pEHFV4AV5vKJV1pVlmlnx2C71iwjsEtqfre5+RK9YuC6r4JpoqlgV4jx+mwjv5MN
- YZZwlGAnv7UcksfYDh5vmrh1x+tyvVOnmpRCxVj0cqWkzGXgUIafjbjn2mn/k7pBylNJ
- wBpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678895980;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4Hkb0Z/tYYZSdI2YGR7CKQ+EDo9PzMXn0G/3i+Y5MwM=;
- b=gHWLmTj14VI50YtmCWfU/UbZ0s5qSoa5y2KsW2Yr9SDoNXzVlGNl7h80C/FzIdAHwO
- tPWuXjEPtumRpu7kVAX6xTQlcEIYEYLcWoCVfAlv5NYf5SbZDW6SHszj//OYa7BtHa1h
- Dbt6ZDdDi8uCRd9OWo1+IWwdm7gjdehb+rQ1jiaC61pll0IsOVL3qCCdih+TNV4CssTh
- lL+gDWJDiG21yLVhVfL7TKYf+yJhdphs1fDw32ZW+M0kWVN9V7HdvL0zJu1aENhWJ6Nd
- hJZHc9cUhyhvt94f2KwaCAKht2ugWw8L6DX19ksJ/MpBgK0uZbw4WmfXitOqztjre7GI
- DuJA==
-X-Gm-Message-State: AO0yUKUshXhi5rVIiKpzh6LRhkh+hvtV6r1MpCSgQ8xoDK9phTjFJKMl
- ovGF/TBwvl4y0rmp59i3PG28hXt2jjAobNgj6Uuh3g==
-X-Google-Smtp-Source: AK7set+cRmZtlbO9MMeDKr/hukXl0wpMQ3FA/Xz+syeKJfKfZEuF5mOSKngD+5GIMx1/X8Swm2YFxI5NP785yU6JIh0=
-X-Received: by 2002:a5b:386:0:b0:b0a:7108:71e9 with SMTP id
- k6-20020a5b0386000000b00b0a710871e9mr12111573ybp.4.1678895980181; Wed, 15 Mar
- 2023 08:59:40 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1709010E97C
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 16:14:45 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B0A281FD80;
+ Wed, 15 Mar 2023 16:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1678896883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/s20+U9lqKe8TkL0+NybCexAELZRyFRoTsa7CKljr7E=;
+ b=FSStY76U4lO/wtb8cfNG42ryAcS+jPmRs0zgoUYf3Me116SMKDLykcSNor9Fs7PhDTlnN5
+ 6rAh+X+hT32jUSqHXo+P7rq6nA+J/bXHik00fgBlK42Z1WAmmYEKtxxAB9m0CX3+en2Mn5
+ KHTTprB0/GCt/KtFPieLUpalqtlsxQ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1678896883;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/s20+U9lqKe8TkL0+NybCexAELZRyFRoTsa7CKljr7E=;
+ b=lup7F//RMBsu0ZKErzyEVOlBVGeOr0wEUM6kxmhGRC//Wx5sSA2I4/UTFYonIeG2O69yjQ
+ AxbgaudWdezbuTCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7538113A2F;
+ Wed, 15 Mar 2023 16:14:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id mB6dG/PuEWTrAwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 15 Mar 2023 16:14:43 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-graphics-maintainer@vmware.com
+Subject: [PATCH 0/6] drm/fbdev-generic: Mandatory shadow buffering
+Date: Wed, 15 Mar 2023 17:14:36 +0100
+Message-Id: <20230315161442.27318-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-21-45cbc68e188b@baylibre.com>
- <4b4d4749-c5ea-3a02-190e-3db703623977@linaro.org>
-In-Reply-To: <4b4d4749-c5ea-3a02-190e-3db703623977@linaro.org>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Wed, 15 Mar 2023 16:59:29 +0100
-Message-ID: <CAFGrd9pQJWYpdruUvbZNcQRZk5viyOAUCDpJcu5anA13E26Unw@mail.gmail.com>
-Subject: Re: [PATCH 21/21] panel: startek-kd070fhfid015: add support of this
- display
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,79 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Fabien Parent <fparent@baylibre.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-pwm@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Guillaume La Roque <glaroque@baylibre.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-mediatek@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org, Xinlei Lee <xinlei.lee@mediatek.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+After adding fbdev-dma and converting drivers, all users of
+fbdev-generic require shadow buffering. Make it mandatory and
+remove all other codepaths. This change greatly simplifies the
+code for generic fbdev emulation. It will work with any driver
+that supports GEM's vmap and vunmap.
 
-Le jeu. 9 mars 2023 =C3=A0 15:51, Neil Armstrong
-<neil.armstrong@linaro.org> a =C3=A9crit :
-> > +
-> > +#include <drm/drm_crtc.h>
->
-> Is this include needed ?
+The change further allows for a number of cleanups and fixes. The
+flag prefer_shadow_fbdev is unused and to be removed. Probing in
+fbdev-generic is now simple enough to roll back if it fails. Further
+simplify the code for exporting the framebuffer's physical address.
+Finally rename the symbols to follow other fbdev emulation.
 
-Seems not, I remove it.
+Thomas Zimmermann (6):
+  drm/fbdev-generic: Always use shadow buffering
+  drm/fbdev-generic: Remove unused prefer_shadow_fbdev flag
+  drm/fb-helper: Export drm_fb_helper_release_info()
+  drm/fbdev-generic: Clean up after failed probing
+  drm/fb-helper: Consolidate CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM
+  drm/fbdev-generic: Rename symbols
 
-> > +     struct gpio_desc *enable_gpio;
-> > +     struct gpio_desc *reset_gpio;
-> > +     struct gpio_desc *dcdc_en_gpio;
->
-> Isn't this "DCDC" a regulator ???
-
-According to the panel datasheet, this is an input signal needed
-passing through TFT connector (PIN30):
-"Power IC supply enable, High active"
-
-> > +     /* Interface setting, video mode */
-> > +     ret =3D mipi_dsi_generic_write(dsi,
-> > +                     (u8[]){DSI_REG_IS, 0x14, 0x08, 0x00, 0x22, 0x00},=
- 6);
-> > +     if (ret < 0) {
-> > +             dev_err(dev, "failed to set display interface setting: %d=
-\n",
-> > +                     ret);
-> > +             return ret;
-> > +     }
->
-> Use mipi_dsi_generic_write_seq(dsi, DSI_REG_IS, 0x14, 0x08, 0x00, 0x22, 0=
-x00); instead,
-> it's simpler and doesn't need explicit return check.
-
-"mipi_dsi_generic_write_seq" doesn't exist but I will add it below
-"mipi_dsi_dcs_write_seq" in drm_mipi_dsi.h
-I must keep the return check to jump out of "stk_panel_init" if
-something goes wrong, but I can drop the error print.
-
-> > +static int stk_panel_enable(struct drm_panel *panel)
-> > +{
-> > +     struct stk_panel *stk =3D to_stk_panel(panel);
-> > +
-> > +     if (stk->enabled)
-> > +             return 0;
-> > +
-> > +     backlight_enable(stk->backlight);
-> > +
-> > +     stk->enabled =3D true;
-> > +
-> > +     return 0;
-> > +}
->
-> Is this really needed ? the backlight core will enable it automatically.
-
-Ok, it's managed by drm_panel.c driver.
-Then I can also remove stuff from stk_panel_disable.
+ drivers/gpu/drm/drm_fb_helper.c     |  55 +++---
+ drivers/gpu/drm/drm_fbdev_dma.c     |   9 +-
+ drivers/gpu/drm/drm_fbdev_generic.c | 280 +++++++++-------------------
+ drivers/gpu/drm/tiny/bochs.c        |   1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c |   1 -
+ include/drm/drm_fb_helper.h         |  14 +-
+ include/drm/drm_mode_config.h       |   7 -
+ 7 files changed, 125 insertions(+), 242 deletions(-)
 
 
-Regards,
-Alex
+base-commit: ec0708e846b819c8d5b642de42448a87d7526564
+-- 
+2.39.2
+
