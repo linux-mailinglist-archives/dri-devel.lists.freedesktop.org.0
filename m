@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597556BABF6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958516BAC0C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:23:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4B88924F;
-	Wed, 15 Mar 2023 09:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6E110E973;
+	Wed, 15 Mar 2023 09:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B776B8924F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:20:40 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- y15-20020a17090aa40f00b00237ad8ee3a0so1237290pjp.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:20:40 -0700 (PDT)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48AB810E973
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:23:06 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-17ab3a48158so4071471fac.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678872040;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BJSYyhC9hw2dM6xrk1Ayhxfkc3nPZHyNZyP2FXIazVU=;
- b=ky5l3UhZ7WgUz6YMH4LuMgKZCEVAcOjKSBr9EJrY2B3CeDfo7K4aCSqHokbXYIi9SJ
- +q31aveABnlxmPsT5IBlI8H1LqCgVHVjfG9Xn/6ukXMwlMWm/LnD1k4NTNYqzZ4wYfvm
- 8h7hdYNqgwgdIuBrbMK9rQ49sYp6uBRPqtHcvlntGVKqeIlHT6uPxsLEx+KOS15Z8pt5
- 0LrRMQebiwbNAb/sVB3jKq1isuyFuYdSu8NYsOSOgvSwfcITKmpT1BFyvd1gjb0tAMn/
- /gh6vpaoloJKLY0O6ekrVUqszxenc9p3I1NGkS5Og2ctN5XIzGHqeI+SQunPdTQodAG5
- JWHQ==
+ d=gmail.com; s=20210112; t=1678872185;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YIlDmOhHfzUv00AnBDlY+LrTEjW0fV7JmMX/NObYM/0=;
+ b=jMwS04iE8sVc508yTw9rVt892u9Rx8nIWzDE5QGMJFsTaUDANTrUlNIsCG6yP5o3pu
+ LDq2LfysPHaMkjGL3j9ODWL1DA3syFL55sDXFj70tGRHmR6FlSiD87AkrDjb3TPJqvjH
+ NyvgT/ZmlxD/mplejH8J3tRK9SroSe/gXIiUXr4kjiN6w3+4Js+9XZjU4XRY1TGZtfC1
+ V/xY2lkfNuaU6Xzsb1UT4vH9MPGKqL5KAkCNxKTSgucGvV3ratbp1Bn1e8d04rpmfE5j
+ V49tuMg/Be72TYhgkZymUVkjjrEPICEUok0rFpXWcTx1OGVG8kIQctvpTa934wxhR7Bt
+ nlVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678872040;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BJSYyhC9hw2dM6xrk1Ayhxfkc3nPZHyNZyP2FXIazVU=;
- b=FgAMwi35uKJp0FZAGZwH2+s26BvX3gEzJMx4LM+37ujus63rvMBPDkd5fZlTn1lnRp
- reymuK+74e184EvAFFAIt8IYQ8YoRn3LjPwi73qCX4q0+Unu7HibSLFWJWJy6Xx1SYj8
- L7+AXhEdmZ3212BUHstCRQ23ms7eIz3wfy6CRVYrHJqpTIBML0VF+Cq08nV4VnEVSiqq
- KC+MK/MIegjI5Nyi0RrP+sybvLsPUmKpu3d3ZAHm20Sz1/es7+dRRfGTkglULWgmY8s9
- DhBDlBN8ZPKEhFeDlzYofxTRjkRdWaepG+BM881CjZPIYIb+/yzaiOpfAJHR8i23J099
- Drmg==
-X-Gm-Message-State: AO0yUKUjbPbmA71/HjCy1UhU4XvM2VtnV9AgkWaZsb3llNkWnmpR+QOy
- 6WZUQeSV1KoNz+4FbfyZXxa+dN2X4N9a2gVTUyA=
-X-Google-Smtp-Source: AK7set9NwX+IDLekPulTlC0yQn9MFkdfj2xwZm68xeREZLv/VQMzM9y68XR+wgxY1EUz6Kl/DiJR4FPbxTCKb3N4ZN8=
-X-Received: by 2002:a17:903:130a:b0:1a0:52f1:8ea7 with SMTP id
- iy10-20020a170903130a00b001a052f18ea7mr848781plb.12.1678872040256; Wed, 15
- Mar 2023 02:20:40 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678872185;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YIlDmOhHfzUv00AnBDlY+LrTEjW0fV7JmMX/NObYM/0=;
+ b=DE80Be3xIcexpZCicdlHphdYMOukN+pEOK5ewAQw/6TNaBo80LFIa8EVeh5ok6jboW
+ WsF8mBAXDAhrjhBcqRaWjsNcTgal4BP/0Dn07Q4jMslWgo3aXx+OJ8gKXQf7x1dX4TXq
+ GAja8wJGDvp123MTfy7kiYKR3+MLbQRANVF1z/W6ZmUVRLF2gvCtHkCaKzTnbu7Sordf
+ 7bFr9FY3lnJS+7I6o4tG2WGSS1SIVrue5TzPciXCtYSES30R6u1lZE5X2/Dw2A9oFCID
+ 2CHIugh82BN2tMJEBH1rQt7KmUHvxM07ejpRw5oO5YrtNWooTkB7dGm4QFP+SGVvXcJa
+ 1Ocw==
+X-Gm-Message-State: AO0yUKUD85nw6BV29YJZWS9lvRMjmRC0ZOSZPbAHBCh20fLm8yMwLtcX
+ VIA7DPqmk9K1eqPcI/3B89j17zEgLfSXBVxj
+X-Google-Smtp-Source: AK7set8yMP0V/w7VMNSJFYtaq7Neq+UbYjbv3HegPrjxBGGWs99G4sBOjg56b7JQRhAyGxJeYGeFJw==
+X-Received: by 2002:a05:6870:a446:b0:17a:c38e:823f with SMTP id
+ n6-20020a056870a44600b0017ac38e823fmr1205376oal.51.1678872185553; 
+ Wed, 15 Mar 2023 02:23:05 -0700 (PDT)
+Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk.
+ [143.89.191.119]) by smtp.gmail.com with ESMTPSA id
+ v5-20020a056870e28500b00176209a6d6asm2037335oad.10.2023.03.15.02.23.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Mar 2023 02:23:05 -0700 (PDT)
+From: Wei Chen <harperchen1110@gmail.com>
+To: deller@gmx.de
+Subject: [PATCH] fbdev: au1200fb: Fix potential divide by zero
+Date: Wed, 15 Mar 2023 09:22:54 +0000
+Message-Id: <20230315092254.1042615-1-harperchen1110@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230308173433.2788833-1-zyytlz.wz@163.com>
- <d1eee7a0-8942-5f76-a3f0-74dcfddb95b5@linaro.org>
-In-Reply-To: <d1eee7a0-8942-5f76-a3f0-74dcfddb95b5@linaro.org>
-From: Zheng Hacker <hackerzheng666@gmail.com>
-Date: Wed, 15 Mar 2023 17:20:28 +0800
-Message-ID: <CAJedcCwWWet3--mvSks=Dz10jEBNqYKadwGY1ijT9-Q=ponCYQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: adv7511: fix race condition bug in
- adv7511_remove due to unfinished work
-To: neil.armstrong@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,58 +70,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alex000young@gmail.com, andrzej.hajda@intel.com, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- 1395428693sheep@gmail.com, Zheng Wang <zyytlz.wz@163.com>
+Cc: Wei Chen <harperchen1110@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-<neil.armstrong@linaro.org> =E4=BA=8E2023=E5=B9=B43=E6=9C=8815=E6=97=A5=E5=
-=91=A8=E4=B8=89 17:08=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
->
-> On 08/03/2023 18:34, Zheng Wang wrote:
-> > In adv7511_probe, adv7511->hpd_work is bound with adv7511_hpd_work.
-> > If we call adv7511_remove with a unfinished work. There may be a
-> > race condition where bridge->hpd_mutex was destroyed by
-> > drm_bridge_remove and used in adv7511_hpd_work in drm_bridge_hpd_notify=
-.
-> >
-> > Fix it by canceling the work before cleanup in adv7511_remove.
-> >
->
-> Can you add the relevant Fixes tag ?
->
+var->pixclock can be assigned to zero by user. Without
+proper check, divide by zero would occur when invoking
+macro PICOS2KHZ in au1200fb_fb_check_var.
 
-Hi Neil,
+Error out if var->pixclock is zero.
 
-Thanks for your reply and kind reminder. Sorry for my mistake. I'll
-append more messages in the next version of patch.
+Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+---
+ drivers/video/fbdev/au1200fb.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Best regards,
-Zheng
+diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
+index 81c315454428..b6b22fa4a8a0 100644
+--- a/drivers/video/fbdev/au1200fb.c
++++ b/drivers/video/fbdev/au1200fb.c
+@@ -1040,6 +1040,9 @@ static int au1200fb_fb_check_var(struct fb_var_screeninfo *var,
+ 	u32 pixclock;
+ 	int screen_size, plane;
+ 
++	if (!var->pixclock)
++		return -EINVAL;
++
+ 	plane = fbdev->plane;
+ 
+ 	/* Make sure that the mode respect all LCD controller and
+-- 
+2.25.1
 
-> Thanks,
-> Neil
->
-> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > ---
-> >   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu=
-/drm/bridge/adv7511/adv7511_drv.c
-> > index ddceafa7b637..9bf72dd6c1d3 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > @@ -1349,6 +1349,7 @@ static void adv7511_remove(struct i2c_client *i2c=
-)
-> >   {
-> >       struct adv7511 *adv7511 =3D i2c_get_clientdata(i2c);
-> >
-> > +     cancel_work_sync(&adv7511->hpd_work);
-> >       adv7511_uninit_regulators(adv7511);
-> >
-> >       drm_bridge_remove(&adv7511->bridge);
->
