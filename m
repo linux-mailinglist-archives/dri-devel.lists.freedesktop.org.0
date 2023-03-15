@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408E96BA8E1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 08:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445F36BA9FA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 08:51:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC7410E93C;
-	Wed, 15 Mar 2023 07:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00F3710E95B;
+	Wed, 15 Mar 2023 07:51:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
- [IPv6:2001:4860:4864:20::36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 832D510E93F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 07:18:44 +0000 (UTC)
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-176eae36feaso20047894fac.6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 00:18:44 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8938610E95B
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 07:51:03 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id cn21so41768918edb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 00:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678864724;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Uta/U05GAafaktR9fApAMeVEtX67Kdj3raMR2qMOvbI=;
- b=PJ2X+ScApxHTebPxeX1bpYuOF7q01B1YjghfwtSX9BrJezCARL3fcJzeYPbRNAqq8Q
- 7Wm4cm8ceHVNag03pezg+jR1KBV+BtMvS4ujHJcqIhkb3yXOBqhjkYKDv1QXEmyB51li
- VVPGWnAGUhnxQ+uCEao0OIqcJCr/17LOOKoNWgWYw3zLPcwhp+BC9bE97WvFQK2QbH/G
- amtOOyJWhny5O1eaoXOfGnJicjORYiZOyDBdytgJobMhSDWhy3pMIAZ0F5UBEWpJYYpT
- 1XDJZO8xRd0BXGzrMO5waJ8D3Zfc7fL2/VzWD13i8TUXK/I8qwjy74Fi+T+z+J8KCScB
- etIw==
+ d=linaro.org; s=google; t=1678866662;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aeokvEPibBw1dtKXMKz1DicJtuhNSPOwJ85/tI0fwfY=;
+ b=oNl++gM5NJ8CQ/Z61jUZfAoTVqLLDkVaBWNa4SQvni2sPKi1NfNIVb15Cm7VNZDsWn
+ QyGkqJmbGU01B2FFCbk3UMGia52ZDzXU5LhKVWI8SAUp/yydbNgDWUsLwTcOjtRfAJ8W
+ 7zLQXW1YSoxlB9q3Ytt+HksBl4mRYSDmIvVWhaz9q5trUeWEZlHjp8tRNbjr5z0oYRPe
+ tcczaB+5Nz4Ynl45XYEHpmQyyIZnk6WqfG1Po61hExMx2Ssz6ewZneSCtdW8bdoXThv1
+ +lglgvZCkHVJgDw0mWuqdO+1QmrlbXjLFzyfUh4EGgmKE+APW2kn9Eijp2f6HKsf1MlB
+ 08fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678864724;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Uta/U05GAafaktR9fApAMeVEtX67Kdj3raMR2qMOvbI=;
- b=aahbUea2xX+AFqIDOr/0cZ1waGfp+GUxPVaZeZVaD+DQkEK4Ncx/lLSrbB7XMouRDt
- 6I2InPF4b3GlJptcBX4tI6FSyceIlLrbpRRFzXDA4BNoOobiJaVDZQRJ9g9X28F7XQhj
- 1WqeSpI+LX1Isk1rE1RBPlcMwu1UAWJBK4i3DfNb0d93k/Ejl2xFpRm9aS5LIwWr1QBT
- zzBqI/nh1eFQahiIGyOL3/cVdnLMzso4BbYF+82AQvWXEW4HwizCFkCZ0sP25uM1AsID
- SSV0l7YqzmuSI2F/guUF/N7IhAlTtMmYYlD4eaSElk5gaSITjz0lOfXa21iPXC2rHdOL
- aGeg==
-X-Gm-Message-State: AO0yUKXbaBAzoADhAYAgbN//MLNU/lTdx0YTy9zKvmaUGzILrp6YMDBr
- bRwcqVUeq5X8H2n8jXcWJ9o=
-X-Google-Smtp-Source: AK7set+tVtF3UU14jhEuO63/9HB2svaK+oHMY8mRNgtuyokLjZEUYhsRpjZC9RJHiAdfnnYAgpuYCA==
-X-Received: by 2002:a05:6870:c084:b0:17a:bbbc:71f6 with SMTP id
- c4-20020a056870c08400b0017abbbc71f6mr1862775oad.55.1678864723793; 
- Wed, 15 Mar 2023 00:18:43 -0700 (PDT)
-Received: from chcpu13.cse.ust.hk (191host119.mobilenet.cse.ust.hk.
- [143.89.191.119]) by smtp.gmail.com with ESMTPSA id
- f59-20020a9d2c41000000b0068bb6043362sm2047437otb.11.2023.03.15.00.18.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 00:18:43 -0700 (PDT)
-From: Wei Chen <harperchen1110@gmail.com>
-To: adaplas@gmail.com
-Subject: [PATCH] fbdev: nvidia: Fix potential divide by zero
-Date: Wed, 15 Mar 2023 07:18:31 +0000
-Message-Id: <20230315071831.3833948-1-harperchen1110@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20210112; t=1678866662;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aeokvEPibBw1dtKXMKz1DicJtuhNSPOwJ85/tI0fwfY=;
+ b=cXRyTi4yk5YaaX4DstNbSImpFiBmLdP4/f/72bq/hP8FALSlXOXu31z59szdexpuGF
+ B3codahXxaMY5IiRUUhhoxQeVN/Xf60YrF8X3hYubSJxKMQnckUQ2rlPyRmoncjoLacK
+ AQUv7OuxYBB9wjxryI/RlqO5bKVGMbDyjYOJdNupFUxT1njvGbkvN1RSFLiSrnrx+M9T
+ NgwmklpI+YDGCGJrzW7gabHhekwKiRVbWbMYPK6/G2+Rbf1YDqI5sP5tYAkTfNVMu7k3
+ pd0o0X5ggiYhNWQcawaJg3zdIn2HdCEhAVLMpMCptgU9Fwzw660RBRgRb/63TCqbV846
+ E+wg==
+X-Gm-Message-State: AO0yUKVG7flf6M9lASnASkZoagOxqN15PIFXxov87BSaXh6ePU1c6+S1
+ 1xvBTrsEyYzYZE2koI4a3v1pPA==
+X-Google-Smtp-Source: AK7set+qmNZtdtBmvH0yeosxDbfNFSuKd060nB93RcgI/W2y+gDU4NP8ElyOmUG9FGix5RlxyCMfsA==
+X-Received: by 2002:a05:6402:1018:b0:4fc:9a22:e0d2 with SMTP id
+ c24-20020a056402101800b004fc9a22e0d2mr1680992edu.14.1678866661959; 
+ Wed, 15 Mar 2023 00:51:01 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:940e:8615:37dc:c2bd?
+ ([2a02:810d:15c0:828:940e:8615:37dc:c2bd])
+ by smtp.gmail.com with ESMTPSA id
+ y97-20020a50bb6a000000b004c19f1891fasm1971476ede.59.2023.03.15.00.51.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Mar 2023 00:51:01 -0700 (PDT)
+Message-ID: <0df6bbd1-eaa7-537e-8598-7e5ba89bb274@linaro.org>
+Date: Wed, 15 Mar 2023 08:51:00 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 6/7] dt-bindings: display: add rotation property to
+ sitronix,st7789v
+Content-Language: en-US
+To: Gerald Loacker <gerald.loacker@wolfvision.net>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
+ <20230314115644.3775169-7-gerald.loacker@wolfvision.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230314115644.3775169-7-gerald.loacker@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,38 +80,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wei Chen <harperchen1110@gmail.com>, deller@gmx.de,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-variable var->pixclock can be set by user. In case it
-equals to zero, divide by zero would occur in nvidiafb_set_par.
+On 14/03/2023 12:56, Gerald Loacker wrote:
+> From: Michael Riesch <michael.riesch@wolfvision.net>
+> 
+> The sitronix-st7789v driver now considers the rotation property.
+> Add the property to the documentation.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> Signed-off-by: Gerald Loacker <gerald.loacker@wolfvision.net>
+> ---
 
-Similar crashes have happened in other fbdev drivers. There
-is no check and modification on var->pixclock along the call
-chain to nvidia_check_var and nvidiafb_set_par. We believe it
-could also be triggered in driver nvidia from user site.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
----
- drivers/video/fbdev/nvidia/nvidia.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
-index e60a276b4855..ea4ba3dfb96b 100644
---- a/drivers/video/fbdev/nvidia/nvidia.c
-+++ b/drivers/video/fbdev/nvidia/nvidia.c
-@@ -764,6 +764,8 @@ static int nvidiafb_check_var(struct fb_var_screeninfo *var,
- 	int pitch, err = 0;
- 
- 	NVTRACE_ENTER();
-+	if (!var->pixclock)
-+		return -EINVAL;
- 
- 	var->transp.offset = 0;
- 	var->transp.length = 0;
--- 
-2.25.1
+Best regards,
+Krzysztof
 
