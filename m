@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C686BBE14
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 21:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48ABC6BBE35
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 21:57:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53DEE10E336;
-	Wed, 15 Mar 2023 20:42:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B10610E068;
+	Wed, 15 Mar 2023 20:56:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE23510E068
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 20:42:44 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-17aa62d0a4aso7483837fac.4
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 13:42:44 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FE210E068
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 20:56:56 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id bk32so15121093oib.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 13:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678912964;
+ d=gmail.com; s=20210112; t=1678913816;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sTJ2WQqzCp342VzXKKxKrb6Tcop1tbY216MnndJN7sQ=;
- b=hWgmkRx8RZmNnPKBjbZ3vIInOgxqUkG1Nli4lVeXL5nTKOCfHgWydHCGHT77yqdP2X
- MCaMMT8pGdJBc3FZS8SG6HpIFozsrOGGRKq5L7Kt5rmqKutwucBQXV1SJH4tQ8W5lIRR
- onHgFUXxvpBQstIBiFZNzfLlYd1zCe77tN1gCYOLeRuy9CLKEKzirEogPd0i1gnYDRxo
- w/IqIAYRcw/36WYC/Gw98J+NVF+8HwkE1mST+UlAvOZoar0Nd+r+3xhCl/uWIDUnNiPk
- OpO3sq+Kq2OXpaWeFtrTTIwwqUfY8Bn2ift/OMHZ1pyRYQP+4bhrWJH5oC2b/wxoDpO4
- gdkQ==
+ bh=L5nQ/qpzt0oaqB3uXUI9DghvbDHZxBYtU4vb8xaNMZg=;
+ b=BBJzoCdlv2m4yAlxDru7UMmXGx0atT8eNve/djKAdP6JF0Pa0fln3nteM7CtcXH7ge
+ 7tmEDx30QfS2rFzhb5xSSzZ8XdD/qL8u55PncGJs0N2KGgOQnvHVJkCsVGOezF8pLCQJ
+ 3Taol/hTDlr5vJ3tGpHQHEldYK1W+YQ8VMqUJGQsFsOyskArA+AUEVf9B3c/QXjTobM8
+ EeEpn+50MYeDI1J22FNfrpHShSeHcSC/s5U8H4tMdiLTq3aPLND/BFpMCXxnMGw7Fp0O
+ EwLEC+p1oY/cu+jGyZUT19Z9r0ioMWIj8XZ3YGzGixCIiLcQZyWDueLBVBbkhyh1wDiO
+ 9Fpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678912964;
+ d=1e100.net; s=20210112; t=1678913816;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sTJ2WQqzCp342VzXKKxKrb6Tcop1tbY216MnndJN7sQ=;
- b=NQqG237Ep/ddnUoKnb1Dx2VeK/lDMKFsTSsQpfJ+FAuH7QopxDVa20hSr4t5Tszrdj
- sIxP3moK+DlkB/jX1VDelgoC8Y7YvWCzwB9sMSXIEnMWXL3ePW0qOu+v8RBSn6QqvAud
- Yk1hk0uUJmZaD30c4C+UpCXuuo+5Q0AIrTeh/GCv4BxyZbxZvifNgQcbXa3Imkr+kjvN
- VZpZ+qwxSyvWZ5xEGifS9I5SBRzZVy+dzaJd/spbXU+JjvBbWQXbD93BkvIuzBoMNp3A
- TFfWGGRxTCC0hV7tP1kBNYSX4yFoWXZ99sRGzi7BE6ZZVKSe90xPVx92rq6LV30btSX3
- dxhQ==
-X-Gm-Message-State: AO0yUKUgo9VGt4fc6tl5dVTsxAeP5C9C0OtEx9vREmRngFQ5laYxwjG2
- OfuzIiBS4R1P0oFNsl55SCIxWjKJ4+6hZ/z/K/E=
-X-Google-Smtp-Source: AK7set+FReR4XqbWnaRh930lCwNBx9FyHBIZTL6tblJ8yZ1fzNHd3HKWtbe1Xzi8G8WU3RzY9o0cqnRBhGX1FAXRI74=
-X-Received: by 2002:a05:6870:7f84:b0:17a:d7c7:a19d with SMTP id
- aw4-20020a0568707f8400b0017ad7c7a19dmr771163oac.5.1678912963104; Wed, 15 Mar
- 2023 13:42:43 -0700 (PDT)
+ bh=L5nQ/qpzt0oaqB3uXUI9DghvbDHZxBYtU4vb8xaNMZg=;
+ b=uo/8AFR54xvPU8e3JhhEdbNWb/1NpYCYLpfCgoveKg/ch1WwkikJcR2tIbM4NWKEkf
+ mN2rvSntCwuL+UUgRQm7SL+awI1NqfR1VQ75vN6c7KiVtJjDbKtIdCZ25HIi1czWhMY9
+ QAouenCZaRaRQRmv4P4yG0Si7UJE3VeQQ+XXXREl5F8BcPKHwJlLXhW9F79yd1QrhuzR
+ /+F7gpWSuGzDnaVIRGJkjRONv4r6ZJKCkCzDDXEsJJYRyDXKF+1DXlZnNWRzFvM82EQG
+ df61HPh/vsTkyNbss+0CfwKpbqeXZ6twBpLA1AB0sSzvzJNT9Pk46NCfkkZtlC8xJUbJ
+ uTBA==
+X-Gm-Message-State: AO0yUKUtgmv77Y5OPkJkJahB8/zJ/7I79KWmLTHqKE28KFhnz3TOe0e8
+ 9gQTfbxjXN8C4GZfjg7jHnO0eNudaXoX9c2hyeI=
+X-Google-Smtp-Source: AK7set/frHFe10zRlzzkYZdrBNvEStbLGdbm1JDTXvS4gaJeZWDN0ckW8LGWeG0vDfE3Sinfoewb0jUzmpK7Fy1UPjE=
+X-Received: by 2002:a05:6808:354:b0:384:23ed:1ff6 with SMTP id
+ j20-20020a056808035400b0038423ed1ff6mr1201172oie.3.1678913815757; Wed, 15 Mar
+ 2023 13:56:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9txaQfHkjs6nWcwBtnYQXtr996dyht7wasJ7QOovjepmAw@mail.gmail.com>
 In-Reply-To: <CAPM=9txaQfHkjs6nWcwBtnYQXtr996dyht7wasJ7QOovjepmAw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 15 Mar 2023 13:42:31 -0700
-Message-ID: <CAF6AEGtHLwUMU71bciM3HbmRePYYgiW8c07yzu5FXymOfemWjQ@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 15 Mar 2023 16:56:43 -0400
+Message-ID: <CADnq5_PdxFdvVwVnQ2n4vXXPYKe0ZOVYBPT0Kf+6aPuQLc960g@mail.gmail.com>
 Subject: Re: enhancing module info to allow grouping of firmwares
 To: Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -69,14 +68,12 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
  "Luis R. Rodriguez" <mcgrof@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-modules@vger.kernel.org
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-modules@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 15, 2023 at 1:35=E2=80=AFPM Dave Airlie <airlied@gmail.com> wro=
+On Wed, Mar 15, 2023 at 4:35=E2=80=AFPM Dave Airlie <airlied@gmail.com> wro=
 te:
 >
 > Hey moduly/firmware people,
@@ -103,13 +100,19 @@ te:
 > feedback on whether this was something that anyone has ever considered
 > before now.
 
-We have a kind of similar problem with drm/msm and various other SoC
-drivers that need fw which is signed with a device or vendor specific
-tree.  We've partially solved that with using firmware-name from
-devicetree to specify the correct device specific fw needs to be
-loaded (ie. something like "qcom/LENOVO/81JL/qcdxkmsuc850.mbn") but
-I've no idea how dracut should figure out what fw files should end up
-in an initrd
+What about bundling the compatible FWs together into one big FW
+package and tag it with some sort of common metadata header that the
+driver can parse.  That would keep all cross FW compatibilities
+together.  Then on the driver side, change the firmware name specified
+in the kernel to match whatever is required for that kernel version.
+E.g., one kernel could specify nv_fw_1_0.bin and another could specify
+nv_fw_2_1.bin, etc.  It's pretty ugly and not a great user experience
+if there is no backwards compat, but it should work as only the
+compatible FW would be copied to the initrd.
 
-BR,
--R
+Alex
+
+
+>
+> Thanks,
+> Dave.
