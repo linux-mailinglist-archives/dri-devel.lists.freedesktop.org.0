@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3FA6BACA5
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 436356BACFE
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 11:05:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 909FD10E996;
-	Wed, 15 Mar 2023 09:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 869EE10E9A0;
+	Wed, 15 Mar 2023 10:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C6210E996;
- Wed, 15 Mar 2023 09:52:27 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C923110E998;
+ Wed, 15 Mar 2023 10:05:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678873947; x=1710409947;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=gBg6Vr33FAryjFmPnYb0dmG82k9ImBYRN0MW7OCbJHU=;
- b=MFuh0nQPeDUWwjbq5zjWg/IEUboL4vL/pzfFypAOYJSMuNa+fz7deuA/
- nk1RbD8Z7epAnQ1sSLmOq1Kxuk7cJCYAaE2Oe37KkQ3+mv9Yx5qVfz6FO
- ylpeEGfcY6kyP0q2JhrlfSTmnLyfAOKRCE5/IRz5C8+8vASWuSLr50SOU
- ay+HjWdZx33v2u+lEHMndXCHNthwvSgOLhrqfbgPsMrOdUayvOwO9IWSg
- e6Hn3WmvyvTwJNw5fBT7wTJzjO+XDefpIARIvymliCI0IWfyigRrlSXrX
- BWaaf4Dk/syjoec6ps1tBgGlpzeW24wbl1J9brkkm3F/mncw34bZeM4WL g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="326019508"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="326019508"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 02:52:27 -0700
+ t=1678874744; x=1710410744;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=792EcEyGkMM5NFPUcHWYoYYWA3xCUq1eLHZsnKaD7dY=;
+ b=ZZlMvZjwdUzpOIrG2uV+1OlOcjEcHdvE2shDKeH0qsfA/HL9RzhbBH2q
+ sD7AHkAW6977eBTaXYXDOWOmgNZVaqsdSvBd5EzHxAdXCJ3ctS4ZfcC0T
+ 5loCTcgHMHnnuFvdS7CIkRymx5OmkMzJMA6EoPPot8WpZQQtzI/3lETlt
+ 7V7yDBrW4oMwEMWKvDCw34vZbsRzu/0o/nyA5MwmbEMWMmRw5dGgB622V
+ pSqITq+VIc5Pxz3VkRwSGa6lPEMiDoCrt0l92F5t7CW+4D1IkYHF5TOrx
+ f1c4L7gNUb0l8hhShSwdKlX+6kEKphsXmt1nEI7KuJPVeU9Hfyby5IeOO Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="336350100"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="336350100"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2023 03:05:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="748355968"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="748355968"
-Received: from mchanan-mobl.ger.corp.intel.com (HELO [10.213.222.39])
- ([10.213.222.39])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 02:52:22 -0700
-Message-ID: <b3b63d6e-438e-1b5a-6d01-6164c2160f75@linux.intel.com>
-Date: Wed, 15 Mar 2023 09:52:20 +0000
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="711868677"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="711868677"
+Received: from wujunyox-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.59.32])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2023 03:05:39 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Wed, 15 Mar 2023 12:05:36 +0200
+Message-ID: <87r0tq5nyn.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC 01/10] drm: Track clients by tgid and not tid
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20230314141904.1210824-1-tvrtko.ursulin@linux.intel.com>
- <20230314141904.1210824-2-tvrtko.ursulin@linux.intel.com>
- <2d4c10c7-6406-7458-4f52-4260b415874e@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <2d4c10c7-6406-7458-4f52-4260b415874e@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,124 +57,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Brian Welty <brian.welty@intel.com>,
- Kenny.Ho@amd.com, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Johannes Weiner <hannes@cmpxchg.org>,
- linux-kernel@vger.kernel.org,
- =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>, linux-graphics-maintainer@vmware.com,
- Zefan Li <lizefan.x@bytedance.com>, Dave Airlie <airlied@redhat.com>,
- Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
- "T . J . Mercier" <tjmercier@google.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-Hi,
+Hi Dave & Daniel -
 
-On 14/03/2023 15:33, Christian König wrote:
-> Am 14.03.23 um 15:18 schrieb Tvrtko Ursulin:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Thread group id (aka pid from userspace point of view) is a more
->> interesting thing to show as an owner of a DRM fd, so track and show that
->> instead of the thread id.
->>
->> In the next patch we will make the owner updated post file descriptor
->> handover, which will also be tgid based to avoid ping-pong when multiple
->> threads access the fd.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: Zack Rusin <zackr@vmware.com>
->> Cc: linux-graphics-maintainer@vmware.com
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: "Christian König" <christian.koenig@amd.com>
->> Reviewed-by: Zack Rusin <zackr@vmware.com>
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> 
-> Should we push the already reviewed cleanups like this one to 
-> drm-misc-next? That makes sense even without the rest of the 
-> functionality and reduce the amount of patches re-send.
+Missed fixes last week, so here we are early this week.
 
-I don't have the commit rights so if you could do that I certainly would 
-not mind, thanks!
 
-Regards,
+drm-intel-fixes-2023-03-15:
+drm/i915 fixes for v6.3-rc3:
+- Fix hwmon PL1 power limit enabling
+- Fix audio ELD handling for DP MST
+- Fix PSR io and wake line calculations
+- Fix DG2 HDMI modes with 267.30 and 319.89 MHz pixel clocks
+- Fix SSEU subslice out-of-bounds access
+- Fix misuse of non-idle barriers as fence trackers
 
-Tvrtko
+BR,
+Jani.
 
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 2 +-
->>   drivers/gpu/drm/drm_debugfs.c           | 4 ++--
->>   drivers/gpu/drm/drm_file.c              | 2 +-
->>   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c     | 2 +-
->>   4 files changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c 
->> b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->> index d8e683688daa..863cb668e000 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
->> @@ -969,7 +969,7 @@ static int amdgpu_debugfs_gem_info_show(struct 
->> seq_file *m, void *unused)
->>            * Therefore, we need to protect this ->comm access using RCU.
->>            */
->>           rcu_read_lock();
->> -        task = pid_task(file->pid, PIDTYPE_PID);
->> +        task = pid_task(file->pid, PIDTYPE_TGID);
->>           seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
->>                  task ? task->comm : "<unknown>");
->>           rcu_read_unlock();
->> diff --git a/drivers/gpu/drm/drm_debugfs.c 
->> b/drivers/gpu/drm/drm_debugfs.c
->> index 4f643a490dc3..4855230ba2c6 100644
->> --- a/drivers/gpu/drm/drm_debugfs.c
->> +++ b/drivers/gpu/drm/drm_debugfs.c
->> @@ -80,7 +80,7 @@ static int drm_clients_info(struct seq_file *m, void 
->> *data)
->>       seq_printf(m,
->>              "%20s %5s %3s master a %5s %10s\n",
->>              "command",
->> -           "pid",
->> +           "tgid",
->>              "dev",
->>              "uid",
->>              "magic");
->> @@ -94,7 +94,7 @@ static int drm_clients_info(struct seq_file *m, void 
->> *data)
->>           bool is_current_master = drm_is_current_master(priv);
->>           rcu_read_lock(); /* locks pid_task()->comm */
->> -        task = pid_task(priv->pid, PIDTYPE_PID);
->> +        task = pid_task(priv->pid, PIDTYPE_TGID);
->>           uid = task ? __task_cred(task)->euid : GLOBAL_ROOT_UID;
->>           seq_printf(m, "%20s %5d %3d   %c    %c %5d %10u\n",
->>                  task ? task->comm : "<unknown>",
->> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->> index a51ff8cee049..c1018c470047 100644
->> --- a/drivers/gpu/drm/drm_file.c
->> +++ b/drivers/gpu/drm/drm_file.c
->> @@ -156,7 +156,7 @@ struct drm_file *drm_file_alloc(struct drm_minor 
->> *minor)
->>       if (!file)
->>           return ERR_PTR(-ENOMEM);
->> -    file->pid = get_pid(task_pid(current));
->> +    file->pid = get_pid(task_tgid(current));
->>       file->minor = minor;
->>       /* for compatibility root is always authenticated */
->> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c 
->> b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> index d6baf73a6458..c0da89e16e6f 100644
->> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> @@ -241,7 +241,7 @@ static int vmw_debugfs_gem_info_show(struct 
->> seq_file *m, void *unused)
->>            * Therefore, we need to protect this ->comm access using RCU.
->>            */
->>           rcu_read_lock();
->> -        task = pid_task(file->pid, PIDTYPE_PID);
->> +        task = pid_task(file->pid, PIDTYPE_TGID);
->>           seq_printf(m, "pid %8d command %s:\n", pid_nr(file->pid),
->>                  task ? task->comm : "<unknown>");
->>           rcu_read_unlock();
-> 
+The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+
+  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-03-=
+15
+
+for you to fetch changes up to e0e6b416b25ee14716f3549e0cbec1011b193809:
+
+  drm/i915/active: Fix misuse of non-idle barriers as fence trackers (2023-=
+03-13 11:38:05 +0200)
+
+----------------------------------------------------------------
+drm/i915 fixes for v6.3-rc3:
+- Fix hwmon PL1 power limit enabling
+- Fix audio ELD handling for DP MST
+- Fix PSR io and wake line calculations
+- Fix DG2 HDMI modes with 267.30 and 319.89 MHz pixel clocks
+- Fix SSEU subslice out-of-bounds access
+- Fix misuse of non-idle barriers as fence trackers
+
+----------------------------------------------------------------
+Andrea Righi (1):
+      drm/i915/sseu: fix max_subslices array-index-out-of-bounds access
+
+Ankit Nautiyal (1):
+      drm/i915/dg2: Add HDMI pixel clock frequencies 267.30 and 319.89 MHz
+
+Ashutosh Dixit (1):
+      drm/i915/hwmon: Enable PL1 power limit
+
+Janusz Krzysztofik (1):
+      drm/i915/active: Fix misuse of non-idle barriers as fence trackers
+
+Jouni H=C3=B6gander (1):
+      drm/i915/psr: Use calculated io and fast wake lines
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Fix audio ELD handling for DP MST
+
+ drivers/gpu/drm/i915/display/intel_display_types.h |  2 +
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        | 25 ++++---
+ drivers/gpu/drm/i915/display/intel_psr.c           | 78 +++++++++++++++++-=
+----
+ drivers/gpu/drm/i915/display/intel_snps_phy.c      | 62 +++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_sseu.h               |  2 +-
+ drivers/gpu/drm/i915/i915_active.c                 | 25 ++++---
+ drivers/gpu/drm/i915/i915_hwmon.c                  |  5 ++
+ 7 files changed, 161 insertions(+), 38 deletions(-)
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
