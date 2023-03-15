@@ -2,62 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3816BAC19
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1F26BAC3D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:34:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21BE810E975;
-	Wed, 15 Mar 2023 09:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ABD310E984;
+	Wed, 15 Mar 2023 09:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7CC910E975
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:26:35 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id n125so4746428ybg.7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 02:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678872395;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Ah3hCHxRKLhXbUb0/zDpGbrf+oZe//U+DP3mMWw+T8c=;
- b=d5zFDRwPxETDMQPbed+EfhECDqFpfx8TgxdVjJLVO33pllTKXnCeZ6Hk9QAQn7Dw4+
- oWwetYLyd4CtHpCifM8AroVKcjrw/2ujfEkNx21G9ysAvCmRlxgPsHRPxWKrE2hdexcp
- 2idemqhli6FqtgkUkuZRShsSSKCkHav0hjtzcnLS7vLs5njq0I3+r1M58wEZWZSRe/5w
- MCX69ZCeDYaPs4V+n656TCYSZm7Bait5OLJkSVV06dPD39msVSlk9Vj+T+JqXAaZEp+K
- GA8c9VFqG4DPd1462qMWj+Lsk0Zv64cNfsfFiHVdem5Z+73jTMqu/Y35+PZOiQVe4uUq
- AS9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678872395;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ah3hCHxRKLhXbUb0/zDpGbrf+oZe//U+DP3mMWw+T8c=;
- b=JkCh/C3ibs/ph+re1WbdAoZv/dm7tdGP+J+To6DLAqqo+Afp50Pr/b7v4WEN7zT6sm
- Dk2j+jDQO35ra5uacbJLiny+1zd/lyC8EUEoMZ5yQppSYCh6x9aOlhyoQrPokvv4aRxP
- v6p52XMhdneEhOaq7uaLBiu34VjLUNl6Ck3SAFxSekM4KCPMqZb6cx8qQ+z9Y34wzWJQ
- UL/sDVwFxPSPoyt0xbVhWBlJJF7LkgCGTViNqbFHY51giFto1gyqtxvSFrmiUrBpPTMs
- mJTMOGKy56gFQ9LhiZrrrd4tsrcefXgc1PnIyCBKsXBbx2eMRDHdZpGlp2N/qn8/uYmD
- 7LeQ==
-X-Gm-Message-State: AO0yUKXe0GCjds0YaCQuRmkjUFG91/TvWZObra4zWfMy0dKKXGSuQhZg
- d891mxhlcNsJMC+LsBihG0Y0Oxp5kvefNvGhLddmBQ==
-X-Google-Smtp-Source: AK7set85Tksbs5R01RThGTgUkuOcBof0bxceE3ivDeTB4gA3qDm/+jVks8dAQC4UN3fTwJGP5ML+MUn6x7iNEe2KU4g=
-X-Received: by 2002:a05:6902:10e:b0:98e:6280:74ca with SMTP id
- o14-20020a056902010e00b0098e628074camr23209983ybh.1.1678872394826; Wed, 15
- Mar 2023 02:26:34 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8847710E984
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 09:34:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A67DD2F4;
+ Wed, 15 Mar 2023 02:35:23 -0700 (PDT)
+Received: from [10.57.53.168] (unknown [10.57.53.168])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D43D3F8C6;
+ Wed, 15 Mar 2023 02:34:38 -0700 (PDT)
+Message-ID: <a69442bd-a60a-9eb9-78ba-a3ea9b80c8a2@arm.com>
+Date: Wed, 15 Mar 2023 09:34:37 +0000
 MIME-Version: 1.0
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-7-45cbc68e188b@baylibre.com>
- <CAAOTY_819JuuidLgTOm+Ps=WnueW0Quos+abEDjrx8q8GifGKA@mail.gmail.com>
-In-Reply-To: <CAAOTY_819JuuidLgTOm+Ps=WnueW0Quos+abEDjrx8q8GifGKA@mail.gmail.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Wed, 15 Mar 2023 10:26:23 +0100
-Message-ID: <CAFGrd9qVhJb--COXJmGHuW6NxDnXZGdQnxbHGRvaA5Jqhx-yNg@mail.gmail.com>
-Subject: Re: [PATCH 07/21] dt-bindings: display: mediatek: dpi: add binding
- for MT8365
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH] drm/komeda: Take over EFI framebuffer properly
+To: patrik.berglund@arm.com, dri-devel@lists.freedesktop.org
+References: <20230313102209.53966-1-patrik.berglund@arm.com>
+Content-Language: en-GB
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20230313102209.53966-1-patrik.berglund@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,50 +43,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jitao Shi <jitao.shi@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Fabien Parent <fparent@baylibre.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-pwm@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Guillaume La Roque <glaroque@baylibre.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-mediatek@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org, Xinlei Lee <xinlei.lee@mediatek.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ Mihail Atanassov <mihail.atanassov@arm.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chun-Kuang,
+On 13/03/2023 10:22, patrik.berglund@arm.com wrote:
+> From: Patrik Berglund <patrik.berglund@arm.com>
+> 
+> The Arm Morello board EDK2 port already provides an EFI GOP display for
+> Ceti/Cetus (Komeda) with more boards incoming.
+> However, once the Komeda driver probes and takes over the hardware,
+> it should take over the logical framebuffer as well, otherwise,
+> the now-defunct GOP device hangs around and virtual console output
+> inevitably disappears into the wrong place most of the time.
+> 
+> We'll do this right before doing the SRST because that is the point
+> when the GOP will stop working.
+> The GOP might also fail because the encoder driver do things but this
+> is better than nothing.
+> 
+> Signed-off-by: Patrik Berglund <patrik.berglund@arm.com>
 
-Le lun. 13 mars 2023 =C3=A0 16:17, Chun-Kuang Hu <chunkuang.hu@kernel.org> =
-a =C3=A9crit :
->
-> Hi, Alexandre:
->
-> Alexandre Mergnat <amergnat@baylibre.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8810:23=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> >
-> > From: Fabien Parent <fparent@baylibre.com>
-> >
-> > DPI for MT8365 is compatible with MT8192 but requires an additional
-> > clock. Modify the documentation to requires this clock only on MT8365 S=
-oCs.
->
-> If MT8365 DPI has additional clock, why it is compatible with MT8192 DPI?
-> I think some part of MT8165 DPI works under the speed control by the
-> DPI clock and this is different with MT8192 DPI, how could these two
-> are compatible?
++CC the maintainers.
 
-AFAII, The mtk_dpi driver manage the 4th clock as optional
-dpi->dpi_clk =3D devm_clk_get_optional(dev, "dpi");
-And all configuration variables for mt8192 are the same for mt8365.
-These configuration clock variables (like cal_factor) aren't
-correlated with the 4th clock.
-The clock number doesn't impact the configuration variable because the
-4th clock is simply retrieved from DTS, saved in the driver structure
-and prepare/unprepare/enable/disable, like other clocks.
+Looks right to me, hdlcd has something very similar.
 
-Regards,
-Alex
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c | 12 ++++++++++++
+>  drivers/gpu/drm/arm/display/komeda/komeda_kms.c  |  6 ++++++
+>  drivers/gpu/drm/arm/display/komeda/komeda_kms.h  |  1 +
+>  3 files changed, 19 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> index 6c56f5662bc7..72035af9bc5f 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_blend.h>
+>  #include <drm/drm_print.h>
+>  #include "d71_dev.h"
+> +#include "komeda_kms.h"
+>  #include "malidp_io.h"
+>  
+>  static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
+> @@ -310,6 +311,17 @@ static int d71_reset(struct d71_dev *d71)
+>  	u32 __iomem *gcu = d71->gcu_addr;
+>  	int ret;
+>  
+> +	/*
+> +	 * If we are already running, the most likely reason is that the EFI left
+> +	 * us running (GOP), so make sure to take over from simple framebuffer
+> +	 * drivers.
+> +	 */
+> +	if (malidp_read32(gcu, BLK_STATUS) & GCU_STATUS_ACTIVE) {
+> +		ret = komeda_kms_remove_framebuffers();
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	malidp_write32(gcu, BLK_CONTROL, GCU_CONTROL_SRST);
+>  
+>  	ret = dp_wait_cond(!(malidp_read32(gcu, BLK_CONTROL) & GCU_CONTROL_SRST),
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> index 62dc64550793..12af409aeabb 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/component.h>
+>  #include <linux/interrupt.h>
+>  
+> +#include <drm/drm_aperture.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_drv.h>
+> @@ -349,3 +350,8 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
+>  	komeda_kms_cleanup_private_objs(kms);
+>  	drm->dev_private = NULL;
+>  }
+> +
+> +int komeda_kms_remove_framebuffers(void)
+> +{
+> +	return drm_aperture_remove_framebuffers(false, &komeda_kms_driver);
+> +}
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> index 3a872c292091..1a43707ed68f 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> @@ -187,5 +187,6 @@ void komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+>  
+>  struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev);
+>  void komeda_kms_detach(struct komeda_kms_dev *kms);
+> +int komeda_kms_remove_framebuffers(void);
+>  
+>  #endif /*_KOMEDA_KMS_H_*/
+
