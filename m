@@ -1,79 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBCB6BC668
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 07:59:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C286BC7D9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 08:56:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD7610EA5B;
-	Thu, 16 Mar 2023 06:59:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 539C310E034;
+	Thu, 16 Mar 2023 07:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1170410E0D1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 06:59:24 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id ek18so3623339edb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 23:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678949962;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3GJ4RBxZ712Klo+UmXypi79MzTgIT7iOamcqNsLMPOQ=;
- b=U3RaZU5JK+ElSE3D8SK48II4Cow+x8MfM8vox4NNEvaszAnAB+T94R0KIblOyYoImc
- ABJK5D9H2V8VJJTWQnmbd/xAli6OONjm4yK6431muTNwyMWCPaPYXUYM/10XUY0p5PEp
- ZVsAPB8nMxhxS47/cvck2Z8xb4Y1b3QQd40S3p2KssbS0xqKljj0UoXzAw6rQL4uK7xQ
- 6/Y3jeBUB74Bk+5TESn/V8mePAsZbQjPdRRTRlKGPZUJRk3l5ysPxAHKfzsFYMXZxjWN
- xjs2ZEpqTpKrNTa9+Vl5OkbSEAZ14i3f5Y4tbAbWPqrWRoepR0K45sRwPszHDlBwT+3T
- ukEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678949962;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3GJ4RBxZ712Klo+UmXypi79MzTgIT7iOamcqNsLMPOQ=;
- b=yLm3nJPAZyxmuMR1ACiuO3j0mfkQHneuBiZuhnJ2lsw4SD2a5w393i4smwlNN1g4Wt
- PRrTflUknI9aE4g0udZ/zp962kV+r/ZEdROwBD2Mm9hqpvTyhZYK64qGiujKefzNh/ZO
- O3rUArhdSj80SrItocq+/+45Qsf985B5Qdv7bACuo9c1gzUYAAjsY/+rwosv9X1S2Qgf
- awUkwpE3Ux5aSOz07+/8UohOx1HUvK3AF0ExxkC9/i2Pc+5E/MKGNwfy1xbzx/MQpaQX
- uSttENrCic8tktBorFcyTh7HJCDHU8UFS65ztLhgvSxqVQY7ZxJNVAiXQ/oM96SGWRfv
- C/mw==
-X-Gm-Message-State: AO0yUKWDaqdMs9TAy1OCgU+8rwL0dcKzzJTuq0Imr+6N6aWi8pMBR7m9
- XYv1+TIBLhrhDzA94t6eMb6Vag==
-X-Google-Smtp-Source: AK7set9GpyQBtfPlGOriyIwY+B/yPUh5T1CI1WhiR4rhceJZrqhIVM8O+Ucn/hyY8qHeP36jlIqhiw==
-X-Received: by 2002:a17:907:2d93:b0:8aa:33c4:87d5 with SMTP id
- gt19-20020a1709072d9300b008aa33c487d5mr11565369ejc.10.1678949962510; 
- Wed, 15 Mar 2023 23:59:22 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:9827:5f65:8269:a95f?
- ([2a02:810d:15c0:828:9827:5f65:8269:a95f])
- by smtp.gmail.com with ESMTPSA id
- qh2-20020a170906eca200b008e2dfc6382asm3427107ejb.125.2023.03.15.23.59.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 23:59:22 -0700 (PDT)
-Message-ID: <e46f257b-6a81-ce42-3b93-6cf702571faf@linaro.org>
-Date: Thu, 16 Mar 2023 07:59:20 +0100
+X-Greylist: delayed 2615 seconds by postgrey-1.36 at gabe;
+ Wed, 15 Mar 2023 11:31:56 UTC
+Received: from farmhouse.coelho.fi (paleale.coelho.fi [176.9.41.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E921410E9B9;
+ Wed, 15 Mar 2023 11:31:56 +0000 (UTC)
+Received: from 91-156-4-134.elisa-laajakaista.fi ([91.156.4.134]
+ helo=[192.168.100.137])
+ by farmhouse.coelho.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <luca@coelho.fi>) id 1pcOfU-006udF-9c;
+ Wed, 15 Mar 2023 12:47:41 +0200
+Message-ID: <b10d5ada60ab823a09b64f3bfd79db2dd601d5fd.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>, Tvrtko Ursulin
+ <tvrtko.ursulin@intel.com>, Jani Nikula <jani.nikula@intel.com>, Ville
+ =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Date: Wed, 15 Mar 2023 12:47:38 +0200
+In-Reply-To: <5bbe7093-791e-5653-850b-aea343db3f3f@I-love.SAKURA.ne.jp>
+References: <d8b73f88-d4aa-ed7e-09ea-5ad5ee803893@I-love.SAKURA.ne.jp>
+ <5bbe7093-791e-5653-850b-aea343db3f3f@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v4 01/14] dt-bindings: display/msm: gpu: Document GMU
- wrapper-equipped A6xx
-Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-References: <20230223-topic-gmuwrapper-v4-0-e987eb79d03f@linaro.org>
- <20230223-topic-gmuwrapper-v4-1-e987eb79d03f@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230223-topic-gmuwrapper-v4-1-e987eb79d03f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on farmhouse.coelho.fi
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+ TVD_RCVD_IP autolearn=ham autolearn_force=no version=3.4.6
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915: avoid flush_scheduled_work()
+ usage
+X-Mailman-Approved-At: Thu, 16 Mar 2023 07:56:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,90 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/03/2023 16:28, Konrad Dybcio wrote:
-> The "GMU Wrapper" is Qualcomm's name for "let's treat the GPU blocks
-> we'd normally assign to the GMU as if they were a part of the GMU, even
-> though they are not". It's a (good) software representation of the GMU_CX
-> and GMU_GX register spaces within the GPUSS that helps us programatically
-> treat these de-facto GMU-less parts in a way that's very similar to their
-> GMU-equipped cousins, massively saving up on code duplication.
-> 
-> The "wrapper" register space was specifically designed to mimic the layout
-> of a real GMU, though it rather obviously does not have the M3 core et al.
-> 
-> GMU wrapper-equipped A6xx GPUs require clocks and clock-names to be
-> specified under the GPU node, just like their older cousins. Account
-> for that.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+On Tue, 2023-03-14 at 20:21 +0900, Tetsuo Handa wrote:
+> Like commit c4f135d643823a86 ("workqueue: Wrap flush_workqueue() using a
+> macro") says, flush_scheduled_work() is dangerous and will be forbidden.
+>=20
+> Now that i915 is the last flush_scheduled_work() user, for now let's
+> start with blind conversion inside the whole drivers/gpu/drm/i915/
+> directory. Jani Nikula wants to use two workqueues in order to avoid
+> adding new module globals, but I'm not familiar enough to audit and
+> split into two workqueues.
+>=20
+> Link: https://lkml.kernel.org/r/87sfeita1p.fsf@intel.com
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 > ---
->  .../devicetree/bindings/display/msm/gpu.yaml       | 57 ++++++++++++++++++----
->  1 file changed, 48 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> index d4191cca71fb..ac1a9bce2042 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
-> @@ -36,10 +36,7 @@ properties:
->  
->    reg-names:
->      minItems: 1
-> -    items:
-> -      - const: kgsl_3d0_reg_memory
-> -      - const: cx_mem
-> -      - const: cx_dbgc
-> +    maxItems: 3
->  
->    interrupts:
->      maxItems: 1
-> @@ -157,16 +154,58 @@ allOf:
->        required:
->          - clocks
->          - clock-names
-> +
->    - if:
->        properties:
->          compatible:
->            contains:
-> -            pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
-> -
-> -    then: # Since Adreno 6xx series clocks should be defined in GMU
-> +            enum:
-> +              - qcom,adreno-610.0
-> +              - qcom,adreno-619.1
-> +    then:
->        properties:
-> -        clocks: false
-> -        clock-names: false
-> +        clock-names:
-> +          items:
-> +            - const: core
-> +              description: GPU Core clock
-> +            - const: iface
-> +              description: GPU Interface clock
-> +            - const: mem_iface
-> +              description: GPU Memory Interface clock
-> +            - const: alt_mem_iface
-> +              description: GPU Alternative Memory Interface clock
-> +            - const: gmu
-> +              description: CX GMU clock
-> +            - const: xo
-> +              description: GPUCC clocksource clock
+> Changes in v2:
+>   Add missing alloc_workqueue() failure check.
 
-Since you require fixed number of clocks, you also need:
+Hi,
 
-clocks:
-  minItems: 6
-  maxItems: 6
+Thanks for your patch! But it seems that you only fixed that failure
+check, without making the other change Jani proposed, namely, move the
+work to the i915 struct instead of making it a global.
 
-Best regards,
-Krzysztof
+I'm working on that now.
 
+--
+Cheers,
+Luca.
