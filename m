@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AD16BABE2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4B16BABEF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 10:18:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1838C10E989;
-	Wed, 15 Mar 2023 09:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B4910E9C5;
+	Wed, 15 Mar 2023 09:18:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3B7B10E98B;
- Wed, 15 Mar 2023 09:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678871782; x=1710407782;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=6zu71dEOVPVS2BWnImOqjsrVz2JqGQvSt6WoeVfcT18=;
- b=N2dQ8Yeprw/zT7SfiibaAB0Br9Hgw6oJOQYwlxiBBqHVpIl/sYN00XpE
- WTwpFIiz4b0om+YsZKM4GBAZBxQ4+ycgFC3lj2G+QVvuYDLspZ25rDL9P
- vEdytuMtOS5mlLA0TpeiF3CEOYBSNDbB8c+4LkcPBUeXTRDxnLPG7o/wa
- HY32XjFxTWJXrdlwUZxqzzFP+x1kWSjQwZqJ37WrNpYSwthN+N6lntLpb
- UfZu28gFFlknb59LlzrQaTG1h2oSD17jPWxKpyhtxQ7ZrSZmThqqmY93d
- fOci5arzeIipAouRxGge0O79L6MtII/dBdkMhNOkTuEq9+XWJsMqOZy16 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="321494545"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="321494545"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 02:16:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="853538720"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="853538720"
-Received: from kjeldbeg-mobl.ger.corp.intel.com (HELO [10.249.254.225])
- ([10.249.254.225])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 02:16:19 -0700
-Message-ID: <6cff8c19-0ab6-4b03-d778-ad57aa207b98@intel.com>
-Date: Wed, 15 Mar 2023 11:16:16 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A31810E98B;
+ Wed, 15 Mar 2023 09:18:18 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 59CD5B81D17;
+ Wed, 15 Mar 2023 09:18:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 017D3C433EF;
+ Wed, 15 Mar 2023 09:18:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678871895;
+ bh=+19G3QxqEoOf1ES1QUxNpw3hDUNgR7ZP5PGazby/haA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=PtNxJduEQLGBkb2SGhYOtpDbPezhKAIZKK4AgMp8ykTeXjUpMkRlyUjZQBLnxayr0
+ nluyKdlCfiXd8nfjGZbjdssE05b6Sg2ZKmZ2pFfgsu2M6BizHWdZX5of6QycPXoMjY
+ BUKDkj20YGWVlidC1v08sBwN/Qzu8B21E8UREv3Ix1Lkv6D5b/s8zIcEp2THqSC32C
+ +H8WPhnmT3T5SB15+2/uqg21B4RSHaeCGUDCic3L/xtXdTJqCV3/qxyibE1it1Mq4a
+ 5AnIU6wTlDsi9kJoIGjiGQDr2EkyHyIn23Je0xstHrJiIolA1ZDjw9tQ2MufEEIsaM
+ F0TKO/PzhHkzg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1pcNI1-0006nT-6N; Wed, 15 Mar 2023 10:19:21 +0100
+Date: Wed, 15 Mar 2023 10:19:21 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Adreno devfreq lockdep splat with 6.3-rc2
+Message-ID: <ZBGNmXwQoW330Wr8@hovoldconsulting.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH v3] drm/i915/pxp: limit drm-errors or warning on firmware
- API failures
-To: Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20230314175832.1506427-1-alan.previn.teres.alexis@intel.com>
-Content-Language: en-US, en-GB
-From: Eero Tamminen <eero.t.tamminen@intel.com>
-Organization: Intel
-In-Reply-To: <20230314175832.1506427-1-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,216 +52,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele <daniele.ceraolospurio@intel.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Rob,
 
-Tested the patch with Ubuntu 22.04 desktop + Linux 6.2-rc3 (drm-tip) 
-kernel, on TGL-H HW.
+Since 6.3-rc2 (or possibly -rc1), I'm now seeing the below
+devfreq-related lockdep splat.
 
-With it, this log spam has disappeared:
-----------------------------------------------------
-[ 8691.608933] i915 0000:00:02.0: [drm] PXP firmware failed arb session 
-init request ret=[0x0000101f]
-[ 8691.709442] i915 0000:00:02.0: [drm] *ERROR* arb session failed to go 
-in play
-----------------------------------------------------
+I noticed that you posted a fix for something similar here:
 
-There's now just a single message on boot:
-----------------------------------------------------
-[   11.674177] ------------[ cut here ]------------
-[   11.674183] i915 0000:00:02.0: PXP init-arb-session-15 failed due to 
-BIOS/SOC:0x0000101a:ERR_PLATFORM_CONFIG
-[   11.674222] WARNING: CPU: 12 PID: 123 at 
-drivers/gpu/drm/i915/pxp/intel_pxp_tee.c:345 
-intel_pxp_tee_cmd_create_arb_session+0x19a/0x1e0 [i915]
-...
-[   11.674961] Call Trace:
-[   11.674966]  <TASK>
-[   11.674970]  ? pxp_session_work+0x123/0x1d0 [i915]
-[   11.675130]  pxp_session_work+0x123/0x1d0 [i915]
-[   11.675286]  process_one_work+0x1d9/0x3e0
-[   11.675295]  worker_thread+0x21b/0x3d0
-[   11.675301]  ? __pfx_worker_thread+0x10/0x10
-[   11.675307]  kthread+0xe9/0x110
-[   11.675311]  ? __pfx_kthread+0x10/0x10
-[   11.675315]  ret_from_fork+0x29/0x50
-[   11.675323]  </TASK>
-[   11.675325] ---[ end trace 0000000000000000 ]---
-----------------------------------------------------
+	https://lore.kernel.org/r/20230312204150.1353517-9-robdclark@gmail.com
+
+but that particular patch makes no difference.
+
+From skimming the calltraces below and qos/devfreq related changes in
+6.3-rc1 it seems like this could be related to:
+
+	fadcc3ab1302 ("drm/msm/gpu: Bypass PM QoS constraint for idle clamp")
+
+Johan
 
 
-	- Eero
+[   35.389822] ======================================================
+[   35.389824] WARNING: possible circular locking dependency detected
+[   35.389826] 6.3.0-rc2 #208 Not tainted
+[   35.389828] ------------------------------------------------------
+[   35.389829] ring0/348 is trying to acquire lock:
+[   35.389830] ffff43424cfa2078 (&devfreq->lock){+.+.}-{3:3}, at: qos_min_notifier_call+0x28/0x88
+[   35.389845] 
+               but task is already holding lock:
+[   35.389846] ffff4342432b78e8 (&(c->notifiers)->rwsem){++++}-{3:3}, at: blocking_notifier_call_chain+0x34/0xa0
+[   35.389855] 
+               which lock already depends on the new lock.
 
-On 14.3.2023 19.58, Alan Previn wrote:
-> MESA driver is creating protected context on every driver handle
-> creation to query caps bits for app. So when running CI tests,
-> they are observing hundreds of drm_errors when enabling PXP
-> in .config but using SOC fusing or BIOS configuration that cannot
-> support PXP sessions.
-> 
-> The fixes tag referenced below was to resolve a related issue
-> where we wanted to silence error messages, but that case was due
-> to outdated IFWI (firmware) that definitely needed an upgrade and
-> was, at that point, considered a one-off case as opposed to today's
-> realization that default CI was enabling PXP in kernel config for
-> all testing.
-> 
-> So with this patch, let's strike a balance between issues that is
-> critical but are root-caused from HW/platform gaps (louder drm-warn
-> but just ONCE) vs other cases where it could also come from session
-> state machine (which cannot be a WARN_ONCE since it can be triggered
-> due to runtime operation events).
-> 
-> Let's use helpers for these so as more functions are added in future
-> features / HW (or as FW designers continue to bless upstreaming of
-> the error codes and meanings), we only need to update the helpers.
-> 
-> NOTE: Don't completely remove FW errors (via drm_debug) or else cusomer
-> apps that really needs to know that content protection failed won't
-> be aware of it.
-> 
-> v2: - Add fixes tag (Trvtko)
-> v3: - Break multi-line drm_dbg strings into separate drm_dbg (Daniele)
->      - Fix couple of typecasting nits (Daniele)
-> 
-> Fixes: b762787bf767 ("drm/i915/pxp: Use drm_dbg if arb session failed due to fw version")
-> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
-> ---
->   .../i915/pxp/intel_pxp_cmd_interface_cmn.h    |  3 +
->   drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  2 +-
->   drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 77 +++++++++++++++----
->   3 files changed, 67 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> index ae9b151b7cb7..6f6541d5e49a 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
-> @@ -18,6 +18,9 @@
->   enum pxp_status {
->   	PXP_STATUS_SUCCESS = 0x0,
->   	PXP_STATUS_ERROR_API_VERSION = 0x1002,
-> +	PXP_STATUS_NOT_READY = 0x100e,
-> +	PXP_STATUS_PLATFCONFIG_KF1_NOVERIF = 0x101a,
-> +	PXP_STATUS_PLATFCONFIG_KF1_BAD = 0x101f,
->   	PXP_STATUS_OP_NOT_PERMITTED = 0x4013
->   };
->   
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> index 448cacb0465d..7de849cb6c47 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> @@ -74,7 +74,7 @@ static int pxp_create_arb_session(struct intel_pxp *pxp)
->   
->   	ret = pxp_wait_for_session_state(pxp, ARB_SESSION, true);
->   	if (ret) {
-> -		drm_err(&gt->i915->drm, "arb session failed to go in play\n");
-> +		drm_dbg(&gt->i915->drm, "arb session failed to go in play\n");
->   		return ret;
->   	}
->   	drm_dbg(&gt->i915->drm, "PXP ARB session is alive\n");
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> index d9d248b48093..6f89cd850251 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> @@ -19,6 +19,37 @@
->   #include "intel_pxp_tee.h"
->   #include "intel_pxp_types.h"
->   
-> +static bool
-> +is_fw_err_platform_config(u32 type)
-> +{
-> +	switch (type) {
-> +	case PXP_STATUS_ERROR_API_VERSION:
-> +	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
-> +	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
-> +		return true;
-> +	default:
-> +		break;
-> +	}
-> +	return false;
-> +}
-> +
-> +static const char *
-> +fw_err_to_string(u32 type)
-> +{
-> +	switch (type) {
-> +	case PXP_STATUS_ERROR_API_VERSION:
-> +		return "ERR_API_VERSION";
-> +	case PXP_STATUS_NOT_READY:
-> +		return "ERR_NOT_READY";
-> +	case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
-> +	case PXP_STATUS_PLATFCONFIG_KF1_BAD:
-> +		return "ERR_PLATFORM_CONFIG";
-> +	default:
-> +		break;
-> +	}
-> +	return NULL;
-> +}
-> +
->   static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
->   				    void *msg_in, u32 msg_in_size,
->   				    void *msg_out, u32 msg_out_max_size,
-> @@ -307,15 +338,22 @@ int intel_pxp_tee_cmd_create_arb_session(struct intel_pxp *pxp,
->   				       &msg_out, sizeof(msg_out),
->   				       NULL);
->   
-> -	if (ret)
-> -		drm_err(&i915->drm, "Failed to send tee msg ret=[%d]\n", ret);
-> -	else if (msg_out.header.status == PXP_STATUS_ERROR_API_VERSION)
-> -		drm_dbg(&i915->drm, "PXP firmware version unsupported, requested: "
-> -			"CMD-ID-[0x%08x] on API-Ver-[0x%08x]\n",
-> -			msg_in.header.command_id, msg_in.header.api_version);
-> -	else if (msg_out.header.status != 0x0)
-> -		drm_warn(&i915->drm, "PXP firmware failed arb session init request ret=[0x%08x]\n",
-> -			 msg_out.header.status);
-> +	if (ret) {
-> +		drm_err(&i915->drm, "Failed to send tee msg init arb session, ret=[%d]\n", ret);
-> +	} else if (msg_out.header.status != 0) {
-> +		if (is_fw_err_platform_config(msg_out.header.status)) {
-> +			drm_WARN_ONCE(&i915->drm, true,
-> +				      "PXP init-arb-session-%d failed due to BIOS/SOC:0x%08x:%s\n",
-> +				      arb_session_id, msg_out.header.status,
-> +				      fw_err_to_string(msg_out.header.status));
-> +		} else {
-> +			drm_dbg(&i915->drm, "PXP init-arb-session--%d failed 0x%08x:%st:\n",
-> +				arb_session_id, msg_out.header.status,
-> +				fw_err_to_string(msg_out.header.status));
-> +			drm_dbg(&i915->drm, "     cmd-detail: ID=[0x%08x],API-Ver-[0x%08x]\n",
-> +				msg_in.header.command_id, msg_in.header.api_version);
-> +		}
-> +	}
->   
->   	return ret;
->   }
-> @@ -347,10 +385,21 @@ void intel_pxp_tee_end_arb_fw_session(struct intel_pxp *pxp, u32 session_id)
->   	if ((ret || msg_out.header.status != 0x0) && ++trials < 3)
->   		goto try_again;
->   
-> -	if (ret)
-> -		drm_err(&i915->drm, "Failed to send tee msg for inv-stream-key-%d, ret=[%d]\n",
-> +	if (ret) {
-> +		drm_err(&i915->drm, "Failed to send tee msg for inv-stream-key-%u, ret=[%d]\n",
->   			session_id, ret);
-> -	else if (msg_out.header.status != 0x0)
-> -		drm_warn(&i915->drm, "PXP firmware failed inv-stream-key-%d with status 0x%08x\n",
-> -			 session_id, msg_out.header.status);
-> +	} else if (msg_out.header.status != 0) {
-> +		if (is_fw_err_platform_config(msg_out.header.status)) {
-> +			drm_WARN_ONCE(&i915->drm, true,
-> +				      "PXP inv-stream-key-%u failed due to BIOS/SOC :0x%08x:%s\n",
-> +				      session_id, msg_out.header.status,
-> +				      fw_err_to_string(msg_out.header.status));
-> +		} else {
-> +			drm_dbg(&i915->drm, "PXP inv-stream-key-%u failed 0x%08x:%s:\n",
-> +				session_id, msg_out.header.status,
-> +				fw_err_to_string(msg_out.header.status));
-> +			drm_dbg(&i915->drm, "     cmd-detail: ID=[0x%08x],API-Ver-[0x%08x]\n",
-> +				msg_in.header.command_id, msg_in.header.api_version);
-> +		}
-> +	}
->   }
-> 
-> base-commit: 07f982ec08c9bfc4aa82d98022111126cd638a0b
+[   35.389856] 
+               the existing dependency chain (in reverse order) is:
+[   35.389857] 
+               -> #4 (&(c->notifiers)->rwsem){++++}-{3:3}:
+[   35.389861]        lock_acquire+0x68/0x84
+[   35.389865]        down_write+0x58/0xfc
+[   35.389869]        blocking_notifier_chain_register+0x30/0x8c
+[   35.389872]        freq_qos_add_notifier+0x68/0x7c
+[   35.389876]        dev_pm_qos_add_notifier+0xe8/0x114
+[   35.389881]        devfreq_add_device.part.0+0x360/0x5a4
+[   35.389884]        devm_devfreq_add_device+0x74/0xe0
+[   35.389886]        msm_devfreq_init+0xa0/0x154 [msm]
+[   35.389915]        msm_gpu_init+0x320/0x5b0 [msm]
+[   35.389933]        adreno_gpu_init+0x164/0x2d8 [msm]
+[   35.389951]        a6xx_gpu_init+0x270/0x608 [msm]
+[   35.389968]        adreno_bind+0x184/0x284 [msm]
+[   35.389983]        component_bind_all+0x124/0x288
+[   35.389989]        msm_drm_bind+0x1d8/0x6a8 [msm]
+[   35.390004]        try_to_bring_up_aggregate_device+0x1ec/0x2f4
+[   35.390007]        __component_add+0xa8/0x194
+[   35.390010]        component_add+0x14/0x20
+[   35.390012]        dp_display_probe+0x2b4/0x474 [msm]
+[   35.390029]        platform_probe+0x68/0xd8
+[   35.390031]        really_probe+0x184/0x3c8
+[   35.390034]        __driver_probe_device+0x7c/0x188
+[   35.390036]        driver_probe_device+0x3c/0x110
+[   35.390039]        __device_attach_driver+0xbc/0x158
+[   35.390041]        bus_for_each_drv+0x84/0xe0
+[   35.390044]        __device_attach+0xa8/0x1d4
+[   35.390046]        device_initial_probe+0x14/0x20
+[   35.390049]        bus_probe_device+0xac/0xb0
+[   35.390051]        deferred_probe_work_func+0xa0/0xf4
+[   35.390053]        process_one_work+0x288/0x6c4
+[   35.390056]        worker_thread+0x74/0x450
+[   35.390058]        kthread+0x118/0x11c
+[   35.390060]        ret_from_fork+0x10/0x20
+[   35.390063] 
+               -> #3 (dev_pm_qos_mtx){+.+.}-{3:3}:
+[   35.390066]        lock_acquire+0x68/0x84
+[   35.390068]        __mutex_lock+0x98/0x428
+[   35.390072]        mutex_lock_nested+0x2c/0x38
+[   35.390074]        dev_pm_qos_remove_notifier+0x34/0x140
+[   35.390077]        genpd_remove_device+0x3c/0x174
+[   35.390081]        genpd_dev_pm_detach+0x78/0x1b4
+[   35.390083]        dev_pm_domain_detach+0x24/0x34
+[   35.390085]        a6xx_gmu_remove+0x64/0xd0 [msm]
+[   35.390101]        a6xx_destroy+0xa8/0x138 [msm]
+[   35.390116]        adreno_unbind+0x40/0x64 [msm]
+[   35.390131]        component_unbind+0x38/0x6c
+[   35.390134]        component_unbind_all+0xc8/0xd4
+[   35.390136]        msm_drm_uninit.isra.0+0x168/0x1dc [msm]
+[   35.390152]        msm_drm_bind+0x2f4/0x6a8 [msm]
+[   35.390167]        try_to_bring_up_aggregate_device+0x1ec/0x2f4
+[   35.390170]        __component_add+0xa8/0x194
+[   35.390172]        component_add+0x14/0x20
+[   35.390175]        dp_display_probe+0x2b4/0x474 [msm]
+[   35.390190]        platform_probe+0x68/0xd8
+[   35.390192]        really_probe+0x184/0x3c8
+[   35.390194]        __driver_probe_device+0x7c/0x188
+[   35.390197]        driver_probe_device+0x3c/0x110
+[   35.390199]        __device_attach_driver+0xbc/0x158
+[   35.390201]        bus_for_each_drv+0x84/0xe0
+[   35.390203]        __device_attach+0xa8/0x1d4
+[   35.390206]        device_initial_probe+0x14/0x20
+[   35.390208]        bus_probe_device+0xac/0xb0
+[   35.390210]        deferred_probe_work_func+0xa0/0xf4
+[   35.390212]        process_one_work+0x288/0x6c4
+[   35.390214]        worker_thread+0x74/0x450
+[   35.390216]        kthread+0x118/0x11c
+[   35.390217]        ret_from_fork+0x10/0x20
+[   35.390219] 
+               -> #2 (&gmu->lock){+.+.}-{3:3}:
+[   35.390222]        lock_acquire+0x68/0x84
+[   35.390224]        __mutex_lock+0x98/0x428
+[   35.390226]        mutex_lock_nested+0x2c/0x38
+[   35.390229]        a6xx_gpu_set_freq+0x30/0x5c [msm]
+[   35.390245]        msm_devfreq_target+0xb4/0x218 [msm]
+[   35.390260]        devfreq_set_target+0x84/0x2f4
+[   35.390262]        devfreq_update_target+0xc4/0xec
+[   35.390263]        devfreq_monitor+0x38/0x1f0
+[   35.390265]        process_one_work+0x288/0x6c4
+[   35.390267]        worker_thread+0x74/0x450
+[   35.390269]        kthread+0x118/0x11c
+[   35.390270]        ret_from_fork+0x10/0x20
+[   35.390272] 
+               -> #1 (&df->lock){+.+.}-{3:3}:
+[   35.390275]        lock_acquire+0x68/0x84
+[   35.390276]        __mutex_lock+0x98/0x428
+[   35.390279]        mutex_lock_nested+0x2c/0x38
+[   35.390281]        msm_devfreq_get_dev_status+0x48/0x134 [msm]
+[   35.390296]        devfreq_simple_ondemand_func+0x3c/0x144
+[   35.390298]        devfreq_update_target+0x4c/0xec
+[   35.390300]        devfreq_monitor+0x38/0x1f0
+[   35.390302]        process_one_work+0x288/0x6c4
+[   35.390304]        worker_thread+0x74/0x450
+[   35.390305]        kthread+0x118/0x11c
+[   35.390307]        ret_from_fork+0x10/0x20
+[   35.390308] 
+               -> #0 (&devfreq->lock){+.+.}-{3:3}:
+[   35.390311]        __lock_acquire+0x1394/0x21fc
+[   35.390313]        lock_acquire.part.0+0xc4/0x1fc
+[   35.390314]        lock_acquire+0x68/0x84
+[   35.390316]        __mutex_lock+0x98/0x428
+[   35.390319]        mutex_lock_nested+0x2c/0x38
+[   35.390321]        qos_min_notifier_call+0x28/0x88
+[   35.390323]        blocking_notifier_call_chain+0x6c/0xa0
+[   35.390325]        pm_qos_update_target+0xdc/0x24c
+[   35.390327]        freq_qos_apply+0x68/0x74
+[   35.390329]        apply_constraint+0x100/0x148
+[   35.390331]        __dev_pm_qos_update_request+0xb8/0x278
+[   35.390333]        dev_pm_qos_update_request+0x3c/0x64
+[   35.390335]        msm_devfreq_active+0xf8/0x194 [msm]
+[   35.390350]        msm_gpu_submit+0x18c/0x1a8 [msm]
+[   35.390365]        msm_job_run+0xbc/0x140 [msm]
+[   35.390380]        drm_sched_main+0x1a0/0x528 [gpu_sched]
+[   35.390387]        kthread+0x118/0x11c
+[   35.390388]        ret_from_fork+0x10/0x20
+[   35.390390] 
+               other info that might help us debug this:
+
+[   35.390391] Chain exists of:
+                 &devfreq->lock --> dev_pm_qos_mtx --> &(c->notifiers)->rwsem
+
+[   35.390395]  Possible unsafe locking scenario:
+
+[   35.390396]        CPU0                    CPU1
+[   35.390397]        ----                    ----
+[   35.390397]   lock(&(c->notifiers)->rwsem);
+[   35.390399]                                lock(dev_pm_qos_mtx);
+[   35.390401]                                lock(&(c->notifiers)->rwsem);
+[   35.390403]   lock(&devfreq->lock);
+[   35.390405] 
+                *** DEADLOCK ***
+
+[   35.390406] 4 locks held by ring0/348:
+[   35.390407]  #0: ffff43424cfa1170 (&gpu->lock){+.+.}-{3:3}, at: msm_job_run+0xb0/0x140 [msm]
+[   35.390426]  #1: ffff43424cfa1208 (&gpu->active_lock){+.+.}-{3:3}, at: msm_gpu_submit+0xdc/0x1a8 [msm]
+[   35.390443]  #2: ffffdbf2a5472718 (dev_pm_qos_mtx){+.+.}-{3:3}, at: dev_pm_qos_update_request+0x30/0x64
+[   35.390448]  #3: ffff4342432b78e8 (&(c->notifiers)->rwsem){++++}-{3:3}, at: blocking_notifier_call_chain+0x34/0xa0
+[   35.390452] 
+               stack backtrace:
+[   35.390454] CPU: 4 PID: 348 Comm: ring0 Not tainted 6.3.0-rc2 #208
+[   35.390456] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET32D (1.04 ) 03/16/2020
+[   35.390458] Call trace:
+[   35.390460]  dump_backtrace+0xa4/0x128
+[   35.390463]  show_stack+0x18/0x24
+[   35.390465]  dump_stack_lvl+0x60/0xac
+[   35.390469]  dump_stack+0x18/0x24
+[   35.390470]  print_circular_bug+0x24c/0x2f8
+[   35.390472]  check_noncircular+0x134/0x148
+[   35.390473]  __lock_acquire+0x1394/0x21fc
+[   35.390475]  lock_acquire.part.0+0xc4/0x1fc
+[   35.390477]  lock_acquire+0x68/0x84
+[   35.390478]  __mutex_lock+0x98/0x428
+[   35.390481]  mutex_lock_nested+0x2c/0x38
+[   35.390483]  qos_min_notifier_call+0x28/0x88
+[   35.390485]  blocking_notifier_call_chain+0x6c/0xa0
+[   35.390487]  pm_qos_update_target+0xdc/0x24c
+[   35.390489]  freq_qos_apply+0x68/0x74
+[   35.390491]  apply_constraint+0x100/0x148
+[   35.390493]  __dev_pm_qos_update_request+0xb8/0x278
+[   35.390495]  dev_pm_qos_update_request+0x3c/0x64
+[   35.390497]  msm_devfreq_active+0xf8/0x194 [msm]
+[   35.390512]  msm_gpu_submit+0x18c/0x1a8 [msm]
+[   35.390527]  msm_job_run+0xbc/0x140 [msm]
+[   35.390542]  drm_sched_main+0x1a0/0x528 [gpu_sched]
+[   35.390547]  kthread+0x118/0x11c
+[   35.390548]  ret_from_fork+0x10/0x20
