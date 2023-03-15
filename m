@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651356BBFCD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 23:31:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF0C6BBFED
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 23:40:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD1B10E00F;
-	Wed, 15 Mar 2023 22:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A064710EA0D;
+	Wed, 15 Mar 2023 22:40:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85D3B10E00F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 22:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=J8IlJOZzja4gjVYeF3pSjxtVezljt/5QL0ylLBbDcfY=; b=hLY5gIhzTle1GSPxIcrypQtnLO
- ppZAS4gX5dn+KRvw6ufkk88Ud79YYHSNpdgfBJUIUtn7yAPDROAzFohJQbJ5Orl7XIEFqGjh7Qf1O
- V78IocYtVVrOpt0RtFgq4l6LgtFpx/gM4bQmERaC0iinfvgd0SePfKFxoJyk8OwwglpJ9XNlfgzK/
- DmceV/QxgKiJ/haj/2VlX916QyeBbPzMrqSDhnChvmRWwBWTlOq+mODpk6hEJJWPkvN4i3swBHzLr
- k8aJkZSZoRoUvHyTiik+2i1NOFvj15Vef1yE5/FbAWZ7b+Sh6mUTnoeIezvFQhqZt5zs2B1dWL8v9
- u+wbx3Aw==;
-Received: from [38.44.66.31] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pcZei-00COR3-Ag; Wed, 15 Mar 2023 23:31:36 +0100
-Date: Wed, 15 Mar 2023 21:31:27 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH] drm/vgem: Drop struct drm_vgem_gem_object
-Message-ID: <20230315223127.5donvtt75hnabj2p@mail.igalia.com>
-References: <20230222160617.171429-1-mcanal@igalia.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 257D210EA0D
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 22:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Lh/fTH0IApa4rUjij2hKr4uEpS9VPGARS8cLZJTnHdc=; b=MjPMrn8HDaFHfwL+LcuQsHZULq
+ Tg7rLfUs4HpcJDbU1IjQBCnHXah/kXya9bPWfI0z5BVEeQb0ae5ioaCqSRNPhPyZ50VLix1vyJsYI
+ ZS2eDm6ViAOG0K1VFdQMDh4nVcc7qjWkBOmLfqrMIc9V3lSRkqVvMJ/ssCmYb7diZ1ItVbmLqaQxe
+ CIOBcupMgFmhUCt2pT28OtkwlzxnvBX+5wBB1mgWJnagG336qfpSJTINPMzLjVTbTObDXIzxvhI0V
+ N/aiJy1Srkaomp7OqpvlVqWIWg/MZ4495dUPVK40E5i6z6SriFQ7yZ8hvwXqjwchtv09SM/VG5fSC
+ 78q2JQvg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red
+ Hat Linux)) id 1pcZnI-00Ed2h-0U; Wed, 15 Mar 2023 22:40:28 +0000
+Date: Wed, 15 Mar 2023 15:40:28 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: enhancing module info to allow grouping of firmwares
+Message-ID: <ZBJJXJ4TzF4ZUmNL@bombadil.infradead.org>
+References: <CAPM=9txaQfHkjs6nWcwBtnYQXtr996dyht7wasJ7QOovjepmAw@mail.gmail.com>
+ <CADnq5_PdxFdvVwVnQ2n4vXXPYKe0ZOVYBPT0Kf+6aPuQLc960g@mail.gmail.com>
+ <CAPM=9txGT2hFNAQbY8Fncz_zGr0nNeQ4KbN_s=D0XXueCtDmLQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3k7wc3kolioosj2t"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230222160617.171429-1-mcanal@igalia.com>
+In-Reply-To: <CAPM=9txGT2hFNAQbY8Fncz_zGr0nNeQ4KbN_s=D0XXueCtDmLQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,76 +49,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linux-modules@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Mar 16, 2023 at 07:18:11AM +1000, Dave Airlie wrote:
+> MODULE_FIRMWARE_GROUP("g1")
+> MODULE_FIRMWARE("fwv1.bin")
+> MODULE_FIRMWARE("fwv2.bin")
+> MODULE_FIRMWARE_GROUP_END("g2")
 
---3k7wc3kolioosj2t
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The way module namespaces were implemented could be used to leverage
+something like this, just that you'd use it for firmware tags, not
+symbols.
 
-On 02/22, Ma=EDra Canal wrote:
-> Commit 45d9c8dde4cd ("drm/vgem: use shmem helpers") introduced shmem
-> helpers to vgem and with that, removed all uses of the struct
-> drm_vgem_gem_object. So, as the struct is no longer used, delete it.
->=20
-Thanks,
+drivers/dma-buf/dma-buf.c:EXPORT_SYMBOL_NS_GPL(dma_buf_export, DMA_BUF);
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
+Just that that would look like something like this, which might be
+even nicer:
 
-> Signed-off-by: Ma=EDra Canal <mcanal@igalia.com>
-> ---
->  drivers/gpu/drm/vgem/vgem_drv.h | 11 -----------
->  1 file changed, 11 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vgem/vgem_drv.h b/drivers/gpu/drm/vgem/vgem_=
-drv.h
-> index 0ed300317f87..34cf63e6fb3d 100644
-> --- a/drivers/gpu/drm/vgem/vgem_drv.h
-> +++ b/drivers/gpu/drm/vgem/vgem_drv.h
-> @@ -39,17 +39,6 @@ struct vgem_file {
->  	struct mutex fence_mutex;
->  };
-> =20
-> -#define to_vgem_bo(x) container_of(x, struct drm_vgem_gem_object, base)
-> -struct drm_vgem_gem_object {
-> -	struct drm_gem_object base;
-> -
-> -	struct page **pages;
-> -	unsigned int pages_pin_count;
-> -	struct mutex pages_lock;
-> -
-> -	struct sg_table *table;
-> -};
-> -
->  int vgem_fence_open(struct vgem_file *file);
->  int vgem_fence_attach_ioctl(struct drm_device *dev,
->  			    void *data,
-> --=20
-> 2.39.2
->=20
+MODULE_FIRMWARE_GROUP("fwv1.bin", "nvidia/g1");
+MODULE_FIRMWARE_GROUP("fwv2.bin", "nvidia/g1");
 
---3k7wc3kolioosj2t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmQSRzkACgkQwqF3j0dL
-ehzcHRAAqaG+q88ABzpDbms4o+vwa9GPSclLHx8pRQKQoKnDIYtcv3uBoVo0zNjU
-ySTEYEw/FTMiarmN4YkPb2DGD62X21y+wor/RkaRsUxKEYvsqi/lvHbl3QW5VkIV
-pfQEj/evoX2NZOf53WGIR/uu1lb48NxXUnO9NzcnlcZmLNy3lAK5T+m7aJyCxeS0
-QbrDxkHkrgRh4yAu++JpvZ8n0aT7AbQPGJiCDQQstMM2nBs0gNmF7EIoaXwObHLl
-T45khHbRy2gXNvzoTmyr8gkPr1lG86+TFxDsOefA+VXlfcgCT5PaLKnHehfF7eow
-0Y8BzH8Dnw7Yl86qcixKs8sB4/dMCTwUAPAQNRr3/w9ej+5uOQ28rqblKwQlvm7e
-DieKg1Q69Wx1XXZupjQ+DShxkozJP7ff9RMhgAGdtxA+88v0km+98MBiV4fjyxrE
-rmLSX0Lb7C0r70wy2NanoPdzPrhgGZbe+wrPsiH8vd00GGMaO3GK82Zgl9nieC/g
-QDEK+/MB9VNYSMK0wR3xKK7r0mEIwIpK0WliTfY2FngmqNeUtuhcwwCvkTxum3bs
-/dDRQ/y0fhHYfB/qLlJYd/AYccpSdSHQIIlO5o58O3IRgfIdCcL/Jrknt6ZPdBlc
-BiXJX3lVMc2FF734jeqVxxkvXw/IIJp7IPpXbYDdXpcwzqHYBqw=
-=Y805
------END PGP SIGNATURE-----
-
---3k7wc3kolioosj2t--
+  Luis
