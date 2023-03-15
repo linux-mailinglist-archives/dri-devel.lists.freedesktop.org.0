@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CE56BAE3C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 11:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BBB6BAEB3
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 12:07:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D2DD10E998;
-	Wed, 15 Mar 2023 10:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E09B10E9AF;
+	Wed, 15 Mar 2023 11:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC2FC10E998;
- Wed, 15 Mar 2023 10:54:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678877694; x=1710413694;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=E/wKaIrauiD9CoNHLotOobGfK/yv1jAnNwmzi6lGpK4=;
- b=WXEZkPBswCTigvHibOsTt5kMTkTSMFt4gOrScWYEF89vYOIqigQ8ZyTv
- ziguMD6T89y6URc4MjTCObvDm9/lFeoyinLhNFOaxPNCCaQt2DTRxRAtP
- ui8FRo8/nwTviUthKeuK80UlnktaiqImMZ5+Y5MX/TKI75/EY5XpZq6Ny
- 9jEMY+Sjm24L5L1zjZTT9fKKdbWHpHAyGAnWYUeV02O97QfI09FWKXBhv
- WoeapaBlUPgYP6UiC5t6Km52pUqsBS9xlGO3fO/2fhsVcZHOfSL2S5tdJ
- dmqYYf5N8v6ZtehZSBJyc7N4GDaRNOcZCVkH4Lvye0o4CeuAeRiQRc1OP A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="335156828"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="335156828"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 03:54:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="1008800550"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="1008800550"
-Received: from nirmoyda-desk.igk.intel.com ([10.102.42.231])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 03:54:52 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/i915/gem: Clarify seemingly unaccounted obj refcount inc
-Date: Wed, 15 Mar 2023 11:54:46 +0100
-Message-Id: <20230315105446.5858-1-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A739B10E9A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 11:07:45 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Pc70K2KlWzDrQc;
+ Wed, 15 Mar 2023 11:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1678878465; bh=yx9Le/Wu1H+EH4XgSauGQXLxo8HaJnOCMijUh0Axv9I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KBfZNAPvDjR2q/gRwKMjAnWH5AYIE40cdcyu+itG+2hIM35htW+/tLlAqhs0QD7+e
+ EMB/i2BhfXvPFOs2J9pWeMnubI8m6fI0WgKgtaOni9YfmXyMVk95d/VGza7qPJEO05
+ FkTiHENuuybplHK3O0+dhCC4+l7civI7nGCyLlvA=
+X-Riseup-User-ID: F543D490365B2E4CAF235E5121752E5F82208CCBC05B39EF7C10A3AC7802BAE9
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4Pc70J1V1mz5vtv;
+ Wed, 15 Mar 2023 11:07:43 +0000 (UTC)
+Message-ID: <cd479b8f-5ccf-28d9-c1a2-85c3eaf4975d@riseup.net>
+Date: Wed, 15 Mar 2023 08:07:41 -0300
 MIME-Version: 1.0
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
+Subject: Re: [PATCH] drm/ttm: Fix excess doc paramater warning in
+ ttm_bo_mem_space
+To: Yussef Fatayer <yusseffatayer@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230314042047.92954-1-yusseffatayer@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20230314042047.92954-1-yusseffatayer@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,43 +53,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: mcanal@igalia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a comment why there is a obj refcount inc before installing
-the vm_ops for the mmap call. Also remove the invalid older comment
-as drm API(drm_gem_prime_mmap()) will hold an obj reference before
-calling this driver mmap callback so we can't have 0-refcnted
-object here.
+On 3/14/23 01:20, Yussef Fatayer wrote:
+> Rename documentation parameter from "proposed_placement" to
+> "placement" to avoid the warnings of function parameter not
+> described and excess function parameter.
+> 
+> Signed-off-by: Yussef Fatayer <yusseffatayer@gmail.com>
 
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index d3c1dee16af2..0bc8c3818443 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -952,9 +952,10 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 						  vma_pages(vma));
- 	if (node && drm_vma_node_is_allowed(node, priv)) {
- 		/*
--		 * Skip 0-refcnted objects as it is in the process of being
--		 * destroyed and will be invalid when the vma manager lock
--		 * is released.
-+		 * When we install vm_ops for mmap we are too late for
-+		 * the vm_ops->open() which increases the ref_count of
-+		 * this obj and then it gets decreased by the vm_ops->close().
-+		 * To balance this increase the obj ref_count here.
- 		 */
- 		if (!node->driver_private) {
- 			mmo = container_of(node, struct i915_mmap_offset, vma_node);
--- 
-2.39.0
+Best Regards,
+- Maíra Canal
 
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index 459f1b4440da..8284f4d0ab21 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -748,7 +748,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
+>    *
+>    * @bo: Pointer to a struct ttm_buffer_object. the data of which
+>    * we want to allocate space for.
+> - * @proposed_placement: Proposed new placement for the buffer object.
+> + * @placement: Proposed new placement for the buffer object.
+>    * @mem: A struct ttm_resource.
+>    * @ctx: if and how to sleep, lock buffers and alloc memory
+>    *
