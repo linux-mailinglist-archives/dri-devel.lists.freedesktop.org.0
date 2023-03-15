@@ -1,46 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BBB6BAEB3
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 12:07:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1F46BAEE6
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 12:10:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E09B10E9AF;
-	Wed, 15 Mar 2023 11:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACCD10E9A9;
+	Wed, 15 Mar 2023 11:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A739B10E9A9
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 11:07:45 +0000 (UTC)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
- client-signature RSA-PSS (2048 bits) client-digest SHA256)
- (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx1.riseup.net (Postfix) with ESMTPS id 4Pc70K2KlWzDrQc;
- Wed, 15 Mar 2023 11:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1678878465; bh=yx9Le/Wu1H+EH4XgSauGQXLxo8HaJnOCMijUh0Axv9I=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=KBfZNAPvDjR2q/gRwKMjAnWH5AYIE40cdcyu+itG+2hIM35htW+/tLlAqhs0QD7+e
- EMB/i2BhfXvPFOs2J9pWeMnubI8m6fI0WgKgtaOni9YfmXyMVk95d/VGza7qPJEO05
- FkTiHENuuybplHK3O0+dhCC4+l7civI7nGCyLlvA=
-X-Riseup-User-ID: F543D490365B2E4CAF235E5121752E5F82208CCBC05B39EF7C10A3AC7802BAE9
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews1.riseup.net (Postfix) with ESMTPSA id 4Pc70J1V1mz5vtv;
- Wed, 15 Mar 2023 11:07:43 +0000 (UTC)
-Message-ID: <cd479b8f-5ccf-28d9-c1a2-85c3eaf4975d@riseup.net>
-Date: Wed, 15 Mar 2023 08:07:41 -0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4C4F210E9A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 11:10:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 724EC2F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 04:11:33 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7C7053F67D
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 04:10:49 -0700 (PDT)
+Date: Wed, 15 Mar 2023 11:10:44 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/komeda: Take over EFI framebuffer properly
+Message-ID: <ZBGntBVkeVnzEG5W@e110455-lin.cambridge.arm.com>
+References: <20230313102209.53966-1-patrik.berglund@arm.com>
+ <a69442bd-a60a-9eb9-78ba-a3ea9b80c8a2@arm.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/ttm: Fix excess doc paramater warning in
- ttm_bo_mem_space
-To: Yussef Fatayer <yusseffatayer@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230314042047.92954-1-yusseffatayer@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20230314042047.92954-1-yusseffatayer@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <a69442bd-a60a-9eb9-78ba-a3ea9b80c8a2@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,36 +43,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mcanal@igalia.com
+Cc: patrik.berglund@arm.com, Mihail Atanassov <mihail.atanassov@arm.com>,
+ "James \(Qian\) Wang" <james.qian.wang@arm.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/14/23 01:20, Yussef Fatayer wrote:
-> Rename documentation parameter from "proposed_placement" to
-> "placement" to avoid the warnings of function parameter not
-> described and excess function parameter.
+On Wed, Mar 15, 2023 at 09:34:37AM +0000, Steven Price wrote:
+> On 13/03/2023 10:22, patrik.berglund@arm.com wrote:
+> > From: Patrik Berglund <patrik.berglund@arm.com>
+> > 
+> > The Arm Morello board EDK2 port already provides an EFI GOP display for
+> > Ceti/Cetus (Komeda) with more boards incoming.
+> > However, once the Komeda driver probes and takes over the hardware,
+> > it should take over the logical framebuffer as well, otherwise,
+> > the now-defunct GOP device hangs around and virtual console output
+> > inevitably disappears into the wrong place most of the time.
+> > 
+> > We'll do this right before doing the SRST because that is the point
+> > when the GOP will stop working.
+> > The GOP might also fail because the encoder driver do things but this
+> > is better than nothing.
+> > 
+> > Signed-off-by: Patrik Berglund <patrik.berglund@arm.com>
 > 
-> Signed-off-by: Yussef Fatayer <yusseffatayer@gmail.com>
-
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
-
-Best Regards,
-- Maíra Canal
-
-> ---
->   drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> +CC the maintainers.
 > 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index 459f1b4440da..8284f4d0ab21 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -748,7 +748,7 @@ static int ttm_bo_mem_force_space(struct ttm_buffer_object *bo,
->    *
->    * @bo: Pointer to a struct ttm_buffer_object. the data of which
->    * we want to allocate space for.
-> - * @proposed_placement: Proposed new placement for the buffer object.
-> + * @placement: Proposed new placement for the buffer object.
->    * @mem: A struct ttm_resource.
->    * @ctx: if and how to sleep, lock buffers and alloc memory
->    *
+> Looks right to me, hdlcd has something very similar.
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+
+Hi Steven,
+
+Patrik contacted me privately and made me aware of the patch. I had a discussion
+with him about the layering violation (d71 knowing about kms) and we came to the
+conclusion that an additional patch is needed to re-order some code before this
+one can go in. Patrik and/or I need to revive a test environment to check that
+patch.
+
+Best regards,
+Liviu
+
+> 
+> > ---
+> >  drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c | 12 ++++++++++++
+> >  drivers/gpu/drm/arm/display/komeda/komeda_kms.c  |  6 ++++++
+> >  drivers/gpu/drm/arm/display/komeda/komeda_kms.h  |  1 +
+> >  3 files changed, 19 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> > index 6c56f5662bc7..72035af9bc5f 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> > @@ -8,6 +8,7 @@
+> >  #include <drm/drm_blend.h>
+> >  #include <drm/drm_print.h>
+> >  #include "d71_dev.h"
+> > +#include "komeda_kms.h"
+> >  #include "malidp_io.h"
+> >  
+> >  static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
+> > @@ -310,6 +311,17 @@ static int d71_reset(struct d71_dev *d71)
+> >  	u32 __iomem *gcu = d71->gcu_addr;
+> >  	int ret;
+> >  
+> > +	/*
+> > +	 * If we are already running, the most likely reason is that the EFI left
+> > +	 * us running (GOP), so make sure to take over from simple framebuffer
+> > +	 * drivers.
+> > +	 */
+> > +	if (malidp_read32(gcu, BLK_STATUS) & GCU_STATUS_ACTIVE) {
+> > +		ret = komeda_kms_remove_framebuffers();
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> >  	malidp_write32(gcu, BLK_CONTROL, GCU_CONTROL_SRST);
+> >  
+> >  	ret = dp_wait_cond(!(malidp_read32(gcu, BLK_CONTROL) & GCU_CONTROL_SRST),
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > index 62dc64550793..12af409aeabb 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+> > @@ -7,6 +7,7 @@
+> >  #include <linux/component.h>
+> >  #include <linux/interrupt.h>
+> >  
+> > +#include <drm/drm_aperture.h>
+> >  #include <drm/drm_atomic.h>
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_drv.h>
+> > @@ -349,3 +350,8 @@ void komeda_kms_detach(struct komeda_kms_dev *kms)
+> >  	komeda_kms_cleanup_private_objs(kms);
+> >  	drm->dev_private = NULL;
+> >  }
+> > +
+> > +int komeda_kms_remove_framebuffers(void)
+> > +{
+> > +	return drm_aperture_remove_framebuffers(false, &komeda_kms_driver);
+> > +}
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> > index 3a872c292091..1a43707ed68f 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.h
+> > @@ -187,5 +187,6 @@ void komeda_crtc_flush_and_wait_for_flip_done(struct komeda_crtc *kcrtc,
+> >  
+> >  struct komeda_kms_dev *komeda_kms_attach(struct komeda_dev *mdev);
+> >  void komeda_kms_detach(struct komeda_kms_dev *kms);
+> > +int komeda_kms_remove_framebuffers(void);
+> >  
+> >  #endif /*_KOMEDA_KMS_H_*/
+> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
