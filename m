@@ -1,69 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187846BB7A1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 16:25:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8545B6BB7C1
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 16:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 259E310E8FC;
-	Wed, 15 Mar 2023 15:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DFA510E2F8;
+	Wed, 15 Mar 2023 15:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10FD10E8FC
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 15:25:23 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id bi20so2918281wmb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 08:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678893922;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=ALJqtJ6/YqWNslEjg+dyRnX0ot8Ob+UnfDQnpMdHhDU=;
- b=nvyYslfEjgUNwnHMRhQUSYLCdmOV9hPMr4Z7nIE2spmPBexE1TOHtvlAuiz+VrJH+H
- VM0K4lx1tF+/sjekIVlLne6C9H9bImBgE2qh0HkklrpDg8KCd2FrLaEFk85bQ6DYcP/D
- 7/YqRLRVag2cUl2lqt5eL6z6gQz0t52o3SL6HK+4qhWrUQrbPoLojPXnWMiD8JaLYc+L
- NpyPJuetO7orwAu8Gnt0Ie0tTB7MBQQUM3ng4kMH1+pBbcw1SNBFe/s7qoNvAdPLFT50
- se/O3bIAGJH2+PBTFngyCm89sH6ffHmzLxeB7FWKYb3o61Y6hv2h3gvVQjfZvVdpN4gL
- qKFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678893922;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ALJqtJ6/YqWNslEjg+dyRnX0ot8Ob+UnfDQnpMdHhDU=;
- b=UeiWll/6mNVKZ6P38R5hmWc0g/zpAaICL228tH7PSxEVNMZTlfw9hB00ui2qffEFZm
- 9iMFCP+W2BYI1h+OBgoSok4PPPC3NKZC/DdvNo81G+HLtOlqNuXQCr70Np5ttqPr/vhQ
- F54EhEEKqosO+7lTvTJqXNABDcy9H19Epv0cv83pe2MoMSHqethFoPcy+XBUVpPh79T3
- UpT7NPfNyZ5W5HohAwnfsqxQXZOINkCou9WCVWx051b5ESWjdU9bM9yPTbuR1WywiFv7
- gDm5MfoXzvDADoghn/ikzEl+h71VAq9ICnw0/VdTY3P9Ra4StsDJQgcnVcoUd7+n0sHH
- v/Cw==
-X-Gm-Message-State: AO0yUKXaDIzDQHf2wNiKoIbFKHRsWFoSLHvQg3JFWq+1vaq/A7vCemwh
- cL/aceZ0WjYMGPtGI3AHL9ng06zhIew=
-X-Google-Smtp-Source: AK7set/j7sL+ywYFzhBtVvXuXpyDFMOaEjDVUapFkUTMJ3kZXLXflb1Kq+3UkzP2r1koaUWmL/crqw==
-X-Received: by 2002:a05:600c:34c1:b0:3eb:383c:1876 with SMTP id
- d1-20020a05600c34c100b003eb383c1876mr18266670wmq.6.1678893922376; 
- Wed, 15 Mar 2023 08:25:22 -0700 (PDT)
-Received: from [192.168.2.181] (46-10-148-90.ip.btc-net.bg. [46.10.148.90])
- by smtp.gmail.com with ESMTPSA id
- s20-20020a7bc394000000b003ed2433aa4asm2083286wmj.41.2023.03.15.08.25.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 08:25:21 -0700 (PDT)
-Message-ID: <98e9cc9a-6986-4425-3906-03dce337a0df@gmail.com>
-Date: Wed, 15 Mar 2023 17:25:20 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D160B10E2F8;
+ Wed, 15 Mar 2023 15:28:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678894113; x=1710430113;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=yvgNWg9FppzY1THYBN9OsZwxW1rRDB/DRylJp/MMUyM=;
+ b=Ugs10em/fAgL3QjoyhmzdTMoey/oxYn1dqgtCrwzBK8RQq+DSRqcrgDF
+ LH7DRV2pJRbQPleQkUdJ4+dUGV2xEsw8A8rao5iRtl7Ftz4sHrKPpFIjQ
+ r993TXijpxe1RlDNY07kBznhepoHtLY1xffWtJGb5fsIhyDeqpBGDq5rO
+ RrEw547MfV9TnIUl4CtZt4xfNRcWnPwIt37i9hh1vULu3nPX3wrJhJekz
+ cblV8o6y1QhlrCm/r7qgbqcBWckyjp8vvPnZwxI6bJL3HwaTX/Bv09CCG
+ OJ/1WunB+hlqDWR5xT6mRPr6Temqe+HF9rOqlRB3IfZ2ASPB156aG+u6a w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="365419904"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="365419904"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2023 08:28:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="1008877154"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="1008877154"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.23.62])
+ ([10.213.23.62])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2023 08:28:31 -0700
+Message-ID: <8b0af9b3-9588-da47-6b73-3f7c97f6c2c2@intel.com>
+Date: Wed, 15 Mar 2023 16:28:29 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] drm/vmwgfx: Fix src/dst_pitch confusion
-To: dri-devel@lists.freedesktop.org
-References: <20230314211445.1363828-1-zack@kde.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/mtl: Disable stolen memory backed
+ FB for A0
 Content-Language: en-US
-From: "Martin Krastev (VMware)" <martinkrastev768@gmail.com>
-In-Reply-To: <20230314211445.1363828-1-zack@kde.org>
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230310094544.3865-1-nirmoy.das@intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230310094544.3865-1-nirmoy.das@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+On 10.03.2023 10:45, Nirmoy Das wrote:
+> Stolen memory is not usable for MTL A0 stepping beyond
+> certain access size and we have no control over userspace
+> access size of /dev/fb which can be backed by stolen memory.
+> So disable stolen memory backed fb by setting i915->dsm.usable_size
+> to zero.
+> 
+> v2: remove hsdes reference and fix commit message(Andi)
+> 
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-We reviewers botched that one.
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Reviewed-by: Martin Krastev <krastevm@vmware.com>
-
-
-Regards,
-
-Martin
-
-
-On 14.03.23 г. 23:14 ч., Zack Rusin wrote:
-> From: Zack Rusin <zackr@vmware.com>
->
-> The src/dst_pitch got mixed up during the rework of the function, make
-> sure the offset's refer to the correct one.
->
-> Spotted by clang:
-> Clang warns (or errors with CONFIG_WERROR):
->
->    drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:509:29: error: variable 'dst_pitch' is uninitialized when used here [-Werror,-Wuninitialized]
->            src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
->                                       ^~~~~~~~~
->    drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c:492:26: note: initialize the variable 'dst_pitch' to silence this warning
->            s32 src_pitch, dst_pitch;
->                                    ^
->                                     = 0
->    1 error generated.
->
-> Signed-off-by: Zack Rusin <zackr@vmware.com>
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1811
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Reported-by: Dave Airlie <airlied@gmail.com>
-> Fixes: 39985eea5a6d ("drm/vmwgfx: Abstract placement selection")
+Regards
+Andrzej
 > ---
->   drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> index d79a6eccfaa4..ba0c0e12cfe9 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> @@ -506,11 +506,11 @@ static void vmw_stdu_bo_cpu_commit(struct vmw_kms_dirty *dirty)
->   	/* Assume we are blitting from Guest (bo) to Host (display_srf) */
->   	src_pitch = stdu->display_srf->metadata.base_size.width * stdu->cpp;
->   	src_bo = &stdu->display_srf->res.guest_memory_bo->tbo;
-> -	src_offset = ddirty->top * dst_pitch + ddirty->left * stdu->cpp;
-> +	src_offset = ddirty->top * src_pitch + ddirty->left * stdu->cpp;
+>   drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+> index d8e06e783e30..bf0f0a5f2a5c 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+> @@ -535,6 +535,15 @@ static int i915_gem_init_stolen(struct intel_memory_region *mem)
+>   	/* Basic memrange allocator for stolen space. */
+>   	drm_mm_init(&i915->mm.stolen, 0, i915->dsm.usable_size);
 >   
->   	dst_pitch = ddirty->pitch;
->   	dst_bo = &ddirty->buf->tbo;
-> -	dst_offset = ddirty->fb_top * src_pitch + ddirty->fb_left * stdu->cpp;
-> +	dst_offset = ddirty->fb_top * dst_pitch + ddirty->fb_left * stdu->cpp;
+> +	/*
+> +	 * Access to stolen lmem beyond certain size for MTL A0 stepping
+> +	 * would crash the machine. Disable stolen lmem for userspace access
+> +	 * by setting usable_size to zero.
+> +	 */
+> +	if (IS_MTL_GRAPHICS_STEP(i915, M, STEP_A0, STEP_B0) ||
+> +	    IS_MTL_GRAPHICS_STEP(i915, P, STEP_A0, STEP_B0))
+> +		i915->dsm.usable_size = 0;
+> +
+>   	return 0;
+>   }
 >   
->   	(void) vmw_bo_cpu_blit(dst_bo, dst_offset, dst_pitch,
->   			       src_bo, src_offset, src_pitch,
+
