@@ -1,75 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A246BBAA1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 18:12:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC4D6BBAEB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 18:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C156110E054;
-	Wed, 15 Mar 2023 17:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC9310E210;
+	Wed, 15 Mar 2023 17:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBB310E054
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 17:12:34 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id q16so17985393wrw.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 10:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678900353;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=FzaHht7C/yaf/hnRAYzcOCnlpLTocgudm9vAayanTsY=;
- b=wmQ+cp4gPZXYCM5yoB7sWyCUlpyvPM4e1IGgMSdoQXYN5oG0LqwzsBqfaH/GSGvcAb
- ES9vL5J87JwjUTPpo6eFWBzlWHNOon+BpDIyQD798y1tY8GPdTLRqaDqxOX2ntuFx1rG
- EZLtrGV5tD3W7hs5I43pmZxx0he0nSLnr/E5y4AuDNLRYy0PYpCqgDZueJGhk4wQdUMz
- OiHKRFGGmDDn6GHDkk3QbMKj0GeH76Y4sDJhJsuPGZu3qsFDJyuP2Obh0NRtgwNVcmLU
- AK87OI4qtUD81bELg8C9Pr4+Nv/+c4cy7uMy1MbXr4lN45c6QEM+HkY2VqxBoijXvSS8
- TeWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678900353;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=FzaHht7C/yaf/hnRAYzcOCnlpLTocgudm9vAayanTsY=;
- b=oWdrkthXITEoAtZvprGkvsjc4NZz0bOeZDNK6vmGNIx1wrhlQojb1z03fuYrW1EId8
- BklHeKd5NbIb5CSm6Hcoy0OTn19ByvW2ucJhC5U4CNFRQPktqwmMMdoXoUOmIDihoCXy
- lYBHa7jJ65aMELEdkup4WZeRt73rwu80+m8Y72dZb0FnHoALmJZQ+5f94XY1ILITXpCw
- NSk2rOPoF0BhALWZHRy5BuVZpq41/ZisUAzPrWvrkSlBQQcQPruk123CmnVTPUPQ9bpM
- +mZIXXBROvbj17SiAPg1jgvIkd5folStlyG3zE/HmH5dTJyQ7/BcfpADsOkAmnN3KBg/
- rOjA==
-X-Gm-Message-State: AO0yUKVxn3uFCBfHsw4XrO4AJQdmmaYixPnlnuzTmYpt7howFYiSY7ml
- kWzedgiQoLcDjhyiHxLR+rzKUw==
-X-Google-Smtp-Source: AK7set9i2/U3sGBpJsJyNrtAlPwSV8R/C0OdwZ8ZO0Qx5Hq/aD8kDRHCucxcOyP9OoigE3Bk2lLbkw==
-X-Received: by 2002:adf:dfd0:0:b0:2ce:a703:1937 with SMTP id
- q16-20020adfdfd0000000b002cea7031937mr2521046wrn.50.1678900353430; 
- Wed, 15 Mar 2023 10:12:33 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5d2d:8427:397b:8fe7?
- ([2a01:e0a:982:cbb0:5d2d:8427:397b:8fe7])
- by smtp.gmail.com with ESMTPSA id
- t4-20020a0560001a4400b002be5bdbe40csm5119855wry.27.2023.03.15.10.12.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 10:12:32 -0700 (PDT)
-Message-ID: <39fccf61-2e48-abcf-9fd9-7bcc6ea32774@linaro.org>
-Date: Wed, 15 Mar 2023 18:12:31 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F4FA10E210;
+ Wed, 15 Mar 2023 17:31:52 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AAD1CB81E9C;
+ Wed, 15 Mar 2023 17:31:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A9D5C433EF;
+ Wed, 15 Mar 2023 17:31:47 +0000 (UTC)
+Date: Wed, 15 Mar 2023 13:31:46 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [BUG 6.3-rc1] Bad lock in ttm_bo_delayed_delete()
+Message-ID: <20230315133146.3a48206e@gandalf.local.home>
+In-Reply-To: <20230315115712.56b3c21f@gandalf.local.home>
+References: <20230307212223.7e49384a@gandalf.local.home>
+ <20230307212615.7a099103@gandalf.local.home>
+ <b919b550-6da8-f9f0-a0eb-0fd8af513817@amd.com>
+ <20230315110949.1e11b3aa@gandalf.local.home>
+ <07597f3e-0b35-c22b-91ec-fa3875d6fe22@gmail.com>
+ <20230315115712.56b3c21f@gandalf.local.home>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 21/21] panel: startek-kd070fhfid015: add support of this
- display
-Content-Language: en-US
-To: Alexandre Mergnat <amergnat@baylibre.com>
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-21-45cbc68e188b@baylibre.com>
- <4b4d4749-c5ea-3a02-190e-3db703623977@linaro.org>
- <CAFGrd9pQJWYpdruUvbZNcQRZk5viyOAUCDpJcu5anA13E26Unw@mail.gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <CAFGrd9pQJWYpdruUvbZNcQRZk5viyOAUCDpJcu5anA13E26Unw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,90 +47,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Fabien Parent <fparent@baylibre.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-pwm@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Guillaume La Roque <glaroque@baylibre.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-mediatek@lists.infradead.org, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org, Xinlei Lee <xinlei.lee@mediatek.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, Masami Hiramatsu <mhiramat@kernel.org>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, 15 Mar 2023 11:57:12 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-On 15/03/2023 16:59, Alexandre Mergnat wrote:
-> Hi Neil,
-> 
-> Le jeu. 9 mars 2023 à 15:51, Neil Armstrong
-> <neil.armstrong@linaro.org> a écrit :
->>> +
->>> +#include <drm/drm_crtc.h>
->>
->> Is this include needed ?
-> 
-> Seems not, I remove it.
-> 
->>> +     struct gpio_desc *enable_gpio;
->>> +     struct gpio_desc *reset_gpio;
->>> +     struct gpio_desc *dcdc_en_gpio;
->>
->> Isn't this "DCDC" a regulator ???
-> 
-> According to the panel datasheet, this is an input signal needed
-> passing through TFT connector (PIN30):
-> "Power IC supply enable, High active"
+So I'm looking at the backtraces.
 
-Ack, perhaps the name isn't the right one, or specify something like panel-dcdc.
+> The WARN_ON triggered:
+> 
+> [   21.481449] mpls_gso: MPLS GSO support
+> [   21.488795] IPI shorthand broadcast: enabled
+> [   21.488873] ------------[ cut here ]------------
+> [   21.490101] ------------[ cut here ]------------
+> 
+> [   21.491693] WARNING: CPU: 1 PID: 38 at drivers/gpu/drm/ttm/ttm_bo.c:332 ttm_bo_release+0x2ac/0x2fc  <<<---- Line of the added WARN_ON()
+
+This happened on CPU 1.
 
 > 
->>> +     /* Interface setting, video mode */
->>> +     ret = mipi_dsi_generic_write(dsi,
->>> +                     (u8[]){DSI_REG_IS, 0x14, 0x08, 0x00, 0x22, 0x00}, 6);
->>> +     if (ret < 0) {
->>> +             dev_err(dev, "failed to set display interface setting: %d\n",
->>> +                     ret);
->>> +             return ret;
->>> +     }
->>
->> Use mipi_dsi_generic_write_seq(dsi, DSI_REG_IS, 0x14, 0x08, 0x00, 0x22, 0x00); instead,
->> it's simpler and doesn't need explicit return check.
-> 
-> "mipi_dsi_generic_write_seq" doesn't exist but I will add it below
-> "mipi_dsi_dcs_write_seq" in drm_mipi_dsi.h
+> [   21.492940] refcount_t: underflow; use-after-free.
+> [   21.492965] WARNING: CPU: 0 PID: 84 at lib/refcount.c:28 refcount_warn_saturate+0xb6/0xfc
 
-It is now https://github.com/torvalds/linux/blob/master/include/drm/drm_mipi_dsi.h#L302 since a9015ce59320
+This happened on CPU 0.
 
-> I must keep the return check to jump out of "stk_panel_init" if
-> something goes wrong, but I can drop the error print.
+> [   21.496116] Modules linked in:
+> [   21.497197] Modules linked in:
+> [   21.500105] CPU: 1 PID: 38 Comm: kworker/1:1 Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #993
+> [   21.500789] CPU: 0 PID: 84 Comm: kworker/0:1H Not tainted 6.3.0-rc2-test-00047-g6015b1aca1a2-dirty #993
+> [   21.501882] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
+> [   21.503533] sched_clock: Marking stable (20788024762, 714243692)->(22140778105, -638509651)
+> [   21.504080] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.0-debian-1.16.0-5 04/01/2014
+> [   21.504089] Workqueue: ttm ttm_bo_delayed_delete
+> [   21.507196] Workqueue: events drm_fb_helper_damage_work
+> [   21.509235] 
+> [   21.510291] registered taskstats version 1
+> [   21.510302] Running ring buffer tests...
+> [   21.511792] 
+> [   21.513870] EIP: refcount_warn_saturate+0xb6/0xfc
+> [   21.515261] EIP: ttm_bo_release+0x2ac/0x2fc
+> [   21.516566] Code: 68 00 27 0c d8 e8 36 3b aa ff 0f 0b 58 c9 c3 90 80 3d 41 c2 37 d8 00 75 8a c6 05 41 c2 37 d8 01 68 2c 27 0c d8 e8 16 3b aa ff <0f> 0b 59 c9 c3 80 3d 3f c2 37 d8 00 0f 85 67 ff ff ff c6 05 3f c2
+> [   21.516998] Code: ff 8d b4 26 00 00 00 00 66 90 0f 0b 8b 43 10 85 c0 0f 84 a1 fd ff ff 8d 76 00 0f 0b 8b 43 28 85 c0 0f 84 9c fd ff ff 8d 76 00 <0f> 0b e9 92 fd ff ff 8d b4 26 00 00 00 00 66 90 c7 43 18 00 00 00
+> [   21.517905] EAX: 00000026 EBX: c129d150 ECX: 00000040 EDX: 00000002
+> [   21.518987] EAX: d78c8550 EBX: c129d134 ECX: c129d134 EDX: 00000001
+> [   21.519337] ESI: c129d0bc EDI: f6f91200 EBP: c2b8bf18 ESP: c2b8bf14
+> [   21.520617] ESI: c129d000 EDI: c126a7a0 EBP: c1839c24 ESP: c1839bec
+> [   21.521546] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010286
+> [   21.526154] DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010286
+> [   21.526162] CR0: 80050033 CR2: 00000000 CR3: 18506000 CR4: 00150ef0
+> [   21.526166] Call Trace:
+> [   21.526189]  ? ww_mutex_unlock+0x3a/0x94
+> [   21.530300] CR0: 80050033 CR2: ff9ff000 CR3: 18506000 CR4: 00150ef0
+> [   21.531722]  ? ttm_bo_cleanup_refs+0xc4/0x1e0
+> [   21.533114] Call Trace:
+> [   21.534516]  ttm_mem_evict_first+0x3d3/0x568
+> [   21.535901]  ttm_bo_delayed_delete+0x9c/0xa4
+> [   21.537391]  ? kfree+0x6b/0xdc
+> [   21.538901]  process_one_work+0x21a/0x484
+> [   21.540279]  ? ttm_range_man_alloc+0xe0/0xec
+> [   21.540854]  worker_thread+0x14a/0x39c
+> [   21.541714]  ? ttm_range_man_fini_nocheck+0xe8/0xe8
+> [   21.543332]  kthread+0xea/0x10c
+> [   21.544301]  ttm_bo_mem_space+0x1d0/0x1e4
+> [   21.544942]  ? process_one_work+0x484/0x484
+> [   21.545887]  ttm_bo_validate+0xc5/0x19c
+> [   21.546986]  ? kthread_complete_and_exit+0x1c/0x1c
+> [   21.547680]  ttm_bo_init_reserved+0x15e/0x1fc
+> [   21.548716]  ret_from_fork+0x1c/0x28
+> [   21.549650]  qxl_bo_create+0x145/0x20c
 
-The mipi_dsi_generic_write_seq & mipi_dsi_dcs_write_seq macros does the return check for free.
+The qxl_bo_create() calls ttm_bo_init_reserved() as the object in question
+is about to be freed.
 
-> 
->>> +static int stk_panel_enable(struct drm_panel *panel)
->>> +{
->>> +     struct stk_panel *stk = to_stk_panel(panel);
->>> +
->>> +     if (stk->enabled)
->>> +             return 0;
->>> +
->>> +     backlight_enable(stk->backlight);
->>> +
->>> +     stk->enabled = true;
->>> +
->>> +     return 0;
->>> +}
->>
->> Is this really needed ? the backlight core will enable it automatically.
-> 
-> Ok, it's managed by drm_panel.c driver.
-> Then I can also remove stuff from stk_panel_disable.
-> 
-> 
-> Regards,
-> Alex
+I'm guessing what is happening here, is that an object was to be freed by
+the delayed_delete, and in the mean time, something else picked it up.
+
+What's protecting this from not being used again?
+
+-- Steve
 
