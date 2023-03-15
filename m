@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3400A6BB949
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 17:14:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 682AA6BB94E
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 17:14:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328DB10EB33;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3438010EB45;
 	Wed, 15 Mar 2023 16:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92C5510E97C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD5110EB2C
  for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 16:14:45 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 403BB219AE;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7DCA2219D2;
  Wed, 15 Mar 2023 16:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1678896884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YkoMtkVpeZ7PdV7v31+be9XCyu0+0XinxZDkTWh/t8Y=;
- b=mlXTChYJ+KoAgBHXqcG6wiFrEbq2DupIqtdG36pxEYn8uYV41n1lu10BhDKp1PvUTclPmP
- JtxG/Bxo3hHqukpq/NqoJ4ESNetAZmDsk/qiZFQKGF+ZTmdRmtkV8sOcVnXE6TWknj8o+7
- smzuDpPdBdD6kKr1JzjeDKLT4R6QLKw=
+ bh=eTpDVoMSd93qEAO9SAHyeliiS1wClvZbyimukwJNAAQ=;
+ b=ONvgv8wXwgoWiaJ9wJzmTsu8V/4yD+sfxN3QPsHhyivP2MqNAC2gUO95aUlXYhVDoFBJRd
+ 6MS2pSiAAq+jpCCiyHaKAj79ZqwPNMVq/tFBa4qPS6UpV+pV6/p2WgPChwu57J0zzQ8EkZ
+ 1+SQAiZ3X/SdOmX0sukd5fs7VLQOdCY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1678896884;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YkoMtkVpeZ7PdV7v31+be9XCyu0+0XinxZDkTWh/t8Y=;
- b=cVUrTcy5gHXWDLm1QZfn5bgiPgJAzLef22GwNps8bQ7JLOyUH0LZ6XBGZRFrfvSRx7VAJ2
- N1hSNujjmj8hBrDg==
+ bh=eTpDVoMSd93qEAO9SAHyeliiS1wClvZbyimukwJNAAQ=;
+ b=ScdUyn7TcZAXSbPzkKqltC61Al00k5Wddgb13LSdUzpx2aYL8NInDATavZtNWChNcDABkK
+ gHj5X+WkRg2RfiAw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 06A9C13A2F;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4568913A2F;
  Wed, 15 Mar 2023 16:14:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WMCgAPTuEWTrAwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id wDQPEPTuEWTrAwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Wed, 15 Mar 2023 16:14:44 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
  dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
  linux-graphics-maintainer@vmware.com
-Subject: [PATCH 2/6] drm/fbdev-generic: Remove unused prefer_shadow_fbdev flag
-Date: Wed, 15 Mar 2023 17:14:38 +0100
-Message-Id: <20230315161442.27318-3-tzimmermann@suse.de>
+Subject: [PATCH 3/6] drm/fb-helper: Export drm_fb_helper_release_info()
+Date: Wed, 15 Mar 2023 17:14:39 +0100
+Message-Id: <20230315161442.27318-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230315161442.27318-1-tzimmermann@suse.de>
 References: <20230315161442.27318-1-tzimmermann@suse.de>
@@ -74,60 +74,96 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the flag prefer_shadow_fbdev from struct drm_mode_config.
-Drivers set this flag to enable shadow buffering in the generic
-fbdev emulation. Such shadow buffering is now mandatory, so the
-flag is unused.
+Export the fb_info release code as drm_fb_helper_release_info(). Will
+help with cleaning up failed fbdev probing.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/tiny/bochs.c        | 1 -
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 1 -
- include/drm/drm_mode_config.h       | 7 -------
- 3 files changed, 9 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 33 ++++++++++++++++++++++++---------
+ include/drm/drm_fb_helper.h     |  5 +++++
+ 2 files changed, 29 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 024346054c70..d254679a136e 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -545,7 +545,6 @@ static int bochs_kms_init(struct bochs_device *bochs)
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index a39998047f8a..7e96ed9efdb5 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -538,6 +538,29 @@ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
+ }
+ EXPORT_SYMBOL(drm_fb_helper_alloc_info);
  
- 	bochs->dev->mode_config.preferred_depth = 24;
- 	bochs->dev->mode_config.prefer_shadow = 0;
--	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
- 	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
- 
- 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 84d6380b9895..5162a7a12792 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -2112,7 +2112,6 @@ int vmw_kms_init(struct vmw_private *dev_priv)
- 	dev->mode_config.max_width = dev_priv->texture_max_width;
- 	dev->mode_config.max_height = dev_priv->texture_max_height;
- 	dev->mode_config.preferred_depth = dev_priv->assume_16bpp ? 16 : 32;
--	dev->mode_config.prefer_shadow_fbdev = !dev_priv->has_mob;
- 
- 	drm_mode_create_suggested_offset_properties(dev);
- 	vmw_kms_create_hotplug_mode_update_property(dev_priv);
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index e5b053001d22..973119a9176b 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -890,13 +890,6 @@ struct drm_mode_config {
- 	/* dumb ioctl parameters */
- 	uint32_t preferred_depth, prefer_shadow;
- 
--	/**
--	 * @prefer_shadow_fbdev:
--	 *
--	 * Hint to framebuffer emulation to prefer shadow-fb rendering.
--	 */
--	bool prefer_shadow_fbdev;
++/**
++ * drm_fb_helper_release_info - release fb_info and its members
++ * @fb_helper: driver-allocated fbdev helper
++ *
++ * A helper to release fb_info and the member cmap.  Drivers do not
++ * need to release the allocated fb_info structure themselves, this is
++ * automatically done when calling drm_fb_helper_fini().
++ */
++void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
++{
++	struct fb_info *info = fb_helper->info;
++
++	if (!info)
++		return;
++
++	fb_helper->info = NULL;
++
++	if (info->cmap.len)
++		fb_dealloc_cmap(&info->cmap);
++	framebuffer_release(info);
++}
++EXPORT_SYMBOL(drm_fb_helper_release_info);
++
+ /**
+  * drm_fb_helper_unregister_info - unregister fb_info framebuffer device
+  * @fb_helper: driver-allocated fbdev helper, can be NULL
+@@ -561,8 +584,6 @@ EXPORT_SYMBOL(drm_fb_helper_unregister_info);
+  */
+ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ {
+-	struct fb_info *info;
 -
- 	/**
- 	 * @quirk_addfb_prefer_xbgr_30bpp:
- 	 *
+ 	if (!fb_helper)
+ 		return;
+ 
+@@ -574,13 +595,7 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ 	cancel_work_sync(&fb_helper->resume_work);
+ 	cancel_work_sync(&fb_helper->damage_work);
+ 
+-	info = fb_helper->info;
+-	if (info) {
+-		if (info->cmap.len)
+-			fb_dealloc_cmap(&info->cmap);
+-		framebuffer_release(info);
+-	}
+-	fb_helper->info = NULL;
++	drm_fb_helper_release_info(fb_helper);
+ 
+ 	mutex_lock(&kernel_fb_helper_lock);
+ 	if (!list_empty(&fb_helper->kernel_fb_list)) {
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index 013654de3fc5..c5822ec2fdd1 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -256,6 +256,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
+ int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper);
+ 
+ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper);
++void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper);
+ void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper);
+ void drm_fb_helper_fill_info(struct fb_info *info,
+ 			     struct drm_fb_helper *fb_helper,
+@@ -365,6 +366,10 @@ drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
+ 	return NULL;
+ }
+ 
++static inline void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
++{
++}
++
+ static inline void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
+ {
+ }
 -- 
 2.39.2
 
