@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818106BA453
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 01:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1998C6BA53A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 03:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0401010E144;
-	Wed, 15 Mar 2023 00:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B64FD10E343;
+	Wed, 15 Mar 2023 02:27:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D34D910E120;
- Wed, 15 Mar 2023 00:52:37 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2A6B3B81C3C;
- Wed, 15 Mar 2023 00:52:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F320C4339E;
- Wed, 15 Mar 2023 00:52:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678841554;
- bh=Pj7Ygwt586tiLVuPtK5dRag7vRC7++AQFNCKq9Gy9z0=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=Et/kRuTBV+ZIKBtShCQa/at6oA3c4ZLqi1g7IHliizz5rWt5+NKQMh5QzCPLiv9D5
- 4cQbXNX+csNZ+4gxgcCffiOW6NNDaaN+9RNVXvhlH7QB1evk+KXR4L2V9yUkOKilKi
- C5VTGk60gJqhqSqMYs6RQVZZjJ+wDiX/lJwOlj3ttkTkbSw8tP+BrTBXPgnKwVtQGw
- OX9lFe8xKwfZU8ncSIlSVhsrAYYFEnB/i8LRjUJgbUfP9w2ZEEUSMzL8bYpePOpgVA
- OhF72BjXyaZ9/dHjbY3SxG94as9Na2/0Nw6QFaRQGxCDBtg4fNVd1v9Lvg0MI9WS1z
- HQuXNH2rqyyKA==
-Date: Tue, 14 Mar 2023 17:52:30 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Jan Beulich <jbeulich@suse.com>
-Subject: Re: [RFC PATCH 1/5] x86/xen: disable swiotlb for xen pvh
-In-Reply-To: <ea0e3852-87ba-984b-4010-5eeac3d6c507@suse.com>
-Message-ID: <alpine.DEB.2.22.394.2303141747350.863724@ubuntu-linux-20-04-desktop>
-References: <20230312120157.452859-1-ray.huang@amd.com>
- <20230312120157.452859-2-ray.huang@amd.com>
- <ea0e3852-87ba-984b-4010-5eeac3d6c507@suse.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5265910E1EA;
+ Wed, 15 Mar 2023 02:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678847258; x=1710383258;
+ h=from:to:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CAa2oQq6HzFMCXp0yj0t4eJDP2jiBJ6Kf9DYNE1huOI=;
+ b=f+0AQurYeHC7+RahjiWoJhz/tcJOSrXQlo0Phi9TKfGRjzqnyIGP88w2
+ WH/7lve2ZXl362Ty8+6yMP9Co1GUNFSV1KRTuwzLnE+lIpM+5yOQ+A3o1
+ pqdMttlCWAN9vVRygWcx4pEEqQWg8QBmMo3cjyjvcTDlebmbbcg91/aYw
+ WrR2+CObx6TNoKKUIlqmFGD4hno+QeOLow6+YLKiyvzbRUHBcZClHRksE
+ tEw6UC2OmFqCsogp9sWSJu4AH8HOlICWxsMAxZdahPTa+T8WzfKhMLxdx
+ kCBQnC7O0X4j5hbTiH4V/BJRHMn5G99u+XVRW08/CpWKXD/W052bs3Fb4 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="336283532"
+X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; d="scan'208";a="336283532"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Mar 2023 19:27:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="789616851"
+X-IronPort-AV: E=Sophos;i="5.98,261,1673942400"; d="scan'208";a="789616851"
+Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.27.27])
+ by fmsmga002.fm.intel.com with ESMTP; 14 Mar 2023 19:27:37 -0700
+From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Fix format for perf_limit_reasons
+Date: Tue, 14 Mar 2023 19:29:06 -0700
+Message-Id: <20230315022906.2467408-1-vinay.belgaumkar@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,38 +55,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, Honglei Huang <honglei1.huang@amd.com>,
- Stefano Stabellini <sstabellini@kernel.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Huang Rui <ray.huang@amd.com>, Chen Jiqian <Jiqian.Chen@amd.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Julia Zhang <julia.zhang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Mar 2023, Jan Beulich wrote:
-> On 12.03.2023 13:01, Huang Rui wrote:
-> > Xen PVH is the paravirtualized mode and takes advantage of hardware
-> > virtualization support when possible. It will using the hardware IOMMU
-> > support instead of xen-swiotlb, so disable swiotlb if current domain is
-> > Xen PVH.
-> 
-> But the kernel has no way (yet) to drive the IOMMU, so how can it get
-> away without resorting to swiotlb in certain cases (like I/O to an
-> address-restricted device)?
+Use hex format so that it is easier to decode.
 
-I think Ray meant that, thanks to the IOMMU setup by Xen, there is no
-need for swiotlb-xen in Dom0. Address translations are done by the IOMMU
-so we can use guest physical addresses instead of machine addresses for
-DMA. This is a similar case to Dom0 on ARM when the IOMMU is available
-(see include/xen/arm/swiotlb-xen.h:xen_swiotlb_detect, the corresponding
-case is XENFEAT_not_direct_mapped).
+Fixes: fe5979665f64 ('Add perf_limit_reasons in debugfs')
 
-Jurgen, what do you think? Would you rather make xen_swiotlb_detect
-common between ARM and x86?
+Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 83df4cd5e06c..80dbbef86b1d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -580,7 +580,7 @@ static bool perf_limit_reasons_eval(void *data)
+ }
+ 
+ DEFINE_SIMPLE_ATTRIBUTE(perf_limit_reasons_fops, perf_limit_reasons_get,
+-			perf_limit_reasons_clear, "%llu\n");
++			perf_limit_reasons_clear, "0x%llx\n");
+ 
+ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root)
+ {
+-- 
+2.38.1
+
