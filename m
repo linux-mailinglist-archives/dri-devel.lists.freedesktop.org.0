@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D6B6BAA48
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 09:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8066BAA8F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 09:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 864C410E961;
-	Wed, 15 Mar 2023 08:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F12F610E942;
+	Wed, 15 Mar 2023 08:17:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8406410E94E
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 08:01:42 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id z83so14326322ybb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 01:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678867301;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GLmw2pWkt+2UlVCNqfxLlIyJordQ48jgkm7yvgM5sos=;
- b=kfzb/qXnb2Lz2It2VeCU2JPOke00lu76iOWT0N8lzXzxgMgNVNJo8c992euigO3pOg
- 2cTHApKRAs0MW4AwdKmoVT4E4lTpbiyLxDNjYykxKPYMO82GHOnWvLWC8eKRvhL3LBdX
- 0GgIpT3UnwnxLJGXs830kO/zF3o+VhktcReF1q88KLkn2rG7/9fSv5hJxIEgVsOXZA+T
- V68WfMU1jJi88lfhhD2mNqlQoYp+CdcBAi2HBFu+egrPostJEcOHf4/w8AN6L9cdMRQf
- GzNRgl2nZ098e2UH8AS+5knHhmlK+uMTSlMPnkOYBJWhmuY9qF7ZIshgWM9U9lMG8YFU
- G49w==
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+ [209.85.219.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 190F910E942
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 08:17:05 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id 97so2413475qvb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 01:17:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678867301;
+ d=1e100.net; s=20210112; t=1678868223;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GLmw2pWkt+2UlVCNqfxLlIyJordQ48jgkm7yvgM5sos=;
- b=5hTHcUUGKCtLWP18TUGGHuHIRnSnnP1S5KKMyYPD8Hac21r5j18egaufowUBXJRpCR
- WQ3QOjisw3lb/1JGYKwOtrrFq/G168D32UiAcyh47BiCoQkZh97SvXrKdoCOuzGA9w+e
- V9rT7wYPvIB/zGsr92VB/JHlEjdtz81ytptYa+1iqUzMrW6suUD6BenjK1a7gekGpuj0
- ktRcIdbx320QxATyQVQzcqZC6szkvnEJFqqb9hxC+vD7dslQoRhtsL2iWH5cpyTVhEF6
- pPBf0/Q+VTG0nRTPcwmJ1epkP6UcrRd4iB7ErENVtVr2nfpoRY1jwT9TgWLzqdR5aMJU
- En+A==
-X-Gm-Message-State: AO0yUKV6bzr+zKwJej71F8iwaW404ECPxAzrDXZ2F8qe0EnvkDK97o8f
- tSrhjArh1Ra18btqczbB8T2KPF6QBgZhWz/1TU8NeA==
-X-Google-Smtp-Source: AK7set9LpeP+JeZx2ldhs9oY8bVS2Fz4YRdUKtYi/IMSTV0qIeC8WW+E425cUJjwgqA/oB9hoYpKIBLTZzuVNM14JVg=
-X-Received: by 2002:a05:6902:10e:b0:98e:6280:74ca with SMTP id
- o14-20020a056902010e00b0098e628074camr23087865ybh.1.1678867301383; Wed, 15
- Mar 2023 01:01:41 -0700 (PDT)
+ bh=0V0QfuKISCsuOFNxrXLROjtKcqlhxKao9KY/kU4MtCE=;
+ b=Dn+5sDh5FJUeH+HHGlgUDft1B7ENvFe1OsaLzWbkgoZZzrRw6dNzROg/sBPVZOMoUE
+ oc5z6z0yXgJIBSnn3Xcwph63d77tCfSP7KGXw1oYMpH9pHXIkOwuWq/A5YAAwDPaLRP+
+ Zv7YWyj/KhuV7oh9SNKxYdI0VA5Wo/uHhpDz92hR21WPc+7J5QklQ17j9pQZtsW57fxf
+ gWisOp8EjWxn3sxpKqbH2kepZIBIHeAVERZY7+6/QVe1/UYPPXHp5AU4WCvJYWtq0NUt
+ XYfzv6JE4tsvNe7DjxUNIcxPUkYHeaxSLW9oTqXdzNa3GQEt/YDLomTwoLQ9q1mRzs5t
+ DGaQ==
+X-Gm-Message-State: AO0yUKU6JCd9KgF5tMy5Fi1FGfe8yCZATbhh8q8sJERI06rthNbI/qDd
+ rG/sssugRRSPJDsIv2iTxhfP6zyLhDc39aoi
+X-Google-Smtp-Source: AK7set84KqNNRJ3kBp7z4Vg6Q4xTS/UtVk25OcgzyHfQn5vcZ2DwbP6SgJgR+xOUTzlaLIonuO7+bA==
+X-Received: by 2002:a05:6214:acc:b0:56e:8a00:f3a with SMTP id
+ g12-20020a0562140acc00b0056e8a000f3amr26906524qvi.32.1678868223512; 
+ Wed, 15 Mar 2023 01:17:03 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
+ [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
+ de21-20020a05620a371500b0074235745fdasm3372703qkb.58.2023.03.15.01.17.02
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Mar 2023 01:17:02 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-5445009c26bso127763247b3.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 01:17:02 -0700 (PDT)
+X-Received: by 2002:a81:ae5e:0:b0:541:a17f:c779 with SMTP id
+ g30-20020a81ae5e000000b00541a17fc779mr6894792ywk.4.1678868221967; Wed, 15 Mar
+ 2023 01:17:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
- <20230220-display-v1-15-45cbc68e188b@baylibre.com>
- <ea8aaec1-948d-832b-ff24-b35abd3a59a2@linaro.org>
-In-Reply-To: <ea8aaec1-948d-832b-ff24-b35abd3a59a2@linaro.org>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Wed, 15 Mar 2023 09:01:30 +0100
-Message-ID: <CAFGrd9p0qmfypP2DDJN1vEhJYciVfgFXZWLmvQOdpE=qgSDvKQ@mail.gmail.com>
-Subject: Re: [PATCH 15/21] dt-bindings: soc: mediatek: add display mutex for
- MT8365 SoC
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+ <20230314121216.413434-36-schnelle@linux.ibm.com>
+In-Reply-To: <20230314121216.413434-36-schnelle@linux.ibm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Mar 2023 09:16:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
+Message-ID: <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
+Subject: Re: [PATCH v3 35/38] video: handle HAS_IOPORT dependencies
+To: Niklas Schnelle <schnelle@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,68 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Fabien Parent <fparent@baylibre.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Guillaume La Roque <glaroque@baylibre.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Xinlei Lee <xinlei.lee@mediatek.com>, Sam Ravnborg <sam@ravnborg.org>,
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+ linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Alan Stern <stern@rowland.harvard.edu>,
  =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org
+ Bjorn Helgaas <bhelgaas@google.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le ven. 10 mars 2023 =C3=A0 09:39, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> a =C3=A9crit :
+Hi Niklas,
+
+On Tue, Mar 14, 2023 at 1:13=E2=80=AFPM Niklas Schnelle <schnelle@linux.ibm=
+.com> wrote:
+> In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and friends
+> not being declared. We thus need to add HAS_IOPORT as dependency for
+> those drivers using them and guard inline code in headers.
 >
-> On 09/03/2023 15:23, Alexandre Mergnat wrote:
-> > Add compatible for the MT8365 SoC.
-> >
-> > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> > ---
-> >  Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml | 1=
- +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mu=
-tex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.ya=
-ml
-> > index ca0ca549257d..931d66893dff 100644
-> > --- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam=
-l
-> > +++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam=
-l
-> > @@ -34,6 +34,7 @@ properties:
-> >        - mediatek,mt8186-mdp3-mutex
-> >        - mediatek,mt8192-disp-mutex
-> >        - mediatek,mt8195-disp-mutex
-> > +      - mediatek,mt8365-disp-mutex
+> Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+
+Thanks for your patch!
+
+> --- a/drivers/video/fbdev/Kconfig
+> +++ b/drivers/video/fbdev/Kconfig
+
+> @@ -1284,7 +1285,7 @@ config FB_ATY128_BACKLIGHT
 >
-> All these look compatible. Either make mt8635 compatible with something
-> or even rework entire list and make everything compatible.
+>  config FB_ATY
+>         tristate "ATI Mach64 display support" if PCI || ATARI
+> -       depends on FB && !SPARC32
+> +       depends on FB && HAS_IOPORT && !SPARC32
 
-All of them use "mtk_mutec.c" but have specific data.
+On Atari, this works without ATARI_ROM_ISA, hence it must not depend
+on HAS_IOPORT.
+The only call to inb() is inside a section protected by #ifdef
+CONFIG_PCI. So:
 
-      .data =3D &mt8173_mutex_driver_data},
-    { .compatible =3D "mediatek,mt8183-disp-mutex",
-      .data =3D &mt8183_mutex_driver_data},
-    { .compatible =3D "mediatek,mt8186-disp-mutex",
-      .data =3D &mt8186_mutex_driver_data},
-    { .compatible =3D "mediatek,mt8186-mdp3-mutex",
-      .data =3D &mt8186_mdp_mutex_driver_data},
-    { .compatible =3D "mediatek,mt8192-disp-mutex",
-      .data =3D &mt8192_mutex_driver_data},
-    { .compatible =3D "mediatek,mt8195-disp-mutex",
-      .data =3D &mt8195_mutex_driver_data},
-    { .compatible =3D "mediatek,mt8365-disp-mutex",
-      .data =3D &mt8365_mutex_driver_data},
+    depends on FB && !SPARC32
+    depends on ATARI || HAS_IOPORT
 
-I don't see any SoC compatible with mt8635, and I have no idea which
-rework you have in mind. Can you please point me an example ?
+>         select FB_CFB_FILLRECT
+>         select FB_CFB_COPYAREA
+>         select FB_CFB_IMAGEBLIT
 
-Thanks
-Alex
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
