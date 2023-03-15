@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A9C6BAD7B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 11:20:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB436BAD9C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 11:26:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 817A510E99A;
-	Wed, 15 Mar 2023 10:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75F110E994;
+	Wed, 15 Mar 2023 10:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E165E10E99A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 10:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678875624; x=1710411624;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=AZu0G5MJgXhilc9n2aaLZyeOdNLiwJBTw+hEvyBlZ5c=;
- b=MSy3i8X0DV4HmnuZZcXL/yPyNk7J9LandFkQXdl/+dbNiNx6qiUSI/2o
- t962slGhe+HfyjF+a+te2UUN/1MJM+WVt2MIUhZAsQo73xWvm/K5fnZa2
- uIcD5PfYDBR/36idZ1lna83yatn5ZVrJ1e+kual1IgttaYDZ9cuWL9ujx
- f54fYj53hqvWmsS7QOyGPNoDwKD4r0DE0Bxxh9br/OOaweprcbAsH4IMa
- S7bgo2tSJALhmIj+NSr1OZx6DdJqBQpXwSu89I1mpX6GNWMAsFu4Su5Au
- UhgGKKnMBVQxx5Xa7/GCsWettaA21W2mTgsfGsasUGcbmc5X8P9Ez54nS g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="400246115"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="400246115"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Mar 2023 03:19:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10649"; a="672684150"
-X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="672684150"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga007.jf.intel.com with SMTP; 15 Mar 2023 03:19:49 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 15 Mar 2023 12:19:48 +0200
-Date: Wed, 15 Mar 2023 12:19:48 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 35/38] video: handle HAS_IOPORT dependencies
-Message-ID: <ZBGbxDWEhqr8hhgU@intel.com>
-References: <20230314121216.413434-1-schnelle@linux.ibm.com>
- <20230314121216.413434-36-schnelle@linux.ibm.com>
- <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E9610E994
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 10:25:55 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id BF1D42190B;
+ Wed, 15 Mar 2023 10:25:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1678875953; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PVdllBdZTc9TJG4FCCzyxgIwvd4EqEzACHhmFnamwno=;
+ b=FHX7l7HcyvXr1n6xJlqF0y1ONaapvHcPgQYJxLMQqIzINXjoRjwY87IVYNz+qL0WQpsMbD
+ 6IwDgZQKqTyWiXA9O27FKSbsk8HyTO3rm7JRX2M53G0qNryaOtsRG2+E7u04pbq0oYUrXE
+ M+UCa8HNQdhFObJer1Tv4QOa9B+Jl2M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1678875953;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PVdllBdZTc9TJG4FCCzyxgIwvd4EqEzACHhmFnamwno=;
+ b=1XZlNg1XVHSiD7OMJWDhb12jQLh8+fmmoOI1uMuCnOKa2Zh0iRNyDxmGd/KOdIdh/ljr7l
+ 4fzPIJgIafAdZ2Dw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9BD8913A2F;
+ Wed, 15 Mar 2023 10:25:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id uezKJDGdEWRuSAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 15 Mar 2023 10:25:53 +0000
+Message-ID: <360b814b-40e0-5444-8d6b-1e29719e4414@suse.de>
+Date: Wed, 15 Mar 2023 11:25:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] fbdev: au1200fb: Fix potential divide by zero
+To: Wei Chen <harperchen1110@gmail.com>, deller@gmx.de
+References: <20230315092254.1042615-1-harperchen1110@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230315092254.1042615-1-harperchen1110@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------oDSShgVebgcxBHZ6xUbeLWEI"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,72 +69,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
- linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
- Arnd Bergmann <arnd@arndb.de>, Niklas Schnelle <schnelle@linux.ibm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Alan Stern <stern@rowland.harvard.edu>,
- Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 15, 2023 at 09:16:50AM +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Tue, Mar 14, 2023 at 1:13 PM Niklas Schnelle <schnelle@linux.ibm.com> wrote:
-> > In a future patch HAS_IOPORT=n will result in inb()/outb() and friends
-> > not being declared. We thus need to add HAS_IOPORT as dependency for
-> > those drivers using them and guard inline code in headers.
-> >
-> > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
-> > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/video/fbdev/Kconfig
-> > +++ b/drivers/video/fbdev/Kconfig
-> 
-> > @@ -1284,7 +1285,7 @@ config FB_ATY128_BACKLIGHT
-> >
-> >  config FB_ATY
-> >         tristate "ATI Mach64 display support" if PCI || ATARI
-> > -       depends on FB && !SPARC32
-> > +       depends on FB && HAS_IOPORT && !SPARC32
-> 
-> On Atari, this works without ATARI_ROM_ISA, hence it must not depend
-> on HAS_IOPORT.
-> The only call to inb() is inside a section protected by #ifdef
-> CONFIG_PCI. So:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------oDSShgVebgcxBHZ6xUbeLWEI
+Content-Type: multipart/mixed; boundary="------------WDd0Lhtgw7Duf5JenF0OHZeU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Wei Chen <harperchen1110@gmail.com>, deller@gmx.de
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <360b814b-40e0-5444-8d6b-1e29719e4414@suse.de>
+Subject: Re: [PATCH] fbdev: au1200fb: Fix potential divide by zero
+References: <20230315092254.1042615-1-harperchen1110@gmail.com>
+In-Reply-To: <20230315092254.1042615-1-harperchen1110@gmail.com>
 
-That piece of code is a nop anyway. We immediately overwrite
-clk_wr_offset with a hardcoded selection after the register reads.
-So if you nuke that nop code then no IOPORT dependency required
-at all.
+--------------WDd0Lhtgw7Duf5JenF0OHZeU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
->     depends on FB && !SPARC32
->     depends on ATARI || HAS_IOPORT
-> 
-> >         select FB_CFB_FILLRECT
-> >         select FB_CFB_COPYAREA
-> >         select FB_CFB_IMAGEBLIT
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+SGksDQoNCnRoYW5rcyBmb3IgbG9va2luZyB0aHJvdWdoIHRoZXNlIGRyaXZlcnMuDQoNCkFt
+IDE1LjAzLjIzIHVtIDEwOjIyIHNjaHJpZWIgV2VpIENoZW46DQo+IHZhci0+cGl4Y2xvY2sg
+Y2FuIGJlIGFzc2lnbmVkIHRvIHplcm8gYnkgdXNlci4gV2l0aG91dA0KPiBwcm9wZXIgY2hl
+Y2ssIGRpdmlkZSBieSB6ZXJvIHdvdWxkIG9jY3VyIHdoZW4gaW52b2tpbmcNCj4gbWFjcm8g
+UElDT1MyS0haIGluIGF1MTIwMGZiX2ZiX2NoZWNrX3Zhci4NCj4gDQo+IEVycm9yIG91dCBp
+ZiB2YXItPnBpeGNsb2NrIGlzIHplcm8uDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBXZWkgQ2hl
+biA8aGFycGVyY2hlbjExMTBAZ21haWwuY29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL3ZpZGVv
+L2ZiZGV2L2F1MTIwMGZiLmMgfCAzICsrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2Vy
+dGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F1MTIw
+MGZiLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F1MTIwMGZiLmMNCj4gaW5kZXggODFjMzE1
+NDU0NDI4Li5iNmIyMmZhNGE4YTAgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvYXUxMjAwZmIuYw0KPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2F1MTIwMGZiLmMN
+Cj4gQEAgLTEwNDAsNiArMTA0MCw5IEBAIHN0YXRpYyBpbnQgYXUxMjAwZmJfZmJfY2hlY2tf
+dmFyKHN0cnVjdCBmYl92YXJfc2NyZWVuaW5mbyAqdmFyLA0KPiAgIAl1MzIgcGl4Y2xvY2s7
+DQo+ICAgCWludCBzY3JlZW5fc2l6ZSwgcGxhbmU7DQo+ICAgDQo+ICsJaWYgKCF2YXItPnBp
+eGNsb2NrKQ0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKw0KDQpJbnN0ZWFkIG9mIHRoZSB3
+aGFsZS1hLW1vbGUgYXBwcm9hY2ggb2YgZml4aW5nIGluZGl2aWR1YWwgZHJpdmVycywgY291
+bGQgDQp0aGlzIGJlIHNvbHZlZCBieSB0ZXN0aW5nIGluIGZiX3NldF92YXIgWzFdIGFuZCBm
+Yl90cnlfbW9kZS4/IFsyXQ0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQpbMV0gDQpodHRw
+czovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2RyaXZlcnMvdmlk
+ZW8vZmJkZXYvY29yZS9mYm1lbS5jI0w5NTgNClsyXSANCmh0dHBzOi8vZWxpeGlyLmJvb3Rs
+aW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL21v
+ZGVkYi5jI0w1NjcNCg0KPiAgIAlwbGFuZSA9IGZiZGV2LT5wbGFuZTsNCj4gICANCj4gICAJ
+LyogTWFrZSBzdXJlIHRoYXQgdGhlIG1vZGUgcmVzcGVjdCBhbGwgTENEIGNvbnRyb2xsZXIg
+YW5kDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
+ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4g
+NSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
+DQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
--- 
-Ville Syrjälä
-Intel
+--------------WDd0Lhtgw7Duf5JenF0OHZeU--
+
+--------------oDSShgVebgcxBHZ6xUbeLWEI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQRnTAFAwAAAAAACgkQlh/E3EQov+CR
+xQ//bppyKi5hcSUvkpyLIY00pMPfYG/vWWDjMNu+3FYcg/na5v4hJj9htwg7jC3eVdq9ZoHj6Hav
+zDnVw01p/kzoXcHTNczf6OiMYUzJYD0UkuQ2bgHImk+RG5UhRt+TQdwbc0D7+bBVzadVIflFhE3e
+BVLU7qMXONuFb5JOSb0k66DUixE8pjO+bT8s8gUoZaIpYG3QbdoYTO6q9cX7uDGZbh93KfByTg1s
+DJG8MJivfC5xj+w1tbFe6WTgRlWVfG0lGHudHnpu482JBm/4qsgsg2OVcdCRkIUwrxxNo0wz/H3a
+VKG1IfEJ4YDnO12D/XQYsfox4Jbwpg8MhO2jaKZ8iqYC+Z5CTG/Hh/NAFIYlfA4P6TpUPkIOWCmG
+I2zo1DLUxOIJQoSem0kVbDMw7oqRTyqfJLSFI9LnCttMXwLUbQdYdICyBIOie+pdh3NaVD1iikyx
+2rri9Lied+LHsMyo5GKRSHSpuCikeNPqJ02QpqVUfk1iM1fvP7CIpb0+s6ytqz+bfwFoNo0e0Lxl
+EPZf0UkfNI0yWCAwa9ewJvJNDE/aq66bAknw3UX29+3MqFMxRe/CeF43nnwWjqZQufJ6126d5YCv
+Yl5LDQsVr7u9D0/l8x5Xmr4EM9oLPutcGMIHmDUBlKOYNHzDb4Eb7+HZKCQ8a/0gYTQt9iu48mDz
+Qmw=
+=sv0N
+-----END PGP SIGNATURE-----
+
+--------------oDSShgVebgcxBHZ6xUbeLWEI--
