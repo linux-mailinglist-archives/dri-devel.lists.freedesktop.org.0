@@ -1,92 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE976BBFF6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 23:44:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721246BC0D6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 00:25:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F51A10EA0F;
-	Wed, 15 Mar 2023 22:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77CDE10E067;
+	Wed, 15 Mar 2023 23:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2062.outbound.protection.outlook.com [40.107.223.62])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A37010EA0F;
- Wed, 15 Mar 2023 22:44:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EVJlutqUgil0AR38vJk+Uz19oHcur1EsYzsVhzEL+wRi6mkubHxHCukrGvmpzy2QI2LAIYGbCN8mnhgnprigURsPeKK1mlIdNoKO/XT8HVah/83twKxVTagqjluxfI5RbXAvLVk/pkU8rvoal8ZPjAjV1rNvsGR1Gxb6scN6UWZoI4GQd0eT9R7xs/IEmLAYWEJTf7PfRvOrMPSAPc9Bxhlgqpl9V8OrMmlCP73cAQygV/fZ3p7VrD0Wn+/YaebWW6Gi4domz41zL6+TO3nb59+ukNYnoCyIyoECZ2EN3cegJpIHDtx/jptFtlmH5Uc9m0NnT4YAXqJou37SVKQSEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8SWt8zx31XJ6yj+e/uB9kVO7WQlkjx2Jx9ePUQwUFoQ=;
- b=dgJC5CcBeAIeTsp5P8k1Javk5XFwyIH74BzdpJe/xM2zZJlY+7iyGqlrnY12MMugGiGCMkGWoaPbXcCbnqrglWBijdB7pYbj769ZwGI1p/vnRtD1jbuCpQ7AGHbGNIm2QhfHjlVHuQc88QDX8HruE/P9qL0IS+676Rinx25BJz6adpzcmpJ8eOG03E6Pf1SFEf4PiOR+EuEwGcJ0n9y5pPIIx7xj/A78rn1Q818MzVwfxa4cioysXpD3n9rWGXd+obUPlMIZbSgUBesaqNzkpqYpyIhsTFudlvR8Jy5fUqRf8GrxgnuuVUjs4prTCAbL9vDnzt766VYvjwBD2iE/zQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8SWt8zx31XJ6yj+e/uB9kVO7WQlkjx2Jx9ePUQwUFoQ=;
- b=lSUH4pBUWBpdUXtDksakqQfuGJLpTbVmShzwpuc57NMzwBGPlwcXbkuBO+4lrp503zTT8t+xhYpR1OUrVj9+67xtgt2ZktwIJkiz8ozR3ZRtMVL5ZU11JJ9uX52lArgYI0ZXAlcJBZOJpvu8sjBHrTc7cU+1MYWAC6s6ozNfo9I=
-Received: from BLAPR05CA0048.namprd05.prod.outlook.com (2603:10b6:208:335::29)
- by DM4PR12MB5342.namprd12.prod.outlook.com (2603:10b6:5:39f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.29; Wed, 15 Mar
- 2023 22:44:15 +0000
-Received: from BL02EPF0000EE3C.namprd05.prod.outlook.com
- (2603:10b6:208:335:cafe::eb) by BLAPR05CA0048.outlook.office365.com
- (2603:10b6:208:335::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.29 via Frontend
- Transport; Wed, 15 Mar 2023 22:44:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0000EE3C.mail.protection.outlook.com (10.167.241.132) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.12 via Frontend Transport; Wed, 15 Mar 2023 22:44:15 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 15 Mar
- 2023 17:44:13 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu, amdkfd drm-fixes-6.3
-Date: Wed, 15 Mar 2023 18:44:00 -0400
-Message-ID: <20230315224400.7558-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.39.2
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72F3610E013;
+ Wed, 15 Mar 2023 23:25:16 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C9A69B81F69;
+ Wed, 15 Mar 2023 23:25:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13837C4339B;
+ Wed, 15 Mar 2023 23:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678922713;
+ bh=jc1Gbldgu0s3c1IL4ZwUV75CvRBN1rI1hujAlbgRO+M=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=NnDonRvDGOEUa1gqnkXP4Rh19Niwv9n0KsLi7zCRaxG2und0Dk6en63v1orrj6ZGw
+ lozAuqt876/Db9pEtvAZt2dR5InwzKUlbBdsfnujEuG5F/cujBwEY5jHoe1VE7OuS9
+ 3LMXbUq59uW8YMc83N0zrUSpADe/oEKUGVmV1RIIA0/yveyALHfvtJ9S6+RJLXwKKs
+ povEA3lU9rUCt++t5O3sgG1gRk3tAhaQsgKZNbl5UdljiPuS3lZG7lIaPIlD8OgIq0
+ dk3NgWu2z0h5LVZyBMVvG/QWHp7XM3OFPKp0tTwY2yrLMOUsaePm7IewZlpl6eDagG
+ NfFs5aff/mgCQ==
+Date: Wed, 15 Mar 2023 16:25:06 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Jan Beulich <jbeulich@suse.com>
+Subject: Re: [RFC PATCH 1/5] x86/xen: disable swiotlb for xen pvh
+In-Reply-To: <f5e03f2a-8176-528f-e885-9a97940367c0@suse.com>
+Message-ID: <alpine.DEB.2.22.394.2303151616200.3462@ubuntu-linux-20-04-desktop>
+References: <20230312120157.452859-1-ray.huang@amd.com>
+ <20230312120157.452859-2-ray.huang@amd.com>
+ <ea0e3852-87ba-984b-4010-5eeac3d6c507@suse.com>
+ <alpine.DEB.2.22.394.2303141747350.863724@ubuntu-linux-20-04-desktop>
+ <f5e03f2a-8176-528f-e885-9a97940367c0@suse.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0000EE3C:EE_|DM4PR12MB5342:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3251d033-79d7-4fc6-cb0b-08db25a6cdd9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oOZpJNSlzlzMEKZq1TttMGBgr2HHNLt+Q67buxcJu9JxFmenfm0PBMK4lahi8XTwljT4w4XTLMgk++QG5O7jUCDjCtunprWOTZDTuFUAfRrh/ZdcXoPNJL+PjipFuePEEJ03wh/gRGjGsZ/6C8s5jKO/6Y8X0o+6OoIha27MRVjcZtKQdJHjF6F7d9Fl+2YVEFuBh5aTP9KojnrXwJogr05+0374IPFh5DEvzCAeYNF9W69QjU9mFg+HpVyiCyuC5iQkgtiu25WzWGiGxOp0Q6BJJbYYMzWsUAtjJNTzGb3+TU2uR41w21Xa/XaJ+N4JwPzUGzK9W4UQY1+iAsrhsEjvSgrgmlIlKaTBE2D+14rveGIdCuQW0D2298HHyqUXmprTevkhbu2Rh88+vuWlgytauvOO3uylR/LMLuQvbeouQ0e/ON8Du9wGKqU4W6TD5RQpkdumdGPYlyHFFFxKwnL2DN+5JmGgTxSKSO5JZY2Jp+sGUOeda9MPGAMfPNYtEC+JV55eILYMYQiN4VBdgwYRsVoghyHkLjEGJg3MsraS2VqdOK/pzCrzV5tRvfGZDuWR3iMIPt7n+7ux99zsfIEZDbEoDQwLF9VtCw2kS3ySMywfgVinQvVpBsyV8HjDrRTnjeE0GdDmzclcnFfslF8PFTc33uarTxUsl80m1v9PyOsINaj9ZtLVd+o2O1u+
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230025)(4636009)(346002)(376002)(136003)(39860400002)(396003)(451199018)(36840700001)(40470700004)(46966006)(5660300002)(2906002)(36756003)(40460700003)(16526019)(186003)(2616005)(336012)(47076005)(66574015)(426003)(478600001)(7696005)(26005)(6666004)(1076003)(83380400001)(966005)(40480700001)(70206006)(70586007)(356005)(86362001)(8936002)(41300700001)(4326008)(8676002)(36860700001)(316002)(110136005)(82310400005)(81166007)(82740400003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Mar 2023 22:44:15.1146 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3251d033-79d7-4fc6-cb0b-08db25a6cdd9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0000EE3C.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5342
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,118 +56,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Juergen Gross <jgross@suse.com>, Honglei Huang <honglei1.huang@amd.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Huang Rui <ray.huang@amd.com>, Chen Jiqian <Jiqian.Chen@amd.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, xen-devel@lists.xenproject.org,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Julia Zhang <julia.zhang@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, 15 Mar 2023, Jan Beulich wrote:
+> On 15.03.2023 01:52, Stefano Stabellini wrote:
+> > On Mon, 13 Mar 2023, Jan Beulich wrote:
+> >> On 12.03.2023 13:01, Huang Rui wrote:
+> >>> Xen PVH is the paravirtualized mode and takes advantage of hardware
+> >>> virtualization support when possible. It will using the hardware IOMMU
+> >>> support instead of xen-swiotlb, so disable swiotlb if current domain is
+> >>> Xen PVH.
+> >>
+> >> But the kernel has no way (yet) to drive the IOMMU, so how can it get
+> >> away without resorting to swiotlb in certain cases (like I/O to an
+> >> address-restricted device)?
+> > 
+> > I think Ray meant that, thanks to the IOMMU setup by Xen, there is no
+> > need for swiotlb-xen in Dom0. Address translations are done by the IOMMU
+> > so we can use guest physical addresses instead of machine addresses for
+> > DMA. This is a similar case to Dom0 on ARM when the IOMMU is available
+> > (see include/xen/arm/swiotlb-xen.h:xen_swiotlb_detect, the corresponding
+> > case is XENFEAT_not_direct_mapped).
+> 
+> But how does Xen using an IOMMU help with, as said, address-restricted
+> devices? They may still need e.g. a 32-bit address to be programmed in,
+> and if the kernel has memory beyond the 4G boundary not all I/O buffers
+> may fulfill this requirement.
 
-Fixes for 6.3.
+In short, it is going to work as long as Linux has guest physical
+addresses (not machine addresses, those could be anything) lower than
+4GB.
 
-The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+If the address-restricted device does DMA via an IOMMU, then the device
+gets programmed by Linux using its guest physical addresses (not machine
+addresses).
 
-  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.3-2023-03-15
-
-for you to fetch changes up to f3921a9a641483784448fb982b2eb738b383d9b9:
-
-  drm/amdgpu: Don't resume IOMMU after incomplete init (2023-03-15 18:21:51 -0400)
-
-----------------------------------------------------------------
-amd-drm-fixes-6.3-2023-03-15:
-
-amdgpu:
-- SMU 13 update
-- RDNA2 suspend/resume fix when overclocking is enabled
-- SRIOV VCN fixes
-- HDCP suspend/resume fix
-- Fix drm polling splat regression
-- Fix dirty rectangle tracking for PSR
-- Fix vangogh regression on certain BIOSes
-- Misc display fixes
-- Suspend/resume IOMMU regression fix
-
-amdkfd:
-- Fix BO offset for multi-VMA page migration
-- Fix a possible double free
-- Fix potential use after free
-- Fix process cleanup on module exit
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/nv: fix codec array for SR_IOV
-
-Ayush Gupta (1):
-      drm/amd/display: disconnect MPCC only on OTG change
-
-Benjamin Cheng (1):
-      drm/amd/display: Write to correct dirty_rect
-
-Bhawanpreet Lakha (1):
-      drm/amd/display: Fix HDCP failing to enable after suspend
-
-Błażej Szczygieł (1):
-      drm/amd/pm: Fix sienna cichlid incorrect OD volage after resume
-
-Chia-I Wu (2):
-      drm/amdkfd: fix a potential double free in pqm_create_queue
-      drm/amdkfd: fix potential kgd_mem UAFs
-
-Cruise Hung (1):
-      drm/amd/display: Fix DP MST sinks removal issue
-
-David Belanger (1):
-      drm/amdkfd: Fixed kfd_process cleanup on module exit.
-
-Felix Kuehling (1):
-      drm/amdgpu: Don't resume IOMMU after incomplete init
-
-Guchun Chen (1):
-      drm/amdgpu: move poll enabled/disable into non DC path
-
-Guilherme G. Piccoli (1):
-      drm/amdgpu/vcn: Disable indirect SRAM on Vangogh broken BIOSes
-
-Jane Jian (1):
-      drm/amdgpu/vcn: custom video info caps for sriov
-
-Saaem Rizvi (1):
-      drm/amd/display: Remove OTG DIV register write for Virtual signals.
-
-Tim Huang (1):
-      drm/amd/pm: bump SMU 13.0.4 driver_if header version
-
-Wesley Chalmers (1):
-      drm/amd/display: Do not set DRR on pipe Commit
-
-Xiaogang Chen (2):
-      drm/amdkfd: Fix BO offset for multi-VMA page migration
-      drm/amdkfd: Get prange->offset after svm_range_vram_node_new
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   4 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_vcn.c            |  19 ++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h           |   4 +
- drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h        |   3 +-
- drivers/gpu/drm/amd/amdgpu/nv.c                    |   4 +-
- drivers/gpu/drm/amd/amdgpu/soc21.c                 | 103 +++++++++++++++++++--
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |  16 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  11 ++-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |  33 ++++---
- drivers/gpu/drm/amd/amdkfd/kfd_module.c            |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   1 +
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  67 ++++++++++++--
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |   4 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   6 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c |   3 -
- drivers/gpu/drm/amd/display/dc/dcn32/dcn32_hwseq.c |   2 +-
- .../gpu/drm/amd/display/dc/dcn32/dcn32_resource.c  |   6 +-
- .../gpu/drm/amd/display/dc/link/link_detection.c   |   8 ++
- .../pm/swsmu/inc/pmfw_if/smu13_driver_if_v13_0_4.h |   4 +-
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |   2 +-
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |  43 +++++++--
- 23 files changed, 281 insertions(+), 69 deletions(-)
+The 32-bit restriction would be applied by Linux to its choice of guest
+physical address to use to program the device, the same way it does on
+native. The device would be fine as it always uses Linux-provided <4GB
+addresses. After the IOMMU translation (pagetable setup by Xen), we
+could get any address, including >4GB addresses, and that is expected to
+work.
