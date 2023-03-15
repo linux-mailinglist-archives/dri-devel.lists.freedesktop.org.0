@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CA16BB131
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 13:25:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 984326BB0D9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 13:21:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBCC110E13D;
-	Wed, 15 Mar 2023 12:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6809310E05F;
+	Wed, 15 Mar 2023 12:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A8B410E13D;
- Wed, 15 Mar 2023 12:25:25 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F294310E9F1;
+ Wed, 15 Mar 2023 12:21:42 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 27AF261ABD;
- Wed, 15 Mar 2023 12:25:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 136E9C433D2;
- Wed, 15 Mar 2023 12:25:24 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 98A09B81E00;
+ Wed, 15 Mar 2023 12:21:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA112C433D2;
+ Wed, 15 Mar 2023 12:21:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1678883124;
- bh=KiXl2hRFUutpZmLcHGX8IfKBYY8a2+Ncm0xZJHfwQKQ=;
+ s=korg; t=1678882901;
+ bh=5VvKsSZ5q2xl3WWSJQZnsQVSR683CPyklbi2ZYAxXDc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=1YeIhCC+CG+idU1IqrmB8TELfQSm5WYUlY39A4h71DaF7Q4ytGf5fjRkBLTXqj6pp
- VyPkJNCw3Mk0Gygq2PYahjWMR5EWYoZViNP/JP1F4B9KFbQzti4g1lhn9r8vBOn7oq
- AkgNDOercQQdg33EsxgBREwFFszuZrWYLIKxOsj8=
+ b=ooTFahoSo9dTnL5KyBHJoW9ufS1drHoIjdvgxLLHnVgfgAceDo/udQtFxUOX5n1Am
+ GcflGM18UZvdZ2nCZF6ms7kxJrr8ajW1DqkREi1LrhFbf+ECuNZzkqr4AlM5aL+Byv
+ URtXBY0Jbr2s75utkcf9bcDgZ5DqMozZYYFaA3P8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 5.15 007/145] drm/connector: print max_requested_bpc in state
+Subject: [PATCH 5.10 005/104] drm/connector: print max_requested_bpc in state
  debugfs
-Date: Wed, 15 Mar 2023 13:11:13 +0100
-Message-Id: <20230315115739.225726207@linuxfoundation.org>
+Date: Wed, 15 Mar 2023 13:11:36 +0100
+Message-Id: <20230315115732.201019542@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230315115738.951067403@linuxfoundation.org>
-References: <20230315115738.951067403@linuxfoundation.org>
+In-Reply-To: <20230315115731.942692602@linuxfoundation.org>
+References: <20230315115731.942692602@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -89,7 +88,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_atomic.c
 +++ b/drivers/gpu/drm/drm_atomic.c
-@@ -1052,6 +1052,7 @@ static void drm_atomic_connector_print_s
+@@ -1010,6 +1010,7 @@ static void drm_atomic_connector_print_s
  	drm_printf(p, "connector[%u]: %s\n", connector->base.id, connector->name);
  	drm_printf(p, "\tcrtc=%s\n", state->crtc ? state->crtc->name : "(null)");
  	drm_printf(p, "\tself_refresh_aware=%d\n", state->self_refresh_aware);
