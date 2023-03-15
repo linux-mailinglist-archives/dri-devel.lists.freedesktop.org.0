@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D39A6BA9FD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 08:51:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D6B6BAA48
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Mar 2023 09:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD0D10E93F;
-	Wed, 15 Mar 2023 07:51:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 864C410E961;
+	Wed, 15 Mar 2023 08:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5085010E93F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 07:51:49 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id cn21so41774887edb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 00:51:49 -0700 (PDT)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8406410E94E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 08:01:42 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id z83so14326322ybb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 01:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678866708;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Rtzm0dNUyTJmBG5J/B6707/S4Pte/iFJwCqbn2gvJ4Q=;
- b=K0IWxPweceXAJvkwMSWgRYi4I0hvq6aPbbv364Bjric9zjIFEbo3n9Igv48yqx2rqI
- XHYD6/H9RT/RK0ZV7w2eqjM9mc4nUEVICafT/otoipMQcv/TgDQGpLqMsDHabxSsuLP0
- SIIVhUDvPaL34MBChXeH5dmhvF6l9TPXW8mky5o+/3v/rkxWC5lfxUfZlFmFvcYnREUk
- +d2aNLRQQY7h0ur9ZgNASYWxheITEDCirxa2lxqzKPUPsuWzNGMmb7T/KWDFLg/+x+R9
- +lV9F2o8uZy34GGYwCSpQil7pG8hKYb6v7KuOXP9HkStLHIOz+0d0QavdbW2ZWhdj90w
- 2PIg==
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1678867301;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=GLmw2pWkt+2UlVCNqfxLlIyJordQ48jgkm7yvgM5sos=;
+ b=kfzb/qXnb2Lz2It2VeCU2JPOke00lu76iOWT0N8lzXzxgMgNVNJo8c992euigO3pOg
+ 2cTHApKRAs0MW4AwdKmoVT4E4lTpbiyLxDNjYykxKPYMO82GHOnWvLWC8eKRvhL3LBdX
+ 0GgIpT3UnwnxLJGXs830kO/zF3o+VhktcReF1q88KLkn2rG7/9fSv5hJxIEgVsOXZA+T
+ V68WfMU1jJi88lfhhD2mNqlQoYp+CdcBAi2HBFu+egrPostJEcOHf4/w8AN6L9cdMRQf
+ GzNRgl2nZ098e2UH8AS+5knHhmlK+uMTSlMPnkOYBJWhmuY9qF7ZIshgWM9U9lMG8YFU
+ G49w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678866708;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Rtzm0dNUyTJmBG5J/B6707/S4Pte/iFJwCqbn2gvJ4Q=;
- b=1EVMclzrsDEmxBwdRdeebo1vFozN7V7LT53A1a0irQb7k8YV5nZdouvpbEXHt69ahL
- JmYvTyG4RB5V7j5QC6hncSZmpwMhuSnfmX154f9VkBEulLeC7A2MhV92oma5oRt/TcXq
- tN6QIik1+XYh6FIFIk+ebeomSbVJ/OLYrfZSuRc/SmgSaSmbCHHBZAC5UUZFxx64JP5a
- PRXhWd8bxz5YavCMxe1A24jm0P3EeKEeE/dnGKj8aULR4wjjEWhrWVabfaXIyiixkzQi
- CuQ3TvCDxi+jYDqOfjw/slwpSbahzeKj2enQj7j8O8IwJS1PK61yYVCSHgmNcZAeVw0o
- mVWw==
-X-Gm-Message-State: AO0yUKUOTX1ZG2yPjZQPQ91XA1QZfgJfma9DaogG3ZkTVVXu+OUUqJk2
- +NifYKjOFoQckdsJYEkHmLNiAA==
-X-Google-Smtp-Source: AK7set/yWRYjCKp5mLx+kg3wkMH72NDHq+jXSu/2+L2Vhk3CVxWK3EAQVP3YmAnhLQmqFJQLGyRcuQ==
-X-Received: by 2002:aa7:cc18:0:b0:4ac:b614:dd00 with SMTP id
- q24-20020aa7cc18000000b004acb614dd00mr1439146edt.30.1678866707846; 
- Wed, 15 Mar 2023 00:51:47 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:940e:8615:37dc:c2bd?
- ([2a02:810d:15c0:828:940e:8615:37dc:c2bd])
- by smtp.gmail.com with ESMTPSA id
- 18-20020a508e12000000b004fa380a14e7sm1974222edw.77.2023.03.15.00.51.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 00:51:47 -0700 (PDT)
-Message-ID: <8ce4e54d-1e90-99ec-3fb3-00c70adb6bf9@linaro.org>
-Date: Wed, 15 Mar 2023 08:51:46 +0100
+ d=1e100.net; s=20210112; t=1678867301;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=GLmw2pWkt+2UlVCNqfxLlIyJordQ48jgkm7yvgM5sos=;
+ b=5hTHcUUGKCtLWP18TUGGHuHIRnSnnP1S5KKMyYPD8Hac21r5j18egaufowUBXJRpCR
+ WQ3QOjisw3lb/1JGYKwOtrrFq/G168D32UiAcyh47BiCoQkZh97SvXrKdoCOuzGA9w+e
+ V9rT7wYPvIB/zGsr92VB/JHlEjdtz81ytptYa+1iqUzMrW6suUD6BenjK1a7gekGpuj0
+ ktRcIdbx320QxATyQVQzcqZC6szkvnEJFqqb9hxC+vD7dslQoRhtsL2iWH5cpyTVhEF6
+ pPBf0/Q+VTG0nRTPcwmJ1epkP6UcrRd4iB7ErENVtVr2nfpoRY1jwT9TgWLzqdR5aMJU
+ En+A==
+X-Gm-Message-State: AO0yUKV6bzr+zKwJej71F8iwaW404ECPxAzrDXZ2F8qe0EnvkDK97o8f
+ tSrhjArh1Ra18btqczbB8T2KPF6QBgZhWz/1TU8NeA==
+X-Google-Smtp-Source: AK7set9LpeP+JeZx2ldhs9oY8bVS2Fz4YRdUKtYi/IMSTV0qIeC8WW+E425cUJjwgqA/oB9hoYpKIBLTZzuVNM14JVg=
+X-Received: by 2002:a05:6902:10e:b0:98e:6280:74ca with SMTP id
+ o14-20020a056902010e00b0098e628074camr23087865ybh.1.1678867301383; Wed, 15
+ Mar 2023 01:01:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: seiko,43wvf1g: Add the
- 'enable-gpios' property
-Content-Language: en-US
-To: Fabio Estevam <festevam@denx.de>, neil.armstrong@linaro.org
-References: <20230314111724.1520178-1-festevam@denx.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230314111724.1520178-1-festevam@denx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-15-45cbc68e188b@baylibre.com>
+ <ea8aaec1-948d-832b-ff24-b35abd3a59a2@linaro.org>
+In-Reply-To: <ea8aaec1-948d-832b-ff24-b35abd3a59a2@linaro.org>
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Date: Wed, 15 Mar 2023 09:01:30 +0100
+Message-ID: <CAFGrd9p0qmfypP2DDJN1vEhJYciVfgFXZWLmvQOdpE=qgSDvKQ@mail.gmail.com>
+Subject: Re: [PATCH 15/21] dt-bindings: soc: mediatek: add display mutex for
+ MT8365 SoC
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,22 +70,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sam@ravnborg.org,
- CPHEALY@gmail.com
+Cc: linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Fabien Parent <fparent@baylibre.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Guillaume La Roque <glaroque@baylibre.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Xinlei Lee <xinlei.lee@mediatek.com>, Sam Ravnborg <sam@ravnborg.org>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/03/2023 12:17, Fabio Estevam wrote:
-> Add an optional 'enable-gpios' property that can be used to turn on/off
-> the display.
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
+Le ven. 10 mars 2023 =C3=A0 09:39, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> a =C3=A9crit :
+>
+> On 09/03/2023 15:23, Alexandre Mergnat wrote:
+> > Add compatible for the MT8365 SoC.
+> >
+> > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+> > ---
+> >  Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml | 1=
+ +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mu=
+tex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.ya=
+ml
+> > index ca0ca549257d..931d66893dff 100644
+> > --- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam=
+l
+> > +++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yam=
+l
+> > @@ -34,6 +34,7 @@ properties:
+> >        - mediatek,mt8186-mdp3-mutex
+> >        - mediatek,mt8192-disp-mutex
+> >        - mediatek,mt8195-disp-mutex
+> > +      - mediatek,mt8365-disp-mutex
+>
+> All these look compatible. Either make mt8635 compatible with something
+> or even rework entire list and make everything compatible.
 
+All of them use "mtk_mutec.c" but have specific data.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+      .data =3D &mt8173_mutex_driver_data},
+    { .compatible =3D "mediatek,mt8183-disp-mutex",
+      .data =3D &mt8183_mutex_driver_data},
+    { .compatible =3D "mediatek,mt8186-disp-mutex",
+      .data =3D &mt8186_mutex_driver_data},
+    { .compatible =3D "mediatek,mt8186-mdp3-mutex",
+      .data =3D &mt8186_mdp_mutex_driver_data},
+    { .compatible =3D "mediatek,mt8192-disp-mutex",
+      .data =3D &mt8192_mutex_driver_data},
+    { .compatible =3D "mediatek,mt8195-disp-mutex",
+      .data =3D &mt8195_mutex_driver_data},
+    { .compatible =3D "mediatek,mt8365-disp-mutex",
+      .data =3D &mt8365_mutex_driver_data},
 
-Best regards,
-Krzysztof
+I don't see any SoC compatible with mt8635, and I have no idea which
+rework you have in mind. Can you please point me an example ?
 
+Thanks
+Alex
