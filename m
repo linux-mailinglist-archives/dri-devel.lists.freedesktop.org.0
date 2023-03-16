@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F7F6BC653
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 07:50:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBCB6BC668
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 07:59:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B360B10EA6A;
-	Thu, 16 Mar 2023 06:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD7610EA5B;
+	Thu, 16 Mar 2023 06:59:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3583A10EA48
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 06:50:36 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id eh3so3471947edb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 23:50:36 -0700 (PDT)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1170410E0D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 06:59:24 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id ek18so3623339edb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 23:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678949434;
+ d=linaro.org; s=google; t=1678949962;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=FSmqR42JI8zcqdZRW9LGFpXnT9CY9HrPjFJaVqu4ZgY=;
- b=LtSG7S1Is6GOySgnfXlDFq9WmlpDcL15eYIvGJGE5wawcnUtwzMePaKmAhMuLgEhUs
- xTJTs+bkX4okGEn38efRN2rttgtE4dB+4IsT4Ilvtd1XhKAc6NzWUyoWa3WqXvoL7u2T
- ggWDnwAJN0nv2Blhx7wMVb7yHDJnjqMnbjcCCh46Ezk8oV0RRn56Sk1eQOIxncoCALCT
- T/AHI0c1h3r4Kgd1Eqtqbds7fp/dpooQMq2CMoxqPxH6aUv8XVPKbT47IrkpLhjEySj2
- 9VIqK63JW8wx7Fc61X7ttVzGNgKM6hkgeC53bC3iIqBQY63I047h4js0OPc8tQoaa5yE
- A56w==
+ bh=3GJ4RBxZ712Klo+UmXypi79MzTgIT7iOamcqNsLMPOQ=;
+ b=U3RaZU5JK+ElSE3D8SK48II4Cow+x8MfM8vox4NNEvaszAnAB+T94R0KIblOyYoImc
+ ABJK5D9H2V8VJJTWQnmbd/xAli6OONjm4yK6431muTNwyMWCPaPYXUYM/10XUY0p5PEp
+ ZVsAPB8nMxhxS47/cvck2Z8xb4Y1b3QQd40S3p2KssbS0xqKljj0UoXzAw6rQL4uK7xQ
+ 6/Y3jeBUB74Bk+5TESn/V8mePAsZbQjPdRRTRlKGPZUJRk3l5ysPxAHKfzsFYMXZxjWN
+ xjs2ZEpqTpKrNTa9+Vl5OkbSEAZ14i3f5Y4tbAbWPqrWRoepR0K45sRwPszHDlBwT+3T
+ ukEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678949434;
+ d=1e100.net; s=20210112; t=1678949962;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FSmqR42JI8zcqdZRW9LGFpXnT9CY9HrPjFJaVqu4ZgY=;
- b=GWHkWeQiZ+9I2DtAUbzPXImAkTIpp4+jqLj2mI4+gnktpTNOw6tJ8PnnBB+uoIlGCB
- BLCmrHsONdkD7ar7q0JwdM3jhrmzZhoGSKqxNBSfH5Tq9BIestLtqZNbrrOn3jSc0PlT
- toUWF1HGXU2PyCpEJNJHj1G0TJRfcNsnSdWgSI38jTJQyb3fEsvzSpwlcY6ZQYAK8It2
- 3aTris5TNceSqDARD1c4aFW23tWQMveG9W+ov9pdjYgPE1Ai/bWHppODUOKv30hNDj6m
- 477GtwFOpg/gDVaE3FGwKEbtMX52GYZG13dQFRK5jFKHa/8xlDGbuRcFC4dUYK6kdb8R
- dwNA==
-X-Gm-Message-State: AO0yUKVGn9SX+0avWiikfAkRCyGcA2SvY2vGgCa1oGEWFkEzYUDcKhgs
- Y59vgVf+LScG9o+2bKiejQTp/g==
-X-Google-Smtp-Source: AK7set+PiE/udqoIZYh3NUnUhUQW7Ogs6QpL8HNi52GXZ5TS0E9frxcNkNS0kfUthl780jLDuZxS7g==
-X-Received: by 2002:a17:906:c9ce:b0:889:58bd:86f1 with SMTP id
- hk14-20020a170906c9ce00b0088958bd86f1mr8988609ejb.14.1678949434663; 
- Wed, 15 Mar 2023 23:50:34 -0700 (PDT)
+ bh=3GJ4RBxZ712Klo+UmXypi79MzTgIT7iOamcqNsLMPOQ=;
+ b=yLm3nJPAZyxmuMR1ACiuO3j0mfkQHneuBiZuhnJ2lsw4SD2a5w393i4smwlNN1g4Wt
+ PRrTflUknI9aE4g0udZ/zp962kV+r/ZEdROwBD2Mm9hqpvTyhZYK64qGiujKefzNh/ZO
+ O3rUArhdSj80SrItocq+/+45Qsf985B5Qdv7bACuo9c1gzUYAAjsY/+rwosv9X1S2Qgf
+ awUkwpE3Ux5aSOz07+/8UohOx1HUvK3AF0ExxkC9/i2Pc+5E/MKGNwfy1xbzx/MQpaQX
+ uSttENrCic8tktBorFcyTh7HJCDHU8UFS65ztLhgvSxqVQY7ZxJNVAiXQ/oM96SGWRfv
+ C/mw==
+X-Gm-Message-State: AO0yUKWDaqdMs9TAy1OCgU+8rwL0dcKzzJTuq0Imr+6N6aWi8pMBR7m9
+ XYv1+TIBLhrhDzA94t6eMb6Vag==
+X-Google-Smtp-Source: AK7set9GpyQBtfPlGOriyIwY+B/yPUh5T1CI1WhiR4rhceJZrqhIVM8O+Ucn/hyY8qHeP36jlIqhiw==
+X-Received: by 2002:a17:907:2d93:b0:8aa:33c4:87d5 with SMTP id
+ gt19-20020a1709072d9300b008aa33c487d5mr11565369ejc.10.1678949962510; 
+ Wed, 15 Mar 2023 23:59:22 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:9827:5f65:8269:a95f?
  ([2a02:810d:15c0:828:9827:5f65:8269:a95f])
  by smtp.gmail.com with ESMTPSA id
- w13-20020a1709060a0d00b0092707833d08sm3388745ejf.70.2023.03.15.23.50.33
+ qh2-20020a170906eca200b008e2dfc6382asm3427107ejb.125.2023.03.15.23.59.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Mar 2023 23:50:34 -0700 (PDT)
-Message-ID: <1f77b57b-e3dc-b44e-0afb-ac1b7c4cac83@linaro.org>
-Date: Thu, 16 Mar 2023 07:50:33 +0100
+ Wed, 15 Mar 2023 23:59:22 -0700 (PDT)
+Message-ID: <e46f257b-6a81-ce42-3b93-6cf702571faf@linaro.org>
+Date: Thu, 16 Mar 2023 07:59:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH v4 08/10] dt-bindings: display/msm: dsi-controller-main:
- Fix deprecated compatible
+Subject: Re: [PATCH v4 01/14] dt-bindings: display/msm: gpu: Document GMU
+ wrapper-equipped A6xx
 Content-Language: en-US
 To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -65,13 +65,13 @@ To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
- <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-References: <20230307-topic-dsi_qcm-v4-0-54b4898189cb@linaro.org>
- <20230307-topic-dsi_qcm-v4-8-54b4898189cb@linaro.org>
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230223-topic-gmuwrapper-v4-0-e987eb79d03f@linaro.org>
+ <20230223-topic-gmuwrapper-v4-1-e987eb79d03f@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230307-topic-dsi_qcm-v4-8-54b4898189cb@linaro.org>
+In-Reply-To: <20230223-topic-gmuwrapper-v4-1-e987eb79d03f@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,41 +86,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/03/2023 13:13, Konrad Dybcio wrote:
-> The point of the previous cleanup was to disallow "qcom,mdss-dsi-ctrl"
-> alone. This however didn't quite work out and the property became
-> undocumented instead of deprecated. Fix that.
+On 14/03/2023 16:28, Konrad Dybcio wrote:
+> The "GMU Wrapper" is Qualcomm's name for "let's treat the GPU blocks
+> we'd normally assign to the GMU as if they were a part of the GMU, even
+> though they are not". It's a (good) software representation of the GMU_CX
+> and GMU_GX register spaces within the GPUSS that helps us programatically
+> treat these de-facto GMU-less parts in a way that's very similar to their
+> GMU-equipped cousins, massively saving up on code duplication.
 > 
-> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
-> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> The "wrapper" register space was specifically designed to mimic the layout
+> of a real GMU, though it rather obviously does not have the M3 core et al.
+> 
+> GMU wrapper-equipped A6xx GPUs require clocks and clock-names to be
+> specified under the GPU node, just like their older cousins. Account
+> for that.
+> 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../devicetree/bindings/display/msm/gpu.yaml       | 57 ++++++++++++++++++----
+>  1 file changed, 48 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> index 2494817c1bd6..94f4cdf88c95 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-> @@ -34,7 +34,7 @@ properties:
->        - items:
+> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> index d4191cca71fb..ac1a9bce2042 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> @@ -36,10 +36,7 @@ properties:
+>  
+>    reg-names:
+>      minItems: 1
+> -    items:
+> -      - const: kgsl_3d0_reg_memory
+> -      - const: cx_mem
+> -      - const: cx_dbgc
+> +    maxItems: 3
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -157,16 +154,58 @@ allOf:
+>        required:
+>          - clocks
+>          - clock-names
+> +
+>    - if:
+>        properties:
+>          compatible:
+>            contains:
+> -            pattern: '^qcom,adreno-6[0-9][0-9]\.[0-9]$'
+> -
+> -    then: # Since Adreno 6xx series clocks should be defined in GMU
+> +            enum:
+> +              - qcom,adreno-610.0
+> +              - qcom,adreno-619.1
+> +    then:
+>        properties:
+> -        clocks: false
+> -        clock-names: false
+> +        clock-names:
+> +          items:
+> +            - const: core
+> +              description: GPU Core clock
+> +            - const: iface
+> +              description: GPU Interface clock
+> +            - const: mem_iface
+> +              description: GPU Memory Interface clock
+> +            - const: alt_mem_iface
+> +              description: GPU Alternative Memory Interface clock
+> +            - const: gmu
+> +              description: CX GMU clock
+> +            - const: xo
+> +              description: GPUCC clocksource clock
 
-This patch should drop the items - you have only one item, so no need
-for list.
+Since you require fixed number of clocks, you also need:
 
->            - enum:
->                - qcom,dsi-ctrl-6g-qcm2290
-> -          - const: qcom,mdss-dsi-ctrl
-> +              - qcom,mdss-dsi-ctrl # This should always come with an SoC-specific compatible
->          deprecated: true
-
+clocks:
+  minItems: 6
+  maxItems: 6
 
 Best regards,
 Krzysztof
