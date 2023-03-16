@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2F46BC9E0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 09:51:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE41F6BC9E1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 09:51:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D91FB10EA48;
-	Thu, 16 Mar 2023 08:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD8D10EC2B;
+	Thu, 16 Mar 2023 08:51:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E72510EC2B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 08:51:23 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id r27so1339509lfe.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 01:51:23 -0700 (PDT)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0006710EC2B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 08:51:24 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id z5so840371ljc.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 01:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678956681;
+ d=linaro.org; s=google; t=1678956683;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Vhpul7Rh3cRj+K0GuudZQvoFoP/xfXO3CkdZI/yylms=;
- b=I2Q5wRlRon8b+Gl1HB1GsqbdDvNDfbwdMJfF+NusYVA7XHn4lFaFATFnS5ulH0qsHX
- L25ihfOr+UL7ywWVzMoZHzE8lodSGX3ZgSf3WH1osvMMMk/hYcQh9JQaupRle9WZYwn+
- q/OIfGEwO6tExq9NYuCtI4BTRe8xdBDms0XpaO4C9QehjapjBKxVsqU5S1UWNfS+oLrE
- /QqeMUMpOySZVFYfk2cjzZTU4xxrJBhHK9k8O6zxov4sDCcrk+qjAOMLbl8kSZImA3ST
- NzLByLDHGn4jmrLovRd9MxNf1aHfVJd8NDM9p6ZpdBPnO3PP0VOyWpORzw+/NL4uiOdl
- rvCQ==
+ :reply-to; bh=0GttnUpSMQrNUPBOzshROVp8f4Y5lS6s/EI+l80bqFw=;
+ b=kor1lxAULsgXkpl5n64+yKp3HEn3UHihlasLo4LG+IOiKjqo1qtzr1e5I/ghTBAylY
+ BCoZPVTDVpOVOWIbDNddIMYOAXk6EEyYrsFqKaa5+FnmIJhNEuurv5b0RcODOjjXuDN0
+ PM2JSV7/QYTIVm85BHodt4ikndfKKD8HBosxsc1RGNfLC1O9dVl2Mn0c5CtGjgmK1kOF
+ fHTtwg6SBZkgxtJtbReG5xwaoMzywUUN8BhqF5vrpxWZnTfNlaLGR9dO5PmKAG+QieFi
+ QD5f71lxG8Ou3wJL/5WHhlZUbech32UsOKsG7bVeGODz300d6VYJ6SyiEWRmVBwgkMmE
+ Qjrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678956681;
+ d=1e100.net; s=20210112; t=1678956683;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Vhpul7Rh3cRj+K0GuudZQvoFoP/xfXO3CkdZI/yylms=;
- b=4iPDwIx+JsPrpCn5JS7E7xU//pq0cuMLMjxcSJ2g8QM+rw//f23oSVxTc80N54AWBg
- gsvKm5fmQt0UGWVwJYnIP7wb6v2gYX4bwjoGklDRItkP3fEnoi5ibhB6rW8JQnoO/d6C
- kD4shvYj31IUTIPljZj//rsLVd7fOuDrvJE9xJcEUkK1IPmjvE6KWDXvV8MMGZOqTvic
- VQ9WtmCZxS3Jj3hpeAcIBSfy3TYk30K6c96tEG5TF12CcM7mOOkKXZFSd9bvU5pT4L/9
- Fa8IQrDR9vhuS8epyLNlgmz2jrFqsBeKqt00LUznPkV+b+U8ro7qmBREgklNbfHCW+VE
- YdAg==
-X-Gm-Message-State: AO0yUKUHFRN8/N2XMfkVSGGwrBOPRJhz2m+EQokG9NFC9+K8jDnl53hk
- L4Y8AL7XvVQJr3FiUlB/+mTirw==
-X-Google-Smtp-Source: AK7set87BbSQ9sVx5mok5TOPRcaSbaLWFERH8AcVnQ7sqzqEPcroAy6dGZYHYxN2VaputEjUtWwJAg==
-X-Received: by 2002:a05:6512:2804:b0:4d8:86c1:4771 with SMTP id
- cf4-20020a056512280400b004d886c14771mr2570389lfb.6.1678956681755; 
- Thu, 16 Mar 2023 01:51:21 -0700 (PDT)
+ bh=0GttnUpSMQrNUPBOzshROVp8f4Y5lS6s/EI+l80bqFw=;
+ b=fUy8FTVb4iC8CC557397ClwBdIAcl/OvjGkDswqBl9Y+/dw8j/9MRLP+LFoGUGEljT
+ DaGpGmyVq+trHNcZHRjAQ4hzRmn0kw27Z8WBJmY64xEfXX5Hkv1xzkdrg78NBhY/fgJm
+ h6OL9z1OtxYIm7VCMnvR0r7odqfTKdqbv6m0l4TN9fAicAhnSDCD6EN955GrdA3jweQt
+ kNupFdrEdwmF+clejAk8aW2SeMOZCIdgULT0SFrU6EXUfaUgotSnfNSukHrKjeT54M0r
+ z0livUrkNtsPGilRzYarGTNcer4+pwivhaOUxRse1UCqYoYkDTK7Jw1hCsKaElCJ9su5
+ xd8A==
+X-Gm-Message-State: AO0yUKXdz0ELm5mgexAWgUi5NV79X+NwIB9yIc3nnKxxW41yPr5Rl/FU
+ RcBEJ+cKGXswexrCZDwI8hsqDQ==
+X-Google-Smtp-Source: AK7set+Auq5+dK5gJxeZ4K0r+SZ3n9ajfcsMSJJWCPkouivw5kREanh325/ho0hHzItRpdsZj7o0LA==
+X-Received: by 2002:a2e:b81a:0:b0:295:9d32:a653 with SMTP id
+ u26-20020a2eb81a000000b002959d32a653mr1892728ljo.35.1678956683403; 
+ Thu, 16 Mar 2023 01:51:23 -0700 (PDT)
 Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
  by smtp.gmail.com with ESMTPSA id
- o11-20020a2e730b000000b002991baef49bsm251566ljc.12.2023.03.16.01.51.20
+ o11-20020a2e730b000000b002991baef49bsm251566ljc.12.2023.03.16.01.51.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 01:51:21 -0700 (PDT)
+ Thu, 16 Mar 2023 01:51:23 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Thu, 16 Mar 2023 09:51:13 +0100
-Subject: [PATCH v5 07/10] drm/msm/dsi: Remove custom DSI config handling
+Date: Thu, 16 Mar 2023 09:51:14 +0100
+Subject: [PATCH v5 08/10] dt-bindings: display/msm: dsi-controller-main:
+ Fix deprecated compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230307-topic-dsi_qcm-v5-7-9d4235b77f4f@linaro.org>
+Message-Id: <20230307-topic-dsi_qcm-v5-8-9d4235b77f4f@linaro.org>
 References: <20230307-topic-dsi_qcm-v5-0-9d4235b77f4f@linaro.org>
 In-Reply-To: <20230307-topic-dsi_qcm-v5-0-9d4235b77f4f@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -68,11 +69,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
  Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1678956668; l=1730;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678956668; l=1378;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=F4fPirOHyMQPj35ost0pdi8esBWoDrjWNUljpExX+4U=;
- b=FL/r6rvLYNSYDNfxE3wvGBoxEwQ/m3wkv470pmFuq27VtanvQIIOf7xBKwiqIZyhM9Ok3ofPqSOM
- qwkknPNnDy8cfZ9kpkusgCrzafDZeyJpNEQ/i7+w1iFvb6rc6Td0
+ bh=gFmAP3VKT7x6AjOlQ5QOdQrgbA01mNjW7lXWqOa56r4=;
+ b=/UpSuxnKnArcV+HWoUWDAufdkfQwfpnaiqHNzcClp4+YCDcXHujpQWA5K/0h66dCKLiARD8E1ApW
+ NmjtaJn1A1mPgRT5NzHJaiJqjVVNBs64JEninpB86VDW33G3VRwB
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,52 +96,35 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the only user is handled by common code, remove the option to
-specify custom handlers through match data.
+The point of the previous cleanup was to disallow "qcom,mdss-dsi-ctrl"
+alone. This however didn't quite work out and the property became
+undocumented instead of deprecated. Fix that.
 
-This is effectively a revert of commit:
-5ae15e76271 ("drm/msm/dsi: Allow to specify dsi config as pdata")
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
 Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi.c      | 4 ++--
- drivers/gpu/drm/msm/dsi/dsi_host.c | 4 ----
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ .../devicetree/bindings/display/msm/dsi-controller-main.yaml       | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
-index f761973e4cba..baab79ab6e74 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi.c
-@@ -172,10 +172,10 @@ static int dsi_dev_remove(struct platform_device *pdev)
- }
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index 2494817c1bd6..ecc89011bec4 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -31,10 +31,9 @@ properties:
+               - qcom,sm8450-dsi-ctrl
+               - qcom,sm8550-dsi-ctrl
+           - const: qcom,mdss-dsi-ctrl
+-      - items:
+-          - enum:
+-              - qcom,dsi-ctrl-6g-qcm2290
+-          - const: qcom,mdss-dsi-ctrl
++      - enum:
++          - qcom,dsi-ctrl-6g-qcm2290
++          - qcom,mdss-dsi-ctrl # This should always come with an SoC-specific compatible
+         deprecated: true
  
- static const struct of_device_id dt_match[] = {
--	{ .compatible = "qcom,mdss-dsi-ctrl", .data = NULL /* autodetect cfg */ },
-+	{ .compatible = "qcom,mdss-dsi-ctrl" },
- 
- 	/* Deprecated, don't use */
--	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290", .data = NULL },
-+	{ .compatible = "qcom,dsi-ctrl-6g-qcm2290" },
- 	{}
- };
- 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 9cfb9e91bfea..961689a255c4 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -214,10 +214,6 @@ static const struct msm_dsi_cfg_handler *dsi_get_config(
- 	int ret;
- 	u32 major = 0, minor = 0;
- 
--	cfg_hnd = device_get_match_data(dev);
--	if (cfg_hnd)
--		return cfg_hnd;
--
- 	ahb_clk = msm_clk_get(msm_host->pdev, "iface");
- 	if (IS_ERR(ahb_clk)) {
- 		pr_err("%s: cannot get interface clock\n", __func__);
+   reg:
 
 -- 
 2.39.2
