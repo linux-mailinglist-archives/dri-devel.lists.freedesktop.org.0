@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A3C6BDC8A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 00:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1419F6BDCB1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 00:09:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41A1910E260;
-	Thu, 16 Mar 2023 23:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1989610EE18;
+	Thu, 16 Mar 2023 23:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26A9E10E260;
- Thu, 16 Mar 2023 23:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679007703; x=1710543703;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=P/pZk6BCzDc2PW8q4pzRcxpSSF+DINCS1gbVzgLeImw=;
- b=dDU6ZD56GfQ4uQ0VHC6f0fqnt4cjhoFTjEMoQIZV8i8vSPVrVZJiN8hU
- CQAHjGUsmrMYDb8VqCqVV/w7BQFfDSGQGKKiE53GtYuNZzENbsucOFElu
- oALZqjQQiG3+VuKhg1CSAgzlfqwgNbQ0VKgJ5w5VEI73zxTTVJ3wfC7Vi
- x3x6PDkNpK5aILZjhwSHmlpETLvu8WAmVHcoSrRB3daZOgoBGr9zTn5dk
- Rf1otzWPrDTCLyXBlA/w9PgDvw4spIRLoYU6uhhXhgvahSvtjrDw4RtYY
- ybKAZb7D03opxZZAgCiXUYcmTJROWYnotw+UY/ZV28VI81k09R9uyFu6+ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="424404490"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="424404490"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2023 16:01:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="682480746"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="682480746"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 16 Mar 2023 16:01:38 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 17 Mar 2023 01:01:38 +0200
-Date: Fri, 17 Mar 2023 01:01:38 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
- for DP and HDMI
-Message-ID: <ZBOf0m6W3ZWPy7nc@intel.com>
-References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-10-harry.wentland@amd.com>
- <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
- <ZBLmYzVcnBgU6uo5@intel.com> <20230316120701.523bcb37@eldfell>
- <ZBLz17f8YFmNEJlY@intel.com> <20230316133449.26b62760@eldfell>
- <ZBMNEdYWsyfVq46p@intel.com>
- <CA+hFU4zWvm3-SSjtF17zjRnshEDw27gkQDLGZRk2AbnWN8+1Vg@mail.gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD7910E3AD;
+ Thu, 16 Mar 2023 23:09:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9A6A562153;
+ Thu, 16 Mar 2023 23:09:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7ABDC433EF;
+ Thu, 16 Mar 2023 23:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679008188;
+ bh=w6jBwS1Um7mLlpoN+a+eGG2DalmQykD8t+mghS5Gsj8=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=Xn/mhMMsBa9jUDc41ni0DMUUt4rDxfMz2bHiXfw1XOBLWhlw+tv8t3tkSrUwFpzah
+ F6yRYXxBoF/7NL4kJm7B7P6a+/rJg9wCMKkeddzgV3I3qHJ9pT3iSq+tgz8wl8Xao9
+ EzFKSOr2Sg64KMAgUQ3mWgN0+rNM6KVcgflFqSJ/Ucm2c6D0hIxCfeJ9qxxM2o36FQ
+ RbwxQjqrlHHlQYAoMD3qrxYbz5WjR8d+EK4phi4hERBwPm5Ed7Esg6/28AqzgONA8P
+ oCmRbfB8rtZTOgM2VP0L/d4Ou9G/tVshG1zAD4c39viBP2ANCss0BD2ZrmJeQfKD9n
+ j4Q+hcETWJIPQ==
+Date: Thu, 16 Mar 2023 16:09:44 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Juergen Gross <jgross@suse.com>
+Subject: Re: [RFC PATCH 1/5] x86/xen: disable swiotlb for xen pvh
+In-Reply-To: <d256a967-f50e-2e19-1985-aa9cfc0e8b18@suse.com>
+Message-ID: <alpine.DEB.2.22.394.2303161603200.3359@ubuntu-linux-20-04-desktop>
+References: <20230312120157.452859-1-ray.huang@amd.com>
+ <20230312120157.452859-2-ray.huang@amd.com>
+ <ea0e3852-87ba-984b-4010-5eeac3d6c507@suse.com>
+ <alpine.DEB.2.22.394.2303141747350.863724@ubuntu-linux-20-04-desktop>
+ <f5e03f2a-8176-528f-e885-9a97940367c0@suse.com>
+ <alpine.DEB.2.22.394.2303151616200.3462@ubuntu-linux-20-04-desktop>
+ <5e22a45d-6f12-da9b-94f6-3112a30e8574@suse.com>
+ <CADnq5_PH9ZqDqpPES74V3fB3NVpaexDoGTyu_+-zoux5vgagyg@mail.gmail.com>
+ <dcb54275-b21f-a837-76bb-e19e331a0666@suse.com>
+ <CADnq5_PpCWrZzQdE_X6ZnuNU3ktVeC6TbmE5vq3K6rCAdB8GTg@mail.gmail.com>
+ <d256a967-f50e-2e19-1985-aa9cfc0e8b18@suse.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+hFU4zWvm3-SSjtF17zjRnshEDw27gkQDLGZRk2AbnWN8+1Vg@mail.gmail.com>
-X-Patchwork-Hint: comment
+Content-Type: multipart/mixed; BOUNDARY="8323329-549136083-1679007957=:3359"
+Content-ID: <alpine.DEB.2.22.394.2303161606140.3359@ubuntu-linux-20-04-desktop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,96 +63,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
+Cc: Honglei Huang <honglei1.huang@amd.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>, Chen Jiqian <Jiqian.Chen@amd.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Huang Rui <ray.huang@amd.com>, amd-gfx@lists.freedesktop.org,
+ Jan Beulich <jbeulich@suse.com>, xen-devel@lists.xenproject.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Julia Zhang <julia.zhang@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 16, 2023 at 10:13:54PM +0100, Sebastian Wick wrote:
-> On Thu, Mar 16, 2023 at 1:35 PM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Thu, Mar 16, 2023 at 01:34:49PM +0200, Pekka Paalanen wrote:
-> > > On Thu, 16 Mar 2023 12:47:51 +0200
-> > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > >
-> > > > On Thu, Mar 16, 2023 at 12:07:01PM +0200, Pekka Paalanen wrote:
-> > > > > On Thu, 16 Mar 2023 11:50:27 +0200
-> > > > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > > >
-> > > > > > On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote:
-> > > > > > > On Tue, Mar 7, 2023 at 4:12 PM Harry Wentland <harry.wentland@amd.com> wrote:
-> > > > > > > >
-> > > > > > > > We want compositors to be able to set the output
-> > > > > > > > colorspace on DP and HDMI outputs, based on the
-> > > > > > > > caps reported from the receiver via EDID.
-> > > > > > >
-> > > > > > > About that... The documentation says that user space has to check the
-> > > > > > > EDID for what the sink actually supports. So whatever is in
-> > > > > > > supported_colorspaces is just what the driver/hardware is able to set
-> > > > > > > but doesn't actually indicate that the sink supports it.
-> > > > > > >
-> > > > > > > So the only way to enable bt2020 is by checking if the sink supports
-> > > > > > > both RGB and YUV variants because both could be used by the driver.
-> > > > > > > Not great at all. Something to remember for the new property.
-> > > > > >
-> > > > > > Hmm. I wonder if that's even legal... Looks like maybe it
-> > > > > > is since I can't immediately spot anything in CTA-861 to
-> > > > > > forbid it :/
-> > > > >
-> > > > > Wouldn't the driver do the same EDID check before choosing whether it
-> > > > > uses RGB or YCbCr signalling?
-> > > >
-> > > > I suppose it could. The modeset would then fail, which is perhaps
-> > >
-> > > Could? What are they missing?
-> >
-> > The fact that the new property that also affects the rgb->ycbcr matrix
-> > doesn't even exist?
-> 
-> I think the question was about the current Colorspace property.
-> 
-> > >
-> > > I mean, drivers are already automatically choosing between RGB and YCbCr
-> > > signalling based on e.g. available bandwidth. Surely they already will
-> > > not attempt to send a signal format to a monitor that does not say it
-> > > supports that?
-> 
-> That's exactly what they do. The drivers don't check the EDID for the
-> colorimetry the sink supports and the responsibility is punted off to
-> user space.
-> 
-> >
-> > We just signal default/bt.709 colorimetry. There is nothing to
-> > check for those IIRC.
-> 
-> You do support bt.2020, no?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Not for rgb->ycbcr conversion.
+--8323329-549136083-1679007957=:3359
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.DEB.2.22.394.2303161606141.3359@ubuntu-linux-20-04-desktop>
 
+On Thu, 16 Mar 2023, Juergen Gross wrote:
+> On 16.03.23 14:53, Alex Deucher wrote:
+> > On Thu, Mar 16, 2023 at 9:48 AM Juergen Gross <jgross@suse.com> wrote:
+> > > 
+> > > On 16.03.23 14:45, Alex Deucher wrote:
+> > > > On Thu, Mar 16, 2023 at 3:50 AM Jan Beulich <jbeulich@suse.com> wrote:
+> > > > > 
+> > > > > On 16.03.2023 00:25, Stefano Stabellini wrote:
+> > > > > > On Wed, 15 Mar 2023, Jan Beulich wrote:
+> > > > > > > On 15.03.2023 01:52, Stefano Stabellini wrote:
+> > > > > > > > On Mon, 13 Mar 2023, Jan Beulich wrote:
+> > > > > > > > > On 12.03.2023 13:01, Huang Rui wrote:
+> > > > > > > > > > Xen PVH is the paravirtualized mode and takes advantage of
+> > > > > > > > > > hardware
+> > > > > > > > > > virtualization support when possible. It will using the
+> > > > > > > > > > hardware IOMMU
+> > > > > > > > > > support instead of xen-swiotlb, so disable swiotlb if
+> > > > > > > > > > current domain is
+> > > > > > > > > > Xen PVH.
+> > > > > > > > > 
+> > > > > > > > > But the kernel has no way (yet) to drive the IOMMU, so how can
+> > > > > > > > > it get
+> > > > > > > > > away without resorting to swiotlb in certain cases (like I/O
+> > > > > > > > > to an
+> > > > > > > > > address-restricted device)?
+> > > > > > > > 
+> > > > > > > > I think Ray meant that, thanks to the IOMMU setup by Xen, there
+> > > > > > > > is no
+> > > > > > > > need for swiotlb-xen in Dom0. Address translations are done by
+> > > > > > > > the IOMMU
+> > > > > > > > so we can use guest physical addresses instead of machine
+> > > > > > > > addresses for
+> > > > > > > > DMA. This is a similar case to Dom0 on ARM when the IOMMU is
+> > > > > > > > available
+> > > > > > > > (see include/xen/arm/swiotlb-xen.h:xen_swiotlb_detect, the
+> > > > > > > > corresponding
+> > > > > > > > case is XENFEAT_not_direct_mapped).
+> > > > > > > 
+> > > > > > > But how does Xen using an IOMMU help with, as said,
+> > > > > > > address-restricted
+> > > > > > > devices? They may still need e.g. a 32-bit address to be
+> > > > > > > programmed in,
+> > > > > > > and if the kernel has memory beyond the 4G boundary not all I/O
+> > > > > > > buffers
+> > > > > > > may fulfill this requirement.
+> > > > > > 
+> > > > > > In short, it is going to work as long as Linux has guest physical
+> > > > > > addresses (not machine addresses, those could be anything) lower
+> > > > > > than
+> > > > > > 4GB.
+> > > > > > 
+> > > > > > If the address-restricted device does DMA via an IOMMU, then the
+> > > > > > device
+> > > > > > gets programmed by Linux using its guest physical addresses (not
+> > > > > > machine
+> > > > > > addresses).
+> > > > > > 
+> > > > > > The 32-bit restriction would be applied by Linux to its choice of
+> > > > > > guest
+> > > > > > physical address to use to program the device, the same way it does
+> > > > > > on
+> > > > > > native. The device would be fine as it always uses Linux-provided
+> > > > > > <4GB
+> > > > > > addresses. After the IOMMU translation (pagetable setup by Xen), we
+> > > > > > could get any address, including >4GB addresses, and that is
+> > > > > > expected to
+> > > > > > work.
+> > > > > 
+> > > > > I understand that's the "normal" way of working. But whatever the
+> > > > > swiotlb
+> > > > > is used for in baremetal Linux, that would similarly require its use
+> > > > > in
+> > > > > PVH (or HVM) aiui. So unconditionally disabling it in PVH would look
+> > > > > to
+> > > > > me like an incomplete attempt to disable its use altogether on x86.
+> > > > > What
+> > > > > difference of PVH vs baremetal am I missing here?
+> > > > 
+> > > > swiotlb is not usable for GPUs even on bare metal.  They often have
+> > > > hundreds or megs or even gigs of memory mapped on the device at any
+> > > > given time.  Also, AMD GPUs support 44-48 bit DMA masks (depending on
+> > > > the chip family).
+> > > 
+> > > But the swiotlb isn't per device, but system global.
+> > 
+> > Sure, but if the swiotlb is in use, then you can't really use the GPU.
+> > So you get to pick one.
 > 
-> > >
-> > > > not a huge issue, except maybe for suspend+resume if we fail in
-> > > > the resume path. Although I guess the EDID/etc. should not yet
-> > > > be refreshed at that point so if the modeset worked before suspend
-> > > > resume should be able to restore it without failures.
-> > >
-> > > I assumed that if a monitor can be driven, and it supports any BT2020
-> > > format, then it always supports the BT2020 format it is being driven
-> > > in (RGB vs. YCbCr flavors). Bad assumption?
-> >
-> > I didn't spot any rule that both must be there. But didn't look
-> > too hard either.
+> The swiotlb is used only for buffers which are not within the DMA mask of a
+> device (see dma_direct_map_page()). So an AMD GPU supporting a 44 bit DMA mask
+> won't use the swiotlb unless you have a buffer above guest physical address of
+> 16TB (so basically never).
 > 
-> Didn't see anything like that either and I looked a bit harder as well.
+> Disabling swiotlb in such a guest would OTOH mean, that a device with only
+> 32 bit DMA mask passed through to this guest couldn't work with buffers
+> above 4GB.
 > 
-> >
-> > --
-> > Ville Syrjälä
-> > Intel
-> >
+> I don't think this is acceptable.
 
--- 
-Ville Syrjälä
-Intel
+From the Xen subsystem in Linux point of view, the only thing we need to
+do is to make sure *not* to enable swiotlb_xen (yes "swiotlb_xen", not
+the global swiotlb) on PVH because it is not needed anyway.
+
+I think we should leave the global "swiotlb" setting alone. The global
+swiotlb is not relevant to Xen anyway, and surely baremetal Linux has to
+have a way to deal with swiotlb/GPU incompatibilities.
+
+We just have to avoid making things worse on Xen, and for that we just
+need to avoid unconditionally enabling swiotlb-xen. If the Xen subsystem
+doesn't enable swiotlb_xen/swiotlb, and no other subsystem enables
+swiotlb, then we have a good Linux configuration capable of handling the
+GPU properly.
+
+Alex, please correct me if I am wrong. How is x86_swiotlb_enable set to
+false on native (non-Xen) x86?
+--8323329-549136083-1679007957=:3359--
