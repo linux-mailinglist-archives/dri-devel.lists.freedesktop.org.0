@@ -2,73 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55C66BDBBE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:34:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E905E6BDC28
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:59:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6B210E331;
-	Thu, 16 Mar 2023 22:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 063CE10E37B;
+	Thu, 16 Mar 2023 22:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0B1310E331
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 22:34:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679006063;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cQjcHnFhhGHZA5Yk3fgjjkY+JL6ce3oLWezSsu1quCk=;
- b=bXpDKPQbgzEzHWH5+AYEPm8P2z0YxMTg7QPZi415H+uFTZcZv2WtolWXQKJnTI0aMwsVsW
- BhKKIMrL8KxLcBJCb/h0wNRygZ4KPKFpgIM3IxrICfl4UaJoasAuOZysCR4PWk3bCYlWqn
- u6x4TH0HxCOYTqf4OYNXej5g6+UYOUQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-ZhWsSzf-O-eoPRfR6qpfXA-1; Thu, 16 Mar 2023 18:34:19 -0400
-X-MC-Unique: ZhWsSzf-O-eoPRfR6qpfXA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p21-20020a05600c1d9500b003ed34032a01so1354337wms.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 15:34:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679006058;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cQjcHnFhhGHZA5Yk3fgjjkY+JL6ce3oLWezSsu1quCk=;
- b=z/ySL8oYakzf5L3jg6SR9tV+DB5QLnIaEe6XwN2zRguIC07wvgbvnGkTgVmTBbjL9j
- oRY0woUXKq+coTPul2GXZs5yEsylGJ+FT4qBb2C9y2iYnSkPBIHI4GyVY2VsnGr9M9f1
- YKpccFpY9dKomid161JDIOY9Fyzd6RhXY1em+aqhGa/da3s80mWj/YaJVxRVI/YPSFYL
- olYiFdk8Dn+HTjY5yNr0UHqeA+uTb4h2fy0Hldukg2MDF5w8LR97WKNeaKKR4cZ6Bk6D
- WNgULfoKEu/uY8D49GCjGGsCHcMFSLZ1ZVqC4ooL/B5C8wh7UzbthDwT3EwyexI7CMuD
- CMDw==
-X-Gm-Message-State: AO0yUKWtyTjoo1ZUNq1mGsZLXodH8wrPdIC8tXWSJC7bdwSqjfmdq9+F
- FDaubLnXfBuIkjCr/2JFnqZgL/pvoi761+ICa0luuRSwoSZzkxIOedJz8jNs1gZJnbzpO41e7tK
- QI1yq+SjjVheyUc+73+xbDCv0H8YQ
-X-Received: by 2002:a5d:4d10:0:b0:2d1:7ade:aad with SMTP id
- z16-20020a5d4d10000000b002d17ade0aadmr4193282wrt.31.1679006058644; 
- Thu, 16 Mar 2023 15:34:18 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9v6p8hdWcWbe8F7o80naCh5TQbXl2/qaDD1HpV78Lc0LMQy8kTM9oet4mKKOKDXFt7Ra0tdw==
-X-Received: by 2002:a5d:4d10:0:b0:2d1:7ade:aad with SMTP id
- z16-20020a5d4d10000000b002d17ade0aadmr4193267wrt.31.1679006058328; 
- Thu, 16 Mar 2023 15:34:18 -0700 (PDT)
-Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t11-20020a05600001cb00b002c54241b4fesm452499wrx.80.2023.03.16.15.34.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 15:34:18 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/format-helper: Use drm_format_info_min_pitch() in tests
- helper
-Date: Thu, 16 Mar 2023 23:34:04 +0100
-Message-Id: <20230316223404.102806-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2331810E363;
+ Thu, 16 Mar 2023 22:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679007540; x=1710543540;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=FanJKZdvfkPE2HVNsz96lwgK9439sk6zYuCINzSOkVc=;
+ b=IWPQr2RKB8ITyXP+MQxJFBrgun+8ppJZYg1VxseXHSWuUaRKN+yw9ab9
+ vUu3h3WDX8VnFgCgG0Q9qpifd4ZcuudQburvE6NiwLzh0IINk6oRXeytg
+ rvH69J8wKyklkv/NAElPnED/lqRlZi9q4n+4GQJQX+/W6XbelnbTFaFfO
+ k7gUnM3V0i09FFwrZdBXP0P6IOZJ8zHlUymu4kRiM2eKo0nna55VsnF+Q
+ QINVbNfTxNs2hx7JUlOQrN36N1kKxDNwI+ZUqcpSdWTne797H2+uT7+f7
+ 7IA0dXhSys97MLfKRz5CXwx2vZujRFVyAWxYC3Vu4bDrpyeiuOaQi06Xy A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="424402688"
+X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="424402688"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 15:58:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="854233469"
+X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="854233469"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 16 Mar 2023 15:58:46 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pcwYX-0008sU-2i;
+ Thu, 16 Mar 2023 22:58:45 +0000
+Date: Fri, 17 Mar 2023 06:58:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
+ ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
+ jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
+ wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH 2/7] drm/tegra: allow compile test on !ARM
+Message-ID: <202303170635.A2RsQ1Wu-lkp@intel.com>
+References: <20230316082035.567520-3-christian.koenig@amd.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230316082035.567520-3-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,49 +64,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- Geert Uytterhoeven <geert@linux-m68k.org>, David Gow <davidgow@google.com>,
- =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's a nice macro to calculate the destination pitch that already takes
-into account sub-byte pixel formats. Use that instead of open coding it.
+Hi Christian,
 
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+I love your patch! Yet something to improve:
 
- drivers/gpu/drm/tests/drm_format_helper_test.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+[auto build test ERROR on drm-misc/drm-misc-next]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
-index bfa47f8ffd09..474bb7a1c4ee 100644
---- a/drivers/gpu/drm/tests/drm_format_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
-@@ -440,15 +440,12 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
- 				  const struct drm_rect *clip)
- {
- 	const struct drm_format_info *dst_fi = drm_format_info(dst_format);
--	unsigned int bpp;
- 
- 	if (!dst_fi)
- 		return -EINVAL;
- 
--	if (!dst_pitch) {
--		bpp = drm_format_info_bpp(dst_fi, 0);
--		dst_pitch = DIV_ROUND_UP(drm_rect_width(clip) * bpp, 8);
--	}
-+	if (!dst_pitch)
-+		dst_pitch = drm_format_info_min_pitch(dst_fi, 0, drm_rect_width(clip));
- 
- 	return dst_pitch * drm_rect_height(clip);
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-tegra-allow-compile-test-on-ARM/20230316-172205
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230316082035.567520-3-christian.koenig%40amd.com
+patch subject: [Intel-gfx] [PATCH 2/7] drm/tegra: allow compile test on !ARM
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230317/202303170635.A2RsQ1Wu-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8a2dbd34b0290b78a1ac2252d451abbcbcd50666
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Christian-K-nig/drm-tegra-allow-compile-test-on-ARM/20230316-172205
+        git checkout 8a2dbd34b0290b78a1ac2252d451abbcbcd50666
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/drm/tegra/
 
-base-commit: 165d5133731a2e045abdd6d9d3c9221fdc2a556e
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303170635.A2RsQ1Wu-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/tegra/gem.c: In function 'tegra_bo_mmap':
+>> drivers/gpu/drm/tegra/gem.c:188:24: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
+     188 |                 return vmap(obj->pages, obj->num_pages, VM_MAP,
+         |                        ^~~~
+         |                        kmap
+>> drivers/gpu/drm/tegra/gem.c:188:57: error: 'VM_MAP' undeclared (first use in this function); did you mean 'VM_MTE'?
+     188 |                 return vmap(obj->pages, obj->num_pages, VM_MAP,
+         |                                                         ^~~~~~
+         |                                                         VM_MTE
+   drivers/gpu/drm/tegra/gem.c:188:57: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/tegra/gem.c: In function 'tegra_bo_munmap':
+>> drivers/gpu/drm/tegra/gem.c:203:17: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
+     203 |                 vunmap(addr);
+         |                 ^~~~~~
+         |                 kunmap
+   drivers/gpu/drm/tegra/gem.c: In function 'tegra_bo_mmap':
+   drivers/gpu/drm/tegra/gem.c:191:1: error: control reaches end of non-void function [-Werror=return-type]
+     191 | }
+         | ^
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/tegra/fb.c: In function 'tegra_fbdev_probe':
+>> drivers/gpu/drm/tegra/fb.c:276:29: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
+     276 |                 bo->vaddr = vmap(bo->pages, bo->num_pages, VM_MAP,
+         |                             ^~~~
+         |                             kmap
+>> drivers/gpu/drm/tegra/fb.c:276:60: error: 'VM_MAP' undeclared (first use in this function); did you mean 'VM_MTE'?
+     276 |                 bo->vaddr = vmap(bo->pages, bo->num_pages, VM_MAP,
+         |                                                            ^~~~~~
+         |                                                            VM_MTE
+   drivers/gpu/drm/tegra/fb.c:276:60: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpu/drm/tegra/fb.c: In function 'tegra_fbdev_exit':
+>> drivers/gpu/drm/tegra/fb.c:359:25: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
+     359 |                         vunmap(bo->vaddr);
+         |                         ^~~~~~
+         |                         kunmap
+   cc1: some warnings being treated as errors
+
+
+vim +188 drivers/gpu/drm/tegra/gem.c
+
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  175  
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  176  static void *tegra_bo_mmap(struct host1x_bo *bo)
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  177  {
+3be8274341499cf drivers/gpu/host1x/drm/gem.c Thierry Reding    2013-09-24  178  	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+7938f4218168ae9 drivers/gpu/drm/tegra/gem.c  Lucas De Marchi   2022-02-04  179  	struct iosys_map map;
+6619ccf1bb1d0eb drivers/gpu/drm/tegra/gem.c  Thomas Zimmermann 2020-09-25  180  	int ret;
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  181  
+6619ccf1bb1d0eb drivers/gpu/drm/tegra/gem.c  Thomas Zimmermann 2020-09-25  182  	if (obj->vaddr) {
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  183  		return obj->vaddr;
+6619ccf1bb1d0eb drivers/gpu/drm/tegra/gem.c  Thomas Zimmermann 2020-09-25  184  	} else if (obj->gem.import_attach) {
+f66d48c8cc8d996 drivers/gpu/drm/tegra/gem.c  Dmitry Osipenko   2022-10-17  185  		ret = dma_buf_vmap_unlocked(obj->gem.import_attach->dmabuf, &map);
+6619ccf1bb1d0eb drivers/gpu/drm/tegra/gem.c  Thomas Zimmermann 2020-09-25  186  		return ret ? NULL : map.vaddr;
+6619ccf1bb1d0eb drivers/gpu/drm/tegra/gem.c  Thomas Zimmermann 2020-09-25  187  	} else {
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08 @188  		return vmap(obj->pages, obj->num_pages, VM_MAP,
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  189  			    pgprot_writecombine(PAGE_KERNEL));
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  190  	}
+6619ccf1bb1d0eb drivers/gpu/drm/tegra/gem.c  Thomas Zimmermann 2020-09-25  191  }
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  192  
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  193  static void tegra_bo_munmap(struct host1x_bo *bo, void *addr)
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  194  {
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  195  	struct tegra_bo *obj = host1x_to_tegra_bo(bo);
+7938f4218168ae9 drivers/gpu/drm/tegra/gem.c  Lucas De Marchi   2022-02-04  196  	struct iosys_map map = IOSYS_MAP_INIT_VADDR(addr);
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  197  
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  198  	if (obj->vaddr)
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  199  		return;
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  200  	else if (obj->gem.import_attach)
+f66d48c8cc8d996 drivers/gpu/drm/tegra/gem.c  Dmitry Osipenko   2022-10-17  201  		dma_buf_vunmap_unlocked(obj->gem.import_attach->dmabuf, &map);
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08  202  	else
+7ecada3cc44798c drivers/gpu/drm/tegra/gem.c  Arto Merilainen   2016-11-08 @203  		vunmap(addr);
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  204  }
+de2ba664c30fcdb drivers/gpu/host1x/drm/gem.c Arto Merilainen   2013-03-22  205  
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
