@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE966BCC8B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:21:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 366B06BCC83
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:21:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8DD10EC86;
-	Thu, 16 Mar 2023 10:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96AD010EC88;
+	Thu, 16 Mar 2023 10:21:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88A7910EC35
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:20:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E91389A1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:20:52 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id B3C1566030A4;
- Thu, 16 Mar 2023 10:20:49 +0000 (GMT)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 96F2966030A2;
+ Thu, 16 Mar 2023 10:20:50 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678962050;
- bh=Ve/6iRm3WMPE1EojlHjL3TKtdXfDs4Ou+mT+OBRzwJc=;
+ s=mail; t=1678962051;
+ bh=uglCXCkWdTA8UQ8UzHMlW0QAy31JjzQ29lenVUc0QMI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RPzEZRk1nUidBfPOaouPRtWxnwWtq6OclMoT7GIZ8LRg4a/f0sCDMsBximrNRluAL
- vvLyYi39Q9YBaVPMZUqHsRVhdq42Fc0aUhKRWXvlx6oMOXxhTGRfOc86pF7Dlt/exl
- 0jyXG5HBHArpaz/fJh3eBF9mqI3T+GKWoH4Ekab2org7gjC9vePDLgG6iNDkEZmByM
- MK3m7x60UCGUAk7mrgr0PdyTnGww1wIOkVlthr5BoOEjiEO/EwvJuBqQsFZrwp2b56
- Y51NImWYIBF1AYX2E1CSmNygH8rZkaghZC09ZlO3xB9djIMl4sVjs5Pnz0yBJEt9nV
- yt0wZqcNPlwgg==
+ b=JJNsD8RRoKeOsn+xdsXLRjM30aGTJrGpguskbdxgNVnCsVGyyi7RANKku2nXARYdJ
+ bRb//ChxE+qethj+tRWNauzSzq6hM0ayC1iy5Obr94nrbR7x+ObttT948WqSRhgjZ6
+ +1BBu5QHYgbhZRMcnuBFnNHUc6KsQd45bQXajV23WPDqfvo1kGSCp1D7/BbQrKYYnd
+ OzSLLzOYKozdGPaobdmDXcj0kBtLLoD6e7WoTiQjKZ+zDV6FQ4IzS2GynIBECnR8Yd
+ RdkqzzN9s7uXq2JDe12OkX3aDfTMeYr8+dM61MLUuHz8Sn5PTC2iY3iqXmlp05qf03
+ MkQmD4/4vD4PA==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH v5 05/12] dt-bindings: gpu: mali-bifrost: Add new MT8183
- compatible
-Date: Thu, 16 Mar 2023 11:20:34 +0100
-Message-Id: <20230316102041.210269-6-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v5 06/12] dt-bindings: gpu: mali-bifrost: Add support for
+ MediaTek MT8186
+Date: Thu, 16 Mar 2023 11:20:35 +0100
+Message-Id: <20230316102041.210269-7-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230316102041.210269-1-angelogioacchino.delregno@collabora.com>
 References: <20230316102041.210269-1-angelogioacchino.delregno@collabora.com>
@@ -62,49 +62,47 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since new platform data was required in Panfrost for getting GPU DVFS
-finally working on MediaTek SoCs, add a new "mediatek,mt8183b-mali"
-compatible.
+MT8186 has a Mali-G52 MC2 2EE GPU (two cores): add a binding with
+two power domains (one per core) for it.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../bindings/gpu/arm,mali-bifrost.yaml        | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ .../bindings/gpu/arm,mali-bifrost.yaml         | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 9ede51427012..63b993d5fd87 100644
+index 63b993d5fd87..3d0d96913b1b 100644
 --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
 +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -19,6 +19,7 @@ properties:
-           - enum:
+@@ -20,6 +20,7 @@ properties:
                - amlogic,meson-g12a-mali
                - mediatek,mt8183-mali
-+              - mediatek,mt8183b-mali
+               - mediatek,mt8183b-mali
++              - mediatek,mt8186-mali
                - realtek,rtd1619-mali
                - renesas,r9a07g044-mali
                - renesas,r9a07g054-mali
-@@ -177,6 +178,24 @@ allOf:
-     else:
-       properties:
-         sram-supply: false
+@@ -196,6 +197,23 @@ allOf:
+       required:
+         - power-domains
+         - power-domain-names
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
-+            const: mediatek,mt8183b-mali
++            const: mediatek,mt8186-mali
 +    then:
 +      properties:
 +        power-domains:
-+          minItems: 3
-+          maxItems: 3
++          minItems: 2
++          maxItems: 2
 +        power-domain-names:
 +          items:
 +            - const: core0
 +            - const: core1
-+            - const: core2
 +      required:
 +        - power-domains
 +        - power-domain-names
