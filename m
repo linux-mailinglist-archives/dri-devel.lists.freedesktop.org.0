@@ -1,93 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BD36BD601
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:39:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2A76BD660
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A42310ED56;
-	Thu, 16 Mar 2023 16:39:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B75ED10ED4C;
+	Thu, 16 Mar 2023 16:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22DC610ED56
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678984773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EIjjbwXvUyx1yHV3Ag65tOZVBiQaT5p/l+soILdmUMg=;
- b=Xm4kpi/76buBmGMAlxQXlw6GD782FMA8PwJJbUrMnt+g4w7/Nh9+40Hk8PfMl7r/8CSwUd
- 8occudbF1DAGVlYjHOzdSk481KPPwpj+KERSbi030aJcpU+XmQAXiA0hhynVHsb+OGm3L0
- aym/bDnMYVLnc/NsywbB9Ej/OYUDnho=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-614-KuSmECk0NxamrG06LyRjEQ-1; Thu, 16 Mar 2023 12:39:32 -0400
-X-MC-Unique: KuSmECk0NxamrG06LyRjEQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w6-20020a05640234c600b004fc0e5b4433so3802908edc.18
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:39:32 -0700 (PDT)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B34810ED4C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:55:45 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id a32so2369776ljr.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678985744;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ddCuXBQgnXQh+/CwTja1CP3GIxaM+lqK2/Q3SFDKyrM=;
+ b=yRzfuiAwV5saRxCLWZKFDDN4GuouYN4WkqeoSNB9dIbpAEBWA1cvf0mjBeDO4FbTJD
+ RdMS5cqXPfFhjnO/5VUBGHNHTMEyKmZHnWFZdIvDLo4X1a/Q/O918NJmzK57LxpvuTrF
+ 1wJjcKUYsyaC9rSN47AG7vXUK1VaDv5yGPN0Khs7kR4TQUG7tWK9F9f5U9TpWSCxPp/Z
+ 8Hiz+SrNReFTkhs/jaNENxUwlg11u9gin/LsonHS/LkwHVc7UvYtvzJKC1iY7rTqD6+7
+ 4z4DMvZN2zM4vyyPmUZNzGU7LYS1WdIv5oVktXsNF417Hrj6MGd9Y/pVAumr5vDhgg1v
+ NVnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678984771;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20210112; t=1678985744;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=EIjjbwXvUyx1yHV3Ag65tOZVBiQaT5p/l+soILdmUMg=;
- b=UXcYtUSJXR6uyghgeoieE2hpRkFTuNFfyBCD2Xnaf5dLOoyRchfcgzcBO1t/QSPnBr
- B/3Lq7c6yXzn6IeEZ7iKO5+G6JqKf49rqA6ZihVaP/tjNB9cGoq+ItY1gNUSymiGyjuT
- 6eOvHwb37lr4Ts3TuocO2BbDUq9K9yvh7F7aCChABBDJGi9/Xy1is4hSeJ4cb2RSCPr6
- //hD3KyJExs0j3UXNUrJ2dEW5MsgOwQCwejDlS7Q8QX6uG4zqdE0Ui24EwGZQSFU7EeJ
- rktX4eS8oAkuomQYTUZSeM+Fx7mcs1B5mLkhj220sxF7vz9T9dqYMJIku3bOSL4WkNo7
- JVBA==
-X-Gm-Message-State: AO0yUKX0/G8o49S2rSHJxDLz0H/5Tq8PogDIeebEHqSHJF9HJ8Azbjdu
- zRrZYFdZQcWvuMXPmRzkmlEL3Z3tYC6xmY/93Tz3zYqnaUjvRmNDM/qBOmS9FSK3Olgmbusv+Em
- bLrrTjroIWxPeXW0bhB5ZP38F4mzR
-X-Received: by 2002:a05:6402:4c5:b0:500:2cc6:36da with SMTP id
- n5-20020a05640204c500b005002cc636damr203733edw.19.1678984771325; 
- Thu, 16 Mar 2023 09:39:31 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9V8TDcXbJOgnOBxH6ODTR6VjYhQ4kSbUdWqsuVHaamhdMw5sSOqawbmI1THONqUSv/FiH8Xg==
-X-Received: by 2002:a05:6402:4c5:b0:500:2cc6:36da with SMTP id
- n5-20020a05640204c500b005002cc636damr203714edw.19.1678984771069; 
- Thu, 16 Mar 2023 09:39:31 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
- ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ bh=ddCuXBQgnXQh+/CwTja1CP3GIxaM+lqK2/Q3SFDKyrM=;
+ b=x9rog1YDJ3bMp7lDyLC5HFroOx3/QHMan2DLEf0t5n/Fco9NAHxoa4zruhVnnwOLXs
+ /z0WnENnEqDhnI1BZ8tsCQdEg4YGQ5EJqK9Fvi1HDSgs5VJmn4VSZZo7a3A+TLGsZvvX
+ S7N9WCx5DD1G5Sg35uduG5dBo52d2J1OQHjRFwmf85nCLw/o7uc5PivP8ISQhjuOyfgT
+ 4ar90fTXuuTQRWDjQFdC9e/bC6V9+ZXUWbH4ZFH2HOYp5isxL0NRBmiOXLYYg/rkV3rS
+ 4nJtR0h/TEjkAVTyPnf9MiszUinjUXNbtaqVJnnito5vrDm9mtUNo00V2N07QAtjSuWy
+ Db6Q==
+X-Gm-Message-State: AO0yUKUFxWv7rIFv3nz3B/5d6gGhjX+/QZue/kMjgWtJwmiQI2QnHOvv
+ LWqZevd0iI3KpAV3qrJXSgDqug==
+X-Google-Smtp-Source: AK7set81w+9x/crPh4QUOdMXw89IwpB46ddLI6CCN308X57c23h7e1oWoIPnSY7hZ1AY0o3UFGhQWQ==
+X-Received: by 2002:a2e:351a:0:b0:299:ac62:1460 with SMTP id
+ z26-20020a2e351a000000b00299ac621460mr705588ljz.53.1678985743895; 
+ Thu, 16 Mar 2023 09:55:43 -0700 (PDT)
+Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- v3-20020a50d083000000b004c3e3a6136dsm4068725edd.21.2023.03.16.09.39.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 09:39:30 -0700 (PDT)
-Message-ID: <038fbef3-1f05-7d94-89b0-0bb681481885@redhat.com>
-Date: Thu, 16 Mar 2023 17:39:29 +0100
+ t18-20020a2e9c52000000b002934b5d6a61sm2661ljj.121.2023.03.16.09.55.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Mar 2023 09:55:43 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [RFC PATCH v1 00/12] drm/msm/dpu: support virtual wide planes
+Date: Thu, 16 Mar 2023 19:55:30 +0300
+Message-Id: <20230316165542.4109764-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
- UAPI
-To: Oded Gabbay <ogabbay@kernel.org>
-References: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
- <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
- <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
- <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
- <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
- <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
- <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
- <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
- <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
- <6566870d-6256-8eef-5879-cb13711e4bed@redhat.com>
- <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
- <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,61 +70,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Brost <matthew.brost@intel.com>, tzimmermann@suse.de,
- linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org, corbet@lwn.net,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bskeggs@redhat.com, jason@jlekstrand.net, airlied@redhat.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Oded,
+As promised in the basic wide planes support ([1]) here comes a series
+supporting 2*max_linewidth for all the planes.
 
-sorry for the late response, somehow this mail slipped through.
+Note: Proper support for rot90 is pending. Granted that it is only
+enabled on sc7280 and it only supports UBWC (tiled) framebuffers, it was
+quite low on my priority list. I plan to get it done for v2.
 
-On 2/6/23 15:48, Oded Gabbay wrote:
-> On Thu, Jan 19, 2023 at 7:24 AM Matthew Brost <matthew.brost@intel.com> wrote:
->> Is this not an application issue? Millions of mappings seems a bit
->> absurd to me.
-> If I look at the most extreme case for AI, assuming 256GB of HBM
-> memory and page mapping of 2MB, we get to 128K of mappings. But that's
-> really the extreme case imo. I assume most mappings will be much
-> larger. In fact, in the most realistic scenario of large-scale
-> training, a single user will probably map the entire HBM memory using
-> 1GB pages.
-> 
-> I have also a question, could this GPUVA code manage VA ranges
-> mappings for userptr mappings, assuming we work without svm/uva/usm
-> (pointer-is-a-pointer) ? Because then we are talking about possible
-> 4KB mappings of 1 - 1.5 TB host server RAM (Implied in my question is
-> the assumption this can be used also for non-VK use-cases. Please tell
-> me if I'm totally wrong here).
+Note#2 to simplify the dpu_plane_virtual_assign_resources(), which
+already becomes big enough, I stripped support for sharing the SSPP
+across two planes (doubling amount of planes available to some of
+compositors/applications). I plan to get back to this topic once this
+series lands.
 
-In V2 I switched from drm_mm to maple tree, which should improve 
-handling of lots of entries. I also dropped the requirement for GPUVA 
-entries to be backed by a valid GEM object.
+Dependencies: msm-next + msm-fixes, [1], [2]
 
-I think it can be used for non-VK use-cases. It basically just keeps 
-track of mappings (not allocating them in the sense of finding a hole 
-and providing a base address for a given size). There are basic 
-functions to insert and remove entries. For those basic functions it is 
-ensured that colliding entries can't be inserted and only a specific 
-given entry can be removed, rather than e.g. an arbitrary range.
+[1] https://patchwork.freedesktop.org/series/99909/
 
-There are also more advanced functions where users of the GPUVA manager 
-can request to "force map" a new mapping and to unmap a given range. The 
-GPUVA manager will figure out the (sub-)operations to make this happen 
-(.e.g. remove mappings in the way, split up mappings, etc.) and either 
-provide these operations (or steps) through callbacks or though a list 
-of operations to the caller to process them.
+[2] https://patchwork.freedesktop.org/series/113423/
 
-Are there any other use-cases or features you could think of that would 
-be beneficial for accelerators?
+Dmitry Baryshkov (12):
+  drm/atomic-helper: split not-scaling part of
+    drm_atomic_helper_check_plane_state
+  drm/msm/dpu: encoder: simplify debugfs handling
+  drm/msm/dpu: remove unused fields from dpu_encoder_virt
+  drm/msm/dpu: get rid of struct dpu_rm_requirements
+  drm/msm/dpu: switch RM to use crtc_id rather than enc_id for
+    allocation
+  drm/msm/dpu: move resource allocation to CRTC
+  drm/msm/dpu: fill CRTC resources in dpu_crtc.c
+  drm/msm/dpu: move pstate->pipe initialization to
+    dpu_plane_atomic_check
+  drm/msm/dpu: add list of supported formats to the DPU caps
+  drm/msm/dpu: add a field describing inline rotation to dpu_caps
+  drm/msm/dpu: add support for virtual planes
+  drm/msm/dpu: allow using two SSPP blocks for a single plane
 
-- Danilo
+ drivers/gpu/drm/drm_atomic_helper.c           |  85 +++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 162 ++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 150 +------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |   8 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   3 -
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  27 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   6 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       | 120 ++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     | 398 ++++++++++++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |  33 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        | 240 ++++++-----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |  40 +-
+ include/drm/drm_atomic_helper.h               |   4 +
+ 14 files changed, 933 insertions(+), 357 deletions(-)
 
-> 
-> Thanks,
-> Oded
-> 
+-- 
+2.30.2
 
