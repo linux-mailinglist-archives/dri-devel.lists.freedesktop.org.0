@@ -2,80 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DCB6BD2E4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 16:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B546BD40C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 16:40:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 744FD10E0BE;
-	Thu, 16 Mar 2023 15:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7628310E26B;
+	Thu, 16 Mar 2023 15:40:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B789710E216
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 15:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678978973;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jY8tzGQNjdwb5AV1ogYiu/Q7DYs826VwBy6MyVJ9bVQ=;
- b=R8FOlTxoeVKSkWPMAbNH0o9CVJf7tAFaMsHO6p3Bs+ZQbmxfVo9IJakc5rWqKwE9xZZFSg
- HEgXXBXiXVoJYX2kxsmVG7xqw4Ixo8voPOpIjuy97YsF+7ANHNhesgYgrTLP0R0CnfTSVy
- BtRcMWABiWE2PumEPaaSVHjDJCexkRI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-8QgbGt_mMoWHJdnARsncrA-1; Thu, 16 Mar 2023 11:02:51 -0400
-X-MC-Unique: 8QgbGt_mMoWHJdnARsncrA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- t14-20020a056402240e00b004fb36e6d670so3460916eda.5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 08:02:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678978970;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jY8tzGQNjdwb5AV1ogYiu/Q7DYs826VwBy6MyVJ9bVQ=;
- b=rtW85oM3lkJ1TiMvNDRvg1/rnehFhMoBRecLvR7lJe5DtdzrI5EESjWYS/Z4OP06Kn
- ZiREXI/ItEvj/3RzLyiQ/VPgc02r819GfVkXAqswx9qHdzuWmkTyzEtXywcGL5B5hk/8
- JfAnmYGn9YcAdRA614/VYDhjSdo/BuGEo6sjlcRRGgn6fjwCqNpxT3QS/VpvpXx7vfIF
- 3sNME13m1YDNM4bCRL3Bcdk4wmy2jnCwW/lDZIe3QffrDAPRwkwMCQrm82G27OZ3DboX
- r5i7Q/e9MpDCmtNSCBa7r0IdwHTNKFztYElgGevLPGewGXXdikrIRLVwsLkFQPnHKCL4
- 18Mw==
-X-Gm-Message-State: AO0yUKWnB8IY/8eGmZDs6ZIK7zIFtwW9nOVwxt3Ex7UO25uCiGtCr3p8
- 3zXNW+GZ/nfQFAsp+/E4/yTN9X6bQ+L22kGDdd1/NrFJHpxWg9z+i5ggJLntYlIA98AO35OWXvf
- hhUkbcFKbOlLow9bAzKmqmZxAffuR
-X-Received: by 2002:a05:6402:1650:b0:4ac:d34b:c2a9 with SMTP id
- s16-20020a056402165000b004acd34bc2a9mr6897122edx.14.1678978970816; 
- Thu, 16 Mar 2023 08:02:50 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8YIksd4HCeq7ROKhIXx9rVRRqIRT5xMR2tx6p6M225OXzzg0V8axX03pMoite5dmf9wPYmkA==
-X-Received: by 2002:a05:6402:1650:b0:4ac:d34b:c2a9 with SMTP id
- s16-20020a056402165000b004acd34bc2a9mr6897101edx.14.1678978970573; 
- Thu, 16 Mar 2023 08:02:50 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a2-20020a509b42000000b004e48f8df7e2sm3914730edj.72.2023.03.16.08.02.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 08:02:50 -0700 (PDT)
-Message-ID: <2251e54e-5524-ba99-690a-9e8324cf112b@redhat.com>
-Date: Thu, 16 Mar 2023 16:02:49 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2464D10ED0C;
+ Thu, 16 Mar 2023 15:40:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678981203; x=1710517203;
+ h=message-id:date:mime-version:from:subject:to:cc:
+ content-transfer-encoding;
+ bh=bDtGESVL4IZh5+VMHNy71xLV6TxJ6m3CpZKIDYjbawA=;
+ b=NiBHYi6VsMvYMeuXByi5t5diwjI8x8JhImjG3prwIdTjRf1VPctD5vn7
+ sEOKonKbJv1S8Z7W3KuUuBUVz/W7wDtakOoGp/3b0uR2FhfJUxX9+Ty35
+ KmRQyLNBDVmzcx1HP/s4ysI8ZMvR7mewiQgDhhFlpccusrMYFGhZ2/mbq
+ LNviZDYQwSedasOQbq9nDgnyI0BkME+akUFrqIUD+wDYYIrLk919pLS4z
+ hzVYZSLrNHowhDtYoHtkKG9DrIysBTlG4Ir3UgbB/MCMHjIG4/pGQEtFC
+ sFp7vjPgvC/vomXOSG2my8fmehZsw+4H2r873QNeJgjTDBJ9RYycCzYEC g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="400617472"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="400617472"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 08:39:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="712410783"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="712410783"
+Received: from dekblom-mobl1.ger.corp.intel.com (HELO [10.249.43.98])
+ ([10.249.43.98])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 08:39:40 -0700
+Message-ID: <f7b765c7-d49d-edb5-2a6a-4f7a7be16a59@linux.intel.com>
+Date: Thu, 16 Mar 2023 16:39:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v3 0/6] drm/amd/display: Pass proper parent for DM
- backlight device v3
-To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>
-References: <20230312191751.183450-1-hdegoede@redhat.com>
- <9e79184f-8894-8773-3a30-d35d0cf36b13@amd.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <9e79184f-8894-8773-3a30-d35d0cf36b13@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
+ Firefox/102.0 Thunderbird/102.9.0
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PULL] drm-misc-next
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -89,81 +59,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave, Daniel,
 
-On 3/16/23 15:57, Rodrigo Siqueira Jordao wrote:
-> 
-> 
-> On 3/12/23 13:17, Hans de Goede wrote:
->> Hi All,
->>
->> Here is version 3 of my patch series to pass the proper parent device
->> to backlight_device_register().
->>
->> Changes in v3:
->> - Make amdgpu_dm_register_backlight_device() check bl_idx != 1 before
->>    registering the backlight since amdgpu_dm_connector_late_register()
->>    now calls it for _all_ connectors.
->>
->> Changes in v2:
->> - Patches 1 - 5 are new, reworking the code a bit to allow delaying
->>    the registering, so this has turned from a single patch into
->>    a 6 patch set.
->> - Patch 6 now delays the registering of the backlight_dev till
->>    after the drm_connector is registered by doing it from
->>    drm_connector_funcs.late_register.
->>
->> Note this no longer is RFC since this has been successfully
->> tested on 3 laptops which hit the affected code path.
->>
->> Version 3 has also been tested on my personal AMD Ryzen 7 5700G APU
->> desktop machine and now no longer tries to register a backlight
->> device for each connector there.
->>
->> Regards,
->>
->> Hans
->>
->>
->> Hans de Goede (6):
->>    drm/amd/display/amdgpu_dm: Fix backlight_device_register() error
->>      handling
->>    drm/amd/display/amdgpu_dm: Refactor register_backlight_device()
->>    drm/amd/display/amdgpu_dm: Add a bl_idx to amdgpu_dm_connector
->>    drm/amd/display/amdgpu_dm: Move most backlight setup into
->>      setup_backlight_device()
->>    drm/amd/display/amdgpu_dm: Make amdgpu_dm_register_backlight_device()
->>      take an amdgpu_dm_connector
->>    drm/amd/display/amdgpu_dm: Pass proper parent for backlight device
->>      registration v3
->>
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 100 ++++++++----------
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   1 +
->>   2 files changed, 46 insertions(+), 55 deletions(-)
->>
-> 
-> Hi,
-> 
-> First of all, thanks a lot for this patchset.
-> 
-> I run your series in our CI (IGT-based), and I also conducted some manual tests in my ASICs. Everything looks fine.
-> 
-> I also reviewed this series, and it LGTM:
-> 
-> Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> 
-> Finally, I pushed it to amd-staging-drm-next.
+Here's the new weekly pull request for v6.4-rc1.
 
-Great, thank you.
+I've omitted the diffstat, as it was huge because v6.3-rc1 was backmerged.
 
-Regards,
+Cheers,
 
-Hans
+~Maarten
 
+drm-misc-next-2023-03-16:
+
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- Add drm_bridge.h to drm_bridge maintainers.
+
+Core Changes:
+- Assorted fixes to TTM, tests, format-helper, accel.
+- Assorted Makefile fixes to drivers and accel.
+- Implement fbdev emulation for GEM DMA drivers, and convert a lot of
+   drivers to use it.
+- Use tgid instead of pid for tracking clients.
+
+Driver Changes:
+- Assorted fixes in rockchip, vmwgfx, nouveau, cirrus.
+- Add imx25 driver.
+- Add Elida KD50T048A, Sony TD4353, Novatek NT36523, STARRY 
+2081101QFH032011-53G panels.
+- Add 4K mode support to rockchip.
+- Convert cirrus to use regular atomic helpers, and more cirrus
+   improvements.
+- Add damage clipping to cirrus, virtio.
+The following changes since commit 9228742caf899fa72230dd8da19ca4c7528badb8:
+
+   drm/nouveau/hwmon: Use sysfs_emit in show function callsbacks 
+(2023-03-06 19:42:50 -0500)
+
+are available in the Git repository at:
+
+   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-03-16
+
+for you to fetch changes up to b24343eaceedb902c1625854f85a193b0549d85f:
+
+   drm/nouveau/nvfw/acr: set wpr_generic_header_dump 
+storage-class-specifier to static (2023-03-16 14:53:15 +0100)
+
+----------------------------------------------------------------
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- Add drm_bridge.h to drm_bridge maintainers.
+
+Core Changes:
+- Assorted fixes to TTM, tests, format-helper, accel.
+- Assorted Makefile fixes to drivers and accel.
+- Implement fbdev emulation for GEM DMA drivers, and convert a lot of
+   drivers to use it.
+- Use tgid instead of pid for tracking clients.
+
+Driver Changes:
+- Assorted fixes in rockchip, vmwgfx, nouveau, cirrus.
+- Add imx25 driver.
+- Add Elida KD50T048A, Sony TD4353, Novatek NT36523, STARRY 
+2081101QFH032011-53G panels.
+- Add 4K mode support to rockchip.
+- Convert cirrus to use regular atomic helpers, and more cirrus
+   improvements.
+- Add damage clipping to cirrus, virtio.
+
+----------------------------------------------------------------
+Fabio Estevam (2):
+       dt-bindings: display: seiko,43wvf1g: Add the 'enable-gpios' property
+       drm/panel: seiko-43wvf1g: Add the 'enable-gpios' property
+
+Gerald Loacker (1):
+       drm/rockchip: vop2: add polarity flags to RGB output
+
+Jacob Keller (1):
+       drm/rockchip: vop2: use struct_size() in vop2_bind
+
+Javier Martinez Canillas (2):
+       drm/format-helper: Make conversion_buf_size() support sub-byte 
+pixel fmts
+       drm/virtio: Enable fb damage clips property for the primary plane
+
+Jianhua Lu (2):
+       dt-bindings: display: panel: Add Novatek NT36523 bindings
+       drm/panel: Add driver for Novatek NT36523
+
+Jiapeng Chong (1):
+       drm/rockchip: dsi: Remove the unused function dsi_read()
+
+Konrad Dybcio (2):
+       dt-bindings: display/panel: Add Sony Tama TD4353 JDI display panel
+       gpu/drm/panel: Add Sony TD4353 JDI panel driver
+
+Linus Walleij (1):
+       drm/mcde: Do not use dirty GEM FB handling
+
+Liu Ying (1):
+       MAINTAINERS: Add include/drm/drm_bridge.h to DRM DRIVERS FOR 
+BRIDGE CHIPS
+
+Marian Cichy (1):
+       drm/imx/lcdc: Implement DRM driver for imx25
+
+Maya Matuszczyk (3):
+       dt-bindings: display: panel: sitronix,st7701: Add Elida KD50T048A 
+Panel
+       drm: panel: Add Elida KD50T048A to Sitronix ST7701 driver
+       drm: panel: Add orientation support for st7701
+
+Ruihai Zhou (2):
+       dt-bindings: display: panel: Add compatible for Starry 
+2081101QFH032011-53G
+       drm/panel: support for STARRY 2081101QFH032011-53G MIPI-DSI panel
+
+Sascha Hauer (4):
+       drm/rockchip: vop: limit maximum resolution to hardware capabilities
+       drm/rockchip: dw_hdmi: relax mode_valid hook
+       drm/rockchip: dw_hdmi: Add support for 4k@30 resolution
+       drm/rockchip: dw_hdmi: discard modes with unachievable pixelclocks
+
+Stanislaw Gruszka (1):
+       accel: Build sub-directories based on config options
+
+Thomas Hellström (3):
+       drm/ttm: Use the BIT macro for the TTM_TT_FLAGs
+       drm/ttm: Unexport ttm_global_swapout()
+       drm/ttm: Don't print error message if eviction was interrupted
+
+Thomas Zimmermann (42):
+       Merge drm/drm-next into drm-misc-next
+       drm/cirrus: Compute blit destination offset in single location
+       drm/cirrus: Replace cpp value with format
+       drm/cirrus: Use drm_fb_blit() to update scanout buffer
+       drm/cirrus: Move drm_dev_{enter, exit}() into DRM helpers
+       drm/cirrus: Split cirrus_mode_set() into smaller functions
+       drm/cirrus: Integrate connector into pipeline code
+       drm/cirrus: Move primary-plane format arrays
+       drm/cirrus: Convert to regular atomic helpers
+       drm/cirrus: Enable damage clipping on primary plane
+       drm/cirrus: Inline cirrus_fb_blit_rect()
+       drm/cirrus: Remove format test from cirrus_fb_create()
+       drm/cirrus: Remove size test from cirrus_fb_create()
+       drm/cirrus: Test mode against video-memory size in device-wide 
+mode_valid
+       drm/cirrus: Inline cirrus_check_size() into primary-plane 
+atomic_check
+       drm/cirrus: Introduce struct cirrus_primary_plane_state
+       drm/cirrus: Store HW format/pitch in primary-plane state
+       drm/cirrus: Use VGA macro constants to unblank
+       drm/fbdev-dma: Implement fbdev emulation for GEM DMA helpers
+       arm/hdlcd: Use GEM DMA fbdev emulation
+       arm/malidp: Use GEM DMA fbdev emulation
+       drm/aspeed: Use GEM DMA fbdev emulation
+       drm/atmel-hlcdc: Use GEM DMA fbdev emulation
+       drm/fsl-dcu: Use GEM DMA fbdev emulation
+       drm/imx/dcss: Use GEM DMA fbdev emulation
+       drm/imx: Use GEM DMA fbdev emulation
+       drm/kmb: Use GEM DMA fbdev emulation
+       drm/logicvc: Use GEM DMA fbdev emulation
+       drm/meson: Use GEM DMA fbdev emulation
+       drm/mxsfb/lcdif: Use GEM DMA fbdev emulation
+       drm/mxsfb: Use GEM DMA fbdev emulation
+       drm/sti: Use GEM DMA fbdev emulation
+       drm/stm: Use GEM DMA fbdev emulation
+       drm/sun4i: Use GEM DMA fbdev emulation
+       drm/tidss: Use GEM DMA fbdev emulation
+       drm/tilcdc: Use GEM DMA fbdev emulation
+       drm/arcpgu: Use GEM DMA fbdev emulation
+       drm/tve200: Use GEM DMA fbdev emulation
+       drm/vc4: Use GEM DMA fbdev emulation
+       drm/xlnx: Use GEM DMA fbdev emulation
+       drm/mcde: Use GEM DMA fbdev emulation
+       drm/pl111: Use GEM DMA fbdev emulation
+
+Tom Rix (3):
+       drm/nouveau/fifo: set gf100_fifo_nonstall_block_dump 
+storage-class-specifier to static
+       drm/nouveau/fifo: set nvkm_engn_cgrp_get storage-class-specifier 
+to static
+       drm/nouveau/nvfw/acr: set wpr_generic_header_dump 
+storage-class-specifier to static
+
+Tvrtko Ursulin (1):
+       drm: Track clients by tgid and not tid
+
+Uwe Kleine-König (3):
+       drm/tests: helpers: Drop empty platform remove function
+       dt-bindings: display: imx: Describe drm binding for fsl,imx-lcdc
+       drm: Drop ARCH_MULTIPLATFORM from dependencies
+
+Zack Rusin (1):
+       drm/vmwgfx: Fix src/dst_pitch confusion
 
