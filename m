@@ -1,59 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18FF6BCB85
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:53:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF16C6BCC09
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:07:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1234210EC37;
-	Thu, 16 Mar 2023 09:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B30C10EC8A;
+	Thu, 16 Mar 2023 10:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 389F610EC37
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:53:51 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AE59F660309E;
- Thu, 16 Mar 2023 09:53:48 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678960429;
- bh=U016GfVVdnxsip9oeySV3RsjrHt+GbtN8I0vEam86cw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=D1ZYug/Rc7GC9oaJibLCGVC1ot6HrZSJaaD6dBId+/IevQCU8BtC3krYiV1jYB1vG
- QntG3e3/vTGxkEjKz92r3TfeVbI0b974DjcPXf4GI2j705nXTtC9lwiOAd2/AnY/F6
- z0CXJd7cBrVcF76ENARf0NTaYVTa7yGwdM/0MVCXo3vZlYh0D5bvxoNXrF0aymJ3Zb
- F8uYdm9tAIDz6DQWBRSVg36L9plmJGvA5FyZrNRsHMRHMDyI3PxKybudbJIEiuNwVP
- V/QFPGh4hL2xHjhAFEFAKBm5yn+8gIYX9WiQd8Y0uE7XWaJ+xmz5ux83Th4WlKzPyS
- T+JmIMMYGK3Ig==
-Message-ID: <e5ceec9e-d51b-2aeb-1db7-b79b151bd44c@collabora.com>
-Date: Thu, 16 Mar 2023 10:53:45 +0100
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880E710EC8A;
+ Thu, 16 Mar 2023 10:07:30 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id a32so1059657ljq.1;
+ Thu, 16 Mar 2023 03:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678961249;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OeKMiB8adCyAuvfspP826Eu3GVifkkC1oxu/iYbrcbs=;
+ b=Jry7G0JcbOmrkjxGJd1fXKpKo8bO4FkutPdbb8BmFr6NYTnzzuNYYhK6LAlXSzFHfD
+ ezSMXjpInys3yfsNk42WdxuHrG0Bhl3pL8zbUzPT15D2oOUaTdY4lvwdN0ap8eWb7zY3
+ qiNMLVi1LxsWSLyiFFRC1NSXrDGSpsVDwAd7OEgy/bgAiyVdd/tQebd1mYKfvW0tq5Yd
+ 3X/Ek+4nymixhjc29YaSxZfF9nLrehlV/mXPKwURaS8UQjZH5dtIO83AYnL6mar5bI0N
+ qlasSetkMOuSvNK19sgZPQZAmFsh+RnygiYX4FzXpg4IL3kbQCwH/5crx6+fgdQXEw+t
+ /jWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678961249;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OeKMiB8adCyAuvfspP826Eu3GVifkkC1oxu/iYbrcbs=;
+ b=DDFMNS1GnS5IVsNweAi/SofF1CgY41e2vqwEfLYTkX+nEaxdmCf/Gx4q0STgDxsFGq
+ vJthkpzLVl8x1r5zQG+ECZO9tmPvVdD428tbweYH90X+r9nbUiS4WBaF5EyyV+XUZlnN
+ /c88dcWMhOH4zyBABd6xar71CzntpoKrsHEIsJZWFF8H/cTIs8yduwdGndZSFMUlF8Ad
+ s2qLQlUFG2TQY+Bm6IBFqzdCkpZk8XN5vksA3+8PThk4LA+G8gECIhG9VouIXPtfKFHP
+ 618egR7q6P8d2cJAlEaXH36RjqUyXGS2xP11okY18LvJr7BLUNQWKIa6UnROLn/RqeCe
+ ZveQ==
+X-Gm-Message-State: AO0yUKXj1wvzHcyyVus1X1IHRKn2nVe2sj1XWv+gKg8UYLCV907a/c4J
+ V176xX9luGBN2i98f9zfGaM=
+X-Google-Smtp-Source: AK7set9nRtmCSJrKJqVGo0gAXBfQQY4ldyrn+CMw01Wqk65eOOYMxTjs3/y+knOW11jKFcBNUpNGow==
+X-Received: by 2002:a05:651c:515:b0:295:9021:450a with SMTP id
+ o21-20020a05651c051500b002959021450amr2597967ljp.49.1678961248595; 
+ Thu, 16 Mar 2023 03:07:28 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ q11-20020a19a40b000000b00497a61453a9sm1171954lfc.243.2023.03.16.03.07.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Mar 2023 03:07:28 -0700 (PDT)
+Date: Thu, 16 Mar 2023 12:07:01 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
+ for DP and HDMI
+Message-ID: <20230316120701.523bcb37@eldfell>
+In-Reply-To: <ZBLmYzVcnBgU6uo5@intel.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-10-harry.wentland@amd.com>
+ <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
+ <ZBLmYzVcnBgU6uo5@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v29 1/7] dt-bindings: mediatek: add ethdr definition for
- mt8195
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-References: <20221227081011.6426-1-nancy.lin@mediatek.com>
- <20221227081011.6426-2-nancy.lin@mediatek.com>
- <4aff6a7a3b606f26ec793192d9c75774276935e0.camel@mediatek.com>
- <2700bd6c-f00d-fa99-b730-2fcdf89089fa@linaro.org>
- <1d65e8b2de708db18b5f7a0faaa53834e1002d9f.camel@mediatek.com>
- <b04eb48e-c9aa-0404-33ec-bef623b8282f@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <b04eb48e-c9aa-0404-33ec-bef623b8282f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/ocMAbpmXjkZ0NAkzayXrY1j";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,114 +74,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "ndesaulniers@google.com" <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nathan@kernel.org" <nathan@kernel.org>,
- "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
+ Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 16/03/23 07:31, Krzysztof Kozlowski ha scritto:
-> On 16/03/2023 07:19, Nancy Lin (林欣螢) wrote:
->> On Wed, 2023-03-15 at 08:16 +0100, Krzysztof Kozlowski wrote:
->>> On 15/03/2023 04:45, Nancy Lin (林欣螢) wrote:
->>>
+--Sig_/ocMAbpmXjkZ0NAkzayXrY1j
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-..snip..
+On Thu, 16 Mar 2023 11:50:27 +0200
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
->>>>
->>>>
->>>> [1].
->>>> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.e
->>>> xamp
->>>> le.dtb
->>>> /proj/mtk19347/cros/src/third_party/kernel/v5.10/Documentation/devi
->>>> cetr
->>>> ee/bindings/display/mediatek/mediatek,ethdr.example.dtb:
->>>> hdr-engine@1c114000: mediatek,gce-client-reg:0: [4294967295, 7,
->>>> 16384,
->>>> 4096, 4294967295, 7, 20480, 4096, 4294967295, 7, 28672, 4096,
->>>> 4294967295, 7, 36864, 4096, 4294967295, 7, 40960, 4096, 4294967295,
->>>> 7,
->>>> 45056, 4096, 4294967295, 7, 49152, 4096] is too long
->>>>          From schema:
->>>
->>> This looks like known issue with phandles with variable number of
->>> arguments. Either we add it to the exceptions or just define it in
->>> reduced way like in other cases - only maxItems: 1 without describing
->>> items.
->>>
+> On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote:
+> > On Tue, Mar 7, 2023 at 4:12=E2=80=AFPM Harry Wentland <harry.wentland@a=
+md.com> wrote: =20
+> > >
+> > > We want compositors to be able to set the output
+> > > colorspace on DP and HDMI outputs, based on the
+> > > caps reported from the receiver via EDID. =20
+> >=20
+> > About that... The documentation says that user space has to check the
+> > EDID for what the sink actually supports. So whatever is in
+> > supported_colorspaces is just what the driver/hardware is able to set
+> > but doesn't actually indicate that the sink supports it.
+> >=20
+> > So the only way to enable bt2020 is by checking if the sink supports
+> > both RGB and YUV variants because both could be used by the driver.
+> > Not great at all. Something to remember for the new property. =20
+>=20
+> Hmm. I wonder if that's even legal... Looks like maybe it
+> is since I can't immediately spot anything in CTA-861 to
+> forbid it :/
 
-...
+Wouldn't the driver do the same EDID check before choosing whether it
+uses RGB or YCbCr signalling?
 
->>
->> But I have several items for this vendor property in the binding
->> example.
-> 
-> Do you? I thought you have one phandle?
-> 
->> Can I remove maxItems? Change the mediatek,gce-client-reg as [1].
->>
->> [1]
->>    mediatek,gce-client-reg:
->>      $ref: /schemas/types.yaml#/definitions/phandle-array
->>      description: The register of display function block to be set by
->> gce.
->>        There are 4 arguments in this property, gce node, subsys id,
->> offset and
->>        register size. The subsys id is defined in the gce header of each
->> chips
->>        include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
->> display
->>        function block.
-> 
-> No, this needs some constraints.
-
-Hello Krzysztof, Nancy,
-
-Since this series has reached v29, can we please reach an agreement on the bindings
-to use here, so that we can get this finally upstreamed?
-
-I will put some examples to try to get this issue resolved.
-
-### Example 1: Constrain the number of GCE entries to *seven* array elements (7x4!)
-
-   mediatek,gce-client-reg:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     maxItems: 1
-     description: The register of display function block to be set by gce.
-       There are 4 arguments in this property, gce node, subsys id, offset and
-       register size. The subsys id is defined in the gce header of each chips
-       include/dt-bindings/gce/<chip>-gce.h, mapping to the register of display
-       function block.
-     items:
-       minItems: 28
-       maxItems: 28
-       items:                     <----- this block doesn't seem to get checked :\
-         - description: phandle of GCE
-         - description: GCE subsys id
-         - description: register offset
-         - description: register size
+So if EDID says only one of them is supported, userspace should be
+confident that that is the BT2020 mode the driver will match?
 
 
-### Example 2: Don't care about constraining the number of arguments
+Thanks,
+pq
 
-   mediatek,gce-client-reg:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-     maxItems: 1
-     description: The register of display function block to be set by gce.
-       There are 4 arguments in this property, gce node, subsys id, offset and
-       register size. The subsys id is defined in the gce header of each chips
-       include/dt-bindings/gce/<chip>-gce.h, mapping to the register of display
-       function block.
+>=20
+> >  =20
+> > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> > > Cc: Vitaly.Prosyak@amd.com
+> > > Cc: Joshua Ashton <joshua@froggi.es>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Cc: amd-gfx@lists.freedesktop.org
+> > > Reviewed-By: Joshua Ashton <joshua@froggi.es>
+> > > ---
+> > >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++=
+++
+> > >  1 file changed, 15 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/driv=
+ers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > index f91b2ea13d96..2d883c6dae90 100644
+> > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(struc=
+t drm_connector *connector)
+> > >         return amdgpu_dm_connector->num_modes;
+> > >  }
+> > >
+> > > +static const u32 supported_colorspaces =3D
+> > > +       BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
+> > > +       BIT(DRM_MODE_COLORIMETRY_OPRGB) |
+> > > +       BIT(DRM_MODE_COLORIMETRY_BT2020) |
+> > > +       BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
+> > > +
+> > >  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *=
+dm,
+> > >                                      struct amdgpu_dm_connector *acon=
+nector,
+> > >                                      int connector_type,
+> > > @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struct am=
+dgpu_display_manager *dm,
+> > >                                 adev->mode_info.abm_level_property, 0=
+);
+> > >         }
+> > >
+> > > +       if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
+> > > +               if (!drm_mode_create_hdmi_colorspace_property(&aconne=
+ctor->base, supported_colorspaces))
+> > > +                       drm_connector_attach_colorspace_property(&aco=
+nnector->base);
+> > > +       } else if (connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPo=
+rt ||
+> > > +                  connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+> > > +               if (!drm_mode_create_dp_colorspace_property(&aconnect=
+or->base, supported_colorspaces))
+> > > +                       drm_connector_attach_colorspace_property(&aco=
+nnector->base);
+> > > +       }
+> > > +
+> > >         if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> > >             connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort ||
+> > >             connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+> > > --
+> > > 2.39.2
+> > > =20
+>=20
 
 
-Regards,
-Angelo
+--Sig_/ocMAbpmXjkZ0NAkzayXrY1j
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQS6kUACgkQI1/ltBGq
+qqfdpw//eyT3oV8KT//BbXtGp2mvbD6JmTX7Z2E9b3GaG1J3ANyJJvPq1Hc00pv3
+6h49R+pa1MmVo2Mwlg9zDieTNHAzQ0tAexKn4e1rUMtTpdJI1JpYjpkyBvbHqHvh
+O1TCihe+QQAyOiFix9nN8bbD3+ddkpWd9REpQsz2SzOu7EllvYsBc/eattj8lLk1
+csP/AZu6nutF9h+l7xUrNEIfaWdcfur8B6Az8o1xjRPz3ewLqcXqJ/D9dPcAX6j2
+VfmrX++uxssknw+kuEfZklsaGzbfQieL3bQBUG3pfPCt9ELMHQvQCCCPKnpXdA9D
+3OTnOsJs7Wu60AYSTcH/0le5IUGwvKcUZhjdbsEH0B00OunzcSnWbI+H13+zgqCr
+mlD7flt+xzwdllXLk4+Qbgz2n/EN8Aib2Jrgfz+ikJgfU8OmUUQUis9E6JUg5y13
+xtjhHEC2nLELrqZPQjT5XZK8i6fsZ3D0q+NqBwta9/0cRzcy5d7Y1vNbkT9joXvv
+LbaO6TJw4Nulx/MjJJAG0riO+p3X9491tB9CRLZ5iH7n1WyAY4AhMpXLYTfaZ8zZ
+ANpFiQ21fTfdM/ihjJD/Ul9vFM5QIIN4QQkptABToeKeY5akBiYOxb4IOx/zvfSp
+WLrE/mR9aGkX7oh+YQNzEqxnf2Hp6hsvZcTYHVBEtEcnyeUQOB8=
+=m4pO
+-----END PGP SIGNATURE-----
+
+--Sig_/ocMAbpmXjkZ0NAkzayXrY1j--
