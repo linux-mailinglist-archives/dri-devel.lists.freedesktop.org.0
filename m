@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D247F6BCBBD
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:59:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C35C26BCAC0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:27:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4668911F;
-	Thu, 16 Mar 2023 09:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE37210E081;
+	Thu, 16 Mar 2023 09:27:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2193 seconds by postgrey-1.36 at gabe;
- Thu, 16 Mar 2023 09:58:58 UTC
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0668911F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:58:58 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1pcjoR-00025p-AV; Thu, 16 Mar 2023 10:22:19 +0100
-Message-ID: <c27709bd-90af-ec4f-de0b-3a4536bc17ca@leemhuis.info>
-Date: Thu, 16 Mar 2023 10:22:18 +0100
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A666710E0A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:26:57 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id g17so1481175lfv.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 02:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678958816;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wWG+4CQcPYhUHYikO9t+j3Nr8BghrXJMIRVrbf/EoFk=;
+ b=LnOd0yZStUpKKaSVQ7kbAFn7AmAAoyFg2d50nY0ZUsW3szyIz1mY7EWBFnDYMoAADN
+ M42jOeZvuLIoelYtWQq8xPt6g5Ertm9TQqVbDwguxbRYpiL0AyQBPRsepKyiwLrH903U
+ um5HjKqc2Y8BJHp3Opeo6dh4LftnQIe8/Z3uPOPyx6Y8ffqZEQfB1Nw70vgR/D/+tGJV
+ TsaiBtKYnupsjhxShElGpMmt2qWlqMA35Dgmo1vIvrPu2SisXn9aWv+ZlWmwcywFRG8p
+ ZgiWStmylUoPqubbLymh1NyxdsYFqWQS7jy+g8fy+O2SKRfXG/+RB8cYD++k135JXq8b
+ p7WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678958816;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wWG+4CQcPYhUHYikO9t+j3Nr8BghrXJMIRVrbf/EoFk=;
+ b=xdsyqxwnVUrfHm7+eCbwlBv67LaM5d3VFzE/PkkIYpiJ4sSB9hZECBe7jDvNZ35QXt
+ vOezcTZqVmHPotRsZ3lrdzybuGy3tmmakqaiQ9YJmexoPjJIR2l/8mJT3tDEgcgI0HCb
+ 7LLAdcNByRUN2hlEKdKi14JFpusYgUaM6kfSyXs1q50rIk3LbGINWVI3Y1nyU6QGuqjr
+ AcmsdBh3JarXHXFqcQqM94sGe9PehvqGr+JFQ7K+dx8jbucm12/iY9lToR0LakD+7Y/g
+ m/SXKoN/MNOEiQ6+NmOKDsH1HkkJOakmHPltT9xBz6MXFRMDqDkopvWmgbcFDt3EKbRf
+ OQ9g==
+X-Gm-Message-State: AO0yUKWSjq0zLqOZAPGEo9nuRYUNyT6CPusFPOsCztZBoADZgwKIxsJj
+ e7k6lThkVtUHgO9BAie7Q8p5prQ5STlrvI5pL08LK71arF0=
+X-Google-Smtp-Source: AK7set9QmZ+1coZ/q1XhHhCAJ6QGfu3/RJsX8fBPiwbGgZ8Fdz2YsQAZ7epqEzZBUNlxcPRsYOIPgi3ZDyDpFRX65AE=
+X-Received: by 2002:a19:7604:0:b0:4d5:ca32:7bc3 with SMTP id
+ c4-20020a197604000000b004d5ca327bc3mr2965584lff.10.1678958815805; Thu, 16 Mar
+ 2023 02:26:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US, de-DE
-To: Matthieu Baerts <matthieu.baerts@tessares.net>,
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
- Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-References: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH 0/2] docs & checkpatch: allow Closes tags with links
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1678960738;317fd50a;
-X-HE-SMSGID: 1pcjoR-00025p-AV
+References: <20230316072647.406707-1-christian.koenig@amd.com>
+In-Reply-To: <20230316072647.406707-1-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Thu, 16 Mar 2023 09:26:28 +0000
+Message-ID: <CAM0jSHPRVgCkWPqzPOs4-4QMDCefp7y5jcTpZDgvXUpEa_a-fQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: drop extra ttm_bo_put in ttm_bo_cleanup_refs
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,52 +67,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.03.23 18:44, Matthieu Baerts wrote:
-> Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
-> followed by a link [1]. It also complains if a "Reported-by:" tag is
-> followed by a "Closes:" one [2].
-> 
-> As detailed in the first patch, this "Closes:" tag is used for a bit of
-> time, mainly by DRM and MPTCP subsystems. It is used by some bug
-> trackers to automate the closure of issues when a patch is accepted.
-> 
-> Because this tag is used for a bit of time by different subsystems and
-> it looks like it makes sense and it is useful for them, I didn't bother
-> Linus to get his permission to continue using it. If you think this is
-> necessary to do that up front, please tell me and I will be happy to ask
-> for his agreement.
-
-Due to how he reacted to some "invented" tags recently, I'd think it
-would be appropriate to CC him on this patchset, as he then can speak up
-if he wants to (and I assume a few more mails don't bother him).
-
-> The first patch updates the documentation to explain what is this
-> "Closes:" tag and how/when to use it. The second patch modifies
-> checkpatch.pl to stop complaining about it.
-
-I liked Andrew's `have been using "Addresses:" on occasion. [...] more
-humble [...]` comment.  Sadly that tag is not supported by GitLab and
-GitHub. But well, "Resolves" is and also a bit more humble if you ask
-me. How about using that instead? Assuming that Konstantin can work with
-that tag, too, but I guess he can.
-
-I also wonder if the texts for the documentation could be shorter.
-Wouldn't something like this do?
-
-`Instead of "Link:" feel free to use "Resolves:" with an URL instead, if
-the issue was filed in a public bug tracker that will consider the issue
-resolved when it noticed that tag.`
-
-[s/Resolves/Closes/ if we stick to that]
-
-Side note: makes we wonder if we should go "all in" here to avoid
-confusion and allow "Resolves" everywhere, even for links to lore.
-
-> [...]
-
-Ciao, Thorsten
+On Thu, 16 Mar 2023 at 07:26, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> That was accidentially left over when we switched to the delayed delete
+> worker.
+>
+> Suggested-by: Matthew Auld <matthew.william.auld@gmail.com>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Fixes: ("9bff18d13473") drm/ttm: use per BO cleanup workers
+> Reported-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> Tested-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
