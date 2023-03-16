@@ -1,74 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5FE6BDBAE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:30:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E55C66BDBBE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:34:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7DA10E304;
-	Thu, 16 Mar 2023 22:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6B210E331;
+	Thu, 16 Mar 2023 22:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5975510E304
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 22:30:04 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0B1310E331
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 22:34:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679005803;
+ s=mimecast20190719; t=1679006063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PnePPKTKmaEIYsfyxDXD5WYxDmgciUFDMNuKm+FuJjM=;
- b=aGJauynrOYKfLp0hRDgNx5TlK72+8HD/Ntb6nmYAPRHfOJjp5+vm6Vz/e3S/xUN2aL+ENQ
- 23IGsluy03rxthZYdHsstv5xX53AFQfpcXYGrNM7ohY1pHRYy1cxyyXAItLy9h2BZN0JNh
- lRHc5fZE8SRP69dGSmp6Qa3lrDyntus=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cQjcHnFhhGHZA5Yk3fgjjkY+JL6ce3oLWezSsu1quCk=;
+ b=bXpDKPQbgzEzHWH5+AYEPm8P2z0YxMTg7QPZi415H+uFTZcZv2WtolWXQKJnTI0aMwsVsW
+ BhKKIMrL8KxLcBJCb/h0wNRygZ4KPKFpgIM3IxrICfl4UaJoasAuOZysCR4PWk3bCYlWqn
+ u6x4TH0HxCOYTqf4OYNXej5g6+UYOUQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-91-Ogl0fcQ2PjG2fvXYuCBlxg-1; Thu, 16 Mar 2023 18:30:02 -0400
-X-MC-Unique: Ogl0fcQ2PjG2fvXYuCBlxg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o31-20020a05600c511f00b003ed2ed2acb5so3295711wms.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 15:30:01 -0700 (PDT)
+ us-mta-608-ZhWsSzf-O-eoPRfR6qpfXA-1; Thu, 16 Mar 2023 18:34:19 -0400
+X-MC-Unique: ZhWsSzf-O-eoPRfR6qpfXA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p21-20020a05600c1d9500b003ed34032a01so1354337wms.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 15:34:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679005800;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PnePPKTKmaEIYsfyxDXD5WYxDmgciUFDMNuKm+FuJjM=;
- b=rQSVTWgrr6xWKARKmy6PvyDCUeWD+1YAkpaQnVQ0pwGeQqa5aASdPoIqZwR6FoIUhj
- IrX7quwwoTlAcMKhFfLabXDsMu/Ym5skiAfD+cZzbcQT7UVjm8JcBHrUNH4DRSvnNVy9
- 6Ai7y+ja8cZP4nEga4pb941FftS8ixWjVvQM3cCt+o3U9Zl2R3FIdZoJAm18atv21crl
- t0C1mrk+xRn1cQMF4mMYCzFMjuytq4ELfmB6dTh0zUATetFbIvj5FDDNoZ61m4m8XLf6
- sMRGZNopyXXE3WWKibTGf1ZQC5rrLmYK97uxxTO3qyRiD2ZlyBQNMxVvU+Ds2a1WGr/T
- RRFA==
-X-Gm-Message-State: AO0yUKWDAVs7LMXB8xChxXaVV0hLl8Rntjf+KFK0myFrx/3fSrfgHvVR
- eTZraALz0QuyyYmPTn3HKuLHdSADoBdBGCmncsyL1rQc7rz8GjRgvxo8sCtNQG/hEIvTPv8OG1H
- SQXvJ0b0SOvwv5tt5HvcwJR3PwZFw
-X-Received: by 2002:a5d:56d2:0:b0:2d1:6104:76aa with SMTP id
- m18-20020a5d56d2000000b002d1610476aamr4059055wrw.2.1679005800792; 
- Thu, 16 Mar 2023 15:30:00 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+pavBAwLwWKQ9EFH0kovHVMuq3+iTPxofStWBmSEUYWs+tWYytxbJKDvuLhUGIjUzpcr5HmA==
-X-Received: by 2002:a5d:56d2:0:b0:2d1:6104:76aa with SMTP id
- m18-20020a5d56d2000000b002d1610476aamr4059045wrw.2.1679005800473; 
- Thu, 16 Mar 2023 15:30:00 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ d=1e100.net; s=20210112; t=1679006058;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cQjcHnFhhGHZA5Yk3fgjjkY+JL6ce3oLWezSsu1quCk=;
+ b=z/ySL8oYakzf5L3jg6SR9tV+DB5QLnIaEe6XwN2zRguIC07wvgbvnGkTgVmTBbjL9j
+ oRY0woUXKq+coTPul2GXZs5yEsylGJ+FT4qBb2C9y2iYnSkPBIHI4GyVY2VsnGr9M9f1
+ YKpccFpY9dKomid161JDIOY9Fyzd6RhXY1em+aqhGa/da3s80mWj/YaJVxRVI/YPSFYL
+ olYiFdk8Dn+HTjY5yNr0UHqeA+uTb4h2fy0Hldukg2MDF5w8LR97WKNeaKKR4cZ6Bk6D
+ WNgULfoKEu/uY8D49GCjGGsCHcMFSLZ1ZVqC4ooL/B5C8wh7UzbthDwT3EwyexI7CMuD
+ CMDw==
+X-Gm-Message-State: AO0yUKWtyTjoo1ZUNq1mGsZLXodH8wrPdIC8tXWSJC7bdwSqjfmdq9+F
+ FDaubLnXfBuIkjCr/2JFnqZgL/pvoi761+ICa0luuRSwoSZzkxIOedJz8jNs1gZJnbzpO41e7tK
+ QI1yq+SjjVheyUc+73+xbDCv0H8YQ
+X-Received: by 2002:a5d:4d10:0:b0:2d1:7ade:aad with SMTP id
+ z16-20020a5d4d10000000b002d17ade0aadmr4193282wrt.31.1679006058644; 
+ Thu, 16 Mar 2023 15:34:18 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9v6p8hdWcWbe8F7o80naCh5TQbXl2/qaDD1HpV78Lc0LMQy8kTM9oet4mKKOKDXFt7Ra0tdw==
+X-Received: by 2002:a5d:4d10:0:b0:2d1:7ade:aad with SMTP id
+ z16-20020a5d4d10000000b002d17ade0aadmr4193267wrt.31.1679006058328; 
+ Thu, 16 Mar 2023 15:34:18 -0700 (PDT)
+Received: from minerva.home (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- d12-20020adffbcc000000b002c54e26bca5sm462701wrs.49.2023.03.16.15.30.00
+ t11-20020a05600001cb00b002c54241b4fesm452499wrx.80.2023.03.16.15.34.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 15:30:00 -0700 (PDT)
+ Thu, 16 Mar 2023 15:34:18 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2] drm/format-helper: Make conversion_buf_size()
- support sub-byte pixel fmts
-In-Reply-To: <CAMuHMdUs0bXz1T41=bW0D1NwVYZyKUsrjCkF2hGsRPSt5+qvMA@mail.gmail.com>
-References: <20230307215039.346863-1-javierm@redhat.com>
- <CAMuHMdUs0bXz1T41=bW0D1NwVYZyKUsrjCkF2hGsRPSt5+qvMA@mail.gmail.com>
-Date: Thu, 16 Mar 2023 23:29:59 +0100
-Message-ID: <877cvgqqhk.fsf@minerva.mail-host-address-is-not-set>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/format-helper: Use drm_format_info_min_pitch() in tests
+ helper
+Date: Thu, 16 Mar 2023 23:34:04 +0100
+Message-Id: <20230316223404.102806-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,36 +81,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- =?utf-8?Q?Ma=C3=ADra?= Canal <mairacanal@riseup.net>,
- Maxime Ripard <maxime@cerno.tech>, David Gow <davidgow@google.com>,
- =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, David Gow <davidgow@google.com>,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
  Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Geert Uytterhoeven <geert@linux-m68k.org> writes:
+There's a nice macro to calculate the destination pitch that already takes
+into account sub-byte pixel formats. Use that instead of open coding it.
 
-Hello Geert,
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-[...]
+ drivers/gpu/drm/tests/drm_format_helper_test.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
->> +       if (!dst_pitch) {
->> +               bpp = drm_format_info_bpp(dst_fi, 0);
->> +               dst_pitch = DIV_ROUND_UP(drm_rect_width(clip) * bpp, 8);
->
-> I know I'm a bit late to the party,  but here's actually a helper for that:
->
->     dst_pitch = drm_format_info_min_pitch(info, 0, drm_rect_width(clip));
->
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+index bfa47f8ffd09..474bb7a1c4ee 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -440,15 +440,12 @@ static size_t conversion_buf_size(u32 dst_format, unsigned int dst_pitch,
+ 				  const struct drm_rect *clip)
+ {
+ 	const struct drm_format_info *dst_fi = drm_format_info(dst_format);
+-	unsigned int bpp;
+ 
+ 	if (!dst_fi)
+ 		return -EINVAL;
+ 
+-	if (!dst_pitch) {
+-		bpp = drm_format_info_bpp(dst_fi, 0);
+-		dst_pitch = DIV_ROUND_UP(drm_rect_width(clip) * bpp, 8);
+-	}
++	if (!dst_pitch)
++		dst_pitch = drm_format_info_min_pitch(dst_fi, 0, drm_rect_width(clip));
+ 
+ 	return dst_pitch * drm_rect_height(clip);
+ }
 
-Nice, I didn't notice this. I'll send a follow-up patch. Thanks!
-
+base-commit: 165d5133731a2e045abdd6d9d3c9221fdc2a556e
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.39.2
 
