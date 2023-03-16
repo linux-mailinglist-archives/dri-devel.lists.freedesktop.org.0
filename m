@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028336BC9AB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 09:46:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536526BC9B4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 09:46:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3CE310E0DE;
-	Thu, 16 Mar 2023 08:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 122D910E0F4;
+	Thu, 16 Mar 2023 08:46:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9592610E0DE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 08:46:31 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id bc12so351533plb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 01:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678956391;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AOdBHBS9znATVtxTwtQ/W3C/7bZhtodaNAC+NJOLels=;
- b=XAsJRL/oCozA4xS60ezBXwWV1MPkS9yQ4w8jFM1BEUMYLtbrnF5P0pRcRYgYQ3MQJK
- BD+9PoIlwhn86J1bPgWzEMRD3Snm30QE94wWSh2YI8LloETNNs8RD+t08BoA3I2efB5l
- t3GtvqCijQ4rpDwLCw5sZZJ3dxIZjmIZiD50dHUKYwR6rat5alAM3Qohdd4S6Fh+7mqO
- fXP+keevQ8h19j06UeheXwogg7Al6aON9hMfRnOuc3c6yf1dSOmZ/qdZLIrBy/HLe2fd
- D5TsgY3wBnNinVuZvEhcoUfHK/c4qaEUrwZ6LuhB+oMrF6ecv5JHyzgrkHMPVYm1GeWR
- mfZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678956391;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AOdBHBS9znATVtxTwtQ/W3C/7bZhtodaNAC+NJOLels=;
- b=6b36CHbTeYzHjVTVlr3LdgdjaeLDKCtBHXgWJy7K+U/8xKfJPv9c75J798vF6Db+9c
- AhRpo5QjCfkBjfglpttUl/Ymj0pKPfp+xV2Cakf2EpbSt82qimhgeVvT8psNUfD0OmJO
- 7cdgdx6DdMf7chs6RGLlAX7mVcWDqC/9MoU7nnYIDes5tW3CpIW4PyU1Usw+cY+W1aFa
- 5BJKuGaFMj/lMWur9znvuPY2l6ZeyYmnsGl4CLYaZNidTvr5p7qzoF1nW+zKiLmzD0lj
- JA1MVbJsYLed0X7c/6EmU+6GSzVhpbtQrtpCt/OPb3ApSt3m2N5E4WkrAYggsxM9H/qW
- gOQQ==
-X-Gm-Message-State: AO0yUKWvv2iSBzZFWoEb8o4mWyviAh3ynoDsz4Oiq72BKkG7xjuXMQjP
- 8Z54qH59XDTmOI74kCxKOs6rpi0Zav6Z4SY+VJ8=
-X-Google-Smtp-Source: AK7set/UrLh7lG6hRstedY7Gpt4OnHohK/MLsNtNP+Idae3uiDiCcB8gxfOzWb17fiQ7wgWCfv1JmVE/Bk9nlSpvl98=
-X-Received: by 2002:a17:902:f681:b0:19f:3cc1:e3bd with SMTP id
- l1-20020a170902f68100b0019f3cc1e3bdmr1100939plg.4.1678956391026; Thu, 16 Mar
- 2023 01:46:31 -0700 (PDT)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 21D1410E0F4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 08:46:40 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+ by gateway (Coremail) with SMTP id _____8Bxfdps1xJkcNgMAA--.6995S3;
+ Thu, 16 Mar 2023 16:46:36 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxX+Rr1xJk9dABAA--.9576S3; 
+ Thu, 16 Mar 2023 16:46:36 +0800 (CST)
+Message-ID: <62f955de-6352-a0b1-ecab-52b854ba6839@loongson.cn>
+Date: Thu, 16 Mar 2023 16:46:35 +0800
 MIME-Version: 1.0
-References: <20230313151610.14367-1-tzimmermann@suse.de>
-In-Reply-To: <20230313151610.14367-1-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Thu, 16 Mar 2023 09:46:19 +0100
-Message-ID: <CAMeQTsYiX0OcKv+Fciz7oxbWbDfd-P=+ME0pPLWh9yDa5G0Z0w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] drm/gma500: Convert fbdev to DRM client
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 2/2] drm: add kms driver for loongson display controller
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Sui Jingfeng <15330273260@189.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <20230315211550.2620818-1-15330273260@189.cn>
+ <20230315211550.2620818-3-15330273260@189.cn>
+ <efcc3a66-78ca-4e0a-c0fb-527da376fc06@amd.com>
+Content-Language: en-US
+From: Sui jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <efcc3a66-78ca-4e0a-c0fb-527da376fc06@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxX+Rr1xJk9dABAA--.9576S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxuw43XF18JF1DAw4Dtw45trb_yoW7WryrpF
+ Z3Kay3trZ8Ca1kAr1DAw1UGFyYq3yrAa1DtryYvFyj9398GFnYqrWjqr1q9a47Xr4ruF1j
+ yFWUXrW29F17Aw7anT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bqxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
+ s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
+ 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+ IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+ AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Dl1DUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,46 +70,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, Li Yi <liyi@loongson.cn>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 13, 2023 at 4:16=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Convert gma500's fbdev code to drm_client. Replace to the current
-> ad-hoc integration. The conversion includes a number of cleanups.
-> Only build fbdev support if the config option has been set.
->
-> Tested on Cedarview HW.
->
-> v2:
->         * remove fb_base (Patrik)
->         * use 'static inline' in header files (kernel test robot)
->         * fix many minor issues and typos
->
-Thanks Thomas! For the entire series:
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
-> Thomas Zimmermann (7):
->   drm/gma500: Remove unnecessary include statements
->   drm/gma500: Move fbdev code into separate source file
->   drm/gma500: Remove fbdev vma open and close callbacks
->   drm/gma500: Fix naming in fb_ops
->   drm/gma500: Inline psbfb_create() into psbfb_probe()
->   drm/gma500: Implement client-based fbdev emulation
->   drm/gma500: Pass fb_info to psb_fbdev_vm_fault()
->
->  drivers/gpu/drm/gma500/Makefile      |   1 +
->  drivers/gpu/drm/gma500/fbdev.c       | 344 +++++++++++++++++++++++++++
->  drivers/gpu/drm/gma500/framebuffer.c | 341 +-------------------------
->  drivers/gpu/drm/gma500/psb_drv.c     |   5 +-
->  drivers/gpu/drm/gma500/psb_drv.h     |  19 +-
->  5 files changed, 363 insertions(+), 347 deletions(-)
->  create mode 100644 drivers/gpu/drm/gma500/fbdev.c
+On 2023/3/16 15:18, Christian König wrote:
 >
 >
-> base-commit: b21ced77ae1dbc3d8b01d3aef3c99bba7377a69b
-> --
-> 2.39.2
+> Am 15.03.23 um 22:15 schrieb Sui Jingfeng:
+>> From: suijingfeng <suijingfeng@loongson.cn>
+>>
+>> Loongson display controller IP has been integrated in both Loongson
+>> North Bridge chipset(ls7a1000 and ls7a2000) and Loongson SoCs(ls2k1000
+>> and ls2k2000 etc), it even has been included in Loongson BMC products.
+>>
+>> This display controller is a PCI device, it has two display pipe. For
+>> the DC in LS7A1000 and LS2K1000 each way has a DVO output interface
+>> which provide RGB888 signals, vertical & horizontal synchronisations,
+>> and the pixel clock. Each CRTC is able to support 1920x1080@60Hz,
+>> the maximum resolution is 2048x2048 according to the hardware spec.
+>>
+>> For the DC in LS7A2000, each display pipe is equipped with a built-in
+>> HDMI encoder which is compliant with HDMI 1.4 specification, thus it
+>> support 3840x2160@30Hz. The first display pipe is also equipped with
+>> a transparent vga encoder which is parallel with the HDMI encoder.
+>> The DC in LS7A2000 is more complete, besides above feature, it has
+>> two hardware cursors, two hardware vblank counter and two scanout
+>> position recorders.
+>>
+>>   v1 -> v2:
+>>    1) Use hpd status reg when polling for ls7a2000
+>>    2) Fix all warnings emerged when compile with W=1
+>>
+>>   v2 -> v3:
+>>    1) Add COMPILE_TEST in Kconfig and make the driver off by default
+>>    2) Alphabetical sorting headers (Thomas)
+>>    3) Untangle register access functions as much as possible (Thomas)
+>>    4) Switch to TTM based memory manager and prefer cached mapping
+>>       for Loongson SoC (Thomas)
+>>    5) Add chip id detection method, now all models are distinguishable.
+>>    6) Revise builtin HDMI phy driver, nearly all main stream mode
+>>       below 4K@30Hz is tested, this driver supported these mode very
+>>       well including clone display mode and extend display mode.
+>>
+>>   v3 -> v4:
+>>    1) Quickly fix a small mistake.
+>>
+>>   v4 -> v5:
+>>    1) Drop potential support for Loongson 2K series SoC temporary,
+>>       this part should be resend with the DT binding patch in the 
+>> future.
+>>    2) Add per display pipe debugfs support to the builtin HDMI encoder.
+>>    3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+>>    4) Rewrite encoder and connector initialization part, untangle it
+>>       according to the chip(Thomas).
+>>
+>>   v5 -> v6:
+>>    1) Remove stray code which didn't get used, say 
+>> lsdc_of_get_reserved_ram
+>>    2) Fix all typos I could found, make sentences and code more readable
+>>    3) Untange lsdc_hdmi*_connector_detect() function according to the 
+>> pipe
+>>    4) After a serious consideration, we rename this driver as loongson.
+>>       Because we also have drivers toward the LoongGPU IP in LS7A2000 
+>> and
+>>       LS2K2000. Besides, there are also drivers about the external 
+>> encoder,
+>>       HDMI audio driver and vbios support etc. This patch only 
+>> provide DC
+>>       driver part, my teammate Li Yi believe that loongson will be more
+>>       suitable for loongson graphics than lsdc in the long run.
+>>
+>>       loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+>>
+>>    v6 -> v7:
+>>    1) Add prime support, self-sharing is works. sharing buffer with 
+>> etnaviv
+>>       is also tested, and its works with limitation.
+>>    2) Implement buffer objects tracking with list_head.
+>>    3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+>>    4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+>>       during BO creation. Patch V1 ~ V6 of this series no longer works
+>>       on latest kernel. Thus, we send V7.
+>>
+>> Signed-off-by: Li Yi <liyi@loongson.cn>
+>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
+>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 >
+> [SNIP]
+>
+Hi,
+
+I send my patch series with  my personal email (15330273260@189.cn), 
+because it is more reliable.
+
+I don't mind remove it when this driver is applied.
+
+>> +u64 lsdc_bo_gpu_offset(struct ttm_buffer_object *tbo)
+>> +{
+>> +    struct drm_device *ddev = tbo->base.dev;
+>> +    struct ttm_resource *resource = tbo->resource;
+>> +
+>> +    if (drm_WARN_ON(ddev, !tbo->pin_count))
+>> +        return -ENODEV;
+>
+> Returning -ENODEV when the function return value is unsigned doesn't 
+> make much sense. I would also use 0 here.
+>
+OK,
+
+To make sense, the caller can cast the return to s64. Use 0 is also ok.
+
+In our daily usage,  tbo->pin_count ==0  never happens.  A warning 
+message is enough.
+
+I will revise this at next version.
+
+
+> Apart from that I briefly skimmed over the prime and TTM handling and 
+> couldn't find anything obviously wrong.
+>
+> I obviously can't review the hw specific stuff, but over all looks 
+> pretty good to me.
+>
+Ok, we can help to provide more HW specific document and material.
+
+Currently, our hardware is just a trivial compare with ati/amdgpu graphics.
+
+Thomas and you and  are experts at graphics driver domain,
+
+  Maybe you could do me a favor, give me a reviewed-by for the TTM and 
+PRIME part :)
+
+
+> Regards,
+> Christian.
+
