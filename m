@@ -2,92 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA1F6BD5F4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BD36BD601
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:39:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8338610E219;
-	Thu, 16 Mar 2023 16:37:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A42310ED56;
+	Thu, 16 Mar 2023 16:39:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E6AA10E219;
- Thu, 16 Mar 2023 16:37:11 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32GDkWeE006537; Thu, 16 Mar 2023 16:36:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=5YnHe0TsPIDAxPLrToTdrq6vXixOvJdvf1Ep+qvpJWQ=;
- b=hPXHZD8XZf7RtYJUzBvc7dSeOTBZL2z8FxE+yxB1x96FfpMfy1Yd2j6RdHK4dmWGeA3G
- tF5sLpZ496783IfMdowp6r0hjUttLwhi1O3dBt7/mnMRZXyWqFOBoxFAHN6wFRVwoc18
- Wc5iFMe6R5SGwFAz0VaBzUidUGlKwNj/SyoVfN/bZQgsCuy5e612I8gSgKaUVo1+BwDC
- mWxGN7WgrVJPC53RsQ+kmwoRmqO2ETy9fr1ZbEWlDe8+g2/vf3EljeWxzEFL5uftAc0j
- Fzto/DhV9EkZOWRJb1UbCchyWPHrNJyk5FExMhiKqmPDQPhJ+/pHBC2QJg+ZBFHoBRVS +w== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pc49u8hrn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 16:36:28 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GGaRRn031040
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 16:36:27 GMT
-Received: from [10.110.64.241] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 16 Mar
- 2023 09:36:26 -0700
-Message-ID: <10b39fab-43a7-40b4-5d11-bc191e2953f3@quicinc.com>
-Date: Thu, 16 Mar 2023 09:36:25 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22DC610ED56
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1678984773;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EIjjbwXvUyx1yHV3Ag65tOZVBiQaT5p/l+soILdmUMg=;
+ b=Xm4kpi/76buBmGMAlxQXlw6GD782FMA8PwJJbUrMnt+g4w7/Nh9+40Hk8PfMl7r/8CSwUd
+ 8occudbF1DAGVlYjHOzdSk481KPPwpj+KERSbi030aJcpU+XmQAXiA0hhynVHsb+OGm3L0
+ aym/bDnMYVLnc/NsywbB9Ej/OYUDnho=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-KuSmECk0NxamrG06LyRjEQ-1; Thu, 16 Mar 2023 12:39:32 -0400
+X-MC-Unique: KuSmECk0NxamrG06LyRjEQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ w6-20020a05640234c600b004fc0e5b4433so3802908edc.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:39:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678984771;
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EIjjbwXvUyx1yHV3Ag65tOZVBiQaT5p/l+soILdmUMg=;
+ b=UXcYtUSJXR6uyghgeoieE2hpRkFTuNFfyBCD2Xnaf5dLOoyRchfcgzcBO1t/QSPnBr
+ B/3Lq7c6yXzn6IeEZ7iKO5+G6JqKf49rqA6ZihVaP/tjNB9cGoq+ItY1gNUSymiGyjuT
+ 6eOvHwb37lr4Ts3TuocO2BbDUq9K9yvh7F7aCChABBDJGi9/Xy1is4hSeJ4cb2RSCPr6
+ //hD3KyJExs0j3UXNUrJ2dEW5MsgOwQCwejDlS7Q8QX6uG4zqdE0Ui24EwGZQSFU7EeJ
+ rktX4eS8oAkuomQYTUZSeM+Fx7mcs1B5mLkhj220sxF7vz9T9dqYMJIku3bOSL4WkNo7
+ JVBA==
+X-Gm-Message-State: AO0yUKX0/G8o49S2rSHJxDLz0H/5Tq8PogDIeebEHqSHJF9HJ8Azbjdu
+ zRrZYFdZQcWvuMXPmRzkmlEL3Z3tYC6xmY/93Tz3zYqnaUjvRmNDM/qBOmS9FSK3Olgmbusv+Em
+ bLrrTjroIWxPeXW0bhB5ZP38F4mzR
+X-Received: by 2002:a05:6402:4c5:b0:500:2cc6:36da with SMTP id
+ n5-20020a05640204c500b005002cc636damr203733edw.19.1678984771325; 
+ Thu, 16 Mar 2023 09:39:31 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9V8TDcXbJOgnOBxH6ODTR6VjYhQ4kSbUdWqsuVHaamhdMw5sSOqawbmI1THONqUSv/FiH8Xg==
+X-Received: by 2002:a05:6402:4c5:b0:500:2cc6:36da with SMTP id
+ n5-20020a05640204c500b005002cc636damr203714edw.19.1678984771069; 
+ Thu, 16 Mar 2023 09:39:31 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:4b3f:de78:642:1aff:fe31:a15c?
+ ([2a02:810d:4b3f:de78:642:1aff:fe31:a15c])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020a50d083000000b004c3e3a6136dsm4068725edd.21.2023.03.16.09.39.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Mar 2023 09:39:30 -0700 (PDT)
+Message-ID: <038fbef3-1f05-7d94-89b0-0bb681481885@redhat.com>
+Date: Thu, 16 Mar 2023 17:39:29 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [RFC PATCH 1/2] drm/msm/dpu: add dsc helper functions
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH drm-next 00/14] [RFC] DRM GPUVA Manager & Nouveau VM_BIND
+ UAPI
+To: Oded Gabbay <ogabbay@kernel.org>
+References: <db4fa0fc-c9a6-9a48-c45f-1d655b30aff9@amd.com>
+ <02b0bcb8-f69f-93cf-1f56-ec883cb33965@redhat.com>
+ <3602500f-05f5-10b8-5ec6-0a6246e2bb6b@amd.com>
+ <bcbef353-f579-4e90-1c77-be36bbe61c0f@redhat.com>
+ <CADnq5_PGaXFW-z3gt+R+W+vBVdeuL4wMuMOQh4muxU13Bemy3A@mail.gmail.com>
+ <0f2d6e1a-a3b5-f323-a29d-caade427292c@redhat.com>
+ <CADnq5_Nh-1esiHzvTG+qFBCfMjy21efX-YN2jfGG=WC+-4LwLQ@mail.gmail.com>
+ <CAPM=9txMZO1uYj+kVdTfmCwV2Fq8uu_b3i4eq4xhqPEPKBW8Eg@mail.gmail.com>
+ <7839c47e-6692-b93b-69a8-9584193cb07d@amd.com>
+ <6566870d-6256-8eef-5879-cb13711e4bed@redhat.com>
+ <Y8jT1TazLddqZjG4@DUT025-TGLU.fm.intel.com>
+ <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
+From: Danilo Krummrich <dakr@redhat.com>
+Organization: RedHat
+In-Reply-To: <CAFCwf10BAfg+_JGzyV0Rgx3WHaOR4vv9hvRXm0b0wW9U6tHSOA@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>
-References: <1677267647-28672-1-git-send-email-quic_khsieh@quicinc.com>
- <741be2a3-0208-2f40-eedf-d439c4e6795b@quicinc.com>
- <F8A4FC18-C64E-4011-BC08-18EB3B95A357@linaro.org>
- <d5ee8233-66c8-9b88-417c-6cf9cc5c84fe@quicinc.com>
- <CAA8EJpro5Q-2ZpnDJt40UhFX7Zp9oBhrto=FDOERzCDR2BDPvQ@mail.gmail.com>
- <f0dfba42-4674-3748-bf5d-39f6e1745f67@quicinc.com>
- <f1a6ee82-9502-7ea5-fe48-f296fc7df497@linaro.org>
- <3e114c0f-a042-6801-69bf-67436cb2a448@quicinc.com>
- <113a10b6-6097-c80e-c29c-6f61b2b2896a@linaro.org>
- <c4c0ebf8-275d-500f-4019-e3d7517a884f@quicinc.com>
- <CAA8EJppxX4haZSwdvVbN7bc6kXAyNO1rg6zWZv9wPFdqGrcXuw@mail.gmail.com>
- <c650e746-64c5-ce6b-933d-057349356b78@quicinc.com>
- <58E03B71-20C4-4F81-96C1-6D8CE517F3FB@linaro.org>
- <fd876ad2-3fd0-eaab-3407-dd32d494f662@quicinc.com>
- <a5d1a74f-1b7a-569d-e487-774720dfae22@quicinc.com>
- <CAA8EJpq_mwUt0+1yGYo6hRx8Vz12DumVdpEjJbPk8gGHhGZ2bA@mail.gmail.com>
- <176c6088-4470-5559-e79e-fd5675db0097@quicinc.com>
- <04156713-3f8e-c29e-322f-259ae163a93a@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <04156713-3f8e-c29e-322f-259ae163a93a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: SQ2BBsQqvkDL_p7Hq8CzcpLgC97BB4aU
-X-Proofpoint-ORIG-GUID: SQ2BBsQqvkDL_p7Hq8CzcpLgC97BB4aU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-16_10,2023-03-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 suspectscore=0 spamscore=0
- mlxlogscore=999 impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303160131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,126 +100,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, quic_sbillaka@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, andersson@kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, marijn.suijten@somainline.org,
- swboyd@chromium.org, sean@poorly.run,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-arm-msm@vger.kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>, tzimmermann@suse.de,
+ linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com, jason@jlekstrand.net, airlied@redhat.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Oded,
 
+sorry for the late response, somehow this mail slipped through.
 
-On 3/16/2023 9:23 AM, Dmitry Baryshkov wrote:
-> On 16/03/2023 18:13, Abhinav Kumar wrote:
->>
->>
->> On 3/16/2023 9:03 AM, Dmitry Baryshkov wrote:
->>> Hi,
->>>
->>> [removed previous conversation]
->>>
->>>>
->>>> Hi Dmitry and Abhinav,
->>>>
->>>> Just wanted to follow up on this thread. I've gone over the 
->>>> MSM-specific
->>>> DSC params for DP and DSI and have found a few shared calculations and
->>>> variables between both DSI and DP paths:
->>>>
->>>> - (as mentioned earlier in the thread) almost all the calculations in
->>>> dpu_dsc_populate_dsc_config() match dsi_populate_dsc_params() [1]. The
->>>> only difference in the math I'm seeing is initial_scale_value.
->>>
->>> The value in dsi code is valid for initial_offset = 6144. Please use
->>> the formula from the standard (= sde_dsc_populate_dsc_config) and add
->>> it to drm_dsc_helper.c
->>>
->>> If I remember correctly the last remaining item in
->>> dsi_populate_dsc_params() (except mentioned initial_offset) was
->>> line_buf_depth, see [3]. I'm not sure about setting it to bpc+1.
->>> According to the standard it should come from a DSC decoder spec,
->>> which means it should be set by the DSI panel driver or via
->>> drm_dp_dsc_sink_line_buf_depth() in the case of DP output.
->>>
->>>> - dsc_extra_pclk_cycle_cnt and dce_bytes_per_line, which were 
->>>> introduced
->>>> in Kuogee's v1 DSC series [2], are used for DSI, DP, and the DPU timing
->>>> engine. dsc_extra_pclk_cycle_cnt is calculated based on pclk_per_line
->>>> (which is calculated differently between DP and DSI), but
->>>> dce_bytes_per_line is calculated the same way between DP and DSI.
->>>>
->>>> To avoid having to duplicate math in 2 different places, I think it
->>>> would help to have these calculations in some msm_dsc_helper.c file. 
->>>> Any
->>>> thoughts on this?
->>>
->>> dsc_extra_pclk_cycle_cnt and dce_bytes_per_line are used only in DPU
->>> code, so they can stay in DPU driver.
->>>
->>
->> They can stay in the dpu driver is fine but where?
->>
->> Like Jessica wrote, this is computed and used in 3 places today :
->>
->> 1) DSI video engine computation
->> 2) DP controller computation
->> 3) timing engine programming
+On 2/6/23 15:48, Oded Gabbay wrote:
+> On Thu, Jan 19, 2023 at 7:24 AM Matthew Brost <matthew.brost@intel.com> wrote:
+>> Is this not an application issue? Millions of mappings seems a bit
+>> absurd to me.
+> If I look at the most extreme case for AI, assuming 256GB of HBM
+> memory and page mapping of 2MB, we get to 128K of mappings. But that's
+> really the extreme case imo. I assume most mappings will be much
+> larger. In fact, in the most realistic scenario of large-scale
+> training, a single user will probably map the entire HBM memory using
+> 1GB pages.
 > 
-> Please excuse me if I'm wrong. I checked both vendor techpack and the 
-> Kuogee's patches. I see them being used only in the SDE / DPU driver 
-> code. Could you please point me to the code path that we are discussing?
-> 
+> I have also a question, could this GPUVA code manage VA ranges
+> mappings for userptr mappings, assuming we work without svm/uva/usm
+> (pointer-is-a-pointer) ? Because then we are talking about possible
+> 4KB mappings of 1 - 1.5 TB host server RAM (Implied in my question is
+> the assumption this can be used also for non-VK use-cases. Please tell
+> me if I'm totally wrong here).
 
-DSI code :
+In V2 I switched from drm_mm to maple tree, which should improve 
+handling of lots of entries. I also dropped the requirement for GPUVA 
+entries to be backed by a valid GEM object.
 
-https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/dsi/dsi_host.c#L868
+I think it can be used for non-VK use-cases. It basically just keeps 
+track of mappings (not allocating them in the sense of finding a hole 
+and providing a base address for a given size). There are basic 
+functions to insert and remove entries. For those basic functions it is 
+ensured that colliding entries can't be inserted and only a specific 
+given entry can be removed, rather than e.g. an arbitrary range.
 
-DP code:
+There are also more advanced functions where users of the GPUVA manager 
+can request to "force map" a new mapping and to unmap a given range. The 
+GPUVA manager will figure out the (sub-)operations to make this happen 
+(.e.g. remove mappings in the way, split up mappings, etc.) and either 
+provide these operations (or steps) through callbacks or though a list 
+of operations to the caller to process them.
 
-Refer to dp_panel_dsc_pclk_param_calc in 
-https://patchwork.freedesktop.org/patch/519837/?series=113240&rev=1
+Are there any other use-cases or features you could think of that would 
+be beneficial for accelerators?
 
-Timing engine:
-
-refer to https://patchwork.freedesktop.org/patch/519838/?series=113240&rev=1
-
-Probably confusion is due to the naming. bytes_per_line is nothing but 
-bytes_per_pkt * pkt_per_line but the concept is common for DP and DSI.
-
-+		if (phys->comp_type == MSM_DISPLAY_COMPRESSION_DSC) {
-+			phys->dsc_extra_pclk_cycle_cnt = dsc_info->pclk_per_line;
-+			phys->dsc_extra_disp_width = dsc_info->extra_width;
-+			phys->dce_bytes_per_line =
-+				dsc_info->bytes_per_pkt * dsc_info->pkt_per_line;
+- Danilo
 
 > 
->> So either we have a helper in a common location somewhere so that 
->> these 3 modules can call that helper and use it OR each module 
->> duplicates the computation code.
->>
->> What should be the common location is the discussion here.
->>
->> It cannot be dpu_encoder.c as the DSI/DP dont call into the encoder 
->> methods.
->>
->>>>
->>>> Thanks,
->>>>
->>>> Jessica Zhang
->>>>
->>>> [1]
->>>> https://elixir.bootlin.com/linux/v6.3-rc2/source/drivers/gpu/drm/msm/dsi/dsi_host.c#L1756 
->>>>
->>>>
->>>> [2] https://patchwork.freedesktop.org/patch/519845/?series=113240&rev=1
->>>
->>> [3] https://patchwork.freedesktop.org/patch/525441/?series=114472&rev=2
->>>
->>>
->>>
+> Thanks,
+> Oded
 > 
+
