@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C96D6BD518
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:17:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439E46BD503
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:17:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 764B110ED58;
-	Thu, 16 Mar 2023 16:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7123010ED64;
+	Thu, 16 Mar 2023 16:17:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53BD410ED5C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:17:05 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id by8so1050026ljb.12
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:17:05 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEB9410ED56
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:17:04 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id b10so2293347ljr.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678983423;
+ d=linaro.org; s=google; t=1678983424;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4jYEQpBTAsdIQL9tDisZQBWijquFgkds2ldcP5WEm+8=;
- b=xa3EqNfNyY2+sezwp/HyNGSgpX3Zj+wphsWlVFfA8fBGCnkk+kddNCeZOYuN+fFHA3
- Yf3eqpD+Qeh/2uN1dwiWqyA1YuUaFvNE67c38VLz11TCntoFi5SwzCH77XyqbYXwZ58t
- 7xjfjFPI1QEqnwdDxAKm4emdPbOFX2dP4qLzkFzudpu68Dkyk4SHWW+DGw6UqAqzTiJm
- Nt9N18Hg0Y634NDZ+jsCh3RDAeNHtz7EqAvNRp2ekUInOlDs6A7C0TqjY0LfJvR1lCtB
- cE+ZIR53giY15YJZDIwGps0/SHs7JvulUnP7P5PBIaylQ/ImzPTHJ6geoJNUqoUqt9yt
- +zzQ==
+ bh=T7TyjYiVd8H6cPP12mLuPhqB4XyP7gmrhAUkArPxJQU=;
+ b=MtQZl+F35CAkxM+I5ybRwKwXdO3n6bB4W9sFDpW+BCdfVRgjldqqkoIMURzKfJZ+Mv
+ 0HUEnnCqMjIkVzJNnsdsURb8LPqvkvQaWjmqP5ZsA55HYznZ882JnkOtmta3lCcnSiyT
+ ljFarXr781/M8RhOo2ZnC6ZVrJ/C+k7gQC8Nkh7xi1R6jk8Apf+hx1HrkRDgMZhR24hJ
+ G2nZNbfoMdfITmrxOToNvWxRWTVX39I3NG84oWZVgc+9x9PM9amNWdRnu8Kf7uJoPz8n
+ vGqZ6+dXbWRXE9LzrcE29Hb1GC1aelCq1+f835Yk9ngNrVLzDrlIzH4ANiSlqPrJW1Pe
+ 6UJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678983423;
+ d=1e100.net; s=20210112; t=1678983424;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4jYEQpBTAsdIQL9tDisZQBWijquFgkds2ldcP5WEm+8=;
- b=v0gXTpy4Z1iCLP9QyjNz6qadnLdcIvS6RbVtqyEIyd7iWoplfQl8ppv8ypSluScKqx
- qht4uI4CeGto7REWmDgZQglsjXuZUOHwluQ1j6cpxbgslv3A1ztSVTJQLdMHYqIcOXmg
- vNwCwBORE73/xbsUKMX9v+9/vfu3dhqOLy4GNQDkpoqGhaLJ9JqPSPU8vOkpV4Ji7gob
- Uxv4iFuDg5hNtacdUtAmR3PyEM8u7CIPQWCnudqVLQYYDnfW+As2vLEy6+yHylCMv6oQ
- qJdtW8igBSYyK/O9Ahkmi8p8vDjEWcquO35Y8I0lptBrbf1ASlDAWcwc7bOMsugzUrfr
- y+oA==
-X-Gm-Message-State: AO0yUKVqJ1BrbBoiZloOU5mGX1eGBs8W5vqR1fFpGN9on9WxPljbw0q6
- j62UsiAX/2uTFXk+hQp3+bfnSg==
-X-Google-Smtp-Source: AK7set8CtNFZfJOfBrtOvhPlQ0lKuFm0+9PacTZk2ctsV8jq6yw05xbNlja+ZvnSjHQ8/j/qvFcYAQ==
-X-Received: by 2002:a2e:9d0c:0:b0:298:9627:2538 with SMTP id
- t12-20020a2e9d0c000000b0029896272538mr2364469lji.12.1678983423711; 
- Thu, 16 Mar 2023 09:17:03 -0700 (PDT)
+ bh=T7TyjYiVd8H6cPP12mLuPhqB4XyP7gmrhAUkArPxJQU=;
+ b=gU/5Fj5HP5vknou6GrkphE8vTcBMzBGFWOPgKDoq9n5/UdDS6Uq2TWMIDYlhRhjNyf
+ hnqzud48phzllEuUDzZipk43fnB6g8BmPm2liG+ulKf9Dtbi01FE5v877pk9YQ3v0DCG
+ Y89OpZM3WlcThhvTab15jBkTe29Z8W/OPrdDmPQLaZoi5MRiTWqXdIAdn3CayRQPLUc/
+ dc+IrbgrZ3pxUfpEzNCBkgVcTl1iCxI6zrkNhAH+7eF+Y2h0Or3102WTk8z4zyl3vtJP
+ ow6iYrQ1QAbPBkUvCCob0oTyogkQnjkWA7oYCcv4YNsNfCz5XPJ6M9/XhDU2WrVuRYDf
+ 3aEg==
+X-Gm-Message-State: AO0yUKX1Mi+yO5UeSMrUdab5MwAaCaBe0JaPWf4BQkVGWW7AMxRsa+PA
+ dmuuUawFSaVnwcLtacBx1dIxwGqMkwqY0mYrpeQ=
+X-Google-Smtp-Source: AK7set96GXTt8KQa6ogjGY6ZIbgkm1nSvlTZwWBwZGJ75oQmEWX6GQdjGmKttjQ+zXjBYAJ5rB0VkA==
+X-Received: by 2002:a2e:80c2:0:b0:295:ba28:a42 with SMTP id
+ r2-20020a2e80c2000000b00295ba280a42mr2126679ljg.20.1678983424494; 
+ Thu, 16 Mar 2023 09:17:04 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a2e8342000000b00298b33afe1csm549152ljh.87.2023.03.16.09.17.02
+ l2-20020a2e8342000000b00298b33afe1csm549152ljh.87.2023.03.16.09.17.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 09:17:02 -0700 (PDT)
+ Thu, 16 Mar 2023 09:17:04 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v7 09/32] drm/msm/dpu: pass dpu_format to
- _dpu_hw_sspp_setup_scaler3()
-Date: Thu, 16 Mar 2023 19:16:30 +0300
-Message-Id: <20230316161653.4106395-10-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v7 10/32] drm/msm/dpu: clean up SRC addresses when setting up
+ SSPP for solid fill
+Date: Thu, 16 Mar 2023 19:16:31 +0300
+Message-Id: <20230316161653.4106395-11-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230316161653.4106395-1-dmitry.baryshkov@linaro.org>
 References: <20230316161653.4106395-1-dmitry.baryshkov@linaro.org>
@@ -80,83 +80,37 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no need to pass full dpu_hw_sspp_cfg instance to
-_dpu_hw_sspp_setup_scaler3, pass just struct dpu_format pointer.
+Set SSPP_SRCn_ADDR registers to 0 while setting up solid fill, as we can
+not be sure that the previous address is still valid.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 9 ++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 9 ++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 4 ++--
- 3 files changed, 10 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-index a1492a7e43ce..3030cd3b253a 100644
+index 3030cd3b253a..0a43c5682b2b 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
-@@ -419,19 +419,18 @@ static void dpu_hw_sspp_setup_pe_config(struct dpu_hw_sspp *ctx,
- }
- 
- static void _dpu_hw_sspp_setup_scaler3(struct dpu_hw_sspp *ctx,
--		struct dpu_hw_sspp_cfg *sspp,
--		void *scaler_cfg)
-+		struct dpu_hw_scaler3_cfg *scaler3_cfg,
-+		const struct dpu_format *format)
+@@ -563,11 +563,16 @@ static void dpu_hw_sspp_setup_csc(struct dpu_hw_sspp *ctx,
+ static void dpu_hw_sspp_setup_solidfill(struct dpu_sw_pipe *pipe, u32 color)
  {
+ 	struct dpu_hw_sspp *ctx = pipe->sspp;
++	struct dpu_hw_sspp_cfg cfg;
  	u32 idx;
--	struct dpu_hw_scaler3_cfg *scaler3_cfg = scaler_cfg;
  
--	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx) || !sspp
-+	if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx)
- 		|| !scaler3_cfg)
+ 	if (_sspp_subblk_offset(ctx, DPU_SSPP_SRC, &idx))
  		return;
  
- 	dpu_hw_setup_scaler3(&ctx->hw, scaler3_cfg, idx,
- 			ctx->cap->sblk->scaler_blk.version,
--			sspp->layout.format);
-+			format);
- }
- 
- static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_sspp *ctx)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-index 5903413256ea..136b8713943f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-@@ -317,13 +317,12 @@ struct dpu_hw_sspp_ops {
- 
- 	/**
- 	 * setup_scaler - setup scaler
--	 * @ctx: Pointer to pipe context
--	 * @pipe_cfg: Pointer to pipe configuration
--	 * @scaler_cfg: Pointer to scaler configuration
-+	 * @scaler3_cfg: Pointer to scaler configuration
-+	 * @format: pixel format parameters
- 	 */
- 	void (*setup_scaler)(struct dpu_hw_sspp *ctx,
--		struct dpu_hw_sspp_cfg *pipe_cfg,
--		void *scaler_cfg);
-+		struct dpu_hw_scaler3_cfg *scaler3_cfg,
-+		const struct dpu_format *format);
- 
- 	/**
- 	 * get_scaler_ver - get scaler h/w version
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 6ec39f937042..8c98385303ea 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -677,8 +677,8 @@ static void _dpu_plane_setup_scaler(struct dpu_sw_pipe *pipe,
- 	if (pipe_hw->ops.setup_scaler &&
- 			pipe->multirect_index != DPU_SSPP_RECT_1)
- 		pipe_hw->ops.setup_scaler(pipe_hw,
--				pipe_cfg,
--				&scaler3_cfg);
-+				&scaler3_cfg,
-+				fmt);
- }
- 
- /**
++	/* cleanup source addresses */
++	memset(&cfg, 0, sizeof(cfg));
++	ctx->ops.setup_sourceaddress(pipe, &cfg);
++
+ 	if (pipe->multirect_index == DPU_SSPP_RECT_SOLO ||
+ 	    pipe->multirect_index == DPU_SSPP_RECT_0)
+ 		DPU_REG_WRITE(&ctx->hw, SSPP_SRC_CONSTANT_COLOR + idx, color);
 -- 
 2.30.2
 
