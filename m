@@ -1,58 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA646BCE19
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 12:25:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C1E6BCE4B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 12:35:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB67810E0A3;
-	Thu, 16 Mar 2023 11:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4F010E09E;
+	Thu, 16 Mar 2023 11:35:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6879A10E0A3;
- Thu, 16 Mar 2023 11:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678965933; x=1710501933;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=FwHW50/xG6xGlvXZlh91opwVyZcLXNs3iGsUuI10i5A=;
- b=R8Wm5XQFmm5O7RDOgQII0dp0h6febLEw2x4PtqeeJ3gT8wT2rZo3ZcFw
- V2FJ7FmRhRE3YHIp2FJ/zbSBUf6dWLdLJxG8ZPIHGvKAlTGpVAA9lAs0B
- gNDdArJs084oV+uxvK58bBTH5zjfXj6U2gcJDqnfhzuZF1j8CK1RG5CX8
- HhTjoCZp0hdoHwOspZ+NjNxLUzBkkcSQXRrxzIVOUJ/FEt6qUaEH74MGW
- HzvRHd0Co7OCshlgUrcL0g9O+W9KyjVzSXf4fjN5rQx736AgZuSXOnMdP
- Rc4uSONfwnU6HHN/pcq/iu3xGSMi2fzxzNmhO+nq0LXIiptID9e4QnuPn A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="339487384"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="339487384"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2023 04:25:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="1009186213"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="1009186213"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 16 Mar 2023 04:25:29 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pcljc-0008Ug-2A;
- Thu, 16 Mar 2023 11:25:28 +0000
-Date: Thu, 16 Mar 2023 19:24:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
- ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
- wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 7/7] drm/debugfs: remove debugfs_root pointer from minor
-Message-ID: <202303161920.xBWFRr94-lkp@intel.com>
-References: <20230316082035.567520-8-christian.koenig@amd.com>
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A49D10E09E;
+ Thu, 16 Mar 2023 11:35:04 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id j11so1877848lfg.13;
+ Thu, 16 Mar 2023 04:35:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1678966502;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0NTi0Rm4FBOrE1e5nttxmZfpM/hTXqGa5E2wpZ7mipQ=;
+ b=Q9bpyqS0i4GU9TmSyUuGs057bXv8znHnH4f5oEhwwJDj8qrtPTkDCHp79MyD0hAJ97
+ S5LJrQIeqAtgUzhOHCwu1oIi9tpJFsF0hOo+hK6EFYb8BpLdzGpc46kTVMT24hs8APh2
+ iy9owUzCSn8MipwFirdLCBA1wXMCM0QwRq+yb5tp+H53622R+vPv69vLZL12Z0SYvOuO
+ Vh+2FhXTrf4BgdRvSoj0gWBXfeojrppRWjCWdcrvc1t3vR5vaGmbWGhFLi3BHi60BHak
+ PQzUcuWwlYX5YOW8+WiPZRh7og9NvCBTBZROLC/jekCCdaW7L89jpp+uHv5QoVLpDjXy
+ 2hsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678966502;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0NTi0Rm4FBOrE1e5nttxmZfpM/hTXqGa5E2wpZ7mipQ=;
+ b=SMr0OYO7PBv+wYzd+0UbJ32bv0RxdahdkBDCnJbn51vz5QDlXfeNo1jlPuDWloZok8
+ 4Qm5OeWWUKci6SPBpFU0ywYQ8b4yXKAbiCXuWnR5F3K3nGVad8Zvzh937TZWu0RW6J16
+ CaVBCTxdda1veHd4uuOK67LCFcvk4LFAr2XkLY94JSIKZ60OG7xeZRklByAl50osv3e7
+ /yB1KEXOSHfQWwHqEA7rMGfGNPwfx0IwsZ/EccncEux7S/AOf7l2jcQ6y7lmAd8rBp4c
+ AJ3+yjfX/8jRxLbVpnZKNFjB64xjHCNvv1aEykQThLW0fpNHWQVwCbwnfMBn8QLhN+dl
+ MM7w==
+X-Gm-Message-State: AO0yUKXwVY8Tnr/vZYVOL/1tZxeVLO316itcUaJNrYDHC7PHQTXVjRkJ
+ WjG1AtnA4ql5r0mN8xR253g=
+X-Google-Smtp-Source: AK7set/CfYRLlDZLgma6fJuH4XXQgP05ve9Imx/8OjI8M172/mMoXX34YzX1KIG1/K3VP/6qfgnuXg==
+X-Received: by 2002:ac2:518c:0:b0:4dc:8129:2700 with SMTP id
+ u12-20020ac2518c000000b004dc81292700mr2672691lfi.54.1678966501998; 
+ Thu, 16 Mar 2023 04:35:01 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ v20-20020ac25614000000b004dc83d04840sm1189924lfd.79.2023.03.16.04.35.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Mar 2023 04:35:01 -0700 (PDT)
+Date: Thu, 16 Mar 2023 13:34:49 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
+ for DP and HDMI
+Message-ID: <20230316133449.26b62760@eldfell>
+In-Reply-To: <ZBLz17f8YFmNEJlY@intel.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-10-harry.wentland@amd.com>
+ <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
+ <ZBLmYzVcnBgU6uo5@intel.com> <20230316120701.523bcb37@eldfell>
+ <ZBLz17f8YFmNEJlY@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230316082035.567520-8-christian.koenig@amd.com>
+Content-Type: multipart/signed; boundary="Sig_/kNWgExMIUIs5V4+8.DafZeq";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,94 +75,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
+ Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+--Sig_/kNWgExMIUIs5V4+8.DafZeq
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I love your patch! Yet something to improve:
+On Thu, 16 Mar 2023 12:47:51 +0200
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes linus/master v6.3-rc2]
-[cannot apply to drm-tip/drm-tip drm-intel/for-linux-next tegra/for-next next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> On Thu, Mar 16, 2023 at 12:07:01PM +0200, Pekka Paalanen wrote:
+> > On Thu, 16 Mar 2023 11:50:27 +0200
+> > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+> >  =20
+> > > On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote: =20
+> > > > On Tue, Mar 7, 2023 at 4:12=E2=80=AFPM Harry Wentland <harry.wentla=
+nd@amd.com> wrote:   =20
+> > > > >
+> > > > > We want compositors to be able to set the output
+> > > > > colorspace on DP and HDMI outputs, based on the
+> > > > > caps reported from the receiver via EDID.   =20
+> > > >=20
+> > > > About that... The documentation says that user space has to check t=
+he
+> > > > EDID for what the sink actually supports. So whatever is in
+> > > > supported_colorspaces is just what the driver/hardware is able to s=
+et
+> > > > but doesn't actually indicate that the sink supports it.
+> > > >=20
+> > > > So the only way to enable bt2020 is by checking if the sink supports
+> > > > both RGB and YUV variants because both could be used by the driver.
+> > > > Not great at all. Something to remember for the new property.   =20
+> > >=20
+> > > Hmm. I wonder if that's even legal... Looks like maybe it
+> > > is since I can't immediately spot anything in CTA-861 to
+> > > forbid it :/ =20
+> >=20
+> > Wouldn't the driver do the same EDID check before choosing whether it
+> > uses RGB or YCbCr signalling? =20
+>=20
+> I suppose it could. The modeset would then fail, which is perhaps
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-tegra-allow-compile-test-on-ARM/20230316-172205
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230316082035.567520-8-christian.koenig%40amd.com
-patch subject: [PATCH 7/7] drm/debugfs: remove debugfs_root pointer from minor
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230316/202303161920.xBWFRr94-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/70b21b15c200ec426c806bf2aa03083e3b19dd41
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-tegra-allow-compile-test-on-ARM/20230316-172205
-        git checkout 70b21b15c200ec426c806bf2aa03083e3b19dd41
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/
+Could? What are they missing?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161920.xBWFRr94-lkp@intel.com/
+I mean, drivers are already automatically choosing between RGB and YCbCr
+signalling based on e.g. available bandwidth. Surely they already will
+not attempt to send a signal format to a monitor that does not say it
+supports that?
 
-All errors (new ones prefixed by >>):
+> not a huge issue, except maybe for suspend+resume if we fail in
+> the resume path. Although I guess the EDID/etc. should not yet
+> be refreshed at that point so if the modeset worked before suspend
+> resume should be able to restore it without failures.
 
-   drivers/gpu/drm/msm/msm_debugfs.c: In function 'msm_debugfs_init':
->> drivers/gpu/drm/msm/msm_debugfs.c:329:58: error: 'struct drm_minor' has no member named 'debugfs_root'
-     329 |         gpu_devfreq = debugfs_create_dir("devfreq", minor->debugfs_root);
-         |                                                          ^~
+I assumed that if a monitor can be driven, and it supports any BT2020
+format, then it always supports the BT2020 format it is being driven
+in (RGB vs. YCbCr flavors). Bad assumption?
 
 
-vim +329 drivers/gpu/drm/msm/msm_debugfs.c
+Thanks,
+pq
 
-edcd60ce243d16 Rob Clark                 2016-03-16  303  
-7ce84471e3c72e Wambui Karuga             2020-03-10  304  void msm_debugfs_init(struct drm_minor *minor)
-edcd60ce243d16 Rob Clark                 2016-03-16  305  {
-edcd60ce243d16 Rob Clark                 2016-03-16  306  	struct drm_device *dev = minor->dev;
-bc5289eed48176 Rob Clark                 2016-10-26  307  	struct msm_drm_private *priv = dev->dev_private;
-6563f60f14cbb3 Rob Clark                 2023-01-10  308  	struct dentry *gpu_devfreq;
-edcd60ce243d16 Rob Clark                 2016-03-16  309  
-9e2fd463ec346d Wambui Karuga             2020-03-10  310  	drm_debugfs_create_files(msm_debugfs_list,
-edcd60ce243d16 Rob Clark                 2016-03-16  311  				 ARRAY_SIZE(msm_debugfs_list),
-70b21b15c200ec Christian König           2023-03-16  312  				 minor->dev->debugfs_root, minor);
-edcd60ce243d16 Rob Clark                 2016-03-16  313  
-70b21b15c200ec Christian König           2023-03-16  314  	debugfs_create_file("gpu", S_IRUSR, minor->dev->debugfs_root,
-4f776f4511c7f7 Jordan Crouse             2018-07-24  315  		dev, &msm_gpu_fops);
-4f776f4511c7f7 Jordan Crouse             2018-07-24  316  
-70b21b15c200ec Christian König           2023-03-16  317  	debugfs_create_file("kms", S_IRUSR, minor->dev->debugfs_root,
-c1760555884b7f Rob Clark                 2021-12-15  318  		dev, &msm_kms_fops);
-c1760555884b7f Rob Clark                 2021-12-15  319  
-70b21b15c200ec Christian König           2023-03-16  320  	debugfs_create_u32("hangcheck_period_ms", 0600, minor->dev->debugfs_root,
-1d2fa58e0dda33 Samuel Iglesias Gonsalvez 2021-06-07  321  		&priv->hangcheck_period);
-1d2fa58e0dda33 Samuel Iglesias Gonsalvez 2021-06-07  322  
-70b21b15c200ec Christian König           2023-03-16  323  	debugfs_create_bool("disable_err_irq", 0600, minor->dev->debugfs_root,
-5edf2750d998b7 Rob Clark                 2021-11-09  324  		&priv->disable_err_irq);
-5edf2750d998b7 Rob Clark                 2021-11-09  325  
-70b21b15c200ec Christian König           2023-03-16  326  	debugfs_create_file("shrink", S_IRWXU, minor->dev->debugfs_root,
-5434941fd45d30 Rob Clark                 2021-06-14  327  		dev, &shrink_fops);
-5434941fd45d30 Rob Clark                 2021-06-14  328  
-6563f60f14cbb3 Rob Clark                 2023-01-10 @329  	gpu_devfreq = debugfs_create_dir("devfreq", minor->debugfs_root);
-6563f60f14cbb3 Rob Clark                 2023-01-10  330  
-6563f60f14cbb3 Rob Clark                 2023-01-10  331  	debugfs_create_bool("idle_clamp",0600, gpu_devfreq,
-6563f60f14cbb3 Rob Clark                 2023-01-10  332  			    &priv->gpu_clamp_to_idle);
-6563f60f14cbb3 Rob Clark                 2023-01-10  333  
-6563f60f14cbb3 Rob Clark                 2023-01-10  334  	debugfs_create_u32("upthreshold",0600, gpu_devfreq,
-6563f60f14cbb3 Rob Clark                 2023-01-10  335  			   &priv->gpu_devfreq_config.upthreshold);
-6563f60f14cbb3 Rob Clark                 2023-01-10  336  
-6563f60f14cbb3 Rob Clark                 2023-01-10  337  	debugfs_create_u32("downdifferential",0600, gpu_devfreq,
-6563f60f14cbb3 Rob Clark                 2023-01-10  338  			   &priv->gpu_devfreq_config.downdifferential);
-6563f60f14cbb3 Rob Clark                 2023-01-10  339  
-7ce84471e3c72e Wambui Karuga             2020-03-10  340  	if (priv->kms && priv->kms->funcs->debugfs_init)
-7ce84471e3c72e Wambui Karuga             2020-03-10  341  		priv->kms->funcs->debugfs_init(priv->kms, minor);
-6d29709de8028c Rob Clark                 2022-08-07  342  
+> >=20
+> > So if EDID says only one of them is supported, userspace should be
+> > confident that that is the BT2020 mode the driver will match?
+> >=20
+> >=20
+> > Thanks,
+> > pq
+> >  =20
+> > >  =20
+> > > >    =20
+> > > > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > > > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > > > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> > > > > Cc: Vitaly.Prosyak@amd.com
+> > > > > Cc: Joshua Ashton <joshua@froggi.es>
+> > > > > Cc: dri-devel@lists.freedesktop.org
+> > > > > Cc: amd-gfx@lists.freedesktop.org
+> > > > > Reviewed-By: Joshua Ashton <joshua@froggi.es>
+> > > > > ---
+> > > > >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++=
+++++++
+> > > > >  1 file changed, 15 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/=
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > > index f91b2ea13d96..2d883c6dae90 100644
+> > > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > > @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(s=
+truct drm_connector *connector)
+> > > > >         return amdgpu_dm_connector->num_modes;
+> > > > >  }
+> > > > >
+> > > > > +static const u32 supported_colorspaces =3D
+> > > > > +       BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
+> > > > > +       BIT(DRM_MODE_COLORIMETRY_OPRGB) |
+> > > > > +       BIT(DRM_MODE_COLORIMETRY_BT2020) |
+> > > > > +       BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
+> > > > > +
+> > > > >  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manag=
+er *dm,
+> > > > >                                      struct amdgpu_dm_connector *=
+aconnector,
+> > > > >                                      int connector_type,
+> > > > > @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struc=
+t amdgpu_display_manager *dm,
+> > > > >                                 adev->mode_info.abm_level_propert=
+y, 0);
+> > > > >         }
+> > > > >
+> > > > > +       if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
+> > > > > +               if (!drm_mode_create_hdmi_colorspace_property(&ac=
+onnector->base, supported_colorspaces))
+> > > > > +                       drm_connector_attach_colorspace_property(=
+&aconnector->base);
+> > > > > +       } else if (connector_type =3D=3D DRM_MODE_CONNECTOR_Displ=
+ayPort ||
+> > > > > +                  connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+> > > > > +               if (!drm_mode_create_dp_colorspace_property(&acon=
+nector->base, supported_colorspaces))
+> > > > > +                       drm_connector_attach_colorspace_property(=
+&aconnector->base);
+> > > > > +       }
+> > > > > +
+> > > > >         if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> > > > >             connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort =
+||
+> > > > >             connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
+> > > > > --
+> > > > > 2.39.2
+> > > > >   =20
+> > >  =20
+> >  =20
+>=20
+>=20
+>=20
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+--Sig_/kNWgExMIUIs5V4+8.DafZeq
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQS/tkACgkQI1/ltBGq
+qqdNdxAApeij1mIIGW3FUnHo8n1YSdAX6tkXSyMJu9xZnP1MgOC1qwMepr/06aXd
+V6Qu7fGJ/C656X4CEK/PCjFD93qRUY0CPwVB3NR9YBO+P4ghf0zbP7f2qjO6mDfz
+L4ja8+BcioR/yaOTxEzF7+BbejB3iQ8dGeIV4Y2QVwzCMtRBw0zLZfpVaxOKKr3U
+oAq5ZKa+61yH8w94nlxnp1nkx8Ap1kystJZXHTDJzsMc65va439/JloyKtGBeWeH
+r+Cr0pLhc6vfT1C9sM3506VPGcIHF+XI/6QzwsLzXUDs9HVj/ejjzyZyJQ7daEiA
+ax0HMVYkn7czO+PU7Nm7RjqDA+jWzHkhSuEDsIg2CqzJcBYjqCRZbUsi59QFpcrJ
+jJBxvIOgCCl2Xyg5cQl/5S/oeBPz51RB/orFTqTkblBz+DLaYYahSL33pITPdRiZ
+R6ellQew7Fs9p0eV8FvsItqBrAgfUx1UfJgZWyxiMiY1g1VL26yNNytRFsHoK3Gq
+V2jvU1nWGvX0DIsGCWLwCJ0HPt61p2xFcumQG3iZQrSX7cQzMSPOrZhxDPhaOux9
+3BtHnl7HYzpiRlSRT+3GTEvYR4kdn8ULG1qkg+N2Th6bB4741v1LppS0KuM6qu8G
+uLHFDbUzC/tSftVD6v8LEmpJtflmILEY+kyOGCY3ytF7PWlhHYY=
+=yWl9
+-----END PGP SIGNATURE-----
+
+--Sig_/kNWgExMIUIs5V4+8.DafZeq--
