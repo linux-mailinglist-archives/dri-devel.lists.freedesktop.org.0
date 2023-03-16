@@ -1,68 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C1E6BCE4B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 12:35:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF056BCE5D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 12:36:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C4F010E09E;
-	Thu, 16 Mar 2023 11:35:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F228C10E1C9;
+	Thu, 16 Mar 2023 11:36:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A49D10E09E;
- Thu, 16 Mar 2023 11:35:04 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id j11so1877848lfg.13;
- Thu, 16 Mar 2023 04:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678966502;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=0NTi0Rm4FBOrE1e5nttxmZfpM/hTXqGa5E2wpZ7mipQ=;
- b=Q9bpyqS0i4GU9TmSyUuGs057bXv8znHnH4f5oEhwwJDj8qrtPTkDCHp79MyD0hAJ97
- S5LJrQIeqAtgUzhOHCwu1oIi9tpJFsF0hOo+hK6EFYb8BpLdzGpc46kTVMT24hs8APh2
- iy9owUzCSn8MipwFirdLCBA1wXMCM0QwRq+yb5tp+H53622R+vPv69vLZL12Z0SYvOuO
- Vh+2FhXTrf4BgdRvSoj0gWBXfeojrppRWjCWdcrvc1t3vR5vaGmbWGhFLi3BHi60BHak
- PQzUcuWwlYX5YOW8+WiPZRh7og9NvCBTBZROLC/jekCCdaW7L89jpp+uHv5QoVLpDjXy
- 2hsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678966502;
- h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0NTi0Rm4FBOrE1e5nttxmZfpM/hTXqGa5E2wpZ7mipQ=;
- b=SMr0OYO7PBv+wYzd+0UbJ32bv0RxdahdkBDCnJbn51vz5QDlXfeNo1jlPuDWloZok8
- 4Qm5OeWWUKci6SPBpFU0ywYQ8b4yXKAbiCXuWnR5F3K3nGVad8Zvzh937TZWu0RW6J16
- CaVBCTxdda1veHd4uuOK67LCFcvk4LFAr2XkLY94JSIKZ60OG7xeZRklByAl50osv3e7
- /yB1KEXOSHfQWwHqEA7rMGfGNPwfx0IwsZ/EccncEux7S/AOf7l2jcQ6y7lmAd8rBp4c
- AJ3+yjfX/8jRxLbVpnZKNFjB64xjHCNvv1aEykQThLW0fpNHWQVwCbwnfMBn8QLhN+dl
- MM7w==
-X-Gm-Message-State: AO0yUKXwVY8Tnr/vZYVOL/1tZxeVLO316itcUaJNrYDHC7PHQTXVjRkJ
- WjG1AtnA4ql5r0mN8xR253g=
-X-Google-Smtp-Source: AK7set/CfYRLlDZLgma6fJuH4XXQgP05ve9Imx/8OjI8M172/mMoXX34YzX1KIG1/K3VP/6qfgnuXg==
-X-Received: by 2002:ac2:518c:0:b0:4dc:8129:2700 with SMTP id
- u12-20020ac2518c000000b004dc81292700mr2672691lfi.54.1678966501998; 
- Thu, 16 Mar 2023 04:35:01 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- v20-20020ac25614000000b004dc83d04840sm1189924lfd.79.2023.03.16.04.35.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 04:35:01 -0700 (PDT)
-Date: Thu, 16 Mar 2023 13:34:49 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
- for DP and HDMI
-Message-ID: <20230316133449.26b62760@eldfell>
-In-Reply-To: <ZBLz17f8YFmNEJlY@intel.com>
-References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-10-harry.wentland@amd.com>
- <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
- <ZBLmYzVcnBgU6uo5@intel.com> <20230316120701.523bcb37@eldfell>
- <ZBLz17f8YFmNEJlY@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB08610E0A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 11:36:45 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4688F61FBC
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 11:36:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1422EC4339B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 11:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678966604;
+ bh=yKOfGLaQwNENaIDhKHuYkS4Z3LK3UG8gtYieveeD/mg=;
+ h=From:To:Subject:Date:From;
+ b=lR5sN83zWLugzs5Dw+kIQGy+ZpKLfmAIwVz6c/pktbNoQnOExAMVz6MEsetbJJzJJ
+ qdAwVu//QdjzJu5otgXYJBo7RQZOwv0BqWUmUHfxvlOQS6U9ECnuNsLLAIZRTlRik1
+ z1Wug2H0eKpZKwNa5YsHK/RN77KdCuJKt89MkJOxoOIxIgnWtwI/uxeyFmnRrMuDZi
+ cmJ8TgQq4ri5xemZnMXCxG/DB0Gz06RwmU4dsktLrEYJyXv61g8u3eS5IIdUWuhHuT
+ CHyRUj+BFCaGhtpI7KGQu2BrteyY6lacnsc6wbTqJhPFxIi/BH0vlj61yfyV9KQX6z
+ YXNZn7qWWk8Ow==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/10] accel/habanalabs: align to latest firmware specs
+Date: Thu, 16 Mar 2023 13:36:31 +0200
+Message-Id: <20230316113640.499267-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/kNWgExMIUIs5V4+8.DafZeq";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,168 +49,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/kNWgExMIUIs5V4+8.DafZeq
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Copy the most up-to-date interface files to the firmware.
 
-On Thu, 16 Mar 2023 12:47:51 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
+---
+ drivers/accel/habanalabs/gaudi2/gaudi2.c      |  2 +-
+ .../habanalabs/include/common/cpucp_if.h      | 51 ++++++++++++++++++-
+ .../habanalabs/include/common/hl_boot_if.h    | 47 +++++------------
+ .../include/gaudi2/gaudi2_async_events.h      |  4 +-
+ .../habanalabs/include/gaudi2/gaudi2_fw_if.h  |  5 +-
+ 5 files changed, 69 insertions(+), 40 deletions(-)
 
-> On Thu, Mar 16, 2023 at 12:07:01PM +0200, Pekka Paalanen wrote:
-> > On Thu, 16 Mar 2023 11:50:27 +0200
-> > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
-> >  =20
-> > > On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote: =20
-> > > > On Tue, Mar 7, 2023 at 4:12=E2=80=AFPM Harry Wentland <harry.wentla=
-nd@amd.com> wrote:   =20
-> > > > >
-> > > > > We want compositors to be able to set the output
-> > > > > colorspace on DP and HDMI outputs, based on the
-> > > > > caps reported from the receiver via EDID.   =20
-> > > >=20
-> > > > About that... The documentation says that user space has to check t=
-he
-> > > > EDID for what the sink actually supports. So whatever is in
-> > > > supported_colorspaces is just what the driver/hardware is able to s=
-et
-> > > > but doesn't actually indicate that the sink supports it.
-> > > >=20
-> > > > So the only way to enable bt2020 is by checking if the sink supports
-> > > > both RGB and YUV variants because both could be used by the driver.
-> > > > Not great at all. Something to remember for the new property.   =20
-> > >=20
-> > > Hmm. I wonder if that's even legal... Looks like maybe it
-> > > is since I can't immediately spot anything in CTA-861 to
-> > > forbid it :/ =20
-> >=20
-> > Wouldn't the driver do the same EDID check before choosing whether it
-> > uses RGB or YCbCr signalling? =20
->=20
-> I suppose it could. The modeset would then fail, which is perhaps
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 8943dc9872da..21cf7180fe9f 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -9784,7 +9784,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 		break;
+ 
+ 	case GAUDI2_EVENT_CPU_FP32_NOT_SUPPORTED:
+-	case GAUDI2_EVENT_DEV_RESET_REQ:
++	case GAUDI2_EVENT_CPU_DEV_RESET_REQ:
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		error_count = GAUDI2_NA_EVENT_CAUSE;
+ 		is_critical = true;
+diff --git a/drivers/accel/habanalabs/include/common/cpucp_if.h b/drivers/accel/habanalabs/include/common/cpucp_if.h
+index d713252a4f13..bb65b9e2b424 100644
+--- a/drivers/accel/habanalabs/include/common/cpucp_if.h
++++ b/drivers/accel/habanalabs/include/common/cpucp_if.h
+@@ -33,6 +33,10 @@
+ #define PLL_MAP_MAX_BITS	128
+ #define PLL_MAP_LEN		(PLL_MAP_MAX_BITS / 8)
+ 
++enum eq_event_id {
++	EQ_EVENT_NIC_STS_REQUEST = 0,
++};
++
+ /*
+  * info of the pkt queue pointers in the first async occurrence
+  */
+@@ -354,9 +358,48 @@ struct hl_eq_addr_dec_intr_data {
+ 	__u8 pad[7];
+ };
+ 
++enum hl_mme_acc_err_type {
++	MME_ACC_WBC_ERR_RESP_LEGACY,
++	MME_ACC_WBC_ERR_RESP_SET0_CH0,
++	MME_ACC_WBC_ERR_RESP_SET0_CH1,
++	MME_ACC_WBC_ERR_RESP_SET1_CH0,
++	MME_ACC_WBC_ERR_RESP_SET1_CH1,
++	MME_ACC_WBC_BUSER_NUMERICAL_INF_ERR_SET0_CH0,
++	MME_ACC_WBC_BUSER_NUMERICAL_INF_ERR_SET0_CH1,
++	MME_ACC_WBC_BUSER_NUMERICAL_NINF_ERR_SET0_CH0,
++	MME_ACC_WBC_BUSER_NUMERICAL_NINF_ERR_SET0_CH1,
++	MME_ACC_WBC_BUSER_NUMERICAL_NAN_ERR_SET0_CH0,
++	MME_ACC_WBC_BUSER_NUMERICAL_NAN_ERR_SET0_CH1,
++	MME_ACC_WBC_BUSER_RR_DBG_ERR_SET0_CH0,
++	MME_ACC_WBC_BUSER_RR_DBG_ERR_SET0_CH1,
++	MME_ACC_WBC_BUSER_NUMERICAL_INF_ERR_SET1_CH0,
++	MME_ACC_WBC_BUSER_NUMERICAL_INF_ERR_SET1_CH1,
++	MME_ACC_WBC_BUSER_NUMERICAL_NINF_ERR_SET1_CH0,
++	MME_ACC_WBC_BUSER_NUMERICAL_NINF_ERR_SET1_CH1,
++	MME_ACC_WBC_BUSER_NUMERICAL_NAN_ERR_SET1_CH0,
++	MME_ACC_WBC_BUSER_NUMERICAL_NAN_ERR_SET1_CH1,
++	MME_ACC_WBC_BUSER_RR_DBG_ERR_SET1_CH0,
++	MME_ACC_WBC_BUSER_RR_DBG_ERR_SET1_CH1,
++	MME_ACC_AP_STS_SRC_DNRM,
++	MME_ACC_AP_STS_SRC_INF,
++	MME_ACC_AP_STS_SRC_NINF,
++	MME_ACC_AP_STS_SRC_NAN,
++	MME_ACC_AP_STS_RES_INF,
++	MME_ACC_AP_STS_RES_NINF,
++	MME_ACC_AP_STS_RES_NAN
++};
++
++struct hl_eq_mme_acc_data {
++	__u8 mme_id;
++	__u8 err_type; /* enum hl_mme_acc_err_type */
++	__le16 ctx_id;
++	__u8 pad[4];
++};
++
+ struct hl_eq_entry {
+ 	struct hl_eq_header hdr;
+ 	union {
++		__le64 data_placeholder;
+ 		struct hl_eq_ecc_data ecc_data;
+ 		struct hl_eq_hbm_ecc_data hbm_ecc_data;	/* Gaudi1 HBM */
+ 		struct hl_eq_sm_sei_data sm_sei_data;
+@@ -661,6 +704,9 @@ enum pq_init_status {
+  * CPUCP_PACKET_ACTIVE_STATUS_SET -
+  *       LKD sends FW indication whether device is free or in use, this indication is reported
+  *       also to the BMC.
++ *
++ * CPUCP_PACKET_REGISTER_INTERRUPTS -
++ *       Packet to register interrupts indicating LKD is ready to receive events from FW.
+  */
+ 
+ enum cpucp_packet_id {
+@@ -725,6 +771,8 @@ enum cpucp_packet_id {
+ 	CPUCP_PACKET_RESERVED9,			/* not used */
+ 	CPUCP_PACKET_RESERVED10,		/* not used */
+ 	CPUCP_PACKET_RESERVED11,		/* not used */
++	CPUCP_PACKET_RESERVED12,		/* internal */
++	CPUCP_PACKET_REGISTER_INTERRUPTS,	/* internal */
+ 	CPUCP_PACKET_ID_MAX			/* must be last */
+ };
+ 
+@@ -1127,6 +1175,7 @@ struct cpucp_security_info {
+  *                     (0 = functional 1 = binned)
+  * @interposer_version: Interposer version programmed in eFuse
+  * @substrate_version: Substrate version programmed in eFuse
++ * @fw_hbm_region_size: Size in bytes of FW reserved region in HBM.
+  * @fw_os_version: Firmware OS Version
+  */
+ struct cpucp_info {
+@@ -1154,7 +1203,7 @@ struct cpucp_info {
+ 	__u8 substrate_version;
+ 	__u8 reserved2;
+ 	struct cpucp_security_info sec_info;
+-	__le32 reserved3;
++	__le32 fw_hbm_region_size;
+ 	__u8 pll_map[PLL_MAP_LEN];
+ 	__le64 mme_binning_mask;
+ 	__u8 fw_os_version[VERSION_MAX_LEN];
+diff --git a/drivers/accel/habanalabs/include/common/hl_boot_if.h b/drivers/accel/habanalabs/include/common/hl_boot_if.h
+index 2256add057c5..c58d76a2705c 100644
+--- a/drivers/accel/habanalabs/include/common/hl_boot_if.h
++++ b/drivers/accel/habanalabs/include/common/hl_boot_if.h
+@@ -770,15 +770,23 @@ enum hl_components {
+ 	HL_COMPONENTS_ARMCP,
+ 	HL_COMPONENTS_CPLD,
+ 	HL_COMPONENTS_UBOOT,
++	HL_COMPONENTS_FUSE,
+ 	HL_COMPONENTS_MAX_NUM = 16
+ };
+ 
++#define NAME_MAX_LEN	32 /* bytes */
++struct hl_module_data {
++	__u8 name[NAME_MAX_LEN];
++	__u8 version[VERSION_MAX_LEN];
++};
++
+ /**
+  * struct hl_component_versions - versions associated with hl component.
+  * @struct_size: size of all the struct (including dynamic size of modules).
+  * @modules_offset: offset of the modules field in this struct.
+  * @component: version of the component itself.
+  * @fw_os: Firmware OS Version.
++ * @comp_name: Name of the component.
+  * @modules_mask: i'th bit (from LSB) is a flag - on if module i in enum
+  *              hl_modules is used.
+  * @modules_counter: number of set bits in modules_mask.
+@@ -791,45 +799,14 @@ struct hl_component_versions {
+ 	__le16 modules_offset;
+ 	__u8 component[VERSION_MAX_LEN];
+ 	__u8 fw_os[VERSION_MAX_LEN];
++	__u8 comp_name[NAME_MAX_LEN];
+ 	__le16 modules_mask;
+ 	__u8 modules_counter;
+ 	__u8 reserved[1];
+-	__u8 modules[][VERSION_MAX_LEN];
+-};
+-
+-/**
+- * struct hl_fw_versions - all versions (fuse, cpucp's components with their
+- *              modules)
+- * @struct_size: size of all the struct (including dynamic size of components).
+- * @components_offset: offset of the components field in this struct.
+- * @fuse: silicon production FUSE information.
+- * @components_mask: i'th bit (from LSB) is a flag - on if component i in enum
+- *              hl_components is used.
+- * @components_counter: number of set bits in components_mask.
+- * @reserved: reserved for future use.
+- * @components: versions of hl components. Index i corresponds to the i'th bit
+- *              that is *on* in components_mask. For example, if
+- *              components_mask=0b101, then *components represents arcpid and
+- *              *(hl_component_versions*)((char*)components + 1') represents
+- *              preboot, where 1' = components[0].struct_size.
+- */
+-struct hl_fw_versions {
+-	__le16 struct_size;
+-	__le16 components_offset;
+-	__u8 fuse[VERSION_MAX_LEN];
+-	__le16 components_mask;
+-	__u8 components_counter;
+-	__u8 reserved[1];
+-	struct hl_component_versions components[];
++	struct hl_module_data modules[];
+ };
+ 
+-/* Max size of struct hl_component_versions */
+-#define HL_COMPONENT_VERSIONS_MAX_SIZE \
+-	(sizeof(struct hl_component_versions) + HL_MODULES_MAX_NUM * \
+-	 VERSION_MAX_LEN)
+-
+-/* Max size of struct hl_fw_versions */
+-#define HL_FW_VERSIONS_MAX_SIZE (sizeof(struct hl_fw_versions) + \
+-		HL_COMPONENTS_MAX_NUM * HL_COMPONENT_VERSIONS_MAX_SIZE)
++/* Max size of fit size */
++#define HL_FW_VERSIONS_FIT_SIZE	4096
+ 
+ #endif /* HL_BOOT_IF_H */
+diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h
+index 50852cc80373..f661068d0c5f 100644
+--- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h
++++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_events.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0
+  *
+- * Copyright 2018-2021 HabanaLabs, Ltd.
++ * Copyright 2018-2022 HabanaLabs, Ltd.
+  * All Rights Reserved.
+  *
+  */
+@@ -958,7 +958,7 @@ enum gaudi2_async_event_id {
+ 	GAUDI2_EVENT_CPU11_STATUS_NIC11_ENG1 = 1318,
+ 	GAUDI2_EVENT_ARC_DCCM_FULL = 1319,
+ 	GAUDI2_EVENT_CPU_FP32_NOT_SUPPORTED = 1320,
+-	GAUDI2_EVENT_DEV_RESET_REQ = 1321,
++	GAUDI2_EVENT_CPU_DEV_RESET_REQ = 1321,
+ 	GAUDI2_EVENT_SIZE,
+ };
+ 
+diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h
+index 82f3ca2a3966..8522f24deac0 100644
+--- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h
++++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_fw_if.h
+@@ -63,7 +63,10 @@ struct gaudi2_cold_rst_data {
+ 			u32 fake_sig_validation_en : 1;
+ 			u32 bist_skip_enable : 1;
+ 			u32 bist_need_iatu_config : 1;
+-			u32 reserved : 24;
++			u32 fake_bis_compliant : 1;
++			u32 wd_rst_cause_arm : 1;
++			u32 wd_rst_cause_arcpid : 1;
++			u32 reserved : 21;
+ 		};
+ 		__le32 data;
+ 	};
+-- 
+2.40.0
 
-Could? What are they missing?
-
-I mean, drivers are already automatically choosing between RGB and YCbCr
-signalling based on e.g. available bandwidth. Surely they already will
-not attempt to send a signal format to a monitor that does not say it
-supports that?
-
-> not a huge issue, except maybe for suspend+resume if we fail in
-> the resume path. Although I guess the EDID/etc. should not yet
-> be refreshed at that point so if the modeset worked before suspend
-> resume should be able to restore it without failures.
-
-I assumed that if a monitor can be driven, and it supports any BT2020
-format, then it always supports the BT2020 format it is being driven
-in (RGB vs. YCbCr flavors). Bad assumption?
-
-
-Thanks,
-pq
-
-> >=20
-> > So if EDID says only one of them is supported, userspace should be
-> > confident that that is the BT2020 mode the driver will match?
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> > >  =20
-> > > >    =20
-> > > > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> > > > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> > > > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> > > > > Cc: Vitaly.Prosyak@amd.com
-> > > > > Cc: Joshua Ashton <joshua@froggi.es>
-> > > > > Cc: dri-devel@lists.freedesktop.org
-> > > > > Cc: amd-gfx@lists.freedesktop.org
-> > > > > Reviewed-By: Joshua Ashton <joshua@froggi.es>
-> > > > > ---
-> > > > >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++=
-++++++
-> > > > >  1 file changed, 15 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/=
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > > index f91b2ea13d96..2d883c6dae90 100644
-> > > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > > > @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(s=
-truct drm_connector *connector)
-> > > > >         return amdgpu_dm_connector->num_modes;
-> > > > >  }
-> > > > >
-> > > > > +static const u32 supported_colorspaces =3D
-> > > > > +       BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
-> > > > > +       BIT(DRM_MODE_COLORIMETRY_OPRGB) |
-> > > > > +       BIT(DRM_MODE_COLORIMETRY_BT2020) |
-> > > > > +       BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
-> > > > > +
-> > > > >  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manag=
-er *dm,
-> > > > >                                      struct amdgpu_dm_connector *=
-aconnector,
-> > > > >                                      int connector_type,
-> > > > > @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struc=
-t amdgpu_display_manager *dm,
-> > > > >                                 adev->mode_info.abm_level_propert=
-y, 0);
-> > > > >         }
-> > > > >
-> > > > > +       if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
-> > > > > +               if (!drm_mode_create_hdmi_colorspace_property(&ac=
-onnector->base, supported_colorspaces))
-> > > > > +                       drm_connector_attach_colorspace_property(=
-&aconnector->base);
-> > > > > +       } else if (connector_type =3D=3D DRM_MODE_CONNECTOR_Displ=
-ayPort ||
-> > > > > +                  connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
-> > > > > +               if (!drm_mode_create_dp_colorspace_property(&acon=
-nector->base, supported_colorspaces))
-> > > > > +                       drm_connector_attach_colorspace_property(=
-&aconnector->base);
-> > > > > +       }
-> > > > > +
-> > > > >         if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
-> > > > >             connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort =
-||
-> > > > >             connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
-> > > > > --
-> > > > > 2.39.2
-> > > > >   =20
-> > >  =20
-> >  =20
->=20
->=20
->=20
-
-
---Sig_/kNWgExMIUIs5V4+8.DafZeq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQS/tkACgkQI1/ltBGq
-qqdNdxAApeij1mIIGW3FUnHo8n1YSdAX6tkXSyMJu9xZnP1MgOC1qwMepr/06aXd
-V6Qu7fGJ/C656X4CEK/PCjFD93qRUY0CPwVB3NR9YBO+P4ghf0zbP7f2qjO6mDfz
-L4ja8+BcioR/yaOTxEzF7+BbejB3iQ8dGeIV4Y2QVwzCMtRBw0zLZfpVaxOKKr3U
-oAq5ZKa+61yH8w94nlxnp1nkx8Ap1kystJZXHTDJzsMc65va439/JloyKtGBeWeH
-r+Cr0pLhc6vfT1C9sM3506VPGcIHF+XI/6QzwsLzXUDs9HVj/ejjzyZyJQ7daEiA
-ax0HMVYkn7czO+PU7Nm7RjqDA+jWzHkhSuEDsIg2CqzJcBYjqCRZbUsi59QFpcrJ
-jJBxvIOgCCl2Xyg5cQl/5S/oeBPz51RB/orFTqTkblBz+DLaYYahSL33pITPdRiZ
-R6ellQew7Fs9p0eV8FvsItqBrAgfUx1UfJgZWyxiMiY1g1VL26yNNytRFsHoK3Gq
-V2jvU1nWGvX0DIsGCWLwCJ0HPt61p2xFcumQG3iZQrSX7cQzMSPOrZhxDPhaOux9
-3BtHnl7HYzpiRlSRT+3GTEvYR4kdn8ULG1qkg+N2Th6bB4741v1LppS0KuM6qu8G
-uLHFDbUzC/tSftVD6v8LEmpJtflmILEY+kyOGCY3ytF7PWlhHYY=
-=yWl9
------END PGP SIGNATURE-----
-
---Sig_/kNWgExMIUIs5V4+8.DafZeq--
