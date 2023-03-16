@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46D16BD67C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F16C6BD675
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF1C10ED87;
-	Thu, 16 Mar 2023 16:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E549689AC3;
+	Thu, 16 Mar 2023 16:55:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFDF610ED89
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68D8E10ED88
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:55:51 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id br6so3159266lfb.11
+Received: by mail-lj1-x229.google.com with SMTP id x36so2377258ljq.7
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678985750;
+ d=linaro.org; s=google; t=1678985751;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=C0ShU0VoJuNaKygLaJG1lCz4q0jlhQ8mz6XNRmWcdJs=;
- b=QuHvkes9v4ZTH/Vl9DB0orcq9WFCciQYdTzD9HTFz//niEMeahCpZ6DSXlRZzojKtz
- DRhHZaED9qUo9xSVegq8hbhn/YWA1/i/64IGlZgcxN81ElFSTQa67e4zV+H+Eg5j20Ds
- hionxBfHDG1HviuNXY6M1/HmwFUBpiZrcXMGI/uzcS8uF5irdGfsOCzQFAfZSYE7O4aJ
- ACUD72yNhzSrBv4kDfOAKzF237jZbBxuBFY2dqDDMaJbb9QZDndo1Ats2oO8rbMT7szf
- ECAfDL/7Oz0f5aZx9YWGNv9HDYCohBm3rVg69v5zNwoaHCzd1OipeOZd2I/ZGewmV9Zk
- lLrw==
+ bh=rC5x9PPF7sivNtqd2Nq3a/pO80auqySsk0aVFQXcuEM=;
+ b=VLLubm5h3A9bFuWJ5ER2e85wz/pNxKve8mexaNkrtE2kw937XvbATuqzaDLH3do19e
+ X9XVRng+9wS17isZ+YVVIId+qrmNhpiWYQI0zbdYCEzE/aa9sdIYQnrN9hdbrdIHWjiI
+ 90vgEU8HYXckDpbaJ+txZaRc27WYXd4hlXJhXvbRSwObSSmuwQyDPqF3CP/UvDHuS8Of
+ mmBQq2+h63cGrWygYQHy+Og/jUiYNjSmVoZn68PDwCI+okr6zvg5R77hUbbOTFBSrsff
+ Q0RHQ7LMxxo9D4iJOO+LzPj80so4zhTlttzd81rzjsLYpdUDq0wckUc9L0aikeRiKJ+a
+ Edug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678985750;
+ d=1e100.net; s=20210112; t=1678985751;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=C0ShU0VoJuNaKygLaJG1lCz4q0jlhQ8mz6XNRmWcdJs=;
- b=Af+Zl8ea9qCwm0eBgBJbtqR8yhNwFDxHioZSAXhxCsgkIhUa8c+qv+MDBnLlllwS3R
- 3kpuPn0CDb4KE/BBy7Y1fv/ohXu2ssgR/xdPeG5AOouJCqGIMQqksJv0lADI4tIEOQcE
- ETvR1eLK99pgMMuXKofAbAGVMDLNZyicBo1Q/7l+XSJeSRINYUr0EuPUzx7c+aJ3RqNr
- UQaprYUQk242jaPthdqS/x5lK5VIMragTnVj1Aj7uY6KMIog0hHyDCjAWYtmgGqDOsSE
- rj3oYnpma11iLCN0ABUzgi1yKmJYNxd2weGDRWBWTm9bmHr0ZjPj6BrL0PQlFwwGhjci
- kCmA==
-X-Gm-Message-State: AO0yUKWfanVqKF5CfsFaBZwgv7mJIQVqDrbyDe01AxWvc21Sy4D3AbUA
- Zsdd+Zxpd32QDHMjHblzA9cP9Q==
-X-Google-Smtp-Source: AK7set8hEMPRMlGti3hJfxaUCYimcmozpQeodINvAsD+3JlHSMFVODMXbt8+vBM7RUdmZfZOgw3j1g==
-X-Received: by 2002:a05:6512:2303:b0:4db:787:e43b with SMTP id
- o3-20020a056512230300b004db0787e43bmr32660lfu.8.1678985750142; 
- Thu, 16 Mar 2023 09:55:50 -0700 (PDT)
+ bh=rC5x9PPF7sivNtqd2Nq3a/pO80auqySsk0aVFQXcuEM=;
+ b=B0bwkv4RqZSERIVQni6Y6aOd89DysCP4s6QRrCA7u6Y4pQfeMQMRQTE40WqEeSwVT+
+ RRLhIv1PZt85T2o369xr/ko8yncyy01P8E1tUa3TtFBjRX5omsxdwnX2jOiU0/JJoPTV
+ Vd8Q65z56EkOGEoVxIx4gVFlvL78NKtyF2AJY5W2zJAnWd853k2urXwYt1ib67Lg++GT
+ ovqs1SbhWeuY1JXneQxv3CLT+MYdbjH4CH3TlPegme4CO3fokKjIazv2btEN+LDcbxU9
+ 1Bs7nS0N85Imu6Gy43bJSV0uiidTVLRYWU9aIgb+PC7RfAQeeEX97gWlPvbnhkwaO9wQ
+ LxUQ==
+X-Gm-Message-State: AO0yUKXl9Uth745vOjh38dgmJcTJ2vPy8smoWaSjLBB8k/TSl9dek3n5
+ ClQISq4YtXt5Xtt/luWIekVXkw==
+X-Google-Smtp-Source: AK7set+RRxwZtYI01vM1dsBA4QgFuF9qKW7jeDf6lgm4a7JyvpWQrh7ApfrXE9ih2+GMKyEWtPq9Cw==
+X-Received: by 2002:a05:651c:19a4:b0:295:b0aa:978a with SMTP id
+ bx36-20020a05651c19a400b00295b0aa978amr32537ljb.6.1678985751013; 
+ Thu, 16 Mar 2023 09:55:51 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- t18-20020a2e9c52000000b002934b5d6a61sm2661ljj.121.2023.03.16.09.55.49
+ t18-20020a2e9c52000000b002934b5d6a61sm2661ljj.121.2023.03.16.09.55.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 09:55:49 -0700 (PDT)
+ Thu, 16 Mar 2023 09:55:50 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [RFC PATCH v1 07/12] drm/msm/dpu: fill CRTC resources in dpu_crtc.c
-Date: Thu, 16 Mar 2023 19:55:37 +0300
-Message-Id: <20230316165542.4109764-8-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH v1 08/12] drm/msm/dpu: move pstate->pipe initialization to
+ dpu_plane_atomic_check
+Date: Thu, 16 Mar 2023 19:55:38 +0300
+Message-Id: <20230316165542.4109764-9-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230316165542.4109764-1-dmitry.baryshkov@linaro.org>
 References: <20230316165542.4109764-1-dmitry.baryshkov@linaro.org>
@@ -79,124 +80,83 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Stop poking into CRTC state from dpu_encoder.c, fill CRTC HW resources
-from dpu_crtc_assign_resources().
+In preparation to virtualized planes support, move pstate->pipe
+initialization from dpu_plane_reset() to dpu_plane_atomic_check(). In
+case of virtual planes the plane's pipe will not be known up to the
+point of atomic_check() callback.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 27 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 24 ++----------------
- 2 files changed, 29 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 77226de54363..8ef191fd002d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1177,6 +1177,7 @@ static bool dpu_crtc_needs_dirtyfb(struct drm_crtc_state *cstate)
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index 2e63eb0a2f3f..1b11c9476fb3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -845,6 +845,7 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	int ret = 0, min_scale;
+ 	struct dpu_plane *pdpu = to_dpu_plane(plane);
+ 	struct dpu_plane_state *pstate = to_dpu_plane_state(new_plane_state);
++	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
+ 	struct dpu_sw_pipe *pipe = &pstate->pipe;
+ 	struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+ 	const struct drm_crtc_state *crtc_state = NULL;
+@@ -855,13 +856,19 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	uint32_t max_linewidth;
+ 	unsigned int rotation;
+ 	uint32_t supported_rotations;
+-	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->pipe.sspp->cap;
+-	const struct dpu_sspp_sub_blks *sblk = pstate->pipe.sspp->cap->sblk;
++	const struct dpu_sspp_cfg *pipe_hw_caps;
++	const struct dpu_sspp_sub_blks *sblk;
  
- #define MAX_HDISPLAY_SPLIT 1080
-+#define MAX_CHANNELS_PER_CRTC 2
+ 	if (new_plane_state->crtc)
+ 		crtc_state = drm_atomic_get_new_crtc_state(state,
+ 							   new_plane_state->crtc);
  
- static struct msm_display_topology dpu_crtc_get_topology(
- 			struct drm_crtc *crtc,
-@@ -1219,9 +1220,14 @@ static struct msm_display_topology dpu_crtc_get_topology(
++	pipe->sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
++	r_pipe->sspp = NULL;
++
++	pipe_hw_caps = pstate->pipe.sspp->cap;
++	sblk = pstate->pipe.sspp->cap->sblk;
++
+ 	min_scale = FRAC_16_16(1, sblk->maxupscale);
+ 	ret = drm_atomic_helper_check_plane_state(new_plane_state, crtc_state,
+ 						  min_scale,
+@@ -878,7 +885,6 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
+ 	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+ 	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+ 	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+-	r_pipe->sspp = NULL;
  
- static int dpu_crtc_assign_resources(struct drm_crtc *crtc, struct drm_crtc_state *crtc_state)
+ 	pstate->stage = DPU_STAGE_0 + pstate->base.normalized_zpos;
+ 	if (pstate->stage >= pdpu->catalog->caps->max_mixer_blendstages) {
+@@ -1367,7 +1373,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
  {
-+	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_CRTC];
-+	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_CRTC];
-+	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_CRTC];
-+	int i, num_lm, num_ctl, num_dspp;
- 	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
- 	struct dpu_global_state *global_state;
- 	struct msm_display_topology topology;
-+	struct dpu_crtc_state *cstate;
- 	int ret;
+ 	struct dpu_plane *pdpu;
+ 	struct dpu_plane_state *pstate;
+-	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
  
- 	/*
-@@ -1243,6 +1249,27 @@ static int dpu_crtc_assign_resources(struct drm_crtc *crtc, struct drm_crtc_stat
- 	if (ret)
- 		return ret;
+ 	if (!plane) {
+ 		DPU_ERROR("invalid plane\n");
+@@ -1389,16 +1394,6 @@ static void dpu_plane_reset(struct drm_plane *plane)
+ 		return;
+ 	}
  
-+	cstate = to_dpu_crtc_state(crtc_state);
-+
-+	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+		crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
-+	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+		crtc, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
-+	num_dspp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+		crtc, DPU_HW_BLK_DSPP, hw_dspp,
-+		ARRAY_SIZE(hw_dspp));
-+
-+	for (i = 0; i < num_lm; i++) {
-+		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
-+
-+		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
-+		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
-+		if (i < num_dspp)
-+			cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
-+	}
-+
-+	cstate->num_mixers = num_lm;
-+
- 	return 0;
+-	/*
+-	 * Set the SSPP here until we have proper virtualized DPU planes.
+-	 * This is the place where the state is allocated, so fill it fully.
+-	 */
+-	pstate->pipe.sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
+-	pstate->pipe.multirect_index = DPU_SSPP_RECT_SOLO;
+-	pstate->pipe.multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+-
+-	pstate->r_pipe.sspp = NULL;
+-
+ 	__drm_atomic_helper_plane_reset(plane, &pstate->base);
  }
  
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 204360485b81..068d4e47eaa9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -934,14 +934,11 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 	struct dpu_encoder_virt *dpu_enc;
- 	struct msm_drm_private *priv;
- 	struct dpu_kms *dpu_kms;
--	struct dpu_crtc_state *cstate;
- 	struct dpu_global_state *global_state;
- 	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
--	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
--	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
- 	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
--	int num_lm, num_ctl, num_pp, num_dsc;
-+	int num_pp, num_dsc;
- 	unsigned int dsc_mask = 0;
- 	int i;
- 
-@@ -968,13 +965,8 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 	num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
- 		drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
- 		ARRAY_SIZE(hw_pp));
--	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
--		drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
--	num_lm = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
--		drm_enc->crtc, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
- 	dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
--		drm_enc->crtc, DPU_HW_BLK_DSPP, hw_dspp,
--		ARRAY_SIZE(hw_dspp));
-+		drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
- 
- 	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
- 		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
-@@ -992,18 +984,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 
- 	dpu_enc->dsc_mask = dsc_mask;
- 
--	cstate = to_dpu_crtc_state(crtc_state);
--
--	for (i = 0; i < num_lm; i++) {
--		int ctl_idx = (i < num_ctl) ? i : (num_ctl-1);
--
--		cstate->mixers[i].hw_lm = to_dpu_hw_mixer(hw_lm[i]);
--		cstate->mixers[i].lm_ctl = to_dpu_hw_ctl(hw_ctl[ctl_idx]);
--		cstate->mixers[i].hw_dspp = to_dpu_hw_dspp(hw_dspp[i]);
--	}
--
--	cstate->num_mixers = num_lm;
--
- 	dpu_enc->connector = conn_state->connector;
- 
- 	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
 -- 
 2.30.2
 
