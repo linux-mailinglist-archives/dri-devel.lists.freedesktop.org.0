@@ -1,43 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE846BC25E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 01:22:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 750556BC273
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 01:28:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABC610EBF1;
-	Thu, 16 Mar 2023 00:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8776E10EA59;
+	Thu, 16 Mar 2023 00:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C753C10EA2D;
- Thu, 16 Mar 2023 00:22:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 40F12B81FA2;
- Thu, 16 Mar 2023 00:22:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D09C433EF;
- Thu, 16 Mar 2023 00:22:43 +0000 (UTC)
-Date: Wed, 15 Mar 2023 20:22:42 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] [BUG 6.3-rc1] Bad lock in ttm_bo_delayed_delete()
-Message-ID: <20230315202242.581c67bf@gandalf.local.home>
-In-Reply-To: <20230315202133.7cb1a0fe@gandalf.local.home>
-References: <20230307212223.7e49384a@gandalf.local.home>
- <20230307212615.7a099103@gandalf.local.home>
- <b919b550-6da8-f9f0-a0eb-0fd8af513817@amd.com>
- <20230308074333.49546088@gandalf.local.home>
- <980021d5-09f7-9fc3-2726-44884a57822f@gmail.com>
- <CAM0jSHPf5u4=GGWm6x-zVkLA_LScAxq371ny2NoozuNjHfQefQ@mail.gmail.com>
- <2b7fe203-82f5-2726-cd64-01c7421560d3@amd.com>
- <20230315162011.351d0f71@gandalf.local.home>
- <20230315202133.7cb1a0fe@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3529E10EA39;
+ Thu, 16 Mar 2023 00:28:31 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32FMaB9B020299; Thu, 16 Mar 2023 00:28:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Xj6nsssU+V+ezlW0YZ7mAr9/dBVwZEvq0GmnbnqRFdI=;
+ b=gZpUInWB1e9IjNTaUMijXqZCAZsenKCTSbO968vM2Se+MRAsaLW+Cu2ZLmSdLixDl16m
+ FdkCWQBdseBvug/lRXkpu6hvYR0Sewja7nsVoWRnj3uz9dNL/tLPS6ZnxPqJCdp2DzSq
+ cXdQb1tn+gqY0IYHNBnP85CPFGhXE1jrq20LjUhC6WRo0Q/UNr8qUt5Lsy4VuTlqVF24
+ Snq7MPDleJZfgOii42e9X0ZBAE7agYDw548DwU8A/3Ra5qZXAMnhFKe6YYr9Odrr1x8i
+ g1FEJqsvS+x5ujJ6ux7Mp5TpOBnKGRhXbabqDmSEW1SjXDyJVpNtNyEFReLX/c9Lm5lw 2w== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpy38735-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 00:28:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32G0SKgI024494
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 00:28:20 GMT
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Wed, 15 Mar 2023 17:28:20 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>
+Subject: Re: (subset) [PATCH v2 01/50] drm/msm/dpu: set
+ DPU_MDP_PERIPH_0_REMOVED for sc8280xp
+Date: Wed, 15 Mar 2023 17:27:46 -0700
+Message-ID: <167892634700.18235.6967718018085667924.b4-ty@quicinc.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230211231259.1308718-2-dmitry.baryshkov@linaro.org>
+References: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
+ <20230211231259.1308718-2-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: d9_2L3lYx-Lfh2HF3vXq1Iw6hpvtbhdj
+X-Proofpoint-GUID: d9_2L3lYx-Lfh2HF3vXq1Iw6hpvtbhdj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=817 spamscore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 phishscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,40 +83,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.william.auld@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Linus Torvalds <torvalds@linux-foundation.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, linux-media@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Mar 2023 20:21:33 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> On Wed, 15 Mar 2023 16:20:11 -0400
-> Steven Rostedt <rostedt@goodmis.org> wrote:
->=20
-> > On Wed, 15 Mar 2023 20:51:49 +0100
-> > Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
-> >  =20
-> > > Steven please try the attached patch.   =20
-> >=20
-> > I applied it, but as it's not always reproducible, I'll have to give it
-> > several runs before I give you my "tested-by" tag. =20
->=20
-> I ran my tests a bunch of times with this applied and it didn't fail once.
-> As it got further than it ever did before (it usually took 1 to 3 runs to
-> trigger, and I ran it over 10 times).
->=20
-> Reported-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> Tested-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+On Sun, 12 Feb 2023 01:12:10 +0200, Dmitry Baryshkov wrote:
+> The SC8280XP also has a black hole at the top of MDP_TOP region. Set
+> corresponding bit to disable access to that region.
+> 
+> 
 
-I hope that this gets in by -rc3, as I want to start basing my next branch
-on that tag.
+Applied, thanks!
 
-Thanks,
+[01/50] drm/msm/dpu: set DPU_MDP_PERIPH_0_REMOVED for sc8280xp
+        (no commit info)
 
--- Steve
-
+Best regards,
+-- 
+Abhinav Kumar <quic_abhinavk@quicinc.com>
