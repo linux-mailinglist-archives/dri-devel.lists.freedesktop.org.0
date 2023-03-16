@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6AB6BCB81
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18FF6BCB85
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3819D10E0F2;
-	Thu, 16 Mar 2023 09:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1234210EC37;
+	Thu, 16 Mar 2023 09:53:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E323B10E0F2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:53:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678960412; x=1710496412;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YrRk+kQWpdZ+wI3PSipWf7W+koCn9M7Bp4aMjsiW2GY=;
- b=X8rWUTau7irW5my9qutjtyWjagcnX4KfbV5c/xvPqJUwoROUdl1Yq+Pb
- XlIbhe5wMmvhH24ShOBfragLYNQrZYaYSDp5UNaR1pTappVbHTPamv7Wr
- l0n/+PFHGzmk5n4CaHbGHBqYTg8+NeEkgks2Muz9oxea2klxN1NIdErpm
- FGhwHcPPIo5d3XejHr4KP9oh5qlT7WxosGUYNIERgB7hJFDxBpPwRLHNp
- +b7NyZmrYPU7k55Xr9ysGvdlgXGpjn5vzvylL/2UMK9YKtQDcrXb/nOWH
- YcSKDUFyinhTlo+0SywLFbUUXQb4/MFwmGQu3r6ubvNvnpKjgiTavNu1x w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="335425494"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="335425494"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2023 02:53:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="1009162153"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="1009162153"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 16 Mar 2023 02:53:28 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pckIZ-0008Sc-0S;
- Thu, 16 Mar 2023 09:53:27 +0000
-Date: Thu, 16 Mar 2023 17:53:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- suijingfeng <suijingfeng@loongson.cn>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>
-Subject: Re: [PATCH v7 2/2] drm: add kms driver for loongson display controller
-Message-ID: <202303161727.8HnBf6cW-lkp@intel.com>
-References: <20230315211550.2620818-3-15330273260@189.cn>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 389F610EC37
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:53:51 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id AE59F660309E;
+ Thu, 16 Mar 2023 09:53:48 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1678960429;
+ bh=U016GfVVdnxsip9oeySV3RsjrHt+GbtN8I0vEam86cw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=D1ZYug/Rc7GC9oaJibLCGVC1ot6HrZSJaaD6dBId+/IevQCU8BtC3krYiV1jYB1vG
+ QntG3e3/vTGxkEjKz92r3TfeVbI0b974DjcPXf4GI2j705nXTtC9lwiOAd2/AnY/F6
+ z0CXJd7cBrVcF76ENARf0NTaYVTa7yGwdM/0MVCXo3vZlYh0D5bvxoNXrF0aymJ3Zb
+ F8uYdm9tAIDz6DQWBRSVg36L9plmJGvA5FyZrNRsHMRHMDyI3PxKybudbJIEiuNwVP
+ V/QFPGh4hL2xHjhAFEFAKBm5yn+8gIYX9WiQd8Y0uE7XWaJ+xmz5ux83Th4WlKzPyS
+ T+JmIMMYGK3Ig==
+Message-ID: <e5ceec9e-d51b-2aeb-1db7-b79b151bd44c@collabora.com>
+Date: Thu, 16 Mar 2023 10:53:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230315211550.2620818-3-15330273260@189.cn>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v29 1/7] dt-bindings: mediatek: add ethdr definition for
+ mt8195
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
+References: <20221227081011.6426-1-nancy.lin@mediatek.com>
+ <20221227081011.6426-2-nancy.lin@mediatek.com>
+ <4aff6a7a3b606f26ec793192d9c75774276935e0.camel@mediatek.com>
+ <2700bd6c-f00d-fa99-b730-2fcdf89089fa@linaro.org>
+ <1d65e8b2de708db18b5f7a0faaa53834e1002d9f.camel@mediatek.com>
+ <b04eb48e-c9aa-0404-33ec-bef623b8282f@linaro.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <b04eb48e-c9aa-0404-33ec-bef623b8282f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,80 +66,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "ndesaulniers@google.com" <ndesaulniers@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nathan@kernel.org" <nathan@kernel.org>,
+ "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+Il 16/03/23 07:31, Krzysztof Kozlowski ha scritto:
+> On 16/03/2023 07:19, Nancy Lin (林欣螢) wrote:
+>> On Wed, 2023-03-15 at 08:16 +0100, Krzysztof Kozlowski wrote:
+>>> On 15/03/2023 04:45, Nancy Lin (林欣螢) wrote:
+>>>
 
-I love your patch! Perhaps something to improve:
+..snip..
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.3-rc2 next-20230316]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>>
+>>>>
+>>>> [1].
+>>>> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.e
+>>>> xamp
+>>>> le.dtb
+>>>> /proj/mtk19347/cros/src/third_party/kernel/v5.10/Documentation/devi
+>>>> cetr
+>>>> ee/bindings/display/mediatek/mediatek,ethdr.example.dtb:
+>>>> hdr-engine@1c114000: mediatek,gce-client-reg:0: [4294967295, 7,
+>>>> 16384,
+>>>> 4096, 4294967295, 7, 20480, 4096, 4294967295, 7, 28672, 4096,
+>>>> 4294967295, 7, 36864, 4096, 4294967295, 7, 40960, 4096, 4294967295,
+>>>> 7,
+>>>> 45056, 4096, 4294967295, 7, 49152, 4096] is too long
+>>>>          From schema:
+>>>
+>>> This looks like known issue with phandles with variable number of
+>>> arguments. Either we add it to the exceptions or just define it in
+>>> reduced way like in other cases - only maxItems: 1 without describing
+>>> items.
+>>>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230315211550.2620818-3-15330273260%40189.cn
-patch subject: [PATCH v7 2/2] drm: add kms driver for loongson display controller
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161727.8HnBf6cW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ba899dba3475b9612f212e3b1daedc3d9a299458
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
-        git checkout ba899dba3475b9612f212e3b1daedc3d9a299458
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/loongson/
+...
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303161727.8HnBf6cW-lkp@intel.com/
+>>
+>> But I have several items for this vendor property in the binding
+>> example.
+> 
+> Do you? I thought you have one phandle?
+> 
+>> Can I remove maxItems? Change the mediatek,gce-client-reg as [1].
+>>
+>> [1]
+>>    mediatek,gce-client-reg:
+>>      $ref: /schemas/types.yaml#/definitions/phandle-array
+>>      description: The register of display function block to be set by
+>> gce.
+>>        There are 4 arguments in this property, gce node, subsys id,
+>> offset and
+>>        register size. The subsys id is defined in the gce header of each
+>> chips
+>>        include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
+>> display
+>>        function block.
+> 
+> No, this needs some constraints.
 
-All warnings (new ones prefixed by >>):
+Hello Krzysztof, Nancy,
 
-   drivers/gpu/drm/loongson/lsdc_gem.c: In function 'lsdc_show_buffer_object':
->> drivers/gpu/drm/loongson/lsdc_gem.c:280:51: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
-     280 |                 seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
-         |                                                ~~~^
-         |                                                   |
-         |                                                   long unsigned int
-         |                                                %8u
-     281 |                            i,
-     282 |                            lsdc_bo_size(tbo) >> 10,
-         |                            ~~~~~~~~~~~~~~~~~~~~~~~ 
-         |                                              |
-         |                                              size_t {aka unsigned int}
+Since this series has reached v29, can we please reach an agreement on the bindings
+to use here, so that we can get this finally upstreamed?
+
+I will put some examples to try to get this issue resolved.
+
+### Example 1: Constrain the number of GCE entries to *seven* array elements (7x4!)
+
+   mediatek,gce-client-reg:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+     maxItems: 1
+     description: The register of display function block to be set by gce.
+       There are 4 arguments in this property, gce node, subsys id, offset and
+       register size. The subsys id is defined in the gce header of each chips
+       include/dt-bindings/gce/<chip>-gce.h, mapping to the register of display
+       function block.
+     items:
+       minItems: 28
+       maxItems: 28
+       items:                     <----- this block doesn't seem to get checked :\
+         - description: phandle of GCE
+         - description: GCE subsys id
+         - description: register offset
+         - description: register size
 
 
-vim +280 drivers/gpu/drm/loongson/lsdc_gem.c
+### Example 2: Don't care about constraining the number of arguments
 
-   264	
-   265	int lsdc_show_buffer_object(struct seq_file *m, void *arg)
-   266	{
-   267	#ifdef CONFIG_DEBUG_FS
-   268		struct drm_info_node *node = (struct drm_info_node *)m->private;
-   269		struct drm_device *ddev = node->minor->dev;
-   270		struct lsdc_device *ldev = to_lsdc(ddev);
-   271		struct lsdc_bo *lbo;
-   272		unsigned int i = 0;
-   273	
-   274		mutex_lock(&ldev->gem.mutex);
-   275	
-   276		list_for_each_entry(lbo, &ldev->gem.objects, list) {
-   277			struct ttm_buffer_object *tbo = &lbo->tbo;
-   278			struct ttm_resource *resource = tbo->resource;
-   279	
- > 280			seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
+   mediatek,gce-client-reg:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+     maxItems: 1
+     description: The register of display function block to be set by gce.
+       There are 4 arguments in this property, gce node, subsys id, offset and
+       register size. The subsys id is defined in the gce header of each chips
+       include/dt-bindings/gce/<chip>-gce.h, mapping to the register of display
+       function block.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+
+Regards,
+Angelo
