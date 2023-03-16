@@ -2,57 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4386BDBA4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767996BDBAB
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:30:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4BB310E217;
-	Thu, 16 Mar 2023 22:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F50410E0DB;
+	Thu, 16 Mar 2023 22:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16DB10E331;
- Thu, 16 Mar 2023 22:27:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679005669; x=1710541669;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=GvokA/9IYG7aHkC04Jiuy2lsJ6RVelMBmWdx9SHI5oo=;
- b=Sm/ywEOXV/Psh1v5tZSqypXtIBA0UVmSlV/1dPnqTv0BEVKT7DW2GCAf
- Y8Qru2KDXRqnjX5Nfa6Et6D5ACOi0xtfOhygGK2Zq5v2hJs9FFE/1O8Uq
- lG+hByVVJE29ODCT6I7S3mqHq240GYXWDv7kJRXYsycS/75jT56MS+RfE
- 50vbCaeof0dmotU2HB8A+PPprCxFZfDIbgyU3RATMZbHzC9jlCL4JVNHT
- kkv/9gEG6wAtPHkcTUWf/5QHm3A1Z8bXsCjvEQ4yKD8ignM8QNchKXemx
- yXrdPFS5efDRThlq27/SFxv3Ds5GtVuMz23wKH444OuqrTX7+SFbSZ+KM g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="338141804"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="338141804"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2023 15:27:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="710295801"
-X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="710295801"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga008.jf.intel.com with ESMTP; 16 Mar 2023 15:27:45 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pcw4X-0008rm-0p;
- Thu, 16 Mar 2023 22:27:45 +0000
-Date: Fri, 17 Mar 2023 06:27:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- mcanal@igalia.com, stanislaw.gruszka@linux.intel.com,
- ogabbay@kernel.org, quic_jhugo@quicinc.com, daniel@ffwll.ch,
- jani.nikula@linux.intel.com, mwen@igalia.com, maxime@cerno.tech,
- wambui.karugax@gmail.com, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 4/7] drm/debugfs: rework debugfs directory
- creation v2
-Message-ID: <202303170646.MwaW3iKp-lkp@intel.com>
-References: <20230316082035.567520-5-christian.koenig@amd.com>
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+ (mail-am6eur05on20624.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e1b::624])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0AB10E0DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 22:29:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F6yTIkxfyzAh+WMUnUlsV5Th5B+ApuIb8XQYOUOuLjjlwrNYcbHqL/4RHQFMqNJlkJmIu6P4owz1MQFG4UpannhznqRwVyGazQFfQcMsH9qTHcQ5VGjc7JQ9aIhAonztk5Pxar+rL8y2jUuVBFfkvWUUwMaEj7+ns2E4w0b+ACB1c5PFuN0mOw/k30Y4K2bKKpzg7a3/ZNkil6niOBkqUbVZ7LKxi0lNFpmSiRB0TbiUHHAjtP8YsX5KaNnnA3pdrtkiyP21dcyPMfpvw/hAZ9hASy11iuzL0BzNKCcovS9U2f8ZJUMsoKUYKEMtemUxzFnHMsa6ZxrBZWpNy4b+og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zMRQRmgClOAcAoQqPKdoS+t5jSS7Idul7pXfJA1BgT4=;
+ b=WjsdAZ37DHnV1FDbhKErAMkeUJ22V9pS8nZJdtDwXxNxIvTbJWpNVewCNOUcbkS6dSsjQPJ/mvKHk0zppCxLtWaKP6owuSXbmdMXOqkMInnfRnQt1/CqvHAsG23gR+pplQ29j2cEd3Tx3js/b7AMVgpfROng5ufUCAagUQGYJmo1zJfkWWNv65XpUzIa11XMITDUzcHdIBYt5LkXaAEAYKeRntKbo34/82yWeMsrZHXX0pWzSuyKrD3f1q5QzPOmY8qKQQqU2uQi1ewmuYXEtz/WsRESCrVnEF1oePhdKp+GpEQNVf6craE2oupZbGELDmQ1yBNk6mS381JJU57u3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zMRQRmgClOAcAoQqPKdoS+t5jSS7Idul7pXfJA1BgT4=;
+ b=nw1Nzfqhiwb0Rg2R4X16PuID+cTcnkJMX5clwVFG8vEww77km4mxrtrUlNFvy0tdzH4lkVsNhs0VzQXCbfObL0UiUl8/z4ixNDhq9ZUtqdFTadlN2J2y4dKs7Ew6ijxBpMbFT/xVIlJmsDHRDfxeSCFW8vHlbRxUA0XlXzfWbpk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by PAVPR08MB9460.eurprd08.prod.outlook.com (2603:10a6:102:316::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.33; Thu, 16 Mar
+ 2023 22:29:56 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::6f4d:f868:c89:4db1]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::6f4d:f868:c89:4db1%5]) with mapi id 15.20.6178.031; Thu, 16 Mar 2023
+ 22:29:56 +0000
+Message-ID: <dd26836f-d54c-65d1-0acc-8a09745bb066@wolfvision.net>
+Date: Thu, 16 Mar 2023 23:29:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 7/7] dt-bindings: display: add panel-timing property to
+ sitronix,st7789v
+To: Rob Herring <robh@kernel.org>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>
+References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
+ <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
+ <20230316215735.GA3940832-robh@kernel.org>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@wolfvision.net>
+In-Reply-To: <20230316215735.GA3940832-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0184.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:44::19) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230316082035.567520-5-christian.koenig@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|PAVPR08MB9460:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f601704-4a95-43dd-9667-08db266df834
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gCZKK/zeYiRBZgEaNfu+LqrXqU+AOM5/zBsy0IV14+xfiGfIofKNWxu3Z4OEWZf1wdEhZoucoYraCKURhCIG28/Q2OTcBdHpo7rcrfGaeV3rDCyuKlF9UatfXX5+OV3rINLxMiigVwFHv5+p9f7J55NFUVpVzuYijmCuNyPbVjYQHncQzvVmC5GYk1y6qxgxngn/cMzHFH5oPbVju6+7qLBOHZpO5tOGQtAnKFCjC+sBDywGHBjdQfXTsMqNAw1WrPlHrARZAr6nigktiooOadPRCxV+qlAiMpi8AmrgegjV+CNpdoqezMpWwNETOLqEMZSCbl3vyBbU159M/4gK2Na959s4v3d2+NcmQqCtbzZG9PySUZPS9e2xXEWfXk4YoM6knfQgSOAU1Ahnkb2UERNpqNKtYDjt4DLmZNyZdAvFt5Pc/zXZwVPRh/Z1PMNWz2gUJT/YmM4oBFQAWCyHYjjlFXT+R4gv4Q5WKNA2pymU8pUrwezmV7ZCLIc/IVgBTX+6Nf0NMSQPwtqQjTXPAbbYNVMZlEcRKYQVxA9GudA5iNaopwey038oeepLqlp5cDshx/A3AzVVgeG+likbMTAci1oDOBdoatbZUnV+dhHvGDJVl5iFBoLBKvwt/lKKTaEwJxM1+lC1gXTz5+ujJcEKMWfJFuElQ0fCwmJ4tmI2QYQghpUYYNOhso8twgUa5mgO3ZLAFfhutoNDnAaTfhWTovwWFhSH5764Y0U1Csw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(39850400004)(366004)(136003)(396003)(346002)(451199018)(6666004)(38100700002)(54906003)(6636002)(110136005)(31696002)(316002)(478600001)(83380400001)(86362001)(66556008)(66476007)(4326008)(8676002)(66946007)(41300700001)(7416002)(8936002)(36756003)(6486002)(5660300002)(2616005)(31686004)(2906002)(186003)(44832011)(6512007)(53546011)(6506007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ky8xbkh1c3dQMElDdVdwaEdSUlpKTnRORUNTRERZK3V0OXhoNUdHalk1bXF1?=
+ =?utf-8?B?SjQ4TVh4L1FUVThQT2QvdUpXelJQWDJYclFydUt3MVgwOXFyTnRqVDU3bWNM?=
+ =?utf-8?B?QWRTSmRvTzNaalFzZnd6VnBDWmNyMklveGJiWEMrV2paYjNQRVVRcy9MUzBK?=
+ =?utf-8?B?MGw1UEtDWG1VZ1FlMVJhZ2cwMURWZ1FHbDJ0UHY5LzZjNUVRMFp5UkxhbnF5?=
+ =?utf-8?B?SzhGT1Q3Qy80QWNXOW1JNkVpd1h2SStReit4dW92Y2YzUzhiRHNwMncwSDdT?=
+ =?utf-8?B?clZUTmllcDlZdnJCakF2QjZZWVR2QkxGdisyTk1tVEs4dnNQbnA1d3hZblBE?=
+ =?utf-8?B?NjJaRjVraTQwb0lTb25IaGI4YkZ4WTNvR1FjMkxGbWtSWEppUmR2aElrVXBJ?=
+ =?utf-8?B?azZJQ3BXWFRpb1dLMlFDWlJrSGVKTC9tOVZjdFJDRXlFYUsxL0JZYUtSSUl3?=
+ =?utf-8?B?dHRFN1BzS3cwZlZGanlPRXEyK2hRdVk4T1l0eEFjak5kY3U0MGNEdk5yRUhn?=
+ =?utf-8?B?QmtlZ01wS2svcDBnN3FDWEtiTEtJd2xGWFZhUGlMTHJ4ZTlPWDcvMExGL2lD?=
+ =?utf-8?B?VlE2TUJWdktqalA4emtuUzFKVUZLaGpYbEx6OVFwdnZvMEhZR1lVYktPWUJG?=
+ =?utf-8?B?bHUvU1lWV3BtbWU3dmdJdXVoZUs1QnhwcG1tai8wT3dGN1BibTczVzNpV3NC?=
+ =?utf-8?B?Zmd6dmpNemJtVkdYMHhJRHdiNGJiN1lDaU9mQnFuWlk5OVorTXd6aUFHNW9y?=
+ =?utf-8?B?SWY5NDE4cUM2UUxObUI1dFc0djZ1emtxRHoyeWZoSGh4VS9oQlU3YnZGQkhq?=
+ =?utf-8?B?R1dPYWxyUEJtd25TWWxWNkQxQnkwRW1FckxlVUc1OE5nOEpBVXNZdVdmMDNK?=
+ =?utf-8?B?cG1pQTkrNjVyTGNkZlF2TkEweXY0RVlydHpaQlJIY2ErK29NOHE5WFdmekE1?=
+ =?utf-8?B?eFVMOEZZaUV4WDRyMEszTHRZSThXTE43QzRPdzFvRWxjZTdKNnRDRjFadkhH?=
+ =?utf-8?B?VTlOVExNNG93SkZZTVlCQzl2eUlvSlJXbVBscTd1aDMvZjhzSnhuV2k5ZFNx?=
+ =?utf-8?B?Tnh5SmNrRVZJcWt4YlRLdXd6U3UycVRVeWM4NHpTb0tCYkcyRENJWk0xMUNE?=
+ =?utf-8?B?RHM3VVNnTWRrTlZLZ2d5MlRGamZVcitjUVhJVlV4SmVYTmsrOXlMbTcyaTNn?=
+ =?utf-8?B?NVpScW1SZ3lEZWlNL3E1bHFIY0dTUTdxZm5yK2xyYWlYTk5pZSt0ZHgvUzV0?=
+ =?utf-8?B?Q2JDYm51SDl5b29pTjVoQnFadDdVQnJVZmtIUFZFTjFxc3BHVWIzN0R6QUE0?=
+ =?utf-8?B?NXNEcVYvYVhrOW5yeDhhTVhpNUZlQUlQZFRiMWJzQ3VxN0ZVTHJHWGplZm5B?=
+ =?utf-8?B?NUVNL1JnWG1sbnk3Q3FVb1dnSE5xUm9sVzBIbXhreVUrQUIvNnIxSW5DUit1?=
+ =?utf-8?B?TytEaTdHOXNMQ3ZWbjhFdWtva3NmdlRDMHNtZXNDQkZCaFlEcmxiWXU1dkRR?=
+ =?utf-8?B?UC9IOFo0WE8rYVhTeU5CT2F4c3dJbTBQVnREc0J4WUJnNHV2eHNxWDR4bEpF?=
+ =?utf-8?B?VC9jRjQrM2xoQ1VxQ3kvdi9TQ2tvWUxuNHZjSmRTVDNEWGN5Zi9kc0crRkda?=
+ =?utf-8?B?T1g0dSs1SXJqYmV0LzRHVEpMd2VlRUVacjM3K3dPSjYwYnBrK1U0MExZeSt6?=
+ =?utf-8?B?YVZPTm45OWt6TnZ1YUJQYktvRmM5MFJ1L3JINHcrcWg1bjFOVnBNcWY1TTVM?=
+ =?utf-8?B?SnVoam5MM0FVWTFuNGVnVnFFYUJzYlNYQVgyZmJSZ3dIelZTTE8xeFZMU1JE?=
+ =?utf-8?B?dUozQTR1aVBpMDJVUk9iZWhoaGRWT0hzRHRWVnVmTE13VVljd1FwbTB6Zk9K?=
+ =?utf-8?B?RnZTKzRZK2g0cGJ1NW5MWktDV0hlYS8ySHRXR1cwNXVCVzMrdW1hT2k3UTN6?=
+ =?utf-8?B?WWNOaVNWRUhOSytTV0RoWGR3dlVscHY1M0ZINzJmbEEzT2FkaVViMmdPWHk2?=
+ =?utf-8?B?ZGlFaFhTaG5lM0prTFpQZWI0cTlOTnRVd0pYUFNQYXhPamtjbXp5OTVadTZG?=
+ =?utf-8?B?aFJSTlc5cDdjMDdWOG1WdG54K2lNVU9YcVNHTXB6Y3VNZHozSG1oVXN1VVpZ?=
+ =?utf-8?B?K3JxanltVFlGNjRMMTdMcEdSQ1VTMURTZDF6N0o2NDB1NFlEWjVzUHkrSE1s?=
+ =?utf-8?B?M2xicGdIaXovdEJKdWZad0w2SmZWQnNESTdrNGNFQVFoSXNtSmtCZU9nc0Yw?=
+ =?utf-8?Q?gjXLIEd2lW+AM9ClUTfGg2e0Fo7rkIrzolwhDX/CVE=3D?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f601704-4a95-43dd-9667-08db266df834
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2023 22:29:56.1950 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zSW/DLxbgybNSXK0S/J1LoierR7fyJVu6bH48hxp9wefQeWQbGtqLqiQbuPUntK8BDzUXKFH31I7tJ6hp86+icrrUq0bLzkXVCz6smwQExM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9460
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +132,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: devicetree@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+Hi Rob,
 
-I love your patch! Yet something to improve:
+On 3/16/23 22:57, Rob Herring wrote:
+> On Tue, Mar 14, 2023 at 12:56:44PM +0100, Gerald Loacker wrote:
+>> The sitronix-st7789v driver now considers the panel-timing property.
+> 
+> I read the patch for that and still don't know 'why'. Commit messages 
+> should answer why.
+> 
+>> Add the property to the documentation.
+> 
+> We generally don't put timings in DT for panels. Why is this one 
+> special?
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes linus/master v6.3-rc2 next-20230316]
-[cannot apply to drm-tip/drm-tip tegra/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+For now, having the timings in the device tree allows for setting the
+hsync/vsync/de polarity.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-tegra-allow-compile-test-on-ARM/20230316-172205
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230316082035.567520-5-christian.koenig%40amd.com
-patch subject: [Intel-gfx] [PATCH 4/7] drm/debugfs: rework debugfs directory creation v2
-config: ia64-defconfig (https://download.01.org/0day-ci/archive/20230317/202303170646.MwaW3iKp-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a3ad5ec323e8f1864cc8b721dbb154f0e0e2919d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Christian-K-nig/drm-tegra-allow-compile-test-on-ARM/20230316-172205
-        git checkout a3ad5ec323e8f1864cc8b721dbb154f0e0e2919d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/
+As a next step, we aim to implement the partial mode feature of this
+panel. It is possible to use only a certain region of the panel, which
+is helpful e.g., when a part of the panel is occluded and should not be
+considered by DRM. We thought that this could be specified as timing in DT.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303170646.MwaW3iKp-lkp@intel.com/
+(The hactive and vactive properties serve as dimensions of this certain
+region, of course. We still need to specify somehow the position of the
+region. Maybe with additional properties hactive-start and vactive-start?)
 
-All errors (new ones prefixed by >>):
+What do you think about that?
 
-   In file included from drivers/gpu/drm/drm_atomic.c:47:
->> drivers/gpu/drm/drm_internal.h:195:8: error: return type defaults to 'int' [-Werror=implicit-int]
-     195 | static drm_debugfs_dev_register(struct drm_device *dev)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_internal.h:195:8: warning: 'drm_debugfs_dev_register' defined but not used [-Wunused-function]
-   In file included from drivers/gpu/drm/drm_atomic.c:38:
-   include/drm/drm_drv.h:596:13: warning: 'drm_debugfs_dev_init' defined but not used [-Wunused-function]
-     596 | static void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
-         |             ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/drm_drv.c:50:
->> drivers/gpu/drm/drm_internal.h:195:8: error: return type defaults to 'int' [-Werror=implicit-int]
-     195 | static drm_debugfs_dev_register(struct drm_device *dev)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_unregister':
->> drivers/gpu/drm/drm_drv.c:1011:9: error: implicit declaration of function 'drm_debugfs_dev_fini'; did you mean 'drm_debugfs_dev_init'? [-Werror=implicit-function-declaration]
-    1011 |         drm_debugfs_dev_fini(dev);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         drm_debugfs_dev_init
-   drivers/gpu/drm/drm_internal.h: In function 'drm_debugfs_dev_register':
-   drivers/gpu/drm/drm_internal.h:197:1: error: control reaches end of non-void function [-Werror=return-type]
-     197 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/gpu/drm/drm_managed.c:18:
->> drivers/gpu/drm/drm_internal.h:195:8: error: return type defaults to 'int' [-Werror=implicit-int]
-     195 | static drm_debugfs_dev_register(struct drm_device *dev)
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_internal.h:195:8: warning: 'drm_debugfs_dev_register' defined but not used [-Wunused-function]
-   cc1: some warnings being treated as errors
+Thanks and best regards,
+Michael
 
-
-vim +/int +195 drivers/gpu/drm/drm_internal.h
-
-   180	
-   181	/* drm_debugfs.c drm_debugfs_crc.c */
-   182	#if defined(CONFIG_DEBUG_FS)
-   183	void drm_debugfs_dev_fini(struct drm_device *dev);
-   184	void drm_debugfs_dev_register(struct drm_device *dev);
-   185	int drm_debugfs_register(struct drm_minor *minor, int minor_id,
-   186				 struct dentry *root);
-   187	void drm_debugfs_cleanup(struct drm_minor *minor);
-   188	void drm_debugfs_late_register(struct drm_device *dev);
-   189	void drm_debugfs_connector_add(struct drm_connector *connector);
-   190	void drm_debugfs_connector_remove(struct drm_connector *connector);
-   191	void drm_debugfs_crtc_add(struct drm_crtc *crtc);
-   192	void drm_debugfs_crtc_remove(struct drm_crtc *crtc);
-   193	void drm_debugfs_crtc_crc_add(struct drm_crtc *crtc);
-   194	#else
- > 195	static drm_debugfs_dev_register(struct drm_device *dev)
-   196	{
-   197	}
-   198	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> 
+>>
+>> Signed-off-by: Gerald Loacker <gerald.loacker@wolfvision.net>
+>> ---
+>>  .../display/panel/sitronix,st7789v.yaml         | 17 +++++++++++++++++
+>>  1 file changed, 17 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+>> index ed942cd3620f..8810f123dedf 100644
+>> --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+>> +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+>> @@ -21,6 +21,7 @@ properties:
+>>    reset-gpios: true
+>>    power-supply: true
+>>    backlight: true
+>> +  panel-timing: true
+>>    port: true
+>>    rotation: true
+>>  
+>> @@ -54,6 +55,22 @@ examples:
+>>              spi-cpol;
+>>              spi-cpha;
+>>  
+>> +            panel-timing {
+>> +                clock-frequency = <7000000>;
+>> +                hactive = <240>;
+>> +                vactive = <320>;
+>> +                hfront-porch = <38>;
+>> +                hback-porch = <10>;
+>> +                hsync-len = <10>;
+>> +                vfront-porch = <8>;
+>> +                vback-porch = <4>;
+>> +                vsync-len = <4>;
+>> +                hsync-active = <1>;
+>> +                vsync-active = <1>;
+>> +                de-active = <1>;
+>> +                pixelclk-active = <1>;
+>> +            };
+>> +
+>>              port {
+>>                  panel_input: endpoint {
+>>                      remote-endpoint = <&tcon0_out_panel>;
+>> -- 
+>> 2.37.2
+>>
