@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0457A6BCC8D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:21:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC676BCC89
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:21:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2299A10EC8C;
-	Thu, 16 Mar 2023 10:21:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 686BF10E149;
+	Thu, 16 Mar 2023 10:21:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF4E110E0CD
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:20:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D0089A1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:20:57 +0000 (UTC)
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1797366030AA;
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id F1A0F660309D;
  Thu, 16 Mar 2023 10:20:55 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1678962055;
- bh=lEySQxwP+CBzmjLe1Ez9oQHJ1wF/3PthJcz2r8dmYDI=;
+ s=mail; t=1678962056;
+ bh=6DBVKIIHG8WZZ3ntbG1VNgOpsrN60zwSXj2PzGrIUrQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CmOentXJT+KPr7n9fi+2MDCN9eA3JjDJSnGJbJ06B2ipD5GxazaCZ7c16Tyt+ReGM
- 9tzHzUTQuPdYS2V8jfwVebQYT4RuEWgeHQA04tqgXFiWjD7+sDOnp8JixJEB/ohvbj
- GmU2FbIAxbYAnDCHUXxsJmunQoB9ASfx5JI+1iQK1XMJOmcXvO/1AAavxHMVKRjx86
- qeu+X/HAomJ8hEobxCUh1rIgN5SaatpYuJcQydfB5MwXh0D0/fAvdXXhjN8APoSx7f
- SwijZdQomMhXJkuoXC8bGoyTwbPwGvU/tiYbgyuX233UWEPyK//40tOGx2geBELVfO
- f3PRz1uFlrtWw==
+ b=MbXRKWlmiz0cDiInj2vV5mKScoT/lZkY25h1C8iu8wTWzLudoPjB68uvEUYSKXkjD
+ HHP+smP827Gc38cqEDXPjAAaPU5jBbNNqcwkuUXn4/v7lgtXUjARhXTePEPi7JFfyl
+ kfhIOYrGcMrLKaz/TN2mf1XJHRu8kaEKB3Ncn3kJd6o/asHXUrbnIt1x6yIVWUepG8
+ ckMf9jds4JjYEQNWDZepYz63jS2tg0UyF5gcDtrK0KYOR+77EWKqsY1PIEJMzBW+8X
+ nMpYv7dvDbHG6av2kGdWh+DAlqs8gTyIEiB59yGF5+4GzsjvR/Ucq539rfqGztng6b
+ nNOUIvNpnRYUg==
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: airlied@gmail.com
-Subject: [PATCH v5 11/12] drm/panfrost: Add new compatible for Mali on the
- MT8183 SoC
-Date: Thu, 16 Mar 2023 11:20:40 +0100
-Message-Id: <20230316102041.210269-12-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v5 12/12] drm/panfrost: Add support for Mali on the MT8186 SoC
+Date: Thu, 16 Mar 2023 11:20:41 +0100
+Message-Id: <20230316102041.210269-13-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230316102041.210269-1-angelogioacchino.delregno@collabora.com>
 References: <20230316102041.210269-1-angelogioacchino.delregno@collabora.com>
@@ -62,69 +61,42 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The "mediatek,mt8183-mali" compatible uses platform data that calls for
-getting (and managing) two regulators ("mali" and "sram") but devfreq
-does not support this usecase, resulting in DVFS not working.
-
-Since a lot of MediaTek SoCs need to set the voltages for the GPU SRAM
-regulator in a specific relation to the GPU VCORE regulator, a MediaTek
-SoC specific driver was introduced to automatically satisfy, through
-coupling, these constraints: this means that there is at all no need to
-manage both regulators in panfrost but to otherwise just manage the main
-"mali" (-> gpu vcore) regulator instead.
-
-Keeping in mind that we cannot break the ABI, the most sensible route
-(avoiding hacks and uselessly overcomplicated code) to get a MT8183
-node with one power supply was to add a new "mediatek,mt8183b-mali"
-compatible, which effectively deprecates the former.
+MediaTek MT8186 has a Mali-G52 MC2 2EE (Bifrost): add a new compatible
+and platform data using the same supplies list as "mt8183_b" (only one
+regulator), and a new pm_domains list with only two power domains.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 Tested-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- drivers/gpu/drm/panfrost/panfrost_drv.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 45c4accb6a1e..4f39b410302c 100644
+index 4f39b410302c..bbada731bbbd 100644
 --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
 +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -647,6 +647,14 @@ static const struct panfrost_compatible amlogic_data = {
- 	.vendor_quirk = panfrost_gpu_amlogic_quirk,
- };
- 
-+/*
-+ * The old data with two power supplies for MT8183 is here only to
-+ * keep retro-compatibility with older devicetrees, as DVFS will
-+ * not work with this one.
-+ *
-+ * On new devicetrees please use the _b variant with a single and
-+ * coupled regulators instead.
-+ */
- static const char * const mediatek_mt8183_supplies[] = { "mali", "sram", NULL };
- static const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
- static const struct panfrost_compatible mediatek_mt8183_data = {
-@@ -656,6 +664,14 @@ static const struct panfrost_compatible mediatek_mt8183_data = {
+@@ -672,6 +672,14 @@ static const struct panfrost_compatible mediatek_mt8183_b_data = {
  	.pm_domain_names = mediatek_mt8183_pm_domains,
  };
  
-+static const char * const mediatek_mt8183_b_supplies[] = { "mali", NULL };
-+static const struct panfrost_compatible mediatek_mt8183_b_data = {
++static const char * const mediatek_mt8186_pm_domains[] = { "core0", "core1" };
++static const struct panfrost_compatible mediatek_mt8186_data = {
 +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
 +	.supply_names = mediatek_mt8183_b_supplies,
-+	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
-+	.pm_domain_names = mediatek_mt8183_pm_domains,
++	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
++	.pm_domain_names = mediatek_mt8186_pm_domains,
 +};
 +
  static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
  static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
  							   "core3", "core4" };
-@@ -684,6 +700,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "arm,mali-bifrost", .data = &default_data, },
+@@ -701,6 +709,7 @@ static const struct of_device_id dt_match[] = {
  	{ .compatible = "arm,mali-valhall-jm", .data = &default_data, },
  	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
-+	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
+ 	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
++	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
  	{}
  };
