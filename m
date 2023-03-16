@@ -1,57 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449216BDB2D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 22:57:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2496BDB4F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 23:07:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6899D10E1E6;
-	Thu, 16 Mar 2023 21:57:40 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
- [209.85.166.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED5C10E1E6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 21:57:38 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id f14so1463245iow.5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 14:57:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679003857;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VCX8Q0KiFWBenYq33JmGKJRfWkS+jFykJMHbbG7dBoQ=;
- b=lVCEtbdmqUCIjKwhkmOQEob+nmI6eff0y/HB0w2oxRKUljbwi76qOe8xAz9ECa79Mf
- fSgHjfkXdxRV4uL94uq8+RfxnxKi6DMwU7JrjYW5LUydhnBG9KmwxMDa5W9VlvQqlhUa
- 3zDzBIoy7htD7KF8fig2nBs6SgUzYSTNRVywmINnCFii29rTuuhhR2HWxxpQX3344WN6
- 1YWaHkzQM+BujR25qrZ9dlBMrLgDmlX8g6BqPurwXYa+nGHfd2O3wXMUN83pHyR+3m2Z
- t4CLNRWG3j2ntkeK78noaU5YcUNFQI0Y40qUXng7+2TsoP9l3RsokvMMFw1znme+p1o3
- 1Klw==
-X-Gm-Message-State: AO0yUKW6El9TT3hMYrCUmMKM4p3n46eIcGFoCRp6qq92s3N0yHTYtgfs
- i1Cg4N21szwG+BnIo+8otKDhKCmVXg==
-X-Google-Smtp-Source: AK7set/1ioEGwLLlKvF20+unEkGcnCNWjn2iYIU36TopHqxFzHe7QejHEg/KOrCEWBF56csPo4ShDQ==
-X-Received: by 2002:a6b:5b12:0:b0:745:4726:b228 with SMTP id
- v18-20020a6b5b12000000b007454726b228mr335948ioh.17.1679003857572; 
- Thu, 16 Mar 2023 14:57:37 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.249])
- by smtp.gmail.com with ESMTPSA id
- x3-20020a056638248300b003ee9720740esm121887jat.153.2023.03.16.14.57.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 14:57:37 -0700 (PDT)
-Received: (nullmailer pid 3948932 invoked by uid 1000);
- Thu, 16 Mar 2023 21:57:35 -0000
-Date: Thu, 16 Mar 2023 16:57:35 -0500
-From: Rob Herring <robh@kernel.org>
-To: Gerald Loacker <gerald.loacker@wolfvision.net>
-Subject: Re: [PATCH 7/7] dt-bindings: display: add panel-timing property to
- sitronix,st7789v
-Message-ID: <20230316215735.GA3940832-robh@kernel.org>
-References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
- <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A9B410E394;
+	Thu, 16 Mar 2023 22:07:38 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D057E10E2FD;
+ Thu, 16 Mar 2023 22:07:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679004449; x=1710540449;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ZX8ynRBKRM7FQvOH+/w2s8T5ZLBlgxDsIn2UK+r5Xmc=;
+ b=bsxxtFIFS4bRsb+S2EjFnKa//qZsRM1Orgcgz7+vveywrkDjA7SEgGSB
+ LRZi3E9/7qYbSLHGvdNpy44Uqze2q24f0wumI+Sxc8PKzVFuIa+pigni1
+ xJc9+e4Uf9d6gw5prpATAWeemzl7T12JiDcX9Tvq8QYpx+dlMo6PXK1jK
+ 9tl3O5Ia0cVHQkg4E187E0o+235Qk3xdMsPz2IzvgRXPCBiFyDhFWo7P4
+ xRHRwsdEeXxyDnG+IMBDHGb+yS4l3f0O31KN0manABZXDjvVpnjh6QyYU
+ EOOUQjaR2Go1wV7Kf6fU4TEKOX7OJNnpvySffj9J+E1dbQ7+R1ANjH4pC Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="326490514"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="326490514"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 15:07:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="712515381"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="712515381"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orsmga001.jf.intel.com with ESMTP; 16 Mar 2023 15:07:25 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Subject: [PATCH v2 0/2] Improvements to GuC load failure handling
+Date: Thu, 16 Mar 2023 15:06:30 -0700
+Message-Id: <20230316220632.3312218-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,66 +56,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: John Harrison <John.C.Harrison@Intel.com>, DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 14, 2023 at 12:56:44PM +0100, Gerald Loacker wrote:
-> The sitronix-st7789v driver now considers the panel-timing property.
+From: John Harrison <John.C.Harrison@Intel.com>
 
-I read the patch for that and still don't know 'why'. Commit messages 
-should answer why.
+Add more decoding of the GuC load failures. Also include information
+about GT frequency to see if timeouts are due to a failure to boost
+the clocks. Finally, increase the timeout to accommodate situations
+where the clock boost does fail.
 
-> Add the property to the documentation.
+v2: Reduce timeout in release builds, add bug references, make usage
+of 'success' variable a litte clearer (review feedback from Daniele).
 
-We generally don't put timings in DT for panels. Why is this one 
-special?
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-> 
-> Signed-off-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-> ---
->  .../display/panel/sitronix,st7789v.yaml         | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-> index ed942cd3620f..8810f123dedf 100644
-> --- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-> @@ -21,6 +21,7 @@ properties:
->    reset-gpios: true
->    power-supply: true
->    backlight: true
-> +  panel-timing: true
->    port: true
->    rotation: true
->  
-> @@ -54,6 +55,22 @@ examples:
->              spi-cpol;
->              spi-cpha;
->  
-> +            panel-timing {
-> +                clock-frequency = <7000000>;
-> +                hactive = <240>;
-> +                vactive = <320>;
-> +                hfront-porch = <38>;
-> +                hback-porch = <10>;
-> +                hsync-len = <10>;
-> +                vfront-porch = <8>;
-> +                vback-porch = <4>;
-> +                vsync-len = <4>;
-> +                hsync-active = <1>;
-> +                vsync-active = <1>;
-> +                de-active = <1>;
-> +                pixelclk-active = <1>;
-> +            };
-> +
->              port {
->                  panel_input: endpoint {
->                      remote-endpoint = <&tcon0_out_panel>;
-> -- 
-> 2.37.2
-> 
+
+John Harrison (2):
+  drm/i915/guc: Improve GuC load error reporting
+  drm/i915/guc: Allow for very slow GuC loading
+
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |  17 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     | 141 +++++++++++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h    |   4 +-
+ 3 files changed, 140 insertions(+), 22 deletions(-)
+
+-- 
+2.39.1
+
