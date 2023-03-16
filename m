@@ -2,41 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BD16BD4A9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62266BD4BC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC0410E2DA;
-	Thu, 16 Mar 2023 16:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C68C310E0C1;
+	Thu, 16 Mar 2023 16:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.197])
- by gabe.freedesktop.org (Postfix) with ESMTP id DAEA210ED0C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=kRZV+
- 8Q/emx5bHidIKO6PtLhBxtpwJPSftAEhgOkuYk=; b=NVzX9q+f0YmZlVAGydm1J
- zBGA5qBvFyOomt8UAtUkhW2xqZ9+uc6Ir5bvl4z5Ie3VqKRS26ZhN+76A5lTSm9G
- d+kjo3iuPwcZXvyk7eXYuAMbVaWYBOcWbqrO42hZyhN9rdkOh1IgtD+uo6TbsSCF
- 4oxpMU6C4hFDu/qWOvDsc0=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
- by zwqz-smtp-mta-g0-1 (Coremail) with SMTP id _____wDHi0FdPhNkuGIYAQ--.38781S2;
- Fri, 17 Mar 2023 00:05:49 +0800 (CST)
-From: Zheng Wang <zyytlz.wz@163.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/bridge: adv7511: fix race condition bug in
- adv7511_remove due to unfinished work
-Date: Fri, 17 Mar 2023 00:05:48 +0800
-Message-Id: <20230316160548.1566989-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2D0210E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:11:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7EC0BB8226B;
+ Thu, 16 Mar 2023 16:11:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F5FCC433EF;
+ Thu, 16 Mar 2023 16:11:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1678983094;
+ bh=nC6VwuGgll5uSPQd5tpYFf3GFAKQzNdtgYCYHTpYLHg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ba2ft+wB5oW9cQF7bI+om0lBfb30omtA6QOLI8seIHdkmSwYAk3zZzasNrfYGG7U1
+ cNg56lfiDCD5j2Ab35KdAACUPJJtIpsinjigC01v/HMcOAiHhXR5ZgRTm6Pi53IlBw
+ prlFMCSDwD2/JKtsfGWM7OL+S0lSCO+eGUUvmh9YMBttxms6IFbbvfZs+RKrAPs1nj
+ fdPIY46zBtj8JVoKg5r1nJftJVlyq1ZCLPaC6SNaLstAwCLKVB39sfz6EIjUQ/JeJ1
+ yggE+GtBhtZ3+k7YJbxSLkp+CQWYlczWo6HaajPxfjEcz9gy6BZvvVjm+NU54YUXep
+ gam3RomN4ULJw==
+Date: Thu, 16 Mar 2023 16:11:29 +0000
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 1/2] backlight: lp855x: mark OF related data as maybe
+ unused
+Message-ID: <20230316161129.GQ9667@google.com>
+References: <20230311173556.263086-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDHi0FdPhNkuGIYAQ--.38781S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWrtr18Xr4rGw4ktrW3Ww1UGFg_yoW8Jr4Upa
- 13uF98CrWUXFnrKayDAF1fta4rAwsrJF1F9a9ruwnavr1UXFyUArZ0yFyYyry7WFWxX3W3
- tr1UtFykWrnxAaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zicyCZUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgM0U2I0XqqgGAAAsw
+In-Reply-To: <20230311173556.263086-1-krzysztof.kozlowski@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,41 +54,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, andrzej.hajda@intel.com, alex000young@gmail.com,
- jonas@kwiboo.se, linux-kernel@vger.kernel.org, hackerzheng666@gmail.com,
- 1395428693sheep@gmail.com, Zheng Wang <zyytlz.wz@163.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In adv7511_probe, adv7511->hpd_work is bound with adv7511_hpd_work.
-If we call adv7511_remove with a unfinished work. There may be a 
-race condition where bridge->hpd_mutex was destroyed by 
-drm_bridge_remove and used in adv7511_hpd_work in drm_bridge_hpd_notify.
+On Sat, 11 Mar 2023, Krzysztof Kozlowski wrote:
 
-Fix it by canceling the work before cleanup in adv7511_remove.
-Fixes: 518cb7057a59 ("drm/bridge: adv7511: Use work_struct to defer hotplug handing to out of irq context")
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
----
-v3:
-- add patch modification information
-v2:
-- add Fix label
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+> The driver can be compile tested with !CONFIG_OF making certain data
+> unused:
+>
+>   drivers/video/backlight/lp855x_bl.c:551:34: error: ‘lp855x_dt_ids’ defined but not used [-Werror=unused-const-variable=]
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/video/backlight/lp855x_bl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index ddceafa7b637..9bf72dd6c1d3 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1349,6 +1349,7 @@ static void adv7511_remove(struct i2c_client *i2c)
- {
- 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
- 
-+	cancel_work_sync(&adv7511->hpd_work);
- 	adv7511_uninit_regulators(adv7511);
- 
- 	drm_bridge_remove(&adv7511->bridge);
--- 
-2.25.1
+Applied, thanks
 
+--
+Lee Jones [李琼斯]
