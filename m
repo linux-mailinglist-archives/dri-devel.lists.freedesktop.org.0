@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE936BD156
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 14:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EEF6BD15A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 14:50:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11C3410E213;
-	Thu, 16 Mar 2023 13:50:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2697C10ECCC;
+	Thu, 16 Mar 2023 13:50:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76D6210E213
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 13:50:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADF010E237
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 13:50:37 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DB39D62029;
- Thu, 16 Mar 2023 13:50:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCBFC4339C;
- Thu, 16 Mar 2023 13:50:15 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0814162018;
+ Thu, 16 Mar 2023 13:50:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE44AC4339B;
+ Thu, 16 Mar 2023 13:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678974617;
- bh=6DIUuO5OucJfOZkmMSmX+nGMyXcQZPZaOsYkWlbrgrY=;
+ s=k20201202; t=1678974636;
+ bh=41JDTwywgpra1j/g1QCcorJIUZZeXGWLei2nG9yVvs4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=maKFrFaIwr6y8jEtfImaNwXku4j8tZpf2HHXoxihbwCRboTLzZyczqybN2+XY4aM7
- MgeaKQ2G/P1ju5ZcqLDSH+GVjpcB0J/5jjcufSDgy7NxXHoqpQUqosddhh/UIPsldZ
- Sr6M2bw2Q1MtdJRq5g83QN03d+LRBThopJTxtAW4NUUV8P8ZS2gqHMh1sN7YMpn7GL
- P2hLOLoolmji2sdo5Q8LEWXeyPgSJ2BSt7M/Ng6J6dQ8foZuVvPgeSV0EEjHe5gMBU
- 10w1qQ4Eg24tcxwDx69aT4fq04LybCzUnGZyarBfedJgr2znc6lZlSCXd7trv9xcGG
- YFqpph1I2xnJw==
-Date: Thu, 16 Mar 2023 13:50:12 +0000
+ b=f4NqbSuvb1c3ZQYnsH3hIvhEsILDU6bzGXTr4TXtDi0YNqpnT9A5HxT/mYqH09zYt
+ x3KtaFYqH7P5w9QBBH1m+Ryjy3Pt93Mtd1Mz1MjHOFUr6ulqEWfaXdV5XUMCDPtp4o
+ yO7G7mE+1bGo6laedAmQNCSqWjq8nVGYv01a/pbL2dJZ4l6ywuCnvVO3gjB+8OHkSK
+ FXIPm1RSimlMC/UhGasdPqBXTs9Fjd2K95XhBHU9Wl5ojLasQQg5OBU6b5Zn0+fOeO
+ +QGmr0E50NCrMVMPjOPT6ens7Wy8mpoHyB4R5Gs31O+Ghtqi/uJ/cAU/lzdlNCo2cJ
+ 3rvpRji7L/7qQ==
+Date: Thu, 16 Mar 2023 13:50:31 +0000
 From: Lee Jones <lee@kernel.org>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 07/13] backlight: lm3533_bl: Convert to platform remove
+Subject: Re: [PATCH 08/13] backlight: lp8788_bl: Convert to platform remove
  callback returning void
-Message-ID: <20230316135012.GV9667@google.com>
+Message-ID: <20230316135031.GW9667@google.com>
 References: <20230308073945.2336302-1-u.kleine-koenig@pengutronix.de>
- <20230308073945.2336302-8-u.kleine-koenig@pengutronix.de>
+ <20230308073945.2336302-9-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308073945.2336302-8-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230308073945.2336302-9-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,7 +77,7 @@ On Wed, 08 Mar 2023, Uwe Kleine-König wrote:
 >
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
->  drivers/video/backlight/lm3533_bl.c | 6 ++----
+>  drivers/video/backlight/lp8788_bl.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 
 Applied, thanks
