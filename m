@@ -2,72 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E596BCB22
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1283D6BCB66
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 10:50:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6675C10EC73;
-	Thu, 16 Mar 2023 09:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CE710EC79;
+	Thu, 16 Mar 2023 09:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 009F910EC5D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:38:05 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9EED31FE00;
- Thu, 16 Mar 2023 09:38:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1678959484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xJRwI6ICZiBypibZ0Jpnv3OhYOwyDNdVPEfUL1Y5hdQ=;
- b=QzPl+6ppM8gRt41f7qiA9wSbu2tQK3WDGmF+c6B4esX7RWTxO5wdH55w53q5/tMfYvzD4B
- Vj+RhPrIOW8GwXRCwmaKroHo/l6q91MO8bto3vlWGa5HyFLcEy2JEPSm33ZiX4OQEyV+TO
- oeERK495NxD48uWTMonBwsbOOMCCVfU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1678959484;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xJRwI6ICZiBypibZ0Jpnv3OhYOwyDNdVPEfUL1Y5hdQ=;
- b=/wd6EWPtNVslla5qf6Ro5sP9YbsYWZ4ITFLVn2xhchkOv1aaLr+htek3x/bt4EgilHGN0c
- sMoyzK3Z1cd/YnBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6B321133E0;
- Thu, 16 Mar 2023 09:38:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Cnc+GXzjEmTrRwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 16 Mar 2023 09:38:04 +0000
-Message-ID: <268e1cad-017f-2489-ccb0-5e8c10da999f@suse.de>
-Date: Thu, 16 Mar 2023 10:38:03 +0100
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E49A10E0F2;
+ Thu, 16 Mar 2023 09:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678960232; x=1710496232;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=p3CGs3G1Lhtkk2hb2xyBcZ21CX4+9jhDNXq4otTn4T0=;
+ b=mVit7S8uWx6lvZanQp+52oga9OPBq2SGjSwD5iRqLlI+IG3M/hKJ93GS
+ rEbYxHztUarxs2Df3ysdDrMrwDb/xiGwHffdl59oEZ87hRRhCEqPAlLdT
+ RWTgaH9C/jYtNOyX8E3s9O3y2ZkeySc+UI4CbyG1IutmrCfNzMgagZkYK
+ yCYinDhlMxI1/dORfwJYVsTGBh9aU6RbYOsgB/HBlUXYbX2NMzKymDnzT
+ bDdG+XtDD7vLl+byUlglpCrzbq8PDtn21w4fJ7a7C6Pz2BlFA+sXRIlEO
+ b/UBTsdpjwsQaWC5NUnlFMQ8flLML9GcziRAbFNJkNFTtJ9z2RJyjlzW+ g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="339469480"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="339469480"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 02:50:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="710029928"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="710029928"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by orsmga008.jf.intel.com with SMTP; 16 Mar 2023 02:50:28 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 16 Mar 2023 11:50:27 +0200
+Date: Thu, 16 Mar 2023 11:50:27 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
+ for DP and HDMI
+Message-ID: <ZBLmYzVcnBgU6uo5@intel.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-10-harry.wentland@amd.com>
+ <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 2/6] drm/fbdev-generic: Remove unused prefer_shadow_fbdev
- flag
-To: Zack Rusin <zackr@vmware.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>
-References: <20230315161442.27318-1-tzimmermann@suse.de>
- <20230315161442.27318-3-tzimmermann@suse.de>
- <2d96f229beffdf8416a3f183bac8b147c4a3d77f.camel@vmware.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <2d96f229beffdf8416a3f183bac8b147c4a3d77f.camel@vmware.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------3AF260xk1AMFFov0LzpLuGIH"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,118 +63,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
+ dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
+ Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------3AF260xk1AMFFov0LzpLuGIH
-Content-Type: multipart/mixed; boundary="------------MrEht54eu8uXPxyi28pfcpuO";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Zack Rusin <zackr@vmware.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "javierm@redhat.com" <javierm@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>
-Message-ID: <268e1cad-017f-2489-ccb0-5e8c10da999f@suse.de>
-Subject: Re: [PATCH 2/6] drm/fbdev-generic: Remove unused prefer_shadow_fbdev
- flag
-References: <20230315161442.27318-1-tzimmermann@suse.de>
- <20230315161442.27318-3-tzimmermann@suse.de>
- <2d96f229beffdf8416a3f183bac8b147c4a3d77f.camel@vmware.com>
-In-Reply-To: <2d96f229beffdf8416a3f183bac8b147c4a3d77f.camel@vmware.com>
+On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote:
+> On Tue, Mar 7, 2023 at 4:12 PM Harry Wentland <harry.wentland@amd.com> wrote:
+> >
+> > We want compositors to be able to set the output
+> > colorspace on DP and HDMI outputs, based on the
+> > caps reported from the receiver via EDID.
+> 
+> About that... The documentation says that user space has to check the
+> EDID for what the sink actually supports. So whatever is in
+> supported_colorspaces is just what the driver/hardware is able to set
+> but doesn't actually indicate that the sink supports it.
+> 
+> So the only way to enable bt2020 is by checking if the sink supports
+> both RGB and YUV variants because both could be used by the driver.
+> Not great at all. Something to remember for the new property.
 
---------------MrEht54eu8uXPxyi28pfcpuO
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hmm. I wonder if that's even legal... Looks like maybe it
+is since I can't immediately spot anything in CTA-861 to
+forbid it :/
 
-SGkNCg0KQW0gMTYuMDMuMjMgdW0gMDM6MTYgc2NocmllYiBaYWNrIFJ1c2luOg0KPiBPbiBX
-ZWQsIDIwMjMtMDMtMTUgYXQgMTc6MTQgKzAxMDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gUmVtb3ZlIHRoZSBmbGFnIHByZWZlcl9zaGFkb3dfZmJkZXYgZnJvbSBzdHJ1Y3Qg
-ZHJtX21vZGVfY29uZmlnLg0KPj4gRHJpdmVycyBzZXQgdGhpcyBmbGFnIHRvIGVuYWJsZSBz
-aGFkb3cgYnVmZmVyaW5nIGluIHRoZSBnZW5lcmljDQo+PiBmYmRldiBlbXVsYXRpb24uIFN1
-Y2ggc2hhZG93IGJ1ZmZlcmluZyBpcyBub3cgbWFuZGF0b3J5LCBzbyB0aGUNCj4+IGZsYWcg
-aXMgdW51c2VkLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0
-emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiAgwqBkcml2ZXJzL2dwdS9kcm0vdGlu
-eS9ib2Nocy5jwqDCoMKgwqDCoMKgwqAgfCAxIC0NCj4+ICDCoGRyaXZlcnMvZ3B1L2RybS92
-bXdnZngvdm13Z2Z4X2ttcy5jIHwgMSAtDQo+PiAgwqBpbmNsdWRlL2RybS9kcm1fbW9kZV9j
-b25maWcuaMKgwqDCoMKgwqDCoCB8IDcgLS0tLS0tLQ0KPj4gIMKgMyBmaWxlcyBjaGFuZ2Vk
-LCA5IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dGlueS9ib2Nocy5jIGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvYm9jaHMuYw0KPj4gaW5kZXgg
-MDI0MzQ2MDU0YzcwLi5kMjU0Njc5YTEzNmUgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vdGlueS9ib2Nocy5jDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9ib2No
-cy5jDQo+PiBAQCAtNTQ1LDcgKzU0NSw2IEBAIHN0YXRpYyBpbnQgYm9jaHNfa21zX2luaXQo
-c3RydWN0IGJvY2hzX2RldmljZSAqYm9jaHMpDQo+PiAgIA0KPj4gIMKgwqDCoMKgwqDCoMKg
-wqBib2Nocy0+ZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGggPSAyNDsNCj4+ICDC
-oMKgwqDCoMKgwqDCoMKgYm9jaHMtPmRldi0+bW9kZV9jb25maWcucHJlZmVyX3NoYWRvdyA9
-IDA7DQo+PiAtwqDCoMKgwqDCoMKgwqBib2Nocy0+ZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJf
-c2hhZG93X2ZiZGV2ID0gMTsNCj4+ICDCoMKgwqDCoMKgwqDCoMKgYm9jaHMtPmRldi0+bW9k
-ZV9jb25maWcucXVpcmtfYWRkZmJfcHJlZmVyX2hvc3RfYnl0ZV9vcmRlciA9IHRydWU7DQo+
-PiAgIA0KPj4gIMKgwqDCoMKgwqDCoMKgwqBib2Nocy0+ZGV2LT5tb2RlX2NvbmZpZy5mdW5j
-cyA9ICZib2Noc19tb2RlX2Z1bmNzOw0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdm13Z2Z4X2ttcy5jDQo+PiBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13
-Z2Z4X2ttcy5jDQo+PiBpbmRleCA4NGQ2MzgwYjk4OTUuLjUxNjJhN2ExMjc5MiAxMDA2NDQN
-Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jDQo+PiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9rbXMuYw0KPj4gQEAgLTIxMTIsNyAr
-MjExMiw2IEBAIGludCB2bXdfa21zX2luaXQoc3RydWN0IHZtd19wcml2YXRlICpkZXZfcHJp
-dikNCj4+ICDCoMKgwqDCoMKgwqDCoMKgZGV2LT5tb2RlX2NvbmZpZy5tYXhfd2lkdGggPSBk
-ZXZfcHJpdi0+dGV4dHVyZV9tYXhfd2lkdGg7DQo+PiAgwqDCoMKgwqDCoMKgwqDCoGRldi0+
-bW9kZV9jb25maWcubWF4X2hlaWdodCA9IGRldl9wcml2LT50ZXh0dXJlX21heF9oZWlnaHQ7
-DQo+PiAgwqDCoMKgwqDCoMKgwqDCoGRldi0+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRo
-ID0gZGV2X3ByaXYtPmFzc3VtZV8xNmJwcCA/IDE2IDogMzI7DQo+PiAtwqDCoMKgwqDCoMKg
-wqBkZXYtPm1vZGVfY29uZmlnLnByZWZlcl9zaGFkb3dfZmJkZXYgPSAhZGV2X3ByaXYtPmhh
-c19tb2I7DQo+PiAgIA0KPj4gIMKgwqDCoMKgwqDCoMKgwqBkcm1fbW9kZV9jcmVhdGVfc3Vn
-Z2VzdGVkX29mZnNldF9wcm9wZXJ0aWVzKGRldik7DQo+PiAgwqDCoMKgwqDCoMKgwqDCoHZt
-d19rbXNfY3JlYXRlX2hvdHBsdWdfbW9kZV91cGRhdGVfcHJvcGVydHkoZGV2X3ByaXYpOw0K
-Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oIGIvaW5jbHVk
-ZS9kcm0vZHJtX21vZGVfY29uZmlnLmgNCj4+IGluZGV4IGU1YjA1MzAwMWQyMi4uOTczMTE5
-YTkxNzZiIDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgN
-Cj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oDQo+PiBAQCAtODkwLDEz
-ICs4OTAsNiBAQCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnIHsNCj4+ICDCoMKgwqDCoMKgwqDC
-oMKgLyogZHVtYiBpb2N0bCBwYXJhbWV0ZXJzICovDQo+PiAgwqDCoMKgwqDCoMKgwqDCoHVp
-bnQzMl90IHByZWZlcnJlZF9kZXB0aCwgcHJlZmVyX3NoYWRvdzsNCj4+ICAgDQo+PiAtwqDC
-oMKgwqDCoMKgwqAvKioNCj4+IC3CoMKgwqDCoMKgwqDCoCAqIEBwcmVmZXJfc2hhZG93X2Zi
-ZGV2Og0KPj4gLcKgwqDCoMKgwqDCoMKgICoNCj4+IC3CoMKgwqDCoMKgwqDCoCAqIEhpbnQg
-dG8gZnJhbWVidWZmZXIgZW11bGF0aW9uIHRvIHByZWZlciBzaGFkb3ctZmIgcmVuZGVyaW5n
-Lg0KPj4gLcKgwqDCoMKgwqDCoMKgICovDQo+PiAtwqDCoMKgwqDCoMKgwqBib29sIHByZWZl
-cl9zaGFkb3dfZmJkZXY7DQo+PiAtDQo+PiAgwqDCoMKgwqDCoMKgwqDCoC8qKg0KPj4gIMKg
-wqDCoMKgwqDCoMKgwqAgKiBAcXVpcmtfYWRkZmJfcHJlZmVyX3hiZ3JfMzBicHA6DQo+PiAg
-wqDCoMKgwqDCoMKgwqDCoCAqDQo+IA0KPiBGb3IgdGhpcyBvbmU6DQo+IFJldmlld2VkLWJ5
-OiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KPiANCj4gVGhlIGVudGlyZSBzZXJp
-ZXMgbG9va3MgZ3JlYXQuIEkgdGhpbmsgaXQncyBhIGdyZWF0IGNsZWFudXA6DQo+IEFja2Vk
-LWJ5OiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KPiBGb3IgdGhlIHJlc3QuDQoN
-ClRoYW5rcyBhIGxvdCENCg0KPiANCj4geg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
-bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
-R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
-CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
-ZXYNCg==
+> 
+> > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> > Cc: Vitaly.Prosyak@amd.com
+> > Cc: Joshua Ashton <joshua@froggi.es>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Reviewed-By: Joshua Ashton <joshua@froggi.es>
+> > ---
+> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index f91b2ea13d96..2d883c6dae90 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(struct drm_connector *connector)
+> >         return amdgpu_dm_connector->num_modes;
+> >  }
+> >
+> > +static const u32 supported_colorspaces =
+> > +       BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
+> > +       BIT(DRM_MODE_COLORIMETRY_OPRGB) |
+> > +       BIT(DRM_MODE_COLORIMETRY_BT2020) |
+> > +       BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
+> > +
+> >  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+> >                                      struct amdgpu_dm_connector *aconnector,
+> >                                      int connector_type,
+> > @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+> >                                 adev->mode_info.abm_level_property, 0);
+> >         }
+> >
+> > +       if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
+> > +               if (!drm_mode_create_hdmi_colorspace_property(&aconnector->base, supported_colorspaces))
+> > +                       drm_connector_attach_colorspace_property(&aconnector->base);
+> > +       } else if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+> > +                  connector_type == DRM_MODE_CONNECTOR_eDP) {
+> > +               if (!drm_mode_create_dp_colorspace_property(&aconnector->base, supported_colorspaces))
+> > +                       drm_connector_attach_colorspace_property(&aconnector->base);
+> > +       }
+> > +
+> >         if (connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> >             connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+> >             connector_type == DRM_MODE_CONNECTOR_eDP) {
+> > --
+> > 2.39.2
+> >
 
---------------MrEht54eu8uXPxyi28pfcpuO--
-
---------------3AF260xk1AMFFov0LzpLuGIH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQS43sFAwAAAAAACgkQlh/E3EQov+Bs
-Fw//eHS7f+jHhD3gPILkruTdFS2SfT7j3dSxjKcmsQxWwEn9VpYRjAy624uNfsSf1wZ2oBs2myqB
-QbLdwvaE1F/apfDXB5kkAPYtPq0DWaNQMAWbZY5qObhVPnkGlPuVu+C4HZdGuvZnRbX8ee43YtIF
-BWJuceeDDaLi+JDQSLbYVceKa2aA+mocGWJcTxxFZ/prXvThY+NrLozCRLveGWfCu5lOrj7iYKNj
-8HYAB0qnjGr25t6zlNku1lfjBN11SP8DR/iMMr89HHdY/IxU1DyErDNXXBwsj6Mu4xmDpm1VMupA
-Vfv6+rOi1l2F7Tavi6paBBpW8IUWnoPj4m3YTDGooCMUY22zd9caXjI5fNMyA/WPqfPMnphaO+YR
-JnWLk9ZG00Q/3gqyvFa/Ry5yOdyKK4VN++jdt1G/GpeCznNuuFdu12Z10bLN8GnSI3SmNzKf8Wbd
-QrSYDSe6PbvEA/MN7P8inrYz8CH0h8KnYRy3IIFt2oYOysy6ejCLcuqhzLS059I9g/gPjHRmmmrs
-qIsJsH9pYSqRIYpTCKgnSAni16zeyvcqXQwwwi5kbH4jaOUFDlyMH6ZltyYLt4w2BB3QsMIdVio7
-Psr5tbPnsRGvhs4uESaMgHBfsuP90MguTueyBzuuPRnyd+MgzyuwbCNoSDzzLtzdvaPutep5GjU5
-TsA=
-=Qhx7
------END PGP SIGNATURE-----
-
---------------3AF260xk1AMFFov0LzpLuGIH--
+-- 
+Ville Syrjälä
+Intel
