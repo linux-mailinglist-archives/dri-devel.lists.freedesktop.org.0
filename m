@@ -2,66 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3846BC2F1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 01:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DA36BC2FA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 01:48:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15E5410EA45;
-	Thu, 16 Mar 2023 00:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBEEF10E399;
+	Thu, 16 Mar 2023 00:48:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D801410EA45
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 00:44:37 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id x17so313508lfu.5
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 17:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678927476;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OdHTO7r/qWwc37NG0KfD//nV1f0Fmimh5IOse5pWXK4=;
- b=anqrjvcHRO2REMCEyQGrabPAJZqSVGYWfgKG1db9qduO6iQ7lLe/059twBJhcgOZZS
- 3UZIbz5/EQDTu43xcmjd16na1X3x2YC5rcTK3vsPlLzn08yLGf2/wfFpcmS9XnCVBrIu
- WmWVblowCFMCx1lH943DX/6qJilgY0yhqMYLkK++Fb1b7oYIRBFE7+EAXLAini9MdkSE
- PCnIJ7Ruh3eNy1lDQnZfo9RH7+AmqVEfQQ6qcuV81uD6ONFd90uFD650t+jPEN8l59gk
- fH8v/W9gkxPTzhwRaZknBKuytJB4G4UtDom2E7hSgF8QIwc3XRTE3Zu4HMnrh1ujlHfQ
- ZnnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678927476;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OdHTO7r/qWwc37NG0KfD//nV1f0Fmimh5IOse5pWXK4=;
- b=yoO/9X+dj8cjokVTTTMe1Qfx6nKd7XAym1e30MWSKyOHcOxNs/dQv9AeWd9wQlVoWm
- qL9R0rTi+VwLg1lrWMWoHbWKz7rftgKsfL7V2KwyKFRD8oWrZ8wcDneWxhTnfx0H0c1p
- 2ePrawBCF4EQ7IVwlBeQChoi5BrtXxzNdnB0BzJ6A8OfFE7AqFplv0AtuL55iPh7HDpo
- WCJmvvr3hzACD54QzKQTVIV91xP7gkArhI8t4QVoUpTIcytKk/AxG26ptso7bCzqG9IA
- AwVDYruXvvQ+1da++F/AwiowoIgmvhT+9AZ2fIaPs9MEoGAu3JI4LXfdkIHy99iwlWq/
- W5ZA==
-X-Gm-Message-State: AO0yUKUC9Xl5jKqKdWoM9672dnAhmYM8ezkKgYKCTK9btaxAAX7r0dB3
- XAUi5ycSMp+4TZhqTF/lk8fyAcPGPFl7jtw69cc=
-X-Google-Smtp-Source: AK7set+zuznVSzozkhNOwTFpILN2nC7k2EOJ81hKG8EJr1QUVhV300YfCExMPAk3hSCFdXwgZtcG0g==
-X-Received: by 2002:ac2:597c:0:b0:4a4:68b9:19da with SMTP id
- h28-20020ac2597c000000b004a468b919damr2488893lfp.2.1678927475910; 
- Wed, 15 Mar 2023 17:44:35 -0700 (PDT)
-Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
- [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- q19-20020ac25293000000b004dc4b00a1f3sm1001254lfm.253.2023.03.15.17.44.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Mar 2023 17:44:35 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- Vinod Polimera <quic_vpolimer@quicinc.com>
-Subject: Re: [PATCH v14 00/14] Add PSR support for eDP
-Date: Thu, 16 Mar 2023 02:44:34 +0200
-Message-Id: <167892745598.2525998.13449367044508002295.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
-References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C41FC10E308;
+ Thu, 16 Mar 2023 00:48:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678927687; x=1710463687;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=6pTUSFFZU4VE9HSxtxTQU2jzPiCNwLQ0kRBHmDgjF2A=;
+ b=L+RaVRGNYBcM6W+8X6P+aRChFWUK+p6kr61MFaP0trWmvsPTdUwpAP4E
+ ew+OSa4JYZPB1f6DbFjrYNcsyacTk7ei2zI+tmx4lKHYrnUkvwtsPq/CX
+ mnH2D/8vfQgpaNJwgBHI3ZCy5XvFGmgUK7d8w+warROLuMFP2R3wQqxnE
+ 1MK7971ghCG27ZaVkOtNOQq8extbnIrnffeI49y9ziaVUpyPVWFmnlpq1
+ E5ym9L+gClE8Bc3U97mjWuDzoevsMZqMrODcqXkPzv79EnFqdDc7BcM/5
+ bTh3Sr1ui/Y2bs6H88ovmkqmDaM31JRPVLVyjydqMChtKQ81wYnyzaVQK A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="365541955"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="365541955"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2023 17:48:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="748660583"
+X-IronPort-AV: E=Sophos;i="5.98,262,1673942400"; d="scan'208";a="748660583"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Mar 2023 17:48:06 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915/pmu: Use functions common with sysfs to read actual
+ freq
+Date: Wed, 15 Mar 2023 17:48:00 -0700
+Message-Id: <20230316004800.2539753-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,56 +56,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
- quic_khsieh@quicinc.com, swboyd@chromium.org
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Expose intel_rps_read_actual_frequency_fw to read the actual freq without
+taking forcewake for use by PMU. The code is refactored to use a common set
+of functions across sysfs and PMU. Using common functions with sysfs in PMU
+solves the issues of missing support for MTL and missing support for older
+generations (prior to Gen6). It also future proofs the PMU where sometimes
+code has been updated for sysfs and PMU has been missed.
 
-On Thu, 02 Mar 2023 22:03:03 +0530, Vinod Polimera wrote:
-> Changes in v2:
->   - Use dp bridge to set psr entry/exit instead of dpu_enocder.
->   - Don't modify whitespaces.
->   - Set self refresh aware from atomic_check.
->   - Set self refresh aware only if psr is supported.
->   - Provide a stub for msm_dp_display_set_psr.
->   - Move dp functions to bridge code.
-> 
-> [...]
+v2: Remove runtime_pm_if_in_use from read_actual_frequency_fw (Tvrtko)
 
-Applied, thanks!
+v3: (Tvrtko)
+ - Remove goto in __read_cagf
+ - Unexport intel_rps_get_cagf and intel_rps_read_punit_req
 
-[01/14] drm: add helper functions to retrieve old and new crtc
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/ef708af6054c
-[02/14] drm/bridge: use atomic enable/disable callbacks for panel bridge
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/49291dbf1cd8
-[03/14] drm/bridge: add psr support for panel bridge callbacks
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/26966d5bc7dd
-[04/14] drm/msm/disp/dpu: check for crtc enable rather than crtc active to release shared resources
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/c235a0d4a185
-[05/14] drm/msm/disp/dpu: get timing engine status from intf status register
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/15b04e280119
-[06/14] drm/msm/disp/dpu: wait for extra vsync till timing engine status is disabled
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/b2afc29853c3
-[07/14] drm/msm/disp/dpu: reset the datapath after timing engine disable
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/392a21678a7f
-[08/14] drm/msm/dp: use atomic callbacks for DP bridge ops
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/20536d1c512b
-[09/14] drm/msm/dp: Add basic PSR support for eDP
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/c0b993bbfe9e
-[10/14] drm/msm/dp: use the eDP bridge ops to validate eDP modes
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/de9512e23adc
-[11/14] drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder functions
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/f62087459d8a
-[12/14] drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/1bd583580cba
-[13/14] drm/msm/disp/dpu: update dpu_enc crtc state on crtc enable/disable during self refresh
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/0f2a8f000c21
-[14/14] drm/msm/dp: set self refresh aware based on PSR support
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/0c3f3cfd8ef2
+Fixes: 22009b6dad66 ("drm/i915/mtl: Modify CAGF functions for MTL")
+Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8280
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_rps.c | 38 ++++++++++++++++-------------
+ drivers/gpu/drm/i915/gt/intel_rps.h |  4 +--
+ drivers/gpu/drm/i915/i915_pmu.c     | 10 +++-----
+ 3 files changed, 26 insertions(+), 26 deletions(-)
 
-Best regards,
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+index 4d0dc9de23f96..6d7395aa404a2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.c
++++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+@@ -2046,16 +2046,6 @@ void intel_rps_sanitize(struct intel_rps *rps)
+ 		rps_disable_interrupts(rps);
+ }
+ 
+-u32 intel_rps_read_rpstat_fw(struct intel_rps *rps)
+-{
+-	struct drm_i915_private *i915 = rps_to_i915(rps);
+-	i915_reg_t rpstat;
+-
+-	rpstat = (GRAPHICS_VER(i915) >= 12) ? GEN12_RPSTAT1 : GEN6_RPSTAT1;
+-
+-	return intel_uncore_read_fw(rps_to_gt(rps)->uncore, rpstat);
+-}
+-
+ u32 intel_rps_read_rpstat(struct intel_rps *rps)
+ {
+ 	struct drm_i915_private *i915 = rps_to_i915(rps);
+@@ -2066,7 +2056,7 @@ u32 intel_rps_read_rpstat(struct intel_rps *rps)
+ 	return intel_uncore_read(rps_to_gt(rps)->uncore, rpstat);
+ }
+ 
+-u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
++static u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
+ {
+ 	struct drm_i915_private *i915 = rps_to_i915(rps);
+ 	u32 cagf;
+@@ -2089,10 +2079,11 @@ u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat)
+ 	return cagf;
+ }
+ 
+-static u32 read_cagf(struct intel_rps *rps)
++static u32 __read_cagf(struct intel_rps *rps, bool take_fw)
+ {
+ 	struct drm_i915_private *i915 = rps_to_i915(rps);
+ 	struct intel_uncore *uncore = rps_to_uncore(rps);
++	i915_reg_t r = INVALID_MMIO_REG;
+ 	u32 freq;
+ 
+ 	/*
+@@ -2100,22 +2091,30 @@ static u32 read_cagf(struct intel_rps *rps)
+ 	 * registers will return 0 freq when GT is in RC6
+ 	 */
+ 	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70)) {
+-		freq = intel_uncore_read(uncore, MTL_MIRROR_TARGET_WP1);
++		r = MTL_MIRROR_TARGET_WP1;
+ 	} else if (GRAPHICS_VER(i915) >= 12) {
+-		freq = intel_uncore_read(uncore, GEN12_RPSTAT1);
++		r = GEN12_RPSTAT1;
+ 	} else if (IS_VALLEYVIEW(i915) || IS_CHERRYVIEW(i915)) {
+ 		vlv_punit_get(i915);
+ 		freq = vlv_punit_read(i915, PUNIT_REG_GPU_FREQ_STS);
+ 		vlv_punit_put(i915);
+ 	} else if (GRAPHICS_VER(i915) >= 6) {
+-		freq = intel_uncore_read(uncore, GEN6_RPSTAT1);
++		r = GEN6_RPSTAT1;
+ 	} else {
+-		freq = intel_uncore_read(uncore, MEMSTAT_ILK);
++		r = MEMSTAT_ILK;
+ 	}
+ 
++	if (i915_mmio_reg_valid(r))
++		freq = take_fw ? intel_uncore_read(uncore, r) : intel_uncore_read_fw(uncore, r);
++
+ 	return intel_rps_get_cagf(rps, freq);
+ }
+ 
++static u32 read_cagf(struct intel_rps *rps)
++{
++	return __read_cagf(rps, true);
++}
++
+ u32 intel_rps_read_actual_frequency(struct intel_rps *rps)
+ {
+ 	struct intel_runtime_pm *rpm = rps_to_uncore(rps)->rpm;
+@@ -2128,7 +2127,12 @@ u32 intel_rps_read_actual_frequency(struct intel_rps *rps)
+ 	return freq;
+ }
+ 
+-u32 intel_rps_read_punit_req(struct intel_rps *rps)
++u32 intel_rps_read_actual_frequency_fw(struct intel_rps *rps)
++{
++	return intel_gpu_freq(rps, __read_cagf(rps, false));
++}
++
++static u32 intel_rps_read_punit_req(struct intel_rps *rps)
+ {
+ 	struct intel_uncore *uncore = rps_to_uncore(rps);
+ 	struct intel_runtime_pm *rpm = rps_to_uncore(rps)->rpm;
+diff --git a/drivers/gpu/drm/i915/gt/intel_rps.h b/drivers/gpu/drm/i915/gt/intel_rps.h
+index c622962c6befb..a3fa987aa91f1 100644
+--- a/drivers/gpu/drm/i915/gt/intel_rps.h
++++ b/drivers/gpu/drm/i915/gt/intel_rps.h
+@@ -37,8 +37,8 @@ void intel_rps_mark_interactive(struct intel_rps *rps, bool interactive);
+ 
+ int intel_gpu_freq(struct intel_rps *rps, int val);
+ int intel_freq_opcode(struct intel_rps *rps, int val);
+-u32 intel_rps_get_cagf(struct intel_rps *rps, u32 rpstat1);
+ u32 intel_rps_read_actual_frequency(struct intel_rps *rps);
++u32 intel_rps_read_actual_frequency_fw(struct intel_rps *rps);
+ u32 intel_rps_get_requested_frequency(struct intel_rps *rps);
+ u32 intel_rps_get_min_frequency(struct intel_rps *rps);
+ u32 intel_rps_get_min_raw_freq(struct intel_rps *rps);
+@@ -49,10 +49,8 @@ int intel_rps_set_max_frequency(struct intel_rps *rps, u32 val);
+ u32 intel_rps_get_rp0_frequency(struct intel_rps *rps);
+ u32 intel_rps_get_rp1_frequency(struct intel_rps *rps);
+ u32 intel_rps_get_rpn_frequency(struct intel_rps *rps);
+-u32 intel_rps_read_punit_req(struct intel_rps *rps);
+ u32 intel_rps_read_punit_req_frequency(struct intel_rps *rps);
+ u32 intel_rps_read_rpstat(struct intel_rps *rps);
+-u32 intel_rps_read_rpstat_fw(struct intel_rps *rps);
+ void gen6_rps_get_freq_caps(struct intel_rps *rps, struct intel_rps_freq_caps *caps);
+ void intel_rps_raise_unslice(struct intel_rps *rps);
+ void intel_rps_lower_unslice(struct intel_rps *rps);
+diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+index a76c5ce9513d3..7ece883a7d956 100644
+--- a/drivers/gpu/drm/i915/i915_pmu.c
++++ b/drivers/gpu/drm/i915/i915_pmu.c
+@@ -392,14 +392,12 @@ frequency_sample(struct intel_gt *gt, unsigned int period_ns)
+ 		 * case we assume the system is running at the intended
+ 		 * frequency. Fortunately, the read should rarely fail!
+ 		 */
+-		val = intel_rps_read_rpstat_fw(rps);
+-		if (val)
+-			val = intel_rps_get_cagf(rps, val);
+-		else
+-			val = rps->cur_freq;
++		val = intel_rps_read_actual_frequency_fw(rps);
++		if (!val)
++			val = intel_gpu_freq(rps, rps->cur_freq);
+ 
+ 		add_sample_mult(&pmu->sample[__I915_SAMPLE_FREQ_ACT],
+-				intel_gpu_freq(rps, val), period_ns / 1000);
++				val, period_ns / 1000);
+ 	}
+ 
+ 	if (pmu->enable & config_mask(I915_PMU_REQUESTED_FREQUENCY)) {
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.38.0
+
