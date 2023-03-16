@@ -1,69 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554F76BCCC4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:29:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0E76BCD06
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF52410EC97;
-	Thu, 16 Mar 2023 10:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2183810E101;
+	Thu, 16 Mar 2023 10:41:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB7DF10EC9A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:29:26 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id y15so1664151lfa.7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 03:29:26 -0700 (PDT)
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
+ [IPv6:2607:f8b0:4864:20::d35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7FC10E101
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:41:20 +0000 (UTC)
+Received: by mail-io1-xd35.google.com with SMTP id t129so549825iof.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 03:41:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678962565;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZoXEVHbh4zESyEnp5EA5Zcb4rCYHcLM5oXeCPSUEYhA=;
- b=hPGRGxF+ke8z3JzOJVv+C09Jmuv4N0i5SYgY2ZnNIKaXxFPKIJ7v7rnm2ULALJDkS3
- BN+pVAOZSFrQcXJ72EtdmQLp8W7xIabGTpOC1j1pFwBeGr3S2feU1PHVkEeTqdTutiPw
- aU9vqjmKMMz40gaZ8L2TzgsC/ycD6WoA6uapZvUDjCeahwljPbAPNVSsRefd0Mq9y20n
- fdX4PKenMaxkUbhjaaU7NYQUZYUJL59wmPbtVVOg7gfHNbtejQlMvxNRmrqa60LdbRxE
- 2y2ayOBGkrD8bvHM/UhTZZ8TxMdjgvxZpe44qY/YBMkbC6Sfiyj2cTlfsM4hD2W2wrYN
- /TEQ==
+ d=chromium.org; s=google; t=1678963279;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JuyYSP6SPR+Rpc5oB9smN5+cA4uJ40zcl370tC/DYEw=;
+ b=VdFK9wO3bWJxzN1oyPJNzTbCFUcO2h3khVD9S8x1f0IjKgIlT+EJyi25jm/NsZWi6V
+ o2gHQgdCz7Z7uXb0gDVjAfFsByKuJ2QwH4sWDt0p+BqC1Y97ICSuV82fMRlp9RDUB+hX
+ bR1phPIaW+n4fx7Y1tiJqNZYrPT/0Ba4FWWqQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678962565;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZoXEVHbh4zESyEnp5EA5Zcb4rCYHcLM5oXeCPSUEYhA=;
- b=eQT0s/XsvIrWnI4/gKwdSgEnQGbTW7ao5TcpOGuQ40h91GfGXp3vhI4N1ncqFD48Y+
- xqtDPzHcDtnIXoeIKs2sGW6dXQyExhxZ/WB6dpqd/2XQ9RIOaN6YzkBpHuMOz2ktnFw3
- IByrPy1C5SnDVk0ijuFNz5/kxzY6vQQkwKwAz1q386OoImS7goR/Ye36Pdya3WF/NUlD
- ulLTwL5YEmTSs/jDbgVEzzdM/BisEtNbpu2hF6cj2kHmusnRGBrwK87NeGVTKGMmmG1D
- PUbtrN4blnO4aFmi1Qy+JwdCSDrLhF4FB+/36BfcLmC4v6OfjNiM0kogp1hVMX9+Ln8R
- wT9w==
-X-Gm-Message-State: AO0yUKUJ1H5ePNd8h14VY2jqEs0SYV1IM/Tx23UPTVbheinbZ/O+U1Ll
- kGI3OvujEHlX27NJi103/zFqXg==
-X-Google-Smtp-Source: AK7set8RqMAmh9lKg1cILMKHSx8C7wupxbgS49UmQD0f1euyKuqdXR0j+LcLnHCcQgn5HAX+nmRHtQ==
-X-Received: by 2002:ac2:5dd1:0:b0:4e8:4699:d01 with SMTP id
- x17-20020ac25dd1000000b004e846990d01mr2775148lfq.27.1678962565001; 
- Thu, 16 Mar 2023 03:29:25 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- n7-20020a195507000000b004e84896253asm1169523lfe.251.2023.03.16.03.29.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 03:29:23 -0700 (PDT)
-Message-ID: <5cfc6a2b-5b70-c44c-17d4-9c5dfaa33f54@linaro.org>
-Date: Thu, 16 Mar 2023 12:29:23 +0200
+ d=1e100.net; s=20210112; t=1678963279;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JuyYSP6SPR+Rpc5oB9smN5+cA4uJ40zcl370tC/DYEw=;
+ b=fsQTq53LMHNOIAdsdyitxupo0nQiUlfauYAXwmYQeWr27EDLmONxgu27L42m5u5suQ
+ lD83GjEqi8hWMP1CzgGPQZdWTIm57cJUHX6IfQgAezNXKV5gjFYvNY3v+ykyGYd8GUgZ
+ jsCdyNgUIS/qpnwMpXL0hOBZhJteJFT1EqWkiEtaeFFsEmgNJC+tCMsDNLvCqyL9fSXa
+ Yjcvu2mgXI2qWgeXQjExpi9yEXtUpzygogsC7IKS1cSWeQEraIBQfINAocn6gkApic7H
+ 8eEeaoLpsRn308NtGmFfwtIDMQaQFnJk7c/xJ9gslTTXg1PWM1bY+nVbH0AFbG7gRZlR
+ N5Dw==
+X-Gm-Message-State: AO0yUKWrDTY+L9GfCb88xb6tYMh1PEj/4Xrjx+Hpykdgk4jynQ+7fKUN
+ Av+qnzkcx3yEDkbO12Dc92lCShpB9alUFcN6cw+nqw==
+X-Google-Smtp-Source: AK7set8Sjrf3rJ2OyrNXGh5/pgmyV/OOM3eeJAznxKybJO5577cMqIP/hFMZFLkA0Ic/WT0SdqTwNXi4K/wejh57sto=
+X-Received: by 2002:a5d:8b47:0:b0:745:c41a:8f0f with SMTP id
+ c7-20020a5d8b47000000b00745c41a8f0fmr20956879iot.2.1678963279337; Thu, 16 Mar
+ 2023 03:41:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm: msm: adreno: Disable preemption on Adreno 510
-Content-Language: en-GB
-To: Adam Skladowski <a39.skl@gmail.com>
-References: <20230314221757.13096-1-a39.skl@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230314221757.13096-1-a39.skl@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230314110043.2139111-1-treapking@chromium.org>
+ <CAD=FV=W=jVsvD620wWKfniRYQNJnb7goDUKb_HhL_qVxLYGZOA@mail.gmail.com>
+ <CAEXTbpe6EyukjKfgaVtHdMK2Ppw715kUUnOqvFa+tEX913p9aQ@mail.gmail.com>
+ <CAD=FV=VLh37hFpLwyuPoGNDCpvVL7FGLySVp7d1W788YkjNYog@mail.gmail.com>
+In-Reply-To: <CAD=FV=VLh37hFpLwyuPoGNDCpvVL7FGLySVp7d1W788YkjNYog@mail.gmail.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 16 Mar 2023 18:41:08 +0800
+Message-ID: <CAEXTbpcs1kruF=UkYSGYBBMJW_qeEELh6Yy8c5H+6TUkeU_3LA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/bridge: ps8640: Skip redundant bridge enable
+To: Doug Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,29 +67,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- Elliot Berman <quic_eberman@quicinc.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/03/2023 00:17, Adam Skladowski wrote:
-> Downstream driver appears to not support preemption on A510 target,
-> trying to use one make device slow and fill log with rings related errors.
-> Set num_rings to 1 to disable preemption.
-> 
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Fixes: e20c9284c8f2 ("drm/msm/adreno: Add support for Adreno 510 GPU")
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, Mar 16, 2023 at 5:34=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Tue, Mar 14, 2023 at 8:28=E2=80=AFPM Pin-yen Lin <treapking@chromium.o=
+rg> wrote:
+> >
+> > Hi Doug,
+> >
+> > On Wed, Mar 15, 2023 at 5:31=E2=80=AFAM Doug Anderson <dianders@chromiu=
+m.org> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Tue, Mar 14, 2023 at 4:00=E2=80=AFAM Pin-yen Lin <treapking@chromi=
+um.org> wrote:
+> > > >
+> > > > Skip the drm_bridge_chain_pre_enable call when the bridge is alread=
+y
+> > > > pre_enabled. This make pre_enable and post_disable (thus
+> > > > pm_runtime_get/put) symmetric.
+> > > >
+> > > > Fixes: 46f206304db0 ("drm/bridge: ps8640: Rework power state handli=
+ng")
+> > > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > > > ---
+> > > >
+> > > >  drivers/gpu/drm/bridge/parade-ps8640.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/d=
+rm/bridge/parade-ps8640.c
+> > > > index 4b361d7d5e44..08de501c436e 100644
+> > > > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> > > > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> > > > @@ -557,7 +557,8 @@ static struct edid *ps8640_bridge_get_edid(stru=
+ct drm_bridge *bridge,
+> > > >          * EDID, for this chip, we need to do a full poweron, other=
+wise it will
+> > > >          * fail.
+> > > >          */
+> > > > -       drm_atomic_bridge_chain_pre_enable(bridge, connector->state=
+->state);
+> > > > +       if (poweroff)
+> > > > +               drm_atomic_bridge_chain_pre_enable(bridge, connecto=
+r->state->state);
+> > >
+> > > It always seemed weird to me that this function was asymmetric, so I
+> > > like this change, thanks!
+> > >
+> > > I also remember wondering before how this function was safe, though.
+> > > The callpath for getting here from the ioctl is documented in the
+> > > function and when I look at it I wonder if anything is preventing the
+> > > bridge from being enabled / disabled through normal means at the same
+> > > time your function is running. That could cause all sorts of badness
+> > > if it is indeed possible. Does anyone reading this know if that's
+> > > indeed a problem?
+> >
+> > If the "normal mean" is disabling the bridge, then we are probably
+> > disabling the whole display pipeline. If so, is the EDID still
+> > relevant in this case?
+>
+> In general when we do a "modeset" I believe that the display pipeline
+> is disabled and re-enabled. On a Chromebook test image you can see
+> this disable / re-enable happen when you switch between "VT2" and the
+> main login screen.
+>
+> If the display pipeline is disabled / re-enabled then it should still
+> be fine to keep the EDID cached, so that's not what I'm worried about.
+> I'm more worried that someone could be querying the EDID at the same
+> time that someone else was turning the screen off. In that case it
+> would be possible for "poweroff" to be true (because the screen was on
 
--- 
-With best wishes
-Dmitry
+You mean "poweroff" to be "false", right? That is,
+"ps_bridge->pre_enabled" is true. So the .get_edid function assumes
+that the pipeline is enabled, but another thread is turning off the
+screen.
 
+> when we started reading the EDID) and then partway through the screen
+> could get turned off.
+
+Thanks for the detailed explanation. In that case, we probably get an
+error and return a NULL EDID. But do we need the EDID when the screen
+is turned off? And the EDID should be re-read if the screen is turned
+back on.
+
+However, in a reversed setting, if the .get_edid is reading EDID when
+the pipeline is disabled (poweroff=3Dtrue), but someone enables the
+pipeline in between. In that case, .get_edid might disable the bridge
+and panel after the pipeline is enabled.
+
+Anyway, the function is not safe, but it's no more unsafe than before.
+Patch 2/2 should lower the chance for anything bad to happen by adding
+a cache by only read EDID once.
+>
+> -Doug
+
+Thanks and regards,
+Pin-yen
