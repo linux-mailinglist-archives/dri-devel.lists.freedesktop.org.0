@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6874D6BD14B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 14:49:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4A36BD151
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 14:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4526310E211;
-	Thu, 16 Mar 2023 13:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 009A810E212;
+	Thu, 16 Mar 2023 13:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1885110E237
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 13:48:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6F610E213
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 13:49:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A9FCCB8219C;
- Thu, 16 Mar 2023 13:48:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8034C433EF;
- Thu, 16 Mar 2023 13:48:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8C2DF62025;
+ Thu, 16 Mar 2023 13:49:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F053C433D2;
+ Thu, 16 Mar 2023 13:49:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678974536;
- bh=zL4FIdTg00ODHjqpMmVqY9LOs4Ir4Md6XTe8ybzUXlw=;
+ s=k20201202; t=1678974559;
+ bh=HtSqZtaWq+21wMq+Kxw4Dw88HQjqRZ2M7IH54wJo65Y=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=T1j5+GIhBaaA0IEeqqbDAbqJjF+mmVA5FsmU72fEwjyZ0KHwdzvLhWAdkHqPLtEeB
- PAFd2fHkXgyYDRGSOkIeShgTXXknCXGuL2H7Xz6GMmi2VpoCEjTokTtvvEwZCXrOo6
- yYMx9AFssi4Cw9iLrFL9DDOjG1oAr8tD07oXhspl3v88nKPFeNIfEsSDQ2szW0PZe8
- 9C6G7S4wYmgb+FeqvG/TO6gCe1BQBN77GTo8zZCwMmrp0OjaTsLTgbq7NRp68rZ/ce
- wqcoGpUaG/okoi15iIkimJpLjI8WotYDQKc/le3+K4JLWq4vpmeKsEXJtSEIP505P3
- y3/Zkx8qloynw==
-Date: Thu, 16 Mar 2023 13:48:51 +0000
+ b=hIz7g0KkDCDrm2nQJTgs6hh+Tv3DGaeyAp7SOO6tuNOWc/5LfSxSQMQ4AWHt6eVO9
+ dMU/8rOjI6wYvPmbhLqs8o19xOxUnL9xlXlNIDdLNclAMdz84L5tOWuIIF7A/7mbBW
+ akB1FXKqobcDrCjzLapYV38c2Agkt8UtkCKbXMvlf59FM+XSqt+FTFzIZoJD0NvnIK
+ 2yZlKTKgbVswU0BGNxUcS8/OeEi51rgCfmZUBfb1xkfYQZuUx/2IDvAakNoR+fXWUe
+ 66ZQy9znhUmMbiBRYlnkD0x/HlGGWY19pvxciwhOy9nIjtYTxYmBLKlGNQ/wavW7rk
+ SoVnbKk5Jl11g==
+Date: Thu, 16 Mar 2023 13:49:14 +0000
 From: Lee Jones <lee@kernel.org>
 To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 04/13] backlight: da9052_bl: Convert to platform remove
+Subject: Re: [PATCH 05/13] backlight: hp680_bl: Convert to platform remove
  callback returning void
-Message-ID: <20230316134851.GS9667@google.com>
+Message-ID: <20230316134914.GT9667@google.com>
 References: <20230308073945.2336302-1-u.kleine-koenig@pengutronix.de>
- <20230308073945.2336302-5-u.kleine-koenig@pengutronix.de>
+ <20230308073945.2336302-6-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230308073945.2336302-5-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230308073945.2336302-6-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,7 +56,6 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Support Opensource <support.opensource@diasemi.com>,
  Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  kernel@pengutronix.de
@@ -78,7 +77,7 @@ On Wed, 08 Mar 2023, Uwe Kleine-König wrote:
 >
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
->  drivers/video/backlight/da9052_bl.c | 6 ++----
+>  drivers/video/backlight/hp680_bl.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
 
 Applied, thanks
