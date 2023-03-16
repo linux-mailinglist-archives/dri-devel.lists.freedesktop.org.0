@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE2A6BCE5F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 12:36:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCC36BCE5E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 12:36:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 331F710ECA8;
-	Thu, 16 Mar 2023 11:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF2110E0A8;
+	Thu, 16 Mar 2023 11:36:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E9110ECA8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 11:36:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E36110E0A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 11:36:49 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8641F61FBC;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id ED28161FE9;
+ Thu, 16 Mar 2023 11:36:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C410C433EF;
  Thu, 16 Mar 2023 11:36:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15923C433D2;
- Thu, 16 Mar 2023 11:36:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1678966607;
- bh=UmGWWvaPm9DtDkjuHYKHBSZzC1ujogR++GWFYr95Suk=;
+ s=k20201202; t=1678966608;
+ bh=6pHbpnMw9YGDjM+m2mdoSxiaBfTRG6jNg88olV+KRfw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=so3UqfmkAtjO9SS8d6pMzu2h6iZHzFwqIj2FyIw4CEergSPCIL0g1WmxipFIq58yF
- KRjGpwoDnIwrGQi7IvlqQmg2mrsO+2CzspBfke85iEYear/1cW/geDOzepVU+xNQZ9
- rLBHDCV286RJTAgECKSh6R4Jje1uVdrPYEKABLsonV9gakwBjF31FPxXWTJSYr4+6b
- mADDgp4tnV+eJL227UR5k4Au4QAVKGppBCY0pAUUey60/YhHX6D6akkvwxpf1EXYAA
- KCKTNLrQnbcQp7FdvH165Tnlc1MbJyhrxGyoSUCzCwq3WZN7cbzlp4dZrcDgsU9UvZ
- XoaDfP6WTazkQ==
+ b=XgMVG3g2KN8+sL0loKcBdSGB/tcNgTG2qa1ypRzx1+31k1x/9UCYlyMD6SnpVVhHB
+ VxvOc3HF+YwQBZ0rUweOCXOeNgwkVk5CuII3QywTX9rL35xkMVf4vIb8CYeWazv3HU
+ qr5E1x7zOKOHsYxoqnZXqYbKSEP/B2m2A/cNl3SLAgRvfM5hMcZ9NgEwB1KpmK95uv
+ PLtTXH5D9mOskdaLv94xasL7ZZNyI7J2Do0L01w6/2Tzt/N8Gw/ijKq825AemJAzL3
+ XWUp6njucQbV0hQ8jdQ9xAs/AdafwozMKumDWJPbVPTTUae29C4x84NSXc2XdhlPz9
+ YqwLS/1Sm7pOA==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 02/10] accel/habanalabs: do not verify engine modes after
- being changed
-Date: Thu, 16 Mar 2023 13:36:32 +0200
-Message-Id: <20230316113640.499267-2-ogabbay@kernel.org>
+Subject: [PATCH 03/10] accel/habanalabs: increase reset poll timeout
+Date: Thu, 16 Mar 2023 13:36:33 +0200
+Message-Id: <20230316113640.499267-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230316113640.499267-1-ogabbay@kernel.org>
 References: <20230316113640.499267-1-ogabbay@kernel.org>
@@ -53,85 +52,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Koby Elbaz <kelbaz@habana.ai>
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Koby Elbaz <kelbaz@habana.ai>
+From: Ofir Bitton <obitton@habana.ai>
 
-Engines idle state can't always be verified between changes of
-engine modes (e.g., stall/halt).
-For example, if a CS is inflight when altering engine's mode,
-idle state will return NOT idle, always.
+Due to a firmware bug we need to increase reset poll timeout
+or else we will timeout in secured environments.
 
-Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 35 +-----------------------
- 1 file changed, 1 insertion(+), 34 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index 21cf7180fe9f..cb679365240e 100644
+index cb679365240e..652f12a058c7 100644
 --- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
 +++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -4545,36 +4545,9 @@ static int gaudi2_set_engine_modes(struct hl_device *hdev,
- 	return 0;
- }
+@@ -23,7 +23,8 @@
+ #define GAUDI2_DMA_POOL_BLK_SIZE		SZ_256		/* 256 bytes */
  
--static int gaudi2_verify_engine_modes(struct hl_device *hdev, u32 *engine_ids,
--		u32 num_engines, u32 engine_command)
--{
--	bool is_engine_idle = true;
--	u64 mask_arr = 0;
--	int i;
--
--	gaudi2_get_tpc_idle_status(hdev, &mask_arr, 8 * sizeof(mask_arr), NULL);
--	gaudi2_get_mme_idle_status(hdev, &mask_arr, 8 * sizeof(mask_arr), NULL);
--	gaudi2_get_edma_idle_status(hdev, &mask_arr, 8 * sizeof(mask_arr), NULL);
--
--	for (i = 0 ; i < num_engines ; ++i) {
--		is_engine_idle = !(mask_arr & BIT_ULL(engine_ids[i]));
--		if ((engine_command == HL_ENGINE_RESUME) && !is_engine_idle) {
--			dev_err(hdev->dev, "Engine ID %u remained NOT idle!\n", engine_ids[i]);
--			return -EBUSY;
--		} else if ((engine_command == HL_ENGINE_STALL) && is_engine_idle) {
--			dev_err(hdev->dev, "Engine ID %u remained idle!\n", engine_ids[i]);
--			return -EBUSY;
--		}
--	}
--
--	return 0;
--}
--
- static int gaudi2_set_engines(struct hl_device *hdev, u32 *engine_ids,
- 					u32 num_engines, u32 engine_command)
- {
--	int rc;
--
- 	switch (engine_command) {
- 	case HL_ENGINE_CORE_HALT:
- 	case HL_ENGINE_CORE_RUN:
-@@ -4582,18 +4555,12 @@ static int gaudi2_set_engines(struct hl_device *hdev, u32 *engine_ids,
- 
- 	case HL_ENGINE_STALL:
- 	case HL_ENGINE_RESUME:
--		rc = gaudi2_set_engine_modes(hdev, engine_ids, num_engines, engine_command);
--		if (rc)
--			return rc;
--
--		return gaudi2_verify_engine_modes(hdev, engine_ids, num_engines, engine_command);
-+		return gaudi2_set_engine_modes(hdev, engine_ids, num_engines, engine_command);
- 
- 	default:
- 		dev_err(hdev->dev, "failed to execute command id %u\n", engine_command);
- 		return -EINVAL;
- 	}
--
--	return 0;
- }
- 
- static void gaudi2_halt_engines(struct hl_device *hdev, bool hard_reset, bool fw_reset)
+ #define GAUDI2_RESET_TIMEOUT_MSEC		2000		/* 2000ms */
+-#define GAUDI2_RESET_POLL_TIMEOUT_USEC		50000		/* 50ms */
++
++#define GAUDI2_RESET_POLL_TIMEOUT_USEC		500000		/* 500ms */
+ #define GAUDI2_PLDM_HRESET_TIMEOUT_MSEC		25000		/* 25s */
+ #define GAUDI2_PLDM_SRESET_TIMEOUT_MSEC		25000		/* 25s */
+ #define GAUDI2_PLDM_RESET_POLL_TIMEOUT_USEC	3000000		/* 3s */
 -- 
 2.40.0
 
