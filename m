@@ -1,72 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A1E6BC2E2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 01:37:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3846BC2F1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 01:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21B8410E06C;
-	Thu, 16 Mar 2023 00:37:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E5410EA45;
+	Thu, 16 Mar 2023 00:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C726F10E06C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 00:37:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678927058;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5ZGtUmmSwegvnSpt+LkTwc0U1bNplB2nqM1fOGP4KKw=;
- b=FT5D1JS+KzYDn4hDWHjeQ2GPQ4dXgrZ+s9M0q0EzxxLTFsZASibWd4/Bu5GBY8ffTtN4jl
- Pv5p5YmmItLWMIC+kkAISfmhymDoshSHoN5qg+Eo5NV/Kog3A58Sm+pi9+nKTe/06nl9JG
- A+ND6xAqm+xRgt6L1N+50O7TYxwVcQQ=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-395-YsyxeeDaNeuHt0azCFNdRQ-1; Wed, 15 Mar 2023 20:37:37 -0400
-X-MC-Unique: YsyxeeDaNeuHt0azCFNdRQ-1
-Received: by mail-lf1-f70.google.com with SMTP id
- k7-20020ac257c7000000b004db20d1cf7fso87485lfo.18
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 17:37:37 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D801410EA45
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 00:44:37 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id x17so313508lfu.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Mar 2023 17:44:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678927476;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OdHTO7r/qWwc37NG0KfD//nV1f0Fmimh5IOse5pWXK4=;
+ b=anqrjvcHRO2REMCEyQGrabPAJZqSVGYWfgKG1db9qduO6iQ7lLe/059twBJhcgOZZS
+ 3UZIbz5/EQDTu43xcmjd16na1X3x2YC5rcTK3vsPlLzn08yLGf2/wfFpcmS9XnCVBrIu
+ WmWVblowCFMCx1lH943DX/6qJilgY0yhqMYLkK++Fb1b7oYIRBFE7+EAXLAini9MdkSE
+ PCnIJ7Ruh3eNy1lDQnZfo9RH7+AmqVEfQQ6qcuV81uD6ONFd90uFD650t+jPEN8l59gk
+ fH8v/W9gkxPTzhwRaZknBKuytJB4G4UtDom2E7hSgF8QIwc3XRTE3Zu4HMnrh1ujlHfQ
+ ZnnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678927056;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1678927476;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5ZGtUmmSwegvnSpt+LkTwc0U1bNplB2nqM1fOGP4KKw=;
- b=4Rk1WHOrv9jtGq7iMPwMwBvHLbZc56oUpNtMUMU6JesgVwlAHwNGIoIA8s1L811eGg
- xe8RhDl79M08u8fQrxFKqw8q++UrQVORsbzT/b90SZ2yXQst5T0f7vfwYEhlk1U/e98A
- BfLOMs0GV4CNyLHwGbwYXE208ag0pO0mkoiSNoF2BQalaLdwi3El/rh6lCESKCqMLbmt
- oCA7fbW0bjfvFtKlVpiNyC+DFcrTSAg1lzeXXvQeHLTTwRnKJMaR9hyZWD+WL4uOoFUj
- 7zkyfiOmyZNYtLr3EHMdtvkOipH3e+ds36t1CBqBAGDoZllL3H/D4T+oOOBZQ4zW3bk0
- BEUQ==
-X-Gm-Message-State: AO0yUKWXkymMQVdAeV7pEH3CpXSvnnCVQf7tj5E0nPlHIkUEuEj/aZQt
- qK6OHF3CbU4l3HHa+l5LwAGPq0BQJIUsaxGXuLnfsNkGGZpwdHyMCRuCNE8gvFy4X8AVjl2Parx
- gg/GahLSrKyeqf3j1HZOUfjcXxdUAVnKrcFcz9bk4xH55
-X-Received: by 2002:a2e:9b8a:0:b0:298:b337:c127 with SMTP id
- z10-20020a2e9b8a000000b00298b337c127mr929187lji.1.1678927056160; 
- Wed, 15 Mar 2023 17:37:36 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9ob8956XPzyOyB9AnsVyodoU7LE5U4DSy09na/EyTxhZ/WZvNgxE6Poz/JzPCkEBmm9TDvSSN1gIrUga69EVg=
-X-Received: by 2002:a2e:9b8a:0:b0:298:b337:c127 with SMTP id
- z10-20020a2e9b8a000000b00298b337c127mr929184lji.1.1678927055861; Wed, 15 Mar
- 2023 17:37:35 -0700 (PDT)
+ bh=OdHTO7r/qWwc37NG0KfD//nV1f0Fmimh5IOse5pWXK4=;
+ b=yoO/9X+dj8cjokVTTTMe1Qfx6nKd7XAym1e30MWSKyOHcOxNs/dQv9AeWd9wQlVoWm
+ qL9R0rTi+VwLg1lrWMWoHbWKz7rftgKsfL7V2KwyKFRD8oWrZ8wcDneWxhTnfx0H0c1p
+ 2ePrawBCF4EQ7IVwlBeQChoi5BrtXxzNdnB0BzJ6A8OfFE7AqFplv0AtuL55iPh7HDpo
+ WCJmvvr3hzACD54QzKQTVIV91xP7gkArhI8t4QVoUpTIcytKk/AxG26ptso7bCzqG9IA
+ AwVDYruXvvQ+1da++F/AwiowoIgmvhT+9AZ2fIaPs9MEoGAu3JI4LXfdkIHy99iwlWq/
+ W5ZA==
+X-Gm-Message-State: AO0yUKUC9Xl5jKqKdWoM9672dnAhmYM8ezkKgYKCTK9btaxAAX7r0dB3
+ XAUi5ycSMp+4TZhqTF/lk8fyAcPGPFl7jtw69cc=
+X-Google-Smtp-Source: AK7set+zuznVSzozkhNOwTFpILN2nC7k2EOJ81hKG8EJr1QUVhV300YfCExMPAk3hSCFdXwgZtcG0g==
+X-Received: by 2002:ac2:597c:0:b0:4a4:68b9:19da with SMTP id
+ h28-20020ac2597c000000b004a468b919damr2488893lfp.2.1678927475910; 
+ Wed, 15 Mar 2023 17:44:35 -0700 (PDT)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ q19-20020ac25293000000b004dc4b00a1f3sm1001254lfm.253.2023.03.15.17.44.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Mar 2023 17:44:35 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>
+Subject: Re: [PATCH v14 00/14] Add PSR support for eDP
+Date: Thu, 16 Mar 2023 02:44:34 +0200
+Message-Id: <167892745598.2525998.13449367044508002295.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
+References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
 MIME-Version: 1.0
-References: <20230307151107.49649-1-harry.wentland@amd.com>
- <20230307151107.49649-10-harry.wentland@amd.com>
-In-Reply-To: <20230307151107.49649-10-harry.wentland@amd.com>
-From: Sebastian Wick <sebastian.wick@redhat.com>
-Date: Thu, 16 Mar 2023 01:37:24 +0100
-Message-ID: <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
-Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
- for DP and HDMI
-To: Harry Wentland <harry.wentland@amd.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,83 +75,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joshua Ashton <joshua@froggi.es>, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Vitaly.Prosyak@amd.com
+Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
+ quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
+ quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_khsieh@quicinc.com, swboyd@chromium.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 7, 2023 at 4:12=E2=80=AFPM Harry Wentland <harry.wentland@amd.c=
-om> wrote:
->
-> We want compositors to be able to set the output
-> colorspace on DP and HDMI outputs, based on the
-> caps reported from the receiver via EDID.
 
-About that... The documentation says that user space has to check the
-EDID for what the sink actually supports. So whatever is in
-supported_colorspaces is just what the driver/hardware is able to set
-but doesn't actually indicate that the sink supports it.
+On Thu, 02 Mar 2023 22:03:03 +0530, Vinod Polimera wrote:
+> Changes in v2:
+>   - Use dp bridge to set psr entry/exit instead of dpu_enocder.
+>   - Don't modify whitespaces.
+>   - Set self refresh aware from atomic_check.
+>   - Set self refresh aware only if psr is supported.
+>   - Provide a stub for msm_dp_display_set_psr.
+>   - Move dp functions to bridge code.
+> 
+> [...]
 
-So the only way to enable bt2020 is by checking if the sink supports
-both RGB and YUV variants because both could be used by the driver.
-Not great at all. Something to remember for the new property.
+Applied, thanks!
 
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Sebastian Wick <sebastian.wick@redhat.com>
-> Cc: Vitaly.Prosyak@amd.com
-> Cc: Joshua Ashton <joshua@froggi.es>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Reviewed-By: Joshua Ashton <joshua@froggi.es>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index f91b2ea13d96..2d883c6dae90 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(struct dr=
-m_connector *connector)
->         return amdgpu_dm_connector->num_modes;
->  }
->
-> +static const u32 supported_colorspaces =3D
-> +       BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
-> +       BIT(DRM_MODE_COLORIMETRY_OPRGB) |
-> +       BIT(DRM_MODE_COLORIMETRY_BT2020) |
-> +       BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
-> +
->  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
->                                      struct amdgpu_dm_connector *aconnect=
-or,
->                                      int connector_type,
-> @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struct amdgpu=
-_display_manager *dm,
->                                 adev->mode_info.abm_level_property, 0);
->         }
->
-> +       if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA) {
-> +               if (!drm_mode_create_hdmi_colorspace_property(&aconnector=
-->base, supported_colorspaces))
-> +                       drm_connector_attach_colorspace_property(&aconnec=
-tor->base);
-> +       } else if (connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort |=
-|
-> +                  connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
-> +               if (!drm_mode_create_dp_colorspace_property(&aconnector->=
-base, supported_colorspaces))
-> +                       drm_connector_attach_colorspace_property(&aconnec=
-tor->base);
-> +       }
-> +
->         if (connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
->             connector_type =3D=3D DRM_MODE_CONNECTOR_DisplayPort ||
->             connector_type =3D=3D DRM_MODE_CONNECTOR_eDP) {
-> --
-> 2.39.2
->
+[01/14] drm: add helper functions to retrieve old and new crtc
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/ef708af6054c
+[02/14] drm/bridge: use atomic enable/disable callbacks for panel bridge
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/49291dbf1cd8
+[03/14] drm/bridge: add psr support for panel bridge callbacks
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/26966d5bc7dd
+[04/14] drm/msm/disp/dpu: check for crtc enable rather than crtc active to release shared resources
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/c235a0d4a185
+[05/14] drm/msm/disp/dpu: get timing engine status from intf status register
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/15b04e280119
+[06/14] drm/msm/disp/dpu: wait for extra vsync till timing engine status is disabled
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/b2afc29853c3
+[07/14] drm/msm/disp/dpu: reset the datapath after timing engine disable
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/392a21678a7f
+[08/14] drm/msm/dp: use atomic callbacks for DP bridge ops
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/20536d1c512b
+[09/14] drm/msm/dp: Add basic PSR support for eDP
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/c0b993bbfe9e
+[10/14] drm/msm/dp: use the eDP bridge ops to validate eDP modes
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/de9512e23adc
+[11/14] drm/msm/disp/dpu: use atomic enable/disable callbacks for encoder functions
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/f62087459d8a
+[12/14] drm/msm/disp/dpu: add PSR support for eDP interface in dpu driver
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/1bd583580cba
+[13/14] drm/msm/disp/dpu: update dpu_enc crtc state on crtc enable/disable during self refresh
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/0f2a8f000c21
+[14/14] drm/msm/dp: set self refresh aware based on PSR support
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/0c3f3cfd8ef2
 
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
