@@ -1,59 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE766BC9CA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 09:50:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC926BC9D1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 09:51:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F231610E137;
-	Thu, 16 Mar 2023 08:50:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07DA010EA55;
+	Thu, 16 Mar 2023 08:51:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7D110E137;
- Thu, 16 Mar 2023 08:50:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1678956643; x=1710492643;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=n3eEIKzs4I20vZGq7RBjpAg0fdr655bEY7Eg4mQ6/V0=;
- b=PXmzPUAi/LwCLq1jSWCtNNXmSz9qF7pWPOxQQxcArl5XHC7TvgNecKcW
- nDSSHYNPD2eaDLcnnWFNt3+8s4nCuEx77PB8UIP9gPRH3bMeqtQVHY3M6
- leMZStWGUwNa4y0Cn9U1YO2BZURfPloKVCR4l7fCCoUh2G9z/fUTcPmD1
- G75E3ZALh9IX8xE9FIt76T6W7A/WlZt4P7s9mVm8TlYzpRZaXWgfxNWR7
- jIZhWPf+e36+NE8s2VrY0HmdGXRQmMLp6rE+ImK8QWI05K4plIJnbkG+E
- f3qslGk+NBzwE+ng7O5v4tJvHZqfqsPp7SQpSRj/xhK9yBTBx7mQdnNtc w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="402798700"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="402798700"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2023 01:50:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="679826186"
-X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="679826186"
-Received: from kflynn1-mobl3.ger.corp.intel.com (HELO [10.213.236.25])
- ([10.213.236.25])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Mar 2023 01:50:41 -0700
-Message-ID: <cc56d923-4021-3423-bfdf-986e7b73283f@linux.intel.com>
-Date: Thu, 16 Mar 2023 08:50:38 +0000
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7DF10EA1E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 08:51:12 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id l22so833529ljc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 01:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1678956670;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=MRHfhPkQQmxxwKiYMeDcsdJG0r8Xhcdja24C67w7tIY=;
+ b=hcC4eZRs2DELd3vLetjO82Iol3rJDXo/hCDQeg7tLZ8kRDgvSECRSnk5OlDwcew6av
+ 7xzBBWWC5yqVlMyzlfugZ0Zrx9zNXqmofTO435INIk5aZ6FnVTUZMlY8sWv0JECxfBwT
+ RPf2E2Uq7nXrhtYSt2KU9u9bAq4CjojNQKNZ97VBZ12POg3p5vLreaDJ0Bs+0w4PF4Wo
+ JDJ7FOVXgPln5OozfBzmIixxydOtpi8TVgpuaHYhJCEIhEmR+rlcQgeqNZYptg5soARF
+ mY3GXopOkb65xykCKCHPm6mTiWQOPgjAVuHT4BXxrn5TjFWJv89xo79O75Bs76Rpr7XF
+ EZig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1678956670;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MRHfhPkQQmxxwKiYMeDcsdJG0r8Xhcdja24C67w7tIY=;
+ b=Ez59SQZV1nyDRbt98a6kwW1FsI+bhG20vKTMDn/Alr7mJdyuiuymPQLIjfmB0ujKZu
+ i1lF6XFul6SrF+x2Z7ZMlivMOZ11zSgxF+7uXIywGve2VE7Oo0jhu5MEzE1prD3W3A3n
+ sv9nwjJN10UK33BlRmHkkKrfhGLvy/pqfxEy/tkHgdL/+Tu91U4tq6HkI2NXLa2qg8Zb
+ Wuye54rVZzLZMY2ypHPx30c/7YF/r2Fhs0aNsWKnUZoGtwx/yqDUA5U0LQeEDayzhgeU
+ 9g5pTlwLc9T2MMJw5Oo5JMyxk9z6opvB8YO/7vFKAs43WVCx0uVFqSXRRdn93mjPzJST
+ Kicg==
+X-Gm-Message-State: AO0yUKUjCAXMz2wRTpygPVENQryXxxptvXwol6JgQTGyDXO6OPoJRDFu
+ LIalWVOjL9Cb1sHRXL9G1morPA==
+X-Google-Smtp-Source: AK7set++f4e0zAJlzPQd1RsCU44TuFEl32Qs7tdY3yyXR48HHNXGbN1BTY5YuC7B0ioIHD0vd8DTJg==
+X-Received: by 2002:a2e:be89:0:b0:298:6cfa:3773 with SMTP id
+ a9-20020a2ebe89000000b002986cfa3773mr2251503ljr.37.1678956670439; 
+ Thu, 16 Mar 2023 01:51:10 -0700 (PDT)
+Received: from [192.168.1.101] (abyj16.neoplus.adsl.tpnet.pl. [83.9.29.16])
+ by smtp.gmail.com with ESMTPSA id
+ o11-20020a2e730b000000b002991baef49bsm251566ljc.12.2023.03.16.01.51.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Mar 2023 01:51:10 -0700 (PDT)
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH v5 00/10] Fix DSI host idx detection on HW revision clash
+Date: Thu, 16 Mar 2023 09:51:06 +0100
+Message-Id: <20230307-topic-dsi_qcm-v5-0-9d4235b77f4f@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/pxp: limit drm-errors or warning
- on firmware API failures
-Content-Language: en-US
-To: Eero Tamminen <eero.t.tamminen@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20230314175832.1506427-1-alan.previn.teres.alexis@intel.com>
- <6cff8c19-0ab6-4b03-d778-ad57aa207b98@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <6cff8c19-0ab6-4b03-d778-ad57aa207b98@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHrYEmQC/32Nyw6CMBREf4V0bU2hJRRX/ocxpi/gJthii42G8
+ O9e2LnQ5ZnJmVlIchFcIqdiIdFlSBA8Qn0oiBmU7x0Fi0wqVnHGWUPnMIGhNsHtYe60NpZxg1U
+ nO4KOVslRHZU3A1r+OY4YTtF18NpPLlfkAdIc4nv/zHxLf81nThmV2jauVNZyqc4jeBXDMcSeb
+ FNZ/NUF6rXQQraylK3RX/q6rh+D9Gtl/wAAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678956668; l=3422;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=0MXjDNpERjKFXSKU2j+B9Z5K/vxYRzMBl75jFNCiDc4=;
+ b=WjlkY2e3xNCFyGqRWQA0InNPbPPw+tF84Td75phjejo9KwAUuyMPrP7ckVQhBDi1lB6JP3W4wMKF
+ sariP+AfDFWIBtINMU0tfylRvVlgTIlnlbd1V5V0I8TuzR3qz1U7
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,243 +89,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+v4 -> v5:
+- Drop superfluous items: level in [8/10]
+- Remove the header define for the qcm2290 config in [6/10] instead of
+  [7/10]
+- Pick up tags
 
-On 15/03/2023 09:16, Eero Tamminen wrote:
-> Hi,
-> 
-> Tested the patch with Ubuntu 22.04 desktop + Linux 6.2-rc3 (drm-tip) 
-> kernel, on TGL-H HW.
-> 
-> With it, this log spam has disappeared:
-> ----------------------------------------------------
-> [ 8691.608933] i915 0000:00:02.0: [drm] PXP firmware failed arb session 
-> init request ret=[0x0000101f]
-> [ 8691.709442] i915 0000:00:02.0: [drm] *ERROR* arb session failed to go 
-> in play
-> ----------------------------------------------------
-> 
-> There's now just a single message on boot:
-> ----------------------------------------------------
-> [   11.674177] ------------[ cut here ]------------
-> [   11.674183] i915 0000:00:02.0: PXP init-arb-session-15 failed due to 
-> BIOS/SOC:0x0000101a:ERR_PLATFORM_CONFIG
-> [   11.674222] WARNING: CPU: 12 PID: 123 at 
-> drivers/gpu/drm/i915/pxp/intel_pxp_tee.c:345 
-> intel_pxp_tee_cmd_create_arb_session+0x19a/0x1e0 [i915]
-> ...
-> [   11.674961] Call Trace:
-> [   11.674966]  <TASK>
-> [   11.674970]  ? pxp_session_work+0x123/0x1d0 [i915]
-> [   11.675130]  pxp_session_work+0x123/0x1d0 [i915]
-> [   11.675286]  process_one_work+0x1d9/0x3e0
-> [   11.675295]  worker_thread+0x21b/0x3d0
-> [   11.675301]  ? __pfx_worker_thread+0x10/0x10
-> [   11.675307]  kthread+0xe9/0x110
-> [   11.675311]  ? __pfx_kthread+0x10/0x10
-> [   11.675315]  ret_from_fork+0x29/0x50
-> [   11.675323]  </TASK>
-> [   11.675325] ---[ end trace 0000000000000000 ]---
-> ----------------------------------------------------
+v4: https://lore.kernel.org/r/20230307-topic-dsi_qcm-v4-0-54b4898189cb@linaro.org
 
-Alan - is this expected during normal operation on some parts, or it's 
-something truly unexpected/unexplained? If the former then I think it 
-would be good to downgrade away from drm_WARN so it is less scary.
+v3 -> v4:
+- Use the shiny new compatible in the 6115 bindings example [9/10]
+- Remove the leftover include and header definition [6, 7/10]
+- Deduplicate the qcm2290 clks/regs in the common deduplication commit
+  instead of doing it separately
+- Pick up tags
+- Rebase on next-20230314 (nothing seems to have changed fwiw)
 
-Commit message talks about "HW/platform gaps" - if it is like a missing 
-BIOS support or so then I think WARN_ON is too much.
+v3: https://lore.kernel.org/r/20230307-topic-dsi_qcm-v3-0-8bd7e1add38a@linaro.org
 
-Regards,
+v2 -> v3:
+- Merge with [1], I should have done that earlier..
+  - Squash 6115 compatible patches into one
+- Pick up tags (except Rob's ack in 6115 compatible addition, as it was changed)
+- Use b4 (sorry if you got an incomplete set of messages before..)
 
-Tvrtko
+[1] https://lore.kernel.org/linux-arm-msm/145066db-5723-6baa-237d-7c2b8fd476d9@linaro.org/
+v2: https://lore.kernel.org/linux-arm-msm/20230213121012.1768296-1-konrad.dybcio@linaro.org/
 
-> 
-> 
->      - Eero
-> 
-> On 14.3.2023 19.58, Alan Previn wrote:
->> MESA driver is creating protected context on every driver handle
->> creation to query caps bits for app. So when running CI tests,
->> they are observing hundreds of drm_errors when enabling PXP
->> in .config but using SOC fusing or BIOS configuration that cannot
->> support PXP sessions.
->>
->> The fixes tag referenced below was to resolve a related issue
->> where we wanted to silence error messages, but that case was due
->> to outdated IFWI (firmware) that definitely needed an upgrade and
->> was, at that point, considered a one-off case as opposed to today's
->> realization that default CI was enabling PXP in kernel config for
->> all testing.
->>
->> So with this patch, let's strike a balance between issues that is
->> critical but are root-caused from HW/platform gaps (louder drm-warn
->> but just ONCE) vs other cases where it could also come from session
->> state machine (which cannot be a WARN_ONCE since it can be triggered
->> due to runtime operation events).
->>
->> Let's use helpers for these so as more functions are added in future
->> features / HW (or as FW designers continue to bless upstreaming of
->> the error codes and meanings), we only need to update the helpers.
->>
->> NOTE: Don't completely remove FW errors (via drm_debug) or else cusomer
->> apps that really needs to know that content protection failed won't
->> be aware of it.
->>
->> v2: - Add fixes tag (Trvtko)
->> v3: - Break multi-line drm_dbg strings into separate drm_dbg (Daniele)
->>      - Fix couple of typecasting nits (Daniele)
->>
->> Fixes: b762787bf767 ("drm/i915/pxp: Use drm_dbg if arb session failed 
->> due to fw version")
->> Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
->> ---
->>   .../i915/pxp/intel_pxp_cmd_interface_cmn.h    |  3 +
->>   drivers/gpu/drm/i915/pxp/intel_pxp_session.c  |  2 +-
->>   drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 77 +++++++++++++++----
->>   3 files changed, 67 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h 
->> b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
->> index ae9b151b7cb7..6f6541d5e49a 100644
->> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
->> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_cmd_interface_cmn.h
->> @@ -18,6 +18,9 @@
->>   enum pxp_status {
->>       PXP_STATUS_SUCCESS = 0x0,
->>       PXP_STATUS_ERROR_API_VERSION = 0x1002,
->> +    PXP_STATUS_NOT_READY = 0x100e,
->> +    PXP_STATUS_PLATFCONFIG_KF1_NOVERIF = 0x101a,
->> +    PXP_STATUS_PLATFCONFIG_KF1_BAD = 0x101f,
->>       PXP_STATUS_OP_NOT_PERMITTED = 0x4013
->>   };
->> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c 
->> b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
->> index 448cacb0465d..7de849cb6c47 100644
->> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
->> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
->> @@ -74,7 +74,7 @@ static int pxp_create_arb_session(struct intel_pxp 
->> *pxp)
->>       ret = pxp_wait_for_session_state(pxp, ARB_SESSION, true);
->>       if (ret) {
->> -        drm_err(&gt->i915->drm, "arb session failed to go in play\n");
->> +        drm_dbg(&gt->i915->drm, "arb session failed to go in play\n");
->>           return ret;
->>       }
->>       drm_dbg(&gt->i915->drm, "PXP ARB session is alive\n");
->> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c 
->> b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
->> index d9d248b48093..6f89cd850251 100644
->> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
->> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
->> @@ -19,6 +19,37 @@
->>   #include "intel_pxp_tee.h"
->>   #include "intel_pxp_types.h"
->> +static bool
->> +is_fw_err_platform_config(u32 type)
->> +{
->> +    switch (type) {
->> +    case PXP_STATUS_ERROR_API_VERSION:
->> +    case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
->> +    case PXP_STATUS_PLATFCONFIG_KF1_BAD:
->> +        return true;
->> +    default:
->> +        break;
->> +    }
->> +    return false;
->> +}
->> +
->> +static const char *
->> +fw_err_to_string(u32 type)
->> +{
->> +    switch (type) {
->> +    case PXP_STATUS_ERROR_API_VERSION:
->> +        return "ERR_API_VERSION";
->> +    case PXP_STATUS_NOT_READY:
->> +        return "ERR_NOT_READY";
->> +    case PXP_STATUS_PLATFCONFIG_KF1_NOVERIF:
->> +    case PXP_STATUS_PLATFCONFIG_KF1_BAD:
->> +        return "ERR_PLATFORM_CONFIG";
->> +    default:
->> +        break;
->> +    }
->> +    return NULL;
->> +}
->> +
->>   static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
->>                       void *msg_in, u32 msg_in_size,
->>                       void *msg_out, u32 msg_out_max_size,
->> @@ -307,15 +338,22 @@ int intel_pxp_tee_cmd_create_arb_session(struct 
->> intel_pxp *pxp,
->>                          &msg_out, sizeof(msg_out),
->>                          NULL);
->> -    if (ret)
->> -        drm_err(&i915->drm, "Failed to send tee msg ret=[%d]\n", ret);
->> -    else if (msg_out.header.status == PXP_STATUS_ERROR_API_VERSION)
->> -        drm_dbg(&i915->drm, "PXP firmware version unsupported, 
->> requested: "
->> -            "CMD-ID-[0x%08x] on API-Ver-[0x%08x]\n",
->> -            msg_in.header.command_id, msg_in.header.api_version);
->> -    else if (msg_out.header.status != 0x0)
->> -        drm_warn(&i915->drm, "PXP firmware failed arb session init 
->> request ret=[0x%08x]\n",
->> -             msg_out.header.status);
->> +    if (ret) {
->> +        drm_err(&i915->drm, "Failed to send tee msg init arb session, 
->> ret=[%d]\n", ret);
->> +    } else if (msg_out.header.status != 0) {
->> +        if (is_fw_err_platform_config(msg_out.header.status)) {
->> +            drm_WARN_ONCE(&i915->drm, true,
->> +                      "PXP init-arb-session-%d failed due to 
->> BIOS/SOC:0x%08x:%s\n",
->> +                      arb_session_id, msg_out.header.status,
->> +                      fw_err_to_string(msg_out.header.status));
->> +        } else {
->> +            drm_dbg(&i915->drm, "PXP init-arb-session--%d failed 
->> 0x%08x:%st:\n",
->> +                arb_session_id, msg_out.header.status,
->> +                fw_err_to_string(msg_out.header.status));
->> +            drm_dbg(&i915->drm, "     cmd-detail: 
->> ID=[0x%08x],API-Ver-[0x%08x]\n",
->> +                msg_in.header.command_id, msg_in.header.api_version);
->> +        }
->> +    }
->>       return ret;
->>   }
->> @@ -347,10 +385,21 @@ void intel_pxp_tee_end_arb_fw_session(struct 
->> intel_pxp *pxp, u32 session_id)
->>       if ((ret || msg_out.header.status != 0x0) && ++trials < 3)
->>           goto try_again;
->> -    if (ret)
->> -        drm_err(&i915->drm, "Failed to send tee msg for 
->> inv-stream-key-%d, ret=[%d]\n",
->> +    if (ret) {
->> +        drm_err(&i915->drm, "Failed to send tee msg for 
->> inv-stream-key-%u, ret=[%d]\n",
->>               session_id, ret);
->> -    else if (msg_out.header.status != 0x0)
->> -        drm_warn(&i915->drm, "PXP firmware failed inv-stream-key-%d 
->> with status 0x%08x\n",
->> -             session_id, msg_out.header.status);
->> +    } else if (msg_out.header.status != 0) {
->> +        if (is_fw_err_platform_config(msg_out.header.status)) {
->> +            drm_WARN_ONCE(&i915->drm, true,
->> +                      "PXP inv-stream-key-%u failed due to BIOS/SOC 
->> :0x%08x:%s\n",
->> +                      session_id, msg_out.header.status,
->> +                      fw_err_to_string(msg_out.header.status));
->> +        } else {
->> +            drm_dbg(&i915->drm, "PXP inv-stream-key-%u failed 
->> 0x%08x:%s:\n",
->> +                session_id, msg_out.header.status,
->> +                fw_err_to_string(msg_out.header.status));
->> +            drm_dbg(&i915->drm, "     cmd-detail: 
->> ID=[0x%08x],API-Ver-[0x%08x]\n",
->> +                msg_in.header.command_id, msg_in.header.api_version);
->> +        }
->> +    }
->>   }
->>
->> base-commit: 07f982ec08c9bfc4aa82d98022111126cd638a0b
+v1 -> v2:
+- squash the 2d-array-ification and fixing up the logic into one patch
+- drop num_variants, loop over VARIANTS_MAX*DSI_MAX unconditionally
+- drop inadequate Fixes: tags
+- pick up rbs
+
+v1: https://lore.kernel.org/linux-arm-msm/20230211115110.1462920-1-konrad.dybcio@linaro.org/
+
+Some DSI host versions are implemented on multiple SoCs which use
+vastly different register maps. This messes with our current
+assumptions of being able to map {dsi0, dsi1} to {reg0, reg1}.
+Solve that by adding a way of specifying multiple sets of base
+registers and try comparing them against the register specified in DT
+until we find a match.
+
+This removes the need for the QCM2290-specific compatible which was
+used in the SM6115 DT (which uses DSIv2.4.1, just like SC7180).
+The series also takes care of that.
+
+Tested on SM6115P Lenovo Tab P11 and SM8350 PDX215
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Konrad Dybcio (10):
+      dt-bindings: display/msm: dsi-controller-main: Fix deprecated QCM2290 compatible
+      drm/msm/dsi: Get rid of msm_dsi_config::num_dsi
+      drm/msm/dsi: Fix DSI index detection when version clash occurs
+      drm/msm/dsi: dsi_cfg: Deduplicate identical structs
+      drm/msm/dsi: dsi_cfg: Merge SC7180 config into SDM845
+      drm/msm/dsi: Switch the QCM2290-specific compatible to index autodetection
+      drm/msm/dsi: Remove custom DSI config handling
+      dt-bindings: display/msm: dsi-controller-main: Fix deprecated compatible
+      dt-bindings: display/msm: dsi-controller-main: Add SM6115
+      arm64: dts: qcom: sm6115: Use the correct DSI compatible
+
+ .../bindings/display/msm/dsi-controller-main.yaml  |   9 +-
+ .../bindings/display/msm/qcom,sm6115-mdss.yaml     |  10 +-
+ arch/arm64/boot/dts/qcom/sm6115.dtsi               |   2 +-
+ drivers/gpu/drm/msm/dsi/dsi.c                      |   7 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  | 161 ++++++++-------------
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   9 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |  14 +-
+ 7 files changed, 84 insertions(+), 128 deletions(-)
+---
+base-commit: ec0fa9a0a6fac454745c930bdb8619d0a354bac9
+change-id: 20230307-topic-dsi_qcm-5cd03c230f8f
+
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
+
