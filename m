@@ -2,66 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406876BD593
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6076BD58C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:29:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B34D610ED65;
-	Thu, 16 Mar 2023 16:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7CD10ED22;
+	Thu, 16 Mar 2023 16:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E1C10E0E9;
- Thu, 16 Mar 2023 16:29:08 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- w21-20020a9d6755000000b00698853a52c7so1272926otm.11; 
- Thu, 16 Mar 2023 09:29:08 -0700 (PDT)
+Received: from esa1.hc3370-68.iphmx.com (esa1.hc3370-68.iphmx.com
+ [216.71.145.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0F110E0E9;
+ Thu, 16 Mar 2023 16:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1678984145;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=IOBYJ+eZrpG5DPZyA/sNojyevPR14JiUo3aTS5FO1c8=;
+ b=HydBCMd8p/Mx7fjz3XtOIKlcWQWUqmPafHfDbqsjCYjPhfFq3913JCAc
+ a0kYt2MDnpJCOOKvdMV1bHoAWusADoUOJSExm+JIvt3oNrepw4t2hxVm/
+ bzTqLCidXsswQJc7oyuJPf2nCGyq5h6JlI0KnLW9Rjs15+DLOHyBk2kpW w=;
+X-IronPort-RemoteIP: 104.47.58.108
+X-IronPort-MID: 101561264
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutboundMail
+X-IronPort-SenderGroup: RELAY_O365
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:OyBDH6yJznBHzbRT0Kh6t+exxirEfRIJ4+MujC+fZmUNrF6WrkUPn
+ TRJWG2BOPfZZ2GgftlyYI2+80JQsZPRnNE3TgQ/+yAxQypGp/SeCIXCJC8cHc8wwu7rFxs7s
+ ppEOrEsCOhuExcwcz/0auCJQUFUjP3OHfykTrafYEidfCc8IA85kxVvhuUltYBhhNm9Emult
+ Mj75sbSIzdJ4RYtWo4vw//F+UMHUMja4mtC5QRlPK4T4zcyqlFOZH4hDfDpR5fHatE88t6SH
+ 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ai87XAME0e0ZP4whlqvgqo
+ Dl7WT5cfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQq2pYjqhljJBheAGEWxgp4KXxlz
+ fIXCQEUVTqSqMmR7YCxCdUxlst2eaEHPKtH0p1h5RfwKK9+BLzmHeDN79Ie2yosjMdTG/qYf
+ 9AedTdkcBXHZVtIJ0sTD5U92uyvgxETcRUB8A7T+fVxvjiVlVQhuFTuGIO9ltiiX8Jak1zev
+ mvb12/4HgsbJJqUzj/tHneE37eWwH2iAtxOfFG+3qJaigbK2mgxNF5IdEPjv9WLrRaHffsKf
+ iT4/QJr98De7neDVNDsGR2lqXiLlhcZV5xbFOhSwAOC0K3P+C6CG3MJCDVGbbQOr9QqTDYn0
+ luImdLBBjF1trCRD3WH+d+8qje/OjMcK2MYUjMVVgsO49Tlo4YbgwrGS5BoF6vdptfyAzDrh
+ TeRsDI5ma4QnOYMzayw+V2BiDWpzrDZQwhw6gjJU2aN6gJieJXjd4Gu8ULc7/tLMMCeVFbpl
+ HwFndWOqeMDF5eAkASTT+gXWrKk/fCINHvbm1EHN5U79nGh9mCueahU4SpiPwFnKMsJdTLyY
+ 1PUoUVW/pA7FHKvYep4bZKZD8Ux0bOmG87oW/zZddlSZYA3cxWIlAlnYUOA1mbhnVJqnawiM
+ peWa+6lCHpcAqNipBK9R/0cyqMqzyZ4xmTeQ5H05x2i3fyVY3v9YYwZPUSHdPx/zKKArAjf6
+ d9ZO+ODzhkZW+r7CgHd7JQBJFQNIX8kDLj5rsVWcqiIJQ8OMGEmDfDVzLJ4PYx4lqJavu7N8
+ je2XUow4FjigXzObxeKY3ZsQLrqUdB0qndTFQ4tJFeh3T4IYYupxK4ae908erxPyQB45ft9T
+ v1Ad8DeBP1KE2zD425ENcm7q5F+fhO2gw7IJzCifDU0Y59nQUrO58PgeQzssiIJC0JbqPcDn
+ lFp7SuDKbJreuioJJ++hC6Hp79pgUUgpQ==
+IronPort-HdrOrdr: A9a23:fQ6e+6CLNhSsQYflHela55DYdb4zR+YMi2TDt3oddfWaSKylfq
+ GV7ZImPHrP4gr5N0tOpTntAse9qDbnhPxICOoqTNCftWvdyQiVxehZhOOP/9SjIVyaygc078
+ xdmsNFebnN5DZB7PoT4GODYqkdKNvsytHXuQ8JpU0dPD2DaMtbnndE4h7wKDwOeOHfb6BJaa
+ Z14KB81kKdUEVSVOuXLF8fUdPOotXa/aiWHSLvV3YcmXKzZSrD0s+BLySl
+X-IronPort-AV: E=Sophos;i="5.98,265,1673931600"; d="scan'208";a="101561264"
+Received: from mail-dm6nam10lp2108.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.108])
+ by ob1.hc3370-68.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 16 Mar 2023 12:29:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GB0at8WXxoMtEqIYIIRDBhUrLIVJ4XbjXer31F+/MxYMRDEAeaxtjgPNWrAs27gh0gKuMO0E72ajOnEi8Gs8GHXrSgLcSd74Tejk5RQ/wv7Or7HsbIx3p3ErdHYzbZaTC6Pjplo2n5BBc0N/yuJIi4bgF9T2c5P9o1YMv+VGQwJijPrddTrOtKhAjuEeV/AI/buuyQGrMIzs1vUQmEH4u8mU9NzeaLAQC7APK3wz3lkOzLxdPSArDmctWuwWEjnNGP6+JjXW7iRJ4ngg/4bXnMHnz3SoKK9eaHfWctf1SoDBnii/rqN+a092wx3Ytoqj0muHftg5YD1igXxX6OX7Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vv5sK82ldFojrvXF6qjIlEegZCWiICY06ad2qippZts=;
+ b=LjwKQoX1Fs72jsmMHcOh+P01+v2EDGjgqj6oF58nHEdlQYdJyxPZswgZeGJtjzhP0Y9HAnNynws+teKW5+S+QnjwxknkrJosIXiYLbnd39n0m5xsrrvPBD6DnvIDHLiO08WMibFna4W2ZMIcInhlAuTWReMkyl+BQ7BNX7ndiviXmF2dVbtIKOKAEy8veJAQw6GeAQ5zqivQNm8weNxYxzezyHz++JSXwAD7ZB5TU2SVwUvl4WypDgFlhXsN6JRxpl5tquS/SttCoLRJibIT5CEVLP8hLA0EqqJ0darwrIKrNTU7CmGtMkJ8/hw7ayW9q3GGy8i+4cXtI/kye5OcUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
+ dkim=pass header.d=citrix.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678984147;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
- b=ikNRzbRoiKTgXyd+o2RLa29YkJb2JOn/v6YIm0chMHa6jMtz7Aukxr3sDnZHlDLCPg
- 4D/22vj4EbWjYs2AIrlL21s+qmtcJrK2g0S0A9e8PiBm5W7d712LL6r2UFxgKnvXl/gm
- ktxn0TCtFmHN3n6/5Rqp3eY/tP+45cwvCQbEr4LKfIVc3NzHlCvpaRgPl1GjprXJngVK
- o/OzzczyZa0RYUhKwpPTamHjLGz0bzvRvfBPOcY80aDA3S86p0xzu2KL68NJou9/9dV3
- ledWYpzzPxEcC0LxkcP1aiyD5wyrscSI78/RWFrs6d2i7fFM8PEv3ajniZ3O3cfTJDJ4
- JOow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678984147;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Vs3zfnYLiPrlyQpAWkqpXhNbQS3/J4YFuAxSGCahd48=;
- b=PYRF4I6b5/OuJc0tc1bN5uHFQhq9P0Y954t4Cd7swTA0iJ6XbptiqTZ0lYHcOl4unH
- xgse1IOjtBacjUUfXuN70uWziBSShUwRfZTakrH+fkpfjM+rx2ySRcKzAPy7ECM5+Jg+
- U9TXQiXY7KtTSBYHf8BQtyQ/eS/Xrgfgv++TKU3NhsjhRHfmT0hDYQKibVgnzG8je+ZC
- M0dcsr/8IFfBhg43bTvC64D9rGpGFBVRJMFBRSc86/dVH9HJ1B6jiiA9L20TxizXFRVw
- adrxjOMvULWE7KmDEPGtP/1mMLnX9iHuxJg0eMxVHtIfARSpgH2CU7Je17hcsFrXIdOS
- yKTw==
-X-Gm-Message-State: AO0yUKXBkIsywhRCdEw6Ix1VTOT9w/4mDuB5k4isT78GDp8E9UDgVP3S
- iGriM9h4SLGwHcMgUV8NR8m6ophRc64zT1lrSLI=
-X-Google-Smtp-Source: AK7set9IcfdpvBN64YteomtwjOCFpqzUVfHueXm0TYhNaIV/bcuG5vBYfN2vscoS0EyM3rGNZE/9BSodjB6pzEb8/aE=
-X-Received: by 2002:a9d:4b8f:0:b0:696:f275:a60d with SMTP id
- k15-20020a9d4b8f000000b00696f275a60dmr3396308otf.7.1678984147388; Thu, 16 Mar
- 2023 09:29:07 -0700 (PDT)
+ d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vv5sK82ldFojrvXF6qjIlEegZCWiICY06ad2qippZts=;
+ b=lPSLKMPvfF0UehK/3MHjxu4HjqgwKtU5dbJ7XOQiozBR/iHwhvZFbwRSOnMnu2ZkJ0ocpIru5vqWn5EKqrRDFKmyCUJdgI4ARa9clRTjNLGMO+FNnn91r7xFuUt1IgPBe2aG9rD2Nx1OkUrYO5MvZF71sB1FNvn1Sh8mOhAQ7zo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=citrix.com;
+Received: from SJ0PR03MB6360.namprd03.prod.outlook.com (2603:10b6:a03:395::11)
+ by SJ0PR03MB5470.namprd03.prod.outlook.com (2603:10b6:a03:287::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.33; Thu, 16 Mar
+ 2023 16:29:01 +0000
+Received: from SJ0PR03MB6360.namprd03.prod.outlook.com
+ ([fe80::48a7:d1ab:897:acda]) by SJ0PR03MB6360.namprd03.prod.outlook.com
+ ([fe80::48a7:d1ab:897:acda%6]) with mapi id 15.20.6178.031; Thu, 16 Mar 2023
+ 16:29:01 +0000
+Date: Thu, 16 Mar 2023 17:28:56 +0100
+From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+To: Huang Rui <ray.huang@amd.com>
+Subject: Re: [RFC PATCH 1/5] x86/xen: disable swiotlb for xen pvh
+Message-ID: <ZBNDyB7Jp0rgjZNy@Air-de-Roger>
+References: <20230312120157.452859-1-ray.huang@amd.com>
+ <20230312120157.452859-2-ray.huang@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230312120157.452859-2-ray.huang@amd.com>
+X-ClientProxiedBy: LO4P123CA0036.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:151::23) To SJ0PR03MB6360.namprd03.prod.outlook.com
+ (2603:10b6:a03:395::11)
 MIME-Version: 1.0
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-2-robdclark@gmail.com>
- <ZAtQspuFjPtGy7ze@gmail.com>
- <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
- <ZBHNvT3BLgS3qvV5@gmail.com>
- <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
- <ZBLg0t0tTVvuPuiJ@gmail.com>
-In-Reply-To: <ZBLg0t0tTVvuPuiJ@gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 16 Mar 2023 09:28:55 -0700
-Message-ID: <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
-Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
-To: =?UTF-8?B?Sm9uYXMgw4VkYWhs?= <jadahl@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB6360:EE_|SJ0PR03MB5470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 074f2c2d-4825-4dbd-f54a-08db263b8cf3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: V7wxPHk0FAernhmJYW93MGkEivdHPRM5Wd/wAvhUJO5Njd/ObLvlKehtUO4DqYYdEA5M3DZpoIk3e3vIxSv6TUT7Bl4ZOOZUeswiRLK23GQf21RAy6wuTRAMIN8tDPr4YUncDN5uHW1x/XUe16Ejgm4b7AKNG02V+1eNCti0E8lOuV/K9Z1qdqRfiE4Il8vPwLpktd0P27Fp5N9Bs+OH/RnjtWAtS0O6aEasyAyElcKFJ607h0hMeWAxlxFSaQijkigqk6MMLBOTYKr7WVGkoFKpCJm8nTUfzCUuyq4dl941PB20moeBHdfuzc7aVI8vKyqUatQnKClihOr4L1guegkSouA5rhvh4IMnLE5vgR7GhFbD4n7fqk88a72z8LcSSa+RdLhEY/MU/mO6SxegIRC8JzTMfRb5yuoL7u3ol4oIm2x2O1SgCO6hq8TyxtP7/6/z4y+Rt9uP8CCSH3HRKsLmZWQt46hRXKfb30Q/FRwcm/H1uWI1TYgyvt6LDYhgfybH4dRsoXXHoJO2KkPo1Z4A0/t87J3eMiK8arPsIo3c42N5CfD9diKKeFwC6w44CppzASsF9eIyHAeluPXYiE5NRrO2d26CFISVnti5upS9P5Y67XJRK+cfC4Gq/uj11BG+NEtHEDEiCpXWR1jWVg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR03MB6360.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(7916004)(346002)(136003)(396003)(366004)(39860400002)(376002)(451199018)(82960400001)(38100700002)(8676002)(6916009)(66946007)(66476007)(66556008)(33716001)(4326008)(41300700001)(54906003)(316002)(83380400001)(8936002)(478600001)(5660300002)(7416002)(6666004)(6512007)(6506007)(9686003)(26005)(186003)(86362001)(6486002)(85182001)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eG53NnpkRTBSbENFOFBRaFh1bU1OeVc5WjVmVzY1U2dDYmJwN1RoeDFISmxF?=
+ =?utf-8?B?SnRaZHZGZkpJZVNGMnJOUng0RFBpVTBJSDJ4TCtPRnYwYUE1RnFVa2tIK1BH?=
+ =?utf-8?B?eHoxTG5MTmlqeW9yb1NhazhUVUVWbGZLUmhxaGJTTGg3cFhQQ3lGRFBCcFAv?=
+ =?utf-8?B?cnJCcXVCakFkdzdGaFY0a0lTb1N2UUtuMjlIWmp5YmUxcTVEY2dJNVhqM2Z4?=
+ =?utf-8?B?YS9GenFXZ1I2eTlHdzc0dm43RTZRRmw3aVppY1dUZWRqM3BHclppZFlqd1FP?=
+ =?utf-8?B?UWEvcTJmM3JCNFpSd2RQeUpUYUtCbjFHUlpBUG1ESHplM0lJSkNSa3Frcjhh?=
+ =?utf-8?B?VXBDUHAzRGJzbVVqSHpid25jQ1cxL3Vab1NCNlhLY29YVWw2TkhzdURQYWZQ?=
+ =?utf-8?B?MDA2R041STIrQ0RuYXVITDM1NGFZNnE3dFU3YVFreWcyKzB3QW5ZQmFoalhR?=
+ =?utf-8?B?RFpUcWhUWUxOZlRQLzRvT1ArUWVZUmtVQW9jWlVHMTNvWTYvMlJnQm84dC9y?=
+ =?utf-8?B?VVhGTjNaMzRZaG1Fa1NmYnphNDRHQXJwL3Y2TExSbDNtQ1UxdTFrNFpFTFNE?=
+ =?utf-8?B?aDBERjZ6dlhlZUlEU2hiTi9GR2krZEQrR2JGdU5BSENpaGhHZ3dhWjdFdXFo?=
+ =?utf-8?B?Tk0zUldLSWwwQmRWWlVVK2pYYnFQOStoVGZubEdyNFJtbHdidVZOYkJPVHl0?=
+ =?utf-8?B?Uk9tL09xNS9GT0JZTzJNS3hoOWpsN2dtUm10cmYvOVkrK2IrcmN4cTIrRlB4?=
+ =?utf-8?B?T3RSb3JPYmZpZjJoNklmNHhYWXBneWdmYXRlVUNZRnBLMnhjb2dWRitTQnhl?=
+ =?utf-8?B?YmlWeFZBbEZiSlNSczBHTmVDV3NDUUE3bERnRCtYK1hTaFBFRHRsWjhUZzlZ?=
+ =?utf-8?B?eUQ4c1Z6Q3p4YUJPeGppYmp3OEZtWmlqSGdlNnhaNmFsaUMrajAzeG5ZYXI3?=
+ =?utf-8?B?VWJFNVBuVjMyYk9wWU9sL3djbVNhdkFoa0JheHpHeERYTDN3NFlCdlNlL2Vk?=
+ =?utf-8?B?RlRtZlppR1dFVkxlNm1XQ250enpucTFIUWRZWmxFbUR1QmdmTjJWeUc3amRT?=
+ =?utf-8?B?S2JDU2tOWjkzOGZMekNqT1dWOVI1N29ncDN0WU1lOEIzZ2RyMmF0K3h5VWM1?=
+ =?utf-8?B?SXlrUnBzMzFnbytXaitCSFpNT01LcGtaU2JIbU5YS1dTOUVSTUg4d2FyRWlH?=
+ =?utf-8?B?ak56dWFDam90UjNIem5ENzJoV1F6WTVkbUtTOE5uWCs5endjNk1lNUs2Y2hG?=
+ =?utf-8?B?YWpqbzlrZ2tndEozRUxDd3dMWVBlTVdsNEdYTGRUdVRncHhaN1VZUC9YVmNF?=
+ =?utf-8?B?OXA4MFJZbjh4K0pMU2ZXY1hCTUFzUWprUTBTRVlNZUczQTRNME5SMU9jOEN2?=
+ =?utf-8?B?Z05GZW5sL0JwSVVoS1gzRGgrOVlqOTc5dUhxUUhRa3JrOG43UlRWZ2FkNms3?=
+ =?utf-8?B?YUhKRUQ0QWpsdGR3T0plRVdmdjlYT2d5QXVuZzl2YnNaY0YzejkySTJqa0dF?=
+ =?utf-8?B?bXp1eGZEZ1Z0RnE5dHQ3NUdmQWJwK3JXVjVhQkNWRU5idmlwd3ArTk5xVkZH?=
+ =?utf-8?B?dDlnVEJEekswUExJU3ZnTkxHb3F4SFhPK2E0TE93NXFOUXdpNElwU2d1WlRB?=
+ =?utf-8?B?UEQ5V0p3TG1NVU1vZ2J3Zk50S2o3bUZOSk5saU9WY2IyQWZjaHAwYjQxUkM3?=
+ =?utf-8?B?UC8vWm9uN2dvRjlnUzh2bUNMb1I3SDlFM0ZubW5FMmhHR3BvRkhSSEtlU1E3?=
+ =?utf-8?B?QkRmRUVHTFBUZlFkREFWOXpXN1lkV0s4TDN2Z1JveFhGaEdtTjdzenBEb3lj?=
+ =?utf-8?B?ZGZhVGtWWFdUQmhFUTZWcUtzYThsNTRYS2IxM2tVMFAwYnZPenhiVWM2SXUy?=
+ =?utf-8?B?czBXd3hsWnpYZkhUZEFFWDlaa0I4cVhMb3Mzd3IrcWE3a0hjUGU4YlRsamc2?=
+ =?utf-8?B?ZXZnU0tScEdXZGJ4ZkNCaHNMc0NXdWpwRlJXZjRWbFhXQzIzK0h1cEg0Y005?=
+ =?utf-8?B?em1GNzVXVWRYMkE0Yjg2NytLSmc1SFA2ZXZEWFNsTEhNZEZGYTVzUmNGMmFQ?=
+ =?utf-8?B?Mm5ibXVxZzkzSHExZVBFanRHT2cyOVI4WCtjODFaZllXakhLSTJ2V0dtdXE1?=
+ =?utf-8?B?UGhGQ0xOVDJTNVN3NTRRN01aakJlRDRHaThzM21qTmY3ZjJwRWh5NEFRTlg0?=
+ =?utf-8?B?S1E9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?VDVmNzhWNlpkR3Z3VE5zeGcvZzFNOWtPczVrZ0p3UmFJd2pYd3FnWFFUZEVK?=
+ =?utf-8?B?akIwUXVqZEZybTVyZk10aWp3aEczc05KL25ZN2pVZDFVYXNjQm1uSnBNdGcr?=
+ =?utf-8?B?aHRBWjNEN29oKzZNOWRkVjBGRzdtTmZuSi9WcnQwalIvNWRSNVZlSFFBYlBu?=
+ =?utf-8?B?MXdOS2IrWi9uWHg4WVBqOWE3UERnN09WdkpMb0RFdi9aWTNVZCttUTBUQklX?=
+ =?utf-8?B?OXQvSm1oTi9zZ2N4TzJPWllKUVh0S0ZSYzhqOERCU1czUjV4cGtCdzJieTl6?=
+ =?utf-8?B?a1BtdHhmT1BaSGZMWnRoOTZkanVJcXB6SDhDY1QrQXo3YXdodC9WZXExY0cy?=
+ =?utf-8?B?eDdZQ04zYmZwRUJ1Q1FmV2hLU0U4amJ2U05raFhBbUQ5bHRUYWxLY0xsUHd4?=
+ =?utf-8?B?TmdaSmVYamh3MGtJczc2TDJ1VVZmYTN1SmVGQVVBb2gxaXFTamlpOHBEL1BZ?=
+ =?utf-8?B?NnZvbUpha1d4YXVsaSthNUVIQ2hXZ2RzRmNDbTdncXVQTG0xcUJ4c0dxOFJK?=
+ =?utf-8?B?ZTV1Z2ZyMUhBcTFPZndtZmNVWUthdWtLTFhTZnhvK3Y1UG9NcXl6bmZqWXNJ?=
+ =?utf-8?B?Tk5uNFFBcHRrZG81bFdPRjdhN2RqSEFmVVkzdHFEbWxIV0hodXRlWDk4MW1k?=
+ =?utf-8?B?eFBmMWErUnBQbDViVStoQnFUYU05NlRQd3RkWmJnZ3M1aExGcmNMb3lCeGds?=
+ =?utf-8?B?NTJWTXJvMFR4VTJBVjRHMVBoUUZXVnc4NXBkVys3Y1FTRjNaRjhlN2VRT2E2?=
+ =?utf-8?B?bzNYeXVCVWZydmRqQUFIWm4zT2l5QVh2R2ZKYnVieTVUck5TWXc0VlhZUmc5?=
+ =?utf-8?B?T3ZRTGxsZk94b2ZEc1RIV0pOTThnd2VKN0l5N1hTM2NZdDVWdDAzSDdTaXFJ?=
+ =?utf-8?B?ckRLbWxETkYzb3FiUnhDbFA2WjRFdENoNEpxMVczQzJhck1oTlJySGZnSFNO?=
+ =?utf-8?B?TjlONEhFd3F6bk95WExCZE9HdUIyRHBOcWlHNzBKODRrQXJRbjNsTERyQUEr?=
+ =?utf-8?B?ZnRvNlZPN0xMUlVpb3QzL2lqOFZsY0Jtek5CQXJHbmQ4eXRSNHluSk45OFdj?=
+ =?utf-8?B?aDh5c3piU3RmT1VTR3RDeVI3VzFFb1htK1VBUUFqYzdPVTlqMVBodTRVaEFP?=
+ =?utf-8?B?a3JhZ2tkMGJhNTlwUWhia2Fsd0xoT1ZBL2s4L0czeWtrcXZrcnBvT3BLaUlC?=
+ =?utf-8?B?RVJLdStQQXFTY3FPQkNIdlNwSWt6ZkFYT2ZQcDhpTWNUVXQzYmZBN2NKTWkr?=
+ =?utf-8?B?TDNuSDJWT0hLR1I2ZnBxTi9Uek1FVEYzWkprWjYvR3Z2OW9RZ05sQlQ4dzlk?=
+ =?utf-8?B?bjZmYWRsclhVckVXVHpHRlYwUlhCWXZhWmdtczNrWHpwTHlCMWxMTm1oTjdW?=
+ =?utf-8?B?SkV6UVp6Nkw5dFE9PQ==?=
+X-OriginatorOrg: citrix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 074f2c2d-4825-4dbd-f54a-08db263b8cf3
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6360.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2023 16:29:01.6076 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335836de-42ef-43a2-b145-348c2ee9ca5b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9XpY7AwsimyY3854UH01r/GzCgvMZcHgUygaHLvZwmBLBfCXBXV+rzc7psXtnMXkezLrcZn3jk3b5RHL2e410w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB5470
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,311 +191,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Gustavo Padovan <gustavo@padovan.org>,
- Matt Turner <mattst88@gmail.com>, freedreno@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Juergen Gross <jgross@suse.com>, Honglei Huang <honglei1.huang@amd.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
+ Chen Jiqian <Jiqian.Chen@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ amd-gfx@lists.freedesktop.org, Xenia Ragiadakou <burzalodowa@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, xen-devel@lists.xenproject.org,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Julia Zhang <julia.zhang@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 16, 2023 at 2:26=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.com>=
- wrote:
->
-> On Wed, Mar 15, 2023 at 09:19:49AM -0700, Rob Clark wrote:
-> > On Wed, Mar 15, 2023 at 6:53=E2=80=AFAM Jonas =C3=85dahl <jadahl@gmail.=
-com> wrote:
-> > >
-> > > On Fri, Mar 10, 2023 at 09:38:18AM -0800, Rob Clark wrote:
-> > > > On Fri, Mar 10, 2023 at 7:45=E2=80=AFAM Jonas =C3=85dahl <jadahl@gm=
-ail.com> wrote:
-> > > > >
-> > > > > On Wed, Mar 08, 2023 at 07:52:52AM -0800, Rob Clark wrote:
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > Add a way to hint to the fence signaler of an upcoming deadline=
-, such as
-> > > > > > vblank, which the fence waiter would prefer not to miss.  This =
-is to aid
-> > > > > > the fence signaler in making power management decisions, like b=
-oosting
-> > > > > > frequency as the deadline approaches and awareness of missing d=
-eadlines
-> > > > > > so that can be factored in to the frequency scaling.
-> > > > > >
-> > > > > > v2: Drop dma_fence::deadline and related logic to filter duplic=
-ate
-> > > > > >     deadlines, to avoid increasing dma_fence size.  The fence-c=
-ontext
-> > > > > >     implementation will need similar logic to track deadlines o=
-f all
-> > > > > >     the fences on the same timeline.  [ckoenig]
-> > > > > > v3: Clarify locking wrt. set_deadline callback
-> > > > > > v4: Clarify in docs comment that this is a hint
-> > > > > > v5: Drop DMA_FENCE_FLAG_HAS_DEADLINE_BIT.
-> > > > > > v6: More docs
-> > > > > > v7: Fix typo, clarify past deadlines
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > > > > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > > ---
-> > > > >
-> > > > > Hi Rob!
-> > > > >
-> > > > > >  Documentation/driver-api/dma-buf.rst |  6 +++
-> > > > > >  drivers/dma-buf/dma-fence.c          | 59 ++++++++++++++++++++=
-++++++++
-> > > > > >  include/linux/dma-fence.h            | 22 +++++++++++
-> > > > > >  3 files changed, 87 insertions(+)
-> > > > > >
-> > > > > > diff --git a/Documentation/driver-api/dma-buf.rst b/Documentati=
-on/driver-api/dma-buf.rst
-> > > > > > index 622b8156d212..183e480d8cea 100644
-> > > > > > --- a/Documentation/driver-api/dma-buf.rst
-> > > > > > +++ b/Documentation/driver-api/dma-buf.rst
-> > > > > > @@ -164,6 +164,12 @@ DMA Fence Signalling Annotations
-> > > > > >  .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > >     :doc: fence signalling annotation
-> > > > > >
-> > > > > > +DMA Fence Deadline Hints
-> > > > > > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > > +
-> > > > > > +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> > > > > > +   :doc: deadline hints
-> > > > > > +
-> > > > > >  DMA Fences Functions Reference
-> > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > >
-> > > > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-=
-fence.c
-> > > > > > index 0de0482cd36e..f177c56269bb 100644
-> > > > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > > > @@ -912,6 +912,65 @@ dma_fence_wait_any_timeout(struct dma_fenc=
-e **fences, uint32_t count,
-> > > > > >  }
-> > > > > >  EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > >
-> > > > > > +/**
-> > > > > > + * DOC: deadline hints
-> > > > > > + *
-> > > > > > + * In an ideal world, it would be possible to pipeline a workl=
-oad sufficiently
-> > > > > > + * that a utilization based device frequency governor could ar=
-rive at a minimum
-> > > > > > + * frequency that meets the requirements of the use-case, in o=
-rder to minimize
-> > > > > > + * power consumption.  But in the real world there are many wo=
-rkloads which
-> > > > > > + * defy this ideal.  For example, but not limited to:
-> > > > > > + *
-> > > > > > + * * Workloads that ping-pong between device and CPU, with alt=
-ernating periods
-> > > > > > + *   of CPU waiting for device, and device waiting on CPU.  Th=
-is can result in
-> > > > > > + *   devfreq and cpufreq seeing idle time in their respective =
-domains and in
-> > > > > > + *   result reduce frequency.
-> > > > > > + *
-> > > > > > + * * Workloads that interact with a periodic time based deadli=
-ne, such as double
-> > > > > > + *   buffered GPU rendering vs vblank sync'd page flipping.  I=
-n this scenario,
-> > > > > > + *   missing a vblank deadline results in an *increase* in idl=
-e time on the GPU
-> > > > > > + *   (since it has to wait an additional vblank period), sendi=
-ng a signal to
-> > > > > > + *   the GPU's devfreq to reduce frequency, when in fact the o=
-pposite is what is
-> > > > > > + *   needed.
-> > > > >
-> > > > > This is the use case I'd like to get some better understanding ab=
-out how
-> > > > > this series intends to work, as the problematic scheduling behavi=
-or
-> > > > > triggered by missed deadlines has plagued compositing display ser=
-vers
-> > > > > for a long time.
-> > > > >
-> > > > > I apologize, I'm not a GPU driver developer, nor an OpenGL driver
-> > > > > developer, so I will need some hand holding when it comes to
-> > > > > understanding exactly what piece of software is responsible for
-> > > > > communicating what piece of information.
-> > > > >
-> > > > > > + *
-> > > > > > + * To this end, deadline hint(s) can be set on a &dma_fence vi=
-a &dma_fence_set_deadline.
-> > > > > > + * The deadline hint provides a way for the waiting driver, or=
- userspace, to
-> > > > > > + * convey an appropriate sense of urgency to the signaling dri=
-ver.
-> > > > > > + *
-> > > > > > + * A deadline hint is given in absolute ktime (CLOCK_MONOTONIC=
- for userspace
-> > > > > > + * facing APIs).  The time could either be some point in the f=
-uture (such as
-> > > > > > + * the vblank based deadline for page-flipping, or the start o=
-f a compositor's
-> > > > > > + * composition cycle), or the current time to indicate an imme=
-diate deadline
-> > > > > > + * hint (Ie. forward progress cannot be made until this fence =
-is signaled).
-> > > > >
-> > > > > Is it guaranteed that a GPU driver will use the actual start of t=
-he
-> > > > > vblank as the effective deadline? I have some memories of seing
-> > > > > something about vblank evasion browsing driver code, which I migh=
-t have
-> > > > > misunderstood, but I have yet to find whether this is something
-> > > > > userspace can actually expect to be something it can rely on.
-> > > >
-> > > > I guess you mean s/GPU driver/display driver/ ?  It makes things mo=
-re
-> > > > clear if we talk about them separately even if they happen to be th=
-e
-> > > > same device.
-> > >
-> > > Sure, sorry about being unclear about that.
-> > >
-> > > >
-> > > > Assuming that is what you mean, nothing strongly defines what the
-> > > > deadline is.  In practice there is probably some buffering in the
-> > > > display controller.  For ex, block based (including bandwidth
-> > > > compressed) formats, you need to buffer up a row of blocks to
-> > > > efficiently linearize for scanout.  So you probably need to latch s=
-ome
-> > > > time before you start sending pixel data to the display.  But detai=
-ls
-> > > > like this are heavily implementation dependent.  I think the most
-> > > > reasonable thing to target is start of vblank.
-> > >
-> > > The driver exposing those details would be quite useful for userspace
-> > > though, so that it can delay committing updates to late, but not too
-> > > late. Setting a deadline to be the vblank seems easy enough, but it
-> > > isn't enough for scheduling the actual commit.
-> >
-> > I'm not entirely sure how that would even work.. but OTOH I think you
-> > are talking about something on the order of 100us?  But that is a bit
-> > of another topic.
->
-> Yes, something like that. But yea, it's not really related. Scheduling
-> commits closer to the deadline has more complex behavior than that too,
-> e.g. the need for real time scheduling, and knowing how long it usually
-> takes to create and commit and for the kernel to process.
->
-> >
->
-> 8-< *snip* 8-<
->
-> > > >
-> > > > You need a fence to set the deadline, and for that work needs to be
-> > > > flushed.  But you can't associate a deadline with work that the ker=
-nel
-> > > > is unaware of anyways.
-> > >
-> > > That makes sense, but it might also a bit inadequate to have it as th=
-e
-> > > only way to tell the kernel it should speed things up. Even with the
-> > > trick i915 does, with GNOME Shell, we still end up with the feedback
-> > > loop this series aims to mitigate. Doing triple buffering, i.e. delay=
-ing
-> > > or dropping the first frame is so far the best work around that works=
-,
-> > > except doing other tricks that makes the kernel to ramp up its clock.
-> > > Having to rely on choosing between latency and frame drops should
-> > > ideally not have to be made.
-> >
-> > Before you have a fence, the thing you want to be speeding up is the
-> > CPU, not the GPU.  There are existing mechanisms for that.
->
-> Is there no benefit to let the GPU know earlier that it should speed up,
-> so that when the job queue arrives, it's already up to speed?
+On Sun, Mar 12, 2023 at 08:01:53PM +0800, Huang Rui wrote:
+> Xen PVH is the paravirtualized mode and takes advantage of hardware
+> virtualization support when possible. It will using the hardware IOMMU
+> support instead of xen-swiotlb, so disable swiotlb if current domain is
+> Xen PVH.
+> 
+> Signed-off-by: Huang Rui <ray.huang@amd.com>
+> ---
+>  arch/x86/kernel/pci-dma.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
+> index 30bbe4abb5d6..f5c73dd18f2a 100644
+> --- a/arch/x86/kernel/pci-dma.c
+> +++ b/arch/x86/kernel/pci-dma.c
+> @@ -74,6 +74,12 @@ static inline void __init pci_swiotlb_detect(void)
+>  #ifdef CONFIG_SWIOTLB_XEN
+>  static void __init pci_xen_swiotlb_init(void)
+>  {
+> +	/* Xen PVH domain won't use swiotlb */
+> +	if (xen_pvh_domain()) {
+> +		x86_swiotlb_enable = false;
+> +		return;
+> +	}
 
-Downstream we have input notifier that resumes the GPU so we can
-pipeline the 1-2ms it takes to boot up the GPU with userspace.  But we
-wait to boost freq until we have cmdstream to submit, since that
-doesn't take as long.  What needs help initially after input is all
-the stuff that happens on the CPU before the GPU can start to do
-anything ;-)
+I'm very confused by this: pci_xen_swiotlb_init() is only called for
+PV domains, see the only caller in pci_iommu_alloc().  So this is just
+dead code.
 
-Btw, I guess I haven't made this clear, dma-fence deadline is trying
-to help the steady-state situation, rather than the input-latency
-situation.  It might take a frame or two of missed deadlines for
-gpufreq to arrive at a good steady-state freq.
+> +
+>  	if (!xen_initial_domain() && !x86_swiotlb_enable)
+>  		return;
+>  	x86_swiotlb_enable = true;
+> @@ -86,7 +92,7 @@ static void __init pci_xen_swiotlb_init(void)
+>  
+>  int pci_xen_swiotlb_init_late(void)
+>  {
+> -	if (dma_ops == &xen_swiotlb_dma_ops)
+> +	if (xen_pvh_domain() || dma_ops == &xen_swiotlb_dma_ops)
 
-> >
-> > TBF I'm of the belief that there is still a need for input based cpu
-> > boost (and early wake-up trigger for GPU).. we have something like
-> > this in CrOS kernel.  That is a bit of a different topic, but my point
-> > is that fence deadlines are just one of several things we need to
-> > optimize power/perf and responsiveness, rather than the single thing
-> > that solves every problem under the sun ;-)
->
-> Perhaps; but I believe it's a bit of a back channel of intent; the piece
-> of the puzzle that has the information to know whether there is need
-> actually speed up is the compositor, not the kernel.
->
-> For example, pressing 'p' while a terminal is focused does not need high
-> frequency clocks, it just needs the terminal emulator to draw a 'p' and
-> the compositor to composite that update. Pressing <Super> may however
-> trigger a non-trivial animation moving a lot of stuff around on screen,
-> maybe triggering Wayland clients to draw and what not, and should most
-> arguably have the ability to "warn" the kernel about the upcoming flood
-> of work before it is already knocking on its door step.
+Same here, this function is only called by
+pcifront_connect_and_init_dma() and pcifront should never attach on a
+PVH domain, hence it's also dead code.
 
-The super key is problematic, but not for the reason you think.  It is
-because it is a case where we should boost on key-up instead of
-key-down.. and the second key-up event comes after the cpu-boost is
-already in it's cool-down period.  But even if suboptimal in cases
-like this, it is still useful for touch/stylus cases where the
-slightest of lag is much more perceptible.
-
-This is getting off topic but I kinda favor coming up with some sort
-of static definition that userspace could give the kernel to let the
-kernel know what input to boost on.  Or maybe something could be done
-with BPF?
-
-> >
->
-> 8-< *snip* 8-<
->
-> > >
-> > > Is it expected that WSI's will set their own deadlines, or should tha=
-t
-> > > be the job of the compositor? For example by using compositors using
-> > > DMA_BUF_IOCTL_EXPORT_SYNC_FILE that you mentioned, using it to set a
-> > > deadline matching the vsync it most ideally will be committed to?
-> > >
-> >
-> > I'm kind of assuming compositors, but if the WSI somehow has more
-> > information about ideal presentation time, then I suppose it could be
-> > in the WSI?  I'll defer to folks who spend more time on WSI and
-> > compositors to hash out the details ;-)
->
-> With my compositor developer hat on, it might be best to let it be up to
-> the compositor, it's the one that knows if a client's content will
-> actually end up anywhere visible.
->
-
-wfm
-
-BR,
--R
-
->
-> Jonas
->
-> >
-> > BR,
-> > -R
+Thanks, Roger.
