@@ -1,56 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1419F6BDCB1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 00:09:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B96656BDD11
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 00:41:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1989610EE18;
-	Thu, 16 Mar 2023 23:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2711D10E222;
+	Thu, 16 Mar 2023 23:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD7910E3AD;
- Thu, 16 Mar 2023 23:09:49 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9A6A562153;
- Thu, 16 Mar 2023 23:09:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7ABDC433EF;
- Thu, 16 Mar 2023 23:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679008188;
- bh=w6jBwS1Um7mLlpoN+a+eGG2DalmQykD8t+mghS5Gsj8=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=Xn/mhMMsBa9jUDc41ni0DMUUt4rDxfMz2bHiXfw1XOBLWhlw+tv8t3tkSrUwFpzah
- F6yRYXxBoF/7NL4kJm7B7P6a+/rJg9wCMKkeddzgV3I3qHJ9pT3iSq+tgz8wl8Xao9
- EzFKSOr2Sg64KMAgUQ3mWgN0+rNM6KVcgflFqSJ/Ucm2c6D0hIxCfeJ9qxxM2o36FQ
- RbwxQjqrlHHlQYAoMD3qrxYbz5WjR8d+EK4phi4hERBwPm5Ed7Esg6/28AqzgONA8P
- oCmRbfB8rtZTOgM2VP0L/d4Ou9G/tVshG1zAD4c39viBP2ANCss0BD2ZrmJeQfKD9n
- j4Q+hcETWJIPQ==
-Date: Thu, 16 Mar 2023 16:09:44 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Juergen Gross <jgross@suse.com>
-Subject: Re: [RFC PATCH 1/5] x86/xen: disable swiotlb for xen pvh
-In-Reply-To: <d256a967-f50e-2e19-1985-aa9cfc0e8b18@suse.com>
-Message-ID: <alpine.DEB.2.22.394.2303161603200.3359@ubuntu-linux-20-04-desktop>
-References: <20230312120157.452859-1-ray.huang@amd.com>
- <20230312120157.452859-2-ray.huang@amd.com>
- <ea0e3852-87ba-984b-4010-5eeac3d6c507@suse.com>
- <alpine.DEB.2.22.394.2303141747350.863724@ubuntu-linux-20-04-desktop>
- <f5e03f2a-8176-528f-e885-9a97940367c0@suse.com>
- <alpine.DEB.2.22.394.2303151616200.3462@ubuntu-linux-20-04-desktop>
- <5e22a45d-6f12-da9b-94f6-3112a30e8574@suse.com>
- <CADnq5_PH9ZqDqpPES74V3fB3NVpaexDoGTyu_+-zoux5vgagyg@mail.gmail.com>
- <dcb54275-b21f-a837-76bb-e19e331a0666@suse.com>
- <CADnq5_PpCWrZzQdE_X6ZnuNU3ktVeC6TbmE5vq3K6rCAdB8GTg@mail.gmail.com>
- <d256a967-f50e-2e19-1985-aa9cfc0e8b18@suse.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F51610E09C;
+ Thu, 16 Mar 2023 23:41:15 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32GNMkga025405; Thu, 16 Mar 2023 23:40:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=RK0SuungC2wUqIiGl1ecxSrcAOHQ3pSMDoveShMf5Lk=;
+ b=Qevp8wnmilMUNhYJ8H5EmImXhp/5HWmxGa74L1rsIddwY52L8E6A4Cz3Mdn+g0b76syL
+ 4pDE/fVZrGYT1WAtn7HyZF+wSKlOx6tfaArL+F2NYCDepq4yNumo9r8A1T+4pvWA+4l3
+ rtDZSH1J7kgN6ykxhwjoHu51Kk2g+t2RTozbUs7zLLJHTJq03Mn9+yYsSwhYVxArkNGb
+ 7LRCYW3KVS5J+FI0JF7nRVva7Kmu/LFdyHiSC2boGB8Udcj9zdxQTJilE2s+NrRHubuq
+ Q4n1Vlve+rJ80RzfZ3SxOHByd5aaDoUPd1WkaTkeLRQf/D6oEfWuAkOvQc4ZL9eJgz+D Nw== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pc3yp9hxd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 23:40:11 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GNeAar031255
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Mar 2023 23:40:10 GMT
+Received: from [10.110.64.241] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 16 Mar
+ 2023 16:40:09 -0700
+Message-ID: <b3143706-00d2-16d4-9bbd-046139fcdce0@quicinc.com>
+Date: Thu, 16 Mar 2023 16:40:08 -0700
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-549136083-1679007957=:3359"
-Content-ID: <alpine.DEB.2.22.394.2303161606140.3359@ubuntu-linux-20-04-desktop>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [RFC PATCH 1/2] drm/msm/dpu: add dsc helper functions
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>
+References: <1677267647-28672-1-git-send-email-quic_khsieh@quicinc.com>
+ <F8A4FC18-C64E-4011-BC08-18EB3B95A357@linaro.org>
+ <d5ee8233-66c8-9b88-417c-6cf9cc5c84fe@quicinc.com>
+ <CAA8EJpro5Q-2ZpnDJt40UhFX7Zp9oBhrto=FDOERzCDR2BDPvQ@mail.gmail.com>
+ <f0dfba42-4674-3748-bf5d-39f6e1745f67@quicinc.com>
+ <f1a6ee82-9502-7ea5-fe48-f296fc7df497@linaro.org>
+ <3e114c0f-a042-6801-69bf-67436cb2a448@quicinc.com>
+ <113a10b6-6097-c80e-c29c-6f61b2b2896a@linaro.org>
+ <c4c0ebf8-275d-500f-4019-e3d7517a884f@quicinc.com>
+ <CAA8EJppxX4haZSwdvVbN7bc6kXAyNO1rg6zWZv9wPFdqGrcXuw@mail.gmail.com>
+ <c650e746-64c5-ce6b-933d-057349356b78@quicinc.com>
+ <58E03B71-20C4-4F81-96C1-6D8CE517F3FB@linaro.org>
+ <fd876ad2-3fd0-eaab-3407-dd32d494f662@quicinc.com>
+ <a5d1a74f-1b7a-569d-e487-774720dfae22@quicinc.com>
+ <CAA8EJpq_mwUt0+1yGYo6hRx8Vz12DumVdpEjJbPk8gGHhGZ2bA@mail.gmail.com>
+ <176c6088-4470-5559-e79e-fd5675db0097@quicinc.com>
+ <04156713-3f8e-c29e-322f-259ae163a93a@linaro.org>
+ <10b39fab-43a7-40b4-5d11-bc191e2953f3@quicinc.com>
+In-Reply-To: <10b39fab-43a7-40b4-5d11-bc191e2953f3@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: yG5zBgm606Nlsl1ErRd8i_NTicc4gcla
+X-Proofpoint-ORIG-GUID: yG5zBgm606Nlsl1ErRd8i_NTicc4gcla
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-16_14,2023-03-16_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 adultscore=0 impostorscore=0
+ mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2303150002 definitions=main-2303160176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,143 +100,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Honglei Huang <honglei1.huang@amd.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>, Chen Jiqian <Jiqian.Chen@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Huang Rui <ray.huang@amd.com>, amd-gfx@lists.freedesktop.org,
- Jan Beulich <jbeulich@suse.com>, xen-devel@lists.xenproject.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Julia Zhang <julia.zhang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, quic_sbillaka@quicinc.com,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, andersson@kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
+ agross@kernel.org, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, marijn.suijten@somainline.org,
+ swboyd@chromium.org, sean@poorly.run,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-549136083-1679007957=:3359
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: 8BIT
-Content-ID: <alpine.DEB.2.22.394.2303161606141.3359@ubuntu-linux-20-04-desktop>
 
-On Thu, 16 Mar 2023, Juergen Gross wrote:
-> On 16.03.23 14:53, Alex Deucher wrote:
-> > On Thu, Mar 16, 2023 at 9:48 AM Juergen Gross <jgross@suse.com> wrote:
-> > > 
-> > > On 16.03.23 14:45, Alex Deucher wrote:
-> > > > On Thu, Mar 16, 2023 at 3:50 AM Jan Beulich <jbeulich@suse.com> wrote:
-> > > > > 
-> > > > > On 16.03.2023 00:25, Stefano Stabellini wrote:
-> > > > > > On Wed, 15 Mar 2023, Jan Beulich wrote:
-> > > > > > > On 15.03.2023 01:52, Stefano Stabellini wrote:
-> > > > > > > > On Mon, 13 Mar 2023, Jan Beulich wrote:
-> > > > > > > > > On 12.03.2023 13:01, Huang Rui wrote:
-> > > > > > > > > > Xen PVH is the paravirtualized mode and takes advantage of
-> > > > > > > > > > hardware
-> > > > > > > > > > virtualization support when possible. It will using the
-> > > > > > > > > > hardware IOMMU
-> > > > > > > > > > support instead of xen-swiotlb, so disable swiotlb if
-> > > > > > > > > > current domain is
-> > > > > > > > > > Xen PVH.
-> > > > > > > > > 
-> > > > > > > > > But the kernel has no way (yet) to drive the IOMMU, so how can
-> > > > > > > > > it get
-> > > > > > > > > away without resorting to swiotlb in certain cases (like I/O
-> > > > > > > > > to an
-> > > > > > > > > address-restricted device)?
-> > > > > > > > 
-> > > > > > > > I think Ray meant that, thanks to the IOMMU setup by Xen, there
-> > > > > > > > is no
-> > > > > > > > need for swiotlb-xen in Dom0. Address translations are done by
-> > > > > > > > the IOMMU
-> > > > > > > > so we can use guest physical addresses instead of machine
-> > > > > > > > addresses for
-> > > > > > > > DMA. This is a similar case to Dom0 on ARM when the IOMMU is
-> > > > > > > > available
-> > > > > > > > (see include/xen/arm/swiotlb-xen.h:xen_swiotlb_detect, the
-> > > > > > > > corresponding
-> > > > > > > > case is XENFEAT_not_direct_mapped).
-> > > > > > > 
-> > > > > > > But how does Xen using an IOMMU help with, as said,
-> > > > > > > address-restricted
-> > > > > > > devices? They may still need e.g. a 32-bit address to be
-> > > > > > > programmed in,
-> > > > > > > and if the kernel has memory beyond the 4G boundary not all I/O
-> > > > > > > buffers
-> > > > > > > may fulfill this requirement.
-> > > > > > 
-> > > > > > In short, it is going to work as long as Linux has guest physical
-> > > > > > addresses (not machine addresses, those could be anything) lower
-> > > > > > than
-> > > > > > 4GB.
-> > > > > > 
-> > > > > > If the address-restricted device does DMA via an IOMMU, then the
-> > > > > > device
-> > > > > > gets programmed by Linux using its guest physical addresses (not
-> > > > > > machine
-> > > > > > addresses).
-> > > > > > 
-> > > > > > The 32-bit restriction would be applied by Linux to its choice of
-> > > > > > guest
-> > > > > > physical address to use to program the device, the same way it does
-> > > > > > on
-> > > > > > native. The device would be fine as it always uses Linux-provided
-> > > > > > <4GB
-> > > > > > addresses. After the IOMMU translation (pagetable setup by Xen), we
-> > > > > > could get any address, including >4GB addresses, and that is
-> > > > > > expected to
-> > > > > > work.
-> > > > > 
-> > > > > I understand that's the "normal" way of working. But whatever the
-> > > > > swiotlb
-> > > > > is used for in baremetal Linux, that would similarly require its use
-> > > > > in
-> > > > > PVH (or HVM) aiui. So unconditionally disabling it in PVH would look
-> > > > > to
-> > > > > me like an incomplete attempt to disable its use altogether on x86.
-> > > > > What
-> > > > > difference of PVH vs baremetal am I missing here?
-> > > > 
-> > > > swiotlb is not usable for GPUs even on bare metal.  They often have
-> > > > hundreds or megs or even gigs of memory mapped on the device at any
-> > > > given time.  Also, AMD GPUs support 44-48 bit DMA masks (depending on
-> > > > the chip family).
-> > > 
-> > > But the swiotlb isn't per device, but system global.
-> > 
-> > Sure, but if the swiotlb is in use, then you can't really use the GPU.
-> > So you get to pick one.
+On 3/16/2023 9:36 AM, Abhinav Kumar wrote:
 > 
-> The swiotlb is used only for buffers which are not within the DMA mask of a
-> device (see dma_direct_map_page()). So an AMD GPU supporting a 44 bit DMA mask
-> won't use the swiotlb unless you have a buffer above guest physical address of
-> 16TB (so basically never).
 > 
-> Disabling swiotlb in such a guest would OTOH mean, that a device with only
-> 32 bit DMA mask passed through to this guest couldn't work with buffers
-> above 4GB.
+> On 3/16/2023 9:23 AM, Dmitry Baryshkov wrote:
+>> On 16/03/2023 18:13, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 3/16/2023 9:03 AM, Dmitry Baryshkov wrote:
+>>>> Hi,
+>>>>
+>>>> [removed previous conversation]
+>>>>
+>>>>>
+>>>>> Hi Dmitry and Abhinav,
+>>>>>
+>>>>> Just wanted to follow up on this thread. I've gone over the 
+>>>>> MSM-specific
+>>>>> DSC params for DP and DSI and have found a few shared calculations and
+>>>>> variables between both DSI and DP paths:
+>>>>>
+>>>>> - (as mentioned earlier in the thread) almost all the calculations in
+>>>>> dpu_dsc_populate_dsc_config() match dsi_populate_dsc_params() [1]. The
+>>>>> only difference in the math I'm seeing is initial_scale_value.
+>>>>
+>>>> The value in dsi code is valid for initial_offset = 6144. Please use
+>>>> the formula from the standard (= sde_dsc_populate_dsc_config) and add
+>>>> it to drm_dsc_helper.c
+>>>>
+
+Yes, I agree with this part. for rc_model_size we can use 
+DSC_RC_MODEL_SIZE_CONST.
+
+initial_offset is already handled in 
+https://patchwork.freedesktop.org/patch/525424/?series=114472&rev=2
+
+Then we can use this math:
+
+rc_model_size / (rc_model_size -
+initial_offset), keeping in mind that initial_scale_value has three 
+fractional bits.
+
+So this would be 8192 / (8192 - 6144) = 4
+
+Then << 3 for 3 fractional bits = 32.
+
+>>>> If I remember correctly the last remaining item in
+>>>> dsi_populate_dsc_params() (except mentioned initial_offset) was
+>>>> line_buf_depth, see [3]. I'm not sure about setting it to bpc+1.
+>>>> According to the standard it should come from a DSC decoder spec,
+>>>> which means it should be set by the DSI panel driver or via
+>>>> drm_dp_dsc_sink_line_buf_depth() in the case of DP output.
+>>>>
+>>>>> - dsc_extra_pclk_cycle_cnt and dce_bytes_per_line, which were 
+>>>>> introduced
+>>>>> in Kuogee's v1 DSC series [2], are used for DSI, DP, and the DPU 
+>>>>> timing
+>>>>> engine. dsc_extra_pclk_cycle_cnt is calculated based on pclk_per_line
+>>>>> (which is calculated differently between DP and DSI), but
+>>>>> dce_bytes_per_line is calculated the same way between DP and DSI.
+>>>>>
+>>>>> To avoid having to duplicate math in 2 different places, I think it
+>>>>> would help to have these calculations in some msm_dsc_helper.c 
+>>>>> file. Any
+>>>>> thoughts on this?
+>>>>
+>>>> dsc_extra_pclk_cycle_cnt and dce_bytes_per_line are used only in DPU
+>>>> code, so they can stay in DPU driver.
+>>>>
+>>>
+>>> They can stay in the dpu driver is fine but where?
+>>>
+>>> Like Jessica wrote, this is computed and used in 3 places today :
+>>>
+>>> 1) DSI video engine computation
+>>> 2) DP controller computation
+>>> 3) timing engine programming
+>>
+>> Please excuse me if I'm wrong. I checked both vendor techpack and the 
+>> Kuogee's patches. I see them being used only in the SDE / DPU driver 
+>> code. Could you please point me to the code path that we are discussing?
+>>
 > 
-> I don't think this is acceptable.
-
-From the Xen subsystem in Linux point of view, the only thing we need to
-do is to make sure *not* to enable swiotlb_xen (yes "swiotlb_xen", not
-the global swiotlb) on PVH because it is not needed anyway.
-
-I think we should leave the global "swiotlb" setting alone. The global
-swiotlb is not relevant to Xen anyway, and surely baremetal Linux has to
-have a way to deal with swiotlb/GPU incompatibilities.
-
-We just have to avoid making things worse on Xen, and for that we just
-need to avoid unconditionally enabling swiotlb-xen. If the Xen subsystem
-doesn't enable swiotlb_xen/swiotlb, and no other subsystem enables
-swiotlb, then we have a good Linux configuration capable of handling the
-GPU properly.
-
-Alex, please correct me if I am wrong. How is x86_swiotlb_enable set to
-false on native (non-Xen) x86?
---8323329-549136083-1679007957=:3359--
+> DSI code :
+> 
+> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/dsi/dsi_host.c#L868 
+> 
+> 
+> DP code:
+> 
+> Refer to dp_panel_dsc_pclk_param_calc in 
+> https://patchwork.freedesktop.org/patch/519837/?series=113240&rev=1
+> 
+> Timing engine:
+> 
+> refer to 
+> https://patchwork.freedesktop.org/patch/519838/?series=113240&rev=1
+> 
+> Probably confusion is due to the naming. bytes_per_line is nothing but 
+> bytes_per_pkt * pkt_per_line but the concept is common for DP and DSI.
+> 
+> +        if (phys->comp_type == MSM_DISPLAY_COMPRESSION_DSC) {
+> +            phys->dsc_extra_pclk_cycle_cnt = dsc_info->pclk_per_line;
+> +            phys->dsc_extra_disp_width = dsc_info->extra_width;
+> +            phys->dce_bytes_per_line =
+> +                dsc_info->bytes_per_pkt * dsc_info->pkt_per_line;
+> 
+>>
+>>> So either we have a helper in a common location somewhere so that 
+>>> these 3 modules can call that helper and use it OR each module 
+>>> duplicates the computation code.
+>>>
+>>> What should be the common location is the discussion here.
+>>>
+>>> It cannot be dpu_encoder.c as the DSI/DP dont call into the encoder 
+>>> methods.
+>>>
+>>>>>
+>>>>> Thanks,
+>>>>>
+>>>>> Jessica Zhang
+>>>>>
+>>>>> [1]
+>>>>> https://elixir.bootlin.com/linux/v6.3-rc2/source/drivers/gpu/drm/msm/dsi/dsi_host.c#L1756 
+>>>>>
+>>>>>
+>>>>> [2] 
+>>>>> https://patchwork.freedesktop.org/patch/519845/?series=113240&rev=1
+>>>>
+>>>> [3] https://patchwork.freedesktop.org/patch/525441/?series=114472&rev=2
+>>>>
+>>>>
+>>>>
+>>
