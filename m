@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1536BD0B8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 14:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC4D6BD0E6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 14:34:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 586B610E13E;
-	Thu, 16 Mar 2023 13:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0325710E19D;
+	Thu, 16 Mar 2023 13:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FD310E13E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 13:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1678972991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lOSbCq91ofT9YXvZbpEo/wG2mXE51QVka7uRfgSRss4=;
- b=VVNXWFClvGMR0M+ijUEySciHtnJSvcWpCQa24qYzJxw5jX8+WV+voJ3U0RLmTn/kFy85c2
- rR6Q9JtURnGFLczs7iHuDxAArL0dcJS+6sEhtD5X0q5Id0JVpgewSzKW6+JvgcQdcslZJR
- CuA+s4IXH8mGjfmMJk1MeRGhHVzrDOg=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-223-vjsWlwAAOniQPiXWrDcxyg-1; Thu, 16 Mar 2023 09:23:08 -0400
-X-MC-Unique: vjsWlwAAOniQPiXWrDcxyg-1
-Received: by mail-qv1-f70.google.com with SMTP id
- g14-20020ad457ae000000b005aab630eb8eso1043798qvx.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 06:23:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678972988;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lOSbCq91ofT9YXvZbpEo/wG2mXE51QVka7uRfgSRss4=;
- b=PMfAEe/dZ3xPeDeU/qmHDjU0xW5rwx82FyFrz9YU3df/Ob64z593IKLKwBolR4b2sj
- cul2u8tQsa7aFV0j/56ACA1vfRw7bbyb4wAZMp2R8xLu34o5Qq6Yg5aUHTT8BqZ1Plxc
- F+i8ZHUe2nwaJSaCytNTSOP8paAzdffqQY8w5paPTTNaH1DBqm+/r54A29iTrZO3bsqX
- zFMft9Fs7BWhNzmh8pTiNKb3I1sgccsIEBhNzKiPMQq5rxuLHWgjIFG+12b9CGBLNE1S
- SMs5uyke4ZbLvZLOIf6mm1lOr5tvMgDt69PnMNIP6DxUm4Z1sbFvhxKz5odgI5VWih0c
- cf7Q==
-X-Gm-Message-State: AO0yUKVClsbGhSQmVPkxw81Hso3hObAHsLYtzxIaFQdc5cShen9E/b61
- WyhBdIMRVR/SPhxCmvm4jVfV7txgQSFYdG0BA6Mbu+FY67B5qIMPMuC8YH0m/EiRvhs1vQT59HM
- CiTGN82t3g3PzwbkGk3G5YDKlDRMM
-X-Received: by 2002:ad4:5aee:0:b0:56e:ab08:670d with SMTP id
- c14-20020ad45aee000000b0056eab08670dmr32716486qvh.42.1678972988192; 
- Thu, 16 Mar 2023 06:23:08 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9dA/70KxjQEA+7BPyUihfyAvubVJ/nAiMbXTzj0PTIRAeQbYujxRy3jSIUcu6bo4xiaMqL1g==
-X-Received: by 2002:ad4:5aee:0:b0:56e:ab08:670d with SMTP id
- c14-20020ad45aee000000b0056eab08670dmr32716450qvh.42.1678972987917; 
- Thu, 16 Mar 2023 06:23:07 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- g187-20020a37b6c4000000b00743592b4745sm5803599qkf.109.2023.03.16.06.23.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 06:23:07 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: hjc@rock-chips.com, heiko@sntech.de, airlied@gmail.com, daniel@ffwll.ch,
- nathan@kernel.org, ndesaulniers@google.com, michael.riesch@wolfvision.net,
- s.hauer@pengutronix.de
-Subject: [PATCH] drm/rockchip: vop2: fix uninitialized variable possible_crtcs
-Date: Thu, 16 Mar 2023 09:23:02 -0400
-Message-Id: <20230316132302.531724-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D738D10E19D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 13:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1678973683; i=deller@gmx.de;
+ bh=dw+iQ9rvbmABYoF8/RwO4zPaytP0u+W8BAyDnWXpy1k=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=Q2b/FtZ4mX1JXBx8y442QEyA2bBCKyd5kx1RxudwesxblfO4VQSThZ3Omfl7vrmtH
+ zqLmuSlH/b2AJHKA93Aqk14PPFCwHtLiDByp7BNsN4w02dwQ2Yi0o0033ve5dxTxY7
+ RLswatRo0yEumduLLP/kJSH/7ZnsOv3m2KwZp+FPeUwRU/1vsIs/UWtaFVhby5+z/b
+ Wivt9kFuIFc1K0d3Yhd7xx6yF9L8PwOzcDLTT3E0tY08CG/ohX9g5F6b0VUeiSR9GG
+ +HuQjusIiDVwX46IocWmPfJ+wZbUbKqUtO/+1/bpGOWN+oTBdUX7t+8Hb7YdY3ixRl
+ AXbmr/2nlij+Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([94.134.149.95]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M2O2W-1pfXqP0ggw-003rqR; Thu, 16
+ Mar 2023 14:34:43 +0100
+Message-ID: <78ea59ba-72ab-db50-4d66-b1ad84ed8548@gmx.de>
+Date: Thu, 16 Mar 2023 14:34:42 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] fbdev: nvidia: Fix potential divide by zero
+Content-Language: en-US
+To: Wei Chen <harperchen1110@gmail.com>, adaplas@gmail.com
+References: <20230315071831.3833948-1-harperchen1110@gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <20230315071831.3833948-1-harperchen1110@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:fNcJl7Z4HC0lzHljP7pqiCwEqkxUbZX9jGfP/jXuGbZOznQr4wP
+ FCYe1fz3OyoZkdYeKa47XD/CvxIV6sltPRf9R9krQJEffpSt6hM7kWBzit9up59T+Qy6jmN
+ Fi4tFOYgxI5OunqqnT81g0r2p/BDQ2NkD2YEXEC4nEI/ML04TkKwLArJLR0J9jE26+7k+Mt
+ mW+3QVTBJY+a3/SEHyjwA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:13xPqJdiFKY=;w7KyePPl+2LLpb5kyifOh3wr6eA
+ NRSZVIvZ0pHrmjRyp2MDB/vkUmB+uqpaS/pCGZiobLgwenlQ29z16esekj2kqUCdgB2+nOS7L
+ 55SgUu574/c7fS0BV0jhM37Bu37H7iXOekPBgVgpoOGOl+8Qhh3IBcbNyXld8CJayZ7xy+UPv
+ tSIdYW+WU1u3zWi7rpEoQJaNBtjDijE34kZkh9ZWn5ixHCRS4VQdtP/xCKVFROemqfVM6BuO8
+ GHHE76J37/eBuQE8wS3kVZikrYbd2iUk4leXpgkQ3ja+SpkRZ/ACO+HMG96XFOPNHwiCCQD+S
+ lJRStEfNFQnXO1h1wPQSIj2Jtl8UskBzhkIow5pNwxIzvNEKy8hsUFurZpLLp/J+7l8z0NGHH
+ zosxulVsWbhUtqqa3pa0RB1YOMxmQMeZEhg9OtP1Pn6q32kxGmRR1oHRlmEZuDAWg25qoYCdG
+ LQaGpPSyExdYVAVYJQHXFuGyMKpkTD6Zjzjf6onsKo1DCt/F62EXBbn063U7OJO6F0ai4hy/Q
+ pGmlJyQ810KNYzFvkjU1PQUKGC5OTTI55KE1leWaTC3K7OVsBZg/0HaOSVljqPtQpkDJ89rON
+ zSHkPUXrPdCSyU6/7Kt9MIgC0K1rSzFgaC2s7FXmNuZxlu9Edyr8gDhc3uM2z7JA1nFyNeV7u
+ dAqDFwBs+fEU1h3w7WJlTFK18ZmoGBgLn5d2EocIwO8cc7Nlh9bI+0f5Van5anghPyi/lUqOq
+ 0KdnitRRf7XYQtPm2PMhbcz3ooY5K6d49GGju9c8cozCdA+/u1tGcU2SHZwQGSnNpAdBCHDT1
+ Ygigfl3kQ+paaR/iIyhsbYqLJYnhQFJlfLXTTr736QZVnrApmcJMlZZ9mw8GB2SqlLlALnO3e
+ RSV78Qtb6TVKnDFB4s1hPY9OCsR/dIiLBdbuEEm1GJZQSXejwAuS97iffkd7x/G0L4YN/wj2M
+ vSyTZg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,68 +71,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang reportes this error
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2322:8: error:
-  variable 'possible_crtcs' is used uninitialized whenever 'if'
-  condition is false [-Werror,-Wsometimes-uninitialized]
-                        if (vp) {
-                            ^~
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2336:36: note:
-  uninitialized use occurs here
-                ret = vop2_plane_init(vop2, win, possible_crtcs);
-                                                 ^~~~~~~~~~~~~~
-drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2322:4:
-  note: remove the 'if' if its condition is always true
-                        if (vp) {
-                        ^~~~~~~~
+On 3/15/23 08:18, Wei Chen wrote:
+> variable var->pixclock can be set by user. In case it
+> equals to zero, divide by zero would occur in nvidiafb_set_par.
+>
+> Similar crashes have happened in other fbdev drivers. There
+> is no check and modification on var->pixclock along the call
+> chain to nvidia_check_var and nvidiafb_set_par. We believe it
+> could also be triggered in driver nvidia from user site.
+>
+> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
 
-The else-statement changes the win->type to OVERLAY without setting the
-possible_crtcs variable.  Rework the block, initialize possible_crtcs to
-0 to remove the else-statement.  Split the else-if-statement out to its
-own if-statement so the OVERLAY check will catch when the win-type has
-been changed.
+applied all four patches.
 
-Fixes: 368419a2d429 ("drm/rockchip: vop2: initialize possible_crtcs properly")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Thanks!
+Helge
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 03ca32cd2050..fce992c3506f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2301,7 +2301,7 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 	nvp = 0;
- 	for (i = 0; i < vop2->registered_num_wins; i++) {
- 		struct vop2_win *win = &vop2->win[i];
--		u32 possible_crtcs;
-+		u32 possible_crtcs = 0;
- 
- 		if (vop2->data->soc_id == 3566) {
- 			/*
-@@ -2327,12 +2327,11 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 				/* change the unused primary window to overlay window */
- 				win->type = DRM_PLANE_TYPE_OVERLAY;
- 			}
--		} else if (win->type == DRM_PLANE_TYPE_OVERLAY) {
--			possible_crtcs = (1 << nvps) - 1;
--		} else {
--			possible_crtcs = 0;
- 		}
- 
-+		if (win->type == DRM_PLANE_TYPE_OVERLAY)
-+			possible_crtcs = (1 << nvps) - 1;
-+
- 		ret = vop2_plane_init(vop2, win, possible_crtcs);
- 		if (ret) {
- 			drm_err(vop2->drm, "failed to init plane %s: %d\n",
--- 
-2.27.0
+> ---
+>   drivers/video/fbdev/nvidia/nvidia.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/n=
+vidia/nvidia.c
+> index e60a276b4855..ea4ba3dfb96b 100644
+> --- a/drivers/video/fbdev/nvidia/nvidia.c
+> +++ b/drivers/video/fbdev/nvidia/nvidia.c
+> @@ -764,6 +764,8 @@ static int nvidiafb_check_var(struct fb_var_screenin=
+fo *var,
+>   	int pitch, err =3D 0;
+>
+>   	NVTRACE_ENTER();
+> +	if (!var->pixclock)
+> +		return -EINVAL;
+>
+>   	var->transp.offset =3D 0;
+>   	var->transp.length =3D 0;
 
