@@ -1,91 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443226BC350
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 02:30:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 263526BC3AE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 03:16:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D99910E04B;
-	Thu, 16 Mar 2023 01:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E19F10EA23;
+	Thu, 16 Mar 2023 02:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8FC10E04B;
- Thu, 16 Mar 2023 01:30:25 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32FNd8g0010821; Thu, 16 Mar 2023 01:28:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Rh2s636CvYwgQ4yfVd5k5Ebr5L5f1BEBwTP1eF1BAZM=;
- b=b5YgMVdhSPfvZR8uDhG9tY1fE4O6L2Xxo+bRkHuroDfhsY+NLk4rsUtS4esl6hOSBcL7
- ECXPUDth0aORlc1/d8bN0tfTKyqlUDVRnt+Gu8CZOz2okAmIhMxMsc9J3z2FGaJ//fPb
- 8O27/0SPO8OZes0LZWe87ha4WGlcqaLjMfdxQYOSnTLknwTDlj/xPLHdo4cBZ4kSg1Oe
- ngWJxouvTHn1sOx9QxwNQDEfo+MGLT/9le2WisnMpe5L6EcgeVO54LSwc1kyGizPBwKW
- SnQmJjZqFAWFWnK3UHcC1ONynTRGYc/v20nlkwdmqfXfiwOMNi0fCXckUN56vkV52fC7 jw== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpxjraaw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 01:28:23 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32G1SMIi030772
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 01:28:22 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 15 Mar
- 2023 18:28:21 -0700
-Message-ID: <a5d1a74f-1b7a-569d-e487-774720dfae22@quicinc.com>
-Date: Wed, 15 Mar 2023 18:28:20 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Freedreno] [RFC PATCH 1/2] drm/msm/dpu: add dsc helper functions
+Received: from CY4PR02CU008-vft-obe.outbound.protection.outlook.com
+ (mail-westcentralusazon11012000.outbound.protection.outlook.com
+ [40.93.200.0])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3818310EA23
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 02:16:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mVMRxnHW1T6Qgih5Vu9nHbHMOV7R+6QxuPyPXiM+gVKWB+x+0BIWNSVuiAlgM9jG1AMykiDxN1OV6QKO6uySlvfqj92GThi3ZPoxTAmEdyAxZmaen0unudqzN1PAHZESLYnWXSrFlCUUZC9OXrB2W1SKViwjRM7HP0EOOP4vG67KB0RSmYlsIdmWVcAnvswprBMampSiF1zdafLuOcOHuMQZdd/518x1lTWrywCUcf3a8oB59U9JSIvzQTnvscxJzbgBA3zsqHGtMbYtOIN1Z7ROVoEzOvNGJoVtb8OgLm5BmRHkrfve4qaCg6l5cDGzf54rhHzMx5IDWmYQW1YIzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=putOL/YB1FeS5XnTtVELozWrODouFqYidqsgSlLLStQ=;
+ b=mL7Lx0HIws0ygs7MW4SYttZMwwVbGfLmh3mWCLD65Tjmc917ssWBIg9bL+3I7QYgr+OPenO5I0vreCPrdgMwZNhewELzJZzs1rxMc1PNaPAXjlvxpQgXDP+Mdg8t3uyXVbHgTiW7225wxQepYpnOtA4xBa3KXey/7sqLKzH3E8qeeQdudp3UW1zL7hFg/5v+nE8S/9e97FXgrKsovfQSVcDZBGYiUe6Xvs4SdJ0nAvS0VeEB7nBet05yfg1MJY8IseAj3YY6FKlnTfwwgPd6IBKOWtFRjSq6qnKs+ugBggB6EjHe3fzakGttI+EauExk8l4xSQQaDlrjq6k9jLhe7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=putOL/YB1FeS5XnTtVELozWrODouFqYidqsgSlLLStQ=;
+ b=li94yep+t1t3UoUdaTvB+Z+nueTpNd1CYo2RdlBt6fxlZiLFeCxX/uMV1HSr/LO0AwPgnFpuktf0rsbPVFrU3WKOPjugNcmMOao7hSC34Db4JhwKLrSu7u7iManKCruBdUwEDD36BiKEEO65YekCoCDYnJu+k3PPfMlVgkRI9zA=
+Received: from CH3PR05MB10206.namprd05.prod.outlook.com
+ (2603:10b6:610:155::10) by BLAPR05MB7347.namprd05.prod.outlook.com
+ (2603:10b6:208:29b::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.31; Thu, 16 Mar
+ 2023 02:16:45 +0000
+Received: from CH3PR05MB10206.namprd05.prod.outlook.com
+ ([fe80::ad2d:cb08:253b:26e7]) by CH3PR05MB10206.namprd05.prod.outlook.com
+ ([fe80::ad2d:cb08:253b:26e7%8]) with mapi id 15.20.6178.031; Thu, 16 Mar 2023
+ 02:16:45 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "kraxel@redhat.com" <kraxel@redhat.com>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "javierm@redhat.com" <javierm@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, Linux-graphics-maintainer
+ <Linux-graphics-maintainer@vmware.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
+Subject: Re: [PATCH 2/6] drm/fbdev-generic: Remove unused prefer_shadow_fbdev
+ flag
+Thread-Topic: [PATCH 2/6] drm/fbdev-generic: Remove unused prefer_shadow_fbdev
+ flag
+Thread-Index: AQHZV1lG1xgNsoOj10GAV8R6ABR8/K78rAIA
+Date: Thu, 16 Mar 2023 02:16:44 +0000
+Message-ID: <2d96f229beffdf8416a3f183bac8b147c4a3d77f.camel@vmware.com>
+References: <20230315161442.27318-1-tzimmermann@suse.de>
+ <20230315161442.27318-3-tzimmermann@suse.de>
+In-Reply-To: <20230315161442.27318-3-tzimmermann@suse.de>
+Accept-Language: en-US
 Content-Language: en-US
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>
-References: <1677267647-28672-1-git-send-email-quic_khsieh@quicinc.com>
- <1677267647-28672-2-git-send-email-quic_khsieh@quicinc.com>
- <42b3c193-8897-cfe9-1cae-2f9a66f7983a@linaro.org>
- <741be2a3-0208-2f40-eedf-d439c4e6795b@quicinc.com>
- <F8A4FC18-C64E-4011-BC08-18EB3B95A357@linaro.org>
- <d5ee8233-66c8-9b88-417c-6cf9cc5c84fe@quicinc.com>
- <CAA8EJpro5Q-2ZpnDJt40UhFX7Zp9oBhrto=FDOERzCDR2BDPvQ@mail.gmail.com>
- <f0dfba42-4674-3748-bf5d-39f6e1745f67@quicinc.com>
- <f1a6ee82-9502-7ea5-fe48-f296fc7df497@linaro.org>
- <3e114c0f-a042-6801-69bf-67436cb2a448@quicinc.com>
- <113a10b6-6097-c80e-c29c-6f61b2b2896a@linaro.org>
- <c4c0ebf8-275d-500f-4019-e3d7517a884f@quicinc.com>
- <CAA8EJppxX4haZSwdvVbN7bc6kXAyNO1rg6zWZv9wPFdqGrcXuw@mail.gmail.com>
- <c650e746-64c5-ce6b-933d-057349356b78@quicinc.com>
- <58E03B71-20C4-4F81-96C1-6D8CE517F3FB@linaro.org>
- <fd876ad2-3fd0-eaab-3407-dd32d494f662@quicinc.com>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <fd876ad2-3fd0-eaab-3407-dd32d494f662@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: gavQzYJvOK_x8nvcoXVj9Y110a-YDpSp
-X-Proofpoint-ORIG-GUID: gavQzYJvOK_x8nvcoXVj9Y110a-YDpSp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-15_12,2023-03-15_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 mlxscore=0 bulkscore=0 clxscore=1011
- mlxlogscore=999 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303150002 definitions=main-2303160011
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.3-1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR05MB10206:EE_|BLAPR05MB7347:EE_
+x-ms-office365-filtering-correlation-id: 2055989f-4ce1-43b6-396f-08db25c47d4e
+x-ld-processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gNaX17mRbKJ7RHyMoexzsJyZCDfg3/LdxdxSYJjub4VWEplEfWMOu9Rysup13WieGcM7naa1ZCHBNJEh6Lg6pzl5Er4sBT+TtaiESJjuGHFDOTlm/LdVSUeeNUhtxaCbBCmd24GXv5zk8dElm5sNzpQhvovQt5B8rUYTX9LT3EuIY9i0BVRzBjr8nCRdVR6qzmDYsd+62uE07SGZ5NaFHxigOtQ6adipupK8Vpk9QlnTa61EXW9K3CJKoLXlFOg3+WVTr/Vj7XuJs0x1Uaz6/8KlvhNpbMniMt0c9QfqTUUYwm5Tk9lVV7flR/fyHTmFkgzPXy2DBJMMmNXNDoSLAJfsPzdJ/axG+c2rqkyDrE2L/oSdxLMJToLlhWjq+weaGnHJ7nC7YKuKn+G6QXIg4ULycUWFno/5qljYlmAiZ4GtYxLgdHtGoc6qv7bdygk0nperaiIeUf75MYkqXDmgO9UvITaRQhafJBVgEfs/KoYKelizDnk09VPliil4T00kN8UcvbCrmKRjR5ty5rNzYI4HmuWl0QnNjBnuQFgCy1ruq3MiJGbzDktLWMaeVOKEU7WX8eSmPpW0otVdAsCPEr/1KIPP6inaREgdb1lIQ9f5m2HwWk1R1GLnCtXhaR3jT5tkq8tRlZXRtC7xppFRXvC/KYV6QwDoG1qwKOb/LfrJWFyRb9Dp+0S5cC+Utxx5+D0SoDWs83zWOjO9yACfRzTpHnRa3Tqb3BN57PsDejsb5Zm2cM94uYdgzOe5SSeP
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR05MB10206.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(346002)(396003)(366004)(136003)(39860400002)(451199018)(38100700002)(86362001)(38070700005)(921005)(122000001)(36756003)(2906002)(41300700001)(5660300002)(8936002)(6512007)(6506007)(2616005)(26005)(186003)(316002)(83380400001)(110136005)(64756008)(66446008)(66476007)(66556008)(8676002)(91956017)(478600001)(6486002)(66946007)(71200400001)(76116006)(41533002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dmpOWjRKWDlSb3IwNmFnMnNEK2krTHBIenJLRkxaRThpYlZENzNCaVZGVjJu?=
+ =?utf-8?B?eW1hQlErczV5RXpFeUdiTWwxa3BsWWNQQkRGdFdWaXc3QmF3MjJUdjdvUldO?=
+ =?utf-8?B?eEJmMmMrSURCbFpDTHlianlUaHJtd3diNFZPSG9IRXFnVXZmSUlOSkMwNkUz?=
+ =?utf-8?B?YSs0UTVZK3JtUHVaTEkrQWNNZEcwYnlxdWJiaDlIQUZQYm5WWDE1Mmt3VW82?=
+ =?utf-8?B?Y2pGUkxwMW1pSkJCZ08xY01KTWhoSTdUOWVGcGNFNW1lN0pwOG5jMUwraWJt?=
+ =?utf-8?B?N1Nmdm5CNkN5SkF5RExoWUZsM3k4TnNuR3MxeHFWbzc3Wmg0NHVaUkdWa3dw?=
+ =?utf-8?B?V1RmUWlwY2dGdEt3dFdzNXROdkxldFkrbHFSWENVQkRLRjY2dENEUEdOMHdN?=
+ =?utf-8?B?cWFpNUNpd1A0S0pxUUxlVEY4TE9xTTdIWDNXbVJyanMwNmtZZG9jNk83Ny8y?=
+ =?utf-8?B?QnZ1cUpnZFB4VVJmaEJBdmN6blpXcmV4TnV1ZVpxV2NXeUhkZGp3U0VyWDly?=
+ =?utf-8?B?SGF5eXMzbUlsUmhDQjNmTnlaTDFRRHZQM0I5cDZLWVgzL05tRUhIb0N4dFRS?=
+ =?utf-8?B?eWJVWlExNVpWQU9sRDJRcEdkSUIxa2tPdmNMMGtZL0dpYXJOMEVBU1Q2bm5Q?=
+ =?utf-8?B?dFExeHByYkVrYmc2Ri9HUlFlZ3ArN2svT0VVb2d2bE1jS2o4bUFHcUx1Wjdy?=
+ =?utf-8?B?Yytpanh6NVdFMGNuL0huU2p3UTlQSGNUa3JaMDFlZlE1eXQvaHRpWVJTWXNC?=
+ =?utf-8?B?QTlJUkwxRDlRUWF0L1p6anBkTTMzU2lNUEg1Y1pQcEtRbE1oclc0NnlLNzQ4?=
+ =?utf-8?B?MTRBUUFZaXM0OUE3ZDA4Y3IyMFBxbXNGTFVEelJyNC9sRkdJSkhGbzBvb2ND?=
+ =?utf-8?B?ODN2TkZLb1lCNngwVTBUSmdUYXNCbDFDVmhHOVNPTWYzSi9XYkJYalk2OFY3?=
+ =?utf-8?B?RFlCUW4vWXl3OW8wYU9ZejNZaFcySjkydWQzS2hvc0RNNko0UWEzYUJYTSsy?=
+ =?utf-8?B?T3Z2dnJkWkFMdlQvVFllM3JRbW9UcXF0Z3hIUTVrMUxNQ1BUSUVQTkdtRE9N?=
+ =?utf-8?B?Wm1COW5wa29wSTdvbkRlR0VyUEw0TEZVSVpSdTVQbWFuNFVtT3QwQTM1RWJw?=
+ =?utf-8?B?MVpQMnRrU3N6b2I3SmVodS84M2dQYUMvT2xzckJVekhlZE9UL0c4WUhjK1hL?=
+ =?utf-8?B?akNRd0tsVFlqeGl5RTAwVWd1MDllRkhuVnBjTDJaKzk3WFlpRnUzMXFFRk1x?=
+ =?utf-8?B?RHlKRXBvM3pJd29jVXN4N3NzN2o1THB1S3A3NkVpTGM2dVJ6djVud0lydHBz?=
+ =?utf-8?B?aDlOTlplNzFNUkJzUUNMVjEyVmNoMktFNGthL244OXM2SnltdkNrWml5em5a?=
+ =?utf-8?B?L0pBN3JNeHZLYUR3V1VVU21aVWE0emhGNVFWdDhnL2QyOHBFL1VZU1NRdGVF?=
+ =?utf-8?B?NHBHQ2hTUkxyVW0zMVBxaDhoTitlZEtGaFlLLzdRSC80Y05oWWFqQ1VQZzdW?=
+ =?utf-8?B?Z2pxd0s3L1dRR1JFeXVhcmI5M0NIaFBHTEE4K2pJS3ExWS9Lb1Z3TkxPeks0?=
+ =?utf-8?B?S3J3VWRyNElTUGlZVzNBVml5dmxqcjVqR0d3d1V6TXJCNVJ1dGlQVzI2RVcw?=
+ =?utf-8?B?elIwbWpLY1BkVnBQbUU1SEQ0Wlc4bHY5Z1o4cVRLUHFSazJnOTRDcmYxQlJK?=
+ =?utf-8?B?SG9yT2lQVThXWFNlQm1Yb1RZYk5ranBFK2NRckdQc21uWEJwekNZWTJ5M1Zm?=
+ =?utf-8?B?cmRWWDdINi9iRU5vY2pDVFJVSk9Rd3I1MGJxNHlPTU04U0xSaTFMQmYyUTNE?=
+ =?utf-8?B?T3p6c2xRaGdBMVFXM0QxTUN1Q29lejlkbHpZc3Yvd0xkMHl5S0ZyeHlBY2hT?=
+ =?utf-8?B?S1RYbktjV244TXhZaVdtekR6eHhXT1FldVl0N3ZqMGwxRGhMT2ViY0lmbFRw?=
+ =?utf-8?B?UnRKb2VieHJJMmprcXptM2hoVDNTTzJ0RUJNYy95RDhTb21YbnVhWS9Sek1v?=
+ =?utf-8?B?RHpHYUpCWHptZUxJQjdidXNmS1NoV25zK1FuNDVmQjN2TW40bk1PbEFwUUZF?=
+ =?utf-8?B?T1oxS05venpGdnNxMXQwU2RNTXE0S1l6d2paNEdrLzNpQ0g3SmtUTnNWVVg3?=
+ =?utf-8?Q?+nE8/4yIQY7zuuuKbUQi13+If?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A988B9C00C86FE4A96E32D9468F8A471@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR05MB10206.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2055989f-4ce1-43b6-396f-08db25c47d4e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2023 02:16:44.8684 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /zlhkNKq8GT73FRDcV6jXUbGTqboHMXxPIOdyoLPWjJ+yn4yWrMNo+rjoyfqMEdnoyyvyg+J5aDC35Cl9vhN3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR05MB7347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,452 +140,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, quic_sbillaka@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, andersson@kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, marijn.suijten@somainline.org,
- swboyd@chromium.org, sean@poorly.run,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/27/2023 1:24 PM, Abhinav Kumar wrote:
-> 
-> 
-> On 2/27/2023 11:25 AM, Dmitry Baryshkov wrote:
->> 27 февраля 2023 г. 19:59:35 GMT+02:00, Abhinav Kumar 
->> <quic_abhinavk@quicinc.com> пишет:
->>>
->>>
->>> On 2/27/2023 4:45 AM, Dmitry Baryshkov wrote:
->>>> On Mon, 27 Feb 2023 at 01:49, Abhinav Kumar 
->>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>
->>>>>
->>>>>
->>>>> On 2/26/2023 5:09 AM, Dmitry Baryshkov wrote:
->>>>>> On 26/02/2023 02:47, Abhinav Kumar wrote:
->>>>>>> Hi Dmitry
->>>>>>>
->>>>>>> On 2/25/2023 7:23 AM, Dmitry Baryshkov wrote:
->>>>>>>> On 25/02/2023 02:36, Abhinav Kumar wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 2/24/2023 3:53 PM, Dmitry Baryshkov wrote:
->>>>>>>>>> On Sat, 25 Feb 2023 at 00:26, Abhinav Kumar
->>>>>>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>>>>>> On 2/24/2023 1:36 PM, Dmitry Baryshkov wrote:
->>>>>>>>>>>> 24 февраля 2023 г. 23:23:03 GMT+02:00, Abhinav Kumar
->>>>>>>>>>>> <quic_abhinavk@quicinc.com> пишет:
->>>>>>>>>>>>> On 2/24/2023 1:13 PM, Dmitry Baryshkov wrote:
->>>>>>>>>>>>>> On 24/02/2023 21:40, Kuogee Hsieh wrote:
->>>>>>>>>>>>>>> Add DSC helper functions based on DSC configuration profiles
->>>>>>>>>>>>>>> to produce
->>>>>>>>>>>>>>> DSC related runtime parameters through both table look up 
->>>>>>>>>>>>>>> and
->>>>>>>>>>>>>>> runtime
->>>>>>>>>>>>>>> calculation to support DSC on DPU.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> There are 6 different DSC configuration profiles are 
->>>>>>>>>>>>>>> supported
->>>>>>>>>>>>>>> currently.
->>>>>>>>>>>>>>> DSC configuration profiles are differiented by 5 keys, DSC
->>>>>>>>>>>>>>> version (V1.1),
->>>>>>>>>>>>>>> chroma (444/422/420), colorspace (RGB/YUV), bpc(8/10),
->>>>>>>>>>>>>>> bpp (6/7/7.5/8/9/10/12/15) and SCR (0/1).
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Only DSC version V1.1 added and V1.2 will be added later.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> These helpers should go to
->>>>>>>>>>>>>> drivers/gpu/drm/display/drm_dsc_helper.c
->>>>>>>>>>>>>> Also please check that they can be used for i915 or for 
->>>>>>>>>>>>>> amdgpu
->>>>>>>>>>>>>> (ideally for both of them).
->>>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>> No, it cannot. So each DSC encoder parameter is calculated 
->>>>>>>>>>>>> based
->>>>>>>>>>>>> on the HW core which is being used.
->>>>>>>>>>>>>
->>>>>>>>>>>>> They all get packed to the same DSC structure which is the
->>>>>>>>>>>>> struct drm_dsc_config but the way the parameters are 
->>>>>>>>>>>>> computed is
->>>>>>>>>>>>> specific to the HW.
->>>>>>>>>>>>>
->>>>>>>>>>>>> This DPU file helper still uses the drm_dsc_helper's
->>>>>>>>>>>>> drm_dsc_compute_rc_parameters() like all other vendors do but
->>>>>>>>>>>>> the parameters themselves are very HW specific and belong to
->>>>>>>>>>>>> each vendor's dir.
->>>>>>>>>>>>>
->>>>>>>>>>>>> This is not unique to MSM.
->>>>>>>>>>>>>
->>>>>>>>>>>>> Lets take a few other examples:
->>>>>>>>>>>>>
->>>>>>>>>>>>> AMD:
->>>>>>>>>>>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/amd/display/dc/dml/dsc/rc_calc_fpu.c#L165
->>>>>>>>>>>>>
->>>>>>>>>>>>>
->>>>>>>>>>>>> i915:
->>>>>>>>>>>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/i915/display/intel_vdsc.c#L379
->>>>>>>>>>>>>
->>>>>>>>>>>>
->>>>>>>>>>>> I checked several values here. Intel driver defines more 
->>>>>>>>>>>> bpc/bpp
->>>>>>>>>>>> combinations, but the ones which are defined in intel_vdsc 
->>>>>>>>>>>> and in
->>>>>>>>>>>> this patch seem to match. If there are major differences there,
->>>>>>>>>>>> please point me to the exact case.
->>>>>>>>>>>>
->>>>>>>>>>>> I remember that AMD driver might have different values.
->>>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Some values in the rc_params table do match. But the
->>>>>>>>>>> rc_buf_thresh[] doesnt.
->>>>>>>>>>
->>>>>>>>>> Because later they do:
->>>>>>>>>>
->>>>>>>>>> vdsc_cfg->rc_buf_thresh[i] = rc_buf_thresh[i] >> 6;
->>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/i915/display/intel_vdsc.c#L40
->>>>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Vs
->>>>>>>>>>>
->>>>>>>>>>> +static u16 dpu_dsc_rc_buf_thresh[DSC_NUM_BUF_RANGES - 1] = {
->>>>>>>>>>> +               0x0e, 0x1c, 0x2a, 0x38, 0x46, 0x54,
->>>>>>>>>>> +               0x62, 0x69, 0x70, 0x77, 0x79, 0x7b, 0x7d, 0x7e
->>>>>>>>>>> +};
->>>>>>>>>>
->>>>>>>>>> I'd prefer to have 896, 1792, etc. here, as those values come 
->>>>>>>>>> from the
->>>>>>>>>> standard. As it's done in the Intel driver.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Got it, thanks
->>>>>>>>>
->>>>>>>>>>> I dont know the AMD calculation very well to say that moving 
->>>>>>>>>>> this
->>>>>>>>>>> to the
->>>>>>>>>>> helper is going to help.
->>>>>>>>>>
->>>>>>>>>> Those calculations correspond (more or less) at the first 
->>>>>>>>>> glance to
->>>>>>>>>> what intel does for their newer generations. I think that's 
->>>>>>>>>> not our
->>>>>>>>>> problem for now.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Well, we have to figure out if each value matches and if each of
->>>>>>>>> them come from the spec for us and i915 and from which section. So
->>>>>>>>> it is unfortunately our problem.
->>>>>>>>
->>>>>>>> Otherwise it will have to be handled by Marijn, me or anybody else
->>>>>>>> wanting to hack up the DSC code. Or by anybody adding DSC 
->>>>>>>> support to
->>>>>>>> the next platform and having to figure out the difference between
->>>>>>>> i915, msm and their platform.
->>>>>>>>
->>>>>>>
->>>>>>> Yes, I wonder why the same doubt didn't arise when the other vendors
->>>>>>> added their support both from other maintainers and others.
->>>>>>>
->>>>>>> Which makes me think that like I wrote in my previous response, 
->>>>>>> these
->>>>>>> are "recommended" values in the spec but its not mandatory.
->>>>>>
->>>>>> I think, it is because there were no other drivers to compare. In 
->>>>>> other
->>>>>> words, for a first driver it is pretty logical to have everything
->>>>>> handled on its own. As soon as we start getting other 
->>>>>> implementations of
->>>>>> a feature, it becomes logical to think if the code can be 
->>>>>> generalized.
->>>>>> This is what we see we with the HDCP series or with the code being 
->>>>>> moved
->>>>>> to DP helpers.
->>>>>>
->>>>>
->>>>> We were not the second, MSM was/is the third to add support for DSC 
->>>>> afer
->>>>> i915 and AMD. Thats what made me think why whoever was the second 
->>>>> didnt
->>>>> end up generalizing. Was it just missed out or was it intentionally 
->>>>> left
->>>>> in the vendor driver.
->>>>
->>>> I didn't count AMD here, since it calculates some of the params rather
->>>> than using the fixed ones from the model.
->>>>
->>>>>
->>>>>>>
->>>>>>> Moving this to the drm_dsc_helper is generalizing the tables and not
->>>>>>> giving room for the vendors to customize even if they want to (which
->>>>>>> the spec does allow).
->>>>>>
->>>>>> That depends on the API you select. For example, in
->>>>>> intel_dsc_compute_params() I see customization being applied to
->>>>>> rc_buf_thresh in 6bpp case. I'd leave that to the i915 driver.
->>>>>>
->>>>>
->>>>> Thanks for going through the i915 to figure out that the 6bpp is 
->>>>> handled
->>>>> in a customized way. So what you are saying is let the helper first 
->>>>> fill
->>>>> up the recommended values of the spec, whatever is changed from 
->>>>> that let
->>>>> the vendor driver override that.
->>>>>
->>>>> Thats where the case-by-case handling comes.
->>>>>
->>>>> Why not we do this way? Like you mentioned lets move these tables 
->>>>> to the
->>>>> drm_dsc_helper and let MSM driver first use those.
->>>>>
->>>>> Then in a separate patchset if i915 and AMD would like to move to 
->>>>> that,
->>>>> let them handle it for their respective drivers instead of MSM going
->>>>> through whats customized for each calculation and doing it.
->>>>>
->>>>> I am hesitant to take up that effort.
->>>>
->>>> Writing a tool to convert model's rc_Nbpc_Mbpp_foo.cfg into C
->>>> languages structures used by Intel code took 15-20 minutes. Plugging
->>>> generated structures took another 5 minutes. I will send the patches
->>>> later today or tomorrow, as I find a time slot to clean them. Thank
->>>> you for spending more time on arguing than it took me to generate &
->>>> verify the data.
->>>>
->>>
->>> Great, we will wait for your patches. We didnt intend to spend time 
->>> on this at this point. We always wanted to take it up in a separate 
->>> series of moving the tables.
->>
->> Getting rid of msm_display_dsc_config and then making use of 
->> drm_dsc_compute_rc_parameters() was bad enough. So, let's get things 
->> done in a good way now, rather than at some random point later.
->>
-> 
-> Alright, we will wait for your change then :)
-> 
->>
->>>
->>> You preferred not to wait. Upto you.
->>>
->>> So thanks for doing it.
->>>
->>>>>
->>>>> If the recommended values work for the vendor, they can clean it up 
->>>>> and
->>>>> move to the drm_dsc_helper themselves and preserving their
->>>>> customizations rather than one vendor doing it for all of them.
->>>>>
->>>>>> In case the driver needs to perform customization of the params, 
->>>>>> nothing
->>>>>> stops it drop applying after filling all the RC params in the
->>>>>> drm_dsc_config struct via the generic helper.
->>>>>>
->>>>>>
->>>>>>> So if this has any merit and if you or Marijn would like to take it
->>>>>>> up, go for it. We would do the same thing as either of you would 
->>>>>>> have
->>>>>>> to in terms of figuring out the difference between msm and the 
->>>>>>> i915 code.
->>>>>>>
->>>>>>> This is not a generic API we are trying to put in a helper, these 
->>>>>>> are
->>>>>>> hard-coded tables so there is a difference between looking at 
->>>>>>> these Vs
->>>>>>> looking at some common code which can move to the core.
->>>>>>>
->>>>>>>>>
->>>>>>>>>>>
->>>>>>>>>>> Also, i think its too risky to change other drivers to use
->>>>>>>>>>> whatever math
->>>>>>>>>>> we put in the drm_dsc_helper to compute thr RC params because
->>>>>>>>>>> their code
->>>>>>>>>>> might be computing and using this tables differently.
->>>>>>>>>>>
->>>>>>>>>>> Its too much ownership for MSM developers to move this to
->>>>>>>>>>> drm_dsc_helper
->>>>>>>>>>> and own that as it might cause breakage of basic DSC even if 
->>>>>>>>>>> some
->>>>>>>>>>> values
->>>>>>>>>>> are repeated.
->>>>>>>>>>
->>>>>>>>>> It's time to stop thinking about ownership and start thinking 
->>>>>>>>>> about
->>>>>>>>>> shared code. We already have two instances of DSC tables. I don't
->>>>>>>>>> think having a third instance, which is a subset of an existing
->>>>>>>>>> dataset, would be beneficial to anybody.
->>>>>>>>>> AMD has complicated code which supports half-bit bpp and 
->>>>>>>>>> calculates
->>>>>>>>>> some of the parameters. But sharing data with the i915 driver is
->>>>>>>>>> straightforward.
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> Sorry, but I would like to get an ack from i915 folks if this 
->>>>>>>>> is going
->>>>>>>>> to be useful to them if we move this to helper because we have to
->>>>>>>>> look at every table. Not just one.
->>>>>>>>
->>>>>>>> Added i915 maintainers to the CC list for them to be able to 
->>>>>>>> answer.
->>>>>>>>
->>>>>>>
->>>>>>> Thanks, lets wait to hear from them about where finally these tables
->>>>>>> should go but thats can be taken up as a separate effort too.
->>>>>>>
->>>>>>>>>
->>>>>>>>> Also, this is just 1.1, we will add more tables for 1.2. So we 
->>>>>>>>> will
->>>>>>>>> have to end up changing both 1.1 and 1.2 tables as they are
->>>>>>>>> different for QC.
->>>>>>>>
->>>>>>>> I haven't heard back from Kuogee about the possible causes of using
->>>>>>>> rc/qp values from 1.2 even for 1.1 panels. Maybe you can comment on
->>>>>>>> that? In other words, can we always stick to the values from 1.2
->>>>>>>> standard? What will be the drawback?
->>>>>>>>
->>>>>>>> Otherwise, we'd have to have two different sets of values, like you
->>>>>>>> do in your vendor driver.
->>>>>>>>
->>>>>>>
->>>>>>> I have responded to this in the other email.
->>>>>>>
->>>>>>> All this being said, even if the rc tables move the drm_dsc_helper
->>>>>>> either now or later on, we will still need MSM specific calculations
->>>>>>> for many of the other encoder parameters (which are again either
->>>>>>> hard-coded or calculated). Please refer to the
->>>>>>> sde_dsc_populate_dsc_config() downstream. And yes, you will not find
->>>>>>> those in the DP spec directly.
->>>>>>>
->>>>>>> So we will still need a dsc helper for MSM calculations to be common
->>>>>>> for DSI / DP irrespective of where the tables go.
->>>>>>>
->>>>>>> So, lets finalize that first.
->>>>>>
->>>>>> I went on and trimmed sde_dsc_populate_dsc_config() to remove
->>>>>> duplication with the drm_dsc_compute_rc_parameters() (which we 
->>>>>> already
->>>>>> use for the MSM DSI DSC).
->>>>>>
->>>>>> Not much is left:
->>>>>>
->>>>>> dsc->first_line_bpg_offset set via the switch
->>>>>>
->>>>>> dsc->line_buf_depth = bpc + 1;
->>>>>> dsc->mux_word_size = bpc > 10 ? DSC_MUX_WORD_SIZE_12_BPC:
->>>>>>            DSC_MUX_WORD_SIZE_8_10_BPC;
->>>>>>
->>>>>> if ((dsc->dsc_version_minor == 0x2) && (dsc->native_420))
->>>>>>        dsc->nsl_bpg_offset = (2048 *
->>>>>>                 (DIV_ROUND_UP(dsc->second_line_bpg_offset,
->>>>>>                                    (dsc->slice_height - 1))));
->>>>>>
->>>>>> dsc->initial_scale_value = 8 * dsc->rc_model_size /
->>>>>>                            (dsc->rc_model_size - 
->>>>>> dsc->initial_offset);
->>>>>>
->>>>>>
->>>>>> mux_word_size comes from the standard (must)
->>>>>> initial_scale_value calculation is recommended, but not required
->>>>>> nsl_bpg_offset follows the standard (must), also see below (*).
->>>>>>
->>>>>> first_line_bpg_offset calculation differs between three drivers. The
->>>>>> standard also provides a recommended formulas. I think we can 
->>>>>> leave it
->>>>>> as is for now.
->>>>>>
->>>>>> I think, that mux_word_size and nsl_bpg_offset calculation should be
->>>>>> moved to drm_dsc_compute_rc_parameters(), while leaving
->>>>>> initial_scale_value in place (in the driver code).
->>>>>>
->>>>>> * I think nsl_bpg_offset is slightly incorrectly calculated. Standard
->>>>>> demands that it is set to 'second_line_bpg_offset / (slice_height 
->>>>>> - 1),
->>>>>> rounded up to 16 fraction bits', while SDE driver code sets it to the
->>>>>> value rounded up to the next integer (having 16 fraction bits
->>>>>> representation).
->>>>>>
->>>>>> In my opinion correct calculation should be:
->>>>>> dsc->nsl_bpg_offset = DIV_ROUND_UP(2048 * 
->>>>>> dsc->second_line_bpg_offset,
->>>>>>                                    (dsc->slice_height - 1));
->>>>>>
->>>>>> Could you please check, which one is correct according to the 
->>>>>> standard?
->>>>>>
->>>>>>
->>>>>
->>>>> Sure, i will check about nsl_bpg_offset. But sorry if I was not more
->>>>> clear about this but sde_dsc_populate_dsc_config() is only one example
->>>>> which from your analysis can be moved to the drm_dsc_helper() but not
->>>>> the initial line calculation _dce_dsc_initial_line_calc(),
->>>>> _dce_dsc_ich_reset_override_needed() , _dce_dsc_setup_helper().
->>>>
->>>> The initial_line is already calculated in dpu_encoder.c. As for the
->>>> _dce_dsc_ich_reset_override_needed(), I don't think we support partial
->>>> updates in the upstream driver.
->>>>
->>>>>
->>>>> All of these are again common between DSI and DP.
->>>>>
->>>>> So in addition to thinking about what can be moved to the 
->>>>> drm_dsc_helper
->>>>> also think about what is specific to MSM but common to DSI and DP 
->>>>> modules.
->>>>>
->>>>> That was the bigger picture I was trying to convey.
->>>>
->>>
->>> _dce_dsc_initial_line_calc which will get expanded with v1.2 gets 
->>> added has much more than whats there in upstream today.
->>>
->>> Dumping everything in dpu_encoder is not the solution. Sorry.
->>
->> But it is still the DPU thing. So, no problems.
->>
-> 
-> I am not fully convinced. We will wait for your post, then see how the 
-> code looks.
-
-Hi Dmitry and Abhinav,
-
-Just wanted to follow up on this thread. I've gone over the MSM-specific 
-DSC params for DP and DSI and have found a few shared calculations and 
-variables between both DSI and DP paths:
-
-- (as mentioned earlier in the thread) almost all the calculations in 
-dpu_dsc_populate_dsc_config() match dsi_populate_dsc_params() [1]. The 
-only difference in the math I'm seeing is initial_scale_value.
-
-- dsc_extra_pclk_cycle_cnt and dce_bytes_per_line, which were introduced 
-in Kuogee's v1 DSC series [2], are used for DSI, DP, and the DPU timing 
-engine. dsc_extra_pclk_cycle_cnt is calculated based on pclk_per_line 
-(which is calculated differently between DP and DSI), but 
-dce_bytes_per_line is calculated the same way between DP and DSI.
-
-To avoid having to duplicate math in 2 different places, I think it 
-would help to have these calculations in some msm_dsc_helper.c file. Any 
-thoughts on this?
-
-Thanks,
-
-Jessica Zhang
-
-[1] 
-https://elixir.bootlin.com/linux/v6.3-rc2/source/drivers/gpu/drm/msm/dsi/dsi_host.c#L1756
-
-[2] https://patchwork.freedesktop.org/patch/519845/?series=113240&rev=1
-
-> 
->>>
->>>>
->>>>
->>
+T24gV2VkLCAyMDIzLTAzLTE1IGF0IDE3OjE0ICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90
+ZToNCj4gUmVtb3ZlIHRoZSBmbGFnIHByZWZlcl9zaGFkb3dfZmJkZXYgZnJvbSBzdHJ1Y3QgZHJt
+X21vZGVfY29uZmlnLg0KPiBEcml2ZXJzIHNldCB0aGlzIGZsYWcgdG8gZW5hYmxlIHNoYWRvdyBi
+dWZmZXJpbmcgaW4gdGhlIGdlbmVyaWMNCj4gZmJkZXYgZW11bGF0aW9uLiBTdWNoIHNoYWRvdyBi
+dWZmZXJpbmcgaXMgbm93IG1hbmRhdG9yeSwgc28gdGhlDQo+IGZsYWcgaXMgdW51c2VkLg0KPiAN
+Cj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
+DQo+IC0tLQ0KPiDCoGRyaXZlcnMvZ3B1L2RybS90aW55L2JvY2hzLmPCoMKgwqDCoMKgwqDCoCB8
+IDEgLQ0KPiDCoGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jIHwgMSAtDQo+IMKg
+aW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmjCoMKgwqDCoMKgwqAgfCA3IC0tLS0tLS0NCj4g
+wqAzIGZpbGVzIGNoYW5nZWQsIDkgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3RpbnkvYm9jaHMuYyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L2JvY2hzLmMN
+Cj4gaW5kZXggMDI0MzQ2MDU0YzcwLi5kMjU0Njc5YTEzNmUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS90aW55L2JvY2hzLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3RpbnkvYm9j
+aHMuYw0KPiBAQCAtNTQ1LDcgKzU0NSw2IEBAIHN0YXRpYyBpbnQgYm9jaHNfa21zX2luaXQoc3Ry
+dWN0IGJvY2hzX2RldmljZSAqYm9jaHMpDQo+IMKgDQo+IMKgwqDCoMKgwqDCoMKgwqBib2Nocy0+
+ZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGggPSAyNDsNCj4gwqDCoMKgwqDCoMKgwqDC
+oGJvY2hzLT5kZXYtPm1vZGVfY29uZmlnLnByZWZlcl9zaGFkb3cgPSAwOw0KPiAtwqDCoMKgwqDC
+oMKgwqBib2Nocy0+ZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJfc2hhZG93X2ZiZGV2ID0gMTsNCj4g
+wqDCoMKgwqDCoMKgwqDCoGJvY2hzLT5kZXYtPm1vZGVfY29uZmlnLnF1aXJrX2FkZGZiX3ByZWZl
+cl9ob3N0X2J5dGVfb3JkZXIgPSB0cnVlOw0KPiDCoA0KPiDCoMKgwqDCoMKgwqDCoMKgYm9jaHMt
+PmRldi0+bW9kZV9jb25maWcuZnVuY3MgPSAmYm9jaHNfbW9kZV9mdW5jczsNCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jDQo+IGIvZHJpdmVycy9ncHUv
+ZHJtL3Ztd2dmeC92bXdnZnhfa21zLmMNCj4gaW5kZXggODRkNjM4MGI5ODk1Li41MTYyYTdhMTI3
+OTIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jDQo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2ttcy5jDQo+IEBAIC0yMTEyLDcg
+KzIxMTIsNiBAQCBpbnQgdm13X2ttc19pbml0KHN0cnVjdCB2bXdfcHJpdmF0ZSAqZGV2X3ByaXYp
+DQo+IMKgwqDCoMKgwqDCoMKgwqBkZXYtPm1vZGVfY29uZmlnLm1heF93aWR0aCA9IGRldl9wcml2
+LT50ZXh0dXJlX21heF93aWR0aDsNCj4gwqDCoMKgwqDCoMKgwqDCoGRldi0+bW9kZV9jb25maWcu
+bWF4X2hlaWdodCA9IGRldl9wcml2LT50ZXh0dXJlX21heF9oZWlnaHQ7DQo+IMKgwqDCoMKgwqDC
+oMKgwqBkZXYtPm1vZGVfY29uZmlnLnByZWZlcnJlZF9kZXB0aCA9IGRldl9wcml2LT5hc3N1bWVf
+MTZicHAgPyAxNiA6IDMyOw0KPiAtwqDCoMKgwqDCoMKgwqBkZXYtPm1vZGVfY29uZmlnLnByZWZl
+cl9zaGFkb3dfZmJkZXYgPSAhZGV2X3ByaXYtPmhhc19tb2I7DQo+IMKgDQo+IMKgwqDCoMKgwqDC
+oMKgwqBkcm1fbW9kZV9jcmVhdGVfc3VnZ2VzdGVkX29mZnNldF9wcm9wZXJ0aWVzKGRldik7DQo+
+IMKgwqDCoMKgwqDCoMKgwqB2bXdfa21zX2NyZWF0ZV9ob3RwbHVnX21vZGVfdXBkYXRlX3Byb3Bl
+cnR5KGRldl9wcml2KTsNCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZp
+Zy5oIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgNCj4gaW5kZXggZTViMDUzMDAxZDIy
+Li45NzMxMTlhOTE3NmIgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZp
+Zy5oDQo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oDQo+IEBAIC04OTAsMTMg
+Kzg5MCw2IEBAIHN0cnVjdCBkcm1fbW9kZV9jb25maWcgew0KPiDCoMKgwqDCoMKgwqDCoMKgLyog
+ZHVtYiBpb2N0bCBwYXJhbWV0ZXJzICovDQo+IMKgwqDCoMKgwqDCoMKgwqB1aW50MzJfdCBwcmVm
+ZXJyZWRfZGVwdGgsIHByZWZlcl9zaGFkb3c7DQo+IMKgDQo+IC3CoMKgwqDCoMKgwqDCoC8qKg0K
+PiAtwqDCoMKgwqDCoMKgwqAgKiBAcHJlZmVyX3NoYWRvd19mYmRldjoNCj4gLcKgwqDCoMKgwqDC
+oMKgICoNCj4gLcKgwqDCoMKgwqDCoMKgICogSGludCB0byBmcmFtZWJ1ZmZlciBlbXVsYXRpb24g
+dG8gcHJlZmVyIHNoYWRvdy1mYiByZW5kZXJpbmcuDQo+IC3CoMKgwqDCoMKgwqDCoCAqLw0KPiAt
+wqDCoMKgwqDCoMKgwqBib29sIHByZWZlcl9zaGFkb3dfZmJkZXY7DQo+IC0NCj4gwqDCoMKgwqDC
+oMKgwqDCoC8qKg0KPiDCoMKgwqDCoMKgwqDCoMKgICogQHF1aXJrX2FkZGZiX3ByZWZlcl94Ymdy
+XzMwYnBwOg0KPiDCoMKgwqDCoMKgwqDCoMKgICoNCg0KRm9yIHRoaXMgb25lOg0KUmV2aWV3ZWQt
+Ynk6IFphY2sgUnVzaW4gPHphY2tyQHZtd2FyZS5jb20+DQoNClRoZSBlbnRpcmUgc2VyaWVzIGxv
+b2tzIGdyZWF0LiBJIHRoaW5rIGl0J3MgYSBncmVhdCBjbGVhbnVwOg0KQWNrZWQtYnk6IFphY2sg
+UnVzaW4gPHphY2tyQHZtd2FyZS5jb20+DQpGb3IgdGhlIHJlc3QuDQoNCnoNCg0K
