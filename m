@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0F06BD4F6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:17:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD196BD509
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:17:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015D710ED3B;
-	Thu, 16 Mar 2023 16:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2047010ED60;
+	Thu, 16 Mar 2023 16:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203D110E29D
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF6410ED10
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:17:01 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id b10so1847681lfb.9
+Received: by mail-lj1-x233.google.com with SMTP id x36so2257374ljq.7
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678983419;
+ d=linaro.org; s=google; t=1678983420;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=r1nFaiywwgihwGUkJyRj3zllwZQZZd03PiOqrMOmMLk=;
- b=HrspuRzfZMbSpVlNN4lne48p9cBJ0u8ONXJwsDNK7uj1hX4bHyO0bAjoTcyj/k1ILe
- tVQh1jsTCExOecvu6gEeiICGD8JYG4T9mcy6Kxag1L1iyUW7/Xyg5JjaLMWgqdd4RuEG
- GijY/qodpZfm+eWLeMjMR9dFtgehkTlF6aaeEYCm7nhLKFpdcv57WrdovLFt338sQuPK
- 3AZZBQarkZkEx5Ho0d5Yr5KSDWB+i1aYd47CwcLerS1q2vQWx9SL3AdxOiznfF7+CpWl
- ALdyHTCTX+51JnW4VD65qqYH8vTo4B9nhfc6J8iE1PTgIuDl1TkCCwBco8wgigBhUYZ1
- rkRQ==
+ bh=xYNHVpX8Qc2okSj4cWzVcooeYsgEe0AJwrYsCBXssQQ=;
+ b=fYTNa1xsJ481puoGX5w1OEoL9CpfTQ2bss2kRZfoqLs4vn/S2qGM5wsE3SFs/cWs0T
+ J15B8vMOpFQPvWDl2FwhKjnW6SDu/HwIxbvDJnI5kfMnUAEMS8JgnbVorpz9bV/m0goG
+ 7gvnqcOouee602nNE1F8Zz/Q45BAZLvbrWr8PDljvZmwFjINNt9hBg8WbKgmWuZcM74a
+ Gi9qImfUpUcXEkvTfswlOQ0oy30gUjW03VIHC8chu4ZOUo3sFP7NWIZ2sjbmUUTPqit2
+ ndF58hOd3B4Ep0Eu7qUdwRP9Ha8q1755O9cPgTn/voL0b46ydl5Fulvpt4F4IqMWEc5c
+ kbFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678983419;
+ d=1e100.net; s=20210112; t=1678983420;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=r1nFaiywwgihwGUkJyRj3zllwZQZZd03PiOqrMOmMLk=;
- b=g6zJKWRZiz/iq628bogTbiEsyRNQEYcytUgX8ylGvecjQcT4Mh5/xJgVsiSyYECNYL
- q/mbTophjPn9L/yRDrkyFHzGJQuqvW548G3xF/lPZ1avuhrTXLAnencEIdvK1L9Tqp0B
- 0+sjt1XJO2mpKYoxqtzDufx7yxqd/gd976aDHAIKkZHuybfu4dD9c78P09ubq6tDpx1S
- 7akmelyyNXdHtNLS1/vlRrv2/76XVgHjoMtTSjUdJU4Wabga+mZdFvlPKwbANDhk1XaM
- 9HZo/wRZkqMS6P+OzPNfQk6oyV3dPoWn8VOyVuQRwTm/Vyxia9XyCxuuZZm0h9ZKnZjL
- 6njA==
-X-Gm-Message-State: AO0yUKWCdV74lImbpCSEJA5W9xoDXFh0nvuPcbkPkF5zd7FpmgKxBgF7
- DqS8lzFnioS/UZIz7xuSHNUR/A==
-X-Google-Smtp-Source: AK7set/KRj/rxS2kvb2mWnkXZ8n/b32guaw9rALN+HwmOqf3bT8jPK12gymbCwXsPFohkQ1WI4tByQ==
-X-Received: by 2002:a05:6512:33c9:b0:4d8:86c1:4774 with SMTP id
- d9-20020a05651233c900b004d886c14774mr3078131lfg.9.1678983419111; 
- Thu, 16 Mar 2023 09:16:59 -0700 (PDT)
+ bh=xYNHVpX8Qc2okSj4cWzVcooeYsgEe0AJwrYsCBXssQQ=;
+ b=r7gxHv/oBA+Yy5s1SvClIHUQ0SDW5R5S0CrHQym3OvhV76RFsEKYlp/r/Drm1HxO93
+ k03+e3lhHFgu44afQucEAMFS9U43UFOdQbJHTA4qTWOGa36lYcfsiy3UD7r3n2DqNziJ
+ Ne0/YjEn7GsWCwErtitFn0OOc8zwAZzWziw34wQe/9AKcF8NcuAXKhyW3DeJeeQqJzcX
+ p4rLETX/IzPh9atC14KAQ4Z0GVJW43Qm1kYHxKjTS2c9+O1MdDGPElpOZLe2iCFv6AyH
+ EJIYLT6CF0qe5Zkigg5mmQoWRVoa5lvIQ6xXVm0gHGIRUYOkySmPLbQM5C62whTcTu2a
+ y4YQ==
+X-Gm-Message-State: AO0yUKVP/JQljq7jSEVklG4dpICUNJlXzrIudcUG4wj6ZVvYoyjZsYdj
+ HarcdJfcD9IFp7+Fh4nqnoq7/A==
+X-Google-Smtp-Source: AK7set+0lwo7P9rU3uUxTw4IyQM2YFs6swz+V8ow0l5BnFWLLMDRmDI1Ewc/ucHqOlxWO+JostUKmQ==
+X-Received: by 2002:a2e:be1c:0:b0:293:4a87:1790 with SMTP id
+ z28-20020a2ebe1c000000b002934a871790mr2996099ljq.9.1678983420097; 
+ Thu, 16 Mar 2023 09:17:00 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- l2-20020a2e8342000000b00298b33afe1csm549152ljh.87.2023.03.16.09.16.58
+ l2-20020a2e8342000000b00298b33afe1csm549152ljh.87.2023.03.16.09.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 09:16:58 -0700 (PDT)
+ Thu, 16 Mar 2023 09:16:59 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v7 05/32] drm/msm/dpu: move pipe_hw to dpu_plane_state
-Date: Thu, 16 Mar 2023 19:16:26 +0300
-Message-Id: <20230316161653.4106395-6-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v7 06/32] drm/msm/dpu: drop dpu_plane_pipe function
+Date: Thu, 16 Mar 2023 19:16:27 +0300
+Message-Id: <20230316161653.4106395-7-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230316161653.4106395-1-dmitry.baryshkov@linaro.org>
 References: <20230316161653.4106395-1-dmitry.baryshkov@linaro.org>
@@ -79,398 +79,74 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation to adding fully virtualized planes, move struct
-dpu_hw_sspp instance from struct dpu_plane to struct dpu_plane_state, as
-it will become a part of state (variable, changes during runtime) rather
-than part of a plane (ideally should be statically allocated during boot).
-
-The sspp pointer is set at the dpu_plane_reset(), since this is the
-function which allocates the state. Once we have fully virtual
-plane<->SSPP relationship, the SSPP will be allocated dynamically in the
-dpu_plane_atomic_check() function.
+There no more need for the dpu_plane_pipe() function, crtc code can
+access pstate->pipe_hw.idx directly.
 
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Tested-by: Abhinav Kumar <quic_abhinavk@quicinc.com> # sc7280
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 107 ++++++++++++----------
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |   2 +
- 2 files changed, 62 insertions(+), 47 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 5 -----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h | 7 -------
+ 3 files changed, 2 insertions(+), 14 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index b1ec0c35947b..c059090e9479 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -432,7 +432,7 @@ static void _dpu_crtc_blend_setup_mixer(struct drm_crtc *crtc,
+ 		pstate = to_dpu_plane_state(state);
+ 		fb = state->fb;
+ 
+-		sspp_idx = dpu_plane_pipe(plane);
++		sspp_idx = pstate->hw_sspp->idx;
+ 		set_bit(sspp_idx, fetch_active);
+ 
+ 		DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d\n",
+@@ -1227,7 +1227,7 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+ 		pstates[cnt].dpu_pstate = dpu_pstate;
+ 		pstates[cnt].drm_pstate = pstate;
+ 		pstates[cnt].stage = pstate->normalized_zpos;
+-		pstates[cnt].pipe_id = dpu_plane_pipe(plane);
++		pstates[cnt].pipe_id = to_dpu_plane_state(pstate)->hw_sspp->idx;
+ 
+ 		dpu_pstate->needs_dirtyfb = needs_dirtyfb;
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index d6518ef1beb2..546629232e3d 100644
+index 546629232e3d..10678f6502a2 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -104,7 +104,6 @@ struct dpu_plane {
+@@ -1442,11 +1442,6 @@ static const struct drm_plane_helper_funcs dpu_plane_helper_funcs = {
+ 		.atomic_update = dpu_plane_atomic_update,
+ };
  
- 	enum dpu_sspp pipe;
- 
--	struct dpu_hw_sspp *pipe_hw;
- 	uint32_t color_fill;
- 	bool is_error;
- 	bool is_rt_pipe;
-@@ -279,6 +278,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 		struct drm_framebuffer *fb, struct dpu_hw_sspp_cfg *pipe_cfg)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
- 	const struct dpu_format *fmt = NULL;
- 	u64 qos_lut;
- 	u32 total_fl = 0, lut_usage;
-@@ -310,7 +310,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
- 			fmt ? (char *)&fmt->base.pixel_format : NULL,
- 			pdpu->is_rt_pipe, total_fl, qos_lut);
- 
--	pdpu->pipe_hw->ops.setup_creq_lut(pdpu->pipe_hw, qos_lut);
-+	pstate->hw_sspp->ops.setup_creq_lut(pstate->hw_sspp, qos_lut);
- }
- 
- /**
-@@ -322,6 +322,7 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
- 		struct drm_framebuffer *fb)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
- 	const struct dpu_format *fmt = NULL;
- 	u32 danger_lut, safe_lut;
- 
-@@ -361,7 +362,7 @@ static void _dpu_plane_set_danger_lut(struct drm_plane *plane,
- 		danger_lut,
- 		safe_lut);
- 
--	pdpu->pipe_hw->ops.setup_danger_safe_lut(pdpu->pipe_hw,
-+	pstate->hw_sspp->ops.setup_danger_safe_lut(pstate->hw_sspp,
- 			danger_lut, safe_lut);
- }
- 
-@@ -375,14 +376,15 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 	bool enable, u32 flags)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
- 	struct dpu_hw_pipe_qos_cfg pipe_qos_cfg;
- 
- 	memset(&pipe_qos_cfg, 0, sizeof(pipe_qos_cfg));
- 
- 	if (flags & DPU_PLANE_QOS_VBLANK_CTRL) {
--		pipe_qos_cfg.creq_vblank = pdpu->pipe_hw->cap->sblk->creq_vblank;
-+		pipe_qos_cfg.creq_vblank = pstate->hw_sspp->cap->sblk->creq_vblank;
- 		pipe_qos_cfg.danger_vblank =
--				pdpu->pipe_hw->cap->sblk->danger_vblank;
-+				pstate->hw_sspp->cap->sblk->danger_vblank;
- 		pipe_qos_cfg.vblank_en = enable;
- 	}
- 
-@@ -408,7 +410,7 @@ static void _dpu_plane_set_qos_ctrl(struct drm_plane *plane,
- 		pipe_qos_cfg.danger_vblank,
- 		pdpu->is_rt_pipe);
- 
--	pdpu->pipe_hw->ops.setup_qos_ctrl(pdpu->pipe_hw,
-+	pstate->hw_sspp->ops.setup_qos_ctrl(pstate->hw_sspp,
- 			&pipe_qos_cfg);
- }
- 
-@@ -422,18 +424,19 @@ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
- 		struct drm_crtc *crtc, struct dpu_hw_sspp_cfg *pipe_cfg)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
- 	struct dpu_vbif_set_ot_params ot_params;
- 	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
- 
- 	memset(&ot_params, 0, sizeof(ot_params));
--	ot_params.xin_id = pdpu->pipe_hw->cap->xin_id;
--	ot_params.num = pdpu->pipe_hw->idx - SSPP_NONE;
-+	ot_params.xin_id = pstate->hw_sspp->cap->xin_id;
-+	ot_params.num = pstate->hw_sspp->idx - SSPP_NONE;
- 	ot_params.width = drm_rect_width(&pipe_cfg->src_rect);
- 	ot_params.height = drm_rect_height(&pipe_cfg->src_rect);
- 	ot_params.is_wfd = !pdpu->is_rt_pipe;
- 	ot_params.frame_rate = drm_mode_vrefresh(&crtc->mode);
- 	ot_params.vbif_idx = VBIF_RT;
--	ot_params.clk_ctrl = pdpu->pipe_hw->cap->clk_ctrl;
-+	ot_params.clk_ctrl = pstate->hw_sspp->cap->clk_ctrl;
- 	ot_params.rd = true;
- 
- 	dpu_vbif_set_ot_limit(dpu_kms, &ot_params);
-@@ -446,14 +449,15 @@ static void _dpu_plane_set_ot_limit(struct drm_plane *plane,
- static void _dpu_plane_set_qos_remap(struct drm_plane *plane)
- {
- 	struct dpu_plane *pdpu = to_dpu_plane(plane);
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(plane->state);
- 	struct dpu_vbif_set_qos_params qos_params;
- 	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
- 
- 	memset(&qos_params, 0, sizeof(qos_params));
- 	qos_params.vbif_idx = VBIF_RT;
--	qos_params.clk_ctrl = pdpu->pipe_hw->cap->clk_ctrl;
--	qos_params.xin_id = pdpu->pipe_hw->cap->xin_id;
--	qos_params.num = pdpu->pipe_hw->idx - SSPP_VIG0;
-+	qos_params.clk_ctrl = pstate->hw_sspp->cap->clk_ctrl;
-+	qos_params.xin_id = pstate->hw_sspp->cap->xin_id;
-+	qos_params.num = pstate->hw_sspp->idx - SSPP_VIG0;
- 	qos_params.is_rt = pdpu->is_rt_pipe;
- 
- 	DPU_DEBUG_PLANE(pdpu, "pipe:%d vbif:%d xin:%d rt:%d, clk_ctrl:%d\n",
-@@ -478,11 +482,11 @@ static void _dpu_plane_set_scanout(struct drm_plane *plane,
- 	ret = dpu_format_populate_layout(aspace, fb, &pipe_cfg->layout);
- 	if (ret)
- 		DPU_ERROR_PLANE(pdpu, "failed to get format layout, %d\n", ret);
--	else if (pdpu->pipe_hw->ops.setup_sourceaddress) {
--		trace_dpu_plane_set_scanout(pdpu->pipe_hw->idx,
-+	else if (pstate->hw_sspp->ops.setup_sourceaddress) {
-+		trace_dpu_plane_set_scanout(pstate->hw_sspp->idx,
- 					    &pipe_cfg->layout,
- 					    pstate->multirect_index);
--		pdpu->pipe_hw->ops.setup_sourceaddress(pdpu->pipe_hw, pipe_cfg,
-+		pstate->hw_sspp->ops.setup_sourceaddress(pstate->hw_sspp, pipe_cfg,
- 						pstate->multirect_index);
- 	}
- }
-@@ -534,7 +538,7 @@ static void _dpu_plane_setup_scaler3(struct dpu_plane *pdpu,
- 			scale_cfg->src_height[i] /= chroma_subsmpl_v;
- 		}
- 
--		if (pdpu->pipe_hw->cap->features &
-+		if (pstate->hw_sspp->cap->features &
- 			BIT(DPU_SSPP_SCALER_QSEED4)) {
- 			scale_cfg->preload_x[i] = DPU_QSEED4_DEFAULT_PRELOAD_H;
- 			scale_cfg->preload_y[i] = DPU_QSEED4_DEFAULT_PRELOAD_V;
-@@ -607,6 +611,7 @@ static const struct dpu_csc_cfg dpu_csc10_YUV2RGB_601L = {
- 
- static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, const struct dpu_format *fmt)
- {
-+	struct dpu_plane_state *pstate = to_dpu_plane_state(pdpu->base.state);
- 	const struct dpu_csc_cfg *csc_ptr;
- 
- 	if (!pdpu) {
-@@ -617,7 +622,7 @@ static const struct dpu_csc_cfg *_dpu_plane_get_csc(struct dpu_plane *pdpu, cons
- 	if (!DPU_FORMAT_IS_YUV(fmt))
- 		return NULL;
- 
--	if (BIT(DPU_SSPP_CSC_10BIT) & pdpu->pipe_hw->cap->features)
-+	if (BIT(DPU_SSPP_CSC_10BIT) & pstate->hw_sspp->cap->features)
- 		csc_ptr = &dpu_csc10_YUV2RGB_601L;
- 	else
- 		csc_ptr = &dpu_csc_YUV2RGB_601L;
-@@ -660,8 +665,8 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
- 	_dpu_plane_setup_pixel_ext(&scaler3_cfg, &pixel_ext,
- 			src_width, src_height, info->hsub, info->vsub);
- 
--	if (pdpu->pipe_hw->ops.setup_pe)
--		pdpu->pipe_hw->ops.setup_pe(pdpu->pipe_hw,
-+	if (pstate->hw_sspp->ops.setup_pe)
-+		pstate->hw_sspp->ops.setup_pe(pstate->hw_sspp,
- 				&pixel_ext);
- 
- 	/**
-@@ -669,9 +674,9 @@ static void _dpu_plane_setup_scaler(struct dpu_plane *pdpu,
- 	 * bypassed. Still we need to update alpha and bitwidth
- 	 * ONLY for RECT0
- 	 */
--	if (pdpu->pipe_hw->ops.setup_scaler &&
-+	if (pstate->hw_sspp->ops.setup_scaler &&
- 			pstate->multirect_index != DPU_SSPP_RECT_1)
--		pdpu->pipe_hw->ops.setup_scaler(pdpu->pipe_hw,
-+		pstate->hw_sspp->ops.setup_scaler(pstate->hw_sspp,
- 				pipe_cfg,
- 				&scaler3_cfg);
- }
-@@ -700,8 +705,8 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
- 	fmt = dpu_get_dpu_format(DRM_FORMAT_ABGR8888);
- 
- 	/* update sspp */
--	if (fmt && pdpu->pipe_hw->ops.setup_solidfill) {
--		pdpu->pipe_hw->ops.setup_solidfill(pdpu->pipe_hw,
-+	if (fmt && pstate->hw_sspp->ops.setup_solidfill) {
-+		pstate->hw_sspp->ops.setup_solidfill(pstate->hw_sspp,
- 				(color & 0xFFFFFF) | ((alpha & 0xFF) << 24),
- 				pstate->multirect_index);
- 
-@@ -715,13 +720,13 @@ static int _dpu_plane_color_fill(struct dpu_plane *pdpu,
- 		pipe_cfg.src_rect.y2 =
- 			drm_rect_height(&pipe_cfg.dst_rect);
- 
--		if (pdpu->pipe_hw->ops.setup_format)
--			pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw,
-+		if (pstate->hw_sspp->ops.setup_format)
-+			pstate->hw_sspp->ops.setup_format(pstate->hw_sspp,
- 					fmt, DPU_SSPP_SOLID_FILL,
- 					pstate->multirect_index);
- 
--		if (pdpu->pipe_hw->ops.setup_rects)
--			pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
-+		if (pstate->hw_sspp->ops.setup_rects)
-+			pstate->hw_sspp->ops.setup_rects(pstate->hw_sspp,
- 					&pipe_cfg,
- 					pstate->multirect_index);
- 
-@@ -973,8 +978,8 @@ static int dpu_plane_atomic_check(struct drm_plane *plane,
- 	uint32_t min_src_size, max_linewidth;
- 	unsigned int rotation;
- 	uint32_t supported_rotations;
--	const struct dpu_sspp_cfg *pipe_hw_caps = pdpu->pipe_hw->cap;
--	const struct dpu_sspp_sub_blks *sblk = pdpu->pipe_hw->cap->sblk;
-+	const struct dpu_sspp_cfg *pipe_hw_caps = pstate->hw_sspp->cap;
-+	const struct dpu_sspp_sub_blks *sblk = pstate->hw_sspp->cap->sblk;
- 
- 	if (new_plane_state->crtc)
- 		crtc_state = drm_atomic_get_new_crtc_state(state,
-@@ -1087,12 +1092,12 @@ void dpu_plane_flush(struct drm_plane *plane)
- 	else if (pdpu->color_fill & DPU_PLANE_COLOR_FILL_FLAG)
- 		/* force 100% alpha */
- 		_dpu_plane_color_fill(pdpu, pdpu->color_fill, 0xFF);
--	else if (pdpu->pipe_hw && pdpu->pipe_hw->ops.setup_csc) {
-+	else if (pstate->hw_sspp && pstate->hw_sspp->ops.setup_csc) {
- 		const struct dpu_format *fmt = to_dpu_format(msm_framebuffer_format(plane->state->fb));
- 		const struct dpu_csc_cfg *csc_ptr = _dpu_plane_get_csc(pdpu, fmt);
- 
- 		if (csc_ptr)
--			pdpu->pipe_hw->ops.setup_csc(pdpu->pipe_hw, csc_ptr);
-+			pstate->hw_sspp->ops.setup_csc(pstate->hw_sspp, csc_ptr);
- 	}
- 
- 	/* flag h/w flush complete */
-@@ -1162,21 +1167,21 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 		return;
- 	}
- 
--	if (pdpu->pipe_hw->ops.setup_rects) {
--		pdpu->pipe_hw->ops.setup_rects(pdpu->pipe_hw,
-+	if (pstate->hw_sspp->ops.setup_rects) {
-+		pstate->hw_sspp->ops.setup_rects(pstate->hw_sspp,
- 				&pipe_cfg,
- 				pstate->multirect_index);
- 	}
- 
- 	_dpu_plane_setup_scaler(pdpu, pstate, fmt, false, &pipe_cfg);
- 
--	if (pdpu->pipe_hw->ops.setup_multirect)
--		pdpu->pipe_hw->ops.setup_multirect(
--				pdpu->pipe_hw,
-+	if (pstate->hw_sspp->ops.setup_multirect)
-+		pstate->hw_sspp->ops.setup_multirect(
-+				pstate->hw_sspp,
- 				pstate->multirect_index,
- 				pstate->multirect_mode);
- 
--	if (pdpu->pipe_hw->ops.setup_format) {
-+	if (pstate->hw_sspp->ops.setup_format) {
- 		unsigned int rotation = pstate->rotation;
- 
- 		src_flags = 0x0;
-@@ -1191,10 +1196,10 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 			src_flags |= DPU_SSPP_ROT_90;
- 
- 		/* update format */
--		pdpu->pipe_hw->ops.setup_format(pdpu->pipe_hw, fmt, src_flags,
-+		pstate->hw_sspp->ops.setup_format(pstate->hw_sspp, fmt, src_flags,
- 				pstate->multirect_index);
- 
--		if (pdpu->pipe_hw->ops.setup_cdp) {
-+		if (pstate->hw_sspp->ops.setup_cdp) {
- 			struct dpu_hw_cdp_cfg cdp_cfg;
- 
- 			memset(&cdp_cfg, 0, sizeof(struct dpu_hw_cdp_cfg));
-@@ -1208,7 +1213,8 @@ static void dpu_plane_sspp_atomic_update(struct drm_plane *plane)
- 					DPU_FORMAT_IS_TILE(fmt);
- 			cdp_cfg.preload_ahead = DPU_SSPP_CDP_PRELOAD_AHEAD_64;
- 
--			pdpu->pipe_hw->ops.setup_cdp(pdpu->pipe_hw, &cdp_cfg, pstate->multirect_index);
-+			pstate->hw_sspp->ops.setup_cdp(pstate->hw_sspp, &cdp_cfg,
-+						       pstate->multirect_index);
- 		}
- 	}
- 
-@@ -1348,10 +1354,9 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
- 		const struct drm_plane_state *state)
- {
- 	const struct dpu_plane_state *pstate = to_dpu_plane_state(state);
--	const struct dpu_plane *pdpu = to_dpu_plane(state->plane);
- 
- 	drm_printf(p, "\tstage=%d\n", pstate->stage);
--	drm_printf(p, "\tsspp=%s\n", pdpu->pipe_hw->cap->name);
-+	drm_printf(p, "\tsspp=%s\n", pstate->hw_sspp->cap->name);
- 	drm_printf(p, "\tmultirect_mode=%s\n", dpu_get_multirect_mode(pstate->multirect_mode));
- 	drm_printf(p, "\tmultirect_index=%s\n", dpu_get_multirect_index(pstate->multirect_index));
- }
-@@ -1360,6 +1365,7 @@ static void dpu_plane_reset(struct drm_plane *plane)
- {
- 	struct dpu_plane *pdpu;
- 	struct dpu_plane_state *pstate;
-+	struct dpu_kms *dpu_kms = _dpu_plane_get_kms(plane);
- 
- 	if (!plane) {
- 		DPU_ERROR("invalid plane\n");
-@@ -1381,6 +1387,12 @@ static void dpu_plane_reset(struct drm_plane *plane)
- 		return;
- 	}
- 
-+	/*
-+	 * Set the SSPP here until we have proper virtualized DPU planes.
-+	 * This is the place where the state is allocated, so fill it fully.
-+	 */
-+	pstate->hw_sspp = dpu_rm_get_sspp(&dpu_kms->rm, pdpu->pipe);
-+
- 	__drm_atomic_helper_plane_reset(plane, &pstate->base);
- }
- 
-@@ -1445,6 +1457,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 	struct dpu_plane *pdpu;
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct dpu_kms *kms = to_dpu_kms(priv->kms);
-+	struct dpu_hw_sspp *pipe_hw;
- 	uint32_t num_formats;
- 	uint32_t supported_rotations;
- 	int ret = -EINVAL;
-@@ -1462,14 +1475,14 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 	pdpu->pipe = pipe;
- 
- 	/* initialize underlying h/w driver */
--	pdpu->pipe_hw = dpu_rm_get_sspp(&kms->rm, pipe);
--	if (!pdpu->pipe_hw || !pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
-+	pipe_hw = dpu_rm_get_sspp(&kms->rm, pipe);
-+	if (!pipe_hw || !pipe_hw->cap || !pipe_hw->cap->sblk) {
- 		DPU_ERROR("[%u]SSPP is invalid\n", pipe);
- 		goto clean_plane;
- 	}
- 
--	format_list = pdpu->pipe_hw->cap->sblk->format_list;
--	num_formats = pdpu->pipe_hw->cap->sblk->num_formats;
-+	format_list = pipe_hw->cap->sblk->format_list;
-+	num_formats = pipe_hw->cap->sblk->num_formats;
- 
- 	ret = drm_universal_plane_init(dev, plane, 0xff, &dpu_plane_funcs,
- 				format_list, num_formats,
-@@ -1491,7 +1504,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
- 
- 	supported_rotations = DRM_MODE_REFLECT_MASK | DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180;
- 
--	if (pdpu->pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
-+	if (pipe_hw->cap->features & BIT(DPU_SSPP_INLINE_ROTATION))
- 		supported_rotations |= DRM_MODE_ROTATE_MASK;
- 
- 	drm_plane_create_rotation_property(plane,
+-enum dpu_sspp dpu_plane_pipe(struct drm_plane *plane)
+-{
+-	return plane ? to_dpu_plane(plane)->pipe : SSPP_NONE;
+-}
+-
+ /* initialize plane */
+ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+ 		uint32_t pipe, enum drm_plane_type type,
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-index b7b1b05199c2..08a4b6a99f51 100644
+index 08a4b6a99f51..25e261cabadc 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
-@@ -18,6 +18,7 @@
-  * struct dpu_plane_state: Define dpu extension of drm plane state object
-  * @base:	base drm plane state object
-  * @aspace:	pointer to address space for input/output buffers
-+ * @hw_sspp:	pointer to corresponding SSPP instance
-  * @stage:	assigned by crtc blender
-  * @needs_qos_remap: qos remap settings need to be updated
-  * @multirect_index: index of the rectangle of SSPP
-@@ -31,6 +32,7 @@
- struct dpu_plane_state {
- 	struct drm_plane_state base;
- 	struct msm_gem_address_space *aspace;
-+	struct dpu_hw_sspp *hw_sspp;
- 	enum dpu_stage stage;
- 	bool needs_qos_remap;
- 	uint32_t multirect_index;
+@@ -59,13 +59,6 @@ struct dpu_multirect_plane_states {
+ #define to_dpu_plane_state(x) \
+ 	container_of(x, struct dpu_plane_state, base)
+ 
+-/**
+- * dpu_plane_pipe - return sspp identifier for the given plane
+- * @plane:   Pointer to DRM plane object
+- * Returns: sspp identifier of the given plane
+- */
+-enum dpu_sspp dpu_plane_pipe(struct drm_plane *plane);
+-
+ /**
+  * dpu_plane_flush - final plane operations before commit flush
+  * @plane: Pointer to drm plane structure
 -- 
 2.30.2
 
