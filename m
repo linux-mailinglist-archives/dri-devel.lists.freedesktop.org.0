@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2906BD66D
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFBB6BD674
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 17:56:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8004510ED83;
-	Thu, 16 Mar 2023 16:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3BF789954;
+	Thu, 16 Mar 2023 16:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEAC910ED6E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:55:46 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id a32so2369887ljr.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:55:46 -0700 (PDT)
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1B1710ED7C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 16:55:47 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id x36so2377088ljq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 09:55:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1678985746;
+ d=linaro.org; s=google; t=1678985747;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xno9EDcJdCx0dzvy6MPkn9poprdciCTjrjdIL0N1NaA=;
- b=m9PotwrEOadS3epM1Soeka22K9YWW63xnkBHx8pfIaEygRHGiAnKitwQkZRTZDqFoJ
- LBYU0aRMH0Oswj/U88JZteaMR1lVFwemwbUS7CaQf9yx1Qn6Sxnbk3Q0unxcWktGhSNJ
- JfIavPfdLUc2O0v4u2+r9WcereFC5T/+zBFuVkq8jZRnXC+NRNChKZy5Ld4/niuKRaof
- hjyWH5uzcjWkwOcYUc1AJtpewk6rdA0xhdurQTV42Qd9MGqOsT7H/wd8Z/yC9XxvOuAW
- FoyT/sjcgvqvjm1ig6OjWGkubhyddaCdyWPbWOxaUSkewLT+PjuqFN6lX/bntDXiMULV
- oiTg==
+ bh=gIZhnj34tFDqJ571tBldatObNZ/9X2iSU1FEGNAtdzI=;
+ b=yDDSjQTRH8Oj6EDq1F9B+rAYHSKcYghW+g8mk67lIqENT3Doz8ZR1bZ3BXa+IYwk1L
+ YFO47bl/AH4n+xew3TJBumnWHRx81g9tHlY/TNRugZj0tTxbpwnMckIYiOPvsoQUgjE3
+ RLw55dhTtmNddRt5FZVgIw/ih7QaRSwa5SvlNhKNlEZP99NQ+NJDgsiicbd1IrfvO3YG
+ 13ZT6fOMxFotjDKo2DUwL5nyYePtXBVQ14fm08DePeemJZ2+1rJYjU8ONCw/DFtXfapf
+ A693OLYbJLA2nbUh8a8BBGqnH+SUhlCucd4+prWt79Gef3+y66N7vncNkkmbRk7xuggn
+ f3Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678985746;
+ d=1e100.net; s=20210112; t=1678985747;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xno9EDcJdCx0dzvy6MPkn9poprdciCTjrjdIL0N1NaA=;
- b=PoF42cgnIjZ+5GIO4QuBQF0RhashLlmLomOfhqwcd6NH1UbsAMNBpeYNxqugzIZjeO
- 43oAe1HEu3sFFvMO1Qiva/lauqq5FKIZcnS2gHVXcN5h25MYTUYsTvuKZlHe6ig56FqW
- zvtPsgYk5m1wqcb5chCtwiGAHYCXoRG3as5RlwJoX/XZs8924GEjbvVz+6llhYc9yu9O
- JTbTpittQVrv2AWHEBV71QGgeYa8G7vyD7GH99+7Q52yWeqS1m5YHMinDOBo/QHKNbYu
- Za+IypnWK5Vz4Q6/qnORDcW+VHP2dseZYaW0CIwXKOKkY1xVjore8fZVbJ3++/5GMj/N
- 0GUg==
-X-Gm-Message-State: AO0yUKWCBnSho4z4GH21KNlWQFaDSJD5sb1XaCaoVK2rPfMWwmEPP0f7
- HL22aEc7/YV9MogVQVfOyU9CbA==
-X-Google-Smtp-Source: AK7set+8/6Ajx6JmjruUiwOYyR6ckqdPlYqW3z2eQxTHQeYuxvfcltKTmq5GUzlziKTr0w/qOlQ1OQ==
-X-Received: by 2002:a2e:9982:0:b0:299:a7b2:273b with SMTP id
- w2-20020a2e9982000000b00299a7b2273bmr1029275lji.29.1678985746408; 
- Thu, 16 Mar 2023 09:55:46 -0700 (PDT)
+ bh=gIZhnj34tFDqJ571tBldatObNZ/9X2iSU1FEGNAtdzI=;
+ b=fFeiYK0I+S+HPm+G5Dn8i/+QIJZdaVTD6ThLFFKXgoXAxhkfZLZe2uEuGFC8xr9imf
+ AfioMRU9GTqJEGhmH3gU4mJk56kymAT3vRKBl7TfHzaI5zCqBEJ0cOQX3mc5u/KKF6oH
+ x0ESe8+xdvWk52x68Sw2smreH4jgSSQ7BLH6rv7zUuHzZqzGbPsMTkXyOLx3hd7Oj4ck
+ Bg+909WyT0/IrZZGL1n44dMMvOrUctRsXWHiGWh+5NSrNlY+pnJMiKwuauD9z+LNoJqd
+ eqRr1N6DBgZL69WhQC7ejyNmNkDeAA/QK9vNgwKXC3KyHIQd4g7UKq8eObZvgygCfEFi
+ xUJA==
+X-Gm-Message-State: AO0yUKXmsJpEPBkIsx5NaxCW7G5aRClHfzf90PMp9Ct/bijGLsG7aVhB
+ lig3aV6OiE9Z1NrT6xRTEAtTsg==
+X-Google-Smtp-Source: AK7set+m67SUWdQiJtIJhf8xpW+qBDcdmokW3z6fhRtVYnJbAkA53nM+VHdwCKjvLbWgqswx6O9CnA==
+X-Received: by 2002:a2e:be06:0:b0:298:97d7:8fd4 with SMTP id
+ z6-20020a2ebe06000000b0029897d78fd4mr3150290ljq.42.1678985747412; 
+ Thu, 16 Mar 2023 09:55:47 -0700 (PDT)
 Received: from umbar.unikie.fi ([192.130.178.91])
  by smtp.gmail.com with ESMTPSA id
- t18-20020a2e9c52000000b002934b5d6a61sm2661ljj.121.2023.03.16.09.55.45
+ t18-20020a2e9c52000000b002934b5d6a61sm2661ljj.121.2023.03.16.09.55.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Mar 2023 09:55:45 -0700 (PDT)
+ Thu, 16 Mar 2023 09:55:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [RFC PATCH v1 03/12] drm/msm/dpu: remove unused fields from
- dpu_encoder_virt
-Date: Thu, 16 Mar 2023 19:55:33 +0300
-Message-Id: <20230316165542.4109764-4-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH v1 04/12] drm/msm/dpu: get rid of struct
+ dpu_rm_requirements
+Date: Thu, 16 Mar 2023 19:55:34 +0300
+Message-Id: <20230316165542.4109764-5-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230316165542.4109764-1-dmitry.baryshkov@linaro.org>
 References: <20230316165542.4109764-1-dmitry.baryshkov@linaro.org>
@@ -80,62 +80,241 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove historical fields intfs_swapped and topology fields from struct
-dpu_encoder_virt and also remove even more historical docs.
+The struct dpu_rm_requirements was used to wrap display topology and
+hw resources, which meant INTF indices. As of commit ef58e0ad3436
+("drm/msm/dpu: get INTF blocks directly rather than through RM") the hw
+resources struct was removed, leaving struct dpu_rm_requirements
+containing a single field (topology). Remove the useless wrapper.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 69 +++++++--------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  2 +-
+ 3 files changed, 23 insertions(+), 50 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 28729c77364f..4ee708264f3b 100644
+index 4ee708264f3b..a2cb23dea0b8 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -130,18 +130,12 @@ enum dpu_enc_rc_states {
-  *			pingpong blocks can be different than num_phys_encs.
-  * @hw_dsc:		Handle to the DSC blocks used for the display.
-  * @dsc_mask:		Bitmask of used DSC blocks.
-- * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
-- *			for partial update right-only cases, such as pingpong
-- *			split where virtual pingpong does not generate IRQs
-  * @crtc:		Pointer to the currently assigned crtc. Normally you
-  *			would use crtc->state->encoder_mask to determine the
-  *			link between encoder/crtc. However in this case we need
-  *			to track crtc in the disable() hook which is called
-  *			_after_ encoder_mask is cleared.
-  * @connector:		If a mode is set, cached pointer to the active connector
-- * @crtc_kickoff_cb:		Callback into CRTC that will flush & start
-- *				all CTL paths
-- * @crtc_kickoff_cb_data:	Opaque user data given to crtc_kickoff_cb
-  * @enc_lock:			Lock around physical encoder
-  *				create/destroy/enable/disable
-  * @frame_busy_mask:		Bitmask tracking which phys_enc we are still
-@@ -160,7 +154,6 @@ enum dpu_enc_rc_states {
-  * @delayed_off_work:		delayed worker to schedule disabling of
-  *				clks and resources after IDLE_TIMEOUT time.
-  * @vsync_event_work:		worker to handle vsync event for autorefresh
-- * @topology:                   topology of the display
-  * @idle_timeout:		idle timeout duration in milliseconds
-  * @wide_bus_en:		wide bus is enabled on this interface
-  * @dsc:			drm_dsc_config pointer, for DSC-enabled encoders
-@@ -180,8 +173,6 @@ struct dpu_encoder_virt {
+@@ -638,7 +638,7 @@ static int dpu_encoder_virt_atomic_check(
  
- 	unsigned int dsc_mask;
+ 		if (!crtc_state->active_changed || crtc_state->enable)
+ 			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
+-					drm_enc, crtc_state, topology);
++					drm_enc, crtc_state, &topology);
+ 	}
  
--	bool intfs_swapped;
--
- 	struct drm_crtc *crtc;
- 	struct drm_connector *connector;
+ 	trace_dpu_enc_atomic_check_flags(DRMID(drm_enc), adj_mode->flags);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+index f4dda88a73f7..952e139c0234 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+@@ -24,15 +24,6 @@ static inline bool reserved_by_other(uint32_t *res_map, int idx,
+ 	return res_map[idx] && res_map[idx] != enc_id;
+ }
  
-@@ -201,7 +192,6 @@ struct dpu_encoder_virt {
- 	enum dpu_enc_rc_states rc_state;
- 	struct delayed_work delayed_off_work;
- 	struct kthread_work vsync_event_work;
+-/**
+- * struct dpu_rm_requirements - Reservation requirements parameter bundle
+- * @topology:  selected topology for the display
+- * @hw_res:	   Hardware resources required as reported by the encoders
+- */
+-struct dpu_rm_requirements {
 -	struct msm_display_topology topology;
+-};
+-
+ int dpu_rm_destroy(struct dpu_rm *rm)
+ {
+ 	int i;
+@@ -329,14 +320,13 @@ static bool _dpu_rm_check_lm_peer(struct dpu_rm *rm, int primary_idx,
+  *      mixer in rm->pingpong_blks[].
+  * @dspp_idx: output parameter, index of dspp block attached to the layer
+  *      mixer in rm->dspp_blks[].
+- * @reqs: input parameter, rm requirements for HW blocks needed in the
+- *      datapath.
++ * @topology:  selected topology for the display
+  * Return: true if lm matches all requirements, false otherwise
+  */
+ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
+ 		struct dpu_global_state *global_state,
+ 		uint32_t enc_id, int lm_idx, int *pp_idx, int *dspp_idx,
+-		struct dpu_rm_requirements *reqs)
++		struct msm_display_topology *topology)
+ {
+ 	const struct dpu_lm_cfg *lm_cfg;
+ 	int idx;
+@@ -361,7 +351,7 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
+ 	}
+ 	*pp_idx = idx;
  
- 	u32 idle_timeout;
+-	if (!reqs->topology.num_dspp)
++	if (!topology->num_dspp)
+ 		return true;
  
+ 	idx = lm_cfg->dspp - DSPP_0;
+@@ -383,7 +373,7 @@ static bool _dpu_rm_check_lm_and_get_connected_blks(struct dpu_rm *rm,
+ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 			       struct dpu_global_state *global_state,
+ 			       uint32_t enc_id,
+-			       struct dpu_rm_requirements *reqs)
++			       struct msm_display_topology *topology)
+ 
+ {
+ 	int lm_idx[MAX_BLOCKS];
+@@ -391,14 +381,14 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 	int dspp_idx[MAX_BLOCKS] = {0};
+ 	int i, j, lm_count = 0;
+ 
+-	if (!reqs->topology.num_lm) {
+-		DPU_ERROR("invalid number of lm: %d\n", reqs->topology.num_lm);
++	if (!topology->num_lm) {
++		DPU_ERROR("invalid number of lm: %d\n", topology->num_lm);
+ 		return -EINVAL;
+ 	}
+ 
+ 	/* Find a primary mixer */
+ 	for (i = 0; i < ARRAY_SIZE(rm->mixer_blks) &&
+-			lm_count < reqs->topology.num_lm; i++) {
++			lm_count < topology->num_lm; i++) {
+ 		if (!rm->mixer_blks[i])
+ 			continue;
+ 
+@@ -407,7 +397,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 
+ 		if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
+ 				enc_id, i, &pp_idx[lm_count],
+-				&dspp_idx[lm_count], reqs)) {
++				&dspp_idx[lm_count], topology)) {
+ 			continue;
+ 		}
+ 
+@@ -415,7 +405,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 
+ 		/* Valid primary mixer found, find matching peers */
+ 		for (j = i + 1; j < ARRAY_SIZE(rm->mixer_blks) &&
+-				lm_count < reqs->topology.num_lm; j++) {
++				lm_count < topology->num_lm; j++) {
+ 			if (!rm->mixer_blks[j])
+ 				continue;
+ 
+@@ -428,7 +418,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 			if (!_dpu_rm_check_lm_and_get_connected_blks(rm,
+ 					global_state, enc_id, j,
+ 					&pp_idx[lm_count], &dspp_idx[lm_count],
+-					reqs)) {
++					topology)) {
+ 				continue;
+ 			}
+ 
+@@ -437,7 +427,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 		}
+ 	}
+ 
+-	if (lm_count != reqs->topology.num_lm) {
++	if (lm_count != topology->num_lm) {
+ 		DPU_DEBUG("unable to find appropriate mixers\n");
+ 		return -ENAVAIL;
+ 	}
+@@ -446,7 +436,7 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+ 		global_state->mixer_to_enc_id[lm_idx[i]] = enc_id;
+ 		global_state->pingpong_to_enc_id[pp_idx[i]] = enc_id;
+ 		global_state->dspp_to_enc_id[dspp_idx[i]] =
+-			reqs->topology.num_dspp ? enc_id : 0;
++			topology->num_dspp ? enc_id : 0;
+ 
+ 		trace_dpu_rm_reserve_lms(lm_idx[i] + LM_0, enc_id,
+ 					 pp_idx[i] + PINGPONG_0);
+@@ -539,44 +529,30 @@ static int _dpu_rm_make_reservation(
+ 		struct dpu_rm *rm,
+ 		struct dpu_global_state *global_state,
+ 		struct drm_encoder *enc,
+-		struct dpu_rm_requirements *reqs)
++		struct msm_display_topology *topology)
+ {
+ 	int ret;
+ 
+-	ret = _dpu_rm_reserve_lms(rm, global_state, enc->base.id, reqs);
++	ret = _dpu_rm_reserve_lms(rm, global_state, enc->base.id, topology);
+ 	if (ret) {
+ 		DPU_ERROR("unable to find appropriate mixers\n");
+ 		return ret;
+ 	}
+ 
+ 	ret = _dpu_rm_reserve_ctls(rm, global_state, enc->base.id,
+-				&reqs->topology);
++				   topology);
+ 	if (ret) {
+ 		DPU_ERROR("unable to find appropriate CTL\n");
+ 		return ret;
+ 	}
+ 
+-	ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, &reqs->topology);
++	ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, topology);
+ 	if (ret)
+ 		return ret;
+ 
+ 	return ret;
+ }
+ 
+-static int _dpu_rm_populate_requirements(
+-		struct drm_encoder *enc,
+-		struct dpu_rm_requirements *reqs,
+-		struct msm_display_topology req_topology)
+-{
+-	reqs->topology = req_topology;
+-
+-	DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d\n",
+-		      reqs->topology.num_lm, reqs->topology.num_dsc,
+-		      reqs->topology.num_intf);
+-
+-	return 0;
+-}
+-
+ static void _dpu_rm_clear_mapping(uint32_t *res_mapping, int cnt,
+ 				  uint32_t enc_id)
+ {
+@@ -608,9 +584,8 @@ int dpu_rm_reserve(
+ 		struct dpu_global_state *global_state,
+ 		struct drm_encoder *enc,
+ 		struct drm_crtc_state *crtc_state,
+-		struct msm_display_topology topology)
++		struct msm_display_topology *topology)
+ {
+-	struct dpu_rm_requirements reqs;
+ 	int ret;
+ 
+ 	/* Check if this is just a page-flip */
+@@ -625,13 +600,11 @@ int dpu_rm_reserve(
+ 	DRM_DEBUG_KMS("reserving hw for enc %d crtc %d\n",
+ 		      enc->base.id, crtc_state->crtc->base.id);
+ 
+-	ret = _dpu_rm_populate_requirements(enc, &reqs, topology);
+-	if (ret) {
+-		DPU_ERROR("failed to populate hw requirements\n");
+-		return ret;
+-	}
++	DRM_DEBUG_KMS("num_lm: %d num_dsc: %d num_intf: %d\n",
++		      topology->num_lm, topology->num_dsc,
++		      topology->num_intf);
+ 
+-	ret = _dpu_rm_make_reservation(rm, global_state, enc, &reqs);
++	ret = _dpu_rm_make_reservation(rm, global_state, enc, topology);
+ 	if (ret)
+ 		DPU_ERROR("failed to reserve hw resources: %d\n", ret);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+index d62c2edb2460..f05697462856 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+@@ -71,7 +71,7 @@ int dpu_rm_reserve(struct dpu_rm *rm,
+ 		struct dpu_global_state *global_state,
+ 		struct drm_encoder *drm_enc,
+ 		struct drm_crtc_state *crtc_state,
+-		struct msm_display_topology topology);
++		struct msm_display_topology *topology);
+ 
+ /**
+  * dpu_rm_reserve - Given the encoder for the display chain, release any
 -- 
 2.30.2
 
