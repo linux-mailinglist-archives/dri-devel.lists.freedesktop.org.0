@@ -1,60 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0E76BCD06
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:41:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0949F6BCD2E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Mar 2023 11:48:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2183810E101;
-	Thu, 16 Mar 2023 10:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F9C10EC9E;
+	Thu, 16 Mar 2023 10:47:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7FC10E101
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 10:41:20 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id t129so549825iof.12
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 03:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1678963279;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JuyYSP6SPR+Rpc5oB9smN5+cA4uJ40zcl370tC/DYEw=;
- b=VdFK9wO3bWJxzN1oyPJNzTbCFUcO2h3khVD9S8x1f0IjKgIlT+EJyi25jm/NsZWi6V
- o2gHQgdCz7Z7uXb0gDVjAfFsByKuJ2QwH4sWDt0p+BqC1Y97ICSuV82fMRlp9RDUB+hX
- bR1phPIaW+n4fx7Y1tiJqNZYrPT/0Ba4FWWqQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678963279;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=JuyYSP6SPR+Rpc5oB9smN5+cA4uJ40zcl370tC/DYEw=;
- b=fsQTq53LMHNOIAdsdyitxupo0nQiUlfauYAXwmYQeWr27EDLmONxgu27L42m5u5suQ
- lD83GjEqi8hWMP1CzgGPQZdWTIm57cJUHX6IfQgAezNXKV5gjFYvNY3v+ykyGYd8GUgZ
- jsCdyNgUIS/qpnwMpXL0hOBZhJteJFT1EqWkiEtaeFFsEmgNJC+tCMsDNLvCqyL9fSXa
- Yjcvu2mgXI2qWgeXQjExpi9yEXtUpzygogsC7IKS1cSWeQEraIBQfINAocn6gkApic7H
- 8eEeaoLpsRn308NtGmFfwtIDMQaQFnJk7c/xJ9gslTTXg1PWM1bY+nVbH0AFbG7gRZlR
- N5Dw==
-X-Gm-Message-State: AO0yUKWrDTY+L9GfCb88xb6tYMh1PEj/4Xrjx+Hpykdgk4jynQ+7fKUN
- Av+qnzkcx3yEDkbO12Dc92lCShpB9alUFcN6cw+nqw==
-X-Google-Smtp-Source: AK7set8Sjrf3rJ2OyrNXGh5/pgmyV/OOM3eeJAznxKybJO5577cMqIP/hFMZFLkA0Ic/WT0SdqTwNXi4K/wejh57sto=
-X-Received: by 2002:a5d:8b47:0:b0:745:c41a:8f0f with SMTP id
- c7-20020a5d8b47000000b00745c41a8f0fmr20956879iot.2.1678963279337; Thu, 16 Mar
- 2023 03:41:19 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD73210EC9D;
+ Thu, 16 Mar 2023 10:47:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1678963676; x=1710499676;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ZB0FfkksgESmf6Y547mV7iLlkwreB6GNY6mHJEzYzmM=;
+ b=bzn44qaSMHJg0cCS4CEmL+3ZOvM1ltBKeYw40z8Id9uqrF3ExIAvFb1T
+ 1zFQteBLDQcB3UEB3eynHP04Tp5PCpjokAZ3uVOyC1KGSKA6z7CpnVrr7
+ dKjOwo/qU3o295N+hVtigPNNxiqMp7JPb/uJPIZI5aEJ2Cc21L4mjWxOT
+ /expzUt/t75gJtt9sz/nv3KA8hvC2QDdquO4xFVZM0+nfvFCrg6oAVCFe
+ 7jAocbeJCBpKkbYFKw30HHftAoBmHPWZF61dBchOeNtSHj20qEo6QnhQT
+ hbuz8CiVRmV/HGy/5uyXcZj5UH8FnLzB3+3EhQHMyh8ka7xuZGo4C18J9 Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="321789859"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="321789859"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 03:47:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10650"; a="768879966"
+X-IronPort-AV: E=Sophos;i="5.98,265,1673942400"; d="scan'208";a="768879966"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by FMSMGA003.fm.intel.com with SMTP; 16 Mar 2023 03:47:52 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 16 Mar 2023 12:47:51 +0200
+Date: Thu, 16 Mar 2023 12:47:51 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
+ for DP and HDMI
+Message-ID: <ZBLz17f8YFmNEJlY@intel.com>
+References: <20230307151107.49649-1-harry.wentland@amd.com>
+ <20230307151107.49649-10-harry.wentland@amd.com>
+ <CA+hFU4yiniJdxWOxDKnD7bTGw3QA8uSLyG5sbeiQ5oWqitTZcQ@mail.gmail.com>
+ <ZBLmYzVcnBgU6uo5@intel.com> <20230316120701.523bcb37@eldfell>
 MIME-Version: 1.0
-References: <20230314110043.2139111-1-treapking@chromium.org>
- <CAD=FV=W=jVsvD620wWKfniRYQNJnb7goDUKb_HhL_qVxLYGZOA@mail.gmail.com>
- <CAEXTbpe6EyukjKfgaVtHdMK2Ppw715kUUnOqvFa+tEX913p9aQ@mail.gmail.com>
- <CAD=FV=VLh37hFpLwyuPoGNDCpvVL7FGLySVp7d1W788YkjNYog@mail.gmail.com>
-In-Reply-To: <CAD=FV=VLh37hFpLwyuPoGNDCpvVL7FGLySVp7d1W788YkjNYog@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Thu, 16 Mar 2023 18:41:08 +0800
-Message-ID: <CAEXTbpcs1kruF=UkYSGYBBMJW_qeEELh6Yy8c5H+6TUkeU_3LA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: ps8640: Skip redundant bridge enable
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230316120701.523bcb37@eldfell>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,115 +64,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
+ Vitaly.Prosyak@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Mar 16, 2023 at 12:07:01PM +0200, Pekka Paalanen wrote:
+> On Thu, 16 Mar 2023 11:50:27 +0200
+> Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> 
+> > On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote:
+> > > On Tue, Mar 7, 2023 at 4:12 PM Harry Wentland <harry.wentland@amd.com> wrote:  
+> > > >
+> > > > We want compositors to be able to set the output
+> > > > colorspace on DP and HDMI outputs, based on the
+> > > > caps reported from the receiver via EDID.  
+> > > 
+> > > About that... The documentation says that user space has to check the
+> > > EDID for what the sink actually supports. So whatever is in
+> > > supported_colorspaces is just what the driver/hardware is able to set
+> > > but doesn't actually indicate that the sink supports it.
+> > > 
+> > > So the only way to enable bt2020 is by checking if the sink supports
+> > > both RGB and YUV variants because both could be used by the driver.
+> > > Not great at all. Something to remember for the new property.  
+> > 
+> > Hmm. I wonder if that's even legal... Looks like maybe it
+> > is since I can't immediately spot anything in CTA-861 to
+> > forbid it :/
+> 
+> Wouldn't the driver do the same EDID check before choosing whether it
+> uses RGB or YCbCr signalling?
 
-On Thu, Mar 16, 2023 at 5:34=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Tue, Mar 14, 2023 at 8:28=E2=80=AFPM Pin-yen Lin <treapking@chromium.o=
-rg> wrote:
-> >
-> > Hi Doug,
-> >
-> > On Wed, Mar 15, 2023 at 5:31=E2=80=AFAM Doug Anderson <dianders@chromiu=
-m.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Tue, Mar 14, 2023 at 4:00=E2=80=AFAM Pin-yen Lin <treapking@chromi=
-um.org> wrote:
-> > > >
-> > > > Skip the drm_bridge_chain_pre_enable call when the bridge is alread=
-y
-> > > > pre_enabled. This make pre_enable and post_disable (thus
-> > > > pm_runtime_get/put) symmetric.
-> > > >
-> > > > Fixes: 46f206304db0 ("drm/bridge: ps8640: Rework power state handli=
-ng")
-> > > > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+I suppose it could. The modeset would then fail, which is perhaps
+not a huge issue, except maybe for suspend+resume if we fail in
+the resume path. Although I guess the EDID/etc. should not yet
+be refreshed at that point so if the modeset worked before suspend
+resume should be able to restore it without failures.
+
+> 
+> So if EDID says only one of them is supported, userspace should be
+> confident that that is the BT2020 mode the driver will match?
+> 
+> 
+> Thanks,
+> pq
+> 
+> > 
+> > >   
+> > > > Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> > > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > > > Cc: Sebastian Wick <sebastian.wick@redhat.com>
+> > > > Cc: Vitaly.Prosyak@amd.com
+> > > > Cc: Joshua Ashton <joshua@froggi.es>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > Cc: amd-gfx@lists.freedesktop.org
+> > > > Reviewed-By: Joshua Ashton <joshua@froggi.es>
 > > > > ---
+> > > >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 15 +++++++++++++++
+> > > >  1 file changed, 15 insertions(+)
 > > > >
-> > > >  drivers/gpu/drm/bridge/parade-ps8640.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > index f91b2ea13d96..2d883c6dae90 100644
+> > > > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > > > @@ -7184,6 +7184,12 @@ static int amdgpu_dm_connector_get_modes(struct drm_connector *connector)
+> > > >         return amdgpu_dm_connector->num_modes;
+> > > >  }
 > > > >
-> > > > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/d=
-rm/bridge/parade-ps8640.c
-> > > > index 4b361d7d5e44..08de501c436e 100644
-> > > > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > > @@ -557,7 +557,8 @@ static struct edid *ps8640_bridge_get_edid(stru=
-ct drm_bridge *bridge,
-> > > >          * EDID, for this chip, we need to do a full poweron, other=
-wise it will
-> > > >          * fail.
-> > > >          */
-> > > > -       drm_atomic_bridge_chain_pre_enable(bridge, connector->state=
-->state);
-> > > > +       if (poweroff)
-> > > > +               drm_atomic_bridge_chain_pre_enable(bridge, connecto=
-r->state->state);
-> > >
-> > > It always seemed weird to me that this function was asymmetric, so I
-> > > like this change, thanks!
-> > >
-> > > I also remember wondering before how this function was safe, though.
-> > > The callpath for getting here from the ioctl is documented in the
-> > > function and when I look at it I wonder if anything is preventing the
-> > > bridge from being enabled / disabled through normal means at the same
-> > > time your function is running. That could cause all sorts of badness
-> > > if it is indeed possible. Does anyone reading this know if that's
-> > > indeed a problem?
-> >
-> > If the "normal mean" is disabling the bridge, then we are probably
-> > disabling the whole display pipeline. If so, is the EDID still
-> > relevant in this case?
->
-> In general when we do a "modeset" I believe that the display pipeline
-> is disabled and re-enabled. On a Chromebook test image you can see
-> this disable / re-enable happen when you switch between "VT2" and the
-> main login screen.
->
-> If the display pipeline is disabled / re-enabled then it should still
-> be fine to keep the EDID cached, so that's not what I'm worried about.
-> I'm more worried that someone could be querying the EDID at the same
-> time that someone else was turning the screen off. In that case it
-> would be possible for "poweroff" to be true (because the screen was on
+> > > > +static const u32 supported_colorspaces =
+> > > > +       BIT(DRM_MODE_COLORIMETRY_BT709_YCC) |
+> > > > +       BIT(DRM_MODE_COLORIMETRY_OPRGB) |
+> > > > +       BIT(DRM_MODE_COLORIMETRY_BT2020) |
+> > > > +       BIT(DRM_MODE_COLORIMETRY_BT2020_DEPRECATED);
+> > > > +
+> > > >  void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+> > > >                                      struct amdgpu_dm_connector *aconnector,
+> > > >                                      int connector_type,
+> > > > @@ -7264,6 +7270,15 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+> > > >                                 adev->mode_info.abm_level_property, 0);
+> > > >         }
+> > > >
+> > > > +       if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
+> > > > +               if (!drm_mode_create_hdmi_colorspace_property(&aconnector->base, supported_colorspaces))
+> > > > +                       drm_connector_attach_colorspace_property(&aconnector->base);
+> > > > +       } else if (connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+> > > > +                  connector_type == DRM_MODE_CONNECTOR_eDP) {
+> > > > +               if (!drm_mode_create_dp_colorspace_property(&aconnector->base, supported_colorspaces))
+> > > > +                       drm_connector_attach_colorspace_property(&aconnector->base);
+> > > > +       }
+> > > > +
+> > > >         if (connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> > > >             connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
+> > > >             connector_type == DRM_MODE_CONNECTOR_eDP) {
+> > > > --
+> > > > 2.39.2
+> > > >  
+> > 
+> 
 
-You mean "poweroff" to be "false", right? That is,
-"ps_bridge->pre_enabled" is true. So the .get_edid function assumes
-that the pipeline is enabled, but another thread is turning off the
-screen.
 
-> when we started reading the EDID) and then partway through the screen
-> could get turned off.
 
-Thanks for the detailed explanation. In that case, we probably get an
-error and return a NULL EDID. But do we need the EDID when the screen
-is turned off? And the EDID should be re-read if the screen is turned
-back on.
-
-However, in a reversed setting, if the .get_edid is reading EDID when
-the pipeline is disabled (poweroff=3Dtrue), but someone enables the
-pipeline in between. In that case, .get_edid might disable the bridge
-and panel after the pipeline is enabled.
-
-Anyway, the function is not safe, but it's no more unsafe than before.
-Patch 2/2 should lower the chance for anything bad to happen by adding
-a cache by only read EDID once.
->
-> -Doug
-
-Thanks and regards,
-Pin-yen
+-- 
+Ville Syrjälä
+Intel
