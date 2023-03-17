@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3A96BF322
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:54:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB44C6BF533
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 23:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37AB210EFA6;
-	Fri, 17 Mar 2023 20:53:54 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDACD10EFA6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 20:53:52 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id n125so7104564ybg.7
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 13:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679086432;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=81k/wsN5LJHSw7IMmKprz7MljTYWXfOO3qNXbhpMYDY=;
- b=GbicmX698aU6P3ndLa71hM7B5bhfNOjyuIQiA9eX8PBOUq1/RzNGBMXbQ0iECrEv5q
- Qs2X2vRlWaonAomu6hJyTwJyst53I6ZQ3AwexcFFxvypToqzgoHD0fkw2SQ2SPgYDhQR
- 9YJ8jnhRejBiis4ni0UupkquEUOOR9t1B4kTsa+LnMK4mG+TfWQwbJZmH+Ig8uje91Dh
- 9TageZMNT90SRCTnPZvM+X195DHkOewu9tGsi5ElbC+A16u6x8o1p0fGf+3NYX48p5Pm
- 3EYTdu4fPQ8e7qhaNJFLLBWfW480I1Nua6D65Pmpkq/ezNlYQ+TljEyo4C433zu+IWft
- T1jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679086432;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=81k/wsN5LJHSw7IMmKprz7MljTYWXfOO3qNXbhpMYDY=;
- b=cf+H25KDr12Ux+PtcdpAO1hTEnKPWZ7wqs/aUhkFO+B3sIPVkkFDlWgjRxfBRR4VXT
- uZrvLKD0xs/6AKpfOA+3C6ez4GzvGmj2AeSXNhMpRjyL6ZqvAg6yN3aCqUt8ff44ttDw
- gncePUkCRRuXhx3lcyq6cwtaEDln7ZaJj6aFs+S+SnxsWDU+lDJuM3STSE/MU28n4SAH
- Yv0G0ChZEr+YYuIe74lvYewExDWXmjnWEXzXZzbDeXVF9f/HKuTFywir9XHtCuGVATij
- 5BCUP2lEBe/XyeFqYLouEW2KpgQL08fivGpch8hknIkn1K6M6fi8ay4W3NooUo2t0D3u
- Xogg==
-X-Gm-Message-State: AO0yUKXagpq3d54PGA1/SFCcpdUa5xRd4rYLqd+m92JCdB0yUGKvxrfv
- heE5oeaQYfjtxIwsHbLkNEM2yKzYDVxrJykjhWkNwA==
-X-Google-Smtp-Source: AK7set/xMcJB36hfzj7lWnW/tGG+jyb989JVS6ZTe5X+GsibjG7yhs/EkXgKMrPvyfaL3Ej3pxGpi4IcL7WRbw5L0/o=
-X-Received: by 2002:a5b:611:0:b0:b67:f07:d180 with SMTP id
- d17-20020a5b0611000000b00b670f07d180mr357039ybq.5.1679086431900; 
- Fri, 17 Mar 2023 13:53:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230317185230.46189-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230317185230.46189-1-andriy.shevchenko@linux.intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 17 Mar 2023 21:53:40 +0100
-Message-ID: <CACRpkdYXTk2pzXEM9MTjt=oT-CbhENABSLeb9dN7ZvEy8oqiag@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] backlight: hx8357: Convert to agnostic GPIO API
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D3510E2BF;
+	Fri, 17 Mar 2023 22:33:45 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08AF710E288;
+ Fri, 17 Mar 2023 22:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679092423; x=1710628423;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=8l70R9GcJ6YeYTuYXe0lFe7BIOKEHLqAVwuJ5HHbu8Y=;
+ b=nsEOPgYTg/aSUJC248VUbSepmRVOgrwa8U2zm9wrYDrppk6BB/fiZwUI
+ u+p4O+BvrA0IRxjk83lh19ct33baLWjW2/otrUx0qEW5Bpm9+QyQQJ5p5
+ 6ILC/qv4pg0/0CNrQlJVlkgjhxQbcM7mMs1tcLVy2GXqRWK8Z5xK4ysnT
+ /EhP2UA7te1HzhOzOfc49+DaBdHrN5dpqSmYMPJipvwaEPUOBG5asMiqC
+ dPSgKH9qNpeNNKCgC8d+Rf3c5adv9qChwPjdeDIoUDUPJB6IVF72Zsjc5
+ m2eliInMynkKC5N/oantJfqn1Kn1WkOL6B/izoAGqSVTSba4uv0V3Oy1W w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="403246013"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; d="scan'208";a="403246013"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2023 15:33:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="926297238"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; d="scan'208";a="926297238"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.197.230])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2023 15:33:39 -0700
+Date: Fri, 17 Mar 2023 15:33:39 -0700
+Message-ID: <87bkkrvwho.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: John.C.Harrison@Intel.com
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915/guc: Allow for very slow GuC
+ loading
+In-Reply-To: <20230316220632.3312218-3-John.C.Harrison@Intel.com>
+References: <20230316220632.3312218-1-John.C.Harrison@Intel.com>
+ <20230316220632.3312218-3-John.C.Harrison@Intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +62,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Lee Jones <lee@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>
+Cc: Intel-GFX@Lists.FreeDesktop.Org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ DRI-Devel@Lists.FreeDesktop.Org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 17, 2023 at 7:51=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-
-> The of_gpio.h is going to be removed. In preparation of that convert
-> the driver to the agnostic API.
+On Thu, 16 Mar 2023 15:06:32 -0700, John.C.Harrison@Intel.com wrote:
 >
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> From: John Harrison <John.C.Harrison@Intel.com>
+>
+> A failure to load the GuC is occasionally observed where the GuC log
+> actually showed that the GuC had loaded just fine. The implication
+> being that the load just took ever so slightly longer than the 200ms
+> timeout. Given that the actual time should be tens of milliseconds at
+> the slowest, this should never happen. So far the issue has generally
+> been caused by a bad IFWI resulting in low frequencies during boot
+> (depsite the KMD requesting max frequency). However, the issue seems
+> to happen more often than one would like.
+>
+> So a) increase the timeout so that the user still gets a working
+> system even in the case of slow load. And b) report the frequency
+> during the load to see if that is the case of the slow down.
+>
+> v2: Reduce timeout in non-debug builds, add references (Daniele)
+>
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/7931
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/8060
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/8083
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/8136
+> References: https://gitlab.freedesktop.org/drm/intel/-/issues/8137
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-Thanks for fixing this Andy!
+Tested this on ATSM and saw the interrmittent GuC FW load timeouts
+disappear:
 
-> -#if !IS_ENABLED(CONFIG_LCD_HX8357)
-> +#if IS_ENABLED(CONFIG_LCD_HX8357)
->                 /*
->                  * Himax LCD controllers used incorrectly named
->                  * "gpios-reset" property and also specified wrong
-> @@ -452,7 +452,7 @@ static struct gpio_desc *of_find_gpio_rename(struct d=
-evice_node *np,
->                  */
->                 const char *compatible;
->         } gpios[] =3D {
-> -#if !IS_ENABLED(CONFIG_LCD_HX8357)
-> +#if IS_ENABLED(CONFIG_LCD_HX8357)
->                 /* Himax LCD controllers used "gpios-reset" */
->                 { "reset",      "gpios-reset",  "himax,hx8357" },
->                 { "reset",      "gpios-reset",  "himax,hx8369" },
-
-Eh what happened here .. it's even intuitively wrong.
-I would add
-Fixes: fbbbcd177a27 ("gpiolib: of: add quirk for locating reset lines
-with legacy bindings")
-
-It wasn't used until now it seems so not a regression and no
-need for a separate patch.
-
-Other than that it looks correct.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Yours,
-Linus Walleij
+Tested-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
