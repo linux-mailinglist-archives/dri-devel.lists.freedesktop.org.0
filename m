@@ -2,80 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADA46BEAB1
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 15:05:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48006BEAC5
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 15:12:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE1410E38E;
-	Fri, 17 Mar 2023 14:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC5010E3A5;
+	Fri, 17 Mar 2023 14:12:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8044610E38E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 14:05:07 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id 00A052B06280;
- Fri, 17 Mar 2023 10:05:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 17 Mar 2023 10:05:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1679061901; x=1679069101; bh=xzu8SPPxcjWpdn/tXzgXEXIZ4nx2l8jL4Ah
- btNthvR4=; b=NFpM+PZoh9wA6eIbbY9536usdkrVLzkJGpQ+rLLRJx12/3taqCL
- C5I++q7hqyU4wDSJRWl9/hHfafPZ53hjCKd9nV1hkiOjIPynmlA0AIZSlnXXwROE
- 12MJovXg8omPEpjcFwJ/WvwSazv9H8pJ5uKU75DLB8qYzCzJCDNUDJBk/Kd60oDT
- Y4WMIgFQ59z0Sl0RJa5u5MYpovCV3EIHTRoyUTMAmx1N+nc/dzWYd77dPEln9eJc
- 1GI7GmzIunjKJ2SuX5s1BgD4bUnSVDfyyZez9htH582fFJPprT0+9VXTmQmZWn89
- gApCy7s5j6uRweQVlJiwCa56jt1/Wu1nIOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1679061901; x=1679069101; bh=xzu8SPPxcjWpdn/tXzgXEXIZ4nx2l8jL4Ah
- btNthvR4=; b=tZrkfiB1xKrF7qS0dUbLZ8eHYdKo/35HXW+OO8rAUudnCOPYeLJ
- XRsFwFRQAN10Cf3E+XsJ0o2xHUFdzS1m+FOSgp4eOOjmBaezvsKw2wuIpKpGjCMJ
- +UyX4Brhx4VYownMsOAGltrjh3Ca0j2+VFkl1k6NSlD3818P/zMocOHQsSDt5aXe
- JqFEIdy3Rd4g6ASr+VV7zwdpBeSG+ix7dkTFCOGTOaNW/BLNJJhIT9k5NJR63sj1
- eInr2iRRJ7kABpZnefjec6MkDGI+pLKNsGoiPTzH+UWovzOiZ8Kbjp2oimmkzlmu
- rjrrwLn+5rY+wlA5xrKmQSHIVhSAW2yf4dw==
-X-ME-Sender: <xms:hnMUZHfzckxb7aRm-zF4kFikvuiDjFape0cyILyZavp9_VWB_Fgw6w>
- <xme:hnMUZNOvWL-OYlrpur-cHE34k7q8cxRKiPCyAWx8DgVoczgfbifmGMRQdqh9PhYyH
- 83ulw90FPpCOpcTSZM>
-X-ME-Received: <xmr:hnMUZAjHni68kD6__MjHeVzyHLbV4AqypYfq1nLKeY6-1i8mlqJZyC1D3u4xPHPweG4dNl2QpMbO7K6NPy-ux8TsTzfwWMM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgheekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
- ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnheptdekvddtgeefheevfeekffegieffudejgfdtgfeludetkeejjeetfeel
- jefffffgnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsth
- gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghr
- nhhordhtvggthh
-X-ME-Proxy: <xmx:h3MUZI9arzDspWDBC782dyfG8uPRsdWqsjgozsU0-M52H--42EDxsg>
- <xmx:h3MUZDvNHQBFN47gWryh2nRdpLvYPe6h8YpSllH7_U5c68T0KtRYCA>
- <xmx:h3MUZHEAXrAc4tB9ZXbBA1kirUI2MJjajeXFOVB4PwyC3Mks-f9HFA>
- <xmx:jXMUZE4-ZrbtL2k8J2GyTjQN6XEY4v_BdcNkDQBka5orfhN9uubTqluK0sw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Mar 2023 10:04:53 -0400 (EDT)
-Date: Fri, 17 Mar 2023 15:04:51 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH v3 8/8] MAINTAINERS: Add entry for QAIC driver
-Message-ID: <20230317140451.uywz7szrzvusyrjy@houat>
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-9-git-send-email-quic_jhugo@quicinc.com>
- <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
- <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B156610E385
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 14:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679062361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yp87O6wnvt7RQSGAMv2L+yB9U1AJut+1ZDcle+GOMDo=;
+ b=IjdzIhqHLgK61VQosMWVWRb8iL1z+zdoG0GTO+0rofqjjmDObGnCRtonBhHZrqP1GmhClV
+ GO/zgqiTofs0CDpuhfRQ5D5Ksv7G0VhBtL6SMPISYAFzvENm7PJMpWAmQYV05YQhPQzFPx
+ m1qWRR/amPvkcOFUGHN/R8jsymBKAro=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-460-KmxzwB0QNr6Ry4reVRtlLw-1; Fri, 17 Mar 2023 10:12:40 -0400
+X-MC-Unique: KmxzwB0QNr6Ry4reVRtlLw-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ f8-20020a056512360800b004b8825890a1so2046872lfs.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 07:12:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679062358;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yp87O6wnvt7RQSGAMv2L+yB9U1AJut+1ZDcle+GOMDo=;
+ b=EamEu2LzGYVFZGdbtWGggTDnDJDbtxhQGiuOD7DoY6kYaVffGeMreQHO624f5TRM5E
+ R1/Ik44FMbK7wZZOR6ovjEvbNPwysCMBfWjC8cX0D9Fuv0mAj3G/mfSz29Y4QPCJT5rZ
+ zGeSnKYaWOzPimvLyJOG0mAA8TMO8um+q7/al3cUyrhTMO5+zZ0Lye/buwn+3Ext4fJ/
+ 0bGLXonB1F44qeUwQQ59vqytVoDKCJ87mUJwsMY1/WYyOaG/E+CWAsVxf6Y7lI46imds
+ 1uNn9fp/2+xdud8b+2CVSsNs1YyOVeUlYKEBoNLVUvs051U3n2VLQ9TJbFMg3Ypdf1Nh
+ 2I9Q==
+X-Gm-Message-State: AO0yUKV6u/8eUaaIiumlpV3zhpI8uW1WwNqhVWj35b6eAxxLZpUgFllu
+ FNsWllRL6La6Y0sYjSMCY3NjFOLwqlP1cWXsZQs70I6KHfO+KGg51NqIRKnTLOZzXwDw7ccQFPm
+ t5+oZTRi02dLrr2nhudhjbx4u6ngU93htBG0dsXyLXX5KMS7ckGmbKAA=
+X-Received: by 2002:ac2:5f0e:0:b0:4dd:a9e5:aa09 with SMTP id
+ 14-20020ac25f0e000000b004dda9e5aa09mr4264611lfq.11.1679062358652; 
+ Fri, 17 Mar 2023 07:12:38 -0700 (PDT)
+X-Google-Smtp-Source: AK7set+gife62n4XCWkrR4+tagPTjJbFZJF9q30pel5qgQh2IP2UWNPkn6gpFTJqvxpuh0cZgm/VqXngWGM2qrRSjIk=
+X-Received: by 2002:ac2:5f0e:0:b0:4dd:a9e5:aa09 with SMTP id
+ 14-20020ac25f0e000000b004dda9e5aa09mr4264607lfq.11.1679062358352; Fri, 17 Mar
+ 2023 07:12:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230317081718.2650744-1-lee@kernel.org>
+ <20230317081718.2650744-32-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-32-lee@kernel.org>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 17 Mar 2023 15:12:26 +0100
+Message-ID: <CACO55ttNWZ8=Ma4m+-zFP3yAPpHYqsq3QF6fCd4jYpEK6uwypg@mail.gmail.com>
+Subject: Re: [PATCH 31/37] drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+To: Lee Jones <lee@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,54 +78,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dafna@fastmail.com,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, ogabbay@kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com,
- quic_carlv@quicinc.com, Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 16, 2023 at 11:04:05AM -0600, Jeffrey Hugo wrote:
-> On 3/14/2023 3:59 AM, Jacek Lawrynowicz wrote:
-> > Hi
-> >=20
-> > On 06.03.2023 22:34, Jeffrey Hugo wrote:
-> > > Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
-> > >=20
-> > > Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > > Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> > > Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> > > ---
-> > >   MAINTAINERS | 9 +++++++++
-> > >   1 file changed, 9 insertions(+)
-> > >=20
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index b0db911..feb2974 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -17253,6 +17253,15 @@ F:	Documentation/devicetree/bindings/clock/q=
-com,*
-> > >   F:	drivers/clk/qcom/
-> > >   F:	include/dt-bindings/clock/qcom,*
-> > > +QUALCOMM CLOUD AI (QAIC) DRIVER
-> > > +M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
-> > > +L:	linux-arm-msm@vger.kernel.org
-> > > +L:	dri-devel@lists.freedesktop.org
-> > > +S:	Supported
-> > > +F:	Documentation/accel/qaic/
-> > > +F:	drivers/accel/qaic/
-> > > +F:	include/uapi/drm/qaic_accel.h
-> >=20
-> > Aren't you missing repo link?
-> > T:	git git://anongit.freedesktop.org/drm/drm-misc
->=20
-> Maarten/Maxime/Thomas are we ok to follow the iVPU example and use drm-mi=
-sc
-> for this, or would a separate tree be preferred?
+nouveau changes up to here are:
 
-Yeah, please go ahead with drm-misc
+Reviewed-by: Karol Herbst <kherbst@redhat.com>
 
-Do you have commit rights?
+On Fri, Mar 17, 2023 at 9:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:453: warning: This comment start=
+s with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide=
+/kernel-doc.rst
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c:629: warning: This comment start=
+s with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide=
+/kernel-doc.rst
+>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/crtc.c b/drivers/gpu/drm/no=
+uveau/dispnv04/crtc.c
+> index a6f2e681bde98..7794902df17d5 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/crtc.c
+> @@ -449,7 +449,7 @@ nv_crtc_mode_set_vga(struct drm_crtc *crtc, struct dr=
+m_display_mode *mode)
+>         regp->Attribute[NV_CIO_AR_CSEL_INDEX] =3D 0x00;
+>  }
+>
+> -/**
+> +/*
+>   * Sets up registers for the given mode/adjusted_mode pair.
+>   *
+>   * The clocks, CRTCs and outputs attached to this CRTC must be off.
+> @@ -625,7 +625,7 @@ nv_crtc_swap_fbs(struct drm_crtc *crtc, struct drm_fr=
+amebuffer *old_fb)
+>         return ret;
+>  }
+>
+> -/**
+> +/*
+>   * Sets up registers for the given mode/adjusted_mode pair.
+>   *
+>   * The clocks, CRTCs and outputs attached to this CRTC must be off.
+> --
+> 2.40.0.rc1.284.g88254d51c5-goog
+>
 
-Maxime
