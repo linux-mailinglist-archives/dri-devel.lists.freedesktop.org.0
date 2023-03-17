@@ -1,77 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFA06BE8DF
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:10:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0355C6BE8F6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:13:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF8010EEED;
-	Fri, 17 Mar 2023 12:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2261D10EEEA;
+	Fri, 17 Mar 2023 12:13:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D00A110EEED
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:09:58 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id y20so6209712lfj.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 05:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679054997;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jNiR0NLTuJj+aWp4YB9vTYSgpZApuVfwOdJ5ZUsnGj0=;
- b=YcGwRdgSUFM5T1XagjtlvRNmVe4Jf7NuzX+OWI7+j3ovglq4UV/JKpah/ATZQasTG6
- rwkRVwxVIeG5yVHBjuefiW9ETbkBVgDgpZfTRkQh0m5y+wJFjEitN4kLIEqI2CnC3kxz
- /iuweDgmIkQ7NOR+eVh180t3UrWe4FSPNjUqmafK8JZl6j0pius6GpDc4MS4Dple9BHx
- EdR1BWZYTdUUvJktXdxJoWYsH8HVEB5yL3J3Glp4NxV4eAvL0A8kjJ6sTAG55u108YPz
- XJT4J3p/EW3FWugSjA3LOwOlbLyroTbfHa3YGw5ZLCcFAq5THSe3TeKG5FPScqOw88zA
- 2paA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679054997;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jNiR0NLTuJj+aWp4YB9vTYSgpZApuVfwOdJ5ZUsnGj0=;
- b=kADxhb7g/IAzc1s4hynXP5Hy/AofRoYM2+l7iwhZL2V99A4DDQXFoic8RDZzE1L8Z0
- GmxgrujLkMGoc6tdrT9ue0hHQN5MQAWtgdrtTFjLfRQpsfRr+LdSq6+lc3ach4TLz6UN
- i8Z0QCCvrTA0K3rMskY/75JZKccTSVecfuqscRk/DMJXkeDA1we9qJc8LkjPUEW5Qb7M
- ZH66wnhc6MKoFnQqx74+A0JdOQX7zfdtx/yROFniybJJp9pk6d4fNA0sR2/BY9dn4Qzp
- 79PB8bPAM6Ihf7sXICDqqVtq2w3FQjN8D9+1jSMi4PtuwXcd7+tDuS8eq0RXK1uGFb0d
- 0fKQ==
-X-Gm-Message-State: AO0yUKWir6M5ai66wwtai8rQYoxX8AHsLAQCBADMZ/igKSvMb4ikYge8
- N5Uuf2vtYDxRngQvbpktlLkNmg==
-X-Google-Smtp-Source: AK7set/J4wuWg4OytN80EDGFmX2hbBh16ONc9kAfE7OVJZXwNRrc3IJx9b1HCdYwn/r8MRS+n9Q9cQ==
-X-Received: by 2002:a05:6512:406:b0:4e9:59cd:4171 with SMTP id
- u6-20020a056512040600b004e959cd4171mr1956040lfk.60.1679054996939; 
- Fri, 17 Mar 2023 05:09:56 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- r10-20020a056512102a00b004e7b84c6419sm343432lfr.192.2023.03.17.05.09.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 05:09:56 -0700 (PDT)
-Message-ID: <ab6391c4-ff38-8286-77ff-c781669f5aa0@linaro.org>
-Date: Fri, 17 Mar 2023 14:09:55 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98B1D10EEEA
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=nTYBkYCblFkwBHgG9q0aOgj8flBeXdfCK2fgcYiRCHg=; b=VO5QbHxcoCf19WVbI+4RRVA1Kk
+ Pmhp5LJrvnuz+PKv/gLafDwUHMYckIGupYpgJOJqLy2aU3dsSVRy8PBhMvJVSKz/g/1lvgLl0LcLy
+ o3ofU9L+FxZ+T14eS1fUHlwHLUNVEjQqeIh4o6g2PzJR1a9+MxN6tibO6TzPRNRKNyC3wWLwNhnLL
+ 3fFhLOVOv83EMl1Y/2UDVBOOEvL/AT4Siarjljhyn/3qtLOCt+0WE2XEbFDevK6j881fSO8pDUzH2
+ FscMwQaVULQ68T/067DssNa/aDwwfrct85h0dbij57W6BvMkeQn8acrQacFZtduk2mML9MneFSyAp
+ ZFD0IdfQ==;
+Received: from [177.34.168.16] (helo=bowie..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pd8x4-00FrGz-UD; Fri, 17 Mar 2023 13:12:55 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Asahi Lina <lina@asahilina.net>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>
+Subject: [RFC PATCH 0/9] Rust version of the VGEM driver
+Date: Fri, 17 Mar 2023 09:12:04 -0300
+Message-Id: <20230317121213.93991-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5 4/5] arm64: dts: qcom: sm8450: switch to usb3/dp combo
- phy
-Content-Language: en-GB
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20230206-topic-sm8450-upstream-dp-controller-v5-0-a27f1b26ebe8@linaro.org>
- <20230206-topic-sm8450-upstream-dp-controller-v5-4-a27f1b26ebe8@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v5-4-a27f1b26ebe8@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,119 +58,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/03/2023 11:12, Neil Armstrong wrote:
-> The QMP PHY is a USB3/DP combo phy, switch to the newly
-> documented bindings and register the clocks to the GCC
-> and DISPCC controllers.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->   arch/arm64/boot/dts/qcom/sm8450.dtsi | 42 +++++++++++++-----------------------
->   1 file changed, 15 insertions(+), 27 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> index 69695eb83897..0b5a151ce138 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-> @@ -11,6 +11,7 @@
->   #include <dt-bindings/dma/qcom-gpi.h>
->   #include <dt-bindings/gpio/gpio.h>
->   #include <dt-bindings/mailbox/qcom-ipcc.h>
-> +#include <dt-bindings/phy/phy-qcom-qmp.h>
->   #include <dt-bindings/power/qcom-rpmpd.h>
->   #include <dt-bindings/interconnect/qcom,sm8450.h>
->   #include <dt-bindings/soc/qcom,gpr.h>
-> @@ -748,7 +749,7 @@ gcc: clock-controller@100000 {
->   				 <&ufs_mem_phy_lanes 0>,
->   				 <&ufs_mem_phy_lanes 1>,
->   				 <&ufs_mem_phy_lanes 2>,
-> -				 <0>;
-> +				 <&usb_1_qmpphy QMP_USB43DP_USB3_PIPE_CLK>;
->   			clock-names = "bi_tcxo",
->   				      "sleep_clk",
->   				      "pcie_0_pipe_clk",
-> @@ -2034,37 +2035,24 @@ usb_1_hsphy: phy@88e3000 {
->   			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
->   		};
->   
-> -		usb_1_qmpphy: phy-wrapper@88e9000 {
-> -			compatible = "qcom,sm8450-qmp-usb3-phy";
-> -			reg = <0 0x088e9000 0 0x200>,
-> -			      <0 0x088e8000 0 0x20>;
-> -			status = "disabled";
-> -			#address-cells = <2>;
-> -			#size-cells = <2>;
-> -			ranges;
-> +		usb_1_qmpphy: phy@88e8000 {
-> +			compatible = "qcom,sm8450-qmp-usb3-dp-phy";
-> +			reg = <0 0x088e8000 0 0x4000>;
+This is my first take on using the DRM Rust abstractions [1] to convert a DRM
+driver, written originally in C, to Rust. This patchset consists of a conversion
+of the vgem driver to a DRM Rust driver. This new driver has the exactly same
+functionalities of the original C driver, but takes advantages of all the Rust
+features.
 
-This should be 0x3000 too, like 8350
+These patches are based primarily on the Rust DRM abstractions [1], sent as a
+RFC to the mailing list last week. Also, it depends on some Device abstractions
+[2] and on the Timer abstraction [3] developed by Boqun Feng.
 
->   
->   			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
->   				 <&rpmhcc RPMH_CXO_CLK>,
-> -				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>;
-> -			clock-names = "aux", "ref_clk_src", "com_aux";
-> +				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
-> +				 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
-> +			clock-names = "aux", "ref", "com_aux", "usb3_pipe";
->   
->   			resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
->   				 <&gcc GCC_USB3_PHY_PRIM_BCR>;
->   			reset-names = "phy", "common";
->   
-> -			usb_1_ssphy: phy@88e9200 {
-> -				reg = <0 0x088e9200 0 0x200>,
-> -				      <0 0x088e9400 0 0x200>,
-> -				      <0 0x088e9c00 0 0x400>,
-> -				      <0 0x088e9600 0 0x200>,
-> -				      <0 0x088e9800 0 0x200>,
-> -				      <0 0x088e9a00 0 0x100>;
-> -				#phy-cells = <0>;
-> -				#clock-cells = <0>;
-> -				clocks = <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
-> -				clock-names = "pipe0";
-> -				clock-output-names = "usb3_phy_pipe_clk_src";
-> -			};
-> +			#clock-cells = <1>;
-> +			#phy-cells = <1>;
-> +
-> +			status = "disabled";
->   		};
->   
->   		remoteproc_slpi: remoteproc@2400000 {
-> @@ -2972,8 +2960,8 @@ dispcc: clock-controller@af00000 {
->   				 <&mdss_dsi0_phy 1>,
->   				 <&mdss_dsi1_phy 0>,
->   				 <&mdss_dsi1_phy 1>,
-> -				 <0>, /* dp0 */
-> -				 <0>,
-> +				 <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
-> +				 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
->   				 <0>, /* dp1 */
->   				 <0>,
->   				 <0>, /* dp2 */
-> @@ -4168,7 +4156,7 @@ usb_1_dwc3: usb@a600000 {
->   				iommus = <&apps_smmu 0x0 0x0>;
->   				snps,dis_u2_susphy_quirk;
->   				snps,dis_enblslpm_quirk;
-> -				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
-> +				phys = <&usb_1_hsphy>, <&usb_1_qmpphy QMP_USB43DP_USB3_PHY>;
->   				phy-names = "usb2-phy", "usb3-phy";
->   			};
->   		};
-> 
+This patchset introduces some changes to the DRM abstractions proposed in [1]
+and also introduces a new abstraction to DMA reservation. Finally, introduces a
+fully functional vgem driver written in Rust.
+
+* Patch #1: Introduces a safe abstraction to the DMA Reservation.
+* Patch #2 - #5: Introduces some increments to the DRM abstractions, adding
+  methods and exposing attributes.
+* Patch #6: Makes an adaptation to the UAPI, in order to be interpreted by bindgen.
+* Patch #7 - #8: Introduces the vgem driver.
+* Patch #9: Makes it possible to use the kernel::declare_drm_ioctls! macro.
+
+The driver was tested with IGT, using the tests `vgem_basic`, `vgem_slow` and
+`dmabuf_sync_file`. Also, I incremented some invalid tests to `vgem_basic` [4]
+to assure the proper error handling of the driver.
+
+A branch with all the dependencies and ready for compilation is available at
+[5].
+
+Note that patch #8 is necessary to deal with the current
+kernel::declare_drm_ioctls! macro. Currently, the macro
+kernel::declare_drm_ioctls! considers that the IOCTLs are in the right order and
+there are no gaps, which is not true for vgem. The vgem IOCTLs starts at 0x01,
+so there is a gap for IOCTL 0x00. To bypass this problem I'm currently using a
+dummy IOCTL as IOCTL 0x00, but this solution should be temporary. I would love
+to hear suggestions on how to address this problem.
+
+Any suggestions and SAFETY reviews are welcomed!
+
+[1] https://lore.kernel.org/dri-devel/20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net/T/
+[2] https://github.com/Rust-for-Linux/linux/pull/982
+[3] https://github.com/fbq/linux-rust/commit/c31a2a3ce7420b43bda2c6f1b43227baf0d13661
+[4] https://patchwork.freedesktop.org/series/114912/
+[5] https://github.com/mairacanal/linux/tree/vgem/wip-dma
+
+Best Regards,
+- Maíra Canal
+
+Maíra Canal (9):
+  rust: dma_resv: add DMA Reservation abstraction
+  rust: drm: gem: add method to return DmaResv from GEMObject
+  rust: dma_fence: add method to return an indication if the fence is signaled
+  rust: dma_fence: expose the fence's seqno publically
+  rust: drm: gem: shmem: set map_wc on gem_create_object callback
+  drm/vgem: move IOCTLs numbers to enum
+  drm/rustgem: implement a Rust version of VGEM
+  drm/rustgem: implement timeout to prevent hangs
+  drm/rustgem: create dummy IOCTL with number 0x00
+
+ drivers/gpu/drm/Kconfig          |  11 +++
+ drivers/gpu/drm/Makefile         |   1 +
+ drivers/gpu/drm/rustgem/Makefile |   3 +
+ drivers/gpu/drm/rustgem/fence.rs |  83 ++++++++++++++++++
+ drivers/gpu/drm/rustgem/file.rs  | 143 +++++++++++++++++++++++++++++++
+ drivers/gpu/drm/rustgem/gem.rs   |  31 +++++++
+ drivers/gpu/drm/rustgem/vgem.rs  | 105 +++++++++++++++++++++++
+ include/uapi/drm/vgem_drm.h      |  11 ++-
+ rust/bindings/bindings_helper.h  |   2 +
+ rust/helpers.c                   |  25 ++++++
+ rust/kernel/dma_fence.rs         |  12 +++
+ rust/kernel/dma_resv.rs          |  75 ++++++++++++++++
+ rust/kernel/drm/gem/mod.rs       |   7 ++
+ rust/kernel/drm/gem/shmem.rs     |   5 ++
+ rust/kernel/lib.rs               |   1 +
+ 15 files changed, 513 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/rustgem/Makefile
+ create mode 100644 drivers/gpu/drm/rustgem/fence.rs
+ create mode 100644 drivers/gpu/drm/rustgem/file.rs
+ create mode 100644 drivers/gpu/drm/rustgem/gem.rs
+ create mode 100644 drivers/gpu/drm/rustgem/vgem.rs
+ create mode 100644 rust/kernel/dma_resv.rs
 
 -- 
-With best wishes
-Dmitry
+2.39.2
 
