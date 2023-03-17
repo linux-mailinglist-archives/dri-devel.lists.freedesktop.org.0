@@ -2,70 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9985F6BDD8C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 01:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860626BDE8D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 03:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F5610E24C;
-	Fri, 17 Mar 2023 00:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F37610E02A;
+	Fri, 17 Mar 2023 02:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A11B210E24C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 00:24:04 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id b5so1626545iow.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 17:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1679012642;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rFJTRUdrKAQbmJGCN+ld5AkqKv3yfsgaUc2fFe1xZBM=;
- b=nyHkeFF+vvf8xz4aDvAjMN1qF+ht9DiYaEVyzQ425/8YpAIamARYJ9/vJBgcUr5HwQ
- oca3ceBhpgVs+0NLYozznrwIp8IKLIhqntliqewo78Q6AuzXh0KcJ6f8UP2ODGcGBpnW
- oXzQ8AJa5gZug68ZJQ2+nmLiwCNXgJ4w5pwpE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679012642;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rFJTRUdrKAQbmJGCN+ld5AkqKv3yfsgaUc2fFe1xZBM=;
- b=E29WI4b6v1OmVHsjfHBhR52WF/zlaniOESpIfrir0v7M4wS7Mo1ezQh4r1vvCFVRsO
- 67NRdLCKQVWjSJJPSDX9h4XZkTdaiW/F1CI9ecUillGZ7UlBLk4ByNuCT1kSXFn0KpD2
- rtzEAxj7h7zktPeqv228RL0ade1I8fTUg8AEtQrxotJMpvufepLGUCaSkukv4pf43nJH
- OLUv/f/nUj+EEWz+72KHrbU3x16uY6FfwA8mRMYqniJLsXE/2w64xt/9EfdKRU1enDWt
- mKD9x39WOpc0/GS0PPjXmV0Dw6STR4vztM5Mq0hl9VYIp/ybwOGQvbp5qLbKtvfUa2V/
- 7MYg==
-X-Gm-Message-State: AO0yUKWtUaAzV5qSQY2Yemw528O+yOLcPc0xyK8LEjBVx9m0gfsTQ2Uk
- Gaw4QoAV2pbt5US7FWZWQR8FVVHWrJJltbRpUW8=
-X-Google-Smtp-Source: AK7set9YCbXwrq0p3bK0nhnwL+YezQi5P4DJmsQCTOvC/V2SfPntmlemgVR1PUELTuDEj9pAM/vEcA==
-X-Received: by 2002:a6b:7105:0:b0:753:efbf:767c with SMTP id
- q5-20020a6b7105000000b00753efbf767cmr599787iog.9.1679012641865; 
- Thu, 16 Mar 2023 17:24:01 -0700 (PDT)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
- [209.85.166.48]) by smtp.gmail.com with ESMTPSA id
- w29-20020a056638379d00b0040630f8625asm237486jal.13.2023.03.16.17.24.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Mar 2023 17:24:00 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id d12so1592443ioe.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Mar 2023 17:24:00 -0700 (PDT)
-X-Received: by 2002:a02:b192:0:b0:3ad:65e:e489 with SMTP id
- t18-20020a02b192000000b003ad065ee489mr455541jah.1.1679012640151; Thu, 16 Mar
- 2023 17:24:00 -0700 (PDT)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 431A110E02A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 02:19:13 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+ by gateway (Coremail) with SMTP id _____8Ax69kfzhNkZzINAA--.18982S3;
+ Fri, 17 Mar 2023 10:19:11 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8BxoOQXzhNk8BADAA--.14729S3; 
+ Fri, 17 Mar 2023 10:19:03 +0800 (CST)
+Message-ID: <d8c7df2e-b170-7287-437a-b70778c43a3d@loongson.cn>
+Date: Fri, 17 Mar 2023 10:19:03 +0800
 MIME-Version: 1.0
-References: <20230314114451.8872-1-lujianhua000@gmail.com>
- <CAD=FV=X7K2KQoRCsr17kj-DWiPs7h_zfcYxK_cdBVnC0wR1NwA@mail.gmail.com>
- <ZBEJdX6WVZ3Kqdo0@Gentoo>
-In-Reply-To: <ZBEJdX6WVZ3Kqdo0@Gentoo>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 16 Mar 2023 17:23:46 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VgWSvrpCdi2pRr0JctHxcq1-qNJSMAxEVva6nEnv3e_g@mail.gmail.com>
-Message-ID: <CAD=FV=VgWSvrpCdi2pRr0JctHxcq1-qNJSMAxEVva6nEnv3e_g@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: Fix panel mode type setting logic
-To: Jianhua Lu <lujianhua000@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7 2/2] drm: add kms driver for loongson display controller
+To: kernel test robot <lkp@intel.com>, Sui Jingfeng <15330273260@189.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>
+References: <20230315211550.2620818-3-15330273260@189.cn>
+ <202303161727.8HnBf6cW-lkp@intel.com>
+Content-Language: en-US
+From: Sui jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <202303161727.8HnBf6cW-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8BxoOQXzhNk8BADAA--.14729S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWw4DAFWkZw1UKF4rJr13Jwb_yoWrWryxpa
+ 1Yka9xKrW8Xr48GaykGa97Ca4aqan5X34UXryUGw15Z3ZFvFWqgr1I9FWY9rsrKFn7KFW2
+ yrZ3uF1kWFnrZaDanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bqxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ n4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+ ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1DMcIj6I8E
+ 87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0V
+ AS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
+ s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI
+ 8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41l
+ IxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
+ AIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Dl1DUUUUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,87 +69,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-
-On Tue, Mar 14, 2023 at 4:55=E2=80=AFPM Jianhua Lu <lujianhua000@gmail.com>=
- wrote:
+On 2023/3/16 17:53, kernel test robot wrote:
+> Hi Sui,
 >
-> On Tue, Mar 14, 2023 at 10:12:02AM -0700, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Tue, Mar 14, 2023 at 4:45=E2=80=AFAM Jianhua Lu <lujianhua000@gmail.=
-com> wrote:
-> > >
-> > > Some panels set mode type to DRM_MODE_TYPE_PREFERRED by the number
-> > > of modes. It isn't reasonable, so set the first mode type to
-> > > DRM_MODE_TYPE_PREFERRED. This should be more reasonable.
-> > >
-> > > Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/panel/panel-abt-y030xx067a.c     | 2 +-
-> > >  drivers/gpu/drm/panel/panel-auo-a030jtn01.c      | 2 +-
-> > >  drivers/gpu/drm/panel/panel-edp.c                | 4 ++--
-> > >  drivers/gpu/drm/panel/panel-innolux-ej030na.c    | 2 +-
-> > >  drivers/gpu/drm/panel/panel-newvision-nv3051d.c  | 2 +-
-> > >  drivers/gpu/drm/panel/panel-newvision-nv3052c.c  | 2 +-
-> > >  drivers/gpu/drm/panel/panel-novatek-nt35950.c    | 2 +-
-> > >  drivers/gpu/drm/panel/panel-novatek-nt39016.c    | 2 +-
-> > >  drivers/gpu/drm/panel/panel-orisetech-ota5601a.c | 2 +-
-> > >  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c      | 4 ++--
-> > >  drivers/gpu/drm/panel/panel-simple.c             | 4 ++--
-> > >  11 files changed, 14 insertions(+), 14 deletions(-)
-> >
-> > Can you explain more about your motivation here? At least for
-> This demonstrates a bad way to set DRM_MODE_TYPE_PREFERRED for panels
-> with more than one mode. It mislead the future contributors to send
-> a patch with this piece of code. There is also a discussion for it.
-> https://lore.kernel.org/lkml/904bc493-7160-32fd-9709-1dcb978ddbab@linaro.=
-org/
-> > panel-edp and panel-simple it seems like it would be better to leave
-> > the logic alone and manually add DRM_MODE_TYPE_PREFERRED to the right
-> > mode for the rare panel that actually has more than one mode listed.
-> I think we can order it to the first mode if the mode type should be
-> DRM_MODE_TYPE_PREFERRED, It's also same.
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on drm-misc/drm-misc-next]
+> [also build test WARNING on linus/master v6.3-rc2 next-20230316]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
+> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+> patch link:    https://lore.kernel.org/r/20230315211550.2620818-3-15330273260%40189.cn
+> patch subject: [PATCH v7 2/2] drm: add kms driver for loongson display controller
+> config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230316/202303161727.8HnBf6cW-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>          chmod +x ~/bin/make.cross
+>          # https://github.com/intel-lab-lkp/linux/commit/ba899dba3475b9612f212e3b1daedc3d9a299458
+>          git remote add linux-review https://github.com/intel-lab-lkp/linux
+>          git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230316-051724
+>          git checkout ba899dba3475b9612f212e3b1daedc3d9a299458
+>          # save the config file
+>          mkdir build_dir && cp config build_dir/.config
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+>          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/loongson/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202303161727.8HnBf6cW-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>     drivers/gpu/drm/loongson/lsdc_gem.c: In function 'lsdc_show_buffer_object':
+>>> drivers/gpu/drm/loongson/lsdc_gem.c:280:51: warning: format '%lu' expects argument of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+>       280 |                 seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
+>           |                                                ~~~^
+>           |                                                   |
+>           |                                                   long unsigned int
+>           |                                                %8u
+>       281 |                            i,
+>       282 |                            lsdc_bo_size(tbo) >> 10,
+>           |                            ~~~~~~~~~~~~~~~~~~~~~~~
+>           |                                              |
+>           |                                              size_t {aka unsigned int}
+>
+>
+> vim +280 drivers/gpu/drm/loongson/lsdc_gem.c
+>
+>     264	
+>     265	int lsdc_show_buffer_object(struct seq_file *m, void *arg)
+>     266	{
+>     267	#ifdef CONFIG_DEBUG_FS
+>     268		struct drm_info_node *node = (struct drm_info_node *)m->private;
+>     269		struct drm_device *ddev = node->minor->dev;
+>     270		struct lsdc_device *ldev = to_lsdc(ddev);
+>     271		struct lsdc_bo *lbo;
+>     272		unsigned int i = 0;
+>     273	
+>     274		mutex_lock(&ldev->gem.mutex);
+>     275	
+>     276		list_for_each_entry(lbo, &ldev->gem.objects, list) {
+>     277			struct ttm_buffer_object *tbo = &lbo->tbo;
+>     278			struct ttm_resource *resource = tbo->resource;
+>     279	
+>   > 280			seq_printf(m, "bo[%04u]: size: %8lukB %s\n",
+>
+Hi, this is buffer objects tracking implemented in v7
 
-A pointer to the original discussion would have been super helpful to
-be provided in your patch description.
+For example,
 
-Personally, I still stand by my assertion that I'd rather that
-DRM_MODE_TYPE_PREFERRED be placed in the actual data instead of being
-done like this in post-processing. To me the old check for "num_modes
-=3D=3D 1" is basically saying that the people creating the "static const"
-data in this file were lazy and didn't feel like they needed to set a
-DRM_MODE_TYPE_PREFERRED when there was only one mode listed. Thus, we
-can add it for them. When "num_modes" is more than 1 then we shouldn't
-allow the people making the "static const" data to be lazy. We should
-force them to set one of the modes to be PREFERRED rather than for
-them to have to know about this magic rule.
+[root@fedora 0]# pwd
 
-Thus, for me, my order of preference would be these (note, I've mostly
-looked at panel-edp and panel-simple):
+/sys/kernel/debug/dri/0
 
-1. Leave the check as "num_modes =3D=3D 1" and document that we're
-basically allowing the people writing the "static const" structure to
-be lazy if there's only one mode. Manually add the
-DRM_MODE_TYPE_PREFERRED flag to the small number of cases where there
-is more than one mode. Possibly add a warning printout if we end up
-without a PREFERRED mode. I'd give a Reviewed-by for this.
+[root@fedora 0]# cat chip
 
-2. Fully get rid of this logic and add DRM_MODE_TYPE_PREFERRED to all
-of the "static const" data. I guess maybe we can't do that for the
-"timings" in panel-edp and panel-simple. I guess for those I'd be OK
-with just setting PREFERRED on the first timing like your patch is
-doing. I'd give a Reviewed-by for this.
+I'm in LS7A2000, running on cpu 0xc0, cpu revison: 0x11
 
-3. Your patch. I won't NAK it since it seems like this is what other
-(more senior) DRM folks were suggesting. ...but I don't love it. I
-won't give a Reviewed-by for this but won't object to someone else
-doing so.
+[root@fedora 0]# cat bos
+bo[0000]: size:     8112kB VRAM
+bo[0001]: size:    16208kB VRAM
+bo[0002]: size:       16kB VRAM
+bo[0003]: size:       16kB VRAM
 
--Doug
+
+When using with modesetting driver with shadowfb option enabled.
+
+by default we have only 4 BOs create, the first one is for fbcon,  the 
+largest one is  framebuffer of double screen.
+
+another two is hardware cursor bo.  Our system page size is 16KB by default.
+
