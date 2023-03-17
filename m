@@ -1,62 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD3A6BE8D5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:08:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFA06BE8DF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3256710EEE6;
-	Fri, 17 Mar 2023 12:08:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF8010EEED;
+	Fri, 17 Mar 2023 12:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 675AB10EEE6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:08:43 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id j7so5341651ybg.4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 05:08:43 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D00A110EEED
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:09:58 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id y20so6209712lfj.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 05:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112; t=1679054922;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TjGy87pNKsb6y2cBmiWPHVqOZpmYwx0L2pBm6FPlioo=;
- b=7xIEFhptaAK8MOSW/KceXs42/aS/R0TPdFaNQBFbHxeQNT2G2qEOR4ut2cSERK9jRZ
- a31SiWJWCrHhbWBSFreq5X1iFizZEjZIcOJN+YYW1HNqxhVoxWc3Oq3GN9JU+fYgnddF
- qnfVMZqZAv4hbcZMsDyxVdUrqqBBGy70R3UjRhmOvH4+slSl21MUEjenmsaa5U61vRxF
- Zv2O4FMnSrfyIQa/juBUsKyNJolMwS3SKIThkxNHc4NYapqXToXNBT1I6nI6uo8OZ2zv
- ePcBmKUaLc8odWHqfX9mEGfcoYyPxySm3bow7Jz4wqAKGl/pzkvwNRednOiExEgaW0Yd
- Mmxg==
+ d=linaro.org; s=google; t=1679054997;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jNiR0NLTuJj+aWp4YB9vTYSgpZApuVfwOdJ5ZUsnGj0=;
+ b=YcGwRdgSUFM5T1XagjtlvRNmVe4Jf7NuzX+OWI7+j3ovglq4UV/JKpah/ATZQasTG6
+ rwkRVwxVIeG5yVHBjuefiW9ETbkBVgDgpZfTRkQh0m5y+wJFjEitN4kLIEqI2CnC3kxz
+ /iuweDgmIkQ7NOR+eVh180t3UrWe4FSPNjUqmafK8JZl6j0pius6GpDc4MS4Dple9BHx
+ EdR1BWZYTdUUvJktXdxJoWYsH8HVEB5yL3J3Glp4NxV4eAvL0A8kjJ6sTAG55u108YPz
+ XJT4J3p/EW3FWugSjA3LOwOlbLyroTbfHa3YGw5ZLCcFAq5THSe3TeKG5FPScqOw88zA
+ 2paA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679054922;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TjGy87pNKsb6y2cBmiWPHVqOZpmYwx0L2pBm6FPlioo=;
- b=pCVVXSsebfJ3Jra0kTCig+FOl5NRa4u3vvhhM7kMAiFa4+WA8sVYR3oxakz3Xz7L6/
- c27Xa43vRMuXK3/AThphebbUZde0rdlChHgUrsVNwxjwRuXg5EIG7KEXcu8lc6JTujvS
- ahFoazreZNeqIoTCFWzPXaiBPenR85gfxbqg6/cUZlZ1Ed9FUO7GMyLt2SKCaEUWc1Oj
- 2JAumv9O9b3Hx4e/iBa+meZxvbarbHjKUdH29MIbFOdcjpzeq0heB8f6YIaz0jU18HGu
- sI/QTyd9Piobvl5d4dBbhLHDEv4WjL3mNKt0kLgKv1FsLH8P5ov6UCLCgL7tk1ppKDx6
- ySMg==
-X-Gm-Message-State: AO0yUKXFX0sHgHOAapv/we8vCwXj3nWZB2b3BKfNDXgEK34l0YB0gnsB
- Xf3ubNjVKyi9WnpfNLaJcZVRoDET6vFG0+dJkpNCRA==
-X-Google-Smtp-Source: AK7set/61F0QRhWRgg7+EjPAdnt8sqw4F2reO2/4CNJsbOeWAawezoBi8JybRiyvSSaD/Go45y0C6kZXjlKT4HS18yY=
-X-Received: by 2002:a5b:bc7:0:b0:b3b:6452:6a0d with SMTP id
- c7-20020a5b0bc7000000b00b3b64526a0dmr10618375ybr.1.1679054922495; Fri, 17 Mar
- 2023 05:08:42 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679054997;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jNiR0NLTuJj+aWp4YB9vTYSgpZApuVfwOdJ5ZUsnGj0=;
+ b=kADxhb7g/IAzc1s4hynXP5Hy/AofRoYM2+l7iwhZL2V99A4DDQXFoic8RDZzE1L8Z0
+ GmxgrujLkMGoc6tdrT9ue0hHQN5MQAWtgdrtTFjLfRQpsfRr+LdSq6+lc3ach4TLz6UN
+ i8Z0QCCvrTA0K3rMskY/75JZKccTSVecfuqscRk/DMJXkeDA1we9qJc8LkjPUEW5Qb7M
+ ZH66wnhc6MKoFnQqx74+A0JdOQX7zfdtx/yROFniybJJp9pk6d4fNA0sR2/BY9dn4Qzp
+ 79PB8bPAM6Ihf7sXICDqqVtq2w3FQjN8D9+1jSMi4PtuwXcd7+tDuS8eq0RXK1uGFb0d
+ 0fKQ==
+X-Gm-Message-State: AO0yUKWir6M5ai66wwtai8rQYoxX8AHsLAQCBADMZ/igKSvMb4ikYge8
+ N5Uuf2vtYDxRngQvbpktlLkNmg==
+X-Google-Smtp-Source: AK7set/J4wuWg4OytN80EDGFmX2hbBh16ONc9kAfE7OVJZXwNRrc3IJx9b1HCdYwn/r8MRS+n9Q9cQ==
+X-Received: by 2002:a05:6512:406:b0:4e9:59cd:4171 with SMTP id
+ u6-20020a056512040600b004e959cd4171mr1956040lfk.60.1679054996939; 
+ Fri, 17 Mar 2023 05:09:56 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020a056512102a00b004e7b84c6419sm343432lfr.192.2023.03.17.05.09.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Mar 2023 05:09:56 -0700 (PDT)
+Message-ID: <ab6391c4-ff38-8286-77ff-c781669f5aa0@linaro.org>
+Date: Fri, 17 Mar 2023 14:09:55 +0200
 MIME-Version: 1.0
-References: <20230306-ccorr-binding-fix-v2-0-4822939a837d@baylibre.com>
- <008996c3-074c-b443-73f2-c14f0fdf8e4e@gmail.com>
-In-Reply-To: <008996c3-074c-b443-73f2-c14f0fdf8e4e@gmail.com>
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Fri, 17 Mar 2023 13:08:31 +0100
-Message-ID: <CAFGrd9rAH4LmuZ915+sNbUcriOWU8hNXZWr94_BEjzey5YbBRw@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: display: mediatek: Fix the duplicated
- fallback
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 4/5] arm64: dts: qcom: sm8450: switch to usb3/dp combo
+ phy
+Content-Language: en-GB
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v5-0-a27f1b26ebe8@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v5-4-a27f1b26ebe8@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230206-topic-sm8450-upstream-dp-controller-v5-4-a27f1b26ebe8@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,111 +84,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
+On 17/03/2023 11:12, Neil Armstrong wrote:
+> The QMP PHY is a USB3/DP combo phy, switch to the newly
+> documented bindings and register the clocks to the GCC
+> and DISPCC controllers.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   arch/arm64/boot/dts/qcom/sm8450.dtsi | 42 +++++++++++++-----------------------
+>   1 file changed, 15 insertions(+), 27 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+> index 69695eb83897..0b5a151ce138 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+> @@ -11,6 +11,7 @@
+>   #include <dt-bindings/dma/qcom-gpi.h>
+>   #include <dt-bindings/gpio/gpio.h>
+>   #include <dt-bindings/mailbox/qcom-ipcc.h>
+> +#include <dt-bindings/phy/phy-qcom-qmp.h>
+>   #include <dt-bindings/power/qcom-rpmpd.h>
+>   #include <dt-bindings/interconnect/qcom,sm8450.h>
+>   #include <dt-bindings/soc/qcom,gpr.h>
+> @@ -748,7 +749,7 @@ gcc: clock-controller@100000 {
+>   				 <&ufs_mem_phy_lanes 0>,
+>   				 <&ufs_mem_phy_lanes 1>,
+>   				 <&ufs_mem_phy_lanes 2>,
+> -				 <0>;
+> +				 <&usb_1_qmpphy QMP_USB43DP_USB3_PIPE_CLK>;
+>   			clock-names = "bi_tcxo",
+>   				      "sleep_clk",
+>   				      "pcie_0_pipe_clk",
+> @@ -2034,37 +2035,24 @@ usb_1_hsphy: phy@88e3000 {
+>   			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
+>   		};
+>   
+> -		usb_1_qmpphy: phy-wrapper@88e9000 {
+> -			compatible = "qcom,sm8450-qmp-usb3-phy";
+> -			reg = <0 0x088e9000 0 0x200>,
+> -			      <0 0x088e8000 0 0x20>;
+> -			status = "disabled";
+> -			#address-cells = <2>;
+> -			#size-cells = <2>;
+> -			ranges;
+> +		usb_1_qmpphy: phy@88e8000 {
+> +			compatible = "qcom,sm8450-qmp-usb3-dp-phy";
+> +			reg = <0 0x088e8000 0 0x4000>;
 
-This version is outdated.
-Here the last one:
-https://lore.kernel.org/all/20230306-ccorr-binding-fix-v5-0-6c56aaecc3b1@ba=
-ylibre.com/
+This should be 0x3000 too, like 8350
 
-Regards,
-Alex
+>   
+>   			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
+>   				 <&rpmhcc RPMH_CXO_CLK>,
+> -				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>;
+> -			clock-names = "aux", "ref_clk_src", "com_aux";
+> +				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
+> +				 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+> +			clock-names = "aux", "ref", "com_aux", "usb3_pipe";
+>   
+>   			resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
+>   				 <&gcc GCC_USB3_PHY_PRIM_BCR>;
+>   			reset-names = "phy", "common";
+>   
+> -			usb_1_ssphy: phy@88e9200 {
+> -				reg = <0 0x088e9200 0 0x200>,
+> -				      <0 0x088e9400 0 0x200>,
+> -				      <0 0x088e9c00 0 0x400>,
+> -				      <0 0x088e9600 0 0x200>,
+> -				      <0 0x088e9800 0 0x200>,
+> -				      <0 0x088e9a00 0 0x100>;
+> -				#phy-cells = <0>;
+> -				#clock-cells = <0>;
+> -				clocks = <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
+> -				clock-names = "pipe0";
+> -				clock-output-names = "usb3_phy_pipe_clk_src";
+> -			};
+> +			#clock-cells = <1>;
+> +			#phy-cells = <1>;
+> +
+> +			status = "disabled";
+>   		};
+>   
+>   		remoteproc_slpi: remoteproc@2400000 {
+> @@ -2972,8 +2960,8 @@ dispcc: clock-controller@af00000 {
+>   				 <&mdss_dsi0_phy 1>,
+>   				 <&mdss_dsi1_phy 0>,
+>   				 <&mdss_dsi1_phy 1>,
+> -				 <0>, /* dp0 */
+> -				 <0>,
+> +				 <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
+> +				 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
+>   				 <0>, /* dp1 */
+>   				 <0>,
+>   				 <0>, /* dp2 */
+> @@ -4168,7 +4156,7 @@ usb_1_dwc3: usb@a600000 {
+>   				iommus = <&apps_smmu 0x0 0x0>;
+>   				snps,dis_u2_susphy_quirk;
+>   				snps,dis_enblslpm_quirk;
+> -				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
+> +				phys = <&usb_1_hsphy>, <&usb_1_qmpphy QMP_USB43DP_USB3_PHY>;
+>   				phy-names = "usb2-phy", "usb3-phy";
+>   			};
+>   		};
+> 
 
-Le ven. 17 mars 2023 =C3=A0 12:25, Matthias Brugger
-<matthias.bgg@gmail.com> a =C3=A9crit :
->
->
->
-> On 06/03/2023 17:15, Alexandre Mergnat wrote:
-> > The item which have the mediatek,mt8192-disp-ccorr const compatible alr=
-eady
-> > exist above. Remove duplicated fallback.
-> >
-> > Fixes: 137272ef1b0f ("dt-bindings: display: mediatek: Fix the fallback =
-for mediatek,mt8186-disp-ccorr")
->
-> We can argue if dt-binding patches should have a fixes tag at all. Given =
-the
-> fact that there are so many warnings still around, I don't see any value =
-add to
-> backport these to stable kernel.
->
-> That said, this is defenitely no fix, as it's only a code clean-up. No wa=
-rning,
-> no bug, no functional error fixed here :)
->
-> > Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
-> > ---
-> > Fix MTK color correction binding
-> >
-> > The fallback compatible has been duplicated in the 137272ef1b0f commit.
-> >
-> > To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > To: Philipp Zabel <p.zabel@pengutronix.de>
-> > To: David Airlie <airlied@gmail.com>
-> > To: Daniel Vetter <daniel@ffwll.ch>
-> > To: Rob Herring <robh+dt@kernel.org>
-> > To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-> > To: Matthias Brugger <matthias.bgg@gmail.com>
-> > To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com=
->
-> > To: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-mediatek@lists.infradead.org
-> > Cc: devicetree@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > ---
-> > Changes in v2:
-> > - Fix commit title.
-> > - Link to v1: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v1-0=
--177d81d60c69@baylibre.com
-> > ---
-> >   Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yam=
-l | 3 ---
-> >   1 file changed, 3 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediate=
-k,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-ccorr.yaml
-> > index b04820c95b22..3aaf44719786 100644
-> > --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr=
-.yaml
-> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr=
-.yaml
-> > @@ -29,9 +29,6 @@ properties:
-> >             - enum:
-> >                 - mediatek,mt8188-disp-ccorr
-> >                 - mediatek,mt8195-disp-ccorr
-> > -          - const: mediatek,mt8192-disp-ccorr
-> > -      - items:
-> > -          - enum:
-> >                 - mediatek,mt8186-disp-ccorr
->
-> Please sort compatibles, that will allow for easier reading once we add m=
-ore to
-> the file.
->
-> Regards,
-> Matthias
->
-> >             - const: mediatek,mt8192-disp-ccorr
-> >
-> >
-> > ---
-> > base-commit: add072536971d7ce891fde3cdbf68c55e7cfa95a
-> > change-id: 20230306-ccorr-binding-fix-718c6d725088
-> >
-> > Best regards,
+-- 
+With best wishes
+Dmitry
+
