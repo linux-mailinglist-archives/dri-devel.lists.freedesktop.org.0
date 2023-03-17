@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA046BF257
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:22:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB90E6BF259
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:23:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E40D010E401;
-	Fri, 17 Mar 2023 20:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0856210E402;
+	Fri, 17 Mar 2023 20:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E47F10E401;
- Fri, 17 Mar 2023 20:22:28 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id bk32so4666093oib.10;
- Fri, 17 Mar 2023 13:22:28 -0700 (PDT)
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CC710E402;
+ Fri, 17 Mar 2023 20:23:19 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id bd36so4660622oib.12;
+ Fri, 17 Mar 2023 13:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679084547;
+ d=gmail.com; s=20210112; t=1679084599;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vu9FEPDbzyGLlECMc2aGYaFPIGLvzNJrO43JlAS13RQ=;
- b=ekA+YU0yAqC1U1gReZKCODIm18NQaGslCP4mC+ru3AHqIYEiCYlKMKFja6SsLFZxT3
- fh3lb+8+qdx4ik8gUCYlt+SOkuvVOHYBUCjGWbMW4jYmsYNCPc3CbQPdhyCGMX0m0/3h
- P2nxpgZYnCSlc5ymMZWIB6EX3ZbryqlkOaSoE+p3DRddHNJ8FNKunJ5vTn5fska/Z05M
- oa9J6P6GtJ1HQ/+8iWt62GY/re25iUnIYPHbj4u02cWqxowc6RC3r05lA5/6b6Ked8bs
- HgbQTua517CS8hDI14H75nUk0BuShCbeySFOpbKcyU+NhMlQSH3TRHitWCIuJerbxmqk
- ca/g==
+ bh=qPeNQSs2ItWGIsCHdX7Ugj2NVfLobu8XDfoPlATYzgs=;
+ b=mDdjHCSVr++s/eQK+Jq0bYlbFXC5oczx+qcfvDkcnhjaGekCwD9TrkxzwggrQLoIf5
+ V9fd8pD++Sd0E6aI13d9qZuPoDv/02BUVRB/gr7ZmVCKwHJkrneQm6BOgRf7czeFErxD
+ J2uVJkH+DZGyLMnFgHeoK3zKqthYdcTKGbW/shCNgvG+91lhPDgndyA+xuTtYtWjPDFa
+ vRK3NwRKQxMFxuirKTRmtVr/HOF4A1uim1Ilr6XogZdeqV5cDC+MKQcMpZnUWtd5QGbi
+ dcHY1enstU3fbox9ZXOPndO4FmoKeUvXl0T/+Qin/jKVHclaeEwNjhjKceXa2rhwL3o5
+ 2D3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679084547;
+ d=1e100.net; s=20210112; t=1679084599;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vu9FEPDbzyGLlECMc2aGYaFPIGLvzNJrO43JlAS13RQ=;
- b=I0ykTegyM+gowEUu385p61W6S/pTg5ca18QlvTgzaAiDk3YH8MHls37wB4Z4hXglXR
- CdG9SjDayxFZr2UBN+95aKPN3y0kXNSqKP4whZylmoPu0Z04ADyhHCjtOH0v0UI13nNq
- VbqOdn9tv+qYvp8nBnGkijlt8ho/0mntyqR7rPK5tFbO2DUGpgUIuRplvh9a3QRDWzCP
- T8JwvDU9DWSnuY2TcuBgg4+kA5JuDzXKERSpgvt+FMiDEDfMieFBpI5sxN6Nj3oOFJCI
- 4uSfniEwSWXMXUQfGDz5KWLwr6gcR8WgEquDAtxMNbBNQuPKY+rmUx/pt9GgLHUeRfcj
- Oxag==
-X-Gm-Message-State: AO0yUKVTRt8n+qAST2qncZCFQ00rpbHJRZu2wWgs4gP8jNkm/DUzbjT9
- tNSj7u7lpUn3nCgJooqnCgR3uxJDyC7+ad+GfyE=
-X-Google-Smtp-Source: AK7set+8FK0AR04WJhBPP7BsOsQys7+Jy2T4vWiqBjFA/tCxMnTIC2HZ6Z88h6kfzBcIZkHHy5KnhP4BFHmodIHRdu0=
-X-Received: by 2002:a05:6808:2b0a:b0:384:893:a924 with SMTP id
- fe10-20020a0568082b0a00b003840893a924mr3612499oib.3.1679084547380; Fri, 17
- Mar 2023 13:22:27 -0700 (PDT)
+ bh=qPeNQSs2ItWGIsCHdX7Ugj2NVfLobu8XDfoPlATYzgs=;
+ b=MfoNd/FbIQa2EeFZfZP/XVS9SNgH6GwuTCn90xQgQYfWq1yCEUBKcrNWqs7G+u4VBw
+ BOUqhr4JLKWpsWNKKezvyhkzXr+U1oMxC042pnDe1T0W6mijkc5YXvTAZlVqs9RZ68wT
+ Fu46O1wV2KPkjITk0o7MrkPKNSui330GKD+sGW48wV4dSCL2tL1cInKIe7ScwkDSegsD
+ znkevu/E1AZE/6Mj+xho+PEa6g/3xX4rFsFFcGnHU3M4/j1YhQKswabLBuQzquQLzt9W
+ 8kbXuOM4Wd6u12ZtkNC9LLRBqZLoP/2pvEeE+yCRucfyGrDYNx3QHco6ba+3x2p/8atS
+ VvVg==
+X-Gm-Message-State: AO0yUKVXDHoetXFZP2iaoaFO2WTfxul/F+PMarYwvMpCiFvH3WuyPuTw
+ 8KjQ0OEdwneFSOFI8Bn8bgGshUSLK5V/uv4+cHUPdXKZ
+X-Google-Smtp-Source: AK7set8KBw4gi6U1rhE0sOeJ7AJ+L7QYd4rhRrr5yEZopo/hyaziXVNE56KhBTazVarqxhghVvBYYH+p9AIHxy65DWU=
+X-Received: by 2002:a05:6808:6384:b0:386:9c6c:ebc with SMTP id
+ ec4-20020a056808638400b003869c6c0ebcmr3713144oib.3.1679084599294; Fri, 17 Mar
+ 2023 13:23:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-16-lee@kernel.org>
-In-Reply-To: <20230317081718.2650744-16-lee@kernel.org>
+ <20230317081718.2650744-17-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-17-lee@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 Mar 2023 16:22:15 -0400
-Message-ID: <CADnq5_OF=Nkx6h2F-qqBajWcqn2AupHUu2GgJnx_NzuE3t0swg@mail.gmail.com>
-Subject: Re: [PATCH 15/37] drm/amd/amdgpu/gmc_v11_0: Provide a few missing
- param descriptions relating to hubs and flushes
+Date: Fri, 17 Mar 2023 16:23:07 -0400
+Message-ID: <CADnq5_McaONYTi6XOGi3wO-ObXhTZvMJ7Gor+0MM3NcwR1ES2A@mail.gmail.com>
+Subject: Re: [PATCH 16/37] drm/amd/amdgpu/ih_v6_0: Repair misspelling and
+ provide descriptions for 'ih'
 To: Lee Jones <lee@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,63 +72,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
-Alex
-
 On Fri, Mar 17, 2023 at 4:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:282: warning: Function parameter =
-or member 'vmhub' not described in 'gmc_v11_0_flush_gpu_tlb'
->  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:282: warning: Function parameter =
-or member 'flush_type' not described in 'gmc_v11_0_flush_gpu_tlb'
->  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:322: warning: Function parameter =
-or member 'flush_type' not described in 'gmc_v11_0_flush_gpu_tlb_pasid'
->  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:322: warning: Function parameter =
-or member 'all_hub' not described in 'gmc_v11_0_flush_gpu_tlb_pasid'
+>  drivers/gpu/drm/amd/amdgpu/ih_v6_0.c:392: warning: Function parameter or=
+ member 'ih' not described in 'ih_v6_0_get_wptr'
+>  drivers/gpu/drm/amd/amdgpu/ih_v6_0.c:432: warning: Function parameter or=
+ member 'ih' not described in 'ih_v6_0_irq_rearm'
+>  drivers/gpu/drm/amd/amdgpu/ih_v6_0.c:458: warning: Function parameter or=
+ member 'ih' not described in 'ih_v6_0_set_rptr'
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 > Cc: David Airlie <airlied@gmail.com>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Hawking Zhang <Hawking.Zhang@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/ih_v6_0.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd=
-/amdgpu/gmc_v11_0.c
-> index fad199ed15f38..9f4f28192c601 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> @@ -274,6 +274,8 @@ static void gmc_v11_0_flush_vm_hub(struct amdgpu_devi=
-ce *adev, uint32_t vmid,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c b/drivers/gpu/drm/amd/a=
+mdgpu/ih_v6_0.c
+> index 7cd79a3844b24..b02e1cef78a76 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
+> @@ -119,7 +119,7 @@ force_update_wptr_for_self_int(struct amdgpu_device *=
+adev,
+>   * ih_v6_0_toggle_ring_interrupts - toggle the interrupt ring buffer
 >   *
 >   * @adev: amdgpu_device pointer
->   * @vmid: vm instance to flush
-> + * @vmhub: which hub to flush
-> + * @flush_type: the flush type
+> - * @ih: amdgpu_ih_ring pointet
+> + * @ih: amdgpu_ih_ring pointer
+>   * @enable: true - enable the interrupts, false - disable the interrupts
 >   *
->   * Flush the TLB for the requested page table.
+>   * Toggle the interrupt ring buffer (IH_V6_0)
+> @@ -381,6 +381,7 @@ static void ih_v6_0_irq_disable(struct amdgpu_device =
+*adev)
+>   * ih_v6_0_get_wptr - get the IH ring buffer wptr
+>   *
+>   * @adev: amdgpu_device pointer
+> + * @ih: amdgpu_ih_ring pointer
+>   *
+>   * Get the IH ring buffer wptr from either the register
+>   * or the writeback memory buffer.  Also check for
+> @@ -425,6 +426,7 @@ static u32 ih_v6_0_get_wptr(struct amdgpu_device *ade=
+v,
+>   * ih_v6_0_irq_rearm - rearm IRQ if lost
+>   *
+>   * @adev: amdgpu_device pointer
+> + * @ih: amdgpu_ih_ring pointer
+>   *
 >   */
-> @@ -313,6 +315,8 @@ static void gmc_v11_0_flush_gpu_tlb(struct amdgpu_dev=
-ice *adev, uint32_t vmid,
+>  static void ih_v6_0_irq_rearm(struct amdgpu_device *adev,
+> @@ -450,6 +452,7 @@ static void ih_v6_0_irq_rearm(struct amdgpu_device *a=
+dev,
+>   * ih_v6_0_set_rptr - set the IH ring buffer rptr
 >   *
 >   * @adev: amdgpu_device pointer
->   * @pasid: pasid to be flush
-> + * @flush_type: the flush type
-> + * @all_hub: flush all hubs
+> + * @ih: amdgpu_ih_ring pointer
 >   *
->   * Flush the TLB for the requested pasid.
+>   * Set the IH ring buffer rptr.
 >   */
 > --
 > 2.40.0.rc1.284.g88254d51c5-goog
