@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F236BE334
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99AB6BE339
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3A710EE81;
-	Fri, 17 Mar 2023 08:23:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5798210EE31;
+	Fri, 17 Mar 2023 08:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3633110EE69;
- Fri, 17 Mar 2023 08:23:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5F010EE6D;
+ Fri, 17 Mar 2023 08:23:17 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E14E5B824F5;
- Fri, 17 Mar 2023 08:23:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE2C1C4339C;
- Fri, 17 Mar 2023 08:23:10 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 17FE8B824F6;
+ Fri, 17 Mar 2023 08:23:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04A5CC433D2;
+ Fri, 17 Mar 2023 08:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679041392;
- bh=db7R+qMmf7JQ1bscxQurohnbX82LESpL6MUvbSxqwsA=;
+ s=k20201202; t=1679041394;
+ bh=6xz1uCbkWtjZs2Q0ANTPzJEjYEFLDL038s8KDW4l2mA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=A6G4VvXK53r2h5/CasP2WD7VPcKNHNImnMMs+vkMaZCYNpzsPBIib9pkv22Vw8a0j
- UWLh3BQDJi8bbKUtIdzENXEum5mIsdqNucPKDr0Ft5MVlLFihnY3psZt5ShTlIz6XO
- YwzHvigUDawhfZHpSaJomXaVwrAOemdogWLrJmKfQo0mX0QQri5XjJmbMkesxlyiw/
- VcLaopzRHmT6q4efR+0cauxNbC/RkbNTD5FbANe7eTjbMQp7dkffnuqPjNttv1UtEA
- +/mI8va2Vj6LuXZ3NZHQ2Ie6c+E2zg8JtlMrX/bTachQHjx2hkoW2DXwBRJ+pbFBP3
- as3GiHRa4jX7g==
+ b=iSsZWkbUfkRmRmaipEb+M2TM5CfWPNYoOgI+yjn8bECGSQXB4ZTd9VBq+M3wJ3/ho
+ gSF6Efo3dy8DGiHOZuCD/F1FzZRYin5R51ZC/VWpwQmyyFHJABxcng0Hw5ZD7Oe4kT
+ Y9N693N6/Cb9uKoXvRQFJx+nyc9YX3UrykmYss3aZm5E47DVZwdb0NomCyvCgmXN5F
+ 3CVUW9/5hLVS4ob+boH+5X3dJ+l5HRFP9cBSOPIfxYam54SERYuSRkCB2rRNlgJMbU
+ KgMiJ2Gg/KBGKJ5LiHRh9nFyAH/dlQC2RmqZDwygDZy3H/5ZFRtkmHvsiADImgZ12J
+ SidvwpnvHEUQg==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 22/37] drm/nouveau/nvkm/engine/fifo/runl: Staticify local
- function nvkm_engn_cgrp_get()
-Date: Fri, 17 Mar 2023 08:17:03 +0000
-Message-Id: <20230317081718.2650744-23-lee@kernel.org>
+Subject: [PATCH 23/37] drm/nouveau/nvkm/engine/fifo/gf100: Staticify local
+ function gf100_fifo_nonstall_block()
+Date: Fri, 17 Mar 2023 08:17:04 +0000
+Message-Id: <20230317081718.2650744-24-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
 References: <20230317081718.2650744-1-lee@kernel.org>
@@ -62,7 +62,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for ‘nvkm_engn_cgrp_get’ [-Wmissing-prototypes]
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:451:1: warning: no previous prototype for ‘gf100_fifo_nonstall_block’ [-Wmissing-prototypes]
 
 Cc: Ben Skeggs <bskeggs@redhat.com>
 Cc: Karol Herbst <kherbst@redhat.com>
@@ -73,22 +73,22 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: nouveau@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c | 2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
-index b5836cbc29aa3..93d628d7d508b 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
-@@ -30,7 +30,7 @@
- #include <subdev/timer.h>
- #include <subdev/top.h>
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
+index 5bb65258c36d8..6c94451d0faad 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
+@@ -447,7 +447,7 @@ gf100_fifo_nonstall_allow(struct nvkm_event *event, int type, int index)
+ 	spin_unlock_irqrestore(&fifo->lock, flags);
+ }
  
--struct nvkm_cgrp *
-+static struct nvkm_cgrp *
- nvkm_engn_cgrp_get(struct nvkm_engn *engn, unsigned long *pirqflags)
+-void
++static void
+ gf100_fifo_nonstall_block(struct nvkm_event *event, int type, int index)
  {
- 	struct nvkm_cgrp *cgrp = NULL;
+ 	struct nvkm_fifo *fifo = container_of(event, typeof(*fifo), nonstall.event);
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
