@@ -2,84 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0976BE4C9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 10:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040A26BE4D0
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 10:04:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D805810EE9E;
-	Fri, 17 Mar 2023 09:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE52A10EEA4;
+	Fri, 17 Mar 2023 09:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9371810EE9E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 09:04:01 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id eh3so17574413edb.11
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 02:04:01 -0700 (PDT)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8033210EEA2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 09:04:33 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id x22so2848026wmj.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 02:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679043840;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=F+9q32H5maQAY7+Dr81+RVllp8r8V/8Ihh6QFteXqFU=;
- b=monslhkk1VBvMFaXE+OmJpTJ7739bvnwzQ1nH76yBk0x2FvUZw9b+Eu8kFOwfvJDyQ
- EMTxv3ziUDzdDYeevUA8okud/BGIBN7JVK/57Q4RaX3SKWkBwygjKPH64x0bG5c0Lgqa
- A4kqEOuXntc2b9UGi+QJj3o814dpeuwV6GV3vpJZSFwr9wuXSnXECIYc+19S8HR2pI/T
- rmOFjTzUfN7KMBXlFGr0glqk4sooxMJ1UYIRmKssQXUXE5z8QSUU/sa5wbNDkK6eDj4P
- bPD/AR27HeaDD9i0DFNqnyU1ZBJnP6W2m6M/Sic6cDta89U0qQxoIDpf8pVcDSlRm+/7
- KR3Q==
+ d=linaro.org; s=google; t=1679043872;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=MsOeH5VTIJLvj266rkHX55Fde/Bb5Keky5mnCISQsH4=;
+ b=sd0h8SxnEaPFkX2Ud7MfNZvoReK4uV/7qxpxBxk3xZNM+tmtsKaPyezXdyFkieGIJc
+ 0dAQmQwRAPKZhYDo8xIZRl6VVMR92PTktVWVR8Q0z+vDXYswjUSsVY7wlUIFkthM+20l
+ UDj9+aGUleTQW9Ey5UxTr4So32e0lHEiq9mLQI408omO7fB5G9ivC5Qd1oOp4TH7Zs+5
+ IhAy8bnnVlm7+b12UimMblITYQesVU1arR7gYrybPcxAmy1t/iBfxpnRdVz7YWFmUplW
+ qnEwesi7jE7q/FsQ9bFv2NC7ty5F/KXLGYCECuc9O2FLPeUD2lLEmJwVPKYVEKmWw7U6
+ xWkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679043840;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F+9q32H5maQAY7+Dr81+RVllp8r8V/8Ihh6QFteXqFU=;
- b=h4K5/ocv99NK/bWd71gzpvnnL7esgNkCnX3fKFuCeScD2mNUhdQaLEpIZkQvNXxmC1
- qp8iD2WBBsDDD1e3lgjywB4lcRH6di/L9HQdggpyNj35o5cpIonubAYsDNHpBqxoxOAa
- ojnLzfYPjpCWlOq6pxm2cEeIpQ4pU/sAmmJTXrjxB/468ydkdkr0UCWb3hVPsilv9kHK
- rHpu2CkspIFiniKRTpynuKTzaMknFwBNeNl0klBXE1VQfHaos5t6sLXFXTIdI0yPZhsB
- k8vOJF0CZB6cZLxJ7d+qWIFbpXYgo2BK80ifuCmX19OgeVz8y2XvOw7fRQmDqtvIc5ZH
- zObg==
-X-Gm-Message-State: AO0yUKUu8Y8tWplH3rj2y0viE9Os3ZF0rkGsuCEzK96fK6zCznfIW+D6
- C9FBB9RU71M7X7CBgvOw6v1McQ==
-X-Google-Smtp-Source: AK7set8bTjVCu5fhcJEjLTpRFEkjqV3j8SkNDWaEpR82X2mKS8ejahTe3YQClj1j5CUX+i8qaGJ3Tw==
-X-Received: by 2002:a17:907:9622:b0:932:35b1:47fa with SMTP id
- gb34-20020a170907962200b0093235b147famr601376ejc.64.1679043840103; 
- Fri, 17 Mar 2023 02:04:00 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:848a:1971:93e0:b465?
- ([2a02:810d:15c0:828:848a:1971:93e0:b465])
+ d=1e100.net; s=20210112; t=1679043872;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MsOeH5VTIJLvj266rkHX55Fde/Bb5Keky5mnCISQsH4=;
+ b=CIR4JTPXZYOonL5KoWD60qlv5AVzoDalWTp4JA5aZpIPLLJJScvcCXGXD1IFA3inLf
+ /ljXX5AJHe8q+YzJisnioz9b/8TIx8ZttNUqA/H6JL4mqnvjqtutaLO7GIC6pqu/LoMX
+ I2BOWZHDz4fI5rYvGm4tSPr+C06IYH/2jHR2IqdbNB6SFT5UWRWJtsDgp0d0RgFxtNvK
+ IYA+1kCWe41I47FaayfbIZeBDX53ihV5fK0lBmzOQu1mKMwmMc3kqP1C+DkD8jCMAYli
+ TkZTnTC86JElZQoPR39FT8xYtmUOsNlegxRy5t48CGtt9cUK8V6WRDP7unHsuWAehVRr
+ 8lBw==
+X-Gm-Message-State: AO0yUKVOpXZomjpcAir0bnNlOKFZwrhlq1ErOnI3CWPAyADSdBla6Ev5
+ DOJnYt8FVKQiEYhG9d7jbRAfUw==
+X-Google-Smtp-Source: AK7set+OoHD95yvZIthSsT6vMUzbdSIlC1qogPX4UgrFrwcsvTC1CiCc4Q7krtb17ucGOJ/QoYalvw==
+X-Received: by 2002:a05:600c:154d:b0:3ed:23d5:4c4c with SMTP id
+ f13-20020a05600c154d00b003ed23d54c4cmr19408344wmg.12.1679043871668; 
+ Fri, 17 Mar 2023 02:04:31 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:9ed5:bad0:e925:7938?
+ ([2a01:e0a:982:cbb0:9ed5:bad0:e925:7938])
  by smtp.gmail.com with ESMTPSA id
- lg10-20020a170906f88a00b008cc920469b5sm744608ejb.18.2023.03.17.02.03.58
+ h9-20020a1ccc09000000b003db01178b62sm7154127wmb.40.2023.03.17.02.04.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 02:03:59 -0700 (PDT)
-Message-ID: <4027714e-b4e8-953b-68e2-f74f7a7f0e8e@linaro.org>
-Date: Fri, 17 Mar 2023 10:03:58 +0100
+ Fri, 17 Mar 2023 02:04:31 -0700 (PDT)
+Message-ID: <f9606b1b-2981-4874-4763-ef3ce96cc6f2@linaro.org>
+Date: Fri, 17 Mar 2023 10:04:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v29 1/7] dt-bindings: mediatek: add ethdr definition for
- mt8195
+ Thunderbird/102.8.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 3/5] arm64: dts: qcom: sm8350: add dp controller
 Content-Language: en-US
-To: =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-References: <20221227081011.6426-1-nancy.lin@mediatek.com>
- <20221227081011.6426-2-nancy.lin@mediatek.com>
- <4aff6a7a3b606f26ec793192d9c75774276935e0.camel@mediatek.com>
- <2700bd6c-f00d-fa99-b730-2fcdf89089fa@linaro.org>
- <1d65e8b2de708db18b5f7a0faaa53834e1002d9f.camel@mediatek.com>
- <b04eb48e-c9aa-0404-33ec-bef623b8282f@linaro.org>
- <e5ceec9e-d51b-2aeb-1db7-b79b151bd44c@collabora.com>
- <0ebf187d-972e-4228-d8a0-8c0ce02f642d@linaro.org>
- <72cf6344a1c5942bff0872d05dce82b787b49b76.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <72cf6344a1c5942bff0872d05dce82b787b49b76.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>
+References: <20230206-topic-sm8450-upstream-dp-controller-v4-0-dca33f531e0d@linaro.org>
+ <20230206-topic-sm8450-upstream-dp-controller-v4-3-dca33f531e0d@linaro.org>
+ <68a26435-4f00-1571-88ef-1f3c0a254cef@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <68a26435-4f00-1571-88ef-1f3c0a254cef@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,94 +87,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "ndesaulniers@google.com" <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nathan@kernel.org" <nathan@kernel.org>,
- "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/03/2023 08:55, Nancy Lin (林欣螢) wrote:
-> On Thu, 2023-03-16 at 12:36 +0100, Krzysztof Kozlowski wrote:
->> On 16/03/2023 10:53, AngeloGioacchino Del Regno wrote:
->>
->>> Hello Krzysztof, Nancy,
->>>
->>> Since this series has reached v29, can we please reach an agreement
->>> on the bindings
->>> to use here, so that we can get this finally upstreamed?
->>>
->>> I will put some examples to try to get this issue resolved.
->>>
->>> ### Example 1: Constrain the number of GCE entries to *seven* array
->>> elements (7x4!)
->>>
->>>    mediatek,gce-client-reg:
->>>      $ref: /schemas/types.yaml#/definitions/phandle-array
->>>      maxItems: 1
->>>      description: The register of display function block to be set
->>> by gce.
->>>        There are 4 arguments in this property, gce node, subsys id,
->>> offset and
->>>        register size. The subsys id is defined in the gce header of
->>> each chips
->>>        include/dt-bindings/gce/<chip>-gce.h, mapping to the
->>> register of display
->>>        function block.
->>>      items:
->>>        minItems: 28
->>>        maxItems: 28
->>>        items:                     <----- this block doesn't seem to
->>> get checked :\
->>>          - description: phandle of GCE
->>>          - description: GCE subsys id
->>>          - description: register offset
->>>          - description: register size
->>
->> This is what we would like to have but it requires exception in
->> dtschema. Thus:
->>
->>>
->>>
->>> ### Example 2: Don't care about constraining the number of
->>> arguments
->>>
->>>    mediatek,gce-client-reg:
->>>      $ref: /schemas/types.yaml#/definitions/phandle-array
->>>      maxItems: 1
->>>      description: The register of display function block to be set
->>> by gce.
->>>        There are 4 arguments in this property, gce node, subsys id,
->>> offset and
->>>        register size. The subsys id is defined in the gce header of
->>> each chips
->>>        include/dt-bindings/gce/<chip>-gce.h, mapping to the
->>> register of display
->>>        function block.
->>
->> use this.
->>
->> Best regards,
->> Krzysztof
+On 14/03/2023 23:10, Konrad Dybcio wrote:
 > 
 > 
-> Hi Krzysztof, Angelo,
-> 
-> Thanks for the comment.
-> The Example 2 can pass dt_binding_check. 
-> 
-> But the example in the binding has 7 items [1] and dts [2]. Does the
-> "maxItems: 1" affect any other schema or dts check? 
+> On 9.03.2023 10:19, Neil Armstrong wrote:
+>> Add the Display Port controller subnode to the MDSS node.
+>>
+>> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> #SM8350-HDK
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+> [...]
+>> +				dp_opp_table: opp-table {
+>> +					compatible = "operating-points-v2";
+>> +
+>> +					opp-160000000 {
+>> +						opp-hz = /bits/ 64 <160000000>;
+>> +						required-opps = <&rpmhpd_opp_low_svs>;
+>> +					};
+> Downstream doesn't seem to use this lowest freq
 
-Ah, then it should be maxItems: 7, not 1.
+Now I know to look at, indeed, will remove.
 
-Best regards,
-Krzysztof
+Thanks,
+Neil
+
+> 
+> Konrad
+>> +
+>> +					opp-270000000 {
+>> +						opp-hz = /bits/ 64 <270000000>;
+>> +						required-opps = <&rpmhpd_opp_svs>;
+>> +					};
+>> +
+>> +					opp-540000000 {
+>> +						opp-hz = /bits/ 64 <540000000>;
+>> +						required-opps = <&rpmhpd_opp_svs_l1>;
+>> +					};
+>> +
+>> +					opp-810000000 {
+>> +						opp-hz = /bits/ 64 <810000000>;
+>> +						required-opps = <&rpmhpd_opp_nom>;
+>> +					};
+>>   				};
+>>   			};
+>>   
+>>
 
