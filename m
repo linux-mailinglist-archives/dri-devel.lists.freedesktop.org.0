@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1526BF17F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 20:13:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2594F6BF1CC
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 20:38:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A8F610E251;
-	Fri, 17 Mar 2023 19:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF04810E272;
+	Fri, 17 Mar 2023 19:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8389E10E251;
- Fri, 17 Mar 2023 19:13:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679080391; x=1710616391;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=wg+zRuzv4st6jCPHjiQQWlj2Q9JHdFftgvZtzu+dIDU=;
- b=jIOFHX7Tzvsfzg9nP4QkMTNNW9QaZkBG5vDZ5Phd3giiWBAMe4YdWPlp
- 4Ha8N3VVwMHulB5cobVrr/7UFps7j42svXzwojSmiVP6GLdHi7CKXzhB6
- Y0GurQuUrgGJyoDf+zdr4F76jZ430N2j/0pI7tLhDmFMQB2WhzH05zFEN
- y1Jz4kO25OSo7zyp0emkQzOMGoQRpB9Gp6clTuBTmCUxEDy2zID6UEVoz
- MHIFbCfOt5VvY3IlrPh7b5GNJZPdxxlnCLtd4eSghzF4KzgaxKirkiLuY
- mESWDYMdIvN4Z3a8AF2xFbJYhQVuEpDEfR8UpHgOi/Y9V5MOSK6obNwHj A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="335837811"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; d="scan'208";a="335837811"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2023 12:13:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="769468663"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; d="scan'208";a="769468663"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by FMSMGA003.fm.intel.com with SMTP; 17 Mar 2023 12:13:07 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 17 Mar 2023 21:13:06 +0200
-Date: Fri, 17 Mar 2023 21:13:06 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Subject: Re: [PATCH v3 09/17] drm/amd/display: Register Colorspace property
- for DP and HDMI
-Message-ID: <ZBS7wk+UU+v+3q80@intel.com>
-References: <ZBOf0m6W3ZWPy7nc@intel.com> <20230317105335.45d6a629@eldfell>
- <ZBRiIG+TEft19Kum@intel.com> <20230317153553.5b8eb460@eldfell>
- <ZBR1zs4/L+9thOEe@intel.com> <20230317173751.49c45929@eldfell>
- <ZBSWU5MK3rO6C4si@intel.com>
- <CA+hFU4yqUg6md+RByd6T+teyYqdkkNXS5Hm8uNtdpUw834aXkg@mail.gmail.com>
- <ZBSznxjbnREwLj9E@intel.com>
- <CA+hFU4zv_FP75zj3PF2bi8MGA6A=vWaF=ObfNjSj1SYrtuwPXg@mail.gmail.com>
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ECDF10E14D;
+ Fri, 17 Mar 2023 19:38:34 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1755e639b65so6871354fac.3; 
+ Fri, 17 Mar 2023 12:38:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679081913;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g4CRQW5pF6Xx0toKLDpXgqayNx8cYo+HEUQnJtr2Bps=;
+ b=V1FnTrEDvrmXooPxB9BFOFCSWeFA3PtHSqlkjo3B/kgdwP55lAHlbXCarz0wrLHewv
+ 2zD8JslNGzIuuGMggdw0yQCXPJEpioP7O/1ukOSfEUq74v7a1J8AJoXNsl8t6GOgcUag
+ 6DCSJdrSQtnwyYdU1AhxYv61LIxrTvbm2r0Pq1JFTFBlexf9kBPjlqC25c08RPqSzcCg
+ LvrlapBm0HRhqfM2MBcKzOmqOGLsGY36asurvz2OlJefE5wDaET4HwD9wo2GUSepQeIm
+ zoiAaNv4syW2StXWCw4oqyP09CY2LtVhfq3TVEfMIt6+cI4DaMAev5aAT+hWpUfgbKCU
+ 9PLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679081913;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=g4CRQW5pF6Xx0toKLDpXgqayNx8cYo+HEUQnJtr2Bps=;
+ b=isQzvBmE/aCvSLjfUcR0GELVR58oS/uqdaN7xKfDnKClOSdaCHIIEaWYxeZnmnvFp+
+ D0cm2+gMhwU40Jh9yIqVI0lePqcga7NUC16YjTHt/73ZRVbox8KhqhV8a+S0Ns/IVYOd
+ Eg4ld9xanfImw+hz8TobydLUuXKERP+Ygm6veg/O0GAJgdlxztUAtaGpkOQ0vstrk4w4
+ 2MqLK4UNZHlH+fNzRNZbuWeUFDp9A4cqAwPHJIfhCAkIQMCyRwv/C8nRejbfThm09pje
+ vgmc+rB0T2sx1CHZ0HWLxvAg0aIBGaRXlMym1Vo6hYv45Jml0dKJmI272RUql8yG1scO
+ j8lw==
+X-Gm-Message-State: AO0yUKXLp/zL25e8msACFWPG5fUDyl0jFp0WiY9ZjvqURzXSmZFf9ReE
+ 482WM6JAD5kqh1+/NNLS/RuCoY9CxSiK9lSDgk+X5Trt
+X-Google-Smtp-Source: AK7set8HTaL1eqc4hBHnhHOUeVdf6WbJQVjDF98pwXR1E4FskcwcsCC/FpTAIQOgS8D203EVYEsr5r2haK6MFrcmjus=
+X-Received: by 2002:a05:6870:df8c:b0:176:3897:6928 with SMTP id
+ us12-20020a056870df8c00b0017638976928mr263980oab.5.1679081913684; Fri, 17 Mar
+ 2023 12:38:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+hFU4zv_FP75zj3PF2bi8MGA6A=vWaF=ObfNjSj1SYrtuwPXg@mail.gmail.com>
-X-Patchwork-Hint: comment
+References: <20230308155322.344664-1-robdclark@gmail.com>
+ <20230308155322.344664-10-robdclark@gmail.com>
+ <CAOFGe944_xJOJ3a-uJDVyca_1_+aYTqat4=Qc3CC1wUubxw3XQ@mail.gmail.com>
+In-Reply-To: <CAOFGe944_xJOJ3a-uJDVyca_1_+aYTqat4=Qc3CC1wUubxw3XQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 17 Mar 2023 12:38:22 -0700
+Message-ID: <CAF6AEGv5Bo6sbT+en7=C+QG9+m+Wn0gauQ1qhdzBv6AEkChu7A@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v10 09/15] drm/syncobj: Add deadline support
+ for syncobj waits
+To: Faith Ekstrand <faith@gfxstrand.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,263 +71,282 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, Pekka Paalanen <ppaalanen@gmail.com>,
- dri-devel@lists.freedesktop.org, Joshua Ashton <joshua@froggi.es>,
- Vitaly.Prosyak@amd.com
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Luben Tuikov <luben.tuikov@amd.com>, Matt Turner <mattst88@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 17, 2023 at 07:47:52PM +0100, Sebastian Wick wrote:
-> On Fri, Mar 17, 2023 at 7:38 PM Ville Syrjälä
-> <ville.syrjala@linux.intel.com> wrote:
-> >
-> > On Fri, Mar 17, 2023 at 06:40:53PM +0100, Sebastian Wick wrote:
-> > > On Fri, Mar 17, 2023 at 5:34 PM Ville Syrjälä
-> > > <ville.syrjala@linux.intel.com> wrote:
-> > > >
-> > > > On Fri, Mar 17, 2023 at 05:37:51PM +0200, Pekka Paalanen wrote:
-> > > > > On Fri, 17 Mar 2023 16:14:38 +0200
-> > > > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > > >
-> > > > > > On Fri, Mar 17, 2023 at 03:35:53PM +0200, Pekka Paalanen wrote:
-> > > > > > > On Fri, 17 Mar 2023 14:50:40 +0200
-> > > > > > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > > > > >
-> > > > > > > > On Fri, Mar 17, 2023 at 10:53:35AM +0200, Pekka Paalanen wrote:
-> > > > > > > > > On Fri, 17 Mar 2023 01:01:38 +0200
-> > > > > > > > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > > > > > > >
-> > > > > > > > > > On Thu, Mar 16, 2023 at 10:13:54PM +0100, Sebastian Wick wrote:
-> > > > > > > > > > > On Thu, Mar 16, 2023 at 1:35 PM Ville Syrjälä
-> > > > > > > > > > > <ville.syrjala@linux.intel.com> wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > > On Thu, Mar 16, 2023 at 01:34:49PM +0200, Pekka Paalanen wrote:
-> > > > > > > > > > > > > On Thu, 16 Mar 2023 12:47:51 +0200
-> > > > > > > > > > > > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > > On Thu, Mar 16, 2023 at 12:07:01PM +0200, Pekka Paalanen wrote:
-> > > > > > > > > > > > > > > On Thu, 16 Mar 2023 11:50:27 +0200
-> > > > > > > > > > > > > > > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > On Thu, Mar 16, 2023 at 01:37:24AM +0100, Sebastian Wick wrote:
-> > > > > > > > > > > > > > > > > On Tue, Mar 7, 2023 at 4:12 PM Harry Wentland <harry.wentland@amd.com> wrote:
-> > > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > > We want compositors to be able to set the output
-> > > > > > > > > > > > > > > > > > colorspace on DP and HDMI outputs, based on the
-> > > > > > > > > > > > > > > > > > caps reported from the receiver via EDID.
-> > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > About that... The documentation says that user space has to check the
-> > > > > > > > > > > > > > > > > EDID for what the sink actually supports. So whatever is in
-> > > > > > > > > > > > > > > > > supported_colorspaces is just what the driver/hardware is able to set
-> > > > > > > > > > > > > > > > > but doesn't actually indicate that the sink supports it.
-> > > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > > So the only way to enable bt2020 is by checking if the sink supports
-> > > > > > > > > > > > > > > > > both RGB and YUV variants because both could be used by the driver.
-> > > > > > > > > > > > > > > > > Not great at all. Something to remember for the new property.
-> > > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > Hmm. I wonder if that's even legal... Looks like maybe it
-> > > > > > > > > > > > > > > > is since I can't immediately spot anything in CTA-861 to
-> > > > > > > > > > > > > > > > forbid it :/
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Wouldn't the driver do the same EDID check before choosing whether it
-> > > > > > > > > > > > > > > uses RGB or YCbCr signalling?
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > I suppose it could. The modeset would then fail, which is perhaps
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Could? What are they missing?
-> > > > > > > > > > > >
-> > > > > > > > > > > > The fact that the new property that also affects the rgb->ycbcr matrix
-> > > > > > > > > > > > doesn't even exist?
-> > > > > > > > > > >
-> > > > > > > > > > > I think the question was about the current Colorspace property.
-> > > > > > > > >
-> > > > > > > > > Yes.
-> > > > > > > > >
-> > > > > > > > > We need to be able to set ColourPrimaries infoframe field for the sink.
-> > > > > > > > > Only userspace knows what ColourPrimaries it uses, and the driver has
-> > > > > > > > > no need to care at all, other than tell the sink what we have.
-> > > > > > > > >
-> > > > > > > > > When a driver chooses to use YCbCr, it needs to use the
-> > > > > > > > > MatrixCoefficients the sink expects.
-> > > > > > > > >
-> > > > > > > > > If we send the infoframe to the sink telling the signal uses BT.2020
-> > > > > > > > > ColourPrimaries, does that same bit pattern also tell the sink we are
-> > > > > > > > > using the BT.2020 NCL MatrixCoefficients if the driver chooses YCbCr?
-> > > > > > > > >
-> > > > > > > > > Do drivers actually use BT.2020 NCL MatrixCoefficients in that case?
-> > > > > > > >
-> > > > > > > > No. I think I've repeated this same line a thousand times already:
-> > > > > > > > The current colorspace property *only* affects the infoframe/msa/sdp,
-> > > > > > > > nothing else.
-> > > > > > >
-> > > > > > > That's the problem. I don't know what that means.
-> > > > > > >
-> > > > > > > Does it mean that the sink expects BT.2020 NCL MatrixCoefficients to
-> > > > > > > have been used?
-> > > > > >
-> > > > > > Yes, assuming that is the colorspace property value you picked.
-> > > > > >
-> > > > > > >
-> > > > > > > And the driver will never use BT.2020 NCL MatrixCoefficients in any
-> > > > > > > circumstances?
-> > > > > >
-> > > > > > Correct.
-> > > > > >
-> > > > > > >
-> > > > > > > See the conflict? The sink will be decoding the signal incorrectly,
-> > > > > > > because we are encoding it with the wrong MatrixCoefficients if the
-> > > > > > > driver happens to silently choose YCbCr and userspace wants to send
-> > > > > > > BT2020 ColourPrimaries indicated in the infoframe.
-> > > > > >
-> > > > > > Yes. And hence I thought pretty much everyone already
-> > > > > > agreed that a new property is needed.
-> > > > >
-> > > > > I think I was confused as well with the re-posting of this series,
-> > > > > thinking it could be salvageable somehow and tried to understand how.
-> > > > > Up to Harry, I think I've left enough annoying questions by now. :-)
-> > > > >
-> > > > > > To make sure we actually understand what we're implementing
-> > > > > > I think it should start out very minimal. Eg just three values:
-> > > > > > - unspecified RGB + BT.601 YCbCr
-> > > > > > - unspecified RGB + BT.709 YCbCr
-> > > > > > - BT.2020 RGB + BT.2020 YCbCr NCL
-> > >
-> > > It would be best to describe for every case both what the display and
-> > > what the driver expects as input.
-> >
-> > I don't want the uapi to make any claims about the display. Half the
-> > real world displays are going to interpret it some other way anyway.
-> >
-> > So all I think we can promise is:
-> > - exactly what colorimetry we will indicate to the display in the metadata
-> > - exactly what MatrixCoefficients we will use for RGB->YCbCr conversion
-> >
-> > After that it's between you and your god^W display vendor what happens.
-> 
-> Sure, that's what I meant with "what the display expects" but "what we
-> indicate to the display" is more accurate indeed.
-> 
-> > >
-> > > > >
-> > > > > ColourPrimaries + MatrixCoefficients, respectively. Sounds fine.
-> > > > >
-> > > > > I recall hearing that DP spec actually has something like "unspecified"
-> > > > > while HDMI has only "default colorimetry" which is specified, but I'm
-> > > > > guessing that many monitors and TVs just don't implement it like they
-> > > > > should, so it's effectively unspecified.
-> > > >
-> > > > DP in theory might have default RGB (whatever that might mean) vs.
-> > > > sRGB, although at some point I think it was just vague RGB vs. CEA RGB,
-> > > > which I think in i915 we might be using to indicate limited vs. full
-> > > > quantization range instead. I think that somehow fixed some monitors
-> > > > (while many others still get the quantization range horrible wrong of
-> > > > course).
-> > > >
-> > > > HDMI/CTA-861-? IIRC didn't have anything but just "RGB", and in some
-> > > > footnote CTA-861-? then goes on to talk about the sRGB bit in the EDID.
-> > > > In the end it didn't seem to say anything definitive what the RGB
-> > > > colorimetry really means.
-> > >
-> > > DP has "RGB unspecified color space (Legacy RGB mode)" without more explanation.
-> > >
-> > > CTA-861 has, as I said in a previous mail on this series:
-> > >
-> > > "If bits C0 and C1 are zero, the colorimetry shall correspond to the
-> > > default colorimetry defined in Section 5.1"
-> > >
-> > > and in Section 5.1
-> > >
-> > > "In all cases described above, the RGB color space used should be the
-> > > RGB color space the Sink declares in the Basic Display Parameters and
-> > > Feature Block of its EDID."
-> > >
-> > > > >
-> > > > > "unspecified" in UAPI is ok as long as there will be another distinct
-> > > > > value for "HDMI default colorimetry" or such.
-> > > > >
-> > > > > I'm not sure why anyone would want to use "unspecified" but I guess
-> > > > > it's necessary for UAPI backward compatibility.
-> > > >
-> > > > Just because the specs don't really seem to specify anything
-> > > > sensible. We could just call it "RGB" and leave it at that of
-> > > > course.
-> > >
-> > > I think unspecified and default RGB are both good enough. The spec
-> > > doesn't give us much better guarantees anyway. Unspecified might even
-> > > be better because we could then add a default RGB case if we ever get
-> > > a mode which guarantees us that the colorimetry of the EDID is in
-> > > effect.
-> > >
-> > > > >
-> > > > > >
-> > > > > > And that would control:
-> > > > > > - basic colorimetry metadata transmitted to the sink
-> > > > > > - MatrixCoefficients used for the potential RGB->YCbCr conversion
-> > > > > >
-> > > > > > Transfer funcs, primaries, etc. would be left out (apart from
-> > > > > > the potential metadata aspect).
-> > > > >
-> > > > > Primaries left out? What are your "unspecified RGB" and "BT.2020 RGB"
-> > > > > above then?
-> > > >
-> > > > It all seems too open to interpretation to make it anything
-> > > > but "undefined".
-> > > >
-> > > > >
-> > > > > Asking from another angle, using infoframes, is it possible to tell the
-> > > > > sink to use BT.2020 YCbCr NCL without *also* implying BT.2020
-> > > > > ColourPrimaries? Joshua seemed to be saying "no".
-> > > >
-> > > > I don't think so. The BT.2020 cases seems to be more strictrly
-> > > > defined.
-> > >
-> > > The Colorimetry gives us the primaries, white point, transfer
-> > > characteristics and conversion matrix if it is for YCC. The HDR
-> > > metadata can override the transfer characteristics.
-> > >
-> > > Anyways, CTA-861 is still confusing me a lot.
-> > >
-> > > It has "No Data" Colorimetry but is that the same as not sending the
-> > > InfoFrame at all? Either way, the colorimetry should be the one from
-> > > the EDID.
-> > >
-> > > But the transfer characteristics change with the selected Colorimetry.
-> > > In the table is "RGB" the same as "No Data" and the same as sending no
-> > > InfoFrame? But then when is the transfer characteristics of the EDID
-> > > in effect and when bt.709 from the table?
-> > >
-> > > There doesn't appear to be a default colorimetry for YCC. So how would
-> > > you even automatically fall back from RGB to YCC with the same
-> > > colorimetry?
-> > >
-> > > I only see the colorimetry BT.709 and not BT.601. Some other
-> > > colorimetry uses the BT.601 conversion matrix so how would
-> > > "unspecified RGB + BT.709 YCbCr" even work?
-> >
-> > It just means:
-> > - if we output RGB we the colorimetry signalled will be "no data"
-> >   value (or whatever the "i don't know what anything means" value)
-> > - if we output YCbCr the colorimetry signalled will be the BT.709
-> >   value, and the YCbCr data will be produced using the BT.709
-> >   MatrixCoefficients
-> >
-> > Beyond that absolutely no promises about anything.
-> 
-> Then we have different primary chromaticities depending on if the
-> kernel chose RGB or YCC.
+On Fri, Mar 17, 2023 at 12:08=E2=80=AFPM Faith Ekstrand <faith@gfxstrand.ne=
+t> wrote:
+>
+>
+> On Wed, Mar 8, 2023 at 9:54=E2=80=AFAM Rob Clark <robdclark@gmail.com> wr=
+ote:
+>>
+>> From: Rob Clark <robdclark@chromium.org>
+>>
+>> Add a new flag to let userspace provide a deadline as a hint for syncobj
+>> and timeline waits.  This gives a hint to the driver signaling the
+>> backing fences about how soon userspace needs it to compete work, so it
+>> can addjust GPU frequency accordingly.  An immediate deadline can be
+>> given to provide something equivalent to i915 "wait boost".
+>>
+>> v2: Use absolute u64 ns value for deadline hint, drop cap and driver
+>>     feature flag in favor of allowing count_handles=3D=3D0 as a way for
+>>     userspace to probe kernel for support of new flag
+>> v3: More verbose comments about UAPI
+>>
+>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>> ---
+>>  drivers/gpu/drm/drm_syncobj.c | 64 ++++++++++++++++++++++++++++-------
+>>  include/uapi/drm/drm.h        | 17 ++++++++++
+>>  2 files changed, 68 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj=
+.c
+>> index 0c2be8360525..a85e9464f07b 100644
+>> --- a/drivers/gpu/drm/drm_syncobj.c
+>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>> @@ -126,6 +126,11 @@
+>>   * synchronize between the two.
+>>   * This requirement is inherited from the Vulkan fence API.
+>>   *
+>> + * If &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE is set, the ioctl will also=
+ set
+>> + * a fence deadline hint on the backing fences before waiting, to provi=
+de the
+>> + * fence signaler with an appropriate sense of urgency.  The deadline i=
+s
+>> + * specified as an absolute &CLOCK_MONOTONIC value in units of ns.
+>> + *
+>>   * Similarly, &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of syncob=
+j
+>>   * handles as well as an array of u64 points and does a host-side wait =
+on all
+>>   * of syncobj fences at the given points simultaneously.
+>> @@ -973,7 +978,8 @@ static signed long drm_syncobj_array_wait_timeout(st=
+ruct drm_syncobj **syncobjs,
+>>                                                   uint32_t count,
+>>                                                   uint32_t flags,
+>>                                                   signed long timeout,
+>> -                                                 uint32_t *idx)
+>> +                                                 uint32_t *idx,
+>> +                                                 ktime_t *deadline)
+>>  {
+>>         struct syncobj_wait_entry *entries;
+>>         struct dma_fence *fence;
+>> @@ -1053,6 +1059,15 @@ static signed long drm_syncobj_array_wait_timeout=
+(struct drm_syncobj **syncobjs,
+>>                         drm_syncobj_fence_add_wait(syncobjs[i], &entries=
+[i]);
+>>         }
+>>
+>> +       if (deadline) {
+>> +               for (i =3D 0; i < count; ++i) {
+>> +                       fence =3D entries[i].fence;
+>> +                       if (!fence)
+>> +                               continue;
+>> +                       dma_fence_set_deadline(fence, *deadline);
+>> +               }
+>> +       }
+>> +
+>>         do {
+>>                 set_current_state(TASK_INTERRUPTIBLE);
+>>
+>> @@ -1151,7 +1166,8 @@ static int drm_syncobj_array_wait(struct drm_devic=
+e *dev,
+>>                                   struct drm_file *file_private,
+>>                                   struct drm_syncobj_wait *wait,
+>>                                   struct drm_syncobj_timeline_wait *time=
+line_wait,
+>> -                                 struct drm_syncobj **syncobjs, bool ti=
+meline)
+>> +                                 struct drm_syncobj **syncobjs, bool ti=
+meline,
+>> +                                 ktime_t *deadline)
+>>  {
+>>         signed long timeout =3D 0;
+>>         uint32_t first =3D ~0;
+>> @@ -1162,7 +1178,8 @@ static int drm_syncobj_array_wait(struct drm_devic=
+e *dev,
+>>                                                          NULL,
+>>                                                          wait->count_han=
+dles,
+>>                                                          wait->flags,
+>> -                                                        timeout, &first=
+);
+>> +                                                        timeout, &first=
+,
+>> +                                                        deadline);
+>>                 if (timeout < 0)
+>>                         return timeout;
+>>                 wait->first_signaled =3D first;
+>> @@ -1172,7 +1189,8 @@ static int drm_syncobj_array_wait(struct drm_devic=
+e *dev,
+>>                                                          u64_to_user_ptr=
+(timeline_wait->points),
+>>                                                          timeline_wait->=
+count_handles,
+>>                                                          timeline_wait->=
+flags,
+>> -                                                        timeout, &first=
+);
+>> +                                                        timeout, &first=
+,
+>> +                                                        deadline);
+>>                 if (timeout < 0)
+>>                         return timeout;
+>>                 timeline_wait->first_signaled =3D first;
+>> @@ -1243,17 +1261,22 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, v=
+oid *data,
+>>  {
+>>         struct drm_syncobj_wait *args =3D data;
+>>         struct drm_syncobj **syncobjs;
+>> +       unsigned possible_flags;
+>> +       ktime_t t, *tp =3D NULL;
+>>         int ret =3D 0;
+>>
+>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+>>                 return -EOPNOTSUPP;
+>>
+>> -       if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+>> -                           DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT))
+>> +       possible_flags =3D DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+>> +                        DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+>> +                        DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
+>> +
+>> +       if (args->flags & ~possible_flags)
+>>                 return -EINVAL;
+>>
+>>         if (args->count_handles =3D=3D 0)
+>> -               return -EINVAL;
+>> +               return 0;
+>
+>
+> Did you intend this change? If so, why? What does waiting with no handles=
+ gain us? I mean, it's probably fine but it seems unrelated to this change.
 
-Does the display actualy care? No idea.
+Yes, it was intentional.. it gives userspace a way to probe whether
+the kernel supports the new flag..
 
-> 
-> When you signal the BT.709 colorimetry you're not only signalling the
-> conversion matrix, you're also signaling the expected primary
-> chromaticities and transfer characteristics as well and they will not
-> match the default/no-data/unspecified colorimetry.
+BR,
+-R
 
-Well then, maybe there's no proper way to do what we want do
-(automagic RGB vs.YCbCr selection). But even the improper way
-seems to work well enough in practie for some people.
-
--- 
-Ville Syrjälä
-Intel
+>>         ret =3D drm_syncobj_array_find(file_private,
+>>                                      u64_to_user_ptr(args->handles),
+>> @@ -1262,8 +1285,13 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, vo=
+id *data,
+>>         if (ret < 0)
+>>                 return ret;
+>>
+>> +       if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+>> +               t =3D ns_to_ktime(args->deadline_ns);
+>> +               tp =3D &t;
+>> +       }
+>> +
+>>         ret =3D drm_syncobj_array_wait(dev, file_private,
+>> -                                    args, NULL, syncobjs, false);
+>> +                                    args, NULL, syncobjs, false, tp);
+>>
+>>         drm_syncobj_array_free(syncobjs, args->count_handles);
+>>
+>> @@ -1276,18 +1304,23 @@ drm_syncobj_timeline_wait_ioctl(struct drm_devic=
+e *dev, void *data,
+>>  {
+>>         struct drm_syncobj_timeline_wait *args =3D data;
+>>         struct drm_syncobj **syncobjs;
+>> +       unsigned possible_flags;
+>> +       ktime_t t, *tp =3D NULL;
+>>         int ret =3D 0;
+>>
+>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
+>>                 return -EOPNOTSUPP;
+>>
+>> -       if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+>> -                           DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+>> -                           DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
+>> +       possible_flags =3D DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
+>> +                        DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
+>> +                        DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
+>> +                        DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
+>> +
+>> +       if (args->flags & ~possible_flags)
+>>                 return -EINVAL;
+>>
+>>         if (args->count_handles =3D=3D 0)
+>> -               return -EINVAL;
+>> +               return -0;
+>
+>
+> Did you intend this change? -0 is a pretty weird integer.
+>
+>>
+>>         ret =3D drm_syncobj_array_find(file_private,
+>>                                      u64_to_user_ptr(args->handles),
+>> @@ -1296,8 +1329,13 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device=
+ *dev, void *data,
+>>         if (ret < 0)
+>>                 return ret;
+>>
+>> +       if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
+>> +               t =3D ns_to_ktime(args->deadline_ns);
+>> +               tp =3D &t;
+>> +       }
+>> +
+>>         ret =3D drm_syncobj_array_wait(dev, file_private,
+>> -                                    NULL, args, syncobjs, true);
+>> +                                    NULL, args, syncobjs, true, tp);
+>>
+>>         drm_syncobj_array_free(syncobjs, args->count_handles);
+>>
+>> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+>> index 642808520d92..bff0509ac8b6 100644
+>> --- a/include/uapi/drm/drm.h
+>> +++ b/include/uapi/drm/drm.h
+>> @@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
+>>  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
+>>  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
+>>  #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time=
+ point to become available */
+>> +#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence dead=
+line based to deadline_ns */
+>>  struct drm_syncobj_wait {
+>>         __u64 handles;
+>>         /* absolute timeout */
+>> @@ -895,6 +896,14 @@ struct drm_syncobj_wait {
+>>         __u32 flags;
+>>         __u32 first_signaled; /* only valid when not waiting all */
+>>         __u32 pad;
+>> +       /**
+>> +        * @deadline_ns - fence deadline hint
+>> +        *
+>> +        * Deadline hint, in absolute CLOCK_MONOTONIC, to set on backing
+>> +        * fence(s) if the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag is
+>> +        * set.
+>> +        */
+>> +       __u64 deadline_ns;
+>>  };
+>>
+>>  struct drm_syncobj_timeline_wait {
+>> @@ -907,6 +916,14 @@ struct drm_syncobj_timeline_wait {
+>>         __u32 flags;
+>>         __u32 first_signaled; /* only valid when not waiting all */
+>>         __u32 pad;
+>> +       /**
+>> +        * @deadline_ns - fence deadline hint
+>> +        *
+>> +        * Deadline hint, in absolute CLOCK_MONOTONIC, to set on backing
+>> +        * fence(s) if the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag is
+>> +        * set.
+>> +        */
+>> +       __u64 deadline_ns;
+>>  };
+>>
+>>
+>> --
+>> 2.39.2
+>>
