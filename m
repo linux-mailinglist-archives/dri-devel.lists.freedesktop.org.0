@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314AD6BF2C5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:38:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0276BF2CC
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:39:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE5D110EF91;
-	Fri, 17 Mar 2023 20:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D77210E421;
+	Fri, 17 Mar 2023 20:39:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A5010E421;
- Fri, 17 Mar 2023 20:38:16 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id bg11so4720037oib.5;
- Fri, 17 Mar 2023 13:38:16 -0700 (PDT)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
+ [IPv6:2607:f8b0:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22A510E421;
+ Fri, 17 Mar 2023 20:39:20 +0000 (UTC)
+Received: by mail-oi1-x236.google.com with SMTP id r36so4711551oiw.7;
+ Fri, 17 Mar 2023 13:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679085496;
+ d=gmail.com; s=20210112; t=1679085560;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SiRvHTQSgz2sGcSTSQDgv3aXyZNisuXYRa3sxKRv48Y=;
- b=noYwnuOKwWFBEAWH0wq1AdvXvo0lxwy+yu1fQsV7rQIPzMSyaxnzBDlyQxhC4v52Ct
- yXtAe5qHKmzlFVyMg2MvEFUZ/in5sNDuzVPjvobe2cQE62L/zUXtgdG9/5dE98golwAz
- Ed6z4X5fJrzBPJ92tZUmfPGZpMxFkxdUQn3yJLtTRhXkKIZI73bNql15Ard1aygScgz2
- hkyTxS5hYGkMVbyo34mOVMwqwZXxoQZn1uAlYtJA8C4RMswGdbBrsnvGqU2wuoxXbDhG
- oZuh9h0n4hPXDMqiJ6BIgFFltwVOeD84pfIPmMRcaNmpuio5cimIqvhzvcT6GeJgdDUp
- NBSw==
+ bh=r2ceKigtwCgXknXQIGjyiY2sXOg78OguiBhLG+H+iU0=;
+ b=F7NTXlDuv7+z1BobleOBc0RzjNkRncybXR/Z40pNG/5NJ00vWglvmdZcLWvQSAu8o9
+ 0vM/eWWYUP/2F/sNosphE2DlJnnWrAKAyy0vUfp+q9pWka7l+v0dBJ0JTDFdwr14dwV4
+ qpbQN5es849DbZbRstsHGVEQEKDoy0P2oeumDIR7sPrWsviRTQCMoPUown0o9FXfMMzj
+ IGyIMPZzJL7fZuA69a/x0CuYlKgDoM34lBsqu6tTFCYYd/ODOZbSIg9aupD44K674Mdw
+ QDqrb2MMUjaD/n+dSrVXs90YvQpONuYZQY/7ixBluCMoZ72av/q1J1MYHSZEYDUjHlp9
+ CNhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679085496;
+ d=1e100.net; s=20210112; t=1679085560;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SiRvHTQSgz2sGcSTSQDgv3aXyZNisuXYRa3sxKRv48Y=;
- b=qH3dnWepKykK8fbHL3u11svOxunsG4DkxwpHlEMi2+B4cIfIhTbHxdhwmrSLEnya+V
- MI6sGP75Rixk59H73fi/s+py8BoncQtEvVSs02nxgs8H6th2L3+zMK1OmK6X7u8uk5CX
- DqHBiXlAIPFGYgKsMiWoCqNcGTrsUENvZceB2y9RNudrY3QDgkv9XVxwmSX70CChpln/
- CCWGMIHPjzj2RZZ1EFG+7n4SKjvw5B7YnvtYcYGC5sIvdEgXW1K+Pbl+7hkTJ1MNCfNC
- vhqvcmV4kpBmQRS67nUK7C59Ve1eM47aT1ik3NwZcZSiwak4J+XwVgFgzptKzXWege7I
- Fuqg==
-X-Gm-Message-State: AO0yUKVlUIyuMbVtB/1zkmjlelbXi85ZFPYKRhNro63MhHAVLK6LFvcr
- Ub0YvED+Ly8i0J9MOcD8qH5tNiBjiQe5q3VYWXQ=
-X-Google-Smtp-Source: AK7set8f+RPp3l5ctUFTldzEQWJ2g1WSss80boStaRHFLdQ+ziQfn8ZgMwEGBd9VJfl8grT2a0sf3hJhAwAYLhNr0Zs=
-X-Received: by 2002:a05:6808:6384:b0:386:9c6c:ebc with SMTP id
- ec4-20020a056808638400b003869c6c0ebcmr3725311oib.3.1679085495886; Fri, 17 Mar
- 2023 13:38:15 -0700 (PDT)
+ bh=r2ceKigtwCgXknXQIGjyiY2sXOg78OguiBhLG+H+iU0=;
+ b=mhSCmgTMs0kBOZPWkkApR3+SOAdY295iaKTyJ/lLedDgpigRrE1xqN7JfFvncD4mlu
+ t52G21GpXZgCTqdQHlvnpZIDnPoKqZMtG2DPuca90BWnmTtXFMs5DdrgFHfaYraTQWrP
+ HstEZE8WYgcrO2HQxwcGXQ1DABiKJVuJ4XcELqDSUZaUINVGB4XPqxA9AN7xfCq7TkPE
+ ASUNtQzbhC1x+CBLci8SYC6BBSXQLnVwP08c2F3UP2Li71yHJ8E5/P7HDq6/wvoveuCI
+ 6nuvtaXsT6KLX057XHJ5tdZMlvRbgjVDVTyMRPtroSg8Vh5RTDAcP329ggwyRaCdLTgF
+ n5Mw==
+X-Gm-Message-State: AO0yUKXcpTRLcj1pthBeORQ8P0KWGCsvyYBvHFF80xhwanwUSBACbyml
+ MiDt98OWxQCwxrSHADta1Es/B9erwJgJevhLS/E=
+X-Google-Smtp-Source: AK7set+b+3oyu0svFygRamnRBQc9qzNVoS/CNFRldG8LQY67XtnAE+vykp7jKoBeOi7sUvON7HXb4M7gFbjdNQ7cXLQ=
+X-Received: by 2002:a54:449a:0:b0:384:692c:56c9 with SMTP id
+ v26-20020a54449a000000b00384692c56c9mr3625036oiv.3.1679085558766; Fri, 17 Mar
+ 2023 13:39:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-30-lee@kernel.org>
-In-Reply-To: <20230317081718.2650744-30-lee@kernel.org>
+ <20230317081718.2650744-31-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-31-lee@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 Mar 2023 16:38:04 -0400
-Message-ID: <CADnq5_PR+VHHELVqbVYjOoJA-u_2V=kZmbyk2E0LJ==QOwPnbw@mail.gmail.com>
-Subject: Re: [PATCH 29/37] drm/amd/display/dc/link/link_detection: Remove
- unused variable 'status'
+Date: Fri, 17 Mar 2023 16:39:07 -0400
+Message-ID: <CADnq5_M4Zq4AQJVVw8f1k_M4xTygzPzbYoNdHQV27T76uk=2tw@mail.gmail.com>
+Subject: Re: [PATCH 30/37] drm/amd/display/dc/link/protocols/link_dp_training:
+ Remove set but unused variable 'result'
 To: Lee Jones <lee@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -83,11 +83,11 @@ On Fri, Mar 17, 2023 at 4:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c: In funct=
-ion =E2=80=98query_hdcp_capability=E2=80=99:
->  drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:501:42: w=
-arning: variable =E2=80=98status=E2=80=99 set but not used [-Wunused-but-se=
-t-variable]
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training=
+.c: In function =E2=80=98perform_link_training_with_retries=E2=80=99:
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training=
+.c:1586:38: warning: variable =E2=80=98result=E2=80=99 set but not used [-W=
+unused-but-set-variable]
 >
 > Cc: Harry Wentland <harry.wentland@amd.com>
 > Cc: Leo Li <sunpeng.li@amd.com>
@@ -102,36 +102,28 @@ t-variable]
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
->  drivers/gpu/drm/amd/display/dc/link/link_detection.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  .../gpu/drm/amd/display/dc/link/protocols/link_dp_training.c   | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drive=
-rs/gpu/drm/amd/display/dc/link/link_detection.c
-> index 9177b146a80a8..9a4cfa777622e 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> @@ -498,8 +498,6 @@ static void query_hdcp_capability(enum signal_type si=
-gnal, struct dc_link *link)
->         dc_process_hdcp_msg(signal, link, &msg22);
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_traini=
+ng.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+> index a9025671ee4a8..10261764a0cea 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
+> @@ -1580,8 +1580,7 @@ bool perform_link_training_with_retries(
+>                                  * Report and continue with eDP panel mod=
+e to
+>                                  * perform eDP link training with right s=
+ettings
+>                                  */
+> -                               bool result;
+> -                               result =3D cp_psp->funcs.enable_assr(cp_p=
+sp->handle, link);
+> +                               cp_psp->funcs.enable_assr(cp_psp->handle,=
+ link);
+>                         }
+>                 }
 >
->         if (signal =3D=3D SIGNAL_TYPE_DISPLAY_PORT || signal =3D=3D SIGNA=
-L_TYPE_DISPLAY_PORT_MST) {
-> -               enum hdcp_message_status status =3D HDCP_MESSAGE_UNSUPPOR=
-TED;
-> -
->                 msg14.data =3D &link->hdcp_caps.bcaps.raw;
->                 msg14.length =3D sizeof(link->hdcp_caps.bcaps.raw);
->                 msg14.msg_id =3D HDCP_MESSAGE_ID_READ_BCAPS;
-> @@ -507,7 +505,7 @@ static void query_hdcp_capability(enum signal_type si=
-gnal, struct dc_link *link)
->                 msg14.link =3D HDCP_LINK_PRIMARY;
->                 msg14.max_retries =3D 5;
->
-> -               status =3D dc_process_hdcp_msg(signal, link, &msg14);
-> +               dc_process_hdcp_msg(signal, link, &msg14);
->         }
->
->  }
 > --
 > 2.40.0.rc1.284.g88254d51c5-goog
 >
