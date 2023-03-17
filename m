@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D986BF269
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:27:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 708326BF27C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:28:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2B6410EF99;
-	Fri, 17 Mar 2023 20:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5C610EF8A;
+	Fri, 17 Mar 2023 20:28:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B2EC10EF6A;
- Fri, 17 Mar 2023 20:27:50 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id bj30so4693692oib.6;
- Fri, 17 Mar 2023 13:27:50 -0700 (PDT)
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77D1D10E41B;
+ Fri, 17 Mar 2023 20:28:47 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ p11-20020a9d454b000000b0069d8eb419f9so3093425oti.4; 
+ Fri, 17 Mar 2023 13:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679084869;
+ d=gmail.com; s=20210112; t=1679084926;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ba1T52G1S948o7T3Sv1JQdxUM0FGCuF6VR8R5Mn80os=;
- b=e5hycfXZJoahdd+EK2xsTNQpEheR1OaVRQ2wD6fTlb/tYwRqaK5PjxVNd2daMEJkIO
- BoXetfGiJLB6y6/krTD6mAKCvtObcv7WfzAO2r5K9a6JMbXjD0sT/vIhM0Y7a++WzQMo
- 93o0pzgjrW+ffCHTUUclRJNrW9dkwSfOYuDEzAhTTwREnGRMLKuizTANO/1k7CGf4WBm
- kMbD/KtlI9cj7a7TQeD9D9Bh5nz/X4sso6fprKCGWUMeQlG3YG3hP29q4vjl3pR90q/7
- 9NM4S0cDnoJFrTmloDK6+hj7tDvQ/UC9LmKLZRmK1n8LLEMy+Sop3ue/W+7Tln+2u1JT
- TPag==
+ bh=t6aACPxqUIkT43mYqyKmb1AfW+xFiyWxFJZz7u1wr14=;
+ b=BK2YPfUrlvlvCpE5wWvAfGtxE42u5BfYuYZKVaciH8+4uYZX7GpPrMm5mb3PdJLbUz
+ 0774aS4o9dju6/pZU36KHlOLsF5K4eToLOJiVXf5BA0PMHLjv1wT0O2pUsLEBscc4g0Y
+ AfsQq2/KaseSDEszHEAAENK8J/FWWaCXSU0P1pz8ufCWcBVmO+aZqsF95D1alcQCdKrg
+ W5GYP8U7J2OSnnqpGNbIcQGFfdFsjNbptLkaw59Dk1TehddL+K66J6YaXh0BeqewrWa3
+ 7S2ssuFwzZ7L1p0lvjeuqdAtQAw81dy9M1IUhQyMV0j+55Y7WT9Lx1Oc+EhkeVMyDbBK
+ 9bTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679084869;
+ d=1e100.net; s=20210112; t=1679084926;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ba1T52G1S948o7T3Sv1JQdxUM0FGCuF6VR8R5Mn80os=;
- b=sXZ3tbCE4dWnQi7+Hl355RzyxECW68SoqiNmzKzOWGsH7bimVvjkUhLPx1y7qWUFNB
- KTJPmeXwHu7dP6i3Uw2p35LWOiGLyduQrBiMRULQj8Dzt+Nh4WW0U5sKFYST4eAncqVU
- Lu+jlhS/FFzFBalgQdOaRHP1KnCG+R+yR5pXKW2DsKFjVX/FnzF3PA4abw9WPxarCraY
- zKYeWGDEQ86ZFEpsKcezmI0QVaTBZQLa4InDxNBmwdSy1Xt5QMFidDJK8QKvULu+Hm0T
- PGAM9Qzs/jFI3XrPGmq6zdHSKaFeH7mERTS78EP+1u7e2T+mD1ucJfLmV7H5ILApTBjL
- EkeQ==
-X-Gm-Message-State: AO0yUKWYjIpLjrU3rHyC1ffwxBgBR+4PKIzn7huVkbS7P0mDXUr1byMI
- wYG/oCFnRJtspvJxT7pXnLepP82woVLsLs3jX2E=
-X-Google-Smtp-Source: AK7set8/mMOeRQfI0SzS7VmayrF+lkziaBf2mSmKHYCfX8qAH2GPW32TprON+LtUX5ehQJAw/2SL7eWbeq0Hx8m8+Z0=
-X-Received: by 2002:a05:6808:9a7:b0:386:d34c:16fe with SMTP id
- e7-20020a05680809a700b00386d34c16femr969451oig.3.1679084869443; Fri, 17 Mar
- 2023 13:27:49 -0700 (PDT)
+ bh=t6aACPxqUIkT43mYqyKmb1AfW+xFiyWxFJZz7u1wr14=;
+ b=Fv8O2Nqoob9YLUpkoj0gFNygNT6E4OnfOQt1hNZmWcbWAF34Mcsxc7ewmM3/aNbsHA
+ fpLjsLYmlkWG+hF+rcXTXY+nUWoewElGkjP+TjWUaHnXJCWACnZS/3LB2cZhQ6rUJEqi
+ GQe7vd6XuS6/ZiQAHXeol863BNNu0eVwKJrunARlLxgf7djsHU43JKZv9R8U1tVq4wB9
+ nkzmiX8uS1O4mCxrG0kYIIDFAPu9PEStQNL36PCaLqd8/CkJXsndZmO4PAlvN5mdC2XO
+ J4q9RDrJtQvEhOtIC9YahMx5sK6RBnD42oM4VArvXAsfdhgSwEib/m8wIMOFmEoGXdgN
+ yNoQ==
+X-Gm-Message-State: AO0yUKXyy65hQmsPJzyUfBSnc/8zS5IVCqywzS5KScyYCX5dXBRLvC2I
+ qOel0c8tzLgNAHZXchsO9/IPolpsHqPOxhswJtE=
+X-Google-Smtp-Source: AK7set89ivnYrpU/9WVegkro6qNkp52C0d5j3e3YbnZDjwyaG5GuwZIaR6q+pX0wiaVxWqyxhvnZYJZ/su7IHQ8TtIs=
+X-Received: by 2002:a05:6830:1e38:b0:69b:af37:6f9a with SMTP id
+ t24-20020a0568301e3800b0069baf376f9amr315445otr.3.1679084926751; Fri, 17 Mar
+ 2023 13:28:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-19-lee@kernel.org>
-In-Reply-To: <20230317081718.2650744-19-lee@kernel.org>
+ <20230317081718.2650744-20-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-20-lee@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 Mar 2023 16:27:36 -0400
-Message-ID: <CADnq5_Piyr=XPu3OvPAE6YUhT1gcuUFJYkxgf=0YZbVr1fKDHA@mail.gmail.com>
-Subject: Re: [PATCH 18/37] drm/amd/amdgpu/amdgpu_vce: Provide description for
- amdgpu_vce_validate_bo()'s 'p' param
+Date: Fri, 17 Mar 2023 16:28:35 -0400
+Message-ID: <CADnq5_NhOpGd0rG_TVFFfZsk9aFy6Lu+nJ87TdTKAubkXpomXw@mail.gmail.com>
+Subject: Re: [PATCH 19/37] drm/amd/pm/swsmu/smu11/vangogh_ppt: Provide a
+ couple of missing parameter descriptions
 To: Lee Jones <lee@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -70,15 +71,14 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+ Li Ma <li.ma@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied with minor modification.  Thanks!
+Applied.  Thanks!
 
 Alex
 
@@ -86,38 +86,50 @@ On Fri, Mar 17, 2023 at 4:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c:599: warning: Function parameter=
- or member 'p' not described in 'amdgpu_vce_validate_bo'
+>  drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:2381: warning=
+: Function parameter or member 'residency' not described in 'vangogh_get_gf=
+xoff_residency'
+>  drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/vangogh_ppt.c:2399: warning=
+: Function parameter or member 'entrycount' not described in 'vangogh_get_g=
+fxoff_entrycount'
 >
+> Cc: Evan Quan <evan.quan@amd.com>
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 > Cc: David Airlie <airlied@gmail.com>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Li Ma <li.ma@amd.com>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_vce.c
-> index 2fb61410b1c02..c4d65ade5c00a 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c
-> @@ -585,6 +585,7 @@ static int amdgpu_vce_get_destroy_msg(struct amdgpu_r=
-ing *ring, uint32_t handle,
->  /**
->   * amdgpu_vce_validate_bo - make sure not to cross 4GB boundary
+> diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/g=
+pu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> index 4590374251f3b..7433dcaa16e04 100644
+> --- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> +++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+> @@ -2389,6 +2389,7 @@ static u32 vangogh_set_gfxoff_residency(struct smu_=
+context *smu, bool start)
+>   * vangogh_get_gfxoff_residency
 >   *
-> + * @p: parser context
->   * @ib: indirect buffer to use
->   * @lo: address of lower dword
->   * @hi: address of higher dword
+>   * @smu: amdgpu_device pointer
+> + * @residency: placeholder for return value
+>   *
+>   * This function will be used to get gfxoff residency.
+>   *
+> @@ -2407,6 +2408,7 @@ static u32 vangogh_get_gfxoff_residency(struct smu_=
+context *smu, uint32_t *resid
+>   * vangogh_get_gfxoff_entrycount - get gfxoff entry count
+>   *
+>   * @smu: amdgpu_device pointer
+> + * @entrycount: placeholder for return value
+>   *
+>   * This function will be used to get gfxoff entry count
+>   *
 > --
 > 2.40.0.rc1.284.g88254d51c5-goog
 >
