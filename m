@@ -1,93 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96656BDD11
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 00:41:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7906BDD7F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 01:22:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2711D10E222;
-	Thu, 16 Mar 2023 23:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A483910E241;
+	Fri, 17 Mar 2023 00:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F51610E09C;
- Thu, 16 Mar 2023 23:41:15 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32GNMkga025405; Thu, 16 Mar 2023 23:40:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=RK0SuungC2wUqIiGl1ecxSrcAOHQ3pSMDoveShMf5Lk=;
- b=Qevp8wnmilMUNhYJ8H5EmImXhp/5HWmxGa74L1rsIddwY52L8E6A4Cz3Mdn+g0b76syL
- 4pDE/fVZrGYT1WAtn7HyZF+wSKlOx6tfaArL+F2NYCDepq4yNumo9r8A1T+4pvWA+4l3
- rtDZSH1J7kgN6ykxhwjoHu51Kk2g+t2RTozbUs7zLLJHTJq03Mn9+yYsSwhYVxArkNGb
- 7LRCYW3KVS5J+FI0JF7nRVva7Kmu/LFdyHiSC2boGB8Udcj9zdxQTJilE2s+NrRHubuq
- Q4n1Vlve+rJ80RzfZ3SxOHByd5aaDoUPd1WkaTkeLRQf/D6oEfWuAkOvQc4ZL9eJgz+D Nw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pc3yp9hxd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 23:40:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GNeAar031255
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Mar 2023 23:40:10 GMT
-Received: from [10.110.64.241] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 16 Mar
- 2023 16:40:09 -0700
-Message-ID: <b3143706-00d2-16d4-9bbd-046139fcdce0@quicinc.com>
-Date: Thu, 16 Mar 2023 16:40:08 -0700
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF4510E241;
+ Fri, 17 Mar 2023 00:21:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679012517; x=1710548517;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=xlJyRPp60Nn/BBLFs4mwnXf7KX4JsImlYfyBnFYCKpk=;
+ b=lFLfkxrV2c114ou5MqohrEgvHlJQNF1oNAfU6UuIRzzaFZ+/NwyFrbdm
+ xrXsV/SurmmVGuT+g0v1arx9THf1h4WUa+86D8hJ9FDtZMobulz98PbG5
+ tVRiskamrnDcYseP+kWrrYwXvvw8Ej+k1USDqNJYTmXYaYhLSVMsvSbdW
+ U309TVsA35qct8u21AQLrB8JRWwKU1QrrpyKkkdqbMDrvXoPR3q477dES
+ oUztlb/7kQ/PO/LqfAPWg0jmrY9aonm2xf3rteGg/H7mZoihsUx7xBOcr
+ KvY6AW7sIiNradUdkvqq+7jVmejwkLK/iIw7c/xyh4Q3icGmhcYhjucdr g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="340514839"
+X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="340514839"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Mar 2023 17:21:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="854252134"
+X-IronPort-AV: E=Sophos;i="5.98,267,1673942400"; d="scan'208";a="854252134"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by orsmga005.jf.intel.com with ESMTP; 16 Mar 2023 17:21:56 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 16 Mar 2023 17:21:56 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 16 Mar 2023 17:21:56 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Thu, 16 Mar 2023 17:21:56 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Thu, 16 Mar 2023 17:21:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ngnwH3HZicMoSKuF4LEW5/SM0N/lfxGv9beNyi1HGXKPOxJGwvssxoeST7J1HY46OmgC695dW8jpv7dbK+mH6J/nm2SOj0iSS5PS8p/2fOZEp3z1pjItCG+Mpzvr1De+APXuyToU1G9sOST7WwnN6jr0Y224h0wrmByT8DuRQtSvMGXie6GYNpokUFlw30OB23cIsitN/s4I62dLzIb1jsIGHTXZ83Ra+rHyfIDp1b4o5TTwR2bD9+l1VCYgyoXmy1fDVZgCCIXEO/xms1lauJnoZL9oY6Jtr7pgPRoM4ZXrjV7Fu1Omiuve6KQGgkXN40+3UJNVJB3Q/v8rsVlV8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JF9OahxOuCJwtf+MeSzgxGAl7/pWd7o3i0HaCHFyfR8=;
+ b=Mi9LNuawRFRh9MUvf1vYfrJJWmKkYDENzk+O11ojj1w/GTKXcqySzyuzirGGUul3cuX4j5wOItP6PQNLTpgw66wbjRqKb/Q6R2hanWawkTeaFcnrWSdo36RgDXmsG0YYw+I5wL+ZMxpopoUvnlykM6oeywjU1X+JGku7fWPeJswlTb2cPkN0CNCMUUJZUymJCHVWpUvLmKAKMgWxXHvBfP3C4oZPvq7yj6/5ELRFBNve0ol7/pOcdAz7qyF/4N5lU/KnBRSEc5Xl736aaS/U9TbdpjTu1IsbzFgSU0kY2enSRgcOLmym2pSNXJ+OiCQl0TUKoTmkmuPclUesonzyZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
+ CH0PR11MB5706.namprd11.prod.outlook.com (2603:10b6:610:ed::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.31; Fri, 17 Mar 2023 00:21:54 +0000
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::1c61:b69d:4ca:10d0]) by DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::1c61:b69d:4ca:10d0%7]) with mapi id 15.20.6178.024; Fri, 17 Mar 2023
+ 00:21:54 +0000
+Date: Thu, 16 Mar 2023 17:21:51 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: <fei.yang@intel.com>
+Subject: Re: [PATCH] drm/i915/selftests: keep same cache settings as timeline
+Message-ID: <20230317002151.GF4085390@mdroper-desk1.amr.corp.intel.com>
+References: <20230315180800.2632766-1-fei.yang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230315180800.2632766-1-fei.yang@intel.com>
+X-ClientProxiedBy: BYAPR01CA0046.prod.exchangelabs.com (2603:10b6:a03:94::23)
+ To DS7PR11MB7859.namprd11.prod.outlook.com
+ (2603:10b6:8:da::22)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [RFC PATCH 1/2] drm/msm/dpu: add dsc helper functions
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>
-References: <1677267647-28672-1-git-send-email-quic_khsieh@quicinc.com>
- <F8A4FC18-C64E-4011-BC08-18EB3B95A357@linaro.org>
- <d5ee8233-66c8-9b88-417c-6cf9cc5c84fe@quicinc.com>
- <CAA8EJpro5Q-2ZpnDJt40UhFX7Zp9oBhrto=FDOERzCDR2BDPvQ@mail.gmail.com>
- <f0dfba42-4674-3748-bf5d-39f6e1745f67@quicinc.com>
- <f1a6ee82-9502-7ea5-fe48-f296fc7df497@linaro.org>
- <3e114c0f-a042-6801-69bf-67436cb2a448@quicinc.com>
- <113a10b6-6097-c80e-c29c-6f61b2b2896a@linaro.org>
- <c4c0ebf8-275d-500f-4019-e3d7517a884f@quicinc.com>
- <CAA8EJppxX4haZSwdvVbN7bc6kXAyNO1rg6zWZv9wPFdqGrcXuw@mail.gmail.com>
- <c650e746-64c5-ce6b-933d-057349356b78@quicinc.com>
- <58E03B71-20C4-4F81-96C1-6D8CE517F3FB@linaro.org>
- <fd876ad2-3fd0-eaab-3407-dd32d494f662@quicinc.com>
- <a5d1a74f-1b7a-569d-e487-774720dfae22@quicinc.com>
- <CAA8EJpq_mwUt0+1yGYo6hRx8Vz12DumVdpEjJbPk8gGHhGZ2bA@mail.gmail.com>
- <176c6088-4470-5559-e79e-fd5675db0097@quicinc.com>
- <04156713-3f8e-c29e-322f-259ae163a93a@linaro.org>
- <10b39fab-43a7-40b4-5d11-bc191e2953f3@quicinc.com>
-In-Reply-To: <10b39fab-43a7-40b4-5d11-bc191e2953f3@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: yG5zBgm606Nlsl1ErRd8i_NTicc4gcla
-X-Proofpoint-ORIG-GUID: yG5zBgm606Nlsl1ErRd8i_NTicc4gcla
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-16_14,2023-03-16_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
- suspectscore=0 bulkscore=0 phishscore=0 adultscore=0 impostorscore=0
- mlxlogscore=999 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303150002 definitions=main-2303160176
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|CH0PR11MB5706:EE_
+X-MS-Office365-Filtering-Correlation-Id: de43c5b6-f176-43de-b8e7-08db267d9c74
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dU34eiT0ermTXkHNpFbvZ3xnI6pibFq4oDtOKBvRgmaZL4MGVY18nd3quMxRjPT2Nfa1i3isgpaxk1TH8CF0iqSbFcVtcuIpgA8kw9lLLO8a6zk+Jzys8O+UdIjwRlRLuGBdmru0aXASO5W2x9hTM8u/JP3stnvTLo8l8EaY9hb6070Sc+sacv6QHVzx5eVGwmoibAmTTnM5td2bdsmqN3dFThmgFNbZUEEXGrsfYNStf+xaqQKiqonRYcTtQsPDVAP9/2qKrV7r50jvZK5+yUNGof4xBvpU5pVCR+AZ8zbs0cHYod2ZDCIjRixab/H46uk3trydU4IAcqZklOyuw3hK7s5FHuvzqEjOcFwPUncf4FVT4nu8t461/7xoqBQKaZpaNKmSBPK2V5QswyMbzOFi5zA32IS5CUby4b5dMrwzSIGvdxMZjOsDdBMyQKoq1CbdQkq+nkGvtKOPRulZhNYUctE/k1Tf1hrfETpUJ4PHiMEEZVs58v4aZDCJqoLQ22gISsxDUjAPVZUI3YnzSNtj7sEwwEmUmnCWN5B4d7ZXpecihsy4HTJ3r589aXAOfi5avVGSgm1ge+ZkZO5u3nNIsWnpLq3GzsgepXD/oQTWuG+/K5Vr28xG5+WD0XlQ9L4TQ1a1ThdG10voJ/XBgQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(136003)(39860400002)(366004)(376002)(346002)(396003)(451199018)(86362001)(33656002)(82960400001)(38100700002)(8676002)(66946007)(66476007)(34206002)(66556008)(4326008)(41300700001)(478600001)(8936002)(6636002)(5660300002)(2906002)(83380400001)(26005)(6506007)(6486002)(6666004)(186003)(1076003)(6512007)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?19XuSFn3WcSMoYr3WCzVLjzIVhaZ1lbCB7Uep8z1bNXMQxczAS7HNAZpFCBa?=
+ =?us-ascii?Q?ZfGuS+Xzi6OMw3UMOksw+Rk1g9mdR67YCekI7nO1wfQ+GQ8rGdU2AqUW39ZX?=
+ =?us-ascii?Q?T1jErCiyimZ05Gu1vSx0/5oLyZRwcZyEwbc5bwj0sHp38PRZLcPY3cR+jPoQ?=
+ =?us-ascii?Q?RF3eCrrop3O917Wiq2sBD2avLA9Vo5AVnJW7QkFhn6Nf86Wl7DH+xK1ZwzYr?=
+ =?us-ascii?Q?lhg78W6TUiZGCexZD3NRbOVXMv8EZ92N9fsCoDI2hFnBk97pxb6LCFx2YeFq?=
+ =?us-ascii?Q?ZXyuE7hfqmpT+UIwihdNna9R8JtKBYdtONTan8d3hEW8VwjtDcpiLkGI1E97?=
+ =?us-ascii?Q?1FXozLb1xA6whYGO4XXZ29MemvtKEYLB4YufOKSnzMi3LTi9xsRnIiBltN2S?=
+ =?us-ascii?Q?83sHyAFAZ8Y9YO2XniYXXXRPSTbJ1jQHTivr8XphUAMofaPvKhmxSvJy1I5n?=
+ =?us-ascii?Q?c80sMP5wKd10M9YvMgrRzXmY2Ts5FcBnXoknfBLMRxPFReAaaKIVOeONYbXw?=
+ =?us-ascii?Q?61HBxshGNfBCqE7cL/DQPbV7J9H7a6ebwxVPsgnMQJqOaICl62ws/ni6yT5F?=
+ =?us-ascii?Q?4S7gadLJwOPDaIg8N73jbpU1l8YXDLwzjT6iNxYEVRFRKiHCYXBbFx3tm8Sk?=
+ =?us-ascii?Q?/SoMV37I/3E47lX/mxtiKwC5ZYfDBgV4dQVtWeiGvdV+j0erbLq8U8NumxeU?=
+ =?us-ascii?Q?VhXuX1EH3WCfYyP5oSgfXNVF7nUrxM3WvTFz4qFDI5crsvMqKaWqfAxGRKgb?=
+ =?us-ascii?Q?4gAIrR+gjqaI6o7kWIxdjHEdFLGNDSkFhjbGrcIMabUaukFkHUUK09M3iVKw?=
+ =?us-ascii?Q?JN6mvxQeHo4ZmQ9jyX8o545q7eFmyEwFC9196fiKd2kkYTYkgLji1Bh0KnoH?=
+ =?us-ascii?Q?j/vF+5gOT4gICeLeJnjwzmxYqS+o6CBj3g6XMJHmmyycA5BE17Wgp0FzUYKu?=
+ =?us-ascii?Q?yJWPS5siffhHMQnAoTb7S79YIZ33Gl+kJOJ5FD6KJB16qMf6aVcdN24V2pv9?=
+ =?us-ascii?Q?CJyQ0GiRjqz/pEyHPVa2gsv6THu5iOMPHuNIOpeSnos7U6idEM5trGkPX2xZ?=
+ =?us-ascii?Q?iyO0q+fxbs0HSpzaIxQX9HUQqDVpvZeravClPUv1GHmjwEzslsBdo/PamgdM?=
+ =?us-ascii?Q?+NrYKPG4bvho8yP6y3L6wihpObB2LMA5jT45jf7Z4R975aSlsn7RjrJmzv8B?=
+ =?us-ascii?Q?XcqjQTwE40HbPmjfYmYiwLVkBM7cqOzdVqD41316PIDpMWLepRicl3CQD7qN?=
+ =?us-ascii?Q?R4GhNY0VmUUJYQYWwMqCqjUwf9WuMRGb93a25IXQUG74BUpAo9sqLCCb92RG?=
+ =?us-ascii?Q?a7tG7iwCFnlvGGwRDN0ban4BhpCyzaT+ISGSdciEIjshGSQxiqaToH0wBNMY?=
+ =?us-ascii?Q?7ZDgrLmWr725rs0eu/SXagrKJQqVY0amFrgI1t60WDb27pPrA52aS5utuFVR?=
+ =?us-ascii?Q?6oTwaTIFGLIAJzhLAUPC2261QJUHrR7M9Et3nhDWG43LpezMXctu/lA6al2/?=
+ =?us-ascii?Q?aGd1Ibrk1zxH0NKfdBSgo3DYZ4PT5N/bZTei0M4HDra4l6OHiA4hqtkGmLNr?=
+ =?us-ascii?Q?5RgtfR74tb3PevG5oZWDkMsh3pA+J69SHCYQzMhBh12zoqsbVZ0zMtV5EnAQ?=
+ =?us-ascii?Q?Hg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: de43c5b6-f176-43de-b8e7-08db267d9c74
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2023 00:21:54.1813 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8IN9BgkNSKlWZ1X2nMkEHx6aMy7t7damz+sfnxBSm2qSvcO0JptBgrpztJhWWVo1L00kWUx7/cx9wOjADFupYeNLBIUCuNANEm7eufO13Nk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5706
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,150 +146,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, quic_sbillaka@quicinc.com,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, andersson@kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org, vkoul@kernel.org,
- agross@kernel.org, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, marijn.suijten@somainline.org,
- swboyd@chromium.org, sean@poorly.run,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-arm-msm@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ chris@chris-wilson.co.uk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 15, 2023 at 11:08:00AM -0700, fei.yang@intel.com wrote:
+> From: Fei Yang <fei.yang@intel.com>
+> 
+> On MTL, objects allocated through i915_gem_object_create_internal() are
+> mapped as uncached in GPU by default because HAS_LLC is false. However
+> in the live_hwsp_read selftest these watcher objects are mapped as WB
+> on CPU side. The conseqence is that the updates done by the GPU are not
+> immediately visible to CPU, thus the selftest is randomly failing due to
+> the stale data in CPU cache. Solution can be either setting WC for CPU +
+> UC for GPU, or WB for CPU + 1-way coherent WB for GPU.
+> To keep the consistency, let's simply inherit the same cache settings
+> from the timeline, which is WB for CPU + 1-way coherent WB for GPU,
+> because this test is supposed to emulate the behavior of the timeline
+> anyway.
+> 
+> Signed-off-by: Fei Yang <fei.yang@intel.com>
+
+It looks like there might be an indentation mistake on the second line
+of the i915_gem_object_pin_map_unlocked() call, but we can fix that up
+while applying; no need to re-send.
+
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+
+Is there an FDO issue # for the random failures thar were being seen?
+If so, we should add a Closes: or References: tag here.
 
 
-On 3/16/2023 9:36 AM, Abhinav Kumar wrote:
-> 
-> 
-> On 3/16/2023 9:23 AM, Dmitry Baryshkov wrote:
->> On 16/03/2023 18:13, Abhinav Kumar wrote:
->>>
->>>
->>> On 3/16/2023 9:03 AM, Dmitry Baryshkov wrote:
->>>> Hi,
->>>>
->>>> [removed previous conversation]
->>>>
->>>>>
->>>>> Hi Dmitry and Abhinav,
->>>>>
->>>>> Just wanted to follow up on this thread. I've gone over the 
->>>>> MSM-specific
->>>>> DSC params for DP and DSI and have found a few shared calculations and
->>>>> variables between both DSI and DP paths:
->>>>>
->>>>> - (as mentioned earlier in the thread) almost all the calculations in
->>>>> dpu_dsc_populate_dsc_config() match dsi_populate_dsc_params() [1]. The
->>>>> only difference in the math I'm seeing is initial_scale_value.
->>>>
->>>> The value in dsi code is valid for initial_offset = 6144. Please use
->>>> the formula from the standard (= sde_dsc_populate_dsc_config) and add
->>>> it to drm_dsc_helper.c
->>>>
+Matt
 
-Yes, I agree with this part. for rc_model_size we can use 
-DSC_RC_MODEL_SIZE_CONST.
+> ---
+>  drivers/gpu/drm/i915/gt/selftest_timeline.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_timeline.c b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+> index 522d0190509c..631aaed9bc3d 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_timeline.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_timeline.c
+> @@ -825,7 +825,8 @@ static bool cmp_gte(u32 a, u32 b)
+>  	return a >= b;
+>  }
+>  
+> -static int setup_watcher(struct hwsp_watcher *w, struct intel_gt *gt)
+> +static int setup_watcher(struct hwsp_watcher *w, struct intel_gt *gt,
+> +			 struct intel_timeline *tl)
+>  {
+>  	struct drm_i915_gem_object *obj;
+>  	struct i915_vma *vma;
+> @@ -834,7 +835,10 @@ static int setup_watcher(struct hwsp_watcher *w, struct intel_gt *gt)
+>  	if (IS_ERR(obj))
+>  		return PTR_ERR(obj);
+>  
+> -	w->map = i915_gem_object_pin_map_unlocked(obj, I915_MAP_WB);
+> +	/* keep the same cache settings as timeline */
+> +	i915_gem_object_set_cache_coherency(obj, tl->hwsp_ggtt->obj->cache_level);
+> +	w->map = i915_gem_object_pin_map_unlocked(obj,
+> +			page_unmask_bits(tl->hwsp_ggtt->obj->mm.mapping));
+>  	if (IS_ERR(w->map)) {
+>  		i915_gem_object_put(obj);
+>  		return PTR_ERR(w->map);
+> @@ -1004,8 +1008,10 @@ static int live_hwsp_read(void *arg)
+>  	if (!tl->has_initial_breadcrumb)
+>  		goto out_free;
+>  
+> +	selftest_tl_pin(tl);
+> +
+>  	for (i = 0; i < ARRAY_SIZE(watcher); i++) {
+> -		err = setup_watcher(&watcher[i], gt);
+> +		err = setup_watcher(&watcher[i], gt, tl);
+>  		if (err)
+>  			goto out;
+>  	}
+> @@ -1160,6 +1166,8 @@ static int live_hwsp_read(void *arg)
+>  	for (i = 0; i < ARRAY_SIZE(watcher); i++)
+>  		cleanup_watcher(&watcher[i]);
+>  
+> +	intel_timeline_unpin(tl);
+> +
+>  	if (igt_flush_test(gt->i915))
+>  		err = -EIO;
+>  
+> -- 
+> 2.25.1
+> 
 
-initial_offset is already handled in 
-https://patchwork.freedesktop.org/patch/525424/?series=114472&rev=2
-
-Then we can use this math:
-
-rc_model_size / (rc_model_size -
-initial_offset), keeping in mind that initial_scale_value has three 
-fractional bits.
-
-So this would be 8192 / (8192 - 6144) = 4
-
-Then << 3 for 3 fractional bits = 32.
-
->>>> If I remember correctly the last remaining item in
->>>> dsi_populate_dsc_params() (except mentioned initial_offset) was
->>>> line_buf_depth, see [3]. I'm not sure about setting it to bpc+1.
->>>> According to the standard it should come from a DSC decoder spec,
->>>> which means it should be set by the DSI panel driver or via
->>>> drm_dp_dsc_sink_line_buf_depth() in the case of DP output.
->>>>
->>>>> - dsc_extra_pclk_cycle_cnt and dce_bytes_per_line, which were 
->>>>> introduced
->>>>> in Kuogee's v1 DSC series [2], are used for DSI, DP, and the DPU 
->>>>> timing
->>>>> engine. dsc_extra_pclk_cycle_cnt is calculated based on pclk_per_line
->>>>> (which is calculated differently between DP and DSI), but
->>>>> dce_bytes_per_line is calculated the same way between DP and DSI.
->>>>>
->>>>> To avoid having to duplicate math in 2 different places, I think it
->>>>> would help to have these calculations in some msm_dsc_helper.c 
->>>>> file. Any
->>>>> thoughts on this?
->>>>
->>>> dsc_extra_pclk_cycle_cnt and dce_bytes_per_line are used only in DPU
->>>> code, so they can stay in DPU driver.
->>>>
->>>
->>> They can stay in the dpu driver is fine but where?
->>>
->>> Like Jessica wrote, this is computed and used in 3 places today :
->>>
->>> 1) DSI video engine computation
->>> 2) DP controller computation
->>> 3) timing engine programming
->>
->> Please excuse me if I'm wrong. I checked both vendor techpack and the 
->> Kuogee's patches. I see them being used only in the SDE / DPU driver 
->> code. Could you please point me to the code path that we are discussing?
->>
-> 
-> DSI code :
-> 
-> https://gitlab.freedesktop.org/drm/msm/-/blob/msm-next/drivers/gpu/drm/msm/dsi/dsi_host.c#L868 
-> 
-> 
-> DP code:
-> 
-> Refer to dp_panel_dsc_pclk_param_calc in 
-> https://patchwork.freedesktop.org/patch/519837/?series=113240&rev=1
-> 
-> Timing engine:
-> 
-> refer to 
-> https://patchwork.freedesktop.org/patch/519838/?series=113240&rev=1
-> 
-> Probably confusion is due to the naming. bytes_per_line is nothing but 
-> bytes_per_pkt * pkt_per_line but the concept is common for DP and DSI.
-> 
-> +        if (phys->comp_type == MSM_DISPLAY_COMPRESSION_DSC) {
-> +            phys->dsc_extra_pclk_cycle_cnt = dsc_info->pclk_per_line;
-> +            phys->dsc_extra_disp_width = dsc_info->extra_width;
-> +            phys->dce_bytes_per_line =
-> +                dsc_info->bytes_per_pkt * dsc_info->pkt_per_line;
-> 
->>
->>> So either we have a helper in a common location somewhere so that 
->>> these 3 modules can call that helper and use it OR each module 
->>> duplicates the computation code.
->>>
->>> What should be the common location is the discussion here.
->>>
->>> It cannot be dpu_encoder.c as the DSI/DP dont call into the encoder 
->>> methods.
->>>
->>>>>
->>>>> Thanks,
->>>>>
->>>>> Jessica Zhang
->>>>>
->>>>> [1]
->>>>> https://elixir.bootlin.com/linux/v6.3-rc2/source/drivers/gpu/drm/msm/dsi/dsi_host.c#L1756 
->>>>>
->>>>>
->>>>> [2] 
->>>>> https://patchwork.freedesktop.org/patch/519845/?series=113240&rev=1
->>>>
->>>> [3] https://patchwork.freedesktop.org/patch/525441/?series=114472&rev=2
->>>>
->>>>
->>>>
->>
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
