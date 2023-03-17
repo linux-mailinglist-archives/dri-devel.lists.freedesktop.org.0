@@ -2,65 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3D26BE609
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 10:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183C36BE618
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 10:59:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA17810EEB9;
-	Fri, 17 Mar 2023 09:58:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8A5D10EEB6;
+	Fri, 17 Mar 2023 09:59:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3D1110EEB9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 09:58:05 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 4DAE4660309E;
- Fri, 17 Mar 2023 09:58:03 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1679047084;
- bh=tXDWTLClrv/QmGecD8rHF7kXTlD8mLRA4GFHO0CFYr0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YKD74482ToL3Qoudx0OsGSVtXkCtxQ/PBbhgnu4poZfps52fk7HDAxNUAMcd7274Q
- 5z7fY2Dwn0sJIwAvB2f9Aja/fFJ8zobnRSPEjlzd1K00p4vEjVq9ClQujh9/rVgo8b
- 5UwFhDu8LMLTbT8vRjsrE3uShn/oN1hIw2+wJHxzYTNUSiWuqFIEI511apNStJ9nwE
- mDqZefQ6g1FFS3OBwqaG9mUNiNceq55nkZskerrk8J/hJRaFWeI7dEZgCylUCFjZkc
- vWqO+1GP290byKLMqivviOgBMkQGWUHTOPhPMtKvKQGAZNmq/xvrHMCZvFzXTQukQH
- JqsU5qC6jDNTQ==
-Message-ID: <34c758c0-cbbb-da11-6263-e7b084040ed6@collabora.com>
-Date: Fri, 17 Mar 2023 10:58:00 +0100
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 272F210EEB6;
+ Fri, 17 Mar 2023 09:59:15 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id g17so5800600lfv.4;
+ Fri, 17 Mar 2023 02:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679047153;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=GetE0CPIO0EH0AkPMpbbSlnaxclV0uWSKmcnJYv943A=;
+ b=ZZWOhJjIHqhzSL0qXhFVIun4WL2FPoijpgQAvi8wvjx7KyMfzyti9VYxSm9l0+vSU6
+ gSWQkukFk2DouvMob4c9tm/gfbF1lpdbgJW46r776B4J8AOVprqMtiDVvxp4K6AfOqdW
+ GcgUsb/MqOLCrSEjCuCNeJZyAJEkQ9rbABF9jhJv5qScxrLTMsULlN82De/sA0h11kjk
+ QzRToddsLtDtpyL68BMUG8KMNAicyX8BSPg1QbA1LcbXpwdtx//i/1vbekd8KX6ma1IO
+ 8FNAdG9Hasdom5beiPPd+Hr6XtMtiN1EEjeaHD6+C+TA74gbcmGp8l9fTC0G4v/eaBfJ
+ E8Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679047153;
+ h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GetE0CPIO0EH0AkPMpbbSlnaxclV0uWSKmcnJYv943A=;
+ b=iW4YCECtCh80VE1ax+6tO+nT4RxeKGA5DbgEXw52o2Lc3LBQmkMCQEG0F7M7toddz4
+ HFTPyRm9X8FnXsMouitD0oEmQ7m0PBbI8rNl2M+Y9G3MoUWKSPsCfEP6rpQcTD5YA44o
+ JaNqlrSypJoxxdMhoIWFgR4QMDuBkx5tR6+UTLMp3b2SffGLEtJ+1I3aH3dpO5cQUTiz
+ vktlwIJ7jtCztoZ3hgQp2ykWi8HcebSd27E1jvkEDkUROQp154Gfmequ1cWFXY4aY79P
+ SZ/fo6Vj8xjWPA4U1/ndtP8Us8rlEZmQ3sQJFHxLMe4Ri8akGbuxYaJ+c4ZXuOvZxlwd
+ 3RRQ==
+X-Gm-Message-State: AO0yUKVjxPwvx+4/DZAWt8aj9scpe9YqaD9SN6MAiCA1pK/lk8eu8Rqv
+ r6JP9A+2AW7lSnAw9YzX33k=
+X-Google-Smtp-Source: AK7set9RZop77B4urwlU3xmOSywkaR53Mnt6mfkZx0B9jsN1lpPLw7BjM8mMGD2HTKb5Uof18XEVpw==
+X-Received: by 2002:a05:6512:931:b0:4e8:4abf:f19d with SMTP id
+ f17-20020a056512093100b004e84abff19dmr3891922lft.15.1679047153125; 
+ Fri, 17 Mar 2023 02:59:13 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ u22-20020a2ea176000000b00295b9d903b7sm322981ljl.119.2023.03.17.02.59.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 02:59:12 -0700 (PDT)
+Date: Fri, 17 Mar 2023 11:59:08 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: [PATCH v10 01/15] dma-buf/dma-fence: Add deadline awareness
+Message-ID: <20230317115908.2559b5f6@eldfell>
+In-Reply-To: <20230317111737.48702bca@eldfell>
+References: <20230308155322.344664-1-robdclark@gmail.com>
+ <20230308155322.344664-2-robdclark@gmail.com>
+ <ZAtQspuFjPtGy7ze@gmail.com>
+ <CAF6AEGsGOr5+Q10wX=5ttrWCSUJfn7gzHW8QhxFC0GDLgagMHg@mail.gmail.com>
+ <ZBHNvT3BLgS3qvV5@gmail.com>
+ <CAF6AEGu1S2CXzRxV_c5tE_H+XUGiO=n0tXjLZ_u_tW-eMqMsQw@mail.gmail.com>
+ <ZBLg0t0tTVvuPuiJ@gmail.com>
+ <CAF6AEGvV5arZThTyju_=xFFDWRbMaexgO_kkdKZuK-zeCxrN7Q@mail.gmail.com>
+ <CA+hFU4xbssR+=Sf4ia5kPdsSb4y9SQUd4nx_2p1Szcbtna28CA@mail.gmail.com>
+ <20230317110921.0862cc8b@eldfell> <20230317111737.48702bca@eldfell>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.24; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v29 1/7] dt-bindings: mediatek: add ethdr definition for
- mt8195
-Content-Language: en-US
-To: =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-References: <20221227081011.6426-1-nancy.lin@mediatek.com>
- <20221227081011.6426-2-nancy.lin@mediatek.com>
- <4aff6a7a3b606f26ec793192d9c75774276935e0.camel@mediatek.com>
- <2700bd6c-f00d-fa99-b730-2fcdf89089fa@linaro.org>
- <1d65e8b2de708db18b5f7a0faaa53834e1002d9f.camel@mediatek.com>
- <b04eb48e-c9aa-0404-33ec-bef623b8282f@linaro.org>
- <e5ceec9e-d51b-2aeb-1db7-b79b151bd44c@collabora.com>
- <0ebf187d-972e-4228-d8a0-8c0ce02f642d@linaro.org>
- <72cf6344a1c5942bff0872d05dce82b787b49b76.camel@mediatek.com>
- <4027714e-b4e8-953b-68e2-f74f7a7f0e8e@linaro.org>
- <fdd0a157-eedb-bf21-c632-79b02a4cd6b0@collabora.com>
- <5695b8e5ab8339764c646ee581529cb6cee04346.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <5695b8e5ab8339764c646ee581529cb6cee04346.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/ns=2iCi6874feZ5wvr=m5cb";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,161 +79,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "ndesaulniers@google.com" <ndesaulniers@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "nathan@kernel.org" <nathan@kernel.org>,
- "clang-built-linux@googlegroups.com" <clang-built-linux@googlegroups.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Rob Clark <robdclark@chromium.org>, DMA@freedesktop.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christian =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>,
+	intel-gfx@lists.freedesktop.org,
+	"open  list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 17/03/23 10:52, Nancy Lin (林欣螢) ha scritto:
-> On Fri, 2023-03-17 at 10:37 +0100, AngeloGioacchino Del Regno wrote:
->> Il 17/03/23 10:03, Krzysztof Kozlowski ha scritto:
->>> On 17/03/2023 08:55, Nancy Lin (林欣螢) wrote:
->>>> On Thu, 2023-03-16 at 12:36 +0100, Krzysztof Kozlowski wrote:
->>>>> On 16/03/2023 10:53, AngeloGioacchino Del Regno wrote:
->>>>>
->>>>>> Hello Krzysztof, Nancy,
->>>>>>
->>>>>> Since this series has reached v29, can we please reach an
->>>>>> agreement
->>>>>> on the bindings
->>>>>> to use here, so that we can get this finally upstreamed?
->>>>>>
->>>>>> I will put some examples to try to get this issue resolved.
->>>>>>
->>>>>> ### Example 1: Constrain the number of GCE entries to *seven*
->>>>>> array
->>>>>> elements (7x4!)
->>>>>>
->>>>>>      mediatek,gce-client-reg:
->>>>>>        $ref: /schemas/types.yaml#/definitions/phandle-array
->>>>>>        maxItems: 1
->>>>>>        description: The register of display function block to
->>>>>> be set
->>>>>> by gce.
->>>>>>          There are 4 arguments in this property, gce node,
->>>>>> subsys id,
->>>>>> offset and
->>>>>>          register size. The subsys id is defined in the gce
->>>>>> header of
->>>>>> each chips
->>>>>>          include/dt-bindings/gce/<chip>-gce.h, mapping to the
->>>>>> register of display
->>>>>>          function block.
->>>>>>        items:
->>>>>>          minItems: 28
->>>>>>          maxItems: 28
->>>>>>          items:                     <----- this block doesn't
->>>>>> seem to
->>>>>> get checked :\
->>>>>>            - description: phandle of GCE
->>>>>>            - description: GCE subsys id
->>>>>>            - description: register offset
->>>>>>            - description: register size
->>>>>
->>>>> This is what we would like to have but it requires exception in
->>>>> dtschema. Thus:
->>>>>
->>>>>>
->>>>>>
->>>>>> ### Example 2: Don't care about constraining the number of
->>>>>> arguments
->>>>>>
->>>>>>      mediatek,gce-client-reg:
->>>>>>        $ref: /schemas/types.yaml#/definitions/phandle-array
->>>>>>        maxItems: 1
->>>>>>        description: The register of display function block to
->>>>>> be set
->>>>>> by gce.
->>>>>>          There are 4 arguments in this property, gce node,
->>>>>> subsys id,
->>>>>> offset and
->>>>>>          register size. The subsys id is defined in the gce
->>>>>> header of
->>>>>> each chips
->>>>>>          include/dt-bindings/gce/<chip>-gce.h, mapping to the
->>>>>> register of display
->>>>>>          function block.
->>>>>
->>>>> use this.
->>>>>
->>>>> Best regards,
->>>>> Krzysztof
->>>>
->>>>
->>>> Hi Krzysztof, Angelo,
->>>>
->>>> Thanks for the comment.
->>>> The Example 2 can pass dt_binding_check.
->>>>
->>>> But the example in the binding has 7 items [1] and dts [2]. Does
->>>> the
->>>> "maxItems: 1" affect any other schema or dts check?
->>>
->>> Ah, then it should be maxItems: 7, not 1.
->>>
->>
->> Keep in mind for your v30:
->>
->> maxItems: 7 will pass - but only if minItems is *not* 7 :-)
->>
->> -> (so, do not declare minItems, as default is 1) <-
->>
->> Regards,
->> Angelo
->>
-> Hi Angelo,
-> 
-> I still have one message [1] when runing dt_binding_check for "example
-> 2 + maxItems: 7" [2].
-> 
-> [1]
-> /proj/mtk19347/cros/src/third_party/kernel/v5.10/Documentation/devicetr
-> ee/bindings/display/mediatek/mediatek,ethdr.example.dtb:
-> hdr-engine@1c114000: mediatek,gce-client-reg: [[4294967295, 7, 16384,
-> 4096, 4294967295, 7, 20480, 4096, 4294967295, 7, 28672, 4096,
-> 4294967295, 7, 36864, 4096, 4294967295, 7, 40960, 4096, 4294967295, 7,
-> 45056, 4096, 4294967295, 7, 49152, 4096]] is too short
-> 
-> 
-> [2]
->     mediatek,gce-client-reg:
->       $ref: /schemas/types.yaml#/definitions/phandle-array
->       maxItems: 7
->       description: The register of display function block to be set by
-> gce.
->         There are 4 arguments in this property, gce node, subsys id,
-> offset and
->         register size. The subsys id is defined in the gce header of
-> each chips
->         include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
-> display
->         function block.
-> 
+--Sig_/ns=2iCi6874feZ5wvr=m5cb
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Maybe I'm wrong about the "do not declare minItems"... try with
+On Fri, 17 Mar 2023 11:17:37 +0200
+Pekka Paalanen <ppaalanen@gmail.com> wrote:
 
-minItems: 1
-maxItems: 7
+> On Fri, 17 Mar 2023 11:09:21 +0200
+> Pekka Paalanen <ppaalanen@gmail.com> wrote:
+>=20
+> > On Thu, 16 Mar 2023 23:22:24 +0100
+> > Sebastian Wick <sebastian.wick@redhat.com> wrote: =20
+>=20
+> > > Vblank can be really long, especially with VRR where the additional
+> > > time you get to finish the frame comes from making vblank longer. =20
+>=20
+> Btw. VRR extends front porch, not vblank.
+
+Need to correct myself too. vblank includes front porch, vsync does not.
+
+https://electronics.stackexchange.com/questions/166681/how-exactly-does-a-v=
+ga-cable-work
 
 
-...does it work now?
+Thanks,
+pq
 
-> Regards,
-> Nancy
-> 
-> 
->>> Best regards,
->>> Krzysztof
->>>
+--Sig_/ns=2iCi6874feZ5wvr=m5cb
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmQUOewACgkQI1/ltBGq
+qqfISQ/8D20lVay+/4PbbioQiKn34OZSSgRSLuQjkLK3bCQ84cA0rv+Oz1aUGYV3
+dsJ3YzqrEMJ61jeeBC+unA1LXaBnuHhlvjkU9AM+ToBreSuu2CoGkJuFGcZ22jSO
+rpwSAKyeWKHOXkTrByH6CyuB5sM5IL+CBU77sJO/k8x14PwxPdCGu+kNx+YYf8FY
+NXEhu/5X0KNUZ4rtpoY4sw0dSXPOvB7ZeCC0PfnMi4faokOLprd935td6Wl3zlOW
+Oqf/x8/3vhfk/hZfr44+wRX0xGT45GK62HWVflGc6BMc3dnSetOmDJ5VNESDFSdZ
+z07d9H0wBgk+FkmN3FNYk7GUKDSKO+X3c5Pee7Z1Fpz9lERDItmYsHMW+nESIdh4
+7rKN8n4uvQH/dLS673ezoAcw0TAg0wvbBZFaAA00ehYQevfgPbq9uxMYiiFIaOQE
+eq0osWfvsz7688j0PaQU0B33V9AYBIxoFWumfz/kVWpN25SBxiZcmocAQfkX7HBG
+cIp5AGMriF+6XCdzYpmHBhRf068SvJZI4r3FSHGpA/kcE/ZyhUBdQgZDsLtdIPeG
+G5+uSWGZ9JcCftfpPLiT6TEJVjhmByaO1WHQvTR75aczQFald5RlESucK2L89hDd
+vS3SOL+JOPO1nJGPh+e340xzw9gZCstkeD7ajtZUELPnhvdDzDA=
+=f9L1
+-----END PGP SIGNATURE-----
 
+--Sig_/ns=2iCi6874feZ5wvr=m5cb--
