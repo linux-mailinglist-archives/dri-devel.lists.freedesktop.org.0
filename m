@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0355C6BE8F6
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:13:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7B96BE8F7
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:13:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2261D10EEEA;
-	Fri, 17 Mar 2023 12:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D10C10EEEC;
+	Fri, 17 Mar 2023 12:13:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98B1D10EEEA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C389610EEEA
  for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:13:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=nTYBkYCblFkwBHgG9q0aOgj8flBeXdfCK2fgcYiRCHg=; b=VO5QbHxcoCf19WVbI+4RRVA1Kk
- Pmhp5LJrvnuz+PKv/gLafDwUHMYckIGupYpgJOJqLy2aU3dsSVRy8PBhMvJVSKz/g/1lvgLl0LcLy
- o3ofU9L+FxZ+T14eS1fUHlwHLUNVEjQqeIh4o6g2PzJR1a9+MxN6tibO6TzPRNRKNyC3wWLwNhnLL
- 3fFhLOVOv83EMl1Y/2UDVBOOEvL/AT4Siarjljhyn/3qtLOCt+0WE2XEbFDevK6j881fSO8pDUzH2
- FscMwQaVULQ68T/067DssNa/aDwwfrct85h0dbij57W6BvMkeQn8acrQacFZtduk2mML9MneFSyAp
- ZFD0IdfQ==;
+ bh=kJaQBIOfBDs0RWrdELn2youmyuMDTiMuE+q39Kq1BLg=; b=hTiBfpccfb2e+p5dsLtL8znqCw
+ KybIWKF8huofaSYeHF5npijUa3pg8ERQM9bVNP/ctX3S+A6s8yaWMwo6UiTGKmEQ2EdpwZuoV1S1K
+ S8QEaoD1s5gV5641IKz/3Px8Unlfnw5ipOt5B3MePzeAeYdLGqQZAkueB7rG5Ol7HlqFq/KBb2pua
+ JheFiMmnwFQ4TdHX1vBIWXb/3qEyBmcjs8v0UjQaEIz6D1Hwj/62Mce0SVl9SkwFRguCj41s174LK
+ OKlsA3RT1z/b7ZYx5VQrWuI0C7lPCoeaXnut9/8P8TWV/Rw9gusy3sQpZ0GlH5xDUCN1QA5jTfiL9
+ hWYird5A==;
 Received: from [177.34.168.16] (helo=bowie..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1pd8x4-00FrGz-UD; Fri, 17 Mar 2023 13:12:55 +0100
+ id 1pd8xA-00FrGz-Da; Fri, 17 Mar 2023 13:13:00 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -39,10 +39,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  Asahi Lina <lina@asahilina.net>,
  Faith Ekstrand <faith.ekstrand@collabora.com>
-Subject: [RFC PATCH 0/9] Rust version of the VGEM driver
-Date: Fri, 17 Mar 2023 09:12:04 -0300
-Message-Id: <20230317121213.93991-1-mcanal@igalia.com>
+Subject: [RFC PATCH 1/9] rust: dma_resv: add DMA Reservation abstraction
+Date: Fri, 17 Mar 2023 09:12:05 -0300
+Message-Id: <20230317121213.93991-2-mcanal@igalia.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230317121213.93991-1-mcanal@igalia.com>
+References: <20230317121213.93991-1-mcanal@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,87 +66,161 @@ Cc: Melissa Wen <mwen@igalia.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is my first take on using the DRM Rust abstractions [1] to convert a DRM
-driver, written originally in C, to Rust. This patchset consists of a conversion
-of the vgem driver to a DRM Rust driver. This new driver has the exactly same
-functionalities of the original C driver, but takes advantages of all the Rust
-features.
+The DMA reservation object provides a mechanism to manage a container
+of dma_fence object associated with a resource. So, add an abstraction
+to allow Rust drivers to interact with this subsystem.
 
-These patches are based primarily on the Rust DRM abstractions [1], sent as a
-RFC to the mailing list last week. Also, it depends on some Device abstractions
-[2] and on the Timer abstraction [3] developed by Boqun Feng.
-
-This patchset introduces some changes to the DRM abstractions proposed in [1]
-and also introduces a new abstraction to DMA reservation. Finally, introduces a
-fully functional vgem driver written in Rust.
-
-* Patch #1: Introduces a safe abstraction to the DMA Reservation.
-* Patch #2 - #5: Introduces some increments to the DRM abstractions, adding
-  methods and exposing attributes.
-* Patch #6: Makes an adaptation to the UAPI, in order to be interpreted by bindgen.
-* Patch #7 - #8: Introduces the vgem driver.
-* Patch #9: Makes it possible to use the kernel::declare_drm_ioctls! macro.
-
-The driver was tested with IGT, using the tests `vgem_basic`, `vgem_slow` and
-`dmabuf_sync_file`. Also, I incremented some invalid tests to `vgem_basic` [4]
-to assure the proper error handling of the driver.
-
-A branch with all the dependencies and ready for compilation is available at
-[5].
-
-Note that patch #8 is necessary to deal with the current
-kernel::declare_drm_ioctls! macro. Currently, the macro
-kernel::declare_drm_ioctls! considers that the IOCTLs are in the right order and
-there are no gaps, which is not true for vgem. The vgem IOCTLs starts at 0x01,
-so there is a gap for IOCTL 0x00. To bypass this problem I'm currently using a
-dummy IOCTL as IOCTL 0x00, but this solution should be temporary. I would love
-to hear suggestions on how to address this problem.
-
-Any suggestions and SAFETY reviews are welcomed!
-
-[1] https://lore.kernel.org/dri-devel/20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net/T/
-[2] https://github.com/Rust-for-Linux/linux/pull/982
-[3] https://github.com/fbq/linux-rust/commit/c31a2a3ce7420b43bda2c6f1b43227baf0d13661
-[4] https://patchwork.freedesktop.org/series/114912/
-[5] https://github.com/mairacanal/linux/tree/vgem/wip-dma
-
-Best Regards,
-- Maíra Canal
-
-Maíra Canal (9):
-  rust: dma_resv: add DMA Reservation abstraction
-  rust: drm: gem: add method to return DmaResv from GEMObject
-  rust: dma_fence: add method to return an indication if the fence is signaled
-  rust: dma_fence: expose the fence's seqno publically
-  rust: drm: gem: shmem: set map_wc on gem_create_object callback
-  drm/vgem: move IOCTLs numbers to enum
-  drm/rustgem: implement a Rust version of VGEM
-  drm/rustgem: implement timeout to prevent hangs
-  drm/rustgem: create dummy IOCTL with number 0x00
-
- drivers/gpu/drm/Kconfig          |  11 +++
- drivers/gpu/drm/Makefile         |   1 +
- drivers/gpu/drm/rustgem/Makefile |   3 +
- drivers/gpu/drm/rustgem/fence.rs |  83 ++++++++++++++++++
- drivers/gpu/drm/rustgem/file.rs  | 143 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/rustgem/gem.rs   |  31 +++++++
- drivers/gpu/drm/rustgem/vgem.rs  | 105 +++++++++++++++++++++++
- include/uapi/drm/vgem_drm.h      |  11 ++-
- rust/bindings/bindings_helper.h  |   2 +
- rust/helpers.c                   |  25 ++++++
- rust/kernel/dma_fence.rs         |  12 +++
- rust/kernel/dma_resv.rs          |  75 ++++++++++++++++
- rust/kernel/drm/gem/mod.rs       |   7 ++
- rust/kernel/drm/gem/shmem.rs     |   5 ++
- rust/kernel/lib.rs               |   1 +
- 15 files changed, 513 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/rustgem/Makefile
- create mode 100644 drivers/gpu/drm/rustgem/fence.rs
- create mode 100644 drivers/gpu/drm/rustgem/file.rs
- create mode 100644 drivers/gpu/drm/rustgem/gem.rs
- create mode 100644 drivers/gpu/drm/rustgem/vgem.rs
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ rust/bindings/bindings_helper.h |  1 +
+ rust/helpers.c                  | 19 +++++++++
+ rust/kernel/dma_resv.rs         | 75 +++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs              |  1 +
+ 4 files changed, 96 insertions(+)
  create mode 100644 rust/kernel/dma_resv.rs
 
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 3fcf3ee330ad..1bf6d762d36e 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -19,6 +19,7 @@
+ #include <linux/dma-fence.h>
+ #include <linux/dma-fence-chain.h>
+ #include <linux/dma-mapping.h>
++#include <linux/dma-resv.h>
+ #include <linux/fs.h>
+ #include <linux/iosys-map.h>
+ #include <linux/io-pgtable.h>
+diff --git a/rust/helpers.c b/rust/helpers.c
+index 7cded4a36375..18c0c434ad73 100644
+--- a/rust/helpers.c
++++ b/rust/helpers.c
+@@ -25,6 +25,7 @@
+ #include <linux/build_bug.h>
+ #include <linux/device.h>
+ #include <linux/dma-fence.h>
++#include <linux/dma-resv.h>
+ #include <linux/dma-fence-chain.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+@@ -437,6 +438,24 @@ void rust_helper_dma_fence_set_error(struct dma_fence *fence, int error)
+ }
+ EXPORT_SYMBOL_GPL(rust_helper_dma_fence_set_error);
+ 
++enum dma_resv_usage rust_helper_dma_resv_usage_rw(bool write)
++{
++	return dma_resv_usage_rw(write);
++}
++EXPORT_SYMBOL_GPL(rust_helper_dma_resv_usage_rw);
++
++int rust_helper_dma_resv_lock(struct dma_resv *obj, struct ww_acquire_ctx *ctx)
++{
++	return dma_resv_lock(obj, ctx);
++}
++EXPORT_SYMBOL_GPL(rust_helper_dma_resv_lock);
++
++void rust_helper_dma_resv_unlock(struct dma_resv *obj)
++{
++	dma_resv_unlock(obj);
++}
++EXPORT_SYMBOL_GPL(rust_helper_dma_resv_unlock);
++
+ #endif
+ 
+ #ifdef CONFIG_DRM
+diff --git a/rust/kernel/dma_resv.rs b/rust/kernel/dma_resv.rs
+new file mode 100644
+index 000000000000..5e45aad4ae75
+--- /dev/null
++++ b/rust/kernel/dma_resv.rs
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++
++//! DMA resv abstraction
++//!
++//! C header: [`include/linux/dma-resv.h`](../../include/linux/dma-resv.h)
++
++use crate::bindings;
++use crate::dma_fence::RawDmaFence;
++use crate::error::{Error, Result};
++
++/// A generic DMA Resv Object
++///
++/// # Invariants
++/// ptr is a valid pointer to a dma_resv and we own a reference to it.
++pub struct DmaResv {
++    ptr: *mut bindings::dma_resv,
++}
++
++impl DmaResv {
++    /// Create a new DmaResv object from a raw pointer to a dma_resv.
++    ///
++    /// # Safety
++    /// The caller must own a reference to the dma_resv, which is transferred to the new object.
++    pub unsafe fn from_raw(ptr: *mut bindings::dma_resv) -> Self {
++        Self { ptr }
++    }
++
++    /// Returns the implicit synchronization usage for write or read accesses.
++    pub fn usage_rw(&self, write: bool) -> bindings::dma_resv_usage {
++        // SAFETY: write is a valid bool.
++        unsafe { bindings::dma_resv_usage_rw(write) }
++    }
++
++    /// Reserve space to add fences to a dma_resv object.
++    pub fn reserve_fences(&self, num_fences: u32) -> Result {
++        // SAFETY: We own a reference to this dma_resv.
++        let ret = unsafe { bindings::dma_resv_reserve_fences(self.ptr, num_fences) };
++
++        if ret != 0 {
++            return Err(Error::from_kernel_errno(ret));
++        }
++        Ok(())
++    }
++
++    /// Add a fence to the dma_resv object
++    pub fn add_fences(
++        &self,
++        fence: &dyn RawDmaFence,
++        num_fences: u32,
++        usage: bindings::dma_resv_usage,
++    ) -> Result {
++        // SAFETY: We own a reference to this dma_resv.
++        unsafe { bindings::dma_resv_lock(self.ptr, core::ptr::null_mut()) };
++
++        let ret = self.reserve_fences(num_fences);
++        if ret.is_ok() {
++            // SAFETY: ptr is locked with dma_resv_lock(), and dma_resv_reserve_fences()
++            // has been called.
++            unsafe {
++                bindings::dma_resv_add_fence(self.ptr, fence.raw(), usage);
++            }
++        }
++
++        // SAFETY: We own a reference to this dma_resv.
++        unsafe { bindings::dma_resv_unlock(self.ptr) };
++
++        ret
++    }
++
++    /// Test if a reservation object’s fences have been signaled.
++    pub fn test_signaled(&self, usage: bindings::dma_resv_usage) -> bool {
++        // SAFETY: We own a reference to this dma_resv.
++        unsafe { bindings::dma_resv_test_signaled(self.ptr, usage) }
++    }
++}
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index ba18deedf6b6..b9fbb07d0bdc 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -38,6 +38,7 @@ pub mod delay;
+ pub mod device;
+ #[cfg(CONFIG_DMA_SHARED_BUFFER)]
+ pub mod dma_fence;
++pub mod dma_resv;
+ pub mod driver;
+ #[cfg(CONFIG_DRM = "y")]
+ pub mod drm;
 -- 
 2.39.2
 
