@@ -1,67 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E47E6BEDBE
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 17:08:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 768256BEE29
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 17:27:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B76B10E352;
-	Fri, 17 Mar 2023 16:08:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC8910E3C6;
+	Fri, 17 Mar 2023 16:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E15D10E352
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 16:08:49 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 483F01FE19;
- Fri, 17 Mar 2023 16:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679069328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AYNsUN+tDKNYRq6jEv+zrZItlqQtF2yjhYpPo2GNi4o=;
- b=ubRSoTXUqtezdbiq7N+vfvktK5llvGnVBUYftMQeQWl/T582uHrHfvI50/8u1YBEn1VEMK
- dTv8OCBgGLNcR2C3rtEu8GaKKBv/PKUy2Aldt82PUszZ+ew4IO2Bi+YZG4iV993pn/WcRb
- yp/KsWlM9v+Rqvc6A/Mtmi84YLwIISw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679069328;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AYNsUN+tDKNYRq6jEv+zrZItlqQtF2yjhYpPo2GNi4o=;
- b=XT6IHMC3/uOkMHYPr9+un5ryHqBuzHd7UD4RgPI7brYiNVmQQouGnkEEWqSDPyiewQS5ar
- daAGW52hkBk6VJDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25B6513428;
- Fri, 17 Mar 2023 16:08:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id LWFgCJCQFGSGLAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 17 Mar 2023 16:08:48 +0000
-Message-ID: <4d1ca506-0145-9c39-fc82-fcab110b1168@suse.de>
-Date: Fri, 17 Mar 2023 17:08:47 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B00510E3C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 16:27:50 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 5806F320051E;
+ Fri, 17 Mar 2023 12:27:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 17 Mar 2023 12:27:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1679070465; x=1679156865; bh=Fgk8RwfBJRsCFmPOXa4TQHtD/pOXenTW+Rn
+ IJj6s9aY=; b=ICnGzTqGCwOjLapW/MFg3nO/kZyZW/ura5ohukeCBmVOqXyibDY
+ K5wfIL/7HwhckOTjwTZaUQ7kHap5v4oVjxaOYjNocWjse9cUk0N/T6FEYMB2hcxz
+ M+YPSB6hnDxus+Vy5G71q+k5WR3i7JNW2cFCtMhpPyW4Xnwrc28PBCaPcce0p5WV
+ WLs054p4Fnu0GuKntK7hV9q43att3NrnArKhrwEMrH3UE771ePkwQcwSR204nvQ2
+ lctNeuHf2rP6AjgLwBfnXA+di2Jb3GTCmm/qRrv+weFiSksDIitxS3TH4uIVHD2C
+ oGKfkWCXthWke+ypsIqEvRoFZv5N8ve3Rcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1679070465; x=1679156865; bh=Fgk8RwfBJRsCFmPOXa4TQHtD/pOXenTW+Rn
+ IJj6s9aY=; b=KtMQkmE0G1iQFft1RGUSgahtwYYmGgFkdwkUERe1LerNgexsRmq
+ Q2VfPA5KaqFXnuGkrC9ekmFdgEUBf/YAdtT6vupiOTw5YbWooIr3s6CI3lNuKj2h
+ 1x7ByHmBKaNi/X4KP2KLJP+emZY6InTBj/KZ96GTFm6rKlimeja3Poxrq8Yk/7Cg
+ ftnv+LarM/l/taNGPhtSaTUWjm7qJ8EId6RUINNlnw7dssjJKf84ikPRBEsqObFp
+ dUBLxr3V0sII4wPsINX1mu7hvnRi7FYdBIMieJnreWQ1x3OJPlQG/LO4b6Kmn6q2
+ 08/TK8yUlnDGp4DVQHc1Z6SvapXaZDxXhvQ==
+X-ME-Sender: <xms:AZUUZFrYXDs5mzQUmr6wDT9rB9M7y_aWD3rmcWmsQjsbF39LtxVwmQ>
+ <xme:AZUUZHoW13fcgAJOka3UIV5REkcct7bCraUosGKpfIZLXhVGPIScWKwf7Jqf6GqO-
+ nd1O981l8c20MNQLCc>
+X-ME-Received: <xmr:AZUUZCOGnsDQBKNVisiHZ7wpqa0nQDZDrxRxkwCS_rKmdcFflhcJOAOkzQW6ug2ZsResSPKQiXr5SpG2ClSwFSyFOX321yU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefvddgkeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+ feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:AZUUZA77Kbd0OA2TVYtPQdmetfgqZm0PqKhxLX0a61pWJwRgD3-zzg>
+ <xmx:AZUUZE49moWRyfaQAXhieCcIRd2c0KGNe-TybpBGS-K1tkK1o6BXiA>
+ <xmx:AZUUZIjKjh7ULFS2TYA4dae6zuvk33sxrOTSLt5KBUhVAK7cqNb8MQ>
+ <xmx:AZUUZBy_YrhxCghq5qx3mE4H7C_5sXlleDtC5dHXKGFeujgoj7RzgA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Mar 2023 12:27:45 -0400 (EDT)
+Date: Fri, 17 Mar 2023 17:27:43 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Subject: Re: [PATCH 5/6] drm/fb-helper: Consolidate
  CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
+Message-ID: <20230317162743.u5bbdp2nvqwy2kc7@houat>
 References: <20230315161442.27318-1-tzimmermann@suse.de>
  <20230315161442.27318-6-tzimmermann@suse.de>
  <87pm97pn61.fsf@minerva.mail-host-address-is-not-set>
  <886052ee-69cd-8640-ea7f-c9e14f57651f@suse.de>
  <20230317151128.hwaaq4na7d7mifaw@houat>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230317151128.hwaaq4na7d7mifaw@houat>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VmS1vE6J8M20xAAfwcnX5FJl"
+ <4d1ca506-0145-9c39-fc82-fcab110b1168@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4d1ca506-0145-9c39-fc82-fcab110b1168@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,81 +96,43 @@ Cc: kraxel@redhat.com, linux-graphics-maintainer@vmware.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VmS1vE6J8M20xAAfwcnX5FJl
-Content-Type: multipart/mixed; boundary="------------V7dNf8RaLTsxlfCf0t6WV1sm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-graphics-maintainer@vmware.com, kraxel@redhat.com
-Message-ID: <4d1ca506-0145-9c39-fc82-fcab110b1168@suse.de>
-Subject: Re: [PATCH 5/6] drm/fb-helper: Consolidate
- CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM
-References: <20230315161442.27318-1-tzimmermann@suse.de>
- <20230315161442.27318-6-tzimmermann@suse.de>
- <87pm97pn61.fsf@minerva.mail-host-address-is-not-set>
- <886052ee-69cd-8640-ea7f-c9e14f57651f@suse.de>
- <20230317151128.hwaaq4na7d7mifaw@houat>
-In-Reply-To: <20230317151128.hwaaq4na7d7mifaw@houat>
+On Fri, Mar 17, 2023 at 05:08:47PM +0100, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 17.03.23 um 16:11 schrieb Maxime Ripard:
+> > On Fri, Mar 17, 2023 at 01:51:42PM +0100, Thomas Zimmermann wrote:
+> > > Hi
+> > >=20
+> > > Am 17.03.23 um 13:39 schrieb Javier Martinez Canillas:
+> > > > Thomas Zimmermann <tzimmermann@suse.de> writes:
+> > > >=20
+> > > > > Consolidate all handling of CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM by
+> > > > > making the module parameter optional in drm_fb_helper.c.
+> > > > >=20
+> > > > > Without the config option, modules can set smem_start in struct
+> > > > > fb_info for internal usage, but not export if to userspace. The
+> > > > > address can only be exported by enabling the option and setting
+> > > > > the module parameter. Also update the comment.
+> > > > >=20
+> > > >=20
+> > > > I was going to ask at what point we could just get rid of this Kcon=
+fig
+> > > > symbol since it already depends on EXPERT anyways so most distros w=
+ill
+> > > > not enable it.
+> > > >=20
+> > > > But I looked then and noticed that it was added just a few years ag=
+o in
+> > > > commit 4be9bd10e22d "(drm/fb_helper: Allow leaking fbdev smem_start=
+"),
+> > > > so it seems that people still need that :(
+> > >=20
+> > > I don't even know which userspace drivers need this symbol. Probably
+> > > something on Android.
+> >=20
+> > At least the Mali (utgard) user-space stack uses it, including on
+> > "regular" distributions.
+>=20
+> Does this use the lima kernel driver?
 
---------------V7dNf8RaLTsxlfCf0t6WV1sm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkNCg0KQW0gMTcuMDMuMjMgdW0gMTY6MTEgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBP
-biBGcmksIE1hciAxNywgMjAyMyBhdCAwMTo1MTo0MlBNICswMTAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+IEhpDQo+Pg0KPj4gQW0gMTcuMDMuMjMgdW0gMTM6Mzkgc2Nocmll
-YiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXM6DQo+Pj4gVGhvbWFzIFppbW1lcm1hbm4gPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+IHdyaXRlczoNCj4+Pg0KPj4+PiBDb25zb2xpZGF0ZSBhbGwg
-aGFuZGxpbmcgb2YgQ09ORklHX0RSTV9GQkRFVl9MRUFLX1BIWVNfU01FTSBieQ0KPj4+PiBt
-YWtpbmcgdGhlIG1vZHVsZSBwYXJhbWV0ZXIgb3B0aW9uYWwgaW4gZHJtX2ZiX2hlbHBlci5j
-Lg0KPj4+Pg0KPj4+PiBXaXRob3V0IHRoZSBjb25maWcgb3B0aW9uLCBtb2R1bGVzIGNhbiBz
-ZXQgc21lbV9zdGFydCBpbiBzdHJ1Y3QNCj4+Pj4gZmJfaW5mbyBmb3IgaW50ZXJuYWwgdXNh
-Z2UsIGJ1dCBub3QgZXhwb3J0IGlmIHRvIHVzZXJzcGFjZS4gVGhlDQo+Pj4+IGFkZHJlc3Mg
-Y2FuIG9ubHkgYmUgZXhwb3J0ZWQgYnkgZW5hYmxpbmcgdGhlIG9wdGlvbiBhbmQgc2V0dGlu
-Zw0KPj4+PiB0aGUgbW9kdWxlIHBhcmFtZXRlci4gQWxzbyB1cGRhdGUgdGhlIGNvbW1lbnQu
-DQo+Pj4+DQo+Pj4NCj4+PiBJIHdhcyBnb2luZyB0byBhc2sgYXQgd2hhdCBwb2ludCB3ZSBj
-b3VsZCBqdXN0IGdldCByaWQgb2YgdGhpcyBLY29uZmlnDQo+Pj4gc3ltYm9sIHNpbmNlIGl0
-IGFscmVhZHkgZGVwZW5kcyBvbiBFWFBFUlQgYW55d2F5cyBzbyBtb3N0IGRpc3Ryb3Mgd2ls
-bA0KPj4+IG5vdCBlbmFibGUgaXQuDQo+Pj4NCj4+PiBCdXQgSSBsb29rZWQgdGhlbiBhbmQg
-bm90aWNlZCB0aGF0IGl0IHdhcyBhZGRlZCBqdXN0IGEgZmV3IHllYXJzIGFnbyBpbg0KPj4+
-IGNvbW1pdCA0YmU5YmQxMGUyMmQgIihkcm0vZmJfaGVscGVyOiBBbGxvdyBsZWFraW5nIGZi
-ZGV2IHNtZW1fc3RhcnQiKSwNCj4+PiBzbyBpdCBzZWVtcyB0aGF0IHBlb3BsZSBzdGlsbCBu
-ZWVkIHRoYXQgOigNCj4+DQo+PiBJIGRvbid0IGV2ZW4ga25vdyB3aGljaCB1c2Vyc3BhY2Ug
-ZHJpdmVycyBuZWVkIHRoaXMgc3ltYm9sLiBQcm9iYWJseQ0KPj4gc29tZXRoaW5nIG9uIEFu
-ZHJvaWQuDQo+IA0KPiBBdCBsZWFzdCB0aGUgTWFsaSAodXRnYXJkKSB1c2VyLXNwYWNlIHN0
-YWNrIHVzZXMgaXQsIGluY2x1ZGluZyBvbg0KPiAicmVndWxhciIgZGlzdHJpYnV0aW9ucy4N
-Cg0KRG9lcyB0aGlzIHVzZSB0aGUgbGltYSBrZXJuZWwgZHJpdmVyPw0KDQpCZXN0IHJlZ2Fy
-ZHMNClRob21hcw0KDQo+IA0KPiBJIGRvbid0IGtub3cgYWJvdXQgbmV3ZXN0IE1hbGkgZ2Vu
-ZXJhdGlvbnMuDQo+IA0KPiBNYXhpbWUNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
-
-
---------------V7dNf8RaLTsxlfCf0t6WV1sm--
-
---------------VmS1vE6J8M20xAAfwcnX5FJl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQUkI8FAwAAAAAACgkQlh/E3EQov+AJ
-SA//YG2Es0QPuBHldju0LOu8x98/e0oD5Q/1z7hJ9w/dhCf2JeeqFNr84ZfNdRQ5UarFgrZHQsCO
-IWF6GbGHTaoZ0GEMMVQggRe/8ot8MnwTzyxuB6dCCR/OMt65vtcdj1/IHWdzchxyZd5201vsYgJj
-KL1BDCBtfpjR3Q0plryJwbg2pZIzzr/xO9fyRUwIZtT85a+tyO6dol3phIAxDkROImWzhOmAI2VF
-M4O2wIl79NAUnXPcBhgUHW/vUPZhSg9GZKBa5e9eQIfTYElNg82cdFQv7HNPvnLJpE6dE5LlAHcB
-CTOHtC4tQVjEbumxzar/HZbOrZ74ZhAA/LWrYQtElREwcxa3Fxx9sASQF/M6ifjR5DXjzMZMOrJU
-CpdE0+Pl1oxV2biHWnw7Xuqh78oQmrajjLAbcgrv4bkslL8MkZ58u4z4GgtW40d2bgCPUThZZiZu
-iqQqSu3e1dloHccHOgQx3RMK/BbTKpiw2HhWZyp69UJAo5utA5ONidhcNlz7x7wqI2RKAXnK1GyJ
-djkIp5oKqpae9fN/u0YzeLRExSI+L3HFdw+ivLcv6M1TDfnCByrSLHlKZ10QLPVZa7oXPi6iyew1
-VZuioqGZJExAGzxd4lVpOT+x7SLE1oHP5Erdyn5N/FRl/wj+qxzRm7pj6myUMVNr2+NS+6Una/ct
-ZGU=
-=/456
------END PGP SIGNATURE-----
-
---------------VmS1vE6J8M20xAAfwcnX5FJl--
+No, I meant the ARM proprietary blobs
