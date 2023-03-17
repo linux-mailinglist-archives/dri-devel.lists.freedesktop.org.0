@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891CE6BE35D
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E52426BE35F
 	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CF210EE7C;
-	Fri, 17 Mar 2023 08:24:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0383910EE94;
+	Fri, 17 Mar 2023 08:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B24310EE91;
- Fri, 17 Mar 2023 08:23:52 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1E910EE97
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:23:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8705662233;
- Fri, 17 Mar 2023 08:23:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F7F7C4339B;
- Fri, 17 Mar 2023 08:23:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CDF4F6223A;
+ Fri, 17 Mar 2023 08:23:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E3AEC433A0;
+ Fri, 17 Mar 2023 08:23:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679041430;
- bh=PzQsIWfBb2EKaOP67+P9k7aKdDRFtAy32uO9QOMW7BY=;
+ s=k20201202; t=1679041433;
+ bh=ok0j9ISAJdgCP3cxdqxCuQtsbBTIBD8uq8kYJDLeLlc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bjZQ92UhjWf8eZqWnhGv23fVoXeI1IYx+Fk/XeWlfOUtN8UYp4scmG+dL3z7pMoYC
- 4cFq2v2+L4pTY2JbSgfXJhZPaAHdtqyb9OSymNNlZZ7pZeNIReIeRmjimSXzEWPAAA
- z1dv3OLHVQFyvHrWaNXBleNtF/JkoAwlOVU/tx/IGH3q063PaXggeUt84P3PUYwm5K
- oZ+U/OWq2LsY+2/X9x+9ZaL85+1e22zKhWNJiNmBJxiIgos8q7t4ol5UK2qmDGpTVE
- ZDuQGSn1GXJ4q+HtXUgfph86wee6xpud3wYSfX5U5C6YnsduEEkcNSa24PoH0xrxUQ
- IdUUmr+CHAcYA==
+ b=Wf4WNk2z6Cs+Ut5ipokBOtyNqRyMdQYzuDp6IJy3neIagKzefvfGjmGE0ZUm3ydt4
+ JoZ4J9umpVgdxT5g66M9CMphDih/HDxxTCC1ILisDgjqzv7RcEhhi2Cs8AfZTcqVh6
+ gHtERvl2mK9emMQloOTrY/bIxVSgMbWj9/xiSFNXN+N4txGsY43/07YElbKgoAJNjZ
+ GPIc+vs+BIpNS0gQbfJV7b3q1PdtJW9NAiRfvrWushCGPE1VBDcmVwYTlP4qn/CSe6
+ PAjRezZ9q3x7KVQV76+3FV5mJHQOIf1A0dNNKhdVC+kicPPcmXzNeuuhOOf0+AFNoQ
+ wpbCrW+/lXgoQ==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 36/37] drm/amd/display/dc/link/link_detection: Demote a couple
- of kerneldoc abuses
-Date: Fri, 17 Mar 2023 08:17:17 +0000
-Message-Id: <20230317081718.2650744-37-lee@kernel.org>
+Subject: [PATCH 37/37] drm/bridge/imx/Kconfig: Prevent imx-ldb-helper from
+ appearing in 2 separate modules
+Date: Fri, 17 Mar 2023 08:17:18 +0000
+Message-Id: <20230317081718.2650744-38-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
 References: <20230317081718.2650744-1-lee@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,59 +54,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Wenjing Liu <wenjing.liu@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:877: warning: Function parameter or member 'link' not described in 'detect_link_and_local_sink'
- drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:877: warning: Function parameter or member 'reason' not described in 'detect_link_and_local_sink'
- drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:1232: warning: Function parameter or member 'link' not described in 'dc_link_detect_connection_type'
+ scripts/Makefile.build:252: drivers/gpu/drm/bridge/imx/Makefile: imx-ldb-helper.o is added to multiple modules: imx8qm-ldb imx8qxp-ldb
 
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Lee Jones <lee@kernel.org>
-Cc: Wenjing Liu <wenjing.liu@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
 Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/link/link_detection.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/imx/Kconfig          |  7 +++++++
+ drivers/gpu/drm/bridge/imx/Makefile         |  7 +++++--
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 13 +++++++++++++
+ 3 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-index 9a4cfa777622e..67addedd89563 100644
---- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-+++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-@@ -832,7 +832,7 @@ static void verify_link_capability(struct dc_link *link, struct dc_sink *sink,
- 		verify_link_capability_non_destructive(link);
- }
+diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+index 608f47f41bcd1..97018dcd078d0 100644
+--- a/drivers/gpu/drm/bridge/imx/Kconfig
++++ b/drivers/gpu/drm/bridge/imx/Kconfig
+@@ -1,10 +1,16 @@
+ if ARCH_MXC || COMPILE_TEST
  
--/**
-+/*
-  * detect_link_and_local_sink() - Detect if a sink is attached to a given link
-  *
-  * link->local_sink is created or destroyed as needed.
-@@ -1185,7 +1185,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
- 	return true;
- }
++config DRM_IMX8_LIB
++	tristate
++	help
++	  Common helper functions used by some of the drivers below.
++
+ config DRM_IMX8QM_LDB
+ 	tristate "Freescale i.MX8QM LVDS display bridge"
+ 	depends on OF
+ 	depends on COMMON_CLK
+ 	select DRM_KMS_HELPER
++	select DRM_IMX8_LIB
+ 	help
+ 	  Choose this to enable the internal LVDS Display Bridge(LDB) found in
+ 	  Freescale i.MX8qm processor.  Official name of LDB is pixel mapper.
+@@ -14,6 +20,7 @@ config DRM_IMX8QXP_LDB
+ 	depends on OF
+ 	depends on COMMON_CLK
+ 	select DRM_KMS_HELPER
++	select DRM_IMX8_LIB
+ 	help
+ 	  Choose this to enable the internal LVDS Display Bridge(LDB) found in
+ 	  Freescale i.MX8qxp processor.  Official name of LDB is pixel mapper.
+diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
+index aa90ec8d54336..e1146b0347014 100644
+--- a/drivers/gpu/drm/bridge/imx/Makefile
++++ b/drivers/gpu/drm/bridge/imx/Makefile
+@@ -1,7 +1,10 @@
+-imx8qm-ldb-objs := imx-ldb-helper.o imx8qm-ldb-drv.o
++imx-ldb-lib-objs := imx-ldb-helper.o
++obj-$(CONFIG_DRM_IMX8_LIB) += imx-ldb-lib.o
++
++imx8qm-ldb-objs := imx8qm-ldb-drv.o
+ obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
  
--/**
-+/*
-  * link_detect_connection_type() - Determine if there is a sink connected
-  *
-  * @type: Returned connection type
+-imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
++imx8qxp-ldb-objs := imx8qxp-ldb-drv.o
+ obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
+ 
+ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
+diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+index 7338b84bc83d2..4cd570947b093 100644
+--- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
++++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+@@ -19,12 +19,14 @@ bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
+ {
+ 	return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
+ }
++EXPORT_SYMBOL_GPL(ldb_channel_is_single_link);
+ 
+ bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
+ {
+ 	return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
+ 	       ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
+ }
++EXPORT_SYMBOL_GPL(ldb_channel_is_split_link);
+ 
+ int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
+ 				   struct drm_bridge_state *bridge_state,
+@@ -38,6 +40,7 @@ int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(ldb_bridge_atomic_check_helper);
+ 
+ void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
+ 				const struct drm_display_mode *mode,
+@@ -69,6 +72,7 @@ void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
+ 		break;
+ 	}
+ }
++EXPORT_SYMBOL_GPL(ldb_bridge_mode_set_helper);
+ 
+ void ldb_bridge_enable_helper(struct drm_bridge *bridge)
+ {
+@@ -81,6 +85,7 @@ void ldb_bridge_enable_helper(struct drm_bridge *bridge)
+ 	 */
+ 	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
+ }
++EXPORT_SYMBOL_GPL(ldb_bridge_enable_helper);
+ 
+ void ldb_bridge_disable_helper(struct drm_bridge *bridge)
+ {
+@@ -95,6 +100,7 @@ void ldb_bridge_disable_helper(struct drm_bridge *bridge)
+ 
+ 	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
+ }
++EXPORT_SYMBOL_GPL(ldb_bridge_disable_helper);
+ 
+ int ldb_bridge_attach_helper(struct drm_bridge *bridge,
+ 			     enum drm_bridge_attach_flags flags)
+@@ -117,6 +123,7 @@ int ldb_bridge_attach_helper(struct drm_bridge *bridge,
+ 				ldb_ch->next_bridge, bridge,
+ 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ }
++EXPORT_SYMBOL_GPL(ldb_bridge_attach_helper);
+ 
+ int ldb_init_helper(struct ldb *ldb)
+ {
+@@ -157,6 +164,7 @@ int ldb_init_helper(struct ldb *ldb)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(ldb_init_helper);
+ 
+ int ldb_find_next_bridge_helper(struct ldb *ldb)
+ {
+@@ -184,6 +192,7 @@ int ldb_find_next_bridge_helper(struct ldb *ldb)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
+ 
+ void ldb_add_bridge_helper(struct ldb *ldb,
+ 			   const struct drm_bridge_funcs *bridge_funcs)
+@@ -204,6 +213,7 @@ void ldb_add_bridge_helper(struct ldb *ldb,
+ 		drm_bridge_add(&ldb_ch->bridge);
+ 	}
+ }
++EXPORT_SYMBOL_GPL(ldb_add_bridge_helper);
+ 
+ void ldb_remove_bridge_helper(struct ldb *ldb)
+ {
+@@ -219,3 +229,6 @@ void ldb_remove_bridge_helper(struct ldb *ldb)
+ 		drm_bridge_remove(&ldb_ch->bridge);
+ 	}
+ }
++EXPORT_SYMBOL_GPL(ldb_remove_bridge_helper);
++
++MODULE_LICENSE("GPL v2");
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
