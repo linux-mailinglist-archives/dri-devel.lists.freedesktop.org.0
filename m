@@ -2,71 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7696BEBA3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 15:46:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691086BEC52
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 16:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA9610E3BB;
-	Fri, 17 Mar 2023 14:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98EB510E264;
+	Fri, 17 Mar 2023 15:06:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A3C010E3BB;
- Fri, 17 Mar 2023 14:46:01 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-17aa62d0a4aso6008464fac.4; 
- Fri, 17 Mar 2023 07:46:01 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0705D10E275
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 15:06:36 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ fm20-20020a05600c0c1400b003ead37e6588so5302499wmb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679064360;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yvHIQvGXPksg6eiMeqxwoXshxo7XvcPUBVGQpYXhIn0=;
- b=d3J1Yg76xfhH/tPjOqY0fhibOj4dJPEZYK9wPEa0DkYAtZTATUJ91pJ4lEpsEVmClV
- 2fxlQ8IsSa4IbkXdax9QWDHPfty6LhNDlh+PxhEKf2hzKSW0p3FKhRVT6xASCxdQhxkU
- NaV+A719MqbWVnfupB9Mv+XkEiKdzibBJ0kKC4znfKtHHZtRKtaJGhi1NxP9wT3zako/
- TIkQwmxDIkIPSH9Hs747v1+GSS0SnHaStLNQqcHM+3mKRK75Vt873wQO1WV81h6d1/DV
- 6Bs1CFnmb2eaPGbYEIzWLw/9eoitkLR6hDZ9dw2OubyxnZT83JfizrtqiJm4tQb5nK/W
- S3xw==
+ d=linaro.org; s=google; t=1679065594;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gWIjQ50fIVrAQRlofNeocAQLgnxtnHwBc4uhvYE9qPQ=;
+ b=IcFlkPTLn7yAYtfjj/3+fWGiy36sOwr8k1qzkGkwQWlc4r2L0FvimQhQIqApE0xDpI
+ is4hF9vEaCdfj6t2i8ZZepV96J1p3lNA/1KF8ZQDJ4ma4fUHDc0RH4qiT19zi++O8k1M
+ vVX0EUM2vHi2QrBSa/5StXUCRbqJxE0S9/BVMZU51F3/WXrLBEGiZxGxm9PXYL9TdeIe
+ IGm6phkVrUQThyP6THCnRqABFJsuxGRTzQrFfopmPZgI+m3fncdRNr3pHSGfosu372fR
+ IskwZCcIoxky/ALbmcdf3+m9T2EphslouLxqNH0rY6dcvSAv1zv3GLzsbaAKyCz8acpm
+ 3s0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679064360;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yvHIQvGXPksg6eiMeqxwoXshxo7XvcPUBVGQpYXhIn0=;
- b=gFJ6WeYV7k0wStTangauKOIxD8wxTIbp/WqFN9p9t59RQJOCvyM1+6X4KcozWW4on/
- 2ZUBUn5LX1gF+vRz+pyVTqOru1r7xwzMkIaXPPOuWvFcEQYvG2epzIzzu6Lw4LOEeRNk
- HQob4c/1UjhKH318DUtDqNlqVU82kbQ85OYzlA9X7HfWpy7YUZ8Z4TMx0z/cfuCGnevl
- AzvAfa3XRzYzGCrlyAbp3He9B3m8lLBVI3oyEoULZDZoymLedzxkbl+Xqp1reCCjMv4K
- 0CVf/YyyfBEeFfKe9m35tl4WZNyKzxsOSdLZUBKTSDt1ov6kX4/kc0jhpKqUgSepsi/f
- 1jEQ==
-X-Gm-Message-State: AO0yUKVDNtqVJyNxNF5UC9BYwO2ai3Fb2n4Y6xtLtj6msE+/GyQUdK3f
- BbrqNi3qzXAGftjUzxrS5alE9yq7t90bAlxBqbk=
-X-Google-Smtp-Source: AK7set/wc8mkGeB3xsSh7uv2XahaDuGh1SCuyHKsNErSvesEESMC7ISG+xDqov6gcpVKj1eQNlfENSx+ogaCnLMgM8g=
-X-Received: by 2002:a05:6870:d346:b0:172:426c:8304 with SMTP id
- h6-20020a056870d34600b00172426c8304mr14466173oag.3.1679064360305; Fri, 17 Mar
- 2023 07:46:00 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679065594;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gWIjQ50fIVrAQRlofNeocAQLgnxtnHwBc4uhvYE9qPQ=;
+ b=eHhN8TjnoTV9T6hzxTNgLEC08wqmGpgKxeeUdDWvfonbqIqlRsLGRZ0q8ABEmgpxKE
+ dPZ3WC8Wq4loIW7HYM/PcEpdPsJ65u6cc9fPnDD1lPEqi92cx0AMi+H3hGsf7MLHvA9C
+ POBtqJInUvPwRAQLSmR2Xr1kAY9s84a+r58KHZlHkKcwOLHtVbvKXuFBEEcVG4n93qO5
+ /feL8eNA0dSUMMg2tHftMwfIpnnuAWetkdbEGELw+Mj2HptkpVxZvFv8EziAIQ7CIU08
+ dZI1CbJzMlex6n02gVAmOrEuIx4/1Mwy9eJHl5LZF6BauxAxPMwlaClA6b4zI5MqpGyo
+ z0ZQ==
+X-Gm-Message-State: AO0yUKXaapESDqtcOIJlLPgSaSLYlwsQTeVM5AF12/n6ryktFNNguJ3Z
+ XQDybF7AcMQBksyTD2hc3k/Wxw==
+X-Google-Smtp-Source: AK7set//ZMCelRRmNvCpiTkkaLWE6bf8oxGkz8Z8HOhcyhzNfGJq8QxwrcJbk5EEak5v1YdsawJv0Q==
+X-Received: by 2002:a05:600c:3584:b0:3ed:358e:c1c2 with SMTP id
+ p4-20020a05600c358400b003ed358ec1c2mr8650770wmq.18.1679065594350; 
+ Fri, 17 Mar 2023 08:06:34 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ f13-20020a5d58ed000000b002c5493a17efsm2187902wrd.25.2023.03.17.08.06.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 08:06:34 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v6 0/5] arm64: dts: qcom: add DP Controller to SM8350 &
+ SM8450 DTS
+Date: Fri, 17 Mar 2023 16:06:31 +0100
+Message-Id: <20230206-topic-sm8450-upstream-dp-controller-v6-0-d78313cbc41d@linaro.org>
 MIME-Version: 1.0
-References: <20230312120157.452859-1-ray.huang@amd.com>
- <20230312120157.452859-2-ray.huang@amd.com>
- <ea0e3852-87ba-984b-4010-5eeac3d6c507@suse.com>
- <alpine.DEB.2.22.394.2303141747350.863724@ubuntu-linux-20-04-desktop>
- <f5e03f2a-8176-528f-e885-9a97940367c0@suse.com>
- <alpine.DEB.2.22.394.2303151616200.3462@ubuntu-linux-20-04-desktop>
- <5e22a45d-6f12-da9b-94f6-3112a30e8574@suse.com>
- <CADnq5_PH9ZqDqpPES74V3fB3NVpaexDoGTyu_+-zoux5vgagyg@mail.gmail.com>
- <dcb54275-b21f-a837-76bb-e19e331a0666@suse.com>
- <CADnq5_PpCWrZzQdE_X6ZnuNU3ktVeC6TbmE5vq3K6rCAdB8GTg@mail.gmail.com>
- <d256a967-f50e-2e19-1985-aa9cfc0e8b18@suse.com>
- <alpine.DEB.2.22.394.2303161603200.3359@ubuntu-linux-20-04-desktop>
-In-Reply-To: <alpine.DEB.2.22.394.2303161603200.3359@ubuntu-linux-20-04-desktop>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 Mar 2023 10:45:48 -0400
-Message-ID: <CADnq5_NnOApcpkKb3UqAKAcS9s_gG3Lq4ssJDgCjq5ZQty2rnw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/5] x86/xen: disable swiotlb for xen pvh
-To: Stefano Stabellini <sstabellini@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPeBFGQC/53Oy27DIBQE0F+JWJcKLo+YrPofVRc8rmMkAhY4V
+ qvI/16SXeVVvZxZnJkHaVgjNnI5PUjFNbZYcg/67UT8ZPMVaQw9E2AgGDBNlzJHT9ttkIrR+9y
+ WivZGw0x9yUstKWGlwJiS1sHAApIuOduQumqzn7qV7yn1cq44xu/X9OdXz1NsS6k/rycrf7b/G
+ 105ZXTkQqrhDBi4+Ugx21reS72S58AKB1DoqAITLAATWu1RcQAVHdVC42jQGCNgh8oDqOxo8Fa
+ IUQmOLOxQdQBVHbVwHrkDjQ6HP+i2bb8gEBgIQAIAAA==
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,172 +85,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juergen Gross <jgross@suse.com>, Honglei Huang <honglei1.huang@amd.com>,
- Stewart Hildebrand <Stewart.Hildebrand@amd.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>, Chen Jiqian <Jiqian.Chen@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Huang Rui <ray.huang@amd.com>, amd-gfx@lists.freedesktop.org,
- Jan Beulich <jbeulich@suse.com>, Alex Deucher <alexander.deucher@amd.com>,
- xen-devel@lists.xenproject.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Julia Zhang <julia.zhang@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 16, 2023 at 7:09=E2=80=AFPM Stefano Stabellini
-<sstabellini@kernel.org> wrote:
->
-> On Thu, 16 Mar 2023, Juergen Gross wrote:
-> > On 16.03.23 14:53, Alex Deucher wrote:
-> > > On Thu, Mar 16, 2023 at 9:48=E2=80=AFAM Juergen Gross <jgross@suse.co=
-m> wrote:
-> > > >
-> > > > On 16.03.23 14:45, Alex Deucher wrote:
-> > > > > On Thu, Mar 16, 2023 at 3:50=E2=80=AFAM Jan Beulich <jbeulich@sus=
-e.com> wrote:
-> > > > > >
-> > > > > > On 16.03.2023 00:25, Stefano Stabellini wrote:
-> > > > > > > On Wed, 15 Mar 2023, Jan Beulich wrote:
-> > > > > > > > On 15.03.2023 01:52, Stefano Stabellini wrote:
-> > > > > > > > > On Mon, 13 Mar 2023, Jan Beulich wrote:
-> > > > > > > > > > On 12.03.2023 13:01, Huang Rui wrote:
-> > > > > > > > > > > Xen PVH is the paravirtualized mode and takes advanta=
-ge of
-> > > > > > > > > > > hardware
-> > > > > > > > > > > virtualization support when possible. It will using t=
-he
-> > > > > > > > > > > hardware IOMMU
-> > > > > > > > > > > support instead of xen-swiotlb, so disable swiotlb if
-> > > > > > > > > > > current domain is
-> > > > > > > > > > > Xen PVH.
-> > > > > > > > > >
-> > > > > > > > > > But the kernel has no way (yet) to drive the IOMMU, so =
-how can
-> > > > > > > > > > it get
-> > > > > > > > > > away without resorting to swiotlb in certain cases (lik=
-e I/O
-> > > > > > > > > > to an
-> > > > > > > > > > address-restricted device)?
-> > > > > > > > >
-> > > > > > > > > I think Ray meant that, thanks to the IOMMU setup by Xen,=
- there
-> > > > > > > > > is no
-> > > > > > > > > need for swiotlb-xen in Dom0. Address translations are do=
-ne by
-> > > > > > > > > the IOMMU
-> > > > > > > > > so we can use guest physical addresses instead of machine
-> > > > > > > > > addresses for
-> > > > > > > > > DMA. This is a similar case to Dom0 on ARM when the IOMMU=
- is
-> > > > > > > > > available
-> > > > > > > > > (see include/xen/arm/swiotlb-xen.h:xen_swiotlb_detect, th=
-e
-> > > > > > > > > corresponding
-> > > > > > > > > case is XENFEAT_not_direct_mapped).
-> > > > > > > >
-> > > > > > > > But how does Xen using an IOMMU help with, as said,
-> > > > > > > > address-restricted
-> > > > > > > > devices? They may still need e.g. a 32-bit address to be
-> > > > > > > > programmed in,
-> > > > > > > > and if the kernel has memory beyond the 4G boundary not all=
- I/O
-> > > > > > > > buffers
-> > > > > > > > may fulfill this requirement.
-> > > > > > >
-> > > > > > > In short, it is going to work as long as Linux has guest phys=
-ical
-> > > > > > > addresses (not machine addresses, those could be anything) lo=
-wer
-> > > > > > > than
-> > > > > > > 4GB.
-> > > > > > >
-> > > > > > > If the address-restricted device does DMA via an IOMMU, then =
-the
-> > > > > > > device
-> > > > > > > gets programmed by Linux using its guest physical addresses (=
-not
-> > > > > > > machine
-> > > > > > > addresses).
-> > > > > > >
-> > > > > > > The 32-bit restriction would be applied by Linux to its choic=
-e of
-> > > > > > > guest
-> > > > > > > physical address to use to program the device, the same way i=
-t does
-> > > > > > > on
-> > > > > > > native. The device would be fine as it always uses Linux-prov=
-ided
-> > > > > > > <4GB
-> > > > > > > addresses. After the IOMMU translation (pagetable setup by Xe=
-n), we
-> > > > > > > could get any address, including >4GB addresses, and that is
-> > > > > > > expected to
-> > > > > > > work.
-> > > > > >
-> > > > > > I understand that's the "normal" way of working. But whatever t=
-he
-> > > > > > swiotlb
-> > > > > > is used for in baremetal Linux, that would similarly require it=
-s use
-> > > > > > in
-> > > > > > PVH (or HVM) aiui. So unconditionally disabling it in PVH would=
- look
-> > > > > > to
-> > > > > > me like an incomplete attempt to disable its use altogether on =
-x86.
-> > > > > > What
-> > > > > > difference of PVH vs baremetal am I missing here?
-> > > > >
-> > > > > swiotlb is not usable for GPUs even on bare metal.  They often ha=
-ve
-> > > > > hundreds or megs or even gigs of memory mapped on the device at a=
-ny
-> > > > > given time.  Also, AMD GPUs support 44-48 bit DMA masks (dependin=
-g on
-> > > > > the chip family).
-> > > >
-> > > > But the swiotlb isn't per device, but system global.
-> > >
-> > > Sure, but if the swiotlb is in use, then you can't really use the GPU=
-.
-> > > So you get to pick one.
-> >
-> > The swiotlb is used only for buffers which are not within the DMA mask =
-of a
-> > device (see dma_direct_map_page()). So an AMD GPU supporting a 44 bit D=
-MA mask
-> > won't use the swiotlb unless you have a buffer above guest physical add=
-ress of
-> > 16TB (so basically never).
-> >
-> > Disabling swiotlb in such a guest would OTOH mean, that a device with o=
-nly
-> > 32 bit DMA mask passed through to this guest couldn't work with buffers
-> > above 4GB.
-> >
-> > I don't think this is acceptable.
->
-> From the Xen subsystem in Linux point of view, the only thing we need to
-> do is to make sure *not* to enable swiotlb_xen (yes "swiotlb_xen", not
-> the global swiotlb) on PVH because it is not needed anyway.
->
-> I think we should leave the global "swiotlb" setting alone. The global
-> swiotlb is not relevant to Xen anyway, and surely baremetal Linux has to
-> have a way to deal with swiotlb/GPU incompatibilities.
->
-> We just have to avoid making things worse on Xen, and for that we just
-> need to avoid unconditionally enabling swiotlb-xen. If the Xen subsystem
-> doesn't enable swiotlb_xen/swiotlb, and no other subsystem enables
-> swiotlb, then we have a good Linux configuration capable of handling the
-> GPU properly.
->
-> Alex, please correct me if I am wrong. How is x86_swiotlb_enable set to
-> false on native (non-Xen) x86?
+Switch the QMP PHY to the newly documented USB3/DP Combo PHY
+bindings at [1] and add the DP controller nodes.
 
-In most cases we have an IOMMU enabled and IIRC, TTM has slightly
-different behavior for memory allocation depending on whether swiotlb
-would be needed or not.
+The DP output is shared with the USB3 SuperSpeed lanes and is
+usually connected to an USB-C port which Altmode is controlled
+by the PMIC Glink infrastructure in discution at [1] & [2].
 
-Alex
+DT changes tying the DP controller to the USB-C port on the HDK
+boards will be sent later.
+
+Bindings dependencies merged into v6.3-rc1.
+
+[1] https://lore.kernel.org/all/20230201041853.1934355-1-quic_bjorande@quicinc.com/
+[2] https://lore.kernel.org/all/20230130-topic-sm8450-upstream-pmic-glink-v2-0-71fea256474f@linaro.org/
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v6:
+- Revert DP opp changes
+- Fix SM8450 combo PHY memory reg range
+- Link to v5: https://lore.kernel.org/r/20230206-topic-sm8450-upstream-dp-controller-v5-0-a27f1b26ebe8@linaro.org
+
+Changes in v5:
+- Add review tags
+- Fixed DP opp tables
+- Link to v4: https://lore.kernel.org/r/20230206-topic-sm8450-upstream-dp-controller-v4-0-dca33f531e0d@linaro.org
+
+Changes in v4:
+- Updated trailers
+- Fixed patch 4 compatible and reg sizes
+- Link to v3: https://lore.kernel.org/r/20230206-topic-sm8450-upstream-dp-controller-v3-0-636ef9e99932@linaro.org
+
+Changes in v3:
+- Added Reviewed-by, Tested-by tags
+- Used QMP PHY constants for phandle parameters
+- Dropped reordering of mdp ports
+- Added p1 dp regs address space
+- Link to v2: https://lore.kernel.org/r/20230206-topic-sm8450-upstream-dp-controller-v2-0-529da2203659@linaro.org
+
+Changes in v2:
+- fixed the bindings
+- cleaned up the usb_1_qmpphy &  displayport-controller nodes as requested by dmitry
+- removed invalid mdss_dp0 change in sm8450-hdk.dts
+- Link to v1: https://lore.kernel.org/r/20230206-topic-sm8450-upstream-dp-controller-v1-0-f1345872ed19@linaro.org
+
+---
+Neil Armstrong (5):
+      dt-bindings: display: msm: dp-controller: document SM8450 compatible
+      arm64: dts: qcom: sm8350: switch to combo usb3/dp phy
+      arm64: dts: qcom: sm8350: add dp controller
+      arm64: dts: qcom: sm8450: switch to usb3/dp combo phy
+      arm64: dts: qcom: sm8450: add dp controller
+
+ .../bindings/display/msm/dp-controller.yaml        |  25 +++--
+ arch/arm64/boot/dts/qcom/sm8350.dtsi               | 121 ++++++++++++++++-----
+ arch/arm64/boot/dts/qcom/sm8450.dtsi               | 121 ++++++++++++++++-----
+ 3 files changed, 203 insertions(+), 64 deletions(-)
+---
+base-commit: bf7a33dc3cca43baa4a4ecf86dcb6838fca09451
+change-id: 20230206-topic-sm8450-upstream-dp-controller-20054ab280de
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
