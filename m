@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E556BE320
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A40F6BE31F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 060DA10EE72;
-	Fri, 17 Mar 2023 08:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18CFC10EE77;
+	Fri, 17 Mar 2023 08:23:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE4C510EE66;
- Fri, 17 Mar 2023 08:22:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D5E10EE6A;
+ Fri, 17 Mar 2023 08:22:57 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6835D6222D;
- Fri, 17 Mar 2023 08:22:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B8DC4339C;
- Fri, 17 Mar 2023 08:22:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 28C0862230;
+ Fri, 17 Mar 2023 08:22:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F41E2C433AC;
+ Fri, 17 Mar 2023 08:22:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679041374;
- bh=wsKwBwChKHJxg3AMCoE7a0SMKdSUlSQzuGKV0y3RRnw=;
+ s=k20201202; t=1679041377;
+ bh=zleuN72mqtjveYJLiJkgWupGSovQJL7rHgZUKBSDZ5I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZiHHfJE5SEfpChRFw9oChAyZ5xWfm2B9xmKfqeqG1Fnkrc1SPEl4R9RDr8HxUwIq7
- xUCUNUtRC2Lfi3Hof9U5tI/pGga2Z+9/C2z+m3s1rC3dCTcCbjGIq/1gEL6TYt3crO
- E+N5AVxeCvwsep9/q4ushxN+Nn5XYOJfcwnkriX/4B4JRssWqAf+Mkoz+bYv6CxbNE
- Z1TlcHPKzYqLGLkqibK/Sc2MX7ziP6uu1SiAP3tjGe4EZdJi47ymD6v0+gWf8zW6+L
- 4bL2P8Od5FxVqzDo8izDBbD6k1BwX1nP0V9z9ZYA0dD6MCzEu8rJdTreRd9Xoy/Tah
- WXQ1PODcVOhxw==
+ b=FT+9zj1yvj5mzSa3LBbimjMH5ifXG3obim/Y1qu0ThCog+ZJgseiycQ9Uuq7oYv0J
+ 1qcQFyEUM+hQfm4BtiYEg40XIviDInDWAiMmdV4PH2W+VR+V+V3jDr0kU/hhBm9hAq
+ 1eLAh2JLJRw4WYxNYKttp0HvsjDgJdoKq90ZYW0yuq/E1g9y+5LKKde7RZakA399EB
+ cAZXd0/gpASdYzLvVf8D81a5I7NI+w4Y/bRxPPEn+28HND/HXhQO+GYhKx6bA+bzdg
+ a1F1RwiBYVNlUgpVqmbblvMkWO8urhexyfj2nieIic2HHsuImyqcjSbK8CWjhLWZV5
+ lYtxBJwnN+06g==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 15/37] drm/amd/amdgpu/gmc_v11_0: Provide a few missing param
- descriptions relating to hubs and flushes
-Date: Fri, 17 Mar 2023 08:16:56 +0000
-Message-Id: <20230317081718.2650744-16-lee@kernel.org>
+Subject: [PATCH 16/37] drm/amd/amdgpu/ih_v6_0: Repair misspelling and provide
+ descriptions for 'ih'
+Date: Fri, 17 Mar 2023 08:16:57 +0000
+Message-Id: <20230317081718.2650744-17-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
 References: <20230317081718.2650744-1-lee@kernel.org>
@@ -57,50 +57,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
  amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:282: warning: Function parameter or member 'vmhub' not described in 'gmc_v11_0_flush_gpu_tlb'
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:282: warning: Function parameter or member 'flush_type' not described in 'gmc_v11_0_flush_gpu_tlb'
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:322: warning: Function parameter or member 'flush_type' not described in 'gmc_v11_0_flush_gpu_tlb_pasid'
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c:322: warning: Function parameter or member 'all_hub' not described in 'gmc_v11_0_flush_gpu_tlb_pasid'
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c:392: warning: Function parameter or member 'ih' not described in 'ih_v6_0_get_wptr'
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c:432: warning: Function parameter or member 'ih' not described in 'ih_v6_0_irq_rearm'
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c:458: warning: Function parameter or member 'ih' not described in 'ih_v6_0_set_rptr'
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
 Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-index fad199ed15f38..9f4f28192c601 100644
---- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-@@ -274,6 +274,8 @@ static void gmc_v11_0_flush_vm_hub(struct amdgpu_device *adev, uint32_t vmid,
+diff --git a/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c b/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
+index 7cd79a3844b24..b02e1cef78a76 100644
+--- a/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/ih_v6_0.c
+@@ -119,7 +119,7 @@ force_update_wptr_for_self_int(struct amdgpu_device *adev,
+  * ih_v6_0_toggle_ring_interrupts - toggle the interrupt ring buffer
   *
   * @adev: amdgpu_device pointer
-  * @vmid: vm instance to flush
-+ * @vmhub: which hub to flush
-+ * @flush_type: the flush type
+- * @ih: amdgpu_ih_ring pointet
++ * @ih: amdgpu_ih_ring pointer
+  * @enable: true - enable the interrupts, false - disable the interrupts
   *
-  * Flush the TLB for the requested page table.
+  * Toggle the interrupt ring buffer (IH_V6_0)
+@@ -381,6 +381,7 @@ static void ih_v6_0_irq_disable(struct amdgpu_device *adev)
+  * ih_v6_0_get_wptr - get the IH ring buffer wptr
+  *
+  * @adev: amdgpu_device pointer
++ * @ih: amdgpu_ih_ring pointer
+  *
+  * Get the IH ring buffer wptr from either the register
+  * or the writeback memory buffer.  Also check for
+@@ -425,6 +426,7 @@ static u32 ih_v6_0_get_wptr(struct amdgpu_device *adev,
+  * ih_v6_0_irq_rearm - rearm IRQ if lost
+  *
+  * @adev: amdgpu_device pointer
++ * @ih: amdgpu_ih_ring pointer
+  *
   */
-@@ -313,6 +315,8 @@ static void gmc_v11_0_flush_gpu_tlb(struct amdgpu_device *adev, uint32_t vmid,
+ static void ih_v6_0_irq_rearm(struct amdgpu_device *adev,
+@@ -450,6 +452,7 @@ static void ih_v6_0_irq_rearm(struct amdgpu_device *adev,
+  * ih_v6_0_set_rptr - set the IH ring buffer rptr
   *
   * @adev: amdgpu_device pointer
-  * @pasid: pasid to be flush
-+ * @flush_type: the flush type
-+ * @all_hub: flush all hubs
++ * @ih: amdgpu_ih_ring pointer
   *
-  * Flush the TLB for the requested pasid.
+  * Set the IH ring buffer rptr.
   */
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
