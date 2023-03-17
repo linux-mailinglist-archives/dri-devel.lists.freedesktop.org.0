@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230E46BF648
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 00:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8040D6BF642
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 00:24:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97CCA10E437;
-	Fri, 17 Mar 2023 23:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5636D10E432;
+	Fri, 17 Mar 2023 23:24:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D0310E2A0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 23:24:04 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F9010E285
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 23:24:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2B048B82722;
- Fri, 17 Mar 2023 23:24:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1F2C433A1;
+ by ams.source.kernel.org (Postfix) with ESMTPS id B8463B826FE;
+ Fri, 17 Mar 2023 23:24:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20D6CC433D2;
  Fri, 17 Mar 2023 23:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1679095440;
- bh=wMdj6XMSKvcrwZmlfjFE87Mo/K0QwNMqQP6DoUCEh10=;
+ bh=a2pmQKhWvqek1TX2Y5M9kp9YI0QTZuxBZ8Pn1du4Q14=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V7WZLmN/f4vrQhvkHFIhjRas7Jj2UFY3UEQOixFtO03eD6fgNZwgj3qLzBq5nPt0/
- kfevjrBRC3fVUwIO4ahdTus1s07972KBOWtqzDISoCpD+QxwEBpT1JOOGkCAjtPXsx
- JFjVd0k2GYo0RI2lVIV/f8nAQHzn/2ugP98XcdDvpIb9cge+klspr8KDeNNq2sG6ZT
- 1QeD3imwyqyOOuEQyYvoKYLmTPFqv37Oj0W4qI9ufDV9SSzLWml/QnI+rJlFrScbvO
- cj4O6fOjHZx4llqqyMArc8LsZNDP9PlV0DXO65dbt+gqxQZ8GrBsFhvQzanpNEhAU5
- rxmIjQ3DYZ+0g==
+ b=YswHAzC7nKZ15q/r11zI/x/msEanukF5qbiQVlo9kmxcb4imSfUdgxHC9nQVQlKmp
+ htOtDJTCF5ahTyuAPLjbLuCZcsSLe3+oE2LiWMed61UxmDvDhmkr5hl3+eTrYiOaub
+ hTjygRfkTY9+6NMGVsHon8iQHSS3RrNPdxFoCwzUKpfMfQ2uopFDRtv1CEbl7pLs6C
+ Ddy41hsOte1nfpEaXYN55KkmWz2hG2+xQSyomJHDrBTDMuYc1o3QfVoc6vE+XbV20I
+ BYB7NnV3phVhss+f+0IEh2lXGjap2VQbGX/pIzE9kdQTR+u+lfdpUB9MyHux/k1xWS
+ 6QAvDo2OohBlw==
 Received: by mercury (Postfix, from userid 1000)
- id DB22210620FF; Sat, 18 Mar 2023 00:23:57 +0100 (CET)
+ id DD4561062101; Sat, 18 Mar 2023 00:23:57 +0100 (CET)
 From: Sebastian Reichel <sre@kernel.org>
 To: Sebastian Reichel <sre@kernel.org>
-Subject: [PATCHv1 2/7] dt-bindings: display: st7789v: add Inanbo T28CP45TN89
-Date: Sat, 18 Mar 2023 00:23:50 +0100
-Message-Id: <20230317232355.1554980-3-sre@kernel.org>
+Subject: [PATCHv1 3/7] drm/panel: sitronix-st7789v: add SPI ID table
+Date: Sat, 18 Mar 2023 00:23:51 +0100
+Message-Id: <20230317232355.1554980-4-sre@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230317232355.1554980-1-sre@kernel.org>
 References: <20230317232355.1554980-1-sre@kernel.org>
@@ -63,38 +64,38 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add compatible value for Inanbo t28cp45tn89 and
-make reset GPIO non mandatory, since it might not
-be connected to the CPU.
+SPI device drivers should also have a SPI ID table.
 
 Signed-off-by: Sebastian Reichel <sre@kernel.org>
 ---
- .../devicetree/bindings/display/panel/sitronix,st7789v.yaml  | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-index d984b59daa4a..4fc86f96b00f 100644
---- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
-@@ -15,7 +15,9 @@ allOf:
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+index bbc4569cbcdc..e4d8dea1db36 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+@@ -394,6 +394,12 @@ static void st7789v_remove(struct spi_device *spi)
+ 	drm_panel_remove(&ctx->panel);
+ }
  
- properties:
-   compatible:
--    const: sitronix,st7789v
-+    enum:
-+      - sitronix,st7789v
-+      - inanbo,t28cp45tn89-v17
- 
-   reg: true
-   reset-gpios: true
-@@ -29,7 +31,6 @@ properties:
- required:
-   - compatible
-   - reg
--  - reset-gpios
-   - power-supply
- 
- unevaluatedProperties: false
++static const struct spi_device_id st7789v_spi_id[] = {
++	{ "st7789v" },
++	{ }
++};
++MODULE_DEVICE_TABLE(spi, st7789v_spi_id);
++
+ static const struct of_device_id st7789v_of_match[] = {
+ 	{ .compatible = "sitronix,st7789v" },
+ 	{ }
+@@ -403,6 +409,7 @@ MODULE_DEVICE_TABLE(of, st7789v_of_match);
+ static struct spi_driver st7789v_driver = {
+ 	.probe = st7789v_probe,
+ 	.remove = st7789v_remove,
++	.id_table = st7789v_spi_id,
+ 	.driver = {
+ 		.name = "st7789v",
+ 		.of_match_table = st7789v_of_match,
 -- 
 2.39.2
 
