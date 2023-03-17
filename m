@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F86F6BE338
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F236BE334
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE1210EE84;
-	Fri, 17 Mar 2023 08:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B3A710EE81;
+	Fri, 17 Mar 2023 08:23:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07B7A10EE6A;
- Fri, 17 Mar 2023 08:23:11 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3633110EE69;
+ Fri, 17 Mar 2023 08:23:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8485762225;
+ by ams.source.kernel.org (Postfix) with ESMTPS id E14E5B824F5;
+ Fri, 17 Mar 2023 08:23:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE2C1C4339C;
  Fri, 17 Mar 2023 08:23:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83EADC433A1;
- Fri, 17 Mar 2023 08:23:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679041390;
- bh=zJPpymlz/PVT9Wlua6kFKjgPKChBJflnKxi72FkxNwg=;
+ s=k20201202; t=1679041392;
+ bh=db7R+qMmf7JQ1bscxQurohnbX82LESpL6MUvbSxqwsA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DVDAwORkAiQnEWz6+nViqSR8Lr0B7YnIQt3H9TemIvtpK0SOwrESnbQBTtSd15LJZ
- 8LKTTphZWXSNFiDj8RQuNi5luzmX1sZFMkotSgk7ciD5b7cOOMiB1S/ZcaoQPbJziC
- yjaO0T01e4Wi71fkZU3JBqFKbFhYD2GDyUR66KPhVommrJiRM5W4u0m3H0XiQJXtwj
- uZd1Jda1Vm38ZFZ24AGw5i4eiSgvKOfWu+7f1w2O/+BBZ+aJla71dLmat6pLs2Qnrk
- HnUSIbWGBp5Nh+t/KA32aK3+aaLRYN83LmD4gdHODxbiPDXwl4esBd12awnC1l7em6
- 1f3YdDKU2qVBw==
+ b=A6G4VvXK53r2h5/CasP2WD7VPcKNHNImnMMs+vkMaZCYNpzsPBIib9pkv22Vw8a0j
+ UWLh3BQDJi8bbKUtIdzENXEum5mIsdqNucPKDr0Ft5MVlLFihnY3psZt5ShTlIz6XO
+ YwzHvigUDawhfZHpSaJomXaVwrAOemdogWLrJmKfQo0mX0QQri5XjJmbMkesxlyiw/
+ VcLaopzRHmT6q4efR+0cauxNbC/RkbNTD5FbANe7eTjbMQp7dkffnuqPjNttv1UtEA
+ +/mI8va2Vj6LuXZ3NZHQ2Ie6c+E2zg8JtlMrX/bTachQHjx2hkoW2DXwBRJ+pbFBP3
+ as3GiHRa4jX7g==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 21/37] drm/nouveau/nvkm/subdev/volt/gk20a: Demote kerneldoc
- abuses
-Date: Fri, 17 Mar 2023 08:17:02 +0000
-Message-Id: <20230317081718.2650744-22-lee@kernel.org>
+Subject: [PATCH 22/37] drm/nouveau/nvkm/engine/fifo/runl: Staticify local
+ function nvkm_engn_cgrp_get()
+Date: Fri, 17 Mar 2023 08:17:03 +0000
+Message-Id: <20230317081718.2650744-23-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
 References: <20230317081718.2650744-1-lee@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,8 +62,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:49: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c:62: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c:34:1: warning: no previous prototype for ‘nvkm_engn_cgrp_get’ [-Wmissing-prototypes]
 
 Cc: Ben Skeggs <bskeggs@redhat.com>
 Cc: Karol Herbst <kherbst@redhat.com>
@@ -72,31 +73,22 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: nouveau@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-index 8c2faa9645111..ccac88da88648 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c
-@@ -45,7 +45,7 @@ static const struct cvb_coef gk20a_cvb_coef[] = {
- 	/* 852 */ { 1608418, -21643, -269,     0,    763,  -48},
- };
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
+index b5836cbc29aa3..93d628d7d508b 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/runl.c
+@@ -30,7 +30,7 @@
+ #include <subdev/timer.h>
+ #include <subdev/top.h>
  
--/**
-+/*
-  * cvb_mv = ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0)
-  */
- static inline int
-@@ -58,7 +58,7 @@ gk20a_volt_get_cvb_voltage(int speedo, int s_scale, const struct cvb_coef *coef)
- 	return mv;
- }
- 
--/**
-+/*
-  * cvb_t_mv =
-  * ((c2 * speedo / s_scale + c1) * speedo / s_scale + c0) +
-  * ((c3 * speedo / s_scale + c4 + c5 * T / t_scale) * T / t_scale)
+-struct nvkm_cgrp *
++static struct nvkm_cgrp *
+ nvkm_engn_cgrp_get(struct nvkm_engn *engn, unsigned long *pirqflags)
+ {
+ 	struct nvkm_cgrp *cgrp = NULL;
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
