@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B888F6BE8C2
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:04:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E4B6BE8CF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 13:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D0010EE20;
-	Fri, 17 Mar 2023 12:04:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D519510E0FD;
+	Fri, 17 Mar 2023 12:07:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E28D10EE20
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:04:19 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6599910E0FD
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 12:07:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679054658;
+ s=mimecast20190719; t=1679054854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V8ovvffLrypbU/Nxh/i/+v5qxyl0UvEOHbG3UDPV2Io=;
- b=PCUJMIoUwlszWIMH+PVPaJNvzOYCT6i3tifm/c9IdLSzBE/geU0z6Hp0hBnO0F+o+oWcfA
- Nyeah6wUimbFD3fGgoOXjaN2W9VRMrHvkf7Fm5vSFbqWLVO4rbnsCj7+dDyJR3Ks9aGpf/
- bLdvAMyGwIdjGLVWh7Jb2KdXVcrrxFw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Eo1WKLp2v0l3dRuC92rwAg+2aExdvyKS3ECtlqOamrY=;
+ b=HY0vZ7mnNBicAkjPSgKNFXSfVGLlASglJxKkysPCfeHOxx1lJMHayeNpVsincynhvrDlUa
+ koQtoibihOHfmAe16C2Pv3yBO5dZJCe6pD0Pa5olk0ZbWUojZAQTqoo2WfAWM23N0dMOTi
+ WpIs1CP9bfgAbYs5eGn03PqGF1ED3sw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-435-122EwY2GOF62O0Bk9e028Q-1; Fri, 17 Mar 2023 08:04:15 -0400
-X-MC-Unique: 122EwY2GOF62O0Bk9e028Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d18-20020adfa412000000b002d43970bb80so9125wra.6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 05:04:14 -0700 (PDT)
+ us-mta-322-Zk8M3CmnN0apLn1LGQh6Dg-1; Fri, 17 Mar 2023 08:07:33 -0400
+X-MC-Unique: Zk8M3CmnN0apLn1LGQh6Dg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bd27-20020a05600c1f1b00b003ed5cf99f0cso2037872wmb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 05:07:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679054654;
+ d=1e100.net; s=20210112; t=1679054852;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=V8ovvffLrypbU/Nxh/i/+v5qxyl0UvEOHbG3UDPV2Io=;
- b=oid9sApE/pKlyswQm9wYMlVj7h1Bt73f9pye+QoaaEAeToWfbt9wv4BYyGDM4sa9td
- ivWoPaixTo+v7Q6WKs2EaOtbd2SjuXyQGTsBYVkIussQkbNx646M5NZahzn78ijSeUpK
- 3u9tdm9EEwvH+vxZZmsE7c2+M4H4JAztlsIqxMiC6rGiWbLGrsg2oYNPOl8ydSk9mkGZ
- 82VdfdZVW/6safj4vFDKiZSa1MF6/OG5lHaC9LakjoYhIIXxLFImS6Z9SvtjAYybtirN
- cyruv/ocULEcPyVILUGVeddWDA1jVIH5lZkQj7oeGmPT3ozPAP4bdzTJ9sKr797abJoM
- is1g==
-X-Gm-Message-State: AO0yUKU310LId8NR2Vz8kMKbeB5AGqb4oJml4CQEGkSgTxYU6CdwG75U
- QQHx8S6OKwag5hr0O2S/doet2fNDrWuvy+wzi2ZHc0xd90HZ5Tw0qjdJZDENzU9zS5UZEaLTL2p
- KdrOgm4jf4UGQJeNF5IJj32hgUTQM
-X-Received: by 2002:a05:600c:5104:b0:3ed:1f9c:af12 with SMTP id
- o4-20020a05600c510400b003ed1f9caf12mr19769221wms.22.1679054653862; 
- Fri, 17 Mar 2023 05:04:13 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+QIWduHaB64qWKJLOnltxQJ996chR+t6zj9XdACw8D5NdD+SvEX9Wyu8HFmpfmQl1yk50B2w==
-X-Received: by 2002:a05:600c:5104:b0:3ed:1f9c:af12 with SMTP id
- o4-20020a05600c510400b003ed1f9caf12mr19769190wms.22.1679054653536; 
- Fri, 17 Mar 2023 05:04:13 -0700 (PDT)
+ bh=Eo1WKLp2v0l3dRuC92rwAg+2aExdvyKS3ECtlqOamrY=;
+ b=b17CR79zKshOvs+DwDmtzhltos4jnFMW/znIP+DwAwcRBXqvywnMCQQQ/OY01FXBrz
+ LUzkQLgfmcXfSzKe7UPWKX45EPCWfU5PPhHh6V058jtIfnuu5EAk153U+hJlOgNh86vU
+ o8BkmRnaUiNvDZIzFpJsBH6vcv19lyWARbOA+oI7xSNUzYSmIgQcrMCpq8UX/hpEhJ83
+ N8KmCCE2AF2wyXXuhSCWBMxFkOe5dcavuiNiwpulC/7qW2JM6wnnTchQiKqa0wStOdCa
+ zrpK1Rfp3weJdNq5qnbxsIPqCce8BVlyGb5wx37aEAPZk5MtKc6FhXXciHIciWg4mBtl
+ beww==
+X-Gm-Message-State: AO0yUKVE+CKd+vSywSM8HnjWNx2Trce7o59al2BCG4GUbSO1Ii0R6syC
+ IgH0GKYvZD4ScmxdNw5DdNZ0cCzrG3/G88ap42dVsTrFPHBfa/Pc6T2orABYkkPBB5QOPPkQuO9
+ 9ilX3qcbBE13rr6z4nj8zOJRPbY8K
+X-Received: by 2002:a05:600c:35cd:b0:3e9:f4c2:b604 with SMTP id
+ r13-20020a05600c35cd00b003e9f4c2b604mr26248200wmq.24.1679054852189; 
+ Fri, 17 Mar 2023 05:07:32 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9JIs+ZFlKMVVJLVuQfgvks/rlZQd890aiBHWnlwHnMqRlr0MShx0FN0qKjJg7W32AYlyfAWw==
+X-Received: by 2002:a05:600c:35cd:b0:3e9:f4c2:b604 with SMTP id
+ r13-20020a05600c35cd00b003e9f4c2b604mr26248179wmq.24.1679054851917; 
+ Fri, 17 Mar 2023 05:07:31 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- c22-20020a7bc856000000b003dc42d48defsm2127289wml.6.2023.03.17.05.04.13
+ k22-20020a05600c0b5600b003ed2987690dsm1827307wmr.26.2023.03.17.05.07.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Mar 2023 05:04:13 -0700 (PDT)
+ Fri, 17 Mar 2023 05:07:31 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  zackr@vmware.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org,
  linux-graphics-maintainer@vmware.com
-Subject: Re: [PATCH 2/6] drm/fbdev-generic: Remove unused
- prefer_shadow_fbdev flag
-In-Reply-To: <20230315161442.27318-3-tzimmermann@suse.de>
+Subject: Re: [PATCH 3/6] drm/fb-helper: Export drm_fb_helper_release_info()
+In-Reply-To: <20230315161442.27318-4-tzimmermann@suse.de>
 References: <20230315161442.27318-1-tzimmermann@suse.de>
- <20230315161442.27318-3-tzimmermann@suse.de>
-Date: Fri, 17 Mar 2023 13:04:12 +0100
-Message-ID: <87y1nvposj.fsf@minerva.mail-host-address-is-not-set>
+ <20230315161442.27318-4-tzimmermann@suse.de>
+Date: Fri, 17 Mar 2023 13:07:30 +0100
+Message-ID: <87v8izpon1.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -91,16 +90,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Remove the flag prefer_shadow_fbdev from struct drm_mode_config.
-> Drivers set this flag to enable shadow buffering in the generic
-> fbdev emulation. Such shadow buffering is now mandatory, so the
-> flag is unused.
+> Export the fb_info release code as drm_fb_helper_release_info(). Will
+> help with cleaning up failed fbdev probing.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-
-Surprised that there are only two drivers setting the flag. I guess isn't
-a common case to have prefer_shadow == 0 and prefer_shadow_fbdev == 1.
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
