@@ -1,47 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52426BE35F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:24:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF23F6BE3BA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0383910EE94;
-	Fri, 17 Mar 2023 08:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F9B10E0F9;
+	Fri, 17 Mar 2023 08:34:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1E910EE97
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:23:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CDF4F6223A;
- Fri, 17 Mar 2023 08:23:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E3AEC433A0;
- Fri, 17 Mar 2023 08:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679041433;
- bh=ok0j9ISAJdgCP3cxdqxCuQtsbBTIBD8uq8kYJDLeLlc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Wf4WNk2z6Cs+Ut5ipokBOtyNqRyMdQYzuDp6IJy3neIagKzefvfGjmGE0ZUm3ydt4
- JoZ4J9umpVgdxT5g66M9CMphDih/HDxxTCC1ILisDgjqzv7RcEhhi2Cs8AfZTcqVh6
- gHtERvl2mK9emMQloOTrY/bIxVSgMbWj9/xiSFNXN+N4txGsY43/07YElbKgoAJNjZ
- GPIc+vs+BIpNS0gQbfJV7b3q1PdtJW9NAiRfvrWushCGPE1VBDcmVwYTlP4qn/CSe6
- PAjRezZ9q3x7KVQV76+3FV5mJHQOIf1A0dNNKhdVC+kicPPcmXzNeuuhOOf0+AFNoQ
- wpbCrW+/lXgoQ==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 37/37] drm/bridge/imx/Kconfig: Prevent imx-ldb-helper from
- appearing in 2 separate modules
-Date: Fri, 17 Mar 2023 08:17:18 +0000
-Message-Id: <20230317081718.2650744-38-lee@kernel.org>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
-References: <20230317081718.2650744-1-lee@kernel.org>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A30C510EE87
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:34:52 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id h8so17359633ede.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 01:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679042091;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KIfNmjlP/emZ8VU0HYeaktKYqZYSqV2w6X7O7md3pTs=;
+ b=wRZi0OVE5sRJZF8H5ne08hNllrwQSaDe7kgGBEhqxrCYqeQtS1DYfaDBWAGYGhRX1g
+ 9eEESgI7jotBiXvy9PDWwIfXCEKC8O+x7dZ/YPmU1MCK1MCJIMOR9TkKDyWw/ceoJbsi
+ CLFpbkrE7zninvqToDa+UVdyqbScL/is+LHeiOC3sosKRFDnOvAmka/sy408NQYE3tWs
+ MkLZgpqpYvAJk2+H4jiP/ACpWPtEVBdncsHNeZW1wMSZZ1HVQehNcQdVe5MP0iZl2PT7
+ 4ObHyUQsq6E+ghbdkrTFTOnkEqP6x7JrTtCt8Ai9gLXefM1p8G3Z+rWtt2v+8H17cf70
+ +W5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679042091;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KIfNmjlP/emZ8VU0HYeaktKYqZYSqV2w6X7O7md3pTs=;
+ b=6M+H3+okCkxfJjxNtKDTASAkVLTgBi/ASSdxn6dD484JrA1coUJhWxLuwdgLQ82cXw
+ l20pxaIDIoyCLz6DMG3iDJ7Y2LRicWkitZa5toocPKqTodoVrs4EHw7KgKjyES3ZX98N
+ iLxZ8yXrIM/Fg7pyqXCt+L4R6CyhTkq5iM+JjI1naWPFvmAWiOPOQ/zBL+TN9uVPYWYw
+ +ZU3nrAMl6dSoLcdakdYYFSnoSXPalo0jg9wCzXWjyTQK9Pfmpf5fSg948EuY9NBIe3d
+ V87yojwIEXedxdCD9EaUh3KEwL9uGA5a0utqp6ZFTbAGoDInSm4QqS0RygEzjldx1WwR
+ BSfQ==
+X-Gm-Message-State: AO0yUKVGnjd88EaGMNJwrYbTNi+UyKRDkTDh8zhkNqDCVhnIK7FRJOj3
+ /KJ34QMMFYXky9jXeBJ8vIfLkw==
+X-Google-Smtp-Source: AK7set9oeh/k8QPKvi6CFkwTq2accUoCK8wDEQMIU95iWYbYqUoF32/8ClKQOzwcdKOzOdUC1XZG8w==
+X-Received: by 2002:a17:906:568a:b0:931:d8db:8a2f with SMTP id
+ am10-20020a170906568a00b00931d8db8a2fmr1352054ejc.58.1679042091136; 
+ Fri, 17 Mar 2023 01:34:51 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:848a:1971:93e0:b465?
+ ([2a02:810d:15c0:828:848a:1971:93e0:b465])
+ by smtp.gmail.com with ESMTPSA id
+ i23-20020a508717000000b004af6c5f1805sm727970edb.52.2023.03.17.01.34.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Mar 2023 01:34:50 -0700 (PDT)
+Message-ID: <423d0cd0-ba3c-d163-6005-592a9d594bf3@linaro.org>
+Date: Fri, 17 Mar 2023 09:34:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v5 08/10] dt-bindings: display/msm: dsi-controller-main:
+ Fix deprecated compatible
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+References: <20230307-topic-dsi_qcm-v5-0-9d4235b77f4f@linaro.org>
+ <20230307-topic-dsi_qcm-v5-8-9d4235b77f4f@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230307-topic-dsi_qcm-v5-8-9d4235b77f4f@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,180 +86,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
+On 16/03/2023 09:51, Konrad Dybcio wrote:
+> The point of the previous cleanup was to disallow "qcom,mdss-dsi-ctrl"
+> alone. This however didn't quite work out and the property became
+> undocumented instead of deprecated. Fix that.
+> 
+> Fixes: 0c0f65c6dd44 ("dt-bindings: msm: dsi-controller-main: Add compatible strings for every current SoC")
+> Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
 
- scripts/Makefile.build:252: drivers/gpu/drm/bridge/imx/Makefile: imx-ldb-helper.o is added to multiple modules: imx8qm-ldb imx8qxp-ldb
+You have warnings caused by your previous patch and since you fix the
+same commit, this should be rather squashed with #1.
 
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-arm-kernel@lists.infradead.org
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/gpu/drm/bridge/imx/Kconfig          |  7 +++++++
- drivers/gpu/drm/bridge/imx/Makefile         |  7 +++++--
- drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 13 +++++++++++++
- 3 files changed, 25 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-index 608f47f41bcd1..97018dcd078d0 100644
---- a/drivers/gpu/drm/bridge/imx/Kconfig
-+++ b/drivers/gpu/drm/bridge/imx/Kconfig
-@@ -1,10 +1,16 @@
- if ARCH_MXC || COMPILE_TEST
- 
-+config DRM_IMX8_LIB
-+	tristate
-+	help
-+	  Common helper functions used by some of the drivers below.
-+
- config DRM_IMX8QM_LDB
- 	tristate "Freescale i.MX8QM LVDS display bridge"
- 	depends on OF
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
-+	select DRM_IMX8_LIB
- 	help
- 	  Choose this to enable the internal LVDS Display Bridge(LDB) found in
- 	  Freescale i.MX8qm processor.  Official name of LDB is pixel mapper.
-@@ -14,6 +20,7 @@ config DRM_IMX8QXP_LDB
- 	depends on OF
- 	depends on COMMON_CLK
- 	select DRM_KMS_HELPER
-+	select DRM_IMX8_LIB
- 	help
- 	  Choose this to enable the internal LVDS Display Bridge(LDB) found in
- 	  Freescale i.MX8qxp processor.  Official name of LDB is pixel mapper.
-diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-index aa90ec8d54336..e1146b0347014 100644
---- a/drivers/gpu/drm/bridge/imx/Makefile
-+++ b/drivers/gpu/drm/bridge/imx/Makefile
-@@ -1,7 +1,10 @@
--imx8qm-ldb-objs := imx-ldb-helper.o imx8qm-ldb-drv.o
-+imx-ldb-lib-objs := imx-ldb-helper.o
-+obj-$(CONFIG_DRM_IMX8_LIB) += imx-ldb-lib.o
-+
-+imx8qm-ldb-objs := imx8qm-ldb-drv.o
- obj-$(CONFIG_DRM_IMX8QM_LDB) += imx8qm-ldb.o
- 
--imx8qxp-ldb-objs := imx-ldb-helper.o imx8qxp-ldb-drv.o
-+imx8qxp-ldb-objs := imx8qxp-ldb-drv.o
- obj-$(CONFIG_DRM_IMX8QXP_LDB) += imx8qxp-ldb.o
- 
- obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
-diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-index 7338b84bc83d2..4cd570947b093 100644
---- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-+++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
-@@ -19,12 +19,14 @@ bool ldb_channel_is_single_link(struct ldb_channel *ldb_ch)
- {
- 	return ldb_ch->link_type == LDB_CH_SINGLE_LINK;
- }
-+EXPORT_SYMBOL_GPL(ldb_channel_is_single_link);
- 
- bool ldb_channel_is_split_link(struct ldb_channel *ldb_ch)
- {
- 	return ldb_ch->link_type == LDB_CH_DUAL_LINK_EVEN_ODD_PIXELS ||
- 	       ldb_ch->link_type == LDB_CH_DUAL_LINK_ODD_EVEN_PIXELS;
- }
-+EXPORT_SYMBOL_GPL(ldb_channel_is_split_link);
- 
- int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
- 				   struct drm_bridge_state *bridge_state,
-@@ -38,6 +40,7 @@ int ldb_bridge_atomic_check_helper(struct drm_bridge *bridge,
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(ldb_bridge_atomic_check_helper);
- 
- void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
- 				const struct drm_display_mode *mode,
-@@ -69,6 +72,7 @@ void ldb_bridge_mode_set_helper(struct drm_bridge *bridge,
- 		break;
- 	}
- }
-+EXPORT_SYMBOL_GPL(ldb_bridge_mode_set_helper);
- 
- void ldb_bridge_enable_helper(struct drm_bridge *bridge)
- {
-@@ -81,6 +85,7 @@ void ldb_bridge_enable_helper(struct drm_bridge *bridge)
- 	 */
- 	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
- }
-+EXPORT_SYMBOL_GPL(ldb_bridge_enable_helper);
- 
- void ldb_bridge_disable_helper(struct drm_bridge *bridge)
- {
-@@ -95,6 +100,7 @@ void ldb_bridge_disable_helper(struct drm_bridge *bridge)
- 
- 	regmap_write(ldb->regmap, ldb->ctrl_reg, ldb->ldb_ctrl);
- }
-+EXPORT_SYMBOL_GPL(ldb_bridge_disable_helper);
- 
- int ldb_bridge_attach_helper(struct drm_bridge *bridge,
- 			     enum drm_bridge_attach_flags flags)
-@@ -117,6 +123,7 @@ int ldb_bridge_attach_helper(struct drm_bridge *bridge,
- 				ldb_ch->next_bridge, bridge,
- 				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- }
-+EXPORT_SYMBOL_GPL(ldb_bridge_attach_helper);
- 
- int ldb_init_helper(struct ldb *ldb)
- {
-@@ -157,6 +164,7 @@ int ldb_init_helper(struct ldb *ldb)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(ldb_init_helper);
- 
- int ldb_find_next_bridge_helper(struct ldb *ldb)
- {
-@@ -184,6 +192,7 @@ int ldb_find_next_bridge_helper(struct ldb *ldb)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(ldb_find_next_bridge_helper);
- 
- void ldb_add_bridge_helper(struct ldb *ldb,
- 			   const struct drm_bridge_funcs *bridge_funcs)
-@@ -204,6 +213,7 @@ void ldb_add_bridge_helper(struct ldb *ldb,
- 		drm_bridge_add(&ldb_ch->bridge);
- 	}
- }
-+EXPORT_SYMBOL_GPL(ldb_add_bridge_helper);
- 
- void ldb_remove_bridge_helper(struct ldb *ldb)
- {
-@@ -219,3 +229,6 @@ void ldb_remove_bridge_helper(struct ldb *ldb)
- 		drm_bridge_remove(&ldb_ch->bridge);
- 	}
- }
-+EXPORT_SYMBOL_GPL(ldb_remove_bridge_helper);
-+
-+MODULE_LICENSE("GPL v2");
--- 
-2.40.0.rc1.284.g88254d51c5-goog
+Best regards,
+Krzysztof
 
