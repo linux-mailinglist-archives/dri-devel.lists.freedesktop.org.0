@@ -1,81 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1296BEB2F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 15:29:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEA26BEB85
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 15:40:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5921A10E359;
-	Fri, 17 Mar 2023 14:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E24B710E125;
+	Fri, 17 Mar 2023 14:40:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AF0410E359
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 14:28:56 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id p4so4604411wre.11
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 07:28:56 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55F410E125
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 14:40:35 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b10so5562919lfb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 07:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679063334;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=tR0wQE8M8Ta7hlf9T/C518wbuU/k1dFHdTpiVCbCQdI=;
- b=HCaaMySfgkDU+bWp7bW2t9rdVrsQ8GHioDCTlMLMf+IjW9YDEPsuVCotEPWyrbXYTd
- 4br89bZ1UzJv1aPgq0dvgItl5QG8RMJBynsBt6HACyz+qZeEXkBzqFAvT3dPJa0uQBEG
- aDH5KCDYVdMPmarak8pJ4iWTYDLGrciE2h2Yjz+PC3PvNYtsbzRARj8aX9I0KFj0QWDW
- PhcbFQjS7o5FjxP6zzQiXy//CpKR2j6Ah1KYAvE4cHiwLNB56qKgp79SZCX8BxD9X01C
- q9ZEmGUAmkylHO0zHr77aEZcEfR1vRYqv9gYSI38HVwfpt0AU7kAkfew7EjzqjKeatRX
- qIjA==
+ d=gmail.com; s=20210112; t=1679064034;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=zbpLZLJKhIy7G/YVz7UFfFG9vujZXHDX7wwiT21OKeY=;
+ b=KhRYk4cnvefedpgfwqKzHuDxnbokHKHkF4xb341zj9pdf8AoDckQa6u983OjvhWLFV
+ /WZHxpwjM/wRmsiEuohHPEB8dj7LWHmL91nVL/oFEbrEZP79/xuei6SZngG6+vRIhOSi
+ tkMcW/Q6zerPy8mhS7LmPEeypLIdk7u9J1+p/hxL/+aJd1tE78+d/WEB6aTT+0q6LTmD
+ bEm2i2sfDjtvrUTXBCic6P14m2Keyx5SmFTamp3MlAHM2V6U/SY9KijZ64/bfz5PhQdY
+ fLuFjxm5xAdAq6eoONSYTA3uSndtC/3NPDv67mxFj8vPUWKldYv+0NBldzvE1aKPdzzi
+ oFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679063334;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tR0wQE8M8Ta7hlf9T/C518wbuU/k1dFHdTpiVCbCQdI=;
- b=mMiTEWvTYyp+BhfCt7/80PxZbwvhXWbm9xHQ1mY2cv0l3CFFHG3kYszogYZkNrJpsa
- ZBLASUuYGb6XWr5J7UZfPdqgFor0yXhLLk2haj4nOhkIv9Y2MG7oBGoTZ9/qMK9Mqe25
- YXeJwhyo43evhMoWEOR1ZrmOfCek5cy03sdgA1adJXLxz/C2bFlnrGZdat3sWVO6YBrX
- pQEk9gEE+spC5U/p14weaNrFam7IDpLiiCUGWH9bbFZGyQsmbsS+2L498bgCPCHKiZEF
- KPXWQXGEo12kw6ydIH0QXtcRtRbAvJefTJHD3zNguTL8PRAdpWl5VmDXwl43UQ9rSDIQ
- 6tFA==
-X-Gm-Message-State: AO0yUKW0V4XvnvWoJTFXxg01K04hN5zaBYrpVRI2/HN/prMiUq4NNudX
- cb9Og2FtnVAzLJIsu9kuyjB1kQ==
-X-Google-Smtp-Source: AK7set8AKYEIAth7Eh89Fp1MUe2n6Pd90pcAPWLJZ+SNTSiWn6+fUk1b6MLbrI5cbflwdqY3s2h0AA==
-X-Received: by 2002:adf:f68b:0:b0:2cb:d8f1:1d2f with SMTP id
- v11-20020adff68b000000b002cbd8f11d2fmr7678165wrp.17.1679063334621; 
- Fri, 17 Mar 2023 07:28:54 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:9ed5:bad0:e925:7938?
- ([2a01:e0a:982:cbb0:9ed5:bad0:e925:7938])
- by smtp.gmail.com with ESMTPSA id
- e8-20020adffc48000000b002c8476dde7asm2057650wrs.114.2023.03.17.07.28.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Mar 2023 07:28:54 -0700 (PDT)
-Message-ID: <77195576-34c1-d522-194c-85eba5d023fe@linaro.org>
-Date: Fri, 17 Mar 2023 15:28:53 +0100
+ d=1e100.net; s=20210112; t=1679064034;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zbpLZLJKhIy7G/YVz7UFfFG9vujZXHDX7wwiT21OKeY=;
+ b=qm7fu9orIU96WFYoJqZoaVA34GAML+A3gScC5fpPhho0mgMdhWEgyggEAIq/FY1VJh
+ wcv2+hChER0FdR3lmh5URrvFsJFwcU7lEcSyDqc5zSRuADOOe94JxF6FP5cnc19SEvYx
+ vvru94V8r+zfw/p/+1DCb57m5QMIEQlcg47PxQLciufHnuDpPCjvVAo04jfGqYjqmFxl
+ lzBRltGuUL60RZbFsrru4tX9Pq5OjzUW+43UqRP7Rn+g+BpZhPcafb5ZULwwJ2NI8qY8
+ 8VH+qQftiz3AdmZq/1+lIKr4rVKli7yBJ6Exzb0kWQ670br0QzkrVuongCoTdKDQ6lMh
+ 2KiA==
+X-Gm-Message-State: AO0yUKW6ECZnAr7+bN8KpaZ55GSHFbJakkiTk0Hd2ogkN6ByHulMccae
+ eEeKLHKlE3piZEW0rENfxPk=
+X-Google-Smtp-Source: AK7set+aVFjyqSWi/HO0rfECTrHzFyzkAvOZSmlJmP+vAX8uKD5PEq9gMZWKzoHbtD1cO4MUKm512A==
+X-Received: by 2002:ac2:483a:0:b0:4db:3ddf:2fc5 with SMTP id
+ 26-20020ac2483a000000b004db3ddf2fc5mr4443314lft.26.1679064033710; 
+ Fri, 17 Mar 2023 07:40:33 -0700 (PDT)
+Received: from fedora ([213.255.186.46]) by smtp.gmail.com with ESMTPSA id
+ g14-20020a19ee0e000000b004dc4c5149dasm392051lfb.301.2023.03.17.07.40.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 07:40:33 -0700 (PDT)
+Date: Fri, 17 Mar 2023 16:40:16 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: [PATCH v4 0/8] Support ROHM BU27034 ALS sensor
+Message-ID: <cover.1679062529.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 4/5] arm64: dts: qcom: sm8450: switch to usb3/dp combo
- phy
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20230206-topic-sm8450-upstream-dp-controller-v5-0-a27f1b26ebe8@linaro.org>
- <20230206-topic-sm8450-upstream-dp-controller-v5-4-a27f1b26ebe8@linaro.org>
- <ab6391c4-ff38-8286-77ff-c781669f5aa0@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <ab6391c4-ff38-8286-77ff-c781669f5aa0@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Vz9y0TSeJG+f9Omp"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,116 +69,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Zhigang Shi <Zhigang.Shi@liteon.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, devicetree@vger.kernel.org,
+ Matti Vaittinen <mazziesaccount@gmail.com>, Paul Gazzillo <paul@pgazz.com>,
+ Liam Beguin <liambeguin@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/03/2023 13:09, Dmitry Baryshkov wrote:
-> On 17/03/2023 11:12, Neil Armstrong wrote:
->> The QMP PHY is a USB3/DP combo phy, switch to the newly
->> documented bindings and register the clocks to the GCC
->> and DISPCC controllers.
->>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   arch/arm64/boot/dts/qcom/sm8450.dtsi | 42 +++++++++++++-----------------------
->>   1 file changed, 15 insertions(+), 27 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
->> index 69695eb83897..0b5a151ce138 100644
->> --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
->> @@ -11,6 +11,7 @@
->>   #include <dt-bindings/dma/qcom-gpi.h>
->>   #include <dt-bindings/gpio/gpio.h>
->>   #include <dt-bindings/mailbox/qcom-ipcc.h>
->> +#include <dt-bindings/phy/phy-qcom-qmp.h>
->>   #include <dt-bindings/power/qcom-rpmpd.h>
->>   #include <dt-bindings/interconnect/qcom,sm8450.h>
->>   #include <dt-bindings/soc/qcom,gpr.h>
->> @@ -748,7 +749,7 @@ gcc: clock-controller@100000 {
->>                    <&ufs_mem_phy_lanes 0>,
->>                    <&ufs_mem_phy_lanes 1>,
->>                    <&ufs_mem_phy_lanes 2>,
->> -                 <0>;
->> +                 <&usb_1_qmpphy QMP_USB43DP_USB3_PIPE_CLK>;
->>               clock-names = "bi_tcxo",
->>                         "sleep_clk",
->>                         "pcie_0_pipe_clk",
->> @@ -2034,37 +2035,24 @@ usb_1_hsphy: phy@88e3000 {
->>               resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
->>           };
->> -        usb_1_qmpphy: phy-wrapper@88e9000 {
->> -            compatible = "qcom,sm8450-qmp-usb3-phy";
->> -            reg = <0 0x088e9000 0 0x200>,
->> -                  <0 0x088e8000 0 0x20>;
->> -            status = "disabled";
->> -            #address-cells = <2>;
->> -            #size-cells = <2>;
->> -            ranges;
->> +        usb_1_qmpphy: phy@88e8000 {
->> +            compatible = "qcom,sm8450-qmp-usb3-dp-phy";
->> +            reg = <0 0x088e8000 0 0x4000>;
-> 
-> This should be 0x3000 too, like 8350
 
-Ack thx for noticing
+--Vz9y0TSeJG+f9Omp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->>               clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
->>                    <&rpmhcc RPMH_CXO_CLK>,
->> -                 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>;
->> -            clock-names = "aux", "ref_clk_src", "com_aux";
->> +                 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>,
->> +                 <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
->> +            clock-names = "aux", "ref", "com_aux", "usb3_pipe";
->>               resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
->>                    <&gcc GCC_USB3_PHY_PRIM_BCR>;
->>               reset-names = "phy", "common";
->> -            usb_1_ssphy: phy@88e9200 {
->> -                reg = <0 0x088e9200 0 0x200>,
->> -                      <0 0x088e9400 0 0x200>,
->> -                      <0 0x088e9c00 0 0x400>,
->> -                      <0 0x088e9600 0 0x200>,
->> -                      <0 0x088e9800 0 0x200>,
->> -                      <0 0x088e9a00 0 0x100>;
->> -                #phy-cells = <0>;
->> -                #clock-cells = <0>;
->> -                clocks = <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
->> -                clock-names = "pipe0";
->> -                clock-output-names = "usb3_phy_pipe_clk_src";
->> -            };
->> +            #clock-cells = <1>;
->> +            #phy-cells = <1>;
->> +
->> +            status = "disabled";
->>           };
->>           remoteproc_slpi: remoteproc@2400000 {
->> @@ -2972,8 +2960,8 @@ dispcc: clock-controller@af00000 {
->>                    <&mdss_dsi0_phy 1>,
->>                    <&mdss_dsi1_phy 0>,
->>                    <&mdss_dsi1_phy 1>,
->> -                 <0>, /* dp0 */
->> -                 <0>,
->> +                 <&usb_1_qmpphy QMP_USB43DP_DP_LINK_CLK>,
->> +                 <&usb_1_qmpphy QMP_USB43DP_DP_VCO_DIV_CLK>,
->>                    <0>, /* dp1 */
->>                    <0>,
->>                    <0>, /* dp2 */
->> @@ -4168,7 +4156,7 @@ usb_1_dwc3: usb@a600000 {
->>                   iommus = <&apps_smmu 0x0 0x0>;
->>                   snps,dis_u2_susphy_quirk;
->>                   snps,dis_enblslpm_quirk;
->> -                phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
->> +                phys = <&usb_1_hsphy>, <&usb_1_qmpphy QMP_USB43DP_USB3_PHY>;
->>                   phy-names = "usb2-phy", "usb3-phy";
->>               };
->>           };
->>
-> 
+Support ROHM BU27034 ALS sensor
 
+This series adds support for ROHM BU27034 Ambient Light Sensor.
+
+The BU27034 has configurable gain and measurement (integration) time
+settings. Both of these have inversely proportional relation to the
+sensor's intensity channel scale.
+
+Many users only set the scale, which means that many drivers attempt to
+'guess' the best gain+time combination to meet the scale. Usually this
+is the biggest integration time which allows setting the requested
+scale. Typically, increasing the integration time has better accuracy
+than increasing the gain, which often amplifies the noise as well as the
+real signal.
+
+However, there may be cases where more responsive sensors are needed.
+So, in some cases the longest integration times may not be what the user
+prefers. The driver has no way of knowing this.
+
+Hence, the approach taken by this series is to allow user to set both
+the scale and the integration time with following logic:
+
+1. When scale is set, the existing integration time is tried to be
+   maintained as a first priority.
+   1a) If the requested scale can't be met by current time, then also
+       other time + gain combinations are searched. If scale can be met
+       by some other integration time, then the new time may be applied.
+       If the time setting is common for all channels, then also other
+       channels must be able to maintain their scale with this new time
+       (by changing their gain). The new times are scanned in the order
+       of preference (typically the longest times first).
+   1b) If the requested scale can be met using current time, then only
+       the gain for the channel is changed.
+
+2. When the integration time change - scale is tried to be maintained.
+   When integration time change is requested also gain for all impacted
+   channels is adjusted so that the scale is not changed, or is chaned
+   as little as possible. This is different from the RFCv1 where the
+   request was rejected if suitable gain couldn't be found for some
+   channel(s).
+
+This logic is simple. When total gain (either caused by time or hw-gain)
+is doubled, the scale gets halved. Also, the supported times are given a
+'multiplier' value which tells how much they increase the total gain.
+
+However, when I wrote this logic in bu27034 driver, I made quite a few
+errors on the way - and driver got pretty big. As I am writing drivers
+for two other sensors (RGB C/IR + flicker BU27010 and RGB C/IR BU27008)
+with similar gain-time-scale logic I thought that adding common helpers
+for these computations might be wise. I hope this way all the bugs will
+be concentrated in one place and not in every individual driver ;)
+
+Hence, this series also intriduces IIO gain-time-scale helpers
+(abbreviated as gts-helpers) + a couple of KUnit tests for the most
+hairy parts.
+
+Speaking of which - testing the devm interfaces requires a 'dummy
+device'. There were neat helpers in DRM tests for creating and freeing
+such a device. This series moves those helpers to more generic location.
+What is worth noting is that there is something similar ongoing in the
+CCF territory:
+https://lore.kernel.org/all/20230302013822.1808711-1-sboyd@kernel.org/
+These efforts should be somehow coordinated in order to avoid any ajor
+conflicts.
+
+Finally, these added helpers do provide some value also for drivers
+which only:
+ a) allow gain change
+  or
+ b) allow changing both the time and gain while trying to maintain the
+    scale.
+
+For a) we provide the gain - selector (register value) table format +
+selector to gain look-ups, gain <-> scale conversions and the available
+scales helpers.
+
+For latter case we also provide the time-tables, and actually all the
+APIs should be usable by setting the time multiplier to 1. (not testeted
+thoroughly though).
+
+Revision history:
+v3 =3D> v4: (Stil ostly fixes to review comments from Andy and Jonathan)
+- more accurate change-log in individual patches
+- dt-binding and maintainer patches unchanged.
+- dropped unused helpers and converted ones currently used only internally
+  to static.
+- extracted "dummy device" creation helpers from DRM tests.
+- added tests for devm APIs
+- dropped scale for PROCESSED channel in BU27034 and converted mLux
+  values to luxes
+- dropped channel 2 GAIN setting which can't be done due to HW
+  limitations.
+
+v2 =3D> v3: (Mostly fixes to review comments from Andy and Jonathan)
+- dt-binding and maintainer patches unchanged.
+- iio-gts-helper tests: Use namespaces
+- iio-gts-helpers + bu27034 plenty of changes. See more comprehensive
+  changelog in individual patches.
+
+RFCv1 =3D> v2:
+  dt-bindings:
+	- Fix binding file name and id by using comma instead of a hyphen to
+	  separate the vendor and part names.
+  gts-helpers:
+	- fix include guardian
+	- Improve kernel doc for iio_init_iio_gts.
+	- Add iio_gts_scale_to_total_gain
+	- Add iio_gts_total_gain_to_scale
+	- Fix review comments from Jonathan
+	  - add documentation to few functions
+	  - replace 0xffffffffffffffffLLU by U64_MAX
+	  - some styling fixes
+	  - drop unnecessary NULL checks
+	  - order function arguments by  in / out purpose
+	  - drop GAIN_SCALE_ITIME_MS()
+	- Add helpers for available scales and times
+	- Rename to iio-gts-helpers
+  gts-tests:
+	- add tests for available scales/times helpers
+	- adapt to renamed iio-gts-helpers.h header
+  bu27034-driver:
+	- (really) protect read-only registers
+	- fix get and set gain
+	- buffered mode
+	- Protect the whole sequences including meas_en/meas_dis to avoid messing
+	  up the enable / disable order
+	- typofixes / doc improvements
+	- change dropped GAIN_SCALE_ITIME_MS() to GAIN_SCALE_ITIME_US()
+	- use more accurate scale for lux channel (milli lux)
+	- provide available scales / integration times (using helpers).
+	- adapt to renamed iio-gts-helpers.h file
+	- bu27034 - longer lines in Kconfig
+	- Drop bu27034_meas_en and bu27034_meas_dis wrappers.
+	- Change device-name from bu27034-als to bu27034
+  MAINTAINERS:
+	- Add iio-list
+
+---
+
+
+
+Matti Vaittinen (8):
+  drm/tests: helpers: rename generic helpers
+  kunit: drm/tests: move generic helpers
+  dt-bindings: iio: light: Support ROHM BU27034
+  iio: light: Add gain-time-scale helpers
+  iio: test: test gain-time-scale helpers
+  MAINTAINERS: Add IIO gain-time-scale helpers
+  iio: light: ROHM BU27034 Ambient Light Sensor
+  MAINTAINERS: Add ROHM BU27034
+
+ .../bindings/iio/light/rohm,bu27034.yaml      |   46 +
+ MAINTAINERS                                   |   14 +
+ drivers/base/test/Kconfig                     |    5 +
+ drivers/base/test/Makefile                    |    2 +
+ drivers/base/test/test_kunit_device.c         |   83 +
+ drivers/gpu/drm/Kconfig                       |    2 +
+ .../gpu/drm/tests/drm_client_modeset_test.c   |    5 +-
+ drivers/gpu/drm/tests/drm_kunit_helpers.c     |   69 -
+ drivers/gpu/drm/tests/drm_managed_test.c      |    5 +-
+ drivers/gpu/drm/tests/drm_modes_test.c        |    5 +-
+ drivers/gpu/drm/tests/drm_probe_helper_test.c |    5 +-
+ drivers/gpu/drm/vc4/Kconfig                   |    1 +
+ drivers/gpu/drm/vc4/tests/vc4_mock.c          |    3 +-
+ .../gpu/drm/vc4/tests/vc4_test_pv_muxing.c    |    9 +-
+ drivers/iio/Kconfig                           |    3 +
+ drivers/iio/Makefile                          |    1 +
+ drivers/iio/industrialio-gts-helper.c         |  990 +++++++++++
+ drivers/iio/light/Kconfig                     |   14 +
+ drivers/iio/light/Makefile                    |    1 +
+ drivers/iio/light/rohm-bu27034.c              | 1491 +++++++++++++++++
+ drivers/iio/test/Kconfig                      |   16 +
+ drivers/iio/test/Makefile                     |    1 +
+ drivers/iio/test/iio-test-gts.c               |  461 +++++
+ include/drm/drm_kunit_helpers.h               |    7 +-
+ include/linux/iio/iio-gts-helper.h            |  113 ++
+ 25 files changed, 3265 insertions(+), 87 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/light/rohm,bu2703=
+4.yaml
+ create mode 100644 drivers/base/test/test_kunit_device.c
+ create mode 100644 drivers/iio/industrialio-gts-helper.c
+ create mode 100644 drivers/iio/light/rohm-bu27034.c
+ create mode 100644 drivers/iio/test/iio-test-gts.c
+ create mode 100644 include/linux/iio/iio-gts-helper.h
+
+
+base-commit: eeac8ede17557680855031c6f305ece2378af326
+--=20
+2.39.2
+
+
+--=20
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
+
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =3D]=20
+
+--Vz9y0TSeJG+f9Omp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmQUe8UACgkQeFA3/03a
+ocXW3ggAp2mpY09Kd4xD+s9OhWFRMiBr0thNSCpu8pS2natjWbsJk/Bc7hIGeEI2
+rvXnSTgXE+9FXhMFCXDUljjk/QMSfLAwtAi6QaZkgDiJqfNEBOh1khUykheAHr2W
+dYLY3XybS5V6czWpGh2fLuyiADR1PWZj94vqFk4Z4xXHyvQS4kUOba+CqF+yBOpn
+x+NfKG1yYHof8KzeZinVMc8jS8WJXaGIihkDKpgdO4JZmoyBVMjd2//RFnygn+lj
+xnEaHdzxx50whoaj9jemCeHBvmjMireu88hp0fACnTnSK+qycvXZziQyUsUjcRW/
+twJFP3ic0Y/7nGQFgCxiq4tWNASgRQ==
+=6633
+-----END PGP SIGNATURE-----
+
+--Vz9y0TSeJG+f9Omp--
