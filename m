@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC1E6BE343
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 630EE6BE345
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:23:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E7710EE7D;
-	Fri, 17 Mar 2023 08:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A7A10EE8B;
+	Fri, 17 Mar 2023 08:23:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D81610EE83;
- Fri, 17 Mar 2023 08:23:29 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E712810EE87;
+ Fri, 17 Mar 2023 08:23:32 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C107162236;
+ by ams.source.kernel.org (Postfix) with ESMTPS id A699EB824FA;
+ Fri, 17 Mar 2023 08:23:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97BC3C4339B;
  Fri, 17 Mar 2023 08:23:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C174C433D2;
- Fri, 17 Mar 2023 08:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679041408;
- bh=ZlS/GNeGQgSgiA5XT2FCbE2X1vZ2yBY3Mq2Etnbekhc=;
+ s=k20201202; t=1679041411;
+ bh=79iAvhZFRGEvtnZme2ps1FOUDz1tuFW8RI7HfSRsKrI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j31dTC8X0eOQrOT2QXaovP1tshj8tnd9kSzvTeHtoq0na1OSkwwyNZ4/Udtl5Lp5k
- lWG2S/2Ism3NRmBkwzWBO/RkYtcqCh3Tt+zeRDeXSpoUwqV0CX7bd5F7NB5NKMcnUw
- 2taLPu1/j1rm/Mlm+KMwOAdKH/SEeD+YkFx1+u8RqwlNKMupJ2+mGMgVjL4N3yoZof
- nmfVuyYBFPSwl+KIY5k+sCHyTk3IcLI3c+eeojaVVqxt23gCgl+BIzleKEUol2hcAF
- +EZawmcWZv2z3E6Am6Ol2SOx89glt9SR4dZjUdza5ARzWdd8mB/6ZGFy2hDjy7uR1b
- ECFg6O2O/na/w==
+ b=nlrgMtSkoRGw5phNB19c9q5leoa9sBOe+WFRzK6J/2ksv0eObO3zdafcDaEDSv3f2
+ A/NETGTlaIRob9JniBVKZDQHxIh+2CF8oD7nY9WfBDG7Xmh3cxfTnDdudySURoG5aY
+ SbBii3l/sknzFXtnhERM3DZFnZdMQ2kDcoVk2vCufNQ2d7uDZILZiJiRnR+NJAewHo
+ IGEertbiQsI4IFV+/i+7K6u4Zy2pl6wwi3geQ9ObU0GvV+yFnP6qysofUSKOU8DuS8
+ vJOTjgBxa6nFXJN7WDXiKNorqir/LX15yltNon5R2Vu1JEjMq3d4sQBeCL1N17Z0/C
+ ChhK6RNxCSc6w==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 28/37] drm/amd/display/dc/core/dc_stat: Convert a couple of
- doc headers to kerneldoc format
-Date: Fri, 17 Mar 2023 08:17:09 +0000
-Message-Id: <20230317081718.2650744-29-lee@kernel.org>
+Subject: [PATCH 29/37] drm/amd/display/dc/link/link_detection: Remove unused
+ variable 'status'
+Date: Fri, 17 Mar 2023 08:17:10 +0000
+Message-Id: <20230317081718.2650744-30-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 In-Reply-To: <20230317081718.2650744-1-lee@kernel.org>
 References: <20230317081718.2650744-1-lee@kernel.org>
@@ -56,18 +57,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Jasdeep Dhillon <jdhillon@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Mustapha Ghaddar <mghaddar@amd.com>
+ amd-gfx@lists.freedesktop.org, Wenjing Liu <wenjing.liu@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:38: warning: Cannot understand  *****************************************************************************
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:76: warning: Cannot understand  *****************************************************************************
+ drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c: In function ‘query_hdcp_capability’:
+ drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:501:42: warning: variable ‘status’ set but not used [-Wunused-but-set-variable]
 
 Cc: Harry Wentland <harry.wentland@amd.com>
 Cc: Leo Li <sunpeng.li@amd.com>
@@ -77,70 +76,36 @@ Cc: "Christian König" <christian.koenig@amd.com>
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Mustapha Ghaddar <mghaddar@amd.com>
-Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-Cc: Jasdeep Dhillon <jdhillon@amd.com>
+Cc: Wenjing Liu <wenjing.liu@amd.com>
 Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_stat.c | 28 +++++++------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/amd/display/dc/link/link_detection.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-index 6c06587dd88c2..5f6392ae31a66 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-@@ -35,19 +35,15 @@
-  */
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+index 9177b146a80a8..9a4cfa777622e 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+@@ -498,8 +498,6 @@ static void query_hdcp_capability(enum signal_type signal, struct dc_link *link)
+ 	dc_process_hdcp_msg(signal, link, &msg22);
  
- /**
-- *****************************************************************************
-- *  Function: dc_stat_get_dmub_notification
-+ *  dc_stat_get_dmub_notification
-  *
-- *  @brief
-- *		Calls dmub layer to retrieve dmub notification
-+ * Calls dmub layer to retrieve dmub notification
-  *
-- *  @param
-- *		[in] dc: dc structure
-- *		[in] notify: dmub notification structure
-+ * @dc: dc structure
-+ * @notify: dmub notification structure
-  *
-- *  @return
-+ * Returns
-  *     None
-- *****************************************************************************
-  */
- void dc_stat_get_dmub_notification(const struct dc *dc, struct dmub_notification *notify)
- {
-@@ -73,19 +69,15 @@ void dc_stat_get_dmub_notification(const struct dc *dc, struct dmub_notification
+ 	if (signal == SIGNAL_TYPE_DISPLAY_PORT || signal == SIGNAL_TYPE_DISPLAY_PORT_MST) {
+-		enum hdcp_message_status status = HDCP_MESSAGE_UNSUPPORTED;
+-
+ 		msg14.data = &link->hdcp_caps.bcaps.raw;
+ 		msg14.length = sizeof(link->hdcp_caps.bcaps.raw);
+ 		msg14.msg_id = HDCP_MESSAGE_ID_READ_BCAPS;
+@@ -507,7 +505,7 @@ static void query_hdcp_capability(enum signal_type signal, struct dc_link *link)
+ 		msg14.link = HDCP_LINK_PRIMARY;
+ 		msg14.max_retries = 5;
+ 
+-		status = dc_process_hdcp_msg(signal, link, &msg14);
++		dc_process_hdcp_msg(signal, link, &msg14);
+ 	}
+ 
  }
- 
- /**
-- *****************************************************************************
-- *  Function: dc_stat_get_dmub_dataout
-+ * dc_stat_get_dmub_dataout
-  *
-- *  @brief
-- *		Calls dmub layer to retrieve dmub gpint dataout
-+ * Calls dmub layer to retrieve dmub gpint dataout
-  *
-- *  @param
-- *		[in] dc: dc structure
-- *		[in] dataout: dmub gpint dataout
-+ * @dc: dc structure
-+ * @dataout: dmub gpint dataout
-  *
-- *  @return
-+ * Returns
-  *     None
-- *****************************************************************************
-  */
- void dc_stat_get_dmub_dataout(const struct dc *dc, uint32_t *dataout)
- {
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
