@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012A46BF640
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 00:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A766BF66D
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 00:36:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3B7D10E2A0;
-	Fri, 17 Mar 2023 23:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7F710E448;
+	Fri, 17 Mar 2023 23:36:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E055F10E285
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 23:24:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5C72E60C8B;
- Fri, 17 Mar 2023 23:24:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C095C4339E;
- Fri, 17 Mar 2023 23:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679095442;
- bh=qL80OSKOjY+h3c9Ry29E/ayqErdLzYcV34ROf0tHBDY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h8drLyvJkin6H/hSa2hYvg9l1/P54zrIrPm8BwDfjW2avtpx0qfDlsq/0CzB7fldt
- SfyMmtTUFZiyTNmUd0cjKygtSXGEMU1HRkoprJ4QX8PnCmZRI+v0K1Xk/vAEwU597T
- HlN7xp0SQRcariffFlcRIWK0+hWRMxzbDwV+dM7nIfH35gx+qVTQg6ksaDz/jZmmWy
- IVr3IF+25kO3PVYdKAGxfY4OgAjGwq8bg+BVv9J0ft50QXNQiuRKsqAl7j0cZ4ZA0s
- VbSkILd//S1S0A/MQ81wZpFhyBROikEng/CThsKCSoBDZcaYfvQI1hxyCfmdU8iPiZ
- QDK//KdENF6tQ==
-Received: by mercury (Postfix, from userid 1000)
- id E62431062108; Sat, 18 Mar 2023 00:23:57 +0100 (CET)
-From: Sebastian Reichel <sre@kernel.org>
-To: Sebastian Reichel <sre@kernel.org>
-Subject: [PATCHv1 7/7] drm/panel: sitronix-st7789v: add Inanbo T28CP45TN89
- support
-Date: Sat, 18 Mar 2023 00:23:55 +0100
-Message-Id: <20230317232355.1554980-8-sre@kernel.org>
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+ [209.85.166.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2571A10E434;
+ Fri, 17 Mar 2023 23:36:33 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id o12so3002908iow.6;
+ Fri, 17 Mar 2023 16:36:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679096192;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QN3VBPIGb3rOSd+0jNY6Clws16ZGwPI612DSnOTxph8=;
+ b=KKfmHQ9qwQPA5l+V6Fnb9oR1NnawHoTz6ZLshckVG6Y+y0WMmk8dS+6zj+n5BHvZqM
+ uYyep78s45G3zUWpkD+VwnH7cWpwFyUEJN5RVnApzPA4joI3ICPzztu6VlN4COGoyQ/+
+ xuDOhTE0JgmbHuxyXeU4XVCHVt4q9OxsfYeC0G1PBw8W3dyDTPccq6kyyH84UdP2RB6t
+ TQ2ymjsCl4/UABH4tTMhvvbWmtnIQIq2lbvIr1xGIfqk4LHbVV38ufXpLCq+9fuzrhOo
+ 0QYTsCgePgGetutAxfGXjyx4hdc9yHLzF4VzupSGyVL1YZug+STNBupDqw7fFbK6IRTj
+ jYyw==
+X-Gm-Message-State: AO0yUKVG/OXNWwaNBiPfV6nZ55crO9B5iJopL0b6QSP7RYs/JN8vXT1g
+ /MwxSkGbmYNg9dH8xPNBLA==
+X-Google-Smtp-Source: AK7set8wdY61KiB6Q4yMM2jI4EjrFkioINzI1ifBEABr06zavTE55dY/Squs0NvmzTRjzWzfPSUmPw==
+X-Received: by 2002:a5e:d909:0:b0:746:1c75:233a with SMTP id
+ n9-20020a5ed909000000b007461c75233amr203302iop.20.1679096192171; 
+ Fri, 17 Mar 2023 16:36:32 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.249])
+ by smtp.gmail.com with ESMTPSA id
+ a22-20020a6b6616000000b007530bbfa577sm883819ioc.18.2023.03.17.16.36.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Mar 2023 16:36:31 -0700 (PDT)
+Received: (nullmailer pid 3968465 invoked by uid 1000);
+ Fri, 17 Mar 2023 23:36:28 -0000
+From: Rob Herring <robh@kernel.org>
+To: Robin van der Gracht <robin@protonic.nl>, Miguel Ojeda <ojeda@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, Thierry Reding <thierry.reding@gmail.com>, 
+ Sam Ravnborg <sam@ravnborg.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomba@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] dt-bindings: display: Drop unneeded quotes
+Date: Fri, 17 Mar 2023 18:36:24 -0500
+Message-Id: <20230317233626.3968358-1-robh@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230317232355.1554980-1-sre@kernel.org>
-References: <20230317232355.1554980-1-sre@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,223 +76,433 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UNI-T UTi260b has a Inanbo T28CP45TN89 v17 panel. I could not find
-proper documentation for the panel apart from a technical drawing, but
-according to the vendor U-Boot it is based on a Sitronix st7789v chip.
-I generated the init sequence by modifying the default one until proper
-graphics output has been seen on the device.
+Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+checking for this can be enabled in yamllint.
 
-Signed-off-by: Sebastian Reichel <sre@kernel.org>
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- .../gpu/drm/panel/panel-sitronix-st7789v.c    | 137 ++++++++++++++++++
- 1 file changed, 137 insertions(+)
+ .../bindings/auxdisplay/holtek,ht16k33.yaml    |  2 +-
+ .../bindings/display/bridge/nxp,ptn3460.yaml   |  2 +-
+ .../display/bridge/toshiba,tc358767.yaml       |  2 +-
+ .../bindings/display/dp-aux-bus.yaml           |  2 +-
+ .../display/mediatek/mediatek,hdmi.yaml        |  2 +-
+ .../display/msm/dsi-controller-main.yaml       |  8 ++++----
+ .../bindings/display/msm/dsi-phy-10nm.yaml     |  2 +-
+ .../bindings/display/panel/ronbo,rb070d30.yaml |  2 +-
+ .../bindings/display/renesas,du.yaml           |  4 ++--
+ .../display/tegra/nvidia,tegra114-mipi.yaml    |  2 +-
+ .../display/tegra/nvidia,tegra124-sor.yaml     | 12 ++++++------
+ .../display/tegra/nvidia,tegra186-dc.yaml      |  4 ++--
+ .../tegra/nvidia,tegra186-dsi-padctl.yaml      |  2 +-
+ .../display/tegra/nvidia,tegra20-dsi.yaml      | 12 ++++++------
+ .../display/tegra/nvidia,tegra20-hdmi.yaml     |  6 +++---
+ .../bindings/display/ti/ti,am65x-dss.yaml      |  2 +-
+ .../display/xylon,logicvc-display.yaml         | 18 +++++++++---------
+ 17 files changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-index a62a2f5737e4..90f70eb84f11 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-@@ -10,6 +10,7 @@
- #include <linux/spi/spi.h>
+diff --git a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
+index fc4873deb76f..4f6ffb8182a9 100644
+--- a/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
++++ b/Documentation/devicetree/bindings/auxdisplay/holtek,ht16k33.yaml
+@@ -10,7 +10,7 @@ maintainers:
+   - Robin van der Gracht <robin@protonic.nl>
  
- #include <video/mipi_display.h>
-+#include <linux/media-bus-format.h>
+ allOf:
+-  - $ref: "/schemas/input/matrix-keymap.yaml#"
++  - $ref: /schemas/input/matrix-keymap.yaml#
  
- #include <drm/drm_device.h>
- #include <drm/drm_modes.h>
-@@ -113,6 +114,8 @@ struct st7789v;
- struct st7789_panel_info {
- 	const struct drm_display_mode *mode;
- 	int (*init_sequence)(struct st7789v *ctx);
-+	unsigned int bpc;
-+	u32 bus_format;
- };
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/display/bridge/nxp,ptn3460.yaml b/Documentation/devicetree/bindings/display/bridge/nxp,ptn3460.yaml
+index 107dd138e6c6..cdeb67bc05f0 100644
+--- a/Documentation/devicetree/bindings/display/bridge/nxp,ptn3460.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/nxp,ptn3460.yaml
+@@ -18,7 +18,7 @@ properties:
+     maxItems: 1
  
- struct st7789v {
-@@ -174,6 +177,20 @@ static const struct drm_display_mode default_mode = {
- 	.height_mm = 103,
- };
+   edid-emulation:
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description:
+       The EDID emulation entry to use
+       Value  Resolution  Description
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+index 140927884418..e1494b5007cb 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
+@@ -23,7 +23,7 @@ properties:
+         i2c address of the bridge, 0x68 or 0x0f, depending on bootstrap pins
  
-+static const struct drm_display_mode t28cp45tn89_mode = {
-+	.clock = 6008,
-+	.hdisplay = 240,
-+	.hsync_start = 240 + 38,
-+	.hsync_end = 240 + 38 + 10,
-+	.htotal = 240 + 38 + 10 + 10,
-+	.vdisplay = 320,
-+	.vsync_start = 320 + 8,
-+	.vsync_end = 320 + 8 + 4,
-+	.vtotal = 320 + 8 + 4 + 4,
-+	.width_mm = 43,
-+	.height_mm = 57,
-+};
-+
- static int init_sequence_default(struct st7789v *ctx) {
- 	int ret;
+   clock-names:
+-    const: "ref"
++    const: ref
  
-@@ -283,11 +300,125 @@ static int init_sequence_default(struct st7789v *ctx) {
- 	return 0;
- }
+   clocks:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/dp-aux-bus.yaml b/Documentation/devicetree/bindings/display/dp-aux-bus.yaml
+index 5e4afe9f98fb..0ece7b01790b 100644
+--- a/Documentation/devicetree/bindings/display/dp-aux-bus.yaml
++++ b/Documentation/devicetree/bindings/display/dp-aux-bus.yaml
+@@ -26,7 +26,7 @@ description:
  
-+static int init_sequence_t28cp45tn89(struct st7789v *ctx) {
-+	int ret;
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx,
-+						MIPI_DCS_SET_ADDRESS_MODE));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx,
-+						MIPI_DCS_SET_PIXEL_FORMAT));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx,
-+					     (MIPI_DCS_PIXEL_FMT_16BIT << 4) |
-+					     (MIPI_DCS_PIXEL_FMT_16BIT)));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_PORCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xc));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xc));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PORCTRL_IDLE_BP(3) |
-+					     ST7789V_PORCTRL_IDLE_FP(3)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx,
-+					     ST7789V_PORCTRL_PARTIAL_BP(3) |
-+					     ST7789V_PORCTRL_PARTIAL_FP(3)));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_GCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_GCTRL_VGLS(5) |
-+					     ST7789V_GCTRL_VGHS(3)));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VCOMS_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0x2b));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_LCMCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_LCMCTRL_XMH |
-+					     ST7789V_LCMCTRL_XMX |
-+					     ST7789V_LCMCTRL_XBGR));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VDVVRHEN_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_VDVVRHEN_CMDEN));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VRHS_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xf));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_VDVS_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0x20));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_FRCTRL2_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, 0xf));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_PWCTRL1_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PWCTRL1_MAGIC));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PWCTRL1_AVDD(2) |
-+					     ST7789V_PWCTRL1_AVCL(2) |
-+					     ST7789V_PWCTRL1_VDS(1)));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_PVGAMCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP63(0xd)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP1(0xca)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP2(0xe)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP4(8)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP6(9)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP13(7)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP20(0x2d)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP27(0xb) |
-+					     ST7789V_PVGAMCTRL_VP36(3)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP43(0x3d)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_JP1(3) |
-+					     ST7789V_PVGAMCTRL_VP50(4)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP57(0xa)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP59(0xa)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP61(0x1b)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_PVGAMCTRL_VP62(0x28)));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_NVGAMCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN63(0xd)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN1(0xca)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN2(0xf)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN4(8)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN6(8)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN13(7)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN20(0x2e)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN27(0xc) |
-+					     ST7789V_NVGAMCTRL_VN36(5)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN43(0x40)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_JN1(3) |
-+					     ST7789V_NVGAMCTRL_VN50(4)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN57(9)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN59(0xb)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN61(0x1b)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_NVGAMCTRL_VN62(0x28)));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_EXIT_INVERT_MODE));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_RAMCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RAMCTRL_DM_RGB |
-+					     ST7789V_RAMCTRL_RM_RGB));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RAMCTRL_EPF(3) |
-+					     ST7789V_RAMCTRL_MAGIC));
-+
-+	ST7789V_TEST(ret, st7789v_write_command(ctx, ST7789V_RGBCTRL_CMD));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_WO |
-+					     ST7789V_RGBCTRL_RCM(2) |
-+					     ST7789V_RGBCTRL_VSYNC_HIGH));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_VBP(8)));
-+	ST7789V_TEST(ret, st7789v_write_data(ctx, ST7789V_RGBCTRL_HBP(20)));
-+
-+	return 0;
-+}
-+
- struct st7789_panel_info default_panel = {
- 	.mode = &default_mode,
- 	.init_sequence = init_sequence_default,
- };
+ properties:
+   $nodename:
+-    const: "aux-bus"
++    const: aux-bus
  
-+struct st7789_panel_info t28cp45tn89_panel = {
-+	.mode = &t28cp45tn89_mode,
-+	.init_sequence = init_sequence_t28cp45tn89,
-+	.bpc = 6,
-+	.bus_format = MEDIA_BUS_FMT_RGB565_1X16,
-+};
-+
- static int st7789v_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
- {
-@@ -307,8 +438,12 @@ static int st7789v_get_modes(struct drm_panel *panel,
- 	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
- 	drm_mode_probed_add(connector, mode);
+   panel:
+     $ref: panel/panel-common.yaml#
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
+index 8afdd67d6780..b90b6d18a828 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,hdmi.yaml
+@@ -50,7 +50,7 @@ properties:
+       - const: hdmi
  
-+	connector->display_info.bpc = ctx->info->bpc;
- 	connector->display_info.width_mm = ctx->info->mode->width_mm;
- 	connector->display_info.height_mm = ctx->info->mode->height_mm;
-+	if (ctx->info->bus_format)
-+		drm_display_info_set_bus_formats(&connector->display_info,
-+						 &ctx->info->bus_format, 1);
+   mediatek,syscon-hdmi:
+-    $ref: '/schemas/types.yaml#/definitions/phandle-array'
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+     items:
+       - items:
+           - description: phandle to system configuration registers
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index e75a3efe4dac..2188d7c9b0bb 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -74,7 +74,7 @@ properties:
  
- 	return 1;
- }
-@@ -417,12 +552,14 @@ static void st7789v_remove(struct spi_device *spi)
+   syscon-sfpb:
+     description: A phandle to mmss_sfpb syscon node (only for DSIv2).
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
  
- static const struct spi_device_id st7789v_spi_id[] = {
- 	{ "st7789v", (unsigned long) &default_panel },
-+	{ "t28cp45tn89-v17", (unsigned long) &t28cp45tn89_panel },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, st7789v_spi_id);
+   qcom,dual-dsi-mode:
+     type: boolean
+@@ -105,14 +105,14 @@ properties:
+     type: object
  
- static const struct of_device_id st7789v_of_match[] = {
- 	{ .compatible = "sitronix,st7789v", .data = &default_panel },
-+	{ .compatible = "inanbo,t28cp45tn89-v17", .data = &t28cp45tn89_panel },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, st7789v_of_match);
+   ports:
+-    $ref: "/schemas/graph.yaml#/properties/ports"
++    $ref: /schemas/graph.yaml#/properties/ports
+     description: |
+       Contains DSI controller input and output ports as children, each
+       containing one endpoint subnode.
+ 
+     properties:
+       port@0:
+-        $ref: "/schemas/graph.yaml#/$defs/port-base"
++        $ref: /schemas/graph.yaml#/$defs/port-base
+         unevaluatedProperties: false
+         description: |
+           Input endpoints of the controller.
+@@ -128,7 +128,7 @@ properties:
+                   enum: [ 0, 1, 2, 3 ]
+ 
+       port@1:
+-        $ref: "/schemas/graph.yaml#/$defs/port-base"
++        $ref: /schemas/graph.yaml#/$defs/port-base
+         unevaluatedProperties: false
+         description: |
+           Output endpoints of the controller.
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+index 3ec466c3ab38..e6b00d7387ce 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-10nm.yaml
+@@ -58,7 +58,7 @@ properties:
+       maximum: 31
+ 
+   qcom,phy-drive-ldo-level:
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description:
+       The PHY LDO has an amplitude tuning feature to adjust the LDO output
+       for the HSTX drive. Use supported levels (mV) to offset the drive level
+diff --git a/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml b/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
+index d67617f6f74a..95ce22c6787a 100644
+--- a/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
++++ b/Documentation/devicetree/bindings/display/panel/ronbo,rb070d30.yaml
+@@ -37,7 +37,7 @@ properties:
+ 
+   backlight:
+     description: Backlight used by the panel
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index d4830f52c512..c5b9e6812bce 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -76,7 +76,7 @@ properties:
+     unevaluatedProperties: false
+ 
+   renesas,cmms:
+-    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+     items:
+       maxItems: 1
+     description:
+@@ -84,7 +84,7 @@ properties:
+       available DU channel.
+ 
+   renesas,vsps:
+-    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+     items:
+       items:
+         - description: phandle to VSP instance that serves the DU channel
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
+index d5ca8cf86e8e..f448624dd779 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
+@@ -38,7 +38,7 @@ properties:
+     description: The number of cells in a MIPI calibration specifier.
+       Should be 1. The single cell specifies a bitmask of the pads that
+       need to be calibrated for a given device.
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     const: 1
+ 
+ additionalProperties: false
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
+index 907fb0baccae..70f0e45c71d6 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra124-sor.yaml
+@@ -69,12 +69,12 @@ properties:
+   # Tegra186 and later
+   nvidia,interface:
+     description: index of the SOR interface
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+ 
+   nvidia,ddc-i2c-bus:
+     description: phandle of an I2C controller used for DDC EDID
+       probing
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   nvidia,hpd-gpio:
+     description: specifies a GPIO used for hotplug detection
+@@ -82,23 +82,23 @@ properties:
+ 
+   nvidia,edid:
+     description: supplies a binary EDID blob
+-    $ref: "/schemas/types.yaml#/definitions/uint8-array"
++    $ref: /schemas/types.yaml#/definitions/uint8-array
+ 
+   nvidia,panel:
+     description: phandle of a display panel, required for eDP
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   nvidia,xbar-cfg:
+     description: 5 cells containing the crossbar configuration.
+       Each lane of the SOR, identified by the cell's index, is
+       mapped via the crossbar to the pad specified by the cell's
+       value.
+-    $ref: "/schemas/types.yaml#/definitions/uint32-array"
++    $ref: /schemas/types.yaml#/definitions/uint32-array
+ 
+   # optional when driving an eDP output
+   nvidia,dpaux:
+     description: phandle to a DispayPort AUX interface
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+ allOf:
+   - if:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
+index 265a60d79d89..ce4589466a18 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dc.yaml
+@@ -60,13 +60,13 @@ properties:
+   nvidia,outputs:
+     description: A list of phandles of outputs that this display
+       controller can drive.
+-    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+ 
+   nvidia,head:
+     description: The number of the display controller head. This
+       is used to setup the various types of output to receive
+       video data from the given head.
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+ 
+ additionalProperties: false
+ 
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
+index e5a6145c8c53..da75b71e8ece 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra186-dsi-padctl.yaml
+@@ -29,7 +29,7 @@ properties:
+       - const: dsi
+ 
+ allOf:
+-  - $ref: "/schemas/reset/reset.yaml"
++  - $ref: /schemas/reset/reset.yaml
+ 
+ additionalProperties: false
+ 
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
+index 511cbe74e729..59e1dc0813e7 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-dsi.yaml
+@@ -59,12 +59,12 @@ properties:
+     description: Should contain a phandle and a specifier specifying
+       which pads are used by this DSI output and need to be
+       calibrated. See nvidia,tegra114-mipi.yaml for details.
+-    $ref: "/schemas/types.yaml#/definitions/phandle-array"
++    $ref: /schemas/types.yaml#/definitions/phandle-array
+ 
+   nvidia,ddc-i2c-bus:
+     description: phandle of an I2C controller used for DDC EDID
+       probing
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   nvidia,hpd-gpio:
+     description: specifies a GPIO used for hotplug detection
+@@ -72,19 +72,19 @@ properties:
+ 
+   nvidia,edid:
+     description: supplies a binary EDID blob
+-    $ref: "/schemas/types.yaml#/definitions/uint8-array"
++    $ref: /schemas/types.yaml#/definitions/uint8-array
+ 
+   nvidia,panel:
+     description: phandle of a display panel
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   nvidia,ganged-mode:
+     description: contains a phandle to a second DSI controller to
+       gang up with in order to support up to 8 data lanes
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+ allOf:
+-  - $ref: "../dsi-controller.yaml#"
++  - $ref: ../dsi-controller.yaml#
+   - if:
+       properties:
+         compatible:
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+index f65e59cfffa7..f77197e4869f 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-hdmi.yaml
+@@ -68,7 +68,7 @@ properties:
+   nvidia,ddc-i2c-bus:
+     description: phandle of an I2C controller used for DDC EDID
+       probing
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   nvidia,hpd-gpio:
+     description: specifies a GPIO used for hotplug detection
+@@ -76,11 +76,11 @@ properties:
+ 
+   nvidia,edid:
+     description: supplies a binary EDID blob
+-    $ref: "/schemas/types.yaml#/definitions/uint8-array"
++    $ref: /schemas/types.yaml#/definitions/uint8-array
+ 
+   nvidia,panel:
+     description: phandle of a display panel
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+ 
+   "#sound-dai-cells":
+     const: 0
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+index 5c7d2cbc4aac..4247280d6c3c 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
++++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+@@ -88,7 +88,7 @@ properties:
+           The DSS DPI output port node from video port 2
+ 
+   ti,am65x-oldi-io-ctrl:
+-    $ref: "/schemas/types.yaml#/definitions/phandle"
++    $ref: /schemas/types.yaml#/definitions/phandle
+     description:
+       phandle to syscon device node mapping OLDI IO_CTRL registers.
+       The mapped range should point to OLDI_DAT0_IO_CTRL, map it and
+diff --git a/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
+index fc02c5d50ce4..87404d72ea37 100644
+--- a/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
++++ b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
+@@ -89,25 +89,25 @@ properties:
+     description: Display output colorspace (C_DISPLAY_COLOR_SPACE).
+ 
+   xylon,display-depth:
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: Display output depth (C_PIXEL_DATA_WIDTH).
+ 
+   xylon,row-stride:
+-    $ref: "/schemas/types.yaml#/definitions/uint32"
++    $ref: /schemas/types.yaml#/definitions/uint32
+     description: Fixed number of pixels in a framebuffer row (C_ROW_STRIDE).
+ 
+   xylon,dithering:
+-    $ref: "/schemas/types.yaml#/definitions/flag"
++    $ref: /schemas/types.yaml#/definitions/flag
+     description: Dithering module is enabled (C_XCOLOR)
+ 
+   xylon,background-layer:
+-    $ref: "/schemas/types.yaml#/definitions/flag"
++    $ref: /schemas/types.yaml#/definitions/flag
+     description: |
+       The last layer is used to display a black background (C_USE_BACKGROUND).
+       The layer must still be registered.
+ 
+   xylon,layers-configurable:
+-    $ref: "/schemas/types.yaml#/definitions/flag"
++    $ref: /schemas/types.yaml#/definitions/flag
+     description: |
+       Configuration of layers' size, position and offset is enabled
+       (C_USE_SIZE_POSITION).
+@@ -131,7 +131,7 @@ properties:
+             maxItems: 1
+ 
+           xylon,layer-depth:
+-            $ref: "/schemas/types.yaml#/definitions/uint32"
++            $ref: /schemas/types.yaml#/definitions/uint32
+             description: Layer depth (C_LAYER_X_DATA_WIDTH).
+ 
+           xylon,layer-colorspace:
+@@ -151,19 +151,19 @@ properties:
+             description: Alpha mode for the layer (C_LAYER_X_ALPHA_MODE).
+ 
+           xylon,layer-base-offset:
+-            $ref: "/schemas/types.yaml#/definitions/uint32"
++            $ref: /schemas/types.yaml#/definitions/uint32
+             description: |
+               Offset in number of lines (C_LAYER_X_OFFSET) starting from the
+               video RAM base (C_VMEM_BASEADDR), only for version 3.
+ 
+           xylon,layer-buffer-offset:
+-            $ref: "/schemas/types.yaml#/definitions/uint32"
++            $ref: /schemas/types.yaml#/definitions/uint32
+             description: |
+               Offset in number of lines (C_BUFFER_*_OFFSET) starting from the
+               layer base offset for the second buffer used in double-buffering.
+ 
+           xylon,layer-primary:
+-            $ref: "/schemas/types.yaml#/definitions/flag"
++            $ref: /schemas/types.yaml#/definitions/flag
+             description: |
+               Layer should be registered as a primary plane (exactly one is
+               required).
 -- 
 2.39.2
 
