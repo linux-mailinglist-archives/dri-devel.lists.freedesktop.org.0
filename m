@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8995C6BE804
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 12:26:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 312376BE82B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 12:33:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9FB310EEE0;
-	Fri, 17 Mar 2023 11:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06D910EEE8;
+	Fri, 17 Mar 2023 11:33:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B299510EEE0;
- Fri, 17 Mar 2023 11:26:29 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A35B10E0F6;
+ Fri, 17 Mar 2023 11:33:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679052389; x=1710588389;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=vqMsTPk8plhoUiz1iEOFJveBEBB0w1qDxqF4BnaM46U=;
- b=PKNZ8+QLhr8PjLGg5v5/blBUfTcm652GuGwjwcnOG4vtewtf7v0elplt
- KoIdO6DMm34kiRWDcNhWD7qPLSbwpdyGd1xudwUW/X8VZ8CDnAIDco7mY
- TRL3BIOquxlJ8+Ao//JYPmUKhb0b5d1oUJa6UOzyzm6L1THsUNUjUqeDf
- zKwdA6skYCwFUxVkVYhnro3oQrXnZfpsGvkxKbQAUPQjb30cJT6AaVsjo
- yyrhZtdvjvaohZVF/LJ/v1x/rtNqhklv7DWqWCcs6BVD/ZCOkLSRuB8d+
- uJQbdzkef0/rOCBU28wEHs/jSzjElPfzivbLsAK+neuZmrnrsZxL+hsgV A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="326599955"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; d="scan'208";a="326599955"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2023 04:26:28 -0700
+ t=1679052809; x=1710588809;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=zHqvE2PAo7WGrXK/KlWhkNCIGR1qSPXYRrD1ERtPA60=;
+ b=nCC5vxWcrTdcn0eNXfpIjWoxeYJEodz6Eb+zaew2PCYJI5Sz+Y7FUDPO
+ lErboPViYFXkMgZYsod3GfDkuD9t28/TUfsDQUqovtlAmgmGUH0BjPsrI
+ BusaM4cDgNFPRv3OE9HcFL8z8fN/QBaVHJ7yXjvGVnfm4M0M9wOO65GhG
+ t7gCccEMCoM02GwI+KyE6S4jV2kv4W9WP/vYKz2CRJ8+pnpklYo5FYG8o
+ oq4iSq8j3xDWy9X/RPqHVeXkyF9i471xwwv86SWNmdl16bRVP5HLXmpEr
+ FBD4zTLAngKdvy2CJSAl3jPHUlKwPRRTp+Gyx7rcHmO5MwkgOTE8wTFE2 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="340603082"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; d="scan'208";a="340603082"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2023 04:33:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="854415167"
-X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; d="scan'208";a="854415167"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.63.160])
- ([10.252.63.160])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Mar 2023 04:26:27 -0700
-Message-ID: <48d8ef01-f766-94c7-5035-54d91c797106@linux.intel.com>
-Date: Fri, 17 Mar 2023 12:26:24 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10651"; a="823639543"
+X-IronPort-AV: E=Sophos;i="5.98,268,1673942400"; d="scan'208";a="823639543"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga001.fm.intel.com with SMTP; 17 Mar 2023 04:33:26 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Mar 2023 13:33:25 +0200
+Date: Fri, 17 Mar 2023 13:33:25 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
+Subject: Re: [PATCH v3 1/2] drm: Introduce plane SIZE_HINTS property
+Message-ID: <ZBRQBfuEZS+2ieIM@intel.com>
+References: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
+ <20230313163311.11379-1-ville.syrjala@linux.intel.com>
+ <ZBRCKIl+jdkohbVB@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 2/2] drm/i915/debugfs: Enable upper layer interfaces to
- act on all gt's
-Content-Language: en-US
-To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20230301110258.2140955-1-andi.shyti@linux.intel.com>
- <20230301110258.2140955-3-andi.shyti@linux.intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230301110258.2140955-3-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZBRCKIl+jdkohbVB@gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,101 +62,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Mar 17, 2023 at 11:34:16AM +0100, Jonas Ådahl wrote:
+> On Mon, Mar 13, 2023 at 06:33:11PM +0200, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > Add a new immutable plane property by which a plane can advertise
+> > a handful of recommended plane sizes. This would be mostly exposed
+> > by cursor planes as a slightly more capable replacement for
+> > the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
+> > a one size fits all limit for the whole device.
+> > 
+> > Currently eg. amdgpu/i915/nouveau just advertize the max cursor
+> > size via the cursor size caps. But always using the max sized
+> > cursor can waste a surprising amount of power, so a better
+> > stragey is desirable.
+> > 
+> > Most other drivers don't specify any cursor size at all, in
+> > which case the ioctl code just claims that 64x64 is a great
+> > choice. Whether that is actually true is debatable.
+> > 
+> > A poll of various compositor developers informs us that
+> > blindly probing with setcursor/atomic ioctl to determine
+> > suitable cursor sizes is not acceptable, thus the
+> > introduction of the new property to supplant the cursor
+> > size caps. The compositor will now be free to select a
+> > more optimal cursor size from the short list of options.
+> > 
+> > Note that the reported sizes (either via the property or the
+> > caps) make no claims about things such as plane scaling. So
+> > these things should only really be consulted for simple
+> > "cursor like" use cases.
+> > 
+> > v2: Try to add some docs
+> > v3: Specify that value 0 is reserved for future use (basic idea from Jonas)
+> >     Drop the note about typical hardware (Pekka)
+> > 
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Jonas Ådahl <jadahl@redhat.com>
+> > Cc: Daniel Stone <daniel@fooishbar.org>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Acked-by: Harry Wentland <harry.wentland@amd.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_mode_config.c |  7 ++++
+> >  drivers/gpu/drm/drm_plane.c       | 53 +++++++++++++++++++++++++++++++
+> >  include/drm/drm_mode_config.h     |  5 +++
+> >  include/drm/drm_plane.h           |  4 +++
+> >  include/uapi/drm/drm_mode.h       | 11 +++++++
+> >  5 files changed, 80 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> > index 87eb591fe9b5..21860f94a18c 100644
+> > --- a/drivers/gpu/drm/drm_mode_config.c
+> > +++ b/drivers/gpu/drm/drm_mode_config.c
+> > @@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
+> >  		return -ENOMEM;
+> >  	dev->mode_config.modifiers_property = prop;
+> >  
+> > +	prop = drm_property_create(dev,
+> > +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
+> > +				   "SIZE_HINTS", 0);
+> > +	if (!prop)
+> > +		return -ENOMEM;
+> > +	dev->mode_config.size_hints_property = prop;
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> > index 24e7998d1731..d2a6fdff1a57 100644
+> > --- a/drivers/gpu/drm/drm_plane.c
+> > +++ b/drivers/gpu/drm/drm_plane.c
+> > @@ -140,6 +140,26 @@
+> >   *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
+> >   *     various bugs in this area with inconsistencies between the capability
+> >   *     flag and per-plane properties.
+> > + *
+> > + * SIZE_HINTS:
+> > + *     Blob property which contains the set of recommended plane size
+> > + *     which can used for simple "cursor like" use cases (eg. no scaling).
+> > + *     Using these hints frees userspace from extensive probing of
+> > + *     supported plane sizes through atomic/setcursor ioctls.
+> > + *
+> > + *     For optimal usage userspace should pick the smallest size
+> > + *     that satisfies its own requirements.
+> > + *
+> > + *     The blob contains an array of struct drm_plane_size_hint.
+> > + *
+> > + *     Drivers should only attach this property to planes that
+> > + *     support a very limited set of sizes.
+> > + *
+> > + *     Note that property value 0 (ie. no blob) is reserved for potential
+> > + *     future use. Current userspace is expected to ignore the property
+> > + *     if the value is 0, and fall back to some other means (eg.
+> > + *     &DRM_CAP_CURSOR_WIDTH and &DRM_CAP_CURSOR_HEIGHT) to determine
+> > + *     the appropriate plane size to use.
+> 
+> Does this intend to mean userspace has the kernel's blessing on choosing
+> an arbitrary size as long as it's smaller than &DRM_CAP_CURSOR_WIDTH x
+> &DRM_CAP_CURSOR_HEIGHT?
+> 
+> It's a bit to vague for me to make a confident interpretation whether I
+> can, or whether I should pretend I didn't see SIZE_HINTS and apply the
+> old logic, meaning only using the exact cap size.
 
-On 3/1/2023 12:02 PM, Andi Shyti wrote:
-> The commit 82a149a62b6b5 ('drm/i915/gt: move remaining debugfs
-> interfaces into gt') moved gt-related debugfs files in the gtX/
-> directories to operate on individual gt's.
->
-> However, the original files were only functioning on the root
-> tile (tile 0) and have been left in the same location to maintain
-> compatibility with userspace users.
->
-> Add multiplexing functionality to the higher directories' files.
-> This enables the operations to be performed on all the tiles with
-> a single write. In the case of reads, the files provide an or'ed
-> value across all the tiles.
->
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>
+Using the exact cap size is the only thing more or less
+guaranteed to work. But other approaches (such as probing
+the size with atomic/cursor ioctls) can also be used.
 
-
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-
-> ---
->   drivers/gpu/drm/i915/i915_debugfs.c | 38 ++++++++++++++++++++++++++---
->   1 file changed, 34 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-> index 45773ce1deac2..90663f251fd10 100644
-> --- a/drivers/gpu/drm/i915/i915_debugfs.c
-> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
-> @@ -575,14 +575,36 @@ static int i915_wa_registers(struct seq_file *m, void *unused)
->   static int i915_wedged_get(void *data, u64 *val)
->   {
->   	struct drm_i915_private *i915 = data;
-> +	struct intel_gt *gt;
-> +	unsigned int i;
->   
-> -	return intel_gt_debugfs_reset_show(to_gt(i915), val);
-> +	*val = 0;
-> +
-> +	for_each_gt(gt, i915, i) {
-> +		int ret;
-> +		u64 v;
-> +
-> +		ret = intel_gt_debugfs_reset_show(gt, &v);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/* at least one tile should be wedged */
-> +		*val |= !!v;
-> +		if (*val)
-> +			break;
-> +	}
-> +
-> +	return 0;
->   }
->   
->   static int i915_wedged_set(void *data, u64 val)
->   {
->   	struct drm_i915_private *i915 = data;
-> -	intel_gt_debugfs_reset_store(to_gt(i915), val);
-> +	struct intel_gt *gt;
-> +	unsigned int i;
-> +
-> +	for_each_gt(gt, i915, i)
-> +		intel_gt_debugfs_reset_store(gt, val);
->   
->   	return 0;
->   }
-> @@ -733,7 +755,11 @@ static int i915_sseu_status(struct seq_file *m, void *unused)
->   static int i915_forcewake_open(struct inode *inode, struct file *file)
->   {
->   	struct drm_i915_private *i915 = inode->i_private;
-> -	intel_gt_pm_debugfs_forcewake_user_open(to_gt(i915));
-> +	struct intel_gt *gt;
-> +	unsigned int i;
-> +
-> +	for_each_gt(gt, i915, i)
-> +		intel_gt_pm_debugfs_forcewake_user_open(gt);
->   
->   	return 0;
->   }
-> @@ -741,7 +767,11 @@ static int i915_forcewake_open(struct inode *inode, struct file *file)
->   static int i915_forcewake_release(struct inode *inode, struct file *file)
->   {
->   	struct drm_i915_private *i915 = inode->i_private;
-> -	intel_gt_pm_debugfs_forcewake_user_release(to_gt(i915));
-> +	struct intel_gt *gt;
-> +	unsigned int i;
-> +
-> +	for_each_gt(gt, i915, i)
-> +		intel_gt_pm_debugfs_forcewake_user_release(gt);
->   
->   	return 0;
->   }
+-- 
+Ville Syrjälä
+Intel
