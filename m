@@ -2,62 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378496BE2A7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BF16BE30A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 09:22:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F51410EE24;
-	Fri, 17 Mar 2023 08:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D81BC10E36E;
+	Fri, 17 Mar 2023 08:22:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBC2D10EE4D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:08:11 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D78410E344
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:22:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AA52F21A1F;
- Fri, 17 Mar 2023 08:08:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679040490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+VZ7DGUifPoFdS7x4xWZGvBjsSRhnA4uCmbOtAELKBw=;
- b=dEIUnQ6mApp/C07e2GZQEX6F6yaoMboKlGVoXT0bGv6Tt8IvNWeKqKxqvjdfVlDeU7s/MY
- BHO96pbFROe/hIZTbehGabdps0UCbmOZYjd3sFo4WIk6TeoAmbNA3GUkpzVs/Lu8BJErFo
- uV2+EeZa/9hjQoXz7QO7N0EUKPehUK0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679040490;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+VZ7DGUifPoFdS7x4xWZGvBjsSRhnA4uCmbOtAELKBw=;
- b=6WDYdhdhCqtZXU4j+4J6DzgTtQ9BiYvtR33Mn3dXpNbnMwUREThkqxKTVmVgpqLATY7yvS
- mmgJ6zncFMKZXtBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7E1BF1346F;
- Fri, 17 Mar 2023 08:08:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yUewHeofFGQVJgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 17 Mar 2023 08:08:10 +0000
-Message-ID: <0a1a0765-8f9c-90f5-b848-2931904269a7@suse.de>
-Date: Fri, 17 Mar 2023 09:08:09 +0100
+ by ams.source.kernel.org (Postfix) with ESMTPS id 85847B824F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 08:22:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD7EC433D2;
+ Fri, 17 Mar 2023 08:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679041338;
+ bh=Y+FeuoEYgmV4XhHzbi4ynmacHPNSPmfGmHfMCN1rXcU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=NdRFTP73vf+1YSrrFyUr9aOcvf6sGAhDReiGyXWwEEAtGgLbFwRevI4olZC+B+9UL
+ wfbK6Jxj5y0GmZwtl+jMyxO+P6JZMKvr2M6cul7d1eQJmHGvSuW5Oy8Vppjy2jkpUe
+ jFWRMjt8PN/y5CjapbWI5ZqIfMg8H+OolpTsq2sNR9k7k/udj2bKoyBbZ3+nIYenwC
+ Fnp2KS+tiY5SkcTyLWRlQ280dWvB+kJ/3W9JrmJGJhGBFALs9psCYgv1RwSoVax+d0
+ qxVze/5I1LOIuIozs1q9j9odGNJWYN8psaZLZqi6oxJVUe2txHpgoHMzE4LYVXZEnp
+ kk5TtLJ8w47yw==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/37] Rid W=1 warnings from GPU
+Date: Fri, 17 Mar 2023 08:16:41 +0000
+Message-Id: <20230317081718.2650744-1-lee@kernel.org>
+X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/format-helper: Use drm_format_info_min_pitch() in
- tests helper
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-References: <20230316223404.102806-1-javierm@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230316223404.102806-1-javierm@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------A9aa1GgMJw84gWsI0laIeOT5"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,88 +51,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
- Geert Uytterhoeven <geert@linux-m68k.org>, David Gow <davidgow@google.com>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
- Arthur Grillo <arthurgrillo@riseup.net>
+Cc: linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------A9aa1GgMJw84gWsI0laIeOT5
-Content-Type: multipart/mixed; boundary="------------wyNkPOX7YXVbiCkbcZTi0zz1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, =?UTF-8?Q?Ma=c3=adra_Canal?=
- <mairacanal@riseup.net>, Geert Uytterhoeven <geert@linux-m68k.org>,
- David Gow <davidgow@google.com>, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=
- <jose.exposito89@gmail.com>, Arthur Grillo <arthurgrillo@riseup.net>
-Message-ID: <0a1a0765-8f9c-90f5-b848-2931904269a7@suse.de>
-Subject: Re: [PATCH] drm/format-helper: Use drm_format_info_min_pitch() in
- tests helper
-References: <20230316223404.102806-1-javierm@redhat.com>
-In-Reply-To: <20230316223404.102806-1-javierm@redhat.com>
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
---------------wyNkPOX7YXVbiCkbcZTi0zz1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Lee Jones (37):
+  drm/amd/display/dc/dc_hdmi_types: Move string definition to the only
+    file it's used in
+  drm/xlnx/zynqmp_disp: Use correct kerneldoc formatting in zynqmp_disp
+  drm/amd/amdgpu/amdgpu_device: Provide missing kerneldoc entry for
+    'reset_context'
+  drm/xlnx/zynqmp_dp: Fix function name zynqmp_dp_link_train() ->
+    zynqmp_dp_train()
+  drm/ttm/ttm_bo: Provide a missing 'bulk' description and correct
+    misnaming of 'placement'
+  drm/vkms/vkms_composer: Fix a few different kerneldoc formatting
+  drm/mediatek/mtk_disp_aal: Remove half completed incorrect struct
+    header
+  drm/mediatek/mtk_disp_ccorr: Remove half completed incorrect struct
+    header
+  drm/tegra/dc: Remove set but unused variable 'state'
+  drm/nouveau/nvkm/nvfw/acr: Make local function
+    ‘wpr_generic_header_dump’ static
+  drm/nouveau/nvkm/subdev/acr/lsfw: Remove unused variable 'loc'
+  drm/nouveau/nvkm/subdev/bios/init: Demote a bunch of kernel-doc abuses
+  drm/amd/amdgpu/amdgpu_ucode: Remove unused function
+    ‘amdgpu_ucode_print_imu_hdr’
+  drm/amd/amdgpu/amdgpu_vm_pt: Supply description for
+    amdgpu_vm_pt_free_dfs()'s unlocked param
+  drm/amd/amdgpu/gmc_v11_0: Provide a few missing param descriptions
+    relating to hubs and flushes
+  drm/amd/amdgpu/ih_v6_0: Repair misspelling and provide descriptions
+    for 'ih'
+  drm/amd/amdgpu/amdgpu_mes: Ensure amdgpu_bo_create_kernel()'s return
+    value is checked
+  drm/amd/amdgpu/amdgpu_vce: Provide description for
+    amdgpu_vce_validate_bo()'s 'p' param
+  drm/amd/pm/swsmu/smu11/vangogh_ppt: Provide a couple of missing
+    parameter descriptions
+  drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move defines out to where
+    they are actually used
+  drm/nouveau/nvkm/subdev/volt/gk20a: Demote kerneldoc abuses
+  drm/nouveau/nvkm/engine/fifo/runl: Staticify local function
+    nvkm_engn_cgrp_get()
+  drm/nouveau/nvkm/engine/fifo/gf100: Staticify local function
+    gf100_fifo_nonstall_block()
+  drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc abuse
+  drm/nouveau/nvkm/engine/gr/tu102: Staticify local function
+    gf100_fifo_nonstall_block()
+  drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move SYNAPTICS_DEVICE_ID
+    into CONFIG_DRM_AMD_DC_DCN ifdef
+  drm/amd/display/dc/dce/dmub_psr: Demote kerneldoc abuse
+  drm/amd/display/dc/core/dc_stat: Convert a couple of doc headers to
+    kerneldoc format
+  drm/amd/display/dc/link/link_detection: Remove unused variable
+    'status'
+  drm/amd/display/dc/link/protocols/link_dp_training: Remove set but
+    unused variable 'result'
+  drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+  drm/amd/display/dc/link/protocols/link_dp_capability: Remove unused
+    variable and mark another as __maybe_unused
+  drm/amd/display/dc/link/protocols/link_dp_capability: Demote
+    non-compliant kerneldoc
+  drm/nouveau/nvkm/engine/gr/tu102: Completely remove unused function
+    ‘tu102_gr_load’
+  drm/amd/display/dc/dce60/Makefile: Fix previous attempt to silence
+    known override-init warnings
+  drm/amd/display/dc/link/link_detection: Demote a couple of kerneldoc
+    abuses
+  drm/bridge/imx/Kconfig: Prevent imx-ldb-helper from appearing in 2
+    separate modules
 
-DQoNCkFtIDE2LjAzLjIzIHVtIDIzOjM0IHNjaHJpZWIgSmF2aWVyIE1hcnRpbmV6IENhbmls
-bGFzOg0KPiBUaGVyZSdzIGEgbmljZSBtYWNybyB0byBjYWxjdWxhdGUgdGhlIGRlc3RpbmF0
-aW9uIHBpdGNoIHRoYXQgYWxyZWFkeSB0YWtlcw0KPiBpbnRvIGFjY291bnQgc3ViLWJ5dGUg
-cGl4ZWwgZm9ybWF0cy4gVXNlIHRoYXQgaW5zdGVhZCBvZiBvcGVuIGNvZGluZyBpdC4NCj4g
-DQo+IFN1Z2dlc3RlZC1ieTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhr
-Lm9yZz4NCj4gU2lnbmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZp
-ZXJtQHJlZGhhdC5jb20+DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4NCg0KPiAtLS0NCj4gDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rl
-c3RzL2RybV9mb3JtYXRfaGVscGVyX3Rlc3QuYyB8IDcgKystLS0tLQ0KPiAgIDEgZmlsZSBj
-aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rlc3RzL2RybV9mb3JtYXRfaGVscGVyX3Rlc3QuYyBi
-L2RyaXZlcnMvZ3B1L2RybS90ZXN0cy9kcm1fZm9ybWF0X2hlbHBlcl90ZXN0LmMNCj4gaW5k
-ZXggYmZhNDdmOGZmZDA5Li40NzRiYjdhMWM0ZWUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS90ZXN0cy9kcm1fZm9ybWF0X2hlbHBlcl90ZXN0LmMNCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3Rlc3RzL2RybV9mb3JtYXRfaGVscGVyX3Rlc3QuYw0KPiBAQCAtNDQwLDE1
-ICs0NDAsMTIgQEAgc3RhdGljIHNpemVfdCBjb252ZXJzaW9uX2J1Zl9zaXplKHUzMiBkc3Rf
-Zm9ybWF0LCB1bnNpZ25lZCBpbnQgZHN0X3BpdGNoLA0KPiAgIAkJCQkgIGNvbnN0IHN0cnVj
-dCBkcm1fcmVjdCAqY2xpcCkNCj4gICB7DQo+ICAgCWNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0
-X2luZm8gKmRzdF9maSA9IGRybV9mb3JtYXRfaW5mbyhkc3RfZm9ybWF0KTsNCj4gLQl1bnNp
-Z25lZCBpbnQgYnBwOw0KPiAgIA0KPiAgIAlpZiAoIWRzdF9maSkNCj4gICAJCXJldHVybiAt
-RUlOVkFMOw0KPiAgIA0KPiAtCWlmICghZHN0X3BpdGNoKSB7DQo+IC0JCWJwcCA9IGRybV9m
-b3JtYXRfaW5mb19icHAoZHN0X2ZpLCAwKTsNCj4gLQkJZHN0X3BpdGNoID0gRElWX1JPVU5E
-X1VQKGRybV9yZWN0X3dpZHRoKGNsaXApICogYnBwLCA4KTsNCj4gLQl9DQo+ICsJaWYgKCFk
-c3RfcGl0Y2gpDQo+ICsJCWRzdF9waXRjaCA9IGRybV9mb3JtYXRfaW5mb19taW5fcGl0Y2go
-ZHN0X2ZpLCAwLCBkcm1fcmVjdF93aWR0aChjbGlwKSk7DQo+ICAgDQo+ICAgCXJldHVybiBk
-c3RfcGl0Y2ggKiBkcm1fcmVjdF9oZWlnaHQoY2xpcCk7DQo+ICAgfQ0KPiANCj4gYmFzZS1j
-b21taXQ6IDE2NWQ1MTMzNzMxYTJlMDQ1YWJkZDZkOWQzYzkyMjFmZGMyYTU1NmUNCg0KLS0g
-DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
-b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
-w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
-dHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c       |   5 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c     |  13 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c       |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c     |   1 +
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c        |   4 +
+ drivers/gpu/drm/amd/amdgpu/ih_v6_0.c          |   5 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   3 +
+ drivers/gpu/drm/amd/display/dc/core/dc_stat.c |  28 ++--
+ .../gpu/drm/amd/display/dc/dc_hdmi_types.h    |   1 -
+ drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c |   5 +-
+ drivers/gpu/drm/amd/display/dc/dce60/Makefile |   2 +-
+ .../drm/amd/display/dc/link/link_detection.c  |  12 +-
+ .../dc/link/protocols/link_dp_capability.c    |   4 +-
+ .../dc/link/protocols/link_dp_training.c      |   3 +-
+ .../link/protocols/link_edp_panel_control.c   |   5 +
+ .../amd/display/include/ddc_service_types.h   |  13 --
+ .../gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c  |   2 +
+ drivers/gpu/drm/bridge/imx/Kconfig            |   7 +
+ drivers/gpu/drm/bridge/imx/Makefile           |   7 +-
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.c   |  13 ++
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   5 -
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   5 -
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +-
+ .../gpu/drm/nouveau/nvkm/engine/fifo/gf100.c  |   2 +-
+ .../gpu/drm/nouveau/nvkm/engine/fifo/runl.c   |   2 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/gf100.c    |   2 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/tu102.c    |  13 --
+ drivers/gpu/drm/nouveau/nvkm/nvfw/acr.c       |   2 +-
+ .../gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c    |   3 +-
+ .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 136 +++++++++---------
+ .../gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c  |   4 +-
+ drivers/gpu/drm/tegra/dc.c                    |   2 -
+ drivers/gpu/drm/ttm/ttm_bo.c                  |   3 +-
+ drivers/gpu/drm/vkms/vkms_composer.c          |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
+ 37 files changed, 163 insertions(+), 169 deletions(-)
 
---------------wyNkPOX7YXVbiCkbcZTi0zz1--
+--
+2.40.0.rc1.284.g88254d51c5-goog
 
---------------A9aa1GgMJw84gWsI0laIeOT5
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQUH+kFAwAAAAAACgkQlh/E3EQov+AL
-jBAAtkIBEHnsDlmsHMUadfWBb2mXHoIimp9OywEtZvf9EPO4olGBskF7nMc8B2SKlICQfG3Xa0LD
-kE2JASsa43hZ2QvcNVm2jxsuaWjechcitEwAhdzu/czAFBYzm+4Wy+2oxX9UJLkOGV/19sNdEEMd
-LOk4MF/4kXVJEvb8tt0wddZ9QVwUiU029kao3GJZzg2y2UXw/zu3q4tmO3/MNp9DV53EirZlv/74
-CeQVoniOeVnZLWrnqu8ZB/knNGhDhKK+PnPMLevH0jZGrRTf6q4cSw9FxV25K+ssYytgYpljgrD1
-JqyrXaN0BuDCXptTAlUL7QEfQu3NqqNrHxrg3PPu49ondIm95fjPUCKCsuw1v151oI9Q2gijHZeo
-QVbF6VGc90LMI7V/y7XBGTOdtWw5EyjkXzyEbY6Q4I3Qu0FEjoVH6lT7Yek9E7XbGT7lCycUzNWQ
-56e6XkWsdoPx6+yv11W9i/1jAzlDk+oqjZItcZzNdAbuAsQ0U/e41zisyhH+/yQApz8y3Wa9gz/R
-GahjumP5QbOlY3bt9imvPyiFGrVoZSuCLCz3CIZYcMaTeE8ikuVlQPKUta6rSHtreupWhiG348ix
-MUw6y+2LUGxlmu3PI+sQ2RqcvAL8Z5UyTvAlGwkr+oaVqoEB5aK4u2rY8+WpFD1sagDfjw5NNgaF
-3Uw=
-=Mlfg
------END PGP SIGNATURE-----
-
---------------A9aa1GgMJw84gWsI0laIeOT5--
