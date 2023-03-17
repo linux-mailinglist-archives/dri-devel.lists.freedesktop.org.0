@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEA26BF636
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 00:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230E46BF648
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 00:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 237BB10E426;
-	Fri, 17 Mar 2023 23:24:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97CCA10E437;
+	Fri, 17 Mar 2023 23:24:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6C8A10E285
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 23:24:02 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80D0310E2A0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 23:24:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 192B260C89;
- Fri, 17 Mar 2023 23:24:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C75C433A8;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2B048B82722;
+ Fri, 17 Mar 2023 23:24:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1F2C433A1;
  Fri, 17 Mar 2023 23:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1679095440;
- bh=40wNAXlyIA7VZKGyZ/AHWKvTBQOSewOxuHR9874XOtk=;
+ bh=wMdj6XMSKvcrwZmlfjFE87Mo/K0QwNMqQP6DoUCEh10=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Bauausuf+Ul8D8hrfy65CjeljDX2wWvOW6qAhSVR5rYKj1kHYlu8T/Xx0vjoL83/7
- 32m5/aiJgEOnjaXRFLmkDgMGfi5ciY4zYYyfGjqePOvx8BhM1oAiUcfvTjzCygmfD4
- kaCGhSV6JtLc2UtEXmBPSzTBUWfHYoLGQba4bxXCH/ltjpl6MWcG9cP2RYOoo5EXy5
- w+nbRgUTZzgx//jvoGqOycoARkE8InRm2qNQqfhsdD+kfzhuDcP6YwZ8r4df7KHdoa
- +r6hX/dldX6AGFFB02Z50wQq5j+KKeFk/FcxerW5Ljmp8TrewfKa3sBIe1yFvcTz8V
- vzfbu8L1RWIvw==
+ b=V7WZLmN/f4vrQhvkHFIhjRas7Jj2UFY3UEQOixFtO03eD6fgNZwgj3qLzBq5nPt0/
+ kfevjrBRC3fVUwIO4ahdTus1s07972KBOWtqzDISoCpD+QxwEBpT1JOOGkCAjtPXsx
+ JFjVd0k2GYo0RI2lVIV/f8nAQHzn/2ugP98XcdDvpIb9cge+klspr8KDeNNq2sG6ZT
+ 1QeD3imwyqyOOuEQyYvoKYLmTPFqv37Oj0W4qI9ufDV9SSzLWml/QnI+rJlFrScbvO
+ cj4O6fOjHZx4llqqyMArc8LsZNDP9PlV0DXO65dbt+gqxQZ8GrBsFhvQzanpNEhAU5
+ rxmIjQ3DYZ+0g==
 Received: by mercury (Postfix, from userid 1000)
- id DA45A10620F5; Sat, 18 Mar 2023 00:23:57 +0100 (CET)
+ id DB22210620FF; Sat, 18 Mar 2023 00:23:57 +0100 (CET)
 From: Sebastian Reichel <sre@kernel.org>
 To: Sebastian Reichel <sre@kernel.org>
-Subject: [PATCHv1 1/7] dt-bindings: vendor-prefixes: add Inanbo
-Date: Sat, 18 Mar 2023 00:23:49 +0100
-Message-Id: <20230317232355.1554980-2-sre@kernel.org>
+Subject: [PATCHv1 2/7] dt-bindings: display: st7789v: add Inanbo T28CP45TN89
+Date: Sat, 18 Mar 2023 00:23:50 +0100
+Message-Id: <20230317232355.1554980-3-sre@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230317232355.1554980-1-sre@kernel.org>
 References: <20230317232355.1554980-1-sre@kernel.org>
@@ -64,27 +63,38 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Shenzhen INANBO Electronic Technology Co., Ltd. manufacturers
-TFT/OLED LCD panels.
+Add compatible value for Inanbo t28cp45tn89 and
+make reset GPIO non mandatory, since it might not
+be connected to the CPU.
 
 Signed-off-by: Sebastian Reichel <sre@kernel.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/display/panel/sitronix,st7789v.yaml  | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index ed64e06ecca4..33e1d65cf4b2 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -609,6 +609,8 @@ patternProperties:
-     description: Imagination Technologies Ltd.
-   "^imi,.*":
-     description: Integrated Micro-Electronics Inc.
-+  "^inanbo,.*":
-+    description: Shenzhen INANBO Electronic Technology Co., Ltd.
-   "^incircuit,.*":
-     description: In-Circuit GmbH
-   "^inet-tek,.*":
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+index d984b59daa4a..4fc86f96b00f 100644
+--- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+@@ -15,7 +15,9 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: sitronix,st7789v
++    enum:
++      - sitronix,st7789v
++      - inanbo,t28cp45tn89-v17
+ 
+   reg: true
+   reset-gpios: true
+@@ -29,7 +31,6 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - reset-gpios
+   - power-supply
+ 
+ unevaluatedProperties: false
 -- 
 2.39.2
 
