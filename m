@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0276BF2CC
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:39:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 107726BF2D9
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 21:41:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D77210E421;
-	Fri, 17 Mar 2023 20:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE98910EF9D;
+	Fri, 17 Mar 2023 20:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com
- [IPv6:2607:f8b0:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E22A510E421;
- Fri, 17 Mar 2023 20:39:20 +0000 (UTC)
-Received: by mail-oi1-x236.google.com with SMTP id r36so4711551oiw.7;
- Fri, 17 Mar 2023 13:39:20 -0700 (PDT)
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39A3010EF9D;
+ Fri, 17 Mar 2023 20:41:43 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ v2-20020a056830090200b0069c6952f4d3so3534740ott.7; 
+ Fri, 17 Mar 2023 13:41:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679085560;
+ d=gmail.com; s=20210112; t=1679085702;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=r2ceKigtwCgXknXQIGjyiY2sXOg78OguiBhLG+H+iU0=;
- b=F7NTXlDuv7+z1BobleOBc0RzjNkRncybXR/Z40pNG/5NJ00vWglvmdZcLWvQSAu8o9
- 0vM/eWWYUP/2F/sNosphE2DlJnnWrAKAyy0vUfp+q9pWka7l+v0dBJ0JTDFdwr14dwV4
- qpbQN5es849DbZbRstsHGVEQEKDoy0P2oeumDIR7sPrWsviRTQCMoPUown0o9FXfMMzj
- IGyIMPZzJL7fZuA69a/x0CuYlKgDoM34lBsqu6tTFCYYd/ODOZbSIg9aupD44K674Mdw
- QDqrb2MMUjaD/n+dSrVXs90YvQpONuYZQY/7ixBluCMoZ72av/q1J1MYHSZEYDUjHlp9
- CNhA==
+ bh=gfgcC/EbPu+ua6yDvUlTRHWlKkZNrCbAkKPEGXwikuI=;
+ b=c18Tqa1zOd/o7z4A9WdW9+PmQDslW4G4YvMD30YdaQ7rRmNxBYBzx7KnFkmsc3Rd/X
+ f0vhzOXNIY9aPKeWrY61QXH13zoH148CbovgQOK6L0oUZqf6VhmHMqHqksin9BFhnBHl
+ eoup//n2VTIZeUa9y1nX8RXHr0cZZwB6/OCel28IRwbyTGgGe+MU5wdZ0isgPLkVLy7w
+ RacaW8iW5dPJrW++PFE7EnCieNtPG3BOFsKQcZui23BkZvSWsjbl2OFOCVLLqgIV2Kw4
+ zR0J1oQ8SvtoZgb3gxWvarjo50VzMP8m5ymGh4EH0Z4rpy1knvY5hQaCgE3lSqoLPySy
+ lh9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679085560;
+ d=1e100.net; s=20210112; t=1679085702;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=r2ceKigtwCgXknXQIGjyiY2sXOg78OguiBhLG+H+iU0=;
- b=mhSCmgTMs0kBOZPWkkApR3+SOAdY295iaKTyJ/lLedDgpigRrE1xqN7JfFvncD4mlu
- t52G21GpXZgCTqdQHlvnpZIDnPoKqZMtG2DPuca90BWnmTtXFMs5DdrgFHfaYraTQWrP
- HstEZE8WYgcrO2HQxwcGXQ1DABiKJVuJ4XcELqDSUZaUINVGB4XPqxA9AN7xfCq7TkPE
- ASUNtQzbhC1x+CBLci8SYC6BBSXQLnVwP08c2F3UP2Li71yHJ8E5/P7HDq6/wvoveuCI
- 6nuvtaXsT6KLX057XHJ5tdZMlvRbgjVDVTyMRPtroSg8Vh5RTDAcP329ggwyRaCdLTgF
- n5Mw==
-X-Gm-Message-State: AO0yUKXcpTRLcj1pthBeORQ8P0KWGCsvyYBvHFF80xhwanwUSBACbyml
- MiDt98OWxQCwxrSHADta1Es/B9erwJgJevhLS/E=
-X-Google-Smtp-Source: AK7set+b+3oyu0svFygRamnRBQc9qzNVoS/CNFRldG8LQY67XtnAE+vykp7jKoBeOi7sUvON7HXb4M7gFbjdNQ7cXLQ=
-X-Received: by 2002:a54:449a:0:b0:384:692c:56c9 with SMTP id
- v26-20020a54449a000000b00384692c56c9mr3625036oiv.3.1679085558766; Fri, 17 Mar
- 2023 13:39:18 -0700 (PDT)
+ bh=gfgcC/EbPu+ua6yDvUlTRHWlKkZNrCbAkKPEGXwikuI=;
+ b=ZvrD/oguYDraDQkRlQobAdYaeVmTtrUEpQSDu0n8BWAEi4AFvPg+i16vuAdvEYgSzB
+ MFjUa6+QqQxOzvMnBtym0gUFzKVj06WQ/jVrGQlouEnYQ4jok9qen4igMcb4xenhOvV3
+ FW/j+RigOdwAITd0s4Neq+eDMERmblIqJKhgNy6TKN0J9xadgXkqQ+EdZUp6JbXudQND
+ XzPhRJvDc4blWKCMUAZymizUTb4JKKZ3ypyTrcvDMYGUIUsIrY1VNW+I+PsJkovSmPGT
+ zBgCpycHWPwBS/Wg61JdcCWAxd6I0poPyQtXWy2nYH6egR6cfg8RDzwDenVX0nc+xeMU
+ mqAA==
+X-Gm-Message-State: AO0yUKXlrNUHsswAkJ6u3jsxQ/4k+TAvsK005l+3vdEvUu0Q2/owyKtL
+ v7d+Jy6yjcCOKfEiW8zlhYqghzk1X3UjOCko0So=
+X-Google-Smtp-Source: AK7set8CqKuf/ulPOfBWE098fleAs19MAIbLvZv/D7H/MRyW2pFivWOvVXTWk3dGoLA6NMn+GK9iEDRd0TmwQ+gVYcE=
+X-Received: by 2002:a9d:4802:0:b0:69a:b32c:9882 with SMTP id
+ c2-20020a9d4802000000b0069ab32c9882mr298708otf.3.1679085702531; Fri, 17 Mar
+ 2023 13:41:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-31-lee@kernel.org>
-In-Reply-To: <20230317081718.2650744-31-lee@kernel.org>
+ <20230317081718.2650744-33-lee@kernel.org>
+In-Reply-To: <20230317081718.2650744-33-lee@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 17 Mar 2023 16:39:07 -0400
-Message-ID: <CADnq5_M4Zq4AQJVVw8f1k_M4xTygzPzbYoNdHQV27T76uk=2tw@mail.gmail.com>
-Subject: Re: [PATCH 30/37] drm/amd/display/dc/link/protocols/link_dp_training:
- Remove set but unused variable 'result'
+Date: Fri, 17 Mar 2023 16:41:30 -0400
+Message-ID: <CADnq5_OPSz7mv3MHXY559pe_We45-C+Au4mgSoBEK5bcoaMp+g@mail.gmail.com>
+Subject: Re: [PATCH 32/37]
+ drm/amd/display/dc/link/protocols/link_dp_capability:
+ Remove unused variable and mark another as __maybe_unused
 To: Lee Jones <lee@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,15 +81,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Applied.  Thanks!
 
+Alex
+
 On Fri, Mar 17, 2023 at 4:23=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
+>
+> =E2=80=98ds_port=E2=80=99 is clearly not used anywhere and =E2=80=98resul=
+t_write_min_hblank=E2=80=99 is
+> only utilised when debugging is enabled.  The alternative would be to
+> allocate the variable under the same clause as the debugging code, but
+> that would become very messy, very quickly.
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training=
-.c: In function =E2=80=98perform_link_training_with_retries=E2=80=99:
->  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training=
-.c:1586:38: warning: variable =E2=80=98result=E2=80=99 set but not used [-W=
-unused-but-set-variable]
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capabili=
+ty.c: In function =E2=80=98dp_wa_power_up_0010FA=E2=80=99:
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capabili=
+ty.c:280:42: warning: variable =E2=80=98ds_port=E2=80=99 set but not used [=
+-Wunused-but-set-variable]
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capabili=
+ty.c: In function =E2=80=98dpcd_set_source_specific_data=E2=80=99:
+>  drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capabili=
+ty.c:1296:32: warning: variable =E2=80=98result_write_min_hblank=E2=80=99 s=
+et but not used [-Wunused-but-set-variable]
 >
 > Cc: Harry Wentland <harry.wentland@amd.com>
 > Cc: Leo Li <sunpeng.li@amd.com>
@@ -102,27 +117,25 @@ unused-but-set-variable]
 > Cc: dri-devel@lists.freedesktop.org
 > Signed-off-by: Lee Jones <lee@kernel.org>
 > ---
->  .../gpu/drm/amd/display/dc/link/protocols/link_dp_training.c   | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  .../gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c  | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_traini=
-ng.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
-> index a9025671ee4a8..10261764a0cea 100644
-> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
-> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_training.c
-> @@ -1580,8 +1580,7 @@ bool perform_link_training_with_retries(
->                                  * Report and continue with eDP panel mod=
-e to
->                                  * perform eDP link training with right s=
-ettings
->                                  */
-> -                               bool result;
-> -                               result =3D cp_psp->funcs.enable_assr(cp_p=
-sp->handle, link);
-> +                               cp_psp->funcs.enable_assr(cp_psp->handle,=
- link);
->                         }
->                 }
+> diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capabi=
+lity.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> index e9bcb35ae185a..51427f5081642 100644
+> --- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> +++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+> @@ -1284,7 +1284,7 @@ bool dp_overwrite_extended_receiver_cap(struct dc_l=
+ink *link)
+>  void dpcd_set_source_specific_data(struct dc_link *link)
+>  {
+>         if (!link->dc->vendor_signature.is_valid) {
+> -               enum dc_status result_write_min_hblank =3D DC_NOT_SUPPORT=
+ED;
+> +               enum dc_status __maybe_unused result_write_min_hblank =3D=
+ DC_NOT_SUPPORTED;
+>                 struct dpcd_amd_signature amd_signature =3D {0};
+>                 struct dpcd_amd_device_id amd_device_id =3D {0};
 >
 > --
 > 2.40.0.rc1.284.g88254d51c5-goog
