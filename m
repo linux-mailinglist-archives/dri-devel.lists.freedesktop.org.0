@@ -1,67 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5A36BE6E7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 11:34:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFCE6BE800
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Mar 2023 12:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A59E10EEC8;
-	Fri, 17 Mar 2023 10:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9B6C10EEDA;
+	Fri, 17 Mar 2023 11:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E254110EEC8;
- Fri, 17 Mar 2023 10:34:20 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id bi9so5859527lfb.12;
- Fri, 17 Mar 2023 03:34:20 -0700 (PDT)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A1010E0F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 11:25:50 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ ip21-20020a05600ca69500b003ed56690948so2821409wmb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 04:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679049259;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=dKIcPjerwo9Qxhcf4rruTzBCBqvgWlgWq1SyhjCF46U=;
- b=VbvFgLA5ylxCZVO0FYIh6rQzx9zwNTVYuydIgL5Za4303a+iLVXbdC9Q8U/lRm1IiL
- RYBAs7RpkiWX+Uu4XXExHo4NC3qbsVtrafJvcEN1xYdN+CAh3XlYhK+cwaNvqtNjZiJd
- g45vbh1c1K9jeA6HztbxcibHKFLWzzNGzp+A3gGrV7eIswn78SKGMaXD82A6Y6ZmIBAD
- LcXHHxBbJ3qYpLsL69vZL/+iyOPCYlwXI4vuwrVjcA0YwiEsTxhIBZivcbxpaUNpGUZu
- m/nATpUu42/VH5blaHFD2TjglMTT581J5zUSUonWhu6pcFiYs80gGe4iOVQadb02O9qH
- 90OA==
+ d=gmail.com; s=20210112; t=1679052349;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hNO4YTYPu+vesxBB7tlPYGkKhGJaH/b9VuXd4UUCCuk=;
+ b=i9Wj5Wz2CcBxCaIXIP8h3Bj0dRq3ztoYJf2yINByDJ38A2uO4OqKGsTcbXGQKpKZIq
+ c4qDeBStYgUnByThXiiETA5g8D5tZpmTeFEWS9hxkkkpxN0mt9l8UYLBWabTR331kzCe
+ lFWjaAmeEkwSY+8F6L3LwP5vjZcA3i7icV2F7U/feh1Xv6TAjf/Kwt6SB5gd+ojaVWDD
+ EO+mKlFhyl5Op8DXtQS6/PqFrJBzrCBF1CM7mmv2YXDhI7SVoWzCYVsFA+Zs43BvFXrY
+ RIyjpCgEtOZa8zp1GO0hUMW9pBwpnwnT0fiRHOkQqQvlBYiY9AwCBtXx0BP0m98pjEQl
+ jUYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679049259;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20210112; t=1679052349;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dKIcPjerwo9Qxhcf4rruTzBCBqvgWlgWq1SyhjCF46U=;
- b=PAzlmC1g1OkTBRWqLMRVG6iwXXIXOhhaIzE1fH2QRN6zTb4BLAK8b06l3EQ9sob0i2
- SvY72Pf7JfekSDwizEA3q5DCRvEOY7fSmnc6kDR6AbdeS8YURy6n7x2KTZFp3+cwPGuo
- 3s4M0o0qngsGTj4SLSOtlQCWlPLeI8BRJskLquF27FUampuGmxgNc9X1Ns5QfrEPDSgB
- Mb5R/5Q+TTnXKdptTVdiYZKBRGjR0ApV8zdbGsK7LGKUQtJD0DZ0FqEUJjJiW46Y4UsO
- EwYw6+lv3lUKr+9vcPXRUZd4UqJrsXOCq/jcdT94WaNy7I+rVK6RuDBLtHalPlnzN/Ar
- Xa/w==
-X-Gm-Message-State: AO0yUKWdeXbXNTkh9XWNLeM0NxlmnNOEi8d51MnM/ZOGPij8ZgmdpJYC
- Z11+tOhFA9vVQPj7zV77TAg=
-X-Google-Smtp-Source: AK7set+s3bOyPdw6FeEEkGZztjF4eHnQIYMzlFq2JIy+eymHSZfHxt47k/QdPVYXpT9e2JZ6RbwTuA==
-X-Received: by 2002:a19:740f:0:b0:4e6:3e36:cb35 with SMTP id
- v15-20020a19740f000000b004e63e36cb35mr3706366lfe.41.1679049258893; 
- Fri, 17 Mar 2023 03:34:18 -0700 (PDT)
-Received: from gmail.com (host-95-193-64-255.mobileonline.telia.com.
- [95.193.64.255]) by smtp.gmail.com with ESMTPSA id
- d23-20020ac24c97000000b004d61af6771dsm325098lfl.41.2023.03.17.03.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Mar 2023 03:34:18 -0700 (PDT)
-Date: Fri, 17 Mar 2023 11:34:16 +0100
-From: Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@gmail.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v3 1/2] drm: Introduce plane SIZE_HINTS property
-Message-ID: <ZBRCKIl+jdkohbVB@gmail.com>
-References: <20230208211016.7034-1-ville.syrjala@linux.intel.com>
- <20230313163311.11379-1-ville.syrjala@linux.intel.com>
+ bh=hNO4YTYPu+vesxBB7tlPYGkKhGJaH/b9VuXd4UUCCuk=;
+ b=3vNDysk9Ds3gkVBbGttr5cONr6J/N263HAUjgLu3J4EL6SZy7J4oCvNAMaABjttoVY
+ l2RVPwRzHYAEK7P+Lj7YwVgQSegspBSVORm3spYS3YpGyiI+/Tm0m/p69OBose49I12I
+ 45rk+zoX5/Rx5yYkfhuQbVy+L9uINX69MSFFGUgakpAMwU3oanVo5mn7cMjT83pLfxbC
+ wxXI8R9gwsTNfCRpIfsqBE2nHGSkf37oJ0JPc5sJj/kIG4KS48V2ZDVMdCV1QKVpANQC
+ m03IJ/u/5x6Ig1QIyOoAEHIGBvKvMAmh9b0Eljf7IP0sCVGDCvlXtJao6Dc47Zgp30WN
+ 0eKg==
+X-Gm-Message-State: AO0yUKW2qwrIgVwE18xkDCAHL0hpVYTgaCLBSxVwwr8FEQWTwOn1OwRW
+ w2wIDoMIb2NQIkCqXbV0vFA=
+X-Google-Smtp-Source: AK7set9AZgBwQRetpG5pAKvdSStKHWZZDn5pX8FDFHrAZcHx7URK0Whqyt8RNBG4wx0hW18wu9zHkw==
+X-Received: by 2002:a05:600c:540a:b0:3ea:e582:48dd with SMTP id
+ he10-20020a05600c540a00b003eae58248ddmr24674303wmb.34.1679052348654; 
+ Fri, 17 Mar 2023 04:25:48 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ m25-20020a7bca59000000b003ed341d2d68sm1717773wml.16.2023.03.17.04.25.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Mar 2023 04:25:48 -0700 (PDT)
+Message-ID: <008996c3-074c-b443-73f2-c14f0fdf8e4e@gmail.com>
+Date: Fri, 17 Mar 2023 12:25:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230313163311.11379-1-ville.syrjala@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2] dt-bindings: display: mediatek: Fix the duplicated
+ fallback
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230306-ccorr-binding-fix-v2-0-4822939a837d@baylibre.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230306-ccorr-binding-fix-v2-0-4822939a837d@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,219 +83,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 13, 2023 at 06:33:11PM +0200, Ville Syrjala wrote:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+
+On 06/03/2023 17:15, Alexandre Mergnat wrote:
+> The item which have the mediatek,mt8192-disp-ccorr const compatible already
+> exist above. Remove duplicated fallback.
 > 
-> Add a new immutable plane property by which a plane can advertise
-> a handful of recommended plane sizes. This would be mostly exposed
-> by cursor planes as a slightly more capable replacement for
-> the DRM_CAP_CURSOR_WIDTH/HEIGHT caps, which can only declare
-> a one size fits all limit for the whole device.
-> 
-> Currently eg. amdgpu/i915/nouveau just advertize the max cursor
-> size via the cursor size caps. But always using the max sized
-> cursor can waste a surprising amount of power, so a better
-> stragey is desirable.
-> 
-> Most other drivers don't specify any cursor size at all, in
-> which case the ioctl code just claims that 64x64 is a great
-> choice. Whether that is actually true is debatable.
-> 
-> A poll of various compositor developers informs us that
-> blindly probing with setcursor/atomic ioctl to determine
-> suitable cursor sizes is not acceptable, thus the
-> introduction of the new property to supplant the cursor
-> size caps. The compositor will now be free to select a
-> more optimal cursor size from the short list of options.
-> 
-> Note that the reported sizes (either via the property or the
-> caps) make no claims about things such as plane scaling. So
-> these things should only really be consulted for simple
-> "cursor like" use cases.
-> 
-> v2: Try to add some docs
-> v3: Specify that value 0 is reserved for future use (basic idea from Jonas)
->     Drop the note about typical hardware (Pekka)
-> 
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: Jonas Ådahl <jadahl@redhat.com>
-> Cc: Daniel Stone <daniel@fooishbar.org>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Acked-by: Harry Wentland <harry.wentland@amd.com>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Fixes: 137272ef1b0f ("dt-bindings: display: mediatek: Fix the fallback for mediatek,mt8186-disp-ccorr")
+
+We can argue if dt-binding patches should have a fixes tag at all. Given the 
+fact that there are so many warnings still around, I don't see any value add to 
+backport these to stable kernel.
+
+That said, this is defenitely no fix, as it's only a code clean-up. No warning, 
+no bug, no functional error fixed here :)
+
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
->  drivers/gpu/drm/drm_mode_config.c |  7 ++++
->  drivers/gpu/drm/drm_plane.c       | 53 +++++++++++++++++++++++++++++++
->  include/drm/drm_mode_config.h     |  5 +++
->  include/drm/drm_plane.h           |  4 +++
->  include/uapi/drm/drm_mode.h       | 11 +++++++
->  5 files changed, 80 insertions(+)
+> Fix MTK color correction binding
 > 
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 87eb591fe9b5..21860f94a18c 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -374,6 +374,13 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
->  		return -ENOMEM;
->  	dev->mode_config.modifiers_property = prop;
->  
-> +	prop = drm_property_create(dev,
-> +				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-> +				   "SIZE_HINTS", 0);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +	dev->mode_config.size_hints_property = prop;
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 24e7998d1731..d2a6fdff1a57 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -140,6 +140,26 @@
->   *     DRM_FORMAT_MOD_LINEAR. Before linux kernel release v5.1 there have been
->   *     various bugs in this area with inconsistencies between the capability
->   *     flag and per-plane properties.
-> + *
-> + * SIZE_HINTS:
-> + *     Blob property which contains the set of recommended plane size
-> + *     which can used for simple "cursor like" use cases (eg. no scaling).
-> + *     Using these hints frees userspace from extensive probing of
-> + *     supported plane sizes through atomic/setcursor ioctls.
-> + *
-> + *     For optimal usage userspace should pick the smallest size
-> + *     that satisfies its own requirements.
-> + *
-> + *     The blob contains an array of struct drm_plane_size_hint.
-> + *
-> + *     Drivers should only attach this property to planes that
-> + *     support a very limited set of sizes.
-> + *
-> + *     Note that property value 0 (ie. no blob) is reserved for potential
-> + *     future use. Current userspace is expected to ignore the property
-> + *     if the value is 0, and fall back to some other means (eg.
-> + *     &DRM_CAP_CURSOR_WIDTH and &DRM_CAP_CURSOR_HEIGHT) to determine
-> + *     the appropriate plane size to use.
-
-Does this intend to mean userspace has the kernel's blessing on choosing
-an arbitrary size as long as it's smaller than &DRM_CAP_CURSOR_WIDTH x
-&DRM_CAP_CURSOR_HEIGHT?
-
-It's a bit to vague for me to make a confident interpretation whether I
-can, or whether I should pretend I didn't see SIZE_HINTS and apply the
-old logic, meaning only using the exact cap size.
-
-
-Jonas
-
->   */
->  
->  static unsigned int drm_num_planes(struct drm_device *dev)
-> @@ -1582,3 +1602,36 @@ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_plane_create_scaling_filter_property);
-> +
-> +/**
-> + * drm_plane_add_size_hint_property - create a size hint property
-> + *
-> + * @plane: drm plane
-> + * @hints: size hints
-> + * @num_hints: number of size hints
-> + *
-> + * Create a size hints property for the plane.
-> + *
-> + * RETURNS:
-> + * Zero for success or -errno
-> + */
-> +int drm_plane_add_size_hints_property(struct drm_plane *plane,
-> +				      const struct drm_plane_size_hint *hints,
-> +				      int num_hints)
-> +{
-> +	struct drm_device *dev = plane->dev;
-> +	struct drm_mode_config *config = &dev->mode_config;
-> +	struct drm_property_blob *blob;
-> +
-> +	blob = drm_property_create_blob(dev,
-> +					array_size(sizeof(hints[0]), num_hints),
-> +					hints);
-> +	if (IS_ERR(blob))
-> +		return PTR_ERR(blob);
-> +
-> +	drm_object_attach_property(&plane->base, config->size_hints_property,
-> +				   blob->base.id);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_add_size_hints_property);
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index e5b053001d22..5bc8aed9b445 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -949,6 +949,11 @@ struct drm_mode_config {
->  	 */
->  	struct drm_property *modifiers_property;
->  
-> +	/**
-> +	 * @size_hints_propertty: Plane SIZE_HINTS property.
-> +	 */
-> +	struct drm_property *size_hints_property;
-> +
->  	/* cursor size */
->  	uint32_t cursor_width, cursor_height;
->  
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 51291983ea44..1997d7d64b69 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -32,6 +32,7 @@
->  #include <drm/drm_util.h>
->  
->  struct drm_crtc;
-> +struct drm_plane_size_hint;
->  struct drm_printer;
->  struct drm_modeset_acquire_ctx;
->  
-> @@ -945,5 +946,8 @@ drm_plane_get_damage_clips(const struct drm_plane_state *state);
->  
->  int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
->  					     unsigned int supported_filters);
-> +int drm_plane_add_size_hints_property(struct drm_plane *plane,
-> +				      const struct drm_plane_size_hint *hints,
-> +				      int num_hints);
->  
->  #endif
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 46becedf5b2f..9d7c5967264f 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -849,6 +849,17 @@ struct drm_color_lut {
->  	__u16 reserved;
->  };
->  
-> +/**
-> + * struct drm_plane_size_hint - Plane size hints
-> + *
-> + * The plane SIZE_HINTS property blob contains an
-> + * array of struct drm_plane_size_hint.
-> + */
-> +struct drm_plane_size_hint {
-> +	__u16 width;
-> +	__u16 height;
-> +};
-> +
->  /**
->   * struct hdr_metadata_infoframe - HDR Metadata Infoframe Data.
->   *
-> -- 
-> 2.39.2
+> The fallback compatible has been duplicated in the 137272ef1b0f commit.
 > 
+> To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Rob Herring <robh+dt@kernel.org>
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: Matthias Brugger <matthias.bgg@gmail.com>
+> To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> To: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> Changes in v2:
+> - Fix commit title.
+> - Link to v1: https://lore.kernel.org/r/20230306-ccorr-binding-fix-v1-0-177d81d60c69@baylibre.com
+> ---
+>   Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml | 3 ---
+>   1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> index b04820c95b22..3aaf44719786 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.yaml
+> @@ -29,9 +29,6 @@ properties:
+>             - enum:
+>                 - mediatek,mt8188-disp-ccorr
+>                 - mediatek,mt8195-disp-ccorr
+> -          - const: mediatek,mt8192-disp-ccorr
+> -      - items:
+> -          - enum:
+>                 - mediatek,mt8186-disp-ccorr
+
+Please sort compatibles, that will allow for easier reading once we add more to 
+the file.
+
+Regards,
+Matthias
+
+>             - const: mediatek,mt8192-disp-ccorr
+>   
+> 
+> ---
+> base-commit: add072536971d7ce891fde3cdbf68c55e7cfa95a
+> change-id: 20230306-ccorr-binding-fix-718c6d725088
+> 
+> Best regards,
