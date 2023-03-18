@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652996BFDCE
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36BC6BFDCC
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6F910E4DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F57810E4DC;
 	Sat, 18 Mar 2023 23:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E613A10E4B5
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9495A10E4BD
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:58 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNw-0004Rb-F2; Sun, 19 Mar 2023 00:54:52 +0100
+ id 1pdgNw-0004Rf-Fr; Sun, 19 Mar 2023 00:54:52 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNu-0056d6-JK; Sun, 19 Mar 2023 00:54:50 +0100
+ id 1pdgNu-0056d7-JL; Sun, 19 Mar 2023 00:54:50 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNt-005zWh-MT; Sun, 19 Mar 2023 00:54:49 +0100
+ id 1pdgNt-005zWk-SU; Sun, 19 Mar 2023 00:54:49 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 48/51] video: fbdev: vt8500lcdfb: Convert to platform remove
+Subject: [PATCH 49/51] video: fbdev: wm8505fb: Convert to platform remove
  callback returning void
-Date: Sun, 19 Mar 2023 00:54:25 +0100
-Message-Id: <20230318235428.272091-49-u.kleine-koenig@pengutronix.de>
+Date: Sun, 19 Mar 2023 00:54:26 +0100
+Message-Id: <20230318235428.272091-50-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1848;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1734;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=2FdpVHFGu+rqUO3b3048pcZ9lVd42tPkiAFw8A7/TEY=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk8a6GzzepW0HGR7t+ZcYoIgmJFdz1TRptOmf
- +dUuutk0gKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZPGgAKCRCPgPtYfRL+
- TmYRCAC4/CTu/Eo/pubXMwIqK9nbi7HpjXF5gvvh8z+eXZyClvg1KV3Uodl+4KI/OxMfRq32jNx
- daz0+qo8QhcmhsnwKq4vrwhUq68aW+0YLVX2vfdx1Rj+UQ6xwXbpD96mu8LHmUpFbLK2gUKzN1g
- mURmXyWpxORkQnIhLPow4g70IhI02JknOEAU4/zCQObLof7mCx3EOPGd1cn7+Kvf8G2xhIuMzm/
- oEwnBXEPbnPppbi0JVEjyfMCFXRe1c2fnen6IVy+BxFYOxRWUSuR59jhKoDDtNUNzxL7Ixzh91p
- iJrxRavc6OvJwqz2uSD6+/tiD7u/++auyzXoINLyAWILzuJ8
+ bh=B7n0rWq6GxbW5rJ5Dqd2jXn+/vWBf6udLaZCZyY1GYc=;
+ b=owGbwMvMwMXY3/A7olbonx/jabUkhhQxf5nFX9Ve9Gy5Gz29V7Zb/sYW/8l5tzSnSk9eqhLb+
+ fJsx/1/nYzGLAyMXAyyYoos9o1rMq2q5CI71/67DDOIlQlkCgMXpwBM5FwW+/94NSXOl/GFXY3v
+ H3GVTBadJltutFL34ZZktXUNCorCh2pWqJ19emaWP2vsH7bZOtx//q3lvyY6qXbm15lq6Qzu2wz
+ L7t38zK/Xf3Zpb1mT9P0Ajq4P8g7Waw5fyXnXtmr13VoxhuwrEj6cLx/cMQvoFfAL9rrRKiJ8XZ
+ n/i9OZRwWLjiq0KH3227A1yrx85S+JVUG1D9wbtOt+shj7Pcn+xhp7MzHlza1vrO4z99rHFAvYn
+ zPRnde25Ne5Kr5dMxin7NQNW2fHWBfI5qr2/altYpeoPGMKp7K/+6yUQ7Z7iy8c8voc8Yw7ViFp
+ 4hGr41Znjkt4Zlu0z036xb/d20+I+fYqwaowrVnBMSsSAQ==
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -84,40 +84,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/vt8500lcdfb.c | 6 ++----
+ drivers/video/fbdev/wm8505fb.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/vt8500lcdfb.c b/drivers/video/fbdev/vt8500lcdfb.c
-index c61476247ba8..31d4e85b220c 100644
---- a/drivers/video/fbdev/vt8500lcdfb.c
-+++ b/drivers/video/fbdev/vt8500lcdfb.c
-@@ -439,7 +439,7 @@ static int vt8500lcd_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/video/fbdev/wm8505fb.c b/drivers/video/fbdev/wm8505fb.c
+index 8f4d674fa0d0..cf0ac6c2d4c7 100644
+--- a/drivers/video/fbdev/wm8505fb.c
++++ b/drivers/video/fbdev/wm8505fb.c
+@@ -374,7 +374,7 @@ static int wm8505fb_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int vt8500lcd_remove(struct platform_device *pdev)
-+static void vt8500lcd_remove(struct platform_device *pdev)
+-static int wm8505fb_remove(struct platform_device *pdev)
++static void wm8505fb_remove(struct platform_device *pdev)
  {
- 	struct vt8500lcd_info *fbi = platform_get_drvdata(pdev);
- 	struct resource *res;
-@@ -462,8 +462,6 @@ static int vt8500lcd_remove(struct platform_device *pdev)
+ 	struct wm8505fb_info *fbi = platform_get_drvdata(pdev);
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	release_mem_region(res->start, resource_size(res));
+@@ -384,8 +384,6 @@ static int wm8505fb_remove(struct platform_device *pdev)
+ 
+ 	if (fbi->fb.cmap.len)
+ 		fb_dealloc_cmap(&fbi->fb.cmap);
 -
 -	return 0;
  }
  
- static const struct of_device_id via_dt_ids[] = {
-@@ -473,7 +471,7 @@ static const struct of_device_id via_dt_ids[] = {
+ static const struct of_device_id wmt_dt_ids[] = {
+@@ -395,7 +393,7 @@ static const struct of_device_id wmt_dt_ids[] = {
  
- static struct platform_driver vt8500lcd_driver = {
- 	.probe		= vt8500lcd_probe,
--	.remove		= vt8500lcd_remove,
-+	.remove_new	= vt8500lcd_remove,
+ static struct platform_driver wm8505fb_driver = {
+ 	.probe		= wm8505fb_probe,
+-	.remove		= wm8505fb_remove,
++	.remove_new	= wm8505fb_remove,
  	.driver		= {
- 		.name	= "vt8500-lcd",
- 		.of_match_table = of_match_ptr(via_dt_ids),
+ 		.name	= DRIVER_NAME,
+ 		.of_match_table = wmt_dt_ids,
 -- 
 2.39.2
 
