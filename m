@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379276BFDC9
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8656BFDE1
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:57:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3FD10E4D2;
-	Sat, 18 Mar 2023 23:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE0B10E4F7;
+	Sat, 18 Mar 2023 23:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C4BB10E4A7
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C4C10E4F2
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:56:58 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNp-00049c-Dv; Sun, 19 Mar 2023 00:54:45 +0100
+ id 1pdgNq-00049d-6A; Sun, 19 Mar 2023 00:54:46 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNo-0056au-OF; Sun, 19 Mar 2023 00:54:44 +0100
+ id 1pdgNo-0056ax-QG; Sun, 19 Mar 2023 00:54:44 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNn-005zUs-S2; Sun, 19 Mar 2023 00:54:43 +0100
+ id 1pdgNo-005zUv-2i; Sun, 19 Mar 2023 00:54:44 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 20/51] video: fbdev: hecubafb: Convert to platform remove
+To: Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
+	Helge Deller <deller@gmx.de>
+Subject: [PATCH 21/51] video: fbdev: hgafb: Convert to platform remove
  callback returning void
-Date: Sun, 19 Mar 2023 00:53:57 +0100
-Message-Id: <20230318235428.272091-21-u.kleine-koenig@pengutronix.de>
+Date: Sun, 19 Mar 2023 00:53:58 +0100
+Message-Id: <20230318235428.272091-22-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1576;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1524;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=OdZ3pDt714v4VNRS/xI1QELFOYfM+/Dof2avBOgjwV8=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk69nbV7M8ogkAdJIngzLl676pYAjS2URcoUp
- HIJJymlrJOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOvQAKCRCPgPtYfRL+
- TozOB/wPKBTawbIdjVWGDowkVm/ZgPvHiXMncEBYqkYK0TwXWyX+5Yatu42zRua+kk1ppSSTtsm
- 280vii7/ejCTQ3uUOyYP9UuQut8Hp2DxfMEdIYqjIDSBiMPZLDbbh6ZwPJNh+3/xfi/jwvh/L2I
- BRaWnm/BU6l2u1/aUHHmjuvEkL2HXw7+4m0LfO4tK/VnCEG3kqmMCLw9Y/1dSolqA+nP/xmbN1/
- jY+TD6iDpuESNHEmr0/2YR32Pt++0Z55AZAdRXkRVma9Sj7/BqXZAY7KvLy72M30W5rqikwQ1CC
- QqFmrH5WoQPVi8XpMnJntkXPzA8PGSXp0ggSKtOoCm7rtvHC
+ bh=eZDLRnCYCHs1tJmhSerH6czPGGhxyCBJVPFxfmdREKI=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk6+Sn8GIhneX9f4FUvTnzrvH6+k+jeAbM5l5
+ cRU+3VEcSaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOvgAKCRCPgPtYfRL+
+ TqAxB/4uqBAqyawo+IG//gd0+thIZaI9iAjCHiaQxqom+G+7FhMVFGrpxoHPe/F0W8v0adXyUzA
+ qWdO1fhdk5wtwTf9G/UJmM9s+D3xuduv1fZJdslgcf3fyigZ6HMXc2eyqhcInj5E4+zkyCnhgp+
+ +7WtItI3Mo/4fMxEwOxGaKjdWeEF1wQhqpPXwWd2/nCMCcCU4DuC8WsquqBvJeQLB0+ojElrvrD
+ /b2yxtVkch+cIAugPF1IfdWXJqAt2G0dFqJf7erdkC3PUjphhnzRvs58oLTwHb0dioHBLsUlRgh
+ 6uftCA5Zn01NRizIbyhin1Zauls+UFQzxZqox2hznOhp9fAz
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -68,8 +67,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
+Cc: linux-nvidia@lists.surfsouth.com, linux-fbdev@vger.kernel.org,
+ kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -86,35 +85,36 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/hecubafb.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/hgafb.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/hecubafb.c b/drivers/video/fbdev/hecubafb.c
-index eb1eaadc1bbb..5a149458d3b4 100644
---- a/drivers/video/fbdev/hecubafb.c
-+++ b/drivers/video/fbdev/hecubafb.c
-@@ -279,7 +279,7 @@ static int hecubafb_probe(struct platform_device *dev)
- 	return retval;
+diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
+index bd3d07aa4f0e..20bdab738ab7 100644
+--- a/drivers/video/fbdev/hgafb.c
++++ b/drivers/video/fbdev/hgafb.c
+@@ -595,7 +595,7 @@ static int hgafb_probe(struct platform_device *pdev)
+ 	return 0;
  }
  
--static int hecubafb_remove(struct platform_device *dev)
-+static void hecubafb_remove(struct platform_device *dev)
+-static int hgafb_remove(struct platform_device *pdev)
++static void hgafb_remove(struct platform_device *pdev)
  {
- 	struct fb_info *info = platform_get_drvdata(dev);
+ 	struct fb_info *info = platform_get_drvdata(pdev);
  
-@@ -293,12 +293,11 @@ static int hecubafb_remove(struct platform_device *dev)
- 		module_put(par->board->owner);
- 		framebuffer_release(info);
- 	}
+@@ -614,13 +614,11 @@ static int hgafb_remove(struct platform_device *pdev)
+ 
+ 	if (release_io_port)
+ 		release_region(0x3bf, 1);
+-
 -	return 0;
  }
  
- static struct platform_driver hecubafb_driver = {
- 	.probe	= hecubafb_probe,
--	.remove = hecubafb_remove,
-+	.remove_new = hecubafb_remove,
- 	.driver	= {
- 		.name	= "hecubafb",
+ static struct platform_driver hgafb_driver = {
+ 	.probe = hgafb_probe,
+-	.remove = hgafb_remove,
++	.remove_new = hgafb_remove,
+ 	.driver = {
+ 		.name = "hgafb",
  	},
 -- 
 2.39.2
