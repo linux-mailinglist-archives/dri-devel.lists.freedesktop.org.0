@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C836BFDA1
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:55:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D92A6BFDD3
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2A610E4B2;
-	Sat, 18 Mar 2023 23:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E253910E4E9;
+	Sat, 18 Mar 2023 23:56:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E4D10E4AC
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 215DA10E044
  for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:47 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNp-00048b-65; Sun, 19 Mar 2023 00:54:45 +0100
+ id 1pdgNp-00048o-5q; Sun, 19 Mar 2023 00:54:45 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNo-0056ak-Bp; Sun, 19 Mar 2023 00:54:44 +0100
+ id 1pdgNo-0056al-CU; Sun, 19 Mar 2023 00:54:44 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNn-005zUk-Fr; Sun, 19 Mar 2023 00:54:43 +0100
+ id 1pdgNn-005zUo-M4; Sun, 19 Mar 2023 00:54:43 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 18/51] video: fbdev: goldfishfb: Convert to platform remove
+Subject: [PATCH 19/51] video: fbdev: grvga: Convert to platform remove
  callback returning void
-Date: Sun, 19 Mar 2023 00:53:55 +0100
-Message-Id: <20230318235428.272091-19-u.kleine-koenig@pengutronix.de>
+Date: Sun, 19 Mar 2023 00:53:56 +0100
+Message-Id: <20230318235428.272091-20-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1811;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1667;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=BZfRo6P2tNpdJJjv/k2HgcI7tTfe5xHKoawNKRXAvyI=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk66CqV9RO0I8fiyDNkz/tyQXHaS9BgZr3DrM
- RiDHb9vMJmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOugAKCRCPgPtYfRL+
- TuYlB/9KO6pTVSrAHgWgjkmqCxA8fvShvQlohbUJfQXgj7iWhLvZa3JYw7xZUy99OPMqtflXdIm
- yoYHqMiMWRLYBAfkIipbZE4pdeERV+w8f4m8ZlQQq3ZCspdZAlWyQdIUYNg3lJFRCsh00W5oixs
- Kmql0JiQ9DWzBTOrIr5TMHTH3V9EEFdqzM9Zh719ETs3a/rEsG3oOUAkGbft1e9Cde3o91XYQLi
- PXsABfi6VFSxMCF2FQ6fbRvSodf6K+k8zqbCUZ/quT+11jS4REaT3NCr/ICXGZV+lMNBNa2lN36
- kQEWkudbpMe25PKs/EYn66U+IWeo1TEeqLBMnmfjiH7Hl1lo
+ bh=w3PbzBb6n2nqBuV8qZCtoHtBJv59krNA/XZ/KJwDO5o=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk68IZzDWqm6ttd7b9/mkNOCsDB+EdeM2L5v5
+ MKeZTADV12JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOvAAKCRCPgPtYfRL+
+ TmGtB/0VA/sthxPkFudCxTwFIwGFs6hZ7ntBJzqtUyhX7UoYNQsX9+pJelo10q1gneCkD9IRP0G
+ nRD8FhduwIi2qi+GhojDJA2TophuuKYDYWcPVzaqrdfBQeibNyT5ipM1xGA8DZyAJEUnMCRBu2e
+ svj3Jqgd4diQWg/VNx7pATkiQ9gibi+6TrGRDiymjJv12Frok9kRbPSC4CgR18/0HuGUAj3QPWu
+ q9Ed06xLJtnEnaBtP+QQcbclO+g+toGkFnO7pMT39AZhdQ3R8vnPkoazAtITRmu/MqnbNA4HN1e
+ pfukF3gHEepnFtqYkCI/kpwBWXx5SMeCg1NijYroKmOAOoC3
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -84,39 +84,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/goldfishfb.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/grvga.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/goldfishfb.c b/drivers/video/fbdev/goldfishfb.c
-index 2b885cd046fe..6fa2108fd912 100644
---- a/drivers/video/fbdev/goldfishfb.c
-+++ b/drivers/video/fbdev/goldfishfb.c
-@@ -283,7 +283,7 @@ static int goldfish_fb_probe(struct platform_device *pdev)
- 	return ret;
+diff --git a/drivers/video/fbdev/grvga.c b/drivers/video/fbdev/grvga.c
+index 24818b276241..9aa15be29ea9 100644
+--- a/drivers/video/fbdev/grvga.c
++++ b/drivers/video/fbdev/grvga.c
+@@ -504,7 +504,7 @@ static int grvga_probe(struct platform_device *dev)
+ 	return retval;
  }
  
--static int goldfish_fb_remove(struct platform_device *pdev)
-+static void goldfish_fb_remove(struct platform_device *pdev)
+-static int grvga_remove(struct platform_device *device)
++static void grvga_remove(struct platform_device *device)
  {
- 	size_t framesize;
- 	struct goldfish_fb *fb = platform_get_drvdata(pdev);
-@@ -296,7 +296,6 @@ static int goldfish_fb_remove(struct platform_device *pdev)
- 						fb->fb.fix.smem_start);
- 	iounmap(fb->reg_base);
- 	kfree(fb);
+ 	struct fb_info *info = dev_get_drvdata(&device->dev);
+ 	struct grvga_par *par;
+@@ -524,8 +524,6 @@ static int grvga_remove(struct platform_device *device)
+ 
+ 		framebuffer_release(info);
+ 	}
+-
 -	return 0;
  }
  
- static const struct of_device_id goldfish_fb_of_match[] = {
-@@ -315,7 +314,7 @@ MODULE_DEVICE_TABLE(acpi, goldfish_fb_acpi_match);
+ static struct of_device_id svgactrl_of_match[] = {
+@@ -545,7 +543,7 @@ static struct platform_driver grvga_driver = {
+ 		.of_match_table = svgactrl_of_match,
+ 	},
+ 	.probe		= grvga_probe,
+-	.remove		= grvga_remove,
++	.remove_new	= grvga_remove,
+ };
  
- static struct platform_driver goldfish_fb_driver = {
- 	.probe		= goldfish_fb_probe,
--	.remove		= goldfish_fb_remove,
-+	.remove_new	= goldfish_fb_remove,
- 	.driver = {
- 		.name = "goldfish_fb",
- 		.of_match_table = goldfish_fb_of_match,
+ module_platform_driver(grvga_driver);
 -- 
 2.39.2
 
