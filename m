@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1976BFDD7
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1486BFDC4
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAE410E4E7;
-	Sat, 18 Mar 2023 23:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA9D88867;
+	Sat, 18 Mar 2023 23:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A476710E4BD
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:55:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614B210E4A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:54 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNw-0004ID-Cz; Sun, 19 Mar 2023 00:54:52 +0100
+ id 1pdgNt-0004I0-D9; Sun, 19 Mar 2023 00:54:49 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNs-0056cV-Vp; Sun, 19 Mar 2023 00:54:48 +0100
+ id 1pdgNs-0056cQ-PI; Sun, 19 Mar 2023 00:54:48 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNr-005zW6-Pl; Sun, 19 Mar 2023 00:54:47 +0100
+ id 1pdgNs-005zWB-0D; Sun, 19 Mar 2023 00:54:48 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- ye xingchen <ye.xingchen@zte.com.cn>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 39/51] video: fbdev: sh_mobile_lcdcfb: Convert to platform
- remove callback returning void
-Date: Sun, 19 Mar 2023 00:54:16 +0100
-Message-Id: <20230318235428.272091-40-u.kleine-koenig@pengutronix.de>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Helge Deller <deller@gmx.de>
+Subject: [PATCH 40/51] video: fbdev: simplefb: Convert to platform remove
+ callback returning void
+Date: Sun, 19 Mar 2023 00:54:17 +0100
+Message-Id: <20230318235428.272091-41-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1877;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1650;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=Uk8zrXZDmXbzyStZ+kshHTWd8FUKrWiM95JoTdmi+3w=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk7wBBp/HH8fg17lt1aisI/hsfE5tcfPKhfc4
- T3o+1XlrRuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZO8AAKCRCPgPtYfRL+
- TpdVB/95m2SaljzaQ78AbBFywolqhGgc3kJolLHJRtqdzcIAZQIzFoKxddpWb2ZxUrodDTm9jwv
- SKfFtQtQDttaGJAkq1OyRdbjAvbyzZcqOxM1SglGE2rt9tXt9jN0JslGj+EEdKzq5L/0Ot0vIPF
- 511xBTFfoyhXvluU9G1Ypid999/jQknMiiObBNGJkL4j4EPWAXu3KpWUuXXOHNZieXYdNUj704f
- y4QwAj+dPKFDVcnf2pjLEJ3eRKDI/OmIrM3tkmux6fAykLIHqbDt7QZ0u+hRTXusDcdab1hbqOi
- LDrKNkHoOBb1Y0via0CpZRjN0lG9KdQRGoPqil7vAlhzmL8f
+ bh=b4b607FxowyUjUELxWtsjxaitDLIUEa06hb9gkP9mSc=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk73LG2ivyBvUeI2TvBAPWqclWkuHiP0FKaha
+ +PCXHaV0mOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZO9wAKCRCPgPtYfRL+
+ Tr4RB/4kuWaOWK8zWzpwc1wWDQyXDpl5AXJv4IVIPon5Cx/RIfusbmTZNsEe9l6H6+sH0zMcvjl
+ 73SoDz42U7bEwhJk1A2EGlYzXbbUpViaEZeXJMmB1+3MyZv6Jn8wcOmgtBh7KIX1l2tTjE0vnX3
+ B38YGR37Q0E0Noe5Hp5EdYh2GI+p3in8R1OnItxsT769rhCZqL07fDH/kT6o3SAG4j9m238jddq
+ 6Ew3lwjr7jyo9CBuGKvhN8WcjYf2GmavccPTih7sRPvaXzGDFe21xo8CsobuqAFuZiXPKpAIGNP
+ he9t/CEadssTabS21ncaw4Q/6mca5HlhOuhkeCuEyYEKaFhY
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -87,39 +85,38 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/simplefb.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index ad9323ed8e2e..093f035d1246 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -2249,7 +2249,7 @@ static const struct fb_videomode default_720p = {
- 	.sync = FB_SYNC_VERT_HIGH_ACT | FB_SYNC_HOR_HIGH_ACT,
- };
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index 10d71879d340..e4a13871bca6 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -538,14 +538,12 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	return ret;
+ }
  
--static int sh_mobile_lcdc_remove(struct platform_device *pdev)
-+static void sh_mobile_lcdc_remove(struct platform_device *pdev)
+-static int simplefb_remove(struct platform_device *pdev)
++static void simplefb_remove(struct platform_device *pdev)
  {
- 	struct sh_mobile_lcdc_priv *priv = platform_get_drvdata(pdev);
- 	unsigned int i;
-@@ -2305,7 +2305,6 @@ static int sh_mobile_lcdc_remove(struct platform_device *pdev)
- 	if (priv->irq)
- 		free_irq(priv->irq, priv);
- 	kfree(priv);
+ 	struct fb_info *info = platform_get_drvdata(pdev);
+ 
+ 	/* simplefb_destroy takes care of info cleanup */
+ 	unregister_framebuffer(info);
+-
 -	return 0;
  }
  
- static int sh_mobile_lcdc_check_interface(struct sh_mobile_lcdc_chan *ch)
-@@ -2656,7 +2655,7 @@ static struct platform_driver sh_mobile_lcdc_driver = {
- 		.pm		= &sh_mobile_lcdc_dev_pm_ops,
+ static const struct of_device_id simplefb_of_match[] = {
+@@ -560,7 +558,7 @@ static struct platform_driver simplefb_driver = {
+ 		.of_match_table = simplefb_of_match,
  	},
- 	.probe		= sh_mobile_lcdc_probe,
--	.remove		= sh_mobile_lcdc_remove,
-+	.remove_new	= sh_mobile_lcdc_remove,
+ 	.probe = simplefb_probe,
+-	.remove = simplefb_remove,
++	.remove_new = simplefb_remove,
  };
  
- module_platform_driver(sh_mobile_lcdc_driver);
+ module_platform_driver(simplefb_driver);
 -- 
 2.39.2
 
