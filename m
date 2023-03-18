@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC7C6BFDCD
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D236BFDDA
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590F210E4D6;
-	Sat, 18 Mar 2023 23:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF6710E4EB;
+	Sat, 18 Mar 2023 23:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36BC10E4CB
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7102510E4B1
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:55 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNv-0004Nz-Ku; Sun, 19 Mar 2023 00:54:51 +0100
+ id 1pdgNv-0004Os-Rl; Sun, 19 Mar 2023 00:54:51 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNu-0056cs-21; Sun, 19 Mar 2023 00:54:50 +0100
+ id 1pdgNu-0056cx-68; Sun, 19 Mar 2023 00:54:50 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNt-005zWY-AG; Sun, 19 Mar 2023 00:54:49 +0100
+ id 1pdgNt-005zWc-GQ; Sun, 19 Mar 2023 00:54:49 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zeng Heng <zengheng4@huawei.com>
-Subject: [PATCH 46/51] video: fbdev: vga16fb: Convert to platform remove
- callback returning void
-Date: Sun, 19 Mar 2023 00:54:23 +0100
-Message-Id: <20230318235428.272091-47-u.kleine-koenig@pengutronix.de>
+To: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Helge Deller <deller@gmx.de>
+Subject: [PATCH 47/51] video: fbdev: via: Convert to platform remove callback
+ returning void
+Date: Sun, 19 Mar 2023 00:54:24 +0100
+Message-Id: <20230318235428.272091-48-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1618;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2742;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=NDWxNtLKMb/W8u1lA3dwx7HDkHYJMkkrIqsYtk5LsZY=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk8TwTYWAQDSge5HLioHHeUgw5G+y5GXn9L5p
- NCKuV4jHaGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZPEwAKCRCPgPtYfRL+
- TnUtB/9X/QYz3TTEv633i5lVt7G56CXma7eu1gRY/irjZk5VAoOdmynjbP5bsxzJFOKAqaPjmAZ
- /a2V2Y9ra5Qc9b6AA2gjAbQuxLtrrV21BcFlO4SuXAKtAS6nTsvYVdKEu6yW2POIt26ROOiuYKz
- IzCYRtvc+t9wtqMsTy2RLlJuuC+JWCJZ5h3D/mUZFNre0qW0On6IhvU6TRfjZ6ax0tJzKPgKjIM
- Okgch3eGoTcbBYbpgnbKRK9Iv8hG9vdY+bsqJ9fBxXxHpWul4Wgd99ql/gk0luli2X71M8hUSe5
- WjjY7MGJxfMwiwHGlERNNsjvg/IxpcGzvuIbOLOHPlVpcOk3
+ bh=nRUKepkuc8birmSosnSrBVBu9UYDmgMqTl2f4T6Kqnc=;
+ b=owEBbAGT/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk8W+mD/goTxhMKQhsX6uNUduvd/DJ8rGfj93
+ aowx3o5vJ2JATIEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZPFgAKCRCPgPtYfRL+
+ Tt+HB/jMmttqsZvPBjzv/AIh/Zila4Q6jU2ev/DakReXx8OsuM7SDnlNjMWA280x+sJvDPgzy7X
+ Lvy8+1FTMBt6KWIBBLC7fb7mUZp+dt6IFY0bxIoaHKvBc1xbfM/JpAIEi50iIEPbD7e1x7omlgp
+ 0+LOkqsIBstyL+h+7rnuSpYUgoqEMstmDsbbyUyhpAUv3AsPWnFrbbtWVpaBwn0vwVPNeWyugYo
+ 9bJYodWUg9944GzT0ch8cETXIZNQ9rd+bGpVyQVl/SEoXDjZUGgPLYHYcPjEsXmh6KQ+BofuDEa
+ aVmkjYjfK/p5sf0C9GjzIcD6/1l2KU9OUCgC9brdfSioj7w=
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -86,38 +85,70 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/vga16fb.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/via/via-gpio.c | 5 ++---
+ drivers/video/fbdev/via/via_i2c.c  | 5 ++---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-index 1a8ffdb2be26..34d00347ad58 100644
---- a/drivers/video/fbdev/vga16fb.c
-+++ b/drivers/video/fbdev/vga16fb.c
-@@ -1401,14 +1401,12 @@ static int vga16fb_probe(struct platform_device *dev)
- 	return ret;
+diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
+index febb2aadd822..f1b670397c02 100644
+--- a/drivers/video/fbdev/via/via-gpio.c
++++ b/drivers/video/fbdev/via/via-gpio.c
+@@ -262,7 +262,7 @@ static int viafb_gpio_probe(struct platform_device *platdev)
  }
  
--static int vga16fb_remove(struct platform_device *dev)
-+static void vga16fb_remove(struct platform_device *dev)
- {
- 	struct fb_info *info = platform_get_drvdata(dev);
  
- 	if (info)
- 		unregister_framebuffer(info);
--
+-static int viafb_gpio_remove(struct platform_device *platdev)
++static void viafb_gpio_remove(struct platform_device *platdev)
+ {
+ 	unsigned long flags;
+ 	int i;
+@@ -285,7 +285,6 @@ static int viafb_gpio_remove(struct platform_device *platdev)
+ 		viafb_gpio_disable(viafb_gpio_config.active_gpios[i]);
+ 	viafb_gpio_config.gpio_chip.ngpio = 0;
+ 	spin_unlock_irqrestore(&viafb_gpio_config.vdev->reg_lock, flags);
 -	return 0;
  }
  
- static const struct platform_device_id vga16fb_driver_id_table[] = {
-@@ -1420,7 +1418,7 @@ MODULE_DEVICE_TABLE(platform, vga16fb_driver_id_table);
- 
- static struct platform_driver vga16fb_driver = {
- 	.probe = vga16fb_probe,
--	.remove = vga16fb_remove,
-+	.remove_new = vga16fb_remove,
- 	.driver = {
- 		.name = "vga16fb",
+ static struct platform_driver via_gpio_driver = {
+@@ -293,7 +292,7 @@ static struct platform_driver via_gpio_driver = {
+ 		.name = "viafb-gpio",
  	},
+ 	.probe = viafb_gpio_probe,
+-	.remove = viafb_gpio_remove,
++	.remove_new = viafb_gpio_remove,
+ };
+ 
+ int viafb_gpio_init(void)
+diff --git a/drivers/video/fbdev/via/via_i2c.c b/drivers/video/fbdev/via/via_i2c.c
+index c7e63ab47c39..c35e530e0ec9 100644
+--- a/drivers/video/fbdev/via/via_i2c.c
++++ b/drivers/video/fbdev/via/via_i2c.c
+@@ -246,7 +246,7 @@ static int viafb_i2c_probe(struct platform_device *platdev)
+ 	return 0;
+ }
+ 
+-static int viafb_i2c_remove(struct platform_device *platdev)
++static void viafb_i2c_remove(struct platform_device *platdev)
+ {
+ 	int i;
+ 
+@@ -259,7 +259,6 @@ static int viafb_i2c_remove(struct platform_device *platdev)
+ 		if (i2c_stuff->is_active)
+ 			i2c_del_adapter(&i2c_stuff->adapter);
+ 	}
+-	return 0;
+ }
+ 
+ static struct platform_driver via_i2c_driver = {
+@@ -267,7 +266,7 @@ static struct platform_driver via_i2c_driver = {
+ 		.name = "viafb-i2c",
+ 	},
+ 	.probe = viafb_i2c_probe,
+-	.remove = viafb_i2c_remove,
++	.remove_new = viafb_i2c_remove,
+ };
+ 
+ int viafb_i2c_init(void)
 -- 
 2.39.2
 
