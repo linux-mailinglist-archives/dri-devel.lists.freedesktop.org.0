@@ -2,77 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54736BF6DF
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 01:23:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 489EB6BF78B
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 04:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E8710E071;
-	Sat, 18 Mar 2023 00:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4969D10E041;
+	Sat, 18 Mar 2023 03:29:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA6C10E071
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 00:23:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679099016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ro4nhrJ5Zq0SySOEipia8lU7rnzpGPE36NY88ytAvP4=;
- b=avrixyhNmlEQI3EYMYpH4VGlqEjo2d8jfn2bZpK+Lza/DaFWhTYCePrVHYCvR4zd/+GTkx
- VvoeqLxT/LKB8Nh8EGYk+7LQ5pOPa6rBUTFS0vPHOEdovtURHckpqU4E1No4oqbCDL1QSy
- +Jmnd334RHH1Nfje4DukeADEDev/lx8=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-631-bl9gn6ckPyaFeQE2mEQ7YQ-1; Fri, 17 Mar 2023 20:23:33 -0400
-X-MC-Unique: bl9gn6ckPyaFeQE2mEQ7YQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- o10-20020a05622a138a00b003bfdabf3b89so3361806qtk.13
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Mar 2023 17:23:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679099012;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Ro4nhrJ5Zq0SySOEipia8lU7rnzpGPE36NY88ytAvP4=;
- b=NPWnA2D7xWpk0uSMIJ0+XOsfGe0tablbbzMNBOISaeWklGS379zJSg4UWcIqtIw4/Z
- aoupKE7V0Q0bUV9dBW0/Jk27UWXq9sc1IPiu09WHz0inMKdJ+gG50UegKvuibnY9gxTA
- p50FIGCO2YZlI0UtOTeM0GHtNHxEaiGm3IuYBd4Ac29EYjrn6x1xHhb2FndbO9cdiJWn
- p1gAfsQLJ/dF7aUknGMD8goVXMFbsA65iWY0sOgiNtKxfesO6dFnvQL52dPtQsrX/HWn
- ZvJwwqhJK9teoMd6aprcbJsypwerqsD7usmnvS/PQOYjP7rgrNscWMp9i8c/FprMKCyi
- mNoQ==
-X-Gm-Message-State: AO0yUKUPp3HSfasxwyK1RlN1Us+P1+KtO93ifqZDbQ6OZC5sOIwaYiVU
- iBCjDI0h7H8hDJkoHu4KHhaHcUBA3UD5+XX1Q286GWeee9xwLs33MHDwrVBPaPHDeY+Z2eyfOpx
- 7bTABvK95JtCedQG2oc70Z/LZwlqo
-X-Received: by 2002:a05:6214:e62:b0:56e:9da4:831c with SMTP id
- jz2-20020a0562140e6200b0056e9da4831cmr39485353qvb.46.1679099012685; 
- Fri, 17 Mar 2023 17:23:32 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/fL421Kfl3tq1uEh7Q2OUg4WIgPPxO43SFyqSNmCb+PH/F1uG0zi5qpejfWxe5clSOu4VLzA==
-X-Received: by 2002:a05:6214:e62:b0:56e:9da4:831c with SMTP id
- jz2-20020a0562140e6200b0056e9da4831cmr39485337qvb.46.1679099012479; 
- Fri, 17 Mar 2023 17:23:32 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- a72-20020ae9e84b000000b00745a3b63569sm2623217qkg.107.2023.03.17.17.23.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Mar 2023 17:23:32 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- nathan@kernel.org, ndesaulniers@google.com
-Subject: [PATCH] gpu: drm: bridge: sii9234: remove unused bridge_to_sii9234
- function
-Date: Fri, 17 Mar 2023 20:23:21 -0400
-Message-Id: <20230318002321.1675181-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1DA10E036;
+ Sat, 18 Mar 2023 03:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679110139; x=1710646139;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=Qw1LvfpDIMFUMaH7KSVVjc6qxL9hUIx0rZh4CknESg0=;
+ b=LPRX2NwCSnFvULca8pcNerxU67sNKpeUTbmLRyJ1vSh3rqdYosoo43XA
+ FJKj2TzlZ7uZe5FsYo1jAMp/w2gBRdwtCQvsdofhB+E2gMmeDtTDt8gMI
+ OlDs7Yj6g8k+EC1QTBGJyjAcBm38sGfhXwGi0GSDdKlTXgzSdrLOMvgjs
+ 4ixSrPdYY6xxc4yN9CuYsA7nHvmV5Amt5Wr9RcBU3y81zYuY7R6Ofav6c
+ HDOXLI+UbIcxUNTWbmvJ9aZ3gk42oIMNT3mSrRVBFgOdI96FT/uUxeW9p
+ zG6vYFdvo9Lqqczluuw0muTbY1my+W9QXPDNc+Xgm+6ljYEZxh9SPb0lI g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="318803789"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; d="scan'208";a="318803789"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2023 20:28:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10652"; a="1009886108"
+X-IronPort-AV: E=Sophos;i="5.98,270,1673942400"; d="scan'208";a="1009886108"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.197.230])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Mar 2023 20:28:58 -0700
+Date: Fri, 17 Mar 2023 20:28:58 -0700
+Message-ID: <87a60awxdx.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Reverted patch reappears!
+In-Reply-To: <Y+0UC5H5BSbMWFNa@intel.com>
+References: <20230208190312.1611335-1-ashutosh.dixit@intel.com>	<Y+QBJLXJ7uTo3p7l@intel.com>	<877cwjq6rp.fsf@intel.com>	<875yc2oq0c.wl-ashutosh.dixit@intel.com>	<Y+0UC5H5BSbMWFNa@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,39 +61,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, John Harrison <john.c.harrison@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang with W=1 reports
-drivers/gpu/drm/bridge/sii9234.c:870:31: error:
-  unused function 'bridge_to_sii9234' [-Werror,-Wunused-function]
-static inline struct sii9234 *bridge_to_sii9234(struct drm_bridge *bridge)
-                              ^
-This static function is not used, so remove it.
+Jani/Rodrigo,
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/bridge/sii9234.c | 5 -----
- 1 file changed, 5 deletions(-)
+Original Subject: Re: [Intel-gfx] [PATCH] Revert "drm/i915/hwmon: Enable PL1 power limit"
 
-diff --git a/drivers/gpu/drm/bridge/sii9234.c b/drivers/gpu/drm/bridge/sii9234.c
-index 099b510ff285..2d17f227867b 100644
---- a/drivers/gpu/drm/bridge/sii9234.c
-+++ b/drivers/gpu/drm/bridge/sii9234.c
-@@ -867,11 +867,6 @@ static int sii9234_init_resources(struct sii9234 *ctx,
- 	return 0;
- }
- 
--static inline struct sii9234 *bridge_to_sii9234(struct drm_bridge *bridge)
--{
--	return container_of(bridge, struct sii9234, bridge);
--}
--
- static enum drm_mode_status sii9234_mode_valid(struct drm_bridge *bridge,
- 					 const struct drm_display_info *info,
- 					 const struct drm_display_mode *mode)
--- 
-2.27.0
+On Wed, 15 Feb 2023 09:19:07 -0800, Rodrigo Vivi wrote:
+>
+> On Wed, Feb 15, 2023 at 08:24:51AM -0800, Dixit, Ashutosh wrote:
+> > On Wed, 15 Feb 2023 07:37:30 -0800, Jani Nikula wrote:
+> > >
+> > > On Wed, 08 Feb 2023, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> > > > On Wed, Feb 08, 2023 at 11:03:12AM -0800, Ashutosh Dixit wrote:
+> > > >> This reverts commit 0349c41b05968befaffa5fbb7e73d0ee6004f610.
+> > > >>
+> > > >> 0349c41b0596 ("drm/i915/hwmon: Enable PL1 power limit") is incorrect and
+> > > >> caused a major regression on ATSM. The change enabled the PL1 power limit
+> > > >> but FW sets the default value of the PL1 limit to 0 which implies HW now
+> > > >> works at minimum power and therefore the lowest effective frequency. This
+> > > >> means all workloads now run slower resulting in even GuC FW load operations
+> > > >> timing out, rendering ATSM unusable.
+> > > >>
+> > > >> A different solution to the original issue of the PL1 limit being disabled
+> > > >> on ATSM is needed but till that is developed, revert 0349c41b0596.
+> > > >>
+> > > >> Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+> > > >
+> > > > pushed to drm-intel-next and removed from drm-intel-fixes.
+> > > >
+> > > > Thanks for the quick reaction.
+> > >
+> > > Please always add Fixes: tags also to reverts.
+> > >
+> > > I suppose we should fix dim to also detect reverts, but I ended up
+> > > cherry-picking and pushing the original commit out to
+> > > drm-intel-next-fixes before realizing it's been reverted.
+> >
+> > Oops, sorry!
+>
+> That's my mistake. I should had thought about this when pushing
+> and removing from the fixes. I just realized yet, when this patch
+> showed up in my -fixes cherry-pick again, but without the revert.
+>
+> I'm sorry.
 
+Not sure if it's related to this, but the reverted patch below has
+reappeared on drm-tip. Newest on top:
+
+ee892ea83d996 drm/i915/hwmon: Enable PL1 power limit
+05d5562e401eb Revert "drm/i915/hwmon: Enable PL1 power limit"
+0349c41b05968 drm/i915/hwmon: Enable PL1 power limit
+
+The new patch is:
+
+commit ee892ea83d99610fa33bea612de058e0955eec3a
+Author:     Ashutosh Dixit <ashutosh.dixit@intel.com>
+AuthorDate: Fri Feb 3 07:53:09 2023 -0800
+Commit:     Jani Nikula <jani.nikula@intel.com>
+CommitDate: Mon Mar 13 11:38:05 2023 +0200
+
+    drm/i915/hwmon: Enable PL1 power limit
+
+Sorry I couldn't track which branch did this new patch come from (looks
+like drm-tip itself?).
+
+This is breaking ATSM again:
+
+https://intel-gfx-ci.01.org/tree/drm-tip/bat-atsm-1.html
+
+so needs to be reverted again and stay reverted. I could send a revert or
+any of you can also do it.
+
+Thanks.
+--
+Ashutosh
