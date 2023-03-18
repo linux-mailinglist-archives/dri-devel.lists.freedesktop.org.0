@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9746BFDB7
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC7C6BFDCD
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD8110E4BF;
-	Sat, 18 Mar 2023 23:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 590F210E4D6;
+	Sat, 18 Mar 2023 23:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79A9B10E4B3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B36BC10E4CB
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:59 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNv-0004Oi-QK; Sun, 19 Mar 2023 00:54:51 +0100
+ id 1pdgNv-0004Nz-Ku; Sun, 19 Mar 2023 00:54:51 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNu-0056cw-4o; Sun, 19 Mar 2023 00:54:50 +0100
+ id 1pdgNu-0056cs-21; Sun, 19 Mar 2023 00:54:50 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNt-005zWU-4L; Sun, 19 Mar 2023 00:54:49 +0100
+ id 1pdgNt-005zWY-AG; Sun, 19 Mar 2023 00:54:49 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 45/51] video: fbdev: vfb: Convert to platform remove callback
- returning void
-Date: Sun, 19 Mar 2023 00:54:22 +0100
-Message-Id: <20230318235428.272091-46-u.kleine-koenig@pengutronix.de>
+To: Helge Deller <deller@gmx.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Zeng Heng <zengheng4@huawei.com>
+Subject: [PATCH 46/51] video: fbdev: vga16fb: Convert to platform remove
+ callback returning void
+Date: Sun, 19 Mar 2023 00:54:23 +0100
+Message-Id: <20230318235428.272091-47-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1505;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1618;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=J3g2K4GMb81lpfP0l/rZbwcFlTXYkFbJI8iSz7+fgko=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk8QQQyh90Gn9MCfsNvSK2H/urQWL0MtmPpl9
- Qu3fEKUsIuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZPEAAKCRCPgPtYfRL+
- TpbZB/4hMYWp7j35SdnRXPioguUdSxW7csS8ccr2l/XryI5c9EQldOebbYsWJkt7hTLIegnBdcN
- yCw+8axg3P8FhztvGuaZJKvHr9D4tEu86qSEqAwxoTWmnhTlFMencFte3EVl01m4TgoypckM48S
- 0GehJHcSiXrZKCp7ixP4ckk7ltRKz7rP6TdV54QmwZOcXH4nVTVD4cJwKVpnXzDRHzmJ443yp1p
- OO7nWXd92pobHR18aPZvTTcLHjeynI9e0ri1KKVEbwhlv0OaVXGyC67NL0Mq6f7cdGjwLFCFaHm
- Z4dXMf2Oji3UJxgm9HFWiP5TEtjJ8x3wM+lg6zFnQrEQCpRV
+ bh=NDWxNtLKMb/W8u1lA3dwx7HDkHYJMkkrIqsYtk5LsZY=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk8TwTYWAQDSge5HLioHHeUgw5G+y5GXn9L5p
+ NCKuV4jHaGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZPEwAKCRCPgPtYfRL+
+ TnUtB/9X/QYz3TTEv633i5lVt7G56CXma7eu1gRY/irjZk5VAoOdmynjbP5bsxzJFOKAqaPjmAZ
+ /a2V2Y9ra5Qc9b6AA2gjAbQuxLtrrV21BcFlO4SuXAKtAS6nTsvYVdKEu6yW2POIt26ROOiuYKz
+ IzCYRtvc+t9wtqMsTy2RLlJuuC+JWCJZ5h3D/mUZFNre0qW0On6IhvU6TRfjZ6ax0tJzKPgKjIM
+ Okgch3eGoTcbBYbpgnbKRK9Iv8hG9vdY+bsqJ9fBxXxHpWul4Wgd99ql/gk0luli2X71M8hUSe5
+ WjjY7MGJxfMwiwHGlERNNsjvg/IxpcGzvuIbOLOHPlVpcOk3
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -84,35 +86,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/vfb.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/video/fbdev/vga16fb.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
-index 95d3c59867d0..1a2514d564fc 100644
---- a/drivers/video/fbdev/vfb.c
-+++ b/drivers/video/fbdev/vfb.c
-@@ -479,7 +479,7 @@ static int vfb_probe(struct platform_device *dev)
- 	return retval;
+diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
+index 1a8ffdb2be26..34d00347ad58 100644
+--- a/drivers/video/fbdev/vga16fb.c
++++ b/drivers/video/fbdev/vga16fb.c
+@@ -1401,14 +1401,12 @@ static int vga16fb_probe(struct platform_device *dev)
+ 	return ret;
  }
  
--static int vfb_remove(struct platform_device *dev)
-+static void vfb_remove(struct platform_device *dev)
+-static int vga16fb_remove(struct platform_device *dev)
++static void vga16fb_remove(struct platform_device *dev)
  {
  	struct fb_info *info = platform_get_drvdata(dev);
  
-@@ -489,12 +489,11 @@ static int vfb_remove(struct platform_device *dev)
- 		fb_dealloc_cmap(&info->cmap);
- 		framebuffer_release(info);
- 	}
+ 	if (info)
+ 		unregister_framebuffer(info);
+-
 -	return 0;
  }
  
- static struct platform_driver vfb_driver = {
- 	.probe	= vfb_probe,
--	.remove = vfb_remove,
-+	.remove_new = vfb_remove,
+ static const struct platform_device_id vga16fb_driver_id_table[] = {
+@@ -1420,7 +1418,7 @@ MODULE_DEVICE_TABLE(platform, vga16fb_driver_id_table);
+ 
+ static struct platform_driver vga16fb_driver = {
+ 	.probe = vga16fb_probe,
+-	.remove = vga16fb_remove,
++	.remove_new = vga16fb_remove,
  	.driver = {
- 		.name	= "vfb",
+ 		.name = "vga16fb",
  	},
 -- 
 2.39.2
