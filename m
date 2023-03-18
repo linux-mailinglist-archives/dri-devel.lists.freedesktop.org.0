@@ -1,61 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6AE6BFC48
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 20:09:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB726BFCC2
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 21:37:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26D3810E47C;
-	Sat, 18 Mar 2023 19:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E1F910E0BC;
+	Sat, 18 Mar 2023 20:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA86310E058
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 19:08:31 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pdbuh-0001uM-Jc; Sat, 18 Mar 2023 20:08:23 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pdbug-0054Ez-LQ; Sat, 18 Mar 2023 20:08:22 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pdbuf-005wZu-Ip; Sat, 18 Mar 2023 20:08:21 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 19/19] drm/bridge: ti-tfp410: Convert to platform remove
- callback returning void
-Date: Sat, 18 Mar 2023 20:08:04 +0100
-Message-Id: <20230318190804.234610-20-u.kleine-koenig@pengutronix.de>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65AE210E0BC;
+ Sat, 18 Mar 2023 20:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679171815; x=1710707815;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=QjoI3ShW+fVfq96GG5Yi1kPvdiimEhuuKXft6j9+wsg=;
+ b=br3ATa5sD3QhedE8GnJoZGA2gLZ9zM7PByz4V7Xw8/7Wpeqr4wNKzXOB
+ Ni8VojRKtGSSc8fcYAv50joz3vYz/7l3fr0EtiSzsTow6IcNgtGxFnXX2
+ jjv3cJfhbMPE1MZxeH+h+CPfBeInnDL0BMpU2MNanlAuOCBx1D1LS9jyI
+ EsLQI7MupdTo9MONOwgxgcGg3/J4RTIVLGx2s96wOeVg+dryuBMERj1Lh
+ 6eE0Ww1OaJgmzXvXBHv3D6IzFMxv1xsnd9C8e6W7ccWq3jwvhHzG/kmZe
+ FL2dBEqIdfBV0uIo8THu3t3SKenNUhfQgRSQ7i+Z7BgBJTNU9sRLBKlAd Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="403332519"
+X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="403332519"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2023 13:36:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="683027216"
+X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="683027216"
+Received: from rmanole-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.34.109])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2023 13:36:51 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/2] Some debugfs refactoring and improvements
+Date: Sat, 18 Mar 2023 21:36:13 +0100
+Message-Id: <20230318203616.183765-1-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230318190804.234610-1-u.kleine-koenig@pengutronix.de>
-References: <20230318190804.234610-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1598;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=Kb/3WrDogc45V9gw8JVjdCX72OlQk/IE4c2ji/cx3cM=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFgwP1uGbUwOK/jVuc4L4F9HI2SRuxOkIH3T6i
- +Jj9eTjmoqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBYMDwAKCRCPgPtYfRL+
- Tid9B/9N3WcGlq/m8n2Lr5QaQdZ6yt02659zpJrCA36DJu+kzoCOmif+bZZKm6+Zp5JbH1T36CR
- VZEKLNW6fsH0SXud7S7IhHHI5OesHyw3QMa4ArBchXjC695o5f0ROE6kemhb1tctJHKZelnc+Wl
- OugYOEX/OzjBNpqXrOJI3fet+93dzaDZS2c+P0/Tt+m5Lf24PLVBNJLhjKUIAJm7BTQxr0YS2Zk
- K96PCeJA421kXmQ6HImtHyvZMvmmcNIUqp5YWSidRlAZNeLtDa9h+fZXJIPWPiBWIB3Uwx9V2fv
- UwJG0JhKZ7pUChvDGsiSSb+deI+ddyjL/A2O9SyxRPex9pcp
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,54 +58,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
+ Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hi,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+These two patches aim to enhance the multi-GT capabilities of the
+debugfs.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/bridge/ti-tfp410.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+The first patch reorganizes the file structure, while the second
+patch extends the functionality of the original files in the
+upper directories to operate on all tiles with a single write,
+providing an or'ed value among them in the read case.
 
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index 6db69df0e18b..ab63225cd635 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -355,11 +355,9 @@ static int tfp410_probe(struct platform_device *pdev)
- 	return tfp410_init(&pdev->dev, false);
- }
- 
--static int tfp410_remove(struct platform_device *pdev)
-+static void tfp410_remove(struct platform_device *pdev)
- {
- 	tfp410_fini(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct of_device_id tfp410_match[] = {
-@@ -370,7 +368,7 @@ MODULE_DEVICE_TABLE(of, tfp410_match);
- 
- static struct platform_driver tfp410_platform_driver = {
- 	.probe	= tfp410_probe,
--	.remove	= tfp410_remove,
-+	.remove_new = tfp410_remove,
- 	.driver	= {
- 		.name		= "tfp410-bridge",
- 		.of_match_table	= tfp410_match,
+Thanks Radhakrishna and Nirmoy for your reviews.
+
+Andi
+
+Changelog
+=========
+v2 -> v3
+ - Some code improvement suggested by Nirmoy in patch 2.
+ - To avoid confusion GT's have been called tiles.
+
+v1 -> v2
+ - Add patch 2 for multiplexing.
+ - Improve commit log in patch 1.
+
+Andi Shyti (2):
+  drm/i915/gt: Create per-gt debugfs files
+  drm/i915/debugfs: Enable upper layer interfaces to act on all gt's
+
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |  4 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c    |  5 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c |  2 ++
+ drivers/gpu/drm/i915/i915_debugfs.c           | 36 ++++++++++++++++---
+ 5 files changed, 43 insertions(+), 6 deletions(-)
+
 -- 
 2.39.2
 
