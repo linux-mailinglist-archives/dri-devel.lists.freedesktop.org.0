@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91346BFBA7
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 17:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EAD36BFC51
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 20:09:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE5810E0CA;
-	Sat, 18 Mar 2023 16:49:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF3310E48E;
+	Sat, 18 Mar 2023 19:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD4910E0CA
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 16:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679158172;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iYLPi961rrhMuWDEVxQoLmOJ4qh13a023msrkQ97CyQ=;
- b=eMq2JpTnP9BEa8eX0oAJgwhCKi9Zo2zpg6fVCsyc6F3K+xbe7ChDhKf8Fv9H/Rg5ycgpfs
- XmcQCkncyCIfvK4VpDUeIN6m3+z399dDCs7vBlh1pf66wA2R19HePKBrpi7sKX1KfffFhF
- WdbJPZkZzJGjv3Hjee4kPC1+StFy9O4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-27-xEDOymdoPbG8uXcYwWHZ9A-1; Sat, 18 Mar 2023 12:49:30 -0400
-X-MC-Unique: xEDOymdoPbG8uXcYwWHZ9A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- i42-20020a0564020f2a00b004fd23c238beso11817123eda.0
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 09:49:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679158169;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iYLPi961rrhMuWDEVxQoLmOJ4qh13a023msrkQ97CyQ=;
- b=gH1guBNdS7nhH66Q5BEgOcGhRZyhbn12y3iFJJN6K4AQPvFm8YZSFDYbuJaLnVwQQO
- WEUgibWNEkidfuij4PmlveMO7nAtDKIGiG4L39ol75/jSqmTQBT72N31zM29gYllnFmG
- wuIE5A+kYj1w5h8QWEdjOnGSLqU3gANvX4/UgqVzgEk1yh9diWPt2LGqVTvZYi9rULR6
- dkUOZqDm/szWkqKzm0MqIaqR25AgY7aP6cG3LsjdTUvDWe29Nvo4DnnZHhTVaUAzh8fo
- cGohZ88aJ5D++osTCdk3EOdJJFpNaYasfVYHg11b1EfUlpcFYi2JsIdUxnUfnL9vV5yw
- KqXQ==
-X-Gm-Message-State: AO0yUKXMdZeZ3g1G8hcc6DzOKMeuua+j2XJWfnLKQfJUeVBp9KFboXwU
- b7b+vu2ZVnxWSkGUgSKzce8SN28zg8UjGyHmzlxSUTgBCaPHaJFoAnZGb3HwX4sP8o6yxTOv39l
- 7B5zuVkoaWyTIb4XeF8cP55Uto45h
-X-Received: by 2002:aa7:c90f:0:b0:4fc:687a:c29d with SMTP id
- b15-20020aa7c90f000000b004fc687ac29dmr6847322edt.1.1679158169289; 
- Sat, 18 Mar 2023 09:49:29 -0700 (PDT)
-X-Google-Smtp-Source: AK7set82X+r0HM83cSH5tYRr+jo2nTQ//vjM+T3XwYju9aqTznKPN6KcewIP3GtDMriqb/zd1kr+Kg==
-X-Received: by 2002:aa7:c90f:0:b0:4fc:687a:c29d with SMTP id
- b15-20020aa7c90f000000b004fc687ac29dmr6847313edt.1.1679158169062; 
- Sat, 18 Mar 2023 09:49:29 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- v6-20020a50d086000000b004fb00831851sm2537072edd.66.2023.03.18.09.49.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Mar 2023 09:49:28 -0700 (PDT)
-Message-ID: <09d1ba06-a034-165d-2f7d-fba7d379e026@redhat.com>
-Date: Sat, 18 Mar 2023 17:49:28 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F7D10E496
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 19:08:50 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pdbui-0001np-IO; Sat, 18 Mar 2023 20:08:24 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pdbub-0054DX-Ne; Sat, 18 Mar 2023 20:08:17 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pdbub-005wYj-21; Sat, 18 Mar 2023 20:08:17 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jani Nikula <jani.nikula@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ =?utf-8?b?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Rahul T R <r-ravikumar@ti.com>, Jayshri Pawar <jpawar@cadence.com>,
+ Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Minghao Chi <chi.minghao@zte.com.cn>, Sandor Yu <Sandor.yu@nxp.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, kernel test robot <lkp@intel.com>,
+ Mark Brown <broonie@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 00/19] drm/bridge: Convert to platform remove callback
+ returning void
+Date: Sat, 18 Mar 2023 20:07:45 +0100
+Message-Id: <20230318190804.234610-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [REGRESSION] Missing nouveau backlight control on 6.2.x kernel
-To: Takashi Iwai <tiwai@suse.de>
-References: <87wn3f8zj7.wl-tiwai@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <87wn3f8zj7.wl-tiwai@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3785;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=DqYUAVAFaVaiAzmRdffw6BcfwnTjT5FLY5f/XPwegGI=;
+ b=owGbwMvMwMXY3/A7olbonx/jabUkhhQx7q8LdK5fE7SPfMf29LOVvpJon/5Sjyl/1dhuNlTcf
+ OqZmLuzk9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJyLziYNiQclhySgpLwxdu
+ fx3p4zUOAXEFh/8bHedwnFA+VaidP2/B5Jtqak+r06QWK6y86sVSMmHWwRy1D58uXd/2KnaVOtf
+ UsLAqmcNc5UH/nM2eaQmq754v7BvsFMHedMRJ6GwR7zSWwDlvHNUM5eoMlgkavolyMN03a7NtRs
+ ZBuU0PdaRiu425b/3g5Jc1y1eQm5J9bebL7CLRuOcWvL99rt5V+GMX8cY/rnx6NSvD4hTF4mqGg
+ 7G7ZC6vu/t9Z2PeLIu8ZOUtJ9niH4bN4nObYvlk9zrpxctZ5Rrs1Z9lP5GSdG+eyBOevcmO/21A
+ gO8q3va7W1L3bpjnpLyq4Fz7v29KajarX50wOvS1XVsTAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +80,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- regressions@lists.linux.dev
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Takashi,
+Hello,
 
-On 3/17/23 11:04, Takashi Iwai wrote:
-> Hi,
-> 
-> we've received a regression report on openSUSE Bugzilla about the
-> missing backlight control of nouveau device:
->   https://bugzilla.opensuse.org/show_bug.cgi?id=1209296
-> 
-> On 6.1, with acpi_video=native option, the system provided
-> /sys/class/backlight/nv_backlight entry.
-> 
-> On 6.2, with acpi_video=native option, there is no entry in
-> /sys/class/backlight.  And without acpi_video option, it falls back to
-> /sys/class/backlight/acpi_video0, which doesn't work as expected.
-> 
-> Hans, could you check whether the recent change in video_detect.c (or
-> anything else) may influence on this?  My gut feeling is that the
-> culprit could be rather some change in nouveau (so dri-devel is
-> Cc'ed), but I'm not entirely sure...
+this series adapts the platform drivers below drivers/gpu/drm/bridge to use the
+.remove_new() callback. Compared to the traditional .remove() callback
+.remove_new() returns no value. This is a good thing because the driver core
+doesn't (and cannot) cope for errors during remove. The only effect of a
+non-zero return value in .remove() is that the driver core emits a warning. The
+device is removed anyhow and an early return from .remove() usually yields a
+resource leak.
 
-As I already told the reporter, who first contacted me by private email about this, all the drivers/acpi/video_detect.c changes which may influence this are also present in 6.1.y (IIRC >= 6.1.5) . So since this is being reported as only happening with 6.2.y I don't think the recent backlight detect rework is involved.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-And even if the recent backlight detect rework were involved, specifying acpi_backlight=native on the kernel commandline (as the reporter was doing before) should still work since it overrides all other backlight detection.
+The first patch simplifies the cdns-mhdp8546 driver to return zero in its
+remove callback unconditionally and thenn all drivers are trivially converted
+using coccinelle.
 
-So yes this seems to be a nouveau bug and should probably be reported following the instructions from: https://nouveau.freedesktop.org/Bugs.html  (which I havealso told the reporter already).
+Only patch #3 depends on patch #1, the other are pairwise independant and can
+be applied individually.
 
-Regards,
+Best regards
+Uwe
 
-Hans
+Uwe Kleine-König (19):
+  drm/bridge: cdns-mhdp8546: Improve error reporting in remove callback
+  drm/bridge: cdns-dsi: Convert to platform remove callback returning
+    void
+  drm/bridge: cdns-mhdp8546: Convert to platform remove callback
+    returning void
+  drm/bridge: display-connector: Convert to platform remove callback
+    returning void
+  drm/bridge: fsl-ldb: Convert to platform remove callback returning
+    void
+  drm/bridge: imx8qm-ldb: Convert to platform remove callback returning
+    void
+  drm/bridge: imx8qxp-ldb: Convert to platform remove callback returning
+    void
+  drm/bridge: imx8qxp-pixel-combiner: Convert to platform remove
+    callback returning void
+  drm/bridge: imx8qxp-pixel-link: Convert to platform remove callback
+    returning void
+  drm/bridge: imx8qxp-pxl2dpi: Convert to platform remove callback
+    returning void
+  drm/bridge: lvds-codec: Convert to platform remove callback returning
+    void
+  drm/bridge: nwl-dsi: Convert to platform remove callback returning
+    void
+  drm/bridge: simple-bridg: Convert to platform remove callback
+    returning void
+  drm/bridge: dw-hdmi-ahb-audio: Convert to platform remove callback
+    returning void
+  drm/bridge: dw-hdmi-cec: Convert to platform remove callback returning
+    void
+  drm/bridge: dw-hdmi-gp-audio: Convert to platform remove callback
+    returning void
+  drm/bridge: dw-hdmi-i2s-audio: Convert to platform remove callback
+    returning void
+  drm/bridge: thc63lvd1024: Convert to platform remove callback
+    returning void
+  drm/bridge: ti-tfp410: Convert to platform remove callback returning
+    void
+
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    |  6 ++---
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 22 +++++++++----------
+ drivers/gpu/drm/bridge/display-connector.c    |  6 ++---
+ drivers/gpu/drm/bridge/fsl-ldb.c              |  6 ++---
+ drivers/gpu/drm/bridge/imx/imx8qm-ldb-drv.c   |  6 ++---
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb-drv.c  |  6 ++---
+ .../drm/bridge/imx/imx8qxp-pixel-combiner.c   |  6 ++---
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   |  6 ++---
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c  |  6 ++---
+ drivers/gpu/drm/bridge/lvds-codec.c           |  6 ++---
+ drivers/gpu/drm/bridge/nwl-dsi.c              |  5 ++---
+ drivers/gpu/drm/bridge/simple-bridge.c        |  6 ++---
+ .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   |  6 ++---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c |  6 ++---
+ .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |  6 ++---
+ .../drm/bridge/synopsys/dw-hdmi-i2s-audio.c   |  6 ++---
+ drivers/gpu/drm/bridge/thc63lvd1024.c         |  6 ++---
+ drivers/gpu/drm/bridge/ti-tfp410.c            |  6 ++---
+ 18 files changed, 44 insertions(+), 79 deletions(-)
 
 
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
 
