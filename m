@@ -1,53 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B486BFDCF
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 630486BFDCB
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE5A10E4DA;
-	Sat, 18 Mar 2023 23:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F5810E4D7;
+	Sat, 18 Mar 2023 23:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68BD910E4A7
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A49FB10E4A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:53 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNt-0004Ie-SC; Sun, 19 Mar 2023 00:54:49 +0100
+ id 1pdgNu-0004KH-FZ; Sun, 19 Mar 2023 00:54:50 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNt-0056ca-75; Sun, 19 Mar 2023 00:54:49 +0100
+ id 1pdgNt-0056cj-Hf; Sun, 19 Mar 2023 00:54:49 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNs-005zWF-8K; Sun, 19 Mar 2023 00:54:48 +0100
+ id 1pdgNs-005zWI-EN; Sun, 19 Mar 2023 00:54:48 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Helge Deller <deller@gmx.de>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Xuezhi Zhang <zhangxuezhi1@coolpad.com>
-Subject: [PATCH 41/51] video: fbdev: sm501fb: Convert to platform remove
- callback returning void
-Date: Sun, 19 Mar 2023 00:54:18 +0100
-Message-Id: <20230318235428.272091-42-u.kleine-koenig@pengutronix.de>
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH 42/51] video: fbdev: tcx: Convert to platform remove callback
+ returning void
+Date: Sun, 19 Mar 2023 00:54:19 +0100
+Message-Id: <20230318235428.272091-43-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1763;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1644;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=pDC/vxi7M1WVeJfw3LTq5g2jhyRxYY/G5blZT2oqmX8=;
- b=owGbwMvMwMXY3/A7olbonx/jabUkhhQxv79y5syMy5wkpDy5/SbLRulwpW04NWeTzc6/hv4u9
- 5aYFzh3MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCRXTrs/0ynBstZPLH4bRkx
- ydC6JytxMidPpaNY24rs/MSpX+ds1kndN/eL8nNuW9FJ6g2WySqpv9t+2S2Jdlz2POPpj2uMLE7
- pjVEbzj4rPb1tqcoluV2xy1gfa21TWnb/mUT74oxt/1xaEyU5O6r1HNmXJMcn7jxQe7BoQcbXN7
- HWcz48mRF4hX9vYyFXyufAh4vPn7V7Jplm9T4kkaHVdNd5u4gs39AfP83ObuOZXSEXNP1YstZ/T
- QffJ+5XzI7cOVnL12B3tDL91RFhX/OruxLCxP/f22osxqToqVJ1YHbWIn3uydtO2ydvzLe+fqRP
- 43z+Io+gNPczFrH7N7OafdaX/r2pc6Vn/DNxRsmrer1TAA==
+ bh=5xWiQY/5bER2ZivM6AFLT96N4ugAZFFWdMFQKD74Y+A=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk8DernaueoXw+RlfEYV8ABQTWbofG44K/Qwt
+ BuE2CUawjqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZPAwAKCRCPgPtYfRL+
+ TqkmB/9y+S/tGTseOiuL7qnohW3hsm2KXw4nu/0t57OK6r/bhdqQAyadXqjsujYgyUfQHkcsVGn
+ OI5OGRrYRZnwSaT4pKBjMSPdsny+z+JsXWSVZbnLHAsIhp/GutpRPEfUWoBZqoJM32ntzjv8ssn
+ cjInotIFnVrjl75h2LeLexqY7+M7CZ9+etb6Zzns6F2VGyCGMPqT3AR26C0Wv31BKmqHUS5M6Xb
+ jHjrMsosBPRuR7AsL2mj6QHLxgw4Zn/lMU3Oc52+KKJYW/vl78KusG2gDg7i0NLUSTcAyJpJMib
+ awjAw9BV/3fBgZVh8Z62Gjeco79D8+5x8lHL2IPOWjqW8r2k
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -86,40 +85,40 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/sm501fb.c | 6 ++----
+ drivers/video/fbdev/tcx.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/sm501fb.c b/drivers/video/fbdev/sm501fb.c
-index f743bfbde2a6..9a95c21203ce 100644
---- a/drivers/video/fbdev/sm501fb.c
-+++ b/drivers/video/fbdev/sm501fb.c
-@@ -2045,7 +2045,7 @@ static int sm501fb_probe(struct platform_device *pdev)
- /*
-  *  Cleanup
-  */
--static int sm501fb_remove(struct platform_device *pdev)
-+static void sm501fb_remove(struct platform_device *pdev)
- {
- 	struct sm501fb_info *info = platform_get_drvdata(pdev);
- 	struct fb_info	   *fbinfo_crt = info->fb[0];
-@@ -2064,8 +2064,6 @@ static int sm501fb_remove(struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/tcx.c b/drivers/video/fbdev/tcx.c
+index 01d87f53324d..30a460b6f204 100644
+--- a/drivers/video/fbdev/tcx.c
++++ b/drivers/video/fbdev/tcx.c
+@@ -487,7 +487,7 @@ static int tcx_probe(struct platform_device *op)
+ 	return err;
+ }
  
- 	framebuffer_release(fbinfo_pnl);
- 	framebuffer_release(fbinfo_crt);
+-static int tcx_remove(struct platform_device *op)
++static void tcx_remove(struct platform_device *op)
+ {
+ 	struct fb_info *info = dev_get_drvdata(&op->dev);
+ 	struct tcx_par *par = info->par;
+@@ -498,8 +498,6 @@ static int tcx_remove(struct platform_device *op)
+ 	tcx_unmap_regs(op, info, par);
+ 
+ 	framebuffer_release(info);
 -
 -	return 0;
  }
  
- #ifdef CONFIG_PM
-@@ -2209,7 +2207,7 @@ static int sm501fb_resume(struct platform_device *pdev)
+ static const struct of_device_id tcx_match[] = {
+@@ -516,7 +514,7 @@ static struct platform_driver tcx_driver = {
+ 		.of_match_table = tcx_match,
+ 	},
+ 	.probe		= tcx_probe,
+-	.remove		= tcx_remove,
++	.remove_new	= tcx_remove,
+ };
  
- static struct platform_driver sm501fb_driver = {
- 	.probe		= sm501fb_probe,
--	.remove		= sm501fb_remove,
-+	.remove_new	= sm501fb_remove,
- 	.suspend	= sm501fb_suspend,
- 	.resume		= sm501fb_resume,
- 	.driver		= {
+ static int __init tcx_init(void)
 -- 
 2.39.2
 
