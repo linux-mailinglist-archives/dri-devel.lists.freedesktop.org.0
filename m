@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DA36BFCC8
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 21:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE5F6BFCCE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 21:47:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59CEC10E498;
-	Sat, 18 Mar 2023 20:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33FB610E146;
+	Sat, 18 Mar 2023 20:47:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A400910E155;
- Sat, 18 Mar 2023 20:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679171829; x=1710707829;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=QFW7NvHsex5CUEwIUQdst0wKn6UH1KJMTYxvrBhZKzo=;
- b=QvLj+TibZcdLbu66nxI9Wxq/PUFhswlHpVXcxlm7sj4qYHWlivZ0tjT0
- 8kBuPiHqlSviGyPNdPQURSTBpdqpZGsfPCG9ev+V0rqjASqBRjw1GqW8b
- 9bRmThKO2uDHAPMTuNB8h52eoB27cD8Ob08S0Idv3fLowfm5Eo0QfKuUW
- CT34ZjKhMPoSNX6LTmBDDbaltgfn7fYCuv5srUnfXD+xoLR45O3flZQVM
- OlKnL4Qa54T32xQbgfM9F3/Ym8Sb1+Rk7YA4EHoV/nU2TcLkIWTTml6l8
- uOSKoPWHB0IazZNkRx4aNNSH8hb0pcTnQpnXjOfS0UOEFy8AhsJ75aBiy g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="424738784"
-X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="424738784"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2023 13:37:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="744905084"
-X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="744905084"
-Received: from rmanole-mobl1.ger.corp.intel.com (HELO intel.com)
- ([10.252.34.109])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2023 13:37:06 -0700
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 2/2] drm/i915/debugfs: Enable upper layer interfaces to act
- on all gt's
-Date: Sat, 18 Mar 2023 21:36:16 +0100
-Message-Id: <20230318203616.183765-4-andi.shyti@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230318203616.183765-1-andi.shyti@linux.intel.com>
-References: <20230318203616.183765-1-andi.shyti@linux.intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB36410E146
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 20:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1679172428; i=deller@gmx.de;
+ bh=1HjTuRzgTKsrnPjhjt8XeV4HoazsL1+nGL/2BdFTIiI=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=qpnANUjcMG4IgqtLuIZoi7vvsF6a379OnN3Ntx2X+AKhSYCGOsrJBSOsxvtmHlNYl
+ Z71RFOajcPNNYfhEy69heUQ2BAIfHlhU7hGdaGnW9jYFFkbzgOuWM3Xkz5lOLDNuAJ
+ ixqmqQ6CBMe+zUeq9PNUpCAJTBOO+4dEAzRV9y+nonHEeGr+DR5LLtfVw9oLV9s36e
+ lnxKWuonTHpgwOMleG+3tyKKn8XxWrX8CXEjRjeJ580ooo6QaEWZCwgN7BBbmrzOLw
+ yv6GeAo0CnufkSlkEZrAo173G/M1AwMffkxfcmqzYvfDb1bX4i1Uy7uYBDK+5CC6fx
+ SsMA8BtrkS9Sg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([94.134.158.13]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9Wuk-1pY9oO1KeS-005VZt; Sat, 18
+ Mar 2023 21:47:08 +0100
+Date: Sat, 18 Mar 2023 21:47:06 +0100
+From: Helge Deller <deller@gmx.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes for v6.3-rc3
+Message-ID: <ZBYjSkFz/FEobQmk@ls3530>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:q2HkSi1s9T/tlurqxCWfKZ6lutmsY9NP7W8sUGrLYFF3WFOWwCz
+ +3QFXNnjKyukEb47ovofqeCZ3xaCETmAYKvTiMahaY2FkUPvNvy3u+7qLyxET4v4ivi5Rje
+ mgGf1MF/NkePAazmBsZAyzkBoiBanDGUJYP4Eh2tgfo2loXH0R7k+WNhcyM6HRDvjAGocRH
+ ba5f9DFbZrytiwVFwuEXA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:w4ebJttOrcU=;K2/CDTqavHztEie+3DfTskx3p6Q
+ 1SGAfmg7/v4VvUCb1y4BChTV07xAk+QgGyA/tcnMK0I7MzIRzDqzYYKPUvz9bPRifs2qUtG6Q
+ GDrdoInv2YtxZfBiZK3olyBB/K/wFszfccocR3+h0rdUsEeFZjRfXpw1uey3jE1fYou1pzAL9
+ 8Y+xI8t6+OE1aQ+8OUR5OBYQWgVPhYGsPYB8SkRoV9gZqTigGciQ073il20HoX2feYoJik591
+ rkZT/U7ZjCjfvystPFliQfYrV6E7p1ld6Q+5jcC5CMPvAwcx31PXN773Ub73HyzyI+lwfPlA7
+ Sk1oXnDW0DeEh5i9qgRmQP323NbmiwlULyDsXKv4f4rCf2z8GT8SMP5E5LfxZRdJ4h56gEF5M
+ TDZgsNroDRsSiC1P1yBDvGe9jc8xKIbqWDZORWOG/INEmLd55mwgsg/Nb0okCBIM1Y2hYGFdB
+ cG4LFT3VzKaWF73HtphgSOkxw0vSpIz6srUIl/iBxZpk8wn/F3iRkBsIi93DxygAknMF0oYtI
+ cYcYGdImi6x7VrLqz74B1CD5uwHxjfOJzrcgZA73KEHjkfBDjdGGqyroeH576VRM+MIcNaeJ0
+ iCqRhbDu3HMNSwIvNl1gHJzDlC6cyLVwUQWzK50ZgayN15zY5y9NomlphsOBtB3ldF9kRm5aJ
+ /8qzydrjbhug5V1uB0zTnBgX17lm8m8NoM1YSzCL1J1RbTzT7/VUepEnTZBb2xj9wIpQ9f4HS
+ CRadtpOSmG3lVZDizlROYNDlbZ+cegL5nMc2R/MoZFNJTwnecCPBMRavPoiHm3QbubNBO5ANw
+ crnuKDKnQr8ndh4YgVoGdNAfBtsAu5kP1sx8qnNklxKGNfszFGAQZbTCBKTqp9u7Jv+FpSAFg
+ oZ75+rJI5tlZhxACnE5S/alXzKDktikEslSnqX4mgI+wPKM3qHttZOOvCgZLq03xv+p7Kvl1J
+ aVZRBASaf86rL/9N0LytCui8j3g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,101 +68,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>,
- Radhakrishna Sripada <radhakrishna.sripada@intel.com>,
- Maciej Patelczyk <maciej.patelczyk@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit 82a149a62b6b5 ('drm/i915/gt: move remaining debugfs
-interfaces into gt') moved gt-related debugfs files in the gtX/
-directories to operate on individual gt's.
+Hi Linus,
 
-However, the original files were only functioning on the root
-GT (GT 0) and have been left in the same location to maintain
-compatibility with userspace users.
+please pull the latest fbdev updates and fixes.
 
-Add multiplexing functionality to the higher directories' files.
-This enables the operations to be performed on all the GTs with
-a single write. In the case of reads, the files provide an or'ed
-value across all the tiles.
+The majority of lines changed is due to a code style cleanup in the
+pnmtologo helper program.
 
-Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Maciej Patelczyk <maciej.patelczyk@intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
----
- drivers/gpu/drm/i915/i915_debugfs.c | 36 +++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
+Arnd removed the omap1 osk driver and the SIS fb driver is now orphaned.
 
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index 16011c0286ada..80c2bf98e341c 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -574,14 +574,34 @@ static int i915_wa_registers(struct seq_file *m, void *unused)
- static int i915_wedged_get(void *data, u64 *val)
- {
- 	struct drm_i915_private *i915 = data;
-+	struct intel_gt *gt;
-+	unsigned int i;
- 
--	return intel_gt_debugfs_reset_show(to_gt(i915), val);
-+	*val = 0;
-+
-+	for_each_gt(gt, i915, i) {
-+		int ret;
-+
-+		ret = intel_gt_debugfs_reset_show(gt, val);
-+		if (ret)
-+			return ret;
-+
-+		/* at least one tile should be wedged */
-+		if (*val)
-+			break;
-+	}
-+
-+	return 0;
- }
- 
- static int i915_wedged_set(void *data, u64 val)
- {
- 	struct drm_i915_private *i915 = data;
--	intel_gt_debugfs_reset_store(to_gt(i915), val);
-+	struct intel_gt *gt;
-+	unsigned int i;
-+
-+	for_each_gt(gt, i915, i)
-+		intel_gt_debugfs_reset_store(gt, val);
- 
- 	return 0;
- }
-@@ -732,7 +752,11 @@ static int i915_sseu_status(struct seq_file *m, void *unused)
- static int i915_forcewake_open(struct inode *inode, struct file *file)
- {
- 	struct drm_i915_private *i915 = inode->i_private;
--	intel_gt_pm_debugfs_forcewake_user_open(to_gt(i915));
-+	struct intel_gt *gt;
-+	unsigned int i;
-+
-+	for_each_gt(gt, i915, i)
-+		intel_gt_pm_debugfs_forcewake_user_open(gt);
- 
- 	return 0;
- }
-@@ -740,7 +764,11 @@ static int i915_forcewake_open(struct inode *inode, struct file *file)
- static int i915_forcewake_release(struct inode *inode, struct file *file)
- {
- 	struct drm_i915_private *i915 = inode->i_private;
--	intel_gt_pm_debugfs_forcewake_user_release(to_gt(i915));
-+	struct intel_gt *gt;
-+	unsigned int i;
-+
-+	for_each_gt(gt, i915, i)
-+		intel_gt_pm_debugfs_forcewake_user_release(gt);
- 
- 	return 0;
- }
--- 
-2.39.2
+Other than that it's the usual bunch of small fixes and cleanups, e.g.
+prevent possible divide-by-zero in various fb drivers if the pixclock is
+zero and various conversions to devm_platform*() and of_property*()
+functions.
 
+Thanks!
+Helge
+
+--------------
+
+
+The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+
+  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.3-rc3
+
+for you to fetch changes up to 29413f05fe34e8824551b91f660fde781249417d:
+
+  fbdev: Use of_property_present() for testing DT property presence (2023-03-16 16:18:17 +0100)
+
+----------------------------------------------------------------
+fbdev updates for kernel 6.3-rc3:
+
+- Drop omap1 osk driver
+- Various potential divide by zero pixclock fixes
+- Add pixelclock and fb_check_var() to stifb
+- Code style cleanups and indenting fixes
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      fbdev: omapfb: remove omap1 osk driver
+
+Helge Deller (1):
+      fbdev: stifb: Provide valid pixelclock and add fb_check_var() checks
+
+Lucy Mielke (1):
+      fbdev: omapfb: cleanup inconsistent indentation
+
+Lukas Bulwahn (1):
+      MAINTAINERS: orphan SIS FRAMEBUFFER DRIVER
+
+Nikita Romanyuk (2):
+      drivers: video: logo: fix code style issues in pnmtologo.c
+      drivers: video: logo: add SPDX comment, remove GPL notice in pnmtologo.c
+
+Rob Herring (2):
+      fbdev: Use of_property_read_bool() for boolean properties
+      fbdev: Use of_property_present() for testing DT property presence
+
+Wei Chen (5):
+      fbdev: tgafb: Fix potential divide by zero
+      fbdev: nvidia: Fix potential divide by zero
+      fbdev: intelfb: Fix potential divide by zero
+      fbdev: lxfb: Fix potential divide by zero
+      fbdev: au1200fb: Fix potential divide by zero
+
+Yang Li (4):
+      fbdev: clps711x-fb: Use devm_platform_get_and_ioremap_resource()
+      fbdev: pxa3xx-gcu: Use devm_platform_get_and_ioremap_resource()
+      fbdev: wm8505fb: Use devm_platform_ioremap_resource()
+      fbdev: xilinxfb: Use devm_platform_get_and_ioremap_resource()
+
+ MAINTAINERS                                        |   4 +-
+ drivers/video/fbdev/amba-clcd.c                    |   2 +-
+ drivers/video/fbdev/au1200fb.c                     |   3 +
+ drivers/video/fbdev/bw2.c                          |   2 +-
+ drivers/video/fbdev/cg3.c                          |   2 +-
+ drivers/video/fbdev/clps711x-fb.c                  |   3 +-
+ drivers/video/fbdev/geode/lxfb_core.c              |   3 +
+ drivers/video/fbdev/intelfb/intelfbdrv.c           |   3 +
+ drivers/video/fbdev/nvidia/nvidia.c                |   2 +
+ drivers/video/fbdev/offb.c                         |   4 +-
+ drivers/video/fbdev/omap/Makefile                  |   1 -
+ drivers/video/fbdev/omap/lcd_osk.c                 |  86 ---
+ drivers/video/fbdev/omap/omapfb_main.c             |  30 +-
+ .../fbdev/omap2/omapfb/dss/omapdss-boot-init.c     |   2 +-
+ drivers/video/fbdev/pxa3xx-gcu.c                   |   3 +-
+ drivers/video/fbdev/sm501fb.c                      |   4 +-
+ drivers/video/fbdev/stifb.c                        |  27 +
+ drivers/video/fbdev/tcx.c                          |   3 +-
+ drivers/video/fbdev/tgafb.c                        |   3 +
+ drivers/video/fbdev/wm8505fb.c                     |   4 +-
+ drivers/video/fbdev/xilinxfb.c                     |   6 +-
+ drivers/video/logo/pnmtologo.c                     | 674 ++++++++++-----------
+ 22 files changed, 409 insertions(+), 462 deletions(-)
+ delete mode 100644 drivers/video/fbdev/omap/lcd_osk.c
