@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4766BFDD8
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9BF6BFDD4
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9323F10E4EA;
-	Sat, 18 Mar 2023 23:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13D3410E4E1;
+	Sat, 18 Mar 2023 23:56:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9899B10E4A7
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE7610E4A7
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:50 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNo-00043m-09; Sun, 19 Mar 2023 00:54:44 +0100
+ id 1pdgNp-00045J-Um; Sun, 19 Mar 2023 00:54:45 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNn-0056aL-6H; Sun, 19 Mar 2023 00:54:43 +0100
+ id 1pdgNn-0056aP-Cp; Sun, 19 Mar 2023 00:54:43 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNm-005zUO-Fd; Sun, 19 Mar 2023 00:54:42 +0100
+ id 1pdgNm-005zUR-LQ; Sun, 19 Mar 2023 00:54:42 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Peter Jones <pjones@redhat.com>,
-	Helge Deller <deller@gmx.de>
-Subject: [PATCH 13/51] video: fbdev: efifb: Convert to platform remove
+To: Helge Deller <deller@gmx.de>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>
+Subject: [PATCH 14/51] video: fbdev: ep93xx-fb: Convert to platform remove
  callback returning void
-Date: Sun, 19 Mar 2023 00:53:50 +0100
-Message-Id: <20230318235428.272091-14-u.kleine-koenig@pengutronix.de>
+Date: Sun, 19 Mar 2023 00:53:51 +0100
+Message-Id: <20230318235428.272091-15-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1643;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1610;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=VIHoENgJQr+/TzO1wGTKACON8r8R977ccTJvqt5P9bY=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk61yMu2jhPBMTpn1AgCe3qJRrJ3+Petc6RbV
- 1cVNbPvLHuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOtQAKCRCPgPtYfRL+
- Tr59B/9mvfCIH/NOeCWvxdnnAc99kkHmTi+I1eFZe+fnL2jHtkq9WQ0UgxgG5ZOvVsnBSCbN3kX
- dvB9mIOLgqr4FNQiM06fNctolLo+6svqAEN6bI7qI0NtvY8dnXvzEk8VSOdVp/pLKH+8EWweZxR
- H9QqKmXMzh1tzwFJD2oC/swjMRSPZGC/mbnKKIhTpXyIcrjYCQ4YvQM+FMRbsubt4FsLU3P6ZgA
- Dr8622XlBc5dR8L8eSk+oXGut8jpLijgDRa5PKTe6A8Zg4UFW9In9l8wX3pqBd/gFXTEFr6oVoY
- ErmS+sVF3oIdet72Rd6U+BVceN2iPgm4MIepH94qtZ+Q7VbL
+ bh=FSWnvts299BKHZI7up4omJvQR3NHtI0HbWVYCbBSojM=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk622CfaGoZVNlhC9mGcoliHjKXqSMpdBQrXi
+ L8HdzQxjdOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOtgAKCRCPgPtYfRL+
+ Tp7fB/9/bKaj2OKFsPDnQQ1exQ3XxOr4ZCK+aysV2YKXV6W2PtR46vaRC3QKFxh+IfO804bhrH0
+ Kx9BUohwJNSxMWWE1sBWwa5wADHxbfPVDFHHamRFCIcrKdwXaTMHEAkex/R3z/8ptAnPr4JMgFZ
+ ARvZBsu/VQrUpSIFRAxMEYB/lgPdoIb9+DUgqex01LQwx/HK+BDgSsWFalGqe7cn9RigyaekYtU
+ mYOVSilOoGM3qXEeiBPjHh/ONT847M2N0TK35ZJvDYyQ1pryaxw4Xksyl8JAIpNz0zcN9RV45yJ
+ A2cG2hwi4kTBv8J+PHvvzKneYyYhyw/WEbe0GM9nWCw9+EDd
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -85,39 +85,37 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/efifb.c | 6 ++----
+ drivers/video/fbdev/ep93xx-fb.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index a5779fb453a2..3d7be69ab593 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -621,15 +621,13 @@ static int efifb_probe(struct platform_device *dev)
+diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
+index 305f1587bd89..94fe52928be2 100644
+--- a/drivers/video/fbdev/ep93xx-fb.c
++++ b/drivers/video/fbdev/ep93xx-fb.c
+@@ -573,7 +573,7 @@ static int ep93xxfb_probe(struct platform_device *pdev)
  	return err;
  }
  
--static int efifb_remove(struct platform_device *pdev)
-+static void efifb_remove(struct platform_device *pdev)
+-static int ep93xxfb_remove(struct platform_device *pdev)
++static void ep93xxfb_remove(struct platform_device *pdev)
  {
  	struct fb_info *info = platform_get_drvdata(pdev);
+ 	struct ep93xx_fbi *fbi = info->par;
+@@ -587,13 +587,11 @@ static int ep93xxfb_remove(struct platform_device *pdev)
+ 		fbi->mach_info->teardown(pdev);
  
- 	/* efifb_destroy takes care of info cleanup */
- 	unregister_framebuffer(info);
- 	sysfs_remove_groups(&pdev->dev.kobj, efifb_groups);
+ 	kfree(info);
 -
 -	return 0;
  }
  
- static struct platform_driver efifb_driver = {
-@@ -637,7 +635,7 @@ static struct platform_driver efifb_driver = {
- 		.name = "efi-framebuffer",
+ static struct platform_driver ep93xxfb_driver = {
+ 	.probe		= ep93xxfb_probe,
+-	.remove		= ep93xxfb_remove,
++	.remove_new	= ep93xxfb_remove,
+ 	.driver = {
+ 		.name	= "ep93xx-fb",
  	},
- 	.probe = efifb_probe,
--	.remove = efifb_remove,
-+	.remove_new = efifb_remove,
- };
- 
- builtin_platform_driver(efifb_driver);
 -- 
 2.39.2
 
