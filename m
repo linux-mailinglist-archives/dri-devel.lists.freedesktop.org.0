@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993BB6BFCC4
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 21:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5617E6BFCC5
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Mar 2023 21:37:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3CE10E143;
-	Sat, 18 Mar 2023 20:37:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F09E510E152;
+	Sat, 18 Mar 2023 20:37:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D09310E13F;
- Sat, 18 Mar 2023 20:37:00 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C22A10E146;
+ Sat, 18 Mar 2023 20:37:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679171820; x=1710707820;
+ t=1679171825; x=1710707825;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=R3yOHM4ZUtiWG56XDOn5XamPqWw3SDCIFv6EWzXKi1Y=;
- b=hgsZa0/9pIR3jFVnRCxsGO6wcr91h6a7NeaAxEQhb4ZcAaTucmR1FgJD
- TmicmXoGfpqE6fVWIUBWPYcpTCtvjq0jBFojWF+AkYnM64SRZCj1hx2G+
- WvE6HhGH6YQ1DG+72mlFE1h5VR+vcl5ZqMoci3VCeGfXvcds+kldQJBSY
- nL9hEREvqmAMPFFXznqxvX3R06wMhkwsU8jr97DDvyx/4FeGrJQKJjEn2
- Su8rlCz/CGWCgweuxX81YHnowbqpId6/Sqn1rPOL5uB6Njhz3l8ZWIQuj
- WFhxXsGf9UtA7dAjIZd18fQrYM2uJ/ZZcMM3RBCXTQsGhEmIJd64G0m9p g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="424738776"
-X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="424738776"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2023 13:36:59 -0700
+ bh=DHvh35evhBeJfDBy+dETHvvp3NWGorz2xz1jTjiRwug=;
+ b=Q+Okj33x5+tjFxkCFa9/+FCskSH26gqpzJQljLNNov/xWq1nbev//ETx
+ HVFRcKtyuGCT4Z+22VcuI54v3fQ9oGPUxnDEnhUqKyKj5sLPidAmzXZ8M
+ B/TVUWYa/wV2qgNzoOT3mEun+a9myHb4CBlRGYFGbpFy741S8RtH37q6/
+ eA96grGQ5feKFy5jcb9wlAigvh0JXLGyhnI9z7Iq5pNSb4AM5DmaN/aHy
+ yusq7SJnbClA1hMc6PoG4/cD9UNL7EqFhVo9TtHFalPP9Dm0p6XyPsr12
+ 5eYmmHNPpnfEHeqFVEai5G/43zI+OMgMTsIStz+6S9Jih0yszDoeEUNeZ Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="403332527"
+X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="403332527"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2023 13:37:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="744905070"
-X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="744905070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10653"; a="683027249"
+X-IronPort-AV: E=Sophos;i="5.98,272,1673942400"; d="scan'208";a="683027249"
 Received: from rmanole-mobl1.ger.corp.intel.com (HELO intel.com)
  ([10.252.34.109])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Mar 2023 13:36:57 -0700
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Mar 2023 13:37:02 -0700
 From: Andi Shyti <andi.shyti@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 1/2] drm/i915/gt: Create per-gt debugfs files
-Date: Sat, 18 Mar 2023 21:36:14 +0100
-Message-Id: <20230318203616.183765-2-andi.shyti@linux.intel.com>
+Subject: [PATCH v3 1/2] drm/i915/gt: Create per-tile debugfs files
+Date: Sat, 18 Mar 2023 21:36:15 +0100
+Message-Id: <20230318203616.183765-3-andi.shyti@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318203616.183765-1-andi.shyti@linux.intel.com>
 References: <20230318203616.183765-1-andi.shyti@linux.intel.com>
@@ -72,7 +72,7 @@ To support multi-GT configurations, we need to generate
 independent debug files for each GT.
 
 To achieve this create a separate directory for each GT under the
-debugfs directory. For instance, in a system with two GTs, the
+debugfs directory. For instance, in a system with two tiles, the
 debugfs structure would look like this:
 
 /sys/kernel/debug/dri
