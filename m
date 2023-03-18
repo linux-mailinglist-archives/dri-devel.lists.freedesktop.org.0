@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CDC6BFDB1
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326CC6BFDAE
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 00:55:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10BAC10E4C5;
-	Sat, 18 Mar 2023 23:54:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DA1710E4BB;
+	Sat, 18 Mar 2023 23:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 275CA10E044
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACD2A10E4B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Mar 2023 23:54:50 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNq-0004Cp-6F; Sun, 19 Mar 2023 00:54:46 +0100
+ id 1pdgNq-0004Cu-H6; Sun, 19 Mar 2023 00:54:46 +0100
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNp-0056bC-Hz; Sun, 19 Mar 2023 00:54:45 +0100
+ id 1pdgNp-0056bE-J5; Sun, 19 Mar 2023 00:54:45 +0100
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <ukl@pengutronix.de>)
- id 1pdgNo-005zV7-L5; Sun, 19 Mar 2023 00:54:44 +0100
+ id 1pdgNo-005zVB-Rl; Sun, 19 Mar 2023 00:54:44 +0100
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH 24/51] video: fbdev: leo: Convert to platform remove callback
- returning void
-Date: Sun, 19 Mar 2023 00:54:01 +0100
-Message-Id: <20230318235428.272091-25-u.kleine-koenig@pengutronix.de>
+To: Helge Deller <deller@gmx.de>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 25/51] video: fbdev: mb862xx: Convert to platform remove
+ callback returning void
+Date: Sun, 19 Mar 2023 00:54:02 +0100
+Message-Id: <20230318235428.272091-26-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 References: <20230318235428.272091-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1644;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1831;
  i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=F8N/+OapS1TwpsJrOs90b5CY8V/qJ8fAE1hzfGggvEI=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk7BKWQ+SA+YbFeTxJkz/hx5Lu2NE7F9gETEo
- qMte9pIdpOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOwQAKCRCPgPtYfRL+
- TttICACoMMt6rMFG4Ga+qTHqxKif2ExJc+e2gl+fHgqfzwVSNVZcOMNfwPtjtRzLt5NaBAA6oNN
- F8K6J/Nq54H66QnI1HAIiogXodJ/leE88KOgrbCsFi7NIWpFu4HUiQ8IhabdugOAPn6WdwcMa8R
- IjhkAWdkYLou2rhfUlEdShIupAKZFquH8BRYW07ZjE7x26B7RJ7I1kz5HAilm1w9s7n2dB+csHx
- n0ejD49jNBnmpSnPmFbCHYGckZpQp15ZvE/a1YgNg/B3u3SrdtsKDa3mLjHZo3IZ7pdaGMtPEbU
- 65Xjb9dJsts42Jfg/Ki/4roZB3hw4gt1ZKollnScFp7EkTsG
+ bh=n0tjhuJrFGcP2NM1FYKiwu0flb4gjoOOgN8yfE1fLf8=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkFk7CzzJlOFhDIAbO9bMcxIi4HWcjmrLMbH4w+
+ TDRHhDAZ8yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBZOwgAKCRCPgPtYfRL+
+ TkDBCACIQx58+/h0Da9NaC6Idqt25R71OosMjeqa0annzR+Ar5g4w9iRWo6CxWhi4EkEL/9UBq0
+ 7GsrQiQtItYvFfvQ5pzx48gIhz1VOorvNjISqM4SjpzEI9Nmyr3wk3YJ8iA01PvnRdOuSmmvwQB
+ xlM+21v2Aj1i4Q+UH4FDGSKnaOYrxawNCvRuLpAPV1S3zxr5twb9vZnqkiHmE5XvpjQfxRfdSsP
+ /EImaire8hQ8VAh4UZfliYFUSI1XnpaYraK6an4W521CGHuIGaW2H/FGQk6qjZh2uvCqKQQIC7t
+ AbQCWObdZKeuIJr6IrLsVRDQs5TfQttkeeDjkv1A1BoqZP6U
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
  fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
@@ -84,40 +87,39 @@ callback to the void returning variant.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/video/fbdev/leo.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/leo.c b/drivers/video/fbdev/leo.c
-index 3eb0f3583f4f..3ffc0a725f89 100644
---- a/drivers/video/fbdev/leo.c
-+++ b/drivers/video/fbdev/leo.c
-@@ -637,7 +637,7 @@ static int leo_probe(struct platform_device *op)
- 	return err;
+diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+index a236fc910148..b5c8fcab9940 100644
+--- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
++++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+@@ -784,7 +784,7 @@ static int of_platform_mb862xx_probe(struct platform_device *ofdev)
+ 	return ret;
  }
  
--static int leo_remove(struct platform_device *op)
-+static void leo_remove(struct platform_device *op)
+-static int of_platform_mb862xx_remove(struct platform_device *ofdev)
++static void of_platform_mb862xx_remove(struct platform_device *ofdev)
  {
- 	struct fb_info *info = dev_get_drvdata(&op->dev);
- 	struct leo_par *par = info->par;
-@@ -648,8 +648,6 @@ static int leo_remove(struct platform_device *op)
- 	leo_unmap_regs(op, info, par);
+ 	struct fb_info *fbi = dev_get_drvdata(&ofdev->dev);
+ 	struct mb862xxfb_par *par = fbi->par;
+@@ -814,7 +814,6 @@ static int of_platform_mb862xx_remove(struct platform_device *ofdev)
  
- 	framebuffer_release(info);
--
+ 	release_mem_region(par->res->start, res_size);
+ 	framebuffer_release(fbi);
 -	return 0;
  }
  
- static const struct of_device_id leo_match[] = {
-@@ -666,7 +664,7 @@ static struct platform_driver leo_driver = {
- 		.of_match_table = leo_match,
+ /*
+@@ -838,7 +837,7 @@ static struct platform_driver of_platform_mb862xxfb_driver = {
+ 		.of_match_table = of_platform_mb862xx_tbl,
  	},
- 	.probe		= leo_probe,
--	.remove		= leo_remove,
-+	.remove_new	= leo_remove,
+ 	.probe		= of_platform_mb862xx_probe,
+-	.remove		= of_platform_mb862xx_remove,
++	.remove_new	= of_platform_mb862xx_remove,
  };
+ #endif
  
- static int __init leo_init(void)
 -- 
 2.39.2
 
