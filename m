@@ -1,41 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC896C0068
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 10:42:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 218696C0069
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 10:42:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AC9610E166;
-	Sun, 19 Mar 2023 09:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC1B10E17E;
+	Sun, 19 Mar 2023 09:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45BA510E166
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 09:41:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7108E10E166
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 09:41:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7F6D060F52;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EB29360F5E;
+ Sun, 19 Mar 2023 09:41:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67BF5C4339B;
  Sun, 19 Mar 2023 09:41:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2179C433EF;
- Sun, 19 Mar 2023 09:41:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679218913;
- bh=SVXHTnqcsoEfENHgOOUxqCsfPNAgTZAmaLYepi9QE8E=;
- h=From:To:Cc:Subject:Date:From;
- b=UhgM5d+598LlWKxbwj8zv9LC+ChsMl2zeeXUGMgbg0lN1rdyC243URAEtVE4+Crbi
- RDeoup+zmRJCLxHqPuuJuaSrzw/ROz11Y5224umomXxgxMY9yone07SKLnsAeZYihN
- eSczdPA8j0RwLCb/EGcD0FTnXmY9TWah2zoe+kD+Hfoqw9BIchx6Lrjt6WaoziUh6P
- Bp6NM74Fuku+7RBCALMOgneiMIh9JKMXsZDnhwmhDL5ttOL8/qigDVuKTUlzJBbT7G
- 7q44mzZnzOB9BanZ2xYcAALLgPWgXdtei4zIQfGqlsF/EXv5pKKfXWOI1ELRgEvPHB
- cCxq+NoYKMHNg==
+ s=k20201202; t=1679218915;
+ bh=ubnHstDO3ufdEedvkXwk/IOxP/76Yy/Q6tcHUazkw3U=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gymrjLlPKKDyQskFD8M9kXDU6qfQHdVseU+0mQhS142j/WOL2kvXsh0OFP7GuG2wV
+ 0G3JeimFypyzFaOX9rA9aTkO9YI+66jEnpVjViZ+02Liy+bofoWI5DMWg7OP25CUWS
+ knJXvAfnDgwC8yaun4cB1q7NNRiWstSBe5RU3Mztx1NI1CQilTJS5VJP6byehkoz33
+ aXgTCnemoNEQMZKYsKJu/vpFBZ2eyUxQtEdk9gcc4vgZDol0LvtVUsYFvUA1uH9ROK
+ vtQgp6RPBHmV5go0Vs+RnagR8eyUDLTgAKtH7xMWFQr0iAtU2sirbxInotJonxb3Re
+ o6vSNlPJ1Z5Dg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/4] accel/habanalabs: regenerate gaudi2 ids_map_extended
-Date: Sun, 19 Mar 2023 11:41:45 +0200
-Message-Id: <20230319094148.680750-1-ogabbay@kernel.org>
+Subject: [PATCH 2/4] accel/habanalabs: expose rotator mask to userspace
+Date: Sun, 19 Mar 2023 11:41:46 +0200
+Message-Id: <20230319094148.680750-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230319094148.680750-1-ogabbay@kernel.org>
+References: <20230319094148.680750-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,181 +52,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ohad Sharabi <osharabi@habana.ai>
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ohad Sharabi <osharabi@habana.ai>
+From: Ofir Bitton <obitton@habana.ai>
 
-Some names of events has been modified/added.
+All engine masks are exposed to user, make sure user gets the
+correct rotator enabled mask in gaudi2.
 
-Signed-off-by: Ohad Sharabi <osharabi@habana.ai>
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- .../gaudi2/gaudi2_async_ids_map_extended.h    | 76 +++++++++----------
- 1 file changed, 38 insertions(+), 38 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs.h       | 5 +++--
+ drivers/accel/habanalabs/common/habanalabs_ioctl.c | 1 +
+ drivers/accel/habanalabs/gaudi2/gaudi2.c           | 2 ++
+ include/uapi/drm/habanalabs_accel.h                | 4 +++-
+ 4 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-index da0435581d61..ad01fc4e9940 100644
---- a/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-+++ b/drivers/accel/habanalabs/include/gaudi2/gaudi2_async_ids_map_extended.h
-@@ -318,37 +318,37 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 143, .cpu_id = 47, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
- 		 .name = "MME3_WAP_ECC_DERR" },
- 	{ .fc_id = 144, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA2_ECC_SERR" },
-+		 .name = "EDMA2_ECC_SERR" },
- 	{ .fc_id = 145, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA3_ECC_SERR" },
-+		 .name = "EDMA3_ECC_SERR" },
- 	{ .fc_id = 146, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA0_ECC_SERR" },
-+		 .name = "EDMA0_ECC_SERR" },
- 	{ .fc_id = 147, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA1_ECC_SERR" },
-+		 .name = "EDMA1_ECC_SERR" },
- 	{ .fc_id = 148, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA6_ECC_SERR" },
-+		 .name = "EDMA6_ECC_SERR" },
- 	{ .fc_id = 149, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA7_ECC_SERR" },
-+		 .name = "EDMA7_ECC_SERR" },
- 	{ .fc_id = 150, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "HDMA4_ECC_SERR" },
- 	{ .fc_id = 151, .cpu_id = 48, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "HDMA5_ECC_SERR" },
- 	{ .fc_id = 152, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA2_ECC_DERR" },
-+		 .name = "EDMA2_ECC_DERR" },
- 	{ .fc_id = 153, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA3_ECC_DERR" },
-+		 .name = "EDMA3_ECC_DERR" },
- 	{ .fc_id = 154, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA0_ECC_DERR" },
-+		 .name = "EDMA0_ECC_DERR" },
- 	{ .fc_id = 155, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA1_ECC_DERR" },
-+		 .name = "EDMA1_ECC_DERR" },
- 	{ .fc_id = 156, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA6_ECC_DERR" },
-+		 .name = "EDMA6_ECC_DERR" },
- 	{ .fc_id = 157, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA7_ECC_DERR" },
-+		 .name = "EDMA7_ECC_DERR" },
- 	{ .fc_id = 158, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA4_ECC_DERR" },
-+		 .name = "EDMA4_ECC_DERR" },
- 	{ .fc_id = 159, .cpu_id = 49, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
--		 .name = "HDMA5_ECC_DERR" },
-+		 .name = "EDMA5_ECC_DERR" },
- 	{ .fc_id = 160, .cpu_id = 50, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "KDMA0_ECC_SERR" },
- 	{ .fc_id = 161, .cpu_id = 51, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
-@@ -1570,35 +1570,35 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 769, .cpu_id = 202, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_HARD,
- 		 .name = "PMMU0_SECURITY_ERROR" },
- 	{ .fc_id = 770, .cpu_id = 203, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA2_BM_SPMU" },
-+		 .name = "EDMA2_BM_SPMU" },
- 	{ .fc_id = 771, .cpu_id = 204, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 772, .cpu_id = 205, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA3_BM_SPMU" },
-+		 .name = "EDMA3_BM_SPMU" },
- 	{ .fc_id = 773, .cpu_id = 206, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 774, .cpu_id = 207, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA0_BM_SPMU" },
-+		 .name = "EDMA0_BM_SPMU" },
- 	{ .fc_id = 775, .cpu_id = 208, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 776, .cpu_id = 209, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA1_BM_SPMU" },
-+		 .name = "EDMA1_BM_SPMU" },
- 	{ .fc_id = 777, .cpu_id = 210, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 778, .cpu_id = 211, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA6_BM_SPMU" },
-+		 .name = "EDMA6_BM_SPMU" },
- 	{ .fc_id = 779, .cpu_id = 212, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 780, .cpu_id = 213, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA7_BM_SPMU" },
-+		 .name = "EDMA7_BM_SPMU" },
- 	{ .fc_id = 781, .cpu_id = 214, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 782, .cpu_id = 215, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA4_BM_SPMU" },
-+		 .name = "EDMA4_BM_SPMU" },
- 	{ .fc_id = 783, .cpu_id = 216, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 784, .cpu_id = 217, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
--		 .name = "HDMA5_BM_SPMU" },
-+		 .name = "EDMA5_BM_SPMU" },
- 	{ .fc_id = 785, .cpu_id = 218, .valid = 0, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
- 		 .name = "" },
- 	{ .fc_id = 786, .cpu_id = 219, .valid = 1, .msg = 0, .reset = EVENT_RESET_TYPE_NONE,
-@@ -2502,21 +2502,21 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 1235, .cpu_id = 541, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
- 		 .name = "MME3_QM" },
- 	{ .fc_id = 1236, .cpu_id = 542, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA2_QM" },
-+		 .name = "EDMA2_QM" },
- 	{ .fc_id = 1237, .cpu_id = 543, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA3_QM" },
-+		 .name = "EDMA3_QM" },
- 	{ .fc_id = 1238, .cpu_id = 544, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA0_QM" },
-+		 .name = "EDMA0_QM" },
- 	{ .fc_id = 1239, .cpu_id = 545, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA1_QM" },
-+		 .name = "EDMA1_QM" },
- 	{ .fc_id = 1240, .cpu_id = 546, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA6_QM" },
-+		 .name = "EDMA6_QM" },
- 	{ .fc_id = 1241, .cpu_id = 547, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA7_QM" },
-+		 .name = "EDMA7_QM" },
- 	{ .fc_id = 1242, .cpu_id = 548, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA4_QM" },
-+		 .name = "EDMA4_QM" },
- 	{ .fc_id = 1243, .cpu_id = 549, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA5_QM" },
-+		 .name = "EDMA5_QM" },
- 	{ .fc_id = 1244, .cpu_id = 550, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
- 		 .name = "PDMA0_QM" },
- 	{ .fc_id = 1245, .cpu_id = 551, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
-@@ -2548,21 +2548,21 @@ static struct gaudi2_async_events_ids_map gaudi2_irq_map_table[] = {
- 	{ .fc_id = 1258, .cpu_id = 564, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_HARD,
- 		 .name = "PKT_QUEUE_OUT_SYNC" },
- 	{ .fc_id = 1259, .cpu_id = 565, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA2_CORE" },
-+		 .name = "EDMA2_CORE" },
- 	{ .fc_id = 1260, .cpu_id = 566, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA3_CORE" },
-+		 .name = "EDMA3_CORE" },
- 	{ .fc_id = 1261, .cpu_id = 567, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA0_CORE" },
-+		 .name = "EDMA0_CORE" },
- 	{ .fc_id = 1262, .cpu_id = 568, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA1_CORE" },
-+		 .name = "EDMA1_CORE" },
- 	{ .fc_id = 1263, .cpu_id = 569, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA6_CORE" },
-+		 .name = "EDMA6_CORE" },
- 	{ .fc_id = 1264, .cpu_id = 570, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA7_CORE" },
-+		 .name = "EDMA7_CORE" },
- 	{ .fc_id = 1265, .cpu_id = 571, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA4_CORE" },
-+		 .name = "EDMA4_CORE" },
- 	{ .fc_id = 1266, .cpu_id = 572, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
--		 .name = "HDMA5_CORE" },
-+		 .name = "EDMA5_CORE" },
- 	{ .fc_id = 1267, .cpu_id = 573, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
- 		 .name = "PDMA0_CORE" },
- 	{ .fc_id = 1268, .cpu_id = 574, .valid = 1, .msg = 1, .reset = EVENT_RESET_TYPE_COMPUTE,
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index 98e6d98cf868..c01677ed3c07 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -609,8 +609,8 @@ struct hl_hints_range {
+  * @cb_pool_cb_cnt: number of CBs in the CB pool.
+  * @cb_pool_cb_size: size of each CB in the CB pool.
+  * @decoder_enabled_mask: which decoders are enabled.
+- * @decoder_binning_mask: which decoders are binned, 0 means usable and 1
+- *                        means binned (at most one binned decoder per dcore).
++ * @decoder_binning_mask: which decoders are binned, 0 means usable and 1 means binned.
++ * @rotator_enabled_mask: which rotators are enabled.
+  * @edma_enabled_mask: which EDMAs are enabled.
+  * @edma_binning_mask: which EDMAs are binned, 0 means usable and 1 means
+  *                     binned (at most one binned DMA).
+@@ -760,6 +760,7 @@ struct asic_fixed_properties {
+ 	u32				cb_pool_cb_size;
+ 	u32				decoder_enabled_mask;
+ 	u32				decoder_binning_mask;
++	u32				rotator_enabled_mask;
+ 	u32				edma_enabled_mask;
+ 	u32				edma_binning_mask;
+ 	u32				max_pending_cs;
+diff --git a/drivers/accel/habanalabs/common/habanalabs_ioctl.c b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+index 81e026066f96..203ee857810c 100644
+--- a/drivers/accel/habanalabs/common/habanalabs_ioctl.c
++++ b/drivers/accel/habanalabs/common/habanalabs_ioctl.c
+@@ -108,6 +108,7 @@ static int hw_ip_info(struct hl_device *hdev, struct hl_info_args *args)
+ 	hw_ip.server_type = prop->server_type;
+ 	hw_ip.security_enabled = prop->fw_security_enabled;
+ 	hw_ip.revision_id = hdev->pdev->revision;
++	hw_ip.rotator_enabled_mask = prop->rotator_enabled_mask;
+ 	hw_ip.engine_core_interrupt_reg_addr = prop->engine_core_interrupt_reg_addr;
+ 	hw_ip.reserved_dram_size = dram_kmd_size;
+ 
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index 57c94f9a6042..9f6dbc020d27 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -2315,6 +2315,8 @@ static int gaudi2_set_fixed_properties(struct hl_device *hdev)
+ 
+ 	prop->hints_range_reservation = true;
+ 
++	prop->rotator_enabled_mask = BIT(NUM_OF_ROT) - 1;
++
+ 	if (hdev->pldm)
+ 		prop->mmu_pgt_size = 0x800000; /* 8MB */
+ 	else
+diff --git a/include/uapi/drm/habanalabs_accel.h b/include/uapi/drm/habanalabs_accel.h
+index e43688d30e96..c139aab17c8a 100644
+--- a/include/uapi/drm/habanalabs_accel.h
++++ b/include/uapi/drm/habanalabs_accel.h
+@@ -886,6 +886,8 @@ enum hl_server_type {
+  * @device_mem_alloc_default_page_size: default page size used in device memory allocation.
+  * @revision_id: PCI revision ID of the ASIC.
+  * @tpc_interrupt_id: interrupt id for TPC to use in order to raise events towards the host.
++ * @rotator_enabled_mask: Bit-mask that represents which rotators are enabled.
++ *                        Relevant for Gaudi3 and later.
+  * @engine_core_interrupt_reg_addr: interrupt register address for engine core to use
+  *                                  in order to raise events toward FW.
+  * @reserved_dram_size: DRAM size reserved for driver and firmware.
+@@ -926,7 +928,7 @@ struct hl_info_hw_ip_info {
+ 	__u8 reserved7;
+ 	__u8 revision_id;
+ 	__u16 tpc_interrupt_id;
+-	__u32 reserved8;
++	__u32 rotator_enabled_mask;
+ 	__u32 reserved9;
+ 	__u64 engine_core_interrupt_reg_addr;
+ 	__u64 reserved_dram_size;
 -- 
 2.40.0
 
