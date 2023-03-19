@@ -2,85 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DBC6C0156
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 13:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB41D6C01C3
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 13:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1171D10E15A;
-	Sun, 19 Mar 2023 12:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A52B910E12C;
+	Sun, 19 Mar 2023 12:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28C0D10E126
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 12:06:06 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id x3so36716768edb.10
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 05:06:06 -0700 (PDT)
+Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
+ [IPv6:2607:f8b0:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 826DB10E12C
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 12:55:43 +0000 (UTC)
+Received: by mail-il1-x130.google.com with SMTP id h11so5235070ild.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 05:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679227564;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3GQ0kuX+CANTyKsciGzMU4Vb8Jeilt6T7QwH/C5HtcI=;
- b=pVE7uoVyhC7NdVaNDMAae95yljmhHJ/vy720gGm9Wcwipv7UjfXSfsHinpMhTLeopx
- cr5RClkReTYivfC2IY5U5wY572ezvC1yCkHd7LIEj1HuYvbps2jMciS1PvOubx3Phpzv
- lfp5ymplUDgbfL2kaHoUaSBUbvueNoyQOpkFwxacSddt2OvHyx9V1IRGsXLNxNuNI8tR
- pzgJjPJtO1SL+S6dW0blVTikGk2hVBMbyclcg2gesIeegLGn9Mb8DIqUUNj6OWGRux4X
- VlPpEjmVgeM8W8fsbY1qaNuRHoxHO642hfuMBJ5aK+5ziENTS4/JD82wADP8gHrLT7H4
- rITg==
+ d=gmail.com; s=20210112; t=1679230542;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gMuTuV/PxnF04ieD+/WbXry01J3vTyybaYMQ7rpMYzk=;
+ b=JFLeHt79k0jl0YPaFxMk08tz8fIIrticmPoC6+HWmJdoiPxGXxSzC94TTHirmQobYI
+ SXc4+85nu/sFJ0/HgsoJFxW7vS5ZD4O7uXJ6Li6zSKDuXG9+JhOLVYROOms+Xb0gYFHS
+ hf3q/A41rZIWWqI3gx3B+IqPfKh1mPK08se5xYq9Q9axDpmH8A0W6HyLMHOJD/n+5BWt
+ hsziHwm9HbMxEqCHm6iq2PpLRXt1gE9ZIyXKa1h82SkgpvqLoGNidEb9Z3IdN6aKKoBP
+ RftzG8IY6V22c8ZR6/z7+xo/y6JVJK7w3FEQNNl9TIemOA6DBBAUcyv3CWsg49idNORf
+ Hk/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679227564;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3GQ0kuX+CANTyKsciGzMU4Vb8Jeilt6T7QwH/C5HtcI=;
- b=idRObUX8NfHEN3Pbi4zxT8njGIfYHGZcwLq3l/bHAf+xwRRyFWY1Et3I6EOrIrdSj2
- 2eu0TCls1jbCBW1202ssjlWj08guMkbykcigcfRbkOecBxYeG4SMZogxKSaW2u3TIfUQ
- /EpZab5GUghXDR9LVoA4REbh+AgJwqk3wlscZnbYtQkUcO6eDIQZ6y4oIuIufEzFU3jZ
- /d+rDy3SvCcVbdjElnp800c5ygCeAkXTqezOZUPu3+RYa7v2uCEDSvfqvJYUqsrzHr+f
- BhQQLt+gYaYjTOfC+GAJmplrRJSqmmkE44mGxYplC+dcXIVZtjEpQMxKjMgjk0Z6gAyF
- RW4w==
-X-Gm-Message-State: AO0yUKX6XfS928nbrrRoxh+uMP3YeOSgdGAge3tGl2IuUuVvREHvURWs
- N59+b3fLSoc13c78faIAQASS1w==
-X-Google-Smtp-Source: AK7set+IUACGutO71vcC7FVNze5yyNjfDWDHleE0EpSa6MxZnLDTstSEjlod2kahf5dchF8sAdB/PA==
-X-Received: by 2002:a17:906:6886:b0:924:d90a:6f97 with SMTP id
- n6-20020a170906688600b00924d90a6f97mr5311713ejr.13.1679227564671; 
- Sun, 19 Mar 2023 05:06:04 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:5b5f:f22b:a0b:559d?
- ([2a02:810d:15c0:828:5b5f:f22b:a0b:559d])
- by smtp.gmail.com with ESMTPSA id
- h5-20020a50c385000000b004f9e6495f94sm3473945edf.50.2023.03.19.05.06.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Mar 2023 05:06:04 -0700 (PDT)
-Message-ID: <6d4dba0d-14eb-d9a4-0d16-b0c141b0c733@linaro.org>
-Date: Sun, 19 Mar 2023 13:06:02 +0100
+ d=1e100.net; s=20210112; t=1679230542;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gMuTuV/PxnF04ieD+/WbXry01J3vTyybaYMQ7rpMYzk=;
+ b=qlnR/IDPJVvzxVWxSAeiTLu4+QYoTYuZx6PUSTYhbidWB47bC81ivFR/l0svGWm5fM
+ ZAW02RqlcPQE7rtFCLJjCrmaV7j8aZlVM84NdXkmYRft6hHlOz9jgDEiKlgKIhpze+rp
+ RQ231cHAkYM5yggAO/edNeFU0o28E40KtSa1D6sMRI+zx4zVOD3bo5BISHaCW5wRpU09
+ qSPabwxr3fx6dUXFIEA66RQuHVJibBsxJQqzVqVEWn03hJ5R0/8lAQAX0zjQXy0AHg91
+ NC676DhtueC1Ad4HAwq4aVxIUquv05hH/KuWiCKGxZmitOUCz7aT8738IyFTC6vg379D
+ G9Rw==
+X-Gm-Message-State: AO0yUKW9Kmeh/tmK+yibIOHbA8IMTmsDW4Zh106H8TTrF68ILdsU1j63
+ 75dX+f7rNVUNGg+rVsPWGvVDK+Ms0XM=
+X-Google-Smtp-Source: AK7set8VyHh9qqJa1SPElGRsWeVDUg/sleWLwqO3yN/4giWtiwTXrwDZC+ww+CQIFatT6z4eqsLHdg==
+X-Received: by 2002:a05:6e02:6cb:b0:323:1362:19b2 with SMTP id
+ p11-20020a056e0206cb00b00323136219b2mr2912498ils.21.1679230542265; 
+ Sun, 19 Mar 2023 05:55:42 -0700 (PDT)
+Received: from aford-IdeaCentre-A730.lan (c-75-72-166-104.hsd1.mn.comcast.net.
+ [75.72.166.104]) by smtp.gmail.com with ESMTPSA id
+ z2-20020a056638240200b003b331f0bbdfsm2335605jat.97.2023.03.19.05.55.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Mar 2023 05:55:41 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH V2] drm/bridge: adv7533: Fix adv7533_mode_valid for adv7533
+ and adv7535
+Date: Sun, 19 Mar 2023 07:55:24 -0500
+Message-Id: <20230319125524.58803-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: display: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Robin van der Gracht <robin@protonic.nl>,
- Miguel Ojeda <ojeda@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomba@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20230317233626.3968358-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230317233626.3968358-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,23 +70,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, dmitry.baryshkov@linaro.org,
+ Adam Ford <aford173@gmail.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/03/2023 00:36, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+When dynamically switching lanes was removed, the intent of the code
+was to check to make sure that higher speed items used 4 lanes, but
+it had the unintended consequence of removing the slower speeds for
+4-lane users.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This attempts to remedy this by doing a check to see that the
+max frequency doesn't exceed the chip limit, and a second
+check to make sure that the max bit-rate doesn't exceed the
+number of lanes * max bit rate / lane.
 
-Best regards,
-Krzysztof
+Fixes: 9a0cdcd6649b ("drm/bridge: adv7533: remove dynamic lane switching from adv7533 bridge")
+Reviewed-by: Robert Foss <rfoss@kernel.org>
+Signed-off-by: Adam Ford <aford173@gmail.com>
+---
+
+V2:  Fix whitespace in comment
+     Remove TODO comment
+     Add R-B from Robert.
+
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+index fdfeadcefe80..7e3e56441aed 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+@@ -103,22 +103,19 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
+ enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
+ 					const struct drm_display_mode *mode)
+ {
+-	int lanes;
++	unsigned long max_lane_freq;
+ 	struct mipi_dsi_device *dsi = adv->dsi;
++	u8 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+ 
+-	if (mode->clock > 80000)
+-		lanes = 4;
+-	else
+-		lanes = 3;
+-
+-	/*
+-	 * TODO: add support for dynamic switching of lanes
+-	 * by using the bridge pre_enable() op . Till then filter
+-	 * out the modes which shall need different number of lanes
+-	 * than what was configured in the device tree.
+-	 */
+-	if (lanes != dsi->lanes)
+-		return MODE_BAD;
++	/* Check max clock for either 7533 or 7535 */
++	if (mode->clock > (adv->type == ADV7533 ? 80000 : 148500))
++		return MODE_CLOCK_HIGH;
++
++	/* Check max clock for each lane */
++	max_lane_freq = (adv->type == ADV7533 ? 800000 : 891000);
++
++	if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
++		return MODE_CLOCK_HIGH;
+ 
+ 	return MODE_OK;
+ }
+-- 
+2.34.1
 
