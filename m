@@ -1,54 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0039F6C025C
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 15:21:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D20FF6C0232
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 14:59:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB2D010E19A;
-	Sun, 19 Mar 2023 14:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D85710E17A;
+	Sun, 19 Mar 2023 13:59:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1199 seconds by postgrey-1.36 at gabe;
- Sun, 19 Mar 2023 14:21:10 UTC
-Received: from 4.mo560.mail-out.ovh.net (4.mo560.mail-out.ovh.net
- [87.98.172.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1D2710E19A
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 14:21:10 +0000 (UTC)
-Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.4.24])
- by mo560.mail-out.ovh.net (Postfix) with ESMTP id 9D7B523F99
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 13:44:13 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-vk2nn (unknown [10.110.103.232])
- by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id A395D1FE33;
- Sun, 19 Mar 2023 13:44:09 +0000 (UTC)
-Received: from sk2.org ([37.59.142.105])
- by ghost-submission-6684bf9d7b-vk2nn with ESMTPSA
- id IxRwI6kRF2SLKQEA5A//1w
- (envelope-from <steve@sk2.org>); Sun, 19 Mar 2023 13:44:09 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006adb33e03-d5be-4371-a698-f6a54d8109e0,
- 9CCC51F2D7DAB1FB7350B438D1071C8867680B66) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-Date: Sun, 19 Mar 2023 14:44:08 +0100
-From: Stephen Kitt <steve@sk2.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 12/15] auxdisplay: ht16k33: Introduce
- backlight_get_brightness()
-Message-ID: <20230319144408.03045c50@heffalump.sk2.org>
-In-Reply-To: <2857575f6ec206f79cc21d423fde7d17@protonic.nl>
-References: <20230107-sam-video-backlight-drop-fb_blank-v1-0-1bd9bafb351f@ravnborg.org>
- <20230107-sam-video-backlight-drop-fb_blank-v1-12-1bd9bafb351f@ravnborg.org>
- <CANiq72mFMJuec+r=T6xYtLpuU+a1rOrAhrHiecy_1Jpj2m4J=g@mail.gmail.com>
- <Y7qM+ZlG5gQiOW4K@ravnborg.org>
- <2857575f6ec206f79cc21d423fde7d17@protonic.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A56A310E17A
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 13:59:49 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pdtZO-00084S-47; Sun, 19 Mar 2023 14:59:34 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pdtZF-005EpL-GH; Sun, 19 Mar 2023 14:59:25 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pdtZE-0069Xx-JX; Sun, 19 Mar 2023 14:59:24 +0100
+Date: Sun, 19 Mar 2023 14:59:21 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 01/19] drm/bridge: cdns-mhdp8546: Improve error reporting
+ in remove callback
+Message-ID: <20230319135921.bf3awq3h36kb4q3e@pengutronix.de>
+References: <20230318190804.234610-1-u.kleine-koenig@pengutronix.de>
+ <20230318190804.234610-2-u.kleine-koenig@pengutronix.de>
+ <20230319131301.GF10144@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 1273674272938165894
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvdefiedgheejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeludetkeehffejieetveeltddttdeftedtvdegkeffueefvefgieetvddtieehfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoshhtvghvvgesshhkvddrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdpoffvtefjohhsthepmhhoheeitddpmhhouggvpehsmhhtphhouhht
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4l6o75go7fvuq2tc"
+Content-Disposition: inline
+In-Reply-To: <20230319131301.GF10144@pendragon.ideasonboard.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +56,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Miguel Ojeda <ojeda@kernel.org>, Antonino Daplas <adaplas@gmail.com>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Jingoo Han <jingoohan1@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Robin van der Gracht <robin@protonic.nl>, linuxppc-dev@lists.ozlabs.org,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, 09 Jan 2023 11:12:02 +0100, Robin van der Gracht <robin@protonic.nl>
-wrote:
-> On 2023-01-08 10:29, Sam Ravnborg wrote:
-> > On Sat, Jan 07, 2023 at 10:02:38PM +0100, Miguel Ojeda wrote: =20
-> >> On Sat, Jan 7, 2023 at 7:26 PM Sam Ravnborg via B4 Submission Endpoint
-> >> <devnull+sam.ravnborg.org@kernel.org> wrote: =20
-> >> >
-> >> > Introduce backlight_get_brightness() to simplify logic
-> >> > and avoid direct access to backlight properties. =20
-> >>=20
-> >> Note: Stephen sent this one too a while ago (with some more details in
-> >> the commit message, which is always nice); and then he sent yesterday
-> >> v2 [1] (to mention the functional change with `BL_CORE_SUSPENDED`
-> >> [2]). =20
-> > Thanks for the pointers. I will try to move forward with Stephen's
-> > patches. =20
-> >>=20
-> >> Anyway, if it goes via drm-misc, feel free to have my:
-> >>=20
-> >>     Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >>=20
-> >> Though it would be nice to have Robin test the change. =20
-> >=20
-> > Robin - can I get your ack to apply Stephen's original v2 patch to
-> > drm-misc? =20
+--4l6o75go7fvuq2tc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Mar 19, 2023 at 03:13:01PM +0200, Laurent Pinchart wrote:
+> Hi Uwe,
 >=20
-> done! see:=20
-> https://lore.kernel.org/lkml/0b16391f997e6ed005a326e4e48f2033@protonic.nl/
+> Thank you for the patch.
+>=20
+> On Sat, Mar 18, 2023 at 08:07:46PM +0100, Uwe Kleine-K=F6nig wrote:
+> > Replace the generic error message issued by the driver core when the re=
+move
+> > callback returns non-zero ("remove callback returned a non-zero value. =
+This
+> > will be ignored.") by a message that tells the actual problem.
+> >=20
+> > Also simplify a bit by checking the return value of wait_event_timeout a
+> > bit later.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+> >  .../drm/bridge/cadence/cdns-mhdp8546-core.c    | 18 +++++++++---------
+> >  1 file changed, 9 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/driv=
+ers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> > index f6822dfa3805..d74c6fa30ccc 100644
+> > --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> > @@ -2574,7 +2574,6 @@ static int cdns_mhdp_remove(struct platform_devic=
+e *pdev)
+> >  {
+> >  	struct cdns_mhdp_device *mhdp =3D platform_get_drvdata(pdev);
+> >  	unsigned long timeout =3D msecs_to_jiffies(100);
+> > -	bool stop_fw =3D false;
+> >  	int ret;
+> > =20
+> >  	drm_bridge_remove(&mhdp->bridge);
+> > @@ -2582,18 +2581,19 @@ static int cdns_mhdp_remove(struct platform_dev=
+ice *pdev)
+> >  	ret =3D wait_event_timeout(mhdp->fw_load_wq,
+> >  				 mhdp->hw_state =3D=3D MHDP_HW_READY,
+> >  				 timeout);
+> > -	if (ret =3D=3D 0)
+> > -		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+> > -			__func__);
+> > -	else
+> > -		stop_fw =3D true;
+> > -
+> >  	spin_lock(&mhdp->start_lock);
+> >  	mhdp->hw_state =3D MHDP_HW_STOPPED;
+> >  	spin_unlock(&mhdp->start_lock);
+> > =20
+> > -	if (stop_fw)
+> > +	if (ret =3D=3D 0) {
+> > +		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+> > +			__func__);
+> > +	} else {
+> >  		ret =3D cdns_mhdp_set_firmware_active(mhdp, false);
+> > +		if (ret)
+> > +			dev_err(mhdp->dev, "Failed to stop firmware (%pe)\n",
+> > +				ERR_PTR(ret));
+>=20
+> Why not simply
+> 			dev_err(mhdp->dev, "Failed to stop firmware (%d)\n",
+> 				ret);
+>=20
+> ? Apart from that,
 
-As far as I can tell, this never got applied to drm-misc, and I don=E2=80=
-=99t see it
-anywhere else. I guess it slipped through the cracks ;-)
+%pe is superior to %d because
 
-Regards,
+	Failed to stop firmware (EIO)
 
-Stephen
+is easier to understand for humans than
+
+	Failed to stop firmware (-5)
+
+=2E Don't you agree?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4l6o75go7fvuq2tc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQXFTgACgkQj4D7WH0S
+/k6tzwf/QJF84dwfyio+iDK11VDsRsp4zsVNK6jU4WOZXNOS8+sh50UQZN9jATGT
+j7CQ1nrKrsbuMQxV5N71UsU0E4qxqDBLmN6RWdinJdhCjiQgpfKRyBL7oI5Y8cCE
+LK93jWExm8ckIV7ieb9LQlTXlqDmgxvBd+yiXOjwDp3C2lLzTi9d9/eJIRnXImC9
+Q1rgIGiu0qoShYeNdB+PArl8ELZID/2PQix89k32KKE5Xl93G2F8ownfRRopquDa
+b035mDY6EUEGhSD1fqlFtkf1K0vOonBFUerPQsK1/9/84dmgrnN6lK90CdNKP57B
+RBESTSbSvvq8VMPZwq6Xf2v6OJ6z9A==
+=ua5H
+-----END PGP SIGNATURE-----
+
+--4l6o75go7fvuq2tc--
