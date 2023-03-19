@@ -1,63 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB41D6C01C3
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 13:55:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC506C01F4
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 14:13:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A52B910E12C;
-	Sun, 19 Mar 2023 12:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EED8B10E162;
+	Sun, 19 Mar 2023 13:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com
- [IPv6:2607:f8b0:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 826DB10E12C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 12:55:43 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id h11so5235070ild.11
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 05:55:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679230542;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gMuTuV/PxnF04ieD+/WbXry01J3vTyybaYMQ7rpMYzk=;
- b=JFLeHt79k0jl0YPaFxMk08tz8fIIrticmPoC6+HWmJdoiPxGXxSzC94TTHirmQobYI
- SXc4+85nu/sFJ0/HgsoJFxW7vS5ZD4O7uXJ6Li6zSKDuXG9+JhOLVYROOms+Xb0gYFHS
- hf3q/A41rZIWWqI3gx3B+IqPfKh1mPK08se5xYq9Q9axDpmH8A0W6HyLMHOJD/n+5BWt
- hsziHwm9HbMxEqCHm6iq2PpLRXt1gE9ZIyXKa1h82SkgpvqLoGNidEb9Z3IdN6aKKoBP
- RftzG8IY6V22c8ZR6/z7+xo/y6JVJK7w3FEQNNl9TIemOA6DBBAUcyv3CWsg49idNORf
- Hk/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679230542;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gMuTuV/PxnF04ieD+/WbXry01J3vTyybaYMQ7rpMYzk=;
- b=qlnR/IDPJVvzxVWxSAeiTLu4+QYoTYuZx6PUSTYhbidWB47bC81ivFR/l0svGWm5fM
- ZAW02RqlcPQE7rtFCLJjCrmaV7j8aZlVM84NdXkmYRft6hHlOz9jgDEiKlgKIhpze+rp
- RQ231cHAkYM5yggAO/edNeFU0o28E40KtSa1D6sMRI+zx4zVOD3bo5BISHaCW5wRpU09
- qSPabwxr3fx6dUXFIEA66RQuHVJibBsxJQqzVqVEWn03hJ5R0/8lAQAX0zjQXy0AHg91
- NC676DhtueC1Ad4HAwq4aVxIUquv05hH/KuWiCKGxZmitOUCz7aT8738IyFTC6vg379D
- G9Rw==
-X-Gm-Message-State: AO0yUKW9Kmeh/tmK+yibIOHbA8IMTmsDW4Zh106H8TTrF68ILdsU1j63
- 75dX+f7rNVUNGg+rVsPWGvVDK+Ms0XM=
-X-Google-Smtp-Source: AK7set8VyHh9qqJa1SPElGRsWeVDUg/sleWLwqO3yN/4giWtiwTXrwDZC+ww+CQIFatT6z4eqsLHdg==
-X-Received: by 2002:a05:6e02:6cb:b0:323:1362:19b2 with SMTP id
- p11-20020a056e0206cb00b00323136219b2mr2912498ils.21.1679230542265; 
- Sun, 19 Mar 2023 05:55:42 -0700 (PDT)
-Received: from aford-IdeaCentre-A730.lan (c-75-72-166-104.hsd1.mn.comcast.net.
- [75.72.166.104]) by smtp.gmail.com with ESMTPSA id
- z2-20020a056638240200b003b331f0bbdfsm2335605jat.97.2023.03.19.05.55.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Mar 2023 05:55:41 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH V2] drm/bridge: adv7533: Fix adv7533_mode_valid for adv7533
- and adv7535
-Date: Sun, 19 Mar 2023 07:55:24 -0500
-Message-Id: <20230319125524.58803-1-aford173@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A48810E162
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 13:13:00 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-162-78-nat.elisa-mobile.fi
+ [85.76.162.78])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BBAF91858;
+ Sun, 19 Mar 2023 14:12:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1679231578;
+ bh=/r8ObLyvEZV8rs1xRhx4UsZVHgsYFJFhifnA3TcgfOw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ktNUMzDgkjvggrnSuYTnyZ9cXjqpq8cH6o8Ez3F9BIRmrH7LKVWZTq9Ja4vtHvYed
+ HF2KOMdNrzPh1j+hHH8U/7Iw77PrzDxS4FOGRsHO06ymkTaZ3pEkNTOdPcch90u04h
+ 5Lq//ctHOb9G/+FNUInep+V4M2iEu3q2HwHL5wq4=
+Date: Sun, 19 Mar 2023 15:13:01 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 01/19] drm/bridge: cdns-mhdp8546: Improve error reporting
+ in remove callback
+Message-ID: <20230319131301.GF10144@pendragon.ideasonboard.com>
+References: <20230318190804.234610-1-u.kleine-koenig@pengutronix.de>
+ <20230318190804.234610-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230318190804.234610-2-u.kleine-koenig@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,72 +50,93 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, aford@beaconembedded.com,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, dmitry.baryshkov@linaro.org,
- Adam Ford <aford173@gmail.com>, linux-kernel@vger.kernel.org
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ kernel@pengutronix.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When dynamically switching lanes was removed, the intent of the code
-was to check to make sure that higher speed items used 4 lanes, but
-it had the unintended consequence of removing the slower speeds for
-4-lane users.
+Hi Uwe,
 
-This attempts to remedy this by doing a check to see that the
-max frequency doesn't exceed the chip limit, and a second
-check to make sure that the max bit-rate doesn't exceed the
-number of lanes * max bit rate / lane.
+Thank you for the patch.
 
-Fixes: 9a0cdcd6649b ("drm/bridge: adv7533: remove dynamic lane switching from adv7533 bridge")
-Reviewed-by: Robert Foss <rfoss@kernel.org>
-Signed-off-by: Adam Ford <aford173@gmail.com>
----
+On Sat, Mar 18, 2023 at 08:07:46PM +0100, Uwe Kleine-König wrote:
+> Replace the generic error message issued by the driver core when the remove
+> callback returns non-zero ("remove callback returned a non-zero value. This
+> will be ignored.") by a message that tells the actual problem.
+> 
+> Also simplify a bit by checking the return value of wait_event_timeout a
+> bit later.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c    | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index f6822dfa3805..d74c6fa30ccc 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -2574,7 +2574,6 @@ static int cdns_mhdp_remove(struct platform_device *pdev)
+>  {
+>  	struct cdns_mhdp_device *mhdp = platform_get_drvdata(pdev);
+>  	unsigned long timeout = msecs_to_jiffies(100);
+> -	bool stop_fw = false;
+>  	int ret;
+>  
+>  	drm_bridge_remove(&mhdp->bridge);
+> @@ -2582,18 +2581,19 @@ static int cdns_mhdp_remove(struct platform_device *pdev)
+>  	ret = wait_event_timeout(mhdp->fw_load_wq,
+>  				 mhdp->hw_state == MHDP_HW_READY,
+>  				 timeout);
+> -	if (ret == 0)
+> -		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+> -			__func__);
+> -	else
+> -		stop_fw = true;
+> -
+>  	spin_lock(&mhdp->start_lock);
+>  	mhdp->hw_state = MHDP_HW_STOPPED;
+>  	spin_unlock(&mhdp->start_lock);
+>  
+> -	if (stop_fw)
+> +	if (ret == 0) {
+> +		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
+> +			__func__);
+> +	} else {
+>  		ret = cdns_mhdp_set_firmware_active(mhdp, false);
+> +		if (ret)
+> +			dev_err(mhdp->dev, "Failed to stop firmware (%pe)\n",
+> +				ERR_PTR(ret));
 
-V2:  Fix whitespace in comment
-     Remove TODO comment
-     Add R-B from Robert.
+Why not simply
+			dev_err(mhdp->dev, "Failed to stop firmware (%d)\n",
+				ret);
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-index fdfeadcefe80..7e3e56441aed 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
-@@ -103,22 +103,19 @@ void adv7533_dsi_power_off(struct adv7511 *adv)
- enum drm_mode_status adv7533_mode_valid(struct adv7511 *adv,
- 					const struct drm_display_mode *mode)
- {
--	int lanes;
-+	unsigned long max_lane_freq;
- 	struct mipi_dsi_device *dsi = adv->dsi;
-+	u8 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
- 
--	if (mode->clock > 80000)
--		lanes = 4;
--	else
--		lanes = 3;
--
--	/*
--	 * TODO: add support for dynamic switching of lanes
--	 * by using the bridge pre_enable() op . Till then filter
--	 * out the modes which shall need different number of lanes
--	 * than what was configured in the device tree.
--	 */
--	if (lanes != dsi->lanes)
--		return MODE_BAD;
-+	/* Check max clock for either 7533 or 7535 */
-+	if (mode->clock > (adv->type == ADV7533 ? 80000 : 148500))
-+		return MODE_CLOCK_HIGH;
-+
-+	/* Check max clock for each lane */
-+	max_lane_freq = (adv->type == ADV7533 ? 800000 : 891000);
-+
-+	if (mode->clock * bpp > max_lane_freq * adv->num_dsi_lanes)
-+		return MODE_CLOCK_HIGH;
- 
- 	return MODE_OK;
- }
+? Apart from that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +	}
+>  
+>  	phy_exit(mhdp->phy);
+>  
+> @@ -2609,7 +2609,7 @@ static int cdns_mhdp_remove(struct platform_device *pdev)
+>  
+>  	clk_disable_unprepare(mhdp->clk);
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static const struct of_device_id mhdp_ids[] = {
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
