@@ -1,49 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20FF6C0232
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 14:59:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 657E06C023A
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 15:03:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D85710E17A;
-	Sun, 19 Mar 2023 13:59:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF25010E48A;
+	Sun, 19 Mar 2023 14:03:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A56A310E17A
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 13:59:49 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pdtZO-00084S-47; Sun, 19 Mar 2023 14:59:34 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pdtZF-005EpL-GH; Sun, 19 Mar 2023 14:59:25 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pdtZE-0069Xx-JX; Sun, 19 Mar 2023 14:59:24 +0100
-Date: Sun, 19 Mar 2023 14:59:21 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 01/19] drm/bridge: cdns-mhdp8546: Improve error reporting
- in remove callback
-Message-ID: <20230319135921.bf3awq3h36kb4q3e@pengutronix.de>
-References: <20230318190804.234610-1-u.kleine-koenig@pengutronix.de>
- <20230318190804.234610-2-u.kleine-koenig@pengutronix.de>
- <20230319131301.GF10144@pendragon.ideasonboard.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0DEE10E48A;
+ Sun, 19 Mar 2023 14:03:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679234585; x=1710770585;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Kam5KnEwSr8wv6TKx5GlijRY5Fj7Idrg7iQSml4/RDs=;
+ b=IeKrAxvR3OQSdq0gqjqOY+JBTjlTddWyxIg5CvcSNYcrv9bYMgAK9kQn
+ hjEflvO+o1Sa0C1MIiDW2w75+PB/y7p+2EJhBxHjeeESaisazgx7sytdK
+ MM/dzEL7zTvsrS5Y3K5GRy89gnoccFGdSRNutgxOoy0csoAzyVDTnA+xa
+ m5Va8HGeh1DhURVATXAQTZNzVXgLNYNYL6GJSDKKMWjv6SU4xQSlofnps
+ q3e6PGh61GrujhiRsfaNZUk80kfVShpYLNIcu/UDhHY3jkN8cEVSOu1wD
+ 7Y52uMJicaP/RY0Fd7qwX6Sh8crGTevIfju4mTSe1wKRhtu1KevBimb/P w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="318911018"
+X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; d="scan'208";a="318911018"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2023 07:03:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="926701886"
+X-IronPort-AV: E=Sophos;i="5.98,273,1673942400"; d="scan'208";a="926701886"
+Received: from orsosgc001.jf.intel.com ([10.165.21.138])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Mar 2023 07:03:04 -0700
+From: Ashutosh Dixit <ashutosh.dixit@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] Revert "drm/i915/hwmon: Enable PL1 power limit"
+Date: Sun, 19 Mar 2023 07:03:00 -0700
+Message-Id: <20230319140300.2892032-1-ashutosh.dixit@intel.com>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4l6o75go7fvuq2tc"
-Content-Disposition: inline
-In-Reply-To: <20230319131301.GF10144@pendragon.ideasonboard.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,119 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonas Karlman <jonas@kwiboo.se>,
- Jani Nikula <jani.nikula@intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- kernel@pengutronix.de
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This reverts commit ee892ea83d99610fa33bea612de058e0955eec3a.
 
---4l6o75go7fvuq2tc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+0349c41b0596 ("drm/i915/hwmon: Enable PL1 power limit") was reverted in
+05d5562e401e ("Revert "drm/i915/hwmon: Enable PL1 power limit"") but has
+appeared again as ee892ea83d99 ("drm/i915/hwmon: Enable PL1 power
+limit"). Revert it again.
 
-On Sun, Mar 19, 2023 at 03:13:01PM +0200, Laurent Pinchart wrote:
-> Hi Uwe,
->=20
-> Thank you for the patch.
->=20
-> On Sat, Mar 18, 2023 at 08:07:46PM +0100, Uwe Kleine-K=F6nig wrote:
-> > Replace the generic error message issued by the driver core when the re=
-move
-> > callback returns non-zero ("remove callback returned a non-zero value. =
-This
-> > will be ignored.") by a message that tells the actual problem.
-> >=20
-> > Also simplify a bit by checking the return value of wait_event_timeout a
-> > bit later.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > ---
-> >  .../drm/bridge/cadence/cdns-mhdp8546-core.c    | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/driv=
-ers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> > index f6822dfa3805..d74c6fa30ccc 100644
-> > --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> > @@ -2574,7 +2574,6 @@ static int cdns_mhdp_remove(struct platform_devic=
-e *pdev)
-> >  {
-> >  	struct cdns_mhdp_device *mhdp =3D platform_get_drvdata(pdev);
-> >  	unsigned long timeout =3D msecs_to_jiffies(100);
-> > -	bool stop_fw =3D false;
-> >  	int ret;
-> > =20
-> >  	drm_bridge_remove(&mhdp->bridge);
-> > @@ -2582,18 +2581,19 @@ static int cdns_mhdp_remove(struct platform_dev=
-ice *pdev)
-> >  	ret =3D wait_event_timeout(mhdp->fw_load_wq,
-> >  				 mhdp->hw_state =3D=3D MHDP_HW_READY,
-> >  				 timeout);
-> > -	if (ret =3D=3D 0)
-> > -		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
-> > -			__func__);
-> > -	else
-> > -		stop_fw =3D true;
-> > -
-> >  	spin_lock(&mhdp->start_lock);
-> >  	mhdp->hw_state =3D MHDP_HW_STOPPED;
-> >  	spin_unlock(&mhdp->start_lock);
-> > =20
-> > -	if (stop_fw)
-> > +	if (ret =3D=3D 0) {
-> > +		dev_err(mhdp->dev, "%s: Timeout waiting for fw loading\n",
-> > +			__func__);
-> > +	} else {
-> >  		ret =3D cdns_mhdp_set_firmware_active(mhdp, false);
-> > +		if (ret)
-> > +			dev_err(mhdp->dev, "Failed to stop firmware (%pe)\n",
-> > +				ERR_PTR(ret));
->=20
-> Why not simply
-> 			dev_err(mhdp->dev, "Failed to stop firmware (%d)\n",
-> 				ret);
->=20
-> ? Apart from that,
+Cc: <stable@vger.kernel.org> # v6.2+
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+Fixes: ee892ea83d99 ("drm/i915/hwmon: Enable PL1 power limit")
+Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+---
+ drivers/gpu/drm/i915/i915_hwmon.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-%pe is superior to %d because
+diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
+index ee63a8fd88fc1..596dd2c070106 100644
+--- a/drivers/gpu/drm/i915/i915_hwmon.c
++++ b/drivers/gpu/drm/i915/i915_hwmon.c
+@@ -688,11 +688,6 @@ hwm_get_preregistration_info(struct drm_i915_private *i915)
+ 		for_each_gt(gt, i915, i)
+ 			hwm_energy(&hwmon->ddat_gt[i], &energy);
+ 	}
+-
+-	/* Enable PL1 power limit */
+-	if (i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+-		hwm_locked_with_pm_intel_uncore_rmw(ddat, hwmon->rg.pkg_rapl_limit,
+-						    PKG_PWR_LIM_1_EN, PKG_PWR_LIM_1_EN);
+ }
+ 
+ void i915_hwmon_register(struct drm_i915_private *i915)
+-- 
+2.38.0
 
-	Failed to stop firmware (EIO)
-
-is easier to understand for humans than
-
-	Failed to stop firmware (-5)
-
-=2E Don't you agree?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---4l6o75go7fvuq2tc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQXFTgACgkQj4D7WH0S
-/k6tzwf/QJF84dwfyio+iDK11VDsRsp4zsVNK6jU4WOZXNOS8+sh50UQZN9jATGT
-j7CQ1nrKrsbuMQxV5N71UsU0E4qxqDBLmN6RWdinJdhCjiQgpfKRyBL7oI5Y8cCE
-LK93jWExm8ckIV7ieb9LQlTXlqDmgxvBd+yiXOjwDp3C2lLzTi9d9/eJIRnXImC9
-Q1rgIGiu0qoShYeNdB+PArl8ELZID/2PQix89k32KKE5Xl93G2F8ownfRRopquDa
-b035mDY6EUEGhSD1fqlFtkf1K0vOonBFUerPQsK1/9/84dmgrnN6lK90CdNKP57B
-RBESTSbSvvq8VMPZwq6Xf2v6OJ6z9A==
-=ua5H
------END PGP SIGNATURE-----
-
---4l6o75go7fvuq2tc--
