@@ -1,51 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3C06C02FB
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 17:07:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 832F36C0304
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Mar 2023 17:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00F6910E0BF;
-	Sun, 19 Mar 2023 16:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF3B10E514;
+	Sun, 19 Mar 2023 16:11:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D376F10E0BF
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 16:07:34 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4174610E177
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Mar 2023 16:11:02 +0000 (UTC)
+Received: from workpc.. (109-252-120-116.nat.spd-mgts.ru [109.252.120.116])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4PfjSM1Lf7z9sct;
- Sun, 19 Mar 2023 17:07:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1679242051;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kNjDvtMea1CQUVb5Rt+9MnBA3rnXcLU9MK13p0qx2Do=;
- b=Jup3N7ihTwLbPIkezF6FLR3PI5Yoz0u7MQ2Q8OHGbUcIYQ0lOtukuNVlufoA5v6Wf4TWEy
- 1KAg3g7bQAHd3AsX3JaYMazu5eWjldWCJXQ4F07QAMKJ0QSw+jJ5zlwIBLdXs4e673zVEg
- VOeCxf6RJHFlvypvKdinjYzHGe8mIpINOB3PQWgzGM9D/kUlkGQT3f/UL6f6EjEh4axAtd
- FBaHflhpEa58acTzdDM1hVR2VbyD4TM0tOSHfMgClffdbY6dtwhipDebjm8yD49p0qu0+e
- 2K/Zlrs64VSjolK2CngqgExO5NjQ1l/rETP6iE3nxUW3ezg+neK3FjgMWqiZWQ==
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: jagan@amarulasolutions.com, michael@amarulasolutions.com,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER A10),
- linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC
- support), 
- linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/1] drm/sun4i: tcon: Fix setting PLL rate when using DSI
-Date: Sun, 19 Mar 2023 17:07:04 +0100
-Message-Id: <20230319160704.9858-2-frank@oltmanns.dev>
-In-Reply-To: <20230319160704.9858-1-frank@oltmanns.dev>
-References: <20230319160704.9858-1-frank@oltmanns.dev>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7095F6602E85;
+ Sun, 19 Mar 2023 16:10:59 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1679242260;
+ bh=jPLHTnWTUSdZXY8GKvIeoYeqXSgn03eKYxl5Rh0PcFI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RvUzdhZRkKcywnWUfN8Yz8qW5EqvinT8rLe0gnwLi1VMAu68LaE1n29v3QhnFVBBm
+ EYCVGadvdXyTK1N8HBWPC7JHEyWmj0VcAVUTVgnzi367HR8MpOVjgIZpkU6pNroYkG
+ jsQ+YesTMBs12l0pqOz+dNHxjDjMNwe4isFRagt38Be4Nek5mnydk1k+ooYdzQm+lY
+ wWJwWoj9cK1upMCB1vxogu2AAuk0EtZAPNoO9BbBgXOmYo74j2CmrbBwe76J9MaTqv
+ VLlTSaJaVHXCGD9JecuijnYKgArlbbl5cxjgef8STwIICq5oipLt2BfoD+j3FGPSoo
+ Y9i5bJMzW9hYQ==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>,
+ =?UTF-8?q?Marek=20Ol=C5=A1=C3=A1k?= <maraeo@gmail.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v2 0/2] Add sync object UAPI support to VirtIO-GPU driver
+Date: Sun, 19 Mar 2023 19:08:00 +0300
+Message-Id: <20230319160802.3297643-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,108 +54,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Frank Oltmanns <frank@oltmanns.dev>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the required PLL rate by adjusting the dotclock rate when calling
-clk_set_rate() when using DSI.
+We have multiple Vulkan context types that are awaiting for the addition
+of the sync object DRM UAPI support to the VirtIO-GPU kernel driver:
 
-According to the Allwinners A64's BSP code, a TCON divider of 4 has to
-be used and the PLL rate needs to be set to the following frequency when
-using DSI:
-    PLL rate = DCLK * bpp / lanes
+ 1. Venus context
+ 2. Native contexts (virtio-freedreno, virtio-intel, virtio-amdgpu)
 
-After this change the common mode set function would only contain
-setting the resolution. Therefore, dissolve the function and transfer
-the functionality to the individual mode set functions.
+Mesa core supports DRM sync object UAPI, providing Vulkan drivers with a
+generic fencing implementation that we want to utilize.
 
-Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 46 ++++++++++++++++++++----------
- 1 file changed, 31 insertions(+), 15 deletions(-)
+This patch adds initial sync objects support. It creates fundament for a
+further fencing improvements. Later on we will want to extend the VirtIO-GPU
+fencing API with passing fence IDs to host for waiting, it will be a new
+additional VirtIO-GPU IOCTL and more. Today we have several VirtIO-GPU context
+drivers in works that require VirtIO-GPU to support sync objects UAPI.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 62b3538bd81f..02d52be42f06 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -323,18 +323,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
- 	return delay;
- }
- 
--static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
--					const struct drm_display_mode *mode)
--{
--	/* Configure the dot clock */
--	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
--
--	/* Set the resolution */
--	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
--		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
--		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
--}
--
- static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
- 					   const struct drm_connector *connector)
- {
-@@ -399,10 +387,24 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	u32 block_space, start_delay;
- 	u32 tcon_div;
- 
-+	/*
-+	 * Configure the dot clock:
-+	 * For DSI the PLL rate has to respect the bits per pixel and
-+	 * number of lanes.
-+	 *
-+	 * According to the BSP code:
-+	 * TCON divider = 4
-+	 * PLL rate = DCLK * bpp / lanes
-+	 */
- 	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
- 	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000
-+				 * bpp / (lanes * SUN6I_DSI_TCON_DIV));
- 
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -470,7 +472,14 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = 7;
- 	tcon->dclk_max_div = 7;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+
-+	/* Configure the dot clock */
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-@@ -549,7 +558,14 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
- 	tcon->dclk_max_div = 127;
--	sun4i_tcon0_mode_set_common(tcon, mode);
-+
-+	/* Configure the dot clock */
-+	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-+
-+	/* Set the resolution */
-+	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-+		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-+		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
+The patch is heavily inspired by the sync object UAPI implementation of the
+MSM driver.
+
+Changelog:
+
+v2: - Fixed chain-fence context matching by making use of
+      dma_fence_chain_contained().
+
+    - Fixed potential uninitialized var usage in error code patch of
+      parse_post_deps(). MSM driver had a similar issue that is fixed
+      already in upstream.
+
+    - Added new patch that refactors job submission code path. I found
+      that it was very difficult to add a new/upcoming host-waits feature
+      because of how variables are passed around the code, the virtgpu_ioctl.c
+      also was growing to unmanageable size.
+
+Dmitry Osipenko (2):
+  drm/virtio: Refactor job submission code path
+  drm/virtio: Support sync objects
+
+ drivers/gpu/drm/virtio/Makefile         |   2 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c    |   3 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |   4 +
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 182 ---------
+ drivers/gpu/drm/virtio/virtgpu_submit.c | 510 ++++++++++++++++++++++++
+ include/uapi/drm/virtgpu_drm.h          |  16 +-
+ 6 files changed, 532 insertions(+), 185 deletions(-)
+ create mode 100644 drivers/gpu/drm/virtio/virtgpu_submit.c
+
 -- 
 2.39.2
 
