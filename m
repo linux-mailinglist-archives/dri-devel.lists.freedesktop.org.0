@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4DD6C2066
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3806C206E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:54:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DB210E2DF;
-	Mon, 20 Mar 2023 18:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1748610E2E7;
+	Mon, 20 Mar 2023 18:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAA5A10E2DF
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 18:53:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 589BE617B6;
- Mon, 20 Mar 2023 18:53:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D6CC4339C;
- Mon, 20 Mar 2023 18:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679338419;
- bh=7R+yu6KoiMJTtmKxQUm6Amr4mHH8WJeUyWFKDcZ6RjQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NG4yHgQkk23wmA/c2tPCwZ6idELLr3n9TMxhpQPr0cyr9bL6OMmmCMhmYOXpwIhiC
- z8R1e9aIl5YMpXSbfT8XJtu71lJl8LJk/oEd//2IooAiE50+lsF3y5FkcydGcmmPaR
- vi1vBlZf+iYeKP59Zjne1PEtuLpcpTNH7RCHIB1b36rBst8d9fNCyoSFUZloNkxFcf
- 7NT08QitWa9iztFFDgj5EzWxQWoVCpDHNPzNdK8OHyTzeKnKLxP6Agw/nNHiPk6eFa
- LYVzo246yjqXBc3iivhLZLdstJucPuBB4gHhHayQ1RAyCJ5YviiovZy/qbpd9+Klcz
- sAhv1HooLqqzA==
-Date: Mon, 20 Mar 2023 11:53:37 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: Linux 6.3-rc3
-Message-ID: <20230320185337.GA615556@dev-arch.thelio-3990X>
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
- <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07A1A10E2E3;
+ Mon, 20 Mar 2023 18:54:22 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id x15so2853356pjk.2;
+ Mon, 20 Mar 2023 11:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679338461;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=e7SOUWq19KHl9pAXwlvUo3lhcDDEgQm+oF8TmF0uNlg=;
+ b=MVK8SzRElpv99qoW4uCh2e3Anb9Up80En9f7QGrYRLGbvgHkg9thBuZMqpVtudo3qz
+ O9h1KEt7r/xEg6KbpRIuh3kewbAIIyjrUA+9gIC7vBjxtLwYwvz7SCHO6KKF5Ki9kAHB
+ J+Hk0IXaekXqn24wqDiSOjWZqjdl66EW6V+u6RbYSMhLNP2b56aGVWRbs3PmOR0DwbaH
+ /cNcFVGH7EhKza5pAL77lnFwY8EkhlrcnCOzSO96/zaJs0ky7HUIWXkgow/nisSLLN5A
+ 3gO0gJ8dNaYULNvPwMFCT2X9i1LrbD4lAQML7SmHAVvNOIpFNOIu6I0F6b6WpacWZBfu
+ 6USQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679338461;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e7SOUWq19KHl9pAXwlvUo3lhcDDEgQm+oF8TmF0uNlg=;
+ b=zbYaE0jmB8oX6RGIWlFtWNaaKFvTaybx0U+tr0XKcnM/kuNjcSSGwGB3KReq880ZR+
+ EwEyw7efXSuiPzCNoO7spPsMzWo7kw9YVEbFMYZtZ6xUciEL5Zkcwz0W5pfJsl1aSBA3
+ A2yLQ4IRyqCc3BpWx5o1t0zaD9L0h0SowlmNNFV/outYFmShzKwW1ox91gIMHTu7FVTQ
+ +s3ClQUJZO66rghTUJ11LXKAjPkvxKNg3pB5saQ2MHcbZJkK55My+e8yGuOyArL8TZBQ
+ A97ZghOGB2zRLVkyDNi6eN14KuplGb1d6hpJbTw6VYhLNgmfx9H4p5yC/Tnje07Mnd45
+ 9GTQ==
+X-Gm-Message-State: AO0yUKVu3XoVtKUhDL/LShfPIwsurwxH0iWphCGWP8QKGQyLVpCBjGpQ
+ 9M6cZogiPyXXT5AQMQZcf1n/LPDH5SQ=
+X-Google-Smtp-Source: AK7set+KXQUBNJrPFz4KWD3QvDFqwgQqpFC8XJrTFnBiXGyx9ShsF5weoD9AtU/uJIMDG4F/+bOndw==
+X-Received: by 2002:a17:902:e807:b0:19f:2e2b:3577 with SMTP id
+ u7-20020a170902e80700b0019f2e2b3577mr22175098plg.41.1679338461283; 
+ Mon, 20 Mar 2023 11:54:21 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ c24-20020a170902849800b0019f27fd7cecsm7051443plo.197.2023.03.20.11.54.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 11:54:20 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/msm/a6xx: Some reg64 conversion
+Date: Mon, 20 Mar 2023 11:54:13 -0700
+Message-Id: <20230320185416.938842-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,63 +69,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-toolchains@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 20, 2023 at 11:26:17AM -0700, Linus Torvalds wrote:
-> On Mon, Mar 20, 2023 at 11:05 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > On the clang front, I am still seeing the following warning turned error
-> > for arm64 allmodconfig at least:
-> >
-> >   drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
-> >           if (syncpt_irq < 0)
-> >               ^~~~~~~~~~
-> 
-> Hmm. I do my arm64 allmodconfig builds with gcc, and I'm surprised
-> that gcc doesn't warn about this.
+From: Rob Clark <robdclark@chromium.org>
 
-Perhaps these would make doing allmodconfig builds with clang more
-frequently less painful for you?
+The next generated header update will drop the _LO/_HI suffix, now that
+the userspace tooling properly understands 64b vs 32b regs (and the _LO/
+_HI workarounds are getting cleaned up).  So convert to using the 64b
+reg helpers in prep.
 
-https://lore.kernel.org/llvm/20230319235619.GA18547@dev-arch.thelio-3990X/
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-> That syncpt_irq thing isn't written to anywhere, so that's pretty egregious.
-> 
-> We use -Wno-maybe-uninitialized because gcc gets it so wrong, but
-> that's different from the "-Wuninitialized" thing (without the
-> "maybe").
-> 
-> I've seen gcc mess this up when there is one single assignment,
-> because then the SSA format makes it *so* easy to just use that
-> assignment out-of-order (or unconditionally), but this case looks
-> unusually clear-cut.
-> 
-> So the fact that gcc doesn't warn about it is outright odd.
-> 
-> > If that does not come to you through other means before -rc4, could you
-> > just apply it directly so that I can stop applying it to our CI? :)
-> 
-> Bah. I took it now, there's no excuse for that thing.
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 89049094a242..f26e258c6021 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1053,12 +1053,9 @@ static int hw_init(struct msm_gpu *gpu)
+ 	gpu_write(gpu, REG_A6XX_RBBM_PERFCTR_GPU_BUSY_MASKED, 0xffffffff);
+ 
+ 	/* Disable L2 bypass in the UCHE */
+-	gpu_write(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX_LO, 0xffffffc0);
+-	gpu_write(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX_HI, 0x0001ffff);
+-	gpu_write(gpu, REG_A6XX_UCHE_TRAP_BASE_LO, 0xfffff000);
+-	gpu_write(gpu, REG_A6XX_UCHE_TRAP_BASE_HI, 0x0001ffff);
+-	gpu_write(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE_LO, 0xfffff000);
+-	gpu_write(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE_HI, 0x0001ffff);
++	gpu_write64(gpu, REG_A6XX_UCHE_WRITE_RANGE_MAX_LO, 0x0001ffffffffffc0llu);
++	gpu_write64(gpu, REG_A6XX_UCHE_TRAP_BASE_LO, 0x0001fffffffff000llu);
++	gpu_write64(gpu, REG_A6XX_UCHE_WRITE_THRU_BASE_LO, 0x1fffffffff000llu);
+ 
+ 	if (!adreno_is_a650_family(adreno_gpu)) {
+ 		/* Set the GMEM VA range [0x100000:0x100000 + gpu->gmem - 1] */
+-- 
+2.39.2
 
-Thanks!
-
-> Do we have any gcc people around that could explain why gcc failed so
-> miserably at this trivial case?
-
-Cc'ing linux-toolchains. The start of the thread is here:
-
-https://lore.kernel.org/CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com/
-
-The problematic function before the fix is here:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/host1x/dev.c?id=3d3699bde4b043eea17993e4e76804a8128f0fdb#n487
-
-I will see if I have some cycles to try and reduce something out for the
-GCC folks.
-
-Cheers,
-Nathan
