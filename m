@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C2E6C0C19
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 09:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373C06C0CA3
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 09:59:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07DF810E269;
-	Mon, 20 Mar 2023 08:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E438810E291;
+	Mon, 20 Mar 2023 08:59:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A26A610E269;
- Mon, 20 Mar 2023 08:23:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2DCCFB80D64;
- Mon, 20 Mar 2023 08:23:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C90C433EF;
- Mon, 20 Mar 2023 08:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679300589;
- bh=yabM2Apro8qj1FFGuBwMuZQLTe9feWHYNh167tSAo/k=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FQz4d/CjYV65d+oc0RsBzPvJVmoNHKT1JzJDzHNRDyExrY6Ouospb5UWeHqL/aFha
- ExoNGowakQFwy2IJw0U7OnzVMktBFIk47fG92XQoUMc8uL2mNU1szyD5uL3BssQ9Yi
- RRG/qMo5Z+vwNSmkFmbs0/Z54yG0iRBtIYelvjSnKj1D7IyPJNA5rnlz+LbC2/juX1
- 2a9jITzl6/We/jMTTQbbEkRdlEt7yBBiUm+1U9AzRe9LiwCA9IIC/y6O2pOYYvJeq+
- 62d7Cr5NDhx3a4wU0xtO+2kN0Yev4eDeChwTLi45TG+mxxP5lSj0Jt3ajoDuaecvc6
- 6lH+DTL+yYGbw==
-Date: Mon, 20 Mar 2023 08:23:03 +0000
-From: Lee Jones <lee@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 36/37] drm/amd/display/dc/link/link_detection: Demote a
- couple of kerneldoc abuses
-Message-ID: <20230320082303.GL9667@google.com>
-References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-37-lee@kernel.org>
- <CADnq5_MhMNbcChfaQ=qbk7=F0xQ+nHvFf6W9Q+rEqXm0Zac14w@mail.gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CB4A10E291;
+ Mon, 20 Mar 2023 08:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679302765; x=1710838765;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=i2POnaXGxQMvzGKGVzQkwhkewNHUSHwd0R2/OIXfZLA=;
+ b=i972FL3vnwjR6K8hcmjMyuGxhnoDVBnkzvGs3Pn+CwqOes/WJv7P/31X
+ GJvHI/ESbgik08FgGGj9UH8tTQvho8n1eSCjvoGUPP4lge1lEnOrQUIuo
+ Dy18ipieLRYNNe3BnGMOz77B6NXnWRsMMOYXgV0Y+upzR3zdH/v8G4kiQ
+ 6VKfPOrgS8D0AqqobblPws53j4hrdFp5Sjbou5pvRY0Fcf82fzzrdSMUa
+ Q8pNr9cWMEeG91xHZs2vnMWCcAh9MZetN9jD6VcSKCVKB9aWF5FSqRjCp
+ rCF6fd2Rx08cTSyLL5dp0aUMh4ZjhBZnXpqSCS5rZV/uHhkkOeT+sZy3Q g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="424886787"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="424886787"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 01:59:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="926894084"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="926894084"
+Received: from mseifert-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.61.180])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 01:59:21 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/7] drm/dp_helper: Add helper to check DSC support
+ with given o/p format
+In-Reply-To: <20230309062855.393087-2-suraj.kandpal@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230309062855.393087-1-suraj.kandpal@intel.com>
+ <20230309062855.393087-2-suraj.kandpal@intel.com>
+Date: Mon, 20 Mar 2023 10:59:15 +0200
+Message-ID: <87h6ufajdo.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_MhMNbcChfaQ=qbk7=F0xQ+nHvFf6W9Q+rEqXm0Zac14w@mail.gmail.com>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,72 +61,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Wenjing Liu <wenjing.liu@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Mar 2023, Alex Deucher wrote:
 
-> Applied.  Thanks!
+Thomas, Maxime, Maarten, ack for merging this one via drm-intel?
+
+BR,
+Jani.
+
+
+
+On Thu, 09 Mar 2023, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
+> From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 >
-> Alex
+> Add helper to check if the DP sink supports DSC with the given
+> o/p format.
+>
+> v2: Add documentation for the helper. (Uma Shankar)
+>
+> v3: /** instead of  /* (Uma Shankar)
+>
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> ---
+>  include/drm/display/drm_dp_helper.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index ab55453f2d2c..533d3ee7fe05 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -194,6 +194,19 @@ drm_dp_dsc_sink_max_slice_width(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
+>  		DP_DSC_SLICE_WIDTH_MULTIPLIER;
+>  }
+>  
+> +/**
+> + * drm_dp_dsc_sink_supports_format() - check if sink supports DSC with given output format
+> + * @dsc_dpcd : DSC-capability DPCDs of the sink
+> + * @output_format: output_format which is to be checked
+> + *
+> + * Returns true if the sink supports DSC with the given output_format, false otherwise.
+> + */
+> +static inline bool
+> +drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
+> +{
+> +	return dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] & output_format;
+> +}
+> +
+>  /* Forward Error Correction Support on DP 1.4 */
+>  static inline bool
+>  drm_dp_sink_supports_fec(const u8 fec_capable)
 
-Awesome as ever Alex.  Thank you.
-
-> On Fri, Mar 17, 2023 at 4:24 AM Lee Jones <lee@kernel.org> wrote:
-> >
-> > Fixes the following W=1 kernel build warning(s):
-> >
-> >  drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:877: warning: Function parameter or member 'link' not described in 'detect_link_and_local_sink'
-> >  drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:877: warning: Function parameter or member 'reason' not described in 'detect_link_and_local_sink'
-> >  drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:1232: warning: Function parameter or member 'link' not described in 'dc_link_detect_connection_type'
-> >
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Lee Jones <lee@kernel.org>
-> > Cc: Wenjing Liu <wenjing.liu@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Lee Jones <lee@kernel.org>
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/link/link_detection.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> > index 9a4cfa777622e..67addedd89563 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
-> > @@ -832,7 +832,7 @@ static void verify_link_capability(struct dc_link *link, struct dc_sink *sink,
-> >                 verify_link_capability_non_destructive(link);
-> >  }
-> >
-> > -/**
-> > +/*
-> >   * detect_link_and_local_sink() - Detect if a sink is attached to a given link
-> >   *
-> >   * link->local_sink is created or destroyed as needed.
-> > @@ -1185,7 +1185,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
-> >         return true;
-> >  }
-> >
-> > -/**
-> > +/*
-> >   * link_detect_connection_type() - Determine if there is a sink connected
-> >   *
-> >   * @type: Returned connection type
-> > --
-> > 2.40.0.rc1.284.g88254d51c5-goog
-> >
-
---
-Lee Jones [李琼斯]
+-- 
+Jani Nikula, Intel Open Source Graphics Center
