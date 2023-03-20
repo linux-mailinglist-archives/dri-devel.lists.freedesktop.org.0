@@ -1,62 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45396C22C0
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 21:32:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600BA6C22D4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 21:36:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7B310E65E;
-	Mon, 20 Mar 2023 20:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD1D10E658;
+	Mon, 20 Mar 2023 20:36:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16AEE10E65E;
- Mon, 20 Mar 2023 20:32:54 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id bf30so3118451oib.12;
- Mon, 20 Mar 2023 13:32:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679344373;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2PtNLjV7iuzWid1kzKLl77sk4WYUZ8FOv4+N6gzs8sI=;
- b=HeqJeprrNl5/vk7X1eAw7lmrGamJCZjLBSnMVH3QHjezjvIoMR73/Wq8ZzqKOkFB5N
- atRxNwUb3cHURFE7latn17tFQ8yLJkHprLyjdp9Vydlntu+0A5EHB2rJyKtrS1+1y81I
- ukl33H9vCwntemYpjEToqC/v5hhPXFuEq8ZaBA9NaY0FOUXxqpLwP7C1O9cdG1B1DSRC
- PXqRrgbikK/KHC2NlWdIWC9Wmq/rASHk5jI+K7czu3cPa4UzKrykhI9QBV8WWZAtlPPO
- bK9sT7n00/rWO8dSAo1TPubS2mnScaGxD4le5Sb3lmSymjIEnMRn4O6kvifzG6r0IGoz
- oEzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679344373;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2PtNLjV7iuzWid1kzKLl77sk4WYUZ8FOv4+N6gzs8sI=;
- b=ixLJR0RfaYtvb1txp+rEMmp0C0VhzN4z/llVOYYzQxexABmZUmq3RBMXKMVHopjJod
- 3+tjDgItPiODvZwFqVPVPgq8Qd5HnyfLanXWQQ6YQFtw8scvFWiPmz86gPh4dm31x41A
- Fu/xZ6uqFipCmIhT5zSmNIHIz4Saw6tcxajsgs2zLX/1NxcbU4W/CrhZnCQl852MrbQ+
- B5elhwXGTWqy1K8wNRaX/R35HAUsLvNmfs2A51YtGoH6zXpUpe8L3aafqO/bVQfAmC0t
- 82vKHBkGJ5aU/hGyk5KgQmd6IyJtFI6PD3uXt8TUEmCOCsBs0Dq4Et35+8o8U5Wfyec8
- nAiw==
-X-Gm-Message-State: AO0yUKVyra6PDxPdNapwPKzQSK2SZ4FV0EjqgI0ySd2WQtfRmRtgKW1h
- 80by2vkgwUIbV5z8N4PQ/qw88Cn3uO5BPuxkhwM=
-X-Google-Smtp-Source: AK7set+Z8dm+jxrjXl9udF5iuBLZsy2vXRBn1hk4Q0LgCSqrniaiZyZA8FUks4Jf+kvfsz6lfqPFa4aG1yMoSgx//Zc=
-X-Received: by 2002:aca:1009:0:b0:384:1cf9:912e with SMTP id
- 9-20020aca1009000000b003841cf9912emr445842oiq.5.1679344373225; Mon, 20 Mar
- 2023 13:32:53 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA8D10E658;
+ Mon, 20 Mar 2023 20:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679344565; x=1710880565;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GtBtdYrXOiqXO5+kSEFWGjUn4FOWbsjzFAFsbQ+Cb7U=;
+ b=XQx7PNaRtofgCuU24MCUuRIaQxWCuUULJVx6X8no6sA6ZzzxsVpnE5IV
+ cWegZ25XJHJ3cV6Z2jme0gJdNOGAwY4s6b0uIq5BsMa4oARJqAV7KNoiX
+ El8PPZrOJ8JEIUgBuLE8b6hl+blpy2di7niaHE3arJW5S1iieDJ5nrmMr
+ qyJEzPxyNOeLyfVwkXfq+AkjKE6qajju71Y8E1vA10JJFtYMZ1ADQBhk3
+ j7WmdNZoTztf8njjHptomaEsXOnj0bfObS5Ww2l8tLJPRhBqQ6v6XwZ8d
+ XiuwhQNOp0aI2uGoGM4ZkcUYT/nldAn6+WrG+JvSahopfDLdrG75cEqeB w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338800542"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="338800542"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 13:36:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631263106"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="631263106"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 13:36:01 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1peMEW-000BIW-0W;
+ Mon, 20 Mar 2023 20:35:56 +0000
+Date: Tue, 21 Mar 2023 04:34:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 18/23] PM / QoS: Decouple request alloc from
+ dev_pm_qos_mtx
+Message-ID: <202303210420.9g2z6MgO-lkp@intel.com>
+References: <20230320144356.803762-19-robdclark@gmail.com>
 MIME-Version: 1.0
-References: <20230320144356.803762-1-robdclark@gmail.com>
- <20230320144356.803762-2-robdclark@gmail.com>
- <25bd9a77-a703-6eb6-e142-5da9e54754a0@amd.com>
-In-Reply-To: <25bd9a77-a703-6eb6-e142-5da9e54754a0@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 20 Mar 2023 13:32:41 -0700
-Message-ID: <CAF6AEGuhkEy-RebX76wT+MVYvsArDKmHsqcBcdE95p2bW_zfGg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/23] drm/msm: Pre-allocate hw_fence
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320144356.803762-19-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,133 +60,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org,
+ "open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
+ llvm@lists.linux.dev, open list <linux-kernel@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Machek <pavel@ucw.cz>,
+ oe-kbuild-all@lists.linux.dev, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 20, 2023 at 9:52=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
->
->
-> Am 20.03.23 um 15:43 schrieb Rob Clark:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Avoid allocating memory in job_run() by pre-allocating the hw_fence.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> >   drivers/gpu/drm/msm/msm_fence.c      | 12 +++++++++---
-> >   drivers/gpu/drm/msm/msm_fence.h      |  3 ++-
-> >   drivers/gpu/drm/msm/msm_gem_submit.c |  7 +++++++
-> >   drivers/gpu/drm/msm/msm_ringbuffer.c |  2 +-
-> >   4 files changed, 19 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_=
-fence.c
-> > index 56641408ea74..bab3d84f1686 100644
-> > --- a/drivers/gpu/drm/msm/msm_fence.c
-> > +++ b/drivers/gpu/drm/msm/msm_fence.c
-> > @@ -99,7 +99,7 @@ static const struct dma_fence_ops msm_fence_ops =3D {
-> >   };
-> >
-> >   struct dma_fence *
-> > -msm_fence_alloc(struct msm_fence_context *fctx)
-> > +msm_fence_alloc(void)
-> >   {
-> >       struct msm_fence *f;
-> >
-> > @@ -107,10 +107,16 @@ msm_fence_alloc(struct msm_fence_context *fctx)
-> >       if (!f)
-> >               return ERR_PTR(-ENOMEM);
-> >
-> > +     return &f->base;
-> > +}
-> > +
-> > +void
-> > +msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx=
-)
-> > +{
-> > +     struct msm_fence *f =3D to_msm_fence(fence);
-> > +
-> >       f->fctx =3D fctx;
-> >
-> >       dma_fence_init(&f->base, &msm_fence_ops, &fctx->spinlock,
-> >                      fctx->context, ++fctx->last_fence);
-> > -
-> > -     return &f->base;
-> >   }
-> > diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_=
-fence.h
-> > index 7f1798c54cd1..f913fa22d8fe 100644
-> > --- a/drivers/gpu/drm/msm/msm_fence.h
-> > +++ b/drivers/gpu/drm/msm/msm_fence.h
-> > @@ -61,7 +61,8 @@ void msm_fence_context_free(struct msm_fence_context =
-*fctx);
-> >   bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fen=
-ce);
-> >   void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence)=
-;
-> >
-> > -struct dma_fence * msm_fence_alloc(struct msm_fence_context *fctx);
-> > +struct dma_fence * msm_fence_alloc(void);
-> > +void msm_fence_init(struct dma_fence *fence, struct msm_fence_context =
-*fctx);
-> >
-> >   static inline bool
-> >   fence_before(uint32_t a, uint32_t b)
-> > diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm=
-/msm_gem_submit.c
-> > index be4bf77103cd..2570c018b0cb 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem_submit.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-> > @@ -41,6 +41,13 @@ static struct msm_gem_submit *submit_create(struct d=
-rm_device *dev,
-> >       if (!submit)
-> >               return ERR_PTR(-ENOMEM);
-> >
-> > +     submit->hw_fence =3D msm_fence_alloc();
-> > +     if (IS_ERR(submit->hw_fence)) {
-> > +             ret =3D PTR_ERR(submit->hw_fence);
-> > +             kfree(submit);
-> > +             return ERR_PTR(ret);
-> > +     }
-> > +
-> >       ret =3D drm_sched_job_init(&submit->base, queue->entity, queue);
-> >       if (ret) {
-> >               kfree(submit);
->
-> You probably need some error handling here or otherwise leak
-> submit->hw_fence.
+Hi Rob,
 
-ah, right.. thx
+I love your patch! Perhaps something to improve:
 
-BR,
--R
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on rafael-pm/linux-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc3 next-20230320]
+[cannot apply to chanwoo/devfreq-testing]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Apart from that looks good to me.
->
-> Christian.
->
-> > diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm=
-/msm_ringbuffer.c
-> > index 57a8e9564540..a62b45e5a8c3 100644
-> > --- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-> > +++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-> > @@ -18,7 +18,7 @@ static struct dma_fence *msm_job_run(struct drm_sched=
-_job *job)
-> >       struct msm_gpu *gpu =3D submit->gpu;
-> >       int i;
-> >
-> > -     submit->hw_fence =3D msm_fence_alloc(fctx);
-> > +     msm_fence_init(submit->hw_fence, fctx);
-> >
-> >       for (i =3D 0; i < submit->nr_bos; i++) {
-> >               struct drm_gem_object *obj =3D &submit->bos[i].obj->base;
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-msm-Pre-allocate-hw_fence/20230320-224826
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230320144356.803762-19-robdclark%40gmail.com
+patch subject: [PATCH v2 18/23] PM / QoS: Decouple request alloc from dev_pm_qos_mtx
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230321/202303210420.9g2z6MgO-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/2d7e4629d7265d7e77fc72d01e84d27d805b7485
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Rob-Clark/drm-msm-Pre-allocate-hw_fence/20230320-224826
+        git checkout 2d7e4629d7265d7e77fc72d01e84d27d805b7485
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/base/power/ drivers/char/tpm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210420.9g2z6MgO-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/base/power/qos.c:947:8: warning: variable 'req' is uninitialized when used here [-Wuninitialized]
+                   if (!req) {
+                        ^~~
+   drivers/base/power/qos.c:938:33: note: initialize the variable 'req' to silence this warning
+                   struct dev_pm_qos_request *req;
+                                                 ^
+                                                  = NULL
+   1 warning generated.
+
+
+vim +/req +947 drivers/base/power/qos.c
+
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  917  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  918  /**
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  919   * dev_pm_qos_update_user_latency_tolerance - Update user space latency tolerance.
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  920   * @dev: Device to update the user space latency tolerance for.
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  921   * @val: New user space latency tolerance for @dev (negative values disable).
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  922   */
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  923  int dev_pm_qos_update_user_latency_tolerance(struct device *dev, s32 val)
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  924  {
+2d7e4629d7265d Rob Clark         2023-03-20  925  	struct dev_pm_qos_request *req = NULL;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  926  	int ret;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  927  
+00dd582e52a535 Rob Clark         2023-03-20  928  	ret = dev_pm_qos_constraints_ensure_allocated(dev);
+00dd582e52a535 Rob Clark         2023-03-20  929  	if (ret)
+00dd582e52a535 Rob Clark         2023-03-20  930  		return ret;
+00dd582e52a535 Rob Clark         2023-03-20  931  
+2d7e4629d7265d Rob Clark         2023-03-20  932  	if (!dev->power.qos->latency_tolerance_req)
+2d7e4629d7265d Rob Clark         2023-03-20  933  		req = kzalloc(sizeof(*req), GFP_KERNEL);
+2d7e4629d7265d Rob Clark         2023-03-20  934  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  935  	mutex_lock(&dev_pm_qos_mtx);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  936  
+00dd582e52a535 Rob Clark         2023-03-20  937  	if (!dev->power.qos->latency_tolerance_req) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  938  		struct dev_pm_qos_request *req;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  939  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  940  		if (val < 0) {
+80a6f7c79b7822 Andrew Lutomirski 2016-11-29  941  			if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT)
+80a6f7c79b7822 Andrew Lutomirski 2016-11-29  942  				ret = 0;
+80a6f7c79b7822 Andrew Lutomirski 2016-11-29  943  			else
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  944  				ret = -EINVAL;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  945  			goto out;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  946  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11 @947  		if (!req) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  948  			ret = -ENOMEM;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  949  			goto out;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  950  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  951  		ret = __dev_pm_qos_add_request(dev, req, DEV_PM_QOS_LATENCY_TOLERANCE, val);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  952  		if (ret < 0) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  953  			kfree(req);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  954  			goto out;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  955  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  956  		dev->power.qos->latency_tolerance_req = req;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  957  	} else {
+2d7e4629d7265d Rob Clark         2023-03-20  958  		/*
+2d7e4629d7265d Rob Clark         2023-03-20  959  		 * If we raced with another thread to allocate the request,
+2d7e4629d7265d Rob Clark         2023-03-20  960  		 * simply free the redundant allocation and move on.
+2d7e4629d7265d Rob Clark         2023-03-20  961  		 */
+2d7e4629d7265d Rob Clark         2023-03-20  962  		if (req)
+2d7e4629d7265d Rob Clark         2023-03-20  963  			kfree(req);
+2d7e4629d7265d Rob Clark         2023-03-20  964  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  965  		if (val < 0) {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  966  			__dev_pm_qos_drop_user_request(dev, DEV_PM_QOS_LATENCY_TOLERANCE);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  967  			ret = 0;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  968  		} else {
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  969  			ret = __dev_pm_qos_update_request(dev->power.qos->latency_tolerance_req, val);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  970  		}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  971  	}
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  972  
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  973   out:
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  974  	mutex_unlock(&dev_pm_qos_mtx);
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  975  	return ret;
+2d984ad132a87c Rafael J. Wysocki 2014-02-11  976  }
+034e7906211c18 Andrew Lutomirski 2016-11-29  977  EXPORT_SYMBOL_GPL(dev_pm_qos_update_user_latency_tolerance);
+13b2c4a0c3b1cd Mika Westerberg   2015-07-27  978  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
