@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28D86C0E45
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 11:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EF96C0E49
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 11:10:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F9B10E317;
-	Mon, 20 Mar 2023 10:09:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F5610E2D4;
+	Mon, 20 Mar 2023 10:10:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36EEF10E2E1;
- Mon, 20 Mar 2023 10:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679306956; x=1710842956;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=h6POoj5dy4TdUZccoApFlvGuD/CzgiS3gfJ9WJCVn1s=;
- b=a/slCxFvw+VqA8IR7yfTVg8hm9jNzBt0egPf6g/p1LTXHaKNb/5Fzubs
- TNXNz3d0KNMu33m/Piyi2Qrzg0rQKoOwzapRG9zV0ayL2z6mSJDTb1mCf
- zTbWCq4YJfHVPl/EE5SlgzUCu4kkjs7DmUDHIeiJ2oaeWQLWcw3cTcDFj
- AErLGWyFTkmF9hxSPZyhSZf52ipq6hNr+/F+I6zNle32KQe4RQmVgSDNW
- qBj1aMk/FSvPsQRNWUNCsrVXG3vPb3RmYaFeRtx0wRaN0s17+2e0dYU/N
- qZqM9qKYQlpFgccXgr6v/KNUygTZ37mFR5SYHukrUzSUWOqpHRldzGDrH A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="338647860"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="338647860"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 03:09:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="791560732"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="791560732"
-Received: from nirmoyda-desk.igk.intel.com ([10.91.214.27])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 03:09:14 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH RFC 3/3] drm/i915/display: Implement fb_mmap callback function
-Date: Mon, 20 Mar 2023 11:09:03 +0100
-Message-Id: <20230320100903.23588-3-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230320100903.23588-1-nirmoy.das@intel.com>
-References: <20230320100903.23588-1-nirmoy.das@intel.com>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8419C10E2D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 10:10:33 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id a11so960994lji.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 03:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679307032;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=4ROGny04CILeyCPZ4vkWe21NJxi6A4EiVeLCtFyNlFs=;
+ b=ZR/0YZ46z2R1px//N0p0Im+diR1oI2cClyXVOcochUiM28WB8AS+2KbuoIuF+y2w2S
+ SGp3e4N/2V/31/W1P50/3k0BC39KHANQCUpz1USm3bFshWR5pXt9NXXO3Yp5W8IHH0no
+ 4SDSiTdBo6lgcBUM1Jpm7j8p/hvMt24KAADG17vwxvPiIBIOC0Ukw3/BKWPOVI/jqX8S
+ xFijGUWy1xQu0pdt+ZJT1f3OVeUXoM4YcfmUXqDKY6Rwp5XMngmCmuPb9KEQaEvDwGtR
+ Y77LAdLVSwhv1LD+KnIzGE1VqKuErkQyRl5PMAJd9E92k+90oeHinlMJHlZD6qOcoIMk
+ IPeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679307032;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4ROGny04CILeyCPZ4vkWe21NJxi6A4EiVeLCtFyNlFs=;
+ b=voDWvTqOjc7ljVIySIlU/7LG3O6yRvg56cDoe8iHgUcga/Er2HuybcLeBdFZ0KWyZY
+ 1GfFBffGeBbUHYLRX+o9kPGm2UfqfITsLBh9O6l2ReI61Cpt+dprbnudlUoZ4ZdR79RU
+ aqaxom00GIi41q7fIvzPdOfK/mUxslE6Vep0/T5TylFUToeQMeFrTa63y+EfgjH6cybL
+ KxLSagQX37myulj+xGOS4x/wT41CO69DrzWNwx2pSxmxC6Zl+PFqey5wUz20+LNNS78C
+ VeC1zUbzAP7tJHalKRcuXcFoPesS7CN4wgcJWYz3C0+/pHJ+WZrSheCghQ469D6EvT6G
+ l1cw==
+X-Gm-Message-State: AO0yUKU3uRi//uSKB61zTShU38ZdPvoGjI1vKxl+G6tPgmA5X2mTDPC/
+ Lb+5Nv2Sho1xn5AY2YBJ+1w=
+X-Google-Smtp-Source: AK7set8BlupRJrQbxc3VqBd1QIZwBQ2zzvWSnLrmb+RqyM2N/9W7Y/lQ3XFjGIiv9rqyjE24i67KWA==
+X-Received: by 2002:a2e:9990:0:b0:29b:6521:887f with SMTP id
+ w16-20020a2e9990000000b0029b6521887fmr2287242lji.51.1679307031576; 
+ Mon, 20 Mar 2023 03:10:31 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:16f3:4a00::1?
+ (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
+ by smtp.gmail.com with ESMTPSA id
+ h23-20020a2e3a17000000b00295a9be8764sm1673368lja.117.2023.03.20.03.10.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Mar 2023 03:10:31 -0700 (PDT)
+Message-ID: <98ff1aa3-2c7f-0503-4e72-32a711638153@gmail.com>
+Date: Mon, 20 Mar 2023 12:10:30 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Content-Language: en-US, en-GB
+To: Jonathan Cameron <jic23@kernel.org>
+References: <cover.1679062529.git.mazziesaccount@gmail.com>
+ <20230319165744.10e49cc0@jic23-huawei>
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: [PATCH v4 0/8] Support ROHM BU27034 ALS sensor
+In-Reply-To: <20230319165744.10e49cc0@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,71 +77,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Emma Anholt <emma@anholt.net>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Zhigang Shi <Zhigang.Shi@liteon.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, devicetree@vger.kernel.org,
+ Paul Gazzillo <paul@pgazz.com>, Liam Beguin <liambeguin@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If stolen memory allocation fails for fbdev, the driver will
-fallback to system memory. Calculation of smem_start is wrong
-for such framebuffer objs if the platform comes with no gmadr or
-no aperture. Solve this by adding fb_mmap callback which will
-use GTT if aperture is available otherwise will use cpu to access
-the framebuffer.
+On 3/19/23 18:57, Jonathan Cameron wrote:
+> On Fri, 17 Mar 2023 16:40:16 +0200
+> Matti Vaittinen <mazziesaccount@gmail.com> wrote:
+> 
+>> Support ROHM BU27034 ALS sensor
+> 
+> Hi Matti,
+> 
+> For ease of when this is ready to apply, better to just keep
+> key mailing lists and individuals cc'd on all patches.
 
-v2: Use to_intel_fbdev() function(Jani)
+Right. Sorry about this. I kind of rushed the sending at last friday - 
+which resulted bunch of errors in the process. I forgot to do the 
+spell-check, missed a header and messed the recipients... I should 
+really learn to not try meeting artificial deadlines like friday EOB. 
+There is Saturday and Sunday - and even if I spent weekend off the 
+computer there will likely be the next Monday. (and if there is not, 
+then I should probably not care about sending the patches).
 
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Imre Deak <imre.deak@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_fbdev.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> Mind you cc list is random enough I'm guessing it wasn't
+> deliberate (like the maintainers patch 8 only went to lkml
+> where no one will notice it)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 8c3b3c3fd0e0..5e52bef868a0 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -40,8 +40,10 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- 
- #include "gem/i915_gem_lmem.h"
-+#include "gem/i915_gem_mman.h"
- 
- #include "i915_drv.h"
- #include "intel_display_types.h"
-@@ -119,6 +121,15 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
- 	return ret;
- }
- 
-+static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
-+{
-+	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
-+	struct drm_gem_object *bo = drm_gem_fb_get_obj(&fbdev->fb->base, 0);
-+	struct drm_i915_gem_object *obj = to_intel_bo(bo);
-+
-+	return i915_gem_fb_mmap(obj, vma);
-+}
-+
- static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -130,6 +141,7 @@ static const struct fb_ops intelfb_ops = {
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
- 	.fb_pan_display = intel_fbdev_pan_display,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_mmap = intel_fbdev_mmap,
- };
- 
- static int intelfb_alloc(struct drm_fb_helper *helper,
+I am using a script which generates the recipients "per patch" using the 
+get_maintaner.pl underneath because in many cases certain people are 
+only interested in seeing a subset of a series. This avoids polluting 
+inboxes when sending large series. For v2 and v3 I did manually add the 
+relevant lists / recipients to MAINTAINERS patches which only pick-up 
+the LKML list.
+
+> I can scrape these all of lore, but it's a step that not
+> all reviewers are going to bother with.
+
+I appreciate the extra mile you're ready to go here as well :) However, 
+you should not need to do that. This whole series should've been CC'd to 
+you and the iio-list. Sorry again.
+
+
+Yours,
+	-- Matti
+
 -- 
-2.39.0
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
 
