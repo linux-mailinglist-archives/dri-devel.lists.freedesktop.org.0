@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD2C6C1BAF
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 17:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE286C1BBC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 17:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90D5D10E5EA;
-	Mon, 20 Mar 2023 16:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C962910E5EB;
+	Mon, 20 Mar 2023 16:32:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6CE10E5EA
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 16:31:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774A110E5EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 16:32:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679329917;
+ s=mimecast20190719; t=1679329961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0hMdEvkGZX6gP9t/tvB4hM1Y9DcXkYUFUsoGe13JtC0=;
- b=H8K0PAxgx7O0zoDck4Xy9U2TVEHq8x4B++Cv+c86ameUkWzPPvcPhs5S5xFmmAKKwds/Rz
- WJWZ9R58M2BXQxf7ScD2StN7/22uDtynd0Zo+f3D/ubvJ2W+UmXabIAPe3o43rHKmMgB+i
- P9ru11Qhalq48r+8UHThrCLVZQTkjhk=
+ bh=8d+a/HBuZb2630QKY+hvQh3adEE9QFOGkJ+PZ3RAZrQ=;
+ b=cGxcxxEsF8vN/it021wVJmuEgxQKIs74MTPmYu3GgVMqfhpe7lBgnawP6CY9u+22bDjxf0
+ +vrs77ks3WBnhDNtWfDE4zsi6w0uImB4phicsOJaSWidXhK6Z2+SUrxSSvLoSdH1t+kZg/
+ koMsmbbiOwsHKqjNy8QSulBUKRJ6q7I=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-79-pEsub2FmMvSzR6UAH4Xirg-1; Mon, 20 Mar 2023 12:31:55 -0400
-X-MC-Unique: pEsub2FmMvSzR6UAH4Xirg-1
+ us-mta-413-JRim_LCfOte9HORhK4CrMQ-1; Mon, 20 Mar 2023 12:32:40 -0400
+X-MC-Unique: JRim_LCfOte9HORhK4CrMQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- j13-20020a05600c190d00b003ed26189f44so8699169wmq.8
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:31:55 -0700 (PDT)
+ bi5-20020a05600c3d8500b003edda1368d7so1562222wmb.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:32:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679329914;
+ d=1e100.net; s=20210112; t=1679329959;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0hMdEvkGZX6gP9t/tvB4hM1Y9DcXkYUFUsoGe13JtC0=;
- b=FrOXITko7D2q1fXAGgKaK3sMrSD+EaeNKk9DwWEJtM/umLuuCwRMeHHCd/RjRBS1Iy
- 9qP9wPGvjmgx9C4Ow5C8z6PyPZQZiTVMEC2Vll1fD3qNP6gb60J8GQyvqo+CVOqb47SZ
- BnfkEhao2JaqMHZrh8vDX0VHK3htyyp6ySgzcKXfpPVlJW/t7mGdgUmP4Ee1J4DFiKEi
- OTwIqSYrouXA51nkZeAPiKuifZhCEUXNOqBR7pQPp2gHKJSutNXsBG+9YGQxfvEGjDS3
- Qy2ZFNCx8qUQA87B3EEO1Q40OcCOTVrs7VvrAFRTYtruKD8+lTsmwi2ZL08d6a8L+Dul
- m+sQ==
-X-Gm-Message-State: AO0yUKXwVqMQm17yxC1uxSP3dSmlW34MWwgF686Kr9WadFkzk5cQw0lH
- 16pQrBnAcUaVeeu//oVZ3Ky0t3SNiLwApWWy/dL8jfME5RQuEeYpibZkzFLbQKB3NkVozS0/TiZ
- GxZuPHJatmzZDWUabteKvoDHeaG7fmFBmfjCW
-X-Received: by 2002:a7b:cd07:0:b0:3ed:d261:50a6 with SMTP id
- f7-20020a7bcd07000000b003edd26150a6mr143612wmj.9.1679329914614; 
- Mon, 20 Mar 2023 09:31:54 -0700 (PDT)
-X-Google-Smtp-Source: AK7set/x2KQ09J/l0c4Qtjw37mhjB/6/neHc+BjlbTD+3dOK6k5xoTsuftRjr2GXXV2MwCEKWECctg==
-X-Received: by 2002:a7b:cd07:0:b0:3ed:d261:50a6 with SMTP id
- f7-20020a7bcd07000000b003edd26150a6mr143600wmj.9.1679329914339; 
- Mon, 20 Mar 2023 09:31:54 -0700 (PDT)
+ bh=8d+a/HBuZb2630QKY+hvQh3adEE9QFOGkJ+PZ3RAZrQ=;
+ b=nTcp7sJSnOrmEmUHnwpSqHC/vpgzBgTzBREDkDxo7oDtC9jiIJvenJ5kcQBbua5JeN
+ SWmL1EKp3TwCm8P/5tjpBt0yvrPaDQlVT+jEj34JCe5i99rL7RHEYD5W55Vm59zH4KP2
+ 3n9hWXhaxcYhiRhJF7PVWg1eZbfnlDMFlaG5h1QK1naBCCGWPd/ucWEkSKwpV7BGlR98
+ s4/6N4zo3ywN9dTrcC3GFSDqp/kyRfQnYgYnsOS0Z+B2ouSTL1JvPIPl/O4d0VpTlF+M
+ MhlC/3IDXIAT23t+Sa9n7fDtZvyw1lzeOoUlUw6aGXM38h7xq0HT6kcmBepYJxAjZAvy
+ Gh/g==
+X-Gm-Message-State: AO0yUKX6vJA0YmQ4P9/DWfqyVb1tDcbNyhqnw3BKXkaKsBjUFnQtDRC0
+ 6O7lmjyB19uc16ycwbn5KcrsmylE0Y7drGY/SCsMu3kyvnTeIOEdYZYTRXcIRjHDjMqoALv3Ec6
+ hcrollpOTA54CpN9pSDrnhdoLdgPD
+X-Received: by 2002:a5d:58e4:0:b0:2c7:46f:c410 with SMTP id
+ f4-20020a5d58e4000000b002c7046fc410mr14282206wrd.36.1679329959207; 
+ Mon, 20 Mar 2023 09:32:39 -0700 (PDT)
+X-Google-Smtp-Source: AK7set8TMnCARqC0EAlNhkYjBaGXw0FxsEp/GMDSp1cQmUV/wNHJ9bkxf0RybVcv6H3Xgz8DKsGebw==
+X-Received: by 2002:a5d:58e4:0:b0:2c7:46f:c410 with SMTP id
+ f4-20020a5d58e4000000b002c7046fc410mr14282192wrd.36.1679329958954; 
+ Mon, 20 Mar 2023 09:32:38 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es.
  [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- t17-20020a05600c451100b003edddae1068sm5136301wmo.9.2023.03.20.09.31.53
+ h5-20020a5d4305000000b002c3f81c51b6sm9232064wrq.90.2023.03.20.09.32.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 09:31:54 -0700 (PDT)
+ Mon, 20 Mar 2023 09:32:38 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
  zackr@vmware.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
  virtualization@lists.linux-foundation.org,
  linux-graphics-maintainer@vmware.com
-Subject: Re: [PATCH v2 4/8] drm/fb-helper: Support smem_len in deferred I/O
-In-Reply-To: <20230320150751.20399-5-tzimmermann@suse.de>
+Subject: Re: [PATCH v2 5/8] drm/fbdev-generic: Set screen size to size of
+ GEM buffer
+In-Reply-To: <20230320150751.20399-6-tzimmermann@suse.de>
 References: <20230320150751.20399-1-tzimmermann@suse.de>
- <20230320150751.20399-5-tzimmermann@suse.de>
-Date: Mon, 20 Mar 2023 17:31:53 +0100
-Message-ID: <87sfdzo03q.fsf@minerva.mail-host-address-is-not-set>
+ <20230320150751.20399-6-tzimmermann@suse.de>
+Date: Mon, 20 Mar 2023 17:32:37 +0100
+Message-ID: <87pm93o02i.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -90,8 +91,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> The size of the framebuffer can either be stored in screen_info or
-> smem_len. Take both into account in the deferred I/O code.
+> The size of the screen memory should be equivalent to the size of
+> the screen's GEM buffer. Don't recalculate the value.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
