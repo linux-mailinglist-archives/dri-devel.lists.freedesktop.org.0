@@ -1,74 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137DE6C1727
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:12:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FF36C1785
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:14:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2BB10E5B8;
-	Mon, 20 Mar 2023 15:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33F4210E2D9;
+	Mon, 20 Mar 2023 15:14:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 458A210E5A0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:12:02 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32KBv5FR009548; Mon, 20 Mar 2023 15:11:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=2GERI22WoV5OHHDLOQn/IE8uUAgA25xOwV1eh31RJKU=;
- b=lWExIAQ+q4idphpyIKpGJ0lVF1ZLTNlf6uCTcEGCvxZGMdmI0wlr71sZiLFcdr3Nt4gl
- senEEXYk8NB5TzegHFyiD7eBG6zsHJJDaMG1wY/TW0W1oj13jA6utFGbTsQnZ3Rzi3h4
- fqSh2HaLRQf468h20Y4QFoBi1qDqUdWjXgr7qjB5LtFIGqnV3emFR0LgjKXAWkkJjpjG
- 5XevImGIMyoCH/Cuw6Qm8j4Bss6uAXzAYDOWxdiz7IILet1yvFtc25zBbtPXVVKSnIgU
- CJq2Ag91empZBEnDbXclzpg0cg7Fyz2scfutne8Bm68j69+AaugtfSnc/VGelwcG8WGh 6w== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3peg57sg1p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 15:11:55 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32KFBsm5003052
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 15:11:54 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Mon, 20 Mar 2023 08:11:53 -0700
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <jacek.lawrynowicz@linux.intel.com>, <stanislaw.gruszka@linux.intel.com>
-Subject: [PATCH v4 8/8] MAINTAINERS: Add entry for QAIC driver
-Date: Mon, 20 Mar 2023 09:11:14 -0600
-Message-ID: <1679325074-5494-9-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
-References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB0810E2D9;
+ Mon, 20 Mar 2023 15:14:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679325272; x=1710861272;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=wEJa0GP3/V393lo37hu+c7/l6uvFaV1Uh+P3Q5auMJA=;
+ b=YVU5RG74+pQXoeemrIZaY8ao/S2BOpm0YAcHhN6xzVnLi646mP5AU2uj
+ JfjvevIwEgr1k2yMndo+MPXt2fOAOwOVGYUltkrCxFMsM1V94IBWVMkdI
+ Udl9YNz/wxHJ2nj9wBEzxWXulKBNLxrDc37AwCdWnwSFZslNh2vXpogaw
+ F6wwg1Hl7zVrn8NLvhYjbqzIpMXH4esNF5+8WmMFMYwH6IXWAhu6CN6ei
+ LnaP9ktQ4HcTWeZpPPXreH60a60cJXTUOGcITjN+f7sRlxlhq2XO2Tu8d
+ 8K4R+QFtFy22e38Gcptvymvr2DrlLLQYaHQ6NWgDvzyWANsxZrvA3kaca Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="322529499"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="322529499"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 08:14:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="770231521"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="770231521"
+Received: from sbrieffi-mobl.ger.corp.intel.com (HELO localhost.localdomain)
+ ([10.213.210.83])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 08:14:29 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Fix context runtime accounting
+Date: Mon, 20 Mar 2023 15:14:23 +0000
+Message-Id: <20230320151423.1708436-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ZkLVrWmLkjY-qKUe5dWgJmgRRZ3f8VXQ
-X-Proofpoint-GUID: ZkLVrWmLkjY-qKUe5dWgJmgRRZ3f8VXQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-20_10,2023-03-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 spamscore=0 clxscore=1015 phishscore=0 mlxlogscore=999
- priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303200129
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +57,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
+Cc: stable@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+When considering whether to mark one context as stopped and another as
+started we need to look at whether the previous and new _contexts_ are
+different and not just requests. Otherwise the software tracked context
+start time was incorrectly updated to the most recent lite-restore time-
+stamp, which was in some cases resulting in active time going backward,
+until the context switch (typically the hearbeat pulse) would synchronise
+with the hardware tracked context runtime. Easiest use case to observe
+this behaviour was with a full screen clients with close to 100% engine
+load.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Fixes: bb6287cb1886 ("drm/i915: Track context current active time")
+Cc: <stable@vger.kernel.org> # v5.19+
 ---
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b0db911..12f3028 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17253,6 +17253,16 @@ F:	Documentation/devicetree/bindings/clock/qcom,*
- F:	drivers/clk/qcom/
- F:	include/dt-bindings/clock/qcom,*
- 
-+QUALCOMM CLOUD AI (QAIC) DRIVER
-+M:	Jeffrey Hugo <quic_jhugo@quicinc.com>
-+L:	linux-arm-msm@vger.kernel.org
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/accel/qaic/
-+F:	drivers/accel/qaic/
-+F:	include/uapi/drm/qaic_accel.h
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 1bbe6708d0a7..750326434677 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -2018,6 +2018,8 @@ process_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+ 	 * inspecting the queue to see if we need to resumbit.
+ 	 */
+ 	if (*prev != *execlists->active) { /* elide lite-restores */
++		struct intel_context *prev_ce = NULL, *active_ce = NULL;
 +
- QUALCOMM CORE POWER REDUCTION (CPR) AVS DRIVER
- M:	Bjorn Andersson <andersson@kernel.org>
- M:	Konrad Dybcio <konrad.dybcio@linaro.org>
+ 		/*
+ 		 * Note the inherent discrepancy between the HW runtime,
+ 		 * recorded as part of the context switch, and the CPU
+@@ -2029,9 +2031,15 @@ process_csb(struct intel_engine_cs *engine, struct i915_request **inactive)
+ 		 * and correct overselves later when updating from HW.
+ 		 */
+ 		if (*prev)
+-			lrc_runtime_stop((*prev)->context);
++			prev_ce = (*prev)->context;
+ 		if (*execlists->active)
+-			lrc_runtime_start((*execlists->active)->context);
++			active_ce = (*execlists->active)->context;
++		if (prev_ce != active_ce) {
++			if (prev_ce)
++				lrc_runtime_stop(prev_ce);
++			if (active_ce)
++				lrc_runtime_start(active_ce);
++		}
+ 		new_timeslice(execlists);
+ 	}
+ 
 -- 
-2.7.4
+2.37.2
 
