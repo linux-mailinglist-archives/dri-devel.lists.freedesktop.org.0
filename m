@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29626C188F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884A66C1866
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:23:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DA910E5C6;
-	Mon, 20 Mar 2023 15:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABDEA10E5AB;
+	Mon, 20 Mar 2023 15:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDF810E5C6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:25:38 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8555210E5AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:23:48 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9AAEF61573;
- Mon, 20 Mar 2023 15:25:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82EB7C4339B;
- Mon, 20 Mar 2023 15:25:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DF413615A7;
+ Mon, 20 Mar 2023 15:23:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328C4C4339C;
+ Mon, 20 Mar 2023 15:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1679325937;
- bh=6DntsOsD5o9L4KQWCR+51YyGazQ+SlIpyTP/7rWUeKQ=;
+ s=korg; t=1679325827;
+ bh=SfCZawwhNVkHFA9/sY9LZNRj6mtwDsVyCSJo6iC8ZxI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=I9RsKRI3vdwdhQp2S455m/2InKNOxWaWQDmxjSxP5Fs7zbu1aHuwDcTsGhpY5zZab
- bTL+lzkLRsuybdXNmIsNSL85PAqR4k5d9Fe7oiEPl47Is0lpfHC2Izoy01t0fE0QaH
- qqUBRg5aFXnoAPkyq7VVQucxbhSQAkN6zqeVFv44=
+ b=R+kRlSBM027emes+TDJwlRfWMAzqt8y0XSLiJY0ujgljnASz9gmo9/n/1BvN+dvhW
+ 2sIs/TlzQCquh9uL9eDjSBHhqR6yg/vMnW3vJ5cXbWbj0QJhjFdiT9srcVK1frQ7iu
+ UnXqhSFNXarCLgj1BIOPBWALwxdxSyuxOgt35pzI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
-Subject: [PATCH 6.2 128/211] drm/ttm: Fix a NULL pointer dereference
-Date: Mon, 20 Mar 2023 15:54:23 +0100
-Message-Id: <20230320145518.756840440@linuxfoundation.org>
+Subject: [PATCH 6.1 127/198] drm/ttm: Fix a NULL pointer dereference
+Date: Mon, 20 Mar 2023 15:54:25 +0100
+Message-Id: <20230320145512.868867333@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230320145513.305686421@linuxfoundation.org>
-References: <20230320145513.305686421@linuxfoundation.org>
+In-Reply-To: <20230320145507.420176832@linuxfoundation.org>
+References: <20230320145507.420176832@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -103,12 +104,14 @@ Reviewed-by: Christian König <christian.koenig@amd.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/20230307144621.10748-2-thomas.hellstrom@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ttm/ttm_device.c |    2 +-
+ drivers/gpu/drm/ttm/ttm_device.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+index e7147e304637..b84f74807ca1 100644
 --- a/drivers/gpu/drm/ttm/ttm_device.c
 +++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device
+@@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
  			struct ttm_buffer_object *bo = res->bo;
  			uint32_t num_pages;
  
@@ -117,5 +120,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  				continue;
  
  			num_pages = PFN_UP(bo->base.size);
+-- 
+2.40.0
+
 
 
