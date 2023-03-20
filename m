@@ -1,54 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CAA6C1F29
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:11:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B87B6C1F98
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:25:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E9810E640;
-	Mon, 20 Mar 2023 18:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A49710E037;
+	Mon, 20 Mar 2023 18:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35A0510E1F3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 18:11:07 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5258F10E037;
+ Mon, 20 Mar 2023 18:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679335867; x=1710871867;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=KGgMVkVYkzc5hGwH7fgh8riyDfxHum9YPyo5UnckO5Q=;
- b=FkTaA4vTMNNZ0vksnDfuOwHqoO2HaadSePmutyNlVb0eiLeUGL2chVDw
- xAxx7LCOPjntBIdRn3yUJp+RCFFYpd0h31e83IUgYz8alBpqVnS65dKD7
- /409JVzXqPPK3RNA5DuJfKgoxE8++hAnNeLbcyY0gpAyZzmji07lzK3Js
- MNjBr7Se51737qRZvD+8AhlvUxvD+q7QTkm1I4Oml4Mh4OJVPjE+aE8o5
- SkEoiGx0W2B31A+NiIiOlQexp2s/BcdV0PcJ32hDnod2hrw7VSQgiWVkl
- R6A7Ckmxw5dCsOorACkmGPymIGRXN2/XqZOsS650MmquOYNKcqHXmT+wo A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338764984"
-X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="338764984"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 11:10:57 -0700
+ t=1679336697; x=1710872697;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=KAqlx1YFiowkUDpvtxglFZCWP+Bcoz7vB9tjbuTJQK4=;
+ b=fhgg78mRClnivFESzyM5ciesMA7NYSSytZ9VnlbqtxQQ+UrsjUOmpkZk
+ 8sMbnwjHsSRLziXOfhidKTsbn8pAAKqr9viynPqr1GN+J/q8RLSp2Bma0
+ Hidwo9rAGd/EYGTyO7/qYgS7fkSRW2Kpy1OXCD2hoS0HsqXdEJiZKGx9G
+ o9uJlo99DCCfoa5oh3kpqKflqFAYa5Y2r+YXxctNJrEHO6MJkId0gCvGN
+ cidZJN6g3hV4NoCJH1r1RZntnsql3ujokNgZDzDS4azlCCugqQTlX+MBo
+ EtjucPnrqBFOAJicC6PQ/2uVWse67UrVxiW6/uDBEeCtRsiOWi5JSS5pM Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="341101262"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="341101262"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 11:24:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="927063951"
-X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="927063951"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga006.fm.intel.com with ESMTP; 20 Mar 2023 11:10:53 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1peJy8-000BDZ-1J;
- Mon, 20 Mar 2023 18:10:52 +0000
-Date: Tue, 21 Mar 2023 02:10:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
- airlied@gmail.com, daniel@ffwll.ch, jacek.lawrynowicz@linux.intel.com,
- stanislaw.gruszka@linux.intel.com
-Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
-Message-ID: <202303210148.859DLhtz-lkp@intel.com>
-References: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674507500"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="674507500"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.6.65])
+ ([10.213.6.65])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 11:24:53 -0700
+Message-ID: <9b1efced-605e-1088-946f-06a4c1a27260@intel.com>
+Date: Mon, 20 Mar 2023 19:24:50 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH v4 03/10] lib/ref_tracker: add printing to
+ memory buffer
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20230224-track_gt-v4-0-464e8ab4c9ab@intel.com>
+ <20230224-track_gt-v4-3-464e8ab4c9ab@intel.com>
+ <ZBeYNaTUmvAxrzoU@ashyti-mobl2.lan>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ZBeYNaTUmvAxrzoU@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,65 +66,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
- oe-kbuild-all@lists.linux.dev
+Cc: netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris.p.wilson@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Eric Dumazet <edumazet@google.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jeffrey,
+On 20.03.2023 00:18, Andi Shyti wrote:
+> Hi Andrzej,
+> 
+> This looks also good, just few questions.
+> 
+> On Mon, Mar 06, 2023 at 05:31:59PM +0100, Andrzej Hajda wrote:
+>> In case one wants to show stats via debugfs.
+> 
+> shall I say it? I'll say it... you can do better with the log
+> here. It's not a typo fix :)
+> 
+>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> 
+> [...]
+> 
+>> +void __ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>> +			   unsigned int display_limit)
+>> +{
+>> +	struct ostream os = {};
+>> +
+>> +	__ref_tracker_dir_pr_ostream(dir, display_limit, &os);
+>> +}
+>>   EXPORT_SYMBOL(__ref_tracker_dir_print);
+>>   
+>>   void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>> @@ -114,6 +141,19 @@ void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+>>   }
+>>   EXPORT_SYMBOL(ref_tracker_dir_print);
+>>   
+>> +int ref_tracker_dir_snprint(struct ref_tracker_dir *dir, char *buf, size_t size)
+> 
+> nit: snprintf is normally referred to its variable parameter
+> counterpart... I would choose a different name... how about
+> ref_tracker_dir_fetch_print()?
 
-Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on lwn/docs-next linus/master v6.3-rc3 next-20230320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hmm, original ref_tracker_dir_print prints the stats to dmesg,
+ref_tracker_dir_snprint prints to memory buffer, like:
+- stack_depot_print and stack_depot_snprint,
+- stack_trace_print and stack_trace_snprint.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/1679325074-5494-7-git-send-email-quic_jhugo%40quicinc.com
-patch subject: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
-reproduce:
-        make versioncheck
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210148.859DLhtz-lkp@intel.com/
+> 
+>> +{
+>> +	struct ostream os = { .buf = buf, .size = size };
+>> +	unsigned long flags;
+>> +
+>> +	spin_lock_irqsave(&dir->lock, flags);
+>> +	__ref_tracker_dir_pr_ostream(dir, 16, &os);
+>> +	spin_unlock_irqrestore(&dir->lock, flags);
+> 
+> What are you trying to protect with this spinlock? what if
+> the caller has already locked here? do we need a _locked()
+> version?
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/accel/qaic/mhi_qaic_ctrl.c: 9 linux/version.h not needed.
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+spinlock is to serialize access to dir,
+at the moment _locked version is not necessary, but it can be easily 
+added if needed.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Regards
+Andrzej
+
+
+> 
+> Thanks,
+> Andi
+> 
+>> +	return os.used;
+>> +}
+>> +EXPORT_SYMBOL(ref_tracker_dir_snprint);
+>> +
+>>   void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+>>   {
+>>   	struct ref_tracker *tracker, *n;
+>>
+>> -- 
+>> 2.34.1
+
