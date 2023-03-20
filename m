@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76206C0711
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 01:54:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1256D6C0727
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 01:55:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AAF410E0D6;
-	Mon, 20 Mar 2023 00:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3283210E0DD;
+	Mon, 20 Mar 2023 00:55:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84E2710E0D6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 00:54:19 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 854EB10E0DD;
+ Mon, 20 Mar 2023 00:55:08 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 29E65B80D41;
- Mon, 20 Mar 2023 00:54:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992EAC433EF;
- Mon, 20 Mar 2023 00:54:15 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D4619611FE;
+ Mon, 20 Mar 2023 00:55:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F708C433EF;
+ Mon, 20 Mar 2023 00:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679273657;
- bh=sDkruBFyfQL22Bvsy8QT47HOFCYwklASkPBiGar2oVc=;
- h=From:To:Cc:Subject:Date:From;
- b=Bhd1zqjUyMXNL7ioQMLEGny2XENYp2upRHxgO7KqOIluFG8EAPqLTlqfUzK1Dyae9
- E350AKRkcX0bsScJzlwbTECRS7XR3Uc4AgFoLrgiGXlrUfcOiy99O5yaeRdc3Ok5hN
- fwEIWAX3NH4d+BnIdJOba5KdA7TYGObHLYbvlu1wLpJImlYtGazsX7kK+1ex6g71GL
- 0Z1tCdG2sG2OPm1Rx+rJxG6uB6Oj5xLsS2PXVsVXARKe1P13617XmyIGcJ/9SiP7q/
- d4pL3zrOgUuXwoWOD1/a08kdJv2NUDlCojQIyHCyqLOjk+bif7NNt9OzEYS7rxakyv
- QQfhn/vio0rRA==
+ s=k20201202; t=1679273707;
+ bh=dP8MKAIz+hzlwbkB+IquFyYQGS6Da7JzwgrSPP86ulE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YbF0BOlB4Fl97XetgSB9wOhWsffhm7FRRR30pral7NG3IMYiRP5meSd40dJDhijeT
+ 0SvaF+juvlxxZ9uokFr2Bx4EviUNIsa2L41rjuEXA2QWZ+qNCq2gcEus6ANye+qEEE
+ Sh1taSffcAmrEc2RMpXIJXq+A3QiVdzgdMAlCzP9pnSJz1JnU3QGzV7HYwf7Sn2PY+
+ YZWcL/w3kpeGxG/CQWo+3YrbsWt0bRAO2wRhepqyD/PlKNTlSRf7V4AFMtc9T1mGt6
+ kXeXD3M8jeIF7eufNJCWAtVWEaIDeZzn6YN+f0UJVOHFBkQZ1cydeYYmmBrbRgi/Qr
+ 2PCop3oYzZ7yQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 01/29] drm/cirrus: NULL-check
- pipe->plane.state->fb in cirrus_pipe_update()
-Date: Sun, 19 Mar 2023 20:53:43 -0400
-Message-Id: <20230320005413.1428452-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 26/29] drm/amd/display: Update clock table to
+ include highest clock setting
+Date: Sun, 19 Mar 2023 20:54:08 -0400
+Message-Id: <20230320005413.1428452-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230320005413.1428452-1-sashal@kernel.org>
+References: <20230320005413.1428452-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,50 +56,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, jani.nikula@intel.com, sam@ravnborg.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Alexandr Sapozhnikov <alsp705@gmail.com>, kraxel@redhat.com,
- Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: Sasha Levin <sashal@kernel.org>, oliver.logush@amd.com,
+ Swapnil Patel <Swapnil.Patel@amd.com>, sunpeng.li@amd.com,
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, amd-gfx@lists.freedesktop.org, mwen@igalia.com,
+ mairacanal@riseup.net, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com,
+ Pavle Kotarac <pavle.kotarac@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alexandr Sapozhnikov <alsp705@gmail.com>
+From: Swapnil Patel <Swapnil.Patel@amd.com>
 
-[ Upstream commit 7245e629dcaaf308f1868aeffa218e9849c77893 ]
+[ Upstream commit 2d99a7ec25cf456cd3680eb314d6454138e5aa64 ]
 
-After having been compared to NULL value at cirrus.c:455, pointer
-'pipe->plane.state->fb' is passed as 1st parameter in call to function
-'cirrus_fb_blit_rect' at cirrus.c:461, where it is dereferenced at
-cirrus.c:316.
+[Why]
+Currently, the clk manager matches SocVoltage with voltage from
+fused settings (dfPstate clock table). And then corresponding clocks
+are selected.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+However in certain situations, this leads to clk manager not
+including at least one entry with highest supported clock setting.
 
-v2:
-	* aligned commit message to line-length limits
+[How]
+Update the clk manager to include at least one entry with highest
+supported clock setting.
 
-Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230215171549.16305-1-alsp705@gmail.com
+Reviewed-by: Pavle Kotarac <pavle.kotarac@amd.com>
+Acked-by: Qingqing Zhuo <qingqing.zhuo@amd.com>
+Signed-off-by: Swapnil Patel <Swapnil.Patel@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/tiny/cirrus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../display/dc/clk_mgr/dcn301/vg_clk_mgr.c    | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index 354d5e854a6f0..b27e469e90217 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -455,7 +455,7 @@ static void cirrus_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (state->fb && cirrus->cpp != cirrus_cpp(state->fb))
- 		cirrus_mode_set(cirrus, &crtc->mode, state->fb);
+diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+index 24715ca2fa944..01383aac6b419 100644
+--- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
++++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn301/vg_clk_mgr.c
+@@ -529,6 +529,19 @@ static struct clk_bw_params vg_bw_params = {
  
--	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
-+	if (state->fb && drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		cirrus_fb_blit_rect(state->fb, &shadow_plane_state->data[0], &rect);
- }
+ };
  
++static uint32_t find_max_clk_value(const uint32_t clocks[], uint32_t num_clocks)
++{
++	uint32_t max = 0;
++	int i;
++
++	for (i = 0; i < num_clocks; ++i) {
++		if (clocks[i] > max)
++			max = clocks[i];
++	}
++
++	return max;
++}
++
+ static unsigned int find_dcfclk_for_voltage(const struct vg_dpm_clocks *clock_table,
+ 		unsigned int voltage)
+ {
+@@ -572,12 +585,16 @@ static void vg_clk_mgr_helper_populate_bw_params(
+ 
+ 	bw_params->clk_table.num_entries = j + 1;
+ 
+-	for (i = 0; i < bw_params->clk_table.num_entries; i++, j--) {
++	for (i = 0; i < bw_params->clk_table.num_entries - 1; i++, j--) {
+ 		bw_params->clk_table.entries[i].fclk_mhz = clock_table->DfPstateTable[j].fclk;
+ 		bw_params->clk_table.entries[i].memclk_mhz = clock_table->DfPstateTable[j].memclk;
+ 		bw_params->clk_table.entries[i].voltage = clock_table->DfPstateTable[j].voltage;
+ 		bw_params->clk_table.entries[i].dcfclk_mhz = find_dcfclk_for_voltage(clock_table, clock_table->DfPstateTable[j].voltage);
+ 	}
++	bw_params->clk_table.entries[i].fclk_mhz = clock_table->DfPstateTable[j].fclk;
++	bw_params->clk_table.entries[i].memclk_mhz = clock_table->DfPstateTable[j].memclk;
++	bw_params->clk_table.entries[i].voltage = clock_table->DfPstateTable[j].voltage;
++	bw_params->clk_table.entries[i].dcfclk_mhz = find_max_clk_value(clock_table->DcfClocks, VG_NUM_DCFCLK_DPM_LEVELS);
+ 
+ 	bw_params->vram_type = bios_info->memory_type;
+ 	bw_params->num_channels = bios_info->ma_channel_number;
 -- 
 2.39.2
 
