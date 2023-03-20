@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446BC6C152B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:45:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395016C1529
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B56910E5AD;
-	Mon, 20 Mar 2023 14:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E771810E5AC;
+	Mon, 20 Mar 2023 14:44:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F66D10E5A7;
- Mon, 20 Mar 2023 14:44:47 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id h8so12646977plf.10;
- Mon, 20 Mar 2023 07:44:47 -0700 (PDT)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF7810E1E1;
+ Mon, 20 Mar 2023 14:44:49 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ e15-20020a17090ac20f00b0023d1b009f52so16744576pjt.2; 
+ Mon, 20 Mar 2023 07:44:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679323487;
+ d=gmail.com; s=20210112; t=1679323489;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=weYL3fqvUQCe/MGsBiphMuUm7IiUfAgwOkX0hsG5azI=;
- b=XoB4+mM4oASSRnco8nkZwARRG9zcXJcuiyLTtkB1/Em3LEQ2A1GcFBX4c9QpNQQF1j
- NODZTXwBb1ZsRgqzzncmT68xS+JsVOMXu4/yL4tqZacnngCN5gnrIyIgLpg67GCQaWu2
- 3RGsxmBtiA8aCU5oOdtb6AigAsxMRRyYT/P3Xh3WrVDvz6jvLttylpc7USgWWQ44GVqe
- rYzg55l+AaLbimu//o2q7VRZZJ2UA2rlR+D7WRutg8GbWIEPrBcIPRitI3OqhFoohqaA
- 20Pha7DZD60SGbvPicWbg+l+r5k+WAzhnRYWrhfrBafJ9eHbu4hwWd94ZwQX/0whZg/7
- 88jA==
+ bh=y74KF7H2nPAn1GkAkMf3ALBkHME3mvlc137TFEwpI5M=;
+ b=KDNXAyKxSPxmqCM1goz2ei4OMneXayGq4rDfE6Qgq1VIyE6guRUWAO1mZzPWwgIP26
+ JYt+JAaoGORRqU5CpZfLxhpnaTqa15rJPVrROZd2PP5/Wrv+L91VA5PRNhE4DIVA3ZzB
+ OFZzSBuKsPmYl+P7Ixx+dBJft1d8cUSoVWPBMVB/TZ2/y4+0WwyogGQnGsgpycK2T+HC
+ 4AeAWwpByzuLtol49nW1nmtPSxhPBjJAzk4GYtsHsq6Xqba8j2nOOgS7lDgcUfg6PO4d
+ 9Babeqe7rFqMFE/ieZ97Gbuj0CUvKp6/l1e4DET+Plb6nHmPrw2kqMuYyB3AqKl+6N11
+ miDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679323487;
+ d=1e100.net; s=20210112; t=1679323489;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=weYL3fqvUQCe/MGsBiphMuUm7IiUfAgwOkX0hsG5azI=;
- b=6IF75KjvG8j+CrL5d+quqcLqsyjymTcLa2Iv/kVUHRUTnolJ2KK1HF3ZxVtFW0ny7d
- Dh47N4Kc+wgMWOFmLe1KoWDzseGXOtVkQQ1OAJ9aFDxZKTZiQFvyBWLzJ/nDsptfvQjb
- /PrLPBn6jssH9Zkn4az3AM2VzVWaJcrlwnTSLJ5AYVytoKxLDhOyHd+951lsdU0g1Q9J
- qmRA7KofkyhEb63JsaY5kLdl2QSOQwCNPO0KUDCyM/QXFUid7Ag0Y5ldYo/QOpzmDmvo
- Dqfz09P4e4ZM6C3279i5WezCghIJiN3q4iQQCaRazqJovtaddpnY73fgT7UhylTHaM6L
- t4jg==
-X-Gm-Message-State: AO0yUKVuDsRbSAx6EzcLEe3xKqXNVxPG+SMySlLJ++jDVNS2y4qwO3A8
- 6cDY8ZT7u7Uypi7X8+eop3G4l8k2Aqg=
-X-Google-Smtp-Source: AK7set/q6mxFL2SNpoyCJqlGoIsp6zXx5THF6Tar0/8ALnqXrSzyWxWyrmITe8Cih+IgIxzET11mjA==
-X-Received: by 2002:a17:902:d2ca:b0:19d:1c6e:d31e with SMTP id
- n10-20020a170902d2ca00b0019d1c6ed31emr21226848plc.60.1679323487099; 
- Mon, 20 Mar 2023 07:44:47 -0700 (PDT)
+ bh=y74KF7H2nPAn1GkAkMf3ALBkHME3mvlc137TFEwpI5M=;
+ b=jnp9eJ29weZGTY/aHd2CqYPfdJSLDQfLsvRz7Q6RrmMlf0ckEUmhuIvisp+elZJwbd
+ tc7UA56ax918wlBmLo0p0L7QyA7ZF9KCwNOSXxYE/u6HlOL8BgQvNZpw2f/ltwI7UXap
+ KzyyEVp3ha0gHsLItHooO81ysKij6hjL2wXxBWpcFPNAw3IIVHSKQCkZMhiUrBWzjwug
+ E3Qy8cvoAbmP5nP+XFBmSQZusaSyuaa18BF896dhxbDVKdy0I165xyaK0SaJP5+t2wgI
+ yux+d9nC/tsJVDAb7hOC+jOvCuQufmLES9Vyipo+Xi+xVkIh7CXc1wZJ3vZjhcjGPRvo
+ 38ew==
+X-Gm-Message-State: AO0yUKVLGkA7sIJJpuM9UGCh1oPq2qouBMJ66W+IDSERq+N+fYCGLtmX
+ tLeMFpfEfVqAohKj5HxOUXVgdTMfgcw=
+X-Google-Smtp-Source: AK7set9ZUleUp5mEZ/nimYP6FtanqkhrK9z8SGzJ4pCwCjW9CpDQ3yDpgBO1I4IgNMmovbqGg0F/ng==
+X-Received: by 2002:a17:902:c40c:b0:19a:a815:2868 with SMTP id
+ k12-20020a170902c40c00b0019aa8152868mr21846958plk.44.1679323488934; 
+ Mon, 20 Mar 2023 07:44:48 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- g7-20020a170902934700b0019d397b0f18sm6777259plp.214.2023.03.20.07.44.46
+ j3-20020a170902c3c300b001a072be70desm6828123plj.41.2023.03.20.07.44.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 07:44:46 -0700 (PDT)
+ Mon, 20 Mar 2023 07:44:48 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 09/23] drm/msm/gem: Avoid obj lock in job_run()
-Date: Mon, 20 Mar 2023 07:43:31 -0700
-Message-Id: <20230320144356.803762-10-robdclark@gmail.com>
+Subject: [PATCH v2 10/23] drm/msm: Switch idr_lock to spinlock
+Date: Mon, 20 Mar 2023 07:43:32 -0700
+Message-Id: <20230320144356.803762-11-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230320144356.803762-1-robdclark@gmail.com>
 References: <20230320144356.803762-1-robdclark@gmail.com>
@@ -74,132 +75,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Sean Paul <sean@poorly.run>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Now that everything that controls which LRU an obj lives in *except* the
-backing pages is protected by the LRU lock, add a special path to unpin
-in the job_run() path, we we are assured that we already have backing
-pages and will not be racing against eviction (because the GEM object's
-dma_resv contains the fence that will be signaled when the submit/job
-completes).
+Needed to idr_preload() which returns with preemption disabled.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c        | 44 +++++++++++++++++++++++-----
- drivers/gpu/drm/msm/msm_gem.h        |  1 +
- drivers/gpu/drm/msm/msm_ringbuffer.c |  4 +--
- 3 files changed, 39 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c         |  6 ++----
+ drivers/gpu/drm/msm/msm_gem_submit.c  | 10 +++++-----
+ drivers/gpu/drm/msm/msm_gpu.h         |  2 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c |  2 +-
+ 4 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index d0ac3e704b66..9628e8d8dd02 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -61,18 +61,14 @@ static void sync_for_cpu(struct msm_gem_object *msm_obj)
- 	dma_unmap_sgtable(dev, msm_obj->sgt, DMA_BIDIRECTIONAL, 0);
- }
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index aca48c868c14..ce1a77b607d1 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -918,13 +918,11 @@ static int wait_fence(struct msm_gpu_submitqueue *queue, uint32_t fence_id,
+ 	 * retired, so if the fence is not found it means there is nothing
+ 	 * to wait for
+ 	 */
+-	ret = mutex_lock_interruptible(&queue->idr_lock);
+-	if (ret)
+-		return ret;
++	spin_lock(&queue->idr_lock);
+ 	fence = idr_find(&queue->fence_idr, fence_id);
+ 	if (fence)
+ 		fence = dma_fence_get_rcu(fence);
+-	mutex_unlock(&queue->idr_lock);
++	spin_unlock(&queue->idr_lock);
  
--static void update_lru_locked(struct drm_gem_object *obj)
-+static void update_lru_active(struct drm_gem_object *obj)
- {
- 	struct msm_drm_private *priv = obj->dev->dev_private;
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	if (!fence)
+ 		return 0;
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 1d8e7c2a8024..b9d81e5acb42 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -79,9 +79,9 @@ void __msm_gem_submit_destroy(struct kref *kref)
+ 	unsigned i;
  
--	msm_gem_assert_locked(&msm_obj->base);
--
--	if (!msm_obj->pages) {
--		GEM_WARN_ON(msm_obj->pin_count);
-+	GEM_WARN_ON(!msm_obj->pages);
- 
--		drm_gem_lru_move_tail_locked(&priv->lru.unbacked, obj);
--	} else if (msm_obj->pin_count) {
-+	if (msm_obj->pin_count) {
- 		drm_gem_lru_move_tail_locked(&priv->lru.pinned, obj);
- 	} else if (msm_obj->madv == MSM_MADV_WILLNEED) {
- 		drm_gem_lru_move_tail_locked(&priv->lru.willneed, obj);
-@@ -83,6 +79,22 @@ static void update_lru_locked(struct drm_gem_object *obj)
- 	}
- }
- 
-+static void update_lru_locked(struct drm_gem_object *obj)
-+{
-+	struct msm_drm_private *priv = obj->dev->dev_private;
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+
-+	msm_gem_assert_locked(&msm_obj->base);
-+
-+	if (!msm_obj->pages) {
-+		GEM_WARN_ON(msm_obj->pin_count);
-+
-+		drm_gem_lru_move_tail_locked(&priv->lru.unbacked, obj);
-+	} else {
-+		update_lru_active(obj);
-+	}
-+}
-+
- static void update_lru(struct drm_gem_object *obj)
- {
- 	struct msm_drm_private *priv = obj->dev->dev_private;
-@@ -489,6 +501,24 @@ void msm_gem_unpin_locked(struct drm_gem_object *obj)
- 	mutex_unlock(&priv->lru.lock);
- }
- 
-+/* Special unpin path for use in fence-signaling path, avoiding the need
-+ * to hold the obj lock by only depending on things that a protected by
-+ * the LRU lock.  In particular we know that that we already have backing
-+ * and and that the object's dma_resv has the fence for the current
-+ * submit/job which will prevent us racing against page eviction.
-+ */
-+void msm_gem_unpin_active(struct drm_gem_object *obj)
-+{
-+	struct msm_drm_private *priv = obj->dev->dev_private;
-+	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-+
-+	mutex_lock(&priv->lru.lock);
-+	msm_obj->pin_count--;
-+	GEM_WARN_ON(msm_obj->pin_count < 0);
-+	update_lru_active(obj);
-+	mutex_unlock(&priv->lru.lock);
-+}
-+
- struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
- 					   struct msm_gem_address_space *aspace)
- {
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 0057e8e8fa13..2bd6846c83a9 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -128,6 +128,7 @@ struct msm_gem_object {
- uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
- int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma);
- void msm_gem_unpin_locked(struct drm_gem_object *obj);
-+void msm_gem_unpin_active(struct drm_gem_object *obj);
- struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
- 					   struct msm_gem_address_space *aspace);
- int msm_gem_get_iova(struct drm_gem_object *obj,
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 31b4fbf96c36..b60199184409 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -24,9 +24,7 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
- 
- 		msm_gem_vma_unpin_fenced(submit->bos[i].vma, fctx);
--		msm_gem_lock(obj);
--		msm_gem_unpin_locked(obj);
--		msm_gem_unlock(obj);
-+		msm_gem_unpin_active(obj);
- 		submit->bos[i].flags &= ~(BO_VMA_PINNED | BO_OBJ_PINNED);
+ 	if (submit->fence_id) {
+-		mutex_lock(&submit->queue->idr_lock);
++		spin_lock(&submit->queue->idr_lock);
+ 		idr_remove(&submit->queue->fence_idr, submit->fence_id);
+-		mutex_unlock(&submit->queue->idr_lock);
++		spin_unlock(&submit->queue->idr_lock);
  	}
  
+ 	dma_fence_put(submit->user_fence);
+@@ -882,7 +882,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 
+ 	submit->nr_cmds = i;
+ 
+-	mutex_lock(&queue->idr_lock);
++	spin_lock(&queue->idr_lock);
+ 
+ 	/*
+ 	 * If using userspace provided seqno fence, validate that the id
+@@ -892,7 +892,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	 */
+ 	if ((args->flags & MSM_SUBMIT_FENCE_SN_IN) &&
+ 			idr_find(&queue->fence_idr, args->fence)) {
+-		mutex_unlock(&queue->idr_lock);
++		spin_unlock(&queue->idr_lock);
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+@@ -926,7 +926,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 						    INT_MAX, GFP_KERNEL);
+ 	}
+ 
+-	mutex_unlock(&queue->idr_lock);
++	spin_unlock(&queue->idr_lock);
+ 
+ 	if (submit->fence_id < 0) {
+ 		ret = submit->fence_id;
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index fc1c0d8611a8..5929ecaa1fcd 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -499,7 +499,7 @@ struct msm_gpu_submitqueue {
+ 	struct msm_file_private *ctx;
+ 	struct list_head node;
+ 	struct idr fence_idr;
+-	struct mutex idr_lock;
++	struct spinlock idr_lock;
+ 	struct mutex lock;
+ 	struct kref ref;
+ 	struct drm_sched_entity *entity;
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index c6929e205b51..0e803125a325 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -200,7 +200,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 		*id = queue->id;
+ 
+ 	idr_init(&queue->fence_idr);
+-	mutex_init(&queue->idr_lock);
++	spin_lock_init(&queue->idr_lock);
+ 	mutex_init(&queue->lock);
+ 
+ 	list_add_tail(&queue->node, &ctx->submitqueues);
 -- 
 2.39.2
 
