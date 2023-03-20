@@ -1,47 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2219C6C0D20
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 10:22:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A76A6C0D22
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 10:23:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F09BC10E29B;
-	Mon, 20 Mar 2023 09:22:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C29810E2A3;
+	Mon, 20 Mar 2023 09:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7977210E29B
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:22:46 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1peBix-0008TG-Nn; Mon, 20 Mar 2023 10:22:39 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1peBit-005QLn-Vh; Mon, 20 Mar 2023 10:22:35 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1peBit-006P91-09; Mon, 20 Mar 2023 10:22:35 +0100
-Date: Mon, 20 Mar 2023 10:22:34 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH] drm/imx/lcdc: Fix compilation with CONFIG_OF=n
-Message-ID: <20230320092234.knm2nbdcvrmyhbev@pengutronix.de>
-References: <20230318221027.260115-1-u.kleine-koenig@pengutronix.de>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7827710E2A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:23:38 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id DAECC66015F1;
+ Mon, 20 Mar 2023 09:23:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1679304216;
+ bh=kLvg39Gaq3ED8iaOlpcmqwM+ANaZdEUpeHZ6xeDIhuU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BM3SozDIU+HOpZ4vQEVxgOpyG3uXs4uOSCEw/s3e5vIlqAogkS0jXUEQcTW8oFysn
+ rfD7/qrIwRvJ9qge9FuEvzVcCG3/ebS3Iaw4S377uU0leeDvlecpJUoM2sqX6zwKGo
+ p+Q+T6eRn4M96IQunabLTIGGaR59+pMlE0yz8syY9jqbf/R1dtT2HpOpg3VrbsRRCD
+ 9MLqJ8mcMNcBTZjnxrYg/TY55hEmLSmrP9YhA8hSTT8rhBR1tJvclYQs4GTiuuDmVQ
+ FHsc3qTrgdNOP9ZPkgm4A9Zq1he+gpnEeOql80mmuPijVi497gA732e5YEFE2PteTU
+ NpV293LM8BMxw==
+Message-ID: <7a651e39-aab6-1723-c28f-756756ae74e3@collabora.com>
+Date: Mon, 20 Mar 2023 10:23:33 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="c2urlhry2xy4zieu"
-Content-Disposition: inline
-In-Reply-To: <20230318221027.260115-1-u.kleine-koenig@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane
+ disable
+Content-Language: en-US
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+References: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,48 +58,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
+Cc: Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Il 20/03/23 04:04, Yongqiang Niu ha scritto:
+> Fixes: 41016fe1028e4 (drm: Rename plane->state variables in atomic update and disable)
+> dma buffer release before overlay disable, that will cause
+> m4u translation fault warning.
+> 
+> add dma buffer control flow in mediatek driver:
+> get dma buffer when drm plane disable
+> put dma buffer when overlay really disable
+> 
 
---c2urlhry2xy4zieu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The Fixes tag currently has wrong format, and it goes here, not at the beginning;
+Please fix.
 
-Hello,
+P.S. The right format is:
+Fixes: commitid ("commit title")
 
-On Sat, Mar 18, 2023 at 11:10:27PM +0100, Uwe Kleine-K=F6nig wrote:
-> The driver needs the include <drm/drm_bridge.h>. WIth CONFIG_OF enabled
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 
-Just noticed: s/WIth/With/. Assuming no further review comments make a
-v2 necessary: Should I resend for that, or can you fixup when you apply
-this patch?
 
-Best regards
-Uwe
+Regards,
+Angelo
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---c2urlhry2xy4zieu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmQYJdkACgkQj4D7WH0S
-/k7prgf/STzFKVt5QbkUa07jMZ/UYtTf/xJUzRGoZVtCzT+XOyHFQayMZk5ujsKX
-hxWuZrcFPpaAprWeO/WRIMZtpY7opfElUn9JBI4hkzlEElvYhGTUk4fq5R3VeXs9
-mUWLcVsXHiPGsr5mLvOZJBjEpDhXVJX7dEVrsdTCgRT8CK8vL4VuuqNkpSNfqF8B
-MEL2EL0uyoIntyVMejBPMoeZatd9jf/JXl2ZWRX6uJFTF+eAgEXlGg5cxJtLTDXj
-t6puBS02P37U0AbEaUwsjlKyZwDfByR0FS1Ohl0wqR/2i1aRBNOpusSMrekS3vhY
-1qA413t36oFKtFiUutfQeg/y2JiScw==
-=PhSN
------END PGP SIGNATURE-----
-
---c2urlhry2xy4zieu--
