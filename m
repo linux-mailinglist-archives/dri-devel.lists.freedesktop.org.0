@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9846C1D11
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 18:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BFE6C1E29
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 18:36:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9A4910E053;
-	Mon, 20 Mar 2023 17:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5706E10E051;
+	Mon, 20 Mar 2023 17:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADA410E1F4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 17:01:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id E08E9CE136D;
- Mon, 20 Mar 2023 17:01:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E55CC4339B;
- Mon, 20 Mar 2023 17:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679331660;
- bh=KmJ/oFXmAm37DV4SuZPLCkjjERN6TSNmtSmlsR7nsUw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fIUXguaAn3Smfj+ncepg6XqMZ00K09/+L1F6OcxR73uhTMI4IwNFis7TBBuORpYZ7
- zXkRaVy1XqjoZ2j4yf2QZ8C+zia52EPL9mXanmwlwyhVvaVBv5iq4FJ1UMF7JWOn7I
- HvB2AHcz8Ux8ZvSgJdJ+BC8a4f6s7qJS9HVmxSCiJ9Ev3hITezvV9J0ibXm8AAzq+k
- uBuEdW+VDGOPSYJp4N50nky2T/yMqMJOuGv+zrNkH3QDuXm0IWqgZvCzyyiPh+bQBd
- pWtuiGGmeT5MnBB/4JWqNODCaxI+tAtphC6nYubeDZ4GrhRIKD9vs4m6aq8LMoMuvB
- /3Qw8n5fFFmLQ==
-Date: Mon, 20 Mar 2023 10:00:57 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Tom Rix <trix@redhat.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: fix uninitialized variable
- possible_crtcs
-Message-ID: <20230320170057.GA592480@dev-arch.thelio-3990X>
-References: <20230316132302.531724-1-trix@redhat.com>
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B0E10E051
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 17:36:26 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ qe8-20020a17090b4f8800b0023f07253a2cso13242331pjb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 10:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1679333785;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:subject:cc:to:from:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=hpUGiYeox1kWl4OfAxGx9LTy4s9lwzAPEC2LintUMTc=;
+ b=BtCwXN29zeO1Y2JubkxnqAj2y9r5ppxzyhIYMyUQ+7kjvqpqF6WoKT4KRHH7v86VmB
+ cmGLns+Rn5mdrrdVa8FbMLj4dwKKemEB/I3XQ3Dg2L5CNV/jfELfU6YlYE1BR0yw8z0K
+ lVe9NTGAOFCpmqwTdASeFMuSLzz2DXBQENOss=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679333785;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:subject:cc:to:from:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hpUGiYeox1kWl4OfAxGx9LTy4s9lwzAPEC2LintUMTc=;
+ b=Kfscl0C2XfVrFb+vA+KMMiFfH05H6VzeF8kLKP0uHbzh2O9UbDN647fF7ztP/qZbjF
+ siCBA41xD7En2nO2hpmX9W9xxA5i6cBHbf6qARGZektW21yfPtoBnRobwTAAMfOCLKAB
+ QLbEipGOMcn7eDR6jOP0UVekJqUiDsPo3EANvhKwhDiSKa1XkXRxGxocXpOQOsBxCRcf
+ aHucAc2BshMdMyz9ra/4d9e/eRW2w2q+1ixSEQxVmfzFvdwy4URx130uBTftlBXmDe/A
+ jUOWDN+O8oxpy9M4f+mhNmIn6tmGleoPkolZNN4m6Qba9KG6x9gIJ2AkB76jAJ2DJegt
+ NyAg==
+X-Gm-Message-State: AO0yUKUfefsThT8JrTRvgTlI+8rQu04G09CqQku1FS2knWZrp8YQmefG
+ iwxLPw0utSZVWA4GM+UcbILbmA==
+X-Google-Smtp-Source: AK7set9t390bG2K3Xo5adX8F8Bk16FfVLogcMGAN0o6Fz61VzJapYPhoEvZSKsa75t3/lr7IoM3W2g==
+X-Received: by 2002:a17:903:120f:b0:1a0:549d:39a1 with SMTP id
+ l15-20020a170903120f00b001a0549d39a1mr20418380plh.32.1679333785667; 
+ Mon, 20 Mar 2023 10:36:25 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
+ [198.0.35.241]) by smtp.gmail.com with ESMTPSA id
+ k23-20020a170902ba9700b0019a95baaaa6sm6979664pls.222.2023.03.20.10.36.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 10:36:25 -0700 (PDT)
+Message-ID: <64189999.170a0220.fa1d9.c3f5@mx.google.com>
+X-Google-Original-Message-ID: <202303201036.@keescook>
+Date: Mon, 20 Mar 2023 10:36:24 -0700
+From: Kees Cook <keescook@chromium.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH][next] drm/i915/uapi: Replace fake flex-array with
+ flexible-array member
+References: <ZBSu2QsUJy31kjSE@work>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230316132302.531724-1-trix@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZBSu2QsUJy31kjSE@work>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,73 +73,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: s.hauer@pengutronix.de, llvm@lists.linux.dev, ndesaulniers@google.com,
- hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- michael.riesch@wolfvision.net, linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 16, 2023 at 09:23:02AM -0400, Tom Rix wrote:
-> clang reportes this error
-> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2322:8: error:
->   variable 'possible_crtcs' is used uninitialized whenever 'if'
->   condition is false [-Werror,-Wsometimes-uninitialized]
->                         if (vp) {
->                             ^~
-> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2336:36: note:
->   uninitialized use occurs here
->                 ret = vop2_plane_init(vop2, win, possible_crtcs);
->                                                  ^~~~~~~~~~~~~~
-> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c:2322:4:
->   note: remove the 'if' if its condition is always true
->                         if (vp) {
->                         ^~~~~~~~
+On Fri, Mar 17, 2023 at 12:18:01PM -0600, Gustavo A. R. Silva wrote:
+> Zero-length arrays as fake flexible arrays are deprecated and we are
+> moving towards adopting C99 flexible-array members instead.
 > 
-> The else-statement changes the win->type to OVERLAY without setting the
-> possible_crtcs variable.  Rework the block, initialize possible_crtcs to
-> 0 to remove the else-statement.  Split the else-if-statement out to its
-> own if-statement so the OVERLAY check will catch when the win-type has
-> been changed.
+> Address the following warning found with GCC-13 and
+> -fstrict-flex-arrays=3 enabled:
+> drivers/gpu/drm/i915/gem/i915_gem_context.c: In function ‘set_proto_ctx_engines.isra’:
+> drivers/gpu/drm/i915/gem/i915_gem_context.c:769:41: warning: array subscript n is outside array bounds of ‘struct i915_engine_class_instance[0]’ [-Warray-bounds=]
+>   769 |                 if (copy_from_user(&ci, &user->engines[n], sizeof(ci))) {
+>       |                                         ^~~~~~~~~~~~~~~~~
+> ./include/uapi/drm/i915_drm.h:2494:43: note: while referencing ‘engines’
+>  2494 |         struct i915_engine_class_instance engines[0];
 > 
-> Fixes: 368419a2d429 ("drm/rockchip: vop2: initialize possible_crtcs properly")
-> Signed-off-by: Tom Rix <trix@redhat.com>
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [1].
+> 
+> Link: https://github.com/KSPP/linux/issues/21
+> Link: https://github.com/KSPP/linux/issues/271
+> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 03ca32cd2050..fce992c3506f 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -2301,7 +2301,7 @@ static int vop2_create_crtcs(struct vop2 *vop2)
->  	nvp = 0;
->  	for (i = 0; i < vop2->registered_num_wins; i++) {
->  		struct vop2_win *win = &vop2->win[i];
-> -		u32 possible_crtcs;
-> +		u32 possible_crtcs = 0;
->  
->  		if (vop2->data->soc_id == 3566) {
->  			/*
-> @@ -2327,12 +2327,11 @@ static int vop2_create_crtcs(struct vop2 *vop2)
->  				/* change the unused primary window to overlay window */
->  				win->type = DRM_PLANE_TYPE_OVERLAY;
->  			}
-> -		} else if (win->type == DRM_PLANE_TYPE_OVERLAY) {
-> -			possible_crtcs = (1 << nvps) - 1;
-> -		} else {
-> -			possible_crtcs = 0;
->  		}
->  
-> +		if (win->type == DRM_PLANE_TYPE_OVERLAY)
-> +			possible_crtcs = (1 << nvps) - 1;
-> +
->  		ret = vop2_plane_init(vop2, win, possible_crtcs);
->  		if (ret) {
->  			drm_err(vop2->drm, "failed to init plane %s: %d\n",
-> -- 
-> 2.27.0
-> 
+-- 
+Kees Cook
