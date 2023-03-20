@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2972A6C1EF9
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CAA6C1F29
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:11:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CCDC10E057;
-	Mon, 20 Mar 2023 18:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38E9810E640;
+	Mon, 20 Mar 2023 18:11:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38AD710E057
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 18:05:05 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6C66F61751;
- Mon, 20 Mar 2023 18:05:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81A3CC433EF;
- Mon, 20 Mar 2023 18:05:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679335503;
- bh=8np/lbjjJ8FCVyjL6iQLvblXqr7n0c7bPvXEH9MwKbE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PVhKuCK81gyCbt2F0XSDTdoqnqHLkkLR6w7sbAyxyyRHgzPsA/51b07az4zQ9Ealq
- C3qnFJQxHicSx/XpZwuyEMJi+jnCKOlvI+OFUFPzTKPUdcI7OjSMl62E+qQIOfjVoI
- XCq4hu23ApqbOex9a8OAp4oUgAn5PHAMEhwvuBdNDoNnl3MCh9AvaiBVYlGvtS9hgP
- +D+MmwUBy3saoHMiRhCpjdvQ9C2HG6gbVMy1TcNFWnRc9MOkckFso4uA/gpqv5yt24
- dC1MnxF0MXPpvzgQjdce2+qiRStI5/0ayrLgEc5I4hATrwdkXJK8U7aBHUjs1A0pHy
- P8pSDQyL6BoGA==
-Date: Mon, 20 Mar 2023 11:05:01 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: Linux 6.3-rc3
-Message-ID: <20230320180501.GA598084@dev-arch.thelio-3990X>
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A0510E1F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 18:11:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679335867; x=1710871867;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=KGgMVkVYkzc5hGwH7fgh8riyDfxHum9YPyo5UnckO5Q=;
+ b=FkTaA4vTMNNZ0vksnDfuOwHqoO2HaadSePmutyNlVb0eiLeUGL2chVDw
+ xAxx7LCOPjntBIdRn3yUJp+RCFFYpd0h31e83IUgYz8alBpqVnS65dKD7
+ /409JVzXqPPK3RNA5DuJfKgoxE8++hAnNeLbcyY0gpAyZzmji07lzK3Js
+ MNjBr7Se51737qRZvD+8AhlvUxvD+q7QTkm1I4Oml4Mh4OJVPjE+aE8o5
+ SkEoiGx0W2B31A+NiIiOlQexp2s/BcdV0PcJ32hDnod2hrw7VSQgiWVkl
+ R6A7Ckmxw5dCsOorACkmGPymIGRXN2/XqZOsS650MmquOYNKcqHXmT+wo A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338764984"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="338764984"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 11:10:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="927063951"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="927063951"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga006.fm.intel.com with ESMTP; 20 Mar 2023 11:10:53 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1peJy8-000BDZ-1J;
+ Mon, 20 Mar 2023 18:10:52 +0000
+Date: Tue, 21 Mar 2023 02:10:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch, jacek.lawrynowicz@linux.intel.com,
+ stanislaw.gruszka@linux.intel.com
+Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+Message-ID: <202303210148.859DLhtz-lkp@intel.com>
+References: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
+In-Reply-To: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,46 +61,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+ quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 19, 2023 at 01:50:21PM -0700, Linus Torvalds wrote:
-> So rc3 is fairly big, but that's not hugely usual: it's when a lot of
-> the fixes tick up as it takes a while before people find and start
-> reporting issues.
+Hi Jeffrey,
 
-...
+Thank you for the patch! Perhaps something to improve:
 
-> Please test and report any issues you find,
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on lwn/docs-next linus/master v6.3-rc3 next-20230320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On the clang front, I am still seeing the following warning turned error
-for arm64 allmodconfig at least:
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/1679325074-5494-7-git-send-email-quic_jhugo%40quicinc.com
+patch subject: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+reproduce:
+        make versioncheck
 
-  drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
-          if (syncpt_irq < 0)
-              ^~~~~~~~~~
-  drivers/gpu/host1x/dev.c:490:16: note: initialize the variable 'syncpt_irq' to silence this warning
-          int syncpt_irq;
-                        ^
-                         = 0
-  1 error generated.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303210148.859DLhtz-lkp@intel.com/
 
-There is an obvious fix that has been available on the mailing list for
-some time:
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/accel/qaic/mhi_qaic_ctrl.c: 9 linux/version.h not needed.
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-https://lore.kernel.org/20230127221418.2522612-1-arnd@kernel.org/
-
-It appears there was some sort of process snafu, since the fix never got
-applied to the drm tree before the main pull for 6.3 and I have not been
-able to get anyone to apply it to a tree targeting -rc releases.
-
-https://lore.kernel.org/Y%2FeULFO4jbivQ679@dev-arch.thelio-3990X/
-https://lore.kernel.org/67f9fe7f-392a-9acd-1a4d-0a43da634367@nvidia.com/
-
-If that does not come to you through other means before -rc4, could you
-just apply it directly so that I can stop applying it to our CI? :)
-
-Cheers,
-Nathan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
