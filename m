@@ -1,51 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A76A6C0D22
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 10:23:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B3E6C0D37
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 10:26:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C29810E2A3;
-	Mon, 20 Mar 2023 09:23:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29C9F10E2B2;
+	Mon, 20 Mar 2023 09:26:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7827710E2A3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:23:38 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id DAECC66015F1;
- Mon, 20 Mar 2023 09:23:35 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1679304216;
- bh=kLvg39Gaq3ED8iaOlpcmqwM+ANaZdEUpeHZ6xeDIhuU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BM3SozDIU+HOpZ4vQEVxgOpyG3uXs4uOSCEw/s3e5vIlqAogkS0jXUEQcTW8oFysn
- rfD7/qrIwRvJ9qge9FuEvzVcCG3/ebS3Iaw4S377uU0leeDvlecpJUoM2sqX6zwKGo
- p+Q+T6eRn4M96IQunabLTIGGaR59+pMlE0yz8syY9jqbf/R1dtT2HpOpg3VrbsRRCD
- 9MLqJ8mcMNcBTZjnxrYg/TY55hEmLSmrP9YhA8hSTT8rhBR1tJvclYQs4GTiuuDmVQ
- FHsc3qTrgdNOP9ZPkgm4A9Zq1he+gpnEeOql80mmuPijVi497gA732e5YEFE2PteTU
- NpV293LM8BMxw==
-Message-ID: <7a651e39-aab6-1723-c28f-756756ae74e3@collabora.com>
-Date: Mon, 20 Mar 2023 10:23:33 +0100
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78ABF10E2B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:26:12 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EAF1CB80D5F;
+ Mon, 20 Mar 2023 09:26:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 461F2C433EF;
+ Mon, 20 Mar 2023 09:26:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1679304369;
+ bh=ppcFMj3bgdIj43dRADP4UG6fFiX/LYz2G2VeP56xK+g=;
+ h=Subject:To:Cc:From:Date:From;
+ b=QTW1oMcP+dy0EA5BXSiHledKmN/uHo3YVMOBygrFPw3mX2LNlHI4D/qScrzbGXfNL
+ AE/gCvFyhJj1Y3velcryGnh/FpQgxEleEhFwkdL42oKwaJhhtK+8ugw/3Jt6Ol2txO
+ pctZdil2QjUsWPnmev419vmknHzKPdLkd64amw9Q=
+Subject: Patch "drm/ttm: Fix a NULL pointer dereference" has been added to the
+ 6.2-stable tree
+To: Arunpravin.PaneerSelvam@amd.com, Felix.Kuehling@amd.com,
+ Philip.Yang@amd.com, alexander.deucher@amd.com, anshuman.gupta@intel.com,
+ christian.koenig@amd.com, daniel.vetter@ffwll.ch,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ matthew.auld@intel.com, nirmoy.das@intel.com, qiang.yu@amd.com,
+ ray.huang@amd.com, thomas.hellstrom@linux.intel.com, tvrtko.ursulin@intel.com
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 20 Mar 2023 10:25:59 +0100
+Message-ID: <167930435953182@kroah.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane
- disable
-Content-Language: en-US
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- Philipp Zabel <p.zabel@pengutronix.de>
-References: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +54,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: stable-commits@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 20/03/23 04:04, Yongqiang Niu ha scritto:
-> Fixes: 41016fe1028e4 (drm: Rename plane->state variables in atomic update and disable)
-> dma buffer release before overlay disable, that will cause
-> m4u translation fault warning.
-> 
-> add dma buffer control flow in mediatek driver:
-> get dma buffer when drm plane disable
-> put dma buffer when overlay really disable
-> 
 
-The Fixes tag currently has wrong format, and it goes here, not at the beginning;
-Please fix.
+This is a note to let you know that I've just added the patch titled
 
-P.S. The right format is:
-Fixes: commitid ("commit title")
+    drm/ttm: Fix a NULL pointer dereference
 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+to the 6.2-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-ttm-fix-a-null-pointer-dereference.patch
+and it can be found in the queue-6.2 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
-Regards,
-Angelo
+From 9a9a8fe26751334b7739193a94eba741073b8a55 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Date: Tue, 7 Mar 2023 15:46:15 +0100
+Subject: drm/ttm: Fix a NULL pointer dereference
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+commit 9a9a8fe26751334b7739193a94eba741073b8a55 upstream.
+
+The LRU mechanism may look up a resource in the process of being removed
+from an object. The locking rules here are a bit unclear but it looks
+currently like res->bo assignment is protected by the LRU lock, whereas
+bo->resource is protected by the object lock, while *clearing* of
+bo->resource is also protected by the LRU lock. This means that if
+we check that bo->resource points to the LRU resource under the LRU
+lock we should be safe.
+So perform that check before deciding to swap out a bo. That avoids
+dereferencing a NULL bo->resource in ttm_bo_swapout().
+
+Fixes: 6a9b02899402 ("drm/ttm: move the LRU into resource handling v4")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Philip Yang <Philip.Yang@amd.com>
+Cc: Qiang Yu <qiang.yu@amd.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.19+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230307144621.10748-2-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/ttm/ttm_device.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device
+ 			struct ttm_buffer_object *bo = res->bo;
+ 			uint32_t num_pages;
+ 
+-			if (!bo)
++			if (!bo || bo->resource != res)
+ 				continue;
+ 
+ 			num_pages = PFN_UP(bo->base.size);
+
+
+Patches currently in stable-queue which might be from thomas.hellstrom@linux.intel.com are
+
+queue-6.2/drm-ttm-fix-a-null-pointer-dereference.patch
