@@ -1,56 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEE46C2A2B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 07:05:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C476C2A28
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 07:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2644E10E0C9;
-	Tue, 21 Mar 2023 06:05:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A97810E07F;
+	Tue, 21 Mar 2023 06:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 338 seconds by postgrey-1.36 at gabe;
- Mon, 20 Mar 2023 16:22:22 UTC
-Received: from pv50p00im-zteg10011401.me.com (pv50p00im-zteg10011401.me.com
- [17.58.6.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2879010E053
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 16:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1679329003;
- bh=rh8fsgpj4qufqjt6unxdAU5GmU9fIG/olnJE9qASDBQ=;
- h=From:To:Subject:Date:Message-Id:MIME-Version;
- b=MDjCnw68RSNePlpqFapchG/U5MgcpzRqhTGSQgLtZAVKhYLqwcQAc8908czQAXHDw
- lTf/YWxugghqN+6MmUYdx/K23kYogtRwE7vssWLX0uNwvkVcnY+eLDQj0pIL8v4qKV
- bTvfrqa+h5Gwz/lVMBxUaxxUTJqISHVVrcN1HxkvjAdG6iwKxf/LkMmXIu/OmS7kNJ
- OPnm4llj4lhMrnoQe3ZtTd9PahxmBIwWR9BbY21el79aQO3Rhu0nz43uJwcqd1LzWn
- 2TTxlhckc2AIaAc6wm8zFKitvt9STyIbn7DUnXWpJ53V65YSBNqZvmu0yJe28+tj43
- ha5Ww6kjJSxew==
-Received: from localhost.localdomain (pv50p00im-dlb-asmtp-mailmevip.me.com
- [17.56.9.10])
- by pv50p00im-zteg10011401.me.com (Postfix) with ESMTPSA id CA69BDC08E1;
- Mon, 20 Mar 2023 16:16:39 +0000 (UTC)
-From: Roman Beranek <romanberanek@icloud.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Subject: [PATCH] drm/sun4i: uncouple DSI dotclock divider from TCON0_DCLK_REG
-Date: Mon, 20 Mar 2023 17:16:36 +0100
-Message-Id: <20230320161636.24411-1-romanberanek@icloud.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05F7E10E07D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 17:16:31 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ az3-20020a05600c600300b003ed2920d585so9645373wmb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 10:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679332590;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ciOmJ8lUq444j7rDWT4tZ7vaysYFPy1lLMlFYtJcqeU=;
+ b=Wj6DFJV5bgY1B1s0AC8CpnmL/Chzw5urw8WvMx8m3wgXUNUCzrja4X7RXKenSvKv0l
+ X+aefOjRXrGEr3x1UgOwkxIk/jaFbKyB0tjBLKAKFH9quNoyaqx5nOSwucH53fG980nZ
+ bOrN9LhymAA8lkjNhL6oUw1MY4RGGsGWXnoxxEnL9I3/+cNxWY5xXmP1cTcqibiBnr3M
+ FSq7PuyL5/AZE7YoQpN88PtqvcWAvHkQgTaUzQr9lZ+S7iKn0BaamJsa2/wtG6d5YUzE
+ 6KvNWK6znDl6KOOZwUBZeLijhZjIAwZ9cObTlvixPt+gT59JKNWw6tKP5k97Sjs241rH
+ gcHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679332590;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ciOmJ8lUq444j7rDWT4tZ7vaysYFPy1lLMlFYtJcqeU=;
+ b=cNNDLqFDwAStT/8JsnvQz+1qmeWJDpwSTKxWrA5vDPH5f4vjAggHsNKJHcCm7gFha7
+ 5HbqpWYhZ9VT+rsX8Y6JmDQT0JNGrz5fDE7SvsaoWAr0nAwpkmnXpBMuuQfEb/QRIHLu
+ 9rQOh1QMVonijq2tsoLwM2mBQRi0+K0AgMc0nkg3K+JuNWLCkzbG5YFdBunY+NBBpukR
+ DVm0nBg9ExHGoBtgZMvoq0wEuAP4LQ2BOMPFHUwi8zNboQsWl9f+bOjTcFfbW++LqhNp
+ 5yF/jvDGBppZK5mSSyVHu7m/zj+30xoykQ70m9dT3T2XVfIL1/8jlQX70oX3LmvDbwT0
+ +eSQ==
+X-Gm-Message-State: AO0yUKXtEnq1c3xuLMjjz62YPcyzVg/s+qwDVnfeXaXF2/Vb8sEHbKO3
+ wNjrGMlWI5sdTxDEoBia5CP7cLdoTR0=
+X-Google-Smtp-Source: AK7set/Lwe4k4z2yQrfaST/GdpK1kDGFBWheWR7e4nD+NYss/JKF5uDs5aFhla2w0vdhMTw/+3SuTw==
+X-Received: by 2002:a1c:7311:0:b0:3ea:d611:f8 with SMTP id
+ d17-20020a1c7311000000b003ead61100f8mr222568wmb.38.1679332590270; 
+ Mon, 20 Mar 2023 10:16:30 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation
+ (net-188-217-57-73.cust.vodafonedsl.it. [188.217.57.73])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020adfce8a000000b002cefcac0c62sm9452559wrn.9.2023.03.20.10.16.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 10:16:29 -0700 (PDT)
+Date: Mon, 20 Mar 2023 18:16:27 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v0.5 0/9] i.MX8MP HDMI support
+Message-ID: <ZBiU6wvZR+vfLEYO@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20220506181034.2001548-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: kdl0OAMlASNejuphoXbv8xBp_Es7-AqJ
-X-Proofpoint-GUID: kdl0OAMlASNejuphoXbv8xBp_Es7-AqJ
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0 mlxscore=0
- malwarescore=0 adultscore=0 clxscore=1011 mlxlogscore=999 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2303200138
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220506181034.2001548-1-l.stach@pengutronix.de>
 X-Mailman-Approved-At: Tue, 21 Mar 2023 06:05:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,91 +74,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-phy@lists.infradead.org, Shawn Guo <shawnguo@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the case of DSI output, the value of SUN4I_TCON0_DCLK_DIV (4) does
-not represent the actual dotclock divider, PLL_MIPI instead runs at
-(bpp / lanes )-multiple [1] of the dotclock. [2] Setting 4 as dotclock
-divder thus leads to reduced frame rate, specifically by 1/3 on 4-lane
-panels, and by 2/3 on 2-lane panels respectively.
+Hello Lucas,
 
-As sun4i_dotclock driver stores its calculated divider directly in
-the register, conditional handling of the DSI output scenario is needed.
-Instead of reading the divider from SUN4I_TCON0_DCLK_REG, retrieve
-the value from tcon->dclk_min_div.
+On Fri, May 06, 2022 at 08:10:25PM +0200, Lucas Stach wrote:
+> Hi all,
+> 
+> second round of the i.MX8MP HDMI work. Still not split up into proper
+> parts for merging through the various trees this needs to go into, but
+> should make it easy for people to test.
+> 
+> I've worked in the feedback I got from the last round, including fixing
+> the system hang that could happen when the drivers were built as modules.
+> 
+> Series is based on linux-next/master, as there are some prerequisite
+> patches in both the drm and imx tree already. The last patch from [1]
+> and the patches from [2] need to be applied. Please note that this series
+> expects the sync polarity from the LCDIF to be set according to the
+> comments I made in [2]. Please test and provide feedback.
+> 
+> Regards,
+> Lucas
 
-[1] bits per pixel / number of DSI lanes
-[2] https://github.com/BPI-SINOVOIP/BPI-M64-bsp-4.4/blob/66bef0f2f30b367eb93b1cbad21ce85e0361f7ae/linux-sunxi/drivers/video/fbdev/sunxi/disp2/disp/de/lowlevel_sun50iw1/disp_al.c#L322
+I tested your series on Linux 6.2.0-rc8
+Tested-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-Signed-off-by: Roman Beranek <romanberanek@icloud.com>
----
- drivers/gpu/drm/sun4i/sun4i_dotclock.c | 6 +++++-
- drivers/gpu/drm/sun4i/sun4i_tcon.c     | 5 +++--
- drivers/gpu/drm/sun4i/sun4i_tcon.h     | 1 +
- 3 files changed, 9 insertions(+), 3 deletions(-)
+Thanks for your work!
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-index 417ade3d2565..26fa99aff590 100644
---- a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-@@ -11,6 +11,7 @@
- 
- #include "sun4i_tcon.h"
- #include "sun4i_dotclock.h"
-+#include "sun6i_mipi_dsi.h"
- 
- struct sun4i_dclk {
- 	struct clk_hw		hw;
-@@ -56,6 +57,9 @@ static unsigned long sun4i_dclk_recalc_rate(struct clk_hw *hw,
- 	struct sun4i_dclk *dclk = hw_to_dclk(hw);
- 	u32 val;
- 
-+	if (dclk->tcon->is_dsi)
-+		return parent_rate / dclk->tcon->dclk_min_div;
-+
- 	regmap_read(dclk->regmap, SUN4I_TCON0_DCLK_REG, &val);
- 
- 	val >>= SUN4I_TCON0_DCLK_DIV_SHIFT;
-@@ -116,7 +120,7 @@ static int sun4i_dclk_set_rate(struct clk_hw *hw, unsigned long rate,
- 			       unsigned long parent_rate)
- {
- 	struct sun4i_dclk *dclk = hw_to_dclk(hw);
--	u8 div = parent_rate / rate;
-+	u8 div = dclk->tcon->is_dsi ? SUN6I_DSI_TCON_DIV : parent_rate / rate;
- 
- 	return regmap_update_bits(dclk->regmap, SUN4I_TCON0_DCLK_REG,
- 				  GENMASK(6, 0), div);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 523a6d787921..7f5d3c135058 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -367,8 +367,9 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	u32 block_space, start_delay;
- 	u32 tcon_div;
- 
--	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
--	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-+	tcon->is_dsi = true;
-+	tcon->dclk_min_div = bpp / lanes;
-+	tcon->dclk_max_div = bpp / lanes;
- 
- 	sun4i_tcon0_mode_set_common(tcon, mode);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index fa23aa23fe4a..d8150ba2f319 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -271,6 +271,7 @@ struct sun4i_tcon {
- 	struct clk			*dclk;
- 	u8				dclk_max_div;
- 	u8				dclk_min_div;
-+	bool				is_dsi;
- 
- 	/* Reset control */
- 	struct reset_control		*lcd_rst;
--- 
-2.32.0 (Apple Git-132)
+Regards,
+Tommaso
 
+> 
+> [1] https://lore.kernel.org/all/20220406153402.1265474-1-l.stach@pengutronix.de/
+> [2] https://lore.kernel.org/all/20220322142853.125880-1-marex@denx.de/
+> 
+> Lucas Stach (9):
+>   dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
+>   drm/imx: add bridge wrapper driver for i.MX8MP DWC HDMI
+>   dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
+>   drm/imx: add driver for HDMI TX Parallel Video Interface
+>   dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
+>   phy: freescale: add Samsung HDMI PHY
+>   arm64: dts: imx8mp: add HDMI irqsteer
+>   arm64: dts: imx8mp: add HDMI display pipeline
+>   arm64: dts: imx8mp-evk: enable HDMI
+> 
+>  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   83 ++
+>  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml |   73 ++
+>  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   19 +
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |   94 ++
+>  drivers/gpu/drm/imx/Kconfig                   |    1 +
+>  drivers/gpu/drm/imx/Makefile                  |    2 +
+>  drivers/gpu/drm/imx/bridge/Kconfig            |   18 +
+>  drivers/gpu/drm/imx/bridge/Makefile           |    4 +
+>  drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c     |  201 +++
+>  drivers/gpu/drm/imx/bridge/imx-hdmi.c         |  141 +++
+>  drivers/phy/freescale/Kconfig                 |    6 +
+>  drivers/phy/freescale/Makefile                |    1 +
+>  drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1078 +++++++++++++++++
+>  14 files changed, 1783 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
+>  create mode 100644 drivers/gpu/drm/imx/bridge/Kconfig
+>  create mode 100644 drivers/gpu/drm/imx/bridge/Makefile
+>  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c
+>  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi.c
+>  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
+> 
+> -- 
+> 2.30.2
+> 
+> 
