@@ -2,45 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100226C220E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 20:57:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A216C222B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 21:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3629E10E312;
-	Mon, 20 Mar 2023 19:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02A710E313;
+	Mon, 20 Mar 2023 20:05:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811A110E312
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 19:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=rD86dd4RJRoGcBrPqUxiJ4UC31nvE/L8rMOqegGr7ac=; b=dnEiKKB87wwBa32Cv4NeUmJ7p/
- +6V4Udfle7bmeRApw2mJ3lz1B2hGq0N8diHgxXf3XlG5+oqNsvOUHwMKVX0zy8uNI3QLRuwgvfms+
- fYXXWplGTnJPwadYqs2qgct+4gJKhyYJEGJFi/4jgsYElb91U82Vo4w7GdKgBZmORW0XcT3JcCapj
- YJWPzATUXgpX406YHnFBie5pdTs/+iVbiqOyPG8Q6tnHu7tOYME1YTaJivkLDxit0sOKfaSGBAUfd
- 0l+73zolEGLUvmd4GMOYqmX/ymBUWWGEoK3YntjGKJAn1ry+2TeY/DMSU3S/hWInq5pRtg6/F/B1s
- u13WJhng==;
-Received: from [177.34.168.16] (helo=bowie..)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1peLdM-001BJi-CV; Mon, 20 Mar 2023 20:57:32 +0100
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>
-Subject: [PATCH] drm/vkms: remove the need for the primary plane to be visible
-Date: Mon, 20 Mar 2023 16:55:59 -0300
-Message-Id: <20230320195558.134768-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBF210E313
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 20:04:59 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id s4so5975689ioj.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 13:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679342698;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FuvMmA7tsMzT2IG4AsR61roPXvyHSJm+OtWNjVpvWLM=;
+ b=dLZ5qlRDQreian19hx8rEVxM/WrWNleueEiYZPkSpF9IDkH5BMxP4A8uLT4mI1LbWP
+ /u6d2u5hN8Aj5n2TIsrHPV+mdAXr08W3wfFmV2do8fP8UGz5j7OL7f19eXyt3QSw9VOf
+ xILepYvVO0CRbeHw8aRWUJJf+qt0c58HJZracUBHURCOeqoHwNOZ+nliEFT8mmKx36z8
+ vXUFuZb4i8txIM21H/XHbKJ8xeaSWo7RZaw52Ai0JIsIi1L0WAsEJe45UWQrTRv5f0n1
+ FSCZpZSM99juFyu60aMzUnvvwfQsTF0aWwbPrYhMPKGWqz9q/uH7d26vzHPF4gL/jmJi
+ SDKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679342698;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:sender
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FuvMmA7tsMzT2IG4AsR61roPXvyHSJm+OtWNjVpvWLM=;
+ b=MYn9LBtZgH9OiEOYD+NPN5zgn4lnq/hnAYo3NhUr4OQYvThshrysYBnyGP2XHJka0W
+ Pi62Uu2MFCqb8XCATIbswAfCTtPXCbX9wzGiuCFotQwDHmMs+qYW8qJWinzqZcT7FzWQ
+ t69Ty80o7saN11WAP8EDeC5ERW71VMA+LUUonyOjWuQOFJ3cZeyaRfm8lgCao78BxWd/
+ jjNb7lJx0yVNFIvzGzvCFGC4CwpbsilQRjpd0ArpEfSpXnhR57G0f8Nr4HZvchwOBKgO
+ ZyGiUMC1p20CYvQ1ezEqfqRqdWgXRsWcwehTtqk6eP+N/YswoYSi1PM94cWQObyxcpTz
+ Iheg==
+X-Gm-Message-State: AO0yUKVQh7EFZuE4BR4C4WN6nzBVINtxmlSF3ypDKUx7xki9fjRxwDRx
+ AJM8XBDKVZ2ZFkcsQsbPhWc=
+X-Google-Smtp-Source: AK7set+LO0j8cGdeLIZy/9F7alcIS4BjKOm22OraNqeqo7JFbRLYlOivaTzGObTPkuqSMp0F9f1QBw==
+X-Received: by 2002:a6b:fd0c:0:b0:758:1db1:ca99 with SMTP id
+ c12-20020a6bfd0c000000b007581db1ca99mr2627ioi.19.1679342698537; 
+ Mon, 20 Mar 2023 13:04:58 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ a43-20020a02942e000000b0040617a81e1asm3428014jai.59.2023.03.20.13.04.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 13:04:58 -0700 (PDT)
+Date: Mon, 20 Mar 2023 13:04:56 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: Linux 6.3-rc3
+Message-ID: <4adbed5a-6f73-42ac-b7be-e12c764ae808@roeck-us.net>
+References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
+ <20230320180501.GA598084@dev-arch.thelio-3990X>
+ <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,46 +75,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
+Cc: Nathan Chancellor <nathan@kernel.org>, dri-devel@lists.freedesktop.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before commit bc0d7fdefec6 ("drm: vkms: Supports to the case where
-primary plane doesn't match the CRTC"), the composition was executed on
-top of the primary plane. Therefore, the primary plane needed to be
-visible and full screen. After commit bc0d7fdefec6, this is no longer
-necessary, as the composition is now executed on top of the CRTC.
+On Mon, Mar 20, 2023 at 11:26:17AM -0700, Linus Torvalds wrote:
+> On Mon, Mar 20, 2023 at 11:05 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > On the clang front, I am still seeing the following warning turned error
+> > for arm64 allmodconfig at least:
+> >
+> >   drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
+> >           if (syncpt_irq < 0)
+> >               ^~~~~~~~~~
+> 
+> Hmm. I do my arm64 allmodconfig builds with gcc, and I'm surprised
+> that gcc doesn't warn about this.
+> 
+> That syncpt_irq thing isn't written to anywhere, so that's pretty egregious.
+> 
+> We use -Wno-maybe-uninitialized because gcc gets it so wrong, but
+> that's different from the "-Wuninitialized" thing (without the
+> "maybe").
+> 
+> I've seen gcc mess this up when there is one single assignment,
+> because then the SSA format makes it *so* easy to just use that
+> assignment out-of-order (or unconditionally), but this case looks
+> unusually clear-cut.
+> 
+> So the fact that gcc doesn't warn about it is outright odd.
+> 
+> > If that does not come to you through other means before -rc4, could you
+> > just apply it directly so that I can stop applying it to our CI? :)
+> 
+> Bah. I took it now, there's no excuse for that thing.
+> 
+> Do we have any gcc people around that could explain why gcc failed so
+> miserably at this trivial case?
+> 
 
-Then, remove the conditional expression that forced the primary plane to
-be visible and full screen.
+I have noticed that gcc doesn't always warn about uninitialized variables
+in most architectures. The conditional btrfs build failure (only seen on
+sparc and parisc) is similar: gcc is silent even if I on purpose create
+and use uninitialized variables. Since the gcc version I use is the
+same for all architectures, I thought it must have something to do with
+compile options (like maybe the option to always initialize stack
+variables, or with some gcc plugin), but I have been unable to track it
+down.
 
-This patch was tested with the vkms IGT testlist and all tests passed
-successfully. Moreover, the tests
-igt@kms_universal_plane@universal-plane-pipe-a-functional and
-igt@kms_universal_plane@disable-primary-vs-flip-pipe-a used to fail and
-now are passing.
-
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- drivers/gpu/drm/vkms/vkms_plane.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index b3f8a115cc23..458d16865c97 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -153,10 +153,6 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
- 	if (ret != 0)
- 		return ret;
- 
--	/* for now primary plane must be visible and full screen */
--	if (!new_plane_state->visible && !can_position)
--		return -EINVAL;
--
- 	return 0;
- }
- 
--- 
-2.39.2
-
+Guenter
