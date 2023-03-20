@@ -1,74 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35756C25D8
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 00:42:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7224E6C25DC
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 00:42:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55AEB10E66A;
-	Mon, 20 Mar 2023 23:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A674E10E678;
+	Mon, 20 Mar 2023 23:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D26F910E66A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 23:42:12 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id eg48so53177761edb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 16:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1679355730;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yh9V5oLNl71ZE8wLJrHU90qn5FMul3QSy4jMGg+s0h4=;
- b=N4wVROOxKzQ4OoNcx8r5uTzsGb3CGCAyBDkN21Yg7Ibmi8awtnbTHYbFslExfamja/
- XTM1YvfD/UrKoD1ItfOmSDYXiKENfbGZQ5liaJggvBqVMf0Hs+UTvdbIxy95Kszei7pp
- Wo0DXOsYVQZLQVXcTOkM9muZUJt416sTmJ7z4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679355730;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yh9V5oLNl71ZE8wLJrHU90qn5FMul3QSy4jMGg+s0h4=;
- b=hNi5fZ8ZsL0WWS21whYxvxq1Jr3riB/fVwxv4EEJrbWUgOPpu/z9RBdtuTWH5u4BbC
- uQuohcr8eiRGoa/3/9N9+I9DDV01+HPM+v/p9H1Gzf9l+xsScQ/lo3W0p3YTHAVeMUqj
- A7+IE9N0JEaRKhjQ+x8QqLP/JqzoSjDGloTbaYWk5TbXVML65A3GE8/QlFraar+nxeJk
- 9YmlyPfKrlTpYS0dyrv3zoYP98UxFuGUTPMpcP7NnAt8G8mRJ+qGbinkxipjmDn5zDBj
- BEtIsy85H40KPuDpWapN+KAuT09A150RVmMgnMtG2UT34YquXbQSNp5Hx4PMNYJFtY/n
- LK5g==
-X-Gm-Message-State: AO0yUKVFOAEiqacicQTJ6aAbWpwvQOM/jyhPfAcE8NBSl2zMhHkfOfUP
- lgcbeoP/48S0jIHkUTY6Er4DD/P89vF5T4IYOCSNg67/
-X-Google-Smtp-Source: AK7set8oaI9FCF97P67QqW5czxbgHwrokq6ClKo7lZbq8e7+PBMK0UTy+Rg2J6Z57WKAEXnWhyRDzw==
-X-Received: by 2002:a17:906:ce5c:b0:932:b790:932c with SMTP id
- se28-20020a170906ce5c00b00932b790932cmr890984ejb.44.1679355730758; 
- Mon, 20 Mar 2023 16:42:10 -0700 (PDT)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com.
- [209.85.208.51]) by smtp.gmail.com with ESMTPSA id
- xo10-20020a170907bb8a00b008ec793ac3f4sm4965452ejc.192.2023.03.20.16.42.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 16:42:10 -0700 (PDT)
-Received: by mail-ed1-f51.google.com with SMTP id cn12so7651021edb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 16:42:09 -0700 (PDT)
-X-Received: by 2002:a17:906:13d3:b0:931:2bcd:ee00 with SMTP id
- g19-20020a17090613d300b009312bcdee00mr395674ejc.15.1679355729667; Mon, 20 Mar
- 2023 16:42:09 -0700 (PDT)
+Received: from CY4PR02CU007-vft-obe.outbound.protection.outlook.com
+ (mail-westcentralusazon11011002.outbound.protection.outlook.com
+ [40.93.199.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 042AA10E678
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 23:42:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jvawvgBmapceFYmksgk18FpOFLFogpnTyhBWYg08x7ahuZQ74vWdjvdkEXFsG1N5z3Nf0XREB1mF3sHM8kKTLZp5kSdgnsk67nuCO9Bp/cTPSvaWnLbLSxrWluVjkkwn1nOKmtwhDQRXM62jsjiMDM9xGSSGZABOlpLEHxJV3DbV628Hb5t70AwtXllZgXAY39RDCOD5649+HiHsuxzmZIJ4KxKsU+t2etmn5l8umGp1WIEYfmvDqIvgekSBdNI9A/Z5j45+xuBfyfCNI6bUA9SY2girTiR+fCozARq1yicbbrL8WfIV4ITWrbwdmSVEs7c7sMy1RHTbfeqi/htxMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=weT0n4Mpws6q0ze1ttZuu4YC/SJb2PVM11OTCJtd/QM=;
+ b=D/iAuyO8e5oMSDZNdrVf5lHbjkPL/sICDj0kmYKn/dRNgzVT8G7T8cMNs2Uap3YlncEdE9/S49Tpf7nlAJuJAlc6ZWEGR+t2WMVzEuuq8jLJQunrWAagzZC/8qywFF4rpd2zRM6ivYURcBJCVviC48ezcJ8J/tUpE6tJQK2o6vaW5o30n6fT+UzAnAjU1ZR8t+hcW5MAUw/xQyfc3Dv6zQ72uWoGBoEDltCAozV5MC7L7h49taQbdMHtry64C1h2FsXB8As9Mdtef8yMYAOG9iKE3akSNvP+Q6mmJI1er5i6sk3FUoHSnY6RMJ6PRLSW6BO4nZLz7cX81i5tEK6GYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=weT0n4Mpws6q0ze1ttZuu4YC/SJb2PVM11OTCJtd/QM=;
+ b=moSwcLbKO+AgrSAalyr3rCPVs30OzumfBf4+za11c9NsEbs6UBQuKs0waZ2SY93y3tk7rwqeAATIW9nmiD2IwDXGTvR+q4VjZ03fydOHVN6Nr03+RrVHUDDfVzb+PFnGzFro/wpoIahEezCA+amkwq5vrI+DpYP9ZiB29Xzmc50=
+Received: from CH3PR05MB10206.namprd05.prod.outlook.com
+ (2603:10b6:610:155::10) by DM6PR05MB5692.namprd05.prod.outlook.com
+ (2603:10b6:5:112::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
+ 2023 23:42:22 +0000
+Received: from CH3PR05MB10206.namprd05.prod.outlook.com
+ ([fe80::ad2d:cb08:253b:26e7]) by CH3PR05MB10206.namprd05.prod.outlook.com
+ ([fe80::ad2d:cb08:253b:26e7%8]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
+ 23:42:22 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: "martinkrastev768@gmail.com" <martinkrastev768@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/vmwgfx: Fix src/dst_pitch confusion
+Thread-Topic: [PATCH] drm/vmwgfx: Fix src/dst_pitch confusion
+Thread-Index: AQHZVroLIrIQNhLeJkuXbUI6MkDhQq7790AAgAhXC4CAAA97gA==
+Date: Mon, 20 Mar 2023 23:42:22 +0000
+Message-ID: <33b225168ec2bb1393f2405d76b8acfe685aedd5.camel@vmware.com>
+References: <20230314211445.1363828-1-zack@kde.org>
+ <98e9cc9a-6986-4425-3906-03dce337a0df@gmail.com>
+ <CAPM=9tyLPQ2SEGbsHXJcpDxW3AXY7sA0wDcG+5szQQqRf3swZA@mail.gmail.com>
+In-Reply-To: <CAPM=9tyLPQ2SEGbsHXJcpDxW3AXY7sA0wDcG+5szQQqRf3swZA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.3-1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH3PR05MB10206:EE_|DM6PR05MB5692:EE_
+x-ms-office365-filtering-correlation-id: 6abb8b13-0bb4-4ab0-b95a-08db299cc089
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2ya+ZVDdFpzBbDloA9mkUW/npmpVCc5AHqjA6i9ZFBgF1TNP2wLFeKgrQKKqePinpIDwwFr1G7v21Gj+He09Y+jdBJKXmBIiZMCr1qC4PV072tyQLmMETyO9/Lh+p1WU+bKcHORTlUZbfQswKfAYqiHmaTX5QoVeRhQ71IFhsf+qPFfGWx4MQYsFtNKWA4KlLmotQW5HZBKQApRkqSA3vfziz05KSB6lbhwHwCYMCp7hJU5PlEKnwMPNLq8+QJptRxpRRV3wUVIC23IBQXKpVRn7+TWiP+iBc12ewoZDh+n7WOkp6hWvn2mgi/+bLTcsZulo1TRYJQAhawviaO7L5Zj+UfQUpS/tAqL1A+ExIesfKGsKEauBCsVQQjlg/lHlldcjpPw9Z2FbcAMJxjA3MnS9HSffFBmPgUil88p24sTCugdm3rfDQ/gYrlFpUx9pZWhIYQ7aeRr70Me1MHQTXc0q83+59YhUNMSr/7VlS4OW3I/7JiSwnyopRY019KqQ2JAnOm84lz0WBQ8YEgNIWemiXmjyPUUpAmT/C0254kWdi9HkTEDyC0joZh/HDk+Q7cI/dwOv3yjikA37jBbfn21DWJhC6z71MsLeVOn4XtUHiXrN7iCV11cifxHaJ7ahRSkxDbsez+NQyry4M06sBr53Kyg4D2y51syH7Y9ZYv+VVZkbMuwxamfBfHmNlEiW06/zSGp+ydSdvf1uZCRNh5tFMcYqvzOCyQJO2RdZZReN3Uqx5IYYTNFXK/Rx8CpO
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR05MB10206.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(346002)(376002)(136003)(366004)(39860400002)(451199018)(26005)(4326008)(36756003)(2906002)(66476007)(66556008)(8936002)(76116006)(91956017)(66946007)(66446008)(8676002)(64756008)(5660300002)(38070700005)(4744005)(86362001)(122000001)(38100700002)(966005)(6486002)(71200400001)(6512007)(6506007)(478600001)(110136005)(316002)(41300700001)(186003)(2616005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ejFMc05TYWJlYTJkSzhBd1dLZjQzOGc3N1hLMWtqTkNMczhhQUljRTBvK2VL?=
+ =?utf-8?B?ZXVFck91c05YQU85SE1wTlhDWCtOelZ2L0xqL2YvMk5XZG1EVFJsUUhIWFFX?=
+ =?utf-8?B?dW44Wks2QkJZaGU0aE9Cd3FTYjZBYU1TN0RVVjNSQ3BJQlo4Smt5Zmp2Wkdv?=
+ =?utf-8?B?eWhacEF3T092Vmt0bFQvYWFkUjJTNzFWNXFmZHI3bkg4UVhyRjg5TUtVSkhj?=
+ =?utf-8?B?OU1CYldpR0g5Q3ZSV3pKaTQxMUxlaHBMa0xHZDhDcWo0NDN4T0tVU21uQm9U?=
+ =?utf-8?B?MlBSQlA2eWVWRGV0RkNzRDB3TUpiYVhTQk5lRTlJaVl1Z1JSZXZia3liQjJ6?=
+ =?utf-8?B?K2hnZlZQK1p1aFgwZHRHSFh2QllyYUV2allPSHpwY25JVGRPNTNNQ25GWmRM?=
+ =?utf-8?B?dFNBakJiZis4RC9zVkg3TDV1VU4zNWpvKzZiQnNVVmVsaGZ6SjZEMGRzczRW?=
+ =?utf-8?B?ZVdFcXNRU1I4QnBHK1EweFFFTTJnZE5IelZXR3BLSFBxT1oxZFBoT1RBcmxN?=
+ =?utf-8?B?ZFFQSnBHR29nQ2MrWFNPVDRyUGhaQlJoN3JpVkZBaGN0WjQzNERwNU40emdD?=
+ =?utf-8?B?S3lBUW5NZGlVc3pyVzZ6WkxoYXRkeVQxRjE3ZWNMNlhyY0E5cWVHbU8yc21D?=
+ =?utf-8?B?MjJueUlrdlQzUW1VUmNkbXFtVHhMVDBibCtmdGhtM01GRkNLdTFpZFk1b0Vu?=
+ =?utf-8?B?TjFuYUI1TkIvNE1tOGNrcWNqQU5PbldGYlVMa1hSdjI0WlVwOHAzbndQZ0Vr?=
+ =?utf-8?B?REhpempyUVU3Ym5UUEVzQk9rYkttZEpvVkM0SzFtQTdUKzZZeG9jaEhUZ0Jt?=
+ =?utf-8?B?ZzZ4RUR4NTBrTncwcVFMaGFCMmFraUpxRUhHMklVOVZNRVUxdytacmFnKzc0?=
+ =?utf-8?B?eUpYelBxV1E4M29ObzRkeGQ4NGI5T1Q2ZFpXRFNlY0Q3UGZpb08zYmo3VCtN?=
+ =?utf-8?B?S2szZXZjQ1RUQ0l3VHhBWFl5OFNPZjlTVWFxNlRXUm9vbndOVkNrTmlKVHdD?=
+ =?utf-8?B?ZHhaeGpydFNoRmcvaW1Ha1cvRm92MWlIV0dwaS8xa2wrbVpjK2thMHBSOWRR?=
+ =?utf-8?B?VGlkSjZKUFRFVGpiZjl5WEN3WGxWdkJoVUZYS2J2ZDRud0JZbFlPa1RiaFVL?=
+ =?utf-8?B?RDVEejJwNk5YUWp5OUNDSUJKei9TMC8va2lxaXdBSy8vOFYvVTZIRk9LdHBo?=
+ =?utf-8?B?b2xXSzNWd0paU2ZqWXpDUVBpdEpNbEJmbER5T0s5YmtsQjdZOVVJelVyS0pG?=
+ =?utf-8?B?NVZwV2F1L3RFdHBoems0WmptY3lNMTlsNDRpNUx1emNaeHN3dWxWclhDUnVl?=
+ =?utf-8?B?UitaTTZUT0h6MnBkT2pGQ2xhamVjbnJGS0U1K2hPcldJSnAyWmlvOHZKRU5m?=
+ =?utf-8?B?Lyt6VzRLQ21ub1ZiN2VUZzJPaVIxN0FMTGEvckJBd1k5UlpPWVpvOUtmT1kz?=
+ =?utf-8?B?eGxzb1AxNnMwUjE3YmN5S05SZm5UMENVMmJLa1dKU0VaVHpOVkhOMWZRL1Jx?=
+ =?utf-8?B?bHNDU3VueDJHNWhHMFpkcGVWNDVobE82eS9YUXkvV2RHVnVra2ozWkd2ekJG?=
+ =?utf-8?B?eFlNVXJnUlNQNEdvRGN4bWF3ZXJxWDFWOXBlcTF6a2RzamlpT3dIU242RDVT?=
+ =?utf-8?B?UnhDdmNTTzV5VS9rZjRYbUFVTWp3SUFzNTVET25pUEhmVEt5dGFobzdVOGla?=
+ =?utf-8?B?TGJwaTRISGQybzZ1Z3hzTmg1c1E5SEdjRythOFBRRWU1bFROZENoY21TRVdK?=
+ =?utf-8?B?eTRrdjV6OTFLUVlQeFhkWEIxcGhjSWlaaUhFZTdVZjlPeW1uQXBzdzZBQVUy?=
+ =?utf-8?B?Ujl5T1hqdnppVGNXREtvMFFmZ1lTVWRESXdlYTNvWWFPUmFPQzlKQnZIRHI1?=
+ =?utf-8?B?ZWVSbkZvUmU1alBVcThGY3UrUHZVTWpxdEpINjRFUlhQOVRnN1kvWWVMaGEv?=
+ =?utf-8?B?aVhvNTFVRlNmRVJobHJ6ZUUzdVh1cFVzTGVRRG9jQk05Q0h6Qk1UeS9vbmxF?=
+ =?utf-8?B?WTAzQTA0RFR2TUUyc1hHUG9nOU9aczZuT25pMjBJVVlNWE1iQ211MVpnUStG?=
+ =?utf-8?B?ZzdsWWhYQjFQRy9ObHE2Z2hCQldvejJYcnA5UnBwQUVuNUVSeERoaWM0Rjdi?=
+ =?utf-8?Q?914LDExBcb9wfg1YGnhula0LM?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <44174186089ECA41BF0B23B7019D8FB0@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
- <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
- <4adbed5a-6f73-42ac-b7be-e12c764ae808@roeck-us.net>
- <CAHk-=wgyJREUR1WgfFmie5XVJnBLr1VPVbSibh1+Cq57Bh4Tag@mail.gmail.com>
- <20230320220631.GA637514@dev-arch.thelio-3990X>
-In-Reply-To: <20230320220631.GA637514@dev-arch.thelio-3990X>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 20 Mar 2023 16:41:52 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whf82-im76ovESE2RZBh5=Y3uR1GDbae60=TWjM7OkLdA@mail.gmail.com>
-Message-ID: <CAHk-=whf82-im76ovESE2RZBh5=Y3uR1GDbae60=TWjM7OkLdA@mail.gmail.com>
-Subject: Re: Linux 6.3-rc3
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR05MB10206.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6abb8b13-0bb4-4ab0-b95a-08db299cc089
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2023 23:42:22.4320 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J0WOtlTR3D5MbdClRi1oJPEpZ/GLuQVjJ0a1berE6fTt0DNvTvri6HNQAPF+1dCGT1/RUDyzPGUkBjOxA5JMPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR05MB5692
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,46 +132,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-toolchains@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 20, 2023 at 3:06=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Right, this seems like a subtle difference in semantics between
-> -Wuninitialized between clang and GCC.
-
-I guess it's a bit ambiguous whether it's
-
- "X may be USED uninitialized"
-
-or whether it is
-
- "X may BE uninitialized"
-
-and then depending on how you see that ambiguity, the control flow matters.
-
-In this case, there is absolutely no question that the variable is
-uninitialized (since there is no write to it at all).
-
-So it is very clearly and unambiguously uninitialized. And I do think
-that as a result, "-Wuninitialized" should warn.
-
-But at the same time, whether it is *used* or not depends on that
-conditional, so I can see how it could be confusing and not be so
-clear an unambiguous.
-
-On the whole, I do wish that the logic would be "after dead code
-removal, if some pseudo has no initializer, it should always warn,
-regardless of any remaining dynamic conditoinals".
-
-That "after dead code removal" might matter, because I could see where
-config things (#ifdef's etc) would just remove the initialization of
-some variable, and if the use is behind some static "if (0)", then
-warning about it is all kinds of silly.
-
-                     Linus
+T24gVHVlLCAyMDIzLTAzLTIxIGF0IDA4OjQ2ICsxMDAwLCBEYXZlIEFpcmxpZSB3cm90ZToNCj4g
+ISEgRXh0ZXJuYWwgRW1haWwNCj4gDQo+IE9uIFRodSwgMTYgTWFyIDIwMjMgYXQgMDE6MjUsIE1h
+cnRpbiBLcmFzdGV2IChWTXdhcmUpDQo+IDxtYXJ0aW5rcmFzdGV2NzY4QGdtYWlsLmNvbT4gd3Jv
+dGU6DQo+ID4gDQo+ID4gRnJvbTogTWFydGluIEtyYXN0ZXYgPGtyYXN0ZXZtQHZtd2FyZS5jb20+
+DQo+ID4gDQo+ID4gV2UgcmV2aWV3ZXJzIGJvdGNoZWQgdGhhdCBvbmUuDQo+ID4gDQo+ID4gUmV2
+aWV3ZWQtYnk6IE1hcnRpbiBLcmFzdGV2IDxrcmFzdGV2bUB2bXdhcmUuY29tPg0KPiANCj4gQ2Fu
+IHNvbWVvbmUgbGFuZCB0aGlzIGludG8gZHJtLW1pc2MtbmV4dCBwbGVhc2Ugc28gSSBjYW4gc3Rh
+cnQNCj4gYnVpbGRpbmcgd2l0aCBjbGFuZyBhZ2Fpbj8NCg0KSXQgbGFuZGVkIHRoZXJlIDUgZGF5
+cyBhZ286DQpodHRwczovL2NnaXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYy9jb21taXQv
+P2lkPTMyODgzOWZmOTM3MDlhNTE3ZTg5YmExZGUxMTMyYzVkMTM4ZTVkY2INCg0Keg0K
