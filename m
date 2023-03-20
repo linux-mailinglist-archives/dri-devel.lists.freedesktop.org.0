@@ -1,38 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017C66C1A0A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:43:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD2C6C1BAF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 17:32:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F22F10E5DA;
-	Mon, 20 Mar 2023 15:43:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90D5D10E5EA;
+	Mon, 20 Mar 2023 16:32:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5A6F10E5DA
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:43:26 +0000 (UTC)
-Received: from ramsan.of.borg ([84.195.187.55])
- by andre.telenet-ops.be with bizsmtp
- id afjP2900g1C8whw01fjPsH; Mon, 20 Mar 2023 16:43:24 +0100
-Received: from rox.of.borg ([192.168.97.57])
- by ramsan.of.borg with esmtp (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1peHek-00E2gI-QK;
- Mon, 20 Mar 2023 16:43:23 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
- (envelope-from <geert@linux-m68k.org>) id 1peHfP-007Rh7-IX;
- Mon, 20 Mar 2023 16:43:23 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Russell King <linux@armlinux.org.uk>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/armada: Fix off-by-one error in
- armada_overlay_get_property()
-Date: Mon, 20 Mar 2023 16:43:22 +0100
-Message-Id: <7fbfcf4f1adafbe45e98257a07ac607718fe2aae.1679326886.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6CE10E5EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 16:31:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679329917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0hMdEvkGZX6gP9t/tvB4hM1Y9DcXkYUFUsoGe13JtC0=;
+ b=H8K0PAxgx7O0zoDck4Xy9U2TVEHq8x4B++Cv+c86ameUkWzPPvcPhs5S5xFmmAKKwds/Rz
+ WJWZ9R58M2BXQxf7ScD2StN7/22uDtynd0Zo+f3D/ubvJ2W+UmXabIAPe3o43rHKmMgB+i
+ P9ru11Qhalq48r+8UHThrCLVZQTkjhk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-79-pEsub2FmMvSzR6UAH4Xirg-1; Mon, 20 Mar 2023 12:31:55 -0400
+X-MC-Unique: pEsub2FmMvSzR6UAH4Xirg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ j13-20020a05600c190d00b003ed26189f44so8699169wmq.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 09:31:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679329914;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0hMdEvkGZX6gP9t/tvB4hM1Y9DcXkYUFUsoGe13JtC0=;
+ b=FrOXITko7D2q1fXAGgKaK3sMrSD+EaeNKk9DwWEJtM/umLuuCwRMeHHCd/RjRBS1Iy
+ 9qP9wPGvjmgx9C4Ow5C8z6PyPZQZiTVMEC2Vll1fD3qNP6gb60J8GQyvqo+CVOqb47SZ
+ BnfkEhao2JaqMHZrh8vDX0VHK3htyyp6ySgzcKXfpPVlJW/t7mGdgUmP4Ee1J4DFiKEi
+ OTwIqSYrouXA51nkZeAPiKuifZhCEUXNOqBR7pQPp2gHKJSutNXsBG+9YGQxfvEGjDS3
+ Qy2ZFNCx8qUQA87B3EEO1Q40OcCOTVrs7VvrAFRTYtruKD8+lTsmwi2ZL08d6a8L+Dul
+ m+sQ==
+X-Gm-Message-State: AO0yUKXwVqMQm17yxC1uxSP3dSmlW34MWwgF686Kr9WadFkzk5cQw0lH
+ 16pQrBnAcUaVeeu//oVZ3Ky0t3SNiLwApWWy/dL8jfME5RQuEeYpibZkzFLbQKB3NkVozS0/TiZ
+ GxZuPHJatmzZDWUabteKvoDHeaG7fmFBmfjCW
+X-Received: by 2002:a7b:cd07:0:b0:3ed:d261:50a6 with SMTP id
+ f7-20020a7bcd07000000b003edd26150a6mr143612wmj.9.1679329914614; 
+ Mon, 20 Mar 2023 09:31:54 -0700 (PDT)
+X-Google-Smtp-Source: AK7set/x2KQ09J/l0c4Qtjw37mhjB/6/neHc+BjlbTD+3dOK6k5xoTsuftRjr2GXXV2MwCEKWECctg==
+X-Received: by 2002:a7b:cd07:0:b0:3ed:d261:50a6 with SMTP id
+ f7-20020a7bcd07000000b003edd26150a6mr143600wmj.9.1679329914339; 
+ Mon, 20 Mar 2023 09:31:54 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es.
+ [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
+ t17-20020a05600c451100b003edddae1068sm5136301wmo.9.2023.03.20.09.31.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Mar 2023 09:31:54 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ zackr@vmware.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-graphics-maintainer@vmware.com
+Subject: Re: [PATCH v2 4/8] drm/fb-helper: Support smem_len in deferred I/O
+In-Reply-To: <20230320150751.20399-5-tzimmermann@suse.de>
+References: <20230320150751.20399-1-tzimmermann@suse.de>
+ <20230320150751.20399-5-tzimmermann@suse.de>
+Date: Mon, 20 Mar 2023 17:31:53 +0100
+Message-ID: <87sfdzo03q.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,54 +84,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Russell King <rmk+kernel@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As ffs() returns one more than the index of the first bit set (zero
-means no bits set), the color key mode value is shifted one position too
-much.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Fix this by using FIELD_GET() instead.
+> The size of the framebuffer can either be stored in screen_info or
+> smem_len. Take both into account in the deferred I/O code.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Fixes: c96103b6c49ff9a8 ("drm/armada: move colorkey properties into overlay plane state")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
-Compile-tested only.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-v2:
-  - Add Reviewed-by.
----
- drivers/gpu/drm/armada/armada_overlay.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/armada/armada_overlay.c b/drivers/gpu/drm/armada/armada_overlay.c
-index f21eb8fb76d87285..3b9bd8ecda137f6d 100644
---- a/drivers/gpu/drm/armada/armada_overlay.c
-+++ b/drivers/gpu/drm/armada/armada_overlay.c
-@@ -4,6 +4,8 @@
-  *  Rewritten from the dovefb driver, and Armada510 manuals.
-  */
- 
-+#include <linux/bitfield.h>
-+
- #include <drm/armada_drm.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -445,8 +447,8 @@ static int armada_overlay_get_property(struct drm_plane *plane,
- 			     drm_to_overlay_state(state)->colorkey_ug,
- 			     drm_to_overlay_state(state)->colorkey_vb, 0);
- 	} else if (property == priv->colorkey_mode_prop) {
--		*val = (drm_to_overlay_state(state)->colorkey_mode &
--			CFG_CKMODE_MASK) >> ffs(CFG_CKMODE_MASK);
-+		*val = FIELD_GET(CFG_CKMODE_MASK,
-+				 drm_to_overlay_state(state)->colorkey_mode);
- 	} else if (property == priv->brightness_prop) {
- 		*val = drm_to_overlay_state(state)->brightness + 256;
- 	} else if (property == priv->contrast_prop) {
 -- 
-2.34.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
