@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2A16C0E42
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 11:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4FBC6C0E46
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 11:09:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B1D010E2CF;
-	Mon, 20 Mar 2023 10:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6039110E321;
+	Mon, 20 Mar 2023 10:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 738DA10E2CF;
- Mon, 20 Mar 2023 10:09:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39FAF10E2CF;
+ Mon, 20 Mar 2023 10:09:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679306952; x=1710842952;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=t5tPVyvsvgXoIccFimWMEI4efqnlrI30zXvDj591hAw=;
- b=n08IvuWiMoIg38yrQ9lindl9grZNHMSbDpq23jjDxZ0j3ic/TT2SUfD8
- M3iUtHGmTERXtMu4tX3th7sUrbQQFaN8MkmgHi6GaaPUmU4zhk1nNyW8v
- 3k+uAsIO5sGZrdN/0oZs9xHEG86R2Yxw6dIUZiJaGo0uZz0YhpqBSpMuX
- fPqaBiq8dRKY8mjH5y/wUr4HJLd+CSWSP9ivV7jhTaPgAKZk3wXdFN4xH
- vGZbckDrtAMlhGAC4eQXvLXrHQ3EJRrLni7k7ScL0c3pKrfabu9ccLX9v
- yP/fizNFyqiWdrNpaVZftT90R3w64t01Kfj/E8S8gVhFrE/Lk+USrPkoS A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="338647846"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="338647846"
+ t=1679306954; x=1710842954;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ddRq29PaTIL7FjCntXXv6jIuk7QT+oOPLrBZAgQWUHw=;
+ b=OmPu79UdCMiQAwcuUdF17G2A8Aln8cS3Yq5dyzz0ZSMrxeRD9NJZ/w5b
+ DNGwmZsinrWLmwAXhCZg1BoTDvdq3eboiO9yZAfJUTQn+3x3AYmQTuw7S
+ KsCjbAbQ7WPWSYBCpuqcz6D2ZnFyvY9jlRzQWcmgEHtIJ1nNhR+nu8/4z
+ 6Q3ohbu5DwgVSEUkSBncI2lTufOQDIyTWe9gbiH7oGCmZSaYx+E4k+pTi
+ aJ1O9b3ENwd4EMwk2V1ZKz/CClgmX2Ko8rthZHsMGJwwlkMJKurqg94+v
+ 67yDU2CjczxBu+v24Y0/OH1PXcJn0oNgusfce3QFiqy+D5zojhiLO+KGq w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="338647854"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="338647854"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 03:09:12 -0700
+ 20 Mar 2023 03:09:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="791560712"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="791560712"
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="791560724"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="791560724"
 Received: from nirmoyda-desk.igk.intel.com ([10.91.214.27])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 03:09:10 -0700
+ 20 Mar 2023 03:09:12 -0700
 From: Nirmoy Das <nirmoy.das@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2: 1/3] drm/i915: Add a function to mmap framebuffer obj
-Date: Mon, 20 Mar 2023 11:09:01 +0100
-Message-Id: <20230320100903.23588-1-nirmoy.das@intel.com>
+Subject: [PATCH 2/3] drm/i915/display: Add helper func to get intel_fbdev from
+ drm_fb_helper
+Date: Mon, 20 Mar 2023 11:09:02 +0100
+Message-Id: <20230320100903.23588-2-nirmoy.das@intel.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230320100903.23588-1-nirmoy.das@intel.com>
+References: <20230320100903.23588-1-nirmoy.das@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
@@ -65,10 +68,8 @@ Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement i915_gem_fb_mmap() to enable fb_ops.fb_mmap()
-callback for i915's framebuffer objects.
-
-v2: add a comment why i915_gem_object_get() needed(Andi).
+Add a helper function to retrieve struct intel_fbdev from
+struct drm_fb_helper.
 
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: Andi Shyti <andi.shyti@linux.intel.com>
@@ -76,178 +77,79 @@ Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Cc: Jani Nikula <jani.nikula@intel.com>
 Cc: Imre Deak <imre.deak@intel.com>
 Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 127 +++++++++++++++--------
- drivers/gpu/drm/i915/gem/i915_gem_mman.h |   2 +-
- 2 files changed, 83 insertions(+), 46 deletions(-)
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 23 ++++++++++------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index d3c1dee16af2..341e952d3510 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -927,53 +927,15 @@ static struct file *mmap_singleton(struct drm_i915_private *i915)
- 	return file;
- }
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index 673bcdfb7ff6..8c3b3c3fd0e0 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -67,6 +67,11 @@ struct intel_fbdev {
+ 	struct mutex hpd_lock;
+ };
  
--/*
-- * This overcomes the limitation in drm_gem_mmap's assignment of a
-- * drm_gem_object as the vma->vm_private_data. Since we need to
-- * be able to resolve multiple mmap offsets which could be tied
-- * to a single gem object.
-- */
--int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-+static int
-+i915_gem_object_mmap(struct drm_i915_gem_object *obj,
-+		     struct i915_mmap_offset *mmo,
-+		     struct vm_area_struct *vma)
++static struct intel_fbdev *to_intel_fbdev(struct drm_fb_helper *fb_helper)
++{
++	return container_of(fb_helper, struct intel_fbdev, helper);
++}
++
+ static struct intel_frontbuffer *to_frontbuffer(struct intel_fbdev *ifbdev)
  {
--	struct drm_vma_offset_node *node;
--	struct drm_file *priv = filp->private_data;
--	struct drm_device *dev = priv->minor->dev;
--	struct drm_i915_gem_object *obj = NULL;
--	struct i915_mmap_offset *mmo = NULL;
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct drm_device *dev = &i915->drm;
- 	struct file *anon;
+ 	return ifbdev->fb->frontbuffer;
+@@ -79,9 +84,7 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
  
--	if (drm_dev_is_unplugged(dev))
--		return -ENODEV;
--
--	rcu_read_lock();
--	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
--	node = drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
--						  vma->vm_pgoff,
--						  vma_pages(vma));
--	if (node && drm_vma_node_is_allowed(node, priv)) {
--		/*
--		 * Skip 0-refcnted objects as it is in the process of being
--		 * destroyed and will be invalid when the vma manager lock
--		 * is released.
--		 */
--		if (!node->driver_private) {
--			mmo = container_of(node, struct i915_mmap_offset, vma_node);
--			obj = i915_gem_object_get_rcu(mmo->obj);
--
--			GEM_BUG_ON(obj && obj->ops->mmap_ops);
--		} else {
--			obj = i915_gem_object_get_rcu
--				(container_of(node, struct drm_i915_gem_object,
--					      base.vma_node));
--
--			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
--		}
--	}
--	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
--	rcu_read_unlock();
--	if (!obj)
--		return node ? -EACCES : -EINVAL;
--
- 	if (i915_gem_object_is_readonly(obj)) {
- 		if (vma->vm_flags & VM_WRITE) {
- 			i915_gem_object_put(obj);
-@@ -1005,7 +967,7 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	if (obj->ops->mmap_ops) {
- 		vma->vm_page_prot = pgprot_decrypted(vm_get_page_prot(vma->vm_flags));
- 		vma->vm_ops = obj->ops->mmap_ops;
--		vma->vm_private_data = node->driver_private;
-+		vma->vm_private_data = obj->base.vma_node.driver_private;
- 		return 0;
- 	}
+ static int intel_fbdev_set_par(struct fb_info *info)
+ {
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct intel_fbdev *ifbdev =
+-		container_of(fb_helper, struct intel_fbdev, helper);
++	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+ 	int ret;
  
-@@ -1043,6 +1005,81 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
- 	return 0;
- }
+ 	ret = drm_fb_helper_set_par(info);
+@@ -93,9 +96,7 @@ static int intel_fbdev_set_par(struct fb_info *info)
  
-+/*
-+ * This overcomes the limitation in drm_gem_mmap's assignment of a
-+ * drm_gem_object as the vma->vm_private_data. Since we need to
-+ * be able to resolve multiple mmap offsets which could be tied
-+ * to a single gem object.
-+ */
-+int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-+{
-+	struct drm_vma_offset_node *node;
-+	struct drm_file *priv = filp->private_data;
-+	struct drm_device *dev = priv->minor->dev;
-+	struct drm_i915_gem_object *obj = NULL;
-+	struct i915_mmap_offset *mmo = NULL;
-+
-+	if (drm_dev_is_unplugged(dev))
-+		return -ENODEV;
-+
-+	rcu_read_lock();
-+	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
-+	node = drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
-+						  vma->vm_pgoff,
-+						  vma_pages(vma));
-+	if (node && drm_vma_node_is_allowed(node, priv)) {
-+		/*
-+		 * Skip 0-refcnted objects as it is in the process of being
-+		 * destroyed and will be invalid when the vma manager lock
-+		 * is released.
-+		 */
-+		if (!node->driver_private) {
-+			mmo = container_of(node, struct i915_mmap_offset, vma_node);
-+			obj = i915_gem_object_get_rcu(mmo->obj);
-+
-+			GEM_BUG_ON(obj && obj->ops->mmap_ops);
-+		} else {
-+			obj = i915_gem_object_get_rcu
-+				(container_of(node, struct drm_i915_gem_object,
-+					      base.vma_node));
-+
-+			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
-+		}
-+	}
-+	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
-+	rcu_read_unlock();
-+	if (!obj)
-+		return node ? -EACCES : -EINVAL;
-+
-+	return i915_gem_object_mmap(obj, mmo, vma);
-+}
-+
-+int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct drm_device *dev = &i915->drm;
-+	struct i915_mmap_offset *mmo = NULL;
-+	enum i915_mmap_type mmap_type;
-+	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
-+
-+	if (drm_dev_is_unplugged(dev))
-+		return -ENODEV;
-+
-+	mmap_type = i915_ggtt_has_aperture(ggtt) ? I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
-+	mmo = mmap_offset_attach(obj, mmap_type, NULL);
-+	if (!mmo)
-+		return -ENODEV;
-+
-+	/*
-+	 * When we install vm_ops for mmap we are too late for
-+	 * the vm_ops->open() which increases the ref_count of
-+	 * this obj and then it gets decreased by the vm_ops->close().
-+	 * To balance this increase the obj ref_count here.
-+	 */
-+	obj = i915_gem_object_get(mmo->obj);
-+	return i915_gem_object_mmap(obj, mmo, vma);
-+}
-+
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/i915_gem_mman.c"
- #endif
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-index 1fa91b3033b3..196417fd0f5c 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-@@ -29,5 +29,5 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
+ static int intel_fbdev_blank(int blank, struct fb_info *info)
+ {
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct intel_fbdev *ifbdev =
+-		container_of(fb_helper, struct intel_fbdev, helper);
++	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+ 	int ret;
  
- void i915_gem_object_runtime_pm_release_mmap_offset(struct drm_i915_gem_object *obj);
- void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
--
-+int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma);
- #endif
+ 	ret = drm_fb_helper_blank(blank, info);
+@@ -108,9 +109,7 @@ static int intel_fbdev_blank(int blank, struct fb_info *info)
+ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
+ 				   struct fb_info *info)
+ {
+-	struct drm_fb_helper *fb_helper = info->par;
+-	struct intel_fbdev *ifbdev =
+-		container_of(fb_helper, struct intel_fbdev, helper);
++	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+ 	int ret;
+ 
+ 	ret = drm_fb_helper_pan_display(var, info);
+@@ -136,8 +135,7 @@ static const struct fb_ops intelfb_ops = {
+ static int intelfb_alloc(struct drm_fb_helper *helper,
+ 			 struct drm_fb_helper_surface_size *sizes)
+ {
+-	struct intel_fbdev *ifbdev =
+-		container_of(helper, struct intel_fbdev, helper);
++	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+ 	struct drm_framebuffer *fb;
+ 	struct drm_device *dev = helper->dev;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+@@ -193,8 +191,7 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
+ static int intelfb_create(struct drm_fb_helper *helper,
+ 			  struct drm_fb_helper_surface_size *sizes)
+ {
+-	struct intel_fbdev *ifbdev =
+-		container_of(helper, struct intel_fbdev, helper);
++	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+ 	struct intel_framebuffer *intel_fb = ifbdev->fb;
+ 	struct drm_device *dev = helper->dev;
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
 -- 
 2.39.0
 
