@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4A66C0C10
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 09:20:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE426C0C13
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 09:21:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1794F10E248;
-	Mon, 20 Mar 2023 08:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E88F710E255;
+	Mon, 20 Mar 2023 08:21:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 825A510E247;
- Mon, 20 Mar 2023 08:20:06 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA7C010E255
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 08:21:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 21A66CE109B;
- Mon, 20 Mar 2023 08:20:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235EEC4339B;
- Mon, 20 Mar 2023 08:19:54 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E3660B80CAA;
+ Mon, 20 Mar 2023 08:21:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 729FAC433D2;
+ Mon, 20 Mar 2023 08:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679300397;
- bh=QpAVKqeubJthGIFfzcG7IrxW0rOZ+Vhr+iwkoRDofsw=;
+ s=k20201202; t=1679300507;
+ bh=jVn18uqDt5rfFoXE/I7E0XizLiknyMconn6QPnHtdLQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FFZN1EqsUQoijVrA3D5Fx3IRVmy5UZQwaNQowjxlcI1PUvmO+q1l3PCO0OrEwHHJ9
- 4y0X+YN50WzeAzMy5I6pO0s+0uzu8fDTns8Ub//f8u1eJT0NB+aGVr2AxT1uMw2+pH
- oQVR56yeDBULokyYbs7J9ZgvFmYQMcY7Z5RJkXFBM2v7B0Xh9XEYwRM3lTqvOnXARD
- Y6BG2OV6blc4Aj9wH7BgFQg1LPIdG5+lVQmiJ3F8WLjrrWWTNU9DUAa1KoMw17uzEn
- d76VrlM04pUdTq8OBGXKbELJ1IzMDYG2dBZlp9naz/A1WCvyCzBUF6bvIrFplI7w2T
- rg2BdxYDGt8zQ==
-Date: Mon, 20 Mar 2023 08:19:51 +0000
+ b=TSwW0AmSxuRFtl0g9F718VJ2W3q6LSKylGHTNj9byCTSaZa6mlm/YCrmaJK5BS5j1
+ KGSEu3WXqYU/juOPwBpq7C1HipAEgLNnNrIoJnWvOolIeHrqU2KVXLXzrmoRcZEXCB
+ ic9NSivyMigokjCbK3nFimEnng8NY6cvs61609sPkBvN6Fg/LW5Yh1dFrRFTTWysWm
+ xTgXxDQZ/U2syZd8qk8wHLvc/yO6NTVHqYBl2RS31lX50Ti9WugSaWFtLH7sBjQZsY
+ eqdFR7wvA3UbmjyV1XPTDGu3b5l2JNMcGNOETU3it5RSiMkyt0WLv0KpcPIk2ueuzf
+ JkzKs4IFnOr8Q==
+Date: Mon, 20 Mar 2023 08:21:41 +0000
 From: Lee Jones <lee@kernel.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 28/37] drm/amd/display/dc/core/dc_stat: Convert a couple
- of doc headers to kerneldoc format
-Message-ID: <20230320081951.GI9667@google.com>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 37/37] drm/bridge/imx/Kconfig: Prevent imx-ldb-helper
+ from appearing in 2 separate modules
+Message-ID: <20230320082141.GJ9667@google.com>
 References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-29-lee@kernel.org>
- <CADnq5_O0mQWy5z-SeWryyVeBhhsDX_yrsiuHTUbDBBAscB6b=w@mail.gmail.com>
+ <20230317081718.2650744-38-lee@kernel.org>
+ <fc8b6ec1f05c1514b6ed5535e16c9c2d21efea86.camel@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_O0mQWy5z-SeWryyVeBhhsDX_yrsiuHTUbDBBAscB6b=w@mail.gmail.com>
+In-Reply-To: <fc8b6ec1f05c1514b6ed5535e16c9c2d21efea86.camel@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,110 +56,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jasdeep Dhillon <jdhillon@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Mustapha Ghaddar <mghaddar@amd.com>
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Mar 2023, Alex Deucher wrote:
+On Fri, 17 Mar 2023, Liu Ying wrote:
 
-> On Fri, Mar 17, 2023 at 4:23 AM Lee Jones <lee@kernel.org> wrote:
-> >
+> Hi Lee,
+>
+> On Fri, 2023-03-17 at 08:17 +0000, Lee Jones wrote:
 > > Fixes the following W=1 kernel build warning(s):
 > >
-> >  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:38: warning: Cannot understand  *****************************************************************************
-> >  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:76: warning: Cannot understand  *****************************************************************************
+> >  scripts/Makefile.build:252: drivers/gpu/drm/bridge/imx/Makefile: imx-ldb-helper.o is added to multiple modules: imx8qm-ldb imx8qxp-ldb
 > >
-> > Cc: Harry Wentland <harry.wentland@amd.com>
-> > Cc: Leo Li <sunpeng.li@amd.com>
-> > Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> > Cc: Liu Ying <victor.liu@nxp.com>
+> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> > Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> > Cc: Robert Foss <rfoss@kernel.org>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Jonas Karlman <jonas@kwiboo.se>
+> > Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
 > > Cc: David Airlie <airlied@gmail.com>
 > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Mustapha Ghaddar <mghaddar@amd.com>
-> > Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-> > Cc: Jasdeep Dhillon <jdhillon@amd.com>
-> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: Shawn Guo <shawnguo@kernel.org>
+> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > Cc: Fabio Estevam <festevam@gmail.com>
+> > Cc: NXP Linux Team <linux-imx@nxp.com>
 > > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-arm-kernel@lists.infradead.org
 > > Signed-off-by: Lee Jones <lee@kernel.org>
-> > ---
-> >  drivers/gpu/drm/amd/display/dc/core/dc_stat.c | 28 +++++++------------
-> >  1 file changed, 10 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-> > index 6c06587dd88c2..5f6392ae31a66 100644
-> > --- a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-> > +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-> > @@ -35,19 +35,15 @@
-> >   */
-> >
-> >  /**
 >
-> This looks like it follows some other documentation scheme.  Would
-> probably be better to just remove the extra * and make it not kernel
-> doc.  @Wentland, Harry @Siqueira, Rodrigo ?
-
-Happy to wait for further input.
-
-Either demoting from or converting to kerneldoc would be fine.
-
-> > - *****************************************************************************
-> > - *  Function: dc_stat_get_dmub_notification
-> > + *  dc_stat_get_dmub_notification
-> >   *
-> > - *  @brief
-> > - *             Calls dmub layer to retrieve dmub notification
-> > + * Calls dmub layer to retrieve dmub notification
-> >   *
-> > - *  @param
-> > - *             [in] dc: dc structure
-> > - *             [in] notify: dmub notification structure
-> > + * @dc: dc structure
-> > + * @notify: dmub notification structure
-> >   *
-> > - *  @return
-> > + * Returns
-> >   *     None
-> > - *****************************************************************************
-> >   */
-> >  void dc_stat_get_dmub_notification(const struct dc *dc, struct dmub_notification *notify)
-> >  {
-> > @@ -73,19 +69,15 @@ void dc_stat_get_dmub_notification(const struct dc *dc, struct dmub_notification
-> >  }
+> Thank you for the patch.
+>
+> > ---
+> >  drivers/gpu/drm/bridge/imx/Kconfig          |  7 +++++++
+> >  drivers/gpu/drm/bridge/imx/Makefile         |  7 +++++--
+> >  drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 13 +++++++++++++
+> >  3 files changed, 25 insertions(+), 2 deletions(-)
 > >
-> >  /**
-> > - *****************************************************************************
-> > - *  Function: dc_stat_get_dmub_dataout
-> > + * dc_stat_get_dmub_dataout
-> >   *
-> > - *  @brief
-> > - *             Calls dmub layer to retrieve dmub gpint dataout
-> > + * Calls dmub layer to retrieve dmub gpint dataout
-> >   *
-> > - *  @param
-> > - *             [in] dc: dc structure
-> > - *             [in] dataout: dmub gpint dataout
-> > + * @dc: dc structure
-> > + * @dataout: dmub gpint dataout
-> >   *
-> > - *  @return
-> > + * Returns
-> >   *     None
-> > - *****************************************************************************
-> >   */
-> >  void dc_stat_get_dmub_dataout(const struct dc *dc, uint32_t *dataout)
-> >  {
-> > --
-> > 2.40.0.rc1.284.g88254d51c5-goog
+> > diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+> > index 608f47f41bcd1..97018dcd078d0 100644
+> > --- a/drivers/gpu/drm/bridge/imx/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+> > @@ -1,10 +1,16 @@
+> >  if ARCH_MXC || COMPILE_TEST
 > >
+> > +config DRM_IMX8_LIB
+>
+> I would limit this to i.MX LVDS Display Bridge(LDB) library, so I
+> suggest to use DRM_IMX_LDB_LIB.
+>
+> > +	tristate
+> > +	help
+> > +	  Common helper functions used by some of the drivers below.
+>
+> Considering to use DRM_IMX_LDB_LIB, help message can be a bit more
+> specific to LDB drivers, like:
+>
+> Common helper functions used by i.MX LVDS display bridge drivers below.
+
+Thanks for the help.  Leave it with me.
 
 --
 Lee Jones [李琼斯]
