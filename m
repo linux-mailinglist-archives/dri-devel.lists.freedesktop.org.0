@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2377B6C1FA7
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:26:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB5D6C2016
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 19:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41BC510E223;
-	Mon, 20 Mar 2023 18:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1340810E22C;
+	Mon, 20 Mar 2023 18:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E07FD10E223
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 18:26:36 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id y4so50522689edo.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 11:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1679336795;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bIfBJvw4GqAMhW5twcZsJZl6S9pMqZHlkEyev/gaORI=;
- b=VAd9dDtgxN14PqtMJWYqSIEAFzFtFFNLlsJrPb/OCGinTMVnOJidMx0e64v2l0xPkR
- MuZblZBj0ZGFj01L4KSaoHWQWQIycrRIPm5FO7lfaRrKDUr6pRwx6cubkTGNaZgiChYf
- +1i8FPpcIeEpe6DVWw3oQ8CAOQ7OEQOw5ZhKQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679336795;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bIfBJvw4GqAMhW5twcZsJZl6S9pMqZHlkEyev/gaORI=;
- b=AUYn9A48J3JM2QUNEKpQONja3TrMmNAvwmEp8cGJ9eOFHMvEuE3OMXA5RkqrAef2I3
- x7+s7rOk4eB9JKPBNdPVbUvyeg0vwVqM8JipRHLC/3zelEpQTMYXdJBK5J6UVaOZ+GOY
- J0V3sLf3w2mmZFWlu1XZUXNAGOPTBBmxs8u+zIzja8ppwwt5W5C5W6tEJZnnZ6uwZvBV
- QbcDMjJRB3KdB1GNeH3qvhjK4DE2RwWBACm2xe2eaxMJ/XRB/t4hr3ZmMelfTms22Yhp
- wgZqJQdhUWIOvAnI23M6TAnr6ULA9tK/j9hyjk8OGihIxBsbo7jvri10ZHhRLhEJD+fr
- 3qkQ==
-X-Gm-Message-State: AO0yUKX+RtxuaHvCBuj1485RkRBzrVjQLW4T3+0IGqYr8pJTbCn0J+Yu
- M6YAmJYwTjAuSka7KL4aI4gFvjMBwkDzbwBf9UFgE+yd
-X-Google-Smtp-Source: AK7set9WOTrj2NDaTiDMcfjo6tTO/PLUzTKr3YNxWaT0Lr7Z4XuG+SVV9j087lGVsEsXGIlrUaIHKg==
-X-Received: by 2002:a17:906:2896:b0:931:a321:7640 with SMTP id
- o22-20020a170906289600b00931a3217640mr10665239ejd.74.1679336794905; 
- Mon, 20 Mar 2023 11:26:34 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com.
- [209.85.208.52]) by smtp.gmail.com with ESMTPSA id
- x28-20020a50d61c000000b004c19f1891fasm5300235edi.59.2023.03.20.11.26.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 11:26:34 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id cy23so50338511edb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 11:26:34 -0700 (PDT)
-X-Received: by 2002:a17:907:9b03:b0:932:da0d:9375 with SMTP id
- kn3-20020a1709079b0300b00932da0d9375mr288149ejc.4.1679336794015; Mon, 20 Mar
- 2023 11:26:34 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A72CC10E22C;
+ Mon, 20 Mar 2023 18:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679337569; x=1710873569;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=NVpb0s44A4CDvY38C/xGCzroKuG69A4v+lxaRmy7irg=;
+ b=cnYUN8KGLi4+h/2RaMcY4fr0LSk3xCFUJad2HXO/b1BjYIrfBKKDPbdA
+ 5eFstzgp+dQScplTPCNhyBkNobL3SVW4eEpAoZhgDQjg41Zm4lh+1+LW/
+ KjXpZ9KATk7Eqqq+fOt3+ubem9KOpOYjNloo93Uav+RhTFOUoBEltzJCF
+ b+PQU+f2wUEjVyEhAJk+z8nFO72yffcEuR3AFHi7yvnG167YC+PXvoySS
+ /nsk5uoPN9xHWfXx5+F1RlAOvM4G/6f3akGgiDo7sTxT8rF47IAvWfBCh
+ Qm0bs4ego4uwVCzjzBbmt6o+nBa4/oFvK5BmIvnaf2LxMgdL0boFfGEDP g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="337463651"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="337463651"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 11:39:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="824605929"
+X-IronPort-AV: E=Sophos;i="5.98,276,1673942400"; d="scan'208";a="824605929"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.6.65])
+ ([10.213.6.65])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 11:39:25 -0700
+Message-ID: <e0481f32-1245-f429-cebe-b6c55c613f80@intel.com>
+Date: Mon, 20 Mar 2023 19:39:23 +0100
 MIME-Version: 1.0
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
-In-Reply-To: <20230320180501.GA598084@dev-arch.thelio-3990X>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 20 Mar 2023 11:26:17 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
-Message-ID: <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
-Subject: Re: Linux 6.3-rc3
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH v4 06/10] drm/i915: Separate wakeref tracking
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>
+References: <20230224-track_gt-v4-0-464e8ab4c9ab@intel.com>
+ <20230224-track_gt-v4-6-464e8ab4c9ab@intel.com>
+ <ZBehYC0npr4nv4mw@ashyti-mobl2.lan>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ZBehYC0npr4nv4mw@ashyti-mobl2.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,45 +65,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Chris Wilson <chris.p.wilson@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Eric Dumazet <edumazet@google.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 20, 2023 at 11:05=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
-rg> wrote:
->
-> On the clang front, I am still seeing the following warning turned error
-> for arm64 allmodconfig at least:
->
->   drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uniniti=
-alized when used here [-Werror,-Wuninitialized]
->           if (syncpt_irq < 0)
->               ^~~~~~~~~~
+On 20.03.2023 00:57, Andi Shyti wrote:
+> Hi Andrzej,
+> 
+> On Mon, Mar 06, 2023 at 05:32:02PM +0100, Andrzej Hajda wrote:
+>> From: Chris Wilson <chris@chris-wilson.co.uk>
+>>
+>> Extract the callstack tracking of intel_runtime_pm.c into its own
+>> utility so that that we can reuse it for other online debugging of
+>> scoped wakerefs.
+>>
+>> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+>> Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/Kconfig.debug           |   9 ++
+>>   drivers/gpu/drm/i915/Makefile                |   4 +
+>>   drivers/gpu/drm/i915/intel_runtime_pm.c      | 222 +++----------------------
+>>   drivers/gpu/drm/i915/intel_wakeref.h         |   2 +-
+>>   drivers/gpu/drm/i915/intel_wakeref_tracker.c | 234 +++++++++++++++++++++++++++
+>>   drivers/gpu/drm/i915/intel_wakeref_tracker.h |  52 ++++++
+>>   6 files changed, 319 insertions(+), 204 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+>> index 93dfb7ed970547..5fde52107e3b44 100644
+>> --- a/drivers/gpu/drm/i915/Kconfig.debug
+>> +++ b/drivers/gpu/drm/i915/Kconfig.debug
+>> @@ -25,6 +25,7 @@ config DRM_I915_DEBUG
+>>   	select PREEMPT_COUNT
+>>   	select I2C_CHARDEV
+>>   	select STACKDEPOT
+>> +	select STACKTRACE
+>>   	select DRM_DP_AUX_CHARDEV
+>>   	select X86_MSR # used by igt/pm_rpm
+>>   	select DRM_VGEM # used by igt/prime_vgem (dmabuf interop checks)
+>> @@ -37,6 +38,7 @@ config DRM_I915_DEBUG
+>>   	select DRM_I915_DEBUG_GEM
+>>   	select DRM_I915_DEBUG_GEM_ONCE
+>>   	select DRM_I915_DEBUG_MMIO
+>> +	select DRM_I915_TRACK_WAKEREF
+>>   	select DRM_I915_DEBUG_RUNTIME_PM
+>>   	select DRM_I915_SW_FENCE_DEBUG_OBJECTS
+>>   	select DRM_I915_SELFTEST
+>> @@ -227,11 +229,18 @@ config DRM_I915_DEBUG_VBLANK_EVADE
+>>   
+>>   	  If in doubt, say "N".
+>>   
+>> +config DRM_I915_TRACK_WAKEREF
+>> +	depends on STACKDEPOT
+>> +	depends on STACKTRACE
+>> +	bool
+>> +
+>>   config DRM_I915_DEBUG_RUNTIME_PM
+>>   	bool "Enable extra state checking for runtime PM"
+>>   	depends on DRM_I915
+>>   	default n
+>>   	select STACKDEPOT
+>> +	select STACKTRACE
+>> +	select DRM_I915_TRACK_WAKEREF
+>>   	help
+>>   	  Choose this option to turn on extra state checking for the
+>>   	  runtime PM functionality. This may introduce overhead during
+>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>> index b2f91a1f826858..42daff6d575a82 100644
+>> --- a/drivers/gpu/drm/i915/Makefile
+>> +++ b/drivers/gpu/drm/i915/Makefile
+>> @@ -81,6 +81,10 @@ i915-$(CONFIG_DEBUG_FS) += \
+>>   	i915_debugfs_params.o \
+>>   	display/intel_display_debugfs.o \
+>>   	display/intel_pipe_crc.o
+>> +
+>> +i915-$(CONFIG_DRM_I915_TRACK_WAKEREF) += \
+>> +	intel_wakeref_tracker.o
+>> +
+> 
+> This patch, along with the previous one and two following it, is
+> a bit confusing. We add this file only to remove it later and
+> the code hops from file to file. There seem to be some extra
+> steps that could be avoided.
+> 
+> Is there room for simplification?
 
-Hmm. I do my arm64 allmodconfig builds with gcc, and I'm surprised
-that gcc doesn't warn about this.
+The reason behind this was that i915 had it's own tracker integrated 
+with i915_runtime_pm, then it was abstracted out (05,06) to allow track 
+gt->wakerefs (07) and then I proposed replacement of internal tracker 
+with ref_tracker (09). I wanted to keep original history of development.
+I can squash all/some of this work, but I am afraid it will generate 
+less readable patches - now we have separated abstract-out and replace 
+steps.
 
-That syncpt_irq thing isn't written to anywhere, so that's pretty egregious=
-.
+Probably sending patches 05-08 1st, then proposing conversion to 
+ref_tracker in another patchset would make it more clear.
 
-We use -Wno-maybe-uninitialized because gcc gets it so wrong, but
-that's different from the "-Wuninitialized" thing (without the
-"maybe").
+Regards
+Andrzej
 
-I've seen gcc mess this up when there is one single assignment,
-because then the SSA format makes it *so* easy to just use that
-assignment out-of-order (or unconditionally), but this case looks
-unusually clear-cut.
 
-So the fact that gcc doesn't warn about it is outright odd.
+> 
+> Thanks,
+> Andi
 
-> If that does not come to you through other means before -rc4, could you
-> just apply it directly so that I can stop applying it to our CI? :)
-
-Bah. I took it now, there's no excuse for that thing.
-
-Do we have any gcc people around that could explain why gcc failed so
-miserably at this trivial case?
-
-                   Linus
