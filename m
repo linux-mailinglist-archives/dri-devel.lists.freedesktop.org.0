@@ -1,77 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC576C20DD
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 20:06:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC5F6C20DE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 20:07:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E71E10E300;
-	Mon, 20 Mar 2023 19:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E1810E30B;
+	Mon, 20 Mar 2023 19:07:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A79B10E300
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 19:06:29 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32KDjuGZ008126; Mon, 20 Mar 2023 19:06:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GTnqvZsKwZqH0R6Ivk3ZmNQmj0dkr7Y0GqhzkkSvHUU=;
- b=BDoDqU/1tl7vhbcVPGrImvPJqct/nrZsewVhHncUnOdeLTPatmcz2aoOdVM2aebOuQIg
- BYq/ke3Dw37ZLv3VyEy+6E5z13uWgBPgeUS+kup8zsjMgTm24GXjIkkdrUx3R8ozPCSb
- dUY3ZnU02jWQX6T8YnEtr0q/VuOEmUUpLFvtxtKQ5YmaUMM8+ed9Skb+cPrr/8MUMgq6
- qvVFqFrtfwVj0uaZpaolgC81+F8N67cxbzZZd4Z/mndjeH1cDytVycy4e4FWDS9fIA/R
- 1wzbGO5cRBzJLupWtJPW/a1x+PVXDomXnIPnWzQ2A9hYFs/WsiFYGDqvZlvh80aty71X vA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pernkgueg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 19:06:20 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32KJ6JWV008147
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Mar 2023 19:06:19 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 20 Mar
- 2023 12:06:18 -0700
-Message-ID: <8571460d-17eb-bc76-6d07-58bd036ff0d0@quicinc.com>
-Date: Mon, 20 Mar 2023 13:06:17 -0600
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA4ED10E301
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 19:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+d6G12ekNECg6CxTbo213cund9poUW+sMQnSqK6O3zA=; b=eCrs6nvESbh57DXVTqp+y5+C28
+ cuurTjA8WjS/X0FwkZa1vJBiLU03Qilnf/R0mPhs9h9bXpWAl2pTVJJUtjlsQA3sKmcJkBJemBQNN
+ nWgKVBUCcmXLO/I/+GNprG7qYa9Ut0b+UFaYdPEK7gFL0GwFfTbwhIoJJzrL9mjAYfTT3zg0mEcLb
+ 9mjd/Ru8D8lch/Us2rDcaMEcl8a+phodybkgAweAp5tTKU2RULLRpLIY1MfZItq/Jto4I3vY1WauS
+ Ki0XJENQijY8GKk1glEcuj7Gw8LuyDhSLogg80+6JtPRGWHGhbaATShFlP3+B4t5prCfssk35NVtE
+ 7T5P9Gcw==;
+Received: from [177.34.168.16] (helo=[192.168.0.3])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1peKqp-0019eT-55; Mon, 20 Mar 2023 20:07:23 +0100
+Message-ID: <865a2a60-1e2a-9e9b-3da1-d58da3a9de6b@igalia.com>
+Date: Mon, 20 Mar 2023 16:07:15 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 6/8] accel/qaic: Add mhi_qaic_cntl
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/vgem: Drop struct drm_vgem_gem_object
+To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, Melissa Wen <mwen@igalia.com>
+References: <20230222160617.171429-1-mcanal@igalia.com>
 Content-Language: en-US
-To: <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <jacek.lawrynowicz@linux.intel.com>, <stanislaw.gruszka@linux.intel.com>
-References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
- <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <1679325074-5494-7-git-send-email-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: b1tJ2nBWm2JDa4pHRLDFun0cqKcVmqUe
-X-Proofpoint-GUID: b1tJ2nBWm2JDa4pHRLDFun0cqKcVmqUe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-20_16,2023-03-20_02,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 clxscore=1015 impostorscore=0 adultscore=0 phishscore=0
- mlxscore=0 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303200160
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230222160617.171429-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,62 +57,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dafna@fastmail.com, linux-doc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/20/2023 9:11 AM, Jeffrey Hugo wrote:
-> From: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+On 2/22/23 13:06, Maíra Canal wrote:
+> Commit 45d9c8dde4cd ("drm/vgem: use shmem helpers") introduced shmem
+> helpers to vgem and with that, removed all uses of the struct
+> drm_vgem_gem_object. So, as the struct is no longer used, delete it.
 > 
-> Some of the MHI channels for an AIC100 device need to be routed to
-> userspace so that userspace can communicate directly with QSM. The MHI
-> bus does not support this, and while the WWAN subsystem does (for the same
-> reasons), AIC100 is not a WWAN device. Also, MHI is not something that
-> other accelerators are expected to share, thus an accel subsystem function
-> that meets this usecase is unlikely.
-> 
-> Create a QAIC specific MHI userspace shim that exposes these channels.
-> 
-> Start with QAIC_SAHARA which is required to boot AIC100 and is consumed by
-> the kickstart application as documented in aic100.rst
-> 
-> Each AIC100 instance (currently, up to 16) in a system will create a
-> chardev for QAIC_SAHARA. This chardev will be found as
-> /dev/<mhi instance>_QAIC_SAHARA
-> For example - /dev/mhi0_QAIC_SAHARA
-> 
-> Signed-off-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/accel/qaic/mhi_qaic_ctrl.c | 571 +++++++++++++++++++++++++++++++++++++
->   drivers/accel/qaic/mhi_qaic_ctrl.h |  12 +
->   2 files changed, 583 insertions(+)
->   create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
->   create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
+
+Applied to drm-misc-next.
+
+Best Regards,
+- Maíra Canal
+
+>   drivers/gpu/drm/vgem/vgem_drv.h | 11 -----------
+>   1 file changed, 11 deletions(-)
 > 
-> diff --git a/drivers/accel/qaic/mhi_qaic_ctrl.c b/drivers/accel/qaic/mhi_qaic_ctrl.c
-> new file mode 100644
-> index 0000000..a46ba1d
-> --- /dev/null
-> +++ b/drivers/accel/qaic/mhi_qaic_ctrl.c
-> @@ -0,0 +1,571 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved. */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/mhi.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/poll.h>
-> +#include <linux/version.h>
-
-Will remove this.
-
-Jacek, I think I've got all of your comments addressed.  Do you see 
-anything more?  I'm hopeful that we are just looking at one more spin.
-
--Jeff
+> diff --git a/drivers/gpu/drm/vgem/vgem_drv.h b/drivers/gpu/drm/vgem/vgem_drv.h
+> index 0ed300317f87..34cf63e6fb3d 100644
+> --- a/drivers/gpu/drm/vgem/vgem_drv.h
+> +++ b/drivers/gpu/drm/vgem/vgem_drv.h
+> @@ -39,17 +39,6 @@ struct vgem_file {
+>   	struct mutex fence_mutex;
+>   };
+>   
+> -#define to_vgem_bo(x) container_of(x, struct drm_vgem_gem_object, base)
+> -struct drm_vgem_gem_object {
+> -	struct drm_gem_object base;
+> -
+> -	struct page **pages;
+> -	unsigned int pages_pin_count;
+> -	struct mutex pages_lock;
+> -
+> -	struct sg_table *table;
+> -};
+> -
+>   int vgem_fence_open(struct vgem_file *file);
+>   int vgem_fence_attach_ioctl(struct drm_device *dev,
+>   			    void *data,
