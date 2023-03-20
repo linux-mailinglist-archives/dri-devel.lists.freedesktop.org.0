@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49136C070C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 01:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D7F6C0710
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 01:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 259F810E0AD;
-	Mon, 20 Mar 2023 00:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D62B10E0D5;
+	Mon, 20 Mar 2023 00:54:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D207810E0AB;
- Mon, 20 Mar 2023 00:54:09 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE84B10E0AB;
+ Mon, 20 Mar 2023 00:54:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2A5AEB80D4A;
- Mon, 20 Mar 2023 00:54:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738E2C433EF;
- Mon, 20 Mar 2023 00:54:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6BC05611E3;
+ Mon, 20 Mar 2023 00:54:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 843C9C433EF;
+ Mon, 20 Mar 2023 00:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679273646;
- bh=obqkoNb62PsRjF2yf7nUVQjnq9ted1J5Oc+NeWU/zgo=;
+ s=k20201202; t=1679273651;
+ bh=o2hSVSgxLu9H00c5eClJaIkDhqs030/SP8ijcu8C2BU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XRjq52pi7yYndNT7Y9bHlBvNY70lNC8wnMSdmfNsby+8DK2i1cvqEjRqEmLt0oLkI
- mtK+FBT2SHiuGsOIUoT18U8+fIuQUoHlVnJAjxf9OKQCfM8K/gLo0vlHhgQXlB7VbF
- 97RPtP6z5NIQxqhqEi0ScYWVVjU8yeq73RwmtZFe6FpJrrYu2iPjENiyUP7KJ23JIl
- 19BPIee0rqACD+M97xLHeaQgr5Q2nHjHoNUqD9gGSa/G/o9nHByNmWLC0nxUH7RJCf
- 48MyiA8JE0m9Wr2o2yJo7WAxi0mNlxKHR6vp/gsvJTioYYDlSb1vdv8045+DHCO4k6
- TUbe5uVEAoiJw==
+ b=ed39Um3RcwmCVjyJJlC/QGFTGc6QmZJsk3H6X6t66+v1W/d8H8cb5d+ysE7SWdUsH
+ OLttwpVa+XVh9YvKUFwleCQPCsKCpUtkeLHRxwTuoWvWi7LW9PSmBS/uHlBxyXlGCk
+ Ptf8aYUy3CcUBqdWsdQJCCzKX7imd65qj+JoPnKKfCA3TMj246xu17V4JeEyU4UTV1
+ pYyzyYlfKW12a2bFFfve9KTt3NlfZTMhSwRHkDlSk8EYVe7/WKb4hL9syJFoZfm+t1
+ 0SMMCQwS51eUE8nYstrgwfd/6Ty1sCVTTBPzNM4l4LQ3UxNcFxkKfcXU38eh1lSAxY
+ uV8GYqEsHd/Kg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 29/30] drm/amdgpu: Fix call trace warning and hang
- when removing amdgpu device
-Date: Sun, 19 Mar 2023 20:52:54 -0400
-Message-Id: <20230320005258.1428043-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 30/30] drm/amd: Fix initialization mistake for
+ NBIO 7.3.0
+Date: Sun, 19 Mar 2023 20:52:55 -0400
+Message-Id: <20230320005258.1428043-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230320005258.1428043-1-sashal@kernel.org>
 References: <20230320005258.1428043-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -56,69 +56,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip.Yang@amd.com,
- Guchun Chen <guchun.chen@amd.com>, sunpeng.li@amd.com,
- lyndonli <Lyndon.Li@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, luben.tuikov@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, dri-devel@lists.freedesktop.org,
+ Xinhui.Pan@amd.com, Thomas Glanzmann <thomas@glanzmann.de>,
+ amd-gfx@lists.freedesktop.org, Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: lyndonli <Lyndon.Li@amd.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-[ Upstream commit 93bb18d2a873d2fa9625c8ea927723660a868b95 ]
+[ Upstream commit 1717cc5f2962a4652c76ed3858b499ccae6c277c ]
 
-On GPUs with RAS enabled, below call trace and hang are observed when
-shutting down device.
+The same strapping initialization issue that happened on NBIO 7.5.1
+appears to be happening on NBIO 7.3.0.
+Apply the same fix to 7.3.0 as well.
 
-v2: use DRM device unplugged flag instead of shutdown flag as the check to
-prevent memory wipe in shutdown stage.
+Note: This workaround relies upon the integrated GPU being enabled
+in BIOS. If the integrated GPU is disabled in BIOS a different
+workaround will be required.
 
-[ +0.000000] RIP: 0010:amdgpu_vram_mgr_fini+0x18d/0x1c0 [amdgpu]
-[ +0.000001] PKRU: 55555554
-[ +0.000001] Call Trace:
-[ +0.000001] <TASK>
-[ +0.000002] amdgpu_ttm_fini+0x140/0x1c0 [amdgpu]
-[ +0.000183] amdgpu_bo_fini+0x27/0xa0 [amdgpu]
-[ +0.000184] gmc_v11_0_sw_fini+0x2b/0x40 [amdgpu]
-[ +0.000163] amdgpu_device_fini_sw+0xb6/0x510 [amdgpu]
-[ +0.000152] amdgpu_driver_release_kms+0x16/0x30 [amdgpu]
-[ +0.000090] drm_dev_release+0x28/0x50 [drm]
-[ +0.000016] devm_drm_dev_init_release+0x38/0x60 [drm]
-[ +0.000011] devm_action_release+0x15/0x20
-[ +0.000003] release_nodes+0x40/0xc0
-[ +0.000001] devres_release_all+0x9e/0xe0
-[ +0.000001] device_unbind_cleanup+0x12/0x80
-[ +0.000003] device_release_driver_internal+0xff/0x160
-[ +0.000001] driver_detach+0x4a/0x90
-[ +0.000001] bus_remove_driver+0x6c/0xf0
-[ +0.000001] driver_unregister+0x31/0x50
-[ +0.000001] pci_unregister_driver+0x40/0x90
-[ +0.000003] amdgpu_exit+0x15/0x120 [amdgpu]
-
-Signed-off-by: lyndonli <Lyndon.Li@amd.com>
-Reviewed-by: Guchun Chen <guchun.chen@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Reported-by: Thomas Glanzmann <thomas@glanzmann.de>
+Cc: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Link: https://lore.kernel.org/linux-usb/Y%2Fz9GdHjPyF2rNG3@glanzmann.de/T/#u
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 25a68d8888e0d..5d4649b8bfd33 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1315,7 +1315,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+diff --git a/drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c b/drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c
+index 4b0d563c6522c..4ef1fa4603c8e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/nbio_v7_2.c
+@@ -382,11 +382,6 @@ static void nbio_v7_2_init_registers(struct amdgpu_device *adev)
+ 		if (def != data)
+ 			WREG32_PCIE_PORT(SOC15_REG_OFFSET(NBIO, 0, regBIF1_PCIE_MST_CTRL_3), data);
+ 		break;
+-	case IP_VERSION(7, 5, 1):
+-		data = RREG32_SOC15(NBIO, 0, regRCC_DEV2_EPF0_STRAP2);
+-		data &= ~RCC_DEV2_EPF0_STRAP2__STRAP_NO_SOFT_RESET_DEV2_F0_MASK;
+-		WREG32_SOC15(NBIO, 0, regRCC_DEV2_EPF0_STRAP2, data);
+-		fallthrough;
+ 	default:
+ 		def = data = RREG32_PCIE_PORT(SOC15_REG_OFFSET(NBIO, 0, regPCIE_CONFIG_CNTL));
+ 		data = REG_SET_FIELD(data, PCIE_CONFIG_CNTL,
+@@ -399,6 +394,15 @@ static void nbio_v7_2_init_registers(struct amdgpu_device *adev)
+ 		break;
+ 	}
  
- 	if (!bo->resource || bo->resource->mem_type != TTM_PL_VRAM ||
- 	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE) ||
--	    adev->in_suspend || adev->shutdown)
-+	    adev->in_suspend || drm_dev_is_unplugged(adev_to_drm(adev)))
- 		return;
- 
- 	if (WARN_ON_ONCE(!dma_resv_trylock(bo->base.resv)))
++	switch (adev->ip_versions[NBIO_HWIP][0]) {
++	case IP_VERSION(7, 3, 0):
++	case IP_VERSION(7, 5, 1):
++		data = RREG32_SOC15(NBIO, 0, regRCC_DEV2_EPF0_STRAP2);
++		data &= ~RCC_DEV2_EPF0_STRAP2__STRAP_NO_SOFT_RESET_DEV2_F0_MASK;
++		WREG32_SOC15(NBIO, 0, regRCC_DEV2_EPF0_STRAP2, data);
++		break;
++	}
++
+ 	if (amdgpu_sriov_vf(adev))
+ 		adev->rmmio_remap.reg_offset = SOC15_REG_OFFSET(NBIO, 0,
+ 			regBIF_BX_PF0_HDP_MEM_COHERENCY_FLUSH_CNTL) << 2;
 -- 
 2.39.2
 
