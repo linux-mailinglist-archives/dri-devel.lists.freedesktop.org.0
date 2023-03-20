@@ -1,57 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65476C145C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:08:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B43506C1445
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 080BA10E1BF;
-	Mon, 20 Mar 2023 14:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE0C910E56D;
+	Mon, 20 Mar 2023 14:04:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 897BA10E002;
- Mon, 20 Mar 2023 14:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679321312; x=1710857312;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=XW7+ruv9w7lb2rFrQN8zsge4pr2Xi61xw33/fynuXu4=;
- b=HzrL+PTHUnu4cLSaqajtxvbKpHlpdPGHVdnVX6chSKP2iSCKn3sYhLQb
- iteXja+2h7pcSbt2YBNqv7xf2Cz+QR4dcPRcJvF/VOOoF2dLt2/y62wuT
- /x9fV9x0EMfkwJMxPTwCnS86qpUCLXDWBL0GzVTMp5Dcphs/QWwSSexDI
- ti8vdq/B8rBhZvY/EbAlZTd2Am7dn2nR+QnuKTzT0/DIAIZ95sPpfSrDh
- aPb3vEF+oVtROJaTY62dU+JJ6ntR4vAtM595mM2hcbeMODKZTR8Ldfp7g
- F9Y9TOYcrxJU9tbj/uPrG4AouG3si7fR4LwnKR1ZvEPmGuxr/YRaiD5ot Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="366387335"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="366387335"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 07:03:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="770207249"
-X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="770207249"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.6.65])
- ([10.213.6.65])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 07:02:59 -0700
-Message-ID: <c1b797a5-92d6-6590-9c47-6606ec409a12@intel.com>
-Date: Mon, 20 Mar 2023 15:02:57 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [Intel-gfx] [PATCH v2: 1/3] drm/i915: Add a function to mmap
- framebuffer obj
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2089.outbound.protection.outlook.com [40.107.243.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE79610E56D;
+ Mon, 20 Mar 2023 14:04:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DxPVxbNhssNbZ5+pgYpzKWvqieb2j4XhyV4DBhkDmVaebUQloBRdMMUP4ZFVC6UAVxhTPM5rtmwp5Qg2yLNAglsQvPLfot/I+qb1bnJLbdyTFqZ/tqG6Qw/fl53rgVDRpHTfS+lqvgxKVlzBq/eYYYnDfBHSMaGexiLnYN+9tppffotfho2JdyZlHst2LObfdKOmsNJmVZ6k1m11Jsz1F7r6FlnL2rhVE19weWUiDZ+/Ww6Ea64M8zWp8/8WFMC1AjiIE81Hc2Ny+15tBoWMM/5Bn4FGFSQob1MMkXy37S3+QJid6YaDBrMGBA2wKQYJqIiGjQoh8Q1AokjulrOghQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m93Tyc3LAz75zxmVSfFaMPpcjaDYnBjkm/8TCFnphEU=;
+ b=kYzPQ6jrvhUz9rLtMObyUDdqxEPSKmBcoGhvTL/0eLHvTT7iWDdMZdEirO24ctJWRrFSA4+dwXkw5ihUxDXFrpnNIs2rHYQwIgTHJ42JWfKPcY/9XxY/ILX4l6HFCoOm+HihXvj8XKwlvITiGv2lzm4eTs4NEc3jHvlROId4wxubSEHbuAzgBczRpoM97bo5LArL+R/JrtHxGqi1hZrL/TS80aCvIorPOpXuRVKltYJT8+5MrbY8BUpmTsa7pN8yglWm/aK5+JJJUqknlkZz98wM75XVYJGy4LUVxwlWgu2OBILXxHPaMevXjZHiDJ0fsRTxVqNYLFM69FeLKEm4Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m93Tyc3LAz75zxmVSfFaMPpcjaDYnBjkm/8TCFnphEU=;
+ b=3X6XLpQUVyk5544HBSDg51y11/Xx+lCBYVgei5fONu2dqswkdtP1rk7aX/0Oru5PmW+oI1bWOQTpYEo07tv72jR2L9jmdSJCxXKwOitGzbppaVKt53fapWS5pKKI2Gr+WxiGHjPb5h1+k2/7/O+yXoExODXINMes06959dsc7O8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ MW4PR12MB5668.namprd12.prod.outlook.com (2603:10b6:303:16b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Mon, 20 Mar
+ 2023 14:04:10 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::cdcb:a816:4bc3:a83f]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::cdcb:a816:4bc3:a83f%9]) with mapi id 15.20.6178.037; Mon, 20 Mar 2023
+ 14:04:10 +0000
+Message-ID: <82ef0ba0-a78f-bcca-72e0-2cf330323107@amd.com>
+Date: Mon, 20 Mar 2023 10:04:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 28/37] drm/amd/display/dc/core/dc_stat: Convert a couple
+ of doc headers to kerneldoc format
+To: Lee Jones <lee@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20230317081718.2650744-1-lee@kernel.org>
+ <20230317081718.2650744-29-lee@kernel.org>
 Content-Language: en-US
-To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20230320100903.23588-1-nirmoy.das@intel.com>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230320100903.23588-1-nirmoy.das@intel.com>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <20230317081718.2650744-29-lee@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0386.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:108::7) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|MW4PR12MB5668:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8e99418-7e2b-4aba-9ff3-08db294bfa26
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: XJwNW/Fc9szfkR9zYWYCE2HU4kNGiM9suqo9OK3k7T2RD4THEhwFNv4Z1CG7oGbM55wWyd53csbHdOt/TQfjjRUvk4ohqBdtE6ODnfDgOR2CmhTm+pw0M9Ji494z5pD94eEPcfammwSc56g60cFmhVL57+XFPDbr/2Q5vbBf7k+Qt5+1MjwgzizMpPABLq27HRHztRRRAAEILPjGonmQe1SEgJPcp/OYcHp0fdsctw0ykI3uUlOjmVP/THiJyrZu9fW6V0Iwx5u9YVgfkhfHmpM4HcMXRDRymBD/8b9PDc+V6IoLIb/G3f79wUMIBGguLJwGpNvkTjTVH+juwP4wuOWn5SOP8d7sZA61M3jSB3tP+BVeYfTJp6VXU8BI4gsrsbYqDrAOsOCZ4fzsa0ik7b3+w70lo+rNe8GcostbpgToAvRsIpCSaESJd+RU1uU0eLGnIhnk8ZaOUb/p+6WoWNUkpV6NRSwah03v5IYwkK9jl4tymWU8W8AZy5jW1dZvk+3c0fn7c2tzplMinymSadtq0tiKzKGZl11PfLJP0uUxHoccHHDoae1t8HE5sh1goppOLCd2ESL2RTABD+tdIQs2Fh6l/meSbJ0MwGpVlqf0JTauT4ljA93qqD49dIbtUNy8k5xLd8ksnPe6a0UgzSuCP6gRu0LiGFujlbSKhTm3VIDdoPW6XZmtGwTGKeC8fdz31jYksMVHJsoeptKPd+Rs0ip4uCBS+gKzWusLG2A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(451199018)(6486002)(66946007)(4326008)(66556008)(66476007)(8676002)(5660300002)(316002)(41300700001)(54906003)(2616005)(6666004)(8936002)(44832011)(26005)(6512007)(6506007)(53546011)(186003)(83380400001)(66574015)(478600001)(86362001)(31696002)(36756003)(38100700002)(2906002)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFh2UkJvSTljdi9DdHdvVVNXZFZoWk9IZUJBVG9LM0V1M1gwWEx3eCtyRU1Y?=
+ =?utf-8?B?bERxTHlhb2RVdXFiYnBIUkEwRmY4TWgvSWFDUjArMlFBR2pzTEtnN2R1QytN?=
+ =?utf-8?B?YzErMnRmQnZIZmcyb1ROVE1HRVhxQ2M4YzdTYzFwUEd6TGVmTDRqeGEzdGZm?=
+ =?utf-8?B?SDNVQ1g2QTVvbVVNZngxUXBuSG1vNXpOTU5MUWgyQ01ZdWk4a0RuQWc3eEVu?=
+ =?utf-8?B?UjlNN3BiUTU5ckYzSGJvS0NiMzRad3hKcUIyUXE0M1djNlNVSVM2bWVWd2Y2?=
+ =?utf-8?B?RStuWSt3NTNnS3VxNElRaDJRb3dWWGRKYUtSZG1kajJtSllycUJwMTFxQTZN?=
+ =?utf-8?B?NHlqalZTL2R2MUprK3BlUWIzTm5QcTVDeloyR0VFdkxiRGhpZFNod1JlUlg4?=
+ =?utf-8?B?SnJXTS9JYVVWUUgySHZheXBpbU9jWXpyWTlMQWVpcmMyQjRoeFAwTlAzVFc5?=
+ =?utf-8?B?ekVsdFdwcktPQlNHdTBRRVE2NDYzVWVDd1JPdnhMMnZCZDYzYzQ5WElNdlhK?=
+ =?utf-8?B?L1lqaHlJNW1VSnNSYVJLTzFjVlV5SzN0OWNqUExtK3UwRFBpYkxvMXF1ZlJt?=
+ =?utf-8?B?ckpZbERLanJIQ0NVUzV6YitnNFpzZVlYamxZNlJuRFFwZXlFMjVINFhQQ3dH?=
+ =?utf-8?B?SWtWcXJxc1ZjWGtUWERHWlBTMWhaR3gvOTZNMHRCQWVwaE54RWtMM044N01K?=
+ =?utf-8?B?dnQ1c0h1RDhWanJmakRNdzduREthOUJTTWRzeHNjL0Z4VWZ4Zm5xbjJ0dVVq?=
+ =?utf-8?B?eGpYb0NFOGFvSEx1SFNJUzc0cUVxaFdUa0dycVZ5bWo3SDFDZi9mSUwvSGNC?=
+ =?utf-8?B?NzFkTUlOei9sSlU4MEpnZk9VTG00d0lMVmV1U2hzSlpjdzQ4OVE3L1Nya1hY?=
+ =?utf-8?B?TU1UdlRseWROR3E1WnpTbVViRFVlRitMSmYzcmlDS3UyMkpUeGp6Wk0wVHdI?=
+ =?utf-8?B?UEdFUnRGR0pMZW03NHA3SVNteXhEZVAxaDV4dm5kOHI4STh2WFF6YVhsU0d2?=
+ =?utf-8?B?eTdTdG5rMXdrUmFXMlUzMi92NEd1eHM0MTlkaXI2Z1BNRis0bm9uSFN2R1pK?=
+ =?utf-8?B?dEdqOTl6TG9RNUpQUE9XTG4vRWhFS21TQzd3MytsaGhlU25PcUFmdnhFdjNB?=
+ =?utf-8?B?MGVXQTdyeWZ4ZUlDekRsekhJaHhIa0Y3ckVCK2NkNTRyemxXRy9vOHByN0VI?=
+ =?utf-8?B?TUE4aXJCQlI2VHJjMGI5QUdXYWNTMk13UTl4azRZU0U3OFhlTUFYbHVxNmwv?=
+ =?utf-8?B?V3k1S0hjZkZyMjJuNEtoRU5FNjV3eHo4eERPQklDSzJicjhOS1BaUUJUeFBK?=
+ =?utf-8?B?VDJ6aE81anJSVS9rWUY3UFBvQzJ4eU54YkhZMkNUNDNzUHhjUmVzaTk1Y2hx?=
+ =?utf-8?B?ellUSUhiRVVONFBBR0xlRHJKNzFFTTJkR3BCKzVPUVJ3OVdQYzcwdDIyQ2kv?=
+ =?utf-8?B?UWdhUFFCOUdxT0Vrd3Fqcktya0k2YlgwR0pTYlFDNEpsRThuU2VSRVhLMUlX?=
+ =?utf-8?B?NVV2TnlSelRwUEJRYlB6eTRCcUY5dG8vS2VqZ2FuQ2ZpMzN5QXl0a2c2c2hj?=
+ =?utf-8?B?ekdHUHJvZkhQbkdYNnl5MWk4ZXFKTjkyM0VZWTAzb1VSb3QzNGpTWlVJRGw2?=
+ =?utf-8?B?aWJYaUpIZkQvNGJEWDc3UWVnYnc1WWU5NkVmY2VYdjZzZzQzYUlFU3U4WEZH?=
+ =?utf-8?B?WGwzemp0aWp2c0xaLyswMFh4UkdqcDBMYUdGK284d2ZxZDZRbHJxTGJKUk1I?=
+ =?utf-8?B?U0lmeXJjbkJTNFJlakFsZ2JuNnVLNXNERE9qaER5Y2s3SmFzdU9say95WU9X?=
+ =?utf-8?B?RHhPU2RFWkF6R0dpa1BKK3RVWWdFZTE4OEg2SlM3S0dmakFHbVhGeTRlVmdk?=
+ =?utf-8?B?QkNhcGw2YXBORUVycWVHZ1VCeWU3RTMvQXd3N0drcGRNc2dZNEdDdEQzNy81?=
+ =?utf-8?B?UmtkNjVYUnFZMjczLzZmUFhpc1U0WUFtRko1YTBJdkF5UzRlRUZRc0hLNVVt?=
+ =?utf-8?B?amM4ZVJpcm9KZzh2M25FUzNoWmx1cjBVZWxjakJVSjZsR25LaWZWM2ZKdHE5?=
+ =?utf-8?B?d3U3TG9aeTZ4TjA0L3RMNlE0aCtXVzY4dnoreGIvbVRzSHBmbG9ibUJsMjho?=
+ =?utf-8?Q?yvokatcxvPi0zWitAz4EoKl9R?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8e99418-7e2b-4aba-9ff3-08db294bfa26
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2023 14:04:10.1053 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6dBZ6xgOTDH0SvgJgRdEK8dy5evZdqR/8PjFVenj5HgQ3onxeibwesGoSiAoCshNxe6C9WaunUFtEhvvvbbNRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5668
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,199 +126,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Matthew Auld <matthew.auld@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Jasdeep Dhillon <jdhillon@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ Mustapha Ghaddar <mghaddar@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20.03.2023 11:09, Nirmoy Das wrote:
-> Implement i915_gem_fb_mmap() to enable fb_ops.fb_mmap()
-> callback for i915's framebuffer objects.
+On 3/17/23 04:17, Lee Jones wrote:
+> Fixes the following W=1 kernel build warning(s):
 > 
-> v2: add a comment why i915_gem_object_get() needed(Andi).
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:38: warning: Cannot understand  *****************************************************************************
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:76: warning: Cannot understand  *****************************************************************************
 > 
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Andi Shyti <andi.shyti@linux.intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Imre Deak <imre.deak@intel.com>
-> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Mustapha Ghaddar <mghaddar@amd.com>
+> Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
+> Cc: Jasdeep Dhillon <jdhillon@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
+Applied, thanks!
 
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_mman.c | 127 +++++++++++++++--------
->   drivers/gpu/drm/i915/gem/i915_gem_mman.h |   2 +-
->   2 files changed, 83 insertions(+), 46 deletions(-)
+>   drivers/gpu/drm/amd/display/dc/core/dc_stat.c | 28 +++++++------------
+>   1 file changed, 10 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> index d3c1dee16af2..341e952d3510 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> @@ -927,53 +927,15 @@ static struct file *mmap_singleton(struct drm_i915_private *i915)
->   	return file;
->   }
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
+> index 6c06587dd88c2..5f6392ae31a66 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
+> @@ -35,19 +35,15 @@
+>    */
 >   
-> -/*
-> - * This overcomes the limitation in drm_gem_mmap's assignment of a
-> - * drm_gem_object as the vma->vm_private_data. Since we need to
-> - * be able to resolve multiple mmap offsets which could be tied
-> - * to a single gem object.
-> - */
-> -int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> +static int
-> +i915_gem_object_mmap(struct drm_i915_gem_object *obj,
-> +		     struct i915_mmap_offset *mmo,
-> +		     struct vm_area_struct *vma)
+>   /**
+> - *****************************************************************************
+> - *  Function: dc_stat_get_dmub_notification
+> + *  dc_stat_get_dmub_notification
+>    *
+> - *  @brief
+> - *		Calls dmub layer to retrieve dmub notification
+> + * Calls dmub layer to retrieve dmub notification
+>    *
+> - *  @param
+> - *		[in] dc: dc structure
+> - *		[in] notify: dmub notification structure
+> + * @dc: dc structure
+> + * @notify: dmub notification structure
+>    *
+> - *  @return
+> + * Returns
+>    *     None
+> - *****************************************************************************
+>    */
+>   void dc_stat_get_dmub_notification(const struct dc *dc, struct dmub_notification *notify)
 >   {
-> -	struct drm_vma_offset_node *node;
-> -	struct drm_file *priv = filp->private_data;
-> -	struct drm_device *dev = priv->minor->dev;
-> -	struct drm_i915_gem_object *obj = NULL;
-> -	struct i915_mmap_offset *mmo = NULL;
-> +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> +	struct drm_device *dev = &i915->drm;
->   	struct file *anon;
->   
-> -	if (drm_dev_is_unplugged(dev))
-> -		return -ENODEV;
-> -
-> -	rcu_read_lock();
-> -	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
-> -	node = drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
-> -						  vma->vm_pgoff,
-> -						  vma_pages(vma));
-> -	if (node && drm_vma_node_is_allowed(node, priv)) {
-> -		/*
-> -		 * Skip 0-refcnted objects as it is in the process of being
-> -		 * destroyed and will be invalid when the vma manager lock
-> -		 * is released.
-> -		 */
-> -		if (!node->driver_private) {
-> -			mmo = container_of(node, struct i915_mmap_offset, vma_node);
-> -			obj = i915_gem_object_get_rcu(mmo->obj);
-> -
-> -			GEM_BUG_ON(obj && obj->ops->mmap_ops);
-> -		} else {
-> -			obj = i915_gem_object_get_rcu
-> -				(container_of(node, struct drm_i915_gem_object,
-> -					      base.vma_node));
-> -
-> -			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
-> -		}
-> -	}
-> -	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
-> -	rcu_read_unlock();
-> -	if (!obj)
-> -		return node ? -EACCES : -EINVAL;
-> -
->   	if (i915_gem_object_is_readonly(obj)) {
->   		if (vma->vm_flags & VM_WRITE) {
->   			i915_gem_object_put(obj);
-> @@ -1005,7 +967,7 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
->   	if (obj->ops->mmap_ops) {
->   		vma->vm_page_prot = pgprot_decrypted(vm_get_page_prot(vma->vm_flags));
->   		vma->vm_ops = obj->ops->mmap_ops;
-> -		vma->vm_private_data = node->driver_private;
-> +		vma->vm_private_data = obj->base.vma_node.driver_private;
->   		return 0;
->   	}
->   
-> @@ -1043,6 +1005,81 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
->   	return 0;
+> @@ -73,19 +69,15 @@ void dc_stat_get_dmub_notification(const struct dc *dc, struct dmub_notification
 >   }
 >   
-> +/*
-> + * This overcomes the limitation in drm_gem_mmap's assignment of a
-> + * drm_gem_object as the vma->vm_private_data. Since we need to
-> + * be able to resolve multiple mmap offsets which could be tied
-> + * to a single gem object.
-> + */
-> +int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
-> +{
-> +	struct drm_vma_offset_node *node;
-> +	struct drm_file *priv = filp->private_data;
-> +	struct drm_device *dev = priv->minor->dev;
-> +	struct drm_i915_gem_object *obj = NULL;
-> +	struct i915_mmap_offset *mmo = NULL;
-> +
-> +	if (drm_dev_is_unplugged(dev))
-> +		return -ENODEV;
-> +
-> +	rcu_read_lock();
-> +	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
-> +	node = drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
-> +						  vma->vm_pgoff,
-> +						  vma_pages(vma));
-> +	if (node && drm_vma_node_is_allowed(node, priv)) {
-> +		/*
-> +		 * Skip 0-refcnted objects as it is in the process of being
-> +		 * destroyed and will be invalid when the vma manager lock
-> +		 * is released.
-> +		 */
-> +		if (!node->driver_private) {
-> +			mmo = container_of(node, struct i915_mmap_offset, vma_node);
-> +			obj = i915_gem_object_get_rcu(mmo->obj);
-> +
-> +			GEM_BUG_ON(obj && obj->ops->mmap_ops);
-> +		} else {
-> +			obj = i915_gem_object_get_rcu
-> +				(container_of(node, struct drm_i915_gem_object,
-> +					      base.vma_node));
-> +
-> +			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
-> +		}
-> +	}
-> +	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
-> +	rcu_read_unlock();
-> +	if (!obj)
-> +		return node ? -EACCES : -EINVAL;
-> +
-> +	return i915_gem_object_mmap(obj, mmo, vma);
-> +}
-> +
-> +int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-> +	struct drm_device *dev = &i915->drm;
-> +	struct i915_mmap_offset *mmo = NULL;
-> +	enum i915_mmap_type mmap_type;
-> +	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
-> +
-> +	if (drm_dev_is_unplugged(dev))
-> +		return -ENODEV;
-> +
-> +	mmap_type = i915_ggtt_has_aperture(ggtt) ? I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
-> +	mmo = mmap_offset_attach(obj, mmap_type, NULL);
-> +	if (!mmo)
-> +		return -ENODEV;
-> +
-> +	/*
-> +	 * When we install vm_ops for mmap we are too late for
-> +	 * the vm_ops->open() which increases the ref_count of
-> +	 * this obj and then it gets decreased by the vm_ops->close().
-> +	 * To balance this increase the obj ref_count here.
-> +	 */
-> +	obj = i915_gem_object_get(mmo->obj);
-> +	return i915_gem_object_mmap(obj, mmo, vma);
-> +}
-> +
->   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
->   #include "selftests/i915_gem_mman.c"
->   #endif
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> index 1fa91b3033b3..196417fd0f5c 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
-> @@ -29,5 +29,5 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
->   
->   void i915_gem_object_runtime_pm_release_mmap_offset(struct drm_i915_gem_object *obj);
->   void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
-> -
-> +int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma);
->   #endif
+>   /**
+> - *****************************************************************************
+> - *  Function: dc_stat_get_dmub_dataout
+> + * dc_stat_get_dmub_dataout
+>    *
+> - *  @brief
+> - *		Calls dmub layer to retrieve dmub gpint dataout
+> + * Calls dmub layer to retrieve dmub gpint dataout
+>    *
+> - *  @param
+> - *		[in] dc: dc structure
+> - *		[in] dataout: dmub gpint dataout
+> + * @dc: dc structure
+> + * @dataout: dmub gpint dataout
+>    *
+> - *  @return
+> + * Returns
+>    *     None
+> - *****************************************************************************
+>    */
+>   void dc_stat_get_dmub_dataout(const struct dc *dc, uint32_t *dataout)
+>   {
+
+-- 
+Hamza
 
