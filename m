@@ -2,48 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56AE6C104B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 12:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7EB6C1050
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 12:10:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A205D10E353;
-	Mon, 20 Mar 2023 11:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83DA910E3B3;
+	Mon, 20 Mar 2023 11:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A2910E353
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 11:08:15 +0000 (UTC)
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by lithium.sammserver.com (Postfix) with ESMTPS id 80EA431181CC;
- Mon, 20 Mar 2023 12:08:13 +0100 (CET)
-Received: from mail.sammserver.com (localhost.localdomain [127.0.0.1])
- by mail.sammserver.com (Postfix) with ESMTP id 293123627D;
- Mon, 20 Mar 2023 12:08:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
- t=1679310493; bh=0jP3D3BZL68xe5B5D2b80NpReBfe6GPfvVjUNfacUbQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=kpt6Ql8kbkfDS+tXED4XbdBTPyvaXOo0ZYMUX/Ee9AD7jGBalMDdh3r5iH+Pu3tib
- eotxR8eXf10HWKPgYyuMabFt8Y/6BE4tdbqbc8okHdwT62Y+QNUnvlY6WVqDZsQAfw
- XGdDhJ+NmQF0lDV2lViexqKZLDd8jnxO+MsuydB4=
+Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC9510E3B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 11:10:10 +0000 (UTC)
+Date: Mon, 20 Mar 2023 11:10:02 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1679310608; x=1679569808;
+ bh=dJZln88lN2ZOtbXwmt+yMlSaTT1Nk8VC901yTzLI2ig=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=h/4qo/V8KsRx1BwwYxr3xodV6q+lYad3q+r0EcS/2CoA8PV9x+NVV7I0jH1P/QAB8
+ ELC93I7D0Uk7mw8GsGiJX3zwqnvKF7oYVJHz10YIQPAaE+S/mCF+GrhqMFTynfGZrs
+ 8x3HoihoypOg47284V0pw4AAFx1mKL+j2qBFfsK1MSoNBU4Zw77Rbx0uS8MEwz0qPP
+ p+j6woXdglZ/rERdXVXHPpiAmKhgHpt8hkF/gVUanEMvVl4QTDwgMluArU3iZrzLSD
+ i1A4lLWx6H9/Md+9k3svYD20k298UYZgz7u5VV4XdRbTNm9Qydo8aXtUDi8GoLD5v2
+ nNlbkw8ZyX6vw==
+To: Petr Tesarik <petrtesarik@huaweicloud.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/prime: Fix documentation of
+ drm_gem_prime_fd_to_handle()
+Message-ID: <Df--jGGCv5NJg1pmpWj1t2W6ndLBt56vWwEpi81s22ddGn39zPZOq1pdEaRud5P8PqiRexkHjTiByoOi0IEl_7pTQsrNFWLOmlWYGRUzWds=@emersion.fr>
+In-Reply-To: <20c0416b-90f7-7fa3-5f32-a44400817f4d@huaweicloud.com>
+References: <20230224120931.1024-1-petrtesarik@huaweicloud.com>
+ <GLe6vWnaxm8W1VD0ltNz62HDAhn5b1rgraCJchuToDl-vb5m9gsGl2ml2xeTQfRwlWlTQXvqOUzYiSgz1GmOk76Jag5VR7Pzwm0iM-86igQ=@emersion.fr>
+ <20c0416b-90f7-7fa3-5f32-a44400817f4d@huaweicloud.com>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-Date: Mon, 20 Mar 2023 12:08:13 +0100
-From: =?UTF-8?Q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
- devices via aperture helpers
-In-Reply-To: <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
-References: <20220718072322.8927-1-tzimmermann@suse.de>
- <20220718072322.8927-8-tzimmermann@suse.de>
- <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
- <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
- <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
-Message-ID: <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
-X-Sender: samuel@cavoj.net
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,69 +50,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- linux-staging@lists.linux.dev, Changcheng Deng <deng.changcheng@zte.com.cn>,
- dri-devel@lists.freedesktop.org, maxime@cerno.tech,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, sam@ravnborg.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, petr@tesarici.cz,
+ roberto.sassu@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-03-20 11:13, Javier Martinez Canillas wrote:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
-> 
-> [...]
-> 
->>>> +    /*
->>>> +     * If a driver asked to unregister a platform device registered 
->>>> by
->>>> +     * sysfb, then can be assumed that this is a driver for a 
->>>> display
->>>> +     * that is set up by the system firmware and has a generic 
->>>> driver.
->>>> +     *
->>>> +     * Drivers for devices that don't have a generic driver will 
->>>> never
->>>> +     * ask for this, so let's assume that a real driver for the 
->>>> display
->>>> +     * was already probed and prevent sysfb to register devices 
->>>> later.
->>>> +     */
->>>> +    sysfb_disable();
->>> 
->>> This call to sysfb_disable() has been causing trouble with regard to
->>> VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices 
->>> to
->>> get rid of any console drivers (d173780620792c) using the device in
->>> question, but now even unrelated drivers are getting killed. Example
->>> situation:
->> 
->> Which drivers do you use?
-
-This happens with either no drivers loaded or the proprietary nvidia
-driver. Nouveau is fine as it doesn't rely on efifb but brings its own.
-
->> 
-> 
-> Also, what kernel version?
-
-I tried with 6.2.6, can build mainline and test there as well.
-
-Thanks for help!
-
-> 
-> [...]
-> 
->>> 
->>> Machine has two GPUs and uses efifb for the console. Efifb registers
->>> with the aperture system the efi framebuffer region, which is covered
->>> by a BAR resource of GPU 1. VFIO grabs GPU 2 and calls
->>> aperture_remove_conflicting_pci_devices(GPU 2). GPU 2 has no overlap
->>> with the efifb on GPU1 but the efifb is killed regardless due to
->>> the unconditional call to sysfb_disable(). The console switches
->>> to dummy and locks up from the user perspective.
->>> This seems unnecessary, as the device is unrelated.
->>> 
-> 
-> That's a bug indeed but I thought that was already fixed...
+Pushed to drm-misc-next, thanks!
