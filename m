@@ -1,75 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F48C6C0F87
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 11:44:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 798416C0F9D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 11:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 012B010E32F;
-	Mon, 20 Mar 2023 10:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD84910E33A;
+	Mon, 20 Mar 2023 10:49:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD4F10E32F
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 10:44:18 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id j2so9839616wrh.9
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 03:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679309057;
- h=content-transfer-encoding:in-reply-to:organization:references:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=MGEZCQ150WLMwboCRH3jhHI9TWpdx3QCBwHBAGlQva8=;
- b=n2/0i2L0Dz4SRvTTNgGnznlHXJo0b4MZGU5NGLIgSNHRwOAHRjImLnm+6DrTRGFq93
- gokQPiOIeusC9nZf4aiHUwrXexNyFRkSTDZVoHVdeMstDOfau8kJEBQ/5tA99KbYedgD
- Y5sRh8B/PNF8Mr3SS/w2o4bD8Ld5lVNwYhEKo1QeZSaRNhzy6AsPUMWjXrFUOVRjX2bt
- KODRrfw7su6HFPR7Lei+5Td41sl6u+tI3T5Q403vrfkLlg/G0mb9IMVv/n5SFu6BllQi
- qWsRe506okSNSdx8NWAqW2u6dRNAMOUSDf89e1gn1dhoVa9OlQX8fWsheVGdFTEtv1Jo
- zZJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679309057;
- h=content-transfer-encoding:in-reply-to:organization:references:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MGEZCQ150WLMwboCRH3jhHI9TWpdx3QCBwHBAGlQva8=;
- b=lC14OMlv8cF+SODIJCDCt3USajo2vyvFu7wF7GLbBfEZmmZmAbvaA7rPB3QzQ7rFZl
- nooHEcUryqoons/11i3PYiBvsF9dT09R84xZBVzZrvb0EzC2OzZcE3KIZhRW7U6trezm
- YmBpyjvcNJWdVEYB6xTvJmVWUMK0ZbKx2Sz1kcD7Y0PzW6ndYoXNXPfcMBcPs8eXIAku
- +MMY5qHkFSjN5aZYR+qsa12q0c2RYPMEn5jplbbAZK2B8AXY9k6Dmn39bjZbjkKWwX0J
- EZZlaqlfezICZcKeBgfXtazKv8N7wFGTAlqx41zAbU1ablstL+jagO/guXWAcd8/WGG+
- hhVg==
-X-Gm-Message-State: AO0yUKWlIniOIdtiaANZL7V4kSbrGl39azcFqUNwI/7PjyKXcDwK0Ghx
- airjW8O/Dn+onxeUHEq9STmaCg==
-X-Google-Smtp-Source: AK7set8ws1fvI/lQ/aLItuJCYxfZJ340DRxEnPFrM8z3p+AXst2wtKtiztvyfSGEkh6pYlpHvg2pgQ==
-X-Received: by 2002:a05:6000:1144:b0:2c7:a3c:5bd6 with SMTP id
- d4-20020a056000114400b002c70a3c5bd6mr13422741wrx.52.1679309056890; 
- Mon, 20 Mar 2023 03:44:16 -0700 (PDT)
-Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
- by smtp.gmail.com with ESMTPSA id
- c15-20020adffb0f000000b002c6e8cb612fsm8537741wrr.92.2023.03.20.03.44.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Mar 2023 03:44:16 -0700 (PDT)
-Message-ID: <afc44c13-0863-d1de-df03-30b83f5a015a@linaro.org>
-Date: Mon, 20 Mar 2023 11:44:15 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FBD910E33A;
+ Mon, 20 Mar 2023 10:49:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D4B6961222;
+ Mon, 20 Mar 2023 10:49:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06CEC433D2;
+ Mon, 20 Mar 2023 10:49:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679309383;
+ bh=rBnl45ab07dv+jCjy3GZR8/un4kz0TabDyE+0e2TZrc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XJUDJljFf4RX0CvyVU79OVlxapTuGL+XrkqLFO0akjjfuWMsGdCZ9UsRzAfno0Iwb
+ 6X+nsAecZEc59YaLN4EW85eDAOfusMbCaD1mB6XHqD+668tbwJ+oswNb7Y3ffeMY1e
+ kNGU4uxWX9cay8HnNSO3oD/yKmThTTbpe3F7O4tXlSjUL1PQE74akFBPaW42ptsFnG
+ EkgzvfBYJAYotvw1j5cPB53c9ZdbOWN09AMVvXmGASyPuYbQm3AhjrMLx6UjM19EE5
+ pjyxg3/oXZtc5I6SL7r1d6FGTLp0u6ki8Yfa76dq/+zX6xnDVGhUXSbgfkU9vaByH/
+ IjLfDQipk0+rA==
+Date: Mon, 20 Mar 2023 11:49:40 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Nirmoy Das <nirmoy.das@intel.com>
+Subject: Re: [PATCH 2/3] drm/i915/display: Add helper func to get intel_fbdev
+ from drm_fb_helper
+Message-ID: <20230320104940.mjumwmjddbtkjmss@intel.intel>
+References: <20230320100903.23588-1-nirmoy.das@intel.com>
+ <20230320100903.23588-2-nirmoy.das@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: nwl-dsi: fix packet read ISR handling
-Content-Language: en-US
-To: Kevin Groeneveld <kgroeneveld@lenbrook.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20230318223621.4239-1-kgroeneveld@lenbrook.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20230318223621.4239-1-kgroeneveld@lenbrook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230320100903.23588-2-nirmoy.das@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,57 +55,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
+Cc: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 18/03/2023 23:36, Kevin Groeneveld wrote:
-> In some cases the NWL_DSI_RX_PKT_PAYLOAD_DATA_RCVD interrupt flag is not
-> set along with NWL_DSI_RX_PKT_HDR_RCVD when the initial interrupt fires.
-> Since the NWL_DSI_RX_PKT_PAYLOAD_DATA_RCVD_MASK was not set then the ISR
-> does not fire again when NWL_DSI_RX_PKT_PAYLOAD_DATA_RCVD is finally set
-> and the read times out.
+On Mon, Mar 20, 2023 at 11:09:02AM +0100, Nirmoy Das wrote:
+> Add a helper function to retrieve struct intel_fbdev from
+> struct drm_fb_helper.
 > 
-> Also the read packet handling checks for NWL_DSI_DPHY_DIRECTION which is
-> not always set when the ISR for reading the payload runs. Instead it seems
-> better to check xfer->direction is DSI_PACKET_RECEIVE (more similar to the
-> send packet case).
-> 
-> The above two changes were required to perform a successful DCS read from
-> a display with a Chipone ICNL9707 driver IC.
-> 
-> Signed-off-by: Kevin Groeneveld <kgroeneveld@lenbrook.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Imre Deak <imre.deak@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Thanks for the patch, can you provide a Fixes tag ?
-
-Neil
+Thanks,
+Andi
 
 > ---
->   drivers/gpu/drm/bridge/nwl-dsi.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/i915/display/intel_fbdev.c | 23 ++++++++++------------
+>  1 file changed, 10 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-> index 6dc2a4e191d7..241568a17f60 100644
-> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
-> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-> @@ -334,6 +334,7 @@ static int nwl_dsi_init_interrupts(struct nwl_dsi *dsi)
->   {
->   	u32 irq_enable = ~(u32)(NWL_DSI_TX_PKT_DONE_MASK |
->   				NWL_DSI_RX_PKT_HDR_RCVD_MASK |
-> +				NWL_DSI_RX_PKT_PAYLOAD_DATA_RCVD_MASK |
->   				NWL_DSI_TX_FIFO_OVFLW_MASK |
->   				NWL_DSI_HS_TX_TIMEOUT_MASK);
->   
-> @@ -489,7 +490,7 @@ static void nwl_dsi_finish_transmission(struct nwl_dsi *dsi, u32 status)
->   	    status & NWL_DSI_TX_PKT_DONE) {
->   		xfer->status = xfer->tx_len;
->   		end_packet = true;
-> -	} else if (status & NWL_DSI_DPHY_DIRECTION &&
-> +	} else if (xfer->direction == DSI_PACKET_RECEIVE &&
->   		   ((status & (NWL_DSI_RX_PKT_HDR_RCVD |
->   			       NWL_DSI_RX_PKT_PAYLOAD_DATA_RCVD)))) {
->   		end_packet = nwl_dsi_read_packet(dsi, status);
-
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index 673bcdfb7ff6..8c3b3c3fd0e0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -67,6 +67,11 @@ struct intel_fbdev {
+>  	struct mutex hpd_lock;
+>  };
+>  
+> +static struct intel_fbdev *to_intel_fbdev(struct drm_fb_helper *fb_helper)
+> +{
+> +	return container_of(fb_helper, struct intel_fbdev, helper);
+> +}
+> +
+>  static struct intel_frontbuffer *to_frontbuffer(struct intel_fbdev *ifbdev)
+>  {
+>  	return ifbdev->fb->frontbuffer;
+> @@ -79,9 +84,7 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
+>  
+>  static int intel_fbdev_set_par(struct fb_info *info)
+>  {
+> -	struct drm_fb_helper *fb_helper = info->par;
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(fb_helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+>  	int ret;
+>  
+>  	ret = drm_fb_helper_set_par(info);
+> @@ -93,9 +96,7 @@ static int intel_fbdev_set_par(struct fb_info *info)
+>  
+>  static int intel_fbdev_blank(int blank, struct fb_info *info)
+>  {
+> -	struct drm_fb_helper *fb_helper = info->par;
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(fb_helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+>  	int ret;
+>  
+>  	ret = drm_fb_helper_blank(blank, info);
+> @@ -108,9 +109,7 @@ static int intel_fbdev_blank(int blank, struct fb_info *info)
+>  static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
+>  				   struct fb_info *info)
+>  {
+> -	struct drm_fb_helper *fb_helper = info->par;
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(fb_helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+>  	int ret;
+>  
+>  	ret = drm_fb_helper_pan_display(var, info);
+> @@ -136,8 +135,7 @@ static const struct fb_ops intelfb_ops = {
+>  static int intelfb_alloc(struct drm_fb_helper *helper,
+>  			 struct drm_fb_helper_surface_size *sizes)
+>  {
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+>  	struct drm_framebuffer *fb;
+>  	struct drm_device *dev = helper->dev;
+>  	struct drm_i915_private *dev_priv = to_i915(dev);
+> @@ -193,8 +191,7 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
+>  static int intelfb_create(struct drm_fb_helper *helper,
+>  			  struct drm_fb_helper_surface_size *sizes)
+>  {
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+>  	struct intel_framebuffer *intel_fb = ifbdev->fb;
+>  	struct drm_device *dev = helper->dev;
+>  	struct drm_i915_private *dev_priv = to_i915(dev);
+> -- 
+> 2.39.0
+> 
