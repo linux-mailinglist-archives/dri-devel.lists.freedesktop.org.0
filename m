@@ -2,80 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202256C1198
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 13:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0186C1223
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 13:44:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F59B10E40D;
-	Mon, 20 Mar 2023 12:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE3010E05F;
+	Mon, 20 Mar 2023 12:44:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D15110E40D
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 12:12:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679314364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1BDE10E05F
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 12:44:19 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9DF751F86C;
+ Mon, 20 Mar 2023 12:44:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1679316258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XDRN9XADCHW4KobnBjZyGXmUoJLZGTdT1A6DRUh7Iug=;
- b=AnamrtCy0ec9Jjrq4nAb2ognJwUBYo//j6Zgv8qtemnQbSUZVLZZjlPGPaUckt3XUk0wJa
- A05bPkaFBOorfgXOAX3g9qy85k1E/7RFoGj6g+Cy4XHq8UJKSwyKnAwt6dmQLcw4p/RFCp
- haMj9VxFswiKcPh6CIZZth9xBj5iZdg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-70-_xJRn_WQNo-TOI7PueilYQ-1; Mon, 20 Mar 2023 08:12:43 -0400
-X-MC-Unique: _xJRn_WQNo-TOI7PueilYQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j36-20020a05600c1c2400b003ed245a452fso5441415wms.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 05:12:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679314361;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XDRN9XADCHW4KobnBjZyGXmUoJLZGTdT1A6DRUh7Iug=;
- b=Gw4Sl9KDxFV7335u8M35U0MWKrGv8PJrs8iYxL1EVpMmEWU2ebQQtNZiy8VNhbBRVL
- OvKMzhueU8T8yRuP7nhj7pBXhYJ9wWvpyd35Qtwxdd4/lBRy4ZkMBKShgre5k7mv5LCj
- uSDQWItEG0QYqc411c8djOfh5ZGRK7US2UD5H00SbipRfxHWKc2SsHC2fjeOmS4vmMZG
- hdOFoY5tpvSszHc2XQ3nurj+cENsLVkFkLjfNDT8ljPoe7q0U5rmUkLZNXGWBQ5wS+R+
- pzHF1SO2ZW5r92DII9w4gkgX2EcyJXDrI3t3itLe/bo6rTe6G1g/Y549NCjNFp1uIXM4
- 8GbA==
-X-Gm-Message-State: AO0yUKV21tV72w7IkweGyJSPclMWFCzHizA1omQK8xhNa5nxZ03BvKXi
- UAyJ7E5AY+MRnOtkv6Z+O+3AUZYb8aM2vh6e7DDp/VlWh9zDcEHfrEAvYOJI0c4X0oWLgDaznSp
- F9sLX2EP9l79UZRZIT8Z5FX4r71/B
-X-Received: by 2002:a05:600c:2299:b0:3ee:da1:135f with SMTP id
- 25-20020a05600c229900b003ee0da1135fmr1095239wmf.7.1679314361793; 
- Mon, 20 Mar 2023 05:12:41 -0700 (PDT)
-X-Google-Smtp-Source: AK7set+umOOuG5X2xVwy2+bTR0qTb8LXpCVn0AZ49wk1ROM/wu6oxM+7I2UIaZAV5omtJqUkTfXqew==
-X-Received: by 2002:a05:600c:2299:b0:3ee:da1:135f with SMTP id
- 25-20020a05600c229900b003ee0da1135fmr1095226wmf.7.1679314361535; 
- Mon, 20 Mar 2023 05:12:41 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es.
- [92.176.231.205]) by smtp.gmail.com with ESMTPSA id
- f20-20020a7bcd14000000b003e203681b26sm10324306wmj.29.2023.03.20.05.12.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 05:12:41 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Samuel =?utf-8?Q?=C4=8Cavoj?= <samuel@cavoj.net>
-Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
- devices via aperture helpers
-In-Reply-To: <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
-References: <20220718072322.8927-1-tzimmermann@suse.de>
- <20220718072322.8927-8-tzimmermann@suse.de>
- <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
- <e881f6d6-0d2b-5775-68f2-35cc4d666d63@suse.de>
- <874jqfpw7k.fsf@minerva.mail-host-address-is-not-set>
- <87706a167c1e490a12371e2edf0f34e3@cavoj.net>
-Date: Mon, 20 Mar 2023 13:12:40 +0100
-Message-ID: <87v8ivoc3r.fsf@minerva.mail-host-address-is-not-set>
+ bh=2Y3Or3PJWhcTymysyC/xHrHVgoRe3EQ5n5YDf278P/E=;
+ b=pWhr1s0jNhleryAidYddumgKKD6nLT5a+PnQFi/uja3nYHgMW3p1bN0UcGSztOWQjBeb0D
+ 0gEho12vgAi1/xC5ilDPmJc3gXAgd358D1UJaeXePvgwihzNsZ5cUfkso44sNhfaHbO/ua
+ kxOACpanUokBHur3/6iVVREAaEaC2tM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1679316258;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Y3Or3PJWhcTymysyC/xHrHVgoRe3EQ5n5YDf278P/E=;
+ b=0j+FgXac0a2XIkU2Xy88T8CkECYkS+Mva2WUwkGKo6nP7UiucfbhoJnLQQQh1kDy1BU18v
+ GVEmc/Hm430i2oDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 61C1413A00;
+ Mon, 20 Mar 2023 12:44:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id RzPzFiJVGGT1ZAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 20 Mar 2023 12:44:18 +0000
+Message-ID: <df4a4f28-b775-9149-71ba-3edaf2cd5f42@suse.de>
+Date: Mon, 20 Mar 2023 13:44:17 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 4/6] drm/fbdev-generic: Clean up after failed probing
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ zackr@vmware.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-graphics-maintainer@vmware.com
+References: <20230315161442.27318-1-tzimmermann@suse.de>
+ <20230315161442.27318-5-tzimmermann@suse.de>
+ <87sfe3pnv0.fsf@minerva.mail-host-address-is-not-set>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <87sfe3pnv0.fsf@minerva.mail-host-address-is-not-set>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------A0xxOFVLPKI6SiZcCX0hEFX3"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,50 +75,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- linux-staging@lists.linux.dev, Changcheng Deng <deng.changcheng@zte.com.cn>,
- dri-devel@lists.freedesktop.org, maxime@cerno.tech,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Samuel =C4=8Cavoj <samuel@cavoj.net> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------A0xxOFVLPKI6SiZcCX0hEFX3
+Content-Type: multipart/mixed; boundary="------------VhMpXjpe5km95WbOFI0nm90t";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, daniel@ffwll.ch,
+ airlied@gmail.com, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ zackr@vmware.com, kraxel@redhat.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ linux-graphics-maintainer@vmware.com
+Message-ID: <df4a4f28-b775-9149-71ba-3edaf2cd5f42@suse.de>
+Subject: Re: [PATCH 4/6] drm/fbdev-generic: Clean up after failed probing
+References: <20230315161442.27318-1-tzimmermann@suse.de>
+ <20230315161442.27318-5-tzimmermann@suse.de>
+ <87sfe3pnv0.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87sfe3pnv0.fsf@minerva.mail-host-address-is-not-set>
 
-[...]
+--------------VhMpXjpe5km95WbOFI0nm90t
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->>>> This call to sysfb_disable() has been causing trouble with regard to
->>>> VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices=20
->>>> to
->>>> get rid of any console drivers (d173780620792c) using the device in
->>>> question, but now even unrelated drivers are getting killed. Example
->>>> situation:
->>>=20
->>> Which drivers do you use?
->
-> This happens with either no drivers loaded or the proprietary nvidia
-> driver. Nouveau is fine as it doesn't rely on efifb but brings its own.
->
+SGkgSmF2aWVyDQoNCkFtIDE3LjAzLjIzIHVtIDEzOjI0IHNjaHJpZWIgSmF2aWVyIE1hcnRp
+bmV6IENhbmlsbGFzOg0KPiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4gd3JpdGVzOg0KPiANCj4gWy4uLl0NCj4gDQo+PiBAQCAtOTEsMzYgKzkzLDUyIEBAIHN0
+YXRpYyBpbnQgZHJtX2ZiZGV2X2ZiX3Byb2JlKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9o
+ZWxwZXIsDQo+PiAgIA0KPj4gICAJZmJfaGVscGVyLT5idWZmZXIgPSBidWZmZXI7DQo+PiAg
+IAlmYl9oZWxwZXItPmZiID0gYnVmZmVyLT5mYjsNCj4+IC0JZmIgPSBidWZmZXItPmZiOw0K
+Pj4gKw0KPj4gKwlzY3JlZW5fc2l6ZSA9IGJ1ZmZlci0+Z2VtLT5zaXplOw0KPiANCj4gWy4u
+Ll0NCj4gDQo+PiAtCWluZm8tPnNjcmVlbl9zaXplID0gc2l6ZXMtPnN1cmZhY2VfaGVpZ2h0
+ICogZmItPnBpdGNoZXNbMF07DQo+IA0KPiBbLi4uXQ0KPiANCj4gSSB3b25kZXIgaWYgdGhp
+cyBjaGFuZ2Ugc2hvdWxkIGJlIGEgc2VwYXJhdGUgcGF0Y2g/IEkga25vdyB0aGF0IGl0IHNo
+b3VsZA0KPiBiZSB0aGUgc2FtZSBzaXplIGJ1dCBzdGlsbCBmZWVscyBsaWtlIGFuIHVucmVs
+YXRlZCBjaGFuZ2UgdGhhdCBkZXNlcnZlcyBhDQo+IGRpZmZlcmVudCBwYXRjaCBhbmQgZGVz
+Y3JpcHRpb24uDQoNClRoaXMgY29tbWVudCBtYWRlIG1lIGxvb2sgdXAgdGhlIGV4YWN0IG1l
+YW5pbmcgaWYgc2NyZWVuX3NpemUsIHdoaWNoIGlzIA0KIkFtb3VudCBvZiBpb3JlbWFwcGVk
+IFZSQU0gb3IgMCIuIFsxXSBPdGhlciBkcml2ZXJzIHdpdGggc2hhZG93IGJ1ZmZlcnMgDQoo
+dWRsZmIsIG1ldHJvbm9tZWZiKSBhcHBhcmVudGx5IGRvbid0IHNldCB0aGlzIGZpZWxkLiBT
+byB0aGUgZ2VuZXJpYyANCmZiZGV2IHByb2JhYmx5IHNob3VsZG4ndCBlaXRoZXIuIFRoZSBz
+aXplIG9mIHRoZSB2aWRlbyBtZW1vcnkgKHBoeXNpY2FsIA0Kb3Igc2hhZG93ZWQpIGluIGlu
+IGZpeC5zbWVtX2xlbi4gWzJdIEZyb20gZ3JlcCdpbmcgdGhyb3VnaCB0aGUgc291cmNlIA0K
+Y29kZSwgaXQncyBub3QgY2xlYXIgdG8gbWUgd2h5IHNjcmVlbl9zaXplIGV4aXN0cyBpbiB0
+aGUgZmlyc3QgcGxhY2UuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSBodHRwczov
+L2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2luY2x1ZGUvbGludXgv
+ZmIuaCNMNDk0DQpbMl0gDQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRl
+c3Qvc291cmNlL2luY2x1ZGUvdWFwaS9saW51eC9mYi5oI0wxNjENCg0KPiANCj4gWy4uLl0N
+Cj4gICAgDQo+PiAtCS8qIFNldCBhIGRlZmF1bHQgZGVmZXJyZWQgSS9PIGhhbmRsZXIgKi8N
+Cj4+ICsJLyogZGVmZXJyZWQgSS9PICovDQo+IA0KPiBJIHdvdWxkIGVpdGhlciBoYXZlIGl0
+IGFzIC8qIEdlbmVyaWMgZmJkZXYgZGVmZXJyZWQgSS9PIGhhbmRsZXIgKi8gb3IganVzdA0K
+PiByZW1vdmUgdGhlIGNvbW1lbnQuIEkgdW5kZXJzdGFuZCB3aHkgeW91IGFyZSByZW1vdmlu
+ZyB0aGUgImRlZmF1bHQiLCBzaW5jZQ0KPiBpbXBsaWVzIHRoYXQgZHJpdmVycyBjYW4gY2hh
+bmdlIHRoZSBoYW5kbGVyIGFuZCB0aGF0J3Mgbm90IHRoZSBjYXNlIGhlcmUuDQo+IA0KPiBC
+dXQgSSB0aGluayB0aGF0IGp1c3QgbGVhdmluZyB0aGUgImRlZmVycmVkIEkvTyIgY29tbWVu
+dCB0aGVyZSBkb2Vzbid0IHNheQ0KPiB0aGF0IG11Y2guDQo+IA0KPiBSZXZpZXdlZC1ieTog
+SmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQot
+LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
+IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
+pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-Which is what all DRM drivers should do. If they want to make sure that a
-fbdev will be present after the DRM driver probes, then should register an
-emulated fbdev.
+--------------VhMpXjpe5km95WbOFI0nm90t--
 
-There was an attempt to workaround that in [0], in particular patch [1]
-but that effort was not continued since the only DRM driver that would be
-affected is the Nvidia proprietary driver that relies on efifb/simpledrm
-to have a VT.
+--------------A0xxOFVLPKI6SiZcCX0hEFX3
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-[0]: https://patchwork.kernel.org/project/dri-devel/list/?series=3D711019&a=
-rchive=3Dboth
-[1]: https://patchwork.kernel.org/project/dri-devel/patch/20230111154112.90=
-575-11-daniel.vetter@ffwll.ch/
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Best regards,
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQYVSEFAwAAAAAACgkQlh/E3EQov+AE
+PQ//b0PE0GRPR8tWHTXGhWeaC8yC2YlzQuLsGBV9DIYxV0yAP8/WtMI6Q3kloxNKsZeZj3R45MZh
+x9tjLXTzqmtXA8z8beMx8+w/cTOqnFlJ5sh0sZxp9GCe59/cafCDlEjl4JKuP6QuqLqFArsXqTEp
+uWtz3jzNyOzT4FNKQJEzg7kNckCkRC0nsx6ppbj1q6IKDyq796nmK67jwFmimNOjLQNgGrXnNxUd
+QfDvQrZ53b21nElMgurWv1Bpi4md+sjhTfIjSzM/9iYigaQycp9WJrdbuP3d/mkBwqIfLVi6psk7
+boRQC7QiLt/K5YuPQEda/8GQVgQTrV+Ngj2xWK6PQqEOYrGn9teeR+4MVOHfwZhbJglZKknrb33l
+N9XWH/LoYP5SFJ4tkfqa3YM1ENn8wTcUq7Z0J4GJ0gIX3EHhp3bCFl2cvE040OVCiuT8Oab6k/5Q
+Zh1Q6Awp20RlGm8llU3Dl4qo3G8oFaWxYrQxRl4HogDmLBlRZYzj3qwFRYrL9JGjJgav1nbjoDUa
+aA3749HePFR+5hHXx702I0iGT9VzbUn0/+DqTfJbYgYHnTPaUS2qAp4JPtJ/DAw8ZJeFq/RTujEH
+tpG6rZOlQPPnUDSqyBfX/FmEfpiAuZgoNItvEt9TDdK2YYATCpAuZRTADw0wPpCWAVkr6XVXsg3C
+KuI=
+=VhFQ
+-----END PGP SIGNATURE-----
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+--------------A0xxOFVLPKI6SiZcCX0hEFX3--
