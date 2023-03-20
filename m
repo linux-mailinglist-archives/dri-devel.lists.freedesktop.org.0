@@ -1,51 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8E86C1334
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 14:25:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C56D56C1433
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 14:59:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B23110E553;
-	Mon, 20 Mar 2023 13:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE55710E56F;
+	Mon, 20 Mar 2023 13:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF4910E424;
- Mon, 20 Mar 2023 13:25:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CA7B8B80D58;
- Mon, 20 Mar 2023 13:25:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09307C433D2;
- Mon, 20 Mar 2023 13:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679318730;
- bh=H0NNaSf2aleeUQrTzlbWqjSgmnuWJBP1VUcXFVwmCH8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LtXXIGuY9ZcgE0fMRsBWzHwp5esxJBtG2NJm5yL0jEdyPLvMpeProAjc2tn5Wh6Kf
- hSSzGL9HNuGIcOsv7RV0L7blZA4h12uCJM5qaDF7DHufNbGVhe+cplbKq3vtfuaHR5
- Z3IjDrQnFt9nOgSbn7A4r4cKD3fAeK7vrWuPMNk1+4WdafOwsjmaBX/OXUELOnZ5lJ
- 3TYudyQU7+JXfizLt0/6X3DEH7IGRtr5VlMwmS7rYrFIZch1vozsPuYBgWjjY5E9FC
- PYgZLiIgMCj9Y0bWSXkTb6auycZY7oFUqCcPUXZ8nJ2lbOABdubwf/ZFHut/q+bPHv
- pDDWkGGNUX2PQ==
-Date: Mon, 20 Mar 2023 13:25:24 +0000
-From: Lee Jones <lee@kernel.org>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: [PATCH 28/37] drm/amd/display/dc/core/dc_stat: Convert a couple
- of doc headers to kerneldoc format
-Message-ID: <20230320132524.GA2673958@google.com>
-References: <20230317081718.2650744-1-lee@kernel.org>
- <20230317081718.2650744-29-lee@kernel.org>
- <CADnq5_O0mQWy5z-SeWryyVeBhhsDX_yrsiuHTUbDBBAscB6b=w@mail.gmail.com>
- <20230320081951.GI9667@google.com>
- <fa3bcadf-3ee9-86d7-d6ad-5408081766bf@amd.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93BF710E19E;
+ Mon, 20 Mar 2023 13:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679320744; x=1710856744;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=eLfDELRNr3e2p2cdCu1LV29kvGpX6cLV1xTIjodSG88=;
+ b=J1ZUm6OaqBN0FDlaRq2REjz8gXDoC3GpsO6z6B+1wkA6bF5C/m2pug1F
+ 6MBSTa0TttqFmMjwbLPLnZn6++eLPIcQhh4GhLI5gPj/kuhtOKRUXPb16
+ 9qS9+hW9A9UGTS2wIwOdnbC49sGePOABVIDSf4rfryNjeDGtIU3aEd/Ab
+ x94ba/ek9jWY9SiYth3LlRcH8YQGPKpXy/Ro9EOTUFFhiLBTeAuxLj09a
+ koycP2xNMp/paxipSp77TW/6+W02KWg+BXuOSc4WP7Hv1+GfYB8IN+B/C
+ TXnYelHgs66UzPOxVgulVA5n8OcHJyM+vipGXPDBNC7k8/3L4DL5lBAj3 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="340210207"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="340210207"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 06:59:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="713571839"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="713571839"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.6.65])
+ ([10.213.6.65])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 06:59:02 -0700
+Message-ID: <41b74bd5-1eb4-029a-40f2-79481dae439d@intel.com>
+Date: Mon, 20 Mar 2023 14:58:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH 2/3] drm/i915/display: Add helper func to get
+ intel_fbdev from drm_fb_helper
+To: Nirmoy Das <nirmoy.das@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20230320100903.23588-1-nirmoy.das@intel.com>
+ <20230320100903.23588-2-nirmoy.das@intel.com>
+Content-Language: en-US
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230320100903.23588-2-nirmoy.das@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fa3bcadf-3ee9-86d7-d6ad-5408081766bf@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,73 +65,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- Jasdeep Dhillon <jdhillon@amd.com>,
- Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- Mustapha Ghaddar <mghaddar@amd.com>
+Cc: Jani Nikula <jani.nikula@intel.com>, Matthew Auld <matthew.auld@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Mar 2023, Harry Wentland wrote:
+On 20.03.2023 11:09, Nirmoy Das wrote:
+> Add a helper function to retrieve struct intel_fbdev from
+> struct drm_fb_helper.
+> 
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Imre Deak <imre.deak@intel.com>
+> Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
 
->
->
-> On 3/20/23 04:19, Lee Jones wrote:
-> > On Fri, 17 Mar 2023, Alex Deucher wrote:
-> >
-> >> On Fri, Mar 17, 2023 at 4:23 AM Lee Jones <lee@kernel.org> wrote:
-> >>>
-> >>> Fixes the following W=1 kernel build warning(s):
-> >>>
-> >>>  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:38: warning: Cannot understand  *****************************************************************************
-> >>>  drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_stat.c:76: warning: Cannot understand  *****************************************************************************
-> >>>
-> >>> Cc: Harry Wentland <harry.wentland@amd.com>
-> >>> Cc: Leo Li <sunpeng.li@amd.com>
-> >>> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> >>> Cc: Alex Deucher <alexander.deucher@amd.com>
-> >>> Cc: "Christian König" <christian.koenig@amd.com>
-> >>> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> >>> Cc: David Airlie <airlied@gmail.com>
-> >>> Cc: Daniel Vetter <daniel@ffwll.ch>
-> >>> Cc: Mustapha Ghaddar <mghaddar@amd.com>
-> >>> Cc: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
-> >>> Cc: Jasdeep Dhillon <jdhillon@amd.com>
-> >>> Cc: amd-gfx@lists.freedesktop.org
-> >>> Cc: dri-devel@lists.freedesktop.org
-> >>> Signed-off-by: Lee Jones <lee@kernel.org>
-> >>> ---
-> >>>  drivers/gpu/drm/amd/display/dc/core/dc_stat.c | 28 +++++++------------
-> >>>  1 file changed, 10 insertions(+), 18 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-> >>> index 6c06587dd88c2..5f6392ae31a66 100644
-> >>> --- a/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-> >>> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_stat.c
-> >>> @@ -35,19 +35,15 @@
-> >>>   */
-> >>>
-> >>>  /**
-> >>
-> >> This looks like it follows some other documentation scheme.  Would
-> >> probably be better to just remove the extra * and make it not kernel
-> >> doc.  @Wentland, Harry @Siqueira, Rodrigo ?
-> >
-> > Happy to wait for further input.
-> >
-> > Either demoting from or converting to kerneldoc would be fine.
-> >
->
-> There's no reason they are formatted the way they are. Converting them to
-> kerneldoc is fine.
->
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
-Thanks for confirming Harry.
+Regards
+Andrzej
 
---
-Lee Jones [李琼斯]
+> ---
+>   drivers/gpu/drm/i915/display/intel_fbdev.c | 23 ++++++++++------------
+>   1 file changed, 10 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index 673bcdfb7ff6..8c3b3c3fd0e0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -67,6 +67,11 @@ struct intel_fbdev {
+>   	struct mutex hpd_lock;
+>   };
+>   
+> +static struct intel_fbdev *to_intel_fbdev(struct drm_fb_helper *fb_helper)
+> +{
+> +	return container_of(fb_helper, struct intel_fbdev, helper);
+> +}
+> +
+>   static struct intel_frontbuffer *to_frontbuffer(struct intel_fbdev *ifbdev)
+>   {
+>   	return ifbdev->fb->frontbuffer;
+> @@ -79,9 +84,7 @@ static void intel_fbdev_invalidate(struct intel_fbdev *ifbdev)
+>   
+>   static int intel_fbdev_set_par(struct fb_info *info)
+>   {
+> -	struct drm_fb_helper *fb_helper = info->par;
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(fb_helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+>   	int ret;
+>   
+>   	ret = drm_fb_helper_set_par(info);
+> @@ -93,9 +96,7 @@ static int intel_fbdev_set_par(struct fb_info *info)
+>   
+>   static int intel_fbdev_blank(int blank, struct fb_info *info)
+>   {
+> -	struct drm_fb_helper *fb_helper = info->par;
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(fb_helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+>   	int ret;
+>   
+>   	ret = drm_fb_helper_blank(blank, info);
+> @@ -108,9 +109,7 @@ static int intel_fbdev_blank(int blank, struct fb_info *info)
+>   static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
+>   				   struct fb_info *info)
+>   {
+> -	struct drm_fb_helper *fb_helper = info->par;
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(fb_helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(info->par);
+>   	int ret;
+>   
+>   	ret = drm_fb_helper_pan_display(var, info);
+> @@ -136,8 +135,7 @@ static const struct fb_ops intelfb_ops = {
+>   static int intelfb_alloc(struct drm_fb_helper *helper,
+>   			 struct drm_fb_helper_surface_size *sizes)
+>   {
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+>   	struct drm_framebuffer *fb;
+>   	struct drm_device *dev = helper->dev;
+>   	struct drm_i915_private *dev_priv = to_i915(dev);
+> @@ -193,8 +191,7 @@ static int intelfb_alloc(struct drm_fb_helper *helper,
+>   static int intelfb_create(struct drm_fb_helper *helper,
+>   			  struct drm_fb_helper_surface_size *sizes)
+>   {
+> -	struct intel_fbdev *ifbdev =
+> -		container_of(helper, struct intel_fbdev, helper);
+> +	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+>   	struct intel_framebuffer *intel_fb = ifbdev->fb;
+>   	struct drm_device *dev = helper->dev;
+>   	struct drm_i915_private *dev_priv = to_i915(dev);
+
