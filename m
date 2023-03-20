@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD466C1518
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338436C151B
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:44:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6166C10E577;
-	Mon, 20 Mar 2023 14:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F57D10E1F1;
+	Mon, 20 Mar 2023 14:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F092F10E1F1;
- Mon, 20 Mar 2023 14:44:38 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- p3-20020a17090a74c300b0023f69bc7a68so8144865pjl.4; 
- Mon, 20 Mar 2023 07:44:38 -0700 (PDT)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F49F10E1F1;
+ Mon, 20 Mar 2023 14:44:40 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id o11so12680118ple.1;
+ Mon, 20 Mar 2023 07:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679323478;
+ d=gmail.com; s=20210112; t=1679323480;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xALpMXlLTSMvOfS7mQNvHfzG9+8QM3cmx9b7Fz6Q2XU=;
- b=cxu8fcc47sheJUocs3NFK/ej2kra9Ypkl7pCx1H1P5vOekErq1/GNU3/ZBsh7fug/U
- LK5SzMY1CdLJhSlItGMRB+oN2kKcpG9ZezdZTN4n8Us/IaCGxAzVEcp9zoIzcbsHXM8l
- Qze0Vuq2K4bx7XB8PZONqv84P/6H9hG3kl7ovKb5I6Z0JnHdaUA2grKNAlEuYnpDmN+B
- Y9CLZCVJ6ye3i6QM7sDrald94pji9aWZ+2cy0EOHNDHwDIaL6b6wQ2WpqdFMnc1TBHeR
- qnuRIQoDVOVCXCBRpQ2sohXgh4ltYqi2IkT24bat3p9pR9f1dZscLLR8ov0SK99wX8qm
- HqPA==
+ bh=qmpOBRevcWufl9+ZPvYmrN7HY3DEyxJ7D+2z8txKnGY=;
+ b=QJDUUDwrP9t1D0nGIJK5gSCB/5iP/M2PNO7hkTIuenIDr5wOAdLaLWvmdhSrAoP/Zn
+ B0qM1MmtBAJr1CyCWUOKfjFjWfXiPohphc2rf4b+HHRa3dnAPQaj2dN5SytZOLW1aBjm
+ wU7c8/Rm1GCxHMXyEgPQUNkZ0f7Qm514ozSU9oM0jiEtQd0nParCwFrrGGCOhuKTXOEv
+ qbGIpvuvl0cREN8lGQyEnOoCu+t6B0413wo/TgUKr2RJMEJhpIoCyG/4vn19q+rnv8IP
+ ybxZ27mbTr37mHchmTQe59dNGfiGprzmckYERDAUkWEsIp34IcYsjDydR3Yyvk6NWB/X
+ +qxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679323478;
+ d=1e100.net; s=20210112; t=1679323480;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xALpMXlLTSMvOfS7mQNvHfzG9+8QM3cmx9b7Fz6Q2XU=;
- b=LzdM+cYyxa60Wuqe+WOJHO+q6ZIbzjB//W0jR9vqrG/6skuhVW8JXiCucY5NgMRkAB
- 1PIbbtAHDUwSLHMKt5fRixEHu+dwb3LhWuwPY1lGTzQH2/KeqYwwt2MJdvHsReheDeoP
- 4sk+IU/7Wn1iSLvqiD1j3OH/lRsCBvi4O+N2mOhNyTBfjaGU9QA4NBR/uFoHmqYexrVC
- +xySWEUsmsxcj9Woth9b1MwPV8T1fcgaO97LWZwYE/JIkNtwmG5BcnmO5ecsGUHT3nYZ
- 7zUp6J42QoFxY/GJo1E8Wqpikc+9khNk4L9rISj9J2wDtTSXHhmnIxC0yong+U/DettQ
- elmQ==
-X-Gm-Message-State: AO0yUKUS0jaWI416FOwAd0JTPsz4UfxdXJsc2CL79TPIC2I2qhx5Pv3V
- 8X15MrnuQGd2X8P40G7a6lfmKlchfeA=
-X-Google-Smtp-Source: AK7set/Og7pcuw4IzsENyS7Re6THWUo/30QuP9+MbL2JloNr5T9/L0e5eyWIxk080vd7BjvX4FSQ2A==
-X-Received: by 2002:a05:6a20:7b05:b0:da:39a5:6e66 with SMTP id
- s5-20020a056a207b0500b000da39a56e66mr920491pzh.18.1679323478303; 
- Mon, 20 Mar 2023 07:44:38 -0700 (PDT)
+ bh=qmpOBRevcWufl9+ZPvYmrN7HY3DEyxJ7D+2z8txKnGY=;
+ b=PuemlVfgdkbMAPI6d6kvKRzOcwzTL3WwKr6YX/RATFg9F/HZygb2tgBD90YH1ivoTd
+ qC+3tnsG6d6GJGXmp/b9RqeqeVjIaqG0822bWWPLMXFv2/P3OSSV+Pv7dyhmxqVbjWYH
+ xiNnhB9ecmul4x5kGi/LkYJgg81KN2gkSpQczV+4Pqmn14Y4Rnzqd5+gHM8DGuvksEqm
+ 7efey/jjNhX80RgtIcpnB/SLSDytWQHtUWm5/KlSDVdGBNIUJVBcM8T5jKhQ6JJhF5dr
+ VUW4OzW2neBCt84DJ+fRPDko+n9My8YNjTyVdKjiE2bNkj1sEVl92sZcmpTfFkRKJai4
+ +0PQ==
+X-Gm-Message-State: AO0yUKXpp0JLG2tR6r+BLpHd4NGqnV+H24bQY4KGT8+zlQdK1mG0eddG
+ fRu2xoY32wtJnjrdyusfzbg35/eqBwE=
+X-Google-Smtp-Source: AK7set8xl+EwAB385uyueRZZJelsCmcMVEJo9Hgr+BjmAy9/CkKpfcsmJ83hqOSj+Zn0Gh1/n/okSA==
+X-Received: by 2002:a05:6a20:7a81:b0:d9:240c:acdd with SMTP id
+ u1-20020a056a207a8100b000d9240cacddmr5912063pzh.40.1679323479922; 
+ Mon, 20 Mar 2023 07:44:39 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
  by smtp.gmail.com with ESMTPSA id
- r13-20020a63e50d000000b004fb26a80875sm6389111pgh.22.2023.03.20.07.44.37
+ d22-20020a63fd16000000b00502f9fba637sm6180061pgh.68.2023.03.20.07.44.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 07:44:37 -0700 (PDT)
+ Mon, 20 Mar 2023 07:44:39 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 04/23] drm/msm: Decouple vma tracking from obj lock
-Date: Mon, 20 Mar 2023 07:43:26 -0700
-Message-Id: <20230320144356.803762-5-robdclark@gmail.com>
+Subject: [PATCH v2 05/23] drm/msm/gem: Simplify vmap vs LRU tracking
+Date: Mon, 20 Mar 2023 07:43:27 -0700
+Message-Id: <20230320144356.803762-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230320144356.803762-1-robdclark@gmail.com>
 References: <20230320144356.803762-1-robdclark@gmail.com>
@@ -83,157 +82,84 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-We need to use the inuse count to track that a BO is pinned until
-we have the hw_fence.  But we want to remove the obj lock from the
-job_run() path as this could deadlock against reclaim/shrinker
-(because it is blocking the hw_fence from eventually being signaled).
-So split that tracking out into a per-vma lock with narrower scope.
+vmap'ing is just pinning in disguise.  So treat it as such and simplify
+the LRU tracking.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.h        |  1 +
- drivers/gpu/drm/msm/msm_gem_vma.c    | 44 ++++++++++++++++++++++++----
- drivers/gpu/drm/msm/msm_ringbuffer.c |  2 +-
- 3 files changed, 40 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index d3219c523034..1929f09c5b0d 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -59,6 +59,7 @@ struct msm_fence_context;
- 
- struct msm_gem_vma {
- 	struct drm_mm_node node;
-+	spinlock_t lock;
- 	uint64_t iova;
- 	struct msm_gem_address_space *aspace;
- 	struct list_head list;    /* node in msm_gem_object::vmas */
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 2827679dc39a..98287ed99960 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -40,19 +40,28 @@ msm_gem_address_space_get(struct msm_gem_address_space *aspace)
- 
- bool msm_gem_vma_inuse(struct msm_gem_vma *vma)
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 6734aecf0703..009a34b3a49b 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -626,6 +626,7 @@ int msm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
  {
-+	bool ret = true;
-+
-+	spin_lock(&vma->lock);
-+
- 	if (vma->inuse > 0)
--		return true;
-+		goto out;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
++	struct page **pages;
+ 	int ret = 0;
  
- 	while (vma->fence_mask) {
- 		unsigned idx = ffs(vma->fence_mask) - 1;
- 
- 		if (!msm_fence_completed(vma->fctx[idx], vma->fence[idx]))
--			return true;
-+			goto out;
- 
- 		vma->fence_mask &= ~BIT(idx);
+ 	msm_gem_assert_locked(obj);
+@@ -639,6 +640,10 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+ 		return ERR_PTR(-EBUSY);
  	}
  
--	return false;
-+	ret = false;
++	pages = msm_gem_pin_pages_locked(obj);
++	if (IS_ERR(pages))
++		return ERR_CAST(pages);
 +
-+out:
-+	spin_unlock(&vma->lock);
-+
-+	return ret;
- }
+ 	/* increment vmap_count *before* vmap() call, so shrinker can
+ 	 * check vmap_count (is_vunmapable()) outside of msm_obj lock.
+ 	 * This guarantees that we won't try to msm_gem_vunmap() this
+@@ -648,25 +653,19 @@ static void *get_vaddr(struct drm_gem_object *obj, unsigned madv)
+ 	msm_obj->vmap_count++;
  
- /* Actually unmap memory for the vma */
-@@ -73,8 +82,7 @@ void msm_gem_vma_purge(struct msm_gem_vma *vma)
- 	vma->mapped = false;
- }
- 
--/* Remove reference counts for the mapping */
--void msm_gem_vma_unpin(struct msm_gem_vma *vma)
-+static void vma_unpin_locked(struct msm_gem_vma *vma)
- {
- 	if (GEM_WARN_ON(!vma->inuse))
- 		return;
-@@ -82,13 +90,23 @@ void msm_gem_vma_unpin(struct msm_gem_vma *vma)
- 		vma->inuse--;
- }
- 
-+/* Remove reference counts for the mapping */
-+void msm_gem_vma_unpin(struct msm_gem_vma *vma)
-+{
-+	spin_lock(&vma->lock);
-+	vma_unpin_locked(vma);
-+	spin_unlock(&vma->lock);
-+}
-+
- /* Replace pin reference with fence: */
- void msm_gem_vma_unpin_fenced(struct msm_gem_vma *vma, struct msm_fence_context *fctx)
- {
-+	spin_lock(&vma->lock);
- 	vma->fctx[fctx->index] = fctx;
- 	vma->fence[fctx->index] = fctx->last_fence;
- 	vma->fence_mask |= BIT(fctx->index);
--	msm_gem_vma_unpin(vma);
-+	vma_unpin_locked(vma);
-+	spin_unlock(&vma->lock);
- }
- 
- /* Map and pin vma: */
-@@ -103,7 +121,9 @@ msm_gem_vma_map(struct msm_gem_vma *vma, int prot,
- 		return -EINVAL;
- 
- 	/* Increase the usage counter */
-+	spin_lock(&vma->lock);
- 	vma->inuse++;
-+	spin_unlock(&vma->lock);
- 
- 	if (vma->mapped)
- 		return 0;
-@@ -113,11 +133,22 @@ msm_gem_vma_map(struct msm_gem_vma *vma, int prot,
- 	if (!aspace)
- 		return 0;
- 
-+	/*
-+	 * NOTE: iommu/io-pgtable can allocate pages, so we cannot hold
-+	 * a lock across map/unmap which is also used in the job_run()
-+	 * path, as this can cause deadlock in job_run() vs shrinker/
-+	 * reclaim.
-+	 *
-+	 * Revisit this if we can come up with a scheme to pre-alloc pages
-+	 * for the pgtable in map/unmap ops.
-+	 */
- 	ret = aspace->mmu->funcs->map(aspace->mmu, vma->iova, sgt, size, prot);
- 
- 	if (ret) {
- 		vma->mapped = false;
-+		spin_lock(&vma->lock);
- 		vma->inuse--;
-+		spin_unlock(&vma->lock);
+ 	if (!msm_obj->vaddr) {
+-		struct page **pages = get_pages(obj);
+-		if (IS_ERR(pages)) {
+-			ret = PTR_ERR(pages);
+-			goto fail;
+-		}
+ 		msm_obj->vaddr = vmap(pages, obj->size >> PAGE_SHIFT,
+ 				VM_MAP, msm_gem_pgprot(msm_obj, PAGE_KERNEL));
+ 		if (msm_obj->vaddr == NULL) {
+ 			ret = -ENOMEM;
+ 			goto fail;
+ 		}
+-
+-		update_lru(obj);
  	}
  
- 	return ret;
-@@ -148,6 +179,7 @@ struct msm_gem_vma *msm_gem_vma_new(struct msm_gem_address_space *aspace)
- 	if (!vma)
- 		return NULL;
+ 	return msm_obj->vaddr;
  
-+	spin_lock_init(&vma->lock);
- 	vma->aspace = aspace;
+ fail:
+ 	msm_obj->vmap_count--;
++	msm_gem_unpin_locked(obj);
+ 	return ERR_PTR(ret);
+ }
  
- 	return vma;
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index 44a22b283730..31b4fbf96c36 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -23,8 +23,8 @@ static struct dma_fence *msm_job_run(struct drm_sched_job *job)
- 	for (i = 0; i < submit->nr_bos; i++) {
- 		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+@@ -705,6 +704,7 @@ void msm_gem_put_vaddr_locked(struct drm_gem_object *obj)
+ 	GEM_WARN_ON(msm_obj->vmap_count < 1);
  
--		msm_gem_lock(obj);
- 		msm_gem_vma_unpin_fenced(submit->bos[i].vma, fctx);
-+		msm_gem_lock(obj);
- 		msm_gem_unpin_locked(obj);
- 		msm_gem_unlock(obj);
- 		submit->bos[i].flags &= ~(BO_VMA_PINNED | BO_OBJ_PINNED);
+ 	msm_obj->vmap_count--;
++	msm_gem_unpin_locked(obj);
+ }
+ 
+ void msm_gem_put_vaddr(struct drm_gem_object *obj)
+@@ -813,10 +813,9 @@ static void update_lru(struct drm_gem_object *obj)
+ 
+ 	if (!msm_obj->pages) {
+ 		GEM_WARN_ON(msm_obj->pin_count);
+-		GEM_WARN_ON(msm_obj->vmap_count);
+ 
+ 		drm_gem_lru_move_tail(&priv->lru.unbacked, obj);
+-	} else if (msm_obj->pin_count || msm_obj->vmap_count) {
++	} else if (msm_obj->pin_count) {
+ 		drm_gem_lru_move_tail(&priv->lru.pinned, obj);
+ 	} else if (msm_obj->madv == MSM_MADV_WILLNEED) {
+ 		drm_gem_lru_move_tail(&priv->lru.willneed, obj);
 -- 
 2.39.2
 
