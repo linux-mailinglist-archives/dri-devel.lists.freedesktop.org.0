@@ -1,63 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8A76C16AA
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:08:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7613A6C173F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:12:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6975910E2B5;
-	Mon, 20 Mar 2023 15:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32F1F10E5D5;
+	Mon, 20 Mar 2023 15:12:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E224110E1C0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:07:56 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 8AD491F896;
- Mon, 20 Mar 2023 15:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679324875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b3zTQT1jnVYYBAbmkb0Rkl2KItyUgFua+RzCRC5T03c=;
- b=XpwmmeLyBFyzcjutEs167xloQYQeWM7LW9Qapq3Qb08D+99dnXXOIE9w5w7x6LEUfewZkT
- /gzSOf5tkthm9/qDbSdJzT+qrZDCBzPOqAvyL4Tsc9ZCyiyxrfX7ApwcPEWwaPCtFDmK5V
- qodE+lLFesSfqVKsP4ubwqLHHuo9spE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679324875;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b3zTQT1jnVYYBAbmkb0Rkl2KItyUgFua+RzCRC5T03c=;
- b=aJEYUpRRaiTiSe21D8K3jx5oSAf78qbfBFlAyphYtlFD/oQc09Bo8I/6iOIT3TZubN0zXR
- xNkk3BLHxdWcGmBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4FD3513A00;
- Mon, 20 Mar 2023 15:07:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YKpvEst2GGTXOgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Mar 2023 15:07:55 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-graphics-maintainer@vmware.com
-Subject: [PATCH v2 8/8] drm/fbdev-generic: Rename symbols
-Date: Mon, 20 Mar 2023 16:07:51 +0100
-Message-Id: <20230320150751.20399-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230320150751.20399-1-tzimmermann@suse.de>
-References: <20230320150751.20399-1-tzimmermann@suse.de>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DEA10E5C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:12:08 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32KBuskY014186; Mon, 20 Mar 2023 15:12:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=5cEoU2NBxUwPL3Bn4aaLYv6n6m7115Pf66019maNGR4=;
+ b=ZZ607j+9L/Iy4Or+czJNpO4H+qQqk3KHFvSN1Hq0k+1l6xFj7PMKm7gIAPcOMdf2/Gly
+ nckEpxGuqj5AHLWfWUswMRlXTCZwCgP8JjybiNWFmgGUPcIROZOs0fkFuwM4z4fR1uda
+ 6CmJv7uZyFRqlBMnJerQy0eARaUNTH5WJa1oexgMj/hF9LAJ4H0G383BF1+TAccepNwX
+ a2MjD63oXw97rrUBal49PguWKnoQTwdS136t8GpNPg3idydF5oeUli4ub8szHTHxHuHl
+ wg0mIegaRf/fhXUU/E5sLWGgqvI5TriAN9ZcZRtyGqSgYBn+AKjoF3fsAFvkPXFWU9tQ lg== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pepfbgjx0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Mar 2023 15:12:01 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32KFBcYH014180
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Mar 2023 15:11:38 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Mon, 20 Mar 2023 08:11:37 -0700
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <ogabbay@kernel.org>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <jacek.lawrynowicz@linux.intel.com>, <stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v4 0/8] QAIC accel driver
+Date: Mon, 20 Mar 2023 09:11:06 -0600
+Message-ID: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: QWuFRkAidqlVR9mdaysrrGCpPmwwqLVh
+X-Proofpoint-ORIG-GUID: QWuFRkAidqlVR9mdaysrrGCpPmwwqLVh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-20_10,2023-03-20_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 spamscore=0 impostorscore=0
+ mlxlogscore=863 phishscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303200129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,223 +79,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+ quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename symbols to match the style of other fbdev-emulation source
-code. No functional changes.
+This series introduces a driver under the accel subsystem (QAIC -
+Qualcomm AIC) for the Qualcomm Cloud AI 100 product (AIC100).  AIC100 is
+a PCIe adapter card that hosts a dedicated machine learning inference
+accelerator.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Zack Rusin <zackr@vmware.com>
----
- drivers/gpu/drm/drm_fbdev_generic.c | 66 ++++++++++++++---------------
- 1 file changed, 33 insertions(+), 33 deletions(-)
+The previous version (v3) can be found at:
+https://lore.kernel.org/all/1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com/
 
-diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-index e7eeba0c44b4..8e5148bf40bb 100644
---- a/drivers/gpu/drm/drm_fbdev_generic.c
-+++ b/drivers/gpu/drm/drm_fbdev_generic.c
-@@ -13,7 +13,7 @@
- #include <drm/drm_fbdev_generic.h>
- 
- /* @user: 1=userspace, 0=fbcon */
--static int drm_fbdev_fb_open(struct fb_info *info, int user)
-+static int drm_fbdev_generic_fb_open(struct fb_info *info, int user)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
- 
-@@ -24,7 +24,7 @@ static int drm_fbdev_fb_open(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static int drm_fbdev_fb_release(struct fb_info *info, int user)
-+static int drm_fbdev_generic_fb_release(struct fb_info *info, int user)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
- 
-@@ -34,7 +34,7 @@ static int drm_fbdev_fb_release(struct fb_info *info, int user)
- 	return 0;
- }
- 
--static void drm_fbdev_fb_destroy(struct fb_info *info)
-+static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
- {
- 	struct drm_fb_helper *fb_helper = info->par;
- 	void *shadow = info->screen_buffer;
-@@ -52,10 +52,10 @@ static void drm_fbdev_fb_destroy(struct fb_info *info)
- 	kfree(fb_helper);
- }
- 
--static const struct fb_ops drm_fbdev_fb_ops = {
-+static const struct fb_ops drm_fbdev_generic_fb_ops = {
- 	.owner		= THIS_MODULE,
--	.fb_open	= drm_fbdev_fb_open,
--	.fb_release	= drm_fbdev_fb_release,
-+	.fb_open	= drm_fbdev_generic_fb_open,
-+	.fb_release	= drm_fbdev_generic_fb_release,
- 	.fb_read	= drm_fb_helper_sys_read,
- 	.fb_write	= drm_fb_helper_sys_write,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -63,14 +63,14 @@ static const struct fb_ops drm_fbdev_fb_ops = {
- 	.fb_copyarea	= drm_fb_helper_sys_copyarea,
- 	.fb_imageblit	= drm_fb_helper_sys_imageblit,
- 	.fb_mmap	= fb_deferred_io_mmap,
--	.fb_destroy	= drm_fbdev_fb_destroy,
-+	.fb_destroy	= drm_fbdev_generic_fb_destroy,
- };
- 
- /*
-  * This function uses the client API to create a framebuffer backed by a dumb buffer.
-  */
--static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
--			      struct drm_fb_helper_surface_size *sizes)
-+static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
-+					     struct drm_fb_helper_surface_size *sizes)
- {
- 	struct drm_client_dev *client = &fb_helper->client;
- 	struct drm_device *dev = fb_helper->dev;
-@@ -109,7 +109,7 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 
- 	drm_fb_helper_fill_info(info, fb_helper, sizes);
- 
--	info->fbops = &drm_fbdev_fb_ops;
-+	info->fbops = &drm_fbdev_generic_fb_ops;
- 	info->flags = FBINFO_DEFAULT;
- 
- 	/* screen */
-@@ -140,9 +140,9 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
- 	return ret;
- }
- 
--static void drm_fbdev_damage_blit_real(struct drm_fb_helper *fb_helper,
--				       struct drm_clip_rect *clip,
--				       struct iosys_map *dst)
-+static void drm_fbdev_generic_damage_blit_real(struct drm_fb_helper *fb_helper,
-+					       struct drm_clip_rect *clip,
-+					       struct iosys_map *dst)
- {
- 	struct drm_framebuffer *fb = fb_helper->fb;
- 	size_t offset = clip->y1 * fb->pitches[0];
-@@ -179,8 +179,8 @@ static void drm_fbdev_damage_blit_real(struct drm_fb_helper *fb_helper,
- 	}
- }
- 
--static int drm_fbdev_damage_blit(struct drm_fb_helper *fb_helper,
--				 struct drm_clip_rect *clip)
-+static int drm_fbdev_generic_damage_blit(struct drm_fb_helper *fb_helper,
-+					 struct drm_clip_rect *clip)
- {
- 	struct drm_client_buffer *buffer = fb_helper->buffer;
- 	struct iosys_map map, dst;
-@@ -204,7 +204,7 @@ static int drm_fbdev_damage_blit(struct drm_fb_helper *fb_helper,
- 		goto out;
- 
- 	dst = map;
--	drm_fbdev_damage_blit_real(fb_helper, clip, &dst);
-+	drm_fbdev_generic_damage_blit_real(fb_helper, clip, &dst);
- 
- 	drm_client_buffer_vunmap(buffer);
- 
-@@ -214,7 +214,8 @@ static int drm_fbdev_damage_blit(struct drm_fb_helper *fb_helper,
- 	return ret;
- }
- 
--static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect *clip)
-+static int drm_fbdev_generic_helper_fb_dirty(struct drm_fb_helper *helper,
-+					     struct drm_clip_rect *clip)
- {
- 	struct drm_device *dev = helper->dev;
- 	int ret;
-@@ -223,7 +224,7 @@ static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect
- 	if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
- 		return 0;
- 
--	ret = drm_fbdev_damage_blit(helper, clip);
-+	ret = drm_fbdev_generic_damage_blit(helper, clip);
- 	if (drm_WARN_ONCE(dev, ret, "Damage blitter failed: ret=%d\n", ret))
- 		return ret;
- 
-@@ -236,12 +237,12 @@ static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect
- 	return 0;
- }
- 
--static const struct drm_fb_helper_funcs drm_fb_helper_generic_funcs = {
--	.fb_probe = drm_fbdev_fb_probe,
--	.fb_dirty = drm_fbdev_fb_dirty,
-+static const struct drm_fb_helper_funcs drm_fbdev_generic_helper_funcs = {
-+	.fb_probe = drm_fbdev_generic_helper_fb_probe,
-+	.fb_dirty = drm_fbdev_generic_helper_fb_dirty,
- };
- 
--static void drm_fbdev_client_unregister(struct drm_client_dev *client)
-+static void drm_fbdev_generic_client_unregister(struct drm_client_dev *client)
- {
- 	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
- 
-@@ -254,14 +255,14 @@ static void drm_fbdev_client_unregister(struct drm_client_dev *client)
- 	}
- }
- 
--static int drm_fbdev_client_restore(struct drm_client_dev *client)
-+static int drm_fbdev_generic_client_restore(struct drm_client_dev *client)
- {
- 	drm_fb_helper_lastclose(client->dev);
- 
- 	return 0;
- }
- 
--static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
-+static int drm_fbdev_generic_client_hotplug(struct drm_client_dev *client)
- {
- 	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
- 	struct drm_device *dev = client->dev;
-@@ -290,11 +291,11 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
- 	return ret;
- }
- 
--static const struct drm_client_funcs drm_fbdev_client_funcs = {
-+static const struct drm_client_funcs drm_fbdev_generic_client_funcs = {
- 	.owner		= THIS_MODULE,
--	.unregister	= drm_fbdev_client_unregister,
--	.restore	= drm_fbdev_client_restore,
--	.hotplug	= drm_fbdev_client_hotplug,
-+	.unregister	= drm_fbdev_generic_client_unregister,
-+	.restore	= drm_fbdev_generic_client_restore,
-+	.hotplug	= drm_fbdev_generic_client_hotplug,
- };
- 
- /**
-@@ -320,8 +321,7 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
-  *
-  * The fbdev is destroyed by drm_dev_unregister().
-  */
--void drm_fbdev_generic_setup(struct drm_device *dev,
--			     unsigned int preferred_bpp)
-+void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferred_bpp)
- {
- 	struct drm_fb_helper *fb_helper;
- 	int ret;
-@@ -332,15 +332,15 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
- 	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
- 	if (!fb_helper)
- 		return;
--	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &drm_fb_helper_generic_funcs);
-+	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &drm_fbdev_generic_helper_funcs);
- 
--	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_client_funcs);
-+	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_generic_client_funcs);
- 	if (ret) {
- 		drm_err(dev, "Failed to register client: %d\n", ret);
- 		goto err_drm_client_init;
- 	}
- 
--	ret = drm_fbdev_client_hotplug(&fb_helper->client);
-+	ret = drm_fbdev_generic_client_hotplug(&fb_helper->client);
- 	if (ret)
- 		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
- 
+v4:
+-Whitespace fixes
+-Add MODULE_PARM_DESC for the module parameters
+-Refactor qaic_open error handling
+-Shorten mhi boot error message
+-Remove extranious reset check
+-Remove _ prefix in qaic_control structs
+-Refactor encode_dma()
+-Refactor __qaic_execute_bo_ioctl
+-Remove extraniuous open_count checks
+-List drm-misc tree in MAINTAINERS
+
+v3:
+-Various style updates and word smithing
+-Remove unused function declarations
+-Drop iommu workaround for sg lists and outdated reserve_pages()
+-Remove unnecessary includes
+-Refactor qaic_pci_probe()
+-Use FIELD_PREP for ENCODE_SEM
+-Gate qaic subdirectory on the kconfig symbol
+-Add dri-devel@lists.freedesktop.org to MAINTAINERS entry
+-Rename copy_sgt()
+-Correct guard macro for qaic.h and cplusplus macro
+-Add comment in qaic_mhi_remove
+-Fix qaic_open use after free
+-Use devm allocs in qaic_mhi_register_controller()
+-Remove partition device ioctl.
+
+v2:
+-Addressed comments from RFC
+-Reduced the code to the core minimum by dropping telemetery, etc
+-Conversion to accel subsystem
+-Dropped versioning
+-Add mhi_qaic_cntl component
+-Restructure the documentation
+-Pull in a few fixes from the downstream tree
+
+Jeffrey Hugo (7):
+  accel/qaic: Add documentation for AIC100 accelerator driver
+  accel/qaic: Add uapi and core driver file
+  accel/qaic: Add MHI controller
+  accel/qaic: Add control path
+  accel/qaic: Add datapath
+  accel/qaic: Add qaic driver to the build system
+  MAINTAINERS: Add entry for QAIC driver
+
+Pranjal Ramajor Asha Kanojiya (1):
+  accel/qaic: Add mhi_qaic_cntl
+
+ Documentation/accel/index.rst       |    1 +
+ Documentation/accel/qaic/aic100.rst |  501 +++++++++
+ Documentation/accel/qaic/index.rst  |   13 +
+ Documentation/accel/qaic/qaic.rst   |  169 ++++
+ MAINTAINERS                         |   10 +
+ drivers/accel/Kconfig               |    1 +
+ drivers/accel/Makefile              |    1 +
+ drivers/accel/qaic/Kconfig          |   23 +
+ drivers/accel/qaic/Makefile         |   13 +
+ drivers/accel/qaic/mhi_controller.c |  563 +++++++++++
+ drivers/accel/qaic/mhi_controller.h |   16 +
+ drivers/accel/qaic/mhi_qaic_ctrl.c  |  571 +++++++++++
+ drivers/accel/qaic/mhi_qaic_ctrl.h  |   12 +
+ drivers/accel/qaic/qaic.h           |  282 ++++++
+ drivers/accel/qaic/qaic_control.c   | 1527 ++++++++++++++++++++++++++++
+ drivers/accel/qaic/qaic_data.c      | 1902 +++++++++++++++++++++++++++++++++++
+ drivers/accel/qaic/qaic_drv.c       |  647 ++++++++++++
+ include/uapi/drm/qaic_accel.h       |  397 ++++++++
+ 18 files changed, 6649 insertions(+)
+ create mode 100644 Documentation/accel/qaic/aic100.rst
+ create mode 100644 Documentation/accel/qaic/index.rst
+ create mode 100644 Documentation/accel/qaic/qaic.rst
+ create mode 100644 drivers/accel/qaic/Kconfig
+ create mode 100644 drivers/accel/qaic/Makefile
+ create mode 100644 drivers/accel/qaic/mhi_controller.c
+ create mode 100644 drivers/accel/qaic/mhi_controller.h
+ create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.c
+ create mode 100644 drivers/accel/qaic/mhi_qaic_ctrl.h
+ create mode 100644 drivers/accel/qaic/qaic.h
+ create mode 100644 drivers/accel/qaic/qaic_control.c
+ create mode 100644 drivers/accel/qaic/qaic_data.c
+ create mode 100644 drivers/accel/qaic/qaic_drv.c
+ create mode 100644 include/uapi/drm/qaic_accel.h
+
 -- 
-2.40.0
+2.7.4
 
