@@ -1,64 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA676C1551
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 15:45:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F29626C188F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:25:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AB1410E5BC;
-	Mon, 20 Mar 2023 14:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57DA910E5C6;
+	Mon, 20 Mar 2023 15:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D5710E5B8;
- Mon, 20 Mar 2023 14:45:18 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id y19so6723063pgk.5;
- Mon, 20 Mar 2023 07:45:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679323518;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oauBr8L/4q4Zcgdj0lHO6PXlptkvS9AYRCFUFpLRYaw=;
- b=W0rr2Cqq8hYbPCTku8RNPwzAfVaC1WEIRqg/Jo/IaQ3jvSFgpYQ8herChIJi7syMJ5
- YIfI8bLz+etpsyzlOr+ptGN7aE4yv3qQncLdwK43FM6YBwMvLv2nGuzW75q86R0a+YAr
- /BdXDMgQTi9jJFtm5pTOw4gXpkvXIjjdQ3m0/xGK4graIJcbepoylaU8+L3vUi3eQAwo
- mtSrja7NmvnQcnDLmqflMFRZ/y0KW5yPJuyn1li/3tS0CJzypeUbWgn9VKnIYHVcT7zk
- uSs37Ij8K4IFmzBssfj5JXRk9yXHeRHiK+Cxe3xgHa7l3E0jYsSkcDMjuztlg2g3IcnX
- 4Yqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679323518;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oauBr8L/4q4Zcgdj0lHO6PXlptkvS9AYRCFUFpLRYaw=;
- b=Jw5vtUCfrnuthuXSiLGp/ayt1axj+0RFbavHwNbBdKmDsnqdGl6UitlWz33y51qKTv
- Tgduuibng6QvkyXoL36zi9oZ7nWdhq3oOSCU5Tx4x6NVS08NM0doUeYutwlW3lyg3apL
- jyigz+Hua5/EfQoa6D6UVA8Gd3rkjNRqlG6e9iQQhSA/Y4xFkns0i4XZNo1SszYeYFKV
- ucl3P0mSfrtk5jmJo9umJ0MHS2to8znAlGTIA+a+aQsrM0yXpvWQx+spLk/gw9T9ZSI6
- qo8xXsXoqAczarVaHgvEP/WkfJGmKvjJEukvY4kD/oQZ2ak2FsOKkEwxF6NQXzXac0iY
- 2gLQ==
-X-Gm-Message-State: AO0yUKW1YWTPZG38HwULHILIPk2rtd5lRt1/GoNOT3sVKunW6J9o/MM8
- TP92SUBj1yattJHcbgYcUc2NrJfheak=
-X-Google-Smtp-Source: AK7set9yi2RN2vxR93mdgHSZKeyGB3sxPREYIvUl6fxuZOWrBiOHFnCQYgj8gj4DknW3GheF00DOIw==
-X-Received: by 2002:a62:1a05:0:b0:5a8:9858:750a with SMTP id
- a5-20020a621a05000000b005a89858750amr13197023pfa.13.1679323517814; 
- Mon, 20 Mar 2023 07:45:17 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
- by smtp.gmail.com with ESMTPSA id
- j24-20020aa78018000000b006245e034059sm6618112pfi.178.2023.03.20.07.45.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Mar 2023 07:45:17 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 23/23] drm/sched: Add (optional) fence signaling annotation
-Date: Mon, 20 Mar 2023 07:43:45 -0700
-Message-Id: <20230320144356.803762-24-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230320144356.803762-1-robdclark@gmail.com>
-References: <20230320144356.803762-1-robdclark@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EDF810E5C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:25:38 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9AAEF61573;
+ Mon, 20 Mar 2023 15:25:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82EB7C4339B;
+ Mon, 20 Mar 2023 15:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1679325937;
+ bh=6DntsOsD5o9L4KQWCR+51YyGazQ+SlIpyTP/7rWUeKQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=I9RsKRI3vdwdhQp2S455m/2InKNOxWaWQDmxjSxP5Fs7zbu1aHuwDcTsGhpY5zZab
+ bTL+lzkLRsuybdXNmIsNSL85PAqR4k5d9Fe7oiEPl47Is0lpfHC2Izoy01t0fE0QaH
+ qqUBRg5aFXnoAPkyq7VVQucxbhSQAkN6zqeVFv44=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Subject: [PATCH 6.2 128/211] drm/ttm: Fix a NULL pointer dereference
+Date: Mon, 20 Mar 2023 15:54:23 +0100
+Message-Id: <20230320145518.756840440@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230320145513.305686421@linuxfoundation.org>
+References: <20230320145513.305686421@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,91 +50,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Philip Yang <Philip.Yang@amd.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Anshuman Gupta <anshuman.gupta@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Qiang Yu <qiang.yu@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-Based on
-https://lore.kernel.org/dri-devel/20200604081224.863494-10-daniel.vetter@ffwll.ch/
-but made to be optional.
+commit 9a9a8fe26751334b7739193a94eba741073b8a55 upstream.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+The LRU mechanism may look up a resource in the process of being removed
+from an object. The locking rules here are a bit unclear but it looks
+currently like res->bo assignment is protected by the LRU lock, whereas
+bo->resource is protected by the object lock, while *clearing* of
+bo->resource is also protected by the LRU lock. This means that if
+we check that bo->resource points to the LRU resource under the LRU
+lock we should be safe.
+So perform that check before deciding to swap out a bo. That avoids
+dereferencing a NULL bo->resource in ttm_bo_swapout().
+
+Fixes: 6a9b02899402 ("drm/ttm: move the LRU into resource handling v4")
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Philip Yang <Philip.Yang@amd.com>
+Cc: Qiang Yu <qiang.yu@amd.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Anshuman Gupta <anshuman.gupta@intel.com>
+Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.19+
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230307144621.10748-2-thomas.hellstrom@linux.intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/msm/msm_ringbuffer.c   | 1 +
- drivers/gpu/drm/scheduler/sched_main.c | 9 +++++++++
- include/drm/gpu_scheduler.h            | 2 ++
- 3 files changed, 12 insertions(+)
+ drivers/gpu/drm/ttm/ttm_device.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.c b/drivers/gpu/drm/msm/msm_ringbuffer.c
-index b60199184409..7e42baf16cd0 100644
---- a/drivers/gpu/drm/msm/msm_ringbuffer.c
-+++ b/drivers/gpu/drm/msm/msm_ringbuffer.c
-@@ -93,6 +93,7 @@ struct msm_ringbuffer *msm_ringbuffer_new(struct msm_gpu *gpu, int id,
- 	 /* currently managing hangcheck ourselves: */
- 	sched_timeout = MAX_SCHEDULE_TIMEOUT;
+--- a/drivers/gpu/drm/ttm/ttm_device.c
++++ b/drivers/gpu/drm/ttm/ttm_device.c
+@@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device
+ 			struct ttm_buffer_object *bo = res->bo;
+ 			uint32_t num_pages;
  
-+	ring->sched.fence_signaling = true;
- 	ret = drm_sched_init(&ring->sched, &msm_sched_ops,
- 			num_hw_submissions, 0, sched_timeout,
- 			NULL, NULL, to_msm_bo(ring->bo)->name, gpu->dev->dev);
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 4e6ad6e122bc..c2ee44d6224b 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -978,10 +978,15 @@ static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
- static int drm_sched_main(void *param)
- {
- 	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
-+	const bool fence_signaling = sched->fence_signaling;
-+	bool fence_cookie;
- 	int r;
+-			if (!bo)
++			if (!bo || bo->resource != res)
+ 				continue;
  
- 	sched_set_fifo_low(current);
- 
-+	if (fence_signaling)
-+		fence_cookie = dma_fence_begin_signalling();
-+
- 	while (!kthread_should_stop()) {
- 		struct drm_sched_entity *entity = NULL;
- 		struct drm_sched_fence *s_fence;
-@@ -1039,6 +1044,10 @@ static int drm_sched_main(void *param)
- 
- 		wake_up(&sched->job_scheduled);
- 	}
-+
-+	if (fence_signaling)
-+		dma_fence_end_signalling(fence_cookie);
-+
- 	return 0;
- }
- 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 9db9e5e504ee..8f23ea522e22 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -483,6 +483,7 @@ struct drm_sched_backend_ops {
-  * @ready: marks if the underlying HW is ready to work
-  * @free_guilty: A hit to time out handler to free the guilty job.
-  * @dev: system &struct device
-+ * @fence_signaling: Opt in to fence signaling annotations
-  *
-  * One scheduler is implemented for each hardware ring.
-  */
-@@ -507,6 +508,7 @@ struct drm_gpu_scheduler {
- 	bool				ready;
- 	bool				free_guilty;
- 	struct device			*dev;
-+	bool 				fence_signaling;
- };
- 
- int drm_sched_init(struct drm_gpu_scheduler *sched,
--- 
-2.39.2
+ 			num_pages = PFN_UP(bo->base.size);
+
 
