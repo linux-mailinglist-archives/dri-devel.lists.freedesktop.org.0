@@ -1,43 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884A66C1866
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:23:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9104C6C169D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 16:08:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABDEA10E5AB;
-	Mon, 20 Mar 2023 15:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92C9810E00C;
+	Mon, 20 Mar 2023 15:07:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8555210E5AB
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:23:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBAA610E00C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 15:07:54 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DF413615A7;
- Mon, 20 Mar 2023 15:23:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328C4C4339C;
- Mon, 20 Mar 2023 15:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1679325827;
- bh=SfCZawwhNVkHFA9/sY9LZNRj6mtwDsVyCSJo6iC8ZxI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R+kRlSBM027emes+TDJwlRfWMAzqt8y0XSLiJY0ujgljnASz9gmo9/n/1BvN+dvhW
- 2sIs/TlzQCquh9uL9eDjSBHhqR6yg/vMnW3vJ5cXbWbj0QJhjFdiT9srcVK1frQ7iu
- UnXqhSFNXarCLgj1BIOPBWALwxdxSyuxOgt35pzI=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Subject: [PATCH 6.1 127/198] drm/ttm: Fix a NULL pointer dereference
-Date: Mon, 20 Mar 2023 15:54:25 +0100
-Message-Id: <20230320145512.868867333@linuxfoundation.org>
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7A5641F88F;
+ Mon, 20 Mar 2023 15:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1679324873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/F3Uv+gDIJaQ28jjNA4mJ3c4Lr8XCJ5cTNG7r+OmCu0=;
+ b=gbzEeQ5v14FqgVm1HEPPWosuLRuJSkL0wAelyZ+0LVzJefDQJMl/Wj0hPL+FRas8ZRiuWv
+ k2ha10IOh4Ce0I3/ijDt2q7zEglcrj2j/fnDmG/VWG3UV0QoBS5pHFLxBqFGY3Rmsoc9gb
+ zQlULcrVcMGgMJpARDgMHs70k8A4SI8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1679324873;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/F3Uv+gDIJaQ28jjNA4mJ3c4Lr8XCJ5cTNG7r+OmCu0=;
+ b=QisLF+tDZ9Skilm0JjkO5y3wOQ9h8e5opDbdLDzNxayB6pw4XnT4646MlQohtc4Ujq+7jn
+ UneD23GV0HU9mJCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CDA513A00;
+ Mon, 20 Mar 2023 15:07:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id B+/hDcl2GGTXOgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 20 Mar 2023 15:07:53 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-graphics-maintainer@vmware.com
+Subject: [PATCH v2 0/8] drm/fbdev-generic: Mandatory shadow buffering
+Date: Mon, 20 Mar 2023 16:07:43 +0100
+Message-Id: <20230320150751.20399-1-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230320145507.420176832@linuxfoundation.org>
-References: <20230320145507.420176832@linuxfoundation.org>
-User-Agent: quilt/0.67
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,77 +64,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Anshuman Gupta <anshuman.gupta@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- patches@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Qiang Yu <qiang.yu@amd.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+After adding fbdev-dma and converting drivers, all users of
+fbdev-generic require shadow buffering. Make it mandatory and
+remove all other codepaths. This change greatly simplifies the
+code for generic fbdev emulation. It will work with any driver
+that supports GEM's vmap and vunmap.
 
-commit 9a9a8fe26751334b7739193a94eba741073b8a55 upstream.
+The change further allows for a number of cleanups and fixes. The
+flag prefer_shadow_fbdev is unused and to be removed. Probing in
+fbdev-generic is now simple enough to roll back if it fails. Further
+simplify the code for exporting the framebuffer's physical address.
+Finally rename the symbols to follow other fbdev emulation.
 
-The LRU mechanism may look up a resource in the process of being removed
-from an object. The locking rules here are a bit unclear but it looks
-currently like res->bo assignment is protected by the LRU lock, whereas
-bo->resource is protected by the object lock, while *clearing* of
-bo->resource is also protected by the LRU lock. This means that if
-we check that bo->resource points to the LRU resource under the LRU
-lock we should be safe.
-So perform that check before deciding to swap out a bo. That avoids
-dereferencing a NULL bo->resource in ttm_bo_swapout().
+v2:
+	* handle screen_size in separate patches (Javier)
 
-Fixes: 6a9b02899402 ("drm/ttm: move the LRU into resource handling v4")
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-Cc: Philip Yang <Philip.Yang@amd.com>
-Cc: Qiang Yu <qiang.yu@amd.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Nirmoy Das <nirmoy.das@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-Cc: Anshuman Gupta <anshuman.gupta@intel.com>
-Cc: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.19+
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230307144621.10748-2-thomas.hellstrom@linux.intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/ttm/ttm_device.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thomas Zimmermann (8):
+  drm/fbdev-generic: Always use shadow buffering
+  drm/fbdev-generic: Remove unused prefer_shadow_fbdev flag
+  drm/fb-helper: Export drm_fb_helper_release_info()
+  drm/fb-helper: Support smem_len in deferred I/O
+  drm/fbdev-generic: Set screen size to size of GEM buffer
+  drm/fbdev-generic: Clean up after failed probing
+  drm/fb-helper: Consolidate CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM
+  drm/fbdev-generic: Rename symbols
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index e7147e304637..b84f74807ca1 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -158,7 +158,7 @@ int ttm_device_swapout(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
- 			struct ttm_buffer_object *bo = res->bo;
- 			uint32_t num_pages;
- 
--			if (!bo)
-+			if (!bo || bo->resource != res)
- 				continue;
- 
- 			num_pages = PFN_UP(bo->base.size);
+ drivers/gpu/drm/drm_fb_helper.c     |  63 ++++---
+ drivers/gpu/drm/drm_fbdev_dma.c     |   9 +-
+ drivers/gpu/drm/drm_fbdev_generic.c | 279 +++++++++-------------------
+ drivers/gpu/drm/tiny/bochs.c        |   1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c |   1 -
+ include/drm/drm_fb_helper.h         |  14 +-
+ include/drm/drm_mode_config.h       |   7 -
+ 7 files changed, 130 insertions(+), 244 deletions(-)
+
+
+base-commit: 3333280906872bb8c2dff02666c7a8e46f085b24
 -- 
 2.40.0
-
-
 
