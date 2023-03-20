@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44FD6C0B06
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 08:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD036C0B3A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 08:15:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0CCF10E1DC;
-	Mon, 20 Mar 2023 07:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F1D10E1F6;
+	Mon, 20 Mar 2023 07:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D3810E1DC
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 07:03:56 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 42DE96123A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 07:03:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1D6DC4339C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 07:03:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679295835;
- bh=2H4AQ2SU481Tr1WbHtk4czK916TUGFna3lsTDF/M42w=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=XfxP8nunHNfa8ecRMsWEdiXfHmD+3ANvXwhSFmHl6NgiQ92xGH2ytDTTE30DlnvHp
- hadk9c0S+gKq7GCAtzOn6GnLcSlti3r1PSZGcJP2LvUJPQHn+bErmMsQb5kuNUGTvP
- vFiRGpdKIXVLPCz2g0Gh0CSe4bwzy3qd1fqgbJzGI/q9eoswRXG+7U6qedo18nqEn4
- wDu6oT/0W4krCmW8cweVWUfQDiB5Qi1lQbtOo/DrrcqV5aE45NnM8Ta92roPIWO+gf
- M8KUsHLXscTFqv4kI3yP3YQru6n/n2P6zbsvfj98q2ASzogKpxJkYYHYMtTAlxVdqr
- ia3yMYif2LtUA==
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-5416b0ab0ecso207451187b3.6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 00:03:55 -0700 (PDT)
-X-Gm-Message-State: AO0yUKVZxDAUCdyaF4sC+ZBXar1E0b6eyvNgG/G8jAtC+dUpiF73Teyk
- hQE588E/Gc5PWHlXc7HsIsXlSH9B7TGL8WGtfWY=
-X-Google-Smtp-Source: AK7set89bEdjlCM3E14LMT7MClZ73N7FHeqNx6qsP8qKAUb/CfL5+5L5ehdU/HIyQGpQJqFvX9FDilzvmN/lwwuc2Qo=
-X-Received: by 2002:a81:ac25:0:b0:540:e744:13ae with SMTP id
- k37-20020a81ac25000000b00540e74413aemr9881948ywh.3.1679295834577; Mon, 20 Mar
- 2023 00:03:54 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5233F10E1F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 07:15:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679296538; x=1710832538;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=96gp98CgPmdI61qm0TB29Gzv3LWLZoLSpLgfOEYGVIo=;
+ b=O5NHNLPIBgX1Da4eC3NJ2q8R0JC+D2ZDAJgX01m6F2WOT4HWyHMoopFd
+ FzJuxhPIzYRQDWQxSftL39kA7iiy4YcTlUEXYmc6Kg9yEylCUlyxuJWVi
+ 0bKm2AJpgezbkHPhOGDw0jDsW3/UmHbGps/ITRyF18hiNSx+tgJaDkpAd
+ rzD5dyBR+NlhMe+iVmXBnJ5qyDmM6gy+x9kKVFz/wleZxFNLSJe7Q20uG
+ au53pqj520WVX2CcvZkyJxL0Mnc4Osv/AGznWBqDapdnRtFywSjaeQwo6
+ x90nvKACYqCqaGouMSuq3wWR0pjIFSR1YV/JpXds5b2IDgBx6FdmL4g4D Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="337308500"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="337308500"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 00:15:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10654"; a="1010362285"
+X-IronPort-AV: E=Sophos;i="5.98,274,1673942400"; d="scan'208";a="1010362285"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 20 Mar 2023 00:15:33 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pe9jx-000AtG-0G;
+ Mon, 20 Mar 2023 07:15:33 +0000
+Date: Mon, 20 Mar 2023 15:15:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane
+ disable
+Message-ID: <202303201543.ahrAhliY-lkp@intel.com>
+References: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
-References: <1678138443-2760-1-git-send-email-quic_jhugo@quicinc.com>
- <1678138443-2760-9-git-send-email-quic_jhugo@quicinc.com>
- <5e912413-eee4-5b25-5f6d-00ccc7501b9d@linux.intel.com>
- <daa3100e-8f5b-8dbb-297f-ca3a87b44a97@quicinc.com>
- <20230317140451.uywz7szrzvusyrjy@houat>
- <d46b8f76-ce60-1c01-edc7-ec227315faf9@quicinc.com>
-In-Reply-To: <d46b8f76-ce60-1c01-edc7-ec227315faf9@quicinc.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Mon, 20 Mar 2023 09:03:28 +0200
-X-Gmail-Original-Message-ID: <CAFCwf11mo2rwTNDUO+7jT0OHJVs+EzxSg4c-pKO3h9V+Un1Ugg@mail.gmail.com>
-Message-ID: <CAFCwf11mo2rwTNDUO+7jT0OHJVs+EzxSg4c-pKO3h9V+Un1Ugg@mail.gmail.com>
-Subject: Re: [PATCH v3 8/8] MAINTAINERS: Add entry for QAIC driver
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320030449.5397-1-yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,74 +62,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dafna@fastmail.com,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, stanislaw.gruszka@linux.intel.com,
- quic_carlv@quicinc.com, Maxime Ripard <maxime@cerno.tech>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: linaro-mm-sig@lists.linaro.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, oe-kbuild-all@lists.linux.dev,
+ Matthias Brugger <matthias.bgg@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 17, 2023 at 5:46=E2=80=AFPM Jeffrey Hugo <quic_jhugo@quicinc.co=
-m> wrote:
->
-> On 3/17/2023 8:04 AM, Maxime Ripard wrote:
-> > On Thu, Mar 16, 2023 at 11:04:05AM -0600, Jeffrey Hugo wrote:
-> >> On 3/14/2023 3:59 AM, Jacek Lawrynowicz wrote:
-> >>> Hi
-> >>>
-> >>> On 06.03.2023 22:34, Jeffrey Hugo wrote:
-> >>>> Add MAINTAINERS entry for the Qualcomm Cloud AI 100 driver.
-> >>>>
-> >>>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> >>>> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> >>>> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.co=
-m>
-> >>>> ---
-> >>>>    MAINTAINERS | 9 +++++++++
-> >>>>    1 file changed, 9 insertions(+)
-> >>>>
-> >>>> diff --git a/MAINTAINERS b/MAINTAINERS
-> >>>> index b0db911..feb2974 100644
-> >>>> --- a/MAINTAINERS
-> >>>> +++ b/MAINTAINERS
-> >>>> @@ -17253,6 +17253,15 @@ F:        Documentation/devicetree/bindings=
-/clock/qcom,*
-> >>>>    F:      drivers/clk/qcom/
-> >>>>    F:      include/dt-bindings/clock/qcom,*
-> >>>> +QUALCOMM CLOUD AI (QAIC) DRIVER
-> >>>> +M:        Jeffrey Hugo <quic_jhugo@quicinc.com>
-> >>>> +L:        linux-arm-msm@vger.kernel.org
-> >>>> +L:        dri-devel@lists.freedesktop.org
-> >>>> +S:        Supported
-> >>>> +F:        Documentation/accel/qaic/
-> >>>> +F:        drivers/accel/qaic/
-> >>>> +F:        include/uapi/drm/qaic_accel.h
-> >>>
-> >>> Aren't you missing repo link?
-> >>> T:  git git://anongit.freedesktop.org/drm/drm-misc
-> >>
-> >> Maarten/Maxime/Thomas are we ok to follow the iVPU example and use drm=
--misc
-> >> for this, or would a separate tree be preferred?
-> >
-> > Yeah, please go ahead with drm-misc
-> >
-> > Do you have commit rights?
->
-> No.  My operating assumption is this series will get merged first, which
-> will then justify having commit rights.  I'm new to DRM, so please
-> educate me if I'm missing something.
->
-> Thanks
->
-> -Jeff
+Hi Yongqiang,
 
-Your assumption is correct. Once it gets merged, I think that's enough
-for you to get commit rights.
-And drm-misc is the place for most of the drivers in drm, so that's
-also completely fine.
+Thank you for the patch! Yet something to improve:
 
-Thanks,
-Oded
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.3-rc3 next-20230320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yongqiang-Niu/drm-mediatek-add-dma-buffer-control-for-drm-plane-disable/20230320-110649
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230320030449.5397-1-yongqiang.niu%40mediatek.com
+patch subject: [v3, PATCH] drm/mediatek: add dma buffer control for drm plane disable
+config: arm64-randconfig-r001-20230320 (https://download.01.org/0day-ci/archive/20230320/202303201543.ahrAhliY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/ae19fefd6d548a2766bc6d1902c46d5baa39a202
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yongqiang-Niu/drm-mediatek-add-dma-buffer-control-for-drm-plane-disable/20230320-110649
+        git checkout ae19fefd6d548a2766bc6d1902c46d5baa39a202
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303201543.ahrAhliY-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: module mediatek-drm uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
