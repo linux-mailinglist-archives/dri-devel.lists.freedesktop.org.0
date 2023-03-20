@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DA06C0730
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 01:55:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0246C08BD
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Mar 2023 02:57:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56AF910E133;
-	Mon, 20 Mar 2023 00:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA6B810E169;
+	Mon, 20 Mar 2023 01:57:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3855310E133
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 00:55:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B3CD7611DD;
- Mon, 20 Mar 2023 00:55:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A804C4339C;
- Mon, 20 Mar 2023 00:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679273724;
- bh=+hI0EX1Y/j+AMA/T6C5h+0aoDUP1nfK6Qa6Evui8qmM=;
- h=From:To:Cc:Subject:Date:From;
- b=usnykf1Gexl+kAp95PgxjLZ5zA314E2KzKe8lldbp2+OUwIrB0woFZqkjo9kDSIFc
- EuN3gono4J9BnZ391ht1jDeGhljLI+ZCPNwgBZTMykY4zOLI+bO+GnG5nBJZiqbgwY
- KkBvSM3xKgleVVuJv+1MiADF7huE77B0tCGNqVNo741ToG5W9++PTrqaR4L0LiRfAm
- /pLKQZy5kD3exLtN97iAE+BrP/CtACIdR11A80eHjnv1+W6T9uTu9k8dn8wfxJ9ThC
- fOo1IXGEy5MZdUYEtGdS7LE6k6Ma0FVoSef67Rsi234m2UA8Rh6pdc3OHkjF9rullP
- Wj6k6/uX4Mklg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/17] drm/cirrus: NULL-check
- pipe->plane.state->fb in cirrus_pipe_update()
-Date: Sun, 19 Mar 2023 20:55:03 -0400
-Message-Id: <20230320005521.1428820-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
+X-Greylist: delayed 623 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Mar 2023 01:57:39 UTC
+Received: from lithium.sammserver.com (lithium.sammserver.com [168.119.122.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 867F210E13B
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Mar 2023 01:57:39 +0000 (UTC)
+Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by lithium.sammserver.com (Postfix) with ESMTPS id 2F39031181CC;
+ Mon, 20 Mar 2023 02:47:14 +0100 (CET)
+Received: from mail.sammserver.com (localhost.localdomain [127.0.0.1])
+ by mail.sammserver.com (Postfix) with ESMTP id CD23635E3C;
+ Mon, 20 Mar 2023 02:47:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
+ t=1679276833; bh=pC4qvrrK/n9fka/sqI1Yp3RNW0hirkEvh7yvqE7rqXI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Hf+5u2neIxkqhJimC7+VGAmEA0gmSS8+wRYjRLD9BP/IPlSJxpTxfm51f/UShFr/5
+ Ru5sw9BozbNptmpJ0PSWO69lqI/QEssU8jgn3NEZlJPg1Ir9mBQSbaQXQB4vq/vr3Z
+ ZzrwbcI9LgqIK/7suVlk0rGRW9KRG7kRJz8ScxOs=
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Date: Mon, 20 Mar 2023 01:47:13 +0000
+From: =?UTF-8?Q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 07/11] video/aperture: Disable and unregister sysfb
+ devices via aperture helpers
+In-Reply-To: <20220718072322.8927-8-tzimmermann@suse.de>
+References: <20220718072322.8927-1-tzimmermann@suse.de>
+ <20220718072322.8927-8-tzimmermann@suse.de>
+Message-ID: <9f682c15a5484b4a94f63e20d41f67d0@cavoj.net>
+X-Sender: samuel@cavoj.net
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,50 +55,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, jani.nikula@intel.com, sam@ravnborg.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- Alexandr Sapozhnikov <alsp705@gmail.com>, kraxel@redhat.com,
- Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
+ linux-staging@lists.linux.dev, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ maxime@cerno.tech, Zhen Lei <thunder.leizhen@huawei.com>,
+ Alex Deucher <alexander.deucher@amd.com>, sam@ravnborg.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alexandr Sapozhnikov <alsp705@gmail.com>
+Hi,
 
-[ Upstream commit 7245e629dcaaf308f1868aeffa218e9849c77893 ]
+> diff --git a/drivers/video/aperture.c b/drivers/video/aperture.c
+> index f42a0d8bc211..101e13c2cf41 100644
+> --- a/drivers/video/aperture.c
+> +++ b/drivers/video/aperture.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> +#include <linux/sysfb.h>
+>  #include <linux/types.h>
+>  #include <linux/vgaarb.h>
+> 
+> @@ -286,7 +287,20 @@ int 
+> aperture_remove_conflicting_devices(resource_size_t base, 
+> resource_size_t si
+>  #if IS_REACHABLE(CONFIG_FB)
+>  	struct apertures_struct *a;
+>  	int ret;
+> +#endif
+> +
+> +	/*
+> +	 * If a driver asked to unregister a platform device registered by
+> +	 * sysfb, then can be assumed that this is a driver for a display
+> +	 * that is set up by the system firmware and has a generic driver.
+> +	 *
+> +	 * Drivers for devices that don't have a generic driver will never
+> +	 * ask for this, so let's assume that a real driver for the display
+> +	 * was already probed and prevent sysfb to register devices later.
+> +	 */
+> +	sysfb_disable();
 
-After having been compared to NULL value at cirrus.c:455, pointer
-'pipe->plane.state->fb' is passed as 1st parameter in call to function
-'cirrus_fb_blit_rect' at cirrus.c:461, where it is dereferenced at
-cirrus.c:316.
+This call to sysfb_disable() has been causing trouble with regard to
+VFIO. VFIO has been calling aperture_remove_conflicting_pci_devices to
+get rid of any console drivers (d173780620792c) using the device in
+question, but now even unrelated drivers are getting killed. Example
+situation:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Machine has two GPUs and uses efifb for the console. Efifb registers
+with the aperture system the efi framebuffer region, which is covered
+by a BAR resource of GPU 1. VFIO grabs GPU 2 and calls
+aperture_remove_conflicting_pci_devices(GPU 2). GPU 2 has no overlap
+with the efifb on GPU1 but the efifb is killed regardless due to
+the unconditional call to sysfb_disable(). The console switches
+to dummy and locks up from the user perspective.
+This seems unnecessary, as the device is unrelated.
 
-v2:
-	* aligned commit message to line-length limits
+I do not quite understand the comment justifying the call.
 
-Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230215171549.16305-1-alsp705@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/tiny/cirrus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Some discussions with workarounds:
+https://old.reddit.com/r/VFIO/comments/11qei4t/framebuffer_doesnt_work_anymore_after_passthrough/
+https://bbs.archlinux.org/viewtopic.php?id=280512
 
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index 4611ec408506b..2a81311b22172 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -450,7 +450,7 @@ static void cirrus_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (state->fb && cirrus->cpp != cirrus_cpp(state->fb))
- 		cirrus_mode_set(cirrus, &crtc->mode, state->fb);
- 
--	if (drm_atomic_helper_damage_merged(old_state, state, &rect))
-+	if (state->fb && drm_atomic_helper_damage_merged(old_state, state, &rect))
- 		cirrus_fb_blit_rect(state->fb, &shadow_plane_state->data[0], &rect);
- }
- 
--- 
-2.39.2
 
+Thanks,
+Samuel
