@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A7F6C370F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 17:38:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8276C375F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 17:50:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4327C10E7EF;
-	Tue, 21 Mar 2023 16:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82E8F10E7F1;
+	Tue, 21 Mar 2023 16:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C554B10E26B;
- Tue, 21 Mar 2023 16:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679416718; x=1710952718;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Wnmv9VkG5Xwa1hZGVPIaSIYEkK2sSR9fPa0uDXjlpNU=;
- b=Xk2sLLfruqVNJQ1bPczQ5Oc7jbbyfS19tRW6uAGfph9u3feQSBK6ywa5
- vJ6GOKzQp52NedWPKQ+duFw0cKvpaWYo8/ZrfbUY394UJjBfaJ/+r1iuc
- /L1W4RT1/haZ0RUwC0VphouKM//ZKKJqyuKJx39x26WM1O9SDw02Xonxc
- CLKv1VioP2T7EUMOk2rOjwo9CUctTf1Ti5hRjdzXG05oFZ3QpRZ9332td
- v1qfRAZjOByOjdxtuC03DrL1m7L+ltLyTppCqn9Q0YcG3T9zUx1nq8/AK
- C1JnffGUtzeFl6Bldk9fnLtt1BCllNSuzMziPTSfHLlGwCE6FhRzH37Md Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366729126"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="366729126"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 09:38:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="770721949"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="770721949"
-Received: from rbirkl-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.222.70])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 09:38:36 -0700
-Date: Tue, 21 Mar 2023 17:38:13 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915: Sanitycheck MMIO access early
- in driver load
-Message-ID: <ZBnddVWywj4pc9ZI@ashyti-mobl2.lan>
-References: <20230320202326.296498-1-andi.shyti@linux.intel.com>
- <20230320202326.296498-2-andi.shyti@linux.intel.com>
- <877cva8hdj.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <877cva8hdj.fsf@intel.com>
+Received: from pv50p00im-zteg10011501.me.com (pv50p00im-zteg10011501.me.com
+ [17.58.6.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CBEC10E7F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 16:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1679417449;
+ bh=5ukV6PY3ucC9hJDuXZfIVXvf88RafbDWPyWPmbI4b+M=;
+ h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
+ b=sgnlOBOdnJ4Md1bXyy0cTRU3QCOeruwaZC8HiYR65vzbQQ2ge3aX+tWCMisb4D/uf
+ I1wWmYnpJcFCcUh7ofpd7CoOCJyuzL1O1HLrBVaMu8L7aOQZ/gbdERcEitcLR4ujBR
+ FooPqSKK6iCNUA5uwLrF0m5JmtVzcgbyJw0OMdX3PjkZTGUo0ljQEsGUkcimcFquL9
+ DzzOFblcqbngGjpqVtiOwQnjHkUEOGOvd/DpN1EtHz03q85d8SKaoa0y8sMoi5/9UP
+ 9mdLtyyboIOUOzqLQX8qA/cnU6IQCZfFe1Js3i1LM6Qk5rhB/JSk8njepVxy9Pi70b
+ NV8THQNzkH8OQ==
+Received: from localhost (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+ by pv50p00im-zteg10011501.me.com (Postfix) with ESMTPSA id BA8B54A00DE;
+ Tue, 21 Mar 2023 16:50:45 +0000 (UTC)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 21 Mar 2023 17:50:43 +0100
+Message-Id: <CRC7SQGZJDK0.3FEG3RZR6IR5U@iMac.local>
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+From: "Roman Beranek" <romanberanek@icloud.com>
+To: "Maxime Ripard" <maxime@cerno.tech>
+X-Mailer: aerc 0.14.0
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <20230321145646.w6kr7ddurfxpg5rt@houat>
+In-Reply-To: <20230321145646.w6kr7ddurfxpg5rt@houat>
+X-Proofpoint-GUID: nW3p3X6tTkVEQXdicLpHvySaM0EbhDEp
+X-Proofpoint-ORIG-GUID: nW3p3X6tTkVEQXdicLpHvySaM0EbhDEp
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 malwarescore=0
+ mlxscore=0 phishscore=0 clxscore=1011 bulkscore=0 suspectscore=0
+ mlxlogscore=771 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2303210132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,27 +62,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jani,
+Hello Maxime,
 
-Thanks for looking into this,
+On Tue Mar 21, 2023 at 3:56 PM CET, Maxime Ripard wrote:
+>
+> This is similar to
+> https://lore.kernel.org/all/20230319160704.9858-2-frank@oltmanns.dev/
+>
+> What's the story there?
 
-[...]
+Yes, Frank Oltmanns wrote me recently in relation to a patch I wrote
+~ 3 years ago that addressed the framerate issue, proposing to
+collaborate on pushing it upstream, however as I've been keeping up
+with my inbox rather sporadically these days, by the time I read his
+message, Frank had already taken the initiative and sent the patch.
+So that's how we've got to this slightly awkward situation with two
+patches on the same subject arriving 1 day apart of each other.
 
-> > +#define COND (__raw_uncore_read32(uncore, FORCEWAKE_MT) != ~0)
-> > +	if (wait_for(COND, 2000) == -ETIMEDOUT) {
-> 
-> I guess this somewhat reimplements intel_wait_for_register_fw()?
+The problem with the original patch was that it went around
+sun4i_dotclock by feeding it a rate adjusted such that the pll-mipi rate
+was set correctly. I couldn't quite figure out at the time of how big
+a portion of the tcon logic does the sun4i_dotclock code need to be made
+aware of.
 
-Thanks!
+>Also, how was it tested/confirmed?
 
-Andi
+By counting Vblank interrupts (GIC 118).
 
-> > +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
-> > +		return -EIO;
-> > +	}
+Roman
