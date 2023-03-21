@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23EE6C27E0
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:10:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB056C2822
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:28:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1119510E6A9;
-	Tue, 21 Mar 2023 02:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83AE110E04B;
+	Tue, 21 Mar 2023 02:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB95D10E399
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 02:09:56 +0000 (UTC)
-Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
- [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 1DAE3327B52;
- Tue, 21 Mar 2023 02:09:55 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1679364595; bh=xnsvOncddHHL/2XH0xvGD4f8pHTv/bgxLX+ij/rTfEg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cORFKrQRnDBNjq93aP9HU48IyDA4egUOQO5y3LHel4bYBC8wM6k7GFFxMbtvceBSD
- MsEcHxRwLpyEEKn3OgHJ3BFD2q7ImJ7s5mC3HQlyV6RDj0Oe972zmqBCRXTFmMG/4k
- wWH7hd52R+uF4ZPUDjBnmrfWyyCiCskBhrsfa91Nx1sTVPvjcfKJlEEt8PqYy7ZVnB
- SA9OvfYUoUTD0mLYIiC3lTdCGZc+NhB3+UeA/eaj8F87V8Xf3Odd9UvLk7tpSUo3aZ
- EkU5ke18FEIaCVu641jLocgFbq056iWRjvV/Bbxj/HW0RNZjRfAk7ZpSclEbmaoHrS
- RoUE6mYT7uf2w==
-From: Zack Rusin <zack@kde.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/vmwgfx: Fix Legacy Display Unit atomic drm support
-Date: Mon, 20 Mar 2023 22:09:49 -0400
-Message-Id: <20230321020949.335012-3-zack@kde.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230321020949.335012-1-zack@kde.org>
-References: <20230321020949.335012-1-zack@kde.org>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97BCF10E04B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 02:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679365691; x=1710901691;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=RgVBx0IQ1NmjcIvWGy7+21SNw7xhhYNDNR5oOZ1yjIc=;
+ b=VUyUIrEANtEw2g/EFrsn9D+ccEen2qyUbbZeZxFKghDyVOeIPiIaS6qt
+ rotL3Xs79MoVB1bCEigwsb4NvRzKcRIaTCdhCfB7RHJJOXHHifQrAvQ5X
+ Uas/5MZax1SkW2NHXTwo7qgnkqyM1amKtjol7AWLKU1jp+kKXNM0FHEiF
+ 4zEOBUuMiCbAm/FjPvqujfxSXNEZMbBU6JN6LEYdWS+a2T/mLV2S/mX3g
+ TokfIUEhYIPJe/+z/3ALuubL2fSNpaX4GNpsRdwR9rwx/o7ollEppNKeC
+ T7jS6ExF5u/Z+54vxJ/sT4ndX+g2QlvMdhYvKycgU0pL4eJPMIb3EJBPg A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="401404358"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; d="scan'208";a="401404358"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2023 19:28:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="631377103"
+X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; d="scan'208";a="631377103"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by orsmga003.jf.intel.com with ESMTP; 20 Mar 2023 19:28:08 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1peRjL-000BVZ-12;
+ Tue, 21 Mar 2023 02:28:07 +0000
+Date: Tue, 21 Mar 2023 10:27:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch, jacek.lawrynowicz@linux.intel.com,
+ stanislaw.gruszka@linux.intel.com
+Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
+Message-ID: <202303211031.l0DpLTGp-lkp@intel.com>
+References: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,217 +61,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, iforbes@vmware.com, banackm@vmware.com,
- mombasawalam@vmware.com
+Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
+ quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+Hi Jeffrey,
 
-Legacy Display Unit (LDU) fb dirty support used a custom fb dirty callback. Latter
-handled only the DIRTYFB IOCTL presentation path but not the ADDFB2/PAGE_FLIP/RMFB
-IOCTL path, common for Wayland compositors.
+Thank you for the patch! Yet something to improve:
 
-Get rid of the custom callback in favor of drm_atomic_helper_dirtyfb and unify the
-handling of the presentation paths inside of vmw_ldu_primary_plane_atomic_update.
-This also homogenizes the fb dirty callbacks across all DUs: LDU, SOU and STDU.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on lwn/docs-next]
+[cannot apply to linus/master v6.3-rc3 next-20230320]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Martin Krastev <krastevm@vmware.com>
-Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
-Fixes: 2f5544ff0300 ("drm/vmwgfx: Use atomic helper function for dirty fb IOCTL")
-Cc: <stable@vger.kernel.org> # v5.0+
-Signed-off-by: Zack Rusin <zackr@vmware.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 62 +----------------------------
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  5 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 45 +++++++++++++++++----
- 3 files changed, 38 insertions(+), 74 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/1679325074-5494-8-git-send-email-quic_jhugo%40quicinc.com
+patch subject: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230321/202303211031.l0DpLTGp-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/bffc487514275054bebfe9e732bf2d36da14a31f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
+        git checkout bffc487514275054bebfe9e732bf2d36da14a31f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-index 84d6380b9895..866bc3bd157a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-@@ -1396,70 +1396,10 @@ static void vmw_framebuffer_bo_destroy(struct drm_framebuffer *framebuffer)
- 	kfree(vfbd);
- }
- 
--static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
--				    struct drm_file *file_priv,
--				    unsigned int flags, unsigned int color,
--				    struct drm_clip_rect *clips,
--				    unsigned int num_clips)
--{
--	struct vmw_private *dev_priv = vmw_priv(framebuffer->dev);
--	struct vmw_framebuffer_bo *vfbd =
--		vmw_framebuffer_to_vfbd(framebuffer);
--	struct drm_clip_rect norect;
--	int ret, increment = 1;
--
--	drm_modeset_lock_all(&dev_priv->drm);
--
--	if (!num_clips) {
--		num_clips = 1;
--		clips = &norect;
--		norect.x1 = norect.y1 = 0;
--		norect.x2 = framebuffer->width;
--		norect.y2 = framebuffer->height;
--	} else if (flags & DRM_MODE_FB_DIRTY_ANNOTATE_COPY) {
--		num_clips /= 2;
--		increment = 2;
--	}
--
--	switch (dev_priv->active_display_unit) {
--	case vmw_du_legacy:
--		ret = vmw_kms_ldu_do_bo_dirty(dev_priv, &vfbd->base, 0, 0,
--					      clips, num_clips, increment);
--		break;
--	default:
--		ret = -EINVAL;
--		WARN_ONCE(true, "Dirty called with invalid display system.\n");
--		break;
--	}
--
--	vmw_cmd_flush(dev_priv, false);
--
--	drm_modeset_unlock_all(&dev_priv->drm);
--
--	return ret;
--}
--
--static int vmw_framebuffer_bo_dirty_ext(struct drm_framebuffer *framebuffer,
--					struct drm_file *file_priv,
--					unsigned int flags, unsigned int color,
--					struct drm_clip_rect *clips,
--					unsigned int num_clips)
--{
--	struct vmw_private *dev_priv = vmw_priv(framebuffer->dev);
--
--	if (dev_priv->active_display_unit == vmw_du_legacy &&
--	    vmw_cmd_supported(dev_priv))
--		return vmw_framebuffer_bo_dirty(framebuffer, file_priv, flags,
--						color, clips, num_clips);
--
--	return drm_atomic_helper_dirtyfb(framebuffer, file_priv, flags, color,
--					 clips, num_clips);
--}
--
- static const struct drm_framebuffer_funcs vmw_framebuffer_bo_funcs = {
- 	.create_handle = vmw_framebuffer_bo_create_handle,
- 	.destroy = vmw_framebuffer_bo_destroy,
--	.dirty = vmw_framebuffer_bo_dirty_ext,
-+	.dirty = drm_atomic_helper_dirtyfb,
- };
- 
- /**
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-index 3de7b4b6a230..db81e635dc06 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
-@@ -507,11 +507,6 @@ void vmw_du_connector_destroy_state(struct drm_connector *connector,
-  */
- int vmw_kms_ldu_init_display(struct vmw_private *dev_priv);
- int vmw_kms_ldu_close_display(struct vmw_private *dev_priv);
--int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
--			    struct vmw_framebuffer *framebuffer,
--			    unsigned int flags, unsigned int color,
--			    struct drm_clip_rect *clips,
--			    unsigned int num_clips, int increment);
- int vmw_kms_update_proxy(struct vmw_resource *res,
- 			 const struct drm_clip_rect *clips,
- 			 unsigned num_clips,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-index c0e42f2ed144..a82fa9700370 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
-@@ -275,6 +275,7 @@ static const struct drm_crtc_funcs vmw_legacy_crtc_funcs = {
- 	.atomic_duplicate_state = vmw_du_crtc_duplicate_state,
- 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
- 	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
- };
- 
- 
-@@ -314,6 +315,12 @@ static const struct
- drm_connector_helper_funcs vmw_ldu_connector_helper_funcs = {
- };
- 
-+static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
-+				   struct vmw_framebuffer *framebuffer,
-+				   unsigned int flags, unsigned int color,
-+				   struct drm_mode_rect *clips,
-+				   unsigned int num_clips);
-+
- /*
-  * Legacy Display Plane Functions
-  */
-@@ -332,7 +339,6 @@ vmw_ldu_primary_plane_atomic_update(struct drm_plane *plane,
- 	struct drm_framebuffer *fb;
- 	struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
- 
--
- 	ldu = vmw_crtc_to_ldu(crtc);
- 	dev_priv = vmw_priv(plane->dev);
- 	fb       = new_state->fb;
-@@ -345,8 +351,31 @@ vmw_ldu_primary_plane_atomic_update(struct drm_plane *plane,
- 		vmw_ldu_del_active(dev_priv, ldu);
- 
- 	vmw_ldu_commit_list(dev_priv);
--}
- 
-+	if (vfb && vmw_cmd_supported(dev_priv)) {
-+		struct drm_mode_rect fb_rect = {
-+			.x1 = 0,
-+			.y1 = 0,
-+			.x2 = vfb->base.width,
-+			.y2 = vfb->base.height
-+		};
-+		struct drm_mode_rect *damage_rects = drm_plane_get_damage_clips(new_state);
-+		u32 rect_count = drm_plane_get_damage_clips_count(new_state);
-+		int ret;
-+
-+		if (!damage_rects) {
-+			damage_rects = &fb_rect;
-+			rect_count = 1;
-+		}
-+
-+		ret = vmw_kms_ldu_do_bo_dirty(dev_priv, vfb, 0, 0, damage_rects, rect_count);
-+
-+		drm_WARN_ONCE(plane->dev, ret,
-+			"vmw_kms_ldu_do_bo_dirty failed with: ret=%d\n", ret);
-+
-+		vmw_cmd_flush(dev_priv, false);
-+	}
-+}
- 
- static const struct drm_plane_funcs vmw_ldu_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
-@@ -577,11 +606,11 @@ int vmw_kms_ldu_close_display(struct vmw_private *dev_priv)
- }
- 
- 
--int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
--			    struct vmw_framebuffer *framebuffer,
--			    unsigned int flags, unsigned int color,
--			    struct drm_clip_rect *clips,
--			    unsigned int num_clips, int increment)
-+static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
-+				   struct vmw_framebuffer *framebuffer,
-+				   unsigned int flags, unsigned int color,
-+				   struct drm_mode_rect *clips,
-+				   unsigned int num_clips)
- {
- 	size_t fifo_size;
- 	int i;
-@@ -597,7 +626,7 @@ int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
- 		return -ENOMEM;
- 
- 	memset(cmd, 0, fifo_size);
--	for (i = 0; i < num_clips; i++, clips += increment) {
-+	for (i = 0; i < num_clips; i++, clips++) {
- 		cmd[i].header = SVGA_CMD_UPDATE;
- 		cmd[i].body.x = clips->x1;
- 		cmd[i].body.y = clips->y1;
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303211031.l0DpLTGp-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "__udivdi3" [drivers/accel/qaic/qaic.ko] undefined!
+
 -- 
-2.38.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
