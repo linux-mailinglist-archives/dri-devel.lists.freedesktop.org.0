@@ -1,54 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B616C304F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 12:24:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB91D6C3097
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 12:43:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FBC210E08B;
-	Tue, 21 Mar 2023 11:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0E710E1AD;
+	Tue, 21 Mar 2023 11:43:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C16910E08B
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 11:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679397887; x=1710933887;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=7I3apq4ODQSdsh261kCLGedqNksk/D6m+fbYeatenSI=;
- b=mfSL2JfiVaJZcu3OfWmOr8HZXMhzA0qUyECO30h4uuAvWMkGKTcrHZk4
- P57xVKszAk3uSd7Ty3hvZAgR0gs1nSM9wZmzY5QeKLWoOM0luJW/3t8T2
- pMKV/1Azwk4nKshgJh0UubMaNznQkNlgMlKPeB050fOcnL+iGiNDNwxoy
- kjo7WhdBMszvZ9e7W4+eD7qoPRAAwyl4BnhGs2fF5F9ppWixTR4qlkdb6
- GJlQSsnetizltOq8S5Pqs7T6w8DsvXQ9oUP4tCrsS7ObP+w2nsBCw4jZD
- n0i3J+QSh1be/yOqkzuiRVYlfNsBBpdivUZQ7ZTzkgqY6OSxj3oQSsllE w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="425186563"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="425186563"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 04:24:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="792041572"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="792041572"
-Received: from trybicki-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.63.119])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 04:24:34 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Subject: Re: display band (display area vs real visible area)
-In-Reply-To: <CAOf5uw=g1mU1F=kD6M472LRaTWa2B=Sry4GDGXxDApoZknLfeA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <CAOf5uwkDb=pkEV_qSshA7PnSxCV82sEwrmivAZhth48ae0S++g@mail.gmail.com>
- <87ileu8jwh.fsf@intel.com>
- <CAOf5uw=g1mU1F=kD6M472LRaTWa2B=Sry4GDGXxDApoZknLfeA@mail.gmail.com>
-Date: Tue, 21 Mar 2023 13:24:31 +0200
-Message-ID: <87cz528hzk.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 411 seconds by postgrey-1.36 at gabe;
+ Tue, 21 Mar 2023 11:43:33 UTC
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA22710E1AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 11:43:33 +0000 (UTC)
+Received: from mxde.zte.com.cn (unknown [10.35.20.165])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4PgqLv5SpJzK85
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 19:36:39 +0800 (CST)
+Received: from mxus.zte.com.cn (unknown [10.36.20.94])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4PgqLd4rBJz54hxn
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 19:36:25 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mxus.zte.com.cn (FangMail) with ESMTPS id 4PgqLb3TDwz9wn5t
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 19:36:23 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4PgqLS3w08z6FK2R;
+ Tue, 21 Mar 2023 19:36:16 +0800 (CST)
+Received: from xaxapp03.zte.com.cn ([10.88.97.17])
+ by mse-fl1.zte.com.cn with SMTP id 32LBa860083657;
+ Tue, 21 Mar 2023 19:36:08 +0800 (+08)
+ (envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp02[null]) by mapi (Zmail) with MAPI id mid31;
+ Tue, 21 Mar 2023 19:36:11 +0800 (CST)
+Date: Tue, 21 Mar 2023 19:36:11 +0800 (CST)
+X-Zmail-TransId: 2afa641996ab7b8-d8e42
+X-Mailer: Zmail v1.0
+Message-ID: <202303211936116261105@zte.com.cn>
+Mime-Version: 1.0
+From: <ye.xingchen@zte.com.cn>
+To: <tomba@kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm06IG9tYXBkcm06IHVzZSBkZXZtX3BsYXRmb3JtX2lvcmVtYXBfcmVzb3VyY2VfYnluYW1lKCk=?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL: mse-fl1.zte.com.cn 32LBa860083657
+X-FangMail-Miltered: at esgde01-1.novalocal with ID 641996B8.000 by FangMail
+ milter!
+X-FangMail-Envelope: 1679398585/4PgqLd4rBJz54hxn/641996B8.000/10.36.20.94/[10.36.20.94]/mxus.zte.com.cn/<ye.xingchen@zte.com.cn>
+X-Fangmail-Gw-Spam-Type: 0
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 641996C6.001/4PgqLv5SpJzK85
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Mar 2023, Michael Nazzareno Trimarchi <michael@amarulasolutions.=
-com> wrote:
-> Hi
->
-> On Tue, Mar 21, 2023 at 11:43=E2=80=AFAM Jani Nikula
-> <jani.nikula@linux.intel.com> wrote:
->>
->> On Tue, 21 Mar 2023, Michael Nazzareno Trimarchi <michael@amarulasolutio=
-ns.com> wrote:
->> > Hi all
->> >
->> > I would like to know the best approach in the graphics subsystem how
->> > deal with panels where the display area is different from the visible
->> > area because the display has a band left and right. I have already
->> > done the drm driver for the panel but from userspace point of view
->> > it's a pain to deal in wayland for input device and output device. Do
->> > you have any suggestions?
->>
->> Do you have the EDID for the panel?
->
-> mipi->panel so should not have edid
+From: Ye Xingchen <ye.xingchen@zte.com.cn>
 
-That's the kind of information you'd expect in the original question. ;)
+Convert platform_get_resource_byname(),devm_ioremap_resource() to a single
+call to devm_platform_ioremap_resource_byname(), as this is exactly what
+this function does.
 
-I've done that sort of thing in the past, but not sure if it would fly
-upstream. Basically the kernel driver would lie about the resolution to
-userspace, and handle the centering and the bands internally. In my
-case, the DSI command mode panel in question had commands to set the
-visible area, so the driver didn't have to do all that much extra to
-make it happen.
+Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
+---
+ drivers/gpu/drm/omapdrm/dss/hdmi_wp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-BR,
-Jani.
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi_wp.c b/drivers/gpu/drm/omapdrm/dss/hdmi_wp.c
+index 9d830584a762..77a7aa797ad0 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi_wp.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi_wp.c
+@@ -280,8 +280,7 @@ int hdmi_wp_init(struct platform_device *pdev, struct hdmi_wp_data *wp,
+ {
+ 	struct resource *res;
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "wp");
+-	wp->base = devm_ioremap_resource(&pdev->dev, res);
++	wp->base = devm_platform_ioremap_resource_byname(pdev, "wp");
+ 	if (IS_ERR(wp->base))
+ 		return PTR_ERR(wp->base);
+
+-- 
+2.25.1
