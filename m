@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990716C35BD
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 16:33:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2586C3694
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 17:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC1610E1F5;
-	Tue, 21 Mar 2023 15:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D72CC10E7D3;
+	Tue, 21 Mar 2023 16:07:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 283A010E1F5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 15:33:50 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id q88so3836647qvq.13
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 08:33:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679412829;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Y1FAG7EG+oo0WLGCAeT69lFpq2lucqpqtpr3jD7v1IY=;
- b=WHFm+Sgb5BzUhvLZHJQqh5tO2ujgodLNxfu58FMTerf5nPIn9AqQAthzVMhq2LiVtn
- WotmIAp0udQTLT/FE9m4I1i8i94m9B5H7zdt2afcDuQ8zSyuC2lUjpKO8qOS7Xzsk4fp
- DnDtEX/Bt+CaQMv272vFU3mrS+URYPY+ZFIwcXqHDX11VvedPeS3fQsPTpTvzAHd6n/3
- o1K9qPof8eU3cijJypTzpcKaAP/b4m5YJuELK2vTkBX9Fz0ht7JYx9QerW+6wsD30sQV
- X4t+h/JYU7w7LbQqnDQ9AyYkMhgZSPiX+d4bA+jytw1bZprj1jaaE/3+nIGOsIUf4HaK
- jWJw==
-X-Gm-Message-State: AO0yUKVmzCSO1DmZwfX+aOrLdW1eNWv9G6zepQqWRxmHl/IIcfDqfpBs
- RXklpnYqJiyDSGQThzNvzLCyX1x/yD+NSg==
-X-Google-Smtp-Source: AK7set8qRV0IiwqA6znZ7Ms9l2NIcf+QUdvzN5vRhZXa6Ps3EkR53te556leZq+CoSTp7YsrlkH46g==
-X-Received: by 2002:ad4:5d66:0:b0:5ac:bf40:adb9 with SMTP id
- fn6-20020ad45d66000000b005acbf40adb9mr570361qvb.11.1679412829005; 
- Tue, 21 Mar 2023 08:33:49 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com.
- [209.85.128.182]) by smtp.gmail.com with ESMTPSA id
- w8-20020a05620a424800b0073b587194d0sm9692920qko.104.2023.03.21.08.33.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Mar 2023 08:33:48 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-5419d4c340aso286921717b3.11
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 08:33:48 -0700 (PDT)
-X-Received: by 2002:a81:ac0d:0:b0:545:45f4:2e50 with SMTP id
- k13-20020a81ac0d000000b0054545f42e50mr1317822ywh.4.1679412828173; Tue, 21 Mar
- 2023 08:33:48 -0700 (PDT)
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 766E310E7D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 16:07:33 +0000 (UTC)
+Received: from loongson.cn (unknown [10.20.42.133])
+ by gateway (Coremail) with SMTP id _____8Ax69k81hlk6H8PAA--.22873S3;
+ Wed, 22 Mar 2023 00:07:24 +0800 (CST)
+Received: from [10.20.42.133] (unknown [10.20.42.133])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Cxfb481hlkLMIIAA--.26006S3; 
+ Wed, 22 Mar 2023 00:07:24 +0800 (CST)
+Message-ID: <4c55aab4-b65e-9c04-7b6d-75a2e89ce530@loongson.cn>
+Date: Wed, 22 Mar 2023 00:07:24 +0800
 MIME-Version: 1.0
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320082146.4117022-1-geert@linux-m68k.org>
- <c85681c6-6fcf-33ed-210f-661e539f78d8@infradead.org>
- <CAMuHMdWw0OdLPUORh6=Be8AW6bN+Pa2t=dcF47B1m=-ihsNPZQ@mail.gmail.com>
- <7e876937-4254-a2d8-f810-513f067b4855@infradead.org>
-In-Reply-To: <7e876937-4254-a2d8-f810-513f067b4855@infradead.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 21 Mar 2023 16:33:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU+t2-LO2WbWCpOuVWm1ZqR29GKH3k8WfCGKK1Vsr0K5w@mail.gmail.com>
-Message-ID: <CAMuHMdU+t2-LO2WbWCpOuVWm1ZqR29GKH3k8WfCGKK1Vsr0K5w@mail.gmail.com>
-Subject: Re: Build regressions/improvements in v6.3-rc3 (drm/msm/)
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [v2,8/8] drm/fbdev-generic: Rename symbols
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linux-graphics-maintainer@vmware.com
+References: <20230320150751.20399-9-tzimmermann@suse.de>
+From: Sui jingfeng <suijingfeng@loongson.cn>
+In-Reply-To: <20230320150751.20399-9-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8Cxfb481hlkLMIIAA--.26006S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxtr1xWFW8Xr1xAFWDKw1rZwb_yoWfJw1DpF
+ W5GFW5Krs8ta1UWw4DAa4qk34xtrsFyry8Arn5Ga15tF1Utr929F9Yvr1kuF4fJry8GF15
+ Jw1YkFWkuF1vkFUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bx8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
+ x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267AKxVWUJVW8JwAS0I0E
+ 0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzV
+ Aqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S
+ 6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42xK82
+ IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+ 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
+ IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
+ 0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,101 +66,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Randy,
+I have tested this patch on my loongson mips64el machine,
+not seeing any weird happens.
+Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
-On Tue, Mar 21, 2023 at 4:10=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
-> On 3/21/23 00:34, Geert Uytterhoeven wrote:
-> > On Tue, Mar 21, 2023 at 6:38=E2=80=AFAM Randy Dunlap <rdunlap@infradead=
-.org> wrote:
-> >> On 3/20/23 01:21, Geert Uytterhoeven wrote:
-> >>> Below is the list of build error/warning regressions/improvements in
-> >>> v6.3-rc3[1] compared to v6.2[2].
-> >>>
-> >>> Summarized:
-> >>>   - build errors: +9/-14
-> >>>   - build warnings: +4/-1447
-> >>>
-> >>> JFYI, when comparing v6.3-rc3[1] to v6.3-rc2[3], the summaries are:
-> >>>   - build errors: +0/-1
-> >>>   - build warnings: +0/-0
-> >>>
-> >>> Happy fixing! ;-)
-> >>>
-> >>> Thanks to the linux-next team for providing the build service.
-> >>>
-> >>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/e8d018dd025=
-7f744ca50a729e3d042cf2ec9da65/ (all 152 configs)
-> >>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/c9c3395d5e3=
-dcc6daee66c6908354d47bf98cb0c/ (all 152 configs)
-> >>> [3] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/eeac8ede175=
-57680855031c6f305ece2378af326/ (all 152 configs)
-> >>>
-> >>>
-> >>> *** ERRORS ***
-> >>>
-> >>> 9 error regressions:
-> >>
-> >>>   + /kisskb/src/drivers/gpu/drm/msm/msm_mdss.c: error: case label doe=
-s not reduce to an integer constant:  =3D> 300:2, 299:2, 296:2
-> >>
-> >>
-> >> Are these due to the sign bit being set after a shift?
-> >> It looks that way since it is only reported for such values.
-> >
-> > Yep.
-> >
-> >> From the reports on the build server, it only happens when building wi=
-th gcc5.
-> >> I don't have the ability to build with gcc5 or I would test it.
-> >
-> > I deliberately installed gcc-5.5.0-nolibc/aarch64-linux to reproduce it
-> > (gcc5 on x86 didn't reproduce).
+On 2023/3/20 23:07, Thomas Zimmermann wrote:
+> Rename symbols to match the style of other fbdev-emulation source
+> code. No functional changes.
 >
-> Yes, I installed that same compiler. When I tried to use it, I got:
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Zack Rusin <zackr@vmware.com>
+> ---
+>   drivers/gpu/drm/drm_fbdev_generic.c | 66 ++++++++++++++---------------
+>   1 file changed, 33 insertions(+), 33 deletions(-)
 >
-> /opt/crosstool/gcc-5.5.0-nolibc/aarch64-linux/bin/aarch64-linux-gcc: unkn=
-own C compiler
-> scripts/Kconfig.include:44: Sorry, this C compiler is not supported.
+> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+> index e7eeba0c44b4..8e5148bf40bb 100644
+> --- a/drivers/gpu/drm/drm_fbdev_generic.c
+> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
+> @@ -13,7 +13,7 @@
+>   #include <drm/drm_fbdev_generic.h>
+>   
+>   /* @user: 1=userspace, 0=fbcon */
+> -static int drm_fbdev_fb_open(struct fb_info *info, int user)
+> +static int drm_fbdev_generic_fb_open(struct fb_info *info, int user)
+>   {
+>   	struct drm_fb_helper *fb_helper = info->par;
+>   
+> @@ -24,7 +24,7 @@ static int drm_fbdev_fb_open(struct fb_info *info, int user)
+>   	return 0;
+>   }
+>   
+> -static int drm_fbdev_fb_release(struct fb_info *info, int user)
+> +static int drm_fbdev_generic_fb_release(struct fb_info *info, int user)
+>   {
+>   	struct drm_fb_helper *fb_helper = info->par;
+>   
+> @@ -34,7 +34,7 @@ static int drm_fbdev_fb_release(struct fb_info *info, int user)
+>   	return 0;
+>   }
+>   
+> -static void drm_fbdev_fb_destroy(struct fb_info *info)
+> +static void drm_fbdev_generic_fb_destroy(struct fb_info *info)
+>   {
+>   	struct drm_fb_helper *fb_helper = info->par;
+>   	void *shadow = info->screen_buffer;
+> @@ -52,10 +52,10 @@ static void drm_fbdev_fb_destroy(struct fb_info *info)
+>   	kfree(fb_helper);
+>   }
+>   
+> -static const struct fb_ops drm_fbdev_fb_ops = {
+> +static const struct fb_ops drm_fbdev_generic_fb_ops = {
+>   	.owner		= THIS_MODULE,
+> -	.fb_open	= drm_fbdev_fb_open,
+> -	.fb_release	= drm_fbdev_fb_release,
+> +	.fb_open	= drm_fbdev_generic_fb_open,
+> +	.fb_release	= drm_fbdev_generic_fb_release,
+>   	.fb_read	= drm_fb_helper_sys_read,
+>   	.fb_write	= drm_fb_helper_sys_write,
+>   	DRM_FB_HELPER_DEFAULT_OPS,
+> @@ -63,14 +63,14 @@ static const struct fb_ops drm_fbdev_fb_ops = {
+>   	.fb_copyarea	= drm_fb_helper_sys_copyarea,
+>   	.fb_imageblit	= drm_fb_helper_sys_imageblit,
+>   	.fb_mmap	= fb_deferred_io_mmap,
+> -	.fb_destroy	= drm_fbdev_fb_destroy,
+> +	.fb_destroy	= drm_fbdev_generic_fb_destroy,
+>   };
+>   
+>   /*
+>    * This function uses the client API to create a framebuffer backed by a dumb buffer.
+>    */
+> -static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+> -			      struct drm_fb_helper_surface_size *sizes)
+> +static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+> +					     struct drm_fb_helper_surface_size *sizes)
+>   {
+>   	struct drm_client_dev *client = &fb_helper->client;
+>   	struct drm_device *dev = fb_helper->dev;
+> @@ -109,7 +109,7 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+>   
+>   	drm_fb_helper_fill_info(info, fb_helper, sizes);
+>   
+> -	info->fbops = &drm_fbdev_fb_ops;
+> +	info->fbops = &drm_fbdev_generic_fb_ops;
+>   	info->flags = FBINFO_DEFAULT;
+>   
+>   	/* screen */
+> @@ -140,9 +140,9 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+>   	return ret;
+>   }
+>   
+> -static void drm_fbdev_damage_blit_real(struct drm_fb_helper *fb_helper,
+> -				       struct drm_clip_rect *clip,
+> -				       struct iosys_map *dst)
+> +static void drm_fbdev_generic_damage_blit_real(struct drm_fb_helper *fb_helper,
+> +					       struct drm_clip_rect *clip,
+> +					       struct iosys_map *dst)
+>   {
+>   	struct drm_framebuffer *fb = fb_helper->fb;
+>   	size_t offset = clip->y1 * fb->pitches[0];
+> @@ -179,8 +179,8 @@ static void drm_fbdev_damage_blit_real(struct drm_fb_helper *fb_helper,
+>   	}
+>   }
+>   
+> -static int drm_fbdev_damage_blit(struct drm_fb_helper *fb_helper,
+> -				 struct drm_clip_rect *clip)
+> +static int drm_fbdev_generic_damage_blit(struct drm_fb_helper *fb_helper,
+> +					 struct drm_clip_rect *clip)
+>   {
+>   	struct drm_client_buffer *buffer = fb_helper->buffer;
+>   	struct iosys_map map, dst;
+> @@ -204,7 +204,7 @@ static int drm_fbdev_damage_blit(struct drm_fb_helper *fb_helper,
+>   		goto out;
+>   
+>   	dst = map;
+> -	drm_fbdev_damage_blit_real(fb_helper, clip, &dst);
+> +	drm_fbdev_generic_damage_blit_real(fb_helper, clip, &dst);
+>   
+>   	drm_client_buffer_vunmap(buffer);
+>   
+> @@ -214,7 +214,8 @@ static int drm_fbdev_damage_blit(struct drm_fb_helper *fb_helper,
+>   	return ret;
+>   }
+>   
+> -static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect *clip)
+> +static int drm_fbdev_generic_helper_fb_dirty(struct drm_fb_helper *helper,
+> +					     struct drm_clip_rect *clip)
+>   {
+>   	struct drm_device *dev = helper->dev;
+>   	int ret;
+> @@ -223,7 +224,7 @@ static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect
+>   	if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
+>   		return 0;
+>   
+> -	ret = drm_fbdev_damage_blit(helper, clip);
+> +	ret = drm_fbdev_generic_damage_blit(helper, clip);
+>   	if (drm_WARN_ONCE(dev, ret, "Damage blitter failed: ret=%d\n", ret))
+>   		return ret;
+>   
+> @@ -236,12 +237,12 @@ static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect
+>   	return 0;
+>   }
+>   
+> -static const struct drm_fb_helper_funcs drm_fb_helper_generic_funcs = {
+> -	.fb_probe = drm_fbdev_fb_probe,
+> -	.fb_dirty = drm_fbdev_fb_dirty,
+> +static const struct drm_fb_helper_funcs drm_fbdev_generic_helper_funcs = {
+> +	.fb_probe = drm_fbdev_generic_helper_fb_probe,
+> +	.fb_dirty = drm_fbdev_generic_helper_fb_dirty,
+>   };
+>   
+> -static void drm_fbdev_client_unregister(struct drm_client_dev *client)
+> +static void drm_fbdev_generic_client_unregister(struct drm_client_dev *client)
+>   {
+>   	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+>   
+> @@ -254,14 +255,14 @@ static void drm_fbdev_client_unregister(struct drm_client_dev *client)
+>   	}
+>   }
+>   
+> -static int drm_fbdev_client_restore(struct drm_client_dev *client)
+> +static int drm_fbdev_generic_client_restore(struct drm_client_dev *client)
+>   {
+>   	drm_fb_helper_lastclose(client->dev);
+>   
+>   	return 0;
+>   }
+>   
+> -static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
+> +static int drm_fbdev_generic_client_hotplug(struct drm_client_dev *client)
+>   {
+>   	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+>   	struct drm_device *dev = client->dev;
+> @@ -290,11 +291,11 @@ static int drm_fbdev_client_hotplug(struct drm_client_dev *client)
+>   	return ret;
+>   }
+>   
+> -static const struct drm_client_funcs drm_fbdev_client_funcs = {
+> +static const struct drm_client_funcs drm_fbdev_generic_client_funcs = {
+>   	.owner		= THIS_MODULE,
+> -	.unregister	= drm_fbdev_client_unregister,
+> -	.restore	= drm_fbdev_client_restore,
+> -	.hotplug	= drm_fbdev_client_hotplug,
+> +	.unregister	= drm_fbdev_generic_client_unregister,
+> +	.restore	= drm_fbdev_generic_client_restore,
+> +	.hotplug	= drm_fbdev_generic_client_hotplug,
+>   };
+>   
+>   /**
+> @@ -320,8 +321,7 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
+>    *
+>    * The fbdev is destroyed by drm_dev_unregister().
+>    */
+> -void drm_fbdev_generic_setup(struct drm_device *dev,
+> -			     unsigned int preferred_bpp)
+> +void drm_fbdev_generic_setup(struct drm_device *dev, unsigned int preferred_bpp)
+>   {
+>   	struct drm_fb_helper *fb_helper;
+>   	int ret;
+> @@ -332,15 +332,15 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
+>   	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+>   	if (!fb_helper)
+>   		return;
+> -	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &drm_fb_helper_generic_funcs);
+> +	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &drm_fbdev_generic_helper_funcs);
+>   
+> -	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_client_funcs);
+> +	ret = drm_client_init(dev, &fb_helper->client, "fbdev", &drm_fbdev_generic_client_funcs);
+>   	if (ret) {
+>   		drm_err(dev, "Failed to register client: %d\n", ret);
+>   		goto err_drm_client_init;
+>   	}
+>   
+> -	ret = drm_fbdev_client_hotplug(&fb_helper->client);
+> +	ret = drm_fbdev_generic_client_hotplug(&fb_helper->client);
+>   	if (ret)
+>   		drm_dbg_kms(dev, "client hotplug ret=%d\n", ret);
+>   
 
-I didn't run into that. I used
-
-make ARCH=3Darm64
-CROSS_COMPILE=3D/opt/cross/gcc-5.5.0-nolibc/aarch64-linux/bin/aarch64-linux=
--
-drivers/gpu/drm/msm/msm_mdss.o
-
-I did have to disable CONFIG_GCC_PLUGINS, else it couldn't find
-<gmp.h>.
-
-> >> @Rob and other drm/msm people, what do you think about this?
-> >> (or is this already fixed somewhere but not yet in linux-next?)
-> >
-> > Thanks, I posted a similar fix two weeks ago:
-> > https://lore.kernel.org/all/20230306090633.65918-1-geert+renesas@glider=
-.be
->
-> OK, I replied to that one.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
