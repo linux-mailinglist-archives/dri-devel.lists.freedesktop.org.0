@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752626C2C2D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 09:21:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE656C2CC3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 09:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC0010E09D;
-	Tue, 21 Mar 2023 08:20:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA08C10E6D3;
+	Tue, 21 Mar 2023 08:43:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4105410E09D
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 08:20:54 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id y19so8083595pgk.5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 01:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679386854;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Jr1BhuALy9XAego6b5UVtN71EPRczW+dr6tvJtB9h1Y=;
- b=oCzcn+cIlhpZEcIK/AOA0pR/20Gpgd0Tm3VulJkMjV3ceJd3kfxnXDTdsNyRP7gNh2
- cdDBUlOXB1PgGQitsqwzcxc6w3jBm3jbfeY4IZ3Ws/TKTIKaEIB+5Pbnz6SHGE2O2XUp
- 2lvDW5kL6ZCgUOa4qgT9d1Rh5WeKTAQqvQniqfBHCSkTlF/RJIppvgDa70px5hYD4fen
- kTIsIQiLQRaRlHxmtg1trk791g2T0SnnTDB7b1TI1ayLXs5U3WjEUdVqF9wuljHpXT/7
- euE+sYGvW8YfjffTIhHBBLQJjrQKLWzFkOuqqkWdPl83yUuDQgNRTA+9/2QwiayA+Iua
- XE9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679386854;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jr1BhuALy9XAego6b5UVtN71EPRczW+dr6tvJtB9h1Y=;
- b=J/VjslLSzCXkvmSu6vB8X8xodPxaUI3+81tYs6T76d2gzldXox9aJ1uLnRgjj1E/Ry
- l3eTJx1WUQiKGFoEhwBz4O8aZl6aWPPxFhBGdi56MOHdIEGbagwiuIMoqns9XWPU1qGA
- JuAurXsMT80w1CPLkaRFUaJkk+T0rTqVGhIRSdmeHbTFQBD1AYlnXvrg4Z882usI5qkO
- bsvCz8OzsUiBZFMpUs1641pqMhR7LZ83slc+QuMOHSBENMTUy5peIAo7EUJbBRo2yYd3
- E1sPHJtH4NW8OPjXpBI5G6Kt+1p0b0G04bXLYE+2VknjfltuEX1VK8eb4Ii8/I6jIwfW
- U+Bw==
-X-Gm-Message-State: AO0yUKVfT5zn4gzPmF1OaRa5tMXBeCBMmmIx7mwIq52YKYl2O7KZztQ4
- XQEPPDhWlt24arvSfkEELdgWUjp1yDT0xCDokh0=
-X-Google-Smtp-Source: AK7set9OHjXGmmq5OcDZabAExRFA2HJQohhoRRbZLZ2vOzaQtU0kJl1n7DBXcS2HNaFfJUQotoJd/CBHL5nDV00YGjU=
-X-Received: by 2002:a05:6a00:2d9d:b0:627:fb45:9279 with SMTP id
- fb29-20020a056a002d9d00b00627fb459279mr1258618pfb.0.1679386853807; Tue, 21
- Mar 2023 01:20:53 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4FA810E716;
+ Tue, 21 Mar 2023 08:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679388194; x=1710924194;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=cJdbBf+bpw+4ZJXIgzlJlPNlSnPstSFYZ4kxxJGkF7s=;
+ b=n/TwQJGhQv7ka0DGvzc4Y4sIW3wU0kZ8sSUuKsUK3a6N0mYlUk+WYAd3
+ a+kunWP8ALYoH+8Jy9GlTLMPipPydA8O7VBOHifI6YXb+LWxgRY1u8duY
+ v6VgY/3B8muQH+rifySpLcPGmf5W13l4bAFhNN3zYDeSlz0UMYSsX+x6u
+ T0D6D0Xcg2S8eKChCrC2RQKb2UIJK99sDyu9St//bsSNlw0Kfq6nV4BYq
+ Fr+NF7fIUYy8XporFghkRW+x58a7U/DiXijJaziR9AjSNpMtiDGZinQoZ
+ 5mgh5m3SUNrStudjuTfu1VsM2DplJgP3YPGur/vPllbzqUrQ08n6eg7gz A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="340428311"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="340428311"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 01:43:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="674741495"
+X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="674741495"
+Received: from scoyle-mobl.ger.corp.intel.com (HELO [10.213.210.173])
+ ([10.213.210.173])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 01:43:09 -0700
+Message-ID: <f72efa19-8f29-afcd-af07-d2ac89c9785d@linux.intel.com>
+Date: Tue, 21 Mar 2023 08:43:07 +0000
 MIME-Version: 1.0
-References: <20230319142320.1704336-1-trix@redhat.com>
-In-Reply-To: <20230319142320.1704336-1-trix@redhat.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Tue, 21 Mar 2023 09:20:36 +0100
-Message-ID: <CAMeQTsZmJP-RCXfMcLntLx-M=-O=D=hAvu5kNVJWwUzG3Emm=g@mail.gmail.com>
-Subject: Re: [PATCH] drm/gma500: remove unused gma_pipe_event function
-To: Tom Rix <trix@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH][next] drm/i915/uapi: Replace fake flex-array with
+ flexible-array member
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+References: <ZBSu2QsUJy31kjSE@work>
+ <64189999.170a0220.fa1d9.c3f5@mx.google.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <64189999.170a0220.fa1d9.c3f5@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: llvm@lists.linux.dev, ndesaulniers@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nathan@kernel.org
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-hardening@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Mar 19, 2023 at 3:23=E2=80=AFPM Tom Rix <trix@redhat.com> wrote:
->
-> clang with W=3D1 reports
-> drivers/gpu/drm/gma500/psb_irq.c:35:19: error: unused function
->   'gma_pipe_event' [-Werror,-Wunused-function]
-> static inline u32 gma_pipe_event(int pipe)
->                   ^
-> This function is not used, so remove it.
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
 
-Applied to drm-misc-next
+On 20/03/2023 17:36, Kees Cook wrote:
+> On Fri, Mar 17, 2023 at 12:18:01PM -0600, Gustavo A. R. Silva wrote:
+>> Zero-length arrays as fake flexible arrays are deprecated and we are
+>> moving towards adopting C99 flexible-array members instead.
+>>
+>> Address the following warning found with GCC-13 and
+>> -fstrict-flex-arrays=3 enabled:
+>> drivers/gpu/drm/i915/gem/i915_gem_context.c: In function ‘set_proto_ctx_engines.isra’:
+>> drivers/gpu/drm/i915/gem/i915_gem_context.c:769:41: warning: array subscript n is outside array bounds of ‘struct i915_engine_class_instance[0]’ [-Warray-bounds=]
+>>    769 |                 if (copy_from_user(&ci, &user->engines[n], sizeof(ci))) {
+>>        |                                         ^~~~~~~~~~~~~~~~~
+>> ./include/uapi/drm/i915_drm.h:2494:43: note: while referencing ‘engines’
+>>   2494 |         struct i915_engine_class_instance engines[0];
+>>
+>> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+>> routines on memcpy() and help us make progress towards globally
+>> enabling -fstrict-flex-arrays=3 [1].
+>>
+>> Link: https://github.com/KSPP/linux/issues/21
+>> Link: https://github.com/KSPP/linux/issues/271
+>> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
+>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> 
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Thanks
-Patrik
+Flexible array member is even consistent with the rest of our uapi, 
+pushed to drm-intel-gt-next, thanks!
 
-> ---
->  drivers/gpu/drm/gma500/psb_irq.c | 11 -----------
->  1 file changed, 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/ps=
-b_irq.c
-> index d421031462df..343c51250207 100644
-> --- a/drivers/gpu/drm/gma500/psb_irq.c
-> +++ b/drivers/gpu/drm/gma500/psb_irq.c
-> @@ -32,17 +32,6 @@ static inline u32 gma_pipestat(int pipe)
->         BUG();
->  }
->
-> -static inline u32 gma_pipe_event(int pipe)
-> -{
-> -       if (pipe =3D=3D 0)
-> -               return _PSB_PIPEA_EVENT_FLAG;
-> -       if (pipe =3D=3D 1)
-> -               return _MDFLD_PIPEB_EVENT_FLAG;
-> -       if (pipe =3D=3D 2)
-> -               return _MDFLD_PIPEC_EVENT_FLAG;
-> -       BUG();
-> -}
-> -
->  static inline u32 gma_pipeconf(int pipe)
->  {
->         if (pipe =3D=3D 0)
-> --
-> 2.27.0
->
+Regards,
+
+Tvrtko
