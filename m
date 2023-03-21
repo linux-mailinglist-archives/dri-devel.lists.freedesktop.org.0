@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F766C3DD3
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 23:44:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBE56C3E67
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 00:20:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD3EB10E0B8;
-	Tue, 21 Mar 2023 22:44:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CEE10E090;
+	Tue, 21 Mar 2023 23:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB7B410E090;
- Tue, 21 Mar 2023 22:43:58 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C3A7961EA5;
- Tue, 21 Mar 2023 22:43:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859B7C433EF;
- Tue, 21 Mar 2023 22:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679438637;
- bh=wfo7V47Np3h5tGvyKnD1o5gYIQhfx16SqiwtGmzkge8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PRGJE5aYL1Bj3ZY+M0ayws6Z+9gowGQkJUXbMex2IgNEP8JEwRKtJvi0qScssXJzQ
- tjGrKwu3ZV9aFc4vHPNkYP4akXGcv74kBUZ7hCV/dSfL2e82PfrWbCl/7TT7tKG1zI
- vEm8NxEAvriIWLml8Pr/XZ/STWalUyjaZvgu70d+dkVc2S+85YQvEnYIs9jzqDleLu
- 8fZt5SqMJ/8RHxQTjHFJKpklerFqqoxO/24cVXk50nfitnJ4prjXWV+WiLBBRc5v6T
- fJjIcG7M18Eqe+kU5QNSPAaH7jH9MQ6+V63uMsKcS6bKBxPrrwcwGiTfcHhM3iaqCD
- JTd7xYdRuT3yQ==
-Date: Tue, 21 Mar 2023 23:43:53 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [PATCH v2 1/2] drm/i915: Sanitycheck MMIO access early in driver
- load
-Message-ID: <20230321224353.h6l2gwv3iuac6vd2@intel.intel>
-References: <20230321170936.478631-1-andi.shyti@linux.intel.com>
- <20230321170936.478631-2-andi.shyti@linux.intel.com>
- <20230321215527.GQ4085390@mdroper-desk1.amr.corp.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAE9710E090;
+ Tue, 21 Mar 2023 23:20:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679440849; x=1710976849;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=UsqKTo91wUQK7ceAEqYtePGKnFrbM2iP61CwVRfFsDo=;
+ b=A7LiYjRLFf87ckBzLllHf7QaLlMo5IkVrJcDzYrEAXnZK1OS7GON1pDX
+ SsPQ9C+7pT8IGIBrqMSFxnnfhu7R2+ub8ZBL7zKZXqM4/Owfa7KvxqvaH
+ kFT2Ca2OnxbbD79XeI+P1TzbmvZcHkAA49I3yCVdu/X1VrkSB14cXvY4/
+ EVu2EsbJeOZdWQN2EoTT8C6By171Ca7cxB8rGRCsEo97VY32H6EFZPGOR
+ bBY86wZnuAapwAI48dxzIy/+z6q86aSQ2QFPWtimhJbVh1clb5gcRUCVD
+ dka+bkRy36wH+GIV7npnnA/RsBuQ+NLTlmUidBzcXiuSOnLKfearQgl+C g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="327460155"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="327460155"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 16:20:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="714184207"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="714184207"
+Received: from rbirkl-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.222.70])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 16:20:39 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>
+Subject: [PATCH] drm/i915: Make IRQ reset and postinstall multi-gt aware
+Date: Wed, 22 Mar 2023 00:20:09 +0100
+Message-Id: <20230321232009.541585-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321215527.GQ4085390@mdroper-desk1.amr.corp.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,110 +57,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
- Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org,
- Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+From: Paulo Zanoni <paulo.r.zanoni@intel.com>
 
-> > We occasionally see the PCI device in a non-accessible state at the
-> > point the driver is loaded.  When this happens, all BAR accesses will
-> > read back as 0xFFFFFFFF.  Rather than reading registers and
-> > misinterpreting their (invalid) values, let's specifically check for
-> > 0xFFFFFFFF in a register that cannot have that value to see if the
-> > device is accessible.
-> > 
-> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> > Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> > Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/intel_uncore.c | 35 +++++++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> > index e1e1f34490c8e..0b69081d6d285 100644
-> > --- a/drivers/gpu/drm/i915/intel_uncore.c
-> > +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> > @@ -2602,11 +2602,46 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
-> >  	return 0;
-> >  }
-> >  
-> > +static int sanity_check_mmio_access(struct intel_uncore *uncore)
-> > +{
-> > +	struct drm_i915_private *i915 = uncore->i915;
-> > +	int ret;
-> > +
-> > +	if (GRAPHICS_VER(i915) < 8)
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * Sanitycheck that MMIO access to the device is working properly.  If
-> > +	 * the CPU is unable to communcate with a PCI device, BAR reads will
-> > +	 * return 0xFFFFFFFF.  Let's make sure the device isn't in this state
-> > +	 * before we start trying to access registers.
-> > +	 *
-> > +	 * We use the primary GT's forcewake register as our guinea pig since
-> > +	 * it's been around since HSW and it's a masked register so the upper
-> > +	 * 16 bits can never read back as 1's if device access is operating
-> > +	 * properly.
-> > +	 *
-> > +	 * If MMIO isn't working, we'll wait up to 2 seconds to see if it
-> > +	 * recovers, then give up.
-> > +	 */
-> > +	ret = intel_wait_for_register_fw(uncore, FORCEWAKE_MT, 0, 0, 2000000);
-> 
-> It looks like you lost the check for 0xFFFFFFFF specifically.  In fact
-> with a mask/value of 0, isn't this always going to just always pass
-> immediately?
+In multitile systems IRQ need to be reset and enabled per GT.
 
-uh... yes... sorry, I just got confused and lost track of the
-goal of the patch.
+Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+---
+ drivers/gpu/drm/i915/i915_irq.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-Sorry, then please ignore... I don't see then how
-intel_wait_for_register_fw() can be used with a '!='.
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index 31271c30a8cf4..ee4530ec14de3 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -2762,14 +2762,19 @@ static void dg1_irq_reset(struct drm_i915_private *dev_priv)
+ {
+ 	struct intel_gt *gt = to_gt(dev_priv);
+ 	struct intel_uncore *uncore = gt->uncore;
++	unsigned int i;
+ 
+ 	dg1_master_intr_disable(dev_priv->uncore.regs);
+ 
+-	gen11_gt_irq_reset(gt);
+-	gen11_display_irq_reset(dev_priv);
++	for_each_gt(gt, dev_priv, i) {
++		gen11_gt_irq_reset(gt);
+ 
+-	GEN3_IRQ_RESET(uncore, GEN11_GU_MISC_);
+-	GEN3_IRQ_RESET(uncore, GEN8_PCU_);
++		uncore = gt->uncore;
++		GEN3_IRQ_RESET(uncore, GEN11_GU_MISC_);
++		GEN3_IRQ_RESET(uncore, GEN8_PCU_);
++	}
++
++	gen11_display_irq_reset(dev_priv);
+ }
+ 
+ void gen8_irq_power_well_post_enable(struct drm_i915_private *dev_priv,
+@@ -3423,13 +3428,16 @@ static void gen11_irq_postinstall(struct drm_i915_private *dev_priv)
+ 
+ static void dg1_irq_postinstall(struct drm_i915_private *dev_priv)
+ {
+-	struct intel_gt *gt = to_gt(dev_priv);
+-	struct intel_uncore *uncore = gt->uncore;
+ 	u32 gu_misc_masked = GEN11_GU_MISC_GSE;
++	struct intel_gt *gt;
++	unsigned int i;
+ 
+-	gen11_gt_irq_postinstall(gt);
++	for_each_gt(gt, dev_priv, i) {
++		gen11_gt_irq_postinstall(gt);
+ 
+-	GEN3_IRQ_INIT(uncore, GEN11_GU_MISC_, ~gu_misc_masked, gu_misc_masked);
++		GEN3_IRQ_INIT(gt->uncore, GEN11_GU_MISC_, ~gu_misc_masked,
++			      gu_misc_masked);
++	}
+ 
+ 	if (HAS_DISPLAY(dev_priv)) {
+ 		icp_irq_postinstall(dev_priv);
+@@ -3438,8 +3446,8 @@ static void dg1_irq_postinstall(struct drm_i915_private *dev_priv)
+ 				   GEN11_DISPLAY_IRQ_ENABLE);
+ 	}
+ 
+-	dg1_master_intr_enable(uncore->regs);
+-	intel_uncore_posting_read(uncore, DG1_MSTR_TILE_INTR);
++	dg1_master_intr_enable(to_gt(dev_priv)->uncore->regs);
++	intel_uncore_posting_read(to_gt(dev_priv)->uncore, DG1_MSTR_TILE_INTR);
+ }
+ 
+ static void cherryview_irq_postinstall(struct drm_i915_private *dev_priv)
+-- 
+2.39.2
 
-Please, ignore this v2.
-
-Thanks and sorry, again,
-Andi
-
-> We don't know what the value of this register will be (there may or may
-> not be some bits set), but we need to make sure that it isn't 0xFFFFFFFF
-> because that means we're not even truly accessing the register, just
-> hitting a PCI BAR read failure.
-> 
-> 
-> Matt
-> 
-> > +	if (ret == -ETIMEDOUT) {
-> > +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
-> > +		return -EIO;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  int intel_uncore_init_mmio(struct intel_uncore *uncore)
-> >  {
-> >  	struct drm_i915_private *i915 = uncore->i915;
-> >  	int ret;
-> >  
-> > +	ret = sanity_check_mmio_access(uncore);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	/*
-> >  	 * The boot firmware initializes local memory and assesses its health.
-> >  	 * If memory training fails, the punit will have been instructed to
-> > -- 
-> > 2.39.2
-> > 
-> 
-> -- 
-> Matt Roper
-> Graphics Software Engineer
-> Linux GPU Platform Enablement
-> Intel Corporation
