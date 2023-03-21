@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2484F6C27DF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23EE6C27E0
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:10:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBED010E399;
-	Tue, 21 Mar 2023 02:10:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1119510E6A9;
+	Tue, 21 Mar 2023 02:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2283310E399
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB95D10E399
  for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 02:09:56 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 4F803327B51;
- Tue, 21 Mar 2023 02:09:54 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 1DAE3327B52;
+ Tue, 21 Mar 2023 02:09:55 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1679364594; bh=p8JbTrPnIlP96PBlQgyynuBoE5QntvKojhSepuzrjY0=;
+ t=1679364595; bh=xnsvOncddHHL/2XH0xvGD4f8pHTv/bgxLX+ij/rTfEg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CeZGY9ZqNP3uzWzxPmjwb9Eqaxkr4uaSOR1Lww5AOzCBKicJavicaCRb8BO8wOJIY
- dtFUgRaxeSfLaCIxM8ZiorW/p8E7oiMpSOIaVcyCq1n9o8SEJOoNsMLwNEhfDdJCnK
- eC73EmxhwNm+63tfcGIYWWVDZa9/38ZE1g8j9UYd500Q9DrfcfvA6uG96VchxfP2in
- JtdIlXR4wjft6Ug42/tv3TsOogQQrt7dcOWQ78w6RLGKWdyHJkX/v8I7wM5SqCNhAZ
- SsQlpiYTURzfw86zVNvBitnYpTOuRvOC9HzcQXG3iwLRHD6/iIYhKxmBil/o2gxVal
- NcULICq/627lA==
+ b=cORFKrQRnDBNjq93aP9HU48IyDA4egUOQO5y3LHel4bYBC8wM6k7GFFxMbtvceBSD
+ MsEcHxRwLpyEEKn3OgHJ3BFD2q7ImJ7s5mC3HQlyV6RDj0Oe972zmqBCRXTFmMG/4k
+ wWH7hd52R+uF4ZPUDjBnmrfWyyCiCskBhrsfa91Nx1sTVPvjcfKJlEEt8PqYy7ZVnB
+ SA9OvfYUoUTD0mLYIiC3lTdCGZc+NhB3+UeA/eaj8F87V8Xf3Odd9UvLk7tpSUo3aZ
+ EkU5ke18FEIaCVu641jLocgFbq056iWRjvV/Bbxj/HW0RNZjRfAk7ZpSclEbmaoHrS
+ RoUE6mYT7uf2w==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/vmwgfx: Print errors when running on
- broken/unsupported configs
-Date: Mon, 20 Mar 2023 22:09:48 -0400
-Message-Id: <20230321020949.335012-2-zack@kde.org>
+Subject: [PATCH 3/3] drm/vmwgfx: Fix Legacy Display Unit atomic drm support
+Date: Mon, 20 Mar 2023 22:09:49 -0400
+Message-Id: <20230321020949.335012-3-zack@kde.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230321020949.335012-1-zack@kde.org>
 References: <20230321020949.335012-1-zack@kde.org>
@@ -54,117 +53,211 @@ Cc: krastevm@vmware.com, iforbes@vmware.com, banackm@vmware.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
+From: Martin Krastev <krastevm@vmware.com>
 
-virtualbox implemented an incomplete version of the svga device which
-they decided to drop soon after the initial release. The device was
-always broken in various ways and never supported by vmwgfx.
+Legacy Display Unit (LDU) fb dirty support used a custom fb dirty callback. Latter
+handled only the DIRTYFB IOCTL presentation path but not the ADDFB2/PAGE_FLIP/RMFB
+IOCTL path, common for Wayland compositors.
 
-vmwgfx should refuse to load on those configurations but currently
-drm has no way of reloading fbdev when the specific pci driver refuses
-to load, which would leave users without a usable fb. Instead of
-refusing to load print an error and disable a bunch of functionality
-that virtualbox never implemented to at least get fb to work on their
-setup.
+Get rid of the custom callback in favor of drm_atomic_helper_dirtyfb and unify the
+handling of the presentation paths inside of vmw_ldu_primary_plane_atomic_update.
+This also homogenizes the fb dirty callbacks across all DUs: LDU, SOU and STDU.
 
+Signed-off-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+Fixes: 2f5544ff0300 ("drm/vmwgfx: Use atomic helper function for dirty fb IOCTL")
+Cc: <stable@vger.kernel.org> # v5.0+
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 29 +++++++++++++++++++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  2 ++
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c |  9 +++++++++
- 3 files changed, 40 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 62 +----------------------------
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h |  5 ---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c | 45 +++++++++++++++++----
+ 3 files changed, 38 insertions(+), 74 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 2588615a2a38..8b24ecf60e3e 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -45,6 +45,9 @@
- #include <drm/ttm/ttm_placement.h>
- #include <generated/utsrelease.h>
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 84d6380b9895..866bc3bd157a 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -1396,70 +1396,10 @@ static void vmw_framebuffer_bo_destroy(struct drm_framebuffer *framebuffer)
+ 	kfree(vfbd);
+ }
  
-+#ifdef CONFIG_X86
-+#include <asm/hypervisor.h>
-+#endif
- #include <linux/cc_platform.h>
- #include <linux/dma-mapping.h>
- #include <linux/module.h>
-@@ -897,6 +900,16 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 				 cap2_names, ARRAY_SIZE(cap2_names));
- 	}
+-static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
+-				    struct drm_file *file_priv,
+-				    unsigned int flags, unsigned int color,
+-				    struct drm_clip_rect *clips,
+-				    unsigned int num_clips)
+-{
+-	struct vmw_private *dev_priv = vmw_priv(framebuffer->dev);
+-	struct vmw_framebuffer_bo *vfbd =
+-		vmw_framebuffer_to_vfbd(framebuffer);
+-	struct drm_clip_rect norect;
+-	int ret, increment = 1;
+-
+-	drm_modeset_lock_all(&dev_priv->drm);
+-
+-	if (!num_clips) {
+-		num_clips = 1;
+-		clips = &norect;
+-		norect.x1 = norect.y1 = 0;
+-		norect.x2 = framebuffer->width;
+-		norect.y2 = framebuffer->height;
+-	} else if (flags & DRM_MODE_FB_DIRTY_ANNOTATE_COPY) {
+-		num_clips /= 2;
+-		increment = 2;
+-	}
+-
+-	switch (dev_priv->active_display_unit) {
+-	case vmw_du_legacy:
+-		ret = vmw_kms_ldu_do_bo_dirty(dev_priv, &vfbd->base, 0, 0,
+-					      clips, num_clips, increment);
+-		break;
+-	default:
+-		ret = -EINVAL;
+-		WARN_ONCE(true, "Dirty called with invalid display system.\n");
+-		break;
+-	}
+-
+-	vmw_cmd_flush(dev_priv, false);
+-
+-	drm_modeset_unlock_all(&dev_priv->drm);
+-
+-	return ret;
+-}
+-
+-static int vmw_framebuffer_bo_dirty_ext(struct drm_framebuffer *framebuffer,
+-					struct drm_file *file_priv,
+-					unsigned int flags, unsigned int color,
+-					struct drm_clip_rect *clips,
+-					unsigned int num_clips)
+-{
+-	struct vmw_private *dev_priv = vmw_priv(framebuffer->dev);
+-
+-	if (dev_priv->active_display_unit == vmw_du_legacy &&
+-	    vmw_cmd_supported(dev_priv))
+-		return vmw_framebuffer_bo_dirty(framebuffer, file_priv, flags,
+-						color, clips, num_clips);
+-
+-	return drm_atomic_helper_dirtyfb(framebuffer, file_priv, flags, color,
+-					 clips, num_clips);
+-}
+-
+ static const struct drm_framebuffer_funcs vmw_framebuffer_bo_funcs = {
+ 	.create_handle = vmw_framebuffer_bo_create_handle,
+ 	.destroy = vmw_framebuffer_bo_destroy,
+-	.dirty = vmw_framebuffer_bo_dirty_ext,
++	.dirty = drm_atomic_helper_dirtyfb,
+ };
  
-+	if (!vmwgfx_supported(dev_priv)) {
-+		vmw_disable_backdoor();
-+		drm_err_once(&dev_priv->drm,
-+			     "vmwgfx seems to be running on an unsupported hypervisor.");
-+		drm_err_once(&dev_priv->drm,
-+			     "This configuration is likely broken.");
-+		drm_err_once(&dev_priv->drm,
-+			     "Please switch to a supported graphics device to avoid problems.");
+ /**
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+index 3de7b4b6a230..db81e635dc06 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.h
+@@ -507,11 +507,6 @@ void vmw_du_connector_destroy_state(struct drm_connector *connector,
+  */
+ int vmw_kms_ldu_init_display(struct vmw_private *dev_priv);
+ int vmw_kms_ldu_close_display(struct vmw_private *dev_priv);
+-int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
+-			    struct vmw_framebuffer *framebuffer,
+-			    unsigned int flags, unsigned int color,
+-			    struct drm_clip_rect *clips,
+-			    unsigned int num_clips, int increment);
+ int vmw_kms_update_proxy(struct vmw_resource *res,
+ 			 const struct drm_clip_rect *clips,
+ 			 unsigned num_clips,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+index c0e42f2ed144..a82fa9700370 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c
+@@ -275,6 +275,7 @@ static const struct drm_crtc_funcs vmw_legacy_crtc_funcs = {
+ 	.atomic_duplicate_state = vmw_du_crtc_duplicate_state,
+ 	.atomic_destroy_state = vmw_du_crtc_destroy_state,
+ 	.set_config = drm_atomic_helper_set_config,
++	.page_flip = drm_atomic_helper_page_flip,
+ };
+ 
+ 
+@@ -314,6 +315,12 @@ static const struct
+ drm_connector_helper_funcs vmw_ldu_connector_helper_funcs = {
+ };
+ 
++static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
++				   struct vmw_framebuffer *framebuffer,
++				   unsigned int flags, unsigned int color,
++				   struct drm_mode_rect *clips,
++				   unsigned int num_clips);
++
+ /*
+  * Legacy Display Plane Functions
+  */
+@@ -332,7 +339,6 @@ vmw_ldu_primary_plane_atomic_update(struct drm_plane *plane,
+ 	struct drm_framebuffer *fb;
+ 	struct drm_crtc *crtc = new_state->crtc ?: old_state->crtc;
+ 
+-
+ 	ldu = vmw_crtc_to_ldu(crtc);
+ 	dev_priv = vmw_priv(plane->dev);
+ 	fb       = new_state->fb;
+@@ -345,8 +351,31 @@ vmw_ldu_primary_plane_atomic_update(struct drm_plane *plane,
+ 		vmw_ldu_del_active(dev_priv, ldu);
+ 
+ 	vmw_ldu_commit_list(dev_priv);
+-}
+ 
++	if (vfb && vmw_cmd_supported(dev_priv)) {
++		struct drm_mode_rect fb_rect = {
++			.x1 = 0,
++			.y1 = 0,
++			.x2 = vfb->base.width,
++			.y2 = vfb->base.height
++		};
++		struct drm_mode_rect *damage_rects = drm_plane_get_damage_clips(new_state);
++		u32 rect_count = drm_plane_get_damage_clips_count(new_state);
++		int ret;
++
++		if (!damage_rects) {
++			damage_rects = &fb_rect;
++			rect_count = 1;
++		}
++
++		ret = vmw_kms_ldu_do_bo_dirty(dev_priv, vfb, 0, 0, damage_rects, rect_count);
++
++		drm_WARN_ONCE(plane->dev, ret,
++			"vmw_kms_ldu_do_bo_dirty failed with: ret=%d\n", ret);
++
++		vmw_cmd_flush(dev_priv, false);
 +	}
-+
- 	ret = vmw_dma_select_mode(dev_priv);
- 	if (unlikely(ret != 0)) {
- 		drm_info(&dev_priv->drm,
-@@ -1320,6 +1333,22 @@ static void vmw_master_drop(struct drm_device *dev,
- 	vmw_kms_legacy_hotspot_clear(dev_priv);
++}
+ 
+ static const struct drm_plane_funcs vmw_ldu_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+@@ -577,11 +606,11 @@ int vmw_kms_ldu_close_display(struct vmw_private *dev_priv)
  }
  
-+bool vmwgfx_supported(struct vmw_private *vmw)
-+{
-+#if defined(CONFIG_X86)
-+	return hypervisor_is_type(X86_HYPER_VMWARE);
-+#elif defined(CONFIG_ARM64)
-+	/*
-+	 * On aarch64 only svga3 is supported
-+	 */
-+	return vmw->pci_id == VMWGFX_PCI_ID_SVGA3;
-+#else
-+	drm_warn_once(&vmw->drm,
-+		      "vmwgfx is running on an unknown architecture.");
-+	return false;
-+#endif
-+}
-+
- /**
-  * __vmw_svga_enable - Enable SVGA mode, FIFO and use of VRAM.
-  *
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index fb8f0c0642c0..3810a9984a7f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -773,6 +773,7 @@ static inline u32 vmw_max_num_uavs(struct vmw_private *dev_priv)
  
- extern void vmw_svga_enable(struct vmw_private *dev_priv);
- extern void vmw_svga_disable(struct vmw_private *dev_priv);
-+bool vmwgfx_supported(struct vmw_private *vmw);
+-int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
+-			    struct vmw_framebuffer *framebuffer,
+-			    unsigned int flags, unsigned int color,
+-			    struct drm_clip_rect *clips,
+-			    unsigned int num_clips, int increment)
++static int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
++				   struct vmw_framebuffer *framebuffer,
++				   unsigned int flags, unsigned int color,
++				   struct drm_mode_rect *clips,
++				   unsigned int num_clips)
+ {
+ 	size_t fifo_size;
+ 	int i;
+@@ -597,7 +626,7 @@ int vmw_kms_ldu_do_bo_dirty(struct vmw_private *dev_priv,
+ 		return -ENOMEM;
  
- 
- /**
-@@ -1358,6 +1359,7 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
- 		    struct vmw_diff_cpy *diff);
- 
- /* Host messaging -vmwgfx_msg.c: */
-+void vmw_disable_backdoor(void);
- int vmw_host_get_guestinfo(const char *guest_info_param,
- 			   char *buffer, size_t *length);
- __printf(1, 2) int vmw_host_printf(const char *fmt, ...);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index ca1a3fe44fa5..2651fe0ef518 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -1179,3 +1179,12 @@ int vmw_mksstat_remove_ioctl(struct drm_device *dev, void *data,
- 
- 	return -EAGAIN;
- }
-+
-+/**
-+ * vmw_disable_backdoor: Disables all backdoor communication
-+ * with the hypervisor.
-+ */
-+void vmw_disable_backdoor(void)
-+{
-+	vmw_msg_enabled = 0;
-+}
+ 	memset(cmd, 0, fifo_size);
+-	for (i = 0; i < num_clips; i++, clips += increment) {
++	for (i = 0; i < num_clips; i++, clips++) {
+ 		cmd[i].header = SVGA_CMD_UPDATE;
+ 		cmd[i].body.x = clips->x1;
+ 		cmd[i].body.y = clips->y1;
 -- 
 2.38.1
 
