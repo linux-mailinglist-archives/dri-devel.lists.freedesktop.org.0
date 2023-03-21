@@ -2,77 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6636C34DD
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 15:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0808B6C350D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 16:06:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C6F10E220;
-	Tue, 21 Mar 2023 14:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96A2B10E240;
+	Tue, 21 Mar 2023 15:06:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E9EE10E220
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 14:57:43 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4532B582090;
- Tue, 21 Mar 2023 10:57:42 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Tue, 21 Mar 2023 10:57:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1679410662; x=1679417862; bh=WZ
- Ckbh/tYGNxV+F2X4fGjvMhyY0o6gXTLsZ+ZHhktts=; b=hR5369FKPFCxMf7rzi
- I7rmDxOiakJl1l3s/R6QoM2Y6rTdUVhmy//Vq8htzIrcwZTbL5O71qycjQei52hZ
- DOEk8D4aPdB5vM9LZQOC+9oFc+JYHUSMqmlz0FGJRRweEEHadXUGLtmoFqWY0Koc
- 0THQUFeZYca2cfPO9ZX0MJO5MpvGRugjR+KjQ4WGAi6bXpT7JqEhBnNDv7DeKMFU
- 00PqvG3cGb8FOa1K3BnOiD8nJQE1berJFG1oKjc2BqiGlfBENbOYS5ERrCQ75L7q
- Hbfnb4Gadt/DRrRW89Ye+VgouZHOAX+tIRrw7LlUf1WYsGqNR3KdE3mRmdBjNwrJ
- S4vg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1679410662; x=1679417862; bh=WZCkbh/tYGNxV
- +F2X4fGjvMhyY0o6gXTLsZ+ZHhktts=; b=rILf9kiCjLqy98oLvC0dfF06Zbobw
- 6thcabURJMPNPlSsFDpp875rnPpOrHFwTf3ENZAtaLG0W7KqtKkU/8Q6Wc9qBpFl
- kqX+TfJSvkvZhbgj/b+YAVSwY11m2OeIgSyxLQOtQ5HzFf65Wxl9uUqoWrk1jrBZ
- +SjOo9grCHExaXf12fHr3uwY6W2S0tYgNf9lfc5wHW4ftEoAgdIkrpZI3y8M5Jc0
- 8UQppsx/PkozffbSivg6/XXn9tppCSLTcBOA4xGP5S3a+dL67rZLlO6lhRFmC9H9
- aRhlLqo5RocfPRkUYAdETTeoLwBXV3VLmdDWkeAzDCn4tzek69PkN3KpQ==
-X-ME-Sender: <xms:5cUZZNLW08BDnJwpBb1MgYgeXHruxfOpicBGqRPeMWows9sQlFadrw>
- <xme:5cUZZJI_wdrvSWMGqMGm5JGBjFnn8iFc34hhF_cGDOX84_Xc7vUTU_a6L3U0Ax8X5
- -eplCNlfUOY3jkPW7g>
-X-ME-Received: <xmr:5cUZZFuVXfFZF1jZbJQHQOHWW1kWCT8vBucXc4JkNSOSNxn_Mf6G5q08rXZsvuI_QU4DQm9MUkqgxoFD5BUw6Pc1v8r6CK8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegtddgieelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
- geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:5cUZZObFz7fuN8U4Ep1CWo3Siw1FmKVYs3S2ZZqT2dgF5fRpr9kt1w>
- <xmx:5cUZZEarjw9CzY3z28k1tIOyHhTGdIw-qEn9LbK0sOmJYkqBA6guTw>
- <xmx:5cUZZCBte83TG_6wNpIc_LDmR2HGh8ShOeb-WUlBKMcVVW4f6_XEmw>
- <xmx:5sUZZBLC5tcBipVIa9w1JHnzqumCxaFU9nCX-V1WMFyDUHB8plrjWw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Mar 2023 10:57:40 -0400 (EDT)
-Date: Tue, 21 Mar 2023 15:57:39 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH 1/1] drm/sun4i: tcon: Fix setting PLL rate when using DSI
-Message-ID: <20230321145739.jlpbzplsc27dlh7v@houat>
-References: <20230319160704.9858-1-frank@oltmanns.dev>
- <20230319160704.9858-2-frank@oltmanns.dev>
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC6E10E1F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 15:06:29 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id g18so15854212ljl.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 08:06:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679411187;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FiHy9zm4LtANP3nP8u7ZmP1cRrMSZ1F7M7tdsLnmL5c=;
+ b=WVxB8OnWOd82MsZge6qyZe78WYMa2VOUhdSVwMf3MO1ts2efmgCXrK7E+I183v5A2n
+ wafE6+D1bTvLkU05rFTK8YrVEGqojO5lVkhDjzhuQoMa2yuJehT4diwB7sqHX97KFmK7
+ Wy8n+S49oALnfBvUtGOjNpT4gzttfgzwZyimCUmun85ePPSwKwdXXSz2MqZjk3dTamwy
+ Rb2d3JESU3vv2o9p/lMpvyVXGq6JCa3N6vdYnNjMVngtRu3NPx4rlEudBTU3CLp5S/IG
+ 4myTBrJo6qPEpVhoYmopspUmjFuBdAiCQWFUoEzzfuDE4hVuKaPlVh4krCKX9R/IRLTP
+ y8sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679411187;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FiHy9zm4LtANP3nP8u7ZmP1cRrMSZ1F7M7tdsLnmL5c=;
+ b=OK515YtEVkYj1sv/0XsA8L4ynyPSdCF9Q5wu7kyE//aCNUZ1kHZi+DUqfpmOYN2PeK
+ Tm2AuX6tBVQc5k3clhD0let/Jgc+W2Hx3x/FUJF01EvhXziE7TcWtJ2paBTKWyJIZfP4
+ QF2/x0C2vIxZBto41dHHn9O/BirjTETQL6cX4UryXuOvqG+GPczzexiyWcOBaHyUtYjn
+ ZMEA+PBqgGvEvTnxFZUo1hYaihyBIT8LdujDzS85nnfzehhG9C0PEtFvPcTnnkTMqrCY
+ bsZb8njItfZ2Q+MuYLlk2yxJ3p6XATtosn8GU2tmi9PT7MAHz7MkknjaOijNbJzHcb1v
+ BVRA==
+X-Gm-Message-State: AO0yUKXC+L0j8Y0D4az50nreTzx9mAxw2+IsBI3nl52MyZKAevmsyjO0
+ qWlEQBHydujYgDX7Qrci1Cf8ug==
+X-Google-Smtp-Source: AK7set+e5ls0OWebGd/IN1tP2tPlzD51sw/ZlRWK0EpUUVd/5kDr0H3DXsUwYYPYx8qvcnam7pB+jw==
+X-Received: by 2002:a05:651c:144:b0:298:acea:d261 with SMTP id
+ c4-20020a05651c014400b00298acead261mr1128029ljd.21.1679411187677; 
+ Tue, 21 Mar 2023 08:06:27 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ y22-20020a2e3216000000b0029e84187ce2sm725080ljy.139.2023.03.21.08.06.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 08:06:27 -0700 (PDT)
+Message-ID: <c0ac71a0-4407-de19-ef7a-05004c3e0a2b@linaro.org>
+Date: Tue, 21 Mar 2023 17:06:26 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="p6lqqqs2douyc2p3"
-Content-Disposition: inline
-In-Reply-To: <20230319160704.9858-2-frank@oltmanns.dev>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 03/10] drm/msm: fix NULL-deref on snapshot tear down
+Content-Language: en-GB
+To: Johan Hovold <johan+linaro@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230306100722.28485-1-johan+linaro@kernel.org>
+ <20230306100722.28485-4-johan+linaro@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230306100722.28485-4-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,56 +77,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10"
- <dri-devel@lists.freedesktop.org>, open list <linux-kernel@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- jagan@amarulasolutions.com, michael@amarulasolutions.com,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 06/03/2023 12:07, Johan Hovold wrote:
+> In case of early initialisation errors and on platforms that do not use
+> the DPU controller, the deinitilisation code can be called with the kms
+> pointer set to NULL.
+> 
+> Fixes: 98659487b845 ("drm/msm: add support to take dpu snapshot")
+> Cc: stable@vger.kernel.org      # 5.14
+> Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
---p6lqqqs2douyc2p3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Hi,
+> ---
+>   drivers/gpu/drm/msm/msm_drv.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index 9ded384acba4..17a59d73fe01 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -242,7 +242,8 @@ static int msm_drm_uninit(struct device *dev)
+>   		msm_fbdev_free(ddev);
+>   #endif
+>   
+> -	msm_disp_snapshot_destroy(ddev);
+> +	if (kms)
+> +		msm_disp_snapshot_destroy(ddev);
+>   
+>   	drm_mode_config_cleanup(ddev);
+>   
 
-On Sun, Mar 19, 2023 at 05:07:04PM +0100, Frank Oltmanns wrote:
-> Set the required PLL rate by adjusting the dotclock rate when calling
-> clk_set_rate() when using DSI.
->=20
-> According to the Allwinners A64's BSP code, a TCON divider of 4 has to
-> be used and the PLL rate needs to be set to the following frequency when
-> using DSI:
->     PLL rate =3D DCLK * bpp / lanes
->=20
-> After this change the common mode set function would only contain
-> setting the resolution. Therefore, dissolve the function and transfer
-> the functionality to the individual mode set functions.
->=20
-> Signed-off-by: Frank Oltmanns <frank@oltmanns.dev>
+-- 
+With best wishes
+Dmitry
 
-This is similar to:
-https://lore.kernel.org/all/20230320161636.24411-1-romanberanek@icloud.com/
-
-What's the story there?
-
-Maxime
-
---p6lqqqs2douyc2p3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZBnF4wAKCRDj7w1vZxhR
-xTlHAP9hZXRLcHFHF6akyZpKqfeIfat5Kq/GQ60EkQZNui464AEAs9lW2mPHhILc
-QNQTIPwgSzuSlRTyCidCZj5arUxu3wY=
-=7tRe
------END PGP SIGNATURE-----
-
---p6lqqqs2douyc2p3--
