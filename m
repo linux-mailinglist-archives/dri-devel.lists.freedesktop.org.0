@@ -2,79 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586EB6C3D0E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 22:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD056C3D1C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 22:55:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2651810E875;
-	Tue, 21 Mar 2023 21:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0124F10E873;
+	Tue, 21 Mar 2023 21:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 948C710E873
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 21:52:43 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32LLiXbn025654; Tue, 21 Mar 2023 21:52:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=PcE667DJcFj2w9l1bNqMFrpNeZt6KZomaAf5kAvLTWs=;
- b=ewzvb9GGVoYKtO6jUd4vOUxnVbGq7TzjxdwuUUzWqU+KwBvAP7+o3R7DKlrK43+pim6j
- Ehw5d7vrE3OTyC5m/KwFHaYfRHes/WWt1pNbxv8SKIBURcFfAz8SS5DzkdMtJTlDUr1q
- 2IeFI3Hb0bVSpHd300Vyuj6R+Z3lj0q0fCdC6dWgQ2ubreYREmxhZBkQ/RRcx9OQpUcE
- 8luD92V1MLScszjPJBKthZD21+Q7FpPRqkkyWJ72W3SCyalSC4xEZidIg/w9o0ArzHsd
- f6T0r/wSTkqxNUN+de7uj62XzIa2mIgbVq7OL4dcBJ5NeaijLKlzKheZS2FSdKEnz7BW nA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfhnt0d6g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Mar 2023 21:52:14 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32LLqDR2005084
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Mar 2023 21:52:13 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 21 Mar
- 2023 14:52:12 -0700
-Message-ID: <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
-Date: Tue, 21 Mar 2023 15:52:11 -0600
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F06910E873;
+ Tue, 21 Mar 2023 21:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679435736; x=1710971736;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=ivccHhLp7z5r8NUv74IrBDe6vnjOvhytRKVQnmGWlv0=;
+ b=frStv4pgD8J8dGqs31i2DWlGWBr647UqIAX27qClaWX70CeVm3ddayZk
+ nXEAndGknpQJhLcN+H/M10rU8kia/zQh4z+9MLT2En8YxXu4wDsDRHE+G
+ bVE3G2UBWjwEhSUY0yrDUCbCqx7nlfENOJSmgGsUfBkF7owtQMpWG6cpP
+ w8vigb6piFxD9Az3r9KT3QwkAPZIfEu243J2XN2e1fPtUrIT8NCFvglH7
+ H1FFxgw7GqkSuwhcZPfvUpc3gyR3bZzwxda0fWI8KYgRmG6zhAiZDru4h
+ DkILsxPUGegDloxGCj1U970G9WOun+4UvjM1SzHgShKjXEvtdfjCMjDqW g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337792120"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="337792120"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 14:55:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="711988948"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="711988948"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 14:55:33 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 21 Mar 2023 14:55:32 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 21 Mar 2023 14:55:32 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Tue, 21 Mar 2023 14:55:32 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.42) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Tue, 21 Mar 2023 14:55:32 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VxXVC1J21QOmxsINO1vbWFC7aFFAE64RheAeWTpa4yz6CTy+wPfZf7ZTvpazYPNTEuO59hvzaHGcrlKu403qIU70HkzhtjS3MrBoSohY1hOskQs3OCTKw277e13nfosRBs/7CjGkHSHXnWLEjsTPWg8bqtAab4ftHcrhrGBc+nQMM+cvZJYYOBMr3Jvj6VMI7VIiB4K5eAxvVqKsOeYIvLFLng6pbpWwL9tpELM9R0UCI4t48DlorxDTJgjJNQ1qlJOllGU8XIAG4MQhymdfiGlJXZKezwZbC6BWTi1BLfCtMCX9liMlU/kLiF4G6sySioHv+f2WgkMrXtOLMaVTAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4Fgy6o75qo2IWoCvYGMJ1OfDgOKJ5N9VIEbXAFMdVl4=;
+ b=cNILijq9x/4zvzRdNBLsewbGbgw3nmc61oqd5DAO9H+5ta1BrKB6KTvOgLLKzmjEX5B9CtFRbiPe/VataXTko7mIsxhvtXvmuFU9oRttW/F7IunauMXON8d9oPfocQLG5nXC9Z5uTcqxkorE+tvEzGzZxAU45mX9UIUNwJTnTCJOgv3zIYNK2gOJ2UH059J52KKngTDQpmgF1NTDG4Dju+UOS15UKcMiiRSvuBnwLYMCZNbIZEpuW2I5lnA7m2aQHXsmwJP3AGdvUAYsvwrVQ4GpFi8MDmHeGGIKKCiSegHsOwbyv8SDzn8/0kwxk6u00macgGJs8w2xI/Mcv83NxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
+ DM4PR11MB5326.namprd11.prod.outlook.com (2603:10b6:5:391::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.37; Tue, 21 Mar 2023 21:55:30 +0000
+Received: from DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::1c61:b69d:4ca:10d0]) by DS7PR11MB7859.namprd11.prod.outlook.com
+ ([fe80::1c61:b69d:4ca:10d0%7]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
+ 21:55:30 +0000
+Date: Tue, 21 Mar 2023 14:55:27 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH v2 1/2] drm/i915: Sanitycheck MMIO access early in driver
+ load
+Message-ID: <20230321215527.GQ4085390@mdroper-desk1.amr.corp.intel.com>
+References: <20230321170936.478631-1-andi.shyti@linux.intel.com>
+ <20230321170936.478631-2-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230321170936.478631-2-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: SJ0PR05CA0055.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f::30) To DS7PR11MB7859.namprd11.prod.outlook.com
+ (2603:10b6:8:da::22)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v4 1/8] accel/qaic: Add documentation for AIC100
- accelerator driver
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>, <ogabbay@kernel.org>,
- <airlied@gmail.com>, <daniel@ffwll.ch>,
- <jacek.lawrynowicz@linux.intel.com>, <stanislaw.gruszka@linux.intel.com>
-References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
- <1679325074-5494-2-git-send-email-quic_jhugo@quicinc.com>
- <ZBmxl0sFH5PBG36H@debian.me>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <ZBmxl0sFH5PBG36H@debian.me>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: CTXKYs4fhOQYwhw_8NP8IU-72Ql6fzVO
-X-Proofpoint-ORIG-GUID: CTXKYs4fhOQYwhw_8NP8IU-72Ql6fzVO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-21_11,2023-03-21_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
- phishscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303150002 definitions=main-2303210173
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|DM4PR11MB5326:EE_
+X-MS-Office365-Filtering-Correlation-Id: c4290142-b229-42f4-39c1-08db2a56fcc4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vuOK8VzmYPGbsw9ArZdH5xASiyjyapaIyZ0Ff3R+VIjJbl6xSRrkX+FxIi2Bdv72oMitKcjq8PPLVh3lX4t+3d07BQV7F66VfLeT8rTZZJJa7mS/4E1WxMcspTLw2satq23JCKIyLbi07+mAgMNHoFAkUeB5hMGaAq+s2f5h25MfGLE7IsIi8Y5Cbwuj5plcQvBu+Uvyx/uWWmW3bdFJIvnDEauZhQ5JDk3hYBoJ/A9pOcfw7qMdwK3V/64DpKGPtDjOjvb8jNYu3YRBlun65J0PNPTQxWT3OYUJA1lvQcGbcHonXCWiKjR0U6WjFp57mdbNuoPRz1WqDhq9pmksYezSia5fyI72b528BznEBL10wFlgT9P8tRsXvo+prS0ATisgTWmcGgdCUvwqTVM64+wUES+ouredIl/NKqEBk0xQCKJJ3FnnHn3logQbLK5zNMcqLeCQmtUkSjQiR80kWdvgDxqfA5hOqAKCMc5satZ/qfK9oxSzFabm/6ejzV/+eRP8U2714t2hq1gCR5KwHdWPObU9c6smQdbL6Wtgnk0kPTOqmj0LD+Mg6gTW1T9eMFB2/ub14N5HaD29O//JZelwgzVAHTFvkxNKl+UGXM6nrowOP9K+Lzq6qA8eaDIA4dXknZ82dnI1U4vQ/shkNg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(136003)(396003)(366004)(346002)(39860400002)(376002)(451199018)(83380400001)(316002)(186003)(6486002)(6666004)(6512007)(6506007)(33656002)(1076003)(26005)(5660300002)(478600001)(8936002)(54906003)(38100700002)(86362001)(66946007)(4326008)(2906002)(66556008)(6916009)(82960400001)(66476007)(41300700001)(8676002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TQMO3ebUkeiLY1KOTmab0VZF/5k8TYW8rXfspY+gpIjEzzeokDF62CvfC5fh?=
+ =?us-ascii?Q?10D3ErW1m5sBFp6M1rs8BFwFzLeRWK+3oAAyDl8e94KqSduJM5Cayc66lNdI?=
+ =?us-ascii?Q?P3ANASRU/p9nEpHdrEqIClyH8v+tN4aOGEzA6hAiFk8LdgEI2dtEauBYSole?=
+ =?us-ascii?Q?vKPjX9joJ+7DLJ0ll05lmsuA+tH2kqIfXeLCXYJUo6/Bmr1zJzLVfrnDOZoB?=
+ =?us-ascii?Q?P/llJ+fTDN6UlvHE1WqnVF9cbItrzh3lCXiBxVJcOGbydgSMkzNDz04WSsa6?=
+ =?us-ascii?Q?uC8tyiYhp1wlcMrwfiA7aepYzsYUKNzYCYqdz5Nl5fsD4FqgtAMrO3p51V2m?=
+ =?us-ascii?Q?swsg2LobL+hoy+LrJ3nys/HjNAVOVtlf0nF/Wyyhodzu6jdvjcwc2GtUB4l/?=
+ =?us-ascii?Q?BMgHxl6liHSxez2NCXr94E+7STxfod+70Z/INC8LrXmRlKfoszwTG2hEGJCS?=
+ =?us-ascii?Q?KnCuQUZGgVAOFRfmc1s8Rr23vHFvUAFY1kw2dUeU3HDSsmGuxkJFokd9DD9m?=
+ =?us-ascii?Q?ZlVqKEaVeDff3tAVuJn4p+PTJ4PtQPqkwmaE3qb9BcPBJNxfzl7IEXfIddMD?=
+ =?us-ascii?Q?i6yGxWVYnfc31nOgC3YVSB0+QiFXSqyeEaSeRe7zFcvCGl9EYLkznzqAuEUp?=
+ =?us-ascii?Q?3/w28d6mNEe4YskOaml9srl2Y84dSyZuizwtxRD+rzikO0VS/RC1vhJQf9K6?=
+ =?us-ascii?Q?/Ny5lyGQDL2n2wR7dLVLwA1eh93PrFops8nOK8sxFvmZVA7d7eZ9wQsfXqhJ?=
+ =?us-ascii?Q?GQ4dEIO9q1Ufyw/KKhpLlXJwu5Oh1b4G66itaQdyXDZx8D25harFQXk/dbcb?=
+ =?us-ascii?Q?9zRwcqjqa+xvqnOaaHx6jIvTve5DxbjIGmJsXzzwTNPEtZG9cTAQQoUJW9FK?=
+ =?us-ascii?Q?BkVH83amTY98ZNRKQgQeA4XgpeLDU3zfNDEEUQ3FKW7W5h3CVxaEJXfOz56H?=
+ =?us-ascii?Q?3v7g91TmCLwbUZ993JrvoZKA5UnvflXQUhiyFTdjTTq0bOXcrQIYA6OnW2Zz?=
+ =?us-ascii?Q?Q9eNz/9vZY54oWL89lsWnEHblJa5SGvkyVALHS46Kvvz94Sk/W39LwexksCD?=
+ =?us-ascii?Q?tEquYQskcd+giwnRexCZjXfkLc0BKikjgCfYQ5w1iSuWotMdtnK6iWDrtXNd?=
+ =?us-ascii?Q?Vtas4BWRSm6RgMpZnUqt+tzw3o6RIk/LU9JbwSEZpvD0dUWBoYkBrrweEVX0?=
+ =?us-ascii?Q?eRc+3g2JB3mo42sIe/wXYs0nC3PReq9spLeyZz0b3n9PKPElZk7Mzlvacp2Z?=
+ =?us-ascii?Q?MStmTvB7xeV4YL4IWLGm9Km7vR454DeSwtCk5ygp+c8/wpwjP0RsoxUymdSa?=
+ =?us-ascii?Q?tpPJCg/BMVFDYgg72g+lMggIASlcm0VYqWQn5grucYrCtrf1fXr/DuG6zD0h?=
+ =?us-ascii?Q?2JkdB+YN2/GJ0xF2zKbA3WeKaQTht6nmX0qxtSBmWeSO99eFW6pMS1IcBQZb?=
+ =?us-ascii?Q?UFVh4ZrzgDy+6n+VEDs4/1zazyG4hE2nSL9TbDHGk4RCeRjX5MkaAXCPc8M/?=
+ =?us-ascii?Q?b/COlX3/Ks+ByZLaeT5FFYnE689bfRJpmGG5Udnh9Jr4c77n6ZW4wEJ3ke5E?=
+ =?us-ascii?Q?PnvgcYIoL3BeWFBZ9H5BLr6c+qqLfemjshoVVX39ACEHtBb7OyQCCq+HZXgp?=
+ =?us-ascii?Q?4Q=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4290142-b229-42f4-39c1-08db2a56fcc4
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 21:55:30.1204 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Cxf+Vae1vVXEZgSN8MX0lLknCx5wWz1XlgbP36oKYnc3+eJ7k6CJkgxU7/im3QLpCbicBUjpc2LUBGTEMiyOFS+5wN2tVv4UOxpthdPrpA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5326
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,269 +148,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dafna@fastmail.com, linux-doc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
+Cc: Andi
+ Shyti <andi.shyti@kernel.org>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, Stuart Summers <stuart.summers@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/21/2023 7:31 AM, Bagas Sanjaya wrote:
-> On Mon, Mar 20, 2023 at 09:11:07AM -0600, Jeffrey Hugo wrote:
->> +AIC100 defines a number of MHI channels for different purposes. This is a list
->> +of the defined channels, and their uses.
->> +
->> +| QAIC_LOOPBACK
->> +| Channels 0 & 1
->> +| Valid for AMSS
->> +| Any data sent to the device on this channel is sent back to the host.
->> +
->> +| QAIC_SAHARA
->> +| Channels 2 & 3
->> +| Valid for SBL
->> +| Used by SBL to obtain the runtime firmware from the host.
->> +
->> +| QAIC_DIAG
->> +| Channels 4 & 5
->> +| Valid for AMSS
->> +| Used to communicate with QSM via the Diag protocol.
->> +
->> +| QAIC_SSR
->> +| Channels 6 & 7
->> +| Valid for AMSS
->> +| Used to notify the host of subsystem restart events, and to offload SSR crashdumps.
->> +
->> +| QAIC_QDSS
->> +| Channels 8 & 9
->> +| Valid for AMSS
->> +| Used for the Qualcomm Debug Subsystem.
->> +
->> +| QAIC_CONTROL
->> +| Channels 10 & 11
->> +| Valid for AMSS
->> +| Used for the Neural Network Control (NNC) protocol.  This is the primary channel between host and
->> +  QSM for managing workloads.
->> +
->> +| QAIC_LOGGING
->> +| Channels 12 & 13
->> +| Valid for SBL
->> +| Used by the SBL to send the bootlog to the host.
->> +
->> +| QAIC_STATUS
->> +| Channels 14 & 15
->> +| Valid for AMSS
->> +| Used to notify the host of Reliability, Accessibility, Serviceability (RAS) events.
->> +
->> +| QAIC_TELEMETRY
->> +| Channels 16 & 17
->> +| Valid for AMSS
->> +| Used to get/set power/thermal/etc attributes.
->> +
->> +| QAIC_DEBUG
->> +| Channels 18 & 19
->> +| Valid for AMSS
->> +| Not used.
->> +
->> +| QAIC_TIMESYNC
->> +| Channels 20 & 21
->> +| Valid for SBL/AMSS
->> +| Used to synchronize timestamps in the device side logs with the host time source.
+On Tue, Mar 21, 2023 at 06:09:35PM +0100, Andi Shyti wrote:
+> From: Matt Roper <matthew.d.roper@intel.com>
 > 
-> For the tabular data above, use table syntax instead.
-
-Done.
-
->> +A request FIFO element has the following structure:
->> +
->> +| {
->> +|	u16 req_id;
->> +|	u8  seq_id;
->> +|	u8  pcie_dma_cmd;
->> +|	u32 reserved;
->> +|	u64 pcie_dma_source_addr;
->> +|	u64 pcie_dma_dest_addr;
->> +|	u32 pcie_dma_len;
->> +|	u32 reserved;
->> +|	u64 doorbell_addr;
->> +|	u8  doorbell_attr;
->> +|	u8  reserved;
->> +|	u16 reserved;
->> +|	u32 doorbell_data;
->> +|	u32 sem_cmd0;
->> +|	u32 sem_cmd1;
->> +|	u32 sem_cmd2;
->> +|	u32 sem_cmd3;
->> +| }
+> We occasionally see the PCI device in a non-accessible state at the
+> point the driver is loaded.  When this happens, all BAR accesses will
+> read back as 0xFFFFFFFF.  Rather than reading registers and
+> misinterpreting their (invalid) values, let's specifically check for
+> 0xFFFFFFFF in a register that cannot have that value to see if the
+> device is accessible.
 > 
-> IMO code blocks should better fit the struct listing above.
-
-Done
-
->> +
->> +Request field descriptions:
->> +
->> +| req_id- request ID. A request FIFO element and a response FIFO element with
->> +|         the same request ID refer to the same command.
->> +
->> +| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
->> +
->> +| pcie_dma_cmd- describes the DMA element of this request.
->> +| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
->> +| 		and generates a MSI when this request is complete, and QSM
->> +| 		configures the DMA Bridge to look at this bit.
->> +| 	Bits(6:5) are reserved.
->> +| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
->> +| 		shall generate a response FIFO element when this request is
->> +| 		complete.
->> +| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
->> +| 		transfer(1).
->> +| 	Bit(2) is reserved.
->> +| 	Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
->> +| 		from device(2). Value 3 is illegal.
->> +
->> +| pcie_dma_source_addr- source address for a bulk transfer, or the address of
->> +|         the linked list.
->> +
->> +| pcie_dma_dest_addr- destination address for a bulk transfer.
->> +
->> +| pcie_dma_len- length of the bulk transfer. Note that the size of this field
->> +| 	limits transfers to 4G in size.
->> +
->> +| doorbell_addr- address of the doorbell to ring when this request is complete.
->> +
->> +| doorbell_attr- doorbell attributes.
->> +| 	Bit(7) indicates if a write to a doorbell is to occur.
->> +| 	Bits(6:2) are reserved.
->> +| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
->> +| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
->> +| 		must be naturally aligned to the specified length.
->> +
->> +| doorbell_data- data to write to the doorbell. Only the bits corresponding to
->> +| 	the doorbell length are valid.
->> +
->> +| sem_cmdN- semaphore command.
->> +| 	Bit(31) indicates this semaphore command is enabled.
->> +| 	Bit(30) is the to-device DMA fence. Block this request until all
->> +| 		to-device DMA transfers are complete.
->> +| 	Bit(29) is the from-device DMA fence. Block this request until all
->> +| 		from-device DMA transfers are complete.
->> +| 	Bits(28:27) are reserved.
->> +| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
->> +| 		specified value. 2 is increment. 3 is decrement. 4 is wait
->> +| 		until the semaphore is equal to the specified value. 5 is wait
->> +| 		until the semaphore is greater or equal to the specified value.
->> +| 		6 is "P", wait until semaphore is greater than 0, then
->> +| 		decrement by 1. 7 is reserved.
->> +| 	Bit(23) is reserved.
->> +| 	Bit(22) is the semaphore sync. 0 is post sync, which means that the
->> +| 		semaphore operation is done after the DMA transfer. 1 is
->> +| 		presync, which gates the DMA transfer. Only one presync is
->> +| 		allowed per request.
->> +| 	Bit(21) is reserved.
->> +| 	Bits(20:16) is the index of the semaphore to operate on.
->> +| 	Bits(15:12) are reserved.
->> +| 	Bits(11:0) are the semaphore value to use in operations.
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/intel_uncore.c | 35 +++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 > 
-> What about bullet lists?
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index e1e1f34490c8e..0b69081d6d285 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -2602,11 +2602,46 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
+>  	return 0;
+>  }
+>  
+> +static int sanity_check_mmio_access(struct intel_uncore *uncore)
+> +{
+> +	struct drm_i915_private *i915 = uncore->i915;
+> +	int ret;
+> +
+> +	if (GRAPHICS_VER(i915) < 8)
+> +		return 0;
+> +
+> +	/*
+> +	 * Sanitycheck that MMIO access to the device is working properly.  If
+> +	 * the CPU is unable to communcate with a PCI device, BAR reads will
+> +	 * return 0xFFFFFFFF.  Let's make sure the device isn't in this state
+> +	 * before we start trying to access registers.
+> +	 *
+> +	 * We use the primary GT's forcewake register as our guinea pig since
+> +	 * it's been around since HSW and it's a masked register so the upper
+> +	 * 16 bits can never read back as 1's if device access is operating
+> +	 * properly.
+> +	 *
+> +	 * If MMIO isn't working, we'll wait up to 2 seconds to see if it
+> +	 * recovers, then give up.
+> +	 */
+> +	ret = intel_wait_for_register_fw(uncore, FORCEWAKE_MT, 0, 0, 2000000);
 
-It doesn't feel like the above fits into a bullet list structure.  Do 
-you have an example reference, or can you transform a small section of 
-the above to illustrate what you are thinking?
+It looks like you lost the check for 0xFFFFFFFF specifically.  In fact
+with a mask/value of 0, isn't this always going to just always pass
+immediately?
 
->> +
->> +| {
->> +| 	u16 req_id;
->> +| 	u16 completion_code;
->> +| }
-> 
-> Again, use code blocks.
+We don't know what the value of this register will be (there may or may
+not be some bits set), but we need to make sure that it isn't 0xFFFFFFFF
+because that means we're not even truly accessing the register, just
+hitting a PCI BAR read failure.
 
-Done
 
->> +passthrough- Allows userspace to send an opaque payload directly to the QSM.
->> +This is used for NNC commands. Userspace is responsible for managing
->> +the QSM message requirements in the payload
->> +
->> +dma_xfer- DMA transfer. Describes an object that the QSM should DMA into the
->> +device via address and size tuples.
->> +
->> +activate- Activate a workload onto NSPs. The host must provide memory to be
->> +used by the DBC.
->> +
->> +deactivate- Deactivate an active workload and return the NSPs to idle.
->> +
->> +status- Query the QSM about it's NNC implementation. Returns the NNC version,
->> +and if CRC is used.
->> +
->> +terminate- Release a user's resources.
->> +
->> +dma_xfer_cont- Continuation of a previous DMA transfer. If a DMA transfer
->> +cannot be specified in a single message (highly fragmented), this
->> +transaction can be used to specify more ranges.
->> +
->> +validate_partition- Query to QSM to determine if a partition identifier is
->> +valid.
-> 
-> What about using definition lists?
+Matt
 
-Done
-
->> +DRM_IOCTL_QAIC_MANAGE:
->> +This IOCTL allows userspace to send a NNC request to the QSM. The call will
->> +block until a response is received, or the request has timed out.
->> +
->> +DRM_IOCTL_QAIC_CREATE_BO:
->> +This IOCTL allows userspace to allocate a buffer object (BO) which can send or
->> +receive data from a workload. The call will return a GEM handle that
->> +represents the allocated buffer. The BO is not usable until it has been sliced
->> +(see DRM_IOCTL_QAIC_ATTACH_SLICE_BO).
->> +
->> +DRM_IOCTL_QAIC_MMAP_BO:
->> +This IOCTL allows userspace to prepare an allocated BO to be mmap'd into the
->> +userspace process.
->> +
->> +DRM_IOCTL_QAIC_ATTACH_SLICE_BO:
->> +This IOCTL allows userspace to slice a BO in preparation for sending the BO to
->> +the device. Slicing is the operation of describing what portions of a BO get
->> +sent where to a workload. This requires a set of DMA transfers for the DMA
->> +Bridge, and as such, locks the BO to a specific DBC.
->> +
->> +DRM_IOCTL_QAIC_EXECUTE_BO:
->> +This IOCTL allows userspace to submit a set of sliced BOs to the device. The
->> +call is non-blocking. Success only indicates that the BOs have been queued
->> +to the device, but does not guarantee they have been executed.
->> +
->> +DRM_IOCTL_QAIC_PARTIAL_EXECUTE_BO:
->> +This IOCTL operates like DRM_IOCTL_QAIC_EXECUTE_BO, but it allows userspace to
->> +shrink the BOs sent to the device for this specific call. If a BO typically has
->> +N inputs, but only a subset of those is available, this IOCTL allows userspace
->> +to indicate that only the first M bytes of the BO should be sent to the device
->> +to minimize data transfer overhead. This IOCTL dynamically recomputes the
->> +slicing, and therefore has some processing overhead before the BOs can be queued
->> +to the device.
->> +
->> +DRM_IOCTL_QAIC_WAIT_BO:
->> +This IOCTL allows userspace to determine when a particular BO has been processed
->> +by the device. The call will block until either the BO has been processed and
->> +can be re-queued to the device, or a timeout occurs.
->> +
->> +DRM_IOCTL_QAIC_PERF_STATS_BO:
->> +This IOCTL allows userspace to collect performance statistics on the most
->> +recent execution of a BO. This allows userspace to construct an end to end
->> +timeline of the BO processing for a performance analysis.
->> +
->> +DRM_IOCTL_QAIC_PART_DEV:
->> +This IOCTL allows userspace to request a duplicate "shadow device". This extra
->> +accelN device is associated with a specific partition of resources on the AIC100
->> +device and can be used for limiting a process to some subset of resources.
-> 
-> Again, I'd like to see definition lists for above.
-
-Done.
-
-> See Sphinx primer [1] for examples of markups I point above.
-> 
-> Thanks.
-> 
-> [1]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html
+> +	if (ret == -ETIMEDOUT) {
+> +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int intel_uncore_init_mmio(struct intel_uncore *uncore)
+>  {
+>  	struct drm_i915_private *i915 = uncore->i915;
+>  	int ret;
+>  
+> +	ret = sanity_check_mmio_access(uncore);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * The boot firmware initializes local memory and assesses its health.
+>  	 * If memory training fails, the punit will have been instructed to
+> -- 
+> 2.39.2
 > 
 
+-- 
+Matt Roper
+Graphics Software Engineer
+Linux GPU Platform Enablement
+Intel Corporation
