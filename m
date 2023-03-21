@@ -1,63 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426FD6C325F
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 14:13:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A606C3261
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 14:13:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FFE10E778;
-	Tue, 21 Mar 2023 13:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C31F10E77B;
+	Tue, 21 Mar 2023 13:13:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366D610E778
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 13:13:12 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id x3so59409658edb.10
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 06:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1679404390;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HC9gwfc618v6KLYVU5bFz5fRPoHjo3Tg+T/tjD1CcyI=;
- b=ADn+HLG4/gJc/M+wQH0A2xi4DIflVFh4Hyp1jG6opaXh/6O+oqwoTG7bDyXUQuE2hb
- 1bc1pzNhQi19xtTPtquoruCwy0uDkAEIY09wdT+BqtuvFwdJ7icmA1QkROcqHbE7Bx0C
- 10lK6FcoDJB7UPuPQyi2HfrmNBSZ1Khk42IcE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679404390;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HC9gwfc618v6KLYVU5bFz5fRPoHjo3Tg+T/tjD1CcyI=;
- b=vecGnzJz8F+d0j2Bjp0iO1kMcVsEUXzSGT2kjw8Y6ZTMkZcqs/Xs4HDPrcMOFQ6IS6
- PShOAxlOlulWPti71I6BRqlLnTNc9j5SceU+vQ/OHzN5EXDYtVu7o1XBXfY+OnPv5y2q
- yLsrTRuMsPCIfEjwHjfl4TkZ/zz9tpJBJU+7/WN0AzhQq6kaimY4numjXOa5UdFQRv18
- 35F0Ep/KFDXpQmJ+Y22tkXA1Tj3Pagj9zsq4/o9nyTrT7+deNGqI3ACuSp0cUGG0PsQn
- LZ0/BS8eSaC9fHDFaDHNxeA1c4m6Q6mmqDBQmJ7Do3frzkd48doi3R/3jKVV7RXmN7SJ
- keWw==
-X-Gm-Message-State: AO0yUKUZYb77PyqFC66iJ8HokD6pevdzwtDwwKYKWt3ceJquYcAwK67k
- oSwEFb8UBDppV+eTj4cWVBf21ROjgt5MV5U0XKo2ag==
-X-Google-Smtp-Source: AK7set/dbBJ+hLxAtG6BnZVloKSGPUIYpZEeINk903RWYbTUM2E16y4h4u1gV8o5/r1LEObpdHriwWyH3dvSZqK1wyw=
-X-Received: by 2002:a17:907:d9f:b0:8d0:2c55:1aa with SMTP id
- go31-20020a1709070d9f00b008d02c5501aamr1380174ejc.0.1679404390586; Tue, 21
- Mar 2023 06:13:10 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4457710E77B
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 13:13:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A063CB8169C;
+ Tue, 21 Mar 2023 13:13:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D874C433EF;
+ Tue, 21 Mar 2023 13:13:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679404392;
+ bh=Ie0I6DspmqUGmFzLY8M9p06FQQUjb9WBd6Z2Y5RxFMw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WCELKUAO4DmRhWUevMaHTsfdWUOjmOwX6QDGRTGx8cr2tDflzYANu1EphfFEiuacN
+ 73IJBFv8dFoFgJspV1c2kimtV/h9RslHEeXTHNU71iV2EBgXhherzoHszVgFNDN0Y+
+ SQEdUjvv4ttww2/mSl2jf4bmNKcGUD/3FSuCmYCoXHhZK3ojjR3yc8cHxkZ2MdqGDw
+ 6zp/6BorvlCFtxWIlglrzjZLZjn8khx+muMaJjNKTzhW6I/CZ5/1CJX4uQLO80aQO2
+ T6Wec1E+zo0rJmtBFFf3unDCUrY/YYGRwClwRdqzpnsbNM7/shgpSK1BcTieLe2ZLh
+ 4e8zFbiwUOlmw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1pebox-000683-A5; Tue, 21 Mar 2023 14:14:36 +0100
+Date: Tue, 21 Mar 2023 14:14:35 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/meson: fix missing component unbind on bind errors
+Message-ID: <ZBmtu4klxYwQyN7R@hovoldconsulting.com>
+References: <20230306103533.4915-1-johan+linaro@kernel.org>
+ <CAFBinCBsC+P=zvh6RF3UKiPnferUYU0QZvZfnn1oS5xWX-65Jw@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAOf5uwkDb=pkEV_qSshA7PnSxCV82sEwrmivAZhth48ae0S++g@mail.gmail.com>
- <87ileu8jwh.fsf@intel.com>
- <CAOf5uw=g1mU1F=kD6M472LRaTWa2B=Sry4GDGXxDApoZknLfeA@mail.gmail.com>
- <87cz528hzk.fsf@intel.com>
- <CAPj87rPPA9oYkZyQ=Y3MRuyJUN71WHDWHpdaRUvuXAxFSLW5SA@mail.gmail.com>
- <87355y8fzk.fsf@intel.com>
- <CAPj87rMnr343w+Nm3pZ-pF-y1LXdyzcMOXUxkid2kgViRaNY9g@mail.gmail.com>
-In-Reply-To: <CAPj87rMnr343w+Nm3pZ-pF-y1LXdyzcMOXUxkid2kgViRaNY9g@mail.gmail.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Tue, 21 Mar 2023 14:12:59 +0100
-Message-ID: <CAOf5uwmYjtL--qDSwPwLeb6v3rer976em9swBh44YD=0JK2NgQ@mail.gmail.com>
-Subject: Re: display band (display area vs real visible area)
-To: Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFBinCBsC+P=zvh6RF3UKiPnferUYU0QZvZfnn1oS5xWX-65Jw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,53 +57,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, stable@vger.kernel.org,
+ Johan Hovold <johan+linaro@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel
+On Thu, Mar 09, 2023 at 10:41:18PM +0100, Martin Blumenstingl wrote:
 
-On Tue, Mar 21, 2023 at 1:15=E2=80=AFPM Daniel Stone <daniel@fooishbar.org>=
- wrote:
->
-> Hi,
->
-> On Tue, 21 Mar 2023 at 12:08, Jani Nikula <jani.nikula@linux.intel.com> w=
-rote:
-> > On Tue, 21 Mar 2023, Daniel Stone <daniel@fooishbar.org> wrote:
-> > > There have been some threads - mostly motivated by MacBooks and the
-> > > Asahi team - about creating a KMS property to express invisible areas=
-.
-> > > This would be the same thing, and the userspace ecosystem will pick i=
-t
-> > > up when the kernel exposes it.
+> On Mon, Mar 6, 2023 at 11:35 AM Johan Hovold <johan+linaro@kernel.org> wrote:
+> [...]
+> > @@ -325,23 +325,23 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
 > >
-> > In my case the kernel handled it completely internally, and the
-> > userspace didn't even know. But I guess it depends on the display being
-> > able to take a smaller framebuffer, otherwise I don't think it's
-> > feasible.
-> >
-> > I haven't checked the threads you mention but I assume it covers the
-> > more general case of having rounded corners or holes for the camera, no=
-t
-> > just the frame covering the edges or something like that. That couldn't
-> > possibly be handled by kernel alone, but it's also a bunch of
-> > infrastructure work both in kernel and userspace to make it happen.
->
-> Yeah, exactly. Just a connector property, which could come from DT or
-> ACPI or manual overrides or whatever. Userspace would still allocate a
-> full-size framebuffer, but look at that property and not render
-> anything useful into those areas. In the camera/notch case, it's a
-> matter of not putting useful content there. In the letterbox/pillarbox
-> case, it's about shrinking the reported screen size so that window
-> management, clients, etc, all believe that the screen is smaller than
-> it is.
+> >         ret = meson_encoder_hdmi_init(priv);
 
-So it's up to wayland or compositor to take account of the side band,
-including touch controller.
-Am I right?
+> I'm wondering if component_bind_all() can be moved further down.
+> Right now it's between meson_encoder_cvbs_init() and
+> meson_encoder_hdmi_init(). So it seems that encoders don't rely on
+> component registration.
 
-Michael
->
-> Cheers,
-> Daniel
+Perhaps it can, but that would be a separate change (unless there is
+something inherently wrong with the current initialisation order).
+ 
+> Unfortunately I am also not familiar with this and I'm hoping that
+> Neil can comment on this.
+
+Any comments on this one, Neil?
+
+Johan
