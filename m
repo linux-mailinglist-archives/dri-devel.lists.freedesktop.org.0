@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15D86C27DD
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:09:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2484F6C27DF
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:10:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB2A310E4D8;
-	Tue, 21 Mar 2023 02:09:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBED010E399;
+	Tue, 21 Mar 2023 02:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF30410E399
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 02:09:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2283310E399
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 02:09:56 +0000 (UTC)
 Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
  [173.49.113.140]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 3D621327B1A;
- Tue, 21 Mar 2023 02:09:53 +0000 (GMT)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 4F803327B51;
+ Tue, 21 Mar 2023 02:09:54 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1679364594; bh=i4VR2soBGg3tsbnDctpe1r+sHFtp7IEhdgX+PsmEh0k=;
- h=From:To:Cc:Subject:Date:From;
- b=WLh2X0oB9p6HClrpRE/x5S2zuRXP7FLQKZJYjfrIyPjTLUFojNWASt8os5+LNQyF2
- vDqIKTjkVmcDDKf0GIwmNPuRa5I72/PTOa3GyukAr+w0vCGvrHX2lT3mKuCaVEXhr2
- J4dV6kSnAcpKX9Tbos0BWgCI3WrhbYufOwH+qdRpJ6rsYUo7SfjSprAmjOYuyo1DJk
- ECOg9KsvaMsL2GtxGGsYx03GwMN90looFPI3Esp9YSFgv9xjgKvO6P9XBiNGurnCHa
- qd82S5Us/cCpmbzWX7C4vYEuuqBMBXrTuoBDdrYcr3ePDTU4Bbq2Ulv6871M46o35a
- Au/7KNovU3oDA==
+ t=1679364594; bh=p8JbTrPnIlP96PBlQgyynuBoE5QntvKojhSepuzrjY0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=CeZGY9ZqNP3uzWzxPmjwb9Eqaxkr4uaSOR1Lww5AOzCBKicJavicaCRb8BO8wOJIY
+ dtFUgRaxeSfLaCIxM8ZiorW/p8E7oiMpSOIaVcyCq1n9o8SEJOoNsMLwNEhfDdJCnK
+ eC73EmxhwNm+63tfcGIYWWVDZa9/38ZE1g8j9UYd500Q9DrfcfvA6uG96VchxfP2in
+ JtdIlXR4wjft6Ug42/tv3TsOogQQrt7dcOWQ78w6RLGKWdyHJkX/v8I7wM5SqCNhAZ
+ SsQlpiYTURzfw86zVNvBitnYpTOuRvOC9HzcQXG3iwLRHD6/iIYhKxmBil/o2gxVal
+ NcULICq/627lA==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/vmwgfx: Drop mksstat_init_record fn as currently
- unused
-Date: Mon, 20 Mar 2023 22:09:47 -0400
-Message-Id: <20230321020949.335012-1-zack@kde.org>
+Subject: [PATCH 2/3] drm/vmwgfx: Print errors when running on
+ broken/unsupported configs
+Date: Mon, 20 Mar 2023 22:09:48 -0400
+Message-Id: <20230321020949.335012-2-zack@kde.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230321020949.335012-1-zack@kde.org>
+References: <20230321020949.335012-1-zack@kde.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -47,63 +49,122 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: kernel test robot <lkp@intel.com>, banackm@vmware.com, krastevm@vmware.com,
- mombasawalam@vmware.com, iforbes@vmware.com
+Cc: krastevm@vmware.com, iforbes@vmware.com, banackm@vmware.com,
+ mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Martin Krastev <krastevm@vmware.com>
+From: Zack Rusin <zackr@vmware.com>
 
-This internal helper handles a type of mksstat event counter
-which is currently unused. Remove the routine to avoid compile
-warnings.
+virtualbox implemented an incomplete version of the svga device which
+they decided to drop soon after the initial release. The device was
+always broken in various ways and never supported by vmwgfx.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Martin Krastev <krastevm@vmware.com>
-Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
+vmwgfx should refuse to load on those configurations but currently
+drm has no way of reloading fbdev when the specific pci driver refuses
+to load, which would leave users without a usable fb. Instead of
+refusing to load print an error and disable a bunch of functionality
+that virtualbox never implemented to at least get fb to work on their
+setup.
+
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 26 --------------------------
- 1 file changed, 26 deletions(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 29 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |  2 ++
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c |  9 +++++++++
+ 3 files changed, 40 insertions(+)
 
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 2588615a2a38..8b24ecf60e3e 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -45,6 +45,9 @@
+ #include <drm/ttm/ttm_placement.h>
+ #include <generated/utsrelease.h>
+ 
++#ifdef CONFIG_X86
++#include <asm/hypervisor.h>
++#endif
+ #include <linux/cc_platform.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/module.h>
+@@ -897,6 +900,16 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 				 cap2_names, ARRAY_SIZE(cap2_names));
+ 	}
+ 
++	if (!vmwgfx_supported(dev_priv)) {
++		vmw_disable_backdoor();
++		drm_err_once(&dev_priv->drm,
++			     "vmwgfx seems to be running on an unsupported hypervisor.");
++		drm_err_once(&dev_priv->drm,
++			     "This configuration is likely broken.");
++		drm_err_once(&dev_priv->drm,
++			     "Please switch to a supported graphics device to avoid problems.");
++	}
++
+ 	ret = vmw_dma_select_mode(dev_priv);
+ 	if (unlikely(ret != 0)) {
+ 		drm_info(&dev_priv->drm,
+@@ -1320,6 +1333,22 @@ static void vmw_master_drop(struct drm_device *dev,
+ 	vmw_kms_legacy_hotspot_clear(dev_priv);
+ }
+ 
++bool vmwgfx_supported(struct vmw_private *vmw)
++{
++#if defined(CONFIG_X86)
++	return hypervisor_is_type(X86_HYPER_VMWARE);
++#elif defined(CONFIG_ARM64)
++	/*
++	 * On aarch64 only svga3 is supported
++	 */
++	return vmw->pci_id == VMWGFX_PCI_ID_SVGA3;
++#else
++	drm_warn_once(&vmw->drm,
++		      "vmwgfx is running on an unknown architecture.");
++	return false;
++#endif
++}
++
+ /**
+  * __vmw_svga_enable - Enable SVGA mode, FIFO and use of VRAM.
+  *
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index fb8f0c0642c0..3810a9984a7f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -773,6 +773,7 @@ static inline u32 vmw_max_num_uavs(struct vmw_private *dev_priv)
+ 
+ extern void vmw_svga_enable(struct vmw_private *dev_priv);
+ extern void vmw_svga_disable(struct vmw_private *dev_priv);
++bool vmwgfx_supported(struct vmw_private *vmw);
+ 
+ 
+ /**
+@@ -1358,6 +1359,7 @@ int vmw_bo_cpu_blit(struct ttm_buffer_object *dst,
+ 		    struct vmw_diff_cpy *diff);
+ 
+ /* Host messaging -vmwgfx_msg.c: */
++void vmw_disable_backdoor(void);
+ int vmw_host_get_guestinfo(const char *guest_info_param,
+ 			   char *buffer, size_t *length);
+ __printf(1, 2) int vmw_host_printf(const char *fmt, ...);
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-index e76976a95a1e..ca1a3fe44fa5 100644
+index ca1a3fe44fa5..2651fe0ef518 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
-@@ -702,32 +702,6 @@ static inline void hypervisor_ppn_remove(PPN64 pfn)
- /* Header to the text description of mksGuestStat instance descriptor */
- #define MKSSTAT_KERNEL_DESCRIPTION "vmwgfx"
+@@ -1179,3 +1179,12 @@ int vmw_mksstat_remove_ioctl(struct drm_device *dev, void *data,
  
--/**
-- * mksstat_init_record: Initializes an MKSGuestStatCounter-based record
-- * for the respective mksGuestStat index.
-- *
-- * @stat_idx: Index of the MKSGuestStatCounter-based mksGuestStat record.
-- * @pstat: Pointer to array of MKSGuestStatCounterTime.
-- * @pinfo: Pointer to array of MKSGuestStatInfoEntry.
-- * @pstrs: Pointer to current end of the name/description sequence.
-- * Return: Pointer to the new end of the names/description sequence.
-- */
--
--static inline char *mksstat_init_record(mksstat_kern_stats_t stat_idx,
--	MKSGuestStatCounterTime *pstat, MKSGuestStatInfoEntry *pinfo, char *pstrs)
--{
--	char *const pstrd = pstrs + strlen(mksstat_kern_name_desc[stat_idx][0]) + 1;
--	strcpy(pstrs, mksstat_kern_name_desc[stat_idx][0]);
--	strcpy(pstrd, mksstat_kern_name_desc[stat_idx][1]);
--
--	pinfo[stat_idx].name.s = pstrs;
--	pinfo[stat_idx].description.s = pstrd;
--	pinfo[stat_idx].flags = MKS_GUEST_STAT_FLAG_NONE;
--	pinfo[stat_idx].stat.counter = (MKSGuestStatCounter *)&pstat[stat_idx];
--
--	return pstrd + strlen(mksstat_kern_name_desc[stat_idx][1]) + 1;
--}
--
- /**
-  * mksstat_init_record_time: Initializes an MKSGuestStatCounterTime-based record
-  * for the respective mksGuestStat index.
+ 	return -EAGAIN;
+ }
++
++/**
++ * vmw_disable_backdoor: Disables all backdoor communication
++ * with the hypervisor.
++ */
++void vmw_disable_backdoor(void)
++{
++	vmw_msg_enabled = 0;
++}
 -- 
 2.38.1
 
