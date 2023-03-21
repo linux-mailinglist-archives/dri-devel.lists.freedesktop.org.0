@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1166C322B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 14:00:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4351F6C323B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 14:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46BC110E776;
-	Tue, 21 Mar 2023 13:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95EF410E0A8;
+	Tue, 21 Mar 2023 13:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8239210E776;
- Tue, 21 Mar 2023 13:00:52 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5328B10E0A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 13:04:07 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C6B1561B8C;
- Tue, 21 Mar 2023 13:00:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F5BC433D2;
- Tue, 21 Mar 2023 13:00:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679403651;
- bh=B8D6tcxg6AwWwKpnpZveYJcDqvXwTVdwK/BrT8cTJoU=;
+ by ams.source.kernel.org (Postfix) with ESMTPS id A394CB8166D;
+ Tue, 21 Mar 2023 13:04:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D97EBC433D2;
+ Tue, 21 Mar 2023 13:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1679403844;
+ bh=xicp2ZjjG9HCcZnawLl5zQfwI83fOJr2ed2aPLSBhZ0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qLei1DH+Jz4h1XIQnNgpbQZd3+jU4dQ4RrgCf+OlAl8EGk9sEk68S2JreIDSHwv0z
- Tmo1/29yHxRZFpbbYp+nsVdKdckBQtQbAZvMrWTCSRe0gCAVG1CDXKtaAqptTvYuYn
- XtdV8FtbKrRnseZd5D4UQ/o6YLn1uIgPC+RGhk6yeXEfoFK2W0tQlaXq/MjcA84L4m
- fI0v3QlSuaSwO598vgR5NNXuGqVLgTQ9K1+9IqBRpcolwRh9btO2c3uz5R079yifWc
- w5yOZV7RgZVzXr5Arpq8mp+t1THppIqVZ/EuAHxGlRwWDP0UY6WNxwM5F+lLtvo112
- J0bGVENa9uAnw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1pebd1-0005wz-6j; Tue, 21 Mar 2023 14:02:15 +0100
-Date: Tue, 21 Mar 2023 14:02:15 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 00/10] drm/msm: fix bind error handling
-Message-ID: <ZBmq12uP+TY4EaE3@hovoldconsulting.com>
-References: <20230306100722.28485-1-johan+linaro@kernel.org>
+ b=JuiqRn6w4PRHQKQ5pjoX6CoJ8CFfKfmpMyYdTRm4AYO0CyysHONkkcKwdxfxWZ66A
+ jsMi9DDjkEdIP/LY1JVUdpex0V8/fRa5rBw/aenfzm7rgUwmjoMzy44MHC8V5kvm3v
+ XBCL/hRExaZYD2VFi2Lo/04IjV2kjQkg2nGD2ja0=
+Date: Tue, 21 Mar 2023 14:04:01 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: stable-rc/linux-5.10.y bisection: baseline.login on
+ hp-x360-14-G1-sona
+Message-ID: <ZBmrQZYg8FJCekK8@kroah.com>
+References: <6419a07b.630a0220.8bbc0.07b1@mx.google.com>
+ <7f0ccd45-ab53-4155-b647-d082221d65b3@sirena.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230306100722.28485-1-johan+linaro@kernel.org>
+In-Reply-To: <7f0ccd45-ab53-4155-b647-d082221d65b3@sirena.org.uk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,49 +51,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+Cc: kernelci-results@groups.io, bot@kernelci.org,
+ Jani Nikula <jani.nikula@intel.com>, stable@vger.kernel.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>,
+ John Harrison <John.C.Harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 06, 2023 at 11:07:12AM +0100, Johan Hovold wrote:
-> I had reasons to look closer at the MSM DRM driver error handling and
-> realised that it had suffered from a fair amount of bit rot over the
-> years.
+On Tue, Mar 21, 2023 at 12:58:22PM +0000, Mark Brown wrote:
+> On Tue, Mar 21, 2023 at 05:18:03AM -0700, KernelCI bot wrote:
 > 
-> Unfortunately, I started fixing this in my 6.2 branch and failed to
-> notice two partial and, as it turned out, broken attempts to address
-> this that are now in 6.3-rc1.
-> 
-> Instead of trying to salvage this incrementally, I'm reverting the two
-> broken commits so that clean and backportable fixes can be added in
-> their place.
-> 
-> Included are also two related cleanups.
+> The KernelCI bisection bot found a boot bisection on one of the HP
+> ChromeBooks in v5.10.175 triggered by b5005605013d ("drm/i915: Don't use
+> BAR mappings for ring buffers with LLC").  The system appears to die
+> very early in boot with no output.
 
-Any further comments to these patches (except for 9/10, which should be
-dropped)?
+Should be fixed in the 5.10-rc that is out for review right now.
 
-As the patches being reverted here were first added in 6.3-rc1 there is
-still time to get this into 6.3-rc (e.g. before AUTOSEL starts trying to
-backport them).
+thanks,
 
-Johan
-
-> Johan Hovold (10):
->   Revert "drm/msm: Add missing check and destroy for
->     alloc_ordered_workqueue"
->   Revert "drm/msm: Fix failure paths in msm_drm_init()"
->   drm/msm: fix NULL-deref on snapshot tear down
->   drm/msm: fix NULL-deref on irq uninstall
->   drm/msm: fix drm device leak on bind errors
->   drm/msm: fix vram leak on bind errors
->   drm/msm: fix missing wq allocation error handling
->   drm/msm: fix workqueue leak on bind errors
->   drm/msm: use drmm_mode_config_init()
->   drm/msm: move include directive
-> 
->  drivers/gpu/drm/msm/disp/msm_disp_snapshot.c |  3 -
->  drivers/gpu/drm/msm/msm_drv.c                | 67 +++++++++++++-------
->  2 files changed, 44 insertions(+), 26 deletions(-)
+greg k-h
