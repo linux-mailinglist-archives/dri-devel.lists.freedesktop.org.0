@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400236C316A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 13:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617956C31CE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 13:38:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D66610E76F;
-	Tue, 21 Mar 2023 12:19:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B7AC10E0AE;
+	Tue, 21 Mar 2023 12:38:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B5E910E761
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 12:19:09 +0000 (UTC)
-X-UUID: 918f47e4c7e211eda9a90f0bb45854f4-20230321
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=LOnGLhT29GUb4Gxr6YpokCc7RcuLeUqea4yzK4rSADI=; 
- b=ottb6F3upzmxR3RH43nr4BzIYatpOnI0/fd1lslDuaehApX7rKiJEY4NTGR/1k/ZFLMzLx1on/T0ljbUc3+hM27otygaBGieQQzWCw/aPMNP45evEA1z8jovQZhW18Ede7OPVCflUBKmCyH353Kb953BN0kZJf4UkhwZ5MORJho=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:49268a9d-d1ec-423d-9278-406c26416f89, IP:0,
- U
- RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:-5
-X-CID-META: VersionHash:120426c, CLOUDID:434877f6-ddba-41c3-91d9-10eeade8eac7,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
- RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 918f47e4c7e211eda9a90f0bb45854f4-20230321
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1422207177; Tue, 21 Mar 2023 20:19:03 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Tue, 21 Mar 2023 20:19:02 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Tue, 21 Mar 2023 20:19:02 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v30 7/7] drm/mediatek: add mediatek-drm of vdosys1 support for
- MT8195
-Date: Tue, 21 Mar 2023 20:18:59 +0800
-Message-ID: <20230321121859.2355-8-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20230321121859.2355-1-nancy.lin@mediatek.com>
-References: <20230321121859.2355-1-nancy.lin@mediatek.com>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 929A110E0AE
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 12:38:09 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id b20so26114259edd.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 05:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679402288;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fAHU5kqXRYKOLBxaAoswUkMHVemnT1L6PZ6oDpy10Og=;
+ b=MpW1PxAiokgthWrvl0fAhVprwNnKMOzVF5kPm8DWuvwwuYdC/IZu/5/sJlhOcR9MLL
+ 9k1Ll2OzrGnEPdO12o5Not8Ij7zDVDNULBaQaI3oLJxXf2EEFoAci7QfsNB158/P96JH
+ O894ra4J1L+2MIi4pJg2BCEkV1QSvMEX0wdZJXlYbdhn1byEljr/2jAxvgUEwCZa3qy5
+ LFA8eWEXe4WrJ5nGq9RiIFQnPHsbPqWR9XHxiUhl+iWqAsUffZvXR1y9z9dLbMBcwSnm
+ DSKF0EI8mkgjeaREKfVET7gFLUD4JOU54ASbSsUejmCTAtO058LNyXEntJM07Ao3Upmt
+ wa5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679402288;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fAHU5kqXRYKOLBxaAoswUkMHVemnT1L6PZ6oDpy10Og=;
+ b=AJ0hf70p2u/wbaM1+DPRrPMRAbsyJ/y+xgoplUpDMLGdJkr4dM8AlxqrvwzYMO3Ws6
+ BbjsNswUg3ts301cGkMHiMby0bBMh6VKCcN9fYvKeqvpp9BKL3QMjtQ6F6+C2LLpE0AG
+ WJtSwotSLpfb3muaFsXw0SaS/87oXt0zAWMJlyBnBMW3EWPKGwDNy6S7d57vXGgfAeSp
+ p03E/su7IbIE06j5qRdryCMoO+yDv2hLVwcTGTtGPu5JKSPS182aEW6+Z6MhqgXGgyrG
+ TQ1mCL6hLLu6jQzzkqHvfBbEhMywh0xEf5kTnqVrlbdZHHLCVhRsYZFtynAMoTYbLMtn
+ hGbw==
+X-Gm-Message-State: AO0yUKWeTelw2qV3iKaNF1FTuAyYGfWY5htKnN9Dc46ymkG0jnUXlxV0
+ mBk658XJ3h2RacI0SWyITCRRxA==
+X-Google-Smtp-Source: AK7set+vNaEbl3l1Z6hbghc31W3om2GAvq3BZt9/SEGY2N7Ry7e+QAITpS/ixh1bfJlmj1UWuz7y3Q==
+X-Received: by 2002:a17:906:7249:b0:895:58be:957 with SMTP id
+ n9-20020a170906724900b0089558be0957mr2691044ejk.2.1679402287907; 
+ Tue, 21 Mar 2023 05:38:07 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:2142:d8da:5ae4:d817?
+ ([2a02:810d:15c0:828:2142:d8da:5ae4:d817])
+ by smtp.gmail.com with ESMTPSA id
+ v14-20020a1709063bce00b0093344ef3764sm3865240ejf.57.2023.03.21.05.38.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 05:38:07 -0700 (PDT)
+Message-ID: <55cfacf6-03e0-b9bc-83f3-3e9f2d7b2d4d@linaro.org>
+Date: Tue, 21 Mar 2023 13:38:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: Add no-hpd property
+Content-Language: en-US
+To: Jayesh Choudhary <j-choudhary@ti.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230316140823.234263-1-j-choudhary@ti.com>
+ <20230316140823.234263-2-j-choudhary@ti.com>
+ <dbc43c09-f8ec-f877-598a-adff47d44b0e@linaro.org>
+ <79ce5fe8-9fb0-5caa-67a0-87dee7867856@ti.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <79ce5fe8-9fb0-5caa-67a0-87dee7867856@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,68 +80,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, singo.chang@mediatek.com,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux@googlegroups.com, "Nancy.Lin" <nancy.lin@mediatek.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: neil.armstrong@linaro.org, rfoss@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, jani.nikula@intel.com,
+ sam@ravnborg.org, javierm@redhat.com, jernej.skrabec@gmail.com,
+ a-bhatia1@ti.com, alexander.deucher@amd.com, yamonkar@cadence.com,
+ robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ sjakhade@cadence.com, tzimmermann@suse.de, r-ravikumar@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm.
+On 21/03/2023 13:02, Jayesh Choudhary wrote:
+>>
+>>> +    type: boolean
+>>> +    description:
+>>> +      Set if the HPD line on the bridge isn't hooked up to anything or is
+>>> +      otherwise unusable.
+>>
+>> It's the property of the panel, not bridge. Unless you want to say that
+>> bridge physically does not have HPD? Does it follow the standard in such
+>> case?
+> 
+> MHDP does have hpd. But the mhdp driver should handle the cases when the
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Tested-by: Bo-Chen Chen <rex-bc.chen@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+This is about bindings, not driver. Your driver can still handle this as
+it wishes.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index f689e6750974..dce2d86df6d9 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -208,6 +208,12 @@ static const unsigned int mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const unsigned int mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_DRM_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -277,7 +283,14 @@ static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.main_path = mt8195_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
--	.mmsys_dev_num = 1,
-+	.mmsys_dev_num = 2,
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
- };
- 
- static const struct of_device_id mtk_drm_of_ids[] = {
-@@ -301,6 +314,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8195_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys0",
- 	  .data = &mt8195_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--- 
-2.18.0
+> hpd pin of bridge is not connected to that of the DP-connector. This is 
+> to add support for that. (optional property)
+
+Which is indicated by panel no-hpd, right? Or you mean now that HPD
+physically cannot go to panel because it is cut on the bridge side? But
+isn't this the same case (from hardware/bindings point, not driver) as
+panel would not have HPD?
+
+
+Best regards,
+Krzysztof
 
