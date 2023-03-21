@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2686C3214
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 13:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CDD6C321C
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 13:58:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B1610E181;
-	Tue, 21 Mar 2023 12:55:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439D810E1EE;
+	Tue, 21 Mar 2023 12:58:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20AC210E181;
- Tue, 21 Mar 2023 12:55:27 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E287F10E1EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 12:58:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 08EBECE18C1;
- Tue, 21 Mar 2023 12:55:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EFF7C433D2;
- Tue, 21 Mar 2023 12:55:21 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E5B4DB81664;
+ Tue, 21 Mar 2023 12:58:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B5DC433EF;
+ Tue, 21 Mar 2023 12:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679403321;
- bh=ZnXocfbauUx27rTMEEdy0hmwDjF0EF1+mrismXf3kiM=;
+ s=k20201202; t=1679403507;
+ bh=fUrFfBTem00Au6MAb6n8c6Qe40M3ghfl65QUUzCSqa4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Tkw3jE14tuIpxUec0cs3nE3qxp8ZBfKbxRKUg55YFfOnzbL/8/S3KrPpUoKdJHU2i
- 4mUJI6g/rQbbAFz2jxUneGOR8wqUvPmT0NvbyId6LHEIDQCsOdf1Df0BdCCglgOgMT
- DqVH7MxiyAQUxqQG6pZNF17CeuX3jRPfQrCdyWqH8pxM+7whiwd8ja1TeyQf5FiJGc
- eG4rXCakQOZv6YV3wu9roXASPomgovdLHsrSDhoG/7lNPHZKyzcjSupONRbDQfO3y4
- o5MtyhWOX0uEMBPomTuXKiaLgVkUjzNAeMN3Wsp+/O3i/FotomcFIFKPq91tZCqPYT
- Rg+BG/birDn5A==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1pebXg-0005uQ-Tw; Tue, 21 Mar 2023 13:56:44 +0100
-Date: Tue, 21 Mar 2023 13:56:44 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v2 0/4] drm/msm/adreno: fix runtime PM imbalance at unbind
-Message-ID: <ZBmpjF6DKMGDiOhT@hovoldconsulting.com>
-References: <20230303164807.13124-1-johan+linaro@kernel.org>
+ b=nZuT9FKJwjKS2yKMRBWP67LIJ9nQxSE7TvmnusywsL4e/7rbaldUPjQr86Ak52G4x
+ u8EhTgBEcmy5+apxWOgwefox5aTOyH7m5mvZ1784g7jwz9OtYgd29F5zJffBmgpFI+
+ oHYo/G3AVh5YSy2dCS/OFSHq6KHewSH8WBEb7yYMismSkh7adRWw74YXa9fz4pOR7T
+ CDgBKrXJgTHcy3OuEBszAz+5nj/EFFGQUbYeipuRLdnFqLKxjDXIh73ZAc8KPKeYEK
+ XDD7zxeInfgPYRR0s/qKL4Ofm3hYPORhDcMma75bLYSZKPUUIF2CTenefRmuSmNdiQ
+ 4j65V4gt1GRkA==
+Date: Tue, 21 Mar 2023 12:58:22 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ John Harrison <John.C.Harrison@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Subject: Re: stable-rc/linux-5.10.y bisection: baseline.login on
+ hp-x360-14-G1-sona
+Message-ID: <7f0ccd45-ab53-4155-b647-d082221d65b3@sirena.org.uk>
+References: <6419a07b.630a0220.8bbc0.07b1@mx.google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="YkFerU4B7/lHCmk/"
 Content-Disposition: inline
-In-Reply-To: <20230303164807.13124-1-johan+linaro@kernel.org>
+In-Reply-To: <6419a07b.630a0220.8bbc0.07b1@mx.google.com>
+X-Cookie: Will it improve my CASH FLOW?
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,45 +58,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: stable@vger.kernel.org, dri-devel@lists.freedesktop.org, bot@kernelci.org,
+ kernelci-results@groups.io
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 03, 2023 at 05:48:03PM +0100, Johan Hovold wrote:
-> As reported by Bjorn, we can end up with an unbalanced runtime PM
-> disable count if unbind() is called before the DRM device is opened
-> (e.g. if component bind fails due to the panel driver not having been
-> loaded yet).
-> 
-> As runtime PM must currently stay disabled until the firmware has been
-> loaded, fix this by making the runtime PM disable call at unbind()
-> conditional.
-> 
-> The rest of the series fixes further imbalances in the load_gpu() error
-> paths and removes a bogus pm_runtime_set_active() call. Included is also
-> a related indentation cleanup.
 
-I noticed that Rob picked up the first patch below from v1 of this
-series. Any comments to the remaining three?
+--YkFerU4B7/lHCmk/
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Johan
+On Tue, Mar 21, 2023 at 05:18:03AM -0700, KernelCI bot wrote:
 
-> Changes in v2
->  - fix the runtime PM imbalance in the gpu load error paths (new)
-> 
->  - drop the patch removing the pm_runtime_disable() from
->    adreno_gpu_cleanup() as this function can currently still be called
->    with runtime PM enabled if suspending the scheduler in
->    adreno_system_suspend() at unbind fails
-> 
-> 
-> Johan Hovold (4):
->   drm/msm/adreno: fix runtime PM imbalance at unbind
->   drm/msm/adreno: fix runtime PM imbalance at gpu load
->   drm/msm/adreno: drop bogus pm_runtime_set_active()
->   drm/msm/adreno: clean up component ops indentation
-> 
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 26 +++++++++++++---------
->  1 file changed, 16 insertions(+), 10 deletions(-)
+The KernelCI bisection bot found a boot bisection on one of the HP
+ChromeBooks in v5.10.175 triggered by b5005605013d ("drm/i915: Don't use
+BAR mappings for ring buffers with LLC").  The system appears to die
+very early in boot with no output.
+
+I've left the full report from the bot below, including links to full
+boot logs such as they are and a tag for the bot, and the full web
+dashboard for the test case fail is at:
+
+    https://linux.kernelci.org/test/plan/id/64147346939869e04b8c8694/
+
+including details of the successful test on v5.10.174.
+
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+> * This automated bisection report was sent to you on the basis  *
+> * that you may be involved with the breaking commit it has      *
+> * found.  No manual investigation has been done to verify it,   *
+> * and the root cause of the problem may be somewhere else.      *
+> *                                                               *
+> * If you do send a fix, please include this trailer:            *
+> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+> *                                                               *
+> * Hope this helps!                                              *
+> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>=20
+> stable-rc/linux-5.10.y bisection: baseline.login on hp-x360-14-G1-sona
+>=20
+> Summary:
+>   Start:      de26e1b2103b Linux 5.10.175
+>   Plain log:  https://storage.kernelci.org/stable-rc/linux-5.10.y/v5.10.1=
+75/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora/baseline-hp-=
+x360-14-G1-sona.txt
+>   HTML log:   https://storage.kernelci.org/stable-rc/linux-5.10.y/v5.10.1=
+75/x86_64/x86_64_defconfig+x86-chromebook/gcc-10/lab-collabora/baseline-hp-=
+x360-14-G1-sona.html
+>   Result:     b5005605013d drm/i915: Don't use BAR mappings for ring buff=
+ers with LLC
+>=20
+> Checks:
+>   revert:     PASS
+>   verify:     PASS
+>=20
+> Parameters:
+>   Tree:       stable-rc
+>   URL:        https://git.kernel.org/pub/scm/linux/kernel/git/stable/linu=
+x-stable-rc.git
+>   Branch:     linux-5.10.y
+>   Target:     hp-x360-14-G1-sona
+>   CPU arch:   x86_64
+>   Lab:        lab-collabora
+>   Compiler:   gcc-10
+>   Config:     x86_64_defconfig+x86-chromebook
+>   Test case:  baseline.login
+>=20
+> Breaking commit found:
+>=20
+> -------------------------------------------------------------------------=
+------
+> commit b5005605013d30ab27c303cbaeff60b7872234a3
+> Author: John Harrison <John.C.Harrison@Intel.com>
+> Date:   Wed Feb 15 17:11:01 2023 -0800
+>=20
+>     drm/i915: Don't use BAR mappings for ring buffers with LLC
+>    =20
+>     commit 85636167e3206c3fbd52254fc432991cc4e90194 upstream.
+>    =20
+>     Direction from hardware is that ring buffers should never be mapped
+>     via the BAR on systems with LLC. There are too many caching pitfalls
+>     due to the way BAR accesses are routed. So it is safest to just not
+>     use it.
+>    =20
+>     Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>     Fixes: 9d80841ea4c9 ("drm/i915: Allow ringbuffers to be bound anywher=
+e")
+>     Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>     Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>     Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>     Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>     Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>     Cc: intel-gfx@lists.freedesktop.org
+>     Cc: <stable@vger.kernel.org> # v4.9+
+>     Tested-by: Jouni H=F6gander <jouni.hogander@intel.com>
+>     Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>     Link: https://patchwork.freedesktop.org/patch/msgid/20230216011101.19=
+09009-3-John.C.Harrison@Intel.com
+>     (cherry picked from commit 65c08339db1ada87afd6cfe7db8e60bb4851d919)
+>     Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>     Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>=20
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/=
+gt/intel_ring.c
+> index 4034a4bac7f0..69b2e5509d67 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring.c
+> @@ -49,7 +49,7 @@ int intel_ring_pin(struct intel_ring *ring, struct i915=
+_gem_ww_ctx *ww)
+>  	if (unlikely(ret))
+>  		goto err_unpin;
+> =20
+> -	if (i915_vma_is_map_and_fenceable(vma))
+> +	if (i915_vma_is_map_and_fenceable(vma) && !HAS_LLC(vma->vm->i915))
+>  		addr =3D (void __force *)i915_vma_pin_iomap(vma);
+>  	else
+>  		addr =3D i915_gem_object_pin_map(vma->obj,
+> @@ -91,7 +91,7 @@ void intel_ring_unpin(struct intel_ring *ring)
+>  		return;
+> =20
+>  	i915_vma_unset_ggtt_write(vma);
+> -	if (i915_vma_is_map_and_fenceable(vma))
+> +	if (i915_vma_is_map_and_fenceable(vma) && !HAS_LLC(vma->vm->i915))
+>  		i915_vma_unpin_iomap(vma);
+>  	else
+>  		i915_gem_object_unpin_map(vma->obj);
+> -------------------------------------------------------------------------=
+------
+>=20
+>=20
+> Git bisection log:
+>=20
+> -------------------------------------------------------------------------=
+------
+> git bisect start
+> # good: [955623617f2f505ac08d0efda2bb50c1a52e2c96] Linux 5.10.174
+> git bisect good 955623617f2f505ac08d0efda2bb50c1a52e2c96
+> # bad: [de26e1b2103b1f56451f6ad77f0190c9066c87dc] Linux 5.10.175
+> git bisect bad de26e1b2103b1f56451f6ad77f0190c9066c87dc
+> # good: [d16701a385b54f44bf41ff1d7485e7a11080deb3] bnxt_en: Avoid order-5=
+ memory allocation for TPA data
+> git bisect good d16701a385b54f44bf41ff1d7485e7a11080deb3
+> # good: [d47d364f6671d8794a89e4972b1fd3284d213c96] macintosh: windfarm: U=
+se unsigned type for 1-bit bitfields
+> git bisect good d47d364f6671d8794a89e4972b1fd3284d213c96
+> # bad: [c3fd717b58f0a3e2461c16e2360ee6a949b47940] ext4: add strict range =
+checks while freeing blocks
+> git bisect bad c3fd717b58f0a3e2461c16e2360ee6a949b47940
+> # good: [7aa5a495cbf8a33cd9fec892c180dedf14292b76] ipmi/watchdog: replace=
+ atomic_add() and atomic_sub()
+> git bisect good 7aa5a495cbf8a33cd9fec892c180dedf14292b76
+> # bad: [b5005605013d30ab27c303cbaeff60b7872234a3] drm/i915: Don't use BAR=
+ mappings for ring buffers with LLC
+> git bisect bad b5005605013d30ab27c303cbaeff60b7872234a3
+> # good: [c53d50d8081a49ba21f866a51277a012b9efad8e] skbuff: Fix nfct leak =
+on napi stolen
+> git bisect good c53d50d8081a49ba21f866a51277a012b9efad8e
+> # first bad commit: [b5005605013d30ab27c303cbaeff60b7872234a3] drm/i915: =
+Don't use BAR mappings for ring buffers with LLC
+> -------------------------------------------------------------------------=
+------
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Groups.io Links: You receive all messages sent to this group.
+> View/Reply Online (#39748): https://groups.io/g/kernelci-results/message/=
+39748
+> Mute This Topic: https://groups.io/mt/97753328/1131744
+> Group Owner: kernelci-results+owner@groups.io
+> Unsubscribe: https://groups.io/g/kernelci-results/unsub [broonie@kernel.o=
+rg]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
+
+--YkFerU4B7/lHCmk/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmQZqe0ACgkQJNaLcl1U
+h9Ae8Af/e4zhZHNncnmKMZFZ42oC4hpGhUabhsZVYx4602o8aBP3K/2PRCZdQLYP
+g/m8HS8809F0Eoch9Vw/iBr/RBZdAJNq7Woxv1h+78CjJPLfl00K0O4Gik9N+rDd
+5hVnFXYm2oF3lEfsZJQQJCSMPuSXfa0NFAC9LiG+NYzVsq73upbNtgrzHQGmTgDE
+lB9+I5HvxMjMwNZPi+gUQ0xYXIEKf+UPoNI4G/XFCB4TpV0u0nWbiZ+63Tw55UQR
+FFQTXHNst3viopXYgFP5ZyWA932dNqPVXb1Kuu88La+e2hj8LPCIvO5vs5QxGWhE
+EyBvWDQwdkIaeK1Yh/trKtgKA43NUQ==
+=M1Ea
+-----END PGP SIGNATURE-----
+
+--YkFerU4B7/lHCmk/--
