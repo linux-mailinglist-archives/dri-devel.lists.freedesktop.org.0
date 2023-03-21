@@ -2,34 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4156C44BF
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4168B6C44C3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:20:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4533010E03E;
-	Wed, 22 Mar 2023 08:20:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8D8810E397;
+	Wed, 22 Mar 2023 08:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 635 seconds by postgrey-1.36 at gabe;
- Tue, 21 Mar 2023 10:04:36 UTC
-Received: from hust.edu.cn (unknown [202.114.0.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A94C510E085
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 10:04:36 +0000 (UTC)
-Received: from liber-MS-7D42.. ([10.12.190.56])
- (user=gangecen@hust.edu.cn mech=LOGIN bits=0)
- by mx1.hust.edu.cn  with ESMTP id 32L9rEfp018165-32L9rEfq018165
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 21 Mar 2023 17:53:19 +0800
-From: Gencen Gan <gangecen@hust.edu.cn>
-To: Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/bochs: replace ioremap with devm_ioremap to avoid immo
- leak
-Date: Tue, 21 Mar 2023 17:52:16 +0800
-Message-Id: <20230321095216.1306555-1-gangecen@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7B9010E1C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 12:02:36 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 32LC2Kxw113141;
+ Tue, 21 Mar 2023 07:02:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1679400140;
+ bh=RmbmhgCa8+U7icS0fTHWPYo6SizfHxfnN91iZUtJfZE=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=ljW6YZMpmlmNCmaQLB49LKcQBk5fJMEEByQ8l4yAgLl7RUUme3ehc7E1aNTRfF7x2
+ Uc3R4GOV7a2xmUnaG6w4ynP65EUfl0QDt39g1YKIRwjErGW/ob1mzdQ+8/LuXFqpDQ
+ FLHZgH2AkrrawgZXtNVFos/8JzXgk7aieLNU1Nyg=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 32LC2KoB031034
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 21 Mar 2023 07:02:20 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 21
+ Mar 2023 07:02:19 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Tue, 21 Mar 2023 07:02:20 -0500
+Received: from [172.24.145.160] (ileaxei01-snat.itg.ti.com [10.180.69.5])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 32LC2CWj124142;
+ Tue, 21 Mar 2023 07:02:13 -0500
+Message-ID: <79ce5fe8-9fb0-5caa-67a0-87dee7867856@ti.com>
+Date: Tue, 21 Mar 2023 17:32:12 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: gangecen@hust.edu.cn
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: Add no-hpd property
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20230316140823.234263-1-j-choudhary@ti.com>
+ <20230316140823.234263-2-j-choudhary@ti.com>
+ <dbc43c09-f8ec-f877-598a-adff47d44b0e@linaro.org>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <dbc43c09-f8ec-f877-598a-adff47d44b0e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Wed, 22 Mar 2023 08:20:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,49 +68,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Gan Gecen <gangecen@hust.edu.cn>,
- Dongliang Mu <dzm91@hust.edu.cn>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: neil.armstrong@linaro.org, rfoss@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, jani.nikula@intel.com,
+ sam@ravnborg.org, javierm@redhat.com, jernej.skrabec@gmail.com,
+ a-bhatia1@ti.com, alexander.deucher@amd.com, yamonkar@cadence.com,
+ robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ sjakhade@cadence.com, tzimmermann@suse.de, r-ravikumar@ti.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gan Gecen <gangecen@hust.edu.cn>
+Hello Krzysztof,
 
-Smatch reports:
+On 17/03/23 18:08, Krzysztof Kozlowski wrote:
+> On 16/03/2023 15:08, Jayesh Choudhary wrote:
+>> From: Rahul T R <r-ravikumar@ti.com>
+>>
+>> Add no-hpd property to the bindings, to disable
+>> hpd when not connected or unusable
+>>
+>> Signed-off-by: Rahul T R <r-ravikumar@ti.com>
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> ---
+>>   .../devicetree/bindings/display/bridge/cdns,mhdp8546.yaml   | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+>> index b2e8bc6da9d0..69d381195218 100644
+>> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+>> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+>> @@ -57,6 +57,12 @@ properties:
+>>     interrupts:
+>>       maxItems: 1
+>>   
+>> +  cdns,no-hpd:
+> 
+> There is already no-hpd property.
+> 
+>> +    type: boolean
+>> +    description:
+>> +      Set if the HPD line on the bridge isn't hooked up to anything or is
+>> +      otherwise unusable.
+> 
+> It's the property of the panel, not bridge. Unless you want to say that
+> bridge physically does not have HPD? Does it follow the standard in such
+> case?
 
-	drivers/gpu/drm/tiny/bochs.c:290 bochs_hw_init()
-	warn: 'bochs->mmio' from ioremap() not released on
-	lines: 246,250,254.
+MHDP does have hpd. But the mhdp driver should handle the cases when the
+hpd pin of bridge is not connected to that of the DP-connector. This is 
+to add support for that. (optional property)
 
-In the function bochs_load() that calls bochs_hw_init()
-only, if bochs_hw_init(dev) returns -ENODEV(-19), it
-will jumps to err_free_dev instead of err_hw_fini, so
-bochs->immo won't be freed.
+-Jayesh
 
-We would prefer to replace ioremap with devm_ioremap
-to avoid adding lengthy error handling. The function 
-`devm_ioremap` will automatically release the allocated
-resources after use.
 
-Signed-off-by: Gan Gecen <gangecen@hust.edu.cn>
-Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- drivers/gpu/drm/tiny/bochs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 024346054c70..0d7e119a732f 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -223,7 +223,7 @@ static int bochs_hw_init(struct drm_device *dev)
- 		}
- 		ioaddr = pci_resource_start(pdev, 2);
- 		iosize = pci_resource_len(pdev, 2);
--		bochs->mmio = ioremap(ioaddr, iosize);
-+		bochs->mmio = devm_ioremap(&pdev->dev, ioaddr, iosize);
- 		if (bochs->mmio == NULL) {
- 			DRM_ERROR("Cannot map mmio region\n");
- 			return -ENOMEM;
--- 
-2.34.1
-
+> 
+> Best regards,
+> Krzysztof
+> 
