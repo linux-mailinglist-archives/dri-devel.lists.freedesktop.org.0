@@ -1,52 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A826C346D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 15:38:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4BB6C3491
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 15:43:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA3E10E230;
-	Tue, 21 Mar 2023 14:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5191410E156;
+	Tue, 21 Mar 2023 14:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C901010E229;
- Tue, 21 Mar 2023 14:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679409499; x=1710945499;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=1i9juQG1wIe8gITmEKAWeS9272iLCNnj0vEBZaPxs98=;
- b=AckCa5QhR7O/BSZkKVBeGXbkc0cf3UIQyX1/h0NioX76IyC5dRHuPRsD
- RcFeen6PHqHwiPz98iYL+5o/PjaPe/3P16nRLRHs2ZAIZScjK8Jzi7Fey
- 9O5E4fRjdsZLlHb3dy2px6ti55+z/RO6wQyElkloqgJpBIWFyKAhoIK6E
- z+CoVeeL96vd4uIL36tYxo1rR4iGHhv+IHuzQ/Z9apE5xu14SAxGNvxW5
- PAo0MhLZoHw396LP0nqk1FYwEwCn/oppgS2CE+PLwjwIAEYDpiHNAmB7e
- mk4PpTHZAkjpRAs+Rgcf3E9FQQPOqQjQ2K231PKd6xpa1NFD43bysySYi w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="403832830"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="403832830"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 07:36:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="674851705"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="674851705"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by orsmga007.jf.intel.com with SMTP; 21 Mar 2023 07:36:55 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 21 Mar 2023 16:36:54 +0200
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [RFC][PATCH v2 3/3] drm/i915: Add SIZE_HINTS property for cursors
-Date: Tue, 21 Mar 2023 16:36:43 +0200
-Message-Id: <20230321143643.26676-4-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230321143643.26676-1-ville.syrjala@linux.intel.com>
-References: <20230321143643.26676-1-ville.syrjala@linux.intel.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 678A410E13E
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 14:43:06 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id bi9so19394379lfb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 07:43:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679409784;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=O7BDMNV63w/nRH0IlJ+LWLAMT7WkMKpel3X2vIkr+GE=;
+ b=x7FEFvjPBZ4mJtbAdKPWIObXN71LRfNoK2qzcgzNz8wr3GEdJQF0hvNinmdtsGMeTy
+ AJ2l/FxZXwoA75jz7CZv4DyIXaUSfwlX6R8QrEQyl859yjCsVFC/MTQ1gNMIyhylqk2P
+ gojEU9aNix33lW8WNIWSaj8T4o0jUqwgLFCKr65pAAh06s/jLzReEBklymAMKUK4S7jO
+ MooR6JWs2obroNOdZNAQIliRfhfr+hqPZw/nQ4kSVgfWDqpgLg5KYKGJjXQQCVqy/wxJ
+ TxOeU4QMPqRBGq4Wvy7mCCyWK/X2cxqsChD64C4QxzzzlwOgv3V23EPw5QJxQYo/aO/p
+ /yrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679409784;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=O7BDMNV63w/nRH0IlJ+LWLAMT7WkMKpel3X2vIkr+GE=;
+ b=PpKsrZMjAwmFnHvNeHeZvBwN7TIoHKMJvd21FeGHdDiiYzKYt8hB4tBdVGZH1+hp9u
+ xkE+a396U1/GJ0Ql4Qjm5HX8U0M9wbLDaVTpr11vbnZS707+J41Fc247qIVAAwNfm3Dy
+ BmNQ166HxnM1O26EhJG3EqGtc/Wrxh1IRhMxSpaEgj9aoO1qF7hGd6u7jJWR/GauRht2
+ roHe5DNFZMlO7Aa92lvxyv5zVzrEUZyJAMoq9tvT4H+8CouqPLUiH5xinjeCk9rPf43j
+ oOpor687QFMMejuXFwIHn53yio359pgzNH4/JuCpa6Vi2IGEFCQ6iUdBeS+oHecMT1hL
+ bExA==
+X-Gm-Message-State: AO0yUKVv7l2nc8CPRzzqbK0R79qtBWS2aM+erHG/qgjYFDwMi7VQmR1o
+ tI7CuLbLO1MQWCYmlGqMEttpGw==
+X-Google-Smtp-Source: AK7set8NjKRaOPlkE21loVh+PZamQ3MqDcldA1NP940LXjsMxXnonUwSonjFS5j4YSrJ8Img293jdA==
+X-Received: by 2002:a19:ad4b:0:b0:4ea:e779:fc3 with SMTP id
+ s11-20020a19ad4b000000b004eae7790fc3mr777391lfd.25.1679409784538; 
+ Tue, 21 Mar 2023 07:43:04 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ m1-20020a056512014100b004d8729d4150sm2187363lfo.145.2023.03.21.07.43.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Mar 2023 07:43:04 -0700 (PDT)
+Message-ID: <34bac508-21b1-a441-0987-6b5b5be0bb08@linaro.org>
+Date: Tue, 21 Mar 2023 16:43:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 10/10] drm/msm: move include directive
+Content-Language: en-GB
+To: Johan Hovold <johan+linaro@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230306100722.28485-1-johan+linaro@kernel.org>
+ <20230306100722.28485-11-johan+linaro@kernel.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230306100722.28485-11-johan+linaro@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,167 +77,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- =?UTF-8?q?Jonas=20=C3=85dahl?= <jadahl@redhat.com>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+On 06/03/2023 12:07, Johan Hovold wrote:
+> Move the include of of_address.h to the top of the file where it
+> belongs.
+> 
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
-Advertize more suitable cursor sizes via the new SIZE_HINTS
-plane property.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Here are some examples on various platforms:
-ivb+:
-            31 SIZE_HINTS:
-                    flags: immutable blob
-                    blobs:
+> ---
+>   drivers/gpu/drm/msm/msm_drv.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 
-                    value:
-                            4000080000010001ff6f0200
-                    size_hints blob decoded:
-                            min: 64x8
-                            max: 256x256
-                            bitmap[0]: 0b100110111111111111
-                                    64  128  256
-                               8     *    *    *
-                              16     *    *    *
-                              32     *    *    *
-                              64     *    *    *
-                             128          *    *
-                             256               *
-i945+:
-            31 SIZE_HINTS:
-                    flags: immutable blob
-                    blobs:
-
-                    value:
-                            400040000001000111010000
-                    size_hints blob decoded:
-                            min: 64x64
-                            max: 256x256
-                            bitmap[0]: 0b100010001
-                                    64  128  256
-                              64     *
-                             128          *
-                             256               *
-i865:
-            31 SIZE_HINTS:
-                    flags: immutable blob
-                    blobs:
-
-                    value:
-                            400001000002ff03ffffffffff0f0000
-                    size_hints blob decoded:
-                            min: 64x1
-                            max: 512x1023
-                            bitmap[0]: 0b11111111111111111111111111111111
-                            bitmap[1]: 0b111111111111
-                                    64  128  256  512
-                               1     *    *    *    *
-                               2     *    *    *    *
-                               4     *    *    *    *
-                               8     *    *    *    *
-                              16     *    *    *    *
-                              32     *    *    *    *
-                              64     *    *    *    *
-                             128     *    *    *    *
-                             256     *    *    *    *
-                             512     *    *    *    *
-                            1023     *    *    *    *
-
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Jonas Ådahl <jadahl@redhat.com>
-Cc: Daniel Stone <daniel@fooishbar.org>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/i915/display/intel_cursor.c | 43 ++++++++++++++++++---
- 1 file changed, 38 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_cursor.c b/drivers/gpu/drm/i915/display/intel_cursor.c
-index edeeb5f9f795..449860342aea 100644
---- a/drivers/gpu/drm/i915/display/intel_cursor.c
-+++ b/drivers/gpu/drm/i915/display/intel_cursor.c
-@@ -388,9 +388,9 @@ static u32 i9xx_cursor_ctl(const struct intel_crtc_state *crtc_state,
- 	return cntl;
- }
- 
--static bool i9xx_cursor_size_ok(struct drm_plane *plane,
--				int width, int height,
--				unsigned int rotation)
-+static bool _i9xx_cursor_size_ok(struct drm_plane *plane,
-+				 int width, int height,
-+				 unsigned int rotation)
- {
- 	struct drm_i915_private *i915 = to_i915(plane->dev);
- 
-@@ -424,6 +424,12 @@ static bool i9xx_cursor_size_ok(struct drm_plane *plane,
- 	return true;
- }
- 
-+static bool i9xx_cursor_size_ok(struct drm_plane *plane,
-+				int width, int height)
-+{
-+	return _i9xx_cursor_size_ok(plane, width, height, DRM_MODE_ROTATE_0);
-+}
-+
- static int i9xx_check_cursor(struct intel_crtc_state *crtc_state,
- 			     struct intel_plane_state *plane_state)
- {
-@@ -445,8 +451,8 @@ static int i9xx_check_cursor(struct intel_crtc_state *crtc_state,
- 	height = drm_rect_height(&plane_state->uapi.dst);
- 
- 	/* Check for which cursor types we support */
--	if (!i9xx_cursor_size_ok(&plane->base, width, height,
--				 plane_state->hw.rotation)) {
-+	if (!_i9xx_cursor_size_ok(&plane->base, width, height,
-+				  plane_state->hw.rotation)) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "Cursor dimension %dx%d not supported\n",
- 			    width, height);
-@@ -757,6 +763,31 @@ static const struct drm_plane_funcs intel_cursor_plane_funcs = {
- 	.format_mod_supported = intel_cursor_format_mod_supported,
- };
- 
-+static void intel_cursor_add_size_hints_property(struct intel_plane *plane)
-+{
-+	struct drm_i915_private *i915 = to_i915(plane->base.dev);
-+	const struct drm_mode_config *config = &i915->drm.mode_config;
-+
-+	if (IS_I845G(i915) || IS_I865G(i915))
-+		drm_plane_add_size_hints_property(&plane->base,
-+						  64, 1,
-+						  config->cursor_width,
-+						  config->cursor_height,
-+						  i845_cursor_size_ok);
-+	else if (HAS_CUR_FBC(i915))
-+		drm_plane_add_size_hints_property(&plane->base,
-+						  64, 8,
-+						  config->cursor_width,
-+						  config->cursor_height,
-+						  i9xx_cursor_size_ok);
-+	else
-+		drm_plane_add_size_hints_property(&plane->base,
-+						  64, 64,
-+						  config->cursor_width,
-+						  config->cursor_height,
-+						  i9xx_cursor_size_ok);
-+}
-+
- struct intel_plane *
- intel_cursor_plane_create(struct drm_i915_private *dev_priv,
- 			  enum pipe pipe)
-@@ -815,6 +846,8 @@ intel_cursor_plane_create(struct drm_i915_private *dev_priv,
- 						   DRM_MODE_ROTATE_0 |
- 						   DRM_MODE_ROTATE_180);
- 
-+	intel_cursor_add_size_hints_property(cursor);
-+
- 	zpos = RUNTIME_INFO(dev_priv)->num_sprites[pipe] + 1;
- 	drm_plane_create_zpos_immutable_property(&cursor->base, zpos);
- 
 -- 
-2.39.2
+With best wishes
+Dmitry
 
