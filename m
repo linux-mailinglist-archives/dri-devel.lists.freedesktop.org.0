@@ -2,140 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FD056C3D1C
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 22:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03EF6C3D8D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 23:16:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0124F10E873;
-	Tue, 21 Mar 2023 21:55:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A29C910E2AC;
+	Tue, 21 Mar 2023 22:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F06910E873;
- Tue, 21 Mar 2023 21:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679435736; x=1710971736;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=ivccHhLp7z5r8NUv74IrBDe6vnjOvhytRKVQnmGWlv0=;
- b=frStv4pgD8J8dGqs31i2DWlGWBr647UqIAX27qClaWX70CeVm3ddayZk
- nXEAndGknpQJhLcN+H/M10rU8kia/zQh4z+9MLT2En8YxXu4wDsDRHE+G
- bVE3G2UBWjwEhSUY0yrDUCbCqx7nlfENOJSmgGsUfBkF7owtQMpWG6cpP
- w8vigb6piFxD9Az3r9KT3QwkAPZIfEu243J2XN2e1fPtUrIT8NCFvglH7
- H1FFxgw7GqkSuwhcZPfvUpc3gyR3bZzwxda0fWI8KYgRmG6zhAiZDru4h
- DkILsxPUGegDloxGCj1U970G9WOun+4UvjM1SzHgShKjXEvtdfjCMjDqW g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="337792120"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="337792120"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 14:55:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="711988948"
-X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="711988948"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga008.jf.intel.com with ESMTP; 21 Mar 2023 14:55:33 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 21 Mar 2023 14:55:32 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 21 Mar 2023 14:55:32 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Tue, 21 Mar 2023 14:55:32 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.42) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Tue, 21 Mar 2023 14:55:32 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2081.outbound.protection.outlook.com [40.107.243.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9BAC10E886;
+ Tue, 21 Mar 2023 22:16:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VxXVC1J21QOmxsINO1vbWFC7aFFAE64RheAeWTpa4yz6CTy+wPfZf7ZTvpazYPNTEuO59hvzaHGcrlKu403qIU70HkzhtjS3MrBoSohY1hOskQs3OCTKw277e13nfosRBs/7CjGkHSHXnWLEjsTPWg8bqtAab4ftHcrhrGBc+nQMM+cvZJYYOBMr3Jvj6VMI7VIiB4K5eAxvVqKsOeYIvLFLng6pbpWwL9tpELM9R0UCI4t48DlorxDTJgjJNQ1qlJOllGU8XIAG4MQhymdfiGlJXZKezwZbC6BWTi1BLfCtMCX9liMlU/kLiF4G6sySioHv+f2WgkMrXtOLMaVTAQ==
+ b=DPimEGvmbXjOesgbl5Wlpqb5imxZDIAhcnMu9vPdYGCUDWrgVV79tg02AP18spdqoeT+URno+QSOIE6mTPsn9EQw5v7q1vYcHGJEeFxQYluPsnBUP/1MIw6qefySUdzS3+SuT4XSH0c5I+GSfPM4bZPZguXUIWFnLqfXzQs6AvCsFb/DtBZB97sjRPNnB5WsQZWlsssIMu63EqinJE00NYO1QrlbnshbtjV4lAw1+miH5WbUSirkiRjF5p+x89FqZpSBwND1Rq0rWsPl4E8BJYAkS+Teea0GLKJ1oDvwAjRM0Y5gMw3QVJvzryhM8NMxisaaGRoe7iaoDPv4SmdjOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Fgy6o75qo2IWoCvYGMJ1OfDgOKJ5N9VIEbXAFMdVl4=;
- b=cNILijq9x/4zvzRdNBLsewbGbgw3nmc61oqd5DAO9H+5ta1BrKB6KTvOgLLKzmjEX5B9CtFRbiPe/VataXTko7mIsxhvtXvmuFU9oRttW/F7IunauMXON8d9oPfocQLG5nXC9Z5uTcqxkorE+tvEzGzZxAU45mX9UIUNwJTnTCJOgv3zIYNK2gOJ2UH059J52KKngTDQpmgF1NTDG4Dju+UOS15UKcMiiRSvuBnwLYMCZNbIZEpuW2I5lnA7m2aQHXsmwJP3AGdvUAYsvwrVQ4GpFi8MDmHeGGIKKCiSegHsOwbyv8SDzn8/0kwxk6u00macgGJs8w2xI/Mcv83NxQ==
+ bh=Yhy/U6548KYgOO7Yk2YmXc3jYIAeulzhZh+GvNKu1ic=;
+ b=Ua6LRt5SqzTXBAjnaoO6GN4y51FCXjQlsqKZc0RC3LqJnQypIAQr9aqsx+4xXABt33GxPwotYrC6HXgOJnO1lPQPAjqF2xMowY3ayHlvEQMVnGWgEr829ghN8dxA4yHBD9/7oZFy1lP0tv8yjNUrpUMrfGkJucFs15qlNb0m8I24ME9/aIkA/DdmaHoCC/IByh+lOZw5Mir3wKHeEMpiSxyqSu2dU7fEdJdtfC1LhI5n23HvuRGH3ijLQPbCKZeW/mNCNf/lqfVcCM9qxJU6CWKW22bba7rd6mOiPympzqObXVxzZ2roy200H/zTlUCgDKCh2sbOmz4AYQ8C7JIoPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yhy/U6548KYgOO7Yk2YmXc3jYIAeulzhZh+GvNKu1ic=;
+ b=UymwGwyGw/o7/XDlP221nD49zWgxipYMLl0ku03xohEWkJpjcMbD6TaQWa5LHtg3gFumaGSlJ/ZD+mSsxql1LJY0mnjfnScCOMdkWLlwP46rgMPlzv9Hp9RG2yc9rYaSd4DIvW+92vPl8wrGSuEqlz/K6trga+nglST9C94JDUs=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS7PR11MB7859.namprd11.prod.outlook.com (2603:10b6:8:da::22) by
- DM4PR11MB5326.namprd11.prod.outlook.com (2603:10b6:5:391::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.37; Tue, 21 Mar 2023 21:55:30 +0000
-Received: from DS7PR11MB7859.namprd11.prod.outlook.com
- ([fe80::1c61:b69d:4ca:10d0]) by DS7PR11MB7859.namprd11.prod.outlook.com
- ([fe80::1c61:b69d:4ca:10d0%7]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
- 21:55:30 +0000
-Date: Tue, 21 Mar 2023 14:55:27 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Subject: Re: [PATCH v2 1/2] drm/i915: Sanitycheck MMIO access early in driver
- load
-Message-ID: <20230321215527.GQ4085390@mdroper-desk1.amr.corp.intel.com>
-References: <20230321170936.478631-1-andi.shyti@linux.intel.com>
- <20230321170936.478631-2-andi.shyti@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230321170936.478631-2-andi.shyti@linux.intel.com>
-X-ClientProxiedBy: SJ0PR05CA0055.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::30) To DS7PR11MB7859.namprd11.prod.outlook.com
- (2603:10b6:8:da::22)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by DS0PR12MB6606.namprd12.prod.outlook.com (2603:10b6:8:d2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Tue, 21 Mar
+ 2023 22:16:05 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::23f:22c1:b49e:b77e]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::23f:22c1:b49e:b77e%5]) with mapi id 15.20.6178.037; Tue, 21 Mar 2023
+ 22:16:05 +0000
+Message-ID: <97b3ede7-dce8-59be-eadb-19e2101dfaa6@amd.com>
+Date: Tue, 21 Mar 2023 18:16:03 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 25/32] drm/amdkfd: add debug suspend and resume process
+ queues operation
+Content-Language: en-US
+To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230125195401.4183544-1-jonathan.kim@amd.com>
+ <20230125195401.4183544-26-jonathan.kim@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <20230125195401.4183544-26-jonathan.kim@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YQBPR0101CA0335.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::20) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR11MB7859:EE_|DM4PR11MB5326:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4290142-b229-42f4-39c1-08db2a56fcc4
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|DS0PR12MB6606:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4e59b3e6-2eaf-4fa2-ae22-08db2a59dcff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vuOK8VzmYPGbsw9ArZdH5xASiyjyapaIyZ0Ff3R+VIjJbl6xSRrkX+FxIi2Bdv72oMitKcjq8PPLVh3lX4t+3d07BQV7F66VfLeT8rTZZJJa7mS/4E1WxMcspTLw2satq23JCKIyLbi07+mAgMNHoFAkUeB5hMGaAq+s2f5h25MfGLE7IsIi8Y5Cbwuj5plcQvBu+Uvyx/uWWmW3bdFJIvnDEauZhQ5JDk3hYBoJ/A9pOcfw7qMdwK3V/64DpKGPtDjOjvb8jNYu3YRBlun65J0PNPTQxWT3OYUJA1lvQcGbcHonXCWiKjR0U6WjFp57mdbNuoPRz1WqDhq9pmksYezSia5fyI72b528BznEBL10wFlgT9P8tRsXvo+prS0ATisgTWmcGgdCUvwqTVM64+wUES+ouredIl/NKqEBk0xQCKJJ3FnnHn3logQbLK5zNMcqLeCQmtUkSjQiR80kWdvgDxqfA5hOqAKCMc5satZ/qfK9oxSzFabm/6ejzV/+eRP8U2714t2hq1gCR5KwHdWPObU9c6smQdbL6Wtgnk0kPTOqmj0LD+Mg6gTW1T9eMFB2/ub14N5HaD29O//JZelwgzVAHTFvkxNKl+UGXM6nrowOP9K+Lzq6qA8eaDIA4dXknZ82dnI1U4vQ/shkNg==
+X-Microsoft-Antispam-Message-Info: IbotvJePxrRnCxxRdpTYY7mpizDq+SKuEIvVJYY7BwOBauAr4O4Z4VAv9gdFH6DrMdsdWnxtW2EeyCtE6LCwHW0LkgqC9647Gm0WUhbAACwe9ifYG7K6NmTeWSB1/pqiId3TrX/edoJ+yKIjvuCl53CQJth3h4EPcEeuoIdosCQrHsA0YI+3mdVjzVFWtIdLo9ze0NuKj2B56DcaU6qAEtAJ7YXhAtj3KY/Aub74JvGNwViqVbbT2IuJuvQqFBrqyY7ewnCRyf9bQODr6ETTL7SmU0FjNTur7r6gkZUBXh6ygU5eylFtvL90n5LL+nKPbBoIsIQtN+8uDv+A4jTSMUFbAW/hqYoGLnXahLh5roGJfPyHnXGglgdu5gSiFX+z+mA0N6LgsPMrfb3mExrdGbk5VKk6tXzJzJSW+Jbv7Jn1Ik3mGIeqMHuF/fMQC/WN1I+7hf3jNiCF281/ILVDF63Borb8puGsF7vjmlp6cdBTbkc8RtpsJnfxWOyQ/b5L6acCFOII89i2spdM5RvOrF4g/8TrDGAjvxZuycZS5+7iCBTJ/mm/JnCB9Y5pPf+F47xF1wwHoyTHE1704j6M+Jr7Ojlc6TPLxdT5/9XVSpS26eGewvMi35fQv4+7/i58Gmy9RdW78F0TW8nPeYSQMEnUrgApWhmdhEzMXt5hklxvi8fPzNEE7fmWr6qnttu+QcXci59N1laJe27n7GJyulNAAM+fYMceHDZYY9ja1sc=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR11MB7859.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(136003)(396003)(366004)(346002)(39860400002)(376002)(451199018)(83380400001)(316002)(186003)(6486002)(6666004)(6512007)(6506007)(33656002)(1076003)(26005)(5660300002)(478600001)(8936002)(54906003)(38100700002)(86362001)(66946007)(4326008)(2906002)(66556008)(6916009)(82960400001)(66476007)(41300700001)(8676002);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(451199018)(38100700002)(31696002)(86362001)(36916002)(6486002)(8676002)(44832011)(450100002)(316002)(66556008)(8936002)(36756003)(5660300002)(66476007)(41300700001)(66946007)(478600001)(2906002)(83380400001)(15650500001)(2616005)(186003)(6512007)(26005)(53546011)(6506007)(31686004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TQMO3ebUkeiLY1KOTmab0VZF/5k8TYW8rXfspY+gpIjEzzeokDF62CvfC5fh?=
- =?us-ascii?Q?10D3ErW1m5sBFp6M1rs8BFwFzLeRWK+3oAAyDl8e94KqSduJM5Cayc66lNdI?=
- =?us-ascii?Q?P3ANASRU/p9nEpHdrEqIClyH8v+tN4aOGEzA6hAiFk8LdgEI2dtEauBYSole?=
- =?us-ascii?Q?vKPjX9joJ+7DLJ0ll05lmsuA+tH2kqIfXeLCXYJUo6/Bmr1zJzLVfrnDOZoB?=
- =?us-ascii?Q?P/llJ+fTDN6UlvHE1WqnVF9cbItrzh3lCXiBxVJcOGbydgSMkzNDz04WSsa6?=
- =?us-ascii?Q?uC8tyiYhp1wlcMrwfiA7aepYzsYUKNzYCYqdz5Nl5fsD4FqgtAMrO3p51V2m?=
- =?us-ascii?Q?swsg2LobL+hoy+LrJ3nys/HjNAVOVtlf0nF/Wyyhodzu6jdvjcwc2GtUB4l/?=
- =?us-ascii?Q?BMgHxl6liHSxez2NCXr94E+7STxfod+70Z/INC8LrXmRlKfoszwTG2hEGJCS?=
- =?us-ascii?Q?KnCuQUZGgVAOFRfmc1s8Rr23vHFvUAFY1kw2dUeU3HDSsmGuxkJFokd9DD9m?=
- =?us-ascii?Q?ZlVqKEaVeDff3tAVuJn4p+PTJ4PtQPqkwmaE3qb9BcPBJNxfzl7IEXfIddMD?=
- =?us-ascii?Q?i6yGxWVYnfc31nOgC3YVSB0+QiFXSqyeEaSeRe7zFcvCGl9EYLkznzqAuEUp?=
- =?us-ascii?Q?3/w28d6mNEe4YskOaml9srl2Y84dSyZuizwtxRD+rzikO0VS/RC1vhJQf9K6?=
- =?us-ascii?Q?/Ny5lyGQDL2n2wR7dLVLwA1eh93PrFops8nOK8sxFvmZVA7d7eZ9wQsfXqhJ?=
- =?us-ascii?Q?GQ4dEIO9q1Ufyw/KKhpLlXJwu5Oh1b4G66itaQdyXDZx8D25harFQXk/dbcb?=
- =?us-ascii?Q?9zRwcqjqa+xvqnOaaHx6jIvTve5DxbjIGmJsXzzwTNPEtZG9cTAQQoUJW9FK?=
- =?us-ascii?Q?BkVH83amTY98ZNRKQgQeA4XgpeLDU3zfNDEEUQ3FKW7W5h3CVxaEJXfOz56H?=
- =?us-ascii?Q?3v7g91TmCLwbUZ993JrvoZKA5UnvflXQUhiyFTdjTTq0bOXcrQIYA6OnW2Zz?=
- =?us-ascii?Q?Q9eNz/9vZY54oWL89lsWnEHblJa5SGvkyVALHS46Kvvz94Sk/W39LwexksCD?=
- =?us-ascii?Q?tEquYQskcd+giwnRexCZjXfkLc0BKikjgCfYQ5w1iSuWotMdtnK6iWDrtXNd?=
- =?us-ascii?Q?Vtas4BWRSm6RgMpZnUqt+tzw3o6RIk/LU9JbwSEZpvD0dUWBoYkBrrweEVX0?=
- =?us-ascii?Q?eRc+3g2JB3mo42sIe/wXYs0nC3PReq9spLeyZz0b3n9PKPElZk7Mzlvacp2Z?=
- =?us-ascii?Q?MStmTvB7xeV4YL4IWLGm9Km7vR454DeSwtCk5ygp+c8/wpwjP0RsoxUymdSa?=
- =?us-ascii?Q?tpPJCg/BMVFDYgg72g+lMggIASlcm0VYqWQn5grucYrCtrf1fXr/DuG6zD0h?=
- =?us-ascii?Q?2JkdB+YN2/GJ0xF2zKbA3WeKaQTht6nmX0qxtSBmWeSO99eFW6pMS1IcBQZb?=
- =?us-ascii?Q?UFVh4ZrzgDy+6n+VEDs4/1zazyG4hE2nSL9TbDHGk4RCeRjX5MkaAXCPc8M/?=
- =?us-ascii?Q?b/COlX3/Ks+ByZLaeT5FFYnE689bfRJpmGG5Udnh9Jr4c77n6ZW4wEJ3ke5E?=
- =?us-ascii?Q?PnvgcYIoL3BeWFBZ9H5BLr6c+qqLfemjshoVVX39ACEHtBb7OyQCCq+HZXgp?=
- =?us-ascii?Q?4Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4290142-b229-42f4-39c1-08db2a56fcc4
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR11MB7859.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnM5NUxZMmczRjJLVm11b1IveHV5bDJ1SXRzdE53dHliSUhyYmtFUXp3OUVG?=
+ =?utf-8?B?Um9kWjZMQTFQWmlWTVpjSEI5QjdMSThDbVdUL2UyZnU0d0VhZEpLV0NTbTV0?=
+ =?utf-8?B?bHEvNEtmNzM2YkxZK3lkcTdNZUpmeEcwVzZSVDRwWWcwRldDQ0MvdE1CQ05E?=
+ =?utf-8?B?K2FBL3VmeFA4Z2xtelVJSVE0cFJyY2ZlU3lCeXQySXU3U0w2dFVDbzJsZjZC?=
+ =?utf-8?B?R3Z6STVKSmlFY3VlV2p3VXMwd3FZS25kUW5NVkZ2QXd6WXNXV2dDc0lkUEUz?=
+ =?utf-8?B?VmVkOFFmbSt3UWF0K1lzMU9YdWJQbFVPVzlrVXV3QmJSYXhvWU4vcEo5SUZt?=
+ =?utf-8?B?dGo2NFVhdmpRSjQza1dXMmR0dkQ3WEYrNGhVcWdpVVJ5U2Ztc2ovVTF0UE9E?=
+ =?utf-8?B?WTFPenVmSDBxTzVOVUtqcEl2NS9QZzluQ1RaclBNOFJRcVhuc2k4VXpsSUpS?=
+ =?utf-8?B?OWh5YkFqdk40aWVjbkxyRDd3T0tZeXZxWVAvK0JGOHZFN2pOYTdicXhiMjBt?=
+ =?utf-8?B?Ky9EcU41K1NMejhMcnVnWjVXMFE0N3FLUGhDdlY0TmU3QzBGeEZMaHB2c1dF?=
+ =?utf-8?B?OTZxbTNzL3B2YkpKdUtLOGlTc3A2UURTbVN5SnNSSEFnYkVZbStObDZTZ3ha?=
+ =?utf-8?B?TjY1QjdHNXorM3JzSVRqcXI0aFFzV3IrRlVyVTM5T296N3A4b0orbTBZLy9h?=
+ =?utf-8?B?TFh2MFlYUk10b3hCKzJ2SlNmZ01FVEpYWGZxSUQzSnJFSDRpSDBxSmdNNHVv?=
+ =?utf-8?B?OTNBUjU5dWxpQXVGU0lsa3FORW90aUNjQlRrTWVWUFpyWXp2VzNZL3h4andF?=
+ =?utf-8?B?aUtnRFNGbDBFbURoN3c2TTgzK0kxZnMrc1FRclZVR2txK3JDM2U2Z3dwc0Q3?=
+ =?utf-8?B?SFhubzZjU2ZXUzFmamdpcElhY29OWHMyVmxVUVM1SW1UYnZYVzFla09lS0h6?=
+ =?utf-8?B?L0pOUlJJbzdyNUw3UzdlV2NDeW5vYUt0TExoZUE4U1ZDYjI3Uk1YYWZVYjNy?=
+ =?utf-8?B?dnkrL01YNVFhamZ4dEZySDZoUzJKWkRYM29mZVFRUlZOckNiZUZWaW54Z3FV?=
+ =?utf-8?B?TG9Ed2pyZURFbHN1ZDdiRTBCYzNudXNld1dBR3R0QVJPMmZSakFHM0VRYnkw?=
+ =?utf-8?B?VlN2WUYwcDN0ZUp5aytlUWNzbXJJSHVXNjRhaWQ2MUhMYzJtWnlzaWtSSEN3?=
+ =?utf-8?B?OHkxeTlDYldkQWNjbTl6RE5UTFRVcU5XaVpQZVc0RGJIelhzQzJwYlAxbnpW?=
+ =?utf-8?B?Y29qemtPSWo2cWFrZ0YyVUxtZFA2N2lBMDhackg1T2pUZHhxb2h3a1FoQTBD?=
+ =?utf-8?B?WTFCOUs4bDRsaElXRDVWQXBwNWJkQWxTMSthV0FnNFpvNmRodmc5ZldieXl1?=
+ =?utf-8?B?akV2dTlPbUsvSlMwWGJEVWVXbjVuY3R5Zkd6SFdIaFNMbGl2K01zNUdrUm5X?=
+ =?utf-8?B?NWVwK0hzWlh2VFlXREJzU2lKV1ZtTkVoSkZLUGFMaCs1amhVTmN0eDZpcm5l?=
+ =?utf-8?B?OU5lekhveUFPUHdqcmVPcmtGTmY5N0gzUlo4ZHVUM3RkYjV2VVYyeEh1Yk5j?=
+ =?utf-8?B?Sk9aVFNEYWwrM2toMEVxczB5Z0puMGI0MmFVeHp5ZUpyOUFTU0kvWVZaZ24v?=
+ =?utf-8?B?cmNUY3F6M1hkLythRWgrazF6R1FyZ0piQ3RORTRjSmtOcXNPcTRhWXQ3L1Bp?=
+ =?utf-8?B?UGxtUWxzNE5aTS9LcURaTnorbEF5ZzB1OURCaXhxU3VDSmN3Q1JxZk1YV3h4?=
+ =?utf-8?B?QXdFM1Jjendra3Q3SXBmYWcyNHlsV2thR1AwN05rd0xyVXY0eTIvZnEvbDZ6?=
+ =?utf-8?B?S0d5RFluZW9UUzlhWFdMdmkrZTh6ejNWOWNlTmwyYlIvMHoyaEVhTGtvMUdQ?=
+ =?utf-8?B?UnBvM0dsUTJMWVFnaUhrWnhEd3pWOUR0RkFyb2ZjM3VReXI2WFdpZGNQZlB4?=
+ =?utf-8?B?QVhqOHUyOElWYy9jUHNlUlhxaTU1aTNpYVRMZWtmbXF5Y0tZclNtejErVHVW?=
+ =?utf-8?B?TEwyUnVML3MyWGdMTlVjNHo4VUdiZ1NLTVNvOWo2UlVGaVAxZlRmNTlSMFRN?=
+ =?utf-8?B?ektLbk5SSWxSZlJaUmhnelIvRCtJRUZzTThFMnFOWkVzaTJNcDJTeHFQWktn?=
+ =?utf-8?Q?bpwAYhY6NyFnCnfByZhQIIQ8f?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e59b3e6-2eaf-4fa2-ae22-08db2a59dcff
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 21:55:30.1204 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2023 22:16:05.2664 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7Cxf+Vae1vVXEZgSN8MX0lLknCx5wWz1XlgbP36oKYnc3+eJ7k6CJkgxU7/im3QLpCbicBUjpc2LUBGTEMiyOFS+5wN2tVv4UOxpthdPrpA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5326
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: ee56zhDvGVEaYpd+Eu4xUELgFk4RdosPF9EBIB5kzO+zyti+tDRSYvvysmaXQ6APLAN4xpidBGqmzPqYXlwIjA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6606
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,100 +128,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi
- Shyti <andi.shyti@kernel.org>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Stuart Summers <stuart.summers@intel.com>,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 21, 2023 at 06:09:35PM +0100, Andi Shyti wrote:
-> From: Matt Roper <matthew.d.roper@intel.com>
-> 
-> We occasionally see the PCI device in a non-accessible state at the
-> point the driver is loaded.  When this happens, all BAR accesses will
-> read back as 0xFFFFFFFF.  Rather than reading registers and
-> misinterpreting their (invalid) values, let's specifically check for
-> 0xFFFFFFFF in a register that cannot have that value to see if the
-> device is accessible.
-> 
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+On 2023-01-25 14:53, Jonathan Kim wrote:
+> In order to inspect waves from the saved context at any point during a
+> debug session, the debugger must be able to preempt queues to trigger
+> context save by suspending them.
+>
+> On queue suspend, the KFD will copy the context save header information
+> so that the debugger can correctly crawl the appropriate size of the saved
+> context. The debugger must then also be allowed to resume suspended queues.
+>
+> A queue that is newly created cannot be suspended because queue ids are
+> recycled after destruction so the debugger needs to know that this has
+> occurred.  Query functions will be later added that will clear a given
+> queue of its new queue status.
+>
+> A queue cannot be destroyed while it is suspended to preserve its saved
+> context during debugger inspection.  Have queue destruction block while
+> a queue is suspended and unblocked when it is resumed.  Likewise, if a
+> queue is about to be destroyed, it cannot be suspended.
+>
+> Return the number of queues successfully suspended or resumed along with
+> a per queue status array where the upper bits per queue status show that
+> the request was invalid (new/destroyed queue suspend request, missing
+> queue) or an error occurred (HWS in a fatal state so it can't suspend or
+> resume queues).
+>
+> v2: add gfx11/mes support.
+> prevent header copy on suspend from overwriting user fields.
+> simplify resume_queues function.
+> address other nit-picks
+>
+> Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
 > ---
->  drivers/gpu/drm/i915/intel_uncore.c | 35 +++++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index e1e1f34490c8e..0b69081d6d285 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2602,11 +2602,46 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
->  	return 0;
->  }
->  
-> +static int sanity_check_mmio_access(struct intel_uncore *uncore)
-> +{
-> +	struct drm_i915_private *i915 = uncore->i915;
-> +	int ret;
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   5 +
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |   1 +
+>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  11 +
+>   drivers/gpu/drm/amd/amdkfd/kfd_debug.c        |   7 +
+>   .../drm/amd/amdkfd/kfd_device_queue_manager.c | 446 +++++++++++++++++-
+>   .../drm/amd/amdkfd/kfd_device_queue_manager.h |  10 +
+>   .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v10.c  |  14 +
+>   .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v11.c  |  11 +-
+>   .../gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c   |  18 +-
+>   drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |   5 +-
+>   10 files changed, 518 insertions(+), 10 deletions(-)
+>
+[snip]
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
+> index 50da16dd4c96..047c43418a1a 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager_v9.c
+> @@ -288,6 +288,11 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
+>   			  u32 *save_area_used_size)
+>   {
+>   	struct v9_mqd *m;
+> +	struct kfd_context_save_area_header header;
+> +	size_t header_copy_size = sizeof(header.control_stack_size) +
+> +		sizeof(header.wave_state_size) +
+> +		sizeof(header.wave_state_offset) +
+> +		sizeof(header.control_stack_offset);
+
+This makes assumptions about the structure layout. I'd feel better if 
+these fields were in a sub-structure, which would make this easier and 
+safer to handle.
+
+struct kfd_context_save_area_header {
+	struct {
+		__u32 control_stack_offset;
+		__u32 control_stack_size;
+		__u32 wave_state_offset;
+		__u32 wave_state_size;
+	} wave_state;
+	...
+};
+
+...
+
+|static int get_wave_state(...) { struct kfd_context_save_area_header 
+header; ... header.wave_state.control_stack_size = *ctl_stack_used_size; 
+header.wave_state.wave_state_size = *save_area_used_size; 
+header.wave_state.wave_state_offset = m->cp_hqd_wg_state_offset; 
+header.wave_state.control_stack_offset = m->cp_hqd_cntl_stack_offset; if 
+(copy_to_user(ctl_stack, &header.wave_state, sizeof(header.wave_state))) 
+return -EFAULT; ... } |
+
+This way you're sure you only copy initialized data. The only assumption 
+this still makes is, that wave_state is at the start of the header 
+structure.
+
+Regards,
+   Felix
+
+
+>   
+>   	/* Control stack is located one page after MQD. */
+>   	void *mqd_ctl_stack = (void *)((uintptr_t)mqd + PAGE_SIZE);
+> @@ -299,7 +304,18 @@ static int get_wave_state(struct mqd_manager *mm, void *mqd,
+>   	*save_area_used_size = m->cp_hqd_wg_state_offset -
+>   		m->cp_hqd_cntl_stack_size;
+>   
+> -	if (copy_to_user(ctl_stack, mqd_ctl_stack, m->cp_hqd_cntl_stack_size))
+> +	header.control_stack_size = *ctl_stack_used_size;
+> +	header.wave_state_size = *save_area_used_size;
 > +
-> +	if (GRAPHICS_VER(i915) < 8)
-> +		return 0;
+> +	header.wave_state_offset = m->cp_hqd_wg_state_offset;
+> +	header.control_stack_offset = m->cp_hqd_cntl_stack_offset;
 > +
-> +	/*
-> +	 * Sanitycheck that MMIO access to the device is working properly.  If
-> +	 * the CPU is unable to communcate with a PCI device, BAR reads will
-> +	 * return 0xFFFFFFFF.  Let's make sure the device isn't in this state
-> +	 * before we start trying to access registers.
-> +	 *
-> +	 * We use the primary GT's forcewake register as our guinea pig since
-> +	 * it's been around since HSW and it's a masked register so the upper
-> +	 * 16 bits can never read back as 1's if device access is operating
-> +	 * properly.
-> +	 *
-> +	 * If MMIO isn't working, we'll wait up to 2 seconds to see if it
-> +	 * recovers, then give up.
-> +	 */
-> +	ret = intel_wait_for_register_fw(uncore, FORCEWAKE_MT, 0, 0, 2000000);
-
-It looks like you lost the check for 0xFFFFFFFF specifically.  In fact
-with a mask/value of 0, isn't this always going to just always pass
-immediately?
-
-We don't know what the value of this register will be (there may or may
-not be some bits set), but we need to make sure that it isn't 0xFFFFFFFF
-because that means we're not even truly accessing the register, just
-hitting a PCI BAR read failure.
-
-
-Matt
-
-> +	if (ret == -ETIMEDOUT) {
-> +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
-> +		return -EIO;
-> +	}
+> +	if (copy_to_user(ctl_stack, &header, header_copy_size))
+> +		return -EFAULT;
 > +
-> +	return 0;
-> +}
-> +
->  int intel_uncore_init_mmio(struct intel_uncore *uncore)
->  {
->  	struct drm_i915_private *i915 = uncore->i915;
->  	int ret;
->  
-> +	ret = sanity_check_mmio_access(uncore);
-> +	if (ret)
-> +		return ret;
-> +
->  	/*
->  	 * The boot firmware initializes local memory and assesses its health.
->  	 * If memory training fails, the punit will have been instructed to
-> -- 
-> 2.39.2
-> 
-
--- 
-Matt Roper
-Graphics Software Engineer
-Linux GPU Platform Enablement
-Intel Corporation
+> +	if (copy_to_user(ctl_stack + m->cp_hqd_cntl_stack_offset,
+> +				mqd_ctl_stack + m->cp_hqd_cntl_stack_offset,
+> +				*ctl_stack_used_size))
+>   		return -EFAULT;
+>   
+>   	return 0;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> index 6f7dc23af104..8dc7cc1e18a5 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> @@ -477,6 +477,8 @@ struct queue_properties {
+>   	uint32_t doorbell_off;
+>   	bool is_interop;
+>   	bool is_evicted;
+> +	bool is_suspended;
+> +	bool is_being_destroyed;
+>   	bool is_active;
+>   	bool is_gws;
+>   	bool is_dbg_wa;
+> @@ -501,7 +503,8 @@ struct queue_properties {
+>   #define QUEUE_IS_ACTIVE(q) ((q).queue_size > 0 &&	\
+>   			    (q).queue_address != 0 &&	\
+>   			    (q).queue_percent > 0 &&	\
+> -			    !(q).is_evicted)
+> +			    !(q).is_evicted &&		\
+> +			    !(q).is_suspended)
+>   
+>   enum mqd_update_flag {
+>   	UPDATE_FLAG_DBG_WA_ENABLE = 1,
