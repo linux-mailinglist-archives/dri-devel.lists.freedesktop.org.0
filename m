@@ -1,59 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B4B6C3700
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 17:34:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A7F6C370F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 17:38:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA0C10E7D9;
-	Tue, 21 Mar 2023 16:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4327C10E7EF;
+	Tue, 21 Mar 2023 16:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0146310E7D9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 16:34:32 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.133])
- by gateway (Coremail) with SMTP id _____8AxUU+X3Blk7YIPAA--.11498S3;
- Wed, 22 Mar 2023 00:34:31 +0800 (CST)
-Received: from [10.20.42.133] (unknown [10.20.42.133])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxHL6W3BlkWMYIAA--.990S3; 
- Wed, 22 Mar 2023 00:34:30 +0800 (CST)
-Message-ID: <4bcaca91-5194-7005-a4cf-42b7e526cc79@loongson.cn>
-Date: Wed, 22 Mar 2023 00:34:30 +0800
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C554B10E26B;
+ Tue, 21 Mar 2023 16:38:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679416718; x=1710952718;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Wnmv9VkG5Xwa1hZGVPIaSIYEkK2sSR9fPa0uDXjlpNU=;
+ b=Xk2sLLfruqVNJQ1bPczQ5Oc7jbbyfS19tRW6uAGfph9u3feQSBK6ywa5
+ vJ6GOKzQp52NedWPKQ+duFw0cKvpaWYo8/ZrfbUY394UJjBfaJ/+r1iuc
+ /L1W4RT1/haZ0RUwC0VphouKM//ZKKJqyuKJx39x26WM1O9SDw02Xonxc
+ CLKv1VioP2T7EUMOk2rOjwo9CUctTf1Ti5hRjdzXG05oFZ3QpRZ9332td
+ v1qfRAZjOByOjdxtuC03DrL1m7L+ltLyTppCqn9Q0YcG3T9zUx1nq8/AK
+ C1JnffGUtzeFl6Bldk9fnLtt1BCllNSuzMziPTSfHLlGwCE6FhRzH37Md Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366729126"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="366729126"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 09:38:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="770721949"
+X-IronPort-AV: E=Sophos;i="5.98,279,1673942400"; d="scan'208";a="770721949"
+Received: from rbirkl-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.251.222.70])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Mar 2023 09:38:36 -0700
+Date: Tue, 21 Mar 2023 17:38:13 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915: Sanitycheck MMIO access early
+ in driver load
+Message-ID: <ZBnddVWywj4pc9ZI@ashyti-mobl2.lan>
+References: <20230320202326.296498-1-andi.shyti@linux.intel.com>
+ <20230320202326.296498-2-andi.shyti@linux.intel.com>
+ <877cva8hdj.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [v2,3/8] drm/fb-helper: Export drm_fb_helper_release_info()
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-graphics-maintainer@vmware.com
-References: <20230320150751.20399-4-tzimmermann@suse.de>
-Content-Language: en-US
-From: Sui jingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <20230320150751.20399-4-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8AxHL6W3BlkWMYIAA--.990S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxArW5Jw43GrWfGw48GFyDJrb_yoW5Kry8pF
- W3GFW5Kw4UtF45Gw17Wa1qy34fJws7Cr18Xrn7Gw4Syr1Utr929F1DCr1kuFW5Jr48Jr1Y
- yw1akF1UuF18Ca7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1le2I2
- 62IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4
- CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvj
- eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487MxAIw2
- 8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
- x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrw
- CI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI
- 42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z2
- 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8l38UUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877cva8hdj.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,102 +61,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: intel-gfx@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ Andi Shyti <andi.shyti@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-by: Sui Jingfeng<suijingfeng@loongson.cn>
+Hi Jani,
 
-On 2023/3/20 23:07, Thomas Zimmermann wrote:
-> Export the fb_info release code as drm_fb_helper_release_info(). Will
-> help with cleaning up failed fbdev probing.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Zack Rusin <zackr@vmware.com>
-> ---
->   drivers/gpu/drm/drm_fb_helper.c | 33 ++++++++++++++++++++++++---------
->   include/drm/drm_fb_helper.h     |  5 +++++
->   2 files changed, 29 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index a39998047f8a..7e96ed9efdb5 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -538,6 +538,29 @@ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
->   }
->   EXPORT_SYMBOL(drm_fb_helper_alloc_info);
->   
-> +/**
-> + * drm_fb_helper_release_info - release fb_info and its members
-> + * @fb_helper: driver-allocated fbdev helper
-> + *
-> + * A helper to release fb_info and the member cmap.  Drivers do not
-> + * need to release the allocated fb_info structure themselves, this is
-> + * automatically done when calling drm_fb_helper_fini().
-> + */
-> +void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
-> +{
-> +	struct fb_info *info = fb_helper->info;
-> +
-> +	if (!info)
-> +		return;
-> +
-> +	fb_helper->info = NULL;
-> +
-> +	if (info->cmap.len)
-> +		fb_dealloc_cmap(&info->cmap);
-> +	framebuffer_release(info);
-> +}
-> +EXPORT_SYMBOL(drm_fb_helper_release_info);
-> +
->   /**
->    * drm_fb_helper_unregister_info - unregister fb_info framebuffer device
->    * @fb_helper: driver-allocated fbdev helper, can be NULL
-> @@ -561,8 +584,6 @@ EXPORT_SYMBOL(drm_fb_helper_unregister_info);
->    */
->   void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
->   {
-> -	struct fb_info *info;
-> -
->   	if (!fb_helper)
->   		return;
->   
-> @@ -574,13 +595,7 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
->   	cancel_work_sync(&fb_helper->resume_work);
->   	cancel_work_sync(&fb_helper->damage_work);
->   
-> -	info = fb_helper->info;
-> -	if (info) {
-> -		if (info->cmap.len)
-> -			fb_dealloc_cmap(&info->cmap);
-> -		framebuffer_release(info);
-> -	}
-> -	fb_helper->info = NULL;
-> +	drm_fb_helper_release_info(fb_helper);
->   
->   	mutex_lock(&kernel_fb_helper_lock);
->   	if (!list_empty(&fb_helper->kernel_fb_list)) {
-> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-> index 013654de3fc5..c5822ec2fdd1 100644
-> --- a/include/drm/drm_fb_helper.h
-> +++ b/include/drm/drm_fb_helper.h
-> @@ -256,6 +256,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
->   int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper);
->   
->   struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper);
-> +void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper);
->   void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper);
->   void drm_fb_helper_fill_info(struct fb_info *info,
->   			     struct drm_fb_helper *fb_helper,
-> @@ -365,6 +366,10 @@ drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
->   	return NULL;
->   }
->   
-> +static inline void drm_fb_helper_release_info(struct drm_fb_helper *fb_helper)
-> +{
-> +}
-> +
->   static inline void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
->   {
->   }
+Thanks for looking into this,
 
+[...]
+
+> > +#define COND (__raw_uncore_read32(uncore, FORCEWAKE_MT) != ~0)
+> > +	if (wait_for(COND, 2000) == -ETIMEDOUT) {
+> 
+> I guess this somewhat reimplements intel_wait_for_register_fw()?
+
+Thanks!
+
+Andi
+
+> > +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
+> > +		return -EIO;
+> > +	}
