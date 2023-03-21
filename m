@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26306C3084
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 12:37:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5746C30CA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 12:49:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D11AA10E194;
-	Tue, 21 Mar 2023 11:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6082C10E736;
+	Tue, 21 Mar 2023 11:49:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D9810E17C;
- Tue, 21 Mar 2023 11:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679398668; x=1710934668;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=n+McgxN2lD1q0U/3+XMYbC9TBoc1ZzG3HKi07BaPfyc=;
- b=V8gAwwvfdnwhh7ksCE4hL6p9/QW854v58SmCaome5cLGFhrpzA7OXsKf
- mK0JTGPHA2FvCd6oRKMWI17yW/CnDWEiOLMD/3xYAzYmfoGw1L11F/x7A
- zQfCM+0WVJolxU9niAVLtM7djlkqMfggr/Id4AfgVDOQ1r3Zl4SwSunpk
- YU1MDxHQ/viDtkYDHCj8MEFAk+ZlfTp+yDOa1V6jwAK/hezDfjSgqEHN5
- m9ZPBWWJEsrXJL2t1SYg8sMDjyqb5VK4hPcHn1yM8mdaCkg7Rk/E6IxEM
- ro44u3rpzJ7Iwqrv8yo59/C+i8cGq0WaZpgdAVjmUWTbQpbV2j8ZuGl0x A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="338948772"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="338948772"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 04:37:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="745812029"
-X-IronPort-AV: E=Sophos;i="5.98,278,1673942400"; d="scan'208";a="745812029"
-Received: from trybicki-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.63.119])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 04:37:46 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Matt
- Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915: Sanitycheck MMIO access early
- in driver load
-In-Reply-To: <20230320202326.296498-2-andi.shyti@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230320202326.296498-1-andi.shyti@linux.intel.com>
- <20230320202326.296498-2-andi.shyti@linux.intel.com>
-Date: Tue, 21 Mar 2023 13:37:44 +0200
-Message-ID: <877cva8hdj.fsf@intel.com>
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6615710E736
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 11:49:25 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id c10so6195604qtj.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 04:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar-org.20210112.gappssmtp.com; s=20210112; t=1679399364;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BDnUWDZInDFnYugeSsid3+FHARtx+dmCtEpJDk/FNs0=;
+ b=4QKSDae7TWBJB+5I5HO6oMY4wZUQ5rZfjIwmBnAuv1gwmrlR+dHSWA+8QoJxTpRS0N
+ v5bWVxc+AvgJFWUrLQtqtiCRKhbR6KF9umbwz5Fuq8Z7PjGsV4I6Pf6kDDNU+1Tt23Yl
+ frj1GMMEwvHpIoKhiZRWGk1Yrhw87ULQt/jajLB7xMA8b5STVjqZXbl1WBmAgEJWqT7H
+ /2E6UrUFHLAjxX0YVgaSVndxYzarJLtLiRm9ur7345G85Zg39oQR6MZ+6WVyjZPhQZgJ
+ AL5EF9+izBn+fwpJ9zjWOYEquJirYUZ6bCbbCAd4ofaZw5+nxyQr6FUH5fIYf/Mahz8v
+ xVFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679399364;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BDnUWDZInDFnYugeSsid3+FHARtx+dmCtEpJDk/FNs0=;
+ b=LkYRnRVAYOMWv7FAc3h+pOnKcnnAPPrhTTgDFZBOOYQP34RQuaM5z6g/s2416DJuU2
+ ceJYOmQdZR1VidnAxa6O/QljkSO8ekS4Cn+5fQUr/GpC0yKs/jKBmBw5s/QcZzUfxuYz
+ 7Kj97bqBiFPQ0QlZtHvLBBRUSn2l7RsswiQKurF0lp2Sn2dJ+whMs71GwQc2STSklkx4
+ xuQGhfcZyUPVKGLer1KvsmLD2DPNKy7vaIjHSOYOKY1A1XJ31177fE7HUTV/xHm2L0NF
+ c9J6xGKfrOldO+0XmdsZptMGqCsHLMVrL4lAcKdBIw5eNTd3jOpx1xHaAHKaskUtFUBo
+ ML+g==
+X-Gm-Message-State: AO0yUKWoX3YkyeSwc35lwYOOHA+9PZVCCCKftpptbqCbbvo3EMUr20d6
+ MY/4/uaXoAHV/BvJ2cR79EFIKM4wPl6CHxRZPucTgA==
+X-Google-Smtp-Source: AK7set/HoZHTTIIhyIdQUgdmNwwRv9m9mnJbtmkpGSYREW5+8EGKayIkDydSKNajPPm+QY0CwOh50KVjc+awMDabAhA=
+X-Received: by 2002:a05:622a:7:b0:3bf:cdf8:61f4 with SMTP id
+ x7-20020a05622a000700b003bfcdf861f4mr873031qtw.4.1679399364353; Tue, 21 Mar
+ 2023 04:49:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <CAOf5uwkDb=pkEV_qSshA7PnSxCV82sEwrmivAZhth48ae0S++g@mail.gmail.com>
+ <87ileu8jwh.fsf@intel.com>
+ <CAOf5uw=g1mU1F=kD6M472LRaTWa2B=Sry4GDGXxDApoZknLfeA@mail.gmail.com>
+ <87cz528hzk.fsf@intel.com>
+In-Reply-To: <87cz528hzk.fsf@intel.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 21 Mar 2023 11:49:13 +0000
+Message-ID: <CAPj87rPPA9oYkZyQ=Y3MRuyJUN71WHDWHpdaRUvuXAxFSLW5SA@mail.gmail.com>
+Subject: Re: display band (display area vs real visible area)
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,80 +70,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andi Shyti <andi.shyti@kernel.org>
+Cc: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Mar 2023, Andi Shyti <andi.shyti@linux.intel.com> wrote:
-> From: Matt Roper <matthew.d.roper@intel.com>
->
-> We occasionally see the PCI device in a non-accessible state at the
-> point the driver is loaded.  When this happens, all BAR accesses will
-> read back as 0xFFFFFFFF.  Rather than reading registers and
-> misinterpreting their (invalid) values, let's specifically check for
-> 0xFFFFFFFF in a register that cannot have that value to see if the
-> device is accessible.
->
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/intel_uncore.c | 34 +++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index e1e1f34490c8e..14ec45e6facfa 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2602,11 +2602,45 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
->  	return 0;
->  }
->  
-> +static int sanity_check_mmio_access(struct intel_uncore *uncore)
-> +{
-> +	struct drm_i915_private *i915 = uncore->i915;
-> +
-> +	if (GRAPHICS_VER(i915) < 8)
-> +		return 0;
-> +
-> +	/*
-> +	 * Sanitycheck that MMIO access to the device is working properly.  If
-> +	 * the CPU is unable to communcate with a PCI device, BAR reads will
-> +	 * return 0xFFFFFFFF.  Let's make sure the device isn't in this state
-> +	 * before we start trying to access registers.
-> +	 *
-> +	 * We use the primary GT's forcewake register as our guinea pig since
-> +	 * it's been around since HSW and it's a masked register so the upper
-> +	 * 16 bits can never read back as 1's if device access is operating
-> +	 * properly.
-> +	 *
-> +	 * If MMIO isn't working, we'll wait up to 2 seconds to see if it
-> +	 * recovers, then give up.
-> +	 */
-> +#define COND (__raw_uncore_read32(uncore, FORCEWAKE_MT) != ~0)
-> +	if (wait_for(COND, 2000) == -ETIMEDOUT) {
+Hi,
 
-I guess this somewhat reimplements intel_wait_for_register_fw()?
+On Tue, 21 Mar 2023 at 11:24, Jani Nikula <jani.nikula@linux.intel.com> wro=
+te:
+> On Tue, 21 Mar 2023, Michael Nazzareno Trimarchi <michael@amarulasolution=
+s.com> wrote:
+> > On Tue, Mar 21, 2023 at 11:43=E2=80=AFAM Jani Nikula
+> > <jani.nikula@linux.intel.com> wrote:
+> >> On Tue, 21 Mar 2023, Michael Nazzareno Trimarchi <michael@amarulasolut=
+ions.com> wrote:
+> >> > I would like to know the best approach in the graphics subsystem how
+> >> > deal with panels where the display area is different from the visibl=
+e
+> >> > area because the display has a band left and right. I have already
+> >> > done the drm driver for the panel but from userspace point of view
+> >> > it's a pain to deal in wayland for input device and output device. D=
+o
+> >> > you have any suggestions?
+> >>
+> >> Do you have the EDID for the panel?
+> >
+> > mipi->panel so should not have edid
+>
+> That's the kind of information you'd expect in the original question. ;)
+>
+> I've done that sort of thing in the past, but not sure if it would fly
+> upstream. Basically the kernel driver would lie about the resolution to
+> userspace, and handle the centering and the bands internally. In my
+> case, the DSI command mode panel in question had commands to set the
+> visible area, so the driver didn't have to do all that much extra to
+> make it happen.
 
-> +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  int intel_uncore_init_mmio(struct intel_uncore *uncore)
->  {
->  	struct drm_i915_private *i915 = uncore->i915;
->  	int ret;
->  
-> +	ret = sanity_check_mmio_access(uncore);
-> +	if (ret)
-> +		return ret;
-> +
->  	/*
->  	 * The boot firmware initializes local memory and assesses its health.
->  	 * If memory training fails, the punit will have been instructed to
+There have been some threads - mostly motivated by MacBooks and the
+Asahi team - about creating a KMS property to express invisible areas.
+This would be the same thing, and the userspace ecosystem will pick it
+up when the kernel exposes it.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Cheers,
+Daniel
