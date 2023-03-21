@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06726C379B
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 18:04:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083A76C37A3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 18:04:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7AF010E0D7;
-	Tue, 21 Mar 2023 17:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4916710E214;
+	Tue, 21 Mar 2023 17:04:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
  [209.85.166.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7B1710E812
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 17:03:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE9E310E0C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 17:04:47 +0000 (UTC)
 Received: by mail-il1-f200.google.com with SMTP id
- k13-20020a056e021a8d00b0031bae68b383so8136480ilv.18
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 10:03:56 -0700 (PDT)
+ k13-20020a056e021a8d00b0031bae68b383so8138107ilv.18
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 10:04:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679418235;
+ d=1e100.net; s=20210112; t=1679418287;
  h=to:from:subject:message-id:date:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=iQJQrb9mny4qoyxwqwRsccNTiZVnDvEPXFwh94AIcx4=;
- b=DWvUgVatppYSvLACgkW1/QldkR4RuDm6iOdBE22ta59rcjXshj5W5M5vduNilWoYMt
- esAroNkpUIE30UULHsfVAbo3K14FtGrj10aXQMPy4tjONDo5yeD/fRsPrkuY9nRjvP3D
- AF87xa2PaPV6/og18UJUFDOL8YCaZDMlay+C+sFeFokELmBB0/0kdFPxYTwdZ0tKXw/I
- keVCBmwyRPFTiLGCERWodtkQVbyb7SJgXh/qfDw+T7thHaRh9XPowMMhg84GJqnLMzrW
- Vj9TYMH+QQ3t46cuVI2HA+492vvrp2XYs5+1HqVkpYAzpyhe9ZH1ffW5bC//VswLym7E
- 1lJA==
-X-Gm-Message-State: AO0yUKXTpMFycK/Bt8edLESfRpUTWpiNDwYg7rjZVEK9KuVEJIgYMW0m
- 7Tupkv8KATrv3aqbAodD409454WJikmHWd0w/SjlbMRbX8/L
-X-Google-Smtp-Source: AK7set+fiYdL/20PbMmGdByHO7Cgctxr2BNWMLEy39OP9mKD0YmSO0FLCepsjH3LZ27U6vkan+fXqNh6Qfv4AI9Do0zrUEpqe020
+ bh=+zTrQymw8nWm1LaYS6yQZNEVKZFLl6piGpgaLk7/4RE=;
+ b=J0f6Chxs2D/m19DDfqdn+Eb5+6fqAZ9qMUPmcPn/oOkgL1xE4hxhhAdZKEZFT/ST1O
+ qXbnxxwJk2VeNifePY8HKeVNsbLL7lOhIbNLEKZJvXk7O0Rvco3LJVUsuptpC3iMDOat
+ PdPG5WrLn1ddyjEBSgpfh1hftVKF+AQFgZ2IyCOWpiZqByTjrKym/IWh4YWxlPl2pGW3
+ QZrKyFS7FSbJQ1IRYwmv4fSxZEiED7+KvkGeXIb2mfVdRf9ulkXpKG5+gzltoX74CxxO
+ rt7SpYecIxu8kQHHrdehQeu6Dy5mQ5PnRFVGcH6zG1xLoQE5gZ3ToNKq0zVqhAIfuRcL
+ G98Q==
+X-Gm-Message-State: AO0yUKX1dkKLRQ7UF7nZ7L/ISb4R2BDsMTujzHJ6RIjHbyDC2THwPA/J
+ 9rioNlOWUoDZN3wQ6NdmJcSIKAYGIgNwqNwB10wmVaUJ3+ij
+X-Google-Smtp-Source: AK7set9ZLrfktTpmIZ42olW6S9WFaixJFSMx4jgpyGAZsTz4YqTTPuheLv3NxoBXl0MTeXnwBNJY/zeGRCozfMx2sV1x9SBu/ngM
 MIME-Version: 1.0
-X-Received: by 2002:a6b:5d0b:0:b0:74e:7a27:d183 with SMTP id
- r11-20020a6b5d0b000000b0074e7a27d183mr1242791iob.2.1679418235745; Tue, 21 Mar
- 2023 10:03:55 -0700 (PDT)
-Date: Tue, 21 Mar 2023 10:03:55 -0700
+X-Received: by 2002:a05:6e02:f13:b0:313:c399:73c8 with SMTP id
+ x19-20020a056e020f1300b00313c39973c8mr1279881ilj.4.1679418287044; Tue, 21 Mar
+ 2023 10:04:47 -0700 (PDT)
+Date: Tue, 21 Mar 2023 10:04:47 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005f023705f76c075c@google.com>
-Subject: [syzbot] [fbdev?] KASAN: use-after-free Write in fbcon_get_font
-From: syzbot <syzbot+5a04eb16db96950bb112@syzkaller.appspotmail.com>
-To: daniel@ffwll.ch, deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
+Message-ID: <0000000000006dc0c105f76c0a72@google.com>
+Subject: [syzbot] [dri?] BUG: sleeping function called from invalid context in
+ _vm_unmap_aliases
+From: syzbot <syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com>
+To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,74 +66,126 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    fe15c26ee26e Linux 6.3-rc1
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=11bc9c16c80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7573cbcd881a88c9
-dashboard link: https://syzkaller.appspot.com/bug?extid=5a04eb16db96950bb112
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=135becbac80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1182c9d2c80000
+HEAD commit:    f3594f0204b7 Add linux-next specific files for 20230321
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=161552eec80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f22105589e896af1
+dashboard link: https://syzkaller.appspot.com/bug?extid=a9a2bb6afe9eb31efc56
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+
+Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/89d41abd07bd/disk-fe15c26e.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/fa75f5030ade/vmlinux-fe15c26e.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/590d0f5903ee/Image-fe15c26e.gz.xz
+disk image: https://storage.googleapis.com/syzbot-assets/0b755145006a/disk-f3594f02.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/fca26e328a81/vmlinux-f3594f02.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/39744d7d289f/bzImage-f3594f02.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5a04eb16db96950bb112@syzkaller.appspotmail.com
+Reported-by: syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com
 
-==================================================================
-BUG: KASAN: use-after-free in fbcon_get_font+0x240/0x8cc drivers/video/fbdev/core/fbcon.c:2290
-Write of size 22062 at addr ffff0000e1bfabd6 by task syz-executor329/5944
-
-CPU: 0 PID: 5944 Comm: syz-executor329 Not tainted 6.3.0-rc1-syzkaller-gfe15c26ee26e #0
+BUG: sleeping function called from invalid context at kernel/locking/mutex.c:580
+in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 10028, name: syz-executor.4
+preempt_count: 0, expected: 0
+RCU nest depth: 1, expected: 0
+3 locks held by syz-executor.4/10028:
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:110 [inline]
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x158/0x3b0 mm/util.c:541
+ #1: ffff888081123270 (&shmem->pages_lock){+.+.}-{3:3}, at: drm_gem_shmem_get_pages+0x53/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:216
+ #2: ffffffff8c796500 (rcu_read_lock){....}-{1:2}, at: _vm_unmap_aliases.part.0+0x138/0x560 mm/vmalloc.c:2182
+CPU: 1 PID: 10028 Comm: syz-executor.4 Not tainted 6.3.0-rc3-next-20230321-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
-Call trace:
- dump_backtrace+0x1c8/0x1f4 arch/arm64/kernel/stacktrace.c:158
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:165
+Call Trace:
+ <TASK>
  __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
- print_address_description mm/kasan/report.c:319 [inline]
- print_report+0x174/0x514 mm/kasan/report.c:430
- kasan_report+0xd4/0x130 mm/kasan/report.c:536
- kasan_check_range+0x264/0x2a4 mm/kasan/generic.c:187
- __asan_memset+0x40/0x70 mm/kasan/shadow.c:84
- fbcon_get_font+0x240/0x8cc drivers/video/fbdev/core/fbcon.c:2290
- con_font_get drivers/tty/vt/vt.c:4559 [inline]
- con_font_op+0x468/0xfa0 drivers/tty/vt/vt.c:4674
- vt_k_ioctl drivers/tty/vt/vt_ioctl.c:474 [inline]
- vt_ioctl+0x1a90/0x252c drivers/tty/vt/vt_ioctl.c:752
- tty_ioctl+0x8a4/0xd8c drivers/tty/tty_io.c:2777
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl fs/ioctl.c:856 [inline]
- __arm64_sys_ioctl+0x14c/0x1c8 fs/ioctl.c:856
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
- el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
- el0_svc+0x58/0x168 arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+ dump_stack_lvl+0x136/0x150 lib/dump_stack.c:106
+ __might_resched+0x358/0x580 kernel/sched/core.c:10059
+ __mutex_lock_common kernel/locking/mutex.c:580 [inline]
+ __mutex_lock+0x9f/0x1350 kernel/locking/mutex.c:747
+ _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
+ _vm_unmap_aliases mm/vmalloc.c:2181 [inline]
+ vm_unmap_aliases+0x49/0x50 mm/vmalloc.c:2230
+ change_page_attr_set_clr+0x226/0x470 arch/x86/mm/pat/set_memory.c:1837
+ cpa_set_pages_array arch/x86/mm/pat/set_memory.c:1892 [inline]
+ _set_pages_array+0x1c6/0x220 arch/x86/mm/pat/set_memory.c:2230
+ drm_gem_shmem_get_pages_locked+0x155/0x240 drivers/gpu/drm/drm_gem_shmem_helper.c:191
+ drm_gem_shmem_get_pages+0x71/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:219
+ drm_gem_shmem_mmap drivers/gpu/drm/drm_gem_shmem_helper.c:636 [inline]
+ drm_gem_shmem_mmap+0x153/0x540 drivers/gpu/drm/drm_gem_shmem_helper.c:620
+ drm_gem_mmap_obj+0x1b6/0x6c0 drivers/gpu/drm/drm_gem.c:1046
+ drm_gem_mmap+0x41d/0x780 drivers/gpu/drm/drm_gem.c:1124
+ call_mmap include/linux/fs.h:1859 [inline]
+ mmap_region+0x694/0x28d0 mm/mmap.c:2652
+ do_mmap+0x831/0xf60 mm/mmap.c:1438
+ vm_mmap_pgoff+0x1a2/0x3b0 mm/util.c:543
+ ksys_mmap_pgoff+0x41f/0x5a0 mm/mmap.c:1484
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f905968c0f9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f905a3fa168 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007f90597abf80 RCX: 00007f905968c0f9
+RDX: 0000000000000000 RSI: 0000000000003028 RDI: 0000000020ffc000
+RBP: 00007f90596e7b39 R08: 0000000000000004 R09: 0000000100000000
+R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffcde03503f R14: 00007f905a3fa300 R15: 0000000000022000
+ </TASK>
 
-The buggy address belongs to the physical page:
-page:00000000c3c989b0 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x121800
-head:00000000c3c989b0 order:10 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x5ffc00000010000(head|node=0|zone=2|lastcpupid=0x7ff)
-raw: 05ffc00000010000 0000000000000000 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
- ffff0000e1bfff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff0000e1bfff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->ffff0000e1c00000: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-                   ^
- ffff0000e1c00080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
- ffff0000e1c00100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-==================================================================
+=============================
+[ BUG: Invalid wait context ]
+6.3.0-rc3-next-20230321-syzkaller #0 Tainted: G        W         
+-----------------------------
+syz-executor.4/10028 is trying to lock:
+ffff888027c7a068 (&vb->lock){+.+.}-{3:3}, at: _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
+other info that might help us debug this:
+context-{4:4}
+3 locks held by syz-executor.4/10028:
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: mmap_write_lock_killable include/linux/mmap_lock.h:110 [inline]
+ #0: ffff88807597afd8 (&mm->mmap_lock){++++}-{3:3}, at: vm_mmap_pgoff+0x158/0x3b0 mm/util.c:541
+ #1: ffff888081123270 (&shmem->pages_lock){+.+.}-{3:3}, at: drm_gem_shmem_get_pages+0x53/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:216
+ #2: ffffffff8c796500 (rcu_read_lock){....}-{1:2}, at: _vm_unmap_aliases.part.0+0x138/0x560 mm/vmalloc.c:2182
+stack backtrace:
+CPU: 1 PID: 10028 Comm: syz-executor.4 Tainted: G        W          6.3.0-rc3-next-20230321-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
+ print_lock_invalid_wait_context kernel/locking/lockdep.c:4724 [inline]
+ check_wait_context kernel/locking/lockdep.c:4785 [inline]
+ __lock_acquire+0x159e/0x5df0 kernel/locking/lockdep.c:5024
+ lock_acquire.part.0+0x11c/0x370 kernel/locking/lockdep.c:5691
+ __mutex_lock_common kernel/locking/mutex.c:603 [inline]
+ __mutex_lock+0x12f/0x1350 kernel/locking/mutex.c:747
+ _vm_unmap_aliases.part.0+0x1ca/0x560 mm/vmalloc.c:2187
+ _vm_unmap_aliases mm/vmalloc.c:2181 [inline]
+ vm_unmap_aliases+0x49/0x50 mm/vmalloc.c:2230
+ change_page_attr_set_clr+0x226/0x470 arch/x86/mm/pat/set_memory.c:1837
+ cpa_set_pages_array arch/x86/mm/pat/set_memory.c:1892 [inline]
+ _set_pages_array+0x1c6/0x220 arch/x86/mm/pat/set_memory.c:2230
+ drm_gem_shmem_get_pages_locked+0x155/0x240 drivers/gpu/drm/drm_gem_shmem_helper.c:191
+ drm_gem_shmem_get_pages+0x71/0x180 drivers/gpu/drm/drm_gem_shmem_helper.c:219
+ drm_gem_shmem_mmap drivers/gpu/drm/drm_gem_shmem_helper.c:636 [inline]
+ drm_gem_shmem_mmap+0x153/0x540 drivers/gpu/drm/drm_gem_shmem_helper.c:620
+ drm_gem_mmap_obj+0x1b6/0x6c0 drivers/gpu/drm/drm_gem.c:1046
+ drm_gem_mmap+0x41d/0x780 drivers/gpu/drm/drm_gem.c:1124
+ call_mmap include/linux/fs.h:1859 [inline]
+ mmap_region+0x694/0x28d0 mm/mmap.c:2652
+ do_mmap+0x831/0xf60 mm/mmap.c:1438
+ vm_mmap_pgoff+0x1a2/0x3b0 mm/util.c:543
+ ksys_mmap_pgoff+0x41f/0x5a0 mm/mmap.c:1484
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x39/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f905968c0f9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f905a3fa168 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
+RAX: ffffffffffffffda RBX: 00007f90597abf80 RCX: 00007f905968c0f9
+RDX: 0000000000000000 RSI: 0000000000003028 RDI: 0000000020ffc000
+RBP: 00007f90596e7b39 R08: 0000000000000004 R09: 0000000100000000
+R10: 0000000000000012 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ffcde03503f R14: 00007f905a3fa300 R15: 0000000000022000
+ </TASK>
 
 
 ---
@@ -140,5 +195,3 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this issue. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
