@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C362E6C276D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 02:26:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15D86C27DD
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Mar 2023 03:09:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7D1910E58E;
-	Tue, 21 Mar 2023 01:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB2A310E4D8;
+	Tue, 21 Mar 2023 02:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE3E10E6A9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 01:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679361969; x=1710897969;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=JN7P6/84ciM0tfW9IPxK1ZgqeLHaWe1UJr7VG9engOc=;
- b=n0fOkG1LBiot3OdSMcVl/RTZDA25i1IVnHe6Im1xFFNfUA7r3nTKzU/y
- j75ZDG29C1G/JEMNHTy1dftxc0HfFM+O3X0g5Oit3nl1ujO0zfiRPmLVx
- +NC7vmty5q47gAf0uYInNeXJzwWTi6n6MKbnZtHRysE6Zw7ezHxKfy5U/
- 2fAq8A95+CVuVHhXNIi7sGN01F3ptoaMj3FfwHxKEQrRF70zVPmOf3T8Q
- eaZHx0bEoD1KgitbbjwHGUmGjWtXOZx1OxbfHtv574BYXcu8eeScH2SKB
- BT0sWoOsbm6kCufEwtfa2gelVmqnNpAd9FirWRs+lMm5p0CItUKDPr3St w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="336325524"
-X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; d="scan'208";a="336325524"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2023 18:26:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10655"; a="791863757"
-X-IronPort-AV: E=Sophos;i="5.98,277,1673942400"; d="scan'208";a="791863757"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 20 Mar 2023 18:26:06 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1peQlJ-000BTF-1u;
- Tue, 21 Mar 2023 01:26:05 +0000
-Date: Tue, 21 Mar 2023 09:25:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
- airlied@gmail.com, daniel@ffwll.ch, jacek.lawrynowicz@linux.intel.com,
- stanislaw.gruszka@linux.intel.com
-Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
-Message-ID: <202303210930.FzkLKCic-lkp@intel.com>
-References: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF30410E399
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 02:09:55 +0000 (UTC)
+Received: from vertex.vmware.com (pool-173-49-113-140.phlapa.fios.verizon.net
+ [173.49.113.140]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 3D621327B1A;
+ Tue, 21 Mar 2023 02:09:53 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1679364594; bh=i4VR2soBGg3tsbnDctpe1r+sHFtp7IEhdgX+PsmEh0k=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WLh2X0oB9p6HClrpRE/x5S2zuRXP7FLQKZJYjfrIyPjTLUFojNWASt8os5+LNQyF2
+ vDqIKTjkVmcDDKf0GIwmNPuRa5I72/PTOa3GyukAr+w0vCGvrHX2lT3mKuCaVEXhr2
+ J4dV6kSnAcpKX9Tbos0BWgCI3WrhbYufOwH+qdRpJ6rsYUo7SfjSprAmjOYuyo1DJk
+ ECOg9KsvaMsL2GtxGGsYx03GwMN90looFPI3Esp9YSFgv9xjgKvO6P9XBiNGurnCHa
+ qd82S5Us/cCpmbzWX7C4vYEuuqBMBXrTuoBDdrYcr3ePDTU4Bbq2Ulv6871M46o35a
+ Au/7KNovU3oDA==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/vmwgfx: Drop mksstat_init_record fn as currently
+ unused
+Date: Mon, 20 Mar 2023 22:09:47 -0400
+Message-Id: <20230321020949.335012-1-zack@kde.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,51 +46,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>, dafna@fastmail.com,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, quic_ajitpals@quicinc.com,
- quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com,
- oe-kbuild-all@lists.linux.dev
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: kernel test robot <lkp@intel.com>, banackm@vmware.com, krastevm@vmware.com,
+ mombasawalam@vmware.com, iforbes@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jeffrey,
+From: Martin Krastev <krastevm@vmware.com>
 
-Thank you for the patch! Yet something to improve:
+This internal helper handles a type of mksstat event counter
+which is currently unused. Remove the routine to avoid compile
+warnings.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on lwn/docs-next]
-[cannot apply to linus/master v6.3-rc3 next-20230320]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
+Reviewed-by: Zack Rusin <zackr@vmware.com>
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/1679325074-5494-8-git-send-email-quic_jhugo%40quicinc.com
-patch subject: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230321/202303210930.FzkLKCic-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bffc487514275054bebfe9e732bf2d36da14a31f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jeffrey-Hugo/accel-qaic-Add-documentation-for-AIC100-accelerator-driver/20230320-231611
-        git checkout bffc487514275054bebfe9e732bf2d36da14a31f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303210930.FzkLKCic-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/accel/qaic/qaic.ko] undefined!
-
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+index e76976a95a1e..ca1a3fe44fa5 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_msg.c
+@@ -702,32 +702,6 @@ static inline void hypervisor_ppn_remove(PPN64 pfn)
+ /* Header to the text description of mksGuestStat instance descriptor */
+ #define MKSSTAT_KERNEL_DESCRIPTION "vmwgfx"
+ 
+-/**
+- * mksstat_init_record: Initializes an MKSGuestStatCounter-based record
+- * for the respective mksGuestStat index.
+- *
+- * @stat_idx: Index of the MKSGuestStatCounter-based mksGuestStat record.
+- * @pstat: Pointer to array of MKSGuestStatCounterTime.
+- * @pinfo: Pointer to array of MKSGuestStatInfoEntry.
+- * @pstrs: Pointer to current end of the name/description sequence.
+- * Return: Pointer to the new end of the names/description sequence.
+- */
+-
+-static inline char *mksstat_init_record(mksstat_kern_stats_t stat_idx,
+-	MKSGuestStatCounterTime *pstat, MKSGuestStatInfoEntry *pinfo, char *pstrs)
+-{
+-	char *const pstrd = pstrs + strlen(mksstat_kern_name_desc[stat_idx][0]) + 1;
+-	strcpy(pstrs, mksstat_kern_name_desc[stat_idx][0]);
+-	strcpy(pstrd, mksstat_kern_name_desc[stat_idx][1]);
+-
+-	pinfo[stat_idx].name.s = pstrs;
+-	pinfo[stat_idx].description.s = pstrd;
+-	pinfo[stat_idx].flags = MKS_GUEST_STAT_FLAG_NONE;
+-	pinfo[stat_idx].stat.counter = (MKSGuestStatCounter *)&pstat[stat_idx];
+-
+-	return pstrd + strlen(mksstat_kern_name_desc[stat_idx][1]) + 1;
+-}
+-
+ /**
+  * mksstat_init_record_time: Initializes an MKSGuestStatCounterTime-based record
+  * for the respective mksGuestStat index.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.38.1
+
