@@ -2,45 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3EB6C794C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1216C794D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD4710EA82;
-	Fri, 24 Mar 2023 08:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04FEC10EB87;
+	Fri, 24 Mar 2023 08:03:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4327.protonmail.ch (mail-4327.protonmail.ch [185.70.43.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C27C410E108
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 19:58:07 +0000 (UTC)
-Date: Wed, 22 Mar 2023 19:57:52 +0000
-Authentication-Results: mail-4321.protonmail.ch;
- dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com
- header.b="ABEn4U7/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail3; t=1679515081; x=1679774281;
- bh=UVSIlOSQs/wWnbHXrGuJbwOcIORwLRycLFl1rX3zhy0=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=ABEn4U7/bhUYzi02ef4auAdWZ2mvcGdU1Sj7D+ITYTJ1sKhG80qv/5/ZFlrE5uR/7
- PB1McPDE4nhBM4VEnZWK/YUUFFjs5tI3ZwTA+a0++MFXC0Wi2zYtIZkMZqUA2Qm8Ka
- boB8mYGm0EXUj2nCwK8mvVPIrTQgB2szLnaVhVICFUzocxyfvkfOphzpVcRchn2XJX
- L91yqk5h+ZsuK/mtBUgJZszEwrSscAcZS6MsbBXZId53FlrURvzWR8gpOjs9Yxw/ij
- xMmWhxqcTxQdZj4v/sz6h2sJGNRjpBLlm1tji3MTQhi42C6LTS4cHDetYXDM39KyYm
- 8prhrmVMEW/6w==
-To: =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-From: =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Subject: Re: [RFC PATCH 2/9] rust: drm: gem: add method to return DmaResv from
- GEMObject
-Message-ID: <WENj4NV4lBApL7fmZeHMIenxaW7Lq7Y6ksqnxHMOI8Sm2p-JrJgpccljUEIDTDhRUiWf39U5lr0pX6szVchMNQZVyLNW-E1tV1lVrLKWIkg=@protonmail.com>
-In-Reply-To: <kUn0Ms6i7sC5-okmT2pJ5OPhQ8bwDPmuTB8UfKJQBTZUN2veEF3w0awEwLF1Z4-XtoiT7qJTMiTMF6uXBqAxvHHd4BH6q3ty2bh12ci23Vs=@protonmail.com>
-References: <20230317121213.93991-1-mcanal@igalia.com>
- <20230317121213.93991-3-mcanal@igalia.com>
- <kUn0Ms6i7sC5-okmT2pJ5OPhQ8bwDPmuTB8UfKJQBTZUN2veEF3w0awEwLF1Z4-XtoiT7qJTMiTMF6uXBqAxvHHd4BH6q3ty2bh12ci23Vs=@protonmail.com>
-Feedback-ID: 27884398:user:proton
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD0A10E41F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 22:44:21 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id ek18so79245923edb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 15:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679525060;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Juel12PVHtU3HuwtArEzNxxW0RuVUpCwPZ6Q+krZkfA=;
+ b=M1c/x/hp+69r12vS03I+OVtA0UCHB88fDw7N3WNvG7nwGEwG6BAk3Pg0vK+caAHNff
+ wsinMMzbe4H2CLiCe4/XZje22P2TzWJnw23OG62mtRywdjK9NxWkGJus5ptnbTmskDJC
+ M1is0NsKFvC+AvLbh1MQVmii9nkPd93+fqwcY+rFz09yvxZ84kwLAswoxM+U64zllzMp
+ hGwBqBZdZZX4FoiB/exVGmAdsUSzQKasZzbmybcHhAwucxxov/W/PVchfpVdnzVbdJjp
+ LxFqSrDBN5pS4cs/bWYLL9OIeQ0VUn/CdsGDGuJsBtxIoj3UxPYgWN5lKCwTvDPaTO+V
+ rnZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679525060;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Juel12PVHtU3HuwtArEzNxxW0RuVUpCwPZ6Q+krZkfA=;
+ b=MlvlOnXBKjbmg4BPwhCS8IjSgK0M7CGnqf2SO21TsRnlgCJaNd901IeI+CsgefTpJ4
+ aGFF9HwWtyKe8rGs7DvGOzzt+N39nuvgBPOD01boDc9BqJX05J7WIgPaNN6I7QuRfVql
+ eM2xN+srs8FnAYGbEqmDBMI85PShr/D0ys2jT8cQRXOGs9GhbzudoagH6j59S9W69NmW
+ iS42GIlkmbkSNRU84/c1bDUGHvKDdReAQjLTyFKseH0PP0wRsjj42KNf3CmorHra4n74
+ 5kW+taqyvsDcS+3ZIvIWZmOgtcs90nx3J3daQD/3o3lC2UsjTmQaOpm04/aFOMUiyvCw
+ tgIw==
+X-Gm-Message-State: AO0yUKXBLl1qOkaSnZ8/7gGw22UXceLxkSu+E5aouXy2Hpbau7IuWzgm
+ yozyLxBHwNb6iaPG9p3AmDx1QkPP7A==
+X-Google-Smtp-Source: AK7set96Y+daRJbuXOqrMYaZe7obnxN1wTz3Pm8TFTl15NLODhJ48yFsYnZFYavbIURM9/p33mOSag==
+X-Received: by 2002:a17:906:3591:b0:931:d36f:8965 with SMTP id
+ o17-20020a170906359100b00931d36f8965mr8133147ejb.13.1679525060236; 
+ Wed, 22 Mar 2023 15:44:20 -0700 (PDT)
+Received: from calypso-fedora.. ([213.237.86.44])
+ by smtp.gmail.com with ESMTPSA id
+ lj24-20020a170906f9d800b00932ba722482sm6941427ejb.149.2023.03.22.15.44.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Mar 2023 15:44:20 -0700 (PDT)
+From: Alfredo Cruz <alfredo.carlon@gmail.com>
+To: hjc@rock-chips.com,
+	heiko@sntech.de,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH V2] drm/rockchip: vop2: Add error check to
+ devm_regmap_init_mmio
+Date: Wed, 22 Mar 2023 23:44:11 +0100
+Message-Id: <20230322224411.15612-1-alfredo.carlon@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 24 Mar 2023 08:03:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,75 +73,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Gary Guo <gary@garyguo.net>,
- Alex Gaynor <alex.gaynor@gmail.com>, Asahi Lina <lina@asahilina.net>,
- Boqun Feng <boqun.feng@gmail.com>,
- =?utf-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Miguel Ojeda <ojeda@kernel.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>
+Cc: Alfredo Cruz <alfredo.carlon@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, March 22nd, 2023 at 20:45, Bj=C3=B6rn Roy Baron <bjorn3_gh@pr=
-otonmail.com> wrote:
+devm_regmap_init_mmio() may return an invalid pointer in case of an error.
+This patch adds the corresponding IS_ERR check to vop2->map.
 
-> On Friday, March 17th, 2023 at 13:12, Ma=C3=ADra Canal <mcanal@igalia.com=
-> wrote:
->=20
-> > A GEMObject, related to struct drm_gem_object, holds a pointer
-> > to reservation object associated with the this GEM object. Therefore,
-> > expose this reservation object through the DmaResv safe abstraction.
-> >
-> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > ---
-> >  rust/kernel/drm/gem/mod.rs | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-> > index c4a42bb2f718..dae95e5748a7 100644
-> > --- a/rust/kernel/drm/gem/mod.rs
-> > +++ b/rust/kernel/drm/gem/mod.rs
-> > @@ -11,6 +11,7 @@ use alloc::boxed::Box;
-> >
-> >  use crate::{
-> >      bindings,
-> > +    dma_resv::DmaResv,
-> >      drm::{device, drv, file},
-> >      error::{to_result, Result},
-> >      prelude::*,
-> > @@ -136,6 +137,12 @@ pub trait BaseObject: IntoGEMObject {
-> >          self.gem_obj().size
-> >      }
-> >
-> > +    /// Returns the pointer to reservation object associated with this=
- GEM object.
-> > +    fn resv(&self) -> DmaResv {
-> > +        // SAFETY: Every GEM object holds a reference to a reservation=
- object
-> > +        unsafe { DmaResv::from_raw(self.gem_obj().resv) }
-> > +    }
->=20
-> There is nothing ensuring that DmaResv doesn't outlive self and thus may =
-have been deallocated. You could change DmaResv to be a newtype around Unsa=
-feCell<dma_resv> and then return an &DmaResv here. This way &DmaResv can't =
-outlive &self.
+Signed-off-by: Alfredo Cruz <alfredo.carlon@gmail.com>
+---
+V1 -> V2: Added description and Signed-off
 
-Actually Opaque<dma_resv> may be better as no fields of dma_resv are used o=
-n the rust side.
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
->=20
-> > +
-> >      /// Sets the exportable flag, which controls whether the object ca=
-n be exported via PRIME.
-> >      fn set_exportable(&mut self, exportable: bool) {
-> >          self.mut_gem_obj().exportable =3D exportable;
-> > --
-> > 2.39.2
->=20
-> Cheers,
-> Bjorn
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 03ca32cd2050..4bde2d354462 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -2680,6 +2680,8 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
+ 	vop2->len = resource_size(res);
+ 
+ 	vop2->map = devm_regmap_init_mmio(dev, vop2->regs, &vop2_regmap_config);
++	if (IS_ERR(vop2->map))
++		return PTR_ERR(vop2->map);
+ 
+ 	ret = vop2_win_init(vop2);
+ 	if (ret)
+-- 
+2.39.2
 
-Cheers,
-Bjorn
