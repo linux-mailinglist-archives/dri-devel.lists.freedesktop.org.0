@@ -1,49 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42D16C44ED
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:30:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B87E16C44EF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:30:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B33410E8A4;
-	Wed, 22 Mar 2023 08:30:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85AE310E8B8;
+	Wed, 22 Mar 2023 08:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68E310E8A5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 08:30:45 +0000 (UTC)
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2044.outbound.protection.outlook.com [40.107.212.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36CDA10E8A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 08:30:50 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CHLkQyBvfHbQJPJEl49KC/l7zRgwXxAf9kpbw0DUU3PmU0nuqkFKLkNIcCOaJoxiSUyHoTkYPrvMF1jtbypfImTzYc21vLqrz/SavMnCV9+HMmd0VwOuHDifNknj6tJeLQomGp71gjRAtquxk8ve0go341Iy1khe5WeBygJrC1ew9E7qIDOH78M/Q6sLmMNbV1db4Q28VRQaP817pC0cJdXpjonocfTgGfOo39+4hCM5ie3uJekBoMV3yf70hf36/YUHVVLJ/rIJKvCXmLjFj8mmuDBDxUbXJ7LwfrbSVd0pyOeyKEvzkWyUudr16+9lUXaVmKX6IW1/ts0a0hsR7w==
+ b=XqPzbkNFuUgpK5M9C/ofFD75eF8qQN0kZJk/7En9Uzj7xdZtq9297UV8Zy8+uZYHe9plosnSIQXdAXlQUgRX0B1U6ANStGt4S9gfIMj4ZY01tw/Mc6t9eB6U7Pcx+Si+7G/4JSERHt16bZ/I3XpPCWyxs0dp6T2fzpme6QhmRr8ThfvNOcfXi+SIZDz7e00tPH/x2ifby8GXppmZqNqcIs2bfznf7v59wdhvcqviTYzqTx+IZ5oXAL08a/rj7zdj/mQQ6zdvAxv6GfBNWan0fVJyFTYdRObJlt7H3DD9LeCdsMdOGjKLyOeverXZ3dxdWWI7a8iB9POftSLRlVyfkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GOV/Z76tg7TGky1FO6Up4xOjPk9enSkYehF1v31zCh0=;
- b=k0iTweHEUtVZZd2RnZfQlNF3ThPiI6xCGUIDf91havSKPuLDkbwzqgAeFV9El3mc6NTJsNYA1u2viTcMjNhABNFKDAgt0Q/zSTWaf4+yjxN4YHztnV+jQiJJBDDzd3Ih/Tx5dgl5pmUx7VYAej6Y6BhNDB684A2JitJJ35S1dvokRwWoDAIULK+LwspSZ0O3BlcapwMkXY0AUQHeabGlc28B9XFpym2XkBvxiUL5smrvVgzYgaqxrAd3LyvlDaZXhMlDPM/6GGKqTCe+A1mgpnlfi07h7HgkPBqMpYrNLeEijzvRx64+Dk2hvM6k6zmFQNaqKjTqBZ0qOhVLpE+kDg==
+ bh=JSdPUHrA/N0rkl+L2wqjrazeGVqFguGv20n41x52/do=;
+ b=n+emCjQlcKNXaB8NpvfVlaz8xcqWHx+vC5qORpnUVcEB+2j3Iv1YBo006W7sEn8ZasY7db+OmE/Gp+cFfvNzGcEcLFkzOIH+xOAtqaXnRxhc55z2v65vTES6JEyxz7bol1ENFMWDKc98chW771aY+SX4ksr8PyMCQfM32HHpSzMPUTL6gDjFQVWXTE6QyZ3/E+IGZ04n66eHyCs84HIERB18w7HTj0H4GyJ2dNlYxQjd+QrU7kfN+gaX5PZ9JJxHMna3POljo0MizdX0VkSLDzxlXKJdC0Mjmm+0oh9r+A5NETHMc8Wrx3UDx7mCZ0lF5n9BC9vJjSZTaPB3ZqPkXg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synaptics.com; dmarc=pass action=none
  header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GOV/Z76tg7TGky1FO6Up4xOjPk9enSkYehF1v31zCh0=;
- b=jCIrC8/ZrBqvrp9IxEVhINCGhsEQh1pf5Mb9fcEet7lXLRZe9DbxI9CNh8eWADApTroOgolcfWOrk4QFpCnLC+hTBmHyX9KVyz/vSKqVNo+Mfl0Wa/tYfX+AvaUl64AOmuVA464eNdm0iHY/VrYldegzXi3rzQnstZGBpUlojPw=
+ bh=JSdPUHrA/N0rkl+L2wqjrazeGVqFguGv20n41x52/do=;
+ b=gwmBzTN21ww2b11ewskG5zGjRU1FD3k4OqnaQb2xM5ltWUsnr7qkuptms9rSBRd6F/jDJJK7Yo2X428YV7mnwYXyPUnGsUDVC0COKHb8GSxDCAr7RJy7ccmVqNDBNorfzPAsfSsJf3I/joCbUKKrj7ELND8e8F6wZsP+xbl+fsQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=synaptics.com;
 Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
  by MN2PR03MB4944.namprd03.prod.outlook.com (2603:10b6:208:1b2::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
- 2023 08:30:44 +0000
+ 2023 08:30:48 +0000
 Received: from DM6PR03MB5196.namprd03.prod.outlook.com
  ([fe80::96e3:3428:3a5b:5872]) by DM6PR03MB5196.namprd03.prod.outlook.com
  ([fe80::96e3:3428:3a5b:5872%8]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
- 08:30:44 +0000
+ 08:30:48 +0000
 From: Hsia-Jun Li <randy.li@synaptics.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 1/2] drm/fourcc: Add Synaptics VideoSmart tiled modifiers
-Date: Wed, 22 Mar 2023 16:29:09 +0800
-Message-Id: <20230322082910.115371-2-randy.li@synaptics.com>
+Subject: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats
+ documentation
+Date: Wed, 22 Mar 2023 16:29:10 +0800
+Message-Id: <20230322082910.115371-3-randy.li@synaptics.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230322082910.115371-1-randy.li@synaptics.com>
 References: <20230322082910.115371-1-randy.li@synaptics.com>
@@ -55,52 +56,52 @@ X-ClientProxiedBy: SJ0PR03CA0151.namprd03.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|MN2PR03MB4944:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e43ef6e-b139-4f65-1641-08db2aafba79
+X-MS-Office365-Filtering-Correlation-Id: 680d1211-6e80-4f0c-9f86-08db2aafbcf5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FgrhJtAO5kNAKExIhu0dc+rc/ZgsRovt4my7im8xEVCSz0EYYvMn9gllqtUQK1+jhCZfnE8mWoEu7orKTBZgidDXO3xy+59eWqcn0h9PtJvGWhdkjelwvNyFxvoDpp85hfgOKGGUk0j+fLISsNW9+mX/wqWcMF3frTP5wqylKbGDJtEyyeQJ5kQsHZlMFNIubqv8ZUNcoT60EkNT4FMu7y7VxLuPCr/mXSstzpIskpr/9mwgXZXYWwr5XeIrKPBrCOKIXgOI3lgNIlY7CY9n+W0AnRGCFotQmG3RjvC5cWRxAs9L25MR6le9HyIm2COXtYsvHqUPQXK8C+dSOIVKHUyyzugDMd5slLu2VR3eBb0E7Y6VbeFxK/507VxVJRC0nXcLhzaSAfDSEw6qXUl4AvYxcQvWrJWuN2spuClJ2eSVyzQCNhp3DpNea7Fw9dlS0FUNsGGTDYEVHkikn3YgGfFDJubiqmBSTkNbQgyJ5Gw6inwPjjzTjprMVLhnqx6qiRMggUs/j10/hykMc1S+BVR+tXKHkXTvHmudk4Ljx1tYFas7gZjRHeS4+Gd+hmcZJFnetv5b1Wmbs8PGTFig2GeZVa/ixMVpIGP89N9PKTNCvzIj9zhbQN/MNTW1wf8wTspMN6b7o6Vd26spkLrgUoH7cRL8zEZtlsi2ed8EeLhEelZtGVO499SC4X1lTQA2+2cWD5bjUc7T6R0SDBTb7SBI3E9B3T8zvdoxPDt2F5mX9XXWiWIWEqlYkhpitHVp
+X-Microsoft-Antispam-Message-Info: LU5QhdtzOvWivZwRWxXww9iiSUwNvE9bcbwKJdKa555hApksEDAx1k3vqZ61K6tYTVCBy1grL5v94RahS4bAuEgi8IX0tys2agv1+I3abQXi8O/k6Cf4Y0BrKg16+bq8UpTJ0I3bmgZ6Pw0yKr5wsquZvloPzG0MJdvRsqWfXNOscctyF89Z4NBF8DhMxkjIFS1YhKBhq8Z2LvHz+qWAI7zI7D2iAII1McjH4vxK+NRcJxa/kahWxZ3/Pm6Iwcb1daXyJjcuk79m0G7pVWmgH8n3PlFwA8xjk1QTpDH1dbOwdwiZn09lJeJQ8p9a1Ag8WCXHCOBCC0wjxOage3XqY0cU0tyEoQPFYdhEHyzLUca0YB2+OE4Gtle88fqZfGszXOV3TnKq3CnsaRb8wARxJdSGswKwV8GdHqivKeca+Fxa/DTLGH981UscZyZsEwXvHCrc0/uwsAMSQpphQza1NfFqaGZiavvXXfsdgxY2/0eTRGvfvS+GyvpWDBHQUluKoX004683Ip/KMBwRsHBENzzkO6KOI/Nbrhm5jq7T5FBMRsRRNxlufoHKcukYRQGkRRuMKpei46O0XWX6HTKCOmj6dOowZ71o1ZVsizcCGi1/yh6ftG84orOm2P9KRvZF0VjKfpph9KTKNlxkmKzX0xweFaeD/QMsIW/nRoU+6J8IamHiGb5NuMiKc/OgM+Bw0RfdhBbEz4gd9/D6xNyHb0un8XlONbmMf60lk0gTacaH+J0zoPg3a1qK5a/s4PLE
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR03MB5196.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(136003)(39860400002)(376002)(366004)(396003)(346002)(451199018)(2616005)(52116002)(6666004)(186003)(6486002)(4326008)(478600001)(107886003)(316002)(66556008)(6916009)(8676002)(66946007)(66476007)(6506007)(26005)(1076003)(5660300002)(6512007)(8936002)(7416002)(2906002)(41300700001)(38350700002)(38100700002)(36756003)(86362001);
+ SFS:(13230025)(136003)(39860400002)(376002)(366004)(396003)(346002)(451199018)(2616005)(52116002)(6666004)(186003)(6486002)(4326008)(83380400001)(478600001)(107886003)(316002)(66556008)(6916009)(8676002)(66946007)(66476007)(6506007)(26005)(1076003)(5660300002)(6512007)(8936002)(7416002)(2906002)(41300700001)(38350700002)(38100700002)(36756003)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xSmhGIadcT3eTNU3hzGsiO9krGlsFg84oxn7zu7hIGoidXmT+RsntWiVAven?=
- =?us-ascii?Q?t48sTujNnPMBWicx1hbplbv3TiOxZCK6hJ1RuVWbJIIgT777nJFT8RiikQhb?=
- =?us-ascii?Q?BnSdH3UceOqyQsWil8GEnXePo2f/1+XiGDjk8hA1gd/a1z41NY0xf7UPYsK4?=
- =?us-ascii?Q?Zh7dCplsVoC9Yf9cR9MKe5ksghxPKX42mmEnxS0m6fNhQM1CWoUvG9aFrRK/?=
- =?us-ascii?Q?9SD6D11Y2gu0Jvv0q/npD8kAW/cNqfq5sTQCmCNmGXD9Besrh0gk5HhX7jwI?=
- =?us-ascii?Q?01g7DEirCXRvlQdF9WFIfowzDAgKIFw0jXJ30VlrkHvp3zaOiBzd9DlSuExj?=
- =?us-ascii?Q?sE7+VAL6jkFXOGseXQyoeBrXsZuCGWoSfdQRZw6WeI4ZsfUX5mdg9CUCXIGl?=
- =?us-ascii?Q?dUVWu0C6XwCIT12T1+KSrNVPMqRW2aK1smWToAfJuyzr7AH9EyYLTZuGS0FO?=
- =?us-ascii?Q?p4gJpv5chQ673gd0n4m2cE/Uva4P6NcuJ1JNPlKQjhnc8voo3Vm60HxxX7wP?=
- =?us-ascii?Q?c/nx3ol+rnqVFTlUsJG642H2pXyosQgu6qpUOltl60lAcov7aiEP/UnkO580?=
- =?us-ascii?Q?ppTEPlFRg56acIB8q069c41s1wnoo0VXyniWMz7hTsa3jXbZD+9k5L8iJ8xs?=
- =?us-ascii?Q?sFtnKVghhWgPbCyg+AGn9VW80ifOXtM5Yrcl8hrEyeh6rFPM+Aub61krXz/s?=
- =?us-ascii?Q?MAVVsg2UMaUu8lzrt421al2ojozu1qL4h2UQ6lSJ7wDKd8ZMsRojKD+TsQdZ?=
- =?us-ascii?Q?GKZJOvODPYfxVZ2SZ+R+BZEqZKguxif1FOmeQ2CUsrFoLNqfbQBUKY19SefX?=
- =?us-ascii?Q?OxHnhCMmlXXU0bitSlpaWxBZH0tdEPHpPYTLMtnDhFMw6Q7HRnJkZZzlOEbk?=
- =?us-ascii?Q?jD4zN3pc3eHC0hSc0C5uYkNu1meKrhfQaVz74PjPIenOLBlfVIlK0ZZqb5im?=
- =?us-ascii?Q?2wlQUd6oJmeE63mskdkL4A1AfFWroq+09vjHmRo1d/XW3GPlBc8ETRLt+O3H?=
- =?us-ascii?Q?AijgvnEUz8pZd+ydgTvf8xY787AeeZt4pvg+Boi64OqEFmYSnUTZiEnS3eVs?=
- =?us-ascii?Q?3/tn2hQkoXZ9tRFa6dJ+aafNERxuNoUzqIVyxLNIjNA4Vu5aiP+eszYMpKKY?=
- =?us-ascii?Q?l/jGSZlhv6WnEUF5gdXAQ7BpAhV5aPeZ6qo+CVIff3zhF5vymZVowKNseEEs?=
- =?us-ascii?Q?giuQicmmrHOcuQ9xdelROM2OJfdpzQsiiUrjaWZ1/8wdcvZZ88F39lewt+aM?=
- =?us-ascii?Q?T3E+6T9OqdXuUyE8oMn1rziewgb9m07c+EnW5nY+bRNVBeL7UkMmXWjTYk4I?=
- =?us-ascii?Q?mSomT6qFrVSzsJ5CDC9fVrXre0Xg0w2/SootPbfXqE1rp2dS1VRMGWfx6qY9?=
- =?us-ascii?Q?rDlBAMxARTydC6s/NMIkKSpqP5xygpFucnccKclCAOUVcbZ16Tebl8x2CDKJ?=
- =?us-ascii?Q?RgGcUFBuHjXeJ6JFcw4y/NBjw+659weUOSyGtfSNuRcyTBBQ2F/kRHtUfSvI?=
- =?us-ascii?Q?D+gMMAeQsz8EPznPrD5DBurAVRTHA7LQkYSYpWLXzmI0UbqpztGU/XyyUP42?=
- =?us-ascii?Q?h5jvxQ7kEwFCnbSucKSMUO8CzQOFTvYDg8T3E4QJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ySPm9j83rj6H3/u5iACPKuF35cUr6mTPzOr2lMeAe/MTN8ULV4IV9746/cBy?=
+ =?us-ascii?Q?gY/bXzXI5j01hYFduyTuIXYb6sjtuyamR0VzJe4J7LRsslw0yHGl2zL9+yEU?=
+ =?us-ascii?Q?LfXhG/yK2kdwi72UVTZK4QHc/A3fssTXwdfYGLFxsGkOOR6btOdNsYcsoS2P?=
+ =?us-ascii?Q?bZ9UAgMDSEeJH7OWTXGiuHYduXWP06xmJPI9ZuzGYN1Ff72w7LFuPS5a3Q+W?=
+ =?us-ascii?Q?ZuiknKoDy5rgEC6yECp8971NnOm5CabxoE8hgZ0mWxAVGrD6TY3q2txTEZs8?=
+ =?us-ascii?Q?yltvW/CwQngbmbF8FTdYc6VaD66SjjmwkxfkPESigJHWPFQojQwrs4LTtD6K?=
+ =?us-ascii?Q?cqUUejXbh8WQs7fI0eWpsZxBDnVOzSsu+xP9yQ9bTwAd7iY92ht+1amjI7SE?=
+ =?us-ascii?Q?W5+3ZNCRoFYg7dzGwN2ZwdtJ/CcMAgqiBZA+fUTezithD7ndtX/TPQ0AO/b8?=
+ =?us-ascii?Q?jjld8o93d03gmf4lLZFwssK+gALLxgGuVnsBU7f2w7k6b591cfLne7BZdyOS?=
+ =?us-ascii?Q?j0LblOonueuhQEBKqAj5JrRQTiFFxZysd6eFaI8DJeLuJX1CC2UYVKto8Vvj?=
+ =?us-ascii?Q?plrAxYmiZWgtVESDDsOyr07ulCP79VPXSbbgR1t1RGGppXvAiT7uvY1XU8lS?=
+ =?us-ascii?Q?7Q+axeHasb/KC1eKNfkdPBz9k0ONWPmQf8V7U2mJPl2/DdnM2BqZ51glBgly?=
+ =?us-ascii?Q?bEtGSFWUga3M3ciA3dFR9GVSQLnm2qiGwiprxVdWiKETzcj6CXkIE3WSid/q?=
+ =?us-ascii?Q?gV7pvJWygv9VlhdC+vJ6smLxAL/2kBMZZD+pGzzEo5ir9xgyN8WTAaHzs1KH?=
+ =?us-ascii?Q?RHIW6UgL/Abi81IK4PNNMG+AwcQ7D6ZiRUtiPQSi7RFnnUWtI3kH3mr3t2Vv?=
+ =?us-ascii?Q?bGVVBk0fygJg64F1As3FToEd0ndPf9Udd9/c0e0aZUbAUoyfVYbRxzwVAnIa?=
+ =?us-ascii?Q?mWVvMsmEJsd8cIIS9piVM1urfN1/s77afejsCIXm8iyBCRitjZHyzKwCheUr?=
+ =?us-ascii?Q?O/OphJaYYQ+1BhgfwvbziW7sMXR03hZ7sxfhB2DAU74qYawwOjFgwtgiVRDQ?=
+ =?us-ascii?Q?HBw7Khf9VM2KiG4LtN3JuoWLW/ua3Q4ZiMBWGSIhRdiADpe5XUntH8doslhv?=
+ =?us-ascii?Q?Q54lVLxTm+32+LidoC3+8RaZCjpPIxLZ9KO/DIy9/TYcvK/HSm0o1kDQ/01/?=
+ =?us-ascii?Q?8dDnJFUTeAK+BYiyRGFpyzdTyEYm6JhweJpnK4k9T5GZu0pczG642381SVEF?=
+ =?us-ascii?Q?vSjDaJ6fjlyPaQ95YBB3thncc6TI+8SiIgyDuTcW/UhiZuV2lFvr3m4Rh6vq?=
+ =?us-ascii?Q?BVFN4H0BoY2KIQvYAXtQvViH6P8AtR0eu86W5YnylbXP9O/J5Fv4hHDel0s0?=
+ =?us-ascii?Q?ZhETFN1wrZ9aWnVqtiCogshzUCvWNu6ucuxoqN97zrFukutbXSryB8iHYvUw?=
+ =?us-ascii?Q?sEX7n3cFq1bRO6qCioXGj7lPgEfdTq5K5wYfvrlagVPW5BTxzvBq380ha8lx?=
+ =?us-ascii?Q?JP9bwIla3lw9gWFBlYnsn/qGdTmd7X0lXlKaJt/oEAvvB1Yl+M4Ar2Bthuhj?=
+ =?us-ascii?Q?M+FVsX3GDXa90MYBTneXm6sQ2v6urFYwz7BF5nxl?=
 X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e43ef6e-b139-4f65-1641-08db2aafba79
+X-MS-Exchange-CrossTenant-Network-Message-Id: 680d1211-6e80-4f0c-9f86-08db2aafbcf5
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 08:30:44.2479 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 08:30:48.3570 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IirZHa3GicWTSSbnC+y39mBB8GwPnXck3eqmKOSlQYFr7mjlo4HisWiGs8IWu6qpFaLW/AS8QjW/lEn4Pbk8jw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: n4d5/9pVdffmpsWKvE3JQTmcdihcdPs36ZEwmSJRklwew+JzL8P2YaXL1pCUSgESwhwx5KFiboneF02pxfLYiw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR03MB4944
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,115 +116,107 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: tzimmermann@suse.de, ayaka@soulik.info, linux-kernel@vger.kernel.org,
- tfiga@chromium.org, "Hsia-Jun\(Randy\) Li" <randy.li@synaptics.com>,
+ tfiga@chromium.org, Hsia-Jun Li <randy.li@synaptics.com>,
  laurent.pinchart@ideasonboard.com, ribalda@chromium.org, nicolas@ndufresne.ca
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+From: Randy Li <ayaka@soulik.info>
 
-Those modifiers only record the parameters would effort pixel
-layout or memory layout. Whether physical memory page mapping
-is used is not a part of format.
-
+Signed-off-by: Randy Li <ayaka@soulik.info>
 Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
 ---
- include/uapi/drm/drm_fourcc.h | 75 +++++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+ Documentation/gpu/synaptics.rst | 81 +++++++++++++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+ create mode 100644 Documentation/gpu/synaptics.rst
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index de703c6be969..ee13250f06f4 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -419,6 +419,7 @@ extern "C" {
- #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
- #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
- #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
-+#define DRM_FORMAT_MOD_VENDOR_SYNAPTICS 0x0b
- 
- /* add more to the end as needed */
- 
-@@ -1519,6 +1520,80 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
- #define AMD_FMT_MOD_CLEAR(field) \
- 	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
- 
-+/*
-+ * Synaptics VideoSmart modifiers
-+ *
-+ * Tiles could be arranged in Groups of Tiles (GOTs), it is a small tile
-+ * within a tile. GOT size and layout varies based on platform and
-+ * performance concern. When the compression is applied, it is possible
-+ * that we would have two tile type in the GOT, these parameters can't
-+ * tell the secondary tile type.
-+ *
-+ * Besides, an 8 size 4 bytes arrary (32 bytes) would be need to store
-+ * some compression parameters for a compression meta data plane.
-+ *
-+ *       Macro
-+ * Bits  Param Description
-+ * ----  ----- -----------------------------------------------------------------
-+ *
-+ *  7:0  f     Scan direction description.
-+ *
-+ *               0 = Invalid
-+ *               1 = V4, the scan would always start from vertical for 4 pixel
-+ *                   then move back to the start pixel of the next horizontal
-+ *                   direction.
-+ *               2 = Reserved for future use.
-+ *
-+ * 15:8  m     The times of pattern repeat in the right angle direction from
-+ *             the first scan direction.
-+ *
-+ * 19:16 p     The padding bits after the whole scan, could be zero.
-+ *
-+ * 20:20 g     GOT packing flag.
-+ *
-+ * 23:21 -     Reserved for future use.  Must be zero.
-+ *
-+ * 27:24 h     log2(horizontal) of bytes, in GOTs.
-+ *
-+ * 31:28 v     log2(vertical) of bytes, in GOTs.
-+ *
-+ * 35:32 -     Reserved for future use.  Must be zero.
-+ *
-+ * 36:36 c     Compression flag.
-+ *
-+ * 55:37 -     Reserved for future use.  Must be zero.
-+ *
-+ */
+diff --git a/Documentation/gpu/synaptics.rst b/Documentation/gpu/synaptics.rst
+new file mode 100644
+index 000000000000..4185ca536bf1
+--- /dev/null
++++ b/Documentation/gpu/synaptics.rst
+@@ -0,0 +1,81 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 +
-+#define DRM_FORMAT_MOD_SYNA_V4_TILED		fourcc_mod_code(SYNAPTICS, 1)
++================
++Synaptics Tiling
++================
 +
-+#define DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(f, m, p, g, h, v, c) \
-+	fourcc_mod_code(SYNAPTICS, ((__u64)((f) & 0xff) | \
-+				 ((__u64)((m) & 0xff) << 8) | \
-+				 ((__u64)((p) & 0xf) << 16) | \
-+				 ((__u64)((g) & 0x1) << 20) | \
-+				 ((__u64)((h) & 0xf) << 24) | \
-+				 ((__u64)((v) & 0xf) << 28) | \
-+				 ((__u64)((c) & 0x1) << 36)))
++The tiling pixel formats in Synpatics Video Smart platform have
++many variants. Tiles could form the group of tiles, pixels within
++the group (nearest) width and height are stored into tile.
++Meanwhile, the tile in a group may not follow dimension layout,
++tile could form a small group of tiles, then that (sub)group
++of tiles would form a bigger group. We won't describe the dimension
++layout inside the group of tiles here. The layout of the group
++of tiles is fixed with the group width and height parameters
++in the same generation of the platform.
 +
-+#define DRM_FORMAT_MOD_SYNA_V4H1 \
-+	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 0, 0, 0, 0)
++Compression
++===========
++The proprietary lossless image compression protocol in Synaptics
++could minimizes the amount of data transferred (less memory bandwidth
++consumption) between devices. It would usually apply to the tiling
++pixel format.
 +
-+#define DRM_FORMAT_MOD_SYNA_V4H3P8 \
-+	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 0, 0, 0, 0)
++Each component would request an extra page aligned length buffer
++for storing the compression meta data. Also a 32 bytes parameters
++set would come with a compression meta data buffer.
 +
-+#define DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED \
-+	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 6, 2, 1)
++The component here corresponds to a signal type (i.e. Luma, chroma).
++They could be encoded into one or multiple metadata planes, but
++their compression parameters still would be individual.
 +
-+#define DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED \
-+	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 6, 2, 1)
++Pixel format modifiers
++======================
++Addition alignment requirement for stride and size of a memory plane
++could apply beyond what has been mentioned below. Remember always
++negotiating with all the devices in pipeline before allocation.
 +
-+#define DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED \
-+	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 1, 0, 1, 7, 7, 1)
++.. flat-table:: Synpatics Image Format Modifiers
 +
-+#define DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED \
-+	DRM_FORMAT_MOD_SYNA_MTR_LINEAR_2D(1, 3, 8, 1, 7, 7, 1)
++	* - Identifier
++	  - Fourcc
++	  - Details
 +
- #if defined(__cplusplus)
- }
- #endif
++	* - DRM_FORMAT_MOD_SYNA_V4H1
++	  - DRM_FORMAT_NV12
++	  - The plain uncompressed 8 bits tile format. It sounds similar to
++	Intel's Y-tile. but it won't take any pixel from the next X direction
++	in a tile group. The line stride and image height must be aligned to
++	a multiple of 16. The height of chrominance plane would plus 8.
++
++	* - DRM_FORMAT_MOD_SYNA_V4H3P8
++	  - DRM_FORMAT_NV15
++	  - The plain uncompressed 10 bits tile format. It stores pixel in 2D
++	3x4 tiles with a 8bits padding to each of tile. Then a tile is in a
++	128 bits cache line.
++
++	* - DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED
++	  - DRM_FORMAT_NV12
++	  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
++    A group of tiles would contain 64x4 pixels, where a tile has 1x4
++    pixel.
++
++	* - DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED
++	  - DRM_FORMAT_NV15
++	  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H3P8``.
++     A group of tiles would contains 48x4 pixels, where a tile has 3x4 pixels
++     and a 8 bits padding in the end of a tile. A group of tiles would
++     be 256 bytes.
++
++	* - ``DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED``
++	  - DRM_FORMAT_NV12
++	  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
++    A group of tiles would contain 128x32 pixels, where a tile has 1x4
++    pixel.
++
++	* - ``DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED``
++	  - DRM_FORMAT_NV15
++	  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H3P8``.
++     A group of tiles would contains 96x128 pixels, where a tile has 3x4 pixels
++     and a 8 bits padding in the end of a tile. A group of tiles would
++     be 16 KiB.
 -- 
 2.17.1
 
