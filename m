@@ -2,33 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A0A6C592C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 22:57:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFD0A6C5981
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 23:39:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47B0210E414;
-	Wed, 22 Mar 2023 21:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE54D10E418;
+	Wed, 22 Mar 2023 22:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6CD410E40A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 21:57:46 +0000 (UTC)
-Received: from p508fd58e.dip0.t-ipconnect.de ([80.143.213.142]
- helo=phil.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1pf6Sm-0004wd-3z; Wed, 22 Mar 2023 22:57:44 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: hjc@rock-chips.com, dri-devel@lists.freedesktop.org,
- Alfredo Cruz <alfredo.carlon@gmail.com>
-Subject: Re: [PATCH] drm/rockchip: vop2: add error check to
- devm_regmap_init_mmio
-Date: Wed, 22 Mar 2023 22:57:43 +0100
-Message-ID: <4696479.44csPzL39Z@phil>
-In-Reply-To: <20230314191532.33693-1-alfredo.carlon@gmail.com>
-References: <20230314191532.33693-1-alfredo.carlon@gmail.com>
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB6F10E418
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 22:39:02 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id i6so22848655ybu.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 15:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679524741;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Id4zz5zxp3EUwWodWlabWOLpsUXP6miaQSKJQFRTXQU=;
+ b=XuU2FHMbB0hoTG7ZzUZfjWrdzNTIuz/0GQn51F7xZriOWL91iJ4ZoeprB6P88sJz2g
+ LAkOHH3cu+HCvN9FcyL86HxPB076w1AINJQvczLawDqlt0Mj0jLn3XKs3Ny33R0O8asg
+ Qvs39qMxTHnwhKVJwBiqczfga0vNXEjcCq/10wxVj2kyV0cvf4BSbKf35cNIgOrRSGKC
+ FQTV3AfNykm7ySQoseQvYfgwPnh8H/cumGCxz4n4kDYodtljMsWOjPUyWBcY8n1rvxFy
+ Ys5hPv46ENU/CPxMHCofq9zOYeZFiJfZ786xDgIZ43Cl6pDAkbzY/ngqTuixkpxaxKGm
+ Pm6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679524741;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Id4zz5zxp3EUwWodWlabWOLpsUXP6miaQSKJQFRTXQU=;
+ b=d8eYCwHErMK9pHTKLIgbjXV5sbSCo9Q7HqEgWZ5Xbjk4uNwy1ot8VxjkJTSMd6K5et
+ eNgiXPUK5OgMuD5+t5cp/hmcOzk/ypaXwvMw2HcHYiu6BQ1oSB3e/oN6eiURe5TOIyS5
+ 4iHUf63r6E7qLPoumxW9ayhVNtZHHSt32KBrNMa1REzGhfCIxPkI2VpOYOCGbWNU/9px
+ 3YQBqnSIAbbb8rkqVm3+7garzjZu9p9Pn1wLkKMteEVcm95g9ylLIqXWqN5bv8nH9UIV
+ Zt+/yfOZx5Wwhi++xKAyUa0IzcU/H4qRXc2OEqnAXh6Ncdi1PJpSQg3nn2JS8py1bTPk
+ Bqrg==
+X-Gm-Message-State: AAQBX9dm0g2sIILtBZp1MRWywzSHWSNFy97n6Vnrzp2J2spWKLBM7Ew4
+ 0sDFo7ZgYDODDodd80Zlkz1OkRzNe3S/GHTjfMlHVA==
+X-Google-Smtp-Source: AKy350aiylBLo3+Yd1Sd5/vc++cfVisuQWdaFNN9fPlMg+dV8xITZ7CzMybfdSd0keg6dbOLNfPtPhX+kCB5AdgEbsI=
+X-Received: by 2002:a05:6902:1586:b0:b6c:a94:9bf3 with SMTP id
+ k6-20020a056902158600b00b6c0a949bf3mr909931ybu.9.1679524741161; Wed, 22 Mar
+ 2023 15:39:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+References: <20230322104639.221402-1-treapking@chromium.org>
+ <20230322104639.221402-4-treapking@chromium.org>
+In-Reply-To: <20230322104639.221402-4-treapking@chromium.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 23 Mar 2023 00:38:49 +0200
+Message-ID: <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
+Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
+To: Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,43 +66,307 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alfredo Cruz <alfredo.carlon@gmail.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, devicetree@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alfredo,
-
-while I do agree with the patch content, there are missing:
-a patch description ... just a customary thing for a change like this
-
-but more importantly the Signed-off-by line .
-
-
-Heiko
-
-Am Dienstag, 14. M=E4rz 2023, 20:15:32 CET schrieb Alfredo Cruz:
+On Wed, 22 Mar 2023 at 12:47, Pin-yen Lin <treapking@chromium.org> wrote:
+>
+> Add helpers to register and unregister Type-C "switches" for bridges
+> capable of switching their output between two downstream devices.
+>
+> The helper registers USB Type-C mode switches when the "mode-switch"
+> and the "reg" properties are available in Device Tree.
+>
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+>
 > ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/d=
-rm/rockchip/rockchip_drm_vop2.c
-> index 03ca32cd2050..4bde2d354462 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -2680,6 +2680,8 @@ static int vop2_bind(struct device *dev, struct dev=
-ice *master, void *data)
->  	vop2->len =3D resource_size(res);
-> =20
->  	vop2->map =3D devm_regmap_init_mmio(dev, vop2->regs, &vop2_regmap_confi=
-g);
-> +	if (IS_ERR(vop2->map))
-> +		return PTR_ERR(vop2->map);
-> =20
->  	ret =3D vop2_win_init(vop2);
->  	if (ret)
->=20
+>
+> Changes in v14:
+> - Introduce a new Kconfig becuase it didn't build when CONFIG_TYPEC=m
+> - Add comments about devm_* usage
+> - Fix style issues
+>
+> Changes in v13:
+> - Add typec_mode_switch_node_count helper
+> - Fix style issues
+>
+> Changes in v12:
+> - Add fwnode_for_each_typec_mode_switch macro
+> - Remove a duplicated dmesg in the helper
+> - Used IS_REACHABLE instead to guard the function signatures
+>
+> Changes in v11:
+> - Use fwnode helpers instead of DT
+> - Moved the helpers to a new file
+> - Use "reg" instead of "data-lanes" to determine the port number
+> - Dropped collected tags due to new changes
+>
+> Changes in v10:
+> - Collected Reviewed-by and Tested-by tags
+> - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
+> - Print out the node name when errors on parsing DT
+> - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
+> - Made the return path of drm_dp_register_mode_switch clearer
+>
+> Changes in v8:
+> - Fixed the build issue when CONFIG_TYPEC=m
+> - Fixed some style issues
+>
+> Changes in v7:
+> - Extracted the common codes to a helper function
+> - New in v7
+>
+>  drivers/gpu/drm/display/Kconfig               |   8 ++
+>  drivers/gpu/drm/display/Makefile              |   2 +
+>  drivers/gpu/drm/display/drm_dp_typec_helper.c | 105 ++++++++++++++++++
+>  include/drm/display/drm_dp_helper.h           |  46 ++++++++
+>  4 files changed, 161 insertions(+)
+>  create mode 100644 drivers/gpu/drm/display/drm_dp_typec_helper.c
+>
+> diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+> index 09712b88a5b8..d61076947a1c 100644
+> --- a/drivers/gpu/drm/display/Kconfig
+> +++ b/drivers/gpu/drm/display/Kconfig
+> @@ -29,6 +29,14 @@ config DRM_DISPLAY_HDMI_HELPER
+>         help
+>           DRM display helpers for HDMI.
+>
+> +config DRM_DISPLAY_DP_TYPEC_HELPER
+> +       bool
+> +       default y
+> +       depends on DRM_DISPLAY_HELPER
+> +       depends on DRM_DISPLAY_HELPER=TYPEC || TYPEC=y
+
+If it is a select'able option, it doesn't make sense to use "depends"
+here. Select will override depends.
+
+> +       help
+> +         DRM display helpers for USB Type-C Displayport Alternate mode.
+> +
+>  config DRM_DP_AUX_CHARDEV
+>         bool "DRM DP AUX Interface"
+>         depends on DRM && DRM_DISPLAY_HELPER
+> diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+> index 17ac4a1006a8..2202a6aea38e 100644
+> --- a/drivers/gpu/drm/display/Makefile
+> +++ b/drivers/gpu/drm/display/Makefile
+> @@ -8,6 +8,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += \
+>         drm_dp_helper.o \
+>         drm_dp_mst_topology.o \
+>         drm_dsc_helper.o
+> +drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER) += \
+> +       drm_dp_typec_helper.o
+>  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
+>  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
+>         drm_hdmi_helper.o \
+> diff --git a/drivers/gpu/drm/display/drm_dp_typec_helper.c b/drivers/gpu/drm/display/drm_dp_typec_helper.c
+> new file mode 100644
+> index 000000000000..1562a9ccdaf2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/display/drm_dp_typec_helper.c
+> @@ -0,0 +1,105 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/usb/typec_mux.h>
+> +#include <drm/display/drm_dp_helper.h>
+> +
+> +static int drm_dp_register_mode_switch(struct device *dev,
+> +                                      struct fwnode_handle *fwnode,
+> +                                      struct drm_dp_typec_switch_desc *switch_desc,
+> +                                      void *data, typec_mux_set_fn_t mux_set)
+> +{
+> +       struct drm_dp_typec_port_data *port_data;
+> +       struct typec_mux_desc mux_desc = {};
+> +       char name[32];
+
+Why 32?
+
+> +       u32 port_num;
+> +       int ret;
+> +
+> +       ret = fwnode_property_read_u32(fwnode, "reg", &port_num);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to read reg property: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       port_data = &switch_desc->typec_ports[port_num];
+> +       port_data->data = data;
+> +       port_data->port_num = port_num;
+> +       port_data->fwnode = fwnode;
+> +       mux_desc.fwnode = fwnode;
+> +       mux_desc.drvdata = port_data;
+> +       snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
+
+I think it makes more sense to use dev_name here instead of fwnode.
+
+> +       mux_desc.name = name;
+> +       mux_desc.set = mux_set;
+> +
+> +       port_data->typec_mux = typec_mux_register(dev, &mux_desc);
+> +       ret = PTR_ERR_OR_ZERO(port_data->typec_mux);
+> +       if (ret)
+> +               dev_err(dev, "Mode switch register for port %d failed: %d\n",
+> +                       port_num, ret);
+> +
+> +       return ret;
+> +}
+> +
+> +/**
+> + * drm_dp_register_typec_switches() - register Type-C switches
+> + * @dev: Device that registers Type-C switches
+> + * @port: Device node for the switch
+> + * @switch_desc: A Type-C switch descriptor
+> + * @data: Private data for the switches
+> + * @mux_set: Callback function for typec_mux_set
+> + *
+> + * This function registers USB Type-C switches for DP bridges that can switch
+> + * the output signal between their output pins. This function uses devm_kcalloc
+> + * to allocate memory, so it is expected to only call this in the driver probe
+> + * functions.
+> + *
+> + * Currently only mode switches are implemented, and the function assumes the
+> + * given @port device node has endpoints with "mode-switch" property.
+> + * The port number is determined by the "reg" property of the endpoint.
+> + */
+> +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
+> +                                  struct drm_dp_typec_switch_desc *switch_desc,
+> +                                  void *data, typec_mux_set_fn_t mux_set)
+> +{
+> +       struct fwnode_handle *sw;
+> +       int ret;
+> +
+> +       switch_desc->num_typec_switches = typec_mode_switch_node_count(port);
+> +       if (!switch_desc->num_typec_switches) {
+> +               dev_dbg(dev, "No Type-C switches node found\n");
+> +               return 0;
+> +       }
+> +
+> +       switch_desc->typec_ports = devm_kcalloc(dev, switch_desc->num_typec_switches,
+> +                                               sizeof(struct drm_dp_typec_port_data),
+> +                                               GFP_KERNEL);
+> +       if (!switch_desc->typec_ports)
+> +               return -ENOMEM;
+> +
+> +       /* Register switches for each connector. */
+> +       for_each_typec_mode_switch_node(port, sw) {
+> +               ret = drm_dp_register_mode_switch(dev, sw, switch_desc, data, mux_set);
+> +               if (ret)
+> +                       goto err_unregister_typec_switches;
+> +       }
+> +
+> +       return 0;
+> +
+> +err_unregister_typec_switches:
+> +       fwnode_handle_put(sw);
+> +       drm_dp_unregister_typec_switches(switch_desc);
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL(drm_dp_register_typec_switches);
+> +
+> +/**
+> + * drm_dp_unregister_typec_switches() - unregister Type-C switches
+> + * @switch_desc: A Type-C switch descriptor
+> + */
+> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> +{
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < switch_desc->num_typec_switches; i++)
+> +               typec_mux_unregister(switch_desc->typec_ports[i].typec_mux);
+> +}
+> +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index ab55453f2d2c..0fe56586d7bc 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -25,6 +25,7 @@
+>
+>  #include <linux/delay.h>
+>  #include <linux/i2c.h>
+> +#include <linux/usb/typec_mux.h>
+>
+>  #include <drm/display/drm_dp.h>
+>  #include <drm/drm_connector.h>
+> @@ -763,4 +764,49 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8 dpcd[DP_RECEIVER_CAP_SIZ
+>                                                const u8 port_cap[4], u8 color_spc);
+>  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc);
+>
+> +struct drm_dp_typec_port_data {
+> +       struct typec_mux_dev *typec_mux;
+> +       int port_num;
+> +       struct fwnode_handle *fwnode;
+> +       void *data;
+> +};
+> +
+> +struct drm_dp_typec_switch_desc {
+> +       int num_typec_switches;
+> +       struct drm_dp_typec_port_data *typec_ports;
+> +};
+> +
+> +#define for_each_typec_mode_switch_node(port, sw)      \
+> +       fwnode_for_each_child_node((port), (sw))        \
+> +               for_each_if(fwnode_property_present((sw), "mode-switch"))
+> +
+> +static inline unsigned int typec_mode_switch_node_count(struct fwnode_handle *port)
+> +{
+> +       struct fwnode_handle *sw;
+> +       unsigned int count = 0;
+> +
+> +       for_each_typec_mode_switch_node(port, sw)
+> +               count++;
+> +
+> +       return count;
+> +}
+> +
+> +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
+> +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc);
+> +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_handle *port,
+> +                                  struct drm_dp_typec_switch_desc *switch_desc,
+> +                                  void *data, typec_mux_set_fn_t mux_set);
+> +#else
+> +static inline void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc *switch_desc)
+> +{
+> +}
+> +static inline int drm_dp_register_typec_switches(
+> +               struct device *dev, struct fwnode_handle *port,
+> +               struct drm_dp_typec_switch_desc *switch_desc, void *data,
+> +               typec_mux_set_fn_t mux_set)
+> +{
+> +       return -EOPNOTSUPP;
+> +}
+> +#endif
+> +
+>  #endif /* _DRM_DP_HELPER_H_ */
+> --
+> 2.40.0.rc1.284.g88254d51c5-goog
+>
 
 
-
-
+-- 
+With best wishes
+Dmitry
