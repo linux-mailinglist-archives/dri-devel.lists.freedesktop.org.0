@@ -1,50 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C446C446E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 08:53:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567916C448D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:03:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABCB410E379;
-	Wed, 22 Mar 2023 07:53:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C91810E327;
+	Wed, 22 Mar 2023 08:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E56B10E3B2;
- Wed, 22 Mar 2023 07:53:29 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0AAAEB81A34;
- Wed, 22 Mar 2023 07:53:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16C4C433D2;
- Wed, 22 Mar 2023 07:53:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679471606;
- bh=6us+L/XQm1baJWcqSucEebFsFr6/7LTQQTA45/1sK9w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V4b2fGg2pHM3FPEW87yN8n2hsakjJoVAowHip1XmWw9BlkHBJnQTwMUcrtY/RTApR
- NBxyBX1jk0AXYSSfcc+SK/cOziReWXUJTz56jIsU3m2LovjxjDOpZDHuLFkrOpr3UR
- WFAEbz6J6SzyEVvYklOVKrpYcKhYoTDfBwsidTwWX3RWP2rbJKLfG1+0h3fgvxKUDT
- b9yEnkojuNKFSnSNFfii3Chzy+3S0neYSnNKMDh8lDqOau12JKTdFG9sIQFL9BupPQ
- HNmBUEECqb+cfaT5yZXOXtXmiyfvk+3QEwSjdu+5BKkGsuyD+vyyurvs4rdJF9Cu1u
- o5hROj9r5DsBg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1petJ7-0002VJ-38; Wed, 22 Mar 2023 08:54:53 +0100
-Date: Wed, 22 Mar 2023 08:54:53 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH 00/10] drm/msm: fix bind error handling
-Message-ID: <ZBq0TaDON8iJ3/Rh@hovoldconsulting.com>
-References: <20230306100722.28485-1-johan+linaro@kernel.org>
- <ZBmq12uP+TY4EaE3@hovoldconsulting.com>
- <6b2f4d0d-ba39-dd2b-e41e-b5accb4df1a2@linaro.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51DC310E868
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 08:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679472195; x=1711008195;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=QoQSBiHSuFz+gIFFZ9OZq2W/b3tXA3lJOkmYcr9k9K0=;
+ b=JAFBPy2C1yZKB8VO+ra2bkmTpb3xH05dsLABeTx+BE/LbLVpFWLlqOrm
+ yUH/b65w3WiX0tRGjWvlKk8HHdRHhpvlzjE+9WFQVU0i6ox78pwsJreiU
+ 5HoH0FKwL/Ifa6ZP1OPEha7vF93xeMEt3J+D1gWY35t4eUrhBbPPMzrZu
+ 1gOFkbOLNdbSLpYyYd1wx/L8f32tlusYHQKJr6aHZiDQdF+RW4aMXfi4j
+ uWhCvCW4KRe+Vw0o/d5+Z6Bhgq7WkGo2e/8r+b69V4kMXOn/9M33/dmoY
+ v8doYX+gx8CYJIvkEIjGzPUnEseeTSQlUgEIr2Peui2nuxd3Q4G7MQuwO A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="322992920"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="322992920"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 01:03:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="712130594"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="712130594"
+Received: from jlawryno-mobl.ger.corp.intel.com (HELO [10.249.146.128])
+ ([10.249.146.128])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 01:03:11 -0700
+Message-ID: <f4e01050-ecaa-75e3-92f4-e2b71702cc52@linux.intel.com>
+Date: Wed, 22 Mar 2023 09:03:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6b2f4d0d-ba39-dd2b-e41e-b5accb4df1a2@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v4 7/8] accel/qaic: Add qaic driver to the build system
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch, stanislaw.gruszka@linux.intel.com
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <1679325074-5494-8-git-send-email-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,50 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: dafna@fastmail.com, linux-doc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 21, 2023 at 05:21:56PM +0200, Dmitry Baryshkov wrote:
-> On 21/03/2023 15:02, Johan Hovold wrote:
-> > On Mon, Mar 06, 2023 at 11:07:12AM +0100, Johan Hovold wrote:
-> >> I had reasons to look closer at the MSM DRM driver error handling and
-> >> realised that it had suffered from a fair amount of bit rot over the
-> >> years.
-> >>
-> >> Unfortunately, I started fixing this in my 6.2 branch and failed to
-> >> notice two partial and, as it turned out, broken attempts to address
-> >> this that are now in 6.3-rc1.
-> >>
-> >> Instead of trying to salvage this incrementally, I'm reverting the two
-> >> broken commits so that clean and backportable fixes can be added in
-> >> their place.
-> >>
-> >> Included are also two related cleanups.
-> > 
-> > Any further comments to these patches (except for 9/10, which should be
-> > dropped)?
-> > 
-> > As the patches being reverted here were first added in 6.3-rc1 there is
-> > still time to get this into 6.3-rc (e.g. before AUTOSEL starts trying to
-> > backport them).
+Hi,
+
+On 20.03.2023 16:11, Jeffrey Hugo wrote:
+> Now that we have all the components of a minimum QAIC which can boot and
+> run an AIC100 device, add the infrastructure that allows the QAIC driver
+> to be built.
 > 
-> I will take a look at the patches. Additional question, as you have been 
-> looking into this area. We have plenty of code which is only called 
-> under the `if (kms)` condition. Could you hopefully move these parts to 
-> separate functions, so that the error handling is also simpler? If not, 
-> I'll put this to my todo list, but it might take some time before I have 
-> time for that.
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
+> Reviewed-by: Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> ---
+>  drivers/accel/Kconfig       |  1 +
+>  drivers/accel/Makefile      |  1 +
+>  drivers/accel/qaic/Kconfig  | 23 +++++++++++++++++++++++
+>  drivers/accel/qaic/Makefile | 13 +++++++++++++
+>  4 files changed, 38 insertions(+)
+>  create mode 100644 drivers/accel/qaic/Kconfig
+>  create mode 100644 drivers/accel/qaic/Makefile
+> 
+> diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
+> index c437206..64065fb 100644
+> --- a/drivers/accel/Kconfig
+> +++ b/drivers/accel/Kconfig
+> @@ -26,5 +26,6 @@ menuconfig DRM_ACCEL
+>  
+>  source "drivers/accel/habanalabs/Kconfig"
+>  source "drivers/accel/ivpu/Kconfig"
+> +source "drivers/accel/qaic/Kconfig"
+>  
+>  endif
+> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> index 07aa77a..26caf43 100644
+> --- a/drivers/accel/Makefile
+> +++ b/drivers/accel/Makefile
+> @@ -2,3 +2,4 @@
+>  
+>  obj-y	+= habanalabs/
+>  obj-y	+= ivpu/
+> +obj-$(CONFIG_DRM_ACCEL_QAIC)  += qaic/
 
-There's definitely room for cleaning up the bind/unbind paths further,
-but for this series I focus on correctness while maintaining symmetry
-(e.g. if an allocation was done under if (kms), then the release should
-be done under the same).
+Use two tabs instead of two spaces here to align with the current version of this file on drm-misc-next.
 
-I don't think I will have time to look at this further for a few weeks
-either, but I'll add it to my list of future work as well and I'll check
-in with you before actually working on it.
-
-Johan
+Regards,
+Jacek
