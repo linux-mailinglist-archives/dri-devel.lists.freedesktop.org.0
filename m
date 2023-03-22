@@ -2,51 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9556C58F6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 22:52:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3E16C58F9
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 22:52:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EB9C10E40B;
-	Wed, 22 Mar 2023 21:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE6210E406;
+	Wed, 22 Mar 2023 21:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD3710E40B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 21:51:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679521919; x=1711057919;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AMEtLMT6hBX2lxRTrrgsFN4px87BZunEca3shlKUTpE=;
- b=EeJgFJB7TplYseOQcc2guntcf8oxVwEwfw2FuIEiPSTm7fgyX307Q0JI
- keazYA3zDUMtIDeq0VU2TNwYXRuSFsctV1QABfqhGE02eJvTorZDUHi8d
- SbOIGc1YrnZUJZiTRubd5nABaTbAV+n+wQdq3wA35wcgDcdhLCGFsMccM
- zfqhtnbyJkWBJcqyWmD+JdFqRaSaU996Qm1eTM/fpPyQ/DoTS7R++sC0d
- p35nFc2fYGconBk4twMgiyFakM0wxFr8kNYCTnpxEuMa10nxF9Pf0wz3p
- byqA2ZRboxVEsbbcUpM3NLHOrX00GH1jSgNKKhiQnMQ3vNraGI+SaQ3xd A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338061657"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="338061657"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 14:51:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="751232113"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="751232113"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2023 14:51:56 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pf6N9-000Dh2-30;
- Wed, 22 Mar 2023 21:51:55 +0000
-Date: Thu, 23 Mar 2023 05:51:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: ye.xingchen@zte.com.cn, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
-Message-ID: <202303230551.UxtIjawK-lkp@intel.com>
-References: <202303221625255005719@zte.com.cn>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7ED10E406;
+ Wed, 22 Mar 2023 21:52:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U/JkXo83UkA2NMqq+RylZG/Lc3Eifv4zzWz9AenEz1Z6vJnloiF6WCRSY/W1Ms7dgymmyw9pFabg1+ElGSgLu36zC2yfm83lUQZRLOozhL6QWNLSlKr3TBrG2TB4eOOiU5Yaa0t19eJ3V5UXDyzS9xfSewdIrz1ALx5tvzSpMyPa8YwzwviWTMfVYVi511+Q458CFfhHR6ARh5cBsJIBJQbhd5l2aGHIC7kFhMjuCuWa44LArtfULQB03H7LNbWhOu0I8BvSQdYc7qquMkN5d1uy1Gp16tHWuOom/CcNOVUSjeB5O0YgapkfUoBf8QhqU9l0XSVh/R+ab6hrWPHPLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=163ayvpmMs/ki0R3iav8HB5XC+crJqN9PRj8+MgRlug=;
+ b=SEHFnSc8HYZXe7ZMHqH0vuMubgKTiFhshhzJJziQ55DFzJl4RPVE+MJZ7J1PN7etYBJ0uuo2uvYSxqnfJ/r1+F87jZrbY63bq9xU8Nxe0rK1cMdZlWj+UIZxmPjpPL8p/bWFT/ZldwEjKKo88oupL04gE5EGU6mn6fjKJbwKJmWcwiao8fM2iJ7FqbGYyO2eFSdjnOoiIi2l/lmAs02M66h3Dxr13O1242NBQf5tsiOraDK/G0g5nHJiyBsoRStQDqqibk4tqCDyqZm8ACxbYxdhV7VvDsN82inPLYN+JEtzabIN/waMVAcbbJwBJ8Qe4xmjDtz43BmhPSNA6t2B5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=163ayvpmMs/ki0R3iav8HB5XC+crJqN9PRj8+MgRlug=;
+ b=ZpkXpbJKQlgFPsfilazGBIA14CQkpsCN3Rlat2WjIB/OhgArf1ITPRzoO+lEGJXbzLcP3QUYz7xyekmcvP3KInyDmxY5yH2RZg9WBp7MX7fb9QeTFrJYTcdn4xZ1UtYlztkqVN+nx3J9+v8A6Wp19LipyDX7PJzxu8mgs7yH89w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by SJ2PR12MB8136.namprd12.prod.outlook.com (2603:10b6:a03:4f8::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
+ 2023 21:52:11 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::23f:22c1:b49e:b77e]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::23f:22c1:b49e:b77e%5]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
+ 21:52:11 +0000
+Message-ID: <4c403c2d-5bfc-3f8a-b5f4-77ada7b4ea20@amd.com>
+Date: Wed, 22 Mar 2023 17:52:07 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 30/32] drm/amdkfd: add debug queue snapshot operation
+Content-Language: en-US
+To: Jonathan Kim <jonathan.kim@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20230125195401.4183544-1-jonathan.kim@amd.com>
+ <20230125195401.4183544-31-jonathan.kim@amd.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20230125195401.4183544-31-jonathan.kim@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR01CA0038.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:2::10) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202303221625255005719@zte.com.cn>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|SJ2PR12MB8136:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88d84587-12d9-4298-46f2-08db2b1fb07c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OwyL2eYMMBqnFB0kwcdps+r13eRYE9ueL2tNNRvRuXf0mBBNmF7ei6Mw0BNksfDOgP19lgsLvI0GtwC3mbVtuzN4QU5FJQL+U+ipP/oVtOWGT5vHEoAWKDMUUdYISHREodp2yVPAIHHDPAqAxyXblxJix2WPjEIKf3T/M5A9mRItPkGHx280m/lIpqfjSVkHI0asOBGjIDpzqCpWA9m0Jj2pq0nWP9GcaHUkpV40qN6PM6x4/Mi76E3V66lAXQPlVq9whCWDziW2aABwqPIKa+l72RCmqrpK6nF9W+UTBCWXyb4qzhbrqWyF0AFDdCnCgRwUYM1quK9DaLwH2416F2f2QRueujWbarnh8gdqNRMLIrAb22vq7hGbAvznYCA9NqXBRiVZvzvy9Y03oDWgRFnM7jcYlwt5V2gYG/B/jfA8aUGL7E34T4/dpXpGIPv/p1WLdgPY2Q7yKNfbbcrD1pwKyc2tVPpsZ8s6TUyn0KywXX820h4gaWuy8Ur6SnBu+fmmV7DuwhFzMawNdcO3EVM7HOs4Yd0/uSJRnoyXhSoY45bPquVyrAEpVaB0Y7+oMzBnqITIoG3ENq3dxxP1kdbabSWGMlbQ+gHhDNECdS4gnVluOb9KupB6IKscnCfnL70nRsVZfV0hiR92PP6CejNLMg4+JjiaoU6jdoB9omo7bNISq8ynX2xXOh8Lc6WNqlDSpayTNRZyczZWfsab6mF3/us1iuSkVwydbujlclI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(346002)(376002)(39860400002)(366004)(136003)(451199018)(8676002)(31686004)(36756003)(66556008)(6512007)(66476007)(5660300002)(44832011)(2906002)(66946007)(8936002)(450100002)(86362001)(31696002)(38100700002)(6506007)(316002)(6666004)(478600001)(83380400001)(6486002)(26005)(41300700001)(2616005)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0JyUW1LUUtaWFc4azBEOFZvYlFJSVJhakdvb2NIeGp2MUI1QWZ0VFpvU0Nq?=
+ =?utf-8?B?WG1oRi9YU1F2T0ZiY1NyWEUxM0pBaFlUaHNtZThWWFlZU2NuMnhEcktoSXpB?=
+ =?utf-8?B?UG5mU0xlL2l0RCswd2NKQTlFczd4dm1UTVdIMXdzTXQvU3dNR1JGeldBTHE1?=
+ =?utf-8?B?b3JsOTNJdFJ4bUVYVEtjSzFid1loY21VaUZOUEM1Z0tVZ1pSdUpQa1dsR1FR?=
+ =?utf-8?B?TjB4Slh3Q1R6L0p6WUxXTDVmUnpFOHdKRVVZNXdiOVFwTzc2ZkpscXVSM3Rx?=
+ =?utf-8?B?aWpTS280Y1dzdFJwemRRQy9ENG1TY2hWT0xTVVFjU0JEM1J4c1ByZk5xNU9Y?=
+ =?utf-8?B?UitqOVhaOER5M2Q4Z0E3V2p1UVpoazErOHZFcjI2Y3NTK2loQklWd0pKVmVK?=
+ =?utf-8?B?RVVrWDFwR3YxZjM3dks5NThQd3gzL1dMVDdzZk9HODd5bUo5REltWnFodlg2?=
+ =?utf-8?B?a1pla2IrUFJ1NDR0UmEwd0hPK2RYdktUNk1oaVZLRCtPY3ZxTmoyekdVUXRu?=
+ =?utf-8?B?dWR5VmJkU21Cb1lMK3Y1NmJ2K1M5WkF2OWd0T1hIRjVSYkUya1B0RUxtQmNv?=
+ =?utf-8?B?VnJmRkxxZXBtNkVaSXQ1elY0Skl0WWpJSG5kUzV1RUdXd1puay9PUytKams4?=
+ =?utf-8?B?VzFWR0lzL0x3bjFiMHBaVlg0VUpXWGhZNDE4NHpXUS9MNWRhNkVmLy9zZGJO?=
+ =?utf-8?B?bWI3Sjcwd0liMWhUUUlDdDZITzltSVdWcWYzM3VHNzBuOU1zbWo0a0haSTlO?=
+ =?utf-8?B?ZzUrY3BPdTJBNE1qeG1oTitwT1FsSG0weW1oUkxUZXVzWEd4MG9SVDd5Ylhv?=
+ =?utf-8?B?UklBcFY5V1IwcnpQZTBvMXhJTTEvVk5ybS8wWk5KUnRhQ2FJd1Fxa2trRVUz?=
+ =?utf-8?B?RE10NzAwOVZQZitta0xTcjBEVmhGN3dybit4NFRPL01oeVMrd1M3Zk9LNnNk?=
+ =?utf-8?B?RjBhNVJ3bmhFdHczQTYvQjFSNkFTeENJY1FYSWE5eXVoWDJtM1dIVzRSM2lO?=
+ =?utf-8?B?M0dWNklaYWV5alovQlJjd09YYS9wRThmK0NLWW43Mis1dVQ5YjNmM1h6OUJL?=
+ =?utf-8?B?K0pBd3JQOXEwSmpOYVNOcnZtZWR4VE02cStZZzRQQTVFa1YwY3NzQU9kM1E2?=
+ =?utf-8?B?Y1kxcHlScUdxMzBFak1YRy9PcVpiMmNYblhTZHF6Z2ZNK0RKc3BFRWxMUlFn?=
+ =?utf-8?B?aTV4SUpVR1p3NG43ODRSazlUb3dUelpkY0t3Q05sdGNqbElITENjRkc2bkdD?=
+ =?utf-8?B?ZHM2ek42Wi9kRjB5bzJsRWRtTEZzZjBwTlIzTHV4VDVmaGRwd1ZwY1FxdmFu?=
+ =?utf-8?B?KzRVZFpQQW5zU3ZFZGllOGRnS1pMRGZIRmZoWkpIeGUyVDYzTDZ1Wk1WYzNE?=
+ =?utf-8?B?RHQ5Nk41aEFrL2JpVGJmbnlJWVJzRVpxU1lEdFpHZEdZalRzcTA4dWlRVUJX?=
+ =?utf-8?B?QWk2ZlRSVkpHNU9HbFBoZmRYeXlzT2FpL3hLUDVRaUI3UmgvaGdaUFlEL0RT?=
+ =?utf-8?B?WGVaK2kyZ0JYR1FveUkvNy95TVZ3ZTIzU1NhTENnTVFDUlcxODRweHdhL29K?=
+ =?utf-8?B?bE9ZZytZRkJtTWVlU1pPVGVlTTZSTWF4VTBVS3kxaVpGWWVPUzAyMGcxcmo4?=
+ =?utf-8?B?QmFZczBHZXBEaEZUb25rWGp4Q0ViOUdqZC9YSEFOWDBhM3oyVHU5cTVjRkgv?=
+ =?utf-8?B?M0dIdEp4S2Q5YnBPRk5peVMyWWc0S1FwbDVNejlnRVJSS1VOa0EzT0sxSEtU?=
+ =?utf-8?B?N2VDV1B4TTVYS0FRSnp4cVliemlkN3Zlbjd5RVZCalYyVEsrbVZzdlZGN3dn?=
+ =?utf-8?B?SGZoTlA3NzdEZmd1bU9Mb0ZCc0syQS9qOTdnK1ZjK3FjYWlVd0dNUS9NTEhv?=
+ =?utf-8?B?WnJaVUxmbjBwN0NablV1NXYybzFjcUs0Z1JjQjZ5ZkJuK2tjVG9DdnNZdjJy?=
+ =?utf-8?B?MnN1YlZVaTRlVUZCbVptZ2ZCZFJYM3ptMU5aVjFaZmhKdkJxOWpTQmtRUmFz?=
+ =?utf-8?B?OUYxY2o3TkFkVVBjRndkaXQ3SmYxeDNIZTJ5OW9xMUE5UElSajJjaHZXM01Z?=
+ =?utf-8?B?UFJXS3AxRzNjaUtBQ0lOczFDcmlTUXZtT3pRNlR4eWlZUEdxOFVmaGlDSzVr?=
+ =?utf-8?Q?Z9nYTFtSFoP1/8U2VYkKo2zli?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88d84587-12d9-4298-46f2-08db2b1fb07c
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 21:52:11.0471 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ytdb8HArw6EE1X1GiPzbkNmQAg7DsSdxIh7A+tFFv0JqUzsLjC6k/FittwEEMaKxNUSzzddvrKnRt6iL5wjYWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,169 +126,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hyun.kwon@xilinx.com, llvm@lists.linux.dev, michal.simek@xilinx.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-Thank you for the patch! Perhaps something to improve:
+Am 2023-01-25 um 14:53 schrieb Jonathan Kim:
+> Allow the debugger to get a snapshot of a specified number of queues
+> containing various queue property information that is copied to the
+> debugger.
+>
+> Since the debugger doesn't know how many queues exist at any given time,
+> allow the debugger to pass the requested number of snapshots as 0 to get
+> the actual number of potential snapshots to use for a subsequent snapshot
+> request for actual information.
+>
+> To prevent future ABI breakage, pass in the requested entry_size.
+> The KFD will return it's own entry_size in case the debugger still wants
+> log the information in a core dump on sizing failure.
+>
+> Also allow the debugger to clear exceptions when doing a snapshot.
+>
+> v3: fix uninitialized return and change queue snapshot to type void for
+> proper increment on buffer copy.
+> use memset 0 to init snapshot entry to clear struct padding.
+>
+> v2: change buf_size arg to num_queues for clarity.
+> fix minimum entry size calculation.
+>
+> Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  6 +++
+>   .../drm/amd/amdkfd/kfd_device_queue_manager.c | 36 ++++++++++++++++
+>   .../drm/amd/amdkfd/kfd_device_queue_manager.h |  3 ++
+>   drivers/gpu/drm/amd/amdkfd/kfd_priv.h         |  5 +++
+>   .../amd/amdkfd/kfd_process_queue_manager.c    | 41 +++++++++++++++++++
+>   5 files changed, 91 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> index d3d2026b6e65..93b288233577 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+> @@ -2965,6 +2965,12 @@ static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, v
+>   				&args->query_exception_info.info_size);
+>   		break;
+>   	case KFD_IOC_DBG_TRAP_GET_QUEUE_SNAPSHOT:
+> +		r = pqm_get_queue_snapshot(&target->pqm,
+> +				args->queue_snapshot.exception_mask,
+> +				(void __user *)args->queue_snapshot.snapshot_buf_ptr,
+> +				&args->queue_snapshot.num_queues,
+> +				&args->queue_snapshot.entry_size);
+> +		break;
+>   	case KFD_IOC_DBG_TRAP_GET_DEVICE_SNAPSHOT:
+>   		pr_warn("Debug op %i not supported yet\n", args->op);
+>   		r = -EACCES;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+> index 7792fe9491c5..5ae504a512f0 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+> @@ -3000,6 +3000,42 @@ int suspend_queues(struct kfd_process *p,
+>   	return total_suspended;
+>   }
+>   
+> +static uint32_t set_queue_type_for_user(struct queue_properties *q_props)
+> +{
+> +	switch (q_props->type) {
+> +	case KFD_QUEUE_TYPE_COMPUTE:
+> +		return q_props->format == KFD_QUEUE_FORMAT_PM4
+> +					? KFD_IOC_QUEUE_TYPE_COMPUTE
+> +					: KFD_IOC_QUEUE_TYPE_COMPUTE_AQL;
+> +	case KFD_QUEUE_TYPE_SDMA:
+> +		return KFD_IOC_QUEUE_TYPE_SDMA;
+> +	case KFD_QUEUE_TYPE_SDMA_XGMI:
+> +		return KFD_IOC_QUEUE_TYPE_SDMA_XGMI;
+> +	default:
+> +		WARN_ONCE(true, "queue type not recognized!");
+> +		return 0xffffffff;
+> +	};
+> +}
+> +
+> +void set_queue_snapshot_entry(struct queue *q,
+> +			      uint64_t exception_clear_mask,
+> +			      struct kfd_queue_snapshot_entry *qss_entry)
+> +{
+> +	qss_entry->ring_base_address = q->properties.queue_address;
+> +	qss_entry->write_pointer_address = (uint64_t)q->properties.write_ptr;
+> +	qss_entry->read_pointer_address = (uint64_t)q->properties.read_ptr;
+> +	qss_entry->ctx_save_restore_address =
+> +				q->properties.ctx_save_restore_area_address;
+> +	qss_entry->ctx_save_restore_area_size =
+> +				q->properties.ctx_save_restore_area_size;
+> +	qss_entry->exception_status = q->properties.exception_status;
+> +	qss_entry->queue_id = q->properties.queue_id;
+> +	qss_entry->gpu_id = q->device->id;
+> +	qss_entry->ring_size = (uint32_t)q->properties.queue_size;
+> +	qss_entry->queue_type = set_queue_type_for_user(&q->properties);
+> +	q->properties.exception_status &= ~exception_clear_mask;
+> +}
+> +
+>   int debug_lock_and_unmap(struct device_queue_manager *dqm)
+>   {
+>   	int r;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+> index 7ccf8d0d1867..89d4a5b293a5 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.h
+> @@ -296,6 +296,9 @@ int suspend_queues(struct kfd_process *p,
+>   int resume_queues(struct kfd_process *p,
+>   		uint32_t num_queues,
+>   		uint32_t *usr_queue_id_array);
+> +void set_queue_snapshot_entry(struct queue *q,
+> +			      uint64_t exception_clear_mask,
+> +			      struct kfd_queue_snapshot_entry *qss_entry);
+>   int debug_lock_and_unmap(struct device_queue_manager *dqm);
+>   int debug_map_and_unlock(struct device_queue_manager *dqm);
+>   int debug_refresh_runlist(struct device_queue_manager *dqm);
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> index cfc50d1690c7..cc7816db60eb 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+> @@ -1302,6 +1302,11 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
+>   		       void __user *ctl_stack,
+>   		       u32 *ctl_stack_used_size,
+>   		       u32 *save_area_used_size);
+> +int pqm_get_queue_snapshot(struct process_queue_manager *pqm,
+> +			   uint64_t exception_clear_mask,
+> +			   void __user *buf,
+> +			   int *num_qss_entries,
+> +			   uint32_t *entry_size);
+>   
+>   int amdkfd_fence_wait_timeout(uint64_t *fence_addr,
+>   			      uint64_t fence_value,
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+> index 0ae6026c7d69..221cd4b03f1c 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c
+> @@ -576,6 +576,47 @@ int pqm_get_wave_state(struct process_queue_manager *pqm,
+>   						       save_area_used_size);
+>   }
+>   
+> +int pqm_get_queue_snapshot(struct process_queue_manager *pqm,
+> +			   uint64_t exception_clear_mask,
+> +			   void __user *buf,
+> +			   int *num_qss_entries,
+> +			   uint32_t *entry_size)
+> +{
+> +	struct process_queue_node *pqn;
+> +	uint32_t tmp_entry_size = *entry_size, tmp_qss_entries = *num_qss_entries;
+> +	int r = 0;
+> +
+> +	*num_qss_entries = 0;
+> +	if (!(*entry_size))
+> +		return -EINVAL;
+> +
+> +	*entry_size = min_t(size_t, *entry_size, sizeof(struct kfd_queue_snapshot_entry));
+> +	mutex_lock(&pqm->process->event_mutex);
+> +
+> +	list_for_each_entry(pqn, &pqm->queues, process_queue_list) {
+> +		if (!pqn->q)
+> +			continue;
+> +
+> +		if (*num_qss_entries < tmp_qss_entries) {
+> +			struct kfd_queue_snapshot_entry src;
+> +
+> +			memset(&src, 0, sizeof(src));
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'd move the variable declaration up to the function scope. That way you 
+only need to memset it once outside the loop. With that fixed, the patch is
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/202303221625255005719%40zte.com.cn
-patch subject: [PATCH] drm: xlnx: zynqmp: Use dev_err_probe()
-config: arm-randconfig-r014-20230322 (https://download.01.org/0day-ci/archive/20230323/202303230551.UxtIjawK-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 67409911353323ca5edf2049ef0df54132fa1ca7)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/68f0f0c914304e81941645b5b2e06ca1424527f9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review ye-xingchen-zte-com-cn/drm-xlnx-zynqmp-Use-dev_err_probe/20230322-162628
-        git checkout 68f0f0c914304e81941645b5b2e06ca1424527f9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/xlnx/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230551.UxtIjawK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/xlnx/zynqmp_dp.c:1704:33: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-                                       "failed to get reset: %ld\n");
-                                                             ~~^
-   1 warning generated.
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
 
-vim +1704 drivers/gpu/drm/xlnx/zynqmp_dp.c
-
-  1664	
-  1665	/* -----------------------------------------------------------------------------
-  1666	 * Initialization & Cleanup
-  1667	 */
-  1668	
-  1669	int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub)
-  1670	{
-  1671		struct platform_device *pdev = to_platform_device(dpsub->dev);
-  1672		struct drm_bridge *bridge;
-  1673		struct zynqmp_dp *dp;
-  1674		struct resource *res;
-  1675		int ret;
-  1676	
-  1677		dp = kzalloc(sizeof(*dp), GFP_KERNEL);
-  1678		if (!dp)
-  1679			return -ENOMEM;
-  1680	
-  1681		dp->dev = &pdev->dev;
-  1682		dp->dpsub = dpsub;
-  1683		dp->status = connector_status_disconnected;
-  1684	
-  1685		INIT_DELAYED_WORK(&dp->hpd_work, zynqmp_dp_hpd_work_func);
-  1686	
-  1687		/* Acquire all resources (IOMEM, IRQ and PHYs). */
-  1688		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dp");
-  1689		dp->iomem = devm_ioremap_resource(dp->dev, res);
-  1690		if (IS_ERR(dp->iomem)) {
-  1691			ret = PTR_ERR(dp->iomem);
-  1692			goto err_free;
-  1693		}
-  1694	
-  1695		dp->irq = platform_get_irq(pdev, 0);
-  1696		if (dp->irq < 0) {
-  1697			ret = dp->irq;
-  1698			goto err_free;
-  1699		}
-  1700	
-  1701		dp->reset = devm_reset_control_get(dp->dev, NULL);
-  1702		if (IS_ERR(dp->reset)) {
-  1703			ret = dev_err_probe(dp->dev, PTR_ERR(dp->reset),
-> 1704					    "failed to get reset: %ld\n");
-  1705			goto err_free;
-  1706		}
-  1707	
-  1708		ret = zynqmp_dp_reset(dp, false);
-  1709		if (ret < 0)
-  1710			goto err_free;
-  1711	
-  1712		ret = zynqmp_dp_phy_probe(dp);
-  1713		if (ret)
-  1714			goto err_reset;
-  1715	
-  1716		/* Initialize the bridge. */
-  1717		bridge = &dp->bridge;
-  1718		bridge->funcs = &zynqmp_dp_bridge_funcs;
-  1719		bridge->ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
-  1720			    | DRM_BRIDGE_OP_HPD;
-  1721		bridge->type = DRM_MODE_CONNECTOR_DisplayPort;
-  1722		dpsub->bridge = bridge;
-  1723	
-  1724		/*
-  1725		 * Acquire the next bridge in the chain. Ignore errors caused by port@5
-  1726		 * not being connected for backward-compatibility with older DTs.
-  1727		 */
-  1728		ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 5, 0, NULL,
-  1729						  &dp->next_bridge);
-  1730		if (ret < 0 && ret != -ENODEV)
-  1731			goto err_reset;
-  1732	
-  1733		/* Initialize the hardware. */
-  1734		dp->config.misc0 &= ~ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK;
-  1735		zynqmp_dp_set_format(dp, NULL, ZYNQMP_DPSUB_FORMAT_RGB, 8);
-  1736	
-  1737		zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
-  1738				ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
-  1739		zynqmp_dp_set(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
-  1740		zynqmp_dp_write(dp, ZYNQMP_DP_FORCE_SCRAMBLER_RESET, 1);
-  1741		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 0);
-  1742		zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
-  1743	
-  1744		ret = zynqmp_dp_phy_init(dp);
-  1745		if (ret)
-  1746			goto err_reset;
-  1747	
-  1748		zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 1);
-  1749	
-  1750		/*
-  1751		 * Now that the hardware is initialized and won't generate spurious
-  1752		 * interrupts, request the IRQ.
-  1753		 */
-  1754		ret = devm_request_threaded_irq(dp->dev, dp->irq, NULL,
-  1755						zynqmp_dp_irq_handler, IRQF_ONESHOT,
-  1756						dev_name(dp->dev), dp);
-  1757		if (ret < 0)
-  1758			goto err_phy_exit;
-  1759	
-  1760		dpsub->dp = dp;
-  1761	
-  1762		dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
-  1763			dp->num_lanes);
-  1764	
-  1765		return 0;
-  1766	
-  1767	err_phy_exit:
-  1768		zynqmp_dp_phy_exit(dp);
-  1769	err_reset:
-  1770		zynqmp_dp_reset(dp, true);
-  1771	err_free:
-  1772		kfree(dp);
-  1773		return ret;
-  1774	}
-  1775	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> +
+> +			set_queue_snapshot_entry(pqn->q, exception_clear_mask, &src);
+> +
+> +			if (copy_to_user(buf, &src, *entry_size)) {
+> +				r = -EFAULT;
+> +				break;
+> +			}
+> +			buf += tmp_entry_size;
+> +		}
+> +		*num_qss_entries += 1;
+> +	}
+> +
+> +	mutex_unlock(&pqm->process->event_mutex);
+> +	return r;
+> +}
+> +
+>   static int get_queue_data_sizes(struct kfd_process_device *pdd,
+>   				struct queue *q,
+>   				uint32_t *mqd_size,
