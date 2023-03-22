@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CA46C4DB1
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:30:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6459F6C4DB4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:30:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCE8710E973;
-	Wed, 22 Mar 2023 14:30:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6211689C46;
+	Wed, 22 Mar 2023 14:30:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3258F10E973
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:30:22 +0000 (UTC)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB3F10E977
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:30:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679495422; x=1711031422;
+ t=1679495451; x=1711031451;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Ur/OOnM04npjZKwYSpkBbvK6eRoeXWbojRQ3KO58N3A=;
- b=ZulkRUOb8qM46A4woEYinLHunNnGGecesB83+8kkQdSP04WQLT5VVt68
- cWoH/p2dczI9zkdG7BHHnGXI2v7bjiPbvy5UduDjxF2np5J7ve2OcGZbh
- /j0zJ16FEoOT+SRmTB7cpPWFJnNBSJPBprdFXz/4NJdsilD5x+UKen7UR
- atT97tBxLNMKxkYLSUZhJ8DiAcVQA1IafFCtk2dOUvLthiEITS70TXIwo
- oS4uUiXozmuZxwicKA61SUPTfRmRGWXwf0d6rnHg5WhNWD1LW0jiU26JS
- Dba3gi2qS3iLq5gLiTYjEXyPhlDOFyWMLilM2CtGcjoaAOG9JHgtiP18q g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="337949068"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="337949068"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 07:29:29 -0700
+ mime-version:in-reply-to;
+ bh=YpXIfF5+mJiCxg+eDEG0Br0ZjXo5m0PVri6m2PIOARM=;
+ b=LkqY6WJ69UJBtkxdyOO6T/hlBDk73xFZ+AZU0BTzh5VfYiZr1pLMGLgJ
+ pIWpJhs0AzxDzxA1TYftpn4/7r4DdVqeO9P8otjRkmSq7L3P92+A5oO8E
+ a4yiu7KIntACscMNc9P623qHQ/v9XnALvJfi+iCzQuMKr8sVJLIeXtqa9
+ irphi4o6hSmYOWlmjgJuqz05vZ5FUF2BFZHB7f6NtuLXa2LUKrfpkGBwF
+ pALw8F2SMlExRhsIahv3/35p3fDt+f6lER9pP8sXtnMmrxzCPkJpsn9g/
+ 4MV+IjjTs2SpWcNdzicW33jL24pmgiJIVMIskYefg2LS8Jg1jqnT8gBM0 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="323071002"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="323071002"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 07:30:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="684330761"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="684330761"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 22 Mar 2023 07:29:24 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 22 Mar 2023 16:29:24 +0200
-Date: Wed, 22 Mar 2023 16:29:24 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 2/5] drm/tests: Test drm_rect_calc_hscale()
-Message-ID: <ZBsQxHJNFmuAbcUA@intel.com>
-References: <20230322140701.69852-1-arthurgrillo@riseup.net>
- <20230322140701.69852-3-arthurgrillo@riseup.net>
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632010777"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="632010777"
+Received: from smile.fi.intel.com ([10.237.72.54])
+ by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 07:30:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1pezTy-007AGy-0O; Wed, 22 Mar 2023 16:30:30 +0200
+Date: Wed, 22 Mar 2023 16:30:29 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Pin-yen Lin <treapking@chromium.org>
+Subject: Re: [PATCH v14 10/10] drm/bridge: it6505: Register Type C mode
+ switches
+Message-ID: <ZBsRBV9dw+mb5ZxZ@smile.fi.intel.com>
+References: <20230322104639.221402-1-treapking@chromium.org>
+ <20230322104639.221402-11-treapking@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230322140701.69852-3-arthurgrillo@riseup.net>
-X-Patchwork-Hint: comment
+In-Reply-To: <20230322104639.221402-11-treapking@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,114 +62,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
- maxime@cerno.tech, andrealmeid@riseup.net, airled@gmail.com,
- matheus.vieira.g@usp.br
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 11:06:58AM -0300, Arthur Grillo wrote:
-> Insert test for the drm_rect_hscale() function, besides the test
-> for the usual case it also test for the exceptions.
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->  drivers/gpu/drm/tests/drm_rect_test.c | 58 +++++++++++++++++++++++++++
->  1 file changed, 58 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-> index f700984f70a8..7e02393092fa 100644
-> --- a/drivers/gpu/drm/tests/drm_rect_test.c
-> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
-> @@ -9,6 +9,8 @@
->  
->  #include <drm/drm_rect.h>
->  
-> +#include <linux/errno.h>
-> +
->  static void drm_rect_compare(struct kunit *test, const struct drm_rect *r,
->  			     const struct drm_rect *expected)
->  {
-> @@ -225,12 +227,68 @@ static void drm_test_rect_intersect(struct kunit *test)
->  	KUNIT_EXPECT_FALSE_MSG(test, visible, "Interserction should not be a visible rect");
->  }
->  
-> +static void drm_test_rect_calc_hscale(struct kunit *test)
-> +{
-> +	struct drm_rect src, dst;
-> +	int scaling_factor;
-> +
-> +	drm_rect_init(&src, 0, 0, 2, 0);
+On Wed, Mar 22, 2023 at 06:46:39PM +0800, Pin-yen Lin wrote:
+> Register USB Type-C mode switches when the "mode-switch" property and
+> relevant port are available in Device Tree. Configure the "lane_swap"
+> state based on the entered alternate mode for a specific Type-C
+> connector, which ends up updating the lane swap registers of the it6505
+> chip.
 
-I think we have a few places in the code that make the assumption
-that src uses .16 binary fixed point. Not many, but few.
+...
 
-> +	drm_rect_init(&dst, 0, 0, 1, 0);
+> +	struct device_node *port_node = of_graph_get_port_by_id(dev->of_node, 1);
+> +	struct drm_dp_typec_switch_desc *switch_desc = &it6505->switch_desc;
+> +	int ret;
+> +	u32 dp_lanes[4];
+> +	unsigned int i, num_lanes;
 > +
-> +	scaling_factor =  drm_rect_calc_hscale(&src, &dst, INT_MIN, INT_MAX);
+> +	ret = drm_dp_register_typec_switches(dev, &port_node->fwnode,
+> +					     &it6505->switch_desc, it6505,
+> +					     it6505_typec_mux_set);
+> +	if (ret)
+> +		return ret;
+> +
+> +	it6505->port_data = devm_kcalloc(dev, switch_desc->num_typec_switches,
+> +					 sizeof(struct it6505_typec_port_data),
+> +					 GFP_KERNEL);
+> +	if (!it6505->port_data) {
+> +		ret = -ENOMEM;
+> +		goto unregister_mux;
+> +	}
 
-The negative min scale factor is nonsensical.
+A couple of the similar comments as per previous similar patch.
+
+...
+
+>  	/* get extcon device from DTS */
+>  	extcon = extcon_get_edev_by_phandle(dev, 0);
+> -	if (PTR_ERR(extcon) == -EPROBE_DEFER)
+> -		return -EPROBE_DEFER;
+> -	if (IS_ERR(extcon)) {
+> -		dev_err(dev, "can not get extcon device!");
+> -		return PTR_ERR(extcon);
+> +	ret = PTR_ERR_OR_ZERO(extcon);
+> +	if (ret == -EPROBE_DEFER)
+> +		return ret;
 
 > +
-> +	KUNIT_EXPECT_EQ(test, scaling_factor, 2);
-> +}
+
+Unnecessary blank line.
+
+> +	if (ret) {
+> +		if (ret != -ENODEV)
+> +			dev_warn(dev, "Cannot get extcon device: %d\n", ret);
 > +
-> +static void drm_test_rect_calc_hscale_out_of_range(struct kunit *test)
-> +{
-> +	struct drm_rect src, dst;
-> +	int scaling_factor;
+> +		it6505->extcon = NULL;
+> +	} else {
+> +		it6505->extcon = extcon;
+
+...
+
+> +	ret = it6505_register_typec_switches(dev, it6505);
+> +	if (ret != -ENODEV)
+> +		dev_warn(dev, "Didn't register Type-C switches, err: %d\n", ret);
+
 > +
-> +	drm_rect_init(&src, 0, 0, 10, 0);
-> +	drm_rect_init(&dst, 0, 0, 1, 0);
-> +
-> +	scaling_factor =  drm_rect_calc_hscale(&src, &dst, 3, 5);
-> +
-> +	KUNIT_EXPECT_EQ(test, scaling_factor, -ERANGE);
-> +
-> +	drm_rect_init(&src, 0, 0, 2, 0);
-> +	drm_rect_init(&dst, 0, 0, 1, 0);
-> +
-> +	scaling_factor =  drm_rect_calc_hscale(&src, &dst, 3, 5);
-> +
-> +	KUNIT_EXPECT_EQ(test, scaling_factor, -ERANGE);
-> +}
-> +
-> +static void drm_test_rect_calc_hscale_negative_args(struct kunit *test)
-> +{
-> +	struct drm_rect src, dst;
-> +	int scaling_factor;
-> +
-> +	drm_rect_init(&src, 0, 0, -1, 0);
-> +	drm_rect_init(&dst, 0, 0, 1, 0);
-> +
-> +	scaling_factor = drm_rect_calc_hscale(&src, &dst, INT_MIN, INT_MAX);
-> +
-> +	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
-> +
-> +	drm_rect_init(&src, 0, 0, 1, 0);
-> +	drm_rect_init(&dst, 0, 0, -1, 0);
-> +
-> +	scaling_factor = drm_rect_calc_hscale(&src, &dst, INT_MIN, INT_MAX);
-> +
-> +	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
-> +}
-> +
->  static struct kunit_case drm_rect_tests[] = {
->  	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
->  	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
->  	KUNIT_CASE(drm_test_rect_clip_scaled_clipped),
->  	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
->  	KUNIT_CASE(drm_test_rect_intersect),
-> +	KUNIT_CASE(drm_test_rect_calc_hscale),
-> +	KUNIT_CASE(drm_test_rect_calc_hscale_out_of_range),
-> +	KUNIT_CASE(drm_test_rect_calc_hscale_negative_args),
->  	{ }
->  };
->  
-> -- 
-> 2.39.2
+
+Unnecessary blank line.
+
+> +	if (ret && !it6505->extcon) {
+> +		dev_err(dev, "Both extcon and Type-C switch are not registered.\n");
+> +		return -EINVAL;
+
+Why not return ret here?
+
+> +	}
 
 -- 
-Ville Syrjälä
-Intel
+With Best Regards,
+Andy Shevchenko
+
+
