@@ -1,74 +1,105 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DDE6C4834
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 11:49:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0BD6C4844
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 11:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 381B810E909;
-	Wed, 22 Mar 2023 10:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB5AE10E90C;
+	Wed, 22 Mar 2023 10:52:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C18AB10E909
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 10:49:10 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id t15so16512439wrz.7
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 03:49:10 -0700 (PDT)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2075.outbound.protection.outlook.com [40.107.237.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B54CC10E90C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 10:52:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JaXaHWgcXYm60AW2TOFbMAP4yI1wI5+RP+MhjeH8KoZ4h5nLwjlI+8axjRweOXPS9PaM2m6VGnSyJCgsNoVrqHDC0+0Cgv59kvN217eazkMxVWoZpXXN4rIIfblxjMQTFmBWAyQ8jPCE/JrZ2Qu+znPTvXcCVjCPqOGlq0saqiQ69f9HAqgFPc4dvodvzZ7sHCF9lirBtGeangUIpc/k4lCU64DqAy2FIcZbawFgRLEvYvZv7iJkrzK0MuxclNgCbjuucDvwi0dghhkcihH0rAmZSjKKF+kogWz3HUb1fRH6mAFuViWZ7acPuhga9QT8EV11xuuIEgIgrUbqxaVomQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jqYoFjwJYuabVD8mrE+qA3glvjxf3i486ZbRAnAE2K8=;
+ b=HaED/AWHr2A9ikO5DnqXCfKYTP3SibPk+pCSeBrDZrRExk+ObQU7SECDPjzwXogy9D/PQ63FS8lXqZouogsOEeN1E/kUG98myfdnmZ5WHuT6t9JiqEptCkSFzNYus1vsTmLxOGHMAH5AChgh0RMxvvFduN8HJvroBgnfxQEwgYEfALcImSxlVj7AWGAmbZDHP5wxS52e1wEA7CnQlcpj1i6njIdZkOFBKUwhUHz3A7dhbjp7V3NRR2h+GqKVFPOIae5B39mgFjC1OaztCRJqt7LYyU+2vwTMG4xzO2lQrsC6VW9t+P17QGpjlABtRO8qMC1vDWgKcqPfcCIHHKMXUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679482149;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=DtazAy5ZBr6/UsaCHvXzNZIVTK1+Lw3Zmf5vXwd6UW8=;
- b=TeJU+m39p1LJTsyatJZX39zHQY+azvG5cNB8UkHlNt44ynGeVVujIZrl1EbqcjHMP3
- xwfy6kRQhgzl+XoZz0K9ffDNFk15ChYBWcYMhzPAgtn0kj1noxnOhfm+UGC8aUtLWc4Y
- NtYTc/oKxM90c65mGj2nijp0fn7SClIZ4RUS3pwBNx3QWQVldxY5ZtKM3jfdSGmF8b7a
- 5rZM1LNndashS/11eHwMWg424JDkSbJhTW/Jk2nlctZzevEdYCh2QmTUBq6DCJ7J5eaq
- 5QxvyPvOOk82QyWVE6vJBb7WzgujXkNbGw0IqXj+9QpFwPGO55s8ELTj/SC4Jq1r/jQQ
- lvPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679482149;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DtazAy5ZBr6/UsaCHvXzNZIVTK1+Lw3Zmf5vXwd6UW8=;
- b=F6mJrV4HxLYCnQdHc3Fc9raiCH3MAB/HHlwyUTBArXs7DoIMgGaE4Wn6GTWF3GvmPx
- GcPC1D/aI+OqIv+slbpncYdgdNmWM0W7r/VwrIHE49JqQ7RQs9DKq+9y1aR865uxlM3y
- wMw8np4Ygsc5bQEvGLWyMDtr+9YO4PCMEJtgD/RAx0Jmpbw8cXvAX1WJMsQdHEmwmEns
- FXWMs7aJkThacXoxpFM/jU39LPcA+rUF2j49QMYTtrl5oowgZZ71CEDwYUtLIGVzyFYl
- la27tDlKcaXsngvwJhJdMRSw5+VDwiz10NUpcI0EnuY5hO6xijniOqTN38s+iCHmXjw5
- xguw==
-X-Gm-Message-State: AO0yUKXkrQAi6IIxQrMVBi6BVENP0fD/3z5ASJZ99KDYXtyd1FUz7UMf
- 8CenIi4gBdbasDTVUx52Gme2+Q==
-X-Google-Smtp-Source: AK7set+2D6IK/mOn0v0700qQcCXrBEpJ6MI97aLA0wGLOC01QTc21OkrUob9mXzfNg7l2i80ksL3eQ==
-X-Received: by 2002:a5d:56d2:0:b0:2d7:452f:79ec with SMTP id
- m18-20020a5d56d2000000b002d7452f79ecmr5062020wrw.7.1679482149187; 
- Wed, 22 Mar 2023 03:49:09 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:3606:a601:f273:994a?
- ([2a01:e0a:982:cbb0:3606:a601:f273:994a])
- by smtp.gmail.com with ESMTPSA id
- a18-20020a5d4d52000000b002d1e49cff35sm13549283wru.40.2023.03.22.03.49.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 03:49:08 -0700 (PDT)
-Message-ID: <b669be41-0b8e-6f69-2aeb-a79334a90e94@linaro.org>
-Date: Wed, 22 Mar 2023 11:49:07 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: Fix panel mode type setting logic
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>, Jianhua Lu <lujianhua000@gmail.com>
-References: <20230314114451.8872-1-lujianhua000@gmail.com>
- <CAD=FV=X7K2KQoRCsr17kj-DWiPs7h_zfcYxK_cdBVnC0wR1NwA@mail.gmail.com>
- <ZBEJdX6WVZ3Kqdo0@Gentoo>
- <CAD=FV=VgWSvrpCdi2pRr0JctHxcq1-qNJSMAxEVva6nEnv3e_g@mail.gmail.com>
-Organization: Linaro Developer Services
-In-Reply-To: <CAD=FV=VgWSvrpCdi2pRr0JctHxcq1-qNJSMAxEVva6nEnv3e_g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jqYoFjwJYuabVD8mrE+qA3glvjxf3i486ZbRAnAE2K8=;
+ b=kW4AtdGkr7U0g+wk3CuQgi9RTs0GbVr4IxSmVpGsjma3KJQFRul1gKnAnnY3wBXMuCSOho02bFkzzNx9CRIUyzwi9J/sOTayaw9G73uabIASHox+OVruPWMe852700GJcomC7GzgIfMvQEO64u9NbFUTbkEVqWFwIhe7qNsktGc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by BY5PR03MB5093.namprd03.prod.outlook.com (2603:10b6:a03:1e8::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
+ 2023 10:52:51 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::96e3:3428:3a5b:5872]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::96e3:3428:3a5b:5872%8]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
+ 10:52:51 +0000
+From: Hsia-Jun Li <randy.li@synaptics.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] RFC: drm: Create a alloc helper flags blob
+Date: Wed, 22 Mar 2023 18:52:26 +0800
+Message-Id: <20230322105226.122467-1-randy.li@synaptics.com>
+X-Mailer: git-send-email 2.39.2
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH0PR07CA0109.namprd07.prod.outlook.com
+ (2603:10b6:510:4::24) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|BY5PR03MB5093:EE_
+X-MS-Office365-Filtering-Correlation-Id: c1a05af8-15a7-41a5-71df-08db2ac394e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cumEBjgEakVpLFyCFdLPSipI4ngnrgn5xafc+/5pIufV+tmLIMp/pia5koi09CaZd1JI2qFqAOR84fEMqbVwLdde9rq+KQAr4+Vc021UZXMlwgNwcoXTRH36lkqGBLLdhVX3ix76DqEAEQi3j/uaqjvwsPiTYkFqEo0oPO0UPpv8EcKn69FoZdlwmMjb5xjoU418Vm6ZPGvdhc00BxeyABHjn7uNRedUbPSdj8j3lDDYo/Wfc7lYjy6Jw1eEhle656A1biJtV5YXfZ5doXyc4yIFlqiHL/RIv47GACr4qR8k+17aqOUA7RW4Rtrga/num7uVBUioUdwWl8Dy75eCi5cq9WBxnMJ6a9+2OJcNf75mjr2BXGFD+j8Ra/EUs3FdmS+64DENnzBDPJa4ef1FypM0ArtQ83tDbmMDnHIwBQcuHFVe5sqYodKlcBbbcZTsp0hXHLBHVtcr39gBlpj2v0MRrixFvadFn+CUGWAWAGEoMcwMnWOoRjKH09ucKAlKJgmI1eAxEWscojWEGuPF4iM4WUms/L7n+FnDO7Z+Gt6ewzLS1PVMiIsQLUJVb/SlS43hwMxnpeQ7DIEQSGD0/GcEGTSQ55Rpr4uXkv/Sum/aHXpLwLtj4Fjt9YD5ut+4W2ssqe6RVSJlhJnhqmEYRfjZzIguzP+b6N+P/8EG0jFLIXY3If7Eu1P208GXVHbxoOyL+CcMdLQQ9mmby3YnRA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR03MB5196.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(376002)(396003)(39850400004)(136003)(366004)(346002)(451199018)(66899018)(66946007)(66476007)(5660300002)(8676002)(66556008)(41300700001)(478600001)(4326008)(86362001)(7416002)(6916009)(36756003)(186003)(316002)(6486002)(52116002)(6506007)(26005)(107886003)(38100700002)(2616005)(8936002)(6512007)(6666004)(38350700002)(2906002)(83380400001)(1076003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?P2vzdlYjidS+gomcqcdMD2niR+vPrKvjPF8XjLpGKpG1fsFEbFUz+HWr4EwK?=
+ =?us-ascii?Q?/5DsBXSH+Urt+CM+j+d+sZcJeoHfbZshKutCcbeGc10WZaDIH8gUptJsUOpI?=
+ =?us-ascii?Q?6ThgTcQwcBpHnUM8ABpvRVYcqpNigQ72JmNqSNfnukMk91ve3Sv1LucnPG4N?=
+ =?us-ascii?Q?wTSB9pWO+fYl3TAAKdz8sErSqDlafL0I6437iOR/wAE2dur4Ka6Cgq49uKUQ?=
+ =?us-ascii?Q?FLa2rBK7Jse5g6khrsBq4PXPtZ6bTnb+LKnasJs0eABRYJKgwRXQoK0Sq0cw?=
+ =?us-ascii?Q?v+oI5mXDdAvF1Yhyn6X9cv+1Tl2Mhy/w3m3bXR+NxPpAJorcWkqlE8W5bV5j?=
+ =?us-ascii?Q?FakxFelkb97mj1Pzw8aH5qplzzj4MtagoxPx8xYcJMdpsOfrpVJ+z5n4AAKy?=
+ =?us-ascii?Q?YJL5hY4i/dZmqKGPl1TxteqsXjNXjMSpu9dxOyY7CiuAxTmwTIDj4yDZSv/o?=
+ =?us-ascii?Q?Hxs2sdDyl676w5/Wg/YmxzIelDiIT8oo25c1LQJkuEZGRfkqYY1OaZkGveso?=
+ =?us-ascii?Q?Q4q4aE822bazN+XbI9+ivCDaDH58xEwKMRFy0xrdPuUwY9BrDoN3JjtRnrGT?=
+ =?us-ascii?Q?egBjKJfmdXjqCfI8R0xlwvz/WtzkAiR1kBHhw5xg+TTtSJumdQO7URqdQqg+?=
+ =?us-ascii?Q?f13k7G2dm0ni4ZykWLFB1vWPYN9bHxIm1yee54GzeJ6agKodYrQ2E6VjSOIJ?=
+ =?us-ascii?Q?a1rRoFjDPUIq9RXjOlTs20/24gIvjnHP/LkFAgbl0Ka9X6Pk9HN+wGlmYfA0?=
+ =?us-ascii?Q?kI/+5PgYnO9XegSqc6oki87VxQW7YyPs5uetPwx/eGLxksPf0P6Mj7MPuwNn?=
+ =?us-ascii?Q?NePKZfsTaG5yIe4qLt0X1x3VFx6fI4I24o78ZOCHe3aMnUFhaVfTJosS1w1L?=
+ =?us-ascii?Q?1LkkAMMt9Cf1Edlt5ClxQw2T+Ygwopj2CpefzR9uH4PGcGKVLobGVYuOneg8?=
+ =?us-ascii?Q?RTSBttHC+tjO9UclsLOc2v4IkbN98wb8B9o2Ys8nJe7eN0grRtK/RWF3e610?=
+ =?us-ascii?Q?13ootBqoN3twutohQx9ttEoDKFskwMyXWrDmcExe6gkbi3VxuiK5zNEyqVK0?=
+ =?us-ascii?Q?RcExO0MIhkH+L5NR6xU9IALRHNU09E98Cx2ovV0/5OtufgaDIhny9oJ/h5w4?=
+ =?us-ascii?Q?s9b5Df3Ndwu8hJF7lEJ5CIukAnE2b3HUQ90CiC+sFe0JL965TkYYKSt+LF6w?=
+ =?us-ascii?Q?px6S+AusRheXm5CcNb/61OWkoJCoPla4rqJSol8B4sre8tkhW5pNQ4UHH5en?=
+ =?us-ascii?Q?mBDrp0AkmZpHrkvEKpKJfP9SH7i7IWfaykCCZC823gtkMMmtglZGX+dpkjz1?=
+ =?us-ascii?Q?YVocKCrlfiPCl0H/LjrMyTiYSziqsJ4dMxWE4g4F7TaQd2F30XOy9Yo0JmVG?=
+ =?us-ascii?Q?FdxTo7PFuFXPILyV9Vdjk6THdYiDft6/IhtdA/hpJg7Hon56BxY5Cv/M18cq?=
+ =?us-ascii?Q?3FkqcHEaN1Nda5t16+vJGiy+VPhYsisHDVSWZU4H1Gh6TeV7OPiZ7GfcUoaz?=
+ =?us-ascii?Q?SjSQNlQ/iIc+sJJBu/4ZJ+z/UCxyBXB3vXImyLP0VW1WBitj1akqGSIFh69U?=
+ =?us-ascii?Q?rzNvOaTnq3rR3o3eLfQw6ziesgoePPX3xTo93E3a?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1a05af8-15a7-41a5-71df-08db2ac394e7
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 10:52:51.1210 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wY5nD6QNlq3I5BFwm93TrjRf/xLQzlLaCaunhCwcJ7XBvIMwGAAjl5ycGllxFThJm0pZcaw7gWx3+F6uKjouPA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR03MB5093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,95 +112,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: tzimmermann@suse.de, ayaka@soulik.info, linux-kernel@vger.kernel.org,
+ tfiga@chromium.org, "Hsia-Jun\(Randy\) Li" <randy.li@synaptics.com>,
+ nicolas@ndufresne.ca
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 
-On 17/03/2023 01:23, Doug Anderson wrote:
-> Hi,
-> 
-> 
-> On Tue, Mar 14, 2023 at 4:55 PM Jianhua Lu <lujianhua000@gmail.com> wrote:
->>
->> On Tue, Mar 14, 2023 at 10:12:02AM -0700, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Tue, Mar 14, 2023 at 4:45 AM Jianhua Lu <lujianhua000@gmail.com> wrote:
->>>>
->>>> Some panels set mode type to DRM_MODE_TYPE_PREFERRED by the number
->>>> of modes. It isn't reasonable, so set the first mode type to
->>>> DRM_MODE_TYPE_PREFERRED. This should be more reasonable.
->>>>
->>>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
->>>> ---
->>>>   drivers/gpu/drm/panel/panel-abt-y030xx067a.c     | 2 +-
->>>>   drivers/gpu/drm/panel/panel-auo-a030jtn01.c      | 2 +-
->>>>   drivers/gpu/drm/panel/panel-edp.c                | 4 ++--
->>>>   drivers/gpu/drm/panel/panel-innolux-ej030na.c    | 2 +-
->>>>   drivers/gpu/drm/panel/panel-newvision-nv3051d.c  | 2 +-
->>>>   drivers/gpu/drm/panel/panel-newvision-nv3052c.c  | 2 +-
->>>>   drivers/gpu/drm/panel/panel-novatek-nt35950.c    | 2 +-
->>>>   drivers/gpu/drm/panel/panel-novatek-nt39016.c    | 2 +-
->>>>   drivers/gpu/drm/panel/panel-orisetech-ota5601a.c | 2 +-
->>>>   drivers/gpu/drm/panel/panel-seiko-43wvf1g.c      | 4 ++--
->>>>   drivers/gpu/drm/panel/panel-simple.c             | 4 ++--
->>>>   11 files changed, 14 insertions(+), 14 deletions(-)
->>>
->>> Can you explain more about your motivation here? At least for
->> This demonstrates a bad way to set DRM_MODE_TYPE_PREFERRED for panels
->> with more than one mode. It mislead the future contributors to send
->> a patch with this piece of code. There is also a discussion for it.
->> https://lore.kernel.org/lkml/904bc493-7160-32fd-9709-1dcb978ddbab@linaro.org/
->>> panel-edp and panel-simple it seems like it would be better to leave
->>> the logic alone and manually add DRM_MODE_TYPE_PREFERRED to the right
->>> mode for the rare panel that actually has more than one mode listed.
->> I think we can order it to the first mode if the mode type should be
->> DRM_MODE_TYPE_PREFERRED, It's also same.
-> 
-> A pointer to the original discussion would have been super helpful to
-> be provided in your patch description.
-> 
-> Personally, I still stand by my assertion that I'd rather that
-> DRM_MODE_TYPE_PREFERRED be placed in the actual data instead of being
-> done like this in post-processing. To me the old check for "num_modes
-> == 1" is basically saying that the people creating the "static const"
-> data in this file were lazy and didn't feel like they needed to set a
-> DRM_MODE_TYPE_PREFERRED when there was only one mode listed. Thus, we
-> can add it for them. When "num_modes" is more than 1 then we shouldn't
-> allow the people making the "static const" data to be lazy. We should
-> force them to set one of the modes to be PREFERRED rather than for
-> them to have to know about this magic rule.
-> 
-> Thus, for me, my order of preference would be these (note, I've mostly
-> looked at panel-edp and panel-simple):
-> 
-> 1. Leave the check as "num_modes == 1" and document that we're
-> basically allowing the people writing the "static const" structure to
-> be lazy if there's only one mode. Manually add the
-> DRM_MODE_TYPE_PREFERRED flag to the small number of cases where there
-> is more than one mode. Possibly add a warning printout if we end up
-> without a PREFERRED mode. I'd give a Reviewed-by for this.
-> 
-> 2. Fully get rid of this logic and add DRM_MODE_TYPE_PREFERRED to all
-> of the "static const" data. I guess maybe we can't do that for the
-> "timings" in panel-edp and panel-simple. I guess for those I'd be OK
-> with just setting PREFERRED on the first timing like your patch is
-> doing. I'd give a Reviewed-by for this.
-> 
-> 3. Your patch. I won't NAK it since it seems like this is what other
-> (more senior) DRM folks were suggesting. ...but I don't love it. I
-> won't give a Reviewed-by for this but won't object to someone else
-> doing so.
+In Android, we could also call gralloc to allocate a
+graphics buffer for the decoder, display or encoder.
+In the GNU Linux, we don't have such framework, the only
+thing we could have is the GBM.
+Unfortunately, some platforms don't have a GPU may not
+ship the gbm library or the GBM is a part of proprietary
+GPU driver. They may not know the allocation requirement
+for the other display device.
 
-I'm aligned with Doug's analysis, I don't have a strong opinion on
-what to do, but 1 or 2 would be OK.
+So it would be better to offer an generic interfaces
+for the application allocating the buffer from the 3rd place,
+likes DMA-heap or DRM dumb.
 
-Neil
+The storage of this blob would is different to the modifier
+blob, userspace would likes the format key and modifiers
+data relation. It would be better to let application seek
+the allocation flags they want.
 
-> 
-> -Doug
+Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+---
+ include/uapi/drm/drm_mode.h | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 46becedf5b2f..ee5b4d5aee0a 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -218,6 +218,11 @@ extern "C" {
+ #define DRM_MODE_CONTENT_PROTECTION_DESIRED     1
+ #define DRM_MODE_CONTENT_PROTECTION_ENABLED     2
+ 
++/* DRM buffer allocation flags */
++#define DRM_BUF_ALLOC_FLAG_DUMB_IMPORT		(1UL << 63)
++#define DRM_BUF_ALLOC_FLAG_SEPARATE_PLANE	(1UL << 62)
++/* bits 0~31 were reserved for DMA-heap heap_flags */
++
+ /**
+  * struct drm_mode_modeinfo - Display mode information.
+  * @clock: pixel clock in kHz
+@@ -1168,6 +1173,37 @@ struct drm_format_modifier {
+ 	__u64 modifier;
+ };
+ 
++struct drm_buf_alloc_flags_blob {
++#define FORMAT_BLOB_CURRENT 1
++	/* Version of this blob format */
++	__u32 version;
++
++	/* Flags */
++	__u32 flags;
++
++	/* Number of fourcc formats supported */
++	__u32 count_formats;
++
++	/* Where in this blob the formats exist (in bytes) */
++	__u32 formats_offset;
++
++	/* Number of drm_buf_alloc_flags */
++	__u32 count_alloc_flags;
++
++	/* Where in this blob the modifiers exist (in bytes) */
++	__u32 alloc_flags_offset;
++
++	/* __u32 formats[] */
++	/* struct drm_buf_alloc_flags alloc_flags[] */
++};
++
++struct drm_buf_alloc_flags {
++	__u32 format;
++	__u32 pad;
++	__u64 modifier_mask;
++	__u64 flags;
++};
++
+ /**
+  * struct drm_mode_create_blob - Create New blob property
+  *
+-- 
+2.17.1
 
