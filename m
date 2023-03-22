@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1826C45AA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 10:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E296C45CB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 10:10:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A38C410E8BF;
-	Wed, 22 Mar 2023 09:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAE7910E8C5;
+	Wed, 22 Mar 2023 09:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6FD10E8BF
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 09:07:16 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- v4-20020a05600c470400b003ee4f06428fso1388958wmo.4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 02:07:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679476035;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sgoPZHhwzWdFKXnDcAIhowUCI5lnMebfejYcdgL1dJc=;
- b=LZ1aEKYA367XVcEFCBHSX7A56UANMixln7g0rnLRfR6BoPNgn2rVDaAIO0szGTFBGi
- yYs2FaG8oxss1eKST0DW5gMX4OEMlTOGDDI6eGfTZMCLLd43z8jih7qE8u+LoyxuN3Gh
- ZnhibhSGs5u0Gq9xQ0CNDCu98U3DVeNZD9nyY+IOhgyMSfn65bRy6mz0WVTiszLZi9LO
- nybtrV9h4EaSEy/Oe8V1yiJkekduW3XQnTAi+TudKjkw8yez/mN3QaPExmJTsbpGPCMo
- 7ZX6NCuk1UtIXRihZUtlp5qmJSg6973rnORIDEUSKkvCVuKs5jT4D1KQ+jRPG0KEeC9u
- j78g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679476035;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sgoPZHhwzWdFKXnDcAIhowUCI5lnMebfejYcdgL1dJc=;
- b=5jASmQe3vG3JR96A7jqITGtpWT4+t/5StqkKmE9s6SUwQzsGcEZ3OTKclMKdIOIpwA
- 3madyRR5RUtTin0EpF7d9RXs3V+DAPJNqydLhvWaimOENn/61Plq381AIg3CnaiNcq8W
- 7+Zng3boPAxnTifHVo4ZUunSxiuywwJQF9dR/Y450vV1oYhuBQv9E0eLeLTOB0iKoRYD
- ZeDSNH/qbfdhzqXZ7/F0lPG4ZPz5DCoOElNZdgHnsEqO5OPYWXuSkIXNckkm3Fhmg5ex
- Js2gThT3N9Q0x/ZNm2E9Ao5hwgIz9jWGhhjtNH48JwVXh1fPWcG29xl41YUrdWqNgZWG
- M5rQ==
-X-Gm-Message-State: AO0yUKXDiflNG7lcoPAWsQ/9fG7KQDNvmh9x1u6sKjw5fbsL3F68DxK4
- IgVHXHbXMFRbw4tpJf7OFAI=
-X-Google-Smtp-Source: AK7set9jgPjUxqGQ6jwxmB0a217WhVojsK9yGHhtU6jvRwV5m1Yl5QO4gQ+clKQvKwBfsRLF5Y4urw==
-X-Received: by 2002:a1c:7c0b:0:b0:3eb:2e19:ff3a with SMTP id
- x11-20020a1c7c0b000000b003eb2e19ff3amr4578635wmc.7.1679476035162; 
- Wed, 22 Mar 2023 02:07:15 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c204200b003e91b9a92c9sm16050285wmg.24.2023.03.22.02.07.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 02:07:14 -0700 (PDT)
-Date: Wed, 22 Mar 2023 12:07:10 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH] drm/panel: magnachip: Prevent error pointer dereference in
- probe
-Message-ID: <de0273a8-8910-4ac4-b4ed-f7691c4d2ca6@kili.mountain>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A398010E8C5;
+ Wed, 22 Mar 2023 09:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679476214; x=1711012214;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=USG+g8lheJpL7vWPQy/qU5DepydtaWJssDhTBt71quY=;
+ b=DGpXOiGr0f/spI01au7X76lyJ3kPSoyOrir8frvoYQ+Qj0EhE/UP9BFd
+ Pkvt/LsgOJqqvIyl5ML5HUIFrjmYCmHSY3Mp0BLKZrZsqFhg+wChUOxKV
+ xcJ3QrIcLnMdTe6+9sGBvNf7gGCXhm+H5voN3XGfjSkBaxQGi6YMuMgsd
+ 5496YxuJNu+APmeqhcOFmUfHYUoHC0XQOO3Ev2NywDRzclST2jVxFvWCu
+ WILkKtPyj08zkBg791T5ptfz0FlRrl1S+7aQ1e9sW92XC4Arbm1/+ZwkK
+ vqEebNkO4eiVAU4hZEVPK0Fawl0axRuS1WY7IA8/InCV2Roxv/wxjyp9H g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="336669486"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="336669486"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 02:10:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="792465752"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="792465752"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.22.233])
+ ([10.213.22.233])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 02:10:12 -0700
+Message-ID: <72ab4666-2b3b-86c9-110e-14217dc2c3eb@intel.com>
+Date: Wed, 22 Mar 2023 10:10:10 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915: Check for unreliable MMIO
+ during forcewake
+Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>
+References: <20230321170936.478631-1-andi.shyti@linux.intel.com>
+ <20230321170936.478631-3-andi.shyti@linux.intel.com>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230321170936.478631-3-andi.shyti@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,33 +66,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Morgan <macromorgan@hotmail.com>,
- Maya Matuszczyk <maccraft123mc@gmail.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Don't dereference "db->dsi_dev" when it is an error pointer.
+On 21.03.2023 18:09, Andi Shyti wrote:
+> From: Matt Roper <matthew.d.roper@intel.com>
+> 
+> Although we now sanitycheck MMIO access during driver load to make sure
+> the MMIO BAR isn't returning all 0xFFFFFFFF, there have been a few cases
+> where (temporarily?) unreliable MMIO access has happened after GPU
+> resets or power events.  We'll often notice this on our next GT register
+> access since forcewake handling will fail; let's change our handling
+> slightly so that when this happens we print a more meaningful message
+> clarifying that the problem is the MMIO access, not forcewake
+> specifically.
+> 
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/intel_uncore.c | 12 +++++++++---
+>   1 file changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 0b69081d6d285..303a5d38c93a5 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -178,9 +178,15 @@ static inline void
+>   fw_domain_wait_ack_clear(const struct intel_uncore_forcewake_domain *d)
+>   {
+>   	if (wait_ack_clear(d, FORCEWAKE_KERNEL)) {
+> -		drm_err(&d->uncore->i915->drm,
+> -			"%s: timed out waiting for forcewake ack to clear.\n",
+> -			intel_uncore_forcewake_domain_to_str(d->id));
+> +		if (fw_ack(d) == ~0)
+> +			drm_err(&d->uncore->i915->drm,
+> +				"%s: MMIO unreliable (forcewake register returns 0xFFFFFFFF)!\n",
+> +				intel_uncore_forcewake_domain_to_str(d->id));
+> +		else
+> +			drm_err(&d->uncore->i915->drm,
+> +				"%s: timed out waiting for forcewake ack to clear.\n",
+> +				intel_uncore_forcewake_domain_to_str(d->id));
+> +
+With:
 
-Fixes: 249a4f5e663c ("drm/panel: Add Magnachip D53E6EA8966 Panel Driver")
-Signed-off-by: Dan Carpenter <error27@gmail.com>
----
- drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+if (!wait_ack_clear(...))
+	return;
 
-diff --git a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-index 8c362c40227f..26d358b9b85a 100644
---- a/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-+++ b/drivers/gpu/drm/panel/panel-magnachip-d53e6ea8966.c
-@@ -418,7 +418,7 @@ static int d53e6ea8966_probe(struct spi_device *spi)
- 	if (IS_ERR(db->dsi_dev)) {
- 		dev_err(dev, "failed to register dsi device: %ld\n",
- 			PTR_ERR(db->dsi_dev));
--		ret = PTR_ERR(db->dsi_dev);
-+		return PTR_ERR(db->dsi_dev);
- 	}
- 
- 	db->dsi_dev->lanes = 2;
--- 
-2.39.1
+you do not need to indent.
+And since drm_err have the same set of args in both cases, except fmt, 
+it could be also simplified.
+
+Anyway I am not sure if it is worth effort, so:
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+
+Regards
+Andrzej
+
+
+>   		add_taint_for_CI(d->uncore->i915, TAINT_WARN); /* CI now unreliable */
+>   	}
+>   }
 
