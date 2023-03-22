@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69956C50AB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 17:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A926C50AE
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 17:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2701610E352;
-	Wed, 22 Mar 2023 16:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A64D10E3C3;
+	Wed, 22 Mar 2023 16:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1797510E3C3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 16:28:10 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1390610E3C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 16:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679502490; x=1711038490;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=KfUvgiz4DVLzFaYO7oEOLPOOhMl2JyBbYso8oKRbz/4=;
- b=BmD8tCRaRZpZ/Kdpt6o8HriN434haTyWiJtpvtw3hoTNa3pS2V6r8eyp
- iWocqFWSGSK8IXOOk+qevIf4YHmkdHo55Ptn8/4MkvnJdL3r2xdpydXJ9
- 1M7Vw8JLqctqoOswdEw9Z3VdUUTs4AL4dHptPND7TMJFxBdLUUrA/luQO
- GJB1Rv9RDIfYcBFdCl07937y65CceZtts4jh1yucL4kgnJ5FBn0sWZUVQ
- AxIVQfbyXa54sWMjgYfVyFqeHechfdEXupJNEhVPbod58YmTwPQV78Dt3
- fZxzEVYqQ2B5kxa4IzTYPT47vX7eQP4P/ybS7Jfbnbg88TGqBl4wAJfB7 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="339300034"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="339300034"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 09:28:09 -0700
+ t=1679502534; x=1711038534;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=G4MzRzjMulpJ5Vd99GoHlm0096RBRP+4E0+u+35JWbM=;
+ b=m6w/FuuKD3Q8/gqZ8Zuo7d24u/3BXqUjIjokMHLVu4FlsVw4MDSzV6pw
+ P9bxYspcfuJtu3WeoXd0cRlmSW27sn6slbclHuJmxKUCm5horLeR26orj
+ vzCUVbSjhO57TWNcT0SMLi8yj/36AawNVXj76kKe9WFvnlEde9LNRKId6
+ Vkyeq5faCo0aEGOO/M7VnWShJlaNOWqRKqe6VM4bSpw5fy6mWjyr4gSqQ
+ Y7qpLSax1WAMQ4NLwPYkwQWDLyibcPEWfuJIwPb9XEE1kLFVn818q422y
+ ZNT6ggIORPqC9XqwDyUSMPazkNVBnOwD1L++9yrl3+Zu77dBB7vtDMCYu w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="404152543"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="404152543"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 09:28:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="771102926"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="771102926"
-Received: from jprokopo-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.252.61.221])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 09:27:59 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Pin-yen Lin
- <treapking@chromium.org>
-Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-In-Reply-To: <ZBrgD61p/p17IOJL@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-4-treapking@chromium.org>
- <ZBrgD61p/p17IOJL@smile.fi.intel.com>
-Date: Wed, 22 Mar 2023 18:27:56 +0200
-Message-ID: <87edpg7nub.fsf@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="681960127"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="681960127"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 09:28:50 -0700
+Date: Wed, 22 Mar 2023 17:28:48 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 7/7] accel/ivpu: Fix VPU clock calculation
+Message-ID: <20230322162848.GC2130371@linux.intel.com>
+References: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
+ <20230322091900.1982453-8-stanislaw.gruszka@linux.intel.com>
+ <56d8982a-6d86-19d2-74ca-efede0414af7@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56d8982a-6d86-19d2-74ca-efede0414af7@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +59,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?utf-8?Q?N=C3=ADco?= =?utf-8?Q?las_F_=2E_R_=2E_A_=2E_Prado?=
- <nfraprado@collabora.com>, Jonas Karlman <jonas@kwiboo.se>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Mar 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> On Wed, Mar 22, 2023 at 06:46:32PM +0800, Pin-yen Lin wrote:
->> +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
->
-> Ah, maybe this should use IS_REACHABLE() ?
+On Wed, Mar 22, 2023 at 08:52:56AM -0600, Jeffrey Hugo wrote:
+> On 3/22/2023 3:19 AM, Stanislaw Gruszka wrote:
+> > VPU cpu clock frequency depends on the workpoint configuration
+> > that was granted by the punit. Previously driver was passing
+> > incorrect frequency to the VPU firmware.
+> 
+> This looks like past tense.  I believe the preference is to use the present
+> tense for commit text.  Something like "the driver calculates the wrong
+> frequency because it ignores the workpoint config and this causes X.  Fix
+> this by using the workpoint config in the freq calculations".
 
-Personally, I think IS_REACHABLE() is a build-time band-aid solution to
-a problem that should be solved in Kconfig. :p
+Will do.
 
-I think it always means there's a configuration combo that shouldn't
-exist, and it's a surprise to the user when they've configured
-something, Kconfig has deemed it a valid configuration, but they don't
-get the feature they want.
+> Should this have a fixes tag?  Sounds like this addresses a bug.
 
-As a user, how would they even debug that case? Double check configs,
-don't see anything wrong.
+Not sure how this is done, but seems all my previous patches for ivpu
+have Fixes tag in commit message, even if I did not post the tag in
+the patches. Seems to be a feature of drm git tooling and can be
+easily done by committer ?
 
+Regards
+Stanislaw
 
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
