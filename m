@@ -2,49 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168E76C4AF1
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 13:45:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5697B6C4D0F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7704B10E925;
-	Wed, 22 Mar 2023 12:44:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56B2610E94F;
+	Wed, 22 Mar 2023 14:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09D5410E934
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 12:44:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 507C0620A6;
- Wed, 22 Mar 2023 12:44:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2730AC433D2;
- Wed, 22 Mar 2023 12:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679489093;
- bh=cYht+F6XkhcFtC9v6SKL72id95a8krZJbrH6VmzeT4Q=;
- h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
- b=WONpPLt9AmcBhHrRzuN0Qnbyrl+ANDZBJK9VwQ+ZPTMFUOb7DtKCXUj1nGbyIhwl6
- C85TEyMv3uRNjotWlL/CmGroxtM9UAiFltY/EtQ3hKYPEz3SWc0vxnVaKGlgnOvuEu
- dSVK/zjKyMPpx1roUkDIqvSmxuJALfSbW/c0U5B52Aq9fuvqb96lNkjryPXvfQWx3R
- icYhHDJRJQLuyzYk60vhv9U9WYW+wN70A8U2V19lBUxDy5PWEKCVJYB+/a93CTy64B
- 33gtmFtpskmrNeO9u/LTa7/LW6PNCrvVqFTID7hNXzIaa7c8g1JsfKapGmmT7TXoVX
- 9T4Dm0UcjZXoA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: Linux 6.3-rc3
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
- <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
- <20230320185337.GA615556@dev-arch.thelio-3990X>
-Date: Wed, 22 Mar 2023 14:44:47 +0200
-In-Reply-To: <20230320185337.GA615556@dev-arch.thelio-3990X> (Nathan
- Chancellor's message of "Mon, 20 Mar 2023 11:53:37 -0700")
-Message-ID: <87pm91uf9c.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+X-Greylist: delayed 311 seconds by postgrey-1.36 at gabe;
+ Wed, 22 Mar 2023 14:08:30 UTC
+Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D58D10E94F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:08:30 +0000 (UTC)
+Received: from francesco-nb.toradex.int (31-10-206-125.static.upc.ch
+ [31.10.206.125])
+ by mail11.truemail.it (Postfix) with ESMTPA id B465C2095C;
+ Wed, 22 Mar 2023 15:03:14 +0100 (CET)
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Adrien Grassein <adrien.grassein@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v1] drm/bridge: lt8912b: return EPROBE_DEFER if bridge is not
+ found
+Date: Wed, 22 Mar 2023 15:03:09 +0100
+Message-Id: <20230322140309.95936-1-francesco@dolcini.it>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,52 +45,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, llvm@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-toolchains@vger.kernel.org
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Matheus Castello <matheus.castello@toradex.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nathan Chancellor <nathan@kernel.org> writes:
+From: Matheus Castello <matheus.castello@toradex.com>
 
-> On Mon, Mar 20, 2023 at 11:26:17AM -0700, Linus Torvalds wrote:
->> On Mon, Mar 20, 2023 at 11:05=E2=80=AFAM Nathan Chancellor <nathan@kerne=
-l.org> wrote:
->> >
->> > On the clang front, I am still seeing the following warning turned err=
-or
->> > for arm64 allmodconfig at least:
->> >
->> >   drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is unin=
-itialized when used here [-Werror,-Wuninitialized]
->> >           if (syncpt_irq < 0)
->> >               ^~~~~~~~~~
->>=20
->> Hmm. I do my arm64 allmodconfig builds with gcc, and I'm surprised
->> that gcc doesn't warn about this.
->
-> Perhaps these would make doing allmodconfig builds with clang more
-> frequently less painful for you?
->
-> https://lore.kernel.org/llvm/20230319235619.GA18547@dev-arch.thelio-3990X/
+Returns EPROBE_DEFER when of_drm_find_bridge() fails, this is consistent
+with what all the other DRM bridge drivers are doing and this is
+required since the bridge might not be there when the driver is probed
+and this should not be a fatal failure.
 
-Thank you, at least for me this is really helpful. I tried now clang for
-the first time but seeing a strange problem.
+Cc: <stable@vger.kernel.org>
+Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
+Signed-off-by: Matheus Castello <matheus.castello@toradex.com>
+Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+---
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I prefer to define the compiler in GNUmakefile so it's easy to change
-compilers and I don't need to remember the exact command line. So I have
-this in the top level GNUmakefile (all the rest commented out):
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index 2019a8167d69..fec02e47cfdb 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -676,8 +676,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 
+ 	lt->hdmi_port = of_drm_find_bridge(port_node);
+ 	if (!lt->hdmi_port) {
+-		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
+-		ret = -ENODEV;
++		dev_dbg(lt->dev, "%s: Failed to get hdmi port\n", __func__);
++		ret = -EPROBE_DEFER;
+ 		goto err_free_host_node;
+ 	}
+ 
+-- 
+2.25.1
 
-LLVM=3D/opt/clang/llvm-16.0.0/bin/
-
-If I run 'make oldconfig' it seems to use clang but after I run just
-'make' it seems to switch back to the host GCC compiler and ask for GCC
-specific config questions again. Workaround for this seems to be adding
-'export LLVM' to GNUmakefile, after that also 'make' uses clang as
-expected.
-
---=20
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
-hes
