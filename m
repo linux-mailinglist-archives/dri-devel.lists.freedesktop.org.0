@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A206C54C7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 20:20:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1BC6C5515
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 20:39:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA0610E02D;
-	Wed, 22 Mar 2023 19:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F27B10E05A;
+	Wed, 22 Mar 2023 19:39:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA47710E02D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 19:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679512795; x=1711048795;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Pg5NNlS4ad+LRq/5c7S6MbLvj8O8FQnKakg+GtVdxl4=;
- b=iFzLDD8BAMF83HMb1g/3T+Ox6IMzgJ4QX0uchiTDUZIg0qyJvZ2lkt8L
- 4/LSEZXB/cqfif/+6WAiqxA17RACEhKvn3QTEidYJHKnMF42bDcPAv6TR
- wLl8qPBHwOgiy93BpZ+r4F1kiXqbjuhHJWEn6u7V1MZhSBYN0Y/JsRyy6
- EwoUv8F0xP28dK+XbX613tqgAzxB60/2LmWG2NS2z4VZ7MOkRIFgKU7kH
- 8XJKVgSt4nMkW1f5ioY5NVL0P2oLdII0CEAZH6cQAjtn/dhLb9kAmXEwC
- cdkxc6CwTWSXWYoDhrrrb3KC3VJ/2kY0c1DjBoeK/fOOnmLcaNXDx+ii2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336822233"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="336822233"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 12:19:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="805969540"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="805969540"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 12:19:52 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pf3zz-000Dc0-1l;
- Wed, 22 Mar 2023 19:19:51 +0000
-Date: Thu, 23 Mar 2023 03:19:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hsia-Jun Li <randy.li@synaptics.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats
- documentation
-Message-ID: <202303230311.mRoFe6oK-lkp@intel.com>
-References: <20230322082910.115371-3-randy.li@synaptics.com>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE77310E05A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 19:39:29 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4Phf1Y1M4MzDqhj;
+ Wed, 22 Mar 2023 19:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1679513969; bh=Wt53/IfqB0wUrGjGMOZ3JoXoaziZLPo3wiBHVnpC9P0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lQjExKCVlDT3U+QBegHR41XjVFnVgHtdt815ciN6hmFUZMmMKqvHbKMnf7koQtwfA
+ SrsNB8Jy9CZ8tQvXE4jsjcqT+mlGERdaEoDU6rvEWFfDEPwR1s/bbKVcHWZR8lshiv
+ uMl7GXrRr8zO4hKnDx50ErQ98BrvD/4hFeeZP1P8=
+X-Riseup-User-ID: E7809F4BD3F07D8B9E0CF812E82FB46E9862AD90E3570591412A8B4CEBA4EE8B
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4Phf1S5vzJz20SJ;
+ Wed, 22 Mar 2023 19:39:24 +0000 (UTC)
+Message-ID: <64ca1b2a-8a21-2a3e-bea8-f40ae9383194@riseup.net>
+Date: Wed, 22 Mar 2023 16:39:21 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230322082910.115371-3-randy.li@synaptics.com>
+Subject: Re: [PATCH 1/5] drm/tests: Test drm_rect_intersect()
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20230322140701.69852-1-arthurgrillo@riseup.net>
+ <20230322140701.69852-2-arthurgrillo@riseup.net> <ZBsQLEdrJYnNUDPo@intel.com>
+From: Arthur Grillo Queiroz Cabral <arthurgrillo@riseup.net>
+In-Reply-To: <ZBsQLEdrJYnNUDPo@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,73 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ribalda@chromium.org, ayaka@soulik.info, linux-kernel@vger.kernel.org,
- tfiga@chromium.org, Hsia-Jun Li <randy.li@synaptics.com>,
- laurent.pinchart@ideasonboard.com, tzimmermann@suse.de,
- oe-kbuild-all@lists.linux.dev, nicolas@ndufresne.ca
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
+ maxime@cerno.tech, andrealmeid@riseup.net, airled@gmail.com,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Hsia-Jun,
 
-Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc3 next-20230322]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 22/03/23 11:26, Ville Syrjälä wrote:
+> On Wed, Mar 22, 2023 at 11:06:57AM -0300, Arthur Grillo wrote:
+>> Insert test for the drm_rect_intersect() function, it also create a
+>> helper for comparing drm_rects more easily.
+>>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>>  drivers/gpu/drm/tests/drm_rect_test.c | 30 +++++++++++++++++++++++++++
+>>  1 file changed, 30 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
+>> index e9809ea32696..f700984f70a8 100644
+>> --- a/drivers/gpu/drm/tests/drm_rect_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
+>> @@ -9,6 +9,15 @@
+>>  
+>>  #include <drm/drm_rect.h>
+>>  
+>> +static void drm_rect_compare(struct kunit *test, const struct drm_rect *r,
+>> +			     const struct drm_rect *expected)
+>> +{
+>> +	KUNIT_EXPECT_EQ(test, r->x1, expected->x1);
+>> +	KUNIT_EXPECT_EQ(test, r->y1, expected->y1);
+>> +	KUNIT_EXPECT_EQ(test, drm_rect_width(r), drm_rect_width(expected));
+>> +	KUNIT_EXPECT_EQ(test, drm_rect_height(r), drm_rect_height(expected));
+>> +}
+> 
+> We already have a drm_rect_equals().
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hsia-Jun-Li/drm-fourcc-Add-Synaptics-VideoSmart-tiled-modifiers/20230322-163252
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230322082910.115371-3-randy.li%40synaptics.com
-patch subject: [PATCH v6 2/2] Documentation/gpu: Add Synaptics tiling formats documentation
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/51642395567738204b07b9c48e27d4a5298f1ca9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hsia-Jun-Li/drm-fourcc-Add-Synaptics-VideoSmart-tiled-modifiers/20230322-163252
-        git checkout 51642395567738204b07b9c48e27d4a5298f1ca9
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+I knew about drm_rect_equals(), but it only returns a boolean value, I
+thought that it would be better to test each attribute independently
+to find errors easily in the tested functions.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303230311.mRoFe6oK-lkp@intel.com/
+>> +
+>>  static void drm_test_rect_clip_scaled_div_by_zero(struct kunit *test)
+>>  {
+>>  	struct drm_rect src, dst, clip;
+>> @@ -196,11 +205,32 @@ static void drm_test_rect_clip_scaled_signed_vs_unsigned(struct kunit *test)
+>>  	KUNIT_EXPECT_FALSE_MSG(test, drm_rect_visible(&src), "Source should not be visible\n");
+>>  }
+>>  
+>> +static void drm_test_rect_intersect(struct kunit *test)
+>> +{
+>> +	struct drm_rect r1, r2;
+>> +	bool visible;
+>> +
+>> +	drm_rect_init(&r1, 0, 0, 2, 2);
+>> +	drm_rect_init(&r2, 1, 1, 2, 2);
+>> +
+>> +	visible = drm_rect_intersect(&r1, &r2);
+>> +
+>> +	KUNIT_EXPECT_TRUE_MSG(test, visible, "Interserction should be a visible rect");
+>> +	drm_rect_compare(test, &r1, &DRM_RECT_INIT(1, 1, 1, 1));
+>> +
+>> +	drm_rect_init(&r1, 0, 0, 1, 1);
+>> +
+> 
+> I would re-init r2 here too to make it easier to see what we're
+> actually testing.
 
-All warnings (new ones prefixed by >>):
+Great idea.
 
->> Documentation/gpu/synaptics.rst:47: WARNING: Bullet list ends without a blank line; unexpected unindent.
->> Documentation/gpu/synaptics.rst:60: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/gpu/synaptics.rst:38: WARNING: Error parsing content block for the "flat-table" directive: exactly one bullet list expected.
+> 
+> I would probably test a few more variations of the overlap between
+> the rectangles, eg: equal rectangles, one smaller one fully inside
+> the bigger one, overlaps across different edges/corners.
+> 
 
-vim +47 Documentation/gpu/synaptics.rst
+Okay, I will make more tests for this function.
 
-    37	
-  > 38	.. flat-table:: Synpatics Image Format Modifiers
-    39	
-    40		* - Identifier
-    41		  - Fourcc
-    42		  - Details
-    43	
-    44		* - DRM_FORMAT_MOD_SYNA_V4H1
-    45		  - DRM_FORMAT_NV12
-    46		  - The plain uncompressed 8 bits tile format. It sounds similar to
-  > 47		Intel's Y-tile. but it won't take any pixel from the next X direction
-    48		in a tile group. The line stride and image height must be aligned to
-    49		a multiple of 16. The height of chrominance plane would plus 8.
-    50	
-    51		* - DRM_FORMAT_MOD_SYNA_V4H3P8
-    52		  - DRM_FORMAT_NV15
-    53		  - The plain uncompressed 10 bits tile format. It stores pixel in 2D
-    54		3x4 tiles with a 8bits padding to each of tile. Then a tile is in a
-    55		128 bits cache line.
-    56	
-    57		* - DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED
-    58		  - DRM_FORMAT_NV12
-    59		  - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
-  > 60	    A group of tiles would contain 64x4 pixels, where a tile has 1x4
+>> +	visible = drm_rect_intersect(&r1, &r2);
+>> +
+>> +	KUNIT_EXPECT_FALSE_MSG(test, visible, "Interserction should not be a visible rect");
+>> +}
+>> +
+>>  static struct kunit_case drm_rect_tests[] = {
+>>  	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
+>>  	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
+>>  	KUNIT_CASE(drm_test_rect_clip_scaled_clipped),
+>>  	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
+>> +	KUNIT_CASE(drm_test_rect_intersect),
+>>  	{ }
+>>  };
+>>  
+>> -- 
+>> 2.39.2
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thank you for your review!
+
+Regards,
+~Arthur Grillo
