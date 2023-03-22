@@ -1,73 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40106C515A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 17:56:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA5F26C51AE
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 18:03:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B143310E3C2;
-	Wed, 22 Mar 2023 16:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB7510E9B0;
+	Wed, 22 Mar 2023 17:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5E9610E3C2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 16:56:18 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id o12so75625561edb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 09:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1679504177;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ObydWNcsN+yJjQR232+qhKPgXiEW95d36vBjFwkTd3w=;
- b=IoYIuv0c74xAIGn1TWP8KV8wy2ZYjqP4mF3RLvlNIIbOTqOjdOkmYyjwsZnaGRbg4A
- m19AquLYmi1k8VkbzLpHZBZ+ljhlWVTj0tZD2HlmTsvzdLy5BM1XHLNfxXqEzmPYOrDR
- eOSJCYmb9Pun6t3MCm3bnoGxKDwy8dLuPyrOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679504177;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ObydWNcsN+yJjQR232+qhKPgXiEW95d36vBjFwkTd3w=;
- b=DbvAWTgB7E2Wj9Ioq9nsUeg76sZTBpz+ls5BG6rr/BYkdiWqlpfXYzH/5Oh7ALfXQd
- 3k1S9YOnhe/ptkIuMQfg2Wn2yuGzkpNUXcWEwXsKqOP2yNJFGAaeHCnOZJU/Cm0Ds2M1
- jZBqGBaM9jDaLALRWInSXzn+hRTghtTo3wkIPxpD3vzxnyHK1+4voUp17ganfB3yHmH7
- Xyy0bNX2y3UaL6cKoBenvIYiC8ljVtSf+Z1pL2iCZaaLHt0oybnAc7YQFoWGhkSYYery
- EvzTUBXt4CYuWnkZ7R7miF6p4t+sCwGOMMzIwyTkey6cBgBzlyr1+qZjsObu95nXSVk4
- n0Ew==
-X-Gm-Message-State: AO0yUKWIKRYzbp+3vDOc+IL0jlcP2oDIgiJtoBKtVNi7oQu6HfKw3ESt
- giv0/wNV+KkOkZhEl3MNPFRTmE7RQ+OKdCNGGadaJxsH
-X-Google-Smtp-Source: AK7set9Dc7KSTB/KHXiDbyPQwjDDQG0EbP7oeANZ5koUqnnmoPFBpXhx6co8tVyU1n310hZhLSoD9g==
-X-Received: by 2002:a17:906:46d0:b0:933:3a65:67ed with SMTP id
- k16-20020a17090646d000b009333a6567edmr8854474ejs.75.1679504176902; 
- Wed, 22 Mar 2023 09:56:16 -0700 (PDT)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com.
- [209.85.208.52]) by smtp.gmail.com with ESMTPSA id
- g1-20020a1709061c8100b0092669fb4ba1sm7443455ejh.130.2023.03.22.09.56.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Mar 2023 09:56:16 -0700 (PDT)
-Received: by mail-ed1-f52.google.com with SMTP id cy23so75539199edb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 09:56:15 -0700 (PDT)
-X-Received: by 2002:a17:906:6d6:b0:933:f6e8:26d9 with SMTP id
- v22-20020a17090606d600b00933f6e826d9mr3542731ejb.15.1679504175429; Wed, 22
- Mar 2023 09:56:15 -0700 (PDT)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEA8710E3E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 17:02:33 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pf1r2-0000PK-2P; Wed, 22 Mar 2023 18:02:28 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pf1r0-005xjl-GO; Wed, 22 Mar 2023 18:02:26 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1pf1qz-0075pK-OE; Wed, 22 Mar 2023 18:02:25 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 00/12] drm/tegra: Convert to platform remove callback
+ returning void
+Date: Wed, 22 Mar 2023 18:02:11 +0100
+Message-Id: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
- <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
- <20230320185337.GA615556@dev-arch.thelio-3990X> <87pm91uf9c.fsf@kernel.org>
- <CA+icZUUYyqhV2HFzVtpi_KjBoYxjk7OB0UBVd2mX6abjmYhDjg@mail.gmail.com>
-In-Reply-To: <CA+icZUUYyqhV2HFzVtpi_KjBoYxjk7OB0UBVd2mX6abjmYhDjg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 22 Mar 2023 09:55:57 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whdrvCkSWh=BRrwZwNo3=yLBXXM88NGx8VEpP1VTgmkyQ@mail.gmail.com>
-Message-ID: <CAHk-=whdrvCkSWh=BRrwZwNo3=yLBXXM88NGx8VEpP1VTgmkyQ@mail.gmail.com>
-Subject: Re: Linux 6.3-rc3
-To: sedat.dilek@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2732;
+ i=u.kleine-koenig@pengutronix.de; h=from:subject;
+ bh=3rpjn0c4WSYGYyS5/RVkmvwXpGdpb7uRSmd+Uf8Qnuw=;
+ b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkGzSNKtUtqhr1oZPwBWhA+JAHg0J0xGc6e+tkg
+ x3bfFW9Uz+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBs0jQAKCRCPgPtYfRL+
+ TqfzB/4/IANKSWB2KQ4zILj/AcceJ/FejtlG9MZOl1ru5nAcYKhknZGa0eUiSTgwEvfZ4WI+NYr
+ ZqcfIAlJ4wmpoY853WXtSvrSGhWEUeEcCtMD183oxwIjcWNWhZ4tVPpomGbD4DW7DeI2uUwAB2e
+ oCyD1/usx5pYMB5uQL+mo3G5PcKfeDR6XwVkUm1mUz/6lIVlmqnEs9HZvD/5ZC/PYECy2dGzP1n
+ pjGYTMwEWVgCNocM7PIfq0E4ZNL0NmZCzCQ+arhDlszrTIPw6Eg78BLkh5NA1OU/yPpbSOf8A9s
+ ykSV2508c/D4OOQQRW4cDZEd8OHkmFrS4ewJNpo+M+kOHU4a
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,54 +69,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-toolchains@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
- llvm@lists.linux.dev, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>
+Cc: linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+ kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 9:40=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.com>=
- wrote:
->
-> You have to pass `make LLVM=3D1` in any case... to `oldconfig` or when
-> adding any MAKEFLAGS like -j${number-of-available-cpus}.
+Hello,
 
-I actually think we should look (again) at just making the compiler
-choice (and the prefix) be a Kconfig option.
+this series adapts the platform drivers below drivers/gpu/drm/tegra to
+use the .remove_new() callback. Compared to the traditional .remove()
+callback .remove_new() returns no value. This is a good thing because
+the driver core doesn't (and cannot) cope for errors during remove. The
+only effect of a non-zero return value in .remove() is that the driver
+core emits a warning. The device is removed anyhow and an early return
+from .remove() usually yields a resource leak.
 
-That would simplify *so* many use cases.
+By changing the remove callback to return void driver authors cannot
+reasonably assume any more that there is some kind of cleanup later.
 
-It used to be that gcc was "THE compiler" and anything else was just
-an odd toy special case, but that's clearly not true any more.
+The first two patches are simplifications that make it obvious that all
+remove callbacks always return zero. After that all drivers can be
+converted trivially.
 
-So it would be lovely to make the kernel choice a Kconfig choice - so
-you'd set it only at config time, and then after that a kernel build
-wouldn't need special flags any more, and you'd never need to play
-games with GNUmakefile or anything like that.
+Best regards
+Uwe
 
-Yes, you'd still use environment variables (or make arguments) for
-that initial Kconfig, but that's no different from the other
-environment variables we already have, like KCONFIG_SEED that kconfig
-uses internally, but also things like "$(ARCH)" that we already use
-*inside* the Kconfig files themselves.
+Uwe Kleine-König (12):
+  gpu: host1x: Make host1x_client_unregister() return void
+  drm/tegra: rgb: Make tegra_dc_rgb_remove() return void
+  drm/tegra: dc: Convert to platform remove callback returning void
+  drm/tegra: dpaux: Convert to platform remove callback returning void
+  drm/tegra: dsi: Convert to platform remove callback returning void
+  drm/tegra: gr2d: Convert to platform remove callback returning void
+  drm/tegra: gr3d: Convert to platform remove callback returning void
+  drm/tegra: hdmi: Convert to platform remove callback returning void
+  drm/tegra: hub: Convert to platform remove callback returning void
+  drm/tegra: nvdec: Convert to platform remove callback returning void
+  drm/tegra: sor: Convert to platform remove callback returning void
+  drm/tegra: vic: Convert to platform remove callback returning void
 
-I really dislike how you have to set ARCH and CROSS_COMPILE etc
-externally, and can't just have them *in* the config file.
+ drivers/gpu/drm/tegra/dc.c              | 20 ++++----------------
+ drivers/gpu/drm/tegra/dc.h              |  2 +-
+ drivers/gpu/drm/tegra/dpaux.c           |  6 ++----
+ drivers/gpu/drm/tegra/dsi.c             | 14 +++-----------
+ drivers/gpu/drm/tegra/gr2d.c            | 14 +++-----------
+ drivers/gpu/drm/tegra/gr3d.c            | 14 +++-----------
+ drivers/gpu/drm/tegra/hdmi.c            | 14 +++-----------
+ drivers/gpu/drm/tegra/hub.c             | 13 +++----------
+ drivers/gpu/drm/tegra/nvdec.c           | 14 +++-----------
+ drivers/gpu/drm/tegra/rgb.c             |  6 ++----
+ drivers/gpu/drm/tegra/sor.c             | 14 +++-----------
+ drivers/gpu/drm/tegra/vic.c             | 14 +++-----------
+ drivers/gpu/host1x/bus.c                |  6 ++----
+ drivers/staging/media/tegra-video/csi.c |  8 +-------
+ drivers/staging/media/tegra-video/vi.c  |  8 +-------
+ include/linux/host1x.h                  |  2 +-
+ 16 files changed, 38 insertions(+), 131 deletions(-)
 
-So when you do cross-compiles, right now you have to do something like
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+-- 
+2.39.2
 
-    make ARCH=3Di386 allmodconfig
-
-to build the .config file, but then you have to *repeat* that
-ARCH=3Di386 when you actually build things:
-
-    make ARCH=3Di386
-
-because the ARCH choice ends up being in the .config file, but the
-makefiles themselves always take it from the environment.
-
-There are good historical reasons for our behavior (and probably a
-number of extant practical reasons too), but it's a bit annoying, and
-it would be lovely if we could start moving away from this model.
-
-            Linus
