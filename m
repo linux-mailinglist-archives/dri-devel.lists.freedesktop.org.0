@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173226C4E12
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB9B6C4E8F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9171E10E976;
-	Wed, 22 Mar 2023 14:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B5110E3B6;
+	Wed, 22 Mar 2023 14:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3305B10E97F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:42:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679496137; x=1711032137;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=4dNwE5FJr+nWoKSv7RD6J1C8VOtw+7FZ0Yaooy1wXCU=;
- b=Lj8V2d4Ldp8auhXeHLX+V1UEAVMjc283scQMbTT6jFCySplDIvaR/UCL
- E6otq21B0OT+PAxgwDxHyYhTlGsWolbxi8TwAtcsV3OksTo5s6FPYWZFj
- ojiyrGl51JcdHPUjcWSX3OTf7HG9cCthmLT4dcOuFCT69Z16sxqGtN5p5
- KEtXqMQjXVrMYBtczBHgFnrjYd7fEOst2ZenxIyOen0We0KcwelFCR/pR
- L1vJsX/0ePKkp4Lwfu/VDaQ/kGEXVDrFiiY8PfnYqSGwxcZULs03Z/thg
- ynlnVKmSJuhuTvCqXo2O10/UBWJV0psPBTvmj6xEEiIgB1Q3FjeKIe/SS Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="318875108"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="318875108"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 07:42:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="825424479"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="825424479"
-Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.22.233])
- ([10.213.22.233])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 07:42:13 -0700
-Message-ID: <4211eac2-5310-e343-2d3a-ccea908e9262@intel.com>
-Date: Wed, 22 Mar 2023 15:42:12 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 726ED10E3B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:53:03 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32M42ex6012818; Wed, 22 Mar 2023 14:52:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Zj0Gep2DetO+00WU7tBLxt9MtXNcBtJScW83tS5zQa0=;
+ b=RULIDduSw58WQIpwl9ThuthyiAoJL55x1iD1dfjfzzl+WJoGRpq650myqbrIUA4mO655
+ NZYKs61GRuiXbMtfdKQkMqmEAh8aKX31ONR2YZcc0TD69moVIs67/DF4LeqLNjQJVVKV
+ YuULZNts11xGTsbc3l/kS14iu4AuGfXFvPk172xRQgHosg3sRCQ/rm4BI0W4LsZ4umuB
+ NpxpapsD/uMfYWudhs28vrVSZ/CHxdJAJxH0yMN0G7Hzz7N6AMPCdmaJhgAyd5qMGv7j
+ 6LZUz4IF2cfGm7T7qY7jS44Bs19gIDUT0zrLSncsfr3IuiScpFiVPmrp/+RLBcysCIXd Ig== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfrk0sp6u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 14:52:58 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32MEqvO7032745
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 14:52:57 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Mar
+ 2023 07:52:56 -0700
+Message-ID: <56d8982a-6d86-19d2-74ca-efede0414af7@quicinc.com>
+Date: Wed, 22 Mar 2023 08:52:56 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [PATCH v2] drm/bridge: lt8912b: return EPROBE_DEFER if bridge is
- not found
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 7/7] accel/ivpu: Fix VPU clock calculation
 Content-Language: en-US
-To: Francesco Dolcini <francesco@dolcini.it>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20230322143821.109744-1-francesco@dolcini.it>
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230322143821.109744-1-francesco@dolcini.it>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
+ <20230322091900.1982453-8-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230322091900.1982453-8-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: rPp_mW1a-QaiqcWqtj_yWj-F9qK-j0yx
+X-Proofpoint-ORIG-GUID: rPp_mW1a-QaiqcWqtj_yWj-F9qK-j0yx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_11,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303220106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,51 +84,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
- Matheus Castello <matheus.castello@toradex.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 3/22/2023 3:19 AM, Stanislaw Gruszka wrote:
+> VPU cpu clock frequency depends on the workpoint configuration
+> that was granted by the punit. Previously driver was passing
+> incorrect frequency to the VPU firmware.
 
+This looks like past tense.  I believe the preference is to use the 
+present tense for commit text.  Something like "the driver calculates 
+the wrong frequency because it ignores the workpoint config and this 
+causes X.  Fix this by using the workpoint config in the freq calculations".
 
-On 22.03.2023 15:38, Francesco Dolcini wrote:
-> From: Matheus Castello <matheus.castello@toradex.com>
->
-> Returns EPROBE_DEFER when of_drm_find_bridge() fails, this is consistent
-> with what all the other DRM bridge drivers are doing and this is
-> required since the bridge might not be there when the driver is probed
-> and this should not be a fatal failure.
->
-> Cc: <stable@vger.kernel.org>
-> Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
-> Signed-off-by: Matheus Castello <matheus.castello@toradex.com>
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Should this have a fixes tag?  Sounds like this addresses a bug.
 
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
-
-Regards
-Andrzej
-
+> Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 > ---
-> v2: use dev_err_probe() instead of dev_dbg() (Laurent)
-> ---
->   drivers/gpu/drm/bridge/lontium-lt8912b.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> index 2019a8167d69..b40baced1331 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> @@ -676,8 +676,8 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+>   drivers/accel/ivpu/ivpu_hw_mtl.c | 16 ++++++++++++++--
+>   1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
+> index 98c8a4aa25f0..382ec127be8e 100644
+> --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
+> +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
+> @@ -29,7 +29,6 @@
 >   
->   	lt->hdmi_port = of_drm_find_bridge(port_node);
->   	if (!lt->hdmi_port) {
-> -		dev_err(lt->dev, "%s: Failed to get hdmi port\n", __func__);
-> -		ret = -ENODEV;
-> +		ret = -EPROBE_DEFER;
-> +		dev_err_probe(lt->dev, ret, "%s: Failed to get hdmi port\n", __func__);
->   		goto err_free_host_node;
->   	}
+>   #define PLL_REF_CLK_FREQ	     (50 * 1000000)
+>   #define PLL_SIMULATION_FREQ	     (10 * 1000000)
+> -#define PLL_RATIO_TO_FREQ(x)	     ((x) * PLL_REF_CLK_FREQ)
+>   #define PLL_DEFAULT_EPP_VALUE	     0x80
 >   
+>   #define TIM_SAFE_ENABLE		     0xf1d0dead
+> @@ -789,6 +788,19 @@ static void ivpu_hw_mtl_wdt_disable(struct ivpu_device *vdev)
+>   	REGV_WR32(MTL_VPU_CPU_SS_TIM_GEN_CONFIG, val);
+>   }
+>   
+> +static u32 ivpu_hw_mtl_pll_to_freq(u32 ratio, u32 config)
+> +{
+> +	u32 pll_clock = PLL_REF_CLK_FREQ * ratio;
+> +	u32 cpu_clock;
+> +
+> +	if ((config & 0xff) == PLL_RATIO_4_3)
+> +		cpu_clock = pll_clock * 2 / 4;
+> +	else
+> +		cpu_clock = pll_clock * 2 / 5;
+> +
+> +	return cpu_clock;
+> +}
+> +
+>   /* Register indirect accesses */
+>   static u32 ivpu_hw_mtl_reg_pll_freq_get(struct ivpu_device *vdev)
+>   {
+> @@ -800,7 +812,7 @@ static u32 ivpu_hw_mtl_reg_pll_freq_get(struct ivpu_device *vdev)
+>   	if (!ivpu_is_silicon(vdev))
+>   		return PLL_SIMULATION_FREQ;
+>   
+> -	return PLL_RATIO_TO_FREQ(pll_curr_ratio);
+> +	return ivpu_hw_mtl_pll_to_freq(pll_curr_ratio, vdev->hw->config);
+>   }
+>   
+>   static u32 ivpu_hw_mtl_reg_telemetry_offset_get(struct ivpu_device *vdev)
 
