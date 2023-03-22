@@ -1,42 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2AD6C55D0
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 21:01:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DFA6C55D4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 21:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA09310E9FD;
-	Wed, 22 Mar 2023 20:01:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CA810E9FF;
+	Wed, 22 Mar 2023 20:01:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B9C10E9F7;
- Wed, 22 Mar 2023 20:01:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C915910E9F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 20:01:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 98ED4B81DE5;
- Wed, 22 Mar 2023 20:01:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27F9EC4339B;
- Wed, 22 Mar 2023 20:01:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 4EDE3622B3;
+ Wed, 22 Mar 2023 20:01:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6454C433A1;
+ Wed, 22 Mar 2023 20:01:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679515266;
- bh=V9f23WxeNQlrK7fZEVquO+gAzb4iRSIuZZBjY4E2Jt0=;
+ s=k20201202; t=1679515269;
+ bh=ptpGmAS8u/6+zxN4lYnWnUq3KGp2DFwMEbw0d+MA0lc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=b+JHUlJjA9v3Lq3CfmLgLdcOrrl+NdhP+ggNus9lMNx+cnA/ZM0GKHEoctJXldLfX
- 58hhAzEaVCLTbqX/1q7E1gjuoRVNlc3BBQW0smFQLpOiDINLNJlVHPDstHX7X+ptVX
- D8zcHCF/m3JK4pdEcjPhgTy3OqBUyMxu3OdUQ9mGKf989sNLtx98dUdDr/DqZT3nly
- FQ7rgiKGNvfNfs70kakmpdvEkJg4eIftTsigazJX2XBVhp/psouq4v9zNynCvzFYCY
- Jr9iHmYA9Nt8a0nMQwxXzh0udizDRWyavI+zgvgBH4+0K0L9BKGUGtIN0jFcaFsv5R
- Hlz19fdBHLbzg==
+ b=GFeP3j8HaSD1bCvFBfHrLvAfNnMD9PXLZ2GvruQeuybfDNcjjdmRnL/M0/t/4R0Z3
+ glvjiQ4L/3IHMtDSgUiUwZJp1F5gTh26MH/ekU79lx4K25VQuHOyhLY0NuCXurx+Bv
+ dch8LibTAzP+etj52LOsdbNTApeOk70M0xNrqPgjUlU3m/T+U6gDBa5v9OD9dEyczD
+ PIQoRe/70573zZXhbiMY5vdc+H4LS6l1aB7QIhgkOCezbYbZmz5YXCOriMBw79wvkX
+ crN2+BNamHhCBVpTkcvSvgdJA+Fe3+ELOtTN5SMxWOfozasRHDcBXy5tNpTxiryrMH
+ UffSBsXfhR1bw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 26/34] drm/amdkfd: Fixed kfd_process cleanup on
- module exit.
-Date: Wed, 22 Mar 2023 15:59:18 -0400
-Message-Id: <20230322195926.1996699-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 28/34] fbdev: nvidia: Fix potential divide by zero
+Date: Wed, 22 Mar 2023 15:59:20 -0400
+Message-Id: <20230322195926.1996699-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230322195926.1996699-1-sashal@kernel.org>
 References: <20230322195926.1996699-1-sashal@kernel.org>
@@ -56,156 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Xinhui.Pan@amd.com,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- David Belanger <david.belanger@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ adaplas@gmail.com, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, Wei Chen <harperchen1110@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Belanger <david.belanger@amd.com>
+From: Wei Chen <harperchen1110@gmail.com>
 
-[ Upstream commit 20bc9f76b6a2455c6b54b91ae7634f147f64987f ]
+[ Upstream commit 92e2a00f2987483e1f9253625828622edd442e61 ]
 
-Handle case when module is unloaded (kfd_exit) before a process space
-(mm_struct) is released.
+variable var->pixclock can be set by user. In case it
+equals to zero, divide by zero would occur in nvidiafb_set_par.
 
-v2: Fixed potential race conditions by removing all kfd_process from
-the process table first, then working on releasing the resources.
+Similar crashes have happened in other fbdev drivers. There
+is no check and modification on var->pixclock along the call
+chain to nvidia_check_var and nvidiafb_set_par. We believe it
+could also be triggered in driver nvidia from user site.
 
-v3: Fixed loop element access / synchronization.  Fixed extra empty lines.
-
-Signed-off-by: David Belanger <david.belanger@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_module.c  |  1 +
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h    |  1 +
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 67 +++++++++++++++++++++---
- 3 files changed, 62 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/nvidia/nvidia.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_module.c b/drivers/gpu/drm/amd/amdkfd/kfd_module.c
-index 09b966dc37681..aee2212e52f69 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_module.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_module.c
-@@ -77,6 +77,7 @@ static int kfd_init(void)
+diff --git a/drivers/video/fbdev/nvidia/nvidia.c b/drivers/video/fbdev/nvidia/nvidia.c
+index a6c3bc2222463..1b8904824ad83 100644
+--- a/drivers/video/fbdev/nvidia/nvidia.c
++++ b/drivers/video/fbdev/nvidia/nvidia.c
+@@ -764,6 +764,8 @@ static int nvidiafb_check_var(struct fb_var_screeninfo *var,
+ 	int pitch, err = 0;
  
- static void kfd_exit(void)
- {
-+	kfd_cleanup_processes();
- 	kfd_debugfs_fini();
- 	kfd_process_destroy_wq();
- 	kfd_procfs_shutdown();
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-index bf610e3b683bb..6d6588b9beed7 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-@@ -928,6 +928,7 @@ bool kfd_dev_is_large_bar(struct kfd_dev *dev);
+ 	NVTRACE_ENTER();
++	if (!var->pixclock)
++		return -EINVAL;
  
- int kfd_process_create_wq(void);
- void kfd_process_destroy_wq(void);
-+void kfd_cleanup_processes(void);
- struct kfd_process *kfd_create_process(struct file *filep);
- struct kfd_process *kfd_get_process(const struct task_struct *task);
- struct kfd_process *kfd_lookup_process_by_pasid(u32 pasid);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index dd351105c1bcf..7f68d51541e8e 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1167,6 +1167,17 @@ static void kfd_process_free_notifier(struct mmu_notifier *mn)
- 	kfd_unref_process(container_of(mn, struct kfd_process, mmu_notifier));
- }
- 
-+static void kfd_process_notifier_release_internal(struct kfd_process *p)
-+{
-+	cancel_delayed_work_sync(&p->eviction_work);
-+	cancel_delayed_work_sync(&p->restore_work);
-+
-+	/* Indicate to other users that MM is no longer valid */
-+	p->mm = NULL;
-+
-+	mmu_notifier_put(&p->mmu_notifier);
-+}
-+
- static void kfd_process_notifier_release(struct mmu_notifier *mn,
- 					struct mm_struct *mm)
- {
-@@ -1181,17 +1192,22 @@ static void kfd_process_notifier_release(struct mmu_notifier *mn,
- 		return;
- 
- 	mutex_lock(&kfd_processes_mutex);
-+	/*
-+	 * Do early return if table is empty.
-+	 *
-+	 * This could potentially happen if this function is called concurrently
-+	 * by mmu_notifier and by kfd_cleanup_pocesses.
-+	 *
-+	 */
-+	if (hash_empty(kfd_processes_table)) {
-+		mutex_unlock(&kfd_processes_mutex);
-+		return;
-+	}
- 	hash_del_rcu(&p->kfd_processes);
- 	mutex_unlock(&kfd_processes_mutex);
- 	synchronize_srcu(&kfd_processes_srcu);
- 
--	cancel_delayed_work_sync(&p->eviction_work);
--	cancel_delayed_work_sync(&p->restore_work);
--
--	/* Indicate to other users that MM is no longer valid */
--	p->mm = NULL;
--
--	mmu_notifier_put(&p->mmu_notifier);
-+	kfd_process_notifier_release_internal(p);
- }
- 
- static const struct mmu_notifier_ops kfd_process_mmu_notifier_ops = {
-@@ -1200,6 +1216,43 @@ static const struct mmu_notifier_ops kfd_process_mmu_notifier_ops = {
- 	.free_notifier = kfd_process_free_notifier,
- };
- 
-+/*
-+ * This code handles the case when driver is being unloaded before all
-+ * mm_struct are released.  We need to safely free the kfd_process and
-+ * avoid race conditions with mmu_notifier that might try to free them.
-+ *
-+ */
-+void kfd_cleanup_processes(void)
-+{
-+	struct kfd_process *p;
-+	struct hlist_node *p_temp;
-+	unsigned int temp;
-+	HLIST_HEAD(cleanup_list);
-+
-+	/*
-+	 * Move all remaining kfd_process from the process table to a
-+	 * temp list for processing.   Once done, callback from mmu_notifier
-+	 * release will not see the kfd_process in the table and do early return,
-+	 * avoiding double free issues.
-+	 */
-+	mutex_lock(&kfd_processes_mutex);
-+	hash_for_each_safe(kfd_processes_table, temp, p_temp, p, kfd_processes) {
-+		hash_del_rcu(&p->kfd_processes);
-+		synchronize_srcu(&kfd_processes_srcu);
-+		hlist_add_head(&p->kfd_processes, &cleanup_list);
-+	}
-+	mutex_unlock(&kfd_processes_mutex);
-+
-+	hlist_for_each_entry_safe(p, p_temp, &cleanup_list, kfd_processes)
-+		kfd_process_notifier_release_internal(p);
-+
-+	/*
-+	 * Ensures that all outstanding free_notifier get called, triggering
-+	 * the release of the kfd_process struct.
-+	 */
-+	mmu_notifier_synchronize();
-+}
-+
- static int kfd_process_init_cwsr_apu(struct kfd_process *p, struct file *filep)
- {
- 	unsigned long  offset;
+ 	var->transp.offset = 0;
+ 	var->transp.length = 0;
 -- 
 2.39.2
 
