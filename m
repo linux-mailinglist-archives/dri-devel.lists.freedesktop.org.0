@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49DA6C4610
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 10:19:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5A16C4612
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 10:19:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18DE10E8D1;
-	Wed, 22 Mar 2023 09:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 324C710E8D4;
+	Wed, 22 Mar 2023 09:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41BC810E8D1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 09:19:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7639010E8D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 09:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679476758; x=1711012758;
+ t=1679476761; x=1711012761;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Lg7qR9X1RzZrTeDs8UyOmf3GpGVGyeVkg35D8BYEB7E=;
- b=NrUBMGJdUoNniavOhzx1yydKIGTA8rMjJetSJ/hWNL4qRE/ixy1MOYA3
- 9G7BqQ+D6l9psE8i2DTv/NIa93+8rfTYj0XNG2amPGHR2ZyeP+28IYSEr
- ZX62xgB3E7VCQR8w/nobywfjM+5uc76RFPLeIQFKurNI6Lo6kvYWs8oyh
- j8W/ZlUdhRAcS5Zc5buSUFIHSBkJz3apg3Qj2wWDziYdE1qGF9LUauzaw
- g8ovBzDQCofMbOAjY4kHfeGCOdWAaCGLdeOvymqeKhr2vkzHtelcXp7BK
- Jcu8jo5hgTA6dKdKD4U5SXga/ucyxSjwpYzAJXKUgMNBl1sdtVIywN32h g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366904272"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="366904272"
+ bh=6RtNGxZ964muzHX34OznnR8wKoX9MmblRrrj6Vq2vRE=;
+ b=MFT3ZCuddErLG3Y6jiqdzwSHQIGzbYj/h+1tQpmohVoG0o8gCLmgSD3K
+ YwI8op7s4aQ/AfeYYN1xBf9X/FsCEgUab530+snzVQLwh8ThP4HV5J+Ia
+ nrsO65qhNMoaXbatMWBW2P9KWPeOXm+isJ/eE8+JaUArfW4BdYPUvmjBe
+ DYpAUePKgDzAjMXkKlwrst7FzxM2Ct7V2/v217d1qjSUyr0SDFzIKfysg
+ pLDfkXKn8Z3QAL0Ul+/x9W+fzku9NmVUsPMRp8PcGp350NqQAowPIdqOL
+ bafJjL++NScckooi5c/95/C14rObnnjnr/7GTme7McWyiIun0XZZ4ug4+ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="366904298"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="366904298"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 02:19:17 -0700
+ 22 Mar 2023 02:19:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="746229771"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="746229771"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="746229785"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="746229785"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 02:19:16 -0700
+ 22 Mar 2023 02:19:19 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/7] accel/ivpu: Do not access HW registers after unbind
-Date: Wed, 22 Mar 2023 10:18:54 +0100
-Message-Id: <20230322091900.1982453-2-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 2/7] accel/ivpu: Cancel recovery work
+Date: Wed, 22 Mar 2023 10:18:55 +0100
+Message-Id: <20230322091900.1982453-3-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
 References: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
@@ -63,119 +63,76 @@ Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We should not access hardware after we unbind from the bus.
-
-Use drm_dev_enter() / drm_dev_exit() to mark code sections where
-hardware is accessed (and not already protected by other locks)
-and drm_dev_unplug() to mark device is gone.
+Prevent running recovery_work after device is removed.
 
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c |  8 ++++++--
- drivers/accel/ivpu/ivpu_drv.h |  1 +
- drivers/accel/ivpu/ivpu_job.c | 11 +++++++++--
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c |  2 ++
+ drivers/accel/ivpu/ivpu_pm.c  | 15 +++++++++++++--
+ drivers/accel/ivpu/ivpu_pm.h  |  1 +
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 231f29bb5025..ac06bbfca920 100644
+index ac06bbfca920..d9e311b40348 100644
 --- a/drivers/accel/ivpu/ivpu_drv.c
 +++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -8,7 +8,6 @@
- #include <linux/pci.h>
- 
- #include <drm/drm_accel.h>
--#include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_ioctl.h>
-@@ -118,6 +117,10 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
- 	struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
- 	struct drm_ivpu_param *args = data;
- 	int ret = 0;
-+	int idx;
+@@ -580,6 +580,8 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+ 	ivpu_pm_disable(vdev);
+ 	ivpu_shutdown(vdev);
+ 	ivpu_job_done_thread_fini(vdev);
++	ivpu_pm_cancel_recovery(vdev);
 +
-+	if (!drm_dev_enter(dev, &idx))
-+		return -ENODEV;
- 
- 	switch (args->param) {
- 	case DRM_IVPU_PARAM_DEVICE_ID:
-@@ -171,6 +174,7 @@ static int ivpu_get_param_ioctl(struct drm_device *dev, void *data, struct drm_f
- 		break;
- 	}
- 
-+	drm_dev_exit(idx);
- 	return ret;
- }
- 
-@@ -622,7 +626,7 @@ static void ivpu_remove(struct pci_dev *pdev)
+ 	ivpu_ipc_fini(vdev);
+ 	ivpu_fw_fini(vdev);
+ 	ivpu_mmu_global_context_fini(vdev);
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index a880f1dd857e..df2e98cc0a56 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -98,11 +98,17 @@ static int ivpu_resume(struct ivpu_device *vdev)
+ static void ivpu_pm_recovery_work(struct work_struct *work)
  {
- 	struct ivpu_device *vdev = pci_get_drvdata(pdev);
+ 	struct ivpu_pm_info *pm = container_of(work, struct ivpu_pm_info, recovery_work);
+-	struct ivpu_device *vdev =  pm->vdev;
++	struct ivpu_device *vdev = pm->vdev;
+ 	char *evt[2] = {"IVPU_PM_EVENT=IVPU_RECOVER", NULL};
+ 	int ret;
  
--	drm_dev_unregister(&vdev->drm);
-+	drm_dev_unplug(&vdev->drm);
- 	ivpu_dev_fini(vdev);
- }
- 
-diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-index f47b4965db2e..1b2aa05840ad 100644
---- a/drivers/accel/ivpu/ivpu_drv.h
-+++ b/drivers/accel/ivpu/ivpu_drv.h
-@@ -7,6 +7,7 @@
- #define __IVPU_DRV_H__
- 
- #include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_mm.h>
- #include <drm/drm_print.h>
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index 94068aedf97c..910301fae435 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -489,12 +489,12 @@ ivpu_job_prepare_bos_for_submit(struct drm_file *file, struct ivpu_job *job, u32
- 
- int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- {
--	int ret = 0;
- 	struct ivpu_file_priv *file_priv = file->driver_priv;
- 	struct ivpu_device *vdev = file_priv->vdev;
- 	struct drm_ivpu_submit *params = data;
- 	struct ivpu_job *job;
- 	u32 *buf_handles;
-+	int idx, ret;
- 
- 	if (params->engine > DRM_IVPU_ENGINE_COPY)
- 		return -EINVAL;
-@@ -523,6 +523,11 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 		goto free_handles;
- 	}
- 
-+	if (!drm_dev_enter(&vdev->drm, &idx)) {
-+		ret = -ENODEV;
-+		goto free_handles;
+-	ret = pci_reset_function(to_pci_dev(vdev->drm.dev));
++retry:
++	ret = pci_try_reset_function(to_pci_dev(vdev->drm.dev));
++	if (ret == -EAGAIN && !drm_dev_is_unplugged(&vdev->drm)) {
++		cond_resched();
++		goto retry;
 +	}
 +
- 	ivpu_dbg(vdev, JOB, "Submit ioctl: ctx %u buf_count %u\n",
- 		 file_priv->ctx.id, params->buffer_count);
+ 	if (ret)
+ 		ivpu_err(vdev, "Failed to reset VPU: %d\n", ret);
  
-@@ -530,7 +535,7 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	if (!job) {
- 		ivpu_err(vdev, "Failed to create job\n");
- 		ret = -ENOMEM;
--		goto free_handles;
-+		goto dev_exit;
- 	}
+@@ -302,6 +308,11 @@ int ivpu_pm_init(struct ivpu_device *vdev)
+ 	return 0;
+ }
  
- 	ret = ivpu_job_prepare_bos_for_submit(file, job, buf_handles, params->buffer_count,
-@@ -548,6 +553,8 @@ int ivpu_submit_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
++void ivpu_pm_cancel_recovery(struct ivpu_device *vdev)
++{
++	cancel_work_sync(&vdev->pm->recovery_work);
++}
++
+ void ivpu_pm_enable(struct ivpu_device *vdev)
+ {
+ 	struct device *dev = vdev->drm.dev;
+diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
+index dc1b3758e13f..baca98187255 100644
+--- a/drivers/accel/ivpu/ivpu_pm.h
++++ b/drivers/accel/ivpu/ivpu_pm.h
+@@ -21,6 +21,7 @@ struct ivpu_pm_info {
+ int ivpu_pm_init(struct ivpu_device *vdev);
+ void ivpu_pm_enable(struct ivpu_device *vdev);
+ void ivpu_pm_disable(struct ivpu_device *vdev);
++void ivpu_pm_cancel_recovery(struct ivpu_device *vdev);
  
- job_put:
- 	job_put(job);
-+dev_exit:
-+	drm_dev_exit(idx);
- free_handles:
- 	kfree(buf_handles);
- 
+ int ivpu_pm_suspend_cb(struct device *dev);
+ int ivpu_pm_resume_cb(struct device *dev);
 -- 
 2.25.1
 
