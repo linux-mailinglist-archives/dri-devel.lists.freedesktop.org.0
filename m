@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95AA6C4D0B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:08:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C7E6C4D0D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:08:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3C1C10E381;
-	Wed, 22 Mar 2023 14:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F284810E3BF;
+	Wed, 22 Mar 2023 14:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9352010E381
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:08:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7D310E3BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:08:25 +0000 (UTC)
 Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
  client-signature RSA-PSS (2048 bits) client-digest SHA256)
  (Client CN "mail.riseup.net", Issuer "R3" (not verified))
- by mx0.riseup.net (Postfix) with ESMTPS id 4PhVgR0rNrz9sBV;
- Wed, 22 Mar 2023 14:08:19 +0000 (UTC)
+ by mx0.riseup.net (Postfix) with ESMTPS id 4PhVgY0gJRz9tDb;
+ Wed, 22 Mar 2023 14:08:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
- t=1679494099; bh=o1VzzB+7NsRXn5kW8WzT8SolqVYPi/O66203uaj/U5c=;
+ t=1679494105; bh=K6CujEfcNUcCD9c8fWE3PQia5ltQ4OFqpq7w8AsLfA0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d6WiuMwYNbBvyKCjPqxqa/MkNdlf1IkORhEDfWJfia4s2e0cbvNphJ7Vid9tEBmHu
- rM87d7Oi0LqDWTwfNM2kjKXLd05VpP7wSaBiXh9f/jlJbw2aYzWtgnqMk7O+0dWQAO
- dkaBarPMwKWXj3BvcNnIgHb2iInMNX5WQ2F0GV+I=
-X-Riseup-User-ID: F1C1B79971C97704F76C95666C97F3C78B7703904497D358FAB77072EE517C47
+ b=DuzFjmvB1/J9MK7Bmi7T5fmg7UUsDVxx/e4YPxYKWQZXv1r4r9U4+DQJSIjWkb4XB
+ 7WGq4CCecDQ1lgxs+NoLFNRq90cuyfH5HL6z1jmaZ/wdaHQaRBX1rZK2LrGqHjvSqi
+ RPabjy6AZ+oiaYGhH6/uZhWHJT1p/WGAdxK5Zi7s=
+X-Riseup-User-ID: D92E7C4D4B9505C2F3350BDA29ACB68D2CDB3503F23E0A4171E1C782DD6BFECB
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- by fews2.riseup.net (Postfix) with ESMTPSA id 4PhVgL679fz1y7V;
- Wed, 22 Mar 2023 14:08:14 +0000 (UTC)
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PhVgR5Tpcz1y7V;
+ Wed, 22 Mar 2023 14:08:19 +0000 (UTC)
 From: Arthur Grillo <arthurgrillo@riseup.net>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/tests: Test drm_rect_calc_vscale()
-Date: Wed, 22 Mar 2023 11:06:59 -0300
-Message-Id: <20230322140701.69852-4-arthurgrillo@riseup.net>
+Subject: [PATCH 4/5] drm/tests: Test drm_rect_rotate()
+Date: Wed, 22 Mar 2023 11:07:00 -0300
+Message-Id: <20230322140701.69852-5-arthurgrillo@riseup.net>
 In-Reply-To: <20230322140701.69852-1-arthurgrillo@riseup.net>
 References: <20230322140701.69852-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
@@ -57,85 +57,110 @@ Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Insert test for the drm_rect_vscale() function, besides the test
-for the usual case it also test for the exceptions.
+Insert test for the drm_rect_rotate() function, create test cases
+for all the rotation modes.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- drivers/gpu/drm/tests/drm_rect_test.c | 56 +++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ drivers/gpu/drm/tests/drm_rect_test.c | 74 +++++++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
 diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-index 7e02393092fa..0f7736073390 100644
+index 0f7736073390..46139e796f3f 100644
 --- a/drivers/gpu/drm/tests/drm_rect_test.c
 +++ b/drivers/gpu/drm/tests/drm_rect_test.c
-@@ -280,6 +280,59 @@ static void drm_test_rect_calc_hscale_negative_args(struct kunit *test)
+@@ -8,6 +8,7 @@
+ #include <kunit/test.h>
+ 
+ #include <drm/drm_rect.h>
++#include <drm/drm_mode.h>
+ 
+ #include <linux/errno.h>
+ 
+@@ -333,6 +334,78 @@ static void drm_test_rect_calc_vscale_negative_args(struct kunit *test)
  	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
  }
  
-+static void drm_test_rect_calc_vscale(struct kunit *test)
++struct drm_rect_rotate_case {
++	const char *name;
++	unsigned int rotation;
++	struct drm_rect rect;
++	int width, height;
++	struct drm_rect expected;
++};
++
++static const struct drm_rect_rotate_case drm_rect_rotate_cases[] = {
++	{
++		.name = "reflect x",
++		.rotation = DRM_MODE_REFLECT_X,
++		.rect = DRM_RECT_INIT(0, 0, 5, 5),
++		.width = 0, .height = 0,
++		.expected = DRM_RECT_INIT(-5, 0, 5, 5),
++	},
++	{
++		.name = "reflect y",
++		.rotation = DRM_MODE_REFLECT_Y,
++		.rect = DRM_RECT_INIT(0, 0, 5, 5),
++		.width = 0, .height = 0,
++		.expected = DRM_RECT_INIT(0, -5, 5, 5),
++	},
++	{
++		.name = "rotate 0",
++		.rotation = DRM_MODE_ROTATE_0,
++		.rect = DRM_RECT_INIT(0, 0, 5, 5),
++		.width = 0, .height = 0,
++		.expected = DRM_RECT_INIT(0, 0, 5, 5),
++	},
++	{
++		.name = "rotate 90",
++		.rotation = DRM_MODE_ROTATE_90,
++		.rect = DRM_RECT_INIT(0, 0, 5, 10),
++		.width = 0, .height = 0,
++		.expected = DRM_RECT_INIT(0, -5, 10, 5),
++	},
++	{
++		.name = "rotate 180",
++		.rotation = DRM_MODE_ROTATE_180,
++		.rect = DRM_RECT_INIT(0, 0, 5, 10),
++		.width = 0, .height = 0,
++		.expected = DRM_RECT_INIT(-5, -10, 5, 10),
++	},
++	{
++		.name = "rotate 270",
++		.rotation = DRM_MODE_ROTATE_270,
++		.rect = DRM_RECT_INIT(0, 0, 5, 10),
++		.width = 0, .height = 0,
++		.expected = DRM_RECT_INIT(-10, 0, 10, 5),
++	},
++};
++
++static void drm_rect_case_desc(const struct drm_rect_rotate_case *t, char *desc)
 +{
-+	struct drm_rect src, dst;
-+	int scaling_factor;
-+
-+	drm_rect_init(&src, 0, 0, 0, 2);
-+	drm_rect_init(&dst, 0, 0, 0, 1);
-+
-+	scaling_factor =  drm_rect_calc_vscale(&src, &dst, INT_MIN, INT_MAX);
-+
-+	KUNIT_EXPECT_EQ(test, scaling_factor, 2);
++	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
 +}
 +
-+static void drm_test_rect_calc_vscale_out_of_range(struct kunit *test)
++KUNIT_ARRAY_PARAM(drm_rect_rotate, drm_rect_rotate_cases, drm_rect_case_desc);
++
++static void drm_test_rect_rotate(struct kunit *test)
 +{
-+	struct drm_rect src, dst;
-+	int scaling_factor;
++	const struct drm_rect_rotate_case *params = test->param_value;
++	struct drm_rect r;
 +
-+	drm_rect_init(&src, 0, 0, 0, 10);
-+	drm_rect_init(&dst, 0, 0, 0, 1);
++	memcpy(&r, &params->rect, sizeof(struct drm_rect));
 +
-+	scaling_factor =  drm_rect_calc_vscale(&src, &dst, 3, 5);
++	drm_rect_rotate(&r, params->width, params->height, params->rotation);
 +
-+	KUNIT_EXPECT_EQ(test, scaling_factor, -ERANGE);
-+
-+	drm_rect_init(&src, 0, 0, 0, 2);
-+	drm_rect_init(&dst, 0, 0, 0, 1);
-+
-+	scaling_factor =  drm_rect_calc_vscale(&src, &dst, 3, 5);
-+
-+	KUNIT_EXPECT_EQ(test, scaling_factor, -ERANGE);
-+}
-+
-+static void drm_test_rect_calc_vscale_negative_args(struct kunit *test)
-+{
-+	struct drm_rect src, dst;
-+	int scaling_factor;
-+
-+	drm_rect_init(&src, 0, 0, 0, -1);
-+	drm_rect_init(&dst, 0, 0, 0, 1);
-+
-+	scaling_factor = drm_rect_calc_vscale(&src, &dst, INT_MIN, INT_MAX);
-+
-+	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
-+
-+	drm_rect_init(&src, 0, 0, 0, 1);
-+	drm_rect_init(&dst, 0, 0, 0, -1);
-+
-+	scaling_factor = drm_rect_calc_vscale(&src, &dst, INT_MIN, INT_MAX);
-+
-+	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
++	drm_rect_compare(test, &r, &params->expected);
 +}
 +
  static struct kunit_case drm_rect_tests[] = {
  	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
  	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
-@@ -289,6 +342,9 @@ static struct kunit_case drm_rect_tests[] = {
- 	KUNIT_CASE(drm_test_rect_calc_hscale),
- 	KUNIT_CASE(drm_test_rect_calc_hscale_out_of_range),
- 	KUNIT_CASE(drm_test_rect_calc_hscale_negative_args),
-+	KUNIT_CASE(drm_test_rect_calc_vscale),
-+	KUNIT_CASE(drm_test_rect_calc_vscale_out_of_range),
-+	KUNIT_CASE(drm_test_rect_calc_vscale_negative_args),
+@@ -345,6 +418,7 @@ static struct kunit_case drm_rect_tests[] = {
+ 	KUNIT_CASE(drm_test_rect_calc_vscale),
+ 	KUNIT_CASE(drm_test_rect_calc_vscale_out_of_range),
+ 	KUNIT_CASE(drm_test_rect_calc_vscale_negative_args),
++	KUNIT_CASE_PARAM(drm_test_rect_rotate, drm_rect_rotate_gen_params),
  	{ }
  };
  
