@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6459F6C4DB4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:30:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD986C4DC7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6211689C46;
-	Wed, 22 Mar 2023 14:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEC6510E95C;
+	Wed, 22 Mar 2023 14:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB3F10E977
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:30:51 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1F9110E3AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679495451; x=1711031451;
+ t=1679495573; x=1711031573;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YpXIfF5+mJiCxg+eDEG0Br0ZjXo5m0PVri6m2PIOARM=;
- b=LkqY6WJ69UJBtkxdyOO6T/hlBDk73xFZ+AZU0BTzh5VfYiZr1pLMGLgJ
- pIWpJhs0AzxDzxA1TYftpn4/7r4DdVqeO9P8otjRkmSq7L3P92+A5oO8E
- a4yiu7KIntACscMNc9P623qHQ/v9XnALvJfi+iCzQuMKr8sVJLIeXtqa9
- irphi4o6hSmYOWlmjgJuqz05vZ5FUF2BFZHB7f6NtuLXa2LUKrfpkGBwF
- pALw8F2SMlExRhsIahv3/35p3fDt+f6lER9pP8sXtnMmrxzCPkJpsn9g/
- 4MV+IjjTs2SpWcNdzicW33jL24pmgiJIVMIskYefg2LS8Jg1jqnT8gBM0 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="323071002"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="323071002"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 07:30:41 -0700
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=VDh0pHYaGW9GmNf+woIRx5gMWL75BPjDRE9Z/NwInR4=;
+ b=a8091iH9joOfcHFP1YGkyht3rxhS2gKIKc5cqpZNkBe51WSv54Iyed+R
+ 1rADsXkytyIR6bXkR0ugc6iCIA5vMtKp33ET3EHvj5gDvCkMJKWKcv00B
+ LEm60lKTWHUMzQji3mMlb8gdj7K8hXih9zpNfX+Ai9VD0kXtXBxbreHUs
+ HL5UHZ/6vkatyViFarNuSw3w+dumkvJAFUtw/TX2LflYUybAajRZA44u/
+ OpEglqynD27c+tLo0SVC32Nl4KHyZWFPNcLDUNXrKwfquBV1mFnlv0Z8o
+ uhD3ZxSib9nsFJaQH+mh2MtfBGAxiPNQaOg/wCyZM9gfpgdmk/z1nUQ/t Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="337950539"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="337950539"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 07:32:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632010777"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="632010777"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga003.jf.intel.com with ESMTP; 22 Mar 2023 07:30:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pezTy-007AGy-0O; Wed, 22 Mar 2023 16:30:30 +0200
-Date: Wed, 22 Mar 2023 16:30:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Pin-yen Lin <treapking@chromium.org>
-Subject: Re: [PATCH v14 10/10] drm/bridge: it6505: Register Type C mode
- switches
-Message-ID: <ZBsRBV9dw+mb5ZxZ@smile.fi.intel.com>
-References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-11-treapking@chromium.org>
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="684332878"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="684332878"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga007.fm.intel.com with SMTP; 22 Mar 2023 07:32:38 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 22 Mar 2023 16:32:37 +0200
+Date: Wed, 22 Mar 2023 16:32:37 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH 4/5] drm/tests: Test drm_rect_rotate()
+Message-ID: <ZBsRhcQifOj0hETj@intel.com>
+References: <20230322140701.69852-1-arthurgrillo@riseup.net>
+ <20230322140701.69852-5-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230322104639.221402-11-treapking@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230322140701.69852-5-arthurgrillo@riseup.net>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,104 +61,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
+ maxime@cerno.tech, andrealmeid@riseup.net, airled@gmail.com,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 06:46:39PM +0800, Pin-yen Lin wrote:
-> Register USB Type-C mode switches when the "mode-switch" property and
-> relevant port are available in Device Tree. Configure the "lane_swap"
-> state based on the entered alternate mode for a specific Type-C
-> connector, which ends up updating the lane swap registers of the it6505
-> chip.
-
-...
-
-> +	struct device_node *port_node = of_graph_get_port_by_id(dev->of_node, 1);
-> +	struct drm_dp_typec_switch_desc *switch_desc = &it6505->switch_desc;
-> +	int ret;
-> +	u32 dp_lanes[4];
-> +	unsigned int i, num_lanes;
+On Wed, Mar 22, 2023 at 11:07:00AM -0300, Arthur Grillo wrote:
+> Insert test for the drm_rect_rotate() function, create test cases
+> for all the rotation modes.
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>  drivers/gpu/drm/tests/drm_rect_test.c | 74 +++++++++++++++++++++++++++
+>  1 file changed, 74 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
+> index 0f7736073390..46139e796f3f 100644
+> --- a/drivers/gpu/drm/tests/drm_rect_test.c
+> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
+> @@ -8,6 +8,7 @@
+>  #include <kunit/test.h>
+>  
+>  #include <drm/drm_rect.h>
+> +#include <drm/drm_mode.h>
+>  
+>  #include <linux/errno.h>
+>  
+> @@ -333,6 +334,78 @@ static void drm_test_rect_calc_vscale_negative_args(struct kunit *test)
+>  	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
+>  }
+>  
+> +struct drm_rect_rotate_case {
+> +	const char *name;
+> +	unsigned int rotation;
+> +	struct drm_rect rect;
+> +	int width, height;
+> +	struct drm_rect expected;
+> +};
 > +
-> +	ret = drm_dp_register_typec_switches(dev, &port_node->fwnode,
-> +					     &it6505->switch_desc, it6505,
-> +					     it6505_typec_mux_set);
-> +	if (ret)
-> +		return ret;
+> +static const struct drm_rect_rotate_case drm_rect_rotate_cases[] = {
+> +	{
+> +		.name = "reflect x",
+> +		.rotation = DRM_MODE_REFLECT_X,
+> +		.rect = DRM_RECT_INIT(0, 0, 5, 5),
+> +		.width = 0, .height = 0,
+
+These zero width/height don't really make any sense.
+
+> +		.expected = DRM_RECT_INIT(-5, 0, 5, 5),
+> +	},
+> +	{
+> +		.name = "reflect y",
+> +		.rotation = DRM_MODE_REFLECT_Y,
+> +		.rect = DRM_RECT_INIT(0, 0, 5, 5),
+> +		.width = 0, .height = 0,
+> +		.expected = DRM_RECT_INIT(0, -5, 5, 5),
+> +	},
+> +	{
+> +		.name = "rotate 0",
+> +		.rotation = DRM_MODE_ROTATE_0,
+> +		.rect = DRM_RECT_INIT(0, 0, 5, 5),
+> +		.width = 0, .height = 0,
+> +		.expected = DRM_RECT_INIT(0, 0, 5, 5),
+> +	},
+> +	{
+> +		.name = "rotate 90",
+> +		.rotation = DRM_MODE_ROTATE_90,
+> +		.rect = DRM_RECT_INIT(0, 0, 5, 10),
+> +		.width = 0, .height = 0,
+> +		.expected = DRM_RECT_INIT(0, -5, 10, 5),
+> +	},
+> +	{
+> +		.name = "rotate 180",
+> +		.rotation = DRM_MODE_ROTATE_180,
+> +		.rect = DRM_RECT_INIT(0, 0, 5, 10),
+> +		.width = 0, .height = 0,
+> +		.expected = DRM_RECT_INIT(-5, -10, 5, 10),
+> +	},
+> +	{
+> +		.name = "rotate 270",
+> +		.rotation = DRM_MODE_ROTATE_270,
+> +		.rect = DRM_RECT_INIT(0, 0, 5, 10),
+> +		.width = 0, .height = 0,
+> +		.expected = DRM_RECT_INIT(-10, 0, 10, 5),
+> +	},
+> +};
 > +
-> +	it6505->port_data = devm_kcalloc(dev, switch_desc->num_typec_switches,
-> +					 sizeof(struct it6505_typec_port_data),
-> +					 GFP_KERNEL);
-> +	if (!it6505->port_data) {
-> +		ret = -ENOMEM;
-> +		goto unregister_mux;
-> +	}
+> +static void drm_rect_case_desc(const struct drm_rect_rotate_case *t, char *desc)
+> +{
+> +	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(drm_rect_rotate, drm_rect_rotate_cases, drm_rect_case_desc);
+> +
+> +static void drm_test_rect_rotate(struct kunit *test)
+> +{
+> +	const struct drm_rect_rotate_case *params = test->param_value;
+> +	struct drm_rect r;
+> +
+> +	memcpy(&r, &params->rect, sizeof(struct drm_rect));
 
-A couple of the similar comments as per previous similar patch.
-
-...
-
->  	/* get extcon device from DTS */
->  	extcon = extcon_get_edev_by_phandle(dev, 0);
-> -	if (PTR_ERR(extcon) == -EPROBE_DEFER)
-> -		return -EPROBE_DEFER;
-> -	if (IS_ERR(extcon)) {
-> -		dev_err(dev, "can not get extcon device!");
-> -		return PTR_ERR(extcon);
-> +	ret = PTR_ERR_OR_ZERO(extcon);
-> +	if (ret == -EPROBE_DEFER)
-> +		return ret;
+r = params->rect;
 
 > +
-
-Unnecessary blank line.
-
-> +	if (ret) {
-> +		if (ret != -ENODEV)
-> +			dev_warn(dev, "Cannot get extcon device: %d\n", ret);
+> +	drm_rect_rotate(&r, params->width, params->height, params->rotation);
 > +
-> +		it6505->extcon = NULL;
-> +	} else {
-> +		it6505->extcon = extcon;
-
-...
-
-> +	ret = it6505_register_typec_switches(dev, it6505);
-> +	if (ret != -ENODEV)
-> +		dev_warn(dev, "Didn't register Type-C switches, err: %d\n", ret);
-
+> +	drm_rect_compare(test, &r, &params->expected);
+> +}
 > +
-
-Unnecessary blank line.
-
-> +	if (ret && !it6505->extcon) {
-> +		dev_err(dev, "Both extcon and Type-C switch are not registered.\n");
-> +		return -EINVAL;
-
-Why not return ret here?
-
-> +	}
+>  static struct kunit_case drm_rect_tests[] = {
+>  	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
+>  	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
+> @@ -345,6 +418,7 @@ static struct kunit_case drm_rect_tests[] = {
+>  	KUNIT_CASE(drm_test_rect_calc_vscale),
+>  	KUNIT_CASE(drm_test_rect_calc_vscale_out_of_range),
+>  	KUNIT_CASE(drm_test_rect_calc_vscale_negative_args),
+> +	KUNIT_CASE_PARAM(drm_test_rect_rotate, drm_rect_rotate_gen_params),
+>  	{ }
+>  };
+>  
+> -- 
+> 2.39.2
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Ville Syrjälä
+Intel
