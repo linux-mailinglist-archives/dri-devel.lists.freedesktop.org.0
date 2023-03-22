@@ -2,53 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3719B6C4D9B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACDE6C4DA6
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 15:28:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01AD810E38A;
-	Wed, 22 Mar 2023 14:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADD010E978;
+	Wed, 22 Mar 2023 14:28:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC0210E38A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:27:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679495235; x=1711031235;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NuhzRiGGH6UKuBz0ns09hmTJOfbL7JGzcelZ3ZHySok=;
- b=bmcDHvLPBCjRgSvnYv3XmUFsik4EH+nivzT0K5Ia/Dlkrw9/DAFp0Wv0
- SeommuerYkTFxnxs39vr92iz0CrpN2lC6rtTNYhwidGR+sxRerM7vw1/P
- 3eypNCFm/GNnUcj7begPxae6mipp0kxtGNIwSFrBp0FbjtCIt6Lm1cTjj
- fX2GZeCUNv3pFfVFHyfGfWh+xDR4d8ZjD2kACibkMTPeWoQt5Drqmk0v0
- wJy4EXapz7315QfVzmDxZrvcQtPbSTLfarSf12Vc7D2gPJ9EIEsJY45Fp
- umWJi0jYcROhP9IqBQsuM4fpsQMkNwvwWxft8t37iG5PlJsqSjNZ6xC13 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="337947702"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="337947702"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 07:26:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="684328733"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="684328733"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga007.fm.intel.com with SMTP; 22 Mar 2023 07:26:53 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 22 Mar 2023 16:26:52 +0200
-Date: Wed, 22 Mar 2023 16:26:52 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 1/5] drm/tests: Test drm_rect_intersect()
-Message-ID: <ZBsQLEdrJYnNUDPo@intel.com>
-References: <20230322140701.69852-1-arthurgrillo@riseup.net>
- <20230322140701.69852-2-arthurgrillo@riseup.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B1510E96C
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 14:28:45 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32MALJov028679; Wed, 22 Mar 2023 14:28:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ORrFBNr8/QSUzxOVFVHYtxaZKj8WYyev4/gpukgJzaA=;
+ b=To06BX7RgVy8hBGx8619QnP72tKABJAJgihVA6nmm2/JfoxSxgQIsbXZvBsPfEvQas6K
+ 1646ulQOOKg+HwDmkPzBTkpzFSLDG8sx/4pcpM1AKQVns+cVBVq4qQlKmGl0PEcHSNRB
+ 9G5/SPcWL66PXFwCvt2r6D6DiVz5MBFT6AXwiTNfoeZUlz8ciPaa3lioqBFtmoFWgh6s
+ OMb5LCnn7FmWK94o/JDcC0FMHSbx3VvMX6g0OOWlaVmHkVO1DEWufR9RZ5PE2x2v/zzj
+ 5dXJJl2gHCVJmwFciCmlWocVZgHFX2XxoaaMJs9OMPDnRDc2IciU7aFHIaI3teHLCf3H IQ== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pfbx03ptp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 14:28:40 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32MESdJY017624
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Mar 2023 14:28:39 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 22 Mar
+ 2023 07:28:39 -0700
+Message-ID: <621c314d-af6c-0713-d262-e3d6b18f8c86@quicinc.com>
+Date: Wed, 22 Mar 2023 08:28:38 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230322140701.69852-2-arthurgrillo@riseup.net>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH 4/7] accel/ivpu: Fix power down sequence
+Content-Language: en-US
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>
+References: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
+ <20230322091900.1982453-5-stanislaw.gruszka@linux.intel.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20230322091900.1982453-5-stanislaw.gruszka@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: zVmVMqMfWu3xaGoA-GrR7fKbRV9bLVs4
+X-Proofpoint-ORIG-GUID: zVmVMqMfWu3xaGoA-GrR7fKbRV9bLVs4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_11,2023-03-22_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1015 phishscore=0 lowpriorityscore=0 mlxlogscore=996 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303150002
+ definitions=main-2303220105
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,89 +84,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
- maxime@cerno.tech, andrealmeid@riseup.net, airled@gmail.com,
- matheus.vieira.g@usp.br
+Cc: Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 11:06:57AM -0300, Arthur Grillo wrote:
-> Insert test for the drm_rect_intersect() function, it also create a
-> helper for comparing drm_rects more easily.
+On 3/22/2023 3:18 AM, Stanislaw Gruszka wrote:
+> Remove FPGA WA on power_down to skip checking for noc quiescent state.
+
+WA is workaround, right?  Maybe spell it out here?
+
+> Put VPU in reset before powering it down and skip manipulating
+> registers that are reset by the VPU reset.
 > 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->  drivers/gpu/drm/tests/drm_rect_test.c | 30 +++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
-> index e9809ea32696..f700984f70a8 100644
-> --- a/drivers/gpu/drm/tests/drm_rect_test.c
-> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
-> @@ -9,6 +9,15 @@
->  
->  #include <drm/drm_rect.h>
->  
-> +static void drm_rect_compare(struct kunit *test, const struct drm_rect *r,
-> +			     const struct drm_rect *expected)
-> +{
-> +	KUNIT_EXPECT_EQ(test, r->x1, expected->x1);
-> +	KUNIT_EXPECT_EQ(test, r->y1, expected->y1);
-> +	KUNIT_EXPECT_EQ(test, drm_rect_width(r), drm_rect_width(expected));
-> +	KUNIT_EXPECT_EQ(test, drm_rect_height(r), drm_rect_height(expected));
-> +}
+> This fixes power down errors there VPU is powered down just after VPU
+> is booted.
 
-We already have a drm_rect_equals().
+there -> where ?
 
-> +
->  static void drm_test_rect_clip_scaled_div_by_zero(struct kunit *test)
->  {
->  	struct drm_rect src, dst, clip;
-> @@ -196,11 +205,32 @@ static void drm_test_rect_clip_scaled_signed_vs_unsigned(struct kunit *test)
->  	KUNIT_EXPECT_FALSE_MSG(test, drm_rect_visible(&src), "Source should not be visible\n");
->  }
->  
-> +static void drm_test_rect_intersect(struct kunit *test)
-> +{
-> +	struct drm_rect r1, r2;
-> +	bool visible;
-> +
-> +	drm_rect_init(&r1, 0, 0, 2, 2);
-> +	drm_rect_init(&r2, 1, 1, 2, 2);
-> +
-> +	visible = drm_rect_intersect(&r1, &r2);
-> +
-> +	KUNIT_EXPECT_TRUE_MSG(test, visible, "Interserction should be a visible rect");
-> +	drm_rect_compare(test, &r1, &DRM_RECT_INIT(1, 1, 1, 1));
-> +
-> +	drm_rect_init(&r1, 0, 0, 1, 1);
-> +
+> Co-developed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-I would re-init r2 here too to make it easier to see what we're
-actually testing.
-
-I would probably test a few more variations of the overlap between
-the rectangles, eg: equal rectangles, one smaller one fully inside
-the bigger one, overlaps across different edges/corners.
-
-> +	visible = drm_rect_intersect(&r1, &r2);
-> +
-> +	KUNIT_EXPECT_FALSE_MSG(test, visible, "Interserction should not be a visible rect");
-> +}
-> +
->  static struct kunit_case drm_rect_tests[] = {
->  	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
->  	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
->  	KUNIT_CASE(drm_test_rect_clip_scaled_clipped),
->  	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
-> +	KUNIT_CASE(drm_test_rect_intersect),
->  	{ }
->  };
->  
-> -- 
-> 2.39.2
-
--- 
-Ville Syrjälä
-Intel
+With the above addressed,
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
