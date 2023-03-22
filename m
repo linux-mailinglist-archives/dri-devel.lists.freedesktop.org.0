@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F816C5592
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 20:59:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD316C558F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 20:59:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9ABE10E9E0;
-	Wed, 22 Mar 2023 19:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D2A10E9DE;
+	Wed, 22 Mar 2023 19:59:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97A0F10EA0F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 19:59:21 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6A010EA05
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 19:59:23 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5A22FB81DEB;
- Wed, 22 Mar 2023 19:59:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BB0BC4339C;
- Wed, 22 Mar 2023 19:59:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8BF9762295;
+ Wed, 22 Mar 2023 19:59:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F786C433EF;
+ Wed, 22 Mar 2023 19:59:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679515159;
- bh=GZPVYcrHtGWQvUQ8YdKknhqUfDuUeXv2O0AacKE8YH0=;
+ s=k20201202; t=1679515162;
+ bh=eMWDS+3wZyH867vHh4eJhuV+Y41uSSa2FKh5pK+WX4w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h/vSuUwX2Yh3MgXEDBS9oeb0xe0l3f7P4fLSxOH3cibIliyNtFrAGIxm2upShHwXS
- ousoS71arUUpdWFU68DNxuoi3AR7sFURSZzOja+HYZxffm3UwP3YwsAo6l2qzTjXia
- cHElJrP9PDJ/gciE3iwu/gvyqLiOqVJ54H6Qq1jiX0VyP6tIEOJI94xJ/pGlv4xu61
- LoRiyv8j3WMbw/cAqjuCF8e26P+c63QO9l6qKUn1TYv0W4hj3bzgtDJcJG2pzkNiX6
- e9cMj6OV9qX88vBpzFeTynDFU1gQTjmx/5gFv3RsD4z2O/1R1rhs+T+PfgGZdKkAHp
- L3Fx771JULgyA==
+ b=Idu+DSZK1GWJGIdpbBu16lSYGKRzoySlUAQPHO/M4/DNg+v1GnbpMKd2jsTA7mqYA
+ 7hVrIBWo+2DSJuhtWyxQe4sw3KAIl9lK3sjpk1qfF8Vea4/t8vT3r1D+kfd4TfWVq8
+ ositWFwiPeSLTl4EjJHFFjKZx3i9n/O2lUmesg1QMuM3lc/7yBcGGTyzoba5jgNgU1
+ kmR6AM+urim3uXDhTp6SioUgeg2ghBimcwfngNQ8zrspwZQ8DsxQGknLuhF4L70Oes
+ 1lFMCD0Zh900UOsqgcfC9B5xiixbRb2ES7AQhh0dbvUz2CIWogl8Ablm9U5Lj/gR6U
+ qTnL23qlA1ZwQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 41/45] fbdev: lxfb: Fix potential divide by zero
-Date: Wed, 22 Mar 2023 15:56:35 -0400
-Message-Id: <20230322195639.1995821-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 42/45] fbdev: au1200fb: Fix potential divide by
+ zero
+Date: Wed, 22 Mar 2023 15:56:36 -0400
+Message-Id: <20230322195639.1995821-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230322195639.1995821-1-sashal@kernel.org>
 References: <20230322195639.1995821-1-sashal@kernel.org>
@@ -55,19 +55,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Helge Deller <deller@gmx.de>, linux-geode@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Wei Chen <harperchen1110@gmail.com>,
- dilinger@queued.net
+Cc: Wei Chen <harperchen1110@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Wei Chen <harperchen1110@gmail.com>
 
-[ Upstream commit 61ac4b86a4c047c20d5cb423ddd87496f14d9868 ]
+[ Upstream commit 44a3b36b42acfc433aaaf526191dd12fbb919fdb ]
 
-var->pixclock can be assigned to zero by user. Without proper
-check, divide by zero would occur in lx_set_clock.
+var->pixclock can be assigned to zero by user. Without
+proper check, divide by zero would occur when invoking
+macro PICOS2KHZ in au1200fb_fb_check_var.
 
 Error out if var->pixclock is zero.
 
@@ -75,23 +75,23 @@ Signed-off-by: Wei Chen <harperchen1110@gmail.com>
 Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/geode/lxfb_core.c | 3 +++
+ drivers/video/fbdev/au1200fb.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/video/fbdev/geode/lxfb_core.c b/drivers/video/fbdev/geode/lxfb_core.c
-index 8130e9eee2b4b..556d8b1a9e06a 100644
---- a/drivers/video/fbdev/geode/lxfb_core.c
-+++ b/drivers/video/fbdev/geode/lxfb_core.c
-@@ -235,6 +235,9 @@ static void get_modedb(struct fb_videomode **modedb, unsigned int *size)
+diff --git a/drivers/video/fbdev/au1200fb.c b/drivers/video/fbdev/au1200fb.c
+index 81c3154544287..b6b22fa4a8a01 100644
+--- a/drivers/video/fbdev/au1200fb.c
++++ b/drivers/video/fbdev/au1200fb.c
+@@ -1040,6 +1040,9 @@ static int au1200fb_fb_check_var(struct fb_var_screeninfo *var,
+ 	u32 pixclock;
+ 	int screen_size, plane;
  
- static int lxfb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
- {
 +	if (!var->pixclock)
 +		return -EINVAL;
 +
- 	if (var->xres > 1920 || var->yres > 1440)
- 		return -EINVAL;
+ 	plane = fbdev->plane;
  
+ 	/* Make sure that the mode respect all LCD controller and
 -- 
 2.39.2
 
