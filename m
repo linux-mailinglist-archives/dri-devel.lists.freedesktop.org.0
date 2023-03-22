@@ -1,61 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2506C5199
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 18:03:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D036C51B6
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 18:03:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D96C10E9A7;
-	Wed, 22 Mar 2023 17:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47C3B10E9AC;
+	Wed, 22 Mar 2023 17:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C99710E3E9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 17:02:32 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pf1r3-0000Te-Qe; Wed, 22 Mar 2023 18:02:29 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pf1r3-005xkT-3z; Wed, 22 Mar 2023 18:02:29 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pf1r2-0075q1-Bb; Wed, 22 Mar 2023 18:02:28 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>
-Subject: [PATCH 12/12] drm/tegra: vic: Convert to platform remove callback
- returning void
-Date: Wed, 22 Mar 2023 18:02:23 +0100
-Message-Id: <20230322170223.410376-13-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
-References: <20230322170223.410376-1-u.kleine-koenig@pengutronix.de>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 826F910E9AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 17:03:16 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ u11-20020a05600c19cb00b003edcc414997so7083946wmq.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 10:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679504595;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fF0kXha0iC7DXFpAivYe8iA4rI1+YTj1bu366LSCxxk=;
+ b=CODHf0ARi+ZAQwKJquFfTZVE8GcbNBB35tiLrdZgRYIyaxVhmUezxMFGMCvTfztcTb
+ zBY391pL+wcccrmfHqacIkJ0YwfRwFpDfuCK+Q9mDDiiYUqxSVdqaFsm4UhJtdgAcOk/
+ F6LAVGKFmL2U0VXmZXkuJANw/xDh74CEr1oqlpBHvEkF7uwCOz8mHJqBtcndkweTZu84
+ EWxQDoQICuRUaPaLZel4wmpg8X6v3kZxBzpnge4qiQbhvPObr36dnM6Ec00/y5F17gEs
+ WA6uVF72nkfgiZpQBflwbEFO/Re4i7Fk8rbofwYctPmB9ebZDYXgHUX0vTBFV7d3NVPO
+ 81zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679504595;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fF0kXha0iC7DXFpAivYe8iA4rI1+YTj1bu366LSCxxk=;
+ b=nelkZQkrk8QNgXxpvKpxdEFc1c6LlPrpn+P+ne04mKbUJDDH2CxhTUjt1CMKOrY8Yu
+ hjYyeqiqvWEM/byrmAT/hFuTye/r2A22PY3YGNQQni0UD7FhAigeOsnXvWe1vALRQDKz
+ 1fekcMKDDXfCWPq9QkyRtKyIVfS2zgrcwfbHetJIrbXqAXfMbmPJ2dMLy4atY2jfYAT1
+ 0TOMDTfMr7zaNoCjo8fYLKIjBoXgLczt2hZhYWwyRjkqcseHi7d5TNqIXL58AI2Pjc2y
+ w6iOQ2vOBEFYEirYiHUpIwhQ/AuRNcaXjZC6wSy9HKy/7IK7FTVVUkFxvvS3Bdg151v7
+ Y76A==
+X-Gm-Message-State: AO0yUKVmmy4c2AxoeGK+wCAqpzztAS+lAsrNN9p7ie34lhLcRlQuRP+L
+ N7xwqvIzm+thtGBjs0ZsfsoXjw==
+X-Google-Smtp-Source: AK7set+XVsENvidhTYRl8NHap3p+RLXPJj7q9BKTdTDgxFMbLPVmRCtz/DO/KEbqCzBtozbr/f27Rw==
+X-Received: by 2002:a05:600c:2c48:b0:3eb:39e0:3530 with SMTP id
+ r8-20020a05600c2c4800b003eb39e03530mr125002wmg.41.1679504595001; 
+ Wed, 22 Mar 2023 10:03:15 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+ by smtp.gmail.com with ESMTPSA id
+ n1-20020a7bc5c1000000b003db03725e86sm17553580wmk.8.2023.03.22.10.03.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Mar 2023 10:03:14 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: Johan Hovold <johan+linaro@kernel.org>
+In-Reply-To: <20230306103533.4915-1-johan+linaro@kernel.org>
+References: <20230306103533.4915-1-johan+linaro@kernel.org>
+Subject: Re: [PATCH] drm/meson: fix missing component unbind on bind errors
+Message-Id: <167950459423.530086.3154658002025345243.b4-ty@linaro.org>
+Date: Wed, 22 Mar 2023 18:03:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1560;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=a36Yb7fgQxxc7MoSO1m7HLtAFFfRxHPxSIL3UqKHMks=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkGzScrW7gvAr/vjDEeHBCJ0tHKloBxUj83T5AX
- yeC42DLQ92JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBs0nAAKCRCPgPtYfRL+
- Tj4kCAC3l8kWBwLVvoGAGPRBAGBro1gSJ+efnzHKWRt6zotWrjonDTPiGZWGtWsD4PQ7efRh9Qp
- jvmdZ6/yT0eQp2QmdNM9lh102VEP7dWf1nDM5C5Lok7DCrnGujrBfDtQKMK6HbsyYSJASaPeAE7
- 6lm+q6ri19aJfoZNQf6UoZVfL+O42o3Xg4YLORMBKTSqa4H43yy7Pk/ZOF+d+IMyDd8uAnTaQAf
- p+gVL6Wko0QWkOUugxGdDD2o/6s2SUn+SSaUkPmkhTQMwtUIKVLxKYwg+9NXBQdYbfkszQRzLtj
- jgwKXGnyyNw3HqSl4O4oXOCqYHAfgsgkBc5n9P1rY9cIo8ov
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,57 +74,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is (mostly) ignored
-and this typically results in resource leaks. To improve here there is a
-quest to make the remove callback return void. In the first step of this
-quest all drivers are converted to .remove_new() which already returns
-void.
+Hi,
 
-Trivially convert this driver from always returning zero in the remove
-callback to the void returning variant.
+On Mon, 06 Mar 2023 11:35:33 +0100, Johan Hovold wrote:
+> Make sure to unbind all subcomponents when binding the aggregate device
+> fails.
+> 
+> 
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/gpu/drm/tegra/vic.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-fixes)
 
-diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
-index fd614756ecf8..da7a038dca20 100644
---- a/drivers/gpu/drm/tegra/vic.c
-+++ b/drivers/gpu/drm/tegra/vic.c
-@@ -537,15 +537,13 @@ static int vic_probe(struct platform_device *pdev)
- 	return err;
- }
- 
--static int vic_remove(struct platform_device *pdev)
-+static void vic_remove(struct platform_device *pdev)
- {
- 	struct vic *vic = platform_get_drvdata(pdev);
- 
- 	host1x_client_unregister(&vic->client.base);
- 
- 	falcon_exit(&vic->falcon);
--
--	return 0;
- }
- 
- static const struct dev_pm_ops vic_pm_ops = {
-@@ -560,7 +558,7 @@ struct platform_driver tegra_vic_driver = {
- 		.pm = &vic_pm_ops
- 	},
- 	.probe = vic_probe,
--	.remove = vic_remove,
-+	.remove_new = vic_remove,
- };
- 
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_124_SOC)
+[1/1] drm/meson: fix missing component unbind on bind errors
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ba98413bf45edbf33672e2539e321b851b2cfbd1
+
 -- 
-2.39.2
+Neil
 
