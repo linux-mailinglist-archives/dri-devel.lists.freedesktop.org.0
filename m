@@ -2,51 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5EE16C4F18
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 16:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6DA6C4F24
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 16:14:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B99110E129;
-	Wed, 22 Mar 2023 15:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D532210E395;
+	Wed, 22 Mar 2023 15:14:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 660D110E376
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 15:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679497903; x=1711033903;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=sl7p9DSQce3gVFXKRJzAZpnFNy9Inir3vFbUAbViegw=;
- b=lQ8RsZqsJTjjikjDUs6p3XsA4EingF5sy8eODd4A2PKKHglABP0k7/fn
- pIKBOblOp/b3OCTnjMiUucggkZ/t6K6RgmIdqqMGSJQcZqlimIai/0h3H
- Ozc1DBjr9ayp1ZhOQYStUF9zNAbaKTKpeYSpols+t6OQOaXST1fNwILNY
- bQBdfpNmAjnW9MgzuYoLi/ohqQZ2iB78tRuZRfpjLDfg8sGHVNVSSgJk9
- 6139TYoIJeSppa+xHL33ixRpQ4IVTeFQc1xRWhNqsUDeMnZdNPoxatkUY
- 5so1dPSq/IvU5gvgcPSZg82bB4haTKTZJ0Q9/kH3mEyHp19IoG4HNepo6 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="339276132"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="339276132"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 08:10:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="1011386950"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="1011386950"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 08:10:46 -0700
-Date: Wed, 22 Mar 2023 16:10:44 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: Re: [PATCH 3/7] accel/ivpu: Do not use SSID 1
-Message-ID: <20230322151044.GB2130371@linux.intel.com>
-References: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
- <20230322091900.1982453-4-stanislaw.gruszka@linux.intel.com>
- <78fbafe5-6ae2-89ce-eb36-83c869ff7755@quicinc.com>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2077.outbound.protection.outlook.com [40.107.101.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5D010E38B;
+ Wed, 22 Mar 2023 15:14:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WeN2CN2XLAAUf7MuX8HzU22cCAQpw4tpsUADB2XDZBegMuFPVEYyD4D+9VaGEUaNmTcdTdK937NLWNtNfDQQfHanrbioDV+wz6P8zvu5e/01jQiKZq+SrnTtKGoQOxVXBlAIEqSk0FXBMHXQIyBHkqAVVdulV5c8k1389BK6bIJw6HjYou7PvGJeWtPsYZv08AkkX9n2Uv7h4ZcqfRgwF9dEA74pDYcwfFg1/H57yo3U5+gLE12h0YqFiwK3PRUn5fal6FZVREFGcshqXniJgWAzM2J0rv5E7DMPsBT4XEiQF495XiGbJ1Ao+q4v2VZeQlgOTqJrxXIMT1RJ3UIr3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JZXsEuX0cCOW5oVUDIvRe16T0Z/s1mj1ALP5wCx7aas=;
+ b=U+wrVPsiyxPitT0BVr9tPJZvFRkmxC7n1aTJYZSOUcw0uyUx48xTyO+T9MORmYjbbaqTAALCM5H++7lu/OfrGH8Ph8fpgUIfykFwlvCW77Vp8+FmCo12FJsxirTyHMcqmIBITXWQP4kY0T8NtVb0ct+D6Rlk3jPsuwznko6vhKLMkm5SmxdUOlF5wzH9FhjGtHs3smpDRvgtrr1osUXdZLeZOjbUszEwWwNnEqu/AZBcA9oVvnm3xzima3yRWzkRF+0qWbdlo9sca0FCnZDkAY6RNIcpNZfxJpxCxL8Biv1yeMPj4dE3cRa0hoTTEtqVWYXtpHlE4gTfyzBA6yDF2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JZXsEuX0cCOW5oVUDIvRe16T0Z/s1mj1ALP5wCx7aas=;
+ b=sBwr481xHYb39Gxy/uzhdoRcWsrsCPf54uAosLYWv2NLjazqc0mkjKdFIuIXL1KRKxk5Rw1qAfmOmkK7W3VHFvwnwnoblAWTXLBZLD8AggpjsntRtUuadCglwdb5VCkl1UClyYytgh85ThMT576i2A8ddrRiO4/NNzsngnI3KbI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ DM4PR12MB7646.namprd12.prod.outlook.com (2603:10b6:8:106::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.37; Wed, 22 Mar 2023 15:14:31 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::cdcb:a816:4bc3:a83f]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::cdcb:a816:4bc3:a83f%9]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
+ 15:14:31 +0000
+Message-ID: <a7e45c16-cfc7-691c-8bf9-c187f85b7679@amd.com>
+Date: Wed, 22 Mar 2023 11:15:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/amd/display: Slightly optimize
+ dm_dmub_outbox1_low_irq()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, aurabindo.pillai@amd.com,
+ roman.li@amd.com, hersenxs.wu@amd.com, stylon.wang@amd.com
+References: <b7cff2c1976308c64951d466fd627989ef6e46fb.1679421347.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <b7cff2c1976308c64951d466fd627989ef6e46fb.1679421347.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQXPR0101CA0056.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:14::33) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <78fbafe5-6ae2-89ce-eb36-83c869ff7755@quicinc.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DM4PR12MB7646:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7ef6c1c-bcae-4fe8-9368-08db2ae822a9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +zSzXiuIxMxxQzqL7LELXvIRBRw5WWrW+VlrOcw471DeyQ9yZq5iC+KTdIgOum+BDYkK+JL0YRvYcqZXLQT1ITM5EnGrNztRsg0eqPl80BxKyS16NxApE4Wqj3tpf0J1zIQ48X5WddOu6PV8AIefzGZJCnmQsFWn3E6S46XhIXiGtlVN1XxvP/lT0sDmkh9lhGxdEW+2a3+XrKBU/LnjzvPoeTo5gcKr3DSPIQIILtGcPlflkgtppspslgkp99FbvZ2D+2KYZGyuooT5D3/rxuv2kyJQiD+MTDL3dQhsqHjLH0Vr6yH+1D4CA+rYRNpjy3Em5Ppl+d4/pYpSj9CZ9J3A4E5wRHu42SK3TqimAxNeoxfx30dUoKx5I3a/2TAksUdBaV7Mzm4xD6jhdqdKvtdArfFy3s9v2UO3wQhEG+jiwRBxW/Uow96L1sMPL8hbrYGpyc/2cy/5m3ig6nSOKdR9g3SCfljtL/14/ecukhL84M+Ony9be9YPS0Hj+3V/aca76kQ2ibfqyqfFel4NbvjNXIxyEbdX80WTC6gQYHUNhl/TUU2zw+mPGqEP8kPLMkkFq5eB9zUIUxYzDtt6kDJeePM7odylmLP1+n+BqXlnjNuzoWE1+xLbmWY0cuGRD9x0AOwC5d0UeNGPnvN52rz6RDueI76R892AhbbS/Vn0VH/NmPsaSMgyuXYFGysQCtVNvC4SOWC744MFaqIfolooSLkO+KOvw0dt8bAwrA5GxwPGk0SCr1zJppn+/B5k
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(366004)(136003)(39860400002)(346002)(396003)(451199018)(86362001)(31696002)(36756003)(83380400001)(66556008)(316002)(4326008)(478600001)(8676002)(6636002)(66476007)(66946007)(6512007)(186003)(26005)(2616005)(53546011)(31686004)(6506007)(6666004)(921005)(6486002)(38100700002)(5660300002)(8936002)(41300700001)(44832011)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T1NERUgxUGpRcXJ4U016N1M3NXRHeW1iN0ZiSm9PSzdEUjEzZGZlTkoxR3R6?=
+ =?utf-8?B?WUdDK0dvNEo1a3R1VExkQjlNZDdGUlFYOUJLcWVDN3pIUWh3WldBaUhCeHc1?=
+ =?utf-8?B?ZEFpUlphNWprSmVCczMzc0ozUnNDK1l3L3pEQmM5REYycXhrai9RbGdOVzky?=
+ =?utf-8?B?ZmhhZlliYjUzTkZCaWtIdUlxOTI3TDZCVEJHYlZIbHp6azcrNnBINlYrU1dN?=
+ =?utf-8?B?bllYZE1aVkRzU3pLSFhIYUg5WTEyYVYwc1Fmakc2V2x0ZlpuZTBvZ0Z6aHkv?=
+ =?utf-8?B?MGp5ampnUi9LendLclJ3djNXcklWU0FBTGpTZ2VYKzQ4K0V1Mm8wY2NDR3BL?=
+ =?utf-8?B?c1R4MGhBTWgreXVaWWV3OEJLZDVyeHltMTFTa2lBSDhGWHlPZndKN0hRMFdO?=
+ =?utf-8?B?ZWZ4Tk1pdG5lWkVuVzF0WFcwUTlqbjAyZ0wyTG1vcm5sRHZpbURJbm9naSs4?=
+ =?utf-8?B?dWFzejlvdWltSW12QU50MllxZlZKdHBreGltOXdRQWVFK0diRm1FMTRaa0xQ?=
+ =?utf-8?B?ZW5DQVp6Q3lFeTFXZ3A2dDlEcTBCV2MxdHFJaEk1SFpTaUtFNy9xWVp2blBT?=
+ =?utf-8?B?L1ZqUi96OW1NYlJRSFlicytFaGNJb3NWUktTcG5DVDZiSlZteE05bG1Vc3RD?=
+ =?utf-8?B?YmJaVUd4Qy9GRzBCa00rQ053TlZaV0llRm8zd3Y0WWxNaXp1bUFaa1EvYmVC?=
+ =?utf-8?B?OVJXTTNXKzRWMzZ3blhYWnJhTnJYdHRJVnFpeEhBNTJYeDBjb1FKdEtnM3BZ?=
+ =?utf-8?B?QUU0Skx0WEJOeDNwZ1JNMmhBUGVsS0VDcFVzWGY0Sm1YRmhhUXBkVDVvRnZ3?=
+ =?utf-8?B?a1VZK0RLakh5ZytkcUdHYVUvVWdTTFZsSy93UzhUYUU4Q3J5MEpiaE0rNFZu?=
+ =?utf-8?B?ZEtLK2tucnBqcS92ckowMFJxbnBiR1A0MDdqT2JDY1h3MDZFZE1sQXVWdkJq?=
+ =?utf-8?B?M3lWcHF4ekZnTlFCZGpCSm5kSXRYUURkZDk2ZFdJOXhYU3FkRk5JSllEb29z?=
+ =?utf-8?B?MTBQZzh6a2dxTGo4OGwzTWhKUW5laC9YN0R4Sng3UmY0cnY2eFpDbC9YYkhr?=
+ =?utf-8?B?bFppSTlwNUl1RFJUWWRCajVCQXNIbHptY01hZi83T0FOUVNTSlNvV2VDeFJj?=
+ =?utf-8?B?MU9YL1BwNDgwSjZzdm1lcnRtU0JTeDRnNy9Ham1lUlVMNjd1MnNJZFkvckVT?=
+ =?utf-8?B?OGNiN2hhbjZLN3FsWTRLNk9jTUEwUVBud08yRmdZQVBwQ29ySHo2SG9tVzhz?=
+ =?utf-8?B?cldrRHpvM3lwcys2eklZd1dXa3hRSWt0eXN5LzBDSE5vbUFnZ0VRNjJoZCtj?=
+ =?utf-8?B?OVluekNZSTdtbHl0dVpuKy9EZzRHUW9idzVjcEIwMnEvT1NmMXR1aUNMcWVj?=
+ =?utf-8?B?bExzOENMWTdvNThsUjdmZEhla3ljSHIvNkJJVkNmMEVrMzlicjJNWUVwdCtu?=
+ =?utf-8?B?MUJTRTgvL3pWU09iTlVISWZMUGlSNml0cTZlNGpyTDh1L1RLeXh3Y1A2aEZD?=
+ =?utf-8?B?bHZsWGNvWU0wbS8xVW8vK2lKQjJUeHRVeHFqQVdBd0JoMlNWeldRazhGOVpC?=
+ =?utf-8?B?M2JzWjZrUHA0N2xqRFBaanM4VEV3NFQxNXN3WGdrdXRrZWtOT2tlb1BVSnN1?=
+ =?utf-8?B?S0JWWG1GTGZQbHpnZXJSRlpDVmljckpiVU53SThGSGNzSjRzNnR0N0QxTXpy?=
+ =?utf-8?B?SUx1VzQzL3BndytiRmtQaWpJTUtPQ3FuRFBIQzlzcWRSYzJGRDB3Nk9zcWVj?=
+ =?utf-8?B?YjltLzNMRHNGdytCVWRLNGlkSzcxTk9wWGsyWFNPcTgzNHdXL1FEb0xtWGNF?=
+ =?utf-8?B?MmFOSG53ZVlBVCtqVGN6MjJwT0FUdURnV0x5UFM4dWQrUlF0SE5GS0dRVWZX?=
+ =?utf-8?B?WjIveWY2VjhRTUZMV045WGh2SEZhZ21naXVSRGQ2L3NaaWc0ZC9jVWlPYkRk?=
+ =?utf-8?B?ZzRaRlJFcktrR3VURGpNTHphd1dNNksrWVQ0dW9DWGowQ1U0QTNyTUVEa21s?=
+ =?utf-8?B?bmh4NXFmY2YzUjB2Z3FicTJEOUdNS3VjWUJmSUhPYjAwL3ZQMm9ESU9PM1ph?=
+ =?utf-8?B?L2g0eUhFL3E1RkJvcEtEd3VYeUM4TEVMZk9DRnJ3NFVnbW9sNFBoYWR4Ti9x?=
+ =?utf-8?Q?2uSB96BCK+Zxr6+LaWGZUQYYN?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7ef6c1c-bcae-4fe8-9368-08db2ae822a9
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 15:14:30.8044 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fm1AsHV5ckNOmcEVHQtDouN35Tybi8t3WGdVl3eKMcImVjYrdXja0Elw26H2OUCJYms5ZWw4kRSMfSx1jJ28Yw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7646
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,62 +129,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 08:25:09AM -0600, Jeffrey Hugo wrote:
-> On 3/22/2023 3:18 AM, Stanislaw Gruszka wrote:
-> > The SSID=1 is used by the firmware as default value in
-> > case SSID mapping is not initialized. This allows
-> > detecting use of miss-configured memory contexts.
-> > The future FW versions may not allow using SSID=1.
-> > 
-> > Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> > Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
-> > Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> > ---
-> >   drivers/accel/ivpu/ivpu_drv.c | 4 ++--
-> >   drivers/accel/ivpu/ivpu_drv.h | 5 ++++-
-> >   2 files changed, 6 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> > index d9e311b40348..70245cf84593 100644
-> > --- a/drivers/accel/ivpu/ivpu_drv.c
-> > +++ b/drivers/accel/ivpu/ivpu_drv.c
-> > @@ -474,8 +474,8 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
-> >   	vdev->hw->ops = &ivpu_hw_mtl_ops;
-> >   	vdev->platform = IVPU_PLATFORM_INVALID;
-> > -	vdev->context_xa_limit.min = IVPU_GLOBAL_CONTEXT_MMU_SSID + 1;
-> > -	vdev->context_xa_limit.max = IVPU_CONTEXT_LIMIT;
-> > +	vdev->context_xa_limit.min = IVPU_USER_CONTEXT_MIN_SSID;
-> > +	vdev->context_xa_limit.max = IVPU_USER_CONTEXT_MAX_SSID;
-> >   	atomic64_set(&vdev->unique_id_counter, 0);
-> >   	xa_init_flags(&vdev->context_xa, XA_FLAGS_ALLOC);
-> >   	xa_init_flags(&vdev->submitted_jobs_xa, XA_FLAGS_ALLOC1);
-> > diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-> > index 1b2aa05840ad..ef12a38e06e1 100644
-> > --- a/drivers/accel/ivpu/ivpu_drv.h
-> > +++ b/drivers/accel/ivpu/ivpu_drv.h
-> > @@ -25,7 +25,10 @@
-> >   #define PCI_DEVICE_ID_MTL   0x7d1d
-> >   #define IVPU_GLOBAL_CONTEXT_MMU_SSID 0
-> > -#define IVPU_CONTEXT_LIMIT	     64
-> > +/* SSID 1 is used by the VPU to represent invalid context */
-> > +#define IVPU_USER_CONTEXT_MIN_SSID   2
-> > +#define IVPU_USER_CONTEXT_MAX_SSID   (IVPU_USER_CONTEXT_MIN_SSID + 63)
+On 3/21/23 13:58, Christophe JAILLET wrote:
+> A kzalloc()+memcpy() can be optimized in a single kmemdup().
+> This saves a few cycles because some memory doesn't need to be zeroed.
 > 
-> The old MAX was 64.  Now the MAX is 65.  I'm guessing the intent is to keep
-> the number of valid SSIDs constant (63), but it is unclear if SSID 65 is
-> valid for the FW.
-> 
-> Maybe the commit text could clarify this a bit?
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Yes SSID=65 is valid, I'll update the changelog.
+Applied, thanks!
 
-Regards
-Stanislaw
+> ---
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 5bac5781a06b..57a5fbdab890 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -820,15 +820,14 @@ static void dm_dmub_outbox1_low_irq(void *interrupt_params)
+>   					DRM_ERROR("Failed to allocate dmub_hpd_wrk");
+>   					return;
+>   				}
+> -				dmub_hpd_wrk->dmub_notify = kzalloc(sizeof(struct dmub_notification), GFP_ATOMIC);
+> +				dmub_hpd_wrk->dmub_notify = kmemdup(&notify, sizeof(struct dmub_notification),
+> +								    GFP_ATOMIC);
+>   				if (!dmub_hpd_wrk->dmub_notify) {
+>   					kfree(dmub_hpd_wrk);
+>   					DRM_ERROR("Failed to allocate dmub_hpd_wrk->dmub_notify");
+>   					return;
+>   				}
+>   				INIT_WORK(&dmub_hpd_wrk->handle_hpd_work, dm_handle_hpd_work);
+> -				if (dmub_hpd_wrk->dmub_notify)
+> -					memcpy(dmub_hpd_wrk->dmub_notify, &notify, sizeof(struct dmub_notification));
+>   				dmub_hpd_wrk->adev = adev;
+>   				if (notify.type == DMUB_NOTIFICATION_HPD) {
+>   					plink = adev->dm.dc->links[notify.link_index];
+
+-- 
+Hamza
+
