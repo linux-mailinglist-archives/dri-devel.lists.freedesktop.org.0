@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F6A6C4534
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92FF56C4551
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:48:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73AF510E355;
-	Wed, 22 Mar 2023 08:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C70E10E36E;
+	Wed, 22 Mar 2023 08:48:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F1E010E355;
- Wed, 22 Mar 2023 08:40:14 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D08A10E36E;
+ Wed, 22 Mar 2023 08:48:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679474414; x=1711010414;
+ t=1679474930; x=1711010930;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=Yosr35sxGE6pHCxLgw1tS2Bcs6vWi+uYN8nvj+6PqTo=;
- b=K/89y3qY3i0GjlA4mFRZomceFdgyi+YjJXOZayC6LuegAxJX76HvQUUS
- BYfKJU/9IwIXrVnDRKu+gYmKTSQTW/Jb3/mTvlBg/7jyaDZCldSk9irid
- 7h0PfK8ChHdvl91k66B8TK9sP8zKXl6hLQ/4c03AIOplvpNAkLiSd/F2r
- gM4fdBgjqbOM7DCXuXjExWDVF7gi2JE5RRXzus163KphslsjBLjNfAVpW
- oC5wY7+/V7ZrtURTkhtjjlxpgQL6qQ59QXuyNgkeQSNb55KKxQMnn3Cfn
- WJl7kgPkmHct+8yX6X6V3YVFy2ThOtMB00sBK8iTTk7tI2uNJxYDXmenc Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="404042945"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="404042945"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 01:40:13 -0700
+ bh=PlMYbLd1qJQMPYx4SczrL0/ko7mvh83PpGJQuHvX9K0=;
+ b=Pc+hfscwvG9GmnQnUJJFb8KB/TBoTdQOylOGVsI0vBlJlTgRUgI84Hie
+ a8emmhqXvR+6d9011Q6GCdg/99Rw8KXC4XrHOl6liWVwYXRGCQxE4eTpo
+ nLDHTcDvAvkiP5IMMKt1LdW/WB/xnxUeL2Y86qNvfc21hHUEdOjQTpnUa
+ qqMAODh1s3tlLu9jeIrByveaYDOHLM3fAkLYHJcSA9PcewJ3H99DhlGv6
+ EGBNPjgA1YCsGzWwhfl6dY2805XogtVCe1E3ID97pEmnBeliWPAUKgvNY
+ h/bmi/A8/S2bFlFrxBoyud0BgJGi4S3UGUEwRt1YqXoSd0qNwx/k+V6MZ w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="339201881"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="339201881"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 01:48:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="712135961"
-X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="712135961"
+X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631909903"
+X-IronPort-AV: E=Sophos;i="5.98,281,1673942400"; d="scan'208";a="631909903"
 Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.22.233])
  ([10.213.22.233])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 01:40:09 -0700
-Message-ID: <9fff7768-ea75-23d0-f504-03bc54788561@intel.com>
-Date: Wed, 22 Mar 2023 09:40:07 +0100
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 01:48:30 -0700
+Message-ID: <fc3306a6-bae9-25dd-980e-cc00a2cd71d7@intel.com>
+Date: Wed, 22 Mar 2023 09:48:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [Intel-gfx] [PATCH v2 1/2] drm/i915: Sanitycheck MMIO access
- early in driver load
-To: Andi Shyti <andi.shyti@kernel.org>, Matt Roper <matthew.d.roper@intel.com>
-References: <20230321170936.478631-1-andi.shyti@linux.intel.com>
- <20230321170936.478631-2-andi.shyti@linux.intel.com>
- <20230321215527.GQ4085390@mdroper-desk1.amr.corp.intel.com>
- <20230321224353.h6l2gwv3iuac6vd2@intel.intel>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use i915 instead of dev_priv insied
+ the file_priv structure
 Content-Language: en-US
+To: Andi Shyti <andi.shyti@linux.intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+References: <20230322001611.632321-1-andi.shyti@linux.intel.com>
 From: Andrzej Hajda <andrzej.hajda@intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20230321224353.h6l2gwv3iuac6vd2@intel.intel>
+In-Reply-To: <20230322001611.632321-1-andi.shyti@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,118 +65,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21.03.2023 23:43, Andi Shyti wrote:
-> Hi Matt,
+On 22.03.2023 01:16, Andi Shyti wrote:
+> In the process of renaming all instances of 'dev_priv' to 'i915',
+> start using 'i915' within the 'drm_i915_file_private' structure.
 > 
->>> We occasionally see the PCI device in a non-accessible state at the
->>> point the driver is loaded.  When this happens, all BAR accesses will
->>> read back as 0xFFFFFFFF.  Rather than reading registers and
->>> misinterpreting their (invalid) values, let's specifically check for
->>> 0xFFFFFFFF in a register that cannot have that value to see if the
->>> device is accessible.
->>>
->>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
->>> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
->>> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/intel_uncore.c | 35 +++++++++++++++++++++++++++++
->>>   1 file changed, 35 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
->>> index e1e1f34490c8e..0b69081d6d285 100644
->>> --- a/drivers/gpu/drm/i915/intel_uncore.c
->>> +++ b/drivers/gpu/drm/i915/intel_uncore.c
->>> @@ -2602,11 +2602,46 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
->>>   	return 0;
->>>   }
->>>   
->>> +static int sanity_check_mmio_access(struct intel_uncore *uncore)
->>> +{
->>> +	struct drm_i915_private *i915 = uncore->i915;
->>> +	int ret;
->>> +
->>> +	if (GRAPHICS_VER(i915) < 8)
->>> +		return 0;
->>> +
->>> +	/*
->>> +	 * Sanitycheck that MMIO access to the device is working properly.  If
->>> +	 * the CPU is unable to communcate with a PCI device, BAR reads will
->>> +	 * return 0xFFFFFFFF.  Let's make sure the device isn't in this state
->>> +	 * before we start trying to access registers.
->>> +	 *
->>> +	 * We use the primary GT's forcewake register as our guinea pig since
->>> +	 * it's been around since HSW and it's a masked register so the upper
->>> +	 * 16 bits can never read back as 1's if device access is operating
->>> +	 * properly.
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 
+Apparently the last struct member with this name, R.I.P.
 
-Maybe we can just check upper 16bits then. Sth like:
-ret = intel_wait_for_register_fw(uncore, FORCEWAKE_MT, GENMASK(31, 16), 
-0, 2000000);
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
 Regards
 Andrzej
 
->>> +	 *
->>> +	 * If MMIO isn't working, we'll wait up to 2 seconds to see if it
->>> +	 * recovers, then give up.
->>> +	 */
->>> +	ret = intel_wait_for_register_fw(uncore, FORCEWAKE_MT, 0, 0, 2000000);
->>
->> It looks like you lost the check for 0xFFFFFFFF specifically.  In fact
->> with a mask/value of 0, isn't this always going to just always pass
->> immediately?
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c | 22 ++++++++++-----------
+>   drivers/gpu/drm/i915/i915_drm_client.c      |  2 +-
+>   drivers/gpu/drm/i915/i915_file_private.h    |  2 +-
+>   drivers/gpu/drm/i915/i915_gem.c             |  2 +-
+>   4 files changed, 14 insertions(+), 14 deletions(-)
 > 
-> uh... yes... sorry, I just got confused and lost track of the
-> goal of the patch.
-> 
-> Sorry, then please ignore... I don't see then how
-> intel_wait_for_register_fw() can be used with a '!='.
-> 
-> Please, ignore this v2.
-> 
-> Thanks and sorry, again,
-> Andi
-> 
->> We don't know what the value of this register will be (there may or may
->> not be some bits set), but we need to make sure that it isn't 0xFFFFFFFF
->> because that means we're not even truly accessing the register, just
->> hitting a PCI BAR read failure.
->>
->>
->> Matt
->>
->>> +	if (ret == -ETIMEDOUT) {
->>> +		drm_err(&i915->drm, "Device is non-operational; MMIO access returns 0xFFFFFFFF!\n");
->>> +		return -EIO;
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>>   int intel_uncore_init_mmio(struct intel_uncore *uncore)
->>>   {
->>>   	struct drm_i915_private *i915 = uncore->i915;
->>>   	int ret;
->>>   
->>> +	ret = sanity_check_mmio_access(uncore);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>>   	/*
->>>   	 * The boot firmware initializes local memory and assesses its health.
->>>   	 * If memory training fails, the punit will have been instructed to
->>> -- 
->>> 2.39.2
->>>
->>
->> -- 
->> Matt Roper
->> Graphics Software Engineer
->> Linux GPU Platform Enablement
->> Intel Corporation
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index 6d639ca24dfbb..5402a7bbcb1d1 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -364,7 +364,7 @@ static int set_proto_ctx_vm(struct drm_i915_file_private *fpriv,
+>   			    struct i915_gem_proto_context *pc,
+>   			    const struct drm_i915_gem_context_param *args)
+>   {
+> -	struct drm_i915_private *i915 = fpriv->dev_priv;
+> +	struct drm_i915_private *i915 = fpriv->i915;
+>   	struct i915_address_space *vm;
+>   
+>   	if (args->size)
+> @@ -733,7 +733,7 @@ static int set_proto_ctx_engines(struct drm_i915_file_private *fpriv,
+>   			         struct i915_gem_proto_context *pc,
+>   			         const struct drm_i915_gem_context_param *args)
+>   {
+> -	struct drm_i915_private *i915 = fpriv->dev_priv;
+> +	struct drm_i915_private *i915 = fpriv->i915;
+>   	struct set_proto_ctx_engines set = { .i915 = i915 };
+>   	struct i915_context_param_engines __user *user =
+>   		u64_to_user_ptr(args->value);
+> @@ -813,7 +813,7 @@ static int set_proto_ctx_sseu(struct drm_i915_file_private *fpriv,
+>   			      struct i915_gem_proto_context *pc,
+>   			      struct drm_i915_gem_context_param *args)
+>   {
+> -	struct drm_i915_private *i915 = fpriv->dev_priv;
+> +	struct drm_i915_private *i915 = fpriv->i915;
+>   	struct drm_i915_gem_context_param_sseu user_sseu;
+>   	struct intel_sseu *sseu;
+>   	int ret;
+> @@ -913,7 +913,7 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+>   		break;
+>   
+>   	case I915_CONTEXT_PARAM_PRIORITY:
+> -		ret = validate_priority(fpriv->dev_priv, args);
+> +		ret = validate_priority(fpriv->i915, args);
+>   		if (!ret)
+>   			pc->sched.priority = args->value;
+>   		break;
+> @@ -934,12 +934,12 @@ static int set_proto_ctx_param(struct drm_i915_file_private *fpriv,
+>   		if (args->size)
+>   			ret = -EINVAL;
+>   		else
+> -			ret = proto_context_set_persistence(fpriv->dev_priv, pc,
+> +			ret = proto_context_set_persistence(fpriv->i915, pc,
+>   							    args->value);
+>   		break;
+>   
+>   	case I915_CONTEXT_PARAM_PROTECTED_CONTENT:
+> -		ret = proto_context_set_protected(fpriv->dev_priv, pc,
+> +		ret = proto_context_set_protected(fpriv->i915, pc,
+>   						  args->value);
+>   		break;
+>   
+> @@ -1770,7 +1770,7 @@ void i915_gem_context_close(struct drm_file *file)
+>   	unsigned long idx;
+>   
+>   	xa_for_each(&file_priv->proto_context_xa, idx, pc)
+> -		proto_context_close(file_priv->dev_priv, pc);
+> +		proto_context_close(file_priv->i915, pc);
+>   	xa_destroy(&file_priv->proto_context_xa);
+>   	mutex_destroy(&file_priv->proto_context_lock);
+>   
+> @@ -2206,7 +2206,7 @@ finalize_create_context_locked(struct drm_i915_file_private *file_priv,
+>   
+>   	lockdep_assert_held(&file_priv->proto_context_lock);
+>   
+> -	ctx = i915_gem_create_context(file_priv->dev_priv, pc);
+> +	ctx = i915_gem_create_context(file_priv->i915, pc);
+>   	if (IS_ERR(ctx))
+>   		return ctx;
+>   
+> @@ -2223,7 +2223,7 @@ finalize_create_context_locked(struct drm_i915_file_private *file_priv,
+>   
+>   	old = xa_erase(&file_priv->proto_context_xa, id);
+>   	GEM_BUG_ON(old != pc);
+> -	proto_context_close(file_priv->dev_priv, pc);
+> +	proto_context_close(file_priv->i915, pc);
+>   
+>   	return ctx;
+>   }
+> @@ -2352,7 +2352,7 @@ int i915_gem_context_destroy_ioctl(struct drm_device *dev, void *data,
+>   	GEM_WARN_ON(ctx && pc);
+>   
+>   	if (pc)
+> -		proto_context_close(file_priv->dev_priv, pc);
+> +		proto_context_close(file_priv->i915, pc);
+>   
+>   	if (ctx)
+>   		context_close(ctx);
+> @@ -2505,7 +2505,7 @@ int i915_gem_context_setparam_ioctl(struct drm_device *dev, void *data,
+>   			 * GEM_CONTEXT_CREATE starting with graphics
+>   			 * version 13.
+>   			 */
+> -			WARN_ON(GRAPHICS_VER(file_priv->dev_priv) > 12);
+> +			WARN_ON(GRAPHICS_VER(file_priv->i915) > 12);
+>   			ret = set_proto_ctx_param(file_priv, pc, args);
+>   		} else {
+>   			ret = -ENOENT;
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+> index b09d1d3865740..e8fa172ebe5ee 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> @@ -130,7 +130,7 @@ void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
+>   {
+>   	struct drm_file *file = f->private_data;
+>   	struct drm_i915_file_private *file_priv = file->driver_priv;
+> -	struct drm_i915_private *i915 = file_priv->dev_priv;
+> +	struct drm_i915_private *i915 = file_priv->i915;
+>   	struct i915_drm_client *client = file_priv->client;
+>   	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>   	unsigned int i;
+> diff --git a/drivers/gpu/drm/i915/i915_file_private.h b/drivers/gpu/drm/i915/i915_file_private.h
+> index f428778696925..c9cb8eecacde0 100644
+> --- a/drivers/gpu/drm/i915/i915_file_private.h
+> +++ b/drivers/gpu/drm/i915/i915_file_private.h
+> @@ -15,7 +15,7 @@ struct drm_file;
+>   struct i915_drm_client;
+>   
+>   struct drm_i915_file_private {
+> -	struct drm_i915_private *dev_priv;
+> +	struct drm_i915_private *i915;
+>   
+>   	union {
+>   		struct drm_file *file;
+> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+> index 35950fa914068..2ba922fbbd5ff 100644
+> --- a/drivers/gpu/drm/i915/i915_gem.c
+> +++ b/drivers/gpu/drm/i915/i915_gem.c
+> @@ -1313,7 +1313,7 @@ int i915_gem_open(struct drm_i915_private *i915, struct drm_file *file)
+>   	}
+>   
+>   	file->driver_priv = file_priv;
+> -	file_priv->dev_priv = i915;
+> +	file_priv->i915 = i915;
+>   	file_priv->file = file;
+>   	file_priv->client = client;
+>   
 
