@@ -1,149 +1,148 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB716C5852
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 22:00:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A676C585E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 22:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7BD010E3FA;
-	Wed, 22 Mar 2023 21:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F48D10E272;
+	Wed, 22 Mar 2023 21:03:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D111210E272;
- Wed, 22 Mar 2023 21:00:02 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3EC110E272;
+ Wed, 22 Mar 2023 21:03:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679518802; x=1711054802;
+ t=1679519006; x=1711055006;
  h=message-id:date:subject:to:cc:references:from:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=ifs5f3gGTrxefST6kEaTo8p8xRxrXwbbnykcZjuciy4=;
- b=eMx5yuSNelF/QT7uGOjfnZYDT3TkNZnhhYnppbtRcXNQgBj8Jm+iPj3b
- OP0oyx6rUPYjhvTK+v9qNweHE0b2J43Rg/mjnSJJWPj1TLKbm+3BSLJ3l
- P9m0Anl3zzsH5zzo59ThxyXUwpk3gPM79nZNq10tivujkurXnrL4XKDcP
- 0OsYVPi2ewigDLwKmfoAm8mvPO4mitzXld/4qzTaGyLWjXwA5lT/ZvB8g
- 4s4MZmE56fSKKNFCjcnnKzWYUrIiuuqBffMSkTi+X2PUc7crR+8nshKxh
- nCFPHWuAw98pDQiswOVEoYO/yLzsvPx/rT/y6kiMcMuNalUZbUnVleRpx g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="318982513"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="318982513"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Mar 2023 14:00:02 -0700
+ bh=1XZUiTkvYWkw0zJKy02HjoeOpWUMtAIBBIjSwSfAcAw=;
+ b=k589l9yIogRUyv1rcojzncjp6rwQxzjw9IdmCxR3/LATb4UI0RvsfzCO
+ it1rKdy7UggTV+wT7SvNp0a9I/uTr/a9bnJGgshEeff/EBBXbwQ3ACHlI
+ X6h1KlsxcX0oDx/MVQiTawEvd+I5ddfQ0RtGbgVoXTGXauyAgK3opVHU6
+ WgFwwpoaeYrcVJJvOAng67NE9K3Qu6BGwMSu/Jkleh2gg6ZR680/ErIZt
+ cE3KYURvAejXh7Y0ou+Obkkl0maCMRDpLfiJHmsFeV97qJYWUuETXj5L6
+ CljZ3HQ6G5giHkQxzV41UE+SO0obo1IRIRhfUoP9M3gow0CK/Wpmc2aDW Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="340870298"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="340870298"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 14:03:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="805999065"
-X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="805999065"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga004.jf.intel.com with ESMTP; 22 Mar 2023 14:00:01 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="751219155"
+X-IronPort-AV: E=Sophos;i="5.98,282,1673942400"; d="scan'208";a="751219155"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2023 14:03:25 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 22 Mar 2023 14:00:01 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.21; Wed, 22 Mar 2023 14:03:25 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Wed, 22 Mar 2023 14:00:01 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.21 via Frontend Transport; Wed, 22 Mar 2023 14:03:25 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Wed, 22 Mar 2023 13:59:59 -0700
+ 15.1.2507.21; Wed, 22 Mar 2023 14:03:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bG9knPyzpA+nEGWOYU5sf5O5WiKx3Mfbqm15oNOlM7Tuf2A8AaEM0zFnElvTImMYe3PHfX6c9mxdvtEaq92LLsWlUMkuWamHBDOCe8fsxyx/sHh6U8Wj9UAlIJklO/T3RXXxmhD+mCdwaaraS5UbU33UUel+yla3zUBhRcoym8Cxnm2F70Q6AG4Y37HN2y16CjPShgMaRZx3OvgKtW2fYXXWaj0AKcuEJPLOz1XQbhz/8C4tLY3YvGQbIkxLf2tbU6uD9cfxQWHUgG91fx9E21M1WMEKU+nlUNrPy2n/6/jCvveUZCh/mo7qr3+WZfQLjHeQg8Qb2RVkQbR7lWpYeg==
+ b=NAhUPYIK5S4nCRun9w9C1xT84M2yYY80i7hdJJA7KMmpHISW/Xsd84oEqsRdjeX+bAHv9RD8xUtd3ccX3KZYKJyVg4QC4FNS47ZrbqaGvsak1gYcnvSZpNz7Y781rAVVrmx1igxrtLc8DMXJqZ/EqnJbGTJFIWHJNY0I0Mchn9ja7u9iREoOkEVFY4pFyQJRQUfBKTrNq0DIG8RenXBXHklnKUkzTjbwmUKGclZYmWUB5lAzONJVz6Kl/ZkKZjIjfzQSXOx6Y0R/xAvhbucQjTp/DWWyd3ErxHLqw7peS2T9cqsRgHhAIXSQYy6TjPuMhpRZxcswN83SPR+FHbCUbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6uxJWZJioTfDT7tujWjVtkAqw0cucQKyrM+WL6W5NDE=;
- b=KhUhZbnU6b1YMYLt+KUGC8DwxivgrusSyY+h7yfO6RAGJ8min73ijulkzb3lFJHEHtMzIOr6bgDm5x3p4lgJCgj9EgMr8ve9q8e7CwIUs8g3Uj3gN+CIQOFtTtAfRTEc5MaKIPNCTN6/67s431XAH1/CzykHVwo3h3zNgQwnkFGPbarCkWpQNN1ULp8xwaMLZmsRXAnX8FbPxXVZaQUUx3sk3A28e4jUIMgb8mxTmNrxyvyv2UjCc2rtEyIrUzKgeQEDE81rIacO8Cd4rGmUsTYJrfZ7lW62d6JluMgDeA6buOFYIlcu3vJwyzxyhPr8Ze5COr3g0IWWFzV+x6wOuQ==
+ bh=SsvoKxaG179aTsGEPOoIOcnUJ+Wp/ERzNLhIhjMFJ3E=;
+ b=CjCAB6knMmZXrWPR4B2EHRwY8afqJIA69lFfwiCGw+n8L2YI+9O7mi8I+HYbL/A3Vj4VDgo5tdrJ1PKAP+xBJ4Eu9NwfeODREG4o0lLbxXrich1uHcxVuLIyTONEIvcUjUtW+lqhbDJ7lOXpS28DuG1W/ni2P4O1Ye4eA/E0prC5v/NN73P9RmDapbeGRe+lbrdicxqmr3rw1/3W0qpog6ikAL5+oRLhfUw7PgHK8ImIZvXDsypNMzfmWsnL46cI3ML42VusVSn9x/bJYYDWzwkRdbKFrfOUBi9LYgWiYTy4Z9zFPY5bqWRZhcUH9m3/y00XGqZJu9FLfrAeD4KFHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- CO1PR11MB5075.namprd11.prod.outlook.com (2603:10b6:303:9e::14) with
+ SA0PR11MB4671.namprd11.prod.outlook.com (2603:10b6:806:9f::17) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.37; Wed, 22 Mar 2023 20:59:57 +0000
+ 15.20.6178.37; Wed, 22 Mar 2023 21:03:23 +0000
 Received: from DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::3e9f:e67a:40c:d2da]) by DM4PR11MB5488.namprd11.prod.outlook.com
  ([fe80::3e9f:e67a:40c:d2da%8]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
- 20:59:57 +0000
-Message-ID: <a9cf94f9-784f-ab30-ec5f-5155ef098dd5@intel.com>
-Date: Wed, 22 Mar 2023 13:59:54 -0700
+ 21:03:23 +0000
+Message-ID: <0296ba17-6e91-76f2-4866-179feb94074b@intel.com>
+Date: Wed, 22 Mar 2023 14:03:20 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 2/2] drm/i915/gsc: implement wa 14015076503
+Subject: Re: [PATCH 1/2] drm/i915: limit double GT reset to pre-MTL
 Content-Language: en-US
 To: John Harrison <john.c.harrison@intel.com>,
  <intel-gfx@lists.freedesktop.org>
 References: <20230320211039.1513368-1-daniele.ceraolospurio@intel.com>
- <20230320211039.1513368-2-daniele.ceraolospurio@intel.com>
- <6763dca1-5061-f508-0846-8ef51a7acdc8@intel.com>
+ <382f0058-2b4f-4ef2-8031-27a2f75715df@intel.com>
 From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <6763dca1-5061-f508-0846-8ef51a7acdc8@intel.com>
+In-Reply-To: <382f0058-2b4f-4ef2-8031-27a2f75715df@intel.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR13CA0007.namprd13.prod.outlook.com
- (2603:10b6:a03:2c0::12) To DM4PR11MB5488.namprd11.prod.outlook.com
+X-ClientProxiedBy: BY3PR10CA0028.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::33) To DM4PR11MB5488.namprd11.prod.outlook.com
  (2603:10b6:5:39d::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|CO1PR11MB5075:EE_
-X-MS-Office365-Filtering-Correlation-Id: 346b0f74-25e0-49a7-8798-08db2b186485
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5488:EE_|SA0PR11MB4671:EE_
+X-MS-Office365-Filtering-Correlation-Id: caa4ca38-7400-444b-5a5b-08db2b18df7d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P7iTaiFfDDUdVusQpCza3sheBs5nWtzuPcQ7w+s3aYHMWUMe7iHIDnKRCJzrykBSmSmMuH+uTQd7TWRe3vrEOaUMSpdwnMRCszk1ycxB8ZmzcQVrgkTD1wY//KPQFEq9H0M6s5+2BLIKnMZd9HgHBhmSnNKwbSZMxGXfjV3jjN35lFuUSIJGqtJsUv637/Q5k5zgjZgWZfgAiYIbiNTupHRmhAJQxUDKyqCWCVbMdKmwtXB1SrMQoCGUQXozUrY497p4+ZqhsW5h7X4S0WuSuVpzJwGA/jqZ23FyPP3rC0dPzzYAfEvMP3daDtbbNw/Pz9x5VLg/kKk9f/N12qTQ0rFmP3i5CaLWoe9B1KmSOWZFx8EpXWfe0/yDj2kvg7mRMztNm+/khf+Iz7gDBTS/voZARCLsdkqMuLKVKGkAAT2Kn6D9NsBjgHfCZ5GGHgGUKwxMv0Ev8+7e+rJF3rZhcXJinjgUB0t9EqO/Z1XqbEqtGhzzjXSNgx1HD77/rDoNDZbW/ZnGolwJB19LEiQWHEyNoE2kEpZNA86NNaQHPGaL62dwOL0PB3roUiNRt7BvWwqPVOEZshG+C8uCoQd13ZrJwEvUnTwxmAglU+HU0DgtMIep1ZL7gN//vU64ioATwDu5THVwhkSlk+nRVRf2wIRPoInWPjkd6Ii2GEUvTET3fpFf4KjWUp6HtcRltjmmfV2iYLbrjikvR2DKCQ49ZyJW2CvD8RWtCAP7flsKa2E=
+X-Microsoft-Antispam-Message-Info: pF1jJ3l5Iij8yhi0N8QQ144q9QquiztCdZbLL+beKXG4njGDeXsOgyGpaOI9xKKa5SMQUSB7WBB2+Fv6CkzZgvjXS/YyLCWgbMkh10EO0xZxGvrIQyY7Emqb2raDqHaNFbfGWJexRnL77jYZkRw6uK3sHY8HLGSpfuAXaDU7U7QRGX4AvSF6XJ0ya66Aihe3jipGlUe5+MxHTAe8pPZcLZ38Nzlzj9ngY86pBcxtAWfvze2iK2n5m90UEjg1LLjMpzSws/uFmGqP+q1HKIvqtl+BHNKRt8K12DVkk532j137Q0c0mF47dRn6rYrPC2NcpiddOpa1koPTOTq9wvSraoRpKEI9Yrgbkm07twQtNiGvJNmL5VfUQy2e0gi+DGsoGH/QqgTxgQgy9ISW9NH6lvhlAbN62jX5hM0xPEGOrgVL8xdGtDqDUrLTSZQo1TuB4aq5D1fWdfUAHB86+f+qM5JDLUVIvlMpQQ3yrKjm3hVi/F1m9gCLV0fmSILgdQJ+koZEfqY8jF9hXWoWMjXIqWIn63tGHKqnFc+6Mjb4pcp8coxy7M5p22PjehEDCLk6zdjRQKJRCJz0H6lC/KT6SxAZ0ZB9pCpwN5HJOI0pbSj7QPnOMTRryfvoiheURxdzgiTb3YFCTqsMHjLAbVO2hXvCeTSdbaKsI/f1aJmHDgbDrbd6OzTpy72wY1zL7X51kc0Qryrj0B57XK8D2vgiFPkRCnEEMPtTqeZjPD1Y0dM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(396003)(39860400002)(376002)(346002)(366004)(136003)(451199018)(31686004)(450100002)(66946007)(66556008)(478600001)(8676002)(54906003)(66476007)(316002)(41300700001)(2906002)(4326008)(5660300002)(8936002)(31696002)(36756003)(86362001)(6506007)(26005)(186003)(53546011)(6486002)(107886003)(6666004)(2616005)(6512007)(82960400001)(38100700002)(83380400001)(45980500001)(43740500002);
+ SFS:(13230025)(39860400002)(376002)(346002)(366004)(396003)(136003)(451199018)(2616005)(6506007)(6486002)(26005)(186003)(4326008)(478600001)(83380400001)(316002)(54906003)(66946007)(66556008)(66476007)(8676002)(53546011)(31686004)(6512007)(8936002)(5660300002)(41300700001)(38100700002)(2906002)(36756003)(82960400001)(86362001)(31696002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d2lOVE5ER1U0VUlsaGJ2Y2tzOW5KOUh1SE43bVVzdkdpZWk1RVM2NlRTRFpt?=
- =?utf-8?B?RlpLRDZaR2JsUnFCTFZWZVIwanBaK0pVVExVWlFlNm1VeFQvL012TkhqeFNq?=
- =?utf-8?B?aFowblR2dGxlUk51MXhpQlo0MkppS29MdCtrNGllM1duYlBtczg1WkJOWnFw?=
- =?utf-8?B?UmdIZFBGSnZxNmx1NzZqdDZPWUtoNDBrL3hFeHFiNlFJYVBIUEpiTEtFZjJU?=
- =?utf-8?B?Qm5ZV1RITEhzcXlxUEFpSW5LS09Md1JCS2lNc0lGb1dZU3BPNlNLVDZ3Qkh4?=
- =?utf-8?B?UUV1QmxTMU5IQkYxRGVqTVg4SjFqRi95S0hGeUNab3Q1Z09VR0pnUko3dkFh?=
- =?utf-8?B?R1g1dDd6Q3BlWnJwMlk5WVZDYTdydmo3cldiN2thdER0MVdtTXRmejJ5N0xF?=
- =?utf-8?B?cDBRMm54SHBSWWZRMVdrVVBIZUZ5bXNwWUZnUmxmeGF1R2RKdnRXZ041Y0Fz?=
- =?utf-8?B?TmplK0tlYmloYjNxTGF2aUNCZm85TkRGMS93MVh2Z3NuVk9jS3pkWkJKSkdB?=
- =?utf-8?B?UmpqQTN0UEEvRjRlNkF2UGNvRkw0UkRUdjdnR1lCRVdYbWJyMVdKZjZQZE9a?=
- =?utf-8?B?ZHJVOXZxbG0zV2kxakpTZURxand2eFZLOTV3VS82RndNZjR0blFud29HQWxi?=
- =?utf-8?B?RnNxZzBpd3ZFSTJRMGZhTUxJaTRXWERTN1dPbW9wcU1SWThTWERzSjYvbWdT?=
- =?utf-8?B?UTJ5U2paTXhvN0xvWmlId2FqRkJoNnpxcExZTExOWDRTMXo4MVM4elEzOURr?=
- =?utf-8?B?MGxmcC9nU1huV21JM3lSQ1I2QzkrdUNERno2WGdFRTVCWlduU2ttcWRwVzFY?=
- =?utf-8?B?aXZ5RGpHakREdTZjRmJLcVQ4bmsrMWlnM04yQXZHUVpaak5GU0tFS0NXeHla?=
- =?utf-8?B?OVh0UVEwMERBWDQ3a1VNWlNnQVFWbHJmTm9xdittVFFMUjU5a2lGQ09FVWJt?=
- =?utf-8?B?L3ZEVTJOb3JjRG1pa204c1BBa3VmUmdPdlI5YmxiWEpvOGtteGcvbmJoaGxV?=
- =?utf-8?B?Q2hFSTRCRE5GS0xaaHByR2dzZzFWOGp2WVJOQU9KZm1XWi80K2V6NlphL0ov?=
- =?utf-8?B?VHRodHQzQU9FdVJKeGx2NkFrY3B1UngvdVRyNTg3bzlkODdKckYrVU84cDVY?=
- =?utf-8?B?MTI1d2VnSEkyb21wN1FkS1lKcjh5RVpIWHdUdCtzVUV6TE1tMTJzUThxeEJ1?=
- =?utf-8?B?ZUNjN0NRZVYycG1oRHQ1dkZoREtjaThsSnErSTQ5RXM2NENub3lKbHdnUFJ6?=
- =?utf-8?B?K05RZ29XLzJ0aTVublp3ZnRDWmdRcE9DQ2VWei9CMnB2NGJycExJMjRhTVh6?=
- =?utf-8?B?c09nT3dWdUh2cnhXZGpJak1uSi94VEZGTHFZbWl0Ym0xd0pEdDU4RnZwMWww?=
- =?utf-8?B?RUNWSkp2OUV5Yzd4ajJRSzZEMnQzR0xUdXhwbWVoMzI0VkQvWlY3ZGlYLzF3?=
- =?utf-8?B?aVN0S0tmTmIzNS9BcDlYYk1tYjBkcStseE56c2dNZXhsSEJ4MXhRT2QyNjBw?=
- =?utf-8?B?Q21DNDNhbHZkMmFZOVBJaFlER0FmdklhTXpsdHFNeHNGWkEvbjgrZGhRak9y?=
- =?utf-8?B?TGdaOGdLL01KeWhwdzlxUHBYcmw3dGpvY01jTkZJaWpybXV3ZW9HYUF6eXFU?=
- =?utf-8?B?dnB4UjVTenlra1pCOVhrU3VCbWZmODBDUmdiR3E1Q1FwaG9wd1hKbFdoeTRF?=
- =?utf-8?B?djdZdHAxaXJMcjN2MThvVjNiVVJHS253a3hPNDVya1p6LzlOMVVHbVpraTJk?=
- =?utf-8?B?T1JWczJ4NmtpQzBHV3VnWGl4Njg0Rm9BN0p6OEsybTZhS0VBYUMvNFE0UHM2?=
- =?utf-8?B?eGl1TXpCUGVDdWFMVWZmc2NKcXZWVDBwY0d0aW1oYkdEZUFEdXJuN0M1VWk5?=
- =?utf-8?B?bWdBVzdZRjRJTkkxbmJuM3pFOFl5RDNUVzVZMjNQekpsZzFwN3dscVQ3L09W?=
- =?utf-8?B?N2sxNGQrZFIwZnhCN0syZS9vRWw5dTNOMHVOOEFlbmN2N3Q3TTgxVWtaVUZZ?=
- =?utf-8?B?Vnk2VlA2Q3NTczJUcXB5ODlibHVwL0FZRjh0U3FKRnVCVmNJQ0ZVdDhaTXYz?=
- =?utf-8?B?dm1ZcDM2bzM0OWVDdUExeVNqNnFSLzN4NnU4VFJNZ1RJLy9GYnVpdDl4b0Iz?=
- =?utf-8?B?VHczQmZpUzF4RWMvNmk2VXdnN1BCdDJWTHBJUFJTUmdLWE4yZ2k0UnRVTUUw?=
- =?utf-8?Q?Vo3PWr9d6bjlVBTNRKt9piE=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 346b0f74-25e0-49a7-8798-08db2b186485
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnJ3RS9yUXVNYXltS0FXZ1ZKdTdCSENSWlZQZEc4K2w5aUM5Uk5UNTdCdnU4?=
+ =?utf-8?B?NnV3L1BLM3prdWd3KzhtSEdBUTJ3U04rMWRsZGU1TGtGMmttMms1YzZRUDB5?=
+ =?utf-8?B?dzFEcUtCdFFiaHZvcFlEb1lOVHhuS2hkUytPU1NMcFArd0oxWitoOUF3SnFy?=
+ =?utf-8?B?SEV0NE5YQ1pUMDBxdUhSdTJteFNHWWp6NVZxenNWL1M1d0dILzNoMmFXeStx?=
+ =?utf-8?B?Mm5yeTNRYW96UXNFWmZyQWJhNWU4VWM1TmxtVmwwdlo4RGUxaDRHNytWTDd1?=
+ =?utf-8?B?VjBuOXhrbG83cFl5UHVsWElVczJ1OFlqUUpCdHE3UDhQbW4rUTJ2WENKRzBF?=
+ =?utf-8?B?YUtXUVA5Y08vdG1WTXJYTnlXZFZoYmhXVitzKzRFRDZkaVE5SFIyU2NnNjli?=
+ =?utf-8?B?a2dDN1R3bTljMFhBbXc5a0V4ZHNSWVFhL0k0RkxOWk0rZVZmNm4vZ29QOXhY?=
+ =?utf-8?B?VGZqZ2VNWGc2S01lZERZeGlPdEtwajdxRGxtdm82eTJlUGVVNXZPK0ptZXRF?=
+ =?utf-8?B?K21TTFgrNFJxY1NIelJ2K0s3SzI4WHVmbkxleVIzM2E0SUM3MnZwdjE0alRx?=
+ =?utf-8?B?cjlQOTIwMWk3UFdrV3BIVnRMYWZ0TTZoa3FzZGJCSVI2blJSRFBPaVNHTHdH?=
+ =?utf-8?B?dWxtb2luSnNuWXJJSTlHd1NwN2VyUEFNVVc3dnZYMzM5b1pVL0h3d3daZ3pB?=
+ =?utf-8?B?MXRWT2xiaGR3Q2FZbkVxN0NuakJtdGg4L2syUjV1azVxYnMvM0dnZkpNMFZB?=
+ =?utf-8?B?dUxJaEhlWXJkaUVXZ3JMbDk5THhORDZvTTRpRzJZaE5uQ2tDZjA4SHR0Qkcy?=
+ =?utf-8?B?QXZ3OU1UeGlxeHlURkEyaEthdTNwbWhHdTBlMlBnbk83bHZneklvZUJZVlhq?=
+ =?utf-8?B?Y0xxY1E3RTFqelE4U2pxbnpjNVBSUUZMV25WaGYzS1YwT3U1czhVc1c3M3JD?=
+ =?utf-8?B?VjI2MjNBVWVJSEVNUllMbWpnTGU5WUdTcDF2MW8ybHR1blBoa2RlU1pJRFV0?=
+ =?utf-8?B?U0U3blhRSmw0K1pVK2hzTGljN1hFelhXekJ0SXBqUCs0bGFWOXNoc1p4VFhF?=
+ =?utf-8?B?UlRxRnZnTFB4ZEN0QnBCakhjajA5MXkvc0w5ZXhTa2R5TENyQ21kTXhYd1lU?=
+ =?utf-8?B?bm9OMVZuQkxDb0dISmtGdmF5aXZsUEJuckZSbGp2YmtHRmRTNUtJTEJzY0ww?=
+ =?utf-8?B?aDgrMjJuZnpjWCtRRGdJTC9qRkw3SDcwYmZVU0xHMHVKSlB3NUtYZ290UTlB?=
+ =?utf-8?B?dll2MzZmdmRmSzZva09pcXdtdm9EMnlwZ21mOUpKaDFuQzM3M2F5c2kwbWdJ?=
+ =?utf-8?B?TWFNeVJrWkh1aHFRVmhyTitENllIMjBNQmhibXBSQU15eTBLck0zOEpDTkpp?=
+ =?utf-8?B?cnppeHJXVjlQOUNTZ29oRFBpUGEzZHMrKy93aVhGeENka1VaY1NteVZxc0lx?=
+ =?utf-8?B?ZGZ0dEpyYXVENEVhcjB1WE9sNGtwUkRZS2ZrUEoyd0g0K0g2WlVEOXFmcUpG?=
+ =?utf-8?B?Zk1jM3ZBNTBLdm1JM09TZ211VHBiQmVXZWNjejM0ZUJTcmthTDBac2MyM2lK?=
+ =?utf-8?B?SGQxcCtKMnMrWnVnZ2dMNzk4enJoRkI5bmpxdCtESWx0ZUx2NnMvbklGVHlu?=
+ =?utf-8?B?cTZrSUEreW1LencxS1I0dEt4c0prK2tpZGR2Q3M4UFdPaWdVdWdpYjh2WU9F?=
+ =?utf-8?B?VEtnT3pxZjQ4LzVPUU9VbG9DQm5GUUoyejZkallvK2pqUDBGL0dCbDEyL3FM?=
+ =?utf-8?B?R3dUU1ltV0JlOU45OVZBNm9vbm4rblUza1ZhbzcyNXNDT1BrWjZvWlZsZWhR?=
+ =?utf-8?B?UFJjVm1PNDhlRDQ3UEZKTmg5U3NjQlVjdHRTTjh4N2FaWFBxckVIclJYYklH?=
+ =?utf-8?B?WXRnVkFQV2RiTkxENGV4RG5NV1ZQWjl2M0Rlam9idmJqRFpEei84UHNlS3BQ?=
+ =?utf-8?B?ZmJnUnJxSFdLbEJacUJiVHFVQldWN245KzErRkZlaFhoQTJNUkNyU0t2S2lw?=
+ =?utf-8?B?VGZDZmZhT241aUEzVm4vbjhtTWVVWWU1NXBMRHhOSEVsb0JmN0hsRE1VeGJF?=
+ =?utf-8?B?RE0vdHdLK3pMbVBJaFRmM05XRm01elJMUUxzcWZaRkJLQ2VOYWxEVFNHTDRG?=
+ =?utf-8?B?ODNMY2lPeW5JU3dsQXFtbjZsM290dXFsTVhXVm53ZkhtN240UHF4WWY0ZWJt?=
+ =?utf-8?Q?uplqstMHY/ad3CWPiVAb6uk=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: caa4ca38-7400-444b-5a5b-08db2b18df7d
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 20:59:57.0770 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 21:03:23.3675 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AFObcdl0A4BYfY4t/tPNZbKcn2Q/sYzEe//M1EekjVPqG3uCFms0UFsxYPqHg5BL1VyweYvJ45oGizkboChHlgYCvMqZ+LPvqrEvS3QC4Go=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5075
+X-MS-Exchange-CrossTenant-UserPrincipalName: cYQxmt2VIlr0kSxoW+hm0xY9+uIuxRyCiIZNwHaBOSNyTvPS04XvCIbMoVYB5ua7VaKYlcDxZpA+88G7YHFE7HfFnMQkj4QcE2UcxX0WKvw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4671
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -157,8 +156,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -166,218 +166,116 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 3/22/2023 12:44 PM, John Harrison wrote:
 > On 3/20/2023 14:10, Daniele Ceraolo Spurio wrote:
->> The WA states that we need to alert the GSC FW before doing a GSC engine
->> reset and then wait for 200ms. The GuC owns engine reset, so on the i915
->> side we only need to apply this for full GT reset.
->>
->> Given that we do full GT resets in the resume paths to cleanup the HW
->> state and that a long wait in those scenarios would not be acceptable,
->> a faster path has been introduced where, if the GSC is idle, we try 
->> first
->> to individually reset the GuC and all engines except the GSC and only 
->> fall
->> back to full reset if that fails.
-> I'm confused. If the code path is a resume then surely all engines are 
-> idle. But, there is presumably a reason why we do a full GT reset on 
-> the resume - because the hardware state is not guaranteed to be 
-> sensible at that point. So how is it safe to skip the GSC reset?
+>> Commit 3db9d590557d ("drm/i915/gt: Reset twice") modified the code to
+>> always hit the GDRST register twice when doing a reset, with the
+>> reported aim to fix invalid post-reset engine state on some platforms
+>> (Jasperlake being the only one actually mentioned).
+> It still concerns me that there are no actual details about this issue 
+> from a hardware perspective as to what/why it goes wrong, the comment 
+> is fully of non-definitive language - 'appears to', 'should', 'is 
+> still a concern that'. And there is no w/a number associated with it. 
+> It all feels extremely suspect and warrants a great big FIXME tag as a 
+> minimum.
 
-Differently from other engines, the GSCCS only role is to forward the 
-commands to the GSC FW, so it doesn't have any HW outside of the CS 
-itself and therefore it has no state that we don't explicitly re-init on 
-resume or on context switch (LRC or power context). The HW for the GSC 
-uC is managed by the GSC FW so we don't need to care about that. I can 
-add this to the commit message if it makes things clearer
+I agree that the whole thing is unclear and we could add a FIXME, but 
+IMO that is outside the scope of this patch as I'm not adding the code 
+in question. This should be discussed with the original author/reviewers.
 
 Daniele
 
 >
+> John.
+>
+>
 >>
->> Note: according to the WA specs, if the GSC is idle it should be 
->> possible
->> to only wait for the uC wakeup time (~15ms) instead of the whole 200ms.
->> However, the GSC FW team have mentioned that the wakeup time can change
->> based on other things going on in the HW and pcode, so a good security
->> margin would be required. Given that when the GSC is idle we already
->> skip the wait & reset entirely and that this reduced wait would still
->> likely be too long to use in resume paths, it's not worth adding support
->> for this reduced wait.
+>> This is a problem on MTL, due to the fact that we have to apply a time
+>> consuming WA (coming in the next patch) every time we hit the GDRST
+>> register in a way that can include the GSC engine. Even post MTL, the
+>> expectation is that we'll have some work to do before and after hitting
+>> the GDRST if the GSC is involved.
+>>
+>> Since the issue requiring the double reset seems to be limited to older
+>> platforms, instead of trying to handle the double-reset on MTL and
+>> future platforms it is just easier to turn it off. The default on MTL is
+>> also for GuC to own engine reset, with i915 only covering full-GT reset.
 >>
 >> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Cc: Matt Roper <matthew.d.roper@intel.com>
->> Cc: John Harrison <john.c.harrison@intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Andi Shyti <andi.shyti@linux.intel.com>
+>> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+>> Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+>> Cc: John Harrison <John.C.Harrison@Intel.com>
 >> ---
->>   drivers/gpu/drm/i915/gt/intel_reset.c     | 77 +++++++++++++++++++++--
->>   drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h |  2 +
->>   drivers/gpu/drm/i915/i915_reg.h           | 14 ++++-
->>   3 files changed, 86 insertions(+), 7 deletions(-)
+>>   drivers/gpu/drm/i915/gt/intel_reset.c | 35 +++++++++++++++------------
+>>   1 file changed, 20 insertions(+), 15 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c 
 >> b/drivers/gpu/drm/i915/gt/intel_reset.c
->> index 2c3463f77e5c..5f75f59122cf 100644
+>> index 0bb9094fdacd..2c3463f77e5c 100644
 >> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
 >> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
->> @@ -14,6 +14,8 @@
->>     #include "gt/intel_gt_regs.h"
->>   +#include "gt/uc/intel_gsc_fw.h"
->> +
->>   #include "i915_drv.h"
->>   #include "i915_file_private.h"
->>   #include "i915_gpu_error.h"
->> @@ -695,6 +697,67 @@ static reset_func intel_get_gpu_reset(const 
->> struct intel_gt *gt)
->>           return NULL;
->>   }
->>   +static int __reset_guc(struct intel_gt *gt)
->> +{
->> +    u32 guc_domain =
->> +        GRAPHICS_VER(gt->i915) >= 11 ? GEN11_GRDOM_GUC : 
->> GEN9_GRDOM_GUC;
->> +
->> +    return gen6_hw_domain_reset(gt, guc_domain);
->> +}
->> +
->> +static bool needs_wa_14015076503(struct intel_gt *gt, 
->> intel_engine_mask_t engine_mask)
->> +{
->> +    if (!IS_METEORLAKE(gt->i915) || !HAS_ENGINE(gt, GSC0))
->> +        return false;
->> +
->> +    if (!__HAS_ENGINE(engine_mask, GSC0))
->> +        return false;
->> +
->> +    return intel_gsc_uc_fw_init_done(&gt->uc.gsc);
->> +}
->> +
->> +static intel_engine_mask_t
->> +wa_14015076503_start(struct intel_gt *gt, intel_engine_mask_t 
->> engine_mask, bool first)
->> +{
->> +    if (!needs_wa_14015076503(gt, engine_mask))
->> +        return engine_mask;
->> +
->> +    /*
->> +     * wa_14015076503: if the GSC FW is loaded, we need to alert it 
->> that
->> +     * we're going to do a GSC engine reset and then wait for 200ms 
->> for the
->> +     * FW to get ready for it. However, if this the first 
->> ALL_ENGINES reset
-> if this is
->
-> John.
->
->> +     * attempt and the GSC is not busy, we can try to instead reset 
->> the GuC
->> +     * and all the other engines individually to avoid the 200ms wait.
+>> @@ -268,9 +268,27 @@ static int ilk_do_reset(struct intel_gt *gt, 
+>> intel_engine_mask_t engine_mask,
+>>   static int gen6_hw_domain_reset(struct intel_gt *gt, u32 
+>> hw_domain_mask)
+>>   {
+>>       struct intel_uncore *uncore = gt->uncore;
+>> -    int loops = 2;
+>> +    int loops;
+>>       int err;
+>>   +    /*
+>> +     * On some platforms, e.g. Jasperlake, we see that the engine 
+>> register
+>> +     * state is not cleared until shortly after GDRST reports 
+>> completion,
+>> +     * causing a failure as we try to immediately resume while the 
+>> internal
+>> +     * state is still in flux. If we immediately repeat the reset, the
+>> +     * second reset appears to serialise with the first, and since 
+>> it is a
+>> +     * no-op, the registers should retain their reset value. 
+>> However, there
+>> +     * is still a concern that upon leaving the second reset, the 
+>> internal
+>> +     * engine state is still in flux and not ready for resuming.
+>> +     *
+>> +     * Starting on MTL, there are some prep steps that we need to do 
+>> when
+>> +     * resetting some engines that need to be applied every time we 
+>> write to
+>> +     * GEN6_GDRST. As those are time consuming (tens of ms), we 
+>> don't want
+>> +     * to perform that twice, so, since the Jasperlake issue hasn't 
+>> been
+>> +     * observed on MTL, we avoid repeating the reset on newer 
+>> platforms.
 >> +     */
->> +    if (engine_mask == ALL_ENGINES && first && 
->> intel_engine_is_idle(gt->engine[GSC0])) {
->> +        __reset_guc(gt);
->> +        engine_mask = gt->info.engine_mask & ~BIT(GSC0);
->> +    } else {
->> +        intel_uncore_rmw(gt->uncore,
->> +                 HECI_H_GS1(MTL_GSC_HECI2_BASE),
->> +                 0, HECI_H_GS1_ER_PREP);
+>> +    loops = GRAPHICS_VER_FULL(gt->i915) < IP_VER(12, 70) ? 2 : 1;
 >> +
->> +        /* make sure the reset bit is clear when writing the CSR reg */
->> +        intel_uncore_rmw(gt->uncore,
->> +                 HECI_H_CSR(MTL_GSC_HECI2_BASE),
->> +                 HECI_H_CSR_RST, HECI_H_CSR_IG);
->> +        msleep(200);
->> +    }
->> +
->> +    return engine_mask;
->> +}
->> +
->> +static void
->> +wa_14015076503_end(struct intel_gt *gt, intel_engine_mask_t 
->> engine_mask)
->> +{
->> +    if (!needs_wa_14015076503(gt, engine_mask))
->> +        return;
->> +
->> +    intel_uncore_rmw(gt->uncore,
->> +             HECI_H_GS1(MTL_GSC_HECI2_BASE),
->> +             HECI_H_GS1_ER_PREP, 0);
->> +}
->> +
->>   int __intel_gt_reset(struct intel_gt *gt, intel_engine_mask_t 
->> engine_mask)
->>   {
->>       const int retries = engine_mask == ALL_ENGINES ? 
->> RESET_MAX_RETRIES : 1;
->> @@ -712,10 +775,16 @@ int __intel_gt_reset(struct intel_gt *gt, 
->> intel_engine_mask_t engine_mask)
->>        */
->>       intel_uncore_forcewake_get(gt->uncore, FORCEWAKE_ALL);
->>       for (retry = 0; ret == -ETIMEDOUT && retry < retries; retry++) {
->> -        GT_TRACE(gt, "engine_mask=%x\n", engine_mask);
->> +        intel_engine_mask_t reset_mask;
->> +
->> +        reset_mask = wa_14015076503_start(gt, engine_mask, !retry);
->> +
->> +        GT_TRACE(gt, "engine_mask=%x\n", reset_mask);
->>           preempt_disable();
->> -        ret = reset(gt, engine_mask, retry);
->> +        ret = reset(gt, reset_mask, retry);
->>           preempt_enable();
->> +
->> +        wa_14015076503_end(gt, reset_mask);
->>       }
->>       intel_uncore_forcewake_put(gt->uncore, FORCEWAKE_ALL);
->>   @@ -740,14 +809,12 @@ bool intel_has_reset_engine(const struct 
->> intel_gt *gt)
->>     int intel_reset_guc(struct intel_gt *gt)
->>   {
->> -    u32 guc_domain =
->> -        GRAPHICS_VER(gt->i915) >= 11 ? GEN11_GRDOM_GUC : 
->> GEN9_GRDOM_GUC;
->>       int ret;
->>         GEM_BUG_ON(!HAS_GT_UC(gt->i915));
->>         intel_uncore_forcewake_get(gt->uncore, FORCEWAKE_ALL);
->> -    ret = gen6_hw_domain_reset(gt, guc_domain);
->> +    ret = __reset_guc(gt);
->>       intel_uncore_forcewake_put(gt->uncore, FORCEWAKE_ALL);
->>         return ret;
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h 
->> b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
->> index 4b5dbb44afb4..f4c1106bb2a9 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_fw.h
->> @@ -9,7 +9,9 @@
->>   #include <linux/types.h>
->>     struct intel_gsc_uc;
->> +struct intel_uncore;
->>     int intel_gsc_uc_fw_upload(struct intel_gsc_uc *gsc);
->>   bool intel_gsc_uc_fw_init_done(struct intel_gsc_uc *gsc);
->> +
->>   #endif
->> diff --git a/drivers/gpu/drm/i915/i915_reg.h 
->> b/drivers/gpu/drm/i915/i915_reg.h
->> index d22ffd7a32dc..80e33ede7fac 100644
->> --- a/drivers/gpu/drm/i915/i915_reg.h
->> +++ b/drivers/gpu/drm/i915/i915_reg.h
->> @@ -928,8 +928,18 @@
->>   #define DG1_GSC_HECI2_BASE    0x00259000
->>   #define DG2_GSC_HECI1_BASE    0x00373000
->>   #define DG2_GSC_HECI2_BASE    0x00374000
->> -
->> -
->> +#define MTL_GSC_HECI1_BASE    0x00116000
->> +#define MTL_GSC_HECI2_BASE    0x00117000
->> +
->> +#define HECI_H_CSR(base)    _MMIO(base + 0x4)
->> +#define   HECI_H_CSR_IE        REG_BIT(0)
->> +#define   HECI_H_CSR_IS        REG_BIT(1)
->> +#define   HECI_H_CSR_IG        REG_BIT(2)
->> +#define   HECI_H_CSR_RDY    REG_BIT(3)
->> +#define   HECI_H_CSR_RST    REG_BIT(4)
->> +
->> +#define HECI_H_GS1(base)    _MMIO(base + 0xc4c)
->> +#define   HECI_H_GS1_ER_PREP    REG_BIT(0)
->>     #define HSW_GTT_CACHE_EN    _MMIO(0x4024)
->>   #define   GTT_CACHE_EN_ALL    0xF0007FFF
+>>       /*
+>>        * GEN6_GDRST is not in the gt power well, no need to check
+>>        * for fifo space for the write or forcewake the chip for
+>> @@ -279,20 +297,7 @@ static int gen6_hw_domain_reset(struct intel_gt 
+>> *gt, u32 hw_domain_mask)
+>>       do {
+>>           intel_uncore_write_fw(uncore, GEN6_GDRST, hw_domain_mask);
+>>   -        /*
+>> -         * Wait for the device to ack the reset requests.
+>> -         *
+>> -         * On some platforms, e.g. Jasperlake, we see that the
+>> -         * engine register state is not cleared until shortly after
+>> -         * GDRST reports completion, causing a failure as we try
+>> -         * to immediately resume while the internal state is still
+>> -         * in flux. If we immediately repeat the reset, the second
+>> -         * reset appears to serialise with the first, and since
+>> -         * it is a no-op, the registers should retain their reset
+>> -         * value. However, there is still a concern that upon
+>> -         * leaving the second reset, the internal engine state
+>> -         * is still in flux and not ready for resuming.
+>> -         */
+>> +        /* Wait for the device to ack the reset requests. */
+>>           err = __intel_wait_for_register_fw(uncore, GEN6_GDRST,
+>>                              hw_domain_mask, 0,
+>>                              2000, 0,
 >
 
