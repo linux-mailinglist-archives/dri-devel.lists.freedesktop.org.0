@@ -2,77 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512546C481D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 11:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DDE6C4834
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 11:49:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56AE210E8EE;
-	Wed, 22 Mar 2023 10:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381B810E909;
+	Wed, 22 Mar 2023 10:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B044B10E8EE
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 10:47:43 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- o6-20020a17090a9f8600b0023f32869993so19265916pjp.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 03:47:43 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C18AB10E909
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 10:49:10 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id t15so16512439wrz.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 03:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1679482063;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+FF2ESmiiihfdUKZ1gHccbyU50W0AbxwPHMUw+YJ4po=;
- b=nfLgwSYCb6c8k79DrPtmV/SnDKXeLf/SKbimoDCIuB9DzO+ChXJZp0SJ7NLDZL6aes
- PCUUEnUHd8ePkTydG75UrPkpsXgNp9vW5OAGozkn4XjPWoyrEhEaqx+nnscCaLNN2q/O
- nMZMU0IOrkSM7450xgpev38xoUB/TVGcA1HeE=
+ d=linaro.org; s=google; t=1679482149;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=DtazAy5ZBr6/UsaCHvXzNZIVTK1+Lw3Zmf5vXwd6UW8=;
+ b=TeJU+m39p1LJTsyatJZX39zHQY+azvG5cNB8UkHlNt44ynGeVVujIZrl1EbqcjHMP3
+ xwfy6kRQhgzl+XoZz0K9ffDNFk15ChYBWcYMhzPAgtn0kj1noxnOhfm+UGC8aUtLWc4Y
+ NtYTc/oKxM90c65mGj2nijp0fn7SClIZ4RUS3pwBNx3QWQVldxY5ZtKM3jfdSGmF8b7a
+ 5rZM1LNndashS/11eHwMWg424JDkSbJhTW/Jk2nlctZzevEdYCh2QmTUBq6DCJ7J5eaq
+ 5QxvyPvOOk82QyWVE6vJBb7WzgujXkNbGw0IqXj+9QpFwPGO55s8ELTj/SC4Jq1r/jQQ
+ lvPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679482063;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+FF2ESmiiihfdUKZ1gHccbyU50W0AbxwPHMUw+YJ4po=;
- b=5RWu04dF4jtmZnLxlv1XORXcIubUyKIsSzn0AmchuJnA2GQNPZdMdg23sX1nkVaAiR
- GqAlgicZ+SClKi307G5VP8OwRVedG4tNAQfFVxKNtZo0QzLPGkNsLN97bjf5XMRmk8tB
- K42qmzwTxZLUDYm/p8O8nO667oa4ShYfbYGxl3wwydAYou1hkcH9OLmiZWDymKc+h/83
- YLoIIUAV7X9u+8zWUnIoPpduA7DrRmb6T6EH1v3qFtjrScF9mKl8PesxnqLrKqiLpA8T
- FIzb4MiyNSx6PP69pFDJzrjsW8p5pal4+hbbQkjDVFFfHxzqUKZ+BhncCyS8PTzP+HVP
- WKcQ==
-X-Gm-Message-State: AO0yUKXg7LXlM7fsO8lkA88+Br6kgBXMzufIOjS1V2XLcUOSfCQ2mOoZ
- +tpmMhEec7oihNP4rtkvUPuiDA==
-X-Google-Smtp-Source: AK7set95cBQsa0keVL6mVamcmGVinLOyF+09EHb16w+HRk9NSY7l9YPI2xwhYoVj3l1Hu5DSdYYBAA==
-X-Received: by 2002:a17:90a:56:b0:23f:ebf2:d3de with SMTP id
- 22-20020a17090a005600b0023febf2d3demr3016122pjb.27.1679482063289; 
- Wed, 22 Mar 2023 03:47:43 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:343d:79bf:55f9:1da5])
+ d=1e100.net; s=20210112; t=1679482149;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DtazAy5ZBr6/UsaCHvXzNZIVTK1+Lw3Zmf5vXwd6UW8=;
+ b=F6mJrV4HxLYCnQdHc3Fc9raiCH3MAB/HHlwyUTBArXs7DoIMgGaE4Wn6GTWF3GvmPx
+ GcPC1D/aI+OqIv+slbpncYdgdNmWM0W7r/VwrIHE49JqQ7RQs9DKq+9y1aR865uxlM3y
+ wMw8np4Ygsc5bQEvGLWyMDtr+9YO4PCMEJtgD/RAx0Jmpbw8cXvAX1WJMsQdHEmwmEns
+ FXWMs7aJkThacXoxpFM/jU39LPcA+rUF2j49QMYTtrl5oowgZZ71CEDwYUtLIGVzyFYl
+ la27tDlKcaXsngvwJhJdMRSw5+VDwiz10NUpcI0EnuY5hO6xijniOqTN38s+iCHmXjw5
+ xguw==
+X-Gm-Message-State: AO0yUKXkrQAi6IIxQrMVBi6BVENP0fD/3z5ASJZ99KDYXtyd1FUz7UMf
+ 8CenIi4gBdbasDTVUx52Gme2+Q==
+X-Google-Smtp-Source: AK7set+2D6IK/mOn0v0700qQcCXrBEpJ6MI97aLA0wGLOC01QTc21OkrUob9mXzfNg7l2i80ksL3eQ==
+X-Received: by 2002:a5d:56d2:0:b0:2d7:452f:79ec with SMTP id
+ m18-20020a5d56d2000000b002d7452f79ecmr5062020wrw.7.1679482149187; 
+ Wed, 22 Mar 2023 03:49:09 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:3606:a601:f273:994a?
+ ([2a01:e0a:982:cbb0:3606:a601:f273:994a])
  by smtp.gmail.com with ESMTPSA id
- hg4-20020a17090b300400b002340d317f3esm9508742pjb.52.2023.03.22.03.47.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 03:47:43 -0700 (PDT)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v14 10/10] drm/bridge: it6505: Register Type C mode switches
-Date: Wed, 22 Mar 2023 18:46:39 +0800
-Message-Id: <20230322104639.221402-11-treapking@chromium.org>
-X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-In-Reply-To: <20230322104639.221402-1-treapking@chromium.org>
-References: <20230322104639.221402-1-treapking@chromium.org>
+ a18-20020a5d4d52000000b002d1e49cff35sm13549283wru.40.2023.03.22.03.49.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Mar 2023 03:49:08 -0700 (PDT)
+Message-ID: <b669be41-0b8e-6f69-2aeb-a79334a90e94@linaro.org>
+Date: Wed, 22 Mar 2023 11:49:07 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/panel: Fix panel mode type setting logic
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>, Jianhua Lu <lujianhua000@gmail.com>
+References: <20230314114451.8872-1-lujianhua000@gmail.com>
+ <CAD=FV=X7K2KQoRCsr17kj-DWiPs7h_zfcYxK_cdBVnC0wR1NwA@mail.gmail.com>
+ <ZBEJdX6WVZ3Kqdo0@Gentoo>
+ <CAD=FV=VgWSvrpCdi2pRr0JctHxcq1-qNJSMAxEVva6nEnv3e_g@mail.gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <CAD=FV=VgWSvrpCdi2pRr0JctHxcq1-qNJSMAxEVva6nEnv3e_g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,311 +81,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, chrome-platform@lists.linux.dev,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, Pin-yen Lin <treapking@chromium.org>,
- Allen Chen <allen.chen@ite.com.tw>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register USB Type-C mode switches when the "mode-switch" property and
-relevant port are available in Device Tree. Configure the "lane_swap"
-state based on the entered alternate mode for a specific Type-C
-connector, which ends up updating the lane swap registers of the it6505
-chip.
+Hi,
 
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+On 17/03/2023 01:23, Doug Anderson wrote:
+> Hi,
+> 
+> 
+> On Tue, Mar 14, 2023 at 4:55 PM Jianhua Lu <lujianhua000@gmail.com> wrote:
+>>
+>> On Tue, Mar 14, 2023 at 10:12:02AM -0700, Doug Anderson wrote:
+>>> Hi,
+>>>
+>>> On Tue, Mar 14, 2023 at 4:45 AM Jianhua Lu <lujianhua000@gmail.com> wrote:
+>>>>
+>>>> Some panels set mode type to DRM_MODE_TYPE_PREFERRED by the number
+>>>> of modes. It isn't reasonable, so set the first mode type to
+>>>> DRM_MODE_TYPE_PREFERRED. This should be more reasonable.
+>>>>
+>>>> Signed-off-by: Jianhua Lu <lujianhua000@gmail.com>
+>>>> ---
+>>>>   drivers/gpu/drm/panel/panel-abt-y030xx067a.c     | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-auo-a030jtn01.c      | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-edp.c                | 4 ++--
+>>>>   drivers/gpu/drm/panel/panel-innolux-ej030na.c    | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-newvision-nv3051d.c  | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-newvision-nv3052c.c  | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-novatek-nt35950.c    | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-novatek-nt39016.c    | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-orisetech-ota5601a.c | 2 +-
+>>>>   drivers/gpu/drm/panel/panel-seiko-43wvf1g.c      | 4 ++--
+>>>>   drivers/gpu/drm/panel/panel-simple.c             | 4 ++--
+>>>>   11 files changed, 14 insertions(+), 14 deletions(-)
+>>>
+>>> Can you explain more about your motivation here? At least for
+>> This demonstrates a bad way to set DRM_MODE_TYPE_PREFERRED for panels
+>> with more than one mode. It mislead the future contributors to send
+>> a patch with this piece of code. There is also a discussion for it.
+>> https://lore.kernel.org/lkml/904bc493-7160-32fd-9709-1dcb978ddbab@linaro.org/
+>>> panel-edp and panel-simple it seems like it would be better to leave
+>>> the logic alone and manually add DRM_MODE_TYPE_PREFERRED to the right
+>>> mode for the rare panel that actually has more than one mode listed.
+>> I think we can order it to the first mode if the mode type should be
+>> DRM_MODE_TYPE_PREFERRED, It's also same.
+> 
+> A pointer to the original discussion would have been super helpful to
+> be provided in your patch description.
+> 
+> Personally, I still stand by my assertion that I'd rather that
+> DRM_MODE_TYPE_PREFERRED be placed in the actual data instead of being
+> done like this in post-processing. To me the old check for "num_modes
+> == 1" is basically saying that the people creating the "static const"
+> data in this file were lazy and didn't feel like they needed to set a
+> DRM_MODE_TYPE_PREFERRED when there was only one mode listed. Thus, we
+> can add it for them. When "num_modes" is more than 1 then we shouldn't
+> allow the people making the "static const" data to be lazy. We should
+> force them to set one of the modes to be PREFERRED rather than for
+> them to have to know about this magic rule.
+> 
+> Thus, for me, my order of preference would be these (note, I've mostly
+> looked at panel-edp and panel-simple):
+> 
+> 1. Leave the check as "num_modes == 1" and document that we're
+> basically allowing the people writing the "static const" structure to
+> be lazy if there's only one mode. Manually add the
+> DRM_MODE_TYPE_PREFERRED flag to the small number of cases where there
+> is more than one mode. Possibly add a warning printout if we end up
+> without a PREFERRED mode. I'd give a Reviewed-by for this.
+> 
+> 2. Fully get rid of this logic and add DRM_MODE_TYPE_PREFERRED to all
+> of the "static const" data. I guess maybe we can't do that for the
+> "timings" in panel-edp and panel-simple. I guess for those I'd be OK
+> with just setting PREFERRED on the first timing like your patch is
+> doing. I'd give a Reviewed-by for this.
+> 
+> 3. Your patch. I won't NAK it since it seems like this is what other
+> (more senior) DRM folks were suggesting. ...but I don't love it. I
+> won't give a Reviewed-by for this but won't object to someone else
+> doing so.
 
----
+I'm aligned with Doug's analysis, I don't have a strong opinion on
+what to do, but 1 or 2 would be OK.
 
-Changes in v14:
-- Fix style issues
+Neil
 
-Changes in v13:
-- Fix style issues
-
-Changes in v12:
-- Fixes style issues in it6505 driver
-- Replaced &it6505->client->dev with it6505->dev
-- Updated the error logs when parsing data-lanes property
-
-Changes in v11:
-- Added back "data-lanes" parsing logics
-- Removed Kconfig dependency
-- Updated the usage of the private data
-
-Changes in v7:
-- Fixed style issues in it6505 driver
-- Removed the redundant sleep in it6505 driver
-- Removed DT property validation in it6505 driver
-- Rebased to drm-misc-next
-- Extracted common codes to another commit
-
-Changes in v6:
-- Changed it6505_typec_mux_set callback function to accommodate with
-  the latest drm-misc patches
-- Changed the driver implementation to accommodate with the new binding
-- Squashed to a single patch
-
- drivers/gpu/drm/bridge/ite-it6505.c | 190 +++++++++++++++++++++++++++-
- 1 file changed, 183 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index d4bc388b68ac..28d07fd7486b 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -17,6 +17,8 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/wait.h>
- 
- #include <crypto/hash.h>
-@@ -27,6 +29,7 @@
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -401,6 +404,11 @@ struct debugfs_entries {
- 	const struct file_operations *fops;
- };
- 
-+struct it6505_typec_port_data {
-+	bool dp_connected;
-+	bool lane_swap;
-+};
-+
- struct it6505 {
- 	struct drm_dp_aux aux;
- 	struct drm_bridge bridge;
-@@ -454,6 +462,9 @@ struct it6505 {
- 	struct delayed_work delayed_audio;
- 	struct it6505_audio_data audio;
- 	struct dentry *debugfs;
-+	struct completion mux_register;
-+	struct drm_dp_typec_switch_desc switch_desc;
-+	struct it6505_typec_port_data *port_data;
- 
- 	/* it6505 driver hold option */
- 	bool enable_drv_hold;
-@@ -3345,12 +3356,162 @@ static void it6505_shutdown(struct i2c_client *client)
- 		it6505_lane_off(it6505);
- }
- 
-+static void it6505_typec_ports_update(struct it6505 *it6505)
-+{
-+	unsigned int i;
-+
-+	/* Check if both ports available and do nothing to retain the current one */
-+	if (it6505->port_data[0].dp_connected && it6505->port_data[1].dp_connected)
-+		return;
-+
-+	for (i = 0; i < 2; i++) {
-+		if (it6505->port_data[i].dp_connected)
-+			it6505->lane_swap = it6505->port_data[i].lane_swap;
-+	}
-+}
-+
-+static int it6505_typec_mux_set(struct typec_mux_dev *mux,
-+				struct typec_mux_state *state)
-+{
-+	struct drm_dp_typec_port_data *port = typec_mux_get_drvdata(mux);
-+	struct it6505 *it6505 = port->data;
-+	struct device *dev = it6505->dev;
-+	struct drm_dp_typec_switch_desc switch_desc = it6505->switch_desc;
-+	bool old_dp_connected, new_dp_connected;
-+
-+	if (switch_desc.num_typec_switches == 1)
-+		return 0;
-+
-+	mutex_lock(&it6505->extcon_lock);
-+	wait_for_completion(&it6505->mux_register);
-+
-+	old_dp_connected = it6505->port_data[0].dp_connected ||
-+			   it6505->port_data[1].dp_connected;
-+
-+	it6505->port_data[port->port_num].dp_connected =
-+		state->alt &&
-+		state->alt->svid == USB_TYPEC_DP_SID &&
-+		state->alt->mode == USB_TYPEC_DP_MODE;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		it6505->port_data[0].dp_connected, it6505->port_data[1].dp_connected);
-+
-+	new_dp_connected = it6505->port_data[0].dp_connected ||
-+			   it6505->port_data[1].dp_connected;
-+
-+	if (it6505->enable_drv_hold) {
-+		dev_dbg(dev, "enable driver hold\n");
-+		goto unlock;
-+	}
-+
-+	it6505_typec_ports_update(it6505);
-+
-+	if (!old_dp_connected && new_dp_connected) {
-+		int ret = pm_runtime_get_sync(dev);
-+
-+		/*
-+		 * pm_runtime_force_suspend() disables runtime PM when the
-+		 * system enters suspend state. But on system resume, mux_set
-+		 * can be triggered before pm_runtime_force_resume() re-enables
-+		 * runtime PM. This makes the bridge stay powered off if the
-+		 * downstream display is connected when the system is suspended.
-+		 * Handling the error here to make sure the bridge is powered
-+		 * on, and leave the PM runtime usage count incremented so
-+		 * the future runtime PM calls is balanced.
-+		 */
-+		if (ret < 0)
-+			it6505_poweron(it6505);
-+
-+		complete_all(&it6505->extcon_completion);
-+	}
-+
-+	if (old_dp_connected && !new_dp_connected) {
-+		reinit_completion(&it6505->extcon_completion);
-+		pm_runtime_put_sync(dev);
-+		if (it6505->bridge.dev)
-+			drm_helper_hpd_irq_event(it6505->bridge.dev);
-+		memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
-+	}
-+
-+unlock:
-+	mutex_unlock(&it6505->extcon_lock);
-+	return 0;
-+}
-+
-+static void it6505_unregister_typec_switches(struct it6505 *it6505)
-+{
-+	drm_dp_unregister_typec_switches(&it6505->switch_desc);
-+}
-+
-+static int it6505_register_typec_switches(struct device *dev, struct it6505 *it6505)
-+{
-+	struct device_node *port_node = of_graph_get_port_by_id(dev->of_node, 1);
-+	struct drm_dp_typec_switch_desc *switch_desc = &it6505->switch_desc;
-+	int ret;
-+	u32 dp_lanes[4];
-+	unsigned int i, num_lanes;
-+
-+	ret = drm_dp_register_typec_switches(dev, &port_node->fwnode,
-+					     &it6505->switch_desc, it6505,
-+					     it6505_typec_mux_set);
-+	if (ret)
-+		return ret;
-+
-+	it6505->port_data = devm_kcalloc(dev, switch_desc->num_typec_switches,
-+					 sizeof(struct it6505_typec_port_data),
-+					 GFP_KERNEL);
-+	if (!it6505->port_data) {
-+		ret = -ENOMEM;
-+		goto unregister_mux;
-+	}
-+
-+	for (i = 0; i < switch_desc->num_typec_switches; i++) {
-+		struct drm_dp_typec_port_data *port = &switch_desc->typec_ports[i];
-+		struct fwnode_handle *fwnode = port->fwnode;
-+
-+		ret = fwnode_property_count_u32(fwnode, "data-lanes");
-+		if (ret < 0) {
-+			dev_err(dev,
-+				"Error on getting data lanes count from %pfwP: %d\n",
-+				fwnode, ret);
-+			goto unregister_mux;
-+		}
-+		if (ret > 2) {
-+			dev_err(dev,
-+				"Invalid data lanes count for mode switches from %pfwP: %d\n",
-+				fwnode, ret);
-+			ret = -EINVAL;
-+			goto unregister_mux;
-+		}
-+		num_lanes = ret;
-+
-+		ret = fwnode_property_read_u32_array(fwnode, "data-lanes",
-+						     dp_lanes, num_lanes);
-+		if (ret) {
-+			dev_err(dev,
-+				"Failed to read the data-lanes variable: %d\n",
-+				ret);
-+			goto unregister_mux;
-+		}
-+
-+		it6505->port_data[i].lane_swap = (dp_lanes[0] >= 2);
-+	}
-+	complete_all(&it6505->mux_register);
-+
-+	return 0;
-+
-+unregister_mux:
-+	complete_all(&it6505->mux_register);
-+	it6505_unregister_typec_switches(it6505);
-+	return ret;
-+}
-+
- static int it6505_i2c_probe(struct i2c_client *client)
- {
- 	struct it6505 *it6505;
- 	struct device *dev = &client->dev;
- 	struct extcon_dev *extcon;
--	int err, intp_irq;
-+	int err, intp_irq, ret;
- 
- 	it6505 = devm_kzalloc(&client->dev, sizeof(*it6505), GFP_KERNEL);
- 	if (!it6505)
-@@ -3367,14 +3528,28 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 
- 	/* get extcon device from DTS */
- 	extcon = extcon_get_edev_by_phandle(dev, 0);
--	if (PTR_ERR(extcon) == -EPROBE_DEFER)
--		return -EPROBE_DEFER;
--	if (IS_ERR(extcon)) {
--		dev_err(dev, "can not get extcon device!");
--		return PTR_ERR(extcon);
-+	ret = PTR_ERR_OR_ZERO(extcon);
-+	if (ret == -EPROBE_DEFER)
-+		return ret;
-+
-+	if (ret) {
-+		if (ret != -ENODEV)
-+			dev_warn(dev, "Cannot get extcon device: %d\n", ret);
-+
-+		it6505->extcon = NULL;
-+	} else {
-+		it6505->extcon = extcon;
- 	}
- 
--	it6505->extcon = extcon;
-+	init_completion(&it6505->mux_register);
-+	ret = it6505_register_typec_switches(dev, it6505);
-+	if (ret != -ENODEV)
-+		dev_warn(dev, "Didn't register Type-C switches, err: %d\n", ret);
-+
-+	if (ret && !it6505->extcon) {
-+		dev_err(dev, "Both extcon and Type-C switch are not registered.\n");
-+		return -EINVAL;
-+	}
- 
- 	it6505->regmap = devm_regmap_init_i2c(client, &it6505_regmap_config);
- 	if (IS_ERR(it6505->regmap)) {
-@@ -3446,6 +3621,7 @@ static void it6505_i2c_remove(struct i2c_client *client)
- 	it6505_debugfs_remove(it6505);
- 	it6505_poweroff(it6505);
- 	it6505_remove_edid(it6505);
-+	it6505_unregister_typec_switches(it6505);
- }
- 
- static const struct i2c_device_id it6505_id[] = {
--- 
-2.40.0.rc1.284.g88254d51c5-goog
+> 
+> -Doug
 
