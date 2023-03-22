@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC3A6C55C5
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 21:00:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F35A56C55C8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 21:01:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D642410E3EC;
-	Wed, 22 Mar 2023 20:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCEF710E9F3;
+	Wed, 22 Mar 2023 20:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE4110E9D2;
- Wed, 22 Mar 2023 20:00:47 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B943F10E9F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 20:00:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8D4F2B81DF9;
- Wed, 22 Mar 2023 20:00:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35812C433EF;
- Wed, 22 Mar 2023 20:00:43 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 78F9EB81B97;
+ Wed, 22 Mar 2023 20:00:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38EF1C433EF;
+ Wed, 22 Mar 2023 20:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679515244;
- bh=T+y02KqbdinWzs5BHyJ64yYI5IzZszI6qc+B2eCbKfI=;
+ s=k20201202; t=1679515257;
+ bh=Y6BakBa9UYvIosItyVbs2S3E425ilpf74VGBxIVElVE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lo7oDI/m+EvdyxAbCfRCxEJjD/XixL4SBeTyY6oJHjNP/4qhRxpXyarF0zW90p0u9
- lPERHeKErsE2Th5i9eLCT5tuBVK9P65uvPKasq1Izexraqc5hda4CYOsJPmCls5TIR
- 8KVXNeEYJDMLp5Q954WNlu5x4ZhKx+vaxFz5jfpqWfqJPa/60dtkLnpjIxkjbaItCY
- mLFr8xEpQDChuEPrgoacey7lQe8JA3H6ElyRFQ29tj/2kgpbIXnPSinyMuJCxoiXWm
- 3oKeOGl0Q9riTtDVCckokIAjEV5jjxU60Vr1QYKvKCKwWZRyVmQ2qc5/FwlF9zgqPh
- zrIGR9QFItDDg==
+ b=PgFIk8L6KXgDSd3ArofYmAHLNJuLvsjJVVcCRjMogJO1IuI8KHXhYgKL5lhlJ/fQn
+ ZuUK0WFXNkSXzpxo+wmavy/xVe8Jf9MqPdmOluNk7RLwF8bu8IYtQfEgGPp+OdE8Nf
+ PVaYp4fkrRFGdXD5i2ZgkmyU4CpMFK6BFJGmhwJe98AB+7NY9vmkfBtlGSifsCcPet
+ EHsSsIPVJM+GksPCF+PUcWk7gCwpnhHZKUm2mj4fw0tVXZpViMT5Q3pAssbNfYTm4p
+ YlQiaFRd73q2Ki7QVv/NZdH4WIu9gmSoVYmvF4ZbcBYpAr2rLoUNpuOj9ggz3vKGto
+ Kzq+POAOCE2OQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 18/34] drm/amdkfd: fix potential kgd_mem UAFs
-Date: Wed, 22 Mar 2023 15:59:10 -0400
-Message-Id: <20230322195926.1996699-18-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 22/34] fbdev: tgafb: Fix potential divide by zero
+Date: Wed, 22 Mar 2023 15:59:14 -0400
+Message-Id: <20230322195926.1996699-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230322195926.1996699-1-sashal@kernel.org>
 References: <20230322195926.1996699-1-sashal@kernel.org>
@@ -54,102 +55,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, Wei Chen <harperchen1110@gmail.com>,
+ wsa+renesas@sang-engineering.com, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chia-I Wu <olvaffe@gmail.com>
+From: Wei Chen <harperchen1110@gmail.com>
 
-[ Upstream commit 9da050b0d9e04439d225a2ec3044af70cdfb3933 ]
+[ Upstream commit f90bd245de82c095187d8c2cabb8b488a39eaecc ]
 
-kgd_mem pointers returned by kfd_process_device_translate_handle are
-only guaranteed to be valid while p->mutex is held. As soon as the mutex
-is unlocked, another thread can free the BO.
+fb_set_var would by called when user invokes ioctl with cmd
+FBIOPUT_VSCREENINFO. User-provided data would finally reach
+tgafb_check_var. In case var->pixclock is assigned to zero,
+divide by zero would occur when checking whether reciprocal
+of var->pixclock is too high.
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Similar crashes have happened in other fbdev drivers. There
+is no check and modification on var->pixclock along the call
+chain to tgafb_check_var. We believe it could also be triggered
+in driver tgafb from user site.
+
+Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/tgafb.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index f79b8e964140e..e191d38f3da62 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -1298,14 +1298,14 @@ static int kfd_ioctl_map_memory_to_gpu(struct file *filep,
- 		args->n_success = i+1;
- 	}
+diff --git a/drivers/video/fbdev/tgafb.c b/drivers/video/fbdev/tgafb.c
+index 251dbd282f5ed..84d5daef97666 100644
+--- a/drivers/video/fbdev/tgafb.c
++++ b/drivers/video/fbdev/tgafb.c
+@@ -173,6 +173,9 @@ tgafb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
+ {
+ 	struct tga_par *par = (struct tga_par *)info->par;
  
--	mutex_unlock(&p->mutex);
--
- 	err = amdgpu_amdkfd_gpuvm_sync_memory(dev->adev, (struct kgd_mem *) mem, true);
- 	if (err) {
- 		pr_debug("Sync memory failed, wait interrupted by user signal\n");
- 		goto sync_memory_failed;
- 	}
- 
-+	mutex_unlock(&p->mutex);
++	if (!var->pixclock)
++		return -EINVAL;
 +
- 	/* Flush TLBs after waiting for the page table updates to complete */
- 	for (i = 0; i < args->n_devices; i++) {
- 		peer_pdd = kfd_process_device_data_by_id(p, devices_arr[i]);
-@@ -1321,9 +1321,9 @@ static int kfd_ioctl_map_memory_to_gpu(struct file *filep,
- bind_process_to_device_failed:
- get_mem_obj_from_handle_failed:
- map_memory_to_gpu_failed:
-+sync_memory_failed:
- 	mutex_unlock(&p->mutex);
- copy_from_user_failed:
--sync_memory_failed:
- 	kfree(devices_arr);
- 
- 	return err;
-@@ -1337,6 +1337,7 @@ static int kfd_ioctl_unmap_memory_from_gpu(struct file *filep,
- 	void *mem;
- 	long err = 0;
- 	uint32_t *devices_arr = NULL, i;
-+	bool flush_tlb;
- 
- 	if (!args->n_devices) {
- 		pr_debug("Device IDs array empty\n");
-@@ -1389,16 +1390,19 @@ static int kfd_ioctl_unmap_memory_from_gpu(struct file *filep,
- 		}
- 		args->n_success = i+1;
- 	}
--	mutex_unlock(&p->mutex);
- 
--	if (kfd_flush_tlb_after_unmap(pdd->dev)) {
-+	flush_tlb = kfd_flush_tlb_after_unmap(pdd->dev);
-+	if (flush_tlb) {
- 		err = amdgpu_amdkfd_gpuvm_sync_memory(pdd->dev->adev,
- 				(struct kgd_mem *) mem, true);
- 		if (err) {
- 			pr_debug("Sync memory failed, wait interrupted by user signal\n");
- 			goto sync_memory_failed;
- 		}
-+	}
-+	mutex_unlock(&p->mutex);
- 
-+	if (flush_tlb) {
- 		/* Flush TLBs after waiting for the page table updates to complete */
- 		for (i = 0; i < args->n_devices; i++) {
- 			peer_pdd = kfd_process_device_data_by_id(p, devices_arr[i]);
-@@ -1414,9 +1418,9 @@ static int kfd_ioctl_unmap_memory_from_gpu(struct file *filep,
- bind_process_to_device_failed:
- get_mem_obj_from_handle_failed:
- unmap_memory_from_gpu_failed:
-+sync_memory_failed:
- 	mutex_unlock(&p->mutex);
- copy_from_user_failed:
--sync_memory_failed:
- 	kfree(devices_arr);
- 	return err;
- }
+ 	if (par->tga_type == TGA_TYPE_8PLANE) {
+ 		if (var->bits_per_pixel != 8)
+ 			return -EINVAL;
 -- 
 2.39.2
 
