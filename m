@@ -1,62 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58686C44C4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:20:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2586C44C1
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 09:20:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823AB10E89A;
-	Wed, 22 Mar 2023 08:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F0010E389;
+	Wed, 22 Mar 2023 08:20:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB26B10E196
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 14:28:49 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 32LESQ3k015761;
- Tue, 21 Mar 2023 09:28:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1679408906;
- bh=turgaoA9Ps4HYc5Mt71Um0EHMFBvj+SVE4LLMNT2DvA=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=Na8LYsDCy7RuAmRlYZtcLqN7GyZVuXDfCqqy4G/VWVV+/YzCXGOLGNUTlqGHMhy3J
- SKi7nn7XLeJRuYuJ0Lapk0WqdxR8l4nQvHez1hJQojpn2PLlNXH2j2cCceIYf68tjq
- gcBzxA9t/f8IpzhnKuLMXmx4E9+hgNXlTxE0K0/A=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 32LESQqO130105
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 21 Mar 2023 09:28:26 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Tue, 21
- Mar 2023 09:28:26 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
- Frontend Transport; Tue, 21 Mar 2023 09:28:26 -0500
-Received: from [172.24.145.160] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 32LESJH6002836;
- Tue, 21 Mar 2023 09:28:19 -0500
-Message-ID: <d72bf0df-28d7-6419-56a5-58e04dcb30f2@ti.com>
-Date: Tue, 21 Mar 2023 19:58:18 +0530
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C845A10E256
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 04:26:32 +0000 (UTC)
+Received: from fsav411.sakura.ne.jp (fsav411.sakura.ne.jp [133.242.250.110])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 32M4PHDa005049;
+ Wed, 22 Mar 2023 13:25:17 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav411.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp);
+ Wed, 22 Mar 2023 13:25:17 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 32M4PHtS005046
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 22 Mar 2023 13:25:17 +0900 (JST)
+ (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <3912432e-bdf7-323a-03c6-46bb1e288b54@I-love.SAKURA.ne.jp>
+Date: Wed, 22 Mar 2023 13:25:18 +0900
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: Add no-hpd property
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [syzbot] [dri?] BUG: sleeping function called from invalid
+ context in _vm_unmap_aliases
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20230316140823.234263-1-j-choudhary@ti.com>
- <20230316140823.234263-2-j-choudhary@ti.com>
- <dbc43c09-f8ec-f877-598a-adff47d44b0e@linaro.org>
- <79ce5fe8-9fb0-5caa-67a0-87dee7867856@ti.com>
- <55cfacf6-03e0-b9bc-83f3-3e9f2d7b2d4d@linaro.org>
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <55cfacf6-03e0-b9bc-83f3-3e9f2d7b2d4d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: syzbot <syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com>,
+ syzkaller-bugs@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lstoakes@gmail.com>
+References: <0000000000006dc0c105f76c0a72@google.com>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <0000000000006dc0c105f76c0a72@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Wed, 22 Mar 2023 08:20:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,49 +55,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: neil.armstrong@linaro.org, rfoss@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, jonas@kwiboo.se, jani.nikula@intel.com,
- sam@ravnborg.org, javierm@redhat.com, jernej.skrabec@gmail.com,
- a-bhatia1@ti.com, alexander.deucher@amd.com, yamonkar@cadence.com,
- robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- sjakhade@cadence.com, tzimmermann@suse.de, r-ravikumar@ti.com
+Cc: Baoquan He <bhe@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ Liu Shixin <liushixin2@huawei.com>,
+ "Uladzislau Rezki \(Sony\)" <urezki@gmail.com>, Jiri Olsa <jolsa@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Commit c53e98934f93 ("mm: vmalloc: use rwsem, mutex for vmap_area_lock and vmap_block->lock")
+is broken. We can't take mutex (a sleeping lock) inside RCU read section (an atomic context).
 
 
-On 21/03/23 18:08, Krzysztof Kozlowski wrote:
-> On 21/03/2023 13:02, Jayesh Choudhary wrote:
->>>
->>>> +    type: boolean
->>>> +    description:
->>>> +      Set if the HPD line on the bridge isn't hooked up to anything or is
->>>> +      otherwise unusable.
->>>
->>> It's the property of the panel, not bridge. Unless you want to say that
->>> bridge physically does not have HPD? Does it follow the standard in such
->>> case?
->>
->> MHDP does have hpd. But the mhdp driver should handle the cases when the
+@@ -2183,7 +2184,7 @@ static void _vm_unmap_aliases(unsigned long start, unsigned long end, int flush)
+
+                rcu_read_lock();
+                list_for_each_entry_rcu(vb, &vbq->free, free_list) {
+-                       spin_lock(&vb->lock);
++                       mutex_lock(&vb->lock);
+                        if (vb->dirty && vb->dirty != VMAP_BBMAP_BITS) {
+                                unsigned long va_start = vb->va->va_start;
+                                unsigned long s, e;
+@@ -2196,7 +2197,7 @@ static void _vm_unmap_aliases(unsigned long start, unsigned long end, int flush)
+
+                                flush = 1;
+                        }
+-                       spin_unlock(&vb->lock);
++                       mutex_unlock(&vb->lock);
+                }
+                rcu_read_unlock();
+        }
+
+#syz set subsystems: mm
+
+On 2023/03/22 2:04, syzbot wrote:
+> Hello,
 > 
-> This is about bindings, not driver. Your driver can still handle this as
-> it wishes.
+> syzbot found the following issue on:
 > 
->> hpd pin of bridge is not connected to that of the DP-connector. This is
->> to add support for that. (optional property)
+> HEAD commit:    f3594f0204b7 Add linux-next specific files for 20230321
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=161552eec80000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=f22105589e896af1
+> dashboard link: https://syzkaller.appspot.com/bug?extid=a9a2bb6afe9eb31efc56
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 > 
-> Which is indicated by panel no-hpd, right?
+> Unfortunately, I don't have any reproducer for this issue yet.
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/0b755145006a/disk-f3594f02.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/fca26e328a81/vmlinux-f3594f02.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/39744d7d289f/bzImage-f3594f02.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+a9a2bb6afe9eb31efc56@syzkaller.appspotmail.com
+> 
 
-Actually no panel is involved in this. For TI SoC J721S2, the data 
-pipeline involves the bridge whose endpoint is directly the DP connector 
-with compatible 'dp-connector'. And in the binding dp-connector.yaml, 
-there isn't any 'no-hpd' property for this indication.
-
-Does this clarifies the issue? Or did I misinterpret your comment?
-
-> Or you mean now that HPD
-> physically cannot go to panel because it is cut on the bridge side? But
-> isn't this the same case (from hardware/bindings point, not driver) as
-> panel would not have HPD?
-Warm Regards,
--Jayesh
