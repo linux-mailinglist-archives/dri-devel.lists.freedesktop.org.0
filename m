@@ -1,53 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603416C3F17
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 01:27:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0449B6C4010
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 02:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C57D010E114;
-	Wed, 22 Mar 2023 00:27:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4000210E195;
+	Wed, 22 Mar 2023 01:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10E3810E114;
- Wed, 22 Mar 2023 00:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679444855; x=1710980855;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=AxT4gKMF+Ze3+5GrQDXU4rgOoBznShabNwONzJNA1J4=;
- b=A7TSiw4jH+I0vNr6jGoDFv6zt3V8jF3qoQqYY3ZBdqvLYBz/N+jEhrbQ
- SSwZVD26pHme4fPwxRshpW0yLDEM9YJnKy0vBWQ5OcPHZ1THBR4TgFiSg
- THyliq3uTiHV7r+YKqkisd1fAAYdSeU5i+1wavJThZtbOIvyYrrFmxlzQ
- tpUV5z5CgVMM55bzl8Q/LR9T3VJfB915fc9WxAIa6fP95cqnG7CaMrBSj
- nMNz9E8a+rp2CN2xCrS3a+uP7vCRV+vnN9nAzcrjdAILuZqbff9frmVHE
- E5bH6kMcvzhWZeiZn9aJEEh5lQbyvw5b/1oNdMOH/UnhfeFbwXTWEmUYT Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="322933432"
-X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; d="scan'208";a="322933432"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 17:27:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10656"; a="631791878"
-X-IronPort-AV: E=Sophos;i="5.98,280,1673942400"; d="scan'208";a="631791878"
-Received: from rbirkl-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.251.222.70])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Mar 2023 17:27:31 -0700
-Date: Wed, 22 Mar 2023 01:27:08 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Make IRQ reset and postinstall
- multi-gt aware
-Message-ID: <ZBpLXDo65Mq8CzI5@ashyti-mobl2.lan>
-References: <20230321232009.541585-1-andi.shyti@linux.intel.com>
- <20230322001051.GU4085390@mdroper-desk1.amr.corp.intel.com>
+Received: from out30-112.freemail.mail.aliyun.com
+ (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5ABB10E195;
+ Wed, 22 Mar 2023 01:59:29 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
+ MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=10; SR=0;
+ TI=SMTPD_---0VeOm6Yv_1679450362; 
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com
+ fp:SMTPD_---0VeOm6Yv_1679450362) by smtp.aliyun-inc.com;
+ Wed, 22 Mar 2023 09:59:24 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: alexander.deucher@amd.com
+Subject: [PATCH] drm/amd/display: Remove the unused variable
+ dppclk_delay_subtotal
+Date: Wed, 22 Mar 2023 09:59:17 +0800
+Message-Id: <20230322015917.118874-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230322001051.GU4085390@mdroper-desk1.amr.corp.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +41,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, Andi Shyti <andi.shyti@kernel.org>,
- dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, Xinhui.Pan@amd.com,
+ Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matt,
+Variable dppclk_delay_subtotal is not effectively used, so delete it.
 
-On Tue, Mar 21, 2023 at 05:10:51PM -0700, Matt Roper wrote:
-> On Wed, Mar 22, 2023 at 12:20:09AM +0100, Andi Shyti wrote:
-> > From: Paulo Zanoni <paulo.r.zanoni@intel.com>
-> > 
-> > In multitile systems IRQ need to be reset and enabled per GT.
-> 
-> At the moment we're not enabling multi-tile support on any platforms
-> yet.  Xe_HP SDV has pretty much already served its purpose as an early
-> Xe_HP test platform, and most PVC effort is refocusing on the Xe KMD
-> right now.
-> 
-> Note that we don't want/need changes like this on non-tile multi-gt
-> platforms like MTL.  The interrupt registers you're accessing here are
-> sgunit registers so there's only ever a single copy of the register on
-> such platforms; looping around and processing the same register two
-> times in a row doesn't accomplish anything that just processing them a
-> single time doesn't.
+drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.c:1004:15: warning: variable 'dppclk_delay_subtotal' set but not used.
 
-Right... irq's registers in MTL are in the root tile.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4584
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ .../display/dc/dml/dcn314/display_rq_dlg_calc_314.c    | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-However, In a multi-gt point of view all the "gt" functions need
-to be iterated over all the GT's... maybe to have things cleaner
-we might need some dedicated mtl_irq_reset and
-mtl_irq_postinstall wrappers.
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
+index 6576b897a512..d1c2693a2e28 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
++++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
+@@ -1001,7 +1001,6 @@ static void dml_rq_dlg_get_dlg_params(
+ 	unsigned int vupdate_width;
+ 	unsigned int vready_offset;
+ 
+-	unsigned int dppclk_delay_subtotal;
+ 	unsigned int dispclk_delay_subtotal;
+ 
+ 	unsigned int vstartup_start;
+@@ -1130,17 +1129,8 @@ static void dml_rq_dlg_get_dlg_params(
+ 	vupdate_offset = dst->vupdate_offset;
+ 	vupdate_width = dst->vupdate_width;
+ 	vready_offset = dst->vready_offset;
+-
+-	dppclk_delay_subtotal = mode_lib->ip.dppclk_delay_subtotal;
+ 	dispclk_delay_subtotal = mode_lib->ip.dispclk_delay_subtotal;
+ 
+-	if (scl_enable)
+-		dppclk_delay_subtotal += mode_lib->ip.dppclk_delay_scl;
+-	else
+-		dppclk_delay_subtotal += mode_lib->ip.dppclk_delay_scl_lb_only;
+-
+-	dppclk_delay_subtotal += mode_lib->ip.dppclk_delay_cnvc_formatter + src->num_cursors * mode_lib->ip.dppclk_delay_cnvc_cursor;
+-
+ 	if (dout->dsc_enable) {
+ 		double dsc_delay = get_dsc_delay(mode_lib, e2e_pipe_param, num_pipes, pipe_idx); // FROM VBA
+ 
+-- 
+2.20.1.7.g153144c
 
-Thanks! (again :-))
-
-Andi
