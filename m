@@ -1,48 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440E66C4189
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 05:24:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5658B6C41A0
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Mar 2023 05:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A474D10E04A;
-	Wed, 22 Mar 2023 04:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1312A10E256;
+	Wed, 22 Mar 2023 04:39:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E00010E04A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 04:24:23 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:34520.196893139
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id CADCF100211;
- Wed, 22 Mar 2023 12:24:14 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
- 4e4ee05fbbf6484186fe86279e32ae8b for tzimmermann@suse.de; 
- Wed, 22 Mar 2023 12:24:20 CST
-X-Transaction-ID: 4e4ee05fbbf6484186fe86279e32ae8b
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <1311ab5b-2af6-c6e9-83c9-c11e825fe313@189.cn>
-Date: Wed, 22 Mar 2023 12:24:13 +0800
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50ACA10E256
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 04:39:48 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ o6-20020a17090a9f8600b0023f32869993so18560012pjp.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Mar 2023 21:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679459988;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=xm0M1kcuL6xFu2eK/DxZuL2ZfVmnA4tafMen2+OWSWw=;
+ b=mSuchzjfljBMbdDULRddFK0aPiZCcTU1+tbT/nfRrb8Ap6x/TXsyugBT6w3lv3yMpB
+ woXU/IJVacipXn6P0SoPWb7IZt3AxJHfAQAQSNxOueI7+y3nS3avsrztg2lAlUhzUOgO
+ VMlW7DpFWr9xliD3qGsr5J7Sj5rKrdQws/h+l6PuObVFEdZ+XahKxaxeUWJx1eUVPhqa
+ fO8dPw12X9DtRe92+x93RkJX+jve7pPerbNwhVhJa6wdXHgLuAUNiLgCfcFwujXt51H/
+ n8ZsedB82MNit9wC260woOVYGML+0NMGIbrPY3HLK1hm0d7Djp99LqFgSWj7ZGH3T4fM
+ mkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679459988;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xm0M1kcuL6xFu2eK/DxZuL2ZfVmnA4tafMen2+OWSWw=;
+ b=G9hI0Zl9pm6D9eN62SKbi6lICk6dh5QPkpYwzz7ou5rMF2367PWK159qQ2+ZOjd+kp
+ m5VsaaGMmffqyfB1ADQlzxLrCyulh0uE00T1JnakVsbm7AOHCnAIYNfIEiu6orsVU2Kw
+ 51jcS//QGuV+2iwkkKpNkCvQyYA2odBseqa2HUO6mFZhAGoQq6RhMVVMkZJ2gR6BwCWw
+ zcrsRNssvEDZqSfdBbIqYUoMqxJZq82R35JCSSqGeqsZy+rpxZPRtv4nB/voREgO2VRD
+ Yk8omDJGm3NWEeqqDCtlvvwg0Mo8GEvwxz4vGC2vGSycXiY6lUhltg78zjTa5/iu6nwl
+ aXfg==
+X-Gm-Message-State: AO0yUKWd3434DIEdUQpPCr6eSLL4xRAFMr5vBaozkwUxo2b5XagkAwPD
+ lJiIDG8yXEH2aopW4lT7Q9g=
+X-Google-Smtp-Source: AK7set+SWZhbEAI+gnRhYaNeVGUPOUw0LhZI77y0MwZcyezPwJ1nB8cL8gtJ6BpnsZdJsAcQSWaNtQ==
+X-Received: by 2002:a17:90b:38c8:b0:23b:4005:26e6 with SMTP id
+ nn8-20020a17090b38c800b0023b400526e6mr2239670pjb.34.1679459987739; 
+ Tue, 21 Mar 2023 21:39:47 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-30.three.co.id. [180.214.232.30])
+ by smtp.gmail.com with ESMTPSA id
+ hg4-20020a17090b300400b002340d317f3esm8859243pjb.52.2023.03.21.21.39.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Mar 2023 21:39:47 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+ id F29F710665C; Wed, 22 Mar 2023 11:39:43 +0700 (WIB)
+Date: Wed, 22 Mar 2023 11:39:43 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, ogabbay@kernel.org,
+ airlied@gmail.com, daniel@ffwll.ch, jacek.lawrynowicz@linux.intel.com,
+ stanislaw.gruszka@linux.intel.com
+Subject: Re: [PATCH v4 1/8] accel/qaic: Add documentation for AIC100
+ accelerator driver
+Message-ID: <ZBqGj+gyl4c5Yz7E@debian.me>
+References: <1679325074-5494-1-git-send-email-quic_jhugo@quicinc.com>
+ <1679325074-5494-2-git-send-email-quic_jhugo@quicinc.com>
+ <ZBmxl0sFH5PBG36H@debian.me>
+ <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [v2,1/8] drm/fbdev-generic: Always use shadow buffering
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
- daniel@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, zackr@vmware.com, kraxel@redhat.com,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-graphics-maintainer@vmware.com
-References: <20230320150751.20399-2-tzimmermann@suse.de>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <20230320150751.20399-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="EXPXy0S25JFamHAK"
+Content-Disposition: inline
+In-Reply-To: <aa2ee071-952b-f8b5-bfcf-53cef99478be@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,287 +81,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dafna@fastmail.com, linux-doc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_ajitpals@quicinc.com, quic_pkanojiy@quicinc.com, quic_carlv@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tested-by: Sui Jingfeng <suijingfeng@loongson.cn>
 
-On 2023/3/20 23:07, Thomas Zimmermann wrote:
-> Remove all codepaths that implement fbdev output directly on GEM
-> buffers. Always allocate a shadow buffer in system memory and set
-> up deferred I/O for mmap.
->
-> The fbdev code that operated directly on GEM buffers was used by
-> drivers based on GEM DMA helpers. Those drivers have been migrated
-> to use fbdev-dma, a dedicated fbdev emulation for DMA memory. All
-> remaining users of fbdev-generic require shadow buffering.
->
-> Memory management of the remaining callers uses TTM, GEM SHMEM
-> helpers or a variant of GEM DMA helpers that is incompatible with
-> fbdev-dma. Therefore remove the unused codepaths from fbdev-generic
-> and simplify the code.
->
-> Using a shadow buffer with deferred I/O is probably the best case
-> for most remaining callers. Some of the TTM-based drivers might
-> benefit from a dedicated fbdev emulation that operates directly on
-> the driver's video memory.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Zack Rusin <zackr@vmware.com>
-> ---
->   drivers/gpu/drm/drm_fbdev_generic.c | 184 +++++-----------------------
->   1 file changed, 30 insertions(+), 154 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
-> index 4d6325e91565..e48a8e82378d 100644
-> --- a/drivers/gpu/drm/drm_fbdev_generic.c
-> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
-> @@ -11,16 +11,6 @@
->   
->   #include <drm/drm_fbdev_generic.h>
->   
-> -static bool drm_fbdev_use_shadow_fb(struct drm_fb_helper *fb_helper)
-> -{
-> -	struct drm_device *dev = fb_helper->dev;
-> -	struct drm_framebuffer *fb = fb_helper->fb;
-> -
-> -	return dev->mode_config.prefer_shadow_fbdev ||
-> -	       dev->mode_config.prefer_shadow ||
-> -	       fb->funcs->dirty;
-> -}
-> -
->   /* @user: 1=userspace, 0=fbcon */
->   static int drm_fbdev_fb_open(struct fb_info *info, int user)
->   {
-> @@ -46,115 +36,33 @@ static int drm_fbdev_fb_release(struct fb_info *info, int user)
->   static void drm_fbdev_fb_destroy(struct fb_info *info)
->   {
->   	struct drm_fb_helper *fb_helper = info->par;
-> -	void *shadow = NULL;
-> +	void *shadow = info->screen_buffer;
->   
->   	if (!fb_helper->dev)
->   		return;
->   
-> -	if (info->fbdefio)
-> -		fb_deferred_io_cleanup(info);
-> -	if (drm_fbdev_use_shadow_fb(fb_helper))
-> -		shadow = info->screen_buffer;
-> -
-> +	fb_deferred_io_cleanup(info);
->   	drm_fb_helper_fini(fb_helper);
-> -
-> -	if (shadow)
-> -		vfree(shadow);
-> -	else if (fb_helper->buffer)
-> -		drm_client_buffer_vunmap(fb_helper->buffer);
-> -
-> +	vfree(shadow);
->   	drm_client_framebuffer_delete(fb_helper->buffer);
-> -	drm_client_release(&fb_helper->client);
->   
-> +	drm_client_release(&fb_helper->client);
->   	drm_fb_helper_unprepare(fb_helper);
->   	kfree(fb_helper);
->   }
->   
-> -static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
-> -{
-> -	struct drm_fb_helper *fb_helper = info->par;
-> -
-> -	if (drm_fbdev_use_shadow_fb(fb_helper))
-> -		return fb_deferred_io_mmap(info, vma);
-> -	else if (fb_helper->dev->driver->gem_prime_mmap)
-> -		return fb_helper->dev->driver->gem_prime_mmap(fb_helper->buffer->gem, vma);
-> -	else
-> -		return -ENODEV;
-> -}
-> -
-> -static bool drm_fbdev_use_iomem(struct fb_info *info)
-> -{
-> -	struct drm_fb_helper *fb_helper = info->par;
-> -	struct drm_client_buffer *buffer = fb_helper->buffer;
-> -
-> -	return !drm_fbdev_use_shadow_fb(fb_helper) && buffer->map.is_iomem;
-> -}
-> -
-> -static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-> -				 size_t count, loff_t *ppos)
-> -{
-> -	ssize_t ret;
-> -
-> -	if (drm_fbdev_use_iomem(info))
-> -		ret = drm_fb_helper_cfb_read(info, buf, count, ppos);
-> -	else
-> -		ret = drm_fb_helper_sys_read(info, buf, count, ppos);
-> -
-> -	return ret;
-> -}
-> -
-> -static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-> -				  size_t count, loff_t *ppos)
-> -{
-> -	ssize_t ret;
-> -
-> -	if (drm_fbdev_use_iomem(info))
-> -		ret = drm_fb_helper_cfb_write(info, buf, count, ppos);
-> -	else
-> -		ret = drm_fb_helper_sys_write(info, buf, count, ppos);
-> -
-> -	return ret;
-> -}
-> -
-> -static void drm_fbdev_fb_fillrect(struct fb_info *info,
-> -				  const struct fb_fillrect *rect)
-> -{
-> -	if (drm_fbdev_use_iomem(info))
-> -		drm_fb_helper_cfb_fillrect(info, rect);
-> -	else
-> -		drm_fb_helper_sys_fillrect(info, rect);
-> -}
-> -
-> -static void drm_fbdev_fb_copyarea(struct fb_info *info,
-> -				  const struct fb_copyarea *area)
-> -{
-> -	if (drm_fbdev_use_iomem(info))
-> -		drm_fb_helper_cfb_copyarea(info, area);
-> -	else
-> -		drm_fb_helper_sys_copyarea(info, area);
-> -}
-> -
-> -static void drm_fbdev_fb_imageblit(struct fb_info *info,
-> -				   const struct fb_image *image)
-> -{
-> -	if (drm_fbdev_use_iomem(info))
-> -		drm_fb_helper_cfb_imageblit(info, image);
-> -	else
-> -		drm_fb_helper_sys_imageblit(info, image);
-> -}
-> -
->   static const struct fb_ops drm_fbdev_fb_ops = {
->   	.owner		= THIS_MODULE,
-> -	DRM_FB_HELPER_DEFAULT_OPS,
->   	.fb_open	= drm_fbdev_fb_open,
->   	.fb_release	= drm_fbdev_fb_release,
-> +	.fb_read	= drm_fb_helper_sys_read,
-> +	.fb_write	= drm_fb_helper_sys_write,
-> +	DRM_FB_HELPER_DEFAULT_OPS,
-> +	.fb_fillrect	= drm_fb_helper_sys_fillrect,
-> +	.fb_copyarea	= drm_fb_helper_sys_copyarea,
-> +	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-> +	.fb_mmap	= fb_deferred_io_mmap,
->   	.fb_destroy	= drm_fbdev_fb_destroy,
-> -	.fb_mmap	= drm_fbdev_fb_mmap,
-> -	.fb_read	= drm_fbdev_fb_read,
-> -	.fb_write	= drm_fbdev_fb_write,
-> -	.fb_fillrect	= drm_fbdev_fb_fillrect,
-> -	.fb_copyarea	= drm_fbdev_fb_copyarea,
-> -	.fb_imageblit	= drm_fbdev_fb_imageblit,
->   };
->   
->   /*
-> @@ -169,7 +77,6 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
->   	struct drm_framebuffer *fb;
->   	struct fb_info *info;
->   	u32 format;
-> -	struct iosys_map map;
->   	int ret;
->   
->   	drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
-> @@ -197,44 +104,21 @@ static int drm_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
->   
->   	drm_fb_helper_fill_info(info, fb_helper, sizes);
->   
-> -	if (drm_fbdev_use_shadow_fb(fb_helper)) {
-> -		info->screen_buffer = vzalloc(info->screen_size);
-> -		if (!info->screen_buffer)
-> -			return -ENOMEM;
-> -		info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
-> +	info->screen_buffer = vzalloc(info->screen_size);
-> +	if (!info->screen_buffer)
-> +		return -ENOMEM;
-> +	info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
->   
-> -		/* Set a default deferred I/O handler */
-> -		fb_helper->fbdefio.delay = HZ / 20;
-> -		fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
-> +	info->fix.smem_start = page_to_phys(vmalloc_to_page(info->screen_buffer));
->   
-> -		info->fbdefio = &fb_helper->fbdefio;
-> -		ret = fb_deferred_io_init(info);
-> -		if (ret)
-> -			return ret;
-> -	} else {
-> -		/* buffer is mapped for HW framebuffer */
-> -		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
-> -		if (ret)
-> -			return ret;
-> -		if (map.is_iomem) {
-> -			info->screen_base = map.vaddr_iomem;
-> -		} else {
-> -			info->screen_buffer = map.vaddr;
-> -			info->flags |= FBINFO_VIRTFB;
-> -		}
-> -
-> -		/*
-> -		 * Shamelessly leak the physical address to user-space. As
-> -		 * page_to_phys() is undefined for I/O memory, warn in this
-> -		 * case.
-> -		 */
-> -#if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
-> -		if (fb_helper->hint_leak_smem_start && info->fix.smem_start == 0 &&
-> -		    !drm_WARN_ON_ONCE(dev, map.is_iomem))
-> -			info->fix.smem_start =
-> -				page_to_phys(virt_to_page(info->screen_buffer));
-> -#endif
-> -	}
-> +	/* Set a default deferred I/O handler */
-> +	fb_helper->fbdefio.delay = HZ / 20;
-> +	fb_helper->fbdefio.deferred_io = drm_fb_helper_deferred_io;
-> +
-> +	info->fbdefio = &fb_helper->fbdefio;
-> +	ret = fb_deferred_io_init(info);
-> +	if (ret)
-> +		return ret;
->   
->   	return 0;
->   }
-> @@ -318,18 +202,13 @@ static int drm_fbdev_fb_dirty(struct drm_fb_helper *helper, struct drm_clip_rect
->   	struct drm_device *dev = helper->dev;
->   	int ret;
->   
-> -	if (!drm_fbdev_use_shadow_fb(helper))
-> -		return 0;
-> -
->   	/* Call damage handlers only if necessary */
->   	if (!(clip->x1 < clip->x2 && clip->y1 < clip->y2))
->   		return 0;
->   
-> -	if (helper->buffer) {
-> -		ret = drm_fbdev_damage_blit(helper, clip);
-> -		if (drm_WARN_ONCE(dev, ret, "Damage blitter failed: ret=%d\n", ret))
-> -			return ret;
-> -	}
-> +	ret = drm_fbdev_damage_blit(helper, clip);
-> +	if (drm_WARN_ONCE(dev, ret, "Damage blitter failed: ret=%d\n", ret))
-> +		return ret;
->   
->   	if (helper->fb->funcs->dirty) {
->   		ret = helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, clip, 1);
-> @@ -415,12 +294,9 @@ static const struct drm_client_funcs drm_fbdev_client_funcs = {
->    * suspend/resume need to call drm_fb_helper_set_suspend_unlocked() themselves.
->    * Simple drivers might use drm_mode_config_helper_suspend().
->    *
-> - * Drivers that set the dirty callback on their framebuffer will get a shadow
-> - * fbdev buffer that is blitted onto the real buffer. This is done in order to
-> - * make deferred I/O work with all kinds of buffers. A shadow buffer can be
-> - * requested explicitly by setting struct drm_mode_config.prefer_shadow or
-> - * struct drm_mode_config.prefer_shadow_fbdev to true beforehand. This is
-> - * required to use generic fbdev emulation with SHMEM helpers.
-> + * In order to provide fixed mmap-able memory ranges, generic fbdev emulation
-> + * uses a shadow buffer in system memory. The implementation blits the shadow
-> + * fbdev buffer onto the real buffer in regular intervals.
->    *
->    * This function is safe to call even when there are no connectors present.
->    * Setup will be retried on the next hotplug event.
+--EXPXy0S25JFamHAK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Mar 21, 2023 at 03:52:11PM -0600, Jeffrey Hugo wrote:
+> > > +
+> > > +Request field descriptions:
+> > > +
+> > > +| req_id- request ID. A request FIFO element and a response FIFO ele=
+ment with
+> > > +|         the same request ID refer to the same command.
+> > > +
+> > > +| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
+> > > +
+> > > +| pcie_dma_cmd- describes the DMA element of this request.
+> > > +| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI =
+logic
+> > > +| 		and generates a MSI when this request is complete, and QSM
+> > > +| 		configures the DMA Bridge to look at this bit.
+> > > +| 	Bits(6:5) are reserved.
+> > > +| 	Bit(4) is the completion code flag, and indicates that the DMA Br=
+idge
+> > > +| 		shall generate a response FIFO element when this request is
+> > > +| 		complete.
+> > > +| 	Bit(3) indicates if this request is a linked list transfer(0) or =
+a bulk
+> > > +| 		transfer(1).
+> > > +| 	Bit(2) is reserved.
+> > > +| 	Bits(1:0) indicate the type of transfer. No transfer(0), to devic=
+e(1),
+> > > +| 		from device(2). Value 3 is illegal.
+> > > +
+> > > +| pcie_dma_source_addr- source address for a bulk transfer, or the a=
+ddress of
+> > > +|         the linked list.
+> > > +
+> > > +| pcie_dma_dest_addr- destination address for a bulk transfer.
+> > > +
+> > > +| pcie_dma_len- length of the bulk transfer. Note that the size of t=
+his field
+> > > +| 	limits transfers to 4G in size.
+> > > +
+> > > +| doorbell_addr- address of the doorbell to ring when this request i=
+s complete.
+> > > +
+> > > +| doorbell_attr- doorbell attributes.
+> > > +| 	Bit(7) indicates if a write to a doorbell is to occur.
+> > > +| 	Bits(6:2) are reserved.
+> > > +| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bi=
+t,
+> > > +| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+> > > +| 		must be naturally aligned to the specified length.
+> > > +
+> > > +| doorbell_data- data to write to the doorbell. Only the bits corres=
+ponding to
+> > > +| 	the doorbell length are valid.
+> > > +
+> > > +| sem_cmdN- semaphore command.
+> > > +| 	Bit(31) indicates this semaphore command is enabled.
+> > > +| 	Bit(30) is the to-device DMA fence. Block this request until all
+> > > +| 		to-device DMA transfers are complete.
+> > > +| 	Bit(29) is the from-device DMA fence. Block this request until all
+> > > +| 		from-device DMA transfers are complete.
+> > > +| 	Bits(28:27) are reserved.
+> > > +| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with t=
+he
+> > > +| 		specified value. 2 is increment. 3 is decrement. 4 is wait
+> > > +| 		until the semaphore is equal to the specified value. 5 is wait
+> > > +| 		until the semaphore is greater or equal to the specified value.
+> > > +| 		6 is "P", wait until semaphore is greater than 0, then
+> > > +| 		decrement by 1. 7 is reserved.
+> > > +| 	Bit(23) is reserved.
+> > > +| 	Bit(22) is the semaphore sync. 0 is post sync, which means that t=
+he
+> > > +| 		semaphore operation is done after the DMA transfer. 1 is
+> > > +| 		presync, which gates the DMA transfer. Only one presync is
+> > > +| 		allowed per request.
+> > > +| 	Bit(21) is reserved.
+> > > +| 	Bits(20:16) is the index of the semaphore to operate on.
+> > > +| 	Bits(15:12) are reserved.
+> > > +| 	Bits(11:0) are the semaphore value to use in operations.
+> >=20
+> > What about bullet lists?
+>=20
+> It doesn't feel like the above fits into a bullet list structure.  Do you
+> have an example reference, or can you transform a small section of the ab=
+ove
+> to illustrate what you are thinking?
+>=20
+
+Oops, sorry for suggesting the wrong construct.
+
+Definition lists fit in this case, since there are request fields along
+with their individual descriptions. For bit lists, bullet lists should
+suffice.
+
+Here is the illustration diff:
+
+diff --git a/Documentation/accel/qaic/aic100.rst b/Documentation/accel/qaic=
+/aic100.rst
+index 7ed95bb164bbeb..4d438fd8121451 100644
+--- a/Documentation/accel/qaic/aic100.rst
++++ b/Documentation/accel/qaic/aic100.rst
+@@ -308,67 +308,79 @@ A request FIFO element has the following structure:
+=20
+ Request field descriptions:
+=20
+-| req_id- request ID. A request FIFO element and a response FIFO element w=
+ith
+-|         the same request ID refer to the same command.
++  req_id
++      request ID. A request FIFO element and a response FIFO element with
++      the same request ID refer to the same command.
+=20
+-| seq_id- sequence ID within a request. Ignored by the DMA Bridge.
++  seq_id
++      sequence ID within a request. Ignored by the DMA Bridge.
+=20
+-| pcie_dma_cmd- describes the DMA element of this request.
+-| 	Bit(7) is the force msi flag, which overrides the DMA Bridge MSI logic
+-| 		and generates a MSI when this request is complete, and QSM
+-| 		configures the DMA Bridge to look at this bit.
+-| 	Bits(6:5) are reserved.
+-| 	Bit(4) is the completion code flag, and indicates that the DMA Bridge
+-| 		shall generate a response FIFO element when this request is
+-| 		complete.
+-| 	Bit(3) indicates if this request is a linked list transfer(0) or a bulk
+-| 		transfer(1).
+-| 	Bit(2) is reserved.
+-| 	Bits(1:0) indicate the type of transfer. No transfer(0), to device(1),
+-| 		from device(2). Value 3 is illegal.
++  pcie_dma_cmd
++      describes the DMA element of this request.
+=20
+-| pcie_dma_source_addr- source address for a bulk transfer, or the address=
+ of
+-|         the linked list.
++      * Bit(7) is the force msi flag, which overrides the DMA Bridge MSI l=
+ogic
++        and generates a MSI when this request is complete, and QSM
++        configures the DMA Bridge to look at this bit.
++      * Bits(6:5) are reserved.
++      * Bit(4) is the completion code flag, and indicates that the DMA Bri=
+dge
++        shall generate a response FIFO element when this request is
++        complete.
++      * Bit(3) indicates if this request is a linked list transfer(0) or a=
+ bulk
++      * transfer(1).
++      * Bit(2) is reserved.
++      * Bits(1:0) indicate the type of transfer. No transfer(0), to device=
+(1),
++      * from device(2). Value 3 is illegal.
+=20
+-| pcie_dma_dest_addr- destination address for a bulk transfer.
++  pcie_dma_source_addr
++      source address for a bulk transfer, or the address of  the linked li=
+st.
+=20
+-| pcie_dma_len- length of the bulk transfer. Note that the size of this fi=
+eld
+-| 	limits transfers to 4G in size.
++  pcie_dma_dest_addr
++      destination address for a bulk transfer.
+=20
+-| doorbell_addr- address of the doorbell to ring when this request is comp=
+lete.
++  pcie_dma_len
++      length of the bulk transfer. Note that the size of this field
++      limits transfers to 4G in size.
+=20
+-| doorbell_attr- doorbell attributes.
+-| 	Bit(7) indicates if a write to a doorbell is to occur.
+-| 	Bits(6:2) are reserved.
+-| 	Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
+-| 		1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
+-| 		must be naturally aligned to the specified length.
++  doorbell_addr
++      address of the doorbell to ring when this request is complete.
+=20
+-| doorbell_data- data to write to the doorbell. Only the bits correspondin=
+g to
+-| 	the doorbell length are valid.
++  doorbell_attr
++      doorbell attributes.
+=20
+-| sem_cmdN- semaphore command.
+-| 	Bit(31) indicates this semaphore command is enabled.
+-| 	Bit(30) is the to-device DMA fence. Block this request until all
+-| 		to-device DMA transfers are complete.
+-| 	Bit(29) is the from-device DMA fence. Block this request until all
+-| 		from-device DMA transfers are complete.
+-| 	Bits(28:27) are reserved.
+-| 	Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
+-| 		specified value. 2 is increment. 3 is decrement. 4 is wait
+-| 		until the semaphore is equal to the specified value. 5 is wait
+-| 		until the semaphore is greater or equal to the specified value.
+-| 		6 is "P", wait until semaphore is greater than 0, then
+-| 		decrement by 1. 7 is reserved.
+-| 	Bit(23) is reserved.
+-| 	Bit(22) is the semaphore sync. 0 is post sync, which means that the
+-| 		semaphore operation is done after the DMA transfer. 1 is
+-| 		presync, which gates the DMA transfer. Only one presync is
+-| 		allowed per request.
+-| 	Bit(21) is reserved.
+-| 	Bits(20:16) is the index of the semaphore to operate on.
+-| 	Bits(15:12) are reserved.
+-| 	Bits(11:0) are the semaphore value to use in operations.
++      * Bit(7) indicates if a write to a doorbell is to occur.
++      * Bits(6:2) are reserved.
++      * Bits(1:0) contain the encoding of the doorbell length. 0 is 32-bit,
++        1 is 16-bit, 2 is 8-bit, 3 is reserved. The doorbell address
++        must be naturally aligned to the specified length.
++
++  doorbell_data
++      data to write to the doorbell. Only the bits corresponding to
++      the doorbell length are valid.
++
++  sem_cmdN
++      semaphore command.
++
++      * Bit(31) indicates this semaphore command is enabled.
++      * Bit(30) is the to-device DMA fence. Block this request until all
++        to-device DMA transfers are complete.
++      * Bit(29) is the from-device DMA fence. Block this request until all
++        from-device DMA transfers are complete.
++      * Bits(28:27) are reserved.
++        Bits(26:24) are the semaphore command. 0 is NOP. 1 is init with the
++        specified value. 2 is increment. 3 is decrement. 4 is wait
++        until the semaphore is equal to the specified value. 5 is wait
++        until the semaphore is greater or equal to the specified value.
++        6 is "P", wait until semaphore is greater than 0, then
++        decrement by 1. 7 is reserved.
++      * Bit(23) is reserved.
++      * Bit(22) is the semaphore sync. 0 is post sync, which means that the
++        semaphore operation is done after the DMA transfer. 1 is
++      * presync, which gates the DMA transfer. Only one presync is
++      * allowed per request.
++      * Bit(21) is reserved.
++      * Bits(20:16) is the index of the semaphore to operate on.
++      * Bits(15:12) are reserved.
++      * Bits(11:0) are the semaphore value to use in operations.
+=20
+ Overall, a request is processed in 4 steps:
+=20
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--EXPXy0S25JFamHAK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZBqGiwAKCRD2uYlJVVFO
+o8YcAP99Ek9bDxbQwDy9P1xr8cC6hW5c8NcwEvyvIUls3e+hVAEA0V2KwAmMxPcn
+b1APtu6ox4tlgoFPgFfyynftXRePTgQ=
+=zliE
+-----END PGP SIGNATURE-----
+
+--EXPXy0S25JFamHAK--
