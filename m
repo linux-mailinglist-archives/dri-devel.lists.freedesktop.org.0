@@ -1,54 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406956C6455
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:02:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A32E76C64C8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6CE10EA69;
-	Thu, 23 Mar 2023 10:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 464BA10EA65;
+	Thu, 23 Mar 2023 10:25:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2F7210EA69;
- Thu, 23 Mar 2023 10:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679565717; x=1711101717;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=CALRQ/d+jh9JQDQojCnHBj7+meUFj+ohAJsNugrpQbs=;
- b=iVTBUsihR4dXFEAvBilNSc9bV+F6+tFFmsv5EbG63mWzi0EgUUQTbJID
- cBUFghdNE5bF6KnoEPRhGVB03kK07M9xTSJhOE7tmbOb8bdPwfAIIW4by
- i3q/a5x8VqPYYOaj1jjAyUxHICUDqY+ZywEnbBy9AVZ5Vb4aZPEdZhNR3
- sEgEVOqPzRpu70O8HXOFiWU9NkaDP5rzg766iwIxMe2nUkQK0FbYpGE0y
- LQb3VxhDYbrJyUfe8Z6VSgC/Gb6pjF/yloCWb22BMqjdN3UoPyNwCRa46
- rb8NB/qPITMwqn+Y6ivuYh5rNWeDgM4IFY2lcnf2/35EghNBBr1WhZC65 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319834117"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="319834117"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 03:01:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="792949513"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="792949513"
-Received: from nirmoyda-desk.igk.intel.com ([10.91.214.27])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 03:01:45 -0700
-From: Nirmoy Das <nirmoy.das@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/i915/display: Implement fb_mmap callback function
-Date: Thu, 23 Mar 2023 11:01:20 +0100
-Message-Id: <20230323100120.7661-3-nirmoy.das@intel.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230323100120.7661-1-nirmoy.das@intel.com>
-References: <20230323100120.7661-1-nirmoy.das@intel.com>
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C77B10EA60
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:27 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id s13so861945wmr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679567126;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kHn9LOj3LUennLbrotyH9RAcC3peesavIxumXBNqtGI=;
+ b=oTI0vmMM419/N7JVC4Vrcln3XBbpXf1EdxcX3+wAFgQaENApiOqHJBYpdG/KR11aYX
+ AJT+iicsK7rFu1bob/i8F6Sf8AfP0hxtTNVqZwR1mX067nZCfz+P4g8hKXZAx6DjntwI
+ 0NRB41aPwSjAvGdLu+J12vLAU+a9IJCPiMZoiPFmyGiqUO7jSJ53GA5lkcXd68pfBZLD
+ 9WN9Gmf1ydbOG8/a4VkkJifvW6qBlujgmz6nBwJS6M5TCHLzw1wwWkmdvAoqVEvWFESd
+ 5xZXqKHyQqONcR7Rxny1jUo0j1fdWybsVm2hd+AdT+Mc4QOV6m00Gl3dPTxCNR3T6O7A
+ Gj/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679567126;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kHn9LOj3LUennLbrotyH9RAcC3peesavIxumXBNqtGI=;
+ b=boXTp5937eiLzDdQByb+BnZogdD0qKBulKqS1dzX/H7qn4zNzQhOpkU1oqKgGT7Tmj
+ 3TiYfbDNq7C+av0l0kWniJCphD5bQzlLs26M0OEtqC8yYUtMRshPOYUMZFd91pbcCpNt
+ qF/pcmiqY7gA46lis29IU0BCvE2zSl3suOyl3eVLsZmmpBWM0zNjFWivdeXq4jLYULHs
+ r1pb40eGE0XQfLUUOZlye+wMd0u9z5lEeOYcnziOr879i5SZeyGA7tuOx1JymiGcXpvq
+ nx0K+8zDb4WuoSIlAYE6LsKRF24nX7vmBCmfI5aHE7+V/XIpfhcFm/3poTzaYe0rtE4c
+ B6zw==
+X-Gm-Message-State: AO0yUKXhR64uz07/CUcjS8unEg54n1c1/StEspM+F09SxutR5K6OO0IP
+ +dsJL6+iHX7WlSUyuFuolAXMQA==
+X-Google-Smtp-Source: AK7set+qnEKd/C7PSYy2U+bBo9nWl1+ztXVMq+whW9CzH2XcIwXbrg5phWt9nVCwDU1EOtkYtvORYQ==
+X-Received: by 2002:a05:600c:2211:b0:3ed:1fa1:73c5 with SMTP id
+ z17-20020a05600c221100b003ed1fa173c5mr1880205wml.27.1679567125801; 
+ Thu, 23 Mar 2023 03:25:25 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Mar 2023 03:25:25 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH 0/8] arm64: qcom: sm8450: bindings check cleanup
+Date: Thu, 23 Mar 2023 11:25:15 +0100
+Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
- 85579 Neubiberg, Germany,
- Commercial Register: Amtsgericht Muenchen HRB 186928 
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAspHGQC/x2MSQqDQBAAvyJzTsMsWSRfCR5m6WiDtjI9hoD49
+ zQ5VlHUYQQroZhnd5iKHxJaWcFdOpOnyCMCFWXjrQ82+ABt3SiDLP31ZmHfpFWMC5QGibgQjwJ
+ v+qJA7+7BPrxHDM7oLUVBSDVynvTH+zyr3Cr+azWv4Tx/QLNN9Y4AAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>, 
+ Bart Van Assche <bvanassche@acm.org>
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,73 +83,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If stolen memory allocation fails for fbdev, the driver will
-fallback to system memory. Calculation of smem_start is wrong
-for such framebuffer objs if the platform comes with no gmadr or
-no aperture. Solve this by adding fb_mmap callback which will
-use GTT if aperture is available otherwise will use cpu to access
-the framebuffer.
+A few fixes to pass the DT bindings check successfully
+for sm8450 qrd & hdk DTs.
 
-v2: Use to_intel_fbdev() function(Jani)
+The following are still needed to pass all the checks:
+- https://lore.kernel.org/r/20230308082424.140224-3-manivannan.sadhasivam@linaro.org
+- https://lore.kernel.org/r/20230130-topic-sm8450-upstream-pmic-glink-v5-5-552f3b721f9e@linaro.org
+- https://lore.kernel.org/all/20230308075648.134119-1-manivannan.sadhasivam@linaro.org/
 
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Imre Deak <imre.deak@intel.com>
-Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- drivers/gpu/drm/i915/display/intel_fbdev.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Neil Armstrong (8):
+      dt-bindings: display: msm: sm8450-mdss: Fix DSI compatible
+      dt-bindings: mfd: qcom,spmi-pmic: document pm8450 pmic
+      dt-bindings: ufs: qcom: document the fact the UFS controller can have an ICE core
+      arm64: dts: qcom: sm8450: remove invalid properties in cluster-sleep nodes
+      arm64: dts: qcom: sm8450: remove invalid power-domain-names in pcie nodes
+      arm64: dts: qcom: sm8450: remove invalid npl clock in vamacro node
+      arm64: dts: qcom: sm8450: remove invalid reg-names from ufs node
+      arm64: dts: qcom: sm8450: fix pcie1 gpios properties name
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 8c3b3c3fd0e0..5e52bef868a0 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -40,8 +40,10 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- 
- #include "gem/i915_gem_lmem.h"
-+#include "gem/i915_gem_mman.h"
- 
- #include "i915_drv.h"
- #include "intel_display_types.h"
-@@ -119,6 +121,15 @@ static int intel_fbdev_pan_display(struct fb_var_screeninfo *var,
- 	return ret;
- }
- 
-+static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
-+{
-+	struct intel_fbdev *fbdev = to_intel_fbdev(info->par);
-+	struct drm_gem_object *bo = drm_gem_fb_get_obj(&fbdev->fb->base, 0);
-+	struct drm_i915_gem_object *obj = to_intel_bo(bo);
-+
-+	return i915_gem_fb_mmap(obj, vma);
-+}
-+
- static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -130,6 +141,7 @@ static const struct fb_ops intelfb_ops = {
- 	.fb_imageblit = drm_fb_helper_cfb_imageblit,
- 	.fb_pan_display = intel_fbdev_pan_display,
- 	.fb_blank = intel_fbdev_blank,
-+	.fb_mmap = intel_fbdev_mmap,
- };
- 
- static int intelfb_alloc(struct drm_fb_helper *helper,
+ .../bindings/display/msm/qcom,sm8450-mdss.yaml           |  2 +-
+ .../devicetree/bindings/mfd/qcom,spmi-pmic.yaml          |  1 +
+ Documentation/devicetree/bindings/ufs/qcom,ufs.yaml      |  2 +-
+ arch/arm64/boot/dts/qcom/sm8450.dtsi                     | 16 ++++------------
+ 4 files changed, 7 insertions(+), 14 deletions(-)
+---
+base-commit: b9e9869138880e668fa8cb3b186d04cd13bd57a6
+change-id: 20230323-topic-sm8450-upstream-dt-bindings-fixes-81630722ee31
+
+Best regards,
 -- 
-2.39.0
+Neil Armstrong <neil.armstrong@linaro.org>
 
