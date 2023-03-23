@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464796C64CE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4142E6C64D8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7289110EA66;
-	Thu, 23 Mar 2023 10:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F21A410EA72;
+	Thu, 23 Mar 2023 10:25:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEBDD10EA65
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96C310EA67
  for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:29 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id v1so13758606wrv.1
+Received: by mail-wr1-x432.google.com with SMTP id i9so19859472wrp.3
  for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679567128;
+ d=linaro.org; s=google; t=1679567129;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=MbMpIW2XeTgOIuij0DvAphORXQYIJr8R5bBmK3u0n4s=;
- b=OiM1Yacj+a6ZH6zyF+4WbfsKHoee7NXm2MM9OOs2n5bJzfOLIGXc12cwtoMMbg5V3G
- 3E7MUGqH2EfT+LLrFi30N1TD5vnz9MtKSQJ7qwGhKdoghrG2YNuKlZpFNEbNpPfb+JNC
- For/VV8QIang/A28V7HMQQzpxwmJI796xxhu2taDRIfLRuuphtt55iNSeSB1TPRM88kr
- MbeZOoHUYvYqUSMsB/kCZa2vQ1FUlEiDJMmqJPeIQn3BXlnkPEmWDHVnFESQ6FJvikYa
- cSWdtPSS6SLsNYVNt6bjg783EluGuECjGfV2WXUqqcBqC1eByii9qGUXoZ2JXGQ/O6yJ
- vBgw==
+ :reply-to; bh=KpNLyip69wJmwS3OqBQsHCVctKdhVF4LiqZDmDMUITQ=;
+ b=ksoJnpaK/Zy6H22m19pDj2+MsjnTWx5V52xHiYII2sZY3NnOGH/VCPayWVplJI49n4
+ ND5pCgxvdcpo2zY5ivvI+6PaEQb3RUIrHghG0fXowpUPDaiRdFNFFoaptC6atp2LFDu4
+ /7l8Ft9XzQI/dgI2u5Kwjzjf3EGfetJ/nD19W1xeFExSOR/0ZrGeJgeovF+mJ5cIQcS6
+ IIUH+yBHXb4uTAbLYXpoijgnFWQYeSiSA6Q4cZyNbB1P4/nuqF4+tRfG4scuPUaaB4PZ
+ oy7rac3DSmLy92YeMtCqS/0R/2asitjiEoWzOpdqfo6qh7rO6b/GqtLVjy5psj/Std9W
+ pipQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679567128;
+ d=1e100.net; s=20210112; t=1679567129;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MbMpIW2XeTgOIuij0DvAphORXQYIJr8R5bBmK3u0n4s=;
- b=KvGAkgFj/VW3iGKxHEO/dXyeshdl+wEe1+uhRUc4AqyxxBEVwD1cpWnfjHJEZ5AlNt
- L9jTQIJmLYRwKFYA0qtvxJTXfJ7IqzNq0p5lSn566RGaj5a7w8GJDCWfjSGhRLJvL7Od
- jk6SJZTy1fo4Jm4UFw7oow1Y8vWD2JUSsbEotzFofi2VMZnXjC8LBcmi0VDsCMh28nJk
- HT4IC7N3YcuftsFqki4HEBllpVrtPu37xhafIXs8CwFcHrXD27KntGzWER/T442gEaMV
- b8kDe6GcEPZmNyW4eIbHWm06/wgfaiT+IZDOo2pZIay47WyFy9aIHq2ebEfIAJbM0x3y
- GPzA==
-X-Gm-Message-State: AAQBX9cTykqG5TDPLQHkTC8GytyjeSc9idgKecenXOZk2Gcp1FgAiDTQ
- lLbstsSNaEJeDmlIYus/OKuKHg==
-X-Google-Smtp-Source: AKy350YnpJ9aARdt0vtWcfFYEivcldCh8Vl38PKNmqoJ8yqlx/THGzhpYzjoV1hW1Xn0hKBSv96fHw==
-X-Received: by 2002:adf:ed43:0:b0:2ce:a8d5:4a89 with SMTP id
- u3-20020adfed43000000b002cea8d54a89mr2146384wro.37.1679567128111; 
- Thu, 23 Mar 2023 03:25:28 -0700 (PDT)
+ bh=KpNLyip69wJmwS3OqBQsHCVctKdhVF4LiqZDmDMUITQ=;
+ b=724kJkjiCb86MoT3VAh8e8bUpFck4fOUu7p4jdEg83axSkYBlAqO4GhcOc5g4mGUoS
+ fgAGP3hdPKfsHwV04+we/5gbul4GhuTcWSJFkyG9x1rgRQqAOe2hByLcT03Q6GFPM5Kt
+ ELgo4DtpAxJP0yLiWNro6qqhOG1gRa2bkO44ZRTNsbAsaVu4C6gJRfS9XWKWLcN0gX0O
+ YUMdORA/dxgCPhimfjUC2ES6rpfgiXS5UhJdh9bsNI43Te6gOle0S8ecHfnJ2ltEkMDi
+ 6sqPAkScegYRSiPlAgcXhqO2G8pZstDq/H+82WaPafsJDZ3NvyMgKc8+ro1QViOwGPss
+ ANyA==
+X-Gm-Message-State: AAQBX9cpskDuzjDf35FZmtJWmXSs4QqMOdlpa7Vr1bWN+Dqgs2AHqE6C
+ t/AResKKwyk/2dNT33shtfANFw==
+X-Google-Smtp-Source: AKy350aWTw8oMw5mfdjhhl2Uko+aQ7QMPlClfObRzjyqr46IHBi4Ee5GKUOe7E4wHzsM5OQklZnfuQ==
+X-Received: by 2002:a5d:6187:0:b0:2ce:adbf:cb14 with SMTP id
+ j7-20020a5d6187000000b002ceadbfcb14mr1824465wru.28.1679567129412; 
+ Thu, 23 Mar 2023 03:25:29 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.27
+ e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 03:25:27 -0700 (PDT)
+ Thu, 23 Mar 2023 03:25:29 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 23 Mar 2023 11:25:17 +0100
-Subject: [PATCH 2/8] dt-bindings: mfd: qcom,spmi-pmic: document pm8450 pmic
+Date: Thu, 23 Mar 2023 11:25:18 +0100
+Subject: [PATCH 3/8] dt-bindings: ufs: qcom: document the fact the UFS
+ controller can have an ICE core
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-2-3ead1e418fe4@linaro.org>
+Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-3-3ead1e418fe4@linaro.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -89,25 +90,35 @@ Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a compatible for PM8450, commonly found with SM8450.
+Move the qcom,sm8450-ufshc to the right allOf:if allowing the ICE clocks
+and registers to be specified.
 
+Fixes: 462c5c0aa798 ("dt-bindings: ufs: qcom,ufs: convert to dtschema")
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/ufs/qcom,ufs.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-index 975c30aad23c..15deeff2d447 100644
---- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
-@@ -57,6 +57,7 @@ properties:
-           - qcom,pm8350
-           - qcom,pm8350b
-           - qcom,pm8350c
-+          - qcom,pm8450
-           - qcom,pm8550
-           - qcom,pm8550b
-           - qcom,pm8550ve
+diff --git a/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml b/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml
+index c5a06c048389..4527bcb949b7 100644
+--- a/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml
++++ b/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml
+@@ -108,7 +108,6 @@ allOf:
+               - qcom,sc8280xp-ufshc
+               - qcom,sm8250-ufshc
+               - qcom,sm8350-ufshc
+-              - qcom,sm8450-ufshc
+               - qcom,sm8550-ufshc
+     then:
+       properties:
+@@ -137,6 +136,7 @@ allOf:
+               - qcom,sdm845-ufshc
+               - qcom,sm6350-ufshc
+               - qcom,sm8150-ufshc
++              - qcom,sm8450-ufshc
+     then:
+       properties:
+         clocks:
 
 -- 
 2.34.1
