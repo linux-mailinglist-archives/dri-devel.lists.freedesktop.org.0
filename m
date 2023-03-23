@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBA46C64DE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED32C6C64E1
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3280A10EA6B;
-	Thu, 23 Mar 2023 10:25:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4694F10EA6C;
+	Thu, 23 Mar 2023 10:25:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5702B10EA66
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:33 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id l27so11546057wrb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:33 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADD3110EA6B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:34 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id y14so19866816wrq.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679567132;
+ d=linaro.org; s=google; t=1679567133;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=la//61tmt1JcHM3ugdeN6VnhDtVEZYhOaulQ5DfrvTk=;
- b=S2plp2biPGbwxEiLWBmwLJwun7H46QDGsXGyrABWfNZDdJqJh2PBS9voTj3QSeOUh1
- 99qv2UbnDsZDzXJoIi3Y5+uzdePQTnw9tRFUmz1d5jUJ5nQkjPojZ1mzrEt3ZPs0Bj5W
- sW/yzmYBz3xuR0ejrvsfxWKx7sHxGHnRCxXb62Qq+AX03L2q1sRPSNCrUF9eYAMdea8z
- /QdKTwqDEAwXxUtwONLXbjwlFiFGL1e09KILItMUY3q7lSet92LZ96YQZq4YpHhRPxG/
- cehXuvJTmhmnLF/DLCGs8Qd0WUWsclH+WvciD7ootrnnzur54KUypGkVhvyjSRiz6Lj6
- HzNA==
+ :reply-to; bh=JLUTPlE00BSnjiP+YKOutfDTs6tTX6QAssulhGKRHLM=;
+ b=R48HHx1wdjnhsHgZ4ALbYG0+8j5SMxooMuHnduChZHWwZ0OZgwykIJ+MkPtslt7r0N
+ /wF/FuDu1ONXfoH65B19fv9bddghDB7pFtm3bKCiTIXM5bFO67PiNTUphoTFh78n+Aji
+ st7CqyEQ014AMyKaW2V7iBNOgL/BDbCnnVnsZU3MnLSQct4Y6WEN8uVBA35bnY87IGV3
+ A1ZmLm3Z5MbuNfateEye6dFjAf1p2Sg1hZ/TOJ8hhZ418TCTE77tCkNqeKRG9SNih5HO
+ 6QRbR6dIRE8+jVvZqg7fVfRpp5XmJqLydMorfJTPnBYb5h8y9L18rlhp2WLeKvgHr02z
+ Ho7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679567132;
+ d=1e100.net; s=20210112; t=1679567133;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=la//61tmt1JcHM3ugdeN6VnhDtVEZYhOaulQ5DfrvTk=;
- b=2UBxHjDtmhizzeokl/3G5SbeJJNxtSTCm7PWfkQ7pM5o8vBl0WYE1uC7HCwGZbbywr
- V/F2z+ey26n6qaf0LqLnogdXDzdLsbzQS/EadraXuKB/fJPpWasI22xYB/+8icJ2i7y5
- v4qpeHY53CzoWv4zBh1T/sPtJvdHPHPByfdsqqff3SfRdU1LmkPSOEogr8Xe/pblwuzT
- 0NfR6SSXqP2mTFzNO+5I7tD8gmDL36f3Yzp4z2QnlLNOvTkIXUGwBO3xmDXlYGQs1SkQ
- 3HjujhYZpciRSmHwq2WGPJSEDVshHG2Q3J3ikfq1UHwMffVR06v3pfX2QaTgngiII6dT
- HRDw==
-X-Gm-Message-State: AAQBX9cOoYAO3hk3gvIg0CPo2JXSH2iMdzbpA4qzMnJv7lHABOzM8P5e
- 4J5EoOj9eMtDFeq9xA4BnHwbyw==
-X-Google-Smtp-Source: AKy350b44afSbkJF5DaYq1NUD5d4106/qJV/mKTzn9m9WMT0RNlmV8eElddHIPWpkEOECHczSuNPjg==
-X-Received: by 2002:adf:f14e:0:b0:2cf:e77e:2eef with SMTP id
- y14-20020adff14e000000b002cfe77e2eefmr2254862wro.8.1679567131835; 
- Thu, 23 Mar 2023 03:25:31 -0700 (PDT)
+ bh=JLUTPlE00BSnjiP+YKOutfDTs6tTX6QAssulhGKRHLM=;
+ b=uT9VHRmwXTUQbDZ81dGhH1JRRLJd0NIKbvosNDFmSnZDVoxxEDqO3oMj9raB+ea94w
+ 4q3C6bssohcJc8fXl/CslWVJR4td1d7CSza0SfrTMlz8CGzBjaVfvaFKIdOd/k9wcP/z
+ cKwb6bXIAHHdt+8mUv3wUO98K7Rh+XfxYEs/iQAN5ASPHiGIqe3FORXRJSR/D+yzCG74
+ q9sjPFyZits7HTtQXcg2yyCIjgkutgxp6ZSU2jLyzEnJhWksRb/ttlRGT7Va74J+oYjZ
+ GePEKCPEH4tf5wWlYhxDxkhtIDV+1SllD9LxS2U15sqkhDHxLIxTFo62HFiwGvccSu2T
+ QGHw==
+X-Gm-Message-State: AAQBX9d1HO5B1JD2qmmJq7mFOMfgJoPx9Mx92X+LgqjS75tFkNUhE1M1
+ xSYr8bXee0FZb1YOc8e24v5aHQ==
+X-Google-Smtp-Source: AKy350ZmFe/sap13zmBOBFD0LzVyhIlb1i6EkPaP2YxaME1R9IuEZr2IyS123FR1V2zVbBWgDAb8MQ==
+X-Received: by 2002:a5d:6709:0:b0:2cf:e449:1a9e with SMTP id
+ o9-20020a5d6709000000b002cfe4491a9emr1930821wru.30.1679567132966; 
+ Thu, 23 Mar 2023 03:25:32 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.30
+ e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 03:25:31 -0700 (PDT)
+ Thu, 23 Mar 2023 03:25:32 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 23 Mar 2023 11:25:20 +0100
-Subject: [PATCH 5/8] arm64: dts: qcom: sm8450: remove invalid
- power-domain-names in pcie nodes
+Date: Thu, 23 Mar 2023 11:25:21 +0100
+Subject: [PATCH 6/8] arm64: dts: qcom: sm8450: remove invalid npl clock in
+ vamacro node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-5-3ead1e418fe4@linaro.org>
+Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-6-3ead1e418fe4@linaro.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -91,33 +91,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following DT bindings check error:
-pci@1c00000: Unevaluated properties are not allowed ('power-domain-names' were unexpected)
+codec@33f0000: clocks: [[137, 57, 1], [137, 102, 1], [137, 103, 1], [137, 70, 1]] is too long
+codec@33f0000: clock-names: 'oneOf' conditional failed, one must be fixed:
+	        ['mclk', 'macro', 'dcodec', 'npl'] is too long
+
+The implementation was checked and this npl clock isn't used for the VA macro.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8450.dtsi | 2 --
- 1 file changed, 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sm8450.dtsi | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index ff55fcfdd676..bcb51e612261 100644
+index bcb51e612261..ef9bae2e6acc 100644
 --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-@@ -1792,7 +1792,6 @@ pcie0: pci@1c00000 {
- 			reset-names = "pci";
+@@ -2321,9 +2321,8 @@ vamacro: codec@33f0000 {
+ 			reg = <0 0x033f0000 0 0x1000>;
+ 			clocks = <&q6prmcc LPASS_CLK_ID_TX_CORE_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+ 				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+-				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+-				 <&q6prmcc LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+-			clock-names = "mclk", "macro", "dcodec", "npl";
++				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
++			clock-names = "mclk", "macro", "dcodec";
+ 			assigned-clocks = <&q6prmcc LPASS_CLK_ID_TX_CORE_MCLK LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
+ 			assigned-clock-rates = <19200000>;
  
- 			power-domains = <&gcc PCIE_0_GDSC>;
--			power-domain-names = "gdsc";
- 
- 			phys = <&pcie0_lane>;
- 			phy-names = "pciephy";
-@@ -1905,7 +1904,6 @@ pcie1: pci@1c08000 {
- 			reset-names = "pci";
- 
- 			power-domains = <&gcc PCIE_1_GDSC>;
--			power-domain-names = "gdsc";
- 
- 			phys = <&pcie1_lane>;
- 			phy-names = "pciephy";
 
 -- 
 2.34.1
