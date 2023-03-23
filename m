@@ -1,79 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F1D6C638C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 10:28:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 491316C6450
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1729D10E342;
-	Thu, 23 Mar 2023 09:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E1710EA63;
+	Thu, 23 Mar 2023 10:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E20C10E342
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 09:28:31 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 85BD22B0681D;
- Thu, 23 Mar 2023 05:28:22 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 23 Mar 2023 05:28:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1679563702; x=1679570902; bh=D+
- 6uZuc9G8Cokr6D/ZuPojKuYrWzIuh3IXwIRgnmVHA=; b=Grd14zRIvsJco7ab2/
- EJppZ6ZNhgtslECuLaA5r9XEO8okGkzdmEuF1h4mkA7fvqNHyJbX1PMqYWo8Rtwx
- X5ataRWTesx2mnefGO8VnZhl34tj9QLV6h4HBnhuC7VGeianQ5Vf6j8MpK0asBmu
- LBg5t3uuwyzq/WkBCDRNIn77XW7mqFoZAe2rFL30HoSMFEUX/QNw6eCicRx+HMT2
- 4526yveHRgi1cryfZVVNV+L6gAwXfBpDWUdeGI9HtJYwc/BOkOKnFllfopMKKha9
- XhcbeV+GTxShxnK9HxfMXvp0pejBmIcuSwUJjve96I2Nvsq0DlggDwPFwzJ3vuST
- ku8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1679563702; x=1679570902; bh=D+6uZuc9G8Cok
- r6D/ZuPojKuYrWzIuh3IXwIRgnmVHA=; b=Ai0ccEckw5DnS+8GQfsYqpXuWpFGB
- ttQLPWjSKlnP2tyns81XXlCFD0Q3xCeGff5rzdlC/6fX8JQ+4kiJDnn1U75c53bw
- 3N6GGfyyybi+Oc1hH+quCZw/v4mKnLiAwdLBGbsgKsp24nDseAFy6LSW9eugCmVb
- +KWHJcUBGeH/Xl9DeNU/1942HFw577G7yPJsIuuQ1YmES20O/zI4WxZkMh2fgyvE
- a++ZfjFMGS7aM9uIVZ7hwQRJ5mpW9rkPe/CqQE4TXKbCH/6yyeyeHBBofsebtprR
- HWH8eNTjFX/5jiVQ+ZZg+2Wzp8v4NHUZ9+PfVsCpbk2QaiHtJw9Vu6qrg==
-X-ME-Sender: <xms:tBscZNYU0sYr-0l50Yk4duLxqaae1ei9hUNtbliJx9BdbCtXahbacg>
- <xme:tBscZEY_aXclh9vdqLqnl4wru2s6kxPDvdXjMxVMjjpPUds2kh_VV4YfON44u9ijp
- eN3I--qqDpHqT8kqb8>
-X-ME-Received: <xmr:tBscZP8skWawj0kRdUZp0NZnNW7iLg1bpc9apnCh3xEamIO3DRctlsv_Do8_iUT-3gjsZHLbhGlaCwh_7I23TS4fALDfcrQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdeggedgtdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:tBscZLquNPybogS3zNBGkVjdxMrFA_wmROPfMRKE76tl3-jPfie6VA>
- <xmx:tBscZIpFJVMEV1zDSpLQ5e2Og2-mS-3BlS-BryqQYSpE93anFPLqpA>
- <xmx:tBscZBQ0dyta-7zR6gLyviIlJ54-XWhFYU9iBu9fMXL9ozk-HdFNNg>
- <xmx:thscZEeaobicffGMWazNsg-Qr4l9xbsovbY_2Ck1BEPfHDBnfTOBrqEaAAY>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Mar 2023 05:28:19 -0400 (EDT)
-Date: Thu, 23 Mar 2023 10:28:16 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: [PATCH v5 0/8] Support ROHM BU27034 ALS sensor
-Message-ID: <20230323092816.eemjbfez6wxbumx7@houat>
-References: <cover.1679474247.git.mazziesaccount@gmail.com>
- <ZBrSCYp+QrHK47dS@smile.fi.intel.com>
- <87edphnkg1.fsf@minerva.mail-host-address-is-not-set>
- <8fe9fea1-b7b8-ee46-9534-de7e2b1726f9@gmail.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5A3F10EA57;
+ Thu, 23 Mar 2023 10:01:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679565703; x=1711101703;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=aetDp6ebEl8cZEgarHrDUT0N0XhjFTrHOPw01OsgAuI=;
+ b=Tj2aG9udnHWGCnwesvYkVciftsd0VhAWLvq+VCbfQoAMOeEbLvBpux+T
+ i46DWEMbkutvLVQcFodzqJ8OPZxKirDdKFskaTV0d7/snTKKA/g9W2cC3
+ mnpVdK1PBwg6RZNzCcWmJo6ugYnaNnlR0Z+BcvXRkntYLQNnhUOsILuY/
+ SzfoQDK04TIS2ARpBajVtZrsYif4jq39ebl/0xeUemSXmvd+M+leto7mP
+ 0HLhB+LdiWlHdgcutDThrcitvdNqL0+J7RfC947M+q7lwLgBQYE+HH33s
+ NfgduGgRiA8wB0SSPL13Yglj8Yvc4Y7ywwMUvZFT3hzAlq4suHcQin2g6 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319834072"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="319834072"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 03:01:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="792949455"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="792949455"
+Received: from nirmoyda-desk.igk.intel.com ([10.91.214.27])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 03:01:41 -0700
+From: Nirmoy Das <nirmoy.das@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 1/3] drm/i915: Add a function to mmap framebuffer obj
+Date: Thu, 23 Mar 2023 11:01:18 +0100
+Message-Id: <20230323100120.7661-1-nirmoy.das@intel.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ihwqacloxsmu5zbe"
-Content-Disposition: inline
-In-Reply-To: <8fe9fea1-b7b8-ee46-9534-de7e2b1726f9@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Deutschland GmbH, Registered Address: Am Campeon 10,
+ 85579 Neubiberg, Germany,
+ Commercial Register: Amtsgericht Muenchen HRB 186928 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,63 +59,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- linux-kselftest@vger.kernel.org, Emma Anholt <emma@anholt.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-iio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Brendan Higgins <brendan.higgins@linux.dev>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Zhigang Shi <Zhigang.Shi@liteon.com>, Masahiro Yamada <masahiroy@kernel.org>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, devicetree@vger.kernel.org,
- Paul Gazzillo <paul@pgazz.com>, Liam Beguin <liambeguin@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, David Gow <davidgow@google.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- kunit-dev@googlegroups.com, Stephen Boyd <sboyd@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- linux-kernel@vger.kernel.org,
- Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Implement i915_gem_fb_mmap() to enable fb_ops.fb_mmap()
+callback for i915's framebuffer objects.
 
---ihwqacloxsmu5zbe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v2: add a comment why i915_gem_object_get() needed(Andi).
 
-On Wed, Mar 22, 2023 at 12:59:33PM +0200, Matti Vaittinen wrote:
-> > I agree with Maxime that a little bit of duplication (that can be clean=
-ed
-> > up by each subsystem at their own pace) is the path of least resistance.
->=20
-> I'd say this depends. It probably is the path of least resistance for peo=
-ple
-> maintaining the trees. It can also be the path of least resistance in
-> general - but it depends on if there will be no new users for those DRM
-> helpers while waiting the new APIs being merged in DRM tree. More users we
-> see in DRM, more effort the clean-up requires.
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Nirmoy Das <nirmoy.das@intel.com>
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 127 +++++++++++++++--------
+ drivers/gpu/drm/i915/gem/i915_gem_mman.h |   2 +-
+ 2 files changed, 83 insertions(+), 46 deletions(-)
 
-So far there's one user in DRM, and I'm not aware of any current work
-using it at the moment. Even if some show up in the short-term future,
-it's not going to be overwhelming.
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index d3c1dee16af2..341e952d3510 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -927,53 +927,15 @@ static struct file *mmap_singleton(struct drm_i915_private *i915)
+ 	return file;
+ }
+ 
+-/*
+- * This overcomes the limitation in drm_gem_mmap's assignment of a
+- * drm_gem_object as the vma->vm_private_data. Since we need to
+- * be able to resolve multiple mmap offsets which could be tied
+- * to a single gem object.
+- */
+-int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
++static int
++i915_gem_object_mmap(struct drm_i915_gem_object *obj,
++		     struct i915_mmap_offset *mmo,
++		     struct vm_area_struct *vma)
+ {
+-	struct drm_vma_offset_node *node;
+-	struct drm_file *priv = filp->private_data;
+-	struct drm_device *dev = priv->minor->dev;
+-	struct drm_i915_gem_object *obj = NULL;
+-	struct i915_mmap_offset *mmo = NULL;
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
++	struct drm_device *dev = &i915->drm;
+ 	struct file *anon;
+ 
+-	if (drm_dev_is_unplugged(dev))
+-		return -ENODEV;
+-
+-	rcu_read_lock();
+-	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
+-	node = drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
+-						  vma->vm_pgoff,
+-						  vma_pages(vma));
+-	if (node && drm_vma_node_is_allowed(node, priv)) {
+-		/*
+-		 * Skip 0-refcnted objects as it is in the process of being
+-		 * destroyed and will be invalid when the vma manager lock
+-		 * is released.
+-		 */
+-		if (!node->driver_private) {
+-			mmo = container_of(node, struct i915_mmap_offset, vma_node);
+-			obj = i915_gem_object_get_rcu(mmo->obj);
+-
+-			GEM_BUG_ON(obj && obj->ops->mmap_ops);
+-		} else {
+-			obj = i915_gem_object_get_rcu
+-				(container_of(node, struct drm_i915_gem_object,
+-					      base.vma_node));
+-
+-			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
+-		}
+-	}
+-	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
+-	rcu_read_unlock();
+-	if (!obj)
+-		return node ? -EACCES : -EINVAL;
+-
+ 	if (i915_gem_object_is_readonly(obj)) {
+ 		if (vma->vm_flags & VM_WRITE) {
+ 			i915_gem_object_put(obj);
+@@ -1005,7 +967,7 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+ 	if (obj->ops->mmap_ops) {
+ 		vma->vm_page_prot = pgprot_decrypted(vm_get_page_prot(vma->vm_flags));
+ 		vma->vm_ops = obj->ops->mmap_ops;
+-		vma->vm_private_data = node->driver_private;
++		vma->vm_private_data = obj->base.vma_node.driver_private;
+ 		return 0;
+ 	}
+ 
+@@ -1043,6 +1005,81 @@ int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
+ 	return 0;
+ }
+ 
++/*
++ * This overcomes the limitation in drm_gem_mmap's assignment of a
++ * drm_gem_object as the vma->vm_private_data. Since we need to
++ * be able to resolve multiple mmap offsets which could be tied
++ * to a single gem object.
++ */
++int i915_gem_mmap(struct file *filp, struct vm_area_struct *vma)
++{
++	struct drm_vma_offset_node *node;
++	struct drm_file *priv = filp->private_data;
++	struct drm_device *dev = priv->minor->dev;
++	struct drm_i915_gem_object *obj = NULL;
++	struct i915_mmap_offset *mmo = NULL;
++
++	if (drm_dev_is_unplugged(dev))
++		return -ENODEV;
++
++	rcu_read_lock();
++	drm_vma_offset_lock_lookup(dev->vma_offset_manager);
++	node = drm_vma_offset_exact_lookup_locked(dev->vma_offset_manager,
++						  vma->vm_pgoff,
++						  vma_pages(vma));
++	if (node && drm_vma_node_is_allowed(node, priv)) {
++		/*
++		 * Skip 0-refcnted objects as it is in the process of being
++		 * destroyed and will be invalid when the vma manager lock
++		 * is released.
++		 */
++		if (!node->driver_private) {
++			mmo = container_of(node, struct i915_mmap_offset, vma_node);
++			obj = i915_gem_object_get_rcu(mmo->obj);
++
++			GEM_BUG_ON(obj && obj->ops->mmap_ops);
++		} else {
++			obj = i915_gem_object_get_rcu
++				(container_of(node, struct drm_i915_gem_object,
++					      base.vma_node));
++
++			GEM_BUG_ON(obj && !obj->ops->mmap_ops);
++		}
++	}
++	drm_vma_offset_unlock_lookup(dev->vma_offset_manager);
++	rcu_read_unlock();
++	if (!obj)
++		return node ? -EACCES : -EINVAL;
++
++	return i915_gem_object_mmap(obj, mmo, vma);
++}
++
++int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma)
++{
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
++	struct drm_device *dev = &i915->drm;
++	struct i915_mmap_offset *mmo = NULL;
++	enum i915_mmap_type mmap_type;
++	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
++
++	if (drm_dev_is_unplugged(dev))
++		return -ENODEV;
++
++	mmap_type = i915_ggtt_has_aperture(ggtt) ? I915_MMAP_TYPE_GTT : I915_MMAP_TYPE_WC;
++	mmo = mmap_offset_attach(obj, mmap_type, NULL);
++	if (!mmo)
++		return -ENODEV;
++
++	/*
++	 * When we install vm_ops for mmap we are too late for
++	 * the vm_ops->open() which increases the ref_count of
++	 * this obj and then it gets decreased by the vm_ops->close().
++	 * To balance this increase the obj ref_count here.
++	 */
++	obj = i915_gem_object_get(mmo->obj);
++	return i915_gem_object_mmap(obj, mmo, vma);
++}
++
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftests/i915_gem_mman.c"
+ #endif
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.h b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
+index 1fa91b3033b3..196417fd0f5c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.h
+@@ -29,5 +29,5 @@ void i915_gem_object_release_mmap_gtt(struct drm_i915_gem_object *obj);
+ 
+ void i915_gem_object_runtime_pm_release_mmap_offset(struct drm_i915_gem_object *obj);
+ void i915_gem_object_release_mmap_offset(struct drm_i915_gem_object *obj);
+-
++int i915_gem_fb_mmap(struct drm_i915_gem_object *obj, struct vm_area_struct *vma);
+ #endif
+-- 
+2.39.0
 
-Maxime
-
---ihwqacloxsmu5zbe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZBwbsAAKCRDj7w1vZxhR
-xaHTAP0eX38oKDx4w+f18p920Z65wm1LMJZUsTQTKppqDXkAgAEA+oBatGCMd3iz
-2GkL2vZla5OIIAXWxReh2dxN+LliWA0=
-=5iWi
------END PGP SIGNATURE-----
-
---ihwqacloxsmu5zbe--
