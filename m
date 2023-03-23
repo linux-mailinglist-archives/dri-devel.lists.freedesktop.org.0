@@ -2,48 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2006C658B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9FE6C658E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:47:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 376D110EA67;
-	Thu, 23 Mar 2023 10:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014E710EA75;
+	Thu, 23 Mar 2023 10:47:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4DB10EA67;
- Thu, 23 Mar 2023 10:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679568408; x=1711104408;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=zqptxoHBj1y0QzJJ2dmSL14dLsiskN3gAsLDV0E9o0Q=;
- b=VquCJnMzWxfThKA74v1lj2hJl4unX7N8CG0oWANFZbMs9cKeOai8ZPLk
- ljCFT55cEL4rQXx4n9mPZSPEMgeAxlo1Lwgt/ydtiB3XIAJk3WvElmGfe
- 16SMeHRa3m+GAsTpX53rh9lCCbh1GSIrfOtIiVhiPZvixt5Ztms6Hp1aw
- J6BiQ9V2SU8YvKXMoVVRaKTcPYVcO0xGkTEjmgpGYKvH6Xo5cgIDAUEu0
- Lwa+iUvOw0B0RGbKkQdXYxzbs4b5TiZNWg6TmmPun12XQsxQn4bvitKtn
- kzT8pG42mgZITytDWetgHzkZ9gaEp7mPsQHE0fKUCJJ5fMS9GNTtuuW+N Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="319841877"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="319841877"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 03:46:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682264634"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="682264634"
-Received: from rkiss-mobl.ger.corp.intel.com (HELO localhost) ([10.252.63.51])
- by orsmga002-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2023 03:46:30 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 23 Mar 2023 12:46:27 +0200
-Message-ID: <878rfn7njw.fsf@intel.com>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F416910EA75
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:47:23 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id ek18so84526556edb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679568442;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZwBaazd46Os1h8UWb3mzhS3tM1p34VAmXxtP/Asef4g=;
+ b=Dtslf0444+9v58G4yE+r0N4jTKSFCxfgxadg83fFpxNHJ4ac4nlxy0bFQDZh3eNAKB
+ 6WssITCbUrDgO1As33oV9qKLdQbyrHIJ2/gRtUdUK8XNctG/tWxxNfnYwi9XdL67Rwz2
+ jN5zgGK5gewqPRnTYvHYAntqZ1Mrs6KMySeUgtH1R0O51kUmgjC5iviB4XcBg1oXkJ4C
+ wsPdAy3FmmaFAuFdsxIiH2CG84/CHpAs1LMRnB5QWHwBtoXNosOoPlLukKgM+rmy+rJ4
+ VrJPlkZfxEfp7h9c067CxWlfsxIXgtjVtA8ANFGhrqOP7GyVkLgwoh2y61aQiFLP4vgB
+ YbAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679568442;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZwBaazd46Os1h8UWb3mzhS3tM1p34VAmXxtP/Asef4g=;
+ b=ptG2fJtXa9xGtNiYiktgQBbrvLttpcPOWdsTOVsgGc+MWSJPOsv89is96Kra6cN4KH
+ NlfK3fw3C+UO4oYYukq8nu17Woe+KRVnNBSq9fAIUOl/BW06Qlj/KijiguMmARBP0Vy9
+ MZUVOq+i0MmhP7H7RxB5L3Utd76g0LNz9rYla85V0h2GPO2nhqA4iVryK6y58HlEV6xS
+ qsgAkH9qQwpteI3SogOuTn9LBSzkyHyb64yfNvmtnFZTezTLlHWgkm/c0a4tGfkKZ0qa
+ D6d/74T+9kzC7jxpHb59TGeaQfYm87tQBjpIJjGIiKjHv3p6JwWCrKUR97Kob3Eobs40
+ NLCw==
+X-Gm-Message-State: AO0yUKVyiHOzMz1Zfc8/86EpaM0Mt+xXfloHfbOO9x8341q39L0JJND6
+ OEKmfQ+fwUeOerZK2HtowSzPuw==
+X-Google-Smtp-Source: AK7set+syZHTlqpATJV5H45QwNgqlRP+3WJYWaGjq6Y6tMtvCBdNqC47gy0P9OOBSjJ/vCiMdvKECQ==
+X-Received: by 2002:a17:906:9457:b0:930:a74:52bb with SMTP id
+ z23-20020a170906945700b009300a7452bbmr5414585ejx.14.1679568442296; 
+ Thu, 23 Mar 2023 03:47:22 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:a665:ed1e:3966:c991?
+ ([2a02:810d:15c0:828:a665:ed1e:3966:c991])
+ by smtp.gmail.com with ESMTPSA id
+ q18-20020a170906b29200b008c607dd7cefsm8484887ejz.79.2023.03.23.03.47.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Mar 2023 03:47:21 -0700 (PDT)
+Message-ID: <35e3aa8b-ccff-25fa-42da-d8934ef366c6@linaro.org>
+Date: Thu, 23 Mar 2023 11:47:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 6/8] arm64: dts: qcom: sm8450: remove invalid npl clock in
+ vamacro node
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>
+References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
+ <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-6-3ead1e418fe4@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-6-3ead1e418fe4@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,114 +88,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 23/03/2023 11:25, Neil Armstrong wrote:
+> Fixes the following DT bindings check error:
+> codec@33f0000: clocks: [[137, 57, 1], [137, 102, 1], [137, 103, 1], [137, 70, 1]] is too long
+> codec@33f0000: clock-names: 'oneOf' conditional failed, one must be fixed:
+> 	        ['mclk', 'macro', 'dcodec', 'npl'] is too long
+> 
+> The implementation was checked and this npl clock isn't used for the VA macro.
+> 
 
-Hi Dave & Daniel -
+This does not look correct. DTS looks good, you miss some patches in
+your tree.
 
-Otherwise a fairly regular fixes pull, except for two things:
+Best regards,
+Krzysztof
 
-First, I have not gotten CI results on this. I don't know what gives.
-
-Second, I missed adding the hwmon revert to the tag. I accidentally
-picked up the commit for the previous pull, and it shouldn't have been
-there.
-
-
-BR,
-Jani.
-
-
-
-drm-intel-fixes-2023-03-23:
-drm/i915 fixes for v6.3-rc4:
-- Fix an MTL workaround
-- Fix fbdev obj locking before vma pin
-- Fix state inheritance tracking in initial commit
-- Fix missing GuC error capture codes
-- Fix missing debug object activation
-- Fix uc init late order relative to probe error injection
-- Fix perf limit reasons formatting
-- Fix vblank timestamp update on seamless M/N changes
-
-BR,
-Jani.
-
-The following changes since commit e8d018dd0257f744ca50a729e3d042cf2ec9da65:
-
-  Linux 6.3-rc3 (2023-03-19 13:27:55 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2023-03-=
-23
-
-for you to fetch changes up to 22aa20e4c5dcbe6fdc480eb4fb27039b1f43217f:
-
-  Revert "drm/i915/hwmon: Enable PL1 power limit" (2023-03-20 12:31:01 +020=
-0)
-
-----------------------------------------------------------------
-drm/i915 fixes for v6.3-rc4:
-- Fix an MTL workaround
-- Fix fbdev obj locking before vma pin
-- Fix state inheritance tracking in initial commit
-- Fix missing GuC error capture codes
-- Fix missing debug object activation
-- Fix uc init late order relative to probe error injection
-- Fix perf limit reasons formatting
-- Fix vblank timestamp update on seamless M/N changes
-
-----------------------------------------------------------------
-Andrzej Hajda (1):
-      drm/i915/gt: perform uc late init after probe error injection
-
-Ashutosh Dixit (1):
-      Revert "drm/i915/hwmon: Enable PL1 power limit"
-
-Badal Nilawar (1):
-      drm/i915/mtl: Disable MC6 for MTL A step
-
-John Harrison (1):
-      drm/i915/guc: Fix missing ecodes
-
-Nirmoy Das (1):
-      drm/i915/active: Fix missing debug object activation
-
-Radhakrishna Sripada (1):
-      drm/i915/mtl: Fix Wa_16015201720 implementation
-
-Tejas Upadhyay (1):
-      drm/i915/fbdev: lock the fbdev obj before vma pin
-
-Ville Syrj=C3=A4l=C3=A4 (2):
-      drm/i915: Preserve crtc_state->inherited during state clearing
-      drm/i915: Update vblank timestamping stuff on seamless M/N change
-
-Vinay Belgaumkar (1):
-      drm/i915: Fix format for perf_limit_reasons
-
- drivers/gpu/drm/i915/display/intel_crtc.c      |  8 ++++++++
- drivers/gpu/drm/i915/display/intel_display.c   |  1 +
- drivers/gpu/drm/i915/display/intel_dmc.c       | 26 ++++++++++++++++++++--=
----
- drivers/gpu/drm/i915/display/intel_fbdev.c     | 24 +++++++++++++++++------
- drivers/gpu/drm/i915/gt/intel_gt.c             |  4 ++--
- drivers/gpu/drm/i915/gt/intel_gt_pm.c          | 27 ----------------------=
-----
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c  |  2 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c            |  8 ++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c | 22 +++++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_rc.c      | 13 +------------
- drivers/gpu/drm/i915/i915_active.c             |  3 +--
- drivers/gpu/drm/i915/i915_hwmon.c              |  5 -----
- drivers/gpu/drm/i915/i915_reg.h                | 17 +++++-----------
- 13 files changed, 88 insertions(+), 72 deletions(-)
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
