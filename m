@@ -2,35 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2526C61E2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 09:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFB16C61E1
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 09:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01D6410E341;
-	Thu, 23 Mar 2023 08:36:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F25410E320;
+	Thu, 23 Mar 2023 08:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-29.mta1.migadu.com (out-29.mta1.migadu.com [95.215.58.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEF5910E341
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 08:35:59 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1679560557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=sR3yPTtRDVj1xoPJWPkU1xtU6p71nBTQtzFAzgAXTAM=;
- b=aPn5X1CDLNGicO++xOTkolNf/4Uw7IjGooBgYaR1whX2aspiUAaolHbmudZtyPshdQLFP0
- fJY3I+uyqublkl7FC6ehPI+9HsohOvYbxM+ecTX/IZ19buHUPFHHCR1ZiqHI5Dl8iYRip1
- fJBODkoL2vICZ6cHnXb92wg9orz9H3w=
-From: Cai Huoqing <cai.huoqing@linux.dev>
-To: cai.huoqing@linux.dev
-Subject: [PATCH] accel/habanalabs: Remove redundant pci_clear_master
-Date: Thu, 23 Mar 2023 16:35:49 +0800
-Message-Id: <20230323083553.16864-1-cai.huoqing@linux.dev>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53F1710E32E;
+ Thu, 23 Mar 2023 08:35:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679560555; x=1711096555;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=wDdeSb/bg+wF+kSpsoEp2QhZRodkIdNWumr/7wREvzk=;
+ b=B9a59O8pOk0VlSAZbX9Os3EQUt7kydUU+GNXtRQnnZ1ZbG65svOaqtIo
+ 0slQ5Vfzc08vyy0atR9Pf9pX7+D5qq6QeANZC2nJaYSrvRgT8ih4a+rJc
+ 3Ru4ZV+tzKmaf/vIw1B7v2W2EzmDYsk6YPyq7bSdBsx6j4YQE0VPF7+kF
+ 1/dty5mZrtdkgk7S2zfmu4LFuIb2ea3Uk0lFPqGHMH8kXzlqSUJUS7MLD
+ OTeasnYI8fPrjCiKtZoToppTvWRyKueSbMOO2gevQaODWzwPtzDs5EhJM
+ jCl7H7vGZvhOGaiKmWydQWzIgDWjIghbLalbFWUf2SbLUE7Z1bL9JhKIZ A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="323276911"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="323276911"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 01:35:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682230055"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="682230055"
+Received: from mplechx-mobl.ger.corp.intel.com (HELO [10.213.211.105])
+ ([10.213.211.105])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 01:35:53 -0700
+Message-ID: <416a0d13-0013-ecbe-716e-f3bda59c9d30@linux.intel.com>
+Date: Thu, 23 Mar 2023 08:35:50 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/pxp: limit drm-errors or warning
+ on firmware API failures
+Content-Language: en-US
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "Tamminen, Eero T" <eero.t.tamminen@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+References: <20230314175832.1506427-1-alan.previn.teres.alexis@intel.com>
+ <6cff8c19-0ab6-4b03-d778-ad57aa207b98@intel.com>
+ <cc56d923-4021-3423-bfdf-986e7b73283f@linux.intel.com>
+ <3841da5b-06df-eacf-ebd1-0e7885e6c9cb@intel.com>
+ <38deebc090105826da9c85172392b10b93e99801.camel@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <38deebc090105826da9c85172392b10b93e99801.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,66 +69,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Tomer Tayar <ttayar@habana.ai>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove pci_clear_master to simplify the code,
-the bus-mastering is also cleared in do_pci_disable_device,
-like this:
-./drivers/pci/pci.c:2197
-static void do_pci_disable_device(struct pci_dev *dev)
-{
-	u16 pci_command;
 
-	pci_read_config_word(dev, PCI_COMMAND, &pci_command);
-	if (pci_command & PCI_COMMAND_MASTER) {
-		pci_command &= ~PCI_COMMAND_MASTER;
-		pci_write_config_word(dev, PCI_COMMAND, pci_command);
-	}
+On 23/03/2023 00:27, Teres Alexis, Alan Previn wrote:
+> On Fri, 2023-03-17 at 13:37 +0200, Tamminen, Eero T wrote:
+>> Hi,
+>>
+>> On 16.3.2023 10.50, Tvrtko Ursulin wrote:
+>>>> [   11.674183] i915 0000:00:02.0: PXP init-arb-session-15 failed due
+>>>> to BIOS/SOC:0x0000101a:ERR_PLATFORM_CONFIG
+>> ...
+>>> Alan - is this expected during normal operation on some parts, or it's
+>>> something truly unexpected/unexplained? If the former then I think it
+>>> would be good to downgrade away from drm_WARN so it is less scary.
+>>>
+>>> Commit message talks about "HW/platform gaps" - if it is like a missing
+>>> BIOS support or so then I think WARN_ON is too much.
+>>
+>> Note that this was on pre-production TGL-H HW with BIOS from April 2021.
+>>
+>> (I don't know where to get update, nor interested to update it.)
+>>
+>>
+>> 	- Eero
+> 
+> Alan: Hi Tvrtko, thanks for the feedback -i shall change from WARN_ONCE to drm_info_once.
 
-	pcibios_disable_device(dev);
-}.
-And dev->is_busmaster is set to 0 in pci_disable_device.
+Maybe it deserves to be a warning? Or a notice? I was just thinking it 
+does not need a call trace and all since it is not a driver issue. Your 
+call on the level and whether or not there is any chance for it to 
+happen in the field to make the discussion relevant or not.
 
-Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
----
- drivers/accel/habanalabs/common/device.c  | 1 -
- drivers/accel/habanalabs/common/pci/pci.c | 2 --
- 2 files changed, 3 deletions(-)
+Regards,
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 713005998cbc..2fb1e2ec3a83 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -1271,7 +1271,6 @@ int hl_device_resume(struct hl_device *hdev)
- 	return 0;
- 
- disable_device:
--	pci_clear_master(hdev->pdev);
- 	pci_disable_device(hdev->pdev);
- 
- 	return rc;
-diff --git a/drivers/accel/habanalabs/common/pci/pci.c b/drivers/accel/habanalabs/common/pci/pci.c
-index d1f4c695baf2..191e0e3cf3a5 100644
---- a/drivers/accel/habanalabs/common/pci/pci.c
-+++ b/drivers/accel/habanalabs/common/pci/pci.c
-@@ -420,7 +420,6 @@ int hl_pci_init(struct hl_device *hdev)
- unmap_pci_bars:
- 	hl_pci_bars_unmap(hdev);
- disable_device:
--	pci_clear_master(pdev);
- 	pci_disable_device(pdev);
- 
- 	return rc;
-@@ -436,6 +435,5 @@ void hl_pci_fini(struct hl_device *hdev)
- {
- 	hl_pci_bars_unmap(hdev);
- 
--	pci_clear_master(hdev->pdev);
- 	pci_disable_device(hdev->pdev);
- }
--- 
-2.34.1
-
+Tvrtko
