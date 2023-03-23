@@ -1,119 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002566C6A5E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 15:03:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7FC6C6A90
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 15:18:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7087510EAB4;
-	Thu, 23 Mar 2023 14:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4527888647;
+	Thu, 23 Mar 2023 14:17:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2084.outbound.protection.outlook.com [40.107.243.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 145FB10EAB8
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 14:03:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Og2OjKlPyCKjMYtvWChRsN0iB4sQsF6r0BTuzAQFcrwkMDkEjwAhJGrCdSj4eU3YE2d7mrs90AWZ7VkhrG8o/1nh2nDSbCqmWyzlQ6/8YwVVtAz8wKn0D9ynfrcVLw/V3Jbx1fjlKN+glk09IX25Z/Y/4rqwuoVLSEJ7BZOqZd9WcajRxzEYXo9/1qiI/mmZMHbabYQaK5RhjsaUuOCKJ05OBR+752WpPGlcWYJfiYE4G6X9qJY3Y/77hDXeU036z/VgUbavdU6kJzihL91TvmEqpxZTYu3STIPsZI0rn/3ytxZcTTlLfHYZAYr3VvivGIgFAFbSdzlhKseUwYdOGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/JfURZCt8FZSBgyrc1/sDSpXFt6gnDxxCCYgyIS8f/Q=;
- b=Qe32v/fDD5EB28iFejKn+F7/99zn26jbHV+c4INCalAxqgfmPGKpvu3BdbR/QxqrunVkmQ1K33ydO8STcvCLrQpBoGpl2EB2aKDpViTe/VPeRiszaCeOx0hjHgX0eZ0lddF8L5fS/UyK9/AbmCffVvhCVjjrUJAYf05lgYTM1eXY7iTnnFt6Pd5veGNF/aEJTGih96DvzSCdgCm2gLXzfhiHnc2kJ5aQu6n/zJWfg+h5HPcDOSPQHZjAybNO5hsip0JcUkn98hpEky2QN2Z7U7NheAXZqZFusjCwmGKy8r6anEiuGmL8RuNvRvAueh8zlz55Xq59XjApVuDOr/ARqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/JfURZCt8FZSBgyrc1/sDSpXFt6gnDxxCCYgyIS8f/Q=;
- b=XZ9FwnMGQ7rkr7VIOtH/nymPa8XpBh4mC2NKCZ8cKl5ADBrn8DAI6qegca11SjTg8UrfE1ao2++DdUr+sJZDdi3NV/AmPI6iRyu0BK4btWk1wvo/bpKaB6iJNeiAZ5BR5+Zi9JwT8cnoevpYHLlOO86qKAOo9X0sOrbLJs5A5Co=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA1PR12MB6259.namprd12.prod.outlook.com (2603:10b6:208:3e5::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Thu, 23 Mar
- 2023 14:03:42 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.038; Thu, 23 Mar 2023
- 14:03:42 +0000
-Message-ID: <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
-Date: Thu, 23 Mar 2023 15:03:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>
-References: <20230322224403.35742-1-robdclark@gmail.com>
- <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
- <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0201.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a5::13) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27E7988647
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 14:17:56 +0000 (UTC)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32ND6Paq002292; Thu, 23 Mar 2023 14:17:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=cpFYQ2RGL4S22c+iykKlnzU6tO8T2kyReL46W2u6N/A=;
+ b=MG5ejEv/qpozMv8iB3QyhdwwSiWQvFW9dy1T2RxAOOkyQ3Hrn5WD8MBjambXIEIQkPZ/
+ dp4UxmZO9PnuvwRMp82oJT7zbIAf/3m4awsoGylzqZQIfkYlEr1Nn2E0HOTiD9Sy2AjT
+ qy99Ulzy4Gp6wVim+Z5aJ+LMzi3OURoKhNUEY/F5MMNUY7LevPvzM4P3OWRgSruidXm1
+ eje776vQKUHJynhTZDB9KM1G8EOY7W5Z3XnOXZmFnph5TwD1N8oVglbIvlp79Ra8b5pn
+ 67DnL/vGBNk+3eNs5JGur/P5S7Hvd3CehNQlaV5yPWaOyVTNGLLKA5DjV/9boRjKwkHu Jg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgk22gfr7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 14:17:45 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32ND8rkr014433;
+ Thu, 23 Mar 2023 14:17:45 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3pgk22gfq2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 14:17:44 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32NDlMOi014687;
+ Thu, 23 Mar 2023 14:17:42 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3pd4x6e8yv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Mar 2023 14:17:42 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 32NEHde142271144
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Mar 2023 14:17:39 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8DB362004B;
+ Thu, 23 Mar 2023 14:17:39 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7400920043;
+ Thu, 23 Mar 2023 14:17:38 +0000 (GMT)
+Received: from [9.171.87.16] (unknown [9.171.87.16])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Mar 2023 14:17:38 +0000 (GMT)
+Message-ID: <917b95c9af1b80843b8a361d1b7fa337a25105e7.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 35/38] video: handle HAS_IOPORT dependencies
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 23 Mar 2023 15:17:38 +0100
+In-Reply-To: <ZBGbxDWEhqr8hhgU@intel.com>
+References: <20230314121216.413434-1-schnelle@linux.ibm.com>
+ <20230314121216.413434-36-schnelle@linux.ibm.com>
+ <CAMuHMdW4f8GJ-kFDPg6Ao=g3ZAXq79u9nUZ_dW1LonHu+vxk8Q@mail.gmail.com>
+ <ZBGbxDWEhqr8hhgU@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA1PR12MB6259:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1aba74d5-2843-4230-8527-08db2ba768ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yyS/2p0NFBGr/K8f1ggMfYNxDwLCbOiYy+6XySsXdhOFsi1jJY4bSCht8tCmHqUUZGlFZRT/YXaR8h9yOQW8BHGY9rNT1m0pAflsHT5L0pJ4SVbdT6hpxsYLBuQeRhUMNpWhVcnnUKTakMQ3JTDzbCBw7NgCn0Vq2RVOHsadn+NDa4hXFM8ccucEu9OTvOCvaJl6sxpbttGN8XyWuduPyacqP9o8FRAcK9ABIRb/o0WpgQ1hf/K3OkKJzrEjOe2uRDi7aF2g908Be69b9iWqo1tzCx3C347KEErjcOjmTfpXwzTj9uOkU8yfL7rHXp/I4/n8fj4eQaxQ8Mion7jzxWkmgrayEaN97H9dE+6qe02PerMu3aeT4sRFdAp/dtteqt5e4Y65Uc1oXttZ3pHpkZvbDl2VAB5/di8Ul62hwiXmDMK5n2bMx7E3H/Ikbj9expNlL3SYzASr6NbxztZ+nkE4+UMhRofdVKATTz1r6Tm2mkX0JfzYKMtnn2rMDRcYW3446kT6LGo8fVcyk9jzeDkv5bflDLHwPdDPNG9jHjU1D6TORjFkJmLppQW+pUaZcEas5hXa8qGVvYcPjjuvaQfHw7AiuOP2tm3j3QjuKgmGiAqJR/cuZYOY9jy+eJ+OmOtWE4gdZpIFNVw74QL4MfKcIG9/C88rBIVszSCP21W3ZdHO5MAbewIiTqroFQQ4ahxT1IlW9uyABgoog15rvQ4DvQ4H4VOEIc9pgj2LtRU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(366004)(346002)(376002)(39860400002)(136003)(396003)(451199018)(31686004)(38100700002)(2616005)(2906002)(478600001)(83380400001)(6486002)(186003)(36756003)(31696002)(86362001)(316002)(54906003)(66476007)(8676002)(66556008)(66946007)(6916009)(4326008)(8936002)(26005)(66574015)(6666004)(53546011)(6512007)(6506007)(5660300002)(41300700001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djV1L1FsSkVZQlNNM25kRnBHYlVsQ1VFeS9scXhiYWJIelZMcDhFYStMTDBn?=
- =?utf-8?B?VmZySTNhN3crZHdhc0lmVndkZ3ZEMU5teW5NMTlzU05QTmNaajNyWVVqM09Q?=
- =?utf-8?B?SWphZ09VNVRlV2MxUU82UElIeHE1NmdZcEE3aFJNR0tyV1RTUTFvTGdBNGV4?=
- =?utf-8?B?OUpUUlhuWkMyaGo3SWNLS3JIbVl4TnVQNUk5RWgrNG1adlZUMVJjVm91ZGdX?=
- =?utf-8?B?a0pnWmc1RHZQYzFzdVZaY3Y4clhzQnNoYUhOVnZnMktpOXlmNFNMSXBSUXBJ?=
- =?utf-8?B?N3Fjc3M4RGVsOHFabHN1Ykt3TDJqRTJPdFVaaXd2Z3gzOUh1dy9IY0hQdEVK?=
- =?utf-8?B?MXQ2UDltalc3bXRtTms4U1VzaE5tYWFsOWhrZHlkeUUwSXdGMkU2WGx0bm1i?=
- =?utf-8?B?TkhueXdjb1dhZWd0SjhQOFJDWTh3YWRJZFlNblNyaUY3MjQ1NVM5cjN3Qm1z?=
- =?utf-8?B?dTFRTzdueXVGWWorSjgvU2hTeEd3K2VoZzFTYzl4SW8yenljckt4MFZOMXd5?=
- =?utf-8?B?QTNzdzlaTTFuaFM2VXNsUmlsUytqUktOM2xmc3AwL1FCUldSZE9nS040RUo3?=
- =?utf-8?B?Uk90NDNMNjl3VlRaZjZQell2elkzQ2g3VE4yR2NSaDVoVXpMelNZYWpwWXNr?=
- =?utf-8?B?YXN5eHpUTUtlcldGM3U5c1h6MTNiZ3BqSTlSUytxd3NmMmpVMnVTcloyeHVY?=
- =?utf-8?B?cmJoL291WlRESVNoNXd6cElKMUxhejQ2R1RKaGlvUVFEQXIwMWlnRDVoVEpz?=
- =?utf-8?B?eGlWRVFlcnBIcEJiK0xBNlR5U3dIbTZMVE9nYldYeVdEOFk5ZkFFcmliQ2ZO?=
- =?utf-8?B?R2NYak5LU0tEQ3dObFZDMVZuajU3Tk9TWXNIMjdSSytNd0x6NHE4azN1NkU2?=
- =?utf-8?B?dWxrNzlSbklKczd0TnNwWGRKVG9EWnpSSkx6TjhCdDI4UW0yV1JEcVFUbWhR?=
- =?utf-8?B?UjNRemN2Ykg2ZnlHWXdrTzczeEs2RDZZSlZzZTBTNTlFbjJHZmZ4NVBsYXF6?=
- =?utf-8?B?cUxjZGFQS0thVFlhOUlUcHoxUzNVc1NjcjBta1RRemcyc2FOeUMxQkJoR212?=
- =?utf-8?B?cFJuRnVnQTNGeWNGQjFOWFdzUzRDMHlJQzNDVEFETUN6NWJRcXZtUENVaU91?=
- =?utf-8?B?dHQwdDlnVjVmV0pjS1RLd0hSczQ1L0k5YTh2NWpVcDZYUExKV1IvTUZZOUFx?=
- =?utf-8?B?NTl0TXdwRTkxaUw1d3BaQ1dLbEtzLzRkUmdSVjl6VVhsdWN0RjNFNWhBeExu?=
- =?utf-8?B?S25YOFBZeXVUd2lMNUU1SjVRME5KNlQ3Unh1UDFGK1FXd1g3V21aS3dhMG96?=
- =?utf-8?B?M1hpZE43NzdlY1hCYWorbG1NZEZqWWZ3OERKZ1VZblVha2hTWmlTbndkbFho?=
- =?utf-8?B?ZjdVRlYyWmptSlhlOWZsd3dDQkV0blNWd0ZSS3NmQTNUL0gvaGRXSUN4Rm9i?=
- =?utf-8?B?akY1VW1FNGxsVW1aSmhUdWYvTFZjeHFNSGZDNTJrTDFrWEFtK1ZReHRVbGM5?=
- =?utf-8?B?cmlOZWc5bWwyZDRHOWdaamxSTnV0Vld3OVZsT25xSk1BckkwQVh5ckNhbVZt?=
- =?utf-8?B?Q0xSaHd3QzBSVmtaSzIrTmE1SlJiR2N4Z1o0SzRCdG84Ung4RkxVTnhzNDJn?=
- =?utf-8?B?SGFFRmd6QlkweTJERHh5Ym4wWWMzLzd0bjg2RWxlbmhvT0Y4aTA4eVcvS3JO?=
- =?utf-8?B?OVM5eElQSUxvR3cwQUg1N015KzA2Mndab1BJaG4wVlFpaVdFV1FIQTVQTzkz?=
- =?utf-8?B?UHBwSjBWS01iUzdBNEJFaE9WNTNBdG9IRnJpWWVENGZFTC9GaURRSTMyR2Ix?=
- =?utf-8?B?bEpiUHU2RnVQZ1N4ckttNHg0aWUyTHJlcVVIakNWbVdnNHhkVSthSThlam5z?=
- =?utf-8?B?NkFoNld2UldQdnBGUUFpbHVTWklRRmhHendsVzMwSUlQR0gwYjZuaWNjb0gv?=
- =?utf-8?B?R2pVVENzQkdSQ2FGRXZSQ1pUYzgzdUE2SWFxTHdQOFRFZWdhMWt0V0d4TkRk?=
- =?utf-8?B?SkFnMmZVS0hoQUFMN2xPUGVMRk10eWltL0R1T3Npdml0Z3dEcmh5aTcvVlVC?=
- =?utf-8?B?L2RhNk85aDNtcXhJVTdiMXFzZUVHUkVzUVcyLzFHc2s3aTg1a215bzUvUWla?=
- =?utf-8?Q?CQgo3ucDS9HNlgBDRaZlGG52O?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1aba74d5-2843-4230-8527-08db2ba768ad
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2023 14:03:42.1292 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nHaeUI7IjtaZSyGeLeYLVuqXIJYy/1BJXp5QRO4Wbyl1AHPUVES2EyfI/Fuik4eK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6259
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: wOByOOqF28Bb_tV_j8EvP2d7aSoJMXnM
+X-Proofpoint-GUID: kXBBpD7D6_8p_SykMMv8dWepn1gybyIZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_21,2023-03-23_02,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxscore=0
+ mlxlogscore=513 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ bulkscore=0 malwarescore=0 adultscore=0 spamscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303230106
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,190 +99,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
+ linux-fbdev@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+ Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Alan Stern <stern@rowland.harvard.edu>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 23.03.23 um 14:54 schrieb Rob Clark:
-> On Thu, Mar 23, 2023 at 12:35 AM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 22.03.23 um 23:44 schrieb Rob Clark:
->>> From: Rob Clark <robdclark@chromium.org>
->>>
->>> Container fences have burner contexts, which makes the trick to store at
->>> most one fence per context somewhat useless if we don't unwrap array or
->>> chain fences.
->> Mhm, we intentionally kept them not unwrapped since this way they only
->> occupy one fence slot.
->>
->> But it might be better to unwrap them if you add many of those dependencies.
->>
->>> Signed-off-by: Rob Clark <robdclark@chromium.org>
->>> ---
->>> tbh, I'm not sure why we weren't doing this already, unless there is
->>> something I'm overlooking
->>>
->>>    drivers/gpu/drm/scheduler/sched_main.c | 43 +++++++++++++++++---------
->>>    1 file changed, 28 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index c2ee44d6224b..f59e5335afbb 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -41,20 +41,21 @@
->>>     * 4. Entities themselves maintain a queue of jobs that will be scheduled on
->>>     *    the hardware.
->>>     *
->>>     * The jobs in a entity are always scheduled in the order that they were pushed.
->>>     */
->>>
->>>    #include <linux/kthread.h>
->>>    #include <linux/wait.h>
->>>    #include <linux/sched.h>
->>>    #include <linux/completion.h>
->>> +#include <linux/dma-fence-unwrap.h>
->>>    #include <linux/dma-resv.h>
->>>    #include <uapi/linux/sched/types.h>
->>>
->>>    #include <drm/drm_print.h>
->>>    #include <drm/drm_gem.h>
->>>    #include <drm/gpu_scheduler.h>
->>>    #include <drm/spsc_queue.h>
->>>
->>>    #define CREATE_TRACE_POINTS
->>>    #include "gpu_scheduler_trace.h"
->>> @@ -665,41 +666,27 @@ void drm_sched_job_arm(struct drm_sched_job *job)
->>>        sched = entity->rq->sched;
->>>
->>>        job->sched = sched;
->>>        job->s_priority = entity->rq - sched->sched_rq;
->>>        job->id = atomic64_inc_return(&sched->job_id_count);
->>>
->>>        drm_sched_fence_init(job->s_fence, job->entity);
->>>    }
->>>    EXPORT_SYMBOL(drm_sched_job_arm);
->>>
->>> -/**
->>> - * drm_sched_job_add_dependency - adds the fence as a job dependency
->>> - * @job: scheduler job to add the dependencies to
->>> - * @fence: the dma_fence to add to the list of dependencies.
->>> - *
->>> - * Note that @fence is consumed in both the success and error cases.
->>> - *
->>> - * Returns:
->>> - * 0 on success, or an error on failing to expand the array.
->>> - */
->>> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
->>> -                              struct dma_fence *fence)
->>> +static int _add_dependency(struct drm_sched_job *job, struct dma_fence *fence)
->> Please keep the drm_sched_job_ prefix here even for static functions.
->> The symbol _add_dependency just sucks in a backtrace, especially when
->> it's tail optimized.
->>
->>>    {
->>>        struct dma_fence *entry;
->>>        unsigned long index;
->>>        u32 id = 0;
->>>        int ret;
->>>
->>> -     if (!fence)
->>> -             return 0;
->>> -
->>>        /* Deduplicate if we already depend on a fence from the same context.
->>>         * This lets the size of the array of deps scale with the number of
->>>         * engines involved, rather than the number of BOs.
->>>         */
->>>        xa_for_each(&job->dependencies, index, entry) {
->>>                if (entry->context != fence->context)
->>>                        continue;
->>>
->>>                if (dma_fence_is_later(fence, entry)) {
->>>                        dma_fence_put(entry);
->>> @@ -709,20 +696,46 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
->>>                }
->>>                return 0;
->>>        }
->>>
->>>        ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
->>>        if (ret != 0)
->>>                dma_fence_put(fence);
->>>
->>>        return ret;
->>>    }
->>> +
->>> +/**
->>> + * drm_sched_job_add_dependency - adds the fence as a job dependency
->>> + * @job: scheduler job to add the dependencies to
->>> + * @fence: the dma_fence to add to the list of dependencies.
->>> + *
->>> + * Note that @fence is consumed in both the success and error cases.
->>> + *
->>> + * Returns:
->>> + * 0 on success, or an error on failing to expand the array.
->>> + */
->>> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
->>> +                              struct dma_fence *fence)
->> Maybe name the new function drm_sched_job_unwrap_add_dependency or
->> something like this.
->>
->> I need to double check, but I think for some cases we don't need or
->> don't even want this in the driver.
-> I'd be curious to know the cases where you don't want this.. one thing
-> I was thinking about, what if you have a container fence with two
-> contained fences.  One is on the same ctx as the job, one is not but
-> signals sooner.  You end up artificially waiting on both, which seems
-> sub-optimal.
+On Wed, 2023-03-15 at 12:19 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> On Wed, Mar 15, 2023 at 09:16:50AM +0100, Geert Uytterhoeven wrote:
+> > Hi Niklas,
+> >=20
+> > On Tue, Mar 14, 2023 at 1:13=E2=80=AFPM Niklas Schnelle <schnelle@linux=
+.ibm.com> wrote:
+> > > In a future patch HAS_IOPORT=3Dn will result in inb()/outb() and frie=
+nds
+> > > not being declared. We thus need to add HAS_IOPORT as dependency for
+> > > those drivers using them and guard inline code in headers.
+> > >=20
+> > > Co-developed-by: Arnd Bergmann <arnd@kernel.org>
+> > > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> >=20
+> > Thanks for your patch!
+> >=20
+> > > --- a/drivers/video/fbdev/Kconfig
+> > > +++ b/drivers/video/fbdev/Kconfig
+> >=20
+> > > @@ -1284,7 +1285,7 @@ config FB_ATY128_BACKLIGHT
+> > >=20
+> > >  config FB_ATY
+> > >         tristate "ATI Mach64 display support" if PCI || ATARI
+> > > -       depends on FB && !SPARC32
+> > > +       depends on FB && HAS_IOPORT && !SPARC32
+> >=20
+> > On Atari, this works without ATARI_ROM_ISA, hence it must not depend
+> > on HAS_IOPORT.
+> > The only call to inb() is inside a section protected by #ifdef
+> > CONFIG_PCI. So:
+>=20
+> That piece of code is a nop anyway. We immediately overwrite
+> clk_wr_offset with a hardcoded selection after the register reads.
+> So if you nuke that nop code then no IOPORT dependency required
+> at all.
+>=20
 
-Well resv objects don't contain other containers for example.
+I agree this "looks" like a nop but are we sure the inb() doesn't have
+side effects?=C2=A0
+(for reference drivers/video/fbdev/aty/aty/atyfb_base.c:
+atyfb_setup_generc() towards the end)
 
-Then we also have an use case in amdgpu where fence need to be 
-explicitly waited for even when they are from the same ctx as the job 
-because otherwise we wouldn't see everything cache coherent.
+It does feel a bit out of scope for this series but if it's really a
+nop nuking it surely is the cleaner solution.
 
-On the other hand we currently handle that amdgpu use case differently 
-and the extra overhead of unwrapping fences even if they can't be 
-containers is probably negligible.
-
-> Anyways, I can make this a new entrypoint which unwraps, and/or rename
-> the internal static function, if we think this is a good idea.
-
-If you think that's unnecessary keeping your original approach is fine 
-with me as well.
-
-Regards,
-Christian.
-
->
-> BR,
-> -R
->
->> Christian.
->>
->>> +{
->>> +     struct dma_fence_unwrap iter;
->>> +     struct dma_fence *f;
->>> +     int ret = 0;
->>> +
->>> +     dma_fence_unwrap_for_each (f, &iter, fence) {
->>> +             ret = _add_dependency(job, f);
->>> +             if (ret)
->>> +                     break;
->>> +     }
->>> +
->>> +     return ret;
->>> +}
->>>    EXPORT_SYMBOL(drm_sched_job_add_dependency);
->>>
->>>    /**
->>>     * drm_sched_job_add_resv_dependencies - add all fences from the resv to the job
->>>     * @job: scheduler job to add the dependencies to
->>>     * @resv: the dma_resv object to get the fences from
->>>     * @usage: the dma_resv_usage to use to filter the fences
->>>     *
->>>     * This adds all fences matching the given usage from @resv to @job.
->>>     * Must be called with the @resv lock held.
+Thanks,
+Niklas
 
