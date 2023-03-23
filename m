@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E4C6C5AAE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 00:41:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA1F6C5B49
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 01:16:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A99710E41D;
-	Wed, 22 Mar 2023 23:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1D2210E428;
+	Thu, 23 Mar 2023 00:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86A0310E41D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 23:41:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2981EB81EA0;
- Wed, 22 Mar 2023 23:41:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB1FBC433D2;
- Wed, 22 Mar 2023 23:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679528502;
- bh=AHU0pIED4pdCTNu/Ki2of6GAWy9IUUsw6t/t0Hez+4c=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=qhMrUZAm8XEQhH+BGl6x55Y1Wd0UlbZIqAiPPr++LjM278cFuBNvP6Rpo9lXFGyqL
- uJ6LWk0ZldLVQTkF8EhEtux9mFcIydmVdkkNiB3jsxskjV3J9TxBW+ZWw4AhchZNSS
- M2Mt12jWyLTObCnbEMQVSwcWlQybSHgVqcVm1SCLrDBy1nq0jsAccne6avkIMyuXjA
- +Iylb5tPBf/uEkEjMeRO2JSySC6AvvEaLfkavbQkcL5CdgNLbCm1zo3rBXpbY0HuQl
- /qS04gYV5Ay5BvMbb9UUtlZdBQgsaPJetgh8R5A/sgXgF8t56P/kwN5ccnXw8HrEPJ
- TB1oQwtO3fAag==
-Message-ID: <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D4310E14B;
+ Thu, 23 Mar 2023 00:16:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679530599; x=1711066599;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hUcdA/EZf3wSrxPghrvp76QuacXfEPbSMw7LM2tW7Qg=;
+ b=Rphu33znNn/DYktggKAS4PeHz8KMzkG/ldBkwVELuxdq95RJbGp7qb5L
+ EhD3WjoQONkfuEgNxHLdy4fQfRCZWzC4qP0jqP4cYY7hnsQVrhGd8/JrF
+ 4FQDy1ZdgzQOljlvmfCOuF+1NJ3wlmVfTSyTEZ1Ut/Z8vez2RLL0TP3RE
+ 5+Pw1T+fK8ggj3GLGAfMbcC+4ngP4PBGuHoRwiRPwRpJ59nCJM/GK2RzQ
+ NB59+f2Fh68lS/zSMsbNGQjWmNvDverFcZszfz2Q4F1YzeDulnUE9rLhA
+ SdonPcpsmxgRyYNbSkr7YTRQQIxVRISsPyeLvmj4UTuQsNcUNTFLu9Amp w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336867682"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="336867682"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 17:16:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="1011562772"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="1011562772"
+Received: from hlakyil-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.252.36.178])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Mar 2023 17:16:34 -0700
+Date: Thu, 23 Mar 2023 01:16:08 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH 1/2] drm/i915: limit double GT reset to pre-MTL
+Message-ID: <ZBuaSHIRkZh3Ot6x@ashyti-mobl2.lan>
+References: <20230320211039.1513368-1-daniele.ceraolospurio@intel.com>
+ <382f0058-2b4f-4ef2-8031-27a2f75715df@intel.com>
+ <0296ba17-6e91-76f2-4866-179feb94074b@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20221109110045.j24vwkaq3s4yzoy3@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
- <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
- <20221104145946.orsyrhiqvypisl5j@houat>
- <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
- <20221107085417.xrsh6xy3ouwdkp4z@houat>
- <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
- <20221109110045.j24vwkaq3s4yzoy3@houat>
-Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
-From: Stephen Boyd <sboyd@kernel.org>
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>
-Date: Wed, 22 Mar 2023 16:41:40 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0296ba17-6e91-76f2-4866-179feb94074b@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,95 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , Ulf Hansson <ulf.hansson@linaro.org>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Sekhar Nori <nsekhar@ti.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-phy@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Abel Vesa <abelvesa@kernel.org>, Liam Girdwood <lgirdwood@gmail>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Samuel Holland <samuel@sholland.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Takashi Iwai <tiwai@suse.com>,
-	linux-tegra@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
-	NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
-	linux-mips@vger.kernel.org,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-clk@vger.kernel.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	alsa-devel@alsa-project.org, Manivannan Sadhasivam <mani@kernel.org>,
-	linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	linux-actions@lists.infradead.org,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
-	".com"@freedesktop.org, Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	nel.org@freedesktop.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
-	patches@opensource.cirrus.com,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Andreas =?utf-8?q?F=C3=A4rber?= <afaerber@suse.de>,
-	Dinh Nguyen <dinguyen@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	linux-renesas-soc@vger.ker, David Lechner <david@lechnology.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	linux-rtc@vger.kernel.org
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, "Wilson,
+ Chris P" <chris.p.wilson@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Maxime Ripard (2022-11-09 03:00:45)
-> On Mon, Nov 07, 2022 at 08:57:22PM +0000, Aidan MacDonald wrote:
-> >=20
-> > Maxime Ripard <maxime@cerno.tech> writes:
-> >=20
-> > > Hi,
-> > >
-> > > On Fri, Nov 04, 2022 at 05:35:29PM +0000, Aidan MacDonald wrote:
-> >=20
-> > Assigning the parent clock in the DT works once, at boot, but going off
-> > what you wrote in the commit message, if the clock driver has a
-> > .determine_rate() implementation that *can* reparent clocks then it
-> > probably *will* reparent them, and the DT assignment will be lost.
->=20
-> Yes, indeed, but assigned-clock-parents never provided any sort of
-> guarantee on whether or not the clock was allowed to reparent or not.
-> It's just a one-off thing, right before probe, and a clk_set_parent()
-> call at probe will override that just fine.
->=20
-> Just like assigned-clock-rates isn't permanent.
->=20
-> > What I'm suggesting is a runtime constraint that the clock subsystem
-> > would enforce, and actively prevent drivers from changing the parent.
-> > Either explicitly with clk_set_parent() or due to .determine_rate().
-> >=20
-> > That way you could write a .determine_rate() implementation that *can*
-> > select a better parent, but if the DT applies a constraint to fix the
-> > clock to a particular parent, the clock subsystem will force that parent
-> > to be used so you can be sure the clock is never reparented by accident.
->=20
-> Yeah, that sounds like a good idea, and CLK_SET_RATE_NO_REPARENT isn't
-> too far off from this, it's just ignored by clk_set_parent() for now. I
-> guess we could rename CLK_SET_RATE_NO_REPARENT to CLK_NO_REPARENT, make
-> clk_set_parent handle it, and set that flag whenever
-> assigned-clock-parents is set on a clock.
->=20
-> It's out of scope for this series though, and I certainly don't want to
-> deal with all the regressions it might create :)
->=20
+Hi,
 
-This sounds like a new dt binding that says the assigned parent should
-never change. It sounds sort of like gpio hogs. A clock-hogs binding?
+> On 3/22/2023 12:44 PM, John Harrison wrote:
+> > On 3/20/2023 14:10, Daniele Ceraolo Spurio wrote:
+> > > Commit 3db9d590557d ("drm/i915/gt: Reset twice") modified the code to
+> > > always hit the GDRST register twice when doing a reset, with the
+> > > reported aim to fix invalid post-reset engine state on some platforms
+> > > (Jasperlake being the only one actually mentioned).
+> >
+> > It still concerns me that there are no actual details about this issue
+> > from a hardware perspective as to what/why it goes wrong, the comment is
+> > fully of non-definitive language - 'appears to', 'should', 'is still a
+> > concern that'. And there is no w/a number associated with it. It all
+> > feels extremely suspect and warrants a great big FIXME tag as a minimum.
+> 
+> I agree that the whole thing is unclear and we could add a FIXME, but IMO
+> that is outside the scope of this patch as I'm not adding the code in
+> question. This should be discussed with the original author/reviewers.
+
+Sorry for chiming in a bit late. I'm with Daniele on this one;
+the patch just takes things back to how they were before Chris's
+patch, so we should look into the reasoning behind Chris's patch
+itself.
+
+As mentioned in the commit log, in Jasperlake (and only
+Jasperlake), a second reset attempt is needed to clear the
+register state. If I remember right, Chris discovered this
+through experimentation, and I don't think any hardware folks
+have documented it.
+
+Chris can probably give more details on this.
+
+In general, I'm on board with Daniele's patch since it's doing
+what the driver has always done, which is why I gave it a quick
+review already in V1.
+
+On the other hand, the price to pay having something like this:
+
+  loops = GRAPHICS_VER_FULL(gt->i915) < IP_VER(12, 70) ? 2 : 1;
+
+Is the following perhaps a bit more self-explanatory?
+
+  /*
+   * The big comment with explanation
+   */
+  if (IS_PLATFORM(i915, INTEL_JASPERLAKE))
+  	/* try again */ ;
+
+Andi
