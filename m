@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269C46C68C5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:47:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619256C68EA
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A24710E1E4;
-	Thu, 23 Mar 2023 12:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C195F10E51A;
+	Thu, 23 Mar 2023 12:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE0310E1E4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:47:09 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4F510E529
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679575629; x=1711111629;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=30e+iacdeNDPi27w7ie3RbTMuGmuD+8WwfFs1tSEjl4=;
- b=jWjfCOBYmRWAdjKDtv5tnZ/SCAx3qehKa4plFgvMoXH55Pv2+Zh9YNDQ
- MH1P6Uv6GI54R31qVl9xTf7U+iUbJZAHikt8FUlrRtk+N8No5WOes9Ejz
- i9H+lXF3VkRc6p96TRP+inqXQa277jI2ipJt9NXqR2UE6pKjluorFMb2B
- yG8gHyFWRFQOwVRHZEznc0DJ8+gLkaMSTkekqoJOf47qNr+TcHrtR+AFE
- v2sahliIz3lBu4ycOa4bql9pLv3/mbx5bhGj+BNeMXv3z+oqAwxmeCix9
- 543TthXeV9c8BDFAaG8iFph3zu5zOnA9nQH0Kvb1hY1PjF1iZfzaJjaZ7 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341013534"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="341013534"
+ t=1679576113; x=1711112113;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=LZuoc9npjzazrQYoqcpnaBd0GhldBk0qKZ5WMC4uuGc=;
+ b=L0aSwiiZdHm2t062O07ORM3Dgb1FG1qF3wBVhdvfgog3Nu3YgHYkSKbN
+ BKD/Liz7rzwQE0xfd1m5zWITP9Yyuxte1mMusgiJhq2+TKTc2DPer/rkw
+ vz1dLjtki5yayrKcktfRmrVe6UsALtav8taH/A7yJjkD4qOug+pyMU/8c
+ xXF/HMHWsgV2xR8cDlAtgdGE4M7DX8w+91ofbiiHxZwgjCcXo0TgJvVSe
+ DXkU/dy3BQGiefdn7jeHRnYafRPQF7tSvheRDp1RHkJ2+xhddmGWVUJXE
+ c8IRj3PzCb1X+FTlZO2eCc9/DNDMkqHFReGmBywYALUi1zj9Uu++bZLui g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="404362701"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="404362701"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 05:47:08 -0700
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 05:55:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682292594"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="682292594"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 05:46:58 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pfKLG-007VoD-1R; Thu, 23 Mar 2023 14:46:54 +0200
-Date: Thu, 23 Mar 2023 14:46:54 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <ZBxKPiduTQ2A49Dy@smile.fi.intel.com>
-References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-4-treapking@chromium.org>
- <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682294638"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="682294638"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 05:55:11 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/8] accel/ivpu: Fixes for 6.3
+Date: Thu, 23 Mar 2023 13:54:56 +0100
+Message-Id: <20230323125504.2586442-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,55 +55,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jeffrey Hugo <quic_jhugo@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 23, 2023 at 12:38:49AM +0200, Dmitry Baryshkov wrote:
-> On Wed, 22 Mar 2023 at 12:47, Pin-yen Lin <treapking@chromium.org> wrote:
+Various fixes intended for linux 6.3 relase.
 
-...
+Patch 6 is dependency for patch 7.
 
-> > +config DRM_DISPLAY_DP_TYPEC_HELPER
-> > +       bool
-> > +       default y
-> > +       depends on DRM_DISPLAY_HELPER
-> > +       depends on DRM_DISPLAY_HELPER=TYPEC || TYPEC=y
-> 
-> If it is a select'able option, it doesn't make sense to use "depends"
-> here. Select will override depends.
+v2:
+- add Fixes tags
+- fix printing error on unplug
+- clarify that SSID=65 is valid in the commit message
+- change commit messages for patch 4 and 7
+- add patch 8 with new fix
+ 
+Andrzej Kacprowski (1):
+  accel/ivpu: Fix IPC buffer header status field value
 
-He-he, not so easy. This will help to find configurations that miss these
-dependencies. Arnd taught me that. IIRC the ASoC subsystem has a lot of
-such cases.
+Stanislaw Gruszka (7):
+  accel/ivpu: Do not access HW registers after unbind
+  accel/ivpu: Cancel recovery work
+  accel/ivpu: Do not use SSID 1
+  accel/ivpu: Fix power down sequence
+  accel/ivpu: Disable buttress on device removal
+  accel/ivpu: Remove support for 1 tile SKUs
+  accel/ivpu: Fix VPU clock calculation
 
-> > +       help
-> > +         DRM display helpers for USB Type-C Displayport Alternate mode.
+ drivers/accel/ivpu/ivpu_drv.c    |  18 +++--
+ drivers/accel/ivpu/ivpu_drv.h    |   7 +-
+ drivers/accel/ivpu/ivpu_hw_mtl.c | 113 ++++++++++---------------------
+ drivers/accel/ivpu/ivpu_ipc.h    |   2 +-
+ drivers/accel/ivpu/ivpu_job.c    |  11 ++-
+ drivers/accel/ivpu/ivpu_pm.c     |  17 ++++-
+ drivers/accel/ivpu/ivpu_pm.h     |   1 +
+ 7 files changed, 80 insertions(+), 89 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
