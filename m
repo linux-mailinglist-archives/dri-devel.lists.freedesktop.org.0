@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1646C68B7
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:45:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 269C46C68C5
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:47:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 015E410E11E;
-	Thu, 23 Mar 2023 12:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A24710E1E4;
+	Thu, 23 Mar 2023 12:47:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D20A410E11E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:45:21 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE0310E1E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679575521; x=1711111521;
+ t=1679575629; x=1711111629;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=z034CEWDZWzBHQVHZYtVHoLpxMyCoA3kXaDvrv1Q98w=;
- b=XR4GbRRxOLhhGzwBKbILpOX2956u5kEKM+CllvviJ4Jy3MIGM93tW+TZ
- mSkinGjVbUsmmlOF8Or0B+wAS0kdxXGh9OigJWr3C+UrE63ERJ79538Nt
- hJczlBfMoR2s4il6/2qlHSll8Y8SXvoUq0g//i6PjhuyKr2VZ9UMZ+HJ0
- LkQBmAOfb7uG5K1lsRJ9HFUO1SEz2mJZolQn8KdCyyuWVMXWoXHh8G3kg
- t2Z0Bc7kiFCbnNPz9/wyrA/YxWexLzaedr5iinOnLE//A7O3rkPxkMVuD
- TeO6DUipnZurcsVfb9HlHeEgjifMzkAXnClXpSYht2/X5cUHrrrNW3Ov7 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="338196414"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="338196414"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 05:45:17 -0700
+ bh=30e+iacdeNDPi27w7ie3RbTMuGmuD+8WwfFs1tSEjl4=;
+ b=jWjfCOBYmRWAdjKDtv5tnZ/SCAx3qehKa4plFgvMoXH55Pv2+Zh9YNDQ
+ MH1P6Uv6GI54R31qVl9xTf7U+iUbJZAHikt8FUlrRtk+N8No5WOes9Ejz
+ i9H+lXF3VkRc6p96TRP+inqXQa277jI2ipJt9NXqR2UE6pKjluorFMb2B
+ yG8gHyFWRFQOwVRHZEznc0DJ8+gLkaMSTkekqoJOf47qNr+TcHrtR+AFE
+ v2sahliIz3lBu4ycOa4bql9pLv3/mbx5bhGj+BNeMXv3z+oqAwxmeCix9
+ 543TthXeV9c8BDFAaG8iFph3zu5zOnA9nQH0Kvb1hY1PjF1iZfzaJjaZ7 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="341013534"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="341013534"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 05:47:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632383474"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="632383474"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682292594"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="682292594"
 Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga003.jf.intel.com with ESMTP; 23 Mar 2023 05:45:07 -0700
+ by orsmga002.jf.intel.com with ESMTP; 23 Mar 2023 05:46:58 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
  (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1pfKJU-007VlG-0v; Thu, 23 Mar 2023 14:45:04 +0200
-Date: Thu, 23 Mar 2023 14:45:03 +0200
+ id 1pfKLG-007VoD-1R; Thu, 23 Mar 2023 14:46:54 +0200
+Date: Thu, 23 Mar 2023 14:46:54 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-Message-ID: <ZBxJz4ESBocICA/L@smile.fi.intel.com>
+Message-ID: <ZBxKPiduTQ2A49Dy@smile.fi.intel.com>
 References: <20230322104639.221402-1-treapking@chromium.org>
  <20230322104639.221402-4-treapking@chromium.org>
- <ZBrgD61p/p17IOJL@smile.fi.intel.com> <87edpg7nub.fsf@intel.com>
+ <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87edpg7nub.fsf@intel.com>
+In-Reply-To: <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,39 +76,38 @@ Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Andi Shyti <andi.shyti@linux.intel.com>, devicetree@vger.kernel.org,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Pin-yen Lin <treapking@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 22, 2023 at 06:27:56PM +0200, Jani Nikula wrote:
-> On Wed, 22 Mar 2023, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Mar 22, 2023 at 06:46:32PM +0800, Pin-yen Lin wrote:
-> >> +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
-> >
-> > Ah, maybe this should use IS_REACHABLE() ?
-> 
-> Personally, I think IS_REACHABLE() is a build-time band-aid solution to
-> a problem that should be solved in Kconfig. :p
-> 
-> I think it always means there's a configuration combo that shouldn't
-> exist, and it's a surprise to the user when they've configured
-> something, Kconfig has deemed it a valid configuration, but they don't
-> get the feature they want.
-> 
-> As a user, how would they even debug that case? Double check configs,
-> don't see anything wrong.
+On Thu, Mar 23, 2023 at 12:38:49AM +0200, Dmitry Baryshkov wrote:
+> On Wed, 22 Mar 2023 at 12:47, Pin-yen Lin <treapking@chromium.org> wrote:
 
-Usual pairing is 'imply FOO' in Kconfig & 'IS_REACHEABLE(CONFIG_FOO)' in the
-code. And I believe it's not an abnormal.
+...
+
+> > +config DRM_DISPLAY_DP_TYPEC_HELPER
+> > +       bool
+> > +       default y
+> > +       depends on DRM_DISPLAY_HELPER
+> > +       depends on DRM_DISPLAY_HELPER=TYPEC || TYPEC=y
+> 
+> If it is a select'able option, it doesn't make sense to use "depends"
+> here. Select will override depends.
+
+He-he, not so easy. This will help to find configurations that miss these
+dependencies. Arnd taught me that. IIRC the ASoC subsystem has a lot of
+such cases.
+
+> > +       help
+> > +         DRM display helpers for USB Type-C Displayport Alternate mode.
 
 -- 
 With Best Regards,
