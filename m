@@ -1,48 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC456C6193
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 09:24:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2526C61E2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 09:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2781010E1FB;
-	Thu, 23 Mar 2023 08:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01D6410E341;
+	Thu, 23 Mar 2023 08:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4B010E2E5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 08:24:11 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id E24946602083;
- Thu, 23 Mar 2023 08:24:08 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1679559849;
- bh=UWXuvXPQgmw3d6w9F651414Ya/jCWnC0G3/dbhij6o8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DHfAr2uw3MKKXcYNKcEuDgZIWwbPq2uARctq8NYrQvUzyrWqVXhYzfgbiEUQtrWri
- 0DtdQ87CpsW9bdDtxpQf0osiDTPSMPbHDMEx5wGQ3c1dMOk7dotCL0a30KqCKS7wAb
- 4tLsZ+2UQ0O7fzQ3N+cK2HLwZ5X1DqrnyLEQaI/7GwhW9oXSq/MS25Wk9Fg5e7ggYI
- wnBehdiT1v+WIN//HJWALbjXjx5bUDbLM3z961HdU8vE85urUMaK2K5Ssg6HJn66Sb
- CMOV4fnuy9hRxtZjUx7f3x+CFjtLnueIQsqzWuXzDcd3lP3GXR4L80QsXzH3vbLUDn
- MJQqkhwTLE8Hg==
-Message-ID: <0800ffeb-c7c4-1671-173e-1529b8eeb12c@collabora.com>
-Date: Thu, 23 Mar 2023 09:24:06 +0100
+Received: from out-29.mta1.migadu.com (out-29.mta1.migadu.com [95.215.58.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEF5910E341
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 08:35:59 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1679560557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sR3yPTtRDVj1xoPJWPkU1xtU6p71nBTQtzFAzgAXTAM=;
+ b=aPn5X1CDLNGicO++xOTkolNf/4Uw7IjGooBgYaR1whX2aspiUAaolHbmudZtyPshdQLFP0
+ fJY3I+uyqublkl7FC6ehPI+9HsohOvYbxM+ecTX/IZ19buHUPFHHCR1ZiqHI5Dl8iYRip1
+ fJBODkoL2vICZ6cHnXb92wg9orz9H3w=
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: cai.huoqing@linux.dev
+Subject: [PATCH] accel/habanalabs: Remove redundant pci_clear_master
+Date: Thu, 23 Mar 2023 16:35:49 +0800
+Message-Id: <20230323083553.16864-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v5 00/12] Panfrost: Improve and add MediaTek SoCs support
-Content-Language: en-US
-To: airlied@gmail.com
-References: <20230316102041.210269-1-angelogioacchino.delregno@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230316102041.210269-1-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,80 +43,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- krzysztof.kozlowski+dt@linaro.org, wenst@chromium.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Oded Gabbay <ogabbay@kernel.org>, Tomer Tayar <ttayar@habana.ai>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 16/03/23 11:20, AngeloGioacchino Del Regno ha scritto:
-> Changes in v5:
->   - Changed minItems for power-domain-names in base schema as
->     suggested by Rob
-> 
-> Changes in v4:
->   - Refactored power-domains and power-domain-names exclusions as
->     suggested by Krzysztof
->   - Small changes in MT8192 bindings addition
-> 
-> Changes in v3:
->   - Changed MT8186 bindings to declare only two power domains
->   - Added a commit introducing MT8186 specific platform data to
->     panfrost_drv
-> 
-> Changes in v2:
->   - Add power-domain-names commit from Chen-Yu to the series
->   - Kept sram-supply in base schema, overridden for non-MediaTek
->   - Added Reviewed-by tags from Steven Price to the driver commits
->     (as released in reply to v1's cover letter - thanks!)
-> 
-> This series adds support for new MediaTek SoCs (MT8186/MT8192/MT8195)
-> and improves MT8183 support: since the mtk-regulator-coupler driver
-> was picked, it is now useless for Panfrost to look for, and manage,
-> two regulators (GPU Vcore and GPU SRAM) on MediaTek;
-> 
-> The aforementioned driver will take care of keeping the voltage
-> relation (/constraints) of the two regulators on its own when a
-> voltage change request is sent to the Vcore, solving the old time
-> issue with not working DVFS on Panfrost+MediaTek (due to devfreq
-> supporting only single regulator).
-> 
-> In the specific case of MT8183, in order to not break the ABI, it
-> was necessary to add a new compatible for enabling DVFS.
-> 
-> Alyssa Rosenzweig (3):
->    drm/panfrost: Increase MAX_PM_DOMAINS to 5
->    drm/panfrost: Add the MT8192 GPU ID
->    drm/panfrost: Add mediatek,mt8192-mali compatible
-> 
-> AngeloGioacchino Del Regno (9):
->    dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains
->      variation
->    dt-bindings: gpu: mali-bifrost: Set power-domains maxItems to 5
->    dt-bindings: gpu: mali-bifrost: Fix power-domain-names validation
->    dt-bindings: gpu: mali-bifrost: Add sub-schema for MT8192's power
->      domains
->    dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
->    dt-bindings: gpu: mali-bifrost: Add support for MediaTek MT8186
->    dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
->    drm/panfrost: Add new compatible for Mali on the MT8183 SoC
->    drm/panfrost: Add support for Mali on the MT8186 SoC
-> 
->   .../bindings/gpu/arm,mali-bifrost.yaml        | 80 ++++++++++++++++++-
->   drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
->   drivers/gpu/drm/panfrost/panfrost_drv.c       | 37 +++++++++
->   drivers/gpu/drm/panfrost/panfrost_gpu.c       |  8 ++
->   4 files changed, 123 insertions(+), 4 deletions(-)
-> 
+Remove pci_clear_master to simplify the code,
+the bus-mastering is also cleared in do_pci_disable_device,
+like this:
+./drivers/pci/pci.c:2197
+static void do_pci_disable_device(struct pci_dev *dev)
+{
+	u16 pci_command;
 
-Hello maintainers,
+	pci_read_config_word(dev, PCI_COMMAND, &pci_command);
+	if (pci_command & PCI_COMMAND_MASTER) {
+		pci_command &= ~PCI_COMMAND_MASTER;
+		pci_write_config_word(dev, PCI_COMMAND, pci_command);
+	}
 
-this series is fully tested, fully reviewed and fully ready.
+	pcibios_disable_device(dev);
+}.
+And dev->is_busmaster is set to 0 in pci_disable_device.
 
-Can anyone please pick it ASAP, so that we can finally get GPU support
-on MediaTek SoCs (including lots of Chromebooks)?
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+---
+ drivers/accel/habanalabs/common/device.c  | 1 -
+ drivers/accel/habanalabs/common/pci/pci.c | 2 --
+ 2 files changed, 3 deletions(-)
 
-Many thanks!
-Angelo
+diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
+index 713005998cbc..2fb1e2ec3a83 100644
+--- a/drivers/accel/habanalabs/common/device.c
++++ b/drivers/accel/habanalabs/common/device.c
+@@ -1271,7 +1271,6 @@ int hl_device_resume(struct hl_device *hdev)
+ 	return 0;
+ 
+ disable_device:
+-	pci_clear_master(hdev->pdev);
+ 	pci_disable_device(hdev->pdev);
+ 
+ 	return rc;
+diff --git a/drivers/accel/habanalabs/common/pci/pci.c b/drivers/accel/habanalabs/common/pci/pci.c
+index d1f4c695baf2..191e0e3cf3a5 100644
+--- a/drivers/accel/habanalabs/common/pci/pci.c
++++ b/drivers/accel/habanalabs/common/pci/pci.c
+@@ -420,7 +420,6 @@ int hl_pci_init(struct hl_device *hdev)
+ unmap_pci_bars:
+ 	hl_pci_bars_unmap(hdev);
+ disable_device:
+-	pci_clear_master(pdev);
+ 	pci_disable_device(pdev);
+ 
+ 	return rc;
+@@ -436,6 +435,5 @@ void hl_pci_fini(struct hl_device *hdev)
+ {
+ 	hl_pci_bars_unmap(hdev);
+ 
+-	pci_clear_master(hdev->pdev);
+ 	pci_disable_device(hdev->pdev);
+ }
+-- 
+2.34.1
+
