@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93ECE6C6943
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 14:13:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF1B6C694E
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 14:14:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C07610E815;
-	Thu, 23 Mar 2023 13:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 524BF10E84B;
+	Thu, 23 Mar 2023 13:14:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED0E10E815
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:13:05 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id u1so1087157wmn.5
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 06:13:05 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EE3910E84B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:14:16 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id l37so517243wms.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 06:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679577183;
+ d=linaro.org; s=google; t=1679577255;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=juhp9OBUsPann54i4wUeJoNbrt/MgaPH7KWeZa71+xE=;
- b=jNzxhh+kAMOJUnJAJiZlm8CqqNjJB84FeneV/bsFBFNkwsv5ewzKW99RwM/+yo+dWD
- O5M7PoVQ+HmSm0Fp7TUSM4WUmaCD/M9RquYD/SYCw+xZ3DF85LQBhq6DffN9QsAzPSiz
- +SXGeH8zvrCymDFBZtcQHoWfSF5M0GCyh2Yk8xunJZ3oUEoj5sOSwvola6tWm9KPAExx
- wppVx0YrDi/ArfaymWwbqT75kwaGW9d3Z9Vn8zQPyMtL5GoGAHwYOoySoOmjx3hdS1VP
- UJk4RORne+G8ZcUQqELIerD3KaGhrzSzjw76MslFrWinmJXZ+hINTJ/vsGD5S7LbjbfF
- VXWw==
+ bh=3ozbiTjZMTtZdhbfQMuafqLt5s0mYlr+S+oK5ku6wPM=;
+ b=lZT4yTsZI86TtOEPmavRCOef4D3RW1/nuZBrTzMbE98FuAzEIyWdjLDegnf6jrxZA+
+ ONjkVPvzSXDq88fS+6uvpspwpVLfj7god+2EuT5bsj6nKTpu7cbyXlXJQdX9OEDOdepB
+ syE9WfGnMbNFde06i6F3ixx2V0DbrfH+dZHIlaf49AJsawg656MXcwsT9BMUjL7hnxki
+ gXw5ww2yJmINWWYwei7sFMPdJnSkkzgYORHmb7bz7OJYWX/DNcZBkv5lehSjkSuTnHo6
+ M4nzoMLmTmrsmqOVP7mWrYBY8IrxinwiliUyVl6MADd+4Ty2C/ig8WfYV8E0zh0IvO90
+ /UBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679577183;
+ d=1e100.net; s=20210112; t=1679577255;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=juhp9OBUsPann54i4wUeJoNbrt/MgaPH7KWeZa71+xE=;
- b=CUJAvWeqgh5xfMwqFiXofKtJVJItaSHAqG//hOpsKDW4V5EC1sl/cz1MfN+ME9EWjo
- IfBsGpudiB9eBxnI4YvEiMfTb6/7hPO5GRNtzC5IdKol7NFP8Lk9HgrU5bX53AFsbYUc
- U++9M6G5TWnm8PQN98t+yO4eZkeY425D+JFbLYFAPrjNK0VK640hN/MxnMUsyqROe9KA
- 6mSP1sKTY2qCgLih6HKgEOKUHMQSGwiRGEaQSQvxacyW9IBn5hBa+nOq9ZH9k2OSYHH3
- +zRhkTucN5SfoeQqK7cLnqowgGqx9ZLtfohGBU6En+zpJHJ5cKBeBy2pGGKyqUXSsBda
- Fuxw==
-X-Gm-Message-State: AO0yUKWv18Aqmt52dLZrzFd0rkXuuTY6X+fqoJzNpYSky2J/BnsDt311
- cbrZ+xCYps/cwfwEZwxDKUngcw==
-X-Google-Smtp-Source: AK7set9AOlKnA/7JArDu4NZy/tacv+1Jc1By+62lRGQ2qjTDOfxTCEOmbDcLbYSrwaVOaWhWVZPiKA==
-X-Received: by 2002:a1c:f709:0:b0:3ed:c763:2765 with SMTP id
- v9-20020a1cf709000000b003edc7632765mr2405501wmh.7.1679577183642; 
- Thu, 23 Mar 2023 06:13:03 -0700 (PDT)
+ bh=3ozbiTjZMTtZdhbfQMuafqLt5s0mYlr+S+oK5ku6wPM=;
+ b=0RJyp1EwGZFtLcaKZ2AJvEgvVkqJmyZCBFzadkWyqnwgaELuwZMa8KeL8OYhX8RY4o
+ lqW8HGj48SUHK3NB3rLZC2F+YebXKWMYGbsOVyvcNcUQXfzoQzmgv1DUQMrWyS3hiKI4
+ 9/2dR5nApLC+u08ONnxuJcWtd/ohLvRQ9K4UZ4YVtbhICBRDwqqQEIJ741ngV6Q+z8JH
+ RVKG7aqLVOniVLbOG/Hv3pYyH08c3xJQ5jxCSE/rh0kOp7C81SdCIacIuwgJBvQOLF+T
+ qW1VkSsIwJeKs3XXZayQh+3HalV7NZN/Z5KPmmRGzHwDZ0Ic83tLFIJqFftP/Gce4NWB
+ LYFw==
+X-Gm-Message-State: AO0yUKXvYIT9O2dGfk7l8YpqCb0VEj+s0mZG4sTpbrosBkkCEuQu+8R2
+ zSbFIrR/5ELYxhgPRwSqG3Rriw==
+X-Google-Smtp-Source: AK7set9KH31TZh7tubmQPEjPzDWKzuzoSIfSWMARsbW8oRdJ+eBdyMTtKXVVNWxugh2iobMdSN2lww==
+X-Received: by 2002:a05:600c:a0c:b0:3ee:90fa:aedf with SMTP id
+ z12-20020a05600c0a0c00b003ee90faaedfmr1139192wmp.11.1679577254774; 
+ Thu, 23 Mar 2023 06:14:14 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:982:cbb0:e25a:65de:379a:3899?
  ([2a01:e0a:982:cbb0:e25a:65de:379a:3899])
  by smtp.gmail.com with ESMTPSA id
- v4-20020a05600c470400b003ee8ab8d6cfsm1825918wmo.21.2023.03.23.06.13.02
+ g20-20020a05600c4ed400b003edc4788fa0sm1992204wmq.2.2023.03.23.06.14.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 06:13:03 -0700 (PDT)
-Message-ID: <006bf3bf-ab9a-4a08-3ba5-fa23ff4ea05a@linaro.org>
-Date: Thu, 23 Mar 2023 14:13:00 +0100
+ Thu, 23 Mar 2023 06:14:14 -0700 (PDT)
+Message-ID: <215efc34-68bf-53d7-2191-a5132c3d2198@linaro.org>
+Date: Thu, 23 Mar 2023 14:14:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 6/8] arm64: dts: qcom: sm8450: remove invalid npl clock in
- vamacro node
+Subject: Re: [PATCH 4/8] arm64: dts: qcom: sm8450: remove invalid properties
+ in cluster-sleep nodes
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -73,10 +73,10 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
  Bart Van Assche <bvanassche@acm.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
- <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-6-3ead1e418fe4@linaro.org>
- <35e3aa8b-ccff-25fa-42da-d8934ef366c6@linaro.org>
+ <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-4-3ead1e418fe4@linaro.org>
+ <0bcad5cc-112f-386c-b70e-146530ac4898@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <35e3aa8b-ccff-25fa-42da-d8934ef366c6@linaro.org>
+In-Reply-To: <0bcad5cc-112f-386c-b70e-146530ac4898@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -99,23 +99,19 @@ Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/03/2023 11:47, Krzysztof Kozlowski wrote:
+On 23/03/2023 11:51, Krzysztof Kozlowski wrote:
 > On 23/03/2023 11:25, Neil Armstrong wrote:
 >> Fixes the following DT bindings check error:
->> codec@33f0000: clocks: [[137, 57, 1], [137, 102, 1], [137, 103, 1], [137, 70, 1]] is too long
->> codec@33f0000: clock-names: 'oneOf' conditional failed, one must be fixed:
->> 	        ['mclk', 'macro', 'dcodec', 'npl'] is too long
->>
->> The implementation was checked and this npl clock isn't used for the VA macro.
->>
+>> domain-idle-states: cluster-sleep-0: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
+>> 'pinctrl-[0-9]+'
+>> domain-idle-states: cluster-sleep-1: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
+>> 'pinctrl-[0-9]+'
 > 
-> This does not look correct. DTS looks good, you miss some patches in
-> your tree.
+> I don't get from the commit msg why these properties are not correct
+> here. The idle states allow them, so maybe something is missing in the
+> binding? At least commit msg should explain this.
 
-I'm based on today's linux-next, while the other lpass macros uses the npl clock,
-the lpass vamacro bindings doesn't document the npl clock.
-
-And I found no fixes whatsover to add the npl clock to bindings.
+The domain-idle-states bindings doesn't document those 2 properties, so perhaps it's missing ?
 
 Neil
 
