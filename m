@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FC56C64D0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 464796C64CE
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D7310EA6A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7289110EA66;
 	Thu, 23 Mar 2023 10:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C87C10EA64
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:28 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id i9so19859359wrp.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:28 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEBDD10EA65
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:29 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id v1so13758606wrv.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679567127;
+ d=linaro.org; s=google; t=1679567128;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=aARTCK4sQSdJ4cxE9VmvCb0XymPAsWngkLF26icVX2A=;
- b=K5oYRdOH+ug+Y9Mle5NMbmdYFlcG9wrZ/cIy5NwxV9Ikqv47ML+A/yPw8BRlq+/930
- Zb6g6AYQUNZM9kux/uRsCXvCzyX6FiYlgJApTCcVRUf1IXktNfoDg1OG0s/jTivurvBS
- 2vY/unzjPUm/mi5yjtTs8+l1SMJPNQAKI8+MvEnVCkOtRkxHj3pqWNYUD/hFYP+Z160E
- OHaTH/mK4MnJH6sgQe7Kgiu8Uz6YfnuDGs426pmdu2QltWmZOw1htb6+GxlHU4RsDBXl
- 0qSp9F3OFEZ/AyGFbcNsQoFyl1EYh+XxNO1VutRdA39Ihw1WBhYxqLlyHRqooQtjaDik
- PGbA==
+ :reply-to; bh=MbMpIW2XeTgOIuij0DvAphORXQYIJr8R5bBmK3u0n4s=;
+ b=OiM1Yacj+a6ZH6zyF+4WbfsKHoee7NXm2MM9OOs2n5bJzfOLIGXc12cwtoMMbg5V3G
+ 3E7MUGqH2EfT+LLrFi30N1TD5vnz9MtKSQJ7qwGhKdoghrG2YNuKlZpFNEbNpPfb+JNC
+ For/VV8QIang/A28V7HMQQzpxwmJI796xxhu2taDRIfLRuuphtt55iNSeSB1TPRM88kr
+ MbeZOoHUYvYqUSMsB/kCZa2vQ1FUlEiDJMmqJPeIQn3BXlnkPEmWDHVnFESQ6FJvikYa
+ cSWdtPSS6SLsNYVNt6bjg783EluGuECjGfV2WXUqqcBqC1eByii9qGUXoZ2JXGQ/O6yJ
+ vBgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679567127;
+ d=1e100.net; s=20210112; t=1679567128;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=aARTCK4sQSdJ4cxE9VmvCb0XymPAsWngkLF26icVX2A=;
- b=kyAsI7cQS8aroD+qIj3Yxwhx4lgDeNY4RNfU/9G737+KHrWq09NRQYnk74lVczChV0
- 6M0a1sSryLLWtUs3MaziGenob+pXsmLsGZHqlc2f1Css3YeCb+iYoGGypZoePk3fWfyd
- VAyjReyCZNAJNbl5wDogHUqANpZOwMbpjEbBjseJKxEjefiJvX1sEMm6d4mBD3yoBQ9w
- J+tOCoNPfV+LbN4hsZAYTzrnxChdAuygtamg2mt14cjR2fiJ/X64lYb/KoNyVJJvwjs+
- 1Wy1eb3nabLk/dhmsu/DkrJT7q4KsgGkfMCTjsC5eCnmIiON8FKE2KDbEX17xn6kyzzn
- nP2w==
-X-Gm-Message-State: AAQBX9eDCkLxyKvOfMcAlvbMDt1t9H9DQcWn8QXNIHtIADey0D4eGy6A
- /Fj7CkAr9nLLFF5kdy6UCD3uIw==
-X-Google-Smtp-Source: AKy350aBOd8afsAojbQ8LGe3Im4DfBL+7ds0nVt2O90BTkM9NRCljd+tnLDX7YXFFONFZvdCNkXl/A==
-X-Received: by 2002:a5d:6a50:0:b0:2d0:d739:e37e with SMTP id
- t16-20020a5d6a50000000b002d0d739e37emr2097210wrw.40.1679567126944; 
- Thu, 23 Mar 2023 03:25:26 -0700 (PDT)
+ bh=MbMpIW2XeTgOIuij0DvAphORXQYIJr8R5bBmK3u0n4s=;
+ b=KvGAkgFj/VW3iGKxHEO/dXyeshdl+wEe1+uhRUc4AqyxxBEVwD1cpWnfjHJEZ5AlNt
+ L9jTQIJmLYRwKFYA0qtvxJTXfJ7IqzNq0p5lSn566RGaj5a7w8GJDCWfjSGhRLJvL7Od
+ jk6SJZTy1fo4Jm4UFw7oow1Y8vWD2JUSsbEotzFofi2VMZnXjC8LBcmi0VDsCMh28nJk
+ HT4IC7N3YcuftsFqki4HEBllpVrtPu37xhafIXs8CwFcHrXD27KntGzWER/T442gEaMV
+ b8kDe6GcEPZmNyW4eIbHWm06/wgfaiT+IZDOo2pZIay47WyFy9aIHq2ebEfIAJbM0x3y
+ GPzA==
+X-Gm-Message-State: AAQBX9cTykqG5TDPLQHkTC8GytyjeSc9idgKecenXOZk2Gcp1FgAiDTQ
+ lLbstsSNaEJeDmlIYus/OKuKHg==
+X-Google-Smtp-Source: AKy350YnpJ9aARdt0vtWcfFYEivcldCh8Vl38PKNmqoJ8yqlx/THGzhpYzjoV1hW1Xn0hKBSv96fHw==
+X-Received: by 2002:adf:ed43:0:b0:2ce:a8d5:4a89 with SMTP id
+ u3-20020adfed43000000b002cea8d54a89mr2146384wro.37.1679567128111; 
+ Thu, 23 Mar 2023 03:25:28 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.25
+ e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 03:25:26 -0700 (PDT)
+ Thu, 23 Mar 2023 03:25:27 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 23 Mar 2023 11:25:16 +0100
-Subject: [PATCH 1/8] dt-bindings: display: msm: sm8450-mdss: Fix DSI compatible
+Date: Thu, 23 Mar 2023 11:25:17 +0100
+Subject: [PATCH 2/8] dt-bindings: mfd: qcom,spmi-pmic: document pm8450 pmic
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-1-3ead1e418fe4@linaro.org>
+Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-2-3ead1e418fe4@linaro.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -89,28 +89,25 @@ Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI compatible changed between patchset revisions, but that wasn't
-reflected in the bindings. Fix it.
+Add a compatible for PM8450, commonly found with SM8450.
 
-0eda3c6cb1c5 ("dt-bindings: display/msm: add support for the display on SM8450")
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-index 4c6929e2534c..48781cc56434 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-@@ -54,7 +54,7 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,dsi-phy-5nm-8450
-+        const: qcom,sm8450-dsi-phy-5nm
- 
- required:
-   - compatible
+diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
+index 975c30aad23c..15deeff2d447 100644
+--- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
++++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
+@@ -57,6 +57,7 @@ properties:
+           - qcom,pm8350
+           - qcom,pm8350b
+           - qcom,pm8350c
++          - qcom,pm8450
+           - qcom,pm8550
+           - qcom,pm8550b
+           - qcom,pm8550ve
 
 -- 
 2.34.1
