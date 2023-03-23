@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1E06C68EE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:55:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D6386C68F1
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:55:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC33710E747;
-	Thu, 23 Mar 2023 12:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83AC910E7B9;
+	Thu, 23 Mar 2023 12:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8204010E747
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:55:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F74D10E79A
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:55:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679576127; x=1711112127;
+ t=1679576130; x=1711112130;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dEGQZTStBxhWNsIpqvhHkOcsSc84Z8jv7muS9IpzS0M=;
- b=d1y1A64n+e/kvxoJUD80yPos9rOzSNcFMyisnj7R3M7DifZvSOq8jlgL
- orkGbjn4pjzNJ+KrMUN/I/bsILrxY08fyKJBW6Hr4plaeRZN9sXyEvosA
- sqJ1sdFMZjqhDrxIbKjE9yG6vRh0593++794g/vcbxXFneGpItN21DECr
- BR9maD9IER03D7ICOO12cl8xK3VHKkShLzyg9eZBKcds6QP5n9dRDBTbQ
- HTfd0WtfO8IRUfPT4TXzD2muxauhaIU4d04kRmwhL8XAPc7S+xCQos/wf
- WEP8+AWCpUsDfT8WiISX4jKpKnEVq4ikWKzcByHHqtIPNjglq7q7lnOXq A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336982544"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="336982544"
+ bh=o+kOY8IMJSFbw+hZpDr2qPr+8YqViN5BvBkxmJEaguM=;
+ b=huB6StzXTtnDUCPZCqdE6LBopaUkSoXYaFulNuZPnx8KH0qepRoKH5Tp
+ 76yIgiszGVhMfYqD1h1Ubck65dLojFhR33RYKwjVEK4THbvR4cxnIkwS4
+ RjCrFZKtAVh0/ihL9BRWNz6G1EgSzVUjs6kCCz5txAfpNr1goVXM0DCrr
+ M/7ULBpie5WXhAvPMsTD/lBS0kGvRcpcEj1KpAXC0t29VPaojz+4yFfsA
+ 9E8BXMlrShhucXli4MmkVP4+C1IBMSMNo3rnWL10XDU/vqBPaQx1UVcpL
+ 6N5Km39Om9pjNPvJV+YEq92HhBQ7f4TQHkbw7yfYYGroDQsDqHyxiILFR w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336982551"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="336982551"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 05:55:27 -0700
+ 23 Mar 2023 05:55:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="793010830"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="793010830"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="793010841"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="793010841"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 05:55:25 -0700
+ 23 Mar 2023 05:55:29 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/8] accel/ivpu: Fix power down sequence
-Date: Thu, 23 Mar 2023 13:55:00 +0100
-Message-Id: <20230323125504.2586442-5-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 5/8] accel/ivpu: Disable buttress on device removal
+Date: Thu, 23 Mar 2023 13:55:01 +0100
+Message-Id: <20230323125504.2586442-6-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230323125504.2586442-1-stanislaw.gruszka@linux.intel.com>
 References: <20230323125504.2586442-1-stanislaw.gruszka@linux.intel.com>
@@ -63,93 +63,67 @@ Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove FPGA workaround on power_down to skip checking for noc
-quiescent state.
+Use pci_set_power_state() to disable buttress when device is removed.
+This is workaround of hardware bug that hangs the system.
 
-Put VPU in reset before powering it down and skip manipulating
-registers that are reset by the VPU reset.
-
-This fixes power down errors where VPU is powered down just after VPU
-is booted.
+Additionally not disabling buttress prevents CPU enter deeper Pkg-C
+states when the driver is unloaded or fail to probe.
 
 Fixes: 35b137630f08 ("accel/ivpu: Introduce a new DRM driver for Intel VPU")
-Co-developed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/ivpu/ivpu_hw_mtl.c | 37 ++------------------------------
- 1 file changed, 2 insertions(+), 35 deletions(-)
+ drivers/accel/ivpu/ivpu_drv.c    | 4 ++++
+ drivers/accel/ivpu/ivpu_drv.h    | 1 +
+ drivers/accel/ivpu/ivpu_hw_mtl.c | 1 +
+ 3 files changed, 6 insertions(+)
 
+diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
+index 70245cf84593..6a320a73e3cc 100644
+--- a/drivers/accel/ivpu/ivpu_drv.c
++++ b/drivers/accel/ivpu/ivpu_drv.c
+@@ -569,6 +569,8 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
+ 	ivpu_mmu_global_context_fini(vdev);
+ err_power_down:
+ 	ivpu_hw_power_down(vdev);
++	if (IVPU_WA(d3hot_after_power_off))
++		pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
+ err_xa_destroy:
+ 	xa_destroy(&vdev->submitted_jobs_xa);
+ 	xa_destroy(&vdev->context_xa);
+@@ -579,6 +581,8 @@ static void ivpu_dev_fini(struct ivpu_device *vdev)
+ {
+ 	ivpu_pm_disable(vdev);
+ 	ivpu_shutdown(vdev);
++	if (IVPU_WA(d3hot_after_power_off))
++		pci_set_power_state(to_pci_dev(vdev->drm.dev), PCI_D3hot);
+ 	ivpu_job_done_thread_fini(vdev);
+ 	ivpu_pm_cancel_recovery(vdev);
+ 
+diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
+index ef12a38e06e1..d3013fbd13b3 100644
+--- a/drivers/accel/ivpu/ivpu_drv.h
++++ b/drivers/accel/ivpu/ivpu_drv.h
+@@ -74,6 +74,7 @@
+ struct ivpu_wa_table {
+ 	bool punit_disabled;
+ 	bool clear_runtime_mem;
++	bool d3hot_after_power_off;
+ };
+ 
+ struct ivpu_hw_info;
 diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-index 62bfaa9081c4..70ca6de78060 100644
+index 70ca6de78060..133ba33d2866 100644
 --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
 +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-@@ -403,11 +403,6 @@ static int ivpu_boot_host_ss_axi_enable(struct ivpu_device *vdev)
- 	return ivpu_boot_host_ss_axi_drive(vdev, true);
+@@ -101,6 +101,7 @@ static void ivpu_hw_wa_init(struct ivpu_device *vdev)
+ {
+ 	vdev->wa.punit_disabled = ivpu_is_fpga(vdev);
+ 	vdev->wa.clear_runtime_mem = false;
++	vdev->wa.d3hot_after_power_off = true;
  }
  
--static int ivpu_boot_host_ss_axi_disable(struct ivpu_device *vdev)
--{
--	return ivpu_boot_host_ss_axi_drive(vdev, false);
--}
--
- static int ivpu_boot_host_ss_top_noc_drive(struct ivpu_device *vdev, bool enable)
- {
- 	int ret;
-@@ -441,11 +436,6 @@ static int ivpu_boot_host_ss_top_noc_enable(struct ivpu_device *vdev)
- 	return ivpu_boot_host_ss_top_noc_drive(vdev, true);
- }
- 
--static int ivpu_boot_host_ss_top_noc_disable(struct ivpu_device *vdev)
--{
--	return ivpu_boot_host_ss_top_noc_drive(vdev, false);
--}
--
- static void ivpu_boot_pwr_island_trickle_drive(struct ivpu_device *vdev, bool enable)
- {
- 	u32 val = REGV_RD32(MTL_VPU_HOST_SS_AON_PWR_ISLAND_TRICKLE_EN0);
-@@ -504,16 +494,6 @@ static void ivpu_boot_dpu_active_drive(struct ivpu_device *vdev, bool enable)
- 	REGV_WR32(MTL_VPU_HOST_SS_AON_DPU_ACTIVE, val);
- }
- 
--static int ivpu_boot_pwr_domain_disable(struct ivpu_device *vdev)
--{
--	ivpu_boot_dpu_active_drive(vdev, false);
--	ivpu_boot_pwr_island_isolation_drive(vdev, true);
--	ivpu_boot_pwr_island_trickle_drive(vdev, false);
--	ivpu_boot_pwr_island_drive(vdev, false);
--
--	return ivpu_boot_wait_for_pwr_island_status(vdev, 0x0);
--}
--
- static int ivpu_boot_pwr_domain_enable(struct ivpu_device *vdev)
- {
- 	int ret;
-@@ -797,21 +777,8 @@ static int ivpu_hw_mtl_power_down(struct ivpu_device *vdev)
- {
- 	int ret = 0;
- 
--	/* FPGA requires manual clearing of IP_Reset bit by enabling quiescent state */
--	if (ivpu_is_fpga(vdev)) {
--		if (ivpu_boot_host_ss_top_noc_disable(vdev)) {
--			ivpu_err(vdev, "Failed to disable TOP NOC\n");
--			ret = -EIO;
--		}
--
--		if (ivpu_boot_host_ss_axi_disable(vdev)) {
--			ivpu_err(vdev, "Failed to disable AXI\n");
--			ret = -EIO;
--		}
--	}
--
--	if (ivpu_boot_pwr_domain_disable(vdev)) {
--		ivpu_err(vdev, "Failed to disable power domain\n");
-+	if (ivpu_hw_mtl_reset(vdev)) {
-+		ivpu_err(vdev, "Failed to reset the VPU\n");
- 		ret = -EIO;
- 	}
- 
+ static void ivpu_hw_timeouts_init(struct ivpu_device *vdev)
 -- 
 2.25.1
 
