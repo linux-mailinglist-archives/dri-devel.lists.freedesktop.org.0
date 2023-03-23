@@ -2,80 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D0A6C65B5
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579A36C6608
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 12:01:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9420910EA79;
-	Thu, 23 Mar 2023 10:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD9310E098;
+	Thu, 23 Mar 2023 11:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E98310EA70
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:51:37 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id cn12so38885651edb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679568696;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=djtaE/vDO9AshUny6zh2qbJYY96TbEf/QaEy8Z7dISo=;
- b=SRYru7BV5FR7ta8lPrUIXW94emfeyPMudi/J/EMfbkFNYjvxPuuuCtIgIjTFppzt5J
- h47JOMbYqxJEhXHDRhoDQZOi5LsuHzIa9xib2kjIEWEwzFDcQiinKOl6DhVxf2dlkUqk
- cl2UiDVdkqTl3m4NONc0sYA4ZkpCf3KLz92O44Roa8oBCtRKjQKzHRwmd32u4h3jxMZF
- AL44QCRcffkl+m18R1qNfbTMqd/NtCF04/yWSwKsF+ndBVZy1CHlUBeAccJmObux8Ql/
- C91+8cHII8qrIIHnAA2R7Fmhi+ArI40unMmf8XVfCT/GB92O3kRBWbPhZFI54L18KOGb
- YwKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679568696;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=djtaE/vDO9AshUny6zh2qbJYY96TbEf/QaEy8Z7dISo=;
- b=CLghFeJyQKccwyDMyA3iDkihD2QNmYOWx8Rkp66ZCAi3kORJa6V9MEgO6ayVT2nPmd
- VEs/pGz3HnCTB2flSsuFq94M2W4TgzkH/iBTu1WwtnzN2clt82Zw2z4jElMJdQgdH1RL
- 1a3+SGSM86Pd7PoIgwqd0K0SJkfeyCHXVuzpnBpN8jhXUfE0vlyqhqOk3FOUZ9jr64yl
- tDx0KBN4TzkHIKcIQntm/XWl6WFMVDJ7X5MvJse1H/iU1R++fbx6gznouIbxH+T6uW2N
- p7Nf7+T3jWoU5XXIEj9ChICwotLYDGEhZIc2/kZKziAgNPeoYLav/nSz70r7WaEXZ1ys
- WH3g==
-X-Gm-Message-State: AAQBX9cJgvC8Rtv77AUY2aMgDBQs90z10gBlZQ4N4lSl1lV9AQisD9Rh
- /OQVpM6Ss2quHgIyue6VZz53cQ==
-X-Google-Smtp-Source: AKy350Yzr6pk7HTLyfZ07cA6Ohdh8rwBb3p/inRxryeP80LTyCA3RyLKk49pTM05/lxqV+Y/sTkmKw==
-X-Received: by 2002:aa7:d38f:0:b0:502:1299:5fa5 with SMTP id
- x15-20020aa7d38f000000b0050212995fa5mr1174047edq.16.1679568696138; 
- Thu, 23 Mar 2023 03:51:36 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:a665:ed1e:3966:c991?
- ([2a02:810d:15c0:828:a665:ed1e:3966:c991])
- by smtp.gmail.com with ESMTPSA id
- q30-20020a50aa9e000000b004fadc041e13sm8999033edc.42.2023.03.23.03.51.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 03:51:35 -0700 (PDT)
-Message-ID: <0bcad5cc-112f-386c-b70e-146530ac4898@linaro.org>
-Date: Thu, 23 Mar 2023 11:51:34 +0100
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2211310E098
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 11:01:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679569309; x=1711105309;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ckAkm/rXiR7jzy//2/SC67KBJL8CLzBkEB5PNmyDaYU=;
+ b=GmSM1hiUHoGFYlaLD010vQWvd6RF4gDxHGtSEesd4dhwDo+xppjR0aml
+ w9F7R42IC6UXqDrwDIo23dM3OQPGm7M+v3hynryCIUc+By4zqIFlgVIux
+ 3Axd39CI5Vtg/F+kYzUFf3XKxVe6m3SZfIalVMVfTeMkJ6nIGdgjZY/0B
+ iqTqRSKPiPnepVLG6mo2P0BPLQweDZlooK8x45tzIYPes7a0BG5ogvCOq
+ rok42l1gU9ASoHJbf2zvt4Z3w3+7sSfQsEQ+kDE4QbQc0iIOt9ez1Eme/
+ MQwf5ih5VKlSOyLHhvKnqiMIjn/UKYKgpEO+8HGwXyPpEuRercRuc+J1m g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="323303021"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="323303021"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 04:00:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="632356327"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="632356327"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 04:00:49 -0700
+Date: Thu, 23 Mar 2023 12:00:47 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 7/7] accel/ivpu: Fix VPU clock calculation
+Message-ID: <20230323110047.GE2130371@linux.intel.com>
+References: <20230322091900.1982453-1-stanislaw.gruszka@linux.intel.com>
+ <20230322091900.1982453-8-stanislaw.gruszka@linux.intel.com>
+ <56d8982a-6d86-19d2-74ca-efede0414af7@quicinc.com>
+ <20230322162848.GC2130371@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 4/8] arm64: dts: qcom: sm8450: remove invalid properties
- in cluster-sleep nodes
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
- Bart Van Assche <bvanassche@acm.org>
-References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
- <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-4-3ead1e418fe4@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-4-3ead1e418fe4@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230322162848.GC2130371@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,24 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
- freedreno@lists.freedesktop.org
+Cc: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/03/2023 11:25, Neil Armstrong wrote:
-> Fixes the following DT bindings check error:
-> domain-idle-states: cluster-sleep-0: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
-> 'pinctrl-[0-9]+'
-> domain-idle-states: cluster-sleep-1: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
-> 'pinctrl-[0-9]+'
+On Wed, Mar 22, 2023 at 05:28:48PM +0100, Stanislaw Gruszka wrote:
+> On Wed, Mar 22, 2023 at 08:52:56AM -0600, Jeffrey Hugo wrote:
+> > On 3/22/2023 3:19 AM, Stanislaw Gruszka wrote:
+> > > VPU cpu clock frequency depends on the workpoint configuration
+> > > that was granted by the punit. Previously driver was passing
+> > > incorrect frequency to the VPU firmware.
+> > 
+> > This looks like past tense.  I believe the preference is to use the present
+> > tense for commit text.  Something like "the driver calculates the wrong
+> > frequency because it ignores the workpoint config and this causes X.  Fix
+> > this by using the workpoint config in the freq calculations".
+> 
+> Will do.
+> 
+> > Should this have a fixes tag?  Sounds like this addresses a bug.
+> 
+> Not sure how this is done, but seems all my previous patches for ivpu
+> have Fixes tag in commit message, even if I did not post the tag in
+> the patches. Seems to be a feature of drm git tooling and can be
+> easily done by committer ?
 
-I don't get from the commit msg why these properties are not correct
-here. The idle states allow them, so maybe something is missing in the
-binding? At least commit msg should explain this.
+Tags were added by Jacek,  I'll add them to the patchset then.
 
-Best regards,
-Krzysztof
-
+Regards
+Stanislaw
