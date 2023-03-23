@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6CD6C68F0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98ABF6C68F3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 13:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 425DD10E79A;
-	Thu, 23 Mar 2023 12:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C023210E7E4;
+	Thu, 23 Mar 2023 12:55:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36F0310E79A
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:55:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4EB10E7E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 12:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679576134; x=1711112134;
+ t=1679576143; x=1711112143;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AmlWowwzgumrjMJ7vt/uZp3Pnndao+qOiQOZwO54ZPA=;
- b=Vq+87yi7f6gRV8ZI+MS3LYtPXDUKw6RXrUNSwnseC0ef/wtILB7XB9cW
- /N04HIxgzFBG6ylQdFnro2xHZbPA/zO5qG+ISjukCJQUAmvIn+Mi3YMFw
- kY2BhbrjkzQ51TOZDPTBWrnXGOZGBovYHAvYDKrMCCJ4LExbYWfoUx8/b
- 6HVc7vJeKFEt1Gf2BB0e/JsHydUZGDEs3/E1+dUDF3pSjG9/niPNT4Iin
- hAE/18Iq6WT3L+o17Lwqr7w5fNL4N9EMA6dfqMXOO4TarJAaIpg+JoKHh
- rr6CsVMV3/8VlCPz97OHHPcGjjYQdyZEl72IwnC+bZgeOR6zbo/mdsUNb Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336982558"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="336982558"
+ bh=rtry40K/oOutzMIOKnbjgiZvCJrbQWE8MR4qSVu7qso=;
+ b=PBI3I6g3C7auTvXkmcGwOOBR0NMPR0dGo5JwCggtdvzbkyfps+Eln2Nk
+ SA1zAXO4kJ1TeqP7+IWKoLNUSMCIF6FxwJRV2vGSM+k0ZDuPSI+UHlULF
+ bGYKDvH0sWfW37qQAG0CZnSfwmsVXYqpTi8U+PCrgwOnbNVZf66liqWaW
+ BAuae+/84/pYIGhL1tHDrDyN/ChqwnSTMk8EgyT9aPbGPTQ+3XJ9g9sJN
+ ED2+VEDi7l+/9FgnmpSnj0TQglr+vQmJNX7grZpnI5Z2Cdx8bs5cw5yqU
+ 9M343ybCHq+fgTY78z/tDcblQEGONk34r+S7CCvtRAiFrnyVHI0qW/64W w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="336982591"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="336982591"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 05:55:33 -0700
+ 23 Mar 2023 05:55:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="793010854"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="793010854"
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="793010864"
+X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="793010864"
 Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 05:55:32 -0700
+ 23 Mar 2023 05:55:35 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 6/8] accel/ivpu: Remove support for 1 tile SKUs
-Date: Thu, 23 Mar 2023 13:55:02 +0100
-Message-Id: <20230323125504.2586442-7-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 7/8] accel/ivpu: Fix VPU clock calculation
+Date: Thu, 23 Mar 2023 13:55:03 +0100
+Message-Id: <20230323125504.2586442-8-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230323125504.2586442-1-stanislaw.gruszka@linux.intel.com>
 References: <20230323125504.2586442-1-stanislaw.gruszka@linux.intel.com>
@@ -64,105 +64,60 @@ Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The support for single tile SKUs was dropped from MTL.
-Note that we can still boot the VPU with 1-tile work point
-config - this is independent from number of tiles present
-in the VPU.
+The driver calculates the wrong frequency because it ignores
+the workpoint config and this cause undesired power/performance
+characteristics. Fix this by using the workpoint config in
+the freq calculations.
 
+Fixes: 35b137630f08 ("accel/ivpu: Introduce a new DRM driver for Intel VPU")
 Co-developed-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Signed-off-by: Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 ---
- drivers/accel/ivpu/ivpu_hw_mtl.c | 59 ++++++++++----------------------
- 1 file changed, 18 insertions(+), 41 deletions(-)
+ drivers/accel/ivpu/ivpu_hw_mtl.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/accel/ivpu/ivpu_hw_mtl.c b/drivers/accel/ivpu/ivpu_hw_mtl.c
-index 133ba33d2866..98c8a4aa25f0 100644
+index 98c8a4aa25f0..382ec127be8e 100644
 --- a/drivers/accel/ivpu/ivpu_hw_mtl.c
 +++ b/drivers/accel/ivpu/ivpu_hw_mtl.c
-@@ -12,20 +12,20 @@
- #include "ivpu_mmu.h"
- #include "ivpu_pm.h"
- 
--#define TILE_FUSE_ENABLE_BOTH	     0x0
--#define TILE_FUSE_ENABLE_UPPER	     0x1
--#define TILE_FUSE_ENABLE_LOWER	     0x2
--
--#define TILE_SKU_BOTH_MTL	     0x3630
--#define TILE_SKU_LOWER_MTL	     0x3631
--#define TILE_SKU_UPPER_MTL	     0x3632
-+#define TILE_FUSE_ENABLE_BOTH        0x0
-+#define TILE_SKU_BOTH_MTL            0x3630
- 
- /* Work point configuration values */
--#define WP_CONFIG_1_TILE_5_3_RATIO   0x0101
--#define WP_CONFIG_1_TILE_4_3_RATIO   0x0102
--#define WP_CONFIG_2_TILE_5_3_RATIO   0x0201
--#define WP_CONFIG_2_TILE_4_3_RATIO   0x0202
--#define WP_CONFIG_0_TILE_PLL_OFF     0x0000
-+#define CONFIG_1_TILE                0x01
-+#define CONFIG_2_TILE                0x02
-+#define PLL_RATIO_5_3                0x01
-+#define PLL_RATIO_4_3                0x02
-+#define WP_CONFIG(tile, ratio)       (((tile) << 8) | (ratio))
-+#define WP_CONFIG_1_TILE_5_3_RATIO   WP_CONFIG(CONFIG_1_TILE, PLL_RATIO_5_3)
-+#define WP_CONFIG_1_TILE_4_3_RATIO   WP_CONFIG(CONFIG_1_TILE, PLL_RATIO_4_3)
-+#define WP_CONFIG_2_TILE_5_3_RATIO   WP_CONFIG(CONFIG_2_TILE, PLL_RATIO_5_3)
-+#define WP_CONFIG_2_TILE_4_3_RATIO   WP_CONFIG(CONFIG_2_TILE, PLL_RATIO_4_3)
-+#define WP_CONFIG_0_TILE_PLL_OFF     WP_CONFIG(0, 0)
+@@ -29,7 +29,6 @@
  
  #define PLL_REF_CLK_FREQ	     (50 * 1000000)
  #define PLL_SIMULATION_FREQ	     (10 * 1000000)
-@@ -219,7 +219,8 @@ static int ivpu_pll_drive(struct ivpu_device *vdev, bool enable)
- 		config = 0;
- 	}
+-#define PLL_RATIO_TO_FREQ(x)	     ((x) * PLL_REF_CLK_FREQ)
+ #define PLL_DEFAULT_EPP_VALUE	     0x80
  
--	ivpu_dbg(vdev, PM, "PLL workpoint request: %d Hz\n", PLL_RATIO_TO_FREQ(target_ratio));
-+	ivpu_dbg(vdev, PM, "PLL workpoint request: config 0x%04x pll ratio 0x%x\n",
-+		 config, target_ratio);
+ #define TIM_SAFE_ENABLE		     0xf1d0dead
+@@ -789,6 +788,19 @@ static void ivpu_hw_mtl_wdt_disable(struct ivpu_device *vdev)
+ 	REGV_WR32(MTL_VPU_CPU_SS_TIM_GEN_CONFIG, val);
+ }
  
- 	ret = ivpu_pll_cmd_send(vdev, hw->pll.min_ratio, hw->pll.max_ratio, target_ratio, config);
- 	if (ret) {
-@@ -610,34 +611,10 @@ static int ivpu_boot_d0i3_drive(struct ivpu_device *vdev, bool enable)
- static int ivpu_hw_mtl_info_init(struct ivpu_device *vdev)
- {
- 	struct ivpu_hw_info *hw = vdev->hw;
--	u32 tile_fuse;
--
--	tile_fuse = REGB_RD32(MTL_BUTTRESS_TILE_FUSE);
--	if (!REG_TEST_FLD(MTL_BUTTRESS_TILE_FUSE, VALID, tile_fuse))
--		ivpu_warn(vdev, "Tile Fuse: Invalid (0x%x)\n", tile_fuse);
--
--	hw->tile_fuse = REG_GET_FLD(MTL_BUTTRESS_TILE_FUSE, SKU, tile_fuse);
--	switch (hw->tile_fuse) {
--	case TILE_FUSE_ENABLE_LOWER:
--		hw->sku = TILE_SKU_LOWER_MTL;
--		hw->config = WP_CONFIG_1_TILE_5_3_RATIO;
--		ivpu_dbg(vdev, MISC, "Tile Fuse: Enable Lower\n");
--		break;
--	case TILE_FUSE_ENABLE_UPPER:
--		hw->sku = TILE_SKU_UPPER_MTL;
--		hw->config = WP_CONFIG_1_TILE_4_3_RATIO;
--		ivpu_dbg(vdev, MISC, "Tile Fuse: Enable Upper\n");
--		break;
--	case TILE_FUSE_ENABLE_BOTH:
--		hw->sku = TILE_SKU_BOTH_MTL;
--		hw->config = WP_CONFIG_2_TILE_5_3_RATIO;
--		ivpu_dbg(vdev, MISC, "Tile Fuse: Enable Both\n");
--		break;
--	default:
--		hw->config = WP_CONFIG_0_TILE_PLL_OFF;
--		ivpu_dbg(vdev, MISC, "Tile Fuse: Disable\n");
--		break;
--	}
++static u32 ivpu_hw_mtl_pll_to_freq(u32 ratio, u32 config)
++{
++	u32 pll_clock = PLL_REF_CLK_FREQ * ratio;
++	u32 cpu_clock;
 +
-+	hw->tile_fuse = TILE_FUSE_ENABLE_BOTH;
-+	hw->sku = TILE_SKU_BOTH_MTL;
-+	hw->config = WP_CONFIG_2_TILE_4_3_RATIO;
++	if ((config & 0xff) == PLL_RATIO_4_3)
++		cpu_clock = pll_clock * 2 / 4;
++	else
++		cpu_clock = pll_clock * 2 / 5;
++
++	return cpu_clock;
++}
++
+ /* Register indirect accesses */
+ static u32 ivpu_hw_mtl_reg_pll_freq_get(struct ivpu_device *vdev)
+ {
+@@ -800,7 +812,7 @@ static u32 ivpu_hw_mtl_reg_pll_freq_get(struct ivpu_device *vdev)
+ 	if (!ivpu_is_silicon(vdev))
+ 		return PLL_SIMULATION_FREQ;
  
- 	ivpu_pll_init_frequency_ratios(vdev);
+-	return PLL_RATIO_TO_FREQ(pll_curr_ratio);
++	return ivpu_hw_mtl_pll_to_freq(pll_curr_ratio, vdev->hw->config);
+ }
  
+ static u32 ivpu_hw_mtl_reg_telemetry_offset_get(struct ivpu_device *vdev)
 -- 
 2.25.1
 
