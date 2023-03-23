@@ -2,64 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1216C794D
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC166C794F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:03:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FEC10EB87;
-	Fri, 24 Mar 2023 08:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A032210EB96;
+	Fri, 24 Mar 2023 08:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDD0A10E41F
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 22:44:21 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id ek18so79245923edb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Mar 2023 15:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679525060;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Juel12PVHtU3HuwtArEzNxxW0RuVUpCwPZ6Q+krZkfA=;
- b=M1c/x/hp+69r12vS03I+OVtA0UCHB88fDw7N3WNvG7nwGEwG6BAk3Pg0vK+caAHNff
- wsinMMzbe4H2CLiCe4/XZje22P2TzWJnw23OG62mtRywdjK9NxWkGJus5ptnbTmskDJC
- M1is0NsKFvC+AvLbh1MQVmii9nkPd93+fqwcY+rFz09yvxZ84kwLAswoxM+U64zllzMp
- hGwBqBZdZZX4FoiB/exVGmAdsUSzQKasZzbmybcHhAwucxxov/W/PVchfpVdnzVbdJjp
- LxFqSrDBN5pS4cs/bWYLL9OIeQ0VUn/CdsGDGuJsBtxIoj3UxPYgWN5lKCwTvDPaTO+V
- rnZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679525060;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Juel12PVHtU3HuwtArEzNxxW0RuVUpCwPZ6Q+krZkfA=;
- b=MlvlOnXBKjbmg4BPwhCS8IjSgK0M7CGnqf2SO21TsRnlgCJaNd901IeI+CsgefTpJ4
- aGFF9HwWtyKe8rGs7DvGOzzt+N39nuvgBPOD01boDc9BqJX05J7WIgPaNN6I7QuRfVql
- eM2xN+srs8FnAYGbEqmDBMI85PShr/D0ys2jT8cQRXOGs9GhbzudoagH6j59S9W69NmW
- iS42GIlkmbkSNRU84/c1bDUGHvKDdReAQjLTyFKseH0PP0wRsjj42KNf3CmorHra4n74
- 5kW+taqyvsDcS+3ZIvIWZmOgtcs90nx3J3daQD/3o3lC2UsjTmQaOpm04/aFOMUiyvCw
- tgIw==
-X-Gm-Message-State: AO0yUKXBLl1qOkaSnZ8/7gGw22UXceLxkSu+E5aouXy2Hpbau7IuWzgm
- yozyLxBHwNb6iaPG9p3AmDx1QkPP7A==
-X-Google-Smtp-Source: AK7set96Y+daRJbuXOqrMYaZe7obnxN1wTz3Pm8TFTl15NLODhJ48yFsYnZFYavbIURM9/p33mOSag==
-X-Received: by 2002:a17:906:3591:b0:931:d36f:8965 with SMTP id
- o17-20020a170906359100b00931d36f8965mr8133147ejb.13.1679525060236; 
- Wed, 22 Mar 2023 15:44:20 -0700 (PDT)
-Received: from calypso-fedora.. ([213.237.86.44])
- by smtp.gmail.com with ESMTPSA id
- lj24-20020a170906f9d800b00932ba722482sm6941427ejb.149.2023.03.22.15.44.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 15:44:20 -0700 (PDT)
-From: Alfredo Cruz <alfredo.carlon@gmail.com>
-To: hjc@rock-chips.com,
-	heiko@sntech.de,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH V2] drm/rockchip: vop2: Add error check to
- devm_regmap_init_mmio
-Date: Wed, 22 Mar 2023 23:44:11 +0100
-Message-Id: <20230322224411.15612-1-alfredo.carlon@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4825410E43D;
+ Thu, 23 Mar 2023 08:50:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ubX+nnzIxzDny+5k+G0pJbfcXie/ybrhPkiV40AdBmw=; b=c+i7uj8z3jWy25uAUAR45qnaaT
+ pF3tyH/ZjP0wTJjtmbOrXnGcW4sql3YaYj6MZSogbloXIZVITUnYxaEhkdkdZGfF44hUx6SPaE9a0
+ xBQfiNtm13EsVbjmnrxvpKZ+GhK4HcE6JamresuAMIAPDpsNnMQfN/c2qbLJncaZW+HRMBbuEnUQn
+ WlMCQ33hqkQvD8SOdim8Co2aWJXy8H4SUHJsokyAPRKKsuO/m5UFp9AoLoRdsC3NEs7XRMY+IVarW
+ NHQUKY0C6P2v9a3OIKypXSqH242vPOXOEd29Ql/vyVbl5+O5iKbzPF1BxoBOL+V7KjlBNHfCp9yYW
+ FqQ8q7Xg==;
+Received: from 137.red-83-52-2.dynamicip.rima-tde.net ([83.52.2.137]
+ helo=localhost.localdomain) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1pfGe1-003vRg-Vl; Thu, 23 Mar 2023 09:50:02 +0100
+Message-ID: <b32a52db030cc746ee082fa89078898a7d88ad28.camel@igalia.com>
+Subject: 2023 X.Org Board of Directors Elections timeline extended, request
+ for nominations
+From: Ricardo Garcia <rgarcia@igalia.com>
+To: members@x.org, events@lists.x.org, xorg-devel@lists.freedesktop.org, 
+ wayland-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ mesa-dev@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ libre-soc-dev <libre-soc-dev@lists.libre-soc.org>
+Date: Thu, 23 Mar 2023 09:50:01 +0100
+In-Reply-To: <19f8b5328550abde46a316189c8cd746339819b0.camel@igalia.com>
+References: <c1c2591a7f7c9bcb05b69b08da529ddb8fc8145c.camel@igalia.com>
+ <19f8b5328550abde46a316189c8cd746339819b0.camel@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 24 Mar 2023 08:03:32 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,33 +60,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alfredo Cruz <alfredo.carlon@gmail.com>
+Cc: board <board@foundation.x.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_regmap_init_mmio() may return an invalid pointer in case of an error.
-This patch adds the corresponding IS_ERR check to vop2->map.
+We are seeking nominations for candidates for election to the X.org
+Foundation Board of Directors. However, as we presently do not have
+enough nominations to start the election - the decision has been made to
+extend the timeline by 2 weeks. Note this is a fairly regular part of
+the elections process.
 
-Signed-off-by: Alfredo Cruz <alfredo.carlon@gmail.com>
----
-V1 -> V2: Added description and Signed-off
+The new deadline for nominations to the X.org Board of Directors is
+23:59 UTC on April 2nd, 2023.
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 ++
- 1 file changed, 2 insertions(+)
+The new deadline for membership application or renewals is April 9th,
+2023. Membership is required to vote on the elections.
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 03ca32cd2050..4bde2d354462 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2680,6 +2680,8 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
- 	vop2->len = resource_size(res);
- 
- 	vop2->map = devm_regmap_init_mmio(dev, vop2->regs, &vop2_regmap_config);
-+	if (IS_ERR(vop2->map))
-+		return PTR_ERR(vop2->map);
- 
- 	ret = vop2_win_init(vop2);
- 	if (ret)
--- 
-2.39.2
+The Board consists of directors elected from the membership. Each year,
+an election is held to bring the total number of directors to eight. The
+four members receiving the highest vote totals will serve as directors
+for two year terms.
+
+The directors who received two year terms starting in 2022 were Emma
+Anholt, Mark Filion, Alyssa Rosenzweig and Ricardo Garcia. They will
+continue to serve until their term ends in 2024. Current directors whose
+term expires in 2023 are Samuel Iglesias Gons=C3=A1lvez, Manasi D Navare,
+Lyude Paul and Daniel Vetter.
+
+A director is expected to participate in the fortnightly IRC meeting to
+discuss current business and to attend the annual meeting of the X.Org
+Foundation, which will be held at a location determined in advance by
+the Board of Directors.
+
+A member may nominate themselves or any other member they feel is
+qualified. Nominations should be sent to the Election Committee at
+elections@x.org.
+
+Nominees shall be required to be current members of the X.Org
+Foundation, and submit a personal statement of up to 200 words that will
+be provided to prospective voters. The collected statements, along with
+the statement of contribution to the X.Org Foundation in the member's
+account page on http://members.x.org, will be made available to all
+voters to help them make their voting decisions.
+
+Nominations, membership applications or renewals and completed personal
+statements must be received no later than 23:59 UTC on April 2nd, 2023.
+
+The slate of candidates will be published April 10th 2023 and candidate
+Q&A will begin then. The deadline for Xorg membership applications and
+renewals is April 9th, 2023.
+
+Cheers,
+Ricardo Garcia, on behalf of the X.Org BoD
 
