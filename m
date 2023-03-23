@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB186C64D4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBA46C64DE
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 11:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F28010EA74;
-	Thu, 23 Mar 2023 10:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3280A10EA6B;
+	Thu, 23 Mar 2023 10:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4941810EA6A
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:32 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id m2so19870841wrh.6
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:32 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5702B10EA66
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 10:25:33 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id l27so11546057wrb.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 03:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679567130;
+ d=linaro.org; s=google; t=1679567132;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NXsWO/AvbcGFTuUSdH/Ht1at3O5Z+IWMIafYvf7D2hY=;
- b=A9nrFruVwvfmdqAa9k/GzLJISL5s8P9n/DnONHFbHsC4BZcSiPBiEWZW4SndgxqNqH
- AFDBsjSdFfjmF8X+3YJVe1NhRW4klv0GCccjBnuHu6WS6mBFEV7K/Fq3xwfR2//IN2o6
- mjbX6TWGFtGMZazqhza4iYRg+bjhcYb2RjvobGnTYZRMRZpu2N3n3BEDCMbmppRoU+vR
- Egm2SgKlW78u920qdCFa7U5TfJ3M8KvW/ey5y+fVHJAnz0K+7x6xxXwRMCZMSJMmIudB
- 9WIBg/dGHgJK3KfociRtxSLXRXLa3gfSBgqSTAIIjmMiNbNFBuIZnrp9L3RLEeIZQybc
- unFA==
+ :reply-to; bh=la//61tmt1JcHM3ugdeN6VnhDtVEZYhOaulQ5DfrvTk=;
+ b=S2plp2biPGbwxEiLWBmwLJwun7H46QDGsXGyrABWfNZDdJqJh2PBS9voTj3QSeOUh1
+ 99qv2UbnDsZDzXJoIi3Y5+uzdePQTnw9tRFUmz1d5jUJ5nQkjPojZ1mzrEt3ZPs0Bj5W
+ sW/yzmYBz3xuR0ejrvsfxWKx7sHxGHnRCxXb62Qq+AX03L2q1sRPSNCrUF9eYAMdea8z
+ /QdKTwqDEAwXxUtwONLXbjwlFiFGL1e09KILItMUY3q7lSet92LZ96YQZq4YpHhRPxG/
+ cehXuvJTmhmnLF/DLCGs8Qd0WUWsclH+WvciD7ootrnnzur54KUypGkVhvyjSRiz6Lj6
+ HzNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679567130;
+ d=1e100.net; s=20210112; t=1679567132;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NXsWO/AvbcGFTuUSdH/Ht1at3O5Z+IWMIafYvf7D2hY=;
- b=0EryT6iohBlMLsgiwT2uHKq8SBXO8FyxNbmvg3nmUlO8/gH0cCJtN8cYG6KZNbVIUO
- zAipgFEJ2R9zHJ7bKmBdpLBtal19dkKjHKzAQtA2c17VZfqimY5j6u/gi9ZgqhieTHtw
- 2QY1XLlS2WpWO5OyIAZCrG9FIFCpo9WwnrbUNz1N9Mh5UDoKrXpBm+q5ABirHGgrjifw
- y5Tmx5WH3Qaj+MheDhb+ZO132D7WgT6hCMA+pcp8CXUwPmqz8UxzVNITEB0XNUoGpd3a
- dORDEgjwZ+sUyhyEft3evW+Lyx4i1EFOFJWs1o2j4BvHgmrpb3ueWVpcQlgypxX/9+aj
- ugbA==
-X-Gm-Message-State: AAQBX9fme7Wnlc5CvJxreAfYxYaR+Pxscsx4MKaUIY+q4z3wgZaver2c
- g8lGeNrRMSZNrqMibwmzF1VCBA==
-X-Google-Smtp-Source: AKy350Z33LMigoWNcasOJWMOplYwZYW6nEi7NOOO6EGbUFZGcXiy7Ec1b7YTrrUOUFvjfEWS/EaUfA==
-X-Received: by 2002:adf:decb:0:b0:2d1:9ce9:2b8f with SMTP id
- i11-20020adfdecb000000b002d19ce92b8fmr2257319wrn.66.1679567130680; 
- Thu, 23 Mar 2023 03:25:30 -0700 (PDT)
+ bh=la//61tmt1JcHM3ugdeN6VnhDtVEZYhOaulQ5DfrvTk=;
+ b=2UBxHjDtmhizzeokl/3G5SbeJJNxtSTCm7PWfkQ7pM5o8vBl0WYE1uC7HCwGZbbywr
+ V/F2z+ey26n6qaf0LqLnogdXDzdLsbzQS/EadraXuKB/fJPpWasI22xYB/+8icJ2i7y5
+ v4qpeHY53CzoWv4zBh1T/sPtJvdHPHPByfdsqqff3SfRdU1LmkPSOEogr8Xe/pblwuzT
+ 0NfR6SSXqP2mTFzNO+5I7tD8gmDL36f3Yzp4z2QnlLNOvTkIXUGwBO3xmDXlYGQs1SkQ
+ 3HjujhYZpciRSmHwq2WGPJSEDVshHG2Q3J3ikfq1UHwMffVR06v3pfX2QaTgngiII6dT
+ HRDw==
+X-Gm-Message-State: AAQBX9cOoYAO3hk3gvIg0CPo2JXSH2iMdzbpA4qzMnJv7lHABOzM8P5e
+ 4J5EoOj9eMtDFeq9xA4BnHwbyw==
+X-Google-Smtp-Source: AKy350b44afSbkJF5DaYq1NUD5d4106/qJV/mKTzn9m9WMT0RNlmV8eElddHIPWpkEOECHczSuNPjg==
+X-Received: by 2002:adf:f14e:0:b0:2cf:e77e:2eef with SMTP id
+ y14-20020adff14e000000b002cfe77e2eefmr2254862wro.8.1679567131835; 
+ Thu, 23 Mar 2023 03:25:31 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.29
+ e23-20020a5d5957000000b002cfefa50a8esm15753530wri.98.2023.03.23.03.25.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 03:25:30 -0700 (PDT)
+ Thu, 23 Mar 2023 03:25:31 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 23 Mar 2023 11:25:19 +0100
-Subject: [PATCH 4/8] arm64: dts: qcom: sm8450: remove invalid properties in
- cluster-sleep nodes
+Date: Thu, 23 Mar 2023 11:25:20 +0100
+Subject: [PATCH 5/8] arm64: dts: qcom: sm8450: remove invalid
+ power-domain-names in pcie nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-4-3ead1e418fe4@linaro.org>
+Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-5-3ead1e418fe4@linaro.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -91,43 +91,33 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following DT bindings check error:
-domain-idle-states: cluster-sleep-0: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
-'pinctrl-[0-9]+'
-domain-idle-states: cluster-sleep-1: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
-'pinctrl-[0-9]+'
+pci@1c00000: Unevaluated properties are not allowed ('power-domain-names' were unexpected)
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm8450.dtsi | 4 ----
- 1 file changed, 4 deletions(-)
+ arch/arm64/boot/dts/qcom/sm8450.dtsi | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-index 78fb65bd15cc..ff55fcfdd676 100644
+index ff55fcfdd676..bcb51e612261 100644
 --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
 +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
-@@ -255,22 +255,18 @@ BIG_CPU_SLEEP_0: cpu-sleep-1-0 {
- 		domain-idle-states {
- 			CLUSTER_SLEEP_0: cluster-sleep-0 {
- 				compatible = "domain-idle-state";
--				idle-state-name = "cluster-l3-off";
- 				arm,psci-suspend-param = <0x41000044>;
- 				entry-latency-us = <1050>;
- 				exit-latency-us = <2500>;
- 				min-residency-us = <5309>;
--				local-timer-stop;
- 			};
+@@ -1792,7 +1792,6 @@ pcie0: pci@1c00000 {
+ 			reset-names = "pci";
  
- 			CLUSTER_SLEEP_1: cluster-sleep-1 {
- 				compatible = "domain-idle-state";
--				idle-state-name = "cluster-power-collapse";
- 				arm,psci-suspend-param = <0x4100c344>;
- 				entry-latency-us = <2700>;
- 				exit-latency-us = <3500>;
- 				min-residency-us = <13959>;
--				local-timer-stop;
- 			};
- 		};
- 	};
+ 			power-domains = <&gcc PCIE_0_GDSC>;
+-			power-domain-names = "gdsc";
+ 
+ 			phys = <&pcie0_lane>;
+ 			phy-names = "pciephy";
+@@ -1905,7 +1904,6 @@ pcie1: pci@1c08000 {
+ 			reset-names = "pci";
+ 
+ 			power-domains = <&gcc PCIE_1_GDSC>;
+-			power-domain-names = "gdsc";
+ 
+ 			phys = <&pcie1_lane>;
+ 			phy-names = "pciephy";
 
 -- 
 2.34.1
