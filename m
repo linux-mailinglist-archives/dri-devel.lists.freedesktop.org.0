@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039C76C66B6
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 12:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90FA6C66B7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 12:35:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5F410E46E;
-	Thu, 23 Mar 2023 11:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6F810EA6E;
+	Thu, 23 Mar 2023 11:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10E4410E46E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 11:35:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6ED10E46E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 11:35:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 69C5C62609;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E13A062606;
+ Thu, 23 Mar 2023 11:35:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6852FC4339B;
  Thu, 23 Mar 2023 11:35:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E384FC433EF;
- Thu, 23 Mar 2023 11:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679571333;
- bh=26GGfpqebp+jBczWyB97hblNZUF38ckgczf+y3PXm+s=;
+ s=k20201202; t=1679571335;
+ bh=WcoQqs1nDbhSzgIdgSJjl18bpwV96ePf17ORSFkoyLs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=en+5pSIig5Sjv95Z0FiaEOJKyeQxWuhkh9EDa92KXPshdTXR1Z5CpOyTH/+fquNx5
- 4BIv5s/W3uV93XZ2/LVMrR2McVHjF20AkrDgaBviBaPk6oojkNfkJ6YupEMnSASNWd
- DAQaM+aZaSGLAhEVX000s2W2C4GW7X5pYMBMsIuIwRJiq6UkMZx2TWdWNXNLsDg92B
- wdUfHQAMqrKloSKm6hEYTj3ifjLmaOKiFBOMr3p+duKAoAG8460oer3OsA/JnwDTJo
- xw85Uy2gfFP+TtD/25N73l+eYN+81UhO+QXLNUrmxvX9duDbzeCH4W1Ut68wbgkMWm
- 5sxqmuOFD10PA==
+ b=NVlZLNNqqiymnGvf2krtB6MChFikZ3WjbK2XV6rSpzgqGysB901uoi3DbWkXZXnGJ
+ rQqMqkC73ChTCHhFGv0yIlIpVIqfLnD9GavJ1J5di1hQ3DEa7EWdAVnh4cKK14G/mZ
+ DPmW6jD+wbH9ESg3haCdydXQxluTkvxMcFqWRCcdqL18nx0o/Bbrh5ZGkk1JUyCg8u
+ hSzGcCOutH2qA4W5prkGmaEa0sggkfhnIIrcl8z5BJgm8ep1gh5F5KCCyKL3GG+JZZ
+ xJtbFLppRwH8uM7g1TxO1qJPYbR53pndIlPdVKUs8ONOw1DPJaDCGKaf3+g1COXdOP
+ Mgc4UhBXV73VA==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/6] accel/habanalabs: print event type when device is disabled
-Date: Thu, 23 Mar 2023 13:35:21 +0200
-Message-Id: <20230323113525.959176-2-ogabbay@kernel.org>
+Subject: [PATCH 3/6] accel/habanalabs: check return value of
+ add_va_block_locked
+Date: Thu, 23 Mar 2023 13:35:22 +0200
+Message-Id: <20230323113525.959176-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230323113525.959176-1-ogabbay@kernel.org>
 References: <20230323113525.959176-1-ogabbay@kernel.org>
@@ -52,51 +52,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tal Cohen <talcohen@habana.ai>
+Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tal Cohen <talcohen@habana.ai>
+From: Dafna Hirschfeld <dhirschfeld@habana.ai>
 
-When the device is in disabled state, the driver isn't suppose to
-receive any events from FW. Printing the event type, as part of the
-message that was already printed, shall help to get more info if this
-unexpected message is received.
+since the function might fail and we should propagate the failure.
 
-Signed-off-by: Tal Cohen <talcohen@habana.ai>
+Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/irq.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/accel/habanalabs/common/memory.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
-index fab1abc5c910..0d59bb7c9063 100644
---- a/drivers/accel/habanalabs/common/irq.c
-+++ b/drivers/accel/habanalabs/common/irq.c
-@@ -415,8 +415,8 @@ irqreturn_t hl_irq_handler_eq(int irq, void *arg)
- 	struct hl_eq_entry *eq_base;
- 	struct hl_eqe_work *handle_eqe_work;
- 	bool entry_ready;
--	u32 cur_eqe;
--	u16 cur_eqe_index;
-+	u32 cur_eqe, ctl;
-+	u16 cur_eqe_index, event_type;
+diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
+index 17b79d717896..a7b6a273ce21 100644
+--- a/drivers/accel/habanalabs/common/memory.c
++++ b/drivers/accel/habanalabs/common/memory.c
+@@ -605,6 +605,7 @@ static u64 get_va_block(struct hl_device *hdev,
+ 	bool is_align_pow_2  = is_power_of_2(va_range->page_size);
+ 	bool is_hint_dram_addr = hl_is_dram_va(hdev, hint_addr);
+ 	bool force_hint = flags & HL_MEM_FORCE_HINT;
++	int rc;
  
- 	eq_base = eq->kernel_address;
+ 	if (is_align_pow_2)
+ 		align_mask = ~((u64)va_block_align - 1);
+@@ -722,9 +723,13 @@ static u64 get_va_block(struct hl_device *hdev,
+ 		kfree(new_va_block);
+ 	}
  
-@@ -449,7 +449,10 @@ irqreturn_t hl_irq_handler_eq(int irq, void *arg)
- 		dma_rmb();
+-	if (add_prev)
+-		add_va_block_locked(hdev, &va_range->list, prev_start,
+-				prev_end);
++	if (add_prev) {
++		rc = add_va_block_locked(hdev, &va_range->list, prev_start, prev_end);
++		if (rc) {
++			reserved_valid_start = 0;
++			goto out;
++		}
++	}
  
- 		if (hdev->disabled && !hdev->reset_info.in_compute_reset) {
--			dev_warn(hdev->dev, "Device disabled but received an EQ event\n");
-+			ctl = le32_to_cpu(eq_entry->hdr.ctl);
-+			event_type = ((ctl & EQ_CTL_EVENT_TYPE_MASK) >> EQ_CTL_EVENT_TYPE_SHIFT);
-+			dev_warn(hdev->dev,
-+				"Device disabled but received an EQ event (%u)\n", event_type);
- 			goto skip_irq;
- 		}
- 
+ 	print_va_list_locked(hdev, &va_range->list);
+ out:
 -- 
 2.40.0
 
