@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8D96C723A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 22:18:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6196C7259
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 22:30:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8268210E00B;
-	Thu, 23 Mar 2023 21:18:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C5110EB29;
+	Thu, 23 Mar 2023 21:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F7110E00B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 21:18:33 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id bf30so10681965oib.12
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 14:18:33 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1964810EB29
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 21:30:38 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id w133so17290720oib.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 14:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679606312;
+ d=gmail.com; s=20210112; t=1679607037;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=v4xYkg94aW7mOvwdHMLFD/HOVWTkOTnTBr9DxtYM8pU=;
- b=OT/g8x3kC1h4WbiTNhFkqLk9Umy7HUK3Qmxi8mw4kgrv9WAxJy2ueS3sq/iOUNfiyP
- G6g1ds3z7BQyXVtaYJVpuDPqNTctXWVefar+Jm1V/Qse0VZNETE+hw9oOsjbu+AwGJeC
- wHlJ9E2u2U2HHZ0c3SmHlwHWMEQlVA1VkrYUszf0Rm8WkETNRY0KM7O/K8Ex5mSR3MDn
- b7JeAowXBkumDsR02SV3/IL+aJO7lvfxdR8xnaovAkJlND2/ioHRP65hGSA6aWb+fBgM
- heYeaDfCKVKD7x/o7gbt9KzEHYfBy55Vsgl2tWnZgQXVMLlCIsrSLIjRsW5xzFTOBMO6
- 1JLw==
+ bh=yYGawMaA5C9I8og6thwq+8ahieODy/UxjYv744M7Lsg=;
+ b=fqEBzCibuTy1u7D82n6S4fav5cTjcJ23V97Sk6kFjjSMEVXnUf5FzEMIjlJZggk0tb
+ RUwB+C5pPWNspWTo+0FYKKq7TW91va8rQg68/I7BAYIFYYMykqTwvCnlrIr5OuE2FTjR
+ 2igatK31JrJmNKovUnU/wWOvYZhd17XGr3eZjJqJbluQZbKTMyKFxP20Rz4+7xoUdcc6
+ h/Szlzh2glnSZd92WkIo70de/07202kqssrfn962mYLsqCwl6nGkd7G655dK453BHzsL
+ bIZqE+slN7eO7/aOoaox5IyQUbCNffxCZdp67VKA2+59HcTKk6uL4P7mN+kAKJ++qqqC
+ t4uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679606312;
+ d=1e100.net; s=20210112; t=1679607037;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v4xYkg94aW7mOvwdHMLFD/HOVWTkOTnTBr9DxtYM8pU=;
- b=I+3uMARJ7cP19rN8dMPNauFfEzTkZGXK1znxI1L8HZi/MLV02hsIFbfhDDRes/NUe4
- ldtb0sI7xAqXIRCQtxjbKi2aVJktt4o7Uswwle22UhYt7l+P54Et8nmgWCt8hwAwAeFh
- GNyv7OD0Mo7E5OUV7PedsTUm6GsKktIwVRadEQtOOzynzO6/5qyn2LWQ89sSoEvG6rIq
- hmRauGew7ZmISTxT1NDOP0r8yheUFq6LiW/xoLfj5MzQfulktXBfd83X2ygKFeOieta3
- M7G6VlmNAX3my/vTunTvakEQSMDN/hsZyEZIW92SDj5it4LbpVof4zzHTb/LMM7eLFpi
- gXgA==
-X-Gm-Message-State: AO0yUKWpnadJ3yAoJqKjd8NSbR+IKg0oq5CSaDvWjdZ++EDjc7lEmL+g
- Yu0oPFqHiATstQk099kLZgtt4LCgIgBqvhAjokU=
-X-Google-Smtp-Source: AK7set8jY446IH6p6mHp1ba5OkPGyg2Zcs2qhKucO8I30/S+qexfrKxW6Y/Vnvc+vn2stcIhs0KKPJp7G1z6NNAg/OI=
-X-Received: by 2002:a05:6808:659:b0:378:30dc:ae5b with SMTP id
- z25-20020a056808065900b0037830dcae5bmr28539oih.5.1679606312499; Thu, 23 Mar
- 2023 14:18:32 -0700 (PDT)
+ bh=yYGawMaA5C9I8og6thwq+8ahieODy/UxjYv744M7Lsg=;
+ b=hBPWH6TJO7HV5VnRMW049UxkY7qUMIPv1mfATQ+WK8bArNA605/ppUokwZdyKknShf
+ hL2mMqAc0RIzAdv11xlwUbGf3uHR92ar/6M3VETt2xb4NCugx1WhRDPZGqJcJiysxHOB
+ Iia/0T9/V/mgu/Brjv6A5KHYhTGOqXmnmRdznNHkTsyUbi//2IookmVQtrF4lUr5pCcG
+ 9Cc6IbbjVoXqjMkb9HS+kRR0BqRnkfRD0l99qSWBtBw3LNzl2uOQaD7rBn8TeMl9Jplg
+ B04+5rOmeafDwApi6J1kgd3kQjVoHaa8PXmeaqr+h2oSze92ZmQ606/U3YNmHuEQTMBx
+ mEqQ==
+X-Gm-Message-State: AO0yUKVPO+HTIdnTqJxsjhwb5vvgWwxowLD6tnII+I8h4gCQBI1Jy022
+ /D3YNMBC+oytO3zLCviaggutfTvDwNbFNMMna9s=
+X-Google-Smtp-Source: AK7set+lQIOQZa6G3yJgfeNWvhx4ZPw9QfSfPP4xMRabuyGwu/M0+lIKerUid2CsL2yKUuudaarY5sPyNjfYKO1ILwk=
+X-Received: by 2002:a54:4716:0:b0:384:1e6a:bf10 with SMTP id
+ k22-20020a544716000000b003841e6abf10mr36512oik.5.1679607035826; Thu, 23 Mar
+ 2023 14:30:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230323190340.950875-1-dmitry.osipenko@collabora.com>
- <20230323190340.950875-3-dmitry.osipenko@collabora.com>
-In-Reply-To: <20230323190340.950875-3-dmitry.osipenko@collabora.com>
+References: <20230322224403.35742-1-robdclark@gmail.com>
+ <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
+ <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
+ <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
+In-Reply-To: <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
 From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 23 Mar 2023 14:18:21 -0700
-Message-ID: <CAF6AEGs28wzuXc3w+qYvcUH+dT271w=dtxmzKfR6zgHqXqjMzQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/virtio: Support sync objects
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Date: Thu, 23 Mar 2023 14:30:24 -0700
+Message-ID: <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
+Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,388 +70,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 23, 2023 at 12:05=E2=80=AFPM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
+On Thu, Mar 23, 2023 at 7:03=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> Add sync object DRM UAPI support to VirtIO-GPU driver. It's required
-> for enabling a full-featured Vulkan fencing by Venus and native context
-> VirtIO-GPU Mesa drivers.
+> Am 23.03.23 um 14:54 schrieb Rob Clark:
+> > On Thu, Mar 23, 2023 at 12:35=E2=80=AFAM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Am 22.03.23 um 23:44 schrieb Rob Clark:
+> >>> From: Rob Clark <robdclark@chromium.org>
+> >>>
+> >>> Container fences have burner contexts, which makes the trick to store=
+ at
+> >>> most one fence per context somewhat useless if we don't unwrap array =
+or
+> >>> chain fences.
+> >> Mhm, we intentionally kept them not unwrapped since this way they only
+> >> occupy one fence slot.
+> >>
+> >> But it might be better to unwrap them if you add many of those depende=
+ncies.
+> >>
+> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>> ---
+> >>> tbh, I'm not sure why we weren't doing this already, unless there is
+> >>> something I'm overlooking
+> >>>
+> >>>    drivers/gpu/drm/scheduler/sched_main.c | 43 +++++++++++++++++-----=
+----
+> >>>    1 file changed, 28 insertions(+), 15 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm=
+/scheduler/sched_main.c
+> >>> index c2ee44d6224b..f59e5335afbb 100644
+> >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> >>> @@ -41,20 +41,21 @@
+> >>>     * 4. Entities themselves maintain a queue of jobs that will be sc=
+heduled on
+> >>>     *    the hardware.
+> >>>     *
+> >>>     * The jobs in a entity are always scheduled in the order that the=
+y were pushed.
+> >>>     */
+> >>>
+> >>>    #include <linux/kthread.h>
+> >>>    #include <linux/wait.h>
+> >>>    #include <linux/sched.h>
+> >>>    #include <linux/completion.h>
+> >>> +#include <linux/dma-fence-unwrap.h>
+> >>>    #include <linux/dma-resv.h>
+> >>>    #include <uapi/linux/sched/types.h>
+> >>>
+> >>>    #include <drm/drm_print.h>
+> >>>    #include <drm/drm_gem.h>
+> >>>    #include <drm/gpu_scheduler.h>
+> >>>    #include <drm/spsc_queue.h>
+> >>>
+> >>>    #define CREATE_TRACE_POINTS
+> >>>    #include "gpu_scheduler_trace.h"
+> >>> @@ -665,41 +666,27 @@ void drm_sched_job_arm(struct drm_sched_job *jo=
+b)
+> >>>        sched =3D entity->rq->sched;
+> >>>
+> >>>        job->sched =3D sched;
+> >>>        job->s_priority =3D entity->rq - sched->sched_rq;
+> >>>        job->id =3D atomic64_inc_return(&sched->job_id_count);
+> >>>
+> >>>        drm_sched_fence_init(job->s_fence, job->entity);
+> >>>    }
+> >>>    EXPORT_SYMBOL(drm_sched_job_arm);
+> >>>
+> >>> -/**
+> >>> - * drm_sched_job_add_dependency - adds the fence as a job dependency
+> >>> - * @job: scheduler job to add the dependencies to
+> >>> - * @fence: the dma_fence to add to the list of dependencies.
+> >>> - *
+> >>> - * Note that @fence is consumed in both the success and error cases.
+> >>> - *
+> >>> - * Returns:
+> >>> - * 0 on success, or an error on failing to expand the array.
+> >>> - */
+> >>> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> >>> -                              struct dma_fence *fence)
+> >>> +static int _add_dependency(struct drm_sched_job *job, struct dma_fen=
+ce *fence)
+> >> Please keep the drm_sched_job_ prefix here even for static functions.
+> >> The symbol _add_dependency just sucks in a backtrace, especially when
+> >> it's tail optimized.
+> >>
+> >>>    {
+> >>>        struct dma_fence *entry;
+> >>>        unsigned long index;
+> >>>        u32 id =3D 0;
+> >>>        int ret;
+> >>>
+> >>> -     if (!fence)
+> >>> -             return 0;
+> >>> -
+> >>>        /* Deduplicate if we already depend on a fence from the same c=
+ontext.
+> >>>         * This lets the size of the array of deps scale with the numb=
+er of
+> >>>         * engines involved, rather than the number of BOs.
+> >>>         */
+> >>>        xa_for_each(&job->dependencies, index, entry) {
+> >>>                if (entry->context !=3D fence->context)
+> >>>                        continue;
+> >>>
+> >>>                if (dma_fence_is_later(fence, entry)) {
+> >>>                        dma_fence_put(entry);
+> >>> @@ -709,20 +696,46 @@ int drm_sched_job_add_dependency(struct drm_sch=
+ed_job *job,
+> >>>                }
+> >>>                return 0;
+> >>>        }
+> >>>
+> >>>        ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32b,=
+ GFP_KERNEL);
+> >>>        if (ret !=3D 0)
+> >>>                dma_fence_put(fence);
+> >>>
+> >>>        return ret;
+> >>>    }
+> >>> +
+> >>> +/**
+> >>> + * drm_sched_job_add_dependency - adds the fence as a job dependency
+> >>> + * @job: scheduler job to add the dependencies to
+> >>> + * @fence: the dma_fence to add to the list of dependencies.
+> >>> + *
+> >>> + * Note that @fence is consumed in both the success and error cases.
+> >>> + *
+> >>> + * Returns:
+> >>> + * 0 on success, or an error on failing to expand the array.
+> >>> + */
+> >>> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> >>> +                              struct dma_fence *fence)
+> >> Maybe name the new function drm_sched_job_unwrap_add_dependency or
+> >> something like this.
+> >>
+> >> I need to double check, but I think for some cases we don't need or
+> >> don't even want this in the driver.
+> > I'd be curious to know the cases where you don't want this.. one thing
+> > I was thinking about, what if you have a container fence with two
+> > contained fences.  One is on the same ctx as the job, one is not but
+> > signals sooner.  You end up artificially waiting on both, which seems
+> > sub-optimal.
 >
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/gpu/drm/virtio/virtgpu_drv.c    |   3 +-
->  drivers/gpu/drm/virtio/virtgpu_submit.c | 211 ++++++++++++++++++++++++
->  include/uapi/drm/virtgpu_drm.h          |  16 +-
->  3 files changed, 228 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virti=
-o/virtgpu_drv.c
-> index add075681e18..a22155577152 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-> @@ -176,7 +176,8 @@ static const struct drm_driver driver =3D {
->          * If KMS is disabled DRIVER_MODESET and DRIVER_ATOMIC are masked
->          * out via drm_device::driver_features:
->          */
-> -       .driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER =
-| DRIVER_ATOMIC,
-> +       .driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER =
-| DRIVER_ATOMIC |
-> +                          DRIVER_SYNCOBJ | DRIVER_SYNCOBJ_TIMELINE,
->         .open =3D virtio_gpu_driver_open,
->         .postclose =3D virtio_gpu_driver_postclose,
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_submit.c b/drivers/gpu/drm/vi=
-rtio/virtgpu_submit.c
-> index 2ce2459c6bc2..9ea4390948bf 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_submit.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_submit.c
-> @@ -14,11 +14,26 @@
->  #include <linux/uaccess.h>
->
->  #include <drm/drm_file.h>
-> +#include <drm/drm_syncobj.h>
->  #include <drm/virtgpu_drm.h>
->
->  #include "virtgpu_drv.h"
->
-> +struct virtio_gpu_submit_post_dep {
-> +       struct drm_syncobj *syncobj;
-> +       struct dma_fence_chain *chain;
-> +       uint64_t point;
-> +};
-> +
->  struct virtio_gpu_submit {
-> +       struct virtio_gpu_submit_post_dep *post_deps;
-> +       unsigned int num_out_syncobjs;
-> +
-> +       struct drm_syncobj **in_syncobjs;
-> +       unsigned int num_in_syncobjs;
-> +       uint64_t *in_fence_ids;
-> +       unsigned int num_in_fence_ids;
-> +
->         struct virtio_gpu_object_array *buflist;
->         struct drm_virtgpu_execbuffer *exbuf;
->         struct virtio_gpu_fence *out_fence;
-> @@ -58,6 +73,186 @@ static int virtio_gpu_dma_fence_wait(struct virtio_gp=
-u_submit *submit,
->         return 0;
->  }
->
-> +static void virtio_gpu_free_syncobjs(struct drm_syncobj **syncobjs,
-> +                                    uint32_t nr_syncobjs)
-> +{
-> +       uint32_t i =3D nr_syncobjs;
-> +
-> +       while (syncobjs && i--) {
+> Well resv objects don't contain other containers for example.
 
-Checking syncobjs!=3DNULL here does at least look a bit funny, as the
-condition doesn't change in the loop body.  It is not incorrect, it
-protects you against the cleanup path where submit->in_syncobjs is
-NULL.  But if (!syncobjs)\nreturn seems a bit more clear
+I suppose I have the explicit sync case more in mind, where the
+dependent fence ends up being a chain or array (if userspace is
+merging fence fd's).
 
+> Then we also have an use case in amdgpu where fence need to be
+> explicitly waited for even when they are from the same ctx as the job
+> because otherwise we wouldn't see everything cache coherent.
 
-> +               if (syncobjs[i])
-> +                       drm_syncobj_put(syncobjs[i]);
-> +       }
-> +
-> +       kfree(syncobjs);
-> +}
-> +
-> +static int
-> +virtio_gpu_parse_deps(struct virtio_gpu_submit *submit)
-> +{
-> +       struct drm_virtgpu_execbuffer *exbuf =3D submit->exbuf;
-> +       struct drm_virtgpu_execbuffer_syncobj syncobj_desc;
-> +       size_t syncobj_stride =3D exbuf->syncobj_stride;
-> +       struct drm_syncobj **syncobjs;
-> +       int ret =3D 0, i;
-> +
-> +       if (!submit->num_in_syncobjs)
-> +               return 0;
-> +
-> +       syncobjs =3D kcalloc(submit->num_in_syncobjs, sizeof(*syncobjs),
-> +                          GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+This was the kinda weird case I wanted to make sure I wasn't breaking.
+I remember seeing something fly by for this, but can't find it now or
+remember what amdgpu's solution was..
 
-I *think*, assuming I'm reading where this is called correctly (kinda
-wish git would show more lines of context by default) that these don't
-need to be NOWARN|NORETRY (same for post_deps).  I guess you inherited
-this from drm/msm, where I appear to have forgotten to update the
-syncobj path in commit f0de40a131d9 ("drm/msm: Reorder lock vs submit
-alloc").  I don't see anything obvious that would require NORETRY, but
-lockdep should be able to tell you otherwise if needed..
+> On the other hand we currently handle that amdgpu use case differently
+> and the extra overhead of unwrapping fences even if they can't be
+> containers is probably negligible.
+>
+> > Anyways, I can make this a new entrypoint which unwraps, and/or rename
+> > the internal static function, if we think this is a good idea.
+>
+> If you think that's unnecessary keeping your original approach is fine
+> with me as well.
+
+I'm going to assume unnecessary until someone speaks up with their
+weird specific case ;-)
 
 BR,
 -R
 
-> +       if (!syncobjs)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < submit->num_in_syncobjs; i++) {
-> +               uint64_t address =3D exbuf->in_syncobjs + i * syncobj_str=
-ide;
-> +               struct dma_fence *fence;
-> +
-> +               if (copy_from_user(&syncobj_desc,
-> +                                  u64_to_user_ptr(address),
-> +                                  min(syncobj_stride, sizeof(syncobj_des=
-c)))) {
-> +                       ret =3D -EFAULT;
-> +                       break;
-> +               }
-> +
-> +               if (syncobj_desc.flags & ~VIRTGPU_EXECBUF_SYNCOBJ_FLAGS) =
-{
-> +                       ret =3D -EINVAL;
-> +                       break;
-> +               }
-> +
-> +               ret =3D drm_syncobj_find_fence(submit->file, syncobj_desc=
-.handle,
-> +                                            syncobj_desc.point, 0, &fenc=
-e);
-> +               if (ret)
-> +                       break;
-> +
-> +               ret =3D virtio_gpu_dma_fence_wait(submit, fence);
-> +
-> +               dma_fence_put(fence);
-> +               if (ret)
-> +                       break;
-> +
-> +               if (syncobj_desc.flags & VIRTGPU_EXECBUF_SYNCOBJ_RESET) {
-> +                       syncobjs[i] =3D
-> +                               drm_syncobj_find(submit->file, syncobj_de=
-sc.handle);
-> +                       if (!syncobjs[i]) {
-> +                               ret =3D -EINVAL;
-> +                               break;
-> +                       }
-> +               }
-> +       }
-> +
-> +       if (ret) {
-> +               virtio_gpu_free_syncobjs(syncobjs, i);
-> +               return ret;
-> +       }
-> +
-> +       submit->in_syncobjs =3D syncobjs;
-> +
-> +       return ret;
-> +}
-> +
-> +static void virtio_gpu_reset_syncobjs(struct drm_syncobj **syncobjs,
-> +                                     uint32_t nr_syncobjs)
-> +{
-> +       uint32_t i;
-> +
-> +       for (i =3D 0; syncobjs && i < nr_syncobjs; i++) {
-> +               if (syncobjs[i])
-> +                       drm_syncobj_replace_fence(syncobjs[i], NULL);
-> +       }
-> +}
-> +
-> +static void
-> +virtio_gpu_free_post_deps(struct virtio_gpu_submit_post_dep *post_deps,
-> +                         uint32_t nr_syncobjs)
-> +{
-> +       uint32_t i =3D nr_syncobjs;
-> +
-> +       while (post_deps && i--) {
-> +               kfree(post_deps[i].chain);
-> +               drm_syncobj_put(post_deps[i].syncobj);
-> +       }
-> +
-> +       kfree(post_deps);
-> +}
-> +
-> +static int virtio_gpu_parse_post_deps(struct virtio_gpu_submit *submit)
-> +{
-> +       struct drm_virtgpu_execbuffer *exbuf =3D submit->exbuf;
-> +       struct drm_virtgpu_execbuffer_syncobj syncobj_desc;
-> +       struct virtio_gpu_submit_post_dep *post_deps;
-> +       size_t syncobj_stride =3D exbuf->syncobj_stride;
-> +       int ret =3D 0, i;
-> +
-> +       if (!submit->num_out_syncobjs)
-> +               return 0;
-> +
-> +       post_deps =3D kcalloc(submit->num_out_syncobjs, sizeof(*post_deps=
-),
-> +                           GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
-> +       if (!post_deps)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < submit->num_out_syncobjs; i++) {
-> +               uint64_t address =3D exbuf->out_syncobjs + i * syncobj_st=
-ride;
-> +
-> +               if (copy_from_user(&syncobj_desc,
-> +                                  u64_to_user_ptr(address),
-> +                                  min(syncobj_stride, sizeof(syncobj_des=
-c)))) {
-> +                       ret =3D -EFAULT;
-> +                       break;
-> +               }
-> +
-> +               post_deps[i].point =3D syncobj_desc.point;
-> +
-> +               if (syncobj_desc.flags) {
-> +                       ret =3D -EINVAL;
-> +                       break;
-> +               }
-> +
-> +               if (syncobj_desc.point) {
-> +                       post_deps[i].chain =3D dma_fence_chain_alloc();
-> +                       if (!post_deps[i].chain) {
-> +                               ret =3D -ENOMEM;
-> +                               break;
-> +                       }
-> +               }
-> +
-> +               post_deps[i].syncobj =3D
-> +                       drm_syncobj_find(submit->file, syncobj_desc.handl=
-e);
-> +               if (!post_deps[i].syncobj) {
-> +                       ret =3D -EINVAL;
-> +                       break;
-> +               }
-> +       }
-> +
-> +       if (ret) {
-> +               virtio_gpu_free_post_deps(post_deps, i);
-> +               return ret;
-> +       }
-> +
-> +       submit->post_deps =3D post_deps;
-> +
-> +       return 0;
-> +}
-> +
-> +static void
-> +virtio_gpu_process_post_deps(struct virtio_gpu_submit *submit)
-> +{
-> +       struct virtio_gpu_submit_post_dep *post_deps =3D submit->post_dep=
-s;
-> +       struct dma_fence *fence =3D &submit->out_fence->f;
-> +       uint32_t i;
-> +
-> +       for (i =3D 0; post_deps && i < submit->num_out_syncobjs; i++) {
-> +               if (post_deps[i].chain) {
-> +                       drm_syncobj_add_point(post_deps[i].syncobj,
-> +                                             post_deps[i].chain,
-> +                                             fence, post_deps[i].point);
-> +                       post_deps[i].chain =3D NULL;
-> +               } else {
-> +                       drm_syncobj_replace_fence(post_deps[i].syncobj, f=
-ence);
-> +               }
-> +       }
-> +}
-> +
->  static int virtio_gpu_fence_event_create(struct drm_device *dev,
->                                          struct drm_file *file,
->                                          struct virtio_gpu_fence *fence,
-> @@ -121,6 +316,11 @@ static int virtio_gpu_init_submit_buflist(struct vir=
-tio_gpu_submit *submit)
+> Regards,
+> Christian.
 >
->  static void virtio_gpu_cleanup_submit(struct virtio_gpu_submit *submit)
->  {
-> +       virtio_gpu_reset_syncobjs(submit->in_syncobjs, submit->num_in_syn=
-cobjs);
-> +       virtio_gpu_free_syncobjs(submit->in_syncobjs, submit->num_in_sync=
-objs);
-> +       virtio_gpu_free_post_deps(submit->post_deps, submit->num_out_sync=
-objs);
-> +       kfree(submit->in_fence_ids);
-> +
->         if (!IS_ERR(submit->buf))
->                 kvfree(submit->buf);
->
-> @@ -173,6 +373,8 @@ static int virtio_gpu_init_submit(struct virtio_gpu_s=
-ubmit *submit,
->                 return err;
->         }
->
-> +       submit->num_out_syncobjs =3D exbuf->num_out_syncobjs;
-> +       submit->num_in_syncobjs =3D exbuf->num_in_syncobjs;
->         submit->out_fence =3D out_fence;
->         submit->fence_ctx =3D fence_ctx;
->         submit->ring_idx =3D ring_idx;
-> @@ -285,6 +487,14 @@ int virtio_gpu_execbuffer_ioctl(struct drm_device *d=
-ev, void *data,
->         if (ret)
->                 goto cleanup;
->
-> +       ret =3D virtio_gpu_parse_deps(&submit);
-> +       if (ret)
-> +               goto cleanup;
-> +
-> +       ret =3D virtio_gpu_parse_post_deps(&submit);
-> +       if (ret)
-> +               goto cleanup;
-> +
->         ret =3D virtio_gpu_install_out_fence_fd(&submit);
->         if (ret)
->                 goto cleanup;
-> @@ -294,6 +504,7 @@ int virtio_gpu_execbuffer_ioctl(struct drm_device *de=
-v, void *data,
->                 goto cleanup;
->
->         virtio_gpu_submit(&submit);
-> +       virtio_gpu_process_post_deps(&submit);
->         virtio_gpu_complete_submit(&submit);
->  cleanup:
->         virtio_gpu_cleanup_submit(&submit);
-> diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_dr=
-m.h
-> index 7b158fcb02b4..ce4948aacafd 100644
-> --- a/include/uapi/drm/virtgpu_drm.h
-> +++ b/include/uapi/drm/virtgpu_drm.h
-> @@ -64,6 +64,16 @@ struct drm_virtgpu_map {
->         __u32 pad;
->  };
->
-> +#define VIRTGPU_EXECBUF_SYNCOBJ_RESET          0x01
-> +#define VIRTGPU_EXECBUF_SYNCOBJ_FLAGS ( \
-> +               VIRTGPU_EXECBUF_SYNCOBJ_RESET | \
-> +               0)
-> +struct drm_virtgpu_execbuffer_syncobj {
-> +       __u32 handle;
-> +       __u32 flags;
-> +       __u64 point;
-> +};
-> +
->  /* fence_fd is modified on success if VIRTGPU_EXECBUF_FENCE_FD_OUT flag =
-is set. */
->  struct drm_virtgpu_execbuffer {
->         __u32 flags;
-> @@ -73,7 +83,11 @@ struct drm_virtgpu_execbuffer {
->         __u32 num_bo_handles;
->         __s32 fence_fd; /* in/out fence fd (see VIRTGPU_EXECBUF_FENCE_FD_=
-IN/OUT) */
->         __u32 ring_idx; /* command ring index (see VIRTGPU_EXECBUF_RING_I=
-DX) */
-> -       __u32 pad;
-> +       __u32 syncobj_stride;
-> +       __u32 num_in_syncobjs;
-> +       __u32 num_out_syncobjs;
-> +       __u64 in_syncobjs;
-> +       __u64 out_syncobjs;
->  };
->
->  #define VIRTGPU_PARAM_3D_FEATURES 1 /* do we have 3D features in the hw =
-*/
-> --
-> 2.39.2
+> >
+> > BR,
+> > -R
+> >
+> >> Christian.
+> >>
+> >>> +{
+> >>> +     struct dma_fence_unwrap iter;
+> >>> +     struct dma_fence *f;
+> >>> +     int ret =3D 0;
+> >>> +
+> >>> +     dma_fence_unwrap_for_each (f, &iter, fence) {
+> >>> +             ret =3D _add_dependency(job, f);
+> >>> +             if (ret)
+> >>> +                     break;
+> >>> +     }
+> >>> +
+> >>> +     return ret;
+> >>> +}
+> >>>    EXPORT_SYMBOL(drm_sched_job_add_dependency);
+> >>>
+> >>>    /**
+> >>>     * drm_sched_job_add_resv_dependencies - add all fences from the r=
+esv to the job
+> >>>     * @job: scheduler job to add the dependencies to
+> >>>     * @resv: the dma_resv object to get the fences from
+> >>>     * @usage: the dma_resv_usage to use to filter the fences
+> >>>     *
+> >>>     * This adds all fences matching the given usage from @resv to @jo=
+b.
+> >>>     * Must be called with the @resv lock held.
 >
