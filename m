@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D60C6C7203
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 21:58:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3AA6C7207
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 21:59:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53BFC10E143;
-	Thu, 23 Mar 2023 20:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206AC10E135;
+	Thu, 23 Mar 2023 20:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0886110E143
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 20:58:29 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id p203so26398941ybb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:58:28 -0700 (PDT)
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E14F810E135
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 20:59:02 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id p204so15334918ybc.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1679605107;
+ d=chromium.org; s=google; t=1679605140;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uXG2m3AhU8tFazET94PFq/bMhgtfxarcttWvDXsnJsI=;
- b=NBDzFged+JYkXhU/hB4dL/pjHnNDXwAc4Dx9aAuSvv1Wi7S+uP8We/ynKJ2Dk6JJgM
- 1EosogQHe4gQYUl5axlda2rZ9VM8XW3d9Q3OkIS3Df52AnmCUCABKwgVNMWKqoHNIjJN
- SgPr6+Y7Fz7349LjppNYgrjIhKyh5bsqIKE1I=
+ bh=siTlddsD9BwLsdvAOrWrUYDt/REtWPoX/LdY9MShx4A=;
+ b=VopnpPIMoHFFI2KnaYlkgBN4hq4lRuWy7hMI2faKZpgZ4wWsMFrETganN8aM3WgHbH
+ lXWMiuSLfgo1DRI8gGEAPs58bYmy235zbwabmqA+nUGIKkjd8I843Oudop05mOaBDMbV
+ vCUGaj7oo5fFvPew9IaxwFSzL0anX9N8ZqJJk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679605107;
+ d=1e100.net; s=20210112; t=1679605140;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uXG2m3AhU8tFazET94PFq/bMhgtfxarcttWvDXsnJsI=;
- b=OK/6NlWLs78Gsi1iuQa0ofMyx1aYvoaAOVsOmH7o4Fpaih8apV8oNI94j8Jctu9nvG
- LBxEmG3Ucb2rFEAONOmyjR6StDh2J88IdfSlBGSQE3joImo/sMhg5KFFYSGo6uZhTaHH
- uLHUBQ/MjyktLhus0axidEV77tUq0cKHB2rbwSI60wuU5KWKXanm1zCfhREYeo61xy+a
- 1Jj12ylaXHiiI8/2CO3lNZ3V1+j+An6i5auQa1Ca1fE+fpdYUU5sIRUT3GaJAKtBJcK0
- OoGMVszzwyKwuj3kRCRFT6gYY6sVftsRynzJtjK2hxFB5+T/J+dma2K6KKsuYk6z1lcY
- pJmg==
-X-Gm-Message-State: AAQBX9ffAXg4+MkOeGZj3ahp7KXDR2lRyjSujiz4KsZ+oe7SsCsaUSC0
- L3o2L9QcyI9JiBn4E21Ok0EceeHaYKqqONoSI7k=
-X-Google-Smtp-Source: AKy350azSEDj5Ex+AagKWlW14JMzu1fiph+F30iB/i/pzwKfUjVdhHjSNaHV+5plXAEsbp3jvUtVMQ==
-X-Received: by 2002:a25:ae9a:0:b0:b25:594d:eaff with SMTP id
- b26-20020a25ae9a000000b00b25594deaffmr4783097ybj.57.1679605107468; 
- Thu, 23 Mar 2023 13:58:27 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- j83-20020a252356000000b00b7767ca7469sm41522ybj.6.2023.03.23.13.58.26
+ bh=siTlddsD9BwLsdvAOrWrUYDt/REtWPoX/LdY9MShx4A=;
+ b=5fHtLnqBvL6OrnC/56TQe9UHkuxqgh2WVIbUpbeWGHMu2MxPp1qdOmF+2sfeBtTGqq
+ goO+tYnS+XS+hPQayQkY8OpGLuulFh9NqK7MTCq7QVvxs+UO2rE2gSZ5WbdVS5gic0dp
+ +5EiC0Dlq5UEhslPyCMdT4FdAzR+0yeGlKc5zFQqbtrydb+iZyUiaboU5huwKzy+09pH
+ uzUTOy3Nr7XN1LhZhxzk0UlbAw6dbztDATWSqgEPTM3alcdrKWRRSl8xUrz6uw8O5CXk
+ orfwh/OwQ/D9xRfJw4FN+BvDbWpuWPIOTeQkzwOEYtpbzUzG0QZUvSrZyS0RnyN0CWTw
+ Mauw==
+X-Gm-Message-State: AAQBX9drC2/UJYOuwBwpb6ZjtcTy/CqyVWT3Ue5BYe5us63S/xhUBLGH
+ FVlLLEI1r9U31D0Z3qlIDrOCcGN+cB9+AUtLbiI=
+X-Google-Smtp-Source: AKy350YCdVMPSLEObC4mi5NJWzO6XuKyo7ZDl6v1CSReIF+3+WpGyaKmcr4KGbSmWeVwrAYQmwPLnQ==
+X-Received: by 2002:a25:ae0d:0:b0:a47:faae:1816 with SMTP id
+ a13-20020a25ae0d000000b00a47faae1816mr5133634ybj.50.1679605140374; 
+ Thu, 23 Mar 2023 13:59:00 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ q206-20020a25d9d7000000b00b7767ca746esm41116ybg.11.2023.03.23.13.58.57
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Mar 2023 13:58:26 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-544b959a971so382622927b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:58:26 -0700 (PDT)
-X-Received: by 2002:a81:b149:0:b0:544:b7ff:b0df with SMTP id
- p70-20020a81b149000000b00544b7ffb0dfmr2598921ywh.2.1679605105763; Thu, 23 Mar
- 2023 13:58:25 -0700 (PDT)
+ Thu, 23 Mar 2023 13:58:58 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id j7so26446397ybg.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:58:57 -0700 (PDT)
+X-Received: by 2002:a05:6902:70d:b0:b45:5cbe:48b3 with SMTP id
+ k13-20020a056902070d00b00b455cbe48b3mr18602ybt.0.1679605137060; Thu, 23 Mar
+ 2023 13:58:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230315035508.2874915-1-treapking@chromium.org>
-In-Reply-To: <20230315035508.2874915-1-treapking@chromium.org>
+ <20230315035508.2874915-2-treapking@chromium.org>
+In-Reply-To: <20230315035508.2874915-2-treapking@chromium.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 23 Mar 2023 13:58:14 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VxKO6y38nDUmppRseC7kP1cJCUEMkbUPMY1d8LzKe4ZA@mail.gmail.com>
-Message-ID: <CAD=FV=VxKO6y38nDUmppRseC7kP1cJCUEMkbUPMY1d8LzKe4ZA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/bridge: ps8640: Skip redundant bridge enable
+Date: Thu, 23 Mar 2023 13:58:46 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vqw3x20YH5oBVQuNmNvbApE79kZw8U0J3tJ2cPgha1_Q@mail.gmail.com>
+Message-ID: <CAD=FV=Vqw3x20YH5oBVQuNmNvbApE79kZw8U0J3tJ2cPgha1_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm/bridge: ps8640: Add a cache for EDID
 To: Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -91,25 +91,20 @@ Hi,
 On Tue, Mar 14, 2023 at 8:55=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
 > wrote:
 >
-> Skip the drm_bridge_chain_pre_enable call when the bridge is already
-> pre_enabled. This make pre_enable and post_disable (thus
-> pm_runtime_get/put) symmetric.
+> When there are multiple EDID reads, the bridge will be repeatedly
+> enabled and disabled. Add a cache for EDID to speed this up.
 >
-> Fixes: 46f206304db0 ("drm/bridge: ps8640: Rework power state handling")
 > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 > Reviewed-by: Robert Foss <rfoss@kernel.org>
 > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > ---
 >
-> (no changes since v1)
+> Changes in v2:
+> - Remove the NULL assignment in ps8640_remove
 >
->  drivers/gpu/drm/bridge/parade-ps8640.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/parade-ps8640.c | 60 +++++++++++++++-----------
+>  1 file changed, 36 insertions(+), 24 deletions(-)
 
-Even though this could go in drm-misc-fixes, doing so would cause a
-conflict with patch #2 in this series which is not a fix. Since I
-don't believe this is massively urgent, I've landed both in
-drm-misc-next to avoid needing to involve more senior folks to do
-fancy stuff:
+Landed in drm-misc-next:
 
-845e730eaf36 drm/bridge: ps8640: Skip redundant bridge enable
+6a17b4d1b52f drm/bridge: ps8640: Add a cache for EDID
