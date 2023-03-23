@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E341A6C6996
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 14:34:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315636C69EC
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 14:50:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7BF010E20F;
-	Thu, 23 Mar 2023 13:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA3010EA9D;
+	Thu, 23 Mar 2023 13:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43D9A10E20F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 13:34:27 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- m6-20020a4ae846000000b0053b9059edd5so347379oom.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 06:34:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679578466; x=1682170466;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8RyZAJc5BMnE79hcpQtiEO+k/dInqdtkEaO5MHpP+H0=;
- b=dUCL+V+ZiSlLVYfSuXmC6MMvbnyX+TRtH9Q/gIjCkqFJZiFp3roRn5lgHXawza4+bQ
- 9cw/Lk2LoOeHGzHlXSNiCnxkbmscC6N5trizUQSSGu0dcS1YNKl7m21ygoGSiUTn4/+f
- 65/N8SO+WeRQq9i5v3yJ0RD4cC2np7jT32UzXxg1mUqmWZD4/LCq3EFz3MIjYz1n5wBF
- z7DiI4+1Whavyn0txq7pALMa1ShxSovXScBXROsZus6YLRRuD/yxu4MMkKvzEv4tZ7OD
- nUiG4if+GnHxxTTCtNDeZXlVn8E0p9odO12h5bvV1M7FAcTlci1sQJF8jakBB44w9krR
- 2hlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679578466; x=1682170466;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8RyZAJc5BMnE79hcpQtiEO+k/dInqdtkEaO5MHpP+H0=;
- b=PDi/vCro8lHi3ELrUcoA4WC+c5U7wGyLeTKJGwmuPyhzptrjhAwTO+uNzPawfZogiG
- rc9XBCnvP/EWv5uMJI1hL1Fk8dUMWi8d16zMA8NsqIVydgJBrtoNv+rOJb6oknC8R2mf
- CRp0dSFxxIFtS3HcMAbcmGlVfF2olfoDkMyzzYPavAWEQGJaeRI+83fAZhO6FjufF/lE
- lhE+BbyJPSP9+DSk+eHmGwwHVWut20Lm5QtAD98EQFMOp6E2nTnMXYevD0Ce2c2F4jKR
- 0p+O7eV6VY5hNaR13LXNbjGRzfYmnHg2UB4k6bIErrTqKa0wRobLLYfDvEiYSuBZd8Fi
- RfIw==
-X-Gm-Message-State: AO0yUKVkH35DZlzZbhxw/Fbdl5ibtfGlih85aehnyk12vm52AZ2CG83l
- ASgkmXlrd/1BbOI4xO9v3wU=
-X-Google-Smtp-Source: AK7set9XiXDyob2o0Lq+VDDpUahZHU/0xXfrvHyVtwCY9cBex9oyETNCBznEOOROiNZT8UdpDypWUw==
-X-Received: by 2002:a4a:4348:0:b0:525:bdbb:2f94 with SMTP id
- l8-20020a4a4348000000b00525bdbb2f94mr4688172ooj.1.1679578465053; 
- Thu, 23 Mar 2023 06:34:25 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:4c56:116d:eccf:8809])
- by smtp.gmail.com with ESMTPSA id
- bl31-20020a056808309f00b00384a45d3106sm6958857oib.58.2023.03.23.06.34.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 06:34:24 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: neil.armstrong@linaro.org
-Subject: [PATCH] dt-bindings: display: seiko,
- 43wvf1g: Change the maintainer's email
-Date: Thu, 23 Mar 2023 10:34:07 -0300
-Message-Id: <20230323133407.3378606-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369A410EA9D;
+ Thu, 23 Mar 2023 13:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679579417; x=1711115417;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Fap1VLn5xB0Q3i+x+kNLGTtOIlAi5akrtPvhytf/VpQ=;
+ b=D5VJCmRYjc/NuvWTgUTIbVZkyA7WR8Uqv56UcozUBCh8IhNDDxE0R4jU
+ dZVCoZZ+NYkmwDn3lyFUFSKFhUgbpkL/noaYnMiCi0jjQFLSlIhIbVUo2
+ VomB3tzIkMKtX7jm5jWY2qYpYzPLt3wKX02RHmwuYlj5JIa6h5FccHLFo
+ GVK51N227QB95zU09cHA/2kebsxL7Zb5Rrv9nwl0/SGC0hnYe5ZRdd5cJ
+ F+upVghyiteP8OU7nMIiq8jkVc4pTZGfCCNZ+Zr+6e2mzmxXAoeNT6IBx
+ 2G5SxYD5msInORu7Dqwj6Cuak1Bp/7KKryLgAIMs4rBp49Ww7EXS9HMEH Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="402069249"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; d="scan'208";a="402069249"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 06:35:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="825823567"
+X-IronPort-AV: E=Sophos;i="5.98,285,1673942400"; d="scan'208";a="825823567"
+Received: from sdepeste-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.249.47.48])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2023 06:35:42 -0700
+Date: Thu, 23 Mar 2023 14:35:17 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/selftests: Drop igt_cs_tlb
+Message-ID: <ZBxVlflHfpvMcBmz@ashyti-mobl2.lan>
+References: <20230320192117.287374-1-andi.shyti@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230320192117.287374-1-andi.shyti@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +58,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marcofrk@gmail.com, devicetree@vger.kernel.org,
- Fabio Estevam <festevam@denx.de>, dri-devel@lists.freedesktop.org,
- krzysztof.kozlowski+dt@linaro.org
+Cc: Andi Shyti <andi.shyti@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+Hi,
 
-Marco's NXP email is no longer valid.
+On Mon, Mar 20, 2023 at 08:21:17PM +0100, Andi Shyti wrote:
+> From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> 
+> The gt_tlb live selftest has the same code coverage as the
+> igt_cs_tlb subtest of gtt, except it is better at detecting
+> TLB bugs.  Furthermore, while igt_cs_tlb is hitting some
+> unforeseen issues, these issues are either false positives
+> due to the test being poorly formatted, or are true
+> positives that can be more easily diagnosed with smaller
+> tests.  As such, igt_cs_tlb is superceded by and obsoleted
+> by gt_tlb, meaning it can be removed.
+> 
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Reviewed-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> Acked-by: Nirmoy Das <nirmoy.das@intel.com>
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Change it to his Gmail account.
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Marco,
+This patch, anyway needs some follow up for adding the range
+TLB invalidation part.
 
-If you are no longer interested in being listed as the maintainer contact
-for the seiko,43wvf1g.yaml, please let me know.
-
- .../devicetree/bindings/display/panel/seiko,43wvf1g.yaml        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml b/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml
-index a5426586b473..7977e07e2f48 100644
---- a/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/seiko,43wvf1g.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Seiko Instruments Inc. 4.3" WVGA (800 x RGB x 480) TFT with Touch-Panel
- 
- maintainers:
--  - Marco Franchi <marco.franchi@nxp.com>
-+  - Marco Franchi <marcofrk@gmail.com>
- 
- allOf:
-   - $ref: panel-common.yaml#
--- 
-2.34.1
-
+Andi
