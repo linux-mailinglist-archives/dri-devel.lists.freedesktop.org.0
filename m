@@ -1,61 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFB16C61E1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 09:36:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A33596C622B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Mar 2023 09:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F25410E320;
-	Thu, 23 Mar 2023 08:35:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CBF10E32E;
+	Thu, 23 Mar 2023 08:45:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F1710E32E;
- Thu, 23 Mar 2023 08:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679560555; x=1711096555;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wDdeSb/bg+wF+kSpsoEp2QhZRodkIdNWumr/7wREvzk=;
- b=B9a59O8pOk0VlSAZbX9Os3EQUt7kydUU+GNXtRQnnZ1ZbG65svOaqtIo
- 0slQ5Vfzc08vyy0atR9Pf9pX7+D5qq6QeANZC2nJaYSrvRgT8ih4a+rJc
- 3Ru4ZV+tzKmaf/vIw1B7v2W2EzmDYsk6YPyq7bSdBsx6j4YQE0VPF7+kF
- 1/dty5mZrtdkgk7S2zfmu4LFuIb2ea3Uk0lFPqGHMH8kXzlqSUJUS7MLD
- OTeasnYI8fPrjCiKtZoToppTvWRyKueSbMOO2gevQaODWzwPtzDs5EhJM
- jCl7H7vGZvhOGaiKmWydQWzIgDWjIghbLalbFWUf2SbLUE7Z1bL9JhKIZ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="323276911"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="323276911"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 01:35:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10657"; a="682230055"
-X-IronPort-AV: E=Sophos;i="5.98,283,1673942400"; d="scan'208";a="682230055"
-Received: from mplechx-mobl.ger.corp.intel.com (HELO [10.213.211.105])
- ([10.213.211.105])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2023 01:35:53 -0700
-Message-ID: <416a0d13-0013-ecbe-716e-f3bda59c9d30@linux.intel.com>
-Date: Thu, 23 Mar 2023 08:35:50 +0000
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306CD10E32E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Mar 2023 08:45:30 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D84136602069;
+ Thu, 23 Mar 2023 08:45:27 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1679561128;
+ bh=FrNqR4ku0iKICaEUucsD1iDyufd8gS7yQCcBq8NLjCk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mqChyF7uL/gStwWj9TpKjP+j5o71cY5OBZNebYPh7P6kwx34jMlD5WWtRVPN4XPb5
+ vfakks7HMRI6hy/JZKXbfXXXBshusLjntR9j4Pw43Doa6Sj/HriSxwf7zeWp9Fcz7A
+ k1231kzPIhLonp6/0snl1BdCWOXinPxY77i/XVIHhky2DALcw/P/PysaodQ2gg3k+/
+ 0/eRh0Ms/e/hDadxdM57Qk+KLuTVpIrIqnjAlqg4Eo2qnodGbJ6CU5pRfOKTCaqEFt
+ marVDCgmt4vBalqXcXgRDYTax6a0gt5uyZAm6bi8pkOJGf8T1iGhj9SCTnmgMKEwde
+ ggdmJUHl/I+dg==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: airlied@gmail.com
+Subject: [PATCH v1 0/2] Panfrost: GPU Speed-binning support via OPP
+Date: Thu, 23 Mar 2023 09:45:21 +0100
+Message-Id: <20230323084521.19689-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/pxp: limit drm-errors or warning
- on firmware API failures
-Content-Language: en-US
-To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
- "Tamminen, Eero T" <eero.t.tamminen@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20230314175832.1506427-1-alan.previn.teres.alexis@intel.com>
- <6cff8c19-0ab6-4b03-d778-ad57aa207b98@intel.com>
- <cc56d923-4021-3423-bfdf-986e7b73283f@linux.intel.com>
- <3841da5b-06df-eacf-ebd1-0e7885e6c9cb@intel.com>
- <38deebc090105826da9c85172392b10b93e99801.camel@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <38deebc090105826da9c85172392b10b93e99801.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,40 +49,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+ wenst@chromium.org, kernel@collabora.com,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The OPP framework supports binning through the 'opp-supported-hw'
+devicetree property and some of the SoCs that are using Panfrost,
+namely ... MediaTek, are actually binned.
+This is especially seen in MT8186, but some other models do actually
+support the same.
 
-On 23/03/2023 00:27, Teres Alexis, Alan Previn wrote:
-> On Fri, 2023-03-17 at 13:37 +0200, Tamminen, Eero T wrote:
->> Hi,
->>
->> On 16.3.2023 10.50, Tvrtko Ursulin wrote:
->>>> [   11.674183] i915 0000:00:02.0: PXP init-arb-session-15 failed due
->>>> to BIOS/SOC:0x0000101a:ERR_PLATFORM_CONFIG
->> ...
->>> Alan - is this expected during normal operation on some parts, or it's
->>> something truly unexpected/unexplained? If the former then I think it
->>> would be good to downgrade away from drm_WARN so it is less scary.
->>>
->>> Commit message talks about "HW/platform gaps" - if it is like a missing
->>> BIOS support or so then I think WARN_ON is too much.
->>
->> Note that this was on pre-production TGL-H HW with BIOS from April 2021.
->>
->> (I don't know where to get update, nor interested to update it.)
->>
->>
->> 	- Eero
-> 
-> Alan: Hi Tvrtko, thanks for the feedback -i shall change from WARN_ONCE to drm_info_once.
+This series adds basic binning support by simply checking (and reading)
+speed-bin from NVMEM (eFuse arrays, usually) and *if and only if* that
+is provided, adds the read value with devm_pm_opp_set_supported_hw().
 
-Maybe it deserves to be a warning? Or a notice? I was just thinking it 
-does not need a call trace and all since it is not a driver issue. Your 
-call on the level and whether or not there is any chance for it to 
-happen in the field to make the discussion relevant or not.
+This code expects to receive a value that is compatible with how the
+supported_hw checks work in OPP and it should never contain any kind
+of platform (or SoC) specific code, since Panfrost is a driver for a
+GPU that may be tied to different SoCs... and this is what this series
+provides.
 
-Regards,
+Cheers!
 
-Tvrtko
+AngeloGioacchino Del Regno (2):
+  dt-bindings: gpu: mali-bifrost: Document nvmem for speedbin support
+  drm/panfrost: Add basic support for speed binning
+
+ .../bindings/gpu/arm,mali-bifrost.yaml        |  7 +++++
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   | 30 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
+-- 
+2.40.0
+
