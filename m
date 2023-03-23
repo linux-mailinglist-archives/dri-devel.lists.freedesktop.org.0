@@ -2,47 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66476C7CE3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 11:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E556C7D08
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 12:09:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91B3A10EBAB;
-	Fri, 24 Mar 2023 10:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C47410E16B;
+	Fri, 24 Mar 2023 11:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48E4710EBAB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 10:54:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 8D90DB82277;
- Fri, 24 Mar 2023 10:54:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87892C433D2;
- Fri, 24 Mar 2023 10:54:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679655247;
- bh=05TRJlmt+n+Rfz7qihEXoMNgUCXEtNcYL32YthagoLk=;
- h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
- b=ZdbMGXD2UULJcRdC1qoFKwkOtzO9RKWLMKHs725xtj9tNndRiEi44p+zwT8wrbwDo
- NHKyZ+8ybCye8FZr3sG37zSwGBbhA4RCAF6jdIEs0kWrXLD4KhQ8oRcr/n+8xHtByd
- G7H0+6phPKzTpebgXRik23ixC6/0z10+AhmHLDElSIWR3TGHpjKfKhDToPXG58HGWB
- ce3LWVy11a8jdY3uiBG0n8BzR5nh1QCAYt2SRwRV1beohunn//XetphFXcpOo23ErM
- oc5fJ+ATOkRWfOAIL0c827OB/A8E19Bk/LSpd99zsGqX5n8IypFCK7zNHJIOdWi/Mw
- J/QM20+MiDm+g==
-From: Kalle Valo <kvalo@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: Linux 6.3-rc3
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
- <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
- <20230320185337.GA615556@dev-arch.thelio-3990X>
- <87pm91uf9c.fsf@kernel.org>
- <20230322163637.GA918620@dev-arch.thelio-3990X>
-Date: Fri, 24 Mar 2023 12:54:01 +0200
-In-Reply-To: <20230322163637.GA918620@dev-arch.thelio-3990X> (Nathan
- Chancellor's message of "Wed, 22 Mar 2023 09:36:37 -0700")
-Message-ID: <87wn36ctdi.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFC910E16B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 11:09:42 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id v1so1393026wrv.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 04:09:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679656180;
+ h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+ :references:from:to:cc:subject:date:message-id:reply-to;
+ bh=KKGzHAjESOwY5CJ6aIkXRblEUT9vcmLWXQ+M0lRFaT8=;
+ b=hzyILuXnSZ7lMaDYB5rhB/bnNUkufwU6fB5inzHRnGwGUpJquemA3X84Lzp++Y2YJ+
+ xX92fJNLk8xQHwS1+YxTda7OSm5DtCOvp4pDLhNSgUC+z/fJXup9nphjXvyJHgvtZySv
+ Ing1oEJUNGaC5fkPShiXmhVhP4ZVm14D3SAO1J3Mw26nhpiPZuGPtANkaXRqnth94OzX
+ eWmkntp/5aW21aNCDZJKirG9vn5GmZabE2CYZSk/g1dEY9qxrgIgg/yw5kqOFSzwoNBS
+ JwX3UeufEHb7ANEt7KtJeAKptHBPlTmLr2bfmp8WEFpNkr4PD3Q/FNi6OhewGezr1Z61
+ Chlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679656180;
+ h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+ :references:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KKGzHAjESOwY5CJ6aIkXRblEUT9vcmLWXQ+M0lRFaT8=;
+ b=WK51lw06ZOhSxDg0BUV5o+HkPc9sxPv2C+HDtFlEYcxyrwmVXtaSf3U6ytuZq8yznD
+ c6CUER9yqdfbxjtwjBmWGsho5JIuQFiGPyxaUKCe1gRG+18rd73TR7ms7IKDnD56praK
+ MXcbogxEyGuRRQZ0yqp0zEeXT8DPATT1IuQmjq7+uR060sOrlJTKH6QHolPrudq5CTv0
+ KTnkRG0yiC70OuZYaMmZjPj4cSxOL+X5aUwYPetBZ1jUF9010IjWsWJVveuJuJSEtdge
+ CtxGIGBbkm3KXyfk2Pf9+Xf6zBW5hbIcNxAMdTHzfmRN41kf8dejSH4SMUDuXauMqhpL
+ Yk6Q==
+X-Gm-Message-State: AAQBX9fkDqBzzfIzUZQyt4S+w34CGoNRuGMYlJUn20wmyn8CuAtjVHCC
+ i3lmiI3QBY+YmfqbKZCFtPw=
+X-Google-Smtp-Source: AKy350ZmBQJTJNYHdzNhp0Qvsm2ha5bci7Pffhjn47i2N4HkGJnSU/0GajVbD8LVTLhlg10uq2ysNw==
+X-Received: by 2002:a5d:6290:0:b0:2da:53e3:57cf with SMTP id
+ k16-20020a5d6290000000b002da53e357cfmr1959487wru.71.1679656180460; 
+ Fri, 24 Mar 2023 04:09:40 -0700 (PDT)
+Received: from localhost (188.28.8.105.threembb.co.uk. [188.28.8.105])
+ by smtp.gmail.com with ESMTPSA id
+ a8-20020a056000100800b002d8566128e5sm9760336wrx.25.2023.03.24.04.09.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Mar 2023 04:09:39 -0700 (PDT)
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
+ <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
+ <20221104145946.orsyrhiqvypisl5j@houat>
+ <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
+ <20221107085417.xrsh6xy3ouwdkp4z@houat>
+ <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
+ <20221109110045.j24vwkaq3s4yzoy3@houat>
+ <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
+From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
+Date: Thu, 23 Mar 2023 15:35:30 +0000
+In-reply-to: <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
+Message-ID: <xpKMzGb1sOsucWMTlJIMzrT5KjLlZ7JP@localhost>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,68 +78,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, llvm@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-toolchains@vger.kernel.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+ Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
+ Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
+ linux-mediatek@lists.infradead.org, Maxime Ripard <maxime@cerno.tech>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
+ patches@opensource.cirrus.com, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+ linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Nathan Chancellor <nathan@kernel.org> writes:
 
-> On Wed, Mar 22, 2023 at 02:44:47PM +0200, Kalle Valo wrote:
->> Nathan Chancellor <nathan@kernel.org> writes:
->> 
->> > Perhaps these would make doing allmodconfig builds with clang more
->> > frequently less painful for you?
+Stephen Boyd <sboyd@kernel.org> writes:
+
+> Quoting Maxime Ripard (2022-11-09 03:00:45)
+>> On Mon, Nov 07, 2022 at 08:57:22PM +0000, Aidan MacDonald wrote:
 >> >
->> > https://lore.kernel.org/llvm/20230319235619.GA18547@dev-arch.thelio-3990X/
->> 
->> Thank you, at least for me this is really helpful.
+>> > Maxime Ripard <maxime@cerno.tech> writes:
+>> >
+>> > > Hi,
+>> > >
+>> > > On Fri, Nov 04, 2022 at 05:35:29PM +0000, Aidan MacDonald wrote:
+>> >
+>> > Assigning the parent clock in the DT works once, at boot, but going off
+>> > what you wrote in the commit message, if the clock driver has a
+>> > .determine_rate() implementation that *can* reparent clocks then it
+>> > probably *will* reparent them, and the DT assignment will be lost.
+>>
+>> Yes, indeed, but assigned-clock-parents never provided any sort of
+>> guarantee on whether or not the clock was allowed to reparent or not.
+>> It's just a one-off thing, right before probe, and a clk_set_parent()
+>> call at probe will override that just fine.
+>>
+>> Just like assigned-clock-rates isn't permanent.
+>>
+>> > What I'm suggesting is a runtime constraint that the clock subsystem
+>> > would enforce, and actively prevent drivers from changing the parent.
+>> > Either explicitly with clk_set_parent() or due to .determine_rate().
+>> >
+>> > That way you could write a .determine_rate() implementation that *can*
+>> > select a better parent, but if the DT applies a constraint to fix the
+>> > clock to a particular parent, the clock subsystem will force that parent
+>> > to be used so you can be sure the clock is never reparented by accident.
+>>
+>> Yeah, that sounds like a good idea, and CLK_SET_RATE_NO_REPARENT isn't
+>> too far off from this, it's just ignored by clk_set_parent() for now. I
+>> guess we could rename CLK_SET_RATE_NO_REPARENT to CLK_NO_REPARENT, make
+>> clk_set_parent handle it, and set that flag whenever
+>> assigned-clock-parents is set on a clock.
+>>
+>> It's out of scope for this series though, and I certainly don't want to
+>> deal with all the regressions it might create :)
+>>
 >
-> Really glad to hear! I hope this helps make testing and verifying
-> changes with clang and LLVM easier for developers and maintainers.
+> This sounds like a new dt binding that says the assigned parent should
+> never change. It sounds sort of like gpio hogs. A clock-hogs binding?
 
-It really does. And I hope you are able to update these packages in
-future as well so that it would be easy to get the latest clang.
+Ideally we want the clock driver to be able to reparent clocks freely
+to get the best rate. But we also need some control over that to stop
+consumers from being reparented in undesired ways. Eg. you might want
+to make sure the GPU gets its own PLL so it can be reclocked easily,
+and putting another device on the GPU's PLL could prevent that.
 
->> I tried now clang for the first time but seeing a strange problem.
->> 
->> I prefer to define the compiler in GNUmakefile so it's easy to change
->> compilers and I don't need to remember the exact command line. So I have
->> this in the top level GNUmakefile (all the rest commented out):
->> 
->> LLVM=/opt/clang/llvm-16.0.0/bin/
->> 
->> If I run 'make oldconfig' it seems to use clang but after I run just
->> 'make' it seems to switch back to the host GCC compiler and ask for GCC
->> specific config questions again. Workaround for this seems to be adding
->> 'export LLVM' to GNUmakefile, after that also 'make' uses clang as
->> expected.
->
-> Interesting... I just tested with a basic GNUmakefile and everything
-> seems to work fine without an export. At the same time, the export
-> should not hurt anything, so as long as it works, that is what matters.
+The only way to achieve this today is (1) never do any reparenting in
+the clock driver; and (2) use assigned-clock-parents in the DT to set
+up the entire clock tree manually.
 
-Sure, once I figured out the quirks I can workaround them. I was just
-hoping that other users would not have to go through the same hassle as
-I did :)
+Maxime said that (2) is basically wrong -- if assigned-clock-parents
+provides no guarantee on what the OS does "after boot" then the OS is
+pretty much free to ignore it.
 
-> If you have any further issues, please do not hesitate to reach out!
+My suggestion: add a per-clock bitmap to keep track of which parents
+are allowed. Any operation that would select a parent clock not on the
+whitelist should fail. Automatic reparenting should only select from
+clocks on the whitelist. And we need new DT bindings for controlling
+the whitelist, for example:
 
-This is nitpicking but it would be nice if the tarball contents wouldn't
-conflict with each other. Now both llvm-16.0.0-aarch64.tar.gz and
-llvm-16.0.0-x86_64.tar extract to the same directory llvm-16.0.0 with
-same binary names. It would be much better if they would extract to
-llvm-16.0.0-aarch64 and llvm-16.0.0-x86_64, respectively.
+    clock-parents-0 = <&clk1>, <&pll_c>;
+    clock-parents-1 = <&clk2>, <&pll_a>, <&pll_b>;
 
-For example, Arnd's crosstool packages don't conflict with each other:
+This means that clk1 can only have pll_c as a parent, while clk2 can
+have pll_a or pll_b as parents. By default every clock will be able
+to use any parent, so a list is only needed if the machine needs a
+more restrictive policy.
 
-https://mirrors.edge.kernel.org/pub/tools/crosstool/
-
-And maybe request a similar llvm directory under pub/tools to make it
-more official? :)
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+assigned-clock-parents should disable automatic reparenting, but allow
+explicit clk_set_parent(). This will allow clock drivers to start doing
+reparenting without breaking old DTs.
