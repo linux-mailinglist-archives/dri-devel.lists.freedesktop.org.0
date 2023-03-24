@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EBAD6C81A0
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 16:43:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 699196C8208
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 17:00:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E3710E511;
-	Fri, 24 Mar 2023 15:42:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7979010E53F;
+	Fri, 24 Mar 2023 16:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1104F10E511;
- Fri, 24 Mar 2023 15:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679672577; x=1711208577;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=WzE7F2UEYbL0CuJ6OhGLOkCxQTtF/mS+uIl9cyeBVgY=;
- b=DqMZTIjxHVgUzoCwfwZJX5jZNdi2WYtaC6zwNUwW0DNYhbt6WECPPPje
- J8PZlFmli/r/THyEJRDagh/nSQdmweLD6i+00sQjsyqEW04QUHPqEeibF
- RKZJjZzWqMFjgLoq1lQepxs5KxOeAnn1aZ2dQYkj6C/EDSo+RWEolHXft
- noJQY0bR5SKtyeXYj+K60QVQ7sFObuRDSFvCquH7JERhDUv1WQquCXH9N
- htl61oHT8rsp6kU8UG7uu+jM8Gh1m08ZzuqlNlozq/Ufnj5Bxho6rG7ty
- FzHM9kdwRp9T0g8SX1Tuatb29DF4VW6ohtr7AEqZg8pNfXAJti3V5dqU2 Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="338529023"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; d="scan'208";a="338529023"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2023 08:42:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="793481528"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; d="scan'208";a="793481528"
-Received: from fdugast-mobl3.ger.corp.intel.com (HELO [10.252.38.170])
- ([10.252.38.170])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2023 08:42:54 -0700
-Message-ID: <ce7d6225-bc04-fef7-6a46-a3169fcd3feb@linux.intel.com>
-Date: Fri, 24 Mar 2023 16:42:52 +0100
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9385110E53F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 16:00:24 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id y5so2756169ybu.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679673623;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dksB5iUeGdRvRQe9WabXTIoiziL1Tg7lbGcFiUozL5I=;
+ b=huop7HKeUTs3oNm4X0dfZWPkxEHd4eJSM7/8AC63zKy1bhtOPpkACHUgplxCr5og6y
+ 7n8O59piNxsAXGmaYOCSFrc1iUlq59lyB+TYuD1irJs1a2dJymlJ+dWHvAtKks3Wy8rZ
+ weDFNYJfiDOuqkTOG+FQ2Ek+UXUoMeN8S+kWzRWsNCQ2Mu0BnWEP77XxF8nQPBJUUyhy
+ JZT3oRqB1Uc+l2f/tsTkM3x5Zbes3NPzIUnW8ZCaJuJyo10XBlfSLYpm8jMXhWKMABKD
+ sj201UpqF9QsEv6F2+G8qFHpwF8sVDihFncbKo7nPat7oJTOIm6zkP/Uf2v2Iu9mb3Ln
+ yOKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679673623;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dksB5iUeGdRvRQe9WabXTIoiziL1Tg7lbGcFiUozL5I=;
+ b=gSTsPDwlAjBJAH/luUlcWAvgNdIxw2UCae5spIFYO5581mmG1YbgG+sXEO2tloPy4G
+ Ma0vZz6dIQOgDm7N2/vLpI+0pIpfOG9KWiT5NmnzqYcmXFIglkahLzqrG7aUVlMnfBbs
+ QcE1Fsbt/eSUqX2Kkjy7kuxR/CbshCevgwpn3MOq3+MrdI0TlxIQ8M0iEQ1wnr1+SK6O
+ NotcNRl/HYQ2ygttuRpSt/SfFk4JDGcdnD/yFUlvYKq3PbC47/SDsrK92y++OMJCDSMz
+ jFCpXwSIgKi5Nld1VTppTPaNDqKxNb18IUL33dmospFo6o8h20jq06OnW5S3CW08urLL
+ BuqQ==
+X-Gm-Message-State: AAQBX9eg4X/jIZ6TF9/xakb0f5VX7wTge4oqczDyk4h3SVdxpPx0bisQ
+ v6YNXLNKbOkFzBbde3Kg9ZtKpBDGXM162hqU2bnwsQ==
+X-Google-Smtp-Source: AKy350ZoxswfuZe1V0eDrNYugY+teAimH2xnIykHhpuOjIfpxFVli6q2uii5Xx2zsLdj7tAw829/nisfatey66SbkeY=
+X-Received: by 2002:a25:db91:0:b0:b75:8ac3:d5d9 with SMTP id
+ g139-20020a25db91000000b00b758ac3d5d9mr1586805ybf.3.1679673623712; Fri, 24
+ Mar 2023 09:00:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.9.0
-Subject: Re: [PATCH v3 1/7] drm/dp_helper: Add helper to check DSC support
- with given o/p format
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Suraj Kandpal <suraj.kandpal@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-References: <20230309062855.393087-1-suraj.kandpal@intel.com>
- <20230309062855.393087-2-suraj.kandpal@intel.com> <87h6ufajdo.fsf@intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <87h6ufajdo.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230324095502.3289094-1-arnd@kernel.org>
+In-Reply-To: <20230324095502.3289094-1-arnd@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 24 Mar 2023 16:59:48 +0100
+Message-ID: <CAPDyKFok_k=M8-g4kgm+5CT7vzrqfbZYfLWCD1oU3W6r-2fsog@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a6xx: add CONFIG_PM dependency
+To: Arnd Bergmann <arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,58 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ankit.k.nautiyal@intel.com, uma.shankar@intel.com,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: freedreno@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ack
+On Fri, 24 Mar 2023 at 10:55, Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Selecting CONFIG_PM_GENERIC_DOMAINS causes a build failure when CONFIG_PM
+> is not enabled:
+>
+> WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS
+>   Depends on [n]: PM [=3Dn]
+>   Selected by [m]:
+>   - DRM_MSM [=3Dm] && HAS_IOMEM [=3Dy] && DRM [=3Dm] && (ARCH_QCOM [=3Dy]=
+ || SOC_IMX5 || COMPILE_TEST [=3Dy]) && COMMON_CLK [=3Dy] && IOMMU_SUPPORT =
+[=3Dy] && (QCOM_OCMEM [=3Dy] || QCOM_OCMEM [=3Dy]=3Dn) && (QCOM_LLCC [=3Dn]=
+ || QCOM_LLCC [=3Dn]=3Dn) && (QCOM_COMMAND_DB [=3Dy] || QCOM_COMMAND_DB [=
+=3Dy]=3Dn) && DEVFREQ_GOV_SIMPLE_ONDEMAND [=3Dy]
+>
+> drivers/base/power/domain.c:654:13: error: use of undeclared identifier '=
+pm_wq'
+>         queue_work(pm_wq, &genpd->power_off_work);
+>                    ^
+> drivers/base/power/domain.c:853:26: error: no member named 'ignore_childr=
+en' in 'struct dev_pm_info'
+>                 if (!dev || dev->power.ignore_children)
+>                             ~~~~~~~~~~ ^
+>
+> Fixes: c11fa1204fe9 ("drm/msm/a6xx: Use genpd notifier to ensure cx-gdsc =
+collapse")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-On 2023-03-20 09:59, Jani Nikula wrote:
-> Thomas, Maxime, Maarten, ack for merging this one via drm-intel?
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+
+Kind regards
+Uffe
+
+> ---
+>  drivers/gpu/drm/msm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> BR,
-> Jani.
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 1c417ba53b5b..85f5ab1d552c 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -9,6 +9,7 @@ config DRM_MSM
+>         depends on QCOM_OCMEM || QCOM_OCMEM=3Dn
+>         depends on QCOM_LLCC || QCOM_LLCC=3Dn
+>         depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=3Dn
+> +       depends on PM
+>         select IOMMU_IO_PGTABLE
+>         select QCOM_MDT_LOADER if ARCH_QCOM
+>         select REGULATOR
+> --
+> 2.39.2
 >
->
->
-> On Thu, 09 Mar 2023, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
->> From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->>
->> Add helper to check if the DP sink supports DSC with the given
->> o/p format.
->>
->> v2: Add documentation for the helper. (Uma Shankar)
->>
->> v3: /** instead of  /* (Uma Shankar)
->>
->> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
->> ---
->>   include/drm/display/drm_dp_helper.h | 13 +++++++++++++
->>   1 file changed, 13 insertions(+)
->>
->> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
->> index ab55453f2d2c..533d3ee7fe05 100644
->> --- a/include/drm/display/drm_dp_helper.h
->> +++ b/include/drm/display/drm_dp_helper.h
->> @@ -194,6 +194,19 @@ drm_dp_dsc_sink_max_slice_width(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
->>   		DP_DSC_SLICE_WIDTH_MULTIPLIER;
->>   }
->>   
->> +/**
->> + * drm_dp_dsc_sink_supports_format() - check if sink supports DSC with given output format
->> + * @dsc_dpcd : DSC-capability DPCDs of the sink
->> + * @output_format: output_format which is to be checked
->> + *
->> + * Returns true if the sink supports DSC with the given output_format, false otherwise.
->> + */
->> +static inline bool
->> +drm_dp_dsc_sink_supports_format(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE], u8 output_format)
->> +{
->> +	return dsc_dpcd[DP_DSC_DEC_COLOR_FORMAT_CAP - DP_DSC_SUPPORT] & output_format;
->> +}
->> +
->>   /* Forward Error Correction Support on DP 1.4 */
->>   static inline bool
->>   drm_dp_sink_supports_fec(const u8 fec_capable)
