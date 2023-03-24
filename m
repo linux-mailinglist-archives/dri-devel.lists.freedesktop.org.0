@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E35C6C8800
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 23:04:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D216C880A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 23:06:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27CB710ECAD;
-	Fri, 24 Mar 2023 22:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D182210E258;
+	Fri, 24 Mar 2023 22:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7338310ECB4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 22:04:25 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id e65so3963113ybh.10
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 15:04:25 -0700 (PDT)
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27FE810E258
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 22:06:34 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id k17so3973687ybm.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 15:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679695464;
+ d=linaro.org; s=google; t=1679695593;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kaR8KoYOCyBpa3wXhO1e69P/3ERCtiHXhKvCkKv6lXM=;
- b=dr4L4d0WroGEG20/Bi+jk8wcIAbHjq36FQoGokCOOOUiXou4/rLD630Fa7NkGfiNHM
- F8aMEsCImFl07V1c1jf32cNJnvPiYG8wxgp84ZvL0plICJY8a+0D+eMRMiiQ7qPLMYZG
- 8OvLaVnZWVPlHDhe/RMyvMMnTIkOwmxjotskiL1e7IoWSnitaQPJ3CXt1+cjoa83eB51
- RQxZT0MwiMFJPIvSY9Fq5uygOeLurQoYncUXyKo8GPrftd5C+0vfotJiuvLXEzeIaM2j
- wM5O4Or/bHXwjiczKLAIiYgu/VmwSAaP8xG/W5VqwN+trJ7XFJuaUg1V8dvGXLsnAr+E
- nvIw==
+ bh=AW96lDx5vwowhGiHzDVKGLsiV7fUhA67Ww+wttjBEwU=;
+ b=kpJyuBzmaRYbioRqb5vGqry2GHgycmPyUnnxvdAANb2s+I5+UckR9viLl/8kUnwtsf
+ Q7+LDDM69Vu2oFwkJGdq0pk81UJndycZyxuRQhPnR7WIn7TI116XPFHuAu6wWLccOc8o
+ 2sBeL91RE2283BvpWqZ1lLdl5THJKMNCJ+BTayM2nZ2dJsHu0EO7S7GQgtCqrYSJvdwW
+ UU7aT8YPVkRLG1i0zyfT4IEd5slRhq8VTdfFrM8OfTioFMwOV0gD8IBlT0YtUSuoNtQu
+ 539xnoMEbH6SAZf8TaExkU7HmF+MVxlf2Ed51omRr2X6PZWYSIxHlxDf25bEFwSFH7oV
+ //iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679695464;
+ d=1e100.net; s=20210112; t=1679695593;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kaR8KoYOCyBpa3wXhO1e69P/3ERCtiHXhKvCkKv6lXM=;
- b=5tEJ440tuBG0InHUQWbK3mZ8hiLUEcmREsF8jut1RBGied/0z7OufDDm1jCvjqnKRt
- GA2dnyr/n2OUsYGBuoRjaILnYt0KB2f22wh0lvd65NtGYQlobFVpY8cOUJvkQ852hP9W
- Vdx3k98F8Z/z7a8pP3Qn7GIezjIRoc5WWqZbRJ/W1CZ8CNwGxQoes6hqN48ThClPNHVD
- 53eldl+Wjdj1syHobuZb1c4bSJoFxZWZ3ztJmUSeRjBXLgiwGkoXRXLjeJd7p//KNbMy
- LZWN57wxZMzQFS2zx9WvatMBu9xjM7a9if9ETNUZnvkAQLtnVF8U2vKEq04bc8Cffubm
- 8zhw==
-X-Gm-Message-State: AAQBX9e4ZWig1vzLMgCFPkAd4S6vHrK3g6VzgzW6lZ7FEsASrCiAT2sC
- 0eDmVx3VdJ+RetRDLZts75hXb7Dp/i8Lnff1z5sbbg==
-X-Google-Smtp-Source: AKy350Z4IyKzgCSsB9drN4aQZFXjzTnQ/z2hXzQ2JIAVjbZ9YcgBNEvzHIbBigw+DnHvLOMD13d24aAC6uV8Bn+RLdY=
-X-Received: by 2002:a05:6902:168d:b0:b6c:2d28:b3e7 with SMTP id
- bx13-20020a056902168d00b00b6c2d28b3e7mr2295587ybb.9.1679695464535; Fri, 24
- Mar 2023 15:04:24 -0700 (PDT)
+ bh=AW96lDx5vwowhGiHzDVKGLsiV7fUhA67Ww+wttjBEwU=;
+ b=lcBlNgVnecFfRglTHONv9MMNxn6iaTSKtzKi/kbKZ+My7Yx4iw90PhWvkZ+qRkndTp
+ TJAlJyUS3KX3NrKJbpumGgbO+70wRjGypHfpd6iNkVRCgakrogyUn/A8dEJGAccqwU37
+ 1QpWC3BwYm4ULw7LUEhKTSmxaY2y2bkKU8GPlZS5RLuwbTvdocF4NeNKdMBN6MKuppFk
+ QGrwnW+8kyGI8UcLRin0rgcjNfxktka2+WGdx+23z0AbCS7NMZHByC3fl53c+xAt1rhK
+ KSJCy0779RgDHwLoxhnQMGfIXImuzf9MkL/CnX413ag3T8Arz1MhJk304Yya+fMiYLZB
+ /KgA==
+X-Gm-Message-State: AAQBX9dpU6mBJpL3BmZVqdlgBgaP7mzHlfQsMvYmuOq3htSZP6caL/4k
+ KfScvCx5PmZcIAotQBC6OZxuBnsg0+QycIcV+Yh3UA==
+X-Google-Smtp-Source: AKy350b22KWd/52YQxPAH9uA2YhVFFyLDy325ozIEZ34++SQJC7q83qVmJTG2A31rDN5OZEc70zCmWabGGvncpkmyxQ=
+X-Received: by 2002:a05:6902:1501:b0:b4c:9333:2a2 with SMTP id
+ q1-20020a056902150100b00b4c933302a2mr1857678ybu.9.1679695593310; Fri, 24 Mar
+ 2023 15:06:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230306100722.28485-1-johan+linaro@kernel.org>
- <20230306100722.28485-6-johan+linaro@kernel.org>
- <90264695-131e-46b7-46db-822b0aee9801@linaro.org>
- <ZBqypsYBMSr8HPxP@hovoldconsulting.com>
-In-Reply-To: <ZBqypsYBMSr8HPxP@hovoldconsulting.com>
+ <20230306100722.28485-7-johan+linaro@kernel.org>
+In-Reply-To: <20230306100722.28485-7-johan+linaro@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 25 Mar 2023 00:04:12 +0200
-Message-ID: <CAA8EJprjkTdNT5P2_PTA-3wJqnQTgiwgOLWmrwCH0B94SZdvdw@mail.gmail.com>
-Subject: Re: [PATCH 05/10] drm/msm: fix drm device leak on bind errors
-To: Johan Hovold <johan@kernel.org>
+Date: Sat, 25 Mar 2023 00:06:21 +0200
+Message-ID: <CAA8EJpoMKRY_w1eM6XVx6R3+2Mi3y=AbbvXQcFF-ccTfV_j2AQ@mail.gmail.com>
+Subject: Re: [PATCH 06/10] drm/msm: fix vram leak on bind errors
+To: Johan Hovold <johan+linaro@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,32 +66,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
+Cc: freedreno@lists.freedesktop.org, Craig Tatlor <ctatlor97@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Mar 2023 at 09:46, Johan Hovold <johan@kernel.org> wrote:
+On Mon, 6 Mar 2023 at 12:09, Johan Hovold <johan+linaro@kernel.org> wrote:
 >
-> On Tue, Mar 21, 2023 at 04:54:51PM +0200, Dmitry Baryshkov wrote:
-> > On 06/03/2023 12:07, Johan Hovold wrote:
-> > > Make sure to free the DRM device also in case of early errors during
-> > > bind().
-> > >
-> > > Fixes: 2027e5b3413d ("drm/msm: Initialize MDSS irq domain at probe time")
-> > > Cc: stable@vger.kernel.org      # 5.17
-> > > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> >
-> > Can we migrate to devm_drm_dev_alloc instead() ? Will it make code
-> > simpler and/or easier to handle?
+> Make sure to release the VRAM buffer also in a case a subcomponent fails
+> to bind.
 >
-> I'm just fixing the bugs here. Cleanups/rework like that can be done on
-> top but should not be backported as it risks introducing new issues.
+> Fixes: d863f0c7b536 ("drm/msm: Call msm_init_vram before binding the gpu")
+> Cc: stable@vger.kernel.org      # 5.11
+> Cc: Craig Tatlor <ctatlor97@gmail.com>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 26 +++++++++++++++++++-------
+>  1 file changed, 19 insertions(+), 7 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 -- 
 With best wishes
