@@ -2,49 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80DAB6C79F3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8A26C7A94
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6FF10EB98;
-	Fri, 24 Mar 2023 08:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7036910E165;
+	Fri, 24 Mar 2023 08:59:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0466010EB98
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 08:38:02 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id AF9CC66030AA;
- Fri, 24 Mar 2023 08:37:59 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1679647080;
- bh=leUkIfYHsV7YSnV9uYcacAILh9PlFS9yw7oLnYyzBZk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YM36CPg3tx9GWc9j6w8ZllGxCQEngD+c15etZO4mZbNg0VZBSL+0UGXta0bloiDL+
- OONOa/97wu2hlYB93PA6FPDUnij7iz1cZkVjgmyBj1ee8yBBuyHbxUpBiG69bulGin
- 9dd6v5nDtiOyzjs5szA+3AbzTZJb5pSVsdWSql0sxNHw+qeyQnUlelkhSXeWDHYKAd
- BXTT8hDlLF9gsqYiVzChYl4RnhKfrdY07RCUdE4yrqIKLx/XYsPRmxPtJmD/434GvE
- 2yOw6yZYQ1IW/lvT/Bi2E49UdnfR9WNU+IX4nEpDiBGVUZnbiV1Sjplm7hmUmIgiLf
- 2ljUSwxxqBguw==
-Message-ID: <97a5f383-38f5-e8ea-e1d8-489b690e4521@collabora.com>
-Date: Fri, 24 Mar 2023 09:37:57 +0100
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EBEB10E4A9
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 08:59:54 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id s13so657605wmr.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 01:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679648392;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=4h1y29ufgBdPBj0FinbulRj195jm8gHSccDSNysL7ng=;
+ b=RXGKhRMsOU+O1tqz6J/suUb0aU7VUqgtBJargaGNRHO4USwinGX4Q+o6F1N+3L2w1I
+ IvWNS7eL2Mq0WjlaGWdjqZcXoSMK/T0QMNwsmJFsOG8EOZPd73nIrMKCDkjY/McrjEt4
+ El++mpFcY/v6AmVH38u3nFhTLyp1GLdbgRMtyvhEvk98Pt717lCdKYIGPkPLogtqYwcq
+ mMaL1qfpq5O6vt+csqk1DCAwIxJroCgTYG0s1LW3gjgAWsRIXbZVSHRyZeKytvVMhmrz
+ byraSTt+tH/d4z/v/k+OIyK8gQ8JGLKXCrUgi2I9nf4VVRWdcafzGS/bK2673u6mhQhJ
+ ZZKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679648392;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4h1y29ufgBdPBj0FinbulRj195jm8gHSccDSNysL7ng=;
+ b=sEAlxZ3H+l1nLNB2kdxEF7ibuMVFuA21OvmieEPWPkcMnzlBEI7+Vi+giDBhBvxWFr
+ 03+pwZkEkzGgp5/gFRNzGjH7STTX3WBuhDTVqPxKOCsoVgyExwy3NNwlTAh2nqyI7DSl
+ tD3aCloYLTMyXSN9e1d1uDh+t6ZLDoufi/+Ti1kbwkU4zwjRcbhuE91a1s7vsrqHqWZZ
+ 49nsQgk6Rf7HnRI6spQj0hu+B2pw1e0zbdxWd4qOASySAtZ9g7c9U/viIGHDL1A2rxQF
+ z6EPN4AIx8AVBN+kk/egARSdOUSEAgSJZv015US5xfNEOBGh8kgzrodFpOqB9FAjZFYR
+ WKkw==
+X-Gm-Message-State: AO0yUKX7Y9+hPZn+U/UmtClwGpW8diobATEOv0Gbzexyo9+KkhfupSJu
+ nOATz1flGDZIf7AFh4nZaoZGRA==
+X-Google-Smtp-Source: AK7set9DG+XY29oWgPGOtByRIw0f/x7EReSCqkruYexEvZ/9XEyDyxvCA4c50AzdzXZSJ7vOBmBf6g==
+X-Received: by 2002:a05:600c:3b1b:b0:3ed:24f7:2b48 with SMTP id
+ m27-20020a05600c3b1b00b003ed24f72b48mr4665100wms.8.1679648392490; 
+ Fri, 24 Mar 2023 01:59:52 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:213f:a579:70af:e4a0?
+ ([2a01:e0a:982:cbb0:213f:a579:70af:e4a0])
+ by smtp.gmail.com with ESMTPSA id
+ y23-20020a7bcd97000000b003eb966d39desm4253441wmj.2.2023.03.24.01.59.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Mar 2023 01:59:52 -0700 (PDT)
+Message-ID: <18ad8d98-b67a-894b-9f6f-efb0afc8321c@linaro.org>
+Date: Fri, 24 Mar 2023 09:59:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v30 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+ Thunderbird/102.8.0
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH 6/8] arm64: dts: qcom: sm8450: remove invalid npl clock in
+ vamacro node
 Content-Language: en-US
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20230321121859.2355-1-nancy.lin@mediatek.com>
- <17831605-5c9d-9c92-d190-04f91060ace4@collabora.com>
- <CAAOTY_8ZAxVSLnJ1u5snsRgkszV7ixwhjUS2nDimE_Lpj=cUCA@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAAOTY_8ZAxVSLnJ1u5snsRgkszV7ixwhjUS2nDimE_Lpj=cUCA@mail.gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>
+References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
+ <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-6-3ead1e418fe4@linaro.org>
+ <35e3aa8b-ccff-25fa-42da-d8934ef366c6@linaro.org>
+ <006bf3bf-ab9a-4a08-3ba5-fa23ff4ea05a@linaro.org>
+ <306b02e8-72bf-3eb7-f4cc-3cc5c598993b@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <306b02e8-72bf-3eb7-f4cc-3cc5c598993b@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +93,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- krzysztof.kozlowski+dt@linaro.org, clang-built-linux@googlegroups.com,
- singo.chang@mediatek.com, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Nathan Chancellor <nathan@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- "Nancy.Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org
+Reply-To: neil.armstrong@linaro.org
+Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 24/03/23 00:25, Chun-Kuang Hu ha scritto:
-> Hi, Angelo:
-> 
-> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> 於
-> 2023年3月23日 週四 下午4:58寫道：
->>
->> Il 21/03/23 13:18, Nancy.Lin ha scritto:
->>> The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
+On 24/03/2023 08:17, Krzysztof Kozlowski wrote:
+> On 23/03/2023 14:13, Neil Armstrong wrote:
+>> On 23/03/2023 11:47, Krzysztof Kozlowski wrote:
+>>> On 23/03/2023 11:25, Neil Armstrong wrote:
+>>>> Fixes the following DT bindings check error:
+>>>> codec@33f0000: clocks: [[137, 57, 1], [137, 102, 1], [137, 103, 1], [137, 70, 1]] is too long
+>>>> codec@33f0000: clock-names: 'oneOf' conditional failed, one must be fixed:
+>>>> 	        ['mclk', 'macro', 'dcodec', 'npl'] is too long
+>>>>
+>>>> The implementation was checked and this npl clock isn't used for the VA macro.
+>>>>
 >>>
->>> Add DRM and these modules support by the patches below:
->>>
+>>> This does not look correct. DTS looks good, you miss some patches in
+>>> your tree.
 >>
->> I've tested v30 again on MT8173, MT8192 and MT8195 based Chromebooks.
->> Green light from me.
+>> I'm based on today's linux-next,
 > 
-> I'm curious about how you build code and test on Chromebooks. Do you
-> build in cros environment or pure linux
-> (https://archlinuxarm.org/platforms/armv8/mediatek/acer-chromebook-r13).
-> I've a MT8183 based Chromebook (HP 11a) and I've tried to run a
-> upstream kernel on it. cros is too heavy for me and I doubt I could
-> use it. I've tried the pure linux and could boot up with console, but
-> display does not work. If you use the pure linux environment, could
-> you share how it works?
+> Which is unfortunately not enough. Several things were
+> fixed/added/changed and are pending. I brought the topic of pending
+> branch few times on IRC for that reason.
+> 
+>> while the other lpass macros uses the npl clock,
+>> the lpass vamacro bindings doesn't document the npl clock.
+>>
+>> And I found no fixes whatsover to add the npl clock to bindings.
+> 
+> Really? lore finds it easily:
+> 
+> https://lore.kernel.org/all/20221118071849.25506-2-srinivas.kandagatla@linaro.org/
+
+You're better at lore than me... thx anyway...
+
+Neil
+
+
+> 
+> 
+> Best regards,
+> Krzysztof
 > 
 
-I haven't tested MT8183 (I don't actually have any 8183 machine in my hands)... but
-yes, I can share my test environment.
-
-I have one MicroSD that I use either in the MicroSD slot of the target machine, or
-in a USB reader; this *single* system is what I boot on *all* Chromebooks that I
-have: one kernel, multiple devicetrees, same Debian-based userspace.
-
-What we have to prepare this bootable media can be found at [1], but beware that
-it currently uses an outdated kernel, so, what I have locally is a symlink to my
-kernel tree.
-You can change/add/remove the devicetree blobs that will get added to the image
-by modifying `chromebook-setup.sh`; before tampering with kernel tree symlink,
-please run that script for the first time, as it will download a cross-compiler,
-a kernel tree (that you will replace for sure) and the (very old) Debian rootfs
-that you can update with `apt-get dist-upgrade` after booting the Chromebook.
-
-If you want to check about possible kernel configuration differences, what I use
-is at [2], so that you can compare.
-
-[1]: https://gitlab.collabora.com/google/chromebooks/-/tree/mtk-av1
-[2]: 
-https://gitlab.collabora.com/google/chromeos-kernel/-/blob/mt8195-tracking-master-rolling/arch/arm64/configs/defconfig
-
-Regards,
-Angelo
