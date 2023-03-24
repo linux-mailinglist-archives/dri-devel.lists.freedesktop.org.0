@@ -1,93 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334026C8567
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 19:53:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA576C85A7
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 20:13:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C642310E1AE;
-	Fri, 24 Mar 2023 18:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 594C010E19C;
+	Fri, 24 Mar 2023 19:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5241610EC36
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 18:53:07 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- m6-20020a05600c3b0600b003ee6e324b19so1608267wms.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 11:53:07 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9845410E19C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 19:13:21 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id o7so2821750wrg.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 12:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tessares.net; s=google; t=1679683986;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=bN/V+wXkn6VKpx8ehUnZf15tp4N5UtPAc89buCNTYdI=;
- b=bu98ZAs0Afv51Za0kQE/RzrDrEwOt0xs2eqndfKe4rNxs+wqsDR0ptOIUDvlM6DQaz
- TShFbf4YJDjf+hY8JNkrKhxXnnMTZ8eePn3u6qckHSa8Qr/qf52PdiFTKi/Dn/Pq1Xfl
- 5jxb14Cv6P/mPtxn6owPPgKAioRHp9HDgISGf1ZQ4R5V52HEM6WqHK6mHuDKSub5CfwY
- ZTw9XOlC8rd02KsQeEVzJrJajCIU2ZO4CkfNa/r5NDeINQNCI9iDW+JLOwJvHKp3TFIE
- 2fBcd44eH6l5bamARPJ78bLa5Tyyl1xC0NszZ2oxkcih33o5bMewvKywv6r9PAXFn0K1
- 5vNg==
+ d=linaro.org; s=google; t=1679685200;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wDkUXRm6ebBc/QHvz8cNntbon0PvzQ0AKnhQ2g7v5QA=;
+ b=rooZAbRs2MFRJmiyw+SXReNh5WT1x8mEzMt14Bke64nSL7GDOGC+bbvjDW7K5GiVCT
+ S7solNiEwVIk509smEZzokLht2sB6pDN614z/HcVs7KTMahyKyKpI2Nj2+sK5t2+WthW
+ Tzdd7p0p/fAFEsBJDnIuLGXFq+yRxxsIs2Rp7NbfKKL02wQHoE9ZJbMGoBm/jFB6Jdq9
+ peNmE8zjqXILzRM9XObFaNbDh0SStjpKqIbNHhBg08pbvu8/+A6+8fWPvsJ3UT9V6CuY
+ ERMSZXGDohg7QP192lyoGs9mwA70895/dvF04FCA28cOz3gpz5szx7c2E0bdMCtKDd/n
+ FhzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679683986;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bN/V+wXkn6VKpx8ehUnZf15tp4N5UtPAc89buCNTYdI=;
- b=jOcLaKZG5C5FEUaiP2ys1HoqgwaLCbzTejbIByLx3pN2gFBcytMvuzwb8GlZcmPKXu
- JfCQTHjMveTxpCuzcU04MxNEybzA95dG8kg2ju9e25DQP4DHQJL3snVoN9a1vr+Gp7A0
- 2BtukcRg653jQ4tqhauwAdPRQmIOCQJo6svxPhQD1hLpXxE5jwkwrFV2+/Dgx2p7WO6J
- obfhbzC0T7eAlnfSZs0iKdpk+OPa6E87CncNQMkulw3lo8LRyiaZeH0Rk3CBz6TTYmOO
- Lbfb/HdfWcHBrA/Vtb+XAeRNM+D6g9WU3+Y5V+xhDBv4v3L7GrVvwfyFXu1cmc/9MLQN
- pHRQ==
-X-Gm-Message-State: AO0yUKUQheSCb0Pb+nsjc0ek7yUub/JlK2cG93Bxa83gr4UD3bWsPNJn
- S5pC8ZGiCfJuIlncZ3VTo1n43Q==
-X-Google-Smtp-Source: AK7set8LarYNE5XR9zQMQl74m9FglnwL3uYMLGTS7Xe71v0PquWOK+cq2G0SEkO3r0EPaLgMRwpUPw==
-X-Received: by 2002:a7b:cbcc:0:b0:3ee:1afc:c14 with SMTP id
- n12-20020a7bcbcc000000b003ee1afc0c14mr3254271wmi.11.1679683985732; 
- Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
-Received: from vdi08.nix.tessares.net
- (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
+ d=1e100.net; s=20210112; t=1679685200;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wDkUXRm6ebBc/QHvz8cNntbon0PvzQ0AKnhQ2g7v5QA=;
+ b=J9gKPHcx2F4LU2yL48e1EsEfyh3HOEIi9CPrfj7Yix9vt1Z5c6mo+zOJNFNpq0/SwI
+ DzVXjEflp5kR0J3MX/OLy9MYk4zIXouuUrjJZw+kBHPeD0p83ROMBpKHltw1ehtJYN6B
+ 6yLYvn5DHSbVyJpDK+YFblRpGmk4a1UVyJV8ICF9YJfMnM2bNNA5oCG8/7u8qZSjm0oJ
+ h62CE0j3RCyYTXL/In2faKAsq87udm68rYaciW4CLBL+UPQs33Ks9RHWcYRH8cmY9J2h
+ n4lsNlE+AkfdnORsOOzGbUlxmq+SbaySaWXb5+CYfXkzAY11RQPF71unkgLknm+e1wui
+ 08Og==
+X-Gm-Message-State: AAQBX9eXyuIvImT6vOvV7Sa5NLxRUxt1FwDUocrr16ylHGVxKa7Kzlxe
+ GlwhfVxjuLYq5fQBsxD7wn+YSw==
+X-Google-Smtp-Source: AKy350YHCF5U9GYrRAZFMNkr/n6h0lYGicNAZN7Hv0BODu2wqpIsKo8emK19gJHVRUVjHbfF+4Lv9w==
+X-Received: by 2002:a5d:538a:0:b0:2cf:f454:95d2 with SMTP id
+ d10-20020a5d538a000000b002cff45495d2mr2808206wrv.12.1679685200010; 
+ Fri, 24 Mar 2023 12:13:20 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:537:dd40:8b9b:575d?
+ ([2a01:e0a:982:cbb0:537:dd40:8b9b:575d])
  by smtp.gmail.com with ESMTPSA id
- n1-20020a5d67c1000000b002cfe685bfd6sm18948878wrw.108.2023.03.24.11.53.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 11:53:05 -0700 (PDT)
-From: Matthieu Baerts <matthieu.baerts@tessares.net>
-Date: Fri, 24 Mar 2023 19:52:47 +0100
-Subject: [PATCH v2 2/2] checkpatch: allow Closes tags with links
+ w2-20020a5d6802000000b002cfe687fc7asm18883280wru.67.2023.03.24.12.13.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Mar 2023 12:13:19 -0700 (PDT)
+Message-ID: <fb2d333e-c459-f394-a299-533083b83596@linaro.org>
+Date: Fri, 24 Mar 2023 20:13:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230314-doc-checkpatch-closes-tag-v2-2-f4a417861f6d@tessares.net>
-References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
-To: Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
- =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>, 
- Thorsten Leemhuis <linux@leemhuis.info>, 
- Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3236;
- i=matthieu.baerts@tessares.net; h=from:subject:message-id;
- bh=A6YcEFpnSEzRoE/JmsgqALbij5oTtx49G6r6xyFUvo8=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkHfGOx31HhMzR0A+INyOMQmmGQah/4ZZO6p3Og
- 2KcBLwkzDeJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZB3xjgAKCRD2t4JPQmmg
- c/BWEADSzURwBTQcuMSbbLIgU0Ou5/VHGqfsm7MUZ7rhDqqBfUe7OXlZI/2tbKUDaZ7Gq3xszLG
- vHBLzvlwju+B7xLLRLBZ2w/cmoixV1m2S6gT9DHKn+F0ms95HfZmBFZXs/G0QylZNkmFWq9PPmw
- rlu5P9loP4G3/mw/8eToDGQLbeCU1uyUTKwOVupMbxNUqTOHwAQn5fM0LwDDrX8fsNCNo3ji/Rm
- zpkwxdjSrr7emjDnosJS+rBtSC/GUVVi8R4vs9Oxdpyr48L7Z4y4WloNTF4uzDVyjTrOv1KQSO8
- M1w5YzWQPAtNIPmZKlCdQIL2K1lwK7QsPEuslWEMf6uwz3rWZUP/QCOZ7UXPbhiFaYAVpERoQD7
- oCN8I92DG/RREDzdB/q0D+rZBs0mqaoVz49kt3X+Ju9DZIMsU+vgzVak6fmeFoIx23eBi8tYs5o
- 4QMinXloHVfuH/au71si0QG4fcjKQb30CAAGMPIW4WXAAjGAGf169xQmHI4X8pUOvS43vqIbrRy
- 2MOKPEnougitkE7BNLsZimh7AYWZc2ksJ/jI5vStDdcRaA0lpuxcxQelF8foCAyUMR4GfjjVoMA
- s01Yn1eBw5Dgx0sn8t4k3dRcQ5/zg4lqUdQVTrJqx1nJqU5BHSMShcGplYtO3nrrcfayLqOmGCZ
- fnn8Dbrs1p1SBkw==
-X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.7.2
+Subject: Re: [PATCH] drm/panel-edp: Add B133UAN01.0 edp panel entry
+Content-Language: en-GB
+To: Doug Anderson <dianders@chromium.org>, Vinod Koul <vkoul@kernel.org>
+References: <20230324165909.131831-1-vkoul@kernel.org>
+ <CAD=FV=UJepzmKczemVGB8NacjyvLDqXiRoc81s1tJ=u5+HAeqg@mail.gmail.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+In-Reply-To: <CAD=FV=UJepzmKczemVGB8NacjyvLDqXiRoc81s1tJ=u5+HAeqg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,80 +77,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthieu Baerts <matthieu.baerts@tessares.net>, mptcp@lists.linux.dev,
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As a follow-up of the previous patch modifying the documentation to
-allow using the "Closes:" tag, checkpatch.pl is updated accordingly.
+Le 24/03/2023 à 18:04, Doug Anderson a écrit :
+> Hi,
+> 
+> On Fri, Mar 24, 2023 at 9:59 AM Vinod Koul <vkoul@kernel.org> wrote:
+>>
+>> From: Bjorn Andersson <bjorn.andersson@linaro.org>
+>>
+>> This panel is found in Lenovo Flex 5G laptop, so add the entry for it
+>>
+>> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>> Signed-off-by: Vinod Koul <vkoul@kernel.org>
+>> ---
+>>   drivers/gpu/drm/panel/panel-edp.c | 1 +
+>>   1 file changed, 1 insertion(+)
+> 
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> ...assuming nothing distracts me, I'll plan to land this Monday to
+> drm-misc-next.
 
-checkpatch.pl now mentions the "Closes:" tag between brackets to express
-the fact it should be used only if it makes sense.
+If you get distracted, I'll apply it!
 
-While at it, checkpatch.pl will not complain if the "Closes" tag is used
-with a "long" line, similar to what is done with the "Link" tag.
-
-Fixes: 76f381bb77a0 ("checkpatch: warn when unknown tags are used for links")
-Fixes: d7f1d71e5ef6 ("checkpatch: warn when Reported-by: is not followed by Link:")
-Closes: https://github.com/multipath-tcp/mptcp_net-next/issues/373
-Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
----
- scripts/checkpatch.pl | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bd44d12965c9..d6376e0b68cc 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3158,14 +3158,14 @@ sub process {
- 				}
- 			}
- 
--# check if Reported-by: is followed by a Link:
-+# check if Reported-by: is followed by a Link: (or Closes:) tag
- 			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
- 				if (!defined $lines[$linenr]) {
- 					WARN("BAD_REPORTED_BY_LINK",
--					     "Reported-by: should be immediately followed by Link: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
--				} elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
-+					     "Reported-by: should be immediately followed by Link: (or Closes:) to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
-+				} elsif ($rawlines[$linenr] !~ m{^(link|closes):\s*https?://}i) {
- 					WARN("BAD_REPORTED_BY_LINK",
--					     "Reported-by: should be immediately followed by Link: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
-+					     "Reported-by: should be immediately followed by Link: (or Closes:) with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
- 				}
- 			}
- 		}
-@@ -3250,8 +3250,8 @@ sub process {
- 					# file delta changes
- 		      $line =~ /^\s*(?:[\w\.\-\+]*\/)++[\w\.\-\+]+:/ ||
- 					# filename then :
--		      $line =~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
--					# A Fixes: or Link: line or signature tag line
-+		      $line =~ /^\s*(?:Fixes:|Link:|Closes:|$signature_tags)/i ||
-+					# A Fixes:, Link:, Closes: or signature tag line
- 		      $commit_log_possible_stack_dump)) {
- 			WARN("COMMIT_LOG_LONG_LINE",
- 			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-@@ -3266,13 +3266,13 @@ sub process {
- 
- # Check for odd tags before a URI/URL
- 		if ($in_commit_log &&
--		    $line =~ /^\s*(\w+):\s*http/ && $1 ne 'Link') {
-+		    $line =~ /^\s*(\w+):\s*http/ && $1 ne 'Link' && $1 ne 'Closes') {
- 			if ($1 =~ /^v(?:ersion)?\d+/i) {
- 				WARN("COMMIT_LOG_VERSIONING",
- 				     "Patch version information should be after the --- line\n" . $herecurr);
- 			} else {
- 				WARN("COMMIT_LOG_USE_LINK",
--				     "Unknown link reference '$1:', use 'Link:' instead\n" . $herecurr);
-+				     "Unknown link reference '$1:', use 'Link:' (or 'Closes:') instead\n" . $herecurr);
- 			}
- 		}
- 
-
--- 
-2.39.2
-
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
