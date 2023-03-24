@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB42C6C86B4
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 21:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8326F6C870A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 21:47:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64C3C10EC7C;
-	Fri, 24 Mar 2023 20:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF01610E074;
+	Fri, 24 Mar 2023 20:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051F210EC7F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 20:21:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1679689293; i=deller@gmx.de;
- bh=E9BMqo9lBZGXEwg2PUb0Zufl02v4+CAcR/9rAdCuTUU=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=rtNnsKXNR64Pzgw/a8nT0xvJ0NWGxWwoSk3qIViU6UHlo/7mJrI7w5difThLpAEM9
- bQRDW94pMyg+H0a32mD2NjE5KxadqT40VK9DKVS7svcZJMkph5e0nLHSZFD/Nu1cYp
- cJ87uSBYVOJHusoQLRMwMG+e1eTYh0tbKTkGS4YPSUAmmn/m6TKm3xeO53AVRLP64+
- 2ppgebuXEaqiY7VM0Hr4Mr07C1yDBdYWtpOKhtCOqMwJXXlqovfqusU6YEnWXZp/5A
- ZLIQgnd/e4BWKwlk4SgnE+b1TwItl73txdKdcFkGgPAjdLBH2E+qLkk6CM+pYzzHgL
- eUkwuGbZYSSHw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ls3530 ([94.134.154.70]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTzay-1q5klT0CsU-00Qy5D; Fri, 24
- Mar 2023 21:21:33 +0100
-Date: Fri, 24 Mar 2023 21:21:31 +0100
-From: Helge Deller <deller@gmx.de>
-To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH] fbdev: modedb: Fix kernel crash in fb_videomode_to_var()
-Message-ID: <ZB4GS3zT3oh/afkf@ls3530>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0822F10E074
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 20:47:28 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id ew6so12573790edb.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 13:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679690846;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gvJuFk30qXvHsXmKvq2WXms+VNACf251BO2nmorEuAE=;
+ b=TPOAgzMTYkViLIjcHeqRkpM16OmWLnnbSWgzEmaWJhwgv6eN1kJDftmvs1qIr3Lpic
+ ypGfjEotaFTMZpJBjFijOTrxiGbMN2vhUX+dyTqFbm9U1NI7mTwp+TM2X5IMrdIYObb1
+ QCB0JNg9jdvMvi2jimAXGw/rrnK/mikPXCPcvazVy+qiYekvbuqavaUQ/HBEhUDPcfeE
+ 7U0QDgpID8b7+iN+jfwEGzyC+OIPybCaixweKOBhBIL+6sbMSCDxbkuom5nH3Z/kZUh+
+ 1us+I2Is9gmKVZRbqsGTsU7zIVTW+rzj5UdwTPuf4VFL+OpMXhvvqEwbP2xCCabM8XtZ
+ sAyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679690846;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gvJuFk30qXvHsXmKvq2WXms+VNACf251BO2nmorEuAE=;
+ b=AbrvRZ9cYRiO8SrBbzFLix34ZGkWsPLVrRUXPXFGS9n8qk25roh6UoF4s/xEbjk6CU
+ N9IptfkrC/ts6VWXHxaEsx7YeYqB96Nst9tvJLpK4GLMJEwIoZiAawsEVDGaH0zZGM7o
+ TSitfzfP27ARg5NV2TK20Ohg5+GG4lH/OC+XsBp2PXyITcC+xNr6Ntt7WQnqTecPvQVi
+ eI1feUX6pPrfr9k69/djqE69VUUgJr45wQtqwYS90ps7Ur1kyiPuToRf9K8ErFoRp23P
+ 1Tx3yVyhpHkqFGlwLJuto9E5lxjlx32CZFEbzVMrhm/0TNjxMjZGMUHaKwHEhEhSo6ey
+ eT2w==
+X-Gm-Message-State: AAQBX9fZqiASiFgeGrlBhWvc8nPvPLA92Oj957J5nSb3nKbVPiRFa7gd
+ 3Vs3nYq9ErozfK1JLKsPWSVGrkg6uvg62At580Y=
+X-Google-Smtp-Source: AKy350YwCpEJ2Rxx3nxkTYvfEOr50qMbvXpKHh3yxBpw2u57GGoC30mDM0iDbjcLJi0wu6059ATpFA==
+X-Received: by 2002:a17:906:b049:b0:937:9a24:370b with SMTP id
+ bj9-20020a170906b04900b009379a24370bmr4185300ejb.67.1679690846477; 
+ Fri, 24 Mar 2023 13:47:26 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:3027:fb0b:ae08:588?
+ ([2a02:810d:15c0:828:3027:fb0b:ae08:588])
+ by smtp.gmail.com with ESMTPSA id
+ v15-20020a170906858f00b0093229e527cdsm10307455ejx.42.2023.03.24.13.47.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Mar 2023 13:47:26 -0700 (PDT)
+Message-ID: <8c88fe1b-cb91-22e3-6fcd-c2fdf2202cc0@linaro.org>
+Date: Fri, 24 Mar 2023 21:47:24 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:U3wALWmYIslI01ZBe08wACKIFNWaCEIkUTnXCVATCKjTXfG6lys
- dPojHvfjJx6aNmBq50m5P+UF7GcHBUxPVK5wD3ZGw5Y8cWXrTqF3MCeUJJ5iO11zvmEw+JF
- eeRAIqTgvgMcBgNg/RPrMbdhk+tM8D+ppb7wRZCrj+OUbtYtNGBhHgWdNszKt9viGkt2lvt
- PFelu2PazE9m96Gd75kSA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fFGlGxGjhSs=;O/MptMQ3RhfzKS1K8sE29eEhuIh
- gwc3OxI+7hqWiAwsw0AObRGgq5XBEjiZ7qeobdPgQIksAKmKrF93J8mpo+MBHuHUjNFnoXzmn
- S6vqwe/Kl/Ddx/vGK2Z1VE7qrw17w0AT4VzX8u3TsnHxhbwOTrCQECHZlvqs3XBg7eK6ujUFj
- mRqZnaxh3vRw8yv1zQAnNkNBQaWDiSZhJP8NtgD6Q/Mw0IW/ILVMv+dzUX1ij6sfAJjgCSfDt
- BPNl+u28ktrglIwDIrr62oN1vEau+6vax/0kr5yuaGEaCXtWjVqPtS+al+1BNXgVTtXjLw4vy
- Bbv8vFcU/JsgTBwvEf1sELH6YlonHN8mD1ahZydNCWvik92i4ZDlB1eFYSxwwsnZ4kq6bLczw
- K0OiSL+DbEaMo336V7gmxbynmiYpWRA2Y3g7OwXehr20Ykb1AP2O22jo14h7WIm3ATciSL3WS
- B/opMwYLBSlNCpwJV+GJmZZTOXdUV6PcM+UEgR5Y1VwmBNm1R9E/p8X1s69zwKHlkcWcvRXvH
- hHwuHrPwk3pUa09hBjeF6Qqi2LcAoNKZ1sqcUQEufcnvmZZ3zV6XDLTt0GCD0HPauYgth4zoO
- zHjj8h0bDwEHTcq3BchZbFNOE6Y0U0nS7DGva6FB5GhjCAIEgdVT6ncgQ0YLdK+kFNwEGTiWx
- +sv9x8r8kdNmcysTGVGxs1r8Kp5f5z9PkKIpVVStH1uXJvAi/B4sZGn0bsn5l4rdN/+h3xXMb
- mtFmUdvTNAOux6uJSzT2khDmrH6I2hc2WlY7SKhnlGeW+p6CIWD1bR7YPZNg3Erf8WV3cxzAi
- nML9EPKhvn9Atlqh8X84LQ3gqlg4DqlVWFcbr5L/A8MeOy2A6jei7mcg3pMvzkr9VJMho12R2
- 2U8vIiH8b+gxheLvPV0IwLoiIiY9hFNONjnAJe3olju7+xk9JBjSuKUneclx5IJcj/j/z13vH
- gAWyNkWzgqscWTX+5OOyKJJ1k6I=
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/4] arm64: dts: qcom: sm8450: remove invalid
+ properties in cluster-sleep nodes
+Content-Language: en-US
+To: Bjorn Andersson <andersson@kernel.org>
+References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-0-0ca1bea1a843@linaro.org>
+ <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-2-0ca1bea1a843@linaro.org>
+ <20230324174518.2arvdglqqixmxqcp@ripper>
+ <fdd51d3d-a1fd-c3a9-c578-59a11c5213de@linaro.org>
+ <20230324195713.5blwpv7xjijlrtt5@ripper>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230324195713.5blwpv7xjijlrtt5@ripper>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,51 +81,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-parisc@vger.kernel.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a kernel crash in the fbdev modedb code which can happen if you boot
-a system without any graphic card driver, in which case the dummycon
-driver takes the console. If you then load a fbdev graphics driver and
-start a the X11-fbdev the kernel will crash with a backtrace:
+On 24/03/2023 20:57, Bjorn Andersson wrote:
+> On Fri, Mar 24, 2023 at 08:27:12PM +0100, Krzysztof Kozlowski wrote:
+>> On 24/03/2023 18:45, Bjorn Andersson wrote:
+>>> On Fri, Mar 24, 2023 at 10:28:47AM +0100, Neil Armstrong wrote:
+>>>> Fixes the following DT bindings check error:
+>>>
+>>> Is that because idle-state-name and local-timer-stop should not be
+>>> defined for domain-idle-states or are you just clearing out the
+>>> dtbs_check warning?
+>>>
+>>> According to cpu-capacity.txt local-timer-stop seems to have been a
+>>> property relevant for clusters in the past, was this a mistake in the
+>>> binding or did something change when this was moved to
+>>> domain-idle-states?
+>>
+>> I cannot find anything about local-timer-stop in cpu-capacity.txt. Where
+>> do you see it?
+>>
+> 
+> Ohh, you're right it's only mentioned in the example.
+> 
+> But idle-states.yaml documents the property for both cpus and clusters,
+> and it's used throughout the examples.
+>
+> Our cluster states are defined in domanin-idle-states instead of
+> idle-state, does this imply that the flag is no longer applicable
+> per cluster in this mode of operation?
 
-  IAOQ[0]: fb_videomode_to_var+0xc/0x88
- Backtrace:
-  [<10582ff8>] display_to_var+0x28/0xe8
-  [<1058584c>] fbcon_switch+0x15c/0x55c
-  [<105a8a1c>] redraw_screen+0xdc/0x228
-  [<1059d6f8>] complete_change_console+0x50/0x140
-  [<1059eae0>] change_console+0x6c/0xdc
-  [<105ab4f4>] console_callback+0x1a0/0x1a8
-  [<101cb5e8>] process_one_work+0x1c4/0x3cc
-  [<101cb978>] worker_thread+0x188/0x4b4
-  [<101d5a94>] kthread+0xec/0xf4
-  [<1018801c>] ret_from_kernel_thread+0x1c/0x24
+As you noticed their meaning is interleaving. For example on SC7280 we
+use arm,idle-state for cluster. But other Qualcomm platforms rather
+define clusters as domain-idle-states and in that case, nothing parses
+tgat flag. The flag is only for cpuidle dt_idle_states. For
+power-domains it was always ignored.
 
-The problem is, that the dummycon driver may not have a valid monitor
-mode defined (which is ok for that driver), so the mode field in
-fbcon_display can be NULL.
+Funny fact - both cpu/cluster idle-states and power-domain-idle-states
+will end up eventually in cpuidle-psci.c...
 
-Fix the crash by simply returning from fb_var_to_videomode()
-if the video mode field is NULL.
+Best regards,
+Krzysztof
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-Cc: stable <stable@kernel.org>
-
-=2D--
-
-diff --git a/drivers/video/fbdev/core/modedb.c b/drivers/video/fbdev/core/=
-modedb.c
-index 6473e0dfe146..6a670b9dbcb4 100644
-=2D-- a/drivers/video/fbdev/core/modedb.c
-+++ b/drivers/video/fbdev/core/modedb.c
-@@ -893,6 +893,8 @@ void fb_var_to_videomode(struct fb_videomode *mode,
- void fb_videomode_to_var(struct fb_var_screeninfo *var,
- 			 const struct fb_videomode *mode)
- {
-+	if (!mode)
-+		return;
- 	var->xres =3D mode->xres;
- 	var->yres =3D mode->yres;
- 	var->xres_virtual =3D mode->xres;
