@@ -1,53 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D6C6C87C6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 22:55:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A550F6C87E7
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 23:00:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5453510EC86;
-	Fri, 24 Mar 2023 21:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8420E10ECB7;
+	Fri, 24 Mar 2023 22:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D8910EC86;
- Fri, 24 Mar 2023 21:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679694942; x=1711230942;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=YksY2hSUR7m0Zeln9tDoJnCUNP9iNuUtZGTbLWoWV3I=;
- b=g3MzQwJ5LJDX6/Qsp/0CmDuOWjhk10FFvRaGDUoxlX5klbGKYpeW7QFS
- Wa3qRsUaebFBJsq+L0MgwZ/q9BgkXCXQdJIEkcW/6kO7pnZcrtZTJqQre
- nZIzk1HxPg4wR9O5H7j0V4cdvUafXMt5GZkAkdelpxnk7asyo/q8OHEy1
- j+4aww52sJLAcSybk6wM5HIQEgQ432D/FcJ/ynmHf7nRTuGxAdo+N7WpQ
- D0JWFE1slHPVOQuFB2Rx+Q5WD4rRb5H+FGEiL7DD/TubIEO94lkfmMojF
- k/wVeTDlsnvPTXBYfhh5ucuDwOkzRtH9OR2VUAB1DuhQ/BOaCFSrh168g A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="404814521"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; d="scan'208";a="404814521"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2023 14:55:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="1012432681"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; d="scan'208";a="1012432681"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
- by fmsmga005.fm.intel.com with SMTP; 24 Mar 2023 14:55:37 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 24 Mar 2023 23:55:36 +0200
-Date: Fri, 24 Mar 2023 23:55:36 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH] drm/i915/overlay: Remove redundant drm_rect_visible() use
-Message-ID: <ZB4cWCVPLPWTAM0H@intel.com>
-References: <20230324142533.6357-1-arthurgrillo@riseup.net>
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBE5C10ECAD;
+ Fri, 24 Mar 2023 22:00:20 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id c18so3086918ple.11;
+ Fri, 24 Mar 2023 15:00:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1679695220;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TwSVZpLUzRmiKPBTqz2xkUjjibhOLesM/D7QB066vDY=;
+ b=MzzWglGqjxWYLJ5m0oOhSLE8/AUlI9bSF/LPOlD7NAvgKgilVhKJrTyXk0zveHQ6qb
+ YC/rJ5lphx2bNt7p81GmTWdTTWAf/HifT+tF5GwgQO0tcg57jipY7bral9bwxSrPWvzC
+ t/SarjzE8fMpdaiLFmOiO22fwq4U721ebyBbzJvA4AUlse0y0R+oAqKSjenK/5IV5Jya
+ QdssZ7RXOHqlbsPBfDBEHbOXNGYHaax75s48wmivRLqrdCCgN4YBtb5xz5+H76WF5OMt
+ Hbvr7aJNSTR19MEZznTmkxPA57RsbJ/FW/vfM4XrdaD4+yis7IporewAm9+uWJLyWuwt
+ 1fYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679695220;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=TwSVZpLUzRmiKPBTqz2xkUjjibhOLesM/D7QB066vDY=;
+ b=gvD0ingmthH9VLFVm3Wk2BgSp53azqj19x/4M7Vo88iMjxz4UYDAnnBymIAWoNIoRs
+ pcdEdRfy1TCAgVZ0DZn2/4CAAoXSlY+YQwDjISov5nhj1ZQR2L7ql6H65LPh1xofHYUS
+ eF5p+BFDW6fzQkO7AEsr5pdwtDPGofR1cMLsULQXq5/xOOUFboyY7ybCELe9VHdB9GdD
+ wEvWrUdJZNJIVMSzotjdNBdzZWBemO19GF+QtHFgM6VIHyccd1X7a6umvAkpiTRIaAvS
+ y0x+AMDCQZIljoF/O2W82PR+kDCBYceb9MdI6pYzdmTDN7yX8tHyKX7TBYepM1aAL1U0
+ HHCQ==
+X-Gm-Message-State: AO0yUKVhUNvPV7puqm76Y2B5c0sZHbcylJb9K13949jMvtAUlbINwDHt
+ /al1ThJbpJtvs8KK6fW3Di+/wY2uD7E=
+X-Google-Smtp-Source: AK7set+PGtDOTkfzZJx37x4Pz4RQeFFcdSqmH6QQdA7Wb4n1Bcs/q3h6z5bxt6vTpwuaw2fVQ90ZjA==
+X-Received: by 2002:a05:6a20:c28a:b0:c7:770a:557f with SMTP id
+ bs10-20020a056a20c28a00b000c7770a557fmr3861341pzb.50.1679695220121; 
+ Fri, 24 Mar 2023 15:00:20 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ k23-20020aa790d7000000b006247123adf1sm14773685pfk.143.2023.03.24.15.00.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Mar 2023 15:00:19 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/msm: Avoid rounding down to zero jiffies
+Date: Fri, 24 Mar 2023 15:00:13 -0700
+Message-Id: <20230324220013.191795-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230324142533.6357-1-arthurgrillo@riseup.net>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,47 +69,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, tales.aparecida@gmail.com,
- intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
- dri-devel@lists.freedesktop.org, mairacanal@riseup.net, rodrigo.vivi@intel.com,
- andrealmeid@riseup.net
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 24, 2023 at 11:25:33AM -0300, Arthur Grillo wrote:
-> The drm_rect_intersect() already returns if the intersection is visible
-> or not, so the use of drm_rect_visible() is duplicate.
-> 
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->  drivers/gpu/drm/i915/display/intel_overlay.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-> index c12bdca8da9b..444d88f418c5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
-> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-> @@ -966,9 +966,8 @@ static int check_overlay_dst(struct intel_overlay *overlay,
->  		      rec->dst_width, rec->dst_height);
->  
->  	clipped = req;
-> -	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
->  
-> -	if (!drm_rect_visible(&clipped) ||
-> +	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src) ||
->  	    !drm_rect_equals(&clipped, &req))
+From: Rob Clark <robdclark@chromium.org>
 
-Hmm. I think I like the original a bit better because there is
-no hard to spot dependency between the two sides of the ||.
+If userspace asked for a timeout greater than zero, but less than a
+jiffy, they clearly weren't planning on spinning.  So it is better
+to round up to one.
 
-I suppose another option would to to replace the || with
-two separate if statements.
+This fixes an issue with supertuxkart that was (for some reason)
+spinning on a gl sync with 1ms timeout.  CPU time for a demo lap
+drops from:
 
->  		return -EINVAL;
->  
-> -- 
-> 2.39.2
+  15.83user 20.98system 0:47.46elapsed 77%CPU
 
+to:
+
+  8.84user 2.30system 0:46.67elapsed 23%CPU
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/msm_drv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 9f0c184b02a0..7936aa6cad03 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -548,7 +548,7 @@ static inline unsigned long timeout_to_jiffies(const ktime_t *timeout)
+ 		remaining_jiffies = ktime_divns(rem, NSEC_PER_SEC / HZ);
+ 	}
+ 
+-	return clamp(remaining_jiffies, 0LL, (s64)INT_MAX);
++	return clamp(remaining_jiffies, 1LL, (s64)INT_MAX);
+ }
+ 
+ /* Driver helpers */
 -- 
-Ville Syrjälä
-Intel
+2.39.2
+
