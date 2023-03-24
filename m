@@ -1,57 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4816C7BB2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:41:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B046C7BD1
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:46:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A2310E171;
-	Fri, 24 Mar 2023 09:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAD0910EB97;
+	Fri, 24 Mar 2023 09:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0C2710E16E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:41:47 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- i3-20020a9d53c3000000b006a113dad81eso308265oth.11
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 02:41:47 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A317E10EBA5
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:46:05 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i5-20020a05600c354500b003edd24054e0so2753475wmq.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 02:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1679650907;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=imCEf0eiVAunrGXQwrvLTIleJK4ABXMofTeDXcpOer8=;
- b=WVtoubhZVec70O+sKvrrUVZ53e0xSOeSbKlPVLHjSkoE5cvRGK+00/bcMND2F3wezI
- abaeGFZsddvAu0JiPGAKThDqiXcZnUVRO6NrcRyj2tvWesQIciutXd0F69L558LycT+H
- 7aqZRC2OW3sR7XxRyjE5Z4DyBsuGtLiHjav5E=
+ d=ffwll.ch; s=google; t=1679651164;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gJJPNwdnhB7IEUXT0JnB6iYS0mxcFwN9Ppf5t8hZzl0=;
+ b=Qa5OozZIoo53C5F+9azNMKZ21DB0vyydBQZAXgS8Chw91SQ1BJh/YnRGO1VlHf+QDW
+ NqJGq+76prl0S1xv0UN00iYF2Bcwn9MwJ2u+hl338DaU0W7zfnh0k0xaTP+snNZR8wXB
+ NVhLlHPLJoaHlxMr4jMkL1ELSluWeVhWBZxTM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679650907;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=imCEf0eiVAunrGXQwrvLTIleJK4ABXMofTeDXcpOer8=;
- b=iO0i1gFnQKu6Wnr88D4xWEfN+dwyeEiMpI+mD1DInW1L1R4jW966uRd5io7XLeXp+l
- 5qrrMOfXf2V9qnVPgVR9fn0Di0mF7m4VWD56Xl6Lzu8OxteW7ky55wUrTBl+NzmuavZM
- zIkIOMGfsYH7FXlcV08hvD6YaE+915Xmh+I4pHWqs52SZNvYeCmvAGos5BxfH8WE91Af
- SplCNLJQeu3hSvFS5avq/7jX8jyp+TdetNiHOWPM0AWcBDXWG+F1+z6WEQm4GB8+sQ4L
- cZL6uIUS/GTTIcypw/WuVZNuq5BFFTvFiPHFl8cXd931VAi/TXOQLz7idPKMfUMdnkbC
- yHjw==
-X-Gm-Message-State: AO0yUKVLIzWfxbqrobtFTipzeEyXp+EaVzUel9LPWlkfCDLUVk4Gr/FR
- X5gagD5jvKXzUL8t6wVmHj8egp0iqjjGR9zyn1Gq8A==
-X-Google-Smtp-Source: AK7set/mxAIsCSniMOJjqyg3fNkhUOhEt8h7I32a0B1lxBVVCccdwJ6tfHO02wgf60ABVSkL9rmZvnsaXRDaZz14DZQ=
-X-Received: by 2002:a05:6830:2009:b0:69f:b:e44e with SMTP id
- e9-20020a056830200900b0069f000be44emr822364otp.6.1679650907153; Fri, 24 Mar
- 2023 02:41:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
- <20230320180501.GA598084@dev-arch.thelio-3990X>
-In-Reply-To: <20230320180501.GA598084@dev-arch.thelio-3990X>
+ d=1e100.net; s=20210112; t=1679651164;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gJJPNwdnhB7IEUXT0JnB6iYS0mxcFwN9Ppf5t8hZzl0=;
+ b=Yov76KwCscTtnaw5erMwWJC7bP5EDUBcon6XWoxUlCQjxbsSH4HViIBgYxHSJrRSNE
+ 21cSvi9sBuAbX72cnVFjuJhxW4WaT+OYhU9eSXLoGHSn3ABeTNsawnpedGJpgOxaIqwy
+ wSEla89g4gUKhi8DWYGYRyDlcV0qEGIx4RBs54vlQLxQqBfDOoFDHYM7kAITjiOAYo6n
+ v11Lg2OCeZaBe8m90NLEVWjLgRBNZJ9itWfCFg/Y5YRGi81pgqQfJxxGuUiu6YU8uEHA
+ 23NKiWoBtHZPqOWBu933JcpfKm5o40FVS3M17Jv6KOpWgIh9O5pC1+iMsgFwgedGdbly
+ Vlww==
+X-Gm-Message-State: AO0yUKU4GjWPyY0f+tcKsFwv+jlzk1nVVk7Zm33dascxvbnTdz9HcPdq
+ VgO+9X1LvdPOQpwBY/PN4DwPsA==
+X-Google-Smtp-Source: AK7set/XwgOJNEXGcex+NV0vGUZdreitg2m5Y+Upud+kwI0Y7U+h+kwJ6hiaNA1oq8/pyWeh2R5p1g==
+X-Received: by 2002:a05:600c:4fc1:b0:3ed:2a41:8529 with SMTP id
+ o1-20020a05600c4fc100b003ed2a418529mr1438389wmq.2.1679651164092; 
+ Fri, 24 Mar 2023 02:46:04 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ 14-20020a05600c024e00b003ed2384566fsm4369256wmj.21.2023.03.24.02.46.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Mar 2023 02:46:03 -0700 (PDT)
+Date: Fri, 24 Mar 2023 10:46:01 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 24 Mar 2023 10:41:36 +0100
-Message-ID: <CAKMK7uEvAQ53iSdVesR1+vFm0X03dqZU_sRkuMv0FVvg_pCF4g@mail.gmail.com>
-Subject: Re: Linux 6.3-rc3
-To: Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH] gpu: host1x: fix uninitialized variable use
+Message-ID: <ZB1xWRo0rkhku2BS@phenom.ffwll.local>
+Mail-Followup-To: Jon Hunter <jonathanh@nvidia.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Tom Rix <trix@redhat.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Robin Murphy <robin.murphy@arm.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20230127221418.2522612-1-arnd@kernel.org>
+ <Y/eULFO4jbivQ679@dev-arch.thelio-3990X>
+ <20230308165644.GA1181835@dev-arch.thelio-3990X>
+ <67f9fe7f-392a-9acd-1a4d-0a43da634367@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67f9fe7f-392a-9acd-1a4d-0a43da634367@nvidia.com>
+X-Operating-System: Linux phenom 6.1.0-6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,58 +84,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>, Nathan Chancellor <nathan@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Mar 2023 at 19:05, Nathan Chancellor <nathan@kernel.org> wrote:
->
-> On Sun, Mar 19, 2023 at 01:50:21PM -0700, Linus Torvalds wrote:
-> > So rc3 is fairly big, but that's not hugely usual: it's when a lot of
-> > the fixes tick up as it takes a while before people find and start
-> > reporting issues.
->
-> ...
->
-> > Please test and report any issues you find,
->
-> On the clang front, I am still seeing the following warning turned error
-> for arm64 allmodconfig at least:
->
->   drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
->           if (syncpt_irq < 0)
->               ^~~~~~~~~~
->   drivers/gpu/host1x/dev.c:490:16: note: initialize the variable 'syncpt_irq' to silence this warning
->           int syncpt_irq;
->                         ^
->                          = 0
->   1 error generated.
->
-> There is an obvious fix that has been available on the mailing list for
-> some time:
->
-> https://lore.kernel.org/20230127221418.2522612-1-arnd@kernel.org/
->
-> It appears there was some sort of process snafu, since the fix never got
-> applied to the drm tree before the main pull for 6.3 and I have not been
-> able to get anyone to apply it to a tree targeting -rc releases.
->
-> https://lore.kernel.org/Y%2FeULFO4jbivQ679@dev-arch.thelio-3990X/
-> https://lore.kernel.org/67f9fe7f-392a-9acd-1a4d-0a43da634367@nvidia.com/
->
-> If that does not come to you through other means before -rc4, could you
-> just apply it directly so that I can stop applying it to our CI? :)
+On Wed, Mar 08, 2023 at 05:28:06PM +0000, Jon Hunter wrote:
+> 
+> 
+> On 08/03/2023 16:56, Nathan Chancellor wrote:
+> > Ping? This warning is now in 6.3-rc1.
+> 
+> Thierry is away at the moment.
+> 
+> David, Daniel, do you want to pick this up directly in the meantime as a fix
+> for 6.3? Mikko has already reviewed and FWIW ...
 
-I'll include it in the next drm-fixes pull.
+Generally first fallback should be drm-misc maintainers (or anyone else
+with commit rights), but since this fell through cracks for weeks it seems
+I'll pick it up to drm-fixes now directly.
 -Daniel
 
->
-> Cheers,
-> Nathan
-
-
+> 
+> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+> 
+> Thanks
+> Jon
+> 
+> 
+> > On Thu, Feb 23, 2023 at 09:28:28AM -0700, Nathan Chancellor wrote:
+> > > Hi Thierry, Daniel, and David,
+> > > 
+> > > On Fri, Jan 27, 2023 at 11:14:00PM +0100, Arnd Bergmann wrote:
+> > > > From: Arnd Bergmann <arnd@arndb.de>
+> > > > 
+> > > > The error handling for platform_get_irq() failing no longer
+> > > > works after a recent change, clang now points this out with
+> > > > a warning:
+> > > > 
+> > > > drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
+> > > >          if (syncpt_irq < 0)
+> > > >              ^~~~~~~~~~
+> > > > 
+> > > > Fix this by removing the variable and checking the correct
+> > > > error status.
+> > > > 
+> > > > Fixes: 625d4ffb438c ("gpu: host1x: Rewrite syncpoint interrupt handling")
+> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > > > ---
+> > > >   drivers/gpu/host1x/dev.c | 5 ++---
+> > > >   1 file changed, 2 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> > > > index 4872d183d860..aae2efeef503 100644
+> > > > --- a/drivers/gpu/host1x/dev.c
+> > > > +++ b/drivers/gpu/host1x/dev.c
+> > > > @@ -487,7 +487,6 @@ static int host1x_get_resets(struct host1x *host)
+> > > >   static int host1x_probe(struct platform_device *pdev)
+> > > >   {
+> > > >   	struct host1x *host;
+> > > > -	int syncpt_irq;
+> > > >   	int err;
+> > > >   	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
+> > > > @@ -517,8 +516,8 @@ static int host1x_probe(struct platform_device *pdev)
+> > > >   	}
+> > > >   	host->syncpt_irq = platform_get_irq(pdev, 0);
+> > > > -	if (syncpt_irq < 0)
+> > > > -		return syncpt_irq;
+> > > > +	if (host->syncpt_irq < 0)
+> > > > +		return host->syncpt_irq;
+> > > >   	mutex_init(&host->devices_lock);
+> > > >   	INIT_LIST_HEAD(&host->devices);
+> > > > -- 
+> > > > 2.39.0
+> > > > 
+> > > 
+> > > Apologies if this has been reported already or has a solution in
+> > > progress but mainline is now broken because this change got separated
+> > > from the change it is fixing:
+> > > 
+> > > https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/4249931209/jobs/7391912774
+> > > https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integration2/builds/2M7y9HpiXB13qiC2mkHMyeZOcLW/build.log
+> > > 
+> > > I see this change sitting in the drm-tegra tree [1], which is getting
+> > > merged into -next, so it is fixed there, which is why we did not notice
+> > > any issues until the drm-next tree was merged into mainline. Can this be
+> > > fast tracked to Linus to unbreak clang builds with -Werror?
+> > > 
+> > > [1]: https://gitlab.freedesktop.org/drm/tegra/-/commit/b9930311641cf2ed905a84aabe27e8f3868aee4a
+> 
+> -- 
+> nvpublic
 
 -- 
 Daniel Vetter
