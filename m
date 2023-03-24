@@ -2,84 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5FF6C7D21
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 12:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F4B6C7DDD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 13:18:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BEAB10E4EC;
-	Fri, 24 Mar 2023 11:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 599B910E091;
+	Fri, 24 Mar 2023 12:18:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2275510E4EC
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 11:20:08 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
- by mailnew.nyi.internal (Postfix) with ESMTP id 02E8758211D;
- Fri, 24 Mar 2023 07:20:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 24 Mar 2023 07:20:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1679656805; x=1679664005; bh=jn
- hC/DvfTlyZcOnZuUe9LuHIarcRp2uTbbPObwOvLtk=; b=RINbDJrDavr91qApxS
- 4BIapnsTSMpJsQcMuiekOJ4buZfgO1V5bxZUX92x96X+70RG5pM597H6X6A8ze2Q
- J3K3HTIk9bh/ZbHNJcL4cY9CXoNlp9BFd+TTAQzaGhbL4Q/xS5FNx1TElQW6xvG7
- 0pWgXxxHWJn2xo8oKO6WZBtJ8/apSTxWaFgzT4XANpTX/yFywGqPfreFSFA+SxYy
- DVWfFOmgiUFFAwcBCuUS5l1GOHRlbwP6IKA226oMHwgNZfpxX+vE/kqqplzGKxN6
- 3CA6w8YfKEc956VkNbvyMcVk4fjXMyE6jZ/K83ddG+CzpHvsr07jRCCCdY737Omz
- uzeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; t=1679656805; x=1679664005; bh=jnhC/DvfTlyZc
- OnZuUe9LuHIarcRp2uTbbPObwOvLtk=; b=G4KWdAq5u3yOdbhwSK/77/yGH7IQB
- 2xysJ+4DHASMDHD4DpUNSh0qiUQ7PoZ0HeB31FPCqa3ypIcHnjDyiqx4+OASl4vt
- YII+0RiTBeUGCTuHiRp/2zrlkY7JsRYyob4hyT9jfvFspEvX+TWDxi6HeqVtkkkI
- EIEz+43mJMF3TccMFqhY9/s2d2q0Bnzb5506eHVsiiRibRjc0JM/OyGd5+joNcoL
- b2y+9ja4sW5wabUkTzlsQiAxcTUWRGjZRPmuIIWmJFWEdsTq0+X56oaR8GkrkVqB
- dX4i5J533jmuMxkiG1iqzEHijtLWz0ghQXTKvlKaafFgHLlEw3jiDRZ4g==
-X-ME-Sender: <xms:YocdZJLt50SkjajEyhHxYSSrkPY2nLRG7oaF9-PbUsC11O7ePH7evw>
- <xme:YocdZFJvv5yKSgbbCu2PjUCjA3iwB3zBFKv-CakFAJTI01X8NjMVPj3knfOKgALZS
- iMcO2SYsLNKDxAxjx0>
-X-ME-Received: <xmr:YocdZBtqfm5ufo2nxuPX_n4UUydUMdQkmyrCYSBkP5S6uLxOjnGe7GgKlZv5k0gAuEdnyA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdegiedgvdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
- hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:YocdZKbb7h5XVzEGX4iPtxOkH5TmcsjFZOlhmJTWiCjxSzGBF3gLdQ>
- <xmx:YocdZAZuVnKbOWnxm7JK_ixmWayh3DAJUGZTPl_6A4AyOaeCS8MgPA>
- <xmx:YocdZODYFHhXEhG6sanelWXub-LDcHvfMUzvrDzXEPo_cfiaikGjCA>
- <xmx:ZYcdZJnXIuUKCYqWP9MzEN0pWHGV9cxtt8SL0wrI9YqOxIudpLjjYg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Mar 2023 07:20:01 -0400 (EDT)
-Date: Fri, 24 Mar 2023 12:19:59 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-Subject: Re: [PATCH v2 56/65] clk: ingenic: cgu: Switch to determine_rate
-Message-ID: <20230324111959.frjf4neopbs67ugd@houat>
-References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
- <20221018-clk-range-checks-fixes-v2-56-f6736dec138e@cerno.tech>
- <80VTKR.CE8RVN8M3ZYK3@crapouillou.net>
- <20221104145946.orsyrhiqvypisl5j@houat>
- <cp7Yh29ndlOOi1yW8KwCcpzoLPLxm1vR@localhost>
- <20221107085417.xrsh6xy3ouwdkp4z@houat>
- <ucJ6KSBqdPTxfxUQqLUr9C9RGiQRnY1I@localhost>
- <20221109110045.j24vwkaq3s4yzoy3@houat>
- <06a293adc75990ed3e297b076fc38d8a.sboyd@kernel.org>
- <xpKMzGb1sOsucWMTlJIMzrT5KjLlZ7JP@localhost>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF58310E091
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 12:18:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679660293; x=1711196293;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PKE0MEshjiDwVlOUwR4Uz4lxMO0rQWAJqCRKBhjdS1k=;
+ b=MneyLKVWYbdgYUDXS92K1vG0vYbn95j5h9yyQFgoAX54tAheg3HBwBAt
+ q2LUw/KK4IHIf4zXLEVlT3cctafmMEKGGRAXuP2nTktxfWyU7x/zXWyUQ
+ w0HMAJhsoOpTDkLUGsYLZ6/NGNKK8XyBZoLczqi6ntiGj2B3oMRFxj2Yp
+ +Dlm+6unNk8+3oNdllT8hMR8rxL29ISF6IRnVjk/AT/AlfSR5HE12dGg/
+ JNFKAIqCIEXIGP8KuTnlSwSaRzy/BCbhuiDIdUgvSwGoaSXT80AxJwQK9
+ Rbqf+6NXWpebQXaKkAswoXPivd4C01UB3E/ea4JlZws1EW/AdC3JuahmZ g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="328182533"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; d="scan'208";a="328182533"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2023 05:18:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="771867047"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; d="scan'208";a="771867047"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.24.232])
+ ([10.213.24.232])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2023 05:18:09 -0700
+Message-ID: <f4573a49-ae05-07bf-4e7c-70037b4596b9@intel.com>
+Date: Fri, 24 Mar 2023 13:18:07 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ygvujwxxgbycerm7"
-Content-Disposition: inline
-In-Reply-To: <xpKMzGb1sOsucWMTlJIMzrT5KjLlZ7JP@localhost>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/bridge: it6505: Add lock for it6505 i2c bank
+Content-Language: en-US
+To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>
+References: <20230324072958.2993946-1-hsinyi@chromium.org>
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230324072958.2993946-1-hsinyi@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,160 +64,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Cercueil <paul@crapouillou.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-phy@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, Abel Vesa <abelvesa@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Samuel Holland <samuel@sholland.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Takashi Iwai <tiwai@suse.com>, linux-tegra@vger.kernel.org,
+Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
- NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- linux-mips@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org,
- Charles Keepax <ckeepax@opensource.cirrus.com>, alsa-devel@alsa-project.org,
- Manivannan Sadhasivam <mani@kernel.org>, linux-kernel@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-actions@lists.infradead.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
- linux-renesas-soc@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Lechner <david@lechnology.com>, Shawn Guo <shawnguo@kernel.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ kenneth.hung@ite.corp-partner.google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ygvujwxxgbycerm7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On 24.03.2023 08:29, Hsin-Yi Wang wrote:
+> From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+>
+> When the i2c bank register (REG_BANK_SEL) is set to 1,
+> only the registers belong to bank 1 can be written.
+> There will be a race condition when a process is writing
+> bank 0 registers while another process set the bank to 1.
+> Add a mutex to handle regmap read/write locking for
+> registers in multiple i2c bank. Since the driver now
+> owns the lock, there's no need to use regmap API's lock.
+>
+> Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> ---
+>   drivers/gpu/drm/bridge/ite-it6505.c | 72 ++++++++++++++++++++++-------
+>   1 file changed, 55 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+> index bc451b2a77c28..1a8dcc49fc1ee 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -258,12 +258,12 @@
+>   #define REG_AUD_INFOFRAM_SUM 0xFB
+>   
+>   /* the following six registers are in bank1 */
+> -#define REG_DRV_0_DB_800_MV 0x7E
+> -#define REG_PRE_0_DB_800_MV 0x7F
+> -#define REG_PRE_3P5_DB_800_MV 0x81
+> -#define REG_SSC_CTRL0 0x88
+> -#define REG_SSC_CTRL1 0x89
+> -#define REG_SSC_CTRL2 0x8A
+> +#define REG_DRV_0_DB_800_MV 0x17E
+> +#define REG_PRE_0_DB_800_MV 0x17F
+> +#define REG_PRE_3P5_DB_800_MV 0x181
+> +#define REG_SSC_CTRL0 0x188
+> +#define REG_SSC_CTRL1 0x189
+> +#define REG_SSC_CTRL2 0x18A
+>   
+>   #define RBR DP_LINK_BW_1_62
+>   #define HBR DP_LINK_BW_2_7
+> @@ -414,12 +414,14 @@ struct it6505 {
+>   	struct mutex extcon_lock;
+>   	struct mutex mode_lock; /* used to bridge_detect */
+>   	struct mutex aux_lock; /* used to aux data transfers */
+> +	struct mutex bank_lock; /* used to protect i2c bank access */
+>   	struct regmap *regmap;
+>   	struct drm_display_mode source_output_mode;
+>   	struct drm_display_mode video_info;
+>   	struct notifier_block event_nb;
+>   	struct extcon_dev *extcon;
+>   	struct work_struct extcon_wq;
+> +	int bank_state;   /* 1 indicates bank 1, 0 indicates bank 0 */
+>   	int extcon_state;
+>   	enum drm_connector_status connector_status;
+>   	enum link_train_status link_state;
+> @@ -502,8 +504,22 @@ static const struct regmap_config it6505_regmap_config = {
+>   	.val_bits = 8,
+>   	.volatile_table = &it6505_bridge_volatile_table,
+>   	.cache_type = REGCACHE_NONE,
+> +	.disable_locking = true,
+> +	.can_sleep = true,
+>   };
+>   
+> +static int it6505_config_bank(struct it6505 *it6505, unsigned int reg_addr)
+> +{
+> +	int err = 0, target = !!(reg_addr > 0xff);
+> +
+> +	if (target != it6505->bank_state) {
 
-On Thu, Mar 23, 2023 at 03:35:30PM +0000, Aidan MacDonald wrote:
->=20
-> Stephen Boyd <sboyd@kernel.org> writes:
->=20
-> > Quoting Maxime Ripard (2022-11-09 03:00:45)
-> >> On Mon, Nov 07, 2022 at 08:57:22PM +0000, Aidan MacDonald wrote:
-> >> >
-> >> > Maxime Ripard <maxime@cerno.tech> writes:
-> >> >
-> >> > > Hi,
-> >> > >
-> >> > > On Fri, Nov 04, 2022 at 05:35:29PM +0000, Aidan MacDonald wrote:
-> >> >
-> >> > Assigning the parent clock in the DT works once, at boot, but going =
-off
-> >> > what you wrote in the commit message, if the clock driver has a
-> >> > .determine_rate() implementation that *can* reparent clocks then it
-> >> > probably *will* reparent them, and the DT assignment will be lost.
-> >>
-> >> Yes, indeed, but assigned-clock-parents never provided any sort of
-> >> guarantee on whether or not the clock was allowed to reparent or not.
-> >> It's just a one-off thing, right before probe, and a clk_set_parent()
-> >> call at probe will override that just fine.
-> >>
-> >> Just like assigned-clock-rates isn't permanent.
-> >>
-> >> > What I'm suggesting is a runtime constraint that the clock subsystem
-> >> > would enforce, and actively prevent drivers from changing the parent.
-> >> > Either explicitly with clk_set_parent() or due to .determine_rate().
-> >> >
-> >> > That way you could write a .determine_rate() implementation that *ca=
-n*
-> >> > select a better parent, but if the DT applies a constraint to fix the
-> >> > clock to a particular parent, the clock subsystem will force that pa=
-rent
-> >> > to be used so you can be sure the clock is never reparented by accid=
-ent.
-> >>
-> >> Yeah, that sounds like a good idea, and CLK_SET_RATE_NO_REPARENT isn't
-> >> too far off from this, it's just ignored by clk_set_parent() for now. I
-> >> guess we could rename CLK_SET_RATE_NO_REPARENT to CLK_NO_REPARENT, make
-> >> clk_set_parent handle it, and set that flag whenever
-> >> assigned-clock-parents is set on a clock.
-> >>
-> >> It's out of scope for this series though, and I certainly don't want to
-> >> deal with all the regressions it might create :)
-> >>
-> >
-> > This sounds like a new dt binding that says the assigned parent should
-> > never change. It sounds sort of like gpio hogs. A clock-hogs binding?
->=20
-> Ideally we want the clock driver to be able to reparent clocks freely
-> to get the best rate. But we also need some control over that to stop
-> consumers from being reparented in undesired ways. Eg. you might want
-> to make sure the GPU gets its own PLL so it can be reclocked easily,
-> and putting another device on the GPU's PLL could prevent that.
->=20
-> The only way to achieve this today is (1) never do any reparenting in
-> the clock driver; and (2) use assigned-clock-parents in the DT to set
-> up the entire clock tree manually.
->=20
-> Maxime said that (2) is basically wrong -- if assigned-clock-parents
-> provides no guarantee on what the OS does "after boot" then the OS is
-> pretty much free to ignore it.
+It would be better to return if equal, this way you can avoid indentation.
 
-I didn't really say it's wrong, just that it never provided the
-guarantee you expect it to provide. I can't really say whether it's an
-issue or not on your platform.
+> +		err = regmap_write(it6505->regmap, REG_BANK_SEL, target);
+> +		if (!err)
+> +			it6505->bank_state = target;
+> +	}
+> +	return err;
+> +}
+> +
+>   static int it6505_read(struct it6505 *it6505, unsigned int reg_addr)
+>   {
+>   	unsigned int value;
+> @@ -513,7 +529,10 @@ static int it6505_read(struct it6505 *it6505, unsigned int reg_addr)
+>   	if (!it6505->powered)
+>   		return -ENODEV;
+>   
+> -	err = regmap_read(it6505->regmap, reg_addr, &value);
+> +	mutex_lock(&it6505->bank_lock);
+> +	err = it6505_config_bank(it6505, reg_addr);
+> +	err |= regmap_read(it6505->regmap, reg_addr & 0xff, &value);
 
-It's mostly unrelated to this series though, none of these patches
-affect that behavior in one way or the other.
+Shoudn't be rather if (!err) err = regmap_read(...) ?
 
-> My suggestion: add a per-clock bitmap to keep track of which parents
-> are allowed. Any operation that would select a parent clock not on the
-> whitelist should fail. Automatic reparenting should only select from
-> clocks on the whitelist. And we need new DT bindings for controlling
-> the whitelist, for example:
->=20
->     clock-parents-0 =3D <&clk1>, <&pll_c>;
->     clock-parents-1 =3D <&clk2>, <&pll_a>, <&pll_b>;
->=20
-> This means that clk1 can only have pll_c as a parent, while clk2 can
-> have pll_a or pll_b as parents. By default every clock will be able
-> to use any parent, so a list is only needed if the machine needs a
-> more restrictive policy.
->=20
-> assigned-clock-parents should disable automatic reparenting, but allow
-> explicit clk_set_parent(). This will allow clock drivers to start doing
-> reparenting without breaking old DTs.
+> +	mutex_unlock(&it6505->bank_lock);
+>   	if (err < 0) {
+>   		dev_err(dev, "read failed reg[0x%x] err: %d", reg_addr, err);
+>   		return err;
+> @@ -531,8 +550,10 @@ static int it6505_write(struct it6505 *it6505, unsigned int reg_addr,
+>   	if (!it6505->powered)
+>   		return -ENODEV;
+>   
+> -	err = regmap_write(it6505->regmap, reg_addr, reg_val);
+> -
+> +	mutex_lock(&it6505->bank_lock);
+> +	err = it6505_config_bank(it6505, reg_addr);
+> +	err |= regmap_write(it6505->regmap, reg_addr & 0xff, reg_val);
+> +	mutex_unlock(&it6505->bank_lock);
+>   	if (err < 0) {
+>   		dev_err(dev, "write failed reg[0x%x] = 0x%x err = %d",
+>   			reg_addr, reg_val, err);
+> @@ -551,7 +572,10 @@ static int it6505_set_bits(struct it6505 *it6505, unsigned int reg,
+>   	if (!it6505->powered)
+>   		return -ENODEV;
+>   
+> -	err = regmap_update_bits(it6505->regmap, reg, mask, value);
+> +	mutex_lock(&it6505->bank_lock);
+> +	err = it6505_config_bank(it6505, reg);
+> +	err |= regmap_update_bits(it6505->regmap, reg & 0xff, mask, value);
+> +	mutex_unlock(&it6505->bank_lock);
+>   	if (err < 0) {
+>   		dev_err(dev, "write reg[0x%x] = 0x%x mask = 0x%x failed err %d",
+>   			reg, value, mask, err);
+> @@ -892,7 +916,10 @@ static void it6505_aux_reset(struct it6505 *it6505)
+>   
+>   static void it6505_reset_logic(struct it6505 *it6505)
+>   {
+> +	mutex_lock(&it6505->bank_lock);
+> +	it6505_config_bank(it6505, REG_RESET_CTRL);
+>   	regmap_write(it6505->regmap, REG_RESET_CTRL, ALL_LOGIC_RESET);
+> +	mutex_unlock(&it6505->bank_lock);
 
-I'm generally not a fan of putting all these policies in the device
-tree. Do you have an example where it wouldn't be possible to do exactly
-this from the driver itself?
+Why not call it6505_write ?
+>   	usleep_range(1000, 1500);
+>   }
+>   
+> @@ -972,9 +999,14 @@ static ssize_t it6505_aux_operation(struct it6505 *it6505,
+>   	it6505_write(it6505, REG_AUX_ADR_16_19,
+>   		     ((address >> 16) & 0x0F) | ((size - 1) << 4));
+>   
+> -	if (cmd == CMD_AUX_NATIVE_WRITE)
+> +	if (cmd == CMD_AUX_NATIVE_WRITE) {
+> +		mutex_lock(&it6505->bank_lock);
+> +		it6505_config_bank(it6505, REG_AUX_OUT_DATA0);
+>   		regmap_bulk_write(it6505->regmap, REG_AUX_OUT_DATA0, buffer,
+>   				  size);
+> +		mutex_unlock(&it6505->bank_lock);
+> +	}
+> +
+>   
+>   	/* Aux Fire */
+>   	it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
+> @@ -1197,9 +1229,12 @@ static int it6505_send_video_infoframe(struct it6505 *it6505,
+>   	if (err)
+>   		return err;
+>   
+> -	err = regmap_bulk_write(it6505->regmap, REG_AVI_INFO_DB1,
+> +	mutex_lock(&it6505->bank_lock);
+> +	err = it6505_config_bank(it6505, REG_AVI_INFO_DB1);
+> +	err |= regmap_bulk_write(it6505->regmap, REG_AVI_INFO_DB1,
+>   				buffer + HDMI_INFOFRAME_HEADER_SIZE,
+>   				frame->length);
+> +	mutex_unlock(&it6505->bank_lock);
 
-Maxime
+Common code with it6505_aux_operation, maybe it6505_bulk_write ?
 
---ygvujwxxgbycerm7
-Content-Type: application/pgp-signature; name="signature.asc"
+Have you checked if regmap does not support banking? IMO it should be 
+implemented there.
 
------BEGIN PGP SIGNATURE-----
+Regards
+Andrzej
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZB2HXwAKCRDj7w1vZxhR
-xSbnAQCJvmVlpJgunPtELVTvf4BU6vbdciJ5jecqJV2UslBqNAEA3GtvUaTD5e0p
-e0nSvm2EbCQGLtQFj+xVrIWIaKTMYAc=
-=GgBk
------END PGP SIGNATURE-----
+>   	if (err)
+>   		return err;
+>   
+> @@ -1267,7 +1302,6 @@ static void it6505_init(struct it6505 *it6505)
+>   	it6505_write(it6505, REG_TIME_STMP_CTRL,
+>   		     EN_SSC_GAT | EN_ENHANCE_VID_STMP | EN_ENHANCE_AUD_STMP);
+>   	it6505_write(it6505, REG_INFOFRAME_CTRL, 0x00);
+> -	it6505_write(it6505, REG_BANK_SEL, 0x01);
+>   	it6505_write(it6505, REG_DRV_0_DB_800_MV,
+>   		     afe_setting_table[it6505->afe_setting][0]);
+>   	it6505_write(it6505, REG_PRE_0_DB_800_MV,
+> @@ -1277,7 +1311,6 @@ static void it6505_init(struct it6505 *it6505)
+>   	it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
+>   	it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
+>   	it6505_write(it6505, REG_SSC_CTRL2, 0x42);
+> -	it6505_write(it6505, REG_BANK_SEL, 0x00);
+>   }
+>   
+>   static void it6505_video_disable(struct it6505 *it6505)
+> @@ -1506,11 +1539,9 @@ static void it6505_setup_ssc(struct it6505 *it6505)
+>   	it6505_set_bits(it6505, REG_TRAIN_CTRL0, SPREAD_AMP_5,
+>   			it6505->enable_ssc ? SPREAD_AMP_5 : 0x00);
+>   	if (it6505->enable_ssc) {
+> -		it6505_write(it6505, REG_BANK_SEL, 0x01);
+>   		it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
+>   		it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
+>   		it6505_write(it6505, REG_SSC_CTRL2, 0x42);
+> -		it6505_write(it6505, REG_BANK_SEL, 0x00);
+>   		it6505_write(it6505, REG_SP_CTRL0, 0x07);
+>   		it6505_write(it6505, REG_IP_CTRL1, 0x29);
+>   		it6505_write(it6505, REG_IP_CTRL2, 0x03);
+> @@ -1983,8 +2014,11 @@ static int it6505_setup_sha1_input(struct it6505 *it6505, u8 *sha1_input)
+>   	it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ,
+>   			HDCP_EN_M0_READ);
+>   
+> -	err = regmap_bulk_read(it6505->regmap, REG_M0_0_7,
+> +	mutex_lock(&it6505->bank_lock);
+> +	err = it6505_config_bank(it6505, REG_M0_0_7);
+> +	err |= regmap_bulk_read(it6505->regmap, REG_M0_0_7,
+>   			       sha1_input + msg_count, 8);
+> +	mutex_unlock(&it6505->bank_lock);
+>   
+>   	it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ, 0x00);
+>   
+> @@ -2577,6 +2611,9 @@ static int it6505_poweron(struct it6505 *it6505)
+>   	}
+>   
+>   	it6505->powered = true;
+> +	mutex_lock(&it6505->bank_lock);
+> +	it6505->bank_state = 0;
+> +	mutex_unlock(&it6505->bank_lock);
+>   	it6505_reset_logic(it6505);
+>   	it6505_int_mask_enable(it6505);
+>   	it6505_init(it6505);
+> @@ -3359,6 +3396,7 @@ static int it6505_i2c_probe(struct i2c_client *client)
+>   	mutex_init(&it6505->extcon_lock);
+>   	mutex_init(&it6505->mode_lock);
+>   	mutex_init(&it6505->aux_lock);
+> +	mutex_init(&it6505->bank_lock);
+>   
+>   	it6505->bridge.of_node = client->dev.of_node;
+>   	it6505->connector_status = connector_status_disconnected;
 
---ygvujwxxgbycerm7--
