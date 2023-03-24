@@ -1,73 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996AA6C7897
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 08:15:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBA46C78A6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 08:17:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 699EC10E505;
-	Fri, 24 Mar 2023 07:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C247210E50B;
+	Fri, 24 Mar 2023 07:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553FD10E505
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 07:14:55 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id r11so4177446edd.5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 00:14:55 -0700 (PDT)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD09E10E50C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 07:17:41 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id h8so4144562ede.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 00:17:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679642093;
+ d=linaro.org; s=google; t=1679642260;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=lUhNXXr7A3jN6EIrBJGqjsnZ6lNCOb7chI6KB9f+Qzw=;
- b=DvkcEHL7sfJp5nyGwfQXhZIzbPqHJ2tgKVhJG0bvdGR5rZxiA+izn69O/NyBK6+aRr
- 7HN0GmhfMOM5kDVJO/SvbwwHz2AxaHneVdWbIc72Fj5DfCJfIIi5otJL9nPMvw6JHs+H
- zNrj9gUzVDr4hB76WdN7oI1n5lV7HyMzyZ+pz/KfmEGBtyb5yPwlh2btVYRQBH3gf/wI
- b1j6ynTNxkkYK5H37jEiEnCf/KRiVglyOC1ORa8FeTIjZYT/BIFiYm+gnw3eNehgczQ+
- xdn2JW5zypIj6yEPgLReOkTmdvjcuTPT6eprUijdzprUD+UjaqhWMPToMs6Z7imtX99S
- PVhg==
+ bh=aXAkVT7qE3o2b6C1GZG01G7UNo5SeuZbrIlsD61ojCg=;
+ b=WZLVM+Pvfjz9X30E2t8w3NE+GPwpnZcHc3b860wehev3NfRVUhKjczo7KpM/+Nv+aB
+ Qe1ZdEuzfcoHXfljY1J+hOFllH3jsHTI/eX4O1i7tJKofF7J2WVA1TZh19r/Ry9PG6Sb
+ sbiVK/XhecqUzwxRoadxoayaqwPEYt14l16rlKvhaBJ8ji8dcnZNd1hihPs5V4m9xDhb
+ M9W5K/VvULUiC10++uH5t7hoEs6yfpyT6VKFJtkKVhQ163arDQAS+DkHysj8pn65CJao
+ nAZKAE9Q6SZFYJ5Z7YGdl4rPE641i8GdCuQhQTg9q0SUI2mOlUviYms3O5SBepQwqlQX
+ Vmvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679642093;
+ d=1e100.net; s=20210112; t=1679642260;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lUhNXXr7A3jN6EIrBJGqjsnZ6lNCOb7chI6KB9f+Qzw=;
- b=Z/v1TpOgY3ALMq/EG00MiAx31H24AK738CK5LUbZugSAZmzu1eMcxW5O8TqR3oQlWI
- 5+GQBX55JOPuYq/r1S9oYI/p2f8pBAHe05zKdgLFn2ljRrykZWm+KMldhUFOlKGNMxmc
- Ngyavv0EQDMhhxrhSmAaQ7furYa8oLqOdQRAQLuT1fgJPH11RoleebsUEHue5+nW+eAO
- FWzgHEmVHaSTVcC4kfZYoSDsnkKl87D7sixILSPOu7R8Pi9xIfsWU8GcbAKOS2iRBTfv
- jzdBiXE5WJJ0j9X22az/YOHEVSM59b7wYbr/HqbPlY534D8elNdXCbiPS6fQgVa6NRda
- zdSA==
-X-Gm-Message-State: AAQBX9esVDpC1zQhhgdtsggY0xDWq0bMtIMb+qeUOag5aUal/XgnIrv+
- n/XEtWYDv7DTdOboraX1e7SGXA==
-X-Google-Smtp-Source: AKy350b6WMNA4lV20pB+fdL6d88YIA6NDpZMazgO5ptPxkVcwzyA4h+XyOijzec6QH4ptv+ha13hug==
-X-Received: by 2002:a17:907:75dc:b0:932:66ca:faf4 with SMTP id
- jl28-20020a17090775dc00b0093266cafaf4mr2089685ejc.54.1679642093584; 
- Fri, 24 Mar 2023 00:14:53 -0700 (PDT)
+ bh=aXAkVT7qE3o2b6C1GZG01G7UNo5SeuZbrIlsD61ojCg=;
+ b=ogzpSPh9bSPP0eyTQjqd3+QQvHCAgcolmznvowR6/uhrNkiLSYE90Un015LEhsQpvo
+ A/xZ/Zoar5MWq6qOQfmtiNEHzpcARGUQiQdpHWdCmy+qjgVRaOL4eVoyyZn4SrINHHe/
+ YTEAf0nkWgigQqFpI31ycfPLIHWvqD9SaK5vXcAK855RAvbLrhKOT3CHe/nTi1cDH13Q
+ /tUpqjO0J21Pa3swgJdTInXiNZJ2wOmVVlpaU+d/4lonkc5/b8I+lUBxsB9VAVsjzusn
+ FU1FQY1YBrHSuR1hruCM1S7NEd8pEKL0m6Y/HexStZFrqylSsv2dPncq+OX1MfZq7BcM
+ QvcQ==
+X-Gm-Message-State: AAQBX9eTnf6HZ+ZN9Z7YZUh9Eahsq91QW49uAetc9AvJ+w8c/Lq5X2wM
+ fcOVWoFOIyDq9W1fWfsKzoqakQ==
+X-Google-Smtp-Source: AKy350Z0IEgUlLyGvvrQ30h1GQdZUzu5+nU1YNH91UDza4dmttvtndN3IIVzkTqrz4PLJOMOJ62uwg==
+X-Received: by 2002:a17:906:b74f:b0:92d:591f:6586 with SMTP id
+ fx15-20020a170906b74f00b0092d591f6586mr1897064ejb.34.1679642260303; 
+ Fri, 24 Mar 2023 00:17:40 -0700 (PDT)
 Received: from ?IPV6:2a02:810d:15c0:828:ce50:243f:54cc:5373?
  ([2a02:810d:15c0:828:ce50:243f:54cc:5373])
  by smtp.gmail.com with ESMTPSA id
- z8-20020a17090655c800b00930569e6910sm9965176ejp.16.2023.03.24.00.14.52
+ 24-20020a508758000000b004fb419921e2sm10316150edv.57.2023.03.24.00.17.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 00:14:53 -0700 (PDT)
-Message-ID: <213b18de-3d99-33e1-6089-71c2fa4d3c47@linaro.org>
-Date: Fri, 24 Mar 2023 08:14:51 +0100
+ Fri, 24 Mar 2023 00:17:39 -0700 (PDT)
+Message-ID: <306b02e8-72bf-3eb7-f4cc-3cc5c598993b@linaro.org>
+Date: Fri, 24 Mar 2023 08:17:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 7/8] arm64: dts: qcom: sm8450: remove invalid reg-names
- from ufs node
+Subject: Re: [PATCH 6/8] arm64: dts: qcom: sm8450: remove invalid npl clock in
+ vamacro node
 Content-Language: en-US
-To: Eric Biggers <ebiggers@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
+To: neil.armstrong@linaro.org, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Lee Jones <lee@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, Avri Altman <avri.altman@wdc.com>,
+ Bart Van Assche <bvanassche@acm.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-0-3ead1e418fe4@linaro.org>
- <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-7-3ead1e418fe4@linaro.org>
- <9614782e-0d78-e8f2-a438-452cfa86f80b@linaro.org>
- <316d7d7d-b370-36e1-648a-400447d2dd47@linaro.org>
- <20230324065247.GA9598@sol.localdomain>
+ <20230323-topic-sm8450-upstream-dt-bindings-fixes-v1-6-3ead1e418fe4@linaro.org>
+ <35e3aa8b-ccff-25fa-42da-d8934ef366c6@linaro.org>
+ <006bf3bf-ab9a-4a08-3ba5-fa23ff4ea05a@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230324065247.GA9598@sol.localdomain>
+In-Reply-To: <006bf3bf-ab9a-4a08-3ba5-fa23ff4ea05a@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,66 +90,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Bart Van Assche <bvanassche@acm.org>, linux-scsi@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Andy Gross <agross@kernel.org>,
- devicetree@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Avri Altman <avri.altman@wdc.com>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <sean@poorly.run>, Stephen Boyd <sboyd@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+Cc: linux-scsi@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Krzysztof Kozlowski <krzk@kernel.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/03/2023 07:52, Eric Biggers wrote:
-> Hi Neil,
-> 
-> On Thu, Mar 23, 2023 at 02:10:44PM +0100, Neil Armstrong wrote:
->> Hi,
->>
->> On 23/03/2023 11:49, Krzysztof Kozlowski wrote:
->>> On 23/03/2023 11:25, Neil Armstrong wrote:
->>>> Fixes the following DT bindings check error:
->>>> ufshc@1d84000: Unevaluated properties are not allowed ('reg-names' was unexpected)
->>>>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>>   arch/arm64/boot/dts/qcom/sm8450.dtsi | 1 -
->>>>   1 file changed, 1 deletion(-)
->>>>
->>>> diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
->>>> index ef9bae2e6acc..8ecc48c7c5ef 100644
->>>> --- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
->>>> +++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
->>>> @@ -3996,7 +3996,6 @@ ufs_mem_hc: ufshc@1d84000 {
->>>>   				     "jedec,ufs-2.0";
->>>>   			reg = <0 0x01d84000 0 0x3000>,
->>>>   			      <0 0x01d88000 0 0x8000>;
->>>> -			reg-names = "std", "ice";
+On 23/03/2023 14:13, Neil Armstrong wrote:
+> On 23/03/2023 11:47, Krzysztof Kozlowski wrote:
+>> On 23/03/2023 11:25, Neil Armstrong wrote:
+>>> Fixes the following DT bindings check error:
+>>> codec@33f0000: clocks: [[137, 57, 1], [137, 102, 1], [137, 103, 1], [137, 70, 1]] is too long
+>>> codec@33f0000: clock-names: 'oneOf' conditional failed, one must be fixed:
+>>> 	        ['mclk', 'macro', 'dcodec', 'npl'] is too long
 >>>
->>> This is also part of:
->>> https://lore.kernel.org/linux-arm-msm/20230308155838.1094920-8-abel.vesa@linaro.org/#Z31arch:arm64:boot:dts:qcom:sm8450.dtsi
->>> but I actually wonder whether you just missed some binding patch?
+>>> The implementation was checked and this npl clock isn't used for the VA macro.
+>>>
 >>
->> I'm aware of Abel's RFC patchset to support shared ICE, but this is a cleanup of the current DT,
->> and the current bindings schema doesn't document reg-names.
->>
+>> This does not look correct. DTS looks good, you miss some patches in
+>> your tree.
 > 
-> The ufs-qcom driver accesses the "ice" registers by name, so the reg-names can't
-> be removed from the device tree.  A few months ago there was a patch to fix the
-> device tree schema for qcom,ufs to include the reg-names.  It looks like that
-> patch got missed, though:
-> https://lore.kernel.org/r/20221209-dt-binding-ufs-v2-2-dc7a04699579@fairphone.com
+> I'm based on today's linux-next, 
 
-Exactly. This is why I never saw these warnings.
+Which is unfortunately not enough. Several things were
+fixed/added/changed and are pending. I brought the topic of pending
+branch few times on IRC for that reason.
 
-Neil, there are a lot of pending patches, so you need to be sure you run
-dtbs_check with them applied.
+> while the other lpass macros uses the npl clock,
+> the lpass vamacro bindings doesn't document the npl clock.
+> 
+> And I found no fixes whatsover to add the npl clock to bindings.
+
+Really? lore finds it easily:
+
+https://lore.kernel.org/all/20221118071849.25506-2-srinivas.kandagatla@linaro.org/
+
 
 Best regards,
 Krzysztof
