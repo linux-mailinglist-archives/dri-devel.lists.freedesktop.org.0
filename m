@@ -1,64 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1936C7952
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:04:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AFB6C7987
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 09:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27E4110E4FD;
-	Fri, 24 Mar 2023 08:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBBDA10E517;
+	Fri, 24 Mar 2023 08:18:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FFD110EB97
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 08:04:03 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E954E6296F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 08:04:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1FDC7C433EF
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 08:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679645042;
- bh=WZZv/Rl9JuymKqfRhX3LlYwyzHVxrAcsNOrVqsEUIf0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=AfX97p3X/PpFHgR5bXTjh5wP+Ar43s+pdiMPkzb+ltUIuPrBgraGkBLTBBluF48jQ
- GeXGVqu9t0Xvn/lXMo8stvtOtFG9r91uA/mSenYrS0HZ9HCNYUcr5hWWuoDOPjOmSJ
- RIrC6wdYrM8Rt+YO23zeLOsM43w9JGbfl5U73jHTtR6BQ+2bSP6bBogRT/QIW4YyxU
- qDHbAfQHwgokd4IeIgg35Ze+vj7/jQv0lJpvJun+aDRDDlDb40gbxBVPwRUtJFmrpJ
- t0yHfVPqJGcoM04VOX6kl6OoEgJtX8O6hjJoWFd82+igGuEavUbdApe0ktg51e1Zj0
- VTJFIJZbJzkaQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0B5F4C43142; Fri, 24 Mar 2023 08:04:02 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217237] Fail to read EDID after resuming from suspend since
- kernel 6.2
-Date: Fri, 24 Mar 2023 08:04:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jani.nikula@intel.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217237-2300-IaqZLPGtUe@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217237-2300@https.bugzilla.kernel.org/>
-References: <bug-217237-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9482D10E517
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 08:18:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679645909; x=1711181909;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=VWYIiuammHuGfocthF8r48PbgjPi0ijJG3FZ3kcjkTU=;
+ b=IG3U2Dn9xkun7gWGbgWeMp67rIPFsnBpsaunkXgkfsMFHTcbkbEfM7BC
+ +aNpRGHhAt9ZKKCw+AXDVQzLXvCWbUgF77NWpBOzxDtu6y28vI5qaYVsv
+ A7joyh6mHAj913mjkNhkYqBtXOwEDpu7SRBqva+7x48IeB77+qFS5/ygz
+ YguOU+NhdNlFBxuNp+VTH5z7rseTQ5rr/N7Eo46ZjGmAdPHjoSM8WjaV1
+ B5kBN/n+HTp5CBT9vnv2jjfNitg8XDO5J7eTzTT+fWNK4Emulzxo7k+uq
+ 6Ue7uhKEeljldG01orJuqUk9B9+VILwYXGzvxOetRZCRwtqSgYzYutVpg A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="320116411"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; d="scan'208";a="320116411"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2023 01:18:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10658"; a="928574832"
+X-IronPort-AV: E=Sophos;i="5.98,287,1673942400"; d="scan'208";a="928574832"
+Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2023 01:18:20 -0700
+Date: Fri, 24 Mar 2023 09:18:18 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Oded Gabbay <ogabbay@kernel.org>
+Subject: Re: [PATCH 1/6] accel/habanalabs: unmap mapped memory when TLB inv
+ fails
+Message-ID: <20230324081818.GF2130371@linux.intel.com>
+References: <20230323113525.959176-1-ogabbay@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230323113525.959176-1-ogabbay@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,22 +58,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Koby Elbaz <kelbaz@habana.ai>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217237
+On Thu, Mar 23, 2023 at 01:35:20PM +0200, Oded Gabbay wrote:
+> From: Koby Elbaz <kelbaz@habana.ai>
+> 
+> Once a memory mapping is added to the page tables, it's followed by
+> a TLB invalidation request which could potentially fail (HW failure).
+> Removing the mapping is simply a part of this failure handling routine.
+> TLB invalidation failure prints were updated to be more accurate.
+> 
+> Signed-off-by: Koby Elbaz <kelbaz@habana.ai>
+> Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+> Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 
---- Comment #2 from Jani Nikula (jani.nikula@intel.com) ---
-Yeah, bisection is likely the quickest way to resolve this.
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 
-Please add drm.debug=3D0xe module parameter, redo the full dmesg, and attac=
-h it
-to the gitlab issue.
+>  	rc = hl_mmu_invalidate_cache(hdev, false, MMU_OP_USERPTR | MMU_OP_SKIP_LOW_CACHE_INV);
+> +	if (rc)
+> +		goto err_mmu_unmap;
 
-Please also tag me with @jani in the gitlab issue. Thanks.
+BTW: all other calls of that function ignore the error. Assume that is fine.
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Regards
+Stanislaw
