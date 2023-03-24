@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF1E6C7B5C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:29:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C51B6C7B5D
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB1CD10EBB7;
-	Fri, 24 Mar 2023 09:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE2910EBBC;
+	Fri, 24 Mar 2023 09:28:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6515910EBA5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:28:52 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id j24so1090110wrd.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 02:28:52 -0700 (PDT)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60CBF10EBAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:28:53 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id o32so711301wms.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 02:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679650131;
+ d=linaro.org; s=google; t=1679650132;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=YClmJDKz6cZns1Ia5c/sLtO34LHFlQQl6zHxRMVgDX8=;
- b=mr6ClSCp6Tr1hWXkuQ+WvJcUgf8qbHXaE6mQqhEasdKrCz/keIHhDzxYvqHBKKjZGE
- WmzNct1x11dzJMvPVuGjXkHyA2g2wVnTMH8bZITHLp6EDB6HsiaAhOHkGuBaWvEpCXgC
- 8a/73zAqmcAo8Jq44FpiAPL2hXvBp777qRpMasj4dOSz0eMHTYSras+6/MALwDFhib0a
- bkuWyakWMjpD05mlRHr/9oJgW44oIDJvnKaYD+glDArKfsrDbtmS4j0BFC+bCb4Olu+i
- kuPtTBEE/xP1dtHkkQvvQic4fOFxw/C8a4iEekioF0f0WU3h69lhmOcI2pNEd4z4bZ9t
- qc7A==
+ :reply-to; bh=rm2CqI1B2hHOJ8Hl9EI4NwacgguNWTWv0kuPmfPl+UI=;
+ b=t284nf1k9sv2iMsS86WPPjUxEiH7BfXG4hgg1nU4y34toO5vT/a29fpKktjfH8TRsX
+ WKS6kJIznte2assEdru4gLMRsF3SWOdyLZVAPvXs43YUPEJ6n/F3NeWexEsAsRSwLrjw
+ yUe0h3iuWuWqj/y+rA/I6HWd8vBmb0mOTGWWwN4mJBYJW4HB6pZNgUEubzJjcRK3VcDd
+ iO6F6pGXhkfM8SABVu1qJyxt6EVoCVNfLUy6euuvpGLWqWgVRN60CyjxP2KyXqqYLg5m
+ w0cnrdp2AZ/VPL9p0K2LTKSn0J6qztMZzMMnWlY3wkduF9xXg2lB1uQz9pWgTv7ClySz
+ PlFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679650131;
+ d=1e100.net; s=20210112; t=1679650132;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YClmJDKz6cZns1Ia5c/sLtO34LHFlQQl6zHxRMVgDX8=;
- b=POv4UPSIrma/49GSIpAOTHVvOBGmBkugsb3MhIvleEx8oBQ3sDWjeh0yidsW9/AE56
- PRc2fBXE0E/otCdRs5kLR7LAr/szKaUDouOGhws6Z8Zg4Sx2XwrGD2vce9JxTXmp2/h6
- zihuXMGJxX/kKb+MosKUYXN+Z3Eco+0bYcvWa6dxpQkIg78fw5W21xuIdTEpEfvaaP5/
- aBD3HdP+EH68GJHdZ/ROYSEDiQBTJi5V/Gj2uFG+Ts3OzIn10x9L2CUbaIetyRrdXHmQ
- 8rEVFtdy9pfKWTLciG/7W6ah+Ut8qZ8Q2YsLqH6ASGtvj7kp59defhUFBDhfzErvAjUE
- wcxw==
-X-Gm-Message-State: AAQBX9cprUPCguOC6Avmnme0giUT4+ngjNq8M74QbVY4g+dnJ5rmLbLc
- qbpuA6vp9niAjzDKPMhtLYFRHw==
-X-Google-Smtp-Source: AKy350YPqtf7wMdZLg60x7SHKleSr8f4qz+JIvgKdsMXSPhn/X6wC4nfLVIdzdPM+av+LAOKJUEokQ==
-X-Received: by 2002:a5d:570b:0:b0:2dc:d670:5351 with SMTP id
- a11-20020a5d570b000000b002dcd6705351mr1690298wrv.62.1679650130755; 
- Fri, 24 Mar 2023 02:28:50 -0700 (PDT)
+ bh=rm2CqI1B2hHOJ8Hl9EI4NwacgguNWTWv0kuPmfPl+UI=;
+ b=UlT5DuCHK0C5hU7Q7o9Ou1gtHHXNnBukTQlarCbvjEFT8aGKZAcE20mSH/VuJnSVFL
+ C0zJ1QNaelMzHWL+tc1Rl/IyS4hmVyzQZcQsXmhXOAO8m6/b5/YExz16FrWADnJQVBAL
+ RhDwRHXyicygwoMhgVAkTE4k7mYLbdlkv1HiDEEYLo4sGc2SR6uB8VYK9oJiac3Tex49
+ Bs5NqgpijZudQEWIiliM+Nez3QqqlJMG4IOYD4sf41kxtFOsd7/YV1kHgNW35Lgwgg62
+ zRwJEk95s8Aug+WzIkR9SVnqt1SNdE861P+1PLelbUJZ1MHCRZXaWkV1NjNknL3FDIQH
+ /dKA==
+X-Gm-Message-State: AO0yUKVlFc5R9NABmQK2AZEgCCFkJZbwObIjgFO2nvsC+ZbEEpnB8nVY
+ OiMEspFgXskxdtsYwIwj9mg44g==
+X-Google-Smtp-Source: AK7set/KO0ZKtP+ZNvxHzZXCh5+l/McQL+zEOhxzhknt4p1EcpvbrKTkz/jkNtk7LgYtfkCuZ5V61A==
+X-Received: by 2002:a05:600c:28b:b0:3ed:5cf7:3080 with SMTP id
+ 11-20020a05600c028b00b003ed5cf73080mr1917189wmk.5.1679650131787; 
+ Fri, 24 Mar 2023 02:28:51 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- v14-20020adfe28e000000b002c5a790e959sm18029980wri.19.2023.03.24.02.28.49
+ v14-20020adfe28e000000b002c5a790e959sm18029980wri.19.2023.03.24.02.28.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 02:28:50 -0700 (PDT)
+ Fri, 24 Mar 2023 02:28:51 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Fri, 24 Mar 2023 10:28:46 +0100
-Subject: [PATCH v2 1/4] dt-bindings: display: msm: sm8450-mdss: Fix DSI
- compatible
+Date: Fri, 24 Mar 2023 10:28:47 +0100
+Subject: [PATCH v2 2/4] arm64: dts: qcom: sm8450: remove invalid properties
+ in cluster-sleep nodes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-1-0ca1bea1a843@linaro.org>
+Message-Id: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-2-0ca1bea1a843@linaro.org>
 References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-0-0ca1bea1a843@linaro.org>
 In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-0-0ca1bea1a843@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -88,46 +88,45 @@ Cc: devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSI compatible changed between patchset revisions, but that wasn't
-reflected in the bindings. Fix it.
+Fixes the following DT bindings check error:
+domain-idle-states: cluster-sleep-0: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
+'pinctrl-[0-9]+'
+domain-idle-states: cluster-sleep-1: 'idle-state-name', 'local-timer-stop' do not match any of the regexes:
+'pinctrl-[0-9]+'
 
-Fixes: 0eda3c6cb1c5 ("dt-bindings: display/msm: add support for the display on SM8450")
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ arch/arm64/boot/dts/qcom/sm8450.dtsi | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-index 4c6929e2534c..f26eb5643aed 100644
---- a/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8450-mdss.yaml
-@@ -54,7 +54,7 @@ patternProperties:
-     type: object
-     properties:
-       compatible:
--        const: qcom,dsi-phy-5nm-8450
-+        const: qcom,sm8450-dsi-phy-5nm
+diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+index 78fb65bd15cc..ff55fcfdd676 100644
+--- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+@@ -255,22 +255,18 @@ BIG_CPU_SLEEP_0: cpu-sleep-1-0 {
+ 		domain-idle-states {
+ 			CLUSTER_SLEEP_0: cluster-sleep-0 {
+ 				compatible = "domain-idle-state";
+-				idle-state-name = "cluster-l3-off";
+ 				arm,psci-suspend-param = <0x41000044>;
+ 				entry-latency-us = <1050>;
+ 				exit-latency-us = <2500>;
+ 				min-residency-us = <5309>;
+-				local-timer-stop;
+ 			};
  
- required:
-   - compatible
-@@ -254,7 +254,7 @@ examples:
-         };
- 
-         dsi0_phy: phy@ae94400 {
--            compatible = "qcom,dsi-phy-5nm-8450";
-+            compatible = "qcom,sm8450-dsi-phy-5nm";
-             reg = <0x0ae94400 0x200>,
-                   <0x0ae94600 0x280>,
-                   <0x0ae94900 0x260>;
-@@ -325,7 +325,7 @@ examples:
-         };
- 
-         dsi1_phy: phy@ae96400 {
--            compatible = "qcom,dsi-phy-5nm-8450";
-+            compatible = "qcom,sm8450-dsi-phy-5nm";
-             reg = <0x0ae96400 0x200>,
-                   <0x0ae96600 0x280>,
-                   <0x0ae96900 0x260>;
+ 			CLUSTER_SLEEP_1: cluster-sleep-1 {
+ 				compatible = "domain-idle-state";
+-				idle-state-name = "cluster-power-collapse";
+ 				arm,psci-suspend-param = <0x4100c344>;
+ 				entry-latency-us = <2700>;
+ 				exit-latency-us = <3500>;
+ 				min-residency-us = <13959>;
+-				local-timer-stop;
+ 			};
+ 		};
+ 	};
 
 -- 
 2.34.1
