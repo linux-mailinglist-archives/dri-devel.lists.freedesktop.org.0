@@ -2,152 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093346C8498
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 19:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A5E6C8522
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 19:32:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3F310E180;
-	Fri, 24 Mar 2023 18:15:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93ECF10E185;
+	Fri, 24 Mar 2023 18:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1399F10E180;
- Fri, 24 Mar 2023 18:15:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679681729; x=1711217729;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=XhASnXZHo20k7UFkZmC4Nfr6Plzv5SgYWpNDV2s+LGY=;
- b=LRHZPwhT9R8ZnW/jwpIcHDhwoZRJVqGQg9egJ0e6rlOkl6C/Trq7B0Rd
- lVidL9mJzNk+K7vI/U+S8eCVHNG+8n4KJB1ZJf199oJzCkRSC3acqdNw/
- nDV2TrtWn9PPRjG/u+OIJK6avLhI9LdMntDqpgvog5cImhc5SeWMMPyHs
- eQamqinTFmIeoTGjg6HBHuVlt5C9PzIuOAfcxbuhp7BT8j0w9AFeQvrf/
- LybK76ZMaS4hqiJjVfJ7nqdQqNlWltKr1CbZV/DD3YrbgOzPNqzpgafT5
- qwpr5weZ+/s+nvuKWjmCxcTouu2YPXE4QAiQCV6Ss619jmhxCcd9YnTMr w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="367587340"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; d="scan'208";a="367587340"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2023 11:15:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="632922200"
-X-IronPort-AV: E=Sophos;i="5.98,288,1673942400"; d="scan'208";a="632922200"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga003.jf.intel.com with ESMTP; 24 Mar 2023 11:15:07 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 24 Mar 2023 11:15:07 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 24 Mar 2023 11:15:06 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Fri, 24 Mar 2023 11:15:06 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Fri, 24 Mar 2023 11:15:06 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on20612.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e89::612])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AC1F10E185;
+ Fri, 24 Mar 2023 18:32:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zin+2iGB1wHv2P86xGxLXEnQ1ZpFW95/yDRGTD/DzjLiFAAjEcFHvVmoxw1fYVS/91GeDD8v1cDL/dPTUnd31s4ohckuplwt+WpWJ4T8jmtfOb462b4liWd9zpwbXNRY8SX7Ex/JzpRCMsd7ZLM4kgS0+yMl4HhimzMwcLS98oqLIH+LvqF1Zt/ShdcyJ6yxQgv50TiRrA9l5lBMM+5ghiDG8wwHgO4tT4ohpDOQpRkCf0W3bzxLEhTszG2gXyKYRImhQZ4TwxJv2FVSkG7nEPqWl2WhwmWmY148YV5bYAwkwhHPVGcwGvm6lAlAVJ0X9U7cghHxi51/oKaGh7dR2g==
+ b=Ig4LCCfmvjd7JIm3xOS4q7L7YTQ4Aw+rpPypOZProDLfnjbI0l4mo4i8tkQSb7+ei38vj9XEdkk69vE0bsFquxtIe4ucACEtlU7mMGG2+3ooKiCrdE0AS9uYzAApuT8H/adKe03ZlY1NCRMtmhZYwUGmEp/RI8GLt3LSdCScNKppADRcaVuKKvfKj5ak/99ZQsf1FqJrvyFCVBbH4xoA7vfZ3d0ICuzB5husSnO3jJkjkJ1jx+U5PX6i1B3SIfTinjI/BHJyQpX3d22pVbHQkTjpYbBpNEp+i6XxGoGH7AjYOCpXG1LFjjv0PudeghGTN4MCmixMIYIRNT3lcsonOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6xGn0y1ziB8bT8EetM0BUr6f8qEgEAwvqsjLl0Sdap8=;
- b=MbgKW0ZutMzSRtENDPPLpId0trOhPChFp86ub4TTOTT9K85iwKth/24NjnT52bum7BytzCKK/MNGD5FdqTfrx1H8V5oA07LGKD4kgcjH62XkF5Uf5HsoAeXJKGJtW+bnysf+pSOQVnZbgIWYR8qc3T1WWHyFOC/4Y7iDs2FIEeDUCzc9hsKTMkyclAifC3i737X6VtR7pXK5UExvHmXpvjvKJNfOwTNFhnsu2hdBS5IQIKgva4fB+OKaEUvhabxhtXTGZ7KP7VnWh1qkfIJ9QS7kshZq6TNwPWvaYHB4UytbEveCvZP3MdmZ7vqla3/GBW6rePItIiYlH77NeKJiag==
+ bh=iCDyfoGs0DbQ/6XHQNcIN2rDqxqn+A5/LrTePMqCyKc=;
+ b=RHBvJ2THcmsm/q571+pG3TZMDTbskFHtCvWBlFL9/r7PWDvR+6fMfZsSnd+/DtTtLrGjHYgDG11ZalnEvPhaYdwHqVWjkoAKS0M7vuB/sWl3ymZZrVMFQFEhQVzVBZP/0qxUHYkl5zDbmPDeAsohAKYQVVeyYx6orcqM2JXt4m9KZX/saMKG4dLmrdM1xuj2hBdLi1Olao/oTXx9aMoNlh+kdazJvVJYzkJXv+pNWnll5k9rueBeuNDjYemrjLCA0dUDFWE8+oxHsTsqGIFtXcqgKtza4/L4nT7Vaapei37KHntt+lB+74aXMTh5Ca4C9LrXPl1QG3/PEMBCm8LkDQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iCDyfoGs0DbQ/6XHQNcIN2rDqxqn+A5/LrTePMqCyKc=;
+ b=nBIdR0/azkvWjwsLsC4nkmRFlK8WQBAfjcKTkMip2302YT57DK9axEOrg2dn7n2QWoLlO59LstVwcXOegQgFBAoHVRwn3ixAj44QjVV9UpInk/5piHK88yDBXY2rFwko5mfvZwS0sWUh8BB8/K/KonlnRkZYH2nwspMtZsrka+4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com (2603:10b6:a03:1c1::23)
- by CO1PR11MB4898.namprd11.prod.outlook.com (2603:10b6:303:92::7) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ PH7PR12MB7257.namprd12.prod.outlook.com (2603:10b6:510:205::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.38; Fri, 24 Mar
- 2023 18:15:04 +0000
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::5c78:a264:4cea:6fa5]) by BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::5c78:a264:4cea:6fa5%5]) with mapi id 15.20.6178.038; Fri, 24 Mar 2023
- 18:15:04 +0000
-Message-ID: <4760d41f-c237-9f97-eb32-5d2ab05eea20@intel.com>
-Date: Fri, 24 Mar 2023 11:15:02 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/i915/guc: Disable PL1 power limit when loading GuC
- firmware
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.39; Fri, 24 Mar
+ 2023 18:32:40 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::cdcb:a816:4bc3:a83f]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::cdcb:a816:4bc3:a83f%9]) with mapi id 15.20.6178.037; Fri, 24 Mar 2023
+ 18:32:40 +0000
+Message-ID: <2aeaccd0-d105-fc97-c343-8be16a93626b@amd.com>
+Date: Fri, 24 Mar 2023 14:33:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH resent] drm/amd/display: Fix exception handling in
+ dm_validate_stream_and_context()
 Content-Language: en-US
-To: Ashutosh Dixit <ashutosh.dixit@intel.com>,
- <intel-gfx@lists.freedesktop.org>
-References: <20230316035954.2593843-1-ashutosh.dixit@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-In-Reply-To: <20230316035954.2593843-1-ashutosh.dixit@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Markus Elfring <Markus.Elfring@web.de>, kernel-janitors@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Hersen Wu <hersenxs.wu@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Roman Li <roman.li@amd.com>,
+ Stylon Wang <stylon.wang@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>
+References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
+ <e6656c83-ee7a-a253-2028-109138779c94@web.de>
+ <ea0ff67b-3665-db82-9792-67a633ba07f5@web.de>
+ <32674bac-92c2-8fc7-0977-6d2d81b3257f@amd.com>
+ <7a523efc-a82b-a1a1-e846-6047226cc968@web.de>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <7a523efc-a82b-a1a1-e846-6047226cc968@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY3PR05CA0008.namprd05.prod.outlook.com
- (2603:10b6:a03:254::13) To BY5PR11MB4274.namprd11.prod.outlook.com
- (2603:10b6:a03:1c1::23)
+X-ClientProxiedBy: YQBPR0101CA0007.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00::20) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4274:EE_|CO1PR11MB4898:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62c6be24-a107-46ec-5a17-08db2c93b09e
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|PH7PR12MB7257:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1a11f8b-306b-465e-8b6f-08db2c9625e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ISdqtx5n7ggPTjhL7oc/Obh6C557tdV35i4km8diRgv1gDpb3kvU/nFISkT5kTZy5s0kV39NiDkbRvEMVpIfgosESNE3Ic/EGIgDlnhm9g4ELqxQDzCp+bTcUTyByZhlydt/JwbUWYWal2R1Rv4ewVS29TIW1ulWudkpcDDZuUbfNiwediA/qrX4MMz4BBFvzOCcj5hepiREkOjxPmTDiGQo17xG9Xp8FRcUdxp9/DWxdKKrQQ3cY41QQwE8tqOo7pUmaCMI+Daib7hdS05dvXuYUKBZyZbrd90/lv++O2ypIr/Pe2Bw94mW1g/NHSwgtTVz1xqoO5sze+PrQuN4heKYbEbEy2kn/K1mOWTo2zOnT+QCEivFXPPjvRCk8o2OvOFoonluW1+NtGoXKkp5iTLbt4FVfG1vpsYV6pIe27PeaXXZ4l/N7sx5l5fMmqgtU/k1eF3PglIKmgDqe5gxPzNG3C6C5m9rvTldKdo69ufEkN2K6d3OOxFRm6XgJiHQ96csfJnBoAgIZ+4sZpF2yZKzq6OezR6zS41gP3trESopzk+IErRFCHjO9UcMtHQhQjE9ZJBwyIrqZDx2/1ehRsH4tjQ0sOsXLe7EUUo7ZcDjqo8lobb812Ch05c+I3Z3OGnoNZ3+s6cIP+6W3KpGiYB0Icu50SI5NVUb88jb27pT76y9rWN3SGNjVyBzMBRLYfjKfKusdgEegam2E6OqkQ==
+X-Microsoft-Antispam-Message-Info: uJbawNU36Enmv68bZU8BMopPxs4zrIoZYcGszIyJAXFjCUvI9k9Sz6eEV2a5gqtDDjVApTX+kx/Rpu4YPYTJU17caWZQ0p/utssHcnTMFLuzsfEORJ/VdSFohQzrECGly2vVUSXCeXXb4YEKwCrWQOtE1/BdVDh9nK1uqdK6X3qB0mXlg7UEQUec0ZqNvz6vpJJTIlVOGzAKAN9DcYflRgs09IuSheeL2SUcmsFDw+y5HTwTJowrYrlDAQpefUjMHvB7U/7fbMGxUTeGpegsnzfUhxN2ZuJ5NsL12Auol0nryOW853sMtYWax45SzdU3s/IDU9zf9I8x1V3f1tnPlRLQR2S65B+DUITTUEXDSLgJmuSNuvr4+zRrflKzlE5dETnomge2lRVF+91w8Ca6knK1GIVFu57fpt2Er97CV5Q4gjWVCz+h4GIrN1FHLVjXG7a2hcDyQxQbVPMNR/7lADj3bO8FCGlD9toCan3qMm4abt4HKmMwW5Y9XGoYY/19JQUHQXhL9rBsGSd6U33vuQfdWkh6Jo78kZrH4L6ctZJ3zo+EBMrvF8HdbH37VKKN6xDvNPvV6qD4GD7jCEtL8EZVMVDriPA+Gn7ljc1MuhPCX7mVk4Zqc3EGde40/YGckfvsQztC+U39HI+XIWzidc0zP8oTCkBW9VW2euH9ZutECw2z36s/zG3TCZUJ1TrH52ffxQjhc2ZWTDdZIGXcXCZOFQbueuuMZtffdNYXvlWwY2T69kBCq5wWA152ex6j
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4274.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(376002)(136003)(346002)(366004)(396003)(451199021)(41300700001)(66556008)(316002)(66946007)(186003)(2906002)(478600001)(82960400001)(5660300002)(966005)(54906003)(6486002)(31696002)(26005)(6512007)(66476007)(8676002)(86362001)(8936002)(4326008)(36756003)(2616005)(83380400001)(31686004)(6506007)(53546011)(38100700002)(45980500001)(43740500002)(473944003);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(136003)(396003)(346002)(376002)(366004)(39860400002)(451199021)(66946007)(66556008)(110136005)(66476007)(86362001)(8676002)(36756003)(2906002)(44832011)(316002)(31696002)(478600001)(921005)(6636002)(6486002)(53546011)(26005)(186003)(6666004)(6512007)(38100700002)(31686004)(8936002)(4744005)(41300700001)(4326008)(5660300002)(6506007)(2616005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2NwVXZIcWZpb0svUTdmajk0Rmp4WGh1VjVqYStycmlEMVREQzd6ZXV6cmEy?=
- =?utf-8?B?cDdUTTFISjlSMWoxS25MWEI2YXZTU2hQR0ovTTZpc1pXQThaeFhwbGppc2tx?=
- =?utf-8?B?OEwxK0RLMzZ2NmtEeFdZdjVNZ1R0U2VnL0l5L1RvT0tDQktyUkxzWG1sRXd4?=
- =?utf-8?B?bnduVUQ3SlJyVU00RjhXZzZXNkJnKzdEWWRPRFh2TkR0UlFLZTBadk9CNnMr?=
- =?utf-8?B?Vi9XY0hheitsdHBqVmFySlhBYk1hZnRVS3RrbWlYNkYyV0pXcFNQMGlMNGpp?=
- =?utf-8?B?UjhBb3l2cE5TSkhIOWlGL1dGK1lSOVVIb3lTcWxrckM3WldIZDU0SmNRZzdr?=
- =?utf-8?B?MjlhcnBaWFFrWFFwMVR1Mkk2NXhNRXUxWnlqUW5vbzVSM2ZpN2l5RWdhemRr?=
- =?utf-8?B?YS9kdk1FNElsZkVPWFlEVUs1TWtPeWhTQUJpbk5URXFXYjloZGtDZHlkQU1q?=
- =?utf-8?B?eGlPVUR6K1R2SkdwSFlrSXJjcjQ2QktWa3Y0UkEraGlldElPaUVTd21CZmhV?=
- =?utf-8?B?WFdHN1pFbFo1S1NkMEZhY2JiOHJhd1hUVlpzd1doRnVxV1FpUm9yOTlJVFdO?=
- =?utf-8?B?REVzWUVveVRFblpJYkNYS2ZuQWNoNlZkTkxLM2EyL1VMT2hDUUppUE05cU1E?=
- =?utf-8?B?cW1LUXA1WnN3MUdlVm8yUFNJd1FQTTU2Nko4Q0VheEt3ZzRPS1VTQXRXM1Qy?=
- =?utf-8?B?Qm5jYlp1M21RK3ZtbEJQMVFjVituYjNFSDhTUmcwZFpPV0V1ZE81am0vQW5M?=
- =?utf-8?B?aklVOWRpSjN5QWZVUVBESXJQcVpDVkx0Rjl6aVZaVnplZ3hZOVZlV0o0eG5h?=
- =?utf-8?B?L0dreXV0cmdKVTFHYnF3TU4yVlkvUGs4VkNSZmwxYkpDS3d0a0xOZ0lRMFFY?=
- =?utf-8?B?MzBWYnZYazUydURzUDN2a3hGWjRIclZZNUVtNzkvTXpiQmlhUWwzd3RWak1S?=
- =?utf-8?B?NzlFWmg4SDVtOXNPTDdrU281SDkyM1l6ZVlZUmREbGJKSG9Qb05NcFNWNmJa?=
- =?utf-8?B?RXhyUlZXVXFMaDE0T00zWndiekorOEZBN2YzYzhxbi9zeWhGdGVQWTB6SC9k?=
- =?utf-8?B?OFBHUDJjN1pacXp4b0REbTRkeHZTRTE1QXg2VUZNeE5HbVhXYS9EUlhwcGpQ?=
- =?utf-8?B?enF2TG4wU0R0QlE5VXplOG1sYzIzMWwrY1hhS0hiVFIyZENFamxNb3FmQ3Ny?=
- =?utf-8?B?RllqVHYwbGRxU3JsSWJhVVNVQkZiTEV3eDJxcTVzczhpZWNFUlVLeTk3TkRn?=
- =?utf-8?B?bDlOYWxxMjdjbjdwLzF1L0ZKVDVhUExNVnpTRStBVyttSUM3UUp4TytYd0dt?=
- =?utf-8?B?QXg3TXQxUDRvYmlhOUxQOWNGMlFSbC8wV0U1ZDVZV1NMZkRYU1JUV3N2WU51?=
- =?utf-8?B?bjFYRWQ4c043WUhzbzF5SktTbUh1Rms4bVpMVjdKOXovZTZ5VEltckNEZTNT?=
- =?utf-8?B?dWhQQWE2Q3pvYXhhaFNJdDltR2VPdG1tVm9yZlFDTDdRZ0V3WVNhb0FkdkQ0?=
- =?utf-8?B?WDdGYXU5NDNTcjN5WFE3K0FESGY0N2FyZzJHTTRRY0ZDaVdXNlRFTFh3WXgr?=
- =?utf-8?B?RFowRXNDM3BURG44V1c5VDI5UzYzQ1BBdHh5Zm5xcGMxaWhTcURERTNVRE5X?=
- =?utf-8?B?ZDNOVDhxME5aRHo0bjZpdlp2K0Z2RkUxZGxlRDdhUnNWUmpPSUwydzBCcUNV?=
- =?utf-8?B?UDlteHRvb05EckRrSlFHYXZxUyt2bjVTeGhCcWhIR1pBTWw1VCtzMVNSaGVG?=
- =?utf-8?B?NVRyYldseVVwZ2dwa0RGSjdoQkZrWStkRUswU3IrM2o2TVZvKzRuTExGVThi?=
- =?utf-8?B?QUpuUXY5N05wZ0VCTnZTNERhK0lyeUdJU3U5bFg5dlpBNEVPblZobk92RGFv?=
- =?utf-8?B?MEdsTC92OFhwcXloVEVDeGZ2SzMxWXJaeDVRUVNJM2tHSWNpbmhRZDVDNkdl?=
- =?utf-8?B?azZUOVhYTGNGcXFLUUFBUk5KZ0twbFMyc0RQaHJWNWtEampHTHBGOXlmbkN3?=
- =?utf-8?B?akJvOUdCZEV0TjBJQVNZTmRMaUVTbjV5UmlnZXREUDNwakNkMytmYkZBRzhB?=
- =?utf-8?B?TXdKSEJnU3hJS0VhL1ZRRUJRZUtOa2hqcjFnazFVR25tV041dXVaL0NRMURP?=
- =?utf-8?B?STAwUHhCRVErL0tEZ0JUSXl0bzBlMUFoakg4RVppTzZLMnBDNHRkTmQ2c2RK?=
- =?utf-8?B?bmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62c6be24-a107-46ec-5a17-08db2c93b09e
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4274.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WGpYZm5wYlpiaVFWN0JVZzdyRkZKc1BwN1RqR0FOdU5uRkhDODl0MnczUThp?=
+ =?utf-8?B?eUhBZUd4VENiYU1OczBQd21vaUVRWVVlMnE5OHQzVWtBc2pwSEtKcEl5MWFX?=
+ =?utf-8?B?Mmo1Wnd5L3loRHZKWU9nVUQxLzlsWGRNclNIOVh4ZjAzRDZwd3Q2MW54U3Nw?=
+ =?utf-8?B?dG9ET2dIQzV6WWRna0J0cVZ1dVBFdnRLOU04L1NGMEpKRXRVU3lFOGdlakFw?=
+ =?utf-8?B?Rm9DY2pGNGg3MXFXdnViWDdjMTQrVmpqM2N1QVhLYllrVmRieVJva1JXdFoy?=
+ =?utf-8?B?S0g0eVJFcFlTL0pObVp2UjZlSWVhN3gveHE1Q0ZnUFpoQzdlVDluWkM3Uzh4?=
+ =?utf-8?B?a1BBRWZJZVJGWUE1b2tPTTFuOTd5TVZ6NVNpcmFyWHZIbUJ6cUsyZXJjTVNn?=
+ =?utf-8?B?aXZOUjJ6RHJqZGV4QkRzYkZ0aEs0cmNIN29TeFRjdXk0TVFQUmZaOUJQaVFK?=
+ =?utf-8?B?NUlSM0I3dStIUUxSMzVvZ3lHcDhqMjhmelg4VFhwRGY4YTBLdm5yY1J6Mkw2?=
+ =?utf-8?B?aU1oY1dyWEJDc2NJMkxoWTdhdWI0SWJEUi93NWczbzlsVlZwRHFYb1VieVhh?=
+ =?utf-8?B?YXNmU0M2eXNrU2VNSEVGTWJzSDBkb2UrWDNnMjdqalVzQTFMdUxWeC94S3dy?=
+ =?utf-8?B?RGJhWHZ5QVNNN05ONFoxSFNuMUthZ0c0N3JXNk5idElJbEQ2NzFrSUM5bzFs?=
+ =?utf-8?B?K2JGOStmM3JBT3FtTDczRURmTFk5RkVqN1RWTmFlVWwwQms2K1J3blgvQmgx?=
+ =?utf-8?B?WG81V21QVk1YQzhMVFcxR21tV1hlM2haeTNiQ3VDTzVzbTRFYjNIMUJCbjd1?=
+ =?utf-8?B?SkVObTVoaVdlNmxWeEZocGovTzhvUkdXajV0WXhLM3FjbWh6cGVEeHZCR3Bu?=
+ =?utf-8?B?clpQWUlCKzFob2hCUEVKcnFkZGpOU2xjbFN0UEszSzBhZkpxRlU2dlYyY2hX?=
+ =?utf-8?B?Z0hFU05sRjJHY0xpTFhIMXdIQ2FYbW52QnN2Y1VFMnFsUGI1ZkU3QjlMNGxY?=
+ =?utf-8?B?Q2lSSXFqRVdUNmFPaVZWakt0ME9PWjlwbFZFQTNoazM2ZFJtM1BST29sUVpN?=
+ =?utf-8?B?WThPeGk2dnU1bG5YeTU2aU02OGpjbEVGVDNZb0xFWTQ3Mi9HN1J0SUdXbEZz?=
+ =?utf-8?B?SGVDU1J2enl6dnoyMGdLallsZDdLSGdycTh4ak45R243ZnB2dVJqa2I0ZGx0?=
+ =?utf-8?B?ZXMyMTJ2eFd5MXpEd0wydGpLcStiampXU1FTRjMxZUNLdm1CWjJsL2VjL01J?=
+ =?utf-8?B?RExFNnBpUHVnZy9lTXowSXU0Y3BUbkdOMlAyS0tZSkRKK05tU1ZoVnI0ZitJ?=
+ =?utf-8?B?TW96dWRJZjNNdDVKR0s0YWxESnZscGFvN01HYk1RbGxicnlkZGwzVCtHTDh0?=
+ =?utf-8?B?RTNyL0gxbkY5Z1B0NzM1UXhqT3pscXU0NHFiNG5zK3VuYy9IdTZJUUZvcXU4?=
+ =?utf-8?B?T0JpSW5TZmwwelcrVS91Unc0Y0tuL0ZYcHNBNUFnZDhkR0ZJYUlHY3AvdXlQ?=
+ =?utf-8?B?UXBZU1Z5STduSFp5R2JmWG5SYTNCZ0F5eFBrWDdKMHRTaktTTUZudVRscEd2?=
+ =?utf-8?B?NXFxdS9FRjZHaHBFRDk3Yk14bVdNM0dCRUh6Z29OTjJaUlFkZC9iUkV2TXNq?=
+ =?utf-8?B?ZmE2cUNiV0lOT29IYzlGSjlyL2tYK1JPTUFNM1doV1ZteW12NmQzSmFyaEhp?=
+ =?utf-8?B?WTV5V25qSkJDeUpuWUVDSnhJeGl1M1hzQjJXVFlreHk0QlVHWDA2b3RpMHV3?=
+ =?utf-8?B?SURpVEs5K2ZqNHM5bXpzZDdORUl2NnBNTWJlZC9TcWFpcXNEdTZKellPRFcr?=
+ =?utf-8?B?dE9ySS9sMVc2RXBtbmVXOUl3ZExnWFltY0tIa3JrUzdORVhrRjhJQ0pCQVVa?=
+ =?utf-8?B?b3JzV3BTbUdVZi9rZGprYk5PUHprdTh3a3BXZFhhNjFZSEpBWnpwY2NtVkwr?=
+ =?utf-8?B?R20ybWhVYVpwVkdORkhSbU9tbmwvckFvbkIwQkxNUjQ3UktRWTRiTXdyYTQ3?=
+ =?utf-8?B?dXFncEpUUzdaTFlPby94b0Flby9ZcG9udzlHbXBWTU9KdlpuV3BuMU4welJk?=
+ =?utf-8?B?cXptMzJaa1lqVHU3WnpYSWZOamxGdDQ5L1lBd3M3VnBXUDMyVkN1Wm1ybk9m?=
+ =?utf-8?Q?5mIX+HClJv1GDHdW+3z/kQneM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1a11f8b-306b-465e-8b6f-08db2c9625e3
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 18:15:04.0383 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2023 18:32:39.7786 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jtkceQutkY26pxDaS/AfUX/mY1vYp29rv2r/54y6z6zQe7HphUB3pFZC8wBXb42cPys/cjNuhM8A9X99jqEVMgx+ov4zZtE0L6ZgYlR+2V0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4898
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: AgN0W8ydgmko0dbNkeNeKxcxGwoPpRJmTSSgy5pm6y0mm+7xj7ADaufPhEoiocGNKyYjKhwGU/6565UxNDfOfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7257
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,183 +139,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: John Harrison <john.c.harrison@intel.com>,
- Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 3/15/2023 8:59 PM, Ashutosh Dixit wrote:
-> On dGfx, the PL1 power limit being enabled and set to a low value results
-> in a low GPU operating freq. It also negates the freq raise operation which
-> is done before GuC firmware load. As a result GuC firmware load can time
-> out. Such timeouts were seen in the GL #8062 bug below (where the PL1 power
-> limit was enabled and set to a low value). Therefore disable the PL1 power
-> limit when allowed by HW when loading GuC firmware.
-v3 label missing in subject.
->
-> v2:
->   - Take mutex (to disallow writes to power1_max) across GuC reset/fw load
->   - Add hwm_power_max_restore to error return code path
->
-> v3 (Jani N):
->   - Add/remove explanatory comments
->   - Function renames
->   - Type corrections
->   - Locking annotation
->
-> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 +++++++
->   drivers/gpu/drm/i915/i915_hwmon.c     | 39 +++++++++++++++++++++++++++
->   drivers/gpu/drm/i915/i915_hwmon.h     |  7 +++++
->   3 files changed, 55 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> index 4ccb4be4c9cba..aa8e35a5636a0 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
-> @@ -18,6 +18,7 @@
->   #include "intel_uc.h"
->   
->   #include "i915_drv.h"
-> +#include "i915_hwmon.h"
->   
->   static const struct intel_uc_ops uc_ops_off;
->   static const struct intel_uc_ops uc_ops_on;
-> @@ -461,6 +462,7 @@ static int __uc_init_hw(struct intel_uc *uc)
->   	struct intel_guc *guc = &uc->guc;
->   	struct intel_huc *huc = &uc->huc;
->   	int ret, attempts;
-> +	bool pl1en;
+On 3/24/23 14:19, Markus Elfring wrote:
+> May longer identifiers (or even the complete SHA-1 ID) occasionally also
+> be tolerated for the tag “Fixes”?
+> 
+> How do you think about the proposed change possibilities?
 
-Init to 'false' here
+Well, the hash length is restricted by convention (see
+./scripts/checkpatch.pl in the kernel tree), so to propose that change
+it would have done more broadly than just for amd-gfx.
 
+> 
+> Regards,
+> Markus
 
->   
->   	GEM_BUG_ON(!intel_uc_supports_guc(uc));
->   	GEM_BUG_ON(!intel_uc_wants_guc(uc));
-> @@ -491,6 +493,9 @@ static int __uc_init_hw(struct intel_uc *uc)
->   	else
->   		attempts = 1;
->   
-> +	/* Disable a potentially low PL1 power limit to allow freq to be raised */
-> +	i915_hwmon_power_max_disable(gt->i915, &pl1en);
-> +
->   	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
->   
->   	while (attempts--) {
-> @@ -547,6 +552,8 @@ static int __uc_init_hw(struct intel_uc *uc)
->   		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
->   	}
->   
-> +	i915_hwmon_power_max_restore(gt->i915, pl1en);
-> +
->   	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_uses_guc_submission(uc)));
->   	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_slpc(uc)));
->   
-> @@ -563,6 +570,8 @@ static int __uc_init_hw(struct intel_uc *uc)
->   	/* Return GT back to RPn */
->   	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
->   
-> +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+-- 
+Hamza
 
-if (pl1en)
-
-     i915_hwmon_power_max_enable().
-
-> +
->   	__uc_sanitize(uc);
->   
->   	if (!ret) {
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-> index ee63a8fd88fc1..769b5bda4d53f 100644
-> --- a/drivers/gpu/drm/i915/i915_hwmon.c
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
-> @@ -444,6 +444,45 @@ hwm_power_write(struct hwm_drvdata *ddat, u32 attr, int chan, long val)
->   	}
->   }
->   
-> +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old)
-Shouldn't we call this i915_hwmon_package_pl1_disable()?
-> +	__acquires(i915->hwmon->hwmon_lock)
-> +{
-> +	struct i915_hwmon *hwmon = i915->hwmon;
-> +	intel_wakeref_t wakeref;
-> +	u32 r;
-> +
-> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-> +		return;
-> +
-> +	/* Take mutex to prevent concurrent hwm_power_max_write */
-> +	mutex_lock(&hwmon->hwmon_lock);
-> +
-> +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
-> +		r = intel_uncore_rmw(hwmon->ddat.uncore,
-> +				     hwmon->rg.pkg_rapl_limit,
-> +				     PKG_PWR_LIM_1_EN, 0);
-Most of this code (lock and rmw parts) is already inside static void
-hwm_locked_with_pm_intel_uncore_rmw() , can we reuse that here?
-> +
-> +	*old = !!(r & PKG_PWR_LIM_1_EN);
-> +}
-> +
-> +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old)
-> +	__releases(i915->hwmon->hwmon_lock)
-We can just call this i915_hwmon_power_max_enable() and call whenever 
-the old value was actually enabled. That way, we have proper mirror 
-functions.
-> +{
-> +	struct i915_hwmon *hwmon = i915->hwmon;
-> +	intel_wakeref_t wakeref;
-> +
-> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
-> +		return;
-> +
-> +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
-> +		intel_uncore_rmw(hwmon->ddat.uncore,
-> +				 hwmon->rg.pkg_rapl_limit,
-> +				 PKG_PWR_LIM_1_EN,
-> +				 old ? PKG_PWR_LIM_1_EN : 0);
-
-3rd param should be 0 here, else we will end up clearing other bits.
-
-Thanks,
-
-Vinay.
-
-> +
-> +	mutex_unlock(&hwmon->hwmon_lock);
-> +}
-> +
->   static umode_t
->   hwm_energy_is_visible(const struct hwm_drvdata *ddat, u32 attr)
->   {
-> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915/i915_hwmon.h
-> index 7ca9cf2c34c96..0fcb7de844061 100644
-> --- a/drivers/gpu/drm/i915/i915_hwmon.h
-> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
-> @@ -7,14 +7,21 @@
->   #ifndef __I915_HWMON_H__
->   #define __I915_HWMON_H__
->   
-> +#include <linux/types.h>
-> +
->   struct drm_i915_private;
-> +struct intel_gt;
->   
->   #if IS_REACHABLE(CONFIG_HWMON)
->   void i915_hwmon_register(struct drm_i915_private *i915);
->   void i915_hwmon_unregister(struct drm_i915_private *i915);
-> +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old);
-> +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old);
->   #else
->   static inline void i915_hwmon_register(struct drm_i915_private *i915) { };
->   static inline void i915_hwmon_unregister(struct drm_i915_private *i915) { };
-> +static inline void i915_hwmon_power_max_disable(struct drm_i915_private *i915, bool *old) { };
-> +static inline void i915_hwmon_power_max_restore(struct drm_i915_private *i915, bool old) { };
->   #endif
->   
->   #endif /* __I915_HWMON_H__ */
