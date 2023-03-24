@@ -1,54 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6413E6C7F7B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 15:05:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E916C7FD2
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 15:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F9B10E0DA;
-	Fri, 24 Mar 2023 14:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B778C10E533;
+	Fri, 24 Mar 2023 14:25:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6B110E0DA
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 14:05:35 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D29B162AEB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 14:05:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 443B4C4339E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 14:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679666734;
- bh=y4Farhu4V41tPk7JQCGgZn32PPH4qculJxU45vIj0EA=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=oXYPBUg1nrZIdTIcXAT6GL490fkUmTs72+6cEq3KJMtP+pppE2G7XwO1hIJTwRRwF
- 1V3zAWBFdXCM8WXwu3wGGcOlUckEV+a43aIHc846S9tqo2szGwPpcNzel2NE+qZ70k
- xTRXNSjNQYu4S9P+VQGcPF+42ZC94Bc/IJbz2zh+/Ih9lUqM4D+QYS4kgT3QCy4g54
- OmdeVJQUEGopghqcqlzxN0tC9U0D/zSCRUx+mS5rJLG3rGd0cDTefE9T/iufnWzKhP
- V1ka4oBgW4Tu4zT1jyrYO+VFck+ez/ncN5wBiSdwPqpB7FCDrmXU6pZdOr7ZHorMk6
- fOZUc8f/MspNg==
-Received: by mail-pj1-f46.google.com with SMTP id j13so1592527pjd.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 07:05:34 -0700 (PDT)
-X-Gm-Message-State: AAQBX9cMpmDREF8g+njiohn556j4eecT/4j81unIQdljvoV5B02s4xmv
- 6RBoaPPzhOt/jYqDwXF1l/JDHzSbN+FfMNv65C2cmA==
-X-Google-Smtp-Source: AKy350Zt1S+2egsukDJYhSyZ+wRndmhs9uQGH1FbNc61cHTfeNcEamJuN1YaNwXiYwlu+nqVPKNVWcDWZPbCjzsWbBM=
-X-Received: by 2002:a17:903:7c8:b0:19f:39f8:88c4 with SMTP id
- ko8-20020a17090307c800b0019f39f888c4mr3613623plb.2.1679666733789; Fri, 24 Mar
- 2023 07:05:33 -0700 (PDT)
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94A6C10E533
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 14:25:50 +0000 (UTC)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx0.riseup.net (Postfix) with ESMTPS id 4Pjkyk02ctz9sx6;
+ Fri, 24 Mar 2023 14:25:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1679667950; bh=0aZYGMFA9MsV5s2n9ojDlQvwwNraYa8eq0U/8qjHObI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=N7oLXDQ9ZPJjR88IgbchYflpdozag8TUiNQx/RSPgiVVb6JV8M9sdBQ8xw8/t6jZT
+ GyuWnpSLZlOXOzwG8MvvMyTiabkCf9lF1yZhQiGoQFzr3+PHOnH4FcbXcY9Sr1qfbc
+ /roM8t44SsTC4H/9kl/S94MaXfcF5x9reCp7Zp4U=
+X-Riseup-User-ID: 6474530C2DBFFB2176AFBA943F60B4E41054962F6EC0FF1CDBDFA39B49D443E2
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews1.riseup.net (Postfix) with ESMTPSA id 4Pjkyc05Prz5vZh;
+ Fri, 24 Mar 2023 14:25:43 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915/overlay: Remove redundant drm_rect_visible() use
+Date: Fri, 24 Mar 2023 11:25:33 -0300
+Message-Id: <20230324142533.6357-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-References: <20230324035909.1727356-1-treapking@chromium.org>
-In-Reply-To: <20230324035909.1727356-1-treapking@chromium.org>
-From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 24 Mar 2023 15:05:22 +0100
-X-Gmail-Original-Message-ID: <CAN6tsi7M26ijWT0hVOAoSFE6fhy-0TS-c7+5LUJpo-NJAG21Mw@mail.gmail.com>
-Message-ID: <CAN6tsi7M26ijWT0hVOAoSFE6fhy-0TS-c7+5LUJpo-NJAG21Mw@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ps8640: Return NULL immediately when EDID
- read fail
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +49,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: tvrtko.ursulin@linux.intel.com, tales.aparecida@gmail.com,
+ lucas.demarchi@intel.com, mairacanal@riseup.net, rodrigo.vivi@intel.com,
+ andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 24, 2023 at 4:59=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> drm_edid_read returns NULL on error, so feeding it directly into
-> drm_edid_duplicate may lead to NULL pointer dereference. Add a check to
-> guard this.
->
-> Fixes: 6a17b4d1b52f ("drm/bridge: ps8640: Add a cache for EDID")
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> ---
->
->  drivers/gpu/drm/bridge/parade-ps8640.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bri=
-dge/parade-ps8640.c
-> index cddbfe91f75e..b823e55650b1 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -543,6 +543,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm=
-_bridge *bridge,
->                                            struct drm_connector *connecto=
-r)
->  {
->         struct ps8640 *ps_bridge =3D bridge_to_ps8640(bridge);
-> +       struct device *dev =3D &ps_bridge->page[PAGE0_DP_CNTL]->dev;
->         bool poweroff =3D !ps_bridge->pre_enabled;
->
->         if (!ps_bridge->edid) {
-> @@ -574,6 +575,11 @@ static struct edid *ps8640_bridge_get_edid(struct dr=
-m_bridge *bridge,
->                                                              connector->s=
-tate->state);
->         }
->
-> +       if (!ps_bridge->edid) {
-> +               dev_err(dev, "Failed to get EDID\n");
-> +               return NULL;
-> +       }
-> +
->         return drm_edid_duplicate(ps_bridge->edid);
->  }
->
-> --
-> 2.40.0.348.gf938b09366-goog
->
+The drm_rect_intersect() already returns if the intersection is visible
+or not, so the use of drm_rect_visible() is duplicate.
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+---
+ drivers/gpu/drm/i915/display/intel_overlay.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
+index c12bdca8da9b..444d88f418c5 100644
+--- a/drivers/gpu/drm/i915/display/intel_overlay.c
++++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+@@ -966,9 +966,8 @@ static int check_overlay_dst(struct intel_overlay *overlay,
+ 		      rec->dst_width, rec->dst_height);
+ 
+ 	clipped = req;
+-	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
+ 
+-	if (!drm_rect_visible(&clipped) ||
++	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src) ||
+ 	    !drm_rect_equals(&clipped, &req))
+ 		return -EINVAL;
+ 
+-- 
+2.39.2
+
