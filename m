@@ -1,77 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B046C7BD1
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:46:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7CA6C7BDA
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 10:47:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD0910EB97;
-	Fri, 24 Mar 2023 09:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEAEE10E16E;
+	Fri, 24 Mar 2023 09:47:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A317E10EBA5
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:46:05 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id
- i5-20020a05600c354500b003edd24054e0so2753475wmq.4
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 02:46:05 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB4C10E525
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 09:47:15 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id o12so5436766edb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 02:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1679651164;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gJJPNwdnhB7IEUXT0JnB6iYS0mxcFwN9Ppf5t8hZzl0=;
- b=Qa5OozZIoo53C5F+9azNMKZ21DB0vyydBQZAXgS8Chw91SQ1BJh/YnRGO1VlHf+QDW
- NqJGq+76prl0S1xv0UN00iYF2Bcwn9MwJ2u+hl338DaU0W7zfnh0k0xaTP+snNZR8wXB
- NVhLlHPLJoaHlxMr4jMkL1ELSluWeVhWBZxTM=
+ d=linaro.org; s=google; t=1679651234;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=68LL2tN+tvRxnHcGQimYX0Fn4/Y+S7c6syZHdYwPnTI=;
+ b=y/BAVhf7XMGXQZE1Y13WxXscpyxTT6091AZrh9ix9L48/sVvusr11hqc6a7R5l4o07
+ Hef2LRkOT+/26787JYdcyIWbdLbGoSouYknRmm1W6yTY4olkw1zNQiKkQjpSVIBG694e
+ 27BbXDBWavVqMKuQvkf9SWWT2uJXHWenF7lwpBBXIRyMc8eQfDB97lfSsniY8/5/nANA
+ Hy2G84NnlaQRruaNSjgPu8QVQ1zX6q3NkY0AZzKWfCQMnUvVqs0IvFDe/Xhb6PofXjet
+ FlaT1RqrIOulyaSc2MGAiA2I2ipBZC05OzulHp8ycMGQJLraqRxSVgs0f6iNIl4MwLqX
+ Ki9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679651164;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20210112; t=1679651234;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gJJPNwdnhB7IEUXT0JnB6iYS0mxcFwN9Ppf5t8hZzl0=;
- b=Yov76KwCscTtnaw5erMwWJC7bP5EDUBcon6XWoxUlCQjxbsSH4HViIBgYxHSJrRSNE
- 21cSvi9sBuAbX72cnVFjuJhxW4WaT+OYhU9eSXLoGHSn3ABeTNsawnpedGJpgOxaIqwy
- wSEla89g4gUKhi8DWYGYRyDlcV0qEGIx4RBs54vlQLxQqBfDOoFDHYM7kAITjiOAYo6n
- v11Lg2OCeZaBe8m90NLEVWjLgRBNZJ9itWfCFg/Y5YRGi81pgqQfJxxGuUiu6YU8uEHA
- 23NKiWoBtHZPqOWBu933JcpfKm5o40FVS3M17Jv6KOpWgIh9O5pC1+iMsgFwgedGdbly
- Vlww==
-X-Gm-Message-State: AO0yUKU4GjWPyY0f+tcKsFwv+jlzk1nVVk7Zm33dascxvbnTdz9HcPdq
- VgO+9X1LvdPOQpwBY/PN4DwPsA==
-X-Google-Smtp-Source: AK7set/XwgOJNEXGcex+NV0vGUZdreitg2m5Y+Upud+kwI0Y7U+h+kwJ6hiaNA1oq8/pyWeh2R5p1g==
-X-Received: by 2002:a05:600c:4fc1:b0:3ed:2a41:8529 with SMTP id
- o1-20020a05600c4fc100b003ed2a418529mr1438389wmq.2.1679651164092; 
- Fri, 24 Mar 2023 02:46:04 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- 14-20020a05600c024e00b003ed2384566fsm4369256wmj.21.2023.03.24.02.46.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 02:46:03 -0700 (PDT)
-Date: Fri, 24 Mar 2023 10:46:01 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jon Hunter <jonathanh@nvidia.com>
-Subject: Re: [PATCH] gpu: host1x: fix uninitialized variable use
-Message-ID: <ZB1xWRo0rkhku2BS@phenom.ffwll.local>
-Mail-Followup-To: Jon Hunter <jonathanh@nvidia.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Tom Rix <trix@redhat.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Robin Murphy <robin.murphy@arm.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-References: <20230127221418.2522612-1-arnd@kernel.org>
- <Y/eULFO4jbivQ679@dev-arch.thelio-3990X>
- <20230308165644.GA1181835@dev-arch.thelio-3990X>
- <67f9fe7f-392a-9acd-1a4d-0a43da634367@nvidia.com>
+ bh=68LL2tN+tvRxnHcGQimYX0Fn4/Y+S7c6syZHdYwPnTI=;
+ b=10vCXh7RLQc427IirHuKHcw1bZPrikUGRmQCA0DAqTPNKTu5HKoGQrS09F+5b9GoAP
+ tYhIYbROIW2m+tyY1LSwHqkzxaN13olDdS+REBH9qz+ozlv3gncBTHGu5RbiDSM+4JsQ
+ hTck+85cjarFpsOPX63Gnftdi7rdCNi8RgplPvU25YRab1m8ordx64cWuGGjxbfMZFJ9
+ vysdh7KjNH76Aeg3QbMgC2bzY9TLCHrJqP0HALLCUqyf7YgF8al0bjZNGk8qqOUhM81h
+ TNAjV/bpWbe9HFAdJbEOYjgzOp6YRPCQuYaLgTDFW1YWTg7RcoOUZbbkfT0uuBVG1dwE
+ o9Ug==
+X-Gm-Message-State: AAQBX9ex/6/vEl11IETUcpS7KFNJ+HJwpunLL04zFiHxwGGjAbyWdvWC
+ bMX7pxN0VHUm4kFam1jJYP1DIMYR8CymW2dDuSI=
+X-Google-Smtp-Source: AKy350Y4KNEVHV8TIh4Rz8tGeMz+jN+kqcpiakNF+uVS+SRrsU5RH3vG1yCVv74fqqlCu7gw965hmA==
+X-Received: by 2002:a05:6402:481:b0:4fc:7201:6de with SMTP id
+ k1-20020a056402048100b004fc720106demr2150057edv.26.1679651233788; 
+ Fri, 24 Mar 2023 02:47:13 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ce50:243f:54cc:5373?
+ ([2a02:810d:15c0:828:ce50:243f:54cc:5373])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a508d4e000000b004d8287c775fsm10384125edt.8.2023.03.24.02.47.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Mar 2023 02:47:13 -0700 (PDT)
+Message-ID: <b712b832-6b92-53aa-d6cd-124e079c8e07@linaro.org>
+Date: Fri, 24 Mar 2023 10:47:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67f9fe7f-392a-9acd-1a4d-0a43da634367@nvidia.com>
-X-Operating-System: Linux phenom 6.1.0-6-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/4] dt-bindings: display: msm: sm8450-mdss: Fix DSI
+ compatible
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-0-0ca1bea1a843@linaro.org>
+ <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-1-0ca1bea1a843@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230323-topic-sm8450-upstream-dt-bindings-fixes-v2-1-0ca1bea1a843@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,104 +85,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, Tom Rix <trix@redhat.com>,
- llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Mikko Perttunen <mperttunen@nvidia.com>, Nathan Chancellor <nathan@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 08, 2023 at 05:28:06PM +0000, Jon Hunter wrote:
+On 24/03/2023 10:28, Neil Armstrong wrote:
+> The DSI compatible changed between patchset revisions, but that wasn't
+> reflected in the bindings. Fix it.
 > 
-> 
-> On 08/03/2023 16:56, Nathan Chancellor wrote:
-> > Ping? This warning is now in 6.3-rc1.
-> 
-> Thierry is away at the moment.
-> 
-> David, Daniel, do you want to pick this up directly in the meantime as a fix
-> for 6.3? Mikko has already reviewed and FWIW ...
+> Fixes: 0eda3c6cb1c5 ("dt-bindings: display/msm: add support for the display on SM8450")
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
 
-Generally first fallback should be drm-misc maintainers (or anyone else
-with commit rights), but since this fell through cracks for weeks it seems
-I'll pick it up to drm-fixes now directly.
--Daniel
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> 
-> Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-> 
-> Thanks
-> Jon
-> 
-> 
-> > On Thu, Feb 23, 2023 at 09:28:28AM -0700, Nathan Chancellor wrote:
-> > > Hi Thierry, Daniel, and David,
-> > > 
-> > > On Fri, Jan 27, 2023 at 11:14:00PM +0100, Arnd Bergmann wrote:
-> > > > From: Arnd Bergmann <arnd@arndb.de>
-> > > > 
-> > > > The error handling for platform_get_irq() failing no longer
-> > > > works after a recent change, clang now points this out with
-> > > > a warning:
-> > > > 
-> > > > drivers/gpu/host1x/dev.c:520:6: error: variable 'syncpt_irq' is uninitialized when used here [-Werror,-Wuninitialized]
-> > > >          if (syncpt_irq < 0)
-> > > >              ^~~~~~~~~~
-> > > > 
-> > > > Fix this by removing the variable and checking the correct
-> > > > error status.
-> > > > 
-> > > > Fixes: 625d4ffb438c ("gpu: host1x: Rewrite syncpoint interrupt handling")
-> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > > > ---
-> > > >   drivers/gpu/host1x/dev.c | 5 ++---
-> > > >   1 file changed, 2 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-> > > > index 4872d183d860..aae2efeef503 100644
-> > > > --- a/drivers/gpu/host1x/dev.c
-> > > > +++ b/drivers/gpu/host1x/dev.c
-> > > > @@ -487,7 +487,6 @@ static int host1x_get_resets(struct host1x *host)
-> > > >   static int host1x_probe(struct platform_device *pdev)
-> > > >   {
-> > > >   	struct host1x *host;
-> > > > -	int syncpt_irq;
-> > > >   	int err;
-> > > >   	host = devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
-> > > > @@ -517,8 +516,8 @@ static int host1x_probe(struct platform_device *pdev)
-> > > >   	}
-> > > >   	host->syncpt_irq = platform_get_irq(pdev, 0);
-> > > > -	if (syncpt_irq < 0)
-> > > > -		return syncpt_irq;
-> > > > +	if (host->syncpt_irq < 0)
-> > > > +		return host->syncpt_irq;
-> > > >   	mutex_init(&host->devices_lock);
-> > > >   	INIT_LIST_HEAD(&host->devices);
-> > > > -- 
-> > > > 2.39.0
-> > > > 
-> > > 
-> > > Apologies if this has been reported already or has a solution in
-> > > progress but mainline is now broken because this change got separated
-> > > from the change it is fixing:
-> > > 
-> > > https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/4249931209/jobs/7391912774
-> > > https://storage.tuxsuite.com/public/clangbuiltlinux/continuous-integration2/builds/2M7y9HpiXB13qiC2mkHMyeZOcLW/build.log
-> > > 
-> > > I see this change sitting in the drm-tegra tree [1], which is getting
-> > > merged into -next, so it is fixed there, which is why we did not notice
-> > > any issues until the drm-next tree was merged into mainline. Can this be
-> > > fast tracked to Linus to unbreak clang builds with -Werror?
-> > > 
-> > > [1]: https://gitlab.freedesktop.org/drm/tegra/-/commit/b9930311641cf2ed905a84aabe27e8f3868aee4a
-> 
-> -- 
-> nvpublic
+Best regards,
+Krzysztof
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
