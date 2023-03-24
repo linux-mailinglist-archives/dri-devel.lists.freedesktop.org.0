@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AA76C8695
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 21:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB42C6C86B4
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Mar 2023 21:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A6F10EC5D;
-	Fri, 24 Mar 2023 20:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C3C10EC7C;
+	Fri, 24 Mar 2023 20:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8127A10EC5D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 20:13:11 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- bg16-20020a05600c3c9000b003eb34e21bdfso3866740wmb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 13:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1679688790; x=1682280790;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=PWt/K1MzCkHY7UBJTyBEOoBzetssGcsIvKBdVSH7npQ=;
- b=f5RA/BURCZEBMqHspyAE8iIlN47CGfb2pRk+YauieNss765vY5fhtUrdUWhOBMv6YS
- 8ur/hdqa+pCtplM8otoU8jIIs8wbJqYMz2OauRNVE4m9K7XrofHvWgf0ZY1lFnf0WWH8
- J7ChwugGoWT5l9CeU0jFO8awBKyiQCpkvAIME=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679688790; x=1682280790;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PWt/K1MzCkHY7UBJTyBEOoBzetssGcsIvKBdVSH7npQ=;
- b=Og2iQqZ93Fhz4nFDxLjnaKvu5pZ5W4wL8muDFfFCWwJleZ++x50QOigsEZVNIeamz2
- qfbfF07lvHgWrcaF1OnBsm/Bq/ioPAFlnULAtEW+QvUE7j7P8700lnlGLIDMR1jWOvqx
- 60VbAfH5xxNwgeGRNeT8RU7L43kmwS27qgaFCZS4AM8E1ZmFTM6HsJzjznX0W/VdqTzd
- ti2pM0+tm0Uv8Y+tV5Dzs9dC+MOZfewd4ALxkgdXvAVCGu/WmooX3UQf2rfxWPkswv7L
- Df1t58PVUoeDGJuMpB4e2ejtXa2cskjI7Xrl1IsMIV54pVTAkSngyCyLIH2V6tHC08RY
- cRQw==
-X-Gm-Message-State: AO0yUKXUlcIaxUhQWDe+VHFtyBv/UNkKQa2Ge8atplPUkU/QZ26qEhOX
- 57gOZq4CIMQxUTcY43KGSOIpUg==
-X-Google-Smtp-Source: AK7set9WHl27thWnJyX91xuMCgmJBcQf7XIjwzeovWWDQWeQIMH2s7S6CM0x778pyQoXMYuEpF4vxA==
-X-Received: by 2002:a05:600c:5111:b0:3ed:c956:4854 with SMTP id
- o17-20020a05600c511100b003edc9564854mr3061694wms.3.1679688789821; 
- Fri, 24 Mar 2023 13:13:09 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- f20-20020a1c6a14000000b003edcc2223c6sm5776869wmc.28.2023.03.24.13.13.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 13:13:09 -0700 (PDT)
-Date: Fri, 24 Mar 2023 21:13:07 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: Re: [PULL] drm-intel-next
-Message-ID: <ZB4EU1YfWZmST3oI@phenom.ffwll.local>
-References: <ZBy56qc9C00tCLOY@intel.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051F210EC7F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 20:21:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1679689293; i=deller@gmx.de;
+ bh=E9BMqo9lBZGXEwg2PUb0Zufl02v4+CAcR/9rAdCuTUU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=rtNnsKXNR64Pzgw/a8nT0xvJ0NWGxWwoSk3qIViU6UHlo/7mJrI7w5difThLpAEM9
+ bQRDW94pMyg+H0a32mD2NjE5KxadqT40VK9DKVS7svcZJMkph5e0nLHSZFD/Nu1cYp
+ cJ87uSBYVOJHusoQLRMwMG+e1eTYh0tbKTkGS4YPSUAmmn/m6TKm3xeO53AVRLP64+
+ 2ppgebuXEaqiY7VM0Hr4Mr07C1yDBdYWtpOKhtCOqMwJXXlqovfqusU6YEnWXZp/5A
+ ZLIQgnd/e4BWKwlk4SgnE+b1TwItl73txdKdcFkGgPAjdLBH2E+qLkk6CM+pYzzHgL
+ eUkwuGbZYSSHw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ls3530 ([94.134.154.70]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTzay-1q5klT0CsU-00Qy5D; Fri, 24
+ Mar 2023 21:21:33 +0100
+Date: Fri, 24 Mar 2023 21:21:31 +0100
+From: Helge Deller <deller@gmx.de>
+To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH] fbdev: modedb: Fix kernel crash in fb_videomode_to_var()
+Message-ID: <ZB4GS3zT3oh/afkf@ls3530>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZBy56qc9C00tCLOY@intel.com>
-X-Operating-System: Linux phenom 6.1.0-6-amd64 
+X-Provags-ID: V03:K1:U3wALWmYIslI01ZBe08wACKIFNWaCEIkUTnXCVATCKjTXfG6lys
+ dPojHvfjJx6aNmBq50m5P+UF7GcHBUxPVK5wD3ZGw5Y8cWXrTqF3MCeUJJ5iO11zvmEw+JF
+ eeRAIqTgvgMcBgNg/RPrMbdhk+tM8D+ppb7wRZCrj+OUbtYtNGBhHgWdNszKt9viGkt2lvt
+ PFelu2PazE9m96Gd75kSA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:fFGlGxGjhSs=;O/MptMQ3RhfzKS1K8sE29eEhuIh
+ gwc3OxI+7hqWiAwsw0AObRGgq5XBEjiZ7qeobdPgQIksAKmKrF93J8mpo+MBHuHUjNFnoXzmn
+ S6vqwe/Kl/Ddx/vGK2Z1VE7qrw17w0AT4VzX8u3TsnHxhbwOTrCQECHZlvqs3XBg7eK6ujUFj
+ mRqZnaxh3vRw8yv1zQAnNkNBQaWDiSZhJP8NtgD6Q/Mw0IW/ILVMv+dzUX1ij6sfAJjgCSfDt
+ BPNl+u28ktrglIwDIrr62oN1vEau+6vax/0kr5yuaGEaCXtWjVqPtS+al+1BNXgVTtXjLw4vy
+ Bbv8vFcU/JsgTBwvEf1sELH6YlonHN8mD1ahZydNCWvik92i4ZDlB1eFYSxwwsnZ4kq6bLczw
+ K0OiSL+DbEaMo336V7gmxbynmiYpWRA2Y3g7OwXehr20Ykb1AP2O22jo14h7WIm3ATciSL3WS
+ B/opMwYLBSlNCpwJV+GJmZZTOXdUV6PcM+UEgR5Y1VwmBNm1R9E/p8X1s69zwKHlkcWcvRXvH
+ hHwuHrPwk3pUa09hBjeF6Qqi2LcAoNKZ1sqcUQEufcnvmZZ3zV6XDLTt0GCD0HPauYgth4zoO
+ zHjj8h0bDwEHTcq3BchZbFNOE6Y0U0nS7DGva6FB5GhjCAIEgdVT6ncgQ0YLdK+kFNwEGTiWx
+ +sv9x8r8kdNmcysTGVGxs1r8Kp5f5z9PkKIpVVStH1uXJvAi/B4sZGn0bsn5l4rdN/+h3xXMb
+ mtFmUdvTNAOux6uJSzT2khDmrH6I2hc2WlY7SKhnlGeW+p6CIWD1bR7YPZNg3Erf8WV3cxzAi
+ nML9EPKhvn9Atlqh8X84LQ3gqlg4DqlVWFcbr5L/A8MeOy2A6jei7mcg3pMvzkr9VJMho12R2
+ 2U8vIiH8b+gxheLvPV0IwLoiIiY9hFNONjnAJe3olju7+xk9JBjSuKUneclx5IJcj/j/z13vH
+ gAWyNkWzgqscWTX+5OOyKJJ1k6I=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,246 +67,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- intel-gfx@lists.freedesktop.org
+Cc: linux-parisc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 23, 2023 at 04:43:22PM -0400, Rodrigo Vivi wrote:
-> Hi Daniel,
-> 
-> Here goes drm-intel-next-2023-03-23:
-> 
-> Core Changes:
-> - drm: Add SDP Error Detection Configuration Register (Arun)
-> 
-> Driver Changes:
-> - Meteor Lake enabling and fixes (RK, Jose, Madhumitha)
-> - Lock the fbdev obj before vma pin (Tejas)
-> - DSC fixes (Stanislav)
-> - Fixes and clean-up on opregion code (Imre)
-> - More wm/vblank stuff (Ville)
-> - More general display code organization (Jani)
-> - DP Fixes (Stanislav, Ville)
-> - Introduce flags to ignore long HPD and link training issues \
->   for handling spurious issues on CI (Vinod)
-> - Plane cleanups and extra registers (Ville)
-> - Update audio keepalive clock values (Clint)
-> - Rename find_section to bdb_find_section (Maarten)
-> - DP SDP CRC16 for 128b132b link layer (Arun)
-> - Fix various issues with noarm register writes (Ville)
-> - Fix a few TypeC / MST issues (Imre)
-> - Create GSC submission targeting HDCP and PXP usages on MTL+ (Suraj)
-> - Enable HDCP2.x via GSC CS (Suraj)
-> 
-> Thanks,
-> Rodrigo.
-> 
-> The following changes since commit 4b736ed40583631e0cf32c55dbc1e5ec0434a74b:
-> 
->   drm/i915: Get rid of the gm45 HPD live state nonsense (2023-03-07 19:09:20 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-next-2023-03-23
+Fix a kernel crash in the fbdev modedb code which can happen if you boot
+a system without any graphic card driver, in which case the dummycon
+driver takes the console. If you then load a fbdev graphics driver and
+start a the X11-fbdev the kernel will crash with a backtrace:
 
-Pulled, thanks.
+  IAOQ[0]: fb_videomode_to_var+0xc/0x88
+ Backtrace:
+  [<10582ff8>] display_to_var+0x28/0xe8
+  [<1058584c>] fbcon_switch+0x15c/0x55c
+  [<105a8a1c>] redraw_screen+0xdc/0x228
+  [<1059d6f8>] complete_change_console+0x50/0x140
+  [<1059eae0>] change_console+0x6c/0xdc
+  [<105ab4f4>] console_callback+0x1a0/0x1a8
+  [<101cb5e8>] process_one_work+0x1c4/0x3cc
+  [<101cb978>] worker_thread+0x188/0x4b4
+  [<101d5a94>] kthread+0xec/0xf4
+  [<1018801c>] ret_from_kernel_thread+0x1c/0x24
 
-> 
-> for you to fetch changes up to 883631771038d1b0c10c0929e31bbd5ffb5e682c:
-> 
->   drm/i915/mtl: Add HDCP GSC interface (2023-03-23 12:17:22 +0530)
-> 
-> ----------------------------------------------------------------
-> Core Changes:
-> - drm: Add SDP Error Detection Configuration Register (Arun)
-> 
-> Driver Changes:
-> - Meteor Lake enabling and fixes (RK, Jose, Madhumitha)
-> - Lock the fbdev obj before vma pin (Tejas)
-> - DSC fixes (Stanislav)
-> - Fixes and clean-up on opregion code (Imre)
-> - More wm/vblank stuff (Ville)
-> - More general display code organization (Jani)
-> - DP Fixes (Stanislav, Ville)
-> - Introduce flags to ignore long HPD and link training issues \
->   for handling spurious issues on CI (Vinod)
-> - Plane cleanups and extra registers (Ville)
-> - Update audio keepalive clock values (Clint)
-> - Rename find_section to bdb_find_section (Maarten)
-> - DP SDP CRC16 for 128b132b link layer (Arun)
-> - Fix various issues with noarm register writes (Ville)
-> - Fix a few TypeC / MST issues (Imre)
-> - Create GSC submission targeting HDCP and PXP usages on MTL+ (Suraj)
-> - Enable HDCP2.x via GSC CS (Suraj)
-> 
-> ----------------------------------------------------------------
-> Ankit Nautiyal (1):
->       drm/i915/dp: Don't roundup max bpp, while computing compressed bpp
-> 
-> Anshuman Gupta (1):
->       drm/i915/hdcp: Use generic names for HDCP helpers and structs
-> 
-> Arun R Murthy (2):
->       drm: Add SDP Error Detection Configuration Register
->       i915/display/dp: SDP CRC16 for 128b132b link layer
-> 
-> Clint Taylor (1):
->       drm/i915/audio: update audio keepalive clock values
-> 
-> Imre Deak (18):
->       drm/i915/opregion: Fix opregion setup during system resume on platforms without display
->       drm/i915/opregion: Cleanup opregion after errors during driver loading
->       drm/i915/opregion: Register display debugfs later, after initialization steps
->       drm/i915/opregion: Fix CONFIG_ACPI=n builds adding missing intel_opregion_cleanup() prototype
->       drm/i915/tc: Abort DP AUX transfer on a disconnected TC port
->       drm/i915/tc: Fix TC port link ref init for DP MST during HW readout
->       drm/i915/tc: Fix the ICL PHY ownership check in TC-cold state
->       drm/i915/tc: Fix system resume MST mode restore for DP-alt sinks
->       drm/i915/tc: Wait for IOM/FW PHY initialization of legacy TC ports
->       drm/i915/tc: Factor out helpers converting HPD mask to TC mode
->       drm/i915/tc: Fix target TC mode for a disconnected legacy port
->       drm/i915/tc: Fix TC mode for a legacy port if the PHY is not ready
->       drm/i915/tc: Fix initial TC mode on disabled legacy ports
->       drm/i915/tc: Make the TC mode readout consistent in all PHY states
->       drm/i915/tc: Assume a TC port is legacy if VBT says the port has HDMI
->       drm/i915: Add encoder hook to get the PLL type used by TC ports
->       drm/i915/tc: Factor out a function querying active links on a TC port
->       drm/i915/tc: Check the PLL type used by an enabled TC port
-> 
-> Jani Nikula (6):
->       drm/i915/debugfs: move IPS debugfs to hsw_ips.c
->       drm/i915/psr: move PSR debugfs to intel_psr.c
->       drm/i915/psr: switch PSR debugfs to struct intel_connector
->       drm/i915/psr: clean up PSR debugfs sink status error handling
->       drm/i915/debugfs: switch crtc debugfs to struct intel_crtc
->       drm/i915/debugfs: add crtc i915_pipe debugfs file
-> 
-> José Roberto de Souza (1):
->       drm/i915/display/mtl: Program latch to phy reset
-> 
-> Maarten Lankhorst (1):
->       drm/i915/bios: Rename find_section to find_bdb_section
-> 
-> Madhumitha Tolakanahalli Pradeep (1):
->       drm/i915/dmc: Load DMC on MTL
-> 
-> Radhakrishna Sripada (1):
->       drm/i915/mtl: Fix Wa_16015201720 implementation
-> 
-> Stanislav Lisovskiy (1):
->       drm/i915: Ensure DSC has enough BW and stays within HW limits
-> 
-> Suraj Kandpal (5):
->       drm/i915/gsc: Create GSC request submission mechanism
->       drm/i915/hdcp: HDCP2.x Refactoring to agnostic hdcp
->       drm/i915/hdcp: Refactor HDCP API structures
->       drm/i915/mtl: Add function to send command to GSC CS
->       drm/i915/mtl: Add HDCP GSC interface
-> 
-> Tejas Upadhyay (1):
->       drm/i915/fbdev: lock the fbdev obj before vma pin
-> 
-> Ville Syrjälä (23):
->       drm/i915: Preserve crtc_state->inherited during state clearing
->       drm/i915: Extract skl_wm_latency()
->       drm/i915: Reject wm levels that exceed vblank time
->       drm/i915: Don't switch to TPS1 when disabling DP_TP_CTL
->       drm/i915: Don't send idle pattern after DP2.0 link training
->       drm/i915: Stop using pipe_offsets[] for PIPE_MISC*
->       drm/i915: s/PIPEMISC/PIPE_MISC/
->       drm/i915: Define more pipe timestamp registers
->       drm/i915: Program VLV/CHV PIPE_MSA_MISC register
->       drm/i915: Define skl+ universal plane SURFLIVE registers
->       drm/i915: Define vlv/chv sprite plane SURFLIVE registers
->       drm/i915: Clean up skl+ plane alpha bits
->       drm/i915: Relocate intel_plane_check_src_coordinates()
->       drm/i915: Extract intel_sprite_uapi.c
->       drm/i915: Update vblank timestamping stuff on seamless M/N change
->       drm/i915: Add belts and suspenders locking for seamless M/N changes
->       drm/i915: Relocate intel_crtc_update_active_timings()
->       drm/i915: Extract intel_crtc_scanline_offset()
->       drm/i915: Split icl_color_commit_noarm() from skl_color_commit_noarm()
->       drm/i915: Move CSC load back into .color_commit_arm() when PSR is enabled on skl/glk
->       drm/i915: Add a .color_post_update() hook
->       drm/i915: Workaround ICL CSC_MODE sticky arming
->       drm/i915: Disable DC states for all commits
-> 
-> Vinod Govindapillai (2):
->       drm/i915/display: ignore long HPDs based on a flag
->       drm/i915/display: ignore link training failures in CI
-> 
->  drivers/gpu/drm/i915/Makefile                      |   3 +
->  drivers/gpu/drm/i915/display/hsw_ips.c             |  37 +
->  drivers/gpu/drm/i915/display/hsw_ips.h             |   2 +
->  drivers/gpu/drm/i915/display/icl_dsi.c             |   2 +-
->  drivers/gpu/drm/i915/display/intel_atomic_plane.c  |  60 +-
->  drivers/gpu/drm/i915/display/intel_atomic_plane.h  |   1 +
->  drivers/gpu/drm/i915/display/intel_audio.c         |   6 +-
->  drivers/gpu/drm/i915/display/intel_bios.c          |  46 +-
->  drivers/gpu/drm/i915/display/intel_color.c         | 101 ++-
->  drivers/gpu/drm/i915/display/intel_color.h         |   1 +
->  drivers/gpu/drm/i915/display/intel_crtc.c          |  10 +-
->  drivers/gpu/drm/i915/display/intel_cursor.c        |   1 -
->  drivers/gpu/drm/i915/display/intel_ddi.c           |  61 +-
->  drivers/gpu/drm/i915/display/intel_ddi.h           |   3 +
->  drivers/gpu/drm/i915/display/intel_display.c       | 157 ++--
->  drivers/gpu/drm/i915/display/intel_display.h       |   3 +-
->  drivers/gpu/drm/i915/display/intel_display_core.h  |  19 +-
->  .../gpu/drm/i915/display/intel_display_debugfs.c   | 353 +--------
->  .../gpu/drm/i915/display/intel_display_debugfs.h   |   6 +-
->  drivers/gpu/drm/i915/display/intel_display_power.c |   8 +
->  drivers/gpu/drm/i915/display/intel_display_types.h |   8 +-
->  drivers/gpu/drm/i915/display/intel_dmc.c           |  36 +-
->  drivers/gpu/drm/i915/display/intel_dp.c            |  39 +-
->  drivers/gpu/drm/i915/display/intel_dp_aux.c        |  15 +-
->  .../gpu/drm/i915/display/intel_dp_link_training.c  |  48 +-
->  .../gpu/drm/i915/display/intel_dp_link_training.h  |   2 +
->  drivers/gpu/drm/i915/display/intel_fbdev.c         |  24 +-
->  drivers/gpu/drm/i915/display/intel_fdi.c           |   4 +-
->  drivers/gpu/drm/i915/display/intel_hdcp.c          | 158 ++--
->  drivers/gpu/drm/i915/display/intel_hdcp_gsc.c      | 831 +++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_hdcp_gsc.h      |  26 +
->  drivers/gpu/drm/i915/display/intel_hotplug.c       |   9 +
->  drivers/gpu/drm/i915/display/intel_modeset_setup.c |   1 +
->  drivers/gpu/drm/i915/display/intel_opregion.c      |  40 +-
->  drivers/gpu/drm/i915/display/intel_opregion.h      |   5 +
->  drivers/gpu/drm/i915/display/intel_psr.c           | 299 ++++++++
->  drivers/gpu/drm/i915/display/intel_psr.h           |   3 +
->  drivers/gpu/drm/i915/display/intel_sprite.c        | 183 -----
->  drivers/gpu/drm/i915/display/intel_sprite_uapi.c   | 127 ++++
->  drivers/gpu/drm/i915/display/intel_sprite_uapi.h   |  15 +
->  drivers/gpu/drm/i915/display/intel_tc.c            | 322 ++++++--
->  drivers/gpu/drm/i915/display/intel_tc.h            |   5 +-
->  drivers/gpu/drm/i915/display/intel_vblank.c        |  92 +++
->  drivers/gpu/drm/i915/display/intel_vblank.h        |   2 +
->  drivers/gpu/drm/i915/display/skl_universal_plane.c |   1 -
->  drivers/gpu/drm/i915/display/skl_watermark.c       | 156 +++-
->  drivers/gpu/drm/i915/display/vlv_dsi.c             |   2 +-
->  drivers/gpu/drm/i915/gt/intel_gpu_commands.h       |   2 +
->  .../drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c  | 109 +++
->  .../drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h  |  61 ++
->  drivers/gpu/drm/i915/i915_driver.c                 |   6 +-
->  drivers/gpu/drm/i915/i915_reg.h                    |  87 ++-
->  drivers/gpu/drm/i915/intel_gvt_mmio_table.c        |   6 +-
->  drivers/misc/mei/hdcp/mei_hdcp.c                   | 105 ++-
->  drivers/misc/mei/hdcp/mei_hdcp.h                   | 354 ---------
->  include/drm/display/drm_dp.h                       |   3 +
->  include/drm/i915_hdcp_interface.h                  | 539 +++++++++++++
->  include/drm/i915_mei_hdcp_interface.h              | 184 -----
->  58 files changed, 3322 insertions(+), 1467 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/display/intel_hdcp_gsc.c
->  create mode 100644 drivers/gpu/drm/i915/display/intel_hdcp_gsc.h
->  create mode 100644 drivers/gpu/drm/i915/display/intel_sprite_uapi.c
->  create mode 100644 drivers/gpu/drm/i915/display/intel_sprite_uapi.h
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.c
->  create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_heci_cmd_submit.h
->  create mode 100644 include/drm/i915_hdcp_interface.h
->  delete mode 100644 include/drm/i915_mei_hdcp_interface.h
+The problem is, that the dummycon driver may not have a valid monitor
+mode defined (which is ok for that driver), so the mode field in
+fbcon_display can be NULL.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Fix the crash by simply returning from fb_var_to_videomode()
+if the video mode field is NULL.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
+Cc: stable <stable@kernel.org>
+
+=2D--
+
+diff --git a/drivers/video/fbdev/core/modedb.c b/drivers/video/fbdev/core/=
+modedb.c
+index 6473e0dfe146..6a670b9dbcb4 100644
+=2D-- a/drivers/video/fbdev/core/modedb.c
++++ b/drivers/video/fbdev/core/modedb.c
+@@ -893,6 +893,8 @@ void fb_var_to_videomode(struct fb_videomode *mode,
+ void fb_videomode_to_var(struct fb_var_screeninfo *var,
+ 			 const struct fb_videomode *mode)
+ {
++	if (!mode)
++		return;
+ 	var->xres =3D mode->xres;
+ 	var->yres =3D mode->yres;
+ 	var->xres_virtual =3D mode->xres;
