@@ -1,43 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685B96C8FC2
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 18:30:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E570B6C8FC0
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 18:29:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 455E110E1D0;
-	Sat, 25 Mar 2023 17:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECDE10E19E;
+	Sat, 25 Mar 2023 17:28:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 457 seconds by postgrey-1.36 at gabe;
- Sat, 25 Mar 2023 17:30:04 UTC
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85A6810E053;
- Sat, 25 Mar 2023 17:30:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 96A0A4179B;
- Sat, 25 Mar 2023 18:22:25 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OL1t-CpaxX2e; Sat, 25 Mar 2023 18:22:24 +0100 (CET)
-From: Carlos Eduardo Gallo Filho <gcarlos@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1679764944; bh=p/c8nuEmaGbzp/LfotIufrRa9jGX8DZ0lu+qqXLt/1o=;
- h=From:To:Cc:Subject:Date;
- b=bzwqfeiHrKonERuvbpVuwuIU//pUooPPoKbJcygDJMFaZbhFWbeWlx5cW4MQKZ41v
- YFrFKX7MaB9JdqAqIGQycYDWCPQ5KNT/+W9/RvEVJpZeshAdVVZrqk9hbYr8g0NZOn
- RJhfsMfmbINr8CEDL/LTffgsDyw06p8nwF8lLRhdPoY+VzSQqccbOyjzJjdkpi375m
- LhRV5QtHCB/+HUT4xTOmqp/WzSuY+n/sLXwY+upWTlt38NqzOq1uuLlGaQB+HM1oWK
- YkeeNhrd1XiUrfCX8sr+TXvx1FLs/1cWs4Wb+dluLJf5i88A0ypAz2zY33aaZh6YI/
- xMX0qxkFX31Xw==
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/amdgpu: Remove ununsed variable that holds a return value
-Date: Sat, 25 Mar 2023 14:20:51 -0300
-Message-Id: <20230325172051.16768-1-gcarlos@disroot.org>
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A82D310E053;
+ Sat, 25 Mar 2023 17:28:53 +0000 (UTC)
+Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+ client-signature RSA-PSS (2048 bits) client-digest SHA256)
+ (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+ by mx1.riseup.net (Postfix) with ESMTPS id 4PkQzS5ZSWzDr1r;
+ Sat, 25 Mar 2023 17:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+ t=1679765333; bh=a7cIYAiwZ09xv6n94pofKkkL5zxjN5XJBatIhLW6cRc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=d5N8tsNnjnTtU9HBR0Wnb0R+5QEgiZCA8ZTjelbrukNLlIL8LZqPH83C6TCyPhoaX
+ foZFQ63+RKO0QpbvXzH9U7LHT1LiIWbhUCUrPQ4G0FsMdtzKQNHRoHGEG69lGatWWI
+ UjVXvQOP+U6oqpyNWQYdXjOowp4g6Iddw8c3vLR8=
+X-Riseup-User-ID: DFFDE329F4163AA6BE3EDC0BB6655159F995F415CFE1D37105CFD61B346B7E09
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ by fews2.riseup.net (Postfix) with ESMTPSA id 4PkQzM3knxz1yPW;
+ Sat, 25 Mar 2023 17:28:47 +0000 (UTC)
+From: Arthur Grillo <arthurgrillo@riseup.net>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/i915/overlay: Remove redundant drm_rect_visible() use
+Date: Sat, 25 Mar 2023 14:27:19 -0300
+Message-Id: <20230325172719.92102-1-arthurgrillo@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,51 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, Xinhui.Pan@amd.com, andrealmeid@riseup.net,
- Carlos Eduardo Gallo Filho <gcarlos@disroot.org>, christian.koenig@amd.com
+Cc: tvrtko.ursulin@linux.intel.com, tales.aparecida@gmail.com,
+ lucas.demarchi@intel.com, mairacanal@riseup.net, rodrigo.vivi@intel.com,
+ andrealmeid@riseup.net, Arthur Grillo <arthurgrillo@riseup.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compiling amdgpu with W=1 get that unused-but-set-variable warning.
+The drm_rect_intersect() already returns if the intersection is visible
+or not, so the use of drm_rect_visible() is duplicate.
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c: In function ‘amdgpu_mes_ctx_alloc_meta_data’:
-drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1099:13: warning: variable ‘r’ set but not used [-Wunused-but-set-variable]
- 1099 |         int r;
-      |             ^
-
-That variable is used to hold the return value of amdgpu_bo_create_kernel()
-function call.
-
-Remove r to fix the warning.
+Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+v1->v2: https://lore.kernel.org/all/20230324142533.6357-1-arthurgrillo@riseup.net/
+- Split the if condition.
+---
+ drivers/gpu/drm/i915/display/intel_overlay.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-index 82e27bd4f038..a45c31717ae3 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-@@ -1096,14 +1096,12 @@ uint32_t amdgpu_mes_get_aggregated_doorbell_index(struct amdgpu_device *adev,
- int amdgpu_mes_ctx_alloc_meta_data(struct amdgpu_device *adev,
- 				   struct amdgpu_mes_ctx_data *ctx_data)
- {
--	int r;
--
--	r = amdgpu_bo_create_kernel(adev,
--			    sizeof(struct amdgpu_mes_ctx_meta_data),
--			    PAGE_SIZE, AMDGPU_GEM_DOMAIN_GTT,
--			    &ctx_data->meta_data_obj,
--			    &ctx_data->meta_data_mc_addr,
--			    &ctx_data->meta_data_ptr);
-+	amdgpu_bo_create_kernel(adev,
-+				sizeof(struct amdgpu_mes_ctx_meta_data),
-+				PAGE_SIZE, AMDGPU_GEM_DOMAIN_GTT,
-+				&ctx_data->meta_data_obj,
-+				&ctx_data->meta_data_mc_addr,
-+				&ctx_data->meta_data_ptr);
- 	if (!ctx_data->meta_data_obj)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
+index c12bdca8da9b..d55153587cae 100644
+--- a/drivers/gpu/drm/i915/display/intel_overlay.c
++++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+@@ -966,10 +966,11 @@ static int check_overlay_dst(struct intel_overlay *overlay,
+ 		      rec->dst_width, rec->dst_height);
  
+ 	clipped = req;
+-	drm_rect_intersect(&clipped, &crtc_state->pipe_src);
+ 
+-	if (!drm_rect_visible(&clipped) ||
+-	    !drm_rect_equals(&clipped, &req))
++	if (!drm_rect_intersect(&clipped, &crtc_state->pipe_src))
++		return -EINVAL;
++
++	if (!drm_rect_equals(&clipped, &req))
+ 		return -EINVAL;
+ 
+ 	return 0;
 -- 
 2.39.2
 
