@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FC26C8E64
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 14:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A3E6C8E9F
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 14:45:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E7710E05F;
-	Sat, 25 Mar 2023 13:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD83F10E1CD;
+	Sat, 25 Mar 2023 13:45:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com
- [IPv6:2607:f8b0:4864:20::c2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DB610E110
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 13:16:11 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id
- n3-20020a4ad403000000b0053351dadc20so683374oos.13
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 06:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1679750170;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yvrQXsxOcbWlHc/gBzB9tc6Mw6DtquHCVxxuCHy2pLM=;
- b=WlIhhDyN9chem7VpDdS0nSKQXQjBafwVr0qhMmfH0uSlrXDPbc28aDt4N8o1P3DZju
- 7ZGHH8u04TDsPMcv0Qgp6vFWu6TIp58JFvN67ReJtSQB11NUR4OseORwsKlpAEIBrqSo
- l1LKnwQyUd7yDA8+Kd7znPkvd6yrEqgdd7rngFhtsk8ahiopkYNWlTf/82lsfl4FKa1A
- hsuRso2tjN9a69sl6L6G6gDbnndo9CcAaTpwq4jlLiOCWeDjicFyuVuZ0E3pD/K/dtDb
- BDH26xabS+AB2QvlTDRg40UWJ2Dk7DYw/HaAXGfrbRILTjUFAF3PphWN8aMgZ5E1g31Z
- grfg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D44C10E1CD
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 13:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1679751909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CA7h/KT6ar6s3WSm/PcPsckHI4JxnLRkTxYhhO4xj4k=;
+ b=iBJ2ZOStaDpUVr/JXKQ9l9ywyPPQibQg0as9klu5HnKhtNR96FUoi1jH02uu0THtA5AoJe
+ ND3/ocDW99qWkq4pwkTzzwgVTsHkZcSKOOuTsZYhJWEfApbFqJFKdzo4jDQhEbbAgyfnZ0
+ 918Bxf+dZm9sxguVkWvBqEsIqo6w/3o=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-173-zjr1T_hDOly5fzvNaSG2Yw-1; Sat, 25 Mar 2023 09:45:07 -0400
+X-MC-Unique: zjr1T_hDOly5fzvNaSG2Yw-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ x5-20020a05622a000500b003e259c363f9so2788348qtw.22
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 06:45:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679750170;
+ d=1e100.net; s=20210112; t=1679751907;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=yvrQXsxOcbWlHc/gBzB9tc6Mw6DtquHCVxxuCHy2pLM=;
- b=Ns+TrJvVXBQeCSkQcBYri7tGFfP5yyRnaVUPVZoSGyZ+PT94Ug2fpP7hwijPQQMFG6
- KT35RJeo+82wUHr0bnHXaKg0jeLvwVA1buZ3jw+MLlzIvVILQTLEQabDFBF19m0LQgq1
- Lmm2d9Z9cuhOvNQuP2RZz3Wo7FY+X/EkqTgwABRwCs0r1vawSitDzXcDcBO2OozTTEJb
- Y229ikdWbm5xdIa/FBXPsZqTSrUY4y5RzydcSh1Nk63oNLlj5xqWNngLN8aWaatNYTMv
- Ufz6wxC6Ip2qgdI2OyBaf2iaxWblQDji3KHrA2kQOyfyO+YpcIJhfS4cd7LezR0wH8DN
- raLA==
-X-Gm-Message-State: AO0yUKVzB6cqTPc4uN1RdjR3KTPAFX1J5fixQYZ4LGQIRVb4kkBs4cYk
- apHaZTVonAbYrK8DV5H4DnEP/cl1r3vdAao2HkK1SQ==
-X-Google-Smtp-Source: AK7set+QeKau2HHuhsOv0Eg0JZIAdX7FzbBRRn1kqNKmwioOk+qn/JCbpvsmt6+ol8in4I6pbrXGpA==
-X-Received: by 2002:a4a:4542:0:b0:525:a9a9:b44a with SMTP id
- y63-20020a4a4542000000b00525a9a9b44amr3349972ooa.7.1679750170067; 
- Sat, 25 Mar 2023 06:16:10 -0700 (PDT)
-Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
+ bh=CA7h/KT6ar6s3WSm/PcPsckHI4JxnLRkTxYhhO4xj4k=;
+ b=MWktQEwDqpiB2ln9OQdglHQ+E+l6XXqVr0NyybiPvXYj04e9sfP6QctGR1Yrv8AItj
+ NHeWQHN5ZqB5ZL856x3sXu3KhPsW5JsRuWtE1EH/vjuGyLlMGeGZohOj+w5BgNoUlo/o
+ nWno5YywSShM7WWAicJ+MwIDh/no/K8GOcLINyzCTWTJ+xWnP8BaqYci9RvoobD0aPxU
+ aasBTOiaDuYTPbgIm8wZAFEqmuguuIs+Y2MsjLENRUp6DUtBw/fi9ILfrPjDDJmq1in/
+ LBtDWRwwJ+bSq3WK3PBiZbiQOF9KUeu1I1OglDpghOSj+b0ZWOEgyhxmHCvYxVzA9rSS
+ ZfHA==
+X-Gm-Message-State: AO0yUKWjOfec/lpPXZH30dnz0TA6OCksU6etrvgkIpzYLcZ/ym695xHs
+ hvJq8tZlX67U+M7SeONuttfeHSKkhHrhzjL1BFz93wJE2uRAaE5e/asCm27YUJvXSQak5GYvTKs
+ JCeP3JksNnQph3o78CgZPsL2G60j2
+X-Received: by 2002:a05:622a:647:b0:3e3:9948:98d1 with SMTP id
+ a7-20020a05622a064700b003e3994898d1mr10992023qtb.38.1679751907350; 
+ Sat, 25 Mar 2023 06:45:07 -0700 (PDT)
+X-Google-Smtp-Source: AK7set9lBadmzaW3R6GBzpZCCcrV/q81u7BWSsClYIuBO79n0CA6GzW3uhjcVgbc5HCJD7hhViJ7VQ==
+X-Received: by 2002:a05:622a:647:b0:3e3:9948:98d1 with SMTP id
+ a7-20020a05622a064700b003e3994898d1mr10991982qtb.38.1679751907150; 
+ Sat, 25 Mar 2023 06:45:07 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
  by smtp.gmail.com with ESMTPSA id
- s2-20020a4aad42000000b00525398a1144sm9301369oon.32.2023.03.25.06.16.08
+ h23-20020ac85497000000b003e3927a2cd8sm2528739qtq.3.2023.03.25.06.45.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 06:16:09 -0700 (PDT)
-From: Caio Novais <caionovais@usp.br>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/scheduler: Fix variable name in function description
-Date: Sat, 25 Mar 2023 10:15:32 -0300
-Message-Id: <20230325131532.6356-1-caionovais@usp.br>
-X-Mailer: git-send-email 2.40.0
+ Sat, 25 Mar 2023 06:45:06 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, nathan@kernel.org,
+ ndesaulniers@google.com, Jun.Lei@amd.com, wenjing.liu@amd.com,
+ Jimmy.Kizito@amd.com, Cruise.Hung@amd.com
+Subject: [PATCH] drm/amd/display: remove unused matching_stream_ptrs variable
+Date: Sat, 25 Mar 2023 09:45:03 -0400
+Message-Id: <20230325134503.1335510-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,37 +85,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: luben.tuikov@amd.com, Caio Novais <caionovais@usp.br>
+Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compiling AMD GPU drivers displays two warnings:
+clang with W=1 reports
+drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:625:6: error:
+  variable 'matching_stream_ptrs' set but not used [-Werror,-Wunused-but-set-variable]
+        int matching_stream_ptrs = 0;
+            ^
+This variable is not used so remove it.
 
-drivers/gpu/drm/scheduler/sched_main.c:738: warning: Function parameter or member 'file' not described in 'drm_sched_job_add_syncobj_dependency'
-drivers/gpu/drm/scheduler/sched_main.c:738: warning: Excess function
-parameter 'file_private' description in
-'drm_sched_job_add_syncobj_dependency'
-
-Get rid of them by renaming the variable name on the function description
-
-Signed-off-by: Caio Novais <caionovais@usp.br>
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 214364fccb71..7db586e6fce6 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -722,7 +722,7 @@ EXPORT_SYMBOL(drm_sched_job_add_dependency);
- /**
-  * drm_sched_job_add_syncobj_dependency - adds a syncobj's fence as a job dependency
-  * @job: scheduler job to add the dependencies to
-- * @file_private: drm file private pointer
-+ * @file: drm file private pointer
-  * @handle: syncobj handle to lookup
-  * @point: timeline point
-  *
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+index 41198c729d90..30c0644d4418 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
+@@ -622,7 +622,6 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_state *state)
+ 	int i, j;
+ 	uint8_t valid_count = 0;
+ 	uint8_t dig_stream_count = 0;
+-	int matching_stream_ptrs = 0;
+ 	int eng_ids_per_ep_id[MAX_PIPES] = {0};
+ 	int ep_ids_per_eng_id[MAX_PIPES] = {0};
+ 	int valid_bitmap = 0;
+@@ -645,9 +644,7 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_state *state)
+ 		struct link_enc_assignment assignment = state->res_ctx.link_enc_cfg_ctx.link_enc_assignments[i];
+ 
+ 		if (assignment.valid) {
+-			if (assignment.stream == state->streams[i])
+-				matching_stream_ptrs++;
+-			else
++			if (assignment.stream != state->streams[i])
+ 				valid_stream_ptrs = false;
+ 		}
+ 	}
 -- 
-2.40.0
+2.27.0
 
