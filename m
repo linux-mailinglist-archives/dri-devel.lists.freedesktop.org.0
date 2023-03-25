@@ -2,77 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A3E6C8E9F
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 14:45:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A541D6C8EEE
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 15:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD83F10E1CD;
-	Sat, 25 Mar 2023 13:45:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D9210E03B;
+	Sat, 25 Mar 2023 14:58:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D44C10E1CD
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 13:45:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1679751909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=CA7h/KT6ar6s3WSm/PcPsckHI4JxnLRkTxYhhO4xj4k=;
- b=iBJ2ZOStaDpUVr/JXKQ9l9ywyPPQibQg0as9klu5HnKhtNR96FUoi1jH02uu0THtA5AoJe
- ND3/ocDW99qWkq4pwkTzzwgVTsHkZcSKOOuTsZYhJWEfApbFqJFKdzo4jDQhEbbAgyfnZ0
- 918Bxf+dZm9sxguVkWvBqEsIqo6w/3o=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-173-zjr1T_hDOly5fzvNaSG2Yw-1; Sat, 25 Mar 2023 09:45:07 -0400
-X-MC-Unique: zjr1T_hDOly5fzvNaSG2Yw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- x5-20020a05622a000500b003e259c363f9so2788348qtw.22
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 06:45:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679751907;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CA7h/KT6ar6s3WSm/PcPsckHI4JxnLRkTxYhhO4xj4k=;
- b=MWktQEwDqpiB2ln9OQdglHQ+E+l6XXqVr0NyybiPvXYj04e9sfP6QctGR1Yrv8AItj
- NHeWQHN5ZqB5ZL856x3sXu3KhPsW5JsRuWtE1EH/vjuGyLlMGeGZohOj+w5BgNoUlo/o
- nWno5YywSShM7WWAicJ+MwIDh/no/K8GOcLINyzCTWTJ+xWnP8BaqYci9RvoobD0aPxU
- aasBTOiaDuYTPbgIm8wZAFEqmuguuIs+Y2MsjLENRUp6DUtBw/fi9ILfrPjDDJmq1in/
- LBtDWRwwJ+bSq3WK3PBiZbiQOF9KUeu1I1OglDpghOSj+b0ZWOEgyhxmHCvYxVzA9rSS
- ZfHA==
-X-Gm-Message-State: AO0yUKWjOfec/lpPXZH30dnz0TA6OCksU6etrvgkIpzYLcZ/ym695xHs
- hvJq8tZlX67U+M7SeONuttfeHSKkhHrhzjL1BFz93wJE2uRAaE5e/asCm27YUJvXSQak5GYvTKs
- JCeP3JksNnQph3o78CgZPsL2G60j2
-X-Received: by 2002:a05:622a:647:b0:3e3:9948:98d1 with SMTP id
- a7-20020a05622a064700b003e3994898d1mr10992023qtb.38.1679751907350; 
- Sat, 25 Mar 2023 06:45:07 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9lBadmzaW3R6GBzpZCCcrV/q81u7BWSsClYIuBO79n0CA6GzW3uhjcVgbc5HCJD7hhViJ7VQ==
-X-Received: by 2002:a05:622a:647:b0:3e3:9948:98d1 with SMTP id
- a7-20020a05622a064700b003e3994898d1mr10991982qtb.38.1679751907150; 
- Sat, 25 Mar 2023 06:45:07 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- h23-20020ac85497000000b003e3927a2cd8sm2528739qtq.3.2023.03.25.06.45.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 06:45:06 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com, Jun.Lei@amd.com, wenjing.liu@amd.com,
- Jimmy.Kizito@amd.com, Cruise.Hung@amd.com
-Subject: [PATCH] drm/amd/display: remove unused matching_stream_ptrs variable
-Date: Sat, 25 Mar 2023 09:45:03 -0400
-Message-Id: <20230325134503.1335510-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B072010E002;
+ Sat, 25 Mar 2023 14:58:47 +0000 (UTC)
+Received: from [192.168.2.204] (109-252-120-116.nat.spd-mgts.ru
+ [109.252.120.116])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 0455F6603103;
+ Sat, 25 Mar 2023 14:58:43 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1679756326;
+ bh=dU1D86JTqo/yGLLA5mJPUROTMQUYgMAFWoNb6lY2hgc=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=bUQ9ZL5vbpwKPXHcT8taJDSRfEanqwsD9J953DywnuIp0FSwWHV/2wSRf9J5xU5zx
+ XW/mdsIIfoghLBKjfQPkeYiqvdZ4f2JwUM/BltUQ+07OYxCfHr7IVeuimMghXooJ7l
+ j6BGYFM/wSBHC7XY04Yf3fRtkEBUjO/65qTpM6NqPcXZ0jLYq9eS+/7yTQXAkaMOHF
+ 4RADMreTDjWabykjnZ8jDzKDl3FAfokQR1jscEGg2MIisWZodEGMeVeKlDDh+9cWdS
+ Jrvvad0aDK1RldZWLJsqSmE4u14RvF1KiHvjxBpA7tYCfxUCovyjj5ySAkoIobWdxZ
+ CEdgGP1UzPc9Q==
+Message-ID: <20c88807-8513-a816-aed9-5cd67eb5c1ed@collabora.com>
+Date: Sat, 25 Mar 2023 17:58:41 +0300
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v13 01/10] drm/shmem-helper: Switch to reservation lock
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20230314022659.1816246-1-dmitry.osipenko@collabora.com>
+ <20230314022659.1816246-2-dmitry.osipenko@collabora.com>
+ <6b5644cf-6229-f99b-d429-a45d724493ee@collabora.com>
+Content-Language: en-US
+In-Reply-To: <6b5644cf-6229-f99b-d429-a45d724493ee@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,47 +58,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Gerd Hoffmann <kraxel@redhat.com>, kernel@collabora.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ intel-gfx@lists.freedesktop.org, Gurchetan Singh <gurchetansingh@chromium.org>,
+ linux-kernel@vger.kernel.org, Qiang Yu <yuq825@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang with W=1 reports
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_enc_cfg.c:625:6: error:
-  variable 'matching_stream_ptrs' set but not used [-Werror,-Wunused-but-set-variable]
-        int matching_stream_ptrs = 0;
-            ^
-This variable is not used so remove it.
+On 3/15/23 16:46, Dmitry Osipenko wrote:
+> On 3/14/23 05:26, Dmitry Osipenko wrote:
+>> @@ -633,7 +605,10 @@ int drm_gem_shmem_mmap(struct drm_gem_shmem_object *shmem, struct vm_area_struct
+>>  		return ret;
+>>  	}
+>>  
+>> +	dma_resv_lock(shmem->base.resv, NULL);
+>>  	ret = drm_gem_shmem_get_pages(shmem);
+>> +	dma_resv_unlock(shmem->base.resv);
+> 
+> Intel CI reported locking problem [1] here. It actually was also
+> reported for v12, but I missed that report because of the other noisy
+> reports.
+> 
+> [1]
+> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_114671v2/shard-snb5/igt@prime_vgem@sync@rcs0.html
+> 
+> The test does the following:
+> 
+> 1. creates vgem
+> 2. export it do dmabuf
+> 3. mmaps dmabuf
+> 
+> There is an obvious deadlock there. The DRM code assumes that mmap() is
+> unlocked, while for dma-buf it's locked. I'll see how to fix it for v14.
+> 
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Christian, there is a deadlock problem in drm_gem_shmem_mmap() once we
+move drm-shmem to use resv lock. The current dma-buf locking policy
+claims that importer holds the lock for mmap(), but DRM code assumes
+that obj->mmap() handles the locking itself and then the same
+obj->mmap() code path is used by both dma-buf DRM and a usual DRM object
+paths. Hence importer -> dma_buf_mmap_internal()[takes the lock] ->
+exporter -> drm_gem_shmem_mmap()[takes the lock] deadlocks.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-index 41198c729d90..30c0644d4418 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_enc_cfg.c
-@@ -622,7 +622,6 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_state *state)
- 	int i, j;
- 	uint8_t valid_count = 0;
- 	uint8_t dig_stream_count = 0;
--	int matching_stream_ptrs = 0;
- 	int eng_ids_per_ep_id[MAX_PIPES] = {0};
- 	int ep_ids_per_eng_id[MAX_PIPES] = {0};
- 	int valid_bitmap = 0;
-@@ -645,9 +644,7 @@ bool link_enc_cfg_validate(struct dc *dc, struct dc_state *state)
- 		struct link_enc_assignment assignment = state->res_ctx.link_enc_cfg_ctx.link_enc_assignments[i];
- 
- 		if (assignment.valid) {
--			if (assignment.stream == state->streams[i])
--				matching_stream_ptrs++;
--			else
-+			if (assignment.stream != state->streams[i])
- 				valid_stream_ptrs = false;
- 		}
- 	}
+I was looking at how to fix it and to me the best option is to change
+the dma-buf locking policy, making exporter responsible for handling the
+resv lock. Changing DRM code mmap lockings might be possible too [moving
+locking to drm_gem_mmap_obj()], but will be very messy and doesn't feel
+intuitive.
+
+Want to get yours thoughts on this before sending out the dma-buf mmap()
+policy-change patch. Does the new mmap() locking policy sound good to
+you? Thanks!
+
 -- 
-2.27.0
+Best regards,
+Dmitry
 
