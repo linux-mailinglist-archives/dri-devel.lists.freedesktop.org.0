@@ -1,152 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D77F6C8B94
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 07:12:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5EC6C8B9E
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 07:17:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 618DC10E10D;
-	Sat, 25 Mar 2023 06:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 943AB10E120;
+	Sat, 25 Mar 2023 06:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A710010E10D;
- Sat, 25 Mar 2023 06:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1679724724; x=1711260724;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=hp/60AuwIslnKJSivVmn2vjwp8frL2PUUmjAHNt5VwA=;
- b=RszZkKDf0uMyUsexHOYdl/Mc+nHzGQTIg+cSOFKcp8xltJefTPZtu4Vc
- 2RezOuoUuXrNocQijhM415PzOUEhyoifEKpYMdLfK1SJGCoGPFOlhB6SL
- ZeEUKE1aqHOsA0PQ78seKwF1id0tzOxQBxM5WN/FZ0bm+FOBm9EZLg11G
- vQ1GZqrkvoZ6leS9pMXfN9AcO6451AdRIDyQIYHe7o4IfaKINcJZhwGDs
- BwODJG8QhKVeCt1v/4HDt943DmjTNgv+plWnqB58f7hPPojoWRDqJ+loL
- IoAPD39NDld+kgj8WnyD8wfjD6IcWq+puMcyvqhcJYIzBWtNvrGYaf0yG w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="319594089"
-X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; d="scan'208";a="319594089"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2023 23:12:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="1012516827"
-X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; d="scan'208";a="1012516827"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga005.fm.intel.com with ESMTP; 24 Mar 2023 23:12:03 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Fri, 24 Mar 2023 23:12:03 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Fri, 24 Mar 2023 23:12:03 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Fri, 24 Mar 2023 23:12:03 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nmRcvN/kypiYVfjDLBr7SA5JaAm49uyZrUyIFuayL5w6SqOWQuL6H7ApwBnpDDlrsC8uWFuJ8dmlpP5nUynSqXDhqv8LBaz/D6UBi0FJ9K4v0kXPud70DMU6LrHdjKMoV3iQJybttYu2/847Vh/wZL1tpnLl50ZWwfp8Q+G2zfjqyG/ZU1vZqa36R4q7SbZCJi14pP0hsRuVXc5Gx5vAtoNupMGepmBOS1p3T3Qo9r6l43QXzPUPAZkft/yvKX+bpI+kOZYllUzE0QZI+QKAIZGPy8g7MMkolLaER8Esf4FSHPZFQmIdCeQ0XvhvDcu3TG8N247vTHzegw6EKAgAzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hp/60AuwIslnKJSivVmn2vjwp8frL2PUUmjAHNt5VwA=;
- b=deJ4N421I6wWMY7yXFseY5DQFKsM8qKmCllCEJOCfLFkZEK5OdvniHt6ICqsOEilCY0HEEBJoKOTE9QKSexFNNXtQmtJIFpDiMyXo2/Hc+A6tldmCJhEK462gMzEKXAPufzOjaRairS0XvCezJmO87vSmR4IGV5rMXqyyTtIRKrBFPhAgO+TVJcNF5c6nAGdp886Pm2mdGx93qpk21qLZ1nyYZggoHQxDwvfAvc0Uu5Kx0X04U8/SvqSZ+Bv2pKN5Kd5ZOW7eDyKdTNsnuSwHlDanzy3tdRhbeuogcqJCH5Jedo37E5vt1TftvvF8oEveiN5VcOB35L4SMhyRnb6vA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- CYYPR11MB8358.namprd11.prod.outlook.com (2603:10b6:930:c9::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6178.41; Sat, 25 Mar 2023 06:11:55 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::4cdb:78a7:917e:88e5]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::4cdb:78a7:917e:88e5%9]) with mapi id 15.20.6178.041; Sat, 25 Mar 2023
- 06:11:55 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v6 5/8] drm/i915/pxp: Add ARB session creation and cleanup
-Thread-Topic: [PATCH v6 5/8] drm/i915/pxp: Add ARB session creation and cleanup
-Thread-Index: AQHZSxtxSfUqWny+hUmFCBmRtOC0Wq7p3LIAgCFOeQA=
-Date: Sat, 25 Mar 2023 06:11:54 +0000
-Message-ID: <ff9f89598ace661db431015974a5b6ad91c4c59d.camel@intel.com>
-References: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
- <20230228022150.1657843-6-alan.previn.teres.alexis@intel.com>
- <fabe4123-53cc-005e-e0af-7683e0d45896@intel.com>
-In-Reply-To: <fabe4123-53cc-005e-e0af-7683e0d45896@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.1-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|CYYPR11MB8358:EE_
-x-ms-office365-filtering-correlation-id: 2c8c79da-b7d1-4b92-9208-08db2cf7d51b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Tyub2cy0EBArleI9wpdHezZmIEX73hq2f+Wr4jsJ/0xb9BOQy5qriLbLmeNHct9dAt/sa2on83vd411EiF1fFPB75bPY8kSSiHJ3gmlR5ux5U6NDN678G1xEfcGZR2Re4P8odCjA+a2V2Ygrs8G2WosUiL6nTVjDxHjSpiwip3bNofm29JijU4nWKVbc5g34Cwj82XVTu9xDvkBMTyCXUWYLacwY7srT8jo6jpdiQQZMy0bPvWn4ve1GNKjXgEp0G2ErhEciTYnsZ1jJfEBJtoWaQg+brsANng0fZXJdH6ge/bvF2pYe/L9kQlwctS2jC96UHJBrKkSHlZODUsrnxR2EzAZ31C4cEEQ9kEQPyT//HR8wUUtuu+jZ+pKmIxBxvh6Xv38fXlNXSGQ/dz+fpwHl4tcM9ZKtoIpfNdOzseCOh2OcPajZNxQplDMMABGFGa8DK5KHV3XLSc3i4MXAbsPOs3uY+BLe7DcrXepY70V2CIYTsNFPHhOhTEqnZ29Fk6sd3fbNXl9yB7w3KTlrtux89/UxFq6LyVrEF9mC7OnpAJesnUhAMVRg9d5OLuNi
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(376002)(366004)(136003)(39860400002)(346002)(396003)(451199021)(71200400001)(122000001)(966005)(6486002)(76116006)(66946007)(8676002)(91956017)(66446008)(2906002)(4326008)(5660300002)(82960400001)(41300700001)(8936002)(36756003)(478600001)(64756008)(66476007)(66556008)(38100700002)(38070700005)(86362001)(316002)(54906003)(83380400001)(110136005)(6512007)(26005)(53546011)(6506007)(186003)(2616005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MjhHVXpMeWZDQTlTcDNNalhLcVdOVWFNejVpTFBzSjJqcXMyTVBLV2hrcmh6?=
- =?utf-8?B?azN5WHdlREJ3dFFybHEvc0k4S2xsRXZTUkNtdlVFQndqbURyZ2c1eXZzcVJw?=
- =?utf-8?B?STRnbjdLZHpqWmlOblhnL2dqbmthdzNSRmRUeFlQc0VLWTVzcjYzbnVWMnFL?=
- =?utf-8?B?V3hLMHMxVUhXUTRTeStoOURWMDlBUGJEQ0Vmb1VaQVYxUzZnV214S2NGTE5G?=
- =?utf-8?B?cnY5VHRwNUw5M3RmcDVBQ0lZZ0Jrb1lXV2tEQ1gvVTdiMUo3cHdmUzRHcUEv?=
- =?utf-8?B?ejZHWlVMK1YrYkJwcEpQZmF5aU42ajc1dk5pcC92YnA1NkNwNzN4RzgvbW5v?=
- =?utf-8?B?RUl5ZVVrVUthdytIOHpSRWxWQkhXa3U1M21GUWprVU0xd1BENXBhcU9Dbzh6?=
- =?utf-8?B?YVA4U29ralQ4U2RaVEFhdjdTcWlTbkFxUElhYjJkUUoxZU1iYkRXNXNVZTBC?=
- =?utf-8?B?MXlOeHVYUktzTzlyazNSdEJnM0dhUHFGWTliVW5qTFdZNnRhRjVyd2tFM1Fl?=
- =?utf-8?B?akQwd2FMbGxEQkZoR1BCRXBzOTF6eXd1MHBiSWQ0aEtVNU52TTdydXpjR1hl?=
- =?utf-8?B?c3RmWGFTWWhJUm1MeW5mTjNWV2VDTlljY2dJUW9tRDdOdVJsbHByMG9XMU5x?=
- =?utf-8?B?akpGeUJiVU9QczRBM1ExS3JYM2pMeWhRamIxOVJaa0IvSC9TdkFWTkZmTTdW?=
- =?utf-8?B?TndMdm52dVJVTUU2a1dJa2g5ajRJa3h2aGRaeDhSTXBRYW92VnRUT3FjYjJi?=
- =?utf-8?B?b2p4QXpJSjVCM29heTE3ck9mMm14WU5UUTJLanV1ZTZjQ1NsSENGZ1VSQ3JY?=
- =?utf-8?B?VkV6YmpnbXgvOVhJaDBLVldpMHBCM2t6WHo4em5FTitiSVUyQ2hjdEIrREJi?=
- =?utf-8?B?OGlsV2xzYUdOekpUYmtNcUpvYXJxTTFFV2tIMjZON2lSUStVNjZocGFNcEZS?=
- =?utf-8?B?YVpnNW0wNjdmbEZiSmtxbVVTQ2lxOUd4VldXcjdSR0Fxek5DTDFrSDBmd09y?=
- =?utf-8?B?WTZhU2Nra0pZbWFmZUNiUmx2ZmREYjVieEx1b1FoSDhNNVdDZFBaS0hrZkRP?=
- =?utf-8?B?QTlSM2hXaGpwZFhIM1RnaXgxRWxpTlZJb1RnckVxOGRBc0w2UHdJZXJaZHpW?=
- =?utf-8?B?bGkvTHFKNk82R2ovMUtUUGV4c1NXWVppaElJbHcwUFJJMFV2Y21hWkZETkJj?=
- =?utf-8?B?NmdnOFhZaFNDQVpMOHA0RGtrb0lHbmJiSWJ4RFR1dlpLa29MYzdtK0RGMWcr?=
- =?utf-8?B?ek82emZIVjlMNEhLYVEwcVFzSkU1b0tOU0J6MGdpQ2YrWXdvdFd0SkpLQUJk?=
- =?utf-8?B?S05NVDNWY3UzaXU0L05JZG1pNnc4aUZoQWFXaVdCN25YUEtLNHNzdzN4clpY?=
- =?utf-8?B?eDdsRzVyOVg5WjZTanhqZlpzdGUwV29BR2xKbUtCakd0YXJIdWwzZURMeTdI?=
- =?utf-8?B?RnZwVTRiRWZ0K2RkRGNROWhqTXB0dzlaTyt2YUF6YzlHQXdJTmMzTWR0Rlg3?=
- =?utf-8?B?RCtyK2QvaklwWUZSejNsaWpJUWRBbzEvb3VkUWJHQmlLYUd6RjNhcjlwY0xX?=
- =?utf-8?B?RWx1SXQyRGc0ZmdjbGhsQjFjQW9xTnR3V25YNVUrakNhYWxXbks3ZUhDSDZN?=
- =?utf-8?B?ejZTeFdleDNjTmM0REpXN2Z6MU9GYk1CV3UrUllDaUNCS3g2YUdreGRqMWFP?=
- =?utf-8?B?c1NubzVEQmQ1aHY2VmU3SzZnYXVRRGZ6SlVwYTBBZkM5UG8vQWFZWDRuSE56?=
- =?utf-8?B?d2owVzRZcEh2VUtUcFhydGZzM1FOVGZtT0t2bElKcGltOXdOWWF4TkRxSGU4?=
- =?utf-8?B?QS96MEpmME1OZkFZM214cGlVb1NORzdZQjJOMXRUSzN3SkFxLzZUQlV0YnAy?=
- =?utf-8?B?ay9kZm9GUmYxQ2wzUlJPQTZMeVhmV3N3Y3Yvd05WMkczcDBybGRKUGhhYkVM?=
- =?utf-8?B?WitqT1FQdWplRWU1dU9YNnpGWU9abVQ5VkhjamdRTUxHTnVQMjFFWE5jbDBz?=
- =?utf-8?B?TmJ3SnFyRlV6c2lseDVxbmlyb1ZSV21SSTR0TU1aM1VTK0NCZldkL0FNdkE0?=
- =?utf-8?B?YkNyZm9SMkM5L3BzZ1VnNFNiVlFGM2JZTGtsekxHbTVRYXJRbnNOOVZCYXht?=
- =?utf-8?B?M3R2Yk9aWVo4OGhsME9HOTA5M0YwejRRUzVRbXNWUlZoOHdPM2s1SEZ0Q1Zx?=
- =?utf-8?Q?w8I2NT2A8NsirHOnPPD65rA=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A241193CC0A6A747BE8AF87F44AC2A44@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D05C10E120
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 06:17:28 +0000 (UTC)
+Received: by mail-qt1-x82b.google.com with SMTP id n14so3513594qta.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 23:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1679725047;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=59n4qo01SjOKO006Y7mcNS1vRpkpsDdd1F1qGktUjNI=;
+ b=oaer94c2tf4mkM6D9BVutHrcGZKzMCvp9KX4fpYOBLJsDir5GD/61TGOoCXkZBtLnC
+ SD5YpJyMR1fkdhKEo/1p8J/kVaRATru4DSDxGq2D1GOHK6uuzuFLHL5wiBI3Cii1Il1W
+ dCvFst6CurugIVpQQfWFY1wCoC4TSkz/pR/bs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679725047;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=59n4qo01SjOKO006Y7mcNS1vRpkpsDdd1F1qGktUjNI=;
+ b=J55yhI7s07GyfAN/3UjBJMRrMtU2hqyiJDZSUeqi7KKV4vkyMlcEXxIY20dQp731RB
+ feEZePxuQKDZFQOv9aiMdqRbEl6932GkiCoIYJ7IQ8iuwOZust9oD7fmhi6KS9d0vj/O
+ vCy/68x3NtEpHzNz8w3VRO1ohQXDawHLcuRwffTgZ2KCsAq7Bh/7ageg6LNUj03VZl9l
+ izt+GMcc0mx3a9gxJKCDlE6DPYp7XcDnHb8lL3+5Djd9oZoRBn6fEBZBPkyBDianr1gv
+ eYc7hFVLPba//AqAnmJbqskP9uHBo4FJyPgVUb8n0o0mESYjghShwFbjo3Ro2P4bRhTx
+ JFpg==
+X-Gm-Message-State: AO0yUKXMYD+dg5TnijyPFubDP1cW7m6W+uXDIwMrmypk6VdecC4LFS0b
+ ABn7Ka50x4fHD+Xs8BfoZ6VIoNZbjwtEGO//OkGNNA==
+X-Google-Smtp-Source: AK7set9MMfqlrhs6XUQUONG7xwe5AX/mF0RQU+J7U0XnhiHvMiyCHfvHMtBORxjDESkNw68utqDGMR5mndN5zDupSog=
+X-Received: by 2002:a05:622a:614:b0:3e2:60d6:4236 with SMTP id
+ z20-20020a05622a061400b003e260d64236mr2067314qta.0.1679725046868; Fri, 24 Mar
+ 2023 23:17:26 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c8c79da-b7d1-4b92-9208-08db2cf7d51b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2023 06:11:54.6799 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q/Yv1DStmXMw26o0EJwn6S5gPRiKH+QklRNl7qYrMyN2B8F1PT9f2Gl7LIMOfdEEkOaQekAMk9zyFL15dj5h8dRhwPMLGnkF/VuYOuxoXaXPMMGPIVyGEHefKtIHEwzJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8358
-X-OriginatorOrg: intel.com
+References: <20230324072958.2993946-1-hsinyi@chromium.org>
+ <f4573a49-ae05-07bf-4e7c-70037b4596b9@intel.com>
+ <CAJMQK-gzFc41kDxYHJQzuXtvaJnYN8zvsfHbam4TX+PaYoRE-w@mail.gmail.com>
+In-Reply-To: <CAJMQK-gzFc41kDxYHJQzuXtvaJnYN8zvsfHbam4TX+PaYoRE-w@mail.gmail.com>
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Sat, 25 Mar 2023 14:17:00 +0800
+Message-ID: <CAJMQK-jGNTEpyRTh+VaenjSfr6eMeysJZFzOvvX6WQT9GyEzfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: it6505: Add lock for it6505 i2c bank
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,37 +66,296 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "justonli@chromium.org" <justonli@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ kenneth.hung@ite.corp-partner.google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIzLTAzLTAzIGF0IDE3OjM0IC0wODAwLCBDZXJhb2xvIFNwdXJpbywgRGFuaWVs
-ZSB3cm90ZToNCj4gDQo+IE9uIDIvMjcvMjAyMyA2OjIxIFBNLCBBbGFuIFByZXZpbiB3cm90ZToN
-Cj4gPiBBZGQgTVRMJ3MgZnVuY3Rpb24gZm9yIEFSQiBzZXNzaW9uIGNyZWF0aW9uIHVzaW5nIFBY
-UCBmaXJtd2FyZQ0KPiA+IHZlcnNpb24gNC4zIEFCSSBzdHJ1Y3R1cmUgZm9ybWF0Lg0KPiANCmFs
-YW46c25pcA0KDQo+ID4gKwlyZXQgPSBnc2Njc19zZW5kX21lc3NhZ2VfcmV0cnlfY29tcGxldGUo
-cHhwLA0KPiA+ICsJCQkJCQkmbXNnX2luLCBzaXplb2YobXNnX2luKSwNCj4gPiArCQkJCQkJJm1z
-Z19vdXQsIHNpemVvZihtc2dfb3V0KSwgTlVMTCk7DQo+ID4gKwlpZiAocmV0KQ0KPiA+ICsJCWRy
-bV93YXJuKCZpOTE1LT5kcm0sICJGYWlsZWQgdG8gc2VuZCBnc2NjcyBtc2cgZm9yIGNyZWF0aW5n
-LXNlc3Npb24tJWQ6IHJldD1bJWRdXG4iLA0KPiA+ICsJCQkgYXJiX3Nlc3Npb25faWQsIHJldCk7
-DQo+ID4gKwllbHNlIGlmIChtc2dfb3V0LmhlYWRlci5zdGF0dXMgIT0gMHgwKQ0KPiA+ICsJCWRy
-bV93YXJuKCZpOTE1LT5kcm0sICJQWFAgZmlybXdhcmUgZmFpbGVkIG9uIGNyZWF0aW5nLXNlc3Np
-b24tJWQ6IHN0YXR1cz0weCUwOHhcbiIsDQo+ID4gKwkJCSBhcmJfc2Vzc2lvbl9pZCwgbXNnX291
-dC5oZWFkZXIuc3RhdHVzKTsNCj4gDQo+IFNob3VsZCB0aGlzIGZvbGxvdyB0aGUgc2FtZSBsb2cg
-c3R5bGUgYXMgDQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC81MjE0
-MzEvPyBzYW1lIGZvciB0aGUgZnVuY3Rpb24gDQo+IGJlbG93Lg0KYWxhbjogeWVhaCAtIGkgd2Fz
-IHBsYW5uaW5nIHRvIHVwZGF0ZSBvbmNlIHRoZSBvdGhlciBnb3QgYW4gUmIgd2hpY2ggaXMganVz
-dCBkaWQuDQpJbiB0aGUgY29taW5nIHJldjcsIEknbGwgcHJvYmFibHkgZHVwbGljYXRlIHNvbWUg
-b2YgdGhlIGZ3LWVyci10by1zdHJpbmcgZnVuY3Rpb24NCmZvciBib3RoIEdTQ0NTIGFuZCBURUUg
-aW4gdGhlIGV2ZW50IG5ldyBvciBleGlzdGluZyBlcnJvciBjb25kaXRpb25zIGFyZSBkaWZmZXJl
-bnRseQ0KZGV0ZXJtaW5lZCBhcyBwbGF0Zm9ybSBwZXJzaXN0aW5nIGlzc3VlIG9yIHJ1bnRpbWUg
-aXNzdWVzLiANCg0KYWxhbjpzbmlwDQo+ID4gK3ZvaWQgaW50ZWxfcHhwX2dzY2NzX2VuZF9hcmJf
-Zndfc2Vzc2lvbihzdHJ1Y3QgaW50ZWxfcHhwICpweHAsIHUzMiBzZXNzaW9uX2lkKQ0KPiA+ICt7
-DQo+ID4gKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IHB4cC0+Y3RybF9ndC0+aTkx
-NTsNCj4gPiArCXN0cnVjdCBweHA0Ml9pbnZfc3RyZWFtX2tleV9pbiBtc2dfaW4gPSB7MH07DQo+
-ID4gKwlzdHJ1Y3QgcHhwNDJfaW52X3N0cmVhbV9rZXlfb3V0IG1zZ19vdXQgPSB7MH07DQo+ID4g
-KwlpbnQgcmV0ID0gMDsNCj4gPiArDQo+ID4gKwltZW1zZXQoJm1zZ19pbiwgMCwgc2l6ZW9mKG1z
-Z19pbikpOw0KPiA+ICsJbWVtc2V0KCZtc2dfb3V0LCAwLCBzaXplb2YobXNnX291dCkpOw0KPiAN
-Cj4gWW91J3JlIGFscmVhZHkgaW5pdGlhbGl6aW5nIHRoZSBzdHJ1Y3RzIHRvIHplcm8gd2l0aCAi
-PSB7MH0iDQo+IA0KYWxhbjogb29wcyAtIGNvcHkrcGFzdGUgZXJyb3IgLSB3aWxsIGZpeC4NCg0K
+On Fri, Mar 24, 2023 at 11:34=E2=80=AFPM Hsin-Yi Wang <hsinyi@chromium.org>=
+ wrote:
+>
+> On Fri, Mar 24, 2023 at 8:18=E2=80=AFPM Andrzej Hajda <andrzej.hajda@inte=
+l.com> wrote:
+> >
+> >
+> >
+> > On 24.03.2023 08:29, Hsin-Yi Wang wrote:
+> > > From: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>
+> > >
+> > > When the i2c bank register (REG_BANK_SEL) is set to 1,
+> > > only the registers belong to bank 1 can be written.
+> > > There will be a race condition when a process is writing
+> > > bank 0 registers while another process set the bank to 1.
+> > > Add a mutex to handle regmap read/write locking for
+> > > registers in multiple i2c bank. Since the driver now
+> > > owns the lock, there's no need to use regmap API's lock.
+> > >
+> > > Signed-off-by: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.=
+com>
+> > > Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> > > ---
+> > >   drivers/gpu/drm/bridge/ite-it6505.c | 72 ++++++++++++++++++++++----=
+---
+> > >   1 file changed, 55 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/br=
+idge/ite-it6505.c
+> > > index bc451b2a77c28..1a8dcc49fc1ee 100644
+> > > --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> > > +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> > > @@ -258,12 +258,12 @@
+> > >   #define REG_AUD_INFOFRAM_SUM 0xFB
+> > >
+> > >   /* the following six registers are in bank1 */
+> > > -#define REG_DRV_0_DB_800_MV 0x7E
+> > > -#define REG_PRE_0_DB_800_MV 0x7F
+> > > -#define REG_PRE_3P5_DB_800_MV 0x81
+> > > -#define REG_SSC_CTRL0 0x88
+> > > -#define REG_SSC_CTRL1 0x89
+> > > -#define REG_SSC_CTRL2 0x8A
+> > > +#define REG_DRV_0_DB_800_MV 0x17E
+> > > +#define REG_PRE_0_DB_800_MV 0x17F
+> > > +#define REG_PRE_3P5_DB_800_MV 0x181
+> > > +#define REG_SSC_CTRL0 0x188
+> > > +#define REG_SSC_CTRL1 0x189
+> > > +#define REG_SSC_CTRL2 0x18A
+> > >
+> > >   #define RBR DP_LINK_BW_1_62
+> > >   #define HBR DP_LINK_BW_2_7
+> > > @@ -414,12 +414,14 @@ struct it6505 {
+> > >       struct mutex extcon_lock;
+> > >       struct mutex mode_lock; /* used to bridge_detect */
+> > >       struct mutex aux_lock; /* used to aux data transfers */
+> > > +     struct mutex bank_lock; /* used to protect i2c bank access */
+> > >       struct regmap *regmap;
+> > >       struct drm_display_mode source_output_mode;
+> > >       struct drm_display_mode video_info;
+> > >       struct notifier_block event_nb;
+> > >       struct extcon_dev *extcon;
+> > >       struct work_struct extcon_wq;
+> > > +     int bank_state;   /* 1 indicates bank 1, 0 indicates bank 0 */
+> > >       int extcon_state;
+> > >       enum drm_connector_status connector_status;
+> > >       enum link_train_status link_state;
+> > > @@ -502,8 +504,22 @@ static const struct regmap_config it6505_regmap_=
+config =3D {
+> > >       .val_bits =3D 8,
+> > >       .volatile_table =3D &it6505_bridge_volatile_table,
+> > >       .cache_type =3D REGCACHE_NONE,
+> > > +     .disable_locking =3D true,
+> > > +     .can_sleep =3D true,
+> > >   };
+> > >
+> > > +static int it6505_config_bank(struct it6505 *it6505, unsigned int re=
+g_addr)
+> > > +{
+> > > +     int err =3D 0, target =3D !!(reg_addr > 0xff);
+> > > +
+> > > +     if (target !=3D it6505->bank_state) {
+> >
+> > It would be better to return if equal, this way you can avoid indentati=
+on.
+> >
+> Will fix in v2.
+> > > +             err =3D regmap_write(it6505->regmap, REG_BANK_SEL, targ=
+et);
+> > > +             if (!err)
+> > > +                     it6505->bank_state =3D target;
+> > > +     }
+> > > +     return err;
+> > > +}
+> > > +
+> > >   static int it6505_read(struct it6505 *it6505, unsigned int reg_addr=
+)
+> > >   {
+> > >       unsigned int value;
+> > > @@ -513,7 +529,10 @@ static int it6505_read(struct it6505 *it6505, un=
+signed int reg_addr)
+> > >       if (!it6505->powered)
+> > >               return -ENODEV;
+> > >
+> > > -     err =3D regmap_read(it6505->regmap, reg_addr, &value);
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     err =3D it6505_config_bank(it6505, reg_addr);
+> > > +     err |=3D regmap_read(it6505->regmap, reg_addr & 0xff, &value);
+> >
+> > Shoudn't be rather if (!err) err =3D regmap_read(...) ?
+> >
+> Will fix in v2.
+> > > +     mutex_unlock(&it6505->bank_lock);
+> > >       if (err < 0) {
+> > >               dev_err(dev, "read failed reg[0x%x] err: %d", reg_addr,=
+ err);
+> > >               return err;
+> > > @@ -531,8 +550,10 @@ static int it6505_write(struct it6505 *it6505, u=
+nsigned int reg_addr,
+> > >       if (!it6505->powered)
+> > >               return -ENODEV;
+> > >
+> > > -     err =3D regmap_write(it6505->regmap, reg_addr, reg_val);
+> > > -
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     err =3D it6505_config_bank(it6505, reg_addr);
+> > > +     err |=3D regmap_write(it6505->regmap, reg_addr & 0xff, reg_val)=
+;
+> > > +     mutex_unlock(&it6505->bank_lock);
+> > >       if (err < 0) {
+> > >               dev_err(dev, "write failed reg[0x%x] =3D 0x%x err =3D %=
+d",
+> > >                       reg_addr, reg_val, err);
+> > > @@ -551,7 +572,10 @@ static int it6505_set_bits(struct it6505 *it6505=
+, unsigned int reg,
+> > >       if (!it6505->powered)
+> > >               return -ENODEV;
+> > >
+> > > -     err =3D regmap_update_bits(it6505->regmap, reg, mask, value);
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     err =3D it6505_config_bank(it6505, reg);
+> > > +     err |=3D regmap_update_bits(it6505->regmap, reg & 0xff, mask, v=
+alue);
+> > > +     mutex_unlock(&it6505->bank_lock);
+> > >       if (err < 0) {
+> > >               dev_err(dev, "write reg[0x%x] =3D 0x%x mask =3D 0x%x fa=
+iled err %d",
+> > >                       reg, value, mask, err);
+> > > @@ -892,7 +916,10 @@ static void it6505_aux_reset(struct it6505 *it65=
+05)
+> > >
+> > >   static void it6505_reset_logic(struct it6505 *it6505)
+> > >   {
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     it6505_config_bank(it6505, REG_RESET_CTRL);
+> > >       regmap_write(it6505->regmap, REG_RESET_CTRL, ALL_LOGIC_RESET);
+> > > +     mutex_unlock(&it6505->bank_lock);
+> >
+> > Why not call it6505_write ?
+> Will fix in v2.
+> > >       usleep_range(1000, 1500);
+> > >   }
+> > >
+> > > @@ -972,9 +999,14 @@ static ssize_t it6505_aux_operation(struct it650=
+5 *it6505,
+> > >       it6505_write(it6505, REG_AUX_ADR_16_19,
+> > >                    ((address >> 16) & 0x0F) | ((size - 1) << 4));
+> > >
+> > > -     if (cmd =3D=3D CMD_AUX_NATIVE_WRITE)
+> > > +     if (cmd =3D=3D CMD_AUX_NATIVE_WRITE) {
+> > > +             mutex_lock(&it6505->bank_lock);
+> > > +             it6505_config_bank(it6505, REG_AUX_OUT_DATA0);
+> > >               regmap_bulk_write(it6505->regmap, REG_AUX_OUT_DATA0, bu=
+ffer,
+> > >                                 size);
+> > > +             mutex_unlock(&it6505->bank_lock);
+> > > +     }
+> > > +
+> > >
+> > >       /* Aux Fire */
+> > >       it6505_write(it6505, REG_AUX_CMD_REQ, cmd);
+> > > @@ -1197,9 +1229,12 @@ static int it6505_send_video_infoframe(struct =
+it6505 *it6505,
+> > >       if (err)
+> > >               return err;
+> > >
+> > > -     err =3D regmap_bulk_write(it6505->regmap, REG_AVI_INFO_DB1,
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     err =3D it6505_config_bank(it6505, REG_AVI_INFO_DB1);
+> > > +     err |=3D regmap_bulk_write(it6505->regmap, REG_AVI_INFO_DB1,
+> > >                               buffer + HDMI_INFOFRAME_HEADER_SIZE,
+> > >                               frame->length);
+> > > +     mutex_unlock(&it6505->bank_lock);
+> >
+> > Common code with it6505_aux_operation, maybe it6505_bulk_write ?
+> Will fix in v2.
+> >
+> > Have you checked if regmap does not support banking? IMO it should be
+> > implemented there.
+>
+> Thanks for the suggestion. Do you mean regmap_field*? I think the
+> banking in that series of API is different to the use case here. Since
+> we would need to additionally set REG_BANK_SEL to 0 or 1, we still
+> need a similar approach to this patch.
+> We can also use regmap_multi_reg_write() to carry REG_BANK_SEL and the
+> reg we want to write but that would have set REG_BANK_SEL multiple
+> times unnecessarily (eg. a consequent write on 2 regs on bank 0
+> doesn't need to write REG_BANK_SEL to 0 again on the second one.)
+>
+We should set selector_reg which should solve the issue.
+
+>
+> >
+> > Regards
+> > Andrzej
+> >
+> > >       if (err)
+> > >               return err;
+> > >
+> > > @@ -1267,7 +1302,6 @@ static void it6505_init(struct it6505 *it6505)
+> > >       it6505_write(it6505, REG_TIME_STMP_CTRL,
+> > >                    EN_SSC_GAT | EN_ENHANCE_VID_STMP | EN_ENHANCE_AUD_=
+STMP);
+> > >       it6505_write(it6505, REG_INFOFRAME_CTRL, 0x00);
+> > > -     it6505_write(it6505, REG_BANK_SEL, 0x01);
+> > >       it6505_write(it6505, REG_DRV_0_DB_800_MV,
+> > >                    afe_setting_table[it6505->afe_setting][0]);
+> > >       it6505_write(it6505, REG_PRE_0_DB_800_MV,
+> > > @@ -1277,7 +1311,6 @@ static void it6505_init(struct it6505 *it6505)
+> > >       it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
+> > >       it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
+> > >       it6505_write(it6505, REG_SSC_CTRL2, 0x42);
+> > > -     it6505_write(it6505, REG_BANK_SEL, 0x00);
+> > >   }
+> > >
+> > >   static void it6505_video_disable(struct it6505 *it6505)
+> > > @@ -1506,11 +1539,9 @@ static void it6505_setup_ssc(struct it6505 *it=
+6505)
+> > >       it6505_set_bits(it6505, REG_TRAIN_CTRL0, SPREAD_AMP_5,
+> > >                       it6505->enable_ssc ? SPREAD_AMP_5 : 0x00);
+> > >       if (it6505->enable_ssc) {
+> > > -             it6505_write(it6505, REG_BANK_SEL, 0x01);
+> > >               it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
+> > >               it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
+> > >               it6505_write(it6505, REG_SSC_CTRL2, 0x42);
+> > > -             it6505_write(it6505, REG_BANK_SEL, 0x00);
+> > >               it6505_write(it6505, REG_SP_CTRL0, 0x07);
+> > >               it6505_write(it6505, REG_IP_CTRL1, 0x29);
+> > >               it6505_write(it6505, REG_IP_CTRL2, 0x03);
+> > > @@ -1983,8 +2014,11 @@ static int it6505_setup_sha1_input(struct it65=
+05 *it6505, u8 *sha1_input)
+> > >       it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ,
+> > >                       HDCP_EN_M0_READ);
+> > >
+> > > -     err =3D regmap_bulk_read(it6505->regmap, REG_M0_0_7,
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     err =3D it6505_config_bank(it6505, REG_M0_0_7);
+> > > +     err |=3D regmap_bulk_read(it6505->regmap, REG_M0_0_7,
+> > >                              sha1_input + msg_count, 8);
+> > > +     mutex_unlock(&it6505->bank_lock);
+> > >
+> > >       it6505_set_bits(it6505, REG_HDCP_CTRL2, HDCP_EN_M0_READ, 0x00);
+> > >
+> > > @@ -2577,6 +2611,9 @@ static int it6505_poweron(struct it6505 *it6505=
+)
+> > >       }
+> > >
+> > >       it6505->powered =3D true;
+> > > +     mutex_lock(&it6505->bank_lock);
+> > > +     it6505->bank_state =3D 0;
+> > > +     mutex_unlock(&it6505->bank_lock);
+> > >       it6505_reset_logic(it6505);
+> > >       it6505_int_mask_enable(it6505);
+> > >       it6505_init(it6505);
+> > > @@ -3359,6 +3396,7 @@ static int it6505_i2c_probe(struct i2c_client *=
+client)
+> > >       mutex_init(&it6505->extcon_lock);
+> > >       mutex_init(&it6505->mode_lock);
+> > >       mutex_init(&it6505->aux_lock);
+> > > +     mutex_init(&it6505->bank_lock);
+> > >
+> > >       it6505->bridge.of_node =3D client->dev.of_node;
+> > >       it6505->connector_status =3D connector_status_disconnected;
+> >
