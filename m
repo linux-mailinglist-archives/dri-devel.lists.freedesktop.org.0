@@ -1,78 +1,149 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4748F6C8ACF
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 05:23:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F456C8B0F
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 06:22:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFD7A10E05E;
-	Sat, 25 Mar 2023 04:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDBA310E0D5;
+	Sat, 25 Mar 2023 05:22:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC4D10E05E
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 04:23:02 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id iw3so3623178plb.6
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 21:23:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679718182;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=vgpYKWXzjJN2Yld0pg3hkQUZovUKmsnyiCz0x9041pc=;
- b=BQwlA3JxKsQ/NLXvTODQe/+kSL6/LDn89Lmh56eesDRtuy+wVQTjWJlTKlwCDOOMlN
- ZrRNOCCTpch/KSblLe/3f4byk/RvuV38W96Te2n0NtDp3M6xNg/kwzLyNsJtzqVeeqR8
- PxXy7h8IwhIjfZ4oeopCboNZftkfOlxaXSH1TDXGd/XP2PkaJ2OuWu9omxztCMiApdvE
- 98uC3F/PTxJkXVPkr5kZze0MQ0IrJxuvPB73GdELSyCcROzgZGzlfi/mgMJtm6WED61V
- ld/U/rRVX6eRH4YVzWOD5H8HOO1ULHzeqE1vEHvaY4dKxvUlKhcoUC4etBHguOR9X+cx
- 4VoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679718182;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vgpYKWXzjJN2Yld0pg3hkQUZovUKmsnyiCz0x9041pc=;
- b=Byz0WJ3MH4kI8DiUoBWwr0MReqaMx+ghNumSTGxOHsQotd+9jx/laPJVmtpDGOOcum
- NOehVxK/MgCtq4hbrMBUPGWf/jLtKrsupS8K+/DiFYvFchi9cvStiV0TBx3A9N0OZYQ8
- 2nA2pQU92vb9ojV1UTc0t69zcl4WCilQUHETKeU1/hfS5N/pR+74oGo0T/ET+wCl2ylQ
- bCVbj97K3nWxvsmtGkbmxCDnt6lb3EP5a2ln/tSyNz+gTIU9KCpbK7EZkk3KQGBwYsVk
- RZ8dNkCSW20LjekVwiklXsptRELeEutiG9V/IDl0qIqgqhPbFzwB1CoiDy2R8gtWQQ6r
- TZDw==
-X-Gm-Message-State: AAQBX9c9exk9xTZq7G0ZsTRQmCz65I40DzTNVfJfTGvjvIR9zx74ks+Z
- rjtWifXRTodwDVRoZuWclXQ=
-X-Google-Smtp-Source: AKy350b7n1hQhN2FdXuCHfv3E6Y+Fsn7JSY9rneZKs9hhy/ARsctLJ+8hbMgU1asbkLh4/wW0M+fUg==
-X-Received: by 2002:a17:90b:4d81:b0:23b:3422:e78a with SMTP id
- oj1-20020a17090b4d8100b0023b3422e78amr5152241pjb.6.1679718181842; 
- Fri, 24 Mar 2023 21:23:01 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-18.three.co.id.
- [180.214.232.18]) by smtp.gmail.com with ESMTPSA id
- h7-20020a17090a2ec700b0023b5528b8d4sm3786553pjs.19.2023.03.24.21.22.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Mar 2023 21:23:01 -0700 (PDT)
-Message-ID: <fd643854-d687-1dda-f0ae-a6ef06432394@gmail.com>
-Date: Sat, 25 Mar 2023 11:22:56 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/2] docs: process: allow Closes tags with links
-To: Matthieu Baerts <matthieu.baerts@tessares.net>,
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
- Thorsten Leemhuis <linux@leemhuis.info>,
- Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44FC510E078;
+ Sat, 25 Mar 2023 05:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679721742; x=1711257742;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=AEkzrUbaYfyp6pJTasLnuM69wXAQew4l/IpUZRaum28=;
+ b=As9knwYlZk5gN4ameQrjH8ZZ3nj7Ott5vLssK9DV+ru1lDk3/SQWSfTa
+ VnYI+ztvKlNYGrRZ6eWm1JIu4NzzOGc0EEeGvFFMdvuqNKlfyg/aFIGqR
+ lKcnVqlTPdtrgk5h37whpFwhSIV3Tvcg89B+T/9dfg4D6Nxh6xdlMUaiF
+ cpUgbvmP+LuXVMsKeThk5PhsP43Px0y/P8qMDLbNOWz0yyKjDcJcihJSf
+ uVNul8ksdhmS4ErhrrJ4dh+iLGeKL/4EJFWUxd6aqt6WaEl95jeuQq8Xr
+ LlGcifQiinIPWlbbJeKJhzbifKifEO3qAjVThNZt6nN06QeaV2C8Lui+J A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="320340991"
+X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; d="scan'208";a="320340991"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2023 22:22:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10659"; a="826482779"
+X-IronPort-AV: E=Sophos;i="5.98,289,1673942400"; d="scan'208";a="826482779"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga001.fm.intel.com with ESMTP; 24 Mar 2023 22:22:21 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 24 Mar 2023 22:22:21 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 24 Mar 2023 22:22:20 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 24 Mar 2023 22:22:20 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.108)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 24 Mar 2023 22:22:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jAbDjYLcHu2d3c+G1qQMvKZoW5METJ5NxNKgRzAXGD3Z6r7jhJeRErkZiSDrFuWzpJ8FS0Clxol/gXsXkQ+N9TGu0CUL042Sj0BTcDRGSJC/z6/06BbczcGJvMtXxHvYjjr93bBBEBLE/rdyOQWn6tQLzE+BaQyK46ytTml2bM59R7KLBY3+jPsF+jLKlnpS7n09BQFPlwViRx/I+sB6AjHo+2Qsvynl8uMyjiDJJSUpdZgKq9Qs4NA/BxQigwoj2W9pI1Ogsxptq5saUikZcHWR6cvYRi6WNBBPtB7ope/+iWBIXSSEg7gYQNCnCOV4cLL5hh2mqyCpl2uTZpb+Ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AEkzrUbaYfyp6pJTasLnuM69wXAQew4l/IpUZRaum28=;
+ b=LDI0Tgk4JvCMhB6l8nFY9In5yprbB7UpX7CaFgfFoY0zhNH5dG/uw2oUcLWZyIxLlXzuDeH2KB3H7eCHV+Xu4oclRfekM5Vb1vkvymwwas1L18fweCaBiSqdu2uO32XPd5JZP3vcrDiMS0t8tRFNxGkbkOglE8gCiQvW9z0HfLNi2SBV+AITkMn5cAzHmS8/sC4/FebtlmkLHEZt6JGZWqtcqEb0/GqyRW+wbl6S3fadZQ6HFu71GriulZn/5YwJu6teiCag05PYK5OTPLUZQ2LRwWogkfZnSXc1JCeRyYzuWjERU2dwH0Jilg+m1UfVLgwYnRLAtQPdzFe/ib41/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
+ SA2PR11MB5113.namprd11.prod.outlook.com (2603:10b6:806:113::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.39; Sat, 25 Mar 2023 05:22:13 +0000
+Received: from DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::4cdb:78a7:917e:88e5]) by DM8PR11MB5751.namprd11.prod.outlook.com
+ ([fe80::4cdb:78a7:917e:88e5%9]) with mapi id 15.20.6178.041; Sat, 25 Mar 2023
+ 05:22:13 +0000
+From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+To: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH v5] drm/i915/pxp: limit drm-errors or warning
+ on firmware API failures
+Thread-Topic: [Intel-gfx] [PATCH v5] drm/i915/pxp: limit drm-errors or warning
+ on firmware API failures
+Thread-Index: AQHZXeE3T7558U7Hhk60erG2jOK4Bq8Jp/cAgAFPx4A=
+Date: Sat, 25 Mar 2023 05:22:13 +0000
+Message-ID: <fa6b1e19f387be77e8de44c74be1f2711e13d99a.camel@intel.com>
+References: <20230323184156.4140659-1-alan.previn.teres.alexis@intel.com>
+ <3a0bf008-da85-8334-33d6-784c2ece54af@intel.com> <87o7oi5wvb.fsf@intel.com>
+In-Reply-To: <87o7oi5wvb.fsf@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.46.1-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|SA2PR11MB5113:EE_
+x-ms-office365-filtering-correlation-id: b7797183-8cd3-4c19-f591-08db2cf0e445
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0NJ88O1Wff2evbGJcrX8TDvsBHTKMYuXEPk17O4Tud5U6jJ3HcBbwcBNZlFFrTxkZMA7tIxnHPszjzi58PMttsdoT8piGvogTDcq8VyZcGVlNbm0Vbg3GmvX3xRKVd5Mu/ZmtKqAKKonGEXXT4g23u7xiYmKP1rzoJUmm2ASoO6K/h/YnMRX2lipDbypUOIWNF6KxSPxKqP/OzMzYNt7OFORtxDy2P6k/uDkTRgjKT3ddSazUPCsqbknZ/pU8LesPPxrZRbhXxvhM4r8aXxhxgnSl9pQTzC+bkwJ7XtL0TES+T5V/u7rMDeAef8QefL6LAoHVNVN1grk/JjElJnjrhS5YXFH1Ye0b0s7P40sdndPBe8Y34Su48Jq+PlgLoArbQLijDmgqXtPgFmFrsyrz6LJ4c/dMCEtJ7xlB2P+HljIr3XIUr8zLbyZN/4IpaR7/bZbLwNl5RKJ2O6PG7Yw9TgnQCi4RSnyLLATtCLBalSAZZMLgMikI9qjsgMOYnkGb3ghtOhhYZp8Y5BTdYD3SYfakqUeDR8I+OQQ6Dp0jIXgmo+IUEoNPdu9jY0STM8DTeeMgB23h0gA8FnQNXAUH46FjGw+LcgewSPV0MJuqGtxY5oUftQsMNs5K9OEPojg
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(39860400002)(136003)(376002)(346002)(396003)(451199021)(6486002)(2906002)(5660300002)(91956017)(8936002)(38100700002)(122000001)(82960400001)(26005)(6512007)(186003)(6506007)(2616005)(71200400001)(478600001)(64756008)(54906003)(76116006)(316002)(41300700001)(4326008)(66946007)(8676002)(66476007)(66556008)(66446008)(86362001)(558084003)(38070700005)(110136005)(36756003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?o/HU2/PSpoivwpbKvI+fA4HxXJr8T6iS86EUR5zYNnXQahw4OThjet0INX?=
+ =?iso-8859-1?Q?qflIalfW77iYtuSzmPWsAvpojc+Qy+qXK8sZhRiBHUCXcY119Em2q7cKpQ?=
+ =?iso-8859-1?Q?1qgXddMJJiInEyxvzHFZmP1pVyLAgK5gTksyv/WucFUl8wh6JmEMDiZ1lv?=
+ =?iso-8859-1?Q?jzmzoA53UbyTImA4gB7DIuE1QchYoCYbwps3ckAsacvX+Zp7nP6W5fGQKT?=
+ =?iso-8859-1?Q?LvGEXxD5JiFQHn3MekyyzAmOrtJ87g+92UvZ+PV9MyO7IvxfBmof36nqBU?=
+ =?iso-8859-1?Q?FHL7jW/qnNFG14X6KD8OE4pRK5msmf2l7k2qcQ/L7WaBlifhA6g3mUYq1N?=
+ =?iso-8859-1?Q?p87d9xODGteGNtmk3O6zLoFOeIpflB+S8GDTdsC3FycaOQLRB4+9wEhDZh?=
+ =?iso-8859-1?Q?TU1o3I3mJieeUb1LYQcqty3SYn1HMkcCCw25CWfXuZkkuOwUZOpxUyiAkh?=
+ =?iso-8859-1?Q?CWbg68A4oxLcZjz4vLNZAs2yyg6D++eFdqEoW0mZcF7rwc4YK+G7avSgGC?=
+ =?iso-8859-1?Q?0fYj8R0UDsT1x8dOi+sKjs5HchYPoxKyTmeGC6Zv54xqANo+DLCJadr/oW?=
+ =?iso-8859-1?Q?B2Yt2yeUWfGCGoqKzfdxXzwwbCeRBJRsSU3kJgFzPsGAJs8TzFg8yx5lFi?=
+ =?iso-8859-1?Q?z4dAj0VC42qXB/4n06KniXdA789Oe6YAqVvxaGd2l/1Bz4Zt1d/aDVq0NL?=
+ =?iso-8859-1?Q?URzI+yBe+jng+Dh+eVaEQrpfmZstNUdXExlh1te4ba0ltquu0OZtVa5+F2?=
+ =?iso-8859-1?Q?k6oC6LPUvyf5iSJ7KyHOhD3efPKZ52IrwN7wq42WwBNGo8ogzSGbyLc5Y0?=
+ =?iso-8859-1?Q?NU8ClIWDBeBO1U9C2bBY1MTOimxkSC3c9MgSjj9pK2BKOD42pSivkP96vy?=
+ =?iso-8859-1?Q?y/z2tmP4U8O/aHeyDDUXiownDCGnkyMxm+oveK0GFOUKDS+/VkOy475Hsl?=
+ =?iso-8859-1?Q?zYDYlrE49nO1ZI6k4JllnI7eo6gJnu9oQ2A3E4rumojD2tUnS6wGayno4U?=
+ =?iso-8859-1?Q?rPETCJ32C2a2mUls8CimJ400Y8o/QfJMazGJHrGoa12RyMDknFmf4D39wK?=
+ =?iso-8859-1?Q?Xg7q+f1xtOnqB0svw9sdVx3WemkVsrOJRQqZhnmG24+RohjttQx2sKaLKs?=
+ =?iso-8859-1?Q?5d7lxKQjvNxAl1a8dZmS0vTaNWsz9aLZ3Nt9m9lyNxwHVctar/wBx/euVK?=
+ =?iso-8859-1?Q?WbLH3b8mQEXw17deqITbX9pbSR97WGo4nXL1sDk9ey/ojkOSIRvH+uGNyG?=
+ =?iso-8859-1?Q?luqS6OHMI0hIms6xdUmERJG0KuoCHay6mYPEmLI4BEr47ZpNQBOpuvDl8T?=
+ =?iso-8859-1?Q?WhgF5tBdN5SDFw2N5JH65fE7slS70d3KTj6VTS9LQ4FZ7y8kRSuwgcFAdh?=
+ =?iso-8859-1?Q?O65W/cnOsSjBbi0kFz9nG9Y/x7xxqycoggaSl4gyHDYd0WrJoq2O1TTkFM?=
+ =?iso-8859-1?Q?3IZvrETy4xTA0lCqdwfIE4NkhbOTsc14DAfYKSt2X5xr5Z9V+SiX/OiQrm?=
+ =?iso-8859-1?Q?SWPCc41YuS8akfNAS2o7CP+QntIwgGr1gBpOk0XWH18dP2h+nVnuUYl6eM?=
+ =?iso-8859-1?Q?akHjzDFWu5myQzGI2cEGPfbgRqkPsnyohXjLrKoaHDexq3e/XGp0UIWPly?=
+ =?iso-8859-1?Q?WkLKu+hp2lOkOoOKoUMO1/o6Akt277rD5F58dKhyOJl44QND6aTE8x0dPc?=
+ =?iso-8859-1?Q?AHl8o7P/VU1ZNQbN9nI=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7797183-8cd3-4c19-f591-08db2cf0e445
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2023 05:22:13.5996 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CR6CxhQLgYtevAUAFcQUUgpIWq0Bnycg3K72ZjSx1m1HR9Is4qBl0jYT0SM/hHQJVVj3bN/vSu6JoDMvIyLRx1S/3Ukr/4oaTJVEuaTIUYr42lLYfwIBdkmf1EMwyXrD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5113
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,58 +156,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: "Tamminen, Eero T" <eero.t.tamminen@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/25/23 01:52, Matthieu Baerts wrote:
-> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-> index 7a670a075ab6..20f0b6b639b7 100644
-> --- a/Documentation/process/5.Posting.rst
-> +++ b/Documentation/process/5.Posting.rst
-> @@ -217,6 +217,15 @@ latest public review posting of the patch; often this is automatically done
->  by tools like b4 or a git hook like the one described in
->  'Documentation/maintainer/configure-git.rst'.
->  
-> +Similarly, there is also the "Closes:" tag that can be used to close issues
-> +when the underlying public bug tracker can do this operation automatically.
-> +For example::
-> +
-> +	Closes: https://example.com/issues/1234
-> +
-> +Private bug trackers and invalid URLs are forbidden. For other public bug
-> +trackers not supporting automations, keep using the "Link:" tag instead.
-> +
->  A third kind of tag is used to document who was involved in the development of
->  the patch. Each of these uses this format::
->  
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 69ce64e03c70..759c99e34085 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -134,6 +134,15 @@ resources. In addition to giving a URL to a mailing list archive or bug,
->  summarize the relevant points of the discussion that led to the
->  patch as submitted.
->  
-> +It might be interesting to use the 'Closes:' tag to close issues when the
-> +underlying public bug tracker can do this operation automatically. For
-> +example::
-> +
-> +	Closes: https://example.com/issues/1234
-> +
-> +Private bug trackers and invalid URLs are forbidden. For other public bug
-> +trackers not supporting automations, keep using the "Link:" tag instead.
-> +
->  If your patch fixes a bug in a specific commit, e.g. you found an issue using
->  ``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
->  the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
-> 
-
-The doc LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
--- 
-An old man doll... just what I always wanted! - Clara
-
+Thanks Daniele, Thanks Jani.
+...alan
