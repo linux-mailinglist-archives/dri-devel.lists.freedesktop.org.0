@@ -1,67 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5716C8A07
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 02:43:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4748F6C8ACF
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Mar 2023 05:23:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BEE10E02E;
-	Sat, 25 Mar 2023 01:43:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD7A10E05E;
+	Sat, 25 Mar 2023 04:23:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5477110E02E;
- Sat, 25 Mar 2023 01:43:04 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- mp3-20020a17090b190300b0023fcc8ce113so6706044pjb.4; 
- Fri, 24 Mar 2023 18:43:04 -0700 (PDT)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC4D10E05E
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Mar 2023 04:23:02 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id iw3so3623178plb.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Mar 2023 21:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679708584;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=4G7GTEkLJyxigscpgaXHx8wuFhpcA7W1uQv4GS0Q4mY=;
- b=FoqxvAznsCIPXUN2bat6fZfzRKWvB8hC7d1uXLR7mVPwwg15e2Wqn4qYAFs4yfyxZt
- uQ4FGAvuaVZaat5ySstLpCG8lARHkK0BiHAzSLQPyB4fWrsxfO19z5zSSBCdHg78qpk7
- VImKYhp9iAwcnpZZbKOxD+SDqXTU8vj2q55k/jL/z6ZCF+PJ6PdSIgMoEIS/L2K5jKJ1
- MdmkS1EAgAqOcMHNgO2tMwHARoSzuWa+UY/kKebbf4b4/FaOO9kJbfisICdL/XubcyI+
- 1nJ1lGqoaR6Ifwsn8/YXOnVKWRPi/PJNFJWx+Ai7U53p4TjzVpxqV8pUExZQ2yFK8GNq
- ZPWw==
+ d=gmail.com; s=20210112; t=1679718182;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vgpYKWXzjJN2Yld0pg3hkQUZovUKmsnyiCz0x9041pc=;
+ b=BQwlA3JxKsQ/NLXvTODQe/+kSL6/LDn89Lmh56eesDRtuy+wVQTjWJlTKlwCDOOMlN
+ ZrRNOCCTpch/KSblLe/3f4byk/RvuV38W96Te2n0NtDp3M6xNg/kwzLyNsJtzqVeeqR8
+ PxXy7h8IwhIjfZ4oeopCboNZftkfOlxaXSH1TDXGd/XP2PkaJ2OuWu9omxztCMiApdvE
+ 98uC3F/PTxJkXVPkr5kZze0MQ0IrJxuvPB73GdELSyCcROzgZGzlfi/mgMJtm6WED61V
+ ld/U/rRVX6eRH4YVzWOD5H8HOO1ULHzeqE1vEHvaY4dKxvUlKhcoUC4etBHguOR9X+cx
+ 4VoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679708584;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4G7GTEkLJyxigscpgaXHx8wuFhpcA7W1uQv4GS0Q4mY=;
- b=5VGPE6Zalv0CTYNGD42jTXLJCpGEFe1SC+B0ReyjKCsvNs/PIQXRLbcmaRZDwZXWAG
- hUd/rpy0kqX6pQFsXcgfRJr0KsXQghugPjQUFLErx/+JZGtX9ZNpqGhDt3/XODTOCm5M
- pOtAi+d2X09aWuA/N11K9qO2HkkgqFtW2kMZccZK5fyeQ0Z9O5dGjN3zH1283Esf6WBZ
- +54N7AS12rS4IElJmgAjekTuC/Xg9unOHrBJcerjde8j0zTsfAxpjksBBjm1czTw5LBH
- g6fCcqolOr3KZBSZzDbs0gvNP5Oulmt5aHcQez9NCOSz82Utv3LbU1dfqc4IWJOIdoTl
- TsGw==
-X-Gm-Message-State: AAQBX9dx9s3JQRuX0FYOReL21rAuJtlpGqRJUwh07tu/K30CNYJLd0AH
- BYEZsmu+NlMV+srvuWpTQgw=
-X-Google-Smtp-Source: AKy350Z/nh8Rvu2lVDDzogpmv1t1+S88s5A0w7csStYDCAnjQ4dO2RPmUh4h2DZoX4bpj+yY8hYu/A==
-X-Received: by 2002:a17:902:dad2:b0:1a1:da3c:605f with SMTP id
- q18-20020a170902dad200b001a1da3c605fmr5816708plx.58.1679708584063; 
- Fri, 24 Mar 2023 18:43:04 -0700 (PDT)
-Received: from localhost
- (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com.
- [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
- by smtp.gmail.com with ESMTPSA id
- e11-20020a170902b78b00b0019c92f56983sm14776847pls.120.2023.03.24.18.43.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Mar 2023 18:43:03 -0700 (PDT)
-Date: Fri, 24 Mar 2023 15:43:02 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [RFC v4 00/10] DRM scheduling cgroup controller
-Message-ID: <ZB5RpmSm9qrpGIMS@slm.duckdns.org>
-References: <20230314141904.1210824-1-tvrtko.ursulin@linux.intel.com>
+ d=1e100.net; s=20210112; t=1679718182;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vgpYKWXzjJN2Yld0pg3hkQUZovUKmsnyiCz0x9041pc=;
+ b=Byz0WJ3MH4kI8DiUoBWwr0MReqaMx+ghNumSTGxOHsQotd+9jx/laPJVmtpDGOOcum
+ NOehVxK/MgCtq4hbrMBUPGWf/jLtKrsupS8K+/DiFYvFchi9cvStiV0TBx3A9N0OZYQ8
+ 2nA2pQU92vb9ojV1UTc0t69zcl4WCilQUHETKeU1/hfS5N/pR+74oGo0T/ET+wCl2ylQ
+ bCVbj97K3nWxvsmtGkbmxCDnt6lb3EP5a2ln/tSyNz+gTIU9KCpbK7EZkk3KQGBwYsVk
+ RZ8dNkCSW20LjekVwiklXsptRELeEutiG9V/IDl0qIqgqhPbFzwB1CoiDy2R8gtWQQ6r
+ TZDw==
+X-Gm-Message-State: AAQBX9c9exk9xTZq7G0ZsTRQmCz65I40DzTNVfJfTGvjvIR9zx74ks+Z
+ rjtWifXRTodwDVRoZuWclXQ=
+X-Google-Smtp-Source: AKy350b7n1hQhN2FdXuCHfv3E6Y+Fsn7JSY9rneZKs9hhy/ARsctLJ+8hbMgU1asbkLh4/wW0M+fUg==
+X-Received: by 2002:a17:90b:4d81:b0:23b:3422:e78a with SMTP id
+ oj1-20020a17090b4d8100b0023b3422e78amr5152241pjb.6.1679718181842; 
+ Fri, 24 Mar 2023 21:23:01 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-18.three.co.id.
+ [180.214.232.18]) by smtp.gmail.com with ESMTPSA id
+ h7-20020a17090a2ec700b0023b5528b8d4sm3786553pjs.19.2023.03.24.21.22.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Mar 2023 21:23:01 -0700 (PDT)
+Message-ID: <fd643854-d687-1dda-f0ae-a6ef06432394@gmail.com>
+Date: Sat, 25 Mar 2023 11:22:56 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230314141904.1210824-1-tvrtko.ursulin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/2] docs: process: allow Closes tags with links
+To: Matthieu Baerts <matthieu.baerts@tessares.net>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
+ Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>,
+ Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
+ <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20230314-doc-checkpatch-closes-tag-v2-1-f4a417861f6d@tessares.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,128 +85,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Kenny.Ho@amd.com,
- Dave Airlie <airlied@redhat.com>,
- =?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel-gfx@lists.freedesktop.org,
- Brian Welty <brian.welty@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Zefan Li <lizefan.x@bytedance.com>,
- Johannes Weiner <hannes@cmpxchg.org>, cgroups@vger.kernel.org,
- "T . J . Mercier" <tjmercier@google.com>
+Cc: mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello, Tvrtko.
+On 3/25/23 01:52, Matthieu Baerts wrote:
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index 7a670a075ab6..20f0b6b639b7 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -217,6 +217,15 @@ latest public review posting of the patch; often this is automatically done
+>  by tools like b4 or a git hook like the one described in
+>  'Documentation/maintainer/configure-git.rst'.
+>  
+> +Similarly, there is also the "Closes:" tag that can be used to close issues
+> +when the underlying public bug tracker can do this operation automatically.
+> +For example::
+> +
+> +	Closes: https://example.com/issues/1234
+> +
+> +Private bug trackers and invalid URLs are forbidden. For other public bug
+> +trackers not supporting automations, keep using the "Link:" tag instead.
+> +
+>  A third kind of tag is used to document who was involved in the development of
+>  the patch. Each of these uses this format::
+>  
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 69ce64e03c70..759c99e34085 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -134,6 +134,15 @@ resources. In addition to giving a URL to a mailing list archive or bug,
+>  summarize the relevant points of the discussion that led to the
+>  patch as submitted.
+>  
+> +It might be interesting to use the 'Closes:' tag to close issues when the
+> +underlying public bug tracker can do this operation automatically. For
+> +example::
+> +
+> +	Closes: https://example.com/issues/1234
+> +
+> +Private bug trackers and invalid URLs are forbidden. For other public bug
+> +trackers not supporting automations, keep using the "Link:" tag instead.
+> +
+>  If your patch fixes a bug in a specific commit, e.g. you found an issue using
+>  ``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
+>  the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
+> 
 
-On Tue, Mar 14, 2023 at 02:18:54PM +0000, Tvrtko Ursulin wrote:
-> DRM scheduling soft limits
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Because of the heterogenous hardware and driver DRM capabilities, soft limits
-> are implemented as a loose co-operative (bi-directional) interface between the
-> controller and DRM core.
-> 
-> The controller configures the GPU time allowed per group and periodically scans
-> the belonging tasks to detect the over budget condition, at which point it
-> invokes a callback notifying the DRM core of the condition.
-> 
-> DRM core provides an API to query per process GPU utilization and 2nd API to
-> receive notification from the cgroup controller when the group enters or exits
-> the over budget condition.
-> 
-> Individual DRM drivers which implement the interface are expected to act on this
-> in the best-effort manner only. There are no guarantees that the soft limits
-> will be respected.
-> 
-> DRM scheduling soft limits interface files
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The doc LGTM, thanks!
 
-In general, I'm in favor of your approach but can you please stop using the
-term "soft limit". That's a term with a specific historical meaning in
-cgroup, so it gets really confusing when you use the term for hierarchical
-weighted control. If you need a term to refer to how the weighted control is
-implemented by throttling cgroups at target rates, please just come up with
-a different term "usage threshold based control", "usage throttling based
-control" or whichever you may like.
-
->   drm.weight
-> 	Standard cgroup weight based control [1, 10000] used to configure the
-> 	relative distributing of GPU time between the sibling groups.
-> 
-> This builds upon the per client GPU utilisation work which landed recently for a
-> few drivers. My thinking is that in principle, an intersect of drivers which
-> support both that and some sort of scheduling control, like  priorities, could
-> also in theory support this controller.
-> 
-> Another really interesting angle for this controller is that it mimics the same
-> control menthod used by the CPU scheduler. That is the proportional/weight based
-> GPU time budgeting. Which makes it easy to configure and does not need a new
-> mental model.
-
-FWIW, the hierarchical weighted distribution is also implemented by IO
-control.
-
-> However, as the introduction mentions, GPUs are much more heterogenous and
-> therefore the controller uses very "soft" wording as to what it promises. The
-> general statement is that it can define budgets, notify clients when they are
-> over them, and let individual drivers implement best effort handling of those
-> conditions.
-
-Maybe "best effort" is more suited than "soft"?
-
-...
-> Roughly simultaneously we run the following two benchmarks in each session
-> respectively:
-> 
-> 1)
-> ./GpuTest /test=pixmark_julia_fp32 /width=1920 /height=1080 /fullscreen /no_scorebox /benchmark /benchmark_duration_ms=60000
-> 
-> 2)
-> vblank_mode=0 bin/testfw_app --gl_api=desktop_core --width=1920 --height=1080 --fullscreen 1 --gfx=glfw -t gl_manhattan
-> 
-> (The only reason for vsync off here is because I struggled to find an easily
-> runnable and demanding enough benchmark, or to run on a screen large enough to
-> make even a simpler ones demanding.)
-> 
-> With this test we get 252fps from GpuTest and 96fps from GfxBenchmark.
-> 
-> Premise here is that one of these GPU intensive benchmarks is intended to be ran
-> by the user with lower priority. Imagine kicking off some background compute
-> processing and continuing to use the UI for other tasks. Hence the user will now
-> re-run the test by first lowering the weight control of the first session (DRM
-> cgroup):
-> 
-> 1)
-> echo 50 | sudo tee /sys/fs/cgroup/`cut -d':' -f3 /proc/self/cgroup`/drm.weight
-> ./GpuTest /test=pixmark_julia_fp32 /width=1920 /height=1080 /fullscreen /no_scorebox /benchmark /benchmark_duration_ms=60000
-> 
-> 2)
-> vblank_mode=0 bin/testfw_app --gl_api=desktop_core --width=1920 --height=1080 --fullscreen 1 --gfx=glfw -t gl_manhattan
-> 
-> In this case we will see that GpuTest has recorded 208fps (~18% down) and
-> GfxBenchmark 114fps (18% up), demonstrating that even a very simple approach of
-> wiring up i915 to the DRM cgroup controller can enable external GPU scheduling
-> control.
-
-It's really nice to see it working pretty intuitively.
-
->  * For now (RFC) I haven't implemented the 2nd suggestion from Tejun of having
->    a shadow tree which would only contain groups with DRM clients. (Purpose
->    being less nodes to traverse in the scanning loop.)
-> 
->  * Is the global state passing from can_attach to attach really okay? (I need
->    source and destination css.)
-
-Right now, it is and there are other places that depend on it. Obviously,
-it's not great and we probably want to add explicit context passed around
-instead in the future, but for now, it should be okay.
-
-While not fully polished, from cgroup POV, the series looks pretty good and
-I'd be happy to see it merged.
-
-Thanks.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 -- 
-tejun
+An old man doll... just what I always wanted! - Clara
+
