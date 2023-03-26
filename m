@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D24426C985B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 00:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61ACB6C985D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 00:02:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B5910E2F6;
-	Sun, 26 Mar 2023 22:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E58410E2E2;
+	Sun, 26 Mar 2023 22:02:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A627010E2E2
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 22:01:12 +0000 (UTC)
-Received: by mail-yb1-xb34.google.com with SMTP id p204so8176161ybc.12
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 15:01:12 -0700 (PDT)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1C1F10E31F
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 22:02:39 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id e65so8186793ybh.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 15:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679868071;
+ d=linaro.org; s=google; t=1679868159;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nW5Zc8I9D3NwW9JUY8UwDM40P3d6d2p4PO1EwU3IDaI=;
- b=lttfX1kJ6ZctCFBJbQWMDHXaxHbnu4g/vIZsHhvCzMCsHG8wsta1JHfgSA8+nTGo9i
- GTjVry/Ilt1WouW13iOy1ER+vxb6jQmGK6Re+SfNiJswO5v80Ltj+934ZOu22GNA4Dky
- SlSN6yLPHTxe/Vt0qV2hB7UWrIBWTgs2KtXyUPR2T8KPK7FMoIfazqBl/GZGxLme3i6X
- 1ld59Ac0M/+x47RyMuMXz19MssYL1s8Dd0wu381+1B2AF6CF3R63lZpUpz/UPGrFi9SO
- Nmy8KbH4p8InCxAtR1RSvwKaEA76UEURU43lmjRRwPfKtsFmgtE+Uo0bUf8qcPMUlPar
- wzLg==
+ bh=GIc/+PDO2htV2jMp3KoF29hKZ12iZrid4FdCljLl48k=;
+ b=afaLl3Ha4GhPKcKshef+64lLZtACUvVS/1jAuXiJO7hdtSCrNjJ83E8oq5/9midSG1
+ 1fZuC5nCf/LPJoMTg1uQtioaulMia4KDC7k1qRAwPHNsW7ehCS+UcuEC+VTTrVfJTJ0A
+ gA+/YGB2UnIjcaAMzIm7zjFqilwua3AeEOWAiZPEgU1k3I3+7xfpqxiF+a7YV5fNSqXE
+ 0jVitL1jMy/PkvR+OtowmcyL9F4gw4vNVBuOnI7LpDXbCIKwKeYtTFemF0YihbK5JwFm
+ V7s87ESYtCcbmaadxyYcysQmkVdQBI/iPK6Qj+KeCaASiGYQMb5CANXTHbXwHLhEK1q3
+ kvgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679868071;
+ d=1e100.net; s=20210112; t=1679868159;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nW5Zc8I9D3NwW9JUY8UwDM40P3d6d2p4PO1EwU3IDaI=;
- b=q/ZnNgVro4u6V7IxlSPbHDXcMCtpOwdcoj17YruI6MOyPRQinilG52ahmPkPA7SuiJ
- 8wTh6kitycl7eiBQb8gP5GnKhlxSMuH/FnV1uuvMYue3oCzkx/J6UcStFZaoNn4YklAH
- vwcW4oFm6PsGB4XG9VcCqr5UckaRMNevSg1o253Ffdhms2O32lRD/gBDzdD/85uDpvaU
- BDLLEG0XfJYDIEpN9gyEHTrzsKf6/aoDi8AupyJJ+bI8FJjTBSlk1ceq/GPCfvyVVpwI
- /pP37xSC1RJ/3ItSq3vlG+1TP4czXNX+QmJgP5Dp7JEwY1L7JKCqgHdYPhh3nwKtyMfi
- pUfA==
-X-Gm-Message-State: AAQBX9epLborvuP0nYp33aeWVC1+8o2NyfD2fiI/KiUNRV7/Xca3MyDf
- M3TkvKt/AA1KT8KgOaiGaK0lJdpPrFGB3b8xnAoovA==
-X-Google-Smtp-Source: AKy350YT/xl8gofmmkVhwL2aCMeTVFx6UYQ8WocHxT1/FSBcMYEXjfM1wbj2q4875vnX5Bile5Tlmms3fT3yVFoFri8=
-X-Received: by 2002:a25:234c:0:b0:b35:91cc:9e29 with SMTP id
- j73-20020a25234c000000b00b3591cc9e29mr6997010ybj.5.1679868071581; Sun, 26 Mar
- 2023 15:01:11 -0700 (PDT)
+ bh=GIc/+PDO2htV2jMp3KoF29hKZ12iZrid4FdCljLl48k=;
+ b=eWtKZhqBXSlcj1Yu5Np7ZpYfUz2EPa+lZcPzHMqC+h4PmzptttwQgCOOJkKIi0Uvps
+ bQ//qJ0na8eG7AJebMQA2EfcbtphOFA2YUdfJ0/J9dDCOPPttmhyS57M4FmHAf9neRv9
+ wOdB2Zws8BRlhmuCtdY2LKKbuXSUxfntkMoNxgGESF0xIS/kpK7fruXtrr7szq6nByTj
+ bK1fq/F8LOh3H3gtCKat8nOX2/YHk83trfISWmMqViUBhshzuP8JulnVgk3QMVkNHDqq
+ MI+cT+A/IBOVwpA0NSJpx+fLKZSMDR31jp87ivkK8Qk9il9fTtbUuf510b8NEYNNpBH2
+ opkw==
+X-Gm-Message-State: AAQBX9dtHQIPQpfguNXpJQmVba0f1WyVQSA+7BghHdoYdNl5HnekTT3d
+ Z6dFwCemv8VW0l88RgYtXwH59AAbvnxoGNfJpbkxnw==
+X-Google-Smtp-Source: AKy350Z2Qzm+5ANjsAThGZFty6IX7daVX2aW0EYjjTkzMa2fQoYReQIT8/fAf0fwdMIK93UKhsOoGxAujOSwHFJvSEg=
+X-Received: by 2002:a05:6902:1201:b0:b6c:4d60:1bd6 with SMTP id
+ s1-20020a056902120100b00b6c4d601bd6mr6141431ybu.9.1679868159111; Sun, 26 Mar
+ 2023 15:02:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230326163813.535762-1-robdclark@gmail.com>
-In-Reply-To: <20230326163813.535762-1-robdclark@gmail.com>
+References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
+ <20230326162723.3lo6pnsfdwzsvbhj@ripper>
+In-Reply-To: <20230326162723.3lo6pnsfdwzsvbhj@ripper>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 27 Mar 2023 01:01:00 +0300
-Message-ID: <CAA8EJpp2vhiq5WWaU=shG-tqDjt3pzw-NGTZbMMkx2cyp+ETCg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Rename drm_msm_gem_submit_reloc::or in C++ code
-To: Rob Clark <robdclark@gmail.com>
+Date: Mon, 27 Mar 2023 01:02:28 +0300
+Message-ID: <CAA8EJpp+gX+6zniMioBfXC95VF2qVTPidQB36zyrohhrGerK8g@mail.gmail.com>
+Subject: Re: [PATCH v14 14/14] drm/msm/dp: set self refresh aware based on PSR
+ support
+To: Bjorn Andersson <andersson@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,23 +68,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Danylo Piliaiev <dpiliaiev@igalia.com>, dri-devel@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
+ quic_sbillaka@quicinc.com, dianders@chromium.org, quic_bjorande@quicinc.com,
+ quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com,
+ linux-arm-msm@vger.kernel.org, quic_khsieh@quicinc.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Vinod Polimera <quic_vpolimer@quicinc.com>, swboyd@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 26 Mar 2023 at 19:38, Rob Clark <robdclark@gmail.com> wrote:
+On Sun, 26 Mar 2023 at 19:24, Bjorn Andersson <andersson@kernel.org> wrote:
 >
-> From: Danylo Piliaiev <dpiliaiev@igalia.com>
+> On Thu, Mar 02, 2023 at 10:03:17PM +0530, Vinod Polimera wrote:
+> > For the PSR to kick in, self_refresh_aware has to be set.
+> > Initialize it based on the PSR support for the eDP interface.
+> >
 >
-> Clashes with C++ `or` keyword
+> When I boot my sc8280xp devices (CRD and X13s) to console with this
+> patch included I get a login prompt, and then there are no more screen
+> updates.
 >
-> Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Switching virtual terminal (ctrl+alt+fN) causes the screen to redraw.
+>
+> Blindly login in and launching Wayland works and from then on screen
+> updates works as expected.
+>
+> Switching from Wayland to another virtual terminal causes the problem to
+> re-appear, no updates after the initial refresh, switching back go the
+> Wayland-terminal crashed the machine.
+>
+>
+>
+> Reverting this single patch resolves both the issue with the console
+> updating as exected and flipping between the virtual terminal with
+> Wayland and the others no longer crashes my machine.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I hope Vinod Polimera can assist in solving the issue. In the worst
+case we will have to revert this commit, shortcutting the PSR until it
+is properly debugged.
+
+>
+> Regards,
+> Bjorn
+>
+> > Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/msm/dp/dp_drm.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > index 029e08c..785d766 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_drm.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+> > @@ -117,6 +117,8 @@ static int edp_bridge_atomic_check(struct drm_bridge *drm_bridge,
+> >       if (WARN_ON(!conn_state))
+> >               return -ENODEV;
+> >
+> > +     conn_state->self_refresh_aware = dp->psr_supported;
+> > +
+> >       if (!conn_state->crtc || !crtc_state)
+> >               return 0;
+> >
+> > --
+> > 2.7.4
+> >
+
 
 
 -- 
