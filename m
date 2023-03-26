@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7116C96E3
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Mar 2023 18:38:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C57B6C96EC
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Mar 2023 18:47:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CCBB10E148;
-	Sun, 26 Mar 2023 16:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E30F10E313;
+	Sun, 26 Mar 2023 16:47:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBDC10E216;
- Sun, 26 Mar 2023 16:38:27 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id u10so6271989plz.7;
- Sun, 26 Mar 2023 09:38:27 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4616310E313
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 16:47:04 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id w9so26577264edc.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 09:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679848706;
+ d=linaro.org; s=google; t=1679849223;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jEKgtiO8QFe7E17SjGBY63VNUT2bmgUu7j5N6GIYXa4=;
- b=MwoiDuyPxTS9Z8dOtvnvra6vBeLLn7oR2fH8IZjoeTcQs1z0Tl9EnBa3mwzanhMEgH
- w6IpWAURpAS33RH3VF5owcNxISB2+Df8RfvZxjTYuPXT2dCJnOeJTMdhV3XQUvnbhC8I
- sZo/puQWlFh9s+0/A0tq/VLZPWKAfkGsL1GTz3Dlv2ztb3BRgP0LI5W/s15gmgDPKn4o
- eHBVv+aVfKcgDUUq4NfaEkFRmXylIitg/hvLegwLJuL+iugOB03urwMFwFmB92vYLYhk
- /to8aTUxS0wFeOZKo1ByehL56LmT3+ePE6sh63X2xuLJMM2HMgEyCEq9gbcbj/vSZkvN
- rEjQ==
+ bh=k9We10+aJn7ul+hCgyePSABdIzaHTrq5ihMYDVZioG4=;
+ b=BCsjrgqFL9KlSvIHJbDWc+7t9N9t7oUU7WOToekUV2EO0SQFTiQJkmaPhEo+fSPZSj
+ YzD6G0Bs8epjf8soLwdWa8IiodufrmYgfC2Y6HJKABANlO5CqqxCn1jRAt1cNqOBGPQr
+ w0ieqdPMBSuNYj7BrVImGEqks1o532QUn6V4Rrp/jg52X5FOcictKEqqkIj+Up+Wex3F
+ TNeUV9hHK5z8SNJbp9uozti78VVFRY9YXlNUR5Ky/u0EWVkU8rNvXsBbkRjVlOvYaCEi
+ IJJGXXGKUSHluZgsnf330T60ddYCUQFKqV+VZISktF+QI9KDub2OX7T4bWEEciHNWlDY
+ ziXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679848706;
+ d=1e100.net; s=20210112; t=1679849223;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=jEKgtiO8QFe7E17SjGBY63VNUT2bmgUu7j5N6GIYXa4=;
- b=YBtUY67Kntd+j7smoW9RwhM2cosmiVdWM5ELVTrw1+h1wBAe1cF1Oj+7LSrO8Zs63n
- V2/mLZjexEnpEdOJasw31IQzPdMoz5/MJR7GtpSAfzRVDD3V8EZm5QimyskWyU0Nr4ks
- sn/Bu76SinJMWxapzvK+GYai8a9wPr5g7JOIHY08uTJiVNz0z1V6Fr70/JQYe8uhQ1Gg
- gat3HnH8q/MuNgWTdzvrz0uEQlcwOM9xA4r46+X7TgWUWNHaCypOVSoXNt5R2smhOVVd
- MiQ+dVQ0/3v/NUBG/Qr7bgbtPSgT71H5RClao2utjZIaJjM9k2Mfd0qtW7P6cP/7Lenv
- hNMQ==
-X-Gm-Message-State: AO0yUKW3BHGUkOm4cVpBGASx2N1bQSHTCLsd48sRnwig1FmWQSAmqyFj
- hFRRPzsho3cjj+C8Ms1bJStWOJRcuPs=
-X-Google-Smtp-Source: AK7set+b3pKwVhLF/NmGsZhRs+HpcpdkO06/1xJ22W1zOxMr7Z7de0igJ6VrMv3LMX/PVzPeQaCPUQ==
-X-Received: by 2002:a05:6a20:cc59:b0:db:9a60:a52d with SMTP id
- hq25-20020a056a20cc5900b000db9a60a52dmr7057696pzb.41.1679848706162; 
- Sun, 26 Mar 2023 09:38:26 -0700 (PDT)
-Received: from localhost (c-24-21-48-127.hsd1.or.comcast.net. [24.21.48.127])
+ bh=k9We10+aJn7ul+hCgyePSABdIzaHTrq5ihMYDVZioG4=;
+ b=OuK2N4rf6hPs/j7BeEHeCZrkOyAS9TZF3QgB37nd1mFEA9O/RIlrqRu909ufFJ/qOI
+ KLGTULIKcwMYlN/R7RW6MYu/tYuHwBHfHzKrDyUdguFzPFvZjyvhPpDv08D0fm3dI+S9
+ LLQzpJu0tNQy3wcX2UsGyI8pgQR/pLZ0HSYb125FVK/sRjY5/yty5IsjNYQ/vub40yXS
+ XT8GKH05bHLwLz5EBGbOVY09hd1zTQ66PaCXhy2c2gpzemuRd5Gnd/IOJ7dg/v6q6QZp
+ Ypc6RgItxh8vj6tSR8H4iDy9cnr5eXYH6WfvWaSY5TshqF+seGRV/N+boODgm0mlmf2k
+ bvTQ==
+X-Gm-Message-State: AAQBX9dYcL9Yr0o5U8R+DspTxCcAhO/W2V/FBu9UZQE3PkzeQPFmSQ/e
+ tXJDETkg40ZD5oT+Y0bnCjAGyFQk6zBJfOZ368s=
+X-Google-Smtp-Source: AKy350ZaVi6CbGP1f3BlaM7CAOyL3H/tqpdjSxBn5g9IpqoBK7QlOK2q99MGJbJADsg/UvN5lWgoxQ==
+X-Received: by 2002:aa7:c90d:0:b0:4fb:2060:4c20 with SMTP id
+ b13-20020aa7c90d000000b004fb20604c20mr9205267edt.31.1679849222778; 
+ Sun, 26 Mar 2023 09:47:02 -0700 (PDT)
+Received: from krzk-bin.. ([2a02:810d:15c0:828:eca3:3b8f:823b:2669])
  by smtp.gmail.com with ESMTPSA id
- s18-20020aa78d52000000b00627f054a3cdsm337182pfe.31.2023.03.26.09.38.25
+ v4-20020a509544000000b004fb402a2a37sm13833982eda.33.2023.03.26.09.47.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Mar 2023 09:38:25 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/msm: Rename drm_msm_gem_submit_reloc::or in C++ code
-Date: Sun, 26 Mar 2023 09:38:13 -0700
-Message-Id: <20230326163813.535762-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
+ Sun, 26 Mar 2023 09:47:02 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: display: sitronix,st7789v: document dc-gpios
+Date: Sun, 26 Mar 2023 18:47:00 +0200
+Message-Id: <20230326164700.104570-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,43 +74,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
- Danylo Piliaiev <dpiliaiev@igalia.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Danylo Piliaiev <dpiliaiev@igalia.com>
+The device comes with DCX pin which is already used in
+canaan/sipeed_maixduino.dts (although not in Linux driver).
 
-Clashes with C++ `or` keyword
-
-Signed-off-by: Danylo Piliaiev <dpiliaiev@igalia.com>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-This is a port of a C++ compat fix that was made in mesa's copy of the
-drm uapi headers.
-
- include/uapi/drm/msm_drm.h | 4 ++++
+ .../devicetree/bindings/display/panel/sitronix,st7789v.yaml   | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index dbf0d6f43fa9..6c34272a13fd 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -186,7 +186,11 @@ struct drm_msm_gem_cpu_fini {
-  */
- struct drm_msm_gem_submit_reloc {
- 	__u32 submit_offset;  /* in, offset from submit_bo */
-+#ifdef __cplusplus
-+	__u32 _or;            /* in, value OR'd with result */
-+#else
- 	__u32 or;             /* in, value OR'd with result */
-+#endif
- 	__s32 shift;          /* in, amount of left shift (can be negative) */
- 	__u32 reloc_idx;      /* in, index of reloc_bo buffer */
- 	__u64 reloc_offset;   /* in, offset from start of reloc_bo */
+diff --git a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+index d984b59daa4a..fa6556363cca 100644
+--- a/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sitronix,st7789v.yaml
+@@ -26,6 +26,10 @@ properties:
+   spi-cpha: true
+   spi-cpol: true
+ 
++  dc-gpios:
++    maxItems: 1
++    description: DCX pin, Display data/command selection pin in parallel interface
++
+ required:
+   - compatible
+   - reg
 -- 
-2.39.2
+2.34.1
 
