@@ -1,66 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D8E6C93A0
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Mar 2023 11:43:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 769B36C93FB
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Mar 2023 13:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E56B10E0A0;
-	Sun, 26 Mar 2023 09:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8C310E081;
+	Sun, 26 Mar 2023 11:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D99D10E08F
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 09:42:50 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id g17so7607362lfv.4
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 02:42:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=hardline-pl.20210112.gappssmtp.com; s=20210112; t=1679823768;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=FLJxFixFLXqR5HFwauE3pxmXNQuCLPZ+uoK1fao07xg=;
- b=7QegA/8qxI2Onab+a/uHcOau+RlzVU2s4uU60t9DgYFUEVq8oEjLEeX/9WXLDONzJn
- RPC5bNQGlLJJ8Kf/mP43lspLdYTldpFHRrwYFIDaehK4f6dh5wLSY68zP33wit2Zv4ia
- DFDRo3uK59sxgwIrHJWy2VpYFR+qUJME+VNJEKZqEp+H1cJjzZePjRrVRXPuQ3F7jhGq
- q0O9sMSGlS1iko9k9i1QtpUiPDT372O0SXcNnAlXxfxESdch9UsChsDeeTe2E38nso7/
- UPuHsGhqKNOcj9zzyDxUsMqq944N+axg5lzkkpII3v4yb9S/MF49bGiCXjZi4bt8HxHp
- 2p0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679823768;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FLJxFixFLXqR5HFwauE3pxmXNQuCLPZ+uoK1fao07xg=;
- b=7snfO1wYsM6my2Y4Cs2x0zvfyHkyEo0hhWPAYIb7ZjwM7tO/XknQeEiLHJbCDhpeFb
- PwgW0M9W/CwxkotHpkpYesi/8PAftg1kAl77IefvOGNknPXsE4SXrIX6/Zo+bIJdJfl9
- PV+ymHIjiv3AMK9iyLYHYD+wmJ1SvOeu8Y2izXwRugtODMLEiEzGNgxczz07YfOtQ5c3
- Bhg95tjj2uuQbJfqDPQiLJAogf3aFNS63oLzXUTNK9W9115rVyvi6xnUN7riOK52kaZP
- k6lHBB2wrdqDInyCmFZY0GeEsxbrlBSI51aKTHilePwsJATRykFMNv7fxhRCssgcFltf
- N8rw==
-X-Gm-Message-State: AAQBX9eVMG4XyspfaVxsn3wNVUY6xsZCc6keH5QnOMBVxffH+BmfeR4E
- SkyxFejeGDjFHuCjxXHBrrlb5w==
-X-Google-Smtp-Source: AKy350Zqhrse6Sjb5XI7WLOiFl9zuYpH+lg6qPdUhWJ0W0b3ibJojvxpqeDFlOPnpicORbwwkRYgnw==
-X-Received: by 2002:ac2:4c11:0:b0:4dc:65c0:c74e with SMTP id
- t17-20020ac24c11000000b004dc65c0c74emr2231194lfq.29.1679823768260; 
- Sun, 26 Mar 2023 02:42:48 -0700 (PDT)
-Received: from localhost (83.8.67.91.ipv4.supernova.orange.pl. [83.8.67.91])
- by smtp.gmail.com with ESMTPSA id
- a16-20020a056512021000b004e845954a81sm4177164lfo.296.2023.03.26.02.42.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Mar 2023 02:42:47 -0700 (PDT)
-Date: Sun, 26 Mar 2023 11:42:46 +0200
-From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal@hardline.pl>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: Re: [PATCH RESEND] drm/tests: Suballocator test
-Message-ID: <20230326094246.nthqye6fpwy3mfkc@macragge.hardline.pl>
-References: <20230302083422.76608-1-thomas.hellstrom@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F18E310E080;
+ Sun, 26 Mar 2023 11:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679829526; x=1711365526;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=J61IB9sp6PhiIP0GlOeuth3wKYOCxgxTKCcvpaHNAnw=;
+ b=RrpBeGX0ovQHD2c0eu54dgIORV8BxGnphK2D+HNn0aLQZLWvuOK6AvFN
+ 0jL0LHaTXGDuHdGcae2ylKMkZRKfiIYv2JuUcM0YDXpiJwWisoc1Y8ldv
+ FTn/Fi4ft8jphqfXpx+07YQ1vQgqeiu+bTulrQ5hdv1sHpFm4uGW2GQ0i
+ MhT62AFvuadYNp28z4jc3Ca88z8c60LYIwOPg/AHnNojj2nq3V+HFWN9e
+ GBo47BEgx3l18i0hXJmJbr4cBjwIRDZ4gs7J+ytSIQ5ZO1B3z/0guPDXA
+ 4pPrSusPp9ZWNCD8y6i+Wd6KsYdbv3B2Ex7O8sUp9Db8iWr9c9MtV9NZw w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="323957469"
+X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; d="scan'208";a="323957469"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Mar 2023 04:18:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10660"; a="826733765"
+X-IronPort-AV: E=Sophos;i="5.98,292,1673942400"; d="scan'208";a="826733765"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga001.fm.intel.com with ESMTP; 26 Mar 2023 04:18:46 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Sun, 26 Mar 2023 04:18:45 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Sun, 26 Mar 2023 04:18:45 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Sun, 26 Mar 2023 04:18:45 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Sun, 26 Mar 2023 04:18:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ps3hmcDFWfpjrssUwVz+Tlpyo6XMfYdgyiDLKpg3F+aMmcCQS28JUPDnmfg1Da89AlZzFN77YKQSrIVQU9Zwq7q+ALb7tSv5ab+vMYw5Ln/hat0oWQoCuo2oi6QXeSrsGEZqTZQbMDG7WYOy/fejO877+gPdWutjyvzZ0gXueTlZKrMk2GNxlQYxyxeXk9JtIvdUBoMPl+bff6yNOKV8IRA89ObYmYvPjqpsdNVlbQb6jZWtzAPdrZ04kdd2GARTESVug+5q0zsISGnpIm0R9fYiwyUnNM4GgUhq9tkWcuJ7xRaFuuIMrxNRIx8eK2JIg3OYTPcZdiX7InDDktCEog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=osFIawZ6MY1Ld1Csa7FqEF9qzniqMwBUTYm7A8Po4ec=;
+ b=KJia+fAj7gxkCPtt7FtWruPuByKMHL5mFphdLk7mEbPjBxWWLBcwhg/lOQC00TSImP0nvD+keli65Ett55SygWGIfiBtxOM0IGhvCP3hz/6ykJ/GYhXBzJlOVvpe0pJ/z1cWs9BVIL5WmHGoHtsdewlkkkiCtDKOWIYxkVeuUJlue5XH+n3kq/TBvTxfefUVGhSqvZo4BLqkCg+m8aZVpxUuB6i6ACIB4QArvLCS2x1qKpGFUf6r2dQndCv0g9BwiPPn8Vie88QwYCKsz+LFHyClWbsGLmQUs7j11NeDSy587VEKvFG9sjoSkUuugs4dc9fVzrk+0+gvHTU2g3zgoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com (2603:10b6:208:377::9)
+ by DS0PR11MB7359.namprd11.prod.outlook.com (2603:10b6:8:134::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Sun, 26 Mar
+ 2023 11:18:43 +0000
+Received: from MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::3bd5:710c:ebab:6158]) by MN0PR11MB6059.namprd11.prod.outlook.com
+ ([fe80::3bd5:710c:ebab:6158%9]) with mapi id 15.20.6178.041; Sun, 26 Mar 2023
+ 11:18:43 +0000
+Date: Sun, 26 Mar 2023 07:18:38 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
+Subject: Re: [PATCH v6 5/8] drm/i915/pxp: Add ARB session creation and cleanup
+Message-ID: <ZCAqDlUIp0YmCkyu@intel.com>
+References: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
+ <20230228022150.1657843-6-alan.previn.teres.alexis@intel.com>
+ <fabe4123-53cc-005e-e0af-7683e0d45896@intel.com>
+ <3b8091c51677878b968d1d275b9b16e5088d913d.camel@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230302083422.76608-1-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <3b8091c51677878b968d1d275b9b16e5088d913d.camel@intel.com>
+X-ClientProxiedBy: BY3PR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::19) To MN0PR11MB6059.namprd11.prod.outlook.com
+ (2603:10b6:208:377::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6059:EE_|DS0PR11MB7359:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01bcad05-c6ea-4582-9478-08db2debdb71
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: noXyDju6u0W2pT2+/G5uvRhDSrCHKOc3M+nlG9nots+9F3eovW6bY6avXmdu2Azj7xqj7KMxl+GDIpXPT41Asw11n8JFQDeGzsneCo+PyTQEZ4y580osTMx3e45AfsNFjt/ChFGw03rYc4U9QhCQY5fg06x1r+b6alLS/MT53LCQYOnEI32reeSRVfEF0Bvoj0IGzvsWQPcWT0CzUHKMNqq27Cax6IfSJXXTWKnK6dLXnTrkd0x59CTpbniNHE5UlsMq/tuISBdUASKrZ1a/kEqsu6nVe40m7G9R+CaOuXAiOW8iJvgAw4kWMhClAN1UzUKz9FECNsYZcmg3VxuquP2HNO+HAifLRhck8bmD3aSFluhn+E9FYrHOmMHrZYjnHIkf1KvIN4ZKQZPq+FWFDClwrMYjd5XgNamRUc+jA4sY/Dlp9cEczNY8oMEBmRRwiAGLxvIG/qLcmV+oWW3LwVXDayIIKexe6CyHGxQXVh2OMTibb3ZaaH9+ga6i1U1aqo+bcb4pN3gDDFzKzaCdlUMtF+8nEJ0XIXkOkHrWaNYPoOFgeubYHG7bFjQ4VdXM
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN0PR11MB6059.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(396003)(376002)(346002)(366004)(136003)(39860400002)(451199021)(86362001)(36756003)(2906002)(44832011)(478600001)(6486002)(26005)(6666004)(107886003)(83380400001)(2616005)(37006003)(54906003)(4326008)(6636002)(316002)(66946007)(66556008)(66476007)(8676002)(186003)(6512007)(6506007)(82960400001)(38100700002)(6862004)(5660300002)(8936002)(41300700001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+ol2TuUXAIjPXRESamQhdfZMf2EzvOez9a8EVa1NwUp7MI4KZFgZ3YWWhlU2?=
+ =?us-ascii?Q?klm2urNNsJbZoGsIUgz7fgyLdUcpuLncb0fDjjd3Yi88WCgcYOdn22wluEsb?=
+ =?us-ascii?Q?ahy8/ajhBTb49+0Jq5nEcjIbSTjBZLWvhcOqOaCQuLeBaHedaMdKWUjqy77D?=
+ =?us-ascii?Q?RrG5nS/DDbJroYR8/1o17ctUt9pftH3CGdqtud59bOZnG9vBR5/NQd4IvkNK?=
+ =?us-ascii?Q?NkPvFcV50kO4LNTz15AYR/9l5JmQZN+Z+DVGonkkEkWpSzhhcHG3n62x+6y0?=
+ =?us-ascii?Q?gssU0x0EtyYUqDXa5uQuRviy5MJ3Yw7UozZN9/+XnriLGHBOaqoPJVGARa1s?=
+ =?us-ascii?Q?QGSb21Bh8UdBfdP5TxFwZWwQbo+Sn50BYenmQ2cfrbJrDgz6vAC6BrkltNBs?=
+ =?us-ascii?Q?n+JJw4nd/FkmQnMCvTWMIFWURD9ZDg5+Qxd4SUa0JAL0KydIJYbcDUB3Vjlg?=
+ =?us-ascii?Q?T1Z1En7KKulbGINv7hTbOChf7KAiW/hCn273wlBuJ4A05TzTvA39XYKPX7tc?=
+ =?us-ascii?Q?aEMeXd5Ba02MgMwEgtW/1ieojrVtwmtMKDyvendaZkhHdyLZyYdtgT8UE9U/?=
+ =?us-ascii?Q?OnyhSnsRYfgRKH9vkSESN4w87G2qLh+D0OS5C/FyRs+VsToewgBz+zBGWIsk?=
+ =?us-ascii?Q?gtIVKjT9RtjRL3on8mvs2W31w3ABfyVXxyye+XRqwrGiVVCUuBXcmLRcPdNP?=
+ =?us-ascii?Q?XIsxjf4ckHfjruO63jmaT3Jv4TNRE694L1X/6u14ofGzgEBP+supy3+Njgq5?=
+ =?us-ascii?Q?PtVpamCRIiVebZSOLqEKRkAbT7Gm+sHR0wMWKNHx/G6QksjKOzNSwwnchT9I?=
+ =?us-ascii?Q?ttAbuNEsCMYeNMoABV5sov4G1wyE4x4FWVj3ctvSfIWghjq+jJXsliSfuGGN?=
+ =?us-ascii?Q?EVSPEvHBwRHWRHMikHfsAmjrAGmO+YBu9c3tIZ1bI/JRXSEHAGl50pREkF2K?=
+ =?us-ascii?Q?qMjEm4dOWsp7W1eh5/GyHGNWecGxKbus6H7f+fFCxm2besIGFksdVIdsGaQV?=
+ =?us-ascii?Q?thvOt+69LrGoko5ZWOsf8eU5SFuVop+9h2KFIuDisbuSSHTfDUNtvqzPXOBJ?=
+ =?us-ascii?Q?VxePfq5ng2Zpv+PagO6lpcc+FI60OocoKzbFjT2/99HJr9gyqGKGX8kVifxf?=
+ =?us-ascii?Q?YhuE5hVT24YXA62u1ksd0kp4TrHP0l2ipPvK4r27otbG2rtOXVJ7Xzo/Cj3q?=
+ =?us-ascii?Q?ON/ALaKOHvHEC6sp7zv75PgNVMsIXRhH9QHVAbeQ7R0J9m81j8u0OPBPpR+v?=
+ =?us-ascii?Q?7+IOInjl5yfLvGsHUTKHqdOl72rnj9xemy5gRzvStg53POayhLXdd/0I/Kp5?=
+ =?us-ascii?Q?McDjLlzaYZBb6dzON04hLvLkc8MSi8vGQYgarFga5SWiLgBqwOMfLxR6ryrA?=
+ =?us-ascii?Q?LWD2mih5hYfu/dwzOCcF5/CYhKwezx2g3sAV2lJAQbBL9i48iSCHshuEi3iC?=
+ =?us-ascii?Q?l6VtYJIgs+GnlaVMrogGMnvu4aKHw6UOZQy7cNTWQtDUhRnH5CT6uJjmAYQc?=
+ =?us-ascii?Q?M3rh2Txhg1PKVsmi6MTSFFVyD1Cv6o0myWUnL5YLCa+CRXQmYSG0svGG0L5J?=
+ =?us-ascii?Q?BNZxn71HA71gUMOwOTMmLP3RDK0/WsBBBVjbgyid?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01bcad05-c6ea-4582-9478-08db2debdb71
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6059.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2023 11:18:42.7618 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KLvZTvqF5yVEDy9bq1DY2lb5AorfzDaCt1vZ/d9uoq9Gx1lL6a9ccXCcd2f2QfY888Nm1ZhAvaWf4i+Dntbt1w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7359
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,494 +148,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org,
- Christian Koenig <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
+Cc: "justonli@chromium.org" <justonli@chromium.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Lahtinen,
+ Joonas" <joonas.lahtinen@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 02, 2023 at 09:34:22AM +0100, Thomas Hellström wrote:
-> Add a suballocator test to get some test coverage for the new drm
-> suballocator, and perform some basic timing (elapsed time).
+On Sat, Mar 25, 2023 at 02:19:21AM -0400, Teres Alexis, Alan Previn wrote:
+> alan:snip
 > 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/Kconfig                   |   1 +
->  drivers/gpu/drm/tests/Makefile            |   3 +-
->  drivers/gpu/drm/tests/drm_suballoc_test.c | 356 ++++++++++++++++++++++
->  3 files changed, 359 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/tests/drm_suballoc_test.c
+> > 
+> @@ -353,8 +367,20 @@ int intel_pxp_start(struct intel_pxp *pxp)
+> alan:snip
+> > > +	if (HAS_ENGINE(pxp->ctrl_gt, GSC0)) {
+> > > +		/*
+> > > +		 * GSC-fw loading, GSC-proxy init (requiring an mei component driver) and
+> > > +		 * HuC-fw loading must all occur first before we start requesting for PXP
+> > > +		 * sessions. Checking HuC authentication (the last dependency)  will suffice.
+> > > +		 * Let's use a much larger 8 second timeout considering all the types of
+> > > +		 * dependencies prior to that.
+> > > +		 */
+> > > +		if (wait_for(intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc), 8000))
+> > 
+> > This big timeout needs an ack from userspace drivers, as intel_pxp_start 
+> > is called during context creation and the current way to query if the 
+> > feature is supported is to create a protected context. Unfortunately, we 
+> > do need to wait to confirm that PXP is available (although in most cases 
+> > it shouldn't take even close to 8 secs), because until everything is 
+> > setup we're not sure if things will work as expected. I see 2 potential 
+> > mitigations in case the timeout doesn't work as-is:
+> > 
+> > 1) we return -EAGAIN (or another dedicated error code) to userspace if 
+> > the prerequisite steps aren't done yet. This would indicate that the 
+> > feature is there, but that we haven't completed the setup yet. The 
+> > caller can then decide if they want to retry immediately or later. Pro: 
+> > more flexibility for userspace; Cons: new interface return code.
+> > 
+> > 2) we add a getparam to say if PXP is supported in HW and the support is 
+> > compiled in i915. Userspace can query this as a way to check the feature 
+> > support and only create the context if they actually need it for PXP 
+> > operations. Pro: simpler kernel implementation; Cons: new getparam, plus 
+> > even if the getparam returns true the pxp_start could later fail, so 
+> > userspace needs to handle that case.
+> > 
 > 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 8fbe57407c60..dced53723721 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -78,6 +78,7 @@ config DRM_KUNIT_TEST
->  	select DRM_LIB_RANDOM
->  	select DRM_KMS_HELPER
->  	select DRM_BUDDY
-> +	select DRM_SUBALLOC_HELPER
->  	select DRM_EXPORT_FOR_TESTS if m
->  	select DRM_KUNIT_TEST_HELPERS
->  	default KUNIT_ALL_TESTS
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-> index bca726a8f483..c664944a48ab 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -17,6 +17,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->  	drm_modes_test.o \
->  	drm_plane_helper_test.o \
->  	drm_probe_helper_test.o \
-> -	drm_rect_test.o
-> +	drm_rect_test.o \
-> +	drm_suballoc_test.o
->  
->  CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-> diff --git a/drivers/gpu/drm/tests/drm_suballoc_test.c b/drivers/gpu/drm/tests/drm_suballoc_test.c
-> new file mode 100644
-> index 000000000000..e7303a5505a0
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_suballoc_test.c
-> @@ -0,0 +1,356 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +/*
-> + * Test case for the drm_suballoc suballocator manager
-> + * Copyright 2023 Intel Corporation.
-> + */
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <linux/dma-fence.h>
-> +#include <linux/ktime.h>
-> +#include <linux/hrtimer.h>
-> +#include <linux/sizes.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/delay.h>
-> +#include <drm/drm_suballoc.h>
-> +
-> +#define SA_ITERATIONS 10000
-> +#define SA_SIZE SZ_1M
-> +#define SA_DEFAULT_ALIGN SZ_4K
-> +
-> +static bool intr = true;
-> +static bool from_reclaim;
-> +static bool pre_throttle;
-> +static unsigned int num_rings = 4;
-> +static unsigned int iterations = SA_ITERATIONS;
-> +
-> +static atomic64_t free_space;
-> +
-> +static atomic_t other_id;
-> +
-> +struct suballoc_fence;
-> +
-> +/**
-> + * struct suballoc_ring - fake gpu engine.
-> + * @list: List of fences to signal.
-> + * @signal_time: Accumulated fence signal execution time.
-> + * @lock: Protects the suballoc ring members. hardirq safe.
-> + * @hrtimer: Fake execution time timer.
-> + * @active: The currently active fence for which we have pending work or a
-> + *          timer running.
-> + * @seqno: Fence submissin seqno.
-> + * @idx: Index for calculation of fake execution time.
-> + * @work: Work struct used solely to move the timer start to a different
-> + *        processor than that used for submission.
-> + */
-> +struct suballoc_ring {
-> +	ktime_t signal_time;
-> +	struct list_head list;
-> +	/* Protect the ring processing. */
-> +	spinlock_t lock;
-> +	struct hrtimer hrtimer;
-> +	struct suballoc_fence *active;
-> +	atomic64_t seqno;
-> +	u32 idx;
-> +	struct work_struct work;
-> +};
-> +
-> +/**
-> + * struct suballoc_fence - Hrtimer-driven fence.
-> + * @fence: The base class fence struct.
-> + * @link: Link for the ring's fence list.
-> + * @size: The size of the suballocator range associated with this fence.
-> + * @id: Cpu id likely used by the submission thread for suballoc allocation.
-> + */
-> +struct suballoc_fence {
-> +	struct dma_fence fence;
-> +	struct list_head link;
-> +	size_t size;
-> +	unsigned int id;
-> +};
-> +
-> +/* A varying but repeatable fake execution time */
-> +static ktime_t ring_next_delay(struct suballoc_ring *ring)
-> +{
-> +	return ns_to_ktime((u64)(++ring->idx % 8) * 200 * NSEC_PER_USEC);
-> +}
-
-Is there any way we can avoid using time (and large number of
-iterations) here, while keeping the coverage?
-drm_suballoc have longest runtime out of all tests in DRM (taking ~60%
-of the whole DRM kunit execution, drm_mm being the second and taking
-~35%, without those two suites DRM tests execute in milliseconds rather
-than tens of seconds),
-Building test cases in a way that operate on time basis makes it tricky
-to optimize the runtime.
-If we extract various parameters from modparams to separate test cases,
-it's going to get even worse.
-
-> +
-> +/*
-> + * Launch from a work item to decrease the likelyhood of the timer expiry
-> + * callback getting called from the allocating cpu.
-> + * We want to trigger cache-line bouncing between allocating and signalling
-> + * cpus.
-> + */
-> +static void ring_launch_timer_work(struct work_struct *work)
-> +{
-> +	struct suballoc_ring *ring =
-> +		container_of(work, typeof(*ring), work);
-> +
-> +	spin_lock_irq(&ring->lock);
-> +	if (ring->active)
-> +		hrtimer_start_range_ns(&ring->hrtimer, ring_next_delay(ring),
-> +				       100ULL * NSEC_PER_USEC,
-> +				       HRTIMER_MODE_REL_PINNED);
-> +
-> +	spin_unlock_irq(&ring->lock);
-> +}
-> +
-> +/*
-> + * Signal an active fence and pull the next off the list if any and make it
-> + * active.
-> + */
-> +static enum hrtimer_restart ring_hrtimer_expired(struct hrtimer *hrtimer)
-> +{
-> +	struct suballoc_ring *ring =
-> +		container_of(hrtimer, typeof(*ring), hrtimer);
-> +	struct suballoc_fence *sfence;
-> +	ktime_t now, then;
-> +	unsigned long irqflags;
-> +
-> +	spin_lock_irqsave(&ring->lock, irqflags);
-> +	sfence = ring->active;
-> +
-> +	if (sfence) {
-> +		struct dma_fence *fence = &sfence->fence;
-> +
-> +		if (sfence->id != get_cpu())
-> +			atomic_inc(&other_id);
-> +		put_cpu();
-> +
-> +		then = ktime_get();
-> +		dma_fence_signal(fence);
-> +		now = ktime_get();
-> +		dma_fence_put(fence);
-> +		ring->signal_time = ktime_add(ring->signal_time,
-> +					      ktime_sub(now, then));
-> +		ring->active = NULL;
-> +		atomic64_add(sfence->size, &free_space);
-> +	}
-> +
-> +	sfence = list_first_entry_or_null(&ring->list, typeof(*sfence), link);
-> +	if (sfence) {
-> +		list_del_init(&sfence->link);
-> +		ring->active = sfence;
-> +		spin_unlock_irqrestore(&ring->lock, irqflags);
-> +		hrtimer_forward_now(&ring->hrtimer, ring_next_delay(ring));
-> +		return HRTIMER_RESTART;
-> +	}
-> +	spin_unlock_irqrestore(&ring->lock, irqflags);
-> +
-> +	return HRTIMER_NORESTART;
-> +}
-> +
-> +/*
-> + * Queue a fence on a ring and if it's the first fence, make it active.
-> + */
-> +static void ring_add_fence(struct suballoc_ring *ring,
-> +			   struct suballoc_fence *sfence)
-> +{
-> +	spin_lock_irq(&ring->lock);
-> +	if (!ring->active) {
-> +		ring->active = sfence;
-> +		queue_work(system_unbound_wq, &ring->work);
-> +	} else {
-> +		list_add_tail(&sfence->link, &ring->list);
-> +	}
-> +	spin_unlock_irq(&ring->lock);
-> +}
-> +
-> +static void ring_init(struct suballoc_ring *ring)
-> +{
-> +	memset(ring, 0, sizeof(*ring));
-> +	INIT_LIST_HEAD(&ring->list);
-> +	spin_lock_init(&ring->lock);
-> +	hrtimer_init(&ring->hrtimer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> +	ring->hrtimer.function = ring_hrtimer_expired;
-> +	INIT_WORK(&ring->work, ring_launch_timer_work);
-> +}
-> +
-> +static bool ring_idle(struct suballoc_ring *ring)
-> +{
-> +	bool tmp;
-> +
-> +	spin_lock_irq(&ring->lock);
-> +	tmp = !ring->active;
-> +	spin_unlock_irq(&ring->lock);
-> +
-> +	return tmp;
-> +}
-> +
-> +static const char *dma_fence_get_suballoc_name(struct dma_fence *fence)
-> +{
-> +	return "suballoc";
-> +}
-> +
-> +static const struct dma_fence_ops dma_fence_suballoc_ops = {
-> +	.get_driver_name = dma_fence_get_suballoc_name,
-> +	.get_timeline_name = dma_fence_get_suballoc_name,
-> +};
-> +
-> +static DEFINE_SPINLOCK(sa_fence_lock);
-> +static ktime_t alloctime, freetime;
-> +
-> +static void drm_test_suballoc(struct kunit *test)
-> +{
-> +	struct suballoc_ring *rings;
-> +	struct drm_suballoc_manager sa_manager;
-> +	struct drm_suballoc *sa;
-> +	struct suballoc_fence *sfence;
-> +	struct dma_fence *fence;
-> +	ktime_t then, now, signaltime;
-> +	int i, ring, iter_tot = 0;
-> +	size_t size;
-> +	unsigned int align;
-> +	unsigned long long soffset;
-> +	gfp_t gfp;
-> +
-> +	rings = kvmalloc_array(num_rings, sizeof(*rings), GFP_KERNEL);
-> +	if (!rings) {
-> +		KUNIT_FAIL(test, "Failed allocating %u rings.\n");
-> +		return;
-> +	}
-
-KUNIT_ASSERT_NOT_NULL?
-Though we might want to implement a test-resource managed variant
-(kunit_kvmalloc_array) to not have to worry about lifecycle and freeing
-the resources.
-
-> +
-> +	for (i = 0; i < num_rings; ++i)
-> +		ring_init(rings + i);
-
-With resource managed - rings could be allocated and initialized at
-.init(). We would then call the flush and wait at .exit(), and as a
-result, we would be able to use asserts in test body without worrying
-about leaking.
-
-> +
-> +	atomic64_set(&free_space, SA_SIZE);
-> +	drm_suballoc_manager_init(&sa_manager, SA_SIZE, SA_DEFAULT_ALIGN);
-
-This could also be moved to .init()
-
-> +
-> +	if (from_reclaim)
-> +		gfp = GFP_NOWAIT | __GFP_NOWARN;
-> +	else
-> +		gfp = GFP_KERNEL;
-> +
-> +	for (i = 0; i < iterations; ++i) {
-> +		ring = i % num_rings;
-> +		size = (ring + 1) * SZ_4K;
-> +		align = 1 << (ring % const_ilog2(SA_DEFAULT_ALIGN));
-> +
-> +		if (pre_throttle)
-> +			while (atomic64_read(&free_space) < SA_SIZE / 2)
-> +				cpu_relax();
-> +
-> +		if (from_reclaim)
-> +			fs_reclaim_acquire(GFP_KERNEL);
-> +
-> +		then = ktime_get();
-> +		sa = drm_suballoc_new(&sa_manager, size, gfp, intr, align);
-> +		now = ktime_get();
-> +		if (from_reclaim)
-> +			fs_reclaim_release(GFP_KERNEL);
-> +
-> +		alloctime = ktime_add(alloctime, ktime_sub(now, then));
-> +
-> +		iter_tot++;
-> +		if (IS_ERR(sa)) {
-
-KUNIT_ASSERT_NOT_ERR_OR_NULL?
-
-> +			if (from_reclaim) {
-
-drm_suballoc_new can fail for other reasons than -ENOMEM under memory
-pressure, while with from_reclaim we're treating all errors as a
-success, is that intentional?
-
-> +				iter_tot--;
-> +				continue;
-> +			}
-> +
-> +			KUNIT_FAIL(test, "drm_suballoc_new() returned %pe\n",
-> +				   sa);
-> +			break;
-> +		}
-> +
-> +		atomic64_sub(size, &free_space);
-> +		soffset = drm_suballoc_soffset(sa);
-> +		if (!IS_ALIGNED(soffset, align)) {
-> +			drm_suballoc_free(sa, NULL);
-
-Do we need to worry about calling free here? We shouldn't leak as long
-as we wait upon all fences, as drm_suballoc_manager_fini will do the
-clean up for us.
-
-KUNIT_EXPECT_TRUE_MSG(..., IS_ALIGNED(soffset, align), ...)?
-
-> +			KUNIT_FAIL(test, "Incorrect alignment: offset %llu align %u rem %llu\n",
-> +				   soffset, align, soffset & (align - 1));
-> +			break;
-> +		}
-> +
-> +		if (drm_suballoc_eoffset(sa) > SA_SIZE) {
-> +			drm_suballoc_free(sa, NULL);
-> +			KUNIT_FAIL(test, "Allocation beyond end.\n");
-> +			break;
-> +		}
-
-KUNIT_EXPECT_LE_MSG?
-
-> +
-> +		if (drm_suballoc_size(sa) < size ||
-> +		    drm_suballoc_size(sa) >= size + align) {
-> +			drm_suballoc_free(sa, NULL);
-> +			KUNIT_FAIL(test, "Incorrect size.\n");
-> +			break;
-> +		}
-
-KUNIT_EXPECT_GE and KUNIT_EXPECT_LT?
-
-> +
-> +		sfence = kmalloc(sizeof(*sfence), GFP_KERNEL);
-> +		if (unlikely(!sfence)) {
-> +			drm_suballoc_free(sa, NULL);
-> +			KUNIT_FAIL(test, "Fence allocation failed.\n");
-> +			break;
-> +		}
-
-It looks like sfence is never released. kunit_kmalloc?
-KUNIT_ASSERT_NOT_NULL / KUNIT_ASSERT_NOT_ERR_OR_NULL?
-
-> +		fence = &sfence->fence;
-> +		dma_fence_init(fence, &dma_fence_suballoc_ops, &sa_fence_lock,
-> +			       ring + 1,
-> +			       atomic64_inc_return(&rings[ring].seqno));
-> +		sfence->size = size;
-> +		sfence->id = get_cpu();
-> +		put_cpu();
-> +
-> +		ring_add_fence(rings + ring, sfence);
-> +
-> +		then = ktime_get();
-> +		drm_suballoc_free(sa, fence);
-> +		now = ktime_get();
-> +		freetime = ktime_add(freetime, ktime_sub(now, then));
-> +	}
-> +
-> +	signaltime = ktime_set(0, 0);
-> +	for (i = 0; i < num_rings; ++i) {
-> +		struct suballoc_ring *sring = &rings[i];
-> +
-> +		flush_work(&sring->work);
-> +		while (!ring_idle(sring))
-> +			schedule();
-> +		signaltime = ktime_add(signaltime, sring->signal_time);
-> +	}
-
-This (and drm_suballoc_manager_fini) could be moved to .exit()
-
-> +
-> +	kvfree(rings);
-> +
-> +	kunit_info(test, "signals on different processor: %d of %d\n",
-> +		   atomic_read(&other_id), iter_tot);
-> +	drm_suballoc_manager_fini(&sa_manager);
-> +	kunit_info(test, "Alloc time was %llu ns.\n", (unsigned long long)
-> +		   ktime_to_ns(alloctime) / iter_tot);
-> +	kunit_info(test, "Free time was %llu ns.\n", (unsigned long long)
-> +		   ktime_to_ns(freetime) / iter_tot);
-> +	kunit_info(test, "Signal time was %llu ns.\n", (unsigned long long)
-> +		   ktime_to_ns(signaltime) / iter_tot);
-
-Do we need those timings?
-If we do expect certain values (probably with some epsilon range), we
-should handle it as a separate test.
-
-> +
-> +	if (atomic64_read(&free_space) != SA_SIZE) {
-> +		kunit_warn(test, "Test sanity check failed.\n");
-> +		kunit_warn(test, "Space left at exit is %lld of %d\n",
-> +			   (long long)atomic64_read(&free_space), SA_SIZE);
-> +	}
-
-If this is an error - let's add it as an "expect".
-Otherwise it's not printed if the test PASSes (unless we're running with
-raw output).
-
-> +}
-> +
-> +module_param(intr, bool, 0400);
-> +MODULE_PARM_DESC(intr, "Whether to wait interruptible for space.");
-
-This should be a separate test case (or param to a test case), not a
-modparam.
-
-> +module_param(from_reclaim, bool, 0400);
-> +MODULE_PARM_DESC(from_reclaim, "Whether to suballocate from reclaim context.");
-
-Same here.
-
-> +module_param(pre_throttle, bool, 0400);
-> +MODULE_PARM_DESC(pre_throttle, "Whether to have the test throttle for space "
-> +		 "before allocations.");
-
-And here.
-
-> +module_param(num_rings, uint, 0400);
-> +MODULE_PARM_DESC(num_rings, "Number of rings signalling fences in order.\n");
-> +module_param(iterations, uint, 0400);
-> +MODULE_PARM_DESC(iterations, "Number of allocations to perform.\n");
-
-Do we expect any difference in coverage for different number of rings /
-iterations? What's the relation here? Would it be possible to extract
-specific values (for which we expect different behavior) to separate
-testcases?
-
--Michał
-
-> +
-> +static struct kunit_case drm_suballoc_tests[] = {
-> +	KUNIT_CASE(drm_test_suballoc),
-> +	{}
-> +};
-> +
-> +static struct kunit_suite drm_suballoc_test_suite = {
-> +	.name = "drm_suballoc",
-> +	.test_cases = drm_suballoc_tests,
-> +};
-> +
-> +kunit_test_suite(drm_suballoc_test_suite);
-> +
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_DESCRIPTION("DRM suballocator Kunit test");
-> +MODULE_LICENSE("Dual MIT/GPL");
-> -- 
-> 2.34.1
+> alan: I've cc'd Rodrigo, Joonas and Lionel. Folks - what are your thoughts on above issue?
+> Recap: On MTL, only when creating a GEM Protected (PXP) context for the very first time after
+> a driver load, it will be dependent on (1) loading the GSC firmware, (2) GuC loading the HuC
+> firmware and (3) GSC authenticating the HuC fw. But step 3 also depends on additional
+> GSC-proxy-init steps that depend on a new mei-gsc-proxy component driver. I'd used the
+> 8 second number based on offline conversations with Daniele but that is a worse-case.
+> Alternatively, should we change UAPI instead to return -EAGAIN as per Daniele's proposal?
+> I believe we've had the get-param conversation offline recently and the direction was to
+> stick with attempting to create the context as it is normal in 3D UMD when it comes to
+> testing capabilities for other features too.
 > 
+> Thoughts?
+
+I like the option 1 more. This extra return handling won't break compatibility.
