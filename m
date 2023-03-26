@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11B16C9646
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Mar 2023 17:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6226C964E
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Mar 2023 17:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A95D10E1B1;
-	Sun, 26 Mar 2023 15:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8330510E1EE;
+	Sun, 26 Mar 2023 15:54:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C45CF10E1B1
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 15:54:30 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id ew6so26149127edb.7
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 08:54:30 -0700 (PDT)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B418810E1B1
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 15:54:31 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id ew6so26149218edb.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Mar 2023 08:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679846069;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=v4IC+z7HRU8Cc1CVtVPGm+haTyIr4zX0D35b4yR5tds=;
- b=Ph6Y/hVqttSfYXlBGzcTialeVGkVtWDDKWN8favtE6wSfsbYgDYRVvWZGr8nPVZS7l
- vwX7rnAwVjIYAUKC6QRsNlKuJGlSDQVzFiwFapkg5H3xpgKuVFQLZi7OpCh6lbthpIaS
- TDZwsmT2ZbhrKY3vSjJkTams4iKKCaokAMaYYHub2/xpDuMiCffg4o3MwCkUKj/U/saz
- s+v2EP1oxdndnbH5duBVTGyDcoN1QiS4Him4qTYabhI7h9m6GPSoChvwQtwzrt1ex/NJ
- L3ysUgjwZezKbFNnb4lPgMUD/7Xk1PsGffs+g4mZLY2jNfNEYiAbmEi7neKx7M4mYwiM
- S5yQ==
+ d=linaro.org; s=google; t=1679846070;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yVZux4uHBZzsldCyxcu4IzCwrMdWIWc1fs0M3nQN8os=;
+ b=ReXjM5bs2NsnbUxngOH0a71w4JaN87+hXV8D5ZUs+LWCNy4WTySdX8t7bCmGq8aej9
+ /t7pdOQPt1oSfdoPFaf/Helhz94vHkcLv+FK7plRYHO3UAWs6o0m415MAW5mVV8BamZc
+ 65fpQVkKkofD3OPJ+jTgb33py/ioBcwkFcZ3iQhAIb4BeGW+GsD6tog2unXij8eXCAVa
+ 2qiDZz3aIRw3zM769HTgMk743yYtF14Ej2utSs7IU2s5qmYC1Mr/cjiDRXlSL6uhmm8D
+ tZI2VRg2HRAEM6NYccywDpPShJ2NpbOf4Q7nMqdZFIXBDEMCBghp1nt7x1I3sOcnrqii
+ SJ3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679846069;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v4IC+z7HRU8Cc1CVtVPGm+haTyIr4zX0D35b4yR5tds=;
- b=5Eab0MO1lJ0pxnUDeHoNGV88jp2FMsHiNZr5FnktxIJYYm27WeU2su8eSAjrfT7vai
- 4xwInZLqRXJYmgEGQkf9LufnwS/t6fJf1XHGwQznZgYU7oV4p+eCo/i5Ik4RFSEMnJ/N
- Eg/+nHDkBcCv90pRaXmkQf1Qt7PSBxkRsoqjk4QCiYaJXsZB3Pxv4DX7N6a4cmr7XdD5
- TYPBCxt6GhW090u2l35E3K9dH98XpvXdyqFEU1OYZ+0cDb3pcavm1XOvTEySc1Vz8p09
- Is3I7tnKOAaop7rY/lOmRdl1G2lg4zep9F5GhAMDm/xnghMCpKF9kFhsfTcikOemBXAL
- EzMQ==
-X-Gm-Message-State: AAQBX9fGiT80fEXkK/azvHpTI5WtVRCs+zRho/b9H3ccb16bPY7k2UE6
- iombZkhaarPcHYBVkN2nnpqMxQ==
-X-Google-Smtp-Source: AKy350b350FJxZeh2eoZVFcQ0aCc50sB3xZPWqjZmfZflxoA8LKai5AuCdZB+dqInD4yF2PChjC40g==
-X-Received: by 2002:aa7:d806:0:b0:501:d43e:d1e6 with SMTP id
- v6-20020aa7d806000000b00501d43ed1e6mr9921345edq.4.1679846069161; 
- Sun, 26 Mar 2023 08:54:29 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1679846070;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=yVZux4uHBZzsldCyxcu4IzCwrMdWIWc1fs0M3nQN8os=;
+ b=xvyCcRTtYZM4xxY1Ozew9Jp3BxXQtj6Og0QQkH5dqE5NuJQHKSfPjKunLUiIt/jV/0
+ CFkVElBC/youS5ei7oC96lRjocGvq3btziZ3I0bFqn44ASvh91F/tovuhQejKeZz0sbe
+ Vgq31f4cZ296CdIPgpHF/eNNXjmXyl0F1SOnOvzGjyOMBH5TR1xJR2mQtMX485jzl0M1
+ o0DGw5y5tclZBbmuvPdai2sgyV5b7WhFFcf34ZD8CxlGiW9HRVoHhhZyOl8m8Gm8Jj2l
+ BKqE7+2C9UOriLMHLDJI6S+pwANZwOr+qaGflHMX5nuyFg2onRam/2xYlg6i6M7IUtHW
+ /R3A==
+X-Gm-Message-State: AO0yUKWVoFrQPOa1o0TuMC+jwckRQAZhPcNVQoLik7XgCZ2TcdhyCB1f
+ mE8Ge0h5mykmqldXCJHq3J598A==
+X-Google-Smtp-Source: AK7set9DE6vPbbVIA0Rm5bVMGQJWRb3++BCkPyrB3vGliMxtG1Nvbu9P2n0OAfxhr8S+W5+V2o808Q==
+X-Received: by 2002:a05:6402:5d87:b0:4af:740d:fde with SMTP id
+ if7-20020a0564025d8700b004af740d0fdemr13852421edb.20.1679846070169; 
+ Sun, 26 Mar 2023 08:54:30 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:eca3:3b8f:823b:2669])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a50d6c6000000b004af62273b66sm13506742edj.18.2023.03.26.08.54.28
+ l6-20020a50d6c6000000b004af62273b66sm13506742edj.18.2023.03.26.08.54.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Mar 2023 08:54:28 -0700 (PDT)
+ Sun, 26 Mar 2023 08:54:29 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
@@ -60,11 +61,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Harigovindan P <harigovi@codeaurora.org>,
  Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/6] dt-bindings: display: panel-simple: merge Innolux
- p120zdg-bf1
-Date: Sun, 26 Mar 2023 17:54:20 +0200
-Message-Id: <20230326155425.91181-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 2/6] dt-bindings: display: novatek,
+ nt36672a: correct VDDIO supply
+Date: Sun, 26 Mar 2023 17:54:21 +0200
+Message-Id: <20230326155425.91181-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230326155425.91181-1-krzysztof.kozlowski@linaro.org>
+References: <20230326155425.91181-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,78 +86,49 @@ Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is nothing special in Innolux p120zdg-bf1 panel, so just like
-other Innolux panels it can be made part of panel-simple.
+The nt36672a bindings were added with a mistake on VDDIO supply calling
+it in one place vddio and in other vddi0.  Typical name is rather vddio
+which is also now used by DTS (sdm845-xiaomi-beryllium-common.dtsi) and
+Linux driver.
 
+Fixes: c2abcf30efb8 ("dt-bindings: display: novatek,nt36672a: Fix unevaluated properties warning")
+Fixes: 9528a02430df ("dt-bindings: display: panel: Add bindings for Novatek nt36672a")
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- .../display/panel/innolux,p120zdg-bf1.yaml    | 43 -------------------
- .../bindings/display/panel/panel-simple.yaml  |  2 +
- 2 files changed, 2 insertions(+), 43 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml
+ .../devicetree/bindings/display/panel/novatek,nt36672a.yaml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml b/Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml
-deleted file mode 100644
-index 243dac2416f3..000000000000
---- a/Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml
-+++ /dev/null
-@@ -1,43 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--%YAML 1.2
-----
--$id: http://devicetree.org/schemas/display/panel/innolux,p120zdg-bf1.yaml#
--$schema: http://devicetree.org/meta-schemas/core.yaml#
--
--title: Innolux P120ZDG-BF1 12.02 inch eDP 2K display panel
--
--maintainers:
--  - Sandeep Panda <spanda@codeaurora.org>
--  - Douglas Anderson <dianders@chromium.org>
--
--allOf:
--  - $ref: panel-common.yaml#
--
--properties:
--  compatible:
--    const: innolux,p120zdg-bf1
--
--  enable-gpios: true
--  power-supply: true
--  backlight: true
--  no-hpd: true
--
--required:
--  - compatible
--  - power-supply
--
--additionalProperties: false
--
--examples:
--  - |
--    #include <dt-bindings/gpio/gpio.h>
--
--    panel_edp: panel-edp {
--        compatible = "innolux,p120zdg-bf1";
--        enable-gpios = <&msmgpio 31 GPIO_ACTIVE_LOW>;
--        power-supply = <&pm8916_l2>;
--        backlight = <&backlight>;
--        no-hpd;
--    };
--
--...
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 18241f4051d2..01560fe226dd 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -192,6 +192,8 @@ properties:
-       - innolux,n125hce-gn1
-         # InnoLux 15.6" WXGA TFT LCD panel
-       - innolux,n156bge-l21
-+        # Innolux P120ZDG-BF1 12.02 inch eDP 2K display panel
-+      - innolux,p120zdg-bf1
-         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
-       - innolux,zj070na-01p
-         # King & Display KD116N21-30NV-A010 eDP TFT LCD panel
+diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
+index 41ee3157a1cd..ae821f465e1c 100644
+--- a/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
++++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
+@@ -34,7 +34,7 @@ properties:
+     description: phandle of gpio for reset line - This should be 8mA, gpio
+       can be configured using mux, pinctrl, pinctrl-names (active high)
+ 
+-  vddi0-supply:
++  vddio-supply:
+     description: phandle of the regulator that provides the supply voltage
+       Power IC supply
+ 
+@@ -51,7 +51,7 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - vddi0-supply
++  - vddio-supply
+   - vddpos-supply
+   - vddneg-supply
+   - reset-gpios
+@@ -70,7 +70,7 @@ examples:
+         panel@0 {
+             compatible = "tianma,fhd-video", "novatek,nt36672a";
+             reg = <0>;
+-            vddi0-supply = <&vreg_l14a_1p88>;
++            vddio-supply = <&vreg_l14a_1p88>;
+             vddpos-supply = <&lab>;
+             vddneg-supply = <&ibb>;
+ 
 -- 
 2.34.1
 
