@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F3F6CAA8D
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 18:27:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8066CAB15
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 18:52:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37AFA10E639;
-	Mon, 27 Mar 2023 16:27:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C59410E650;
+	Mon, 27 Mar 2023 16:52:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E0010E125
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:27:38 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id x20so9637848ljq.9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 09:27:38 -0700 (PDT)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3296710E650
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:52:43 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ 61-20020a9d02c3000000b0069fe8de3139so4896373otl.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 09:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1679934456;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=sfqsUiLP5Vh8YGPxF2VMjFnsdklhQkYhzVCbJtdJx1Y=;
- b=BULGouv4k14uH72Y42Uplkdk+YxchsnjND6wQ+JwP5esObqf5l7IIL+EH8bPZ8VOuv
- ZuCgr2KQXEjieFab/CwvaUP5WVSHaQzymir9PpPgM01oUBC2bLL2dbGlfeBGqbEQJ9hQ
- RSaWr+Q8RDY647kvicF7BJCQw9QoX4D2PXGss=
+ d=ffwll.ch; s=google; t=1679935962;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=q1qWTShqBaYxV3xaj+I2aKT/emWe4vFrxFvJqYnKTHM=;
+ b=gEQ2DMylLmcJYM0V68Q35myKOeuEsz9k2bl0j7j5pmDTPkeNQRioxQnwCfTo0ew/jb
+ RmU1LOVT2Fb5YBqegsuOekQHSAEOGivXOodKzi/Ld/JarlOG5sDsai9ZapNnzmggppuX
+ UOZn1YD5Hm3IDzriwg4fIUr/nXMWoz+GJmgLo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679934456;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sfqsUiLP5Vh8YGPxF2VMjFnsdklhQkYhzVCbJtdJx1Y=;
- b=eKmdusChOhSlI9XUskoXIg02b+DEs4yyhHzhPh10I9EueDuOB3NhLA0y4tAbkvuzZg
- Tgm8GoVggeqyLEvz9ts+ubhXAf602sdYU+/DJ+Gg0Oli6fAKMiIr8BF+IuWqY8+PNlVM
- W3DyC/SjlifXDpP9LCnA+InLxLeWUs2LYJzFghaQPhcg6/wQkLwcEkBlcXTsZrhS4P/B
- CZ8sETrmbgdk/zR+D415VPRgCbTYaVALrQPnHk+exRGbwJaF+STb907GXVUqepOBT9I4
- HI7d7NM8xUvx5J+LLJzJvVMbL4JsuyC7jMGcci2HSHW46xbFOLKlXfFSoETyCgEMPw8S
- R5Ew==
-X-Gm-Message-State: AAQBX9dP3lnoUnWO4pSy7QhYryR/Akok9kif5IH+cn6fv6enUzlcNIgg
- hcq8wAGl1kpJLi4sZg9MfEIA/gzULWeZWIX8f/kFUA==
-X-Google-Smtp-Source: AKy350Y5rCbfQeYtWgJzS3zFEW8VUffjLZ9uIR3CgRrH+NheaWYomMEl7eyKQ0BV0h4gWbqifwKF1r/nWBPuk4A4eaY=
-X-Received: by 2002:a2e:9792:0:b0:2a3:fc8:711b with SMTP id
- y18-20020a2e9792000000b002a30fc8711bmr3696218lji.10.1679934456057; Mon, 27
- Mar 2023 09:27:36 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 27 Mar 2023 16:27:35 +0000
+ d=1e100.net; s=20210112; t=1679935962;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q1qWTShqBaYxV3xaj+I2aKT/emWe4vFrxFvJqYnKTHM=;
+ b=RiUrVO3G/kAftEUVWfHRG0GtkMmJbOXsSejHRxufddhqah12qxcKR2bjvvfZBMZRZp
+ YIM1JIZezeUzmcP5/8RJ1Vij8ZGN2mZKeeRaGmQC7a3l6vElCw/nm1GlyD8tdJbkMG9H
+ XFbq7lxdmL/GLkiqmmU9oyj0UZd45YqA2J1jVyN6TGlCNKv0wCGYBwUSks64izsSkyHn
+ kNBinDDmXtjtkWYJRvTQwhvyT5pA9twIK8rj+Nbm0qi0UCPgiCH/o8S20U47smIGZNos
+ Nij/MTVQVM5uz4EQd2KkrIYWEELy2naPe/buyUSH8h7eSTSm5SUDAlbDeZZED7XuNDZT
+ vlsQ==
+X-Gm-Message-State: AO0yUKWK7RjS3kQL1l2MMib46oYM1DAu/nBQKUF+kux2Pkd10EcfjpeW
+ 7n8ID26nOb94Fou0/klPVT83S9ps0p+opSZ2yOILRw==
+X-Google-Smtp-Source: AKy350bd0jD+yAbtcLCmHrO2H263R0T1ICEdtn0rpjT7I5LO5AUumJo49hQLAx/TYMroVzE1hxKbi+r0T4gbi3pnrCI=
+X-Received: by 2002:a05:6830:1bfc:b0:69d:3794:b863 with SMTP id
+ k28-20020a0568301bfc00b0069d3794b863mr4240271otb.6.1679935962420; Mon, 27 Mar
+ 2023 09:52:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230326163556.iesjkoh3nw3iwvf2@ripper>
-References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
- <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
- <20230326162723.3lo6pnsfdwzsvbhj@ripper>
- <20230326163556.iesjkoh3nw3iwvf2@ripper>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Mon, 27 Mar 2023 16:27:35 +0000
-Message-ID: <CAE-0n520ypTRNT1X6kZ8o_Z+DN_68qwqZc1wZGMwsFqV5naktw@mail.gmail.com>
-Subject: Re: [PATCH v14 14/14] drm/msm/dp: set self refresh aware based on PSR
- support
-To: Bjorn Andersson <andersson@kernel.org>,
- Vinod Polimera <quic_vpolimer@quicinc.com>
+References: <20230325204922.GD19335@pendragon.ideasonboard.com>
+In-Reply-To: <20230325204922.GD19335@pendragon.ideasonboard.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 27 Mar 2023 18:52:31 +0200
+Message-ID: <CAKMK7uFTg1OyaujDDnCwrHno8LgKbHvEmgx=G1UkA9B=fpnHiw@mail.gmail.com>
+Subject: Re: [GIT PULL FOR v6.4] drm: rcar-du: Miscellaneous fixes and
+ improvements
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,63 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
- quic_sbillaka@quicinc.com, quic_bjorande@quicinc.com,
- quic_abhinavk@quicinc.com, quic_vproddut@quicinc.com,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- dmitry.baryshkov@linaro.org, quic_khsieh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2023-03-26 09:35:56)
-> On Sun, Mar 26, 2023 at 09:27:23AM -0700, Bjorn Andersson wrote:
-> > On Thu, Mar 02, 2023 at 10:03:17PM +0530, Vinod Polimera wrote:
-> > > For the PSR to kick in, self_refresh_aware has to be set.
-> > > Initialize it based on the PSR support for the eDP interface.
-> > >
-> >
-> > When I boot my sc8280xp devices (CRD and X13s) to console with this
-> > patch included I get a login prompt, and then there are no more screen
-> > updates.
-> >
-> > Switching virtual terminal (ctrl+alt+fN) causes the screen to redraw.
-> >
-> > Blindly login in and launching Wayland works and from then on screen
-> > updates works as expected.
-> >
-> > Switching from Wayland to another virtual terminal causes the problem to
-> > re-appear, no updates after the initial refresh, switching back go the
-> > Wayland-terminal crashed the machine.
-> >
+On Sat, 25 Mar 2023 at 21:49, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Also, trying to bring the eDP-screen back from DPMS gives me:
+> Hello,
 >
-> <3>[ 2355.218099] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]] *ERROR* set state_bit for link_train=1 failed
-> <3>[ 2355.218926] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link training #1 failed. ret=-110
-> <3>[ 2355.262859] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]] *ERROR* set state_bit for link_train=1 failed
-> <3>[ 2355.263600] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link training #1 failed. ret=-110
-> <3>[ 2355.305211] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]] *ERROR* set state_bit for link_train=1 failed
-> <3>[ 2355.305955] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link training #1 failed. ret=-110
-> <3>[ 2355.345250] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]] *ERROR* set state_bit for link_train=1 failed
-> <3>[ 2355.346026] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link training #1 failed. ret=-110
-> <3>[ 2355.405650] [drm:dp_display_process_hpd_high [msm]] *ERROR* failed to complete DP link training
-> <3>[ 2355.668988] [drm:dpu_encoder_phys_vid_wait_for_commit_done:488] [dpu error]vblank timeout
-> <3>[ 2355.669030] [drm:dpu_kms_wait_for_commit_done:510] [dpu error]wait for commit done returned -110
-> <3>[ 2355.699989] [drm:dpu_encoder_frame_done_timeout:2398] [dpu error]enc35 frame done timeout
+> The following changes since commit 7ed34927254ae9eac0f6b0ad7e7c2bceb96fcdfc:
 >
-> And then the machine just resets.
+>   Merge tag 'drm-intel-next-2023-03-23' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-03-24 20:22:03 +0100)
 >
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/drm-rcar-next-20230325
 
-I saw similar behavior on ChromeOS after we picked the PSR patches into
-our kernel. I suspect it's the same problem. I switched back and forth
-between VT2 and the OOBE screen with ctrl+alt+forward and that showed
-what I typed on the virtual terminal after switching back and forth.
-It's like the redraw only happens once on the switch and never again. I
-switched back and forth enough times that it eventually crashed the
-kernel and rebooted. This was on CRD (sc7280-herobrine-crd.dts).
+Pulled, thanks
 
-There's an animation on the OOBE screen that is working though, so
-perhaps PSR is working with the chrome compositor but not the virtual
-terminal? I haven't investigated.
+>
+> for you to fetch changes up to 40f43730f43699ce8557e4fe59622d4f4b69f44a:
+>
+>   drm: rcar-du: Fix a NULL vs IS_ERR() bug (2023-03-25 22:38:10 +0200)
+>
+> ----------------------------------------------------------------
+> drm: rcar-du: Miscellaneous fixes and improvements
+>
+> ----------------------------------------------------------------
+> Dan Carpenter (1):
+>       drm: rcar-du: Fix a NULL vs IS_ERR() bug
+>
+> Laurent Pinchart (7):
+>       drm: rcar-du: lvds: Call function directly instead of through pointer
+>       drm: rcar-du: lvds: Move LVDS enable code to separate code section
+>       drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
+>       drm: rcar-du: Don't write unimplemented ESCR and OTAR registers on Gen3
+>       drm: rcar-du: Disable alpha blending for DU planes used with VSP
+>       drm: rcar-du: Rename DORCR fields to make them 0-based
+>       drm: rcar-du: Write correct values in DORCR reserved fields
+>
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c    |  38 +++++--
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |   4 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c   |  16 ++-
+>  drivers/gpu/drm/rcar-du/rcar_du_regs.h    |  26 ++---
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c     |   2 +-
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c       | 176 +++++++++++++++++-------------
+>  drivers/gpu/drm/rcar-du/rcar_lvds.h       |  12 +-
+>  7 files changed, 163 insertions(+), 111 deletions(-)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
