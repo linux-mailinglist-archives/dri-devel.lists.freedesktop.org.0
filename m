@@ -1,44 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092396CA248
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 13:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C076CA453
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 14:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8F710E398;
-	Mon, 27 Mar 2023 11:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC5C510E5A2;
+	Mon, 27 Mar 2023 12:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630EF10E393
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 11:22:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id BB7C561199;
- Mon, 27 Mar 2023 11:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44692C433EF;
- Mon, 27 Mar 2023 11:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679916139;
- bh=MfaXqWso3QIBbKU04aOPIcZSCSFgqbkHFvgy8vyXGKM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dCGbFiMRrcsCF4d5BnhHDxofSpwYhSHwJCg9WuP5CW/i19USZzZdpBekCQ+KGiTu3
- C0U2Bbwj2Bd9BSM/zg4CNsy9+rIQdYixJX2hq/UGwlmKseDY2dtNI7SAkbdBt/7uxC
- uVAZ2SNJpI8D+LT6b04rbZvNSObGfBiYZeSeNSm6XFe8k072T2EXcHgRVhmQ/ixAha
- AFj5hkXjVgajroE4vIBGYwDB2H7l+x9h2/tnWMpbOdn4kku3HDE+uPrQOT326qISMS
- LsQ5ek88CJMvWMRWE89kV7OOaWP6sd/84id+pxC1llRyJGSlICsWEsOxSZR04uMHYd
- 0Yi+TqG/QXQrA==
-From: Oded Gabbay <ogabbay@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] accel/habanalabs: fix HBM MMU interrupt handling
-Date: Mon, 27 Mar 2023 14:22:10 +0300
-Message-Id: <20230327112210.1287876-3-ogabbay@kernel.org>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230327112210.1287876-1-ogabbay@kernel.org>
-References: <20230327112210.1287876-1-ogabbay@kernel.org>
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D55FD10E5A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 12:44:43 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id x3so35539060edb.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 05:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tessares.net; s=google; t=1679921082;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EKW/tU35UjGEuUF9Mez4H7fZWGcAomPnT3WUqTcOwB8=;
+ b=glqgBSj0rwWYVzccQFPKfUYu5IDeMkUNFZIBmxGr8nrmFA32ZNrdBTM5DUu2qpSXLv
+ Mfo4LtPvpfhIO8obwOsqHhZlR0GD506gc5h7OGcxx5xgkduTJjVtlnkrpeagGFFgoyp2
+ d1cuQqvxMbD/Mce87L+rEUWcPATyTMuab+t9DHVvLAUdFlYlBvzEHQl1CfO6gB5HRYrf
+ 1cR4RCuotDVykuEG2m/fTO/HXu5WRxL3jkji0Xf/AWOnRywfpk+o3DOWC7MZPaTGgLdo
+ dToSihjbS9ns47KyhivkdLSL9xl2cG6kBlkOEx/4lxrfyqAC/pQ40e0ifowVCDFNiNaK
+ 7DrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679921082;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EKW/tU35UjGEuUF9Mez4H7fZWGcAomPnT3WUqTcOwB8=;
+ b=MpbwRZzPRoh1J5om0fo73lk428P4AWZ2SBeaTd2FOyCy+o5MAWzaPjVIXi2T2t9BVc
+ tDZeOzmOVX/IeuV5nEA8OjYnsfBw20SMkfJM/hcMCQpLfqSbYvRBo74ODEQGEGXCxtBR
+ O9YrTcWHHtG88Ydu0MqD5jaW9Pj8ECtEZGVEK8Q/iFY9KJbwCgbGx4HOomWRKFW4Lhxs
+ GjM17U1qzCkeepkh4saWw38i/2t4rmPCVRyzCnZNl+CPWD5u7vcOxHv+Gp2dW9ZzdvLj
+ K+q0vAzcEmjChFmf69AQhkYu1KIXTtHQCtLXfrfpKzK2IdxYSQX0StE4kIWyTAkMhRzc
+ cl9Q==
+X-Gm-Message-State: AAQBX9d+SqAfcrMg4t55VMauJ95xe9gAUwRtMBJBMJdWnFxunzDltTAM
+ 6xoyOoHWG27rLpiC+SeEOgyIdQ==
+X-Google-Smtp-Source: AKy350bdtzCpB1RpTkMzpU+kL/HgZJs5VPsA2ZEf4q+QvtNuRCG23spbWNl2cGsoNjW3ojSIcOXorQ==
+X-Received: by 2002:a17:906:48cb:b0:932:c50e:d6b4 with SMTP id
+ d11-20020a17090648cb00b00932c50ed6b4mr11850596ejt.9.1679921081892; 
+ Mon, 27 Mar 2023 05:44:41 -0700 (PDT)
+Received: from [10.44.2.5] ([81.246.10.41]) by smtp.gmail.com with ESMTPSA id
+ w17-20020a170906b19100b0093fa8c2e877sm2894122ejy.80.2023.03.27.05.44.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 05:44:41 -0700 (PDT)
+Message-ID: <03e4389e-5790-68c5-422f-f128415c2d03@tessares.net>
+Date: Mon, 27 Mar 2023 14:44:41 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/2] checkpatch: allow Closes tags with links
+Content-Language: en-GB
+To: Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>,
+ Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net>
+ <20230314-doc-checkpatch-closes-tag-v2-2-f4a417861f6d@tessares.net>
+ <d24f2eca8f2a858b48ad0e019e58e0e5098be5c3.camel@perches.com>
+From: Matthieu Baerts <matthieu.baerts@tessares.net>
+In-Reply-To: <d24f2eca8f2a858b48ad0e019e58e0e5098be5c3.camel@perches.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,224 +85,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ofir Bitton <obitton@habana.ai>
+Cc: mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ofir Bitton <obitton@habana.ai>
+Hi Joe,
 
-Current mapping between HMMU event and HMMU block is wrong.
-In addition the captured address in case of a page fault or
-an access error is scrambled, Hence we must call the descramble
-function.
+Thank you for the review!
 
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
-Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
-Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
----
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 145 +++++++++++++++++------
- 1 file changed, 108 insertions(+), 37 deletions(-)
+On 24/03/2023 20:13, Joe Perches wrote:
+> On Fri, 2023-03-24 at 19:52 +0100, Matthieu Baerts wrote:
+>> As a follow-up of the previous patch modifying the documentation to
+>> allow using the "Closes:" tag, checkpatch.pl is updated accordingly.
+>>
+>> checkpatch.pl now mentions the "Closes:" tag between brackets to express
+>> the fact it should be used only if it makes sense.
+>>
+>> While at it, checkpatch.pl will not complain if the "Closes" tag is used
+>> with a "long" line, similar to what is done with the "Link" tag.
+>>
+>> Fixes: 76f381bb77a0 ("checkpatch: warn when unknown tags are used for links")
+>> Fixes: d7f1d71e5ef6 ("checkpatch: warn when Reported-by: is not followed by Link:")
+>> Closes: https://github.com/multipath-tcp/mptcp_net-next/issues/373
+>> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+>> ---
+>>  scripts/checkpatch.pl | 16 ++++++++--------
+>>  1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>> index bd44d12965c9..d6376e0b68cc 100755
+>> --- a/scripts/checkpatch.pl
+>> +++ b/scripts/checkpatch.pl
+>> @@ -3158,14 +3158,14 @@ sub process {
+>>  				}
+>>  			}
+>>  
+>> -# check if Reported-by: is followed by a Link:
+>> +# check if Reported-by: is followed by a Link: (or Closes:) tag
+>>  			if ($sign_off =~ /^reported(?:|-and-tested)-by:$/i) {
+>>  				if (!defined $lines[$linenr]) {
+>>  					WARN("BAD_REPORTED_BY_LINK",
+>> -					     "Reported-by: should be immediately followed by Link: to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+>> -				} elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
+>> +					     "Reported-by: should be immediately followed by Link: (or Closes:) to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
+>> +				} elsif ($rawlines[$linenr] !~ m{^(link|closes):\s*https?://}i) {
+> 
+> Please do not use an unnecessary capture group.
+> 
+> 		(?:link|closes)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index bace4ac998e0..ad491fb2c39d 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -2112,6 +2112,7 @@ static bool gaudi2_get_mme_idle_status(struct hl_device *hdev, u64 *mask_arr, u8
- static bool gaudi2_get_edma_idle_status(struct hl_device *hdev, u64 *mask_arr, u8 mask_len,
- 		struct engines_data *e);
- static u64 gaudi2_mmu_scramble_addr(struct hl_device *hdev, u64 raw_addr);
-+static u64 gaudi2_mmu_descramble_addr(struct hl_device *hdev, u64 scrambled_addr);
- 
- static void gaudi2_init_scrambler_hbm(struct hl_device *hdev)
- {
-@@ -8844,7 +8845,7 @@ static int gaudi2_handle_hif_fatal(struct hl_device *hdev, u16 event_type, u64 i
- static void gaudi2_handle_page_error(struct hl_device *hdev, u64 mmu_base, bool is_pmmu,
- 					u64 *event_mask)
- {
--	u32 valid, val, axid_l, axid_h;
-+	u32 valid, val;
- 	u64 addr;
- 
- 	valid = RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_PAGE_ERROR_VALID));
-@@ -8857,11 +8858,11 @@ static void gaudi2_handle_page_error(struct hl_device *hdev, u64 mmu_base, bool
- 	addr <<= 32;
- 	addr |= RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_PAGE_ERROR_CAPTURE_VA));
- 
--	axid_l = RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_PAGE_FAULT_ID_LSB));
--	axid_h = RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_PAGE_FAULT_ID_MSB));
-+	if (!is_pmmu)
-+		addr = gaudi2_mmu_descramble_addr(hdev, addr);
- 
--	dev_err_ratelimited(hdev->dev, "%s page fault on va 0x%llx, transaction id 0x%llX\n",
--				is_pmmu ? "PMMU" : "HMMU", addr, ((u64)axid_h << 32) + axid_l);
-+	dev_err_ratelimited(hdev->dev, "%s page fault on va 0x%llx\n",
-+				is_pmmu ? "PMMU" : "HMMU", addr);
- 	hl_handle_page_fault(hdev, addr, 0, is_pmmu, event_mask);
- 
- 	WREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_PAGE_ERROR_VALID), 0);
-@@ -8882,6 +8883,9 @@ static void gaudi2_handle_access_error(struct hl_device *hdev, u64 mmu_base, boo
- 	addr <<= 32;
- 	addr |= RREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_ERROR_CAPTURE_VA));
- 
-+	if (!is_pmmu)
-+		addr = gaudi2_mmu_descramble_addr(hdev, addr);
-+
- 	dev_err_ratelimited(hdev->dev, "%s access error on va 0x%llx\n",
- 				is_pmmu ? "PMMU" : "HMMU", addr);
- 	WREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_PAGE_ERROR_VALID), 0);
-@@ -8976,46 +8980,110 @@ static int gaudi2_handle_sm_err(struct hl_device *hdev, u16 event_type, u8 sm_in
- 	return error_count;
- }
- 
-+static u64 get_hmmu_base(u16 event_type)
-+{
-+	u8 dcore, index_in_dcore;
-+
-+	switch (event_type) {
-+	case GAUDI2_EVENT_HMMU_0_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU0_SPI_BASE ... GAUDI2_EVENT_HMMU0_SECURITY_ERROR:
-+		dcore = 0;
-+		index_in_dcore = 0;
-+	break;
-+	case GAUDI2_EVENT_HMMU_1_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU1_SPI_BASE ... GAUDI2_EVENT_HMMU1_SECURITY_ERROR:
-+		dcore = 1;
-+		index_in_dcore = 0;
-+	break;
-+	case GAUDI2_EVENT_HMMU_2_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU2_SPI_BASE ... GAUDI2_EVENT_HMMU2_SECURITY_ERROR:
-+		dcore = 0;
-+		index_in_dcore = 1;
-+	break;
-+	case GAUDI2_EVENT_HMMU_3_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU3_SPI_BASE ... GAUDI2_EVENT_HMMU3_SECURITY_ERROR:
-+		dcore = 1;
-+		index_in_dcore = 1;
-+	break;
-+	case GAUDI2_EVENT_HMMU_4_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU4_SPI_BASE ... GAUDI2_EVENT_HMMU4_SECURITY_ERROR:
-+		dcore = 3;
-+		index_in_dcore = 2;
-+	break;
-+	case GAUDI2_EVENT_HMMU_5_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU5_SPI_BASE ... GAUDI2_EVENT_HMMU5_SECURITY_ERROR:
-+		dcore = 2;
-+		index_in_dcore = 2;
-+	break;
-+	case GAUDI2_EVENT_HMMU_6_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU6_SPI_BASE ... GAUDI2_EVENT_HMMU6_SECURITY_ERROR:
-+		dcore = 3;
-+		index_in_dcore = 3;
-+	break;
-+	case GAUDI2_EVENT_HMMU_7_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU7_SPI_BASE ... GAUDI2_EVENT_HMMU7_SECURITY_ERROR:
-+		dcore = 2;
-+		index_in_dcore = 3;
-+	break;
-+	case GAUDI2_EVENT_HMMU_8_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU8_SPI_BASE ... GAUDI2_EVENT_HMMU8_SECURITY_ERROR:
-+		dcore = 0;
-+		index_in_dcore = 2;
-+	break;
-+	case GAUDI2_EVENT_HMMU_9_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU9_SPI_BASE ... GAUDI2_EVENT_HMMU9_SECURITY_ERROR:
-+		dcore = 1;
-+		index_in_dcore = 2;
-+	break;
-+	case GAUDI2_EVENT_HMMU_10_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU10_SPI_BASE ... GAUDI2_EVENT_HMMU10_SECURITY_ERROR:
-+		dcore = 0;
-+		index_in_dcore = 3;
-+	break;
-+	case GAUDI2_EVENT_HMMU_11_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU11_SPI_BASE ... GAUDI2_EVENT_HMMU11_SECURITY_ERROR:
-+		dcore = 1;
-+		index_in_dcore = 3;
-+	break;
-+	case GAUDI2_EVENT_HMMU_12_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU12_SPI_BASE ... GAUDI2_EVENT_HMMU12_SECURITY_ERROR:
-+		dcore = 3;
-+		index_in_dcore = 0;
-+	break;
-+	case GAUDI2_EVENT_HMMU_13_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU13_SPI_BASE ... GAUDI2_EVENT_HMMU13_SECURITY_ERROR:
-+		dcore = 2;
-+		index_in_dcore = 0;
-+	break;
-+	case GAUDI2_EVENT_HMMU_14_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU14_SPI_BASE ... GAUDI2_EVENT_HMMU14_SECURITY_ERROR:
-+		dcore = 3;
-+		index_in_dcore = 1;
-+	break;
-+	case GAUDI2_EVENT_HMMU_15_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU15_SPI_BASE ... GAUDI2_EVENT_HMMU15_SECURITY_ERROR:
-+		dcore = 2;
-+		index_in_dcore = 1;
-+	break;
-+	default:
-+		return ULONG_MAX;
-+	}
-+
-+	return mmDCORE0_HMMU0_MMU_BASE + dcore * DCORE_OFFSET + index_in_dcore * DCORE_HMMU_OFFSET;
-+}
-+
- static int gaudi2_handle_mmu_spi_sei_err(struct hl_device *hdev, u16 event_type, u64 *event_mask)
- {
- 	bool is_pmmu = false;
- 	u32 error_count = 0;
- 	u64 mmu_base;
--	u8 index;
- 
- 	switch (event_type) {
--	case GAUDI2_EVENT_HMMU0_PAGE_FAULT_OR_WR_PERM ... GAUDI2_EVENT_HMMU3_SECURITY_ERROR:
--		index = (event_type - GAUDI2_EVENT_HMMU0_PAGE_FAULT_OR_WR_PERM) / 3;
--		mmu_base = mmDCORE0_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU_0_AXI_ERR_RSP ... GAUDI2_EVENT_HMMU_3_AXI_ERR_RSP:
--		index = (event_type - GAUDI2_EVENT_HMMU_0_AXI_ERR_RSP);
--		mmu_base = mmDCORE0_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU8_PAGE_FAULT_WR_PERM ... GAUDI2_EVENT_HMMU11_SECURITY_ERROR:
--		index = (event_type - GAUDI2_EVENT_HMMU8_PAGE_FAULT_WR_PERM) / 3;
--		mmu_base = mmDCORE1_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU_8_AXI_ERR_RSP ... GAUDI2_EVENT_HMMU_11_AXI_ERR_RSP:
--		index = (event_type - GAUDI2_EVENT_HMMU_8_AXI_ERR_RSP);
--		mmu_base = mmDCORE1_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU7_PAGE_FAULT_WR_PERM ... GAUDI2_EVENT_HMMU4_SECURITY_ERROR:
--		index = (event_type - GAUDI2_EVENT_HMMU7_PAGE_FAULT_WR_PERM) / 3;
--		mmu_base = mmDCORE2_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU_7_AXI_ERR_RSP ... GAUDI2_EVENT_HMMU_4_AXI_ERR_RSP:
--		index = (event_type - GAUDI2_EVENT_HMMU_7_AXI_ERR_RSP);
--		mmu_base = mmDCORE2_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU15_PAGE_FAULT_WR_PERM ... GAUDI2_EVENT_HMMU12_SECURITY_ERROR:
--		index = (event_type - GAUDI2_EVENT_HMMU15_PAGE_FAULT_WR_PERM) / 3;
--		mmu_base = mmDCORE3_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
--		break;
--	case GAUDI2_EVENT_HMMU_15_AXI_ERR_RSP ... GAUDI2_EVENT_HMMU_12_AXI_ERR_RSP:
--		index = (event_type - GAUDI2_EVENT_HMMU_15_AXI_ERR_RSP);
--		mmu_base = mmDCORE3_HMMU0_MMU_BASE + index * DCORE_HMMU_OFFSET;
-+	case GAUDI2_EVENT_HMMU_0_AXI_ERR_RSP ... GAUDI2_EVENT_HMMU_12_AXI_ERR_RSP:
-+	case GAUDI2_EVENT_HMMU0_SPI_BASE ... GAUDI2_EVENT_HMMU12_SECURITY_ERROR:
-+		mmu_base = get_hmmu_base(event_type);
- 		break;
-+
- 	case GAUDI2_EVENT_PMMU0_PAGE_FAULT_WR_PERM ... GAUDI2_EVENT_PMMU0_SECURITY_ERROR:
- 	case GAUDI2_EVENT_PMMU_AXI_ERR_RSP_0:
- 		is_pmmu = true;
-@@ -9025,6 +9093,9 @@ static int gaudi2_handle_mmu_spi_sei_err(struct hl_device *hdev, u16 event_type,
- 		return 0;
- 	}
- 
-+	if (mmu_base == ULONG_MAX)
-+		return 0;
-+
- 	error_count = gaudi2_handle_mmu_spi_sei_generic(hdev, event_type, mmu_base,
- 							is_pmmu, event_mask);
- 	hl_check_for_glbl_errors(hdev);
+Good point, thank you, that will be in the v3.
+
+> And because it's somewhat likely that _more_ of these keywords
+> could be added, perhaps use some array like deprecated_apis
+
+I can but from the discussions we had on the v1, it looks unlikely to me
+that more of these keywords will be allowed (if this one already ends up
+being accepted :) ). Strangely, we might not even want to make it easy
+to add new tags.
+
+But I'm fine to change that in the v3 if you prefer to have an array here.
+
+Cheers,
+Matt
 -- 
-2.40.0
-
+Tessares | Belgium | Hybrid Access Solutions
+www.tessares.net
