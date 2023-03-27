@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA2E6CA246
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 13:22:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054D06CA247
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 13:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F68110E36E;
-	Mon, 27 Mar 2023 11:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2853010E370;
+	Mon, 27 Mar 2023 11:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB1910E36E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 11:22:17 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5AC610E370
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 11:22:20 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CAAC16118E;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 10AF9B80ED0;
+ Mon, 27 Mar 2023 11:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6130C4339B;
  Mon, 27 Mar 2023 11:22:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5549EC433EF;
- Mon, 27 Mar 2023 11:22:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1679916136;
- bh=hghkGDUeNX0ZzOZaT0ZYGQIwBZM+Djuo3kOAOr3hlHY=;
- h=From:To:Cc:Subject:Date:From;
- b=j+hFa5tI179mqFEGB5qBm5f8Ho0A5MkTRtY1+L4PYf7wbWgrconAB2bNsV3IO2c5Y
- Pm1g/ryoiqOKQR1N5ZwjPqhyRC4pWG6hQ4oEOuvTaYkJ8r3FoZsN07ayuOScHyTFjz
- gYR3dhp/xMzKj15kWNdY79ULf7tWJ0/xp9oAq88fLAXu1XYFXa5Kg39tin6UsN3OMW
- ucDH4FbP3XPqcL/Psxjhw/c+cWdTvITSPtfuBbivaWJfrD/megHfjzrc7S5bb/63lc
- DIR/WEjoWz1ifLTZfRF0nfYEOzHQGBzokpyK74tYHRZ4gY4cLH5CWtGqOughB9qWRI
- ZSFRKu7ztoS3A==
+ s=k20201202; t=1679916137;
+ bh=vzlEepKDdCiToohMlBQ95g4dDfsTX/0Ak6UqP+gY0/E=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Fbz4kKSOXDmYfxZKYd70i1gHBUDx9uIBuF4a3Q0tILfcUIA8222nwPx4TKcL6vd2Y
+ ThDNABG9yPxFS5Zf4snm9dk7PkNlxbuTFD6KuBzujvkYJ29Av0oerg7ureGwueRbXn
+ GO81eTpGLiqXTTmf2RaiYNhnwOLST0XVB4BvPdF7Al24ctNQ5XnBaRGK8gilfk+XYs
+ KtTuPLI+SMAwcJsrHyyiwVQlc6uqXuidIOiY2h224BFFQYopvbCzqt33Np4dRiFTTn
+ DcROnol7Ij7Y+SYkQ37f0M7rtOhpzIn7xJl56FOiUQNN7EJj9HNeUIye1HxRaJryQJ
+ bkImhjs23Nafw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] accel/habanalabs: fix access error clear event
-Date: Mon, 27 Mar 2023 14:22:08 +0300
-Message-Id: <20230327112210.1287876-1-ogabbay@kernel.org>
+Subject: [PATCH 2/3] accel/habanalabs: improvements to FW ver extraction
+Date: Mon, 27 Mar 2023 14:22:09 +0300
+Message-Id: <20230327112210.1287876-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230327112210.1287876-1-ogabbay@kernel.org>
+References: <20230327112210.1287876-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,35 +51,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dani Liberman <dliberman@habana.ai>
+Cc: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dani Liberman <dliberman@habana.ai>
+From: Dafna Hirschfeld <dhirschfeld@habana.ai>
 
-The register which needs to be cleared is the valid register instead
-of the address.
+1. Rename the func to hl_get_preboot_major_minor because we also set
+   the extracted values in hdev fields.
 
-Signed-off-by: Dani Liberman <dliberman@habana.ai>
+2. Free the allocated string in the calling function which makes more
+   sense
+
+Signed-off-by: Dafna Hirschfeld <dhirschfeld@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/accel/habanalabs/common/firmware_if.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index edcbda3d9b40..bace4ac998e0 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -8884,7 +8884,7 @@ static void gaudi2_handle_access_error(struct hl_device *hdev, u64 mmu_base, boo
- 
- 	dev_err_ratelimited(hdev->dev, "%s access error on va 0x%llx\n",
- 				is_pmmu ? "PMMU" : "HMMU", addr);
--	WREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_ERROR_CAPTURE), 0);
-+	WREG32(mmu_base + MMU_OFFSET(mmDCORE0_HMMU0_MMU_ACCESS_PAGE_ERROR_VALID), 0);
+diff --git a/drivers/accel/habanalabs/common/firmware_if.c b/drivers/accel/habanalabs/common/firmware_if.c
+index 96027a1c124d..781256dd49ad 100644
+--- a/drivers/accel/habanalabs/common/firmware_if.c
++++ b/drivers/accel/habanalabs/common/firmware_if.c
+@@ -71,7 +71,7 @@ static char *extract_fw_ver_from_str(const char *fw_str)
+ 	return NULL;
  }
  
- static int gaudi2_handle_mmu_spi_sei_generic(struct hl_device *hdev, u16 event_type,
+-static int extract_fw_sub_versions(struct hl_device *hdev, char *preboot_ver)
++static int hl_get_preboot_major_minor(struct hl_device *hdev, char *preboot_ver)
+ {
+ 	char major[8], minor[8], *first_dot, *second_dot;
+ 	int rc;
+@@ -86,7 +86,7 @@ static int extract_fw_sub_versions(struct hl_device *hdev, char *preboot_ver)
+ 
+ 	if (rc) {
+ 		dev_err(hdev->dev, "Error %d parsing preboot major version\n", rc);
+-		goto out;
++		return rc;
+ 	}
+ 
+ 	/* skip the first dot */
+@@ -102,9 +102,6 @@ static int extract_fw_sub_versions(struct hl_device *hdev, char *preboot_ver)
+ 
+ 	if (rc)
+ 		dev_err(hdev->dev, "Error %d parsing preboot minor version\n", rc);
+-
+-out:
+-	kfree(preboot_ver);
+ 	return rc;
+ }
+ 
+@@ -2181,8 +2178,8 @@ static int hl_fw_dynamic_read_device_fw_version(struct hl_device *hdev,
+ 
+ 			dev_info(hdev->dev, "preboot version %s\n", preboot_ver);
+ 
+-			/* This function takes care of freeing preboot_ver */
+-			rc = extract_fw_sub_versions(hdev, preboot_ver);
++			rc = hl_get_preboot_major_minor(hdev, preboot_ver);
++			kfree(preboot_ver);
+ 			if (rc)
+ 				return rc;
+ 		}
 -- 
 2.40.0
 
