@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0378B6CB27D
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:35:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D29D46CB27F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D8A10E7C3;
-	Mon, 27 Mar 2023 23:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E145B10E7B6;
+	Mon, 27 Mar 2023 23:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7835F10E7C1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 23:35:10 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id bi31so7682908oib.9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:35:10 -0700 (PDT)
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24CF510E7B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 23:35:20 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id r16so7610897oij.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1679960109;
+ d=usp.br; s=usp-google; t=1679960120;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yAF560UdJX0GEGh8pB1EAaLbRBoRHEw96H0zayNQKjc=;
- b=s5BGJnAq7jaEqaXyIrghhFPGN9hy259iqKpXXpXaLj6L2JgntWwWRT6UwzgFlL+a6W
- br0qVZmkEWUZydrOQC4RCcT08aprE/usdIisKmADVQTJWZ9gkn3qOoRxa6xH/VwZdZYd
- H6xJ8snIaCAxI8OR/2rpEpjvQxq4fo8hn1T+N4L/9gP+EFRzPFNqq40G34MBOLW5+ltB
- xJiKW4lWmTocpeyGW60GYjyY67U9OI3/VgY814ZUnRKxgLIgyQ9UbU9XRVQF4vEaidER
- SQpbiRtTQMZRqidHy2/13vqKJSjrBZDDVKUU5qEqOj/9JRRRZkVpXovfI+KwpabwKJ9B
- yg2Q==
+ bh=DIwazwlkbXfr/mhs4ygPSCHkxMgXqhz2v9oIbK7e01k=;
+ b=TTy7nMwv8iMo9KYVcMt30TmODMyElVifkej9lEeLYbHgK0TUC3YmQlbcg+Xo46YJmz
+ PYiDPL6xk4c/s7E6SmIBKoazamO9F5A6s5w8jMtY+oTyZhW3eEnO100xmx22j7SDJZtP
+ 6VsCIUno/jksYrlZ4XP3qSFj9Rm6alVqr8qpzlU9CFbwS4sL9mfnoIPXpCJolwmgjbec
+ FqTmiiFznHEg0Ddqp6e4A3sJMsba+tXsBaNtiwGKtPEAF0nk1OARrZNSGtGNt0fS4gbn
+ 9S1YXKcidghXj5K610oyihoMZCyGAk9I/eY8AXEE+1iuCHHW2VWqcqvzcS54KAC10+rI
+ MiEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679960109;
+ d=1e100.net; s=20210112; t=1679960120;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yAF560UdJX0GEGh8pB1EAaLbRBoRHEw96H0zayNQKjc=;
- b=vHkZBzv9bFCEwh1zCq5IgWXwa/fs2UtZZjXNYHdq+tDU1e4niG5G5HZ+VILZpnIUAi
- tCaKOF81OOqDC9HMS19EEKk2Gc++R1gXNxF/yb2aW1NQT8aw1AqjgAVMWK6yKJayTOy5
- bI0nFgpztG1hY6dUyam1n3b3q4j/7Fp832gZCknVJEpXPiJG+7xh063U7nHV1AAy9Muz
- k12a4GhpTTxXhFwVo3zHrKUgj9DHu1aXxp7ssUTt3Bc7l/FNYBBYLewUobiZ11+L871G
- 6AmklxENZflsoldoqv0wXxpNKdXqk9gxVFBlFPswwlH2Eu5kF2U5VJHVahIXxiTXMU5I
- otkw==
-X-Gm-Message-State: AAQBX9f9+F6lWGZqjRlUX6pKn1eVj3/PB3PpdAu+TIjgE2Iq5IBAUoWO
- zBmK/1y2vXZsz6nLm7Bi5620+g==
-X-Google-Smtp-Source: AKy350aHN1ssxfd7wdlDmSEKxo8G+lYPHr4FVFNdyq/GmsDYlksjWmJHcmWgoxbY/wLtygfAH8HgwA==
-X-Received: by 2002:a05:6808:9b3:b0:389:545c:a95f with SMTP id
- e19-20020a05680809b300b00389545ca95fmr5474oig.42.1679960109737; 
- Mon, 27 Mar 2023 16:35:09 -0700 (PDT)
+ bh=DIwazwlkbXfr/mhs4ygPSCHkxMgXqhz2v9oIbK7e01k=;
+ b=5xeQjuy/pais8JTYoyFsVxK34UJ4GELfxzX9MKCdgI8xHxu68SDE5RpBzGjlBtZRu8
+ rXWlaRd9v0GLOUZn/eAw+LPDeqXhzEwpHYMKYnfFUbi/NnWO13LjW7mfc5TIL5WSwJo6
+ aJygwcxTKFqirzxHEICI9wo08tLg3fd2eqppjFmu+x4eiFCX9oqG5xm/dtcloUK7TiPh
+ 53f2yDYyZTW6nldhuFuNgEa1wMKYh31wiUMbddA2ONT4q7xNzlJxlgLOVdZ/xsIb/oda
+ 07t972AN/R2OWB/4d7LwTCbDjdCipra+4JNqLlrWWFh3E6toTA2SXOTo0zQKFuNfof3z
+ Q+HQ==
+X-Gm-Message-State: AAQBX9fazoABaLySTvMOtYYsjkZ39m1OoxmC4uz3FtuB72Oheb2lJ4GB
+ iEdF/CvLuh67FrOLsi+xCi7yUg==
+X-Google-Smtp-Source: AKy350aybt0Fe2KHw7h4hdkKAaCWXQkSMi8faLZ2/V9VaQBsYk7eWBNPEMr15jlKWRpkhkGERzjJYw==
+X-Received: by 2002:a05:6808:21a0:b0:388:edc5:3373 with SMTP id
+ be32-20020a05680821a000b00388edc53373mr5891957oib.14.1679960119763; 
+ Mon, 27 Mar 2023 16:35:19 -0700 (PDT)
 Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
  by smtp.gmail.com with ESMTPSA id
- b186-20020aca34c3000000b00389295e8424sm1643409oia.45.2023.03.27.16.34.59
+ b186-20020aca34c3000000b00389295e8424sm1643409oia.45.2023.03.27.16.35.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 16:35:09 -0700 (PDT)
+ Mon, 27 Mar 2023 16:35:19 -0700 (PDT)
 From: Caio Novais <caionovais@usp.br>
 To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 06/12] drm/amd/display: Remove unused variable
- 'mc_vm_apt_default'
-Date: Mon, 27 Mar 2023 20:33:47 -0300
-Message-Id: <20230327233353.64081-7-caionovais@usp.br>
+Subject: [PATCH 07/12] drm/amd/display: Remove unused variable 'optc'
+Date: Mon, 27 Mar 2023 20:33:48 -0300
+Message-Id: <20230327233353.64081-8-caionovais@usp.br>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230327233353.64081-1-caionovais@usp.br>
 References: <20230327233353.64081-1-caionovais@usp.br>
@@ -106,34 +105,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Compiling AMD GPU drivers displays a warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hubp.c: In function ‘hubp3_set_vm_system_aperture_settings’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hubp.c:50:30: warning: variable ‘mc_vm_apt_default’ set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c: In function ‘dcn30_enable_writeback’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c:326:34: warning: variable ‘optc’ set but not used [-Wunused-but-set-variable]
 
 Get rid of it by removing the variable.
 
 Signed-off-by: Caio Novais <caionovais@usp.br>
 ---
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
-index dc3e8df706b3..e46bbe7ddcc9 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hubp.c
-@@ -47,13 +47,9 @@ void hubp3_set_vm_system_aperture_settings(struct hubp *hubp,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+index 3b4d4d68359b..6ef85e71380c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+@@ -323,13 +323,10 @@ void dcn30_enable_writeback(
  {
- 	struct dcn20_hubp *hubp2 = TO_DCN20_HUBP(hubp);
+ 	struct dwbc *dwb;
+ 	struct mcif_wb *mcif_wb;
+-	struct timing_generator *optc;
  
--	PHYSICAL_ADDRESS_LOC mc_vm_apt_default;
- 	PHYSICAL_ADDRESS_LOC mc_vm_apt_low;
- 	PHYSICAL_ADDRESS_LOC mc_vm_apt_high;
+ 	dwb = dc->res_pool->dwbc[wb_info->dwb_pipe_inst];
+ 	mcif_wb = dc->res_pool->mcif_wb[wb_info->dwb_pipe_inst];
  
--	// The format of default addr is 48:12 of the 48 bit addr
--	mc_vm_apt_default.quad_part = apt->sys_default.quad_part >> 12;
--
- 	// The format of high/low are 48:18 of the 48 bit addr
- 	mc_vm_apt_low.quad_part = apt->sys_low.quad_part >> 18;
- 	mc_vm_apt_high.quad_part = apt->sys_high.quad_part >> 18;
+-	/* set the OPTC source mux */
+-	optc = dc->res_pool->timing_generators[dwb->otg_inst];
+ 	DC_LOG_DWB("%s dwb_pipe_inst = %d, mpcc_inst = %d",\
+ 		__func__, wb_info->dwb_pipe_inst,\
+ 		wb_info->mpcc_inst);
 -- 
 2.40.0
 
