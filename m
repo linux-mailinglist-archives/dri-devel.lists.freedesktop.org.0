@@ -2,70 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275076C9C03
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 09:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360B26C9C30
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 09:35:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE6110E23B;
-	Mon, 27 Mar 2023 07:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D83910E222;
+	Mon, 27 Mar 2023 07:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C03B10E23B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 07:30:33 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id h8so31831284ede.8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 00:30:33 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3317810E222
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 07:35:25 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id d17so7578964wrb.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 00:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679902232;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bTfaKKskPdyIPMxQE6a/OZWVaFKrOdK1xEfW52CBCmM=;
- b=Y9GsxCv7G6E0p6ZvWk21C73fKAs9IBGpMh/FZN6ZSAJ7D1/Me94re24lqWoczuW+KN
- X9YW++uh7j7DBBxGWHbn1JSvcZlwmucYoIsMkI6NCl/Y4cC0IRfFcShS7cEI5IrQ4Z0v
- Uc/cRIPuPnetg1MUX2dnHtaGYv42uR/G4YTasBVIgZ/MjmRZc+1VydR4Mdl8m4S1N54p
- JcAl1GzIND3r4bG4wxLdBZ2VA6WLOKc5KJoCXHWQXrgR6M9enYzxwqPFS0r2vx79BBJ0
- v/E8sQjV3dVddrnyy+fu5W1+lT06VkOaVyaB4HPXzo4Zw/ADExuPzpOG48LmabvljdTh
- 89tg==
+ d=linaro.org; s=google; t=1679902523;
+ h=content-transfer-encoding:in-reply-to:organization:references:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=hUUIlCCSusXuIUbK8ao9/l+7rjKJGKXCAR4GRUaMd3w=;
+ b=zAGlj0HG92BQp2NQn/qoGG/XU8I2x7Ca45RcIIPMDDdCh5UJtDWUcjcqzfp9AMvXir
+ O9HvO/+RonfIqMR3VTJG0RBQqoKlaOSs4p8ImoRzxGa004AjIyBFOR7FfnQ5ua6aJqqk
+ 0mdzytGYEBb7qUUi7uD898bPJ6fcXR2suwFH7Ilbs5Erw8KuB1JOk1M//M/VJEljLinX
+ SrDUckFCqQnarOASQTLNK3flN553o1cU99NuDauPENjkaibRl8+LRX04L9DaiBuRUupr
+ j+EDvu+qfrc11gij0Wb6a0/c7um2fgBxCmM0u98Nrs3xsbQ97zY3a1P1AjQeL4X6jCh1
+ Xn5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679902232;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bTfaKKskPdyIPMxQE6a/OZWVaFKrOdK1xEfW52CBCmM=;
- b=3hEWckP1j/+Jf4GNU5PkaIXaS/1RYQbyW+OgaqMc1B/Ea/bo3dusYbyc7CnSJi6bzQ
- cU2I9a0OXcmlChA/WUpYF2d6jeEaXblX4+78Co5N41OEf10EF29f286qSeYG0R/ctnjo
- zOUSvMeV4bYiawi5dgSAJPrgMY4HBzSAL4jEjj5K4ejmrBdhE2QWAL7UWKHj+bkKu+CK
- ZnqOuipOWabjBjANmjyrBkx9SlQuUt5rjcHTbSzu6zjsC+a1X3zZmMmUmGOz77bgT+np
- IyJe9MzjOAUUiOgDEFI9vwDV3KC6/S8sMKDH8rAFAqy0bxrRHeVnehC+7P1tX79tJ5uk
- gsNg==
-X-Gm-Message-State: AAQBX9dhBgtu6P4yldlZ5KzVilDz5T5MIRvOqTBMafOgKQvpGY4SpO+L
- irE246jjGK0Pe8N2Pg/LQBnXhQ==
-X-Google-Smtp-Source: AKy350Yvk9Mfe+tV1ogObK7tgapZ69mC+Nui/Iefyic1/6+fRuWcWMqgZeHzROZdMnS4Sb/micJxnQ==
-X-Received: by 2002:a17:906:2ecd:b0:931:636e:de5a with SMTP id
- s13-20020a1709062ecd00b00931636ede5amr11164773eji.31.1679902231990; 
- Mon, 27 Mar 2023 00:30:31 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:198e:c1a5:309b:d678?
- ([2a02:810d:15c0:828:198e:c1a5:309b:d678])
+ d=1e100.net; s=20210112; t=1679902523;
+ h=content-transfer-encoding:in-reply-to:organization:references:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hUUIlCCSusXuIUbK8ao9/l+7rjKJGKXCAR4GRUaMd3w=;
+ b=p+PEhHZT07fDHxanOoW8oK2E1HxkkcdfP8FCrJQ3oweq7133KT7wU1ajtfO1/T5weB
+ 1czbK4Nv4HprdX9w7TS4STe1HOUnAzja9mWVzt6y2Sl8YHTv81MoOQxe1fyxyWHgSycN
+ yvmRP1h19ago7c7W2jpRH6jEECR35GTTyAn1Cm5ivy/nA8zvv6QfpIGe9roXRZ4U5IQe
+ XuIp54SdU+87OM3HvP6E8p5EGzs5XjNY5hX3O4GELfyptvaAcuV2x/T2bNEnJIzPDi1l
+ tIaqqOieBvz3jKJ1wHyJWx8lmpbRRPy+QHejL5rKiCPNmqmTbbumAK3LdhlJpny9Ub+H
+ KLBg==
+X-Gm-Message-State: AAQBX9ddgkQRLjAajRs58fuZmlif3z1M6pQKCW4KxPgvdW5ngpJLm6vV
+ BQ9pnRweT4/vgv4/Dp3i5aYP+Q==
+X-Google-Smtp-Source: AKy350basepWyA7cJrWSHJE4h50ml/pm16/tEY+oV7GILd+6++p2mht+ak9fMFA0pA/bKmZtL9VWTA==
+X-Received: by 2002:adf:eb8c:0:b0:2ce:a8e9:bb3a with SMTP id
+ t12-20020adfeb8c000000b002cea8e9bb3amr7887211wrn.4.1679902523399; 
+ Mon, 27 Mar 2023 00:35:23 -0700 (PDT)
+Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- ia9-20020a170907a06900b00932b3e2c015sm12887688ejc.51.2023.03.27.00.30.31
+ n1-20020a5d67c1000000b002cfe685bfd6sm24329945wrw.108.2023.03.27.00.35.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 00:30:31 -0700 (PDT)
-Message-ID: <e27b4c0f-0cde-ecbd-c387-6098c39d0f02@linaro.org>
-Date: Mon, 27 Mar 2023 09:30:30 +0200
+ Mon, 27 Mar 2023 00:35:23 -0700 (PDT)
+Message-ID: <502597c6-3e8d-0a63-b81e-8011ffdfae43@linaro.org>
+Date: Mon, 27 Mar 2023 09:35:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 RESEND 1/2] dt-bindings: gpu: mali-bifrost: Document
- nvmem for speedbin support
+ Thunderbird/102.8.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/6] dt-bindings: display: panel-simple: merge Innolux
+ p120zdg-bf1
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- airlied@gmail.com
-References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
- <20230323090822.61766-2-angelogioacchino.delregno@collabora.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230323090822.61766-2-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Michael Srba <Michael.Srba@seznam.cz>,
+ Harigovindan P <harigovi@codeaurora.org>,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230326155425.91181-1-krzysztof.kozlowski@linaro.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230326155425.91181-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,23 +87,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- wenst@chromium.org, kernel@collabora.com
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/03/2023 10:08, AngeloGioacchino Del Regno wrote:
-> Some SoCs implementing ARM Mali GPUs may be subject to speed binning
-> and the usable bin is read from nvmem: document the addition of nvmem
-> and nvmem-cells for 'speed-bin'.
+On 26/03/2023 17:54, Krzysztof Kozlowski wrote:
+> There is nothing special in Innolux p120zdg-bf1 panel, so just like
+> other Innolux panels it can be made part of panel-simple.
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>   .../display/panel/innolux,p120zdg-bf1.yaml    | 43 -------------------
+>   .../bindings/display/panel/panel-simple.yaml  |  2 +
+>   2 files changed, 2 insertions(+), 43 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml
+> 
 
+<snip>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
