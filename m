@@ -1,50 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927B36C9EAC
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 10:55:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CA96CA080
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 11:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F9A910E33B;
-	Mon, 27 Mar 2023 08:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8334910E0F9;
+	Mon, 27 Mar 2023 09:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 636 seconds by postgrey-1.36 at gabe;
- Mon, 27 Mar 2023 08:55:08 UTC
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB0010E338;
- Mon, 27 Mar 2023 08:55:08 +0000 (UTC)
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1679906669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=2sySZtQBfq4L19gj/4gjZ3ggLK9raMfJSFg59Wjh2eU=;
- b=PC1Fc8oyBCQtNOG/RnSIyDobcxaq7sMrCF1hF+CwvZPusMXk3D5P/LTBXewhtj7bNe4fVB
- S7EyLoO+7d5gI/uO00+66r0SOEQ1nvCEANuJ3QPNHhB1WQ96YZ5z9EKnR5qVFMBanGbqDX
- rvW0Tz3EeCoqCROjgXWGVnYMcsU1cpwl67gLTxd1FvsxFg/1kEnnte8u6Z0KGd9muZyi/p
- cfPp6HueDZ4WUX+WIqBS54k7cL2jSfiPitT3sIxEjRcVJk4GOGbcHDmJiyFSZ7wlrK64Zi
- f3M8F42H3SCSM4HvI8cKlYKKxFSyjX8WThZMnvyc2ERzcYAmjtxg/snBuNML9Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1679906669;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=2sySZtQBfq4L19gj/4gjZ3ggLK9raMfJSFg59Wjh2eU=;
- b=2Ow1ZUN2AJU6ec7XoFSU8BgyUDtigL8sf39ypFZkE/5U6DU1vxTwZ+GirXQ594h0jEES5u
- aVhREx4DPqz5lNBw==
-To: Tanmay Bhushan <007047221b@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, =?utf-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/nouveau: Fix bug in buffer relocs for Nouveau
-In-Reply-To: <20230119225351.71657-1-007047221b@gmail.com>
-Date: Mon, 27 Mar 2023 10:48:48 +0206
-Message-ID: <87r0taa8l3.fsf@jogness.linutronix.de>
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAED10E0F9
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 09:51:41 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l8-20020a05600c1d0800b003ef6708bbf6so2736712wms.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 02:51:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1679910699;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=dw1LG5rTwzXDNL719AXv6z2juGi0Us5LowRhvnwewB0=;
+ b=kBrMSQqq20FQ8JmCbP6Cyj+53eKtSRwcXx7Etlok1GpZOMIY3IE58Une9sS2qzEa9j
+ O4ZwXFGVniMDt35DmuHTKZmLrcUpyD0eUHCCROsY7Nn15E8kQ4KwojUMpDZ89JLiW62z
+ o/s7mG/7JnnOdQfuu30EIv/op/KuXdOAvOt8T1PgEGE0P+QlOUbOCuq9GCGkNKVQ6OdI
+ qyiSyu43O0lIoF5EjkzFUx5YpYPyvCjS+6ERcVBSdxMR0T00t9TRdLqc9WpGO83Y11/y
+ EPH6eNpfDBaQcQDAH5vcoBxe61L9237RHoBOMT5lkbT54ZcrFkFuhC2EERYHPqcRsHir
+ Dubw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1679910699;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dw1LG5rTwzXDNL719AXv6z2juGi0Us5LowRhvnwewB0=;
+ b=wU3rxgTITFJiVUZCzgF2XCIMoFFxnglUae6nPEaPQo7p/hv8dH54ehG3SktVr4JqYR
+ OwCWdYFekSLALlMy9Io4k1M815nFTsFaeNqI/WuLJhItC8/40PY6Z/gJKtXnDDe9r8xd
+ ufFOI6F3M+C/EkmQq+BRle4vqos6E9V2NrVjeBd/AuvaPHCH9xLVGsoI72m7Q/a/YoWk
+ VHNEHp7b0+BDpFmnCLGKD2LuhZAtg5DVlncOueu1xlBxtHdt3cVTX4yooOaOrpR5gs81
+ 6olarQwYfRn80AdTh/AFNIUlXGNusxkQ2Q4ELpUqwfZ0Me1NzH+wvj3+AsCuy6NGunDn
+ ovYQ==
+X-Gm-Message-State: AO0yUKV4g4eRq8N+s8VvT+QbCYXd+NunCovrLs5c/ihARX35CTzM0FTr
+ 3bjzy1Ict+8iZt2eNOsC8pB4Nw==
+X-Google-Smtp-Source: AK7set9PTgYDLsWSJMNeDj7o6fKvEl3jbnzCS+KtCELb+XLUymSkPmbCAVdFg+d634ftJfVGiIgmFw==
+X-Received: by 2002:a7b:c008:0:b0:3eb:f59f:6daf with SMTP id
+ c8-20020a7bc008000000b003ebf59f6dafmr8835221wmb.34.1679910699586; 
+ Mon, 27 Mar 2023 02:51:39 -0700 (PDT)
+Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
+ by smtp.gmail.com with ESMTPSA id
+ r12-20020a05600c458c00b003ee1acdaf95sm8327789wmo.36.2023.03.27.02.51.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Mar 2023 02:51:39 -0700 (PDT)
+Message-ID: <9fb414cc-fa4d-417e-7cad-111921595ef6@linaro.org>
+Date: Mon, 27 Mar 2023 11:51:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/bridge: it6505: Add range and selector_reg
+Content-Language: en-US
+To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>
+References: <20230327044804.3657551-1-hsinyi@chromium.org>
+Organization: Linaro Developer Services
+In-Reply-To: <20230327044804.3657551-1-hsinyi@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,92 +79,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tanmay Bhushan <007047221b@gmail.com>
+Reply-To: neil.armstrong@linaro.org
+Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ kenneth.hung@ite.corp-partner.google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2023-01-19, Tanmay Bhushan <007047221b@gmail.com> wrote:
-> dma_resv_wait_timeout returns greater than zero on success
-> as opposed to ttm_bo_wait_ctx. As a result of that relocs
-> will fail and give failure even when it was a success.
+On 27/03/2023 06:48, Hsin-Yi Wang wrote:
+> There are 2 banks on it6505, and when writing to different bank,
+> REG_BANK_SEL needs to be set to the targeted bank. The current code set
+> this additionally, which causes a race condition when a process is
+> writing bank 0 registers while another process set the bank to 1. Set
+> ranges in regmap config so the regmap API would handle the bank changes.
+> 
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 
-Today I switched my workstation from 6.2 to 6.3-rc3 and started seeing
-lots of new kernel messages:
+It's aligned on how we did on it66121
 
-[  642.138313][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc wait_idle failed: 1500
-[  642.138389][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc apply: 1500
-[  646.123490][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc wait_idle failed: 1500
-[  646.123573][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc apply: 1500
 
-The graphics seemed to go slower or hang a bit when these messages would
-appear. I then found your patch! However, I have some comments about it.
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-First, it should include a fixes tag:
-
-Fixes: 41d351f29528 ("drm/nouveau: stop using ttm_bo_wait")
-
-> Signed-off-by: Tanmay Bhushan <007047221b@gmail.com>
 > ---
->  drivers/gpu/drm/nouveau/nouveau_gem.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> index f77e44958037..0e3690459144 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
-> @@ -706,9 +706,8 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
->  		ret = dma_resv_wait_timeout(nvbo->bo.base.resv,
->  					    DMA_RESV_USAGE_BOOKKEEP,
->  					    false, 15 * HZ);
-> -		if (ret == 0)
-> +		if (ret <= 0) {
->  			ret = -EBUSY;
+>   drivers/gpu/drm/bridge/ite-it6505.c | 34 +++++++++++++++++++----------
+>   1 file changed, 23 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+> index bc451b2a77c28..abaf6e23775eb 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> @@ -258,12 +258,12 @@
+>   #define REG_AUD_INFOFRAM_SUM 0xFB
+>   
+>   /* the following six registers are in bank1 */
+> -#define REG_DRV_0_DB_800_MV 0x7E
+> -#define REG_PRE_0_DB_800_MV 0x7F
+> -#define REG_PRE_3P5_DB_800_MV 0x81
+> -#define REG_SSC_CTRL0 0x88
+> -#define REG_SSC_CTRL1 0x89
+> -#define REG_SSC_CTRL2 0x8A
+> +#define REG_DRV_0_DB_800_MV 0x17E
+> +#define REG_PRE_0_DB_800_MV 0x17F
+> +#define REG_PRE_3P5_DB_800_MV 0x181
+> +#define REG_SSC_CTRL0 0x188
+> +#define REG_SSC_CTRL1 0x189
+> +#define REG_SSC_CTRL2 0x18A
+>   
+>   #define RBR DP_LINK_BW_1_62
+>   #define HBR DP_LINK_BW_2_7
+> @@ -489,7 +489,7 @@ static const struct it6505_audio_sample_rate_map audio_sample_rate_map[] = {
+>   };
+>   
+>   static const struct regmap_range it6505_bridge_volatile_ranges[] = {
+> -	{ .range_min = 0, .range_max = 0xFF },
+> +	{ .range_min = 0, .range_max = 0x1FF },
+>   };
+>   
+>   static const struct regmap_access_table it6505_bridge_volatile_table = {
+> @@ -497,11 +497,27 @@ static const struct regmap_access_table it6505_bridge_volatile_table = {
+>   	.n_yes_ranges = ARRAY_SIZE(it6505_bridge_volatile_ranges),
+>   };
+>   
+> +static const struct regmap_range_cfg it6505_regmap_banks[] = {
+> +	{
+> +		.name = "it6505",
+> +		.range_min = 0x00,
+> +		.range_max = 0x1FF,
+> +		.selector_reg = REG_BANK_SEL,
+> +		.selector_mask = 0x1,
+> +		.selector_shift = 0,
+> +		.window_start = 0x00,
+> +		.window_len = 0x100,
+> +	},
+> +};
+> +
+>   static const struct regmap_config it6505_regmap_config = {
+>   	.reg_bits = 8,
+>   	.val_bits = 8,
+>   	.volatile_table = &it6505_bridge_volatile_table,
+>   	.cache_type = REGCACHE_NONE,
+> +	.ranges = it6505_regmap_banks,
+> +	.num_ranges = ARRAY_SIZE(it6505_regmap_banks),
+> +	.max_register = 0x1FF,
+>   };
+>   
+>   static int it6505_read(struct it6505 *it6505, unsigned int reg_addr)
+> @@ -1267,7 +1283,6 @@ static void it6505_init(struct it6505 *it6505)
+>   	it6505_write(it6505, REG_TIME_STMP_CTRL,
+>   		     EN_SSC_GAT | EN_ENHANCE_VID_STMP | EN_ENHANCE_AUD_STMP);
+>   	it6505_write(it6505, REG_INFOFRAME_CTRL, 0x00);
+> -	it6505_write(it6505, REG_BANK_SEL, 0x01);
+>   	it6505_write(it6505, REG_DRV_0_DB_800_MV,
+>   		     afe_setting_table[it6505->afe_setting][0]);
+>   	it6505_write(it6505, REG_PRE_0_DB_800_MV,
+> @@ -1277,7 +1292,6 @@ static void it6505_init(struct it6505 *it6505)
+>   	it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
+>   	it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
+>   	it6505_write(it6505, REG_SSC_CTRL2, 0x42);
+> -	it6505_write(it6505, REG_BANK_SEL, 0x00);
+>   }
+>   
+>   static void it6505_video_disable(struct it6505 *it6505)
+> @@ -1506,11 +1520,9 @@ static void it6505_setup_ssc(struct it6505 *it6505)
+>   	it6505_set_bits(it6505, REG_TRAIN_CTRL0, SPREAD_AMP_5,
+>   			it6505->enable_ssc ? SPREAD_AMP_5 : 0x00);
+>   	if (it6505->enable_ssc) {
+> -		it6505_write(it6505, REG_BANK_SEL, 0x01);
+>   		it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
+>   		it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
+>   		it6505_write(it6505, REG_SSC_CTRL2, 0x42);
+> -		it6505_write(it6505, REG_BANK_SEL, 0x00);
+>   		it6505_write(it6505, REG_SP_CTRL0, 0x07);
+>   		it6505_write(it6505, REG_IP_CTRL1, 0x29);
+>   		it6505_write(it6505, REG_IP_CTRL2, 0x03);
 
-This is incorrect for 2 reasons:
-
-* it treats restarts as timeouts
-
-* this function now returns >0 on success
-
-> -		if (ret) {
->  			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
->  				  ret);
->  			break;
-
-I rearranged things to basically correctly translate the return code of
-dma_resv_wait_timeout() to match the previous ttm_bo_wait():
-
-		ret = dma_resv_wait_timeout(nvbo->bo.base.resv,
-					    DMA_RESV_USAGE_BOOKKEEP,
-					    false, 15 * HZ);
-		if (ret == 0)
-			ret = -EBUSY;
-		if (ret > 0)
-			ret = 0;
-		if (ret) {
-			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
-				  ret);
-			break;
-		}
-
-So the patch just becomes:
-
-@@ -708,6 +708,8 @@ nouveau_gem_pushbuf_reloc_apply(struct n
- 					    false, 15 * HZ);
- 		if (ret == 0)
- 			ret = -EBUSY;
-+		if (ret > 0)
-+			ret = 0;
- 		if (ret) {
- 			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
- 				  ret);
-
-With this variant, everything runs correctly on my workstation again.
-
-It probably deserves a comment about why @ret is being translated. Or
-perhaps a new variable should be introduced to separate the return value
-of dma_resv_wait_timeout() from the return value of this function.
-
-Either way, this is an important fix for 6.3-rc!
-
-John Ogness
