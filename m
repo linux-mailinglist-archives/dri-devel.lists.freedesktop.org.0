@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8066CAB15
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 18:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2176CAB3B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 19:01:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C59410E650;
-	Mon, 27 Mar 2023 16:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBFB10E264;
+	Mon, 27 Mar 2023 17:01:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3296710E650
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:52:43 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- 61-20020a9d02c3000000b0069fe8de3139so4896373otl.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 09:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1679935962;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=q1qWTShqBaYxV3xaj+I2aKT/emWe4vFrxFvJqYnKTHM=;
- b=gEQ2DMylLmcJYM0V68Q35myKOeuEsz9k2bl0j7j5pmDTPkeNQRioxQnwCfTo0ew/jb
- RmU1LOVT2Fb5YBqegsuOekQHSAEOGivXOodKzi/Ld/JarlOG5sDsai9ZapNnzmggppuX
- UOZn1YD5Hm3IDzriwg4fIUr/nXMWoz+GJmgLo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679935962;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=q1qWTShqBaYxV3xaj+I2aKT/emWe4vFrxFvJqYnKTHM=;
- b=RiUrVO3G/kAftEUVWfHRG0GtkMmJbOXsSejHRxufddhqah12qxcKR2bjvvfZBMZRZp
- YIM1JIZezeUzmcP5/8RJ1Vij8ZGN2mZKeeRaGmQC7a3l6vElCw/nm1GlyD8tdJbkMG9H
- XFbq7lxdmL/GLkiqmmU9oyj0UZd45YqA2J1jVyN6TGlCNKv0wCGYBwUSks64izsSkyHn
- kNBinDDmXtjtkWYJRvTQwhvyT5pA9twIK8rj+Nbm0qi0UCPgiCH/o8S20U47smIGZNos
- Nij/MTVQVM5uz4EQd2KkrIYWEELy2naPe/buyUSH8h7eSTSm5SUDAlbDeZZED7XuNDZT
- vlsQ==
-X-Gm-Message-State: AO0yUKWK7RjS3kQL1l2MMib46oYM1DAu/nBQKUF+kux2Pkd10EcfjpeW
- 7n8ID26nOb94Fou0/klPVT83S9ps0p+opSZ2yOILRw==
-X-Google-Smtp-Source: AKy350bd0jD+yAbtcLCmHrO2H263R0T1ICEdtn0rpjT7I5LO5AUumJo49hQLAx/TYMroVzE1hxKbi+r0T4gbi3pnrCI=
-X-Received: by 2002:a05:6830:1bfc:b0:69d:3794:b863 with SMTP id
- k28-20020a0568301bfc00b0069d3794b863mr4240271otb.6.1679935962420; Mon, 27 Mar
- 2023 09:52:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230325204922.GD19335@pendragon.ideasonboard.com>
-In-Reply-To: <20230325204922.GD19335@pendragon.ideasonboard.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 27 Mar 2023 18:52:31 +0200
-Message-ID: <CAKMK7uFTg1OyaujDDnCwrHno8LgKbHvEmgx=G1UkA9B=fpnHiw@mail.gmail.com>
-Subject: Re: [GIT PULL FOR v6.4] drm: rcar-du: Miscellaneous fixes and
- improvements
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A858D10E118;
+ Mon, 27 Mar 2023 17:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679936500; x=1711472500;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=EIsCjKZCHe1Jm4LeFCYTqDF84qtFlGzjW9pa6mAZ3io=;
+ b=KsrAw/RFQ8OhNz5s3gn/0Mi3IMyrqI7ydN/UBWCQ9nTeFDUloX9Zwzb0
+ NuyFkZwjS0jzbNk2pE05BwemNQju506gJDvdquxh5GitzOyw0Z5o38TTT
+ mZs3tDY6SfSM9p+6DiEYM7bOM+4R3n3FqOaRs5lySfTD52WpsjsbYPqW8
+ +Dq7zfppYAxKBko9Cpbw8bOSs0Qu8CthW6OUjVen5u0yjW7G7gDfo88cw
+ +vPaGySTBFVEc7YAA9LDYpEXFXhfv4Ge1eB9rhGpsflVXx03+SU13sc0h
+ WCJ4J2Dzch7XpmgZegicSCF02rtTguEeUuT2LegRm9VWfMgfAjoCboZWl A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="342730449"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; d="scan'208";a="342730449"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 10:01:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="686042443"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; d="scan'208";a="686042443"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.162.223])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 10:01:37 -0700
+Date: Mon, 27 Mar 2023 09:57:03 -0700
+Message-ID: <87o7oeku8w.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+Subject: Re: [PATCH] drm/i915/guc: Disable PL1 power limit when loading GuC
+ firmware
+In-Reply-To: <7b24abc4-30df-227c-bb6c-04de96e59f40@intel.com>
+References: <20230316035954.2593843-1-ashutosh.dixit@intel.com>	<4760d41f-c237-9f97-eb32-5d2ab05eea20@intel.com>	<87sfdtload.wl-ashutosh.dixit@intel.com>	<7b24abc4-30df-227c-bb6c-04de96e59f40@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,63 +62,342 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Badal Nilawar <badal.nilawar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ John Harrison <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 25 Mar 2023 at 21:49, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Fri, 24 Mar 2023 17:06:33 -0700, Belgaumkar, Vinay wrote:
 >
-> Hello,
->
-> The following changes since commit 7ed34927254ae9eac0f6b0ad7e7c2bceb96fcdfc:
->
->   Merge tag 'drm-intel-next-2023-03-23' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-03-24 20:22:03 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/drm-rcar-next-20230325
 
-Pulled, thanks
+Hi Vinay,
 
+> On 3/24/2023 4:31 PM, Dixit, Ashutosh wrote:
+> > On Fri, 24 Mar 2023 11:15:02 -0700, Belgaumkar, Vinay wrote:
+> > Hi Vinay,
+> >
+> > Thanks for the review. Comments inline below.
+> Sorry about asking the same questions all over again :) Didn't look at
+> previous versions.
+
+Np, the previous versions were buried somewhere anyway that's why I
+provided the link.
+
+> >
+> >> On 3/15/2023 8:59 PM, Ashutosh Dixit wrote:
+> >>> On dGfx, the PL1 power limit being enabled and set to a low value res=
+ults
+> >>> in a low GPU operating freq. It also negates the freq raise operation=
+ which
+> >>> is done before GuC firmware load. As a result GuC firmware load can t=
+ime
+> >>> out. Such timeouts were seen in the GL #8062 bug below (where the PL1=
+ power
+> >>> limit was enabled and set to a low value). Therefore disable the PL1 =
+power
+> >>> limit when allowed by HW when loading GuC firmware.
+> >> v3 label missing in subject.
+> >>> v2:
+> >>>    - Take mutex (to disallow writes to power1_max) across GuC reset/f=
+w load
+> >>>    - Add hwm_power_max_restore to error return code path
+> >>>
+> >>> v3 (Jani N):
+> >>>    - Add/remove explanatory comments
+> >>>    - Function renames
+> >>>    - Type corrections
+> >>>    - Locking annotation
+> >>>
+> >>> Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+> >>> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> >>> ---
+> >>>    drivers/gpu/drm/i915/gt/uc/intel_uc.c |  9 +++++++
+> >>>    drivers/gpu/drm/i915/i915_hwmon.c     | 39 +++++++++++++++++++++++=
+++++
+> >>>    drivers/gpu/drm/i915/i915_hwmon.h     |  7 +++++
+> >>>    3 files changed, 55 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc.c b/drivers/gpu/drm/=
+i915/gt/uc/intel_uc.c
+> >>> index 4ccb4be4c9cba..aa8e35a5636a0 100644
+> >>> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> >>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc.c
+> >>> @@ -18,6 +18,7 @@
+> >>>    #include "intel_uc.h"
+> >>>      #include "i915_drv.h"
+> >>> +#include "i915_hwmon.h"
+> >>>      static const struct intel_uc_ops uc_ops_off;
+> >>>    static const struct intel_uc_ops uc_ops_on;
+> >>> @@ -461,6 +462,7 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>	struct intel_guc *guc =3D &uc->guc;
+> >>>	struct intel_huc *huc =3D &uc->huc;
+> >>>	int ret, attempts;
+> >>> +	bool pl1en;
+> >> Init to 'false' here
+> > See next comment.
+> >
+> >>
+> >>>		GEM_BUG_ON(!intel_uc_supports_guc(uc));
+> >>>	GEM_BUG_ON(!intel_uc_wants_guc(uc));
+> >>> @@ -491,6 +493,9 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>	else
+> >>>		attempts =3D 1;
+> >>>    +	/* Disable a potentially low PL1 power limit to allow freq to be
+> >>> raised */
+> >>> +	i915_hwmon_power_max_disable(gt->i915, &pl1en);
+> >>> +
+> >>>	intel_rps_raise_unslice(&uc_to_gt(uc)->rps);
+> >>>		while (attempts--) {
+> >>> @@ -547,6 +552,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>		intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+> >>>	}
+> >>>    +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+> >>> +
+> >>>	guc_info(guc, "submission %s\n", str_enabled_disabled(intel_uc_uses_g=
+uc_submission(uc)));
+> >>>	guc_info(guc, "SLPC %s\n", str_enabled_disabled(intel_uc_uses_guc_slp=
+c(uc)));
+> >>>    @@ -563,6 +570,8 @@ static int __uc_init_hw(struct intel_uc *uc)
+> >>>	/* Return GT back to RPn */
+> >>>	intel_rps_lower_unslice(&uc_to_gt(uc)->rps);
+> >>>    +	i915_hwmon_power_max_restore(gt->i915, pl1en);
+> >> if (pl1en)
+> >>
+> >>  =A0=A0=A0 i915_hwmon_power_max_enable().
+> > IMO it's better not to have checks in the main __uc_init_hw() function =
+(if
+> > we do this we'll need to add 2 checks in __uc_init_hw()). If you really
+> > want we could do something like this inside
+> > i915_hwmon_power_max_disable/i915_hwmon_power_max_restore. But for now I
+> > am not making any changes.
+> ok.
+> >
+> > (I can send a patch with the changes if you want to take a look but IMO=
+ it
+> > will add more logic/code but without real benefits (it will save a rmw =
+if
+> > the limit was already disabled, but IMO this code is called so infreque=
+ntly
+> > (only during GuC resets) as to not have any significant impact)).
+> >
+> >>> +
+> >>>	__uc_sanitize(uc);
+> >>>		if (!ret) {
+> >>> diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915=
+/i915_hwmon.c
+> >>> index ee63a8fd88fc1..769b5bda4d53f 100644
+> >>> --- a/drivers/gpu/drm/i915/i915_hwmon.c
+> >>> +++ b/drivers/gpu/drm/i915/i915_hwmon.c
+> >>> @@ -444,6 +444,45 @@ hwm_power_write(struct hwm_drvdata *ddat, u32 at=
+tr, int chan, long val)
+> >>>	}
+> >>>    }
+> >>>    +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, =
+bool
+> >>> *old)
+> >> Shouldn't we call this i915_hwmon_package_pl1_disable()?
+> > I did think of using "pl1" in the function name but then decided to ret=
+ain
+> > "power_max" because other hwmon functions for PL1 limit also use
+> > "power_max" (hwm_power_max_read/hwm_power_max_write) and currently
+> > "hwmon_power_max" is mapped to the PL1 limit. So "power_max" is used to
+> > show that all these functions deal with the PL1 power limit.
+> >
+> > There is a comment in __uc_init_hw() explaining "power_max" means the P=
+L1
+> > power limit.
+> ok.
+> >
+> >>> +	__acquires(i915->hwmon->hwmon_lock)
+> >>> +{
+> >>> +	struct i915_hwmon *hwmon =3D i915->hwmon;
+> >>> +	intel_wakeref_t wakeref;
+> >>> +	u32 r;
+> >>> +
+> >>> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> >>> +		return;
+> >>> +
+> >>> +	/* Take mutex to prevent concurrent hwm_power_max_write */
+> >>> +	mutex_lock(&hwmon->hwmon_lock);
+> >>> +
+> >>> +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
+> >>> +		r =3D intel_uncore_rmw(hwmon->ddat.uncore,
+> >>> +				     hwmon->rg.pkg_rapl_limit,
+> >>> +				     PKG_PWR_LIM_1_EN, 0);
+> >> Most of this code (lock and rmw parts) is already inside static void
+> >> hwm_locked_with_pm_intel_uncore_rmw() , can we reuse that here?
+> > This was the case in v1 of the patch:
+> >
+> > https://patchwork.freedesktop.org/patch/526393/?series=3D115003&rev=3D1
+> >
+> > But now this cannot be done because if you notice we acquire the mutex =
+in
+> > i915_hwmon_power_max_disable() and release the mutex in
+> > i915_hwmon_power_max_restore().
+> >
+> > I explained the reason why this the mutex is handled this way in my rep=
+ly
+> > to Jani Nikula here:
+> >
+> > https://patchwork.freedesktop.org/patch/526598/?series=3D115003&rev=3D2
+> >
+> > Quoting below:
+> >
+> > ```
+> >>> +	/* hwmon_lock mutex is unlocked in hwm_power_max_restore */
+> >> Not too happy about that... any better ideas?
+> > Afais, taking the mutex is the only fully correct solution (when we dis=
+able
+> > the power limit, userspace can go re-enable it). Examples of partly
+> > incorrect solutions (which don't take the mutex) include:
+> >
+> > a. Don't take the mutex, don't do anything, ignore any changes to the v=
+alue
+> >     if it has changed during GuC reset/fw load (just overwrite the chan=
+ged
+> >     value). Con: changed value is lost.
+> >
+> > b. Detect if the value has changed (the limit has been re-enabled) afte=
+r we
+> >     have disabled the limit and in that case skip restoring the value. =
+But
+> >     then someone can say why do we allow enabling the PL1 limit since we
+> >     want to disable it.
+> >
+> > Both these are very unlikely scenarios so they might work. But I would
+> > first like to explore if holding a mutex across GuC reset is prolebmatic
+> > since that is /the/ correct solution. But if anyone comes up with a rea=
+son
+> > why that cannot be done we can look at these other not completely corre=
+ct
+> > options.
 >
-> for you to fetch changes up to 40f43730f43699ce8557e4fe59622d4f4b69f44a:
->
->   drm: rcar-du: Fix a NULL vs IS_ERR() bug (2023-03-25 22:38:10 +0200)
->
-> ----------------------------------------------------------------
-> drm: rcar-du: Miscellaneous fixes and improvements
->
-> ----------------------------------------------------------------
-> Dan Carpenter (1):
->       drm: rcar-du: Fix a NULL vs IS_ERR() bug
->
-> Laurent Pinchart (7):
->       drm: rcar-du: lvds: Call function directly instead of through pointer
->       drm: rcar-du: lvds: Move LVDS enable code to separate code section
->       drm: rcar-du: lvds: Fix LVDS PLL disable on D3/E3
->       drm: rcar-du: Don't write unimplemented ESCR and OTAR registers on Gen3
->       drm: rcar-du: Disable alpha blending for DU planes used with VSP
->       drm: rcar-du: Rename DORCR fields to make them 0-based
->       drm: rcar-du: Write correct values in DORCR reserved fields
->
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c    |  38 +++++--
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c |   4 +-
->  drivers/gpu/drm/rcar-du/rcar_du_group.c   |  16 ++-
->  drivers/gpu/drm/rcar-du/rcar_du_regs.h    |  26 ++---
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c     |   2 +-
->  drivers/gpu/drm/rcar-du/rcar_lvds.c       | 176 +++++++++++++++++-------------
->  drivers/gpu/drm/rcar-du/rcar_lvds.h       |  12 +-
->  7 files changed, 163 insertions(+), 111 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> Well, one reason is that this is adding a lot of duplicate/non-reusable
+> code needlessly. If it gets re-used elsewhere, that could lead to some
+> weird situations where the lock could be held for an extended period of
+> time and introduce dependencies.
+
+The lock will only be held if userspace tries to set the PL1 limit while
+GuC load is in progress. The chance of this is low (though not
+zero). Otherwise the lock will be uncontended. But otherwise yes the lock
+is being held across GuC load. I would think as long as GuC load completes
+in the 200 ms (or even a few seconds) it should not be an issue. These
+hwmon operations are happening very infrequently, say in a matter of
+seconds, at least 100's of milliseconds.
+
+We could add a different lock here but I don't think it's worth it.
+
+> Also, how/why would the user modify this
+> PL1 during guc load? The sysfs interfaces are not even ready at this poin=
+t?
+> Even if we consider this during a resume, the terminal will not be
+> available to the user.
+
+A few points:
+
+* Agree about probe, the sysfs doesn't exist
+* About resume, again agreed. But in general a userspace process (say a
+  daemon) might be writing to hwmon sysfs even when a terminal is not
+  available. hwmon is accessed by L0 sysman e.g.
+* Finally, GuC is not loaded only during probe and resume but GuC can also
+  get reset because of error conditions. When the sysfs and the terminal
+  are available (e.g what if you set a low PL1 limit and then run
+  i915_hangman, it fails currently as was seen in CI, I will try to write
+  an IGT for this).
+
+So that's the reason for taking the lock. I think it's not a big problem
+even if we take the lock that is why it is in the patch.
+
+> > ```
+> >
+> >>> +
+> >>> +	*old =3D !!(r & PKG_PWR_LIM_1_EN);
+> >>> +}
+> >>> +
+> >>> +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, boo=
+l old)
+> >>> +	__releases(i915->hwmon->hwmon_lock)
+> >> We can just call this i915_hwmon_power_max_enable() and call whenever =
+the
+> >> old value was actually enabled. That way, we have proper mirror functi=
+ons.
+> > As I explained that would mean adding two checks in the main __uc_init_=
+hw()
+> > function which I am trying to avoid. So we have disable/restore pair.
+> >
+> >>> +{
+> >>> +	struct i915_hwmon *hwmon =3D i915->hwmon;
+> >>> +	intel_wakeref_t wakeref;
+> >>> +
+> >>> +	if (!hwmon || !i915_mmio_reg_valid(hwmon->rg.pkg_rapl_limit))
+> >>> +		return;
+> >>> +
+> >>> +	with_intel_runtime_pm(hwmon->ddat.uncore->rpm, wakeref)
+> >>> +		intel_uncore_rmw(hwmon->ddat.uncore,
+> >>> +				 hwmon->rg.pkg_rapl_limit,
+> >>> +				 PKG_PWR_LIM_1_EN,
+> >>> +				 old ? PKG_PWR_LIM_1_EN : 0);
+> >> 3rd param should be 0 here, else we will end up clearing other bits.
+> > No see intel_uncore_rmw(), it will only clear the PKG_PWR_LIM_1_EN bit,=
+ so
+> > the code here is correct. intel_uncore_rmw() does:
+> >
+> >          val =3D (old & ~clear) | set;
+> Ok, just confusing, since you are also setting it with the 4th param.
+
+No, the 3rd param is clearing (old & ~clear) and the 4th param is setting
+(| set). Look at intel_uncore_rmw(). Also I've tested this patch ;-)
+
+Thanks.
+--
+Ashutosh
 
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> >
+> > So for now I am not making any changes, if you feel strongly about
+> > something one way or another let me know. Anyway these comments should =
+help
+> > you understand the patch better so take a look and we can go from there.
+> >
+> > Thanks.
+> > --
+> > Ashutosh
+> >
+> >>> +
+> >>> +	mutex_unlock(&hwmon->hwmon_lock);
+> >>> +}
+> >>> +
+> >>>    static umode_t
+> >>>    hwm_energy_is_visible(const struct hwm_drvdata *ddat, u32 attr)
+> >>>    {
+> >>> diff --git a/drivers/gpu/drm/i915/i915_hwmon.h b/drivers/gpu/drm/i915=
+/i915_hwmon.h
+> >>> index 7ca9cf2c34c96..0fcb7de844061 100644
+> >>> --- a/drivers/gpu/drm/i915/i915_hwmon.h
+> >>> +++ b/drivers/gpu/drm/i915/i915_hwmon.h
+> >>> @@ -7,14 +7,21 @@
+> >>>    #ifndef __I915_HWMON_H__
+> >>>    #define __I915_HWMON_H__
+> >>>    +#include <linux/types.h>
+> >>> +
+> >>>    struct drm_i915_private;
+> >>> +struct intel_gt;
+> >>>      #if IS_REACHABLE(CONFIG_HWMON)
+> >>>    void i915_hwmon_register(struct drm_i915_private *i915);
+> >>>    void i915_hwmon_unregister(struct drm_i915_private *i915);
+> >>> +void i915_hwmon_power_max_disable(struct drm_i915_private *i915, boo=
+l *old);
+> >>> +void i915_hwmon_power_max_restore(struct drm_i915_private *i915, boo=
+l old);
+> >>>    #else
+> >>>    static inline void i915_hwmon_register(struct drm_i915_private *i9=
+15) { };
+> >>>    static inline void i915_hwmon_unregister(struct drm_i915_private *=
+i915) { };
+> >>> +static inline void i915_hwmon_power_max_disable(struct drm_i915_priv=
+ate *i915, bool *old) { };
+> >>> +static inline void i915_hwmon_power_max_restore(struct drm_i915_priv=
+ate *i915, bool old) { };
+> >>>    #endif
+> >>>      #endif /* __I915_HWMON_H__ */
