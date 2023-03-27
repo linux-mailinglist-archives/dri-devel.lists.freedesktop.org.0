@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 944AC6C9C3E
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 09:36:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C13E6C9C54
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 09:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0145D10E267;
-	Mon, 27 Mar 2023 07:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7231D10E26F;
+	Mon, 27 Mar 2023 07:37:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0253710E267
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 07:36:50 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id j24so7635530wrd.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 00:36:50 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64CAA10E26F
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 07:37:50 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id l37so4448348wms.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 00:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679902609;
+ d=linaro.org; s=google; t=1679902669;
  h=content-transfer-encoding:in-reply-to:organization:references:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=NbYmGbS5uaBCRcMwyPZQrI6VMogdLbv4M+SG8lk+chs=;
- b=wg0cLRtGHOzjEqnn6wJzNGYyPEk33R5HZsMfaePIN5X0eiVdVpdFvDQ8JEL2He8pJO
- n5ya6PKRhQN/Ewi/PR+1J7nkFYcTEhevMdjfkiDfvTLYtsN8RvWs6wgWBwfnRQDldA9S
- pfkVZLtYllCfaCnihAzkkyxrxDsWoIhakvQqiyZ9a0aAiZVAMBaDqFrUFIimaAj90pVm
- u/IyC7go5tYf8uMRJNDk27tNmUxwUQ36z0Es2Q/Mmnbdg+k54WwCLu/dab7nxFakyXra
- xmDeDegoEXX5sSPBj+nghbQropkNAvw0woUyMGdTNbqTO1Rg1bKA4CdwXQDC7JUOO01J
- gmIA==
+ bh=PTyjeyB+LiPlbSLSBvv/DoCKWzMb1pZcoCNBXde7efk=;
+ b=CF2bcNKzDLgbNseAerc+0cAre9/4rDu3GzL2RRUeKhnjkWjGLkvL1wtOgmHwuoI5aJ
+ OBOgBVcpFlfTTWDWcrMGbfmo6Fb9iqGYRHvKxMZO8eGOm65sBFoskXv/As9gkvxvHrO3
+ zbjpD/bg8kg5qbfPrKIFmNEryBbdebsYUPIiJ081KTYtAFMCdnHpd2/VKPbSjPxYLYiH
+ igBUGTFq243kTaLZDyCi1OuVe78bceZu1I/+1O63RRhQWLd5DqeptIAkHIKs/L7oU7Do
+ PPFJRTyB5d9tMLvbcFDUvOOFdBMq2EEv3W+7Vya15W2kih4kuyA7l54CrWvk6mEx1AVA
+ QCyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679902609;
+ d=1e100.net; s=20210112; t=1679902669;
  h=content-transfer-encoding:in-reply-to:organization:references:to
  :content-language:subject:reply-to:from:user-agent:mime-version:date
  :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NbYmGbS5uaBCRcMwyPZQrI6VMogdLbv4M+SG8lk+chs=;
- b=6t3Fri2IpNYMkI+TduNf3lVyOw/Dik/eXaAkwxgfxs62jOgc0tMndBqplO54bdH3ld
- hBXA3OTcEz/9oUFlN/Rh4+oA23LWigwXrV6/I/kCuYsaVelvLtB06f3y4iFZLtOHkqtL
- kA7idykxlyFFzr45tsGsVxNliVnpFRl++ZMEJOgJ1sY/yX7s57ZB5+4e6oIEVLdIi6uZ
- Pd+v1WLwT5Nkp3br/pzcZh7ySJWQN2NY2JIpjx9F9L9BL8hs3iHk4QlWZmweAv70LBAe
- SQr4Bt5TaZSSLmxMPbuENMybZ3mBqtMoFl8EH/Y1qVEGyJvdul/L7OEuoEAnm4Y5ugVU
- 2z3w==
-X-Gm-Message-State: AAQBX9dxJ1eVUJXK8Co+F+J1k3HbJAQiU89gPiiZCIld2jMPzkflqW51
- HoRZaPF/PtzSdk+0lKd7OdM9Ug==
-X-Google-Smtp-Source: AKy350ZR+iZ8CU4+6lZ0dAb/tRTaCxmQCiUUBubE3HwF5ZsO/o1ChMh3bOjSEzu1DgEdtZg9H+j9yQ==
-X-Received: by 2002:a5d:428c:0:b0:2d3:3cda:b3c6 with SMTP id
- k12-20020a5d428c000000b002d33cdab3c6mr8427206wrq.40.1679902609335; 
- Mon, 27 Mar 2023 00:36:49 -0700 (PDT)
+ bh=PTyjeyB+LiPlbSLSBvv/DoCKWzMb1pZcoCNBXde7efk=;
+ b=P+Pbce/M6fcdk6uViZK7R7PWqGDcqsM/Bi3MQYDrBLoKhL8+TjN9Xokx9ReXvLLuQQ
+ 43On2z5/Lg88XUJs9MSANxDJev2sb1aMLOs2BVHvTLa3Yvy4a7bInHRYguMnAmpdOdrb
+ /YyxOqrT6WSrNS4aBKG1VtodG7FICvAogaWbIQkXN+ZVQboujem2lISYXO0f0z2AjTom
+ uOCuLjuPeL736S0Coqk2WJMLO7d2O4gFQ1owrMLhHsjw2kAaXtOaTEhylryrUSuQlEC5
+ ZfCgcP/ns5ZmozXrxfVz1bqDb1fkkCDu1BxyF1+znYpru7Z9af3vOTPdOwMd24g4tlx0
+ plAw==
+X-Gm-Message-State: AO0yUKVc4uu3YwBFdSgLK5X01YAIlDJ1xb5u3r2UWnG27rqtg3j1TONI
+ qAJXmaMtoFVFNY+1EP1pw5fMvA==
+X-Google-Smtp-Source: AK7set/gBEBLHlpaqospGTeQnkjVDZlPZ+h6+Fz/IXtUpLQgYPM75dXsSD+nbRDJh26Q5hxWuEf6fg==
+X-Received: by 2002:a05:600c:3150:b0:3ed:1fa1:73c5 with SMTP id
+ h16-20020a05600c315000b003ed1fa173c5mr8461158wmo.27.1679902668757; 
+ Mon, 27 Mar 2023 00:37:48 -0700 (PDT)
 Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
  by smtp.gmail.com with ESMTPSA id
- t3-20020a5d6903000000b002e105c017adsm872386wru.44.2023.03.27.00.36.48
+ i6-20020a05600c354600b003ede6540190sm7893266wmq.0.2023.03.27.00.37.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 00:36:49 -0700 (PDT)
-Message-ID: <d538eab9-a97a-25c4-f4a9-fe3f1e1ef449@linaro.org>
-Date: Mon, 27 Mar 2023 09:36:48 +0200
+ Mon, 27 Mar 2023 00:37:48 -0700 (PDT)
+Message-ID: <0296a9df-2d40-8852-efc4-955cf4f791d1@linaro.org>
+Date: Mon, 27 Mar 2023 09:37:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 3/6] dt-bindings: display: panel-simple-dsi: allow vddio
- variant
+Subject: Re: [PATCH 4/6] dt-bindings: display: panel-simple-dsi: document port
 Content-Language: en-US
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
@@ -71,9 +70,9 @@ To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230326155425.91181-1-krzysztof.kozlowski@linaro.org>
- <20230326155425.91181-3-krzysztof.kozlowski@linaro.org>
+ <20230326155425.91181-4-krzysztof.kozlowski@linaro.org>
 Organization: Linaro Developer Services
-In-Reply-To: <20230326155425.91181-3-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230326155425.91181-4-krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,15 +92,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/03/2023 17:54, Krzysztof Kozlowski wrote:
-> Few panels like Samsung s6e3fc2x01 and sofef00 use vddio-supply instead
-> of power-supply (in DTS and Linux driver), so allow it to fix:
+> Panels are supposed to have one port (coming from panel-common.yaml
+> binding):
 > 
->    sdm845-oneplus-enchilada.dtb: panel@0: 'power-supply' is a required property
+>    msm8916-samsung-a3u-eur.dtb: panel@0: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->   .../display/panel/panel-simple-dsi.yaml       | 24 +++++++++++++++----
->   1 file changed, 20 insertions(+), 4 deletions(-)
+>   .../display/panel/samsung,s6e88a0-ams452ef01.yaml         | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 
 <snip>
 
