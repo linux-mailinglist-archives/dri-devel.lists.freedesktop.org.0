@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEF66CB270
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:34:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6E56CB273
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:34:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21AE810E7B0;
-	Mon, 27 Mar 2023 23:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 774F310E7BA;
+	Mon, 27 Mar 2023 23:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
- [IPv6:2607:f8b0:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9F5A10E7B0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 23:34:31 +0000 (UTC)
-Received: by mail-oi1-x22d.google.com with SMTP id q27so6957805oiw.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:34:31 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A74010E7B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 23:34:41 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id s8so7715266ois.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:34:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1679960071;
+ d=usp.br; s=usp-google; t=1679960081;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rCjnRFQPvAGnNx5L3qglgkfLmLwG3nPN+a/hM9CacEs=;
- b=GtnEi/KsBIrFkxShd3lvYGNJ9gUrQ2buWtvBFztcLMpjZHYnpfC2btTyNI2wDsx8gP
- PDOwtTF/TcTUNyeDxR4+oqyXUYAWrwKZvEptBJqEajGlOvHQG/N2hgJNqoRivII1xx51
- srSRUFm+TSmPWghIrj0BJh5li74VwsAaLfH1KqwWeaR6TO4B41nDX8EIySGgAXFLkN8F
- YdwEqm/wd8FQ3RikiVit9f33f8/yakAEXCIUHf2m4mD8ZPr83k/J/9pPD+iRpgpI1jss
- eOoS5rgPZHuaXhSaw/dfu9zrMhREgjPL3L5P57orkSVqAnny3ybOMPodpqyInQTfYtTE
- TpRA==
+ bh=1IwF6Kj9QYhpJPxCrtGOCcjZaHDRHTEbDHEOQ0Q0o5c=;
+ b=jfYnm0x5boN6VyBUnMWPRzz97xGu/bVZkk8ot1nSNhbtqM525wpnumuPPxj2g6SBmt
+ iqmmB2Tb3gG2gIqDlHDVBtcb5bLSyxASg2JlHy4W5rzyjFd0wER0kSIGXZ7mUjS5562+
+ 4imgqjAZwoauhGi0X9/tsjF17nKL8f44lyAP2Z9q8WVM+VVX4Mrf8rvcYLk8k6Yypltz
+ 55syccSk7F6t6/C4ZpQlbrqQ+AQDGC3FjX9vijwQatYhvkvfGErtohIi3PnBdcogv/Fr
+ i1LAISm1WjJdeH7GRdOWbnkEjnvTOG2OW2321C8y6x5FfqRTcO49qcGEIHuN8EzxTkpx
+ KDtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679960071;
+ d=1e100.net; s=20210112; t=1679960081;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rCjnRFQPvAGnNx5L3qglgkfLmLwG3nPN+a/hM9CacEs=;
- b=XWy9Rs0mlgHEdDZp/vTulxmA56rQNY9d18mYMAZ1HHrBOnU4zpwZE3rnnMWNxdPuEA
- mBlouur+OrNRJKgo0MF6HWkkNhqiCEF6telgD1t2n1TwdtO8TqrRR2heLk93CW3eApdU
- 9NLQVFb3z2H4IYgkmNS8oyUshbC5yPGvoXVRFzKE6LsPg8ZqThVrjZNBFU1hC6j5FSY1
- 68qzMiQKVoiY5ahpUx8N0QS+iIiRt//ffACcTsi51Yf2JPLq6JtnRiHb22e87tt/g6I/
- 9eg2riWI55Ci+AeLhuFPfoCTJCoId2Bj8ROdiW544wqs17kVsQuYuZ04bbWJtF7i6F8s
- LuYw==
-X-Gm-Message-State: AO0yUKXoFa/g1irLGZCaQe3oUs4CUaDsCfivf0dZgKAcvXsaNrVPnheO
- esyztUVakoAAyqx+ZTl784LOfA==
-X-Google-Smtp-Source: AK7set8rDxFHQB6rrg/v8At+R+vD2rhk2qXsj5IgrUWpiFpg9BehvyB3jSFGPbGLp8x0w8YllHWLbA==
-X-Received: by 2002:a05:6808:2d3:b0:386:ca6d:b602 with SMTP id
- a19-20020a05680802d300b00386ca6db602mr3723586oid.41.1679960069565; 
- Mon, 27 Mar 2023 16:34:29 -0700 (PDT)
+ bh=1IwF6Kj9QYhpJPxCrtGOCcjZaHDRHTEbDHEOQ0Q0o5c=;
+ b=00G/TeHRl305oqc9cTFhnEkQzEOLmDUVFCmEVpSH693ZeD/+zaXeuthtbHSfLaMBn1
+ 1txs9KQPeLiDto5xFI0vu0vy2djZ7JxsxPkwrtpqQW5AUlAWFMKC4cIltvLRm3oKPjUv
+ RfDrEo7pdYylEOF2UJrsKB6AqYWMHaBUg02I+qgF/aCxVxuKiZeIS4+N3nC1hU9o4zJS
+ IjYo5tzWSrlRFWMl3Qtt7C8ip6onJ/SQIttHb8FcYBG4bkH41VVKzCyth6F092ozyxM5
+ HwawTdy4kyRYgUGlhBu6d5bwLW+TknfBeIfJeciCuukdcv7AG7NTh3s5swtq8sbvgI/C
+ W3Xw==
+X-Gm-Message-State: AAQBX9e2ZCHu0NUHI3jepDmVpVREOg4I6hYTXM7CUc3erl3PaXlDd9EO
+ uWAWzpjg6DZyW0+IpCCcc8iGhg==
+X-Google-Smtp-Source: AKy350amlW4hmJ5oi6zfnFlDhNs8qcwQpjdMENIe7wdz31yjBqJqQIgig25+IFqaAxHNxlomgZLO+Q==
+X-Received: by 2002:aca:2b09:0:b0:389:4f27:9e0 with SMTP id
+ i9-20020aca2b09000000b003894f2709e0mr676851oik.26.1679960079586; 
+ Mon, 27 Mar 2023 16:34:39 -0700 (PDT)
 Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
  by smtp.gmail.com with ESMTPSA id
- b186-20020aca34c3000000b00389295e8424sm1643409oia.45.2023.03.27.16.34.19
+ b186-20020aca34c3000000b00389295e8424sm1643409oia.45.2023.03.27.16.34.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 16:34:29 -0700 (PDT)
+ Mon, 27 Mar 2023 16:34:39 -0700 (PDT)
 From: Caio Novais <caionovais@usp.br>
 To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 02/12] drm/amd: Remove unused variable 'value0'
-Date: Mon, 27 Mar 2023 20:33:43 -0300
-Message-Id: <20230327233353.64081-3-caionovais@usp.br>
+Subject: [PATCH 03/12] drm/amd/display: Remove unused variable 'pixel_width'
+Date: Mon, 27 Mar 2023 20:33:44 -0300
+Message-Id: <20230327233353.64081-4-caionovais@usp.br>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230327233353.64081-1-caionovais@usp.br>
 References: <20230327233353.64081-1-caionovais@usp.br>
@@ -105,37 +105,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Compiling AMD GPU drivers displays a warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_link_encoder.c: In function ‘dcn10_link_encoder_update_mst_stream_allocation_table’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_link_encoder.c:1222:18: warning: variable ‘value0’ set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn201/dcn201_dpp.c: In function ‘dpp201_get_optimal_number_of_taps’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn201/dcn201_dpp.c:188:18: warning: variable ‘pixel_width’ set but not used [-Wunused-but-set-variable]
 
 Get rid of it by removing the variable.
 
 Signed-off-by: Caio Novais <caionovais@usp.br>
 ---
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
-index c4287147b853..81aa1631945a 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
-@@ -1219,7 +1219,6 @@ void dcn10_link_encoder_update_mst_stream_allocation_table(
- 	const struct link_mst_stream_allocation_table *table)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c
+index f50ab961bc17..f8ffc06593b2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_dpp.c
+@@ -185,12 +185,6 @@ static bool dpp201_get_optimal_number_of_taps(
+ 		struct scaler_data *scl_data,
+ 		const struct scaling_taps *in_taps)
  {
- 	struct dcn10_link_encoder *enc10 = TO_DCN10_LINK_ENC(enc);
--	uint32_t value0 = 0;
- 	uint32_t value1 = 0;
- 	uint32_t value2 = 0;
- 	uint32_t slots = 0;
-@@ -1321,8 +1320,6 @@ void dcn10_link_encoder_update_mst_stream_allocation_table(
- 	do {
- 		udelay(10);
- 
--		value0 = REG_READ(DP_MSE_SAT_UPDATE);
+-	uint32_t pixel_width;
 -
- 		REG_GET(DP_MSE_SAT_UPDATE,
- 				DP_MSE_SAT_UPDATE, &value1);
+-	if (scl_data->viewport.width > scl_data->recout.width)
+-		pixel_width = scl_data->recout.width;
+-	else
+-		pixel_width = scl_data->viewport.width;
  
+ 	if (scl_data->viewport.width  != scl_data->h_active &&
+ 		scl_data->viewport.height != scl_data->v_active &&
 -- 
 2.40.0
 
