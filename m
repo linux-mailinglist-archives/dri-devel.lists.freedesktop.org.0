@@ -1,72 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CA96CA080
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 11:51:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A70F96CA095
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 11:55:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8334910E0F9;
-	Mon, 27 Mar 2023 09:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A86D510E338;
+	Mon, 27 Mar 2023 09:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EAED10E0F9
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 09:51:41 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- l8-20020a05600c1d0800b003ef6708bbf6so2736712wms.5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 02:51:41 -0700 (PDT)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088C210E338
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 09:55:20 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id t4so2832513wra.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 02:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1679910699;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=dw1LG5rTwzXDNL719AXv6z2juGi0Us5LowRhvnwewB0=;
- b=kBrMSQqq20FQ8JmCbP6Cyj+53eKtSRwcXx7Etlok1GpZOMIY3IE58Une9sS2qzEa9j
- O4ZwXFGVniMDt35DmuHTKZmLrcUpyD0eUHCCROsY7Nn15E8kQ4KwojUMpDZ89JLiW62z
- o/s7mG/7JnnOdQfuu30EIv/op/KuXdOAvOt8T1PgEGE0P+QlOUbOCuq9GCGkNKVQ6OdI
- qyiSyu43O0lIoF5EjkzFUx5YpYPyvCjS+6ERcVBSdxMR0T00t9TRdLqc9WpGO83Y11/y
- EPH6eNpfDBaQcQDAH5vcoBxe61L9237RHoBOMT5lkbT54ZcrFkFuhC2EERYHPqcRsHir
- Dubw==
+ d=linaro.org; s=google; t=1679910918;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oIHP0oW2lg3pGPju/AqnuKxyIsHSSY/Z0nA6zc4eppc=;
+ b=V9vLGJETFgVtCugeotELemVVEydjS4hd7yKWCs3ojx/qptfh/w3WJKNI3Wdl+ovCyJ
+ ZB+EkW2XXQtJcjAI91g+HUq+J60M7yiQe9f8yiv7da0brdVBa4gdAoPtB1RPNNJd6kIw
+ drMQ+IKURDAckY5Bo7rFc8vUq7joctFMR7l6Q8+yqPlzcBf2RULCva3334UqMJ8WXuVz
+ 50FkRDLvgtYKR0sceLvSlCa2OBaQyFc0W4NB3vAe4cOM5aprom42lcjmrxSnBNsXlygB
+ bfFNfIQUEx8CMbOdjXBekWKeNOlujZDdKpm8apg0CBksa66nJJssg0h3/k/xtRS16qd+
+ dv2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679910699;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:from:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dw1LG5rTwzXDNL719AXv6z2juGi0Us5LowRhvnwewB0=;
- b=wU3rxgTITFJiVUZCzgF2XCIMoFFxnglUae6nPEaPQo7p/hv8dH54ehG3SktVr4JqYR
- OwCWdYFekSLALlMy9Io4k1M815nFTsFaeNqI/WuLJhItC8/40PY6Z/gJKtXnDDe9r8xd
- ufFOI6F3M+C/EkmQq+BRle4vqos6E9V2NrVjeBd/AuvaPHCH9xLVGsoI72m7Q/a/YoWk
- VHNEHp7b0+BDpFmnCLGKD2LuhZAtg5DVlncOueu1xlBxtHdt3cVTX4yooOaOrpR5gs81
- 6olarQwYfRn80AdTh/AFNIUlXGNusxkQ2Q4ELpUqwfZ0Me1NzH+wvj3+AsCuy6NGunDn
- ovYQ==
-X-Gm-Message-State: AO0yUKV4g4eRq8N+s8VvT+QbCYXd+NunCovrLs5c/ihARX35CTzM0FTr
- 3bjzy1Ict+8iZt2eNOsC8pB4Nw==
-X-Google-Smtp-Source: AK7set9PTgYDLsWSJMNeDj7o6fKvEl3jbnzCS+KtCELb+XLUymSkPmbCAVdFg+d634ftJfVGiIgmFw==
-X-Received: by 2002:a7b:c008:0:b0:3eb:f59f:6daf with SMTP id
- c8-20020a7bc008000000b003ebf59f6dafmr8835221wmb.34.1679910699586; 
- Mon, 27 Mar 2023 02:51:39 -0700 (PDT)
-Received: from [192.168.7.111] (679773502.box.freepro.com. [212.114.21.58])
+ d=1e100.net; s=20210112; t=1679910918;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oIHP0oW2lg3pGPju/AqnuKxyIsHSSY/Z0nA6zc4eppc=;
+ b=zXe8oOhFt5hU8nBfAyRQfpypCgdhWiensHRz7qcB4MkBwRpi9JHE2BKWKXYUP9ON5Y
+ 9dfEoT+fseOGNZzCW8BIshu0cdmpHifyWCL9H0Zob3omzLZhGrTdt4+gsYvZsjyJj7ai
+ eiyeWiDfrD6lRqEMQNOy3/Ej8Iv9Ye0aHFl77LIDWCPYsKqrWlpeWKD44YA1mnWJpFPb
+ KI60WRymANygM/YueF93glf3LSXAqZY9BXItV0VeE4felIknGDgXBJSz/bHVBbv2wwYy
+ 6Znri+FtuaEkiVjzTau2m9mdZNYSMd4XMXSVgBVQAXCX044A2Vh+gVe7vsgwTaCJufdE
+ Xb4w==
+X-Gm-Message-State: AAQBX9eYv3jTXrpgvHDJhACPKgH4N73nh3ykNSQe7dCpSvw7UGe+oflW
+ FUG0RegP+cfOUBCXjs4aZ304pf317tMvvNz5d32bzA==
+X-Google-Smtp-Source: AKy350bzh0+0wXuQx3da6/OOn6R3Fa9WVL4Lm3349lo5eHuojuEVC20BzSmdBT4O+sIdKypDH4aaUQ==
+X-Received: by 2002:adf:fe03:0:b0:2d7:c9d1:65eb with SMTP id
+ n3-20020adffe03000000b002d7c9d165ebmr7756235wrr.36.1679910918510; 
+ Mon, 27 Mar 2023 02:55:18 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- r12-20020a05600c458c00b003ee1acdaf95sm8327789wmo.36.2023.03.27.02.51.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 02:51:39 -0700 (PDT)
-Message-ID: <9fb414cc-fa4d-417e-7cad-111921595ef6@linaro.org>
-Date: Mon, 27 Mar 2023 11:51:38 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
+ b13-20020adff90d000000b002c54c92e125sm24684308wrr.46.2023.03.27.02.55.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Mar 2023 02:55:18 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: it6505: Add range and selector_reg
-Content-Language: en-US
-To: Hsin-Yi Wang <hsinyi@chromium.org>, Robert Foss <rfoss@kernel.org>,
- Douglas Anderson <dianders@chromium.org>
-References: <20230327044804.3657551-1-hsinyi@chromium.org>
-Organization: Linaro Developer Services
+To: Robert Foss <rfoss@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>
 In-Reply-To: <20230327044804.3657551-1-hsinyi@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: <20230327044804.3657551-1-hsinyi@chromium.org>
+Subject: Re: [PATCH] drm/bridge: it6505: Add range and selector_reg
+Message-Id: <167991091749.404707.7868239484319275542.b4-ty@linaro.org>
+Date: Mon, 27 Mar 2023 11:55:17 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,7 +74,6 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -89,110 +83,23 @@ Cc: xiazhengqiao <xiazhengqiao@huaqin.corp-partner.google.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/03/2023 06:48, Hsin-Yi Wang wrote:
+Hi,
+
+On Mon, 27 Mar 2023 12:48:05 +0800, Hsin-Yi Wang wrote:
 > There are 2 banks on it6505, and when writing to different bank,
 > REG_BANK_SEL needs to be set to the targeted bank. The current code set
 > this additionally, which causes a race condition when a process is
 > writing bank 0 registers while another process set the bank to 1. Set
 > ranges in regmap config so the regmap API would handle the bank changes.
 > 
-> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
-
-It's aligned on how we did on it66121
-
-
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-> ---
->   drivers/gpu/drm/bridge/ite-it6505.c | 34 +++++++++++++++++++----------
->   1 file changed, 23 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-> index bc451b2a77c28..abaf6e23775eb 100644
-> --- a/drivers/gpu/drm/bridge/ite-it6505.c
-> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-> @@ -258,12 +258,12 @@
->   #define REG_AUD_INFOFRAM_SUM 0xFB
->   
->   /* the following six registers are in bank1 */
-> -#define REG_DRV_0_DB_800_MV 0x7E
-> -#define REG_PRE_0_DB_800_MV 0x7F
-> -#define REG_PRE_3P5_DB_800_MV 0x81
-> -#define REG_SSC_CTRL0 0x88
-> -#define REG_SSC_CTRL1 0x89
-> -#define REG_SSC_CTRL2 0x8A
-> +#define REG_DRV_0_DB_800_MV 0x17E
-> +#define REG_PRE_0_DB_800_MV 0x17F
-> +#define REG_PRE_3P5_DB_800_MV 0x181
-> +#define REG_SSC_CTRL0 0x188
-> +#define REG_SSC_CTRL1 0x189
-> +#define REG_SSC_CTRL2 0x18A
->   
->   #define RBR DP_LINK_BW_1_62
->   #define HBR DP_LINK_BW_2_7
-> @@ -489,7 +489,7 @@ static const struct it6505_audio_sample_rate_map audio_sample_rate_map[] = {
->   };
->   
->   static const struct regmap_range it6505_bridge_volatile_ranges[] = {
-> -	{ .range_min = 0, .range_max = 0xFF },
-> +	{ .range_min = 0, .range_max = 0x1FF },
->   };
->   
->   static const struct regmap_access_table it6505_bridge_volatile_table = {
-> @@ -497,11 +497,27 @@ static const struct regmap_access_table it6505_bridge_volatile_table = {
->   	.n_yes_ranges = ARRAY_SIZE(it6505_bridge_volatile_ranges),
->   };
->   
-> +static const struct regmap_range_cfg it6505_regmap_banks[] = {
-> +	{
-> +		.name = "it6505",
-> +		.range_min = 0x00,
-> +		.range_max = 0x1FF,
-> +		.selector_reg = REG_BANK_SEL,
-> +		.selector_mask = 0x1,
-> +		.selector_shift = 0,
-> +		.window_start = 0x00,
-> +		.window_len = 0x100,
-> +	},
-> +};
-> +
->   static const struct regmap_config it6505_regmap_config = {
->   	.reg_bits = 8,
->   	.val_bits = 8,
->   	.volatile_table = &it6505_bridge_volatile_table,
->   	.cache_type = REGCACHE_NONE,
-> +	.ranges = it6505_regmap_banks,
-> +	.num_ranges = ARRAY_SIZE(it6505_regmap_banks),
-> +	.max_register = 0x1FF,
->   };
->   
->   static int it6505_read(struct it6505 *it6505, unsigned int reg_addr)
-> @@ -1267,7 +1283,6 @@ static void it6505_init(struct it6505 *it6505)
->   	it6505_write(it6505, REG_TIME_STMP_CTRL,
->   		     EN_SSC_GAT | EN_ENHANCE_VID_STMP | EN_ENHANCE_AUD_STMP);
->   	it6505_write(it6505, REG_INFOFRAME_CTRL, 0x00);
-> -	it6505_write(it6505, REG_BANK_SEL, 0x01);
->   	it6505_write(it6505, REG_DRV_0_DB_800_MV,
->   		     afe_setting_table[it6505->afe_setting][0]);
->   	it6505_write(it6505, REG_PRE_0_DB_800_MV,
-> @@ -1277,7 +1292,6 @@ static void it6505_init(struct it6505 *it6505)
->   	it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
->   	it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
->   	it6505_write(it6505, REG_SSC_CTRL2, 0x42);
-> -	it6505_write(it6505, REG_BANK_SEL, 0x00);
->   }
->   
->   static void it6505_video_disable(struct it6505 *it6505)
-> @@ -1506,11 +1520,9 @@ static void it6505_setup_ssc(struct it6505 *it6505)
->   	it6505_set_bits(it6505, REG_TRAIN_CTRL0, SPREAD_AMP_5,
->   			it6505->enable_ssc ? SPREAD_AMP_5 : 0x00);
->   	if (it6505->enable_ssc) {
-> -		it6505_write(it6505, REG_BANK_SEL, 0x01);
->   		it6505_write(it6505, REG_SSC_CTRL0, 0x9E);
->   		it6505_write(it6505, REG_SSC_CTRL1, 0x1C);
->   		it6505_write(it6505, REG_SSC_CTRL2, 0x42);
-> -		it6505_write(it6505, REG_BANK_SEL, 0x00);
->   		it6505_write(it6505, REG_SP_CTRL0, 0x07);
->   		it6505_write(it6505, REG_IP_CTRL1, 0x29);
->   		it6505_write(it6505, REG_IP_CTRL2, 0x03);
+> [...]
+
+Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+
+[1/1] drm/bridge: it6505: Add range and selector_reg
+      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=1a2dbf0303e8793444a57a2eec0c6b29523657d9
+
+-- 
+Neil
 
