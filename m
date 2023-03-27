@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAF96CB28C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A31206CB28E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:36:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E514610E413;
-	Mon, 27 Mar 2023 23:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 832A910E7A1;
+	Mon, 27 Mar 2023 23:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47F3710E413
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 23:36:00 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id r14so2021419oiw.12
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:36:00 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B846110E7A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 23:36:10 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id q27so6960013oiw.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:36:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1679960160;
+ d=usp.br; s=usp-google; t=1679960170;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1STa2/pWkCDUQgTVLH0svd7MRisCAzPtmwfg6lpY0tI=;
- b=qPr+/DvkkL35CXSg4gE7/ktKUvTDyUTO7/IL0lvUrUhq8xvT+h0HhqzQfjWn1sHUfq
- En1aRSU2RJDmigFYzTkS8EzveTOuSZurTNaXQXuMC6z/L0zjjcJ8pOP/RAK6YNbcQw4q
- N5w7bZZE64NLFvAe+hhsuZfaHKcZTlvPLUVB9WGh8vWvbT6Bw4YEgTBixKkzkX8laK7u
- c3mserAVKXZC8U5cNFsmkDDulr/6NVBOx3crHKcKt03a7xXztRoIGeA5RCQKYfaqLqZm
- P+MTr26pEMPaE0/LT8tYpGLXoDohT7fYS5w7xLTwM+j6dYp92VoQgWbJwQ7Uly27Grox
- qGtw==
+ bh=DMjKJJljMmxLa3Ljhxg1VmcGN3uGAZRfG7BjQI50ULI=;
+ b=yZcXL9yyvDZKCVJzbqsl/6xiSdbujypjw3qnCm+WCPI+oYss4rXX79NJb6EhbtXhp5
+ LYJdAEiuKIwajKd2vSdA8Vsn+SLgotaZnv312ScdaCXG6RSNfhjqzidGZ5FaTWmOddcu
+ UqsdHJyw7JByhHBlwA+ANsEOdFyhKPDFuKMOTDQZxeEmDeFBVCSDD74RXqiDfE4TlQV+
+ sTpfn15kjRl3szo+IakedBOdd3wUF6wP+o07P8dSqHEkdd5/zmw/xhwmhb9f3Jl9QUvJ
+ nKqDWBehFY5QznZ12WccPFZIrMinZI+bzFXpCrPzOj+NO8w+KAs7YglMRg0fwMJgGOPy
+ pFaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679960160;
+ d=1e100.net; s=20210112; t=1679960170;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1STa2/pWkCDUQgTVLH0svd7MRisCAzPtmwfg6lpY0tI=;
- b=vBXedN4blba1ma+ik7krKud8djN+1CcqKGMCC9JaPW3rDkwBsWyoWNjEYJl0HJjSSN
- shxN/QjMMfQq2SsySdvPAFOp44ejDPLuLtAc2859qJgoN5L8/uUZGUXRiI+9hDI3xizL
- Pg+q6lxTdmUtGNpn/hPzuDWQZrkTdToNRP2WOPmepZX4QlP3OOrfbpHxZAjCA361LSfQ
- r7yEQ9uTSx/rgO+qunqKOjA1CnCThL74XQXQszFMMoUZ6qpiGWOJ2Yef5h+V3b9hTaf3
- mpjSRkUK+Fz5Xf4lCxYItU9l1ZXm+mXUochkL3egQrqIn/pKLyvAoW83B0bN7GzOczwF
- 5GiQ==
-X-Gm-Message-State: AO0yUKUIlhouw9uO36hMF+Q1yavS1ZIUBgtAGILHXM0v0ndHlDsXUX4f
- qhG8sK4+15f+SIb0EzG18AKS/A==
-X-Google-Smtp-Source: AK7set8j4D0nhypplSsU3HBthDUICnrtCgmJYFcK94O5rdy1CxC8OtORoO7uyBWCp1vj0T0Q4dZCWA==
-X-Received: by 2002:a05:6808:659:b0:383:caf3:a30e with SMTP id
- z25-20020a056808065900b00383caf3a30emr5533117oih.17.1679960159943; 
- Mon, 27 Mar 2023 16:35:59 -0700 (PDT)
+ bh=DMjKJJljMmxLa3Ljhxg1VmcGN3uGAZRfG7BjQI50ULI=;
+ b=5I7ak58a872Ft1PCB/4EscSuIoYHKTlar7qJEyhCa68ZFtFsG4ALjSOJARMwHXTr5c
+ UKRc7PzNXCSez+wTmxTMRPyzSy+8BE0IIafGjBsEoucCXg/nmqGcfw+BRgLS0/jLyvA8
+ BZKbyxtmM4et2BXcA3iy0Zh/VCU7dBeGfmxnhR1iInwOrMkHRYB672A2C7x8/I61DY5x
+ e80IuwmpLoz41flDz09ASNdRGgS5J9SwPNAPZAwPCPENqFIR1DOtHyHQaeV7GicrHOXi
+ d5ze5ahBo9KfsOKl0ui1Rxq3z2ah9VflylOLnijopeY/ndPunpP4ATlxaTVkhgdh14mi
+ 7PdQ==
+X-Gm-Message-State: AO0yUKXauauwF6jiSqVYznNZ0q8+cTwTjbMVsx2rcknUO6IvPzb9XWoV
+ 79sp6XDwXkd+02jxBkXVPQvK3A==
+X-Google-Smtp-Source: AK7set9oAz6sAJk9i+Yr1zEBONLpWWppxu2w98hCDmfDs6XKH+G2nHgnPlqdPGuqAbSZfcMHN2iseA==
+X-Received: by 2002:a05:6808:7cf:b0:383:f04d:5d41 with SMTP id
+ f15-20020a05680807cf00b00383f04d5d41mr5941639oij.59.1679960170022; 
+ Mon, 27 Mar 2023 16:36:10 -0700 (PDT)
 Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
  by smtp.gmail.com with ESMTPSA id
- b186-20020aca34c3000000b00389295e8424sm1643409oia.45.2023.03.27.16.35.50
+ b186-20020aca34c3000000b00389295e8424sm1643409oia.45.2023.03.27.16.36.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Mar 2023 16:35:59 -0700 (PDT)
+ Mon, 27 Mar 2023 16:36:09 -0700 (PDT)
 From: Caio Novais <caionovais@usp.br>
 To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 11/12] drm/amd/display: Remove unused variable 'scl_enable'
-Date: Mon, 27 Mar 2023 20:33:52 -0300
-Message-Id: <20230327233353.64081-12-caionovais@usp.br>
+Subject: [PATCH 12/12] drm/amd/display: Remove two unused variables
+ 'result_write_min_hblank' and 'hblank_size'
+Date: Mon, 27 Mar 2023 20:33:53 -0300
+Message-Id: <20230327233353.64081-13-caionovais@usp.br>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230327233353.64081-1-caionovais@usp.br>
 References: <20230327233353.64081-1-caionovais@usp.br>
@@ -105,36 +106,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Compiling AMD GPU drivers displays a warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_rq_dlg_calc_31.c: In function ‘dml_rq_dlg_get_dlg_params’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn31/display_rq_dlg_calc_31.c:905:14: warning: variable ‘scl_enable’ set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c: In function ‘dpcd_set_source_specific_data’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1290:32: warning: variable ‘result_write_min_hblank’ set but not used [-Wunused-but-set-variable]
 
-Get rid of it by removing the variable.
+Get rid of it by removing the variable 'result_write_min_hblank' and 'hblank_size'.
 
 Signed-off-by: Caio Novais <caionovais@usp.br>
 ---
- .../gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c   | 2 --
- 1 file changed, 2 deletions(-)
+ .../drm/amd/display/dc/link/protocols/link_dp_capability.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-index 35d10b4d018b..2244e4fb8c96 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn31/display_rq_dlg_calc_31.c
-@@ -902,7 +902,6 @@ static void dml_rq_dlg_get_dlg_params(
- 	double hratio_c;
- 	double vratio_l;
- 	double vratio_c;
--	bool scl_enable;
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+index d4370856f164..7392fcf17653 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_dp_capability.c
+@@ -1287,7 +1287,6 @@ void dc_link_overwrite_extended_receiver_cap(
+ void dpcd_set_source_specific_data(struct dc_link *link)
+ {
+ 	if (!link->dc->vendor_signature.is_valid) {
+-		enum dc_status result_write_min_hblank = DC_NOT_SUPPORTED;
+ 		struct dpcd_amd_signature amd_signature = {0};
+ 		struct dpcd_amd_device_id amd_device_id = {0};
  
- 	unsigned int swath_width_ub_l;
- 	unsigned int dpte_groups_per_row_ub_l;
-@@ -1020,7 +1019,6 @@ static void dml_rq_dlg_get_dlg_params(
- 	hratio_c = scl->hscl_ratio_c;
- 	vratio_l = scl->vscl_ratio;
- 	vratio_c = scl->vscl_ratio_c;
--	scl_enable = scl->scl_enable;
+@@ -1324,16 +1323,10 @@ void dpcd_set_source_specific_data(struct dc_link *link)
+ 		if (link->ctx->dce_version >= DCN_VERSION_2_0 &&
+ 			link->dc->caps.min_horizontal_blanking_period != 0) {
  
- 	swath_width_ub_l = rq_dlg_param->rq_l.swath_width_ub;
- 	dpte_groups_per_row_ub_l = rq_dlg_param->rq_l.dpte_groups_per_row_ub;
+-			uint8_t hblank_size = (uint8_t)link->dc->caps.min_horizontal_blanking_period;
+-
+-			result_write_min_hblank = core_link_write_dpcd(link,
+-				DP_SOURCE_MINIMUM_HBLANK_SUPPORTED, (uint8_t *)(&hblank_size),
+-				sizeof(hblank_size));
+ 		}
+ 		DC_TRACE_LEVEL_MESSAGE(DAL_TRACE_LEVEL_INFORMATION,
+ 							WPP_BIT_FLAG_DC_DETECTION_DP_CAPS,
+ 							"result=%u link_index=%u enum dce_version=%d DPCD=0x%04X min_hblank=%u branch_dev_id=0x%x branch_dev_name='%c%c%c%c%c%c'",
+-							result_write_min_hblank,
+ 							link->link_index,
+ 							link->ctx->dce_version,
+ 							DP_SOURCE_MINIMUM_HBLANK_SUPPORTED,
 -- 
 2.40.0
 
