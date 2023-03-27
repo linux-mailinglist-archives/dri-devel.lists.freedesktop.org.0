@@ -1,119 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FED36CA878
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 17:02:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D19136CA8C5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 17:17:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 331C910E3AA;
-	Mon, 27 Mar 2023 15:02:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBEE910E111;
+	Mon, 27 Mar 2023 15:17:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2042.outbound.protection.outlook.com [40.107.100.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D47FE10E3AA;
- Mon, 27 Mar 2023 15:02:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HvpiiHhRAQMBs7RW/LV63hsPG8CAza3vYB25CgVzCwKoBl6/FBAnpYzS7PcoS3u1WqJJ0UpsFoi8EGs18LKTcDpajLZ7H6N9nbvpWARL9gNTznM4m3Sig6jBBNf6r+Cy3Cv1kL9+3V408wOEtJx+NPjpXn0Cska0y19zGIS9+aRYbLXqKRNSAmPHeCB8l34Cv6uzWsR4YbJWTi/Anvl2lmompIneusraJUSDzIKk8lBrHZQWwW9uVfSpeRAp+bqLSFj1mrjZJ+dRfl7GN9xjhFi4tIS9M41s6pEx7wy5Q/Z1XRzf9saO4R0INqN6iedCDgBZ+8sE+zz6AeiGQwV/jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ezmf1LSCQJeiilrVWuGaXsG7BT+op+gamW7yLgakgcY=;
- b=UX2IdU0vVjBZjCAyu6IQnqY5Odqvjy5IXtRH4J3n9nqHQ3q6TVKm1UiqpKbdcUvh+lDavLhEqeMV3btG6FlRFbE+IxGCmdfra9kFOM3eYkdrA8JzBcXoML+BZy28v5IPIIIHcwZMlyYREyRS2/GwN1URmMhRTNHLQLVAcQmQbE0cq8CJEfcrBd28TFxxbebpH8Av+Xl68arJsdSM4iEok+qlsGSEgGj7v3Sf/ljqWc9EFzwgG26QDrFPfcSx9PCHlZ2OG9wgkDZDldvXgvp6y5zpPzBXwUjS9heFJjcqKYk1eP4yCjuCXNj/1qboR8Ndf6GbNzqkRn6PDb/nRG2MTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ezmf1LSCQJeiilrVWuGaXsG7BT+op+gamW7yLgakgcY=;
- b=nGOFcoPLThG60x0BSp1rFNN/1wMU3d1s7bW6qF6URQZYx7PpcSbyRhSkQII4OUfLqTC3O33UbiPJgDdgwOZQajRJqitanlkiWZ3LUG04UgVy9fXPZ+b2ovjGbbdTj5XzP6Pv4/ozStP0z/Kbmibv79gz5WpMtQ/85PDzJU/xJFk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- IA1PR12MB8335.namprd12.prod.outlook.com (2603:10b6:208:3fa::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Mon, 27 Mar
- 2023 15:02:10 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b877:9974:5a14:cc37]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::b877:9974:5a14:cc37%4]) with mapi id 15.20.6222.028; Mon, 27 Mar 2023
- 15:02:10 +0000
-Message-ID: <17ac25df-1e06-ae3a-e04e-831e20f00323@amd.com>
-Date: Mon, 27 Mar 2023 11:02:07 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/scheduler: Fix variable name in function description
-Content-Language: en-CA
-To: Caio Novais <caionovais@usp.br>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20230325131532.6356-1-caionovais@usp.br>
-From: Luben Tuikov <luben.tuikov@amd.com>
-In-Reply-To: <20230325131532.6356-1-caionovais@usp.br>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0293.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10e::21) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7E5A10E111
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 15:17:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6EC63B81618
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 15:17:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 318E2C4339E
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 15:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679930240;
+ bh=WxXjXDVt250Dzp30WluOUfbIb760o1vY2QBgR+3iufI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=DgSCKdzHtd3A8JummnAbCF0GnDlwtgZE6oSuVEtby2k6dFHawi07+eYzwPhFI/zPn
+ 1IqdQXp31wiy/gxtYX6xIXwHsgB7dDWGbPo6yynzdtMX0Vzh+sZ7ApcD4v6Hrd7yJM
+ xTrafTzK5Qq9V8l3zkkyJ+yxFjRh4x26wz388XcMmrfyf1YhaCvtQo9lmQT6pcvAcA
+ bMYMFdx1Gz2tsb/AYwR47c26nxs8JIX5KkB8g9NdHo8PqeB5MQ2sLpGsRviMSYsdYc
+ EOg4Jv1ldxV8sUCYxJzAt8ZpOKQIeoGcrTIh8+8rqmOATAeYbhPniEhhLGy8a0zYPU
+ 3q5KeUrdBoIzg==
+Received: by mail-lj1-f182.google.com with SMTP id by8so9381448ljb.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 08:17:20 -0700 (PDT)
+X-Gm-Message-State: AAQBX9eq1oo7TS7ZEhCqERBlFLBc/1i8fw7W9V8EBiRmQZroAow5mB6z
+ E8xakR96ksBW09KxOfnqKEAy0Tu41kzG+2t6zA==
+X-Google-Smtp-Source: AKy350ZJD8lXrATp34gVJQNtWOp95oG2v0KcgMEyjZm8N9VS0wqsbCWLENkFgqU2pL5ANEjL4W1+rI8dl98MGCb+WEw=
+X-Received: by 2002:a2e:a304:0:b0:2a1:627a:70bb with SMTP id
+ l4-20020a2ea304000000b002a1627a70bbmr3582823lje.10.1679930238193; Mon, 27 Mar
+ 2023 08:17:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|IA1PR12MB8335:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f3219aa-46ca-49f3-8d06-08db2ed43d32
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oYK3R5HU1LCuUIBuOKeM5DJ6EAEUJtSmUR8LWZ9y0A2JInwUVGL4fQkoRKhVHvuZDkcXFFjuiVXxoWM2V3Kzw7O+8aKSUWMoa4kuY1wzGAmN/IuTEZhXUvu7DQgSxm5YxFAC4LAVD43zzmgpd5qqLTjlj1ile9yC9AqEYTl5Y100mACs0MhbNscR4rYiD59PzATpOMmIlLgbmMOM8nNSs0KetIOEuqoNxTwXOU9LGs0iV7ZBQXbDkibHzUsCgCec0HB9ZYHCRPwJiMjp10lo0NZ6jhIWVvKMlLzU0Ymm39U79Er4YCKJh2GrnxyuBlH6tlTBJ2x0Uh243o3WHL8xVqfu9H1Twh+WnknS9622RbQ0WR+MJp5USCtNGqREVIpYI0Xoco5OD7jPbL3fDo9uv+Z5qUuQDejlqDKallrDtX5ZwPAEtG8bhI0regFBwF0Uyz0KCI1atw0zTW4l8Ka6T7LIjvVODnZlC9soc7/1myNAl6nKD2P6VQILPaEjAk9S1IuP5XNEVNqpskyVp7c1mlefVgF/CgoePwdQ77kXJ3fP2qOnliIKphf7BzP/3Ru8sV8vDh+ijZugHMLNJOVkQpZrGCccwqoG+tL4tR6MHifmHO2Oau8alT34CZtaaX2i4FeNXjs+0BhFqGxK3E8soQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(136003)(346002)(376002)(396003)(366004)(451199021)(66476007)(66946007)(8676002)(66556008)(4326008)(316002)(5660300002)(38100700002)(41300700001)(8936002)(6512007)(186003)(53546011)(6506007)(2616005)(6486002)(83380400001)(6666004)(478600001)(44832011)(86362001)(31696002)(2906002)(36756003)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXFvWjl3dExzc0ZTL2U5ckJsNXIyRFNZZDVHQ0xaaG1Ja1BHNTVtcXZIQ29o?=
- =?utf-8?B?em5acWtCeFdnN0VxdDNIdkdOU3cvS2hvVmlFd0ZDaHZoR0xNNWh6TjNIUTdL?=
- =?utf-8?B?bmVoTHdGd3BWL2R6bjZHM3B0YWo1U2k4bFZGMGJVaGYxMzlNR2lYekU1QmxS?=
- =?utf-8?B?Znc3Y04xdGR4TnhZZkMxNVlPQ0h2dnlzRGRSajJocEdQc0pjU1VsWjZ2VTZx?=
- =?utf-8?B?Zjl0TG9Rc3ZXV1dOR2d6QndmSHZWNWV1MEs2QUxsd2dCanZJRHM3bnV5TzQ5?=
- =?utf-8?B?MzhobWdaM1Z5OFFMVEIrWHM3dk9PVmR6WFdodC9SdXBYRWV6U0gwVU1tSmt2?=
- =?utf-8?B?czJNV3JhWW9kRVkzcFJHZmlRbjFqTThFbWhWc1RKd2J4dUtaK2ppYnhpRXpv?=
- =?utf-8?B?ZDdhbGtibGVPbGd4NG1DdVo1NVFGQmdwYm82RFo2Zm45KzZQaDIxNDBPcnBh?=
- =?utf-8?B?S1pGZTlzQ2RWdDNZcGIwREtmOUhjaDI3MzRZMTk4M2JYNS9WaWpOb3FmQzNT?=
- =?utf-8?B?aE5zQkVZbzZ2dnc3cVB2Z2lOWFhvMm5DeGR2YkNUTUNCa0FjUGRkTUFxREFO?=
- =?utf-8?B?Q3Y3MEFJbHhQeDFHL0loWkk4UU9ZSC80Tjl6ZmQ2MW1HcTZ0Q2JDcU4zRG9k?=
- =?utf-8?B?eE44RHI5NllPUWZaWEhTcUpidGl6ejdVRitQaXYxZTdaV1lDMVBuaUpjMEdn?=
- =?utf-8?B?aGVwTk9CT3FHZTVzS1EwSTRydGVVK05mTklocWxhbVR3ZjBxd1NDZlpKbG1U?=
- =?utf-8?B?S2hwemJDQXNQR0JMSHFHaTZzWXhkRGZQVkhlaVFKTWFBa0dyMW0zTzVUdjBt?=
- =?utf-8?B?UWczQkE3aTlUTEFoZkk5NlFlYXdNelNiVU9ON1lVZ011bDJtbzE3NC94RVZY?=
- =?utf-8?B?R3R2YThZbjd2Nkc1bWZ5M1VQWGtKcHVXVnlINEZXY0MvbDNZRXBEWmxDN2Fv?=
- =?utf-8?B?K1YwRm90RlQ5UkQ2Wm9FLzZJZkdLTkR2ZWcwNzhzYUhTWmJhamFTdEY0bUlG?=
- =?utf-8?B?eEF3Um9WcTFDcmMwRUJsWXV4OXZ6RmE4eWlMZFBWR2NvbzZybUNLZWdaYjJa?=
- =?utf-8?B?bThoSnJKaFN5T2RoUEEyUmNmcDNSZGk2WEtHTkpKZGd4NE4wcFhwWTRUbFdo?=
- =?utf-8?B?RkQrYkZOOFNHOWIxR09tNE12MEtwbS9SN2pITWc0VmE5b1ZJUHpNNkJTTEJt?=
- =?utf-8?B?SnhTQXN4cDJjLzlSUHlOZHdRM2o2QWVacUJadTRCZmlQUlo0d0R3aHhmZVZY?=
- =?utf-8?B?Tkw2MHIrenhGUXRoWXoreUVjYVpXbUVndjg2YWxtU3dXRmFpdlZpS050Mlc4?=
- =?utf-8?B?TjA5dWRNN0JVVG8rUkVyci93S2k3bTZ5OEVQbEQwaVJGTTIvSDdZcVYyMWlh?=
- =?utf-8?B?eUxyNVdLSllNbHNnTTRJMjBHSGxUUGxTVEE4R2RZMk9YQldlTS9nVW54VTZM?=
- =?utf-8?B?cGxmTmlrQ1BPb3dIeGVaUi80NUZZUzIrTkpHdFpsOHdkK01BQThXZThhcERy?=
- =?utf-8?B?ckhMOVpYVkJJNlhob1l4NjlTbHV5aFFEcDh0Wmx5R0hPZDRTYWRCeUxGeVc2?=
- =?utf-8?B?WGJqVDAwWFdGRHNsODRGajFNM241aFVPY2lEU2VCR3VvWmoySktJOHlWdUZs?=
- =?utf-8?B?ckJwZnZWMndmNXNjd3BFSUJaTnJZOWNKeFBZaS9qdGRRLzNFbmdFY2lJdlpL?=
- =?utf-8?B?TkxEMWlGQTZpMjhDRVVnaHpPRTRJQ25vVEMvVDQxQ1hEcHYrSVNwK01iandB?=
- =?utf-8?B?bFNBVjlwSHRBWWxlS0hXaWxCNHdZR1RXVDBVbEtta2Q3Wk1OSFlGTUJ1SEk3?=
- =?utf-8?B?NVphYTlablEwbll5V2pTR1JBWU9ka0MybCtYSWhjWjZXNFJkeDJ5L0oxYjlZ?=
- =?utf-8?B?MjB1cXFIandZaHJqdm9qeHMzRDNrd3lvVjV3c2QvZ3VGbGdNNlZOOG9hOHRG?=
- =?utf-8?B?U0tOS3ZrWTZtTDlCampVaEJvS3NPaDZiKzFMN0hvUW11SXpFWjB2a293d2ll?=
- =?utf-8?B?QnRHeVVZemgyWUQ1OXIrMXVQYnduQ3ZOT1JMdjh5SnZGbm9OeVlGcHYvSkhv?=
- =?utf-8?B?MVdmRzFqWkNMTjVRWURYQis0VERZKzJ5eGxDaVpjQU1NVDU2RXhYQkUrY0xU?=
- =?utf-8?B?S0VPb0R5MitCNmJDWk9Jc05nS1g1ZFpxZUN3aFJtWWhVMGtGNGxrR0N6NWxS?=
- =?utf-8?Q?BZENBIatAD2W9uhSbrR05pxZD3PaJvsKnN7JzI37rUu1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f3219aa-46ca-49f3-8d06-08db2ed43d32
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 15:02:09.9150 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: muk16Iz0zSWJxjaKecrehl5KiSbvdJdRXu8s4UKX2kuluClY0cFfw1X9CLPWclxb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8335
+References: <20230321121859.2355-1-nancy.lin@mediatek.com>
+ <17831605-5c9d-9c92-d190-04f91060ace4@collabora.com>
+ <CAAOTY_8ZAxVSLnJ1u5snsRgkszV7ixwhjUS2nDimE_Lpj=cUCA@mail.gmail.com>
+ <97a5f383-38f5-e8ea-e1d8-489b690e4521@collabora.com>
+In-Reply-To: <97a5f383-38f5-e8ea-e1d8-489b690e4521@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 27 Mar 2023 23:17:06 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9_vn-m2jTaaHkFDV+v2-LeaAxtCLNNnOxZq5Httb-TAQ@mail.gmail.com>
+Message-ID: <CAAOTY_9_vn-m2jTaaHkFDV+v2-LeaAxtCLNNnOxZq5Httb-TAQ@mail.gmail.com>
+Subject: Re: [PATCH v30 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,42 +64,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, devicetree@vger.kernel.org,
+ singo.chang@mediatek.com, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, "Nancy.Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ krzysztof.kozlowski+dt@linaro.org, clang-built-linux@googlegroups.com,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the fix. I'll push this via amd-staging-drm-next.
+Hi, Angelo:
 
-Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
+=BC
+2023=E5=B9=B43=E6=9C=8824=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:3=
+8=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Il 24/03/23 00:25, Chun-Kuang Hu ha scritto:
+> > Hi, Angelo:
+> >
+> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =
+=E6=96=BC
+> > 2023=E5=B9=B43=E6=9C=8823=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=
+=884:58=E5=AF=AB=E9=81=93=EF=BC=9A
+> >>
+> >> Il 21/03/23 13:18, Nancy.Lin ha scritto:
+> >>> The hardware path of vdosys1 with DPTx output need to go through by s=
+everal modules, such as, OVL_ADAPTOR and MERGE.
+> >>>
+> >>> Add DRM and these modules support by the patches below:
+> >>>
+> >>
+> >> I've tested v30 again on MT8173, MT8192 and MT8195 based Chromebooks.
+> >> Green light from me.
+> >
+> > I'm curious about how you build code and test on Chromebooks. Do you
+> > build in cros environment or pure linux
+> > (https://archlinuxarm.org/platforms/armv8/mediatek/acer-chromebook-r13)=
+.
+> > I've a MT8183 based Chromebook (HP 11a) and I've tried to run a
+> > upstream kernel on it. cros is too heavy for me and I doubt I could
+> > use it. I've tried the pure linux and could boot up with console, but
+> > display does not work. If you use the pure linux environment, could
+> > you share how it works?
+> >
+>
+> I haven't tested MT8183 (I don't actually have any 8183 machine in my han=
+ds)... but
+> yes, I can share my test environment.
+>
+> I have one MicroSD that I use either in the MicroSD slot of the target ma=
+chine, or
+> in a USB reader; this *single* system is what I boot on *all* Chromebooks=
+ that I
+> have: one kernel, multiple devicetrees, same Debian-based userspace.
+>
+> What we have to prepare this bootable media can be found at [1], but bewa=
+re that
+> it currently uses an outdated kernel, so, what I have locally is a symlin=
+k to my
+> kernel tree.
+> You can change/add/remove the devicetree blobs that will get added to the=
+ image
+> by modifying `chromebook-setup.sh`; before tampering with kernel tree sym=
+link,
+> please run that script for the first time, as it will download a cross-co=
+mpiler,
+> a kernel tree (that you will replace for sure) and the (very old) Debian =
+rootfs
+> that you can update with `apt-get dist-upgrade` after booting the Chromeb=
+ook.
+>
+> If you want to check about possible kernel configuration differences, wha=
+t I use
+> is at [2], so that you can compare.
 
-Regards,
-Luben
+Thanks for the information, I would try to compare the kernel config first.
 
-On 2023-03-25 09:15, Caio Novais wrote:
-> Compiling AMD GPU drivers displays two warnings:
-> 
-> drivers/gpu/drm/scheduler/sched_main.c:738: warning: Function parameter or member 'file' not described in 'drm_sched_job_add_syncobj_dependency'
-> drivers/gpu/drm/scheduler/sched_main.c:738: warning: Excess function
-> parameter 'file_private' description in
-> 'drm_sched_job_add_syncobj_dependency'
-> 
-> Get rid of them by renaming the variable name on the function description
-> 
-> Signed-off-by: Caio Novais <caionovais@usp.br>
-> ---
->  drivers/gpu/drm/scheduler/sched_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 214364fccb71..7db586e6fce6 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -722,7 +722,7 @@ EXPORT_SYMBOL(drm_sched_job_add_dependency);
->  /**
->   * drm_sched_job_add_syncobj_dependency - adds a syncobj's fence as a job dependency
->   * @job: scheduler job to add the dependencies to
-> - * @file_private: drm file private pointer
-> + * @file: drm file private pointer
->   * @handle: syncobj handle to lookup
->   * @point: timeline point
->   *
-
+>
+> [1]: https://gitlab.collabora.com/google/chromebooks/-/tree/mtk-av1
+> [2]:
+> https://gitlab.collabora.com/google/chromeos-kernel/-/blob/mt8195-trackin=
+g-master-rolling/arch/arm64/configs/defconfig
+>
+> Regards,
+> Angelo
