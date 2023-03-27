@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B511E6CB29C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DF56CB2A0
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 01:48:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BD210E41C;
-	Mon, 27 Mar 2023 23:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C343910E7D8;
+	Mon, 27 Mar 2023 23:48:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91F0C10E41C;
- Mon, 27 Mar 2023 23:46:37 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-17aaa51a911so11063518fac.5; 
- Mon, 27 Mar 2023 16:46:37 -0700 (PDT)
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8DAD10E7D8;
+ Mon, 27 Mar 2023 23:48:17 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ d22-20020a9d5e16000000b0069b5252ced7so5467878oti.13; 
+ Mon, 27 Mar 2023 16:48:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679960797;
+ d=gmail.com; s=20210112; t=1679960897;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+HHSCdFOMcHm/qTnYSefeJOCZD07oxZlsWhVPH8z90I=;
- b=XkhgxyTZd9kUR7Mla+hglqBL+D9/RgpyDpo01akjHC4VAuLumOJrjNLjak/QXPcNrc
- oRYEgpTBzmdQzsXmFXudNZDRN9xrMJ7ZUVOEt3QpMP1FF1owquMp/AEIobLlDc/dM8k1
- 2YWN/qLuTmP4VZMnIcAbRydw5hR6BxqRGi+009qYQTkX9Y59f4DfxlSWD4rng7LpLXhD
- lbF/ujVpRDWHyIrh8a8IoNHZxzuflZmFVejEjezfku+2NDz8HvcrkYHXuPgvYaqE5B1N
- f/ctHuRye3Y3ZVa9sdtg+pMuAHkV+HlyGGOIH6H91wlrnVahQEYrXOD1wO4WgefG4zNy
- uSuw==
+ bh=6uOJzLF5++wuNkGYdTRIM5Imo+cCIkOUu91mcxK3VoM=;
+ b=BEXIiX+2N7jyn0zT6SrIbqb3pyq9kKoUg0pavRgLNSD2dNuJP0SnsvDojBtp9m4nga
+ n7buh4tfRiFKpjX3AUMrJMlPdV5kTiTXG+WT1XYIDbls/IPVeZhYgyoa5h6iCSlSDFxo
+ jenQcOfc/sHV1+0oTgeK6lHYkvyvmb30b0vlwXYOtBybKY+NluOMxPG9WAOYtzqAVy7W
+ u1JM0nhEng/1nn1y1MyVcl1gqXBPCVkZQYJlqSdVzzMREJiWNdItKvmW/Ljw06fdzUH4
+ vD1rgzKaRyDYElynqN41T1Bhebs9x8qUTJIfpiD1D9bW4VVIIzjmFuAxtar2qOoFHdhZ
+ m62Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679960797;
+ d=1e100.net; s=20210112; t=1679960897;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+HHSCdFOMcHm/qTnYSefeJOCZD07oxZlsWhVPH8z90I=;
- b=Dh2OKqQmaNR1RUOpWafu6FRu19sAWLD785kCp1jY+UTAo3+taUcPymYrYvUaf8JZZ8
- Sr48AacdfU0CaXFJ43g33jGV509F0yvMDW4JTWvdSuys9LVtrhjuqFbY22DEQqpPW5ne
- 63eWm5QWwRlWltEU8zduTpIrrfaaWbS8KpYHk8vt+7GVcfihz8DO0O8A8SYbwNwS548H
- C+7xQjPHrMsd/TO8S6aSj0puXblp6b+1kA3aelUisctrpwo6Zq1I61U3mws675dRKD1w
- nubnFIQFFd/GxFDI30t0NLKm98wPu5ED4ULTZiPj3RKcj5U+BGcNEphnSj4vqsf+LmeP
- 3pew==
-X-Gm-Message-State: AAQBX9eys8kYqveFYIsvKGeXHvBz3erO0ob+fcRwHE1d+9CnEnSZBjHG
- QhR0vk+nRstuMeU1yTfv4flxLXwBbdyz3a8LztQ=
-X-Google-Smtp-Source: AKy350ajECs9vlAxp9Zc/RgZFmI0my5+POzp/1L6Jpd0DTDvqtD1z4/8o71AriXo3dXx3BrhelIhPxq8nhB7VZYcmwo=
-X-Received: by 2002:a05:6870:7f84:b0:177:b05f:c5f with SMTP id
- aw4-20020a0568707f8400b00177b05f0c5fmr2712997oac.3.1679960796796; Mon, 27 Mar
- 2023 16:46:36 -0700 (PDT)
+ bh=6uOJzLF5++wuNkGYdTRIM5Imo+cCIkOUu91mcxK3VoM=;
+ b=dPJbahOmAFMaagqXECFTlXFiAErjOjHgwcU/CjWY3ukk0c+B1PqudSe/sQmvI3/if2
+ TmH8OE/BKdwZ965XVotpX3Mb8qOQQ2dillzdNB8LP2M+/SyHNe8FSHO6qm7/SbFE/r9/
+ uJuN9D/mub01etrCjzaZxcoiqTiWQ3D/VBeltYdqWZH8CkxQ2TBIUB8f0V24ePD5ACWw
+ o3SZFimC3y1K/KfnloaikMf719NdKLMXf0YvYSqOkT/6BcNAG1wdmjig02soztClOFSK
+ 4H6EyxhkKdo39NVM3rKRRWqYP6KDDBOJB9OpXyNAxjjiDLJGUcPkWPyjzxgi2W/Jo5dl
+ N/7g==
+X-Gm-Message-State: AO0yUKXfzkZ+M/FgpY4l+ZCgf7nMUF3yHDOsD6bF3lZ7G5aEqmyajoac
+ Qagno+NaDaeIGtOkfZ+M9EbZoXIVk6yutt6NYNo=
+X-Google-Smtp-Source: AKy350adTHg4TU7FBkltvQF9jydEMHuQrJG7Gz7uoTUxJXaHA05ZgeroITIoceYc0rQL7sJ/+wsdu/CJOHU3MzjOMMU=
+X-Received: by 2002:a05:6830:1bed:b0:69f:882:cdb2 with SMTP id
+ k13-20020a0568301bed00b0069f0882cdb2mr4519086otb.3.1679960897109; Mon, 27 Mar
+ 2023 16:48:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230327233353.64081-1-caionovais@usp.br>
- <20230327233353.64081-2-caionovais@usp.br>
-In-Reply-To: <20230327233353.64081-2-caionovais@usp.br>
+ <20230327233353.64081-3-caionovais@usp.br>
+In-Reply-To: <20230327233353.64081-3-caionovais@usp.br>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Mar 2023 19:46:25 -0400
-Message-ID: <CADnq5_M6LEBPVfAXPcVyR-C2qKYrTk=Nyb1cOjGz_Zo6LX9rxA@mail.gmail.com>
-Subject: Re: [PATCH 01/12] drm/amd: Remove unused variable 'r'
+Date: Mon, 27 Mar 2023 19:48:06 -0400
+Message-ID: <CADnq5_MpPB-V2ZUr7AQDyczuSyJ4=sMCnRSdqEFG9sfBdn1eLQ@mail.gmail.com>
+Subject: Re: [PATCH 02/12] drm/amd: Remove unused variable 'value0'
 To: Caio Novais <caionovais@usp.br>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,46 +105,50 @@ te:
 >
 > Compiling AMD GPU drivers displays a warning:
 >
-> drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c: In function =E2=80=98amdgpu_mes_=
-ctx_alloc_meta_data=E2=80=99:
-> drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c:1099:13: warning: variable =E2=80=
-=98r=E2=80=99 set but not used [-Wunused-but-set-variable]
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_link_encoder.c: In f=
+unction =E2=80=98dcn10_link_encoder_update_mst_stream_allocation_table=E2=
+=80=99:
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_link_encoder.c:1222:=
+18: warning: variable =E2=80=98value0=E2=80=99 set but not used [-Wunused-b=
+ut-set-variable]
 >
 > Get rid of it by removing the variable.
 >
 > Signed-off-by: Caio Novais <caionovais@usp.br>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c | 8 --------
->  1 file changed, 8 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c | 3 ---
+>  1 file changed, 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_mes.c
-> index 82e27bd4f038..e0130536f778 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mes.c
-> @@ -1096,14 +1096,6 @@ uint32_t amdgpu_mes_get_aggregated_doorbell_index(=
-struct amdgpu_device *adev,
->  int amdgpu_mes_ctx_alloc_meta_data(struct amdgpu_device *adev,
->                                    struct amdgpu_mes_ctx_data *ctx_data)
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c b/=
+drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
+> index c4287147b853..81aa1631945a 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_link_encoder.c
+> @@ -1219,7 +1219,6 @@ void dcn10_link_encoder_update_mst_stream_allocatio=
+n_table(
+>         const struct link_mst_stream_allocation_table *table)
 >  {
-> -       int r;
-> -
-> -       r =3D amdgpu_bo_create_kernel(adev,
-> -                           sizeof(struct amdgpu_mes_ctx_meta_data),
-> -                           PAGE_SIZE, AMDGPU_GEM_DOMAIN_GTT,
-> -                           &ctx_data->meta_data_obj,
-> -                           &ctx_data->meta_data_mc_addr,
-> -                           &ctx_data->meta_data_ptr);
+>         struct dcn10_link_encoder *enc10 =3D TO_DCN10_LINK_ENC(enc);
+> -       uint32_t value0 =3D 0;
+>         uint32_t value1 =3D 0;
+>         uint32_t value2 =3D 0;
+>         uint32_t slots =3D 0;
+> @@ -1321,8 +1320,6 @@ void dcn10_link_encoder_update_mst_stream_allocatio=
+n_table(
+>         do {
+>                 udelay(10);
+>
+> -               value0 =3D REG_READ(DP_MSE_SAT_UPDATE);
 
-You can't just remove the buffer allocation here.  If you want to fix
-this then do something like
-if (r)
-    return r;
+This reads a register.  Removing it may adversely affect the
+programming sequence.  If you want to avoid the set but unused
+warning, just drop the assignment, but leave the REG_READ.
 
 Alex
 
->         if (!ctx_data->meta_data_obj)
->                 return -ENOMEM;
+> -
+>                 REG_GET(DP_MSE_SAT_UPDATE,
+>                                 DP_MSE_SAT_UPDATE, &value1);
 >
 > --
 > 2.40.0
