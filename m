@@ -2,122 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62DFD6CAF32
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 21:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CC26CAF3F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 21:56:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0819010E744;
-	Mon, 27 Mar 2023 19:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 633A910E05A;
+	Mon, 27 Mar 2023 19:56:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2045.outbound.protection.outlook.com [40.107.94.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C13610E72E;
- Mon, 27 Mar 2023 19:53:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gzC2FGniQ7gYks/YnreaUMCPAKzrqkxOZoVlet/0hqPR9YYqHPZLmR7XXVG9OzON0DOrXjUlNGZsw8E4fCGJ+F0lfn67UcVyq44WPREZPifPA1r+eo/5hA1L0KAiFSTuYFzNHwClTH65FfmxOIBJdqp2iFJp0RbpZx0p/pNrGJMi3ZfS2Mk0QxhwNyUuzoOLYRwBseTwMZcoq3kNuCJUcuqHMOkskwudVUAEAHRo8rUt+3RBwkH2gauBNmyhwaT0J+kSCq3mnA4swc22LOO6aehtAvQ4hhxiRlHnTJRQLxg6+r+bUo267WvD9lErd2QiuONJTYJ/mFTxzuy8R3yB5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ISVic8cyayu0IiXfokaRS+4jsl6rytuY2Y1tCC/URqg=;
- b=NkFY50cCQcdZ+i9jly/n6GIAv+2eJcMtDAFFs5hMvtuHxrzGFpdZNye/YQ9VbLmklEhlSyFcn9pNwYIBUMQJm3nKlSB2nKNhlBhhYx4OhMqNrpQNFR8mk3ZLgDFgcS3ZVS2zhzhTKsZ0ZqABy+0E2vXbY9oZpVuvWbHehKzLwDiwnvSTkLO1i37msiGqByo35B0QHqJLw7C0ZyVZJoD7vJtNI/NtectSfSWgt5V2t6yPstCcvI1xdcojrrrMIIPbN50PoUV/ExAy7ilCF64zl8b+kr+6uYwh7Yc9kGdbYp+j2ejm8Js31L3/6oaVBNwSiGu3uds7nPrfSPUPeAdgiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ISVic8cyayu0IiXfokaRS+4jsl6rytuY2Y1tCC/URqg=;
- b=XJiqOO0q9v3hnOoo8d0zCIGDoRCnWNfPWffUsBhDCSLZPnN9LuQiRP6SST+zM0rLRof5ocvvquffJflAIJZiecUx/84aDURAOQKFKfbEk3z5UfZG3Lzde3wnvbn1P1lVk+LzhkBPDagWxKclEWkgL29L5JwEFjVLPnUk1z8p4EY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA0PR12MB7626.namprd12.prod.outlook.com (2603:10b6:208:438::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Mon, 27 Mar
- 2023 19:53:46 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6222.032; Mon, 27 Mar 2023
- 19:53:46 +0000
-Message-ID: <6f7e5632-9080-f032-269f-06c6d96f4d88@amd.com>
-Date: Mon, 27 Mar 2023 21:53:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/nouveau: Fix bug in buffer relocs for Nouveau
-Content-Language: en-US
-To: John Ogness <john.ogness@linutronix.de>,
- Tanmay Bhushan <007047221b@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <87r0taa8l3.fsf@jogness.linutronix.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <87r0taa8l3.fsf@jogness.linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0025.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::23) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB61910E05A;
+ Mon, 27 Mar 2023 19:56:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679946986; x=1711482986;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JwuIcvdTis/z43bJkLOFhBhmGEqPdL/+PeyI64r4v9k=;
+ b=BOGrBTt7omLCyUVwCGnwUe24/aSoACYQkAqd+1/dcpTRchXLB86MsUv2
+ V5Jnx2Rijkox4RJeZkGoBm9MHNFWUH1oWFl2GzWP3HBbAdXqi6Ijc8ClD
+ axNHcljkAtMAasxmDi7Sy1A2tp4kuCfAdO1zVcBCrQUE+9cqOG6YlEC6g
+ jNhhmQ/TlRwEl9LaLA2pIIoHaT9iyRU5fKOFetUHzqYk4NTkZTinqrnEc
+ WHUWKPw9HO7wYR5eM6r4hjKbBGziCOfbww6YfPhDElHw/l1RpLmxPCl45
+ dwim0pi/62IJgxqUG4fWBlGj3/l+kbnx483OM3cm9lcEdM13j6+PduiwP Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="341950287"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; d="scan'208";a="341950287"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 12:56:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="1013247327"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; d="scan'208";a="1013247327"
+Received: from mgaucher-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.63.207])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 12:56:23 -0700
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Matt Roper <matthew.d.roper@intel.com>
+Subject: [PATCH v3 0/2] Report MMIO communication problems more clearly
+Date: Mon, 27 Mar 2023 21:55:45 +0200
+Message-Id: <20230327195547.356584-1-andi.shyti@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA0PR12MB7626:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61e3ca65-2f15-45b5-b5cf-08db2efcf9b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TQPpe7kfeFsGnLnz1URe+hnPdWq3XsxldSu0kWw5AZnDjONIwx9C2tAZfMNWRa32kj4XGkfR8MQTqicZdaA3Lubs2WNztY1S7174IyftUSvm/YjlQ49cDw+MtWC0cUlpFeRG0PvD4H9FCaUEVwQedjdXPRtnRgQEaV5nHKu4/vRCVjZgaj8VssFycCkVCUCGBU+I386CiROcw+lFMBg7XmN87F54ZIOhkDCWn43rEJNUUnUFyLu+hGuGu4GZRdiFPO+ei1/F6m7izBx07YklcJOgX0ex1qNg5ZOX2fDcGX6DMulB/piK/BZ6yD3kyNnXb9fCRVfad/yZResNWxl5vEnq1k3uAbtMVaCrcejACYnPLawMl091BVstZy2B6nD4RJa+BrmlwVMQzhtlnZahgIqOSCaQ7LW0wIDpX1IeS2iMKyIVh0cBDHsZd38wPAA2rWsQQ/qskfhnzwJJD/HLN50fbTe7qFI5E/Y0ukJiWotUrQVTqP7GMBikA4boK+UytXytsaVHtoQxAuwwZrMgfX2CQVDhKs/TrFc0EedJBhr7f+JaYcakVo5vbYvGrQawe20Bwgx4JgjlXmqcDfoQ+xYI0h/i6UNn7G8evoVFeufuGnpWRvLr72EiU7cgWrc47JM8fCcn11bB28Rws3v6KGl3y1L0C3PRgElf2ucfkvw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(346002)(376002)(366004)(39860400002)(396003)(451199021)(921005)(38100700002)(36756003)(66946007)(31696002)(86362001)(66476007)(66556008)(8676002)(316002)(186003)(8936002)(7416002)(5660300002)(2616005)(41300700001)(6666004)(478600001)(6486002)(6512007)(31686004)(6506007)(110136005)(2906002)(83380400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjRwVXh5YWdVWnpTOUxCaGpFS093aW1wQnVmMkxnK2V4ZW03bXIxbW10Q0tT?=
- =?utf-8?B?RmplUGlIU0JXT296V0hSampyOE1GQU5ZZE9mb1g2OVRTM2dzYkZBc2dMRm5G?=
- =?utf-8?B?cWhmOUhtdHZVM2hqbGtIa3E0UklSTjRRRkF4ZG5jTmRacGIrTWlMemprcmNj?=
- =?utf-8?B?cW1taS9QNFZVSjd5TE8yeVh5RklIMnowd011QWF5anU0emVUMmR0cTlYeDVS?=
- =?utf-8?B?UkwrWXpXdHpGemRpLzdmaFZvWGU1YnVNU2YranpPVTlDQzBPNjJ3NVJpUGhs?=
- =?utf-8?B?emdDemtsQXlxYWJBQTZOZTBad21Md3lua2xPTHJoUXBtelNqaEYzdVpHTHBB?=
- =?utf-8?B?dHdrM0FNZC9ZVnk3elQ4d3VaR2lwVmpsd2F6TmJzTCtscjNHK2U1a0hGNVp3?=
- =?utf-8?B?a3JXa0JaS0NPdnBJUnFnUDNMVncrb3BlNkRMYXJORlo0bkxPZnd5QmQxNlJz?=
- =?utf-8?B?cVNjSlNMVWdkMW1PUzNhTlJ5aFpHeXk5TCtXTFdBdGg1eHZqWjJNTXBCZ3Zn?=
- =?utf-8?B?MDl1UG5mVWxDUmgxUzc1V0pOSnE1S0NJUU52REcxaTJ2SHpySmJ1RWFrSG1o?=
- =?utf-8?B?Y2VocWxoYWcvbUR4dDcwaTdKcEgrZlc3VzFwcmdiV05HVGJuMGdZZktoNUpH?=
- =?utf-8?B?RzQxUXczMkZIRjBrU3RmNmQ3MDBYY05ieXI0RkYyUGJDS3JpbVR1WDlMamtV?=
- =?utf-8?B?ZGRvdnYvRUM3YWRLMFlzcXJrZldTcFJFdVlHQjdJb3pSL0htNkdBTWpUTkps?=
- =?utf-8?B?UGdnb25SNkpVZG5uVG11UU5hUWx1YktpRWxXRU02SVcvb2tYU2J1YTN1WVFN?=
- =?utf-8?B?MWJOMzBtQ3BpS0xLSlBmZVBlZDJDeDIxcENlN2pYblNGdVdTQnB1UTVzaVdq?=
- =?utf-8?B?MVFuMHgwTHVhUWZOd0FxLzF2M211eE1yZlg4ZitLZC9sbFJxQnI4WnkyNnlt?=
- =?utf-8?B?R1RNaTRQaDQySjZMTHplMlJySm1UbGRPRU1ZTEorQlVHQ1ovR0NGSlhXSlM0?=
- =?utf-8?B?U3JOOG54MEMxbVkvWjFFV2plcE03bG5vSEhJUlF6N3pkdVdackN4eml6ZE9h?=
- =?utf-8?B?SGM5N2E1NmEzd1NMMHd6Zk4wbkd1ckxTSGNtYzBxeVpQTEI5ZVlZWlkrSkNI?=
- =?utf-8?B?NnBpd2pOTDBqZXpCVXVVUUxJcE9MWDZIdU5BU0pheEZGSHcyL3pPM05XdWx4?=
- =?utf-8?B?L1RLUXd2RHJvZTcrcTkwcjljcG56ZDYrN2xaS213R0lUNFhrY0U5TnFwbk82?=
- =?utf-8?B?T0RCWnZoVHFBeVl5Wmxya2JsaXlROFVRSHRmTDdkOUVBbWRWU1pBMVNDN0l3?=
- =?utf-8?B?Y0V4YmF2NHNteVBzTlpQelgzcUpQMXlFY1FwNk5EdHdMdWV6N2dNYUZ0b0lh?=
- =?utf-8?B?a2Z0bEhJRC9saDE2MDl3SlhvZnV5cWM5U0tRelI1aUNXb3JseW85VVdrTVFK?=
- =?utf-8?B?VllxNlJyOEVRaEY4SHQ0SUoxT0EyU2FZenBZYUMxbHVtbndvdFoyNzNkVU9L?=
- =?utf-8?B?RVkrV2JtRGY0aFJvS2hWckpYR2pieko0YUFocEVKazFvdzk3RngyaHgwbDdq?=
- =?utf-8?B?ZjIzVU1XdEhMZ2FQUkxxM0FYeXZzNlBSOHgvaU56Zy9BSUhZSzVWelFleWlY?=
- =?utf-8?B?a0Nic2xPOVAwYzJzazc3ODNYYjlsWVM0aXZWZzBBWVY2YytNcGl6QVFDQlRx?=
- =?utf-8?B?cWVvU0hWV1JnSG1SVG1FM0NSVGhpTXFLeUxnUWNyK29PakdHZnlhWndPUzBT?=
- =?utf-8?B?akVzOVBrbTZmTm9CSkI3dXdYeWJuOTk1SGtmNmVucFl6UTJPeTNJY3I2SGQ5?=
- =?utf-8?B?cTRMSWF2WDRkTnNZY21wOUtXWk1vQVJDaTU4bmRoZUE0RGlNLzR4ak9KSTRI?=
- =?utf-8?B?QS9IelBWMzJNSnNFWm56bEN5T2trSWdDeFBhZW95eldiS1E4ekhpY1h1SlRr?=
- =?utf-8?B?NUdYVzdpaFQrQThEbUV3TFA0cUFGLzFLNEU5UEZ3Y2VTNGgvNmh0SG1kN3N5?=
- =?utf-8?B?WmJPZ1dVRjhTMlJncFNNTCtGUTFHVzZ2TmdJWjNCZWF1cE1aenUzYlEvWXUy?=
- =?utf-8?B?RzVuY3F0NUQydmQ1VWNaWUJxak4zN0lvUzBYa0hVWkNEcXE2bHRhckVzbUNT?=
- =?utf-8?B?VXcwUDB0WlhDRTZtNFY3MUQ2S3VUSzBFWHZGZFdrRWlCNDhua3J5NUFvTHBR?=
- =?utf-8?Q?JOkzuyL6GLGLDlOz5RZZM4GwC5AGhSZdY9JJYTNYDtoR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61e3ca65-2f15-45b5-b5cf-08db2efcf9b2
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 19:53:46.1199 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +R8IXgHH7vNGltrRi3m1C+a3lXlMYxfGRGIMrUmmrXzrJ4ChP4Tlz1rWrfqAQx48
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7626
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,99 +57,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Stuart Summers <stuart.summers@intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.03.23 um 10:42 schrieb John Ogness:
-> On 2023-01-19, Tanmay Bhushan <007047221b@gmail.com> wrote:
->> dma_resv_wait_timeout returns greater than zero on success
->> as opposed to ttm_bo_wait_ctx. As a result of that relocs
->> will fail and give failure even when it was a success.
-> Today I switched my workstation from 6.2 to 6.3-rc3 and started seeing
-> lots of new kernel messages:
->
-> [  642.138313][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc wait_idle failed: 1500
-> [  642.138389][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc apply: 1500
-> [  646.123490][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc wait_idle failed: 1500
-> [  646.123573][ T1751] nouveau 0000:f0:10.0: X[1751]: reloc apply: 1500
->
-> The graphics seemed to go slower or hang a bit when these messages would
-> appear. I then found your patch! However, I have some comments about it.
->
-> First, it should include a fixes tag:
->
-> Fixes: 41d351f29528 ("drm/nouveau: stop using ttm_bo_wait")
->
->> Signed-off-by: Tanmay Bhushan <007047221b@gmail.com>
->> ---
->>   drivers/gpu/drm/nouveau/nouveau_gem.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
->> index f77e44958037..0e3690459144 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_gem.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
->> @@ -706,9 +706,8 @@ nouveau_gem_pushbuf_reloc_apply(struct nouveau_cli *cli,
->>   		ret = dma_resv_wait_timeout(nvbo->bo.base.resv,
->>   					    DMA_RESV_USAGE_BOOKKEEP,
->>   					    false, 15 * HZ);
->> -		if (ret == 0)
->> +		if (ret <= 0) {
->>   			ret = -EBUSY;
-> This is incorrect for 2 reasons:
->
-> * it treats restarts as timeouts
->
-> * this function now returns >0 on success
->
->> -		if (ret) {
->>   			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
->>   				  ret);
->>   			break;
-> I rearranged things to basically correctly translate the return code of
-> dma_resv_wait_timeout() to match the previous ttm_bo_wait():
->
-> 		ret = dma_resv_wait_timeout(nvbo->bo.base.resv,
-> 					    DMA_RESV_USAGE_BOOKKEEP,
-> 					    false, 15 * HZ);
-> 		if (ret == 0)
-> 			ret = -EBUSY;
-> 		if (ret > 0)
-> 			ret = 0;
-> 		if (ret) {
-> 			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
-> 				  ret);
-> 			break;
-> 		}
->
-> So the patch just becomes:
->
-> @@ -708,6 +708,8 @@ nouveau_gem_pushbuf_reloc_apply(struct n
->   					    false, 15 * HZ);
->   		if (ret == 0)
->   			ret = -EBUSY;
-> +		if (ret > 0)
-> +			ret = 0;
->   		if (ret) {
->   			NV_PRINTK(err, cli, "reloc wait_idle failed: %ld\n",
->   				  ret);
->
-> With this variant, everything runs correctly on my workstation again.
->
-> It probably deserves a comment about why @ret is being translated. Or
-> perhaps a new variable should be introduced to separate the return value
-> of dma_resv_wait_timeout() from the return value of this function.
+Hi,
 
-I'm going to take a look tomorrow, but your code already looks pretty 
-correct to me.
+just copy pasting Matt's original cover letter. Thank you Andrzej and
+Jani for looking into this series.
 
-And sorry for the noise, missed the different in the conversion.
+We're periodically facing problems in CI where all registers read back
+as 0xFFFFFFFF.  In general this is what happens when the CPU is unable
+to communicate with a PCI device, so the transaction autocompletes with
+all F's as a placeholder.  Sometimes the device will recover on its own,
+sometimes it will never come back.
 
-Thanks,
-Christian.
+We already have some attempts to detect when this happens (e.g., when
+checking FPGA_DBG), but let's add a couple more checks with descriptive
+error messages to identify the problem in other cases:
 
->
-> Either way, this is an important fix for 6.3-rc!
->
-> John Ogness
+ - When the device is first probed, we'll do an initial check of the GT
+   forcewake register.  As a masked register, the upper bits should
+   always come back as 0's if device access is behaving properly, so if
+   we see all F's, we can conclude that the device is already in a bad
+   state.  We'll wait two seconds to see if it recovers on its own, then
+   give up on the device.
+
+ - When we encounter a 'forcewake timed out while waiting for clear'
+   error, we'll do one more read of the register to see if it's because
+   we're just reading back all F's.  If so, we'll print a more
+   meaningful message clarifying that it isn't the forcewake itself
+   that's the problem, but rather communication with the device.
+
+Note that this only captures the failure case where accessing the device
+is problematic (resulting in registers giving all F's).  There's a
+separate class of problems where the device is okay, but the GT inside
+the device is busted and all GT registers read back as 0's (other
+registers like sgunit registers are usually still readable).  This
+series does not address that class of errors.
+
+This is just a quick change to get some better CI error messages.  Some
+ideas for future enhancements:
+
+ - Try something to reset the device if we detect a problem at driver
+   load (e.g., PCI FLR, toggling the PCI power state, etc.)?
+
+ - Use something more standard like pci_read_config_dword() instead of a
+   device register read to determine when we're not communicating
+   properly?  Generally the PCI config space is also giving all F's at
+   this point.
+
+ - Also handle the "device OK, GT dead" case by finding some GT
+   register(s) that should never be 0 on a functioning system.  Maybe
+   one of the fuse registers would work for this?
+
+Changelog
+=========
+v2 -> v3
+ - Restored the previous change in V1 which was wrong.
+ - A little cosmetic suggested by Andrzej in patch 2.
+ - Added mine and Andrzej's r-b.
+v1 -> v2
+ - The sanity check can use intel_wait_for_register_fw().
+   (Thanks, Jani)
+
+Matt Roper (2):
+  drm/i915: Sanitycheck MMIO access early in driver load
+  drm/i915: Check for unreliable MMIO during forcewake
+
+ drivers/gpu/drm/i915/intel_uncore.c | 47 +++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 3 deletions(-)
+
+-- 
+2.39.2
 
