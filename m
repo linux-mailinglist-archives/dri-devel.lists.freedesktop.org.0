@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544216CA9FE
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 18:08:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFE06CAA11
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 18:13:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F087210E61E;
-	Mon, 27 Mar 2023 16:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FBD10E610;
+	Mon, 27 Mar 2023 16:13:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E49C10E61E
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:08:07 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1pgpO1-00087W-AY; Mon, 27 Mar 2023 18:07:57 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pgpO0-0077RX-CK; Mon, 27 Mar 2023 18:07:56 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1pgpNz-008Sqd-K2; Mon, 27 Mar 2023 18:07:55 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Subject: [PATCH] drm/amd/display: Whitespace cleanup
-Date: Mon, 27 Mar 2023 18:07:54 +0200
-Message-Id: <20230327160754.772302-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67DC310E610
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 16:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1679933579; x=1711469579;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=6nDdB6nJGY9awDPV/o7SbWl0Kh2wlGZpTm2nwuANIKs=;
+ b=d9QnAYBjCVidpdFepP4eTEruYwOAsFx//icL7TSkyd2mMSqzuV3B7BxC
+ VzAOqOFSvDYLfUUCn8K6ArnhgM681C+qleQh9Z7sj2W7OE5FMnM6UnG23
+ GDWlNa5qtGuIsF6ZAvZ/gKkxuXhJ+XxqROK2WzWkCTXUBv533kEJ5/0AP
+ sRHhDV13ecS38dZnAODKNYI4FWjYV8RnMmuN5nEW+RHfJt5C0uKU8uNFY
+ /srYfnTFlrdJVgCecqR3/dvv36ABNvnPdSgew1NjGEXxo0hrMvZl5GFCK
+ LqBnnDaLtqdq2xK7bRYwXZWwaZeq6aJxpjAxDdVIZdgNmDKpa2xqodgQF A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="339033783"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; d="scan'208";a="339033783"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 09:12:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="772769879"
+X-IronPort-AV: E=Sophos;i="5.98,295,1673942400"; d="scan'208";a="772769879"
+Received: from mstancu-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.49.51])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Mar 2023 09:12:05 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Subject: Re: Linux 6.3-rc3
+In-Reply-To: <CAK7LNATe7Ah-ow9wYGrtL9i4z-VD=MCo=sJjbC_S0ofEoH6CFQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
+ <20230320180501.GA598084@dev-arch.thelio-3990X>
+ <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
+ <20230320185337.GA615556@dev-arch.thelio-3990X>
+ <87pm91uf9c.fsf@kernel.org>
+ <CA+icZUUYyqhV2HFzVtpi_KjBoYxjk7OB0UBVd2mX6abjmYhDjg@mail.gmail.com>
+ <CAHk-=whdrvCkSWh=BRrwZwNo3=yLBXXM88NGx8VEpP1VTgmkyQ@mail.gmail.com>
+ <CAK7LNATe7Ah-ow9wYGrtL9i4z-VD=MCo=sJjbC_S0ofEoH6CFQ@mail.gmail.com>
+Date: Mon, 27 Mar 2023 19:12:02 +0300
+Message-ID: <87bkke5g31.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4950;
- i=u.kleine-koenig@pengutronix.de; h=from:subject;
- bh=nMqUkJb/didxEjphbfEWiUnQJ0w8k8CTikmn712Qjeo=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkIb9XexY2NgwXBljrk/WdNz25GG48bFfO9rzxD
- LcT6ylve2mJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZCG/VwAKCRCPgPtYfRL+
- Tkq6B/47kjPVsvkV28rqy0/Q+bvPXH/ZsIPZMFg+CL/+R8x3qzKUv62rslaiQylKVzMIOq6ILWn
- g3ZXIyTWoYlIYuzwAiPYcT0VT2AQyWMPPAiAhHAcGDEXZDZzhpiWRdGRyxZwVYmX9NHGIwh1Fdg
- RtK68P9TM8/c9ICRe0ny4TjHOFELGrGGQ/8idtRiD/VfRgo4PpQxVkobX2S6WAnNdi6lQ+F9n9u
- gKuecaYsVcLIf/nF3fgs5QBRsDb81N9uqNN9zUFca1JTXp6Ti4yXLZiBXF85IG/4SYUu79j8n9P
- Sxq7+HSog9MSfuoFnWx6iWl+OtVc3KRv15cr9DgJ+EWUgNMG
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,163 +67,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: Kalle Valo <kvalo@kernel.org>, llvm@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ linux-toolchains@vger.kernel.org, sedat.dilek@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 075e2099c32c ("drm/amd/display: Fix race condition in DPIA AUX
-transfer") was backported to stable, which I noticed because of git
-saying
+On Sat, 25 Mar 2023, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> Hello Linus,
+>
+>
+> Thanks for giving me some more homeworks.
+>
+>
+> On Thu, Mar 23, 2023 at 1:56=E2=80=AFAM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+>>
+>> On Wed, Mar 22, 2023 at 9:40=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.c=
+om> wrote:
+>> >
+>> > You have to pass `make LLVM=3D1` in any case... to `oldconfig` or when
+>> > adding any MAKEFLAGS like -j${number-of-available-cpus}.
+>>
+>> I actually think we should look (again) at just making the compiler
+>> choice (and the prefix) be a Kconfig option.
+>>
+>> That would simplify *so* many use cases.
+>>
+>> It used to be that gcc was "THE compiler" and anything else was just
+>> an odd toy special case, but that's clearly not true any more.
+>>
+>> So it would be lovely to make the kernel choice a Kconfig choice - so
+>> you'd set it only at config time, and then after that a kernel build
+>> wouldn't need special flags any more, and you'd never need to play
+>> games with GNUmakefile or anything like that.
+>
+>
+> Presumably, this is the right direction.
+>
+> To achieve it, Kconfig needs to have some mechanism to evaluate
+> shell commands dynamically.
+>
+> If a user switches the toolchain set between GCC and LLVM
+> while running the Kconfig, $(cc-option) in Kconfig files must
+> be re-calculated.
+>
+> Currently, Kconfig cannot do it. All macros are static - they are
+> expanded in the parse stage, and become constant strings.
+>
+> Ulf Magnusson and I discussed the dynamic approach a few years back,
+> but I adopted the static way since it is much simpler.
+> We need to reconsider the dynamic approach to do this correctly.
+> I do not think it is too difficult technically.
+> We just need to come up with a decent syntax.
 
-	linux-6.1/.git/rebase-apply/patch:37154: space before tab in indent.
+I acknowledge being clueless about mostly everything that requires. But
+in the mean time, how about just adding something like:
 
-while applying patch-6.1.21. While fixing the code location that issued
-that warning, improve in few more places.
+-include .env
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
+near the beginning of the top Makefile?
 
-while reading through the driver I found a few more things that could be
-improved. E.g 
+You could shove the tools or ARCH or output dir etc. there, so you don't
+have to remember to add them on the command line every time.
 
-| @@ -2625,43 +2625,35 @@ static void emulated_link_detect(struct dc_link *link)
-|  		dc_sink_release(prev_sink);
-|  
-|  	switch (link->connector_signal) {
-| -	case SIGNAL_TYPE_HDMI_TYPE_A: {
-| +	case SIGNAL_TYPE_HDMI_TYPE_A:
-|  		sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C;
-|  		sink_caps.signal = SIGNAL_TYPE_HDMI_TYPE_A;
-|  		break;
-| -	}
-|  
-| -	case SIGNAL_TYPE_DVI_SINGLE_LINK: {
-| +	case SIGNAL_TYPE_DVI_SINGLE_LINK:
-|  		sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C;
-|  		sink_caps.signal = SIGNAL_TYPE_DVI_SINGLE_LINK;
-|  		break;
-| -	}
-|  
-| -	case SIGNAL_TYPE_DVI_DUAL_LINK: {
-| +	case SIGNAL_TYPE_DVI_DUAL_LINK:
-|  		sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C;
-|  		sink_caps.signal = SIGNAL_TYPE_DVI_DUAL_LINK;
-|  		break;
-| -	}
-|  
-| -	case SIGNAL_TYPE_LVDS: {
-| +	case SIGNAL_TYPE_LVDS:
-|  		sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C;
-|  		sink_caps.signal = SIGNAL_TYPE_LVDS;
-|  		break;
-| -	}
-|  
-| -	case SIGNAL_TYPE_EDP: {
-| -		sink_caps.transaction_type =
-| -			DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
-| +	case SIGNAL_TYPE_EDP:
-| +		sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
-|  		sink_caps.signal = SIGNAL_TYPE_EDP;
-|  		break;
-| -	}
-|  
-| -	case SIGNAL_TYPE_DISPLAY_PORT: {
-| -		sink_caps.transaction_type =
-| -			DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
-| +	case SIGNAL_TYPE_DISPLAY_PORT:
-| +		sink_caps.transaction_type = DDC_TRANSACTION_TYPE_I2C_OVER_AUX;
-|  		sink_caps.signal = SIGNAL_TYPE_VIRTUAL;
-|  		break;
-| -	}
-|  
-|  	default:
-|  		DC_ERROR("Invalid connector type! signal:%d\n",
+BR,
+Jani.
 
-(hopefully that is quoted good enough not to be picked up by git)
 
-Best regards
-Uwe
 
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 26 +++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+>
+>
+>
+>> Yes, you'd still use environment variables (or make arguments) for
+>> that initial Kconfig, but that's no different from the other
+>> environment variables we already have, like KCONFIG_SEED that kconfig
+>> uses internally, but also things like "$(ARCH)" that we already use
+>> *inside* the Kconfig files themselves.
+>>
+>> I really dislike how you have to set ARCH and CROSS_COMPILE etc
+>> externally, and can't just have them *in* the config file.
+>>
+>> So when you do cross-compiles, right now you have to do something like
+>>
+>>     make ARCH=3Di386 allmodconfig
+>>
+>> to build the .config file, but then you have to *repeat* that
+>> ARCH=3Di386 when you actually build things:
+>>
+>>     make ARCH=3Di386
+>>
+>> because the ARCH choice ends up being in the .config file, but the
+>> makefiles themselves always take it from the environment.
+>>
+>> There are good historical reasons for our behavior (and probably a
+>> number of extant practical reasons too), but it's a bit annoying, and
+>> it would be lovely if we could start moving away from this model.
+>>
+>>             Linus
+>
+>
+> Moving ARCH into the .config file needs careful thoughts, I think.
+>
+> Not all targets include the .config file.
+> For example, "make clean", "make help", etc.
+>
+> It is unclear which targets require explicit ARCH=3D option.
+>
+> One solution is to move "archhelp", "CLEAN_FILES" etc.
+> from arch/*/Makefile to the top Makefile.
+> We will lose per-arch splitting in several places, though.
+>
+>
+> U-Boot adopts this model - 'ARCH' is determined in the Kconfig time,
+> so users do not need to give ARCH=3D option from the command line.
+>
+> https://github.com/u-boot/u-boot/blob/v2023.01/arch/Kconfig#L44
+>
+> You may get a quick idea of what it will look like.
+>
+>
+>
+> I will take a look at this direction (the compiler choice in Kconfig firs=
+t),
+> but it will not happen soonish due to the limited time for upstream work.
+>
+>
+> --
+> Best Regards
+>
+> Masahiro Yamada
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5bac5781a06b..78590e48e8d5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -2300,9 +2300,9 @@ static int dm_late_init(void *handle)
- 	 */
- 	params.min_abm_backlight = 0x28F;
- 	/* In the case where abm is implemented on dmcub,
--	* dmcu object will be null.
--	* ABM 2.4 and up are implemented on dmcub.
--	*/
-+	 * dmcu object will be null.
-+	 * ABM 2.4 and up are implemented on dmcub.
-+	 */
- 	if (dmcu) {
- 		if (!dmcu_load_iram(dmcu, params))
- 			return -EINVAL;
-@@ -7106,13 +7106,13 @@ static uint add_fs_modes(struct amdgpu_dm_connector *aconnector)
- 	/* Standard FPS values
- 	 *
- 	 * 23.976       - TV/NTSC
--	 * 24 	        - Cinema
--	 * 25 	        - TV/PAL
-+	 * 24           - Cinema
-+	 * 25           - TV/PAL
- 	 * 29.97        - TV/NTSC
--	 * 30 	        - TV/NTSC
--	 * 48 	        - Cinema HFR
--	 * 50 	        - TV/PAL
--	 * 60 	        - Commonly used
-+	 * 30           - TV/NTSC
-+	 * 48           - Cinema HFR
-+	 * 50           - TV/PAL
-+	 * 60           - Commonly used
- 	 * 48,72,96,120 - Multiples of 24
- 	 */
- 	static const u32 common_rates[] = {
-@@ -7740,7 +7740,7 @@ static void update_freesync_state_on_stream(
- 		return;
- 
- 	spin_lock_irqsave(&adev_to_drm(adev)->event_lock, flags);
--        vrr_params = acrtc->dm_irq_params.vrr_params;
-+	vrr_params = acrtc->dm_irq_params.vrr_params;
- 
- 	if (surface) {
- 		mod_freesync_handle_preflip(
-@@ -8321,7 +8321,7 @@ static void amdgpu_dm_commit_audio(struct drm_device *dev,
- 		if (!drm_atomic_crtc_needs_modeset(new_crtc_state))
- 			continue;
- 
--	notify:
-+notify:
- 		aconnector = to_amdgpu_dm_connector(connector);
- 
- 		mutex_lock(&adev->dm.audio_lock);
-@@ -9337,7 +9337,7 @@ static int dm_update_crtc_state(struct amdgpu_display_manager *dm,
- skip_modeset:
- 	/* Release extra reference */
- 	if (new_stream)
--		 dc_stream_release(new_stream);
-+		dc_stream_release(new_stream);
- 
- 	/*
- 	 * We want to do dc stream updates that do not require a
-@@ -10671,7 +10671,7 @@ int amdgpu_dm_process_dmub_aux_transfer_sync(
- 	if (!dc_process_dmub_aux_transfer_async(ctx->dc, link_index, payload)) {
- 		*operation_result = AUX_RET_ERROR_ENGINE_ACQUIRE;
- 		goto out;
-- 	}
-+	}
- 
- 	if (!wait_for_completion_timeout(&adev->dm.dmub_aux_transfer_done, 10 * HZ)) {
- 		DRM_ERROR("wait_for_completion_timeout timeout!");
-
-base-commit: e5dbf24e8b9e6aa0a185d86ce46a7a9c79ebb40f
--- 
-2.39.2
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
