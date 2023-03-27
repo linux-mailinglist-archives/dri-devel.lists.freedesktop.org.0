@@ -1,69 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908166CB1D4
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 00:32:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 126096CB1DF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 00:40:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732A510E011;
-	Mon, 27 Mar 2023 22:31:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBCB10E411;
+	Mon, 27 Mar 2023 22:39:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
- [IPv6:2607:f8b0:4864:20::e29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36EA10E011
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 22:31:56 +0000 (UTC)
-Received: by mail-vs1-xe29.google.com with SMTP id z17so2237007vsf.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 15:31:56 -0700 (PDT)
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB54310E783;
+ Mon, 27 Mar 2023 22:39:53 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ r17-20020a05683002f100b006a131458abfso2833876ote.2; 
+ Mon, 27 Mar 2023 15:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1679956314;
+ d=gmail.com; s=20210112; t=1679956793;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c9Wt+WsnnVD5DSCi0zCQh6BBH6TNLjKpNQABAtkF2NM=;
- b=TJJnlhbbvX8CYLVVoocAVzW32w5wyAy0w60WP17fBop9zORjJqlfutrdzs/xPjGob3
- uEulrtjagGT+SgE63CFj5egKzLS3IbJHrXB6yTWm1tmCzSoarY0t5YK0cyBT/kqQnlq8
- eRBkjUz66+OCudU1Z0B0MRnmlsKdT+AOpyZPk=
+ bh=lUgt/sxFdPO2L/YHRhAbRa6Kx4Baw60m94hwiyt4LWw=;
+ b=lR7KSRn26ByHSzV/l311BgLSDjwvSr9MtJfcFMZ/grYU03tkRfnxXl7MvfpOXlPB3O
+ HocqR8gs9Sg4LVeUfdUleLNQucsKpjOOou6MzgtnQsGaLpQNx2ROq7p115rL56bwY3U+
+ qqMcM03NzuGtnQKmp4c+2NRXrl21yrrkT/ARgAEBIfOmiFqlCaODES1cus63xoWJ5kBo
+ E1R2Xn9n8u9LnSvqkhLjRtSLU8E+wWj/BZf2r8PtHWg2uFrvNy04WV6T+/9/iDVXLOZE
+ MbXr4tvH+Ea4JYN0Lw6gAWiIQGquh8ps9XOTd0gmL88WI9bvLhjq+qTsa8NGthRwRmV3
+ FbeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679956314;
+ d=1e100.net; s=20210112; t=1679956793;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c9Wt+WsnnVD5DSCi0zCQh6BBH6TNLjKpNQABAtkF2NM=;
- b=FBm3ZLbMbMuiuiKUO6Uj07UafssaPgu0DsmTU6IzfZPMg0kGWMZzXqLN1xct1qjcTk
- X/QuZwGDyQqsu/bi+W3i/Udvo6TDX5Z5QQJyaeMQyAcXRWDMLJECRF8kLO/1Ohjyuwmq
- y5xvLXub1Z584+PPur0WouIDS3wXWeVr0T/hCyQVUqi67Gf5NpjfBobFoOC0g9FDRAR3
- Lg+C1C/hIr0Hv+bzkLyeE0savX/t5sgj1UBxXe41Hqj1cqLU0RJD8ZoNSQEKmg2pvi4T
- dY9CBOJLtxtCcDM+7B8cVXCuntXEiegDPtNvRGvluSSt8OAIfYMWFZeEzeMImkCyYRAN
- UXtg==
-X-Gm-Message-State: AAQBX9c7h0QRNJhC00yXntjVCLr+Z/uVcr50tTpYfVVl6m6kAyvkuH7g
- /7i2DOJEPf77dtti7OPLShhqLfuqe8U+g8nrqf4=
-X-Google-Smtp-Source: AKy350aXQOf0Pi4SoNmNxDXtf2mGMpWhX2cV/H+Ek8lBx5gcM/FXBiZgFEG9P1kuBu3GSn3P4nn9fQ==
-X-Received: by 2002:a05:6102:285a:b0:425:bd6e:e603 with SMTP id
- az26-20020a056102285a00b00425bd6ee603mr4936206vsb.23.1679956314645; 
- Mon, 27 Mar 2023 15:31:54 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com.
- [209.85.222.46]) by smtp.gmail.com with ESMTPSA id
- i7-20020a05610220c700b0041ebb606a9dsm3174950vsr.20.2023.03.27.15.31.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Mar 2023 15:31:53 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id h34so7534543uag.4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 15:31:53 -0700 (PDT)
-X-Received: by 2002:ab0:6082:0:b0:765:8f29:d679 with SMTP id
- i2-20020ab06082000000b007658f29d679mr329648ual.1.1679956313217; Mon, 27 Mar
- 2023 15:31:53 -0700 (PDT)
+ bh=lUgt/sxFdPO2L/YHRhAbRa6Kx4Baw60m94hwiyt4LWw=;
+ b=PbafC5GeTAxOYWUDyLbz9KSSOfkQpvhYD6tg7dazoMdeXy9FPFA6bimS659sLnBfpK
+ d5sRt5qnyXimUm+AkRmsirpJMoz0C8Nds7P8B5Z+PtIOTl9oMMMoKlX1BO0QjZPQIFg5
+ rTe5MgTnxjMZgSWLnlpPQJHWv5WIxWRWjPZFJIHe0KRfHhahoF6s190b450BatNGyEP3
+ We/AQ2cxAUHYuggHMITDLDZd0XgNGRiagnOCcDWePsaOF+5eR+AzZdKTGRmpQF4GKAjg
+ OycE/HtXIzvFaU5MbW3x4xuWZxEyYvwDoCf+nCPt7qcGcYhnpKlmDlA1lciP8pUN8ghU
+ cBJA==
+X-Gm-Message-State: AO0yUKVz2/o39gNEvebDPaBFtu3L9gTrKvD3SsuSuIzG3l8c1GsvGNy+
+ +Lc7yZXb0wrlQX+JfbHoOUSMa4SkyFGs4V33Wm4=
+X-Google-Smtp-Source: AK7set8zusvPx2Hk84mPMguh9gqCt99/xQO0nrUWQD4XR1+p279D180ORCS5kD07c0YRuEX2Mxco7uxgAHVtBePk2pY=
+X-Received: by 2002:a9d:67d8:0:b0:698:f988:7c37 with SMTP id
+ c24-20020a9d67d8000000b00698f9887c37mr4140439otn.3.1679956793059; Mon, 27 Mar
+ 2023 15:39:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230324165909.131831-1-vkoul@kernel.org>
- <CAD=FV=UJepzmKczemVGB8NacjyvLDqXiRoc81s1tJ=u5+HAeqg@mail.gmail.com>
- <fb2d333e-c459-f394-a299-533083b83596@linaro.org>
-In-Reply-To: <fb2d333e-c459-f394-a299-533083b83596@linaro.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 27 Mar 2023 15:31:41 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WTz=FVPP+pB8VMA8qWtD9hH00yBhFvs5rkfynranyr4w@mail.gmail.com>
-Message-ID: <CAD=FV=WTz=FVPP+pB8VMA8qWtD9hH00yBhFvs5rkfynranyr4w@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add B133UAN01.0 edp panel entry
-To: Neil Armstrong <neil.armstrong@linaro.org>
+References: <20230316093738.28866-1-tzimmermann@suse.de>
+ <e84bdd5b-6615-33c0-bfff-208d6165a183@amd.com>
+ <2d04d39a-ff1c-59b1-acde-4fef5870a260@suse.de>
+ <8cc926f5-ccee-b5ea-b217-297829051a7f@gmail.com>
+ <1b85517d-1847-a779-2a13-b7cb5c7a592b@suse.de>
+ <CADnq5_O-x8EYf0bR9JeJbHtc4P-uomUYdFLQ0CAeHu74Frc4EA@mail.gmail.com>
+ <55157c5c-69ee-50eb-f5ea-c3b0aebcf948@suse.de>
+ <CADnq5_M5PtfFDOhShfHtQYUPOJf0DaL0fmWmVbgTcUMzwODx_g@mail.gmail.com>
+In-Reply-To: <CADnq5_M5PtfFDOhShfHtQYUPOJf0DaL0fmWmVbgTcUMzwODx_g@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 27 Mar 2023 18:39:41 -0400
+Message-ID: <CADnq5_OV=PudZ0ryvtVWt+7anxU=33g7Zrai6FgSHzCh2JBi3A@mail.gmail.com>
+Subject: Re: [PATCH 00/10] drm/radeon: Convert fbdev to DRM client
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,45 +75,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Xinhui.Pan@amd.com, javierm@redhat.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Applied.  Thanks!
 
-On Fri, Mar 24, 2023 at 12:13=E2=80=AFPM Neil Armstrong
-<neil.armstrong@linaro.org> wrote:
+On Fri, Mar 24, 2023 at 5:44=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com=
+> wrote:
 >
-> Le 24/03/2023 =C3=A0 18:04, Doug Anderson a =C3=A9crit :
-> > Hi,
+> On Tue, Mar 21, 2023 at 5:33=E2=80=AFAM Thomas Zimmermann <tzimmermann@su=
+se.de> wrote:
 > >
-> > On Fri, Mar 24, 2023 at 9:59=E2=80=AFAM Vinod Koul <vkoul@kernel.org> w=
-rote:
-> >>
-> >> From: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >>
-> >> This panel is found in Lenovo Flex 5G laptop, so add the entry for it
-> >>
-> >> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> >> Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> >> ---
-> >>   drivers/gpu/drm/panel/panel-edp.c | 1 +
-> >>   1 file changed, 1 insertion(+)
+> > Hi
 > >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> > Am 20.03.23 um 16:23 schrieb Alex Deucher:
+> > > On Mon, Mar 20, 2023 at 11:19=E2=80=AFAM Thomas Zimmermann <tzimmerma=
+nn@suse.de> wrote:
+> > >>
+> > >> Hi
+> > >>
+> > >> Am 20.03.23 um 16:11 schrieb Christian K=C3=B6nig:
+> > >>> Am 17.03.23 um 10:20 schrieb Thomas Zimmermann:
+> > >>>> Hi Christian
+> > >>>>
+> > >>>> Am 17.03.23 um 09:53 schrieb Christian K=C3=B6nig:
+> > >>>>> Am 16.03.23 um 10:37 schrieb Thomas Zimmermann:
+> > >>>>>> Convert radeon's fbdev code to drm_client. Replaces the current
+> > >>>>>> ad-hoc integration. The conversion includes a number of cleanups=
+.
+> > >>>>>> Only build fbdev support if the config option has been set.
+> > >>>>>
+> > >>>>> I'm torn apart on that. On the one hand it looks like a really ni=
+ce
+> > >>>>> cleanup on the other hand we don't really want to touch radeon an=
+y more.
+> > >>>>
+> > >>>> It's a driver in the upstream kernel. You have to expect at least =
+some
+> > >>>> changes.
+> > >>>
+> > >>> Some changes is not the problem, but we need a justification to cha=
+nge
+> > >>> something. Just that it's nice to have won't do it without extensiv=
+e
+> > >>> testing.
+> > >>>
+> > >>>>
+> > >>>>>
+> > >>>>> Alex what do you think? Is that worth the risk of breaking stuff?
+> > >>>>
+> > >>>> Moving all fbdev emulation to struct drm_client is required for ne=
+w
+> > >>>> in-kernel DRM clients, such as a DRM kernel logger or a boot splas=
+h.
+> > >>>
+> > >>> Well that's a rather good justification. I suggest to add that to t=
+he
+> > >>> cover-letter.
+> > >>
+> > >> Ok, will go into a possible v2. The mid-term plan is to convert the
+> > >> fbdev code in all remaining drivers to struct drm_client and remove =
+the
+> > >> old ad-hoc callbacks.
+> > >>
+> > >> With struct drm_client, we can select in-kernel clients at compile t=
+ime
+> > >> or runtime just like userspace clients. I guess, we can have a bootu=
+p
+> > >> screen and then switch to the console or the DRM logger. Or go from =
+any
+> > >> client to the logger on kernel panics (or something like that). Ther=
+e's
+> > >> been occasional talk about userspace consoles, which would use such
+> > >> functionality.
+> > >
+> > > Patches look good to me.  I have a pretty limited set of HW I can tes=
+t
+> > > on since I don't have a functional AGP system anymore and most of my
+> > > older PCIe radeons are packed up in the attic.  Feel free to add my:
 > >
-> > ...assuming nothing distracts me, I'll plan to land this Monday to
-> > drm-misc-next.
+> > I've tested the patches with an R5-based card.
+> >
+> > > Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> > > to the series.
+> >
+> > Thank you so much. Do you want to take the patches into the amd tree?
 >
-> If you get distracted, I'll apply it!
+> I haven't forgotten these.  Will pick them up next week.
 >
-> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-Pushed to drm-misc-next:
-
-981f8866754d drm/panel-edp: Add B133UAN01.0 edp panel entry
+> Thanks,
+>
+> Alex
+>
+> >
+> > Best regards
+> > Thomas
+> >
+> > >
+> > > Alex
+> > >
+> > >>
+> > >> Best regards
+> > >> Thomas
+> > >>
+> > >>>
+> > >>> Regards,
+> > >>> Christian.
+> > >>>
+> > >>>>
+> > >>>> Best regards
+> > >>>> Thomas
+> > >>>>
+> > >>>>>
+> > >>>>> Christian.
+> > >>>>>
+> > >>>>>>
+> > >>>>>> Thomas Zimmermann (10):
+> > >>>>>>     drm/radeon: Move radeon_align_pitch() next to dumb-buffer he=
+lpers
+> > >>>>>>     drm/radeon: Improve fbdev object-test helper
+> > >>>>>>     drm/radeon: Remove struct radeon_fbdev
+> > >>>>>>     drm/radeon: Remove test for !screen_base in fbdev probing
+> > >>>>>>     drm/radeon: Move fbdev object helpers before struct fb_ops e=
+t al
+> > >>>>>>     drm/radeon: Fix coding style in fbdev emulation
+> > >>>>>>     drm/radeon: Move fbdev cleanup code into fb_destroy callback
+> > >>>>>>     drm/radeon: Correctly clean up failed display probing
+> > >>>>>>     drm/radeon: Implement client-based fbdev emulation
+> > >>>>>>     drm/radeon: Only build fbdev if DRM_FBDEV_EMULATION is set
+> > >>>>>>
+> > >>>>>>    drivers/gpu/drm/radeon/Makefile         |   3 +-
+> > >>>>>>    drivers/gpu/drm/radeon/radeon.h         |   2 +
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_display.c |   4 -
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_drv.c     |   3 +-
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_drv.h     |   1 -
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_fb.c      | 400 ---------------=
+-------
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_fbdev.c   | 422
+> > >>>>>> ++++++++++++++++++++++++
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_gem.c     |  24 ++
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_kms.c     |  18 -
+> > >>>>>>    drivers/gpu/drm/radeon/radeon_mode.h    |  20 +-
+> > >>>>>>    10 files changed, 464 insertions(+), 433 deletions(-)
+> > >>>>>>    delete mode 100644 drivers/gpu/drm/radeon/radeon_fb.c
+> > >>>>>>    create mode 100644 drivers/gpu/drm/radeon/radeon_fbdev.c
+> > >>>>>>
+> > >>>>>>
+> > >>>>>> base-commit: ec0708e846b819c8d5b642de42448a87d7526564
+> > >>>>>
+> > >>>>
+> > >>>
+> > >>
+> > >> --
+> > >> Thomas Zimmermann
+> > >> Graphics Driver Developer
+> > >> SUSE Software Solutions Germany GmbH
+> > >> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> > >> (HRB 36809, AG N=C3=BCrnberg)
+> > >> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
+> >
+> > --
+> > Thomas Zimmermann
+> > Graphics Driver Developer
+> > SUSE Software Solutions Germany GmbH
+> > Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> > (HRB 36809, AG N=C3=BCrnberg)
+> > Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
