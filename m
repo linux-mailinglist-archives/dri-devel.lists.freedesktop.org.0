@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C116CADA6
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 20:45:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 233516CADAB
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Mar 2023 20:45:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A2B10E6FE;
-	Mon, 27 Mar 2023 18:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA35410E70F;
+	Mon, 27 Mar 2023 18:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2060a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e88::60a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E96C10E6C9;
- Mon, 27 Mar 2023 18:44:02 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D160C10E6CF;
+ Mon, 27 Mar 2023 18:44:03 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YK4DUJPizYZ6OpNvWXvaM0ZJ0KOSn1tbAZ89N26/HHT8fmRM24qYtbzRWKQUBUDjpIzMmS+E0MhVG+lC4l3zjKr7wGhZO5/4Pj5g+kL6RDspWfAb6uYKkvHhkJn3w4GxQvK6OXhC8bnDo7/hEzFyrqiMChtw99t19SI1dgtleVUXZo7w6m1Ek/REdyssKjNvQs/w9SDnGwuLUH7qr5TRMH+5dsAInvh5B+PM8Ehe5cyloCZdwRdqc24x3NcddaxqNVNe7KoNUpQ55+wZkXyyO+ZrIkJae3cIdEB7J8ooVt6S0dXRim8FG6gbpolDKv94wo9TfFvZuH2DzDXUUOngBg==
+ b=EIsyj3fMcSxpMxqL7xX+VwcoGasMcLz4DLzAzj74+H1wevHwWapSHDPijRMxa3MrTiU4cXjZZusSjG3hv4TStMbWN11orQwKRF+55mb3zzIg5vT1lDl0JLsSRe2xNBwmw9y67mTDGUPUmECI5XPW/NQ9u/9ztF8lSpaVg5cWKvh5rJWM77ZPlxXoNs578IMSauybpwi+eHzRCKnEMaIjU8mF0knmPRfWLfh3bMnsGCfmwh0LxAZzo2CkQHj+JxYUIZaA8S2XHvSSo8Fzld5sngBFzDbVXzW9eawuqsnTo3jmQGO8QkU/a+QBP2ENMgsb/gJ6zVnpaw9yR9Qby6g55g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=capQmuHYwC5MWJaVzGL1TlRaACwvQPLUQHEPdpFyONg=;
- b=Tr7Le9Xy22xiw90acJH8F9QgPjDqB1/UJVjx+hjvQgeZ5nP2xL32h0cEDl0pnDCIl3t0f4WX/Cqu+5NXGca53tpTv9uxiOszwa1No9Q1dg26CqbaanOxpWyQ3la8nHLZVbHa1gC2DjhYyAqf8sTVWJFFJAruJRcfsABz3l4JdJgaKWHFsnD/nbvg4revqAMt61ySxMPjyRGrWJyNiz6C0Hq8aq3MVKS/kAyQmPXGCI4sKRtn98VIt9nnY32ZnFmQMRpd7Kw2eUEBdXj2tBM7gyk1BXevnWJ+uZrZo4JGeNYEcp8JwYkeLtsSxA3LcIA+OHb6VjIOW8d7NUnUWfPh8g==
+ bh=4zuapuMM1VpgW2Ek2XjUZy1rGvI/2uEJfrbFLhFH3r0=;
+ b=dTU1LoFLeFpLrB+r50rEAlEKURzMVCdJ63cSze2/v0obOHsoHxtNrJErmAB1Ak8S4gGMkdA3CKqU8olDQpOErVsDrtVmzERVAXnchNobvUY9U3ImxDccxKynvw4AbljXqk13z2C1kaKDDyYhGauGS9sBWKXRPAki6HqYKVgY8hwWkC8l2u321m8ceGQ6sHWLTmb+D1C86etpsfGmfKPIi8Ok78tRbeP+cJS/qmI/Q2yTAoQSAcYhMSgUP6OlInf5Mo84QnoJEAWqkEH+0a9eRRs2/NOif0F2pwu1tVup+4w3jS2Q/Bw9MtrSmBUAQD4rSCaCNgbZby75x4DA+xatZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=capQmuHYwC5MWJaVzGL1TlRaACwvQPLUQHEPdpFyONg=;
- b=Z0DWz8VGIQ3D2v6Wl6Wwk/K/Uwhw8WE+lqNNj1fZpDSTyM8+as/kRua7uB2P0e1YA1f6wguvF7+MZmNzHlBBnN1N2XDyzOSpDDhvmaAfTYvOzoGT2K6+9dNoe5Jf6nUUzPo6VTpRKPHnOkqS2w8jGlomNuiM9bNxymuKGeJX/Y4=
-Received: from CY8PR02CA0022.namprd02.prod.outlook.com (2603:10b6:930:4d::26)
- by PH0PR12MB5420.namprd12.prod.outlook.com (2603:10b6:510:e8::18)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=4zuapuMM1VpgW2Ek2XjUZy1rGvI/2uEJfrbFLhFH3r0=;
+ b=mP2sh6+vG0Px/caA6pEDdQZw6kXx2BsWnIz+8axaFPjhCsSnfa2fwl7a+hVBKv/I9iz9LPXby24F1jhv0Ra5wyfoJPmcyYKaXGXIzeXXJuYqUBYKMGzW9QckfNCsCj+H9XajAs0RhmxKdJQXsAdPWSnJ8wCjDfyvm0Ca2nOHI1o=
+Received: from CY5PR15CA0070.namprd15.prod.outlook.com (2603:10b6:930:18::6)
+ by SN7PR12MB8172.namprd12.prod.outlook.com (2603:10b6:806:352::20) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.30; Mon, 27 Mar
- 2023 18:44:00 +0000
-Received: from CY4PEPF0000C97D.namprd02.prod.outlook.com
- (2603:10b6:930:4d:cafe::ce) by CY8PR02CA0022.outlook.office365.com
- (2603:10b6:930:4d::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.42 via Frontend
- Transport; Mon, 27 Mar 2023 18:44:00 +0000
+ 2023 18:44:01 +0000
+Received: from CY4PEPF0000C979.namprd02.prod.outlook.com
+ (2603:10b6:930:18:cafe::2a) by CY5PR15CA0070.outlook.office365.com
+ (2603:10b6:930:18::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41 via Frontend
+ Transport; Mon, 27 Mar 2023 18:44:01 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -46,18 +45,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000C97D.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ CY4PEPF0000C979.mail.protection.outlook.com (10.167.241.137) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.30 via Frontend Transport; Mon, 27 Mar 2023 18:43:59 +0000
+ 15.20.6178.30 via Frontend Transport; Mon, 27 Mar 2023 18:44:01 +0000
 Received: from jonathan-KFD.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 27 Mar
- 2023 13:43:58 -0500
+ 2023 13:43:59 -0500
 From: Jonathan Kim <jonathan.kim@amd.com>
 To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 29/34] drm/amdkfd: add debug query event operation
-Date: Mon, 27 Mar 2023 14:43:34 -0400
-Message-ID: <20230327184339.125016-29-jonathan.kim@amd.com>
+Subject: [PATCH 30/34] drm/amdkfd: add debug query exception info operation
+Date: Mon, 27 Mar 2023 14:43:35 -0400
+Message-ID: <20230327184339.125016-30-jonathan.kim@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230327184339.125016-1-jonathan.kim@amd.com>
 References: <20230327184339.125016-1-jonathan.kim@amd.com>
@@ -69,26 +68,26 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000C97D:EE_|PH0PR12MB5420:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49b37bd2-d0dd-423b-7cbe-08db2ef33ac2
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000C979:EE_|SN7PR12MB8172:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66683269-37d2-4f5b-b193-08db2ef33b5f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wP4cnTaSci72ZteW3YpiwAzp1CEHFYYiKGiVDMWDQoPymrAMlJxiW8dFH9BjbjKkjYoDfDiasqqRpi0GMUeVjq1jrs7c9/xsOMuI6MEuEkkzPAKEhEF4aFO343LvDGRD2SUil2N1Za2Nn6SjG/rCoZv9KpU0fYVH1tcy8QSgEFoqAx/4rYf/vnC9iIl5Hf9fx2dP3mv+xmfnX0DY69MoYdBAWH2Skrl4wOQ8k53vjBwGzg0pCNMthO4zZFkz7WoCSWXOn4aZ+Maz+KfltjHGoGJHw9xXMHbmSTAcWtfHBrLRsbtkALgmKh9ova8s1lR3ULsFVyh9nHxwKyOkrZzBUlNzFKKf3z+ARnbwJOOKynSIwW22cTrTj/g0/CWew2tpJkKkzx2Sd3yihFBtGqo7VIVqGd30vsbVfAwMJn95p36V0JIZRNEI7c7awK/t0xwDY1sMlUxLCmHKFma7TbDwY2TIlgF1L4IyQ/tGrdlxe2Kc9e7UEMTw8LNNwlVgvZNh390gJ6D30XAQSTq251ikWkYo3jPyWibIdLkT75lV6tK2U6ojmIwpZb3WvvhlehdmlSJjRrFP4TIdHsOWdmbSCt/jeVKL85yKwiglomR6FSGLQJTTo8tOVj5kC0fMUh7NuTFhHVlG/94gwCkncIrRDEzduEvAUoIGc+gxZjK/w3UIuB3/fCSJYptuEEjPTT3wwq0BAEEoA4X7PEsrkGqrgI/lq4hTqXWZ/rp+7ywrI0w=
+X-Microsoft-Antispam-Message-Info: i7vat2hQ4eCjROE9vXc3PHD8ePrKyVJ3w3Kyb9YXUvLlE2XZG2QjLhZX3ndb45Qb9A2tuas/xHdhSoe18vpCY5rsnwYJIcKATegvbXSDnYVZSwnJRQIR8n6tfOOo0rVehMjRnxdAzudugDsNEh2xLQjW32KsaSHOOL19noLiVuRsa5ETgd9EuPhqTYmvuaGb9jm9bTJRgGSnhVbOVmwXnt0YryGvVEl4LxdzpaqJYYQ80CHJdFdYlkTdrUE0yAGTI9tJ4+0yf4+J+kkxM+D7oi3soygceoBw4297sx5NlbnZhQH4pzmB+77QtINXaZqcaIXXD1gPRsNakF2M+zf2QleVnlCm4MtA4i+JV+/M0rPS+DiP+GBBCJxCsznVeOloY3ObAOKHynDR5QnKWppmza7ZVNYiGUm46sYlfiM7NJM3FTq5HBWCZcd10BItY7fFMxjmH4jl1KpXckv3kkECySUW+qgkoIQfw+gYsYvfRP18LpCK0ii9O6FB1s3Q7SiwuSDErB4IwAAnjqIJflnLsgSbqwbuimEqdA4JWWh+luWrOocdlq+jT+rwxCZCXaALW07u6ywMJnx5UimOzN5fTTYNLOMLXYNcB7UJGbWrM8U9+bGRUSlDEbPKv+nqW2fZaVtkPpxaGVDGJMxGfHKjqX18/pui6+xtdK9ayXL3MIaSfnYHUWlKIEKjk6zACeiQM94NC/rbXrrGfmkcCSQM5yvADlo2vhkXo/YlaFaJ6qc=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(136003)(346002)(376002)(39860400002)(396003)(451199021)(46966006)(40470700004)(36840700001)(16526019)(26005)(426003)(1076003)(40480700001)(41300700001)(186003)(6666004)(7696005)(83380400001)(336012)(2616005)(47076005)(478600001)(54906003)(110136005)(316002)(36860700001)(40460700003)(4326008)(70206006)(450100002)(44832011)(2906002)(70586007)(8676002)(81166007)(82740400003)(356005)(36756003)(82310400005)(86362001)(5660300002)(8936002)(36900700001);
+ SFS:(13230028)(4636009)(396003)(39860400002)(136003)(346002)(376002)(451199021)(46966006)(40470700004)(36840700001)(86362001)(82310400005)(36756003)(2906002)(40480700001)(40460700003)(478600001)(426003)(83380400001)(6666004)(336012)(26005)(2616005)(1076003)(7696005)(47076005)(110136005)(54906003)(4326008)(36860700001)(70586007)(70206006)(316002)(81166007)(8676002)(450100002)(41300700001)(186003)(82740400003)(16526019)(356005)(5660300002)(44832011)(8936002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 18:43:59.9718 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49b37bd2-d0dd-423b-7cbe-08db2ef33ac2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 18:44:01.0021 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66683269-37d2-4f5b-b193-08db2ef33b5f
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C97D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000C979.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5420
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8172
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,128 +104,187 @@ Cc: Felix.Kuehling@amd.com, Jonathan.kim@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow the debugger to query a single queue, device and process
-exception.
-The KFD should also return the GPU or Queue id of the exception.
-The debugger also has the option of clearing exceptions after
-being queried.
+Allow the debugger to query additional info based on an exception code.
+For device exceptions, it's currently only memory violation information.
+For process exceptions, it's currently only runtime information.
+Queue exception only report the queue exception status.
+
+The debugger has the option of clearing the target exception on query.
 
 Signed-off-by: Jonathan Kim <jonathan.kim@amd.com>
 Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |  6 +++
- drivers/gpu/drm/amd/amdkfd/kfd_debug.c   | 64 ++++++++++++++++++++++++
- drivers/gpu/drm/amd/amdkfd/kfd_debug.h   |  5 ++
- 3 files changed, 75 insertions(+)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c |   7 ++
+ drivers/gpu/drm/amd/amdkfd/kfd_debug.c   | 120 +++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdkfd/kfd_debug.h   |   6 ++
+ 3 files changed, 133 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-index da3478b133bd..593ede6b2af5 100644
+index 593ede6b2af5..1f7e57abefb4 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-@@ -3024,6 +3024,12 @@ static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, v
- 		r = kfd_dbg_trap_set_flags(target, &args->set_flags.flags);
+@@ -3031,6 +3031,13 @@ static int kfd_ioctl_set_debug_trap(struct file *filep, struct kfd_process *p, v
+ 				&args->query_debug_event.exception_mask);
  		break;
- 	case KFD_IOC_DBG_TRAP_QUERY_DEBUG_EVENT:
-+		r = kfd_dbg_ev_query_debug_event(target,
-+				&args->query_debug_event.queue_id,
-+				&args->query_debug_event.gpu_id,
-+				args->query_debug_event.exception_mask,
-+				&args->query_debug_event.exception_mask);
-+		break;
  	case KFD_IOC_DBG_TRAP_QUERY_EXCEPTION_INFO:
++		r = kfd_dbg_trap_query_exception_info(target,
++				args->query_exception_info.source_id,
++				args->query_exception_info.exception_code,
++				args->query_exception_info.clear_exception,
++				(void __user *)args->query_exception_info.info_ptr,
++				&args->query_exception_info.info_size);
++		break;
  	case KFD_IOC_DBG_TRAP_GET_QUEUE_SNAPSHOT:
  	case KFD_IOC_DBG_TRAP_GET_DEVICE_SNAPSHOT:
+ 		pr_warn("Debug op %i not supported yet\n", args->op);
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-index 5d3193ae71e3..e7f1521ac593 100644
+index e7f1521ac593..905182669559 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.c
-@@ -27,6 +27,70 @@
+@@ -890,6 +890,126 @@ int kfd_dbg_trap_set_wave_launch_mode(struct kfd_process *target,
+ 	return r;
+ }
  
- #define MAX_WATCH_ADDRESSES	4
- 
-+int kfd_dbg_ev_query_debug_event(struct kfd_process *process,
-+		      unsigned int *queue_id,
-+		      unsigned int *gpu_id,
-+		      uint64_t exception_clear_mask,
-+		      uint64_t *event_status)
++int kfd_dbg_trap_query_exception_info(struct kfd_process *target,
++		uint32_t source_id,
++		uint32_t exception_code,
++		bool clear_exception,
++		void __user *info,
++		uint32_t *info_size)
 +{
-+	struct process_queue_manager *pqm;
-+	struct process_queue_node *pqn;
-+	int i;
++	bool found = false;
++	int r = 0;
++	uint32_t copy_size, actual_info_size = 0;
++	uint64_t *exception_status_ptr = NULL;
 +
-+	if (!(process && process->debug_trap_enabled))
-+		return -ENODATA;
++	if (!target)
++		return -EINVAL;
 +
-+	mutex_lock(&process->event_mutex);
-+	*event_status = 0;
-+	*queue_id = 0;
-+	*gpu_id = 0;
++	if (!info || !info_size)
++		return -EINVAL;
 +
-+	/* find and report queue events */
-+	pqm = &process->pqm;
-+	list_for_each_entry(pqn, &pqm->queues, process_queue_list) {
-+		uint64_t tmp = process->exception_enable_mask;
++	mutex_lock(&target->event_mutex);
 +
-+		if (!pqn->q)
-+			continue;
++	if (KFD_DBG_EC_TYPE_IS_QUEUE(exception_code)) {
++		/* Per queue exceptions */
++		struct queue *queue = NULL;
++		int i;
 +
-+		tmp &= pqn->q->properties.exception_status;
++		for (i = 0; i < target->n_pdds; i++) {
++			struct kfd_process_device *pdd = target->pdds[i];
++			struct qcm_process_device *qpd = &pdd->qpd;
 +
-+		if (!tmp)
-+			continue;
++			list_for_each_entry(queue, &qpd->queues_list, list) {
++				if (!found && queue->properties.queue_id == source_id) {
++					found = true;
++					break;
++				}
++			}
++			if (found)
++				break;
++		}
 +
-+		*event_status = pqn->q->properties.exception_status;
-+		*queue_id = pqn->q->properties.queue_id;
-+		*gpu_id = pqn->q->device->id;
-+		pqn->q->properties.exception_status &= ~exception_clear_mask;
++		if (!found) {
++			r = -EINVAL;
++			goto out;
++		}
++
++		if (!(queue->properties.exception_status & KFD_EC_MASK(exception_code))) {
++			r = -ENODATA;
++			goto out;
++		}
++		exception_status_ptr = &queue->properties.exception_status;
++	} else if (KFD_DBG_EC_TYPE_IS_DEVICE(exception_code)) {
++		/* Per device exceptions */
++		struct kfd_process_device *pdd = NULL;
++		int i;
++
++		for (i = 0; i < target->n_pdds; i++) {
++			pdd = target->pdds[i];
++			if (pdd->dev->id == source_id) {
++				found = true;
++				break;
++			}
++		}
++
++		if (!found) {
++			r = -EINVAL;
++			goto out;
++		}
++
++		if (!(pdd->exception_status & KFD_EC_MASK(exception_code))) {
++			r = -ENODATA;
++			goto out;
++		}
++
++		if (exception_code == EC_DEVICE_MEMORY_VIOLATION) {
++			copy_size = min((size_t)(*info_size), pdd->vm_fault_exc_data_size);
++
++			if (copy_to_user(info, pdd->vm_fault_exc_data, copy_size)) {
++				r = -EFAULT;
++				goto out;
++			}
++			actual_info_size = pdd->vm_fault_exc_data_size;
++			if (clear_exception) {
++				kfree(pdd->vm_fault_exc_data);
++				pdd->vm_fault_exc_data = NULL;
++				pdd->vm_fault_exc_data_size = 0;
++			}
++		}
++		exception_status_ptr = &pdd->exception_status;
++	} else if (KFD_DBG_EC_TYPE_IS_PROCESS(exception_code)) {
++		/* Per process exceptions */
++		if (!(target->exception_status & KFD_EC_MASK(exception_code))) {
++			r = -ENODATA;
++			goto out;
++		}
++
++		if (exception_code == EC_PROCESS_RUNTIME) {
++			copy_size = min((size_t)(*info_size), sizeof(target->runtime_info));
++
++			if (copy_to_user(info, (void *)&target->runtime_info, copy_size)) {
++				r = -EFAULT;
++				goto out;
++			}
++
++			actual_info_size = sizeof(target->runtime_info);
++		}
++
++		exception_status_ptr = &target->exception_status;
++	} else {
++		pr_debug("Bad exception type [%i]\n", exception_code);
++		r = -EINVAL;
 +		goto out;
 +	}
 +
-+	/* find and report device events */
-+	for (i = 0; i < process->n_pdds; i++) {
-+		struct kfd_process_device *pdd = process->pdds[i];
-+		uint64_t tmp = process->exception_enable_mask
-+						& pdd->exception_status;
-+
-+		if (!tmp)
-+			continue;
-+
-+		*event_status = pdd->exception_status;
-+		*gpu_id = pdd->dev->id;
-+		pdd->exception_status &= ~exception_clear_mask;
-+		goto out;
-+	}
-+
-+	/* report process events */
-+	if (process->exception_enable_mask & process->exception_status) {
-+		*event_status = process->exception_status;
-+		process->exception_status &= ~exception_clear_mask;
-+	}
-+
++	*info_size = actual_info_size;
++	if (clear_exception)
++		*exception_status_ptr &= ~KFD_EC_MASK(exception_code);
 +out:
-+	mutex_unlock(&process->event_mutex);
-+	return *event_status ? 0 : -EAGAIN;
++	mutex_unlock(&target->event_mutex);
++	return r;
 +}
 +
- void debug_event_write_work_handler(struct work_struct *work)
+ void kfd_dbg_set_enabled_debug_exception_mask(struct kfd_process *target,
+ 					uint64_t exception_set_mask)
  {
- 	struct kfd_process *process;
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-index 782362d82890..4f2195d57ff0 100644
+index 4f2195d57ff0..ee12de5f7adf 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_debug.h
-@@ -27,6 +27,11 @@
- 
- void kfd_dbg_trap_deactivate(struct kfd_process *target, bool unwind, int unwind_count);
- int kfd_dbg_trap_activate(struct kfd_process *target);
-+int kfd_dbg_ev_query_debug_event(struct kfd_process *process,
-+			unsigned int *queue_id,
-+			unsigned int *gpu_id,
-+			uint64_t exception_clear_mask,
-+			uint64_t *event_status);
- bool kfd_set_dbg_ev_from_interrupt(struct kfd_dev *dev,
- 				   unsigned int pasid,
- 				   uint32_t doorbell_id,
+@@ -63,6 +63,12 @@ int kfd_dbg_trap_set_dev_address_watch(struct kfd_process_device *pdd,
+ 					uint32_t *watch_id,
+ 					uint32_t watch_mode);
+ int kfd_dbg_trap_set_flags(struct kfd_process *target, uint32_t *flags);
++int kfd_dbg_trap_query_exception_info(struct kfd_process *target,
++		uint32_t source_id,
++		uint32_t exception_code,
++		bool clear_exception,
++		void __user *info,
++		uint32_t *info_size);
+ int kfd_dbg_send_exception_to_runtime(struct kfd_process *p,
+ 					unsigned int dev_id,
+ 					unsigned int queue_id,
 -- 
 2.25.1
 
