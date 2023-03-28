@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CB46CBFB5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 14:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5E36CBFBA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 14:50:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5007D10E89F;
-	Tue, 28 Mar 2023 12:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 477A310E89D;
+	Tue, 28 Mar 2023 12:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 121BC10E8A1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 12:49:52 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id y15so15666485lfa.7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 05:49:51 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E024710E89D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 12:50:05 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id q16so15653323lfe.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 05:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680007790;
+ d=linaro.org; s=google; t=1680007805;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jCNbxQ3fkGvJYs2TX33NcPDCODW7FsfSszu815y/rdQ=;
- b=MCBz/LZ9QWIqZkNLClNZpldMscplkOY6KzPqm1ilp2RwTVfmV6UEQ0JKtFLu8PoQjq
- 3ZurKAErQhtWYyGO5BwuIEOAqgRh+dg2Oncy2FVTzp/93sEFFH55Erv73ZqM1KV/CRau
- fl7jjJbxJMce9RuRypNxCc9n3SpiU7UhV6WJZoV2T+74raMrrfeVr/6V3IhC64sdjQPi
- CO8L8Z7JVDaY8fsyals5wdV2tMO8HswrTlL8cANPYAtmuGW3WIkqtUy23LgjITyVtjQ0
- /clW442b3UHROWdk249Xem0GB/81P6RiyUuhKape9EPSV//F5XCz5zVST5krR/5rUpRW
- ILDA==
+ bh=5aKpkNh/8xXK99VFZwk3PtzVkWaagAJQbPThES4qo4c=;
+ b=aDlmW+3M03gsIwxLOi7jI/MjPJRefPCoqxUEHPPvw+Bj6hdtAn6oDZjDN4Rv9QfIuC
+ HrMnmJmHdBVQ3USLkYxXH0RuoKAG9ewagvA2THN+WbuR/5mX/jEU+tcn0olCh5S4uT50
+ tmNyYhRqrGSNSo5hStO/WvtMuLcLgPDRaeha5V1cFolm5PPvScWNyGjswToTRzW/cyA3
+ cbQQDUdQC8CBNzoexTWDqhVv+Rpi7y/kbhgoPRKUzvdYxEtd2ct2NyyAorAbKIRLvl40
+ jFYNJpdKqfUaItIyX42pH0+BZnvGOrjgENJIPCZDYlJ3XdZliIE5tT/2tAeBav/H9C6E
+ f6jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680007790;
+ d=1e100.net; s=20210112; t=1680007805;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jCNbxQ3fkGvJYs2TX33NcPDCODW7FsfSszu815y/rdQ=;
- b=IvxGbmsv27remmL5NfntAoGe/zTSTnLXh5oisGulZ0TzdeZEV4+6A0FaG8KwCA2/0n
- sLhWP+evj401gmfLyNuESOaEBzYI2VG7rwNIGYJYgV4s5a9WfBMXe1hJyUi5vt0bBnJT
- Hi1b40FQ/JhDxLDbMqFpbQTEHnc6qt+bp+eaoLObBrYYWLMbe6qfBlNSQGsRQsdKy7gd
- i3r52VdqccUh5voeFo0oDA2LZn/He1Fr+/tksQtj+p1vd0O54QHP6w9EeKEv2b7C+Whv
- yHJbHQOZRby0Cx7qSOfCXbs1JgU2GXNIe2gSjo+baEpNNSTNzha8IfxoXYGBGJOdPI/Q
- WYUA==
-X-Gm-Message-State: AAQBX9e5CkKWLnHs/4PPAZUuUFQM2jYxVb9ZxvIc0Odqi0tR1bPe/PdE
- dGzNRVStKixHkuq6Hhock6SWwg==
-X-Google-Smtp-Source: AKy350Yz7V22vnXhTlNBr/g4If2TgMC4S4/UxSSsgOQXdwXSlabRzM3x60Oy2TKJkb+WGsIgRC+sxA==
-X-Received: by 2002:a19:7404:0:b0:4e8:3f38:7d21 with SMTP id
- v4-20020a197404000000b004e83f387d21mr4456398lfe.28.1680007790309; 
- Tue, 28 Mar 2023 05:49:50 -0700 (PDT)
+ bh=5aKpkNh/8xXK99VFZwk3PtzVkWaagAJQbPThES4qo4c=;
+ b=eS7NL2DPTT1l1BFgALOTvWr2eCQlR1W7mpNRurzp/MWekCuz2LEntOzrqGi6Q6FeSh
+ 75Giu5VyjOadfNfBPJNd/ojMH1LTfv2O1AlYpAUeFNVQDh44JHx5Zrduldxfk3VWJrEE
+ BXzer42LS3aiXlp05VNs+1EHtjEAKb82U7a8wBhQigzJSH8k4BDjQg+Uu74IM54e3a0x
+ XS6O37vj3iihIhxdPsOpqicpYRBD/UfQ676R0sLirfFs6GBuWQrxjKqFo+DIp+QjZ/aV
+ S8RaZUMpdvwYBnemVjI+zHBLQkqMXoNSB6Fs/PE0qy7ZTT+2lb6PlJ6Jh0442lM+VUQ0
+ PaSA==
+X-Gm-Message-State: AAQBX9cD++N5sX4akz4ai+I5WCDv0ZUFuU9mSvEE2gZwu/Cetl8tF+Nd
+ PfADxSvsLARut1U1Ue8jvIyStA==
+X-Google-Smtp-Source: AKy350YB19ZNZUdZmlZrfVEq4gizIOk+KuH+83cH+JiVYmIQT1UXUtff0FtR/clzr94IT76z/SEGBQ==
+X-Received: by 2002:ac2:531b:0:b0:4e1:8309:1db5 with SMTP id
+ c27-20020ac2531b000000b004e183091db5mr4650842lfh.2.1680007805502; 
+ Tue, 28 Mar 2023 05:50:05 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- w7-20020ac24427000000b004db4f2f08f7sm5062556lfl.28.2023.03.28.05.49.49
+ e18-20020a056512091200b004cb08757441sm5031213lft.199.2023.03.28.05.50.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Mar 2023 05:49:49 -0700 (PDT)
-Message-ID: <42ce6819-8a56-83ab-13c9-f49b3167b42e@linaro.org>
-Date: Tue, 28 Mar 2023 15:49:49 +0300
+ Tue, 28 Mar 2023 05:50:05 -0700 (PDT)
+Message-ID: <f1a7f057-0b96-473d-d5fd-5fc2d1352642@linaro.org>
+Date: Tue, 28 Mar 2023 15:50:04 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 01/10] Revert "drm/msm: Add missing check and destroy for
- alloc_ordered_workqueue"
+Subject: Re: [PATCH 07/10] drm/msm: fix missing wq allocation error handling
 Content-Language: en-GB
 To: Johan Hovold <johan+linaro@kernel.org>, Rob Clark <robdclark@gmail.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>
 References: <20230306100722.28485-1-johan+linaro@kernel.org>
- <20230306100722.28485-2-johan+linaro@kernel.org>
+ <20230306100722.28485-8-johan+linaro@kernel.org>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230306100722.28485-2-johan+linaro@kernel.org>
+In-Reply-To: <20230306100722.28485-8-johan+linaro@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,37 +79,21 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
- Jiasheng Jiang <jiasheng@iscas.ac.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ stable@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06/03/2023 12:07, Johan Hovold wrote:
-> This reverts commit 643b7d0869cc7f1f7a5ac7ca6bd25d88f54e31d0.
+> Add the missing sanity check to handle workqueue allocation failures.
 > 
-> A recent patch that tried to fix up the msm_drm_init() paths with
-> respect to the workqueue but only ended up making things worse:
-> 
-> First, the newly added calls to msm_drm_uninit() on early errors would
-> trigger NULL-pointer dereferences, for example, as the kms pointer would
-> not have been initialised. (Note that these paths were also modified by
-> a second broken error handling patch which in effect cancelled out this
-> part when merged.)
-> 
-> Second, the newly added allocation sanity check would still leak the
-> previously allocated drm device.
-> 
-> Instead of trying to salvage what was badly broken (and clearly not
-> tested), let's revert the bad commit so that clean and backportable
-> fixes can be added in its place.
-> 
-> Fixes: 643b7d0869cc ("drm/msm: Add missing check and destroy for alloc_ordered_workqueue")
-> Cc: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
+> Cc: stable@vger.kernel.org      # 3.12
+> Cc: Rob Clark <robdclark@gmail.com>
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > ---
->   drivers/gpu/drm/msm/msm_drv.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
+>   drivers/gpu/drm/msm/msm_drv.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
