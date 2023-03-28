@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CC16CC9CC
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 19:57:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 325BB6CC9CF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 19:58:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1903F10E95F;
-	Tue, 28 Mar 2023 17:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A83710E486;
+	Tue, 28 Mar 2023 17:58:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
- [IPv6:2607:f8b0:4864:20::1135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6904E10E95F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 17:57:39 +0000 (UTC)
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-54184571389so244976137b3.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 10:57:39 -0700 (PDT)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C04CC10E486
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 17:58:01 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id b18so16210350ybp.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 10:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680026258;
+ d=amarulasolutions.com; s=google; t=1680026281;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M/zyfhrzpJ8FVGDn0nkToOqRRxGr7JvskPxRAJdP0ZQ=;
- b=P9CqKo6uPkNWXhAWUEoQg+RZX5rj9LTR1k9IovpkIcV1Su9jdnYvfSFmWp9liCMBL9
- rAA9SnaN8FfuNHbFD7A7riq5ds8OUm1Q40VhuMz1cjYnj0/35CE8ZROgRBw89QE29qU+
- ix/fUE8SQbk0TWt+16mmg1blmF9MdLSsVc+pM=
+ bh=LBIZOLCnuyFDnYVdehzBMZi5Ft2DJgOUzv5Wl1H9Km8=;
+ b=Mb1Dh1g4NbOY4FAAWP7WPIZL48Hziw/rX7aDJpJXu/8SqQRUhmRH41mxRFJMsyZm3T
+ RtIWyVGz8Vm2ANtYysKVQXs9pa0DheT/UOjmrksb0BjYR/I7nixBS5VPHfUi9019F8cQ
+ Pc+lk+rvofCla7ffXPCd3BPuG76cIQZhQXBiA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680026258;
+ d=1e100.net; s=20210112; t=1680026281;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=M/zyfhrzpJ8FVGDn0nkToOqRRxGr7JvskPxRAJdP0ZQ=;
- b=5sZMC+66CioMf+K9etifURtGzVFk39oZZn0Nf5IcBKEXFfst1dvXY0zQkH4sYM3nUO
- sJaNg9cgFJvdRbqP2y/TAtC1cuIAMYCag7ewqi4Fuw1uqKDkC/ZvQXnrtbm53PILmqvT
- PkIqdgvbIjR1ZNboJtipg8yFvNMri/C3LSk3ef3e129Zrrpu8Gn4r/LaQX3HiKL6R5wZ
- tDdq3GalTsQM+tuyBvjYZcPZ0yLonkdx0Zbkx03qywmrXSoA+6nO0i6XVkROWkwwD+6A
- lYkET27bnGWc0uiPUc6AflyZkQtPLOPaJNTfROuK4mhBVUoZdqDzqkRKJBPfiKiNB5qy
- 2fLw==
-X-Gm-Message-State: AAQBX9d+QjbK7NGcWQBGPnUFe0Yj6mS8qddVkghU1YdDC9HAw79+9S0I
- LKwc1Z7+OcZi1/2d3zZcAs2xfjggBDZnfcAA9uBv0Q==
-X-Google-Smtp-Source: AKy350Yku4oTglKVG+wlRh5yaGjA1O9kEXdbcbbYcByQcSsV3pIVqE85+HIV3u7JHgTOgf8+Vj+p17JSLWs+wk9l7q4=
-X-Received: by 2002:a81:ae23:0:b0:52e:e095:d840 with SMTP id
- m35-20020a81ae23000000b0052ee095d840mr7886934ywh.0.1680026258625; Tue, 28 Mar
- 2023 10:57:38 -0700 (PDT)
+ bh=LBIZOLCnuyFDnYVdehzBMZi5Ft2DJgOUzv5Wl1H9Km8=;
+ b=edfthensbGZrCVE1bgz6he9+jZj4r7QTuFxyRO2sF+AZTHYDowOWiOafocSY44dv9a
+ d++PwTQcxFa08eCGIK27KtEioUFaSP3DKp1gqRRDlHt/+E6NQ4SvKh9xHH0Bcs9S6qFx
+ 3LuUFis1I6GsYS5+gWgCU+1R3QG69dahIFju2Mz3eZdCTwSYIoXfZnoKb28hkBrxkHkk
+ U7UoAjqgYNcU5idq5q86THfRLs4uZUU4mkgaonRVhlG9Zf2GxTYc6dSopFAdAk4ShcVQ
+ +SumvJJ+VR7fHmWQIBwZ00KVf6N73NnXYCQhrdZYeM5X1rLtyjh6ftxqwyrMMk2P5Nwi
+ mSNQ==
+X-Gm-Message-State: AAQBX9f+g8yEr0ghEQA6vOomv9niFuUgtYkQvI6qNFUDOMVh6YGLN6Qi
+ MWMCq/anIvQx4lBx3tHiVQ5/v3jfqVNqxVBGa7rJUg==
+X-Google-Smtp-Source: AKy350YZnVf6f58xk7w48QP4ob6S+rgyFRsoJsdBTz4gvcHKnfayCAVmmHjyD+8GX1vUTngInwQkDMvOZEiLekqSVCw=
+X-Received: by 2002:a05:6902:154a:b0:b3c:637f:ad00 with SMTP id
+ r10-20020a056902154a00b00b3c637fad00mr11078963ybu.5.1680026280970; Tue, 28
+ Mar 2023 10:58:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230326204224.80181-1-krzysztof.kozlowski@linaro.org>
- <20230326204224.80181-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230326204224.80181-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230326204224.80181-1-krzysztof.kozlowski@linaro.org>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 28 Mar 2023 23:27:27 +0530
-Message-ID: <CAMty3ZCr9fH7_w2UMZ9mRw1hHfLn7vij+EpGGUJcTtsn_emJRQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: display: feiyang,fy07024di26a30d:
- document port
+Date: Tue, 28 Mar 2023 23:27:49 +0530
+Message-ID: <CAMty3ZDFo9JU2DOqwTN1kj=hKxomvi7tz5guvWG5P=npAg6RNg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: display: xinpeng,
+ xpp055c272: document port
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,8 +79,8 @@ On Mon, Mar 27, 2023 at 2:12=E2=80=AFAM Krzysztof Kozlowski
 > Panels are supposed to have one port (defined in panel-common.yaml
 > binding):
 >
->   rk3399-rockpro64.dtb: panel@0: 'port' does not match any of the regexes=
-: 'pinctrl-[0-9]+'
+>   px30-evb.dtb: panel@0: 'port' does not match any of the regexes: 'pinct=
+rl-[0-9]+'
 >
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
