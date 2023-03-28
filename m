@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A546CB2B7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 02:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D358B6CB2BB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 02:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA83610E41D;
-	Tue, 28 Mar 2023 00:03:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 633A010E7DC;
+	Tue, 28 Mar 2023 00:08:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0248C10E41D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 00:03:41 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id r11so42935226edd.5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 17:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679961820;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=l+DgzQY4fNkvzleeGuyqZbcukfUSd7X3lVhC764y+bE=;
- b=p8du2jelzEB3ENTn+ayNWOjyrDGJkmEpOz39ivKVikP9cd5LO2IrtoyNfooYrANkps
- iauiEyggnFaEcDMqc4KYBKf9LVVV93Yx324dWglCHs2SOEQ0uby8jsnGlz9bcEWtPLXl
- zS6o8Wu5ylQXEIRWMDaNNAHhfncGs6nueCMCvfTOkbXjPvaA8WcUJcugVAH4dcY8DjK0
- Y4VskKVsU0rgUp4FNRyU+7XhZo2zB3a6KOK6uq8LquMkkK47ZvIlDjG3PdMZfTOzg/dy
- O2Xz17nG+1xX4/yvTk/5YR+qNNamfHJu+YntHXXk40+PnX2kfIUxE7KxSCvCKaEboVtH
- KZDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679961820;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l+DgzQY4fNkvzleeGuyqZbcukfUSd7X3lVhC764y+bE=;
- b=M7CQxirGaaKs+iycCPMkxVVJTJEzXjparldsynYUov0SR7vw6gtbnPU7jdV3As21Ac
- GrsINDhFsaBa9uBV6OHOXSZ08b9i8km5TzPyKnQwYyOpjZCPegScHttI8R1SI7m0K53P
- udfcR7rSElDq39Zisk8HJkTYkAh25GhmU0aOO2LVPmt8nlOoCS3x4iiG68xuPYzyIgRV
- wIeHDYdRHZtnqXg9i6ke++d5Inu/kEuFvo6tPOqxCwZmghavw2vN5kZY/mm1zoL3nDXk
- +R1t26G9U3fTGEXxWux3+l9tpFtr/n0Fjdfo2c6QcxYPlCwY8xkz4rMU6ROqLZnBjjQo
- QHAA==
-X-Gm-Message-State: AAQBX9d5rM73Qw0bXgewWwdragR8An+vY4XKe3YIU4jjQh7Vdz0Va26C
- enRElGm9Wc+yWOvgolD0/vGQ9reYqnCdD5JTKDQNBHwP
-X-Google-Smtp-Source: AKy350Y/1tZ+g++KCbM4mgyvTKF9YVvuW2xA2T+kVWkqqLgNmRlrGAN60fZXfeGdj6/4l8wfIhJ/Y3tJSrN7pvFZgCQ=
-X-Received: by 2002:a50:bb62:0:b0:4fa:ce07:639f with SMTP id
- y89-20020a50bb62000000b004face07639fmr6675052ede.5.1679961820236; Mon, 27 Mar
- 2023 17:03:40 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8C5110E7DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 00:08:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E925DB8184D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 00:08:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD806C4339B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 00:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679962134;
+ bh=a31qX3NPls8wS2xJkkUjJbLbCkTAHR0yJQrhzHN95uQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ELOsIYVzr3dlf8MLwTWo+T+RusazaiiuHRDol9TXBh4fbDBJK+GNKWSE1LC+/9VrM
+ LcCcltI4oWxtVPZJ+HtgeZC1BIPt6LaYnTOJ7R1PuRJ3wDbEoB6LBpC63d+Y+EXcdE
+ U5TX5gYCtIYzDN7fyYckFePfFs8o+MmVxwC2G/wh/ZQmOZmYCPhhFjdg4l3DH6dEqB
+ POOznS6kg0BqdLl4BzSP7W2+B1DrlMUMF9ChcjpLb1BAqYIixadQNsuhPMT7+fa1PH
+ IcuP/muA+NfGtQ1ilYvQBo5sgZnlQyzEgSoz2sbcOGophPfAcDHifHLhLuOfgUPluP
+ AhRwFbWsGOKEg==
+Received: by mail-lf1-f41.google.com with SMTP id h11so6675341lfu.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Mar 2023 17:08:54 -0700 (PDT)
+X-Gm-Message-State: AAQBX9c5p8bwuxAheD9EdPqh5nk3d+AvUbJDYeQFsiXa4u6TfxfiHNG5
+ d42ux6DjG4n9mciy8muXGr8yGqNLUiFEtB5LLA==
+X-Google-Smtp-Source: AKy350av9yZ1UX2KgeS/t4F1MQbA9AYH8XTj7NFPLZQKNqahnuiPNmwDXnSuMi0m/W4u7+bF7CY8qSEaKUT25OBRpTA=
+X-Received: by 2002:ac2:596a:0:b0:4e8:6261:58c2 with SMTP id
+ h10-20020ac2596a000000b004e8626158c2mr3860399lfp.7.1679962132705; Mon, 27 Mar
+ 2023 17:08:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20230303145218epcas1p2e77bc610f57337830924e3c6c02ca291@epcas1p2.samsung.com>
- <20230303145138.29233-1-jagan@amarulasolutions.com>
- <000001d94feb$ef651bb0$ce2f5310$@samsung.com>
- <CAOMZO5DFhFTh9kd2NdEe1m2AEs7Se0PNeWZ+5q-cSAz-QVoPDg@mail.gmail.com>
- <CAAQKjZM66M6wgtoBmAcQifq8LgBUos0bZfbTkRBqnOb7E-05tQ@mail.gmail.com>
- <CAOMZO5ArYAf72oSY-WMSdfH6w5HAvvrLz24eR+4YBzOASp7U-Q@mail.gmail.com>
- <794538dd-f29a-571b-601a-f61c60d00382@linaro.org>
-In-Reply-To: <794538dd-f29a-571b-601a-f61c60d00382@linaro.org>
-From: Inki Dae <daeinki@gmail.com>
-Date: Tue, 28 Mar 2023 09:03:29 +0900
-Message-ID: <CAAQKjZPmYcdUphP9w7i_O65rhXwsw2rCxAnDJ1JG73-RuLP4UQ@mail.gmail.com>
-Subject: Re: [PATCH v15 00/16] drm: Add Samsung MIPI DSIM bridge
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000880ebe05f7ea97ac"
+References: <20230324100553.13719-1-jason-jh.lin@mediatek.com>
+In-Reply-To: <20230324100553.13719-1-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 28 Mar 2023 08:08:40 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__tPtvdf+CEdnzY09Cu2PT0tmfdH_a9MD8UWnxZEu-v_A@mail.gmail.com>
+Message-ID: <CAAOTY__tPtvdf+CEdnzY09Cu2PT0tmfdH_a9MD8UWnxZEu-v_A@mail.gmail.com>
+Subject: Re: [PATCH v6] drm/mediatek: add mediatek-drm of vdosys0 support for
+ mt8188
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,114 +62,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, linux-samsung-soc@vger.kernel.org,
- Matteo Lisi <matteo.lisi@engicam.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Adam Ford <aford173@gmail.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Nathan Lu <nathan.lu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ amy zhang <Amy.Zhang@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000880ebe05f7ea97ac
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi, Jason:
 
-Hi,
-
-2023=EB=85=84 3=EC=9B=94 27=EC=9D=BC (=EC=9B=94) =EC=98=A4=ED=9B=84 11:08, =
-Neil Armstrong <neil.armstrong@linaro.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
-
-> On 23/03/2023 16:34, Fabio Estevam wrote:
-> > Hi Inki,
-> >
-> > On Mon, Mar 13, 2023 at 9:51=E2=80=AFPM Inki Dae <daeinki@gmail.com> wr=
-ote:
-> >
-> >>> Could you please apply v16?
-> >>
-> >>
-> >> I am planning to merge this patch series soon, but I will be proceedin=
-g
-> with the pull-request next week. As the DSIM driver is being moved to the
-> bridge folder, I would like to wait for acknowledgment from the bridge
-> maintainers. However, if there are no further comments until next week, I
-> will proceed with the pull-request.
-> >
-> > A friendly reminder: do you think you can proceed with the pull-request
-> now?
+Jason-JH.Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2023=E5=B9=B43=E6=9C=882=
+4=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=886:06=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> I can apply the entire patchset to drm-misc-needed if needed.
+> From: Nathan Lu <nathan.lu@mediatek.com>
 >
-> Inki, is it ok for you or you still want to take it in the exynos tree ?
+> add driver data of mt8188 vdosys0 to mediatek-drm and the sub driver.
+
+Applied to mediatek-drm-next [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
+
 >
-
-Sorry for late. I will proceed with pull-request today.
-
-BTW, now is rc4 so we have more time for pull-request. Is there any reason
-you hurry up?
-
-Thanks,
-Inki Dae
-
-
-> Neil
+> Signed-off-by: amy zhang <Amy.Zhang@mediatek.com>
+> Signed-off-by: Nathan Lu <nathan.lu@mediatek.com>
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+> ---
+> Rebase on maintainer's tree[1]
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.gi=
+t/log/?h=3Dmediatek-drm-next
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 >
-> >
-> > Thanks
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.c
+> index dce2d86df6d9..6dcb4ba2466c 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -176,6 +176,18 @@ static const unsigned int mt8186_mtk_ddp_ext[] =3D {
+>         DDP_COMPONENT_DPI0,
+>  };
 >
+> +static const unsigned int mt8188_mtk_ddp_main[] =3D {
+> +       DDP_COMPONENT_OVL0,
+> +       DDP_COMPONENT_RDMA0,
+> +       DDP_COMPONENT_COLOR0,
+> +       DDP_COMPONENT_CCORR,
+> +       DDP_COMPONENT_AAL0,
+> +       DDP_COMPONENT_GAMMA,
+> +       DDP_COMPONENT_POSTMASK0,
+> +       DDP_COMPONENT_DITHER0,
+> +       DDP_COMPONENT_DP_INTF0,
+> +};
+> +
+>  static const unsigned int mt8192_mtk_ddp_main[] =3D {
+>         DDP_COMPONENT_OVL0,
+>         DDP_COMPONENT_OVL_2L0,
+> @@ -272,6 +284,11 @@ static const struct mtk_mmsys_driver_data mt8186_mms=
+ys_driver_data =3D {
+>         .mmsys_dev_num =3D 1,
+>  };
 >
-
---000000000000880ebe05f7ea97ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div>Hi,<br><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">2023=EB=85=84 3=EC=9B=94 27=EC=9D=BC (=EC=9B=94) =
-=EC=98=A4=ED=9B=84 11:08, Neil Armstrong &lt;<a href=3D"mailto:neil.armstro=
-ng@linaro.org">neil.armstrong@linaro.org</a>&gt;=EB=8B=98=EC=9D=B4 =EC=9E=
-=91=EC=84=B1:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 23/03/2023 16:34, =
-Fabio Estevam wrote:<br>
-&gt; Hi Inki,<br>
-&gt; <br>
-&gt; On Mon, Mar 13, 2023 at 9:51=E2=80=AFPM Inki Dae &lt;<a href=3D"mailto=
-:daeinki@gmail.com" target=3D"_blank" rel=3D"noreferrer">daeinki@gmail.com<=
-/a>&gt; wrote:<br>
-&gt; <br>
-&gt;&gt;&gt; Could you please apply v16?<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; I am planning to merge this patch series soon, but I will be proce=
-eding with the pull-request next week. As the DSIM driver is being moved to=
- the bridge folder, I would like to wait for acknowledgment from the bridge=
- maintainers. However, if there are no further comments until next week, I =
-will proceed with the pull-request.<br>
-&gt; <br>
-&gt; A friendly reminder: do you think you can proceed with the pull-reques=
-t now?<br>
-<br>
-I can apply the entire patchset to drm-misc-needed if needed.<br>
-<br>
-Inki, is it ok for you or you still want to take it in the exynos tree ?<br=
-></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Sor=
-ry for late. I will proceed with pull-request today.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">BTW, now is rc4 so we have more time for pull-=
-request. Is there any reason you hurry up?</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Thanks,</div><div dir=3D"auto">Inki Dae</div><div dir=3D=
-"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">
-<br>
-Neil<br>
-<br>
-&gt; <br>
-&gt; Thanks<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000880ebe05f7ea97ac--
+> +static const struct mtk_mmsys_driver_data mt8188_vdosys0_driver_data =3D=
+ {
+> +       .main_path =3D mt8188_mtk_ddp_main,
+> +       .main_len =3D ARRAY_SIZE(mt8188_mtk_ddp_main),
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data =3D {
+>         .main_path =3D mt8192_mtk_ddp_main,
+>         .main_len =3D ARRAY_SIZE(mt8192_mtk_ddp_main),
+> @@ -308,6 +325,8 @@ static const struct of_device_id mtk_drm_of_ids[] =3D=
+ {
+>           .data =3D &mt8183_mmsys_driver_data},
+>         { .compatible =3D "mediatek,mt8186-mmsys",
+>           .data =3D &mt8186_mmsys_driver_data},
+> +       { .compatible =3D "mediatek,mt8188-vdosys0",
+> +         .data =3D &mt8188_vdosys0_driver_data},
+>         { .compatible =3D "mediatek,mt8192-mmsys",
+>           .data =3D &mt8192_mmsys_driver_data},
+>         { .compatible =3D "mediatek,mt8195-mmsys",
+> @@ -677,6 +696,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[=
+] =3D {
+>           .data =3D (void *)MTK_DISP_MUTEX },
+>         { .compatible =3D "mediatek,mt8186-disp-mutex",
+>           .data =3D (void *)MTK_DISP_MUTEX },
+> +       { .compatible =3D "mediatek,mt8188-disp-mutex",
+> +         .data =3D (void *)MTK_DISP_MUTEX },
+>         { .compatible =3D "mediatek,mt8192-disp-mutex",
+>           .data =3D (void *)MTK_DISP_MUTEX },
+>         { .compatible =3D "mediatek,mt8195-disp-mutex",
+> --
+> 2.18.0
+>
