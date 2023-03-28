@@ -1,79 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBDD6CCD28
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:23:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816DC6CCD44
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:34:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50AE910E4C7;
-	Tue, 28 Mar 2023 22:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7373210E4A5;
+	Tue, 28 Mar 2023 22:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1059810E4C7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:23:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680042207;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YZOEXo//NG6ZuxMwWYZ3Q5XdOI468xHeInsZ4IotWAU=;
- b=VpKnSvVy3Iu44o5B3NHoKWGXcHo/AZL8OCdote6puVY5Lj9BVdVKaZXPEsVBcvLNxojF91
- OghwW83iQNCEulM6uALEYxKJZpoKSPnEN90mMRtGmT/DPKj4DKI2N8sT2S4IsqA7PbEOyV
- 39r4aDBQGGawVXhytLCP1275UvklYCI=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-607-VgjtJOjtNwGOpo5NVU15Ew-1; Tue, 28 Mar 2023 18:23:26 -0400
-X-MC-Unique: VgjtJOjtNwGOpo5NVU15Ew-1
-Received: by mail-qk1-f200.google.com with SMTP id
- b34-20020a05620a272200b007460c05a463so6414825qkp.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:23:26 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF1710E4A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:34:14 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ f19-20020a9d5f13000000b00693ce5a2f3eso7251562oti.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680042853;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=LQkDgg9vRxmw6OR2ZcWKh/O2EZ+U208KlBquhlXylKk=;
+ b=lJbb7OKeGfSEi9V5+N2I0ScWhsHffGoOv4pJ2AxMX3zd8SMyEnOKU6HHw75B0uNTou
+ iC3LHUwMWDxs4QeT46toqjrLWUj7RlZRz7mV1hsg3xs1GE0c7lMIX+0Nj5rLGcewZ0Rk
+ cHgpvfi/U8Dy1g1MEZUXnU1djnhYcElvBy1SGa2eX1Qs/Tjn/NVtGCGtS0SwnAUjoQIf
+ vTjPBMXGzcU0sb2KA+SqcGUjv455PYBUu0iQ0pkQMdLJq0b+kqt9UtHEdTE3yE+0SjR0
+ 7HCbhRt6VVW3LXtfck2jN0HdYXLlp+fgYOTZtwjQumyzUxLNSjoxErmTO+tmEENn1Qcw
+ 5g1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680042205;
- h=mime-version:user-agent:content-transfer-encoding:organization
- :references:in-reply-to:date:cc:to:from:subject:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O/880kkvDFtCR5sIo7DiowXLZImkJfXYxCTOdE4arHY=;
- b=4GGdXPnZWcAyOV8vam09E5AMM2IuWQ9aOPtVzkSyy46G7tL13gtLLFQ/5h/pd55oL2
- aElNP/2E86zFfrmG/RJLRDcY/tUTlTLh4Ngknzp1x3ViH4NjxISJTwiaDMjxo0anLPpI
- DKwQqrZqJbzqpVuisIti66W9W4fsDMaj6WNmJ6RVgjyO/yzy0bSa0Wqx3ofOvtbfqlcN
- Wm2osNZkNZ4eZr6qDeTeNmW8Fg6vqUpk4rFgHVbdSVdggCo+Hs6nPN4UisAuvk4GEC2q
- H8YVa78pP79GbRyAODtRo3aI1FAafbMLe8MwgA6rLQ1VsmV67afvm9e/dm0xqwUuOMxJ
- fHzQ==
-X-Gm-Message-State: AAQBX9c6OTbbEn60Dm/37A9FLDH51CXHepUwmKNRa4da3Ux53V8ofsTJ
- NrHJtQynFe9aoNsCnvhzE5A/E2QS3/EEQAbt3laZEj1BU8GgyDx3y4DrBWBzMDMFkv/jd4bc9aW
- 3TiDhIkqwxamPUeUvBWC1G/2f3+RX
-X-Received: by 2002:a05:6214:20e8:b0:571:13c:6806 with SMTP id
- 8-20020a05621420e800b00571013c6806mr27337647qvk.33.1680042205716; 
- Tue, 28 Mar 2023 15:23:25 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZHs3HSZwuEOKXFrGu7Y8M8LAvPxj+euHxcA9SzX+HVHy5mGA1OUIs92Bd1flUbQgB9m2rGUg==
-X-Received: by 2002:a05:6214:20e8:b0:571:13c:6806 with SMTP id
- 8-20020a05621420e800b00571013c6806mr27337629qvk.33.1680042205469; 
- Tue, 28 Mar 2023 15:23:25 -0700 (PDT)
-Received: from ?IPv6:2600:4040:5c57:b700::feb? ([2600:4040:5c57:b700::feb])
- by smtp.gmail.com with ESMTPSA id
- ec13-20020ad44e6d000000b005dd8b9345ddsm4123898qvb.117.2023.03.28.15.23.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 15:23:25 -0700 (PDT)
-Message-ID: <3b14406294755cde2b2be6ba54dc09105c071775.camel@redhat.com>
-Subject: Re: [PATCH 6.2 regression fix] drm/nouveau/kms: Fix backlight
- registration
-From: Lyude Paul <lyude@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>, Ben Skeggs <bskeggs@redhat.com>, 
- Karol Herbst <kherbst@redhat.com>
-Date: Tue, 28 Mar 2023 18:23:24 -0400
-In-Reply-To: <20230326205433.36485-1-hdegoede@redhat.com>
-References: <20230326205433.36485-1-hdegoede@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36)
+ d=1e100.net; s=20210112; t=1680042853;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=LQkDgg9vRxmw6OR2ZcWKh/O2EZ+U208KlBquhlXylKk=;
+ b=J4bcDc5SKtPHEqZpxLNX1qAnGW4QrG3gPCD+APqQP/hJMibNee4ZZ8LLXuv7jx96UG
+ 0IZRXPHGDGuf4PvYJ7escJWlZtrf6GODPSWzU0BWDl7JsDNCavC1j5ZxCqDUZeoY+1D6
+ DdYZdOEjtHHJFSKzCVYQppIkQR29rFA8mOww5l7+MHu1vV3BQa1Tdt2AIYm+1B8UauG8
+ Snv09DhFce0/WQ6gN3xlPeJ0oA/kkHlScDzih3Qa+t1s9rPi8qGVanolXYsGJbbbAZJO
+ ScMm3BeUDPNhmVD3IwdohmQqa/P9i7GIfEudF3BODXZQuQSDbvkM/Rxtkm3fZKiMj3hi
+ fzhg==
+X-Gm-Message-State: AO0yUKVeD4/kf3VjQXcLlT8JU8dFSF3L8en/baSJuERPFr3Agv6CTuzv
+ JBqO9l09wdWphSIFPJchel/ZCXZrrU8ucEncHwg/T1TBCNM=
+X-Google-Smtp-Source: AK7set8tvdwF8ZdoVo5bXcV3/xC2jpDyF11C+vSLHDAxnOuyLEsUpC4swbAUBD1WnDRBJrSvWP/XtbmFiHhzZJ8xmlw=
+X-Received: by 2002:a9d:67d0:0:b0:68b:cd1e:1ef1 with SMTP id
+ c16-20020a9d67d0000000b0068bcd1e1ef1mr5904971otn.7.1680042853372; Tue, 28 Mar
+ 2023 15:34:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 28 Mar 2023 15:34:02 -0700
+Message-ID: <CAF6AEGt5nDQpa6J86V1oFKPA30YcJzPhAVpmF7N1K1g2N3c=Zg@mail.gmail.com>
+Subject: [pull] drm: dma-fence-deadline for v6.4
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,73 +63,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, regressions@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Mark Pearson <mpearson@lenovo.com>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+Hi Dave and Daniel,
 
-(Also note to Mark: this is my way of letting you know someone fixed the
-regression with backlight controls upstream, looking into the weird bright
-screen after resume issue)
+Here is the series for dma-fence deadline hint, without driver
+specific patches, or UAPI, with the intent that it can be merged into
+drm-next as well as -driver next trees to enable landing driver
+specific support through their corresponding -next trees.
 
-On Sun, 2023-03-26 at 22:54 +0200, Hans de Goede wrote:
-> The nouveau code used to call drm_fb_helper_initial_config() from
-> nouveau_fbcon_init() before calling drm_dev_register(). This would
-> probe all connectors so that drm_connector->status could be used during
-> backlight registration which runs from nouveau_connector_late_register().
->=20
-> After commit 4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers"=
-)
-> the fbdev emulation code, which now is a drm-client, can only run after
-> drm_dev_register(). So during backlight registration the connectors are
-> not probed yet and the drm_connector->status =3D=3D connected check in
-> nv50_backlight_init() would now always fail.
->=20
-> Replace the drm_connector->status =3D=3D connected check with
-> a drm_helper_probe_detect() =3D=3D connected check to fix nv_backlight
-> no longer getting registered because of this.
->=20
-> Fixes: 4a16dd9d18a0 ("drm/nouveau/kms: switch to drm fbdev helpers")
-> Link: https://gitlab.freedesktop.org/drm/nouveau/-/issues/202
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_backlight.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/dr=
-m/nouveau/nouveau_backlight.c
-> index 40409a29f5b6..91b5ecc57538 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
-> @@ -33,6 +33,7 @@
->  #include <linux/apple-gmux.h>
->  #include <linux/backlight.h>
->  #include <linux/idr.h>
-> +#include <drm/drm_probe_helper.h>
-> =20
->  #include "nouveau_drv.h"
->  #include "nouveau_reg.h"
-> @@ -299,8 +300,12 @@ nv50_backlight_init(struct nouveau_backlight *bl,
->  =09struct nouveau_drm *drm =3D nouveau_drm(nv_encoder->base.base.dev);
->  =09struct nvif_object *device =3D &drm->client.device.object;
-> =20
-> +=09/*
-> +=09 * Note when this runs the connectors have not been probed yet,
-> +=09 * so nv_conn->base.status is not set yet.
-> +=09 */
->  =09if (!nvif_rd32(device, NV50_PDISP_SOR_PWM_CTL(ffs(nv_encoder->dcb->or=
-) - 1)) ||
-> -=09    nv_conn->base.status !=3D connector_status_connected)
-> +=09    drm_helper_probe_detect(&nv_conn->base, NULL, false) !=3D connect=
-or_status_connected)
->  =09=09return -ENODEV;
-> =20
->  =09if (nv_conn->type =3D=3D DCB_CONNECTOR_eDP) {
+The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
 
---=20
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
 
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/msm.git tags/dma-fence-deadline
+
+for you to fetch changes up to d39e48ca80c0960b039cb38633957f0040f63e1a:
+
+  drm/atomic-helper: Set fence deadline for vblank (2023-03-28 14:52:59 -0700)
+
+----------------------------------------------------------------
+This series adds a deadline hint to fences, so realtime deadlines
+such as vblank can be communicated to the fence signaller for power/
+frequency management decisions.
+
+This is partially inspired by a trick i915 does, but implemented
+via dma-fence for a couple of reasons:
+
+1) To continue to be able to use the atomic helpers
+2) To support cases where display and gpu are different drivers
+
+See https://patchwork.freedesktop.org/series/93035/
+
+This does not yet add any UAPI, although this will be needed in
+a number of cases:
+
+1) Workloads "ping-ponging" between CPU and GPU, where we don't
+   want the GPU freq governor to interpret time stalled waiting
+   for GPU as "idle" time
+2) Cases where the compositor is waiting for fences to be signaled
+   before issuing the atomic ioctl, for example to maintain 60fps
+   cursor updates even when the GPU is not able to maintain that
+   framerate.
+
+----------------------------------------------------------------
+Rob Clark (8):
+      dma-buf/dma-fence: Add deadline awareness
+      dma-buf/fence-array: Add fence deadline support
+      dma-buf/fence-chain: Add fence deadline support
+      dma-buf/dma-resv: Add a way to set fence deadline
+      dma-buf/sync_file: Surface sync-file uABI
+      drm/scheduler: Add fence deadline support
+      drm/vblank: Add helper to get next vblank time
+      drm/atomic-helper: Set fence deadline for vblank
+
+ Documentation/driver-api/dma-buf.rst    | 16 +++++++--
+ drivers/dma-buf/dma-fence-array.c       | 11 ++++++
+ drivers/dma-buf/dma-fence-chain.c       | 12 +++++++
+ drivers/dma-buf/dma-fence.c             | 59 +++++++++++++++++++++++++++++++++
+ drivers/dma-buf/dma-resv.c              | 22 ++++++++++++
+ drivers/gpu/drm/drm_atomic_helper.c     | 37 +++++++++++++++++++++
+ drivers/gpu/drm/drm_vblank.c            | 53 ++++++++++++++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++++++++
+ drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
+ include/drm/drm_vblank.h                |  1 +
+ include/drm/gpu_scheduler.h             | 17 ++++++++++
+ include/linux/dma-fence.h               | 22 ++++++++++++
+ include/linux/dma-resv.h                |  2 ++
+ include/uapi/linux/sync_file.h          | 37 +++++++++------------
+ 14 files changed, 303 insertions(+), 34 deletions(-)
