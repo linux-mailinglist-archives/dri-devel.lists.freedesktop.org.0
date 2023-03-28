@@ -1,60 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC94D6CC0BD
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 15:28:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8266CC0F6
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 15:32:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C846C10E791;
-	Tue, 28 Mar 2023 13:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7161F10E2EF;
+	Tue, 28 Mar 2023 13:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55CF310E791
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 13:28:03 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id b18so15038911ybp.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 06:28:03 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D42E910E097
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 13:32:28 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id y15so15839385lfa.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 06:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680010082;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=zf4LbD3AMshvBZn89aWrIQPVRkcB4VUn3i+lt1nSoAk=;
- b=Sm4kqaCFBUY6bK7gN/LnStFgPSpQl1v6/124u7FWLFBt8VXCwuk0Z970Wwyw0Ur192
- HYFy3wJiMAMSL9tinJ4cgj2cNY/v13BhkadQNf1B266r4rg796qAS9JCxNKsiK3+yUgK
- 9YGXEtEAxGiL6hg2GAAl8X89j//01Nfa3W/79bj7xK0r2pP9kj4pmENR252N2NjJQLG8
- WeLKppOtHm0sEK4JJTLQNOaKhgDdItsOGGn52A6v7+J8IQLxLOOo49o2SrEhUCgjlpkb
- uak27N4SBl7s+WaWrMFHTT7nr3L6qE1AWnBukxg0I/CvXp7UysYrZYvfzMY5ylgdVcQi
- AsGg==
+ d=linaro.org; s=google; t=1680010347;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=g02I1W6mgzmeB+62dRygpCTPnE6RlAEOPRopZrV7ckA=;
+ b=sf1yYrLlvBSGwzL1Un+i29aDzjasFLnSZhFW526cxcgMFgnfqOTSddOEBHgTScrpIa
+ J+p0RpULbpctLyQKOO2qE0K6zcnhLMZCk74vvtTei5jaksAwAP2UA1j7rObotVXIxEq5
+ e7BPkSVXwNz7wgvaSR8TdOTjzJ4kId9OPXn8NL2MBqhpN1rFTL2h15NjIPxwx674jFLB
+ LkX5JDGsLIbvFmMCe1lnj3DxsAy6IamOSOXD/oA2a2hUQR6DtTDLrsXdaJIV/PKZcita
+ UMCe0CgszasSZlrevI10jSWaiBYGJRatIKtDUoSdVBD7nPO/1HTUKEGnlrEvbFlDBdFH
+ Xb6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680010082;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zf4LbD3AMshvBZn89aWrIQPVRkcB4VUn3i+lt1nSoAk=;
- b=j1zC+n7YqQZUDkNsbkNIQVAEgJYmj5BqLWBHyB4zSqskTNKFPu8aIJGCobheoB6abp
- 3za/9wXIX/dDltzDejbseV+BZartypeapBg6X8x2Z4qdfearaXfVGVvrLHQKmgG3Tb3H
- J/opiRfUVfgcW6TvMD+ck7hSNcdFssRj8ANu6oYNsoevy2HjntTXBsaExYvHtl1Bkqho
- hc0FmHLiUCxuEvu3YQZ/92aKzaYm5wpGvY8vgcRB/ek5jl8+nk2soSCh+EZDJnKhwsI2
- He9fn2G5dxoJqQL2/BElyRqpRca3n/2iQAQGuGNbpcu6bXMHVsT50MiJN/xhZslp+qva
- qGSg==
-X-Gm-Message-State: AAQBX9efIld174ANe63bXdGyXtDxNqTfZGAp9tRw0UlRnluq6HEgNyfL
- quoFgg0TTKQD+0E99q5Oc7jKtLeB6Pjyq5Ji2gAEag==
-X-Google-Smtp-Source: AKy350a5ZeUqZovBpBBDQsnVDd9INMepwgVauJz8NvVh35BUdSwSKP0mNmz7z97n69C0ztrSbTzdjCPphQgbaC0px68=
-X-Received: by 2002:a05:6902:1501:b0:b4c:9333:2a2 with SMTP id
- q1-20020a056902150100b00b4c933302a2mr7851032ybu.9.1680010082427; Tue, 28 Mar
- 2023 06:28:02 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680010347;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=g02I1W6mgzmeB+62dRygpCTPnE6RlAEOPRopZrV7ckA=;
+ b=1eXNBtZPfPksLeiVEZ5OO1BybqDYFXUN/24tCGACEMIGAPEMpHqf82uVDt02jObiTE
+ DTFp98YlehkF3gp3ZdqLN9XjONboDuxfkTqV7IJf2RtYNKmy0RIgJaf7z0uX0r2kIN7U
+ jWrJjUgKq651ESnJAoTRFp5USzbwWFA0ZMayyXKDwHLxW7u+k7B3/UIR/BureqivdeYO
+ 3zY0wti7yFDSRIhuRiZegAIfhQkqb8prio350rXCCAd6pvuanBtzvh7XM1Vg6cNEg6hy
+ MHyPbRGpZNPkFgomJtSko2BPxHzZx7XdbQW15UEf168wDTrFShxho3bw6O60BNOkR0ga
+ yWMQ==
+X-Gm-Message-State: AAQBX9fZ73CbQaFl5IlBb6UZLRtEmt7IcKSy93votclcYvHHk3Ztalto
+ 8bzAPOs9O97oUtdclhE9IBTwzg==
+X-Google-Smtp-Source: AKy350YA6+0RXq22Tp/f/x252Y9jHRcmh25+pxyJTdeF2GZpGC2jRnFljCQzR5U24g0I1wztOHrRRA==
+X-Received: by 2002:ac2:5dee:0:b0:4ea:f74f:c077 with SMTP id
+ z14-20020ac25dee000000b004eaf74fc077mr4982273lfq.12.1680010347125; 
+ Tue, 28 Mar 2023 06:32:27 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020a056512048300b004cc5f44747dsm5103824lfq.220.2023.03.28.06.32.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 06:32:26 -0700 (PDT)
+Message-ID: <9c498192-f82d-cea9-17cb-80cb81b67714@linaro.org>
+Date: Tue, 28 Mar 2023 16:32:26 +0300
 MIME-Version: 1.0
-References: <20230222053153.3658345-1-suraj.kandpal@intel.com>
- <87ttyvbhuz.fsf@intel.com>
- <SN7PR11MB6750FDE3318A85E0A2541831E3889@SN7PR11MB6750.namprd11.prod.outlook.com>
-In-Reply-To: <SN7PR11MB6750FDE3318A85E0A2541831E3889@SN7PR11MB6750.namprd11.prod.outlook.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v7 31/32] drm/msm/dpu: log the multirect_index in
+ _dpu_crtc_blend_setup_pipe
+Content-Language: en-GB
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 28 Mar 2023 16:27:51 +0300
-Message-ID: <CAA8EJprrTPU6E59XjSa9SrMcg9q89ZPB33gayVMqCToR_nQ6CA@mail.gmail.com>
-Subject: Re: [PATCH 0/7] Enable YCbCr420 format for VDSC
-To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230316161653.4106395-1-dmitry.baryshkov@linaro.org>
+ <20230316161653.4106395-32-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230316161653.4106395-32-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,90 +79,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Shankar,
- Uma" <uma.shankar@intel.com>, "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Mar 2023 at 16:20, Kandpal, Suraj <suraj.kandpal@intel.com> wrote:
-> > -----Original Message-----
-> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Jani
-> > Nikula
-> > Sent: Wednesday, March 8, 2023 5:00 PM
-> > To: Kandpal, Suraj <suraj.kandpal@intel.com>; dri-
-> > devel@lists.freedesktop.org; intel-gfx@lists.freedesktop.org
-> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>; Nautiyal, Ankit K
-> > <ankit.k.nautiyal@intel.com>; Shankar, Uma <uma.shankar@intel.com>;
-> > Kandpal, Suraj <suraj.kandpal@intel.com>
-> > Subject: Re: [PATCH 0/7] Enable YCbCr420 format for VDSC
-> >
-> > On Wed, 22 Feb 2023, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
-> > > This patch series aims to enable the YCbCr420 format for DSC. Changes
-> > > are mostly compute params related for hdmi,dp and dsi along with the
-> > > addition of new rc_tables for native_420 and corresponding changes to
-> > > macros used to fetch them.
-> > > There have been discussions prior to this series in which some patches
-> > > have gotten rb and can be found in the below link
-> > > https://patchwork.freedesktop.org/series/113729
-> >
-> > I think it would be useful to get [1] from Dmitry merged to drm-misc-next
-> > first, have that in drm-next, and again backmerged to drm-intel-next before
-> > this. At least patches 1-5.
-> >
-> > There's not much point in all drivers duplicating the parameters, and we
-> > need to move towards common code. Dmitry has been helpful in
-> > contributing this to us.
-> >
-> > BR,
-> > Jani.
-> >
-> >
->
-> Hi Jani,
-> Maarten has acked the patch series to be merged through drm-intel and in the meantime
-> I will work with Dmitry to pull the common code to avoid duplication
+On 16/03/2023 18:16, Dmitry Baryshkov wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> Lets print the multirect_index as well in _dpu_crtc_blend_setup_pipe()
+> as it will give the complete information of the sw_pipe as well.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Thank you! If necessary feel free to ping me on IRC ('lumag').
+For the sake of completeness:
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
->
-> Regards,
-> Suraj Kandpal
->
-> > [1] https://patchwork.freedesktop.org/series/114473/
-> >
-> > >
-> > > Ankit Nautiyal (2):
-> > >   drm/dp_helper: Add helper to check DSC support with given o/p format
-> > >   drm/i915/dp: Check if DSC supports the given output_format
-> > >
-> > > Suraj Kandpal (4):
-> > >   drm/i915: Adding the new registers for DSC
-> > >   drm/i915: Enable YCbCr420 for VDSC
-> > >   drm/i915/display: Fill in native_420 field
-> > >   drm/i915/vdsc: Check slice design requirement
-> > >
-> > > Swati Sharma (1):
-> > >   drm/i915/dsc: Add debugfs entry to validate DSC output formats
-> > >
-> > >  drivers/gpu/drm/i915/display/icl_dsi.c        |   2 -
-> > >  .../drm/i915/display/intel_crtc_state_dump.c  |   4 +-
-> > >  .../drm/i915/display/intel_crtc_state_dump.h  |   2 +
-> > >  .../drm/i915/display/intel_display_debugfs.c  |  78 ++++++++
-> > >  .../drm/i915/display/intel_display_types.h    |   1 +
-> > >  drivers/gpu/drm/i915/display/intel_dp.c       |  39 +++-
-> > >  .../gpu/drm/i915/display/intel_qp_tables.c    | 187 ++++++++++++++++--
-> > >  .../gpu/drm/i915/display/intel_qp_tables.h    |   4 +-
-> > >  drivers/gpu/drm/i915/display/intel_vdsc.c     | 108 +++++++++-
-> > >  drivers/gpu/drm/i915/i915_reg.h               |  28 +++
-> > >  include/drm/display/drm_dp_helper.h           |  13 ++
-> > >  11 files changed, 442 insertions(+), 24 deletions(-)
-> >
-> > --
-> > Jani Nikula, Intel Open Source Graphics Center
-
-
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index 90b406e409d3..508e5b950e52 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -426,12 +426,13 @@ static void _dpu_crtc_blend_setup_pipe(struct drm_crtc *crtc,
+>   				   format->base.pixel_format,
+>   				   modifier);
+>   
+> -	DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d\n",
+> +	DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d multirect_idx %d\n",
+>   			 crtc->base.id,
+>   			 stage,
+>   			 plane->base.id,
+>   			 sspp_idx - SSPP_NONE,
+> -			 state->fb ? state->fb->base.id : -1);
+> +			 state->fb ? state->fb->base.id : -1,
+> +			 pipe->multirect_index);
+>   
+>   	stage_cfg->stage[stage][stage_idx] = sspp_idx;
+>   	stage_cfg->multirect_index[stage][stage_idx] = pipe->multirect_index;
 
 -- 
 With best wishes
 Dmitry
+
