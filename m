@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1966CC9D6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 19:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9928A6CCA6B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 21:07:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2AED10E96C;
-	Tue, 28 Mar 2023 17:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB49910E4A0;
+	Tue, 28 Mar 2023 19:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18BE510E96C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 17:58:26 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id cf7so16203836ybb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 10:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680026305;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VfZn72mHdpGHn/5tkQZH0YGYSOz2tOScf6YCxBUYQ0Q=;
- b=RaMYP06uIY3kYzM/ESIWeEyOkeoNXiLitIfvAYO5QczB2OqBIfhD6OCkLKLbU/1t+r
- MtBrE1HCpaF5v+ljbNyxrkAZEe8HHmoZ8yd3vtUy02pQ06gHHzQPJ/obCO30bASDL0e+
- 6Jhk6WrRuc/yywCrMmhiLAgh2YpUzDodHDIpQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680026305;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VfZn72mHdpGHn/5tkQZH0YGYSOz2tOScf6YCxBUYQ0Q=;
- b=GchgC1Ur2Vd/7TEaQqjvVmr15c0RrZh4YyFv+czYUMcRfdqamZjaUk14BW8SubmEmk
- gF2+jZ1NkTEpYtJZRzpF47kUpp11dK6uL3B7npYPloiO8qNMrVoBuTeuAvL5QBJJC395
- JmHZvQQoi3BIEqNK796hFohJiW/DbubMJwCnaMTFRKtNgWKKlHrUTrZuQj7PawOMBAC7
- vBK1RF657dKEeMsu7QPid7OMq4htDSHysBxFoQ4ixy0Nz9LdSQgFOrrBrAvLetVWojBP
- mIju0YcjE9ylLZjnBwT/lWVODpE9zdvVCUhPfYsn9aGKQGhyOXfrt89yNUyMwoQ/gUJx
- UIhQ==
-X-Gm-Message-State: AAQBX9eZZDZeS859gzZMUZiTugi8LaVzCXcN569yrYAousmpkYZxXLY/
- cPAr/TKt5io7izrSjahThDFl7+MfS3vnqMrOH+gtKg==
-X-Google-Smtp-Source: AKy350bgVPG6io9JT47uYAvPLrhwFbLdfgwRhCDZXvop6+TTXGiPnx0ASefaxBFQLyTxgs/qcQtxhZ52zLayyuNGkSE=
-X-Received: by 2002:a05:6902:920:b0:b76:ae61:b68b with SMTP id
- bu32-20020a056902092000b00b76ae61b68bmr8179053ybb.5.1680026305274; Tue, 28
- Mar 2023 10:58:25 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E61BF10E4A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 19:07:49 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6E834B81CB2;
+ Tue, 28 Mar 2023 19:07:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1110C433D2;
+ Tue, 28 Mar 2023 19:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680030467;
+ bh=ssr+04WYQP/MuT28p4/ksJLN0ZZeX1hkEAtus4Xzjno=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VhSmw80koljABs1Ar+f+KOOq9HFE34jhJJ0I1Z06REJKH/5Tuqp5n5HpPt3TTX7zf
+ jJCCeQBGd0b3HVxlf/w8KxDJPyuOczogo7XCOlV8OutI5KXd9W7spgUd8tB2KDOme/
+ eB+odT9IGLnXP3rrHwyGA2LOE00E8ShUu6YK6OvrIuT16TeZACd2aT9syWTtcDvHWS
+ u68TmXSUtDVB9TWJ2lY8GBNLS+VkYL2+5Coi11uhTbz+cyV+V51Lw//+hanvi8tkjO
+ szm7AaKCV3WuWN+b/CQ1wgLSaTelTJvfKxoQVEgkcsTU4I+olOGXNqP/Fhp1wYRk9O
+ B5VetVbYWREAw==
+Date: Tue, 28 Mar 2023 12:07:45 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Subject: Re: Linux 6.3-rc3
+Message-ID: <20230328190745.GA375033@dev-arch.thelio-3990X>
+References: <CAHk-=wiPd8R8-zSqTOtJ9KYeZLBByHug7ny3rgP-ZqzpP_KELg@mail.gmail.com>
+ <20230320180501.GA598084@dev-arch.thelio-3990X>
+ <CAHk-=wgSqpdkeJBb92M37JNTdRQJRnRUApraHKE8uGHTqQuu2Q@mail.gmail.com>
+ <20230320185337.GA615556@dev-arch.thelio-3990X>
+ <87pm91uf9c.fsf@kernel.org>
+ <20230322163637.GA918620@dev-arch.thelio-3990X>
+ <87wn36ctdi.fsf@kernel.org>
+ <20230324151150.GC428955@dev-arch.thelio-3990X>
+ <87o7oicgwv.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20230326204224.80181-1-krzysztof.kozlowski@linaro.org>
- <20230326204224.80181-3-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230326204224.80181-3-krzysztof.kozlowski@linaro.org>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 28 Mar 2023 23:28:13 +0530
-Message-ID: <CAMty3ZC_zJXFESh325736LHJHCtENjmU8twhU8Jy5GwW-bOz1Q@mail.gmail.com>
-Subject: Re: [PATCH 3/4] dt-bindings: display: elida,kd35t133: document port
- and rotation
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o7oicgwv.fsf@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,24 +60,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, llvm@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-toolchains@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Mar 27, 2023 at 2:12=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Panels are supposed to have one port (defined in panel-common.yaml
-> binding) and can have also rotation:
->
->   rk3326-odroid-go2.dtb: panel@0: 'port', 'rotation' do not match any of =
-the regexes: 'pinctrl-[0-9]+'
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+On Fri, Mar 24, 2023 at 05:23:12PM +0200, Kalle Valo wrote:
+> Nathan Chancellor <nathan@kernel.org> writes:
+> 
+> >> This is nitpicking but it would be nice if the tarball contents wouldn't
+> >> conflict with each other. Now both llvm-16.0.0-aarch64.tar.gz and
+> >> llvm-16.0.0-x86_64.tar extract to the same directory llvm-16.0.0 with
+> >> same binary names. It would be much better if they would extract to
+> >> llvm-16.0.0-aarch64 and llvm-16.0.0-x86_64, respectively.
+> >> 
+> >> For example, Arnd's crosstool packages don't conflict with each other:
+> >> 
+> >> https://mirrors.edge.kernel.org/pub/tools/crosstool/
+> >
+> > I could certainly do that but what is the use case for extracting both?
+> > You cannot run the aarch64 version on an x86_64 host and vice versa, so
+> > why bother extracting them?
+> 
+> Ah, I didn't realise that. I assumed llvm-16.0.0-aarch64.tar.gz was a
+> cross compiler. I'm sure you documented that in the page but hey who
+> reads the documentation ;)
 
-Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+:)
+
+I have adjusted the README to hopefully make that clearer.
+
+> > I had figured the architecture would be irrelevant once installed on
+> > the host, so I opted only to include it in the tarball name. Perhaps I
+> > should make it clearer that these are the host architectures, not the
+> > target architectures (because clang is multi-targeted, unlike GCC)?
+> 
+> Makes sense now. But I still think it's good style that a tarball named
+> llvm-16.0.0-aarch64.tar.gz extracts to llvm-16.0.0-aarch64.
+
+Indeed, I have adjusted it for future builds:
+
+https://github.com/nathanchance/env/commit/314837e6706889138121a32140d2acdc7895d390
+
+> >> And maybe request a similar llvm directory under pub/tools to make it
+> >> more official? :)
+
+We now have https://kernel.org/pub/tools/llvm/, which is about as
+official as we can get I suppose :)
+
+https://kernel.org/pub/linux/kernel/people/nathan/llvm/ now points
+people there.
+
+Cheers,
+Nathan
