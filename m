@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBE56CC201
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 16:24:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9196CC5A4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 17:16:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD99910E8DC;
-	Tue, 28 Mar 2023 14:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16D1010E3DE;
+	Tue, 28 Mar 2023 15:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8DF10E8DC;
- Tue, 28 Mar 2023 14:24:48 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA8610E91C;
+ Tue, 28 Mar 2023 15:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680013488; x=1711549488;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=G5WMzWIE0ojBdHoFJAsh9KYOhyFRY/F1VB3tEmTC0Yo=;
- b=WT5C5gpy+DAlIMJdlVsNprA0N1xEZ043xefQNKEKuP8uFyIGfNk3b4mq
- apLz72vsMvPXfRavlHDuLyT3hsSEgmrKE/99w1Hh774pfeB44jFd7G3Da
- RQ9df1Dx/EduJNVhJ4TpNtK8tJIFMYLHpsc5AQOuEOdlhv4Dl1w56/zZp
- JRNlIGqoUXotFdO78ksHGeePHEKxlhzLA8iEWFXjbsqgq3UIZptU4j++J
- 28LeKOHjEkJnQ4vm7sJzL2HvckcWzhYKfqdsrXMYazXgXe45pUfqjwwi0
- S3+NYD0AXdfmTRI3huF0fkP7QDkvYBFzKbt1PN+S3vejFTYQDUHT2E5gG A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="339299587"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="339299587"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2023 07:24:47 -0700
+ t=1680016551; x=1711552551;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=k2hx/WBFqL7VuFz0I6+8fGkxNCCWOhJe2NR5annG8QI=;
+ b=Wy/x9NANPixK0qDrUIrbk7hbVbXtTtMgsCJI7m0V/Cuts+IYqdC0sNco
+ lil+p17MpmVvFkKhO0NYQwo/R83gonrdk+esgx0Aa1N7mDTLiZCQW8Hlh
+ +zAVOkb4QFwbkTlGkTlajgdJoY4Xa/5QMfBGbT75B0m+WGucW98qMZXtS
+ UQBb6WsTWe6RoeXg4/WQ8GuqKpLwcfxgy/l39GDgD9PpGE1zRd2xC+ryW
+ ElkvxKHOHgygoKhZZy7n6hEjybp7QVjcPoNwa8dLIcNuHmTToJMAnRkZl
+ OQLcekksBtCmWLWYSX6pPQciW5h5W4yHUKbOoUVASoZ3kOsicO1QU+PUv g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403208618"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="403208618"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2023 08:15:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="683918096"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="683918096"
-Received: from wheelerj-mobl.ger.corp.intel.com (HELO [10.213.213.242])
- ([10.213.213.242])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2023 07:24:44 -0700
-Message-ID: <3fd504bf-0415-3466-78c5-918a295dcf93@linux.intel.com>
-Date: Tue, 28 Mar 2023 15:24:42 +0100
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="773181739"
+X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="773181739"
+Received: from lab-ah.igk.intel.com ([10.102.138.202])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2023 08:15:46 -0700
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Date: Tue, 28 Mar 2023 17:15:24 +0200
+Subject: [PATCH v5 1/8] lib/ref_tracker: add unlocked leak print helper
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v10 09/15] drm/syncobj: Add deadline support for syncobj
- waits
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20230308155322.344664-1-robdclark@gmail.com>
- <20230308155322.344664-10-robdclark@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20230308155322.344664-10-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20230224-track_gt-v5-1-77be86f2c872@intel.com>
+References: <20230224-track_gt-v5-0-77be86f2c872@intel.com>
+In-Reply-To: <20230224-track_gt-v5-0-77be86f2c872@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,245 +62,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Turner <mattst88@gmail.com>,
- freedreno@lists.freedesktop.org
+Cc: Andi Shyti <andi.shyti@linux.intel.com>, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Eric Dumazet <edumazet@google.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+To have reliable detection of leaks, caller must be able to check under the same
+lock both: tracked counter and the leaks. dir.lock is natural candidate for such
+lock and unlocked print helper can be called with this lock taken.
+As a bonus we can reuse this helper in ref_tracker_dir_exit.
 
-On 08/03/2023 15:53, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Add a new flag to let userspace provide a deadline as a hint for syncobj
-> and timeline waits.  This gives a hint to the driver signaling the
-> backing fences about how soon userspace needs it to compete work, so it
-> can addjust GPU frequency accordingly.  An immediate deadline can be
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+---
+ include/linux/ref_tracker.h |  8 ++++++
+ lib/ref_tracker.c           | 66 ++++++++++++++++++++++++++-------------------
+ 2 files changed, 46 insertions(+), 28 deletions(-)
 
-adjust
+diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
+index 9ca353ab712b5e..87a92f2bec1b88 100644
+--- a/include/linux/ref_tracker.h
++++ b/include/linux/ref_tracker.h
+@@ -36,6 +36,9 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+ 
+ void ref_tracker_dir_exit(struct ref_tracker_dir *dir);
+ 
++void ref_tracker_dir_print_locked(struct ref_tracker_dir *dir,
++				  unsigned int display_limit);
++
+ void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+ 			   unsigned int display_limit);
+ 
+@@ -56,6 +59,11 @@ static inline void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ {
+ }
+ 
++static inline void ref_tracker_dir_print_locked(struct ref_tracker_dir *dir,
++						unsigned int display_limit)
++{
++}
++
+ static inline void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+ 					 unsigned int display_limit)
+ {
+diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
+index dc7b14aa3431e2..d4eb0929af8f96 100644
+--- a/lib/ref_tracker.c
++++ b/lib/ref_tracker.c
+@@ -14,6 +14,38 @@ struct ref_tracker {
+ 	depot_stack_handle_t	free_stack_handle;
+ };
+ 
++void ref_tracker_dir_print_locked(struct ref_tracker_dir *dir,
++				  unsigned int display_limit)
++{
++	struct ref_tracker *tracker;
++	unsigned int i = 0;
++
++	lockdep_assert_held(&dir->lock);
++
++	list_for_each_entry(tracker, &dir->list, head) {
++		if (i < display_limit) {
++			pr_err("leaked reference.\n");
++			if (tracker->alloc_stack_handle)
++				stack_depot_print(tracker->alloc_stack_handle);
++			i++;
++		} else {
++			break;
++		}
++	}
++}
++EXPORT_SYMBOL(ref_tracker_dir_print_locked);
++
++void ref_tracker_dir_print(struct ref_tracker_dir *dir,
++			   unsigned int display_limit)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&dir->lock, flags);
++	ref_tracker_dir_print_locked(dir, display_limit);
++	spin_unlock_irqrestore(&dir->lock, flags);
++}
++EXPORT_SYMBOL(ref_tracker_dir_print);
++
+ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ {
+ 	struct ref_tracker *tracker, *n;
+@@ -27,13 +59,13 @@ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ 		kfree(tracker);
+ 		dir->quarantine_avail++;
+ 	}
+-	list_for_each_entry_safe(tracker, n, &dir->list, head) {
+-		pr_err("leaked reference.\n");
+-		if (tracker->alloc_stack_handle)
+-			stack_depot_print(tracker->alloc_stack_handle);
++	if (!list_empty(&dir->list)) {
++		ref_tracker_dir_print_locked(dir, 16);
+ 		leak = true;
+-		list_del(&tracker->head);
+-		kfree(tracker);
++		list_for_each_entry_safe(tracker, n, &dir->list, head) {
++			list_del(&tracker->head);
++			kfree(tracker);
++		}
+ 	}
+ 	spin_unlock_irqrestore(&dir->lock, flags);
+ 	WARN_ON_ONCE(leak);
+@@ -42,28 +74,6 @@ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
+ }
+ EXPORT_SYMBOL(ref_tracker_dir_exit);
+ 
+-void ref_tracker_dir_print(struct ref_tracker_dir *dir,
+-			   unsigned int display_limit)
+-{
+-	struct ref_tracker *tracker;
+-	unsigned long flags;
+-	unsigned int i = 0;
+-
+-	spin_lock_irqsave(&dir->lock, flags);
+-	list_for_each_entry(tracker, &dir->list, head) {
+-		if (i < display_limit) {
+-			pr_err("leaked reference.\n");
+-			if (tracker->alloc_stack_handle)
+-				stack_depot_print(tracker->alloc_stack_handle);
+-			i++;
+-		} else {
+-			break;
+-		}
+-	}
+-	spin_unlock_irqrestore(&dir->lock, flags);
+-}
+-EXPORT_SYMBOL(ref_tracker_dir_print);
+-
+ int ref_tracker_alloc(struct ref_tracker_dir *dir,
+ 		      struct ref_tracker **trackerp,
+ 		      gfp_t gfp)
 
-> given to provide something equivalent to i915 "wait boost".
-> 
-> v2: Use absolute u64 ns value for deadline hint, drop cap and driver
->      feature flag in favor of allowing count_handles==0 as a way for
->      userspace to probe kernel for support of new flag
-> v3: More verbose comments about UAPI
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/drm_syncobj.c | 64 ++++++++++++++++++++++++++++-------
->   include/uapi/drm/drm.h        | 17 ++++++++++
->   2 files changed, 68 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index 0c2be8360525..a85e9464f07b 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -126,6 +126,11 @@
->    * synchronize between the two.
->    * This requirement is inherited from the Vulkan fence API.
->    *
-> + * If &DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE is set, the ioctl will also set
-> + * a fence deadline hint on the backing fences before waiting, to provide the
-> + * fence signaler with an appropriate sense of urgency.  The deadline is
-> + * specified as an absolute &CLOCK_MONOTONIC value in units of ns.
-> + *
->    * Similarly, &DRM_IOCTL_SYNCOBJ_TIMELINE_WAIT takes an array of syncobj
->    * handles as well as an array of u64 points and does a host-side wait on all
->    * of syncobj fences at the given points simultaneously.
-> @@ -973,7 +978,8 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->   						  uint32_t count,
->   						  uint32_t flags,
->   						  signed long timeout,
-> -						  uint32_t *idx)
-> +						  uint32_t *idx,
-> +						  ktime_t *deadline)
->   {
->   	struct syncobj_wait_entry *entries;
->   	struct dma_fence *fence;
-> @@ -1053,6 +1059,15 @@ static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
->   			drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
->   	}
->   
-> +	if (deadline) {
-> +		for (i = 0; i < count; ++i) {
-> +			fence = entries[i].fence;
-> +			if (!fence)
-> +				continue;
-> +			dma_fence_set_deadline(fence, *deadline);
-> +		}
-> +	}
-> +
->   	do {
->   		set_current_state(TASK_INTERRUPTIBLE);
->   
-> @@ -1151,7 +1166,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
->   				  struct drm_file *file_private,
->   				  struct drm_syncobj_wait *wait,
->   				  struct drm_syncobj_timeline_wait *timeline_wait,
-> -				  struct drm_syncobj **syncobjs, bool timeline)
-> +				  struct drm_syncobj **syncobjs, bool timeline,
-> +				  ktime_t *deadline)
->   {
->   	signed long timeout = 0;
->   	uint32_t first = ~0;
-> @@ -1162,7 +1178,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
->   							 NULL,
->   							 wait->count_handles,
->   							 wait->flags,
-> -							 timeout, &first);
-> +							 timeout, &first,
-> +							 deadline);
->   		if (timeout < 0)
->   			return timeout;
->   		wait->first_signaled = first;
-> @@ -1172,7 +1189,8 @@ static int drm_syncobj_array_wait(struct drm_device *dev,
->   							 u64_to_user_ptr(timeline_wait->points),
->   							 timeline_wait->count_handles,
->   							 timeline_wait->flags,
-> -							 timeout, &first);
-> +							 timeout, &first,
-> +							 deadline);
->   		if (timeout < 0)
->   			return timeout;
->   		timeline_wait->first_signaled = first;
-> @@ -1243,17 +1261,22 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
->   {
->   	struct drm_syncobj_wait *args = data;
->   	struct drm_syncobj **syncobjs;
-> +	unsigned possible_flags;
-> +	ktime_t t, *tp = NULL;
->   	int ret = 0;
->   
->   	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
->   		return -EOPNOTSUPP;
->   
-> -	if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
-> -			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT))
-> +	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
-> +
-> +	if (args->flags & ~possible_flags)
->   		return -EINVAL;
->   
->   	if (args->count_handles == 0)
-> -		return -EINVAL;
-> +		return 0;
->   
->   	ret = drm_syncobj_array_find(file_private,
->   				     u64_to_user_ptr(args->handles),
-> @@ -1262,8 +1285,13 @@ drm_syncobj_wait_ioctl(struct drm_device *dev, void *data,
->   	if (ret < 0)
->   		return ret;
->   
-> +	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
-> +		t = ns_to_ktime(args->deadline_ns);
-> +		tp = &t;
-> +	}
-> +
->   	ret = drm_syncobj_array_wait(dev, file_private,
-> -				     args, NULL, syncobjs, false);
-> +				     args, NULL, syncobjs, false, tp);
->   
->   	drm_syncobj_array_free(syncobjs, args->count_handles);
->   
-> @@ -1276,18 +1304,23 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
->   {
->   	struct drm_syncobj_timeline_wait *args = data;
->   	struct drm_syncobj **syncobjs;
-> +	unsigned possible_flags;
-> +	ktime_t t, *tp = NULL;
->   	int ret = 0;
->   
->   	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
->   		return -EOPNOTSUPP;
->   
-> -	if (args->flags & ~(DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
-> -			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> -			    DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE))
-> +	possible_flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE |
-> +			 DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE;
-> +
-> +	if (args->flags & ~possible_flags)
->   		return -EINVAL;
->   
->   	if (args->count_handles == 0)
-> -		return -EINVAL;
-> +		return -0;
->   
->   	ret = drm_syncobj_array_find(file_private,
->   				     u64_to_user_ptr(args->handles),
-> @@ -1296,8 +1329,13 @@ drm_syncobj_timeline_wait_ioctl(struct drm_device *dev, void *data,
->   	if (ret < 0)
->   		return ret;
->   
-> +	if (args->flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE) {
-> +		t = ns_to_ktime(args->deadline_ns);
-> +		tp = &t;
-> +	}
-> +
->   	ret = drm_syncobj_array_wait(dev, file_private,
-> -				     NULL, args, syncobjs, true);
-> +				     NULL, args, syncobjs, true, tp);
->   
->   	drm_syncobj_array_free(syncobjs, args->count_handles);
->   
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 642808520d92..bff0509ac8b6 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -887,6 +887,7 @@ struct drm_syncobj_transfer {
->   #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL (1 << 0)
->   #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT (1 << 1)
->   #define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE (1 << 2) /* wait for time point to become available */
-> +#define DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE (1 << 3) /* set fence deadline based to deadline_ns */
-
-s/based// ?
-
->   struct drm_syncobj_wait {
->   	__u64 handles;
->   	/* absolute timeout */
-> @@ -895,6 +896,14 @@ struct drm_syncobj_wait {
->   	__u32 flags;
->   	__u32 first_signaled; /* only valid when not waiting all */
->   	__u32 pad;
-> +	/**
-> +	 * @deadline_ns - fence deadline hint
-> +	 *
-> +	 * Deadline hint, in absolute CLOCK_MONOTONIC, to set on backing
-> +	 * fence(s) if the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag is
-> +	 * set.
-> +	 */
-> +	__u64 deadline_ns;
->   };
->   
->   struct drm_syncobj_timeline_wait {
-> @@ -907,6 +916,14 @@ struct drm_syncobj_timeline_wait {
->   	__u32 flags;
->   	__u32 first_signaled; /* only valid when not waiting all */
->   	__u32 pad;
-> +	/**
-> +	 * @deadline_ns - fence deadline hint
-> +	 *
-> +	 * Deadline hint, in absolute CLOCK_MONOTONIC, to set on backing
-> +	 * fence(s) if the DRM_SYNCOBJ_WAIT_FLAGS_WAIT_DEADLINE flag is
-> +	 * set.
-> +	 */
-> +	__u64 deadline_ns;
->   };
->   
->   
-
-FWIW,
-
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-
-Regards,
-
-Tvrtko
+-- 
+2.34.1
