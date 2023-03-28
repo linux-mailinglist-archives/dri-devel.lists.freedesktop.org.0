@@ -2,55 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816DC6CCD44
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459CE6CCD53
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:38:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7373210E4A5;
-	Tue, 28 Mar 2023 22:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0258310E0BC;
+	Tue, 28 Mar 2023 22:38:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF1710E4A5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:34:14 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- f19-20020a9d5f13000000b00693ce5a2f3eso7251562oti.8
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:34:14 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD0810E0BC
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:38:05 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id x20so14160684ljq.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:38:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680042853;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=LQkDgg9vRxmw6OR2ZcWKh/O2EZ+U208KlBquhlXylKk=;
- b=lJbb7OKeGfSEi9V5+N2I0ScWhsHffGoOv4pJ2AxMX3zd8SMyEnOKU6HHw75B0uNTou
- iC3LHUwMWDxs4QeT46toqjrLWUj7RlZRz7mV1hsg3xs1GE0c7lMIX+0Nj5rLGcewZ0Rk
- cHgpvfi/U8Dy1g1MEZUXnU1djnhYcElvBy1SGa2eX1Qs/Tjn/NVtGCGtS0SwnAUjoQIf
- vTjPBMXGzcU0sb2KA+SqcGUjv455PYBUu0iQ0pkQMdLJq0b+kqt9UtHEdTE3yE+0SjR0
- 7HCbhRt6VVW3LXtfck2jN0HdYXLlp+fgYOTZtwjQumyzUxLNSjoxErmTO+tmEENn1Qcw
- 5g1g==
+ d=linaro.org; s=google; t=1680043083;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g+xu6yRIN/bJys1fehbCkZUGMmMxxtuBrshP7xCnxko=;
+ b=Al5TIrR6q1JFc/h2LqAur7BsT/df2/oRMpHQNhGfUfvJhr/iaz9FKUsFhPkWaT3hOt
+ yVpY84Q7BPB60YlgRDkwLpmt2C3Le2UnwOYOgfVR5ssUJBz9F3bsjXsm5DgdaoBXZ+B/
+ xMJgOtXE7ibCa6/xgLZBYf9AQII0Dn4ai/pYB1zcS7SyWW7yTrFw74GX0r84tHZYt4RQ
+ zCFRo2RgvbiSzMPd2L3NsY+PWsBVI34IbOBv8trP1AyN+mH/GXOcX4F7Pp9ssRJPG+tj
+ meIfT1pFYHHPbH24cjii+Pqkb04i5IYJwa+Aht37Nkxie43zOQdzp14VRJwJozETYAKb
+ vLDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680042853;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LQkDgg9vRxmw6OR2ZcWKh/O2EZ+U208KlBquhlXylKk=;
- b=J4bcDc5SKtPHEqZpxLNX1qAnGW4QrG3gPCD+APqQP/hJMibNee4ZZ8LLXuv7jx96UG
- 0IZRXPHGDGuf4PvYJ7escJWlZtrf6GODPSWzU0BWDl7JsDNCavC1j5ZxCqDUZeoY+1D6
- DdYZdOEjtHHJFSKzCVYQppIkQR29rFA8mOww5l7+MHu1vV3BQa1Tdt2AIYm+1B8UauG8
- Snv09DhFce0/WQ6gN3xlPeJ0oA/kkHlScDzih3Qa+t1s9rPi8qGVanolXYsGJbbbAZJO
- ScMm3BeUDPNhmVD3IwdohmQqa/P9i7GIfEudF3BODXZQuQSDbvkM/Rxtkm3fZKiMj3hi
- fzhg==
-X-Gm-Message-State: AO0yUKVeD4/kf3VjQXcLlT8JU8dFSF3L8en/baSJuERPFr3Agv6CTuzv
- JBqO9l09wdWphSIFPJchel/ZCXZrrU8ucEncHwg/T1TBCNM=
-X-Google-Smtp-Source: AK7set8tvdwF8ZdoVo5bXcV3/xC2jpDyF11C+vSLHDAxnOuyLEsUpC4swbAUBD1WnDRBJrSvWP/XtbmFiHhzZJ8xmlw=
-X-Received: by 2002:a9d:67d0:0:b0:68b:cd1e:1ef1 with SMTP id
- c16-20020a9d67d0000000b0068bcd1e1ef1mr5904971otn.7.1680042853372; Tue, 28 Mar
- 2023 15:34:13 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680043083;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=g+xu6yRIN/bJys1fehbCkZUGMmMxxtuBrshP7xCnxko=;
+ b=InG9Ngr9QMsWL79XujtZMVnJpVD3p+O0UWRZuZXeYdjSxpVOS3h2kadgLQXUjSrgZO
+ F/QKSntz75M4phZ894v0oy5kY+jRHyGrneLdzhCuPsYc1F+G5jZxM9yibwgf4+3CI0Gi
+ d7g3Bt26GfGp1ytJhBMVTLMQkHtRmADAEa5w/kyVK/4tbMxj5f0bGMYfogWHmSlVhNCU
+ dANsAuKv2E93DSe6YTPDSv+mg4xzrhByMfI43yRJQTOuW3oem+5/4GROhwQcKH+f0ei+
+ tkKFUjdIu01DjSvcCwDLZP8OCbuffmearZ+N2gxUnZ/x4jjwNHCY+jg8r7BaMrE8Gh8H
+ FGaA==
+X-Gm-Message-State: AAQBX9ek6qODcoF/uNcBmn0yvmIWAzoNg6U3VXVn00ADvKdXDQ98vTsn
+ FEJ2aExwy43tMJ3DEqSOCoCSdQ==
+X-Google-Smtp-Source: AKy350bgyH8LOJ1ATAPftjuIwEIjk5RupKEXKKKMV/7TLrATqUiGPabaR9kv1V0d2QYXK9XVLWYPbg==
+X-Received: by 2002:a05:651c:22e:b0:2a1:2cb4:5f81 with SMTP id
+ z14-20020a05651c022e00b002a12cb45f81mr5018981ljn.36.1680043083113; 
+ Tue, 28 Mar 2023 15:38:03 -0700 (PDT)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ t22-20020a2e9d16000000b002934d555783sm5199522lji.6.2023.03.28.15.38.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Mar 2023 15:38:02 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Colin Ian King <colin.i.king@gmail.com>
+Subject: Re: [PATCH][next] drm/msm/dp: Fix spelling mistake "Capabiity" ->
+ "Capability"
+Date: Wed, 29 Mar 2023 01:37:46 +0300
+Message-Id: <168004255462.1060915.681238407755431464.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230314082050.26331-1-colin.i.king@gmail.com>
+References: <20230314082050.26331-1-colin.i.king@gmail.com>
 MIME-Version: 1.0
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 28 Mar 2023 15:34:02 -0700
-Message-ID: <CAF6AEGt5nDQpa6J86V1oFKPA30YcJzPhAVpmF7N1K1g2N3c=Zg@mail.gmail.com>
-Subject: [pull] drm: dma-fence-deadline for v6.4
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,79 +78,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
 
-Here is the series for dma-fence deadline hint, without driver
-specific patches, or UAPI, with the intent that it can be merged into
-drm-next as well as -driver next trees to enable landing driver
-specific support through their corresponding -next trees.
+On Tue, 14 Mar 2023 08:20:50 +0000, Colin Ian King wrote:
+> There is a spelling mistake in a drm_dbg_dp message. Fix it.
+> 
+> 
 
-The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+Applied, thanks!
 
-  Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+[1/1] drm/msm/dp: Fix spelling mistake "Capabiity" -> "Capability"
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/6ee9666a4f4c
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git tags/dma-fence-deadline
-
-for you to fetch changes up to d39e48ca80c0960b039cb38633957f0040f63e1a:
-
-  drm/atomic-helper: Set fence deadline for vblank (2023-03-28 14:52:59 -0700)
-
-----------------------------------------------------------------
-This series adds a deadline hint to fences, so realtime deadlines
-such as vblank can be communicated to the fence signaller for power/
-frequency management decisions.
-
-This is partially inspired by a trick i915 does, but implemented
-via dma-fence for a couple of reasons:
-
-1) To continue to be able to use the atomic helpers
-2) To support cases where display and gpu are different drivers
-
-See https://patchwork.freedesktop.org/series/93035/
-
-This does not yet add any UAPI, although this will be needed in
-a number of cases:
-
-1) Workloads "ping-ponging" between CPU and GPU, where we don't
-   want the GPU freq governor to interpret time stalled waiting
-   for GPU as "idle" time
-2) Cases where the compositor is waiting for fences to be signaled
-   before issuing the atomic ioctl, for example to maintain 60fps
-   cursor updates even when the GPU is not able to maintain that
-   framerate.
-
-----------------------------------------------------------------
-Rob Clark (8):
-      dma-buf/dma-fence: Add deadline awareness
-      dma-buf/fence-array: Add fence deadline support
-      dma-buf/fence-chain: Add fence deadline support
-      dma-buf/dma-resv: Add a way to set fence deadline
-      dma-buf/sync_file: Surface sync-file uABI
-      drm/scheduler: Add fence deadline support
-      drm/vblank: Add helper to get next vblank time
-      drm/atomic-helper: Set fence deadline for vblank
-
- Documentation/driver-api/dma-buf.rst    | 16 +++++++--
- drivers/dma-buf/dma-fence-array.c       | 11 ++++++
- drivers/dma-buf/dma-fence-chain.c       | 12 +++++++
- drivers/dma-buf/dma-fence.c             | 59 +++++++++++++++++++++++++++++++++
- drivers/dma-buf/dma-resv.c              | 22 ++++++++++++
- drivers/gpu/drm/drm_atomic_helper.c     | 37 +++++++++++++++++++++
- drivers/gpu/drm/drm_vblank.c            | 53 ++++++++++++++++++++++++-----
- drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++++++++
- drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
- include/drm/drm_vblank.h                |  1 +
- include/drm/gpu_scheduler.h             | 17 ++++++++++
- include/linux/dma-fence.h               | 22 ++++++++++++
- include/linux/dma-resv.h                |  2 ++
- include/uapi/linux/sync_file.h          | 37 +++++++++------------
- 14 files changed, 303 insertions(+), 34 deletions(-)
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
