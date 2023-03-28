@@ -1,53 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D9E6CBE7B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 14:05:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F326CBFB2
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 14:49:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B12C310E891;
-	Tue, 28 Mar 2023 12:05:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8E710E899;
+	Tue, 28 Mar 2023 12:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A36A10E89D;
- Tue, 28 Mar 2023 12:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680005112; x=1711541112;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=vNyIqBBzpYsSPwEfvq+bzMjEPN2M0IG09YXRa579Q+s=;
- b=LnjUD4+39xs7mBobSOdll0cF5UTURAzMYeH43PcukMYke4PEO7Qqaw31
- NeaidM2A3rtAguvZHFshBFiZmiddGHVRjjccZERPXtm9hQe/F6qc8Bfo4
- 2JmFhB/DfbR7HwLIaILxD+8oq8s8kftXJEcO2KvWo1y8WScLyx59XYVvS
- XoWuUgRys929qrC87BNbElcCs4vXC3NsscUmIBKdMHKiKI6kT6SWgt9IV
- +wKckmYGnVqo7otZMZlSuCnVWm349gTmT2rADN/MJ375KxrHe1OlJCzWk
- STYz/Ait/DS4ywz+GmlZ5kfmviQbBiEfASVWgQM0MuQPcpJ8TD8YHqwyw Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="320946507"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="320946507"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2023 05:05:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10662"; a="807840709"
-X-IronPort-AV: E=Sophos;i="5.98,297,1673942400"; d="scan'208";a="807840709"
-Received: from sawamich-mobl1.ger.corp.intel.com (HELO [10.252.49.220])
- ([10.252.49.220])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Mar 2023 05:05:09 -0700
-Message-ID: <d1c91661-7d80-c5d9-78fa-e28da7f5f4cf@linux.intel.com>
-Date: Tue, 28 Mar 2023 14:05:07 +0200
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B88BB10E897
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 12:49:35 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id br6so15635788lfb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 05:49:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680007774;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1VidQzNASsjux63fhI4uuQ2DTo+OMQ7IeAyjim1gV9U=;
+ b=Yfxn63WyrzAfO1tKDAfFXoAxKnk6BCSIbXkw8TEZ3p7jxTrOECdb5AHNR+w+7SYsnw
+ xBKd+uFhn7qCc/r3TcsIsaVF975bOzOrmJSx2HRjK7xPOZiCypLmgOgkREtZNZSYRg1Z
+ 6osNuvxfJkMdo+4Xyf/UwTfYKoaTSMeszkoI+Rc/ut1buFEspBG3mV9hBRisJj6MwHmM
+ 0V+RUhtMX3UEoXJM6VNjsDuN7NHFgZlEKIiOkH4z9r/Ier2+HTS1ec3MnOCxf587tl/S
+ VHbaO+a/QOoEUrt8rN6OYAC0qno3U3ULfO01L4+18XOKp38dkyQxXqxbC6JO/HP3DXLP
+ JpAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680007774;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1VidQzNASsjux63fhI4uuQ2DTo+OMQ7IeAyjim1gV9U=;
+ b=zJ2jivgcdjkfPZWtUrWYKWcr26Yu+z4e1eEK2xSAvS/nOUPqX1b/w1NMoI8DgyOROY
+ 3qiWxUF5zwiYRGpZTFtrias2G4ooF3c/GMhr7eJibNu/barpIvjXDlLY2+YKZRT71DZx
+ KgNTaZsbuChMHRjDS6K11Kx1hDV2M520CrEavDo6bGWhTsxty5JZhTV/gzW/Wz2QNZ/R
+ Od21eSeoBDiOAVF3z7nLUb2lPOniL4KN5xzpT2X7a/9NklN4u4d3IUhtoGRAKBg48FAM
+ TXUmqB1IPTf+l1q3ZeTASHuDoM0tNyEC7xK+gELnm+KYu2R72eIZatuTG79SFCBSeckQ
+ nhYA==
+X-Gm-Message-State: AAQBX9fAggXlk05uvDYIOXAQnB17dPobtGTxoHbmlFQFGvC0O29XB2L7
+ LiuDOxQckOBz14sMq5M4C8Sahg==
+X-Google-Smtp-Source: AKy350b+rejnzP2zxrXGmRaUOdHxM2i1U5qKBX8wGs8qd7uzaDxdvUIU3FUVEmqrn6C7LJ1eUJGuvA==
+X-Received: by 2002:ac2:5598:0:b0:4ac:b7bf:697a with SMTP id
+ v24-20020ac25598000000b004acb7bf697amr4967288lfg.4.1680007773949; 
+ Tue, 28 Mar 2023 05:49:33 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ t6-20020a19ad06000000b004a2c447598fsm5028496lfc.159.2023.03.28.05.49.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Mar 2023 05:49:33 -0700 (PDT)
+Message-ID: <74e44866-1de6-e74c-7d06-7189fe328aa5@linaro.org>
+Date: Tue, 28 Mar 2023 15:49:32 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/i915/mtl: Fix MTL stolen memory GGTT mapping
-Content-Language: en-US
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20230328012430.2524330-1-daniele.ceraolospurio@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20230328012430.2524330-1-daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH 02/10] Revert "drm/msm: Fix failure paths in
+ msm_drm_init()"
+To: Johan Hovold <johan+linaro@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230306100722.28485-1-johan+linaro@kernel.org>
+ <20230306100722.28485-3-johan+linaro@kernel.org>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230306100722.28485-3-johan+linaro@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,86 +79,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Roper <matthew.d.roper@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Nirmoy Das <nirmoy.das@intel.com>
+Cc: Sean Paul <sean@poorly.run>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 06/03/2023 12:07, Johan Hovold wrote:
+> This reverts commit 8636500300a01740d92b345c680b036b94555b1b.
+> 
+> A recent commit tried to address a drm device leak in the early
+> msm_drm_uninit() error paths but ended up making things worse.
+> 
+> Specifically, it moved the drm device reference put in msm_drm_uninit()
+> to msm_drm_init() which means that the drm would now be leaked on normal
+> unbind.
+> 
+> For reasons that were never spelled out, it also added kms NULL pointer
+> checks to a couple of helper functions that had nothing to do with the
+> paths modified by the patch.
+> 
+> Instead of trying to salvage this incrementally, let's revert the bad
+> commit so that clean and backportable fixes can be added in its place.
+> 
+> Fixes: 8636500300a0 ("drm/msm: Fix failure paths in msm_drm_init()")
+> Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 
-On 3/28/2023 3:24 AM, Daniele Ceraolo Spurio wrote:
-> The PTEs expect the offset from the base of the fake LMEM region (i.e.
-> the base of stolen) and not from the base of the DSM. Quoting the specs:
-> "Driver will set the Device Memory bit = 1 in the PTE when pointing to a
-> page in DSM and program the PTE with offset from LMEM_BAR. Device Memory
-> Offset from LMEM_BAR is same as offset from BGSM."
->
-> DSM starts 8MBs from BGSM, so we set dsm_base = 8MB.
->
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Nirmoy Das <nirmoy.das@intel.com>
-> Cc: Fei Yang <fei.yang@intel.com>
-> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+Ok, let's do it this way
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->
-> I've omitted the fixes tag from the commit message since MTL is still
-> under force_probe, so there isn't really any need to propagate the fixes,
-> but here it is for reference:
->
-> Fixes: dbb2ffbfd708 ("drm/i915/mtl: enable local stolen memory")
->
->   drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 15 +++++++--------
->   1 file changed, 7 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index d8e06e783e30..8ac376c24aa2 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -890,8 +890,9 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->   	if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
->   		/*
->   		 * MTL dsm size is in GGC register.
-> -		 * Also MTL uses offset to DSMBASE in ptes, so i915
-> -		 * uses dsm_base = 0 to setup stolen region.
-> +		 * Also MTL uses offset to GSMBASE in ptes, so i915
-> +		 * uses dsm_base = 8MBs to setup stolen region, since
-> +		 * DSMBASE = GSMBASE + 8MB.
->   		 */
->   		ret = mtl_get_gms_size(uncore);
->   		if (ret < 0) {
-> @@ -899,11 +900,11 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->   			return ERR_PTR(ret);
->   		}
->   
-> -		dsm_base = 0;
-> +		dsm_base = SZ_8M;
->   		dsm_size = (resource_size_t)(ret * SZ_1M);
->   
->   		GEM_BUG_ON(pci_resource_len(pdev, GEN12_LMEM_BAR) != SZ_256M);
-> -		GEM_BUG_ON((dsm_size + SZ_8M) > lmem_size);
-> +		GEM_BUG_ON((dsm_base + dsm_size) > lmem_size);
->   	} else {
->   		/* Use DSM base address instead for stolen memory */
->   		dsm_base = intel_uncore_read64(uncore, GEN12_DSMBASE) & GEN12_BDSM_MASK;
-> @@ -912,14 +913,12 @@ i915_gem_stolen_lmem_setup(struct drm_i915_private *i915, u16 type,
->   		dsm_size = ALIGN_DOWN(lmem_size - dsm_base, SZ_1M);
+>   drivers/gpu/drm/msm/disp/msm_disp_snapshot.c |  3 ---
+>   drivers/gpu/drm/msm/msm_drv.c                | 11 ++++-------
+>   2 files changed, 4 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> index b73031cd48e4..e75b97127c0d 100644
+> --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot.c
+> @@ -129,9 +129,6 @@ void msm_disp_snapshot_destroy(struct drm_device *drm_dev)
 >   	}
 >   
-> -	io_size = dsm_size;
-> -	if (HAS_LMEMBAR_SMEM_STOLEN(i915)) {
-> -		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + SZ_8M;
-> -	} else if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
-> +	if (pci_resource_len(pdev, GEN12_LMEM_BAR) < lmem_size) {
->   		io_start = 0;
->   		io_size = 0;
->   	} else {
->   		io_start = pci_resource_start(pdev, GEN12_LMEM_BAR) + dsm_base;
-> +		io_size = dsm_size;
->   	}
+>   	priv = drm_dev->dev_private;
+> -	if (!priv->kms)
+> -		return;
+> -
+>   	kms = priv->kms;
 >   
->   	min_page_size = HAS_64K_PAGES(i915) ? I915_GTT_PAGE_SIZE_64K :
+>   	if (kms->dump_worker)
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index b7f5a78eadd4..9ded384acba4 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -150,9 +150,6 @@ static void msm_irq_uninstall(struct drm_device *dev)
+>   	struct msm_drm_private *priv = dev->dev_private;
+>   	struct msm_kms *kms = priv->kms;
+>   
+> -	if (!priv->kms)
+> -		return;
+> -
+>   	kms->funcs->irq_uninstall(kms);
+>   	if (kms->irq_requested)
+>   		free_irq(kms->irq, dev);
+> @@ -270,6 +267,8 @@ static int msm_drm_uninit(struct device *dev)
+>   	component_unbind_all(dev, ddev);
+>   
+>   	ddev->dev_private = NULL;
+> +	drm_dev_put(ddev);
+> +
+>   	destroy_workqueue(priv->wq);
+>   
+>   	return 0;
+> @@ -442,12 +441,12 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   
+>   	ret = msm_init_vram(ddev);
+>   	if (ret)
+> -		goto err_drm_dev_put;
+> +		return ret;
+>   
+>   	/* Bind all our sub-components: */
+>   	ret = component_bind_all(dev, ddev);
+>   	if (ret)
+> -		goto err_drm_dev_put;
+> +		return ret;
+>   
+>   	dma_set_max_seg_size(dev, UINT_MAX);
+>   
+> @@ -542,8 +541,6 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
+>   
+>   err_msm_uninit:
+>   	msm_drm_uninit(dev);
+> -err_drm_dev_put:
+> -	drm_dev_put(ddev);
+>   	return ret;
+>   }
+>   
+
+-- 
+With best wishes
+Dmitry
+
