@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED386CCCCC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:08:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3066CCCD1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D16D510E47F;
-	Tue, 28 Mar 2023 22:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6F310E498;
+	Tue, 28 Mar 2023 22:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7845910E47F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:08:13 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- d22-20020a9d5e16000000b0069b5252ced7so7205362oti.13
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:08:13 -0700 (PDT)
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFA010E146
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:09:57 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id r16so10093785oij.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680041292;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Cu22PJorCWhuf4vPHhObfoBwmEd2pkkUaFILRb/wiso=;
- b=FTjKF+3odZjYuy9IbTp26OcP+mAuPS0ZT8jODp/+liFC+frLTEcXsn9i4Aip4lE90z
- BQnNxpTLIMOr34Ry8Tn69AMRkskwY/Tg8/FCWNDEe3TZbt080iyDLYbLQCA8M5P6G+Mb
- mxJ1Ur93lItChj9cK1eHf7XbWnfvZu4dJHIsM8s8igdZV2ACaTh88OjQUlD0h7MdoadR
- sThFmrWh3v2YvY83sussBXtb9eDWUUO61Crp4NQ/HwoHD+RZDOI0T3iTwdBxVPqHMoBz
- q/M3SwpdDcw7lHsDph0NBNt271QoXB4KcE1unW+BLDerWljXLbRoIzoJDdpbZ9KxkfbA
- EQGw==
+ d=usp.br; s=usp-google; t=1680041396;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+do5RbLU3FTsGCyiGfUyvpvc06CIKe8iN2wcuyFgpdk=;
+ b=Xpn9Q5gVncsLo51GKrL6c6j8Xvr3Cw7fVwaMSzFQslWxG1K3wWhkJpHRZ519ne2b5C
+ Rv5kRiXfXne25VOVjR/Ca+aO64nUkX0AnChhFB2k4Kko6H7O/DfgBBloSXZXuSkn5znl
+ vOoTA47SfQdiQp7w+zOWyFY31pBV3NKlKqueYOLudpad7EMpkQxhKVsgjrs5IknVJXZh
+ NVIGYaRf6shqf3eTEbkCOanf1Fe8HImUjtk2nxI6s3icOF/7LxJxoKoDAlLp78IpGFlu
+ uCVR7AwQL8IVtSK+Ir2va5M/N0ZSMXeLhLcEPJWfiS08sNEFRIeYwSTnkR+44hQJlQAB
+ OWRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680041292;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Cu22PJorCWhuf4vPHhObfoBwmEd2pkkUaFILRb/wiso=;
- b=SN23P4hF6KmjSKdls89cL039OfCx6zyjZRAsypCaQ5iWJjAmW2rA5v4G6CLMaR6ECk
- gbwnF8RORoNW6jySDmUKW9w13Z2vKaVdJ7TdQjtmte3LHPtJ5WLqiJuAH8rth1ESGJ0R
- uzeOhr8lkLl/dP88ERnqgzyBWGkK+9e4TqmdI5Qvy5SCUmmNYCrD1JGvqX1UyPvJcV6u
- 2lQb02rcyC1vOwPI4jp6HOZ25J+mrjl11VeQfy9eFk/Ahnt5kTInMI1XkUj0WybZDXuB
- P88lXMK5dpMePSLcP27G18XKn2nW2uyeSAgh2WRKNg6Uz7YniDELq/OlZ2ODVrApvr/J
- qELg==
-X-Gm-Message-State: AO0yUKXFNzz63K2rWlmi/ZoZnxyoequr2PY1XU8X4jQrNhxxC2ttY32E
- xaB7zrmRkVpsXq24OlkmJHgkIsQlVNmBPatlKsk=
-X-Google-Smtp-Source: AK7set9L8A9gT6WeQ9g/Jg/8NHmkFzpvmXfU+fIE8bnirz24mLvXhASqiQxTHsAGcPHDgXpxbBh2hxIfxipz3UZy6vg=
-X-Received: by 2002:a9d:7301:0:b0:696:f275:a60d with SMTP id
- e1-20020a9d7301000000b00696f275a60dmr5342452otk.7.1680041292591; Tue, 28 Mar
- 2023 15:08:12 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680041396;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+do5RbLU3FTsGCyiGfUyvpvc06CIKe8iN2wcuyFgpdk=;
+ b=OAK3eTR1BZUjJkAzvMvknCO2LIOzaYi0R1+78nXri3QljQxQgmFWf51nbaCRhMdk6u
+ P0lSit1tXXMVNx+9pjsHA+FtmDa2PQz7D4rV/nLZWxgDrMZO5DXb0FdkFwkUKOOGN747
+ MV9ZhaN64Hb4FHRZpdVYnMPzGgGTRvif9kPwhpzjn+l8H6Y1E9ly53rslWnOZXgxlFUd
+ NiBPnuOxEZJdglYWf0e5uW01BsXlRzmvk7vIBqdBcAdKndC9boqUcZu/lzX7Gun2F0nb
+ Ha2Vw6z9r9Vu+ZplZZ/npHD4NpMPDncAArKVAY02aJP2GxvDNxLDhZAENukkJenaSC4s
+ ryug==
+X-Gm-Message-State: AO0yUKUJKMM4wfogm4rlhxXb34TKpycodPvjvJIm+OCe6uZAIKwvukBG
+ k/nLsvtVPqRWwWp4lQrVP7PquQ==
+X-Google-Smtp-Source: AK7set/TXS3xSTLtKC+z7VZsY/Cb0Lq/C02tDibxlVEYu2PSIT1ral1k8nJ/tIKCnGedRgkbJbybZg==
+X-Received: by 2002:a05:6808:394a:b0:383:d1e3:38f9 with SMTP id
+ en10-20020a056808394a00b00383d1e338f9mr7790081oib.16.1680041396675; 
+ Tue, 28 Mar 2023 15:09:56 -0700 (PDT)
+Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
+ by smtp.gmail.com with ESMTPSA id
+ ee39-20020a056870c82700b0017299192eb1sm5400446oab.25.2023.03.28.15.09.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Mar 2023 15:09:56 -0700 (PDT)
+From: Caio Novais <caionovais@usp.br>
+To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] drm/amd/display: Remove a unused variable and add a
+ function prototype
+Date: Tue, 28 Mar 2023 19:09:45 -0300
+Message-Id: <20230328220947.108188-1-caionovais@usp.br>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <CAF6AEGvoP9_FERdL6U8S2O-BVt-oAUgAytbE6RvygsoAOwOHvw@mail.gmail.com>
- <ZCMhhToEdWVAEtBh@phenom.ffwll.local>
-In-Reply-To: <ZCMhhToEdWVAEtBh@phenom.ffwll.local>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 28 Mar 2023 15:08:01 -0700
-Message-ID: <CAF6AEGsukWdjzwvcjAk8mqo4CMRvp6Q+K9K=UuJyUEO-y6wa7A@mail.gmail.com>
-Subject: Re: [pull] drm: dma-fence-deadline-core for v6.4
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,112 +71,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+ Wesley Chalmers <Wesley.Chalmers@amd.com>, Gabe Teeger <gabe.teeger@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Roman Li <roman.li@amd.com>, Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>, Deepak R Varma <drv@mailo.com>,
+ "Lee, Alvin" <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Jun Lei <Jun.Lei@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Caio Novais <caionovais@usp.br>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 28, 2023 at 10:19=E2=80=AFAM Daniel Vetter <daniel@ffwll.ch> wr=
-ote:
->
-> On Sat, Mar 25, 2023 at 11:24:56AM -0700, Rob Clark wrote:
-> > Hi Dave and Daniel,
-> >
-> > Here is the series for dma-fence deadline hint, without driver
-> > specific patches, with the intent that it can be merged into drm-next
-> > as well as -driver next trees to enable landing driver specific
-> > support through their corresponding -next trees.
-> >
-> > The following changes since commit eeac8ede17557680855031c6f305ece2378a=
-f326:
-> >
-> >   Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.freedesktop.org/drm/msm.git tags/dma-fence-deadline-co=
-re
-> >
-> > for you to fetch changes up to 0bcc8f52a8d9d1f9cd5af7f88c6599a89e64284a=
-:
-> >
-> >   drm/atomic-helper: Set fence deadline for vblank (2023-03-25 10:55:08=
- -0700)
->
-> Ok apparently there's only igts for the sync_file uabi and the only only
-> userspace for syncobj is the mesa mr that is still under discussion :-/
->
-> Yes I know there's a clearly established need for something like this, bu=
-t
-> also in drm we don't merge conjectured uabi. Especially with tricky stuff
-> that's meant to improve best effort performance/tuning problems, where yo=
-u
-> really have to benchmark the entire thing and make sure you didn't screw
-> up some interaction.
->
-> To make sure this isn't stuck another full cycle, is there a way to wittl=
-e
-> this just down to the kms atomic flip boosting parts? That way we could a=
-t
-> least start landing the core&driver bits ...
+This patchset removes one unused variable and adds a function prototype.
 
-I can drop the sync_file part for now.  I'm not sure that there is
-really any discussion on the mesa MR which would change the kernel or
-uapi side of this, but I can re-order things so the syncobj patch is
-last in case you want to pull HEAD~1 and hold off for a few days on
-the syncobj patch
+Caio Novais (2):
+  drm/amd/display: Remove unused variable 'scl_enable'
+  drm/amd/display: Add previous prototype to
+    'optc3_wait_drr_doublebuffer_pending_clear'
 
-BR,
--R
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.h               | 2 ++
+ .../gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+-- 
+2.40.0
 
-> -Daniel
->
-> >
-> > ----------------------------------------------------------------
-> > Immutable branch with dma-fence deadline hint support between drm-next
-> > and driver -next trees.
-> >
-> > ----------------------------------------------------------------
-> > Rob Clark (11):
-> >       dma-buf/dma-fence: Add deadline awareness
-> >       dma-buf/fence-array: Add fence deadline support
-> >       dma-buf/fence-chain: Add fence deadline support
-> >       dma-buf/dma-resv: Add a way to set fence deadline
-> >       dma-buf/sync_file: Surface sync-file uABI
-> >       dma-buf/sync_file: Add SET_DEADLINE ioctl
-> >       dma-buf/sw_sync: Add fence deadline support
-> >       drm/scheduler: Add fence deadline support
-> >       drm/syncobj: Add deadline support for syncobj waits
-> >       drm/vblank: Add helper to get next vblank time
-> >       drm/atomic-helper: Set fence deadline for vblank
-> >
-> >  Documentation/driver-api/dma-buf.rst    | 16 ++++++-
-> >  drivers/dma-buf/dma-fence-array.c       | 11 +++++
-> >  drivers/dma-buf/dma-fence-chain.c       | 12 +++++
-> >  drivers/dma-buf/dma-fence.c             | 60 ++++++++++++++++++++++++
-> >  drivers/dma-buf/dma-resv.c              | 22 +++++++++
-> >  drivers/dma-buf/sw_sync.c               | 81 +++++++++++++++++++++++++=
-++++++++
-> >  drivers/dma-buf/sync_debug.h            |  2 +
-> >  drivers/dma-buf/sync_file.c             | 19 ++++++++
-> >  drivers/gpu/drm/drm_atomic_helper.c     | 37 +++++++++++++++
-> >  drivers/gpu/drm/drm_syncobj.c           | 64 ++++++++++++++++++++-----=
--
-> >  drivers/gpu/drm/drm_vblank.c            | 53 +++++++++++++++++----
-> >  drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++
-> >  drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
-> >  include/drm/drm_vblank.h                |  1 +
-> >  include/drm/gpu_scheduler.h             | 17 +++++++
-> >  include/linux/dma-fence.h               | 22 +++++++++
-> >  include/linux/dma-resv.h                |  2 +
-> >  include/uapi/drm/drm.h                  | 17 +++++++
-> >  include/uapi/linux/sync_file.h          | 59 +++++++++++++++---------
-> >  19 files changed, 496 insertions(+), 47 deletions(-)
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
