@@ -2,60 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73626CC905
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 19:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C536CC943
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Mar 2023 19:31:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7330A10E964;
-	Tue, 28 Mar 2023 17:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00BA810E473;
+	Tue, 28 Mar 2023 17:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCFF110E976
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 17:19:06 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id m2so13004276wrh.6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 10:19:06 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637F210E976
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 17:31:12 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id p34so7431248wms.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 10:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680023945; x=1682615945;
+ d=ffwll.ch; s=google; t=1680024671; x=1682616671;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8CEFb/6ljqv0Fv1r/OeZskoxzQlU5xekSpKw1g2pQE4=;
- b=hMYpA7w+6Zs+wLLU/q7pMiuwTJ3o+27naY51JYKI9ZJo7gHyIB0eqvMhvk3P+za3L3
- FJMKmHdn/N7NUnODCooPub17CNS+DBz2qnUtkLrHjVCcMOCEJgH0Yb4/E6t2kp3p1+wi
- ury8U5BriCcBD0h0qDtjKP1REeKT/SzUnJ+EE=
+ bh=+WXrxWsYnTDYG2SISRRmpGpGojXT5EzYX4eznbJOHg4=;
+ b=b3M7Vay4WCW6bVov3pJhb4dOFmMQhzHb9K9TbCRRDwH6GwxIBCXzNO++pvOjt7qbpn
+ 05xksO/ct1dWRz7RBGgpjA9BmpsK8LKjPfje6/rsLahg/YTDYL+IX4/iwR+d04o0P8b2
+ KY3WTWnYstRfCxwFULA1jYBlMiLJUmBywmmZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680023945; x=1682615945;
+ d=1e100.net; s=20210112; t=1680024671; x=1682616671;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8CEFb/6ljqv0Fv1r/OeZskoxzQlU5xekSpKw1g2pQE4=;
- b=nNfCYoOsFvCx4nI2hiOaJiugna0yyqBDGq0bHc0aNwisoN0h0U6WgJbZRnjZaROXDw
- OBBx8AsqQi2m1Gu7uuMg9Ad2MIwSrgUvbusOmLeKcQRKlHQY10IArNqY/qtBnkWDjknR
- ImwZsNOAGRkvoUI78rPav3w8zfzcbgTcSkQhvhc/6yS3PimR72Z6QcUNJjdEc6Wh+HIq
- Z9x1zeAIOfEBEoZ/x8dVGjzZ0eAFF1nTF1DftGbJEKBjNdTh1rqIY8mt4j4yNrlpz036
- eWebh+SGcIquCERFAkoVGL1x/0RHfo9leVNvUyUHZFiltbJ1DY0cdcaKv5hhhcu3NhHH
- 8kdQ==
-X-Gm-Message-State: AAQBX9epMCAgOwOFfXwgys7b8TkbBIrqdeJzJQf9+2UvGXbtGjBbldk8
- A9wohwakUvabdjnEKJb0SHPK9w==
-X-Google-Smtp-Source: AKy350avfF+UZiH6DqiVcBZXg7CuA3X4T+9mTl5fIVL5TjkJ/DjswYmLF+gVmMU06n3hnyTd7gCrHw==
-X-Received: by 2002:a5d:464b:0:b0:2cf:e2cc:275a with SMTP id
- j11-20020a5d464b000000b002cfe2cc275amr9065668wrs.5.1680023945211; 
- Tue, 28 Mar 2023 10:19:05 -0700 (PDT)
+ bh=+WXrxWsYnTDYG2SISRRmpGpGojXT5EzYX4eznbJOHg4=;
+ b=8MinwK1+84Z+zS3iEybiZvWRQ3cE2krcMRh7cRZrJJOnCR5j5qCArQ4PjyUZ5Ibexr
+ 01Ygy1R3w/2xhtG7LORGSCoXXegr+nQsLT2HZ/ajZBkReurKOwc58yHI+QOPPCGjvJcp
+ zcXJZ/+99tmj/h4tilM1EiVcjyH+liQr3fYnNc15O5FhAIWH0/WpMFutyMtZSMcdvWIA
+ TZfigWzbJHFLMPGa+KffiqWzv5bAuupQlE9lum29c+o1NEb1qJWSGEJG6EhkxVR2tuh2
+ o9kHLNBnINn1BpLoc3vmLl/Kz5CxNEl85lWQwNvpVjwaGEuko+7q+4E71qT32MGDD6RK
+ 96AA==
+X-Gm-Message-State: AO0yUKXwiTN1DHqwoBuJaRu8kJbUo49JZnhwzj/BVoDZDdEWtMScstdm
+ tvJfclTnzcedSLco5hrzEeJLPA==
+X-Google-Smtp-Source: AK7set8Es9R+WYKMYNTLSTbN0FL3YB2/XpWd0Smb5zeO3g5QU2UsoyFaK0G79+N9O9l6sEw0KYaBUg==
+X-Received: by 2002:a05:600c:1550:b0:3ed:d2ae:9adb with SMTP id
+ f16-20020a05600c155000b003edd2ae9adbmr14814003wmg.0.1680024670792; 
+ Tue, 28 Mar 2023 10:31:10 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
  [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- f11-20020a5d4dcb000000b002cfe3f842c8sm27851410wru.56.2023.03.28.10.19.03
+ u15-20020a05600c210f00b003ed2433aa4asm18000071wml.41.2023.03.28.10.31.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 10:19:03 -0700 (PDT)
-Date: Tue, 28 Mar 2023 19:19:01 +0200
+ Tue, 28 Mar 2023 10:31:10 -0700 (PDT)
+Date: Tue, 28 Mar 2023 19:31:08 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [pull] drm: dma-fence-deadline-core for v6.4
-Message-ID: <ZCMhhToEdWVAEtBh@phenom.ffwll.local>
-References: <CAF6AEGvoP9_FERdL6U8S2O-BVt-oAUgAytbE6RvygsoAOwOHvw@mail.gmail.com>
+To: Inki Dae <inki.dae@samsung.com>
+Subject: Re: [GIT PULL] exynos-drm-next
+Message-ID: <ZCMkXPW5vdps3xQE@phenom.ffwll.local>
+References: <CGME20230328040524epcas1p270b050efedfe53d8e59c7e9103d5b84c@epcas1p2.samsung.com>
+ <20230328040524.49278-1-inki.dae@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAF6AEGvoP9_FERdL6U8S2O-BVt-oAUgAytbE6RvygsoAOwOHvw@mail.gmail.com>
+In-Reply-To: <20230328040524.49278-1-inki.dae@samsung.com>
 X-Operating-System: Linux phenom 6.1.0-6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,86 +70,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: airlied@linux.ie, linux-samsung-soc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Mar 25, 2023 at 11:24:56AM -0700, Rob Clark wrote:
+On Tue, Mar 28, 2023 at 01:05:24PM +0900, Inki Dae wrote:
 > Hi Dave and Daniel,
 > 
-> Here is the series for dma-fence deadline hint, without driver
-> specific patches, with the intent that it can be merged into drm-next
-> as well as -driver next trees to enable landing driver specific
-> support through their corresponding -next trees.
+>    Just one patch series that moves the existing Exynos DSI driver
+>    to drm/bridge directory to support both SoCs family - Exynos
+>    and I.MX - because same Exynos MIPI DSI ip can be used by the two
+>    different SoC family.
 > 
-> The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
+>    Of course, there are some concerns about this patch series because Exynos
+>    and I.MX SoCs have different HW characteristic but use the same HW driver.
+>    However, I believe that there should be no problem as Exynos and I.MX
+>    developers have conducted tests and reviews enough for about a year
+>    since last April.
 > 
->   Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
+>    This would be the first case that we allow different vendor SoCs to use
+>    same device driver at least in DRM world so we anticipate experiencing
+>    and resolving new issues through ongoing maintenance, and ultimately,
+>    the experiences gained here will undoubtedly be able to contribute
+>    the development of the community as well.
+> 
+>    Please kindly let me know if there is any problem.
+> 
+> Thanks,
+> Inki Dae
+> 
+> The following changes since commit 46f28427f6f824b6cff06fa025a55350b7de454a:
+> 
+>   Merge tag 'drm-rcar-next-20230325' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux into drm-next (2023-03-27 18:20:20 +0200)
 > 
 > are available in the Git repository at:
 > 
->   https://gitlab.freedesktop.org/drm/msm.git tags/dma-fence-deadline-core
+>   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-next-for-v6.4
+
+Merged, but usually all drm bridge stuff goes through drm-misc, least so
+that there's some amount of collaboration and not so much inter-tree
+syncing.
+
+Please apply for drm-misc commit rights (at least a quick check shows no
+one from samsung) and land future bridge patches through that tree.
+
+Cheers, Daniel
+
 > 
-> for you to fetch changes up to 0bcc8f52a8d9d1f9cd5af7f88c6599a89e64284a:
+> for you to fetch changes up to b2cfec52feb3bb737c4b65018ef4bfe9789e4be8:
 > 
->   drm/atomic-helper: Set fence deadline for vblank (2023-03-25 10:55:08 -0700)
-
-Ok apparently there's only igts for the sync_file uabi and the only only
-userspace for syncobj is the mesa mr that is still under discussion :-/
-
-Yes I know there's a clearly established need for something like this, but
-also in drm we don't merge conjectured uabi. Especially with tricky stuff
-that's meant to improve best effort performance/tuning problems, where you
-really have to benchmark the entire thing and make sure you didn't screw
-up some interaction.
-
-To make sure this isn't stuck another full cycle, is there a way to wittle
-this just down to the kms atomic flip boosting parts? That way we could at
-least start landing the core&driver bits ...
--Daniel
-
+>   drm: bridge: samsung-dsim: Add i.MX8M Plus support (2023-03-28 09:05:41 +0900)
 > 
 > ----------------------------------------------------------------
-> Immutable branch with dma-fence deadline hint support between drm-next
-> and driver -next trees.
+> A patch series for moving MIPI-DSI driver for Exynos DRM to drm/bridge
+> directory so that I.MX SoC family can also share the same device driver.
+> Samsung MIPI DSIM device is a common IP that can be used by Exynos and I.MX8M
+> Mini/Nano/Plus SoC. Regarding this, this patch series has added several
+> things below to existing MIPI DSI driver,
+> 	- Add exynos_dsi_type enum type to provide controller data from different
+> 	  platforms.
+> 	- Add two pipeline detection ways support - existing Exynos DSI child node
+> 	  and I.MX family of-graph port or ports.
+> 	- Consider component and bridged based DRM drivers.
+> 	- Add device tree binding support of I.MX family.
 > 
 > ----------------------------------------------------------------
-> Rob Clark (11):
->       dma-buf/dma-fence: Add deadline awareness
->       dma-buf/fence-array: Add fence deadline support
->       dma-buf/fence-chain: Add fence deadline support
->       dma-buf/dma-resv: Add a way to set fence deadline
->       dma-buf/sync_file: Surface sync-file uABI
->       dma-buf/sync_file: Add SET_DEADLINE ioctl
->       dma-buf/sw_sync: Add fence deadline support
->       drm/scheduler: Add fence deadline support
->       drm/syncobj: Add deadline support for syncobj waits
->       drm/vblank: Add helper to get next vblank time
->       drm/atomic-helper: Set fence deadline for vblank
+> Jagan Teki (14):
+>       drm: exynos: dsi: Drop explicit call to bridge detach
+>       drm: exynos: dsi: Lookup OF-graph or Child node devices
+>       drm: exynos: dsi: Mark PHY as optional
+>       drm: exynos: dsi: Add platform PLL_P (PMS_P) offset
+>       drm: exynos: dsi: Introduce hw_type platform data
+>       drm: exynos: dsi: Add atomic check
+>       drm: exynos: dsi: Add input_bus_flags
+>       drm: exynos: dsi: Add atomic_get_input_bus_fmts
+>       drm: exynos: dsi: Consolidate component and bridge
+>       drm: exynos: dsi: Add host helper for te_irq_handler
+>       drm: bridge: Generalize Exynos-DSI driver into a Samsung DSIM bridge
+>       dt-bindings: display: exynos: dsim: Add NXP i.MX8M Mini/Nano support
+>       drm: bridge: samsung-dsim: Add i.MX8M Mini/Nano support
+>       dt-bindings: display: exynos: dsim: Add NXP i.MX8M Plus support
 > 
->  Documentation/driver-api/dma-buf.rst    | 16 ++++++-
->  drivers/dma-buf/dma-fence-array.c       | 11 +++++
->  drivers/dma-buf/dma-fence-chain.c       | 12 +++++
->  drivers/dma-buf/dma-fence.c             | 60 ++++++++++++++++++++++++
->  drivers/dma-buf/dma-resv.c              | 22 +++++++++
->  drivers/dma-buf/sw_sync.c               | 81 +++++++++++++++++++++++++++++++++
->  drivers/dma-buf/sync_debug.h            |  2 +
->  drivers/dma-buf/sync_file.c             | 19 ++++++++
->  drivers/gpu/drm/drm_atomic_helper.c     | 37 +++++++++++++++
->  drivers/gpu/drm/drm_syncobj.c           | 64 ++++++++++++++++++++------
->  drivers/gpu/drm/drm_vblank.c            | 53 +++++++++++++++++----
->  drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++
->  drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
->  include/drm/drm_vblank.h                |  1 +
->  include/drm/gpu_scheduler.h             | 17 +++++++
->  include/linux/dma-fence.h               | 22 +++++++++
->  include/linux/dma-resv.h                |  2 +
->  include/uapi/drm/drm.h                  | 17 +++++++
->  include/uapi/linux/sync_file.h          | 59 +++++++++++++++---------
->  19 files changed, 496 insertions(+), 47 deletions(-)
+> Marek Szyprowski (1):
+>       drm: exynos: dsi: Handle proper host initialization
+> 
+> Marek Vasut (1):
+>       drm: bridge: samsung-dsim: Add i.MX8M Plus support
+> 
+>  .../bindings/display/exynos/exynos_dsim.txt        |    2 +
+>  MAINTAINERS                                        |    9 +
+>  drivers/gpu/drm/bridge/Kconfig                     |   12 +
+>  drivers/gpu/drm/bridge/Makefile                    |    1 +
+>  drivers/gpu/drm/bridge/samsung-dsim.c              | 1967 ++++++++++++++++++++
+>  drivers/gpu/drm/exynos/Kconfig                     |    1 +
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c            | 1813 +-----------------
+>  include/drm/bridge/samsung-dsim.h                  |  115 ++
+>  8 files changed, 2191 insertions(+), 1729 deletions(-)
+>  create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
+>  create mode 100644 include/drm/bridge/samsung-dsim.h
 
 -- 
 Daniel Vetter
