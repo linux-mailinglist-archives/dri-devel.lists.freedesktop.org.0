@@ -1,64 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4829B6CCD76
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:38:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 420FF6CCD79
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 00:38:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5AE910EA09;
-	Tue, 28 Mar 2023 22:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1564A10EA0D;
+	Tue, 28 Mar 2023 22:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A915A10E499
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:38:08 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id y35so11665843ljq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:38:08 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7EA10E9EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 22:38:09 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id by8so14148856ljb.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 15:38:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680043087;
+ d=linaro.org; s=google; t=1680043088;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BMXvr4ldGaoMLKgFxzEbhC70jQdRYOcwL2NKARdSztE=;
- b=g8ub7rc/NhXIdRwBUNFa4fvKhu783P1B5PPeqC1IOjSGreMB6OVd7vpmQP9jdEQxt6
- AvIxTKC01UyG0syJ0pIB4ZBUj5oLfgFPgWagPim7k6SJIZgbr07ERJweZG7cV8eunpsa
- bVMAei36lU/+kK2TbKn1SpMBDwZZj9LGiV90QrCt27tOlxrUTJs/K8HsDTfej4o4exUC
- 8uHrAzjX6eU0dDHCD1TaQkfw3u/Ny61BHN6yQ+Ro7XlFiRWQkYj3rMXRKlVs991Hs6IQ
- 6bk3vV/f1p4ZB/FmMydBqT06XxH7iM964QOvVYjtiNO69azZ3RijWnvaTNxy7Xu5pmlw
- S2HQ==
+ bh=almqnIe5p6SPPcYPWjwjdUaws42iWdaybkLQMuaM2c4=;
+ b=VNvj+Qt3Niw8C2Q2DzWedzPgUMVj4XaaPMHGKRYb33rIsm8yYIcESVqAoxf2QIFK09
+ 9w1BUy+nCK6RGxWxbN9c9zG+TShXJzNdQYj1Xjhy7KWnlqBBc9t7S1e8MeUx+H8p46zr
+ 8cGHes9OWTMlsNrVlTfwQyKCKLEn1k4C7nzWpWahTIJWrzZ4IyZzzD4LC0rixel4zZis
+ A6hA1aFYygBaYGIKMc3oZ9iA+3QcFkolsE/G5KYZtTsRBFakZi8kq4EXNvZNXm6G1Iqd
+ Cg0x34S43hqvGr7xhvI/gsnDXnBSYO4XsQ0uRJzitIxN8BJOGrmAHLiTh5twmCiJ9Zws
+ mxVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680043087;
+ d=1e100.net; s=20210112; t=1680043088;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BMXvr4ldGaoMLKgFxzEbhC70jQdRYOcwL2NKARdSztE=;
- b=U1Ho7vuH7zz8clkC7yaJH1FRpLfmhUtiz9+IbYk6cA0akVMBJp8+Pps9y0Y4bfrBp6
- xq8PWenrLMrLSwMQ4yyMVQ8uZH9uYn47pjwe+adcB0fg2LvW0TBroE8VHhbRmiNlF0g+
- lrE6PNOuPF1eD7vIt37SDlV2t2d3GlMdNPAhz1FSX4GEbTCmMs30eyJz8xdma+vADWSF
- jFNbCMprqv8VlsuAHMi6BCC//MY0Sw+6eB6DvhdIxl77yvtDVyJAQfH00oeVjM8in6Yq
- 0GwUzo/dISGt637TPSACX2x5cdxgkoq9ndiL/OeyzgmtvgqIgdIhulC1wjkF/P6mYZO4
- npxw==
-X-Gm-Message-State: AAQBX9cegikHeVr5+V/OzhVord6P1luiTKmkGGdtVvyznZmPUqj/Sw1q
- GEmvNSwb493g9dJfFtTWCC6ROg==
-X-Google-Smtp-Source: AKy350aqAslp9vV/FU12wZVxKnQvOaZvbsXVVP/2yQtjnLA/einkNp1Ej7QLuVAWmYih7iXDNAV7NQ==
-X-Received: by 2002:a2e:87ca:0:b0:29a:8580:8140 with SMTP id
- v10-20020a2e87ca000000b0029a85808140mr5299195ljj.3.1680043086953; 
- Tue, 28 Mar 2023 15:38:06 -0700 (PDT)
+ bh=almqnIe5p6SPPcYPWjwjdUaws42iWdaybkLQMuaM2c4=;
+ b=Gp2HuuqdFYtzFLogFnw23Z1L5tHduCK5z2Y9A/UPp8/RZSU6mrdHmzTvLVtl2k/+Uh
+ AUd2r8KcQBCRxs2xwTBK37XCDmyctEdXv3/ssJTgrWfPiLSYSljIntpQz0ToXkC73loY
+ 5MWex2euZz01Z1zkHajhjxRH7b76dUyl4lDmxmhOMg1o6Tj5Odp8wpDl+en2oxUcSVfo
+ JXFSuQZDvZFzIj5cqniRzTk2cG+yO5I1QXLDP6r3BrkE0JEVZN7y1dV2Y6qdkpec2fPl
+ ISZWHGnYkVCTyhY4XRH35jhaQH6WVlkII1Ih94UM9mmWQhy37Tiq7aZEKBP3EZo4xfoJ
+ X1sg==
+X-Gm-Message-State: AAQBX9cF7nsQequJceqHKomFaDTYOfhbKXz5Ux9mTPqpMosBnYCqdJMj
+ VHChakA7Gd/DNDc2LzIpC62gPg==
+X-Google-Smtp-Source: AKy350bJ5wG2PH5jR8pdssprervPgKgRwh9MztjWz+AdpebFRNw2/UCcujsqqC7VgiMDtHSxtqWQqA==
+X-Received: by 2002:a2e:b0f3:0:b0:2a0:8d5b:95c with SMTP id
+ h19-20020a2eb0f3000000b002a08d5b095cmr5700934ljl.34.1680043087967; 
+ Tue, 28 Mar 2023 15:38:07 -0700 (PDT)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- t22-20020a2e9d16000000b002934d555783sm5199522lji.6.2023.03.28.15.38.06
+ t22-20020a2e9d16000000b002934d555783sm5199522lji.6.2023.03.28.15.38.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Mar 2023 15:38:06 -0700 (PDT)
+ Tue, 28 Mar 2023 15:38:07 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH 00/10] drm/msm: fix bind error handling
-Date: Wed, 29 Mar 2023 01:37:51 +0300
-Message-Id: <168004255464.1060915.1769530231444438622.b4-ty@linaro.org>
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v6 0/9] Fix DSI host idx detection on HW revision clash
+Date: Wed, 29 Mar 2023 01:37:52 +0300
+Message-Id: <168004255466.1060915.2598614689172044596.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230306100722.28485-1-johan+linaro@kernel.org>
-References: <20230306100722.28485-1-johan+linaro@kernel.org>
+In-Reply-To: <20230307-topic-dsi_qcm-v6-0-70e13b1214fa@linaro.org>
+References: <20230307-topic-dsi_qcm-v6-0-70e13b1214fa@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -74,44 +80,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 06 Mar 2023 11:07:12 +0100, Johan Hovold wrote:
-> I had reasons to look closer at the MSM DRM driver error handling and
-> realised that it had suffered from a fair amount of bit rot over the
-> years.
+On Sat, 18 Mar 2023 14:42:46 +0100, Konrad Dybcio wrote:
+> v5 -> v6:
+> - Squash both fixes that concerned the deprecated QCM2290 compatible to
+>   avoid warnings
 > 
-> Unfortunately, I started fixing this in my 6.2 branch and failed to
-> notice two partial and, as it turned out, broken attempts to address
-> this that are now in 6.3-rc1.
+> v5: https://lore.kernel.org/r/20230307-topic-dsi_qcm-v5-0-9d4235b77f4f@linaro.org
+> 
+> v4 -> v5:
+> - Drop superfluous items: level in [8/10]
+> - Remove the header define for the qcm2290 config in [6/10] instead of
+>   [7/10]
+> - Pick up tags
 > 
 > [...]
 
 Applied, thanks!
 
-[01/10] Revert "drm/msm: Add missing check and destroy for alloc_ordered_workqueue"
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/ebf761d6a02f
-[02/10] Revert "drm/msm: Fix failure paths in msm_drm_init()"
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/35a08e19a1c6
-[03/10] drm/msm: fix NULL-deref on snapshot tear down
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/d3234fe12b3b
-[04/10] drm/msm: fix NULL-deref on irq uninstall
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/0b5ffe5be6fd
-[05/10] drm/msm: fix drm device leak on bind errors
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/6a44f0dbd141
-[06/10] drm/msm: fix vram leak on bind errors
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/e6091a855649
-[07/10] drm/msm: fix missing wq allocation error handling
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/9c6027d5a3f4
-[08/10] drm/msm: fix workqueue leak on bind errors
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/023691129696
-[10/10] drm/msm: move include directive
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/110fd0d5b032
+[1/9] dt-bindings: display/msm: dsi-controller-main: Fix deprecated QCM2290 compatible
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/236502012d47
+[2/9] drm/msm/dsi: Get rid of msm_dsi_config::num_dsi
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/607ce0e9d462
+[3/9] drm/msm/dsi: Fix DSI index detection when version clash occurs
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/2e6105fe7570
+[4/9] drm/msm/dsi: dsi_cfg: Deduplicate identical structs
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/41301c6d5e5d
+[5/9] drm/msm/dsi: dsi_cfg: Merge SC7180 config into SDM845
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/38ba402f807d
+[6/9] drm/msm/dsi: Switch the QCM2290-specific compatible to index autodetection
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/34f84fcf81c8
+[7/9] drm/msm/dsi: Remove custom DSI config handling
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/ff280b6cc5ef
+[8/9] dt-bindings: display/msm: dsi-controller-main: Add SM6115
+      https://gitlab.freedesktop.org/lumag/msm/-/commit/c7baf742a07b
 
 Best regards,
 -- 
