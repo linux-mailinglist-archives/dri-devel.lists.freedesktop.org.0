@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038C16CECE4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF556CECE7
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:30:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DD110EB44;
-	Wed, 29 Mar 2023 15:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3E310EB4E;
+	Wed, 29 Mar 2023 15:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B464C10EB43
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:30:02 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id r11so64944333edd.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:30:02 -0700 (PDT)
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D997610EB4F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:30:34 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-545e907790fso183798417b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680103801;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=/d+vqNEhuMuYKfGl1ekINNEteRU98IKm1vUgJ7WIxb0=;
- b=gAIaWmtBuUR0yMUhuI5jZ16OnmRIrNUwcyMVDiSqTlYFEbUHa4jRqvda4DnWQ+Fm4S
- VYZe95p0xOMrMYSwTUKCQzCxmDvyjZ/UncG2jf3tIQ/fLo18L35S9XE9J2S+40UR5YiG
- +zHd42DF+KWMv1xIdUWzoMPVXv9gGTfNe4IqzXVYW4BhQA8v8ICZvD74S4xXeN3s1ESa
- vl8h8FKma53e53GbsMRAC7hv1sRDcjv5My0vbjiRe5qv/YdOUZtreillfF6nvx5rVf1p
- 4d1rPSo3a5oucdLyEXcAoZXjeGRgTU4ZEgJ/RihTsMtjz7wn366x2ErcXaiqiAyuccHZ
- oVag==
+ d=amarulasolutions.com; s=google; t=1680103834;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BFZ20rC2XtnWx2HPxJbX0F+YnJR7fgxQcGGmQBwVb7Q=;
+ b=JvMTJc1Gv8vCqVajFRwN5it4gJaKbPCwOgEwFVRfrdnXBaViUYZsElkwGN4srbsCWm
+ gsZfz98f+UB7t9jFdKcTwUfnCNnxIJtdiXlh7MW7KtqKekPhBX9lUbZ7q3Wl0j7mTzEE
+ OcLqTJEyEkBSuD+GbeP4ew9U247+o/1zLS7yE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680103801;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/d+vqNEhuMuYKfGl1ekINNEteRU98IKm1vUgJ7WIxb0=;
- b=x6DQ3VkbeIlGqZO18j13blIGEirupIaP2qOagzSeBiYafVOF8ByuAfGsaHElRJHYtD
- EqcGrMxWClj3emp/x3y8CWEh6yKUvkRBegV4vguB+fk4ziUxBycGdfxOlJ4VGQvjtUDb
- w9C8j9cKgpZMc4EJQ4tEti4Z/saBf73KOzjHKUe0zSYhBJjqxm0v3/8qSGrQ28KN45zp
- Nz3T76CdCZ7qqaxXhK0tDQvyZhPHAS7+1e31iZg06525saFiQVVB5fGoyk4/MB4evhlq
- Vqtcofj8ZDoHs3Z0z2ATN6q1KCEBVFqSEGjWIjxdp2AgN/3v4Enlime8sSQL15uFx1MA
- khuA==
-X-Gm-Message-State: AAQBX9dCIKOkbt50TNu0rStkMhM1bleZyLf0BoBm/95wKJ04bj28xoGb
- 8NeHuH/2AV1NRH+noeK48B4=
-X-Google-Smtp-Source: AKy350bke7ygNehiBmiXDcvBHTyzs0knCrOxjd1FeDooAtvPkwxGcKuMQzJKxba7XG6e/9T5cYB2wA==
-X-Received: by 2002:a17:906:25d5:b0:932:40f4:5c44 with SMTP id
- n21-20020a17090625d500b0093240f45c44mr19842197ejb.36.1680103801125; 
- Wed, 29 Mar 2023 08:30:01 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:19e1:d48c:7215:c6b0?
- ([2a02:908:1256:79a0:19e1:d48c:7215:c6b0])
- by smtp.gmail.com with ESMTPSA id
- rh26-20020a17090720fa00b00930ba362216sm16913238ejb.176.2023.03.29.08.30.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 08:30:00 -0700 (PDT)
-Message-ID: <cf2f0771-39b0-49d6-011c-66b60b6a95c9@gmail.com>
-Date: Wed, 29 Mar 2023 17:29:59 +0200
+ d=1e100.net; s=20210112; t=1680103834;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BFZ20rC2XtnWx2HPxJbX0F+YnJR7fgxQcGGmQBwVb7Q=;
+ b=2ELUXRb/8hR3JhzdIdkHWhFmA10TumLXGArprCCmL67hGYhL17TmIQzqpATVJZDmr4
+ nT9ceQKvKLHvu17WxWNr2YMc7sA34C8blRcu1UDZpM3/vF2lkrdofJr17ohcoLtWsq54
+ grE7fNt0XuL0zaw6y08gRw3GyI2iMWpvX+fqbRjkACtq6XScpm3Rste76Al6z2IHbvtj
+ dV0MwsM9GMoggMaCPnn8vWhUMPVFmnOyzje403kTWauECme4qxntCqemliVZYJyO7C42
+ sT9POgiVavCvZE1ZEcVq8gVkh9L9F/ACQWOryvG1JERS7ZGbT12XNnbo4GXt/DLQlVtT
+ 6ugg==
+X-Gm-Message-State: AAQBX9dP8B4XoVKaYyswm2TjEGEpUwbMd4BKLC4UZmptUjv14PCVLX8k
+ 5H986wF2LYB3LgA22v8gUEn2jwAsUmMbY5xL/xf9Pg==
+X-Google-Smtp-Source: AKy350aQ+SY5iF10evSeqAQo9VWn7eGBRSp/ouP2R83fRpmRIP36Pn+KT/+JT62aHAr/p3uHoViPy/s3Xmq1TTNqhWs=
+X-Received: by 2002:a81:ae23:0:b0:541:7237:6e6b with SMTP id
+ m35-20020a81ae23000000b0054172376e6bmr9262438ywh.0.1680103833995; Wed, 29 Mar
+ 2023 08:30:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/ttm: set TTM allocated pages as reserved
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, dri-devel@lists.freedesktop.org
-References: <20230329135401.105592-1-christian.koenig@amd.com>
- <46f01fc0-ec64-c215-b027-bd748711e6d8@redhat.com>
- <0080e53d-b597-ad34-7e66-6384cae456ae@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <0080e53d-b597-ad34-7e66-6384cae456ae@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
+ <20230329131615.1328366-10-jagan@amarulasolutions.com>
+ <20230329150202.3rbjrq6iqum5ybjh@penduick>
+In-Reply-To: <20230329150202.3rbjrq6iqum5ybjh@penduick>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 29 Mar 2023 21:00:22 +0530
+Message-ID: <CAMty3ZDXWw2ajF5DsYCMy0XCa348y8XKKUzAfrU=2iUG23yVow@mail.gmail.com>
+Subject: Re: [PATCH v7 09/12] arm64: dts: rockchip: a64: Add endpoint@0 to
+ dsi_in_tcon0
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,68 +68,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-eric.Pelloux-prayer@amd.com, npiggin@gmail.com,
- Sean Christopherson <seanjc@google.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.03.23 um 17:08 schrieb Paolo Bonzini:
-> On 3/29/23 16:28, Paolo Bonzini wrote:
->> On 3/29/23 15:54, Christian König wrote:
->>> KVM tries to grab references to pages in VMAs marked with VM_PFNMAP.
->>> This is illegal and can cause data corruption with TTM pages because
->>> only some of them are actually reference counted.
+On Wed, Mar 29, 2023 at 8:32=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> w=
+rote:
 >
-> After some other offlist discussions, I also would like to understand 
-> what you mean by corruption.
+> The commit title is wrong, it's not a rockchip device.
 
-I think what was meant here is that only parts of the buffers where 
-updated, but see below.
+Thanks for the note, I will fix it in the next version.
 
 >
-> First, is it a _host_ corruption or a guest corruption/crash?  A guest 
-> crash would be KVM doing exactly what it's meant to do: it detects the 
-> non-reserved, non-refcounted page and refuses to map it into the guest.
-
-Yes I think that this is what happens. The use case and mapping is 
-indeed valid as far as I can see, but the handling that KVM does here is 
-really problematic.
-
-When the PFN points to an IO address it just works because that isn't 
-backed by struct pages. And when the PFN points to the first page of a 
-higher order allocation it also works, only when the PFN points to a 
-following page kvm_try_get_pfn() fails and causes the problems.
-
-What needs to happen instead is that when both hva_to_pfn_fast() and 
-hva_to_pfn_slow() fails you don't try to convert the PFN into a page and 
-so also don't get a reference to the page.
-
-This somehow needs to be communicated to the callers of hva_to_pfn() so 
-that kvm_release_pfn() knows what to do.
-
-Regards,
-Christian.
-
+> On Wed, Mar 29, 2023 at 06:46:15PM +0530, Jagan Teki wrote:
+> > The DSI downstream devices are likely to be Panel, Bridge and
+> > I2C-Configured Bridge.
+> >
+> > It is possible to connect all three devices using upstream OF-graph por=
+t
+> > or ports node however only Panel and Bridge are possible to connect via
+> > child node but not possible to connect I2C-Configured Bridge via child
+> > node since I2C-Configure bridges are child of I2C not upstream DSI host=
+s
+> > and it must represent them via port or ports with endpoint linking.
+> >
+> > Allwinner A64 DSI node already has a port so add endpoint 0 for input
+> > tcon so that the downstream DSI devices can use endpoint 1 to connect
+> > Panel or Bridge or I2C-Configured Bridge.
+> >
+> > An example of the I2C-Configured downstream bridge representation is,
+> >
+> > i2c1 {
+> >        bridge@1b {
+> >            compatible =3D "ti,dlpc3433";
+> >
+> >              ports {
+> >                   port@0 {
+> >                          reg =3D <0>;
+> >
+> >                          bridge_in_dsi: endpoint {
+> >                                 remote-endpoint =3D <&dsi_out_bridge>;
+> >                                 data-lanes =3D <1 2 3 4>;
+> >                          };
+> >                   };
+> >
+> >                 port@2 {
+> >                        reg =3D <2>;
+> >
+> >                          bridge_out_dmd: endpoint {
+> >                                 remote-endpoint =3D <&dmd_out_bridge>;
+> >                          };
+> >                   };
+> >              };
+> >        };
+> > };
+> >
+> > dsi {
+> >        compatible =3D "allwinner,sun50i-a64-mipi-dsi";
+> >
+> >        port {
+> >              dsi_in_tcon0: endpoint@0 {
+> >                 reg =3D <0>;
+> >                 remote-endpoint =3D <tcon0_out_dsi>;
+> >            };
+> >
+> >            dsi_out_bridge: endpoint@1 {
+> >                 reg =3D <1>;
+> >                 remote-endpoint =3D <&bridge_in_dsi>;
+> >            };
+> >       };
+> > };
+> >
+> > Note that existing device bindings are untouched and still represent
+> > the downstream devices via child nodes since the sun6i-mipi-dsi host
+> > will migrate to a standardized single helper to lookup for a
+> > downstream device via child or OF-graph port or port node.
+> >
+> > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > ---
+> > Changes for v7:
+> > - new patch
+> >
+> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64=
+/boot/dts/allwinner/sun50i-a64.dtsi
+> > index 77b5349f6087..3ed566dc2172 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> > @@ -1189,7 +1189,11 @@ dsi: dsi@1ca0000 {
+> >                       #size-cells =3D <0>;
+> >
+> >                       port {
+> > -                             dsi_in_tcon0: endpoint {
+> > +                             #address-cells =3D <1>;
+> > +                             #size-cells =3D <0>;
+> > +
+> > +                             dsi_in_tcon0: endpoint@0 {
+> > +                                     reg =3D <0>;
+> >                                       remote-endpoint =3D <&tcon0_out_d=
+si>;
+> >                               };
 >
-> On the other hand, if it is a host crash, my understanding is that an 
-> order>0 allocation leaves the tail pages with a zero reference count 
-> (and without a compound_head if, as in this case, __GFP_COMP is 
-> unset). If that's correct, more analysis is needed to understand why 
-> get_page_unless_zero() isn't rejecting the tail pages.
->
-> Paolo
->
->
->>> Mark all pages allocated by TTM as reserved, this way KVM handles the
->>> PFNs like they would point to MMIO space.
->>>
->>> This still results in a warning, but at least no other problem.
->>
->> What warning is it?
->>
->> Paolo
->>
->>> Signed-off-by: Christian König<christian.koenig@amd.com>
->>
->
+> That doesn't match the DT binding anymore, and why can't we add endpoint@=
+1 there too?
 
+Do you mean add endpoint@1 without any remote-endpoint like this?
+
+dsi_out_bridge: endpoint@1 {
+         reg =3D <1>;
+};
+
+I was supposed to add this, since dtbs_check doesn't give any error. I
+have skipped this, as I thought it wouldn't be needed.
+
+Thanks,
+agan.
