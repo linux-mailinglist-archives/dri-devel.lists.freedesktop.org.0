@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CF86CF1B1
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 20:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFF86CF1B5
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 20:06:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60CA410EBEE;
-	Wed, 29 Mar 2023 18:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBB310E52C;
+	Wed, 29 Mar 2023 18:06:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC4B10EBE9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 18:05:50 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-17aa62d0a4aso17094819fac.4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 11:05:50 -0700 (PDT)
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32CAA10E52C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 18:05:56 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-177ca271cb8so17100387fac.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 11:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1680113150;
+ d=usp.br; s=usp-google; t=1680113156;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dENL6Fxh5VQz27gw9oq+gG40WY6+FnIBbbcwaGKgL9s=;
- b=qNdPr3T0VVdr5XsrImYxl6M5mYISWBJYMUVpySQaJmLrp1n0HEXIkbs7mD+7nCUiSp
- ENNG3tu4CDNcZ+DpyTBJZDFodUGb4K1yFLrp60aoqGfGdvW0Dmsvq1k9HJ/N6Z5QvPTu
- Ygb3up24v4GYEu7cvd4/V5uZkfb8Wb5oms7YjPsS3nlLz0oF80AVbw7Zt5p/KBGcfFnC
- NNaFo4Eu+4dGrn1PHgq8lAQ/pNE5MYd5pAmX0OXfbRy3u8sH3JC2mgZq+BceIbzvN1PE
- zmWe0CAElijV4k+CORZ8rpFYnUpxNihjsnBZOXRTPW3RoWA8x511sKffG1CbXwVUXlRd
- TvIg==
+ bh=Dogo3BF2L9vBC4AT6xgMxoTJFXvXmfhOs0Wm2IXvUoA=;
+ b=L0HwYwO3L/MNP7MmWs2RcJbpPDw4+LjAB6LZUkRjGQGTcOAeJV74uov52Ekfpp5dmx
+ s9lGs7hbWkvuFTUwneVaHXamZVEnm4xDfnGAUPal58PW25X0ImisVK6cetvN9lnDxxpB
+ S14152RBp3zDsK3rafFd6eeNnYPrDzXt3KSOf/f8/tH+QAuum8S3zUYAVtXz29+H3Ysr
+ +JJmJ+SZm+bax72OFXXBsTF/JNpymn0AgJeQej1Hzg2/4mgEwTNsa5oo41F6HWUq2+Kg
+ AkSmdqdvYDrjPRkHg8UO1RD3UssIXsf/yezuTeWy91kkBOGVueLttPUm9Jmt2+Nf3SDi
+ QqWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680113150;
+ d=1e100.net; s=20210112; t=1680113156;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dENL6Fxh5VQz27gw9oq+gG40WY6+FnIBbbcwaGKgL9s=;
- b=i2Oy2oaIOZh2L9b/TJZbUXu2Y2twTY4RyA5tRV1LVoZ/EC/7vNveo14+Y8KhIUKwWf
- v/JfK2opBju5+y+BMhJ25fO+qZbHVvRQvn94GW7piKg4KA7jXY29PqutrmrlURoc+VNX
- I9oIs4O/GFYJ94hsdf0Y/LhVCHj/3tgACcDxU1jigRB9an+OtLXRj7N3BB9EfSUNGUOF
- iLgPaxLKGUceNyN0r4YzVdUxTbTo/CtoejH03z1wo5Rsky6dAZAC0glbRToY5syoLcC6
- OWwYv2N01wyjHeYSc17eFAD4oyaXlroLOYfxtmVbdru/Twe9dpJMOJNJmCiGDhdIlnq7
- iHxA==
-X-Gm-Message-State: AO0yUKUsKrvT0uxv3nnSIgwYaflreCaMLKxkCS0Jas9VGORC3lqEoUJj
- KLBdUkg1P6VJ8dcgmuh8i0pFmg==
-X-Google-Smtp-Source: AKy350ZFzKCHQwib2AWl++pfIuersKFdWtVFGHv0D3aPWMLgI8OfejXGuKK3kkzECOOmF8Pq50ZmJw==
-X-Received: by 2002:a05:6870:1d1:b0:17e:c403:a046 with SMTP id
- n17-20020a05687001d100b0017ec403a046mr12133932oad.12.1680113149906; 
- Wed, 29 Mar 2023 11:05:49 -0700 (PDT)
+ bh=Dogo3BF2L9vBC4AT6xgMxoTJFXvXmfhOs0Wm2IXvUoA=;
+ b=aXjlfy9E3ADyOuQZ59MDXpJ2/vNIuycjyX+M+NSEGBxqfVwXUZUkpJms2MaTQnbM5/
+ 2qsVVPEtuqZHPLwhMRdEWXCEbg43+1DvWPxHNZCPJVPS1wXT1bqzaDL+2LJnzmrS7oEm
+ Ly6e1xZoXGHzLun12pktYk5Xu8pJpKel/4hfYbZ1lMHkoRseFneB/ugjtuDS2hovi9ub
+ JSFT8cvYLm5d3gbiyWHwhPYCCql68cHwRDFKRJdLMrOAn1FUsw25jibRKXkO4FY0BPt7
+ xBC0Upe2mt2Eo0AdoNxwLchQYusmTnajHrNiAFOC+tYRk+XOTYPxMVRDaIaYDltFB6oy
+ syRQ==
+X-Gm-Message-State: AAQBX9f4JH/3JwcX8N1rUyXUt/Zwfvj84R3oLf1MWz0IlXpxc+wO6sd7
+ DCbQCmGhiK79hLNyMXbnpce/rQ==
+X-Google-Smtp-Source: AKy350Y5nATzpWAejjs20Se142ta9u/ME/7RWzY7Q28O0MbOueyG/JtjDWUShvoc2IoJ5SkqvG6ZWg==
+X-Received: by 2002:a05:6871:282:b0:177:a8a8:65c with SMTP id
+ i2-20020a056871028200b00177a8a8065cmr13194714oae.4.1680113155874; 
+ Wed, 29 Mar 2023 11:05:55 -0700 (PDT)
 Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
  by smtp.gmail.com with ESMTPSA id
- yo7-20020a05687c018700b001777244e3f9sm12098767oab.8.2023.03.29.11.05.44
+ yo7-20020a05687c018700b001777244e3f9sm12098767oab.8.2023.03.29.11.05.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 11:05:49 -0700 (PDT)
+ Wed, 29 Mar 2023 11:05:55 -0700 (PDT)
 From: Caio Novais <caionovais@usp.br>
 To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] drm/amd/display: Remove unused variable 'scl_enable'
-Date: Wed, 29 Mar 2023 15:05:33 -0300
-Message-Id: <20230329180534.99151-2-caionovais@usp.br>
+Subject: [PATCH v2 2/2] drm/amd/display: Mark function
+ 'optc3_wait_drr_doublebuffer_pending_clear' as static
+Date: Wed, 29 Mar 2023 15:05:34 -0300
+Message-Id: <20230329180534.99151-3-caionovais@usp.br>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230329180534.99151-1-caionovais@usp.br>
 References: <20230329180534.99151-1-caionovais@usp.br>
@@ -92,36 +93,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Compiling AMD GPU drivers displays a warning:
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.c: In function ‘dml_rq_dlg_get_dlg_params’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.c:991:14: warning: variable ‘scl_enable’ set but not used [-Wunused-but-set-variable]
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for ‘optc3_wait_drr_doublebuffer_pending_clear’ [-Wmissing-prototypes]
 
-Get rid of it by removing the variable 'scl_enable'.
+Get rid of it by marking the function as static
 
 Signed-off-by: Caio Novais <caionovais@usp.br>
 ---
- .../gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
-index d1c2693a2e28..ea4eb66066c4 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
-@@ -988,7 +988,6 @@ static void dml_rq_dlg_get_dlg_params(
- 	double hratio_c;
- 	double vratio_l;
- 	double vratio_c;
--	bool scl_enable;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
+index 08b92715e2e6..c95f000b63b2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
+@@ -291,7 +291,7 @@ static void optc3_set_timing_double_buffer(struct timing_generator *optc, bool e
+ 		   OTG_DRR_TIMING_DBUF_UPDATE_MODE, mode);
+ }
  
- 	unsigned int swath_width_ub_l;
- 	unsigned int dpte_groups_per_row_ub_l;
-@@ -1117,7 +1116,6 @@ static void dml_rq_dlg_get_dlg_params(
- 	hratio_c = scl->hscl_ratio_c;
- 	vratio_l = scl->vscl_ratio;
- 	vratio_c = scl->vscl_ratio_c;
--	scl_enable = scl->scl_enable;
+-void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
++static void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
+ {
+ 	struct optc *optc1 = DCN10TG_FROM_TG(optc);
  
- 	swath_width_ub_l = rq_dlg_param->rq_l.swath_width_ub;
- 	dpte_groups_per_row_ub_l = rq_dlg_param->rq_l.dpte_groups_per_row_ub;
 -- 
 2.40.0
 
