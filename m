@@ -2,74 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59276CED41
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:48:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A9A6CED59
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:49:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75B8010EB62;
-	Wed, 29 Mar 2023 15:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD0A10EB5D;
+	Wed, 29 Mar 2023 15:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com
- [IPv6:2607:f8b0:4864:20::92d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B675910EB5C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:48:04 +0000 (UTC)
-Received: by mail-ua1-x92d.google.com with SMTP id n17so11671459uaj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:48:04 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 925A310EB7B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:48:59 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id o20so13699330ljp.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680104882;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zCUeYDCKKdfcC5YGZz1Vanefs7gXguNR6lN7akajdTo=;
- b=fyp595EnlO4QfHb/DErpjmuid/C75tiRj1hmUzm9K69hscQFswZH/LEJaoHhOhAU4v
- e9u2qUshpxPXQlww6Hsz6CIHM9R2GQ37FmIiYDl4HnNWBO3w2oCTgz4MMvXBm0/mVO1a
- h4lTPulrVUkTzXWdVS32p0lI48nIq2OfEsRkY=
+ d=linaro.org; s=google; t=1680104938;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8jD8NVqtsPudciwhm8Tk75NT4wlLoElkTtYals9Zh3s=;
+ b=PKp8ZyPYUiw16H1l/Agu1Uq/X0RhJ79mp3NP7m0jlPV/StUndLoQ357goARYFgOX4F
+ QrlJRI8G2izmMQ/gHL21qr1I6bKibkBLgoNaNcIIJveQRYu5Xq5R/mgu+zTeA2ztD5G5
+ 6JSm8iy20Z5prXFolUXL8ZOsMtmdGrbabURIklMpJVYndk6txmfVSk4Ov2XBQ99X+iiB
+ 1CGIqAzaO7+S1XY2n4JMrmnp3vhjhroT6PX081yUUnqBul8g0L3mxoK0nzg8HhbfLsFg
+ 5MQEtKVlHQrk+luDabREpnLgOI/CLsO9jH96uEt2pTty3ZacA54NZi89k0HSzMYtKbvJ
+ jPAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680104882;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zCUeYDCKKdfcC5YGZz1Vanefs7gXguNR6lN7akajdTo=;
- b=tEvMr/JirF5vqteuS8PCdlsDSmMAVpJhiC3Dcoa0vH+fMpTQ+B3s6iYTaLBl1vh+9K
- fLac55/sS9yoVsJmaqn94DUXuf7LRdZ0rPNlwCWKpQ/1Eb9Bc2tWlNAVsxoD/fjBwYNV
- 2xMrICzUTNlBKQpMwDRAZtytxQ6KriQ6V4M8XA5laH5151+sB83rh6iNvtYVHUNbCTu4
- 8+PpZhxHgU1gA0g+EGdaUJ1ZfY0Dzge6YwPwmaDzuS1Epg6s4H8uQ9uaN4OVcyzqoJc+
- r8iHWLhdBpEGB/TCYEWzTLCT2qR2znrVXZbHBstArSv3iVHr230gYn6lKYR/kfKqbfDP
- K0Sg==
-X-Gm-Message-State: AAQBX9daT0V3OTw1FOVPJE1cESe8eSsWapQaAiCRnfJ02CfoH8uAxDdk
- 6ZjR75UxyAAidP6L3QL8uuA0cXYC99Ik+0bkYE0=
-X-Google-Smtp-Source: AKy350b41e6wtaaAoQr8KmgiKjUk8S/ltoY/9JJZFcqBVjWsG8DhsRjSq7ThSxkuHJWciE+tdpozug==
-X-Received: by 2002:a1f:f482:0:b0:43a:1db9:8b13 with SMTP id
- s124-20020a1ff482000000b0043a1db98b13mr7155917vkh.11.1680104882095; 
- Wed, 29 Mar 2023 08:48:02 -0700 (PDT)
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
- [209.85.217.44]) by smtp.gmail.com with ESMTPSA id
- f9-20020a1f1f09000000b00432e396ced8sm3242066vkf.11.2023.03.29.08.48.01
- for <dri-devel@lists.freedesktop.org>
+ d=1e100.net; s=20210112; t=1680104938;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8jD8NVqtsPudciwhm8Tk75NT4wlLoElkTtYals9Zh3s=;
+ b=xGzZBGKUdnlZ3oqE0S2z0eLPcNRQd0V9Hv0ALwqAleCd+y4FgYG8m1mHajDOq7wHNs
+ aQsTuGRPA3vPpcP5tZJYTrM47SUAkyhM+8+h7vzLHK9BzcmQe1xzn4Cf/a1TQZ0g9kaY
+ dCx2HDMz9rm9ik+RqprV0vaz6E9tlCUxphq0Jys8o5529nIGSC8fyC6lvqLVksrqV5Th
+ kW2t42F7f/1KBIMQ4Y8b1gIb841sE4fttobV95apBz0fLpoDwVjGMderSZIPyzjk5MXE
+ X2llAB3Fg0m3X8gKpoR3uqFlbSlQMAP9DY1lCIZ0udV60oOLjZTW75VaDCV+q1IuI/3P
+ pvpw==
+X-Gm-Message-State: AAQBX9ek27GKyWpZTWbok/TKAvsQCA15ONZcaT0iCwcMr/XI2xXY++Sy
+ 0eIgkudCMYCKclNNBkslm78QnA==
+X-Google-Smtp-Source: AKy350bZwb0nN1eKm+plrJvvRh6qWAf4xzfzhIpDrFsv1Xnvma4OkZ7P9lJEitJzajVJLNdExNnbaw==
+X-Received: by 2002:a2e:8604:0:b0:290:5166:7c28 with SMTP id
+ a4-20020a2e8604000000b0029051667c28mr7077535lji.20.1680104937770; 
+ Wed, 29 Mar 2023 08:48:57 -0700 (PDT)
+Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
+ by smtp.gmail.com with ESMTPSA id
+ u14-20020a2e854e000000b00299ab2475ebsm5546763ljj.1.2023.03.29.08.48.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 08:48:01 -0700 (PDT)
-Received: by mail-vs1-f44.google.com with SMTP id b6so10463044vsu.12
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:48:01 -0700 (PDT)
-X-Received: by 2002:a67:ca16:0:b0:421:eabb:cd6a with SMTP id
- z22-20020a67ca16000000b00421eabbcd6amr10917847vsk.7.1680104880896; Wed, 29
- Mar 2023 08:48:00 -0700 (PDT)
+ Wed, 29 Mar 2023 08:48:57 -0700 (PDT)
+Message-ID: <83986fa9-c9eb-ae5a-b239-584092f2cea5@linaro.org>
+Date: Wed, 29 Mar 2023 17:48:55 +0200
 MIME-Version: 1.0
-References: <1677774797-31063-1-git-send-email-quic_vpolimer@quicinc.com>
- <1677774797-31063-15-git-send-email-quic_vpolimer@quicinc.com>
- <20230326162723.3lo6pnsfdwzsvbhj@ripper>
- <20230326163556.iesjkoh3nw3iwvf2@ripper>
- <CAE-0n520ypTRNT1X6kZ8o_Z+DN_68qwqZc1wZGMwsFqV5naktw@mail.gmail.com>
- <BN0PR02MB81736AFC01FB13F1640068CEE4899@BN0PR02MB8173.namprd02.prod.outlook.com>
-In-Reply-To: <BN0PR02MB81736AFC01FB13F1640068CEE4899@BN0PR02MB8173.namprd02.prod.outlook.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 29 Mar 2023 08:47:49 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UjHiEk==KAhbx6QFW++69vDAM44sw-b2MGcJ7NsfbF-A@mail.gmail.com>
-Message-ID: <CAD=FV=UjHiEk==KAhbx6QFW++69vDAM44sw-b2MGcJ7NsfbF-A@mail.gmail.com>
-Subject: Re: [PATCH v14 14/14] drm/msm/dp: set self refresh aware based on PSR
- support
-To: Vinod Polimera <vpolimer@qti.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/msm/adreno: adreno_gpu: Use suspend() instead of
+ idle() on load error
+Content-Language: en-US
+To: Johan Hovold <johan@kernel.org>
+References: <20230329140445.2180662-1-konrad.dybcio@linaro.org>
+ <ZCRNFitcrAeH27Pn@hovoldconsulting.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <ZCRNFitcrAeH27Pn@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,143 +77,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kalyan Thota \(QUIC\)" <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- "Vishnuvardhan Prodduturi \(QUIC\)" <quic_vproddut@quicinc.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Vinod Polimera \(QUIC\)" <quic_vpolimer@quicinc.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "Bjorn Andersson \(QUIC\)" <quic_bjorande@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ "Joel Fernandes \(Google\)" <joel@joelfernandes.org>, agross@kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Wed, Mar 29, 2023 at 8:16=E2=80=AFAM Vinod Polimera
-<vpolimer@qti.qualcomm.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Stephen Boyd <swboyd@chromium.org>
-> > Sent: Monday, March 27, 2023 9:58 PM
-> > To: Bjorn Andersson <andersson@kernel.org>; Vinod Polimera (QUIC)
-> > <quic_vpolimer@quicinc.com>
-> > Cc: dri-devel@lists.freedesktop.org; linux-arm-msm@vger.kernel.org;
-> > freedreno@lists.freedesktop.org; devicetree@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; robdclark@gmail.com; dianders@chromium.org;
-> > Kalyan Thota (QUIC) <quic_kalyant@quicinc.com>;
-> > dmitry.baryshkov@linaro.org; Kuogee Hsieh (QUIC)
-> > <quic_khsieh@quicinc.com>; Vishnuvardhan Prodduturi (QUIC)
-> > <quic_vproddut@quicinc.com>; Bjorn Andersson (QUIC)
-> > <quic_bjorande@quicinc.com>; Abhinav Kumar (QUIC)
-> > <quic_abhinavk@quicinc.com>; Sankeerth Billakanti (QUIC)
-> > <quic_sbillaka@quicinc.com>
-> > Subject: Re: [PATCH v14 14/14] drm/msm/dp: set self refresh aware based
-> > on PSR support
-> >
-> > Quoting Bjorn Andersson (2023-03-26 09:35:56)
-> > > On Sun, Mar 26, 2023 at 09:27:23AM -0700, Bjorn Andersson wrote:
-> > > > On Thu, Mar 02, 2023 at 10:03:17PM +0530, Vinod Polimera wrote:
-> > > > > For the PSR to kick in, self_refresh_aware has to be set.
-> > > > > Initialize it based on the PSR support for the eDP interface.
-> > > > >
-> > > >
-> > > > When I boot my sc8280xp devices (CRD and X13s) to console with this
-> > > > patch included I get a login prompt, and then there are no more scr=
-een
-> > > > updates.
-> > > >
-> > > > Switching virtual terminal (ctrl+alt+fN) causes the screen to redra=
-w.
-> > > >
-> > > > Blindly login in and launching Wayland works and from then on scree=
-n
-> > > > updates works as expected.
-> > > >
-> > > > Switching from Wayland to another virtual terminal causes the probl=
-em
-> > to
-> > > > re-appear, no updates after the initial refresh, switching back go =
-the
-> > > > Wayland-terminal crashed the machine.
-> > > >
-> > >
-> > > Also, trying to bring the eDP-screen back from DPMS gives me:
-> > >
-> > > <3>[ 2355.218099] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]]
-> > *ERROR* set state_bit for link_train=3D1 failed
-> > > <3>[ 2355.218926] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link
-> > training #1 failed. ret=3D-110
-> > > <3>[ 2355.262859] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]]
-> > *ERROR* set state_bit for link_train=3D1 failed
-> > > <3>[ 2355.263600] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link
-> > training #1 failed. ret=3D-110
-> > > <3>[ 2355.305211] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]]
-> > *ERROR* set state_bit for link_train=3D1 failed
-> > > <3>[ 2355.305955] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link
-> > training #1 failed. ret=3D-110
-> > > <3>[ 2355.345250] [drm:dp_catalog_ctrl_set_pattern_state_bit [msm]]
-> > *ERROR* set state_bit for link_train=3D1 failed
-> > > <3>[ 2355.346026] [drm:dp_ctrl_setup_main_link [msm]] *ERROR* link
-> > training #1 failed. ret=3D-110
-> > > <3>[ 2355.405650] [drm:dp_display_process_hpd_high [msm]] *ERROR*
-> > failed to complete DP link training
-> > > <3>[ 2355.668988]
-> > [drm:dpu_encoder_phys_vid_wait_for_commit_done:488] [dpu
-> > error]vblank timeout
-> > > <3>[ 2355.669030] [drm:dpu_kms_wait_for_commit_done:510] [dpu
-> > error]wait for commit done returned -110
-> > > <3>[ 2355.699989] [drm:dpu_encoder_frame_done_timeout:2398] [dpu
-> > error]enc35 frame done timeout
-> > >
-> > > And then the machine just resets.
-> > >
-> >
-> > I saw similar behavior on ChromeOS after we picked the PSR patches into
-> > our kernel. I suspect it's the same problem. I switched back and forth
-> > between VT2 and the OOBE screen with ctrl+alt+forward and that showed
-> > what I typed on the virtual terminal after switching back and forth.
-> > It's like the redraw only happens once on the switch and never again. I
-> > switched back and forth enough times that it eventually crashed the
-> > kernel and rebooted. This was on CRD (sc7280-herobrine-crd.dts).
-> >
-> > There's an animation on the OOBE screen that is working though, so
-> > perhaps PSR is working with the chrome compositor but not the virtual
-> > terminal? I haven't investigated.
->
-> I was able to reproduce the issue where in virtual terminal, I don't see =
-any screen refresh despite typing in.
-> In the VT mode, I see that PSR is entered, but despite typing in there ar=
-e no atomic commits triggered, hence the last buffer was always refreshed.
->
-> Queries from my side to Rob & Doug:
-> 1) In VT mode, does the framework operates in single buffer mode without =
-any commit for new updates ?
-> 2) if above is true then, how does driver know if the framework operates =
-in single buffer mode, to make any appropriate action
-> 3) what is the expected behavior with the driver here ? should it return =
-atomic_check failure, for single buffer mode operation or, it should exit P=
-SR ?
-> 4) is there any HINT passed down to the driver so that we can bank on it =
-and act accordingly?
 
-I haven't looked at this detail about PSR before, and I left my
-PSR-enabled device at home so I can't easily test this right now. That
-being said, from a bit of searching I would guess that
-msm_framebuffer_dirtyfb() is somehow involved here. Are things better
-if you get rid of the test against 'msm_fb->dirtyfb'?
+On 29.03.2023 16:37, Johan Hovold wrote:
+> On Wed, Mar 29, 2023 at 04:04:44PM +0200, Konrad Dybcio wrote:
+>> If we fail to initialize the GPU for whatever reason (say we don't
+>> embed the GPU firmware files in the initrd), the error path involves
+>> pm_runtime_put_sync() which then calls idle() instead of suspend().
+>>
+>> This is suboptimal, as it means that we're not going through the
+>> clean shutdown sequence. With at least A619_holi, this makes the GPU
+>> not wake up until it goes through at least one more start-fail-stop
+>> cycle. Fix that by using pm_runtime_put_sync_suspend to force a clean
+>> shutdown.
+> 
+> This does not sound right. If pm_runtime_put_sync() fails to suspend the
+> device when the usage count drops to zero, then you have a bug somewhere
+> else.
+I was surprised to see that it was not called as well, but I wasn't able
+to track it down before..
 
-I at least used ftrace to confirm that on a different device
-msm_framebuffer_dirtyfb() is not called during normal ChromeOS usage
-but it _is_ called in VT2 usage.
+> 
+> Also since commit 2c087a336676 ("drm/msm/adreno: Load the firmware
+> before bringing up the hardware") the firmware is loaded before even
+> hitting these paths so the above description does not sound right in
+> that respect either (or is missing some details).
+..but I did some more digging and I found that the precise "firmware"
+that fails is the ZAP blob, which is not checked like SQE in the
+commit you mentioned!
 
--Doug
+Now I don't think that we can easily check for it as-is since
+zap_shader_load_mdt() does the entire find-load-authenticate
+dance which is required with secure assets, but it's obviously
+possible to rip out the find-load part of that and go on from
+there.
+
+Do you think that would be a better solution?
+
+Konrad
+
+> 
+>> Test cases:
+>> 1. firmware baked into kernel
+>> 2. error loading fw in initrd -> load from rootfs at DE start
+>>
+>> Both succeed on A619_holi (SM6375) and A630 (SDM845).
+>>
+>> Fixes: 0d997f95b70f ("drm/msm/adreno: fix runtime PM imbalance at gpu load")
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+>>  drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> index f61896629be6..59f3302e8167 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> @@ -477,7 +477,7 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
+>>  	return gpu;
+>>  
+>>  err_put_rpm:
+>> -	pm_runtime_put_sync(&pdev->dev);
+>> +	pm_runtime_put_sync_suspend(&pdev->dev);
+>>  err_disable_rpm:
+>>  	pm_runtime_disable(&pdev->dev);
+> 
+> Johan
