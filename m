@@ -2,50 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89006CEC52
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B124E6CEC53
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:03:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E446A10E536;
-	Wed, 29 Mar 2023 15:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8245010E162;
+	Wed, 29 Mar 2023 15:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod2-cph3.one.com
- (mailrelay1-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:400::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7530B10E536
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=KFNxHE0QXa2PWKJfN5y9uL4Qs71FXfuJ+fonDr5o8kI=;
- b=itk4HvEbpN8zUXdBdxPPXbN92iWD8GSnQgkIfAqb3sM/7L60UqYkid2BXrGGJOHgeuaenweaJ/yBu
- nAcLZ9R3d0SOZrZ6+h0WqAPrWj/YXELR6/lR1OzP91uE90slqIaVbjnkGMBzv1yRZK3a2OZcozeh1B
- RokVSMlaEr+28zZfHPeDpz6KVoO591VsW840uN+Z75m6c37faX7IwI6GU/BtDN414AfJrQuOxHJBuV
- t6H+CSZwNcQyH0zrKlWv7kXHiU9emWOOzoB5A+DDjJgarPRah7JiQhn3a3197byX7U4eLWQT2VsgD4
- t9+rFLHJWOlG29I+lnJHuR+gvGnrs0A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed2;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=KFNxHE0QXa2PWKJfN5y9uL4Qs71FXfuJ+fonDr5o8kI=;
- b=Sb+klSISZzKyB9yU2nHp9Pg7csbh7hCXm/seICmhlZgRhgXx2N+7Gk9VeuDPUAZoL6qUaCR37Bce8
- MFK7UOYBw==
-X-HalOne-ID: de3d27f9-ce42-11ed-9a1a-99461c6a3fe8
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
- by mailrelay1 (Halon) with ESMTPSA
- id de3d27f9-ce42-11ed-9a1a-99461c6a3fe8;
- Wed, 29 Mar 2023 15:03:34 +0000 (UTC)
-Date: Wed, 29 Mar 2023 17:03:32 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/4] drm/i915: Initialize fbdev DRM client with callback
- functions
-Message-ID: <20230329150332.GA1201392@ravnborg.org>
-References: <20230328111422.23986-1-tzimmermann@suse.de>
- <20230328111422.23986-3-tzimmermann@suse.de>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9EC10E162
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:03:40 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C9C55582063;
+ Wed, 29 Mar 2023 11:03:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Wed, 29 Mar 2023 11:03:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1680102219; x=1680109419; bh=K2
+ 0fsOhg+vLZkzgTF7tMB4jS0IqXYodIByC6uEoduaQ=; b=dcqVt1CftKkmEFlhA+
+ aOiURFLLuXg9F3fCMb80o/A0C6pXoSTQ9EAi80tVrRlGItHiYi4fcOHXtqRcr4dA
+ rsvr5aLS5spMJ/RBwjzF10usaznM3gM0ptdHwagUwajYxvW7NEe9BIFNnnLSrZWa
+ nlpP78ehuzFNrjQv28Gnbk6E0Fg7omUkUbE19MM6URUF/2VKMdx5juf4lZCorG0D
+ E60/lfaIIZ3C1NW/DxrZq15vZyhirjv9Qh5VnKxp4MKynITU/f8LvVLxS83Fg2TP
+ 5IHB+VzFHX+FvE6bdSjVdaYfa3CakBRhl+9CI0HkX7AIa37gmum+22WeutnlbBmf
+ PUlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1680102219; x=1680109419; bh=K20fsOhg+vLZk
+ zgTF7tMB4jS0IqXYodIByC6uEoduaQ=; b=g1Uxe8rdB4qbec0xJ+fatyynl5wUs
+ hI05spyEIsmVIZuVf7mTWJifwi7jxOo5M99CwQFSWSTRjoBkhQGXxVLWDdt8uoUI
+ 7qD+ByCOABSeNw/5KWFGwEAGWKXxTTyLHdKjQu6xKE+Bdcvc3oaklodCcRbmIsMh
+ FqWk4vJRVX36d1b+MerwS9B0+D39D8Ande9HpMYcuDpoDmyG6VItWfawmxvdi8E5
+ sPgka40+Q0T95d2hukuTp5in1pPM389WSzgub7TCyUNC4O+14yI+dGpDoqXYLRS8
+ gHMCvmch8AViRblK/sZyBSiK6MTTP/OJKncn5LUcFubpcSlQvGQkqSweA==
+X-ME-Sender: <xms:S1MkZBK2HGGs7qEpRQ7JQKxK1-Y_supwOiO5Sq4JAhDw8aO3Y1crRg>
+ <xme:S1MkZNLNW-FCeehuAMp_LEfIT0H17tp1PXLuZPksVC9SAbmwry3IAclClbh6N45Z4
+ xGMFxUaNfger-dsyiY>
+X-ME-Received: <xmr:S1MkZJum-T-S-a1UFYqO2-fDEbVQ3KpBhxtzPd6ze_n1ecQdaHBcD91QQQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgkeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:S1MkZCaews5Wr_TMWSm1_01sHGtx_lRvkHnNQXxsFbFdEH-TJDtZMg>
+ <xmx:S1MkZIY-P97PO3zqJtVt6z9gdUIOJ2dh8D04CFF0KKvh6Rh6zWbQNQ>
+ <xmx:S1MkZGCfiMuYHOmACOAkXzUPgoPZnpZkph1ygdRvrcM3Kqb1wX4BPw>
+ <xmx:S1MkZIM_scTgLi4bwdm01gw2xSenepub0hhSTSKwt42Te685av8duA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Mar 2023 11:03:38 -0400 (EDT)
+Date: Wed, 29 Mar 2023 17:03:37 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v7 02/12] drm: bridge: panel: Implement
+ drmm_of_dsi_get_bridge helper
+Message-ID: <20230329150337.ua6qz7rvupk6vizl@penduick>
+References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
+ <20230329131615.1328366-3-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ljsqm2m3jhzjakbp"
 Content-Disposition: inline
-In-Reply-To: <20230328111422.23986-3-tzimmermann@suse.de>
+In-Reply-To: <20230329131615.1328366-3-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,17 +85,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tvrtko.ursulin@linux.intel.com, tejas.upadhyay@intel.com,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- intel-gfx@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On Tue, Mar 28, 2023 at 01:14:20PM +0200, Thomas Zimmermann wrote:
-> Initialize i915's fbdev client by giving an instance of struct
-> drm_client_funcsi to drm_client_init(). Also clean up with
-An extra i had sneaked in here
+--ljsqm2m3jhzjakbp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	Sam
+On Wed, Mar 29, 2023 at 06:46:08PM +0530, Jagan Teki wrote:
+> Implement a DRM-managed action helper that returns the next DSI bridge
+> in the chain.
+>=20
+> Unlike general bridge return helper drmm_of_get_bridge, this helper
+> uses the dsi specific panel_or_bridge helper to find the next DSI
+> device in the pipeline.
+>=20
+> Helper lookup a given downstream DSI device that has been added via
+> child or OF-graph port or ports node.
+>=20
+> Upstream DSI looks for downstream devices using drm pointer, port and
+> endpoint number. Downstream devices added via child node don't affect
+> the port and endpoint number arguments.
+>=20
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+
+If you intend to use it with the sun4i driver, then don't. The sun4i
+driver is barely using drm-managed resources, so chances are all its
+resources will be freed by the time this action will run.
+
+Maxime
+
+--ljsqm2m3jhzjakbp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCRTSQAKCRDj7w1vZxhR
+xWkLAQDKdxnGogs9xO7ZMu/Rv+wkevLJj7FxIC5ShbdCE04h8gEAx1vP1JqLCeBi
+rKCBc8nwgsdozelmB6QXQSsY/3wbNwQ=
+=SDoE
+-----END PGP SIGNATURE-----
+
+--ljsqm2m3jhzjakbp--
