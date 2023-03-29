@@ -1,73 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01006CF3F8
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 22:01:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C5A6CF401
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 22:04:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 466BC10EC05;
-	Wed, 29 Mar 2023 20:01:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 059A310EC23;
+	Wed, 29 Mar 2023 20:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DB1B10EC05
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 20:01:04 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id k37so21773692lfv.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680120062;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QOz2LnBeoR0UsX1ajFY+JsP7ZZvmsV9hCjLXu958Cw4=;
- b=bvnD+S2+ONOEkOKYd9Sua4486Us6nUvXP1T7Av/0SNOnmG5sC9rX7LYqJQH4aFbIIk
- d16Igh19Bdy1nRd8FXa7wbVzZIHgH0efIYEa55zZOI1lubyzPRv0SYYv/irQsNR9P35R
- PU5x23FQMlg2MCg+1WsA3JdRBa3sgcSivfFTuSBXOb+ktYK8TplB0tG3pq6E1Pyfk/8n
- /FS9JII8RSU3T3+BL7K9tkXYiYWwJDjJJHlyatB1TRYbis9K51clA5Ayr0FSwev9wtAa
- lTJ0G9zwkQ4a80pZg4bDROA6+wNOwGxUEolcG+HhVkY+DFsDkXLtaDfLgj4ya8H8vGqT
- phyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680120062;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QOz2LnBeoR0UsX1ajFY+JsP7ZZvmsV9hCjLXu958Cw4=;
- b=RaE1hfiNtWnT3Fkk8HEsJ8JrNiWiYfhli6Yvz9pXpbWP/7JxV2ixX6yXpLJi/PWsJt
- qPLx+QboxOrBYKs3rVI9eYX1xiXwJSflFtnn6FxLTmb9yjevNoIx2QMUwkZeoXJW0OG2
- anjC49GX3IrcGYhr+XSUzw6zwH64G79BrYtls9VUYW1ZssGdO/EQWPYyN3ZUtaYKqR+M
- IUx7dMDmefHIhHrJBaMeYnMQQSPtBXCym11tE6+qzqSuJV4r/7ZuN/5zkTPsXmmHXfPU
- tPjeQ7qdaAplomscWP4TgGyjxtarglNxYRmkZPfPku8NfKMID0dhkskjJmMNQOCWVwGE
- qA+g==
-X-Gm-Message-State: AAQBX9fZD2AvgRai7vmKXajmt2QhecOo1tEr3KYr1HSF/XI0CXBcxBLd
- a77lk2d2lURyxLDsG5BO8Uj6Cw==
-X-Google-Smtp-Source: AKy350bhm+8M87yTF9xXkPrCxrIC+ScPXmtLGPFwZX0Q9oEVNcpmxE6UwcLGLVfQlyHI7IY27XqsUw==
-X-Received: by 2002:ac2:5969:0:b0:4b5:2cf4:cc1d with SMTP id
- h9-20020ac25969000000b004b52cf4cc1dmr6002100lfp.68.1680120062582; 
- Wed, 29 Mar 2023 13:01:02 -0700 (PDT)
-Received: from [10.10.15.130] ([192.130.178.91])
- by smtp.gmail.com with ESMTPSA id
- l17-20020ac25551000000b004cc9042c9cfsm5545322lfk.158.2023.03.29.13.01.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 13:01:02 -0700 (PDT)
-Message-ID: <9fbda2ac-d611-ed3a-bbd5-4fa58f39c713@linaro.org>
-Date: Wed, 29 Mar 2023 23:01:01 +0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F14E10EC08
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 20:04:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B515561E1B;
+ Wed, 29 Mar 2023 20:04:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 090DEC433D2;
+ Wed, 29 Mar 2023 20:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680120256;
+ bh=4zOE3jMEKOhNI25UF0fOfIL08piHi2bqDz6TyK76qR4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=uw7qtD3HESWGMQ9Baj1w6twvKM7JMNgmt7PKXoCvJOczY0u340GfBpvymvmBiBWVx
+ qf+kcFVYf4dg0yAAoDZF/aYBqaksZ6Fa6+sA1PoByUd2LNaPRyh7sgPqRQE/0pwpm6
+ kLBCPzCQv/zuh06cTNQJrCxJ0npzPNiAuiOv4nPQtFpsUot5FTUeXXUIthYvejQLJp
+ rYE7s1omKIT+oMjKorhMYWPlc7LMeX1LkHhCE8Dy2xq0wbdX6qu2wzq8S2YfmcMFVE
+ ghrqf/6Xyf4MjMXD1dbNaL7jIuCYUjU2Xzl7KYDgsErEqGoLGnH3utZKKa/Vvp72NN
+ 7AGUd6HAiLFYg==
+Message-ID: <da1ea2d9278c15a4aa9d4fb3d459e819.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v2 14/50] drm/msm/dpu: Allow variable SSPP/INTF_BLK size
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230211231259.1308718-1-dmitry.baryshkov@linaro.org>
- <20230211231259.1308718-15-dmitry.baryshkov@linaro.org>
- <f0cc19ec-83ee-151d-e4d2-83a2cd5dc7f7@linaro.org>
- <526734f4-d2a6-b8b3-d300-dbf0bcfde91f@linaro.org>
-In-Reply-To: <526734f4-d2a6-b8b3-d300-dbf0bcfde91f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230329195049.lbdbkbqu6zbq5xii@penduick>
+References: <20221018-clk-range-checks-fixes-v2-0-f6736dec138e@cerno.tech>
+ <20221018-clk-range-checks-fixes-v2-43-f6736dec138e@cerno.tech>
+ <Y2UzdYyjgahJsbHg@sirena.org.uk> <20221104155123.qomguvthehnogkdd@houat>
+ <Y2U2+ePwRieYkNjv@sirena.org.uk> <20221107084322.gk4j75r52zo5k7xk@houat>
+ <Y2j0r0wX1XtQBvqO@sirena.org.uk> <20221107152603.57qimyzkinhifx5p@houat>
+ <5819b1362f35ce306e1b6d566bfd44e5.sboyd@kernel.org>
+ <20230329195049.lbdbkbqu6zbq5xii@penduick>
+Subject: Re: [PATCH v2 43/65] ASoC: tlv320aic32x4: Add a determine_rate hook
+From: Stephen Boyd <sboyd@kernel.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Date: Wed, 29 Mar 2023 13:04:13 -0700
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,42 +59,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: , Ulf Hansson <ulf.hansson@linaro.org>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Sekhar Nori <nsekhar@ti.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-phy@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Abel Vesa <abelvesa@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Samuel Holland <samuel@sholland.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+	linux-tegra@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@csie.org>,
+	NXP Linux Team <linux-imx@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+	linux-mips@vger.kernel.org,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, linux-rtc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	alsa-devel@alsa-project.org, Manivannan Sadhasivam <mani@kernel.org>,
+	linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+	linux-actions@lists.infradead.org,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	nel.org@freedesktop.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Alessandro Zummo <a.zummo@towertech.it>, linux-sunxi@lists.linux.dev,
+	patches@opensource.cirrus.com,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Andreas =?utf-8?q?F=C3=A4rber?= <afaerber@suse.de>,
+	Dinh Nguyen <dinguyen@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	linux-renesas-soc@vger.ker, David Lechner <david@lechnology.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/02/2023 13:18, Dmitry Baryshkov wrote:
-> On 13/02/2023 13:01, Konrad Dybcio wrote:
->>
->>
->> On 12.02.2023 00:12, Dmitry Baryshkov wrote:
->>> From: Konrad Dybcio <konrad.dybcio@linaro.org>
->>>
->>> These blocks are of variable length on different SoCs. Set the
->>> correct values where I was able to retrieve it from downstream
->>> DTs and leave the old defaults (0x1c8 for sspp and 0x280 for
->>> intf) otherwise.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> [DB: fixed some of lengths]
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->> Oh you fixed it quicker than I could respond!
-> 
-> Yes, I wanted to include it into this patchset, so I had to fix it.
-> 
->>
->> Still, I think the 8280 sspp size should not be
->> 2x the norm..
-> 
-> Let's doublecheck this with somebody having access to docs.
+Quoting Maxime Ripard (2023-03-29 12:50:49)
+> On Wed, Mar 22, 2023 at 04:31:04PM -0700, Stephen Boyd wrote:
+>=20
+> > The clk_set_parent() path is valid for those cases. Probably nobody
+> > cares about determine_rate because they don't set rates on these clks.
+> > Some drivers even explicitly left out determine_rate()/round_rate()
+> > because they didn't want to have some other clk round up to the mux
+> > and change the parent.
+> >=20
+> > Eventually we want drivers to migrate to determine_rate op so we can get
+> > rid of the round_rate op and save a pointer (we're so greedy). It's been
+> > 10 years though, and that hasn't been done. Sigh! I can see value in
+> > this series from the angle of migrating, but adding a determine_rate op
+> > when there isn't a round_rate op makes it hard to reason about. What if
+> > something copies the clk_ops or sets a different flag? Now we've just
+> > added parent changing support to clk_set_rate(). What if the clk has
+> > CLK_SET_RATE_PARENT flag set? Now we're going to ask the parent clk to
+> > change rate. Fun bugs.
+> >=20
+> > TL;DR: If the set_parent op exists but determine_rate/round_rate doesn't
+> > then the clk is a mux that doesn't want to support clk_set_rate(). Make
+> > a new mux function that's the contents of the CLK_SET_RATE_NO_REPARENT
+> > branch in clk_mux_determine_rate_flags() and call that directly from the
+> > clk_ops so it is clear what's happening,
+> > clk_hw_mux_same_parent_determine_rate() or something with a better name.
+> > Otherwise migrate the explicit determine_rate op to this new function
+> > and don't set the flag.
+> >=20
+> > It may be possible to entirely remove the CLK_SET_RATE_NO_REPARENT flag
+> > with this design, if the determine_rate clk_op can call the inner
+> > wrapper function instead of __clk_mux_determine_rate*() (those
+> > underscores are awful, we should just prefix them with clk_hw_mux_*()
+> > and live happier). That should be another patch series.
+>=20
+> Sorry but it's not really clear to me what you expect in the v2 of this
+> series (if you even expect one). It looks that you don't like the
+> assignment-if-missing idea Mark suggested, but should I just
+> rebase/resend or did you expect something else?
+>=20
 
-The additional research shows that all of us were wrong here. I'll 
-update it to 0x2ac for the next revision of the patchset.
-
--- 
-With best wishes
-Dmitry
-
+Yes, we want explicit code. Just rebase & resend. Don't add a
+determine_rate if there isn't a round_rate. Don't add more users of
+CLK_SET_RATE_NO_REPARENT. Instead, make an explicit determine_rate
+function for that. If you want to work on the removal of
+CLK_SET_RATE_NO_REPARENT go for it. Otherwise I'll take care of it after
+this series.
