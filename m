@@ -1,57 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA296CD641
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:20:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 740E56CD672
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:30:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B4DA10EA34;
-	Wed, 29 Mar 2023 09:20:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 260A510EA43;
+	Wed, 29 Mar 2023 09:30:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90B9E10E52B;
- Wed, 29 Mar 2023 09:20:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680081638; x=1711617638;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=6P6pcEtEes8ruh+DwU2GE43Pr4b3BbuPa3FdWkhb1Dk=;
- b=HqaxUq5BR4mjttQLlN7gMAZl71Li1FcaBogFcyU2bJKazuJfIrSwZl5+
- kr40yApAvv30RWbdryFPDHV4VISyNrKw6WRwPKgK24W7XGWxeuJy1o+0u
- 3lhM8ryOsktE3Tx8TQfFdjczXYeUCLUSYTnT2zF7UyaH/86QSHvdAHSfl
- 9lJl1kakbkiap6tBpogNJ/wwuhNURw4/vcGGl2qj6ab8cJum6ocizXPRv
- aAq1l/RaXAbLaz3lVEsDMmrQht6m9G31Ruk5Eo6Thcrrs8fFcX2LyIMb4
- opKFiHzjeCNSm8JhCd8RDz5B0ve3xK8yMr29fRc4Ze14leKsDHP2vy5sh g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403448632"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="403448632"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 02:20:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="773502427"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="773502427"
-Received: from jabolger-mobl2.ger.corp.intel.com (HELO [10.213.199.158])
- ([10.213.199.158])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 02:20:34 -0700
-Message-ID: <85cc3d07-0a7f-9ba4-45f2-dc6e7befefaf@linux.intel.com>
-Date: Wed, 29 Mar 2023 10:20:32 +0100
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4F1D10E52B;
+ Wed, 29 Mar 2023 09:30:29 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id p34so8477868wms.3;
+ Wed, 29 Mar 2023 02:30:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680082228;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1lEaDc8be8FkWi1HX0iSofPQaKiEa8pAZUfrsxxjcSw=;
+ b=FCR79EhyW0vJpHBYVKlPW8vXWhRAihkRSI0u4tf7VDEIDF7RSF3B2bJXqAywT69v72
+ meKdvUnF+HCW5+Bqf/2fqch6RTAdmaRS8grsaLPzlZ/RbhskfugKDh7RtxikBZmCQQGF
+ Z6DaRvzRiaDxk3OSWzx/ArjH9MqFrNhMiiIeOiEgQ7XI7VmML6U5HqK6/F4ZPg43Q2fD
+ gSMO+OWlcHYoGlBwUpXakZ/yUVg1C1SJWkSt0Txi+jHvcAEGMXsT2BJwybKYUAbqHlXN
+ EAh+UxqQCU1/CzGu1fGjNRBu7r0QGULKp/iDtEtAAVkPqDmVe9tA9rNEeypYzinW8MJk
+ Bi/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680082228;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1lEaDc8be8FkWi1HX0iSofPQaKiEa8pAZUfrsxxjcSw=;
+ b=C2+/8raGvwsCQm2ndPspD0iMvHWEfhCAwu3o9UGX9gb9Dvjb2aJRpwzmxdt6v5y+Ek
+ rGC9MHbYClVGjt9cwhO472TY02SesFxwuXiDv0fAGPqn7/+6fZhMkeM8TYuD6gjnHlFO
+ Kp+v07TPh8g7/ZSNFMW33byXBprRPtv/rjIY3+xW+RKz4KeamgCqt7AAk8w7mIvLG1zK
+ FhA7VYk8aitrXwHR1z2zosZjdEAqa06DcgLi3c1zuOvc2t/a1UqXVM91Yjo3bN9Cvkn/
+ TBvD+ycUxU5JKvAtuadQrYBWGmb0oDiRvwkhAnDG8mA96KOjHYfdEEVIj/5ESMNEHWMP
+ v2IA==
+X-Gm-Message-State: AO0yUKVtPTCVvU7u0G+PTdiPYjhsaOEw8y4hUgY0QtZrM/csXMHRtc9W
+ bb0gM/92HSdaIX6MLBM7q5Q=
+X-Google-Smtp-Source: AK7set8icXlaIt2CvY3lleghHnnb5TGOj1bkw4TJVx7xOyJ8D/nA/R6NaqroGfmG6xJJgjVkcL3yJg==
+X-Received: by 2002:a1c:4c0d:0:b0:3eb:2e32:72c3 with SMTP id
+ z13-20020a1c4c0d000000b003eb2e3272c3mr15711230wmf.22.1680082227927; 
+ Wed, 29 Mar 2023 02:30:27 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+ [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+ a13-20020a05600c224d00b003edef091b17sm1573356wmm.37.2023.03.29.02.30.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 02:30:27 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: [PATCH][next] drm/msm/mdss: Fix spelling mistake "Unuspported" ->
+ "Unsupported"
+Date: Wed, 29 Mar 2023 10:30:26 +0100
+Message-Id: <20230329093026.418847-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/1] drm/i915: fix race condition UAF in
- i915_perf_add_config_ioctl
-Content-Language: en-US
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-References: <20230328093627.5067-1-lm0963hack@gmail.com>
- <e7541f73-f100-3b1f-de80-376fa55f2479@linux.intel.com>
- <ZCOKz62qE7jASyg1@orsosgc001.jf.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZCOKz62qE7jASyg1@orsosgc001.jf.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,69 +75,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Min Li <lm0963hack@gmail.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>, rodrigo.vivi@intel.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+There is a spelling mistake in a dev_error message. Fix it.
 
-On 29/03/2023 01:48, Umesh Nerlige Ramappa wrote:
-> On Tue, Mar 28, 2023 at 02:08:47PM +0100, Tvrtko Ursulin wrote:
->>
->> On 28/03/2023 10:36, Min Li wrote:
->>> Userspace can guess the id value and try to race oa_config object 
->>> creation
->>> with config remove, resulting in a use-after-free if we dereference the
->>> object after unlocking the metrics_lock.  For that reason, unlocking the
->>> metrics_lock must be done after we are done dereferencing the object.
->>>
->>> Signed-off-by: Min Li <lm0963hack@gmail.com>
->>
->> Fixes: f89823c21224 ("drm/i915/perf: Implement 
->> I915_PERF_ADD/REMOVE_CONFIG interface")
->> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
->> Cc: <stable@vger.kernel.org> # v4.14+
->>
->>> ---
->>>  drivers/gpu/drm/i915/i915_perf.c | 6 +++---
->>>  1 file changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
->>> b/drivers/gpu/drm/i915/i915_perf.c
->>> index 824a34ec0b83..93748ca2c5da 100644
->>> --- a/drivers/gpu/drm/i915/i915_perf.c
->>> +++ b/drivers/gpu/drm/i915/i915_perf.c
->>> @@ -4634,13 +4634,13 @@ int i915_perf_add_config_ioctl(struct 
->>> drm_device *dev, void *data,
->>>          err = oa_config->id;
->>>          goto sysfs_err;
->>>      }
->>> -
->>> -    mutex_unlock(&perf->metrics_lock);
->>> +    id = oa_config->id;
->>>      drm_dbg(&perf->i915->drm,
->>>          "Added config %s id=%i\n", oa_config->uuid, oa_config->id);
->>> +    mutex_unlock(&perf->metrics_lock);
->>> -    return oa_config->id;
->>> +    return id;
->>>  sysfs_err:
->>>      mutex_unlock(&perf->metrics_lock);
->>
->> LGTM.
->>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Umesh or Lionel could you please double check? I can merge if 
->> confirmed okay.
-> 
-> LGTM,
-> 
-> Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/msm/msm_mdss.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Pushed to drm-intel-gt-next, thanks for the fix and reviews!
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index c15d1e2dc718..7cb301854e64 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -274,7 +274,7 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
+ 		msm_mdss_setup_ubwc_dec_40(msm_mdss);
+ 		break;
+ 	default:
+-		dev_err(msm_mdss->dev, "Unuspported UBWC decoder version %x\n",
++		dev_err(msm_mdss->dev, "Unsupported UBWC decoder version %x\n",
+ 			msm_mdss->mdss_data->ubwc_dec_version);
+ 		dev_err(msm_mdss->dev, "HW_REV: 0x%x\n",
+ 			readl_relaxed(msm_mdss->mmio + HW_REV));
+-- 
+2.30.2
 
-Regards,
-
-Tvrtko
