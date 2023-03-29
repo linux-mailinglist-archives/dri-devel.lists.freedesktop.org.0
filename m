@@ -1,125 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EA36CD275
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 09:05:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3926CD2F1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 09:24:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4FE310E4C1;
-	Wed, 29 Mar 2023 07:05:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D4DD10E4F8;
+	Wed, 29 Mar 2023 07:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2698910E4C1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 07:05:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GLjDCHB8GOpVmUo4YTKq8WKOnOT0+R1/UIFkN87+SB+zN6Xki7eqCkhB/78Qc5uAfMi/p3ucV7Ff+4oWktXxI/bxB+Kd/h2DQ5+3T823xr4nNkBUOPHHMM3UlhODhT7Yllfkaz5G+uykWzoPD3hKVZMh/unh3PFGDihUA/cVKSXLS5x9iFs6zbzPq/qntNUOJk3vAiG9tezVbZdB+iuSx+sorTz7NGTRVGZXkOMVvRkbX86K3QPgF37vF/+wjL4Ng/GRcdnd/AyXCv1UBEKasOlbccw72cLliPF5SVKZD2hwOvHYFOh+AXDOc8EZDijHoTUE2/AmZkgOLQqa6ZMzZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0UhnNXwf9fUrtQPAfLEwCxY7dpb1KIAQqB3KNNN+Pyg=;
- b=lq8TTIToyoRAzcH45TS8RPB74/LAR/DmM5xakm501OzFrYMILlPz7KUdP1dDaF79mOSRg8aQmpznRNgVR8XhX1j4G6s6uKXZELz1v3moiZNvbx72pBGaO/S7h1SLLfhz7Eh9g8HJX5fwUzL9KjHMFhiyMGLdqrw/Bwoa08bEmz983/pQf7/KDZwVWeiAtiYL5lYCvH1mOUlSPVKvj55tYGF6ddhC6uVGlbQjuOpop8FDDe0+ggfSbZ6AnlGqPaLOIAN5YXZs02SlWtZfWDteaZu3PiFiDk659mFecOFDC4JcczeAj7lP0VZYYebXcJ8feZE/tuwzadrQaoawRUtzEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0UhnNXwf9fUrtQPAfLEwCxY7dpb1KIAQqB3KNNN+Pyg=;
- b=bgC57/ooUFh+PAxQaZog46cB0wdVSejkcUf0154x5QZ7aCoxjKkzJFWE5AHkt64w9OuX64CfagaUhoZ1ALoE3cRJuF4udd+Bk0hJdVyORMV5yUHDSrsJak86hnycQyTrYaPZJ5By+FrJ9zJGkKwXDn85mXOgHm+upbp+mkLel/M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH3PR12MB8753.namprd12.prod.outlook.com (2603:10b6:610:178::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Wed, 29 Mar
- 2023 07:05:01 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6222.032; Wed, 29 Mar 2023
- 07:05:00 +0000
-Message-ID: <91873ac5-a15d-a405-c2ee-24674e17cbd3@amd.com>
-Date: Wed, 29 Mar 2023 09:04:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 1/2] drm: buddy_allocator: Fix buddy allocator init on
- 32-bit systems
-Content-Language: en-US
-To: David Gow <davidgow@google.com>, =?UTF-8?Q?Lu=c3=ads_Mendes?=
- <luis.p.mendes@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
- Arthur Grillo <arthurgrillo@riseup.net>
-References: <20230329065532.2122295-1-davidgow@google.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230329065532.2122295-1-davidgow@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0146.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:95::18) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F91110E4F4;
+ Wed, 29 Mar 2023 07:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680074690; x=1711610690;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=uO6H5d7ujBaMtGJO8fnHc2FQaPStl0RbKc0I2B12ijM=;
+ b=ieF+hteKO0cDC713oCS/pv21qOyLGG4kONPxNIVRmql+X3HJY8Or4Ehe
+ pt6NF++tClbpnD8Qefcxj25LjfL1alLB1Lvt49NBd9XiY73Qq3q+778q1
+ Sj+jLg/+IK0LgKIHC9ZFfT+LfzrJUDQQ3HdibobtGSbFmhlui0S2HVlU5
+ NpPhV8011J9iEnVN6jYgu7d273D/ZwBsXcv3o3ShcrxqhZSeFAsjcC3S7
+ wwZuECrzlGFkjpeLKAzH2/BA2Xt9yNPeNHXzKwBF12SYJ7M45Qw9fclq/
+ jonX8+HtI063p9CzMCNL7Rp/3EKCbDeD3Q0O4hOAZ9am0U+JPnAaeHvSO g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="368569521"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="368569521"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 00:24:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="827772771"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="827772771"
+Received: from lab-ah.igk.intel.com ([10.102.138.202])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 00:24:31 -0700
+From: Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: [PATCH v6 0/8] drm/i915: use ref_tracker library for tracking wakerefs
+Date: Wed, 29 Mar 2023 09:24:12 +0200
+Message-Id: <20230224-track_gt-v6-0-0dc8601fd02f@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB8753:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4dc424d6-0c79-4098-4f4c-08db3023e995
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jzWK4XYbkGqkGPAcy+fda2ACqjkSyTAHZ38gSKiCpzzWODsvg+kRcAMwgJ9z4EJF6TNWjxC/nX04uKF62hWFJqtQwGBw03up5812NdgLJHz6d155i0kaeA3IaHu78jLzYud4SAE/TeXUGYe4CKAh/Zms7RK5vVb2oS7HJHVKuy5uXMqeyFUL98bEFasfAqpizHaSZyZp7usEXpEmGbFFRsPNz4Y0418l9vyHQulZvQ15LVJ6PodO5HLpOLjRMtODVwEMIwdIomnG1zswI3gTdsF/8uTc6/GqvhVvziL+vhPfYvtB3n6ymVAXHgJ6XNlNGQQsByN3xqTC0t8p1CblaxVLzPrNKDxgO7epPE+YedVvwhKheNi8GxYxiz4arfsnhEKIa7jymbwldsZuoptde5kNN2oUKE1W+Y8ikZ4Wb+jyupTbumfqe8MKkZHUaOFPS/EmF+7o3iiTKTfNic2B2Z2jPX9xJWBcUUVPZAnsxiEdCT1U5oxKkPcnu02qyfXjAVsfHQFqH9WTl+Dbg6XiDXj13s5OZjKnTPEc//tHrNxycSCFNzIXI8MeGbcbBUfsSQl+bObyN9WOKTEMwrnX7DfAfbVAwiWrtZH2nRyYts1K1OSKX3yPkIhhfiekTWdo
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(451199021)(6666004)(6506007)(6512007)(6486002)(966005)(31686004)(110136005)(478600001)(316002)(186003)(66574015)(66476007)(8676002)(66556008)(66946007)(2616005)(83380400001)(41300700001)(8936002)(4326008)(7416002)(5660300002)(2906002)(38100700002)(86362001)(31696002)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SWFYUy9qMlNDajJOWjlvZmxOS0NKNWZaZ1QrZmw0azcyREZNeVNORWNIazlN?=
- =?utf-8?B?NkJkRUFpWUR4RVJ4MThxQnF0UEY5R1RGSEZtV0FjT0JOQmhlRG5ReEM3TDRZ?=
- =?utf-8?B?N2FzWjJyc3lSMzdwNEpoQkVzY095QjFqUlEyZkg1K1lUcTJiNU5RZDVXbEY4?=
- =?utf-8?B?MjBzdi81ZFdDa2JHVHcrbDRvdE1HU0JTS3NQR0haT0w2OXFiRmVabysrQU8v?=
- =?utf-8?B?eERuTnlVZ0k3ajRuNzFsUkhHK3hCbU1ZcS8wTUZWZ1RUWmxBMVdWTmJJSms1?=
- =?utf-8?B?WWlZRGpubks5cHBUN3VCc1VTSkdOS3hNbEhZdnhkSzhKYjRYN3hwNzgvbTFo?=
- =?utf-8?B?ajdhZVpLNGYvWUU0czU2NjI0YnZKa3B4RmFtK0pCWnZDWUxneUNDTXM0dW5v?=
- =?utf-8?B?TnhrS0FOOU1LamU5WVhNNmp6T2prTEM1SExpbU1BM1NqNEFoMGVPN2YvSEp4?=
- =?utf-8?B?ZTZicVJDOE5JdGk5N08yZDZCeFp1R0p1OWlsMXBUMGZUTFF2QWx6RkNPd2lN?=
- =?utf-8?B?dVM3TmRuQkNCQ2VSNkhFK0I5V3VibmZvR2o1cWlsc0ZQdXdPR3huVG1EQVh1?=
- =?utf-8?B?WGRYMnA4MUlTU3YyMmticmkvZWlTbEFJSXlhWHZNc0RFTHhYTGVIRDVpMDRX?=
- =?utf-8?B?dW1QM21Yc2p2QzZibWNtcFNOOG5jZm5HRlFKWGd2WGRPNlF3YUpuaWRLcXN3?=
- =?utf-8?B?a0ZGS0V5dG4wMCtRcnNmTDZuRllXR215Z0l2TUE4TVpEdEdiZk9XbTJtMitz?=
- =?utf-8?B?UjBKbkZhdjNpOHZiWFdHL3FUZUhXR1pmQVRuRXZiSmgzdzFhcU9lYlZocUEz?=
- =?utf-8?B?c3h3c3M4Zi9NL0lMTUxITXpZWnpDWkxJUDdTOFFMUjN3V3diZ2Rpc1ROMDVV?=
- =?utf-8?B?Y2VnTlBJcG9PbndWMHhBaUlYV2NpalpFMGZ4SFJBWUdiVGFOTlpQaU5lK1NS?=
- =?utf-8?B?L3hsaVNCWnZEdWxndWFsVmt4bXo2WEtxVnl6enhFcDl4UWJNN1lUdlhYaTBk?=
- =?utf-8?B?YzQ3ZHFDcVNYaHMra3NYTmxUVWlBR2RCOWFiQkc5OUw4UzJZdlhXMitzTlpU?=
- =?utf-8?B?RXhpemtNbFN0ZXp4b2Z3K1krLzRDbG9lVlNVVzRzYkt5djRiMEd2R1BRVnNQ?=
- =?utf-8?B?bitRenpyQ3lhaDFDZnk0c2VlYUxnbzRXcnZxS0cwc2pGZEwycVkxSVlYRk1t?=
- =?utf-8?B?NGZaNlZOeWNUZEN3VWhCckJac1pidUNmQ2p3aEVIRkxjVmNCTGlPbE51TVEr?=
- =?utf-8?B?VEx1R01oTU83Z1RiVjFSa0xhRW0rcEN2eTBOeXo3QVU3TGdsRVN5cElrTnNW?=
- =?utf-8?B?Y09xOTZzY0lqM0ljbTAzVXVWRm8vZk5PSXRPTVRkT2J4TGVtSE5wbEtUU254?=
- =?utf-8?B?a1JCcmFjRWZDcGc0cWpXRCtHNEtoY1hPaXVzSWRmdUhnU0V6QUZBTlVjTnRB?=
- =?utf-8?B?Yk9vcDFydFNkbFFIaGdMbU9XdlZNTW0zaElVeHRCWUdnK0Q5RDVyTjJhNzRX?=
- =?utf-8?B?ekZnbWxqWEt0UEQxRWYyYW90NmFuQWZTWWlFUVMwdjNRdkViWU9nT1JnV3BU?=
- =?utf-8?B?Z2lWWkl0N1FsZkYya0JMbWwwaGFrTFVHTTB1OER4VFV0azJXd1FYaUtiY0Vm?=
- =?utf-8?B?elFVVlduY1JXcU80WXpBYVdrVjlLaTRlYnpiak51WlV0Z3NSZ1Z5K1FXeGFq?=
- =?utf-8?B?RUxRTzFUY2lmWTluWVIxQkk3Nk9iczRVaS90V3FSVkYzd3RzTHVpZU9EdXFs?=
- =?utf-8?B?S2p2TjJQbS9icXJxN0FzUVVTcm1ZWHpWR3d2QkpHYzc3bWozcDdPMWRpdHNn?=
- =?utf-8?B?djZvaXNla3FZVHB4RENYc1EySkttOENHa2dMRFZLSzZrdTdJWnI0ZEYzNnJM?=
- =?utf-8?B?cWorY2lwNm1LYThUMFI0ZDhrUWNQRUx0MnI3eSthZkU5bzRxeU01T1FzZk1u?=
- =?utf-8?B?bW5lWXJPbzM2VVJROWZZaUt0TUp3YmltOVN0SmtHNGZrU0dTUjAyVEllejhv?=
- =?utf-8?B?aXlzeHd1VU9wcHVtSFFpZU5hSFpuVTJiYXEvdDVmUWRCK3VHQjhsdUtPWU9i?=
- =?utf-8?B?Nll4Qy8wbXREbkxRczNwanFmQVdOdUVYeEpFTHJBb2hlMzk3OEVlM3Y4dmFx?=
- =?utf-8?B?a0dPc1prbEhwa2xHQWQraGlEZmd3Y21rUUw4VTV6Tk5aZSt3Z3ExWFdXZTlZ?=
- =?utf-8?Q?Ayh7rhnhVf6yWHkoHh+f2SVzRbajjfwNe825klzwcsq0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4dc424d6-0c79-4098-4f4c-08db3023e995
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 07:05:00.6023 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HQsJHHfZjcQjbqEDj9dKrd9cW5ZXqdhpiMwl6lVtVqbbkzVERl8HPzGT76XmdHiK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8753
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJznI2QC/3XNQQ6CMBAF0KuYrq1CrQVceQ9jzHQ6QKMU0laiM
+ dzd4soYWf6fefNfLJC3FNhh9WKeRhts71JQ6xXDFlxD3JqUmcjELhNC8ugBr5cm8lzvDJTaAJqC
+ pXMNgbj24LCdwX0I0RN0W+M7Hu0wnwyeavv4rJ3OKbc2xN4/P+NjPrd/dsacZzxVIqtUjQbV0bp
+ Itw32HZufjHIJygSlklSClliB/oX7JbhPsCg0laoWWBbiG07T9AaXOoS4NQEAAA==
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mailer: b4 0.11.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,49 +64,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
+ Eric Dumazet <edumazet@google.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Dmitry Vyukov <dvyukov@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.03.23 um 08:55 schrieb David Gow:
-> The drm buddy allocator tests were broken on 32-bit systems, as
-> rounddown_pow_of_two() takes a long, and the buddy allocator handles
-> 64-bit sizes even on 32-bit systems.
->
-> This can be reproduced with the drm_buddy_allocator KUnit tests on i386:
-> 	./tools/testing/kunit/kunit.py run --arch i386 \
-> 	--kunitconfig ./drivers/gpu/drm/tests drm_buddy
->
-> (It results in kernel BUG_ON() when too many blocks are created, due to
-> the block size being too small.)
->
-> This was independently uncovered (and fixed) by Luís Mendes, whose patch
-> added a new u64 variant of rounddown_pow_of_two(). This version instead
-> recalculates the size based on the order.
->
-> Reported-by: Luís Mendes <luis.p.mendes@gmail.com>
-> Link: https://lore.kernel.org/lkml/CAEzXK1oghXAB_KpKpm=-CviDQbNaH0qfgYTSSjZgvvyj4U78AA@mail.gmail.com/T/
-> Signed-off-by: David Gow <davidgow@google.com>
+Gently ping for network developers, could you look at ref_tracker patches,
+as the ref_tracker library was developed for network.
 
-Acked-by: Christian König <christian.koenig@amd.com> for the series.
+This is revived patchset improving ref_tracker library and converting
+i915 internal tracker to ref_tracker.
+The old thread ended without consensus about small kernel allocations,
+which are performed under spinlock.
+I have tried to solve the problem by splitting the calls, but it results
+in complicated API, so I went back to original solution.
+If there are better solutions I am glad to discuss them.
+Meanwhile I send original patchset with addressed remaining comments.
 
-> ---
->   drivers/gpu/drm/drm_buddy.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index 3d1f50f481cf..7098f125b54a 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -146,8 +146,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
->   		unsigned int order;
->   		u64 root_size;
->   
-> -		root_size = rounddown_pow_of_two(size);
-> -		order = ilog2(root_size) - ilog2(chunk_size);
-> +		order = ilog2(size) - ilog2(chunk_size);
-> +		root_size = chunk_size << order;
->   
->   		root = drm_block_alloc(mm, NULL, order, offset);
->   		if (!root)
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: netdev@vger.kernel.org
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>
+Cc: Das, Nirmoy <nirmoy.das@linux.intel.com>
+Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
 
+---
+Changes in v6:
+- rebased to solve minor conflict and allow CI testing
+- Link to v5: https://lore.kernel.org/r/20230224-track_gt-v5-0-77be86f2c872@intel.com
+
+Changes in v5 (thx Andi for review):
+- use *_locked convention instead of __*,
+- improved commit messages,
+- re-worked i915 patches, squashed separation and conversion patches,
+- added tags,
+- Link to v4: https://lore.kernel.org/r/20230224-track_gt-v4-0-464e8ab4c9ab@intel.com
+
+Changes in v4:
+- split "Separate wakeref tracking" to smaller parts
+- fixed typos,
+- Link to v1-v3: https://patchwork.freedesktop.org/series/100327/
+
+---
+Andrzej Hajda (7):
+      lib/ref_tracker: add unlocked leak print helper
+      lib/ref_tracker: improve printing stats
+      lib/ref_tracker: add printing to memory buffer
+      lib/ref_tracker: remove warnings in case of allocation failure
+      drm/i915: Correct type of wakeref variable
+      drm/i915: Replace custom intel runtime_pm tracker with ref_tracker library
+      drm/i915: track gt pm wakerefs
+
+Chris Wilson (1):
+      drm/i915/gt: Hold a wakeref for the active VM
+
+ drivers/gpu/drm/i915/Kconfig.debug                 |  19 ++
+ drivers/gpu/drm/i915/display/intel_display_power.c |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   7 +-
+ .../drm/i915/gem/selftests/i915_gem_coherency.c    |  10 +-
+ drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  14 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs.c        |  13 +-
+ drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h  |   3 +-
+ drivers/gpu/drm/i915/gt/intel_context.h            |  15 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h      |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c          |  10 +-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       |   2 +
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c              |  12 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h              |  38 +++-
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   4 +-
+ drivers/gpu/drm/i915/gt/selftest_engine_cs.c       |  20 +-
+ drivers/gpu/drm/i915/gt/selftest_gt_pm.c           |   5 +-
+ drivers/gpu/drm/i915/gt/selftest_reset.c           |  10 +-
+ drivers/gpu/drm/i915/gt/selftest_rps.c             |  17 +-
+ drivers/gpu/drm/i915/gt/selftest_slpc.c            |   5 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  11 +-
+ drivers/gpu/drm/i915/i915_driver.c                 |   2 +-
+ drivers/gpu/drm/i915/i915_pmu.c                    |  16 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c            | 221 ++-------------------
+ drivers/gpu/drm/i915/intel_runtime_pm.h            |  11 +-
+ drivers/gpu/drm/i915/intel_wakeref.c               |   7 +-
+ drivers/gpu/drm/i915/intel_wakeref.h               |  99 ++++++++-
+ include/linux/ref_tracker.h                        |  31 ++-
+ lib/ref_tracker.c                                  | 179 ++++++++++++++---
+ 29 files changed, 456 insertions(+), 331 deletions(-)
+---
+base-commit: d4c9fe2c8c9b66c5e5954f6ded7bc934dd6afe3e
+change-id: 20230224-track_gt-1b3da8bdacd7
+
+Best regards,
+-- 
+Andrzej Hajda <andrzej.hajda@intel.com>
