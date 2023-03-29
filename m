@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4136CF002
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 18:57:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DED36CF0CC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 19:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6B8710EBBB;
-	Wed, 29 Mar 2023 16:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7DE10EBD0;
+	Wed, 29 Mar 2023 17:14:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AC6910EB9D;
- Wed, 29 Mar 2023 16:57:21 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 644E810EBD6;
+ Wed, 29 Mar 2023 17:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680109041; x=1711645041;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=b8XNHwHE2BAm8cY7ERpNH8Jhao34rWtfV5hKc5z9ZyQ=;
- b=UWK4cQU2HLgEqFd1zJCxC6t3kyxgUnwj8ZVvMOnMuXWOivgsrFMBUsm5
- JRenV9s4TtMNuS5m+Mlnx6i+fNgPxAGtT9w2PA5+xyFxxydKcJ11OlL5t
- CXM50v0XvYSSPF5Y2u8VH4PUzVptd56kP/X9pA2uiTG4fiTmb6XODVr36
- Oh+2KM0IMuEjBtn14uwq12mJxLd6uAWWoR7l6W1x4fj8z01O41uetKYTR
- l0osq1XIWGZCas5sYPutVuKSP5gn37GEen+noIES84++CcSjGyTRqoLb0
- jVwq5AmOxflVctFV/swUGUHEY2w7GYt4Cr5S9Jkf7SzWhMmJ7fImUlse6 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="342543348"
-X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="342543348"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 09:57:20 -0700
+ t=1680110049; x=1711646049;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=a/oAkn7vAHFINNWHMRvp+WT+kIAvJm5Ahc0IuF9GAn0=;
+ b=jPWIxSqz60g6vzsDXDmYB/6LYFFWqJG7IzLlxoIIUpgq/fuDt9/+sELU
+ D5iG1Nq/MLKyQ/LoKqrPYxGtURFytUkDD4d80k4jl6NMaHHLu6XLWuJoa
+ Tqe7+3Y5MH8vGFnZFDzAumoSiPNaPrhqPtnUOsygXiS0PvahFFRE7NJOh
+ ylI2TtgRy8hgcSTi6fE8KH/siBzJHtiSX2QCMsKPZ4NvJ5lBMBohvZATP
+ 5soTw4M++NkTk6aqTlIAKeBijI05GAUi4zapidcYAJqT/3rEj+bW7Ebmh
+ YFymDqPx+vzQFZkqLzV+0zb+rGSVMHXDgBNjeh9RRB1IEPXEhjqPqJ2km g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="329422546"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="329422546"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 10:14:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="748843633"
-X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="748843633"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 09:57:20 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915/gsc: add support for GSC proxy interrupt
-Date: Wed, 29 Mar 2023 09:56:58 -0700
-Message-Id: <20230329165658.2686549-5-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20230329165658.2686549-1-daniele.ceraolospurio@intel.com>
-References: <20230329165658.2686549-1-daniele.ceraolospurio@intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="773648962"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="773648962"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by FMSMGA003.fm.intel.com with SMTP; 29 Mar 2023 10:14:03 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 29 Mar 2023 20:14:02 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/scdc-helper: Pimp SCDC debugs
+Date: Wed, 29 Mar 2023 20:14:02 +0300
+Message-Id: <20230329171402.2772-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,319 +57,356 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com, alan.previn.teres.alexis@intel.com,
- gregkh@linuxfoundation.org, alexander.usyskin@intel.com,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Jonas Karlman <jonas@kwiboo.se>,
+ intel-gfx@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The GSC notifies us of a proxy request via the HECI2 interrupt. The
-interrupt must be enabled both in the HECI layer and in our usual gt irq
-programming; for the latter, the interrupt is enabled via the same enable
-register as the GSC CS, but it does have its own mask register. When the
-interrupt is received, we also need to de-assert it in both layers.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-The handling of the proxy request is deferred to the same worker that we
-use for GSC load. New flags have been added to distinguish between the
-init case and the proxy interrupt.
+Include the device and connector information in the SCDC
+debugs. Makes it easier to figure out who did what.
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_irq.c       | 22 ++++++++--
- drivers/gpu/drm/i915/gt/intel_gt_regs.h      |  3 ++
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c | 44 +++++++++++++++++++-
- drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h |  1 +
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c    | 44 ++++++++++++++++----
- drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h    |  3 ++
- 6 files changed, 103 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  8 ++---
+ drivers/gpu/drm/display/drm_scdc_helper.c | 36 ++++++++++++++++++-----
+ drivers/gpu/drm/i915/display/intel_ddi.c  |  4 +--
+ drivers/gpu/drm/i915/display/intel_hdmi.c |  4 +--
+ drivers/gpu/drm/tegra/sor.c               | 10 +++----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 21 +++++++------
+ include/drm/display/drm_scdc_helper.h     | 12 ++++++--
+ 7 files changed, 62 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq.c b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-index 1b25a6039152..c433ffdb3380 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq.c
-@@ -15,6 +15,7 @@
- #include "intel_uncore.h"
- #include "intel_rps.h"
- #include "pxp/intel_pxp_irq.h"
-+#include "uc/intel_gsc_proxy.h"
- 
- static void guc_irq_handler(struct intel_guc *guc, u16 iir)
- {
-@@ -81,6 +82,9 @@ gen11_other_irq_handler(struct intel_gt *gt, const u8 instance,
- 	if (instance == OTHER_GSC_INSTANCE)
- 		return intel_gsc_irq_handler(gt, iir);
- 
-+	if (instance == OTHER_GSC_HECI_2_INSTANCE)
-+		return intel_gsc_proxy_irq_handler(&gt->uc.gsc, iir);
-+
- 	WARN_ONCE(1, "unhandled other interrupt instance=0x%x, iir=0x%x\n",
- 		  instance, iir);
- }
-@@ -100,6 +104,8 @@ static struct intel_gt *pick_gt(struct intel_gt *gt, u8 class, u8 instance)
- 	case VIDEO_ENHANCEMENT_CLASS:
- 		return media_gt;
- 	case OTHER_CLASS:
-+		if (instance == OTHER_GSC_HECI_2_INSTANCE)
-+			return media_gt;
- 		if (instance == OTHER_GSC_INSTANCE && HAS_ENGINE(media_gt, GSC0))
- 			return media_gt;
- 		fallthrough;
-@@ -256,6 +262,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 	u32 irqs = GT_RENDER_USER_INTERRUPT;
- 	u32 guc_mask = intel_uc_wants_guc(&gt->uc) ? GUC_INTR_GUC2HOST : 0;
- 	u32 gsc_mask = 0;
-+	u32 heci_mask = 0;
- 	u32 dmask;
- 	u32 smask;
- 
-@@ -267,10 +274,16 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 	dmask = irqs << 16 | irqs;
- 	smask = irqs << 16;
- 
--	if (HAS_ENGINE(gt, GSC0))
-+	if (HAS_ENGINE(gt, GSC0)) {
-+		/*
-+		 * the heci2 interrupt is enabled via the same register as the
-+		 * GSC interrupt, but it has its own mask register.
-+		 */
- 		gsc_mask = irqs;
--	else if (HAS_HECI_GSC(gt->i915))
-+		heci_mask = GSC_IRQ_INTF(1); /* HECI2 IRQ for SW Proxy*/
-+	} else if (HAS_HECI_GSC(gt->i915)) {
- 		gsc_mask = GSC_IRQ_INTF(0) | GSC_IRQ_INTF(1);
-+	}
- 
- 	BUILD_BUG_ON(irqs & 0xffff0000);
- 
-@@ -280,7 +293,7 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 	if (CCS_MASK(gt))
- 		intel_uncore_write(uncore, GEN12_CCS_RSVD_INTR_ENABLE, smask);
- 	if (gsc_mask)
--		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, gsc_mask);
-+		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_ENABLE, gsc_mask | heci_mask);
- 
- 	/* Unmask irqs on RCS, BCS, VCS and VECS engines. */
- 	intel_uncore_write(uncore, GEN11_RCS0_RSVD_INTR_MASK, ~smask);
-@@ -308,6 +321,9 @@ void gen11_gt_irq_postinstall(struct intel_gt *gt)
- 		intel_uncore_write(uncore, GEN12_CCS2_CCS3_INTR_MASK, ~dmask);
- 	if (gsc_mask)
- 		intel_uncore_write(uncore, GEN11_GUNIT_CSME_INTR_MASK, ~gsc_mask);
-+	if (heci_mask)
-+		intel_uncore_write(uncore, GEN11_HECI2_RSVD_INTR_MASK,
-+				   ~REG_FIELD_PREP(ENGINE1_MASK, heci_mask));
- 
- 	if (guc_mask) {
- 		/* the enable bit is common for both GTs but the masks are separate */
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 4aecb5a7b631..da11ce5ca99e 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -1577,6 +1577,7 @@
- 
- #define GEN11_GT_INTR_DW(x)			_MMIO(0x190018 + ((x) * 4))
- #define   GEN11_CSME				(31)
-+#define   GEN12_HECI_2				(30)
- #define   GEN11_GUNIT				(28)
- #define   GEN11_GUC				(25)
- #define   MTL_MGUC				(24)
-@@ -1618,6 +1619,7 @@
- /* irq instances for OTHER_CLASS */
- #define   OTHER_GUC_INSTANCE			0
- #define   OTHER_GTPM_INSTANCE			1
-+#define   OTHER_GSC_HECI_2_INSTANCE		3
- #define   OTHER_KCR_INSTANCE			4
- #define   OTHER_GSC_INSTANCE			6
- #define   OTHER_MEDIA_GUC_INSTANCE		16
-@@ -1633,6 +1635,7 @@
- #define GEN12_VCS6_VCS7_INTR_MASK		_MMIO(0x1900b4)
- #define GEN11_VECS0_VECS1_INTR_MASK		_MMIO(0x1900d0)
- #define GEN12_VECS2_VECS3_INTR_MASK		_MMIO(0x1900d4)
-+#define GEN11_HECI2_RSVD_INTR_MASK		_MMIO(0x1900e4)
- #define GEN11_GUC_SG_INTR_MASK			_MMIO(0x1900e8)
- #define MTL_GUC_MGUC_INTR_MASK			_MMIO(0x1900e8) /* MTL+ */
- #define GEN11_GPM_WGBOXPERF_INTR_MASK		_MMIO(0x1900ec)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-index ed8f68e78c26..2889e0d39ff3 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.c
-@@ -14,6 +14,7 @@
- #include "intel_gsc_uc.h"
- #include "intel_gsc_uc_heci_cmd_submit.h"
- #include "i915_drv.h"
-+#include "i915_reg.h"
- 
- /*
-  * GSC proxy:
-@@ -273,17 +274,49 @@ int intel_gsc_proxy_request_handler(struct intel_gsc_uc *gsc)
- 		gt_err(gt, "GSC proxy worker called without the component being bound!\n");
- 		err = -EIO;
- 	} else {
-+		/*
-+		 * write the status bit to clear it and allow new proxy
-+		 * interrupts to be generated while we handle the current
-+		 * request, but be sure not to write the reset bit
-+		 */
-+		intel_uncore_rmw(gt->uncore, HECI_H_CSR(MTL_GSC_HECI2_BASE),
-+				 HECI_H_CSR_RST, HECI_H_CSR_IS);
- 		err = proxy_query(gsc);
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index aa51c61a78c7..7f57ca168ab6 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -1426,9 +1426,9 @@ void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi,
+ 	/* Control for TMDS Bit Period/TMDS Clock-Period Ratio */
+ 	if (dw_hdmi_support_scdc(hdmi, display)) {
+ 		if (mtmdsclock > HDMI14_MAX_TMDSCLK)
+-			drm_scdc_set_high_tmds_clock_ratio(hdmi->ddc, 1);
++			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, hdmi->ddc, 1);
+ 		else
+-			drm_scdc_set_high_tmds_clock_ratio(hdmi->ddc, 0);
++			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, hdmi->ddc, 0);
  	}
- 	mutex_unlock(&gsc->proxy.mutex);
- 	return err;
  }
+ EXPORT_SYMBOL_GPL(dw_hdmi_set_high_tmds_clock_ratio);
+@@ -2116,7 +2116,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+ 				min_t(u8, bytes, SCDC_MIN_SOURCE_VERSION));
  
-+void intel_gsc_proxy_irq_handler(struct intel_gsc_uc *gsc, u32 iir)
-+{
-+	struct intel_gt *gt = gsc_uc_to_gt(gsc);
-+
-+	if (unlikely(!iir))
-+		return;
-+
-+	lockdep_assert_held(gt->irq_lock);
-+
-+	if (!gsc->proxy.component) {
-+		gt_err(gt, "GSC proxy irq received without the component being bound!\n");
-+		return;
-+	}
-+
-+	gsc->gsc_work_actions |= GSC_ACTION_SW_PROXY;
-+	queue_work(gsc->wq, &gsc->work);
-+}
-+
- static int i915_gsc_proxy_component_bind(struct device *i915_kdev,
- 					 struct device *tee_kdev, void *data)
+ 			/* Enabled Scrambling in the Sink */
+-			drm_scdc_set_scrambling(hdmi->ddc, 1);
++			drm_scdc_set_scrambling(&hdmi->connector, hdmi->ddc, 1);
+ 
+ 			/*
+ 			 * To activate the scrambler feature, you must ensure
+@@ -2132,7 +2132,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+ 			hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
+ 			hdmi_writeb(hdmi, (u8)~HDMI_MC_SWRSTZ_TMDSSWRST_REQ,
+ 				    HDMI_MC_SWRSTZ);
+-			drm_scdc_set_scrambling(hdmi->ddc, 0);
++			drm_scdc_set_scrambling(&hdmi->connector, hdmi->ddc, 0);
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
+index c3ad4ab2b456..2b124152384c 100644
+--- a/drivers/gpu/drm/display/drm_scdc_helper.c
++++ b/drivers/gpu/drm/display/drm_scdc_helper.c
+@@ -26,6 +26,8 @@
+ #include <linux/delay.h>
+ 
+ #include <drm/display/drm_scdc_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_device.h>
+ #include <drm/drm_print.h>
+ 
+ /**
+@@ -140,6 +142,7 @@ EXPORT_SYMBOL(drm_scdc_write);
+ 
+ /**
+  * drm_scdc_get_scrambling_status - what is status of scrambling?
++ * @connector: connector
+  * @adapter: I2C adapter for DDC channel
+  *
+  * Reads the scrambler status over SCDC, and checks the
+@@ -148,14 +151,17 @@ EXPORT_SYMBOL(drm_scdc_write);
+  * Returns:
+  * True if the scrambling is enabled, false otherwise.
+  */
+-bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
++bool drm_scdc_get_scrambling_status(struct drm_connector *connector,
++				    struct i2c_adapter *adapter)
  {
- 	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
--	struct intel_gsc_uc *gsc = &i915->media_gt->uc.gsc;
-+	struct intel_gt *gt = i915->media_gt;
-+	struct intel_gsc_uc *gsc = &gt->uc.gsc;
-+	intel_wakeref_t wakeref;
-+
-+	/* enable HECI2 IRQs */
-+	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-+		intel_uncore_rmw(gt->uncore, HECI_H_CSR(MTL_GSC_HECI2_BASE),
-+				 0, HECI_H_CSR_IE);
- 
- 	mutex_lock(&gsc->proxy.mutex);
- 	gsc->proxy.component = data;
-@@ -297,11 +330,18 @@ static void i915_gsc_proxy_component_unbind(struct device *i915_kdev,
- 					    struct device *tee_kdev, void *data)
- {
- 	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
--	struct intel_gsc_uc *gsc = &i915->media_gt->uc.gsc;
-+	struct intel_gt *gt = i915->media_gt;
-+	struct intel_gsc_uc *gsc = &gt->uc.gsc;
-+	intel_wakeref_t wakeref;
- 
- 	mutex_lock(&gsc->proxy.mutex);
- 	gsc->proxy.component = NULL;
- 	mutex_unlock(&gsc->proxy.mutex);
-+
-+	/* disable HECI2 IRQs */
-+	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
-+		intel_uncore_rmw(gt->uncore, HECI_H_CSR(MTL_GSC_HECI2_BASE),
-+				 HECI_H_CSR_IE, 0);
- }
- 
- static const struct component_ops i915_gsc_proxy_component_ops = {
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h
-index da3e9dd5d820..c55bafcbaec4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_proxy.h
-@@ -13,5 +13,6 @@ struct intel_gsc_uc;
- int intel_gsc_proxy_init(struct intel_gsc_uc *gsc);
- void intel_gsc_proxy_fini(struct intel_gsc_uc *gsc);
- int intel_gsc_proxy_request_handler(struct intel_gsc_uc *gsc);
-+void intel_gsc_proxy_irq_handler(struct intel_gsc_uc *gsc, u32 iir);
- 
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
-index b505b208f04b..64bff01026e8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c
-@@ -17,20 +17,40 @@ static void gsc_work(struct work_struct *work)
- 	struct intel_gsc_uc *gsc = container_of(work, typeof(*gsc), work);
- 	struct intel_gt *gt = gsc_uc_to_gt(gsc);
- 	intel_wakeref_t wakeref;
-+	u32 actions;
+ 	u8 status;
  	int ret;
  
- 	wakeref = intel_runtime_pm_get(gt->uncore->rpm);
+ 	ret = drm_scdc_readb(adapter, SCDC_SCRAMBLER_STATUS, &status);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to read scrambling status: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to read scrambling status: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
  
--	ret = intel_gsc_uc_fw_upload(gsc);
--	if (ret)
--		goto out_put;
--
--	ret = intel_gsc_proxy_request_handler(gsc);
--	if (ret)
--		goto out_put;
-+	spin_lock_irq(gt->irq_lock);
-+	actions = gsc->gsc_work_actions;
-+	gsc->gsc_work_actions = 0;
-+	spin_unlock_irq(gt->irq_lock);
-+
-+	if (actions & GSC_ACTION_FW_LOAD) {
-+		ret = intel_gsc_uc_fw_upload(gsc);
-+		if (ret == -EEXIST) /* skip proxy if not a new load */
-+			actions &= ~GSC_ACTION_FW_LOAD;
-+		else if (ret)
-+			goto out_put;
-+	}
+@@ -165,6 +171,7 @@ EXPORT_SYMBOL(drm_scdc_get_scrambling_status);
  
--	gt_dbg(gt, "GSC Proxy initialized\n");
--	intel_uc_fw_change_status(&gsc->fw, INTEL_UC_FIRMWARE_RUNNING);
-+	if (actions & (GSC_ACTION_FW_LOAD | GSC_ACTION_SW_PROXY)) {
-+		if (!intel_gsc_uc_fw_init_done(gsc)) {
-+			gt_err(gt, "Proxy request received with GSC not loaded!\n");
-+			goto out_put;
-+		}
-+
-+		ret = intel_gsc_proxy_request_handler(gsc);
-+		if (ret)
-+			goto out_put;
-+
-+		/* mark the GSC FW init as done the first time we run this */
-+		if (actions & GSC_ACTION_FW_LOAD) {
-+			gt_dbg(gt, "GSC Proxy initialized\n");
-+			intel_uc_fw_change_status(&gsc->fw, INTEL_UC_FIRMWARE_RUNNING);
-+		}
-+	}
- 
- out_put:
- 	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
-@@ -177,11 +197,17 @@ void intel_gsc_uc_resume(struct intel_gsc_uc *gsc)
- 
- void intel_gsc_uc_load_start(struct intel_gsc_uc *gsc)
+ /**
+  * drm_scdc_set_scrambling - enable scrambling
++ * @connector: connector
+  * @adapter: I2C adapter for DDC channel
+  * @enable: bool to indicate if scrambling is to be enabled/disabled
+  *
+@@ -175,14 +182,18 @@ EXPORT_SYMBOL(drm_scdc_get_scrambling_status);
+  * Returns:
+  * True if scrambling is set/reset successfully, false otherwise.
+  */
+-bool drm_scdc_set_scrambling(struct i2c_adapter *adapter, bool enable)
++bool drm_scdc_set_scrambling(struct drm_connector *connector,
++			     struct i2c_adapter *adapter,
++			     bool enable)
  {
-+	struct intel_gt *gt = gsc_uc_to_gt(gsc);
-+
- 	if (!intel_uc_fw_is_loadable(&gsc->fw))
- 		return;
+ 	u8 config;
+ 	int ret;
  
- 	if (intel_gsc_uc_fw_init_done(gsc))
- 		return;
+ 	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to read TMDS config: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
  
-+	spin_lock_irq(gt->irq_lock);
-+	gsc->gsc_work_actions |= GSC_ACTION_FW_LOAD;
-+	spin_unlock_irq(gt->irq_lock);
-+
- 	queue_work(gsc->wq, &gsc->work);
+@@ -193,7 +204,9 @@ bool drm_scdc_set_scrambling(struct i2c_adapter *adapter, bool enable)
+ 
+ 	ret = drm_scdc_writeb(adapter, SCDC_TMDS_CONFIG, config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to enable scrambling: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to enable scrambling: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+@@ -203,6 +216,7 @@ EXPORT_SYMBOL(drm_scdc_set_scrambling);
+ 
+ /**
+  * drm_scdc_set_high_tmds_clock_ratio - set TMDS clock ratio
++ * @connector: connector
+  * @adapter: I2C adapter for DDC channel
+  * @set: ret or reset the high clock ratio
+  *
+@@ -230,14 +244,18 @@ EXPORT_SYMBOL(drm_scdc_set_scrambling);
+  * Returns:
+  * True if write is successful, false otherwise.
+  */
+-bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set)
++bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
++					struct i2c_adapter *adapter,
++					bool set)
+ {
+ 	u8 config;
+ 	int ret;
+ 
+ 	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to read TMDS config: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+@@ -248,7 +266,9 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set)
+ 
+ 	ret = drm_scdc_writeb(adapter, SCDC_TMDS_CONFIG, config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to set TMDS clock ratio: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to set TMDS clock ratio: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index 73240cf78c8b..d8a9790f9d36 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3988,8 +3988,8 @@ static int intel_hdmi_reset_link(struct intel_encoder *encoder,
+ 
+ 	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		drm_err(&dev_priv->drm, "Failed to read TMDS config: %d\n",
+-			ret);
++		drm_err(&dev_priv->drm, "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
++			connector->base.base.id, connector->base.name, ret);
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index c7e9e1fbed37..1835df94616a 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2661,9 +2661,9 @@ bool intel_hdmi_handle_sink_scrambling(struct intel_encoder *encoder,
+ 		    str_yes_no(scrambling), high_tmds_clock_ratio ? 40 : 10);
+ 
+ 	/* Set TMDS bit clock ratio to 1/40 or 1/10, and enable/disable scrambling */
+-	return drm_scdc_set_high_tmds_clock_ratio(adapter,
++	return drm_scdc_set_high_tmds_clock_ratio(connector, adapter,
+ 						  high_tmds_clock_ratio) &&
+-		drm_scdc_set_scrambling(adapter, scrambling);
++		drm_scdc_set_scrambling(connector, adapter, scrambling);
  }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
-index 023bded10dde..a2a0813b8a76 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.h
-@@ -23,6 +23,9 @@ struct intel_gsc_uc {
- 	/* for delayed load and proxy handling */
- 	struct workqueue_struct *wq;
- 	struct work_struct work;
-+	u32 gsc_work_actions; /* protected by gt->irq_lock */
-+#define GSC_ACTION_FW_LOAD BIT(0)
-+#define GSC_ACTION_SW_PROXY BIT(1)
  
- 	struct {
- 		struct i915_gsc_proxy_component *component;
+ static u8 chv_port_to_ddc_pin(struct drm_i915_private *dev_priv, enum port port)
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 8af632740673..6cfdb2dec561 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2142,8 +2142,8 @@ static void tegra_sor_hdmi_scdc_disable(struct tegra_sor *sor)
+ {
+ 	struct i2c_adapter *ddc = sor->output.ddc;
+ 
+-	drm_scdc_set_high_tmds_clock_ratio(ddc, false);
+-	drm_scdc_set_scrambling(ddc, false);
++	drm_scdc_set_high_tmds_clock_ratio(&sor->output.connector, ddc, false);
++	drm_scdc_set_scrambling(&sor->output.connector, ddc, false);
+ 
+ 	tegra_sor_hdmi_disable_scrambling(sor);
+ }
+@@ -2170,8 +2170,8 @@ static void tegra_sor_hdmi_scdc_enable(struct tegra_sor *sor)
+ {
+ 	struct i2c_adapter *ddc = sor->output.ddc;
+ 
+-	drm_scdc_set_high_tmds_clock_ratio(ddc, true);
+-	drm_scdc_set_scrambling(ddc, true);
++	drm_scdc_set_high_tmds_clock_ratio(&sor->output.connector, ddc, true);
++	drm_scdc_set_scrambling(&sor->output.connector, ddc, true);
+ 
+ 	tegra_sor_hdmi_enable_scrambling(sor);
+ }
+@@ -2181,7 +2181,7 @@ static void tegra_sor_hdmi_scdc_work(struct work_struct *work)
+ 	struct tegra_sor *sor = container_of(work, struct tegra_sor, scdc.work);
+ 	struct i2c_adapter *ddc = sor->output.ddc;
+ 
+-	if (!drm_scdc_get_scrambling_status(ddc)) {
++	if (!drm_scdc_get_scrambling_status(&sor->output.connector, ddc)) {
+ 		DRM_DEBUG_KMS("SCDC not scrambled\n");
+ 		tegra_sor_hdmi_scdc_enable(sor);
+ 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 464c3cc8e6fb..ca27fe092679 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -885,7 +885,8 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
+ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	struct drm_device *drm = vc4_hdmi->connector.dev;
++	struct drm_connector *connector = &vc4_hdmi->connector;
++	struct drm_device *drm = connector->dev;
+ 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
+ 	unsigned long flags;
+ 	int idx;
+@@ -903,8 +904,8 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
+-	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
+-	drm_scdc_set_scrambling(vc4_hdmi->ddc, true);
++	drm_scdc_set_high_tmds_clock_ratio(connector, vc4_hdmi->ddc, true);
++	drm_scdc_set_scrambling(connector, vc4_hdmi->ddc, true);
+ 
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ 	HDMI_WRITE(HDMI_SCRAMBLER_CTL, HDMI_READ(HDMI_SCRAMBLER_CTL) |
+@@ -922,7 +923,8 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	struct drm_device *drm = vc4_hdmi->connector.dev;
++	struct drm_connector *connector = &vc4_hdmi->connector;
++	struct drm_device *drm = connector->dev;
+ 	unsigned long flags;
+ 	int idx;
+ 
+@@ -944,8 +946,8 @@ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
+ 		   ~VC5_HDMI_SCRAMBLER_CTL_ENABLE);
+ 	spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
+ 
+-	drm_scdc_set_scrambling(vc4_hdmi->ddc, false);
+-	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, false);
++	drm_scdc_set_scrambling(connector, vc4_hdmi->ddc, false);
++	drm_scdc_set_high_tmds_clock_ratio(connector, vc4_hdmi->ddc, false);
+ 
+ 	drm_dev_exit(idx);
+ }
+@@ -955,12 +957,13 @@ static void vc4_hdmi_scrambling_wq(struct work_struct *work)
+ 	struct vc4_hdmi *vc4_hdmi = container_of(to_delayed_work(work),
+ 						 struct vc4_hdmi,
+ 						 scrambling_work);
++	struct drm_connector *connector = &vc4_hdmi->connector;
+ 
+-	if (drm_scdc_get_scrambling_status(vc4_hdmi->ddc))
++	if (drm_scdc_get_scrambling_status(connector, vc4_hdmi->ddc))
+ 		return;
+ 
+-	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
+-	drm_scdc_set_scrambling(vc4_hdmi->ddc, true);
++	drm_scdc_set_high_tmds_clock_ratio(connector, vc4_hdmi->ddc, true);
++	drm_scdc_set_scrambling(connector, vc4_hdmi->ddc, true);
+ 
+ 	queue_delayed_work(system_wq, &vc4_hdmi->scrambling_work,
+ 			   msecs_to_jiffies(SCRAMBLING_POLLING_DELAY_MS));
+diff --git a/include/drm/display/drm_scdc_helper.h b/include/drm/display/drm_scdc_helper.h
+index ded01fd948b4..9ad523b45454 100644
+--- a/include/drm/display/drm_scdc_helper.h
++++ b/include/drm/display/drm_scdc_helper.h
+@@ -28,6 +28,7 @@
+ 
+ #include <drm/display/drm_scdc.h>
+ 
++struct drm_connector;
+ struct i2c_adapter;
+ 
+ ssize_t drm_scdc_read(struct i2c_adapter *adapter, u8 offset, void *buffer,
+@@ -71,9 +72,14 @@ static inline int drm_scdc_writeb(struct i2c_adapter *adapter, u8 offset,
+ 	return drm_scdc_write(adapter, offset, &value, sizeof(value));
+ }
+ 
+-bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter);
++bool drm_scdc_get_scrambling_status(struct drm_connector *connector,
++				    struct i2c_adapter *adapter);
+ 
+-bool drm_scdc_set_scrambling(struct i2c_adapter *adapter, bool enable);
+-bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set);
++bool drm_scdc_set_scrambling(struct drm_connector *connector,
++			     struct i2c_adapter *adapter,
++			     bool enable);
++bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
++					struct i2c_adapter *adapter,
++					bool set);
+ 
+ #endif
 -- 
-2.37.3
+2.39.2
 
