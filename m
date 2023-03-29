@@ -2,65 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39336CD9E5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 15:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD096CDA12
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 15:07:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DF810EAA7;
-	Wed, 29 Mar 2023 13:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F1B10E15A;
+	Wed, 29 Mar 2023 13:07:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3378C10EAA2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:04:29 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- 46e09a7af769-69f00c18059so430524a34.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 06:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680095068; x=1682687068;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W2nlDdxQ+8oqnxMfAmS2IM4hfEcDsCHfoeDDJXGLcGs=;
- b=Ghnd82MukIsklEvY2FPCOYreW8VJlcWxEqiwIg3Dw0YJxNPuMmo3Ncx00mnTor7maz
- n9KTPnc/dAtLKMmbaibtTY2bLdQQxLkNRitcIx7fwCqdv458HruOTuNVzU5SuscqzrsL
- L8Au8dwLlD2529piZbHwzX1/Jx3Ksv9UOQW7aduiGy8tFRBkusVpLg+eqHzqdZdSOdA1
- LGHhWCUQVs+vLEplE/lHjYMJn6h7xdKJgNOj1kK4kEDtx/7SCurB1RIGba/VI7/xTOB2
- FSQo/WBGqJv6afMqHFMiCUoKwjNgUYvUKDMHO3qy2etCof5aG1QJ/naT6EZqCYoWqBBJ
- vpsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680095068; x=1682687068;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W2nlDdxQ+8oqnxMfAmS2IM4hfEcDsCHfoeDDJXGLcGs=;
- b=6LRg294DGEnhTliDU+GhRYlcVxypy+afa9NVouj70g/zHwpOn9UUs6GNpDBO1Hcc4Y
- F2MJfUW/W/2Mh3MHD6PLsaPJHAsPAQvu9Pn/To/tEX0toQOIvfgQXVYiidAEkfR4W0WN
- w2436sZ7v1TkqRe+ZH6vptr3uYtoij0mnZgfH7wg5Al41BgFLh0ge2oTxIgy1pyWowwr
- CZ+q8YKvG86Ig/E9eU7KGe0Il4XZSzutfwGZQX+6CLim3htJxRsgmJzqIFEoUhTLcDeo
- L0FgQwUsMUzh4wVm+McscOuDmRsiYxUKArD4DLcIE13L9W++UGILIXdOFk4a8FqMFioP
- 7/+Q==
-X-Gm-Message-State: AO0yUKUcBWjlfdmP3DSY3z+n2m4m6rG6wX/q3MYpDqu2GCjPfJ9+qzNB
- /vTbfS/tEimfwR+JSfqxsD4=
-X-Google-Smtp-Source: AKy350bKUi+LEKXbWkxah0X0OpfbGYrotDH6ZTw7UY8XP7oE/qIJgJiTYuMSFNAHUUxwW4pG885Myg==
-X-Received: by 2002:a05:6870:b14c:b0:177:8383:7287 with SMTP id
- a12-20020a056870b14c00b0017783837287mr10879516oal.5.1680095068471; 
- Wed, 29 Mar 2023 06:04:28 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:1c2d:271:d34:84ea])
- by smtp.gmail.com with ESMTPSA id
- vh22-20020a0568710d1600b00177c21c3ae1sm11756738oab.54.2023.03.29.06.04.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 06:04:28 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: neil.armstrong@linaro.org
-Subject: [PATCH 2/2] drm/bridge: fsl-ldb: Add i.MX6SX support
-Date: Wed, 29 Mar 2023 10:04:13 -0300
-Message-Id: <20230329130413.683636-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230329130413.683636-1-festevam@gmail.com>
-References: <20230329130413.683636-1-festevam@gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC1BF10E15A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:07:49 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id D05BD660316A;
+ Wed, 29 Mar 2023 14:07:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680095268;
+ bh=yGfVILKe7laFu/2YHoRttqj8pGUwtwyR33Lg1kmR68E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WVKmbqI9f/tOjmJbTXVwE2UHiYR7vuFTBriH3zaFHfmMCj3jcP46Df1s8kR8nW078
+ iVCesM5eN2gRh0baQ3glN8f3NMriMe7wuKiMbBeguEfnOkrI6mBOxOFfqI0xnUSvQ/
+ r6KYUg3SfGZ6+U3BZnycavTk5iaG/tGltcf7Ef9XVRo64FLmDQDnD7ZWifnHhiKqnj
+ Cs2TgTkRdk8qO3FZ7j/wbxp18FQRHxqaRm5TYhuBi64n5T2xRM1W7ofAOqxwcl7qFt
+ dAkfaikA9m5N94lSkhsUvL0wi40cwAEgK6QZZmxB9f1sQSoexW+ccU+MkAKnz3Kfog
+ AmoGp5x4E7BiQ==
+Message-ID: <84dff623-c5e7-7f9f-19e1-54fb8c20d110@collabora.com>
+Date: Wed, 29 Mar 2023 15:07:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2] drm/mediatek: Add ovl_adaptor get format function
+To: "Nancy.Lin" <nancy.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+References: <20230329015916.21684-1-nancy.lin@mediatek.com>
+Content-Language: en-US
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230329015916.21684-1-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,86 +58,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
+Cc: shawn.sung@mediatek.com, singo.chang@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+Il 29/03/23 03:59, Nancy.Lin ha scritto:
+> Add ovl_adaptor get_format and get_num_formats component function.
+> The two functions are need for getting the supported format in
+> mtk_plane_init().
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 
-i.MX6SX has a single LVDS port and share a similar LDB_CTRL register layout
-with i.MX8MP and i.MX93.
+Small note:
 
-There is no LVDS CTRL register on the i.MX6SX, so only write to
-this register on the appropriate SoCs.
+This commit depends on
+f287c66a6064 ("drm/mediatek: Refactor pixel format logic")
 
-Add support for the i.MX6SX LDB.
+...that was already applied in the maintainer's tree.
 
-Tested on a imx6sx-sdb board with a Hannstar HSD100PXN1 LVDS panel
-and also on a custom i.MX6SX-based board.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- drivers/gpu/drm/bridge/fsl-ldb.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+[On MT8195 Cherry Tomato]
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 450b352914f4..f8e5d8ab98e3 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -56,6 +56,7 @@
- #define LVDS_CTRL_VBG_ADJ_MASK			GENMASK(19, 17)
- 
- enum fsl_ldb_devtype {
-+	IMX6SX_LDB,
- 	IMX8MP_LDB,
- 	IMX93_LDB,
- };
-@@ -64,9 +65,14 @@ struct fsl_ldb_devdata {
- 	u32 ldb_ctrl;
- 	u32 lvds_ctrl;
- 	bool lvds_en_bit;
-+	bool not_lvds_ctrl;
- };
- 
- static const struct fsl_ldb_devdata fsl_ldb_devdata[] = {
-+	[IMX6SX_LDB] = {
-+		.ldb_ctrl = 0x18,
-+		.not_lvds_ctrl = true,
-+	},
- 	[IMX8MP_LDB] = {
- 		.ldb_ctrl = 0x5c,
- 		.lvds_ctrl = 0x128,
-@@ -202,6 +208,9 @@ static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 
- 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, reg);
- 
-+	if (fsl_ldb->devdata->not_lvds_ctrl)
-+		return;
-+
- 	/* Program LVDS_CTRL */
- 	reg = LVDS_CTRL_CC_ADJ(2) | LVDS_CTRL_PRE_EMPH_EN |
- 	      LVDS_CTRL_PRE_EMPH_ADJ(3) | LVDS_CTRL_VBG_EN;
-@@ -228,7 +237,8 @@ static void fsl_ldb_atomic_disable(struct drm_bridge *bridge,
- 		regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl,
- 			     LVDS_CTRL_LVDS_EN);
- 	else
--		regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, 0);
-+		if (!fsl_ldb->devdata->not_lvds_ctrl)
-+			regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->lvds_ctrl, 0);
- 	regmap_write(fsl_ldb->regmap, fsl_ldb->devdata->ldb_ctrl, 0);
- 
- 	clk_disable_unprepare(fsl_ldb->clk);
-@@ -355,6 +365,8 @@ static void fsl_ldb_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id fsl_ldb_match[] = {
-+	{ .compatible = "fsl,imx6sx-ldb",
-+	  .data = &fsl_ldb_devdata[IMX6SX_LDB], },
- 	{ .compatible = "fsl,imx8mp-ldb",
- 	  .data = &fsl_ldb_devdata[IMX8MP_LDB], },
- 	{ .compatible = "fsl,imx93-ldb",
--- 
-2.34.1
-
+Regards,
+Angelo
