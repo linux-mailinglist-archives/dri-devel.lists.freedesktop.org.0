@@ -1,69 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFF86CF1B5
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 20:06:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE3D6CF1E3
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 20:10:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BBB310E52C;
-	Wed, 29 Mar 2023 18:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD5810E176;
+	Wed, 29 Mar 2023 18:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32CAA10E52C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 18:05:56 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-177ca271cb8so17100387fac.2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 11:05:56 -0700 (PDT)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E278710E176
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 18:10:40 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-54184571389so308331107b3.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 11:10:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=usp.br; s=usp-google; t=1680113156;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=amarulasolutions.com; s=google; t=1680113440;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Dogo3BF2L9vBC4AT6xgMxoTJFXvXmfhOs0Wm2IXvUoA=;
- b=L0HwYwO3L/MNP7MmWs2RcJbpPDw4+LjAB6LZUkRjGQGTcOAeJV74uov52Ekfpp5dmx
- s9lGs7hbWkvuFTUwneVaHXamZVEnm4xDfnGAUPal58PW25X0ImisVK6cetvN9lnDxxpB
- S14152RBp3zDsK3rafFd6eeNnYPrDzXt3KSOf/f8/tH+QAuum8S3zUYAVtXz29+H3Ysr
- +JJmJ+SZm+bax72OFXXBsTF/JNpymn0AgJeQej1Hzg2/4mgEwTNsa5oo41F6HWUq2+Kg
- AkSmdqdvYDrjPRkHg8UO1RD3UssIXsf/yezuTeWy91kkBOGVueLttPUm9Jmt2+Nf3SDi
- QqWg==
+ bh=s36Q4sLQX/3/tv2niFl6Gc9T++Xctk19QhnwqMt3BVM=;
+ b=eDsYeqiG8GB4aZVHJzDU7byR1P1jPt7YE7V+7LrQkBjkHGKR65terpAGMEbNbrpWtc
+ GbKOZDyCq7ZL/+Zsg31N3BVfxEvsJ1GDaWJFB38pSjVUW4/6WGSR96i/6pIpJUY1T9+N
+ 2W7sklR7qOx9HkWIJmhgVq8bUgKpEeVJ7TTmU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680113156;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1680113440;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Dogo3BF2L9vBC4AT6xgMxoTJFXvXmfhOs0Wm2IXvUoA=;
- b=aXjlfy9E3ADyOuQZ59MDXpJ2/vNIuycjyX+M+NSEGBxqfVwXUZUkpJms2MaTQnbM5/
- 2qsVVPEtuqZHPLwhMRdEWXCEbg43+1DvWPxHNZCPJVPS1wXT1bqzaDL+2LJnzmrS7oEm
- Ly6e1xZoXGHzLun12pktYk5Xu8pJpKel/4hfYbZ1lMHkoRseFneB/ugjtuDS2hovi9ub
- JSFT8cvYLm5d3gbiyWHwhPYCCql68cHwRDFKRJdLMrOAn1FUsw25jibRKXkO4FY0BPt7
- xBC0Upe2mt2Eo0AdoNxwLchQYusmTnajHrNiAFOC+tYRk+XOTYPxMVRDaIaYDltFB6oy
- syRQ==
-X-Gm-Message-State: AAQBX9f4JH/3JwcX8N1rUyXUt/Zwfvj84R3oLf1MWz0IlXpxc+wO6sd7
- DCbQCmGhiK79hLNyMXbnpce/rQ==
-X-Google-Smtp-Source: AKy350Y5nATzpWAejjs20Se142ta9u/ME/7RWzY7Q28O0MbOueyG/JtjDWUShvoc2IoJ5SkqvG6ZWg==
-X-Received: by 2002:a05:6871:282:b0:177:a8a8:65c with SMTP id
- i2-20020a056871028200b00177a8a8065cmr13194714oae.4.1680113155874; 
- Wed, 29 Mar 2023 11:05:55 -0700 (PDT)
-Received: from ARCHaio.localdomain ([2804:1b3:a2c0:c911:919f:bd20:4f2a:8383])
- by smtp.gmail.com with ESMTPSA id
- yo7-20020a05687c018700b001777244e3f9sm12098767oab.8.2023.03.29.11.05.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 11:05:55 -0700 (PDT)
-From: Caio Novais <caionovais@usp.br>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] drm/amd/display: Mark function
- 'optc3_wait_drr_doublebuffer_pending_clear' as static
-Date: Wed, 29 Mar 2023 15:05:34 -0300
-Message-Id: <20230329180534.99151-3-caionovais@usp.br>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230329180534.99151-1-caionovais@usp.br>
-References: <20230329180534.99151-1-caionovais@usp.br>
+ bh=s36Q4sLQX/3/tv2niFl6Gc9T++Xctk19QhnwqMt3BVM=;
+ b=bjfRIWySBk5dyFD/Eee40iWMoo6tbFyyyAspNkYBX/FiTdrK7PI3pfojvYe3Ls1i4l
+ ZjGtMnaTLuU7B5oP5ycQMCwsn+l3KQtz+2XMslZxSgR51hCY5Po/HaxS4MWSWSdZse2Q
+ LZeKhqIkTGjgzxHFGQRHatG/z7vH+MwaZit/3/D+EYB4IGaC9TH24N/VriUTt/5SchUj
+ Bd0GAZGw3FHcl+52Nr9JSLd1GWYWnMB15M8Mz4yBWDnnhLkb7+X29H46Ap476RxOOOwS
+ YbWsG9685KFYqNcMI2dzU4QlC9A1w6NNq9NoVu/j6ww5RWzvbkPc40OE5n/8HDexmg3V
+ 1qJw==
+X-Gm-Message-State: AAQBX9cMahBzWEhUfBk53YDiZQemKuMroQlKmpLxA587e5OsEQoF0D6h
+ rTuwal4+hvsa4OQJnmQD/Ul3fSVRUPO+BvKlDtUrRg==
+X-Google-Smtp-Source: AKy350bTV90Nmmdqq5XdDMT52Ufu5ut5fzXMHi+iq0KHhNlusnr1XWTmvpO5LoXs+iXfO3xl7HbVrgeRFLebGR+jpH0=
+X-Received: by 2002:a81:ac46:0:b0:544:6828:3c09 with SMTP id
+ z6-20020a81ac46000000b0054468283c09mr10157919ywj.0.1680113440045; Wed, 29 Mar
+ 2023 11:10:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230218111712.2380225-1-treapking@chromium.org>
+In-Reply-To: <20230218111712.2380225-1-treapking@chromium.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 29 Mar 2023 23:40:28 +0530
+Message-ID: <CAMty3ZD3SY-WCtYK0dexdLxCk8d+2tJ=D9xb5uR06jPGCd=56g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] Add generic-display-mux driver and bindings
+To: Pin-yen Lin <treapking@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,45 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Wesley Chalmers <Wesley.Chalmers@amd.com>, Gabe Teeger <gabe.teeger@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Roman Li <roman.li@amd.com>, Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Deepak R Varma <drv@mailo.com>,
- "Lee, Alvin" <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Jun Lei <Jun.Lei@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Caio Novais <caionovais@usp.br>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, chrome-platform@lists.linux.dev,
+ Guenter Roeck <groeck@chromium.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compiling AMD GPU drivers displays a warning:
+On Sat, Feb 18, 2023 at 4:47=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
+> wrote:
+>
+> This series is developed for and tested on MT8173 board, and the layout i=
+s:
+>
+>                                   /-- anx7688
+> -- MT8173 HDMI bridge -- GPIO mux
+>                                   \-- native HDMI
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for ‘optc3_wait_drr_doublebuffer_pending_clear’ [-Wmissing-prototypes]
+What is the part number of this GPIO mux? Does mux gpio interrupt
+based and able to switch output HDMI and DP. If so, how this gpio
+interrupt is different than the HPD in native HDMI? I mean does HPD
+have any detection bottlenecks with mux gpio interrupt?
 
-Get rid of it by marking the function as static
+I do have GPIO Mux that input DSI and two outputs DMD/HDMI Input and
+HDMI Out. 2x1 with 1x2 mux.
 
-Signed-off-by: Caio Novais <caionovais@usp.br>
----
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm thinking having a generic mux to select the specific out number of
+outputs with associated interface outputs can be a viable solution to
+address all use cases here.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
-index 08b92715e2e6..c95f000b63b2 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_optc.c
-@@ -291,7 +291,7 @@ static void optc3_set_timing_double_buffer(struct timing_generator *optc, bool e
- 		   OTG_DRR_TIMING_DBUF_UPDATE_MODE, mode);
- }
- 
--void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
-+static void optc3_wait_drr_doublebuffer_pending_clear(struct timing_generator *optc)
- {
- 	struct optc *optc1 = DCN10TG_FROM_TG(optc);
- 
--- 
-2.40.0
-
+Thanks,
+Jagan.
