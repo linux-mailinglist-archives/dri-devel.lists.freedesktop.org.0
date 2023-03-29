@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF556CECE7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0526CED1E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3E310EB4E;
-	Wed, 29 Mar 2023 15:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E68C510E174;
+	Wed, 29 Mar 2023 15:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D997610EB4F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:30:34 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-545e907790fso183798417b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:30:34 -0700 (PDT)
+Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com
+ [IPv6:2607:f8b0:4864:20::1131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 393FF10E174
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:38:29 +0000 (UTC)
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-544f7c176easo299864227b3.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680103834;
+ d=amarulasolutions.com; s=google; t=1680104308;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BFZ20rC2XtnWx2HPxJbX0F+YnJR7fgxQcGGmQBwVb7Q=;
- b=JvMTJc1Gv8vCqVajFRwN5it4gJaKbPCwOgEwFVRfrdnXBaViUYZsElkwGN4srbsCWm
- gsZfz98f+UB7t9jFdKcTwUfnCNnxIJtdiXlh7MW7KtqKekPhBX9lUbZ7q3Wl0j7mTzEE
- OcLqTJEyEkBSuD+GbeP4ew9U247+o/1zLS7yE=
+ bh=BjRFa9g3onI1kC4K0Bhev7+GmSoMwaeDzlNBL5jHj68=;
+ b=Mi6YU1rgntanGu1TnibK+PJaPy357W/mJA63yHdPw3nBV3U0TjPaqtjgyzXcQm1xtO
+ 6NMzWsRdpwuqTKCcNbr1TIFRMaxoWQElKew/F6Bo5LPjY8XdkphGmXPwUBH916LfOhQ5
+ rK7ls+5F9RiRE7hN6V/acBEF7evVuF5i1WnGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680103834;
+ d=1e100.net; s=20210112; t=1680104308;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BFZ20rC2XtnWx2HPxJbX0F+YnJR7fgxQcGGmQBwVb7Q=;
- b=2ELUXRb/8hR3JhzdIdkHWhFmA10TumLXGArprCCmL67hGYhL17TmIQzqpATVJZDmr4
- nT9ceQKvKLHvu17WxWNr2YMc7sA34C8blRcu1UDZpM3/vF2lkrdofJr17ohcoLtWsq54
- grE7fNt0XuL0zaw6y08gRw3GyI2iMWpvX+fqbRjkACtq6XScpm3Rste76Al6z2IHbvtj
- dV0MwsM9GMoggMaCPnn8vWhUMPVFmnOyzje403kTWauECme4qxntCqemliVZYJyO7C42
- sT9POgiVavCvZE1ZEcVq8gVkh9L9F/ACQWOryvG1JERS7ZGbT12XNnbo4GXt/DLQlVtT
- 6ugg==
-X-Gm-Message-State: AAQBX9dP8B4XoVKaYyswm2TjEGEpUwbMd4BKLC4UZmptUjv14PCVLX8k
- 5H986wF2LYB3LgA22v8gUEn2jwAsUmMbY5xL/xf9Pg==
-X-Google-Smtp-Source: AKy350aQ+SY5iF10evSeqAQo9VWn7eGBRSp/ouP2R83fRpmRIP36Pn+KT/+JT62aHAr/p3uHoViPy/s3Xmq1TTNqhWs=
-X-Received: by 2002:a81:ae23:0:b0:541:7237:6e6b with SMTP id
- m35-20020a81ae23000000b0054172376e6bmr9262438ywh.0.1680103833995; Wed, 29 Mar
- 2023 08:30:33 -0700 (PDT)
+ bh=BjRFa9g3onI1kC4K0Bhev7+GmSoMwaeDzlNBL5jHj68=;
+ b=vQ50wvMY7+MCU/0n7OvTWBpOxCzO5PKalRLZfdvenOrLgsor2nv18Y5RCfoP5XpiyD
+ GeSY7jVTSVrSM2ohlTHvGVkSM3NeLb41oPpFKqxD2dWX/pgoLYLkP4H/sXJnhgaZx33E
+ cE5fPBpSv5Q2pT/LITsBhW/wtBEhF12t1K5F3jw7QcaECX8a1eXn/usHJolQXQewUtji
+ azvVKwjvA2F+grKZi8cVXb8nCBWTOS5UWUt5B7+BWR3riwFD+zQjoJBpsK9/+R8B4m21
+ KXO8dvQFfFWPKnGTaHHc9heArx1eUUl04T+rqVy0UIvhPXPJhgn3wMkFtraCjFZ69Vdr
+ 8IKQ==
+X-Gm-Message-State: AAQBX9cACddQvtdgv5N00+xy3AnZgbrhy28ifPH+sGmKx7O9mdkGygJH
+ dsERa7Uf1GcVzMC8SBPVvgvO7MapwL+WJmtdSS49Cg==
+X-Google-Smtp-Source: AKy350YYUvrbMDF7TvuD73hFUqxg7MO1EfxmBpZ8yOwn2fCl7O3CFbZEtrIBZxvqLWsEjX5aIvD6D8tDlprGjyT23Xg=
+X-Received: by 2002:a05:690c:b94:b0:541:698b:7bdb with SMTP id
+ ck20-20020a05690c0b9400b00541698b7bdbmr1644187ywb.2.1680104308357; Wed, 29
+ Mar 2023 08:38:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
- <20230329131615.1328366-10-jagan@amarulasolutions.com>
- <20230329150202.3rbjrq6iqum5ybjh@penduick>
-In-Reply-To: <20230329150202.3rbjrq6iqum5ybjh@penduick>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <20230329131929.1328612-3-jagan@amarulasolutions.com>
+ <20230329145939.7zcex4x2pipivuj4@penduick>
+In-Reply-To: <20230329145939.7zcex4x2pipivuj4@penduick>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Wed, 29 Mar 2023 21:00:22 +0530
-Message-ID: <CAMty3ZDXWw2ajF5DsYCMy0XCa348y8XKKUzAfrU=2iUG23yVow@mail.gmail.com>
-Subject: Re: [PATCH v7 09/12] arm64: dts: rockchip: a64: Add endpoint@0 to
- dsi_in_tcon0
+Date: Wed, 29 Mar 2023 21:08:17 +0530
+Message-ID: <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
+Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
 To: Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,116 +80,52 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 29, 2023 at 8:32=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> w=
+On Wed, Mar 29, 2023 at 8:29=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> w=
 rote:
 >
-> The commit title is wrong, it's not a rockchip device.
+> Hi,
+>
+> The patch prefix should be drm/sun4i:
 
-Thanks for the note, I will fix it in the next version.
+I did follow my previous prefix, I will update this.
 
 >
-> On Wed, Mar 29, 2023 at 06:46:15PM +0530, Jagan Teki wrote:
-> > The DSI downstream devices are likely to be Panel, Bridge and
-> > I2C-Configured Bridge.
+> On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
+> > Convert the encoder to bridge driver in order to standardize on a
+> > single API by supporting all varients of downstream bridge devices.
+>
+> Which variant, and why do we need to convert to a bridge to support all o=
+f them?
+
+Downstream bridge variants like DSI panel, DSI bridge and
+I2C-Configured DSI bridges. Bridge conversion would be required for
+the DSI host to access the more variety and complex downstream bridges
+in a standardized bridge chain way which is indeed complex for encoder
+driven DSI hosts.
+
+>
+> > The drm_encoder can't be removed as it's exposed to userspace, so it
+> > then becomes a dumb encoder, without any operation implemented.
 > >
-> > It is possible to connect all three devices using upstream OF-graph por=
-t
-> > or ports node however only Panel and Bridge are possible to connect via
-> > child node but not possible to connect I2C-Configured Bridge via child
-> > node since I2C-Configure bridges are child of I2C not upstream DSI host=
-s
-> > and it must represent them via port or ports with endpoint linking.
-> >
-> > Allwinner A64 DSI node already has a port so add endpoint 0 for input
-> > tcon so that the downstream DSI devices can use endpoint 1 to connect
-> > Panel or Bridge or I2C-Configured Bridge.
-> >
-> > An example of the I2C-Configured downstream bridge representation is,
-> >
-> > i2c1 {
-> >        bridge@1b {
-> >            compatible =3D "ti,dlpc3433";
-> >
-> >              ports {
-> >                   port@0 {
-> >                          reg =3D <0>;
-> >
-> >                          bridge_in_dsi: endpoint {
-> >                                 remote-endpoint =3D <&dsi_out_bridge>;
-> >                                 data-lanes =3D <1 2 3 4>;
-> >                          };
-> >                   };
-> >
-> >                 port@2 {
-> >                        reg =3D <2>;
-> >
-> >                          bridge_out_dmd: endpoint {
-> >                                 remote-endpoint =3D <&dmd_out_bridge>;
-> >                          };
-> >                   };
-> >              };
-> >        };
-> > };
-> >
-> > dsi {
-> >        compatible =3D "allwinner,sun50i-a64-mipi-dsi";
-> >
-> >        port {
-> >              dsi_in_tcon0: endpoint@0 {
-> >                 reg =3D <0>;
-> >                 remote-endpoint =3D <tcon0_out_dsi>;
-> >            };
-> >
-> >            dsi_out_bridge: endpoint@1 {
-> >                 reg =3D <1>;
-> >                 remote-endpoint =3D <&bridge_in_dsi>;
-> >            };
-> >       };
-> > };
-> >
-> > Note that existing device bindings are untouched and still represent
-> > the downstream devices via child nodes since the sun6i-mipi-dsi host
-> > will migrate to a standardized single helper to lookup for a
-> > downstream device via child or OF-graph port or port node.
+> > Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
 > >
 > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> > ---
-> > Changes for v7:
-> > - new patch
-> >
-> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64=
-/boot/dts/allwinner/sun50i-a64.dtsi
-> > index 77b5349f6087..3ed566dc2172 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-> > @@ -1189,7 +1189,11 @@ dsi: dsi@1ca0000 {
-> >                       #size-cells =3D <0>;
-> >
-> >                       port {
-> > -                             dsi_in_tcon0: endpoint {
-> > +                             #address-cells =3D <1>;
-> > +                             #size-cells =3D <0>;
-> > +
-> > +                             dsi_in_tcon0: endpoint@0 {
-> > +                                     reg =3D <0>;
-> >                                       remote-endpoint =3D <&tcon0_out_d=
-si>;
-> >                               };
 >
-> That doesn't match the DT binding anymore, and why can't we add endpoint@=
-1 there too?
+> [...]
+>
+> > +static const struct component_ops sun6i_dsi_ops;
+> > +
+> >  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> >                           struct mipi_dsi_device *device)
+> >  {
+> >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
+> > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.of_node=
+);
+>
+> That one looks unrelated. Why do you need that change?
 
-Do you mean add endpoint@1 without any remote-endpoint like this?
-
-dsi_out_bridge: endpoint@1 {
-         reg =3D <1>;
-};
-
-I was supposed to add this, since dtbs_check doesn't give any error. I
-have skipped this, as I thought it wouldn't be needed.
+This was replaced with drmm_of_dsi_get_bridge for lookup of both panel
+and bridge. I think I will separate this into another patch.
 
 Thanks,
-agan.
+Jagan.
