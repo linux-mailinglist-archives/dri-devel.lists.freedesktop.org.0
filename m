@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899766CD23B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 08:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7476CD258
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 08:56:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9559010E4B5;
-	Wed, 29 Mar 2023 06:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 258868826D;
+	Wed, 29 Mar 2023 06:55:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DDBB10E4B5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 06:43:36 +0000 (UTC)
-X-UUID: 02ede92acdfd11edb6b9f13eb10bd0fe-20230329
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=L8S2VPO1BHTRjj+EeuISd/97JupfkUS9QELUdXcrrDY=; 
- b=oEWctwD61s8RcEOAyiZKLWe2eM0v2GcUvkqL+uc1Hi42r+Pocftr5bUg6uuxsfSOZ7nzlspsrLZbPRBvmmXjyTKzhQHSltFKT1GrgpPO8UV8Ugj1QIzfBEDzpJ7sYg6q7ea7tD3gAESifkxS6QKnE8/z+7PDp4onIZdJu39Hx9Q=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.22, REQID:6b81de52-eaa9-4270-b9fd-e657dab39e8d, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
- :release,TS:95
-X-CID-INFO: VERSION:1.1.22, REQID:6b81de52-eaa9-4270-b9fd-e657dab39e8d, IP:0,
- URL
- :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
- :quarantine,TS:95
-X-CID-META: VersionHash:120426c, CLOUDID:1e7b41f7-ddba-41c3-91d9-10eeade8eac7,
- B
- ulkID:230329144329Y8DGHL50,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
- C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
- L:0,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 02ede92acdfd11edb6b9f13eb10bd0fe-20230329
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by
- mailgw02.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 786726925; Wed, 29 Mar 2023 14:43:27 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.25; Wed, 29 Mar 2023 14:43:26 +0800
-Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.25 via Frontend Transport; Wed, 29 Mar 2023 14:43:26 +0800
-From: <xinlei.lee@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <matthias.bgg@gmail.com>
-Subject: [PATCH] drm/mediatek: dp: change the aux retries times when receiving
- AUX_DEFER
-Date: Wed, 29 Mar 2023 14:43:23 +0800
-Message-ID: <1680072203-10394-1-git-send-email-xinlei.lee@mediatek.com>
-X-Mailer: git-send-email 2.6.4
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com
+ [IPv6:2607:f8b0:4864:20::1149])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 396D110EA43
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 06:55:52 +0000 (UTC)
+Received: by mail-yw1-x1149.google.com with SMTP id
+ 00721157ae682-536a4eba107so146591307b3.19
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Mar 2023 23:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20210112; t=1680072951;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Yb6T5Nix/3hrpi04qTRDKmlC5J5N+Z2zQezjqCwHQSc=;
+ b=I70iBO8V621lm+2OBg9UTLn3NwNxaOjH81/kUFD8B1L+O1fwBhekEA+10JCdKiD3tA
+ kECwcwUJvSNC88bYchl5stnbjXXBAo59zC+OgGa1lyXqpdfSBAdKUplbtKbZ6b4sx+Io
+ fOQ63v3lHvtOi4jdjxoivD4NQGgJEUDTIXFSDL+0qLQm7CfslCBvEOlc6kmoSJRnTYhx
+ pEEhi7f4mATzlqPFiW1w4VEErXrG7EzcULjUI2XpAcYsYU34pW9Tn9qbtYIEjkN0lEZr
+ djC+4bkDVcIBW8KqxkB9oMzR05gvvb+gdeHsobNc5dq91YSjLozfTnVS9sd8c8258dDQ
+ ayIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680072951;
+ h=content-transfer-encoding:cc:to:from:subject:message-id
+ :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Yb6T5Nix/3hrpi04qTRDKmlC5J5N+Z2zQezjqCwHQSc=;
+ b=kHvmUITVCjMGI6zck8LM9nEfisfms+bdx89NOcWoECfDb0z0ZubIxnVWHwUIjHnsDa
+ utAATVHjFDa+Y2UX1J0s2tlfeTbT04kRS7MePuF3K/qrsnf2NkTPh1DVG/9CT+9OaWTg
+ HYHJuNcBlww9f/3YxKldQ89eb1nxJBdHXkb+LSgwNKJH3//+Fl1rIofTKNeX3KSTJkTW
+ XH0VDWnccx/prwRCVMvbhYNBiCXKNxVNaQN/gTwyf0I53eGE58yvyr/flsn7kW2tSy5N
+ 87UUDLZF/mEuX6VfqoaAIL0q7rcLGGA6/XQFHSfgkmD2fEJ+DdGFT8pXFaZ0wt/FxvtC
+ yGyg==
+X-Gm-Message-State: AAQBX9eGpMhLXOHUqVdM5ot8mrNuiQ7N4c0A+LB9A5+cwbnh0zN1KBE0
+ TgH4JeV+BVJYTtPNC7W2QPXbYBDap1Ck7A==
+X-Google-Smtp-Source: AKy350bNaANkNE4LgBYqCLQFYMuy5mciHvuGb6vV8PhgtV00DdwwHufAEgSeA7hH9hghIP+DtRXhzI8HE8iwTQ==
+X-Received: from slicestar.c.googlers.com
+ ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a05:6902:1003:b0:b1d:5061:98e3 with SMTP
+ id w3-20020a056902100300b00b1d506198e3mr12429289ybt.6.1680072951072; Tue, 28
+ Mar 2023 23:55:51 -0700 (PDT)
+Date: Wed, 29 Mar 2023 14:55:32 +0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+Message-ID: <20230329065532.2122295-1-davidgow@google.com>
+Subject: [PATCH 1/2] drm: buddy_allocator: Fix buddy allocator init on 32-bit
+ systems
+From: David Gow <davidgow@google.com>
+To: "=?UTF-8?q?Lu=C3=ADs=20Mendes?=" <luis.p.mendes@gmail.com>, 
+ "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ "=?UTF-8?q?Ma=C3=ADra=20Canal?=" <mairacanal@riseup.net>,
+ Arthur Grillo <arthurgrillo@riseup.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,76 +76,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xinlei Lee <xinlei.lee@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, David Gow <davidgow@google.com>,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xinlei Lee <xinlei.lee@mediatek.com>
+The drm buddy allocator tests were broken on 32-bit systems, as
+rounddown_pow_of_two() takes a long, and the buddy allocator handles
+64-bit sizes even on 32-bit systems.
 
-DP 1.4a Section 2.8.7.1.5.6.1:
-A DP Source device shall retry at least seven times upon receiving
-AUX_DEFER before giving up the AUX transaction.
+This can be reproduced with the drm_buddy_allocator KUnit tests on i386:
+	./tools/testing/kunit/kunit.py run --arch i386 \
+	--kunitconfig ./drivers/gpu/drm/tests drm_buddy
 
-The drm_dp_i2c_do_msg() function in the drm_dp_helper.c file will
-judge the status of the msg->reply parameter passed to aux_transfer
-ange-the-aux-retries-times-when-re.patchfor different processing.
+(It results in kernel BUG_ON() when too many blocks are created, due to
+the block size being too small.)
 
-Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
-Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+This was independently uncovered (and fixed) by Lu=C3=ADs Mendes, whose pat=
+ch
+added a new u64 variant of rounddown_pow_of_two(). This version instead
+recalculates the size based on the order.
+
+Reported-by: Lu=C3=ADs Mendes <luis.p.mendes@gmail.com>
+Link: https://lore.kernel.org/lkml/CAEzXK1oghXAB_KpKpm=3D-CviDQbNaH0qfgYTSS=
+jZgvvyj4U78AA@mail.gmail.com/T/
+Signed-off-by: David Gow <davidgow@google.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dp.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_buddy.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 1f94fcc144d3..767b71da31a4 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -806,10 +806,9 @@ static int mtk_dp_aux_wait_for_completion(struct mtk_dp *mtk_dp, bool is_read)
- }
- 
- static int mtk_dp_aux_do_transfer(struct mtk_dp *mtk_dp, bool is_read, u8 cmd,
--				  u32 addr, u8 *buf, size_t length)
-+				  u32 addr, u8 *buf, size_t length, u8 *reply_cmd)
- {
- 	int ret;
--	u32 reply_cmd;
- 
- 	if (is_read && (length > DP_AUX_MAX_PAYLOAD_BYTES ||
- 			(cmd == DP_AUX_NATIVE_READ && !length)))
-@@ -841,10 +840,10 @@ static int mtk_dp_aux_do_transfer(struct mtk_dp *mtk_dp, bool is_read, u8 cmd,
- 	/* Wait for feedback from sink device. */
- 	ret = mtk_dp_aux_wait_for_completion(mtk_dp, is_read);
- 
--	reply_cmd = mtk_dp_read(mtk_dp, MTK_DP_AUX_P0_3624) &
--		    AUX_RX_REPLY_COMMAND_AUX_TX_P0_MASK;
-+	*reply_cmd = mtk_dp_read(mtk_dp, MTK_DP_AUX_P0_3624) &
-+		     AUX_RX_REPLY_COMMAND_AUX_TX_P0_MASK;
- 
--	if (ret || reply_cmd) {
-+	if (ret) {
- 		u32 phy_status = mtk_dp_read(mtk_dp, MTK_DP_AUX_P0_3628) &
- 				 AUX_RX_PHY_STATE_AUX_TX_P0_MASK;
- 		if (phy_status != AUX_RX_PHY_STATE_AUX_TX_P0_RX_IDLE) {
-@@ -2070,7 +2069,7 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
- 		ret = mtk_dp_aux_do_transfer(mtk_dp, is_read, request,
- 					     msg->address + accessed_bytes,
- 					     msg->buffer + accessed_bytes,
--					     to_access);
-+					     to_access, &msg->reply);
- 
- 		if (ret) {
- 			drm_info(mtk_dp->drm_dev,
-@@ -2080,7 +2079,6 @@ static ssize_t mtk_dp_aux_transfer(struct drm_dp_aux *mtk_aux,
- 		accessed_bytes += to_access;
- 	} while (accessed_bytes < msg->size);
- 
--	msg->reply = DP_AUX_NATIVE_REPLY_ACK | DP_AUX_I2C_REPLY_ACK;
- 	return msg->size;
- err:
- 	msg->reply = DP_AUX_NATIVE_REPLY_NACK | DP_AUX_I2C_REPLY_NACK;
--- 
-2.18.0
+diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+index 3d1f50f481cf..7098f125b54a 100644
+--- a/drivers/gpu/drm/drm_buddy.c
++++ b/drivers/gpu/drm/drm_buddy.c
+@@ -146,8 +146,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 =
+chunk_size)
+ 		unsigned int order;
+ 		u64 root_size;
+=20
+-		root_size =3D rounddown_pow_of_two(size);
+-		order =3D ilog2(root_size) - ilog2(chunk_size);
++		order =3D ilog2(size) - ilog2(chunk_size);
++		root_size =3D chunk_size << order;
+=20
+ 		root =3D drm_block_alloc(mm, NULL, order, offset);
+ 		if (!root)
+--=20
+2.40.0.348.gf938b09366-goog
 
