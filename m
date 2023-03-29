@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D051C6CDA72
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 15:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590C76CDA73
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 15:18:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC7F810EAAB;
-	Wed, 29 Mar 2023 13:18:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73CE010EABE;
+	Wed, 29 Mar 2023 13:18:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68CCB10EABC
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:18:39 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- gp15-20020a17090adf0f00b0023d1bbd9f9eso18573192pjb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 06:18:39 -0700 (PDT)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC9D10EABE
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:18:45 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ fy10-20020a17090b020a00b0023b4bcf0727so16149711pjb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 06:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680095919;
+ d=amarulasolutions.com; s=google; t=1680095925;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nd2Hzi5pbnX457/tZ1SGDUudK/Mgpe+Ly4/pUeQ6HnM=;
- b=BxNdyUGAorjHPinmo8knKGhWp8mcw/YgRk4iYNWDGp+87Odbgo0V0ajx8K99ZvbH3m
- uK1o/myHvEIucTiBG5DYCQ2UcxcizWIeVayEhlo/8lScUog6XsvXM6+6OOEyJd/pLOs2
- /RttKWJwSMHDK2hDoJcL5A8izTKP8wEnKCyoc=
+ bh=ayYxgFJMhixN73Dm9Yf7ruaoOJe6G2KL+MHmxqG0S5Q=;
+ b=Tkq5mhDm5ZQ+yiV1OtfyRGIvcm6whneUFGGlczqp/vSrs7C7VXKmht8Y87gNnukLVv
+ UblkzhL6hGy/9w74FwGQJB48hURwaWI57RoCIqlyhZ3vJWNQRbd4X52ve0dQ/geHdmTN
+ Ximd50oNuNiixWKqCTuhz632/5gMF7XMR1vSA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680095919;
+ d=1e100.net; s=20210112; t=1680095925;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nd2Hzi5pbnX457/tZ1SGDUudK/Mgpe+Ly4/pUeQ6HnM=;
- b=T7rBwfJ/07FSOiVPoG1KPXPcGi+hTKwy70LYegVNQNeJE8sqW3V99y/+iTBbooq1b3
- sJRsn428xo+5eSZxzNrIq3aMfeJm/bFEkAzrj8aDvu9BPEin7ql2GXfSix4BRFDoZEs8
- sAUCmzdIFbIUkeJwHEECcNnNymtXgkbN5bbHQcZ5RiTF/M05yE0IIGU/VaYiouFoJc/F
- JDLD/iRD7aNwSEYWGqMnYBpHU+rdhSO3Jh/RBK/o9/UnYH0RPNZzPG/fw/Nq0oGleR1s
- 4WFufWgRGsJCEqxtvd9Dm83s6M12pV/XSe5YRG8QZRqdAZ/BAKwI75SDORCjLcf6QJDv
- DXbw==
-X-Gm-Message-State: AAQBX9dQ+wJ+f5wBacDt3NsQNpEuddJdxzhzJCt8SEvS+Ff+rcBOfSQ0
- XCM+VfsLSLp6XXkVSZLWbYehpQ==
-X-Google-Smtp-Source: AKy350bk2/fzr+dtM9w5K/plrUVW+fEKnyzucVJ/a5hXz7GHf87bUlhqvKmrLM/SThMMOW9uCmEMAA==
-X-Received: by 2002:a17:90b:1d8e:b0:23f:37b6:48f4 with SMTP id
- pf14-20020a17090b1d8e00b0023f37b648f4mr20675024pjb.43.1680095918961; 
- Wed, 29 Mar 2023 06:18:38 -0700 (PDT)
+ bh=ayYxgFJMhixN73Dm9Yf7ruaoOJe6G2KL+MHmxqG0S5Q=;
+ b=qFQFELLLg08kM9oJsWiP0wjeurhBFUmL9BLCPimOpW78H77lRtRwqV1lqDexde2XNN
+ A4NF7g6+YFf1t5pB0nfZfmGM8IEnnyfOrH4AksJaqfHzWvzHUKtpsRWEQ8SdPIoPNy/U
+ PHBlNp65Do10b9FrVZRT5LtTxVYeaOayZ+X4h3Pv0qv/4hYlgT9GdVXu5vz1FsImKL3f
+ qFfU0/fhdGwGorLIvWdiu9fqViosDT91xBBf6xxogpLblT0AfoPmkcqzfPRAqtsguEr9
+ q1NSLNS3iu/AU5p6ToniwTllxn9NllPvni9CvILt/kqps2MugeDAz4itAii8LRn2VcXR
+ cwLA==
+X-Gm-Message-State: AAQBX9eo9yXbtamZqvt9wC8Jamuffy+Vi5qokVoB+tQ+InLEu7fCmD/4
+ j3PNIzFwU5LILSmGM8WoUTcf7w==
+X-Google-Smtp-Source: AKy350YO+Kpdu0/vAJkHuRQaxWiiCBUBvweO4jcD6ZDCYS8/PYA2ZACp2GIqrs5TCbiYnZ9OHuAaCg==
+X-Received: by 2002:a17:90b:1b49:b0:23d:1fc0:dd20 with SMTP id
+ nv9-20020a17090b1b4900b0023d1fc0dd20mr20207025pjb.17.1680095925196; 
+ Wed, 29 Mar 2023 06:18:45 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c00a:a047:206d:4722:c4fa:e845])
  by smtp.gmail.com with ESMTPSA id
- s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.33
+ s16-20020a17090b071000b0023f5c867f82sm1400192pjz.41.2023.03.29.06.18.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 06:18:38 -0700 (PDT)
+ Wed, 29 Mar 2023 06:18:44 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -59,9 +59,10 @@ To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Samuel Holland <samuel@sholland.org>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH v7 08/12] ARM: dts: sun8i: a33: Add endpoint@0 to dsi_in_tcon0
-Date: Wed, 29 Mar 2023 18:46:14 +0530
-Message-Id: <20230329131615.1328366-9-jagan@amarulasolutions.com>
+Subject: [PATCH v7 09/12] arm64: dts: rockchip: a64: Add endpoint@0 to
+ dsi_in_tcon0
+Date: Wed, 29 Mar 2023 18:46:15 +0530
+Message-Id: <20230329131615.1328366-10-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230329131615.1328366-1-jagan@amarulasolutions.com>
 References: <20230329131615.1328366-1-jagan@amarulasolutions.com>
@@ -95,7 +96,7 @@ child node but not possible to connect I2C-Configured Bridge via child
 node since I2C-Configure bridges are child of I2C not upstream DSI hosts
 and it must represent them via port or ports with endpoint linking.
 
-Allwinner R33 DSI node already has a port so add endpoint 0 for input
+Allwinner A64 DSI node already has a port so add endpoint 0 for input
 tcon so that the downstream DSI devices can use endpoint 1 to connect
 Panel or Bridge or I2C-Configured Bridge.
 
@@ -127,7 +128,7 @@ i2c1 {
 };
 
 dsi {
-       compatible = "allwinner,sun6i-a31-mipi-dsi";
+       compatible = "allwinner,sun50i-a64-mipi-dsi";
 
        port {
              dsi_in_tcon0: endpoint@0 {
@@ -152,14 +153,14 @@ Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 Changes for v7:
 - new patch
 
- arch/arm/boot/dts/sun8i-a33.dtsi | 6 +++++-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/sun8i-a33.dtsi b/arch/arm/boot/dts/sun8i-a33.dtsi
-index b3d1bdfb5118..50c2424ec31e 100644
---- a/arch/arm/boot/dts/sun8i-a33.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a33.dtsi
-@@ -269,7 +269,11 @@ dsi: dsi@1ca0000 {
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 77b5349f6087..3ed566dc2172 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -1189,7 +1189,11 @@ dsi: dsi@1ca0000 {
  			#size-cells = <0>;
  
  			port {
