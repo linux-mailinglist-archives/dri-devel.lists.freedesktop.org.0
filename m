@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740E56CD672
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735AB6CD6A1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 260A510EA43;
-	Wed, 29 Mar 2023 09:30:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E549010E4A9;
+	Wed, 29 Mar 2023 09:39:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4F1D10E52B;
- Wed, 29 Mar 2023 09:30:29 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id p34so8477868wms.3;
- Wed, 29 Mar 2023 02:30:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680082228;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=1lEaDc8be8FkWi1HX0iSofPQaKiEa8pAZUfrsxxjcSw=;
- b=FCR79EhyW0vJpHBYVKlPW8vXWhRAihkRSI0u4tf7VDEIDF7RSF3B2bJXqAywT69v72
- meKdvUnF+HCW5+Bqf/2fqch6RTAdmaRS8grsaLPzlZ/RbhskfugKDh7RtxikBZmCQQGF
- Z6DaRvzRiaDxk3OSWzx/ArjH9MqFrNhMiiIeOiEgQ7XI7VmML6U5HqK6/F4ZPg43Q2fD
- gSMO+OWlcHYoGlBwUpXakZ/yUVg1C1SJWkSt0Txi+jHvcAEGMXsT2BJwybKYUAbqHlXN
- EAh+UxqQCU1/CzGu1fGjNRBu7r0QGULKp/iDtEtAAVkPqDmVe9tA9rNEeypYzinW8MJk
- Bi/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680082228;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1lEaDc8be8FkWi1HX0iSofPQaKiEa8pAZUfrsxxjcSw=;
- b=C2+/8raGvwsCQm2ndPspD0iMvHWEfhCAwu3o9UGX9gb9Dvjb2aJRpwzmxdt6v5y+Ek
- rGC9MHbYClVGjt9cwhO472TY02SesFxwuXiDv0fAGPqn7/+6fZhMkeM8TYuD6gjnHlFO
- Kp+v07TPh8g7/ZSNFMW33byXBprRPtv/rjIY3+xW+RKz4KeamgCqt7AAk8w7mIvLG1zK
- FhA7VYk8aitrXwHR1z2zosZjdEAqa06DcgLi3c1zuOvc2t/a1UqXVM91Yjo3bN9Cvkn/
- TBvD+ycUxU5JKvAtuadQrYBWGmb0oDiRvwkhAnDG8mA96KOjHYfdEEVIj/5ESMNEHWMP
- v2IA==
-X-Gm-Message-State: AO0yUKVtPTCVvU7u0G+PTdiPYjhsaOEw8y4hUgY0QtZrM/csXMHRtc9W
- bb0gM/92HSdaIX6MLBM7q5Q=
-X-Google-Smtp-Source: AK7set8icXlaIt2CvY3lleghHnnb5TGOj1bkw4TJVx7xOyJ8D/nA/R6NaqroGfmG6xJJgjVkcL3yJg==
-X-Received: by 2002:a1c:4c0d:0:b0:3eb:2e32:72c3 with SMTP id
- z13-20020a1c4c0d000000b003eb2e3272c3mr15711230wmf.22.1680082227927; 
- Wed, 29 Mar 2023 02:30:27 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- a13-20020a05600c224d00b003edef091b17sm1573356wmm.37.2023.03.29.02.30.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 02:30:27 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH][next] drm/msm/mdss: Fix spelling mistake "Unuspported" ->
- "Unsupported"
-Date: Wed, 29 Mar 2023 10:30:26 +0100
-Message-Id: <20230329093026.418847-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5785C10E4A9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 09:39:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680082774; x=1711618774;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=rmwWgXx9DUsDkyM6xIc9AQk1bMfFjEwuONpPcP5/qI4=;
+ b=TilQTiadmm47fGCN/sk05ZVF2VUJB03980NDkHjxEXf+RAXtr9fzkhRk
+ h1+jgx077n4d5HKjwcbT/gpo14csDHViLCWFc3wAbUGZK3KJTAH3WQg99
+ jKpIYfWbu6F1bnnSiaGIB5hnnupFKrJSQGL/gUSr2AGNs+sXBrFNPF/yf
+ 51qUw4gjAymxe/aIZPB+35rHXBrrRbT8IGFiZYCsEVufeE4cHofFV5xMv
+ k7q3Vo9KBdwmPQnMWICzAVPprIemm8NZ3am0y8yEU2xcLR581iTae/UKP
+ Q9x1Y3/kIYaxuuIN+tHTxQZItE/HkHeKjoSriV7ls/ouex+PnimyPHMZF w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="342423488"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="342423488"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 02:39:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="858419942"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="858419942"
+Received: from jetten-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.51.146])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 02:39:28 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: David Gow <davidgow@google.com>, =?utf-8?Q?Lu=C3=ADs?= Mendes
+ <luis.p.mendes@gmail.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Maarten
+ Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mairacanal@riseup.net>, Arthur Grillo <arthurgrillo@riseup.net>
+Subject: Re: [PATCH 2/2] drm: test: Fix 32-bit issue in drm_buddy_test
+In-Reply-To: <20230329065532.2122295-2-davidgow@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230329065532.2122295-1-davidgow@google.com>
+ <20230329065532.2122295-2-davidgow@google.com>
+Date: Wed, 29 Mar 2023 12:39:25 +0300
+Message-ID: <87lejf522a.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,30 +66,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: David Gow <davidgow@google.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake in a dev_error message. Fix it.
+On Wed, 29 Mar 2023, David Gow <davidgow@google.com> wrote:
+> The drm_buddy_test KUnit tests verify that returned blocks have sizes
+> which are powers of two using is_power_of_2(). However, is_power_of_2()
+> operations on a 'long', but the block size is a u64. So on systems where
+> long is 32-bit, this can sometimes fail even on correctly sized blocks.
+>
+> This only reproduces randomly, as the parameters passed to the buddy
+> allocator in this test are random. The seed 0xb2e06022 reproduced it
+> fine here.
+>
+> For now, just hardcode an is_power_of_2() implementation using
+> x & (x - 1).
+>
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+>
+> There are actually a couple of is_power_of_2_u64() implementations
+> already around in:
+> - drivers/gpu/drm/i915/i915_utils.h
+> - fs/btrfs/misc.h (called is_power_of_two_u64) 
+>
+> So the ideal thing would be to consolidate these in one place.
+>
+>
+> ---
+>  drivers/gpu/drm/tests/drm_buddy_test.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+> index f8ee714df396..09ee6f6af896 100644
+> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+> @@ -89,7 +89,8 @@ static int check_block(struct kunit *test, struct drm_buddy *mm,
+>  		err = -EINVAL;
+>  	}
+>  
+> -	if (!is_power_of_2(block_size)) {
+> +	/* We can't use is_power_of_2() for a u64 on 32-bit systems. */
+> +	if (block_size & (block_size - 1)) {
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/msm/msm_mdss.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Then maybe use is_power_of_2_u64() instead?
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index c15d1e2dc718..7cb301854e64 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -274,7 +274,7 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 		msm_mdss_setup_ubwc_dec_40(msm_mdss);
- 		break;
- 	default:
--		dev_err(msm_mdss->dev, "Unuspported UBWC decoder version %x\n",
-+		dev_err(msm_mdss->dev, "Unsupported UBWC decoder version %x\n",
- 			msm_mdss->mdss_data->ubwc_dec_version);
- 		dev_err(msm_mdss->dev, "HW_REV: 0x%x\n",
- 			readl_relaxed(msm_mdss->mmio + HW_REV));
+BR,
+Jani.
+
+>  		kunit_err(test, "block size not power of two\n");
+>  		err = -EINVAL;
+>  	}
+
 -- 
-2.30.2
-
+Jani Nikula, Intel Open Source Graphics Center
