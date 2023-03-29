@@ -1,61 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107196CD875
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 13:29:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA44A6CD8E7
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 13:56:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C97110E166;
-	Wed, 29 Mar 2023 11:28:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FBED10E526;
+	Wed, 29 Mar 2023 11:56:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A665D10E166
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 11:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680089332; x=1711625332;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=JGMbh0J3Ep4ALl5fvP9kT9Pq4VuAVtH2X+HHgJvfgKY=;
- b=TGDuu2ZTOju1ra41NqurTVy7llTrCwpk7A6KnmrvyAgGnAJOYAAoVros
- YZqX7bJ1tb/wLMq4tzXgiA+z1SD2YbJnckpw7DIQnDif1caWbQWBTyoSh
- xCKx8zE7KYhlI+7k+UZNYOw5Wed0kp3G9YPQDLBT3Gds1SMzuFufGs06m
- Spq4OnbercGbvKeWxhsoLjic2pazhKyDKaA8ATHJ4WJi9GV5S8wvS/a7e
- XXgAEgCEmDh2joEs0+uAI1heMukIV+wUJeVFc0qBv7CmuPK6Matg0xv9U
- UOrP9g7Yl4EmVrLJ5AMT5wzHHzkpCVYtgdZ0CFhbpQIX372K0tBBiDLwq Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="342444275"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="342444275"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 04:28:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="634436238"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="634436238"
-Received: from jetten-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.51.146])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 04:28:47 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <mcanal@igalia.com>, David Gow
- <davidgow@google.com>, =?utf-8?Q?Lu=C3=ADs?=
- Mendes <luis.p.mendes@gmail.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mairacanal@riseup.net>, Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 2/2] drm: test: Fix 32-bit issue in drm_buddy_test
-In-Reply-To: <ceb0b1e8-6c7a-8564-156f-fcf0f0e4a95e@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230329065532.2122295-1-davidgow@google.com>
- <20230329065532.2122295-2-davidgow@google.com>
- <ceb0b1e8-6c7a-8564-156f-fcf0f0e4a95e@igalia.com>
-Date: Wed, 29 Mar 2023 14:28:45 +0300
-Message-ID: <87fs9n4x02.fsf@intel.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 097CF10E526
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 11:56:33 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8447DB822DD;
+ Wed, 29 Mar 2023 11:56:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD3C7C433EF;
+ Wed, 29 Mar 2023 11:56:26 +0000 (UTC)
+Message-ID: <1ce12330-47d9-92e6-46a5-455641e4154f@xs4all.nl>
+Date: Wed, 29 Mar 2023 13:56:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RESEND PATCH v4 03/21] staging: media: tegra-video: fix
+ .vidioc_enum_fmt_vid_cap to return all formats
+Content-Language: en-US
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>
+References: <20230309144320.2937553-1-luca.ceresoli@bootlin.com>
+ <20230309144320.2937553-4-luca.ceresoli@bootlin.com>
+ <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
+In-Reply-To: <85268d69-3d3b-2c0f-ba26-073f09052362@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +57,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-tegra@vger.kernel.org,
+ Richard Leitner <richard.leitner@skidata.com>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Mar 2023, Ma=C3=ADra Canal <mcanal@igalia.com> wrote:
-> On 3/29/23 03:55, David Gow wrote:
->> The drm_buddy_test KUnit tests verify that returned blocks have sizes
->> which are powers of two using is_power_of_2(). However, is_power_of_2()
->> operations on a 'long', but the block size is a u64. So on systems where
->> long is 32-bit, this can sometimes fail even on correctly sized blocks.
->>=20
->> This only reproduces randomly, as the parameters passed to the buddy
->> allocator in this test are random. The seed 0xb2e06022 reproduced it
->> fine here.
->>=20
->> For now, just hardcode an is_power_of_2() implementation using
->> x & (x - 1).
->>=20
->> Signed-off-by: David Gow <davidgow@google.com>
->
-> As we still didn't consolidate an implementation of is_power_of_2_u64(),
+Hi Luca,
 
-I just cooked up some patches to try to make is_power_of_2() more
-flexible. I only sent them to the "CI trybot" for a quick spin first,
-will post to lkml later. [1]
+On 29/03/2023 13:16, Hans Verkuil wrote:
+> Hi Luca,
+> 
+> I finally found the time to test this series. It looks OK, except for this patch.
+> The list of supported formats really has to be the intersection of what the tegra
+> supports and what the sensor supports.
+> 
+> Otherwise you would advertise pixelformats that cannot be used, and the application
+> would have no way of knowing that.
+> 
+> This patch needs to be dropped.
+> 
+> I'll run this series through my other checks, and I will let you know today if
+> anything else needs to be changed.
 
-BR,
-Jani.
+All other checks passed, so this is the only issue blocking this series from being
+merged.
 
+Regards,
 
-[1] https://patchwork.freedesktop.org/series/115785/
+	Hans
 
->
-> Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
->
-> Best Regards,
-> - Ma=C3=ADra Canal
->
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> On 09/03/2023 15:43, Luca Ceresoli wrote:
+>> The .vidioc_enum_fmt_vid_cap (called tegra_channel_enum_format() here)
+>> should return all the supported formats. Instead the current implementation
+>> computes the intersection between the formats it supports and those
+>> supported by the first subdev in the stream (typically the image sensor).
+>>
+>> Remove all the unnecessary logic that supports such algorithm. In order to
+>> do this, also change the Tegra210 CSI TPG formats from the current
+>> open-coded implementation in vi_tpg_fmts_bitmap_init() to a const array in
+>> tegra210.c, just like the one that describes the regular formats.
+>>
+>> Fixes: 3d8a97eabef0 ("media: tegra-video: Add Tegra210 Video input driver")
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+>>
 >> ---
->>=20
->> There are actually a couple of is_power_of_2_u64() implementations
->> already around in:
->> - drivers/gpu/drm/i915/i915_utils.h
->> - fs/btrfs/misc.h (called is_power_of_two_u64)
->>=20
->> So the ideal thing would be to consolidate these in one place.
->>=20
->>=20
+>>
+>> Changed in v4:
+>>  - Added review tags
+>>
+>> No changes in v3
+>> No changes in v2
 >> ---
->>   drivers/gpu/drm/tests/drm_buddy_test.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/te=
-sts/drm_buddy_test.c
->> index f8ee714df396..09ee6f6af896 100644
->> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
->> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
->> @@ -89,7 +89,8 @@ static int check_block(struct kunit *test, struct drm_=
-buddy *mm,
->>   		err =3D -EINVAL;
->>   	}
->>=20=20=20
->> -	if (!is_power_of_2(block_size)) {
->> +	/* We can't use is_power_of_2() for a u64 on 32-bit systems. */
->> +	if (block_size & (block_size - 1)) {
->>   		kunit_err(test, "block size not power of two\n");
->>   		err =3D -EINVAL;
->>   	}
+>>  drivers/staging/media/tegra-video/tegra210.c |   7 +-
+>>  drivers/staging/media/tegra-video/vi.c       | 103 +------------------
+>>  drivers/staging/media/tegra-video/vi.h       |   4 -
+>>  3 files changed, 9 insertions(+), 105 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
+>> index d58370a84737..eb19dd5107ce 100644
+>> --- a/drivers/staging/media/tegra-video/tegra210.c
+>> +++ b/drivers/staging/media/tegra-video/tegra210.c
+>> @@ -683,8 +683,12 @@ enum tegra210_image_format {
+>>  	V4L2_PIX_FMT_##FOURCC,						\
+>>  }
+>>  
+>> -/* Tegra210 supported video formats */
+>>  static const struct tegra_video_format tegra210_video_formats[] = {
+>> +#if IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)
+>> +	/* VI only support 2 formats in TPG mode */
+>> +	TEGRA210_VIDEO_FMT(RAW10,  10, SRGGB10_1X10,      2, T_R16_I,    SRGGB10),
+>> +	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X32_PADHI, 4, T_A8B8G8R8, RGBX32),
+>> +#else
+>>  	/* RAW 8 */
+>>  	TEGRA210_VIDEO_FMT(RAW8, 8, SRGGB8_1X8, 1, T_L8, SRGGB8),
+>>  	TEGRA210_VIDEO_FMT(RAW8, 8, SGRBG8_1X8, 1, T_L8, SGRBG8),
+>> @@ -714,6 +718,7 @@ static const struct tegra_video_format tegra210_video_formats[] = {
+>>  	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, T_V8_Y8__U8_Y8, YUYV),
+>>  	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, T_Y8_U8__Y8_V8, VYUY),
+>>  	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, T_Y8_V8__Y8_U8, UYVY),
+>> +#endif
+>>  };
+>>  
+>>  /* Tegra210 VI operations */
+>> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+>> index 11dd142c98c5..9dba6e97ebdd 100644
+>> --- a/drivers/staging/media/tegra-video/vi.c
+>> +++ b/drivers/staging/media/tegra-video/vi.c
+>> @@ -3,7 +3,6 @@
+>>   * Copyright (C) 2020 NVIDIA CORPORATION.  All rights reserved.
+>>   */
+>>  
+>> -#include <linux/bitmap.h>
+>>  #include <linux/clk.h>
+>>  #include <linux/delay.h>
+>>  #include <linux/host1x.h>
+>> @@ -73,15 +72,6 @@ static int tegra_get_format_idx_by_code(struct tegra_vi *vi,
+>>  	return -1;
+>>  }
+>>  
+>> -static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
+>> -					  unsigned int index)
+>> -{
+>> -	if (index >= vi->soc->nformats)
+>> -		return -EINVAL;
+>> -
+>> -	return vi->soc->video_formats[index].fourcc;
+>> -}
+>> -
+>>  static const struct tegra_video_format *
+>>  tegra_get_format_by_fourcc(struct tegra_vi *vi, u32 fourcc)
+>>  {
+>> @@ -430,19 +420,12 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
+>>  				     struct v4l2_fmtdesc *f)
+>>  {
+>>  	struct tegra_vi_channel *chan = video_drvdata(file);
+>> -	unsigned int index = 0, i;
+>> -	unsigned long *fmts_bitmap = chan->tpg_fmts_bitmap;
+>> -
+>> -	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> -		fmts_bitmap = chan->fmts_bitmap;
+>> +	const struct tegra_vi_soc *soc = chan->vi->soc;
+>>  
+>> -	if (f->index >= bitmap_weight(fmts_bitmap, MAX_FORMAT_NUM))
+>> +	if (f->index >= soc->nformats)
+>>  		return -EINVAL;
+>>  
+>> -	for (i = 0; i < f->index + 1; i++, index++)
+>> -		index = find_next_bit(fmts_bitmap, MAX_FORMAT_NUM, index);
+>> -
+>> -	f->pixelformat = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
+>> +	f->pixelformat = soc->video_formats[f->index].fourcc;
+>>  
+>>  	return 0;
+>>  }
+>> @@ -1059,78 +1042,6 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+>>  	return 0;
+>>  }
+>>  
+>> -/* VI only support 2 formats in TPG mode */
+>> -static void vi_tpg_fmts_bitmap_init(struct tegra_vi_channel *chan)
+>> -{
+>> -	int index;
+>> -
+>> -	bitmap_zero(chan->tpg_fmts_bitmap, MAX_FORMAT_NUM);
+>> -
+>> -	index = tegra_get_format_idx_by_code(chan->vi,
+>> -					     MEDIA_BUS_FMT_SRGGB10_1X10, 0);
+>> -	bitmap_set(chan->tpg_fmts_bitmap, index, 1);
+>> -
+>> -	index = tegra_get_format_idx_by_code(chan->vi,
+>> -					     MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+>> -					     0);
+>> -	bitmap_set(chan->tpg_fmts_bitmap, index, 1);
+>> -}
+>> -
+>> -static int vi_fmts_bitmap_init(struct tegra_vi_channel *chan)
+>> -{
+>> -	int index, ret, match_code = 0;
+>> -	struct v4l2_subdev *subdev;
+>> -	struct v4l2_subdev_mbus_code_enum code = {
+>> -		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>> -	};
+>> -
+>> -	bitmap_zero(chan->fmts_bitmap, MAX_FORMAT_NUM);
+>> -
+>> -	/*
+>> -	 * Set the bitmap bits based on all the matched formats between the
+>> -	 * available media bus formats of sub-device and the pre-defined Tegra
+>> -	 * supported video formats.
+>> -	 */
+>> -	subdev = tegra_channel_get_remote_source_subdev(chan);
+>> -	while (1) {
+>> -		ret = v4l2_subdev_call(subdev, pad, enum_mbus_code,
+>> -				       NULL, &code);
+>> -		if (ret < 0)
+>> -			break;
+>> -
+>> -		index = tegra_get_format_idx_by_code(chan->vi, code.code, 0);
+>> -		while (index >= 0) {
+>> -			bitmap_set(chan->fmts_bitmap, index, 1);
+>> -			if (!match_code)
+>> -				match_code = code.code;
+>> -			/* look for other formats with same mbus code */
+>> -			index = tegra_get_format_idx_by_code(chan->vi,
+>> -							     code.code,
+>> -							     index + 1);
+>> -		}
+>> -
+>> -		code.index++;
+>> -	}
+>> -
+>> -	/*
+>> -	 * Set the bitmap bit corresponding to default tegra video format if
+>> -	 * there are no matched formats.
+>> -	 */
+>> -	if (!match_code) {
+>> -		match_code = tegra_default_format.code;
+>> -		index = tegra_get_format_idx_by_code(chan->vi, match_code, 0);
+>> -		if (WARN_ON(index < 0))
+>> -			return -EINVAL;
+>> -
+>> -		bitmap_set(chan->fmts_bitmap, index, 1);
+>> -	}
+>> -
+>> -	/* initialize channel format to the sub-device active format */
+>> -	tegra_channel_set_subdev_active_fmt(chan);
+>> -
+>> -	return 0;
+>> -}
+>> -
+>>  static void tegra_channel_host1x_syncpts_free(struct tegra_vi_channel *chan)
+>>  {
+>>  	int i;
+>> @@ -1501,7 +1412,6 @@ int tegra_v4l2_nodes_setup_tpg(struct tegra_video_device *vid)
+>>  			goto cleanup;
+>>  
+>>  		v4l2_set_subdev_hostdata(&csi_chan->subdev, vi_chan);
+>> -		vi_tpg_fmts_bitmap_init(vi_chan);
+>>  		csi_chan = list_next_entry(csi_chan, list);
+>>  	}
+>>  
+>> @@ -1721,13 +1631,6 @@ static int tegra_vi_graph_notify_complete(struct v4l2_async_notifier *notifier)
+>>  		goto unregister_video;
+>>  	}
+>>  
+>> -	ret = vi_fmts_bitmap_init(chan);
+>> -	if (ret < 0) {
+>> -		dev_err(vi->dev,
+>> -			"failed to initialize formats bitmap: %d\n", ret);
+>> -		goto unregister_video;
+>> -	}
+>> -
+>>  	subdev = tegra_channel_get_remote_csi_subdev(chan);
+>>  	if (!subdev) {
+>>  		ret = -ENODEV;
+>> diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
+>> index a68e2c02c7b0..183796c8a46a 100644
+>> --- a/drivers/staging/media/tegra-video/vi.h
+>> +++ b/drivers/staging/media/tegra-video/vi.h
+>> @@ -163,8 +163,6 @@ struct tegra_vi_graph_entity {
+>>   *
+>>   * @ctrl_handler: V4L2 control handler of this video channel
+>>   * @syncpt_timeout_retry: syncpt timeout retry count for the capture
+>> - * @fmts_bitmap: a bitmap for supported formats matching v4l2 subdev formats
+>> - * @tpg_fmts_bitmap: a bitmap for supported TPG formats
+>>   * @pg_mode: test pattern generator mode (disabled/direct/patch)
+>>   * @notifier: V4L2 asynchronous subdevs notifier
+>>   */
+>> @@ -205,8 +203,6 @@ struct tegra_vi_channel {
+>>  
+>>  	struct v4l2_ctrl_handler ctrl_handler;
+>>  	unsigned int syncpt_timeout_retry;
+>> -	DECLARE_BITMAP(fmts_bitmap, MAX_FORMAT_NUM);
+>> -	DECLARE_BITMAP(tpg_fmts_bitmap, MAX_FORMAT_NUM);
+>>  	enum tegra_vi_pg_mode pg_mode;
+>>  
+>>  	struct v4l2_async_notifier notifier;
+> 
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
