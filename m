@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D926CEFA8
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 18:43:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59E16CEFB5
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 18:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A83610EB68;
-	Wed, 29 Mar 2023 16:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A09610EB94;
+	Wed, 29 Mar 2023 16:46:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D60B110EB68
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 16:43:08 +0000 (UTC)
-Received: by mail-ed1-x534.google.com with SMTP id t10so65702846edd.12
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 09:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680108187;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=59iGGLQv4VqlYF3KsuYafk1DDB0CiD8xCfmF5dOY3Xk=;
- b=E89EYzKbDpKbt5bqTZoHAItG+WAPawe+rHlaaDdzZq4M/A68CJ+etkeDY0X3Gtr4ez
- BT9NspRaiNwlFkxyH72c8xKhr86yJZMXsS8coS0OTOrDV3z19s0lCa74cSng0VcUW0P+
- IAIaL+EuCiQcrZmROaj9qxWmNv4cXUhP17ny2w56BmTFHksm3KXsZR5ItFnIrlOHjQEC
- XGL7uMaERcHwbAds6HWg26EyKKuWIlEopQH4e4tcRQKiiDQ89Dq66kOV17/nxgEOjt1p
- 0RKqobzVIbJeKOcAWHm4P1YtlCZuA/rv/9y9Fi7d6X7r2ijcL/7AyYCyB+cr8Nsr86BX
- +lAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680108187;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=59iGGLQv4VqlYF3KsuYafk1DDB0CiD8xCfmF5dOY3Xk=;
- b=yvgGEeGgKYk/AkTlXDw2Pat08MbNP2MGlWL0fD3+bnA91m5rpMJnHhivjF2ALw0OS5
- A+JDxKD4rCiCSPTnyIP5yshxEJCWRxrYWpL2EjEaUS+inxkRPDaoZxNrMW5LKlXQTT6u
- Qu5gXLYfsqGB/527wnvTJWREt1fXeYuNqDTyEn121LkPSN9bsPesmvplI5sAlHEjb6tU
- ayYHk6PbHIiQndaC0wF0eFBhoycc1T88gUQ6R3NQm6C8jGNe+thAA+Mi0DpuL584Wsl3
- sf8YHf+1THQhQ1ZJD7p5xZ810Ch+EjvmGWoPP0KOtYv4+bnIMjX3+66e7vXk03BbkbT/
- QokQ==
-X-Gm-Message-State: AAQBX9dQTShQqImOOgIZq+DKNr0oupzaIix+YPHxV6TFq8q/6e0HEnAI
- YUYWAF67mYogDa+QFtAMaBY=
-X-Google-Smtp-Source: AKy350YZR2VoTkrS9ukZuaHLUaH/ank2Gr1CFuZWB8oNsbwYgvIqdm+3cFknNMdVd6wulpFiJOmJDA==
-X-Received: by 2002:a17:906:e99:b0:930:8590:95ef with SMTP id
- p25-20020a1709060e9900b00930859095efmr2917255ejf.18.1680108187262; 
- Wed, 29 Mar 2023 09:43:07 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1256:79a0:b3ac:3147:dd38:b72d?
- ([2a02:908:1256:79a0:b3ac:3147:dd38:b72d])
- by smtp.gmail.com with ESMTPSA id
- r3-20020a50d683000000b004c0239e41d8sm17243431edi.81.2023.03.29.09.43.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 09:43:06 -0700 (PDT)
-Message-ID: <7e2845db-0a8c-c9f2-b858-89d7cb09d098@gmail.com>
-Date: Wed, 29 Mar 2023 18:43:05 +0200
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F76310EB94
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 16:46:41 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 375AE581FA9;
+ Wed, 29 Mar 2023 12:46:40 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 29 Mar 2023 12:46:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1680108400; x=1680115600; bh=ff
+ qq1UU54yrkZu4ksQG15+4UlgWBJoa8eBUm1mgkh5M=; b=CohyV6qy+Nc9nTRzHh
+ dVoxzzfeRWf/zcdMjLmT8Fz+6hK4OAM2dGBUCerDEDJBptQVH6uUwvPbAPlzNZpZ
+ OwUGH+Z0KubZuOwzOskUo7nmZuPKtwg1LDLRowD0g0AgT4om4D/s9EMOSHoMpSaK
+ N7mEaUUshf3nx1VEO68/dyUo6ipy7gtAbEDT/GYM/E3HCbB213JvNvA0NxICTuP5
+ BbtDpRDDTe2PNi2letqytLB8nNmDrmwoU52fcdjyH53gF5f6k9DAxtbAgQg6rH3J
+ lDeLmrJjyXYCmR2Ibl/TAZjTidBSfXxzRWpaeoVZI7LAuR320YmMFu3JgC3rB93k
+ nA0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1680108400; x=1680115600; bh=ffqq1UU54yrkZ
+ u4ksQG15+4UlgWBJoa8eBUm1mgkh5M=; b=MmGQvnMjCAkiSGwkRUwX4RetARm9D
+ K8GOsCO1EkITlg0RzsFCwcyj9n0mMKoI8snuPEcru7tp3Sk/u748BcHKkHREjTXe
+ mi8jU5GIfODiPLxnjf6sF+cMS9h84UTU7Gh1nGRWjRAyyqeG66Nqd1PTcmg0i9eF
+ kRn1wMmDTCTOjYXHPJg0MydOL86jehds/KS6fw1AeA3hTl2UIH4xt7sqWUtTAr6c
+ 5/0127bT/J1SnqN9MYaxmp+XuVsraAHNqkgsI0fmrHBqjn2QVY/z24iWyam9REut
+ CHhfruDjyeiO5hiM6+tdLJ4r+XJIUKjcwa7hUeqqWHKrTt2XeYV6F40Jw==
+X-ME-Sender: <xms:b2skZIkrj7v7eCQ-srynG5OuT7fHNOD5DKnio13n7B-yyjprfsCbWQ>
+ <xme:b2skZH27VLXJCBZfaKB3ryZORw0lOLlNV5XaHfBVoZG0abEUu-RCCQRa0JCKZgfm-
+ th5tFDoeLP8qMk-J98>
+X-ME-Received: <xmr:b2skZGp6IopX5y_netGHsV9ERxoXN0x7chwpWELIUZsDSADgMPdtNGm36Y8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedguddtiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepgfeuuedtfefgveevheejfeeghedvjeejfeehkeffudetuedtgfeiieei
+ ffeutdffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordht
+ vggthh
+X-ME-Proxy: <xmx:b2skZEnHRNXTGagHxNGh1vMIxn0bBpH6sa0YY_W5HHfYVmtKIcGQ2g>
+ <xmx:b2skZG005NpQC_oqGxjnEdI7CE4-0hcnOC_0SGuApZLLsEKjg-c9jA>
+ <xmx:b2skZLvcppXHOBuzYMW62az_vJ_NzISIw5E6E6TbllpdFX8OpkS-_A>
+ <xmx:cGskZP6RjHGqLKriO8IrVxBVBizuh6hP8Elt5fVaKTqezCBv5GBgUg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Mar 2023 12:46:38 -0400 (EDT)
+Date: Wed, 29 Mar 2023 18:46:38 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to
+ alter bridge init order
+Message-ID: <20230329164638.v43la4l7rxut6hk6@penduick>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/ttm: set TTM allocated pages as reserved
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230329135401.105592-1-christian.koenig@amd.com>
- <46f01fc0-ec64-c215-b027-bd748711e6d8@redhat.com>
- <0080e53d-b597-ad34-7e66-6384cae456ae@redhat.com>
- <cf2f0771-39b0-49d6-011c-66b60b6a95c9@gmail.com>
- <ab8ed64b-5c4a-4948-7067-bac5351a45f0@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <ab8ed64b-5c4a-4948-7067-bac5351a45f0@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="joi337d72cqpshm2"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,64 +86,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-eric.Pelloux-prayer@amd.com, npiggin@gmail.com,
- Sean Christopherson <seanjc@google.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--joi337d72cqpshm2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Am 29.03.23 um 17:51 schrieb Paolo Bonzini:
-> On 3/29/23 17:29, Christian König wrote:
->>> First, is it a _host_ corruption or a guest corruption/crash?  A 
->>> guest crash would be KVM doing exactly what it's meant to do: it 
->>> detects the non-reserved, non-refcounted page and refuses to map it 
->>> into the guest.
->>
->> Yes I think that this is what happens.
->
-> Ok I was worried all the time that this was host corruption/crash; 
-> which obviously would have been much worse.
->
->> The use case and mapping is indeed valid as far as I can see, but
->> the handling that KVM does here is really problematic.
->>
->> What needs to happen instead is that when both hva_to_pfn_fast() and 
->> hva_to_pfn_slow() fails you don't try to convert the PFN into a page 
->> and so also don't get a reference to the page.
->>
->> This somehow needs to be communicated to the callers of hva_to_pfn() 
->> so that kvm_release_pfn() knows what to do.
->
-> There's a bit more complication here:
->
-> 1) in the guest page fault path we can avoid taking the reference 
-> altogether
->
-> 2) in other MMU-notifier-protected paths, we can also avoid taking the 
-> reference but we also must stop using kmap() in virt/kvm/pfncache.c.
->
-> 3) other uses of kmap() must switch to MMU-notifier protection.
+On Wed, Mar 29, 2023 at 05:28:28PM +0100, Dave Stevenson wrote:
+> On Wed, 29 Mar 2023 at 14:19, Jagan Teki <jagan@amarulasolutions.com> wro=
+te:
+> >
+> > DSI sink devices typically send the MIPI-DCS commands to the DSI host
+> > via general MIPI_DSI_DCS read and write API.
+> >
+> > The classical DSI sequence mentioned that the DSI host receives MIPI-DCS
+> > commands from the DSI sink first in order to switch HS mode properly.
+> > Once the DSI host switches to HS mode any MIPI-DCS commands from the
+> > DSI sink are unfunctional.
+>=20
+> That statement contradicts the spec.
+> The DSI spec section 8.11.1 Transmission Packet Sequences says that
+> during any BLLP (Blanking or Low Power) period the host can do any of:
+> - remain in LP-11
+> - transmit one or more non-video packets from host to peripheral in escap=
+e mode
+> - transmit one or more non-video packets from host to peripheral in
+> using HS mode
+> - receive one or more packets from peripheral to host using escape mode
+> - transmit data on a different virtual channel.
+>=20
+> Indeed if the sink doesn't set MIPI_DSI_MODE_LPM /
+> MIPI_DSI_MSG_USE_LPM, then the expectation is that any data transfer
+> will be in HS mode.
+>=20
+> That makes me confused as to the need for this patch.
 
-I would rather suggest to return the page additionally to the pfn from 
-hva_to_pfn() when the function was able to grab a reference to it.
+Yeah, and it looks like that would break the expectation that, in
+enable, a bridge can expect its controller to be in HS mode.
 
-When the page is then not available you can't call kmap() on that either.
+I think that was Jagan is trying to do is to work around an issue with
+the Allwinner DSI driver:
+https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/sun4i/sun6=
+i_mipi_dsi.c#L775
 
->
-> If the DRM people are okay with SetPageReserved() as a temporary hack, 
-> we can change or remove the WARN in kvm_is_zone_device_page(), since 
-> that is what you are referring to in the commit message.
+This is working mostly fine since we only have panel support and can
+control that, but with bridge support added in the latest patch, then it
+probably doesn't work anymore.
 
-Adding Daniel for additional comments on this, but essentially we have 
-changed quite some infrastructure to make sure that everybody uses 
-VM_PFNMAP to prevent stuff like this from happening.
+The proper way to fix this isn't to put more logic into the framework,
+it's to make the DSI driver behave as expected by KMS.
 
-I would really prefer a proper solution in KVM instead.
+Unfortunately, that controller is not documented, so it's not clear to
+me how we can fix it.
 
-Christian.
+IIRC, it's basically a state machine where you would encode the
+transitions between one DSI state and the next depending on what your
+expectations are.
 
->
-> Paolo
->
+I think there's two problem with the driver that need to be addressed:
 
+  - First the driver will drop back to LP11 mode to submit commands. I
+    don't think it's needed and could even be hurtful to the video
+    stream if it was to happen during HS mode:
+    https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/sun4i/=
+sun6i_mipi_dsi.c#L877
+
+  - And then, it looks like, in HSD mode, we never get to go to the
+    state LPTX is in (LPDT). It would be interesting to test whether
+    adding a transition to that state makes it work or not.
+
+Maxime
+
+--joi337d72cqpshm2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCRrbQAKCRDj7w1vZxhR
+xQZJAQDH3xgUKxVj5rppBW1RavNmxnchGfTOlX7lOAlA0Q7HlwEArkAWecM+dFuZ
+pc5iqmetMDBWSp9ERryFXaRO1cykVQg=
+=Itto
+-----END PGP SIGNATURE-----
+
+--joi337d72cqpshm2--
