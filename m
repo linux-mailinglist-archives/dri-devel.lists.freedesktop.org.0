@@ -1,66 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113426CEBEB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 16:42:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5217F6CEC4B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 16:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9AF410EAF6;
-	Wed, 29 Mar 2023 14:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50F1410E021;
+	Wed, 29 Mar 2023 14:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7169110EAF6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 14:42:49 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id w133so11743032oib.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 07:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680100968; x=1682692968;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W3EukDY738uK8t5sI5cTKcLQTkVH6nf7vkK4CY7nzUE=;
- b=pisLy7kY9tfNIZwT7ISNjGBM/EpA9AYZBs0Ra5pslb9fY4Ql3VD7Xe13SaBijeN8qX
- d6OFgbxdFPdayZhW3Lxm7rbSRphAvcz6VGN4LljIzIjBht1bLJM6JYPc0UwhDDBDQqYk
- vni5KPILwtSaE2WMaXGcEPgrnerxc/1iSo6iYvAxrI9KGCL3uVKTey6PD1v40CRNQiMH
- wy4IO15GietL/RDIJuqRtp4uLkEIbcrSun1KwBzBkzVldXbzFbUfegu7IKOFM2nsC/VC
- KDtDzundvG9UQMWSZ3Yl3SQPCQu2cOKI3uPCIrYBNzCIXEH0H93x+HEJk+OsPBx/B8vu
- KZJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680100968; x=1682692968;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W3EukDY738uK8t5sI5cTKcLQTkVH6nf7vkK4CY7nzUE=;
- b=JKIElzhIRFxG8XdpO2yJCTuzllT1EqvDUqNHxLg8J1Nolej6MHEtQnCW7qxKd53SZe
- 73U2pJ2PN5YSW5eqn7WVwsTLAv7X0l2nhIIaamygLD1mec2DabqhU8J+td0jKzJHpTSo
- 2gGr+rLqxPKpe11/2vyohboe5dVidXZ06rxnKzyEoZX0KnuXgVdjwcAytEzVfIc4qzs/
- 7it97Zj3Ht/JYIR1epgCIZC8aR3nFu3wDiGzQGoovRtNQBmsMkdkmKFzhZASyibgiIrr
- Wo4xyLatisCJzlbr9GQeD1hpRargxjvml3uO5M8oxk2JcLH8SkiIPWP3GDsmSPhPKgRA
- lhfw==
-X-Gm-Message-State: AO0yUKVmvOF/G9RSuXGrRHMV3uNxp1eOkQl8Yq2sO7ETCKR68mHQBAdt
- 6vZ0DKHR7f6Og3l5fcOIYSI=
-X-Google-Smtp-Source: AK7set8HRWLhppj6CPT0xvYBSZaGn4LonJfEG8/9Usb9GwpaaDnvkpz/AbKxzQJ+Dl1TFiwqyYcQuw==
-X-Received: by 2002:a05:6808:1981:b0:387:24cb:9e78 with SMTP id
- bj1-20020a056808198100b0038724cb9e78mr10657268oib.5.1680100968683; 
- Wed, 29 Mar 2023 07:42:48 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:1c2d:271:d34:84ea])
- by smtp.gmail.com with ESMTPSA id
- v12-20020a4aad8c000000b0053b909a5229sm7223691oom.4.2023.03.29.07.42.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 07:42:48 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: neil.armstrong@linaro.org
-Subject: [PATCH 2/2] drm/exynos: Implement support for DSI clock and data lane
- polarity swap
-Date: Wed, 29 Mar 2023 11:41:55 -0300
-Message-Id: <20230329144155.699196-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230329144155.699196-1-festevam@gmail.com>
-References: <20230329144155.699196-1-festevam@gmail.com>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 028F010E021
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 14:59:44 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 89213582152;
+ Wed, 29 Mar 2023 10:59:42 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 29 Mar 2023 10:59:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1680101982; x=1680109182; bh=/R
+ f1DBC2WMIYkr+Jb4z1OBHAGwhx+V0jxtj3s2JHCvw=; b=m1v7hQovafx4X39Fr1
+ nAXXtqcTTowIyUnVN4Npm7RonqPcHBDhODQRLpuH2gHj69N6ftuzhHkkCvKN2OZg
+ jRULbaAiru1V6PK3zTxxrkeh+JizuIYLLMR3DAIFgBJUav+1JXYKEX0LVnM+uIyE
+ 94Ooonr4P73Zt0WtdxRtEAF2YnCyTrhiJpDUPzceqx63EDSyeQyBuFqJ6u5/U4K2
+ xzIyGBjFNoRUFaG9sN6NKvBAb5CONgWNxUv6ku0OHgW5VBeZ/RESlpLB5bl6OQDQ
+ bYev7JdqmOZiZVDOdX7j5HJdzsMRfJTReE7p4+fEs7d6RHRXbPa4bm1X4INWr3g6
+ 19kw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1680101982; x=1680109182; bh=/Rf1DBC2WMIYk
+ r+Jb4z1OBHAGwhx+V0jxtj3s2JHCvw=; b=kMHIWsO1SOZmGAa79IJB54hecQ6S/
+ +U8TJbH+FRh9WPxducMnPcwyTfz/9LBdRWPrYCNsqU2J1ja64Zz9/qiMTJRTm0n0
+ BXxvzgDeHtHWpwvmIJDCPqa/CjA8idpG3+fjDpkf0K56SsA+XU9hmJqMq64PmCAJ
+ 596JBWTw6gdZCUyPi2eS3BcZRowvbcECHTJk85MGPuwBfHkEVQmMpRrP74x6uIZ9
+ JwnQZJzXP/XrSpGZ+USm093L/8+V9+NtiLIg/pC7e04bVJUYxpPuhkL/GUk4f/0i
+ N742A6Ue88srdSRjTX4/JSSCcgjGmFgwJZs0+48iCedKcXdVgF+sSQWfA==
+X-ME-Sender: <xms:XVIkZHgtT0gPuwRw9nXiS0Id8VF418hbhxy5k1UZnkwVrLdowgYHCw>
+ <xme:XVIkZEBIJi-4V2rEE2AfrtisgUHFESdubCiSuRgNTIJ5RHm73PFSoJWUq-5T5ugCV
+ nwPtGcVtLpyff6hc5E>
+X-ME-Received: <xmr:XVIkZHGbloo5-4oO3kF5gujdkzOFhdNrLtU_fS18W1O2MWqAiUmpXYPkI18>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgkeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+ hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:XVIkZEQh1-DjZir-ksDy4eB9T04PPUBf0nf1BCXisvYw-4hvPV9nSg>
+ <xmx:XVIkZEwGcOLr28Q6yLFYj___AhuNzFDthXSGCHfhreS6NNLUwILz0g>
+ <xmx:XVIkZK6SUUYOw1pkgsmL0C12TaUIVQhaUTtGHEJuRfdpcQOXKsHScw>
+ <xmx:XlIkZBHupX7Y1xm-7sqTSjer9ypR2T-wBft2y2xjwLwdbGjUyQW9nA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Mar 2023 10:59:40 -0400 (EDT)
+Date: Wed, 29 Mar 2023 16:59:39 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
+Message-ID: <20230329145939.7zcex4x2pipivuj4@penduick>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <20230329131929.1328612-3-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6fhpyyv3p3yi6x2l"
+Content-Disposition: inline
+In-Reply-To: <20230329131929.1328612-3-jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,102 +84,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marek Vasut <marex@denx.de>
 
-Implement support for DSI clock and data lane DN/DP polarity swap by
-means of decoding 'lane-polarities' DT property. The controller does
-support DN/DP swap of clock lane and all data lanes, the controller
-does not support polarity swap of individual data lane bundles, add
-a check which verifies all data lanes have the same polarity.
+--6fhpyyv3p3yi6x2l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This has been validated on an imx8mm board that actually has the MIPI DSI
-clock lanes inverted.
+Hi,
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 27 ++++++++++++++++++++++++++-
- include/drm/bridge/samsung-dsim.h     |  2 ++
- 2 files changed, 28 insertions(+), 1 deletion(-)
+The patch prefix should be drm/sun4i:
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index e0a402a85787..5791148e2da2 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -183,6 +183,8 @@
- #define DSIM_AFC_CTL(x)			(((x) & 0x7) << 5)
- 
- /* DSIM_PLLCTRL */
-+#define DSIM_PLL_DPDNSWAP_CLK		(1 << 25)
-+#define DSIM_PLL_DPDNSWAP_DAT		(1 << 24)
- #define DSIM_FREQ_BAND(x)		((x) << 24)
- #define DSIM_PLL_EN			BIT(23)
- #define DSIM_PLL_P(x, offset)		((x) << (offset))
-@@ -622,6 +624,11 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- 		reg |= DSIM_FREQ_BAND(band);
- 	}
- 
-+	if (dsi->swap_dn_dp_clk)
-+		reg |= DSIM_PLL_DPDNSWAP_CLK;
-+	if (dsi->swap_dn_dp_data)
-+		reg |= DSIM_PLL_DPDNSWAP_DAT;
-+
- 	samsung_dsim_write(dsi, DSIM_PLLCTRL_REG, reg);
- 
- 	timeout = 1000;
-@@ -1696,7 +1703,9 @@ static int samsung_dsim_parse_dt(struct samsung_dsim *dsi)
- {
- 	struct device *dev = dsi->dev;
- 	struct device_node *node = dev->of_node;
--	int ret;
-+	u32 lane_polarities[5] = { 0 };
-+	struct device_node *endpoint;
-+	int i, nr_lanes, ret;
- 
- 	ret = samsung_dsim_of_read_u32(node, "samsung,pll-clock-frequency",
- 				       &dsi->pll_clk_rate);
-@@ -1713,6 +1722,22 @@ static int samsung_dsim_parse_dt(struct samsung_dsim *dsi)
- 	if (ret < 0)
- 		return ret;
- 
-+	endpoint = of_graph_get_endpoint_by_regs(node, 1, -1);
-+	nr_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
-+	if (nr_lanes > 0 && nr_lanes <= 4) {
-+		/* Polarity 0 is clock lane, 1..4 are data lanes. */
-+		of_property_read_u32_array(endpoint, "lane-polarities",
-+					   lane_polarities, nr_lanes + 1);
-+		for (i = 1; i <= nr_lanes; i++) {
-+			if (lane_polarities[1] != lane_polarities[i])
-+				DRM_DEV_ERROR(dsi->dev, "Data lanes polarities do not match");
-+		}
-+		if (lane_polarities[0])
-+			dsi->swap_dn_dp_clk = true;
-+		if (lane_polarities[1])
-+			dsi->swap_dn_dp_data = true;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index ba5484de2b30..6a37d1e079bf 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -95,6 +95,8 @@ struct samsung_dsim {
- 	u32 mode_flags;
- 	u32 format;
- 
-+	bool swap_dn_dp_clk;
-+	bool swap_dn_dp_data;
- 	int state;
- 	struct drm_property *brightness;
- 	struct completion completed;
--- 
-2.34.1
+On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
+> Convert the encoder to bridge driver in order to standardize on a
+> single API by supporting all varients of downstream bridge devices.
 
+Which variant, and why do we need to convert to a bridge to support all of =
+them?
+
+> The drm_encoder can't be removed as it's exposed to userspace, so it
+> then becomes a dumb encoder, without any operation implemented.
+>=20
+> Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
+>=20
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+
+[...]
+
+> +static const struct component_ops sun6i_dsi_ops;
+> +
+>  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+>  			    struct mipi_dsi_device *device)
+>  {
+>  	struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
+> -	struct drm_panel *panel =3D of_drm_find_panel(device->dev.of_node);
+
+That one looks unrelated. Why do you need that change?
+
+Maxime
+
+--6fhpyyv3p3yi6x2l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCRSWwAKCRDj7w1vZxhR
+xVxjAQDRiN3Xre3IIz1T4C43lttqvpbPqcE2DHMmgqXL79FOnwD+MQuYxHs10wNq
+DIbqsDZm77R7tky3bD6gIHherQx6qw0=
+=ztGu
+-----END PGP SIGNATURE-----
+
+--6fhpyyv3p3yi6x2l--
