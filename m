@@ -2,91 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13D76CF611
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 00:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F866CF65C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 00:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0F5410E1A3;
-	Wed, 29 Mar 2023 22:01:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAF4B10E1C8;
+	Wed, 29 Mar 2023 22:25:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF58110E199;
- Wed, 29 Mar 2023 22:01:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D62r01uoqVZXDWTPMG19ray6+MVCAbXmKU7Ldf7V8H0iFzBNoUJCrIffImAgnwraP7htIIhGuzFYKO+cNIR/lFGB1sCg0m4lXJIjbGUyq6FMwWQwoYWddLxyb/mzgVSod0rASzwFt4vtRjlTLKrNxAssfu04MgFJx89Am/Qv9HKwP205gSqjxhm34g/2BukRh2ngbIzqItjD2EnR7365vFbspHnO32iqiBNbz1KDzF+wSVh8bwAuoJ6IxS+860Ce75RfWeXuMJ0jt9+/UYvKipJwyQ9pNKohP93ta7afHDjxhcPdryqPjnhSo2jm8VIUCrkZY+I4mwRZDovHqJ2uww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3ZePqlh73OZNe2RJOYDVumPZOnRQhw+S5gN6D3l1Hdo=;
- b=e4f8kUzgd1uEBXyrYQ5Y5RvOwbRyNS4EVS6Ia3nXJzQJqcwzsje7p6fI3FjuEimsibcXNJqyZGeeyRiNlfmKB2O1YrpSUgENM6XTEoQTh8w2KhPfB2sdvcGbEV5UsEjToutjUJoPRu2x2jEu/5KvwSIgia8f2iO9rY/F/FtWuB5AByUUj0ljuPq8hgfDk2L6QaYWGVGpjFoonYJvwEqzhWBrg+/Kds6qNnJv8RDH92GKCVXPclYngFTg4/kVX4UM0MxtZaSfVuPR2z04mQTFvGidyf+0iQStHdd5AC2vMbqF+rNEhH04tyEXZ28g7jSfZsgovEIt//HDAeboZ5My6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ZePqlh73OZNe2RJOYDVumPZOnRQhw+S5gN6D3l1Hdo=;
- b=Wh0o/0Ff8w1fZwPG1qXqSMEk7GbN7YB1PpfGLAc1rhMRxCNCn/pvBLybVQah74Y8CM3s3n0OOn5PePVJZdwc38T0ipMyRJ6kjr+aL7uigTGUpskGUGLvz0zPfb1NQm48OzTWUD30ud5zKLYS39wMovZ+F3NWuFTI7Kqh+CPURKY=
-Received: from BL1P222CA0014.NAMP222.PROD.OUTLOOK.COM (2603:10b6:208:2c7::19)
- by CY5PR12MB6130.namprd12.prod.outlook.com (2603:10b6:930:26::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Wed, 29 Mar
- 2023 22:01:14 +0000
-Received: from BL02EPF00010209.namprd05.prod.outlook.com
- (2603:10b6:208:2c7:cafe::b2) by BL1P222CA0014.outlook.office365.com
- (2603:10b6:208:2c7::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.20 via Frontend
- Transport; Wed, 29 Mar 2023 22:01:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF00010209.mail.protection.outlook.com (10.167.241.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6178.30 via Frontend Transport; Wed, 29 Mar 2023 22:01:14 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 29 Mar
- 2023 17:01:13 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu drm-fixes-6.3
-Date: Wed, 29 Mar 2023 18:00:59 -0400
-Message-ID: <20230329220059.7622-1-alexander.deucher@amd.com>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1914210E1A4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 22:25:03 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id y15so22132432lfa.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680128701;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4fgpkMD2Gq5iFjiTIumx1E6jcgmr9OxUxOWCHdMjMSU=;
+ b=b5esxN6e06GrQ3rnJbWJLsB5M3JAFzduhDYpKhwfIZxE4x74fh//WUEiRH9W++ERVg
+ vA6EIKjMqyBrtOVORVBuWFKTe3bmmMNLGMNBc33kN0XZWbUsLFCtwheqbuacrbPyKm/i
+ 4ilex/roaA1YzIPmEffk+rfQP7PRm5nPYS9n+3IGPNxV/doOSkIFr4lgiT1s8X77D7UP
+ 3srofdvWlMAtl6nijUHAYgs1EHfgTvkDdh9YKL3YoubcrnUvT8emEeCb8ovvlOq1gPdT
+ r1CcX3O30vkEXR7NNAxacYvZONTQlp/KxrEVGhO9uWrqZglg3B2JTwMQVOSKoVp00zZ6
+ EGDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680128701;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4fgpkMD2Gq5iFjiTIumx1E6jcgmr9OxUxOWCHdMjMSU=;
+ b=bWy3by3NOTwEUeICH3k12CE3q6wkujt4vibGKYJvQAcRIqGCpMn5zsoqIVW/y7BmlD
+ j8QDEZyLuhY3kY3HJUytmV7wbeFjZd1Gc0+U6i70RFQ72ggP0+AgMkT1EhvUH4YaFib5
+ wO+VaWhVkvOND8qJbLaQY72xP+Ago5C3YL9OqHIwK0BjJ8dwGLRwnxrd6zqH652efQGa
+ xvO97gBvqYOSNglOAmgy2twLGCuTMHhl1gHuBkovCZq2aOFIll3oFU7rxAz63zKDeQ2F
+ 1GlJI80gs+I1z1Ch6LVWs+8MEfjpWqDwmrH+RAYG80VrfqzUHDwNE6vLesjhnnDBbUQj
+ qTuA==
+X-Gm-Message-State: AAQBX9f6kByjndoUd1kIzAyj90p2jRQqueUDgCPacFn5/MYBK7ocqzuH
+ CjTUBXCc1CXdoh/tBizTvHIHbw==
+X-Google-Smtp-Source: AKy350a7ceYDqZxhdv7287ctkhCU81DymAWjmdaYiSFT1Mz5IWzkTlhlx+5+kxqKB64DelkgwiZ1zA==
+X-Received: by 2002:ac2:5dcd:0:b0:4db:3e2d:3efc with SMTP id
+ x13-20020ac25dcd000000b004db3e2d3efcmr6469196lfq.10.1680128701059; 
+ Wed, 29 Mar 2023 15:25:01 -0700 (PDT)
+Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
+ [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
+ y26-20020ac255ba000000b004e9b307d2c8sm4724226lfg.238.2023.03.29.15.25.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 15:25:00 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: [RFC PATCH 0/3] drm/msm/a5xx: scale MX following the frequency changes
+Date: Thu, 30 Mar 2023 01:24:57 +0300
+Message-Id: <20230329222500.1131836-1-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00010209:EE_|CY5PR12MB6130:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5f7f361-0534-4ee2-4a5d-08db30a11d82
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: i7vDBVxUMsksfL6x5n4aktS3YYgipODCkm6BzXAqAofDbxt/raUdVU7Ya08Bgy0fSHiQlko7aYpOwxkTlE4hQnsmhlDcHfAoajFFVjoQee+86ZjZP7vNz8jZQLucAzZchzd2um7Z2veEb2p9QC7x+LtrX/50WyAPjmYh2lSOGPea8bwtUxQaA8pxwsKgH+WxeKmi91JslDXH/eRO/01yVhC8VIn/k++QcbkG5L3YLU6WRU7rIPImeHw0WG4PDnTSEYciLFtlFimEXIfV2cOswUl4NT+KhvplG71j/nywvOIhuTJf8wgpczNIV+YbeNIKvkFW3Vie57UPh3wQdWjEX00VJ5SPl61CCOgxDdnOs7u2GIrG2PbJSXyMLWgeEYQOo9y5nf2va6Hrx3125/7QkWOyhbAzEPrSZhVA6IUJmw+NKwFS1ihQ/I/A8Hm2dbuxTYwCDvP/88r/S+M0RkESawHk5Z48giCXo3YS8FogyeQ6deKS6CR8H7EqRYwgo6ZPZ5z84CFkX8y8vcolsD+as2V2TJZfM+p0xXn5agKDRVYLVH8/wDoKNa2MB4b0aEk0tcZr0oBQzYbgfQnlHDbeV8RuuiQr8OrVu5L8na1FKzdwZSSt5Z6dOjKaYqoEtFLTOg80tB9YheHRpk8KmV6F9qGUSzGwqjC42RJoT79gAfNbCc/ow/fl+QIQzjYJO01z
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(39860400002)(346002)(396003)(136003)(451199021)(46966006)(36840700001)(40470700004)(966005)(7696005)(478600001)(110136005)(40480700001)(6666004)(26005)(1076003)(316002)(8936002)(70206006)(16526019)(70586007)(40460700003)(8676002)(41300700001)(81166007)(2616005)(82740400003)(4326008)(336012)(4744005)(36860700001)(36756003)(83380400001)(2906002)(5660300002)(82310400005)(186003)(426003)(86362001)(47076005)(356005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 22:01:14.5533 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5f7f361-0534-4ee2-4a5d-08db30a11d82
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00010209.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6130
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,37 +73,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Konrad brought up the topic of scaling the MX domain according to the
+OPP changes. Here is my RFC for this functionality. I post it as an RFC
+for two reasons:
 
-Fixes for 6.3.
+1) I'm not sure that we should scale MX if we are not scaling main
+voltage following the CPR3
 
-The following changes since commit 197b6b60ae7bc51dd0814953c562833143b292aa:
+2) With this patchset I'm getting the following huuuge backtrace from
+lockdep, which I was not able to solve and which, I believe, is a false
+positive. An independent opinion is appreciated.
 
-  Linux 6.3-rc4 (2023-03-26 14:40:20 -0700)
+======================================================
+WARNING: possible circular locking dependency detected
+6.3.0-rc2-00329-g761f7b50599b #348 Not tainted
+------------------------------------------------------
+ring2/111 is trying to acquire lock:
+ffff00008ca79078 (&devfreq->lock){+.+.}-{3:3}, at: qos_min_notifier_call+0x28/0x88
 
-are available in the Git repository at:
+but task is already holding lock:
+ffff00008b7d64e8 (&(c->notifiers)->rwsem){++++}-{3:3}, at: blocking_notifier_call_chain+0x34/0xa0
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.3-2023-03-29
+which lock already depends on the new lock.
 
-for you to fetch changes up to 68dc1846c3a44d5e633be145c169ce2fd5420695:
 
-  drm/amd/display: Take FEC Overhead into Timeslot Calculation (2023-03-29 17:21:06 -0400)
+the existing dependency chain (in reverse order) is:
 
-----------------------------------------------------------------
-amd-drm-fixes-6.3-2023-03-29:
+-> #4 (&(c->notifiers)->rwsem){++++}-{3:3}:
+       lock_acquire+0x68/0x84
+       down_write+0x40/0xe4
+       blocking_notifier_chain_register+0x30/0x8c
+       freq_qos_add_notifier+0x68/0x7c
+       dev_pm_qos_add_notifier+0xa0/0xf8
+       devfreq_add_device.part.0+0x360/0x5c8
+       devm_devfreq_add_device+0x74/0xe0
+       msm_devfreq_init+0xa0/0x16c
+       msm_gpu_init+0x2fc/0x588
+       adreno_gpu_init+0x180/0x2c8
+       a5xx_gpu_init+0x128/0x378
+       adreno_bind+0x180/0x290
+       component_bind_all+0x118/0x24c
+       msm_drm_bind+0x1ac/0x66c
+       try_to_bring_up_aggregate_device+0x168/0x1d4
+       __component_add+0xa8/0x170
+       component_add+0x14/0x20
+       msm_hdmi_dev_probe+0x474/0x5bc
+       platform_probe+0x68/0xd8
+       really_probe+0x148/0x2b4
+       __driver_probe_device+0x78/0xe0
+       driver_probe_device+0xd8/0x160
+       __device_attach_driver+0xb8/0x138
+       bus_for_each_drv+0x84/0xe0
+       __device_attach+0xa8/0x1b0
+       device_initial_probe+0x14/0x20
+       bus_probe_device+0xb0/0xb4
+       deferred_probe_work_func+0x8c/0xc8
+       process_one_work+0x288/0x6b0
+       worker_thread+0x23c/0x440
+       kthread+0x10c/0x110
+       ret_from_fork+0x10/0x20
 
-amdgpu:
-- Two DP MST fixes
+-> #3 (dev_pm_qos_mtx){+.+.}-{3:3}:
+       lock_acquire+0x68/0x84
+       __mutex_lock+0x84/0x400
+       mutex_lock_nested+0x2c/0x38
+       dev_pm_qos_add_notifier+0x38/0xf8
+       genpd_add_device+0x150/0x340
+       __genpd_dev_pm_attach+0xa4/0x264
+       genpd_dev_pm_attach+0x60/0x70
+       dev_pm_domain_attach+0x20/0x34
+       platform_probe+0x50/0xd8
+       really_probe+0x148/0x2b4
+       __driver_probe_device+0x78/0xe0
+       driver_probe_device+0xd8/0x160
+       __device_attach_driver+0xb8/0x138
+       bus_for_each_drv+0x84/0xe0
+       __device_attach+0xa8/0x1b0
+       device_initial_probe+0x14/0x20
+       bus_probe_device+0xb0/0xb4
+       deferred_probe_work_func+0x8c/0xc8
+       process_one_work+0x288/0x6b0
+       worker_thread+0x23c/0x440
+       kthread+0x10c/0x110
+       ret_from_fork+0x10/0x20
 
-----------------------------------------------------------------
-Fangzhi Zuo (2):
-      drm/amd/display: Add DSC Support for Synaptics Cascaded MST Hub
-      drm/amd/display: Take FEC Overhead into Timeslot Calculation
+-> #2 (gpd_list_lock){+.+.}-{3:3}:
+       lock_acquire+0x68/0x84
+       __mutex_lock+0x84/0x400
+       mutex_lock_nested+0x2c/0x38
+       __genpd_dev_pm_attach+0x78/0x264
+       genpd_dev_pm_attach_by_id.part.0+0xa4/0x158
+       genpd_dev_pm_attach_by_name+0x64/0x8c
+       dev_pm_domain_attach_by_name+0x20/0x2c
+       dev_pm_opp_set_config+0x3e4/0x688
+       devm_pm_opp_set_config+0x18/0x70
+       a5xx_gpu_init+0x1d8/0x378
+       adreno_bind+0x180/0x290
+       component_bind_all+0x118/0x24c
+       msm_drm_bind+0x1ac/0x66c
+       try_to_bring_up_aggregate_device+0x168/0x1d4
+       __component_add+0xa8/0x170
+       component_add+0x14/0x20
+       msm_hdmi_dev_probe+0x474/0x5bc
+       platform_probe+0x68/0xd8
+       really_probe+0x148/0x2b4
+       __driver_probe_device+0x78/0xe0
+       driver_probe_device+0xd8/0x160
+       __device_attach_driver+0xb8/0x138
+       bus_for_each_drv+0x84/0xe0
+       __device_attach+0xa8/0x1b0
+       device_initial_probe+0x14/0x20
+       bus_probe_device+0xb0/0xb4
+       deferred_probe_work_func+0x8c/0xc8
+       process_one_work+0x288/0x6b0
+       worker_thread+0x23c/0x440
+       kthread+0x10c/0x110
+       ret_from_fork+0x10/0x20
 
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 51 ++++++++++++++++++----
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    | 15 +++++++
- 2 files changed, 58 insertions(+), 8 deletions(-)
+-> #1 (&opp_table->genpd_virt_dev_lock){+.+.}-{3:3}:
+       lock_acquire+0x68/0x84
+       __mutex_lock+0x84/0x400
+       mutex_lock_nested+0x2c/0x38
+       _set_required_opps+0x64/0x180
+       _set_opp+0x190/0x438
+       dev_pm_opp_set_rate+0x18c/0x274
+       msm_devfreq_target+0x19c/0x224
+       devfreq_set_target+0x84/0x2f8
+       devfreq_update_target+0xc4/0xec
+       devfreq_monitor+0x38/0x1f0
+       process_one_work+0x288/0x6b0
+       worker_thread+0x74/0x440
+       kthread+0x10c/0x110
+       ret_from_fork+0x10/0x20
+
+-> #0 (&devfreq->lock){+.+.}-{3:3}:
+       __lock_acquire+0x138c/0x2218
+       lock_acquire.part.0+0xc4/0x1fc
+       lock_acquire+0x68/0x84
+       __mutex_lock+0x84/0x400
+       mutex_lock_nested+0x2c/0x38
+       qos_min_notifier_call+0x28/0x88
+       blocking_notifier_call_chain+0x6c/0xa0
+       pm_qos_update_target+0xdc/0x24c
+       freq_qos_apply+0x68/0x74
+       apply_constraint+0x100/0x148
+       __dev_pm_qos_update_request+0xb8/0x280
+       dev_pm_qos_update_request+0x3c/0x64
+       msm_devfreq_active+0xf8/0x194
+       msm_gpu_submit+0x18c/0x1a8
+       msm_job_run+0xbc/0x140
+       drm_sched_main+0x190/0x510
+       kthread+0x10c/0x110
+       ret_from_fork+0x10/0x20
+
+other info that might help us debug this:
+
+Chain exists of:
+  &devfreq->lock --> dev_pm_qos_mtx --> &(c->notifiers)->rwsem
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&(c->notifiers)->rwsem);
+                               lock(dev_pm_qos_mtx);
+                               lock(&(c->notifiers)->rwsem);
+  lock(&devfreq->lock);
+
+ *** DEADLOCK ***
+
+4 locks held by ring2/111:
+ #0: ffff000087064170 (&gpu->lock){+.+.}-{3:3}, at: msm_job_run+0xb0/0x140
+ #1: ffff000087064208 (&gpu->active_lock){+.+.}-{3:3}, at: msm_gpu_submit+0xdc/0x1a8
+ #2: ffff80000a344bf8 (dev_pm_qos_mtx){+.+.}-{3:3}, at: dev_pm_qos_update_request+0x30/0x64
+ #3: ffff00008b7d64e8 (&(c->notifiers)->rwsem){++++}-{3:3}, at: blocking_notifier_call_chain+0x34/0xa0
+
+stack backtrace:
+CPU: 0 PID: 111 Comm: ring2 Not tainted 6.3.0-rc2-00329-g761f7b50599b #348
+Hardware name: Qualcomm Technologies, Inc. DB820c (DT)
+Call trace:
+ dump_backtrace+0xa0/0xfc
+ show_stack+0x18/0x24
+ dump_stack_lvl+0x60/0xac
+ dump_stack+0x18/0x24
+ print_circular_bug+0x24c/0x2f8
+ check_noncircular+0x134/0x148
+ __lock_acquire+0x138c/0x2218
+ lock_acquire.part.0+0xc4/0x1fc
+ lock_acquire+0x68/0x84
+ __mutex_lock+0x84/0x400
+ mutex_lock_nested+0x2c/0x38
+ qos_min_notifier_call+0x28/0x88
+ blocking_notifier_call_chain+0x6c/0xa0
+ pm_qos_update_target+0xdc/0x24c
+ freq_qos_apply+0x68/0x74
+ apply_constraint+0x100/0x148
+ __dev_pm_qos_update_request+0xb8/0x280
+ dev_pm_qos_update_request+0x3c/0x64
+ msm_devfreq_active+0xf8/0x194
+ msm_gpu_submit+0x18c/0x1a8
+ msm_job_run+0xbc/0x140
+ drm_sched_main+0x190/0x510
+ kthread+0x10c/0x110
+ ret_from_fork+0x10/0x20
+Rendered 979 frames in 2.001978 sec (489.016434 fps)
+
+Dmitry Baryshkov (3):
+  dt-bindings: display/msm/gpu: allow specifying MX domain A5xx
+  drm/msm/a5xx: scale MX domain following the frequncy changes
+  arm64: dts: qcom: specify power domains for the GPU
+
+ .../devicetree/bindings/display/msm/gpu.yaml  |  9 +++-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi         | 14 ++++-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         | 52 +++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.h         |  3 ++
+ 4 files changed, 76 insertions(+), 2 deletions(-)
+
+-- 
+2.39.2
+
