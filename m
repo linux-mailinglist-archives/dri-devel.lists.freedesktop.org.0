@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D7D6CF4CF
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 22:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038BB6CF4D4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 22:52:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227AF10EC6C;
-	Wed, 29 Mar 2023 20:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB29310EC71;
+	Wed, 29 Mar 2023 20:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from 189.cn (ptr.189.cn [183.61.185.104])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9EF8B10EC6A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 20:51:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 32F9110EC6C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 20:51:47 +0000 (UTC)
 HMM_SOURCE_IP: 10.64.8.43:36106.2084148567
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 7614D1002EB;
- Thu, 30 Mar 2023 04:51:44 +0800 (CST)
+ by 189.cn (HERMES) with SMTP id 29AA2100304;
+ Thu, 30 Mar 2023 04:51:45 +0800 (CST)
 Received: from  ([114.242.206.180])
  by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- 361ed639fbfd4736bfa6e60fe64116e5 for l.stach@pengutronix.de; 
- Thu, 30 Mar 2023 04:51:45 CST
-X-Transaction-ID: 361ed639fbfd4736bfa6e60fe64116e5
+ 1f901d09156e45989b64af738c892223 for l.stach@pengutronix.de; 
+ Thu, 30 Mar 2023 04:51:46 CST
+X-Transaction-ID: 1f901d09156e45989b64af738c892223
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
@@ -32,9 +32,9 @@ To: Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
  David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
  Li Yi <liyi@loongson.cn>
-Subject: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci devices
-Date: Thu, 30 Mar 2023 04:51:28 +0800
-Message-Id: <20230329205129.1513734-6-15330273260@189.cn>
+Subject: [PATCH v3 6/6] drm/etnaviv: allow usperspace create cached coherent bo
+Date: Thu, 30 Mar 2023 04:51:29 +0800
+Message-Id: <20230329205129.1513734-7-15330273260@189.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230329205129.1513734-1-15330273260@189.cn>
 References: <20230329205129.1513734-1-15330273260@189.cn>
@@ -59,520 +59,136 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sui Jingfeng <suijingfeng@loongson.cn>
 
- This patch add pci driver support to etnaviv on the top of what already
- have, take the gc1000 in ls7a1000 and ls2k1000 as the first instance of
- the generic pci device driver.
-
- There is only one gpu core for the gc1000 in ls7a1000 and ls2k1000,
- component framework can be avoid on such a case. Because we want to
- bind the drm driver service to the pci gpu driver manually at a first.
- step.
-
- We avoid to using component framework, because userspace lib use
- libpciaccess to find available GPU in the system before initialization,
- the virtual drm master device will not be get used without a force
- override. X server is one of the examples, yet, mesa loader will do the
- similar thing, it will try to find the pci device to use in the system
- by default and then get a gallium driver name from the pci device id.
- The idea of create a virtual master for the system with pci gpu cause
- unnecessary troubles.
-
- I not saying that component framework is not impossible, it is just that
- the solo pci device should be the master. Creating a virtual platform
- device is still useful, as we can bind some software service to the real
- GPU master to control the dpendency or loading order.
-
- This is not only for pci devices, platform gpu with single core can also
- choose to try the non componment code path.
+ As Lucas pointed, there should have some way to let mesa query the kernel
+ about the host platform whether support cached coherent mode or not. This
+ should touch the ioctl stuff I think, bad design may lead new mesa or
+ libdrm crash old kernel. It need more instruction how to implement this,
+ maybe another patch to do this. Making this driver works on loongson
+ platform is far enough for me.
 
 Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
 ---
- drivers/gpu/drm/etnaviv/Makefile          |  1 +
- drivers/gpu/drm/etnaviv/etnaviv_drv.c     | 62 ++++++++++++---
- drivers/gpu/drm/etnaviv/etnaviv_drv.h     |  3 +
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c     | 97 ++++++++++++++++-------
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h     | 12 +++
- drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c | 88 ++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h | 10 +++
- 7 files changed, 232 insertions(+), 41 deletions(-)
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
- create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c       |  2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       | 22 +++++++++++++++++++--
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  9 ++++++++-
+ include/uapi/drm/etnaviv_drm.h              | 11 ++++++-----
+ 4 files changed, 35 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/Makefile b/drivers/gpu/drm/etnaviv/Makefile
-index 46e5ffad69a6..3f8b99664a58 100644
---- a/drivers/gpu/drm/etnaviv/Makefile
-+++ b/drivers/gpu/drm/etnaviv/Makefile
-@@ -13,6 +13,7 @@ etnaviv-y := \
- 	etnaviv_iommu_v2.o \
- 	etnaviv_iommu.o \
- 	etnaviv_mmu.o \
-+	etnaviv_pci_drv.o \
- 	etnaviv_perfmon.o \
- 	etnaviv_sched.o
- 
 diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-index 93dfa4b1a38b..dbca3bf7fba2 100644
+index dbca3bf7fba2..91aeedb837e9 100644
 --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
 +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
-@@ -7,6 +7,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/module.h>
- #include <linux/of_platform.h>
-+#include <linux/pci.h>
- #include <linux/uaccess.h>
+@@ -276,7 +276,7 @@ static int etnaviv_ioctl_gem_new(struct drm_device *dev, void *data,
+ 	struct drm_etnaviv_gem_new *args = data;
  
- #include <drm/drm_debugfs.h>
-@@ -21,6 +22,7 @@
- #include "etnaviv_gpu.h"
- #include "etnaviv_gem.h"
- #include "etnaviv_mmu.h"
-+#include "etnaviv_pci_drv.h"
- #include "etnaviv_perfmon.h"
- #include "common.xml.h"
+ 	if (args->flags & ~(ETNA_BO_CACHED | ETNA_BO_WC | ETNA_BO_UNCACHED |
+-			    ETNA_BO_FORCE_MMU))
++			    ETNA_BO_CACHED_COHERENT | ETNA_BO_FORCE_MMU))
+ 		return -EINVAL;
  
-@@ -566,6 +568,16 @@ static int etnaviv_alloc_private(struct device *dev,
- 		return ret;
+ 	return etnaviv_gem_new_handle(dev, file, args->size,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index b5f73502e3dd..d8b559bd33d3 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -343,6 +343,7 @@ void *etnaviv_gem_vmap(struct drm_gem_object *obj)
+ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+ {
+ 	struct page **pages;
++	pgprot_t prot;
+ 
+ 	lockdep_assert_held(&obj->lock);
+ 
+@@ -350,8 +351,20 @@ static void *etnaviv_gem_vmap_impl(struct etnaviv_gem_object *obj)
+ 	if (IS_ERR(pages))
+ 		return NULL;
+ 
+-	return vmap(pages, obj->base.size >> PAGE_SHIFT,
+-			VM_MAP, pgprot_writecombine(PAGE_KERNEL));
++	switch (obj->flags) {
++	case ETNA_BO_CACHED_COHERENT:
++	case ETNA_BO_CACHED:
++		prot = PAGE_KERNEL;
++		break;
++	case ETNA_BO_UNCACHED:
++		prot = pgprot_noncached(PAGE_KERNEL);
++		break;
++	case ETNA_BO_WC:
++	default:
++		prot = pgprot_writecombine(PAGE_KERNEL);
++	}
++
++	return vmap(pages, obj->base.size >> PAGE_SHIFT, VM_MAP, prot);
+ }
+ 
+ static inline enum dma_data_direction etnaviv_op_to_dma_dir(u32 op)
+@@ -545,6 +558,7 @@ static const struct drm_gem_object_funcs etnaviv_gem_object_funcs = {
+ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+ 	const struct etnaviv_gem_ops *ops, struct drm_gem_object **obj)
+ {
++	struct etnaviv_drm_private *priv = dev->dev_private;
+ 	struct etnaviv_gem_object *etnaviv_obj;
+ 	unsigned sz = sizeof(*etnaviv_obj);
+ 	bool valid = true;
+@@ -555,6 +569,10 @@ static int etnaviv_gem_new_impl(struct drm_device *dev, u32 size, u32 flags,
+ 	case ETNA_BO_CACHED:
+ 	case ETNA_BO_WC:
+ 		break;
++	case ETNA_BO_CACHED_COHERENT:
++		if (priv->has_cached_coherent)
++			break;
++		fallthrough;
+ 	default:
+ 		valid = false;
  	}
- 
-+	/*
-+	 * Loongson Mips and LoongArch CPU(ls3a5000, ls3c5000, ls2k1000la)
-+	 * maintain cache coherency by hardware
-+	 */
-+	if (IS_ENABLED(CONFIG_CPU_LOONGSON64) || IS_ENABLED(CONFIG_LOONGARCH))
-+		priv->has_cached_coherent = true;
-+
-+	dev_info(dev, "Cached coherent mode is %s\n",
-+		 priv->has_cached_coherent ? "support" : "not support");
-+
- 	*ppriv = priv;
- 
- 	return 0;
-@@ -580,10 +592,9 @@ static void etnaviv_free_private(struct etnaviv_drm_private *priv)
- 	kfree(priv);
- }
- 
--/*
-- * Platform driver:
-- */
--static int etnaviv_bind(struct device *dev)
-+static struct etnaviv_drm_private *etna_private_s;
-+
-+int etnaviv_drm_bind(struct device *dev, bool component)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+index 7031db145a77..9364874918e3 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+@@ -104,11 +104,18 @@ static const struct etnaviv_gem_ops etnaviv_gem_prime_ops = {
+ struct drm_gem_object *etnaviv_gem_prime_import_sg_table(struct drm_device *dev,
+ 	struct dma_buf_attachment *attach, struct sg_table *sgt)
  {
- 	struct etnaviv_drm_private *priv;
- 	struct drm_device *drm;
-@@ -599,12 +610,15 @@ static int etnaviv_bind(struct device *dev)
++	struct etnaviv_drm_private *priv = dev->dev_private;
+ 	struct etnaviv_gem_object *etnaviv_obj;
+ 	size_t size = PAGE_ALIGN(attach->dmabuf->size);
++	u32 cache_flags;
+ 	int ret, npages;
  
- 	priv->drm = drm;
- 	drm->dev_private = priv;
-+	etna_private_s = priv;
- 
- 	dma_set_max_seg_size(dev, SZ_2G);
- 
--	dev_set_drvdata(dev, drm);
-+	if (component)
-+		ret = component_bind_all(dev, drm);
+-	ret = etnaviv_gem_new_private(dev, size, ETNA_BO_WC,
++	if (priv->has_cached_coherent)
++		cache_flags = ETNA_BO_CACHED_COHERENT;
 +	else
-+		ret = etnaviv_gpu_bind(dev, NULL, drm);
- 
--	ret = component_bind_all(dev, drm);
++		cache_flags = ETNA_BO_WC;
++
++	ret = etnaviv_gem_new_private(dev, size, cache_flags,
+ 				      &etnaviv_gem_prime_ops, &etnaviv_obj);
  	if (ret < 0)
- 		goto out_free_priv;
+ 		return ERR_PTR(ret);
+diff --git a/include/uapi/drm/etnaviv_drm.h b/include/uapi/drm/etnaviv_drm.h
+index af024d90453d..474b0db286de 100644
+--- a/include/uapi/drm/etnaviv_drm.h
++++ b/include/uapi/drm/etnaviv_drm.h
+@@ -90,13 +90,14 @@ struct drm_etnaviv_param {
+  * GEM buffers:
+  */
  
-@@ -626,14 +640,17 @@ static int etnaviv_bind(struct device *dev)
- 	return ret;
- }
+-#define ETNA_BO_CACHE_MASK   0x000f0000
++#define ETNA_BO_CACHE_MASK              0x000f0000
+ /* cache modes */
+-#define ETNA_BO_CACHED       0x00010000
+-#define ETNA_BO_WC           0x00020000
+-#define ETNA_BO_UNCACHED     0x00040000
++#define ETNA_BO_CACHED                  0x00010000
++#define ETNA_BO_WC                      0x00020000
++#define ETNA_BO_UNCACHED                0x00040000
++#define ETNA_BO_CACHED_COHERENT         0x00080000
+ /* map flags */
+-#define ETNA_BO_FORCE_MMU    0x00100000
++#define ETNA_BO_FORCE_MMU               0x00100000
  
--static void etnaviv_unbind(struct device *dev)
-+void etnaviv_drm_unbind(struct device *dev, bool component)
- {
--	struct drm_device *drm = dev_get_drvdata(dev);
--	struct etnaviv_drm_private *priv = drm->dev_private;
-+	struct etnaviv_drm_private *priv = etna_private_s;
-+	struct drm_device *drm = priv->drm;
- 
- 	drm_dev_unregister(drm);
- 
--	component_unbind_all(dev, drm);
-+	if (component)
-+		component_unbind_all(dev, drm);
-+	else
-+		etnaviv_gpu_unbind(dev, NULL, drm);
- 
- 	etnaviv_free_private(priv);
- 
-@@ -642,9 +659,22 @@ static void etnaviv_unbind(struct device *dev)
- 	drm_dev_put(drm);
- }
- 
-+/*
-+ * Platform driver:
-+ */
-+static int etnaviv_master_bind(struct device *dev)
-+{
-+	return etnaviv_drm_bind(dev, true);
-+}
-+
-+static void etnaviv_master_unbind(struct device *dev)
-+{
-+	return etnaviv_drm_unbind(dev, true);
-+}
-+
- static const struct component_master_ops etnaviv_master_ops = {
--	.bind = etnaviv_bind,
--	.unbind = etnaviv_unbind,
-+	.bind = etnaviv_master_bind,
-+	.unbind = etnaviv_master_unbind,
- };
- 
- static int etnaviv_pdev_probe(struct platform_device *pdev)
-@@ -764,10 +794,14 @@ static int __init etnaviv_init(void)
- 	if (ret != 0)
- 		return ret;
- 
--	ret = platform_driver_register(&etnaviv_platform_driver);
-+	ret = pci_register_driver(&etnaviv_pci_driver);
- 	if (ret != 0)
- 		goto unregister_gpu_driver;
- 
-+	ret = platform_driver_register(&etnaviv_platform_driver);
-+	if (ret != 0)
-+		goto unregister_pci_driver;
-+
- 	/*
- 	 * If the DT contains at least one available GPU device, instantiate
- 	 * the DRM platform device.
-@@ -789,6 +823,8 @@ static int __init etnaviv_init(void)
- 
- unregister_platform_driver:
- 	platform_driver_unregister(&etnaviv_platform_driver);
-+unregister_pci_driver:
-+	pci_unregister_driver(&etnaviv_pci_driver);
- unregister_gpu_driver:
- 	platform_driver_unregister(&etnaviv_gpu_driver);
- 	return ret;
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index 87fb52c03c5e..934fc3744389 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -86,6 +86,9 @@ bool etnaviv_cmd_validate_one(struct etnaviv_gpu *gpu,
- 	u32 *stream, unsigned int size,
- 	struct drm_etnaviv_gem_submit_reloc *relocs, unsigned int reloc_size);
- 
-+int etnaviv_drm_bind(struct device *dev, bool component);
-+void etnaviv_drm_unbind(struct device *dev, bool component);
-+
- #ifdef CONFIG_DEBUG_FS
- void etnaviv_gem_describe_objects(struct etnaviv_drm_private *priv,
- 	struct seq_file *m);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 4937580551a5..700f2414b87d 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1565,10 +1565,11 @@ static irqreturn_t irq_handler(int irq, void *data)
- 	return ret;
- }
- 
--static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu)
-+static int etnaviv_gpu_clk_get(struct etnaviv_gpu *gpu, bool no_clk)
- {
- 	struct device *dev = gpu->dev;
- 
-+	gpu->no_clk = no_clk;
- 	if (gpu->no_clk)
- 		return 0;
- 
-@@ -1746,8 +1747,7 @@ static const struct thermal_cooling_device_ops cooling_ops = {
- 	.set_cur_state = etnaviv_gpu_cooling_set_cur_state,
- };
- 
--static int etnaviv_gpu_bind(struct device *dev, struct device *master,
--	void *data)
-+int etnaviv_gpu_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct drm_device *drm = data;
- 	struct etnaviv_drm_private *priv = drm->dev_private;
-@@ -1778,7 +1778,6 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
- 	if (ret < 0)
- 		goto out_sched;
- 
--
- 	gpu->drm = drm;
- 	gpu->fence_context = dma_fence_context_alloc(1);
- 	xa_init_flags(&gpu->user_fences, XA_FLAGS_ALLOC);
-@@ -1807,8 +1806,7 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
- 	return ret;
- }
- 
--static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
--	void *data)
-+void etnaviv_gpu_unbind(struct device *dev, struct device *master, void *data)
- {
- 	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
- 
-@@ -1878,9 +1876,37 @@ static int etnaviv_gpu_register_irq(struct etnaviv_gpu *gpu, int irq)
- 	return 0;
- }
- 
--static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
-+static int etnaviv_gpu_plat_drv_init(struct etnaviv_gpu *gpu, bool component)
-+{
-+	struct device *dev = gpu->dev;
-+	struct platform_device *pdev = to_platform_device(dev);
-+	int err;
-+
-+	/* Map registers: */
-+	gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(gpu->mmio))
-+		return PTR_ERR(gpu->mmio);
-+
-+	if (component) {
-+		err = component_add(dev, &gpu_ops);
-+		if (err < 0) {
-+			dev_err(dev, "failed to register component: %d\n", err);
-+			return err;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void etnaviv_gpu_plat_drv_fini(struct etnaviv_gpu *gpu, bool component)
-+{
-+	if (component)
-+		component_del(gpu->dev, &gpu_ops);
-+}
-+
-+int etnaviv_gpu_driver_create(struct device *dev, int irq, bool component,
-+			      bool no_clk, pfn_gpu_init_t gpu_post_init)
- {
--	struct device *dev = &pdev->dev;
- 	struct etnaviv_gpu *gpu;
- 	int err;
- 
-@@ -1888,22 +1914,16 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	if (!gpu)
- 		return -ENOMEM;
- 
--	gpu->dev = &pdev->dev;
-+	gpu->dev = dev;
- 	mutex_init(&gpu->lock);
- 	mutex_init(&gpu->sched_lock);
- 
--	/* Map registers: */
--	gpu->mmio = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(gpu->mmio))
--		return PTR_ERR(gpu->mmio);
--
- 	/* Get Interrupt: */
--	err = etnaviv_gpu_register_irq(gpu,  platform_get_irq(pdev, 0));
-+	err = etnaviv_gpu_register_irq(gpu, irq);
- 	if (err)
- 		return err;
- 
--	/* Get Clocks: */
--	err = etnaviv_gpu_clk_get(gpu);
-+	err = etnaviv_gpu_clk_get(gpu, no_clk);
- 	if (err)
- 		return err;
- 
-@@ -1915,23 +1935,44 @@ static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
- 	 * autosuspend delay is rather arbitary: no measurements have
- 	 * yet been performed to determine an appropriate value.
- 	 */
--	pm_runtime_use_autosuspend(gpu->dev);
--	pm_runtime_set_autosuspend_delay(gpu->dev, 200);
--	pm_runtime_enable(gpu->dev);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 200);
-+	pm_runtime_enable(dev);
- 
--	err = component_add(&pdev->dev, &gpu_ops);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to register component: %d\n", err);
--		return err;
--	}
-+	gpu_post_init(gpu, component);
- 
- 	return 0;
- }
- 
-+void etnaviv_gpu_driver_destroy(struct device *dev, bool component,
-+				pfn_gpu_fini_t gpu_early_fini)
-+{
-+	struct etnaviv_gpu *gpu = dev_get_drvdata(dev);
-+
-+	if (!gpu) {
-+		dev_err(dev, "device not initialized properly\n");
-+		return;
-+	}
-+
-+	gpu_early_fini(gpu, component);
-+
-+	pm_runtime_disable(dev);
-+}
-+
-+static int etnaviv_gpu_platform_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	int irq = platform_get_irq(pdev, 0);
-+
-+	return etnaviv_gpu_driver_create(dev, irq, true, false, etnaviv_gpu_plat_drv_init);
-+}
-+
- static int etnaviv_gpu_platform_remove(struct platform_device *pdev)
- {
--	component_del(&pdev->dev, &gpu_ops);
--	pm_runtime_disable(&pdev->dev);
-+	struct device *dev = &pdev->dev;
-+
-+	etnaviv_gpu_driver_destroy(dev, true, etnaviv_gpu_plat_drv_fini);
-+
- 	return 0;
- }
- 
-@@ -1978,7 +2019,7 @@ static int etnaviv_gpu_rpm_resume(struct device *dev)
- 	return 0;
- }
- 
--static const struct dev_pm_ops etnaviv_gpu_pm_ops = {
-+const struct dev_pm_ops etnaviv_gpu_pm_ops = {
- 	RUNTIME_PM_OPS(etnaviv_gpu_rpm_suspend, etnaviv_gpu_rpm_resume, NULL)
- };
- 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-index 6da5209a7d64..cfcdc5dde9d9 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -207,6 +207,18 @@ void etnaviv_gpu_pm_put(struct etnaviv_gpu *gpu);
- int etnaviv_gpu_wait_idle(struct etnaviv_gpu *gpu, unsigned int timeout_ms);
- void etnaviv_gpu_start_fe(struct etnaviv_gpu *gpu, u32 address, u16 prefetch);
- 
-+typedef int (*pfn_gpu_init_t)(struct etnaviv_gpu *gpu, bool component);
-+typedef void (*pfn_gpu_fini_t)(struct etnaviv_gpu *gpu, bool component);
-+
-+int etnaviv_gpu_driver_create(struct device *dev, int irq, bool component,
-+			      bool no_clk, pfn_gpu_init_t post_init);
-+void etnaviv_gpu_driver_destroy(struct device *dev, bool component,
-+				pfn_gpu_fini_t early_fini);
-+
-+int etnaviv_gpu_bind(struct device *dev, struct device *master, void *data);
-+void etnaviv_gpu_unbind(struct device *dev, struct device *master, void *data);
-+
- extern struct platform_driver etnaviv_gpu_driver;
-+extern const struct dev_pm_ops etnaviv_gpu_pm_ops;
- 
- #endif /* __ETNAVIV_GPU_H__ */
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
-new file mode 100644
-index 000000000000..e64a03061d09
---- /dev/null
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
-@@ -0,0 +1,88 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/pci.h>
-+
-+#include "etnaviv_drv.h"
-+#include "etnaviv_gpu.h"
-+#include "etnaviv_pci_drv.h"
-+
-+enum etnaviv_pci_gpu_family {
-+	GC1000_IN_LS7A1000 = 0,
-+	GC1000_IN_LS2K1000 = 1,
-+};
-+
-+static int etnaviv_gpu_pci_init(struct etnaviv_gpu *gpu, bool component)
-+{
-+	struct pci_dev *pdev = to_pci_dev(gpu->dev);
-+
-+	/* Map registers, assume the PCI bar 0 contain the registers */
-+	gpu->mmio = pcim_iomap(pdev, 0, 0);
-+	if (IS_ERR(gpu->mmio))
-+		return PTR_ERR(gpu->mmio);
-+
-+	gpu->no_clk = true;
-+
-+	return 0;
-+}
-+
-+static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
-+{
-+	struct pci_dev *pdev = to_pci_dev(gpu->dev);
-+
-+	pci_clear_master(pdev);
-+
-+	dev_dbg(gpu->dev, "component is %s\n",
-+		component ? "enabled" : "disabled");
-+}
-+
-+static int etnaviv_pci_probe(struct pci_dev *pdev,
-+			     const struct pci_device_id *ent)
-+{
-+	struct device *dev = &pdev->dev;
-+	int ret;
-+
-+	ret = pcim_enable_device(pdev);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to enable\n");
-+		return ret;
-+	}
-+
-+	pci_set_master(pdev);
-+
-+	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-+	if (ret)
-+		return ret;
-+
-+	/* Create a GPU driver instance for the PCI device itself */
-+	ret = etnaviv_gpu_driver_create(dev, pdev->irq, false, true,
-+					etnaviv_gpu_pci_init);
-+	if (ret)
-+		return ret;
-+
-+	return etnaviv_drm_bind(dev, false);
-+}
-+
-+static void etnaviv_pci_remove(struct pci_dev *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+
-+	etnaviv_drm_unbind(dev, false);
-+
-+	etnaviv_gpu_driver_destroy(dev, false, etnaviv_gpu_pci_fini);
-+}
-+
-+static const struct pci_device_id etnaviv_pci_id_lists[] = {
-+	{0x0014, 0x7a15, PCI_ANY_ID, PCI_ANY_ID, 0, 0, GC1000_IN_LS7A1000},
-+	{0x0014, 0x7a05, PCI_ANY_ID, PCI_ANY_ID, 0, 0, GC1000_IN_LS2K1000},
-+	{0, 0, 0, 0, 0, 0, 0}
-+};
-+
-+struct pci_driver etnaviv_pci_driver = {
-+	.name = "etnaviv",
-+	.id_table = etnaviv_pci_id_lists,
-+	.probe = etnaviv_pci_probe,
-+	.remove = etnaviv_pci_remove,
-+	.driver.pm = pm_ptr(&etnaviv_gpu_pm_ops),
-+};
-+
-+MODULE_DEVICE_TABLE(pci, etnaviv_pci_id_lists);
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
-new file mode 100644
-index 000000000000..6e50ec5f32b7
---- /dev/null
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_pci_drv.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __ETNAVIV_PCI_DRV_H__
-+#define __ETNAVIV_PCI_DRV_H__
-+
-+#include <linux/pci.h>
-+
-+extern struct pci_driver etnaviv_pci_driver;
-+
-+#endif
+ struct drm_etnaviv_gem_new {
+ 	__u64 size;           /* in */
 -- 
 2.25.1
 
