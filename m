@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB96F6CDAC1
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 15:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23AF56CDB3F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 15:54:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D069810E091;
-	Wed, 29 Mar 2023 13:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304A410EAC6;
+	Wed, 29 Mar 2023 13:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBDB610E091
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680096418; x=1711632418;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=m6FLnDpgkhlXNUMmZtqLdiaUxH+Hm0aC8mTZPwF4soE=;
- b=OfXE+dY5fVZ0Izj+wTJBq6WyXLRA213dEjzZSbxumMRJV6aVA3PhIk6r
- WcQ15Bn/ld7ACLOI/I5VPu+3pga1Gd3W00//Pr61s0KN9QvBPTlBlZRdY
- y+rI+EQLWNPxlyz24C0iVRTbpySqp/kuZjW3tcqWk1A6SFSrk87HCInmK
- kC8HCAN1EGy+R/hr/s+ocn3H2acHlyGgikrSCiRQdGVEdJD6pWfWrEJUi
- bUeHHvX8v3wZ2faYUYQYZSoCNTQLttxKzXXpSnV+jwWuBzA2xfYgw2QO7
- Nl2kDlTdD7UzaoXUOF+BcfanE8mnD8Fi0db5fSl0NWpeuhgdOU+m0X+f4 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="324778086"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="324778086"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 06:26:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="930323217"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="930323217"
-Received: from jabolger-mobl2.ger.corp.intel.com (HELO [10.213.199.158])
- ([10.213.199.158])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 06:26:56 -0700
-Message-ID: <80f5338a-30de-86fe-d316-25d3c4e357fa@linux.intel.com>
-Date: Wed, 29 Mar 2023 14:26:54 +0100
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
+ [IPv6:2a00:1450:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0433B10EAC6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 13:54:05 +0000 (UTC)
+Received: by mail-ed1-x534.google.com with SMTP id b20so63691071edd.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 06:54:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680098043;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VLxsnO6ce46LTzVw2amgU9A7cz57aIAO24PeViZnoM0=;
+ b=IeknRkxYWql+waBFagKONWabb19kdomHMbjWnSXDCa5+iC6YzQkhNnS6rmyy2aXq6J
+ Gy/2kWdGheuBl0Sb6lowTD40RVMmjNIUhF+LRJYvXAbKgEVIQUOecgrLa3p71YSU6WcS
+ vqFcQsNabUC2g1T/DQBP4zH+CfVb/ItU1P20QUxhfy2HrWawJl6Gblmm5HD3tKtCf9LB
+ rw34Td6Wp3ITSkgnavl7TbSscRvMFrYNYHcHnUFmX/pbfpui0QwTc1kxK5U6vwnKUKRi
+ MmiTKOsAasQZQl8za+KZTFz/2V0LOrXvjbojAmaXMxUj5L1MhviBUwYxp6j6Mdzd7Qay
+ iQSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680098043;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VLxsnO6ce46LTzVw2amgU9A7cz57aIAO24PeViZnoM0=;
+ b=ktQQSOYEEuRmEW9ufEKPR8fYBbfmhXGmEJTS7R0F/zpHtCwOQDHl7jJFpNbebPI2Db
+ 0gltACKjV4Mnhb6ITRVwspgYUKjYYi2CKJF7VbEhyc4hALNFaqx3yYmbUtFVOkIHWtr0
+ NewyQuGxyeY3i2nXd1dhuDXnCbgb/jLYJZDSv++5Lq9r6nwWPoGIFdT3pPaL+WPYmjup
+ IXf/IM6qqTjmolPZl63n2NBH1tfzrOVQD43fCOMYqFufyNd2c9LdDmBX0ku5pDiBM2aZ
+ 1lY0CyT16CTYdyxiRcc+EFeu2N0VQawJ/ADd3m0E2ST3YyYgwFceKd9aUuvA47FvKEZW
+ PcQw==
+X-Gm-Message-State: AAQBX9doYSo6J6LhIbtDhexww/wDcVuZlMJbjtq3ajDleLmYSbl94fi/
+ 5gI9spzhNwyr9xZdouoHz8tRD+Mcrps=
+X-Google-Smtp-Source: AKy350bwvcDUUrn+uysMENZ2prTld3IUhC6GEjlwyiiRwim7xbYMbPVhfrjzbxqZFj66K47ekmCfvw==
+X-Received: by 2002:aa7:d058:0:b0:502:22fe:ef3c with SMTP id
+ n24-20020aa7d058000000b0050222feef3cmr14342679edo.41.1680098043500; 
+ Wed, 29 Mar 2023 06:54:03 -0700 (PDT)
+Received: from able.fritz.box (p4fc2092b.dip0.t-ipconnect.de. [79.194.9.43])
+ by smtp.gmail.com with ESMTPSA id
+ z17-20020a5096d1000000b004aee4e2a56esm17086833eda.0.2023.03.29.06.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 06:54:02 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: set TTM allocated pages as reserved
+Date: Wed, 29 Mar 2023 15:54:01 +0200
+Message-Id: <20230329135401.105592-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [pull] drm: dma-fence-deadline-core for v6.4
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>
-References: <CAF6AEGvoP9_FERdL6U8S2O-BVt-oAUgAytbE6RvygsoAOwOHvw@mail.gmail.com>
- <ZCMhhToEdWVAEtBh@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <ZCMhhToEdWVAEtBh@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,95 +72,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, dri-devel <dri-devel@lists.freedesktop.org>
+Cc: pbonzini@redhat.com, npiggin@gmail.com, Pierre-eric.Pelloux-prayer@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+KVM tries to grab references to pages in VMAs marked with VM_PFNMAP.
 
-On 28/03/2023 18:19, Daniel Vetter wrote:
-> On Sat, Mar 25, 2023 at 11:24:56AM -0700, Rob Clark wrote:
->> Hi Dave and Daniel,
->>
->> Here is the series for dma-fence deadline hint, without driver
->> specific patches, with the intent that it can be merged into drm-next
->> as well as -driver next trees to enable landing driver specific
->> support through their corresponding -next trees.
->>
->> The following changes since commit eeac8ede17557680855031c6f305ece2378af326:
->>
->>    Linux 6.3-rc2 (2023-03-12 16:36:44 -0700)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.freedesktop.org/drm/msm.git tags/dma-fence-deadline-core
->>
->> for you to fetch changes up to 0bcc8f52a8d9d1f9cd5af7f88c6599a89e64284a:
->>
->>    drm/atomic-helper: Set fence deadline for vblank (2023-03-25 10:55:08 -0700)
-> 
-> Ok apparently there's only igts for the sync_file uabi and the only only
-> userspace for syncobj is the mesa mr that is still under discussion :-/
-> 
-> Yes I know there's a clearly established need for something like this, but
-> also in drm we don't merge conjectured uabi. Especially with tricky stuff
-> that's meant to improve best effort performance/tuning problems, where you
-> really have to benchmark the entire thing and make sure you didn't screw
-> up some interaction.
+This is illegal and can cause data corruption with TTM pages because
+only some of them are actually reference counted.
 
-Would we consider bypassing any ABI concerns by going with my proposal* 
-for the wait boost specific case?
+Mark all pages allocated by TTM as reserved, this way KVM handles the
+PFNs like they would point to MMIO space.
 
-Regards,
+This still results in a warning, but at least no other problem.
 
-Tvrtko
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_pool.c | 62 ++++++++++++++++++++--------------
+ 1 file changed, 36 insertions(+), 26 deletions(-)
 
-*) https://patchwork.freedesktop.org/series/113846/
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index aa116a7bbae3..c665a8bf366a 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -82,6 +82,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+ 	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
+ 	struct ttm_pool_dma *dma;
+ 	struct page *p;
++	unsigned int i;
+ 	void *vaddr;
+ 
+ 	/* Don't set the __GFP_COMP flag for higher order allocations.
+@@ -94,38 +95,43 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+ 
+ 	if (!pool->use_dma_alloc) {
+ 		p = alloc_pages(gfp_flags, order);
+-		if (p)
+-			p->private = order;
+-		return p;
+-	}
++		if (!p)
++			return NULL;
+ 
+-	dma = kmalloc(sizeof(*dma), GFP_KERNEL);
+-	if (!dma)
+-		return NULL;
++		p->private = order;
++	} else {
+ 
+-	if (order)
+-		attr |= DMA_ATTR_NO_WARN;
++		dma = kmalloc(sizeof(*dma), GFP_KERNEL);
++		if (!dma)
++			return NULL;
+ 
+-	vaddr = dma_alloc_attrs(pool->dev, (1ULL << order) * PAGE_SIZE,
+-				&dma->addr, gfp_flags, attr);
+-	if (!vaddr)
+-		goto error_free;
++		if (order)
++			attr |= DMA_ATTR_NO_WARN;
+ 
+-	/* TODO: This is an illegal abuse of the DMA API, but we need to rework
+-	 * TTM page fault handling and extend the DMA API to clean this up.
+-	 */
+-	if (is_vmalloc_addr(vaddr))
+-		p = vmalloc_to_page(vaddr);
+-	else
+-		p = virt_to_page(vaddr);
++		vaddr = dma_alloc_attrs(pool->dev, (1ULL << order) * PAGE_SIZE,
++					&dma->addr, gfp_flags, attr);
++		if (!vaddr) {
++			kfree(dma);
++			return NULL;
++		}
+ 
+-	dma->vaddr = (unsigned long)vaddr | order;
+-	p->private = (unsigned long)dma;
+-	return p;
++		/* TODO: This is an illegal abuse of the DMA API, but we need
++		 * to rework TTM page fault handling and extend the DMA API to
++		 * clean this up.
++		 */
++		if (is_vmalloc_addr(vaddr))
++			p = vmalloc_to_page(vaddr);
++		else
++			p = virt_to_page(vaddr);
+ 
+-error_free:
+-	kfree(dma);
+-	return NULL;
++		dma->vaddr = (unsigned long)vaddr | order;
++		p->private = (unsigned long)dma;
++	}
++
++	for (i = 0; i < (1 << order); ++i)
++		SetPageReserved(&p[i]);
++
++	return p;
+ }
+ 
+ /* Reset the caching and pages of size 1 << order */
+@@ -134,6 +140,7 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+ {
+ 	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
+ 	struct ttm_pool_dma *dma;
++	unsigned int i;
+ 	void *vaddr;
+ 
+ #ifdef CONFIG_X86
+@@ -144,6 +151,9 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+ 		set_pages_wb(p, 1 << order);
+ #endif
+ 
++	for (i = 0; i < (1 << order); ++i)
++		ClearPageReserved(&p[i]);
++
+ 	if (!pool || !pool->use_dma_alloc) {
+ 		__free_pages(p, order);
+ 		return;
+-- 
+2.34.1
 
-
-> 
-> To make sure this isn't stuck another full cycle, is there a way to wittle
-> this just down to the kms atomic flip boosting parts? That way we could at
-> least start landing the core&driver bits ...
-> -Daniel
-> 
->>
->> ----------------------------------------------------------------
->> Immutable branch with dma-fence deadline hint support between drm-next
->> and driver -next trees.
->>
->> ----------------------------------------------------------------
->> Rob Clark (11):
->>        dma-buf/dma-fence: Add deadline awareness
->>        dma-buf/fence-array: Add fence deadline support
->>        dma-buf/fence-chain: Add fence deadline support
->>        dma-buf/dma-resv: Add a way to set fence deadline
->>        dma-buf/sync_file: Surface sync-file uABI
->>        dma-buf/sync_file: Add SET_DEADLINE ioctl
->>        dma-buf/sw_sync: Add fence deadline support
->>        drm/scheduler: Add fence deadline support
->>        drm/syncobj: Add deadline support for syncobj waits
->>        drm/vblank: Add helper to get next vblank time
->>        drm/atomic-helper: Set fence deadline for vblank
->>
->>   Documentation/driver-api/dma-buf.rst    | 16 ++++++-
->>   drivers/dma-buf/dma-fence-array.c       | 11 +++++
->>   drivers/dma-buf/dma-fence-chain.c       | 12 +++++
->>   drivers/dma-buf/dma-fence.c             | 60 ++++++++++++++++++++++++
->>   drivers/dma-buf/dma-resv.c              | 22 +++++++++
->>   drivers/dma-buf/sw_sync.c               | 81 +++++++++++++++++++++++++++++++++
->>   drivers/dma-buf/sync_debug.h            |  2 +
->>   drivers/dma-buf/sync_file.c             | 19 ++++++++
->>   drivers/gpu/drm/drm_atomic_helper.c     | 37 +++++++++++++++
->>   drivers/gpu/drm/drm_syncobj.c           | 64 ++++++++++++++++++++------
->>   drivers/gpu/drm/drm_vblank.c            | 53 +++++++++++++++++----
->>   drivers/gpu/drm/scheduler/sched_fence.c | 46 +++++++++++++++++++
->>   drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
->>   include/drm/drm_vblank.h                |  1 +
->>   include/drm/gpu_scheduler.h             | 17 +++++++
->>   include/linux/dma-fence.h               | 22 +++++++++
->>   include/linux/dma-resv.h                |  2 +
->>   include/uapi/drm/drm.h                  | 17 +++++++
->>   include/uapi/linux/sync_file.h          | 59 +++++++++++++++---------
->>   19 files changed, 496 insertions(+), 47 deletions(-)
-> 
