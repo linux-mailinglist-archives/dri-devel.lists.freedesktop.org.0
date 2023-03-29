@@ -2,69 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A9A6CED59
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC5E6CED74
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:50:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFD0A10EB5D;
-	Wed, 29 Mar 2023 15:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2484C10EB64;
+	Wed, 29 Mar 2023 15:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 925A310EB7B
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:48:59 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id o20so13699330ljp.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:48:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680104938;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8jD8NVqtsPudciwhm8Tk75NT4wlLoElkTtYals9Zh3s=;
- b=PKp8ZyPYUiw16H1l/Agu1Uq/X0RhJ79mp3NP7m0jlPV/StUndLoQ357goARYFgOX4F
- QrlJRI8G2izmMQ/gHL21qr1I6bKibkBLgoNaNcIIJveQRYu5Xq5R/mgu+zTeA2ztD5G5
- 6JSm8iy20Z5prXFolUXL8ZOsMtmdGrbabURIklMpJVYndk6txmfVSk4Ov2XBQ99X+iiB
- 1CGIqAzaO7+S1XY2n4JMrmnp3vhjhroT6PX081yUUnqBul8g0L3mxoK0nzg8HhbfLsFg
- 5MQEtKVlHQrk+luDabREpnLgOI/CLsO9jH96uEt2pTty3ZacA54NZi89k0HSzMYtKbvJ
- jPAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680104938;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8jD8NVqtsPudciwhm8Tk75NT4wlLoElkTtYals9Zh3s=;
- b=xGzZBGKUdnlZ3oqE0S2z0eLPcNRQd0V9Hv0ALwqAleCd+y4FgYG8m1mHajDOq7wHNs
- aQsTuGRPA3vPpcP5tZJYTrM47SUAkyhM+8+h7vzLHK9BzcmQe1xzn4Cf/a1TQZ0g9kaY
- dCx2HDMz9rm9ik+RqprV0vaz6E9tlCUxphq0Jys8o5529nIGSC8fyC6lvqLVksrqV5Th
- kW2t42F7f/1KBIMQ4Y8b1gIb841sE4fttobV95apBz0fLpoDwVjGMderSZIPyzjk5MXE
- X2llAB3Fg0m3X8gKpoR3uqFlbSlQMAP9DY1lCIZ0udV60oOLjZTW75VaDCV+q1IuI/3P
- pvpw==
-X-Gm-Message-State: AAQBX9ek27GKyWpZTWbok/TKAvsQCA15ONZcaT0iCwcMr/XI2xXY++Sy
- 0eIgkudCMYCKclNNBkslm78QnA==
-X-Google-Smtp-Source: AKy350bZwb0nN1eKm+plrJvvRh6qWAf4xzfzhIpDrFsv1Xnvma4OkZ7P9lJEitJzajVJLNdExNnbaw==
-X-Received: by 2002:a2e:8604:0:b0:290:5166:7c28 with SMTP id
- a4-20020a2e8604000000b0029051667c28mr7077535lji.20.1680104937770; 
- Wed, 29 Mar 2023 08:48:57 -0700 (PDT)
-Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
- by smtp.gmail.com with ESMTPSA id
- u14-20020a2e854e000000b00299ab2475ebsm5546763ljj.1.2023.03.29.08.48.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 08:48:57 -0700 (PDT)
-Message-ID: <83986fa9-c9eb-ae5a-b239-584092f2cea5@linaro.org>
-Date: Wed, 29 Mar 2023 17:48:55 +0200
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3874E10EB55
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:50:43 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:58922.1411433373
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id CF745100211;
+ Wed, 29 Mar 2023 23:50:39 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
+ 126a1573416742bdbdd4f32dbe181f51 for maarten.lankhorst@linux.intel.com; 
+ Wed, 29 Mar 2023 23:50:40 CST
+X-Transaction-ID: 126a1573416742bdbdd4f32dbe181f51
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Subject: [PATCH v9 0/2] drm: add kms driver for loongson display controller
+Date: Wed, 29 Mar 2023 23:50:31 +0800
+Message-Id: <20230329155033.1303550-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/msm/adreno: adreno_gpu: Use suspend() instead of
- idle() on load error
-Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>
-References: <20230329140445.2180662-1-konrad.dybcio@linaro.org>
- <ZCRNFitcrAeH27Pn@hovoldconsulting.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <ZCRNFitcrAeH27Pn@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,79 +51,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>, agross@kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
+Cc: linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nathan@kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Sui Jingfeng <suijingfeng@loongson.cn>
 
+Loongson display controller IP has been integrated in both Loongson
+North Bridge chipset(ls7a1000 and ls7a2000) and Loongson SoCs(ls2k1000
+and ls2k2000 etc), it even has been included in Loongson BMC products.
 
-On 29.03.2023 16:37, Johan Hovold wrote:
-> On Wed, Mar 29, 2023 at 04:04:44PM +0200, Konrad Dybcio wrote:
->> If we fail to initialize the GPU for whatever reason (say we don't
->> embed the GPU firmware files in the initrd), the error path involves
->> pm_runtime_put_sync() which then calls idle() instead of suspend().
->>
->> This is suboptimal, as it means that we're not going through the
->> clean shutdown sequence. With at least A619_holi, this makes the GPU
->> not wake up until it goes through at least one more start-fail-stop
->> cycle. Fix that by using pm_runtime_put_sync_suspend to force a clean
->> shutdown.
-> 
-> This does not sound right. If pm_runtime_put_sync() fails to suspend the
-> device when the usage count drops to zero, then you have a bug somewhere
-> else.
-I was surprised to see that it was not called as well, but I wasn't able
-to track it down before..
+This display controller is a PCI device, it has two display pipe. For
+the DC in LS7A1000 and LS2K1000 each way has a DVO output interface
+which provide RGB888 signals, vertical & horizontal synchronisations,
+and the pixel clock. Each CRTC is able to support 1920x1080@60Hz,
+the maximum resolution is 2048x2048 according to the hardware spec.
 
-> 
-> Also since commit 2c087a336676 ("drm/msm/adreno: Load the firmware
-> before bringing up the hardware") the firmware is loaded before even
-> hitting these paths so the above description does not sound right in
-> that respect either (or is missing some details).
-..but I did some more digging and I found that the precise "firmware"
-that fails is the ZAP blob, which is not checked like SQE in the
-commit you mentioned!
+For the DC in LS7A2000, each display pipe is equipped with a built-in
+HDMI encoder which is compliant with HDMI 1.4 specification, thus it
+support 3840x2160@30Hz. The first display pipe is also equipped with
+a transparent vga encoder which is parallel with the HDMI encoder.
+The DC in LS7A2000 is more complete, besides above feature, it has
+two hardware cursors, two hardware vblank counter and two scanout
+position recorders.
 
-Now I don't think that we can easily check for it as-is since
-zap_shader_load_mdt() does the entire find-load-authenticate
-dance which is required with secure assets, but it's obviously
-possible to rip out the find-load part of that and go on from
-there.
+ v1 -> v2:
+  1) Use hpd status reg when polling for ls7a2000
+  2) Fix all warnings emerged when compile with W=1
 
-Do you think that would be a better solution?
+ v2 -> v3:
+  1) Add COMPILE_TEST in Kconfig and make the driver off by default
+  2) Alphabetical sorting headers (Thomas)
+  3) Untangle register access functions as much as possible (Thomas)
+  4) Switch to TTM based memory manager and prefer cached mapping
+     for Loongson SoC (Thomas)
+  5) Add chip id detection method, now all models are distinguishable.
+  6) Revise builtin HDMI phy driver, nearly all main stream mode
+     below 4K@30Hz is tested, this driver supported these mode very
+     well including clone display mode and extend display mode.
 
-Konrad
+ v3 -> v4:
+  1) Quickly fix a small mistake.
 
-> 
->> Test cases:
->> 1. firmware baked into kernel
->> 2. error loading fw in initrd -> load from rootfs at DE start
->>
->> Both succeed on A619_holi (SM6375) and A630 (SDM845).
->>
->> Fixes: 0d997f95b70f ("drm/msm/adreno: fix runtime PM imbalance at gpu load")
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>  drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> index f61896629be6..59f3302e8167 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> @@ -477,7 +477,7 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
->>  	return gpu;
->>  
->>  err_put_rpm:
->> -	pm_runtime_put_sync(&pdev->dev);
->> +	pm_runtime_put_sync_suspend(&pdev->dev);
->>  err_disable_rpm:
->>  	pm_runtime_disable(&pdev->dev);
-> 
-> Johan
+ v4 -> v5:
+  1) Drop potential support for Loongson 2K series SoC temporary,
+     this part should be resend with the DT binding patch in the future.
+  2) Add per display pipe debugfs support to the builtin HDMI encoder.
+  3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+  4) Rewrite encoder and connector initialization part, untangle it
+     according to the chip(Thomas).
+
+ v5 -> v6:
+  1) Remove stray code which didn't get used, say lsdc_of_get_reserved_ram
+  2) Fix all typos I could found, make sentences and code more readable
+  3) Untangle lsdc_hdmi*_connector_detect() function according to the pipe
+  4) After a serious consideration, we rename this driver as loongson.
+     Because we also have drivers toward the LoongGPU IP in LS7A2000 and
+     LS2K2000. Besides, there are also drivers about the external encoder,
+     HDMI audio driver and vbios support etc. This patch only provide DC
+     driver part, my teammate Li Yi believe that loongson will be more
+     suitable for loongson graphics than lsdc in the long run.
+
+     loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+
+  v6 -> v7:
+   1) Add prime support, self-sharing is works. sharing buffer with etnaviv
+      is also tested, and its works with limitation.
+   2) Implement buffer objects tracking with list_head.
+   3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+   4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+      during BO creation. Patch V1 ~ V6 of this series no longer works
+      on latest kernel. Thus, we send V7 to revival them.
+
+  v7 -> v8:
+   1) Zero a compile warnnings on 32-bit platform, compile with W=1
+   2) Revise lsdc_bo_gpu_offset() and minor cleanup
+   3) Pageflip tested on the virtual terminal with following commands
+
+      modetest -M loongson -s 32:1920x1080 -v
+      modetest -M loongson -s 34:1920x1080 -v -F tiles
+
+     It works like a charm, when running pageflip test with dual screnn
+     configuration, another two additional bo created by the modetest
+     emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
+     enough.
+
+     # cat bos
+
+         bo[0000]: size:     8112kB VRAM
+         bo[0001]: size:       16kB VRAM
+         bo[0002]: size:       16kB VRAM
+         bo[0003]: size:    16208kB VRAM
+         bo[0004]: size:     8112kB VRAM
+         bo[0005]: size:     8112kB VRAM
+
+  v8 -> v9:
+   1) Select I2C and I2C_ALGOBIT in Kconfig and should depend on MMU.
+   2) Using pci_get_domain_bus_and_slot to get the GPU device.
+   3) Other minor improvements.
+
+Sui Jingfeng (2):
+  MAINTAINERS: add maintainers for DRM LOONGSON driver
+  drm: add kms driver for loongson display controller
+
+ MAINTAINERS                             |   7 +
+ drivers/gpu/drm/Kconfig                 |   2 +
+ drivers/gpu/drm/Makefile                |   1 +
+ drivers/gpu/drm/loongson/Kconfig        |  17 +
+ drivers/gpu/drm/loongson/Makefile       |  16 +
+ drivers/gpu/drm/loongson/lsdc_crtc.c    | 381 ++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_debugfs.c | 261 +++++++++++
+ drivers/gpu/drm/loongson/lsdc_drv.c     | 508 +++++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_drv.h     | 324 ++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_gem.c     | 294 +++++++++++++
+ drivers/gpu/drm/loongson/lsdc_gem.h     |  26 ++
+ drivers/gpu/drm/loongson/lsdc_i2c.c     | 171 +++++++
+ drivers/gpu/drm/loongson/lsdc_irq.c     |  86 ++++
+ drivers/gpu/drm/loongson/lsdc_irq.h     |  12 +
+ drivers/gpu/drm/loongson/lsdc_output.c  | 563 ++++++++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_output.h  |  14 +
+ drivers/gpu/drm/loongson/lsdc_plane.c   | 432 ++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_pll.c     | 338 ++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_pll.h     |  76 ++++
+ drivers/gpu/drm/loongson/lsdc_probe.c   |  86 ++++
+ drivers/gpu/drm/loongson/lsdc_probe.h   |  11 +
+ drivers/gpu/drm/loongson/lsdc_regs.h    | 370 ++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_ttm.c     | 426 ++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_ttm.h     |  71 +++
+ 24 files changed, 4493 insertions(+)
+ create mode 100644 drivers/gpu/drm/loongson/Kconfig
+ create mode 100644 drivers/gpu/drm/loongson/Makefile
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pll.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pll.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
+
+-- 
+2.25.1
+
