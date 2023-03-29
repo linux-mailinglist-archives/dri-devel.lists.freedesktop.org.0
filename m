@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 391356CD6AF
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E82E6CD726
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 12:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDAE10E510;
-	Wed, 29 Mar 2023 09:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C86010EA50;
+	Wed, 29 Mar 2023 10:00:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A848510E510
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 09:42:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680082962; x=1711618962;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=wsUEbabLSJ+xqGqt7Fcvy5Ojm7Y0fRXRafogIThAt4k=;
- b=GsOtpc2Gl8eaTNKg92V9rKTLEf9fbiNsPYmdPfsY528rck2e2M7FFQZ3
- JSx76SvncXEW9B/eTYSk9waY580btsWKgBKD+XzVxEG0Kc4BLydDZZd+j
- XLg/zcwVrPkjUV32kJ6uZhEXJZThkbm1tLHIc1LHp8iogdDLNWSlq7fXd
- PCf7HBzYkBVh3Xll9E+oavrOxiTUlO8lu15wUGnO7fHglBHxbIVg6clVg
- TYM8xF1mljanyLJHoMB3FZlRBQjMAVjE1wwPWcJgKgU3EOKrT+PDnfEal
- HnGSjeviq1ovLnfgBGa+/ArRxJhSjEddOCJdJ38kcGGwMp2ZypbIWj+Fb g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="403454478"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="403454478"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 02:42:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="773508919"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="773508919"
-Received: from jetten-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.51.146])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 02:42:37 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: David Gow <davidgow@google.com>, =?utf-8?Q?Lu=C3=ADs?= Mendes
- <luis.p.mendes@gmail.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, =?utf-8?Q?Ma?=
- =?utf-8?Q?=C3=ADra?= Canal
- <mairacanal@riseup.net>, Arthur Grillo <arthurgrillo@riseup.net>
-Subject: Re: [PATCH 2/2] drm: test: Fix 32-bit issue in drm_buddy_test
-In-Reply-To: <87lejf522a.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230329065532.2122295-1-davidgow@google.com>
- <20230329065532.2122295-2-davidgow@google.com> <87lejf522a.fsf@intel.com>
-Date: Wed, 29 Mar 2023 12:42:35 +0300
-Message-ID: <87ilej51x0.fsf@intel.com>
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77F410EA50;
+ Wed, 29 Mar 2023 10:00:34 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.101.196.174])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 9D3493F326; 
+ Wed, 29 Mar 2023 10:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1680084032;
+ bh=X736Xo2cMDDW60Y3vTbzigd2Xc6Dr2xSpP9bWqw8uGc=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=BofD7a6Vm5hTCXvD6Qwb7kJmA/nDRL7QMu2lsS9dynDzisMxrRiO/8CeNWiUhUkoE
+ rJB19HbYNUdJxfYNmQKyUq4geowyOwQNQQPICNEX65CFUHDPSNHtdT71U5pHFjlBRf
+ aOqXnJzD2CN/RS7Vy145g5BIL9Wj/yErU00fopXZ/QsHOaDXoROHJmjGZQGLsOJn1L
+ HZtYQVctKfWrnslEL+jFO5sh0nnnX5eRrA6YBzvnJ/wRdsPLh5HVMKsmYwC5wr35+Z
+ UXD+LP4o4mGVK7n0yA7ML5ChhCclQVzzBUz/uAnM8Wo3bmNSjHCFoMbC+gFUadGTW+
+ Ea17loXeZ68Dw==
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com
+Subject: [PATCH 1/2] drm/amdgpu: Reset GPU on S0ix when device supports BOCO
+Date: Wed, 29 Mar 2023 17:59:29 +0800
+Message-Id: <20230329095933.1203559-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,70 +51,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Jingyu Wang <jingyuwang_vip@163.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ YiPeng Chai <YiPeng.Chai@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ amd-gfx@lists.freedesktop.org, Jiansong Chen <Jiansong.Chen@amd.com>,
+ Kenneth Feng <kenneth.feng@amd.com>, Tim Huang <tim.huang@amd.com>,
+ Bokun Zhang <Bokun.Zhang@amd.com>, Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <maxime@cerno.tech>, Evan Quan <evan.quan@amd.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ linux-kernel@vger.kernel.org, Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Mar 2023, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Wed, 29 Mar 2023, David Gow <davidgow@google.com> wrote:
->> The drm_buddy_test KUnit tests verify that returned blocks have sizes
->> which are powers of two using is_power_of_2(). However, is_power_of_2()
->> operations on a 'long', but the block size is a u64. So on systems where
->> long is 32-bit, this can sometimes fail even on correctly sized blocks.
->>
->> This only reproduces randomly, as the parameters passed to the buddy
->> allocator in this test are random. The seed 0xb2e06022 reproduced it
->> fine here.
->>
->> For now, just hardcode an is_power_of_2() implementation using
->> x & (x - 1).
->>
->> Signed-off-by: David Gow <davidgow@google.com>
->> ---
->>
->> There are actually a couple of is_power_of_2_u64() implementations
->> already around in:
->> - drivers/gpu/drm/i915/i915_utils.h
->> - fs/btrfs/misc.h (called is_power_of_two_u64) 
->>
->> So the ideal thing would be to consolidate these in one place.
->>
->>
->> ---
->>  drivers/gpu/drm/tests/drm_buddy_test.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
->> index f8ee714df396..09ee6f6af896 100644
->> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
->> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
->> @@ -89,7 +89,8 @@ static int check_block(struct kunit *test, struct drm_buddy *mm,
->>  		err = -EINVAL;
->>  	}
->>  
->> -	if (!is_power_of_2(block_size)) {
->> +	/* We can't use is_power_of_2() for a u64 on 32-bit systems. */
->> +	if (block_size & (block_size - 1)) {
->
-> Then maybe use is_power_of_2_u64() instead?
+When the power is lost due to ACPI power resources being turned off, the
+driver should reset the GPU so it can work anew.
 
-*sigh* And as soon as I wrote that I realized it's a local thing in
-btrfs. Never mind for now...
+First, _PR3 support of the hierarchy needs to be found correctly. Since
+the GPU on some discrete GFX cards is behind a PCIe switch, checking the
+_PR3 on downstream port alone is not enough, as the _PR3 can associate
+to the root port above the PCIe switch.
 
-...but in the long run would be nice to either fix is_power_of_2() for
-u64 or add that u64 version...
+Once the _PR3 is found and BOCO support is correctly marked, use that
+information to inform the GPU should be reset. This solves an issue that
+system freeze on a Intel ADL desktop that uses S0ix for sleep and D3cold
+is supported for the GFX slot.
 
-BR,
-Jani.
+Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
+Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2458
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c   |  3 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  7 ++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 12 +++++-------
+ 3 files changed, 14 insertions(+), 8 deletions(-)
 
->
-> BR,
-> Jani.
->
->>  		kunit_err(test, "block size not power of two\n");
->>  		err = -EINVAL;
->>  	}
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+index 60b1857f469e..407456ac0e84 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+@@ -987,6 +987,9 @@ bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev)
+ 	if (amdgpu_sriov_vf(adev))
+ 		return false;
+ 
++	if (amdgpu_device_supports_boco(adev_to_drm(adev)))
++		return true;
++
+ #if IS_ENABLED(CONFIG_SUSPEND)
+ 	return pm_suspend_target_state != PM_SUSPEND_TO_IDLE;
+ #else
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f5658359ff5c..d56b7a2bafa6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2181,7 +2181,12 @@ static int amdgpu_device_ip_early_init(struct amdgpu_device *adev)
+ 
+ 	if (!(adev->flags & AMD_IS_APU)) {
+ 		parent = pci_upstream_bridge(adev->pdev);
+-		adev->has_pr3 = parent ? pci_pr3_present(parent) : false;
++		do {
++			if (pci_pr3_present(parent)) {
++				adev->has_pr3 = true;
++				break;
++			}
++		} while ((parent = pci_upstream_bridge(parent)));
+ 	}
+ 
+ 	amdgpu_amdkfd_device_probe(adev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index ba5def374368..5d81fcac4b0a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2415,10 +2415,11 @@ static int amdgpu_pmops_suspend(struct device *dev)
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+ 
+-	if (amdgpu_acpi_is_s0ix_active(adev))
+-		adev->in_s0ix = true;
+-	else if (amdgpu_acpi_is_s3_active(adev))
++	if (amdgpu_acpi_is_s3_active(adev) ||
++	    amdgpu_device_supports_boco(drm_dev))
+ 		adev->in_s3 = true;
++	else if (amdgpu_acpi_is_s0ix_active(adev))
++		adev->in_s0ix = true;
+ 	if (!adev->in_s0ix && !adev->in_s3)
+ 		return 0;
+ 	return amdgpu_device_suspend(drm_dev, true);
+@@ -2449,10 +2450,7 @@ static int amdgpu_pmops_resume(struct device *dev)
+ 		adev->no_hw_access = true;
+ 
+ 	r = amdgpu_device_resume(drm_dev, true);
+-	if (amdgpu_acpi_is_s0ix_active(adev))
+-		adev->in_s0ix = false;
+-	else
+-		adev->in_s3 = false;
++	adev->in_s0ix = adev->in_s3 = false;
+ 	return r;
+ }
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.34.1
+
