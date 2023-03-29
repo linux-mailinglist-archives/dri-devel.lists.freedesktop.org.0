@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EEB16CF65F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 00:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9346CF662
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 00:25:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAA110E1A7;
-	Wed, 29 Mar 2023 22:25:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6B1110E56B;
+	Wed, 29 Mar 2023 22:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF1610E1A7
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 22:25:04 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id k37so22201183lfv.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:25:04 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F31710E1D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 22:25:05 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id h25so22133513lfv.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680128702;
+ d=linaro.org; s=google; t=1680128703;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XvOicm7FSZsvoLM+I7eZyYxaJPBR6NHXblQQPNco0kQ=;
- b=wMNTntBtw3JbTujEgRlvIK1ugsDeViUl3qgk6tzLyCNzeOSCIpPdJlk4I4ZNDMthb/
- AOX3vvAr8/YUaGuvgou1JQShkvM+HTeh9Dlk5BK99T5N5VIENL0fP9By1KEgWziqA4N7
- JzOSptsOGmJwUe+TJyqdNisp45Z9JFoy8z0Vn6BhsVitIrn2STBQY8Rq93pOEjuJo/Mi
- MwxqYbpUW1uhvQ1a5R7vzHPBs0M49qyPDg0l8xTcotdc/jupwSQuhWwVs+POh5EOJYbP
- /TRYVXC7ToT1tP301fMTyzCk7qgy6AFW1JNDonwO9hyngBswFUUaooNEich/MQxDijYx
- v5kQ==
+ bh=QEueJb8wxFS51D5H+YQGZcmoJREAPX/3P/EgTv1KRmQ=;
+ b=lRUgCTj8FbwxUykPzPj+tXrYXzquUMA2SE3l2V7o5HuwDGblXGkm5u3lUL3x/myZo8
+ GSEGBQAQ+ti9lfTG9xS3ZbCuS7pIgHc9qpQ+c7c35los6UTyTjRQE4WrUaNhEBVxQJqb
+ tnq5+OBi2/9rJ4P/COOh2QjYcTX3fq0W2OIFW/fgIUTSh9M7djIZXioLdhD7WKOxHdPp
+ V4hxBsrHLOTINBXq6err0YTWXfThPMLIZrrYekvrBQ/o0BJrDPf5rPku8cboAJr+vWBV
+ c8AX5APP22S5qZ/3G/y2i7ecgg+hzcAJhbTxQ9+6rp0ibWKYX11Vzhyuhm3weNzRw14k
+ jUdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680128702;
+ d=1e100.net; s=20210112; t=1680128703;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XvOicm7FSZsvoLM+I7eZyYxaJPBR6NHXblQQPNco0kQ=;
- b=nQElkN2nhWoYbp/piR6HKgIUqRYAgNU6kGLHTppfFDHHcATkHQHIUs7ixtGmP/OGst
- hZP+OKNRj30mw/uPq/dg78Xt3ZnY3Pt+1fiievTFyGaKuDToyl0BJ77dL2CtSt7GCyea
- Zvegan2PC4ts+kaoISSKZlHeD7fBUS1Prwlkoj+Vy4+BoyhAfP4wxEy2ZepqaovUwXSy
- Tlrp67e9yODq0UUbLBBT+pGNPcA0zrUNom2+0iR555TVW+Xq4nSbndXTtuA2Lnp6lZ3F
- 2r3G+MZ//WvVArOenO4jDwtTFQHAopQjQBubeiIEn/A6/0d3iT5e9Qe3Qg+2pUh5FrXN
- QYbQ==
-X-Gm-Message-State: AAQBX9eM260615s3+y/I2SqFSrhDffxsKcS+M4TzkWCCu7+gb9GPiO1W
- lIU+iIY/sf+GsindqjzLz3AQOQ==
-X-Google-Smtp-Source: AKy350Yafz+44RhjayuM2tQER3bgUHCtIb4t+86yGSe52bNOnaGogVbbHxOlWGD5ykjwJGQWJoEEYg==
-X-Received: by 2002:ac2:46d4:0:b0:4e8:200:132b with SMTP id
- p20-20020ac246d4000000b004e80200132bmr6084675lfo.62.1680128702692; 
- Wed, 29 Mar 2023 15:25:02 -0700 (PDT)
+ bh=QEueJb8wxFS51D5H+YQGZcmoJREAPX/3P/EgTv1KRmQ=;
+ b=iaHsIxpN1GPB+renQS+zmva2i/QPu3Rd6oU/FqSnYofDxbnor6bBg4/oSaxPR4sBhO
+ teRF+INHxU9DiSxsiDMe61uQCIJJK0n5kscw0TrXsOCyc5c9cYrpj1nqahWyjwXMrFBV
+ 84z6rGsxDf5jzOgorNWKimv6CNb816PcknhzKnP+pjHIj7o+qgybOa9/9H1NCUTboFvo
+ 7uW7ImoRtl1T39+eu0QSl3ihoXEIGnhEEPYGP29lk12Tc9bBY6wfWDBpb/zCrAp7fAsU
+ f/YkM/JdrpCMq0KtleY6O1SmMnx3kaI20ZwYuGjHlIN4/nQy8o0z9FqnbNLdTnaKN4XW
+ B5GQ==
+X-Gm-Message-State: AAQBX9fCUCBU1XfR55HFHiu2zceNtdCNk5mY1pT+tl1WT1H/Wv/kXzwP
+ oENTwNEDenfsoR7U+SiKWJ4XaA==
+X-Google-Smtp-Source: AKy350auET5GfqVeLoBe8QXogMU0qUTo2PHB76nYRpaWXwMAGBCpKiFuj5I23ncL6OK5zEWUTpjDSA==
+X-Received: by 2002:ac2:4c26:0:b0:4e9:a16f:a176 with SMTP id
+ u6-20020ac24c26000000b004e9a16fa176mr6731039lfq.36.1680128703439; 
+ Wed, 29 Mar 2023 15:25:03 -0700 (PDT)
 Received: from eriador.lan (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi.
  [2001:14ba:a085:4d00::8a5]) by smtp.gmail.com with ESMTPSA id
- y26-20020ac255ba000000b004e9b307d2c8sm4724226lfg.238.2023.03.29.15.25.01
+ y26-20020ac255ba000000b004e9b307d2c8sm4724226lfg.238.2023.03.29.15.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Mar 2023 15:25:02 -0700 (PDT)
+ Wed, 29 Mar 2023 15:25:03 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [RFC PATCH 2/3] drm/msm/a5xx: scale MX domain following the frequncy
- changes
-Date: Thu, 30 Mar 2023 01:24:59 +0300
-Message-Id: <20230329222500.1131836-3-dmitry.baryshkov@linaro.org>
+Subject: [RFC PATCH 3/3] arm64: dts: qcom: specify power domains for the GPU
+Date: Thu, 30 Mar 2023 01:25:00 +0300
+Message-Id: <20230329222500.1131836-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230329222500.1131836-1-dmitry.baryshkov@linaro.org>
 References: <20230329222500.1131836-1-dmitry.baryshkov@linaro.org>
@@ -83,128 +82,77 @@ Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For some a5xx Adrenos we have to specify both GX and MX power domains.
-GX is used to power up the GPU clocks and logic. MX is used for scaling
-voltage of memory cells.
-
-In case the DT specifies several (GX, MX) power domains, none will be
-bound by the core. We have to manage GX manually. Also make sure that
-the MX domain is resumed and scaled to the proper performance state
-following the desired frequency.
+The GPU on msm8996 is powered on by several power domains. Add
+configuration for the GFX CPR and MX domains.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 52 +++++++++++++++++++++++++++
- drivers/gpu/drm/msm/adreno/a5xx_gpu.h |  3 ++
- 2 files changed, 55 insertions(+)
+ arch/arm64/boot/dts/qcom/msm8996.dtsi | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index 0372f8908202..36b3d11dd5b0 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -8,6 +8,7 @@
- #include <linux/firmware/qcom/qcom_scm.h>
- #include <linux/pm_opp.h>
- #include <linux/nvmem-consumer.h>
-+#include <linux/pm_domain.h>
- #include <linux/slab.h>
- #include "msm_gem.h"
- #include "msm_mmu.h"
-@@ -1053,6 +1054,13 @@ static void a5xx_destroy(struct msm_gpu *gpu)
- 	}
+diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+index 905678e7175d..ff4fb30f9075 100644
+--- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+@@ -521,6 +521,10 @@ rpmpd_opp5: opp5 {
+ 					rpmpd_opp6: opp6 {
+ 						opp-level = <6>;
+ 					};
++
++					rpmpd_opp7: opp7 {
++						opp-level = <7>;
++					};
+ 				};
+ 			};
+ 		};
+@@ -1228,7 +1232,8 @@ gpu: gpu@b00000 {
+ 			interconnects = <&bimc MASTER_GRAPHICS_3D &bimc SLAVE_EBI_CH0>;
+ 			interconnect-names = "gfx-mem";
  
- 	adreno_gpu_cleanup(adreno_gpu);
-+
-+	if (a5xx_gpu->mx_link)
-+		device_link_del(a5xx_gpu->mx_link);
-+
-+	if (a5xx_gpu->gxpd)
-+		dev_pm_domain_detach(a5xx_gpu->gxpd, true);
-+
- 	kfree(a5xx_gpu);
- }
+-			power-domains = <&mmcc GPU_GX_GDSC>;
++			power-domains = <&mmcc GPU_GX_GDSC>, <&rpmpd MSM8996_VDDMX>;
++			power-domain-names = "gx", "mx";
+ 			iommus = <&adreno_smmu 0>;
  
-@@ -1339,8 +1347,15 @@ static void a5xx_dump(struct msm_gpu *gpu)
- static int a5xx_pm_resume(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a5xx_gpu *a5xx_gpu = to_a5xx_gpu(adreno_gpu);
- 	int ret;
+ 			nvmem-cells = <&speedbin_efuse>;
+@@ -1251,30 +1256,37 @@ gpu_opp_table: opp-table {
+ 				opp-624000000 {
+ 					opp-hz = /bits/ 64 <624000000>;
+ 					opp-supported-hw = <0x09>;
++					required-opps = <&rpmpd_opp7>;
+ 				};
+ 				opp-560000000 {
+ 					opp-hz = /bits/ 64 <560000000>;
+ 					opp-supported-hw = <0x0d>;
++					required-opps = <&rpmpd_opp7>;
+ 				};
+ 				opp-510000000 {
+ 					opp-hz = /bits/ 64 <510000000>;
+ 					opp-supported-hw = <0xff>;
++					required-opps = <&rpmpd_opp5>;
+ 				};
+ 				opp-401800000 {
+ 					opp-hz = /bits/ 64 <401800000>;
+ 					opp-supported-hw = <0xff>;
++					required-opps = <&rpmpd_opp5>;
+ 				};
+ 				opp-315000000 {
+ 					opp-hz = /bits/ 64 <315000000>;
+ 					opp-supported-hw = <0xff>;
++					required-opps = <&rpmpd_opp4>;
+ 				};
+ 				opp-214000000 {
+ 					opp-hz = /bits/ 64 <214000000>;
+ 					opp-supported-hw = <0xff>;
++					required-opps = <&rpmpd_opp4>;
+ 				};
+ 				opp-133000000 {
+ 					opp-hz = /bits/ 64 <133000000>;
+ 					opp-supported-hw = <0xff>;
++					required-opps = <&rpmpd_opp4>;
+ 				};
+ 			};
  
-+	if (a5xx_gpu->gxpd) {
-+		ret = pm_runtime_resume_and_get(a5xx_gpu->gxpd);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	/* Turn on the core power */
- 	ret = msm_gpu_pm_resume(gpu);
- 	if (ret)
-@@ -1414,6 +1429,9 @@ static int a5xx_pm_suspend(struct msm_gpu *gpu)
- 	if (ret)
- 		return ret;
- 
-+	if (a5xx_gpu->gxpd)
-+		pm_runtime_put(a5xx_gpu->gxpd);
-+
- 	if (a5xx_gpu->has_whereami)
- 		for (i = 0; i < gpu->nr_rings; i++)
- 			a5xx_gpu->shadow[i] = 0;
-@@ -1762,6 +1780,40 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
- 
- 	a5xx_gpu->lm_leakage = 0x4E001A;
- 
-+	/*
-+	 * If the device has several power domain (gx and mx), none are attached by the core.
-+	 */
-+	if (!pdev->dev.pm_domain) {
-+		struct device **opp_virt_dev;
-+		struct device *pd;
-+
-+		/* FIXME: add cpr once it is supported */
-+		static const char *genpd_names[] = { "mx", NULL };
-+
-+		pd = dev_pm_domain_attach_by_name(&pdev->dev, "gx");
-+		if (IS_ERR(pd))
-+			return ERR_CAST(pd);
-+
-+		/* GX is required for GPU to function */
-+		if (pd == NULL)
-+			return ERR_PTR(-EINVAL);
-+
-+		a5xx_gpu->gxpd = pd;
-+
-+		ret = devm_pm_opp_attach_genpd(&pdev->dev, genpd_names, &opp_virt_dev);
-+		if (ret) {
-+			dev_pm_domain_detach(a5xx_gpu->gxpd, true);
-+			return ERR_PTR(ret);
-+		}
-+
-+		a5xx_gpu->mx_link = device_link_add(&pdev->dev, opp_virt_dev[0],
-+						    DL_FLAG_RPM_ACTIVE |
-+						    DL_FLAG_PM_RUNTIME |
-+						    DL_FLAG_STATELESS);
-+		if (!a5xx_gpu->mx_link)
-+			return ERR_PTR(-ENODEV);
-+	}
-+
- 	check_speed_bin(&pdev->dev);
- 
- 	nr_rings = 4;
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-index c7187bcc5e90..36e910397c14 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
-@@ -44,6 +44,9 @@ struct a5xx_gpu {
- 
- 	/* True if the microcode supports the WHERE_AM_I opcode */
- 	bool has_whereami;
-+
-+	struct device *gxpd;
-+	struct device_link *mx_link;
- };
- 
- #define to_a5xx_gpu(x) container_of(x, struct a5xx_gpu, base)
 -- 
 2.39.2
 
