@@ -1,83 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0940C6CED82
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 17:51:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3066D6CEE86
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 18:03:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F64010EB5F;
-	Wed, 29 Mar 2023 15:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8164710E511;
+	Wed, 29 Mar 2023 16:03:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F54010EB5F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 15:51:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680105093;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z9sb+Q1T/f0oExcCGN2SqhwnX2wsQdIarY9QEcGAXAg=;
- b=EWoyd5rq/Nuu6VK4TvrR1fz9Uqi2vJopY59uYikwc+CYdm0jxxLhyDUUWO6qCGiRpPMaAN
- mO02OLvU0n+goa3HYQROGpAH+5rZBWjzO/yPhPsrW0+tuzICeoGubH2tn8QSYrUjuGiFI3
- ovA8k1XUIfJ2Wb+Mx5HdEPHn/LCkRWg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-28IIkP-yM7qabiQs11ce_Q-1; Wed, 29 Mar 2023 11:51:32 -0400
-X-MC-Unique: 28IIkP-yM7qabiQs11ce_Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- b1-20020aa7dc01000000b004ad062fee5eso22764829edu.17
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 08:51:31 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AADD910E511;
+ Wed, 29 Mar 2023 16:03:42 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id t4so11071051wra.7;
+ Wed, 29 Mar 2023 09:03:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680105821;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1IRtUBbRSjYRGGTzk2ZeeLFD58mRS+B7ZwMU5v21lN8=;
+ b=RPNeUpw6H4k78hZDbjnl2vxtFBfHeLhVW0W7MgG/AzYvCwWhN3vLmdMA3tfU/GFI6J
+ 8Cs45VEEX/AthWAzM33HedfMZYdXHoDkzqbfVSA1gplwO77zalHdslRr3UzhlMvMCDn4
+ lLAzC167vCnctSygBHU85+tBKbQhzYjcBjojAWVKA+AfcdQhDOW0VYg1nDu+rH5mCIgd
+ 910UxiFQpWziCoksnYDHOoo7E4/ZVXVkMVWwvMsBNueWywE1mR5ZeTFNzbtZXuDqXxHh
+ W6mHgoZjYaTj1DUrbzqvm/PAm9/eEfGNTaYJzBk0OBYNNDGNo+uFOZaO6t9ARwzOT5SU
+ pBWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680105091; x=1682697091;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z9sb+Q1T/f0oExcCGN2SqhwnX2wsQdIarY9QEcGAXAg=;
- b=cWToVnfs60y94GBVFHI/JYWNnLGMtzANHNmt/76w0iEQ3sgPzrVfszb3c7gEZBZq1S
- ps04ZdglxBDWFc2Jn7frJb4S/thZWO2mRc6gAxdJPUHxOjbh+oRfbzEZHI5Fl7FiDcZ1
- MmMkHQY+OPzwvrvfHzw+jQQG0Ynr7M1/K2P8nkoZxlEqPtI7VhEDjFCI2uSATrXHVBEA
- 4D/dMPH3T8jTULG80K0hCAoDLTS7HYASW8IEGWR3+AV1ORkqJJpJ71SWIGk42QSno1B6
- VOSfdAnksclfdN8DfwQYRDJdvQvGZJRQLx1WHFc43642Y2EV4X64x/CFbtkVg7J0F266
- aKbw==
-X-Gm-Message-State: AAQBX9dRD+NSZi9gd/11ATkM3SaIgzjqQqLtVgKOp4tuAbBe+iTlI8l0
- RWEH45htY5fKFvs++5vnOjEwV8vvJ9Zv0fC+IkPpekADiSYeLxsWVyw1zIeXyqx2BZQnT9d13Iy
- yLPRYKOZZaBV/bvoXQpJHlyfO5xrY
-X-Received: by 2002:a17:906:398b:b0:930:e9ee:c474 with SMTP id
- h11-20020a170906398b00b00930e9eec474mr20900067eje.54.1680105090928; 
- Wed, 29 Mar 2023 08:51:30 -0700 (PDT)
-X-Google-Smtp-Source: AKy350asgd3jAFhNuQ/8+BifUDdE5XZwkGSiyeY9A3D2dsxgcWmTRQCv788c+aqkTz8TuKmzzmUZog==
-X-Received: by 2002:a17:906:398b:b0:930:e9ee:c474 with SMTP id
- h11-20020a170906398b00b00930e9eec474mr20900050eje.54.1680105090613; 
- Wed, 29 Mar 2023 08:51:30 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- kg6-20020a17090776e600b008b904cb2bcdsm16799197ejc.11.2023.03.29.08.51.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 08:51:30 -0700 (PDT)
-Message-ID: <ab8ed64b-5c4a-4948-7067-bac5351a45f0@redhat.com>
-Date: Wed, 29 Mar 2023 17:51:29 +0200
+ d=1e100.net; s=20210112; t=1680105821;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1IRtUBbRSjYRGGTzk2ZeeLFD58mRS+B7ZwMU5v21lN8=;
+ b=Z/HdE6294WR5qZ/8+KTiKDIRw5FZVKzu3kBlwYH5rYbn7zDSlnG9LrA2dELa7nw/+m
+ mywCghOIoHf0h61CCw3Jgy9zI3rkCnhw3GSnL90zZWOiliz50dQ/xulyaFkdedl0jvEi
+ 2dkSaqSgWOvbYuYyItCld6mnG9PHROWOcAPh0HrZupgwdvj66hYj0CwgAXUkg6SKuWmV
+ RgVHlKtDi5YnbKXCzowSpyRspPasgkZXmd4yFX7688UBCQBJJgi8fPVlXbV5bW67LvAb
+ kpZ69X67dT9EbshWuUhwvhlV/EFs0sMkmeUBOxlxpzQL/kXkwWsUeHy5VtfGI8a2I7lm
+ KMQQ==
+X-Gm-Message-State: AAQBX9dUJb6CUVaEV34akEv0At/M18k9Nh0hRtCD+Cu3Z+3H5StU44f5
+ fYXmHd/G2N2HAYoZs2FcZlM=
+X-Google-Smtp-Source: AKy350aB4UjMmjOybgA5VoyRCtdL4cDgoRtImatSJnCjwG3Rg/l1NyO0wa1UVW6Fu+gCYJfZ6cG/aA==
+X-Received: by 2002:a5d:458c:0:b0:2ce:a3e0:238f with SMTP id
+ p12-20020a5d458c000000b002cea3e0238fmr16534797wrq.60.1680105820930; 
+ Wed, 29 Mar 2023 09:03:40 -0700 (PDT)
+Received: from suse.localnet (host-95-248-13-140.retail.telecomitalia.it.
+ [95.248.13.140]) by smtp.gmail.com with ESMTPSA id
+ s13-20020a5d510d000000b002c794495f6fsm27494148wrt.117.2023.03.29.09.03.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Mar 2023 09:03:40 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Nirmoy Das <nirmoy.das@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Zhao Liu <zhao1.liu@linux.intel.com>
+Subject: Re: [PATCH v2 0/9] drm/i915: Replace kmap_atomic() with
+ kmap_local_page()
+Date: Wed, 29 Mar 2023 18:03:38 +0200
+Message-ID: <4498688.cEBGB3zze1@suse>
+In-Reply-To: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
+References: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org
-References: <20230329135401.105592-1-christian.koenig@amd.com>
- <46f01fc0-ec64-c215-b027-bd748711e6d8@redhat.com>
- <0080e53d-b597-ad34-7e66-6384cae456ae@redhat.com>
- <cf2f0771-39b0-49d6-011c-66b60b6a95c9@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] drm/ttm: set TTM allocated pages as reserved
-In-Reply-To: <cf2f0771-39b0-49d6-011c-66b60b6a95c9@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +85,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-eric.Pelloux-prayer@amd.com, npiggin@gmail.com,
- Sean Christopherson <seanjc@google.com>
+Cc: Ira Weiny <ira.weiny@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/29/23 17:29, Christian König wrote:
->> First, is it a _host_ corruption or a guest corruption/crash?  A guest 
->> crash would be KVM doing exactly what it's meant to do: it detects the 
->> non-reserved, non-refcounted page and refuses to map it into the guest.
-> 
-> Yes I think that this is what happens.
+On mercoled=C3=AC 29 marzo 2023 09:32:11 CEST Zhao Liu wrote:
+> From: Zhao Liu <zhao1.liu@intel.com>
+>=20
+> Hi list,
+>=20
+> Sorry for a long delay since v1 [1]. This patchset is based on 197b6b6
+> (Linux 6.3-rc4).
+>=20
+> Welcome and thanks for your review and comments!
+>=20
+>=20
+> # Purpose of this patchset
+>=20
+> The purpose of this pacthset is to replace all uses of kmap_atomic() in
+> i915 with kmap_local_page() because the use of kmap_atomic() is being
+> deprecated in favor of kmap_local_page()[1]. And 92b64bd (mm/highmem:
+> add notes about conversions from kmap{,_atomic}()) has declared the
+> deprecation of kmap_atomic().
+>=20
+>=20
+> # Motivation for deprecating kmap_atomic() and using kmap_local_page()
+>=20
+> The main difference between atomic and local mappings is that local
+> mappings doesn't disable page faults or preemption (the preemption is
+> disabled for !PREEMPT_RT case, otherwise it only disables migration).
+>=20
+> With kmap_local_page(), we can avoid the often unwanted side effect of
+> unnecessary page faults and preemption disables.
+>=20
+>=20
+> # Patch summary
+>=20
+> Patch 1, 4-6 and 8-9 replace kamp_atomic()/kunmap_atomic() with
+>         kmap_local_page()/kunmap_local() directly. With thses local
+>         mappings, the page faults and preemption are allowed.
+>=20
+> Patch 2 and 7 use memcpy_from_page() and memcpy_to_page() to replace
+>         kamp_atomic()/kunmap_atomic(). These two variants of memcpy()
+>         are based on the local mapping, so page faults and preemption
+>         are also allowed in these two interfaces.
+>=20
+> Patch 3 replaces kamp_atomic()/kunmap_atomic() with kmap_local_page()/
+>         kunmap_local() and also diable page fault since the for special
+>         handling (pls see the commit message).
+>=20
+>=20
+> # Changes since v1
+>=20
+> * Dropped hot plug related description in commit message since it has
+>   nothing to do with kmap_local_page().
+> * Emphasized the motivation for using kmap_local_page() in commit
+>   message.
+> * Rebased patch 1 on f47e630 (drm/i915/gem: Typecheck page lookups) to
+>   keep the "idx" variable of type pgoff_t here.
+> * Used memcpy_from_page() and memcpy_to_page() to replace
+>   kmap_local_page() + memcpy() in patch 2.
+>=20
+>=20
+> # Reference
+>=20
+> [1]:
+> https://lore.kernel.org/lkml/20221017093726.2070674-1-zhao1.liu@linux.int=
+el.c
+> om/ [1]:
+> https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com -=
+=2D-
+> Zhao Liu (9):
+>   drm/i915: Use kmap_local_page() in gem/i915_gem_object.c
+>   drm/i915: Use memcpy_[from/to]_page() in gem/i915_gem_pyhs.c
+>   drm/i915: Use kmap_local_page() in gem/i915_gem_shmem.c
+>   drm/i915: Use kmap_local_page() in gem/selftests/huge_pages.c
+>   drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_coherency.c
+>   drm/i915: Use kmap_local_page() in gem/selftests/i915_gem_context.c
+>   drm/i915: Use memcpy_from_page() in gt/uc/intel_uc_fw.c
+>   drm/i915: Use kmap_local_page() in i915_cmd_parser.c
+>   drm/i915: Use kmap_local_page() in gem/i915_gem_execbuffer.c
+>=20
 
-Ok I was worried all the time that this was host corruption/crash; which 
-obviously would have been much worse.
+I _think_ that the "long delay" you mentioned in the first sentence has pai=
+d=20
+off in full.=20
 
-> The use case and mapping is indeed valid as far as I can see, but
-> the handling that KVM does here is really problematic.
-> 
-> What needs to happen instead is that when both hva_to_pfn_fast() and 
-> hva_to_pfn_slow() fails you don't try to convert the PFN into a page and 
-> so also don't get a reference to the page.
-> 
-> This somehow needs to be communicated to the callers of hva_to_pfn() so 
-> that kvm_release_pfn() knows what to do.
+I don't see things to improve (except all those "kamp_atomic()" typo in the=
+=20
+patches summary; however, typos are only in the cover so I'm sure they won'=
+t=20
+hurt anybody).=20
 
-There's a bit more complication here:
+Each of the nine patches listed above looks good to me, so they are all=E2=
+=80=A6
 
-1) in the guest page fault path we can avoid taking the reference altogether
+Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-2) in other MMU-notifier-protected paths, we can also avoid taking the 
-reference but we also must stop using kmap() in virt/kvm/pfncache.c.
+Thanks!
 
-3) other uses of kmap() must switch to MMU-notifier protection.
+=46abio
+
+PS: Obviously there was no need to reconfirm my tag for patch 3/9. A single=
+=20
+tag that catches all patches is easier for a lazy person like me :-)
+
+>
+>  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c       | 10 +++++-----
+>  drivers/gpu/drm/i915/gem/i915_gem_object.c           |  8 +++-----
+>  drivers/gpu/drm/i915/gem/i915_gem_phys.c             | 10 ++--------
+>  drivers/gpu/drm/i915/gem/i915_gem_shmem.c            |  6 ++++--
+>  drivers/gpu/drm/i915/gem/selftests/huge_pages.c      |  6 +++---
+>  .../gpu/drm/i915/gem/selftests/i915_gem_coherency.c  | 12 ++++--------
+>  .../gpu/drm/i915/gem/selftests/i915_gem_context.c    |  8 ++++----
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c             |  5 +----
+>  drivers/gpu/drm/i915/i915_cmd_parser.c               |  4 ++--
+>  9 files changed, 28 insertions(+), 41 deletions(-)
+>=20
+> --
+> 2.34.1
 
 
-If the DRM people are okay with SetPageReserved() as a temporary hack, 
-we can change or remove the WARN in kvm_is_zone_device_page(), since 
-that is what you are referring to in the commit message.
 
-Paolo
 
