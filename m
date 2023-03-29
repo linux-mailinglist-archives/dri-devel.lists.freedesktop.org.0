@@ -1,119 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3997A6CEE8D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 18:05:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B77F06CEEB2
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 18:07:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D29D110EB79;
-	Wed, 29 Mar 2023 16:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAA8610EB7D;
+	Wed, 29 Mar 2023 16:07:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2048.outbound.protection.outlook.com [40.107.212.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C92D010EB6B;
- Wed, 29 Mar 2023 16:05:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Tb0KCyopHPktLGO4OGN+2znMNVHKCoVsIS5oyNO5HXoG29vNfk2DqDQ/V/ResKaS16RDhs+o44oyyKZqY3J/qSIrCCUmbPi7/Btt7+aOlNIF87th7ZZZg9xjlMeexirKxx+QBH/G5/agdwSr1fOxyiLCZY2qIJX7CPg+ZNlSYd8OQtsII8NKv0BD1MLRYM4+tqWmFBTxbl0Kk7DYTxX7Ts6a9lMlaufH7ZEKF/SrDr+78TVnhg1ECxa8PJ2ostlcPuFjhPE7KiZpPikADLPDaXFMwlhM4s84O1FkFUQtk1A06UOG4eSUuYdWf88Cnh7TirrQIR78ofMbfacGgMj5OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zqnE0taHUWkP6+PX+BfnDbIblb4eJawDjlifvUW8enY=;
- b=TfSPUtJ+pGwhLop/hN7eqidEFFT7WUq29m2U88YMztH4tg8DPcma/xjFTT6YzJNe+MW6H9OpBhTInbbyjRyq3iq+zUsE7gymwqhcUcjcw6uCndAYPaaW3b7cJVxz4IsqKs/h3zdnlLSsoWEM7jhsBr+jKeoAm7dt4koUWf8uXdgt3CWVogL+D9geksYZKojUjxdyeiHvPDbmtQUYBceb7Wk3iBV7/rVBjih/4rdUyGI5coOCdAqLLfG6G6laEzPis5yDWC5qeqUOKDcumZnU/SI2Li+WeeT4jD+y9S+30B3X9qQignzDtfPdzSSQHH14q9e5p6qauIkrtbCsi8JqQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zqnE0taHUWkP6+PX+BfnDbIblb4eJawDjlifvUW8enY=;
- b=nhFS2mR9b/3WkJc5inZjdTDhm3oChaHW/wi1Lhv81N4l2o5yb4enCHJ7PBEIlWIRF+lWhXbFTKG6/mO3K3Dxe2XSxrKbt6/S+bHImq9jl7i4hM03mfcj5d20w1jlyJB//+F5i6vSmad5V30yaRL0hy6mkbiCVX37YN/0MHkNsz4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
- SJ0PR12MB6853.namprd12.prod.outlook.com (2603:10b6:a03:47b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Wed, 29 Mar
- 2023 16:05:00 +0000
-Received: from DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1]) by DM4PR12MB6280.namprd12.prod.outlook.com
- ([fe80::fe53:2742:10f9:b8f1%6]) with mapi id 15.20.6222.033; Wed, 29 Mar 2023
- 16:05:00 +0000
-Message-ID: <a848b681-0c24-2676-2f20-03b11fd8dd77@amd.com>
-Date: Wed, 29 Mar 2023 12:06:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 1/2] drm/amd/display: Remove unused variable 'scl_enable'
-To: Caio Novais <caionovais@usp.br>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20230328220947.108188-1-caionovais@usp.br>
- <20230328220947.108188-2-caionovais@usp.br>
-Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20230328220947.108188-2-caionovais@usp.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQXPR0101CA0035.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:15::48) To DM4PR12MB6280.namprd12.prod.outlook.com
- (2603:10b6:8:a2::11)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A06410EB7D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 16:07:00 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 06D54581F9B;
+ Wed, 29 Mar 2023 12:06:56 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 29 Mar 2023 12:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1680106016; x=1680113216; bh=th
+ Rw2/tFs/SwCLKlW3NOEoR71LT+Ry2A2LqiLKA1wEU=; b=JVNDbc+MY5oREoD06S
+ +DcekfmC36dI9aqn/twmH9eClRsgxHsK1vrEDVVakWUjoHs3a2SYcOGwtUQns7yH
+ 3y3QbNzVkl5yhmMvxH5qvJpmSsqOuqifzEQYVNnBl/wO5c7wtnBTo4Prvdd+X+d1
+ +uMiToSbklmYULNWzGSyS5snupaadjApQ4xgMJWM8dLccZadhw/cNViYR3Xg4uql
+ PGCM84fZX+BBzK5USZOcxqojgQkKQaYWr+CcJKlcdz08h3tDxSpxGJ7WUPJuwPgi
+ 7ZZzVRup4keNmbrg7XaSUR4oXX7Vo4yQ1ShpJZqbL54tlXFxcpOCaswr8q4Rsbkz
+ ei0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; t=1680106016; x=1680113216; bh=thRw2/tFs/SwC
+ LKlW3NOEoR71LT+Ry2A2LqiLKA1wEU=; b=LnhyOmWlCJTs8izABKUs7dBWaVgGR
+ 3BucKvjdG/ntkSg9I3lUoOINnmOzkKfd8UcpJPsjhs7/nOY2ToiOpP7lYF+KxmgQ
+ UiolKHPGRiK/mW2UCjPnWZrHFuBAf5B4/HdLZTfn+z5JJbYQVOymSZE4SFKAaGwk
+ rFNpPoGe3d08DBccsFO9LnpZ2Gj1X1KwNzItxnYNaDgdOm9WrWT6nMFa+9bySbW5
+ o0LyYuVYWs90nfXlk5/fmSlG4tlmH6JWGh1Y4sB2DQbtIupaeZX48T8b7AZ/vqao
+ 0QdiydeLd3v7MIVGEuXq2xA+sCilgI5auVNuCqnUNutnHGbWFWN/8XlQQ==
+X-ME-Sender: <xms:HmIkZE-SnqX_iaot91jNdSjhaQ7y4EfxDy1e3ya7Q5sVO64qjz8eTA>
+ <xme:HmIkZMthwaZTmNTrhP6LVd8fgohlXalf5I3Wr818daH-K98u9r_3hWZg5cDrpyNS1
+ DN5xxPcoe-bsRs80S8>
+X-ME-Received: <xmr:HmIkZKBdt-YtEV7X1Gn-cmVky218D7P4_eBr58fvrQlNhuqFJGG93BRVpfo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgleekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejgeeiveevvdfgffeftdevuefhheduveejieefgeejveeuhfetkeelgfev
+ teefffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:HmIkZEcJlE7QjjE-AxMmQ3DI20HGW5aGXfRI3nj7xDMXpmg-9JEcfQ>
+ <xmx:HmIkZJOBFdEFojvMbY_VLQfwe3Gzy8KOuoCRP4ZeaHSDJi71UsHSJw>
+ <xmx:HmIkZOnZ_MaajWAsTX3I2xO87-qnqHI3jUbS8tbQBzMVpO3vqTtgmw>
+ <xmx:IGIkZGzelhBRWhYudMxTMkNFn9MxFe5Rbr61bTMcvQkZWbr5kn-GeA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Mar 2023 12:06:53 -0400 (EDT)
+Date: Wed, 29 Mar 2023 18:06:52 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
+Message-ID: <20230329160652.7gel5qvckzwihjx4@penduick>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <20230329131929.1328612-3-jagan@amarulasolutions.com>
+ <20230329145939.7zcex4x2pipivuj4@penduick>
+ <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|SJ0PR12MB6853:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55a138a0-271b-48f3-2630-08db306f590d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gWz57ZcOMlVeggicd8JKKBP5RhWk5puZ9StOscGp7Vbvskv9QoH9fZ21FN/c0S4FOrR0bHXP1lijexr6cKLpWdaN14ZiHAacYQAiXDwMiyQNUjo3Yu3zb/k/S8w9ehNk9ufYOTE8rWS7QoQ+FnuKPRKlh+Yj69b1/ILtN1IYoToFfZgqIDH32g4Q2Dvpuz/TPkMbnDDHvIWgrFPR4Z+mzdVwjDWbrzL9IdB9CODrIbnlCMsRyv7ct03UIxAiT+40OOoyRyKdcCeRNDq96HN6shMM4fg+dpM7QxEgxO9PrmVOExfF4Bi3pBSly81FB1F+b0IrN4qt+0fyj3RL7yfccNW5A+72Ulw1ZogBY4rpqNPQCTkGAqctvAUrOKXQSITelG7rz5JZabt4j00uYOtoEu7T+ivCIAVdbpzaMYLV8TrQZVLagqmLu2QlU9Ezm2Ew1n1L1+z8m4t6Fs6pq0RqehPfFOzfIvQG1ue/8Fx96xcrjCp4JtLZE54EAJcC38JWJdraO28KOJs5w7KoYT83QXFYEgjBYtWUIeO/M7WQSFd0/LUGpZ0V92JyXZ02D1nKJ5ksoxiHF/+HNkPt/iwCtpMslKffzYOuGIJ9N36fPmDmny7d9E3dL+8s+h2xr10YOjUW4RsnkTCMnNrFake7EQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB6280.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(39860400002)(346002)(136003)(396003)(366004)(376002)(451199021)(66556008)(8936002)(83380400001)(66946007)(31686004)(38100700002)(44832011)(5660300002)(54906003)(2906002)(8676002)(4326008)(41300700001)(66476007)(316002)(478600001)(2616005)(31696002)(6486002)(86362001)(6512007)(186003)(53546011)(6506007)(26005)(6666004)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NEw3S0llcGhiT21GbWsxbzlzUDFZbkFMSEpyczNoRlc1dXdIWDJPMzdPenM3?=
- =?utf-8?B?Wm1oNGYwcXdmRVF3Y0VDWWFKNVNSK0tkMWZneHhYdGFoQXFmZ09Jd1VNbGJW?=
- =?utf-8?B?VzB5WmljUUZGMFlQNDBkZ3ZLdnZwWk1SVmZGZ2I1YjFQZFV6ck5GS2VmbHdz?=
- =?utf-8?B?VkhseTVIa0wwQTY1R1FQSUxmNFJxOFBxdlZTRFdqcjd0RmdaM0JuaWRqamUx?=
- =?utf-8?B?UStQWDJBb2o1TFhxbk9FazQ4QTg4Y0lyNnNIaE5rOC9reWNrRnRzUVZ0ejZD?=
- =?utf-8?B?MEFldXVjZDJTazV0S00wbjUzcGJ2SGhHY1VwUmdmVTRrNzI2LzlWQ0hQV1Mx?=
- =?utf-8?B?QVZTMG9uNGZsVkN2QmFzMHpINEZObEFqSlY4UUgyRk0xWndEVjZGeUFIQWNu?=
- =?utf-8?B?ZXZnNUJ3bG9QajRqUHM0WksrVTVZTWNLSGNTNi90SXFYU2RYdVd1dEtVNFRq?=
- =?utf-8?B?azBCMktCaW9lVVl0eGVFUld5dCtxS09wcDRUWXluVm4zVENwVHRUemxsVjFm?=
- =?utf-8?B?QWZud1pybjk2ZmY5QlpxRFZrVWpWa3pmVmIwMHYzbmRLdGlxVGJYUkZTbjVD?=
- =?utf-8?B?M2RLTHdDNVhqWEVsdytKS1NjM3hOMWp6cW5xdkN5NjFTT1piZXVERFZleTJK?=
- =?utf-8?B?Qm1MbFN6SUVybW4renVXNGxoUHdMNUU0WXJFTUVCSDBHd0gwOFVza1QxeUwv?=
- =?utf-8?B?cFNkZzB2b2k4ZFRYZk0vTVBVd2kzeEoyUUpRK1FEc3BkWkw5TG9TUUVBNGFX?=
- =?utf-8?B?My81Y2JacnpxQzZjeVBQbDB0cW9XRmllOVhDWENOY2FSeG1maVdZYi9WUm1R?=
- =?utf-8?B?RVFpNUpVenVNeVZTWVBzeHBSOVlId0J1WTlmQWRObHZkamRwRTZIS2FQZ05n?=
- =?utf-8?B?dHRMYjRiQXI0TEljTmhobEhBRFBxR2RZLy91Q2tNelVGKzhSRSsvczE4KzZQ?=
- =?utf-8?B?SUhRcEhKcHJOTEJkVGxqbWt5VkhwaDRZVFZNeFZLK2s2emt3SjcxQkZPM2Fm?=
- =?utf-8?B?MTJQbzFOeDBqeGhYck8zekVudjYyV0FZVGNtRHl3UmtiVEtRVUpCRm1iSWUz?=
- =?utf-8?B?OHphNFREMnhlZmlxTllRcUdldUVNUHVPR24zVmZPVHRtN3F4QThlaXR5bGpk?=
- =?utf-8?B?TVhLcmJXOU1yenhpUmVhMG8veld3UGdyNmlnbjhuMXJnQ3AwSjhaemFBRTJp?=
- =?utf-8?B?TTc4NkZGMXZPbGptemZxb0hwekdMNFAybUdhWHJmUHAwV2lNRVJnRUtuU2d0?=
- =?utf-8?B?bVRHWlBtcjc5enpwWHRxZWJlTTlMK3BkSTlOUUx1MkZpcjV3V0l1d3hBaGdS?=
- =?utf-8?B?eEdSMjNBSFlORzdnZHJTQ2QreXNFbW0yd1ZzelVmWTdlenQrMHZMZmYrL1kv?=
- =?utf-8?B?eEk4YnpLcFVNTDFyUEpidDFZT0wwNHhlb2l4czBwT0VJeWxJSU41MWRjNERt?=
- =?utf-8?B?TWVmeGJZQmVlVncwRWlRZDhkNXUwRXRBbUp0RG51aGV6RFFzYXV0bGlKQzFY?=
- =?utf-8?B?NVdvOXRuZG9abjVybFg1aytJeW95UERaQTYvSzFEdDdDRWNmaXFndVlsN1RS?=
- =?utf-8?B?NTdtOFpOTmo4NGJqMW9MdkRRWC8rVm44OTZCcGZWVjFKeEc0NGRsVVdTTjlZ?=
- =?utf-8?B?RzgwaWhtNWFOV0dhQlFza3FpQUVSKzArNFMxTmVzMVQzbGtZWE11MlQ1UTBU?=
- =?utf-8?B?ZVFLREtuaW9oallUZE9OV0xPNkRPN2V4bSt3Q0xkVnoyVFNXZkFHQ25hcjE4?=
- =?utf-8?B?bE5Cc0lnem93dTk0eFRQZFJ3YWV1NEw1ZlA5ZU9VQjB1Tm1hSWsyQzdkWFBH?=
- =?utf-8?B?d2UyanRGRXFUVFFCSitBbTRlWnRjcUNYN216OVZlbWp6UU8vVWxWalV6TDNP?=
- =?utf-8?B?RFlXQnhINXk3emlkVFhKbDAvbS8rNzN2bVoyWHVxa2xINWJhUlZicTU1blFq?=
- =?utf-8?B?ci9FeWdlMGVQbzBwb0JvR2w2ZHZMT29ZZEFvQzRHR1UwZG5HV1hhTXhNOFc3?=
- =?utf-8?B?TzFXL3M3MEZhVGJiY25mWllNd0dQSDdVamQvdEd0TTJQa1lSa0JURWxOOG4w?=
- =?utf-8?B?MGg1dis3WkwyRFNOckdYbWwxdWY4eVB2b2ljenRDRXVja3lrcG9lcER3K0tS?=
- =?utf-8?Q?5um85QtjyyKlFs7CofWGVhbA+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55a138a0-271b-48f3-2630-08db306f590d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 16:04:59.9445 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1RrdI829wka32hxmr3dYRHS+Ubz+DhzrYKMUR87BWxRqIZl38UV+X/Adju6y3tr7bGih8NaRkXSuUC30j6Cs7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6853
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="zrjrrfurl2tflvml"
+Content-Disposition: inline
+In-Reply-To: <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,56 +86,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
- Wesley Chalmers <Wesley.Chalmers@amd.com>, Gabe Teeger <gabe.teeger@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Roman Li <roman.li@amd.com>, Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
- =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>, Deepak R Varma <drv@mailo.com>,
- "Lee, Alvin" <Alvin.Lee2@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- Jun Lei <Jun.Lei@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/28/23 18:09, Caio Novais wrote:
-> Compiling AMD GPU drivers displays a warning:
-> 
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.c: In function ‘dml_rq_dlg_get_dlg_params’:
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml/dcn314/display_rq_dlg_calc_314.c:991:14: warning: variable ‘scl_enable’ set but not used [-Wunused-but-set-variable]
-> 
-> Get rid of it by removing the variable 'scl_enable'.
-> 
-> Signed-off-by: Caio Novais <caionovais@usp.br>
 
-Applied, thanks!
+--zrjrrfurl2tflvml
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->   .../gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
-> index d1c2693a2e28..ea4eb66066c4 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn314/display_rq_dlg_calc_314.c
-> @@ -988,7 +988,6 @@ static void dml_rq_dlg_get_dlg_params(
->   	double hratio_c;
->   	double vratio_l;
->   	double vratio_c;
-> -	bool scl_enable;
->   
->   	unsigned int swath_width_ub_l;
->   	unsigned int dpte_groups_per_row_ub_l;
-> @@ -1117,7 +1116,6 @@ static void dml_rq_dlg_get_dlg_params(
->   	hratio_c = scl->hscl_ratio_c;
->   	vratio_l = scl->vscl_ratio;
->   	vratio_c = scl->vscl_ratio_c;
-> -	scl_enable = scl->scl_enable;
->   
->   	swath_width_ub_l = rq_dlg_param->rq_l.swath_width_ub;
->   	dpte_groups_per_row_ub_l = rq_dlg_param->rq_l.dpte_groups_per_row_ub;
+On Wed, Mar 29, 2023 at 09:08:17PM +0530, Jagan Teki wrote:
+> On Wed, Mar 29, 2023 at 8:29=E2=80=AFPM Maxime Ripard <maxime@cerno.tech>=
+ wrote:
+> >
+> > Hi,
+> >
+> > The patch prefix should be drm/sun4i:
+>=20
+> I did follow my previous prefix, I will update this.
+>=20
+> >
+> > On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
+> > > Convert the encoder to bridge driver in order to standardize on a
+> > > single API by supporting all varients of downstream bridge devices.
+> >
+> > Which variant, and why do we need to convert to a bridge to support all=
+ of them?
+>=20
+> Downstream bridge variants like DSI panel, DSI bridge and
+> I2C-Configured DSI bridges. Bridge conversion would be required for
+> the DSI host to access the more variety and complex downstream bridges
+> in a standardized bridge chain way which is indeed complex for encoder
+> driven DSI hosts.
+>=20
+> >
+> > > The drm_encoder can't be removed as it's exposed to userspace, so it
+> > > then becomes a dumb encoder, without any operation implemented.
+> > >
+> > > Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
+> > >
+> > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> >
+> > [...]
+> >
+> > > +static const struct component_ops sun6i_dsi_ops;
+> > > +
+> > >  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> > >                           struct mipi_dsi_device *device)
+> > >  {
+> > >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
+> > > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.of_no=
+de);
+> >
+> > That one looks unrelated. Why do you need that change?
+>=20
+> This was replaced with drmm_of_dsi_get_bridge for lookup of both panel
+> and bridge. I think I will separate this into another patch.
 
--- 
-Hamza
+So, it looks to me that you're doing two (unrelated) things in that patch:
 
+  - You modify the existing driver to be a bridge
+
+  - And you support downstream device being bridges.
+
+Both are orthogonal, can (and should!) be done separately, and I'm
+pretty sure you don't actually need to do the former at all.
+
+Maxime
+
+--zrjrrfurl2tflvml
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZCRiHAAKCRDj7w1vZxhR
+xd68AQC05r3DsJGaU7H1oonM8OgOgjnGl+gioqXGq3ALav5aSgEAuFfH8EvCnOv7
+n0z5dUr5W+RUNtouMyIew97EwKd5ZAk=
+=u1E2
+-----END PGP SIGNATURE-----
+
+--zrjrrfurl2tflvml--
