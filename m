@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB29F6CD2E6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 09:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094BA6CD2EB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 09:24:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED81D10E4E6;
-	Wed, 29 Mar 2023 07:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA7D10E4F1;
+	Wed, 29 Mar 2023 07:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6D210E4E6;
- Wed, 29 Mar 2023 07:24:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D96BA10E4E9;
+ Wed, 29 Mar 2023 07:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680074665; x=1711610665;
+ t=1680074669; x=1711610669;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=B9E1ILllxkVCqOIIL0NVEqX87fQCrIe+LT/GYjLQv6c=;
- b=IPGrewcs7t+1gJaCxxOmOAXIwBwe3Lftr+sTZUC9jjydLOky2hYLj9Tj
- q8qmDCFtqMtQ4qA5Bwh/erUuPNfrtOR0tSOutstkukzP8N726bNjVVmTM
- jTZ76J2kujy9/sWp49JChKoRKg/imsYjtnUT25skJoncj84JZ+u9Ppn5q
- yB7ZXVdqrdYsY7j3NNyuqdt9+bA8b+MVxGMRX5F1LocBgVM54da9DnCc9
- xcz0ZkRrFscRg8KM2jm+0Sc7EfG5QtS+7o3k7x/DhhopgCY6mHd68gNho
- AtTDrHgPq1g3xyttioTLAM7K24b43Ma3f6VHrx6jX1q9LXVN9xWVNOshP g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405745883"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="405745883"
+ bh=lZB7D+9oAqqUk803oQiOFCr0X6utrKVFTvfta1a/CQQ=;
+ b=G2hggRGu5eXem7cemsyrXbUwebGh8sXC4ws42/S8YubBv+V++lBn5mt/
+ 7wjuSClFs/Up0rK+EdCXfQbNYHpcXDMXxlGdhJW3h2SwDIPIp+XKycs5L
+ y+pat0/YK9ObD7X8MxbmquTOeznO0fqGaAbrFILARQqmMz4HSclPrGfCR
+ py+N+bExBAvEPeuLMOtkx56FTiGfO9LhczUXuu/9IIYUpb5Eq0qkrPkT+
+ 68vu6DCFOSRpH/0gMAdREgf4ngRB0d/U9gUH1G36dRKR2S3MkbNPA/kAE
+ eBU6EEB2tyJIj5tY1mGpmB+rIP51lNJfp3P0PiXrGYKiw4nr9RLYB3eqK g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="405745894"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="405745894"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 00:24:25 -0700
+ 29 Mar 2023 00:24:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="684160553"
-X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="684160553"
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="684160559"
+X-IronPort-AV: E=Sophos;i="5.98,300,1673942400"; d="scan'208";a="684160559"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by orsmga002.jf.intel.com with ESMTP; 29 Mar 2023 00:24:19 -0700
+ by orsmga002.jf.intel.com with ESMTP; 29 Mar 2023 00:24:24 -0700
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
@@ -48,10 +48,9 @@ To: Jani Nikula <jani.nikula@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/9] drm/i915: Use memcpy_[from/to]_page() in
- gem/i915_gem_pyhs.c
-Date: Wed, 29 Mar 2023 15:32:13 +0800
-Message-Id: <20230329073220.3982460-3-zhao1.liu@linux.intel.com>
+Subject: [PATCH v2 3/9] drm/i915: Use kmap_local_page() in gem/i915_gem_shmem.c
+Date: Wed, 29 Mar 2023 15:32:14 +0800
+Message-Id: <20230329073220.3982460-4-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
 References: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
@@ -71,110 +70,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
  Ira Weiny <ira.weiny@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dave Hansen <dave.hansen@intel.com>
+ Zhenyu Wang <zhenyu.z.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
 The use of kmap_atomic() is being deprecated in favor of
-kmap_local_page()[1],  and this patch converts the call from
-kmap_atomic() + memcpy() to memcpy_[from/to]_page(), which use
-kmap_local_page() to build local mapping and then do memcpy().
+kmap_local_page()[1].
 
 The main difference between atomic and local mappings is that local
 mappings doesn't disable page faults or preemption (the preemption is
 disabled for !PREEMPT_RT case, otherwise it only disables migration).
 
 With kmap_local_page(), we can avoid the often unwanted side effect of
-unnecessary page faults and preemption disables.
+unnecessary page faults or preemption disables.
 
-In drm/i915/gem/i915_gem_phys.c, the functions
-i915_gem_object_get_pages_phys() and i915_gem_object_put_pages_phys()
-don't need to disable pagefaults and preemption for mapping because of
-2 reasons:
+In drm/i915/gem/i915_gem_shmem.c, the function shmem_pwrite() need to
+disable pagefault to eliminate the potential recursion fault[2]. But
+here __copy_from_user_inatomic() doesn't need to disable preemption and
+local mapping is valid for sched in/out.
 
-1. The flush operation is safe. In drm/i915/gem/i915_gem_object.c,
-i915_gem_object_get_pages_phys() and i915_gem_object_put_pages_phys()
-calls drm_clflush_virt_range() to use CLFLUSHOPT or WBINVD to flush.
-Since CLFLUSHOPT is global on x86 and WBINVD is called on each cpu in
-drm_clflush_virt_range(), the flush operation is global.
-
-2. Any context switch caused by preemption or page faults (page fault
-may cause sleep) doesn't affect the validity of local mapping.
-
-Therefore, i915_gem_object_get_pages_phys() and
-i915_gem_object_put_pages_phys() are two functions where the uses of
-local mappings in place of atomic mappings are correctly suited.
-
-Convert the calls of kmap_atomic() / kunmap_atomic() + memcpy() to
-memcpy_from_page() and memcpy_to_page().
+So it can use kmap_local_page() / kunmap_local() with
+pagefault_disable() / pagefault_enable() to replace atomic mapping.
 
 [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
+[2]: https://patchwork.freedesktop.org/patch/295840/
 
-v2:
-* Used memcpy_from_page() and memcpy_to_page() to replace
-  kmap_local_page() + memcpy().
-* Dropped hot plug related description since it has nothing to do with
-  kmap_local_page().
-* Added description of the motivation of using kmap_local_page().
+v2: No code change since v1, and added description of the motivation of
+    using kmap_local_page().
 
-Suggested-by: Dave Hansen <dave.hansen@intel.com>
 Suggested-by: Ira Weiny <ira.weiny@intel.com>
-Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Reviewed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
 Suggested by credits:
-  Dave: Referred to his explanation about cache flush.
-  Ira: Referred to his task document, review comments and explanation
-       about cache flush.
-  Fabio: Referred to his boiler plate commit message and his description
-         about why kmap_local_page() should be preferred. Also based on
-         his suggestion to use memcpy_[from/to]_page() directly.
+  Ira: Referred to his suggestions about keeping pagefault_disable().
+  Fabio: Referred to his description about why kmap_local_page() should
+         be preferred.
 ---
- drivers/gpu/drm/i915/gem/i915_gem_phys.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-index 76efe98eaa14..4c6d3f07260a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
-@@ -64,16 +64,13 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
- 	dst = vaddr;
- 	for (i = 0; i < obj->base.size / PAGE_SIZE; i++) {
- 		struct page *page;
--		void *src;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 37d1efcd3ca6..ad69a79c8b31 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -475,11 +475,13 @@ shmem_pwrite(struct drm_i915_gem_object *obj,
+ 		if (err < 0)
+ 			return err;
  
- 		page = shmem_read_mapping_page(mapping, i);
- 		if (IS_ERR(page))
- 			goto err_st;
+-		vaddr = kmap_atomic(page);
++		vaddr = kmap_local_page(page);
++		pagefault_disable();
+ 		unwritten = __copy_from_user_inatomic(vaddr + pg,
+ 						      user_data,
+ 						      len);
+-		kunmap_atomic(vaddr);
++		pagefault_enable();
++		kunmap_local(vaddr);
  
--		src = kmap_atomic(page);
--		memcpy(dst, src, PAGE_SIZE);
-+		memcpy_from_page(dst, page, 0, PAGE_SIZE);
- 		drm_clflush_virt_range(dst, PAGE_SIZE);
--		kunmap_atomic(src);
- 
- 		put_page(page);
- 		dst += PAGE_SIZE;
-@@ -112,16 +109,13 @@ i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
- 
- 		for (i = 0; i < obj->base.size / PAGE_SIZE; i++) {
- 			struct page *page;
--			char *dst;
- 
- 			page = shmem_read_mapping_page(mapping, i);
- 			if (IS_ERR(page))
- 				continue;
- 
--			dst = kmap_atomic(page);
- 			drm_clflush_virt_range(src, PAGE_SIZE);
--			memcpy(dst, src, PAGE_SIZE);
--			kunmap_atomic(dst);
-+			memcpy_to_page(page, 0, src, PAGE_SIZE);
- 
- 			set_page_dirty(page);
- 			if (obj->mm.madv == I915_MADV_WILLNEED)
+ 		err = aops->write_end(obj->base.filp, mapping, offset, len,
+ 				      len - unwritten, page, data);
 -- 
 2.34.1
 
