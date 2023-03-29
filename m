@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE0C6CF708
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 01:26:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 293BA6CF72F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 01:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9F710E1A8;
-	Wed, 29 Mar 2023 23:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8E810E01F;
+	Wed, 29 Mar 2023 23:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1987010E1A8
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 23:26:02 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id x17so22306359lfu.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 16:26:01 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61EE810E1F5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 23:31:51 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id c29so22334745lfv.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 16:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680132360;
+ d=linaro.org; s=google; t=1680132709;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HrgPNT8vzPgQfrpIpJG+pXuTkcdwWxfDZq0A5XIC43w=;
- b=q8k49qJU9m8XCnmMDtVciJmUbVI10H2PqO1DXt4bc6K2LXAMROmIMd23Ir7FHAmGiT
- 4Di2wyGhrzgcmxdI9pm1T+F/BvvAeyheVfJuePL9BbBYuMNGNlUL3QoP5CmTn6egjlZ8
- X8evZqxkEQ69VtU7hbg/h6xhS6YIPzBcHRxvHs3u/JkI09qS9/nLLbBOTDeW3u383rvH
- Oz3KAI0M6EtufgQOSAsqYz+ftzJKQoj3o1cBrrXETty4vOHV2f6KvnwCxP7Flmk3z5Qs
- jLWCWtOnyRC4RL3I9i23+CB/0DF8SaByURmjiADLZLeBTKZ9N9sWO+pOaih/OJk2MpJB
- ec+g==
+ bh=uWJdsWldsc640792OBi+zRWRy0BJIGGz1A1rf+B8cUc=;
+ b=TNtGURSW0FeUCVJHy+WnX4VJ6p4WTzy7IwTT7JipjTJKiTU8JB1WdWnrtzZXTWKjti
+ ymd2LMQ74gXntm6TBwJJsNpBNDj18TqdI8PXCroIheLkZXHEi0czGsz4g1MTQZhAHP+T
+ GvXnb8ANIacoS+P/5rKSxfSt3ZSq94EoNelfzboSknrNzIVreYefM2b1IRg3VX1cwZwi
+ fc9AYla3r55zF8YlYEGSBWc/cFh2PN1dNlGA34MCupbvMTIdNZBMYazoJl0+H5PxFbPG
+ F/sLaWGj3G1oPMMYXKeemYzmQ2T7MYO77LPN+uMwtdiWe8U/Pu+J6+abwhM3MwFnQBhp
+ Airw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680132360;
+ d=1e100.net; s=20210112; t=1680132709;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HrgPNT8vzPgQfrpIpJG+pXuTkcdwWxfDZq0A5XIC43w=;
- b=TY52bMvBwsUfjPuf5ErlObEGLYERIXnb7eD6X2D3zWmcUxsy2VWWcTZf7aGFIC67QC
- Yhmad7tYB95WCGKPCwCZBrtxqNo6t7ster2O2SyRCjjJPFq9JkR4hJnXvbHBUgFJoZ8c
- 7ed4zKTI2aKTfPkVr/ZhmdkHq9SLEQzlh7jabCve7eraHLZon7t6vlmDHFZ8XwerPqoW
- NQkiGZLwc1NG8AdQ7iNSZjv5L9rfaB9HX4FZEmPRf193lihIvayb5WV93TaIPek49fxz
- IRrNrtDM1+qZLbhBDrNUwi34U+ovUoxVS9Z++5tMc57hkDP+DFd03fFTXAmNayyuUHFR
- aEjg==
-X-Gm-Message-State: AAQBX9cQ5Qr8MHg2mUWrRJW5LrBO9tvidVC/vIrJoCkjtvUrLsl0mPv3
- A26QZ8XGfnvuLZsYuyDHTbMMXg==
-X-Google-Smtp-Source: AKy350aWfx48MdELFtnKoYiqNxo1Jjx9WbSr8n1W41BsOzi4FHGCOKjapoWwP3MLzuSzpcy5e7g8Ug==
-X-Received: by 2002:ac2:42cc:0:b0:4b5:649a:9105 with SMTP id
- n12-20020ac242cc000000b004b5649a9105mr5557062lfl.65.1680132360103; 
- Wed, 29 Mar 2023 16:26:00 -0700 (PDT)
+ bh=uWJdsWldsc640792OBi+zRWRy0BJIGGz1A1rf+B8cUc=;
+ b=1O4n7UyTJnHcyoW1NugD2wkKnSivEIfClC38lFsDgraJlUgPiy1NS0azSiscCgmrBA
+ CSeSq3/S3evUBxbGZEUVwdWqwPK5JT7wmQQaDpNpo0uuwf5213RPFE2p/ZhO5kOEFvO8
+ mFR/3qLALOtS3lRq9ZJzEJOQdJJFbGT6Ku5n0UOmIPFDdxEirUVzvgTSA9SPG/2VfWM/
+ SHZcX0rnSVRLzdqgQmCrTR64hGfAjVX+dEwj+hF6S5tZIy7hT9itYc1KsBXtMqxgNZ2A
+ bOmaRGIhiRGw6YunAu7P5Z5pcjermynQDKNJqVr5CcGhQ/TwPRUTxHbeV9nvjEkbvlZA
+ ihhA==
+X-Gm-Message-State: AAQBX9cV4cGHLNn9CUN+JsxVqQEcvDsaHTZ/lFlBG1wtSPY4WSbfcZ2F
+ Wbky5QzipGs3ObjNrSFVnF5huQ==
+X-Google-Smtp-Source: AKy350Zm5RPFgwDl0ZDjGiqnsvgGsLLZJqSj1PNi0yeREAOszwge8aikOn67MJotwpGT/y9C+qBiRg==
+X-Received: by 2002:ac2:4c95:0:b0:4e7:fa8a:886e with SMTP id
+ d21-20020ac24c95000000b004e7fa8a886emr7047635lfl.51.1680132709374; 
+ Wed, 29 Mar 2023 16:31:49 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- m19-20020a195213000000b004eaf393dc46sm3454696lfb.249.2023.03.29.16.25.59
+ t8-20020a19ad08000000b004a9b9ccfbe6sm5668365lfc.51.2023.03.29.16.31.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 16:25:59 -0700 (PDT)
-Message-ID: <5b713a38-2f3c-05b4-b243-6d9c0bd9e728@linaro.org>
-Date: Thu, 30 Mar 2023 02:25:59 +0300
+ Wed, 29 Mar 2023 16:31:48 -0700 (PDT)
+Message-ID: <4e12cc50-cd34-e1a1-3a91-0da369b785c1@linaro.org>
+Date: Thu, 30 Mar 2023 02:31:48 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH RFC 1/5] drm/display/dsc: Add flatness and initial scale
- value calculations
+Subject: Re: [PATCH RFC 3/5] drm/msm/dpu: Use DRM DSC helper for
+ det_thresh_flatness
 Content-Language: en-GB
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v1-1-f3e479f59b6d@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v1-3-f3e479f59b6d@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v1-1-f3e479f59b6d@quicinc.com>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v1-3-f3e479f59b6d@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,43 +85,44 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 30/03/2023 02:18, Jessica Zhang wrote:
-> Add helpers to calculate det_thresh_flatness and initial_scale_value as
-> these calculations are defined within the DSC spec.
-> 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->   include/drm/display/drm_dsc_helper.h | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-> index 4448c482b092..63175650a45e 100644
-> --- a/include/drm/display/drm_dsc_helper.h
-> +++ b/include/drm/display/drm_dsc_helper.h
-> @@ -17,6 +17,16 @@ enum drm_dsc_params_kind {
->   	DRM_DSC_1_2_420,
->   };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> index 619926da1441..648c530b5d05 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> @@ -3,6 +3,8 @@
+>    * Copyright (c) 2020-2022, Linaro Limited
+>    */
 >   
-> +static inline int drm_dsc_calculate_initial_scale_value(struct drm_dsc_config *dsc)
-> +{
-> +	return 8 * dsc->rc_model_size / (dsc->rc_model_size - dsc->initial_offset);
-
-Just set this in drm_dsc_config, like other functions do.
-
-> +}
+> +#include <drm/display/drm_dsc_helper.h>
 > +
-> +static inline int drm_dsc_calculate_det_thresh_flatness(struct drm_dsc_config *dsc)
-> +{
-> +	return 2 << (dsc->bits_per_component - 8);
-> +}
+>   #include "dpu_kms.h"
+>   #include "dpu_hw_catalog.h"
+>   #include "dpu_hwio.h"
+> @@ -102,7 +104,7 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+>   	data |= dsc->final_offset;
+>   	DPU_REG_WRITE(c, DSC_DSC_OFFSET, data);
+>   
+> -	det_thresh_flatness = 7 + 2 * (dsc->bits_per_component - 8);
+> +	det_thresh_flatness = drm_dsc_calculate_det_thresh_flatness(dsc);
 
-this is flatness_det_thresh, per the standard.
+But this changes the value! Compare:
 
-Otherwise LGTM
+bpc | old | new
+8   | 7   | 2
+10  | 11  | 8
+12  | 15  | 256
 
-> +
->   void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
->   int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
->   void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
+If this is intentional, please state so and maybe add a Fixes tag.
+
+
+>   	data = det_thresh_flatness << 10;
+>   	data |= dsc->flatness_max_qp << 5;
+>   	data |= dsc->flatness_min_qp;
 > 
 
 -- 
