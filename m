@@ -2,67 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A93B6CD5F9
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA436CD62A
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Mar 2023 11:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 304B410E515;
-	Wed, 29 Mar 2023 09:09:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9AA710E165;
+	Wed, 29 Mar 2023 09:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED38D10E506
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 09:09:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 96720219E1;
- Wed, 29 Mar 2023 09:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680080954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tkDSO9gisUmrfR4J8E3LdwBNX1MJ924+7fjQmWZXwMw=;
- b=jCamSbJR1rUAnKIHBOk+RFtEqo33kEoBm/NwJcGEWfnbfgXrMOQSVeQQINLNp424BDJ6za
- aRfmF0WKDAKHF8H2yFeLLBhPB+EK9Gd6WXtROAN6NaBYX7TK6sJ6CsmUgqbIa8o7i/vAsW
- rzdpTP0YZ4McLGL7GAsRcpRL6LffzRI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680080954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tkDSO9gisUmrfR4J8E3LdwBNX1MJ924+7fjQmWZXwMw=;
- b=AkY8Q0vrIeG4HQirxTpgO3S6uSbYGC52hCAJ0SZtTI2NGQB8mqMfqqdz3rBPpnCWLKBTUy
- aNGyCpyDbsfeRGDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5EC58138FF;
- Wed, 29 Mar 2023 09:09:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id tSksFjoAJGSMegAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 29 Mar 2023 09:09:14 +0000
-Message-ID: <6504a971-cf4b-ac35-4fe9-ee49b984b521@suse.de>
-Date: Wed, 29 Mar 2023 11:09:13 +0200
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B64C10E165
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 09:16:41 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6D58C5C0082;
+ Wed, 29 Mar 2023 05:16:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 29 Mar 2023 05:16:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1680081399; x=1680167799; bh=dklyY2cLc/yDrfewYfHoYxh7ZU+4CMdDwAX
+ bz++KqV0=; b=CrRp2GoMwoCprrzkqXyCs6hl29PE5jk5SUuAmwcSioEUihCGjtd
+ QQlBjVyow7xKPuwKPTG/y+5BJ95xPTxI3eqLifd7LT6QPlOmGf/QFKaN7pJATlXN
+ x0B0o+9ndir/4HwhClbptZHu+ewc0WQvq/OpbBVHiUUTyE4bGvsehlv9nS6xf1kZ
+ YWafQY7duV5W9DSwJ7I448Q9TxB5m86DipbJp2aH18GjPDJw3Na2KUAvP/9BYp14
+ YcBW3k7Nn0q+BJfCyo2S57dqyuhz4RIXPWY6na6Kcfjr56238UQLYjLR0pj9L6sb
+ 8GeKe9s3qi11fUEHMjGvqqCRkYwHu2hvfBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1680081399; x=1680167799; bh=dklyY2cLc/yDrfewYfHoYxh7ZU+4CMdDwAX
+ bz++KqV0=; b=EROYHZaj3oKGYbjwiiDbMshFUQgi9reb674r2Fted9QtgZzAAti
+ uFIwtAusal4gVFYmv1EXUdJVn/PFd9ue/oo7sYEf2G76WIFg89UivcKrUrtCv31F
+ /qsFU1bKeOWkoSsWNvMMEFhqPg5rbfyKG1I/RV1sb4JT26+uxMH+XGcwHeMgU50T
+ tY1sRsUaNf80K3L0Z5I4LGJjL5266sNWuWJVDgTgeJpk+pempdTxMmJSrrT6YcuT
+ 9iyBqh8l44EPYH3CkCblMsGY5DNIdo/AKpVTXXvSbRN57V71EjXe+kwdj5hTdklK
+ QQ/cnelwZzyzE0QNTSMoUl25LMV7ryRA3Cg==
+X-ME-Sender: <xms:9wEkZPniOfRZUBhq-KLFBpTjxXD7PKHew7HDz6ky3ByQEeBrorazpQ>
+ <xme:9wEkZC12E3K7v1uPSfOkpbYRS7f6LGlhKthSdYYQpXZaJiurT00bRhzjsOLQ_iMVZ
+ wDhzGK5ILCSX6t5ziU>
+X-ME-Received: <xmr:9wEkZFoXUv3GNno8k8fO_BxSN4x_gPWs_R9bryiOHwabCVAiT8S0Wy0EA54>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehiedgudegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+ feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:9wEkZHk5ynR7JvzlwiH3YRFFrxMc79goLtyDMHsD7DVAyaauP6YjOg>
+ <xmx:9wEkZN3yjI_T4mYfGDLRCMs_1lAtz0m4ZkZYfJzaAzwJUa2U65vmzg>
+ <xmx:9wEkZGuS2Mt2BpGFaPqukZbIILZX16LW40vajvfcJIGOVA_PlILIfA>
+ <xmx:9wEkZHyqtMPUQ7_O_ph5srvL4JGCPoeUwjS5UndMOgPx-rtm08LpFg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Mar 2023 05:16:38 -0400 (EDT)
+Date: Wed, 29 Mar 2023 11:16:36 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH 7/7] dt-bindings: display: add panel-timing property to
+ sitronix,st7789v
+Message-ID: <20230329091636.mu6ml3gvw5mvkhm4@penduick>
+References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
+ <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
+ <20230316215735.GA3940832-robh@kernel.org>
+ <dd26836f-d54c-65d1-0acc-8a09745bb066@wolfvision.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
- liyi <liyi@loongson.cn>, Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
-In-Reply-To: <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xisgQ1LsOp80r1yWF4amrlt0"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <dd26836f-d54c-65d1-0acc-8a09745bb066@wolfvision.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,102 +88,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Gerald Loacker <gerald.loacker@wolfvision.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xisgQ1LsOp80r1yWF4amrlt0
-Content-Type: multipart/mixed; boundary="------------7TXW7RLbx04W0AUDsj43WVSy";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, suijingfeng <suijingfeng@loongson.cn>,
- liyi <liyi@loongson.cn>, Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-ID: <6504a971-cf4b-ac35-4fe9-ee49b984b521@suse.de>
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
-In-Reply-To: <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
+On Thu, Mar 16, 2023 at 11:29:53PM +0100, Michael Riesch wrote:
+> Hi Rob,
+>=20
+> On 3/16/23 22:57, Rob Herring wrote:
+> > On Tue, Mar 14, 2023 at 12:56:44PM +0100, Gerald Loacker wrote:
+> >> The sitronix-st7789v driver now considers the panel-timing property.
+> >=20
+> > I read the patch for that and still don't know 'why'. Commit messages=
+=20
+> > should answer why.
+> >=20
+> >> Add the property to the documentation.
+> >=20
+> > We generally don't put timings in DT for panels. Why is this one=20
+> > special?
+>=20
+> For now, having the timings in the device tree allows for setting the
+> hsync/vsync/de polarity.
+>=20
+> As a next step, we aim to implement the partial mode feature of this
+> panel. It is possible to use only a certain region of the panel, which
+> is helpful e.g., when a part of the panel is occluded and should not be
+> considered by DRM. We thought that this could be specified as timing in D=
+T.
+>
+> (The hactive and vactive properties serve as dimensions of this certain
+> region, of course. We still need to specify somehow the position of the
+> region. Maybe with additional properties hactive-start and vactive-start?)
+>=20
+> What do you think about that?
 
---------------7TXW7RLbx04W0AUDsj43WVSy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I don't see why we would need the device tree to support that. What you
+described is essentially what overscan is for HDMI/analog output, and we
+already have everything to deal with overscan properly in KMS.
 
-DQoNCkFtIDI5LjAzLjIzIHVtIDExOjA0IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46DQo+
-IChjYydpbmcgTHVjYXMpDQo+IA0KPiBIaQ0KPiANCj4gQW0gMjUuMDMuMjMgdW0gMDg6NDYg
-c2NocmllYiBTdWkgSmluZ2Zlbmc6DQo+PiDCoCBUaGUgYXNzaWdubWVudCBhbHJlYWR5IGRv
-bmUgaW4gZHJtX2NsaWVudF9idWZmZXJfdm1hcCgpLA0KPj4gwqAganVzdCB0cml2YWwgY2xl
-YW4sIG5vIGZ1bmN0aW9uYWwgY2hhbmdlLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFN1aSBK
-aW5nZmVuZyA8MTUzMzAyNzMyNjBAMTg5LmNuPg0KPj4gLS0tDQo+PiDCoCBkcml2ZXJzL2dw
-dS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYyB8IDUgKystLS0NCj4+IMKgIDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jIA0KPj4gYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYw0KPj4gaW5kZXggNGQ2MzI1ZTkxNTY1Li4x
-ZGE0OGU3MWM3ZjEgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2
-X2dlbmVyaWMuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmlj
-LmMNCj4+IEBAIC0yODIsNyArMjgyLDcgQEAgc3RhdGljIGludCBkcm1fZmJkZXZfZGFtYWdl
-X2JsaXQoc3RydWN0IA0KPj4gZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyLA0KPj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fY2xpcF9yZWN0ICpj
-bGlwKQ0KPj4gwqAgew0KPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIg
-KmJ1ZmZlciA9IGZiX2hlbHBlci0+YnVmZmVyOw0KPj4gLcKgwqDCoCBzdHJ1Y3QgaW9zeXNf
-bWFwIG1hcCwgZHN0Ow0KPj4gK8KgwqDCoCBzdHJ1Y3QgaW9zeXNfbWFwIG1hcDsNCj4+IMKg
-wqDCoMKgwqAgaW50IHJldDsNCj4+IMKgwqDCoMKgwqAgLyoNCj4+IEBAIC0zMDIsOCArMzAy
-LDcgQEAgc3RhdGljIGludCBkcm1fZmJkZXZfZGFtYWdlX2JsaXQoc3RydWN0IA0KPj4gZHJt
-X2ZiX2hlbHBlciAqZmJfaGVscGVyLA0KPj4gwqDCoMKgwqDCoCBpZiAocmV0KQ0KPj4gwqDC
-oMKgwqDCoMKgwqDCoMKgIGdvdG8gb3V0Ow0KPj4gLcKgwqDCoCBkc3QgPSBtYXA7DQo+PiAt
-wqDCoMKgIGRybV9mYmRldl9kYW1hZ2VfYmxpdF9yZWFsKGZiX2hlbHBlciwgY2xpcCwgJmRz
-dCk7DQo+PiArwqDCoMKgIGRybV9mYmRldl9kYW1hZ2VfYmxpdF9yZWFsKGZiX2hlbHBlciwg
-Y2xpcCwgJm1hcCk7DQo+IA0KPiBJIHNlZSB3aGF0IHlvdSdyZSBkb2luZyBhbmQgaXQncyBw
-cm9iYWJseSBjb3JyZWN0IGluIHRoaXMgY2FzZS4NCj4gDQo+IEJ1dCB0aGVyZSdzIGEgbGFy
-Z2VyIGlzc3VlIHdpdGggdGhpcyBpb3N5cyBpbnRlcmZhY2VzLiBTb21ldGltZXMgdGhlIA0K
-PiBhZGRyZXNzIGhhcyB0byBiZSBtb2RpZmllZCAoc2VlIGNhbGxzIG9mIGlvc3lzX21hcF9p
-bmNyKCkpLiBUaGF0IGNhbiANCj4gcHJldmVudCBpbmNvcnJlY3QgdXNlcyBvZiB0aGUgbWFw
-cGluZyBpbiBvdGhlciBwbGFjZXMsIGVzcGVjaWFsbHkgaW4gDQoNCidwcmV2ZW50IGNvcnJl
-Y3QgdXNlcycNCg0KPiB1bm1hcCBjb2RlLg0KPiANCj4gSSB0aGluayBpdCB3b3VsZCBtYWtl
-IHNlbnNlIHRvIGNvbnNpZGVyIGEgc2VwYXJhdGUgc3RydWN0dXJlIGZvciB0aGUgSS9PIA0K
-PiBsb2NhdGlvbi4gVGhlIGJ1ZmZlciBhcyBhIHdob2xlIHdvdWxkIHN0aWxsIGJlIHJlcHJl
-c2VudGVkIGJ5IHN0cnVjdCANCj4gaW9zeXNfbWFwLsKgIEFuZCB0aGF0IG5ldyBzdHJ1Y3R1
-cmUsIGxldCdzIGNhbGwgaXQgc3RydWN0IGlvc3lzX3B0ciwgDQo+IHdvdWxkIHBvaW50IHRv
-IGFuIGFjdHVhbCBsb2NhdGlvbiB3aXRoaW4gdGhlIGJ1ZmZlcidzIG1lbW9yeSByYW5nZS4g
-QSANCj4gZmV3IGxvY2F0aW9ucyBhbmQgaGVscGVycyB3b3VsZCBuZWVkIGNoYW5nZXMsIGJ1
-dCB0aGVyZSBhcmUgbm90IHNvIG1hbnkgDQo+IGNhbGxlcnMgdGhhdCBpdCdzIGFuIGlzc3Vl
-LsKgIFRoaXMgd291bGQgYWxzbyBhbGxvdyBmb3IgYSBmZXcgZGVidWdnaW5nIA0KPiB0ZXN0
-cyB0aGF0IGVuc3VyZSB0aGF0IGlvc3lzX3B0ciBhbHdheXMgb3BlcmF0ZXMgd2l0aGluIHRo
-ZSBib3VuZHMgb2YgYW4gDQo+IGlvc3lzX21hcC4NCj4gDQo+IEkndmUgbG9uZyBjb25zaWRl
-cmVkIHRoaXMgaWRlYSwgYnV0IHRoZXJlIHdhcyBubyBwcmVzc3VyZSB0byB3b3JrIG9uIGl0
-LiANCj4gTWF5YmUgbm93Lg0KPiANCj4gQmVzdCByZWdhcmRzDQo+IFRob21hcw0KPiANCj4+
-IMKgwqDCoMKgwqAgZHJtX2NsaWVudF9idWZmZXJfdnVubWFwKGJ1ZmZlcik7DQo+IA0KDQot
-LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
-IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
-IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
-pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
-
---------------7TXW7RLbx04W0AUDsj43WVSy--
-
---------------xisgQ1LsOp80r1yWF4amrlt0
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQkADkFAwAAAAAACgkQlh/E3EQov+D7
-Mg/+P3ukqIvb04q4tsxKRQMak9HAPpCGy0bOFPa/kETocKlqn1AyTF+BkfSgopPMG+gGeU576hkY
-ewTnzB7oHVBFfZgbgPoGfUujGRkcWkOoAPc9ax5G1kpdJF9Y4M72lPLcKtHEDO1vHaIwRepXuzz6
-NEjI63AAfGLqepqbj4QExbu0eCb75yRd4UyO5XHkhGPKyIAHu9DuWtisBw6UhRli9PRmlgJbVPnC
-vJzBty5qaUVC3Nn7bzrS8spmSgSNkoe+951FXA71KPbL/YcmJ74q/LTyTdU7hV9F5raxMgogMf4s
-Xd32vqFCEgSxcos8xU5qpKoLbA7pT+pHUNiSKxUurvoKD8yvpuM+1taR+i5tXU9EAeKS5O9oawyd
-KCmtvaFJJUWsTam2M+skMxTPbwYg9F603yPf4oQXdniM7JOXu3vJ4vaU/uzhgAYjCnkQ9W99TQwv
-SkwN2CTZ8MaLdiUHdxdKHvRzooCrE+TwBTCjh7fDrKFhkmMZwOjUdkfhl7ec6yc1Na9D9/FB1Fiu
-2PpD5mb3XQz2z2kzhJgtbYhr/cUbsPq4qA+MwA3yVdLJHIvw0f3n4f0drWv7vFID3WMpGDyJLbo0
-fZ2cg3eoo4prxNOby6FFkr03YdxpFgiawraKcEZI3MA+HVrnVxP+Luqa7Ms302HMP6MlpxqPfe/a
-Cqg=
-=Bmbu
------END PGP SIGNATURE-----
-
---------------xisgQ1LsOp80r1yWF4amrlt0--
+Maxime
