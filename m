@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6D76D0030
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B07756D0052
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:56:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39C5210ED7B;
-	Thu, 30 Mar 2023 09:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E7410ED80;
+	Thu, 30 Mar 2023 09:56:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33EDB10E029
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:51:23 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id p203so22681334ybb.13
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 02:51:23 -0700 (PDT)
+Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
+ [IPv6:2607:f8b0:4864:20::112b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D30A10ED7C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:56:48 +0000 (UTC)
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-544787916d9so343942767b3.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 02:56:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680169882;
+ d=linaro.org; s=google; t=1680170207;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UIbgOG+h3FIDF+Si9VD6Zwd1DkLvZs1s8HyCvFhZ9EY=;
- b=sIvdOknzxUYNAk4I6ea88QdgCUOqrLOBhfsopoNo72TjQSvr62pPA+qFgOBmBObhNQ
- 1PiYmezYMMSy99UdDOt97wrNif94MO7BrEasdZG2OHRAFpAP12BH5FHEWNMRaohrN8pc
- 3HpOqKEZsvG5TQA3EPMzKRABDsaCCdTO9c6HW17ugwV+mtVUImMPwRaTOsqHyATjya0O
- kXdSx5dPodiZUqDOJuJ9RCTjVxCvdI2Oc8o18aBY2k7CFfdPPBW+uQqMkQ2pz5M0FU/k
- bBX08oiVk2fSckkrwPhgQ7xLxSA1/5FxbxWlCwMWM9F3IA6pACWWb8eMBRUMXt/XAEOz
- WXFw==
+ bh=RXazreuoSDNeY14GjG+L3kKUROFu/LX0XUCtalocMnM=;
+ b=Q27wJUEvJTyPvijXy+9qg1b3N1bi8JzO7oBIfxk43L/4mnJwqi/DQ50YoHV2gP1SDn
+ WEd8g0psLeqgsmxk4wmJ506yCMopC9oxoNHr/yJeTRSnOa5NSmEUYINlF4is9SmdOmAA
+ 7aWOLwf7v7Et1hre2bG6Fywp6w2Sh3mz+fIO1JeeZVfUN0IHkgES173p1Xa4Zs0aIyM/
+ mI8+yq+TP5kEACBYVL6kJOPNI+2l6H0RhqP6WUfUhMuRS6u4cDI5a45NjYvDg7Z/RoiG
+ HAtZUPLscJeS0jJeyZsHzX9SAsgYm2BsLYwnd2QCySEr1kUfoj86djdEfTSd/6hb6csa
+ WCGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680169882;
+ d=1e100.net; s=20210112; t=1680170207;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UIbgOG+h3FIDF+Si9VD6Zwd1DkLvZs1s8HyCvFhZ9EY=;
- b=sbhVrKZm3REa+IvAa8+GASv0xpHlNOCynqEZhv4Yt7wBa2Jl6RrVA4EJAL4HNGraue
- hrnA+HpLsJ5kG4GYV5QLBTnuqwAQq9iHqxl+q2E5TC5Ql2MeiWq5dD8IVgbe6vc1HjUD
- 8VGrjPNV+H9UFOku/ET7iHKUaI/2Nmf8PLiD2Hl0T15aJ9WJNuDkIuoSEwjRaeEsTmef
- XVZU5GdpskPkQzenC8dSnmkWHX4XPCR4z9qGBgqYfqeF+QNYj4rmVUNTq8HhPP8LfyAn
- GuD4xfHILbEPD+FX6Qe4UQOwMpKpv9Yi2o3wyIZWEc5Mg4nXyFEjZG5wGYGgnltid+Nh
- 0TEg==
-X-Gm-Message-State: AAQBX9eTWOk8R4oOOudYQtndgkLtsvf5Url3IXWwajmC6fgcU/mQcMew
- Q3qarknkUzwmsDxV03YtwgKAPh/Vg3bBhCLEYsJskA==
-X-Google-Smtp-Source: AKy350aaiOzzm2r5w48FBnQYN8mcYV/XBLAtomsqXCbKsIiygpKHaym8tbpgh+vg7oUtg7IBqovmwJMlURVoqAEzW0A=
-X-Received: by 2002:a05:6902:102b:b0:b46:4a5e:3651 with SMTP id
- x11-20020a056902102b00b00b464a5e3651mr14647883ybt.9.1680169882207; Thu, 30
- Mar 2023 02:51:22 -0700 (PDT)
+ bh=RXazreuoSDNeY14GjG+L3kKUROFu/LX0XUCtalocMnM=;
+ b=4m4/ZWAQHiYJWTesQtu29MidhSY6vMuY+i660HzAuSypRsdW9vF0jEsIbstw+mvPTr
+ WWR77o9H5ar8cGVJ5FFRFK5uzOxJ3p1KMBRLQLzCQywVzDz+QiP7MuX2a8maZacCLFFh
+ DX/fcZvHqNzLdA8DLdZk8DtSmLRjq4/6buf6WLLYZTbKctAslEydqas2abMBOwtMP6xg
+ P9gEUz7BxMpEVo2NLkhyVijtYtsgHHIpR6IxokJBYY7suxxb9RrWH/xz+jEZ+9nTGyqi
+ RXiVDl7bktuXL/0WoaH9YynIF+ZeA4aTzyImkjn/WfQLEampGOVVo1HFTCO4G1XQeDnD
+ EsMw==
+X-Gm-Message-State: AAQBX9fDlcg5GENXmCQK/GNdxWWoDtmJs3H66DGRyzpbKm0iriioX6qu
+ +MMu4SMaAqsroHfL0rbxgkKXpBJbvRzuawLgg8knTw==
+X-Google-Smtp-Source: AKy350bqExKE8rYdpf9ZxL1xQIW0Uc8JA5RZ+3QA/9kw/Ho7amY2K61SplWlLgJTuBESzGdhksCO0/Iw2lTRgROvVEI=
+X-Received: by 2002:a81:4520:0:b0:541:85d2:af21 with SMTP id
+ s32-20020a814520000000b0054185d2af21mr11299150ywa.5.1680170207528; Thu, 30
+ Mar 2023 02:56:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230330074150.7637-1-tzimmermann@suse.de>
- <20230330074150.7637-2-tzimmermann@suse.de>
-In-Reply-To: <20230330074150.7637-2-tzimmermann@suse.de>
+ <20230330074150.7637-3-tzimmermann@suse.de>
+In-Reply-To: <20230330074150.7637-3-tzimmermann@suse.de>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 30 Mar 2023 12:51:11 +0300
-Message-ID: <CAA8EJpov+D5VjWWKWCEjp_C1Rt2B6=2j8rBc8JUPtjEcYYRzYQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/msm: Clear aperture ownership outside of fbdev
- code
+Date: Thu, 30 Mar 2023 12:56:36 +0300
+Message-ID: <CAA8EJppyFcwyVqB715rtQLu1642fa3i7GhKobgGyjQKG5vsG6A@mail.gmail.com>
+Subject: Re: [PATCH 2/6] drm/msm: Remove fb from struct msm_fbdev
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,76 +75,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 30 Mar 2023 at 10:41, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> Move aperture management out of the fbdev code. It is unrelated
-> and needs to run even if fbdev support has been disabled. Call
-> the helper at the top of msm_drm_init() to take over hardware
-> from other drivers.
+> Fbdev's struct fb_helper stores a pointer to the framebuffer. Remove
+> struct msm_fbdev.fb, which contains thre same value. No functional
+> changes.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/msm/msm_drv.c   | 6 ++++++
->  drivers/gpu/drm/msm/msm_fbdev.c | 6 ------
->  2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index aca48c868c14..5211140ec50b 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -12,6 +12,7 @@
->  #include <linux/uaccess.h>
->  #include <uapi/linux/sched/types.h>
->
-> +#include <drm/drm_aperture.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> @@ -411,6 +412,11 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
->         if (drm_firmware_drivers_only())
->                 return -ENODEV;
->
-> +       /* the fw fb could be anywhere in memory */
-> +       ret = drm_aperture_remove_framebuffers(false, drv);
-> +       if (ret)
-> +               return ret;
-> +
+>  drivers/gpu/drm/msm/msm_fbdev.c | 32 +++++++++++++-------------------
+>  1 file changed, 13 insertions(+), 19 deletions(-)
 
-I think it is not a good place to remove framebuffers. EFIFB might be
-still alive and if we kick it out, it might be very hard to debug what
-went wrong.
-Could you please move it after component bind? Then we can be sure at
-least that all subdevices are bound. I see that armada and sun4i call
-it as late as possible, when no calls can fail.
 
->         ddev = drm_dev_alloc(drv, dev);
->         if (IS_ERR(ddev)) {
->                 DRM_DEV_ERROR(dev, "failed to allocate drm_device\n");
-> diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-> index d26aa52217ce..fc7d0406a9f9 100644
-> --- a/drivers/gpu/drm/msm/msm_fbdev.c
-> +++ b/drivers/gpu/drm/msm/msm_fbdev.c
-> @@ -4,7 +4,6 @@
->   * Author: Rob Clark <robdclark@gmail.com>
->   */
->
-> -#include <drm/drm_aperture.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_fb_helper.h>
->  #include <drm/drm_fourcc.h>
-> @@ -154,11 +153,6 @@ struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev)
->                 goto fail;
->         }
->
-> -       /* the fw fb could be anywhere in memory */
-> -       ret = drm_aperture_remove_framebuffers(false, dev->driver);
-> -       if (ret)
-> -               goto fini;
-> -
->         ret = drm_fb_helper_initial_config(helper);
->         if (ret)
->                 goto fini;
-> --
-> 2.40.0
->
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
 -- 
