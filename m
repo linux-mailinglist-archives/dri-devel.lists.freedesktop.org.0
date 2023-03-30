@@ -2,150 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CD36D12BC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 01:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7D36D12D2
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 01:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880D910F097;
-	Thu, 30 Mar 2023 23:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E87F110F092;
+	Thu, 30 Mar 2023 23:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400E810F084;
- Thu, 30 Mar 2023 23:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680217318; x=1711753318;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=4hOLgA+Dh5f9VPqlNLF9fSGTJwnl3alcZAymeCg0snA=;
- b=ZGfUDkhqHu+fedXKlibtMda+blAEMW8PbOsI+TdMVgkMXx+Yfb9YPkne
- wlSXkTCzGyDrDl5h0QN1R+Veqw/EQWliuJZLt1lB3JOV4fXZ3AWjguGwp
- fWFBDUb65jyq0ys/FdW6+DECtNxvGJCQCv9jXZFgDEkqeYAQZy2ZX/SQr
- TfGDtDQPDedyRJdqhg2BFd/ys9KaB3chWVgT78Wdpc6kJ1KwT3DlLePk4
- UKrhM6eEtnGpiS2xj5G8SO49+hr5qrx1u9PNusam3pEtrvehON/SKByGr
- ohWAa18TS+66sfxbU2FwmjnUt60nvOtET4ij93aVVy/tvzg0HrELkJACf g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="427581167"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="427581167"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 16:01:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="795863344"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="795863344"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2023 16:01:57 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 30 Mar 2023 16:01:57 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Thu, 30 Mar 2023 16:01:56 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21 via Frontend Transport; Thu, 30 Mar 2023 16:01:56 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.48) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.21; Thu, 30 Mar 2023 16:01:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xm0/P9Uec3wNaW1WkXpwxsb0VHXvXfqnojmrCNRFlrMkyg2MCoikgllCyZjHc8sajNJWeHa06eARRZwTlL9NpivRkQLkn0L+zPSntD7ujH1TjwpFraarA2l+J4N6jNvv4Oy48trLIOvDaDT+x2aPqE23+Lawwsi3w9oNsyepPA3whb2XfqxmU1k1F+eo+QBbEikRg3AlD6SN4Vx0NQS+VA58cfMGx5a0CyJHnoCBxd+u8D0X1yL2dOoylk5WL2Rkzcd/70LV2lkJ/D3tOLJWsYRQl41yaq3juxHBiJFbekTFOmFYiKawizqEb66anhuiECmG5L3nnFRvHLTWX76XMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tls4RWxAdWT9FuT2t+XBhhorUIaHoYp/tcf6Ad9qOvI=;
- b=Q1+3m0U3g2Z/+APa64iuSBYd61Y/lDA20qmSl2mUUr8Xl2bY6HFFp7H0T5xjOak70H5daqDpcU7uXyR32K2lXZoIG8zQcJXBjv32YGKtBU7tOlK8wznLUNRhV/ancQcrlJetkzShxd1wjtDEYLjo6g6k86Jjl2XwwWZsP/NzEC1qojb/Jb7Guz+bXuUf8+0ZgSfu9FQj1eiuQeD964yWFTC/lDSC8ZZ3crRSYLj7CKEzXG7aorDmkw7bhCoKEPRq8PbuMEoLQ7SeVj2t10jxcQf9Sym1zH7Kl6+9MmQQejEuayqS4EYw7wROVD0jWCWHzS38PeH+/1X6c6/7ZYXpKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by BL1PR11MB5415.namprd11.prod.outlook.com (2603:10b6:208:315::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.20; Thu, 30 Mar
- 2023 23:01:50 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::c5b2:6996:5aee:91db]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::c5b2:6996:5aee:91db%5]) with mapi id 15.20.6222.033; Thu, 30 Mar 2023
- 23:01:50 +0000
-Date: Thu, 30 Mar 2023 16:01:44 -0700
-From: Ira Weiny <ira.weiny@intel.com>
-To: Zhao Liu <zhao1.liu@linux.intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Matthew Auld
- <matthew.auld@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Chris Wilson
- <chris@chris-wilson.co.uk>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, <intel-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/9] drm/i915: Use memcpy_[from/to]_page() in
- gem/i915_gem_pyhs.c
-Message-ID: <642614d888783_375f7e294a5@iweiny-mobl.notmuch>
-References: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
- <20230329073220.3982460-3-zhao1.liu@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230329073220.3982460-3-zhao1.liu@linux.intel.com>
-X-ClientProxiedBy: SJ0PR03CA0064.namprd03.prod.outlook.com
- (2603:10b6:a03:331::9) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B700410F084;
+ Thu, 30 Mar 2023 23:06:31 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 32UMmvmE002366; Thu, 30 Mar 2023 23:06:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=KA5QS3Uas5RwJJmqsHyH05GRhmeGft4J5luuRhbk1yA=;
+ b=fSSjxbqX2QD1nxZ2TrvI+535MaphVIMM1DsT8PJ3WIYjHYr0H343Fcoa6vtR1p6Qpdf9
+ WErnjYhEciKPJTB6c7BXUCgRqhjW7C1M7wGiHjYooO0n7HU8gtJ2dUNL1bEMK6LhZVQb
+ 0lHKJw1Qx+Z+EFjcmESFoj96TJEGD1FHNKSRgV645v0LDOtsgs27liwe+SAVkFp0+/st
+ Bsus05dLNNkMcSC3ozH23VedQtV6EbXAaMxB5xSfk/zbvYEFOvQm8pAPoTMeF2Bbwy9r
+ 9N6XyJmpABy0uyYW9Z6vqrGzQv0uqznDNeUybJoDtbVm+A+RDJ6ku7ap2IJMF6OkoNsk 9A== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pn7m3hxpj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Mar 2023 23:06:28 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32UN6StQ011366
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 30 Mar 2023 23:06:28 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 30 Mar
+ 2023 16:06:27 -0700
+Message-ID: <c8de2c5b-94e7-1f68-90f9-f817689a779f@quicinc.com>
+Date: Thu, 30 Mar 2023 16:06:27 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|BL1PR11MB5415:EE_
-X-MS-Office365-Filtering-Correlation-Id: 484c729f-78cf-47b5-8f62-08db3172bea7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RMT2BsLRPAUl6zsL9LpzetC1w8gRZ6VuFiVnWCFnmbm5F0s8qR3mDb+4Zukyax/XNifMJB/vgyt15OZjDkYjC4IMomsXWmxYKVEDdKeZCejGrwK07Pi2zBxmZ3nPk4uZcBkVEiSVZU3zz9AxnN86cZOyOfDcE1o2DFGKErJtT28PPOy/dGQXri+IPwQc7gXvnioHpOumu4j+KbqKPtuqBjL44vP+URhckEpHVEddlteUhO8ymcoz/h/44X7KdpoIQ8J0KCR1T8Adai10z4ojq8GlMdmtghGh0pMeiDBF6stcnHfZ2kfEPkAxulQGm4ZRHAtlXMhaOBmsUAvPSElagAIMAUukogA6WATkXBBzmIoQDgOdNiJ+2SGXs+dvkY60RElhmejBzEDjMNMT9XaoVdtziaDqio5LGfj2E5fPkgPr1MV4IljWmwWN0kSzVth724lr2zt7tNrJOJ+7xOVU9onJ+fOk8tij0J2JbyFWg+67KsuppWNAs5TfQxOgKtuDF7+FRO1ef129zfyn/t6W+EeIz78Ra9a2cp/NGFNlIxyGC3zsKXp5G4x86mswY1KbO0wHjaRtDXOOGDcr3QS1Lu+Sl5WeKL6qdJN+4lFEDH4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(39860400002)(376002)(366004)(136003)(396003)(346002)(451199021)(110136005)(54906003)(478600001)(316002)(6666004)(83380400001)(186003)(82960400001)(921005)(5660300002)(966005)(9686003)(26005)(6512007)(6486002)(7416002)(38100700002)(6506007)(8936002)(2906002)(44832011)(66556008)(41300700001)(66476007)(66946007)(8676002)(4326008)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+OMcWCILWKeu+jLzkezLNyJInJfIao9P+LKlNeNgfB+1qBoO1H84+fc06gjI?=
- =?us-ascii?Q?Fwum+O2LqPH3uOVdIueRPwq7GB7yS95cpCT6r0bMW/cB+/LHuSRYCnGI+rii?=
- =?us-ascii?Q?jgSJq53oLejbQfhHqTGlSw9RUf8fgh4JCAro62oS21BJkUxdIQ96o9eZ/+xS?=
- =?us-ascii?Q?VTxEJgUaWrI4UZ3ukPVXyGGNJFBp5eZY7bymwz+SdwLDVrE1X40FetpUy5Uo?=
- =?us-ascii?Q?X0btZeNVeCYhXvn2wrhLzOT56rkgUKc+CEKl11cPsRy7Az0UUEs7Kzd+RbN8?=
- =?us-ascii?Q?/7J3/DdNPPHcoRs9s/ZxoJmv2pexxe5gUj3cDMJifFMqsuAB5hCtYUL7x10l?=
- =?us-ascii?Q?kJj28kZUwEobr0xOglPQvENGyvINuIfy4F12VhJU6ChsaYCdI4zVxCKAbgon?=
- =?us-ascii?Q?jtQ8HuPB54gR7PnJ+/6HOi18uxwJH7XhKlXsJMzbfAopce2Ky6n2NnsfT2U3?=
- =?us-ascii?Q?xhnsjh83KZGVa3T971TOTKAkr8G5VhfxD70Ci+X2FOskGV8HaaSZFFXP/3mb?=
- =?us-ascii?Q?6VkBei5qm0Kb4CnhrricZEOpNc8Tr/TcPtf6gjWCA4iko+YgLGfdlx3stiuE?=
- =?us-ascii?Q?IY1n1uVe5roYhxhkat5PNPBvu0f+8zmJfb8Z51v7UD2ykUq0YbpgqWm4lLxg?=
- =?us-ascii?Q?tiJZgFu3KlFxtsj6zMnjBqv9zoOcLcepEYSTMsPiS+tG91LJgJeJ56vCpBXR?=
- =?us-ascii?Q?6LCnvnku4bEc9GPp4V3X05LLLPc6PPVSBa9GVZRxXSVnTNOT8ZU5ceUtfv23?=
- =?us-ascii?Q?6w/Za6NR/blpp1P+YwQqGBSJhMpXTCp0RjSxIA5BlZo5bMURMttaPc+h3QWw?=
- =?us-ascii?Q?g3yozdJNbVOs6DdPYYvAPkiXBRCrW0KeyNdrvxw1IqA4Xil76jlmTOZhmhU9?=
- =?us-ascii?Q?nPaiyOpIox4DqzJ8jyIoii7k/NEXgLKZtczDMoN6S8/+VhGprRVBHZiePyQe?=
- =?us-ascii?Q?pHv9okLxwQQhqFIdTgcN7tsqvKdpMpaXDa+996tY/hkaJnlCjdB52sgjsOK7?=
- =?us-ascii?Q?ds5MjHNUmqrPQh49jdWl4I6EP1lLYaB8uUznNE6rGTQ+zJWJzusXAcq6U+NM?=
- =?us-ascii?Q?4Aa/O6c9zoTVCJL7EQFp2LO7I2h1qPCzRLMULaeE9xAa/ZnZ8Em0fw//QXww?=
- =?us-ascii?Q?cCio1xTTx4HeB9AjS8sBXStaDsj6OyvS2hp3pIvAlenfSoMI7VZoQ0cVg9lU?=
- =?us-ascii?Q?qBudqDurCtovAzPPC3Vl5BYR8IV+cpvXoWZ7VO27uxXaeEvtAXkm2e4vWEYa?=
- =?us-ascii?Q?HW0BqEqRDsZZxbl5l5JglmOlCobTDmrWeJC5dvES1HTwQCqsq0Dphs7tEHkw?=
- =?us-ascii?Q?EC9WycJcTIjKWHZdWQ4Uozqi3spgq6mXezn3+57DsYV8DtcPtmVPNBXKkgiK?=
- =?us-ascii?Q?+eAwcot5y6VE8n++N08EZMMPy9JYa3D1tuLpJZGrjES/v/9fiLF/WAvUbxG6?=
- =?us-ascii?Q?EFm8l0QsZy5agc5pZAp2jOSiDJLYfNtXcrL/cuJjdoKxRyXcbbzOnuilZXdP?=
- =?us-ascii?Q?UB0dPzL1U1IrHbr954CKnU6Q8sl6IjI9gmVJjOYiG2pM+D+0dQRDmjIC/myg?=
- =?us-ascii?Q?S5S0I/tqH5pYuQltaKMNcnnXIBCZ4bgbmoTPpYKN?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 484c729f-78cf-47b5-8f62-08db3172bea7
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 23:01:50.4198 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vEP5LmMAkugoC/nTtWufwR9kz7RVb/hjTnC27vsDGM7UglfsfSYnTLLJa9fOuWevIJe4nAztmAYYPAPYFNUZPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5415
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Freedreno] [PATCH RFC 2/5] drm/msm: Add MSM-specific DSC helper
+ methods
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v1-2-f3e479f59b6d@quicinc.com>
+ <02a1e227-3aff-1b05-8171-2aa2f3872596@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <02a1e227-3aff-1b05-8171-2aa2f3872596@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: WycoloqI2HQCPlBsToKl-iW0mtTe-fCl
+X-Proofpoint-GUID: WycoloqI2HQCPlBsToKl-iW0mtTe-fCl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-30_13,2023-03-30_04,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 adultscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 impostorscore=0 mlxlogscore=901
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2303300181
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,58 +86,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
- Ira Weiny <ira.weiny@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
- Zhenyu Wang <zhenyu.z.wang@intel.com>, Dave Hansen <dave.hansen@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Zhao Liu wrote:
-> From: Zhao Liu <zhao1.liu@intel.com>
-> 
-> The use of kmap_atomic() is being deprecated in favor of
-> kmap_local_page()[1],  and this patch converts the call from
-> kmap_atomic() + memcpy() to memcpy_[from/to]_page(), which use
-> kmap_local_page() to build local mapping and then do memcpy().
-> 
-> The main difference between atomic and local mappings is that local
-> mappings doesn't disable page faults or preemption (the preemption is
-> disabled for !PREEMPT_RT case, otherwise it only disables migration).
-> 
-> With kmap_local_page(), we can avoid the often unwanted side effect of
-> unnecessary page faults and preemption disables.
-> 
-> In drm/i915/gem/i915_gem_phys.c, the functions
-> i915_gem_object_get_pages_phys() and i915_gem_object_put_pages_phys()
-> don't need to disable pagefaults and preemption for mapping because of
-> 2 reasons:
-> 
-> 1. The flush operation is safe. In drm/i915/gem/i915_gem_object.c,
-> i915_gem_object_get_pages_phys() and i915_gem_object_put_pages_phys()
-> calls drm_clflush_virt_range() to use CLFLUSHOPT or WBINVD to flush.
-> Since CLFLUSHOPT is global on x86 and WBINVD is called on each cpu in
-> drm_clflush_virt_range(), the flush operation is global.
-> 
-> 2. Any context switch caused by preemption or page faults (page fault
-> may cause sleep) doesn't affect the validity of local mapping.
-> 
-> Therefore, i915_gem_object_get_pages_phys() and
-> i915_gem_object_put_pages_phys() are two functions where the uses of
-> local mappings in place of atomic mappings are correctly suited.
-> 
-> Convert the calls of kmap_atomic() / kunmap_atomic() + memcpy() to
-> memcpy_from_page() and memcpy_to_page().
-> 
-> [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
-> 
-> v2:
-> * Used memcpy_from_page() and memcpy_to_page() to replace
->   kmap_local_page() + memcpy().
-> * Dropped hot plug related description since it has nothing to do with
->   kmap_local_page().
-> * Added description of the motivation of using kmap_local_page().
-> 
-> Suggested-by: Dave Hansen <dave.hansen@intel.com>
-> Suggested-by: Ira Weiny <ira.weiny@intel.com>
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+On 3/29/2023 5:40 PM, Dmitry Baryshkov wrote:
+> On 30/03/2023 02:18, Jessica Zhang wrote:
+>> Introduce MSM-specific DSC helper methods, as some calculations are
+>> common between DP and DSC.
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/Makefile              |  1 +
+>>   drivers/gpu/drm/msm/disp/msm_dsc_helper.c | 74 
+>> +++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/disp/msm_dsc_helper.h | 28 ++++++++++++
+>>   3 files changed, 103 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+>> index 7274c41228ed..897a5b1c88f6 100644
+>> --- a/drivers/gpu/drm/msm/Makefile
+>> +++ b/drivers/gpu/drm/msm/Makefile
+>> @@ -90,6 +90,7 @@ msm-y += \
+>>       disp/mdp_kms.o \
+>>       disp/msm_disp_snapshot.o \
+>>       disp/msm_disp_snapshot_util.o \
+>> +    disp/msm_dsc_helper.o \
+>>       msm_atomic.o \
+>>       msm_atomic_tracepoints.o \
+>>       msm_debugfs.o \
+>> diff --git a/drivers/gpu/drm/msm/disp/msm_dsc_helper.c 
+>> b/drivers/gpu/drm/msm/disp/msm_dsc_helper.c
+>> new file mode 100644
+>> index 000000000000..ec15c0d829e8
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/disp/msm_dsc_helper.c
+>> @@ -0,0 +1,74 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>> reserved
+>> + */
+>> +
+>> +#include <linux/kernel.h>
+>> +#include <linux/errno.h>
+>> +#include <drm/drm_fixed.h>
+>> +
+>> +#include "msm_drv.h"
+>> +#include "msm_dsc_helper.h"
+>> +
+>> +static int get_comp_ratio(struct drm_dsc_config *dsc, u32 src_bpp)
+>> +{
+>> +    return mult_frac(100, src_bpp, DSC_BPP(*dsc));
+>> +}
+>> +
+>> +static s64 get_bytes_per_soft_slice(struct drm_dsc_config *dsc, int 
+>> intf_width, int comp_ratio)
+>> +{
+>> +    s64 comp_ratio_fp, num_bits_fp;
+>> +    s64 numerator_fp, denominator_fp;
+>> +
+>> +    comp_ratio_fp = drm_fixp_from_fraction(comp_ratio, 100);
+> 
+> Please inline comp_ration calculation here. Don't use mult_frac().
+> 
+>> +    num_bits_fp = drm_fixp_from_fraction(8, 1);
+> 
+> drm_int2fixp
+> 
+>> +
+>> +    numerator_fp = drm_fixp_from_fraction(dsc->slice_width * 
+>> dsc->bits_per_component * 3, 1);
+> 
+> And here too.
+> 
+>> +    denominator_fp = drm_fixp_mul(comp_ratio_fp, num_bits_fp);
+> 
+> And num_bits_fp can be inlined too.
+> denominator_fp = drm_fixp_from_fraction(src_bpp * 8, DSC_BPP)
+> 
+>> +
+>> +    return drm_fixp_div(numerator_fp, denominator_fp);
+> 
+> dsc->slice_width * bpc * 3 / (8 * src_bpp / DSC_BPP), thus:
+> 
+> drm_fixp_from_fraction(dsc->slice_width * bpc * 3 * DSC_BPP, 8 * src_bpp)
+> 
+> but I will not insist on this one.
+> 
+>> +}
+>> +
+>> +u32 msm_dsc_get_eol_byte_num(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp)
+>> +{
+>> +    u32 bytes_per_ss, extra_eol_bytes, bytes_per_intf;
+>> +    s64 bytes_per_ss_fp;
+>> +    int slice_per_intf = msm_dsc_get_slice_per_intf(dsc, intf_width);
+>> +    int comp_ratio = get_comp_ratio(dsc, src_bpp);
+>> +
+>> +    bytes_per_ss_fp = get_bytes_per_soft_slice(dsc, intf_width, 
+>> comp_ratio);
+>> +    bytes_per_ss = drm_fixp2int_ceil(bytes_per_ss_fp);
+> 
+> s/_ss/_soft_slice/g
+> 
+>> +
+>> +    bytes_per_intf = bytes_per_ss * slice_per_intf;
+>> +    extra_eol_bytes = bytes_per_intf % 3;
+>> +    if (extra_eol_bytes != 0)
+>> +        extra_eol_bytes = 3 - extra_eol_bytes;
+>> +
+>> +    return extra_eol_bytes;
+>> +}
+>> +
+>> +u32 msm_dsc_get_dce_bytes_per_line(struct drm_dsc_config *dsc, int 
+>> intf_width)
+>> +{
+>> +    u32 bpp;
+>> +    u32 dce_bytes_per_line;
+>> +
+>> +    bpp = DSC_BPP(*dsc);
+> 
+> Didn't this cause a warning on the unused-but-set variable?
+> 
+>> +    dce_bytes_per_line = DIV_ROUND_UP(dsc->bits_per_pixel * 
+>> intf_width, 8);
+>> +
+>> +    return dce_bytes_per_line;
+>> +}
+> 
+> If you have msm_dsc_get_slice_per_intf() as a static inline, this 
+> function can be a static inline too. Nothing more than a single 
+> DIV_ROUND_UP.
+> 
+>> +
+>> +int msm_dsc_get_pclk_per_line(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp)
+>> +{
+>> +    s64 data_width;
+>> +    int comp_ratio = get_comp_ratio(dsc, src_bpp);
+>> +
+>> +    if (!dsc->slice_width || (intf_width < dsc->slice_width))
+>> +        return -EINVAL;
+>> +
+>> +    data_width = get_bytes_per_soft_slice(dsc, intf_width, comp_ratio);
+>> +    data_width = drm_fixp_mul(dsc->slice_count, data_width);
+>> +    data_width = drm_fixp_from_fraction(data_width, 3);
+> 
+> Reusing a variable is a nice trick, but it can be confusing. Not to 
+> mention that the last call should probably be drm_fixp_div()
+> 
+
+Hi Dmitry,
+
+Acked (for all the comments here).
+
+Planning to move the last divide by 3 out of this method (as the value 
+that uncompressed pclk is divided by depends on DSI/DP and if widebus is 
+enabled), so I'll merge the get_bytes_per_soft_slice call with the 2nd line.
+
+Thanks,
+
+Jessica Zhang
+
+>> +
+>> +    return drm_fixp2int_ceil(data_width);
+>> +}
+>> diff --git a/drivers/gpu/drm/msm/disp/msm_dsc_helper.h 
+>> b/drivers/gpu/drm/msm/disp/msm_dsc_helper.h
+>> new file mode 100644
+>> index 000000000000..308069b2b5a4
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/disp/msm_dsc_helper.h
+>> @@ -0,0 +1,28 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>> reserved
+>> + */
+>> +
+>> +#ifndef MSM_DSC_HELPER_H_
+>> +#define MSM_DSC_HELPER_H_
+>> +
+>> +#include <drm/display/drm_dsc_helper.h>
+>> +#include <drm/drm_modes.h>
+>> +
+>> +/*
+>> + * Helper methods for MSM specific DSC calculations that are common 
+>> between timing engine,
+>> + * DSI, and DP.
+>> + */
+>> +
+>> +#define MSM_DSC_SLICE_PER_PKT 1
+>> +#define DSC_BPP(config) ((config).bits_per_pixel >> 4)
+> 
+> Oh. Please. If you have used (config)->bits_per_pixel here, you wouldn't 
+> have to use clumsy DSC_BPP(*dsc). It might make sense to add:
+> 
+> static inline drm_dsc_get_bpp_int(struct drm_dsc_config *dsc)
+> {
+>      // most probably WARN_ON_ONCE is enough.
+>      WARN_ON(dsc->bits_per_fixel & 0xf);
+> 
+>      return dsc->bits_per_pixel >> 4;
+> }
+> 
+>> +
+>> +static inline int msm_dsc_get_slice_per_intf(struct drm_dsc_config 
+>> *dsc, int intf_width)
+>> +{
+>> +    return DIV_ROUND_UP(intf_width, dsc->slice_width);
+>> +}
+>> +
+>> +u32 msm_dsc_get_eol_byte_num(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp);
+>> +u32 msm_dsc_get_dce_bytes_per_line(struct drm_dsc_config *dsc, int 
+>> intf_width);
+>> +int msm_dsc_get_pclk_per_line(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp);
+>> +#endif /* MSM_DSC_HELPER_H_ */
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
