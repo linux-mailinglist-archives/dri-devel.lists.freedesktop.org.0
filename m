@@ -2,72 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9405D6CF7C1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 01:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A816F6CF7F0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 02:08:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA03310EC7C;
-	Wed, 29 Mar 2023 23:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3821510EC83;
+	Thu, 30 Mar 2023 00:08:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2C4710EC7C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 23:51:54 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id h25so22343211lfv.6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 16:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680133913;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0LKiTCfatgunVbCY7EWbbfW1aBzT4BASgK3wqqdG5gw=;
- b=zq1HXarnX1WAfWcjIJj/xMH2dxgZaXAEq5cuINHDgaW9dwVuYteEqDFwaIp0kCy3dI
- KkrUJ8IMLtI/EQenf9WZlbr3sTefJ5oLh82vln3V6Mqwy/L3Gbp6LPP+PASO1BZsHLY4
- NvnkOnNL5OCWmmhLOKypejobPBmg8Oz8r+lI+OsnJmDQcR7TqJfHam0rcsG7wLR8hoRS
- xoWu4FsccRkOlcOiQlsfurPMz5pmPuJaarnieJPb9oMe7FfPXuASiB4tMUdR5rMei2JA
- ng+8nlJz3NUHjy7+W3p80dx/REJX/wQErT2vzMCDS9rJ6V4OPGYd8J8Yo8m380i6qjjK
- /qeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680133913;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0LKiTCfatgunVbCY7EWbbfW1aBzT4BASgK3wqqdG5gw=;
- b=676Uf6WahnZEU7fBbw7VXw49mnsn/4TA+Tp6+mF4CfT8V+rtMrneF6OKAu9i9Yqo21
- MTSHgIz7Z7+yEL3GrDMUQhnfNPbGIWa3Z59s8G0//z9OYKDEfu9jd3lzT8Mw5jGODgNf
- yrISqOYPvQ9T4RwCm45uwMFUiYLddwx6EBMb0vtUi78SA29WjdwEWSevL0xO18DVjeWI
- KE9US7er/1ZwHIjzWXXuVQlxqgyiMTte4D6l9mbVxXCS7ZgBxafcSQdvuprsge+KCXBx
- iRxQas8NhtzPZw8On0Gdox4s12FyXWzZlqhJWbHx41N2UZ+oNW9cKyD/nWDdjTm+mJvf
- 62oA==
-X-Gm-Message-State: AAQBX9eMMQC5+bNCKvS6nDN78Hatu8huvGWaADe2MSmqwekH8VU8VRU5
- Mi5H5Nf24fHUo/Qjg2GJw6rqzg==
-X-Google-Smtp-Source: AKy350ZJJicQZ0HPbY32XDLcOd4mG+jW4zOrY9d5/HGOO1Dg49vg5uMHEjnFau66a/aIThHm2s1bUA==
-X-Received: by 2002:ac2:5a03:0:b0:4e9:d53:a5ef with SMTP id
- q3-20020ac25a03000000b004e90d53a5efmr6180140lfn.1.1680133912855; 
- Wed, 29 Mar 2023 16:51:52 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- f16-20020ac25330000000b004e844eeb555sm5671147lfh.214.2023.03.29.16.51.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Mar 2023 16:51:52 -0700 (PDT)
-Message-ID: <e52a1a47-ce6f-7654-a8fb-428b5a896ad9@linaro.org>
-Date: Thu, 30 Mar 2023 02:51:51 +0300
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E779F10EC83;
+ Thu, 30 Mar 2023 00:08:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680134901; x=1711670901;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=qReL1NQAo0s/ltkUWifMa5AxIawdGoSXs3VTdwExSJY=;
+ b=EPSWoWVIctwplJA+5WbuL2wAI5u1NFqNL9JswxhSKHn9laJC0BaaW/cx
+ R71qq3/aXkivq+sufSVqjlOxkRZSQCPXMxKqV+goXfSOh+s5Xx3i6g3Fu
+ VsWenbx4uoJNrPyaptXLljuN695I6NzOz2OtVBnJHa2DUZxHR0i0E1kYA
+ aCwvsjT9H7H4ttu3AD5f0913diznnraCJTFwUu/cizIdFaB85x61iJCOO
+ sv7U/wM2S+8cPNoedi7ZQBGMeS9W2X5VTd1eUEbC1KlJ04ojY0ERVets/
+ I0Dn7sXjw00htkU5ROur3r8ygymgyTtc27vR4UpY9TVL+X+LXIl4tZ++T A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="341048613"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="341048613"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2023 17:08:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="753791960"
+X-IronPort-AV: E=Sophos;i="5.98,301,1673942400"; d="scan'208";a="753791960"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2023 17:08:17 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1phfpw-000K4W-2s;
+ Thu, 30 Mar 2023 00:08:16 +0000
+Date: Thu, 30 Mar 2023 08:07:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <15330273260@189.cn>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Li Yi <liyi@loongson.cn>
+Subject: Re: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci
+ devices
+Message-ID: <202303300759.E9lbKNTQ-lkp@intel.com>
+References: <20230329205129.1513734-6-15330273260@189.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH RFC 3/5] drm/msm/dpu: Use DRM DSC helper for
- det_thresh_flatness
-Content-Language: en-GB
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v1-3-f3e479f59b6d@quicinc.com>
- <4e12cc50-cd34-e1a1-3a91-0da369b785c1@linaro.org>
- <9ba94f43-845f-886f-a87e-ec46613b74b6@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <9ba94f43-845f-886f-a87e-ec46613b74b6@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230329205129.1513734-6-15330273260@189.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,77 +64,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, Sui Jingfeng <suijingfeng@loongson.cn>,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/03/2023 02:45, Jessica Zhang wrote:
-> 
-> 
-> On 3/29/2023 4:31 PM, Dmitry Baryshkov wrote:
->> On 30/03/2023 02:18, Jessica Zhang wrote:
->>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->>> index 619926da1441..648c530b5d05 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
->>> @@ -3,6 +3,8 @@
->>>    * Copyright (c) 2020-2022, Linaro Limited
->>>    */
->>> +#include <drm/display/drm_dsc_helper.h>
->>> +
->>>   #include "dpu_kms.h"
->>>   #include "dpu_hw_catalog.h"
->>>   #include "dpu_hwio.h"
->>> @@ -102,7 +104,7 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc 
->>> *hw_dsc,
->>>       data |= dsc->final_offset;
->>>       DPU_REG_WRITE(c, DSC_DSC_OFFSET, data);
->>> -    det_thresh_flatness = 7 + 2 * (dsc->bits_per_component - 8);
->>> +    det_thresh_flatness = drm_dsc_calculate_det_thresh_flatness(dsc);
->>
->> But this changes the value! Compare:
->>
->> bpc | old | new
->> 8   | 7   | 2
->> 10  | 11  | 8
->> 12  | 15  | 256
->>
->> If this is intentional, please state so and maybe add a Fixes tag.
-> 
-> Hi Dmitry,
-> 
-> Yep this was intentional to match downstream and the spec. Will add a 
-> fixes tag for this.
+Hi Sui,
 
-Good! I found corresponding change in msm-4.14, so now I understand why 
-previously we had what we had.
+Thank you for the patch! Yet something to improve:
 
-> 
-> Thanks,
-> 
-> Jessica Zhang
-> 
->>
->>
->>>       data = det_thresh_flatness << 10;
->>>       data |= dsc->flatness_max_qp << 5;
->>>       data |= dsc->flatness_min_qp;
->>>
->>
->> -- 
->> With best wishes
->> Dmitry
->>
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3-rc4 next-20230329]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230329205129.1513734-6-15330273260%40189.cn
+patch subject: [PATCH v3 5/6] drm/etnaviv: expand driver support for the pci devices
+config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230330/202303300759.E9lbKNTQ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicate-function-to-register-irq-handler-for-the-gpu/20230330-045519
+        git checkout cfc3554b9fbd8ca3f3f6731d45d811bfa7fdf777
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/gpu/drm/etnaviv/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303300759.E9lbKNTQ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
+>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
+      32 |         pci_clear_master(pdev);
+         |         ^~~~~~~~~~~~~~~~
+         |         pci_set_master
+   cc1: some warnings being treated as errors
+
+
+vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+
+    27	
+    28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
+    29	{
+    30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
+    31	
+  > 32		pci_clear_master(pdev);
+    33	
+    34		dev_dbg(gpu->dev, "component is %s\n",
+    35			component ? "enabled" : "disabled");
+    36	}
+    37	
 
 -- 
-With best wishes
-Dmitry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
