@@ -1,74 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0695D6D123E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 00:39:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2642D6D1241
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 00:40:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4287A10F082;
-	Thu, 30 Mar 2023 22:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3311610F070;
+	Thu, 30 Mar 2023 22:40:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8C810F085
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 22:39:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680215983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5KLRGaugo3bJYNHTNbGObcKYy+aEw9oHl8WJdhU1s28=;
- b=IvactrNgFYTK31q2S+4NgnWODymlIM9iSK6jA6tmNOOh4b2qUi7ouIiRobu2yDZpi4uRpC
- J9zDZYLgyGnNBPI0toDU/uyBGrOnezZVfMQ/tJ2jjYUimGThocl4/MaGEKPzELmqe0Dvsb
- YeEfcCjLAxgdjLDNs+k61rtAT1IUmWo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-482-ghB6LQyAPwi-VDLc4Ulc8Q-1; Thu, 30 Mar 2023 18:39:41 -0400
-X-MC-Unique: ghB6LQyAPwi-VDLc4Ulc8Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- h11-20020a0564020e8b00b004e59d4722a3so28929354eda.6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 15:39:41 -0700 (PDT)
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCFB810F070
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 22:39:58 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id c9so16102546lfb.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 15:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680215997;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OurrUfulgDLG1acYGUK2PeBost/v1bN601i045HTPhk=;
+ b=qmwdk07Z+xXFSEYoKyC+rywMRGMEXnPEzbqcmAfmOV1zUlDj49u+n5XPQhs9mVJt7y
+ LKNp21BFM0+xFTdoWNws2WLO7bhO18LH8wihXkDHQDqGVWvaZEHxLVUtWSy+a22WgMVw
+ jly5fLPH6fZauDuL8n+Rgd4eZpbuK+TB35xM/DoJJNh441bHfSOfBFPGG8EtbSS8QD9S
+ IN1Nt053GsX354C4uaGpdyxrwhofPdb6+5QsX4vHWnDLp+33lSEk+s2s+MKocijFY/3q
+ zCrelbBygD1Oxm2tIlQ9WteH7nxXuj3Dfq3+bzzyka5/TxoOgQJUpR1VgAa73hFSmjpA
+ DsAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680215980;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5KLRGaugo3bJYNHTNbGObcKYy+aEw9oHl8WJdhU1s28=;
- b=yLMaXQbdvEqwcuQZtsycKLy3Bj7LoAcaRYMDNy6FVt9V3e+NSHgHLO8olQtjkc27l5
- c1etnJM19hma0qhwnYW9veIkWXeBTUcoV8M8zsM7B4SLGQav74E6PRoj3GvwVEHrRT4T
- D/eBB1Vb0j1YKK7Ocjv8z7vYoqcz7BUoK9Bv1ew9ydqqW3TQKtj2MVzeOMfHnrBOiMpN
- BSriyblFHwGx2jZF92NX2qb+WTQfuOK5nawoSU3A02lfv2rei4QkNvZ//tz1wr0AieMC
- ELqr9yarXUOA2CsN3ppf+HFGIoBmIJOApSr+PeLfFPyew3hyz9vB4bPeun0wuXRKLssT
- Anow==
-X-Gm-Message-State: AAQBX9duOA4hqx3/pLcCoQD7Ba0azRdSM1ps2Zp6/cqmYB2KQMihIg8M
- ysfLMJgMWykRtoc421pEdKnTNsXtyKqH/2tnugscSHdWFPJxjazGe7jWM6XX4WZUhFDb/npCc7S
- YPKXhfllLobym2ZpYnvb09k3zwvLc
-X-Received: by 2002:a17:906:297:b0:932:170:e07b with SMTP id
- 23-20020a170906029700b009320170e07bmr2717007ejf.7.1680215980702; 
- Thu, 30 Mar 2023 15:39:40 -0700 (PDT)
-X-Google-Smtp-Source: AKy350YArwjRfAnCTrwT8vxsxel4wJik3BioMPfTSW1diiRfUzP7BNbx8CC8jIFESIUiLA6Oy1WH9w==
-X-Received: by 2002:a17:906:297:b0:932:170:e07b with SMTP id
- 23-20020a170906029700b009320170e07bmr2716990ejf.7.1680215980283; 
- Thu, 30 Mar 2023 15:39:40 -0700 (PDT)
-Received: from kherbst.pingu (ip1f113ce7.dynamic.kabel-deutschland.de.
- [31.17.60.231]) by smtp.gmail.com with ESMTPSA id
- t2-20020a1709061be200b00932b3e2c015sm288612ejg.51.2023.03.30.15.39.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 15:39:39 -0700 (PDT)
-From: Karol Herbst <kherbst@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/disp: Support more modes by checking with lower
- bpc
-Date: Fri, 31 Mar 2023 00:39:38 +0200
-Message-Id: <20230330223938.4025569-1-kherbst@redhat.com>
-X-Mailer: git-send-email 2.39.2
+ d=1e100.net; s=20210112; t=1680215997;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OurrUfulgDLG1acYGUK2PeBost/v1bN601i045HTPhk=;
+ b=TlNYTFJKpkFRFsUSh1D/rB2csn/rxmqbEUmArm9MAL0wTeY1sQqwucVdNq3FLPmUQZ
+ wgCuxiggh3cBLYpml+Q4C8G/oYatCKQH5p0qQjEp8ifEH6Vuu0abXJymD0jq10mN0vR4
+ NRUOn6iVFmqGtWbVfD8/FNnH5CG/BC28kEThXJfxpc2TRnknPjoWcqUZOwiblEAzV4Ns
+ Gb2ZB/bCvSonO58gfCZJkXo2RAzJ392UEiHmdjJ+V2aVacVrceSTcHtFLIKMl68chLDv
+ Tw/MGtuq1ohvKzmYqup+nHZ90TKba/7ocu2kmiVaF0m7S1HP26z0754YYKzgPpwbKH+M
+ OvRA==
+X-Gm-Message-State: AAQBX9eaTY/F78qs9Mipj4GW5cwG6cAfLFNUiQCYSndEXau+7mtUo9+8
+ de8j+3R0rHxiTeRo/3vHJAs6bg==
+X-Google-Smtp-Source: AKy350Z7nKasA21i3nRGHseFKu8567qcSr/P8vJhq+AIt0QGXwZ9bG3NVjkH74OAuWvhGacWNHnIIw==
+X-Received: by 2002:ac2:4830:0:b0:4e8:6261:58bd with SMTP id
+ 16-20020ac24830000000b004e8626158bdmr7154846lft.37.1680215997048; 
+ Thu, 30 Mar 2023 15:39:57 -0700 (PDT)
+Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
+ by smtp.gmail.com with ESMTPSA id
+ m4-20020a195204000000b004db0d97b053sm114976lfb.137.2023.03.30.15.39.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 15:39:56 -0700 (PDT)
+Message-ID: <2c8cab8c-c70d-8f59-e3d8-23b79c3cdb22@linaro.org>
+Date: Fri, 31 Mar 2023 00:39:55 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [v3,24/38] drm/msm/dpu: catalog: add comments regarding
+ DPU_CTL_SPLIT_DISPLAY
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230330215324.1853304-25-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230330215324.1853304-25-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,100 +78,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This allows us to advertise more modes especially on HDR displays.
 
-Fixes using 4K@60 modes on my TV and main display both using a HDMI to DP
-adapter. Also fixes similiar issues for users running into this.
 
-Cc: stable@vger.kernel.org # 5.10+
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
----
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 32 +++++++++++++++++++++++++
- drivers/gpu/drm/nouveau/nouveau_dp.c    |  8 ++++---
- 2 files changed, 37 insertions(+), 3 deletions(-)
+On 30.03.2023 23:53, Dmitry Baryshkov wrote:
+> For sm8150+ the DPU_CTL_SPLIT_DISPLAY should be replaced with
+> DPU_CTL_ACTIVE_CFG support (which supports having a single CTL for both
+> interfaces in a split). Add comments where this conversion is required.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index ed9d374147b8d..f28e47c161dd9 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -363,6 +363,35 @@ nv50_outp_atomic_check_view(struct drm_encoder *encoder,
- 	return 0;
- }
- 
-+static void
-+nv50_outp_atomic_fix_depth(struct drm_encoder *encoder, struct drm_crtc_state *crtc_state)
-+{
-+	struct nv50_head_atom *asyh = nv50_head_atom(crtc_state);
-+	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
-+	struct drm_display_mode *mode = &asyh->state.adjusted_mode;
-+	unsigned int max_rate, mode_rate;
-+
-+	switch (nv_encoder->dcb->type) {
-+	case DCB_OUTPUT_DP:
-+		max_rate = nv_encoder->dp.link_nr * nv_encoder->dp.link_bw;
-+
-+                /* we don't support more than 10 anyway */
-+		asyh->or.bpc = max_t(u8, asyh->or.bpc, 10);
-+
-+		/* reduce the bpc until it works out */
-+		while (asyh->or.bpc > 6) {
-+			mode_rate = DIV_ROUND_UP(mode->clock * asyh->or.bpc * 3, 8);
-+			if (mode_rate <= max_rate)
-+				break;
-+
-+			asyh->or.bpc -= 2;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
- static int
- nv50_outp_atomic_check(struct drm_encoder *encoder,
- 		       struct drm_crtc_state *crtc_state,
-@@ -381,6 +410,9 @@ nv50_outp_atomic_check(struct drm_encoder *encoder,
- 	if (crtc_state->mode_changed || crtc_state->connectors_changed)
- 		asyh->or.bpc = connector->display_info.bpc;
- 
-+	/* We might have to reduce the bpc */
-+	nv50_outp_atomic_fix_depth(encoder, crtc_state);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_dp.c b/drivers/gpu/drm/nouveau/nouveau_dp.c
-index e00876f92aeea..d49b4875fc3c9 100644
---- a/drivers/gpu/drm/nouveau/nouveau_dp.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_dp.c
-@@ -263,8 +263,6 @@ nouveau_dp_irq(struct work_struct *work)
- }
- 
- /* TODO:
-- * - Use the minimum possible BPC here, once we add support for the max bpc
-- *   property.
-  * - Validate against the DP caps advertised by the GPU (we don't check these
-  *   yet)
-  */
-@@ -276,7 +274,11 @@ nv50_dp_mode_valid(struct drm_connector *connector,
- {
- 	const unsigned int min_clock = 25000;
- 	unsigned int max_rate, mode_rate, ds_max_dotclock, clock = mode->clock;
--	const u8 bpp = connector->display_info.bpc * 3;
-+	/* Check with the minmum bpc always, so we can advertise better modes.
-+	 * In particlar not doing this causes modes to be dropped on HDR
-+	 * displays as we might check with a bpc of 16 even.
-+	 */
-+	const u8 bpp = 6 * 3;
- 
- 	if (mode->flags & DRM_MODE_FLAG_INTERLACE && !outp->caps.dp_interlace)
- 		return MODE_NO_INTERLACE;
--- 
-2.39.2
-
+Konrad
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 1 +
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h | 1 +
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 1 +
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h | 1 +
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 1 +
+>  5 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> index e6280b0cb207..6c6f8b4a4be8 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+> @@ -42,6 +42,7 @@ static const struct dpu_mdp_cfg sm8150_mdp[] = {
+>  	},
+>  };
+>  
+> +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
+>  static const struct dpu_ctl_cfg sm8150_ctl[] = {
+>  	{
+>  	.name = "ctl_0", .id = CTL_0,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> index f19d1c2ba845..cfaa68a25427 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> @@ -43,6 +43,7 @@ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+>  	},
+>  };
+>  
+> +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
+>  static const struct dpu_ctl_cfg sm8250_ctl[] = {
+>  	{
+>  	.name = "ctl_0", .id = CTL_0,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> index 9afcb6cc50a5..84396240f0d1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> @@ -41,6 +41,7 @@ static const struct dpu_mdp_cfg sm8350_mdp[] = {
+>  	},
+>  };
+>  
+> +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
+>  static const struct dpu_ctl_cfg sm8350_ctl[] = {
+>  	{
+>  	.name = "ctl_0", .id = CTL_0,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> index af80e1ced3ce..49dd4a908413 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
+> @@ -42,6 +42,7 @@ static const struct dpu_mdp_cfg sm8450_mdp[] = {
+>  	},
+>  };
+>  
+> +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
+>  static const struct dpu_ctl_cfg sm8450_ctl[] = {
+>  	{
+>  	.name = "ctl_0", .id = CTL_0,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> index 5c437c7682ea..c9d1892ec8f5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> @@ -43,6 +43,7 @@ static const struct dpu_mdp_cfg sm8550_mdp[] = {
+>  	},
+>  };
+>  
+> +/* FIXME: get rid of DPU_CTL_SPLIT_DISPLAY in favour of proper ACTIVE_CTL support */
+>  static const struct dpu_ctl_cfg sm8550_ctl[] = {
+>  	{
+>  	.name = "ctl_0", .id = CTL_0,
