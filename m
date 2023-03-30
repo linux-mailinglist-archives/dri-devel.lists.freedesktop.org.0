@@ -2,50 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286706CFD46
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6056CFD75
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:55:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A39A010ED19;
-	Thu, 30 Mar 2023 07:48:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D36510ED1E;
+	Thu, 30 Mar 2023 07:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id A41E010ED19
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:48:54 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.41:47488.1049430421
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
- by 189.cn (HERMES) with SMTP id 46AFD1002C5;
- Thu, 30 Mar 2023 15:48:52 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-bkw2h with ESMTP id
- ce4be36be1844530b4e60d98cbcf0274 for tzimmermann@suse.de; 
- Thu, 30 Mar 2023 15:48:53 CST
-X-Transaction-ID: ce4be36be1844530b4e60d98cbcf0274
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <63f981ca-8ceb-2cc3-4b33-0cfa65699a85@189.cn>
-Date: Thu, 30 Mar 2023 15:48:51 +0800
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38E5010ED1E
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:55:38 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id b18so22443692ybp.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 00:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1680162937;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8TRAXBRH6vuNDmz4+Ct5vgKbo/mRjVW2gW1RnB3gDdg=;
+ b=TYnTo8X28PQN/bpZVTbpJIirV8lHodZlY8A0dbT1xp3tSgoMVv6qmx7oSoQnauJ4Px
+ 2BEx1WulTod+AN0I4AlznepNZBjtBfgGzxaajHZ2uShUx1sirLZ5IjrYm2yUXHLoYkNi
+ OCVvhvgFNWXn2SgSUxT9FoSDH2uLn1GPSFrio=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680162937;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8TRAXBRH6vuNDmz4+Ct5vgKbo/mRjVW2gW1RnB3gDdg=;
+ b=WOc9PQRan3IKIxDqYPZ3b72KOywa/0la0nSjYCwmZO8ZH1JN2jgPR85/djkTyY4w3F
+ W4zTvzf71S6GOXof6T/PpubJVjF4Xv1oA+JnLB3/5DX/e7apAm74EA2OrmyyKtNqSgru
+ 3CY4ObFWG8iKv9ows8P95wn/P1HPk9qa2qSqdS54fvujYFze1beksgGEoj30XVkWhOm2
+ oJ8ai6Z8xp/z6DiLRIBKzSiUhxQ+YFeyBv91KMHf3ir9rWwFO+ufZosVgXqAoxkRu5aw
+ ZpFs3wue8AxmU/QqL7I+bwk5HGDivQFbFVOxtUIDKP3HtAIX3xRcp0baKW2GakO6ipft
+ O8Tg==
+X-Gm-Message-State: AAQBX9dUk1rTjZVf2U4iibHX4fzb6cPuqruRzxchayG9sLBedr3AixDS
+ PDtDk3IXS7kv7rOjrXJboUx+6iRda3z+4rr+DBr4XA==
+X-Google-Smtp-Source: AKy350bxyUd9g6l4vGryZzbI7Jfljfwd11D0eLMkzSrJUJiOJ/KA63QBnHaVdrHOYG2aLouktTsZ0y9EkQu3jaiYmv4=
+X-Received: by 2002:a05:6902:920:b0:b76:ae61:b68b with SMTP id
+ bu32-20020a056902092000b00b76ae61b68bmr11595302ybb.5.1680162937296; Thu, 30
+ Mar 2023 00:55:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
- <20230330041726.w7boceq7ljymvfq2@ldmartin-desk2>
- <f42d8ab8-c765-2517-7d25-6ce1dea320e8@suse.de>
- <2e6ec82f-dfde-0f3a-7980-136cea161d6b@189.cn>
- <4e2a2222-59c2-2935-08a7-4a661d5073b2@suse.de>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <4e2a2222-59c2-2935-08a7-4a661d5073b2@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230329144155.699196-1-festevam@gmail.com>
+ <ff66c8b9-c7f7-1eb2-c730-4812b7ff6824@linaro.org>
+In-Reply-To: <ff66c8b9-c7f7-1eb2-c730-4812b7ff6824@linaro.org>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 30 Mar 2023 13:25:25 +0530
+Message-ID: <CAMty3ZBHvR8OxgNgKG--TA_LQF41vjPiruHx-Pw2PwbjNKMFog@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: exynos: dsim: Add
+ 'lane-polarities'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,148 +66,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, liyi <liyi@loongson.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: marex@denx.de, neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Mar 30, 2023 at 1:08=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 29/03/2023 16:41, Fabio Estevam wrote:
+> > From: Fabio Estevam <festevam@denx.de>
+> >
+> > The Samsung DSIM IP block allows the inversion of the clock and
+> > data lanes.
+> >
+> > Add an optional property called 'lane-polarities' that describes the
+> > polarities of the MIPI DSI clock and data lanes.
+> >
+> > This is property is useful for properly describing the hardware
+> > when the board designer decided to switch the polarities of the MIPI DS=
+I
+> > clock and/or data lanes.
+> >
+> > Signed-off-by: Fabio Estevam <festevam@denx.de>
+> > ---
+> >  .../devicetree/bindings/display/exynos/exynos_dsim.txt      | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_ds=
+im.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+> > index 2a5f0889ec32..65ed8ef7aed7 100644
+> > --- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+> > +++ b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
+> > @@ -29,6 +29,12 @@ Required properties:
+> >
+> >  Optional properties:
+> >    - power-domains: a phandle to DSIM power domain node
+> > +  - lane-polarities: Array that describes the polarities of the clock =
+and data lanes.
+> > +    1: inverted polarity
+> > +    0: normal polarity
+> > +    The first entry corresponds to the clock lanes. Subsequent entries=
+ correspond to the data lanes.
+> > +    Example of a 4-lane system with only the clock lanes inverted:
+> > +    lane-polarities =3D <1 0 0 0 0>;
+>
+> First, please convert to DT schema.
 
-On 2023/3/30 15:26, Thomas Zimmermann wrote:
-> Hi
->
-> Am 30.03.23 um 09:17 schrieb Sui Jingfeng:
->> Hi,
->>
->> On 2023/3/30 14:57, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 30.03.23 um 06:17 schrieb Lucas De Marchi:
->>>> On Wed, Mar 29, 2023 at 11:04:17AM +0200, Thomas Zimmermann wrote:
->>>>> (cc'ing Lucas)
->>>>>
->>>>> Hi
->>>>>
->>>>> Am 25.03.23 um 08:46 schrieb Sui Jingfeng:
->>>>>>  The assignment already done in drm_client_buffer_vmap(),
->>>>>>  just trival clean, no functional change.
->>>>>>
->>>>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->>>>>> ---
->>>>>>  drivers/gpu/drm/drm_fbdev_generic.c | 5 ++---
->>>>>>  1 file changed, 2 insertions(+), 3 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
->>>>>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> index 4d6325e91565..1da48e71c7f1 100644
->>>>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>>>>> @@ -282,7 +282,7 @@ static int drm_fbdev_damage_blit(struct 
->>>>>> drm_fb_helper *fb_helper,
->>>>>>                   struct drm_clip_rect *clip)
->>>>>>  {
->>>>>>      struct drm_client_buffer *buffer = fb_helper->buffer;
->>>>>> -    struct iosys_map map, dst;
->>>>>> +    struct iosys_map map;
->>>>>>      int ret;
->>>>>>      /*
->>>>>> @@ -302,8 +302,7 @@ static int drm_fbdev_damage_blit(struct 
->>>>>> drm_fb_helper *fb_helper,
->>>>>>      if (ret)
->>>>>>          goto out;
->>>>>> -    dst = map;
->>>>>> -    drm_fbdev_damage_blit_real(fb_helper, clip, &dst);
->>>>>> +    drm_fbdev_damage_blit_real(fb_helper, clip, &map);
->>>>>
->>>>> I see what you're doing and it's probably correct in this case.
->>>>>
->>>>> But there's a larger issue with this iosys interfaces. Sometimes 
->>>>> the address has to be modified (see calls of iosys_map_incr()). 
->>>>> That can prevent incorrect uses of the mapping in other places, 
->>>>> especially in unmap code.
->>>>
->>>> using a initializer for the cases it's needed IMO would make these 
->>>> kind
->>>> of problems go away, because then the intent is explicit
->>>>
->>>>>
->>>>> I think it would make sense to consider a separate structure for 
->>>>> the I/O location. The buffer as a whole would still be represented 
->>>>> by struct iosys_map.  And that new structure, let's call it struct 
->>>>> iosys_ptr, would point to an actual location within the buffer's
->>>>
->>>> sounds fine to me, but I'd have to take a deeper look later (or when
->>>> someone writes the patch).  It seems we'd replicate almost the entire
->>>> API to just accomodate the 2 structs.  And the different types will 
->>>> lead
->>>> to confusion when one or the other should be used
->>>
->>> I think we can split the current interface onto two categories: 
->>> mapping and I/O. The former would use iosys_map and the latter would 
->>> use iosys_ptr. And we'd need a helper that turns gets a ptr for a 
->>> given map.
->>>
->>> If I find the tine, I'll probably type up a patch.
->>>
->>   Here i fix a typo, 'tine' -> 'time'
->>
->> As far as i can see, they are two major type of memory in the system.
->>
->> System memory or VRAM,  for the gpu with dedicate video ram, VRAM is 
->> belong to the IO memory category.
->>
->> But there are system choose carveout part of system ram as video 
->> ram(i915?,  for example).
->>
->> the name iosys_map and iosys_ptr have no difference at the first 
->> sight, tell me which one is for mapping system ram
->>
->> and which one is for mapping vram?
->
-> As you say correctly, graphics buffers and be in various locations. 
-> They can even move between I/O and system memory. The idea behind 
-> iosys_map ("I/O and/or system mapping") is that it's a single 
-> interface that can handle both.
->
-I somewhat miss the point, sound like const pointer(const void* const p) 
-V.S. plain pointer (void *)
+I have a previous iteration of this conversion. Can I resend it on top
+of drm-misc-next?
+https://lore.kernel.org/all/20210704090230.26489-9-jagan@amarulasolutions.c=
+om/
 
-I understand what you meant then.
-
-
-> Best regards
-> Thomas
->
->>
->>
->>> Best regards
->>> Thomas
->>>
->>>>
->>>> thanks
->>>> Lucas De Marchi
->>>>
->>>>> memory range. A few locations and helpers would need changes, but 
->>>>> there are not so many callers that it's an issue.  This would also 
->>>>> allow for a few debugging tests that ensure that iosys_ptr always 
->>>>> operates within the bounds of an iosys_map.
->>>>>
->>>>> I've long considered this idea, but there was no pressure to work 
->>>>> on it. Maybe now.
->>>>>
->>>>> Best regards
->>>>> Thomas
->>>>>
->>>>>> drm_client_buffer_vunmap(buffer);
->>>>>
->>>>> -- 
->>>>> Thomas Zimmermann
->>>>> Graphics Driver Developer
->>>>> SUSE Software Solutions Germany GmbH
->>>>> Maxfeldstr. 5, 90409 Nürnberg, Germany
->>>>> (HRB 36809, AG Nürnberg)
->>>>> Geschäftsführer: Ivo Totev
->>>>
->>>>
->>>>
->>>
->
+Jagan.
