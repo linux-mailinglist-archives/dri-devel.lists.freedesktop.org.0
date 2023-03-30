@@ -1,73 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9D36D0287
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 13:06:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2296D02A0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 13:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D83610E23D;
-	Thu, 30 Mar 2023 11:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D66B10E21A;
+	Thu, 30 Mar 2023 11:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4A710E2BB
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:06:55 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id x17so24015896lfu.5
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 04:06:55 -0700 (PDT)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D097A10E232
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:09:57 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id c18so17698036ple.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 04:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680174413;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9kFJmqVtwWUVcG0Lm77E8KR/5HB12mJDwmxwNxlca4Y=;
- b=QFJNu3+0CjAQw1iofhkT/VGzYC5JtBTXOv1piZxLxkvwohLbO7ffQXvlBJV5/myadj
- Fhzaxxn3qOPC09GRSp/56AvLmXbNSJxYvmqd8x874qBZE+RhW948/qPsY6V1UKLse056
- 1fcu/APUG+3/1TQ6lpSn39vbhMmNrO5lNP/0RYadmKlP0YXisDmlNdntxOcNGTqZQkr3
- W5fjBxZGI5nAAofkKIveAelKKFj8y3KSRwBn0SiCZSVm6l5dG0F98DQVzb1WwSFMtsS/
- fEeB6wyVMjIt6750T/pp7bdMilL/U/Wayoa7tKx12h3goMPRiTcLnvPmJSfpIWxxrejC
- RaUA==
+ d=gmail.com; s=20210112; t=1680174597; x=1682766597;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=t0rkIZY3O/B/p2Ezr8FRIFleghoZRYVaBL+ys1poDDI=;
+ b=B/r8lZqi8Rz2e1A6uRzfKVFPdomEky7k68pupksU1nDL317QoZDAvxBz+y6EyFNByS
+ d2qTNTH/SIXT6lQvykgV4pptB+zsHnE2hbYmZ49SBhi6pv/qilPBpS65e04ibzzEp4xk
+ Q0XixVz3VqFG0jp6oBAIuJqsFiYfN3ECoTVlrvJcm7LCWvE/bPpxrN5QZ8f/SeMQxdWB
+ /4AO5dpV69fQRUK3U/jtu5ybDF+d4KmCPGh5X41o05U9laUgsVl/OI7PwTbq7umEYwP8
+ kMPX6j5T9v3VYKjntbmVyScBotojEfGtgGcB1ZG9GkLvIp6wjqHBmjfgkKhUCLFfw5ul
+ lPUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680174413;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9kFJmqVtwWUVcG0Lm77E8KR/5HB12mJDwmxwNxlca4Y=;
- b=tplzOkuhD7umMDTPi9vNt5ClOpQOP9mmcIeH80W5/hV8jFPmffGx7OkPpygm0SvmGE
- 1TJpA137+IIWIr9BFNwjPHZokoe+og0so5MMJQ3CugCJfk1jxgdYR0TRKyqnOWR6SlIw
- gBiYO3hYI5AYovu8JRKUiR9HK7LO2zr1EQMCpeCyOSvcCxDW7UKYc1KPsZaAepWWCi23
- 5YRVLle89mLtYwdsrt2vS40f1T5vQZuiI86hckDDzcSox5dmyyabMgJiaknJm2qEYBQf
- XT0790VLgotdFj6G//MWyTiUyvfpfQE/ywxw0KdN1gAhC2omMBbdOnDv20rXorLC32zR
- Ya+w==
-X-Gm-Message-State: AAQBX9c4UBcfojBZKkRDFARwwyN3AZIOyZHBJt9uczLykzqIXXNgPJBL
- BIBA7XkYd06zq8REQsSQu4ByRw==
-X-Google-Smtp-Source: AKy350ZOwZSifMJ0COgNwwfI8Ff4NZPvJrvXq9pF7O3gWwfbrZxZjTu20qbb3ttl1T+NHD9CSza3rw==
-X-Received: by 2002:ac2:5a4c:0:b0:4d5:a689:7580 with SMTP id
- r12-20020ac25a4c000000b004d5a6897580mr6377686lfn.47.1680174413683; 
- Thu, 30 Mar 2023 04:06:53 -0700 (PDT)
-Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
- by smtp.gmail.com with ESMTPSA id
- t7-20020a19ad07000000b004e8451948desm5835252lfc.227.2023.03.30.04.06.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 04:06:53 -0700 (PDT)
-Message-ID: <34470797-493c-d99b-4d0c-0f9381c5b7c1@linaro.org>
-Date: Thu, 30 Mar 2023 13:06:51 +0200
+ d=1e100.net; s=20210112; t=1680174597; x=1682766597;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=t0rkIZY3O/B/p2Ezr8FRIFleghoZRYVaBL+ys1poDDI=;
+ b=PRsIgP5XJxmPLM7yR3TJf16nBKS7a5huRIzi5ubKQXFW3ekSc38+JQRetCEY5GUd0e
+ grI3bl6vSXOk73lls6wTpAt2wjWflueX0cpQvYCtyZcR0aKvBAy4uHaGXxmWhAQ2lTY4
+ va1Q8pnhlEyx/AKmm31GazRK3R6QPHWCfj4H1/TXbMwWoByUAA+t7vOoO89lH5U7VuTD
+ BPbXV2vL0ps7p09yCloN9im3gO8zNInD1yKN/Hf5KYxbwknB2JoiRaZ6fKtCjjd4uh83
+ lY0H/ASjSR2OH+eoM0+ZXYe274eV9qDB7O9AVuLRvwGztdmlkOsSIPvjXC2TAeaG5ILV
+ JIkw==
+X-Gm-Message-State: AAQBX9cJJLeZ4jhK+Lx8JT0CsQrD85dMb+E5M399SyHFiR/xx/eJaEaT
+ ZfXABBZlhXhTEKdydT+ghky6uER12HdtU1t1Gxc=
+X-Google-Smtp-Source: AKy350Zf/XyJ4RpHApDgYWO9FKBL8kuFndbl+vrb5NsTjg02WRHH32778W+DXM/1yQQzbdgHMQGRwXO9rXUFiy2/b/g=
+X-Received: by 2002:a17:90a:690f:b0:23f:a26e:daa3 with SMTP id
+ r15-20020a17090a690f00b0023fa26edaa3mr7068320pjj.9.1680174597353; Thu, 30 Mar
+ 2023 04:09:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 0/3] drm/msm/a5xx: scale MX following the frequency
- changes
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230329222500.1131836-1-dmitry.baryshkov@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230329222500.1131836-1-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230329144155.699196-1-festevam@gmail.com>
+ <ff66c8b9-c7f7-1eb2-c730-4812b7ff6824@linaro.org>
+ <CAMty3ZBHvR8OxgNgKG--TA_LQF41vjPiruHx-Pw2PwbjNKMFog@mail.gmail.com>
+In-Reply-To: <CAMty3ZBHvR8OxgNgKG--TA_LQF41vjPiruHx-Pw2PwbjNKMFog@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 30 Mar 2023 08:09:44 -0300
+Message-ID: <CAOMZO5BwSFZr7BDaU4KDkwvTcW0U28FeDDaF7eDrhgvgdN47Mg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: exynos: dsim: Add
+ 'lane-polarities'
+To: Jagan Teki <jagan@amarulasolutions.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,36 +70,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: marex@denx.de, neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jagan,
 
+On Thu, Mar 30, 2023 at 4:55=E2=80=AFAM Jagan Teki <jagan@amarulasolutions.=
+com> wrote:
 
-On 30.03.2023 00:24, Dmitry Baryshkov wrote:
-> Konrad brought up the topic of scaling the MX domain according to the
-> OPP changes. Here is my RFC for this functionality. I post it as an RFC
-> for two reasons:
-> 
-> 1) I'm not sure that we should scale MX if we are not scaling main
-> voltage following the CPR3
-It should be ok, however..
-> 
-[...]
+> I have a previous iteration of this conversion. Can I resend it on top
+> of drm-misc-next?
+> https://lore.kernel.org/all/20210704090230.26489-9-jagan@amarulasolutions=
+.com/
 
-> Dmitry Baryshkov (3):
->   dt-bindings: display/msm/gpu: allow specifying MX domain A5xx
->   drm/msm/a5xx: scale MX domain following the frequncy changes
-This is a stopgap solution, CPR is a child of MX.
+I tried applying your patch against linux-next, but I get the following err=
+or:
 
-Konrad
->   arm64: dts: qcom: specify power domains for the GPU
-> 
->  .../devicetree/bindings/display/msm/gpu.yaml  |  9 +++-
->  arch/arm64/boot/dts/qcom/msm8996.dtsi         | 14 ++++-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c         | 52 +++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.h         |  3 ++
->  4 files changed, 76 insertions(+), 2 deletions(-)
-> 
+$ make dt_binding_check DT_SCHEMA_FILES=3Dsamsung,mipi-dsim.yaml
+  LINT    Documentation/devicetree/bindings
+  CHKDT   Documentation/devicetree/bindings/processed-schema.json
+/home/fabio/linux-next/Documentation/devicetree/bindings/display/bridge/sam=
+sung,mipi-dsim.yaml:
+properties:samsung,power-domain:maxItems: False schema does not allow
+1
+hint: Scalar properties should not have array keywords
+from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+  DTEX    Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
+m.example.dts
+  DTC_CHK Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
+m.example.dtb
+
+Could you please take a look?
+
+Thanks
