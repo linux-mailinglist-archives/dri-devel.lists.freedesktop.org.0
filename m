@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA16C6CFFF2
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531C26CFFF9
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76BC210ED78;
-	Thu, 30 Mar 2023 09:40:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F25DD10ED71;
+	Thu, 30 Mar 2023 09:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 295B710ED78
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:40:26 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B907EB82752
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:40:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C77EC433AE
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680169223;
- bh=TZ7+QJNcppwvyxngwgi947mNMBOSswS1rVlzdkVli48=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ap09+DK5stGHogCVd6LMMRWlwG1G77gDDgzJ3aPGy9zQUAUehwCmI8oUFQT19QGvY
- O4dmZmpsi9o+UqZL++MBID6nUK/SfPjGKrrvqcfDUfFIoWsPYtMbHFj4Ke5Qs2XmFE
- odcn/oI7Oz/tcYYnKlkTFl1yUxzufFID25UObVvqxrcVrD4LPnbvZJ2Rw8XBy6yLoV
- VVJOoN7KSKFs6R02onzG4w7zWZneSJrrrAeOaSRUJK371otmP/nUjsfxAjCO007T1b
- bNMo+7bp18ES0AaJOk99sNVoOj8KQSkULyL5zTD5kQ4EKARdWhb9NTZleopS9I6KGM
- 81+gfz6w15n2Q==
-Received: by mail-pl1-f171.google.com with SMTP id c18so17523391ple.11
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 02:40:23 -0700 (PDT)
-X-Gm-Message-State: AAQBX9d6xXwbF67o4sqKhZQX5S+EcZK4MWYpDg/K3BzqvXbMcecSCbC0
- QE77CZygYj12IcDDeqp+/B5943LjWs8ALTN5gS3D7Q==
-X-Google-Smtp-Source: AKy350Zc060ocRd8FeXDfv9ppwm12XZxKMuK6TCTjOSTZiTrlfJZ3EJN88IehlFDe/vgfu9DrYctMQcRdfywnEtBmxc=
-X-Received: by 2002:a17:902:b18a:b0:1a1:8f72:e9b with SMTP id
- s10-20020a170902b18a00b001a18f720e9bmr8239215plr.7.1680169222352; Thu, 30 Mar
- 2023 02:40:22 -0700 (PDT)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C07D10ED71
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:41:41 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id a11so18957233lji.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 02:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1680169299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Jj7uHqZOdLN0sDK3Xcz4ned4693ywIi2Ky9y8C4gIS8=;
+ b=h1EQTKbpKmU7pno6HTiq8ogo8/pH+W+4Mm4OT5kugbSihTJ8styMzSEeLWyyaZa2Ej
+ LPcYGcBDDZn6cpWVr7Sx/8sP2d/E8E8QWGf+2oLgcvvuf/Z3rpqqHv9Wr2WWXo1NVRVE
+ cEFmT4JCiy2FZ4OO2QLPY8ljt2/SQJeR11cqw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680169299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jj7uHqZOdLN0sDK3Xcz4ned4693ywIi2Ky9y8C4gIS8=;
+ b=hwcvhhRBeKtD+I8LNXg5kZFrXVofksJ7AY7735NifVNx4SaH02Qc1ACc0WUJEg355N
+ T89iLAl3nAHt+EKUTcrPspz4X9KBMiBcaBYTXgkDu6ppfZEzMz5+GRFwlckWfZhlvYHI
+ 59W0bH6d21diR0uetLCpkXlIF0qGroQhKo6DtNAJhWenFtGmrlmtYYjUEEFstJEG4SP6
+ hPYqX+G/rM4tEnB/chubleTtZ1uMcYJ36p9U3YfhsMpePA4EuLXVvIMe1PwgeXwRheDN
+ sKueE84Z1zXiV38dMSpg2x5/kAW9ozKH+5xCZqvdEIVmE4hD8b71uMXmpV8XdTLLuF/C
+ yeyg==
+X-Gm-Message-State: AAQBX9eFCO591FJ89rtEgNO7bN6C7xBo/SrMleJumC2obL/CngqYwX+0
+ JwZYMTKVz4Vf2Tqf8anKvvytn6ZSkp9OydBjiXYKzQ==
+X-Google-Smtp-Source: AKy350azpEvSCVTTqZWh+pFop3JxTWe2D3s69e8wMoqyUQnuJn2Dn6aVN/g/D93LLQxSuvIARKB2yC7RN7kPnkWkCmM=
+X-Received: by 2002:a05:651c:c1:b0:29a:a76a:194b with SMTP id
+ 1-20020a05651c00c100b0029aa76a194bmr2468697ljr.3.1680169299472; Thu, 30 Mar
+ 2023 02:41:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230330093131.424828-1-francesco@dolcini.it>
-In-Reply-To: <20230330093131.424828-1-francesco@dolcini.it>
-From: Robert Foss <rfoss@kernel.org>
-Date: Thu, 30 Mar 2023 11:40:11 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi6DB4wsxAriDWimRE2-FW80LMOsX9DDkNQdifYFCUMjGg@mail.gmail.com>
-Message-ID: <CAN6tsi6DB4wsxAriDWimRE2-FW80LMOsX9DDkNQdifYFCUMjGg@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: lt8912b: Fix DSI Video Mode
-To: Francesco Dolcini <francesco@dolcini.it>
+References: <20230329135401.105592-1-christian.koenig@amd.com>
+ <46f01fc0-ec64-c215-b027-bd748711e6d8@redhat.com>
+ <0080e53d-b597-ad34-7e66-6384cae456ae@redhat.com>
+ <cf2f0771-39b0-49d6-011c-66b60b6a95c9@gmail.com>
+ <ab8ed64b-5c4a-4948-7067-bac5351a45f0@redhat.com>
+ <7e2845db-0a8c-c9f2-b858-89d7cb09d098@gmail.com>
+ <4a60cf2a-193f-c06c-5747-766bca1ca01f@redhat.com>
+ <ZCRzzi7bmDyOra4X@google.com>
+In-Reply-To: <ZCRzzi7bmDyOra4X@google.com>
+From: David Stevens <stevensd@chromium.org>
+Date: Thu, 30 Mar 2023 18:41:28 +0900
+Message-ID: <CAD=HUj7n8doQkChtfCf2WAHpz3nMsR6Oa2PGUvv3P3YJ12fPUQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: set TTM allocated pages as reserved
+To: Sean Christopherson <seanjc@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,49 +71,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Adrien Grassein <adrien.grassein@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>, stable@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Pierre-eric.Pelloux-prayer@amd.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ npiggin@gmail.com, dri-devel@lists.freedesktop.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 11:31=E2=80=AFAM Francesco Dolcini <francesco@dolci=
-ni.it> wrote:
+On Thu, Mar 30, 2023 at 2:22=E2=80=AFAM Sean Christopherson <seanjc@google.=
+com> wrote:
 >
-> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> +David
 >
-> LT8912 DSI port supports only Non-Burst mode video operation with Sync
-> Events and continuous clock on clock lane, correct dsi mode flags
-> according to that removing MIPI_DSI_MODE_VIDEO_BURST flag.
+> On Wed, Mar 29, 2023, Paolo Bonzini wrote:
+> > On 3/29/23 18:43, Christian K=C3=AF=C2=BF=C2=BDnig wrote:
+> > > >
+> > > >
+> > > > 3) other uses of kmap() must switch to MMU-notifier protection.
+> > >
+> > > I would rather suggest to return the page additionally to the pfn fro=
+m
+> > > hva_to_pfn() when the function was able to grab a reference to it.
+> > >
+> > > When the page is then not available you can't call kmap() on that eit=
+her.
+> > >
+> > > >
+> > > > If the DRM people are okay with SetPageReserved() as a temporary
+> > > > hack, we can change or remove the WARN in kvm_is_zone_device_page()=
+,
+> > > > since that is what you are referring to in the commit message.
+> > >
+> > > Adding Daniel for additional comments on this, but essentially we hav=
+e
+> > > changed quite some infrastructure to make sure that everybody uses
+> > > VM_PFNMAP to prevent stuff like this from happening.
+> > >
+> > > I would really prefer a proper solution in KVM instead.
+> >
+> > Hmm... Now that I think about it that would be
+> >
+> > https://lore.kernel.org/kvm/Yc4H+dGfK83BaGpC@google.com/t/
+> >
+> > Time to resurrect that work.
 >
-> Cc: <stable@vger.kernel.org>
-> Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt8912b.c | 1 -
->  1 file changed, 1 deletion(-)
+> Ya.  I had previously asked David to first eliminated the usage that isn'=
+t
+> protected by mmu_notifiers, but after seeing the resulting complexity, I =
+had a
+> change of heart[2].  Can you weigh in on the latter thread, specifically =
+my
+> proposal of using a module param to let the admin opt-in to "unsafe" kmap=
+ usage.
 >
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/b=
-ridge/lontium-lt8912b.c
-> index b40baced1331..13c131ade268 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> @@ -504,7 +504,6 @@ static int lt8912_attach_dsi(struct lt8912 *lt)
->         dsi->format =3D MIPI_DSI_FMT_RGB888;
->
->         dsi->mode_flags =3D MIPI_DSI_MODE_VIDEO |
-> -                         MIPI_DSI_MODE_VIDEO_BURST |
->                           MIPI_DSI_MODE_LPM |
->                           MIPI_DSI_MODE_NO_EOT_PACKET;
->
-> --
-> 2.25.1
->
+> [1] https://lore.kernel.org/kvm/Ydhq5aHW+JFo15UF@google.com
+> [2] https://lore.kernel.org/all/ZBEEQtmtNPaEqU1i@google.com/
 
-Letting this sleep for a few days before applying.
+I just finished rebasing my patch series and sent out v6:
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+https://lore.kernel.org/all/20230330085802.2414466-1-stevensd@google.com/
+
+-David
