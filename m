@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C6D76D0DB1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 20:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4129C6D0DBE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 20:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC21B10EF73;
-	Thu, 30 Mar 2023 18:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C7210E3B3;
+	Thu, 30 Mar 2023 18:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78A8610EF79
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:25:32 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-2d17b1b21f1so50516f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:25:32 -0700 (PDT)
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com
+ [IPv6:2607:f8b0:4864:20::e31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C065410E3B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:29:41 +0000 (UTC)
+Received: by mail-vs1-xe31.google.com with SMTP id dc30so16537502vsb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680200731;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=iOtmJ2KZ0ZiiMvb3fUMOj4gM6dj5/D3yy/SyfnsnekQ=;
- b=JbC16PGOBHcWTyzwg4d2sd7pXXG7wvM7sYojfwTbwcpywvR8xp6LbZO5SRauxeEmTL
- V4cKlzc4xC6tstyTG3cqNsJvCBW2YQxXQXvAjX2ZFG32nSypZf1HArjLfh13AkUgABVi
- AvftZkCHDLhqECK9o9TvNyZ5eQPwyQPf7Iicg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680200731;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1680200978;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iOtmJ2KZ0ZiiMvb3fUMOj4gM6dj5/D3yy/SyfnsnekQ=;
- b=qY8ClUYaYcgoIvgCh+dSA5Rd8Ruyj82YhmN77h6DDhlWmt7oOC61gATqxxIAaJ3gvW
- aoXnmGuGkzsecftUapHwAm9hgP67pEMpBgDiN1GUej6R7zn2Gsn9LNvjoB1/kcml4Dei
- 3Nkj0de26iYwfoSkxOuJ9kez2vihm3ggE1LAQCTC6+Yke0GtDeD9tiNSCKFgEEtkjTAy
- D0ZdrNJ9TIsE2wqAiJcDEPmqgnewYhFX/1eFz7dm4iTtZCpcEkhrzjvSnWuXL6+pWBZH
- pVxpc0DR39pbnFLW9HnK2sl0dvpzk2c5SmogTs4/lniate7hV9dOE6BwY5yDUOCiZFRY
- gv3Q==
-X-Gm-Message-State: AAQBX9cp6sedJRZqrHyMFc4/yR1iVrvGPjg6nToDWEN2wH1/VAe92ivI
- j27iJYvpfbbT5XTz/tiPd6FDDQ==
-X-Google-Smtp-Source: AKy350aTLmLMvvUYGKX3P9o/YXihNwP5HVENlrvntqhv+yPcEAaN3Z/pzvb3PN1mXoOTc/XXdt8kQQ==
-X-Received: by 2002:a05:600c:3108:b0:3ee:1c42:6582 with SMTP id
- g8-20020a05600c310800b003ee1c426582mr2780456wmo.3.1680200730755; 
- Thu, 30 Mar 2023 11:25:30 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- s17-20020a7bc391000000b003edef091b17sm2641wmj.37.2023.03.30.11.25.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 11:25:29 -0700 (PDT)
-Date: Thu, 30 Mar 2023 20:25:27 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [GIT PULL] etnaviv-fixes for 6.3
-Message-ID: <ZCXUF8t+ej1wrDGA@phenom.ffwll.local>
-References: <de8e08c2599ec0e22456ae36e9757b9ff14c2124.camel@pengutronix.de>
+ bh=J1mfsAVkmxLwhRt7IlI3jhuOesEA4D6U7D/dfayN2QA=;
+ b=MOGm1VqeuelvWydwOeZe7j2bl24u03Ml/sqnQ8wtHhI7luYrcx6XexkPdh1+XGg8X7
+ ebLwoFTfM/YVgVdz4rJU3ROd5aWIFR/AJTdDWu93BwzxoFkP87H022wHHMwUQF4HNJg8
+ +A9AYY77V/W0EWSlFW9hCGnTSnAmvXHGEn4/c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680200978;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=J1mfsAVkmxLwhRt7IlI3jhuOesEA4D6U7D/dfayN2QA=;
+ b=Fz9VzckcPJdY/TYTG1GeV9JkgvbU+cb1kRZoydEWBwi2ugXzeTIVyiyPcfkzEeRd7p
+ igHgGpg4vyF7BIN6JJGG333XO+nqnSG0I/eUfk6OXhND3Ye0ssSZUy8vUO91exAhrQBh
+ 7S3y+dwdHSJnGiqRIKN+WGXP14pXWY8LmOt4hOkMNXOL28Zhb+8xAY16UgB/JXqE5sZE
+ Nl7ezQCcME1WYzsBSlnI2HU89cyDW6kEFJm2xsISJlzBzBCIJsj6G00bfUO3KfpmQxQ6
+ vpYj0AfQHB+68Zhdw4KYnSTjgLh0a8Mo6kU3dNukZnnnhYEkRRceRmfWI8V8KQRA+WHV
+ 5Ccw==
+X-Gm-Message-State: AAQBX9e11Fd0v9iJuTHe8Id/3Kztvn32qI8c5dtBgBdCQX32oXHmXAw9
+ 2GpWcvvUp4nox0yMIruTDNHtIrlIejSvU3EYeL0=
+X-Google-Smtp-Source: AKy350aOc/nBFx17OgqwpSu3O0rA0aWMqwtfTMAA8+KddKtNDM/5hHb0XwCmkBQ60TdP8mwmoVgjmw==
+X-Received: by 2002:a67:f48b:0:b0:426:3b7f:64ad with SMTP id
+ o11-20020a67f48b000000b004263b7f64admr8920716vsn.29.1680200978227; 
+ Thu, 30 Mar 2023 11:29:38 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com.
+ [209.85.217.50]) by smtp.gmail.com with ESMTPSA id
+ e1-20020ab031c1000000b0068727e88479sm34128uan.19.2023.03.30.11.29.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 11:29:37 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id dc30so16537362vsb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:29:37 -0700 (PDT)
+X-Received: by 2002:a67:d493:0:b0:426:a319:a226 with SMTP id
+ g19-20020a67d493000000b00426a319a226mr9101769vsj.7.1680200976855; Thu, 30 Mar
+ 2023 11:29:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de8e08c2599ec0e22456ae36e9757b9ff14c2124.camel@pengutronix.de>
-X-Operating-System: Linux phenom 6.1.0-6-amd64 
+References: <20230324195555.3921170-1-markyacoub@google.com>
+ <20230324195555.3921170-9-markyacoub@google.com>
+In-Reply-To: <20230324195555.3921170-9-markyacoub@google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 30 Mar 2023 11:29:25 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wq8Z+rf++08fyYvsBUqdWX23qoUSOBBR5nP=hBUk2mzA@mail.gmail.com>
+Message-ID: <CAD=FV=Wq8Z+rf++08fyYvsBUqdWX23qoUSOBBR5nP=hBUk2mzA@mail.gmail.com>
+Subject: Re: [PATCH v7 08/10] dt-bindings: msm/dp: Add bindings for HDCP
+ registers
+To: Mark Yacoub <markyacoub@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,57 +78,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Danilo Krummrich <dakr@redhat.com>,
- kernel@pengutronix.de
+Cc: freedreno@lists.freedesktop.org, suraj.kandpal@intel.com,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ seanpaul@chromium.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 06:19:36PM +0200, Lucas Stach wrote:
-> Hi Dave, Daniel,
-> 
-> please pull the following fixes for the next rc. One fix to get rid of
-> a memory leak showing up in the wild and two reverts to get rid of the
-> scheduler use-after-free reported by Danilo.
-> 
-> Regards,
-> Lucas
-> 
-> The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
-> 
->   Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
-> 
-> are available in the Git repository at:
-> 
->   https://git.pengutronix.de/git/lst/linux etnaviv/fixes
+Hi,
 
-Pulled thanks.
+On Fri, Mar 24, 2023 at 12:56=E2=80=AFPM Mark Yacoub <markyacoub@chromium.o=
+rg> wrote:
+>
+> From: Sean Paul <seanpaul@chromium.org>
+>
+> Add the bindings for the MSM DisplayPort HDCP registers
+> which are required to write the HDCP key into the display controller as
+> well as the registers to enable HDCP authentication/key
+> exchange/encryption.
+>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+>
+> ---
+> Changes in v2:
+> -Drop register range names (Stephen)
+> -Fix yaml errors (Rob)
+> Changes in v3:
+> -Add new compatible string for dp-hdcp
+> -Add descriptions to reg
+> -Add minItems/maxItems to reg
+> -Make reg depend on the new hdcp compatible string
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
+> Changes in v4.5:
+> -Remove maxItems from reg (Rob)
+> -Remove leading zeros in example (Rob)
+> Changes in v5:
+> -None
+> Changes in v6:
+> -Rebased: modify minItems instead of adding it as new line.
+> Changes in v7:
+> -Revert the change to minItems
+> -Added the maxItems to Reg
+>
+>  .../devicetree/bindings/display/msm/dp-controller.yaml     | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 
-> for you to fetch changes up to baad10973fdb442912af676de3348e80bd8fe602:
-> 
->   Revert "drm/scheduler: track GPU active time per entity" (2023-03-30 17:47:05 +0200)
-> 
-> ----------------------------------------------------------------
-> Lucas Stach (3):
->       drm/etnaviv: fix reference leak when mmaping imported buffer
->       Revert "drm/etnaviv: export client GPU usage statistics via fdinfo"
->       Revert "drm/scheduler: track GPU active time per entity"
-
-Please record acks/r-b for shared code (afaict the revert didnt even go to
-any m-l, at least it's not on lore) and explain why this is going through
-a driver tree and not drm-misc. Avoids me crawling through lore to figure
-out what's up.
--Daniel
-
-> 
->  drivers/gpu/drm/etnaviv/etnaviv_drv.c       | 43 +------------------------------------------
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 10 +++++++++-
->  drivers/gpu/drm/scheduler/sched_main.c      |  6 ------
->  include/drm/gpu_scheduler.h                 |  7 -------
->  4 files changed, 10 insertions(+), 56 deletions(-)
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
