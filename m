@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F096D0717
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 15:42:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251F56D1010
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 22:34:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5117A10EE41;
-	Thu, 30 Mar 2023 13:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8244810F020;
+	Thu, 30 Mar 2023 20:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1C610EE2F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 13:42:04 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-54601d90118so199264347b3.12
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680183723;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X+8nDQV8WyAMGcMV8E7jzqCDnqvFEFAghtcnwD7ujG4=;
- b=mLMExJoF4PGUb5r1ARvsMCskqu01O1GrOaR3OBiaZLRdKtDDgCc1b0EGv9zHEqnemU
- 5se4KLUK2YGDLDK/ZUK3kp/6sW9MFEfOKRaUadskgb3YhCs3zc4hSrRqMr8PsiGr4jZU
- Ig5sQsBRvUp+TJNNv+26ekVHa/83Okz16GKB4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680183723;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X+8nDQV8WyAMGcMV8E7jzqCDnqvFEFAghtcnwD7ujG4=;
- b=S6A1S1ks+UZVeepaJxHNwxDhBHxUGGpnxiITACXWPTsKGeIJvL10rQ7ng080GWM7hg
- hgcLbJcsa5Ldftrd8hD79knxEe34MWkhW1T9TpSEzLfQP1LCMymxKO+C8t9mS6gGOXeO
- 9LvBtYG9aBGO3PYSOz6Kn7PBqk9tvP4rQLq8a4LJJOd2GxG1ZrzUFpyx1Ixg9P2yZWFt
- gwzqVDru6v+Z57V3h+f9Jb/ZdNJqOfSgsmpRhMvFQSNR6m9JyerfTv4IdixCW94SCxPy
- 04Qvm8k2g+PTzHlHAxMJKl0YebmSJ8Y6farc2bSYYm4d+3ns9HSdIxRXH0QNCBdBz8wW
- wxhg==
-X-Gm-Message-State: AAQBX9dsz3Y6EiJbFe4EYuv/t2A/6N1mGFlXBNA+pRJL13E8diPCxUIY
- 0xmjLq60FHZZpa5a37uyfbpLBxVxP0I30Y9NFI0NBA==
-X-Google-Smtp-Source: AKy350ZVcQzRTyx6h4eVa+NacLvUw4LkPo4Rkn0pPCq25Y6d+1SyB2YL5XdN/iC/2EfH4VUWdCTmgaUjVQs3yt+0S9s=
-X-Received: by 2002:a81:e546:0:b0:546:1ef:54f9 with SMTP id
- c6-20020a81e546000000b0054601ef54f9mr6321590ywm.0.1680183723296; Thu, 30 Mar
- 2023 06:42:03 -0700 (PDT)
+X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Mar 2023 14:12:49 UTC
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDEC10E2D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+ t=1680185567; i=jwollrath@web.de;
+ bh=nIdrZL8qsAa7/t2YtVZmEN95K7OqsoZ89o4vH6A2P0c=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=TQy52Z23AGZeQGqs4MADot0XfuGxhn/2dcSKeyK0o+lb/rWSr/yIOAlAlUQdc047g
+ npVmCeXCvRoz8qRspdGBbLVyxAzm7aZK+wSPN6NL9xsIeoN76fBiAusUxlGofhMfC2
+ FKgb29u9lFQJSTTJsRLukA+xm7GgA8zsro739zl17xa8ZLW0BrMM/DpxQmSZW3XpkI
+ e2BKmMQqXlArsqetcmxq6fUPGKXy0QTcnAMcMk0jPhVWPuXaNKR+WmeeBweOznGNQ8
+ iKSyoDOaBzcbUi36Q88xC2ABEspxYl7xjBxG5iKzCaxXYNu5BeBIPfrc2UxFQ6uXlo
+ w0UxrmQEyBL/g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from schienar ([128.141.229.28]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mav6t-1qJQPe0SL5-00cUPd; Thu, 30
+ Mar 2023 16:07:41 +0200
+Date: Thu, 30 Mar 2023 16:07:40 +0200
+From: Julian Wollrath <jwollrath@web.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [Regression bisected] v6.3-rc4 Error scheduling IBs after resume
+ from hibernate
+Message-ID: <20230330160740.1dbff94b@schienar>
 MIME-Version: 1.0
-References: <20230329144155.699196-1-festevam@gmail.com>
- <ff66c8b9-c7f7-1eb2-c730-4812b7ff6824@linaro.org>
- <CAMty3ZBHvR8OxgNgKG--TA_LQF41vjPiruHx-Pw2PwbjNKMFog@mail.gmail.com>
- <CAOMZO5BwSFZr7BDaU4KDkwvTcW0U28FeDDaF7eDrhgvgdN47Mg@mail.gmail.com>
-In-Reply-To: <CAOMZO5BwSFZr7BDaU4KDkwvTcW0U28FeDDaF7eDrhgvgdN47Mg@mail.gmail.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 30 Mar 2023 19:11:51 +0530
-Message-ID: <CAMty3ZBZC_yKR0wszA-ax2-hKoUDHBSg8G_unvYL0rU8742yvw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: exynos: dsim: Add
- 'lane-polarities'
-To: Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:S+Z+YaOSIJzMrfwcmGAbGe0/KMFKc4/LLb6WiAeXH96Hjttvyyf
+ Up7ONQesrYouPm6iSvlmVk/f4Sigl1T5ioO/PfmU2kyriuBQTyIWrxi/ELNS16PnCn4fw3c
+ mSUD/aj9XMntJRwjP7rp/xx5cr2tfSButoHZWRaseq+hQB/HF2mGr/teTrSohcM28o56VZN
+ tnKM8IQAV0eLK6tyJsGgA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:zY/fU2urYOM=;jwTp8jeqqZa1q2qRklG2FoJD0dA
+ wMCXMpjQyuEJ1utK2DGhny7Takw+8+koaIkrA9Zt6hiqK24TeX7e9sJpAPZ+TFfSCuMg5Zi8U
+ zbA+1gnquP7kqlP5tWCT0A0QmZUJVrMbh+CvvJTP4IV1bR2jI5tCjE1P4L6tJ5vyVM47KqXAf
+ V+DlXkhhYqlViZabCqhpVrWA6xtel3dJcK7UahxlWvUDxMCT2V1DwYrlH8LRzx5k+YDECJ7bB
+ ITy3FaSEV7d7zP3rA479OCVe7rd5tfgflxyyaRgWdz5uqfqprKDtbyG7CygWdAKMLhHRMjgIM
+ V0i2jucXDVOg6CIBTg3MUwZvNNX0AcrJ87XR22HslD3Gb47atbZzuRbPprkcQ4y2dvK1xoUaK
+ Q2X1JOIQeY6kuweUgGZ7MmfnFdxzHX1U1HKtgryIxsfgyqjnErdoPR2k4qMpixPLlLox+URKS
+ T3AxsyHj+AzM5XsbHSjiARobRDscjceH+PDV0zKLq3Lp4FKrwU0mjVncrUujlD/GXvfH6vaEO
+ p1wW7qb3lm9rD+q+xSpPD1fAuekccmH4uvARAKLmIdrnOtu8JBYBR50iMjHa/4ZNFrgMUtlSR
+ rAaIzK8gJWbq0RnXzA983HJzldOMQ7QnRghcxFENlloXGzmNXVSOD4m4jfSIqQia3z1e7ZjDF
+ wwloqaLBi7GduRjTKZYYa/WkapODRurE+wSbjuC4mmS+faHyUfTHxJ/rWkWucmNKSUO78/v+e
+ 4Xt8HGxWvYtublESLQFmZpwdtfbjWVV+aS0OQjlrq1AZ2hXe8/ajT3lgiXv0E82JHqmrbzxEd
+ DVBGZniQdAULnzJXZ9RuCk8i6eR/sgwQKuHrR7vAc8IeyDnQNAwpOxXGMXuEJ02Og7RzBMsM6
+ QXZn3xop8chZsh7g3k0VFZfbSBhIBknqh/EnHeNHltrGxm/WdNAOguwZUfdXm+9RH0zbw5EXH
+ IfCo/LZK9TiQChjtdFHwSW548lg=
+X-Mailman-Approved-At: Thu, 30 Mar 2023 20:34:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,48 +70,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org
+Cc: alexander.deucher@amd.com, tim.huang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio,
+Hi,
 
-On Thu, Mar 30, 2023 at 4:39=E2=80=AFPM Fabio Estevam <festevam@gmail.com> =
-wrote:
->
-> Hi Jagan,
->
-> On Thu, Mar 30, 2023 at 4:55=E2=80=AFAM Jagan Teki <jagan@amarulasolution=
-s.com> wrote:
->
-> > I have a previous iteration of this conversion. Can I resend it on top
-> > of drm-misc-next?
-> > https://lore.kernel.org/all/20210704090230.26489-9-jagan@amarulasolutio=
-ns.com/
->
-> I tried applying your patch against linux-next, but I get the following e=
-rror:
->
-> $ make dt_binding_check DT_SCHEMA_FILES=3Dsamsung,mipi-dsim.yaml
->   LINT    Documentation/devicetree/bindings
->   CHKDT   Documentation/devicetree/bindings/processed-schema.json
-> /home/fabio/linux-next/Documentation/devicetree/bindings/display/bridge/s=
-amsung,mipi-dsim.yaml:
-> properties:samsung,power-domain:maxItems: False schema does not allow
-> 1
-> hint: Scalar properties should not have array keywords
-> from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
->   DTEX    Documentation/devicetree/bindings/display/bridge/samsung,mipi-d=
-sim.example.dts
->   DTC_CHK Documentation/devicetree/bindings/display/bridge/samsung,mipi-d=
-sim.example.dtb
->
-> Could you please take a look?
+on an AMD Ryzen 5 PRO 4650U / Renoir (amdgpu: added device
+1002:1636) I the screen basically freezes and I get the
+following errors with kernel v6.3-rc4
 
-I will rework this patch and update the next version.
+[   26.214541] amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *E=
+RROR* IB test failed on gfx_low (-110).
+[   26.379624] [drm] ring 0 timeout to preempt ib
+[   27.387884] amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *E=
+RROR* IB test failed on gfx_high (-110).
+[   27.392945] [drm:process_one_work] *ERROR* ib ring test failed (-110).
+[   27.400370] amdgpu 0000:03:00.0: amdgpu: couldn't schedule ib on ring <=
+gfx_low>
+[   27.400384] [drm:amdgpu_job_run [amdgpu]] *ERROR* Error scheduling
+IBs (-22)
+[   44.440532] amdgpu 0000:03:00.0: amdgpu: failed to write reg 28b4 wait =
+reg 28c6
+[   61.177118] amdgpu 0000:03:00.0: amdgpu: failed to write reg 1a6f4 wait=
+ reg 1a706
+[   61.189275] amdgpu 0000:03:00.0: amdgpu: couldn't schedule ib on ring <=
+gfx_low>
+[   61.189286] [drm:amdgpu_job_run [amdgpu]] *ERROR* Error scheduling
+IBs (-22)
 
-Thanks,
-Jagan.
+I bisected the issue, the first bad commit is
+b589626674de94d977e81c99bf7905872b991197 reverting it on top
+of v6.3-rc4 also fixes the issue.
+
+
+Best regards,
+Julian Wollrath
+
+=2D-
+ ()  ascii ribbon campaign - against html e-mail
+ /\                        - against proprietary attachments
