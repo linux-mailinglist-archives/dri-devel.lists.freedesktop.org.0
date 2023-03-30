@@ -1,33 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51306CFFD4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:31:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5016CFFDC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A82210ED6F;
-	Thu, 30 Mar 2023 09:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BDE210ED76;
+	Thu, 30 Mar 2023 09:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C196F10ED6F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:31:38 +0000 (UTC)
-Received: from francesco-nb.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
- [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 64FF220755;
- Thu, 30 Mar 2023 11:31:35 +0200 (CEST)
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Adrien Grassein <adrien.grassein@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v1] drm/bridge: lt8912b: Fix DSI Video Mode
-Date: Thu, 30 Mar 2023 11:31:31 +0200
-Message-Id: <20230330093131.424828-1-francesco@dolcini.it>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9568F10ED71
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:32:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0DA78B826C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:32:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313B3C433D2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680168758;
+ bh=1XPsBKCGwfqHUITf3iK1bP7dShrfwNmlGnTEoQNoyvI=;
+ h=From:To:Subject:Date:From;
+ b=QfAWb51pMhY32/DH8CweI+3joPtylGfcILjZPepnNRNY/2QD2INX7PXfMobMNFiCQ
+ oiPtQNyAQNYnklm6HX2dWzFCPWNfstdkVnMBixAaIkJ8+EhVWfnXRivY5iP+Acop30
+ HwiO7E5knBaK2Gq5ece0JdpnPHeXqHEfGVPrq5wQpWPYfgymTcYP5JUWYyE4QEf/kS
+ ka9ntCnSdjwagjj3qSdvdSDgrie92wyVHe1ACXUV48XYOJ1+d3CXML5woLF0cL030Q
+ gQmcMoELMdWXnPKaN5otckd4a9ZGDXKyHHCP+SCmQ8bXf3hMDKmHGAhCrq9kSP0w16
+ cVmdSVJi2IgFA==
+From: Oded Gabbay <ogabbay@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] accel/habanalabs/uapi: new Gaudi2 server type
+Date: Thu, 30 Mar 2023 12:32:34 +0300
+Message-Id: <20230330093234.1605251-1-ogabbay@kernel.org>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -42,36 +49,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Francesco Dolcini <francesco.dolcini@toradex.com>
+Add definition of a new Gaudi2 server type. This represents
+the connectivity between the cards in that server type.
 
-LT8912 DSI port supports only Non-Burst mode video operation with Sync
-Events and continuous clock on clock lane, correct dsi mode flags
-according to that removing MIPI_DSI_MODE_VIDEO_BURST flag.
-
-Cc: <stable@vger.kernel.org>
-Fixes: 30e2ae943c26 ("drm/bridge: Introduce LT8912B DSI to HDMI bridge")
-Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/gpu/drm/bridge/lontium-lt8912b.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/uapi/drm/habanalabs_accel.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index b40baced1331..13c131ade268 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -504,7 +504,6 @@ static int lt8912_attach_dsi(struct lt8912 *lt)
- 	dsi->format = MIPI_DSI_FMT_RGB888;
+diff --git a/include/uapi/drm/habanalabs_accel.h b/include/uapi/drm/habanalabs_accel.h
+index c139aab17c8a..d9ef1b151d04 100644
+--- a/include/uapi/drm/habanalabs_accel.h
++++ b/include/uapi/drm/habanalabs_accel.h
+@@ -708,7 +708,8 @@ enum hl_server_type {
+ 	HL_SERVER_GAUDI_HLS1H = 2,
+ 	HL_SERVER_GAUDI_TYPE1 = 3,
+ 	HL_SERVER_GAUDI_TYPE2 = 4,
+-	HL_SERVER_GAUDI2_HLS2 = 5
++	HL_SERVER_GAUDI2_HLS2 = 5,
++	HL_SERVER_GAUDI2_TYPE1 = 7
+ };
  
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO |
--			  MIPI_DSI_MODE_VIDEO_BURST |
- 			  MIPI_DSI_MODE_LPM |
- 			  MIPI_DSI_MODE_NO_EOT_PACKET;
- 
+ /*
 -- 
-2.25.1
+2.40.0
 
