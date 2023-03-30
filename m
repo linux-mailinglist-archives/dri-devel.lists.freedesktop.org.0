@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D066CFE55
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:32:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 001AE6CFE51
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7A810ED32;
-	Thu, 30 Mar 2023 08:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231E110E1D6;
+	Thu, 30 Mar 2023 08:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B20710E1F8
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D53DC10E1D6
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 08:32:09 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 48EA521B45;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 74F4B1FEA6;
  Thu, 30 Mar 2023 08:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1680165128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=puZm/cpZ/snsnn1eNvzoQc0Eh6F2E/ZMPQDDNKi+ZIE=;
- b=SMW5FRxifDd+nKw5zdc6Q1k0haY0qmM1sngZ/Ro6KHzt3H/H70AQju/2Sx91ikct6R/1I9
- xnCT8DjnAvQ/flcCv7zj0TmdMvpT6VoaaA3Gb5YE/5fHRmX8gXEk1Mca2Aiu1IphWdq3/+
- h81apR12h9mEXaOAwUTJbCCELPS8NdY=
+ bh=O9DNdRn8kuAR/dlacbTsB5LjNrxNCDDHEfCxtEpLGQY=;
+ b=SYqfw8Ax1wksYN8CrIB1BOOLQTOfX5pubmmN97S9aodcrgkl9iV4oJuAIYquPvyNeokaiA
+ 97tdgw9YVyHTGdyce6X/G6G+QOKjqYN5seLVdkMaR95hGehsyw/gm+Rx0HesvJsY3qXbFy
+ Wy6MDMbjpg7CW5JAmBN/2UvlEcW4wj4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1680165128;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=puZm/cpZ/snsnn1eNvzoQc0Eh6F2E/ZMPQDDNKi+ZIE=;
- b=xr+g8K9kr1HIDUf5WoIO+TSjNXPuKUX+cFy+XYps+w53BU0MygiBwYp073Uze9lvYfy9Nk
- zVDa8jzXXrmLPTCg==
+ bh=O9DNdRn8kuAR/dlacbTsB5LjNrxNCDDHEfCxtEpLGQY=;
+ b=Jm8g9auXgIgVHPgZCARCFmtCcWBcXwbGP32YvdRrfiLijiTirRWRmDZDMmDSf3TKpTb7Qe
+ tKP5d/efan15/rDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0C340138FF;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4531C1390D;
  Thu, 30 Mar 2023 08:32:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iJD0AQhJJWTlGQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aHRuDwhJJWTlGQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 08:32:08 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tomba@kernel.org, javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 3/6] drm/omapdrm: Remove bo from struct omap_fbdev
-Date: Thu, 30 Mar 2023 10:32:02 +0200
-Message-Id: <20230330083205.12621-4-tzimmermann@suse.de>
+Subject: [PATCH 4/6] drm/omapdrm: Remove fbdev from struct omap_drm_private
+Date: Thu, 30 Mar 2023 10:32:03 +0200
+Message-Id: <20230330083205.12621-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230330083205.12621-1-tzimmermann@suse.de>
 References: <20230330083205.12621-1-tzimmermann@suse.de>
@@ -71,130 +71,104 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fbdev's framebuffer stores a pointer to the GEM object. Remove
-struct omap_fbdev.exynos_gem, which contains the same value. No
-functional changes.
+The DRM device stores a pointer to the fbdev helper. Remove struct
+omap_drm_private.fbdev, which contains the same value. No functional
+changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/omapdrm/omap_fbdev.c | 32 +++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/omapdrm/omap_debugfs.c | 6 +++---
+ drivers/gpu/drm/omapdrm/omap_drv.c     | 1 +
+ drivers/gpu/drm/omapdrm/omap_drv.h     | 3 ---
+ drivers/gpu/drm/omapdrm/omap_fbdev.c   | 7 ++-----
+ 4 files changed, 6 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/omapdrm/omap_debugfs.c b/drivers/gpu/drm/omapdrm/omap_debugfs.c
+index bfb2ccb40bd1..a3d470468e5b 100644
+--- a/drivers/gpu/drm/omapdrm/omap_debugfs.c
++++ b/drivers/gpu/drm/omapdrm/omap_debugfs.c
+@@ -47,15 +47,15 @@ static int fb_show(struct seq_file *m, void *arg)
+ {
+ 	struct drm_info_node *node = (struct drm_info_node *) m->private;
+ 	struct drm_device *dev = node->minor->dev;
+-	struct omap_drm_private *priv = dev->dev_private;
++	struct drm_fb_helper *helper = dev->fb_helper;
+ 	struct drm_framebuffer *fb;
+ 
+ 	seq_printf(m, "fbcon ");
+-	omap_framebuffer_describe(priv->fbdev->fb, m);
++	omap_framebuffer_describe(helper->fb, m);
+ 
+ 	mutex_lock(&dev->mode_config.fb_lock);
+ 	list_for_each_entry(fb, &dev->mode_config.fb_list, head) {
+-		if (fb == priv->fbdev->fb)
++		if (fb == helper->fb)
+ 			continue;
+ 
+ 		seq_printf(m, "user ");
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index fb403b44769c..6a2f446c960f 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -25,6 +25,7 @@
+ 
+ #include "omap_dmm_tiler.h"
+ #include "omap_drv.h"
++#include "omap_fbdev.h"
+ 
+ #define DRIVER_NAME		MODULE_NAME
+ #define DRIVER_DESC		"OMAP DRM"
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.h b/drivers/gpu/drm/omapdrm/omap_drv.h
+index 825960fd3ea9..4c7217b35f6b 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.h
++++ b/drivers/gpu/drm/omapdrm/omap_drv.h
+@@ -21,7 +21,6 @@
+ #include "omap_crtc.h"
+ #include "omap_encoder.h"
+ #include "omap_fb.h"
+-#include "omap_fbdev.h"
+ #include "omap_gem.h"
+ #include "omap_irq.h"
+ #include "omap_plane.h"
+@@ -77,8 +76,6 @@ struct omap_drm_private {
+ 
+ 	struct drm_private_obj glob_obj;
+ 
+-	struct drm_fb_helper *fbdev;
+-
+ 	struct workqueue_struct *wq;
+ 
+ 	/* lock for obj_list below */
 diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index b3d57fe4e6ac..d04a20f95e3d 100644
+index d04a20f95e3d..79e417b391bf 100644
 --- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
 +++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_file.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
+@@ -250,8 +250,6 @@ void omap_fbdev_init(struct drm_device *dev)
+ 	if (ret)
+ 		goto fini;
  
- #include "omap_drv.h"
+-	priv->fbdev = helper;
+-
+ 	return;
  
-@@ -25,7 +26,6 @@ module_param_named(ywrap, ywrap_enabled, bool, 0644);
+ fini:
+@@ -265,8 +263,7 @@ void omap_fbdev_init(struct drm_device *dev)
  
- struct omap_fbdev {
- 	struct drm_fb_helper base;
--	struct drm_gem_object *bo;
- 	bool ywrap_enabled;
- 
- 	/* for deferred dmm roll when getting called in atomic ctx */
-@@ -37,12 +37,14 @@ static struct drm_fb_helper *get_fb(struct fb_info *fbi);
- static void pan_worker(struct work_struct *work)
+ void omap_fbdev_fini(struct drm_device *dev)
  {
- 	struct omap_fbdev *fbdev = container_of(work, struct omap_fbdev, work);
--	struct fb_info *fbi = fbdev->base.info;
-+	struct drm_fb_helper *helper = &fbdev->base;
-+	struct fb_info *fbi = helper->info;
-+	struct drm_gem_object *bo = drm_gem_fb_get_obj(helper->fb, 0);
- 	int npages;
- 
- 	/* DMM roll shifts in 4K pages: */
- 	npages = fbi->fix.line_length >> PAGE_SHIFT;
--	omap_gem_roll(fbdev->bo, fbi->var.yoffset * npages);
-+	omap_gem_roll(bo, fbi->var.yoffset * npages);
- }
- 
- static int omap_fbdev_pan_display(struct fb_var_screeninfo *var,
-@@ -97,6 +99,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 	union omap_gem_size gsize;
- 	struct fb_info *fbi = NULL;
- 	struct drm_mode_fb_cmd2 mode_cmd = {0};
-+	struct drm_gem_object *bo;
- 	dma_addr_t dma_addr;
- 	int ret;
- 
-@@ -127,20 +130,20 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 		.bytes = PAGE_ALIGN(mode_cmd.pitches[0] * mode_cmd.height),
- 	};
- 	DBG("allocating %d bytes for fb %d", gsize.bytes, dev->primary->index);
--	fbdev->bo = omap_gem_new(dev, gsize, OMAP_BO_SCANOUT | OMAP_BO_WC);
--	if (!fbdev->bo) {
-+	bo = omap_gem_new(dev, gsize, OMAP_BO_SCANOUT | OMAP_BO_WC);
-+	if (!bo) {
- 		dev_err(dev->dev, "failed to allocate buffer object\n");
- 		ret = -ENOMEM;
- 		goto fail;
- 	}
- 
--	fb = omap_framebuffer_init(dev, &mode_cmd, &fbdev->bo);
-+	fb = omap_framebuffer_init(dev, &mode_cmd, &bo);
- 	if (IS_ERR(fb)) {
- 		dev_err(dev->dev, "failed to allocate fb\n");
- 		/* note: if fb creation failed, we can't rely on fb destroy
- 		 * to unref the bo:
- 		 */
--		drm_gem_object_put(fbdev->bo);
-+		drm_gem_object_put(bo);
- 		ret = PTR_ERR(fb);
- 		goto fail;
- 	}
-@@ -153,7 +156,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 	 * to it).  Then we just need to be sure that we are able to re-
- 	 * pin it in case of an opps.
- 	 */
--	ret = omap_gem_pin(fbdev->bo, &dma_addr);
-+	ret = omap_gem_pin(bo, &dma_addr);
- 	if (ret) {
- 		dev_err(dev->dev, "could not pin framebuffer\n");
- 		ret = -ENOMEM;
-@@ -175,10 +178,10 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
- 
- 	drm_fb_helper_fill_info(fbi, helper, sizes);
- 
--	fbi->screen_buffer = omap_gem_vaddr(fbdev->bo);
--	fbi->screen_size = fbdev->bo->size;
-+	fbi->screen_buffer = omap_gem_vaddr(bo);
-+	fbi->screen_size = bo->size;
- 	fbi->fix.smem_start = dma_addr;
--	fbi->fix.smem_len = fbdev->bo->size;
-+	fbi->fix.smem_len = bo->size;
- 
- 	/* if we have DMM, then we can use it for scrolling by just
- 	 * shuffling pages around in DMM rather than doing sw blit.
-@@ -265,6 +268,7 @@ void omap_fbdev_fini(struct drm_device *dev)
- 	struct omap_drm_private *priv = dev->dev_private;
- 	struct drm_fb_helper *helper = priv->fbdev;
+-	struct omap_drm_private *priv = dev->dev_private;
+-	struct drm_fb_helper *helper = priv->fbdev;
++	struct drm_fb_helper *helper = dev->fb_helper;
  	struct drm_framebuffer *fb;
-+	struct drm_gem_object *bo;
+ 	struct drm_gem_object *bo;
  	struct omap_fbdev *fbdev;
+@@ -297,5 +294,5 @@ void omap_fbdev_fini(struct drm_device *dev)
+ 	drm_fb_helper_unprepare(helper);
+ 	kfree(fbdev);
  
- 	DBG();
-@@ -280,9 +284,11 @@ void omap_fbdev_fini(struct drm_device *dev)
- 
- 	fbdev = to_omap_fbdev(helper);
- 
-+	bo = drm_gem_fb_get_obj(fb, 0);
-+
- 	/* unpin the GEM object pinned in omap_fbdev_create() */
--	if (fbdev->bo)
--		omap_gem_unpin(fbdev->bo);
-+	if (bo)
-+		omap_gem_unpin(bo);
- 
- 	/* this will free the backing object */
- 	if (fb)
+-	priv->fbdev = NULL;
++	dev->fb_helper = NULL;
+ }
 -- 
 2.40.0
 
