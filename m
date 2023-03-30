@@ -1,63 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3805A6D0D77
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 20:12:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC5E6D0D7B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 20:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EEF10EF67;
-	Thu, 30 Mar 2023 18:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F7910EF6A;
+	Thu, 30 Mar 2023 18:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A4B10EF67
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:12:09 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id
- r19-20020a05600c459300b003eb3e2a5e7bso12394238wmo.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:12:09 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EECD10EF6A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:13:45 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id j24so20032861wrd.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1680199928; x=1682791928;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=seHCnSN9fc24OYrcfpBdgfwWSuQMWUtLp0CPwn3+aMk=;
- b=Ew2vSHlLWxT4SG2ip0bGA2R6eX6YWrkt2/fi0g2GWygsYHHNs8rzsEhazvys0UqyGL
- 5kkCL9eySmcHibaebWxtOS7kO5X1XxGYTm8CD9LqXXCZzK/WRXybwuJeGhCyftu9IMpi
- +hxZnCx9BTiGQNJUYucCVvUdqg3vsuP34HjsE=
+ d=tessares.net; s=google; t=1680200024;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8rBDKsgZ0c2Ea0fhfHATR3kgGwH9tv06KM69SIB7yXs=;
+ b=bBsrNAMNDg2hmM1g5ZjEmgb4OtN2iPjzRQAn2q9/9UE+XsxVYH+8x3ewcsS2i1Cqqs
+ tddFU2LH+8uz4LEejwQv6lqh2kRwiKseLyLPvzhScAjC1bntXWJijgiHsMAmNYXQ52lt
+ yMpwvxwgZABQthiThFH0dG3QB8/iWbxFNFhhHUP/PJ6qqbI30R4RSMjVGT6dT/6YkeGs
+ vLxjOlIgEioRIZ/9rNzkjMm4rXpjv215vNUhXMZsxXcw/Z4UPSaJ4Ofkqo5hvz5vZ1V0
+ ZExrnBlTPNyJrSV3TjJYMc7BLf4K1Pj+ydhxizIWYG8n7DjsyMFKRgq0vjBpEhYnhnPJ
+ 0bIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680199928; x=1682791928;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=seHCnSN9fc24OYrcfpBdgfwWSuQMWUtLp0CPwn3+aMk=;
- b=58UoD8GL//aSuc58nflVqtpIk/IZc0Eu1t7h9awHctSNtRJ5cCNuSsYTaKPfKjvAXY
- mWZVK8gHEGNpLAY0Vio94KGp4dQ1m60GCD7uJcV5ehhj+L2RIsYnpOpYLHi/HuFXdgBO
- UbfhBdKo5LZN/1TKnQTYubviwxKVMJsi4eXn/7TrNSGzFwTFcXUepHvIEGVf2FnAAzh3
- 1qD02Q2NN2e8A51oy8s4lPReVDfpIifNyf73uFO4xB9ryhK4zxE17f5P4Ivl0cSrFpXS
- 29PSWcmpIaXiNtqsdizJKr11/v/n77iuNTHdMHgJHwV0P1oYyugC1JQiugifegkdpkdS
- 0tlg==
-X-Gm-Message-State: AAQBX9fRgX882xKJtWGc3/SZO1YMWCE+J6M/LOwsC2CpHKuwPA4tDB3T
- LYTiIH7lfCJ/MxCDLr83iJl68Q==
-X-Google-Smtp-Source: AKy350aBfkHrD19cfljv2cx+BMmhlX4WzWEZwpj221HqqkcsiMky1WcqHJLfWgas6NUV6dFKX7500A==
-X-Received: by 2002:a05:600c:3b91:b0:3f0:3d41:548f with SMTP id
- n17-20020a05600c3b9100b003f03d41548fmr1516098wms.3.1680199928082; 
- Thu, 30 Mar 2023 11:12:08 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
- [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
- c1-20020a05600c0a4100b003ee5fa61f45sm7515953wmq.3.2023.03.30.11.12.06
+ d=1e100.net; s=20210112; t=1680200024;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8rBDKsgZ0c2Ea0fhfHATR3kgGwH9tv06KM69SIB7yXs=;
+ b=Pixr4VC+r3kUW2J1hX3ah56XwLYkTus9nceygxeti/EcXLiNWMmhBZ91ZhNZxcVlOA
+ 3UrCK9yr/Gsu/mUNAmNGRw9pTzGfv6PojKK2rSjRpBKH+G9B3GHvuivhB3NjbUwUw1Z7
+ R6jQatG0+5kOGWb1Gbzoj6E6Gt6ue78eZIRhFNsAay7OhHLo/yyCk38Mn72VjxSRHzBf
+ pFm2lnwuACSGPy4go9/4ylh9M2QnmwGkVPempfFsY/gJjoSMdwd47sZooASVX1An8VBb
+ CKJndvAXcMu4udI31oX7IFB1w4bLTNzZG1eLnvEzTdCpTx5mYSMpokbnOC4jAt2pN1Su
+ 3kYQ==
+X-Gm-Message-State: AAQBX9fIN+wtaTH9nxyvWdvRs2sbGHk3fyABYDuMVxQg4U04ZO96wbzG
+ 5BRPnb31z3Dg9Ws+kNjKB6SZWBraLg1Rznz3zWwMuw==
+X-Google-Smtp-Source: AKy350bpf17pIYUtctW1UmQYRPMkHHfIjNcaEq9b/wtBb4XXFWdqt7apDJceS74tZ2toNjiTf4y38A==
+X-Received: by 2002:adf:fb0d:0:b0:2e5:17a4:7d65 with SMTP id
+ c13-20020adffb0d000000b002e517a47d65mr1582583wrr.39.1680200023887; 
+ Thu, 30 Mar 2023 11:13:43 -0700 (PDT)
+Received: from vdi08.nix.tessares.net
+ (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
+ by smtp.gmail.com with ESMTPSA id
+ e18-20020a056000121200b002d24a188b64sm33459741wrx.112.2023.03.30.11.13.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 11:12:07 -0700 (PDT)
-Date: Thu, 30 Mar 2023 20:12:04 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Alex Deucher <alexander.deucher@amd.com>
-Subject: Re: [pull] amdgpu drm-fixes-6.3
-Message-ID: <ZCXQ9MkO7xO9zaF2@phenom.ffwll.local>
-References: <20230330153859.18332-1-alexander.deucher@amd.com>
+ Thu, 30 Mar 2023 11:13:43 -0700 (PDT)
+From: Matthieu Baerts <matthieu.baerts@tessares.net>
+Subject: [PATCH v3 0/4] docs & checkpatch: allow Closes tags with links
+Date: Thu, 30 Mar 2023 20:13:22 +0200
+Message-Id: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330153859.18332-1-alexander.deucher@amd.com>
-X-Operating-System: Linux phenom 6.1.0-6-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAELRJWQC/42OS67CMAxFt4IyxlAn/cAbsQ/EwEldEsFLURwqE
+ OreSRkyYnh85XPvSwmnwKL+Vi+VeAoSxljArFfKeYpnhtAXVrrSpjJYQz86cJ7d5UbZeXDXUVg
+ g0xmwM2ibrmlai6r8WxIGmyg6vxiuId5l+0+SOS3xLfEQHp/q46mwD5LH9PwsmXC5/lI6IVSAd
+ meqTvOe9nTILEKJZRM5q0U86Z9lusiGmmrsdi0Obf8lm+f5DeOHyqExAQAA
+To: Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
+ Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+ =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>, 
+ Thorsten Leemhuis <linux@leemhuis.info>, 
+ Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, 
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Linus Torvalds <torvalds@linux-foundation.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3054;
+ i=matthieu.baerts@tessares.net; h=from:subject:message-id;
+ bh=P6AoCjPKkmZgS1nv0s1/YpaDCkuDnCn+pulVbPGi3fU=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkJdFWd6L1EDibjVLoRL8MVbW7B74nKBeqWTkWV
+ jLorHcm6OaJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZCXRVgAKCRD2t4JPQmmg
+ cwnXD/9PUHGS5kFofgqXyvh4xymo63lE27hUiy16eFTdsOmc5RBXX1wJRyv+p4K3iJOs1kK7t1B
+ 6iHAQT9+YDDdwjKgMHHUM3P6RG14+PXH3taTgL8FPWeM9CCHbWhmT7t1WF102Z4sFH4FiYfoehc
+ PyUKmGHUnkrITvb28LN5r7wdxTqiphQIS72Ed8R+C3AfahWr9poP0GiMTrWMNPKmI70VTT2Wh7N
+ PGvQ4io348yw80+QT3KuXkxE/cgG/5SlWYkOev8Q1QpKTcO3tvtG4anudQ+J06YSEQg4DDYXzk8
+ tvQaQV8k+2E9f7SqbOu0nXfUIr8RPjfAOpz901UXTs6EIdcqmxqJqS1sHlO0Chrc1YbHOZYK0Al
+ HgtoCk31vLqtyv+p983bnY5oTRaDpoU2AAY2BujS3WKs49KcN7HIBSXvkFyOpRF2PP9BzQCc6CC
+ zDwWuLB8p/Wk8+8fe6/Dxca0/WejYdwkZAeyH/I90tBvl/qgTyCw2EeOCyG4lB8G9aZiaYxSeum
+ R7a3LKBY64/c6YlQiO8a157JTWFsEsmComat6PC59/RzpCoHb70KlH73dGHS2le+KPPISCoVw0d
+ xIP2thgk9hRIAuWniP/I2vE8hEGFxtEkZ7+NhVwavemfbe+a8L/70qilEcVBuEFm0fMswWWHRzY
+ DkeoZYcleOGd2ZQ==
+X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,44 +101,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: Matthieu Baerts <matthieu.baerts@tessares.net>, mptcp@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 11:38:59AM -0400, Alex Deucher wrote:
-> Hi Dave, Daniel,
-> 
-> A regression fix for 6.3.
-> 
-> The following changes since commit 68dc1846c3a44d5e633be145c169ce2fd5420695:
-> 
->   drm/amd/display: Take FEC Overhead into Timeslot Calculation (2023-03-29 17:21:06 -0400)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.3-2023-03-30
-> 
-> for you to fetch changes up to 2fec9dc8e0acc3dfb56d1389151bcf405f087b10:
-> 
->   drm/amdgpu: allow more APUs to do mode2 reset when go to S4 (2023-03-30 11:23:58 -0400)
-> 
-> ----------------------------------------------------------------
-> amd-drm-fixes-6.3-2023-03-30:
-> 
-> amdgpu:
-> - Hibernation regression fix
+Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
+followed by a link [1]. It also complains if a "Reported-by:" tag is
+followed by a "Closes:" one [2].
 
-Yeah for a regression fix a 2nd pull makes sense, pulled, thanks.
-> 
-> ----------------------------------------------------------------
-> Tim Huang (1):
->       drm/amdgpu: allow more APUs to do mode2 reset when go to S4
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+As detailed in the first patch, this "Closes:" tag is used for a bit of
+time, mainly by DRM and MPTCP subsystems. It is used by some bug
+trackers to automate the closure of issues when a patch is accepted.
+It is even planned to use this tag with bugzilla.kernel.org [3].
 
+The first patch updates the documentation to explain what is this
+"Closes:" tag and how/when to use it. The second patch modifies
+checkpatch.pl to stop complaining about it.
+
+The DRM maintainers and their mailing list have been added in Cc as they
+are probably interested by these two patches as well.
+
+[1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.1674217480.git.linux@leemhuis.info/
+[2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.1674217480.git.linux@leemhuis.info/
+[3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@meerkat.local/
+
+Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
+---
+Note: After having re-read the comments from the v1, it is still unclear
+to me if this "Closes:" can be accepted or not. But because it seems
+that the future Bugzilla bot for kernel.org and regzbot would like to
+use it as well, I'm sending here new versions. I'm sorry if I
+misunderstood the comments from v1. Please tell me if I did.
+
+Changes in v3:
+- Patch 1/4 now allow using the "Closes" tag with any kind of bug
+  reports, as long as the link is public. (Thorsten)
+- The former patch 2/2 has been split in two: first to use a list for
+  the different "link" tags (Joe). Then to allow the 'Closes' tag.
+- A new patch has been added to let checkpatch.pl checking if "Closes"
+  and "Links" are used with a URL.
+- Link to v2: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v2-0-f4a417861f6d@tessares.net
+
+Changes in v2:
+- The text on patch 1/2 has been reworked thanks to Jon, Bagas and
+  Thorsten. See the individual changelog on the patch for more details.
+- Private bug trackers and invalid URLs are clearly marked as forbidden
+  to avoid being misused. (Linus)
+- Rebased on top of Linus' repo.
+- Link to v1: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-tag-v1-0-1b83072e9a9a@tessares.net
+
+---
+Matthieu Baerts (4):
+      docs: process: allow Closes tags with links
+      checkpatch: use a list of "link" tags
+      checkpatch: allow Closes tags with links
+      checkpatch: check for misuse of the link tags
+
+ Documentation/process/5.Posting.rst          | 10 +++++++
+ Documentation/process/submitting-patches.rst | 10 +++++++
+ scripts/checkpatch.pl                        | 43 ++++++++++++++++++++++------
+ 3 files changed, 55 insertions(+), 8 deletions(-)
+---
+base-commit: ffe78bbd512166e0ef1cc4858010b128c510ed7d
+change-id: 20230314-doc-checkpatch-closes-tag-1731b57556b1
+
+Best regards,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Matthieu Baerts <matthieu.baerts@tessares.net>
+
