@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0A46CFB7E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 08:28:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C4B6CFBD2
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 08:46:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27B7D10ECDC;
-	Thu, 30 Mar 2023 06:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8A310E10D;
+	Thu, 30 Mar 2023 06:46:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DFB810ECDC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680157731; x=1711693731;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=dMIpxtZhNrHRgy4hDqTvo4WSn4xHgM65jT7zx1crFVs=;
- b=chCAw6zGccfVKemf7gGsPGbhKHkqs3rR/+cWGfgGpeTHkR69ZDAciwlZ
- qisjx86IuBqyxXXdqq4cvf56RqeWisARk2RVKLfGydMJPW52JVJP2u604
- 3VkwlUDXxx79vIUZbrNbdT5V6Fnv1bS6pOfcnX2ZPlI28LA2dIjM7AeK/
- mMKcd8EQoxkkf44S4t1EZQxQ5ab2wqp7l/DUcxZAxoCtH1MySIEKd9y+Z
- fcvYsYB+pYXc7LY3Qn5I+py8mqbu5ZKIOUimygs5KhnDl5imCqDi6V9hK
- OkiwwWiWDttUhBZ/Vn5+TNE+JWd1LeCKDlJlS6TLGpkoPmwwqz3G2wSLb w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="325003964"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="325003964"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2023 23:28:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="753872371"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="753872371"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 29 Mar 2023 23:28:34 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1phllx-000KRQ-35;
- Thu, 30 Mar 2023 06:28:33 +0000
-Date: Thu, 30 Mar 2023 14:28:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- suijingfeng <suijingfeng@loongson.cn>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>
-Subject: Re: [PATCH v9 2/2] drm: add kms driver for loongson display controller
-Message-ID: <202303301403.lRjtbd5K-lkp@intel.com>
-References: <20230329155033.1303550-3-15330273260@189.cn>
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29FB110E10D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:46:02 +0000 (UTC)
+Received: by mail-yb1-xb33.google.com with SMTP id i6so22291424ybu.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 23:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1680158761;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W9KvtDBDjnJJEqpcZjjyzTKCX1rkB36TxwhuGzvhZPc=;
+ b=bt6C87APwyUX1JWG2oRItuviKVBrMHw3USsuZx8wsxFNZ16hHSgB9jqvVzth8JfDAc
+ nCKeHwTTHh/atvFf0BOOJwm6q9GvyC/A8TnZcm+tFv6pwFpd1/6TQEFZrxrKImHm/vEF
+ 2Q6U14wyjnzNbfB7KrxWRBqOEAThwA7ExMtq8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680158761;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W9KvtDBDjnJJEqpcZjjyzTKCX1rkB36TxwhuGzvhZPc=;
+ b=eLEqH9yJN8Y/CANwwVzatUnNfpY+ukJJ26aX2fKZjeXmfZ62fUJfypjE4rowJNNdbH
+ REEzbG0MbcrnCc2j3PmVmon+vEpXOjugGDR/RGzuox+mqNwspJgdvKC6hzNLLXVsMpEY
+ 6SdODSACykIhyAEfxflcgsCurfw3dg7AwwJnssZgf4aGcQlFEzE83k/3vZ6FZB4SwWIh
+ i0kdq6di8sdFkPDjXoVVW5rdrDxxRnwgI8fdim8cS46xeMIwiXARxfrh1QnLzQcq1FcV
+ 0JQuhyCIAm7pbSX/8u8FNkKzZC5BGovjm45MHCL4pu4T2X3g2pkro9LXh2fykVOGyZoj
+ jeag==
+X-Gm-Message-State: AAQBX9cX0GXZ90EmE/qolasipykgl17ukFJTmna1QBke6j0AMI75Wgb1
+ OYsg7FTNK+KfQe/JvTKmMXngc1zEL7Zvv/5k6fzzQg==
+X-Google-Smtp-Source: AKy350akHF5ZJtdSHsp/EicclOQgIOG1PqepWwCthsk5hLwQa4/j37Q/HX7g3wekmsrvapGpdWWusB+vmhPMm/2t6q0=
+X-Received: by 2002:a05:6902:1141:b0:b73:caa7:f06f with SMTP id
+ p1-20020a056902114100b00b73caa7f06fmr14621745ybu.5.1680158761113; Wed, 29 Mar
+ 2023 23:46:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230329155033.1303550-3-15330273260@189.cn>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <20230329131929.1328612-3-jagan@amarulasolutions.com>
+ <20230329145939.7zcex4x2pipivuj4@penduick>
+ <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
+ <20230329160652.7gel5qvckzwihjx4@penduick>
+In-Reply-To: <20230329160652.7gel5qvckzwihjx4@penduick>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 30 Mar 2023 12:15:49 +0530
+Message-ID: <CAMty3ZB=R0RfU+o7LZWpS=4-ny00ocCxBu-M6yicY4q0-eYL9A@mail.gmail.com>
+Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,128 +68,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, Li Yi <liyi@loongson.cn>,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- oe-kbuild-all@lists.linux.dev, nathan@kernel.org, linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sui,
+On Wed, Mar 29, 2023 at 9:36=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> w=
+rote:
+>
+> On Wed, Mar 29, 2023 at 09:08:17PM +0530, Jagan Teki wrote:
+> > On Wed, Mar 29, 2023 at 8:29=E2=80=AFPM Maxime Ripard <maxime@cerno.tec=
+h> wrote:
+> > >
+> > > Hi,
+> > >
+> > > The patch prefix should be drm/sun4i:
+> >
+> > I did follow my previous prefix, I will update this.
+> >
+> > >
+> > > On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
+> > > > Convert the encoder to bridge driver in order to standardize on a
+> > > > single API by supporting all varients of downstream bridge devices.
+> > >
+> > > Which variant, and why do we need to convert to a bridge to support a=
+ll of them?
+> >
+> > Downstream bridge variants like DSI panel, DSI bridge and
+> > I2C-Configured DSI bridges. Bridge conversion would be required for
+> > the DSI host to access the more variety and complex downstream bridges
+> > in a standardized bridge chain way which is indeed complex for encoder
+> > driven DSI hosts.
+> >
+> > >
+> > > > The drm_encoder can't be removed as it's exposed to userspace, so i=
+t
+> > > > then becomes a dumb encoder, without any operation implemented.
+> > > >
+> > > > Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
+> > > >
+> > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > >
+> > > [...]
+> > >
+> > > > +static const struct component_ops sun6i_dsi_ops;
+> > > > +
+> > > >  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> > > >                           struct mipi_dsi_device *device)
+> > > >  {
+> > > >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
+> > > > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.of_=
+node);
+> > >
+> > > That one looks unrelated. Why do you need that change?
+> >
+> > This was replaced with drmm_of_dsi_get_bridge for lookup of both panel
+> > and bridge. I think I will separate this into another patch.
+>
+> So, it looks to me that you're doing two (unrelated) things in that patch=
+:
 
-I love your patch! Perhaps something to improve:
+Correct.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230329]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+>   - You modify the existing driver to be a bridge
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230329-235338
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230329155033.1303550-3-15330273260%40189.cn
-patch subject: [PATCH v9 2/2] drm: add kms driver for loongson display controller
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230330/202303301403.lRjtbd5K-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ed6a57085a2dc87999193a71c28399a56e29097b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230329-235338
-        git checkout ed6a57085a2dc87999193a71c28399a56e29097b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/fpga/ drivers/gpu/drm/loongson/
+Yes, Convert to bridge driver - register drm_bridge_add and replace
+encoder ops with bridge ops.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303301403.lRjtbd5K-lkp@intel.com/
+>
+>   - And you support downstream device being bridges.
 
-All warnings (new ones prefixed by >>):
+Yes, Support the downstream bridge. (If I'm correct we can still use
+encoder ops with this).
 
->> drivers/gpu/drm/loongson/lsdc_drv.c:342:11: warning: variable 'ddev' is uninitialized when used here [-Wuninitialized]
-                   drm_err(ddev, "Not known device, the driver need update!\n");
-                           ^~~~
-   include/drm/drm_print.h:469:16: note: expanded from macro 'drm_err'
-           __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-                         ^~~
-   include/drm/drm_print.h:456:21: note: expanded from macro '__drm_printk'
-           dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-                              ^~~
-   include/linux/dev_printk.h:144:44: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                     ^~~
-   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                           ^~~
-   drivers/gpu/drm/loongson/lsdc_drv.c:326:25: note: initialize the variable 'ddev' to silence this warning
-           struct drm_device *ddev;
-                                  ^
-                                   = NULL
-   1 warning generated.
+If we see the hierarchy of support it would
+1. support the downstream bridge.
+2. convert to the bridge driver.
 
+>
+> Both are orthogonal, can (and should!) be done separately, and I'm
+> pretty sure you don't actually need to do the former at all.
 
-vim +/ddev +342 drivers/gpu/drm/loongson/lsdc_drv.c
+Do you mean converting to bridge driver is not needed?
 
-   321	
-   322	static int lsdc_pci_probe(struct pci_dev *pdev,
-   323				  const struct pci_device_id *ent)
-   324	{
-   325		const struct lsdc_desc *descp;
-   326		struct drm_device *ddev;
-   327		struct lsdc_device *ldev;
-   328		int ret;
-   329	
-   330		ret = pcim_enable_device(pdev);
-   331		if (ret)
-   332			return ret;
-   333	
-   334		pci_set_master(pdev);
-   335	
-   336		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
-   337		if (ret)
-   338			return ret;
-   339	
-   340		descp = lsdc_detect_chip(pdev, ent);
-   341		if (IS_ERR_OR_NULL(descp)) {
- > 342			drm_err(ddev, "Not known device, the driver need update!\n");
-   343			return -ENODEV;
-   344		}
-   345	
-   346		dev_info(&pdev->dev, "%s found, revision: %u",
-   347			 chip_to_str(descp->chip), pdev->revision);
-   348	
-   349		ldev = lsdc_create_device(pdev, descp, &lsdc_drm_driver);
-   350		if (IS_ERR(ldev))
-   351			return PTR_ERR(ldev);
-   352	
-   353		ddev = &ldev->base;
-   354	
-   355		pci_set_drvdata(pdev, ddev);
-   356	
-   357		ret = devm_request_irq(&pdev->dev,
-   358				       pdev->irq,
-   359				       lsdc_get_irq_handler(descp),
-   360				       IRQF_SHARED,
-   361				       dev_name(&pdev->dev),
-   362				       ddev);
-   363		if (ret) {
-   364			drm_err(ddev, "Failed to register interrupt: %d\n", ret);
-   365			return ret;
-   366		}
-   367	
-   368		ret = drm_dev_register(ddev, 0);
-   369		if (ret)
-   370			return ret;
-   371	
-   372		drm_fbdev_generic_setup(ddev, 32);
-   373	
-   374		return 0;
-   375	}
-   376	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+Jagan.
