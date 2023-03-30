@@ -1,40 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882826CFC95
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:22:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9B56CFC96
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19ECD10E144;
-	Thu, 30 Mar 2023 07:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB82310E17D;
+	Thu, 30 Mar 2023 07:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3AB10E144
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:22:21 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C129D10E17D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:22:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BA738B8261B;
- Thu, 30 Mar 2023 07:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4174C433EF;
- Thu, 30 Mar 2023 07:22:17 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 52C18B825DB;
+ Thu, 30 Mar 2023 07:22:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B69AC433D2;
+ Thu, 30 Mar 2023 07:22:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680160938;
- bh=JYKuUCr6XQjYAc06iNyrLv0f2y+SVip8BqzYncvdp5E=;
- h=From:To:Cc:Subject:Date:From;
- b=q7th8ZBahf9iTPS486VhWoShLjjg+ytQJVhU0bu0K4bnPLn/0pCl8CMG58GWBcmgo
- 2TNMr/gM+6iOQwU+Y7frCvCRgo2ci0csps/ODByiXzMKog+X+go6L9lcy+VLV9COAw
- +aGyiScd8A65OnFqz2HC0SwCsi9wDmQcX+QRyQiIYlgbUMJZIYTmGtPlZt5v56p8Ko
- OJbcJuUTGivSi5tDmlg3OYXDppZ38nTVLqiZ7UcOv3SkW8D31PQlu0PxgweA8OjOel
- 4XPhsOcmgcX8mhn+GKVq1TBuhmSIEV0MCllxRlSfEdrUXPSEvZ3xO7QWFPkhAi/N+g
- RBNRROW+WSO2w==
+ s=k20201202; t=1680160940;
+ bh=DVxIn3liM6dYhI7nOgrenk2CQU1ESOj+SnRpV1vNFAU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Qq9pBOeD0lXUGLrObKzDYKRo4aRS8C0Qnt+JlBoYeSzIL5Qg4VknD9Ssq0Vjjgs//
+ 9eNMBMvDPG1GnhSacWX1bRfgOSYputm2Bn1I5bdDNwv4B/ACvQL5HsxegXHzye/zhx
+ SK0hZSfSooR1eh7IsIw48HtfTh57hmtxmJfbjcTjmX7yHBltKZcf+eCCyKbKovv9aR
+ Jnu/aqiToOz2i5JjPP+kHeAp0T4crlY3Uko4ULUyVKjpfwno+wY4x9DApr6yQW0KMA
+ GZ+lq8c6rloUCWId/2MV6zxR+C3copwP2lU7uNvwXztucfxPDUmIAJIjT9JDq3WB/U
+ CpdKMcAMtrsDw==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/7] accel/habanalabs: print raw binning masks in debug level
-Date: Thu, 30 Mar 2023 10:22:07 +0300
-Message-Id: <20230330072213.1596318-1-ogabbay@kernel.org>
+Subject: [PATCH 2/7] accel/habanalabs: remove completion from abnormal
+ interrupt work name
+Date: Thu, 30 Mar 2023 10:22:08 +0300
+Message-Id: <20230330072213.1596318-2-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230330072213.1596318-1-ogabbay@kernel.org>
+References: <20230330072213.1596318-1-ogabbay@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,40 +53,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ofir Bitton <obitton@habana.ai>
+Cc: Tomer Tayar <ttayar@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ofir Bitton <obitton@habana.ai>
+From: Tomer Tayar <ttayar@habana.ai>
 
-There are rare cases of failures when cards are initialized due to
-wrong values in efuse mappings that are parsed by firmware.
+Decoder abnormal interrupts are for errors and not for completion, so
+rename the relevant work and work function to not include 'completion'.
 
-To help debug those cases, print (in debug level) the raw binning masks
-as fetched from the firmware during device initialization.
-
-Signed-off-by: Ofir Bitton <obitton@habana.ai>
+Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/gaudi2/gaudi2.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/accel/habanalabs/common/decoder.c    | 22 +++++++-------------
+ drivers/accel/habanalabs/common/habanalabs.h | 10 ++++-----
+ drivers/accel/habanalabs/common/irq.c        |  2 +-
+ 3 files changed, 14 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-index ad491fb2c39d..ea9fdc616de4 100644
---- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
-+++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
-@@ -2888,6 +2888,10 @@ static int gaudi2_cpucp_info_get(struct hl_device *hdev)
- 	hdev->tpc_binning = le64_to_cpu(prop->cpucp_info.tpc_binning_mask);
- 	hdev->decoder_binning = lower_32_bits(le64_to_cpu(prop->cpucp_info.decoder_binning_mask));
+diff --git a/drivers/accel/habanalabs/common/decoder.c b/drivers/accel/habanalabs/common/decoder.c
+index 69c78c1784b4..59a1ecb20c04 100644
+--- a/drivers/accel/habanalabs/common/decoder.c
++++ b/drivers/accel/habanalabs/common/decoder.c
+@@ -43,22 +43,24 @@ static void dec_print_abnrm_intr_source(struct hl_device *hdev, u32 irq_status)
+ 		intr_source[2], intr_source[3], intr_source[4], intr_source[5]);
+ }
  
-+	dev_dbg(hdev->dev, "Read binning masks: tpc: 0x%llx, dram: 0x%llx, edma: 0x%x, dec: 0x%x\n",
-+			hdev->tpc_binning, hdev->dram_binning, hdev->edma_binning,
-+			hdev->decoder_binning);
-+
- 	/*
- 	 * at this point the DRAM parameters need to be updated according to data obtained
- 	 * from the FW
+-static void dec_error_intr_work(struct hl_device *hdev, u32 base_addr, u32 core_id)
++static void dec_abnrm_intr_work(struct work_struct *work)
+ {
++	struct hl_dec *dec = container_of(work, struct hl_dec, abnrm_intr_work);
++	struct hl_device *hdev = dec->hdev;
+ 	bool reset_required = false;
+ 	u32 irq_status, event_mask;
+ 
+-	irq_status = RREG32(base_addr + VCMD_IRQ_STATUS_OFFSET);
++	irq_status = RREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET);
+ 
+-	dev_err(hdev->dev, "Decoder abnormal interrupt %#x, core %d\n", irq_status, core_id);
++	dev_err(hdev->dev, "Decoder abnormal interrupt %#x, core %d\n", irq_status, dec->core_id);
+ 
+ 	dec_print_abnrm_intr_source(hdev, irq_status);
+ 
+ 	/* Clear the interrupt */
+-	WREG32(base_addr + VCMD_IRQ_STATUS_OFFSET, irq_status);
++	WREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET, irq_status);
+ 
+ 	/* Flush the interrupt clear */
+-	RREG32(base_addr + VCMD_IRQ_STATUS_OFFSET);
++	RREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET);
+ 
+ 	if (irq_status & VCMD_IRQ_STATUS_TIMEOUT_MASK) {
+ 		reset_required = true;
+@@ -77,14 +79,6 @@ static void dec_error_intr_work(struct hl_device *hdev, u32 base_addr, u32 core_
+ 	}
+ }
+ 
+-static void dec_completion_abnrm(struct work_struct *work)
+-{
+-	struct hl_dec *dec = container_of(work, struct hl_dec, completion_abnrm_work);
+-	struct hl_device *hdev = dec->hdev;
+-
+-	dec_error_intr_work(hdev, dec->base_addr, dec->core_id);
+-}
+-
+ void hl_dec_fini(struct hl_device *hdev)
+ {
+ 	kfree(hdev->dec);
+@@ -108,7 +102,7 @@ int hl_dec_init(struct hl_device *hdev)
+ 		dec = hdev->dec + j;
+ 
+ 		dec->hdev = hdev;
+-		INIT_WORK(&dec->completion_abnrm_work, dec_completion_abnrm);
++		INIT_WORK(&dec->abnrm_intr_work, dec_abnrm_intr_work);
+ 		dec->core_id = j;
+ 		dec->base_addr = hdev->asic_funcs->get_dec_base_addr(hdev, j);
+ 		if (!dec->base_addr) {
+diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
+index a6f5c2152b0a..7b6ad3d7dbaa 100644
+--- a/drivers/accel/habanalabs/common/habanalabs.h
++++ b/drivers/accel/habanalabs/common/habanalabs.h
+@@ -1211,15 +1211,15 @@ struct hl_eq {
+ /**
+  * struct hl_dec - describes a decoder sw instance.
+  * @hdev: pointer to the device structure.
+- * @completion_abnrm_work: workqueue object to run when decoder generates an error interrupt
++ * @abnrm_intr_work: workqueue work item to run when decoder generates an error interrupt.
+  * @core_id: ID of the decoder.
+  * @base_addr: base address of the decoder.
+  */
+ struct hl_dec {
+-	struct hl_device		*hdev;
+-	struct work_struct		completion_abnrm_work;
+-	u32				core_id;
+-	u32				base_addr;
++	struct hl_device	*hdev;
++	struct work_struct	abnrm_intr_work;
++	u32			core_id;
++	u32			base_addr;
+ };
+ 
+ /**
+diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
+index 0d59bb7c9063..c67895b1cdeb 100644
+--- a/drivers/accel/habanalabs/common/irq.c
++++ b/drivers/accel/habanalabs/common/irq.c
+@@ -489,7 +489,7 @@ irqreturn_t hl_irq_handler_dec_abnrm(int irq, void *arg)
+ {
+ 	struct hl_dec *dec = arg;
+ 
+-	schedule_work(&dec->completion_abnrm_work);
++	schedule_work(&dec->abnrm_intr_work);
+ 
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.40.0
 
