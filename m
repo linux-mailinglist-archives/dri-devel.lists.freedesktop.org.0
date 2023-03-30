@@ -1,50 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B576CFBD6
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 08:47:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C79526CFC06
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 08:56:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 350E410ECDF;
-	Thu, 30 Mar 2023 06:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A7E10E13B;
+	Thu, 30 Mar 2023 06:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C0DE10ECDF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:46:56 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:49992.1004970275
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 05A171002CF;
- Thu, 30 Mar 2023 14:46:51 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- 8848f98944564ef38c37ea117c5c5e46 for lkp@intel.com; 
- Thu, 30 Mar 2023 14:46:53 CST
-X-Transaction-ID: 8848f98944564ef38c37ea117c5c5e46
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <83c392c9-52de-d819-70e5-651106341f20@189.cn>
-Date: Thu, 30 Mar 2023 14:46:50 +0800
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
+ [IPv6:2607:f8b0:4864:20::112c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2821110E13B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:56:09 +0000 (UTC)
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-545e907790fso221980957b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Mar 2023 23:56:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1680159368;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3A+wpr19CmQ1TBVKKYT6GbRWSRYO793ifnsMOlUiwbE=;
+ b=OABucgc84fkecsB2apt/ogKzIf6bvpjaTQB9vmPKnxOjgqC3jbY5/6bWVmEs92Cyfb
+ nUeuA2iJSLy46uwgpJxLgHKX6VHnAIltBZ5zi+aR26/iSoPeYRGWPUWbCU/pLnwSqLG0
+ KcCsjBrSKWMx3nX1saQmuhKlPvarup2xrLNt0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680159368;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=3A+wpr19CmQ1TBVKKYT6GbRWSRYO793ifnsMOlUiwbE=;
+ b=RCBey5pMtmKPmg1UD07IK805WrdQgDhn1QMHu/1dBw9HyRyPllr0kt6Cd6kiH4Jcsk
+ LqGqeSJ4r+lnXhR0SNWZ7TXNAkmZS0VmFbccRe9bIHdli4mP4wAZAEkyaARJez4Giq3U
+ pFALYDKqDjBaz1k/YFHcqV+UFMvSh+UKorcD/wCN5a1sGN4HJ6cwIG1dR0PDYCEtJpJd
+ DEpl03CIJbV+hnn4awce3uO2huT+zr1UeC/zITh0k7UTYHxnWOjmVtUEvnCriuYaFkrx
+ kaZNd4s07MHLx0ORgixeoNJjA0aBXlBXgO5AQCSsxTSoWcGYSiU7Mg76IhmbCM3Lvzy9
+ 6zPA==
+X-Gm-Message-State: AAQBX9ebjrX5LRIEYTxkJRbIbcIKW0BU3FRgd+7C2ZyfkCS1tt1wuii8
+ GKXjxj4WAVypEnajOZ+lXeyhjlGsaKMZjrgpQQpEqA==
+X-Google-Smtp-Source: AKy350ZHJjZhJJwBBtdUqfaY6RG/76vwwThMMt3oK5B3TbQQEDFWJx0IY4u2AwSvrLkQBQtu5ALiwx0jgs6FaeAsOf0=
+X-Received: by 2002:a81:ac46:0:b0:544:6828:3c09 with SMTP id
+ z6-20020a81ac46000000b0054468283c09mr11139395ywj.0.1680159368210; Wed, 29 Mar
+ 2023 23:56:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v9 2/2] drm: add kms driver for loongson display controller
-To: kernel test robot <lkp@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- suijingfeng <suijingfeng@loongson.cn>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian Koenig <christian.koenig@amd.com>
-References: <20230329155033.1303550-3-15330273260@189.cn>
- <202303301403.lRjtbd5K-lkp@intel.com>
-Content-Language: en-US
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <202303301403.lRjtbd5K-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
+ <20230329164638.v43la4l7rxut6hk6@penduick>
+In-Reply-To: <20230329164638.v43la4l7rxut6hk6@penduick>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 30 Mar 2023 12:25:56 +0530
+Message-ID: <CAMty3ZCsn6OR1-TvqFXP48iamG-k5sPU1_CH2fNLBQP3Ofb0QA@mail.gmail.com>
+Subject: Re: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to alter
+ bridge init order
+To: Maxime Ripard <maxime@cerno.tech>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,143 +69,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: loongson-kernel@lists.loongnix.cn, Li Yi <liyi@loongson.cn>,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- oe-kbuild-all@lists.linux.dev, nathan@kernel.org, linux-media@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Mar 29, 2023 at 10:16=E2=80=AFPM Maxime Ripard <maxime@cerno.tech> =
+wrote:
+>
+> On Wed, Mar 29, 2023 at 05:28:28PM +0100, Dave Stevenson wrote:
+> > On Wed, 29 Mar 2023 at 14:19, Jagan Teki <jagan@amarulasolutions.com> w=
+rote:
+> > >
+> > > DSI sink devices typically send the MIPI-DCS commands to the DSI host
+> > > via general MIPI_DSI_DCS read and write API.
+> > >
+> > > The classical DSI sequence mentioned that the DSI host receives MIPI-=
+DCS
+> > > commands from the DSI sink first in order to switch HS mode properly.
+> > > Once the DSI host switches to HS mode any MIPI-DCS commands from the
+> > > DSI sink are unfunctional.
+> >
+> > That statement contradicts the spec.
+> > The DSI spec section 8.11.1 Transmission Packet Sequences says that
+> > during any BLLP (Blanking or Low Power) period the host can do any of:
+> > - remain in LP-11
+> > - transmit one or more non-video packets from host to peripheral in esc=
+ape mode
+> > - transmit one or more non-video packets from host to peripheral in
+> > using HS mode
+> > - receive one or more packets from peripheral to host using escape mode
+> > - transmit data on a different virtual channel.
+> >
+> > Indeed if the sink doesn't set MIPI_DSI_MODE_LPM /
+> > MIPI_DSI_MSG_USE_LPM, then the expectation is that any data transfer
+> > will be in HS mode.
+> >
+> > That makes me confused as to the need for this patch.
+>
+> Yeah, and it looks like that would break the expectation that, in
+> enable, a bridge can expect its controller to be in HS mode.
+>
+> I think that was Jagan is trying to do is to work around an issue with
+> the Allwinner DSI driver:
+> https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/sun4i/su=
+n6i_mipi_dsi.c#L775
 
-On 2023/3/30 14:28, kernel test robot wrote:
-> Hi Sui,
->
-> I love your patch! Perhaps something to improve:
->
-> [auto build test WARNING on drm-misc/drm-misc-next]
-> [also build test WARNING on linus/master v6.3-rc4 next-20230329]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230329-235338
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/20230329155033.1303550-3-15330273260%40189.cn
-> patch subject: [PATCH v9 2/2] drm: add kms driver for loongson display controller
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230330/202303301403.lRjtbd5K-lkp@intel.com/config)
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/ed6a57085a2dc87999193a71c28399a56e29097b
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Sui-Jingfeng/MAINTAINERS-add-maintainers-for-DRM-LOONGSON-driver/20230329-235338
->          git checkout ed6a57085a2dc87999193a71c28399a56e29097b
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/fpga/ drivers/gpu/drm/loongson/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202303301403.lRjtbd5K-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> drivers/gpu/drm/loongson/lsdc_drv.c:342:11: warning: variable 'ddev' is uninitialized when used here [-Wuninitialized]
->                     drm_err(ddev, "Not known device, the driver need update!\n");
->                             ^~~~
->     include/drm/drm_print.h:469:16: note: expanded from macro 'drm_err'
->             __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
->                           ^~~
->     include/drm/drm_print.h:456:21: note: expanded from macro '__drm_printk'
->             dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
->                                ^~~
->     include/linux/dev_printk.h:144:44: note: expanded from macro 'dev_err'
->             dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
->                                                       ^~~
->     include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
->                     _p_func(dev, fmt, ##__VA_ARGS__);                       \
->                             ^~~
->     drivers/gpu/drm/loongson/lsdc_drv.c:326:25: note: initialize the variable 'ddev' to silence this warning
->             struct drm_device *ddev;
->                                    ^
->                                     = NULL
->     1 warning generated.
->
->
-> vim +/ddev +342 drivers/gpu/drm/loongson/lsdc_drv.c
->
->     321	
->     322	static int lsdc_pci_probe(struct pci_dev *pdev,
->     323				  const struct pci_device_id *ent)
->     324	{
->     325		const struct lsdc_desc *descp;
->     326		struct drm_device *ddev;
->     327		struct lsdc_device *ldev;
->     328		int ret;
->     329	
->     330		ret = pcim_enable_device(pdev);
->     331		if (ret)
->     332			return ret;
->     333	
->     334		pci_set_master(pdev);
->     335	
->     336		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
->     337		if (ret)
->     338			return ret;
->     339	
->     340		descp = lsdc_detect_chip(pdev, ent);
->     341		if (IS_ERR_OR_NULL(descp)) {
->   > 342			drm_err(ddev, "Not known device, the driver need update!\n");
->     343			return -ENODEV;
->     344		}
->     345	
+Correct and I can see it seems to be a classic DSI sequence observed
+in dw-mipi-dsi as well - based on Neil's comments.
+https://lore.kernel.org/all/9aa3d19d-4378-aaf3-6857-c40be5d252c7@baylibre.c=
+om/
 
-Right, i admit this.
+In fact, I did follow and initialize the command-mode mode_set which
+set low-speed DCS and switch back to video-mode @enable and switch to
+HS but could see the same issue as the host cannot accept DCS as
+before (I might implement improper sequence, but not sure due to lack
+of documentation). But this sequence has issues with calling
+post_disable twice even on dw-mipi-dsi.
 
+May be Neill, can comment here?
 
-I move  lsdc_detect_chip() function out from lsdc_create_device() to 
-here in v9.
-
-Since i think the chip probe should be run as early as possible.
-
-Remove  line 342 `drm_err(ddev, "Not known device, the driver need 
-update!\n");` would solve the problem.
-
-This time robot win.
-
-I will wait one or two day before send next version, ok?
-
->     346		dev_info(&pdev->dev, "%s found, revision: %u",
->     347			 chip_to_str(descp->chip), pdev->revision);
->     348	
->     349		ldev = lsdc_create_device(pdev, descp, &lsdc_drm_driver);
->     350		if (IS_ERR(ldev))
->     351			return PTR_ERR(ldev);
->     352	
->     353		ddev = &ldev->base;
->     354	
->     355		pci_set_drvdata(pdev, ddev);
->     356	
->     357		ret = devm_request_irq(&pdev->dev,
->     358				       pdev->irq,
->     359				       lsdc_get_irq_handler(descp),
->     360				       IRQF_SHARED,
->     361				       dev_name(&pdev->dev),
->     362				       ddev);
->     363		if (ret) {
->     364			drm_err(ddev, "Failed to register interrupt: %d\n", ret);
->     365			return ret;
->     366		}
->     367	
->     368		ret = drm_dev_register(ddev, 0);
->     369		if (ret)
->     370			return ret;
->     371	
->     372		drm_fbdev_generic_setup(ddev, 32);
->     373	
->     374		return 0;
->     375	}
->     376	
->
+Thanks,
+Jagan.
