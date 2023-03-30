@@ -2,40 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C616CFC98
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F9B6CFCA0
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:22:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6C510ECF1;
-	Thu, 30 Mar 2023 07:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D12510ECF8;
+	Thu, 30 Mar 2023 07:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF14010E144
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:22:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06E5010E17D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:22:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0A89061F0D;
- Thu, 30 Mar 2023 07:22:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8701BC4339B;
- Thu, 30 Mar 2023 07:22:20 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6FD7D61F1A;
+ Thu, 30 Mar 2023 07:22:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3BF2C433EF;
+ Thu, 30 Mar 2023 07:22:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680160941;
- bh=lLkkzx8QZDfliHcbKc1Gc7JmXlI0aBIc9z4+No5kV+8=;
+ s=k20201202; t=1680160942;
+ bh=+RuqCEK9yjJnr6UPQ0g/Y7KFiGEoBYLFg3d/ffhLo4s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XUcefq5mCvcmHTX2Oy/5dqlORUJranIVc4LchuOkxAOEXqlueWtweBb2vQLb6i2/4
- 4cEPWY28JZr/5wSLm36S5PdYa3U9hnKbXm93a2G5g4ErS9Am2H/6K2ogZLF4tX9ZAB
- R7k/AlDUBDNhxblkDWuPYL9uRmQdOvF1dVr+R7NyJRwUjzXGLLe3mT5IDfDBCgriBd
- T/eTETwzH/cXGLBRZBua2wmI6ZR+Aw/D8Zif9vykK0pKXyCKkra4Z05C2ckZnbD0Uw
- TWawAmcVME9TpX/OwiWowjnU3jBCgKfU4M7tKW660EV0uj3HZVdevyvaH0eJ10JsD1
- cq5l8eIHS0SyQ==
+ b=cLJMLLCuFHMi+aAJEMoNeU/UQAoCI99/2E89+cvP6kplf+ChJ1NCNSbSleDD5XcCw
+ UOrSa0Kmbzsy5A1h09217BAPffV90ebNL2G3WURREI/RqJa+1U3qj9sxBncvPF5gIX
+ 6hKHNAQ0zogzzS6hZRbT9jiGlBH3NdJnHL1XI6GuMp3jqdGwIB4EaEkDD5pUABSamw
+ zcbx6VCRHPrIgenwwyykr2iocAtYvuKajvFGZFNTx6bvsytYwsAmY7oDfqYxUzHR1c
+ nlOTFwXcy/P2HFGbdsnQE15Yd9CdrGzAsxyqBqXOqg6dTc5m4lxrNA4dzJJXN0INTB
+ Ct0JzXli3+oPg==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/7] accel/habanalabs: fix events mask of decoder abnormal
- interrupts
-Date: Thu, 30 Mar 2023 10:22:09 +0300
-Message-Id: <20230330072213.1596318-3-ogabbay@kernel.org>
+Subject: [PATCH 4/7] accel/habanalabs: fix wrong reset and event flags
+Date: Thu, 30 Mar 2023 10:22:10 +0300
+Message-Id: <20230330072213.1596318-4-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230330072213.1596318-1-ogabbay@kernel.org>
 References: <20230330072213.1596318-1-ogabbay@kernel.org>
@@ -53,65 +51,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomer Tayar <ttayar@habana.ai>
+Cc: Ofir Bitton <obitton@habana.ai>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tomer Tayar <ttayar@habana.ai>
+From: Ofir Bitton <obitton@habana.ai>
 
-The decoder IRQ status register may have several set bits upon an
-abnormal interrupt. Therefore, when setting the events mask, need to
-check all bits and not using if-else.
+During event handling, driver sets relevant reset and user event
+notifier flags. Fix few wrong flags settings.
 
-Signed-off-by: Tomer Tayar <ttayar@habana.ai>
+Signed-off-by: Ofir Bitton <obitton@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/decoder.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/accel/habanalabs/gaudi2/gaudi2.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/decoder.c b/drivers/accel/habanalabs/common/decoder.c
-index 59a1ecb20c04..c03a6da45d00 100644
---- a/drivers/accel/habanalabs/common/decoder.c
-+++ b/drivers/accel/habanalabs/common/decoder.c
-@@ -47,8 +47,8 @@ static void dec_abnrm_intr_work(struct work_struct *work)
- {
- 	struct hl_dec *dec = container_of(work, struct hl_dec, abnrm_intr_work);
- 	struct hl_device *hdev = dec->hdev;
-+	u32 irq_status, event_mask = 0;
- 	bool reset_required = false;
--	u32 irq_status, event_mask;
+diff --git a/drivers/accel/habanalabs/gaudi2/gaudi2.c b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+index ea9fdc616de4..ce85308d03e9 100644
+--- a/drivers/accel/habanalabs/gaudi2/gaudi2.c
++++ b/drivers/accel/habanalabs/gaudi2/gaudi2.c
+@@ -9510,19 +9510,18 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 		break;
  
- 	irq_status = RREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET);
- 
-@@ -64,17 +64,21 @@ static void dec_abnrm_intr_work(struct work_struct *work)
- 
- 	if (irq_status & VCMD_IRQ_STATUS_TIMEOUT_MASK) {
- 		reset_required = true;
--		event_mask = HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
--	} else if (irq_status & VCMD_IRQ_STATUS_CMDERR_MASK) {
--		event_mask = HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
--	} else {
--		event_mask = HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
-+		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
- 	}
- 
-+	if (irq_status & VCMD_IRQ_STATUS_CMDERR_MASK)
-+		event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
-+
-+	if (irq_status & (VCMD_IRQ_STATUS_ENDCMD_MASK |
-+				VCMD_IRQ_STATUS_BUSERR_MASK |
-+				VCMD_IRQ_STATUS_ABORT_MASK))
+ 	case GAUDI2_EVENT_ARC_AXI_ERROR_RESPONSE_0:
+-		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		error_count = gaudi2_handle_arc_farm_sei_err(hdev, event_type);
+-		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
 +		event_mask |= HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
-+
- 	if (reset_required) {
- 		event_mask |= HL_NOTIFIER_EVENT_DEVICE_RESET;
- 		hl_device_cond_reset(hdev, 0, event_mask);
--	} else {
-+	} else if (event_mask) {
- 		hl_notifier_event_send_all(hdev, event_mask);
- 	}
- }
+ 		break;
+ 
+ 	case GAUDI2_EVENT_CPU_AXI_ERR_RSP:
+ 		error_count = gaudi2_handle_cpu_sei_err(hdev, event_type);
+-		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
++		event_mask |= HL_NOTIFIER_EVENT_CRITICL_FW_ERR;
+ 		break;
+ 
+ 	case GAUDI2_EVENT_PDMA_CH0_AXI_ERR_RSP:
+ 	case GAUDI2_EVENT_PDMA_CH1_AXI_ERR_RSP:
+-		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		error_count = gaudi2_handle_qm_sei_err(hdev, event_type, true, &event_mask);
+ 		event_mask |= HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
+ 		break;
+@@ -9709,12 +9708,14 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 
+ 	case GAUDI2_EVENT_PCIE_DRAIN_COMPLETE:
+ 		error_count = gaudi2_handle_pcie_drain(hdev, &eq_entry->pcie_drain_ind_data);
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		break;
+ 
+ 	case GAUDI2_EVENT_PSOC59_RPM_ERROR_OR_DRAIN:
+ 		error_count = gaudi2_handle_psoc_drain(hdev,
+ 				le64_to_cpu(eq_entry->intr_cause.intr_cause_data));
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		break;
+ 
+@@ -9743,6 +9744,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 		break;
+ 	case GAUDI2_EVENT_PSOC_AXI_ERR_RSP:
+ 		error_count = GAUDI2_NA_EVENT_CAUSE;
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		break;
+ 	case GAUDI2_EVENT_PSOC_PRSTN_FALL:
+@@ -9756,6 +9758,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 		break;
+ 	case GAUDI2_EVENT_PCIE_FATAL_ERR:
+ 		error_count = GAUDI2_NA_EVENT_CAUSE;
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		break;
+ 	case GAUDI2_EVENT_TPC0_BMON_SPMU:
+@@ -9823,6 +9826,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 	case GAUDI2_EVENT_CPU_PKT_QUEUE_OUT_SYNC:
+ 		gaudi2_print_out_of_sync_info(hdev, event_type, &eq_entry->pkt_sync_err);
+ 		error_count = GAUDI2_NA_EVENT_CAUSE;
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		break;
+ 
+@@ -9864,6 +9868,7 @@ static void gaudi2_handle_eqe(struct hl_device *hdev, struct hl_eq_entry *eq_ent
+ 	case GAUDI2_EVENT_CPU_PKT_SANITY_FAILED:
+ 		gaudi2_print_cpu_pkt_failure_info(hdev, event_type, &eq_entry->pkt_sync_err);
+ 		error_count = GAUDI2_NA_EVENT_CAUSE;
++		reset_flags |= HL_DRV_RESET_FW_FATAL_ERR;
+ 		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+ 		break;
+ 
 -- 
 2.40.0
 
