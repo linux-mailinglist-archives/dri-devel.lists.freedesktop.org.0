@@ -1,70 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DE06D049D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 14:24:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 065BE6D049E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 14:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E144110E32B;
-	Thu, 30 Mar 2023 12:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDFF310EDF2;
+	Thu, 30 Mar 2023 12:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A6410E32B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 12:24:13 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id a44so743577ljr.10
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 05:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680179051;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1452CrR74MLGlpKnROQc0oL00+8IeTrr7peIVEjnGYs=;
- b=w/O9wzcIaDqph9naSiDyJVk5wfhV1HgAnsrS+l3IZ9i3KrI0MUHWcXbg+Dz0V1uF8d
- lFodObENP15TNLr+ObbO8/DR9+dr4TJ57LV4si+dhTEikSIbyr6fjupZYPhrIWH/bNp3
- +G5kQGcPDD5aurCgDEZuzFHMC8LmTG/mN9MRiSgYVL5UwTy3qIN8gENVYzjufPDX+9pZ
- fXiTInRHJ0rYa780WP0OGYyljkWGbfumzPv+3i/AZie1BdJI03vlOD0iqnJ0Jz2fuAVQ
- ip8au7FDcldbpayhAfuL34uLsY/N9YntfE4qDNFx6HBqGZWUzWCld7JtFQ2LJ7dtwZjv
- KmvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680179051;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1452CrR74MLGlpKnROQc0oL00+8IeTrr7peIVEjnGYs=;
- b=DiLB05Vky7zRSU6iN1OL5hMPEs4CIchTlZBa43rbL+SVqh39vOueWwUHwID6SdDSxb
- im/q7lCglT/UX43r6mRhyAIQBCYtVRhWsfryKmmG82UdC6qedNt9HXRkuPNzYVa3Yt5r
- jr5EQHNO8q4a3mM4miD/jCu576z4jVutixbSncVjG8OgK51AoxtHHJD9jnTRpRxsNYV4
- O0Ym4fUtWJrlxN2TRhyVFoV4nNFZVFjH2RNsiuy/xIhyvvwjvroiQfzlQpMiWz4TNRTx
- uszO5HAmXPbnvRp1yH1v9qALJOlcrHXhTLA7tfM8G3r+yczfqww4P1rdGBBmGASGSgtl
- kO2Q==
-X-Gm-Message-State: AAQBX9fAUyshiEGXDNL11iRkUuOzBZkkqB9RA1gHGkPtd11IiAvPH9mW
- 9QssG+IzHhBjxEHEv8M7raQivg==
-X-Google-Smtp-Source: AKy350YoASw6lgVw9JSXYoBj2ZnkqZYuzNm6BsEt8qJOp+l3+rANzSxX2/xYYDqHzsJ7Iv2oU4NBJw==
-X-Received: by 2002:a2e:908f:0:b0:2a6:1681:81e0 with SMTP id
- l15-20020a2e908f000000b002a6168181e0mr825763ljg.2.1680179051702; 
- Thu, 30 Mar 2023 05:24:11 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- g5-20020a2e9385000000b002959d2cc975sm5842595ljh.37.2023.03.30.05.24.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 05:24:11 -0700 (PDT)
-Message-ID: <7953ad89-eb30-a7e0-1ba0-7032f2646948@linaro.org>
-Date: Thu, 30 Mar 2023 15:24:10 +0300
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3360610EDF2;
+ Thu, 30 Mar 2023 12:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680179145; x=1711715145;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iZUO1YgFvwrZtsBgRZmepjELOFI2+IRpVmBFFV/2pag=;
+ b=chxFjFdnVNeVd9qQQkXCgSwCFExqy8l1kODw2wJJzzUp3rK5BAyhAaxB
+ c5nCkF8uT07d+za7urFEfaplCIw45BinTh/5J87vf8eyAPhuscLwkUkQq
+ i4kL5ehKsnQwk9+PXXRsDWXJma5unUkcPiVGtfpF+Em3nPyT8pEIWt62j
+ TXSQo3EOXw90DyI/8hEPRbj8SGJ0PA6nugfsS/4OfZunEpaFdQOrf4KN2
+ LulO5J/Txwc1mpTJZB9T96cRxAo04i339ELLTDTGzJOpG74xhopYS5cEF
+ AhiZWlWJjxKBgfONbs6N9P+5y5/v8KVNhemUkNliWMBjuznz+NiGqamnE Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="320803164"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="320803164"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 05:25:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="858899221"
+X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="858899221"
+Received: from bjmcgrat-mobl.amr.corp.intel.com (HELO [10.213.215.205])
+ ([10.213.215.205])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 05:25:39 -0700
+Message-ID: <36548877-5352-8ff3-6e87-410089470a4b@linux.intel.com>
+Date: Thu, 30 Mar 2023 13:25:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [v2,32/50] drm/msm/dpu: duplicate sc7180 catalog entries
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20230211231259.1308718-33-dmitry.baryshkov@linaro.org>
- <8b3ce350-3cd0-2712-3de5-a29a2592e440@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <8b3ce350-3cd0-2712-3de5-a29a2592e440@linaro.org>
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH v6 5/8] drm/i915/pxp: Add ARB session creation
+ and cleanup
+Content-Language: en-US
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+References: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
+ <20230228022150.1657843-6-alan.previn.teres.alexis@intel.com>
+ <fabe4123-53cc-005e-e0af-7683e0d45896@intel.com>
+ <3b8091c51677878b968d1d275b9b16e5088d913d.camel@intel.com>
+ <ZCAqDlUIp0YmCkyu@intel.com> <fef256a6-3027-8beb-0ef8-fddf972db441@intel.com>
+ <cf63d62b-3e2d-f8fe-82b6-95e71e376cc2@linux.intel.com>
+ <3359c9d371a25710891352061693637b37679734.camel@intel.com>
+ <ZCMpXMj7GwDIp6Ll@intel.com>
+ <118981ef-260d-4c1a-5ca5-ad435d5edbc7@linux.intel.com>
+ <f87c39a243d84e53d6c292c63d032b30c89adb3e.camel@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <f87c39a243d84e53d6c292c63d032b30c89adb3e.camel@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,65 +73,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Lahtinen,
+ Joonas" <joonas.lahtinen@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Harrison,
+ John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/03/2023 15:22, Konrad Dybcio wrote:
+
+On 30/03/2023 01:10, Teres Alexis, Alan Previn wrote:
 > 
-> 
-> On 12.02.2023 00:12, Dmitry Baryshkov wrote:
->> Duplicate some of sc7180 catalog entries to remove dependencies between
->> DPU major generations.
+> On Wed, 2023-03-29 at 08:43 +0100, Tvrtko Ursulin wrote:
+>> On 28/03/2023 18:52, Rodrigo Vivi wrote:
+>>> On Tue, Mar 28, 2023 at 05:01:36PM +0000, Teres Alexis, Alan Previn wrote:
+>>>> On Mon, 2023-03-27 at 17:15 +0100, Tvrtko Ursulin wrote:
+>>>>
+> alan:snip
+>> How will the context create path look like on those platforms:
 >>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 9 +++++++--
->>   1 file changed, 7 insertions(+), 2 deletions(-)
+>> 1. Block, then potentially error out if the full initialization failed.
+>> 2. Error out "in progress" while initializing, error out "something
+>> else" if initialization failed.
 >>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->> index 8977878890f1..3117bb358117 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->> @@ -82,6 +82,11 @@ static const struct dpu_lm_cfg sc7280_lm[] = {
->>   		&sc7180_lm_sblk, PINGPONG_3, LM_2, 0),
->>   };
->>   
->> +static const struct dpu_dspp_cfg sc7280_dspp[] = {
->> +	DSPP_BLK("dspp_0", DSPP_0, 0x54000, DSPP_SC7180_MASK,
->> +		 &sc7180_dspp_sblk),
-> If I'm following correctly, the sc7180_dspp_sblk is still defined
-> in the common hw_catalog.c and things won't explode.
+> alan:i was thinking of taking a page from huc-authentication's get-param where we could return different values based on startup progress - in all cases we never block:
 
-Yes, I left sblk definitions in place (for now). We can consider 
-splitting/moving them afterwards, as we get the overall picture.
+If context create never blocks then the only added value of new getparam 
+is just granularity of reported statuses, versus potential overload of 
+errnos from context create?
 
+>   1. we dont support it in hw/kernel (i.e. not pxp in device-info or not enough CONFIG_foo - reusing intel_pxp_is_supported?)
+>   2. we support it in kernel but internal dependencies are still in progress (i.e. we have not yet completed huc-loading/huc-authen/proxy-init - UAPI spec should include how many
+> max seconds delay per platform)
+>   3. we support it in kernel but internal dependencies failed (i.e. we know huc-load/authent. failed ... or we know proxy-init failed).
+>   4. we support it in kernel but platform has no support (at this stage we actually attempt to create a PXP context or create the arb-session from inside i915-get-param but we ended
+> up a PXP fw error indicating select list of failures such as fusing / BIOS-config / wrong-version.
+>   0. we support it completely i.e. step 4's attempt to create active PXP session succeeded
 > 
-> In that case:
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> 
-> Konrad
->> +};
->> +
->>   static const struct dpu_pingpong_cfg sc7280_pp[] = {
->>   	PP_BLK("pingpong_0", PINGPONG_0, 0x59000, 0, sc7280_pp_sblk, -1, -1),
->>   	PP_BLK("pingpong_1", PINGPONG_1, 0x6a000, 0, sc7280_pp_sblk, -1, -1),
->> @@ -132,8 +137,8 @@ static const struct dpu_mdss_cfg sc7280_dpu_cfg = {
->>   	.ctl = sc7280_ctl,
->>   	.sspp_count = ARRAY_SIZE(sc7280_sspp),
->>   	.sspp = sc7280_sspp,
->> -	.dspp_count = ARRAY_SIZE(sc7180_dspp),
->> -	.dspp = sc7180_dspp,
->> +	.dspp_count = ARRAY_SIZE(sc7280_dspp),
->> +	.dspp = sc7280_dspp,
->>   	.mixer_count = ARRAY_SIZE(sc7280_lm),
->>   	.mixer = sc7280_lm,
->>   	.pingpong_count = ARRAY_SIZE(sc7280_pp),
+> I want to differentiate 3 and 4 (as opposed to return x-means-ENODEV) because i have am sure it will save debug time when facing customer issues.
+> Ofc we will have to optimize the checking sequences above but at #4, we would be creating a session which might take up to ~200 milisecs for the round trip response from fw.
 
--- 
-With best wishes
-Dmitry
+Not sure I get this. If getparam is trying to set this up, which is 
+possibly questionable in itself, where it needs to block for 200ms 
+(max?), and nothing else blocks, then where is the missing max delay 
+mentioned as a starting point for the discussion? Is it expected to 
+elapse while userspace is repeatedly calling getparam and it is getting 
+some "in progress" value?
 
+> We could store a flag in i915-pxp-internal-struct to indicate if we ever did succeed a pxp creation after a fresh boot ... intel_pxp_is_ready_for_active()?
+> ... true only if we ever did allocate a slot successfully at least once since boot.
+> This also ensure mesa init will return almost immediately except at the first time when hitting #4.
+
+Even 200ms is possibly not good enough since boot time targets (to UI 
+AFAIR) are pretty tight. Don't know... Maybe I'd need a timeline diagram 
+showing the involved components to understand this properly.
+
+But intuitively I thought that what Mesa wants is a no-cost getparam 
+which would somewhat reliably tell it if the feature is supposed to be 
+there and context create at a later stage, with the protected flag set, 
+is supposed to work. AFAIU it can still fail at that point or probably 
+block until the required setup is done.
+
+Regards,
+
+Tvrtko
