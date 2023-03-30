@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFA46CFE4F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:32:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2386CFE53
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:32:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 861DA10E1F8;
-	Thu, 30 Mar 2023 08:32:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF74810ED30;
+	Thu, 30 Mar 2023 08:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC4610E1F8
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 582F010E1D6
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 08:32:09 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C79E821B38;
- Thu, 30 Mar 2023 08:32:07 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 06D2A1FEA8;
+ Thu, 30 Mar 2023 08:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680165127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1680165128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+2q//2y7PCTNBnqIPy4oKIC2oSaIjBNCGyFHCBMWobA=;
- b=Bp+ySHOl09fRgnOR7S4fUjHjO8zm/Czo2Qcvownrm9gRDxQrED+AzWtv/TLweI4UghoBNq
- w0GzcFine0fXPSdm/tsY5VH2+XeNtOfw79hpehuZwCRyyJXHdVSwq/zNNj5fE0WSHQ217w
- +qmOAhlMno+i5DlvRh81KtUqmSJOzuA=
+ bh=qxA7GwDmWbNOum09iWV5aNCcEIPi6j/jTNkbnVKoDxY=;
+ b=S2OKw89DDU3b/JhKByFsSaHV0kKmI6LdR1xv/OSgnaEvhuvZnfjmSx/7waD4GqejcsICpn
+ R0NQFDA/y2O0jAtu93Iwn91xn2FMXvL69Ms9u7/L6wyuO4ISNoUa6nrzU0ZcKdetsFRhml
+ ewIGdM47Aeh20ecvqz0cwm9KlBUtpb8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680165127;
+ s=susede2_ed25519; t=1680165128;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+2q//2y7PCTNBnqIPy4oKIC2oSaIjBNCGyFHCBMWobA=;
- b=wcwefwSCZ13JnhJezvpTPDv3U0kq/xXuFMBMxfVl8zsUaskzHu6hqcFvwWv3P868DgeG4N
- H5N0TDiYKvjkCcBA==
+ bh=qxA7GwDmWbNOum09iWV5aNCcEIPi6j/jTNkbnVKoDxY=;
+ b=IdGwrqlf8JoTmgY0Jm+HxRX2WPDTvmGRTS1yk3C41igY8waf5bcP2r6uFazBTan3CmnLPB
+ ev9zrjc7xZ2BnbCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 94B491390D;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CD3CA138FF;
  Thu, 30 Mar 2023 08:32:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oBNRIwdJJWTlGQAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id IGXlMAdJJWTlGQAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 08:32:07 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: tomba@kernel.org, javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH 1/6] drm/omapdrm: Include <linux/of.h>
-Date: Thu, 30 Mar 2023 10:32:00 +0200
-Message-Id: <20230330083205.12621-2-tzimmermann@suse.de>
+Subject: [PATCH 2/6] drm/omapdrm: Remove fb from struct omap_fbdev
+Date: Thu, 30 Mar 2023 10:32:01 +0200
+Message-Id: <20230330083205.12621-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230330083205.12621-1-tzimmermann@suse.de>
 References: <20230330083205.12621-1-tzimmermann@suse.de>
@@ -71,26 +71,72 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include <linux/of.h> to get the contained declarations. No functional
+Fbdev's struct fb_helper stores a pointer to the framebuffer. Remove
+struct omap_fbdev.fb, which contains the same value. No functional
 changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/omapdrm/omap_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/omapdrm/omap_fbdev.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 699ed814e021..fb403b44769c 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+index a6c8542087ec..b3d57fe4e6ac 100644
+--- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
++++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+@@ -25,7 +25,6 @@ module_param_named(ywrap, ywrap_enabled, bool, 0644);
  
- #include <linux/dma-mapping.h>
- #include <linux/platform_device.h>
-+#include <linux/of.h>
- #include <linux/sort.h>
- #include <linux/sys_soc.h>
+ struct omap_fbdev {
+ 	struct drm_fb_helper base;
+-	struct drm_framebuffer *fb;
+ 	struct drm_gem_object *bo;
+ 	bool ywrap_enabled;
  
+@@ -170,7 +169,6 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+ 
+ 	DBG("fbi=%p, dev=%p", fbi, dev);
+ 
+-	fbdev->fb = fb;
+ 	helper->fb = fb;
+ 
+ 	fbi->fbops = &omap_fb_ops;
+@@ -193,7 +191,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+ 
+ 
+ 	DBG("par=%p, %dx%d", fbi->par, fbi->var.xres, fbi->var.yres);
+-	DBG("allocated %dx%d fb", fbdev->fb->width, fbdev->fb->height);
++	DBG("allocated %dx%d fb", fb->width, fb->height);
+ 
+ 	return 0;
+ 
+@@ -266,6 +264,7 @@ void omap_fbdev_fini(struct drm_device *dev)
+ {
+ 	struct omap_drm_private *priv = dev->dev_private;
+ 	struct drm_fb_helper *helper = priv->fbdev;
++	struct drm_framebuffer *fb;
+ 	struct omap_fbdev *fbdev;
+ 
+ 	DBG();
+@@ -273,6 +272,8 @@ void omap_fbdev_fini(struct drm_device *dev)
+ 	if (!helper)
+ 		return;
+ 
++	fb = helper->fb;
++
+ 	drm_fb_helper_unregister_info(helper);
+ 
+ 	drm_fb_helper_fini(helper);
+@@ -284,8 +285,8 @@ void omap_fbdev_fini(struct drm_device *dev)
+ 		omap_gem_unpin(fbdev->bo);
+ 
+ 	/* this will free the backing object */
+-	if (fbdev->fb)
+-		drm_framebuffer_remove(fbdev->fb);
++	if (fb)
++		drm_framebuffer_remove(fb);
+ 
+ 	drm_fb_helper_unprepare(helper);
+ 	kfree(fbdev);
 -- 
 2.40.0
 
