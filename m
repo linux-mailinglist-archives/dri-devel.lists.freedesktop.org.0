@@ -2,76 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16D06CFED4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A396E6CFEEA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:47:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D7D510ED3A;
-	Thu, 30 Mar 2023 08:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F26F10E1F9;
+	Thu, 30 Mar 2023 08:47:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 996D710ED3A;
- Thu, 30 Mar 2023 08:44:10 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 352FC32005C1;
- Thu, 30 Mar 2023 04:44:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 30 Mar 2023 04:44:08 -0400
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E0E410E1F9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 08:47:12 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 04CF52B0040A;
+ Thu, 30 Mar 2023 04:47:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 30 Mar 2023 04:47:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
- 1680165846; x=1680252246; bh=4XNUjLlOKaJSjFfFdN+7SXwSxUZo6ku1tlT
- TLuNKmwU=; b=R9Ha0BW4icsJYig73ZgjSlV5zMrkqhE/O6liqwzxZ3ld8vmjXy3
- +mi3xd0LKpBJeETsFmmDjMNV3Q9vwSIRCMe2CW6Gt6Mn+RD9ttVW30veGm6UY3wP
- uUB1sNK/0e7NSLsldshPOLZWYx5Aj5Gk2Ys/xrlbO4u+PHAFMDAE+9P15/PnPClS
- XV3+TFs5xPOXCo2dQ+ErJ8/ju+WSKj/j3o19bYFXuInkfg5iUB+bt4ExpnSPnNRw
- yNj4pN784Lf6imHExCZozCKPSg4Q1E4AtNjZG66wYD8c/afReRCIup5YYXjYDQVA
- l51YhHhOWzqj6fYMqt7KCTQYWRwns9X4scg==
+ 1680166028; x=1680173228; bh=a+Yl4odf/Ot+biMN+Oi3kAyv0TNIqouyp5L
+ beLQZr2E=; b=eBNrcwuvrgSp6+31rIiAsOUqG6uMQ6QFUsakEPSuzePgk29YCc9
+ 21MTLTzN/CS0cDbj3MgHTvLlawIIABhYB8tVeUZEdCU8RP3ThpWear5ZNazut7is
+ 4EugKtcsijnzVHcF55TsVXS6TzzZY6irtPiRkPTWrn1r4CNa/05h86omoJNJtNXi
+ lbHMqIU1TKVINClq2tEFyQFx7ljJNTIKaLpi+9f46H7Oz/Bv+XiK+UQmwWuciXUX
+ Cq2bSBsUWwoNuOkvF05OHpxgYiGPykeRSkgrtDPU+Q/CgPi3PkKK7elxOxeTopVa
+ 2nvMkUmUjwfFU6aZJgdR2PLMxDB0HPklJGw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1680165846; x=1680252246; bh=4XNUjLlOKaJSjFfFdN+7SXwSxUZo6ku1tlT
- TLuNKmwU=; b=pGJ2Wkc1vhyVIqYsYkTyVHN1IIdjELHFbg+QtnK+FDl7HX6+Xs7
- +lYf3m3rGJxgAdNFmnbk7sKv3zSko+JBjagXZ6OJG+5ntfIGiNys0yv7YuPbPQ2i
- TIC0D4opV70TBxxPX+1QAA866/8emjfVuJ87zJuVUXj2D41nh5Pd15lw6GpJXkiR
- 1zEbaS/Z5XqiyYHp4+9md9Uyccr/QFYpotXELJCT/kIQggGlmbeLXbf52G58E0Z8
- 1x7YTtcwcYvomvGIRN/deaUmjfmIhh/n/cgN/k1BG+PpZz2+bCTs3sR39OmJD+Eb
- ZAPOkvAz4GYvTQBh2euZpO1mvyiyGpbebkA==
-X-ME-Sender: <xms:1kslZJefsWI7nvhlyNdmS0sijFi12KrXLZoiHzeIbWGL41PtW0l9og>
- <xme:1kslZHO5LPQ8Vjr5hoZ_HWr0c04ze2E8ZVQrwgerAyIhbbtbtNydQ0xaD5wkcsGP1
- BsvM5vnftAKJ8brgd8>
-X-ME-Received: <xmr:1kslZCigDM3wC4zPwO9cO9SknzeeweURz3jK4_j2lolny4JKUhZStq4vj30>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehkedgtdeiucetufdoteggodetrfdotf
+ 1680166028; x=1680173228; bh=a+Yl4odf/Ot+biMN+Oi3kAyv0TNIqouyp5L
+ beLQZr2E=; b=KkP5NinBZ4i5Z6uDBmt2PRMh0y9QwGRsc8RKAe+yyjm14UEENU2
+ x4I8MnhE5eD9QkL9kXH8kYjxy8DyHublTEpcbm8q4phweNClOmzuhXeNu76/LYfR
+ dJ7HXAXUTn8FFPMXf97wpWYdynZ5cbq/nG5wnnx5GZs2zEYcpJ08+mzSefkH00yL
+ uwBmNG4iHfDCEWSkMP/yUEjl/uxT3Q8Bo16PEdLMO3UsfhQu73q2Yj57/3f5gyXm
+ m/l09tx5q0EcIvvrHoLn13GgJorLeqUc6g1cfeJ+78dRyh/a6STxiyHVh8t2uenY
+ 4MUgufUmIOHkwTsAOdfPbGqr6C3eBO+StFQ==
+X-ME-Sender: <xms:i0wlZEaCuddUGW3jdsi1wq7rmrszioz9WVwxAcnOIa6OML_F-SrrJA>
+ <xme:i0wlZPZ3hZnrNNMycM1rbJQwJfIadvqKckk_Tk1wMYR5b_nmtttrcPBHk5aHYitNF
+ OQten1IKIWL3iZZTCg>
+X-ME-Received: <xmr:i0wlZO9vwyktcZDHfmGyVtQII-wK1UCSTqeteVjM82YF3q2FAMBJ8QHicGw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehkedgtdejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttdejnecuhfhrohhmpeforgig
  ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
- grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
- feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ grthhtvghrnhepffdttdeufefgffegtdejffevuddvudfhudegjeegkeetuefgfefhheek
+ udfhvdfhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:1kslZC-NB0DHVQXzJ1YStrVWNVRdkUhnyi8t2un8TXJrJ8W6TJkGgw>
- <xmx:1kslZFsbpzFx61dJ7df0pCJXUGKxflvkDrwzNYyweDR8kYWAspxnJQ>
- <xmx:1kslZBEEhelljLB8gsFEd5eTxHhUwO9hCMFwSc-oeJNsE0Pkwmdi2w>
- <xmx:1kslZGk6R_-hSFAdU5gzXIt-XaAJFHGy5zdWEt4YJ0GPPMHSEto1-w>
+X-ME-Proxy: <xmx:i0wlZOrO_hXCHB3ELpkaKAIkTZqrj-3baqEvgaXmy7j_ZC8oYvW2KQ>
+ <xmx:i0wlZPoZYDPlHfH2bjN05cmvHZSmOtHeTHduCz8BG3H_4ixPVvZV6Q>
+ <xmx:i0wlZMRHoHZzk5RsIQlsS-a9MP614RbJWYSq1EdvF4BmRnsGWqCGag>
+ <xmx:jEwlZGcRbtHfHw87r7_jkOL4MI8KkEmBkky7_2yEOHqiulDfD187H2SZVRo>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Mar 2023 04:44:05 -0400 (EDT)
-Date: Thu, 30 Mar 2023 10:44:04 +0200
+ 30 Mar 2023 04:47:07 -0400 (EDT)
+Date: Thu, 30 Mar 2023 10:47:06 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/scdc-helper: Pimp SCDC debugs
-Message-ID: <20230330084404.5uku6p42rorcuhv2@penduick>
-References: <20230329171402.2772-1-ville.syrjala@linux.intel.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v7 12/12] drm: sun4: dsi: Convert to bridge driver
+Message-ID: <20230330084706.lw5r6ll2r6lk5d2z@penduick>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <20230329131929.1328612-3-jagan@amarulasolutions.com>
+ <20230329145939.7zcex4x2pipivuj4@penduick>
+ <CAMty3ZDWK0xVe7E+gER+TihHf1yv3YAWgZc1GCJQ2V5KD_mN-g@mail.gmail.com>
+ <20230329160652.7gel5qvckzwihjx4@penduick>
+ <CAMty3ZB=R0RfU+o7LZWpS=4-ny00ocCxBu-M6yicY4q0-eYL9A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230329171402.2772-1-ville.syrjala@linux.intel.com>
+In-Reply-To: <CAMty3ZB=R0RfU+o7LZWpS=4-ny00ocCxBu-M6yicY4q0-eYL9A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,51 +89,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Emma Anholt <emma@anholt.net>, Jonas Karlman <jonas@kwiboo.se>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-tegra@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Mar 30, 2023 at 12:15:49PM +0530, Jagan Teki wrote:
+> On Wed, Mar 29, 2023 at 9:36=E2=80=AFPM Maxime Ripard <maxime@cerno.tech>=
+ wrote:
+> >
+> > On Wed, Mar 29, 2023 at 09:08:17PM +0530, Jagan Teki wrote:
+> > > On Wed, Mar 29, 2023 at 8:29=E2=80=AFPM Maxime Ripard <maxime@cerno.t=
+ech> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > The patch prefix should be drm/sun4i:
+> > >
+> > > I did follow my previous prefix, I will update this.
+> > >
+> > > >
+> > > > On Wed, Mar 29, 2023 at 06:49:29PM +0530, Jagan Teki wrote:
+> > > > > Convert the encoder to bridge driver in order to standardize on a
+> > > > > single API by supporting all varients of downstream bridge device=
+s.
+> > > >
+> > > > Which variant, and why do we need to convert to a bridge to support=
+ all of them?
+> > >
+> > > Downstream bridge variants like DSI panel, DSI bridge and
+> > > I2C-Configured DSI bridges. Bridge conversion would be required for
+> > > the DSI host to access the more variety and complex downstream bridges
+> > > in a standardized bridge chain way which is indeed complex for encoder
+> > > driven DSI hosts.
+> > >
+> > > >
+> > > > > The drm_encoder can't be removed as it's exposed to userspace, so=
+ it
+> > > > > then becomes a dumb encoder, without any operation implemented.
+> > > > >
+> > > > > Tested on DSI Panel, DSI Bridge, I2C-Configured DSI Bridge.
+> > > > >
+> > > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > >
+> > > > [...]
+> > > >
+> > > > > +static const struct component_ops sun6i_dsi_ops;
+> > > > > +
+> > > > >  static int sun6i_dsi_attach(struct mipi_dsi_host *host,
+> > > > >                           struct mipi_dsi_device *device)
+> > > > >  {
+> > > > >       struct sun6i_dsi *dsi =3D host_to_sun6i_dsi(host);
+> > > > > -     struct drm_panel *panel =3D of_drm_find_panel(device->dev.o=
+f_node);
+> > > >
+> > > > That one looks unrelated. Why do you need that change?
+> > >
+> > > This was replaced with drmm_of_dsi_get_bridge for lookup of both panel
+> > > and bridge. I think I will separate this into another patch.
+> >
+> > So, it looks to me that you're doing two (unrelated) things in that pat=
+ch:
+>=20
+> Correct.
+>=20
+> >
+> >   - You modify the existing driver to be a bridge
+>=20
+> Yes, Convert to bridge driver - register drm_bridge_add and replace
+> encoder ops with bridge ops.
+>=20
+> >
+> >   - And you support downstream device being bridges.
+>=20
+> Yes, Support the downstream bridge. (If I'm correct we can still use
+> encoder ops with this).
+>=20
+> If we see the hierarchy of support it would
+> 1. support the downstream bridge.
+> 2. convert to the bridge driver.
+>=20
+> >
+> > Both are orthogonal, can (and should!) be done separately, and I'm
+> > pretty sure you don't actually need to do the former at all.
+>=20
+> Do you mean converting to bridge driver is not needed?
 
-On Wed, Mar 29, 2023 at 08:14:02PM +0300, Ville Syrjala wrote:
-> diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/=
-display/drm_scdc_helper.c
-> index c3ad4ab2b456..2b124152384c 100644
-> --- a/drivers/gpu/drm/display/drm_scdc_helper.c
-> +++ b/drivers/gpu/drm/display/drm_scdc_helper.c
-> @@ -26,6 +26,8 @@
->  #include <linux/delay.h>
-> =20
->  #include <drm/display/drm_scdc_helper.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_device.h>
->  #include <drm/drm_print.h>
-> =20
->  /**
-> @@ -140,6 +142,7 @@ EXPORT_SYMBOL(drm_scdc_write);
-> =20
->  /**
->   * drm_scdc_get_scrambling_status - what is status of scrambling?
-> + * @connector: connector
->   * @adapter: I2C adapter for DDC channel
->   *
->   * Reads the scrambler status over SCDC, and checks the
-> @@ -148,14 +151,17 @@ EXPORT_SYMBOL(drm_scdc_write);
->   * Returns:
->   * True if the scrambling is enabled, false otherwise.
->   */
-> -bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
-> +bool drm_scdc_get_scrambling_status(struct drm_connector *connector,
-> +				    struct i2c_adapter *adapter)
-
-Is there any driver where adapter isn't equal to connector->ddc?
-
-If not, there's no reason to pass both
+Yes, and given the current state of the DCS-in-HS discussion, I even
+think it's does more harm than good.
 
 Maxime
