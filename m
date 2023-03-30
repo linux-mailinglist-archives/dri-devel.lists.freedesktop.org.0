@@ -2,116 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E706D0240
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 12:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2146D0276
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 13:05:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4BEB10E1F6;
-	Thu, 30 Mar 2023 10:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF22A10E238;
+	Thu, 30 Mar 2023 11:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam02on2078.outbound.protection.outlook.com [40.107.95.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4972410E1F6;
- Thu, 30 Mar 2023 10:59:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SH2i+Tbzai8lkb1E9Qi8GQamCvPBEyMRs5jbzOUfXWV6d5vyrxr4jU6OFks0Fk51LyYzN9O/2pEqTEFQ/24dXnavbYJjemOOGrw7lQj5Dk0Jg1JwQqI2z4qHLdnkAoaY2dnKWq8J3F9PaqJI3KCfGE+QIKrGXRhkCwheyZxBCGpsnrdN6OB8x5OjHL2M7lgORxhoZNRw492E4foTcfrMXgsOV/1PCmNQ+AJ5iitRghaW2nxP5YC67YN5lghgGUAj0ETumLFehZ7/iNtxMsbGvRRmtLMdxKGeXDcdSUroBeTvf8JBE3RmsAEk8V/6UauQl3KWBY8pYI1jAD99RUISUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y7wSsGtKslMp5Z+FVWyV9P5E/3RtJHE9R/5KFDp5D6Y=;
- b=lkoykhdgz60EJe82TSBPvVCdkM14CfQenMyh1nihLnJ5wOfwFSdSUHynFUUEdjViV8boSu0kA6YwfF5z+THq2/Rr5yByX/6aa9vVx+jnjAOe0/qFJKdnDMjlv+R2NIPoh7aP0vF1Hs8+u6WNclSDSsh00+yx74DsoGcgn2ZrcKiZbf/10RDHnGttA9+rEs/qXTirSEb/QdpOmNUCyYAUSBni+vSULh/aeUmFTWAFLpwB5v+JfnauqTelyW1IttAhoujQJGbYdEmI5QSXccpaUmZPRIjh4z4zEcHNbDXs9gEmWVOFz2TYixRx8rGX3+hHbyb4BAsRtZ0U+EX5Ps16Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Y7wSsGtKslMp5Z+FVWyV9P5E/3RtJHE9R/5KFDp5D6Y=;
- b=2OSzwXWS00OqiO+EqrZfwL4CrhZJcpfKwZSQqI2JlNa9CPoRZKVedJEznYPEpnLwfhduu2zaNCWWd62QohcoEqy8clb0koNwRv61HzYXKO319fxVhW6yj8YcrRCI1us4HKTlnKOu1hH/AMqSz8ap+KUuLHRyNcQGXYwHMrepIwc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4265.namprd12.prod.outlook.com (2603:10b6:5:211::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.33; Thu, 30 Mar
- 2023 10:59:24 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::4624:dc39:943e:6ae%5]) with mapi id 15.20.6254.022; Thu, 30 Mar 2023
- 10:59:24 +0000
-Message-ID: <7e7fa796-2614-92ea-012b-aa04f04a7312@amd.com>
-Date: Thu, 30 Mar 2023 12:59:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/4] log2: make is_power_of_2() more generic
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-References: <20230330104243.2120761-1-jani.nikula@intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230330104243.2120761-1-jani.nikula@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
+ [IPv6:2607:f8b0:4864:20::933])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAAD10E238
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:05:24 +0000 (UTC)
+Received: by mail-ua1-x933.google.com with SMTP id e12so13510016uaa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 04:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1680174323;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZBDBg0HH1y2Gx5yNNGEH03tfCHf1/oZeA1OHg/lrfwY=;
+ b=AGTDkYKmFIkU7h3W8pUDAThR19VjWhlbEZrEPvdb2Yx2vCg94ZjAqrG6KdUMC8h8K9
+ maVYRHf3bch+/BMgpjdex5tmMlxiaHr9BpXNIAMOOceA02T9oM2ZGmhDxqSEzYWNVdql
+ UsNbJGx8nES0tVzze1xqgvpmHa7rthlXUKm+o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680174323;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZBDBg0HH1y2Gx5yNNGEH03tfCHf1/oZeA1OHg/lrfwY=;
+ b=iWMKYW6l6dhnzYRZnnx/ydPLqa46AHzcPqCI7kbttdNE0PIeL3hBhkSJqUS68TtldW
+ zezG7NsblsUvhaQbg1p6q7Aq5di9W1yO1JAJcoob8OQ4iAdrWEQSAeqUUeqO6bVa3+UQ
+ CrgUlN72DLZx6mqcB4dCzeROFsoiYyK/LJxy/tVgJax1dKLyCinY8A1NfmfdgdYcKSIh
+ /uVX0eswh2J/v+gxNp3hyIYGfImN0yqGyvrgU3LCOHspzUI470GZFSKxPYCwgE16ChCJ
+ ZijNjSStww8rjPtRnFBBPQR7GyBunbe7hvJMOw0OvKxe3190fBvwPylB/0qf1xS7GOuO
+ +qdA==
+X-Gm-Message-State: AAQBX9ftrs4bYQlKp5EZinchfG+RwqrIVwY6P/rVeLHugZcFGz64U5b3
+ ETPpNXNMBAw4cbbxq2ceVYmjEI0ctEckYxewcONIfg==
+X-Google-Smtp-Source: AKy350bewD4+8aznFs09qngdmj+I714IP108YtnCD/KyMgmvOAvShWr4aIllQZPLnAcwidqQtErpuKM8c+DotdjwoF4=
+X-Received: by 2002:ab0:2019:0:b0:765:8f29:d679 with SMTP id
+ v25-20020ab02019000000b007658f29d679mr3245687uak.1.1680174323569; Thu, 30 Mar
+ 2023 04:05:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|DM6PR12MB4265:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28e5a3d6-9cb2-45f5-dc66-08db310dd2a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aZxgBfT7d9IK1EUN20eVOb0s7T3KRJGHNoRFpIHsWFnczdPifPSg/46DNuF75HBQsY/lJfZyDHLr3PJrNDFkh0diHwrwWEIv7eTC1axu3u6pYAL11YS+8bLo66PposApGycTeGveVaGbTeoebKvfBA0m/DyZrn26gBzXIUFJNM/xfQuuothcjSA2VNMhKGnGIXPffn0njcS7LMfQwLg3i3+AB87IRetY4/q7irf4IYWZfXTFzoJNvzjVTVi7ICYuXyLKx9gQPtGqzYrdNoNd7p1mhIWwOeWEWv2MdlC9nXc0pVFUdxMLqr+xpR11szJX4NSp/kZTc25/EAaVND9ohdhNBrtwlsToGjseZkYwGRDbW2FyDX6etaWZF5JC8c0nK0sZurQGTM3D9VgFcq5lpq89hc3ctwkmL0cUtc3+B0aifp8ITqYURKyFsZC5sgzOpWkvu5MXQ3sVf2wDCucs2lEn1r7bjAK6BYnozlT+GCc4od8Gyj1JL1BYJNHM+2oimA+H1d/9WDUJl/ivN860hh8nSprhz2CTMpwySGPryKAxgVANaGjMyErAoKko1+eKqUs17vzmoKcAeK3wTQfe0kFXJe4E+i0KXQAv1Jd9fzw4KeAPjR52DE5grK3uQ7d7AclmEx8rEM+lg0I7TQkfvCyhm3FVmJt5XUqUmo5ILbQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(136003)(39860400002)(451199021)(31686004)(2906002)(83380400001)(26005)(8936002)(5660300002)(54906003)(6506007)(6666004)(316002)(36756003)(6486002)(66946007)(478600001)(6512007)(66476007)(2616005)(186003)(66556008)(4326008)(38100700002)(8676002)(41300700001)(31696002)(86362001)(41533002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ejlLTnRxczFUSmtLZ0ljVDRMdGVmVy91WXA4QmlTUC9VcnU4WjZ2SG9MQVpN?=
- =?utf-8?B?U0tWZytZR3B6MmRpOGY5U28rU0h4NHFLZm9PZGh0OC9RaUNrbTg2SFhxdXZM?=
- =?utf-8?B?eFh0ekY0RktrVFhvZzJiTDRtdU42ckZXTk1rTlhEWDVYaHNORW4yaVB1Z2dh?=
- =?utf-8?B?cVBhcG1IM1ZodmZEOXhCTndRUitYeGtCWXZmclBzOSt5VkF0eTVLWkdhVXIv?=
- =?utf-8?B?WHJxWVFGakFFNDV6UWpIWkVNWmdaZXVEZU9CSDA4OUZkNTBvWDNFQ29jSHdt?=
- =?utf-8?B?eGVVMUtvUHJ5SmorMWlmOWFURjlFMGJFVkxtY041Rk9mdUwrYklac1VvRTl6?=
- =?utf-8?B?VjVzS0FvRFlDY094T1hPSTFONGgwTiszeEhmcFFvRG9sWXFTSHdiRG1TSTB1?=
- =?utf-8?B?aW9RMTkvZEJrQ05VaUs5TUpObnZSZnJvdFB3MFBKVUk1emxpYkhLLzM4aVZI?=
- =?utf-8?B?bEVJd1VNTm1GSDd5dFplOHgwbzBWdDlTMXpqeTBldFc0ZkFDYWw4dTNScHZv?=
- =?utf-8?B?Wjg3UVJLL0RTWVZ3endTUHJvUG52RHhzRUp4UThIWVl2SjFqZTVhZExZOHZw?=
- =?utf-8?B?VnEydjZ5UFdPVlR2cEthU1BZakovK2dsTytRaldTRE0yM0ZMalZNcXdoSzhS?=
- =?utf-8?B?VlJmNlhZT3NwanNlTHc3K0dBVmkvVmIyMjNoVlJQb2JxV2VGYVdacUxVTmNN?=
- =?utf-8?B?bjlGY3lQc29FeGIzOUN6V1FVS1Y3MCtCR1pxTmFoemRRR2t4VVdmcDRsMHZQ?=
- =?utf-8?B?SUFBNmxkUlorQkp3OTJyTkZpN0EwSDMzNFhWVDRBNDJhbjIvaExRTW16ZUQy?=
- =?utf-8?B?aTA1V2J5bnBhL1l6SFRwbGRweGIrVmRIWDF0LzRwVUJ0VVVRcFBCZmI5RVlr?=
- =?utf-8?B?dmhtZWRUaGVoY0s1cXVvWVBpSnA1Z1lxWmZUK2w2Yi9SQllYcHZ0dlhqR3VW?=
- =?utf-8?B?aEJ6YS9BeVM4aUtoNXlPbzR4bVFIVkxDK0JTOVk5am9qUUZIRTBITWJEc3VV?=
- =?utf-8?B?WXRHYllQV2VMOU55bXBMTTJzVFNEenNjUWlrRDN2cHNrVlJPdDVyUnlZTFV0?=
- =?utf-8?B?VmZkZHZUTmt5UTZBTFEwNFdyanA1N1VrRGpJZ2lRSEVJNUY3eHRnd2RpZ1Rx?=
- =?utf-8?B?amliNVJjOU9jK2RtdnlZMnNpOWF2SUYxNUVqRGQybXBlaHVKZkNRVkI2eGZI?=
- =?utf-8?B?MVFPbW5Oc0J3c3dVekRWem1ES29iMDRncE1EeU1WdTRLaWx6bTExM1MvUi9x?=
- =?utf-8?B?dkJOaWg3REQvTHg1Y3lac1RmMWhlaDJTUkl3a3g2VGlFNnB4bm45NVJaOEUw?=
- =?utf-8?B?K2VreWlGVGtpcjI1K3gyYUJ0c1BPVG16cnQxQUtQZW5Dd1pxK2hzaDJoRktt?=
- =?utf-8?B?SHpiUnhEenoyMUdDOTlYQ2xCcEVoRWtaampyRnJrcktUSjhSZXliMDVQWFQr?=
- =?utf-8?B?a0VXTnBvMW56Zy9ZQ2xFY21jcmZnQ2E1aFh0VzJEdlZkbGY1T3dMSWIvWVdE?=
- =?utf-8?B?MFBGUjBoNSswR09raWY5Sk03NldoU05jYlBhWU5Falp6WlJFR3EwNzM3emo1?=
- =?utf-8?B?VmlIWUlTMnAyWjl5UFNZNWorRHZObUVHRHYrTXM1RVZxS3BnMXBXOE9rdlln?=
- =?utf-8?B?d1VrZWJid1lPaTZRRDBlZlVrS1p5OS9JM0ZqMkVMcWdhQW1yc0JnZU1CVnEx?=
- =?utf-8?B?R3l3cVN6Vlg2Rmg0TzQ1OXk3c3RvNHU0aWpubU5TUFo2WHZDYzBTYkZqZG5t?=
- =?utf-8?B?eklaV1VLZnBlQXZDbkZld05LY2YralMrTUJUUzdlNlpxUzJubG13dVNqQjQv?=
- =?utf-8?B?a3YvR0ZPRjJITVpORDBVSXQ1NmYwbWhja21GU1dkc2hLUXI5bHJBNCtnbVdl?=
- =?utf-8?B?M0JtSm4wTkh1OWhkenpSdU1RM2huY3pBRlVYK3cyZVRvZ3BUOFhNaWp5ZVM1?=
- =?utf-8?B?b1JhbW9ndXlrT0VqUkRzbmU4SVdEOXp2N0VhS3FQY0RjcWFxY0dRbXVYY3Er?=
- =?utf-8?B?R1MyNE1ZZ1h5d1dDa2NxbnlFNXAwMkh2WHdXSzBJenJZVGVCVUt1dmI0Nk5k?=
- =?utf-8?B?eVdicGZHTmpwc01HTGdkUnB5SmZwczVIUVZsa3BXU1lvUXM2ODRmY0tHWURr?=
- =?utf-8?Q?S9sw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28e5a3d6-9cb2-45f5-dc66-08db310dd2a4
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 10:59:24.3250 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o6b+O8SpyMcnuz/cV80GfyImbEDkRT364PdO13SZqtr6P5RBS0yotKpuQ5zhgSJV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4265
+References: <20230321121859.2355-1-nancy.lin@mediatek.com>
+ <17831605-5c9d-9c92-d190-04f91060ace4@collabora.com>
+ <CAAOTY_8ZAxVSLnJ1u5snsRgkszV7ixwhjUS2nDimE_Lpj=cUCA@mail.gmail.com>
+ <97a5f383-38f5-e8ea-e1d8-489b690e4521@collabora.com>
+ <CAAOTY_9_vn-m2jTaaHkFDV+v2-LeaAxtCLNNnOxZq5Httb-TAQ@mail.gmail.com>
+In-Reply-To: <CAAOTY_9_vn-m2jTaaHkFDV+v2-LeaAxtCLNNnOxZq5Httb-TAQ@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 30 Mar 2023 19:05:12 +0800
+Message-ID: <CAGXv+5FJCuG_zHnaKZ=baNzKAWKLEe3jZnghNAxuGv7i7L6e7Q@mail.gmail.com>
+Subject: Re: [PATCH v30 0/7] Add MediaTek SoC DRM (vdosys1) support for mt8195
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,41 +68,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Gow <davidgow@google.com>, intel-gfx@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, singo.chang@mediatek.com,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ clang-built-linux@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, krzysztof.kozlowski+dt@linaro.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "Nancy.Lin" <nancy.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.03.23 um 12:42 schrieb Jani Nikula:
-> is_power_of_2() only works for types <= sizeof(unsigned long) and it's
-> also not a constant expression. There are a number of places in kernel
-> where is_power_of_2() is called on u64, which fails on 32-bit
-> builds. Try to remedy that. While at it, make it a constant expression
-> when possible.
+On Mon, Mar 27, 2023 at 11:17=E2=80=AFPM Chun-Kuang Hu <chunkuang.hu@kernel=
+.org> wrote:
 >
-> I admit I've only lightly tested this, and I haven't tried it with
-> allmodconfig.
-
-Looks good to me from a one mile high level pov. But I'm really not an 
-expert on that type of compiler magic, so only:
-
-Acked-by: Christian König <christian.koenig@amd.com>
-
-for the series.
-
-Regards,
-Christian.
-
+> Hi, Angelo:
 >
+> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=
+=96=BC
+> 2023=E5=B9=B43=E6=9C=8824=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884=
+:38=E5=AF=AB=E9=81=93=EF=BC=9A
+> >
+> > Il 24/03/23 00:25, Chun-Kuang Hu ha scritto:
+> > > Hi, Angelo:
+> > >
+> > > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =
+=E6=96=BC
+> > > 2023=E5=B9=B43=E6=9C=8823=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=
+=884:58=E5=AF=AB=E9=81=93=EF=BC=9A
+> > >>
+> > >> Il 21/03/23 13:18, Nancy.Lin ha scritto:
+> > >>> The hardware path of vdosys1 with DPTx output need to go through by=
+ several modules, such as, OVL_ADAPTOR and MERGE.
+> > >>>
+> > >>> Add DRM and these modules support by the patches below:
+> > >>>
+> > >>
+> > >> I've tested v30 again on MT8173, MT8192 and MT8195 based Chromebooks=
+.
+> > >> Green light from me.
+> > >
+> > > I'm curious about how you build code and test on Chromebooks. Do you
+> > > build in cros environment or pure linux
+> > > (https://archlinuxarm.org/platforms/armv8/mediatek/acer-chromebook-r1=
+3).
+> > > I've a MT8183 based Chromebook (HP 11a) and I've tried to run a
+> > > upstream kernel on it. cros is too heavy for me and I doubt I could
+> > > use it. I've tried the pure linux and could boot up with console, but
+> > > display does not work. If you use the pure linux environment, could
+> > > you share how it works?
+> > >
+> >
+> > I haven't tested MT8183 (I don't actually have any 8183 machine in my h=
+ands)... but
+> > yes, I can share my test environment.
+> >
+> > I have one MicroSD that I use either in the MicroSD slot of the target =
+machine, or
+> > in a USB reader; this *single* system is what I boot on *all* Chromeboo=
+ks that I
+> > have: one kernel, multiple devicetrees, same Debian-based userspace.
+> >
+> > What we have to prepare this bootable media can be found at [1], but be=
+ware that
+> > it currently uses an outdated kernel, so, what I have locally is a syml=
+ink to my
+> > kernel tree.
+> > You can change/add/remove the devicetree blobs that will get added to t=
+he image
+> > by modifying `chromebook-setup.sh`; before tampering with kernel tree s=
+ymlink,
+> > please run that script for the first time, as it will download a cross-=
+compiler,
+> > a kernel tree (that you will replace for sure) and the (very old) Debia=
+n rootfs
+> > that you can update with `apt-get dist-upgrade` after booting the Chrom=
+ebook.
+> >
+> > If you want to check about possible kernel configuration differences, w=
+hat I use
+> > is at [2], so that you can compare.
 >
-> Jani Nikula (4):
->    log2: add helper __IS_POWER_OF_2()
->    log2: have is_power_of_2() support bigger types than unsigned long
->    log2: allow use of is_power_of_2() in constant expressions
->    drm/i915/reg: use is_power_of_2() from log2.h
->
->   drivers/gpu/drm/i915/i915_reg_defs.h |  7 +------
->   include/linux/log2.h                 | 25 ++++++++++++++++++++-----
->   2 files changed, 21 insertions(+), 11 deletions(-)
->
+> Thanks for the information, I would try to compare the kernel config firs=
+t.
 
+Hi CK,
+
+Would you consider adding your repo to linux-next? That would let everyone
+do integration testing, especially automated ones, earlier, before you send
+your PRs to drm maintainers.
+
+You can do so by sending an email to Stephen Rothwell to do so.
+
+
+ChenYu
+
+> >
+> > [1]: https://gitlab.collabora.com/google/chromebooks/-/tree/mtk-av1
+> > [2]:
+> > https://gitlab.collabora.com/google/chromeos-kernel/-/blob/mt8195-track=
+ing-master-rolling/arch/arm64/configs/defconfig
+> >
+> > Regards,
+> > Angelo
