@@ -1,92 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A166D0D85
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 20:13:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCC86D0D94
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 20:16:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A482610EF72;
-	Thu, 30 Mar 2023 18:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2648810EF71;
+	Thu, 30 Mar 2023 18:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF67A10EF6F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:13:49 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id r29so19960572wra.13
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:13:49 -0700 (PDT)
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com
+ [IPv6:2607:f8b0:4864:20::92c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 652F610EF71
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:16:44 +0000 (UTC)
+Received: by mail-ua1-x92c.google.com with SMTP id g9so14424272uam.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 11:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tessares.net; s=google; t=1680200028;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=2pcuoehiPvGyehUI4bF839lUv51fj3SAdGORffoe55w=;
- b=AL19jyQDpXSIL97ebF8N6roZDjqqZ58JaDJ+a22kaBzvp0UeYTNwsP3ZrjU8naMj0V
- PyfbKCnH4RN7ZGwsCHfoAL5WmWlRu2w5imZcn4+H8inw9ZdoNpx2Xlx8fHwauzBjpAtO
- zsZog50xCUpJxXr9uq4YLZUXyFADB62kXqUbAx4glHPggEt9w9bGroTD4RgRX6a9mArR
- fbyPr6Z4gm6CNzpCP/lcbyxcMqqC2E/3xCYCXOLwWrLRt8KkvWqZ6awi5ySj+ZwKj5Qs
- WjXHFdJfcuVd3M36W8Lh0WsERMEAKn6lNkMcWIuI5aW6i92vpAMswIkcEUI+ymPFfU9h
- BapQ==
+ d=criticallink.com; s=google; t=1680200203;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=NSA0XStYZCKEYruhJGOHIQm+eaQuxGDvTax5shqT4WU=;
+ b=CCDZtiucry1295bjcIdigR6lSYpaIybIDDbCuCxHv41LE4rKBjl8a8bNIckU6KkBD9
+ Ji7BgxRiJUVI4DVILElFe+E0g4sdHm+NT17ftCwXBFKH55IZQVM+JMiwJVjtsFUJRd8E
+ sUlNN+oVab3aH8SvLIYK6HVEn7PZgsHoTnPLIqHjUcPll0dXVHS4oRLAZRRqfE++Qojz
+ rq30+IrjHxlg3hfLKoAaB6vL7qdS/CHkys5Lf/Ud8V5SSZZiixR1ZXsICVCHsagmbnhl
+ aqLg15/wU5q3+KlU/ki1sLUsvA3KgGR10hpcJNqY33qGNBa8c9kazqWRl88NodTObn+f
+ mJtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680200028;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2pcuoehiPvGyehUI4bF839lUv51fj3SAdGORffoe55w=;
- b=dr1o1zupyERS5aci7V7d27D3Pe+AjxB3HSCDBf5Vo5unPr4y8bDDY8l/vpZMSfQNax
- qQ1rOp/XtojQph6OUa3F2OXJwaz9vWrV2zskvxF6bDa31DdDlGmRwSzVcXho3h/VQrGD
- nOsf5ANuEVPj78yWAuaav+YTMQfKJcy1ScuYwu7EyBlUBeiHLiWOTPyCPR40Dno48M7D
- hlJ+hTxnIrFEqlADijNHBdPXmZi5ozCwlsOljU2GpD5MQcgNloBHnIHDce6NfAfHQVEY
- H2NEHzBGH2lsKCooxT0Cl3ykxlOjTiRA1VaFX+ifnlOPslkPJAhQUy2KSbhTsSn8D/td
- 9opQ==
-X-Gm-Message-State: AAQBX9cavN4iTEDWvTeJV0Usofgi9K+7YuwdK16uQJNLHYrE0teDZU+e
- CojmxGbMroV6UbUArT+UGraJwA==
-X-Google-Smtp-Source: AKy350YzU7wPKjANBCuoa0d1SuYlj3kkszREhmdvT7pjdImaboEpN1UAurUNdi2TP/Voo5hlSVe9wQ==
-X-Received: by 2002:adf:cc8f:0:b0:2d8:cacd:797e with SMTP id
- p15-20020adfcc8f000000b002d8cacd797emr19190788wrj.10.1680200028130; 
- Thu, 30 Mar 2023 11:13:48 -0700 (PDT)
-Received: from vdi08.nix.tessares.net
- (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
- by smtp.gmail.com with ESMTPSA id
- e18-20020a056000121200b002d24a188b64sm33459741wrx.112.2023.03.30.11.13.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 11:13:47 -0700 (PDT)
-From: Matthieu Baerts <matthieu.baerts@tessares.net>
-Date: Thu, 30 Mar 2023 20:13:26 +0200
-Subject: [PATCH v3 4/4] checkpatch: check for misuse of the link tags
+ d=1e100.net; s=20210112; t=1680200203;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NSA0XStYZCKEYruhJGOHIQm+eaQuxGDvTax5shqT4WU=;
+ b=x6NO4t20zG6zUg0s9Xwp9/mATkpHt32ugoLvuAHIfHrK5ejRWuH0si61y0AurkImDp
+ 3iXrsdkq5L1ssxjh61cxa9/yXd14q/O/09aVHJ9eHSHouZgE0aEgNEmp6i/Xao4XIcmY
+ 7bSGKOQchmRo0b1FTie8bk2QAVe3swqwZlnqW8aslbEJuIdQ5qbhG9mJqbWXeW0NpClU
+ KUI2HZPxwtz4GCON01KG4ZW25zp/JeSb0tXnWbGQuybELFctGukcXrwqjt4M+bPAL6RS
+ pgc9JWITC3/fBX/vvcBlcosgUQZfLCUwmExYlBxzJ++BilzfK06YtwgOmZOd3tO7W9os
+ VCHw==
+X-Gm-Message-State: AAQBX9eno6G7IfoEHYirP7aOuhVchljmLWNsBsSGn3DgUU52FSorexDT
+ WwnysoNXv+35A4XQHzKUXGGhydWlzAezSaKtbBKFfw==
+X-Google-Smtp-Source: AKy350bgGOnTqf/dltrdgosFtHNoeqVOgneA5sGznmQmEtbiBhmqKIkhDmKCg/i0NtPIIW25xjYwOR2StUzxtMGO/1Q=
+X-Received: by 2002:a1f:2bc4:0:b0:42d:7181:7c63 with SMTP id
+ r187-20020a1f2bc4000000b0042d71817c63mr13288278vkr.1.1680200203140; Thu, 30
+ Mar 2023 11:16:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
-References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
-To: Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
- =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>, 
- Thorsten Leemhuis <linux@leemhuis.info>, 
- Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1260;
- i=matthieu.baerts@tessares.net; h=from:subject:message-id;
- bh=4mEcP5uVl3gASvU4Xov+GjgFA2y/DSnWoQCQNXocbFA=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkJdFWAiRwpGTmZ3UksCrrvVVsadaDQyEH6ttlf
- xxeioGUWaiJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZCXRVgAKCRD2t4JPQmmg
- c+FYD/0QL8eSGtX66aGfn4VRo4nKjkBYeiz17dcwDxp+NOHSIrjUHDK2Qeq8pz+BpJIrV67/bNJ
- 8MhzhaNILYp+AjzLuRkW84TbGMi7o7LdOiLYZxo/Ija+64oRf4vvmftrxrUJwu8uAy947w1yvHk
- x0bmZIsBKQ+9hgXQ6wWuYYPbeyQwPp2FSyzO6N/OQr/0aSgs47n2IY02IU6QsDi3e2lzdIMIFI2
- W2LXk4KVDgiXD1Veoza94/lVWLw/uYSa2C1lZhm1pqTNOadKwrgtedxsgaK1rN901KhsA5fKnkt
- HMMfbu72dNEp9LCBO72pHW99u0ejQrk96QzZF045hPU0MRR5oZ/sKdol+NKmLvIQDAFsaU1eHxB
- xHeXPSfskzfbSmNCfu2iXbH5Xrn7+qcXmL1LlDm5hsGye9N6cKGqtg6/6Ri6+ydi103F2QohLyT
- HVZA/QymXSExliDxXnHo8nYS1eQGXMwIgrJI93/qUtmoKqQyqqPtmdI/EfW1K13d/dg3Y0NwqA7
- lZoqqRjZR8/TtAUbRagTAYdQc4gQrsMwTDgr8aRtKKunFHJJN64Jj0L1QdPo+3YY35qpGXdpdy1
- hBzhevHe0CZPzD/KQL3v/RkD+Bw90Sh+fblGKQFOQYlO9n3Gsq4EG00rbtlgzf45L33chHqdYOj
- fIHOulDCJF2UKCQ==
-X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+References: <20230125-tfp410_i2c-v3-0-a85d5f0f50f1@criticallink.com>
+In-Reply-To: <20230125-tfp410_i2c-v3-0-a85d5f0f50f1@criticallink.com>
+From: Jon Cormier <jcormier@criticallink.com>
+Date: Thu, 30 Mar 2023 14:16:32 -0400
+Message-ID: <CADL8D3YnfUWRk+7dD5oZ6g2S2dVY46LznvhcssxZU5PquyhRYg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] drm/bridge: tfp410: Add i2c support
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000042985e05f82218d8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,53 +71,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthieu Baerts <matthieu.baerts@tessares.net>, mptcp@lists.linux.dev,
+Cc: devicetree@vger.kernel.org,
+ Michael Williamson <michael.williamson@criticallink.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+ Bob Duke <bduke@criticallink.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Link:" and "Closes:" tags have to be used with public URLs.
+--00000000000042985e05f82218d8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It is difficult to make sure the link is public but at least we can
-verify the tag is followed by 'http(s):'.
+Bumping patch submission.
 
-With that, we avoid such a tag that is not allowed [1]:
+On Mon, Feb 20, 2023 at 5:10=E2=80=AFPM Jonathan Cormier <jcormier@critical=
+link.com>
+wrote:
 
-  Closes: <number>
+> The TFP410 driver does not support I2C.  As such, the device remains in
+> Power Down if the I2C is enabled by the bootstrap pins.
+>
+> Add basic support for the I2C interface, and provide support to take
+> the device out of power down when enabled.  Also read the bootstrap mode
+> pins via the CTL_1_MODE register when using the I2C bus.
+>
+> Also allow polling device to support hdmi/dvi hotplug detection.
+>
+> Signed-off-by: Jonathan Cormier <jcormier@criticallink.com>
+> ---
+> Changes in v3:
+> - Drop dt-bindings i2c example
+> - Link to v2:
+> https://lore.kernel.org/r/20230125-tfp410_i2c-v2-0-bf22f4dcbcea@criticall=
+ink.com
+>
+> Changes in v2:
+> - Fix dt_binding_check errors
+> - Remove hdmi connector from binding example
+> - Fix compile warning. Unused variable and unsigned int instead of int fo=
+r
+> ret
+> - Fix commit titles
+> - Drop of_match_ptr change
+> - Link to v1:
+> https://lore.kernel.org/r/20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticall=
+ink.com
+>
+> ---
+> Michael Williamson (3):
+>       drm/bridge: tfp410: Support basic I2C interface
+>       drm/bridge: tfp410: Fix logic to configured polled HPD
+>       drm/bridge: tfp410: If connected, use I2C for polled HPD status.
+>
+>  drivers/gpu/drm/bridge/ti-tfp410.c | 107
+> +++++++++++++++++++++++++++----------
+>  1 file changed, 80 insertions(+), 27 deletions(-)
+> ---
+> base-commit: 93f875a8526a291005e7f38478079526c843cbec
+> change-id: 20230125-tfp410_i2c-3b270b0bf3e0
+>
+> Best regards,
+> --
+> Jonathan Cormier <jcormier@criticallink.com>
+>
+>
 
-Link: https://lore.kernel.org/linux-doc/CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com/ [1]
-Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
----
-v3:
-- new patch addressing Linus' concerns.
----
- scripts/checkpatch.pl | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+--=20
+Jonathan Cormier
+Software Engineer
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index ca58c734ff22..e3cafd2cb77a 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3292,6 +3292,17 @@ sub process {
- 			}
- 		}
- 
-+# Check for misuse of the link tags
-+		if ($in_commit_log &&
-+		    $line =~ /^\s*(\w+:)\s*(\S+)/) {
-+			my $tag = $1;
-+			my $value = $2;
-+			if ($tag =~ /^$link_tags_search$/ && $value !~ /^https?:/) {
-+				WARN("COMMIT_LOG_WRONG_LINK",
-+				     "'$tag' should be followed by a public http(s) link\n" . $herecurr);
-+			}
-+		}
-+
- # Check for lines starting with a #
- 		if ($in_commit_log && $line =~ /^#/) {
- 			if (WARN("COMMIT_COMMENT_SYMBOL",
+Voice:  315.425.4045 x222
 
--- 
-2.39.2
 
+
+http://www.CriticalLink.com <http://www.criticallink.com/>
+6712 Brooklawn Parkway, Syracuse, NY 13211
+
+<https://www.linkedin.com/company/critical-link-llc>
+<https://twitter.com/Critical_Link>
+
+--00000000000042985e05f82218d8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Bumping patch submission.=C2=A0 <br></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 20, 2023=
+ at 5:10=E2=80=AFPM Jonathan Cormier &lt;<a href=3D"mailto:jcormier@critica=
+llink.com">jcormier@criticallink.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">The TFP410 driver does not support I2C.=
+=C2=A0 As such, the device remains in<br>
+Power Down if the I2C is enabled by the bootstrap pins.<br>
+<br>
+Add basic support for the I2C interface, and provide support to take<br>
+the device out of power down when enabled.=C2=A0 Also read the bootstrap mo=
+de<br>
+pins via the CTL_1_MODE register when using the I2C bus.<br>
+<br>
+Also allow polling device to support hdmi/dvi hotplug detection.<br>
+<br>
+Signed-off-by: Jonathan Cormier &lt;<a href=3D"mailto:jcormier@criticallink=
+.com" target=3D"_blank">jcormier@criticallink.com</a>&gt;<br>
+---<br>
+Changes in v3:<br>
+- Drop dt-bindings i2c example<br>
+- Link to v2: <a href=3D"https://lore.kernel.org/r/20230125-tfp410_i2c-v2-0=
+-bf22f4dcbcea@criticallink.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//lore.kernel.org/r/20230125-tfp410_i2c-v2-0-bf22f4dcbcea@criticallink.com<=
+/a><br>
+<br>
+Changes in v2:<br>
+- Fix dt_binding_check errors<br>
+- Remove hdmi connector from binding example<br>
+- Fix compile warning. Unused variable and unsigned int instead of int for =
+ret<br>
+- Fix commit titles<br>
+- Drop of_match_ptr change<br>
+- Link to v1: <a href=3D"https://lore.kernel.org/r/20230125-tfp410_i2c-v1-0=
+-66a4d4e390b7@criticallink.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//lore.kernel.org/r/20230125-tfp410_i2c-v1-0-66a4d4e390b7@criticallink.com<=
+/a><br>
+<br>
+---<br>
+Michael Williamson (3):<br>
+=C2=A0 =C2=A0 =C2=A0 drm/bridge: tfp410: Support basic I2C interface<br>
+=C2=A0 =C2=A0 =C2=A0 drm/bridge: tfp410: Fix logic to configured polled HPD=
+<br>
+=C2=A0 =C2=A0 =C2=A0 drm/bridge: tfp410: If connected, use I2C for polled H=
+PD status.<br>
+<br>
+=C2=A0drivers/gpu/drm/bridge/ti-tfp410.c | 107 +++++++++++++++++++++++++++-=
+---------<br>
+=C2=A01 file changed, 80 insertions(+), 27 deletions(-)<br>
+---<br>
+base-commit: 93f875a8526a291005e7f38478079526c843cbec<br>
+change-id: 20230125-tfp410_i2c-3b270b0bf3e0<br>
+<br>
+Best regards,<br>
+-- <br>
+Jonathan Cormier &lt;<a href=3D"mailto:jcormier@criticallink.com" target=3D=
+"_blank">jcormier@criticallink.com</a>&gt;<br>
+<br>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
+tr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
+<div dir=3D"ltr"><div>Jonathan Cormier<br>Software Engineer<div><div><div><=
+div><br></div><div><div><font color=3D"#000000">Voice:=C2=A0=C2=A0<a value=
+=3D"+13154254045">315.425.4045</a>=C2=A0x222</font></div><div><font color=
+=3D"#000000"><br></font></div><div><font color=3D"#000000"><img src=3D"http=
+s://ci3.googleusercontent.com/mail-sig/AIorK4xml75fJPKYF7M9X5Dux4IrbtzZk0RB=
+6jf8iBYuPQKArrkBkOkU4HJ2rP7eH6d2h7_ituMWEBc"><br></font></div></div></div><=
+div><div><font color=3D"#1155cc"><br></font></div><div><a href=3D"http://ww=
+w.criticallink.com/" target=3D"_blank"><font color=3D"#1155cc">http://www.C=
+riticalLink.com</font></a><br></div><div>6712 Brooklawn Parkway,=C2=A0Syrac=
+use, NY 13211=C2=A0</div></div></div><div><div><br></div><div><font color=
+=3D"#1155cc"><font color=3D"#1155cc"><a href=3D"https://www.linkedin.com/co=
+mpany/critical-link-llc" target=3D"_blank"><img src=3D"https://docs.google.=
+com/uc?export=3Ddownload&amp;id=3D0B2vNSnu-aYu6OEhHRW9BUFV5WnM&amp;revid=3D=
+0B2vNSnu-aYu6RHNZUnhNbFpER1l3emNQY2VoaHA0RDdudWlFPQ"></a>=C2=A0=C2=A0<a hre=
+f=3D"https://twitter.com/Critical_Link" target=3D"_blank"><img alt=3D"" src=
+=3D"https://docs.google.com/uc?export=3Ddownload&amp;id=3D0B2vNSnu-aYu6cU1y=
+WERrLXE0SnM&amp;revid=3D0B2vNSnu-aYu6b1YrZW1SM0hueVhVS0pPWm1IOXFSc0I3ay9jPQ=
+"></a></font></font></div></div></div></div></div></div></div></div></div><=
+/div></div></div></div></div>
+
+--00000000000042985e05f82218d8--
