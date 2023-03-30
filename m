@@ -1,65 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C25B6CFC0E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 08:57:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E90716CFC49
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D862310ECE1;
-	Thu, 30 Mar 2023 06:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61EBB10ECE2;
+	Thu, 30 Mar 2023 07:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BBEB10ECE1
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:57:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CC6BA1FE83;
- Thu, 30 Mar 2023 06:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680159457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G5+Kxzby0puIM/dbqQzWO4Oxt4Qe5WmInQNRv2RB9ic=;
- b=Z+vzjjqlspIlyVPpOod3FpO2QL/ATvuJwyWNh7f3ERQwlWGIWg3sFvBH5TOlCfeniEZAXq
- F+b4tVZVpHyyXlbqeJZvaT9q2oYDPfh/4v0h4m81moPPLI1vUKe+Hh0dTir7satNnbMZWp
- Zr2obZbaYzht75Kr0NI5M+xM69jC0UE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680159457;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G5+Kxzby0puIM/dbqQzWO4Oxt4Qe5WmInQNRv2RB9ic=;
- b=ky7CIrrNIqSt7LCSntL4FalRROGKMo0aUIETCTYtr/MXqS9I2aAmy++PYEOOFC/OGrGFHF
- xIO9ifT0yL7VDUBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A38CA1348E;
- Thu, 30 Mar 2023 06:57:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QqG/JuEyJWQIaAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 06:57:37 +0000
-Message-ID: <f42d8ab8-c765-2517-7d25-6ce1dea320e8@suse.de>
-Date: Thu, 30 Mar 2023 08:57:36 +0200
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD61E10ECEF
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:10:26 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id v1so18002699wrv.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 00:10:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680160225;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=A9g40+pYko1oQ0+izLCIUGQJsSJvSt/dnzj5Sjs9caU=;
+ b=NjKNBdMCQzrdk/xTjAjZU9GPJg4DJiKkX1+5pFtBH3PKdMcP8fPGH/ozfuheRs6rIn
+ uJh5+X0wh+SvoSk41CF65WuN+k/yQTcsTUbTAxgwFfykK3daI2F20+wLcZBiIjJ6w+Sv
+ 8fyNnCYfC7ag8UMhd5VWZLeFA1eqNJe20Vsps46/lStdI8uX3XTEI6jzQ0G/o009Yk8W
+ a2kPMt6lsrmf5w+cH4Ci7qWs8IkJYRs9qSPpThiXkOBgXR129dWiYv/BK/5ExP5Q38mC
+ n28qaFtjReqnOiS9QIPGj7lpExEA7+mLlR6EE/q1z9WIly8cNiJfjq2kbCyc/fk9iD+6
+ qnhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680160225;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:cc:to:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=A9g40+pYko1oQ0+izLCIUGQJsSJvSt/dnzj5Sjs9caU=;
+ b=wJkVoxl45pzvdGhKFpLQapJnFMlPkOe0yzJc6V0CgdUA4ALkZ72yBMYWyPLLMXqlmR
+ 6/WOHp9BIhKQ8gOGGFobZkZE6pugi8lkYPlX4r6/veJZAj+1l+0+XBg4aFO13RthJd17
+ Kc4I9fRw2eOo4qXgcc92qovV7UN+F2o+JOFwgVxH4ILP82wQM3cnKk+TJmSLiR2vH0/3
+ xRYEpLVcFZOqNPo+IXBzLV1W/QVCzcqsKjjtfUOrw7gUmAaLpkHpf3VXka6DrhsnYxfY
+ xb9APlYq8DMbAhpPvedaC99P/9KZc9Oa/D0uWSOh42mh8y4bd2mDM0w1BZCfsSrDK/6U
+ qsmA==
+X-Gm-Message-State: AAQBX9cT0/KRU+0M8brA9nHcOq72eWk6YxJApDrmy6qMyQlERNx33LHf
+ Ax147etLdUh1eEzzmA7XxUilsA==
+X-Google-Smtp-Source: AKy350Z2+SKpQJsn3un+Yupn3W4e1PSsxpmxTXJvC9uXmIaar1BNFnuKt0o5hcdn4tqg8pKQO5lI6g==
+X-Received: by 2002:adf:e68d:0:b0:2c7:d575:e8a4 with SMTP id
+ r13-20020adfe68d000000b002c7d575e8a4mr17065061wrm.65.1680160225095; 
+ Thu, 30 Mar 2023 00:10:25 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:fe8e:8291:fc25:6c8f?
+ ([2a01:e0a:982:cbb0:fe8e:8291:fc25:6c8f])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020adfce8a000000b002cefcac0c62sm32330053wrn.9.2023.03.30.00.10.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 00:10:24 -0700 (PDT)
+Message-ID: <8489ff19-047c-c68c-05a9-1cc01ea772dd@linaro.org>
+Date: Thu, 30 Mar 2023 09:10:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
- <20230330041726.w7boceq7ljymvfq2@ldmartin-desk2>
+ Thunderbird/102.8.0
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 0/7] drm/msm: add support for SM8550
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+References: <20230103-topic-sm8550-upstream-mdss-dsi-v3-0-660c3bcb127f@linaro.org>
+ <168004255469.1060915.1800625604847213121.b4-ty@linaro.org>
+ <CAL_Jsq+VoBkpCT_iUD1Nq_SazCVDa49rn0qtX3Qnm1KBB3gkcg@mail.gmail.com>
+ <420b5400-844f-4ca9-a4e3-1f5f6536f7a2@linaro.org>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230330041726.w7boceq7ljymvfq2@ldmartin-desk2>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------fiFo8dMfyylfmukWFxdSWGG8"
+Organization: Linaro Developer Services
+In-Reply-To: <420b5400-844f-4ca9-a4e3-1f5f6536f7a2@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,122 +82,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- liyi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sui Jingfeng <15330273260@189.cn>
+Reply-To: neil.armstrong@linaro.org
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ devicetree@vger.kernel.org, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------fiFo8dMfyylfmukWFxdSWGG8
-Content-Type: multipart/mixed; boundary="------------0Pi7nZHVZaJ5cmqdYGatFk7a";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- liyi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
- Sui Jingfeng <15330273260@189.cn>, dri-devel@lists.freedesktop.org
-Message-ID: <f42d8ab8-c765-2517-7d25-6ce1dea320e8@suse.de>
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
- <20230330041726.w7boceq7ljymvfq2@ldmartin-desk2>
-In-Reply-To: <20230330041726.w7boceq7ljymvfq2@ldmartin-desk2>
+On 29/03/2023 22:13, Dmitry Baryshkov wrote:
+> On 29/03/2023 22:52, Rob Herring wrote:
+>> On Tue, Mar 28, 2023 at 5:38 PM Dmitry Baryshkov
+>> <dmitry.baryshkov@linaro.org> wrote:
+>>>
+>>>
+>>> On Mon, 09 Jan 2023 11:15:17 +0100, Neil Armstrong wrote:
+>>>> This adds support for the MDSS/DPU/DSI on the Qualcomm SM8550 platform.
+>>>>
+>>>> This patchset is based on the SM8450 display support serie at [1].
+>>>>
+>>>> In order to work, the following patchsets are required:
+>>>> - PM8550 LDO fix at [2]
+>>>> - DISPCC driver at [3]
+>>>>
+>>>> [...]
+>>>
+>>> Applied, thanks!
+>>>
+>>> [2/7] dt-bindings: display/msm: document DPU on SM8550
+>>>        https://gitlab.freedesktop.org/lumag/msm/-/commit/4557e40338d2
+>>> [3/7] dt-bindings: display/msm: document MDSS on SM8550
+>>>        https://gitlab.freedesktop.org/lumag/msm/-/commit/0e4205eb8663
+>>
+>> And now failing on linux-next just as my bot reported:
+>>
+>> Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.example.dts:24:18:
+>> fatal error: dt-bindings/interconnect/qcom,sm8550.h: No such file or
+>> directory
+>>     24 |         #include <dt-bindings/interconnect/qcom,sm8550.h>
+>>        |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> compilation terminated.
+>> make[1]: *** [scripts/Makefile.lib:419:
+>> Documentation/devicetree/bindings/display/msm/qcom,sm8550-dpu.example.dtb]
+>> Error 1
+>> Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.example.dts:25:18:
+>> fatal error: dt-bindings/interconnect/qcom,sm8550.h: No such file or
+>> directory
+>>     25 |         #include <dt-bindings/interconnect/qcom,sm8550.h>
+>>        |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> compilation terminated.
+>>
+>> Please fix. And quickly please. Fixes in the DRM tree seem to take
+>> forever to get in...
+> 
+> I pushed the fix, so it will arrive in linux-next tomorrow or the day after tomorrow. Please excuse me for breaking it again. I checked that the patches were merged, but didn't notice that the header name was changed in the process. Mea culpa.
 
---------------0Pi7nZHVZaJ5cmqdYGatFk7a
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+My bad I should have rebased and sent a v4 with the bindings only,
 
-SGkNCg0KQW0gMzAuMDMuMjMgdW0gMDY6MTcgc2NocmllYiBMdWNhcyBEZSBNYXJjaGk6DQo+
-IE9uIFdlZCwgTWFyIDI5LCAyMDIzIGF0IDExOjA0OjE3QU0gKzAyMDAsIFRob21hcyBaaW1t
-ZXJtYW5uIHdyb3RlOg0KPj4gKGNjJ2luZyBMdWNhcykNCj4+DQo+PiBIaQ0KPj4NCj4+IEFt
-IDI1LjAzLjIzIHVtIDA4OjQ2IHNjaHJpZWIgU3VpIEppbmdmZW5nOg0KPj4+IMKgVGhlIGFz
-c2lnbm1lbnQgYWxyZWFkeSBkb25lIGluIGRybV9jbGllbnRfYnVmZmVyX3ZtYXAoKSwNCj4+
-PiDCoGp1c3QgdHJpdmFsIGNsZWFuLCBubyBmdW5jdGlvbmFsIGNoYW5nZS4NCj4+Pg0KPj4+
-IFNpZ25lZC1vZmYtYnk6IFN1aSBKaW5nZmVuZyA8MTUzMzAyNzMyNjBAMTg5LmNuPg0KPj4+
-IC0tLQ0KPj4+IMKgZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMgfCA1ICsr
-LS0tDQo+Pj4gwqAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
-cygtKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJkZXZf
-Z2VuZXJpYy5jIA0KPj4+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYmRldl9nZW5lcmljLmMN
-Cj4+PiBpbmRleCA0ZDYzMjVlOTE1NjUuLjFkYTQ4ZTcxYzdmMSAxMDA2NDQNCj4+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiZGV2X2dlbmVyaWMuYw0KPj4+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZmJkZXZfZ2VuZXJpYy5jDQo+Pj4gQEAgLTI4Miw3ICsyODIsNyBA
-QCBzdGF0aWMgaW50IGRybV9mYmRldl9kYW1hZ2VfYmxpdChzdHJ1Y3QgDQo+Pj4gZHJtX2Zi
-X2hlbHBlciAqZmJfaGVscGVyLA0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgc3RydWN0IGRybV9jbGlwX3JlY3QgKmNsaXApDQo+Pj4gwqB7DQo+Pj4gwqDCoMKg
-wqAgc3RydWN0IGRybV9jbGllbnRfYnVmZmVyICpidWZmZXIgPSBmYl9oZWxwZXItPmJ1ZmZl
-cjsNCj4+PiAtwqDCoMKgIHN0cnVjdCBpb3N5c19tYXAgbWFwLCBkc3Q7DQo+Pj4gK8KgwqDC
-oCBzdHJ1Y3QgaW9zeXNfbWFwIG1hcDsNCj4+PiDCoMKgwqDCoCBpbnQgcmV0Ow0KPj4+IMKg
-wqDCoMKgIC8qDQo+Pj4gQEAgLTMwMiw4ICszMDIsNyBAQCBzdGF0aWMgaW50IGRybV9mYmRl
-dl9kYW1hZ2VfYmxpdChzdHJ1Y3QgDQo+Pj4gZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyLA0K
-Pj4+IMKgwqDCoMKgIGlmIChyZXQpDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoCBnb3RvIG91dDsN
-Cj4+PiAtwqDCoMKgIGRzdCA9IG1hcDsNCj4+PiAtwqDCoMKgIGRybV9mYmRldl9kYW1hZ2Vf
-YmxpdF9yZWFsKGZiX2hlbHBlciwgY2xpcCwgJmRzdCk7DQo+Pj4gK8KgwqDCoCBkcm1fZmJk
-ZXZfZGFtYWdlX2JsaXRfcmVhbChmYl9oZWxwZXIsIGNsaXAsICZtYXApOw0KPj4NCj4+IEkg
-c2VlIHdoYXQgeW91J3JlIGRvaW5nIGFuZCBpdCdzIHByb2JhYmx5IGNvcnJlY3QgaW4gdGhp
-cyBjYXNlLg0KPj4NCj4+IEJ1dCB0aGVyZSdzIGEgbGFyZ2VyIGlzc3VlIHdpdGggdGhpcyBp
-b3N5cyBpbnRlcmZhY2VzLiBTb21ldGltZXMgdGhlIA0KPj4gYWRkcmVzcyBoYXMgdG8gYmUg
-bW9kaWZpZWQgKHNlZSBjYWxscyBvZiBpb3N5c19tYXBfaW5jcigpKS4gVGhhdCBjYW4gDQo+
-PiBwcmV2ZW50IGluY29ycmVjdCB1c2VzIG9mIHRoZSBtYXBwaW5nIGluIG90aGVyIHBsYWNl
-cywgZXNwZWNpYWxseSBpbiANCj4+IHVubWFwIGNvZGUuDQo+IA0KPiB1c2luZyBhIGluaXRp
-YWxpemVyIGZvciB0aGUgY2FzZXMgaXQncyBuZWVkZWQgSU1PIHdvdWxkIG1ha2UgdGhlc2Ug
-a2luZA0KPiBvZiBwcm9ibGVtcyBnbyBhd2F5LCBiZWNhdXNlIHRoZW4gdGhlIGludGVudCBp
-cyBleHBsaWNpdA0KPiANCj4+DQo+PiBJIHRoaW5rIGl0IHdvdWxkIG1ha2Ugc2Vuc2UgdG8g
-Y29uc2lkZXIgYSBzZXBhcmF0ZSBzdHJ1Y3R1cmUgZm9yIHRoZSANCj4+IEkvTyBsb2NhdGlv
-bi4gVGhlIGJ1ZmZlciBhcyBhIHdob2xlIHdvdWxkIHN0aWxsIGJlIHJlcHJlc2VudGVkIGJ5
-IA0KPj4gc3RydWN0IGlvc3lzX21hcC7CoCBBbmQgdGhhdCBuZXcgc3RydWN0dXJlLCBsZXQn
-cyBjYWxsIGl0IHN0cnVjdCANCj4+IGlvc3lzX3B0ciwgd291bGQgcG9pbnQgdG8gYW4gYWN0
-dWFsIGxvY2F0aW9uIHdpdGhpbiB0aGUgYnVmZmVyJ3MNCj4gDQo+IHNvdW5kcyBmaW5lIHRv
-IG1lLCBidXQgSSdkIGhhdmUgdG8gdGFrZSBhIGRlZXBlciBsb29rIGxhdGVyIChvciB3aGVu
-DQo+IHNvbWVvbmUgd3JpdGVzIHRoZSBwYXRjaCkuwqAgSXQgc2VlbXMgd2UnZCByZXBsaWNh
-dGUgYWxtb3N0IHRoZSBlbnRpcmUNCj4gQVBJIHRvIGp1c3QgYWNjb21vZGF0ZSB0aGUgMiBz
-dHJ1Y3RzLsKgIEFuZCB0aGUgZGlmZmVyZW50IHR5cGVzIHdpbGwgbGVhZA0KPiB0byBjb25m
-dXNpb24gd2hlbiBvbmUgb3IgdGhlIG90aGVyIHNob3VsZCBiZSB1c2VkDQoNCkkgdGhpbmsg
-d2UgY2FuIHNwbGl0IHRoZSBjdXJyZW50IGludGVyZmFjZSBvbnRvIHR3byBjYXRlZ29yaWVz
-OiBtYXBwaW5nIA0KYW5kIEkvTy4gVGhlIGZvcm1lciB3b3VsZCB1c2UgaW9zeXNfbWFwIGFu
-ZCB0aGUgbGF0dGVyIHdvdWxkIHVzZSANCmlvc3lzX3B0ci4gQW5kIHdlJ2QgbmVlZCBhIGhl
-bHBlciB0aGF0IHR1cm5zIGdldHMgYSBwdHIgZm9yIGEgZ2l2ZW4gbWFwLg0KDQpJZiBJIGZp
-bmQgdGhlIHRpbmUsIEknbGwgcHJvYmFibHkgdHlwZSB1cCBhIHBhdGNoLg0KDQpCZXN0IHJl
-Z2FyZHMNClRob21hcw0KDQo+IA0KPiB0aGFua3MNCj4gTHVjYXMgRGUgTWFyY2hpDQo+IA0K
-Pj4gbWVtb3J5IHJhbmdlLiBBIGZldyBsb2NhdGlvbnMgYW5kIGhlbHBlcnMgd291bGQgbmVl
-ZCBjaGFuZ2VzLCBidXQgDQo+PiB0aGVyZSBhcmUgbm90IHNvIG1hbnkgY2FsbGVycyB0aGF0
-IGl0J3MgYW4gaXNzdWUuwqAgVGhpcyB3b3VsZCBhbHNvIA0KPj4gYWxsb3cgZm9yIGEgZmV3
-IGRlYnVnZ2luZyB0ZXN0cyB0aGF0IGVuc3VyZSB0aGF0IGlvc3lzX3B0ciBhbHdheXMgDQo+
-PiBvcGVyYXRlcyB3aXRoaW4gdGhlIGJvdW5kcyBvZiBhbiBpb3N5c19tYXAuDQo+Pg0KPj4g
-SSd2ZSBsb25nIGNvbnNpZGVyZWQgdGhpcyBpZGVhLCBidXQgdGhlcmUgd2FzIG5vIHByZXNz
-dXJlIHRvIHdvcmsgb24gDQo+PiBpdC4gTWF5YmUgbm93Lg0KPj4NCj4+IEJlc3QgcmVnYXJk
-cw0KPj4gVGhvbWFzDQo+Pg0KPj4+IMKgwqDCoMKgIGRybV9jbGllbnRfYnVmZmVyX3Z1bm1h
-cChidWZmZXIpOw0KPj4NCj4+IC0tIA0KPj4gVGhvbWFzIFppbW1lcm1hbm4NCj4+IEdyYXBo
-aWNzIERyaXZlciBEZXZlbG9wZXINCj4+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
-bnkgR21iSA0KPj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQo+
-PiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQo+PiBHZXNjaMOkZnRzZsO8aHJlcjogSXZv
-IFRvdGV2DQo+IA0KPiANCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
-IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
-LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Neil
 
---------------0Pi7nZHVZaJ5cmqdYGatFk7a--
+> 
 
---------------fiFo8dMfyylfmukWFxdSWGG8
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQlMuAFAwAAAAAACgkQlh/E3EQov+Dl
-mQ//YD3vlvxHTZTdL524MRFo5PEImEmK7jRpLsb3mkPWG+Bv9LUh9qeN4ljw7nbbwHzdv3gcyD4K
-BA56T7HsqzWFA1M1vMg3LXIjXHGjK1F7WeEbLJRo1DJjTzyM3pB/eLE+UjiezUN2QNoIzMTFuH8I
-X3Fa0IpmfuHjo/IQaSF1mGCCjm2oGGv8nc0uQd8s9o6Q4m/00wbldHT4mBn27ocw3iAZb0p0Zhji
-5azUJQCC5ZeEIUJhN3G2twATjDedRqAm+WMD9uJT4De+Ezg4gadAoxfcz27+mAZwhYvAtN/YiYrb
-IcRvAAg7f1pjrYmDPd4odAiMjymW3vt35SroCVHZzu5f5BrTh2l8ulqm42Up5cdR8IPc+hoX29GS
-31FjezQUmVCMv2TmGJHvtFkRzZPjyLoS+TSwCL4fZHh6eGU1ahSUrNLFqNgqNhos/gEZPm9KQ7XY
-fQvbScIMSUVgMOwC4ckkfgAMHpRKO+jrFAW01NBlDUSFXo1WiZthjp61bQv/iQcreZjjcztBa9Ln
-pVeP1NQDd2oZWbnhvi3Tlkqf2xLmusY11zDyjEPXMhl3IH8MxOsd8Z4XxHPCvkTV6qoEpGYKp3go
-rGd+Wy/8bYE40M/u4cjmAMyEmQtEhI3GuDD+u/q/xTVN3bTeO7/Qq+yQSO+2b+uJ6h2riTPjKX7T
-olI=
-=gRsq
------END PGP SIGNATURE-----
-
---------------fiFo8dMfyylfmukWFxdSWGG8--
