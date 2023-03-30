@@ -1,56 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6726D0884
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:42:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 210086D08AF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:49:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B52B10E1CD;
-	Thu, 30 Mar 2023 14:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E98F10EE9C;
+	Thu, 30 Mar 2023 14:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3A510E1CD;
- Thu, 30 Mar 2023 14:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680187330; x=1711723330;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:to:cc;
- bh=xB0J3/kyzFO8fJCA2S6PrbdJQ5KMvNZfUN+7pIKfYdc=;
- b=cvnlTkhP/y/cUgwVjfcFDHyj16pGWnuvuGrLrAYAztXKy7scq+R+Gxf5
- ZDvQ43KW/LB5Muqd4J/sCblQeS4QLQal+tr01Eu9GZ8p+grDxQ+Cln2/7
- iWXdzGu9wazfZ+ZCgFkVdJOmbXYElRaQoG+/BNljMHqdTCR5BXSRDEg7R
- M/zREZBC1ZeiF1/cw5RviEECWG3yDNYk8TaRdlOotz+Zpa66RVNQemC9p
- cBSmVaHVp1CWWN5qfW6QURdT9uFE6i0LYiVsTjvNjYLK3GOlRWYyEoJtY
- awER70mbQ8HQlNZ/TWPdOHXmFZVjPHdx9uivCW4ho10aYiw0T83x/EmVy A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="343667730"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="343667730"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 07:36:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="662039139"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="662039139"
-Received: from lab-ah.igk.intel.com ([10.102.138.202])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 07:35:58 -0700
-From: Andrzej Hajda <andrzej.hajda@intel.com>
-Date: Thu, 30 Mar 2023 16:35:39 +0200
-Subject: [PATCH] drm/i915/gt: Hold a wakeref for the active VM
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 063BA10EE9C;
+ Thu, 30 Mar 2023 14:49:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 55428B8291D;
+ Thu, 30 Mar 2023 14:49:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE71C433D2;
+ Thu, 30 Mar 2023 14:49:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680187759;
+ bh=kzreuOeVhGy4b0EKlYhtPyFf/2KaV6KQScB7tGg7Ih0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RuMwuXV0ihf8NBi8DD5f8I7mE1QMWJJ3lglv0kJ/PAPxM29Rs23fWmWvO5H4Z54MO
+ mF/0guVx5oMJfN57LUKbvq1fFgccmRAm8C6onENXp4oSku7bjezMV2vII689FmxT4s
+ u/18mUKHk0erDq7UOeLFbWTBSe+Xchu4hI8cYWjQ8EWhr1qYSFqrEP2zz5MZQf6KFw
+ xj2GDG1ZPucdyLcT5/3M3swUvECtZ90r9NOVxtyZaWHvP8q88GWy8/nfoG9Jbd+H6/
+ 88jINzWYU1rqan/0HoHX70HI17oZUsxR0C3Eh6a+RIy+guGqBCBaTT546GgjJ2/+rG
+ qVB3OR/2vBLyQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+ (envelope-from <johan@kernel.org>)
+ id 1phtar-00037Z-MB; Thu, 30 Mar 2023 16:49:37 +0200
+Date: Thu, 30 Mar 2023 16:49:37 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH] drm/msm/adreno: adreno_gpu: Use suspend() instead of
+ idle() on load error
+Message-ID: <ZCWhgZDuhoMYxs52@hovoldconsulting.com>
+References: <20230329140445.2180662-1-konrad.dybcio@linaro.org>
+ <ZCRNFitcrAeH27Pn@hovoldconsulting.com>
+ <83986fa9-c9eb-ae5a-b239-584092f2cea5@linaro.org>
+ <CAA8EJpohEo+kMw7fx5112m+z7JHSLDmsqOL4T7hmyvr2fPP8vQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230330-hold_wakeref_for_active_vm-v1-1-baca712692f6@intel.com>
-X-B4-Tracking: v=1; b=H4sIADueJWQC/x2NUQrDIBAFrxL2u4KJgdJepRTZ6FqXNhrWYAohd
- 6/p5zC8eTsUEqYC924HocqFc2rQXzpwEdOLFPvGMOjBaGO0ivnj7YZvEgo2ZLHoVq5k66yuQfcG
- x/FGwUALTFhITYLJxTPhZVYrL6dZ2pi//9vH8zh+lfN+Y4YAAAA=
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mailer: b4 0.11.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpohEo+kMw7fx5112m+z7JHSLDmsqOL4T7hmyvr2fPP8vQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,87 +60,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, andersson@kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+ agross@kernel.org, "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
+ marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
+ Johan Hovold <johan+linaro@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+On Wed, Mar 29, 2023 at 10:45:52PM +0300, Dmitry Baryshkov wrote:
+> On Wed, 29 Mar 2023 at 18:48, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+> > On 29.03.2023 16:37, Johan Hovold wrote:
+> > > On Wed, Mar 29, 2023 at 04:04:44PM +0200, Konrad Dybcio wrote:
+> > >> If we fail to initialize the GPU for whatever reason (say we don't
+> > >> embed the GPU firmware files in the initrd), the error path involves
+> > >> pm_runtime_put_sync() which then calls idle() instead of suspend().
+> > >>
+> > >> This is suboptimal, as it means that we're not going through the
+> > >> clean shutdown sequence. With at least A619_holi, this makes the GPU
+> > >> not wake up until it goes through at least one more start-fail-stop
+> > >> cycle. Fix that by using pm_runtime_put_sync_suspend to force a clean
+> > >> shutdown.
+> > >
+> > > This does not sound right. If pm_runtime_put_sync() fails to suspend the
+> > > device when the usage count drops to zero, then you have a bug somewhere
+> > > else.
+> > I was surprised to see that it was not called as well, but I wasn't able
+> > to track it down before..
+> 
+> Could you please check that it's autosuspend who kicks in? In other
+> words, if we disable autosuspend, the pm_runtime_put_sync is enough()?
 
-There may be a disconnect between the GT used by the engine and the GT
-used for the VM, requiring us to hold a wakeref on both while the GPU is
-active with this request.
+Yes, that's it. The runtime PM implementation changed at one point and
+since you need to disable autosuspend first to actually get synchronous
+behaviour. My bad.
 
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-[ahajda: removed not-yet-upstremed wakeref tracking bits]
-Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_context.h   | 15 +++++++++++----
- drivers/gpu/drm/i915/gt/intel_engine_pm.c |  3 +++
- 2 files changed, 14 insertions(+), 4 deletions(-)
+> That would probably mean that we lack some kind of reset in the hw_init path.
+> 
+> On the other hand, I do not know how the device will react to the
+> error-in-the-middle state. Modems for example, can enter the state
+> where you can not properly turn it off once it starts the boot
+> process.
+> 
+> And if we remember the efforts that Akhil has put into making sure
+> that the GPU is properly reset in case of an _error_, it might be
+> nearly impossible to shut it down in a proper way.
+> 
+> Thus said, I think that unless there is an obvious way to restart the
+> init process, Korad's pm_runtime_put_sync_suspend() looks like a
+> correct fix to me.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-index 0a8d553da3f439..48f888c3da083b 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context.h
-@@ -14,6 +14,7 @@
- #include "i915_drv.h"
- #include "intel_context_types.h"
- #include "intel_engine_types.h"
-+#include "intel_gt_pm.h"
- #include "intel_ring_types.h"
- #include "intel_timeline_types.h"
- #include "i915_trace.h"
-@@ -207,8 +208,11 @@ void intel_context_exit_engine(struct intel_context *ce);
- static inline void intel_context_enter(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->timeline->mutex);
--	if (!ce->active_count++)
--		ce->ops->enter(ce);
-+	if (ce->active_count++)
-+		return;
-+
-+	ce->ops->enter(ce);
-+	intel_gt_pm_get(ce->vm->gt);
- }
- 
- static inline void intel_context_mark_active(struct intel_context *ce)
-@@ -222,8 +226,11 @@ static inline void intel_context_exit(struct intel_context *ce)
- {
- 	lockdep_assert_held(&ce->timeline->mutex);
- 	GEM_BUG_ON(!ce->active_count);
--	if (!--ce->active_count)
--		ce->ops->exit(ce);
-+	if (--ce->active_count)
-+		return;
-+
-+	intel_gt_pm_put_async(ce->vm->gt);
-+	ce->ops->exit(ce);
- }
- 
- static inline struct intel_context *intel_context_get(struct intel_context *ce)
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index e971b153fda976..ac0566c5e99e17 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -114,6 +114,9 @@ __queue_and_release_pm(struct i915_request *rq,
- 
- 	ENGINE_TRACE(engine, "parking\n");
- 
-+	GEM_BUG_ON(rq->context->active_count != 1);
-+	__intel_gt_pm_get(engine->gt);
-+
- 	/*
- 	 * We have to serialise all potential retirement paths with our
- 	 * submission, as we don't want to underflow either the
+I'd prefer to fix this by disabling autosuspend, but as that would
+involve also moving the call to enable autosuspend to this function (and
+add the missing disable on unbind), Konrad's patch using
+pm_runtime_put_sync_suspend() is probably the best option for now. I can
+send a patch to move the autosuspend handling on top.
 
----
-base-commit: 3385d6482cd60f2a0bbb0fa97b70ae7dbba4f95c
-change-id: 20230330-hold_wakeref_for_active_vm-7f013a449ef3
+Perhaps you can just amend the commit message to clarify that not all fw
+is apparently preloaded and also mention that you need to use
+pm_runtime_put_sync_suspend() due to autosuspend being enabled.
 
-Best regards,
--- 
-Andrzej Hajda <andrzej.hajda@intel.com>
+Johan
