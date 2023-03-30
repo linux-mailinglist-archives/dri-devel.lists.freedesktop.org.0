@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1946B6D0672
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 15:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5A76D067E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 15:24:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DAFC10E423;
-	Thu, 30 Mar 2023 13:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC24510EE2B;
+	Thu, 30 Mar 2023 13:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6EEB10E408;
- Thu, 30 Mar 2023 13:22:41 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id bi31so14101973oib.9;
- Thu, 30 Mar 2023 06:22:41 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C1210EE02
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 13:24:32 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id y15so24492410lfa.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 06:24:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680182561;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G9YMpuSttM4A9nULCMBhiq2+uydHNy9WNmU1ZG++oTM=;
- b=blZZRDRBNT5kYMjCC85ZeQpLeFdPOaXatuCk4NyXH1yuA9j9xns+8uFcbTyf6WGsd7
- BDclarMJIrma70T6OYfrbTKiaJktRYiWtH2IupaFo26teMxv1+nv1CU/Je+ECtaGqleu
- +T7GquzfQQRKKcFfc/Ta8p8NIkr3Lu11J9EmmwLDKz5MpdzSkh7V3T4ZLjUNXVqZcOpW
- hbhyN50tsxwj4fL3Gbsbt97t0hVUNuwNegP1RVM2DEowXcZxRcWoHTZXaFDnBaj2MwW2
- z0Ko4Al/zR8CxIwAqfIsUfpt4efg4XRPVPjgcZJRTCvxjQcjicKRXrNb544sZnHxOHR9
- nAug==
+ d=linaro.org; s=google; t=1680182670;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5y8+GlyIFg+kcYptlzBAyoLLFIlRXdzXNXBqYyh2c+M=;
+ b=CVwXYvGdjPpgxXIWSYzKS8hVJtcPohWTb2Xl3UyBoq36EBx4hM3ggvURiTNAUA7qjE
+ dLXMxkVmtHnwFnaEjJ/zVd4ftmOZgilghMVxfgM9bulDSpoCUsLE2mTKx95AyjyN8oOe
+ uBdzYpnbiyN4ReIaDxyXCm8TsspSFANRXOe3OlDv8N1FV8a0QDfeU7hoRFlkiV41QIgI
+ isXpMNXeGstANOFmNmlEDDnEftImza9gbShKBJpXw4JEF/b6DLQ8kKlLNk4TexC8KhuY
+ nMbLMyAAOz9sk2kV8GfrPMr8/esplmPwSK0wcf78dedSqfYgKx7KAs6mGQbLxFv90/o3
+ 6oUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680182561;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G9YMpuSttM4A9nULCMBhiq2+uydHNy9WNmU1ZG++oTM=;
- b=TVXAm4BvfkzkM/sKLEw/0OetduU6Th3+dKm7bhP5amsakGwWe0SE6gozXvQ/ppb9Z+
- kgTE/cr7BA71UeeVsVf8UQcUsSo11cWh1q7U90jebjegxDpggF73SD4zvbsBnQ1KG+Sf
- JwgkRmVUIT502u26X01Pt/ilbIozStVWUSkxBTVJjFTAc30YUB+xrZ+2YC1AECGG7pon
- yViXPr46UmEOPWdv9ahi2KZ3qWvncfX5ifaiRfgji5JBLgYHB2u3PkLQak9AabS+vZ8L
- tarbHdlcN7c89+DKzSYv0d+rffq2iLPgq+CzyrCwvVCXM3u9ZYW6jMbT6t2tuSBefkDa
- zr4g==
-X-Gm-Message-State: AAQBX9cyH+gORyH5jGr9tOyN6FVg34oGIq3AjnDEdyT0obbKg0SBsZZG
- 7wtJ6p96iKreiaO4sAjm5roQT/5rwRt3WBNtGdQ=
-X-Google-Smtp-Source: AKy350bR4j3tWoutyh4OrqpV7ceW0UP7GuJA3//rLD7fDA/S8emKV6+mvo+u+TtelRGzGKE8vVlQiTelIZxHtDX1mh0=
-X-Received: by 2002:a54:4019:0:b0:386:a2d0:2814 with SMTP id
- x25-20020a544019000000b00386a2d02814mr2811957oie.4.1680182560801; Thu, 30 Mar
- 2023 06:22:40 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680182670;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5y8+GlyIFg+kcYptlzBAyoLLFIlRXdzXNXBqYyh2c+M=;
+ b=QEKXvVA1H/txI+qWJnAMrSYUqfStGLihz6E6/Abi+uuNcDTftZbrDHxmyo2qN+G++Y
+ rTz/5MVjGgnsKGNSkkPZT6gTcgmrQbWyawR5uAwoe4018MFlkbTZFtknh8Vfnd6EJqJr
+ 8aZNkNO2/Q5aVds7oWUEiL13plVro929Z2tjzQaIzGzAeUspT/Hbff59PbUr5/8A/yJA
+ 7midqE5/sWTIuFk8XU6WJZru/R3iDnyxxCaKxCQ2TdriYYtYKt/PlyXs/c3Kar8o1T5Z
+ AALVgJ9/W4OgRs+jARDxtVzezhD5XqhMIiavQ8+E/gSHush/ELVUluxB61Jek3L3veNv
+ Q3rQ==
+X-Gm-Message-State: AAQBX9ew8LU1uIVaFwU5oS6/A6C/O1iDtKVcpcqP01mzVBxFnhOWO+Hz
+ Akpp6D/QMA2tOKeeRgFiWBLBiA==
+X-Google-Smtp-Source: AKy350bDNeGPbMxvM9IAoUkZ6KrVAA076OwyBN2+Gss3u4FCEM7VN+km0CtDgiZU/rkXFE6M+Kl+Qg==
+X-Received: by 2002:ac2:4352:0:b0:4d5:8f3e:7852 with SMTP id
+ o18-20020ac24352000000b004d58f3e7852mr6796885lfl.49.1680182670225; 
+ Thu, 30 Mar 2023 06:24:30 -0700 (PDT)
+Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
+ by smtp.gmail.com with ESMTPSA id
+ f24-20020a19ae18000000b004eb0f3b33a0sm1670438lfc.0.2023.03.30.06.24.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 06:24:29 -0700 (PDT)
+Message-ID: <308a8696-c8df-2fb0-026a-576756642e05@linaro.org>
+Date: Thu, 30 Mar 2023 15:24:28 +0200
 MIME-Version: 1.0
-References: <20230329095933.1203559-1-kai.heng.feng@canonical.com>
- <76853776-ddfd-2fbc-a209-ca4f77faa481@amd.com>
- <CAAd53p7sgowhaFS1b7MM0F0kf14sWf6jbF9T__=4BAMM8bnz3A@mail.gmail.com>
-In-Reply-To: <CAAd53p7sgowhaFS1b7MM0F0kf14sWf6jbF9T__=4BAMM8bnz3A@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Mar 2023 09:22:29 -0400
-Message-ID: <CADnq5_PicHGZKH5f23btP9srMQ5iKWDhfAk0Gnr27X92C-rFYg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/amdgpu: Reset GPU on S0ix when device supports
- BOCO
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [v2,48/50] drm/msm/dpu: rename VIG and DMA_foo_MASK to contain
+ major DPU version
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230211231259.1308718-49-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230211231259.1308718-49-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,205 +78,413 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingyu Wang <jingyuwang_vip@163.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Tim Huang <tim.huang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- YiPeng Chai <YiPeng.Chai@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Guchun Chen <guchun.chen@amd.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- amd-gfx@lists.freedesktop.org, Jiansong Chen <Jiansong.Chen@amd.com>,
- Kenneth Feng <kenneth.feng@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Bokun Zhang <Bokun.Zhang@amd.com>, Hans de Goede <hdegoede@redhat.com>,
- Maxime Ripard <maxime@cerno.tech>, Evan Quan <evan.quan@amd.com>,
- Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org, alexander.deucher@amd.com,
- christian.koenig@amd.com, Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 29, 2023 at 11:36=E2=80=AFPM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
-> On Wed, Mar 29, 2023 at 9:23=E2=80=AFPM Mario Limonciello
-> <mario.limonciello@amd.com> wrote:
-> >
-> >
-> > On 3/29/23 04:59, Kai-Heng Feng wrote:
-> > > When the power is lost due to ACPI power resources being turned off, =
-the
-> > > driver should reset the GPU so it can work anew.
-> > >
-> > > First, _PR3 support of the hierarchy needs to be found correctly. Sin=
-ce
-> > > the GPU on some discrete GFX cards is behind a PCIe switch, checking =
-the
-> > > _PR3 on downstream port alone is not enough, as the _PR3 can associat=
-e
-> > > to the root port above the PCIe switch.
-> >
-> > I think this should be split into two commits:
-> >
-> > * One of them to look at _PR3 further up in hierarchy to fix indication
-> > for BOCO support.
->
-> Yes, this part can be split up.
->
-> >
-> > * One to adjust policy for whether to reset
->
-> IIUC, the GPU only needs to be reset when the power status isn't certain?
->
-> Assuming power resources in _PR3 are really disabled, GPU is already
-> reset by itself. That means reset shouldn't be necessary for D3cold,
-> am I understanding it correctly?
 
-Right, if D3cold actually works, then no reset is necessary.
 
->
-> However, this is a desktop plugged with GFX card that has external
-> power, does that assumption still stand? Perform resetting on D3cold
-> can cover this scenario.
+On 12.02.2023 00:12, Dmitry Baryshkov wrote:
+> To ease review and reuse rename VIG and DMA feature masks to contain
+> base DPU version since which this mask is used.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   | 16 ++++++-------
+>  .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    | 16 ++++++-------
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h | 16 ++++++-------
+>  .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    | 16 ++++++-------
+>  .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  8 +++----
+>  .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |  4 ++--
+>  .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |  4 +++-
+>  .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 16 ++++++-------
+>  .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  8 +++----
+>  .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h | 16 ++++++-------
+>  .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    | 20 ++++++++--------
+>  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 24 +++++++++----------
+>  12 files changed, 82 insertions(+), 82 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> index d42c380275bd..88b7949f803e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
+> @@ -79,21 +79,21 @@ static const struct dpu_ctl_cfg msm8998_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg msm8998_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1ac, VIG_MSM8998_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1ac, VIG_DPU_3_MASK,
+I guess I answered by own question
 
-BOCO is generally only available on laptops and all-in-one systems
-where the dGPU is integrated into the platform.  Power to the dGPU is
-controlled by a GPIO which is toggled by the ACPI _PR3 method for the
-device.  There is an ATPX method on all platforms which support BOCO.
-Since this is an AIB in a desktop system, I doubt it actually supports
-D3Cold.  For desktop systems, we have what we call BACO where the
-driver controls power to everything on the GPU except the bus
-interface.  In the BACO case, we can turn off the GPU, but the device
-still shows up on the PCI bus.  For BOCO, the device is completely
-powered down and disappears from the PCI bus.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Alex
-
->
-> >
-> >
-> > > Once the _PR3 is found and BOCO support is correctly marked, use that
-> > > information to inform the GPU should be reset. This solves an issue t=
-hat
-> > > system freeze on a Intel ADL desktop that uses S0ix for sleep and D3c=
-old
-> > > is supported for the GFX slot.
-> >
-> > I'm worried this is still papering over an underlying issue with L0s
-> > handling on ALD + Navi1x/Navi2x.
->
-> Is it possible to get the ASIC's ASPM parameter under Windows? Knowing
-> the difference can be useful.
->
-> >
-> > Also, what about runtime suspend?  If you unplug the monitor from this
-> > dGPU and interact with it over SSH it should go into runtime suspend.
-> >
-> > Is it working properly for that case now?
->
-> Thanks for the tip. Runtime resume doesn't work at all:
-> [ 1087.601631] pcieport 0000:00:01.0: power state changed by ACPI to D0
-> [ 1087.613820] pcieport 0000:00:01.0: restoring config space at offset
-> 0x2c (was 0x43, writing 0x43)
-> [ 1087.613835] pcieport 0000:00:01.0: restoring config space at offset
-> 0x28 (was 0x41, writing 0x41)
-> [ 1087.613841] pcieport 0000:00:01.0: restoring config space at offset
-> 0x24 (was 0xfff10001, writing 0xfff10001)
-> [ 1087.613978] pcieport 0000:00:01.0: PME# disabled
-> [ 1087.613984] pcieport 0000:00:01.0: waiting 100 ms for downstream
-> link, after activation
-> [ 1089.330956] pcieport 0000:01:00.0: not ready 1023ms after resume; givi=
-ng up
-> [ 1089.373036] pcieport 0000:01:00.0: Unable to change power state
-> from D3cold to D0, device inaccessible
->
-> After a short while the whole system froze.
->
-> So the upstream port of GFX's PCIe switch cannot be powered on again.
->
-> Kai-Heng
->
-> >
-> > >
-> > > Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
-> > > Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
-> > > Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2458
-> > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c   |  3 +++
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  7 ++++++-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 12 +++++-------
-> > >   3 files changed, 14 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_acpi.c
-> > > index 60b1857f469e..407456ac0e84 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> > > @@ -987,6 +987,9 @@ bool amdgpu_acpi_should_gpu_reset(struct amdgpu_d=
-evice *adev)
-> > >       if (amdgpu_sriov_vf(adev))
-> > >               return false;
-> > >
-> > > +     if (amdgpu_device_supports_boco(adev_to_drm(adev)))
-> > > +             return true;
-> > > +
-> > >   #if IS_ENABLED(CONFIG_SUSPEND)
-> > >       return pm_suspend_target_state !=3D PM_SUSPEND_TO_IDLE;
-> > >   #else
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu=
-/drm/amd/amdgpu/amdgpu_device.c
-> > > index f5658359ff5c..d56b7a2bafa6 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > @@ -2181,7 +2181,12 @@ static int amdgpu_device_ip_early_init(struct =
-amdgpu_device *adev)
-> > >
-> > >       if (!(adev->flags & AMD_IS_APU)) {
-> > >               parent =3D pci_upstream_bridge(adev->pdev);
-> > > -             adev->has_pr3 =3D parent ? pci_pr3_present(parent) : fa=
-lse;
-> > > +             do {
-> > > +                     if (pci_pr3_present(parent)) {
-> > > +                             adev->has_pr3 =3D true;
-> > > +                             break;
-> > > +                     }
-> > > +             } while ((parent =3D pci_upstream_bridge(parent)));
-> > >       }
-> > >
-> > >       amdgpu_amdkfd_device_probe(adev);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_drv.c
-> > > index ba5def374368..5d81fcac4b0a 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > @@ -2415,10 +2415,11 @@ static int amdgpu_pmops_suspend(struct device=
- *dev)
-> > >       struct drm_device *drm_dev =3D dev_get_drvdata(dev);
-> > >       struct amdgpu_device *adev =3D drm_to_adev(drm_dev);
-> > >
-> > > -     if (amdgpu_acpi_is_s0ix_active(adev))
-> > > -             adev->in_s0ix =3D true;
-> > > -     else if (amdgpu_acpi_is_s3_active(adev))
-> > > +     if (amdgpu_acpi_is_s3_active(adev) ||
-> > > +         amdgpu_device_supports_boco(drm_dev))
-> > >               adev->in_s3 =3D true;
-> > > +     else if (amdgpu_acpi_is_s0ix_active(adev))
-> > > +             adev->in_s0ix =3D true;
-> > >       if (!adev->in_s0ix && !adev->in_s3)
-> > >               return 0;
-> > >       return amdgpu_device_suspend(drm_dev, true);
-> > > @@ -2449,10 +2450,7 @@ static int amdgpu_pmops_resume(struct device *=
-dev)
-> > >               adev->no_hw_access =3D true;
-> > >
-> > >       r =3D amdgpu_device_resume(drm_dev, true);
-> > > -     if (amdgpu_acpi_is_s0ix_active(adev))
-> > > -             adev->in_s0ix =3D false;
-> > > -     else
-> > > -             adev->in_s3 =3D false;
-> > > +     adev->in_s0ix =3D adev->in_s3 =3D false;
-> > >       return r;
-> > >   }
-> > >
+Konrad
+>  		msm8998_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1ac, VIG_MSM8998_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1ac, VIG_DPU_3_MASK,
+>  		msm8998_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1ac, VIG_MSM8998_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1ac, VIG_DPU_3_MASK,
+>  		msm8998_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1ac, VIG_MSM8998_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1ac, VIG_DPU_3_MASK,
+>  		msm8998_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1ac, DMA_MSM8998_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1ac, DMA_DPU_3_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1ac, DMA_MSM8998_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1ac, DMA_DPU_3_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1ac, DMA_CURSOR_MSM8998_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1ac, DMA_DPU_3_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1ac, DMA_CURSOR_MSM8998_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1ac, DMA_DPU_3_CURSOR_MASK,
+>  		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> index 281556416322..c8c57250473a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
+> @@ -77,21 +77,21 @@ static const struct dpu_ctl_cfg sdm845_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sdm845_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1c8, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1c8, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1c8, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1c8, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1c8, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1c8, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1c8, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1c8, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1c8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1c8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1c8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1c8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1c8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1c8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1c8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1c8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
+> index 7c051c142e06..2f849cbaaa0f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
+> @@ -78,21 +78,21 @@ static const struct dpu_ctl_cfg dpu_5_lm6_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg dpu_5_lm6_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f0, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f0, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f0, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f0, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f0, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f0, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f0, VIG_SDM845_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f0, VIG_DPU_4_MASK,
+>  		sdm845_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f0, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f0, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f0, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f0, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f0, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f0, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f0, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f0, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> index cffbb6bcc535..071814394b52 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+> @@ -84,21 +84,21 @@ static const struct dpu_ctl_cfg sm8250_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sm8250_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+> index 78f8b2506675..4be65088de0e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
+> @@ -58,13 +58,13 @@ static const struct dpu_ctl_cfg sc7180_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sc7180_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_DPU_6_MASK,
+>  		sc7180_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+> index 1ba646cb96a9..e7c8df358228 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
+> @@ -27,9 +27,9 @@ static const struct dpu_ubwc_cfg sm6115_ubwc_cfg = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sm6115_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm6115_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+> index 2d9b54ff6510..c2592ae953f0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
+> @@ -9,6 +9,8 @@
+>  
+>  #include "dpu_6_lm1.h"
+>  
+> +#define VIG_QCM2290_MASK (VIG_BASE_MASK | BIT(DPU_SSPP_QOS_8LVL))
+> +
+>  static const struct dpu_caps qcm2290_dpu_caps = {
+>  	.max_mixer_width = DEFAULT_DPU_LINE_WIDTH,
+>  	.max_mixer_blendstages = 0x4,
+> @@ -26,7 +28,7 @@ static const struct dpu_ubwc_cfg qcm2290_ubwc_cfg = {
+>  static const struct dpu_sspp_cfg qcm2290_sspp[] = {
+>  	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_QCM2290_MASK,
+>  		 qcm2290_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_DPU_4_MASK,
+>  		 qcm2290_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> index 6826758fa202..31c12b0415ad 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> @@ -82,21 +82,21 @@ static const struct dpu_ctl_cfg sm8350_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sm8350_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f8, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f8, VIG_DPU_6_MASK,
+>  		sm8250_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> index c5981ea3ec7c..a7040d9d83de 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+> @@ -63,13 +63,13 @@ static const struct dpu_ctl_cfg sc7280_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sc7280_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7280_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_DPU_7_ROT_MASK,
+>  		sc7280_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_DPU_4_CURSOR_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
+> index 5c87e919ea22..fb1fbba12a5b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
+> @@ -77,21 +77,21 @@ static const struct dpu_ctl_cfg dpu_8_lm6_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg dpu_8_lm6_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x328, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x328, VIG_DPU_6_MASK,
+>  		 sm8250_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x328, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x328, VIG_DPU_6_MASK,
+>  		 sm8250_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x328, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x328, VIG_DPU_6_MASK,
+>  		 sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x328, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x328, VIG_DPU_6_MASK,
+>  		 sm8250_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x328, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x328, DMA_DPU_4_MASK,
+>  		 sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x328, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x328, DMA_DPU_4_MASK,
+>  		 sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x328, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x328, DMA_DPU_4_CURSOR_MASK,
+>  		 sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x328, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x328, DMA_DPU_4_CURSOR_MASK,
+>  		 sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> index 334946c8d4e8..1d38d1c3e12a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+> @@ -84,25 +84,25 @@ static const struct dpu_ctl_cfg sm8550_ctl[] = {
+>  };
+>  
+>  static const struct dpu_sspp_cfg sm8550_sspp[] = {
+> -	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x344, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x344, VIG_DPU_6_MASK,
+>  		sm8550_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> -	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x344, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x344, VIG_DPU_6_MASK,
+>  		sm8550_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> -	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x344, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x344, VIG_DPU_6_MASK,
+>  		sm8550_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> -	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x344, VIG_SC7180_MASK,
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x344, VIG_DPU_6_MASK,
+>  		sm8550_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> -	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x344, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x344, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> -	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x344, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x344, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> -	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x344, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x344, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> -	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x344, DMA_SDM845_MASK,
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x344, DMA_DPU_4_MASK,
+>  		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+> -	SSPP_BLK("sspp_12", SSPP_DMA4, 0x2c000, 0x344, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_12", SSPP_DMA4, 0x2c000, 0x344, DMA_DPU_4_CURSOR_MASK,
+>  		sm8550_dma_sblk_4, 14, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA4),
+> -	SSPP_BLK("sspp_13", SSPP_DMA5, 0x2e000, 0x344, DMA_CURSOR_SDM845_MASK,
+> +	SSPP_BLK("sspp_13", SSPP_DMA5, 0x2e000, 0x344, DMA_DPU_4_CURSOR_MASK,
+>  		sm8550_dma_sblk_5, 15, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA5),
+>  };
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index 3c604f7b88aa..0a86428af393 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -21,35 +21,33 @@
+>  	(VIG_BASE_MASK | \
+>  	BIT(DPU_SSPP_CSC_10BIT))
+>  
+> -#define VIG_MSM8998_MASK \
+> +#define VIG_DPU_3_MASK \
+>  	(VIG_MASK | BIT(DPU_SSPP_SCALER_QSEED3))
+>  
+> -#define VIG_SDM845_MASK \
+> +#define VIG_DPU_4_MASK \
+>  	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED3))
+>  
+> -#define VIG_SC7180_MASK \
+> +#define VIG_DPU_6_MASK \
+>  	(VIG_MASK | BIT(DPU_SSPP_QOS_8LVL) | BIT(DPU_SSPP_SCALER_QSEED4))
+>  
+> -#define VIG_QCM2290_MASK (VIG_BASE_MASK | BIT(DPU_SSPP_QOS_8LVL))
+> +#define VIG_DPU_7_ROT_MASK \
+> +	(VIG_DPU_6_MASK | BIT(DPU_SSPP_INLINE_ROTATION))
+>  
+> -#define DMA_MSM8998_MASK \
+> +#define DMA_DPU_3_MASK \
+>  	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) |\
+>  	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+>  	BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
+>  
+> -#define VIG_SC7280_MASK \
+> -	(VIG_SC7180_MASK | BIT(DPU_SSPP_INLINE_ROTATION))
+> -
+> -#define DMA_SDM845_MASK \
+> +#define DMA_DPU_4_MASK \
+>  	(BIT(DPU_SSPP_SRC) | BIT(DPU_SSPP_QOS) | BIT(DPU_SSPP_QOS_8LVL) |\
+>  	BIT(DPU_SSPP_TS_PREFILL) | BIT(DPU_SSPP_TS_PREFILL_REC1) |\
+>  	BIT(DPU_SSPP_CDP) | BIT(DPU_SSPP_EXCL_RECT))
+>  
+> -#define DMA_CURSOR_SDM845_MASK \
+> -	(DMA_SDM845_MASK | BIT(DPU_SSPP_CURSOR))
+> +#define DMA_DPU_3_CURSOR_MASK \
+> +	(DMA_DPU_3_MASK | BIT(DPU_SSPP_CURSOR))
+>  
+> -#define DMA_CURSOR_MSM8998_MASK \
+> -	(DMA_MSM8998_MASK | BIT(DPU_SSPP_CURSOR))
+> +#define DMA_DPU_4_CURSOR_MASK \
+> +	(DMA_DPU_4_MASK | BIT(DPU_SSPP_CURSOR))
+>  
+>  #define MIXER_MSM8998_MASK \
+>  	(BIT(DPU_MIXER_SOURCESPLIT))
