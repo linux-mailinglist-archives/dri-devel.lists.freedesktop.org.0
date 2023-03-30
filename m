@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9B56CFC96
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C616CFC98
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 09:22:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB82310E17D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED6C510ECF1;
 	Thu, 30 Mar 2023 07:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C129D10E17D
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF14010E144
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:22:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 52C18B825DB;
- Thu, 30 Mar 2023 07:22:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B69AC433D2;
- Thu, 30 Mar 2023 07:22:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0A89061F0D;
+ Thu, 30 Mar 2023 07:22:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8701BC4339B;
+ Thu, 30 Mar 2023 07:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680160940;
- bh=DVxIn3liM6dYhI7nOgrenk2CQU1ESOj+SnRpV1vNFAU=;
+ s=k20201202; t=1680160941;
+ bh=lLkkzx8QZDfliHcbKc1Gc7JmXlI0aBIc9z4+No5kV+8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Qq9pBOeD0lXUGLrObKzDYKRo4aRS8C0Qnt+JlBoYeSzIL5Qg4VknD9Ssq0Vjjgs//
- 9eNMBMvDPG1GnhSacWX1bRfgOSYputm2Bn1I5bdDNwv4B/ACvQL5HsxegXHzye/zhx
- SK0hZSfSooR1eh7IsIw48HtfTh57hmtxmJfbjcTjmX7yHBltKZcf+eCCyKbKovv9aR
- Jnu/aqiToOz2i5JjPP+kHeAp0T4crlY3Uko4ULUyVKjpfwno+wY4x9DApr6yQW0KMA
- GZ+lq8c6rloUCWId/2MV6zxR+C3copwP2lU7uNvwXztucfxPDUmIAJIjT9JDq3WB/U
- CpdKMcAMtrsDw==
+ b=XUcefq5mCvcmHTX2Oy/5dqlORUJranIVc4LchuOkxAOEXqlueWtweBb2vQLb6i2/4
+ 4cEPWY28JZr/5wSLm36S5PdYa3U9hnKbXm93a2G5g4ErS9Am2H/6K2ogZLF4tX9ZAB
+ R7k/AlDUBDNhxblkDWuPYL9uRmQdOvF1dVr+R7NyJRwUjzXGLLe3mT5IDfDBCgriBd
+ T/eTETwzH/cXGLBRZBua2wmI6ZR+Aw/D8Zif9vykK0pKXyCKkra4Z05C2ckZnbD0Uw
+ TWawAmcVME9TpX/OwiWowjnU3jBCgKfU4M7tKW660EV0uj3HZVdevyvaH0eJ10JsD1
+ cq5l8eIHS0SyQ==
 From: Oded Gabbay <ogabbay@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/7] accel/habanalabs: remove completion from abnormal
- interrupt work name
-Date: Thu, 30 Mar 2023 10:22:08 +0300
-Message-Id: <20230330072213.1596318-2-ogabbay@kernel.org>
+Subject: [PATCH 3/7] accel/habanalabs: fix events mask of decoder abnormal
+ interrupts
+Date: Thu, 30 Mar 2023 10:22:09 +0300
+Message-Id: <20230330072213.1596318-3-ogabbay@kernel.org>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230330072213.1596318-1-ogabbay@kernel.org>
 References: <20230330072213.1596318-1-ogabbay@kernel.org>
@@ -59,113 +59,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomer Tayar <ttayar@habana.ai>
 
-Decoder abnormal interrupts are for errors and not for completion, so
-rename the relevant work and work function to not include 'completion'.
+The decoder IRQ status register may have several set bits upon an
+abnormal interrupt. Therefore, when setting the events mask, need to
+check all bits and not using if-else.
 
 Signed-off-by: Tomer Tayar <ttayar@habana.ai>
 Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
 Signed-off-by: Oded Gabbay <ogabbay@kernel.org>
 ---
- drivers/accel/habanalabs/common/decoder.c    | 22 +++++++-------------
- drivers/accel/habanalabs/common/habanalabs.h | 10 ++++-----
- drivers/accel/habanalabs/common/irq.c        |  2 +-
- 3 files changed, 14 insertions(+), 20 deletions(-)
+ drivers/accel/habanalabs/common/decoder.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/accel/habanalabs/common/decoder.c b/drivers/accel/habanalabs/common/decoder.c
-index 69c78c1784b4..59a1ecb20c04 100644
+index 59a1ecb20c04..c03a6da45d00 100644
 --- a/drivers/accel/habanalabs/common/decoder.c
 +++ b/drivers/accel/habanalabs/common/decoder.c
-@@ -43,22 +43,24 @@ static void dec_print_abnrm_intr_source(struct hl_device *hdev, u32 irq_status)
- 		intr_source[2], intr_source[3], intr_source[4], intr_source[5]);
- }
- 
--static void dec_error_intr_work(struct hl_device *hdev, u32 base_addr, u32 core_id)
-+static void dec_abnrm_intr_work(struct work_struct *work)
+@@ -47,8 +47,8 @@ static void dec_abnrm_intr_work(struct work_struct *work)
  {
-+	struct hl_dec *dec = container_of(work, struct hl_dec, abnrm_intr_work);
-+	struct hl_device *hdev = dec->hdev;
+ 	struct hl_dec *dec = container_of(work, struct hl_dec, abnrm_intr_work);
+ 	struct hl_device *hdev = dec->hdev;
++	u32 irq_status, event_mask = 0;
  	bool reset_required = false;
- 	u32 irq_status, event_mask;
+-	u32 irq_status, event_mask;
  
--	irq_status = RREG32(base_addr + VCMD_IRQ_STATUS_OFFSET);
-+	irq_status = RREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET);
+ 	irq_status = RREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET);
  
--	dev_err(hdev->dev, "Decoder abnormal interrupt %#x, core %d\n", irq_status, core_id);
-+	dev_err(hdev->dev, "Decoder abnormal interrupt %#x, core %d\n", irq_status, dec->core_id);
- 
- 	dec_print_abnrm_intr_source(hdev, irq_status);
- 
- 	/* Clear the interrupt */
--	WREG32(base_addr + VCMD_IRQ_STATUS_OFFSET, irq_status);
-+	WREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET, irq_status);
- 
- 	/* Flush the interrupt clear */
--	RREG32(base_addr + VCMD_IRQ_STATUS_OFFSET);
-+	RREG32(dec->base_addr + VCMD_IRQ_STATUS_OFFSET);
+@@ -64,17 +64,21 @@ static void dec_abnrm_intr_work(struct work_struct *work)
  
  	if (irq_status & VCMD_IRQ_STATUS_TIMEOUT_MASK) {
  		reset_required = true;
-@@ -77,14 +79,6 @@ static void dec_error_intr_work(struct hl_device *hdev, u32 base_addr, u32 core_
+-		event_mask = HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
+-	} else if (irq_status & VCMD_IRQ_STATUS_CMDERR_MASK) {
+-		event_mask = HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
+-	} else {
+-		event_mask = HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
++		event_mask |= HL_NOTIFIER_EVENT_GENERAL_HW_ERR;
  	}
- }
  
--static void dec_completion_abnrm(struct work_struct *work)
--{
--	struct hl_dec *dec = container_of(work, struct hl_dec, completion_abnrm_work);
--	struct hl_device *hdev = dec->hdev;
--
--	dec_error_intr_work(hdev, dec->base_addr, dec->core_id);
--}
--
- void hl_dec_fini(struct hl_device *hdev)
- {
- 	kfree(hdev->dec);
-@@ -108,7 +102,7 @@ int hl_dec_init(struct hl_device *hdev)
- 		dec = hdev->dec + j;
- 
- 		dec->hdev = hdev;
--		INIT_WORK(&dec->completion_abnrm_work, dec_completion_abnrm);
-+		INIT_WORK(&dec->abnrm_intr_work, dec_abnrm_intr_work);
- 		dec->core_id = j;
- 		dec->base_addr = hdev->asic_funcs->get_dec_base_addr(hdev, j);
- 		if (!dec->base_addr) {
-diff --git a/drivers/accel/habanalabs/common/habanalabs.h b/drivers/accel/habanalabs/common/habanalabs.h
-index a6f5c2152b0a..7b6ad3d7dbaa 100644
---- a/drivers/accel/habanalabs/common/habanalabs.h
-+++ b/drivers/accel/habanalabs/common/habanalabs.h
-@@ -1211,15 +1211,15 @@ struct hl_eq {
- /**
-  * struct hl_dec - describes a decoder sw instance.
-  * @hdev: pointer to the device structure.
-- * @completion_abnrm_work: workqueue object to run when decoder generates an error interrupt
-+ * @abnrm_intr_work: workqueue work item to run when decoder generates an error interrupt.
-  * @core_id: ID of the decoder.
-  * @base_addr: base address of the decoder.
-  */
- struct hl_dec {
--	struct hl_device		*hdev;
--	struct work_struct		completion_abnrm_work;
--	u32				core_id;
--	u32				base_addr;
-+	struct hl_device	*hdev;
-+	struct work_struct	abnrm_intr_work;
-+	u32			core_id;
-+	u32			base_addr;
- };
- 
- /**
-diff --git a/drivers/accel/habanalabs/common/irq.c b/drivers/accel/habanalabs/common/irq.c
-index 0d59bb7c9063..c67895b1cdeb 100644
---- a/drivers/accel/habanalabs/common/irq.c
-+++ b/drivers/accel/habanalabs/common/irq.c
-@@ -489,7 +489,7 @@ irqreturn_t hl_irq_handler_dec_abnrm(int irq, void *arg)
- {
- 	struct hl_dec *dec = arg;
- 
--	schedule_work(&dec->completion_abnrm_work);
-+	schedule_work(&dec->abnrm_intr_work);
- 
- 	return IRQ_HANDLED;
++	if (irq_status & VCMD_IRQ_STATUS_CMDERR_MASK)
++		event_mask |= HL_NOTIFIER_EVENT_UNDEFINED_OPCODE;
++
++	if (irq_status & (VCMD_IRQ_STATUS_ENDCMD_MASK |
++				VCMD_IRQ_STATUS_BUSERR_MASK |
++				VCMD_IRQ_STATUS_ABORT_MASK))
++		event_mask |= HL_NOTIFIER_EVENT_USER_ENGINE_ERR;
++
+ 	if (reset_required) {
+ 		event_mask |= HL_NOTIFIER_EVENT_DEVICE_RESET;
+ 		hl_device_cond_reset(hdev, 0, event_mask);
+-	} else {
++	} else if (event_mask) {
+ 		hl_notifier_event_send_all(hdev, event_mask);
+ 	}
  }
 -- 
 2.40.0
