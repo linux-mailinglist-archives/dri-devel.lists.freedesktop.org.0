@@ -2,77 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E461C6D1295
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 00:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CD36D12BC
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 01:02:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2096410F093;
-	Thu, 30 Mar 2023 22:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 880D910F097;
+	Thu, 30 Mar 2023 23:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB7F10F092;
- Thu, 30 Mar 2023 22:49:27 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32UMgODg030467; Thu, 30 Mar 2023 22:49:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=xBDS8mr7YURKycdTqb7k1vledUgwm4Jntv+fK5lnXLU=;
- b=TpQfNGnnVZBd/ZpPP5tTFaiPXfalyx/nNCx2wy1UVhDRZ6Nw9RlwdfuUgc4HhOG7ehEC
- IyTykKUbxD2tANF5KiMyl0HKV5WRAnjfSjsFcUmMbYmgUuFQZ4PUnW1B04ShqIGvG8Uq
- O7cWhO+BXiLLtfTSCrownmHtmoMUZHIALb1/5xfWcLfhQsjOCMIQb+Q1uaGBG1rsMFS8
- Ao+kVdF6oevRiWirf8YAMZ2I2vDdmQ3FfNV6WQyHviD4V9qa7NSxz0dxsg6sVXamwQjq
- WQozxtWlARq1V5jW0Ew+xNC1ZG8rV30txeIiDWHc7vbEnFednRiqJk4LQi7+xHV0TdnA PA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pn7by9ypb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Mar 2023 22:49:24 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32UMnNnu015763
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Mar 2023 22:49:23 GMT
-Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 30 Mar
- 2023 15:49:23 -0700
-Message-ID: <2c9ac12f-df2f-8576-555b-3d84a6205ee3@quicinc.com>
-Date: Thu, 30 Mar 2023 15:49:22 -0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 400E810F084;
+ Thu, 30 Mar 2023 23:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680217318; x=1711753318;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=4hOLgA+Dh5f9VPqlNLF9fSGTJwnl3alcZAymeCg0snA=;
+ b=ZGfUDkhqHu+fedXKlibtMda+blAEMW8PbOsI+TdMVgkMXx+Yfb9YPkne
+ wlSXkTCzGyDrDl5h0QN1R+Veqw/EQWliuJZLt1lB3JOV4fXZ3AWjguGwp
+ fWFBDUb65jyq0ys/FdW6+DECtNxvGJCQCv9jXZFgDEkqeYAQZy2ZX/SQr
+ TfGDtDQPDedyRJdqhg2BFd/ys9KaB3chWVgT78Wdpc6kJ1KwT3DlLePk4
+ UKrhM6eEtnGpiS2xj5G8SO49+hr5qrx1u9PNusam3pEtrvehON/SKByGr
+ ohWAa18TS+66sfxbU2FwmjnUt60nvOtET4ij93aVVy/tvzg0HrELkJACf g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="427581167"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="427581167"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 16:01:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="795863344"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="795863344"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2023 16:01:57 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 30 Mar 2023 16:01:57 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 30 Mar 2023 16:01:56 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Thu, 30 Mar 2023 16:01:56 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.48) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Thu, 30 Mar 2023 16:01:56 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Xm0/P9Uec3wNaW1WkXpwxsb0VHXvXfqnojmrCNRFlrMkyg2MCoikgllCyZjHc8sajNJWeHa06eARRZwTlL9NpivRkQLkn0L+zPSntD7ujH1TjwpFraarA2l+J4N6jNvv4Oy48trLIOvDaDT+x2aPqE23+Lawwsi3w9oNsyepPA3whb2XfqxmU1k1F+eo+QBbEikRg3AlD6SN4Vx0NQS+VA58cfMGx5a0CyJHnoCBxd+u8D0X1yL2dOoylk5WL2Rkzcd/70LV2lkJ/D3tOLJWsYRQl41yaq3juxHBiJFbekTFOmFYiKawizqEb66anhuiECmG5L3nnFRvHLTWX76XMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tls4RWxAdWT9FuT2t+XBhhorUIaHoYp/tcf6Ad9qOvI=;
+ b=Q1+3m0U3g2Z/+APa64iuSBYd61Y/lDA20qmSl2mUUr8Xl2bY6HFFp7H0T5xjOak70H5daqDpcU7uXyR32K2lXZoIG8zQcJXBjv32YGKtBU7tOlK8wznLUNRhV/ancQcrlJetkzShxd1wjtDEYLjo6g6k86Jjl2XwwWZsP/NzEC1qojb/Jb7Guz+bXuUf8+0ZgSfu9FQj1eiuQeD964yWFTC/lDSC8ZZ3crRSYLj7CKEzXG7aorDmkw7bhCoKEPRq8PbuMEoLQ7SeVj2t10jxcQf9Sym1zH7Kl6+9MmQQejEuayqS4EYw7wROVD0jWCWHzS38PeH+/1X6c6/7ZYXpKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by BL1PR11MB5415.namprd11.prod.outlook.com (2603:10b6:208:315::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.20; Thu, 30 Mar
+ 2023 23:01:50 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::c5b2:6996:5aee:91db]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::c5b2:6996:5aee:91db%5]) with mapi id 15.20.6222.033; Thu, 30 Mar 2023
+ 23:01:50 +0000
+Date: Thu, 30 Mar 2023 16:01:44 -0700
+From: Ira Weiny <ira.weiny@intel.com>
+To: Zhao Liu <zhao1.liu@linux.intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Matthew Auld
+ <matthew.auld@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Nirmoy Das <nirmoy.das@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Chris Wilson
+ <chris@chris-wilson.co.uk>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/9] drm/i915: Use memcpy_[from/to]_page() in
+ gem/i915_gem_pyhs.c
+Message-ID: <642614d888783_375f7e294a5@iweiny-mobl.notmuch>
+References: <20230329073220.3982460-1-zhao1.liu@linux.intel.com>
+ <20230329073220.3982460-3-zhao1.liu@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230329073220.3982460-3-zhao1.liu@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0064.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::9) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC 5/5] drm/msm/dsi: Use MSM and DRM DSC helper methods
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v1-5-f3e479f59b6d@quicinc.com>
- <0698ce89-d70c-c3f4-f006-18130858aacf@linaro.org>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <0698ce89-d70c-c3f4-f006-18130858aacf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: iIDV4J5kHwHtZKzpgvJYF5HZpfqVrpuA
-X-Proofpoint-GUID: iIDV4J5kHwHtZKzpgvJYF5HZpfqVrpuA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-30_13,2023-03-30_04,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 clxscore=1011
- adultscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303300179
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|BL1PR11MB5415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 484c729f-78cf-47b5-8f62-08db3172bea7
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: RMT2BsLRPAUl6zsL9LpzetC1w8gRZ6VuFiVnWCFnmbm5F0s8qR3mDb+4Zukyax/XNifMJB/vgyt15OZjDkYjC4IMomsXWmxYKVEDdKeZCejGrwK07Pi2zBxmZ3nPk4uZcBkVEiSVZU3zz9AxnN86cZOyOfDcE1o2DFGKErJtT28PPOy/dGQXri+IPwQc7gXvnioHpOumu4j+KbqKPtuqBjL44vP+URhckEpHVEddlteUhO8ymcoz/h/44X7KdpoIQ8J0KCR1T8Adai10z4ojq8GlMdmtghGh0pMeiDBF6stcnHfZ2kfEPkAxulQGm4ZRHAtlXMhaOBmsUAvPSElagAIMAUukogA6WATkXBBzmIoQDgOdNiJ+2SGXs+dvkY60RElhmejBzEDjMNMT9XaoVdtziaDqio5LGfj2E5fPkgPr1MV4IljWmwWN0kSzVth724lr2zt7tNrJOJ+7xOVU9onJ+fOk8tij0J2JbyFWg+67KsuppWNAs5TfQxOgKtuDF7+FRO1ef129zfyn/t6W+EeIz78Ra9a2cp/NGFNlIxyGC3zsKXp5G4x86mswY1KbO0wHjaRtDXOOGDcr3QS1Lu+Sl5WeKL6qdJN+4lFEDH4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(39860400002)(376002)(366004)(136003)(396003)(346002)(451199021)(110136005)(54906003)(478600001)(316002)(6666004)(83380400001)(186003)(82960400001)(921005)(5660300002)(966005)(9686003)(26005)(6512007)(6486002)(7416002)(38100700002)(6506007)(8936002)(2906002)(44832011)(66556008)(41300700001)(66476007)(66946007)(8676002)(4326008)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+OMcWCILWKeu+jLzkezLNyJInJfIao9P+LKlNeNgfB+1qBoO1H84+fc06gjI?=
+ =?us-ascii?Q?Fwum+O2LqPH3uOVdIueRPwq7GB7yS95cpCT6r0bMW/cB+/LHuSRYCnGI+rii?=
+ =?us-ascii?Q?jgSJq53oLejbQfhHqTGlSw9RUf8fgh4JCAro62oS21BJkUxdIQ96o9eZ/+xS?=
+ =?us-ascii?Q?VTxEJgUaWrI4UZ3ukPVXyGGNJFBp5eZY7bymwz+SdwLDVrE1X40FetpUy5Uo?=
+ =?us-ascii?Q?X0btZeNVeCYhXvn2wrhLzOT56rkgUKc+CEKl11cPsRy7Az0UUEs7Kzd+RbN8?=
+ =?us-ascii?Q?/7J3/DdNPPHcoRs9s/ZxoJmv2pexxe5gUj3cDMJifFMqsuAB5hCtYUL7x10l?=
+ =?us-ascii?Q?kJj28kZUwEobr0xOglPQvENGyvINuIfy4F12VhJU6ChsaYCdI4zVxCKAbgon?=
+ =?us-ascii?Q?jtQ8HuPB54gR7PnJ+/6HOi18uxwJH7XhKlXsJMzbfAopce2Ky6n2NnsfT2U3?=
+ =?us-ascii?Q?xhnsjh83KZGVa3T971TOTKAkr8G5VhfxD70Ci+X2FOskGV8HaaSZFFXP/3mb?=
+ =?us-ascii?Q?6VkBei5qm0Kb4CnhrricZEOpNc8Tr/TcPtf6gjWCA4iko+YgLGfdlx3stiuE?=
+ =?us-ascii?Q?IY1n1uVe5roYhxhkat5PNPBvu0f+8zmJfb8Z51v7UD2ykUq0YbpgqWm4lLxg?=
+ =?us-ascii?Q?tiJZgFu3KlFxtsj6zMnjBqv9zoOcLcepEYSTMsPiS+tG91LJgJeJ56vCpBXR?=
+ =?us-ascii?Q?6LCnvnku4bEc9GPp4V3X05LLLPc6PPVSBa9GVZRxXSVnTNOT8ZU5ceUtfv23?=
+ =?us-ascii?Q?6w/Za6NR/blpp1P+YwQqGBSJhMpXTCp0RjSxIA5BlZo5bMURMttaPc+h3QWw?=
+ =?us-ascii?Q?g3yozdJNbVOs6DdPYYvAPkiXBRCrW0KeyNdrvxw1IqA4Xil76jlmTOZhmhU9?=
+ =?us-ascii?Q?nPaiyOpIox4DqzJ8jyIoii7k/NEXgLKZtczDMoN6S8/+VhGprRVBHZiePyQe?=
+ =?us-ascii?Q?pHv9okLxwQQhqFIdTgcN7tsqvKdpMpaXDa+996tY/hkaJnlCjdB52sgjsOK7?=
+ =?us-ascii?Q?ds5MjHNUmqrPQh49jdWl4I6EP1lLYaB8uUznNE6rGTQ+zJWJzusXAcq6U+NM?=
+ =?us-ascii?Q?4Aa/O6c9zoTVCJL7EQFp2LO7I2h1qPCzRLMULaeE9xAa/ZnZ8Em0fw//QXww?=
+ =?us-ascii?Q?cCio1xTTx4HeB9AjS8sBXStaDsj6OyvS2hp3pIvAlenfSoMI7VZoQ0cVg9lU?=
+ =?us-ascii?Q?qBudqDurCtovAzPPC3Vl5BYR8IV+cpvXoWZ7VO27uxXaeEvtAXkm2e4vWEYa?=
+ =?us-ascii?Q?HW0BqEqRDsZZxbl5l5JglmOlCobTDmrWeJC5dvES1HTwQCqsq0Dphs7tEHkw?=
+ =?us-ascii?Q?EC9WycJcTIjKWHZdWQ4Uozqi3spgq6mXezn3+57DsYV8DtcPtmVPNBXKkgiK?=
+ =?us-ascii?Q?+eAwcot5y6VE8n++N08EZMMPy9JYa3D1tuLpJZGrjES/v/9fiLF/WAvUbxG6?=
+ =?us-ascii?Q?EFm8l0QsZy5agc5pZAp2jOSiDJLYfNtXcrL/cuJjdoKxRyXcbbzOnuilZXdP?=
+ =?us-ascii?Q?UB0dPzL1U1IrHbr954CKnU6Q8sl6IjI9gmVJjOYiG2pM+D+0dQRDmjIC/myg?=
+ =?us-ascii?Q?S5S0I/tqH5pYuQltaKMNcnnXIBCZ4bgbmoTPpYKN?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 484c729f-78cf-47b5-8f62-08db3172bea7
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2023 23:01:50.4198 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vEP5LmMAkugoC/nTtWufwR9kz7RVb/hjTnC27vsDGM7UglfsfSYnTLLJa9fOuWevIJe4nAztmAYYPAPYFNUZPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5415
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,125 +158,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
+ Ira Weiny <ira.weiny@intel.com>, Zhao Liu <zhao1.liu@intel.com>,
+ Zhenyu Wang <zhenyu.z.wang@intel.com>, Dave Hansen <dave.hansen@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 3/29/2023 4:48 PM, Dmitry Baryshkov wrote:
-> On 30/03/2023 02:18, Jessica Zhang wrote:
->> Use MSM and DRM DSC helper methods.
->>
->> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/dsi/dsi_host.c | 18 ++++++++++++------
->>   1 file changed, 12 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c 
->> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 74d38f90398a..7419fe58a941 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -31,6 +31,7 @@
->>   #include "msm_kms.h"
->>   #include "msm_gem.h"
->>   #include "phy/dsi_phy.h"
->> +#include "disp/msm_dsc_helper.h"
->>   #define DSI_RESET_TOGGLE_DELAY_MS 20
->> @@ -841,14 +842,14 @@ static void dsi_update_dsc_timing(struct 
->> msm_dsi_host *msm_host, bool is_cmd_mod
->>   {
->>       struct drm_dsc_config *dsc = msm_host->dsc;
->>       u32 reg, reg_ctrl, reg_ctrl2;
->> -    u32 slice_per_intf, total_bytes_per_intf;
->> +    u32 slice_per_intf;
->>       u32 pkt_per_line;
->>       u32 eol_byte_num;
->>       /* first calculate dsc parameters and then program
->>        * compress mode registers
->>        */
->> -    slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
->> +    slice_per_intf = msm_dsc_get_slice_per_intf(dsc, hdisplay);
+Zhao Liu wrote:
+> From: Zhao Liu <zhao1.liu@intel.com>
 > 
-> This looks good
+> The use of kmap_atomic() is being deprecated in favor of
+> kmap_local_page()[1],  and this patch converts the call from
+> kmap_atomic() + memcpy() to memcpy_[from/to]_page(), which use
+> kmap_local_page() to build local mapping and then do memcpy().
 > 
->>       /*
->>        * If slice_count is greater than slice_per_intf
->> @@ -858,10 +859,10 @@ static void dsi_update_dsc_timing(struct 
->> msm_dsi_host *msm_host, bool is_cmd_mod
->>       if (dsc->slice_count > slice_per_intf)
->>           dsc->slice_count = 1;
->> -    total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
->> +    eol_byte_num = msm_dsc_get_eol_byte_num(msm_host->dsc, hdisplay,
->> +            dsi_get_bpp(msm_host->format));
->> -    eol_byte_num = total_bytes_per_intf % 3;
->> -    pkt_per_line = slice_per_intf / dsc->slice_count;
->> +    pkt_per_line = slice_per_intf / MSM_DSC_SLICE_PER_PKT;
+> The main difference between atomic and local mappings is that local
+> mappings doesn't disable page faults or preemption (the preemption is
+> disabled for !PREEMPT_RT case, otherwise it only disables migration).
 > 
-> And for these values the result is definitely changed. Separate patch & 
-> description please. Just in case, "values per downstream kernel" is not 
-> a proper description for such changes.
-
-Hi Dmitry,
-
-Sure, I can put this into a separate patch.
-
-The reason this was changed from slice_count to SLICE_PER_PKT was 
-because slice count and slice per packet aren't always equivalent. There 
-can be cases where panel configures DSC to have multiple soft slices per 
-interface, but the panel only specifies 1 slice per packet.
-
+> With kmap_local_page(), we can avoid the often unwanted side effect of
+> unnecessary page faults and preemption disables.
 > 
->>       if (is_cmd_mode) /* packet data type */
->>           reg = 
->> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
->> @@ -911,6 +912,11 @@ static void dsi_timing_setup(struct msm_dsi_host 
->> *msm_host, bool is_bonded_dsi)
->>       DBG("");
->> +    if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO)
->> +        /* Default widebus_en to false for now. */
->> +        hdisplay = msm_dsc_get_pclk_per_line(msm_host->dsc, 
->> mode->hdisplay,
->> +                dsi_get_bpp(msm_host->format));
->> +
+> In drm/i915/gem/i915_gem_phys.c, the functions
+> i915_gem_object_get_pages_phys() and i915_gem_object_put_pages_phys()
+> don't need to disable pagefaults and preemption for mapping because of
+> 2 reasons:
 > 
-> This is definitely something new and thus should probably go into a 
-> separate patch and be described. Also I'm not sure how does that 
-> interact with the hdisplay-related calculations below, under the if(dsc) 
-> clause.
+> 1. The flush operation is safe. In drm/i915/gem/i915_gem_object.c,
+> i915_gem_object_get_pages_phys() and i915_gem_object_put_pages_phys()
+> calls drm_clflush_virt_range() to use CLFLUSHOPT or WBINVD to flush.
+> Since CLFLUSHOPT is global on x86 and WBINVD is called on each cpu in
+> drm_clflush_virt_range(), the flush operation is global.
+> 
+> 2. Any context switch caused by preemption or page faults (page fault
+> may cause sleep) doesn't affect the validity of local mapping.
+> 
+> Therefore, i915_gem_object_get_pages_phys() and
+> i915_gem_object_put_pages_phys() are two functions where the uses of
+> local mappings in place of atomic mappings are correctly suited.
+> 
+> Convert the calls of kmap_atomic() / kunmap_atomic() + memcpy() to
+> memcpy_from_page() and memcpy_to_page().
+> 
+> [1]: https://lore.kernel.org/all/20220813220034.806698-1-ira.weiny@intel.com
+> 
+> v2:
+> * Used memcpy_from_page() and memcpy_to_page() to replace
+>   kmap_local_page() + memcpy().
+> * Dropped hot plug related description since it has nothing to do with
+>   kmap_local_page().
+> * Added description of the motivation of using kmap_local_page().
+> 
+> Suggested-by: Dave Hansen <dave.hansen@intel.com>
+> Suggested-by: Ira Weiny <ira.weiny@intel.com>
 
-After double-checking the math here, I think this part of the change is 
-actually wrong. pclk_per_line is essentially doing hdisplay / 3, which 
-is a repeat of what's being done in the `if (dsc)` block.
-
-Will replace `hdisplay /= 3` with the pclk_per_line calculation.
-
-Thanks,
-
-Jessica Zhang
-
-> 
->>       /*
->>        * For bonded DSI mode, the current DRM mode has
->>        * the complete width of the panel. Since, the complete
->> @@ -1759,7 +1765,7 @@ static int dsi_populate_dsc_params(struct 
->> msm_dsi_host *msm_host, struct drm_dsc
->>           return ret;
->>       }
->> -    dsc->initial_scale_value = 32;
->> +    dsc->initial_scale_value = 
->> drm_dsc_calculate_initial_scale_value(dsc);
-> 
-> This is fine, we only support 8bpp where these values match.
-> 
->>       dsc->line_buf_depth = dsc->bits_per_component + 1;
->>       return drm_dsc_compute_rc_parameters(dsc);
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
-> 
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
