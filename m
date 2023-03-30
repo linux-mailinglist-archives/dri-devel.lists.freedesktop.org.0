@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531C26CFFF9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826656D0012
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 11:46:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F25DD10ED71;
-	Thu, 30 Mar 2023 09:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88A8010E14F;
+	Thu, 30 Mar 2023 09:46:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C07D10ED71
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:41:41 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id a11so18957233lji.6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 02:41:41 -0700 (PDT)
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6756310E14F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 09:46:19 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id cf7so22733096ybb.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 02:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680169299;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Jj7uHqZOdLN0sDK3Xcz4ned4693ywIi2Ky9y8C4gIS8=;
- b=h1EQTKbpKmU7pno6HTiq8ogo8/pH+W+4Mm4OT5kugbSihTJ8styMzSEeLWyyaZa2Ej
- LPcYGcBDDZn6cpWVr7Sx/8sP2d/E8E8QWGf+2oLgcvvuf/Z3rpqqHv9Wr2WWXo1NVRVE
- cEFmT4JCiy2FZ4OO2QLPY8ljt2/SQJeR11cqw=
+ d=linaro.org; s=google; t=1680169578;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xmf4KluG7S4v5uDGa2+BLs6ltj4TZB+1o0aJASQSOQw=;
+ b=vVb5l1v4m4wjbO8U7AUqqFUk1Gu/g0kfn9LLEJKhee21SD8fNp5cFCodGYSDNFcCqf
+ gpoh1hYchAtQb9hq+7kNFWLuPhTkb0U5ga9SjY6XVjSCIBA7Fe61TNa6cTCZVRHKq6pz
+ TWLBudl5ztNNAYyg5w/Yzj3k4ZLG5FrEB2NggP187wWW+ewZszJ6X821CTlEKaiERCR+
+ DKYBCjfSKArSwUlRS/0zxryZc1G0i83F+vbZLv9MH2jeHNZC1RtR/LxR4mdQBQhiSI0A
+ SFAK6V9MBXNBvf2Th3XA7+U9/8FkOdQTWtWURDBKk+xn/Zb62kSHHQogy/Zgg1UTD+j2
+ Kcvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680169299;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jj7uHqZOdLN0sDK3Xcz4ned4693ywIi2Ky9y8C4gIS8=;
- b=hwcvhhRBeKtD+I8LNXg5kZFrXVofksJ7AY7735NifVNx4SaH02Qc1ACc0WUJEg355N
- T89iLAl3nAHt+EKUTcrPspz4X9KBMiBcaBYTXgkDu6ppfZEzMz5+GRFwlckWfZhlvYHI
- 59W0bH6d21diR0uetLCpkXlIF0qGroQhKo6DtNAJhWenFtGmrlmtYYjUEEFstJEG4SP6
- hPYqX+G/rM4tEnB/chubleTtZ1uMcYJ36p9U3YfhsMpePA4EuLXVvIMe1PwgeXwRheDN
- sKueE84Z1zXiV38dMSpg2x5/kAW9ozKH+5xCZqvdEIVmE4hD8b71uMXmpV8XdTLLuF/C
- yeyg==
-X-Gm-Message-State: AAQBX9eFCO591FJ89rtEgNO7bN6C7xBo/SrMleJumC2obL/CngqYwX+0
- JwZYMTKVz4Vf2Tqf8anKvvytn6ZSkp9OydBjiXYKzQ==
-X-Google-Smtp-Source: AKy350azpEvSCVTTqZWh+pFop3JxTWe2D3s69e8wMoqyUQnuJn2Dn6aVN/g/D93LLQxSuvIARKB2yC7RN7kPnkWkCmM=
-X-Received: by 2002:a05:651c:c1:b0:29a:a76a:194b with SMTP id
- 1-20020a05651c00c100b0029aa76a194bmr2468697ljr.3.1680169299472; Thu, 30 Mar
- 2023 02:41:39 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680169578;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xmf4KluG7S4v5uDGa2+BLs6ltj4TZB+1o0aJASQSOQw=;
+ b=uq2Ht2mrgQHXSzEDTLg/LgxgJL4ZPm07LQXUJ00UqGp0Gx1axf/wCujPBDr2e7h8Bj
+ 1OPCMelDhYbd32rZGxTKCU+nlIMQRvaHLxYw5XhoC7+TjD/AThDy7YPX6A+ePz17TdlC
+ CMqyt1ubtkD5jqWe6wLAsTVYinTc8Uo6sbBqjUjD6CNTKkUwVDYOZw7aYocesfSwMz2P
+ ooQnV3ktHWEwueW+BvFRa2yMNcXYUBb2OGjIvt5umKS5u4GlfnLesf1vUjx0Dki3YMDk
+ 68RxFqNIX6jU5/nsBiQfuSD+HRYFCb0KtXzfo1YQcefJ+T3RqL21h1/BA32pf6nv05XI
+ YUoA==
+X-Gm-Message-State: AAQBX9cvB2npqo0p/4h9w19BbKikR6J6Bvw3SMcEHfcXxKt7moRz7zma
+ WfXXyoG46HxMkBDNt9EjOsRet63hlWpYTW5Id11XvA==
+X-Google-Smtp-Source: AKy350b25TKNX7LWY6kffjMjteju8c3Wk+7BpFOOlJ9BIgRcXEmR4R10+7PyamjASoryl8edb19Ysr4/N8lgH/tLRUQ=
+X-Received: by 2002:a05:6902:1201:b0:b6c:4d60:1bd6 with SMTP id
+ s1-20020a056902120100b00b6c4d601bd6mr15558336ybu.9.1680169578520; Thu, 30 Mar
+ 2023 02:46:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230329135401.105592-1-christian.koenig@amd.com>
- <46f01fc0-ec64-c215-b027-bd748711e6d8@redhat.com>
- <0080e53d-b597-ad34-7e66-6384cae456ae@redhat.com>
- <cf2f0771-39b0-49d6-011c-66b60b6a95c9@gmail.com>
- <ab8ed64b-5c4a-4948-7067-bac5351a45f0@redhat.com>
- <7e2845db-0a8c-c9f2-b858-89d7cb09d098@gmail.com>
- <4a60cf2a-193f-c06c-5747-766bca1ca01f@redhat.com>
- <ZCRzzi7bmDyOra4X@google.com>
-In-Reply-To: <ZCRzzi7bmDyOra4X@google.com>
-From: David Stevens <stevensd@chromium.org>
-Date: Thu, 30 Mar 2023 18:41:28 +0900
-Message-ID: <CAD=HUj7n8doQkChtfCf2WAHpz3nMsR6Oa2PGUvv3P3YJ12fPUQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: set TTM allocated pages as reserved
-To: Sean Christopherson <seanjc@google.com>
+References: <20230330074150.7637-1-tzimmermann@suse.de>
+In-Reply-To: <20230330074150.7637-1-tzimmermann@suse.de>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 30 Mar 2023 12:46:07 +0300
+Message-ID: <CAA8EJppVCKojseqV8CSpMh2Drqsk0jtH9Mza2PQq9LtN-2Ue1w@mail.gmail.com>
+Subject: Re: [PATCH 0/6] drm/msm: Convert fbdev to DRM client
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,64 +65,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-eric.Pelloux-prayer@amd.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- npiggin@gmail.com, dri-devel@lists.freedesktop.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: freedreno@lists.freedesktop.org, sean@poorly.run, quic_abhinavk@quicinc.com,
+ dri-devel@lists.freedesktop.org, javierm@redhat.com,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 2:22=E2=80=AFAM Sean Christopherson <seanjc@google.=
-com> wrote:
+On Thu, 30 Mar 2023 at 10:41, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> +David
+> Convert msm' fbdev code to struct drm_client. Replaces the current
+> ad-hoc integration. The conversion includes a number of cleanups. As
+> with most other drivers' fbdev emulation, fbdev in msm is now just
+> another DRM client that runs after the DRM device has been registered.
 >
-> On Wed, Mar 29, 2023, Paolo Bonzini wrote:
-> > On 3/29/23 18:43, Christian K=C3=AF=C2=BF=C2=BDnig wrote:
-> > > >
-> > > >
-> > > > 3) other uses of kmap() must switch to MMU-notifier protection.
-> > >
-> > > I would rather suggest to return the page additionally to the pfn fro=
-m
-> > > hva_to_pfn() when the function was able to grab a reference to it.
-> > >
-> > > When the page is then not available you can't call kmap() on that eit=
-her.
-> > >
-> > > >
-> > > > If the DRM people are okay with SetPageReserved() as a temporary
-> > > > hack, we can change or remove the WARN in kvm_is_zone_device_page()=
-,
-> > > > since that is what you are referring to in the commit message.
-> > >
-> > > Adding Daniel for additional comments on this, but essentially we hav=
-e
-> > > changed quite some infrastructure to make sure that everybody uses
-> > > VM_PFNMAP to prevent stuff like this from happening.
-> > >
-> > > I would really prefer a proper solution in KVM instead.
-> >
-> > Hmm... Now that I think about it that would be
-> >
-> > https://lore.kernel.org/kvm/Yc4H+dGfK83BaGpC@google.com/t/
-> >
-> > Time to resurrect that work.
+> Once all drivers' fbdev emulation has been converted to struct drm_client,
+> we can attempt to add additional in-kernel clients. A DRM-based dmesg
+> log or a bootsplash are commonly mentioned. DRM can then switch easily
+> among the existing clients if/when required.
 >
-> Ya.  I had previously asked David to first eliminated the usage that isn'=
-t
-> protected by mmu_notifiers, but after seeing the resulting complexity, I =
-had a
-> change of heart[2].  Can you weigh in on the latter thread, specifically =
-my
-> proposal of using a module param to let the admin opt-in to "unsafe" kmap=
- usage.
->
-> [1] https://lore.kernel.org/kvm/Ydhq5aHW+JFo15UF@google.com
-> [2] https://lore.kernel.org/all/ZBEEQtmtNPaEqU1i@google.com/
+> I did the conversion from similar experience with other drivers. But I
+> don't have the hardware to test this. Any testing is welcome.
 
-I just finished rebasing my patch series and sent out v6:
+Thank you for your patches! It was on my to do list for quite a while,
+but nobody had time to work on it.
 
-https://lore.kernel.org/all/20230330085802.2414466-1-stevensd@google.com/
+>
+> Thomas Zimmermann (6):
+>   drm/msm: Clear aperture ownership outside of fbdev code
+>   drm/msm: Remove fb from struct msm_fbdev
+>   drm/msm: Remove struct msm_fbdev
+>   drm/msm: Remove fbdev from struct msm_drm_private
+>   drm/msm: Initialize fbdev DRM client
+>   drm/msm: Implement fbdev emulation as in-kernel client
+>
+>  drivers/gpu/drm/msm/msm_debugfs.c |   6 +-
+>  drivers/gpu/drm/msm/msm_drv.c     |  21 ++--
+>  drivers/gpu/drm/msm/msm_drv.h     |  12 ++-
+>  drivers/gpu/drm/msm/msm_fbdev.c   | 168 ++++++++++++++++++------------
+>  4 files changed, 118 insertions(+), 89 deletions(-)
+>
+> --
+> 2.40.0
+>
 
--David
+
+-- 
+With best wishes
+Dmitry
