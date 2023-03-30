@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AB86D0CB5
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 19:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CF06D0CFC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 19:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD8C10EF3A;
-	Thu, 30 Mar 2023 17:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E560E10EF61;
+	Thu, 30 Mar 2023 17:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6355C10EF3A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:24:55 +0000 (UTC)
-Received: from arch-x395 (unknown [IPv6:2a00:5f00:102:0:38b0:2479:c2d8:9a86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: evelikov)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id BA6496602F6A;
- Thu, 30 Mar 2023 18:24:53 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680197093;
- bh=V8BWybAwlz2UVgTWThMD8IWctSismFf3F23v7AiQ7Ao=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Q107qfRF1on+Eipk/3DuvirmZThiwpH+3IVOEAft8sbtOHUjYuANiNHY+0+5Hj+Mt
- Uejj3YHHXEWDvPML9DSMi4RqIK4+nur0Z4QGKoKbulXVPbIXqt657u3WQ2jMf7zV5S
- WrXclYSM1ed1NdoGz+BAQ1ytIh9YiyWfPAbV1YwJiaO5TcNn90xHqKYyaEvZ4x73Jw
- MROUO/U6k307BeIToBQ1n7+/Rg3JkBm6mTq7+xYbsdFOFHB3HIJwi68QHeVPInch8U
- RQA3F+kWHBvUOjx08iX6akyTQ8qG2DGe7JtmLFY0yzAoNdh+j27JSQZ0FGNrdXCRBd
- +PRQ7feG6QPmA==
-Date: Thu, 30 Mar 2023 18:24:50 +0100
-From: Emil Velikov <emil.velikov@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: [PATCH v4 2/2] drm/virtio: Support sync objects
-Message-ID: <ZCXF4q81wPcczkqx@arch-x395>
-References: <20230323230755.1094832-1-dmitry.osipenko@collabora.com>
- <20230323230755.1094832-3-dmitry.osipenko@collabora.com>
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
+ [IPv6:2607:f8b0:4864:20::1134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C50010EF61
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:38:00 +0000 (UTC)
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-544f7c176easo367801377b3.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 10:38:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google; t=1680197879;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0XDB6bTe9xJuphUqwevJuf9q/6RlzAPG9D8j9n2M9eI=;
+ b=OjP+fHOJg/qk/BlFRiLShClpzDz5RIhfJx4oJR+J6AEhaszRz0Q5mEaxRpZkd5ocUU
+ Pydm4D7geWRHXotQWusDrJeDK239l9eTmD3nH+hbdF/E+kATlZQpMPIukTeVxq0iU8Zt
+ zs7csmBHA4HWxFkMZzcYDKsCymsF4Jr3u9Og0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680197879;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0XDB6bTe9xJuphUqwevJuf9q/6RlzAPG9D8j9n2M9eI=;
+ b=p7Iq6/hpk/USH0pwnMhYBROOVfz2eM8Zu07fAIF4JIUeII1nzdQw/Q6INPq2iVE4FH
+ EY7Twh1PikiBKBAaUq5iaouRGAjcjc2uLsHL2s/sm9bgzmM00EvBazCEU8yzqRanQweU
+ u24wCmQYRutP8BZrYxdDG6hTNLNDjn6fQ/l1nbkVzD3Op9FuYg+BYrMnQop8aunbu7Iq
+ sz3RIvGlZ46cLqUvX0HxqLdMiomCrkBjhVHnIIXe+KQAcroyvS7eWRdLhDaHH9kRVX+T
+ 4zTkBcCo2XGPZ7cpRxJ//k6e9u8TOm8QE2NGsK9Cqp0m3E8tbXezsRA+QeSeOz7U3Y96
+ 42xg==
+X-Gm-Message-State: AAQBX9egLuYO//vuVl5oVU32xcLv7FRwvN0j9Dj8PQ0yyz8n0+iG7L2/
+ ufZ9kQrRODEc7kDq9wFYGrBPr3jBTjf85cgDXh7SMQ==
+X-Google-Smtp-Source: AKy350bck9a7Ac/7Hxwga/BHJXtbB6f6e+9uTSHoWqisMz7/ZongXR2S56Glacab1PDzNjzatDBkzP3s/3oiG7MFHD4=
+X-Received: by 2002:a81:ad04:0:b0:52e:e095:d840 with SMTP id
+ l4-20020a81ad04000000b0052ee095d840mr800164ywh.0.1680197879519; Thu, 30 Mar
+ 2023 10:37:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230323230755.1094832-3-dmitry.osipenko@collabora.com>
+References: <20230330101752.429804-1-francesco@dolcini.it>
+ <20230330101752.429804-2-francesco@dolcini.it>
+ <CAMty3ZAQPEnCgj9r+tsuqiOzRzHPnKSEXcDqE7LKHH16Zu2Wvw@mail.gmail.com>
+ <ZCWkdc+x0LXDSohj@francesco-nb.int.toradex.com>
+In-Reply-To: <ZCWkdc+x0LXDSohj@francesco-nb.int.toradex.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 30 Mar 2023 23:07:47 +0530
+Message-ID: <CAMty3ZDwj5OuBzTBHrBitS0qD8QEv8=80YR2zZLDnL_nrmd3fg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: sn65dsi83: Add DSI
+ video mode
+To: Francesco Dolcini <francesco@dolcini.it>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,138 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On Thu, Mar 30, 2023 at 8:32=E2=80=AFPM Francesco Dolcini <francesco@dolcin=
+i.it> wrote:
+>
+> On Thu, Mar 30, 2023 at 07:56:26PM +0530, Jagan Teki wrote:
+> > On Thu, Mar 30, 2023 at 3:48=E2=80=AFPM Francesco Dolcini <francesco@do=
+lcini.it> wrote:
+> > >
+> > > From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > >
+> > > SN65DSI8[34] device supports burst video mode and non-burst video mod=
+e
+> > > with sync events or with sync pulses packet transmission as described=
+ in
+> > > the DSI specification.
+> > >
+> > > Add property to select the expected mode, this allows for example to
+> > > select a mode that is compatible with the DSI host interface.
+> > >
+> > > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > > ---
+> > >  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml  | 8 ++++++=
+++
+> > >  1 file changed, 8 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65=
+dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.=
+yaml
+> > > index 48a97bb3e2e0..ebee16726b02 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
+aml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
+aml
+> > > @@ -35,6 +35,14 @@ properties:
+> > >    vcc-supply:
+> > >      description: A 1.8V power supply (see regulator/regulator.yaml).
+> > >
+> > > +  dsi-video-mode:
+> > > +    description: |
+> > > +      0 - burst-mode
+> > > +      1 - non-burst with sync event
+> > > +      2 - non-burst with sync pulse
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    enum: [0, 1, 2]
+> >
+> > I'm thinking this can go to dsi common code since the video modes are
+> > common across all controllers and make the core initialize the default
+> > and update if any sink devices are willing to change the modes. Sound
+> > like a big move but worth useful.
+>
+> Not sure I understood where do you want to move this.
 
-Have you considered creating a few DRM helpers for this functionality?
+Yes, it can be new may be
+Documentation/devicetree/bindings/display/dsi-device.yaml
 
-AFAICT this is the third driver which supports syncobj timelines and
-looking at one of the implementations ... it is not great. Note that
-this suggestion is _not_ a blocker.
+>
+> In any case this is something about the display side of the DSI video
+> connection, with the bridge as a special case, not about the controller.
+> To my understanding the controller is supposed to support all the modes.
 
-On 2023/03/24, Dmitry Osipenko wrote:
-> Add sync object DRM UAPI support to VirtIO-GPU driver. It's required
-> for enabling a full-featured Vulkan fencing by Venus and native context
-> VirtIO-GPU Mesa drivers.
-> 
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
+Yes, that is what I'm saying. DSI sink will send this mode via
+mode_flags and the controller act accordingly.  The point here is
+these modes are generic across all DSI sink devices so having common
+bindings can make it easy for all devices to use. As I said it can be
+new, but worth trying - anyway let's see how others are commenting on
+this.
 
-> +static int
-> +virtio_gpu_parse_deps(struct virtio_gpu_submit *submit)
-> +{
-> +	struct drm_virtgpu_execbuffer *exbuf = submit->exbuf;
-> +	struct drm_virtgpu_execbuffer_syncobj syncobj_desc;
-> +	size_t syncobj_stride = exbuf->syncobj_stride;
-> +	struct drm_syncobj **syncobjs;
-> +	int ret = 0, i;
-> +
-> +	if (!submit->num_in_syncobjs)
-> +		return 0;
-> +
-> +	syncobjs = kvcalloc(submit->num_in_syncobjs, sizeof(*syncobjs),
-> +			    GFP_KERNEL);
-
-Please add an inline note about the decision behind the allocators used,
-both here and in the parse_post_deps below. IIRC there was some nice
-discussion between you and Rob in earlier revisions.
-
-
-> +	if (!syncobjs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < submit->num_in_syncobjs; i++) {
-> +		uint64_t address = exbuf->in_syncobjs + i * syncobj_stride;
-> +		struct dma_fence *fence;
-> +
-> +		if (copy_from_user(&syncobj_desc,
-> +				   u64_to_user_ptr(address),
-> +				   min(syncobj_stride, sizeof(syncobj_desc)))) {
-> +			ret = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		if (syncobj_desc.flags & ~VIRTGPU_EXECBUF_SYNCOBJ_FLAGS) {
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		ret = drm_syncobj_find_fence(submit->file, syncobj_desc.handle,
-> +					     syncobj_desc.point, 0, &fence);
-> +		if (ret)
-> +			break;
-> +
-
-> +		ret = virtio_gpu_dma_fence_wait(submit, fence);
-> +
-> +		dma_fence_put(fence);
-> +		if (ret)
-> +			break;
-
-If going the DRM helpers route:
-
-The above two are effectively the only variance across vendors - a
-simple function point as arg should suffice. Might want to use internal
-flags, but that's also trivial.
-
-> +	submit->in_syncobjs = syncobjs;
-> +
-> +	return ret;
-> +}
-> +
-> +static void virtio_gpu_reset_syncobjs(struct drm_syncobj **syncobjs,
-> +				      uint32_t nr_syncobjs)
-> +{
-> +	uint32_t i;
-> +
-> +	for (i = 0; i < nr_syncobjs; i++) {
-> +		if (syncobjs[i])
-> +			drm_syncobj_replace_fence(syncobjs[i], NULL);
-
-Side note: the drm_syncobj_put() called immediately after also calls
-replace/reset fence internally. Although reading from the docs, I'm not
-sure if relying on that is a wise move.
-
-Just thought I'd point it out.
-
-
->  
-> +	ret = virtio_gpu_parse_deps(&submit);
-> +	if (ret)
-> +		goto cleanup;
-> +
-> +	ret = virtio_gpu_parse_post_deps(&submit);
-> +	if (ret)
-> +		goto cleanup;
-> +
-
-I think we should zero num_(in|out)_syncobjs when the respective parse
-fails. Otherwise we get one "cleanup" within the parse function itself
-and a second during the cleanup_submit. Haven't looked at it too closely
-but I suspect that will trigger an UAF or two.
-
->  	ret = virtio_gpu_install_out_fence_fd(&submit);
->  	if (ret)
->  		goto cleanup;
-> @@ -294,6 +512,7 @@ int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
->  		goto cleanup;
->  
->  	virtio_gpu_submit(&submit);
-> +	virtio_gpu_process_post_deps(&submit);
-
-Any particular reason why the virtio_gpu_reset_syncobjs is deferred to
-virtio_gpu_cleanup_submit(). Having it just above the process_post_deps
-(similar to msm) allows the reader to get closure about the in syncobjs.
-
-This is just personal preference, so don't read too much into it.
-
-HTH
-Emil
+Thanks,
+Jagan.
