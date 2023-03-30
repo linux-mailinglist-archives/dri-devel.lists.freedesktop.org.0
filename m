@@ -2,73 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280956D08BB
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8CD6D08EA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:58:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D448910EE98;
-	Thu, 30 Mar 2023 14:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBC210EEB7;
+	Thu, 30 Mar 2023 14:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3188710EE98
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:52:34 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id g17so24882884lfv.4
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:52:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680187952;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kFDNA5O4BRFjY00+Z1LJW119elAYOYVUw4CBAie71cg=;
- b=eJWBU//eJrHG5mc3MWkqYZSyeiQVk3i4eaOJaS41ZDWBEDAUymCfUZpzw4Pa3onpqz
- fxSBz4CVxHV4C26hz68gTIB7+KPV6LMDDuTcrf9WHS6GBTTtSBLyNjrobEakV77CPSXb
- hnCSvLwk9tDgMA1LICJA9RS1zI5gShpEJev6LHd3x+QMwBgh1IwH2mkaxalD7ekwD6rG
- 94FcZ9oMOdJEF4173i0w4lthkEKj+E7ny6cjXPk5/NYfW0Kp6A6rdQLXII9w43spK3Lg
- 3px+6MCY3Ev88K6PUL95C1q2ctf/xYudq4ASG49tVVzgCEzMygzgtNL7cL0Ri1WwABfV
- jhXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680187952;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kFDNA5O4BRFjY00+Z1LJW119elAYOYVUw4CBAie71cg=;
- b=jJ7/MHNL9jlLtOIarVwWLYNZ9akyLjFdbjFqmSWz8ZXnkAu4Hm+HtPBVziozgX0ywa
- GbGm/gt4CjN8JLIVPCX68Mh5xJkTv8G3yjs6nBc1K+65+F9eRX/CfNXcbEa0kWhuaAe9
- nEkcaDMvu7JF5I9WDlvj64KLR75H5B1tiUoQWOh/9/8EcVfhvVlctSFfB26YNX2MJa2x
- YlxnLw7xb1ZBXqwpxYwPOv+j9AVWxRBiiDcsEbEA+pnZiqSb9EW+d7TJDlPMQJxpv+oA
- JUPYB16BuLVmnusc3ghhaEEuD/iVbzH0athC06YoFLumxAqM2nM70EXPMQuDKLPl78D8
- bhhA==
-X-Gm-Message-State: AAQBX9eEEZQJq5AnjUFMeTiFfqmnQBDYgc7enKWwuT1T7WuRY8gO34Xb
- gjo2HoUj+oYxylfxy6d8NVtIqg==
-X-Google-Smtp-Source: AKy350bV2TIdi9zQe23PfA/0zCWQl3PFtYMIVplNdHrQIPV+NXfL02RAP+7MfBDh5lc4xKsVFwO3VQ==
-X-Received: by 2002:a19:7919:0:b0:4e8:3cfe:98c7 with SMTP id
- u25-20020a197919000000b004e83cfe98c7mr1915967lfc.4.1680187952252; 
- Thu, 30 Mar 2023 07:52:32 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- q29-20020ac2511d000000b004eb09820adbsm2385504lfb.105.2023.03.30.07.52.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 07:52:31 -0700 (PDT)
-Message-ID: <2eff49b1-f0ad-8d44-5902-93937867178b@linaro.org>
-Date: Thu, 30 Mar 2023 17:52:31 +0300
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4291D10EEB7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:58:19 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id C278F32002B6;
+ Thu, 30 Mar 2023 10:58:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 30 Mar 2023 10:58:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1680188295; x=1680274695; bh=FHEfLnOGnOORrms71L0mJQRc3S0uhMl8wak
+ h7BNG13g=; b=D4MlvVrayE9fCoxy0co2+h6ulYDMFKOp9bATtF1I+jOFKlsffd7
+ 7QZzq3apC4mvgGsTUGVzRKMREyAESqRmF7/PpQAtzlGIacod+rVmkaR5nbusnetu
+ znECsD074YDx8Q9Lud2R4/CBPzPj47ZNXNDbGStBJPbBXVqNg1PMvdyQ8FLivcxZ
+ RpJ79Ebt9LkNGhLxfVHR2mTLJ8b4JC34gywKofOrfFogHcf5tAZONwdbCpqOjGak
+ IK+HyslBdUW3FC9bYT/GC/OH36mYusPmglXSPmFeENF0Mipy9+H2wqS5FKefE1tY
+ d5MDut2PQgyjB87AxFd9nRgNaWOCb20Iu7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+ 1680188295; x=1680274695; bh=FHEfLnOGnOORrms71L0mJQRc3S0uhMl8wak
+ h7BNG13g=; b=dJq+ZYPmwpwjhaTsoZwi5PEJm2C4BqrtWwlJqn9NJX9s3zVSxnn
+ 8GcUp00HtCB8jrAFPlPUX2TGmcGN0AGT7fJp7QONus0KPbtHW2a+qNhO7Dsywq6I
+ bpv/DoKdIT+0SIeMGKuRPw190w9+8zQPlC++mY4uDJbssFlwvUd8x10n+9J4/99i
+ MU5/NV35JoeURbvCRiMleDAqFTiHvkx8akL4VMu0By1pMp7Yve1xodQOJ6H7PmA1
+ Tc4sN1Nqvi4BaxTczDCFiDr3+unMBc4mXu7vO4E34H2wWLeoB7aTkI/KxUD8nbXc
+ GFqnLGkpf8xZsMicEqnrzs7MbQlQvAMp9nA==
+X-ME-Sender: <xms:hqMlZPJmd8-dQMx750bGenrretKGnEzIbn3cudEkWzslHnbQhMiS2Q>
+ <xme:hqMlZDJdYqflIdCG_DMJok_wrMD0G4Z1_Z7KfswZtIsbs98fBaO-qmRDifFNY3Yn0
+ sm_Ng_GV0wTbI98Oao>
+X-ME-Received: <xmr:hqMlZHvyFOK6do8_FNWtxnuzXC-Qf4BLKjLY9s2tlbI7S7HjDRxkFs2tbLHF>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvdehkedgkeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+ feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:hqMlZIYsDY2JiaUCJz692Jlk0wc7VWA2GyMPlkdnp-s_v1ZS_W6Z5g>
+ <xmx:hqMlZGYdaGDlgeTAEUc7t1avM3r3dk5_isbFiP77otvUzMqC1iMM7g>
+ <xmx:hqMlZMDErKWYWNpAlufSLaKD_X4n0nSiAiD7Cip3Bt_ms_kM1bTASg>
+ <xmx:h6MlZMl6fnQNI3BRRgAMcsaKzvCyG-iJkilgKn_BZsrQ2ElfV7gptQ>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Mar 2023 10:58:13 -0400 (EDT)
+Date: Thu, 30 Mar 2023 16:58:11 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH 7/7] dt-bindings: display: add panel-timing property to
+ sitronix,st7789v
+Message-ID: <20230330145811.asot2cvux4ebbeqy@penduick>
+References: <20230314115644.3775169-1-gerald.loacker@wolfvision.net>
+ <20230314115644.3775169-8-gerald.loacker@wolfvision.net>
+ <20230316215735.GA3940832-robh@kernel.org>
+ <dd26836f-d54c-65d1-0acc-8a09745bb066@wolfvision.net>
+ <20230329091636.mu6ml3gvw5mvkhm4@penduick>
+ <d5a31f75-eb93-0ff2-cd5b-19cdec58e103@wolfvision.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/msm/adreno: adreno_gpu: Use suspend() instead of
- idle() on load error
-Content-Language: en-GB
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20230329140445.2180662-1-konrad.dybcio@linaro.org>
- <ZCRNFitcrAeH27Pn@hovoldconsulting.com>
- <83986fa9-c9eb-ae5a-b239-584092f2cea5@linaro.org>
- <CAA8EJpohEo+kMw7fx5112m+z7JHSLDmsqOL4T7hmyvr2fPP8vQ@mail.gmail.com>
- <b985e536-227d-df86-0f23-b58882e9654b@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <b985e536-227d-df86-0f23-b58882e9654b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <d5a31f75-eb93-0ff2-cd5b-19cdec58e103@wolfvision.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,71 +90,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- andersson@kernel.org, Johan Hovold <johan@kernel.org>,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Nathan Chancellor <nathan@kernel.org>, agross@kernel.org,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>,
- marijn.suijten@somainline.org, Sean Paul <sean@poorly.run>,
- Johan Hovold <johan+linaro@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, Gerald Loacker <gerald.loacker@wolfvision.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/03/2023 17:34, Konrad Dybcio wrote:
-> 
-> 
-> On 29.03.2023 21:45, Dmitry Baryshkov wrote:
->> On Wed, 29 Mar 2023 at 18:48, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>>
->>>
->>>
->>> On 29.03.2023 16:37, Johan Hovold wrote:
->>>> On Wed, Mar 29, 2023 at 04:04:44PM +0200, Konrad Dybcio wrote:
->>>>> If we fail to initialize the GPU for whatever reason (say we don't
->>>>> embed the GPU firmware files in the initrd), the error path involves
->>>>> pm_runtime_put_sync() which then calls idle() instead of suspend().
->>>>>
->>>>> This is suboptimal, as it means that we're not going through the
->>>>> clean shutdown sequence. With at least A619_holi, this makes the GPU
->>>>> not wake up until it goes through at least one more start-fail-stop
->>>>> cycle. Fix that by using pm_runtime_put_sync_suspend to force a clean
->>>>> shutdown.
->>>>
->>>> This does not sound right. If pm_runtime_put_sync() fails to suspend the
->>>> device when the usage count drops to zero, then you have a bug somewhere
->>>> else.
->>> I was surprised to see that it was not called as well, but I wasn't able
->>> to track it down before..
->>
->> Could you please check that it's autosuspend who kicks in? In other
->> words, if we disable autosuspend, the pm_runtime_put_sync is enough()?
->>
->> That would probably mean that we lack some kind of reset in the hw_init path.
->>
->> On the other hand, I do not know how the device will react to the
->> error-in-the-middle state. Modems for example, can enter the state
->> where you can not properly turn it off once it starts the boot
->> process.
->>
->> And if we remember the efforts that Akhil has put into making sure
->> that the GPU is properly reset in case of an _error_, it might be
->> nearly impossible to shut it down in a proper way.
->>
->> Thus said, I think that unless there is an obvious way to restart the
->> init process, Korad's pm_runtime_put_sync_suspend() looks like a
->> correct fix to me.
-> On the GPU side, when you cut GX and CX GDSCs, the hardware is off.
-> Some clock / gdsc logic may be retained, but the GPU itself gets
-> cut off. Parking the clocks and shuttting down VDD_GX (if exists)
-> only makes that stronger.
+On Wed, Mar 29, 2023 at 12:08:50PM +0200, Michael Riesch wrote:
+> On 3/29/23 11:16, Maxime Ripard wrote:
+> > On Thu, Mar 16, 2023 at 11:29:53PM +0100, Michael Riesch wrote:
+> >> Hi Rob,
+> >>
+> >> On 3/16/23 22:57, Rob Herring wrote:
+> >>> On Tue, Mar 14, 2023 at 12:56:44PM +0100, Gerald Loacker wrote:
+> >>>> The sitronix-st7789v driver now considers the panel-timing property.
+> >>>
+> >>> I read the patch for that and still don't know 'why'. Commit messages=
+=20
+> >>> should answer why.
+> >>>
+> >>>> Add the property to the documentation.
+> >>>
+> >>> We generally don't put timings in DT for panels. Why is this one=20
+> >>> special?
+> >>
+> >> For now, having the timings in the device tree allows for setting the
+> >> hsync/vsync/de polarity.
+> >>
+> >> As a next step, we aim to implement the partial mode feature of this
+> >> panel. It is possible to use only a certain region of the panel, which
+> >> is helpful e.g., when a part of the panel is occluded and should not be
+> >> considered by DRM. We thought that this could be specified as timing i=
+n DT.
+> >>
+> >> (The hactive and vactive properties serve as dimensions of this certain
+> >> region, of course. We still need to specify somehow the position of the
+> >> region. Maybe with additional properties hactive-start and vactive-sta=
+rt?)
+> >>
+> >> What do you think about that?
+> >=20
+> > I don't see why we would need the device tree to support that. What you
+> > described is essentially what overscan is for HDMI/analog output, and we
+> > already have everything to deal with overscan properly in KMS.
+>=20
+> Thanks for your response, but I am afraid I don't quite follow.
+>=20
+> How are we supposed to expose control over the hsync/vsync/data enable
+> polarity? I only know that the display controller and the panel need to
+> agree on a setting that works for both. What is the canonical way to do
+> this?
 
-If I remember correctly, GX and CX GPU GDSCs might be voted by other 
-users. Again, I'd direct you here to the series at [1]
+So typically, it would come from the panel datasheet and would thus be
+exposed by the panel driver. st7789v is not a panel itself but a (pretty
+flexible) panel controller so it's not fixed and I don't think we have a
+good answer to that (yet).
 
-[1]: https://patchwork.freedesktop.org/series/111966/
+> A different question is the partial mode, for which (IIUC) you suggest
+> the overscan feature. As I have never heard of this before, it would be
+> very nice if you could point me to some examples. Where would the
+> effective resolution be set in this case?
 
--- 
-With best wishes
-Dmitry
+So, back when CRT were a thing the edges of the tube were masked by the
+plastic case. HDMI inherited from that and that's why you still have
+some UI on some devices (like consoles) to setup the active area of the
+display.
 
+The underlying issue is exactly what you describe: the active area is
+larger than what the plastic case allows to see. I don't think anyone
+ever had the usecase you have, but it would be the right solution to me
+to solve essentially the same issue the same way we do on other output
+types.
+
+Maxime
