@@ -2,53 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFC96D04A4
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 14:26:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C34D6D04A8
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 14:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3D110E2C0;
-	Thu, 30 Mar 2023 12:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80EDC10E2C6;
+	Thu, 30 Mar 2023 12:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F208D10E2C0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 12:26:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680179215; x=1711715215;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=gJvnZgQkue/12hrpL+swh+HJ0hl42bCVklNCda2py/c=;
- b=SPNUYcxCfeQT64oc0dsipuic5Sj4sh/LFQ3uqvLx8x98vmIBbb5lJV+L
- 7y22BDPT1HcRt5ary9OuO2oFUOBeOw6+Pgb5PsN6lqA+7pqRwuyF3Ok35
- bB4wy2Wc0Jhl6HTwdXg7al9l3NzBRUcVKiktb81R6kZjuTO4D7q9MQAPz
- zZjmdjErkeP1MPrsI9DkoXprtWzrF0kjXTO3ZZW0dpr6kwC3u4AlUJb4C
- cTbAEu1t6ODtcyY64gsM7pmXsZaCPTxSu1GqVw5LnZF96I6T6Iu/SULXU
- /8mMUy+jW+cKluoMHmr4Lj8Jsad9wt2jZ/HVma3Cx/uC9CJw6DGHfh8V+ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="427429506"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="427429506"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 05:26:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="753982185"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="753982185"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2023 05:26:53 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1phrMi-000KqC-28;
- Thu, 30 Mar 2023 12:26:52 +0000
-Date: Thu, 30 Mar 2023 20:26:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, tomba@kernel.org,
- javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: Re: [PATCH 6/6] drm/omapdrm: Implement fbdev emulation as in-kernel
- client
-Message-ID: <202303302056.9US55Dt4-lkp@intel.com>
-References: <20230330083205.12621-7-tzimmermann@suse.de>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8696910E2C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 12:27:19 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id y15so24272577lfa.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 05:27:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680179237;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5ajg+Ow3guC3qmD9ltJQQ/qpcwXPjWBWk66w6LzjOyc=;
+ b=e8s7PLeHztUwWtVS9lK5ENZUmLabsRe84+y7W5+EVLiREZYOp+jO7L9nRPyAZcfP2Q
+ NF4eQdwlSz/Ex3cMEEf5E7wRT4MEvBysKCYFnTP9fqobGGdC305vIzDXnDxicJ0/pEl0
+ kxs8B/6uvhxfVSw0dLR+ipwDHFzqXfam5q4NyQGTX8RrGDKanN+Rrw+Zpi4bPFRpn2z3
+ llcFAfva1+3u2mn8yWIyumN3oB4/RDyWyyAs6+3XjICML5LdcXUtIDUA2jpisrUwThbV
+ qtpCxgfSf8Nl11QttrQc03LJH52P9lNTi2HPy7DhFO0blyftGDHNaUMnjYwST3UOQ7UQ
+ A6zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680179237;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5ajg+Ow3guC3qmD9ltJQQ/qpcwXPjWBWk66w6LzjOyc=;
+ b=ptMXoZz3q+UiuhX0Dedu285C/IyjL6t2oCiBzMjZYLednPLzCEvjdCs6Iuy4xAzxmg
+ Qv4J3cxZv8JsD9TYaG0QoyQ3A30qrJe/ezTcYGqLZ6PvJANuYG4HPdAMbimfFNJYbBjg
+ aq54FdRINQbIeGOzxbZVb8c4hSvXXs1zym0oXiTqoWyxwOyLTiiOzuEflypFQdQkcnny
+ qwK1ZsZoj2cElF31GNm2pvnYTab1xHMp/VjTj5SB73yl5yFWBtRtyFAng3yl6OC9Yego
+ 7dlNXUV3pX4jT/AT72efORjXxHFuL09NJFKCKrnPR8D/chGBXeWDKR0+9AVAJYMV54D8
+ GVHA==
+X-Gm-Message-State: AAQBX9d5MuJLb0Z6pFLLzQ6rM1sW3g5mPuvWoSLhLTKCL21XvFCy+6ZD
+ 6gsap+vrCJW/89ArA4BaIzi7kntvUHMVOYeZkUg=
+X-Google-Smtp-Source: AKy350a1ePYekgS4apQXRW83eXljH82vSN6O8eqRECd7itzHhQoORQ5JmffHG43FiBCqFs9ooNUTzQ==
+X-Received: by 2002:ac2:50c5:0:b0:4db:2c28:8974 with SMTP id
+ h5-20020ac250c5000000b004db2c288974mr6841672lfm.12.1680179237676; 
+ Thu, 30 Mar 2023 05:27:17 -0700 (PDT)
+Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
+ by smtp.gmail.com with ESMTPSA id
+ i17-20020ac25231000000b004eafa77e435sm3343664lfl.146.2023.03.30.05.27.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 05:27:17 -0700 (PDT)
+Message-ID: <663f6933-d532-37e4-e78b-9bd665c24e54@linaro.org>
+Date: Thu, 30 Mar 2023 14:27:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330083205.12621-7-tzimmermann@suse.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [v2,34/50] drm/msm/dpu: duplicate sm8250 catalog entries
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+References: <20230211231259.1308718-35-dmitry.baryshkov@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20230211231259.1308718-35-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- oe-kbuild-all@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.3-rc4 next-20230330]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-omapdrm-Include-linux-of-h/20230330-163453
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230330083205.12621-7-tzimmermann%40suse.de
-patch subject: [PATCH 6/6] drm/omapdrm: Implement fbdev emulation as in-kernel client
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230330/202303302056.9US55Dt4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5b54095ec3eaa71a5cc6b433dfbbf58e26c44e38
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/drm-omapdrm-Include-linux-of-h/20230330-163453
-        git checkout 5b54095ec3eaa71a5cc6b433dfbbf58e26c44e38
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/omapdrm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303302056.9US55Dt4-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/omapdrm/omap_fbdev.c:306:6: warning: no previous prototype for 'omap_fbdev_setup' [-Wmissing-prototypes]
-     306 | void omap_fbdev_setup(struct drm_device *dev)
-         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/omap_fbdev_setup +306 drivers/gpu/drm/omapdrm/omap_fbdev.c
+On 12.02.2023 00:12, Dmitry Baryshkov wrote:
+> Duplicate some of sm8250 catalog entries to remove dependencies between
+> DPU major generations.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-   305	
- > 306	void omap_fbdev_setup(struct drm_device *dev)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Konrad
+>  .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    | 23 +++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> index d723a690bd41..b27f6c528a1f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
+> @@ -81,6 +81,25 @@ static const struct dpu_ctl_cfg sm8350_ctl[] = {
+>  	},
+>  };
+>  
+> +static const struct dpu_sspp_cfg sm8350_sspp[] = {
+> +	SSPP_BLK("sspp_0", SSPP_VIG0, 0x4000, 0x1f8, VIG_SC7180_MASK,
+> +		sm8250_vig_sblk_0, 0, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG0),
+> +	SSPP_BLK("sspp_1", SSPP_VIG1, 0x6000, 0x1f8, VIG_SC7180_MASK,
+> +		sm8250_vig_sblk_1, 4, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG1),
+> +	SSPP_BLK("sspp_2", SSPP_VIG2, 0x8000, 0x1f8, VIG_SC7180_MASK,
+> +		sm8250_vig_sblk_2, 8, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG2),
+> +	SSPP_BLK("sspp_3", SSPP_VIG3, 0xa000, 0x1f8, VIG_SC7180_MASK,
+> +		sm8250_vig_sblk_3, 12, SSPP_TYPE_VIG, DPU_CLK_CTRL_VIG3),
+> +	SSPP_BLK("sspp_8", SSPP_DMA0, 0x24000, 0x1f8, DMA_SDM845_MASK,
+> +		sdm845_dma_sblk_0, 1, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA0),
+> +	SSPP_BLK("sspp_9", SSPP_DMA1, 0x26000, 0x1f8, DMA_SDM845_MASK,
+> +		sdm845_dma_sblk_1, 5, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA1),
+> +	SSPP_BLK("sspp_10", SSPP_DMA2, 0x28000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +		sdm845_dma_sblk_2, 9, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA2),
+> +	SSPP_BLK("sspp_11", SSPP_DMA3, 0x2a000, 0x1f8, DMA_CURSOR_SDM845_MASK,
+> +		sdm845_dma_sblk_3, 13, SSPP_TYPE_DMA, DPU_CLK_CTRL_DMA3),
+> +};
+> +
+>  static const struct dpu_lm_cfg sm8350_lm[] = {
+>  	LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
+>  		&sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
+> @@ -178,8 +197,8 @@ static const struct dpu_mdss_cfg sm8350_dpu_cfg = {
+>  	.mdp = sm8350_mdp,
+>  	.ctl_count = ARRAY_SIZE(sm8350_ctl),
+>  	.ctl = sm8350_ctl,
+> -	.sspp_count = ARRAY_SIZE(sm8250_sspp),
+> -	.sspp = sm8250_sspp,
+> +	.sspp_count = ARRAY_SIZE(sm8350_sspp),
+> +	.sspp = sm8350_sspp,
+>  	.mixer_count = ARRAY_SIZE(sm8350_lm),
+>  	.mixer = sm8350_lm,
+>  	.dspp_count = ARRAY_SIZE(sm8350_dspp),
