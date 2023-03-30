@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB3D6D0149
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 12:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601FE6D017C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 12:42:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAA9710E192;
-	Thu, 30 Mar 2023 10:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3376910E1CE;
+	Thu, 30 Mar 2023 10:42:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84F3510E1DB;
- Thu, 30 Mar 2023 10:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680172432; x=1711708432;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bo52ssnb5zSJY09A/ox7VL3Gjv9ei2ZMX5sqTUzRDSI=;
- b=NLfIesVFRhxMQVrGsnXw+QPnyj0NTfJbFaWPAfFUmUCkvb7iBWymgHFC
- B7OY0Gpc8Uv6+0vamKutE3QAkGs+21cWuf9wOT58PfTKvodUmtmCLL68d
- M4R0Jex+Ko3vOyj/pC/TxvqU81o0KkIUvBFrzCa7j3lIzx2sRGdM5uPqE
- tiKIwysT/55+DLj1EtjkkOKN6IWRRViATNV7Ul+je4yiYgVrWZlqiGwmQ
- qQbOptgguKRzoYEeyQJUzdZgnJKdeZZPpp7FEefVeA+r7cxNVqgv3aFS6
- 1ivyBBQJPbLis/YwOSeIL39pbA5+yFHTpjJEW7N6NhLzLcP7eMVXjGk/n w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="338628801"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="338628801"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 03:33:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10664"; a="795620914"
-X-IronPort-AV: E=Sophos;i="5.98,303,1673942400"; d="scan'208";a="795620914"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 30 Mar 2023 03:33:48 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1phpbH-000KkO-2i;
- Thu, 30 Mar 2023 10:33:47 +0000
-Date: Thu, 30 Mar 2023 18:33:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, robdclark@gmail.com,
- quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
- sean@poorly.run, javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Subject: Re: [PATCH 6/6] drm/msm: Implement fbdev emulation as in-kernel client
-Message-ID: <202303301856.zSmpwZjj-lkp@intel.com>
-References: <20230330074150.7637-7-tzimmermann@suse.de>
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1645010E1CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 10:42:42 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ 46e09a7af769-6a11f365f87so484710a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 03:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680172961; x=1682764961;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2Uok0Hmd0al/CPOCQ4MNNIKk7OYiNzcT2cb9TQrUjBQ=;
+ b=SlPySRm9vRJk6SxCOX0HQ00GpXSJrjXuDg4lkH3y6M5bw+95PoFZ9DSXQIYvi9czed
+ klrAq9Z0VIXBsrYst17c/DZGHl52ilPXGn2zSb/HBzmLPlT/Wjv5AXL9fVN0jR5+2hVK
+ X0j8ogSCU6tG89hp4oaOqJSqRE4NyKouEMdWVD3hEvIDFjnNr1JQhko4QNWEVpY5fJOh
+ fBUvEThMkkCgbwrtfqGyYfRtC0b3qxnr6vcJvOC2s/xwQzKp7lXzVBijOrl4i4CT50Gt
+ jfJSa2n5J0COEruuD8UgsBCJQ0/uFep2AZI/vFPbgs8MLzmOXHWIWxSRbsf5ltuXcmsu
+ sRGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680172961; x=1682764961;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2Uok0Hmd0al/CPOCQ4MNNIKk7OYiNzcT2cb9TQrUjBQ=;
+ b=cePdlK8wmoLA3Nc2hrah3la5lPY1xfx4/g0ahrt0HMZPTTmwrVRVp6DIBKThGuLRzK
+ 0iZcsPO1TV6rXXgYS7r44MKDRbs74Jz4TelHZyMFJdJGBwzQ28Znp4gkRxBcPG8+3a6p
+ fN9ViU5N8eX7Hyj9D09YUkuLaRrUi+tHZfOB1ExU4mHuZmQpH+B1gDPeSQTQaYXyxe0T
+ ZaF/EQXab3k811tXINPfUNGV/YgBGIL9Fe4M4DJ2sgiI/DqoWoziSd313C8JgbH9rU9h
+ MA3uz/+ig9iBLhCN9+KHSttXQ3h/XZGaBBWHkdmBXQ9x/9Se3e4Jzq4bGeB6swFpL3Os
+ wjWA==
+X-Gm-Message-State: AAQBX9cPAQ4z0ZspN+xneQdomSybk4jZGf6+7fF7GseUrys8br5425fL
+ XGtfDc718pKlzD+EJID3cuw=
+X-Google-Smtp-Source: AKy350YHZUhisACUe5VWR1JQ10GCarrQ8GGTo8J5CY11WD8ixQ5uU2qGNjsCa3TIvNhtyG801M++qA==
+X-Received: by 2002:aca:3442:0:b0:37f:9335:7f96 with SMTP id
+ b63-20020aca3442000000b0037f93357f96mr741642oia.0.1680172960960; 
+ Thu, 30 Mar 2023 03:42:40 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:bb2:6db6:1a29:3df5])
+ by smtp.gmail.com with ESMTPSA id
+ s4-20020a0568080b0400b0038755008179sm8414071oij.26.2023.03.30.03.42.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 03:42:40 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: neil.armstrong@linaro.org
+Subject: [PATCH v2 1/2] dt-bindings: display: bridge: ldb: Add i.MX6SX support
+Date: Thu, 30 Mar 2023 07:42:32 -0300
+Message-Id: <20230330104233.785097-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330074150.7637-7-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,95 +70,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- oe-kbuild-all@lists.linux.dev
+Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+From: Fabio Estevam <festevam@denx.de>
 
-I love your patch! Yet something to improve:
+i.MX6SX has a single LVDS port and share a similar LDB_CTRL register
+layout with i.MX8MP and i.MX93.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.3-rc4]
-[cannot apply to next-20230330]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v1:
+- Do not duplicate the entire if. (Krzysztof)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-msm-Clear-aperture-ownership-outside-of-fbdev-code/20230330-154729
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230330074150.7637-7-tzimmermann%40suse.de
-patch subject: [PATCH 6/6] drm/msm: Implement fbdev emulation as in-kernel client
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230330/202303301856.zSmpwZjj-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ec39cb11cf72fb01ada6fe51c7c572a31dcc805d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/drm-msm-Clear-aperture-ownership-outside-of-fbdev-code/20230330-154729
-        git checkout ec39cb11cf72fb01ada6fe51c7c572a31dcc805d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/gpu/
+ .../devicetree/bindings/display/bridge/fsl,ldb.yaml          | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303301856.zSmpwZjj-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/msm/msm_io_utils.c: In function '_msm_ioremap':
->> drivers/gpu/drm/msm/msm_io_utils.c:72:15: error: implicit declaration of function 'devm_ioremap'; did you mean '_msm_ioremap'? [-Werror=implicit-function-declaration]
-      72 |         ptr = devm_ioremap(&pdev->dev, res->start, size);
-         |               ^~~~~~~~~~~~
-         |               _msm_ioremap
->> drivers/gpu/drm/msm/msm_io_utils.c:72:13: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      72 |         ptr = devm_ioremap(&pdev->dev, res->start, size);
-         |             ^
-   cc1: some warnings being treated as errors
-
-
-vim +72 drivers/gpu/drm/msm/msm_io_utils.c
-
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  51  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  52  static void __iomem *_msm_ioremap(struct platform_device *pdev, const char *name,
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  53  				  bool quiet, phys_addr_t *psize)
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  54  {
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  55  	struct resource *res;
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  56  	unsigned long size;
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  57  	void __iomem *ptr;
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  58  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  59  	if (name)
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  60  		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  61  	else
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  62  		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  63  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  64  	if (!res) {
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  65  		if (!quiet)
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  66  			DRM_DEV_ERROR(&pdev->dev, "failed to get memory resource: %s\n", name);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  67  		return ERR_PTR(-EINVAL);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  68  	}
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  69  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  70  	size = resource_size(res);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  71  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20 @72  	ptr = devm_ioremap(&pdev->dev, res->start, size);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  73  	if (!ptr) {
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  74  		if (!quiet)
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  75  			DRM_DEV_ERROR(&pdev->dev, "failed to ioremap: %s\n", name);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  76  		return ERR_PTR(-ENOMEM);
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  77  	}
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  78  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  79  	if (psize)
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  80  		*psize = size;
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  81  
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  82  	return ptr;
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  83  }
-d89e5028346bd80 Dmitry Baryshkov 2022-01-20  84  
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+index 6e0e3ba9b49e..07388bf2b90d 100644
+--- a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+@@ -17,6 +17,7 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - fsl,imx6sx-ldb
+       - fsl,imx8mp-ldb
+       - fsl,imx93-ldb
+ 
+@@ -64,7 +65,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: fsl,imx93-ldb
++            enum:
++              - fsl,imx6sx-ldb
++              - fsl,imx93-ldb
+     then:
+       properties:
+         ports:
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
