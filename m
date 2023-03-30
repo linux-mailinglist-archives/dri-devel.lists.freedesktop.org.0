@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251F56D1010
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 22:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8416D07BD
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:10:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8244810F020;
-	Thu, 30 Mar 2023 20:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58CB010EE66;
+	Thu, 30 Mar 2023 14:10:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 305 seconds by postgrey-1.36 at gabe;
- Thu, 30 Mar 2023 14:12:49 UTC
-Received: from mout.web.de (mout.web.de [212.227.15.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DDEC10E2D5
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
- t=1680185567; i=jwollrath@web.de;
- bh=nIdrZL8qsAa7/t2YtVZmEN95K7OqsoZ89o4vH6A2P0c=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=TQy52Z23AGZeQGqs4MADot0XfuGxhn/2dcSKeyK0o+lb/rWSr/yIOAlAlUQdc047g
- npVmCeXCvRoz8qRspdGBbLVyxAzm7aZK+wSPN6NL9xsIeoN76fBiAusUxlGofhMfC2
- FKgb29u9lFQJSTTJsRLukA+xm7GgA8zsro739zl17xa8ZLW0BrMM/DpxQmSZW3XpkI
- e2BKmMQqXlArsqetcmxq6fUPGKXy0QTcnAMcMk0jPhVWPuXaNKR+WmeeBweOznGNQ8
- iKSyoDOaBzcbUi36Q88xC2ABEspxYl7xjBxG5iKzCaxXYNu5BeBIPfrc2UxFQ6uXlo
- w0UxrmQEyBL/g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from schienar ([128.141.229.28]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mav6t-1qJQPe0SL5-00cUPd; Thu, 30
- Mar 2023 16:07:41 +0200
-Date: Thu, 30 Mar 2023 16:07:40 +0200
-From: Julian Wollrath <jwollrath@web.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [Regression bisected] v6.3-rc4 Error scheduling IBs after resume
- from hibernate
-Message-ID: <20230330160740.1dbff94b@schienar>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE69E10EE49;
+ Thu, 30 Mar 2023 14:10:09 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4886F1FDFD;
+ Thu, 30 Mar 2023 14:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680185408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vINwv/chQcKzpa66Km4h16M1ttg9P1LpEo4kauIlPR0=;
+ b=15ys2ybpL2F7Yk43jr/+AdKJh2WLTQ4+aZazaH4UVH+Rt53151U1ZvITJV8ixZEEzWpSeR
+ ma2dVVzmc6bZCOqpNbtOBdF38DALsDdZjhgQfu6k8bqDC/OIq3N3E0P5wgEj4zphDrcW8U
+ /cHrz6LiWXIDWvo51ccw4uDn8hQ/Zlg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680185408;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vINwv/chQcKzpa66Km4h16M1ttg9P1LpEo4kauIlPR0=;
+ b=KxyseRRpnQzt8xHGoedy3LgTA5NmG7JftwVZ6W9mAzBvGvKc+g7OyBnIRJYqI1jtwRf4TK
+ M/gezMtStAao8EAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E8767133E0;
+ Thu, 30 Mar 2023 14:10:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id e1+zNz+YJWSoIQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 14:10:07 +0000
+Date: Thu, 30 Mar 2023 16:10:06 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20230330141006.GA22908@linux-uq9g>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:S+Z+YaOSIJzMrfwcmGAbGe0/KMFKc4/LLb6WiAeXH96Hjttvyyf
- Up7ONQesrYouPm6iSvlmVk/f4Sigl1T5ioO/PfmU2kyriuBQTyIWrxi/ELNS16PnCn4fw3c
- mSUD/aj9XMntJRwjP7rp/xx5cr2tfSButoHZWRaseq+hQB/HF2mGr/teTrSohcM28o56VZN
- tnKM8IQAV0eLK6tyJsGgA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:zY/fU2urYOM=;jwTp8jeqqZa1q2qRklG2FoJD0dA
- wMCXMpjQyuEJ1utK2DGhny7Takw+8+koaIkrA9Zt6hiqK24TeX7e9sJpAPZ+TFfSCuMg5Zi8U
- zbA+1gnquP7kqlP5tWCT0A0QmZUJVrMbh+CvvJTP4IV1bR2jI5tCjE1P4L6tJ5vyVM47KqXAf
- V+DlXkhhYqlViZabCqhpVrWA6xtel3dJcK7UahxlWvUDxMCT2V1DwYrlH8LRzx5k+YDECJ7bB
- ITy3FaSEV7d7zP3rA479OCVe7rd5tfgflxyyaRgWdz5uqfqprKDtbyG7CygWdAKMLhHRMjgIM
- V0i2jucXDVOg6CIBTg3MUwZvNNX0AcrJ87XR22HslD3Gb47atbZzuRbPprkcQ4y2dvK1xoUaK
- Q2X1JOIQeY6kuweUgGZ7MmfnFdxzHX1U1HKtgryIxsfgyqjnErdoPR2k4qMpixPLlLox+URKS
- T3AxsyHj+AzM5XsbHSjiARobRDscjceH+PDV0zKLq3Lp4FKrwU0mjVncrUujlD/GXvfH6vaEO
- p1wW7qb3lm9rD+q+xSpPD1fAuekccmH4uvARAKLmIdrnOtu8JBYBR50iMjHa/4ZNFrgMUtlSR
- rAaIzK8gJWbq0RnXzA983HJzldOMQ7QnRghcxFENlloXGzmNXVSOD4m4jfSIqQia3z1e7ZjDF
- wwloqaLBi7GduRjTKZYYa/WkapODRurE+wSbjuC4mmS+faHyUfTHxJ/rWkWucmNKSUO78/v+e
- 4Xt8HGxWvYtublESLQFmZpwdtfbjWVV+aS0OQjlrq1AZ2hXe8/ajT3lgiXv0E82JHqmrbzxEd
- DVBGZniQdAULnzJXZ9RuCk8i6eR/sgwQKuHrR7vAc8IeyDnQNAwpOxXGMXuEJ02Og7RzBMsM6
- QXZn3xop8chZsh7g3k0VFZfbSBhIBknqh/EnHeNHltrGxm/WdNAOguwZUfdXm+9RH0zbw5EXH
- IfCo/LZK9TiQChjtdFHwSW548lg=
-X-Mailman-Approved-At: Thu, 30 Mar 2023 20:34:14 +0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +64,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, tim.huang@amd.com
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Dave and Daniel,
 
-on an AMD Ryzen 5 PRO 4650U / Renoir (amdgpu: added device
-1002:1636) I the screen basically freezes and I get the
-following errors with kernel v6.3-rc4
+here's the weekly PR for drm-misc-fixes.
 
-[   26.214541] amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *E=
-RROR* IB test failed on gfx_low (-110).
-[   26.379624] [drm] ring 0 timeout to preempt ib
-[   27.387884] amdgpu 0000:03:00.0: [drm:amdgpu_ib_ring_tests [amdgpu]] *E=
-RROR* IB test failed on gfx_high (-110).
-[   27.392945] [drm:process_one_work] *ERROR* ib ring test failed (-110).
-[   27.400370] amdgpu 0000:03:00.0: amdgpu: couldn't schedule ib on ring <=
-gfx_low>
-[   27.400384] [drm:amdgpu_job_run [amdgpu]] *ERROR* Error scheduling
-IBs (-22)
-[   44.440532] amdgpu 0000:03:00.0: amdgpu: failed to write reg 28b4 wait =
-reg 28c6
-[   61.177118] amdgpu 0000:03:00.0: amdgpu: failed to write reg 1a6f4 wait=
- reg 1a706
-[   61.189275] amdgpu 0000:03:00.0: amdgpu: couldn't schedule ib on ring <=
-gfx_low>
-[   61.189286] [drm:amdgpu_job_run [amdgpu]] *ERROR* Error scheduling
-IBs (-22)
+Best regards
+Thomas
 
-I bisected the issue, the first bad commit is
-b589626674de94d977e81c99bf7905872b991197 reverting it on top
-of v6.3-rc4 also fixes the issue.
+drm-misc-fixes-2023-03-30:
+Short summary of fixes pull:
 
+ * various ivpu fixes
+ * fix nouveau backlight registration
+ * fix buddy allocator in 32-bit systems
+The following changes since commit 1a70ca89d59c7c8af006d29b965a95ede0abb0da:
 
-Best regards,
-Julian Wollrath
+  drm/bridge: lt8912b: return EPROBE_DEFER if bridge is not found (2023-03-22 18:01:57 +0100)
 
-=2D-
- ()  ascii ribbon campaign - against html e-mail
- /\                        - against proprietary attachments
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-03-30
+
+for you to fetch changes up to 25bbe844ef5c4fb4d7d8dcaa0080f922b7cd3a16:
+
+  drm: test: Fix 32-bit issue in drm_buddy_test (2023-03-29 17:14:15 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * various ivpu fixes
+ * fix nouveau backlight registration
+ * fix buddy allocator in 32-bit systems
+
+----------------------------------------------------------------
+Andrzej Kacprowski (1):
+      accel/ivpu: Fix IPC buffer header status field value
+
+David Gow (2):
+      drm: buddy_allocator: Fix buddy allocator init on 32-bit systems
+      drm: test: Fix 32-bit issue in drm_buddy_test
+
+Hans de Goede (1):
+      drm/nouveau/kms: Fix backlight registration
+
+Stanislaw Gruszka (7):
+      accel/ivpu: Do not access HW registers after unbind
+      accel/ivpu: Cancel recovery work
+      accel/ivpu: Do not use SSID 1
+      accel/ivpu: Fix power down sequence
+      accel/ivpu: Disable buttress on device removal
+      accel/ivpu: Remove support for 1 tile SKUs
+      accel/ivpu: Fix VPU clock calculation
+
+ drivers/accel/ivpu/ivpu_drv.c               |  18 ++++-
+ drivers/accel/ivpu/ivpu_drv.h               |   7 +-
+ drivers/accel/ivpu/ivpu_hw_mtl.c            | 113 +++++++++-------------------
+ drivers/accel/ivpu/ivpu_ipc.h               |   2 +-
+ drivers/accel/ivpu/ivpu_job.c               |  11 ++-
+ drivers/accel/ivpu/ivpu_pm.c                |  17 ++++-
+ drivers/accel/ivpu/ivpu_pm.h                |   1 +
+ drivers/gpu/drm/drm_buddy.c                 |   4 +-
+ drivers/gpu/drm/nouveau/nouveau_backlight.c |   7 +-
+ drivers/gpu/drm/tests/drm_buddy_test.c      |   3 +-
+ 10 files changed, 90 insertions(+), 93 deletions(-)
+
+-- 
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
