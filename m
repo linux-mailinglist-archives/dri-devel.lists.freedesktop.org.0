@@ -1,59 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3276E6D0838
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:26:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E1D6D0840
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:27:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E02410EE7B;
-	Thu, 30 Mar 2023 14:26:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6867B10EE84;
+	Thu, 30 Mar 2023 14:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67EA510EE7B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:26:39 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id z83so23710960ybb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:26:39 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A27010EE84
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:27:28 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id z18so11401192pgj.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 07:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680186398;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YYAj9pqSL7hDBw0RLOL8GO8jrfaq2Goh8quwi8z2P+U=;
- b=o+Dzd58+BP9xg6ilalPvcpuhfUPZR3bAjkdMgibJu8M4CaBS+4HpGC8nrvhXslDKi5
- R9ko5gdcv4ZXVQMu0pWzS75IsVcF1Ton2sDrpHiZBqUMI7Yz5iqXkHTN6D3PcqbHvvYy
- 6cQ7sBlSC6cI6kQwBTscSXjNqYmxod8+5Ol0c=
+ d=gmail.com; s=20210112; t=1680186447;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lT1BKGfQqFBUgSJ293/p9fRof3Zd4Kmxm7+XqMUW1Yw=;
+ b=iJyOXHNKCdBXBK/TazEMoDQzyTokg0h/SwmbFN3hXJwbXICH2T5W2AU7tv/RuQUoRG
+ ztJ6V1vbRB24yil7fx96GQhb9VakUsL1WXyXtgHfyNXPj1dO1gmugDFNVKzY3kp+DRfq
+ TPNmv1QTpkdWFJM6GNW6CLXAAAw8pLNd2cLd0vPEo3S8Bc4GCWfe/hyTiJ9Jnmyw55LO
+ 6GLFMCHZIs3iHs7gLMxbgj0A9vluHvsMtwPoYr9Jo7PoIWfDGS3T96U1L2X4SP23X2pF
+ /H4vZxVe3eK8cbVhQFgUaFQBiCgzJOClQHeqVVsfbsghZdnoHhJG4rKUdF5ta3xS1anL
+ +SQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680186398;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YYAj9pqSL7hDBw0RLOL8GO8jrfaq2Goh8quwi8z2P+U=;
- b=lgrvQzjnJ44ZLUgcegnt5JyOMYemGWZmbeiSXieDpFTyYoPunMk1lQxSM1s5yOt2vO
- PI7blTE6ZzMB/1Ygx0PY2YxDVjqXeUYh71IZM7BZBWfd5glWyIaW94kccnthKg4HPGEA
- +RSPdld0anR/F9oV0Gsznl2FBtndazwZZv4t7MT1I1kuL7JT1QCs58o729AWbm0jAWy4
- MzxaoPfGKWbBsP5Rjp74TGacYwEDF2uEWjhPxZ0NexrQmP+UrJSOgmvOCcH1ua10Cob4
- jv9prttFOBW4wU9AWdmAI41XeCJUhvpEfucRZqnlYDg5RawDDy5dJEG3kgGbxmDw0XfP
- TZPg==
-X-Gm-Message-State: AAQBX9dlJIm/H5DVbXnvD3iOSuWg3u7AOq3WgMpbgZ0JWd2IfXNUzUYV
- oUqTbEChLtRCS7FwnFNPeun/j2w2jmC5m+U7W90INg==
-X-Google-Smtp-Source: AKy350YNV+2K9E9YDUGfrkxdbFk0oBtF0klAUoQNYSyuJPRoz9XL+Uy7LTLKyvnC+os/wbNNqOe+3HzdkUlRBHdlxGw=
-X-Received: by 2002:a05:6902:154a:b0:b3c:637f:ad00 with SMTP id
- r10-20020a056902154a00b00b3c637fad00mr16184012ybu.5.1680186398403; Thu, 30
- Mar 2023 07:26:38 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680186447;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lT1BKGfQqFBUgSJ293/p9fRof3Zd4Kmxm7+XqMUW1Yw=;
+ b=qX+ORMeDCqVzzEMhjDJ+M3/gc/XdK+fWdlKeBAYdxPwRgIKeb4OcuxnfnPoDBRjcVA
+ jS2XjHJ1i0DszDKTT3etw/ppTmVT6I/MbidrPg/LY2wGS+7cKFsdYxBdvKViWeAr7Sjn
+ aXfuxXfRgICtGao1AmzvkmxxYZSoyzxTl4ziBzTdKEkA8IfYDIYWQPb/KQ5tpxHFVje4
+ O96uK4WNgGMDoJZP0E2gTA+u47XN+gXZ366RJ8j5uglR1jFQtqtliaE3SsJlWNo7QA7q
+ W/LRveWTrKOMhqT4kbMAWfBGT0sntkO+lfjyezGaqC9chquna2ann/nXiL3RTJ+kWL8I
+ 6A9g==
+X-Gm-Message-State: AAQBX9fy5yhorJ7VNClElZj9HJJIKdyiyrQ14SuQy2AnUM93dpI1ylkv
+ abNX8q3lAWhTHAES9pqkTWgIFeFt0jo=
+X-Google-Smtp-Source: AKy350Y7rTtG18MNfmqE4A3kTB8R6xRJGDHDAoNmFmObn5jQOspYcFH6ZMZP7du4K/SydIl/ebTE/g==
+X-Received: by 2002:aa7:9597:0:b0:627:df8d:350f with SMTP id
+ z23-20020aa79597000000b00627df8d350fmr23098126pfj.4.1680186447492; 
+ Thu, 30 Mar 2023 07:27:27 -0700 (PDT)
+Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020aa786c4000000b00627ed4e23e0sm21673169pfo.101.2023.03.30.07.27.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 07:27:27 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] dma-buf/sync_file: Fix doc build warning
+Date: Thu, 30 Mar 2023 07:27:20 -0700
+Message-Id: <20230330142720.882045-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230330101752.429804-1-francesco@dolcini.it>
- <20230330101752.429804-2-francesco@dolcini.it>
-In-Reply-To: <20230330101752.429804-2-francesco@dolcini.it>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 30 Mar 2023 19:56:26 +0530
-Message-ID: <CAMty3ZAQPEnCgj9r+tsuqiOzRzHPnKSEXcDqE7LKHH16Zu2Wvw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: sn65dsi83: Add DSI
- video mode
-To: Francesco Dolcini <francesco@dolcini.it>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,56 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: Rob Clark <robdclark@chromium.org>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>, Greg Hackmann <ghackmann@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gustavo Padovan <gustavo@padovan.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 3:48=E2=80=AFPM Francesco Dolcini <francesco@dolcin=
-i.it> wrote:
->
-> From: Francesco Dolcini <francesco.dolcini@toradex.com>
->
-> SN65DSI8[34] device supports burst video mode and non-burst video mode
-> with sync events or with sync pulses packet transmission as described in
-> the DSI specification.
->
-> Add property to select the expected mode, this allows for example to
-> select a mode that is compatible with the DSI host interface.
->
-> Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> ---
->  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml  | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi8=
-3.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> index 48a97bb3e2e0..ebee16726b02 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-> @@ -35,6 +35,14 @@ properties:
->    vcc-supply:
->      description: A 1.8V power supply (see regulator/regulator.yaml).
->
-> +  dsi-video-mode:
-> +    description: |
-> +      0 - burst-mode
-> +      1 - non-burst with sync event
-> +      2 - non-burst with sync pulse
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1, 2]
+From: Rob Clark <robdclark@chromium.org>
 
-I'm thinking this can go to dsi common code since the video modes are
-common across all controllers and make the core initialize the default
-and update if any sink devices are willing to change the modes. Sound
-like a big move but worth useful.
+Fixes warning:
 
-Thanks,
-Jagan.
+  include/uapi/linux/sync_file.h:77: warning: Function parameter or member 'num_fences' not described in 'sync_file_info'
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: 2d75c88fefb2 ("staging/android: refactor SYNC IOCTLs")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ include/uapi/linux/sync_file.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
+index d61752dca4c6..ff1f38889dcf 100644
+--- a/include/uapi/linux/sync_file.h
++++ b/include/uapi/linux/sync_file.h
+@@ -56,7 +56,7 @@ struct sync_fence_info {
+  * @name:	name of fence
+  * @status:	status of fence. 1: signaled 0:active <0:error
+  * @flags:	sync_file_info flags
+- * @num_fences	number of fences in the sync_file
++ * @num_fences:	number of fences in the sync_file
+  * @pad:	padding for 64-bit alignment, should always be zero
+  * @sync_fence_info: pointer to array of struct &sync_fence_info with all
+  *		 fences in the sync_file
+-- 
+2.39.2
+
