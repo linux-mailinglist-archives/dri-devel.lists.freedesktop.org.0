@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D708C6CFE35
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:29:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFB46CFE50
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 10:32:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E01C10E1EA;
-	Thu, 30 Mar 2023 08:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F69610E20D;
+	Thu, 30 Mar 2023 08:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9A9FA10E1D6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 08:29:17 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:33410.296234587
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 427711002EE;
- Thu, 30 Mar 2023 16:29:14 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-7b48884fd-tj646 with ESMTP id
- 2236815573ed4aa9a8a2226bd7b1ced1 for tzimmermann@suse.de; 
- Thu, 30 Mar 2023 16:29:16 CST
-X-Transaction-ID: 2236815573ed4aa9a8a2226bd7b1ced1
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <9f690167-cdfa-7581-9493-1a66ea42a247@189.cn>
-Date: Thu, 30 Mar 2023 16:29:13 +0800
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE8C10E1D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 08:32:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9054D1FEA4;
+ Thu, 30 Mar 2023 08:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680165127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=erz4jcfE0i3ogqVfA3e84Ce+sGUmg5Rq1WWVBc20V40=;
+ b=roiBHS4WpakTor2yBdpSNcqnIOGnsiyPPf3pmX+9ah7AxLCYLd1Qu3uY3vobOwBUah/3oR
+ pzCxd5KYIm9HD++yR/2w2S1Y6mTB1VIr8MPAG0kr5F9VSiGgxjYTShh2+bcBVqpIXRnVnx
+ GB2zNqBrMknn2mc//TCy7txvHkVYA1s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680165127;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=erz4jcfE0i3ogqVfA3e84Ce+sGUmg5Rq1WWVBc20V40=;
+ b=b+HiM6FAD0vtrzdPUyPYHQEgUCz7CsmktWHeyrnBKRD+TlJICXZBu7Giy1Z8saLENqthpV
+ R5mZXQCLML7bj2DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 63BAD138FF;
+ Thu, 30 Mar 2023 08:32:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 5I9mFwdJJWTlGQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 08:32:07 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tomba@kernel.org, javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH 0/6] drm/omapdrm: Convert fbdev to DRM client
+Date: Thu, 30 Mar 2023 10:31:59 +0200
+Message-Id: <20230330083205.12621-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] drm/fbdev-generic: optimize out a redundant assignment
- clause
-Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20230325074636.136833-1-15330273260@189.cn>
- <a3370ae7-8c78-8170-f9c3-7f616a1fa382@suse.de>
- <20230330041726.w7boceq7ljymvfq2@ldmartin-desk2>
- <f42d8ab8-c765-2517-7d25-6ce1dea320e8@suse.de>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <f42d8ab8-c765-2517-7d25-6ce1dea320e8@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,129 +61,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, liyi <liyi@loongson.cn>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sui Jingfeng <15330273260@189.cn>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Convert omapdrm's fbdev code to struct drm_client. Replaces the current
+ad-hoc integration. The conversion includes a number of cleanups. As
+with most other drivers' fbdev emulation, fbdev in omapdrm is now just
+another DRM client that runs after the DRM device has been registered.
 
-On 2023/3/30 14:57, Thomas Zimmermann wrote:
-> Hi
->
-> Am 30.03.23 um 06:17 schrieb Lucas De Marchi:
->> On Wed, Mar 29, 2023 at 11:04:17AM +0200, Thomas Zimmermann wrote:
->>> (cc'ing Lucas)
->>>
->>> Hi
->>>
->>> Am 25.03.23 um 08:46 schrieb Sui Jingfeng:
->>>>  The assignment already done in drm_client_buffer_vmap(),
->>>>  just trival clean, no functional change.
->>>>
->>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->>>> ---
->>>>  drivers/gpu/drm/drm_fbdev_generic.c | 5 ++---
->>>>  1 file changed, 2 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_fbdev_generic.c 
->>>> b/drivers/gpu/drm/drm_fbdev_generic.c
->>>> index 4d6325e91565..1da48e71c7f1 100644
->>>> --- a/drivers/gpu/drm/drm_fbdev_generic.c
->>>> +++ b/drivers/gpu/drm/drm_fbdev_generic.c
->>>> @@ -282,7 +282,7 @@ static int drm_fbdev_damage_blit(struct 
->>>> drm_fb_helper *fb_helper,
->>>>                   struct drm_clip_rect *clip)
->>>>  {
->>>>      struct drm_client_buffer *buffer = fb_helper->buffer;
->>>> -    struct iosys_map map, dst;
->>>> +    struct iosys_map map;
->>>>      int ret;
->>>>      /*
->>>> @@ -302,8 +302,7 @@ static int drm_fbdev_damage_blit(struct 
->>>> drm_fb_helper *fb_helper,
->>>>      if (ret)
->>>>          goto out;
->>>> -    dst = map;
->>>> -    drm_fbdev_damage_blit_real(fb_helper, clip, &dst);
->>>> +    drm_fbdev_damage_blit_real(fb_helper, clip, &map);
->>>
->>> I see what you're doing and it's probably correct in this case.
->>>
->>> But there's a larger issue with this iosys interfaces. Sometimes the 
->>> address has to be modified (see calls of iosys_map_incr()). That can 
->>> prevent incorrect uses of the mapping in other places, especially in 
->>> unmap code.
->>
->> using a initializer for the cases it's needed IMO would make these kind
->> of problems go away, because then the intent is explicit
->>
->>>
->>> I think it would make sense to consider a separate structure for the 
->>> I/O location. The buffer as a whole would still be represented by 
->>> struct iosys_map.  And that new structure, let's call it struct 
->>> iosys_ptr, would point to an actual location within the buffer's
->>
->> sounds fine to me, but I'd have to take a deeper look later (or when
->> someone writes the patch).  It seems we'd replicate almost the entire
->> API to just accomodate the 2 structs.  And the different types will lead
->> to confusion when one or the other should be used
->
-> I think we can split the current interface onto two categories: 
-> mapping and I/O. The former would use iosys_map and the latter would 
-> use iosys_ptr. And we'd need a helper that turns gets a ptr for a 
-> given map.
->
-> If I find the tine, I'll probably type up a patch.
->
-This sound fine and interesting.
+Once all drivers' fbdev emulation has been converted to struct drm_client,
+we can attempt to add additional in-kernel clients. A DRM-based dmesg
+log or a bootsplash are commonly mentioned. DRM can then switch easily
+among the existing clients if/when required.
 
-I don't have enough time to do this,  as I'm focus on developing driver 
-for my company's hardware.
+I did the conversion from similar experience with other drivers. But I
+don't have the hardware to test this. Any testing is welcome.
 
-But I  will keep an eye on it, see what interesting will be happen.
+Thomas Zimmermann (6):
+  drm/omapdrm: Include <linux/of.h>
+  drm/omapdrm: Remove fb from struct omap_fbdev
+  drm/omapdrm: Remove bo from struct omap_fbdev
+  drm/omapdrm: Remove fbdev from struct omap_drm_private
+  drm/omapdrm: Initialize fbdev DRM client
+  drm/omapdrm: Implement fbdev emulation as in-kernel client
 
-Becuase the fbdev related code  will also be used on my company's 
-ls7a1000 and ls7a2000 platform.
+ drivers/gpu/drm/omapdrm/omap_debugfs.c |   6 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c     |  13 +-
+ drivers/gpu/drm/omapdrm/omap_drv.h     |   3 -
+ drivers/gpu/drm/omapdrm/omap_fbdev.c   | 165 ++++++++++++++++---------
+ drivers/gpu/drm/omapdrm/omap_fbdev.h   |   9 +-
+ 5 files changed, 114 insertions(+), 82 deletions(-)
 
-It is useful and interesting,  Our device  at least  can functional as a 
-big frame buffer and more than framebuffer.
+-- 
+2.40.0
 
-The bandwidth for VRAM write is very high(when write combine is open). 
-at least 10+ times batter than aspeed bmc.
-
-glxgear on ls3a5000@2.5ghz+ls7a1000 can run above 1000+fps. while with 
-the aspeed bmc it is just 100+ fps all so.
-
-
-> Best regards
-> Thomas
->
->>
->> thanks
->> Lucas De Marchi
->>
->>> memory range. A few locations and helpers would need changes, but 
->>> there are not so many callers that it's an issue.  This would also 
->>> allow for a few debugging tests that ensure that iosys_ptr always 
->>> operates within the bounds of an iosys_map.
->>>
->>> I've long considered this idea, but there was no pressure to work on 
->>> it. Maybe now.
->>>
->>> Best regards
->>> Thomas
->>>
->>>>      drm_client_buffer_vunmap(buffer);
->>>
->>> -- 
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Software Solutions Germany GmbH
->>> Maxfeldstr. 5, 90409 Nürnberg, Germany
->>> (HRB 36809, AG Nürnberg)
->>> Geschäftsführer: Ivo Totev
->>
->>
->>
->
