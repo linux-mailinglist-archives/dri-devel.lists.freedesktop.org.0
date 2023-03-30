@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8416D07BD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:10:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BCE6D07DA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 16:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58CB010EE66;
-	Thu, 30 Mar 2023 14:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 882F610EE69;
+	Thu, 30 Mar 2023 14:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE69E10EE49;
- Thu, 30 Mar 2023 14:10:09 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6957410E3D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 14:16:37 +0000 (UTC)
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4886F1FDFD;
- Thu, 30 Mar 2023 14:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680185408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vINwv/chQcKzpa66Km4h16M1ttg9P1LpEo4kauIlPR0=;
- b=15ys2ybpL2F7Yk43jr/+AdKJh2WLTQ4+aZazaH4UVH+Rt53151U1ZvITJV8ixZEEzWpSeR
- ma2dVVzmc6bZCOqpNbtOBdF38DALsDdZjhgQfu6k8bqDC/OIq3N3E0P5wgEj4zphDrcW8U
- /cHrz6LiWXIDWvo51ccw4uDn8hQ/Zlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680185408;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vINwv/chQcKzpa66Km4h16M1ttg9P1LpEo4kauIlPR0=;
- b=KxyseRRpnQzt8xHGoedy3LgTA5NmG7JftwVZ6W9mAzBvGvKc+g7OyBnIRJYqI1jtwRf4TK
- M/gezMtStAao8EAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E8767133E0;
- Thu, 30 Mar 2023 14:10:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id e1+zNz+YJWSoIQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 30 Mar 2023 14:10:07 +0000
-Date: Thu, 30 Mar 2023 16:10:06 +0200
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20230330141006.GA22908@linux-uq9g>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6A51A66030CD;
+ Thu, 30 Mar 2023 15:16:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680185796;
+ bh=ux/0TN81WLnYDd2jDMimgAkbJMXx28lS+SbskQF/S3M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QHe1PlT1KPRiWBcbWcv3WdCSLU1ucNSBotILUNaoQ6WqRFDnLUrTCG2A2+F2CDLaJ
+ g6ryx1cWECvB44J/w1LqlLX0p/gK8APKAXjLuS547x09Nn+i8jVKo319Hu7qmAxdRx
+ RG6c+zQQiZBVedQ5crYBeufHLfJart3oVnU7YuuO4QWTseWl6/vXtue+gM7erUQ8y+
+ mHnWax7mrOPhcrK1z2LgANBi9T+nQK2zsuSJzEmu2n+uokXip/jqaM02OPHrAspbTu
+ 9qJ0DpszpckB71+l41lP2Yzirb4Nx3ScvUZ4miQhHAPsZogxt09rgfZmEHZxBglU4j
+ W1W45b8cHNkqQ==
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: chunkuang.hu@kernel.org
+Subject: [PATCH v1 0/8] MediaTek DisplayPort: support eDP and aux-bus
+Date: Thu, 30 Mar 2023 16:16:22 +0200
+Message-Id: <20230330141631.190528-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,81 +50,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gfx@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, wenst@chromium.org, matthias.bgg@gmail.com,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+This series adds "real" support for eDP in the mtk-dp DisplayPort driver.
 
-here's the weekly PR for drm-misc-fixes.
+Explaining the "real":
+Before this change, the DisplayPort driver did support eDP to some
+extent, but it was treating it entirely like a regular DP interface
+which is partially fine, after all, embedded DisplayPort *is* actually
+DisplayPort, but there might be some differences to account for... and
+this is for both small performance improvements and, more importantly,
+for correct functionality in some systems.
 
-Best regards
-Thomas
+Functionality first:
 
-drm-misc-fixes-2023-03-30:
-Short summary of fixes pull:
+One of the common differences found in various boards implementing eDP
+and machines using an eDP panel is that many times the HPD line is not
+connected. This *must* be accounted for: at startup, this specific IP
+will raise a HPD interrupt (which should maybe be ignored... as it does
+not appear to be a "real" event...) that will make the eDP panel to be
+detected and to actually work but, after a suspend-resume cycle, there
+will be no HPD interrupt (as there's no HPD line in my case!) producing
+a functionality issue - specifically, the DP Link Training fails because
+the panel doesn't get powered up, then it stays black and won't work
+until rebooting the machine (or removing and reinserting the module I
+think, but I haven't tried that).
 
- * various ivpu fixes
- * fix nouveau backlight registration
- * fix buddy allocator in 32-bit systems
-The following changes since commit 1a70ca89d59c7c8af006d29b965a95ede0abb0da:
+Now for.. both:
+eDP panels are *e*DP because they are *not* removable (in the sense that
+you can't unplug the cable without disassembling the machine, in which
+case, the machine shall be powered down..!): this (correct) assumption
+makes us able to solve some issues and to also gain a little performance
+during PM operations.
 
-  drm/bridge: lt8912b: return EPROBE_DEFER if bridge is not found (2023-03-22 18:01:57 +0100)
+What was done here is:
+ - Caching the EDID if the panel is eDP: we're always going to read the
+   same data everytime, so we can just cache that (as it's small enough)
+   shortening PM resume times for the eDP driver instance;
+ - Always return connector_status_connected if it's eDP: non-removable
+   means connector_status_disconnected can't happen during runtime...
+   this also saves us some time and even power, as we won't have to
+   perform yet another power cycle of the HW;
+ - Added aux-bus support!
+   This makes us able to rely on panel autodetection from the EDID,
+   avoiding to add more and more panel timings to panel-edp and, even
+   better, allowing to use one panel node in devicetrees for multiple
+   variants of the same machine since, at that point, it's not important
+   to "preventively know" what panel we have (eh, it's autodetected...!).
 
-are available in the Git repository at:
+This was tested on a MT8195 Cherry Tomato Chromebook (panel-edp on aux-bus)
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-03-30
 
-for you to fetch changes up to 25bbe844ef5c4fb4d7d8dcaa0080f922b7cd3a16:
+P.S.: For your own testing commodity, here's a reference devicetree:
+&edp_tx {
+	status = "okay";
 
-  drm: test: Fix 32-bit issue in drm_buddy_test (2023-03-29 17:14:15 +0200)
+	pinctrl-names = "default";
+	pinctrl-0 = <&edptx_pins_default>;
 
-----------------------------------------------------------------
-Short summary of fixes pull:
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
 
- * various ivpu fixes
- * fix nouveau backlight registration
- * fix buddy allocator in 32-bit systems
+		port@0 {
+			reg = <0>;
+			edp_in: endpoint {
+				remote-endpoint = <&dp_intf0_out>;
+			};
+		};
 
-----------------------------------------------------------------
-Andrzej Kacprowski (1):
-      accel/ivpu: Fix IPC buffer header status field value
+		port@1 {
+			reg = <1>;
+			edp_out: endpoint {
+				data-lanes = <0 1 2 3>;
+				remote-endpoint = <&panel_in>;
+			};
+		};
+	};
 
-David Gow (2):
-      drm: buddy_allocator: Fix buddy allocator init on 32-bit systems
-      drm: test: Fix 32-bit issue in drm_buddy_test
+	aux-bus {
+		panel: panel {
+			compatible = "edp-panel";
+			power-supply = <&pp3300_disp_x>;
+			backlight = <&backlight_lcd0>;
+			port {
+				panel_in: endpoint {
+					remote-endpoint = <&edp_out>;
+				};
+			};
+		};
+	};
+};
 
-Hans de Goede (1):
-      drm/nouveau/kms: Fix backlight registration
+AngeloGioacchino Del Regno (8):
+  drm/mediatek: dp: Cache EDID for eDP panel
+  drm/mediatek: dp: Move AUX and panel poweron/off sequence to function
+  drm/mediatek: dp: Always return connected status for eDP in .detect()
+  drm/mediatek: dp: Always set cable_plugged_in at resume for eDP panel
+  drm/mediatek: dp: Change logging to dev for mtk_dp_aux_transfer()
+  drm/mediatek: dp: Enable event interrupt only when bridge attached
+  drm/mediatek: dp: Use devm variant of drm_bridge_add()
+  drm/mediatek: dp: Add support for embedded DisplayPort aux-bus
 
-Stanislaw Gruszka (7):
-      accel/ivpu: Do not access HW registers after unbind
-      accel/ivpu: Cancel recovery work
-      accel/ivpu: Do not use SSID 1
-      accel/ivpu: Fix power down sequence
-      accel/ivpu: Disable buttress on device removal
-      accel/ivpu: Remove support for 1 tile SKUs
-      accel/ivpu: Fix VPU clock calculation
-
- drivers/accel/ivpu/ivpu_drv.c               |  18 ++++-
- drivers/accel/ivpu/ivpu_drv.h               |   7 +-
- drivers/accel/ivpu/ivpu_hw_mtl.c            | 113 +++++++++-------------------
- drivers/accel/ivpu/ivpu_ipc.h               |   2 +-
- drivers/accel/ivpu/ivpu_job.c               |  11 ++-
- drivers/accel/ivpu/ivpu_pm.c                |  17 ++++-
- drivers/accel/ivpu/ivpu_pm.h                |   1 +
- drivers/gpu/drm/drm_buddy.c                 |   4 +-
- drivers/gpu/drm/nouveau/nouveau_backlight.c |   7 +-
- drivers/gpu/drm/tests/drm_buddy_test.c      |   3 +-
- 10 files changed, 90 insertions(+), 93 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c | 172 ++++++++++++++++++------------
+ 1 file changed, 106 insertions(+), 66 deletions(-)
 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 Nürnberg, Germany
-(HRB 36809, AG Nürnberg)
-Geschäftsführer: Felix Imendörffer
+2.40.0
+
