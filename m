@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CF06D0CFC
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 19:38:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BCA6D0D2C
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Mar 2023 19:53:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E560E10EF61;
-	Thu, 30 Mar 2023 17:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F0610E2D6;
+	Thu, 30 Mar 2023 17:52:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com
- [IPv6:2607:f8b0:4864:20::1134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C50010EF61
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:38:00 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-544f7c176easo367801377b3.9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 10:38:00 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E680110E1C0
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:52:52 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id v1so19943958wrv.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 10:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1680197879;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0XDB6bTe9xJuphUqwevJuf9q/6RlzAPG9D8j9n2M9eI=;
- b=OjP+fHOJg/qk/BlFRiLShClpzDz5RIhfJx4oJR+J6AEhaszRz0Q5mEaxRpZkd5ocUU
- Pydm4D7geWRHXotQWusDrJeDK239l9eTmD3nH+hbdF/E+kATlZQpMPIukTeVxq0iU8Zt
- zs7csmBHA4HWxFkMZzcYDKsCymsF4Jr3u9Og0=
+ d=ffwll.ch; s=google; t=1680198771; x=1682790771;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=OJN42HUIXatEVsphzTXsI54WsPnHXrVN2/FN+y4BWSc=;
+ b=WECfBZyrezPCEpBUuK0L8waWB+hjWvgiY8ZqCOE4ANJ/CnQrHHQXCjMWfA0tGmOT/O
+ OpAxW1v9cFRE7l6BdhlnKflfDCEH5pDOn4VbMFS4yQricwN5F0zIcfqurc9zCrrTe8xj
+ BpBLvTA7fgtvj5x8xuvRX6aexBz9Y7vev44pM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680197879;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0XDB6bTe9xJuphUqwevJuf9q/6RlzAPG9D8j9n2M9eI=;
- b=p7Iq6/hpk/USH0pwnMhYBROOVfz2eM8Zu07fAIF4JIUeII1nzdQw/Q6INPq2iVE4FH
- EY7Twh1PikiBKBAaUq5iaouRGAjcjc2uLsHL2s/sm9bgzmM00EvBazCEU8yzqRanQweU
- u24wCmQYRutP8BZrYxdDG6hTNLNDjn6fQ/l1nbkVzD3Op9FuYg+BYrMnQop8aunbu7Iq
- sz3RIvGlZ46cLqUvX0HxqLdMiomCrkBjhVHnIIXe+KQAcroyvS7eWRdLhDaHH9kRVX+T
- 4zTkBcCo2XGPZ7cpRxJ//k6e9u8TOm8QE2NGsK9Cqp0m3E8tbXezsRA+QeSeOz7U3Y96
- 42xg==
-X-Gm-Message-State: AAQBX9egLuYO//vuVl5oVU32xcLv7FRwvN0j9Dj8PQ0yyz8n0+iG7L2/
- ufZ9kQrRODEc7kDq9wFYGrBPr3jBTjf85cgDXh7SMQ==
-X-Google-Smtp-Source: AKy350bck9a7Ac/7Hxwga/BHJXtbB6f6e+9uTSHoWqisMz7/ZongXR2S56Glacab1PDzNjzatDBkzP3s/3oiG7MFHD4=
-X-Received: by 2002:a81:ad04:0:b0:52e:e095:d840 with SMTP id
- l4-20020a81ad04000000b0052ee095d840mr800164ywh.0.1680197879519; Thu, 30 Mar
- 2023 10:37:59 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680198771; x=1682790771;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OJN42HUIXatEVsphzTXsI54WsPnHXrVN2/FN+y4BWSc=;
+ b=UnIrYeILOcUH6cxUlagMSkl5tdY0IlhR2m6NTFb5A0J4W9CZQfHE8jSWqtk7wOnZ+Z
+ NK68euDU137Eyf3hLiGRB9uSlItr8R2pm4ZfegQIFq4smLJj8MZecqpQPdm2C2y7PIqp
+ d+/csK17+ddXK/kj9Gq5alk1LfvxMyGWk8fkFj7mdbuJikj5wbZDYH+u7OIpcoCv11C0
+ 8W48C9u2k3JZ9KcICN6JhWkvX79AoqNuAkalGA5VMofzX4jBvBql+jW8PS/tCMO/X6I/
+ w1gVVY0w2eU+O+X3HyfO6aun7kY20JGoXn6ON6NdBlLpYRwMEot4k/uR1rvqZxLe0izy
+ ISZA==
+X-Gm-Message-State: AAQBX9d1YbafvO3NCjHH06l1tJXaBQlQHgPSRDTitCFczOjB1HDbuKjP
+ 7UFOGXV5CNPm5SWXhEFpZ9wlNg==
+X-Google-Smtp-Source: AKy350bPBL1U9Qq27XmR9YCFBY0I7vFIQzO9w+sTisBsouvzj+IIC0BM1GWDn87RvvAeewqA1IQl0A==
+X-Received: by 2002:a5d:548e:0:b0:2ce:a773:1150 with SMTP id
+ h14-20020a5d548e000000b002cea7731150mr1816701wrv.6.1680198771040; 
+ Thu, 30 Mar 2023 10:52:51 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net.
+ [212.51.149.33]) by smtp.gmail.com with ESMTPSA id
+ b9-20020a05600010c900b002c7163660a9sm33404646wrx.105.2023.03.30.10.52.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 10:52:49 -0700 (PDT)
+Date: Thu, 30 Mar 2023 19:52:22 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PULL] drm-misc-fixes
+Message-ID: <ZCXMVgiIr92GEEIG@phenom.ffwll.local>
+References: <20230330141006.GA22908@linux-uq9g>
 MIME-Version: 1.0
-References: <20230330101752.429804-1-francesco@dolcini.it>
- <20230330101752.429804-2-francesco@dolcini.it>
- <CAMty3ZAQPEnCgj9r+tsuqiOzRzHPnKSEXcDqE7LKHH16Zu2Wvw@mail.gmail.com>
- <ZCWkdc+x0LXDSohj@francesco-nb.int.toradex.com>
-In-Reply-To: <ZCWkdc+x0LXDSohj@francesco-nb.int.toradex.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 30 Mar 2023 23:07:47 +0530
-Message-ID: <CAMty3ZDwj5OuBzTBHrBitS0qD8QEv8=80YR2zZLDnL_nrmd3fg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: sn65dsi83: Add DSI
- video mode
-To: Francesco Dolcini <francesco@dolcini.it>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230330141006.GA22908@linux-uq9g>
+X-Operating-System: Linux phenom 6.1.0-6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,83 +71,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 30, 2023 at 8:32=E2=80=AFPM Francesco Dolcini <francesco@dolcin=
-i.it> wrote:
->
-> On Thu, Mar 30, 2023 at 07:56:26PM +0530, Jagan Teki wrote:
-> > On Thu, Mar 30, 2023 at 3:48=E2=80=AFPM Francesco Dolcini <francesco@do=
-lcini.it> wrote:
-> > >
-> > > From: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > >
-> > > SN65DSI8[34] device supports burst video mode and non-burst video mod=
-e
-> > > with sync events or with sync pulses packet transmission as described=
- in
-> > > the DSI specification.
-> > >
-> > > Add property to select the expected mode, this allows for example to
-> > > select a mode that is compatible with the DSI host interface.
-> > >
-> > > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > > ---
-> > >  .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml  | 8 ++++++=
-++
-> > >  1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65=
-dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.=
-yaml
-> > > index 48a97bb3e2e0..ebee16726b02 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
-aml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.y=
-aml
-> > > @@ -35,6 +35,14 @@ properties:
-> > >    vcc-supply:
-> > >      description: A 1.8V power supply (see regulator/regulator.yaml).
-> > >
-> > > +  dsi-video-mode:
-> > > +    description: |
-> > > +      0 - burst-mode
-> > > +      1 - non-burst with sync event
-> > > +      2 - non-burst with sync pulse
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    enum: [0, 1, 2]
-> >
-> > I'm thinking this can go to dsi common code since the video modes are
-> > common across all controllers and make the core initialize the default
-> > and update if any sink devices are willing to change the modes. Sound
-> > like a big move but worth useful.
->
-> Not sure I understood where do you want to move this.
+On Thu, Mar 30, 2023 at 04:10:06PM +0200, Thomas Zimmermann wrote:
+> Hi Dave and Daniel,
+> 
+> here's the weekly PR for drm-misc-fixes.
+> 
+> Best regards
+> Thomas
+> 
+> drm-misc-fixes-2023-03-30:
+> Short summary of fixes pull:
+> 
+>  * various ivpu fixes
+>  * fix nouveau backlight registration
+>  * fix buddy allocator in 32-bit systems
+> The following changes since commit 1a70ca89d59c7c8af006d29b965a95ede0abb0da:
+> 
+>   drm/bridge: lt8912b: return EPROBE_DEFER if bridge is not found (2023-03-22 18:01:57 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2023-03-30
 
-Yes, it can be new may be
-Documentation/devicetree/bindings/display/dsi-device.yaml
+Pulled, thanks
 
->
-> In any case this is something about the display side of the DSI video
-> connection, with the bridge as a special case, not about the controller.
-> To my understanding the controller is supposed to support all the modes.
+> 
+> for you to fetch changes up to 25bbe844ef5c4fb4d7d8dcaa0080f922b7cd3a16:
+> 
+>   drm: test: Fix 32-bit issue in drm_buddy_test (2023-03-29 17:14:15 +0200)
+> 
+> ----------------------------------------------------------------
+> Short summary of fixes pull:
+> 
+>  * various ivpu fixes
+>  * fix nouveau backlight registration
+>  * fix buddy allocator in 32-bit systems
+> 
+> ----------------------------------------------------------------
+> Andrzej Kacprowski (1):
+>       accel/ivpu: Fix IPC buffer header status field value
+> 
+> David Gow (2):
+>       drm: buddy_allocator: Fix buddy allocator init on 32-bit systems
+>       drm: test: Fix 32-bit issue in drm_buddy_test
+> 
+> Hans de Goede (1):
+>       drm/nouveau/kms: Fix backlight registration
+> 
+> Stanislaw Gruszka (7):
+>       accel/ivpu: Do not access HW registers after unbind
+>       accel/ivpu: Cancel recovery work
+>       accel/ivpu: Do not use SSID 1
+>       accel/ivpu: Fix power down sequence
+>       accel/ivpu: Disable buttress on device removal
+>       accel/ivpu: Remove support for 1 tile SKUs
+>       accel/ivpu: Fix VPU clock calculation
+> 
+>  drivers/accel/ivpu/ivpu_drv.c               |  18 ++++-
+>  drivers/accel/ivpu/ivpu_drv.h               |   7 +-
+>  drivers/accel/ivpu/ivpu_hw_mtl.c            | 113 +++++++++-------------------
+>  drivers/accel/ivpu/ivpu_ipc.h               |   2 +-
+>  drivers/accel/ivpu/ivpu_job.c               |  11 ++-
+>  drivers/accel/ivpu/ivpu_pm.c                |  17 ++++-
+>  drivers/accel/ivpu/ivpu_pm.h                |   1 +
+>  drivers/gpu/drm/drm_buddy.c                 |   4 +-
+>  drivers/gpu/drm/nouveau/nouveau_backlight.c |   7 +-
+>  drivers/gpu/drm/tests/drm_buddy_test.c      |   3 +-
+>  10 files changed, 90 insertions(+), 93 deletions(-)
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
 
-Yes, that is what I'm saying. DSI sink will send this mode via
-mode_flags and the controller act accordingly.  The point here is
-these modes are generic across all DSI sink devices so having common
-bindings can make it easy for all devices to use. As I said it can be
-new, but worth trying - anyway let's see how others are commenting on
-this.
-
-Thanks,
-Jagan.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
