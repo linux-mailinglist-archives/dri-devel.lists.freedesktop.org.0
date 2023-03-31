@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115C56D1B9A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F27F6D1B86
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:12:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 165AB10F17E;
-	Fri, 31 Mar 2023 09:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF6610F15E;
+	Fri, 31 Mar 2023 09:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3326310F17C
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:12:50 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id
- qe8-20020a17090b4f8800b0023f07253a2cso22705499pjb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:12:50 -0700 (PDT)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAA4B10F163
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:12:11 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i5-20020a05600c354500b003edd24054e0so14894021wmq.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680253970;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DftOuC34jgK6vdfEHR4p5+Z7I+B73avis2TRz4siHN0=;
- b=iPbuEJLQFsyK12xhR7n77O9f3ArrTMQ7LJ4E3u1SoR/u+l8QB2O97SWlANyKzlxhj5
- 0MxEiSRWTm+0T3gB01G8ks9lLukGWkvbyQx6h+46SOs/Lb3rJu1/TZg1dMMmBeKSrVjH
- bJzBabjOcV+MfgCrfD1IJoo++c4j7M1GpnFJs=
+ d=linaro.org; s=google; t=1680253930;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=i4thSwDiXLA3gkDJnYvjvujNMO/o2OKEhGcuq2D7Pfg=;
+ b=VMr5dvyNW9RJTXlRTRQD+t+qBWvvOx8N43jhhw/m+GZ7M800L+4y2JTClbCQlZHu6g
+ eAbAJmAbJDJMYqD2iHOCGoxncIpDIuEezgsfHbIzJXczP35KPR/Q5+ewjH4yNt2iAe/W
+ XLWadnQUfhIg24Hr7vhMUdXknyj8kakRquJTKxVte7LSVqfaZ7qD2svT10jaBMeYPR7z
+ RLRlYlcCS0XMOvYzRuPFNqqqci/OTNCN5r+9GaMWKHQSoU5S80wpid5zanBgt3as+8io
+ q3guKA+Gaw4rBZ/mbCNWfJqU/S/zD5+0zGT9bQD091DMTtWc7hQw03BSfks6UrPcCkMo
+ G4hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680253970;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DftOuC34jgK6vdfEHR4p5+Z7I+B73avis2TRz4siHN0=;
- b=uQXRnB7uwmqxGDSKKAFidDYlfZ0ijLT6Hs2X6jq+aKAVMte5Ok0HtzvW4JG9qWC/L6
- 9xV3DcU4evH6M4cG6xDDYlHX80SPdBtPDsdmnrwlp9GAGioROqWZg2rKxdKX+gCmmtoL
- +hTZtkS3JoGYsZ2SPrVSot/hPTotQUj416RTLSinpTrFZwmmW9wlhsS0Q4pTH1TNh+Xt
- bsJympKlTkvr0SprwZqhw+cHemLeXBcVdLQqzFU3qJrsFSZhFGqP1TMAxP3d1mweJu5A
- 5wZGbwilvwX1QKxbQsHdZ2CF2+oLiyMbKz6rdpih4TNgJmsWE+Sa9V3HDQjhfa+XGrSd
- 3nSQ==
-X-Gm-Message-State: AO0yUKXhnY0s5cww7rMbbl3asBRH3K/ozpALFJ1ge8NzOPviIVEZd8Nk
- dY1MQXNC2PFzV5k20KebqK7qtQ==
-X-Google-Smtp-Source: AK7set9+PFlF8H1hDPzcYo0cfctK+6K0fRB1oLnkcDm5pp5/Pln0V+QDTYaWVOFbUPhrh21vRrZwCA==
-X-Received: by 2002:a05:6a20:2903:b0:d3:a347:7db4 with SMTP id
- t3-20020a056a20290300b000d3a3477db4mr22713158pzf.15.1680253969754; 
- Fri, 31 Mar 2023 02:12:49 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com
- ([2401:fa00:1:10:ae9d:db7a:8a71:d458])
+ d=1e100.net; s=20210112; t=1680253930;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:from:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=i4thSwDiXLA3gkDJnYvjvujNMO/o2OKEhGcuq2D7Pfg=;
+ b=0dqZAJ5ND5OpS98OkU3X52ipwrFdj+16jsVhtxyYUlAaZJ8BRy8V1xxvxNXKmjEry+
+ wEcmQ/kS5K3I0uFRrPR5PwPyP6lasvYQIlb88aAyzIzUaR1N2o80s93ST0jVIu1Fvu1C
+ o7dG/hs5RviLqXshsQu7FaitBJXgX1ADVgJ5LHranySfjgst9txW76h1o6UN47qLzCYp
+ s1KwhiZe9AiKVax8xRGFiJA1pF8VCsv0gDx/l8ZRs/sdHlxBFf6k1HBOaxygz1RMjFNt
+ 363FjSCgZ+IFLK7DhCyc2ElC5NmgIZBKbbg6XXqh3A5NuX0PX8LUlMLFFe7YQz8LUzxV
+ Ci6w==
+X-Gm-Message-State: AO0yUKXnAjj0+8jnAe5j1+KGiX0S6U81uxKRo48ssDJfwMPsGJXqGG6v
+ LeiVLNDuWic3CXexgf/s7dRxhsHaWgesgqkorgevdQ==
+X-Google-Smtp-Source: AK7set89SbsMZBaWTSeTQsZzf6AN0otVzApRZKiZpDJhgHdd/+5eZull8XGw1I0Q7dbrbrhLprOKqg==
+X-Received: by 2002:a05:600c:2312:b0:3ee:b3bf:5f7c with SMTP id
+ 18-20020a05600c231200b003eeb3bf5f7cmr20162839wmo.23.1680253929961; 
+ Fri, 31 Mar 2023 02:12:09 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:74cb:1a96:c994:e7e0?
+ ([2a01:e0a:982:cbb0:74cb:1a96:c994:e7e0])
  by smtp.gmail.com with ESMTPSA id
- n6-20020a62e506000000b006227c3d5e29sm1360905pff.16.2023.03.31.02.12.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Mar 2023 02:12:49 -0700 (PDT)
-From: Pin-yen Lin <treapking@chromium.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Prashant Malani <pmalani@chromium.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH v15 10/10] drm/bridge: it6505: Register Type C mode switches
-Date: Fri, 31 Mar 2023 17:11:45 +0800
-Message-Id: <20230331091145.737305-11-treapking@chromium.org>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-In-Reply-To: <20230331091145.737305-1-treapking@chromium.org>
-References: <20230331091145.737305-1-treapking@chromium.org>
+ n2-20020a05600c4f8200b003ef5e5f93f5sm9141705wmq.19.2023.03.31.02.12.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 02:12:09 -0700 (PDT)
+Message-ID: <fc931920-67cd-e776-8f4d-444ade4afcef@linaro.org>
+Date: Fri, 31 Mar 2023 11:12:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v7 10/12] drm/bridge: Implement enable_next_first to alter
+ bridge init order
+Content-Language: en-US
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
+References: <20230329131929.1328612-1-jagan@amarulasolutions.com>
+ <CAPY8ntCJP53uiGNQHUZqma08Vsxfwm7KvAkgMzK=hn4AxJLS3A@mail.gmail.com>
+ <20230329164638.v43la4l7rxut6hk6@penduick>
+ <CAMty3ZCsn6OR1-TvqFXP48iamG-k5sPU1_CH2fNLBQP3Ofb0QA@mail.gmail.com>
+ <CAPY8ntCpmKPzPVjRWS7Pf1Fat9V_JqGD4BaMo8P8_o+74DeDiQ@mail.gmail.com>
+Organization: Linaro Developer Services
+In-Reply-To: <CAPY8ntCpmKPzPVjRWS7Pf1Fat9V_JqGD4BaMo8P8_o+74DeDiQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,323 +85,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, Pin-yen Lin <treapking@chromium.org>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, linux-acpi@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-amarula <linux-amarula@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Register USB Type-C mode switches when the "mode-switch" property and
-relevant port are available in Device Tree. Configure the "lane_swap"
-state based on the entered alternate mode for a specific Type-C
-connector, which ends up updating the lane swap registers of the it6505
-chip.
+On 30/03/2023 12:01, Dave Stevenson wrote:
+> Hi Jagan
+> 
+> On Thu, 30 Mar 2023 at 07:56, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>>
+>> On Wed, Mar 29, 2023 at 10:16 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>>>
+>>> On Wed, Mar 29, 2023 at 05:28:28PM +0100, Dave Stevenson wrote:
+>>>> On Wed, 29 Mar 2023 at 14:19, Jagan Teki <jagan@amarulasolutions.com> wrote:
+>>>>>
+>>>>> DSI sink devices typically send the MIPI-DCS commands to the DSI host
+>>>>> via general MIPI_DSI_DCS read and write API.
+>>>>>
+>>>>> The classical DSI sequence mentioned that the DSI host receives MIPI-DCS
+>>>>> commands from the DSI sink first in order to switch HS mode properly.
+>>>>> Once the DSI host switches to HS mode any MIPI-DCS commands from the
+>>>>> DSI sink are unfunctional.
+>>>>
+>>>> That statement contradicts the spec.
+>>>> The DSI spec section 8.11.1 Transmission Packet Sequences says that
+>>>> during any BLLP (Blanking or Low Power) period the host can do any of:
+>>>> - remain in LP-11
+>>>> - transmit one or more non-video packets from host to peripheral in escape mode
+>>>> - transmit one or more non-video packets from host to peripheral in
+>>>> using HS mode
+>>>> - receive one or more packets from peripheral to host using escape mode
+>>>> - transmit data on a different virtual channel.
+>>>>
+>>>> Indeed if the sink doesn't set MIPI_DSI_MODE_LPM /
+>>>> MIPI_DSI_MSG_USE_LPM, then the expectation is that any data transfer
+>>>> will be in HS mode.
+>>>>
+>>>> That makes me confused as to the need for this patch.
+>>>
+>>> Yeah, and it looks like that would break the expectation that, in
+>>> enable, a bridge can expect its controller to be in HS mode.
+>>>
+>>> I think that was Jagan is trying to do is to work around an issue with
+>>> the Allwinner DSI driver:
+>>> https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c#L775
+>>
+>> Correct and I can see it seems to be a classic DSI sequence observed
+>> in dw-mipi-dsi as well - based on Neil's comments.
+>> https://lore.kernel.org/all/9aa3d19d-4378-aaf3-6857-c40be5d252c7@baylibre.com/
+> 
+> Neil's comments are from 2021, and his response would appear to be
+> with regard the PHY power up sequence issues that
+> pre_enable_prev_first should solve. The DSI host pre_enable can now be
+> called before the sink's pre_enable, therefore allowing the PHY to be
+> configured in pre_enable. Hacking the PHY init into mode_set is
+> therefore not required.
 
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+Yes this part is not solved, but is seems the assumption the DSI controller
+can switch to HS to LS & then to HS back after a command while in video mode
+isn't true in the Allwinner's case. As I understood it's one of the problems.
 
----
+We're hitting a limit of the DSI controller model in Linux where we cannot
+express all the DSI capabilities (Video mode, Command mode, dynamic framerate
+switching, DSC, ...) since from the Panel or Bridge PoV we're blind and
+we do not know what are the features supported by the DSI controller and
+we lack knowledge of any operation mode we must try to achieve.
 
-Changes in v15:
-- Add comments about the completion
-- Fix style issues
-- Abort the mux_set callback when the switch is unregistered
-
-Changes in v14:
-- Fix style issues
-
-Changes in v13:
-- Fix style issues
-
-Changes in v12:
-- Fixes style issues in it6505 driver
-- Replaced &it6505->client->dev with it6505->dev
-- Updated the error logs when parsing data-lanes property
-
-Changes in v11:
-- Added back "data-lanes" parsing logics
-- Removed Kconfig dependency
-- Updated the usage of the private data
-
-Changes in v7:
-- Fixed style issues in it6505 driver
-- Removed the redundant sleep in it6505 driver
-- Removed DT property validation in it6505 driver
-- Rebased to drm-misc-next
-- Extracted common codes to another commit
-
-Changes in v6:
-- Changed it6505_typec_mux_set callback function to accommodate with
-  the latest drm-misc patches
-- Changed the driver implementation to accommodate with the new binding
-- Squashed to a single patch
-
- drivers/gpu/drm/bridge/ite-it6505.c | 198 +++++++++++++++++++++++++++-
- 1 file changed, 191 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 39edcbad586f..12fea5727c92 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -17,6 +17,8 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <linux/types.h>
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/wait.h>
- 
- #include <crypto/hash.h>
-@@ -27,6 +29,7 @@
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -401,6 +404,11 @@ struct debugfs_entries {
- 	const struct file_operations *fops;
- };
- 
-+struct it6505_typec_port_data {
-+	bool dp_connected;
-+	bool lane_swap;
-+};
-+
- struct it6505 {
- 	struct drm_dp_aux aux;
- 	struct drm_bridge bridge;
-@@ -454,6 +462,9 @@ struct it6505 {
- 	struct delayed_work delayed_audio;
- 	struct it6505_audio_data audio;
- 	struct dentry *debugfs;
-+	struct completion mux_register;
-+	struct drm_dp_typec_switch_desc switch_desc;
-+	struct it6505_typec_port_data *port_data;
- 
- 	/* it6505 driver hold option */
- 	bool enable_drv_hold;
-@@ -3357,12 +3368,172 @@ static void it6505_shutdown(struct i2c_client *client)
- 		it6505_lane_off(it6505);
- }
- 
-+static void it6505_typec_ports_update(struct it6505 *it6505)
-+{
-+	unsigned int i;
-+
-+	/* Check if both ports available and do nothing to retain the current one */
-+	if (it6505->port_data[0].dp_connected && it6505->port_data[1].dp_connected)
-+		return;
-+
-+	for (i = 0; i < 2; i++) {
-+		if (it6505->port_data[i].dp_connected)
-+			it6505->lane_swap = it6505->port_data[i].lane_swap;
-+	}
-+}
-+
-+static int it6505_typec_mux_set(struct typec_mux_dev *mux,
-+				struct typec_mux_state *state)
-+{
-+	struct drm_dp_typec_port_data *port = typec_mux_get_drvdata(mux);
-+	struct it6505 *it6505 = port->data;
-+	struct device *dev = it6505->dev;
-+	struct drm_dp_typec_switch_desc switch_desc = it6505->switch_desc;
-+	bool old_dp_connected, new_dp_connected;
-+	int ret = 0;
-+
-+	if (switch_desc.num_typec_switches == 1)
-+		return 0;
-+
-+	mutex_lock(&it6505->extcon_lock);
-+	/*
-+	 * The completion is called in it6505_register_typec_switches even on
-+	 * errors, so it's safe to wait for completion without timeout.
-+	 */
-+	wait_for_completion(&it6505->mux_register);
-+
-+	/* Abort when the switches are unregistered. */
-+	if (!it6505->port_data) {
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
-+
-+	old_dp_connected = it6505->port_data[0].dp_connected ||
-+			   it6505->port_data[1].dp_connected;
-+
-+	it6505->port_data[port->port_num].dp_connected =
-+		state->alt &&
-+		state->alt->svid == USB_TYPEC_DP_SID &&
-+		state->alt->mode == USB_TYPEC_DP_MODE;
-+
-+	dev_dbg(dev, "mux_set dp_connected: c0=%d, c1=%d\n",
-+		it6505->port_data[0].dp_connected, it6505->port_data[1].dp_connected);
-+
-+	new_dp_connected = it6505->port_data[0].dp_connected ||
-+			   it6505->port_data[1].dp_connected;
-+
-+	if (it6505->enable_drv_hold) {
-+		dev_dbg(dev, "enable driver hold\n");
-+		goto unlock;
-+	}
-+
-+	it6505_typec_ports_update(it6505);
-+
-+	if (!old_dp_connected && new_dp_connected) {
-+		/*
-+		 * pm_runtime_force_suspend() disables runtime PM when the
-+		 * system enters suspend state. But on system resume, mux_set
-+		 * can be triggered before pm_runtime_force_resume() re-enables
-+		 * runtime PM. This makes the bridge stay powered off if the
-+		 * downstream display is connected when the system is suspended.
-+		 * Handling the error here to make sure the bridge is powered
-+		 * on, and leave the PM runtime usage count incremented so
-+		 * the future runtime PM calls is balanced.
-+		 */
-+		if (pm_runtime_get_sync(dev) < 0)
-+			it6505_poweron(it6505);
-+
-+		complete_all(&it6505->extcon_completion);
-+	}
-+
-+	if (old_dp_connected && !new_dp_connected) {
-+		reinit_completion(&it6505->extcon_completion);
-+		pm_runtime_put_sync(dev);
-+		if (it6505->bridge.dev)
-+			drm_helper_hpd_irq_event(it6505->bridge.dev);
-+		memset(it6505->dpcd, 0, sizeof(it6505->dpcd));
-+	}
-+
-+unlock:
-+	mutex_unlock(&it6505->extcon_lock);
-+	return ret;
-+}
-+
-+static void it6505_unregister_typec_switches(struct it6505 *it6505)
-+{
-+	drm_dp_unregister_typec_switches(&it6505->switch_desc);
-+	it6505->port_data = NULL;
-+}
-+
-+static int it6505_register_typec_switches(struct device *dev, struct it6505 *it6505)
-+{
-+	struct device_node *port_node = of_graph_get_port_by_id(dev->of_node, 1);
-+	struct drm_dp_typec_switch_desc *switch_desc = &it6505->switch_desc;
-+	int ret;
-+	u32 dp_lanes[4];
-+	unsigned int i, num_lanes;
-+
-+	ret = drm_dp_register_typec_switches(dev, &port_node->fwnode,
-+					     &it6505->switch_desc, it6505,
-+					     it6505_typec_mux_set);
-+	if (ret)
-+		return ret;
-+
-+	it6505->port_data = devm_kcalloc(dev, switch_desc->num_typec_switches,
-+					 sizeof(*it6505->port_data),
-+					 GFP_KERNEL);
-+	if (!it6505->port_data) {
-+		ret = -ENOMEM;
-+		goto unregister_mux;
-+	}
-+
-+	for (i = 0; i < switch_desc->num_typec_switches; i++) {
-+		struct drm_dp_typec_port_data *port = &switch_desc->typec_ports[i];
-+		struct fwnode_handle *fwnode = port->fwnode;
-+
-+		ret = fwnode_property_count_u32(fwnode, "data-lanes");
-+		if (ret < 0) {
-+			dev_err(dev,
-+				"Error on getting data lanes count from %pfwP: %d\n",
-+				fwnode, ret);
-+			goto unregister_mux;
-+		}
-+		if (ret > 2) {
-+			dev_err(dev,
-+				"Invalid data lanes count for mode switches from %pfwP: %d\n",
-+				fwnode, ret);
-+			ret = -EINVAL;
-+			goto unregister_mux;
-+		}
-+		num_lanes = ret;
-+
-+		ret = fwnode_property_read_u32_array(fwnode, "data-lanes",
-+						     dp_lanes, num_lanes);
-+		if (ret) {
-+			dev_err(dev,
-+				"Failed to read the data-lanes variable: %d\n",
-+				ret);
-+			goto unregister_mux;
-+		}
-+
-+		it6505->port_data[i].lane_swap = (dp_lanes[0] >= 2);
-+	}
-+	complete_all(&it6505->mux_register);
-+
-+	return 0;
-+
-+unregister_mux:
-+	it6505_unregister_typec_switches(it6505);
-+	complete_all(&it6505->mux_register);
-+	return ret;
-+}
-+
- static int it6505_i2c_probe(struct i2c_client *client)
- {
- 	struct it6505 *it6505;
- 	struct device *dev = &client->dev;
- 	struct extcon_dev *extcon;
--	int err, intp_irq;
-+	int err, intp_irq, ret;
- 
- 	it6505 = devm_kzalloc(&client->dev, sizeof(*it6505), GFP_KERNEL);
- 	if (!it6505)
-@@ -3379,14 +3550,26 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 
- 	/* get extcon device from DTS */
- 	extcon = extcon_get_edev_by_phandle(dev, 0);
--	if (PTR_ERR(extcon) == -EPROBE_DEFER)
--		return -EPROBE_DEFER;
--	if (IS_ERR(extcon)) {
--		dev_err(dev, "can not get extcon device!");
--		return PTR_ERR(extcon);
-+	ret = PTR_ERR_OR_ZERO(extcon);
-+	if (ret == -EPROBE_DEFER)
-+		return ret;
-+	if (ret) {
-+		if (ret != -ENODEV)
-+			dev_warn(dev, "Cannot get extcon device: %d\n", ret);
-+
-+		it6505->extcon = NULL;
-+	} else {
-+		it6505->extcon = extcon;
- 	}
- 
--	it6505->extcon = extcon;
-+	init_completion(&it6505->mux_register);
-+	ret = it6505_register_typec_switches(dev, it6505);
-+	if (ret != -ENODEV)
-+		dev_warn(dev, "Didn't register Type-C switches, err: %d\n", ret);
-+	if (ret && !it6505->extcon) {
-+		dev_err(dev, "Both extcon and Type-C switch are not registered.\n");
-+		return ret;
-+	}
- 
- 	it6505->regmap = devm_regmap_init_i2c(client, &it6505_regmap_config);
- 	if (IS_ERR(it6505->regmap)) {
-@@ -3458,6 +3641,7 @@ static void it6505_i2c_remove(struct i2c_client *client)
- 	it6505_debugfs_remove(it6505);
- 	it6505_poweroff(it6505);
- 	it6505_remove_edid(it6505);
-+	it6505_unregister_typec_switches(it6505);
- }
- 
- static const struct i2c_device_id it6505_id[] = {
--- 
-2.40.0.348.gf938b09366-goog
+> 
+> I don't see any restriction in dw-mipi-dsi over when transfer can be
+> called (as long as it is between pre_enable and post_disable), and it
+> supports MIPI_DSI_MSG_USE_LPM for requesting the command be sent in
+> either LP or HS mode.
+> 
+>> In fact, I did follow and initialize the command-mode mode_set which
+>> set low-speed DCS and switch back to video-mode @enable and switch to
+>> HS but could see the same issue as the host cannot accept DCS as
+>> before (I might implement improper sequence, but not sure due to lack
+>> of documentation). But this sequence has issues with calling
+>> post_disable twice even on dw-mipi-dsi.
+> 
+> Calling up/down the bridge chain from within other bridge elements is
+> going to have issues and shouldn't be necessary.
+> 
+> The comment in dw-mipi-dsi post_disable[1]
+> * TODO Only way found to call panel-bridge post_disable &
+> * panel unprepare before the dsi "final" disable...
+> * This needs to be fixed in the drm_bridge framework and the API
+> * needs to be updated to manage our own call chains...
+> 
+> It has now been fixed up with pre_enable_prev_first.
+> 
+> I seem to recall seeing a patchset for one of the DSI hosts (other
+> than vc4) that was moving the init from mode_set to pre_enable - I
+> think it is probably [2] for msm.
+> 
+> Cheers
+>    Dave
+> 
+> [1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L862-L867
+> [2] https://github.com/torvalds/linux/commit/ec7981e6c614254937b37ce0af9eac09901c05c5
+> 
+>> May be Neill, can comment here?
+>>
+>> Thanks,
+>> Jagan.
 
