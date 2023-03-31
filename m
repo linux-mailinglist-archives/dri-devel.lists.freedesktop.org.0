@@ -1,73 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C543C6D14D9
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 03:15:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4471C6D14F6
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 03:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB18010F0C4;
-	Fri, 31 Mar 2023 01:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F1C10E094;
+	Fri, 31 Mar 2023 01:23:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9481410F0CF
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:15:18 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id bx10so3159714ljb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 18:15:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680225318;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6BmwUHFXtEYfgj+i7XENXy4osQG3AVupjWHWnaVA6Og=;
- b=CQLs4bVuM39FyPTpQXGrV/EeAfJUvDf9eNfn25n75Fh36nMj/TXSEFLdhcVQoPMA/Q
- df6IUoo48UfqE+zwCiwMilAR+5jv2bQ58JLA/pjmGIlZ/2kbfMggG1EsHaifNVOoTeOG
- 1lHEgcwv3hk12xjZIJOEPZPcbCOSytDiOhpz7yIiPUV5jCH14VsopSRSKuvHjLOeL5DE
- KIwsqHWiobN3rBDr/jCRigo9BDMf7yxFPZBBxbCHpQ10rzlf1LalfsVegwpDUSXYqyaz
- /32mjmKYCsnpNC78Kj1CDm3puL46Z5R3+0/Dlnoc6h2RewVap7duA4mph3Ctzx6w6e8Q
- hY3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680225318;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6BmwUHFXtEYfgj+i7XENXy4osQG3AVupjWHWnaVA6Og=;
- b=HeWQZiyUvOBq4zhQ8lO6+mGZevkK6oisqHR/hD7bjjp+KZg0jKlhmaEXdn5eXyxlbv
- Me+wQQCXG+zypJIHJx8TmyJuXvi0l5c0LKpfvZzY3iIekf/gBVqmNyERzg8QGiCr9+gU
- XmvtNFFI+/UneqAKlXmY2H2AsyXeY033ie0CITzkmFYB8cZFdhOQQd8SGAjw4ok5Nnu3
- 99SA34o4vroJXMWLKrZ89f+IEuOcnd+A0sgPGNTgXGDrHsQ/23dlxCqyJPBQyvsCjeHX
- W0Nr9znn1RsUV/pt8WwFZs+YkYd+siXbZWcuHnUOtWEomCsJ6/jAt4y4wSHjj4Ght45t
- rP+w==
-X-Gm-Message-State: AAQBX9ds+hg6WtMKZjrvXYHsRTTIKxwT+5ZZE50ekV++LziqNaPODm0h
- 1nr4mu86l1WHjhlHvHEujg1VSQ==
-X-Google-Smtp-Source: AKy350bR6P7lEDfTAiZfmi7s3E644OFgiDFMieWSdFEl5Kbd0ffdrPX37s421l8YMkMxScF0XnGiIw==
-X-Received: by 2002:a2e:9948:0:b0:298:a8d4:7236 with SMTP id
- r8-20020a2e9948000000b00298a8d47236mr7316622ljj.6.1680225318164; 
- Thu, 30 Mar 2023 18:15:18 -0700 (PDT)
-Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
- by smtp.gmail.com with ESMTPSA id
- w14-20020a2e9bce000000b00295a5aa9d05sm130739ljj.120.2023.03.30.18.15.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Mar 2023 18:15:17 -0700 (PDT)
-Message-ID: <d09a9080-c141-02cd-504e-b34e9e68f56f@linaro.org>
-Date: Fri, 31 Mar 2023 03:15:16 +0200
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECDF010E067;
+ Fri, 31 Mar 2023 01:23:21 +0000 (UTC)
+X-UUID: 3c2f4e4823b94a2ca1b701f660dc2a75-20230331
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.22, REQID:d99702ec-0592-4543-8be4-84775a8a0e0c,
+ IP:-32
+ 768,URL:-32768,TC:-32768,Content:-32768,EDM:-32768,RT:-32768,SF:-32768,FIL
+ E:-32768,BULK:-32768,RULE:Release_Ham,ACTION:release,TS:0
+X-CID-INFO: VERSION:1.1.22, REQID:d99702ec-0592-4543-8be4-84775a8a0e0c,
+ IP:-3276
+ 8,URL:-32768,TC:-32768,Content:-32768,EDM:-32768,RT:-32768,SF:-32768,FILE:
+ -32768,BULK:-32768,RULE:Release_Ham,ACTION:release,TS:0
+X-CID-META: VersionHash:120426c, CLOUDID:nil, BulkID:nil, BulkQuantity:0,
+ Recheck:
+ 0,SF:nil,TC:nil,Content:nil,EDM:nil,IP:nil,URL:nil,File:nil,Bulk:nil,QS:ni
+ l,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-UUID: 3c2f4e4823b94a2ca1b701f660dc2a75-20230331
+Received: from mail.kylinos.cn [(39.156.73.10)] by mailgw
+ (envelope-from <zhouzongmin@kylinos.cn>) (Generic MTA)
+ with ESMTP id 480769204; Fri, 31 Mar 2023 09:17:32 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+ by mail.kylinos.cn (NSMail) with SMTP id 96F42E0084A5;
+ Fri, 31 Mar 2023 09:17:09 +0800 (CST)
+Received: by mail.kylinos.cn (NSMail, from userid 0)
+ id 8EF12E0084A5; Fri, 31 Mar 2023 09:17:09 +0800 (CST)
+From: =?UTF-8?B?5ZGo5a6X5pWP?= <zhouzongmin@kylinos.cn>
+Subject: =?UTF-8?B?5Zue5aSNOiBbUEFUQ0hdIGRybS9xeGw6IHByZXZlbnQgbWVtb3J5IGxlYWs=?=
+To: <airlied@redhat.com>, <kraxel@redhat.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>,
+Date: Fri, 31 Mar 2023 09:17:09 +0800
+X-Mailer: NSMAIL 7.0.0
+Message-ID: <eyc8v7yfgz-eydit1dhas@nsmail7.0.0--kylin--1>
+References: 20230322085847.3385930-1-zhouzongmin@kylinos.cn
+X-Israising: 0
+X-Seclevel-1: 0
+X-Seclevel: 0
+X-Delaysendtime: Fri, 31 Mar 2023 09:17:09 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 0/5] SM8[12]50 GPU speedbin
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20230331-topic-konahana_speedbin-v3-0-2dede22dd7f7@linaro.org>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230331-topic-konahana_speedbin-v3-0-2dede22dd7f7@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary=nsmail-hv0jtbjb2u-hv1tr4ycwn
+X-ns-mid: webmail-64263495-hn599wq1
+X-ope-from: <zhouzongmin@kylinos.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,55 +65,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: spice-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This message is in MIME format.
 
+--nsmail-hv0jtbjb2u-hv1tr4ycwn
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On 31.03.2023 03:14, Konrad Dybcio wrote:
-> This series brings SM8[12]50 (A6[45]0) speedbin support along with a
-> touch-up for 8150, allowing Adreno to cooperate with the display hw.
-> 
-> Tested on Xperia 5 II (SM8250 Edo PDX206) and Xperia 5 (SM8150 Kumano
-> Bahamut).
-> 
-> v2 -> v3:
-> - Don't swap speedbin 2 (with fuse val 3) and speedbin 3 (with fuse val 2)
->   on SM8250 (no functional change, this is all a software construct but
->   let's stick with the official mapping) [2/5], [5/5]
-> 
-> I kept all of the tags in good faith.
-v2: https://lore.kernel.org/linux-arm-msm/20230120172233.1905761-1-konrad.dybcio@linaro.org/
+PHA+RGVhciBhbGw6PC9wPgo8cD4mbmJzcDs8L3A+CjxwPkdlbnRsZSBwaW5n
+IG9uIHRoaXMgcGF0Y2guPC9wPgo8cD4mbmJzcDs8L3A+CjxwPlRoYW5rczxi
+cj4tLS0tPC9wPgo8ZGl2IGlkPSJjczJjX21haWxfc2lnYXR1cmUiPjwvZGl2
+Pgo8cD4mbmJzcDs8L3A+CjxkaXYgaWQ9InJlIiBzdHlsZT0ibWFyZ2luLWxl
+ZnQ6IDAuNWVtOyBwYWRkaW5nLWxlZnQ6IDAuNWVtOyBib3JkZXItbGVmdDog
+MXB4IHNvbGlkIGdyZWVuOyI+PGJyPjxicj48YnI+CjxkaXYgc3R5bGU9ImJh
+Y2tncm91bmQtY29sb3I6ICNmNWY3ZmE7Ij48c3Ryb25nPuS4u+OAgOmimO+8
+mjwvc3Ryb25nPjxzcGFuIGlkPSJzdWJqZWN0Ij5bUEFUQ0hdIGRybS9xeGw6
+IHByZXZlbnQgbWVtb3J5IGxlYWs8L3NwYW4+IDxicj48c3Ryb25nPuaXpeOA
+gOacn++8mjwvc3Ryb25nPjxzcGFuIGlkPSJkYXRlIj4yMDIzLTAzLTIyIDE2
+OjU4PC9zcGFuPiA8YnI+PHN0cm9uZz7lj5Hku7bkurrvvJo8L3N0cm9uZz48
+c3BhbiBpZD0iZnJvbSI+emhvdXpvbmdtaW5Aa3lsaW5vcy5jbjwvc3Bhbj4g
+PGJyPjxzdHJvbmc+5pS25Lu25Lq677yaPC9zdHJvbmc+PHNwYW4gaWQ9InRv
+IiBzdHlsZT0id29yZC1icmVhazogYnJlYWstYWxsOyI+YWlybGllZDtHZXJk
+IEhvZmZtYW5uO0RhdmUgQWlybGllO0RhbmllbCBWZXR0ZXI7PC9zcGFuPjwv
+ZGl2Pgo8YnI+CjxkaXYgaWQ9ImNvbnRlbnQiPgo8ZGl2IGNsYXNzPSJ2aWV3
+ZXJfcGFydCIgc3R5bGU9InBvc2l0aW9uOiByZWxhdGl2ZTsgb3ZlcmZsb3c6
+IGhpZGRlbjsiPgo8ZGl2PlRoZSBhbGxvY2F0ZWQgbWVtb3J5IGZvciBxZGV2
+LSZndDtkdW1iX2hlYWRzIHNob3VsZCBiZSByZWxlYXNlZDxicj5pbiBxeGxf
+ZGVzdHJveV9tb25pdG9yc19vYmplY3QgYmVmb3JlIHF4bCBzdXNwZW5kLjxi
+cj5vdGhlcndpc2UscXhsX2NyZWF0ZV9tb25pdG9yc19vYmplY3Qgd2lsbCBi
+ZSBjYWxsZWQgdG88YnI+cmVhbGxvY2F0ZSBtZW1vcnkgZm9yIHFkZXYtJmd0
+O2R1bWJfaGVhZHMgYWZ0ZXIgcXhsIHJlc3VtZSw8YnI+aXQgd2lsbCBjYXVz
+ZSBtZW1vcnkgbGVhay48YnI+PGJyPlNpZ25lZC1vZmYtYnk6IFpvbmdtaW4g
+WmhvdTxicj4tLS08YnI+ZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGlzcGxh
+eS5jIHwgMyArKys8YnI+MSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
+KTxicj48YnI+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rpc3BsYXku
+Yzxicj5pbmRleCA2NDkyYTcwZTNjMzkuLjQwNGIwNDgzYmI3YyAxMDA2NDQ8
+YnI+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGlzcGxheS5jPGJy
+PisrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rpc3BsYXkuYzxicj5A
+QCAtMTIyOSw2ICsxMjI5LDkgQEAgaW50IHF4bF9kZXN0cm95X21vbml0b3Jz
+X29iamVjdChzdHJ1Y3QgcXhsX2RldmljZSAqcWRldik8YnI+aWYgKCFxZGV2
+LSZndDttb25pdG9yc19jb25maWdfYm8pPGJyPnJldHVybiAwOzxicj48YnI+
+KyBrZnJlZShxZGV2LSZndDtkdW1iX2hlYWRzKTs8YnI+KyBxZGV2LSZndDtk
+dW1iX2hlYWRzID0gTlVMTDs8YnI+Kzxicj5xZGV2LSZndDttb25pdG9yc19j
+b25maWcgPSBOVUxMOzxicj5xZGV2LSZndDtyYW1faGVhZGVyLSZndDttb25p
+dG9yc19jb25maWcgPSAwOzxicj48YnI+LS0gPGJyPjIuMzQuMTxicj48YnI+
+PGJyPk5vIHZpcnVzIGZvdW5kPGJyPkNoZWNrZWQgYnkgSGlsbHN0b25lIE5l
+dHdvcmsgQW50aVZpcnVzPC9kaXY+CjwvZGl2Pgo8L2Rpdj4KPC9kaXY+
 
-Konrad
-> 
-> v1 -> v2:
-> - Drop bindings patches (Applied by Srini)
-> - Remove leftover comment about missing speedbin in 8150 DTSI (Marijn)
-> - Collect tags
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-> Konrad Dybcio (5):
->       drm/msm/a6xx: Add support for A640 speed binning
->       drm/msm/a6xx: Add support for A650 speed binning
->       arm64: dts: qcom: sm8150: Don't start Adreno in headless mode
->       arm64: dts: qcom: sm8150: Add GPU speedbin support
->       arm64: dts: qcom: sm8250: Add GPU speedbin support
-> 
->  arch/arm64/boot/dts/qcom/sm8150-hdk.dts |  5 +++++
->  arch/arm64/boot/dts/qcom/sm8150-mtp.dts |  5 +++++
->  arch/arm64/boot/dts/qcom/sm8150.dtsi    | 31 +++++++++++++++++++++----------
->  arch/arm64/boot/dts/qcom/sm8250.dtsi    | 23 ++++++++++++++++++++++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 31 +++++++++++++++++++++++++++++++
->  5 files changed, 84 insertions(+), 11 deletions(-)
-> ---
-> base-commit: a6d9e3034536ba4b68ac34490c02267e6eec9c05
-> change-id: 20230331-topic-konahana_speedbin-abe0c725f244
-> 
-> Best regards,
+--nsmail-hv0jtbjb2u-hv1tr4ycwn--
