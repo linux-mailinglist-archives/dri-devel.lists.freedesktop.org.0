@@ -1,63 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD556D28ED
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 21:57:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 152AE6D2914
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 22:02:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED6B510E29D;
-	Fri, 31 Mar 2023 19:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBDCF10E569;
+	Fri, 31 Mar 2023 20:02:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCD7610E29D
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 19:57:53 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id
- 46e09a7af769-6a11f365f87so673957a34.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 12:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680292673; x=1682884673;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6/zyqvzgiVtvCKGVvDia/ZfqrjRXqcppkBdv/KcTCeU=;
- b=MCFgod5oJt+bBRiND+l0pbeTnHOu3gulcP4SAZvpoVTlLKj3E2Wzi4iErSu/tsRCXq
- rJrwt7mxNfAeLn/4dJVxPbcS7eTJTG52afoJAP75HA8cgsAxp52e0VJKHUREZmkQS+xd
- lIl4QcyXCRbi4JNq4hhoCn/iMUSGqZdEnrmshL1h2rlsHOqGar4JnObNd92efYGHw5r7
- o8w10npVIDo8FxD2ZHV5VY2aAJ6JQDYsdglDTRrMXPQsqkp+JYpjY7BBP1R9CLauWljV
- djStJFWvaSE2gc4KMrn9JjEKN1dRpusQUL6b0hUxneD9ppCbQ0nXkzPx+f/VBps92KFB
- yyDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680292673; x=1682884673;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6/zyqvzgiVtvCKGVvDia/ZfqrjRXqcppkBdv/KcTCeU=;
- b=3Nr4JCgp/vwGkDtlHWWDIY03AazcTyZ2mzYkl5QkoCiR7pGZ9IZCuYq5WXaNMhtyti
- GpAIg6DKcxpGzJsQanRFBZftUm68J1zDEb/ND5AlKdhJLzZ/UVgTVFMOn6WtzGEPdIOt
- owSh6BfvstKMWxZjxTqv2dbNxToJKEY3AgXHlznP+wFNRmZazyF2JHa+owzwftPZVNk1
- vsCm9JuuV143VXrElxUkBYGY9Z7zHmjA3+jmZvKYBvuRArBtGWYYPgqoqtxZjwRnEn8g
- eean5W6THEj+rEc1SP6aAZDsoUoguw0BKoofMyN8ou7ipc7w6vZOr7xhPexQZO0qB7id
- ImOw==
-X-Gm-Message-State: AAQBX9evTxVG78TGiHVhBOM1SSbwB3LhwD4PlEVFYkzSdUZKA2U+mDGc
- wwU872mc+sFcn/u7eXbxTPI=
-X-Google-Smtp-Source: AKy350a5xENGD1f6eHltm2PHEEo09XcNmO47DC6+ceVhMEooVZz4auXqVw9+gFUPvjnq03avJ9mi/g==
-X-Received: by 2002:a4a:db99:0:b0:525:1e3f:6c9b with SMTP id
- s25-20020a4adb99000000b005251e3f6c9bmr3017494oou.0.1680292672854; 
- Fri, 31 Mar 2023 12:57:52 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b69:9e54:3f96:106f:135d])
- by smtp.gmail.com with ESMTPSA id
- f5-20020a9d6c05000000b006a154373578sm1483677otq.39.2023.03.31.12.57.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Mar 2023 12:57:52 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: neil.armstrong@linaro.org
-Subject: [PATCH] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to yaml
-Date: Fri, 31 Mar 2023 16:57:46 -0300
-Message-Id: <20230331195746.114840-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20611.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe5a::611])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A74C10F2F2;
+ Fri, 31 Mar 2023 20:02:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WsVdRTiJaxKgnSmHPHG/kqoCCOMNMuYhYmHxnQfhBB/ItL8phiZyiW8MuEpd7AOIsHzZQ3esHNAK/MPLGxppo10SM6ZzZVlX0YhbNlvpwGB94yVyib/5Ra0lDdksOsutird4qI0369HO+ILwfQdQ8FYypkuXde+OmvtrQ3hDsohEhFtwWXiksQ3y/HL5v4cdEgaOb4ViSq/qZsammO6wIb7Uxu4Y2KleME00qkJHCMk/tXv8+SY+kPWnTpUqP8U6uvclYF31WTwdO35+OwnXotHpXz8SNcoHHSRLDSqScVNK44/KH9WZYgeWUfPG2hGn/jU5umBbZC/4alzmyutHEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OqsM+xB+tOHZ/asbEmvlBOXe2ZScGWhPm0MTufO9y44=;
+ b=HAXwd9laPc8yNOD2YEf77dIGto5XHJJsyjL8Hdo1KzlFe/EDixMMgh+MtEhZGdL+eovsURz7uGWLztrXoDRlCqswWAbLDKg2PTeU6RJyNPSUOdHhQiThbtEvyXJK54zJ+vLBccPmxVoREGMWwPuDcwSYeW26z21fFyM2aLjWOFqi/JUjGipIpPaFVQZzMdiAmUZCQ3atJai+4/dm23ufXbT01acO3xghVEGCDjxwadaJZD4GecgGmxzz/ALYdZn26JNQKUD2vXuMzLXPr0mDsoYSkJ+W8ZXClmFpYA5twbslZg8yEqasJH27sq7D4fZraTbEHKFabh2y81hbx0TBGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OqsM+xB+tOHZ/asbEmvlBOXe2ZScGWhPm0MTufO9y44=;
+ b=ELJHe8irHY25saKaQy0HHqlb5x6q6NDnD8S1ik1MUqCiySThtTT4OtZz7ShTbPXqvbNhnB917tWNhg6bcpCJLqd+p/99jF/puWIWgK+JWQGGqE72APqbIrHje5/7+s27SU1EpdoufVG/jmWEXqc4xoEECnJaojHBldNBhIMRyoE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by IA1PR12MB8406.namprd12.prod.outlook.com (2603:10b6:208:3da::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.35; Fri, 31 Mar
+ 2023 20:02:17 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::f170:8d72:ca64:bb26]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::f170:8d72:ca64:bb26%5]) with mapi id 15.20.6254.022; Fri, 31 Mar 2023
+ 20:02:16 +0000
+Message-ID: <dd4944ef-ef9b-4070-8012-543a78bb9e58@amd.com>
+Date: Fri, 31 Mar 2023 16:02:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/ttm: add NUMA node id to the pool
+Content-Language: en-US
+To: Alex Deucher <alexdeucher@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+References: <20230330195043.1136322-1-alexander.deucher@amd.com>
+ <aeb5c27e-121d-f666-249c-898e98d5ec2f@gmail.com>
+ <CADnq5_MSAWnK18rbST28iJKTDM2Tr58wL7ak2CGoeJ845HTOqg@mail.gmail.com>
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <CADnq5_MSAWnK18rbST28iJKTDM2Tr58wL7ak2CGoeJ845HTOqg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0148.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:ac::13) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|IA1PR12MB8406:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ec83b43-1c62-43c8-7ea3-08db3222d3ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gVNvP6KPOUMpeJr5c/kCFAfkd/zudgz5Y5Q2ZK4vl222gV3FYplOFP4gbJcapFGDmfhgGbFgR67+zgAkDtIufNnMn9lTlmQ4Rixv41YYG+XzbknBYYBr/uQf3YtdR/mUMZZHNtjjbsIUjJivye32JuvWwW6ic3aZz5pEY5DX3MRlTUjjHJaiMlTYIX2F6gWnGRl5Nm39/4ea4fexwcj5B/WQgkStqkMVGrkEkzCnXZBOc93TuPaDF2/+G7zpnfgVttTgwaQcNpprjkNjqOBI8zmDEuuIBCBm+VSc3WL/UKmOtWPCreUFR/TX8aKFUyHFYOCxPuJVLVE0mBByoLcirbZl/rsKA1ApzhaBgrkkh6Ij7QRe5GT3QtYmLBtO85q9TzKD8ipIN8IJWATOklNWmvrd15n3Pqzq5e8R4aqlE//GJ/935QT2iRKdwGqrkjlkmyoewesK2Rw9b77z52Oug07NoRDdTATVDinLcF0zPSQAgPhkjopQmaV/k5g1AVh/yBID111qhuLIgK0XHLNx6iz8WcovKKzFiP5IycviwDtvVN5s/8Ku4OFWP0SpNwtWsB0PWlCHzo9UWyn6blkX4OJ8fWcWun+sBnetYIu1y6WxBFhygT1BrEtuisqbMuoVD6CGiya3oP842m0duj8qjg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(451199021)(66946007)(31686004)(66574015)(83380400001)(38100700002)(36756003)(66476007)(86362001)(5660300002)(2616005)(8676002)(8936002)(66556008)(2906002)(41300700001)(4326008)(6486002)(31696002)(478600001)(53546011)(36916002)(44832011)(186003)(316002)(110136005)(54906003)(6506007)(26005)(6512007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NW9XTXNFaEgrUkFVb3R1WDJGZkxYZWZZR2JDc1hDbEJPUks5eXNPdWw0dU5s?=
+ =?utf-8?B?UG9OMmhsOUd6TlFuZkZKZytJb1dTQWYyU1RZY1F5ZnpRSEFZYXQvNW54OWdC?=
+ =?utf-8?B?am43MG5KUXYxRDQyMmpsSEZKOFkxdzZSb0UyUDNhdlQwZWJIL1dBL0EveHpM?=
+ =?utf-8?B?ODZLbGt4TDE0dVlJOGJzcS8xTnNUUGdoM3ZXL0E3Wnc4TlZPZXhld3gzYzNK?=
+ =?utf-8?B?aGNOZHRsWG9KdUZaWGJsejZYY0NBc1FpaFEyUEpiTWFzT04vZGh6aFVnZldT?=
+ =?utf-8?B?MFlrNFBhQ0xtdG5Vay92UGJBZkt2Q2p3ak1DcjRidDkrekdzeGE3MGU5OXZy?=
+ =?utf-8?B?MzNTeCtXQzhEY251ZU5lL1ZlWjBtbzF1bFRLdEErclZTQ3ozQlFRclRwRDAy?=
+ =?utf-8?B?VkZiVEllN21PQXEwcHJKMmMvclVwViszYkFvUFhpbTNIZ3g5dXd2WEY4Rll6?=
+ =?utf-8?B?ZGNKQTZ5ZElSNmVUWXptUHNKc0llbWZWejVQU1FNbVBraEFLWmNPVUdjZUVI?=
+ =?utf-8?B?b0c2RTNpcnhJcnIvdEpURVZ4YmpNek9MdHNmNGJDUHZ5YzFYcWxTSGtxYzkr?=
+ =?utf-8?B?TlJMeEVTMUpIUUZkcG9XaThBRkcxNWpZbXczZjNwQWNVQlR5Nk9leDFEMWN4?=
+ =?utf-8?B?RWwwa0lHQTlkcXVwT3VBMGl3LzVtRFdML2JZcEM4SEY2dUMxUXZ0NjhKd0t4?=
+ =?utf-8?B?cnB2MFJPNUlzalRMTU1lbURCSXdLV0g5M3BYK0pWOXlPZGVpL2p5T0x0alhO?=
+ =?utf-8?B?QklrdUErNTdvdVZ5M2ZkdHUzcTZrZ2FBS0lSay9KT0Z5MlJNb3U1ZE5KZzZ6?=
+ =?utf-8?B?b2tRTkF1bzdzT1hrQ0pmeEtaV3JnMnV0czFLVTEreW5nSDVGY2t1SDFEMUly?=
+ =?utf-8?B?ZnBKU2lGWDdRamR5blBxb3JQdGxHR1YyMTMrVG80NmE5VUJMSjNhOTZvS29B?=
+ =?utf-8?B?LzhkaGFMMGZqaXJWWVc2ZTJMZGJVRTVvT3gxRjN3MkJjN2F1STlHaUpjdFJ3?=
+ =?utf-8?B?LzUyQXV5YnZSR2t0bHZFM3ZoK2VCZFBtVHV6eWhmOFI5MUdTQWVQMjVqNWZp?=
+ =?utf-8?B?NWxQbkdWZVd3ZkhQSGhVVExnWjh1M3lqb0JlMVBiMXk0RVl5WElFa0JSK0RH?=
+ =?utf-8?B?UEZPQkxvbFg2TS9SQWUrazNRS2MzbEgrblRPbXF4Q1BLZkF1OTY2dUJBdVp6?=
+ =?utf-8?B?L2s2a1RUTUlqVzFMdERONldRQWdsd3RJcjFNR0dTOTdNMEE2bnQzZzlwZlZI?=
+ =?utf-8?B?a3dsdG1qb0kxNUhVTVZNUDcwb2NMTUZ0aHBDZE1HTTlEb2RJR2lKMkhIcE1B?=
+ =?utf-8?B?VksvK3oxNjhoR2ZMQWI0Tk1BVTd6S2R6enVZdlE5SmdQSFFYbGc2MzN3cDlK?=
+ =?utf-8?B?K3drUW04WFhkSkVTNkpsZkJ6VzdGQ1ZhQ3JEVEdJL2phMXRCaXFqUDdrVE1T?=
+ =?utf-8?B?R0tFZ1kxVXFDTHBtL2JGT1ZiOXE0S25GSk5tWWNHZld4czN2bFpPN0VPcFcy?=
+ =?utf-8?B?MEhteHhSeFpZU09RN0VpUTVmaTltNlZPL0ZWNmo1bUFFdkoxbnJLd2JWc1RE?=
+ =?utf-8?B?Y21SV2VkQ1JlK1VGaUNIQWxUSzE2NEg0em1ickVqZFlla2RHQ3dlWlpBQ2xh?=
+ =?utf-8?B?TWErU2dUTDBNVFgwaG42RDEyR2krQ0I2a1hXRmNwK3dYeFZYM3VpSlkwZzZs?=
+ =?utf-8?B?d2swZ1hLVThGc0JMTURwODcrbytCK3B3RDdOT2llS1lLS3FkdjB3dTl3d2Vz?=
+ =?utf-8?B?R1BCc2F6Z3NQUFRYemIvcEplZCt0K016OXN0NzJ0U3JqcXFoTkNHVHNmUkN2?=
+ =?utf-8?B?WVBNZHNWYUs0V2dsYUVJSGJKRWxZNElEcjgxdG9hWlhmUlFNb3RBc3lyeCt2?=
+ =?utf-8?B?QmdlVUFyQVNVdmVvZlUwSDNJRWRlSXRaV0oxeG5nazZ5LytBQXdUNFVBMGNZ?=
+ =?utf-8?B?VU42OEN5azZLTmNTZmJpU2gvUVBxZnpPbDZKbjNJSUcrdkJXZHZxSkNUZXFx?=
+ =?utf-8?B?TFkxeHlMckM3VmpKTVNmZVc1UzdlWVRLR0IrSWNBUURkRXZTWVVHMjVMK0Z1?=
+ =?utf-8?B?aDlVaDRSc0ZTMDMrNk9mS2pGZUNLdWVoM05idFl1SlB2V0h4WlVXTE1qcW42?=
+ =?utf-8?Q?wMhzZFaC5gVr8VqnrmeicjBxG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ec83b43-1c62-43c8-7ea3-08db3222d3ca
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2023 20:02:16.8373 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Cc1CCBwaSIEMrknbj69vPfedzVuikuvOvQoqkjGdZid5xlaHuoprjRGo0s9fZ/WlTHM211D/iKhLz7PcphbWmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8406
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,410 +129,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: marex@denx.de, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
+Cc: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Graham Sider <graham.sider@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jagan Teki <jagan@amarulasolutions.com>
+There is a subsequent patch where amdgpu directly calls ttm_pool_init to 
+create pools per NUMA node. That will depend on the updated function 
+signature.
 
-Samsung MIPI DSIM bridge can be found on Exynos and NXP's
-i.MX8M Mini and Nano SoC's.
+Regards,
+   Felix
 
-Convert exynos_dsim.txt to yaml.
 
-Used the example node from latest Exynos SoC instead of
-the one used in legacy exynos_dsim.txt.
-
-Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- .../display/bridge/samsung,mipi-dsim.yaml     | 275 ++++++++++++++++++
- .../bindings/display/exynos/exynos_dsim.txt   |  92 ------
- 2 files changed, 275 insertions(+), 92 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-new file mode 100644
-index 000000000000..c131bd879caf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-@@ -0,0 +1,275 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/samsung,mipi-dsim.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung MIPI DSIM bridge controller
-+
-+maintainers:
-+  - Inki Dae <inki.dae@samsung.com>
-+  - Jagan Teki <jagan@amarulasolutions.com>
-+
-+description: |
-+  Samsung MIPI DSIM bridge controller can be found it on Exynos
-+  and i.MX8M Mini and Nano SoC's.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - samsung,exynos3250-mipi-dsi
-+      - samsung,exynos4210-mipi-dsi
-+      - samsung,exynos5410-mipi-dsi
-+      - samsung,exynos5422-mipi-dsi
-+      - samsung,exynos5433-mipi-dsi
-+      - fsl,imx8mm-mipi-dsim
-+      - fsl,imx8mp-mipi-dsim
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  clocks:
-+    minItems: 2
-+    maxItems: 5
-+
-+  clock-names:
-+    minItems: 2
-+    maxItems: 5
-+
-+  phys:
-+    maxItems: 1
-+    description: phandle to the phy module representing the DPHY
-+
-+  phy-names:
-+    items:
-+      - const: dsim
-+
-+  samsung,phy-type:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: phandle to the samsung phy-type
-+
-+  power-domains:
-+    description: phandle to the associated power domain
-+    maxItems: 1
-+
-+  samsung,power-domain:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: phandle to the associated samsung power domain
-+
-+  vddcore-supply:
-+    description: MIPI DSIM Core voltage supply (e.g. 1.1V)
-+
-+  vddio-supply:
-+    description: MIPI DSIM I/O and PLL voltage supply (e.g. 1.8V)
-+
-+  samsung,burst-clock-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      DSIM high speed burst mode frequency.
-+
-+  samsung,esc-clock-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      DSIM escape mode frequency.
-+
-+  samsung,pll-clock-frequency:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      DSIM oscillator clock frequency.
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        description:
-+          Input port node to receive pixel data from the
-+          display controller. Exactly one endpoint must be
-+          specified.
-+        properties:
-+          endpoint@0:
-+            $ref: /schemas/graph.yaml#/properties/endpoint
-+            description: sub-node describing the input from MIC
-+
-+        unevaluatedProperties: false
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          DSI output port node to the panel or the next bridge
-+          in the chain
-+
-+required:
-+  - '#address-cells'
-+  - '#size-cells'
-+  - clock-names
-+  - clocks
-+  - compatible
-+  - interrupts
-+  - phy-names
-+  - phys
-+  - reg
-+  - samsung,burst-clock-frequency
-+  - samsung,esc-clock-frequency
-+  - samsung,pll-clock-frequency
-+
-+allOf:
-+  - $ref: ../dsi-controller.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos5433-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 5
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: phyclk_mipidphy0_bitclkdiv8
-+            - const: phyclk_mipidphy0_rxclkesc0
-+            - const: sclk_rgb_vclk_to_dsim0
-+            - const: sclk_mipi
-+
-+        ports:
-+          required:
-+            - port@0
-+
-+      required:
-+        - ports
-+        - vddcore-supply
-+        - vddio-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos5410-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: pll_clk
-+
-+      required:
-+        - vddcore-supply
-+        - vddio-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos4210-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: sclk_mipi
-+
-+      required:
-+        - vddcore-supply
-+        - vddio-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos3250-mipi-dsi
-+
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: bus_clk
-+            - const: pll_clk
-+
-+      required:
-+        - vddcore-supply
-+        - vddio-supply
-+        - samsung,phy-type
-+
-+additionalProperties:
-+  type: object
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos5433.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    dsi@13900000 {
-+       compatible = "samsung,exynos5433-mipi-dsi";
-+       reg = <0x13900000 0xC0>;
-+       interrupts = <GIC_SPI 205 IRQ_TYPE_LEVEL_HIGH>;
-+       phys = <&mipi_phy 1>;
-+       phy-names = "dsim";
-+       clocks = <&cmu_disp CLK_PCLK_DSIM0>,
-+                <&cmu_disp CLK_PHYCLK_MIPIDPHY0_BITCLKDIV8>,
-+                <&cmu_disp CLK_PHYCLK_MIPIDPHY0_RXCLKESC0>,
-+                <&cmu_disp CLK_SCLK_RGB_VCLK_TO_DSIM0>,
-+                <&cmu_disp CLK_SCLK_DSIM0>;
-+       clock-names = "bus_clk",
-+                     "phyclk_mipidphy0_bitclkdiv8",
-+                     "phyclk_mipidphy0_rxclkesc0",
-+                     "sclk_rgb_vclk_to_dsim0",
-+                     "sclk_mipi";
-+       power-domains = <&pd_disp>;
-+       vddcore-supply = <&ldo6_reg>;
-+       vddio-supply = <&ldo7_reg>;
-+       samsung,burst-clock-frequency = <512000000>;
-+       samsung,esc-clock-frequency = <16000000>;
-+       samsung,pll-clock-frequency = <24000000>;
-+       pinctrl-names = "default";
-+       pinctrl-0 = <&te_irq>;
-+       status = "disabled";
-+       #address-cells = <1>;
-+       #size-cells = <0>;
-+
-+       panel@0 {
-+          compatible = "samsung,s6e3ha2";
-+          reg = <0>;
-+          vdd3-supply = <&ldo27_reg>;
-+          vci-supply = <&ldo28_reg>;
-+          reset-gpios = <&gpg0 0 GPIO_ACTIVE_LOW>;
-+          enable-gpios = <&gpf1 5 GPIO_ACTIVE_HIGH>;
-+       };
-+
-+       ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          port@0 {
-+             reg = <0>;
-+
-+             dsi_to_mic: endpoint {
-+                remote-endpoint = <&mic_to_dsi>;
-+             };
-+          };
-+       };
-+    };
-diff --git a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt b/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-deleted file mode 100644
-index 2a5f0889ec32..000000000000
---- a/Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
-+++ /dev/null
-@@ -1,92 +0,0 @@
--Exynos MIPI DSI Master
--
--Required properties:
--  - compatible: value should be one of the following
--		"samsung,exynos3250-mipi-dsi" /* for Exynos3250/3472 SoCs */
--		"samsung,exynos4210-mipi-dsi" /* for Exynos4 SoCs */
--		"samsung,exynos5410-mipi-dsi" /* for Exynos5410/5420/5440 SoCs */
--		"samsung,exynos5422-mipi-dsi" /* for Exynos5422/5800 SoCs */
--		"samsung,exynos5433-mipi-dsi" /* for Exynos5433 SoCs */
--		"fsl,imx8mm-mipi-dsim" /* for i.MX8M Mini/Nano SoCs */
--		"fsl,imx8mp-mipi-dsim" /* for i.MX8M Plus SoCs */
--  - reg: physical base address and length of the registers set for the device
--  - interrupts: should contain DSI interrupt
--  - clocks: list of clock specifiers, must contain an entry for each required
--    entry in clock-names
--  - clock-names: should include "bus_clk"and "sclk_mipi" entries
--		 the use of "pll_clk" is deprecated
--  - phys: list of phy specifiers, must contain an entry for each required
--    entry in phy-names
--  - phy-names: should include "dsim" entry
--  - vddcore-supply: MIPI DSIM Core voltage supply (e.g. 1.1V)
--  - vddio-supply: MIPI DSIM I/O and PLL voltage supply (e.g. 1.8V)
--  - samsung,pll-clock-frequency: specifies frequency of the oscillator clock
--  - #address-cells, #size-cells: should be set respectively to <1> and <0>
--    according to DSI host bindings (see MIPI DSI bindings [1])
--  - samsung,burst-clock-frequency: specifies DSI frequency in high-speed burst
--    mode
--  - samsung,esc-clock-frequency: specifies DSI frequency in escape mode
--
--Optional properties:
--  - power-domains: a phandle to DSIM power domain node
--
--Child nodes:
--  Should contain DSI peripheral nodes (see MIPI DSI bindings [1]).
--
--Video interfaces:
--  Device node can contain following video interface port nodes according to [2]:
--  0: RGB input,
--  1: DSI output
--
--[1]: Documentation/devicetree/bindings/display/mipi-dsi-bus.txt
--[2]: Documentation/devicetree/bindings/media/video-interfaces.txt
--
--Example:
--
--	dsi@11c80000 {
--		compatible = "samsung,exynos4210-mipi-dsi";
--		reg = <0x11C80000 0x10000>;
--		interrupts = <0 79 0>;
--		clocks = <&clock 286>, <&clock 143>;
--		clock-names = "bus_clk", "sclk_mipi";
--		phys = <&mipi_phy 1>;
--		phy-names = "dsim";
--		vddcore-supply = <&vusb_reg>;
--		vddio-supply = <&vmipi_reg>;
--		power-domains = <&pd_lcd0>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--		samsung,pll-clock-frequency = <24000000>;
--
--		panel@1 {
--			reg = <0>;
--			...
--			port {
--				panel_ep: endpoint {
--					remote-endpoint = <&dsi_ep>;
--				};
--			};
--		};
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				decon_to_mic: endpoint {
--					remote-endpoint = <&mic_to_decon>;
--				};
--			};
--
--			port@1 {
--				reg = <1>;
--				dsi_ep: endpoint {
--					reg = <0>;
--					samsung,burst-clock-frequency = <500000000>;
--					samsung,esc-clock-frequency = <20000000>;
--					remote-endpoint = <&panel_ep>;
--				};
--			};
--		};
--	};
--- 
-2.34.1
-
+On 2023-03-31 15:17, Alex Deucher wrote:
+> On Fri, Mar 31, 2023 at 2:54 AM Christian König
+> <ckoenig.leichtzumerken@gmail.com> wrote:
+>> Should I push this to drm-misc-next or do we take it through
+>> amd-staging-drm-next?
+> I think either way is fine.  We can carry it internally as needed for
+> testing if you want to commit it to drm-misc-next.  I don't think
+> there are any direct code dependencies, but you or Rajneesh can
+> correct me if I'm wrong.
+>
+> Alex
+>
+>> Christian.
+>>
+>> Am 30.03.23 um 21:50 schrieb Alex Deucher:
+>>> From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+>>>
+>>> This allows backing ttm_tt structure with pages from different NUMA
+>>> pools.
+>>>
+>>> Tested-by: Graham Sider <graham.sider@amd.com>
+>>> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+>>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+>>> ---
+>>>    drivers/gpu/drm/ttm/ttm_device.c |  2 +-
+>>>    drivers/gpu/drm/ttm/ttm_pool.c   | 13 ++++++++-----
+>>>    include/drm/ttm/ttm_pool.h       |  4 +++-
+>>>    3 files changed, 12 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
+>>> index e7147e304637..4a8164a5320f 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_device.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
+>>> @@ -218,7 +218,7 @@ int ttm_device_init(struct ttm_device *bdev, struct ttm_device_funcs *funcs,
+>>>        bdev->funcs = funcs;
+>>>
+>>>        ttm_sys_man_init(bdev);
+>>> -     ttm_pool_init(&bdev->pool, dev, use_dma_alloc, use_dma32);
+>>> +     ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, use_dma32);
+>>>
+>>>        bdev->vma_manager = vma_manager;
+>>>        INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+>>> index 9f6764bf3b15..1068a41cded1 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+>>> @@ -92,7 +92,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>>>                        __GFP_KSWAPD_RECLAIM;
+>>>
+>>>        if (!pool->use_dma_alloc) {
+>>> -             p = alloc_pages(gfp_flags, order);
+>>> +             p = alloc_pages_node(pool->nid, gfp_flags, order);
+>>>                if (p)
+>>>                        p->private = order;
+>>>                return p;
+>>> @@ -286,7 +286,7 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>>>                                                  enum ttm_caching caching,
+>>>                                                  unsigned int order)
+>>>    {
+>>> -     if (pool->use_dma_alloc)
+>>> +     if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE)
+>>>                return &pool->caching[caching].orders[order];
+>>>
+>>>    #ifdef CONFIG_X86
+>>> @@ -523,29 +523,32 @@ EXPORT_SYMBOL(ttm_pool_free);
+>>>     *
+>>>     * @pool: the pool to initialize
+>>>     * @dev: device for DMA allocations and mappings
+>>> + * @nid: NUMA node to use for allocations
+>>>     * @use_dma_alloc: true if coherent DMA alloc should be used
+>>>     * @use_dma32: true if GFP_DMA32 should be used
+>>>     *
+>>>     * Initialize the pool and its pool types.
+>>>     */
+>>>    void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+>>> -                bool use_dma_alloc, bool use_dma32)
+>>> +                int nid, bool use_dma_alloc, bool use_dma32)
+>>>    {
+>>>        unsigned int i, j;
+>>>
+>>>        WARN_ON(!dev && use_dma_alloc);
+>>>
+>>>        pool->dev = dev;
+>>> +     pool->nid = nid;
+>>>        pool->use_dma_alloc = use_dma_alloc;
+>>>        pool->use_dma32 = use_dma32;
+>>>
+>>> -     if (use_dma_alloc) {
+>>> +     if (use_dma_alloc || nid != NUMA_NO_NODE) {
+>>>                for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>>>                        for (j = 0; j < MAX_ORDER; ++j)
+>>>                                ttm_pool_type_init(&pool->caching[i].orders[j],
+>>>                                                   pool, i, j);
+>>>        }
+>>>    }
+>>> +EXPORT_SYMBOL(ttm_pool_init);
+>>>
+>>>    /**
+>>>     * ttm_pool_fini - Cleanup a pool
+>>> @@ -559,7 +562,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
+>>>    {
+>>>        unsigned int i, j;
+>>>
+>>> -     if (pool->use_dma_alloc) {
+>>> +     if (pool->use_dma_alloc || pool->nid != NUMA_NO_NODE) {
+>>>                for (i = 0; i < TTM_NUM_CACHING_TYPES; ++i)
+>>>                        for (j = 0; j < MAX_ORDER; ++j)
+>>>                                ttm_pool_type_fini(&pool->caching[i].orders[j]);
+>>> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+>>> index ef09b23d29e3..23bd8be6d4f8 100644
+>>> --- a/include/drm/ttm/ttm_pool.h
+>>> +++ b/include/drm/ttm/ttm_pool.h
+>>> @@ -61,12 +61,14 @@ struct ttm_pool_type {
+>>>     * struct ttm_pool - Pool for all caching and orders
+>>>     *
+>>>     * @dev: the device we allocate pages for
+>>> + * @nid: which numa node to use
+>>>     * @use_dma_alloc: if coherent DMA allocations should be used
+>>>     * @use_dma32: if GFP_DMA32 should be used
+>>>     * @caching: pools for each caching/order
+>>>     */
+>>>    struct ttm_pool {
+>>>        struct device *dev;
+>>> +     int nid;
+>>>
+>>>        bool use_dma_alloc;
+>>>        bool use_dma32;
+>>> @@ -81,7 +83,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>>>    void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt);
+>>>
+>>>    void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+>>> -                bool use_dma_alloc, bool use_dma32);
+>>> +                int nid, bool use_dma_alloc, bool use_dma32);
+>>>    void ttm_pool_fini(struct ttm_pool *pool);
+>>>
+>>>    int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m);
