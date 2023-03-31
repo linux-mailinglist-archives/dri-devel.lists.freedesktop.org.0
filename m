@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025C96D16D2
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 07:33:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D76446D16D7
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 07:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BC610E0D0;
-	Fri, 31 Mar 2023 05:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9224610E2FF;
+	Fri, 31 Mar 2023 05:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6899110E0D0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 05:33:22 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2D07DB82AFE
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 05:33:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E8481C433D2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 05:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680240799;
- bh=S/fWWVM+vM1IMfZseXSlD2VKxjylMgfnq62c8B9FOYY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Bcyr8okI4Okn3I5cZVOFha3R+8NThLUcW3psQxKUO0sHxSSB4ih5w1QFGOzpWqSKi
- dLu2n5m2t5Hjs6eL/Zm4Pc2tDyygfFNgiRFE2tOFFFIDJBOYfVHrT/3LJlSPo1yUUf
- /cmDmS25nlrxQwxkgiynu4yHYSmbALBqh1145cDKTBTs47Sy2BVIyVcEur+BL3ufHc
- EREghshcOp7jcfWRJ+RjMiyI695mfKtrPT9rrUZzMMBUcxnMSPnmG+8Mpa73PCmGHP
- JdN5i/H3FUh3VmUnQTJ5e+nsJVgz0yvtOke/gHP+R2QYpvV7z+C0fenLKP6I0VT0Pu
- BRQyRQemgu/Bg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id CCFDEC43141; Fri, 31 Mar 2023 05:33:19 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 217278] ast 0000:03:00.0: PM: **** DPM device timeout ****
- during S4 resuming
-Date: Fri, 31 Mar 2023 05:33:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: regressions@leemhuis.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-217278-2300-zMKxbjmkdY@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-217278-2300@https.bugzilla.kernel.org/>
-References: <bug-217278-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
+Received: from pv50p00im-zteg10011401.me.com (pv50p00im-zteg10011401.me.com
+ [17.58.6.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE5F410E2FF
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 05:36:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1680240968;
+ bh=sKGRoi8TeZzYLNcSuhfkFHZh2ruRuMHAHIi1NUfW1Nk=;
+ h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To;
+ b=YfLElU2Ymf/i7Ge+KOBYztYdfyRgC6f6dwW6rf7hWSEDNfS6mqDRuG1iwPe8a2w6O
+ 7h7bjp2x2BP+G/qRj5njtsX0LQtic/6fmaQf0zuqtwaGOex7CGIApAHDYPcuUbP49l
+ kHrczWSLy6Z/ljWE0RVbimXTtgIKhPLTNGEu+NqTrqZrxEojQAtfcKhQjuwbozCP79
+ lq34BaM83M8o44jP0bQZ4ShHrdxEy5dzluDfnQZn9ZE4oBgrijwiVPVE7Mapiceq6b
+ 4LAWSNeXudl09L66wPxGQHsuCbWY4nvspjV362rOJn65XXF9dlemhbeUPD9GdD37LP
+ YhYr7hRwOzQkw==
+Received: from localhost (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+ by pv50p00im-zteg10011401.me.com (Postfix) with ESMTPSA id 28B4FDC02DC;
+ Fri, 31 Mar 2023 05:36:04 +0000 (UTC)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 31 Mar 2023 07:36:02 +0200
+Message-Id: <CRKBPM6IOSJS.3RBNRJ8TSZX9U@iMac.local>
+Subject: Re: [PATCH] drm/sun4i: uncouple DSI dotclock divider from
+ TCON0_DCLK_REG
+From: "Roman Beranek" <romanberanek@icloud.com>
+To: "Frank Oltmanns" <frank@oltmanns.dev>
+X-Mailer: aerc 0.14.0
+References: <20230320161636.24411-1-romanberanek@icloud.com>
+ <87wn356ni4.fsf@oltmanns.dev> <20230327202045.ceeqqwjug4ktxtsf@penduick>
+ <CRHKFX934UA0.1MCKCD8SJSPIE@iMac.local>
+ <20230329195802.veybo3367zifw77n@penduick> <877cuyon5e.fsf@oltmanns.dev>
+In-Reply-To: <877cuyon5e.fsf@oltmanns.dev>
+X-Proofpoint-GUID: 1DKQc4fsLyT6il9NAOZ-x1dK75Ip_PH6
+X-Proofpoint-ORIG-GUID: 1DKQc4fsLyT6il9NAOZ-x1dK75Ip_PH6
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0 phishscore=0
+ mlxlogscore=252 spamscore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2303310043
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +64,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D217278
+Hello Frank,
 
-The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
-huis.info) changed:
+On Thu Mar 30, 2023 at 6:45 AM CEST, Frank Oltmanns wrote:
+> Roman, will you please submit a V2 of the patch I submitted then? Or do
+> you want me to do it?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |regressions@leemhuis.info
+Yes, I'm already on it, only missing a cover letter.
 
---- Comment #1 from The Linux kernel's regression tracker (Thorsten Leemhui=
-s) (regressions@leemhuis.info) ---
-Did this work fine or earlier kernels? Which one?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Roman
