@@ -1,59 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D530D6D15B4
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 04:40:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7FA6D15BD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 04:47:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42CDE10E2E3;
-	Fri, 31 Mar 2023 02:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB8610E2F2;
+	Fri, 31 Mar 2023 02:47:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFF7D10E2E3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:40:28 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id h187so7454605iof.7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 19:40:28 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9572A10E2F0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:47:13 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id h25so27134313lfv.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 19:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680230428;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=iQrwpcibujJqlmTEza2DfA5ZE4Qe7gVkHrwLff0ClFU=;
- b=IhgmJV7RavCOET87gb8RKOmKoudDGEX2zj6gR3iopZl0Bmv6IfgQ/ibbPL0KU83UY6
- gJkL4k45v6qA2nWZ6nxnZsOhRjtw9g4wyhYzTZWpXAq0BejD8cnPw2qIAdUUuPjrZivI
- Y/I1ZTDnRWEIGguWztnIYSiIY2DfpQzgRrEjk=
+ d=linaro.org; s=google; t=1680230832;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5ceK/FCMxFV6WMkMs6P3C5RWwMjIas0p27G5eDARwxY=;
+ b=Ci+emgJe6oF44s+qWeE5uy3s48VkDILilyoaE+Ef/VsPii1wservI2X2STOOL2M0j6
+ JNmEW4VxTxjksvvWrlO5KL95mxZQ3xILjjiXyqQsRQqMMTaNCwlzrRSO5qhYyoRVrdr/
+ IGNp9cP4zB1KBm5TlxzUgqWVKOkGmtImv0/O9FGMriQ29Sdab0gwl83EgX0+L1BcS8gn
+ WzpvF8DoBSqn4KrgSx5mn1hKcb5/wPoPeyfksXzKptq530BOePLdGPLlPQu93Bf+7yfJ
+ qGFVKU29KJvwOW9lh5FV3YNX169ziiVI/rZWIyexVPPQRwA7nG8w+CkClJOEW/N0tlUV
+ qeJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680230428;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=iQrwpcibujJqlmTEza2DfA5ZE4Qe7gVkHrwLff0ClFU=;
- b=j6ioBHk0cyIH/YPZZaBeExJDIMgugrrkj3RE7WYSsYAsoeRCrM1MIbORsgWCoJ9o61
- RCi6Hn9j5XaD9gxKV9NWKGiZzNIgVAe5vt52BlYsdxqYa+roVSHQYkTUnwUqZcNbnvlG
- 0HGmnmUGrY2aQGRGQ3/NHq1mjikksc4HNuFElE80PodZGjzfe4Ee7t49kdX/eS7Y2C7X
- fJAo8Lz60jHfKuk3YNvFCzXQAC10GGCRau41G3D3NVIoOMxY2eb2T37aqcOl7vgMM5Ni
- r4dAG0wUNN+zdD7y11+6ctZOhGGiTTn2jThoQ0VLJU/WJwHjpBbXrCc2+jcnWRlZUNT4
- 58FA==
-X-Gm-Message-State: AO0yUKV7VFA3BCGpJ4OmoFwwX/wTseVr/UouSN7W2099rlgW7V0Unj/8
- rEbLMMtfrlcR3GOPHXZm3kleOR/sk2+2uwANQ1aN5sE4rY3qp5js58XFaw==
-X-Google-Smtp-Source: AK7set8PW/rmF4EecdA4hthe2v5SIisdg/Q+7FqP3P4IiAKgrK1r/tfAbNqXZZ9Oi0/saOdscwawRnNnF6Dkwgcrc7k=
-X-Received: by 2002:a5e:d60b:0:b0:752:cba8:a2fa with SMTP id
- w11-20020a5ed60b000000b00752cba8a2famr9398024iom.2.1680230428034; Thu, 30 Mar
- 2023 19:40:28 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680230832;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5ceK/FCMxFV6WMkMs6P3C5RWwMjIas0p27G5eDARwxY=;
+ b=MHgUg9Xdz9pB2lea+9mw+Ho81KVFTcFdWgRhkt910uAhANhOlv3nql+nYduDNWKHjG
+ 9jtSd4DTxut+63+KqkWjp1QzQiFwB1qx1uO9lFStDW00ISHVpeT9Tz7hp0ImnhGPsvb4
+ kXf48nA+lKxBVNpV71WBQsS7iCFG6tfu1KER7qF01R7nNCq3aHQBEsOCstJG5V7UPxyz
+ y+EYKNbuuUMaTknqM3YJAdsoNgH0PUQTQkD2UC23N8/d9lxznevHUeBExfoTGUJwjw6I
+ +5vnN1VNU2Wo0qvAosnhotvpkFd49NgecogQ89xnvETYTdIBqBcqYaGIl3ODl7OmrVSR
+ QcwA==
+X-Gm-Message-State: AAQBX9cmZGADr1ecP5QSwelJrxLzC7H/aqxbsTOQDqeZPWDdrRezTaPa
+ VE1TxeWb0bD6Hv+f512hYFRSFQ==
+X-Google-Smtp-Source: AKy350ZVz4ck+kqZPmVfA8JrvO14PwUxAMU2IKtdSi4OJdVZSCoJmaf/wW3+Cr6lYkxEDexwPrO+GA==
+X-Received: by 2002:a05:6512:143:b0:4e8:4a21:9c92 with SMTP id
+ m3-20020a056512014300b004e84a219c92mr8301076lfo.4.1680230831678; 
+ Thu, 30 Mar 2023 19:47:11 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ w4-20020a05651204c400b004d58e782886sm178307lfq.303.2023.03.30.19.47.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 19:47:11 -0700 (PDT)
+Message-ID: <be4b854b-0938-d051-2f74-cde02188a052@linaro.org>
+Date: Fri, 31 Mar 2023 05:47:10 +0300
 MIME-Version: 1.0
-References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-4-treapking@chromium.org>
- <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
-In-Reply-To: <CAA8EJpqFuhAtTaTJNMmfaQoYaKF_t6N2QMgbOS1c9XVey8Jf3w@mail.gmail.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 31 Mar 2023 11:40:16 +0900
-Message-ID: <CAEXTbpfML_V=m5=F0yVac=vo=1Lipc+7cquZjgexitJHHrr-eA@mail.gmail.com>
-Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [Freedreno] [PATCH RFC 5/5] drm/msm/dsi: Use MSM and DRM DSC
+ helper methods
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v1-5-f3e479f59b6d@quicinc.com>
+ <0698ce89-d70c-c3f4-f006-18130858aacf@linaro.org>
+ <2c9ac12f-df2f-8576-555b-3d84a6205ee3@quicinc.com>
+ <c3ac5c2b-e0e0-5d7c-67d3-4fc2316b68c5@linaro.org>
+ <6461a8b8-f620-5f9c-9533-f65ac42c0524@quicinc.com>
+ <CAA8EJprriCLXR+P7ZOWLQCOhvi0WCUzNrCu4eyyqegNtPZbBUg@mail.gmail.com>
+ <86e851f7-bbbe-b849-e36b-f3c9af93e9e3@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <86e851f7-bbbe-b849-e36b-f3c9af93e9e3@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,361 +85,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- Andi Shyti <andi.shyti@linux.intel.com>, devicetree@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On 31/03/2023 04:33, Abhinav Kumar wrote:
+> 
+> 
+> On 3/30/2023 5:16 PM, Dmitry Baryshkov wrote:
+>> On Fri, 31 Mar 2023 at 03:07, Jessica Zhang 
+>> <quic_jesszhan@quicinc.com> wrote:
+>>>
+>>>
+>>>
+>>> On 3/30/2023 4:14 PM, Dmitry Baryshkov wrote:
+>>>> On 31/03/2023 01:49, Jessica Zhang wrote:
+>>>>>
+>>>>>
+>>>>> On 3/29/2023 4:48 PM, Dmitry Baryshkov wrote:
+>>>>>> On 30/03/2023 02:18, Jessica Zhang wrote:
+>>>>>>> Use MSM and DRM DSC helper methods.
+>>>>>>>
+>>>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>>>>> ---
+>>>>>>>    drivers/gpu/drm/msm/dsi/dsi_host.c | 18 ++++++++++++------
+>>>>>>>    1 file changed, 12 insertions(+), 6 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>>>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>>>> index 74d38f90398a..7419fe58a941 100644
+>>>>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>>>>> @@ -31,6 +31,7 @@
+>>>>>>>    #include "msm_kms.h"
+>>>>>>>    #include "msm_gem.h"
+>>>>>>>    #include "phy/dsi_phy.h"
+>>>>>>> +#include "disp/msm_dsc_helper.h"
+>>>>>>>    #define DSI_RESET_TOGGLE_DELAY_MS 20
+>>>>>>> @@ -841,14 +842,14 @@ static void dsi_update_dsc_timing(struct
+>>>>>>> msm_dsi_host *msm_host, bool is_cmd_mod
+>>>>>>>    {
+>>>>>>>        struct drm_dsc_config *dsc = msm_host->dsc;
+>>>>>>>        u32 reg, reg_ctrl, reg_ctrl2;
+>>>>>>> -    u32 slice_per_intf, total_bytes_per_intf;
+>>>>>>> +    u32 slice_per_intf;
+>>>>>>>        u32 pkt_per_line;
+>>>>>>>        u32 eol_byte_num;
+>>>>>>>        /* first calculate dsc parameters and then program
+>>>>>>>         * compress mode registers
+>>>>>>>         */
+>>>>>>> -    slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
+>>>>>>> +    slice_per_intf = msm_dsc_get_slice_per_intf(dsc, hdisplay);
+>>>>>>
+>>>>>> This looks good
+>>>>>>
+>>>>>>>        /*
+>>>>>>>         * If slice_count is greater than slice_per_intf
+>>>>>>> @@ -858,10 +859,10 @@ static void dsi_update_dsc_timing(struct
+>>>>>>> msm_dsi_host *msm_host, bool is_cmd_mod
+>>>>>>>        if (dsc->slice_count > slice_per_intf)
+>>>>>>>            dsc->slice_count = 1;
+>>>>>>> -    total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
+>>>>>>> +    eol_byte_num = msm_dsc_get_eol_byte_num(msm_host->dsc, 
+>>>>>>> hdisplay,
+>>>>>>> +            dsi_get_bpp(msm_host->format));
+>>>>>>> -    eol_byte_num = total_bytes_per_intf % 3;
+>>>>>>> -    pkt_per_line = slice_per_intf / dsc->slice_count;
+>>>>>>> +    pkt_per_line = slice_per_intf / MSM_DSC_SLICE_PER_PKT;
+>>>>>>
+>>>>>> And for these values the result is definitely changed. Separate patch
+>>>>>> & description please. Just in case, "values per downstream kernel" is
+>>>>>> not a proper description for such changes.
+>>>>>
+>>>>> Hi Dmitry,
+>>>>>
+>>>>> Sure, I can put this into a separate patch.
+>>>>>
+>>>>> The reason this was changed from slice_count to SLICE_PER_PKT was
+>>>>> because slice count and slice per packet aren't always equivalent.
+>>>>> There can be cases where panel configures DSC to have multiple soft
+>>>>> slices per interface, but the panel only specifies 1 slice per packet.
+>>>>
+>>>> Please put this nice description into the commit message. It is exactly
+>>>> what I was looking for!
+>>>>
+>>>> BTW: Do you expect to change MSM_DSC_SLICE_PER_PKT later or it will 
+>>>> stay
+>>>> at "1"? If so, it might be easier to drop it and instead add a comment.
+>>>
+>>> MSM_DSC_SLICE_PER_PKT is the default value for panels that don't specify
+>>> a slice_per_pkt value. (Now that I think about it, might be better to
+>>> call it MSM_DSC_DEFAULT_SLICE_PER_PKT instead...)
+>>
+>> Note, there is no slice_per_pkt in drm_dsc_config, so we must come up
+>> with another way to pass this data from the panel or to deduce the
+>> value in our driver.
+>>
+>>>
+>>> I don't expect it to change in the future, but it's a little more
+>>> readable than just dividing by 1 IMO. If you prefer dropping the macro
+>>> and adding a comment, I'm also okay with that.
+>>
+>> There is no need to divide by 1, the value doesn't change. So I'd
+>> probably prefer something like:
+>>
+>> /* Default to 1 slice per packet */
+>> if (panel_slice_per_pkt)
+>>      pkt_per_line = slice_per_intf / panel_slice_per_pkt;
+>> else
+>>      pkt_per_line = slice_per_intf;
+>>
+>> Or:
+>>
+>> /* Default to 1 slice per packet */
+>> slice_per_pkt = 1;
+>> if (panel_slice_per_pkt)
+>>      slice_per_pkt = panel_slice_per_pkt;
+>> pkt_per_line = slice_per_intf / slice_per_pkt;
+>>
+>> BTW: could you possibly change 'intf' to 'line' to v2? It seems there
+>> is a mixture of them through the code. If there is a difference
+>> between intf and line which is not yet posted, it's fine to keep the
+>> current code. WDYT?
+>>
+> 
+> No, I dont agree with the change from intf to line.
+> 
+> In case of dual DSI, intf is not equal to line.
+> 
+> 2 intfs = 1 line
+> 
+> Hence that distinction is necessary.
 
-Thanks for the review.
+Ack, this is what I was looking for!
 
-On Thu, Mar 23, 2023 at 7:39=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Wed, 22 Mar 2023 at 12:47, Pin-yen Lin <treapking@chromium.org> wrote:
-> >
-> > Add helpers to register and unregister Type-C "switches" for bridges
-> > capable of switching their output between two downstream devices.
-> >
-> > The helper registers USB Type-C mode switches when the "mode-switch"
-> > and the "reg" properties are available in Device Tree.
-> >
-> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> >
-> > ---
-> >
-> > Changes in v14:
-> > - Introduce a new Kconfig becuase it didn't build when CONFIG_TYPEC=3Dm
-> > - Add comments about devm_* usage
-> > - Fix style issues
-> >
-> > Changes in v13:
-> > - Add typec_mode_switch_node_count helper
-> > - Fix style issues
-> >
-> > Changes in v12:
-> > - Add fwnode_for_each_typec_mode_switch macro
-> > - Remove a duplicated dmesg in the helper
-> > - Used IS_REACHABLE instead to guard the function signatures
-> >
-> > Changes in v11:
-> > - Use fwnode helpers instead of DT
-> > - Moved the helpers to a new file
-> > - Use "reg" instead of "data-lanes" to determine the port number
-> > - Dropped collected tags due to new changes
-> >
-> > Changes in v10:
-> > - Collected Reviewed-by and Tested-by tags
-> > - Replaced "void *" with "typec_mux_set_fn_t" for mux_set callbacks
-> > - Print out the node name when errors on parsing DT
-> > - Use dev_dbg instead of dev_warn when no Type-C switch nodes available
-> > - Made the return path of drm_dp_register_mode_switch clearer
-> >
-> > Changes in v8:
-> > - Fixed the build issue when CONFIG_TYPEC=3Dm
-> > - Fixed some style issues
-> >
-> > Changes in v7:
-> > - Extracted the common codes to a helper function
-> > - New in v7
-> >
-> >  drivers/gpu/drm/display/Kconfig               |   8 ++
-> >  drivers/gpu/drm/display/Makefile              |   2 +
-> >  drivers/gpu/drm/display/drm_dp_typec_helper.c | 105 ++++++++++++++++++
-> >  include/drm/display/drm_dp_helper.h           |  46 ++++++++
-> >  4 files changed, 161 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/display/drm_dp_typec_helper.c
-> >
-> > diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/=
-Kconfig
-> > index 09712b88a5b8..d61076947a1c 100644
-> > --- a/drivers/gpu/drm/display/Kconfig
-> > +++ b/drivers/gpu/drm/display/Kconfig
-> > @@ -29,6 +29,14 @@ config DRM_DISPLAY_HDMI_HELPER
-> >         help
-> >           DRM display helpers for HDMI.
-> >
-> > +config DRM_DISPLAY_DP_TYPEC_HELPER
-> > +       bool
-> > +       default y
-> > +       depends on DRM_DISPLAY_HELPER
-> > +       depends on DRM_DISPLAY_HELPER=3DTYPEC || TYPEC=3Dy
->
-> If it is a select'able option, it doesn't make sense to use "depends"
-> here. Select will override depends.
->
-I'm not very familiar with the practices of Kconfigs, but I'll keep
-this in the next version per Andy's comment.
+so intf = line / num_intf?
 
-> > +       help
-> > +         DRM display helpers for USB Type-C Displayport Alternate mode=
-.
-> > +
-> >  config DRM_DP_AUX_CHARDEV
-> >         bool "DRM DP AUX Interface"
-> >         depends on DRM && DRM_DISPLAY_HELPER
-> > diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display=
-/Makefile
-> > index 17ac4a1006a8..2202a6aea38e 100644
-> > --- a/drivers/gpu/drm/display/Makefile
-> > +++ b/drivers/gpu/drm/display/Makefile
-> > @@ -8,6 +8,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) +=3D=
- \
-> >         drm_dp_helper.o \
-> >         drm_dp_mst_topology.o \
-> >         drm_dsc_helper.o
-> > +drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER) +=3D \
-> > +       drm_dp_typec_helper.o
-> >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) +=3D drm_hdcp_hel=
-per.o
-> >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) +=3D \
-> >         drm_hdmi_helper.o \
-> > diff --git a/drivers/gpu/drm/display/drm_dp_typec_helper.c b/drivers/gp=
-u/drm/display/drm_dp_typec_helper.c
-> > new file mode 100644
-> > index 000000000000..1562a9ccdaf2
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/display/drm_dp_typec_helper.c
-> > @@ -0,0 +1,105 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +#include <linux/usb/typec_mux.h>
-> > +#include <drm/display/drm_dp_helper.h>
-> > +
-> > +static int drm_dp_register_mode_switch(struct device *dev,
-> > +                                      struct fwnode_handle *fwnode,
-> > +                                      struct drm_dp_typec_switch_desc =
-*switch_desc,
-> > +                                      void *data, typec_mux_set_fn_t m=
-ux_set)
-> > +{
-> > +       struct drm_dp_typec_port_data *port_data;
-> > +       struct typec_mux_desc mux_desc =3D {};
-> > +       char name[32];
->
-> Why 32?
+Maybe I should explain the reason for my question:
 
-This is just a random length that is probably sufficiently large. I
-see other users use the pointer from `fwnode_get_name` directly, but
-we want to append the port number to ensure the names are unique.
->
-> > +       u32 port_num;
-> > +       int ret;
-> > +
-> > +       ret =3D fwnode_property_read_u32(fwnode, "reg", &port_num);
-> > +       if (ret) {
-> > +               dev_err(dev, "Failed to read reg property: %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       port_data =3D &switch_desc->typec_ports[port_num];
-> > +       port_data->data =3D data;
-> > +       port_data->port_num =3D port_num;
-> > +       port_data->fwnode =3D fwnode;
-> > +       mux_desc.fwnode =3D fwnode;
-> > +       mux_desc.drvdata =3D port_data;
-> > +       snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
->
-> I think it makes more sense to use dev_name here instead of fwnode.
+msm_dsc_get_pclk_per_line() uses intf_width, calculates pclk_per_line 
+(not per intf). msm_dsc_get_dce_bytes_per_line() does the same thing
 
-Thanks for the suggestions. I'll update this in the next version.
->
-> > +       mux_desc.name =3D name;
-> > +       mux_desc.set =3D mux_set;
-> > +
-> > +       port_data->typec_mux =3D typec_mux_register(dev, &mux_desc);
-> > +       ret =3D PTR_ERR_OR_ZERO(port_data->typec_mux);
-> > +       if (ret)
-> > +               dev_err(dev, "Mode switch register for port %d failed: =
-%d\n",
-> > +                       port_num, ret);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +/**
-> > + * drm_dp_register_typec_switches() - register Type-C switches
-> > + * @dev: Device that registers Type-C switches
-> > + * @port: Device node for the switch
-> > + * @switch_desc: A Type-C switch descriptor
-> > + * @data: Private data for the switches
-> > + * @mux_set: Callback function for typec_mux_set
-> > + *
-> > + * This function registers USB Type-C switches for DP bridges that can=
- switch
-> > + * the output signal between their output pins. This function uses dev=
-m_kcalloc
-> > + * to allocate memory, so it is expected to only call this in the driv=
-er probe
-> > + * functions.
-> > + *
-> > + * Currently only mode switches are implemented, and the function assu=
-mes the
-> > + * given @port device node has endpoints with "mode-switch" property.
-> > + * The port number is determined by the "reg" property of the endpoint=
-.
-> > + */
-> > +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_h=
-andle *port,
-> > +                                  struct drm_dp_typec_switch_desc *swi=
-tch_desc,
-> > +                                  void *data, typec_mux_set_fn_t mux_s=
-et)
-> > +{
-> > +       struct fwnode_handle *sw;
-> > +       int ret;
-> > +
-> > +       switch_desc->num_typec_switches =3D typec_mode_switch_node_coun=
-t(port);
-> > +       if (!switch_desc->num_typec_switches) {
-> > +               dev_dbg(dev, "No Type-C switches node found\n");
-> > +               return 0;
-> > +       }
-> > +
-> > +       switch_desc->typec_ports =3D devm_kcalloc(dev, switch_desc->num=
-_typec_switches,
-> > +                                               sizeof(struct drm_dp_ty=
-pec_port_data),
-> > +                                               GFP_KERNEL);
-> > +       if (!switch_desc->typec_ports)
-> > +               return -ENOMEM;
-> > +
-> > +       /* Register switches for each connector. */
-> > +       for_each_typec_mode_switch_node(port, sw) {
-> > +               ret =3D drm_dp_register_mode_switch(dev, sw, switch_des=
-c, data, mux_set);
-> > +               if (ret)
-> > +                       goto err_unregister_typec_switches;
-> > +       }
-> > +
-> > +       return 0;
-> > +
-> > +err_unregister_typec_switches:
-> > +       fwnode_handle_put(sw);
-> > +       drm_dp_unregister_typec_switches(switch_desc);
-> > +       return ret;
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_register_typec_switches);
-> > +
-> > +/**
-> > + * drm_dp_unregister_typec_switches() - unregister Type-C switches
-> > + * @switch_desc: A Type-C switch descriptor
-> > + */
-> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc =
-*switch_desc)
-> > +{
-> > +       unsigned int i;
-> > +
-> > +       for (i =3D 0; i < switch_desc->num_typec_switches; i++)
-> > +               typec_mux_unregister(switch_desc->typec_ports[i].typec_=
-mux);
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_unregister_typec_switches);
-> > diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/=
-drm_dp_helper.h
-> > index ab55453f2d2c..0fe56586d7bc 100644
-> > --- a/include/drm/display/drm_dp_helper.h
-> > +++ b/include/drm/display/drm_dp_helper.h
-> > @@ -25,6 +25,7 @@
-> >
-> >  #include <linux/delay.h>
-> >  #include <linux/i2c.h>
-> > +#include <linux/usb/typec_mux.h>
-> >
-> >  #include <drm/display/drm_dp.h>
-> >  #include <drm/drm_connector.h>
-> > @@ -763,4 +764,49 @@ bool drm_dp_downstream_rgb_to_ycbcr_conversion(con=
-st u8 dpcd[DP_RECEIVER_CAP_SIZ
-> >                                                const u8 port_cap[4], u8=
- color_spc);
-> >  int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_=
-spc);
-> >
-> > +struct drm_dp_typec_port_data {
-> > +       struct typec_mux_dev *typec_mux;
-> > +       int port_num;
-> > +       struct fwnode_handle *fwnode;
-> > +       void *data;
-> > +};
-> > +
-> > +struct drm_dp_typec_switch_desc {
-> > +       int num_typec_switches;
-> > +       struct drm_dp_typec_port_data *typec_ports;
-> > +};
-> > +
-> > +#define for_each_typec_mode_switch_node(port, sw)      \
-> > +       fwnode_for_each_child_node((port), (sw))        \
-> > +               for_each_if(fwnode_property_present((sw), "mode-switch"=
-))
-> > +
-> > +static inline unsigned int typec_mode_switch_node_count(struct fwnode_=
-handle *port)
-> > +{
-> > +       struct fwnode_handle *sw;
-> > +       unsigned int count =3D 0;
-> > +
-> > +       for_each_typec_mode_switch_node(port, sw)
-> > +               count++;
-> > +
-> > +       return count;
-> > +}
-> > +
-> > +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
-> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc =
-*switch_desc);
-> > +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_h=
-andle *port,
-> > +                                  struct drm_dp_typec_switch_desc *swi=
-tch_desc,
-> > +                                  void *data, typec_mux_set_fn_t mux_s=
-et);
-> > +#else
-> > +static inline void drm_dp_unregister_typec_switches(struct drm_dp_type=
-c_switch_desc *switch_desc)
-> > +{
-> > +}
-> > +static inline int drm_dp_register_typec_switches(
-> > +               struct device *dev, struct fwnode_handle *port,
-> > +               struct drm_dp_typec_switch_desc *switch_desc, void *dat=
-a,
-> > +               typec_mux_set_fn_t mux_set)
-> > +{
-> > +       return -EOPNOTSUPP;
-> > +}
-> > +#endif
-> > +
-> >  #endif /* _DRM_DP_HELPER_H_ */
-> > --
-> > 2.40.0.rc1.284.g88254d51c5-goog
-> >
->
->
-> --
-> With best wishes
-> Dmitry
+In this patch we take slice_per_intf, divide it with slice_per_pkt and 
+get pkt_per_line (rather than pkt_per_intf).
 
-Best regards,
-Pin-yen
+This is what prompted my question regarding intf vs line.
+
+> 
+>>>
+>>> Thanks,
+>>>
+>>> Jessica Zhang
+>>>
+>>>>
+>>>> Regarding eol_byte_num, probably the best explanation would be that is
+>>>> is a size of a padding rather than a size of a trailer bytes in a line
+>>>> (and thus original calculation was incorrect).
+>>>>
+>>>>>
+>>>>>>
+>>>>>>>        if (is_cmd_mode) /* packet data type */
+>>>>>>>            reg =
+>>>>>>> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
+>>>>>>> @@ -911,6 +912,11 @@ static void dsi_timing_setup(struct
+>>>>>>> msm_dsi_host *msm_host, bool is_bonded_dsi)
+>>>>>>>        DBG("");
+>>>>>>> +    if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO)
+>>>>>>> +        /* Default widebus_en to false for now. */
+>>>>>>> +        hdisplay = msm_dsc_get_pclk_per_line(msm_host->dsc,
+>>>>>>> mode->hdisplay,
+>>>>>>> +                dsi_get_bpp(msm_host->format));
+>>>>>>> +
+>>>>>>
+>>>>>> This is definitely something new and thus should probably go into a
+>>>>>> separate patch and be described. Also I'm not sure how does that
+>>>>>> interact with the hdisplay-related calculations below, under the
+>>>>>> if(dsc) clause.
+>>>>>
+>>>>> After double-checking the math here, I think this part of the change
+>>>>> is actually wrong. pclk_per_line is essentially doing hdisplay / 3,
+>>>>> which is a repeat of what's being done in the `if (dsc)` block.
+>>>>>
+>>>>> Will replace `hdisplay /= 3` with the pclk_per_line calculation.
+>>>>
+>>>> Thanks!
+>>>>
+>>>>>
+>>>>> Thanks,
+>>>>>
+>>>>> Jessica Zhang
+>>>>>
+>>>>>>
+>>>>>>>        /*
+>>>>>>>         * For bonded DSI mode, the current DRM mode has
+>>>>>>>         * the complete width of the panel. Since, the complete
+>>>>>>> @@ -1759,7 +1765,7 @@ static int dsi_populate_dsc_params(struct
+>>>>>>> msm_dsi_host *msm_host, struct drm_dsc
+>>>>>>>            return ret;
+>>>>>>>        }
+>>>>>>> -    dsc->initial_scale_value = 32;
+>>>>>>> +    dsc->initial_scale_value =
+>>>>>>> drm_dsc_calculate_initial_scale_value(dsc);
+>>>>>>
+>>>>>> This is fine, we only support 8bpp where these values match.
+>>>>>>
+>>>>>>>        dsc->line_buf_depth = dsc->bits_per_component + 1;
+>>>>>>>        return drm_dsc_compute_rc_parameters(dsc);
+>>>>>>>
+>>>>>>
+>>>>>> -- 
+>>>>>> With best wishes
+>>>>>> Dmitry
+>>>>>>
+>>>>
+>>>> -- 
+>>>> With best wishes
+>>>> Dmitry
+>>>>
+>>
+>>
+>>
+
+-- 
+With best wishes
+Dmitry
+
