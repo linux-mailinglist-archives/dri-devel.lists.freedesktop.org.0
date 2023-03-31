@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BA06D1575
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 04:06:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C32146D1597
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 04:28:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 285C910E0CF;
-	Fri, 31 Mar 2023 02:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B14810E056;
+	Fri, 31 Mar 2023 02:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9811810E0CF
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:06:50 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-17aeb49429eso21803452fac.6
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 19:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680228410;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pvM334uaDN62u5CXBwDPRhi1Ml5Rc/k9LOkZNPsfO9U=;
- b=OUha1buX9Iya3CjbsVobPGHSOMWmpDrZzKS4TD3RmS+O87YOx/sthAzdlI6Mpq6c2x
- uSD9IFLRH4VFtCWCAxURoqL0IG4NSpM4EueoLgGiZTipQjByWnk4Qo/h02rFOlYOzGsM
- HSviKdKTOdMu8KOcJV4AD4hZJS4OPmpsBKvppGrEIYPVUu0b3QX5IoLc4OzGLkHSwBx5
- rT2xr3XB3hifVhNdNG0LwszasFVR9vR7eO/1p+cHFUJwYkK7XNnRsDcsn/WFhbO959yU
- O5C8Uf+LWjM4gkF1CM4NBLcbFgJPAWMudClmTTablSrajbt1Bc3O7TLUL7Z9qyEmrDTy
- fyJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680228410;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pvM334uaDN62u5CXBwDPRhi1Ml5Rc/k9LOkZNPsfO9U=;
- b=qeIkx4qbI9Ckup+qWxXCl2fWY9sePT3SalRaY3JdZziTg9y7xdY4D7LxkMS4zEf9PI
- Pagh/gvLUfKPeR8gjYCls2+4mPV3JmLwn3w7yhqrt9cmXHkidZdjx5o0XO+Zfvt1iQqq
- Ytllc7YCb3abqoIhcmFwhCfns2rU/Xjvu8wUQ0mSTqs4bmHEoatgXXbrkhh884nws0bh
- gE8jqYKY9sCLlzXBz9pKbcDy9694mQq1jwnUuRJ2ksZBSQkr5vzNNg+c3TNt5AUCqcFk
- 1MqorQtYKTutsfNs5/zY2R8YYxtdvsM6Xq/lDppyKfWTE5gMLsdkEPH4KU/YlTzIn9o7
- OImA==
-X-Gm-Message-State: AO0yUKUxzxA+xWbcoGUZYkF0IC2S+Vrn3y3cO6U2obDt5F9IQTnAufbI
- T5FHL/fRTrUl3ExWDST3k8Y=
-X-Google-Smtp-Source: AK7set9SVdoBv4Z6z/5U2LbxssB3wFAqZk8t0GCibw/+1rXEmQsRBHijgZAq1yj9AKxTzVChxWYNVA==
-X-Received: by 2002:a05:6870:3396:b0:177:c4c1:db8a with SMTP id
- w22-20020a056870339600b00177c4c1db8amr15470422oae.0.1680228409807; 
- Thu, 30 Mar 2023 19:06:49 -0700 (PDT)
-Received: from heimdal.localdomain ([2804:431:cfec:20b3:d050:3c82:2c34:f704])
- by smtp.gmail.com with ESMTPSA id
- yv2-20020a05687c228200b0016e8726f0d4sm548177oab.3.2023.03.30.19.06.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 19:06:49 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Morishita?= <andremorishita@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- anish kumar <yesanishhere@gmail.com>, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: maxim,max98371: Convert to DT schema
-Date: Thu, 30 Mar 2023 23:05:25 -0300
-Message-Id: <20230331020527.482991-1-andremorishita@gmail.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58FD210E056;
+ Fri, 31 Mar 2023 02:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680229720; x=1711765720;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version;
+ bh=7L/ONAdWRF6C5MWa2SMOV5bgRQ1CwJucSoWbs/Qb64M=;
+ b=n3LkN7rMPmASFFPRGQBIt8EYgv4FOQ8mrvkADdr/m2Wb0nDFP5C7vhur
+ 3Ivu19rgqL5TJArEqBEgVnZlB4qNv8AEzpK5QT2tS0tJ3fYJbUfrwwaiW
+ 28to0PKOlYNDlF5Zcg4RLewtCbqs/H27u+t5rBGg93n/Lt0dZBhhH/Kxj
+ Qz2EDrn7UYPudlfNnW/SuQaPJb/eJ9DDb9r/Uj/U4YmlI5PcTxPQsL2H3
+ uxPUAlBiN0ODN4yTIi2Fwu1KC1YjFcVen5t4h/4cpzs0plUFxfOXgLpHr
+ ypoCA8+XiSyT0ScALmzC0eBaosSGlImMKZphmRoV4Pm3kiWAr9yXe8OnH w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="321721195"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="321721195"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 19:28:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="715250114"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="715250114"
+Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.209.16.72])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 19:28:39 -0700
+Date: Thu, 30 Mar 2023 19:17:49 -0700
+Message-ID: <87o7o9d5pu.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH] drm/i915/hwmon: Use 0 to designate disabled PL1 power
+ limit
+In-Reply-To: <ZCWuYg7wwiO1TaIL@intel.com>
+References: <20230328233543.1091127-1-ashutosh.dixit@intel.com>
+ <87cz4qlre6.wl-ashutosh.dixit@intel.com>
+ <ZCWuYg7wwiO1TaIL@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,92 +63,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mairacanal@riseup.net, daniel.baluta@nxp.com,
- =?UTF-8?q?Andr=C3=A9=20Morishita?= <andremorishita@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Badal Nilawar <badal.nilawar@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Maxim Integrated MAX98371 audio codec bindings to DT schema.
+On Thu, 30 Mar 2023 08:44:34 -0700, Rodrigo Vivi wrote:
+>
+> On Wed, Mar 29, 2023 at 10:50:09PM -0700, Dixit, Ashutosh wrote:
+> > On Tue, 28 Mar 2023 16:35:43 -0700, Ashutosh Dixit wrote:
+> > >
+> > > On ATSM the PL1 limit is disabled at power up. The previous uapi assumed
+> > > that the PL1 limit is always enabled and therefore did not have a notion of
+> > > a disabled PL1 limit. This results in erroneous PL1 limit values when the
+> > > PL1 limit is disabled. For example at power up, the disabled ATSM PL1 limit
+> > > was previously shown as 0 which means a low PL1 limit whereas the limit
+> > > being disabled actually implies a high effective PL1 limit value.
+> > >
+> > > To get round this problem, the PL1 limit uapi is expanded to include a
+> > > special value 0 to designate a disabled PL1 limit.
+> >
+> > This patch is another attempt to show when the PL1 power limit is disabled
+> > and to disable it when it needs to. Previous abandoned attempts to do this
+> > are [1] and [2].
+> >
+> > The preferred way to do this was [2] but that was NAK'd by hwmon folks (see
+> > [2]). That is why here we fall back on the approach in [1].
+>
+> I still don't get it, but let's move on...
+>
+> >
+> > This patch is identical to [1] except that the value used to disable the
+> > PL1 limit has been changed to 0 (from -1 in [1]) as was suggested in [2]
+> > (both -1 and 0 seem ok for the purpose).
+> >
+> > > Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
+> > > Bug: https://gitlab.freedesktop.org/drm/intel/-/issues/8060
+> >
+> > The link between this patch and these pretty serious bugs might not be
+> > immediately clear so here's an explanation:
+> >
+> > * Because on ATSM the PL1 power limit is disabled on power up and there
+> >   were no means to enable it, in 6fd3d8bf89fc we implemented the means to
+> >   enable the limit when the PL1 hwmon entry (power1_max) was written to.
+> >
+> > * Now there is an IGT igt@i915_hwmon@hwmon_write which (a) reads orig value
+> >   from all hwmon sysfs  (b) does a bunch of random writes and finally (c)
+> >   restores the orig value read. On ATSM since the orig value was 0, when
+> >   the IGT restores the 0 value, the PL1 limit is now enabled with a value
+> >   of 0.
+> >
+> > * PL1 limit of 0 implies a low PL1 limit which causes GPU freq to fall to
+> >   100 MHz. This causes GuC FW load and several IGT's to start timing out
+> >   and gives rise the above (and even more) bugs about GuC FW load timing
+> >   out.
+>
+> I believe these 3 bullets are key information that deserves to be in
+> the commit message itself.
 
-Signed-off-by: André Morishita <andremorishita@gmail.com>
----
- .../devicetree/bindings/sound/max98371.txt    | 17 --------
- .../bindings/sound/maxim,max98371.yaml        | 41 +++++++++++++++++++
- 2 files changed, 41 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/max98371.txt
- create mode 100644 Documentation/devicetree/bindings/sound/maxim,max98371.yaml
+Done in v2.
 
-diff --git a/Documentation/devicetree/bindings/sound/max98371.txt b/Documentation/devicetree/bindings/sound/max98371.txt
-deleted file mode 100644
-index 8b2b2704b574..000000000000
---- a/Documentation/devicetree/bindings/sound/max98371.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--max98371 codec
--
--This device supports I2C mode only.
--
--Required properties:
--
--- compatible : "maxim,max98371"
--- reg : The chip select number on the I2C bus
--
--Example:
--
--&i2c {
--	max98371: max98371@31 {
--		compatible = "maxim,max98371";
--		reg = <0x31>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/sound/maxim,max98371.yaml b/Documentation/devicetree/bindings/sound/maxim,max98371.yaml
-new file mode 100644
-index 000000000000..df0262473399
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/maxim,max98371.yaml
-@@ -0,0 +1,41 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/maxim,max98371.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Maxim MAX98371 audio codec
-+
-+maintainers:
-+  - anish kumar <yesanishhere@gmail.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: maxim,max98371
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        max98371: max98371@31 {
-+            compatible = "maxim,max98371";
-+            reg = <0x31>;
-+        };
-+    };
--- 
-2.40.0
+>
+> With that there,
+>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
+Thanks.
+--
+Ashutosh
+
+
+>
+>
+> >
+> > * After this patch, writing 0 would disable the PL1 limit instead of
+> >   enabling it, avoiding the freq drop issue above, and resolving this Intel
+> >   CI issue.
+> >
+> > Thanks.
+> > --
+> > Ashutosh
+> >
+> > [1] https://patchwork.freedesktop.org/patch/522612/?series=113972&rev=1
+> > [2] https://patchwork.freedesktop.org/patch/522652/?series=113984&rev=1
