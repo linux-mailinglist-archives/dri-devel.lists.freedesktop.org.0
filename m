@@ -1,35 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BCC6D1E9D
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 13:00:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 066D56D2F06
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 10:14:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D144810F1DA;
-	Fri, 31 Mar 2023 11:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F2210E042;
+	Sat,  1 Apr 2023 08:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11C7310F1DA
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 11:00:17 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1piCUP-0005cf-1H; Fri, 31 Mar 2023 13:00:13 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: don't block scheduler when GPU is still active
-Date: Fri, 31 Mar 2023 13:00:12 +0200
-Message-Id: <20230331110012.69844-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+X-Greylist: delayed 322 seconds by postgrey-1.36 at gabe;
+ Fri, 31 Mar 2023 11:02:56 UTC
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD2BD10F1EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 11:02:56 +0000 (UTC)
+Received: (Authenticated sender: me@crly.cz)
+ by mail.gandi.net (Postfix) with ESMTPSA id BCA3AC0006;
+ Fri, 31 Mar 2023 11:02:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
+ t=1680260574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LKKzuKD/yw4rJXNV+OTo/xDF3dymlJo4Q4foJX1aiC8=;
+ b=BjjXSenfeT2p1QtWT86vqvBFTvqecWO+G/3LDdXvq3DpCuxvoU2l8WyzXLiLoIgIPDD3kz
+ E6krT5KhEwfypJXZC8GCBhzGM7g3Kqfeo1r5VXkUBJnSz2gdVYmEhMYlqj8NCe555hU//n
+ zUuszgSB9nNjk7tT1qzz1n4prjkR2A0a+Q7306EbQJMr3wAwL5YJKyTOdHzhXi4BAH9Akv
+ KiQMef/st6irzFFTsCpx9FElmpZ43hDqh9m78KcpLmctRjNiTndY+rj2uBeV/EZFXhKsYo
+ nJZLdZ914uLekqavTcq09vMJKJKJePGlDBFjnCQjtZhBBSEpil6SkgqN0Rx4Bw==
+From: Roman Beranek <me@crly.cz>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 0/3] drm: sun4i: set proper TCON0 DCLK rate in DSI mode 
+Date: Fri, 31 Mar 2023 13:02:42 +0200
+Message-Id: <20230331110245.43527-1-me@crly.cz>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Sat, 01 Apr 2023 08:14:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,78 +53,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
-s_fence->parent pointer'") still active jobs aren't put back in the
-pending list on drm_sched_start(), as they don't have a active
-parent fence anymore, so if the GPU is still working and the timeout
-is extended, all currently active jobs will be freed.
+With bpp bits per pixel transmitted over n DSI lanes, the target DCLK
+rate for a given pixel clock is obtained as follows:
 
-To avoid prematurely freeing jobs that are still active on the GPU,
-don't block the scheduler until we are fully committed to actually
-reset the GPU.
+DCLK rate = 1/4 * bpp / n * pixel clock
 
-Cc: stable@vger.kernel.org #6.0
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-The behavior change in the scheduler is unfortunate and at least
-deserves some updated documentation. This change aligns etnaviv with
-the behavior of other drivers and avoids the issue.
----
- drivers/gpu/drm/etnaviv/etnaviv_sched.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+Effect of this change can be observed through the rate of Vblank IRQs
+which should now match refresh rate implied by set display mode. It
+was verified to do so on a A64 board with a 2-lane and a 4-lane panel.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-index 1ae87dfd19c4..35d7c2ef7a57 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-@@ -38,15 +38,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 	u32 dma_addr;
- 	int change;
- 
--	/* block scheduler */
--	drm_sched_stop(&gpu->sched, sched_job);
--
- 	/*
- 	 * If the GPU managed to complete this jobs fence, the timout is
- 	 * spurious. Bail out.
- 	 */
- 	if (dma_fence_is_signaled(submit->out_fence))
--		goto out_no_timeout;
-+		return DRM_GPU_SCHED_STAT_NOMINAL;
- 
- 	/*
- 	 * If the GPU is still making forward progress on the front-end (which
-@@ -59,9 +56,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 	    change < 0 || change > 16) {
- 		gpu->hangcheck_dma_addr = dma_addr;
- 		gpu->hangcheck_fence = gpu->completed_fence;
--		goto out_no_timeout;
-+		return DRM_GPU_SCHED_STAT_NOMINAL;
- 	}
- 
-+	/* block scheduler */
-+	drm_sched_stop(&gpu->sched, sched_job);
-+
- 	if(sched_job)
- 		drm_sched_increase_karma(sched_job);
- 
-@@ -73,11 +73,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
- 
- 	drm_sched_start(&gpu->sched, true);
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
--
--out_no_timeout:
--	/* restart scheduler after GPU is usable again */
--	drm_sched_start(&gpu->sched, true);
--	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
- 
- static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
--- 
-2.39.2
+Roman Beranek (3):
+  drm: sun4i: rename sun4i_dotclock to sun4i_tcon_dclk
+  ARM: dts: sunxi: rename tcon's clock output
+  drm: sun4i: calculate proper DCLK rate for DSI
+
+ arch/arm/boot/dts/sun5i.dtsi                  |  2 +-
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  2 +-
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi              |  2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  2 +-
+ drivers/gpu/drm/sun4i/Makefile                |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            | 46 +++++++++++--------
+ .../{sun4i_dotclock.c => sun4i_tcon_dclk.c}   |  2 +-
+ .../{sun4i_dotclock.h => sun4i_tcon_dclk.h}   |  0
+ 9 files changed, 33 insertions(+), 27 deletions(-)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.c => sun4i_tcon_dclk.c} (99%)
+ rename drivers/gpu/drm/sun4i/{sun4i_dotclock.h => sun4i_tcon_dclk.h} (100%)
+
+--
+2.32.0 (Apple Git-132)
+
 
