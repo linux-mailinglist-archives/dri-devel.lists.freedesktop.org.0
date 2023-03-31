@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40B16D1C0C
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:24:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D40416D1C13
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:26:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9FA10F17B;
-	Fri, 31 Mar 2023 09:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7DD10F13F;
+	Fri, 31 Mar 2023 09:26:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4803110F17B
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:23:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEC0B10F13F;
+ Fri, 31 Mar 2023 09:26:17 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EC30F1FE9C;
- Fri, 31 Mar 2023 09:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680254598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GRwXqDmX4dlzD8zvR5LebzdDxbyW3j2Av0ry2c6X1iI=;
- b=TLSUeGviweZHkRJG8eQykw+gE0hDz/bdtOPUY+DjBpFPCu6ILJCVC6mZpUmBaQNiyF0oYy
- kYelTtQhPnNJCnZkymEBmOl1HIg4Qju83vyQ0xVhJbHx1mGZYJob3U0W3GW0ofOtubP2M4
- j9LSpK5K/y7PfZUk88SYC5A90A5z/+c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680254598;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GRwXqDmX4dlzD8zvR5LebzdDxbyW3j2Av0ry2c6X1iI=;
- b=JKDYV9XVL4ojf4tsMIXqtF+8C38ZQ6DeVpneq4KRyvOqZh8fRw/2m2jF+Jm46ynpFSjG+K
- Q1e+PxeYV/evPFCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CCF6F133B6;
- Fri, 31 Mar 2023 09:23:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WIkVMYamJmTsOwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 31 Mar 2023 09:23:18 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: deller@gmx.de
-Subject: [PATCH 15/15] fbdev/vfb: Remove trailing whitespaces
-Date: Fri, 31 Mar 2023 11:23:14 +0200
-Message-Id: <20230331092314.2209-16-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20230331092314.2209-1-tzimmermann@suse.de>
-References: <20230331092314.2209-1-tzimmermann@suse.de>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 367C262288;
+ Fri, 31 Mar 2023 09:26:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C3E0C4339C;
+ Fri, 31 Mar 2023 09:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680254776;
+ bh=JZf0svDcEcGog0NsSz5cUzUNXsqZCcAN5I+gmpPDgzg=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=XgdsOUyLaKZBHIvB9GPVLk4X9CeQ4pHXp0fBiu28DVZBvm43qBKIVCFL/sdqsJECq
+ M6EbfJ6qLZvvrwd0m97u25a66HakrZhKSyhJwVb48M5K3Bhqo9uS/rCyoc9CfZ2pBQ
+ NP2Ei7jihGLSnvmdd49aH6AjEpDiArG+97ca2E2XQ8UHA1xXBDTxMyDg0kr7ockqzZ
+ OKV8BB64V/G2tKuBK3YQELLfvtgjvf+ON2XVZnRjZs6f64TVvNJYc3/zgMgSz85GiB
+ GhFWGxCl3fq4/F6H6fKnQNwKm0Q14hOIh3eVxjyWNGqP9LWgeHDeiZBG0VSU9HTzu1
+ pnljvPt9fz31A==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org
+Subject: [PATCH 01/19] drm/i915/i915_scatterlist: Fix kerneldoc formatting
+ issue - missing '@'
+Date: Fri, 31 Mar 2023 10:25:49 +0100
+Message-Id: <20230331092607.700644-2-lee@kernel.org>
+X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
+In-Reply-To: <20230331092607.700644-1-lee@kernel.org>
+References: <20230331092607.700644-1-lee@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,61 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix coding style. No functional changes.
+Fixes the following W=1 kernel build warning(s):
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Helge Deller <deller@gmx.de>
+ drivers/gpu/drm/i915/i915_scatterlist.c:62: warning: Function parameter or member 'size' not described in 'i915_refct_sgt_init'
+
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/video/fbdev/vfb.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/i915_scatterlist.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
-index 95d3c59867d0..680c88267ef4 100644
---- a/drivers/video/fbdev/vfb.c
-+++ b/drivers/video/fbdev/vfb.c
-@@ -110,7 +110,7 @@ static u_long get_line_length(int xres_virtual, int bpp)
-      *  First part, xxxfb_check_var, must not write anything
-      *  to hardware, it should only verify and adjust var.
-      *  This means it doesn't alter par but it does use hardware
--     *  data from it to check this var. 
-+     *  data from it to check this var.
-      */
- 
- static int vfb_check_var(struct fb_var_screeninfo *var,
-@@ -168,7 +168,7 @@ static int vfb_check_var(struct fb_var_screeninfo *var,
- 
- 	/*
- 	 * Now that we checked it we alter var. The reason being is that the video
--	 * mode passed in might not work but slight changes to it might make it 
-+	 * mode passed in might not work but slight changes to it might make it
- 	 * work. This way we let the user know what is acceptable.
- 	 */
- 	switch (var->bits_per_pixel) {
-@@ -234,8 +234,8 @@ static int vfb_check_var(struct fb_var_screeninfo *var,
- }
- 
- /* This routine actually sets the video mode. It's in here where we
-- * the hardware state info->par and fix which can be affected by the 
-- * change in par. For this driver it doesn't do much. 
-+ * the hardware state info->par and fix which can be affected by the
-+ * change in par. For this driver it doesn't do much.
+diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
+index 7c7a86921b1c7..e93d2538f2988 100644
+--- a/drivers/gpu/drm/i915/i915_scatterlist.c
++++ b/drivers/gpu/drm/i915/i915_scatterlist.c
+@@ -56,7 +56,7 @@ static const struct i915_refct_sgt_ops rsgt_ops = {
+ /**
+  * i915_refct_sgt_init - Initialize a struct i915_refct_sgt with default ops
+  * @rsgt: The struct i915_refct_sgt to initialize.
+- * size: The size of the underlying memory buffer.
++ * @size: The size of the underlying memory buffer.
   */
- static int vfb_set_par(struct fb_info *info)
+ void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
  {
-@@ -378,7 +378,7 @@ static int vfb_pan_display(struct fb_var_screeninfo *var,
- }
- 
-     /*
--     *  Most drivers don't need their own mmap function 
-+     *  Most drivers don't need their own mmap function
-      */
- 
- static int vfb_mmap(struct fb_info *info,
 -- 
-2.40.0
+2.40.0.348.gf938b09366-goog
 
