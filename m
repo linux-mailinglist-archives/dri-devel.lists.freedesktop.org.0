@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452A06D1C1A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:26:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D506D1C23
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:27:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A24CE10F183;
-	Fri, 31 Mar 2023 09:26:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AFE810F184;
+	Fri, 31 Mar 2023 09:26:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA6510F14C;
- Fri, 31 Mar 2023 09:26:25 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94FC910F15A;
+ Fri, 31 Mar 2023 09:26:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A18B262660;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4B933B82DAC;
+ Fri, 31 Mar 2023 09:26:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6210C4339B;
  Fri, 31 Mar 2023 09:26:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 514EEC433EF;
- Fri, 31 Mar 2023 09:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680254784;
- bh=TRYSMYkXks9q3GSP+rY54wBe6rlqoIbNXHmoR55KP+A=;
+ s=k20201202; t=1680254787;
+ bh=iistdlhu4w0I2/CmfXzNavb5iLcbcIHzclr1yyY04LY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QfTjoBeSVRz6N27mcOkAv5LA/MVWqsH0d1zmQmcsuuwyb4YU9RGjd31eVeQB/YAfB
- +6FK9GNc2T3I4jj510Nx1R+EFu7iKO+HFBJd/Tcndv3C3ns+K2EhZbj8VEgAfiyDFr
- h7QzGIZHIBP7JDINi7BJlg5Ij4UMemIeOqkgH9SQLMUzYiBO/IHQPG6TxuffMIaywB
- 8ziNYiQxweDizvG0jBB47zAgCrI1ROgNsgp7AYDcSMr9pwQ4b+H4wkCj9iS/KLbR4F
- 7lEfCR3WYqlYR60BXPSZ7LxYt//kkFFoMyTTC4ZyYq4BPQrsOugK3OPicOHUykXjLN
- NIeywdUEbvJJw==
+ b=JBMBGg+5x+5/0/DDfOyE9fcIfl8eW49WC8vHHiuIxCpHZ8AlQcsYvLvnF0oBX1rSP
+ su3kCXz60f/Vl9BYBRbifih+ckCQEXeEOytJt+NAZB45DvfPhf2wvzQcb6p82MJakt
+ XFSe9scn3arsz1P3U1VOdx9TNL/oHBAPuGRwP2lIgeWWW9Gkl+fKR75gweWnq17sGM
+ vIc5IlWso2dNzS2GsVcc/CAaYpZaJQpImT9619XZza+FXFuGWmHcfIBPPOuWpDzrzm
+ niA0QPM1aLNsab9MPvUVlPWkEnmfDElmFkpBX53QtMY7IVRsww96aGevm7097/wu/7
+ rhXyeGgzrLWsA==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org
-Subject: [PATCH 04/19] drm/i915/display/intel_display_debugfs: Fix incorrect
- param naming for 'intel_connector'
-Date: Fri, 31 Mar 2023 10:25:52 +0100
-Message-Id: <20230331092607.700644-5-lee@kernel.org>
+Subject: [PATCH 05/19] drm/i915/gt/intel_engine_cs: Fix a couple of
+ incorrectly named functions
+Date: Fri, 31 Mar 2023 10:25:53 +0100
+Message-Id: <20230331092607.700644-6-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
 In-Reply-To: <20230331092607.700644-1-lee@kernel.org>
 References: <20230331092607.700644-1-lee@kernel.org>
@@ -60,8 +61,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/i915/display/intel_display_debugfs.c:1668: warning: Function parameter or member 'intel_connector' not described in 'intel_connector_debugfs_add'
- drivers/gpu/drm/i915/display/intel_display_debugfs.c:1668: warning: Excess function parameter 'connector' description in 'intel_connector_debugfs_add'
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c:1324: warning: expecting prototype for intel_engines_init_common(). Prototype was for engine_init_common() instead
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c:1406: warning: expecting prototype for intel_engines_cleanup_common(). Prototype was for intel_engine_cleanup_common() instead
 
 Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
@@ -73,22 +74,33 @@ Cc: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/i915/display/intel_display_debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index d5715ccc37f0e..195b6cb379ad1 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -1395,7 +1395,7 @@ DEFINE_SHOW_ATTRIBUTE(intel_crtc_pipe);
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 2966aed422239..03c5e3df0a7e0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1429,7 +1429,7 @@ create_kernel_context(struct intel_engine_cs *engine)
+ }
  
  /**
-  * intel_connector_debugfs_add - add i915 specific connector debugfs files
-- * @connector: pointer to a registered drm_connector
-+ * @intel_connector: pointer to a registered drm_connector
+- * intel_engines_init_common - initialize cengine state which might require hw access
++ * engine_init_common - initialize cengine state which might require hw access
+  * @engine: Engine to initialize.
   *
-  * Cleanup will be done by drm_connector_unregister() through a call to
-  * drm_debugfs_connector_remove().
+  * Initializes @engine@ structure members shared between legacy and execlists
+@@ -1515,8 +1515,8 @@ int intel_engines_init(struct intel_gt *gt)
+ }
+ 
+ /**
+- * intel_engines_cleanup_common - cleans up the engine state created by
+- *                                the common initiailizers.
++ * intel_engine_cleanup_common - cleans up the engine state created by
++ *                               the common initiailizers.
+  * @engine: Engine to cleanup.
+  *
+  * This cleans up everything created by the common helpers.
 -- 
 2.40.0.348.gf938b09366-goog
 
