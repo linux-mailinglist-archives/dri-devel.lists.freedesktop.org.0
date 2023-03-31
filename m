@@ -2,72 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760976D1CE1
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29846D1CE2
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:47:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E815710F133;
-	Fri, 31 Mar 2023 09:47:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A00010F135;
+	Fri, 31 Mar 2023 09:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31EDD10F133
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:47:22 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id q16so28116535lfe.10
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:47:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680256040;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hnzWIFD7E+b4S3TZGTfN6jfs1uPbhSQEaRByhI1df+M=;
- b=HB+TVMnkqvB7O0R3MzfOeH12788Pp02xIqytld9w5q6ehalIpUQ4NIGCs4FoPNwGtw
- KjINmDIkY//lZWKGXkAW/6HxoxXWdC32DM4f1uzIesFTa8YPI+RAC1d3WOQUbqGx7nDV
- lTespHeb2N2brtIIpdtHFxWZN2OOzGN+9/NRxQ+6sQoqnIOdTwI1GHdLu/mnJvAKyz/E
- RohbWhLih537gFmaFLGYdHiPsS3Jb5lI2sbUbhvksGpoVbf/QRJvjloZzTcOf2OT99fP
- OS0ixUMKhOi6tHVFED7+FBbzZG3nbCGdfiqHc8K+fc+DtV1WkjcoGRqILKWRvhz9pV62
- ZRtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680256040;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hnzWIFD7E+b4S3TZGTfN6jfs1uPbhSQEaRByhI1df+M=;
- b=MDr1B1Dt/Ze+nDIDe9E3tblJ9vWVZLvQoBCEPZkboG+mEyAdnTnXrlmov59aE1oqWp
- VhedgwwtlmfJnhMBCy7+RwILFOoF0xPauhQmJN9O3oUWv2VWAZPC6zjqaBYxiVL1inBr
- kYsJXeFNEL+sBHXv8BMZqdoYWYrBy5trcsqDVovvZSrnk8gcjfTuBQm/40qYZpsblJyp
- ihkDuSIZhfDERv56bhZmegXLOAexxWvw6tVb7iV++aW1mbVy/HbBBOsWm1vZyTS+pdy1
- T2B94021U8S3Y+yeTujK+i77qeYT5GXadHiZZmPrlfWGeDGRYcamGghEYuU+JAYia9xE
- 18Og==
-X-Gm-Message-State: AAQBX9eO2tUS2ho/ScqbTERhdTEH7LJV1ReljJ9m2aN/8KBl01xUlxx/
- ZM8QGFEcOjFzo+NQwFaXU+78Mw==
-X-Google-Smtp-Source: AKy350axKhA1sEScCS2IqTPlAy7H3rF+ckndonIj5tM6RWPZCy4EAumflMTPJ5hdVeFx1W2N/KcT/A==
-X-Received: by 2002:ac2:46e4:0:b0:4dd:995b:feaa with SMTP id
- q4-20020ac246e4000000b004dd995bfeaamr7880350lfo.24.1680256040470; 
- Fri, 31 Mar 2023 02:47:20 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- c25-20020ac244b9000000b004e9c983a007sm309559lfm.289.2023.03.31.02.47.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Mar 2023 02:47:20 -0700 (PDT)
-Message-ID: <304ce3f0-81df-327c-8b42-2471a3a51e43@linaro.org>
-Date: Fri, 31 Mar 2023 11:47:19 +0200
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7F410F135
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:47:43 +0000 (UTC)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it
+ [93.49.2.63])
+ by mail11.truemail.it (Postfix) with ESMTPA id B45A5207CC;
+ Fri, 31 Mar 2023 11:47:41 +0200 (CEST)
+Date: Fri, 31 Mar 2023 11:47:39 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v1 2/2] drm/bridge: ti-sn65dsi83: Add DSI video mode
+ configuration
+Message-ID: <ZCasOyfXOMTzzZ8s@francesco-nb.int.toradex.com>
+References: <20230330101752.429804-1-francesco@dolcini.it>
+ <20230330101752.429804-3-francesco@dolcini.it>
+ <6a386ff3-2af6-a544-674f-7c60d4d89e4e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: maxim,max98371: Convert to DT schema
-Content-Language: en-US
-To: =?UTF-8?Q?Andr=c3=a9_Morishita?= <andremorishita@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- anish kumar <yesanishhere@gmail.com>, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230331020527.482991-1-andremorishita@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230331020527.482991-1-andremorishita@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a386ff3-2af6-a544-674f-7c60d4d89e4e@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,45 +41,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mairacanal@riseup.net, daniel.baluta@nxp.com,
- dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Robert Foss <rfoss@kernel.org>,
+ Francesco Dolcini <francesco@dolcini.it>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/03/2023 04:05, André Morishita wrote:
-> Convert the Maxim Integrated MAX98371 audio codec bindings to DT schema.
+On Fri, Mar 31, 2023 at 11:06:44AM +0200, Neil Armstrong wrote:
+> Hi,
 > 
-> Signed-off-by: André Morishita <andremorishita@gmail.com>
-> ---
+> On 30/03/2023 12:17, Francesco Dolcini wrote:
+> > From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > 
+> > Enable configuration of the DSI video mode instead of hard-coding
+> > MIPI_DSI_MODE_VIDEO_BURST. The bridge support any of burst-mode,
+> > non-burst with sync event or non-burst with sync pulse
+> > 
+> > With this change is possible to use the bridge with host DSI
+> > that do not support burst mode.
+> > 
+> > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > ---
+> >   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 24 +++++++++++++++++++++++-
+> >   1 file changed, 23 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > index 91ecfbe45bf9..144d0de0d278 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > @@ -145,6 +145,7 @@ struct sn65dsi83 {
+> >   	struct drm_bridge		*panel_bridge;
+> >   	struct gpio_desc		*enable_gpio;
+> >   	struct regulator		*vcc;
+> > +	u32				dsi_video_mode;
+> >   	bool				lvds_dual_link;
+> >   	bool				lvds_dual_link_even_odd_swap;
+> >   };
+> > @@ -603,6 +604,9 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+> >   		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
+> >   				     "Failed to get supply 'vcc'\n");
+> > +	ctx->dsi_video_mode = 0;
+> > +	of_property_read_u32(dev->of_node, "dsi-video-mode", &ctx->dsi_video_mode);
+> > +
+> >   	return 0;
+> >   }
+> > @@ -642,7 +646,25 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
+> >   	dsi->lanes = dsi_lanes;
+> >   	dsi->format = MIPI_DSI_FMT_RGB888;
+> > -	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
+> > +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO;
+> > +
+> > +	switch (ctx->dsi_video_mode) {
+> > +	case 0:
+> > +		/* burst mode */
+> > +		dsi->mode_flags |= MIPI_DSI_MODE_VIDEO_BURST;
+> > +		break;
+> > +	case 1:
+> > +		/* non-burst mode with sync event */
+> > +		break;
+> > +	case 2:
+> > +		/* non-burst mode with sync pulse */
+> > +		dsi->mode_flags |= MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+> > +		break;
+> > +	default:
+> > +		dev_warn(dev, "invalid video mode %d\n", ctx->dsi_video_mode);
+> > +		break;
+> > +	}
+> > +
+> >   	ret = devm_mipi_dsi_attach(dev, dsi);
+> >   	if (ret < 0) {
+> 
+> As I understand from DSI spec is that those are dynamic, so they are hardcoded in driver now
+> but they shouldn't be hardcoded in DT.
+> 
+> The problem is larger and we should add some sort of "supported features" we can get
+> from the DSI controller and set the flags accordingly because the features support accross the
+> DSI controllers isn't linear.
 
-Thank you for your patch. There is something to discuss/improve.
+I need to change this since I do have a bridge that does not support
+DSI video burst mode, while the ti-sn65 supports really any mode.
 
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        max98371: max98371@31 {
+The change here is the same as what is done for the raydium,rm67191
+panel, see Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
+and drivers/gpu/drm/panel/panel-raydium-rm67191.c.
 
-Generic node names, so: codec
+What's wrong to have this in the dts so that a panel can explicitly tell
+which DSI video mode it expects?
 
-And drop label (max98371:)
-
-> +            compatible = "maxim,max98371";
-> +            reg = <0x31>;
-
-#sound-dai-cells = <0>;
-
-> +        };
-> +    };
-
-Best regards,
-Krzysztof
+Francesco
 
