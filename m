@@ -1,48 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FBC6D1827
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 09:09:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C22556D18AC
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 09:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF6B10F10D;
-	Fri, 31 Mar 2023 07:09:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46D6110F10B;
+	Fri, 31 Mar 2023 07:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A498910F10D;
- Fri, 31 Mar 2023 07:09:18 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4C6E2B82C54;
- Fri, 31 Mar 2023 07:09:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0673EC433D2;
- Fri, 31 Mar 2023 07:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680246556;
- bh=8B9ggKbgJA0nMokqNAZYgf88QhUL8VJ/Zq2eCjzoNns=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=t5fJSmjupmwdDWJpAN7hBA7/D6nOMSjgzJ+EuX0R++HOqcOMtQjTSU+RQ6n0aJFGv
- n4Blc4il4vSJTRgvA9CCdoal+VrKP31DmARfFmke3c+jLrAbSsGYG/TrKg8dpd/vmD
- gBm8zP6mk4aMh3Y50XULT8nxKrbBROx+YV114lomPOH6k3VKvwAFxVOST8ve7AkXUn
- s8E4s81+gkdcv/FvVLRSnXXijWlxG9XnZbYd5/HwChG7B0MPLPkCT9iIJ2AvS32fKR
- xRXMTdzF2PB4itrmnbPY47Z+CHQ0spNUkBcepXeiIDAXEBhMZs3/gded0AQ30YefhQ
- yOcIYXZHEmi3w==
-Received: from johan by xi.lan with local (Exim 4.94.2)
- (envelope-from <johan@kernel.org>)
- id 1pi8tE-0005uP-2j; Fri, 31 Mar 2023 09:09:36 +0200
-Date: Fri, 31 Mar 2023 09:09:36 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2] drm/msm/adreno: adreno_gpu: Use suspend() instead of
- idle() on load error
-Message-ID: <ZCaHMOS0m5UoBJ1k@hovoldconsulting.com>
-References: <20230330231517.2747024-1-konrad.dybcio@linaro.org>
+X-Greylist: delayed 34835 seconds by postgrey-1.36 at gabe;
+ Fri, 31 Mar 2023 07:33:43 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6014910F10B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 07:33:43 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-159-jibixo4mNCSA74dvMNHr1Q-1; Fri, 31 Mar 2023 08:33:40 +0100
+X-MC-Unique: jibixo4mNCSA74dvMNHr1Q-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 31 Mar
+ 2023 08:33:39 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 31 Mar 2023 08:33:38 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Andrew Morton' <akpm@linux-foundation.org>
+Subject: RE: [PATCH 0/4] log2: make is_power_of_2() more generic
+Thread-Topic: [PATCH 0/4] log2: make is_power_of_2() more generic
+Thread-Index: AQHZY0DwWI19nDCca0eIs2l7T1UA9K8T1qTw///9RgCAAKpk8A==
+Date: Fri, 31 Mar 2023 07:33:38 +0000
+Message-ID: <37671dff9b6b4e6bb07862c11cb69874@AcuMS.aculab.com>
+References: <20230330104243.2120761-1-jani.nikula@intel.com>
+ <20230330125041.83b0f39fa3a4ec1a42dfd95f@linux-foundation.org>
+ <549987e4967d45159573901d330c96a0@AcuMS.aculab.com>
+ <20230330151846.fdbc8edbfbaa6eaddb056dc7@linux-foundation.org>
+In-Reply-To: <20230330151846.fdbc8edbfbaa6eaddb056dc7@linux-foundation.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230330231517.2747024-1-konrad.dybcio@linaro.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,72 +60,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- "Joel Fernandes \(Google\)" <joel@joelfernandes.org>, agross@kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, marijn.suijten@somainline.org,
- Sean Paul <sean@poorly.run>, Johan Hovold <johan+linaro@kernel.org>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ David Gow <davidgow@google.com>,
+ =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 01:15:16AM +0200, Konrad Dybcio wrote:
-> The adreno_load_gpu() path is guarded by an error check on
-> adreno_load_fw(). This function is responsible for loading
-> Qualcomm-only-signed binaries (e.g. SQE and GMU FW for A6XX), but it
-> does not take the vendor-signed ZAP blob into account.
-> 
-> By embedding the SQE (and GMU, if necessary) firmware into the
-> initrd/kernel, we can trigger and unfortunate path that would not bail
-> out early and proceed with gpu->hw_init(). That will fail, as the ZAP
-> loader path will not find the firmware and return back to
-> adreno_load_gpu().
-> 
-> This error path involves pm_runtime_put_sync() which then calls idle()
-> instead of suspend(). This is suboptimal, as it means that we're not
-> going through the clean shutdown sequence. With at least A619_holi, this
-> makes the GPU not wake up until it goes through at least one more
-> start-fail-stop cycle. The pm_runtime_put_sync that appears in the error
-> path actually does not guarantee that because of the earlier enabling of
-> runtime autosuspend.
-> 
-> Fix that by using pm_runtime_put_sync_suspend to force a clean shutdown.
-> 
-> Test cases:
-> 1. All firmware baked into kernel
-> 2. error loading ZAP fw in initrd -> load from rootfs at DE start
-> 
-> Both succeed on A619_holi (SM6375) and A630 (SDM845).
-> 
-> Fixes: 0d997f95b70f ("drm/msm/adreno: fix runtime PM imbalance at gpu load")
+From: Andrew Morton
+> Sent: 30 March 2023 23:19
+>=20
+> On Thu, 30 Mar 2023 21:53:03 +0000 David Laight <David.Laight@ACULAB.COM>=
+ wrote:
+>=20
+> > > But wouldn't all these issues be addressed by simply doing
+> > >
+> > > #define is_power_of_2(n) (n !=3D 0 && ((n & (n - 1)) =3D=3D 0))
+> > >
+> > > ?
+> > >
+> > > (With suitable tweaks to avoid evaluating `n' more than once)
+> >
+> > I think you need to use the 'horrid tricks' from min() to get
+> > a constant expression from constant inputs.
+>=20
+> This
+>=20
+> --- a/include/linux/log2.h~a
+> +++ a/include/linux/log2.h
+> @@ -41,11 +41,11 @@ int __ilog2_u64(u64 n)
+>   * *not* considered a power of two.
+>   * Return: true if @n is a power of 2, otherwise false.
+>   */
+> -static inline __attribute__((const))
+> -bool is_power_of_2(unsigned long n)
+> -{
+> -=09return (n !=3D 0 && ((n & (n - 1)) =3D=3D 0));
+> -}
+> +#define is_power_of_2(_n)=09=09=09=09\
+> +=09({=09=09=09=09=09=09\
+> +=09=09typeof(_n) n =3D (_n);=09=09=09\
+> +=09=09n !=3D 0 && ((n & (n - 1)) =3D=3D 0);=09=09\
+> +=09})
+>=20
+>  /**
+>   * __roundup_pow_of_two() - round up to nearest power of two
+> _
+>=20
+> worked for me in a simple test.
+>=20
+> --- a/fs/open.c~b
+> +++ a/fs/open.c
+> @@ -1564,3 +1564,10 @@ int stream_open(struct inode *inode, str
+>  }
+>=20
+>  EXPORT_SYMBOL(stream_open);
+> +
+> +#include <linux/log2.h>
+> +
+> +int foo(void)
+> +{
+> +=09return is_power_of_2(43);
+> +}
+> _
+>=20
+>=20
+> foo:
+> # fs/open.c:1573: }
+> =09xorl=09%eax, %eax=09#
+> =09ret
+>=20
+>=20
+> Is there some more tricky situation where it breaks?
 
-As this one is marked for stable, you also need:
+Try:
+static int x =3D is_power_of_2(43);
 
-Cc: stable@vger.kernel.org	# 6.0
+I suspect that some (all?) of the compile-time assert checks won't
+like ({...}) either.
 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+=09David
 
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-> ---
-> v1 -> v2:
-> - Improve the commit message and the reasoning within
-> 
->  drivers/gpu/drm/msm/adreno/adreno_device.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index f61896629be6..59f3302e8167 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -477,7 +477,7 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
->  	return gpu;
->  
->  err_put_rpm:
-> -	pm_runtime_put_sync(&pdev->dev);
-> +	pm_runtime_put_sync_suspend(&pdev->dev);
->  err_disable_rpm:
->  	pm_runtime_disable(&pdev->dev);
-
-Johan
