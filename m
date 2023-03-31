@@ -2,45 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0446D1C36
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6417F6D1C57
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 016BF10F18A;
-	Fri, 31 Mar 2023 09:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A1310F175;
+	Fri, 31 Mar 2023 09:29:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966CB10F1A9;
- Fri, 31 Mar 2023 09:27:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1CF2662649;
- Fri, 31 Mar 2023 09:27:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9099DC433A0;
- Fri, 31 Mar 2023 09:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680254829;
- bh=q94izLl3IZgGvkKrUY20PN7lYkSiE2LwGs8Cj3mJZ74=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WWWE2lUsVb8TTMqOUSSf9JvM1P043iDZAbpWP4lDy9c2SbmizGgxIatWILrD2r+Jw
- VRlIVW9z3L3Jf9R//bIt92G80do478ZWtZ4Z2wdqmQq0+EAemK7uAoGpNJuk4C9CwK
- q51jc8bJ/aKQYT507TmrORLBmMTKKIA85L8VK2Gs8rD+E0VC55h11lEzGIO26XlwBT
- UOA2ybn4v6hx6dZ1QgP9KGQAJPQ9WbGHx0TCrO8p3KM1aX7XY+G4jn8VZPFhA4sRhV
- 8dDEBXpDaGVDQnk+yaOaRc2NxClQWpYz85+UeOLcI/c2vxnWK8uq/JISgeRbP6DKIt
- 1TDOlovDJ9CmA==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org
-Subject: [PATCH 19/19] drm/i915/display/intel_wm: Fix a little doc-rot in
- intel_update_watermarks()
-Date: Fri, 31 Mar 2023 10:26:07 +0100
-Message-Id: <20230331092607.700644-20-lee@kernel.org>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-In-Reply-To: <20230331092607.700644-1-lee@kernel.org>
-References: <20230331092607.700644-1-lee@kernel.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED2C10F175
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:29:37 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 50BE66603130;
+ Fri, 31 Mar 2023 10:29:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680254975;
+ bh=lMAebDq17jh7DdNz0cBlqr1fwRmhsP03/MJGfkU1R+8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=EPBOOuTWx/PQ4Jo1UY5Tr8aSNr+DKcHxRpQT9tov4AyHcg8SvcD7zt/LzzgIoDRtB
+ w51cc+rm15Z4WQmg1oZ5iDhLV6/JQf7Um3d7mAmyVkIakqT4ucQLvxqHjnqLIE3h2d
+ XFJJA6hV5ldZ4z2dnTzMcsEglkbGJQGnAX4SO/dSguxe6zagccaIPi6AQl0VQGCnPu
+ 3Io9CUJdL140asZCXYIW1mT8jWKx0wxWMO9bRTtHN4qNomLqqcEBHHfHx4KiQuXJiC
+ NC3GzF1JzNdu9/J+B/fbWsgpSad5gfrdDFxvyl1fzvpC1wyWs0OpxEDIui4H87FOKZ
+ be8yyv1mbztbQ==
+Date: Fri, 31 Mar 2023 11:29:32 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v1 RESEND 2/2] drm/panfrost: Add basic support for speed
+ binning
+Message-ID: <20230331112932.73b39d5a@collabora.com>
+In-Reply-To: <fb19c82b-f2bf-7f22-ba5c-e1a1c98f987f@collabora.com>
+References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
+ <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
+ <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
+ <20230331104914.708b194e@collabora.com>
+ <fb19c82b-f2bf-7f22-ba5c-e1a1c98f987f@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,44 +57,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
+ alyssa.rosenzweig@collabora.com, wenst@chromium.org, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
+On Fri, 31 Mar 2023 10:57:46 +0200
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
- drivers/gpu/drm/i915/display/intel_wm.c:46: warning: Function parameter or member 'i915' not described in 'intel_update_watermarks'
- drivers/gpu/drm/i915/display/intel_wm.c:46: warning: Excess function parameter 'dev_priv' description in 'intel_update_watermarks'
+> Il 31/03/23 10:49, Boris Brezillon ha scritto:
+> > On Fri, 31 Mar 2023 10:11:07 +0200
+> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> > wrote:
+> >   
+> >> Il 23/03/23 10:08, AngeloGioacchino Del Regno ha scritto:  
+> >>> Some SoCs implementing ARM Mali GPUs are subject to speed binning:
+> >>> this means that some versions of the same SoC model may need to be
+> >>> limited to a slower frequency compared to the other:
+> >>> this is being addressed by reading nvmem (usually, an eFuse array)
+> >>> containing a number that identifies the speed binning of the chip,
+> >>> which is usually related to silicon quality.
+> >>>
+> >>> To address such situation, add basic support for reading the
+> >>> speed-bin through nvmem, as to make it possible to specify the
+> >>> supported hardware in the OPP table for GPUs.
+> >>> This commit also keeps compatibility with any platform that does
+> >>> not specify (and does not even support) speed-binning.
+> >>>
+> >>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>  
+> >>
+> >> Hello maintainers,
+> >> I've seen that this got archived in the dri-devel patchwork; because of that and
+> >> only that, I'm sending this ping to get this patch reviewed.  
+> > 
+> > Looks good to me. If you can get a DT maintainer to review the binding
+> > (Rob?), I'd be happy to queue the series to drm-misc-next.
+> >   
+> 
+> The binding was acked by Krzysztof already... so, just to be sure:
+> 
+> Krzysztof, can the binding [1] get picked?
 
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/gpu/drm/i915/display/intel_wm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_wm.c b/drivers/gpu/drm/i915/display/intel_wm.c
-index bb99179cd5fd1..b615449e70b47 100644
---- a/drivers/gpu/drm/i915/display/intel_wm.c
-+++ b/drivers/gpu/drm/i915/display/intel_wm.c
-@@ -11,7 +11,7 @@
- 
- /**
-  * intel_update_watermarks - update FIFO watermark values based on current modes
-- * @dev_priv: i915 device
-+ * @i915: i915 device
-  *
-  * Calculate watermark values for the various WM regs based on current mode
-  * and plane configuration.
--- 
-2.40.0.348.gf938b09366-goog
-
+Oops, sorry, I didn't realize Krzysztof is a DT maintainer.
