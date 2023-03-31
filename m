@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8757D6D13EC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 02:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B726D141F
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 02:34:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7751D10F0B3;
-	Fri, 31 Mar 2023 00:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B8010F0CA;
+	Fri, 31 Mar 2023 00:34:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4073B10F0B3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 00:16:55 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-544f7c176easo385944897b3.9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680221814;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nwvfaw6V9dI0/2q8Aos33hd9sn4tNv/OIznp4380bhA=;
- b=a01qGW759DCrNw8iYW5mvUtEzjuZ/9zM+dyA1D6Nk21WkKg0b2TSWhfP/CYl6tA/cq
- Go1FZ2Nj5CVqh+8LeCt0ooKNdm3xZK+dDEZGwL8rGI7nSMdnmVOIrgZwgkhNQpVaznM2
- 9T2J+kRems4rjDcH2/Ep2I8LR0KEwA2wEzx8Nmhv1vQ12pG4ZYwp0MHNqCFvbST8eKBY
- h6B7bEwg/bP9MUAs+pjbnI2r1dW2fybA7zsLGEDCqAcWPGYlCVSb3+MZpc6wJ9OdYT6p
- bI2TMdstjTFu7as4wvfCSJWXwDi3bdC36Xy//N78YsSS9LHDcHX83dQ+MCrV2nmLcWwg
- mf1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680221814;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nwvfaw6V9dI0/2q8Aos33hd9sn4tNv/OIznp4380bhA=;
- b=bdMenq55eQney2x6fcnTEjtsV3STQFoi3sBb5gGgVycZwIS1FJ1WEiQQR1TpOdzttj
- oN8zJs0hEnt8xURLQ8d8AwsLtJ6P5HQL4L/sJ/hJYIFeQMkNUPipw6tIP5lzFgsqCw30
- 3XbKWavnODK9aM4xMcIbctSvFfm0ImBzk2Rk2eNMzyw8joWx//yCHO+w7OxxO9qJysJs
- jq0VSxeckrqSRY/p1EPySWHJrYmo80qgiiSXqiLQC10t+cVkgGxfSX6ztl5aLqA4RPHm
- 2BcINcK48m+xYQealKMXh+Q0EY2gsCu4Fbzwh1RmE4MHjnGBUc9V+JIfZM+7zFdklDlV
- HjMQ==
-X-Gm-Message-State: AAQBX9dvbMngF+nt0vOuhiSpNGIWgbY7stDT52pIQUuC2vO4UZQru74h
- eT/BtehnWAgOyeotmEj4fTCB5nPenEYE9BuRv9KOvg==
-X-Google-Smtp-Source: AKy350YULGhI88B8rpCIUYDVshjOig8QxNGjzbSr/leeOL3+1x3nAIgmZaWodS7XOCzA6c6ljtL7dd+VjDMKYJDBBNw=
-X-Received: by 2002:a81:b617:0:b0:541:7f69:aa8b with SMTP id
- u23-20020a81b617000000b005417f69aa8bmr12056627ywh.5.1680221814251; Thu, 30
- Mar 2023 17:16:54 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E96F910F0C1;
+ Fri, 31 Mar 2023 00:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680222882; x=1711758882;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+L9yyIG3HWwP0j9fv/gKC6SXdx6AOU25H8Ey9vb2HLg=;
+ b=c5YfvW0btyc1ic0yuxLAQjqqRFJBID9Q2DSN3qGrkdOHsxwyXjns+edj
+ AYa3UCTznGFmRdrtn8n+E7lGGyi3jhXzbMKfHEpXC+k9eaj6oY5yDzPB7
+ KEus1rRA+4Yfl8DW8tTLMMSbUTaw6/tdecMgIYqjQ3Eg2BFeBZ03zkxs9
+ gmfBf+HNiVw7yFRwTDPLR+W8FbEQc7JTsUirnVzxcK4k9xV5b0Y5uQRDQ
+ nKkQtrvuUmub2CqZo7GXt6a55+cX49FNccm/5t9DlwdTyyaFi405HZynA
+ i5+Q5ClWKwtEN7muRTJTFDBmWU5VuZUwXOvuE4hJ2EC3XKt9eVpSdooKD Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329844457"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="329844457"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 17:34:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="715220764"
+X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="715220764"
+Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2023 17:34:40 -0700
+From: fei.yang@intel.com
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/i915/mtl: Define MOCS and PAT tables for MTL
+Date: Thu, 30 Mar 2023 17:36:09 -0700
+Message-Id: <20230331003611.107011-1-fei.yang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v1-5-f3e479f59b6d@quicinc.com>
- <0698ce89-d70c-c3f4-f006-18130858aacf@linaro.org>
- <2c9ac12f-df2f-8576-555b-3d84a6205ee3@quicinc.com>
- <c3ac5c2b-e0e0-5d7c-67d3-4fc2316b68c5@linaro.org>
- <6461a8b8-f620-5f9c-9533-f65ac42c0524@quicinc.com>
-In-Reply-To: <6461a8b8-f620-5f9c-9533-f65ac42c0524@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 31 Mar 2023 03:16:42 +0300
-Message-ID: <CAA8EJprriCLXR+P7ZOWLQCOhvi0WCUzNrCu4eyyqegNtPZbBUg@mail.gmail.com>
-Subject: Re: [PATCH RFC 5/5] drm/msm/dsi: Use MSM and DRM DSC helper methods
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,198 +55,466 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- linux-arm-msm@vger.kernel.org, Marijn Suijten <marijn.suijten@somainline.org>,
- freedreno@lists.freedesktop.org
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>, Fei Yang <fei.yang@intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 Mar 2023 at 03:07, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->
->
->
-> On 3/30/2023 4:14 PM, Dmitry Baryshkov wrote:
-> > On 31/03/2023 01:49, Jessica Zhang wrote:
-> >>
-> >>
-> >> On 3/29/2023 4:48 PM, Dmitry Baryshkov wrote:
-> >>> On 30/03/2023 02:18, Jessica Zhang wrote:
-> >>>> Use MSM and DRM DSC helper methods.
-> >>>>
-> >>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >>>> ---
-> >>>>   drivers/gpu/drm/msm/dsi/dsi_host.c | 18 ++++++++++++------
-> >>>>   1 file changed, 12 insertions(+), 6 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>>> index 74d38f90398a..7419fe58a941 100644
-> >>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> >>>> @@ -31,6 +31,7 @@
-> >>>>   #include "msm_kms.h"
-> >>>>   #include "msm_gem.h"
-> >>>>   #include "phy/dsi_phy.h"
-> >>>> +#include "disp/msm_dsc_helper.h"
-> >>>>   #define DSI_RESET_TOGGLE_DELAY_MS 20
-> >>>> @@ -841,14 +842,14 @@ static void dsi_update_dsc_timing(struct
-> >>>> msm_dsi_host *msm_host, bool is_cmd_mod
-> >>>>   {
-> >>>>       struct drm_dsc_config *dsc = msm_host->dsc;
-> >>>>       u32 reg, reg_ctrl, reg_ctrl2;
-> >>>> -    u32 slice_per_intf, total_bytes_per_intf;
-> >>>> +    u32 slice_per_intf;
-> >>>>       u32 pkt_per_line;
-> >>>>       u32 eol_byte_num;
-> >>>>       /* first calculate dsc parameters and then program
-> >>>>        * compress mode registers
-> >>>>        */
-> >>>> -    slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
-> >>>> +    slice_per_intf = msm_dsc_get_slice_per_intf(dsc, hdisplay);
-> >>>
-> >>> This looks good
-> >>>
-> >>>>       /*
-> >>>>        * If slice_count is greater than slice_per_intf
-> >>>> @@ -858,10 +859,10 @@ static void dsi_update_dsc_timing(struct
-> >>>> msm_dsi_host *msm_host, bool is_cmd_mod
-> >>>>       if (dsc->slice_count > slice_per_intf)
-> >>>>           dsc->slice_count = 1;
-> >>>> -    total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
-> >>>> +    eol_byte_num = msm_dsc_get_eol_byte_num(msm_host->dsc, hdisplay,
-> >>>> +            dsi_get_bpp(msm_host->format));
-> >>>> -    eol_byte_num = total_bytes_per_intf % 3;
-> >>>> -    pkt_per_line = slice_per_intf / dsc->slice_count;
-> >>>> +    pkt_per_line = slice_per_intf / MSM_DSC_SLICE_PER_PKT;
-> >>>
-> >>> And for these values the result is definitely changed. Separate patch
-> >>> & description please. Just in case, "values per downstream kernel" is
-> >>> not a proper description for such changes.
-> >>
-> >> Hi Dmitry,
-> >>
-> >> Sure, I can put this into a separate patch.
-> >>
-> >> The reason this was changed from slice_count to SLICE_PER_PKT was
-> >> because slice count and slice per packet aren't always equivalent.
-> >> There can be cases where panel configures DSC to have multiple soft
-> >> slices per interface, but the panel only specifies 1 slice per packet.
-> >
-> > Please put this nice description into the commit message. It is exactly
-> > what I was looking for!
-> >
-> > BTW: Do you expect to change MSM_DSC_SLICE_PER_PKT later or it will stay
-> > at "1"? If so, it might be easier to drop it and instead add a comment.
->
-> MSM_DSC_SLICE_PER_PKT is the default value for panels that don't specify
-> a slice_per_pkt value. (Now that I think about it, might be better to
-> call it MSM_DSC_DEFAULT_SLICE_PER_PKT instead...)
+From: Fei Yang <fei.yang@intel.com>
 
-Note, there is no slice_per_pkt in drm_dsc_config, so we must come up
-with another way to pass this data from the panel or to deduce the
-value in our driver.
+On MTL, GT can no longer allocate on LLC - only the CPU can.
+This, along with addition of support for ADM/L4 cache calls a
+MOCS/PAT table update.
+Also add PTE encode functions for MTL as it has different PAT
+index definition than previous platforms.
 
->
-> I don't expect it to change in the future, but it's a little more
-> readable than just dividing by 1 IMO. If you prefer dropping the macro
-> and adding a comment, I'm also okay with that.
+BSpec: 44509, 45101, 44235
 
-There is no need to divide by 1, the value doesn't change. So I'd
-probably prefer something like:
+Cc: Matt Roper <matthew.d.roper@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Madhumitha Tolakanahalli Pradeep <madhumitha.tolakanahalli.pradeep@intel.com>
+Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Signed-off-by: Fei Yang <fei.yang@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_dpt.c |  2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c     | 43 ++++++++++++--
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h     |  3 +
+ drivers/gpu/drm/i915/gt/intel_ggtt.c     | 36 ++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.c      | 23 ++++++-
+ drivers/gpu/drm/i915/gt/intel_gtt.h      | 20 ++++++-
+ drivers/gpu/drm/i915/gt/intel_mocs.c     | 76 ++++++++++++++++++++++--
+ drivers/gpu/drm/i915/gt/selftest_mocs.c  |  2 +-
+ drivers/gpu/drm/i915/i915_pci.c          |  1 +
+ 9 files changed, 189 insertions(+), 17 deletions(-)
 
-/* Default to 1 slice per packet */
-if (panel_slice_per_pkt)
-    pkt_per_line = slice_per_intf / panel_slice_per_pkt;
-else
-    pkt_per_line = slice_per_intf;
-
-Or:
-
-/* Default to 1 slice per packet */
-slice_per_pkt = 1;
-if (panel_slice_per_pkt)
-    slice_per_pkt = panel_slice_per_pkt;
-pkt_per_line = slice_per_intf / slice_per_pkt;
-
-BTW: could you possibly change 'intf' to 'line' to v2? It seems there
-is a mixture of them through the code. If there is a difference
-between intf and line which is not yet posted, it's fine to keep the
-current code. WDYT?
-
->
-> Thanks,
->
-> Jessica Zhang
->
-> >
-> > Regarding eol_byte_num, probably the best explanation would be that is
-> > is a size of a padding rather than a size of a trailer bytes in a line
-> > (and thus original calculation was incorrect).
-> >
-> >>
-> >>>
-> >>>>       if (is_cmd_mode) /* packet data type */
-> >>>>           reg =
-> >>>> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
-> >>>> @@ -911,6 +912,11 @@ static void dsi_timing_setup(struct
-> >>>> msm_dsi_host *msm_host, bool is_bonded_dsi)
-> >>>>       DBG("");
-> >>>> +    if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO)
-> >>>> +        /* Default widebus_en to false for now. */
-> >>>> +        hdisplay = msm_dsc_get_pclk_per_line(msm_host->dsc,
-> >>>> mode->hdisplay,
-> >>>> +                dsi_get_bpp(msm_host->format));
-> >>>> +
-> >>>
-> >>> This is definitely something new and thus should probably go into a
-> >>> separate patch and be described. Also I'm not sure how does that
-> >>> interact with the hdisplay-related calculations below, under the
-> >>> if(dsc) clause.
-> >>
-> >> After double-checking the math here, I think this part of the change
-> >> is actually wrong. pclk_per_line is essentially doing hdisplay / 3,
-> >> which is a repeat of what's being done in the `if (dsc)` block.
-> >>
-> >> Will replace `hdisplay /= 3` with the pclk_per_line calculation.
-> >
-> > Thanks!
-> >
-> >>
-> >> Thanks,
-> >>
-> >> Jessica Zhang
-> >>
-> >>>
-> >>>>       /*
-> >>>>        * For bonded DSI mode, the current DRM mode has
-> >>>>        * the complete width of the panel. Since, the complete
-> >>>> @@ -1759,7 +1765,7 @@ static int dsi_populate_dsc_params(struct
-> >>>> msm_dsi_host *msm_host, struct drm_dsc
-> >>>>           return ret;
-> >>>>       }
-> >>>> -    dsc->initial_scale_value = 32;
-> >>>> +    dsc->initial_scale_value =
-> >>>> drm_dsc_calculate_initial_scale_value(dsc);
-> >>>
-> >>> This is fine, we only support 8bpp where these values match.
-> >>>
-> >>>>       dsc->line_buf_depth = dsc->bits_per_component + 1;
-> >>>>       return drm_dsc_compute_rc_parameters(dsc);
-> >>>>
-> >>>
-> >>> --
-> >>> With best wishes
-> >>> Dmitry
-> >>>
-> >
-> > --
-> > With best wishes
-> > Dmitry
-> >
-
-
-
+diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
+index 2bf5cce232d5..dc82a756c899 100644
+--- a/drivers/gpu/drm/i915/display/intel_dpt.c
++++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+@@ -300,7 +300,7 @@ intel_dpt_create(struct intel_framebuffer *fb)
+ 	vm->vma_ops.bind_vma    = dpt_bind_vma;
+ 	vm->vma_ops.unbind_vma  = dpt_unbind_vma;
+ 
+-	vm->pte_encode = gen8_ggtt_pte_encode;
++	vm->pte_encode = vm->gt->ggtt->vm.pte_encode;
+ 
+ 	dpt->obj = dpt_obj;
+ 	dpt->obj->is_dpt = true;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index 4daaa6f55668..4197b43150cc 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -55,6 +55,34 @@ static u64 gen8_pte_encode(dma_addr_t addr,
+ 	return pte;
+ }
+ 
++static u64 mtl_pte_encode(dma_addr_t addr,
++			  enum i915_cache_level level,
++			  u32 flags)
++{
++	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT | GEN8_PAGE_RW;
++
++	if (unlikely(flags & PTE_READ_ONLY))
++		pte &= ~GEN8_PAGE_RW;
++
++	if (flags & PTE_LM)
++		pte |= GEN12_PPGTT_PTE_LM | GEN12_PPGTT_PTE_NC;
++
++	switch (level) {
++	case I915_CACHE_NONE:
++		pte |= GEN12_PPGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_LLC:
++	case I915_CACHE_L3_LLC:
++		pte |= GEN12_PPGTT_PTE_PAT0 | GEN12_PPGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_WT:
++		pte |= GEN12_PPGTT_PTE_PAT0;
++		break;
++	}
++
++	return pte;
++}
++
+ static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
+ {
+ 	struct drm_i915_private *i915 = ppgtt->vm.i915;
+@@ -427,7 +455,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
+ 		      u32 flags)
+ {
+ 	struct i915_page_directory *pd;
+-	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
++	const gen8_pte_t pte_encode = ppgtt->vm.pte_encode(0, cache_level, flags);
+ 	gen8_pte_t *vaddr;
+ 
+ 	pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
+@@ -580,7 +608,7 @@ static void gen8_ppgtt_insert_huge(struct i915_address_space *vm,
+ 				   enum i915_cache_level cache_level,
+ 				   u32 flags)
+ {
+-	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
++	const gen8_pte_t pte_encode = vm->pte_encode(0, cache_level, flags);
+ 	unsigned int rem = sg_dma_len(iter->sg);
+ 	u64 start = vma_res->start;
+ 
+@@ -743,7 +771,7 @@ static void gen8_ppgtt_insert_entry(struct i915_address_space *vm,
+ 	GEM_BUG_ON(pt->is_compact);
+ 
+ 	vaddr = px_vaddr(pt);
+-	vaddr[gen8_pd_index(idx, 0)] = gen8_pte_encode(addr, level, flags);
++	vaddr[gen8_pd_index(idx, 0)] = vm->pte_encode(addr, level, flags);
+ 	drm_clflush_virt_range(&vaddr[gen8_pd_index(idx, 0)], sizeof(*vaddr));
+ }
+ 
+@@ -773,7 +801,7 @@ static void __xehpsdv_ppgtt_insert_entry_lm(struct i915_address_space *vm,
+ 	}
+ 
+ 	vaddr = px_vaddr(pt);
+-	vaddr[gen8_pd_index(idx, 0) / 16] = gen8_pte_encode(addr, level, flags);
++	vaddr[gen8_pd_index(idx, 0) / 16] = vm->pte_encode(addr, level, flags);
+ }
+ 
+ static void xehpsdv_ppgtt_insert_entry(struct i915_address_space *vm,
+@@ -820,7 +848,7 @@ static int gen8_init_scratch(struct i915_address_space *vm)
+ 		pte_flags |= PTE_LM;
+ 
+ 	vm->scratch[0]->encode =
+-		gen8_pte_encode(px_dma(vm->scratch[0]),
++		vm->pte_encode(px_dma(vm->scratch[0]),
+ 				I915_CACHE_NONE, pte_flags);
+ 
+ 	for (i = 1; i <= vm->top; i++) {
+@@ -963,7 +991,10 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+ 	 */
+ 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
+ 
+-	ppgtt->vm.pte_encode = gen8_pte_encode;
++	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
++		ppgtt->vm.pte_encode = mtl_pte_encode;
++	else
++		ppgtt->vm.pte_encode = gen8_pte_encode;
+ 
+ 	ppgtt->vm.bind_async_flags = I915_VMA_LOCAL_BIND;
+ 	ppgtt->vm.insert_entries = gen8_ppgtt_insert;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+index f541d19264b4..6b8ce7f4d25a 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+@@ -18,5 +18,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+ u64 gen8_ggtt_pte_encode(dma_addr_t addr,
+ 			 enum i915_cache_level level,
+ 			 u32 flags);
++u64 mtl_ggtt_pte_encode(dma_addr_t addr,
++			unsigned int pat_index,
++			u32 flags);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+index 3c7f1ed92f5b..ba3109338aee 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+@@ -220,6 +220,33 @@ static void guc_ggtt_invalidate(struct i915_ggtt *ggtt)
+ 	}
+ }
+ 
++u64 mtl_ggtt_pte_encode(dma_addr_t addr,
++			enum i915_cache_level level,
++			u32 flags)
++{
++	gen8_pte_t pte = addr | GEN8_PAGE_PRESENT;
++
++	GEM_BUG_ON(addr & ~GEN12_GGTT_PTE_ADDR_MASK);
++
++	if (flags & PTE_LM)
++		pte |= GEN12_GGTT_PTE_LM;
++
++	switch (level) {
++	case I915_CACHE_NONE:
++		pte |= MTL_GGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_LLC:
++	case I915_CACHE_L3_LLC:
++		pte |= MTL_GGTT_PTE_PAT0 | MTL_GGTT_PTE_PAT1;
++		break;
++	case I915_CACHE_WT:
++		pte |= MTL_GGTT_PTE_PAT0;
++		break;
++	}
++
++	return pte;
++}
++
+ u64 gen8_ggtt_pte_encode(dma_addr_t addr,
+ 			 enum i915_cache_level level,
+ 			 u32 flags)
+@@ -247,7 +274,7 @@ static void gen8_ggtt_insert_page(struct i915_address_space *vm,
+ 	gen8_pte_t __iomem *pte =
+ 		(gen8_pte_t __iomem *)ggtt->gsm + offset / I915_GTT_PAGE_SIZE;
+ 
+-	gen8_set_pte(pte, gen8_ggtt_pte_encode(addr, level, flags));
++	gen8_set_pte(pte, ggtt->vm.pte_encode(addr, level, flags));
+ 
+ 	ggtt->invalidate(ggtt);
+ }
+@@ -257,8 +284,8 @@ static void gen8_ggtt_insert_entries(struct i915_address_space *vm,
+ 				     enum i915_cache_level level,
+ 				     u32 flags)
+ {
+-	const gen8_pte_t pte_encode = gen8_ggtt_pte_encode(0, level, flags);
+ 	struct i915_ggtt *ggtt = i915_vm_to_ggtt(vm);
++	const gen8_pte_t pte_encode = ggtt->vm.pte_encode(0, level, flags);
+ 	gen8_pte_t __iomem *gte;
+ 	gen8_pte_t __iomem *end;
+ 	struct sgt_iter iter;
+@@ -981,7 +1008,10 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+ 	ggtt->vm.vma_ops.bind_vma    = intel_ggtt_bind_vma;
+ 	ggtt->vm.vma_ops.unbind_vma  = intel_ggtt_unbind_vma;
+ 
+-	ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
++	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
++		ggtt->vm.pte_encode = mtl_ggtt_pte_encode;
++	else
++		ggtt->vm.pte_encode = gen8_ggtt_pte_encode;
+ 
+ 	return ggtt_probe_common(ggtt, size);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+index 4f436ba7a3c8..1e1b34e22cf5 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+@@ -468,6 +468,25 @@ void gtt_write_workarounds(struct intel_gt *gt)
+ 	}
+ }
+ 
++static void mtl_setup_private_ppat(struct intel_uncore *uncore)
++{
++	intel_uncore_write(uncore, GEN12_PAT_INDEX(0),
++			   MTL_PPAT_L4_0_WB);
++	intel_uncore_write(uncore, GEN12_PAT_INDEX(1),
++			   MTL_PPAT_L4_1_WT);
++	intel_uncore_write(uncore, GEN12_PAT_INDEX(2),
++			   MTL_PPAT_L4_3_UC);
++	intel_uncore_write(uncore, GEN12_PAT_INDEX(3),
++			   MTL_PPAT_L4_0_WB | MTL_2_COH_1W);
++	intel_uncore_write(uncore, GEN12_PAT_INDEX(4),
++			   MTL_PPAT_L4_0_WB | MTL_3_COH_2W);
++
++	/*
++	 * Remaining PAT entries are left at the hardware-default
++	 * fully-cached setting
++	 */
++}
++
+ static void tgl_setup_private_ppat(struct intel_uncore *uncore)
+ {
+ 	/* TGL doesn't support LLC or AGE settings */
+@@ -603,7 +622,9 @@ void setup_private_pat(struct intel_gt *gt)
+ 
+ 	GEM_BUG_ON(GRAPHICS_VER(i915) < 8);
+ 
+-	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
++	if (IS_METEORLAKE(i915))
++		mtl_setup_private_ppat(uncore);
++	else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50))
+ 		xehp_setup_private_ppat(gt);
+ 	else if (GRAPHICS_VER(i915) >= 12)
+ 		tgl_setup_private_ppat(uncore);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+index 69ce55f517f5..b632167eaf2e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gtt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+@@ -88,9 +88,18 @@ typedef u64 gen8_pte_t;
+ #define BYT_PTE_SNOOPED_BY_CPU_CACHES	REG_BIT(2)
+ #define BYT_PTE_WRITEABLE		REG_BIT(1)
+ 
++#define GEN12_PPGTT_PTE_PAT3    BIT_ULL(62)
+ #define GEN12_PPGTT_PTE_LM	BIT_ULL(11)
++#define GEN12_PPGTT_PTE_PAT2    BIT_ULL(7)
++#define GEN12_PPGTT_PTE_NC      BIT_ULL(5)
++#define GEN12_PPGTT_PTE_PAT1    BIT_ULL(4)
++#define GEN12_PPGTT_PTE_PAT0    BIT_ULL(3)
+ 
+-#define GEN12_GGTT_PTE_LM	BIT_ULL(1)
++#define GEN12_GGTT_PTE_LM		BIT_ULL(1)
++#define MTL_GGTT_PTE_PAT0		BIT_ULL(52)
++#define MTL_GGTT_PTE_PAT1		BIT_ULL(53)
++#define GEN12_GGTT_PTE_ADDR_MASK	GENMASK_ULL(45, 12)
++#define MTL_GGTT_PTE_PAT_MASK		GENMASK_ULL(53, 52)
+ 
+ #define GEN12_PDE_64K BIT(6)
+ #define GEN12_PTE_PS64 BIT(8)
+@@ -147,6 +156,15 @@ typedef u64 gen8_pte_t;
+ #define GEN8_PDE_IPS_64K BIT(11)
+ #define GEN8_PDE_PS_2M   BIT(7)
+ 
++#define MTL_PPAT_L4_CACHE_POLICY_MASK	REG_GENMASK(3, 2)
++#define MTL_PAT_INDEX_COH_MODE_MASK	REG_GENMASK(1, 0)
++#define MTL_PPAT_L4_3_UC	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 3)
++#define MTL_PPAT_L4_1_WT	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 1)
++#define MTL_PPAT_L4_0_WB	REG_FIELD_PREP(MTL_PPAT_L4_CACHE_POLICY_MASK, 0)
++#define MTL_3_COH_2W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 3)
++#define MTL_2_COH_1W	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 2)
++#define MTL_0_COH_NON	REG_FIELD_PREP(MTL_PAT_INDEX_COH_MODE_MASK, 0)
++
+ enum i915_cache_level;
+ 
+ struct drm_i915_gem_object;
+diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
+index 69b489e8dfed..89570f137b2c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_mocs.c
++++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
+@@ -40,6 +40,10 @@ struct drm_i915_mocs_table {
+ #define LE_COS(value)		((value) << 15)
+ #define LE_SSE(value)		((value) << 17)
+ 
++/* Defines for the tables (GLOB_MOCS_0 - GLOB_MOCS_16) */
++#define _L4_CACHEABILITY(value)	((value) << 2)
++#define IG_PAT(value)		((value) << 8)
++
+ /* Defines for the tables (LNCFMOCS0 - LNCFMOCS31) - two entries per word */
+ #define L3_ESC(value)		((value) << 0)
+ #define L3_SCC(value)		((value) << 1)
+@@ -50,6 +54,7 @@ struct drm_i915_mocs_table {
+ /* Helper defines */
+ #define GEN9_NUM_MOCS_ENTRIES	64  /* 63-64 are reserved, but configured. */
+ #define PVC_NUM_MOCS_ENTRIES	3
++#define MTL_NUM_MOCS_ENTRIES	16
+ 
+ /* (e)LLC caching options */
+ /*
+@@ -73,6 +78,12 @@ struct drm_i915_mocs_table {
+ #define L3_2_RESERVED		_L3_CACHEABILITY(2)
+ #define L3_3_WB			_L3_CACHEABILITY(3)
+ 
++/* L4 caching options */
++#define L4_0_WB			_L4_CACHEABILITY(0)
++#define L4_1_WT			_L4_CACHEABILITY(1)
++#define L4_2_RESERVED		_L4_CACHEABILITY(2)
++#define L4_3_UC			_L4_CACHEABILITY(3)
++
+ #define MOCS_ENTRY(__idx, __control_value, __l3cc_value) \
+ 	[__idx] = { \
+ 		.control_value = __control_value, \
+@@ -416,6 +427,57 @@ static const struct drm_i915_mocs_entry pvc_mocs_table[] = {
+ 	MOCS_ENTRY(2, 0, L3_3_WB),
+ };
+ 
++static const struct drm_i915_mocs_entry mtl_mocs_table[] = {
++	/* Error - Reserved for Non-Use */
++	MOCS_ENTRY(0,
++		   IG_PAT(0),
++		   L3_LKUP(1) | L3_3_WB),
++	/* Cached - L3 + L4 */
++	MOCS_ENTRY(1,
++		   IG_PAT(1),
++		   L3_LKUP(1) | L3_3_WB),
++	/* L4 - GO:L3 */
++	MOCS_ENTRY(2,
++		   IG_PAT(1),
++		   L3_LKUP(1) | L3_1_UC),
++	/* Uncached - GO:L3 */
++	MOCS_ENTRY(3,
++		   IG_PAT(1) | L4_3_UC,
++		   L3_LKUP(1) | L3_1_UC),
++	/* L4 - GO:Mem */
++	MOCS_ENTRY(4,
++		   IG_PAT(1),
++		   L3_LKUP(1) | L3_GLBGO(1) | L3_1_UC),
++	/* Uncached - GO:Mem */
++	MOCS_ENTRY(5,
++		   IG_PAT(1) | L4_3_UC,
++		   L3_LKUP(1) | L3_GLBGO(1) | L3_1_UC),
++	/* L4 - L3:NoLKUP; GO:L3 */
++	MOCS_ENTRY(6,
++		   IG_PAT(1),
++		   L3_1_UC),
++	/* Uncached - L3:NoLKUP; GO:L3 */
++	MOCS_ENTRY(7,
++		   IG_PAT(1) | L4_3_UC,
++		   L3_1_UC),
++	/* L4 - L3:NoLKUP; GO:Mem */
++	MOCS_ENTRY(8,
++		   IG_PAT(1),
++		   L3_GLBGO(1) | L3_1_UC),
++	/* Uncached - L3:NoLKUP; GO:Mem */
++	MOCS_ENTRY(9,
++		   IG_PAT(1) | L4_3_UC,
++		   L3_GLBGO(1) | L3_1_UC),
++	/* Display - L3; L4:WT */
++	MOCS_ENTRY(14,
++		   IG_PAT(1) | L4_1_WT,
++		   L3_LKUP(1) | L3_3_WB),
++	/* CCS - Non-Displayable */
++	MOCS_ENTRY(15,
++		   IG_PAT(1),
++		   L3_GLBGO(1) | L3_1_UC),
++};
++
+ enum {
+ 	HAS_GLOBAL_MOCS = BIT(0),
+ 	HAS_ENGINE_MOCS = BIT(1),
+@@ -445,7 +507,13 @@ static unsigned int get_mocs_settings(const struct drm_i915_private *i915,
+ 	memset(table, 0, sizeof(struct drm_i915_mocs_table));
+ 
+ 	table->unused_entries_index = I915_MOCS_PTE;
+-	if (IS_PONTEVECCHIO(i915)) {
++	if (IS_METEORLAKE(i915)) {
++		table->size = ARRAY_SIZE(mtl_mocs_table);
++		table->table = mtl_mocs_table;
++		table->n_entries = MTL_NUM_MOCS_ENTRIES;
++		table->uc_index = 9;
++		table->unused_entries_index = 1;
++	} else if (IS_PONTEVECCHIO(i915)) {
+ 		table->size = ARRAY_SIZE(pvc_mocs_table);
+ 		table->table = pvc_mocs_table;
+ 		table->n_entries = PVC_NUM_MOCS_ENTRIES;
+@@ -646,9 +714,9 @@ void intel_mocs_init_engine(struct intel_engine_cs *engine)
+ 		init_l3cc_table(engine->gt, &table);
+ }
+ 
+-static u32 global_mocs_offset(void)
++static u32 global_mocs_offset(struct intel_gt *gt)
+ {
+-	return i915_mmio_reg_offset(GEN12_GLOBAL_MOCS(0));
++	return i915_mmio_reg_offset(GEN12_GLOBAL_MOCS(0)) + gt->uncore->gsi_offset;
+ }
+ 
+ void intel_set_mocs_index(struct intel_gt *gt)
+@@ -671,7 +739,7 @@ void intel_mocs_init(struct intel_gt *gt)
+ 	 */
+ 	flags = get_mocs_settings(gt->i915, &table);
+ 	if (flags & HAS_GLOBAL_MOCS)
+-		__init_mocs_table(gt->uncore, &table, global_mocs_offset());
++		__init_mocs_table(gt->uncore, &table, global_mocs_offset(gt));
+ 
+ 	/*
+ 	 * Initialize the L3CC table as part of mocs initalization to make
+diff --git a/drivers/gpu/drm/i915/gt/selftest_mocs.c b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+index ca009a6a13bd..730796346514 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_mocs.c
++++ b/drivers/gpu/drm/i915/gt/selftest_mocs.c
+@@ -137,7 +137,7 @@ static int read_mocs_table(struct i915_request *rq,
+ 		return 0;
+ 
+ 	if (HAS_GLOBAL_MOCS_REGISTERS(rq->engine->i915))
+-		addr = global_mocs_offset();
++		addr = global_mocs_offset(rq->engine->gt);
+ 	else
+ 		addr = mocs_offset(rq->engine);
+ 
+diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
+index 621730b6551c..480b128499ae 100644
+--- a/drivers/gpu/drm/i915/i915_pci.c
++++ b/drivers/gpu/drm/i915/i915_pci.c
+@@ -1149,6 +1149,7 @@ static const struct intel_device_info mtl_info = {
+ 	.has_flat_ccs = 0,
+ 	.has_gmd_id = 1,
+ 	.has_guc_deprivilege = 1,
++	.has_llc = 0,
+ 	.has_mslice_steering = 0,
+ 	.has_snoop = 1,
+ 	.__runtime.memory_regions = REGION_SMEM | REGION_STOLEN_LMEM,
 -- 
-With best wishes
-Dmitry
+2.25.1
+
