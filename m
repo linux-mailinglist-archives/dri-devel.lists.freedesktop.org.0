@@ -1,46 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0496D2F09
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 10:15:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BCC6D1E9D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 13:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B929D10E08B;
-	Sat,  1 Apr 2023 08:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D144810F1DA;
+	Fri, 31 Mar 2023 11:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6705C10F1DB
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 11:01:15 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 83EC7C853A
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 10:57:36 +0000 (UTC)
-Received: (Authenticated sender: me@crly.cz)
- by mail.gandi.net (Postfix) with ESMTPSA id F39F66000A;
- Fri, 31 Mar 2023 10:57:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crly.cz; s=gm1;
- t=1680260251;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=Fgmk/mwe5whG0BvKW+Z4uq6pXrcxqgZ9/TVRoi9sWUA=;
- b=Y93L4mF7M7unOId+barp7rL3xVOHQwR6/bvCssFVYIgxlNnUJHOeCPInd35BH8YjXqFNd5
- S5L1S0cltXaPuOwrZMS6ukA5L0BM65lLkioABh0/PPnRpljRvUMEWw89SEiq4gYLVlWYDJ
- pwwVTleF/ouhGlEUfOMEiox0GFMR3EOUwI3igcG+ggpedK6bSLdRk2Re1mcPHZ+mfcr/t9
- hSNU2qTYiiXyukeYumTARbUvmIICxOKCMED5yghWcGyNEfhHDufk2rGs2OAuonU5DODinf
- zzL2RYNiYs93PHoaEkXAAFiX8qfwFpmd4MI040vcr4ZuN9l5n0J0z7KjFX5VsQ==
-From: Roman Beranek <me@crly.cz>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 2/3] ARM: dts: sunxi: rename tcon's clock output
-Date: Fri, 31 Mar 2023 12:57:20 +0200
-Message-Id: <20230331105721.43025-2-me@crly.cz>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C7310F1DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 11:00:17 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1piCUP-0005cf-1H; Fri, 31 Mar 2023 13:00:13 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: etnaviv@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: don't block scheduler when GPU is still active
+Date: Fri, 31 Mar 2023 13:00:12 +0200
+Message-Id: <20230331110012.69844-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 01 Apr 2023 08:14:47 +0000
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,90 +42,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Cc: patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org, Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While the rate of TCON0's DCLK matches dotclock for parallel and LVDS
-outputs, this doesn't hold for DSI. According manuals from Allwinner,
-DCLK is an abbrebiation of Data Clock, not dotclock, so go with that
-instead.
+Since 45ecaea73883 ("drm/sched: Partial revert of 'drm/sched: Keep
+s_fence->parent pointer'") still active jobs aren't put back in the
+pending list on drm_sched_start(), as they don't have a active
+parent fence anymore, so if the GPU is still working and the timeout
+is extended, all currently active jobs will be freed.
 
-Signed-off-by: Roman Beranek <me@crly.cz>
+To avoid prematurely freeing jobs that are still active on the GPU,
+don't block the scheduler until we are fully committed to actually
+reset the GPU.
+
+Cc: stable@vger.kernel.org #6.0
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- arch/arm/boot/dts/sun5i.dtsi                  | 2 +-
- arch/arm/boot/dts/sun8i-a23-a33.dtsi          | 2 +-
- arch/arm/boot/dts/sun8i-a83t.dtsi             | 2 +-
- arch/arm/boot/dts/sun8i-v3s.dtsi              | 2 +-
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+The behavior change in the scheduler is unfortunate and at least
+deserves some updated documentation. This change aligns etnaviv with
+the behavior of other drivers and avoids the issue.
+---
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
-index 250d6b87ab4d..2f901a013676 100644
---- a/arch/arm/boot/dts/sun5i.dtsi
-+++ b/arch/arm/boot/dts/sun5i.dtsi
-@@ -286,7 +286,7 @@ tcon0: lcd-controller@1c0c000 {
- 			clock-names = "ahb",
- 				      "tcon-ch0",
- 				      "tcon-ch1";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			status = "disabled";
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 1ae87dfd19c4..35d7c2ef7a57 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -38,15 +38,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	u32 dma_addr;
+ 	int change;
  
-diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-index f630ab55bb6a..ddc87cc15e51 100644
---- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-@@ -190,7 +190,7 @@ tcon0: lcd-controller@1c0c000 {
- 			clock-names = "ahb",
- 				      "tcon-ch0",
- 				      "lvds-alt";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_LCD>,
- 				 <&ccu RST_BUS_LVDS>;
-diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index 82fdb04122ca..94eb3bfc989e 100644
---- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -456,7 +456,7 @@ tcon0: lcd-controller@1c0c000 {
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
- 			clock-names = "ahb", "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
- 			reset-names = "lcd", "lvds";
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index db194c606fdc..ab2a0e1235e4 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -191,7 +191,7 @@ tcon0: lcd-controller@1c0c000 {
- 				 <&ccu CLK_TCON0>;
- 			clock-names = "ahb",
- 				      "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>;
- 			reset-names = "lcd";
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index 62f45f71ec65..e3b17575699c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -407,7 +407,7 @@ tcon0: lcd-controller@1c0c000 {
- 			interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_BUS_TCON0>, <&ccu CLK_TCON0>;
- 			clock-names = "ahb", "tcon-ch0";
--			clock-output-names = "tcon-pixel-clock";
-+			clock-output-names = "tcon-data-clock";
- 			#clock-cells = <0>;
- 			resets = <&ccu RST_BUS_TCON0>, <&ccu RST_BUS_LVDS>;
- 			reset-names = "lcd", "lvds";
+-	/* block scheduler */
+-	drm_sched_stop(&gpu->sched, sched_job);
+-
+ 	/*
+ 	 * If the GPU managed to complete this jobs fence, the timout is
+ 	 * spurious. Bail out.
+ 	 */
+ 	if (dma_fence_is_signaled(submit->out_fence))
+-		goto out_no_timeout;
++		return DRM_GPU_SCHED_STAT_NOMINAL;
+ 
+ 	/*
+ 	 * If the GPU is still making forward progress on the front-end (which
+@@ -59,9 +56,12 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	    change < 0 || change > 16) {
+ 		gpu->hangcheck_dma_addr = dma_addr;
+ 		gpu->hangcheck_fence = gpu->completed_fence;
+-		goto out_no_timeout;
++		return DRM_GPU_SCHED_STAT_NOMINAL;
+ 	}
+ 
++	/* block scheduler */
++	drm_sched_stop(&gpu->sched, sched_job);
++
+ 	if(sched_job)
+ 		drm_sched_increase_karma(sched_job);
+ 
+@@ -73,11 +73,6 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 
+ 	drm_sched_start(&gpu->sched, true);
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
+-
+-out_no_timeout:
+-	/* restart scheduler after GPU is usable again */
+-	drm_sched_start(&gpu->sched, true);
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
+ }
+ 
+ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
 -- 
-2.32.0 (Apple Git-132)
+2.39.2
 
