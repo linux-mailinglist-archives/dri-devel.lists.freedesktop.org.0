@@ -1,68 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A116D2B23
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 00:13:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3A46D2B2C
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 00:14:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8DB710F30F;
-	Fri, 31 Mar 2023 22:13:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A7D10F32E;
+	Fri, 31 Mar 2023 22:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70E9210E4D8
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 22:12:41 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-544f7c176easo440817647b3.9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 15:12:41 -0700 (PDT)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F110910F319;
+ Fri, 31 Mar 2023 22:14:42 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-17997ccf711so24703182fac.0; 
+ Fri, 31 Mar 2023 15:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680300761;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=gmail.com; s=20210112; t=1680300882;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zmW/qErFdGERfJoD2MZQu4nGjRcnztEc/MF6gkYsel4=;
- b=K4t24nOH7SxcyZ3NNNZv13iY03mmYTKp8uAec2s8dXsh+BOPLBK2IEwGMpjAY60G/S
- Bqx4av/Nln0VWV09YYGx55vAVjanz2H4Uq9PY82yFa44jMXgAFveYRd1IZYPBRar+4Xj
- oQpkL4VSaDQA46Vc2EeUnfkQjI6LZ1HTWwQFE=
+ bh=qhw/OpQ+FTAQa8APFrGD6JT5CNzO4/5k8nMc9QF0/qg=;
+ b=CxOAhKlaTRq0fx+JuXpqBCSp8v/LdxBC+cjZUy3qiYgcmWdrB/pEfsSBMQ9pZtM9m7
+ 7ybeWmtVoDGRZ1e4ijiYNRyqWOJPDCV86aY6RDI3HtpI5fKsHWxZmZJ6awLViAOuCjOO
+ nbeBKa8kyE3mKxAYsjm+LzyniqNVS/Y59c+379e2+D9CJCrKgESnQOomTUpnLePx589s
+ 61p0iiSyqUiqgYn5TSKB5z2px+iVLzHRFIhDHsiAcru2GwuSKPRjqnJl1P90w1EuYzsH
+ 2w8dPpJWd6u8cT2r8ePg8m71qoyH4WH1D2IiaqqjIIjB/y5jdo8p3jGUcqfquYL2YMjF
+ 6HzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680300761;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20210112; t=1680300882;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zmW/qErFdGERfJoD2MZQu4nGjRcnztEc/MF6gkYsel4=;
- b=IVndsAfPlee3CBCVsNtNmtzLNrdAC0UUWzApNMTF6AjQkUR2D4wHdbI7kRANEOfEz5
- VHkBIId9v0t4Zr4v8fW29rQxPlCL0cYQGzDFYpCqCX1/FTF4h3l47nH9/4N81nO3Leiq
- EFLsilYX0vETfdE0rFoGrUzUCsjHf5eyOQlphjM8my+8H57y8zDRmjqW5+mWhbIwtkjy
- cJf+H6Uu6EKDRkui9LDs/0l9wHL1Difg/Wwux0pVrmAPmoe96B0Z0OROsG120RDGlpbS
- 3y5dCXgmQVUuhGmJpbyvl3nPXlP7pyrzL9naEtn+sPlmNHaJ0Nfkg8T5WlGVxdsr8uwY
- EAFw==
-X-Gm-Message-State: AAQBX9f+BLBv8aw2+ZRQ9H/xKbf4wGXHDbjqG/q+PH5h83BnaFPp2E7A
- L+Qz8iERrmYtAV4t72je3AT6VrHBVVv/On+nGSM=
-X-Google-Smtp-Source: AKy350YlfZmZpNnPnV6Iq90clj/A8BJ+/sxfIqXEir4DkCOjvoGFmF0jBJL539yFyqBPnkpL+k7Ovg==
-X-Received: by 2002:a0d:e213:0:b0:541:8735:1723 with SMTP id
- l19-20020a0de213000000b0054187351723mr29229838ywe.32.1680300760876; 
- Fri, 31 Mar 2023 15:12:40 -0700 (PDT)
-Received: from localhost ([2620:0:1035:15:a8f6:869a:3ef5:e1d])
- by smtp.gmail.com with UTF8SMTPSA id
- 79-20020a811452000000b00545a081848csm791793ywu.28.2023.03.31.15.12.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Mar 2023 15:12:40 -0700 (PDT)
-From: Mark Yacoub <markyacoub@chromium.org>
-X-Google-Original-From: Mark Yacoub <markyacoub@google.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v8 10/10] drm/msm: Implement HDCP 1.x using the new drm HDCP
- helpers
-Date: Fri, 31 Mar 2023 18:12:12 -0400
-Message-Id: <20230331221213.1691997-11-markyacoub@google.com>
-X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
-In-Reply-To: <20230331221213.1691997-1-markyacoub@google.com>
-References: <20230331221213.1691997-1-markyacoub@google.com>
+ bh=qhw/OpQ+FTAQa8APFrGD6JT5CNzO4/5k8nMc9QF0/qg=;
+ b=5X45+g/tmPZoFVYLUbqLVWmLZ+RPjKRrsCc9cN21+OAx3ekJ0bI1eMl/Q7HSMej7la
+ 18kaTsgF7xUAeSBOURAE9xKE1C8lgEcxn0Crm2PojhRHAEd8/0A+6EspXQoR2uXFHB3L
+ EOVsUn2cHH0AuxhuLdLMuVDxpgraPT+svZu5GA4JsoM834yZZrefMVlkn5/WtyEjoy1V
+ vQwiDPoLbjlgZj5sRwKJCqD631izWcttGH74XnGlqYylLRXqSUTXB6X3Q/00ph7Zc4rD
+ kENCWJACcIp3DqdRN/Z676AlDN8SPDAj5xbIecR8zZ9lplG4WRU+k77a9SVz0cinqwQi
+ ryLw==
+X-Gm-Message-State: AO0yUKX4HfvNXIAaBMw10HT1jhxVDEDvqrTrmJtdmjjLLLF//FRZFjnK
+ kkYo5UrWKbDYPVvY9Kq8Ahv4yecVqRhJvVrQ8Zo=
+X-Google-Smtp-Source: AK7set+TIiqW+SlcAs5j+DlIk2js9/F7vT5UohC/ygHDwfIiQbwxPxumypst5Hl96OQNeNdW/yj1g8ynQkCtaMC4KbQ=
+X-Received: by 2002:a05:687c:198:b0:17e:3201:41b0 with SMTP id
+ yo24-20020a05687c019800b0017e320141b0mr9239508oab.5.1680300882090; Fri, 31
+ Mar 2023 15:14:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230308155322.344664-1-robdclark@gmail.com>
+ <20230308155322.344664-12-robdclark@gmail.com>
+ <20230331204412.GA396777@dev-arch.thelio-3990X>
+In-Reply-To: <20230331204412.GA396777@dev-arch.thelio-3990X>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 31 Mar 2023 15:14:30 -0700
+Message-ID: <CAF6AEGtDbSDNBBdONQ6YubZDaKMpDQ-BJx5mP+aGw4uy9qbXDQ@mail.gmail.com>
+Subject: Re: [PATCH v10 11/15] drm/atomic-helper: Set fence deadline for vblank
+To: Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,1285 +70,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: suraj.kandpal@intel.com, Mark Yacoub <markyacoub@chromium.org>,
- intel-gfx@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- seanpaul@chromium.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ intel-gfx@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Luben Tuikov <luben.tuikov@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Matt Turner <mattst88@gmail.com>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sean Paul <seanpaul@chromium.org>
+On Fri, Mar 31, 2023 at 1:44=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> Hi Rob,
+>
+> On Wed, Mar 08, 2023 at 07:53:02AM -0800, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > For an atomic commit updating a single CRTC (ie. a pageflip) calculate
+> > the next vblank time, and inform the fence(s) of that deadline.
+> >
+> > v2: Comment typo fix (danvet)
+> > v3: If there are multiple CRTCs, consider the time of the soonest vblan=
+k
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+>
+> I apologize if this has already been reported or fixed, I searched lore
+> but did not find anything.
+>
+> This change as commit d39e48ca80c0 ("drm/atomic-helper: Set fence
+> deadline for vblank") in -next causes a hang while running LTP's
+> read_all test on /proc on my Ampere Altra system (it seems it is hanging
+> on a pagemap file?). Additionally, I have this splat in dmesg, which
+> seems related based on the call stack.
 
-Add HDCP 1.x support to msm DP bridges using the new HDCP
-helpers.
+Hi, I'm not familiar with this hardware.. do you know which drm driver
+is used?  I can't tell from the call-stack.
 
-Cc: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+BR,
+-R
 
----
 
-Changes in v2:
--Squash [1] into this patch with the following changes (Stephen)
-  -Update the sc7180 dtsi file
-  -Remove resource names and just use index (Stephen)
-Changes in v3:
--Split out the dtsi change from v2 (Stephen)
--Fix set-but-unused warning identified by 0-day
--Fix up a couple of style nits (Stephen)
--Store HDCP key directly in dp_hdcp struct (Stephen)
--Remove wmb in HDCP key initialization, move an_seed (Stephen)
--Use FIELD_PREP for bstatus/bcaps (Stephen)
--#define read_poll_timeout values (Stephen)
--Remove unnecessary parentheses in dp_hdcp_store_ksv_fifo (Stephen)
--Add compatible string for hdcp (Stephen)
--Rename dp_hdcp_write_* functions (Abhinav)
--Add 1us delay between An reads (Abhinav)
--Delete unused dp_hdcp_read_* functions
-Changes in v4:
--Rebase on Bjorn's multi-dp patchset
-Changes in v5:
--Change return check of drm_hdcp_helper_initialize_dp() (Stephen)
-Changes in v6:
--Change the tracking of the state from connector state to bridge as
-state as drm_connector_state is no longer tracked and the functionality
-has moved to msm_dp_bridge
-Changes in v7:
--Use dp bridge to maintain the state with no use for connector
-Changes in v8:
--Move the hdcp read/write to dp_catalog
-
- drivers/gpu/drm/msm/Kconfig         |   1 +
- drivers/gpu/drm/msm/Makefile        |   1 +
- drivers/gpu/drm/msm/dp/dp_catalog.c | 156 +++++++++++
- drivers/gpu/drm/msm/dp/dp_catalog.h |  18 ++
- drivers/gpu/drm/msm/dp/dp_debug.c   |  46 +++-
- drivers/gpu/drm/msm/dp/dp_debug.h   |  11 +-
- drivers/gpu/drm/msm/dp/dp_display.c |  39 ++-
- drivers/gpu/drm/msm/dp/dp_display.h |   5 +
- drivers/gpu/drm/msm/dp/dp_drm.c     |  39 ++-
- drivers/gpu/drm/msm/dp/dp_drm.h     |   7 +
- drivers/gpu/drm/msm/dp/dp_hdcp.c    | 397 ++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/dp/dp_hdcp.h    |  33 +++
- drivers/gpu/drm/msm/dp/dp_parser.c  |  14 +
- drivers/gpu/drm/msm/dp/dp_parser.h  |   4 +
- drivers/gpu/drm/msm/dp/dp_reg.h     |  30 ++-
- drivers/gpu/drm/msm/msm_atomic.c    |  19 ++
- 16 files changed, 808 insertions(+), 12 deletions(-)
- create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
- create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
-
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index 4d8fddbdcd9e0..1c369ca2ea6e3 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -15,6 +15,7 @@ config DRM_MSM
- 	select REGULATOR
- 	select DRM_DP_AUX_BUS
- 	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HDCP_HELPER
- 	select DRM_DISPLAY_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_PANEL
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 7274c41228ed9..a73e7b858af27 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -122,6 +122,7 @@ msm-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
- 	dp/dp_ctrl.o \
- 	dp/dp_display.o \
- 	dp/dp_drm.o \
-+	dp/dp_hdcp.o \
- 	dp/dp_hpd.o \
- 	dp/dp_link.o \
- 	dp/dp_panel.o \
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 676279d0ca8d9..a1395e0c67d56 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -16,6 +16,8 @@
- #include "dp_catalog.h"
- #include "dp_reg.h"
- 
-+#include <linux/bitfield.h>
-+
- #define POLLING_SLEEP_US			1000
- #define POLLING_TIMEOUT_US			10000
- 
-@@ -47,6 +49,14 @@
- #define DP_INTERRUPT_STATUS2_MASK \
- 	(DP_INTERRUPT_STATUS2 << DP_INTERRUPT_STATUS_MASK_SHIFT)
- 
-+#define DP_AN_READ_DELAY_US 1
-+/* Key offsets based on hdcp_key mmio */
-+#define DP_HDCP_KEY_BASE 0x30
-+#define DP_HDCP_KEY_MSB(x) (DP_HDCP_KEY_BASE + (x * 8))
-+#define DP_HDCP_KEY_LSB(x) (DP_HDCP_KEY_MSB(x) + 4)
-+#define DP_HDCP_KEY_VALID 0x170
-+#define DP_HDCP_SW_KEY_VALID BIT(0)
-+
- struct dp_catalog_private {
- 	struct device *dev;
- 	struct drm_device *drm_dev;
-@@ -133,6 +143,18 @@ static inline void dp_write_link(struct dp_catalog_private *catalog,
- 	writel(data, catalog->io->dp_controller.link.base + offset);
- }
- 
-+static inline void dp_write_hdcp_key(struct dp_catalog_private *catalog,
-+				     u32 offset, u32 val)
-+{
-+	writel(val, catalog->io->dp_controller.hdcp_key.base + offset);
-+}
-+
-+static inline void dp_write_hdcp_tz(struct dp_catalog_private *catalog,
-+				    u32 offset, u32 val)
-+{
-+	writel(val, catalog->io->dp_controller.hdcp_tz.base + offset);
-+}
-+
- /* aux related catalog functions */
- u32 dp_catalog_aux_read_data(struct dp_catalog *dp_catalog)
- {
-@@ -1094,3 +1116,137 @@ void dp_catalog_audio_sfe_level(struct dp_catalog *dp_catalog)
- 
- 	dp_write_link(catalog, REG_DP_MAINLINK_LEVELS, mainlink_levels);
- }
-+
-+u32 dp_catalog_hdcp_read_ahb(struct dp_catalog *dp_catalog, u32 offset)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	return dp_read_ahb(catalog, offset);
-+}
-+
-+void dp_catalog_hdcp_write_ahb(struct dp_catalog *dp_catalog, u32 offset,
-+			       u32 val)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	dp_write_ahb(catalog, offset, val);
-+}
-+
-+void dp_catalog_hdcp_disable_hdcp1(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	u32 val = dp_read_ahb(catalog, REG_DP_SW_RESET);
-+	dp_write_ahb(catalog, REG_DP_SW_RESET, val | DP_HDCP_SW_RESET);
-+
-+	/* Disable encryption and disable the HDCP block */
-+	dp_write_ahb(catalog, DP_HDCP_CTRL, 0);
-+	dp_write_ahb(catalog, REG_DP_SW_RESET, val);
-+}
-+
-+void dp_catalog_hdcp_read_aksv(struct dp_catalog *dp_catalog, u32 *aksv)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	aksv[0] = dp_read_aux(catalog, DP_HDCP_RCVPORT_DATA3);
-+	aksv[1] = GENMASK(7, 0) & dp_read_aux(catalog, DP_HDCP_RCVPORT_DATA4);
-+}
-+
-+void dp_catalog_hdcp_write_aksv(struct dp_catalog *dp_catalog, u32 *aksv)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+	dp_write_aux(catalog, DP_HDCP_SW_LOWER_AKSV, aksv[0]);
-+	dp_write_aux(catalog, DP_HDCP_SW_UPPER_AKSV, aksv[1]);
-+}
-+
-+void dp_catalog_hdcp_read_an(struct dp_catalog *dp_catalog, u32 *an)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+	/*
-+	 * Get An from hardware, for unknown reasons we need to read the reg
-+	 * twice to get valid data.
-+	 */
-+	dp_read_ahb(catalog, DP_HDCP_RCVPORT_DATA5);
-+	an[0] = dp_read_ahb(catalog, DP_HDCP_RCVPORT_DATA5);
-+
-+	udelay(DP_AN_READ_DELAY_US);
-+
-+	dp_read_ahb(catalog, DP_HDCP_RCVPORT_DATA6);
-+	an[1] = dp_read_ahb(catalog, DP_HDCP_RCVPORT_DATA6);
-+}
-+
-+void dp_catalog_hdcp_clear_a_info(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+	dp_write_ahb(catalog, DP_HDCP_RCVPORT_DATA4, 0);
-+}
-+
-+void dp_catalog_hdcp_write_key_words(struct dp_catalog *dp_catalog,
-+				     int key_offset, u32 *words)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	dp_write_hdcp_key(catalog, DP_HDCP_KEY_LSB(key_offset), words[0]);
-+	dp_write_hdcp_key(catalog, DP_HDCP_KEY_MSB(key_offset), words[1]);
-+}
-+
-+void dp_catalog_hdcp_post_write_key(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+	u64 an_seed = get_random_u64();
-+
-+	dp_write_hdcp_key(catalog, DP_HDCP_KEY_VALID, DP_HDCP_SW_KEY_VALID);
-+
-+	dp_write_link(catalog, DP_HDCP_ENTROPY_CTRL0,
-+		      FIELD_GET(GENMASK(31, 0), an_seed));
-+	dp_write_link(catalog, DP_HDCP_ENTROPY_CTRL1,
-+		      FIELD_GET(GENMASK_ULL(63, 32), an_seed));
-+}
-+
-+void dp_catalog_hdcp_hdcp1_store_receiver_info(struct dp_catalog *dp_catalog,
-+					       u32 *ksv, u32 status, u8 bcaps)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	u32 val;
-+
-+	dp_write_hdcp_tz(catalog, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA0,
-+			 ksv[0]);
-+	dp_write_hdcp_tz(catalog, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA1,
-+			 ksv[1]);
-+
-+	val = FIELD_PREP(GENMASK(23, 8), status) |
-+	      FIELD_PREP(GENMASK(7, 0), bcaps);
-+
-+	dp_write_hdcp_tz(catalog, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA12,
-+			 val);
-+}
-+
-+void dp_catalog_hdcp_reset_sha_comp_block(struct dp_catalog *dp_catalog)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	dp_write_hdcp_tz(catalog, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_CTRL,
-+			 DP_HDCP_SHA_CTRL_RESET);
-+	dp_write_hdcp_tz(catalog, HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_CTRL, 0);
-+}
-+
-+void dp_catalog_hdcp_write_tz(struct dp_catalog *dp_catalog, u32 offset,
-+			      u32 val)
-+{
-+	struct dp_catalog_private *catalog =
-+		container_of(dp_catalog, struct dp_catalog_private, dp_catalog);
-+
-+	dp_write_hdcp_tz(catalog, offset, val);
-+}
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 1f717f45c1158..565dbe3d802e3 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -135,4 +135,22 @@ void dp_catalog_audio_config_sdp(struct dp_catalog *catalog);
- void dp_catalog_audio_init(struct dp_catalog *catalog);
- void dp_catalog_audio_sfe_level(struct dp_catalog *catalog);
- 
-+/* HDCP APIs */
-+u32 dp_catalog_hdcp_read_ahb(struct dp_catalog *dp_catalog, u32 offset);
-+void dp_catalog_hdcp_write_ahb(struct dp_catalog *dp_catalog, u32 offset,
-+			       u32 val);
-+void dp_catalog_hdcp_disable_hdcp1(struct dp_catalog *dp_catalog);
-+void dp_catalog_hdcp_read_aksv(struct dp_catalog *dp_catalog, u32 *aksv);
-+void dp_catalog_hdcp_write_aksv(struct dp_catalog *dp_catalog, u32 *aksv);
-+void dp_catalog_hdcp_read_an(struct dp_catalog *dp_catalog, u32 *an);
-+void dp_catalog_hdcp_clear_a_info(struct dp_catalog *dp_catalog);
-+void dp_catalog_hdcp_write_key_words(struct dp_catalog *dp_catalog,
-+				     int key_offset, u32 *words);
-+void dp_catalog_hdcp_post_write_key(struct dp_catalog *dp_catalog);
-+void dp_catalog_hdcp_hdcp1_store_receiver_info(struct dp_catalog *dp_catalog,
-+					       u32 *ksv, u32 status, u8 bcaps);
-+void dp_catalog_hdcp_reset_sha_comp_block(struct dp_catalog *dp_catalog);
-+void dp_catalog_hdcp_write_tz(struct dp_catalog *dp_catalog, u32 offset,
-+			      u32 val);
-+
- #endif /* _DP_CATALOG_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
-index 5e35033ba3e43..bfef65b0c0f92 100644
---- a/drivers/gpu/drm/msm/dp/dp_debug.c
-+++ b/drivers/gpu/drm/msm/dp/dp_debug.c
-@@ -8,6 +8,7 @@
- #include <linux/debugfs.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_file.h>
-+#include <drm/display/drm_hdcp_helper.h>
- 
- #include "dp_parser.h"
- #include "dp_catalog.h"
-@@ -15,6 +16,7 @@
- #include "dp_ctrl.h"
- #include "dp_debug.h"
- #include "dp_display.h"
-+#include "dp_hdcp.h"
- 
- #define DEBUG_NAME "msm_dp"
- 
-@@ -25,6 +27,7 @@ struct dp_debug_private {
- 	struct dp_link *link;
- 	struct dp_panel *panel;
- 	struct drm_connector *connector;
-+	struct dp_hdcp *hdcp;
- 	struct device *dev;
- 	struct drm_device *drm_dev;
- 
-@@ -196,6 +199,35 @@ static int dp_test_active_open(struct inode *inode,
- 			inode->i_private);
- }
- 
-+static ssize_t dp_hdcp_key_write(struct file *file, const char __user *ubuf,
-+				 size_t len, loff_t *offp)
-+{
-+	char *input_buffer;
-+	int ret;
-+	struct dp_debug_private *debug = file->private_data;
-+
-+	if (len != (DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN))
-+		return -EINVAL;
-+
-+	if (!debug->hdcp)
-+		return -ENOENT;
-+
-+	input_buffer = memdup_user_nul(ubuf, len);
-+	if (IS_ERR(input_buffer))
-+		return PTR_ERR(input_buffer);
-+
-+	ret = dp_hdcp_ingest_key(debug->hdcp, input_buffer, len);
-+
-+	kfree(input_buffer);
-+	if (ret < 0) {
-+		DRM_ERROR("Could not ingest HDCP key, ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	*offp += len;
-+	return len;
-+}
-+
- static const struct file_operations test_active_fops = {
- 	.owner = THIS_MODULE,
- 	.open = dp_test_active_open,
-@@ -205,6 +237,12 @@ static const struct file_operations test_active_fops = {
- 	.write = dp_test_active_write
- };
- 
-+static const struct file_operations dp_hdcp_key_fops = {
-+	.owner = THIS_MODULE,
-+	.open = simple_open,
-+	.write = dp_hdcp_key_write,
-+};
-+
- static void dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
- {
- 	char path[64];
-@@ -229,11 +267,14 @@ static void dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
- 	debugfs_create_file("msm_dp_test_type", 0444,
- 			debug->root,
- 			debug, &dp_test_type_fops);
-+
-+	debugfs_create_file("msm_dp_hdcp_key", 0222, minor->debugfs_root, debug,
-+			    &dp_hdcp_key_fops);
- }
- 
- struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
--		struct dp_usbpd *usbpd, struct dp_link *link,
--		struct drm_connector *connector, struct drm_minor *minor)
-+			      struct dp_usbpd *usbpd, struct dp_link *link, struct dp_hdcp *hdcp,
-+			      struct drm_connector *connector, struct drm_minor *minor)
- {
- 	struct dp_debug_private *debug;
- 	struct dp_debug *dp_debug;
-@@ -255,6 +296,7 @@ struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
- 	debug->usbpd = usbpd;
- 	debug->link = link;
- 	debug->panel = panel;
-+	debug->hdcp = hdcp;
- 	debug->dev = dev;
- 	debug->drm_dev = minor->dev;
- 	debug->connector = connector;
-diff --git a/drivers/gpu/drm/msm/dp/dp_debug.h b/drivers/gpu/drm/msm/dp/dp_debug.h
-index 8c0d0b5178fdf..ab6c5e8e5ea63 100644
---- a/drivers/gpu/drm/msm/dp/dp_debug.h
-+++ b/drivers/gpu/drm/msm/dp/dp_debug.h
-@@ -6,6 +6,7 @@
- #ifndef _DP_DEBUG_H_
- #define _DP_DEBUG_H_
- 
-+#include "dp_hdcp.h"
- #include "dp_panel.h"
- #include "dp_link.h"
- 
-@@ -34,6 +35,7 @@ struct dp_debug {
-  * @panel: instance of panel module
-  * @usbpd: instance of usbpd module
-  * @link: instance of link module
-+ * @hdcp: instance of hdcp module
-  * @connector: double pointer to display connector
-  * @minor: pointer to drm minor number after device registration
-  * return: pointer to allocated debug module data
-@@ -42,9 +44,10 @@ struct dp_debug {
-  * for debugfs input to be communicated with existing modules
-  */
- struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
--		struct dp_usbpd *usbpd, struct dp_link *link,
--		struct drm_connector *connector,
--		struct drm_minor *minor);
-+			      struct dp_usbpd *usbpd, struct dp_link *link,
-+			      struct dp_hdcp *hdcp,
-+			      struct drm_connector *connector,
-+			      struct drm_minor *minor);
- 
- /**
-  * dp_debug_put()
-@@ -59,7 +62,7 @@ void dp_debug_put(struct dp_debug *dp_debug);
- 
- static inline
- struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
--		struct dp_usbpd *usbpd, struct dp_link *link,
-+		struct dp_usbpd *usbpd, struct dp_link *link, struct dp_hdcp *hdcp,
- 		struct drm_connector *connector, struct drm_minor *minor)
- {
- 	return ERR_PTR(-EINVAL);
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index bde1a7ce442ff..7c90d7cefedbc 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -27,6 +27,7 @@
- #include "dp_drm.h"
- #include "dp_audio.h"
- #include "dp_debug.h"
-+#include "dp_hdcp.h"
- 
- #define HPD_STRING_SIZE 30
- 
-@@ -97,6 +98,7 @@ struct dp_display_private {
- 	struct dp_panel   *panel;
- 	struct dp_ctrl    *ctrl;
- 	struct dp_debug   *debug;
-+	struct dp_hdcp *hdcp;
- 
- 	struct dp_usbpd_cb usbpd_cb;
- 	struct dp_display_mode dp_mode;
-@@ -190,6 +192,14 @@ static struct dp_display_private *dev_get_dp_display_private(struct device *dev)
- 	return container_of(dp, struct dp_display_private, dp_display);
- }
- 
-+struct dp_hdcp *dp_display_bridge_to_hdcp(struct drm_bridge *bridge)
-+{
-+	struct msm_dp *dp_display = msm_dp_from_bridge(bridge);
-+	struct dp_display_private *dp =
-+		container_of(dp_display, struct dp_display_private, dp_display);
-+	return dp->hdcp;
-+}
-+
- static int dp_add_event(struct dp_display_private *dp_priv, u32 event,
- 						u32 data, u32 delay)
- {
-@@ -752,6 +762,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- static void dp_display_deinit_sub_modules(struct dp_display_private *dp)
- {
- 	dp_debug_put(dp->debug);
-+	dp_hdcp_put(dp->hdcp);
- 	dp_audio_put(dp->audio);
- 	dp_panel_put(dp->panel);
- 	dp_aux_put(dp->aux);
-@@ -852,8 +863,18 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
- 	dp->ctrl->wide_bus_en = dp->wide_bus_en;
- 	dp->catalog->wide_bus_en = dp->wide_bus_en;
- 
-+	dp->hdcp = dp_hdcp_get(dp->parser, dp->aux);
-+	if (IS_ERR(dp->hdcp)) {
-+		rc = PTR_ERR(dp->hdcp);
-+		DRM_ERROR("failed to initialize hdcp, rc = %d\n", rc);
-+		dp->hdcp = NULL;
-+		goto error_hdcp;
-+	}
-+
- 	return rc;
- 
-+error_hdcp:
-+	dp_audio_put(dp->audio);
- error_ctrl:
- 	dp_panel_put(dp->panel);
- error_link:
-@@ -965,6 +986,15 @@ int dp_display_set_plugged_cb(struct msm_dp *dp_display,
- 	return 0;
- }
- 
-+void dp_display_hdcp_commit(struct msm_dp *dp, struct drm_atomic_state *state)
-+{
-+	struct dp_display_private *dp_display =
-+		container_of(dp, struct dp_display_private, dp_display);
-+
-+	if (dp_display->hdcp)
-+		dp_hdcp_commit(dp_display->hdcp, state);
-+}
-+
- /**
-  * dp_bridge_mode_valid - callback to determine if specified mode is valid
-  * @bridge: Pointer to drm bridge structure
-@@ -1528,7 +1558,7 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
- 	dev = &dp->pdev->dev;
- 
- 	dp->debug = dp_debug_get(dev, dp->panel, dp->usbpd,
--					dp->link, dp->dp_display.connector,
-+					dp->link, dp->hdcp, dp->dp_display.connector,
- 					minor);
- 	if (IS_ERR(dp->debug)) {
- 		rc = PTR_ERR(dp->debug);
-@@ -1649,6 +1679,13 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
- 
- 	dp_priv->panel->connector = dp_display->connector;
- 
-+	ret = dp_hdcp_attach(dp_priv->hdcp, dp_display->connector,
-+			     dp_display->bridge, dp_priv->catalog);
-+	if (ret) {
-+		DRM_ERROR("Failed to attach hdcp, ret=%d\n", ret);
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index 371337d0fae26..1d64b86b0b354 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.h
-+++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -31,8 +31,13 @@ struct msm_dp {
- 	struct dp_audio *dp_audio;
- };
- 
-+struct drm_atomic_state;
-+
- int dp_display_set_plugged_cb(struct msm_dp *dp_display,
- 		hdmi_codec_plugged_cb fn, struct device *codec_dev);
-+struct dp_hdcp *dp_display_bridge_to_hdcp(struct drm_bridge *bridge);
-+void dp_display_hdcp_commit(struct msm_dp *dp_display,
-+			    struct drm_atomic_state *state);
- int dp_display_get_modes(struct msm_dp *dp_display);
- int dp_display_request_irq(struct msm_dp *dp_display);
- bool dp_display_check_video_test(struct msm_dp *dp_display);
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 275370f211159..6bf3b224ccaef 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -7,11 +7,19 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
-+#include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
-+#include <drm/display/drm_hdcp_helper.h>
- 
- #include "msm_drv.h"
- #include "msm_kms.h"
- #include "dp_drm.h"
-+#include "dp_hdcp.h"
-+
-+struct msm_dp *msm_dp_from_bridge(struct drm_bridge *bridge)
-+{
-+	return to_dp_bridge(bridge)->dp_display;
-+}
- 
- /**
-  * dp_bridge_detect - callback to determine if connector is connected
-@@ -37,8 +45,8 @@ static int dp_bridge_atomic_check(struct drm_bridge *bridge,
- 			    struct drm_connector_state *conn_state)
- {
- 	struct msm_dp *dp;
--
--	dp = to_dp_bridge(bridge)->dp_display;
-+	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-+	dp = dp_bridge->dp_display;
- 
- 	drm_dbg_dp(dp->drm_dev, "is_connected = %s\n",
- 		(dp->is_connected) ? "true" : "false");
-@@ -54,8 +62,11 @@ static int dp_bridge_atomic_check(struct drm_bridge *bridge,
- 	 * disabled by the hardware and thus all access to it should be forbidden.
- 	 * After that this piece of code can be removed.
- 	 */
--	if (bridge->ops & DRM_BRIDGE_OP_HPD)
--		return (dp->is_connected) ? 0 : -ENOTCONN;
-+	if (bridge->ops & DRM_BRIDGE_OP_HPD && !dp->is_connected)
-+		return -ENOTCONN;
-+
-+	dp_bridge->hdcp_transition =
-+		drm_hdcp_has_changed(conn_state->connector, conn_state->state);
- 
- 	return 0;
- }
-@@ -107,6 +118,25 @@ static const struct drm_bridge_funcs dp_bridge_ops = {
- 	.hpd_notify   = dp_bridge_hpd_notify,
- };
- 
-+bool dp_drm_is_bridge_msm_dp(struct drm_bridge *bridge)
-+{
-+	return bridge->funcs == &dp_bridge_ops;
-+}
-+
-+void dp_drm_atomic_commit(struct drm_bridge *bridge,
-+			  struct drm_atomic_state *state)
-+{
-+	struct msm_dp_bridge *dp_bridge = to_dp_bridge(bridge);
-+	struct msm_dp *dp_disp;
-+
-+	if (!dp_bridge->hdcp_transition)
-+		return;
-+
-+	dp_disp = msm_dp_from_bridge(bridge);
-+
-+	dp_display_hdcp_commit(dp_disp, state);
-+}
-+
- struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder)
- {
-@@ -119,6 +149,7 @@ struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *
- 		return ERR_PTR(-ENOMEM);
- 
- 	dp_bridge->dp_display = dp_display;
-+	dp_bridge->hdcp_transition = false;
- 
- 	bridge = &dp_bridge->bridge;
- 	bridge->funcs = &dp_bridge_ops;
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-index 250f7c66201f2..9b3f81cf2e139 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.h
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-@@ -15,11 +15,18 @@
- struct msm_dp_bridge {
- 	struct drm_bridge bridge;
- 	struct msm_dp *dp_display;
-+	bool hdcp_transition;
- };
- 
- #define to_dp_bridge(x)     container_of((x), struct msm_dp_bridge, bridge)
- 
-+struct msm_dp *msm_dp_from_bridge(struct drm_bridge *bridge);
-+
- struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display, struct drm_encoder *encoder);
-+bool dp_drm_is_bridge_msm_dp(struct drm_bridge *bridge);
-+void dp_drm_atomic_commit(struct drm_bridge *bridge,
-+			  struct drm_atomic_state *state);
-+
- struct drm_bridge *dp_bridge_init(struct msm_dp *dp_display, struct drm_device *dev,
- 			struct drm_encoder *encoder);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_hdcp.c b/drivers/gpu/drm/msm/dp/dp_hdcp.c
-new file mode 100644
-index 0000000000000..05e7c24fda756
---- /dev/null
-+++ b/drivers/gpu/drm/msm/dp/dp_hdcp.c
-@@ -0,0 +1,397 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright (C) 2023 Google, Inc.
-+ *
-+ * Authors:
-+ * Sean Paul <seanpaul@chromium.org>
-+ */
-+
-+#include "dp_display.h"
-+#include "dp_drm.h"
-+#include "dp_hdcp.h"
-+#include "dp_reg.h"
-+
-+#include <drm/drm_connector.h>
-+#include <drm/drm_device.h>
-+#include <drm/display/drm_dp_helper.h>
-+#include <drm/display/drm_hdcp_helper.h>
-+#include <drm/drm_print.h>
-+
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/iopoll.h>
-+#include <linux/mutex.h>
-+#include <linux/random.h>
-+#include <linux/slab.h>
-+
-+/* Timeouts */
-+#define DP_KEYS_VALID_SLEEP_US (20 * 1000)
-+#define DP_KEYS_VALID_TIMEOUT_US (100 * 1000)
-+#define DP_AN_READY_SLEEP_US 100
-+#define DP_AN_READY_TIMEOUT_US (10 * 1000)
-+#define DP_R0_READY_SLEEP_US 100
-+#define DP_R0_READY_TIMEOUT_US (10 * 1000)
-+#define DP_RI_MATCH_SLEEP_US (20 * 1000)
-+#define DP_RI_MATCH_TIMEOUT_US (100 * 1000)
-+#define DP_KSV_WRITTEN_SLEEP_US 100
-+#define DP_KSV_WRITTEN_TIMEOUT_US (100 * 1000)
-+#define DP_SHA_COMPUTATION_SLEEP_US 100
-+#define DP_SHA_COMPUTATION_TIMEOUT_US (100 * 1000)
-+
-+/*
-+ * dp_hdcp_key - structure which contains an HDCP key set
-+ * @ksv: The key selection vector
-+ * @keys: Contains 40 keys
-+ */
-+struct dp_hdcp_key {
-+	struct drm_hdcp_ksv ksv;
-+	union {
-+		u32 words[2];
-+		u8 bytes[DP_HDCP_KEY_LEN];
-+	} keys[DP_HDCP_NUM_KEYS];
-+	bool valid;
-+};
-+
-+struct dp_hdcp {
-+	struct drm_device *dev;
-+	struct drm_connector *connector;
-+
-+	struct drm_dp_aux *aux;
-+	struct dp_parser *parser;
-+
-+	struct drm_hdcp_helper_data *helper_data;
-+
-+	struct mutex key_lock;
-+	struct dp_hdcp_key key;
-+
-+	struct dp_catalog *catalog;
-+};
-+
-+int dp_hdcp_ingest_key(struct dp_hdcp *hdcp, const u8 *raw_key, int raw_len)
-+{
-+	unsigned int ksv_weight;
-+	int i, ret = 0;
-+	int expected_len =
-+		DRM_HDCP_KSV_LEN + DP_HDCP_NUM_KEYS * DP_HDCP_KEY_LEN;
-+
-+	if (raw_len != expected_len) {
-+		DRM_ERROR("Invalid HDCP key length expected=%d actual=%d\n",
-+			  expected_len, raw_len);
-+		return -EINVAL;
-+	}
-+
-+	mutex_lock(&hdcp->key_lock);
-+
-+	memcpy(hdcp->key.ksv.bytes, raw_key, DRM_HDCP_KSV_LEN);
-+	ksv_weight = hweight32(hdcp->key.ksv.words[0]) +
-+		     hweight32(hdcp->key.ksv.words[1]);
-+	if (ksv_weight != 20) {
-+		DRM_ERROR("Invalid ksv weight, expected=20 actual=%d\n",
-+			  ksv_weight);
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	raw_key += DRM_HDCP_KSV_LEN;
-+	for (i = 0; i < DP_HDCP_NUM_KEYS; i++) {
-+		memcpy(hdcp->key.keys[i].bytes, raw_key, DP_HDCP_KEY_LEN);
-+		raw_key += DP_HDCP_KEY_LEN;
-+	}
-+
-+	DRM_DEBUG_DRIVER("Successfully ingested HDCP key\n");
-+	hdcp->key.valid = true;
-+
-+out:
-+	mutex_unlock(&hdcp->key_lock);
-+	return ret;
-+}
-+
-+static bool dp_hdcp_are_keys_valid(struct drm_connector *connector,
-+				   void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	u32 val;
-+
-+	val = dp_catalog_hdcp_read_ahb(hdcp->catalog, DP_HDCP_STATUS);
-+	return FIELD_GET(DP_HDCP_KEY_STATUS, val) == DP_HDCP_KEY_STATUS_VALID;
-+}
-+
-+static int dp_hdcp_load_keys(struct drm_connector *connector, void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	int i, ret = 0;
-+
-+	mutex_lock(&hdcp->key_lock);
-+
-+	if (!hdcp->key.valid) {
-+		ret = -ENOENT;
-+		goto out;
-+	}
-+
-+	dp_catalog_hdcp_write_aksv(hdcp->catalog, hdcp->key.ksv.words);
-+
-+
-+	for (i = 0; i < DP_HDCP_NUM_KEYS; i++) {
-+		dp_catalog_hdcp_write_key_words(hdcp->catalog, i,
-+						hdcp->key.keys[i].words);
-+	}
-+	dp_catalog_hdcp_post_write_key(hdcp->catalog);
-+
-+out:
-+	mutex_unlock(&hdcp->key_lock);
-+	return ret;
-+}
-+
-+static int dp_hdcp_hdcp2_capable(struct drm_connector *connector, bool *capable,
-+				 void *driver_data)
-+{
-+	*capable = false;
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_read_an_aksv(struct drm_connector *connector, u32 *an,
-+				      u32 *aksv, void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	bool keys_valid;
-+	int ret;
-+	u32 val;
-+
-+	dp_catalog_hdcp_write_ahb(hdcp->catalog, DP_HDCP_CTRL, 1);
-+
-+	ret = read_poll_timeout(dp_hdcp_are_keys_valid, keys_valid, keys_valid,
-+				DP_KEYS_VALID_SLEEP_US,
-+				DP_KEYS_VALID_TIMEOUT_US, false, connector,
-+				driver_data);
-+	if (ret) {
-+		drm_err(hdcp->dev, "HDCP keys invalid %d\n", ret);
-+		return ret;
-+	}
-+
-+	/* Clear AInfo */
-+	dp_catalog_hdcp_clear_a_info(hdcp->catalog);
-+
-+	dp_catalog_hdcp_read_aksv(hdcp->catalog, aksv);
-+
-+	ret = read_poll_timeout(dp_catalog_hdcp_read_ahb, val,
-+				(val & DP_HDCP_AN_READY_MASK) ==
-+					DP_HDCP_AN_READY_MASK,
-+				DP_AN_READY_SLEEP_US, DP_AN_READY_TIMEOUT_US,
-+				false, hdcp->catalog, DP_HDCP_STATUS);
-+	if (ret) {
-+		drm_err(hdcp->dev, "AN failed to become ready %x/%d\n", val,
-+			ret);
-+		return ret;
-+	}
-+
-+	dp_catalog_hdcp_read_an(hdcp->catalog, an);
-+
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_store_receiver_info(struct drm_connector *connector,
-+					     u32 *ksv, u32 status, u8 bcaps,
-+					     bool is_repeater,
-+					     void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+
-+	dp_catalog_hdcp_hdcp1_store_receiver_info(hdcp->catalog, ksv, status,
-+						  bcaps);
-+
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_enable_encryption(struct drm_connector *connector,
-+					   void *driver_data)
-+{
-+	/*
-+	 * On Qcom hardware, there is nothing explicit about enabling encryption
-+	 * like it is the case in other drivers. It gets enabled by default.
-+	 */
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_wait_for_r0(struct drm_connector *connector,
-+				     void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	int ret;
-+	u32 val;
-+
-+	ret = read_poll_timeout(dp_catalog_hdcp_read_ahb, val,
-+				(val & DP_HDCP_R0_READY), DP_R0_READY_SLEEP_US,
-+				DP_R0_READY_TIMEOUT_US, false, hdcp->catalog,
-+				DP_HDCP_STATUS);
-+	if (ret) {
-+		drm_err(hdcp->dev, "HDCP R0 not ready %x/%d\n", val, ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_match_ri(struct drm_connector *connector, u32 ri_prime,
-+				  void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	int ret;
-+	u32 val;
-+
-+	dp_catalog_hdcp_write_ahb(hdcp->catalog, DP_HDCP_RCVPORT_DATA2_0,
-+				  ri_prime);
-+
-+	ret = read_poll_timeout(dp_catalog_hdcp_read_ahb, val,
-+				(val & DP_HDCP_RI_MATCH), DP_RI_MATCH_SLEEP_US,
-+				DP_RI_MATCH_TIMEOUT_US, false, hdcp->catalog,
-+				DP_HDCP_STATUS);
-+	if (ret) {
-+		drm_err(hdcp->dev,
-+			"Failed to match Ri and Ri` (%08x) %08x/%d\n", ri_prime,
-+			val, ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_store_ksv_fifo(struct drm_connector *connector,
-+					u8 *ksv_fifo, u8 num_downstream,
-+					u8 *bstatus, u32 *vprime,
-+					void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	int num_bytes = num_downstream * DRM_HDCP_KSV_LEN;
-+	int ret, i;
-+	u32 val;
-+
-+	dp_catalog_hdcp_reset_sha_comp_block(hdcp->catalog);
-+
-+	/*
-+	 * KSV info gets written a byte at a time in the same order it was
-+	 * received. Every 64 bytes, we need to wait for the SHA_BLOCK_DONE
-+	 * bit to be set in SHA_CTRL.
-+	 */
-+	for (i = 0; i < num_bytes; i++) {
-+		val = FIELD_PREP(DP_HDCP_SHA_DATA_MASK, ksv_fifo[i]);
-+
-+		if (i == (num_bytes - 1))
-+			val |= DP_HDCP_SHA_DATA_DONE;
-+
-+		dp_catalog_hdcp_write_tz(hdcp->catalog,
-+					 HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_DATA,
-+					 val);
-+
-+		if ((i + 1) % 64 != 0)
-+			continue;
-+
-+		ret = read_poll_timeout(dp_catalog_hdcp_read_ahb, val,
-+					(val & DP_HDCP_SHA_DONE),
-+					DP_KSV_WRITTEN_SLEEP_US,
-+					DP_KSV_WRITTEN_TIMEOUT_US, false,
-+					hdcp->catalog, DP_HDCP_SHA_STATUS);
-+		if (ret) {
-+			drm_err(hdcp->dev, "SHA block incomplete %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	ret = read_poll_timeout(dp_catalog_hdcp_read_ahb, val,
-+				(val & DP_HDCP_SHA_COMP_DONE),
-+				DP_SHA_COMPUTATION_SLEEP_US,
-+				DP_SHA_COMPUTATION_TIMEOUT_US, false,
-+				hdcp->catalog, DP_HDCP_SHA_STATUS);
-+	if (ret) {
-+		drm_err(hdcp->dev, "SHA computation incomplete %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int dp_hdcp_hdcp1_disable(struct drm_connector *connector,
-+				 void *driver_data)
-+{
-+	struct drm_bridge *bridge = (struct drm_bridge *)driver_data;
-+	struct dp_hdcp *hdcp = dp_display_bridge_to_hdcp(bridge);
-+	dp_catalog_hdcp_disable_hdcp1(hdcp->catalog);
-+	return 0;
-+}
-+
-+void dp_hdcp_commit(struct dp_hdcp *hdcp, struct drm_atomic_state *state)
-+{
-+	drm_hdcp_helper_atomic_commit(hdcp->helper_data, state, NULL);
-+}
-+
-+static const struct drm_hdcp_helper_funcs dp_hdcp_funcs = {
-+	.are_keys_valid = dp_hdcp_are_keys_valid,
-+	.load_keys = dp_hdcp_load_keys,
-+	.hdcp2_capable = dp_hdcp_hdcp2_capable,
-+	.hdcp1_read_an_aksv = dp_hdcp_hdcp1_read_an_aksv,
-+	.hdcp1_store_receiver_info = dp_hdcp_hdcp1_store_receiver_info,
-+	.hdcp1_enable_encryption = dp_hdcp_hdcp1_enable_encryption,
-+	.hdcp1_wait_for_r0 = dp_hdcp_hdcp1_wait_for_r0,
-+	.hdcp1_match_ri = dp_hdcp_hdcp1_match_ri,
-+	.hdcp1_store_ksv_fifo = dp_hdcp_hdcp1_store_ksv_fifo,
-+	.hdcp1_disable = dp_hdcp_hdcp1_disable,
-+	/* Common DRM functions that are different between DP vs HDMI*/
-+	.remote_read = drm_hdcp_remote_dpcd_read,
-+	.remote_write = drm_hdcp_remote_dpcd_write,
-+	.hdcp1_capable = drm_hdcp_helper_hdcp1_capable_dp,
-+	.hdcp1_ksv_fifo_ready = drm_hdcp_helper_hdcp1_ksv_fifo_ready_dp,
-+	.wait_r0 = drm_hdcp_helper_wait_r0_dp,
-+	.hdcp1_check_link_registers = drm_hdcp_hdcp1_check_link_registers_dp,
-+	.hdcp1_read_ksv_fifo = drm_hdcp_helper_hdcp1_read_ksv_fifo_dp
-+};
-+
-+int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector,
-+		   struct drm_bridge *bridge, struct dp_catalog *catalog)
-+{
-+	struct drm_hdcp_helper_data *helper_data;
-+
-+	/* HDCP is not configured for this device */
-+	if (!hdcp->parser->io.dp_controller.hdcp_key.base)
-+		return 0;
-+
-+	helper_data = drm_hdcp_helper_initialize_dp(connector, hdcp->aux,
-+						    &dp_hdcp_funcs, false);
-+	if (IS_ERR(helper_data))
-+		return PTR_ERR(helper_data);
-+
-+	helper_data->driver_data = bridge;
-+	hdcp->dev = connector->dev;
-+	hdcp->connector = connector;
-+	hdcp->helper_data = helper_data;
-+	hdcp->catalog = catalog;
-+
-+	return 0;
-+}
-+
-+struct dp_hdcp *dp_hdcp_get(struct dp_parser *parser, struct drm_dp_aux *aux)
-+{
-+	struct device *dev = &parser->pdev->dev;
-+	struct dp_hdcp *hdcp;
-+
-+	hdcp = devm_kzalloc(dev, sizeof(*hdcp), GFP_KERNEL);
-+	if (!hdcp)
-+		return ERR_PTR(-ENOMEM);
-+
-+	hdcp->parser = parser;
-+	hdcp->aux = aux;
-+
-+	mutex_init(&hdcp->key_lock);
-+
-+	return hdcp;
-+}
-+
-+void dp_hdcp_put(struct dp_hdcp *hdcp)
-+{
-+	if (hdcp)
-+		drm_hdcp_helper_destroy(hdcp->helper_data);
-+}
-diff --git a/drivers/gpu/drm/msm/dp/dp_hdcp.h b/drivers/gpu/drm/msm/dp/dp_hdcp.h
-new file mode 100644
-index 0000000000000..4586e45d14d26
---- /dev/null
-+++ b/drivers/gpu/drm/msm/dp/dp_hdcp.h
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright (C) 2021 Google, Inc.
-+ *
-+ * Authors:
-+ * Sean Paul <seanpaul@chromium.org>
-+ */
-+
-+#ifndef DP_HDCP_H_
-+#define DP_HDCP_H_
-+
-+#include <drm/display/drm_hdcp_helper.h>
-+#include <drm/drm_bridge.h>
-+
-+#include "dp_catalog.h"
-+
-+#define DP_HDCP_KEY_LEN 7
-+#define DP_HDCP_NUM_KEYS 40
-+
-+struct dp_hdcp;
-+struct dp_parser;
-+struct drm_atomic_state;
-+struct drm_dp_aux;
-+
-+struct dp_hdcp *dp_hdcp_get(struct dp_parser *parser, struct drm_dp_aux *aux);
-+void dp_hdcp_put(struct dp_hdcp *hdcp);
-+
-+int dp_hdcp_attach(struct dp_hdcp *hdcp, struct drm_connector *connector,
-+		   struct drm_bridge *bridgem, struct dp_catalog *catalog);
-+int dp_hdcp_ingest_key(struct dp_hdcp *hdcp, const u8 *raw_key, int raw_len);
-+void dp_hdcp_commit(struct dp_hdcp *hdcp, struct drm_atomic_state *state);
-+
-+#endif /* _DP_HDCP_H_ */
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c b/drivers/gpu/drm/msm/dp/dp_parser.c
-index 7032dcc8842b3..1f9bb001aebc3 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.c
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-@@ -39,6 +39,8 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
- 	struct platform_device *pdev = parser->pdev;
- 	struct dp_io *io = &parser->io;
- 	struct dss_io_data *dss = &io->dp_controller;
-+	void __iomem *dss_hdcp_key;
-+	size_t dss_hdcp_key_len;
- 
- 	dss->ahb.base = dp_ioremap(pdev, 0, &dss->ahb.len);
- 	if (IS_ERR(dss->ahb.base))
-@@ -84,6 +86,18 @@ static int dp_parser_ctrl_res(struct dp_parser *parser)
- 		}
- 	}
- 
-+	dss_hdcp_key = dp_ioremap(pdev, 5, &dss_hdcp_key_len);
-+	if (!IS_ERR(dss_hdcp_key)) {
-+		dss->hdcp_key.base = dss_hdcp_key;
-+		dss->hdcp_key.len = dss_hdcp_key_len;
-+		dss->hdcp_tz.base = dp_ioremap(pdev, 6, &dss->hdcp_tz.len);
-+		if (IS_ERR(dss->hdcp_tz.base)) {
-+			DRM_ERROR("unable to remap hdcp_tz region: %pe\n",
-+				  dss->hdcp_tz.base);
-+			return PTR_ERR(dss->hdcp_tz.base);
-+		}
-+	}
-+
- 	io->phy = devm_phy_get(&pdev->dev, "dp");
- 	if (IS_ERR(io->phy))
- 		return PTR_ERR(io->phy);
-diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h b/drivers/gpu/drm/msm/dp/dp_parser.h
-index 1f068626d445e..8b5dd3deb85ff 100644
---- a/drivers/gpu/drm/msm/dp/dp_parser.h
-+++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-@@ -35,6 +35,8 @@ struct dss_io_data {
- 	struct dss_io_region aux;
- 	struct dss_io_region link;
- 	struct dss_io_region p0;
-+	struct dss_io_region hdcp_key;
-+	struct dss_io_region hdcp_tz;
- };
- 
- static inline const char *dp_parser_pm_name(enum dp_pm_type module)
-@@ -69,6 +71,8 @@ struct dp_display_data {
-  * struct dp_ctrl_resource - controller's IO related data
-  *
-  * @dp_controller: Display Port controller mapped memory address
-+ * @hdcp_key: mapped memory for HDCP key ingestion
-+ * @hdcp_tz: mapped memory for HDCP TZ interaction
-  * @phy_io: phy's mapped memory address
-  */
- struct dp_io {
-diff --git a/drivers/gpu/drm/msm/dp/dp_reg.h b/drivers/gpu/drm/msm/dp/dp_reg.h
-index 268602803d9a3..d2ac60ce7ae50 100644
---- a/drivers/gpu/drm/msm/dp/dp_reg.h
-+++ b/drivers/gpu/drm/msm/dp/dp_reg.h
-@@ -10,7 +10,8 @@
- #define REG_DP_HW_VERSION			(0x00000000)
- 
- #define REG_DP_SW_RESET				(0x00000010)
--#define DP_SW_RESET				(0x00000001)
-+#define DP_SW_RESET 				BIT(0)
-+#define DP_HDCP_SW_RESET 			BIT(1)
- 
- #define REG_DP_PHY_CTRL				(0x00000014)
- #define DP_PHY_CTRL_SW_RESET_PLL		(0x00000001)
-@@ -283,19 +284,46 @@
- /* DP HDCP 1.3 registers */
- #define DP_HDCP_CTRL                                   (0x0A0)
- #define DP_HDCP_STATUS                                 (0x0A4)
-+#define DP_HDCP_KEY_STATUS 	    					   GENMASK(18, 16)
-+#define DP_HDCP_KEY_STATUS_NO_KEYS 					   0
-+#define DP_HDCP_KEY_STATUS_NOT_CHECKED 				   1
-+#define DP_HDCP_KEY_STATUS_CHECKING 				   2
-+#define DP_HDCP_KEY_STATUS_VALID 					   3
-+#define DP_HDCP_KEY_STATUS_INVALID_AKSV 			   4
-+#define DP_HDCP_KEY_STATUS_BAD_CHECKSUM 			   5
-+#define DP_HDCP_KEY_STATUS_PROD_AKSV 				   6
-+#define DP_HDCP_KEY_STATUS_RESV 					   7
-+#define DP_HDCP_R0_READY 							   BIT(14)
-+#define DP_HDCP_SHA_V_MATCH 						   BIT(13)
-+#define DP_HDCP_RI_MATCH 							   BIT(12)
-+#define DP_HDCP_AN_MSB_READY 						   BIT(9)
-+#define DP_HDCP_AN_LSB_READY 						   BIT(8)
-+#define DP_HDCP_AN_READY_MASK 						   (DP_HDCP_AN_MSB_READY | DP_HDCP_AN_LSB_READY)
-+#define DP_HDCP_AUTH_FAIL_INFO 						   GENMASK(7, 4)
-+#define DP_HDCP_AUTH_FAIL_INVALID_AKSV 				   3
-+#define DP_HDCP_AUTH_FAIL_INVALID_BKSV 				   4
-+#define DP_HDCP_AUTH_FAIL_RI_MISMATCH 				   5
-+#define DP_HDCP_AUTH_FAIL 							   BIT(2)
-+#define DP_HDCP_AUTH_SUCCESS 						   BIT(0)
- #define DP_HDCP_SW_UPPER_AKSV                          (0x098)
- #define DP_HDCP_SW_LOWER_AKSV                          (0x09C)
- #define DP_HDCP_ENTROPY_CTRL0                          (0x350)
- #define DP_HDCP_ENTROPY_CTRL1                          (0x35C)
- #define DP_HDCP_SHA_STATUS                             (0x0C8)
-+#define DP_HDCP_SHA_COMP_DONE 						   BIT(4)
-+#define DP_HDCP_SHA_DONE 							   BIT(0)
- #define DP_HDCP_RCVPORT_DATA2_0                        (0x0B0)
- #define DP_HDCP_RCVPORT_DATA3                          (0x0A4)
- #define DP_HDCP_RCVPORT_DATA4                          (0x0A8)
- #define DP_HDCP_RCVPORT_DATA5                          (0x0C0)
- #define DP_HDCP_RCVPORT_DATA6                          (0x0C4)
-+#define DP_HDCP_RCVPORT_DATA7 						   (0x0C8)
- 
- #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_CTRL           (0x024)
-+#define DP_HDCP_SHA_CTRL_RESET 						   BIT(0)
- #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_SHA_DATA           (0x028)
-+#define DP_HDCP_SHA_DATA_MASK 						   GENMASK(23, 16)
-+#define DP_HDCP_SHA_DATA_DONE 						   BIT(0)
- #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA0      (0x004)
- #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA1      (0x008)
- #define HDCP_SEC_DP_TZ_HV_HLOS_HDCP_RCVPORT_DATA7      (0x00C)
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index 1686fbb611fd7..2168188d6379c 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -5,8 +5,11 @@
-  */
- 
- #include <drm/drm_atomic_uapi.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_device.h>
- #include <drm/drm_vblank.h>
- 
-+#include "dp/dp_drm.h"
- #include "msm_atomic_trace.h"
- #include "msm_drv.h"
- #include "msm_gem.h"
-@@ -179,6 +182,20 @@ static unsigned get_crtc_mask(struct drm_atomic_state *state)
- 	return mask;
- }
- 
-+static void msm_atomic_commit_connectors(struct drm_atomic_state *state)
-+{
-+	struct drm_device *dev = state->dev;
-+	struct msm_drm_private *priv = dev->dev_private;
-+	int i;
-+
-+	for (i = 0; i < priv->num_bridges; ++i) {
-+		struct drm_bridge *bridge = priv->bridges[i];
-+		if (dp_drm_is_bridge_msm_dp(bridge)) {
-+			dp_drm_atomic_commit(bridge, state);
-+		}
-+	}
-+}
-+
- void msm_atomic_commit_tail(struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = state->dev;
-@@ -215,6 +232,8 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
- 	drm_atomic_helper_commit_planes(dev, state, 0);
- 	drm_atomic_helper_commit_modeset_enables(dev, state);
- 
-+	msm_atomic_commit_connectors(state);
-+
- 	if (async) {
- 		struct msm_pending_timer *timer =
- 			&kms->pending_timers[drm_crtc_index(async_crtc)];
--- 
-2.40.0.348.gf938b09366-goog
-
+> [   20.542591] fbcon: Taking over console
+> [   20.550772] Unable to handle kernel NULL pointer dereference at virtua=
+l address 0000000000000074
+> [   20.550776] Mem abort info:
+> [   20.550777]   ESR =3D 0x0000000096000004
+> [   20.550779]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> [   20.550781]   SET =3D 0, FnV =3D 0
+> [   20.550782]   EA =3D 0, S1PTW =3D 0
+> [   20.550784]   FSC =3D 0x04: level 0 translation fault
+> [   20.550785] Data abort info:
+> [   20.550786]   ISV =3D 0, ISS =3D 0x00000004
+> [   20.550788]   CM =3D 0, WnR =3D 0
+> [   20.550789] user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000080009d1600=
+0
+> [   20.550791] [0000000000000074] pgd=3D0000000000000000, p4d=3D000000000=
+0000000
+> [   20.550796] Internal error: Oops: 0000000096000004 [#1] SMP
+> [   20.550800] Modules linked in: ip6table_nat tun nft_fib_inet nft_fib_i=
+pv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_=
+reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ip=
+v4 rfkill ip_set nf_tables nfnetlink qrtr sunrpc binfmt_misc vfat fat xfs s=
+nd_usb_audio snd_hwdep snd_usbmidi_lib snd_seq snd_pcm snd_rawmidi snd_time=
+r snd_seq_device snd soundcore joydev mc ipmi_ssif ipmi_devintf ipmi_msghan=
+dler arm_spe_pmu arm_cmn arm_dsu_pmu arm_dmc620_pmu cppc_cpufreq loop zram =
+crct10dif_ce polyval_ce nvme polyval_generic ghash_ce sbsa_gwdt igb nvme_co=
+re ast nvme_common i2c_algo_bit xgene_hwmon gpio_dwapb scsi_dh_rdac scsi_dh=
+_emc scsi_dh_alua ip6_tables ip_tables dm_multipath fuse
+> [   20.550869] CPU: 12 PID: 469 Comm: kworker/12:1 Not tainted 6.3.0-rc2-=
+00008-gd39e48ca80c0 #1
+> [   20.550872] Hardware name: ADLINK AVA Developer Platform/AVA Developer=
+ Platform, BIOS TianoCore 2.04.100.07 (SYS: 2.06.20220308) 09/08/2022
+> [   20.550875] Workqueue: events fbcon_register_existing_fbs
+> [   20.550884] pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYP=
+E=3D--)
+> [   20.550888] pc : drm_crtc_next_vblank_start+0x2c/0x98
+> [   20.550894] lr : drm_atomic_helper_wait_for_fences+0x90/0x240
+> [   20.550898] sp : ffff80000d583960
+> [   20.550900] x29: ffff80000d583960 x28: ffff07ff8fc187b0 x27: 000000000=
+0000000
+> [   20.550904] x26: ffff07ff99c08c00 x25: 0000000000000038 x24: ffff07ff9=
+9c0c000
+> [   20.550908] x23: 0000000000000001 x22: 0000000000000038 x21: 000000000=
+0000000
+> [   20.550912] x20: ffff07ff9640a280 x19: 0000000000000000 x18: fffffffff=
+fffffff
+> [   20.550915] x17: 0000000000000000 x16: ffffb24d2eece1c0 x15: 000000303=
+8303178
+> [   20.550919] x14: 3032393100000048 x13: 0000000000000000 x12: 000000000=
+0000000
+> [   20.550923] x11: 0000000000000000 x10: 0000000000000000 x9 : ffffb24d2=
+eeeaca0
+> [   20.550926] x8 : ffff80000d583628 x7 : 0000080077783000 x6 : 000000000=
+0000000
+> [   20.550930] x5 : ffff80000d584000 x4 : ffff07ff99c0c000 x3 : 000000000=
+0000130
+> [   20.550934] x2 : 0000000000000000 x1 : ffff80000d5839c0 x0 : ffff07ff9=
+9c0cc08
+> [   20.550937] Call trace:
+> [   20.550939]  drm_crtc_next_vblank_start+0x2c/0x98
+> [   20.550942]  drm_atomic_helper_wait_for_fences+0x90/0x240
+> [   20.550946]  drm_atomic_helper_commit+0xb0/0x188
+> [   20.550949]  drm_atomic_commit+0xb0/0xf0
+> [   20.550953]  drm_client_modeset_commit_atomic+0x218/0x280
+> [   20.550957]  drm_client_modeset_commit_locked+0x64/0x1a0
+> [   20.550961]  drm_client_modeset_commit+0x38/0x68
+> [   20.550965]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb0/0xf8
+> [   20.550970]  drm_fb_helper_set_par+0x44/0x88
+> [   20.550973]  fbcon_init+0x1e0/0x4a8
+> [   20.550976]  visual_init+0xbc/0x118
+> [   20.550981]  do_bind_con_driver.isra.0+0x194/0x3a0
+> [   20.550984]  do_take_over_console+0x50/0x70
+> [   20.550987]  do_fbcon_takeover+0x74/0xf8
+> [   20.550989]  do_fb_registered+0x13c/0x158
+> [   20.550992]  fbcon_register_existing_fbs+0x78/0xc0
+> [   20.550995]  process_one_work+0x1ec/0x478
+> [   20.551000]  worker_thread+0x74/0x418
+> [   20.551002]  kthread+0xec/0x100
+> [   20.551005]  ret_from_fork+0x10/0x20
+> [   20.551011] Code: f9400004 b9409013 f940a082 9ba30a73 (b9407662)
+> [   20.551013] ---[ end trace 0000000000000000 ]---
+>
+> If there is any additional information that I can provide or patches I
+> can test, I am more than happy to do so.
+>
+> Cheers,
+> Nathan
+>
+> # bad: [4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5] Add linux-next specific=
+ files for 20230331
+> # good: [b2bc47e9b2011a183f9d3d3454a294a938082fb9] Merge tag 'net-6.3-rc5=
+' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net
+> git bisect start '4b0f4525dc4fe8af17b3daefe585f0c2eb0fe0a5' 'b2bc47e9b201=
+1a183f9d3d3454a294a938082fb9'
+> # good: [ed5f95f3349003d74a4a11b27b0f05d6794c382a] Merge branch 'master' =
+of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+> git bisect good ed5f95f3349003d74a4a11b27b0f05d6794c382a
+> # bad: [85f7d1bfa30a05df2c9d8a0e9f6b1f23b4a6f13b] Merge branch 'for-next'=
+ of git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-dt.git
+> git bisect bad 85f7d1bfa30a05df2c9d8a0e9f6b1f23b4a6f13b
+> # bad: [fbd0f79f200f8e5cb73fb3d7b788de09a8f33a6f] Merge branch 'msm-next'=
+ of https://gitlab.freedesktop.org/drm/msm.git
+> git bisect bad fbd0f79f200f8e5cb73fb3d7b788de09a8f33a6f
+> # good: [90031bc33f7525f0cc7a9ef0b1df62a1a4463382] Merge tag 'amd-drm-nex=
+t-6.4-2023-03-17' of https://gitlab.freedesktop.org/agd5f/linux into drm-ne=
+xt
+> git bisect good 90031bc33f7525f0cc7a9ef0b1df62a1a4463382
+> # good: [d4e04817db670083aed73de1fadd3b21758e69ba] drm/amdgpu: Return fro=
+m switch early for EEPROM I2C address
+> git bisect good d4e04817db670083aed73de1fadd3b21758e69ba
+> # good: [70e360f9b548d99f959668d4f047d1363d42fe8e] drm: exynos: dsi: Cons=
+olidate component and bridge
+> git bisect good 70e360f9b548d99f959668d4f047d1363d42fe8e
+> # bad: [0b43595d0cbb06736d1e572e79e29a410a273573] Merge branch 'drm-next'=
+ of https://gitlab.freedesktop.org/agd5f/linux
+> git bisect bad 0b43595d0cbb06736d1e572e79e29a410a273573
+> # good: [fbb3b3500f76ec8b741bd2d0e761ca3e856ad924] dt-bindings: display: =
+boe,tv101wum-nl6: document rotation
+> git bisect good fbb3b3500f76ec8b741bd2d0e761ca3e856ad924
+> # bad: [82bbec189ab34873688484cd14189a5392946fbb] Merge v6.3-rc4 into drm=
+-next
+> git bisect bad 82bbec189ab34873688484cd14189a5392946fbb
+> # bad: [d39e48ca80c0960b039cb38633957f0040f63e1a] drm/atomic-helper: Set =
+fence deadline for vblank
+> git bisect bad d39e48ca80c0960b039cb38633957f0040f63e1a
+> # good: [d7d5a21dd6b4706c04fbba5d25db8da5f25aab68] dma-buf/dma-resv: Add =
+a way to set fence deadline
+> git bisect good d7d5a21dd6b4706c04fbba5d25db8da5f25aab68
+> # good: [f3823da7e4ba7d4781375c2bb786a8a78efc6591] drm/scheduler: Add fen=
+ce deadline support
+> git bisect good f3823da7e4ba7d4781375c2bb786a8a78efc6591
+> # good: [b2c077d001b612b1f34f7e528b2dc6072bd6794e] drm/vblank: Add helper=
+ to get next vblank time
+> git bisect good b2c077d001b612b1f34f7e528b2dc6072bd6794e
+> # first bad commit: [d39e48ca80c0960b039cb38633957f0040f63e1a] drm/atomic=
+-helper: Set fence deadline for vblank
