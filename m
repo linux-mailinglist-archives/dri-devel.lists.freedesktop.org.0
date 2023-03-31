@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D0C6D1ABC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE7B6D1AC6
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A3710F143;
-	Fri, 31 Mar 2023 08:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE11610F141;
+	Fri, 31 Mar 2023 08:50:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31F7610F143
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:49:19 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 6E1DA6603180;
- Fri, 31 Mar 2023 09:49:17 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680252557;
- bh=EIlHy/fOQ4nvThPIDq8IH7bbZG6jRaS0NwuvOWeucNU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=HT7tilTwUS2yXnomFHF6Tjq9o6/wAyNNsybgq7DxBT8JuPLcJLov7IcJ091S5eWGu
- gNyn5DLK/b0uXCPWVBx22d71xpNzg1txgABQW16i8Kd0Ozk0rOGej4Pw15btAUBBoR
- 3JHh7hmTNafjLVoIMs6ozO/MN6NKq5XufWN5m51wy1nWBFLxWxUEfyTll32QTfpAD1
- m/5oVpAVPpKwfb+DaNJGiHt46yzabfn8GxuObatGQg3z8qdr5vU2PhFHblkgZxPBmZ
- rPdul/Ib1m24iXdOGSI+1AB2eAmBBbAdjNssJi15zat9kX2K0tjcX77aquPArG35m1
- 6tBKQC+ui0htw==
-Date: Fri, 31 Mar 2023 10:49:14 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v1 RESEND 2/2] drm/panfrost: Add basic support for speed
- binning
-Message-ID: <20230331104914.708b194e@collabora.com>
-In-Reply-To: <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
-References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
- <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
- <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 021D110F141;
+ Fri, 31 Mar 2023 08:50:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680252615; x=1711788615;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=BYf6gcQ+8pBQ3J2IfyMIsvJoZJhrstWGkrCjW+23ZyU=;
+ b=SouLsEO2q2j2FCeoS+H0gkkqW8cIDNsdFHAUILIUFUd1j0Ul3GF5zvTx
+ J3UViHSG6K34F7DC4hmtftBL36dTN9eUazKcZGhtFqw+JHr7P3cILnx4P
+ UfTsC7ddgF6fyaZnRFXnH2mlGd6pwXRuENPYQqRkff4yJvmKLDXjN/Cwa
+ YQS0+vQ1m1+kJNMf5n8fBjhZCukIPHnA+kzBMtk3Qb90+mErpiuudJo76
+ DofMhaL6IU7VWks00Bqz+mFLQ9Cwb4xlKLIqXksZ3jxCIMlRTJMsaEN+U
+ 9SNDAKFDlwCFjDLXxX4i4IhZeq2XTMG54VsfkS8TdetYRI+m684H9x2z7 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="341412790"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="341412790"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 01:50:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="754334060"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="754334060"
+Received: from bachaue1-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.41.110])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 01:50:12 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 04/12] drm/radeon: remove radeon_connector_edid() and
+ stop using edid_blob_ptr
+In-Reply-To: <e4cb7b0c7217511429e69c1c78729f0e864c5b24.1680190534.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1680190534.git.jani.nikula@intel.com>
+ <e4cb7b0c7217511429e69c1c78729f0e864c5b24.1680190534.git.jani.nikula@intel.com>
+Date: Fri, 31 Mar 2023 11:50:09 +0300
+Message-ID: <87a5zt2tku.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,105 +61,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- wenst@chromium.org, kernel@collabora.com
+Cc: Alex Deucher <alexander.deucher@amd.com>, intel-gfx@lists.freedesktop.org,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 Mar 2023 10:11:07 +0200
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-wrote:
+On Thu, 30 Mar 2023, Jani Nikula <jani.nikula@intel.com> wrote:
+> radeon_connector_edid() copies the EDID from edid_blob_ptr as a side
+> effect if radeon_connector->edid isn't initialized. However, everywhere
+> that the returned EDID is used, the EDID should have been set
+> beforehands.
+>
+> Only the EDID code and sysfs should look at the EDID property, anyway,
+> so stop using it.
 
-> Il 23/03/23 10:08, AngeloGioacchino Del Regno ha scritto:
-> > Some SoCs implementing ARM Mali GPUs are subject to speed binning:
-> > this means that some versions of the same SoC model may need to be
-> > limited to a slower frequency compared to the other:
-> > this is being addressed by reading nvmem (usually, an eFuse array)
-> > containing a number that identifies the speed binning of the chip,
-> > which is usually related to silicon quality.
-> > 
-> > To address such situation, add basic support for reading the
-> > speed-bin through nvmem, as to make it possible to specify the
-> > supported hardware in the OPP table for GPUs.
-> > This commit also keeps compatibility with any platform that does
-> > not specify (and does not even support) speed-binning.
-> > 
-> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>  
-> 
-> Hello maintainers,
-> I've seen that this got archived in the dri-devel patchwork; because of that and
-> only that, I'm sending this ping to get this patch reviewed.
+Never mind this, I need to fix my config to actually build
+this. *facepalm*
 
-Looks good to me. If you can get a DT maintainer to review the binding
-(Rob?), I'd be happy to queue the series to drm-misc-next.
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Pan, Xinhui <Xinhui.Pan@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/radeon/radeon_audio.c      |  5 ++---
+>  drivers/gpu/drm/radeon/radeon_connectors.c | 15 ---------------
+>  drivers/gpu/drm/radeon/radeon_mode.h       |  2 --
+>  3 files changed, 2 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/rade=
+on/radeon_audio.c
+> index 947de91e13f6..759b5dfaca15 100644
+> --- a/drivers/gpu/drm/radeon/radeon_audio.c
+> +++ b/drivers/gpu/drm/radeon/radeon_audio.c
+> @@ -309,7 +309,7 @@ static void radeon_audio_write_sad_regs(struct drm_en=
+coder *encoder)
+>  	if (!connector)
+>  		return;
+>=20=20
+> -	sad_count =3D drm_edid_to_sad(radeon_connector_edid(connector), &sads);
+> +	sad_count =3D drm_edid_to_sad(radeon_connector->edid, &sads);
+>  	if (sad_count < 0)
+>  		DRM_ERROR("Couldn't read SADs: %d\n", sad_count);
+>  	if (sad_count <=3D 0)
+> @@ -332,8 +332,7 @@ static void radeon_audio_write_speaker_allocation(str=
+uct drm_encoder *encoder)
+>  	if (!connector)
+>  		return;
+>=20=20
+> -	sad_count =3D drm_edid_to_speaker_allocation(radeon_connector_edid(conn=
+ector),
+> -						   &sadb);
+> +	sad_count =3D drm_edid_to_speaker_allocation(radeon_connector->edid, &s=
+adb);
+>  	if (sad_count < 0) {
+>  		DRM_DEBUG("Couldn't read Speaker Allocation Data Block: %d\n",
+>  			  sad_count);
+> diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c b/drivers/gpu/drm=
+/radeon/radeon_connectors.c
+> index adebf8e9d2bd..99e8f387fe21 100644
+> --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> @@ -256,21 +256,6 @@ static struct drm_encoder *radeon_find_encoder(struc=
+t drm_connector *connector,
+>  	return NULL;
+>  }
+>=20=20
+> -struct edid *radeon_connector_edid(struct drm_connector *connector)
+> -{
+> -	struct radeon_connector *radeon_connector =3D to_radeon_connector(conne=
+ctor);
+> -	struct drm_property_blob *edid_blob =3D connector->edid_blob_ptr;
+> -
+> -	if (radeon_connector->edid) {
+> -		return radeon_connector->edid;
+> -	} else if (edid_blob) {
+> -		struct edid *edid =3D kmemdup(edid_blob->data, edid_blob->length, GFP_=
+KERNEL);
+> -		if (edid)
+> -			radeon_connector->edid =3D edid;
+> -	}
+> -	return radeon_connector->edid;
+> -}
+> -
+>  static void radeon_connector_get_edid(struct drm_connector *connector)
+>  {
+>  	struct drm_device *dev =3D connector->dev;
+> diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeo=
+n/radeon_mode.h
+> index 3a59d016e8cd..ab71a744d2b2 100644
+> --- a/drivers/gpu/drm/radeon/radeon_mode.h
+> +++ b/drivers/gpu/drm/radeon/radeon_mode.h
+> @@ -708,8 +708,6 @@ extern u16 radeon_connector_encoder_get_dp_bridge_enc=
+oder_id(struct drm_connecto
+>  extern bool radeon_connector_is_dp12_capable(struct drm_connector *conne=
+ctor);
+>  extern int radeon_get_monitor_bpc(struct drm_connector *connector);
+>=20=20
+> -extern struct edid *radeon_connector_edid(struct drm_connector *connecto=
+r);
+> -
+>  extern void radeon_connector_hotplug(struct drm_connector *connector);
+>  extern int radeon_dp_mode_valid_helper(struct drm_connector *connector,
+>  				       struct drm_display_mode *mode);
 
-> 
-> (perhaps we can even get it picked for v6.4?)
-> 
-> Regards,
-> Angelo
-> 
-> > ---
-> >   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 30 +++++++++++++++++++++
-> >   1 file changed, 30 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > index fe5f12f16a63..58dfb15a8757 100644
-> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> > @@ -4,6 +4,7 @@
-> >   #include <linux/clk.h>
-> >   #include <linux/devfreq.h>
-> >   #include <linux/devfreq_cooling.h>
-> > +#include <linux/nvmem-consumer.h>
-> >   #include <linux/platform_device.h>
-> >   #include <linux/pm_opp.h>
-> >   
-> > @@ -82,6 +83,31 @@ static struct devfreq_dev_profile panfrost_devfreq_profile = {
-> >   	.get_dev_status = panfrost_devfreq_get_dev_status,
-> >   };
-> >   
-> > +static int panfrost_read_speedbin(struct device *dev)
-> > +{
-> > +	u32 val;
-> > +	int ret;
-> > +
-> > +	ret = nvmem_cell_read_variable_le_u32(dev, "speed-bin", &val);
-> > +	if (ret) {
-> > +		/*
-> > +		 * -ENOENT means that this platform doesn't support speedbins
-> > +		 * as it didn't declare any speed-bin nvmem: in this case, we
-> > +		 * keep going without it; any other error means that we are
-> > +		 * supposed to read the bin value, but we failed doing so.
-> > +		 */
-> > +		if (ret != -ENOENT) {
-> > +			DRM_DEV_ERROR(dev, "Cannot read speed-bin (%d).", ret);
-> > +			return ret;
-> > +		}
-> > +
-> > +		return 0;
-> > +	}
-> > +	DRM_DEV_DEBUG(dev, "Using speed-bin = 0x%x\n", val);
-> > +
-> > +	return devm_pm_opp_set_supported_hw(dev, &val, 1);
-> > +}
-> > +
-> >   int panfrost_devfreq_init(struct panfrost_device *pfdev)
-> >   {
-> >   	int ret;
-> > @@ -101,6 +127,10 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
-> >   		return 0;
-> >   	}
-> >   
-> > +	ret = panfrost_read_speedbin(dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >   	ret = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names);
-> >   	if (ret) {
-> >   		/* Continue if the optional regulator is missing */  
-> 
-> 
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
