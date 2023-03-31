@@ -1,35 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2186D1CAB
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:40:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE7E6D1CB1
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:41:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3B110F191;
-	Fri, 31 Mar 2023 09:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB79910F198;
+	Fri, 31 Mar 2023 09:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [IPv6:2001:4b7e:0:8::81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B2F310F191
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:40:05 +0000 (UTC)
-Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it
- [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id C99BA207CC;
- Fri, 31 Mar 2023 11:40:02 +0200 (CEST)
-Date: Fri, 31 Mar 2023 11:40:01 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v1 3/6] dt-bindings: display: bridge: toshiba,tc358768:
- add parallel input mode
-Message-ID: <ZCaqcaq02VDsqCPJ@francesco-nb.int.toradex.com>
-References: <20230330095941.428122-1-francesco@dolcini.it>
- <20230330095941.428122-4-francesco@dolcini.it>
- <a924186c-31d3-b7f0-085f-97b849a4d751@linaro.org>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB6D10F150
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:41:03 +0000 (UTC)
+Received: from [192.168.0.192] (unknown [194.146.248.75])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: andrzej.p)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 480DF6603130;
+ Fri, 31 Mar 2023 10:41:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680255661;
+ bh=5/vUvHtI483hEvXzPFjmdM6/v042ox+SyVhBgPweyfc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=IA2jSXiD9Eg2q7EqsltfuzR7o8zucquaK7dqov/Bwn+/7znsoAAgHEtq0V+qw8Agp
+ eFeXdCAFoJBi1qQxbFQ9x0VM9ahpwftaBV2xQ5KdrEDad6aCnaZ0/AIgbacMfwidah
+ UCeSlR1vyfPuw1ssQjzIJNIbAUgSug848qdbPWF4PicQDHegHfbW5RSNbRi1jni0Px
+ XvHKHNwuNijFnssPm05PCGDycybOjNIQR9Wwt1b71Whm9hZfsHKLjmzGTap1qRXNvI
+ xRq0v+jdw7MV1XbnL0nZLjGOWsm8/AKpoeQ05Yd5xn2SuN2uB9S7+JxuwvQQ93o+xB
+ 74x2xGtsCHmew==
+Message-ID: <c6ce737d-25cc-7f22-7c0f-c0ba1420e57d@collabora.com>
+Date: Fri, 31 Mar 2023 11:40:58 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 0/3] usb: gadget: functionfs: DMABUF import interface
+To: Paul Cercueil <paul@crapouillou.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20230322092118.9213-1-paul@crapouillou.net>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20230322092118.9213-1-paul@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a924186c-31d3-b7f0-085f-97b849a4d751@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,78 +57,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Francesco Dolcini <francesco@dolcini.it>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>
+Cc: michael.hennerich@analog.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ nuno.sa@analog.com, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 10:48:15AM +0200, Krzysztof Kozlowski wrote:
-> On 30/03/2023 11:59, Francesco Dolcini wrote:
-> > From: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > 
-> > Add new toshiba,input-rgb-mode property to describe the actual signal
-> > connection on the parallel RGB input interface.
-> > 
-> > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > ---
-> >  .../bindings/display/bridge/toshiba,tc358768.yaml | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > index 8f22093b61ae..2638121a2223 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > @@ -42,6 +42,21 @@ properties:
-> >    clock-names:
-> >      const: refclk
-> >  
-> > +  toshiba,input-rgb-mode:
-> > +    description: |
-> > +      Parallel Input (RGB) Mode.
-> > +
-> > +      RGB inputs (PD[23:0]) color arrangement as documented in the datasheet
-> > +      and in the table below.
-> > +
-> > +      0 = R[7:0], G[7:0], B[7:0]
+Hi Paul,
+
+W dniu 22.03.2023 o 10:21, Paul Cercueil pisze:
+> Hi,
 > 
-> RGB888?
-
-Or anything else - like a RGB666 - just connecting to GND the unused
-pins.
-
-> > +      1 = R[1:0], G[1:0], B[1:0], R[7:2], G[7:2], B[7:2]
-> > +      2 = 8’b0, R[4:0], G[5:0], B[4:0]
+> This small patchset adds three new IOCTLs that can be used to attach,
+> detach, or transfer from/to a DMABUF object.
 > 
-> Isn't this RGB565?
+> Changes since v1:
+> - patch [2/3] is new. I had to reuse a piece of code that was already
+>    duplicated in the driver, so I factorized the code.
+> - Make ffs_dma_resv_lock() static
+> - Add MODULE_IMPORT_NS(DMA_BUF);
+> - The attach/detach functions are now performed without locking the
+>    eps_lock spinlock. The transfer function starts with the spinlock
+>    unlocked, then locks it before allocating and queueing the USB
+>    transfer.
 > 
-> Don't we have already properties like this? e.g. colorspace?
 
-It's not really the colorspace this property.
+Can you share an example use case for these new features?
+Is there a userspace that excercises the new ioctls?
 
-tc358768 is a parallel RGB to DSI bridge, it has 24 bit parallel input
-line.
+Regards,
 
-The way this lines are connected is configurable with this parameter, if you
-look at mode 0 and 1 they all allow to have a RGB888 or a RGB666 or a
-RGB565 mapping. This just configure some internal mux, it's not strictly
-about the RGB mode.
-
-The description for mode 2 was copied from the datasheet, and I agree
-this is really about having a RGB565 on the first 16 parallel input
-pins.
-
-Honestly I do not know what is going to happen with PD[23-16] if they
-are not connected to GND, given that the component does not know the
-parallel input bus width it might as well sample those pins in some
-un-documented way.
-
-Francesco
-
+Andrzej
