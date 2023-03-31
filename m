@@ -2,82 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A39A6D150D
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 03:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C836D1517
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 03:44:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568CD10F0CF;
-	Fri, 31 Mar 2023 01:33:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E63C10E077;
+	Fri, 31 Mar 2023 01:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A86D310E0D3;
- Fri, 31 Mar 2023 01:33:13 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32V0s7SD028051; Fri, 31 Mar 2023 01:33:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=GNJpcQKVKiauk/Eq1Exs2bCt/cOc9I2GUcGq3Vqu9q4=;
- b=N0D18nN0gQfwqYhvstn4qKIbv6uvfZfJfuPLHb9zSgN1qxzcP9x1YiupoNtIxaIyszzJ
- eFeVrvK+IdQq96FDmVOJ1GFQ+NNFj3FWLu7tyKaOJQ/eOKvB4Eux0U/bXHHqX36KRasO
- PI13fPpwOYFftKbS/txqCIOvvDD3R/N0D8SRyFUCW3AqeETsdiLo6YzxIAXMt/sKm+Sk
- cFR+/R0zMH1pjnGjn1hyJCMfXzeeq1tU5qW/+CBO9JD/P7ZClpRCm8S+80sQdJo455sT
- YcWuQExjFCCLQkD2i74AV/kkpYkCT/8WsDZZBJeG97c7PYxvgWNzuLVtjmWGtomsEuDW QA== 
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pnnbsg391-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 01:33:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32V1XANc029364
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 01:33:10 GMT
-Received: from [10.110.53.163] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 30 Mar
- 2023 18:33:09 -0700
-Message-ID: <86e851f7-bbbe-b849-e36b-f3c9af93e9e3@quicinc.com>
-Date: Thu, 30 Mar 2023 18:33:08 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C06510E077
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:43:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D85626228B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:43:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 454ABC433EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680227033;
+ bh=5ROPiVT2xDVcCukMjSvIpvXeqEUkNwRZdViy6uyvr6Y=;
+ h=From:To:Subject:Date:From;
+ b=YsS4bn31Y2Z7GioKv/mmgXOG6wu7BQ/P+Tc+i4mOoHnp56vtK3bEy9PhaLzdiHmJM
+ 0dEdjsO83lKFMVwTRN6b4g0n6z3cwHJSjVieBrZ8XEBjyl8JhcDrPwgtj0U9YmfG74
+ p7fvnR6q3+9QjqPgLqO+im8iM66dkp/I/lHG/Op9+bLokM1sJv6LHx1exDb6F7+IP/
+ Iw+1CuiT2pvWpXY0Iw+ohoJWpZ9rgb/byKQWhzlHSafaHu5crgbKuJhLncsC2OOCfb
+ yqX3ptpKilcG5pQLM1YyLm/l+OsC/OMsRAZ/KkcmBmqid4+e+CYltXnupIpwynse3B
+ ubKcL0zV7ibtg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 26474C43141; Fri, 31 Mar 2023 01:43:53 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217278] New: ast 0000:03:00.0: PM: **** DPM device timeout ****
+ during S4 resuming
+Date: Fri, 31 Mar 2023 01:43:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: wendy.wang@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-217278-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH RFC 5/5] drm/msm/dsi: Use MSM and DRM DSC
- helper methods
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>
-References: <20230329-rfc-msm-dsc-helper-v1-0-f3e479f59b6d@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v1-5-f3e479f59b6d@quicinc.com>
- <0698ce89-d70c-c3f4-f006-18130858aacf@linaro.org>
- <2c9ac12f-df2f-8576-555b-3d84a6205ee3@quicinc.com>
- <c3ac5c2b-e0e0-5d7c-67d3-4fc2316b68c5@linaro.org>
- <6461a8b8-f620-5f9c-9533-f65ac42c0524@quicinc.com>
- <CAA8EJprriCLXR+P7ZOWLQCOhvi0WCUzNrCu4eyyqegNtPZbBUg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJprriCLXR+P7ZOWLQCOhvi0WCUzNrCu4eyyqegNtPZbBUg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 2MYtbnth6s35NJAcIyEFqA9OUbFXUwpj
-X-Proofpoint-GUID: 2MYtbnth6s35NJAcIyEFqA9OUbFXUwpj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-30_14,2023-03-30_04,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- mlxlogscore=999 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- phishscore=0 mlxscore=0 spamscore=0 bulkscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2303310008
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,206 +71,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217278
 
+            Bug ID: 217278
+           Summary: ast 0000:03:00.0: PM: **** DPM device timeout ****
+                    during S4 resuming
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: v6.3-rc4
+          Hardware: Intel
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: blocking
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: wendy.wang@intel.com
+        Regression: No
 
-On 3/30/2023 5:16 PM, Dmitry Baryshkov wrote:
-> On Fri, 31 Mar 2023 at 03:07, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>
->>
->>
->> On 3/30/2023 4:14 PM, Dmitry Baryshkov wrote:
->>> On 31/03/2023 01:49, Jessica Zhang wrote:
->>>>
->>>>
->>>> On 3/29/2023 4:48 PM, Dmitry Baryshkov wrote:
->>>>> On 30/03/2023 02:18, Jessica Zhang wrote:
->>>>>> Use MSM and DRM DSC helper methods.
->>>>>>
->>>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>>>> ---
->>>>>>    drivers/gpu/drm/msm/dsi/dsi_host.c | 18 ++++++++++++------
->>>>>>    1 file changed, 12 insertions(+), 6 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>>> b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>>> index 74d38f90398a..7419fe58a941 100644
->>>>>> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>>> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->>>>>> @@ -31,6 +31,7 @@
->>>>>>    #include "msm_kms.h"
->>>>>>    #include "msm_gem.h"
->>>>>>    #include "phy/dsi_phy.h"
->>>>>> +#include "disp/msm_dsc_helper.h"
->>>>>>    #define DSI_RESET_TOGGLE_DELAY_MS 20
->>>>>> @@ -841,14 +842,14 @@ static void dsi_update_dsc_timing(struct
->>>>>> msm_dsi_host *msm_host, bool is_cmd_mod
->>>>>>    {
->>>>>>        struct drm_dsc_config *dsc = msm_host->dsc;
->>>>>>        u32 reg, reg_ctrl, reg_ctrl2;
->>>>>> -    u32 slice_per_intf, total_bytes_per_intf;
->>>>>> +    u32 slice_per_intf;
->>>>>>        u32 pkt_per_line;
->>>>>>        u32 eol_byte_num;
->>>>>>        /* first calculate dsc parameters and then program
->>>>>>         * compress mode registers
->>>>>>         */
->>>>>> -    slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->slice_width);
->>>>>> +    slice_per_intf = msm_dsc_get_slice_per_intf(dsc, hdisplay);
->>>>>
->>>>> This looks good
->>>>>
->>>>>>        /*
->>>>>>         * If slice_count is greater than slice_per_intf
->>>>>> @@ -858,10 +859,10 @@ static void dsi_update_dsc_timing(struct
->>>>>> msm_dsi_host *msm_host, bool is_cmd_mod
->>>>>>        if (dsc->slice_count > slice_per_intf)
->>>>>>            dsc->slice_count = 1;
->>>>>> -    total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
->>>>>> +    eol_byte_num = msm_dsc_get_eol_byte_num(msm_host->dsc, hdisplay,
->>>>>> +            dsi_get_bpp(msm_host->format));
->>>>>> -    eol_byte_num = total_bytes_per_intf % 3;
->>>>>> -    pkt_per_line = slice_per_intf / dsc->slice_count;
->>>>>> +    pkt_per_line = slice_per_intf / MSM_DSC_SLICE_PER_PKT;
->>>>>
->>>>> And for these values the result is definitely changed. Separate patch
->>>>> & description please. Just in case, "values per downstream kernel" is
->>>>> not a proper description for such changes.
->>>>
->>>> Hi Dmitry,
->>>>
->>>> Sure, I can put this into a separate patch.
->>>>
->>>> The reason this was changed from slice_count to SLICE_PER_PKT was
->>>> because slice count and slice per packet aren't always equivalent.
->>>> There can be cases where panel configures DSC to have multiple soft
->>>> slices per interface, but the panel only specifies 1 slice per packet.
->>>
->>> Please put this nice description into the commit message. It is exactly
->>> what I was looking for!
->>>
->>> BTW: Do you expect to change MSM_DSC_SLICE_PER_PKT later or it will stay
->>> at "1"? If so, it might be easier to drop it and instead add a comment.
->>
->> MSM_DSC_SLICE_PER_PKT is the default value for panels that don't specify
->> a slice_per_pkt value. (Now that I think about it, might be better to
->> call it MSM_DSC_DEFAULT_SLICE_PER_PKT instead...)
-> 
-> Note, there is no slice_per_pkt in drm_dsc_config, so we must come up
-> with another way to pass this data from the panel or to deduce the
-> value in our driver.
-> 
->>
->> I don't expect it to change in the future, but it's a little more
->> readable than just dividing by 1 IMO. If you prefer dropping the macro
->> and adding a comment, I'm also okay with that.
-> 
-> There is no need to divide by 1, the value doesn't change. So I'd
-> probably prefer something like:
-> 
-> /* Default to 1 slice per packet */
-> if (panel_slice_per_pkt)
->      pkt_per_line = slice_per_intf / panel_slice_per_pkt;
-> else
->      pkt_per_line = slice_per_intf;
-> 
-> Or:
-> 
-> /* Default to 1 slice per packet */
-> slice_per_pkt = 1;
-> if (panel_slice_per_pkt)
->      slice_per_pkt = panel_slice_per_pkt;
-> pkt_per_line = slice_per_intf / slice_per_pkt;
-> 
-> BTW: could you possibly change 'intf' to 'line' to v2? It seems there
-> is a mixture of them through the code. If there is a difference
-> between intf and line which is not yet posted, it's fine to keep the
-> current code. WDYT?
-> 
+On Intel Emerald Rapids Server
+ast driver will trigger unrecoverable kernel panic during S4 resuming.
+If add "modprobe.blacklist=3Dast" kernel parameter to disable ast driver
+Can avoid the kernel call trace.
 
-No, I dont agree with the change from intf to line.
+[=C2=A0 456.012967] CPU251 is up
+[=C2=A0 456.015985] smpboot: ++++++++++++++++++++=3D_---CPU UP=C2=A0 252
+[=C2=A0 456.022183] smpboot: Booting Node 1 Processor 252 APIC 0xf9
+[=C2=A0 456.028552] smpboot: Setting warm reset code and vector.
+[=C2=A0 456.034650] smpboot: Asserting INIT
+[=C2=A0 456.038648] smpboot: Waiting for send to finish...
+[=C2=A0 456.044128] smpboot: Deasserting INIT
+[=C2=A0 456.048334] smpboot: Waiting for send to finish...
+[=C2=A0 456.053818] smpboot: #startup loops: 2
+[=C2=A0 456.058131] smpboot: Sending STARTUP #1
+[=C2=A0 456.062542] smpboot: After apic_write
+[=C2=A0 456.066768] smpboot: Startup point 1
+[=C2=A0 456.070898] smpboot: Waiting for send to finish...
+[=C2=A0 456.076398] smpboot: Sending STARTUP #2
+[=C2=A0 456.080832] smpboot: After apic_write
+[=C2=A0 456.085082] smpboot: Startup point 1
+[=C2=A0 456.089215] smpboot: Waiting for send to finish...
+[=C2=A0 456.094718] smpboot: After Startup
+[=C2=A0 456.124666] microcode: Load ucode for AP
+[=C2=A0 456.129185] microcode: __load_ucode_intel: cp_data =3D 0x0000000000=
+000000
+cp_size =3D 0x0
+000000000000 cp_size =3D 0x0ack at about 00000000937ed697
+[=C2=A0 456.310542] smpboot: Stack at about 000000007168126e
+[=C2=A0 456.316238] microcode: mc_cpu_starting: CPU253, err: 3
+[=C2=A0 456.359827] CPU253 is up
+[=C2=A0 456.362823] smpboot: ++++++++++++++++++++=3D_---CPU UP=C2=A0 254
+[=C2=A0 456.369003] smpboot: Booting Node 1 Processor 254 APIC 0xfd
+[=C2=A0 456.375378] smpboot: Setting warm reset code and vector.
+[=C2=A0 456.381450] smpboot: Asserting INIT
+[=C2=A0 456.385449] smpboot: Waiting for send to finish...
+[=C2=A0 456.390924] smpboot: Deasserting INIT
+[=C2=A0 456.395144] smpboot: Waiting for send to finish...
+[=C2=A0 456.400590] smpboot: #startup loops: 2
+[=C2=A0 456.404900] smpboot: Sending STARTUP #1
+[=C2=A0 456.409299] smpboot: After apic_write
+[=C2=A0 456.413555] smpboot: Startup point 1
+[=C2=A0 456.417686] smpboot: Waiting for send to finish...
+[=C2=A0 456.423193] smpboot: Sending STARTUP #2
+[=C2=A0 456.427619] smpboot: After apic_write
+[=C2=A0 456.431869] smpboot: Startup point 1
+[=C2=A0 456.435993] smpboot: Waiting for send to finish...
+[=C2=A0 456.441476] smpboot: After Startup
+[=C2=A0 456.469575] microcode: Load ucode for AP
+[=C2=A0 456.474101] microcode: __load_ucode_intel: cp_data =3D 0x0000000000=
+000000
+cp_size =3D 0x0
+[=C2=A0 456.483382] smpboot: Stack [=C2=A0 457.507476] ttyS ttyS0: 1 input =
+overrun(s)
+[=C2=A0 457.509389] power_meter ACPI000D:00: Found ACPI power meter.
+[=C2=A0 457.519717] serial 00:04: activated
+[=C2=A0 457.524889] serial 00:05: activated
+[=C2=A0 457.543671] nvme nvme0: 8/0/0 default/read/poll queues
+[=C2=A0 457.840429] ata7: SATA link up 6.0 Gbps (SStatus 133 SControl 300)
+[=C2=A0 457.847500] ata6: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.853654] ata5: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.859819] ata1: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.865967] ata8: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.872129] ata4: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.878292] ata2: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.884470] ata3: SATA link down (SStatus 4 SControl 300)
+[=C2=A0 457.890626] ata7.00: supports DRM functions and may not be fully ac=
+cessible
+[=C2=A0 457.900562] ata7.00: supports DRM functions and may not be fully ac=
+cessible
+[=C2=A0 457.909510] ata7.00: configured for UDMA/133
+[=C2=A0 458.532192] virbr0: port 1(ens3) entered disabled state
+[=C2=A0 461.085827] igb 0000:27:00.0 ens1: igb: ens1 NIC Link is Up 1000 Mb=
+ps Full
+Duplex, Flow Control: RX
+[=C2=A0 461.233851] igb 0000:a8:00.0 ens3: igb: ens3 NIC Link is Up 1000 Mb=
+ps Full
+Duplex, Flow Control: RX
+[=C2=A0 461.347436] virbr0: port 1(ens3) entered blocking state
+[=C2=A0 461.353412] virbr0: port 1(ens3) entered forwarding state
+[=C2=A0 461.377813] igc 0000:01:00.0 enp1s0: NIC Link is Up 1000 Mbps Full =
+Duplex,
+Flow Control: RX/TX
+[=C2=A0 469.667476] ast 0000:03:00.0: PM: **** DPM device timeout ****
+[=C2=A0 469.674142] Call Trace:
+[=C2=A0 469.676983]=C2=A0 <TASK>
+[=C2=A0 469.679427]=C2=A0 __schedule+0x27a/0x6e0
+[=C2=A0 469.683446]=C2=A0 ? _raw_spin_unlock_irqrestore+0x22/0x40
+[=C2=A0 469.689117]=C2=A0 schedule+0x61/0xe0
+[=C2=A0 469.692739]=C2=A0 schedule_timeout+0x7a/0xf0
+[=C2=A0 469.697126]=C2=A0 ? __pfx_process_timeout+0x10/0x10
+[=C2=A0 469.702216]=C2=A0 msleep+0x2d/0x40
+[=C2=A0 469.705623]=C2=A0 ast_dp_launch+0x36/0xc0 [ast]
+[=C2=A0 469.710328]=C2=A0 ast_post_gpu+0x1fa/0x240 [ast]
+[=C2=A0 469.715096]=C2=A0 ast_pm_thaw+0x16/0x20 [ast]
+[=C2=A0 469.719554]=C2=A0 pci_pm_thaw+0x44/0xa0
+[=C2=A0 469.723450]=C2=A0 ? __pfx_pci_pm_thaw+0x10/0x10
+[=C2=A0 469.728146]=C2=A0 dpm_run_callback+0x95/0x200
+[=C2=A0 469.732653]=C2=A0 device_resume+0xea/0x210
+[=C2=A0 469.736865]=C2=A0 ? __pfx_dpm_watchdog_handler+0x10/0x10
+[=C2=A0 469.742413]=C2=A0 async_resume+0x1e/0x60
+[=C2=A0 469.746401]=C2=A0 async_run_entry_fn+0x39/0x140
+[=C2=A0 469.751098]=C2=A0 process_one_work+0x196/0x3c0
+[=C2=A0 469.755691]=C2=A0 worker_thread+0x51/0x3a0
+[=C2=A0 469.759902]=C2=A0 ? __pfx_worker_thread+0x10/0x10
+[=C2=A0 469.764792]=C2=A0 kthread+0xea/0x120
+[=C2=A0 469.768405]=C2=A0 ? __pfx_kthread+0x10/0x10
+[=C2=A0 469.772695]=C2=A0 ret_from_fork+0x29/0x50
+[=C2=A0 469.776793]=C2=A0 </TASK>
+[=C2=A0 469.779346] Kernel panic - not syncing: ast 0000:03:00.0: unrecover=
+able
+failure
+[=C2=A0 469.787630] CPU: 153 PID: 0 Comm: swapper/153 Tainted: G=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0
+6.3.0-rc4-2023-03-28-intel-next-02154-g257279c18b21 #1
+[=C2=A0 469.800891] Hardware name: Intel Corporation ArcherCity/ArcherCity,=
+ BIOS
+EGSDCRB1.SYS.0100.D45.2303121331 03/12/2023
+[=C2=A0 469.812782] Call Trace:
+[=C2=A0 469.815614]=C2=A0 <IRQ>
+[=C2=A0 469.817926]=C2=A0 dump_stack_lvl+0x36/0x50
+[=C2=A0 469.822124]=C2=A0 panic+0x343/0x350
+[=C2=A0 469.825665]=C2=A0 ? __pfx_dpm_watchdog_handler+0x10/0x10
+[=C2=A0 469.831240]=C2=A0 ? __pfx_dpm_watchdog_handler+0x10/0x10
+[=C2=A0 469.836775]=C2=A0 dpm_watchdog_handler+0x56/0x60
+[=C2=A0 469.841571]=C2=A0 call_timer_fn+0x2b/0x140
+[=C2=A0 469.845766]=C2=A0 __run_timers.part.0+0x1e7/0x280
+[=C2=A0 469.850652]=C2=A0 ? tick_sched_timer+0x73/0x90
+[=C2=A0 469.855257]=C2=A0 ? _raw_spin_lock_irq+0x18/0x30
+[=C2=A0 469.860041]=C2=A0 ? __hrtimer_run_queues+0x13c/0x2d0
+[=C2=A0 469.865220]=C2=A0 ? lapic_timer_shutdown.part.0+0x33/0x50
+[=C2=A0 469.870897]=C2=A0 ? lapic_timer_shutdown+0x14/0x20
+[=C2=A0 469.875882]=C2=A0 run_timer_softirq+0x35/0x70
+[=C2=A0 469.880361]=C2=A0 __do_softirq+0x102/0x31d
+[=C2=A0 469.884545]=C2=A0 irq_exit_rcu+0xc1/0x130
+[=C2=A0 469.888663]=C2=A0 sysvec_apic_timer_interrupt+0xa2/0xd0
+[=C2=A0 469.894150]=C2=A0 </IRQ>
+[=C2=A0 469.896589]=C2=A0 <TASK>
+[=C2=A0 469.899023]=C2=A0 asm_sysvec_apic_timer_interrupt+0x1a/0x20
+[=C2=A0 469.904892] RIP: 0010:cpuidle_enter_state+0xd0/0x420
+[=C2=A0 469.910547] Code: ff ff 8b 53 04 49 89 c5 8b 05 84 b5 ff 00 85 c0 0=
+f 8f e3
+02 00 00 31 ff e8 6d ab e7 fe 45 84 ff 0f 85 e3 01 00 00 fb 45 85 f6 <0f> 8=
+8 1e
+01 00 00 48 8b 04 24 49 63 ce 48 6b d1 68 49 29 c5 48 89
+[=C2=A0 469.931691] RSP: 0000:ff85092306c3fe88 EFLAGS: 00000206
+[=C2=A0 469.937654] RAX: ff44661abdc40000 RBX: ffb7091ad765af00 RCX:
+0000000000000000
+[=C2=A0 469.945736] RDX: 0000000000000099 RSI: ffffffff99c06314 RDI:
+ffffffff99c0ac47
+[=C2=A0 469.953814] RBP: 0000000000000003 R08: ffffffca120fb4c4 R09:
+000000004b4b4b4b
+[=C2=A0 469.961903] R10: 0000000000000010 R11: 00000000000025d6 R12:
+ffffffff9a27c940
+[=C2=A0 469.970007] R13: 0000006d5a5cd0ff R14: 0000000000000003 R15:
+0000000000000000
+[=C2=A0 469.978117]=C2=A0 ? cpuidle_enter_state+0xc3/0x420
+[=C2=A0 469.983056]=C2=A0 cpuidle_enter+0x2d/0x40
+[=C2=A0 469.987155]=C2=A0 cpuidle_idle_call+0x101/0x170
+[=C2=A0 469.991825]=C2=A0 do_idle+0x74/0xc0
+[=C2=A0 469.995336]=C2=A0 cpu_startup_entry+0x1d/0x20
+[=C2=A0 469.999822]=C2=A0 start_secondary+0x12d/0x130
+[=C2=A0 470.004310]=C2=A0 secondary_startup_64_no_verify+0xe0/0xeb
+[=C2=A0 470.010063]=C2=A0 </TASK>
+[=C2=A0 470.125520] Kernel Offset: 0x17000000 from 0xffffffff81000000 (relo=
+cation
+range: 0xffffffff80000000-0xffffffffbfffffff)
+[=C2=A0 470.575721] ---[ end Kernel panic - not syncing: ast 0000:03:00.0:
+unrecoverable failure ]---
 
-In case of dual DSI, intf is not equal to line.
+[root@emr-2s7 ~]# lspci -vvv -s 03:00.0
+03:00.0 VGA compatible controller: ASPEED Technology, Inc. ASPEED Graphics
+Family (rev 52) (prog-if 00 [VGA controller])
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Subsystem: ASPEED Technology, In=
+c. ASPEED Graphics Family
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Control: I/O+ Mem+ BusMaster- Sp=
+ecCycle- MemWINV- VGASnoop- ParErr+
+Stepping- SERR+ FastB2B- DisINTx-
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Status: Cap+ 66MHz- UDF- FastB2B=
+- ParErr- DEVSEL=3Dmedium >TAbort-
+<TAbort- <MAbort- >SERR- <PERR- INTx-
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Interrupt: pin A routed to IRQ 16
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NUMA node: 0
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IOMMU group: 72
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Region 0: Memory at 94000000 (32=
+-bit, non-prefetchable) [size=3D16M]
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Region 1: Memory at 95000000 (32=
+-bit, non-prefetchable) [size=3D256K]
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Region 2: I/O ports at 1000 [siz=
+e=3D128]
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Capabilities: [40] Power Managem=
+ent version 3
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=3D375mA
+PME(D0+,D1+,D2+,D3hot+,D3cold+)
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Capabilities: [50] MSI: Enable- =
+Count=3D1/4 Maskable- 64bit+
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 Address: 0000000000000000=C2=A0 Data: 0000
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Kernel modules: ast
 
-2 intfs = 1 line
+--=20
+You may reply to this email to add a comment.
 
-Hence that distinction is necessary.
-
->>
->> Thanks,
->>
->> Jessica Zhang
->>
->>>
->>> Regarding eol_byte_num, probably the best explanation would be that is
->>> is a size of a padding rather than a size of a trailer bytes in a line
->>> (and thus original calculation was incorrect).
->>>
->>>>
->>>>>
->>>>>>        if (is_cmd_mode) /* packet data type */
->>>>>>            reg =
->>>>>> DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
->>>>>> @@ -911,6 +912,11 @@ static void dsi_timing_setup(struct
->>>>>> msm_dsi_host *msm_host, bool is_bonded_dsi)
->>>>>>        DBG("");
->>>>>> +    if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO)
->>>>>> +        /* Default widebus_en to false for now. */
->>>>>> +        hdisplay = msm_dsc_get_pclk_per_line(msm_host->dsc,
->>>>>> mode->hdisplay,
->>>>>> +                dsi_get_bpp(msm_host->format));
->>>>>> +
->>>>>
->>>>> This is definitely something new and thus should probably go into a
->>>>> separate patch and be described. Also I'm not sure how does that
->>>>> interact with the hdisplay-related calculations below, under the
->>>>> if(dsc) clause.
->>>>
->>>> After double-checking the math here, I think this part of the change
->>>> is actually wrong. pclk_per_line is essentially doing hdisplay / 3,
->>>> which is a repeat of what's being done in the `if (dsc)` block.
->>>>
->>>> Will replace `hdisplay /= 3` with the pclk_per_line calculation.
->>>
->>> Thanks!
->>>
->>>>
->>>> Thanks,
->>>>
->>>> Jessica Zhang
->>>>
->>>>>
->>>>>>        /*
->>>>>>         * For bonded DSI mode, the current DRM mode has
->>>>>>         * the complete width of the panel. Since, the complete
->>>>>> @@ -1759,7 +1765,7 @@ static int dsi_populate_dsc_params(struct
->>>>>> msm_dsi_host *msm_host, struct drm_dsc
->>>>>>            return ret;
->>>>>>        }
->>>>>> -    dsc->initial_scale_value = 32;
->>>>>> +    dsc->initial_scale_value =
->>>>>> drm_dsc_calculate_initial_scale_value(dsc);
->>>>>
->>>>> This is fine, we only support 8bpp where these values match.
->>>>>
->>>>>>        dsc->line_buf_depth = dsc->bits_per_component + 1;
->>>>>>        return drm_dsc_compute_rc_parameters(dsc);
->>>>>>
->>>>>
->>>>> --
->>>>> With best wishes
->>>>> Dmitry
->>>>>
->>>
->>> --
->>> With best wishes
->>> Dmitry
->>>
-> 
-> 
-> 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
