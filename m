@@ -1,50 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6417F6D1C57
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:29:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 641986D1C5E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A1310F175;
-	Fri, 31 Mar 2023 09:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7198B10F14E;
+	Fri, 31 Mar 2023 09:31:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED2C10F175
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:29:37 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 50BE66603130;
- Fri, 31 Mar 2023 10:29:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680254975;
- bh=lMAebDq17jh7DdNz0cBlqr1fwRmhsP03/MJGfkU1R+8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EPBOOuTWx/PQ4Jo1UY5Tr8aSNr+DKcHxRpQT9tov4AyHcg8SvcD7zt/LzzgIoDRtB
- w51cc+rm15Z4WQmg1oZ5iDhLV6/JQf7Um3d7mAmyVkIakqT4ucQLvxqHjnqLIE3h2d
- XFJJA6hV5ldZ4z2dnTzMcsEglkbGJQGnAX4SO/dSguxe6zagccaIPi6AQl0VQGCnPu
- 3Io9CUJdL140asZCXYIW1mT8jWKx0wxWMO9bRTtHN4qNomLqqcEBHHfHx4KiQuXJiC
- NC3GzF1JzNdu9/J+B/fbWsgpSad5gfrdDFxvyl1fzvpC1wyWs0OpxEDIui4H87FOKZ
- be8yyv1mbztbQ==
-Date: Fri, 31 Mar 2023 11:29:32 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v1 RESEND 2/2] drm/panfrost: Add basic support for speed
- binning
-Message-ID: <20230331112932.73b39d5a@collabora.com>
-In-Reply-To: <fb19c82b-f2bf-7f22-ba5c-e1a1c98f987f@collabora.com>
-References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
- <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
- <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
- <20230331104914.708b194e@collabora.com>
- <fb19c82b-f2bf-7f22-ba5c-e1a1c98f987f@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81C3710F14E
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:30:59 +0000 (UTC)
+Received: from francesco-nb.int.toradex.com (93-49-2-63.ip317.fastwebnet.it
+ [93.49.2.63])
+ by mail11.truemail.it (Postfix) with ESMTPA id ED7712078C;
+ Fri, 31 Mar 2023 11:30:56 +0200 (CEST)
+Date: Fri, 31 Mar 2023 11:30:52 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v1 2/6] dt-bindings: display: bridge: toshiba,tc358768:
+ Add TC9594
+Message-ID: <ZCaoTDjvAUZJYP3s@francesco-nb.int.toradex.com>
+References: <20230330095941.428122-1-francesco@dolcini.it>
+ <20230330095941.428122-3-francesco@dolcini.it>
+ <ff88e5d3-4c31-7698-b8d1-8a03b9fea643@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ff88e5d3-4c31-7698-b8d1-8a03b9fea643@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,48 +41,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, robh+dt@kernel.org,
- alyssa.rosenzweig@collabora.com, wenst@chromium.org, kernel@collabora.com
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 Mar 2023 10:57:46 +0200
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-wrote:
-
-> Il 31/03/23 10:49, Boris Brezillon ha scritto:
-> > On Fri, 31 Mar 2023 10:11:07 +0200
-> > AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > wrote:
-> >   
-> >> Il 23/03/23 10:08, AngeloGioacchino Del Regno ha scritto:  
-> >>> Some SoCs implementing ARM Mali GPUs are subject to speed binning:
-> >>> this means that some versions of the same SoC model may need to be
-> >>> limited to a slower frequency compared to the other:
-> >>> this is being addressed by reading nvmem (usually, an eFuse array)
-> >>> containing a number that identifies the speed binning of the chip,
-> >>> which is usually related to silicon quality.
-> >>>
-> >>> To address such situation, add basic support for reading the
-> >>> speed-bin through nvmem, as to make it possible to specify the
-> >>> supported hardware in the OPP table for GPUs.
-> >>> This commit also keeps compatibility with any platform that does
-> >>> not specify (and does not even support) speed-binning.
-> >>>
-> >>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>  
-> >>
-> >> Hello maintainers,
-> >> I've seen that this got archived in the dri-devel patchwork; because of that and
-> >> only that, I'm sending this ping to get this patch reviewed.  
+On Fri, Mar 31, 2023 at 10:42:40AM +0200, Krzysztof Kozlowski wrote:
+> On 30/03/2023 11:59, Francesco Dolcini wrote:
+> > From: Francesco Dolcini <francesco.dolcini@toradex.com>
 > > 
-> > Looks good to me. If you can get a DT maintainer to review the binding
-> > (Rob?), I'd be happy to queue the series to drm-misc-next.
-> >   
+> > Add TC9594, from the software point of view this is identical to
+> > TC358768 with the main difference being automotive qualified.
+> > 
+> > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > ---
+> >  .../devicetree/bindings/display/bridge/toshiba,tc358768.yaml | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> > index d6dac186ac59..8f22093b61ae 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> > @@ -4,19 +4,20 @@
+> >  $id: http://devicetree.org/schemas/display/bridge/toshiba,tc358768.yaml#
+> >  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> >  
+> > -title: Toshiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
+> > +title: Toshiba TC358768/TC358778/TC9594 Parallel RGB to MIPI DSI bridge
+> >  
+> >  maintainers:
+> >    - Peter Ujfalusi <peter.ujfalusi@ti.com>
+> >  
+> >  description: |
+> > -  The TC358768/TC358778 is bridge device which converts RGB to DSI.
+> > +  The TC358768/TC358778/TC9594 is bridge device which converts RGB to DSI.
+> >  
+> >  properties:
+> >    compatible:
+> >      enum:
+> >        - toshiba,tc358768
+> >        - toshiba,tc358778
+> > +      - toshiba,tc9594
 > 
-> The binding was acked by Krzysztof already... so, just to be sure:
-> 
-> Krzysztof, can the binding [1] get picked?
+> If it is the same, why they are not compatible?
 
-Oops, sorry, I didn't realize Krzysztof is a DT maintainer.
+I assume I am not understanding something very basic ...
+
+The register description and SW functionality of all these 3 parts is
+identical.
+
+How should be the compatible described in the DT schema in this case?
+
+
+> I got only three patches out of six, thus I cannot check by myself.
+
+Here the whole series: https://lore.kernel.org/all/20230330095941.428122-1-francesco@dolcini.it/
+
+Do you want to me to send the whole series and not just the DT binding
+next time? Happy to do it, if you prefer.
+
+Francesco
+
