@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93256D2694
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 19:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9686D270D
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 19:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE5410E220;
-	Fri, 31 Mar 2023 17:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8596910E31C;
+	Fri, 31 Mar 2023 17:51:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38D910E216
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 17:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680283470;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+275kAcImYiE9dFTXdrtG3cpkttX7JRc/BM6QuCRJUs=;
- b=HP84b0gOi0L4KWyIvSFCe6hA3SgC0dqyypRi4twVv4FtJN+B9lYPeU9qfSiZFTwFMB+sHK
- FXgo2XhIFRI6RlmUHfi6c2Xy+guTe4Q/LUBxRQqJxtKjogoEEuXuOlQznD9IU6a47bo+AG
- cHtMXYb2acb3AJEIUFdITNE7xpRygJw=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-PTTKF5z3PkmMSjE3W-uSuw-1; Fri, 31 Mar 2023 13:24:28 -0400
-X-MC-Unique: PTTKF5z3PkmMSjE3W-uSuw-1
-Received: by mail-qt1-f197.google.com with SMTP id
- r4-20020ac867c4000000b003bfefb6dd58so15157257qtp.2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 10:24:27 -0700 (PDT)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 009BB10E31C
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 17:51:37 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ r19-20020a05600c459300b003eb3e2a5e7bso14411461wmo.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 10:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680285096;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=QOsJVLNV3+8fzg2WVgYT6QH9y+i4e/+1YV4NKgsfyIU=;
+ b=UQfsgOE9zWKSVm7VgqAUlMS6A5K0moAw7rhqbNGiP69ZoKSDDhgZXqEPnSsMQ68IJ7
+ uWaRpgAIUiC9qAJqNAhYdVzfwr0h3JTrAtRrRFMh5YAzqTqGdOHZzKYQ9v+ZLFishvip
+ b71sXRpxuQ2rEgDfYNljsi3yaGW3CbBDyHAz+hp7tq/EsoRZ0qwDVS0L5mAUAnUrHT1E
+ g73XdSJ4NgCL5/1tnz8f+9e5oX1fNkp/uJtIN76/COQSV/tIO/avQYtEtbx0EA5px9ik
+ wfAm7JraN/IiTaf+v6BJ4axOVJ/aC4DnzyyYTV17ZdHRSyp/oCx1zt/CHvhGlm2CKVpg
+ h+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680283467;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+275kAcImYiE9dFTXdrtG3cpkttX7JRc/BM6QuCRJUs=;
- b=PWktLXbSwX8jeGbzvfrvB4sJSA3aiacvqlhUttHypEw9ln1ZWsaTyLvgfLZXrx/zjh
- SkPv4qluwdAzw7C+md7K5j1qZlCyUz4xvw2v7XKUyIFD+HPyoimtM11tCPivWxPeUEZ+
- cjL7sOzZCCyKTYtYU3Euxjv6Jk8Zg1Ja4CEjjFhLOejU3FO/d8wMQEv3MCYadHii3h17
- rZtNeCkibCBX4xUTCJTqQpaOJJMBGI/vOtY+boK0ty0UdBn+3/E2q8QAGZitjOm0u0lk
- L0ZY9j2cAPQc0+o54g/SKCOeX9PrdEuxBibSLjaHxqEjD4J1KaiVz85NGVUNVvm8ZVY+
- ChSg==
-X-Gm-Message-State: AO0yUKU0PVECvJEFIlEEQabHyUvaX0fGkdGacViC8Sw8HZPlEqya3xbj
- bJTjniAjGQ2KUe0G3VivqC5wkbsnScdCzY/Jddrmy9+eJPI9Bs8JtwMttw3+Op84/VkPwtzC0UV
- dQPPjPaKtOzBbzAWpn/uOXmcpGmUp
-X-Received: by 2002:a05:622a:215:b0:3e3:867e:1811 with SMTP id
- b21-20020a05622a021500b003e3867e1811mr50922124qtx.17.1680283467399; 
- Fri, 31 Mar 2023 10:24:27 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9Sv9pA4EKixyjGPgkC70YS7QWxatBhiN9or/3O6SwY+f275wnQJfX5KnQMa83+KWSsgCh25Q==
-X-Received: by 2002:a05:622a:215:b0:3e3:867e:1811 with SMTP id
- b21-20020a05622a021500b003e3867e1811mr50922089qtx.17.1680283467204; 
- Fri, 31 Mar 2023 10:24:27 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ d=1e100.net; s=20210112; t=1680285096;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QOsJVLNV3+8fzg2WVgYT6QH9y+i4e/+1YV4NKgsfyIU=;
+ b=w701d92kkcme4baaHT4mCebl7ASA8Z//2/AXl1vQRx23XNvvS88XZpOkphMdZ5/E/s
+ JTuKJVy4S0RNjcxcp2l1s8oLIsui7ARuv2Zxq4Q24kFASJ6d3GTC/0HaVz469Forixhe
+ u46zazJ/dHOc7ovEpx5jMZ+ygp2lVTKvjLMCSRc1Op1Z63SlZS376TIu+g4zbLGk9pOo
+ +h6lBLz5BXq16+d/c2E9qkvrL1hU9VhV1qT47/ijEGCCqIL4dGwjxTxnDlYAQJRcOGKf
+ PSocBMDcoQ6zhk9dUS4d9ajJukEXFQ9ROO0vH7Xj3fT7l/cV31s8Z+o2saPQa62TtDHm
+ 8ZgQ==
+X-Gm-Message-State: AO0yUKVV9e/MZrn5ifK2ZUds/wleK6rx+QY2e9ZR2JV29i+OWb9ItQxy
+ 74PZgeCnENbwwAjndSQB7Ig=
+X-Google-Smtp-Source: AK7set9qL57gN72OV9S+5J0UH2Mo0pOzFKVUyACDaKG9cENwMUTAiW0fK4UhZJR7VMOAvyIF4sA6Qg==
+X-Received: by 2002:a7b:c850:0:b0:3ee:93c8:4a6f with SMTP id
+ c16-20020a7bc850000000b003ee93c84a6fmr21425955wml.32.1680285096304; 
+ Fri, 31 Mar 2023 10:51:36 -0700 (PDT)
+Received: from [192.168.2.177] ([207.188.167.132])
  by smtp.gmail.com with ESMTPSA id
- b17-20020ae9eb11000000b00745c437b38dsm804613qkg.82.2023.03.31.10.24.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Mar 2023 10:24:26 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: airlied@redhat.com, kraxel@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
- nathan@kernel.org, ndesaulniers@google.com
-Subject: [PATCH] drm/qxl: remove unused num_relocs variable
-Date: Fri, 31 Mar 2023 13:24:23 -0400
-Message-Id: <20230331172423.1860083-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ p12-20020a05600c358c00b003ef6f87118dsm10827597wmq.42.2023.03.31.10.51.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 10:51:35 -0700 (PDT)
+Message-ID: <42193fd5-b1f3-81ff-f76f-b11490ef2a94@gmail.com>
+Date: Fri, 31 Mar 2023 19:51:33 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 15/21] dt-bindings: soc: mediatek: add display mutex for
+ MT8365 SoC
+Content-Language: en-US
+To: Alexandre Mergnat <amergnat@baylibre.com>, Daniel Vetter
+ <daniel@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Xinlei Lee <xinlei.lee@mediatek.com>
+References: <20230220-display-v1-0-45cbc68e188b@baylibre.com>
+ <20230220-display-v1-15-45cbc68e188b@baylibre.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20230220-display-v1-15-45cbc68e188b@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,53 +86,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-pwm@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, spice-devel@lists.freedesktop.org
+ Fabien Parent <fparent@baylibre.com>, devicetree@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, Guillaume La Roque <glaroque@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang with W=1 reports
-drivers/gpu/drm/qxl/qxl_ioctl.c:149:14: error: variable
-  'num_relocs' set but not used [-Werror,-Wunused-but-set-variable]
-        int i, ret, num_relocs;
-                    ^
-This variable is not used so remove it.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/qxl/qxl_ioctl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-index 30f58b21372a..3422206d59d4 100644
---- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-+++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-@@ -146,7 +146,7 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	struct qxl_release *release;
- 	struct qxl_bo *cmd_bo;
- 	void *fb_cmd;
--	int i, ret, num_relocs;
-+	int i, ret;
- 	int unwritten;
- 
- 	switch (cmd->type) {
-@@ -201,7 +201,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 	}
- 
- 	/* fill out reloc info structs */
--	num_relocs = 0;
- 	for (i = 0; i < cmd->relocs_num; ++i) {
- 		struct drm_qxl_reloc reloc;
- 		struct drm_qxl_reloc __user *u = u64_to_user_ptr(cmd->relocs);
-@@ -231,7 +230,6 @@ static int qxl_process_single_command(struct qxl_device *qdev,
- 			reloc_info[i].dst_bo = cmd_bo;
- 			reloc_info[i].dst_offset = reloc.dst_offset + release->release_offset;
- 		}
--		num_relocs++;
- 
- 		/* reserve and validate the reloc dst bo */
- 		if (reloc.reloc_type == QXL_RELOC_TYPE_BO || reloc.src_handle) {
--- 
-2.27.0
+On 09/03/2023 15:23, Alexandre Mergnat wrote:
+> Add compatible for the MT8365 SoC.
+> 
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 
+Applied, thanks!
+
+> ---
+>   Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> index ca0ca549257d..931d66893dff 100644
+> --- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> +++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+> @@ -34,6 +34,7 @@ properties:
+>         - mediatek,mt8186-mdp3-mutex
+>         - mediatek,mt8192-disp-mutex
+>         - mediatek,mt8195-disp-mutex
+> +      - mediatek,mt8365-disp-mutex
+>   
+>     reg:
+>       maxItems: 1
+> 
