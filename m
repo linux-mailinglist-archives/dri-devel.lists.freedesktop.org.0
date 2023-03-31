@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AAD6D1C18
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:26:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 452A06D1C1A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:26:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA4D110F14C;
-	Fri, 31 Mar 2023 09:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A24CE10F183;
+	Fri, 31 Mar 2023 09:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 357FE10F14C;
- Fri, 31 Mar 2023 09:26:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA6510F14C;
+ Fri, 31 Mar 2023 09:26:25 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 70BB162657;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A18B262660;
+ Fri, 31 Mar 2023 09:26:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 514EEC433EF;
  Fri, 31 Mar 2023 09:26:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1DFFC4339C;
- Fri, 31 Mar 2023 09:26:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680254781;
- bh=Xj4WyozKPmZtTN1kClJTBi/X5tfzwvcxXXrKvf/WUhE=;
+ s=k20201202; t=1680254784;
+ bh=TRYSMYkXks9q3GSP+rY54wBe6rlqoIbNXHmoR55KP+A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dAZXFCbKCx3fKL0doDoVVk5L6sJXUiM+NHgn9vejM8I7z7I0QiyJMRnBXSMO/GJJp
- tAJn9X7SwrcuHi0CWHJGVdad+YwKNqZS6jRDaiIdAGOiJ8r2NJDZRU51HoTZvGx2l5
- nd/DvOqnztIsmLzrKXVA2FxmEUE7FA6UkmYPQy6230mBRIikOOJ5FnWpGpZdREATr8
- pOhWgFxK13pM9pdTb40qb72FZY4Efp53sy9K2nt/VbfsGRcAMyjyWlQN1RzSpcWHzp
- gM7o0R32UFbBwBS6Q3NRgj9FKi8sVLgpUa0LU2lZlnJIjrFVHQ7OEop/9+1el27VDz
- epdoO575oQg4g==
+ b=QfTjoBeSVRz6N27mcOkAv5LA/MVWqsH0d1zmQmcsuuwyb4YU9RGjd31eVeQB/YAfB
+ +6FK9GNc2T3I4jj510Nx1R+EFu7iKO+HFBJd/Tcndv3C3ns+K2EhZbj8VEgAfiyDFr
+ h7QzGIZHIBP7JDINi7BJlg5Ij4UMemIeOqkgH9SQLMUzYiBO/IHQPG6TxuffMIaywB
+ 8ziNYiQxweDizvG0jBB47zAgCrI1ROgNsgp7AYDcSMr9pwQ4b+H4wkCj9iS/KLbR4F
+ 7lEfCR3WYqlYR60BXPSZ7LxYt//kkFFoMyTTC4ZyYq4BPQrsOugK3OPicOHUykXjLN
+ NIeywdUEbvJJw==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org
-Subject: [PATCH 03/19] drm/radeon/radeon_ttm: Remove unused variable 'rbo'
- from radeon_bo_move()
-Date: Fri, 31 Mar 2023 10:25:51 +0100
-Message-Id: <20230331092607.700644-4-lee@kernel.org>
+Subject: [PATCH 04/19] drm/i915/display/intel_display_debugfs: Fix incorrect
+ param naming for 'intel_connector'
+Date: Fri, 31 Mar 2023 10:25:52 +0100
+Message-Id: <20230331092607.700644-5-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
 In-Reply-To: <20230331092607.700644-1-lee@kernel.org>
 References: <20230331092607.700644-1-lee@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,51 +52,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Jerome Glisse <glisse@freedesktop.org>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/radeon_ttm.c: In function ‘radeon_bo_move’:
- drivers/gpu/drm/radeon/radeon_ttm.c:201:27: warning: variable ‘rbo’ set but not used [-Wunused-but-set-variable]
+ drivers/gpu/drm/i915/display/intel_display_debugfs.c:1668: warning: Function parameter or member 'intel_connector' not described in 'intel_connector_debugfs_add'
+ drivers/gpu/drm/i915/display/intel_display_debugfs.c:1668: warning: Excess function parameter 'connector' description in 'intel_connector_debugfs_add'
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Jerome Glisse <glisse@freedesktop.org>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/radeon/radeon_ttm.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display_debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 2220cdf6a3f68..0ea430ee52569 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -198,7 +198,6 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- {
- 	struct ttm_resource *old_mem = bo->resource;
- 	struct radeon_device *rdev;
--	struct radeon_bo *rbo;
- 	int r;
+diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+index d5715ccc37f0e..195b6cb379ad1 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
++++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+@@ -1395,7 +1395,7 @@ DEFINE_SHOW_ATTRIBUTE(intel_crtc_pipe);
  
- 	if (new_mem->mem_type == TTM_PL_TT) {
-@@ -211,7 +210,6 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	if (r)
- 		return r;
- 
--	rbo = container_of(bo, struct radeon_bo, tbo);
- 	rdev = radeon_get_rdev(bo->bdev);
- 	if (!old_mem || (old_mem->mem_type == TTM_PL_SYSTEM &&
- 			 bo->ttm == NULL)) {
+ /**
+  * intel_connector_debugfs_add - add i915 specific connector debugfs files
+- * @connector: pointer to a registered drm_connector
++ * @intel_connector: pointer to a registered drm_connector
+  *
+  * Cleanup will be done by drm_connector_unregister() through a call to
+  * drm_debugfs_connector_remove().
 -- 
 2.40.0.348.gf938b09366-goog
 
