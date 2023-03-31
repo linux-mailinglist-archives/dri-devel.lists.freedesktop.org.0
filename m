@@ -1,65 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EB06D2419
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 17:35:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8116D2438
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 17:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5229510E104;
-	Fri, 31 Mar 2023 15:35:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE4110E13E;
+	Fri, 31 Mar 2023 15:42:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C30810E104
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 15:35:14 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id F3A4921AAC;
- Fri, 31 Mar 2023 15:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1680276913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bgopTtLCvd94QN1+0LY//7r0zDRlIg6vTuYpHw3fzAI=;
- b=ZRVgYvYm6jRZNmpCVOkzrgkuBXNCC8D7JWT7YbJ6gnK7qukWuv+eQk7rJy9+dtMCztQXdj
- BNSSPEoWwRdXhYMgNkn+GKWFu5N3st/ZtT2tAvm0ku5vd2t/syQXL4jq6eRpOCZKxA7+VH
- QoGuktiYZXj8Go5HlzAL9CPt03CkywI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1680276913;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bgopTtLCvd94QN1+0LY//7r0zDRlIg6vTuYpHw3fzAI=;
- b=KGmnWEHc9J+I0Wb9nsbwULmKlUrwCcJMYnDXrLoBy0M8Ja+QthUNeECfW1n4zU+bS+I5Ny
- 4yfOv+Y8T1GRR2DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C10AC133B6;
- Fri, 31 Mar 2023 15:35:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id W6z8LbD9JmTuDQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 31 Mar 2023 15:35:12 +0000
-Message-ID: <7b63909c-07c2-86bd-5a6e-29504b88dae6@suse.de>
-Date: Fri, 31 Mar 2023 17:35:12 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 435ED10E0E7;
+ Fri, 31 Mar 2023 15:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680277353; x=1711813353;
+ h=message-id:date:mime-version:from:subject:to:cc;
+ bh=/9XaHUJp5ZUmaJSIoGVSuXacneUsPz+Qss8RWglgH7Y=;
+ b=ZXXD9TspUDETRNUis0Buzb3d1lp7CGTXqiTCWhvErJFOWdccQkHwRYjM
+ TtqlrGcD8MNhTjyU9DuwZvI7OLQ0VSw8TgS1twhNlJqMOcIgz+P/HgMP3
+ AR23lKNMVOynBWVG5U8LiOly0HFh0oPiEKpjlkhrn5w34DKPfF/MdUHp7
+ owGjryWPO8QM1WQidRX7NWkFmEMs2OnXfSLPOtNbxYyi8R+p2kFeUHXzU
+ IWnnc6FhCgb3qTuemzgty6Cemgu2ClIIqpFUZuFJyK+y69xdbdhkwZ1M/
+ aox/jDHm6sDpI2s+tpym1sX1haK+x0WU1ax82jSv1ecNB/d1bTmtS54sS A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="340208201"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
+ d="scan'208,217";a="340208201"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 08:42:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="635330746"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; 
+ d="scan'208,217";a="635330746"
+Received: from bawinitt-mobl2.amr.corp.intel.com (HELO [10.251.209.55])
+ ([10.251.209.55])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 08:42:29 -0700
+Content-Type: multipart/alternative;
+ boundary="------------BwqGWNW47EsYm0LcsKQr8wu5"
+Message-ID: <36f4efa4-26e9-49df-287e-d193422c990d@linux.intel.com>
+Date: Fri, 31 Mar 2023 17:42:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/5] drm: shmobile: Fixes and enhancements
+ Firefox/102.0 Thunderbird/102.9.0
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: [PULL] drm-misc-next
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <cover.1680273039.git.geert+renesas@glider.be>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <cover.1680273039.git.geert+renesas@glider.be>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------iBMAxBiqxaasxQ1oHtj09ku8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,89 +60,352 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------iBMAxBiqxaasxQ1oHtj09ku8
-Content-Type: multipart/mixed; boundary="------------IrREz1EpaWTr98WYqdzm8yuw";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <7b63909c-07c2-86bd-5a6e-29504b88dae6@suse.de>
-Subject: Re: [PATCH 0/5] drm: shmobile: Fixes and enhancements
-References: <cover.1680273039.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1680273039.git.geert+renesas@glider.be>
-
---------------IrREz1EpaWTr98WYqdzm8yuw
+This is a multi-part message in MIME format.
+--------------BwqGWNW47EsYm0LcsKQr8wu5
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGkNCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNl
-LmRlPg0KDQpmb3IgdGhlIHdob2xlIHBhdGNoc2V0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
-cw0KDQpBbSAzMS4wMy4yMyB1bSAxNjo0OCBzY2hyaWViIEdlZXJ0IFV5dHRlcmhvZXZlbjoN
-Cj4gCUhpIGFsbCwNCj4gDQo+IEN1cnJlbnRseSwgdGhlcmUgYXJlIHR3byBkcml2ZXJzIGZv
-ciB0aGUgTENEIGNvbnRyb2xsZXIgb24gUmVuZXNhcw0KPiBTdXBlckgtYmFzZWQgYW5kIEFS
-TS1iYXNlZCBTSC1Nb2JpbGUgYW5kIFItTW9iaWxlIFNvQ3M6DQo+ICAgIDEuIHNoX21vYmls
-ZV9sY2RjZmIsIHVzaW5nIHRoZSBmYmRldiBmcmFtZXdvcmssDQo+ICAgIDIuIHNobW9iX2Ry
-bSwgdXNpbmcgdGhlIERSTSBmcmFtZXdvcmsuDQo+IEhvd2V2ZXIsIG9ubHkgdGhlIGZvcm1l
-ciBkcml2ZXIgY2FuIGJlIHVzZWQsIGFzIGFsbCBwbGF0Zm9ybSBzdXBwb3J0DQo+IGludGVn
-cmF0ZXMgdGhlIGZvcm1lci4gIE5vbmUgb2YgdGhlc2UgZHJpdmVycyBzdXBwb3J0IERULWJh
-c2VkIHN5c3RlbXMuDQo+IA0KPiBUaGlzIHBhdGNoIHNlcmllcyBpcyBhIGZpcnN0IHN0ZXAg
-dG8gZW5hYmxlIHRoZSBTSC1Nb2JpbGUgRFJNIGRyaXZlciBmb3INCj4gUmVuZXNhcyBBUk0t
-YmFzZWQgU0gtTW9iaWxlIGFuZCBSLU1vYmlsZSBTb0NzLiAgVGhlIG5leHQgc3RlcCBwbGFu
-bmVkIGlzDQo+IHRvIGFkZCBEVCBzdXBwb3J0Lg0KPiANCj4gVGhpcyBoYXMgYmVlbiB0ZXN0
-ZWQgb24gdGhlIFItTW9iaWxlIEExLWJhc2VkIEF0bWFyayBUZWNobm8NCj4gQXJtYWRpbGxv
-LTgwMC1FVkEgZGV2ZWxvcG1lbnQgYm9hcmQsIHVzaW5nIGEgdGVtcG9yYXJ5DQo+IHBsYXRm
-b3JtLWVuYWJsZW1lbnQgcGF0Y2hbMV0uDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgY29tbWVu
-dHMhDQo+IA0KPiBbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci9jMDNkNGVkYmQ2NTA4
-MzZiZjZhOTY1MDRkZjgyMzM4ZWM2ZDgwMGZmLjE2ODAyNzI5ODAuZ2l0LmdlZXJ0K3JlbmVz
-YXNAZ2xpZGVyLmJlDQo+IA0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gKDUpOg0KPiAgICBkcm06
-IHNobW9iaWxlOiBVc2UgJXA0Y2MgdG8gcHJpbnQgZm91cmNjIGNvZGVzDQo+ICAgIGRybTog
-c2htb2JpbGU6IEFkZCBzdXBwb3J0IGZvciBEUk1fRk9STUFUX1hSR0I4ODg4DQo+ICAgIGRy
-bTogc2htb2JpbGU6IFN3aXRjaCB0byBkcm1fY3J0Y19pbml0X3dpdGhfcGxhbmVzKCkNCj4g
-ICAgZHJtOiBzaG1vYmlsZTogQWRkIG1pc3NpbmcgY2FsbCB0byBkcm1fZmJkZXZfZ2VuZXJp
-Y19zZXR1cCgpDQo+ICAgIGRybTogc2htb2JpbGU6IE1ha2UgRFJNX1NITU9CSUxFIHZpc2li
-bGUgb24gUmVuZXNhcyBTb0MgcGxhdGZvcm1zDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS9z
-aG1vYmlsZS9LY29uZmlnICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3NobW9iaWxlL3NobW9iX2RybV9jcnRjLmMgIHwgMzUgKysrKysrKysrKysrKysrKysrKy0t
-LQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fZHJ2LmMgICB8ICAz
-ICsrDQo+ICAgZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9rbXMuYyAgIHwg
-IDkgKysrKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9wbGFu
-ZS5jIHwgIDUgKysrKw0KPiAgIDUgZmlsZXMgY2hhbmdlZCwgNDcgaW5zZXJ0aW9ucygrKSwg
-NyBkZWxldGlvbnMoLSkNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
-IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
-LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Hi Dave, Daniel,
 
---------------IrREz1EpaWTr98WYqdzm8yuw--
+Small update. Slow week. Felt like sending a pull request regardless.
 
---------------iBMAxBiqxaasxQ1oHtj09ku8
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+drm-misc-next-2023-03-31:
+drm-misc-next for v6.4-rc1:
 
------BEGIN PGP SIGNATURE-----
+Cross-subsystem Changes:
+- DT bindings update for adding Mali MT81xx devices.
+- Assorted DT binding updates.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQm/bAFAwAAAAAACgkQlh/E3EQov+CL
-6A/+Kx3TRyqGRDdU08FG6qG4Cvf6ANSau0X83PljDvKCotDJS1+kMGxxje96/xVO4NqsYiABZ+oy
-hGfaV31TfsrbOlPRoEKGEVxd1d7bS8wpkqMgERIy5P8JxF29ubozwtJMBrmle9wxqd/3YrCbnSqz
-rd132kSU5DBrHX7/JoQT9RluCWci4SqDxyVDd9sHMFrE96/nS5MidP1IEZwoC+jrXeXaNeXhkti4
-2enO6r+jIJvEPOMCh8ZNLWAjGBvB3nEfWigmu+HiWeGqv/syuHAErIsEuUNIgpYAeqkEJ9j3d6tx
-lPBXEd78YvmuInZWN4gwG3IrrX1twYARTGW6G49bxvV9NhbkFa4urvdC+C+f8hNi33E0AAIEdH3U
-1F0wwL0JDcNvCYzuLvz2vW+geFkBKqMp2GwePrumEaXzRTnFnn42px5xqjD/rOTxYi5On3Lra+ZJ
-ffoEUdsnhiDW/HdeAL/w+B9fb9VcqxcGjkA5h/s8lt2FN2eeAHApl5f54S0xaTMRU9jiZF3NUJVT
-KzNX6KpFZr73VaILnP7/NtCiqUmw8lN510givThUrvNpTcINC2FnWs0DeBRrU6xJdCYXR1KebZBP
-UI1EWwo/wBaAlZl/70ZKvZJCQb4g846mtynvUO3iRqw28jNxuGHcnnHdFFdHoa+N7eyRUWONfUAR
-sBc=
-=sbAn
------END PGP SIGNATURE-----
+Core Changes:
+- Documentation update to scheduler.
 
---------------iBMAxBiqxaasxQ1oHtj09ku8--
+Driver Changes:
+- Add support for the same mali devices.
+- Add support for speed binning to panfrost.
+- Add B133UAN01.0 eDP panel.
+- Assorted small fixes to bridge/ps8640, bridge/it6505, panel/magnachip.
+- Use of_property_read_bool in ps8622 and ofdrm.
+The following changes since commit 82bbec189ab34873688484cd14189a5392946fbb:
+
+   Merge v6.3-rc4 into drm-next (2023-03-29 16:00:23 +0200)
+
+are available in the Git repository at:
+
+   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-03-31
+
+for you to fetch changes up to 7d690f936e9bc9fbd6394fb3d4ad181af03ee393:
+
+   drm/panfrost: Add basic support for speed binning (2023-03-31 11:44:11 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- DT bindings update for adding Mali MT81xx devices.
+- Assorted DT binding updates.
+
+Core Changes:
+- Documentation update to scheduler.
+
+Driver Changes:
+- Add support for the same mali devices.
+- Add support for speed binning to panfrost.
+- Add B133UAN01.0 eDP panel.
+- Assorted small fixes to bridge/ps8640, bridge/it6505, panel/magnachip.
+- Use of_property_read_bool in ps8622 and ofdrm.
+
+----------------------------------------------------------------
+Alyssa Rosenzweig (3):
+       drm/panfrost: Increase MAX_PM_DOMAINS to 5
+       drm/panfrost: Add the MT8192 GPU ID
+       drm/panfrost: Add mediatek,mt8192-mali compatible
+
+AngeloGioacchino Del Regno (11):
+       dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains variation
+       dt-bindings: gpu: mali-bifrost: Set power-domains maxItems to 5
+       dt-bindings: gpu: mali-bifrost: Fix power-domain-names validation
+       dt-bindings: gpu: mali-bifrost: Add sub-schema for MT8192's power domains
+       dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
+       dt-bindings: gpu: mali-bifrost: Add support for MediaTek MT8186
+       dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
+       drm/panfrost: Add new compatible for Mali on the MT8183 SoC
+       drm/panfrost: Add support for Mali on the MT8186 SoC
+       dt-bindings: gpu: mali-bifrost: Document nvmem for speedbin support
+       drm/panfrost: Add basic support for speed binning
+
+Bjorn Andersson (1):
+       drm/panel-edp: Add B133UAN01.0 edp panel entry
+
+Caio Novais (1):
+       drm/scheduler: Fix variable name in function description
+
+Dan Carpenter (1):
+       drm/panel: magnachip: Prevent error pointer dereference in probe
+
+Fabio Estevam (1):
+       dt-bindings: display: seiko,43wvf1g: Change the maintainer's contact
+
+Hsin-Yi Wang (1):
+       drm/bridge: it6505: Add range and selector_reg
+
+Krzysztof Kozlowski (6):
+       dt-bindings: display: panel-simple: merge Innolux p120zdg-bf1
+       dt-bindings: display: novatek,nt36672a: correct VDDIO supply
+       dt-bindings: display: panel-simple-dsi: allow vddio variant
+       dt-bindings: display: panel-simple-dsi: document port
+       dt-bindings: display: visionox,rm69299: document reg
+       dt-bindings: display: boe,tv101wum-nl6: document rotation
+
+Maarten Lankhorst (1):
+       Merge remote-tracking branch 'drm/drm-next' into drm-misc-next
+
+Pin-yen Lin (3):
+       drm/bridge: ps8640: Skip redundant bridge enable
+       drm/bridge: ps8640: Add a cache for EDID
+       drm/bridge: ps8640: Return NULL immediately when EDID read fail
+
+Rob Herring (3):
+       dt-bindings: display: Drop unneeded quotes
+       drm: Use of_property_present() for testing DT property presence
+       drm: Use of_property_read_bool() for boolean properties
+
+  .../bindings/auxdisplay/holtek,ht16k33.yaml        |  2 +-
+  .../bindings/display/amlogic,meson-dw-hdmi.yaml    |  4 +-
+  .../bindings/display/amlogic,meson-vpu.yaml        |  4 +-
+  .../bindings/display/bridge/analogix,anx7625.yaml  |  4 +-
+  .../bindings/display/bridge/cdns,mhdp8546.yaml     |  4 +-
+  .../bindings/display/bridge/nxp,ptn3460.yaml       |  2 +-
+  .../bindings/display/bridge/toshiba,tc358767.yaml  |  2 +-
+  .../devicetree/bindings/display/dp-aux-bus.yaml    |  2 +-
+  .../bindings/display/imx/nxp,imx8mq-dcss.yaml      |  4 +-
+  .../bindings/display/mediatek/mediatek,hdmi.yaml   |  2 +-
+  .../bindings/display/msm/dsi-controller-main.yaml  |  8 +-
+  .../bindings/display/msm/dsi-phy-10nm.yaml         |  2 +-
+  .../devicetree/bindings/display/msm/gmu.yaml       |  4 +-
+  .../devicetree/bindings/display/msm/gpu.yaml       |  4 +-
+  .../devicetree/bindings/display/msm/mdp4.yaml      |  4 +-
+  .../bindings/display/panel/boe,tv101wum-nl6.yaml   |  1 +
+  .../display/panel/innolux,p120zdg-bf1.yaml         | 43 -----------
+  .../bindings/display/panel/novatek,nt36672a.yaml   |  6 +-
+  .../bindings/display/panel/panel-simple-dsi.yaml   | 24 +++++-
+  .../bindings/display/panel/panel-simple.yaml       |  2 +
+  .../bindings/display/panel/ronbo,rb070d30.yaml     |  2 +-
+  .../display/panel/samsung,s6e88a0-ams452ef01.yaml  |  8 ++
+  .../bindings/display/panel/seiko,43wvf1g.yaml      |  2 +-
+  .../bindings/display/panel/visionox,rm69299.yaml   | 25 +++++--
+  .../devicetree/bindings/display/renesas,du.yaml    |  4 +-
+  .../display/tegra/nvidia,tegra114-mipi.yaml        |  2 +-
+  .../display/tegra/nvidia,tegra124-sor.yaml         | 12 +--
+  .../bindings/display/tegra/nvidia,tegra186-dc.yaml |  4 +-
+  .../display/tegra/nvidia,tegra186-dsi-padctl.yaml  |  2 +-
+  .../bindings/display/tegra/nvidia,tegra20-dsi.yaml | 12 +--
+  .../display/tegra/nvidia,tegra20-hdmi.yaml         |  6 +-
+  .../bindings/display/ti/ti,am65x-dss.yaml          |  6 +-
+  .../bindings/display/ti/ti,j721e-dss.yaml          |  4 +-
+  .../devicetree/bindings/display/ti/ti,k2g-dss.yaml |  4 +-
+  .../bindings/display/xylon,logicvc-display.yaml    | 22 +++---
+  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  | 87 +++++++++++++++++++++-
+  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    |  2 +-
+  drivers/gpu/drm/bridge/ite-it6505.c                | 34 ++++++---
+  drivers/gpu/drm/bridge/parade-ps8622.c             |  2 +-
+  drivers/gpu/drm/bridge/parade-ps8640.c             | 65 ++++++++++------
+  drivers/gpu/drm/drm_mipi_dsi.c                     |  2 +-
+  drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  2 +-
+  drivers/gpu/drm/panel/panel-edp.c                  |  1 +
+  .../gpu/drm/panel/panel-magnachip-d53e6ea8966.c    |  2 +-
+  drivers/gpu/drm/panfrost/panfrost_devfreq.c        | 30 ++++++++
+  drivers/gpu/drm/panfrost/panfrost_device.h         |  2 +-
+  drivers/gpu/drm/panfrost/panfrost_drv.c            | 37 +++++++++
+  drivers/gpu/drm/panfrost/panfrost_gpu.c            |  8 ++
+  drivers/gpu/drm/scheduler/sched_main.c             |  2 +-
+  drivers/gpu/drm/sun4i/sun4i_backend.c              |  2 +-
+  drivers/gpu/drm/sun4i/sun8i_mixer.c                |  2 +-
+  drivers/gpu/drm/tiny/ofdrm.c                       |  8 +-
+  drivers/gpu/drm/tiny/simpledrm.c                   |  2 +-
+  drivers/gpu/drm/vc4/vc4_hdmi.c                     |  2 +-
+  54 files changed, 356 insertions(+), 179 deletions(-)
+  delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml
+
+--------------BwqGWNW47EsYm0LcsKQr8wu5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre>Hi Dave, Daniel,
+
+Small update. Slow week. Felt like sending a pull request regardless.
+
+drm-misc-next-2023-03-31:
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- DT bindings update for adding Mali MT81xx devices.
+- Assorted DT binding updates.
+
+Core Changes:
+- Documentation update to scheduler.
+
+Driver Changes:
+- Add support for the same mali devices.
+- Add support for speed binning to panfrost.
+- Add B133UAN01.0 eDP panel.
+- Assorted small fixes to bridge/ps8640, bridge/it6505, panel/magnachip.
+- Use of_property_read_bool in ps8622 and ofdrm.
+The following changes since commit 82bbec189ab34873688484cd14189a5392946fbb:
+
+  Merge v6.3-rc4 into drm-next (2023-03-29 16:00:23 +0200)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2023-03-31
+
+for you to fetch changes up to 7d690f936e9bc9fbd6394fb3d4ad181af03ee393:
+
+  drm/panfrost: Add basic support for speed binning (2023-03-31 11:44:11 +0200)
+
+----------------------------------------------------------------
+drm-misc-next for v6.4-rc1:
+
+Cross-subsystem Changes:
+- DT bindings update for adding Mali MT81xx devices.
+- Assorted DT binding updates.
+
+Core Changes:
+- Documentation update to scheduler.
+
+Driver Changes:
+- Add support for the same mali devices.
+- Add support for speed binning to panfrost.
+- Add B133UAN01.0 eDP panel.
+- Assorted small fixes to bridge/ps8640, bridge/it6505, panel/magnachip.
+- Use of_property_read_bool in ps8622 and ofdrm.
+
+----------------------------------------------------------------
+Alyssa Rosenzweig (3):
+      drm/panfrost: Increase MAX_PM_DOMAINS to 5
+      drm/panfrost: Add the MT8192 GPU ID
+      drm/panfrost: Add mediatek,mt8192-mali compatible
+
+AngeloGioacchino Del Regno (11):
+      dt-bindings: gpu: mali-bifrost: Split out MediaTek power-domains variation
+      dt-bindings: gpu: mali-bifrost: Set power-domains maxItems to 5
+      dt-bindings: gpu: mali-bifrost: Fix power-domain-names validation
+      dt-bindings: gpu: mali-bifrost: Add sub-schema for MT8192's power domains
+      dt-bindings: gpu: mali-bifrost: Add new MT8183 compatible
+      dt-bindings: gpu: mali-bifrost: Add support for MediaTek MT8186
+      dt-bindings: gpu: mali-bifrost: Add compatible for MT8195 SoC
+      drm/panfrost: Add new compatible for Mali on the MT8183 SoC
+      drm/panfrost: Add support for Mali on the MT8186 SoC
+      dt-bindings: gpu: mali-bifrost: Document nvmem for speedbin support
+      drm/panfrost: Add basic support for speed binning
+
+Bjorn Andersson (1):
+      drm/panel-edp: Add B133UAN01.0 edp panel entry
+
+Caio Novais (1):
+      drm/scheduler: Fix variable name in function description
+
+Dan Carpenter (1):
+      drm/panel: magnachip: Prevent error pointer dereference in probe
+
+Fabio Estevam (1):
+      dt-bindings: display: seiko,43wvf1g: Change the maintainer's contact
+
+Hsin-Yi Wang (1):
+      drm/bridge: it6505: Add range and selector_reg
+
+Krzysztof Kozlowski (6):
+      dt-bindings: display: panel-simple: merge Innolux p120zdg-bf1
+      dt-bindings: display: novatek,nt36672a: correct VDDIO supply
+      dt-bindings: display: panel-simple-dsi: allow vddio variant
+      dt-bindings: display: panel-simple-dsi: document port
+      dt-bindings: display: visionox,rm69299: document reg
+      dt-bindings: display: boe,tv101wum-nl6: document rotation
+
+Maarten Lankhorst (1):
+      Merge remote-tracking branch 'drm/drm-next' into drm-misc-next
+
+Pin-yen Lin (3):
+      drm/bridge: ps8640: Skip redundant bridge enable
+      drm/bridge: ps8640: Add a cache for EDID
+      drm/bridge: ps8640: Return NULL immediately when EDID read fail
+
+Rob Herring (3):
+      dt-bindings: display: Drop unneeded quotes
+      drm: Use of_property_present() for testing DT property presence
+      drm: Use of_property_read_bool() for boolean properties
+
+ .../bindings/auxdisplay/holtek,ht16k33.yaml        |  2 +-
+ .../bindings/display/amlogic,meson-dw-hdmi.yaml    |  4 +-
+ .../bindings/display/amlogic,meson-vpu.yaml        |  4 +-
+ .../bindings/display/bridge/analogix,anx7625.yaml  |  4 +-
+ .../bindings/display/bridge/cdns,mhdp8546.yaml     |  4 +-
+ .../bindings/display/bridge/nxp,ptn3460.yaml       |  2 +-
+ .../bindings/display/bridge/toshiba,tc358767.yaml  |  2 +-
+ .../devicetree/bindings/display/dp-aux-bus.yaml    |  2 +-
+ .../bindings/display/imx/nxp,imx8mq-dcss.yaml      |  4 +-
+ .../bindings/display/mediatek/mediatek,hdmi.yaml   |  2 +-
+ .../bindings/display/msm/dsi-controller-main.yaml  |  8 +-
+ .../bindings/display/msm/dsi-phy-10nm.yaml         |  2 +-
+ .../devicetree/bindings/display/msm/gmu.yaml       |  4 +-
+ .../devicetree/bindings/display/msm/gpu.yaml       |  4 +-
+ .../devicetree/bindings/display/msm/mdp4.yaml      |  4 +-
+ .../bindings/display/panel/boe,tv101wum-nl6.yaml   |  1 +
+ .../display/panel/innolux,p120zdg-bf1.yaml         | 43 -----------
+ .../bindings/display/panel/novatek,nt36672a.yaml   |  6 +-
+ .../bindings/display/panel/panel-simple-dsi.yaml   | 24 +++++-
+ .../bindings/display/panel/panel-simple.yaml       |  2 +
+ .../bindings/display/panel/ronbo,rb070d30.yaml     |  2 +-
+ .../display/panel/samsung,s6e88a0-ams452ef01.yaml  |  8 ++
+ .../bindings/display/panel/seiko,43wvf1g.yaml      |  2 +-
+ .../bindings/display/panel/visionox,rm69299.yaml   | 25 +++++--
+ .../devicetree/bindings/display/renesas,du.yaml    |  4 +-
+ .../display/tegra/nvidia,tegra114-mipi.yaml        |  2 +-
+ .../display/tegra/nvidia,tegra124-sor.yaml         | 12 +--
+ .../bindings/display/tegra/nvidia,tegra186-dc.yaml |  4 +-
+ .../display/tegra/nvidia,tegra186-dsi-padctl.yaml  |  2 +-
+ .../bindings/display/tegra/nvidia,tegra20-dsi.yaml | 12 +--
+ .../display/tegra/nvidia,tegra20-hdmi.yaml         |  6 +-
+ .../bindings/display/ti/ti,am65x-dss.yaml          |  6 +-
+ .../bindings/display/ti/ti,j721e-dss.yaml          |  4 +-
+ .../devicetree/bindings/display/ti/ti,k2g-dss.yaml |  4 +-
+ .../bindings/display/xylon,logicvc-display.yaml    | 22 +++---
+ .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  | 87 +++++++++++++++++++++-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    |  2 +-
+ drivers/gpu/drm/bridge/ite-it6505.c                | 34 ++++++---
+ drivers/gpu/drm/bridge/parade-ps8622.c             |  2 +-
+ drivers/gpu/drm/bridge/parade-ps8640.c             | 65 ++++++++++------
+ drivers/gpu/drm/drm_mipi_dsi.c                     |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  2 +-
+ drivers/gpu/drm/panel/panel-edp.c                  |  1 +
+ .../gpu/drm/panel/panel-magnachip-d53e6ea8966.c    |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c        | 30 ++++++++
+ drivers/gpu/drm/panfrost/panfrost_device.h         |  2 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c            | 37 +++++++++
+ drivers/gpu/drm/panfrost/panfrost_gpu.c            |  8 ++
+ drivers/gpu/drm/scheduler/sched_main.c             |  2 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c              |  2 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c                |  2 +-
+ drivers/gpu/drm/tiny/ofdrm.c                       |  8 +-
+ drivers/gpu/drm/tiny/simpledrm.c                   |  2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  2 +-
+ 54 files changed, 356 insertions(+), 179 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux,p120zdg-bf1.yaml
+
+</pre>
+  </body>
+</html>
+
+--------------BwqGWNW47EsYm0LcsKQr8wu5--
