@@ -1,75 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801FE6D136F
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 01:43:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9FD6D13D3
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 02:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90D010E00E;
-	Thu, 30 Mar 2023 23:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B859010E068;
+	Fri, 31 Mar 2023 00:06:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD2410E068
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 23:43:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD3E910E068
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 00:06:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1680219789;
+ s=mimecast20190719; t=1680221187;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=sxdUBC3+7/+FoRE3AV8lIbZMqGBJVuxDsooJhZM+Js0=;
- b=d67SPFPVM7ZtAUKXhW4+8eMD2E/ndwCzQ7bgU/pm8Qi+3odrJ+NjcIK0w5s+ik+O+EyvWL
- GMD6ihhNQV3FtwXue2LfOLZ3uz71B58mgXIS2ZfuAKG91zS91dkWKWMKFYrQLfh29vPJZl
- f4vTjhPO7hrXNmV7VtbtMjIOaosy78c=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YRYzYgFniGZhvmi5nnobFxQwki5yQ+bNYK75Yzixkz4=;
+ b=LVwvWmrItiCfDFz7rrbZjqtwJ56v0T0lSTNl9cmwneRtYD1g73MJTWxx7htFDHaahWuLjK
+ gCigvp59yUek6R31AjvOmCOikkKOm8tjuJzV+rXrqCqGljDfleaX6BVhV0ofIV8rt5RdJ7
+ S5Sh3oIAtIG/LOKxKjg6Plqbb+tyupo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-417-g1Gep-LrOS-cG-htvPemGg-1; Thu, 30 Mar 2023 19:43:08 -0400
-X-MC-Unique: g1Gep-LrOS-cG-htvPemGg-1
-Received: by mail-qv1-f70.google.com with SMTP id
- v8-20020a0ccd88000000b005c1927d1609so8982900qvm.12
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 16:43:08 -0700 (PDT)
+ us-mta-395-OtSKriNBOTCYrq7PSGcKaA-1; Thu, 30 Mar 2023 20:06:26 -0400
+X-MC-Unique: OtSKriNBOTCYrq7PSGcKaA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ k16-20020adfd230000000b002cfe7555486so2202404wrh.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:06:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680219787;
+ d=1e100.net; s=20210112; t=1680221185;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=sxdUBC3+7/+FoRE3AV8lIbZMqGBJVuxDsooJhZM+Js0=;
- b=sNBDcBDxEUNTxorN/K5UyHmz0X09YQmO+ZPBYPYnKlRyaCw0Fz4mAHtXmq/SWeBPf0
- +vpAvo3PTRMXte3rO5iisqVMjLbpDnllsDB/QnDWBdcXlXoK0Ke4Ek1TP6LvXuLNQmp7
- ER+uq4/QuiO6VQbMk1A5PM8Feum/z9QNWolhs0QLINe4i4IfypMobHY0UXbie4tXS9BR
- B/R99bGRVGcyYDpsOvP5jox3ntzH9eB0THV11ZqEzgSUWjste8bf+qx+oRNZ8DTFLqgp
- H0deRn33Yc+qYlb+P1WvuHdvr6HknNHuOn6yrXT3Fhtdf/8pFrAYlf+ywHklLoVWHv3C
- Lv1g==
-X-Gm-Message-State: AO0yUKX88PhJMxcgkZ5R1VTdoP/jqppL9uOlCXsPcpJ3BQR7NCr2o1qN
- PVGmVXojPDAbVOTh4KChRCCBmMR/3yA8ImNyBXo1kQIm6/hF1DpPsUpaPlwnQ4x9Jx660T6/Cc9
- g04AgvwmAViAqJuK0O9SnF+y2uCay
-X-Received: by 2002:a05:622a:1a98:b0:3d8:9b45:d362 with SMTP id
- s24-20020a05622a1a9800b003d89b45d362mr38620980qtc.28.1680219787534; 
- Thu, 30 Mar 2023 16:43:07 -0700 (PDT)
-X-Google-Smtp-Source: AK7set8e+7pjqcJzugW+87SA4B2ztfpVpwfdIdmQmFB4Xnk8pbSHqG3Dep8cVHiY/IIHhrhVsGayJA==
-X-Received: by 2002:a05:622a:1a98:b0:3d8:9b45:d362 with SMTP id
- s24-20020a05622a1a9800b003d89b45d362mr38620961qtc.28.1680219787200; 
- Thu, 30 Mar 2023 16:43:07 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ bh=YRYzYgFniGZhvmi5nnobFxQwki5yQ+bNYK75Yzixkz4=;
+ b=WlseuKUoWLrWmp8Se8QuNTBzd6ql9MdZG5NO+k2bK3Rs1UzkhgdQOlElUguxNOrG52
+ czMSslh1fWswoA2fCxS2FNa534/DlmAk2nqqsgd06L6CkNchnRJgiF10/n2O0oAiG/k2
+ nQgTl8F7H5KW7+sNLurq3cjuS8CjvR0wLjzvNEYakxOUwNJAtlfzIRJhbfOscJj9U+hj
+ sK9gvklabRZMz3tGglV09Ng/kMrV8sPe1mYn9ceniE4tFWbB+STGh2tFjc92m3qXSQv7
+ s6Jl2U7oILUYIvMdIPSTTnNb2Mp/TE8XoVIinzee029N1ni95tnQKtJc/aFZJGkSCNGe
+ vqjA==
+X-Gm-Message-State: AAQBX9eR53OWx4E8w/GCrjxHwdCF+bCaUi0YHAqs+6phaMH2jqtB4VWS
+ 4eD21NACP2bh6SlhqZIycZOTscIi6Zd6IzdQe9djfHLYXgPahZ34MQNV0SKmEfhFWa0Ubq7rCqe
+ OxJzhOBv60sOUuMUzymn6fJv8Jgt8
+X-Received: by 2002:a5d:5229:0:b0:2c7:1c08:121c with SMTP id
+ i9-20020a5d5229000000b002c71c08121cmr19692645wra.61.1680221185597; 
+ Thu, 30 Mar 2023 17:06:25 -0700 (PDT)
+X-Google-Smtp-Source: AKy350bglDYOowPykLhBMeJiilPpFbF5617zH9by5JhkVIpDXwqrgWjr0LW6yJQAzUG+HeI0ngmnFA==
+X-Received: by 2002:a5d:5229:0:b0:2c7:1c08:121c with SMTP id
+ i9-20020a5d5229000000b002c71c08121cmr19692638wra.61.1680221185320; 
+ Thu, 30 Mar 2023 17:06:25 -0700 (PDT)
+Received: from cassiopeiae.. ([2a02:810d:4b3f:de78:642:1aff:fe31:a19f])
  by smtp.gmail.com with ESMTPSA id
- q19-20020ac87353000000b003e387a2fbdfsm235015qtp.0.2023.03.30.16.43.05
+ g16-20020a5d5550000000b002c5598c14acsm662655wrw.6.2023.03.30.17.06.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Mar 2023 16:43:06 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com, HaoPing.Liu@amd.com, aric.cyr@amd.com,
- chiahsuan.chung@amd.com, felipe.clark@amd.com, Angus.Wang@amd.com,
- hanghong.ma@amd.com, lv.ruyi@zte.com.cn, Dillon.Varone@amd.com
-Subject: [PATCH] drm/amd/display: remove unused average_render_time_in_us and
- i variables
-Date: Thu, 30 Mar 2023 19:43:03 -0400
-Message-Id: <20230330234303.1845377-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ Thu, 30 Mar 2023 17:06:24 -0700 (PDT)
+From: Danilo Krummrich <dakr@redhat.com>
+To: luben.tuikov@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+ l.stach@pengutronix.de, christian.koenig@amd.com
+Subject: [PATCH] drm/scheduler: set entity to NULL in
+ drm_sched_entity_pop_job()
+Date: Fri, 31 Mar 2023 02:06:22 +0200
+Message-Id: <20230331000622.4156-1-dakr@redhat.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -87,63 +82,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Danilo Krummrich <dakr@redhat.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-clang with W=1 reports
-drivers/gpu/drm/amd/amdgpu/../display/modules/freesync/freesync.c:1132:15: error: variable
-  'average_render_time_in_us' set but not used [-Werror,-Wunused-but-set-variable]
-        unsigned int average_render_time_in_us = 0;
-                     ^
-This variable is not used so remove it, which caused i to be unused so remove that as well.
+It already happend a few times that patches slipped through which
+implemented access to an entity through a job that was already removed
+from the entities queue. Since jobs and entities might have different
+lifecycles, this can potentially cause UAF bugs.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
+In order to make it obvious that a jobs entity pointer shouldn't be
+accessed after drm_sched_entity_pop_job() was called successfully, set
+the jobs entity pointer to NULL once the job is removed from the entity
+queue.
+
+Moreover, debugging a potential NULL pointer dereference is way easier
+than potentially corrupted memory through a UAF.
+
+Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
- .../drm/amd/display/modules/freesync/freesync.c    | 14 --------------
- 1 file changed, 14 deletions(-)
+I'm aware that drivers could already use job->entity in arbitrary places, since
+they in control of when the entity is actually freed. A quick grep didn't give
+me any results where this would actually be the case, however maybe I also just
+didn't catch it.
 
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index 315da61ee897..5c41a4751db4 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -1129,7 +1129,6 @@ void mod_freesync_handle_preflip(struct mod_freesync *mod_freesync,
- {
- 	struct core_freesync *core_freesync = NULL;
- 	unsigned int last_render_time_in_us = 0;
--	unsigned int average_render_time_in_us = 0;
+If, therefore, we don't want to set job->entity to NULL I think we should at
+least add a comment somewhere.
+---
+
+ drivers/gpu/drm/scheduler/sched_entity.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 15d04a0ec623..a9c6118e534b 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -448,6 +448,12 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 			drm_sched_rq_update_fifo(entity, next->submit_ts);
+ 	}
  
- 	if (mod_freesync == NULL)
- 		return;
-@@ -1138,7 +1137,6 @@ void mod_freesync_handle_preflip(struct mod_freesync *mod_freesync,
++	/* Jobs and entities might have different lifecycles. Since we're
++	 * removing the job from the entities queue, set the jobs entity pointer
++	 * to NULL to prevent any future access of the entity through this job.
++	 */
++	sched_job->entity = NULL;
++
+ 	return sched_job;
+ }
  
- 	if (in_out_vrr->supported &&
- 			in_out_vrr->state == VRR_STATE_ACTIVE_VARIABLE) {
--		unsigned int i = 0;
- 		unsigned int oldest_index = plane->time.index + 1;
- 
- 		if (oldest_index >= DC_PLANE_UPDATE_TIMES_MAX)
-@@ -1147,18 +1145,6 @@ void mod_freesync_handle_preflip(struct mod_freesync *mod_freesync,
- 		last_render_time_in_us = curr_time_stamp_in_us -
- 				plane->time.prev_update_time_in_us;
- 
--		/* Sum off all entries except oldest one */
--		for (i = 0; i < DC_PLANE_UPDATE_TIMES_MAX; i++) {
--			average_render_time_in_us +=
--					plane->time.time_elapsed_in_us[i];
--		}
--		average_render_time_in_us -=
--				plane->time.time_elapsed_in_us[oldest_index];
--
--		/* Add render time for current flip */
--		average_render_time_in_us += last_render_time_in_us;
--		average_render_time_in_us /= DC_PLANE_UPDATE_TIMES_MAX;
--
- 		if (in_out_vrr->btr.btr_enabled) {
- 			apply_below_the_range(core_freesync,
- 					stream,
 -- 
-2.27.0
+2.39.2
 
