@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4106D281C
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 20:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23BA36D2828
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 20:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9783410E3D6;
-	Fri, 31 Mar 2023 18:49:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E6510E538;
+	Fri, 31 Mar 2023 18:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E15610E21E;
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB7D310E427;
  Fri, 31 Mar 2023 18:49:45 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32V7U7G4032539; Fri, 31 Mar 2023 18:49:42 GMT
+ 32VEMHkq019613; Fri, 31 Mar 2023 18:49:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
  h=from : date :
  subject : mime-version : content-type : content-transfer-encoding :
  message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=o1xDfida6T+2ZM6m3nQvQUu+mrA1Fj+ufjyOcqDHCUs=;
- b=fDK68pt0xDWBf+StLHeSWzmEA0YbkBlCfKVIJOin7QTwR3HjqKx1UO775+j9mpBrRfO7
- 6eXuB2/p0C4k5CsONmsLpOUD27Uv1MdB5/6HhtutIVfy38rKLNY104I96WLEVSx7i8y8
- tCctqJEoSW9B2pNiPSD+A+2zl6GGOHkcQGMLNeLawYkhTepDHFUXTMUtBX68jN2DK3hc
- 4bsky8CFEcdn5ivKKS8nQO5J+BDI7lrcNjTtHQMYtFw2/TwHbeOc9BQXJEXamwAKHHit
- krutVdpRxstzXgXVlY+U94uhFtzgxjb58WFRdWATHEJ4iOYEBg/YKnHmxaJevTPIEjuz nA== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ bh=/EsyZ1e7/PWP+HeLMFXD1pWwmNHbmV3kVone6pN5zRU=;
+ b=RYSF1jJbf488yNtKQuCMtQYq5qEyjh7jKsTh4HJQeQ9GDdGpW6B3o8Bd7pQonn0UVriJ
+ j9wkDN2rUwcl+z/Du1H9m+Kl1q2w7iYoFCBSaBR5zNs6WUuBMsbSH033y0XwphmHjmR7
+ Y+UWa8WOuKXPrhKx5FMmNmkGc+vi/sn8Rxk48NyC/Rg+ZAKF8mr34fAqgnGDvB+WxeKP
+ itLfNV3KOKmnGmHil4YSzcik1rvCIlNSQpZTHJpuVIVD/3uoubdr5+UBX0w1iCQ949Xa
+ 494AAYjjPjNC20l6rLnh2HDMtZhuivWIM4ZsTqY+SXPuVvNivwm8K29/T/LyXOGoqGdS Ew== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pnu6ct7yr-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pp178gww9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 31 Mar 2023 18:49:42 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
  [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32VInfe2010562
+ by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32VInfbc029984
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 31 Mar 2023 18:49:41 GMT
 Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
@@ -41,22 +41,21 @@ Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.986.42; Fri, 31 Mar 2023 11:49:41 -0700
 From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Fri, 31 Mar 2023 11:49:16 -0700
-Subject: [PATCH RFC v2 1/6] drm/display/dsc: Add flatness and initial scale
- value calculations
+Date: Fri, 31 Mar 2023 11:49:17 -0700
+Subject: [PATCH RFC v2 2/6] drm/msm: Add MSM-specific DSC helper methods
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20230329-rfc-msm-dsc-helper-v2-1-3c13ced536b2@quicinc.com>
+Message-ID: <20230329-rfc-msm-dsc-helper-v2-2-3c13ced536b2@quicinc.com>
 References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
 In-Reply-To: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
 X-Mailer: b4 0.13-dev-00303
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680288580; l=1274;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680288580; l=4962;
  i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=w4nDYO0S6ZoPV/BNuO9yZna3laIwVxPvO7cZcT4D5X4=;
- b=+mExcUJ6xmrh587LDvt6mql5j489gsdODRi+1MpwwVbunInCT00N8QUyld/qwrIlo0nXZzi7d
- mEw3QXxGHp8AwyXPppKpHWjn5huEp3J+NL8tsgT4ZWuYyeVZ2JN6TxV
+ bh=u/YixmQK3cVCkpt4fFiytcJvq3Fb87XL/+9SAtOjvaA=;
+ b=jtKzpkzgo8DcvEIaAIp8TDb8MnEu5lnugolVtAkQovuL0kD1V5gGuAggj6kF5ReNM5/NfWMuZ
+ 6oz9P1MCmrLBXePWdZsjO7tQvCgZKtKJ/uSA9+1X5ijVoMUZ3m3ji+0
 X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
@@ -65,16 +64,16 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: xQK0GqfEmMRkO66ghW8iX-hDCyIIOUkh
-X-Proofpoint-ORIG-GUID: xQK0GqfEmMRkO66ghW8iX-hDCyIIOUkh
+X-Proofpoint-GUID: fTrA3zMxilo4yLJuhCFGXV3dFt127ncN
+X-Proofpoint-ORIG-GUID: fTrA3zMxilo4yLJuhCFGXV3dFt127ncN
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-31_07,2023-03-31_01,2023-02-09_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 mlxlogscore=999 phishscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0
+ mlxlogscore=559 impostorscore=0 adultscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2303310151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +95,148 @@ Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add helpers to calculate det_thresh_flatness and initial_scale_value as
-these calculations are defined within the DSC spec.
+Introduce MSM-specific DSC helper methods, as some calculations are
+common between DP and DSC.
 
 Changes in v2:
-- Renamed det_thresh_flatness to flatness_det_thresh
-- Set initial_scale_value directly in helper
+- Moved files up to msm/ directory
+- Dropped get_comp_ratio() helper
+- Used drm_int2fixp() to convert to integers to fp
+- Style changes to improve readability
+- Dropped unused bpp variable in msm_dsc_get_dce_bytes_per_line()
+- Changed msm_dsc_get_slice_per_intf() to a static inline method
+- Dropped last division step of msm_dsc_get_pclk_per_line() and changed
+  method name accordingly
+- Changed DSC_BPP macro to drm_dsc_get_bpp_int() helper method
+- Fixed some math issues caused by passing in incorrect types to
+  drm_fixed methods in get_bytes_per_soft_slice()
 
 Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 ---
- include/drm/display/drm_dsc_helper.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/gpu/drm/msm/Makefile         |  1 +
+ drivers/gpu/drm/msm/msm_dsc_helper.c | 53 ++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_dsc_helper.h | 42 ++++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+)
 
-diff --git a/include/drm/display/drm_dsc_helper.h b/include/drm/display/drm_dsc_helper.h
-index 4448c482b092..f6bc268c1719 100644
---- a/include/drm/display/drm_dsc_helper.h
-+++ b/include/drm/display/drm_dsc_helper.h
-@@ -17,6 +17,17 @@ enum drm_dsc_params_kind {
- 	DRM_DSC_1_2_420,
- };
- 
-+static inline void drm_dsc_set_initial_scale_value(struct drm_dsc_config *dsc)
+diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+index 7274c41228ed..b814fc80e2d5 100644
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -94,6 +94,7 @@ msm-y += \
+ 	msm_atomic_tracepoints.o \
+ 	msm_debugfs.o \
+ 	msm_drv.o \
++	msm_dsc_helper.o \
+ 	msm_fb.o \
+ 	msm_fence.o \
+ 	msm_gem.o \
+diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.c b/drivers/gpu/drm/msm/msm_dsc_helper.c
+new file mode 100644
+index 000000000000..60b73e17e6eb
+--- /dev/null
++++ b/drivers/gpu/drm/msm/msm_dsc_helper.c
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
++ */
++
++#include <linux/kernel.h>
++#include <linux/errno.h>
++#include <drm/drm_fixed.h>
++
++#include "msm_drv.h"
++#include "msm_dsc_helper.h"
++
++static s64 get_bytes_per_soft_slice(struct drm_dsc_config *dsc, int intf_width, u32 src_bpp)
 +{
-+	dsc->initial_scale_value = 8 * dsc->rc_model_size /
-+		(dsc->rc_model_size - dsc->initial_offset);
++	int bpp = msm_dsc_get_bpp_int(dsc);
++	s64 numerator_fp, denominator_fp;
++	s64 comp_ratio_fp = drm_fixp_from_fraction(src_bpp, bpp);
++
++	numerator_fp = drm_int2fixp(dsc->slice_width * 3);
++	denominator_fp = drm_fixp_from_fraction(comp_ratio_fp * 8, drm_int2fixp(bpp));
++
++	return drm_fixp_div(numerator_fp, denominator_fp);
 +}
 +
-+static inline int drm_dsc_calculate_flatness_det_thresh(struct drm_dsc_config *dsc)
++u32 msm_dsc_get_eol_byte_num(struct drm_dsc_config *dsc, int intf_width, u32 src_bpp)
 +{
-+	return 2 << (dsc->bits_per_component - 8);
++	u32 bytes_per_soft_slice, extra_eol_bytes, bytes_per_intf;
++	s64 bytes_per_soft_slice_fp;
++	int slice_per_intf = msm_dsc_get_slice_per_intf(dsc, intf_width);
++
++	bytes_per_soft_slice_fp = get_bytes_per_soft_slice(dsc, intf_width, src_bpp);
++	bytes_per_soft_slice = drm_fixp2int_ceil(bytes_per_soft_slice_fp);
++
++	bytes_per_intf = bytes_per_soft_slice * slice_per_intf;
++	extra_eol_bytes = bytes_per_intf % 3;
++	if (extra_eol_bytes != 0)
++		extra_eol_bytes = 3 - extra_eol_bytes;
++
++	return extra_eol_bytes;
 +}
 +
- void drm_dsc_dp_pps_header_init(struct dp_sdp_header *pps_header);
- int drm_dsc_dp_rc_buffer_size(u8 rc_buffer_block_size, u8 rc_buffer_size);
- void drm_dsc_pps_payload_pack(struct drm_dsc_picture_parameter_set *pps_sdp,
++int msm_dsc_get_uncompressed_pclk_per_line(struct drm_dsc_config *dsc, int intf_width, u32 src_bpp)
++{
++	s64 data_width;
++
++	if (!dsc->slice_width || (intf_width < dsc->slice_width))
++		return -EINVAL;
++
++	data_width = drm_fixp_mul(dsc->slice_count,
++			get_bytes_per_soft_slice(dsc, intf_width, src_bpp));
++
++	return drm_fixp2int_ceil(data_width);
++}
+diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h b/drivers/gpu/drm/msm/msm_dsc_helper.h
+new file mode 100644
+index 000000000000..743cd324b7d9
+--- /dev/null
++++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
+@@ -0,0 +1,42 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights reserved
++ */
++
++#ifndef MSM_DSC_HELPER_H_
++#define MSM_DSC_HELPER_H_
++
++#include <drm/display/drm_dsc_helper.h>
++#include <drm/drm_modes.h>
++
++/*
++ * Helper methods for MSM specific DSC calculations that are common between timing engine,
++ * DSI, and DP.
++ */
++
++static inline int msm_dsc_get_bpp_int(struct drm_dsc_config *dsc)
++{
++	WARN_ON_ONCE(dsc->bits_per_pixel & 0xf);
++	return dsc->bits_per_pixel >> 4;
++}
++
++static inline int msm_dsc_get_slice_per_intf(struct drm_dsc_config *dsc, int intf_width)
++{
++	return DIV_ROUND_UP(intf_width, dsc->slice_width);
++}
++
++static inline u32 msm_dsc_get_dce_bytes_per_line(struct drm_dsc_config *dsc, int intf_width)
++{
++	return DIV_ROUND_UP(msm_dsc_get_bpp_int(dsc) * intf_width, 8);
++}
++
++u32 msm_dsc_get_eol_byte_num(struct drm_dsc_config *dsc, int intf_width, u32 src_bpp);
++u32 msm_dsc_get_dce_bytes_per_line(struct drm_dsc_config *dsc, int intf_width);
++
++/* Calculate uncompressed pclk per line. This value will then be passed along to
++ * DSI and DP to calculate pclk_per_line. This is because DSI and DP divide the
++ * uncompressed pclk_per_line by different values depending on if widebus is enabled.
++ */
++int msm_dsc_get_uncompressed_pclk_per_line(struct drm_dsc_config *dsc,
++		int intf_width, u32 src_bpp);
++#endif /* MSM_DSC_HELPER_H_ */
 
 -- 
 2.39.2
