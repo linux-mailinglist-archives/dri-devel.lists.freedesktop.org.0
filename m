@@ -1,50 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86DF6D141B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 02:34:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 005E06D1438
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 02:39:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B50E510F0BE;
-	Fri, 31 Mar 2023 00:34:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25B5910E31A;
+	Fri, 31 Mar 2023 00:39:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B18E510F0BE;
- Fri, 31 Mar 2023 00:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680222881; x=1711758881;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ZQo7yknP25SitbuRWTk343nJSYVGcL363xY0j1/aQPU=;
- b=VLJrFUigcvAMZBE1xX/KaRj0ChJOgF9JV50l4N/AWb45yUaCVtuTijv7
- KrWLOM+tHtWIpkIw9CHvhqQwMdUomS8yrP858QGwyDt3uMdA6JcVG28iV
- f57HDcZdcNLp3jXG4AUxMZRfsLPVWF+uDHAUoL99tWmlvfvW/3mOdmN20
- sRt9mTvjCH/m5+kQdLg5AmWXtdoYlbvCKmgUaDxBbQeeSqEbb5+nPH1i0
- Thbw4oggXJYon+4Gs7RhyTHqrESp1FPxE8f6GLW/7DMx2b+30m3hVkM/f
- b/6VvOGgt1tacLY6vCaLGra9NNe/pPlpoahV4s4wPITJkEtaTNqFnTI8J Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="329844459"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="329844459"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 17:34:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="715220769"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="715220769"
-Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 17:34:40 -0700
-From: fei.yang@intel.com
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/i915/mtl: end support for set caching ioctl
-Date: Thu, 30 Mar 2023 17:36:11 -0700
-Message-Id: <20230331003611.107011-3-fei.yang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230331003611.107011-1-fei.yang@intel.com>
-References: <20230331003611.107011-1-fei.yang@intel.com>
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0C3A10E31A
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 00:39:11 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id g17so26875198lfv.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 17:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680223150;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GGffWxiLWtEc/sDkXGzevKji1Y0bUIbGHyNyuOurZmg=;
+ b=hw6P+cNJTYoVFUvkhbDLCLyr6hkV8w6DdP80DifpNo1tZPIrNXR4LvRxV1DOjkKREh
+ +amDuT0QfAgO9fkwBXYUcFk/Sksxwa8YCiruNRuBTHwfuWVxd2HLmgwjrs2+DJpkuYZJ
+ 7d0WBXPuU574cvAX8TSPEPv/ZwjCMislILLMYgR7Kj5saimZqfizVHEQR6MXiXiT6XNB
+ qe5moXa91McwwRoQKdEDzsPzXAz5yi8EX8m8AIoHJLU5BoJr4nH3LtefyJmgtyO32CM1
+ pE69mICzXN16x5fkrLzHVmccjiBr51/87wPyCwvs9vy3KiYQjwilRPVUzAX7TvMPmo55
+ USFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680223150;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GGffWxiLWtEc/sDkXGzevKji1Y0bUIbGHyNyuOurZmg=;
+ b=yuTw+pUO+FX+pRBk9QZOK2hgriL09uKQPZr2QBdALrIH/WpH5dPxHOmg852jNoAKBS
+ wI5ysXo6qZeCfNYVDbFqIhtCwHzambCrYim7H4wKy0F6Ojl6j+bZwjdikYHgtwU/XD5Y
+ Ze0i4r1eiJJ7rGOmQKHtift3Vocc0rza3RUM5XpgKgG7Q24sw9zi0wZxVF+xFn1Pnzmk
+ nU4ApXob5xyrcL9QAJ/i02knwSGgkkQIfR0fj2eRdDJFRg2V2ku/YNbH/RVWj+a/vdh8
+ Y+ywMCgP53H9ep0XyVP9tlA2bC0eVGTtCsNWiBZ7oF68rLHKd8fwxftcOGupkC9Dg4JP
+ vD0g==
+X-Gm-Message-State: AAQBX9cSshR0Qz08nYbR1MlfDn4c08kzLrKJs2rxAwNaG3Qfxm6w8nAf
+ IPmDVmCBe/O9M5kCIx1/Nvz3dg==
+X-Google-Smtp-Source: AKy350YSStvzpj8ckN2dlm2ZDKPCmXkOO8MPKj1SGrOpVpVoFQCvkIaHGATguDKP7y44/9sGbxM2jQ==
+X-Received: by 2002:ac2:5ec6:0:b0:4eb:20e:6aec with SMTP id
+ d6-20020ac25ec6000000b004eb020e6aecmr7159970lfq.40.1680223149832; 
+ Thu, 30 Mar 2023 17:39:09 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ 10-20020ac2484a000000b004a2c447598fsm147065lfy.159.2023.03.30.17.39.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Mar 2023 17:39:09 -0700 (PDT)
+Message-ID: <48ac39ed-cb14-a07a-447f-b1022c44737e@linaro.org>
+Date: Fri, 31 Mar 2023 03:39:08 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 2/5] drm/msm/a6xx: Add support for A650 speed binning
+Content-Language: en-GB
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, agross@kernel.org, krzysztof.kozlowski@linaro.org
+References: <20230120172233.1905761-1-konrad.dybcio@linaro.org>
+ <20230120172233.1905761-3-konrad.dybcio@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230120172233.1905761-3-konrad.dybcio@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,58 +78,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fei Yang <fei.yang@intel.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, marijn.suijten@somainline.org,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fei Yang <fei.yang@intel.com>
+On 20/01/2023 19:22, Konrad Dybcio wrote:
+> Add support for matching QFPROM fuse values to get the correct speed bin
+> on A650 (SM8250) GPUs.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-The design is to keep Buffer Object's caching policy immutable through
-out its life cycle. This patch ends the support for set caching ioctl
-from MTL onward. While doing that we also set BO's to be 1-way coherent
-at creation time because GPU is no longer automatically snooping CPU
-cache.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Fei Yang <fei.yang@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_domain.c | 3 +++
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c  | 9 ++++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+Thank you for the patch. It took me a while to dive into various ways 
+vendor kernels handle GPU speed bins.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 497de40b8e68..33b73bea1e08 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -335,6 +335,9 @@ int i915_gem_set_caching_ioctl(struct drm_device *dev, void *data,
- 	if (IS_DGFX(i915))
- 		return -ENODEV;
- 
-+	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70))
-+		return -EOPNOTSUPP;
-+
- 	switch (args->caching) {
- 	case I915_CACHING_NONE:
- 		level = I915_CACHE_NONE;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-index 37d1efcd3ca6..e602c323896b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-@@ -601,7 +601,14 @@ static int shmem_object_init(struct intel_memory_region *mem,
- 	obj->write_domain = I915_GEM_DOMAIN_CPU;
- 	obj->read_domains = I915_GEM_DOMAIN_CPU;
- 
--	if (HAS_LLC(i915))
-+	/*
-+	 * MTL doesn't snooping CPU cache by default for GPU access (namely
-+	 * 1-way coherency). However some UMD's are currently depending on
-+	 * that. Make 1-way coherent the default setting for MTL. A follow
-+	 * up patch will extend the GEM_CREATE uAPI to allow UMD's specify
-+	 * caching mode at BO creation time
-+	 */
-+	if (HAS_LLC(i915) || (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 70)))
- 		/* On some devices, we can have the GPU use the LLC (the CPU
- 		 * cache) for about a 10% performance improvement
- 		 * compared to uncached.  Graphics requests other than
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 17 +++++++++++++++++
+>   1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 0ee8cb3e490c..c5f5d0bb3fdc 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1894,6 +1894,20 @@ static u32 a640_get_speed_bin(u32 fuse)
+>   	return UINT_MAX;
+>   }
+>   
+> +static u32 a650_get_speed_bin(u32 fuse)
+> +{
+> +	if (fuse == 0)
+> +		return 0;
+> +	else if (fuse == 1)
+> +		return 1;
+> +	else if (fuse == 2)
+> +		return 2;
+> +	else if (fuse == 3)
+> +		return 3;
+> +
+> +	return UINT_MAX;
+> +}
+> +
+>   static u32 adreno_7c3_get_speed_bin(u32 fuse)
+>   {
+>   	if (fuse == 0)
+> @@ -1922,6 +1936,9 @@ static u32 fuse_to_supp_hw(struct device *dev, struct adreno_rev rev, u32 fuse)
+>   	if (adreno_cmp_rev(ADRENO_REV(6, 4, 0, ANY_ID), rev))
+>   		val = a640_get_speed_bin(fuse);
+>   
+> +	if (adreno_cmp_rev(ADRENO_REV(6, 5, 0, ANY_ID), rev))
+> +		val = a650_get_speed_bin(fuse);
+> +
+>   	if (val == UINT_MAX) {
+>   		DRM_DEV_ERROR(dev,
+>   			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware\n",
+
 -- 
-2.25.1
+With best wishes
+Dmitry
 
