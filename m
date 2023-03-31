@@ -1,81 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58F56D282B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 20:50:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C3B6D2896
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 21:18:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5DE410E56A;
-	Fri, 31 Mar 2023 18:50:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229C010F2DB;
+	Fri, 31 Mar 2023 19:17:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC88510E430;
- Fri, 31 Mar 2023 18:49:45 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 32VHlVNX032700; Fri, 31 Mar 2023 18:49:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : date :
- subject : mime-version : content-type : content-transfer-encoding :
- message-id : references : in-reply-to : to : cc; s=qcppdkim1;
- bh=1dCe6zH5TPV9+NSxkoSOLELQx+Dutd50keKEdWexZEI=;
- b=TFlJ5muIsRRv2iBImiJPiZITUrOXQoqGGBYVvcUBOlxRwxbGcKkd38z31K4ENxnJyoH7
- B1E89AUgSNPChw7b/NfdAkGgyx2Ze9AAw/0aSDYH76YfIQRuQ8kRjU+klX9rHCsQD+fW
- ZQ3ZqPkdQk+2VQk5IvUzbPb1nWnJdC2WMrktg6o45SKXNiUMxL+5lCd73ek+xLK7UKVd
- cdA+0VhMByZrESBHXxx6fzdXGb8jZgj99ttaVXtgGyEVkReMHYWkTV3+lBD/i62bIgn5
- RCuJbg1B9Bijkuws5ZQBl2MZ6nRvUpAi0eW0jfQeSAX5HjHP2R1iuRZGI+bWKEIoDAhj uA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pnyey9dgh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 18:49:43 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32VIngWq030059
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 31 Mar 2023 18:49:42 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.42; Fri, 31 Mar 2023 11:49:42 -0700
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Fri, 31 Mar 2023 11:49:21 -0700
-Subject: [PATCH RFC v2 6/6] drm/msm/dsi: Fix calculations for eol_byte_num
- and pkt_per_line
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70AE310F2DB;
+ Fri, 31 Mar 2023 19:17:51 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id bi31so17439410oib.9;
+ Fri, 31 Mar 2023 12:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680290270;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=dyUK9GE+quS5Hgwf5w2XMS5JC5zRXhYFpXjWFPP6RP8=;
+ b=nJ5Fv5nX0WXNS4A8UEr5XTitzzM3A9uac9Xsb/j6+qCsiC1L7IKY1zKhLU2D6XfPLH
+ 6pmEKmgJDjUGKqKgmdOFb9OZMTcuAB4+9klV50H2mN2gyTAFR97deoOKuUooQznComz+
+ J24BWLbKiw2nf3DSGB/NB/8rpG2DfLoNkjKWy6JZr+t31NqMsdUe40rYcGtVCjms/CDZ
+ C/srtSFx880KA2IL+clSzAYNk/o4sfKxcdzAkV8IRoOC8FNocDEtt2YcDI1y5gKf8eUa
+ 4P0FBMCXzwZJIS+YJoZ+09SxOD0sG6vZkSDwbEPLmUlcmf522bKeH0btK3uZUss0wxk6
+ PZEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680290270;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=dyUK9GE+quS5Hgwf5w2XMS5JC5zRXhYFpXjWFPP6RP8=;
+ b=NIQDP4qb+DuGl/37X9+WlaiHnwIfuw6OBCGI58YxnW5AAQi8WZRhBS84UEMIsEi/a7
+ 6zfvuoo73A8wMpX4rhZdryN11ttCGfPZShHMAaqNk3SvBx1ahSgNyPR9Xf8CSGfIvy39
+ JJEqZss/QNzKU+OIhpiVMlWZtYDZ96sTi5GbAdR4EiH3BSSOQAFWuIfY8bCrD76h74t5
+ 7ihSV3QbOHMVfebVxh6vsusngOnLFzI8Zh22OZkMp18v2kagwLJBHXNNjzUZN+WI7su/
+ NP5Qe8Bkj+Vn5aj4vN6iRkegSm0fy/Z268yHZIBmRoUf4VDNjnlYSARX3JtkJNE4GplJ
+ z3ow==
+X-Gm-Message-State: AAQBX9fBceHL7TmPGPcjMUhs6zrSIgxwWvTdLjZrp3KloSzCnWAzunYt
+ 8UIZcwd5tqZh4vN3N3eQv/BaeJMinp56U1BdrdPY5Ui/
+X-Google-Smtp-Source: AKy350Z5Lw4lsx5IxbABdcfN0xax1adbEntwD2wG99oDjFQNyPVyWpYtOmpiMhr29+0LoYM1Hu8nGF3dIDfHzgwKji0=
+X-Received: by 2002:a54:4019:0:b0:386:a2d0:2814 with SMTP id
+ x25-20020a544019000000b00386a2d02814mr5024050oie.4.1680290270559; Fri, 31 Mar
+ 2023 12:17:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20230329-rfc-msm-dsc-helper-v2-6-3c13ced536b2@quicinc.com>
-References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-X-Mailer: b4 0.13-dev-00303
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680288580; l=2041;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=kZKkwVo7xgmDFtSUOvXsSf99R0JW0VaxoP+632K9wZg=;
- b=wpTz5kOivSE5xkvzd7pAKcAy+zCqSGK9zSLq5rQ8JCw46RoYlgmOzSDlYDdxCseGvsv8bzSrk
- y1Eh1YgVjLRAu0988ULDMj+kG7i6wcAW1En117Mpy377m50NJ8uwlTt
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Tu_LWpWv1dqCHCHqnSF2AyH7ux9b0BFJ
-X-Proofpoint-ORIG-GUID: Tu_LWpWv1dqCHCHqnSF2AyH7ux9b0BFJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-03-31_07,2023-03-31_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 priorityscore=1501 clxscore=1015
- phishscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303200000 definitions=main-2303310151
+References: <20230330195043.1136322-1-alexander.deucher@amd.com>
+ <aeb5c27e-121d-f666-249c-898e98d5ec2f@gmail.com>
+In-Reply-To: <aeb5c27e-121d-f666-249c-898e98d5ec2f@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 31 Mar 2023 15:17:39 -0400
+Message-ID: <CADnq5_MSAWnK18rbST28iJKTDM2Tr58wL7ak2CGoeJ845HTOqg@mail.gmail.com>
+Subject: Re: [PATCH] drm/ttm: add NUMA node id to the pool
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,62 +68,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: Felix Kuehling <felix.kuehling@amd.com>,
+ Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Graham Sider <graham.sider@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the correct calculations for eol_byte_num and pkt_per_line.
+On Fri, Mar 31, 2023 at 2:54=E2=80=AFAM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Should I push this to drm-misc-next or do we take it through
+> amd-staging-drm-next?
 
-Currently, pkt_per_line is calculated by dividing slice_per_intf by
-slice_count. This is incorrect, as slice_per_intf should be divided by
-slice_per_pkt, which is not always equivalent to slice_count as it is
-possible for there to be multiple soft slices per interface even though
-a panel only specifies one slice per packet.
+I think either way is fine.  We can carry it internally as needed for
+testing if you want to commit it to drm-misc-next.  I don't think
+there are any direct code dependencies, but you or Rajneesh can
+correct me if I'm wrong.
 
-For eol_byte_num, the current calculation describes the size of the
-trailing bytes in the line. Change the calculation so that it describes
-the number of padding bytes instead.
+Alex
 
-Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index b7ab81737473..613ec19f4383 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -842,7 +842,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
- {
- 	struct drm_dsc_config *dsc = msm_host->dsc;
- 	u32 reg, reg_ctrl, reg_ctrl2;
--	u32 slice_per_intf, total_bytes_per_intf;
-+	u32 slice_per_intf;
- 	u32 pkt_per_line;
- 	u32 eol_byte_num;
- 
-@@ -859,10 +859,12 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
- 	if (dsc->slice_count > slice_per_intf)
- 		dsc->slice_count = 1;
- 
--	total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
-+	eol_byte_num = msm_dsc_get_eol_byte_num(dsc, hdisplay, dsi_get_bpp(msm_host->format));
- 
--	eol_byte_num = total_bytes_per_intf % 3;
--	pkt_per_line = slice_per_intf / dsc->slice_count;
-+	/* Default to 1 slice_per_pkt, so pkt_per_line will be equal to
-+	 * slice per intf.
-+	 */
-+	pkt_per_line = slice_per_intf;
- 
- 	if (is_cmd_mode) /* packet data type */
- 		reg = DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
-
--- 
-2.39.2
-
+>
+> Christian.
+>
+> Am 30.03.23 um 21:50 schrieb Alex Deucher:
+> > From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+> >
+> > This allows backing ttm_tt structure with pages from different NUMA
+> > pools.
+> >
+> > Tested-by: Graham Sider <graham.sider@amd.com>
+> > Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+> > Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> > ---
+> >   drivers/gpu/drm/ttm/ttm_device.c |  2 +-
+> >   drivers/gpu/drm/ttm/ttm_pool.c   | 13 ++++++++-----
+> >   include/drm/ttm/ttm_pool.h       |  4 +++-
+> >   3 files changed, 12 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm=
+_device.c
+> > index e7147e304637..4a8164a5320f 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_device.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_device.c
+> > @@ -218,7 +218,7 @@ int ttm_device_init(struct ttm_device *bdev, struct=
+ ttm_device_funcs *funcs,
+> >       bdev->funcs =3D funcs;
+> >
+> >       ttm_sys_man_init(bdev);
+> > -     ttm_pool_init(&bdev->pool, dev, use_dma_alloc, use_dma32);
+> > +     ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, use_=
+dma32);
+> >
+> >       bdev->vma_manager =3D vma_manager;
+> >       INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
+> > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_p=
+ool.c
+> > index 9f6764bf3b15..1068a41cded1 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > @@ -92,7 +92,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_po=
+ol *pool, gfp_t gfp_flags,
+> >                       __GFP_KSWAPD_RECLAIM;
+> >
+> >       if (!pool->use_dma_alloc) {
+> > -             p =3D alloc_pages(gfp_flags, order);
+> > +             p =3D alloc_pages_node(pool->nid, gfp_flags, order);
+> >               if (p)
+> >                       p->private =3D order;
+> >               return p;
+> > @@ -286,7 +286,7 @@ static struct ttm_pool_type *ttm_pool_select_type(s=
+truct ttm_pool *pool,
+> >                                                 enum ttm_caching cachin=
+g,
+> >                                                 unsigned int order)
+> >   {
+> > -     if (pool->use_dma_alloc)
+> > +     if (pool->use_dma_alloc || pool->nid !=3D NUMA_NO_NODE)
+> >               return &pool->caching[caching].orders[order];
+> >
+> >   #ifdef CONFIG_X86
+> > @@ -523,29 +523,32 @@ EXPORT_SYMBOL(ttm_pool_free);
+> >    *
+> >    * @pool: the pool to initialize
+> >    * @dev: device for DMA allocations and mappings
+> > + * @nid: NUMA node to use for allocations
+> >    * @use_dma_alloc: true if coherent DMA alloc should be used
+> >    * @use_dma32: true if GFP_DMA32 should be used
+> >    *
+> >    * Initialize the pool and its pool types.
+> >    */
+> >   void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+> > -                bool use_dma_alloc, bool use_dma32)
+> > +                int nid, bool use_dma_alloc, bool use_dma32)
+> >   {
+> >       unsigned int i, j;
+> >
+> >       WARN_ON(!dev && use_dma_alloc);
+> >
+> >       pool->dev =3D dev;
+> > +     pool->nid =3D nid;
+> >       pool->use_dma_alloc =3D use_dma_alloc;
+> >       pool->use_dma32 =3D use_dma32;
+> >
+> > -     if (use_dma_alloc) {
+> > +     if (use_dma_alloc || nid !=3D NUMA_NO_NODE) {
+> >               for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> >                       for (j =3D 0; j < MAX_ORDER; ++j)
+> >                               ttm_pool_type_init(&pool->caching[i].orde=
+rs[j],
+> >                                                  pool, i, j);
+> >       }
+> >   }
+> > +EXPORT_SYMBOL(ttm_pool_init);
+> >
+> >   /**
+> >    * ttm_pool_fini - Cleanup a pool
+> > @@ -559,7 +562,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
+> >   {
+> >       unsigned int i, j;
+> >
+> > -     if (pool->use_dma_alloc) {
+> > +     if (pool->use_dma_alloc || pool->nid !=3D NUMA_NO_NODE) {
+> >               for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
+> >                       for (j =3D 0; j < MAX_ORDER; ++j)
+> >                               ttm_pool_type_fini(&pool->caching[i].orde=
+rs[j]);
+> > diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> > index ef09b23d29e3..23bd8be6d4f8 100644
+> > --- a/include/drm/ttm/ttm_pool.h
+> > +++ b/include/drm/ttm/ttm_pool.h
+> > @@ -61,12 +61,14 @@ struct ttm_pool_type {
+> >    * struct ttm_pool - Pool for all caching and orders
+> >    *
+> >    * @dev: the device we allocate pages for
+> > + * @nid: which numa node to use
+> >    * @use_dma_alloc: if coherent DMA allocations should be used
+> >    * @use_dma32: if GFP_DMA32 should be used
+> >    * @caching: pools for each caching/order
+> >    */
+> >   struct ttm_pool {
+> >       struct device *dev;
+> > +     int nid;
+> >
+> >       bool use_dma_alloc;
+> >       bool use_dma32;
+> > @@ -81,7 +83,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_=
+tt *tt,
+> >   void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt);
+> >
+> >   void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
+> > -                bool use_dma_alloc, bool use_dma32);
+> > +                int nid, bool use_dma_alloc, bool use_dma32);
+> >   void ttm_pool_fini(struct ttm_pool *pool);
+> >
+> >   int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m);
+>
