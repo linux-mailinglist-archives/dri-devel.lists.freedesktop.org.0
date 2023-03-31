@@ -1,64 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74136D29DF
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 23:14:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D326D2A09
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 23:35:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5360610F30E;
-	Fri, 31 Mar 2023 21:14:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEBB10E2DC;
+	Fri, 31 Mar 2023 21:35:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
- [IPv6:2001:4860:4864:20::30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E79AF10E237;
- Fri, 31 Mar 2023 21:13:53 +0000 (UTC)
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-17aa62d0a4aso24542979fac.4; 
- Fri, 31 Mar 2023 14:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680297233;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uye+k/aXPz8CoYAbk4kJpVn7VzK4SSKRz7XjPay2Tx8=;
- b=i2A52kIwgu/IsJeEd0fhDyNYB0bMURs4pE0LCb2MZC/xlpPNvcQKCo3igln+ujjFgj
- OQ8BGPeyTmaPw9u+HpgOtjWajxrIavjTWwr7YKXcszBwRA2hP2PpHIzz4xJ2AssQi5k7
- dRfahBR2fWFVNUMR/MX8SqSQTs48QKw02JWPanGo98c8QxoCPs6yU9qvFBkjq9Ekt/81
- BSPHqMEn3YnEiEUyGBBGGwSHveNr+eAnJLQ2N3jXJZHBS4KzB+aANHfkrzFJmh+OlsWq
- 85RzR1Nc2wPTC6iqB1hXR01Tk6vvu4GwlEO0GuivlJSk1l1PdDrgDlsYiOIvo36F5/q3
- BXhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680297233;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uye+k/aXPz8CoYAbk4kJpVn7VzK4SSKRz7XjPay2Tx8=;
- b=xXwS2VzW+G1Q3qL3r1ezxfzo2CXCSu+6ery+u1jWMVB0/d2l94vvKe+l3pm9QYpRBe
- Ypp9mkeJBpQWLrvud3WuSmup7VH1DZRYZ6ABH6ObfmbHJAzyCPa8N8bOdwcSsclXOxuQ
- GluqilR0ymrMZ7A6HLjmknz9wNcW0aOaN0NWrwUR01htPXoUooX0QiyZADBwMup4X22w
- O6Lb0B51uufwbHdElk840NR12s4SoJg6clzlr5U7sitrG3syGvyZarzn7eAy/xpSBKra
- kMcBaEV+HV0bp/SMobgnJ6H2LwgsrwYvi3YXXKS0ktFg1Bc91M8tQ8Io/ehydIabimRH
- Gvog==
-X-Gm-Message-State: AAQBX9eFYttLYb19PpGOLWsZ2c2cOCbMCDcrEe70stDi43ryE5M+MqBT
- gW2HRS4XJatoJ9mNN55XC8jN9mV4YR7Wv5XLMUxP39X4
-X-Google-Smtp-Source: AKy350bVjoT9F7xh65tK7zy2O+0Vb3MfXqzUvobk+WrArtzGD/JygqMd+uGc9WQuQsiYShN1U5pnmEFa3hpHhQV9clA=
-X-Received: by 2002:a05:6871:4910:b0:177:b992:fee7 with SMTP id
- tw16-20020a056871491000b00177b992fee7mr7474472oab.3.1680297233071; Fri, 31
- Mar 2023 14:13:53 -0700 (PDT)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D239110E298;
+ Fri, 31 Mar 2023 21:35:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680298538; x=1711834538;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=TXESyZC2muc2kIU5LFvtt6TlKDdAvn7Y3y7tEFWsYIY=;
+ b=PE9WGHS6E3kS5GD6vCoSaJsrFg1zEHXvP/8zXcz7I47A+vWJDRGNfY5l
+ MSwRrwdIdEedI2sZl8PHl6Q693ozY8UKKqADQfx+NlBqwkVsInAAUKEWT
+ 4xyhjgjUS6iY2h4ARrObJFv1R5WG6twmIonMVUywz6fYKP/fmJ27AR9le
+ 03lPuiQMWskmL+XQjFg9QzXlNeuGJK+yF9aASxGz5v2yWQaHgw8+/4+Vk
+ uWNiYvueAk2j2axW+DfHpoz68iXuwIeyqcVNBZbhM7+LCcmF9UIB4iT4V
+ q7Tvd7RYh+YFHncIwXcr1Up4ddyyrS80ozlsXuU5x0cqyDgFm01HJluiH Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="341580541"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="341580541"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 14:35:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="717869703"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="717869703"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orsmga001.jf.intel.com with ESMTP; 31 Mar 2023 14:35:34 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Fri, 31 Mar 2023 14:35:34 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21 via Frontend Transport; Fri, 31 Mar 2023 14:35:34 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.21; Fri, 31 Mar 2023 14:35:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j49yFZmWy1wwGm1zwosaZycNJvAk5iWIWIEPDqJbOb2rQ1IMpG38DrPApTyFQYLutApIEw//YShhBfZVy0nlI7KIKGZltoT8LAsysQDNQXCJWK6iwB02AGe6a4YGI4ZMAXu/CacKjf4mAu6dhd91rFZBoUhfhXVjoqsBW/ZXh9WmcfrxEGeghMW06PQNOUMqAhrrDXcR8NxsEYNNN1mpKfrWNWrYSyfuhf3aJngyjfyWhrL1jYLffX7dp5OgayY7q/vLKS51XfPvgA9y3IUK6PL8bQs3FIuB4vGTQF5LM60zpm9qOFfjAffILxPENXhOsGkbe2iSRubn4hvg+K1SzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m7T3z67eawq3ncugw8HxDzRO6j2vaE6vSy+kUUX3keI=;
+ b=lX3Nv1+HNlBoXk1V2tt74Q8FFNVSsjkiqG+WDjfDJW1dMFbN2ThGlf/AmmQcrmtnySUDhBdJ6Gz471pmXW2WLMO5+XzY0fJgjL4j3B0kyhm+yzQlt9VV6V2NGCk1md1z8vHcoQM0aTkRN6Hw4wDmovJ/b+7Ke+h4d+tWE4nOZEoz5ueZwEvSpCbv0DaOXllWC+67bdAqPt9xZzamFCbCzVTq1vL0yC5ac+X7wmvV9L51T81q4BH8XY+/+6daIhssHNoTVtn76RiH/U2I9nCG7Za1yHupkPAYiVCa1+RVKsOpM1fV6ZHG55s7SXjFh2qiDkpNQ/WsIEBD/BpbwTZzYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by MW4PR11MB6810.namprd11.prod.outlook.com (2603:10b6:303:207::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.20; Fri, 31 Mar
+ 2023 21:35:32 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::2629:fb12:6221:3745]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::2629:fb12:6221:3745%5]) with mapi id 15.20.6254.022; Fri, 31 Mar 2023
+ 21:35:32 +0000
+Date: Fri, 31 Mar 2023 14:35:29 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-xe] [PATCH 1/3] drm/xe: Remove unused revid from firmware
+ name
+Message-ID: <20230331213529.p4th6rtasyj7s2wq@ldmartin-desk2.lan>
+References: <20230324051754.1346390-1-lucas.demarchi@intel.com>
+ <20230324051754.1346390-2-lucas.demarchi@intel.com>
+ <20230327165955.GI4085390@mdroper-desk1.amr.corp.intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20230327165955.GI4085390@mdroper-desk1.amr.corp.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0285.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::20) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-References: <20230330195043.1136322-1-alexander.deucher@amd.com>
- <aeb5c27e-121d-f666-249c-898e98d5ec2f@gmail.com>
- <CADnq5_MSAWnK18rbST28iJKTDM2Tr58wL7ak2CGoeJ845HTOqg@mail.gmail.com>
- <dd4944ef-ef9b-4070-8012-543a78bb9e58@amd.com>
-In-Reply-To: <dd4944ef-ef9b-4070-8012-543a78bb9e58@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 31 Mar 2023 17:13:42 -0400
-Message-ID: <CADnq5_Own3UvYg3oH7dFuMRqi6qO+e+=ZxKJeRi=-kXu+L0hGg@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: add NUMA node id to the pool
-To: Felix Kuehling <felix.kuehling@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|MW4PR11MB6810:EE_
+X-MS-Office365-Filtering-Correlation-Id: cda734e6-27ba-45ed-190b-08db322fdabd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3JQhG/C7ItVZhbgqqruQo5jycM6bT2J0M39WGfQ+Dn2MMDOWEyNx6oBTcIlL0xwZmlHqSaZkKtQ3TR6Re7goMLG+Nyh+Zf8Y1SJKWAL9iKpOrLamY72bUbNTKZbdZkKS70mMueZ1n44dwMvo+ph4k45nkLdZi2qVMjrAgh8UOcWsfS7q9wHP2t5hM5TeJNpdySWoKm0z2lk0TwUqV1hDYALs29JN8L3PA6yMDiMeOIqqx28ahhfgA43xr/Y2liLH7GS53Nv0mq+33WeJM0+mlrhBV/PlTnYp2of1Q1mDRU04fJHHgWjavuQLaRq97lSUFihDWcdpIG2rYjIAS+Or9mv0HR+KZbi9kBBsdBbFEB/MNPo+8p3ohzzXucGM9luTXdO4AkP1CW/ZFY6qEOoLo4bUs9O3JSM1mWTE0Y6wtZ5rdmbZaJl1UW05JVSGLvoLiQ/QlLVenQr+5hsvkMapgJcf/9OICus/SYVwLJ5A34mOa92oWJ5sS4i+I99TrgJtNAeImaqeNK0r5UJx8CDB2h5o0XTl8rOalswJ2KGTRO2/OhrkQWH1O25cTXZF3FCk
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(366004)(346002)(376002)(39860400002)(396003)(136003)(451199021)(86362001)(26005)(1076003)(6512007)(6506007)(186003)(9686003)(6666004)(66946007)(5660300002)(66556008)(6862004)(478600001)(66476007)(316002)(8676002)(36756003)(6636002)(41300700001)(4326008)(6486002)(54906003)(8936002)(4744005)(82960400001)(38100700002)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qJ3+AUtsfyJQd/ML3rQRYRko47c+V/Emd+rokt+HQz6nO3yECK+8MesO8NwP?=
+ =?us-ascii?Q?/uCo4AOHH+catWWxehQLdzN9pyVFBaxI1mhwi6k/6lk9V6h9kJmonEpjK8TZ?=
+ =?us-ascii?Q?GQsgOu8BuDWCRt54QOzpw+OZR+r0WXskXW3I9McChgsjibz/CfuRoPtNxCnC?=
+ =?us-ascii?Q?RbUIZ4Y9cYWK3WoeqMmq0MmV8r5JAx4diLWpI6OzDykk46nsBoJnyCuc+eyL?=
+ =?us-ascii?Q?vy/WEbnBQrtQJc/KDeZCDZCmF+Luq0Pdr1K/6NBS7PC04Ei5SlCXm7Sxq9CQ?=
+ =?us-ascii?Q?K/Ht7Zg+sGdxEZN52S3wgzKUWxs+tlGwrDRe07TddwUMYSPGNEansKymT+j9?=
+ =?us-ascii?Q?7MOLKyiujhBRbFo3Y4R7fH9Xuihu8OtGdkwy8HFM+sMzos+mWnqdy7MIa/Yf?=
+ =?us-ascii?Q?VuzD0276hAf/YXedZu2Siz/plduqCN/xwDZRimfPUZiD2G9zBhRVxFRjSt+T?=
+ =?us-ascii?Q?C//i71RuEJPeeKTiqGwe4UyFumDPWRJaNnLUi7FZAZReSJywMbpQbEuHXREz?=
+ =?us-ascii?Q?Vha/SnaB94PTak/17n8jASH+F3eSWgN6+EZnRoXSJGIIRVd2XJMmsXOorX4a?=
+ =?us-ascii?Q?W7NSsthDqHW/np+zf+QL1z7OfpAO/i6ekMQU/RefFcC2KkvvbiRYAoqupD46?=
+ =?us-ascii?Q?QhTCFr5E+r5gj41MJeYhluSk2Uh2XoXMGoG1NUv500EjfEHrD1wc/Rzl7Rra?=
+ =?us-ascii?Q?DlUe6UgrUIJ1pIruoAUVQas3TgHA5WrKUMaLF98M49qian9s4SpDAGU5Y9bo?=
+ =?us-ascii?Q?0Ao6ojwzSPR2dBKTBa6XHrAJ9/Q8IZQa51JnXhtTcf4vVmxauNsISJPnGrVQ?=
+ =?us-ascii?Q?mRl7s4w19SkHMDIGaTytVRba4fUuI1tQA9g/BPN8sSItSveuitHfmDah+eIw?=
+ =?us-ascii?Q?1le1hfBFHb81xvvG4PCUGSPo2S7NohHxRyzqJ39Qu61dYQTYYn4gXkMh9Tvo?=
+ =?us-ascii?Q?PRV0QeTuj4eJeZTkApxgJMfvZGbRyzeVW7N1GCn4Lo0+Vxe1WWXXjziTbcUS?=
+ =?us-ascii?Q?A88q2PrHgR4S1kwPw1GnlRDQCiGu+0OVeQy2/Qoe2px/l4pIqJu+VpWhpxjY?=
+ =?us-ascii?Q?AX2bP6YOB/frH2tm8Jm9uhwmExvtaqN3KBuynclO3QwB16iEbc8r8nuOHPNj?=
+ =?us-ascii?Q?hUbvby/IAE0PV0cgr7ugUx0o6vOWxYiRFs0OXSuzDyCHxFEqPV4aFHq49MFD?=
+ =?us-ascii?Q?zPi0BK88vEXs85JBc/wQVk8b54qj7zOOkZL4MRcjwYWwOgqfq/3Xp7iPGGmg?=
+ =?us-ascii?Q?jp34D83QKm9bA2Zq72le/ZrUks39Zhd7pGEBtvWDqsoqsqVOD0bI1unmwOQ8?=
+ =?us-ascii?Q?p/sG7YH8klxT8TT++6D2eTUETuL7stxlSbQ2btBXX1RJszDDaoxoZDKLVvqX?=
+ =?us-ascii?Q?iexr9U5OxjMMRoNTUNAGEyseRFhvoIiDl3FkL+Pr6cvTqAk9V9JHDOozTVoJ?=
+ =?us-ascii?Q?Y2llYrwvrbXbQzLMJwfywxi+koiHfnJyIM48VPvv86ddAKNJdXg7vHcx/MMr?=
+ =?us-ascii?Q?mAWE6t9NBAnlaxmN31tqq/h1lx9EwIsKe13KDrtLynTZDlBp9MIrJhcwT2yA?=
+ =?us-ascii?Q?i94SrmVJbnDxfPKH/BRroxeJdHkZt/zWDWnbWB/dOKMVjUBJrnHYatnFwmRI?=
+ =?us-ascii?Q?Vg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cda734e6-27ba-45ed-190b-08db322fdabd
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2023 21:35:32.0004 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K9ylGpnRYyYwauu0fLihX+tF5akNYDYHq3pfALItVX39FiX0vsA4QS+rP4vGQ8coGEnBaeY+CLI0/xg3l9mbmuRtantZDB/5DnoGuRE+SnU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6810
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,175 +145,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Graham Sider <graham.sider@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Anusha Srivatsa <anusha.srivatsa@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 4:02=E2=80=AFPM Felix Kuehling <felix.kuehling@amd.=
-com> wrote:
+On Mon, Mar 27, 2023 at 09:59:55AM -0700, Matt Roper wrote:
+>On Thu, Mar 23, 2023 at 10:17:52PM -0700, Lucas De Marchi wrote:
+>> The rev field is always 0 so it ends up never used. In i915 it was
+>> introduced because of CML: up to rev 5 it reuses the guc and huc
+>> firmware blobs from KBL. After that there is a specific firmware for
+>> that platform.  This can be reintroduced later if ever needed.
 >
-> There is a subsequent patch where amdgpu directly calls ttm_pool_init to
-> create pools per NUMA node. That will depend on the updated function
-> signature.
+>I doubt we'd ever need the revid again; more likely we'd want a way to
+>select different firmwares for a given subplatform (which is something I
+>think we need to add anyway for ADL-N).
+>
+>Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-Then we probably want to take this through amdgpu then.
+thanks, applied this first patch.
 
-Alex
-
->
-> Regards,
->    Felix
->
->
-> On 2023-03-31 15:17, Alex Deucher wrote:
-> > On Fri, Mar 31, 2023 at 2:54=E2=80=AFAM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Should I push this to drm-misc-next or do we take it through
-> >> amd-staging-drm-next?
-> > I think either way is fine.  We can carry it internally as needed for
-> > testing if you want to commit it to drm-misc-next.  I don't think
-> > there are any direct code dependencies, but you or Rajneesh can
-> > correct me if I'm wrong.
-> >
-> > Alex
-> >
-> >> Christian.
-> >>
-> >> Am 30.03.23 um 21:50 schrieb Alex Deucher:
-> >>> From: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-> >>>
-> >>> This allows backing ttm_tt structure with pages from different NUMA
-> >>> pools.
-> >>>
-> >>> Tested-by: Graham Sider <graham.sider@amd.com>
-> >>> Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-> >>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>> Signed-off-by: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
-> >>> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> >>> ---
-> >>>    drivers/gpu/drm/ttm/ttm_device.c |  2 +-
-> >>>    drivers/gpu/drm/ttm/ttm_pool.c   | 13 ++++++++-----
-> >>>    include/drm/ttm/ttm_pool.h       |  4 +++-
-> >>>    3 files changed, 12 insertions(+), 7 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/t=
-tm_device.c
-> >>> index e7147e304637..4a8164a5320f 100644
-> >>> --- a/drivers/gpu/drm/ttm/ttm_device.c
-> >>> +++ b/drivers/gpu/drm/ttm/ttm_device.c
-> >>> @@ -218,7 +218,7 @@ int ttm_device_init(struct ttm_device *bdev, stru=
-ct ttm_device_funcs *funcs,
-> >>>        bdev->funcs =3D funcs;
-> >>>
-> >>>        ttm_sys_man_init(bdev);
-> >>> -     ttm_pool_init(&bdev->pool, dev, use_dma_alloc, use_dma32);
-> >>> +     ttm_pool_init(&bdev->pool, dev, NUMA_NO_NODE, use_dma_alloc, us=
-e_dma32);
-> >>>
-> >>>        bdev->vma_manager =3D vma_manager;
-> >>>        INIT_DELAYED_WORK(&bdev->wq, ttm_device_delayed_workqueue);
-> >>> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm=
-_pool.c
-> >>> index 9f6764bf3b15..1068a41cded1 100644
-> >>> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> >>> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> >>> @@ -92,7 +92,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_=
-pool *pool, gfp_t gfp_flags,
-> >>>                        __GFP_KSWAPD_RECLAIM;
-> >>>
-> >>>        if (!pool->use_dma_alloc) {
-> >>> -             p =3D alloc_pages(gfp_flags, order);
-> >>> +             p =3D alloc_pages_node(pool->nid, gfp_flags, order);
-> >>>                if (p)
-> >>>                        p->private =3D order;
-> >>>                return p;
-> >>> @@ -286,7 +286,7 @@ static struct ttm_pool_type *ttm_pool_select_type=
-(struct ttm_pool *pool,
-> >>>                                                  enum ttm_caching cac=
-hing,
-> >>>                                                  unsigned int order)
-> >>>    {
-> >>> -     if (pool->use_dma_alloc)
-> >>> +     if (pool->use_dma_alloc || pool->nid !=3D NUMA_NO_NODE)
-> >>>                return &pool->caching[caching].orders[order];
-> >>>
-> >>>    #ifdef CONFIG_X86
-> >>> @@ -523,29 +523,32 @@ EXPORT_SYMBOL(ttm_pool_free);
-> >>>     *
-> >>>     * @pool: the pool to initialize
-> >>>     * @dev: device for DMA allocations and mappings
-> >>> + * @nid: NUMA node to use for allocations
-> >>>     * @use_dma_alloc: true if coherent DMA alloc should be used
-> >>>     * @use_dma32: true if GFP_DMA32 should be used
-> >>>     *
-> >>>     * Initialize the pool and its pool types.
-> >>>     */
-> >>>    void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
-> >>> -                bool use_dma_alloc, bool use_dma32)
-> >>> +                int nid, bool use_dma_alloc, bool use_dma32)
-> >>>    {
-> >>>        unsigned int i, j;
-> >>>
-> >>>        WARN_ON(!dev && use_dma_alloc);
-> >>>
-> >>>        pool->dev =3D dev;
-> >>> +     pool->nid =3D nid;
-> >>>        pool->use_dma_alloc =3D use_dma_alloc;
-> >>>        pool->use_dma32 =3D use_dma32;
-> >>>
-> >>> -     if (use_dma_alloc) {
-> >>> +     if (use_dma_alloc || nid !=3D NUMA_NO_NODE) {
-> >>>                for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> >>>                        for (j =3D 0; j < MAX_ORDER; ++j)
-> >>>                                ttm_pool_type_init(&pool->caching[i].o=
-rders[j],
-> >>>                                                   pool, i, j);
-> >>>        }
-> >>>    }
-> >>> +EXPORT_SYMBOL(ttm_pool_init);
-> >>>
-> >>>    /**
-> >>>     * ttm_pool_fini - Cleanup a pool
-> >>> @@ -559,7 +562,7 @@ void ttm_pool_fini(struct ttm_pool *pool)
-> >>>    {
-> >>>        unsigned int i, j;
-> >>>
-> >>> -     if (pool->use_dma_alloc) {
-> >>> +     if (pool->use_dma_alloc || pool->nid !=3D NUMA_NO_NODE) {
-> >>>                for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i)
-> >>>                        for (j =3D 0; j < MAX_ORDER; ++j)
-> >>>                                ttm_pool_type_fini(&pool->caching[i].o=
-rders[j]);
-> >>> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-> >>> index ef09b23d29e3..23bd8be6d4f8 100644
-> >>> --- a/include/drm/ttm/ttm_pool.h
-> >>> +++ b/include/drm/ttm/ttm_pool.h
-> >>> @@ -61,12 +61,14 @@ struct ttm_pool_type {
-> >>>     * struct ttm_pool - Pool for all caching and orders
-> >>>     *
-> >>>     * @dev: the device we allocate pages for
-> >>> + * @nid: which numa node to use
-> >>>     * @use_dma_alloc: if coherent DMA allocations should be used
-> >>>     * @use_dma32: if GFP_DMA32 should be used
-> >>>     * @caching: pools for each caching/order
-> >>>     */
-> >>>    struct ttm_pool {
-> >>>        struct device *dev;
-> >>> +     int nid;
-> >>>
-> >>>        bool use_dma_alloc;
-> >>>        bool use_dma32;
-> >>> @@ -81,7 +83,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct tt=
-m_tt *tt,
-> >>>    void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt);
-> >>>
-> >>>    void ttm_pool_init(struct ttm_pool *pool, struct device *dev,
-> >>> -                bool use_dma_alloc, bool use_dma32);
-> >>> +                int nid, bool use_dma_alloc, bool use_dma32);
-> >>>    void ttm_pool_fini(struct ttm_pool *pool);
-> >>>
-> >>>    int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m);
+Lucas De Marchi
