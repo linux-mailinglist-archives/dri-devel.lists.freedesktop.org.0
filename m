@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF866D1AF3
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A926D1AF4
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D85A10F14B;
-	Fri, 31 Mar 2023 08:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFD410F154;
+	Fri, 31 Mar 2023 08:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [80.237.130.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB6DF10F14B
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:57:45 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1piAZm-0000VF-2g; Fri, 31 Mar 2023 10:57:38 +0200
-Message-ID: <c2d5cc07-ec95-eb64-0cef-42f8378ea054@leemhuis.info>
-Date: Fri, 31 Mar 2023 10:57:35 +0200
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C77A10F154
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:57:51 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 5E4D76603190;
+ Fri, 31 Mar 2023 09:57:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680253069;
+ bh=kcPN1LESjMGlvYHh32VNBYjE211/RT+t+3JV3fuxe/4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JK6VgM0JosGm7ivI/dYsHa0iTCZNRgc7OoQGJxkgMH68bZwcU8LDC9VRNfP+udOd4
+ tE24j5wOJkUKBXtWOsHhbk6W782RADZrWgMHGpaSzLM1PtxiGIMNLv4kcrK7Hg+KYJ
+ EkSmSbjpbv0UmVHLOIJIfeE23YNHdV1sVj4dOtWFLtZ0tcW4hwYRZfpcdI2lJ7H/ia
+ vd7yRV70idFiTD5SiRDuca7PQNfQHHU2gpkhb5scX4geCfrxv/2EHsFPAR/MNjMl1R
+ D2HjLNMGdECeRXqgEoJ0A27REigZuXx0xcsXnNCH93wpJGD12TP3viVkH1OlmwkqNp
+ caDiJ0ff4NYZg==
+Message-ID: <fb19c82b-f2bf-7f22-ba5c-e1a1c98f987f@collabora.com>
+Date: Fri, 31 Mar 2023 10:57:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-US, de-DE
-To: Matthieu Baerts <matthieu.baerts@tessares.net>,
- Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>,
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- =?UTF-8?Q?Kai_Wasserb=c3=a4ch?= <kai@dev.carbon-project.org>,
- Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20230314-doc-checkpatch-closes-tag-v3-0-d1bdcf31c71c@tessares.net>
- <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v3 4/4] checkpatch: check for misuse of the link tags
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v3-4-d1bdcf31c71c@tessares.net>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v1 RESEND 2/2] drm/panfrost: Add basic support for speed
+ binning
+Content-Language: en-US
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
+ <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
+ <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
+ <20230331104914.708b194e@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230331104914.708b194e@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1680253065;82b905b8;
-X-HE-SMSGID: 1piAZm-0000VF-2g
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,40 +59,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ alyssa.rosenzweig@collabora.com, wenst@chromium.org, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30.03.23 20:13, Matthieu Baerts wrote:
-> "Link:" and "Closes:" tags have to be used with public URLs.
+Il 31/03/23 10:49, Boris Brezillon ha scritto:
+> On Fri, 31 Mar 2023 10:11:07 +0200
+> AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> wrote:
 > 
-> It is difficult to make sure the link is public but at least we can
-> verify the tag is followed by 'http(s):'.
+>> Il 23/03/23 10:08, AngeloGioacchino Del Regno ha scritto:
+>>> Some SoCs implementing ARM Mali GPUs are subject to speed binning:
+>>> this means that some versions of the same SoC model may need to be
+>>> limited to a slower frequency compared to the other:
+>>> this is being addressed by reading nvmem (usually, an eFuse array)
+>>> containing a number that identifies the speed binning of the chip,
+>>> which is usually related to silicon quality.
+>>>
+>>> To address such situation, add basic support for reading the
+>>> speed-bin through nvmem, as to make it possible to specify the
+>>> supported hardware in the OPP table for GPUs.
+>>> This commit also keeps compatibility with any platform that does
+>>> not specify (and does not even support) speed-binning.
+>>>
+>>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>>
+>> Hello maintainers,
+>> I've seen that this got archived in the dri-devel patchwork; because of that and
+>> only that, I'm sending this ping to get this patch reviewed.
 > 
-> With that, we avoid such a tag that is not allowed [1]:
+> Looks good to me. If you can get a DT maintainer to review the binding
+> (Rob?), I'd be happy to queue the series to drm-misc-next.
 > 
->   Closes: <number>
-> 
-> Link: https://lore.kernel.org/linux-doc/CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com/ [1]
-> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
-> [...]
-> +# Check for misuse of the link tags
-> +		if ($in_commit_log &&
-> +		    $line =~ /^\s*(\w+:)\s*(\S+)/) {
-> +			my $tag = $1;
-> +			my $value = $2;
-> +			if ($tag =~ /^$link_tags_search$/ && $value !~ /^https?:/) {
-> +				WARN("COMMIT_LOG_WRONG_LINK",
-> +				     "'$tag' should be followed by a public http(s) link\n" . $herecurr);
-> +			}
-> +		}
-> +
 
-I must be missing something here, but it looks to me like this is
-checked twice now. See this line in patch2 (which is changed there, but
-the check itself remains):
+The binding was acked by Krzysztof already... so, just to be sure:
 
-> } elsif ($rawlines[$linenr] !~ m{^link:\s*https?://}i) {
+Krzysztof, can the binding [1] get picked?
 
-Ciao, Thorsten
+Cheers,
+Angelo
+
+[1]: 
+https://lore.kernel.org/all/20230323090822.61766-2-angelogioacchino.delregno@collabora.com/
+
+
