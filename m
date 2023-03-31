@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DA26D1AB6
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D0C6D1ABC
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:49:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFA3710F13C;
-	Fri, 31 Mar 2023 08:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2A3710F143;
+	Fri, 31 Mar 2023 08:49:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D3CE10F13C
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:48:42 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B267A625AE
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:48:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BDB4C4339C
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680252520;
- bh=uOPIzovJQaN2uF3uCRFfcTfMui228WfnHJ8oPe20zeQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZCTbpWPMhYqpd++CTJoOKG+UybwN/OuqSGHgGJgjGO/4eJ1Cy4ofOmSB1IjLXjIm1
- oxTAid3k44j4vdfVOw22nT4C3SI7a4WtOwNgmHOpDho/mzdFPdQGfxBIfEndtSQSIg
- xFnhT6PZpCHV0U6lrY4uBcoYqsq3+WutRhNyl7QXfBLoprcjEzT/0dvBC61ugS5fP2
- vF+a8xUxC+yU5hCk4VFC8Kgct7635ohqqbbwOvobnYhPa907srZs3WzzUhwsxMmduP
- LVv1fX9FBc8u7E8YyVbPLNTO9JmtHXHqZKmdUe/MACGtGaVIkCTWG4Bt1elvVKLKeO
- lSyqVmpl8Jo7g==
-Received: by mail-pf1-f169.google.com with SMTP id dw14so14314284pfb.6
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:48:40 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fpi5NTFbwL4FLnNDn6sDbmVJlNerbuYX5WbShMkgd7mroqxNxY
- 8tg/KKPgH1/Z2jMWN7o1EW9SCzNke8X7n/8XyHN8cA==
-X-Google-Smtp-Source: AKy350Y/MWkqiH7ijwIPbG8OO//iuA04N3BGZZ2M7G62QG2A4MpVvHeBi7S5bOepo2n+hR49zH/MKBuCzZcODRujn6Q=
-X-Received: by 2002:a63:dd0f:0:b0:4fc:a80e:e6ec with SMTP id
- t15-20020a63dd0f000000b004fca80ee6ecmr7342372pgg.5.1680252520141; Fri, 31 Mar
- 2023 01:48:40 -0700 (PDT)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31F7610F143
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:49:19 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 6E1DA6603180;
+ Fri, 31 Mar 2023 09:49:17 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680252557;
+ bh=EIlHy/fOQ4nvThPIDq8IH7bbZG6jRaS0NwuvOWeucNU=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=HT7tilTwUS2yXnomFHF6Tjq9o6/wAyNNsybgq7DxBT8JuPLcJLov7IcJ091S5eWGu
+ gNyn5DLK/b0uXCPWVBx22d71xpNzg1txgABQW16i8Kd0Ozk0rOGej4Pw15btAUBBoR
+ 3JHh7hmTNafjLVoIMs6ozO/MN6NKq5XufWN5m51wy1nWBFLxWxUEfyTll32QTfpAD1
+ m/5oVpAVPpKwfb+DaNJGiHt46yzabfn8GxuObatGQg3z8qdr5vU2PhFHblkgZxPBmZ
+ rPdul/Ib1m24iXdOGSI+1AB2eAmBBbAdjNssJi15zat9kX2K0tjcX77aquPArG35m1
+ 6tBKQC+ui0htw==
+Date: Fri, 31 Mar 2023 10:49:14 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v1 RESEND 2/2] drm/panfrost: Add basic support for speed
+ binning
+Message-ID: <20230331104914.708b194e@collabora.com>
+In-Reply-To: <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
+References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
+ <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
+ <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230331030204.1179524-1-treapking@chromium.org>
-In-Reply-To: <20230331030204.1179524-1-treapking@chromium.org>
-From: Robert Foss <rfoss@kernel.org>
-Date: Fri, 31 Mar 2023 10:48:29 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi4i+3H4-e7wCGTrpR+RCZy4OfgErn3bFmOWtWRkZy_whg@mail.gmail.com>
-Message-ID: <CAN6tsi4i+3H4-e7wCGTrpR+RCZy4OfgErn3bFmOWtWRkZy_whg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ps8640: Use constant sleep time for polling
- hpd
-To: Pin-yen Lin <treapking@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +55,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
+ alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
+ wenst@chromium.org, kernel@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 5:02=E2=80=AFAM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> The default hpd_wait_us in panel_edp.c is 2 seconds. This makes the
-> sleep time in the polling of _ps8640_wait_hpd_asserted become 200ms.
-> Change it to a constant 20ms to speed up the function.
->
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-> ---
->
->  drivers/gpu/drm/bridge/parade-ps8640.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bri=
-dge/parade-ps8640.c
-> index b823e55650b1..c3eb45179405 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -184,7 +184,7 @@ static int _ps8640_wait_hpd_asserted(struct ps8640 *p=
-s_bridge, unsigned long wai
->          * actually connected to GPIO9).
->          */
->         ret =3D regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
-> -                                      status & PS_GPIO9, wait_us / 10, w=
-ait_us);
-> +                                      status & PS_GPIO9, 20000, wait_us)=
-;
->
->         /*
->          * The first time we see HPD go high after a reset we delay an ex=
-tra
-> --
-> 2.40.0.348.gf938b09366-goog
->
+On Fri, 31 Mar 2023 10:11:07 +0200
+AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+wrote:
 
-Snoozing for a few days before applying.
+> Il 23/03/23 10:08, AngeloGioacchino Del Regno ha scritto:
+> > Some SoCs implementing ARM Mali GPUs are subject to speed binning:
+> > this means that some versions of the same SoC model may need to be
+> > limited to a slower frequency compared to the other:
+> > this is being addressed by reading nvmem (usually, an eFuse array)
+> > containing a number that identifies the speed binning of the chip,
+> > which is usually related to silicon quality.
+> > 
+> > To address such situation, add basic support for reading the
+> > speed-bin through nvmem, as to make it possible to specify the
+> > supported hardware in the OPP table for GPUs.
+> > This commit also keeps compatibility with any platform that does
+> > not specify (and does not even support) speed-binning.
+> > 
+> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>  
+> 
+> Hello maintainers,
+> I've seen that this got archived in the dri-devel patchwork; because of that and
+> only that, I'm sending this ping to get this patch reviewed.
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+Looks good to me. If you can get a DT maintainer to review the binding
+(Rob?), I'd be happy to queue the series to drm-misc-next.
+
+> 
+> (perhaps we can even get it picked for v6.4?)
+> 
+> Regards,
+> Angelo
+> 
+> > ---
+> >   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 30 +++++++++++++++++++++
+> >   1 file changed, 30 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> > index fe5f12f16a63..58dfb15a8757 100644
+> > --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> > +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
+> > @@ -4,6 +4,7 @@
+> >   #include <linux/clk.h>
+> >   #include <linux/devfreq.h>
+> >   #include <linux/devfreq_cooling.h>
+> > +#include <linux/nvmem-consumer.h>
+> >   #include <linux/platform_device.h>
+> >   #include <linux/pm_opp.h>
+> >   
+> > @@ -82,6 +83,31 @@ static struct devfreq_dev_profile panfrost_devfreq_profile = {
+> >   	.get_dev_status = panfrost_devfreq_get_dev_status,
+> >   };
+> >   
+> > +static int panfrost_read_speedbin(struct device *dev)
+> > +{
+> > +	u32 val;
+> > +	int ret;
+> > +
+> > +	ret = nvmem_cell_read_variable_le_u32(dev, "speed-bin", &val);
+> > +	if (ret) {
+> > +		/*
+> > +		 * -ENOENT means that this platform doesn't support speedbins
+> > +		 * as it didn't declare any speed-bin nvmem: in this case, we
+> > +		 * keep going without it; any other error means that we are
+> > +		 * supposed to read the bin value, but we failed doing so.
+> > +		 */
+> > +		if (ret != -ENOENT) {
+> > +			DRM_DEV_ERROR(dev, "Cannot read speed-bin (%d).", ret);
+> > +			return ret;
+> > +		}
+> > +
+> > +		return 0;
+> > +	}
+> > +	DRM_DEV_DEBUG(dev, "Using speed-bin = 0x%x\n", val);
+> > +
+> > +	return devm_pm_opp_set_supported_hw(dev, &val, 1);
+> > +}
+> > +
+> >   int panfrost_devfreq_init(struct panfrost_device *pfdev)
+> >   {
+> >   	int ret;
+> > @@ -101,6 +127,10 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
+> >   		return 0;
+> >   	}
+> >   
+> > +	ret = panfrost_read_speedbin(dev);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >   	ret = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names);
+> >   	if (ret) {
+> >   		/* Continue if the optional regulator is missing */  
+> 
+> 
+
