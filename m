@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A51B6D1C2B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088046D1C2E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:27:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5552E10F193;
-	Fri, 31 Mar 2023 09:27:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02BDB10F194;
+	Fri, 31 Mar 2023 09:27:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0AC10F182;
- Fri, 31 Mar 2023 09:26:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9960F10F184;
+ Fri, 31 Mar 2023 09:26:39 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C7198B82DB0;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 532C5B82DB1;
+ Fri, 31 Mar 2023 09:26:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82150C433A1;
  Fri, 31 Mar 2023 09:26:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E241FC433D2;
- Fri, 31 Mar 2023 09:26:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680254795;
- bh=ngC/W6NnsF+/WMMI/twPoOWsX6vUYeGknc0YjZdw5Pw=;
+ s=k20201202; t=1680254798;
+ bh=1cJ849/Y655d3Cb+y4U813eDvHxJLRQhrfBbI04u3JI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UWGJNuqrC4qenXiXXTKsAZBAHi0NuRJ93rb+421/6cAQMW52yplSH773ZCxdG2idt
- jDBm6HevZ7/qjEPw5IwpyvVb8E3u9sCFjWELkjFC+d1Onmbll2P5Hb7druUp/3KHn9
- fpGeMEzgq5SCTUsJgxExlLwRhNXlgIzZIXOA1A3nbNXIn0oLcmcB13UIstJV6qBKBv
- wNnUfMqbYw3zk/ubSDGR6p936NQ+sq67AOV0FS9zljl2KsW62vDtpwAlhzWxu2j42S
- VWLZRpQo7wBebjtmCLS8OGmaPOcsqHtex+QwzFg1WXQzklUuNGeMLpA42avvJ5e/JG
- 0SyQVkl+kQ6Wg==
+ b=u2FrI2GDCbfxdaThBYcHpadx5mw4ANv3v1h3AUQRzdIrV74965dYmT6+82pyQ6JLS
+ 54vJRFPcOfE2iZnLVXDPrBe9Z4ihfJnNlr/z1GbsWRPjJRZ9IYc1BDZrZqSAY5pYNL
+ LKyLcGLPG9QzLnhiCAJCynbmztgaTRxq7ZNvtsJ6A1fyb3KZ8n3c4JkgW4NWaqkwpL
+ Jld92PKIVOgd9tBx+6DZBLNBKLp6DU6THQtFKUPLwUY9d9dYEZbHOi/ZblaEIWNi1q
+ fbg1mRNy17MCU4ttDSFZsM5hfdelZiJrpzH0cAWladERoHHjwKksW1SDnU5r7T4wx0
+ 7+u6H3r92/8Xg==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org
-Subject: [PATCH 08/19] drm/i915/gem/i915_gem_domain: Provide function names to
- complete proper kerneldoc
-Date: Fri, 31 Mar 2023 10:25:56 +0100
-Message-Id: <20230331092607.700644-9-lee@kernel.org>
+Subject: [PATCH 09/19] drm/i915/gem/i915_gem_ttm_pm: Provide a couple of
+ missing descriptions for 'flags' and remove some superfluous ones
+Date: Fri, 31 Mar 2023 10:25:57 +0100
+Message-Id: <20230331092607.700644-10-lee@kernel.org>
 X-Mailer: git-send-email 2.40.0.348.gf938b09366-goog
 In-Reply-To: <20230331092607.700644-1-lee@kernel.org>
 References: <20230331092607.700644-1-lee@kernel.org>
@@ -54,18 +54,19 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Matthew Auld <matthew.auld@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/i915/gem/i915_gem_domain.c:119: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/gpu/drm/i915/gem/i915_gem_domain.c:180: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/gpu/drm/i915/gem/i915_gem_domain.c:265: warning: expecting prototype for Changes the cache(). Prototype was for i915_gem_object_set_cache_level() instead
- drivers/gpu/drm/i915/gem/i915_gem_domain.c:470: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/gpu/drm/i915/gem/i915_gem_domain.c:514: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c:156: warning: Function parameter or member 'flags' not described in 'i915_ttm_backup_region'
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c:156: warning: Excess function parameter 'allow_gpu' description in 'i915_ttm_backup_region'
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c:156: warning: Excess function parameter 'backup_pinned' description in 'i915_ttm_backup_region'
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c:223: warning: Function parameter or member 'flags' not described in 'i915_ttm_restore_region'
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c:223: warning: Excess function parameter 'allow_gpu' description in 'i915_ttm_restore_region'
 
 Cc: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
@@ -73,66 +74,38 @@ Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Cc: David Airlie <airlied@gmail.com>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Nirmoy Das <nirmoy.das@intel.com>
 Cc: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_domain.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_domain.c b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-index 497de40b8e688..d2d5a24301b25 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_domain.c
-@@ -116,7 +116,8 @@ void i915_gem_object_flush_if_display_locked(struct drm_i915_gem_object *obj)
- }
- 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+index dfe39c8e74d8a..ad649523d5e0b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+@@ -144,8 +144,7 @@ void i915_ttm_recover_region(struct intel_memory_region *mr)
  /**
-- * Moves a single object to the WC read, and possibly write domain.
-+ * i915_gem_object_set_to_wc_domain - Moves a single object to the WC read, and
-+ *                                    possibly write domain.
-  * @obj: object to act on
-  * @write: ask for write access or read only
+  * i915_ttm_backup_region - Back up all objects of a region to smem.
+  * @mr: The memory region
+- * @allow_gpu: Whether to allow the gpu blitter for this backup.
+- * @backup_pinned: Backup also pinned objects.
++ * @flags: TTM backup flags
   *
-@@ -177,7 +178,8 @@ i915_gem_object_set_to_wc_domain(struct drm_i915_gem_object *obj, bool write)
- }
- 
+  * Loops over all objects of a region and either evicts them if they are
+  * evictable or backs them up using a backup object if they are pinned.
+@@ -212,7 +211,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
  /**
-- * Moves a single object to the GTT read, and possibly write domain.
-+ * i915_gem_object_set_to_gtt_domain - Moves a single object to the GTT read,
-+ *                                     and possibly write domain.
-  * @obj: object to act on
-  * @write: ask for write access or read only
+  * i915_ttm_restore_region - Restore backed-up objects of a region from smem.
+  * @mr: The memory region
+- * @allow_gpu: Whether to allow the gpu blitter to recover.
++ * @flags: TTM backup flags
   *
-@@ -246,7 +248,7 @@ i915_gem_object_set_to_gtt_domain(struct drm_i915_gem_object *obj, bool write)
- }
- 
- /**
-- * Changes the cache-level of an object across all VMA.
-+ * i915_gem_object_set_cache_level - Changes the cache-level of an object across all VMA.
-  * @obj: object to act on
-  * @cache_level: new cache level to set for the object
-  *
-@@ -467,7 +469,8 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
- }
- 
- /**
-- * Moves a single object to the CPU read, and possibly write domain.
-+ * i915_gem_object_set_to_cpu_domain - Moves a single object to the CPU read,
-+ *                                     and possibly write domain.
-  * @obj: object to act on
-  * @write: requesting write or read-only access
-  *
-@@ -511,7 +514,8 @@ i915_gem_object_set_to_cpu_domain(struct drm_i915_gem_object *obj, bool write)
- }
- 
- /**
-- * Called when user space prepares to use an object with the CPU, either
-+ * i915_gem_set_domain_ioctl - Called when user space prepares to use an
-+ *                             object with the CPU, either
-  * through the mmap ioctl's mapping or a GTT mapping.
-  * @dev: drm device
-  * @data: ioctl data blob
+  * Loops over all objects of a region and if they are backed-up, restores
+  * them from smem.
 -- 
 2.40.0.348.gf938b09366-goog
 
