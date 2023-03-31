@@ -1,68 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8A6D20BC
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 14:46:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1198E6D20FF
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 14:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCCCA10E0BD;
-	Fri, 31 Mar 2023 12:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2677310F22B;
+	Fri, 31 Mar 2023 12:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA5B10E0BD;
- Fri, 31 Mar 2023 12:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680266795; x=1711802795;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=DNBTgkydAKy9RgdwAafCwZyOU0pinYOIVpjAN5c+Lfw=;
- b=ZOGb9d4WnyFNZC9ssalUpi+3SfLfYjLj4nbuU6+tj1ootbVGfoihdFFa
- NzcTzjcHsYrA9+/wM2ykEWVg1ilbdf1h+BbglIvLJiLNHXrnW0TsriUSs
- 4EPd8GjOfMwumWRo953Gjf6cejM8BZGEnZqEgUVQXudn/OuoPfmTQTwoV
- MDLw44hGIyVYi6Pxapuyc1TXbydNSvKEKZbtKb9XMxejfhyPBbZnPDtC0
- cge5TXJwtrI3XURKHBL7g0JN8xzSGowrMIEw4Zyg0wPPd4A8ltFFuTDPR
- bBFVvf9x++6uaJQG6eR1u8Dtghz7bILcIjVloPMSZrlztMn3Gfo5+Hm15 g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="325408594"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="325408594"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 05:46:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="809024958"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="809024958"
-Received: from bpower-mobl3.ger.corp.intel.com (HELO [10.213.225.27])
- ([10.213.225.27])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 05:46:25 -0700
-Message-ID: <3722f24b-0bad-ad35-5f24-66c1b17f8e71@linux.intel.com>
-Date: Fri, 31 Mar 2023 13:46:22 +0100
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2070.outbound.protection.outlook.com [40.107.244.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B13D210E0F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 12:57:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jjfj45tHCG5IESc81gRo94mLvH/0w6u5kRkj9vad1FD5CaFsolFS4gU1w7aO3nrJK/SeMm14U0LyRdJlB8epKOjgHc3aoo4mDwZVuZN2OF8VcsK48YEUCWaF0UOoKhgc0jcZaVHQ82tP5x6bX5Rjd19u2FLrBM6lZxTHZYsb7h9gsFWxLFy2rYiBPvaisn6ZrsgQ0eX9qMDEgpMUiRjdmWJFq+vrR9I6Pi8LyOF2+tnG+VCWWzPd0uYG2WaC4DrtJZ+1znVPZh5kJBhSVtSpgqSaLQkdJZB6NRG//yfzpaUpDK2vhLfnL5/Fe9V2Vt1ecPup66QrntuHeCR5IL6yWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Er8zkLty/WZlRO5iE71cC3M0P9Guua595sajWzw6q6M=;
+ b=WnMFaMRYLFbwh9hOX7i5zqWGPJR8AUzwrXNx4CmVaMpyr3da0FQnRs5mBJ0zpbdZmwTVV2II5kLyX0/+8JPsaWpJWwiRhW2s5zRxrF5BhZICW28v/IpgK8EG1MtA2oMxjzueJkQ8aDljQkKucmPRlTaTRE6qu77IufueZ3XYyPfBZlGx/DyCMM1P7DY+s03LsKIqhOydAzeqEvhz49ZtEqkusuXYJmHgcS8QCmfafOfy0M0Sb56fd53OkyEJeaMmxB9mKXQ+2o4QiPAFEKcaO4M8Ii4JtBQb9DQbEGgPuSiG4+Wv4qFNtpq8YM2vtTSS/kZKZe4QwMZrEpQZsvKxCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Er8zkLty/WZlRO5iE71cC3M0P9Guua595sajWzw6q6M=;
+ b=4PYO/pbPGpYpfOqRibLpe6Ze0uDACuE2OZL78ZyVycKlrurja5XJ6BytW+hg+vl34P5whi4injxl5P9+dHuEA+28YwzjN1HlT12pNDcNTRAbwxl0A68ztPrhGIZpcH6WITBFl2frosVpYGHqMjyXp+TxPQJMhDnh47xhMm6SG70=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
+ PH7PR12MB6763.namprd12.prod.outlook.com (2603:10b6:510:1ad::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6254.23; Fri, 31 Mar 2023 12:57:47 +0000
+Received: from DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::8299:158a:c296:de80]) by DM6PR12MB3370.namprd12.prod.outlook.com
+ ([fe80::8299:158a:c296:de80%5]) with mapi id 15.20.6254.022; Fri, 31 Mar 2023
+ 12:57:47 +0000
+Message-ID: <3098ac42-6a1a-d931-3299-54c5d17d6b93@amd.com>
+Date: Fri, 31 Mar 2023 08:57:44 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [Intel-gfx] [PATCH v6 5/8] drm/i915/pxp: Add ARB session creation
- and cleanup
-Content-Language: en-US
-To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
- "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-References: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
- <20230228022150.1657843-6-alan.previn.teres.alexis@intel.com>
- <fabe4123-53cc-005e-e0af-7683e0d45896@intel.com>
- <3b8091c51677878b968d1d275b9b16e5088d913d.camel@intel.com>
- <ZCAqDlUIp0YmCkyu@intel.com> <fef256a6-3027-8beb-0ef8-fddf972db441@intel.com>
- <cf63d62b-3e2d-f8fe-82b6-95e71e376cc2@linux.intel.com>
- <3359c9d371a25710891352061693637b37679734.camel@intel.com>
- <ZCMpXMj7GwDIp6Ll@intel.com>
- <118981ef-260d-4c1a-5ca5-ad435d5edbc7@linux.intel.com>
- <f87c39a243d84e53d6c292c63d032b30c89adb3e.camel@intel.com>
- <36548877-5352-8ff3-6e87-410089470a4b@linux.intel.com>
- <4ad872f1366802a717e13140d1da467ace1ae36f.camel@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <4ad872f1366802a717e13140d1da467ace1ae36f.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Thunderbird/102.9.1
+Content-Language: en-CA
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+ l.stach@pengutronix.de, "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>
+References: <20230331000622.4156-1-dakr@redhat.com>
+ <6ad72a7f-302f-4be1-0d53-00ff9dc37ef7@amd.com>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Subject: Re: [PATCH] drm/scheduler: set entity to NULL in
+ drm_sched_entity_pop_job()
+In-Reply-To: <6ad72a7f-302f-4be1-0d53-00ff9dc37ef7@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0345.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:fc::26) To DM6PR12MB3370.namprd12.prod.outlook.com
+ (2603:10b6:5:38::25)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|PH7PR12MB6763:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2998eb9e-7fc4-420b-ddc4-08db31e786c5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jzIctNA7Viwmm9w8ckADLZ3CGSmdcGd++qO30oOkWQFWep85hJ6W2y267GqvrBmoTgWSOfE4WA3/JcqEwSsB1oX+rxuTHjKQk0XX6Q1guPwtlBPQ5fMDiFMp/E3LnhDfE8FgGApx7cyhCZjHWFiNYvmMAJqCSORPlcHdGtCDkGJK3+23d6CxNvGEKVBPfl+zkRxhc3Ro9xgzB8A0i1dVUlu3lQEcJbKe16aLhEKsmR2NfXWLz5QMRC2z1pEdxDIJcKcE9S2E7UPiiE8S1AsoH2ofys92pZ6qOUeY2QaNQyLoX2qyZIeRg0wsp6vhwDitdwdOTIXV0/jlKiH39EKbP+BiuafvX7fMaywP5aS6qrWOQklPLpCJhKkS4rfWYQEbZpsPHXYx7iyBnnjYCTSkguIWyc7unRwo4cwqP1XwLN32m9mWryRi4bRD57Kz+mMh/9BtI8kzhF0GwpROyLFv0yrmVNCYA1PKVDOZAT1Mm5wcIGtl5UhJ+LbzeVjH5cJar0422sWhmlU5thDqJI13dgSECmRvH/gp/hXXdlBB/rg5Pm5Vl+/W7VIAPychHIlnDqsDj+mCJ5CaMYLo39GNg5LNOh8iASzUt5aMRCovn7BvS+SRehYUmbtjJI8X+R8Ep981G97i8vLOUVJhCT+WEQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3370.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(451199021)(478600001)(6636002)(31686004)(83380400001)(2616005)(31696002)(26005)(6512007)(6666004)(6506007)(6486002)(4326008)(8676002)(66476007)(66556008)(316002)(110136005)(66946007)(53546011)(55236004)(66574015)(186003)(5660300002)(41300700001)(44832011)(8936002)(38100700002)(2906002)(86362001)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RjYxV3NlcUdXcXlEQWFMdG5ELyswa25laG1tazg0cm40V2lINU9Pc0pGdzU3?=
+ =?utf-8?B?R1VlNG9EOHAzdDJRZ2twMkNmZW5ycXhaS01DU0k1c2FURzRoY0ZMZzQrM1Ns?=
+ =?utf-8?B?SGFKbC9UbjQrZEgrQXFrTG9GYnJ4UVlHL0dCdVpMNUpSWjJwcEdKZXdtaDhz?=
+ =?utf-8?B?K1BGbmE3UWNsZ3F1Nk5mbTJ6enEwNzVzeHNXakFMTDdZdlFnaVVqTGlycmRk?=
+ =?utf-8?B?Sm9jaHFGNmZDV0pJQlRzd2c5dms5Uy9qSmV1THZNRk9zYndPRFBqQ0NaWXZh?=
+ =?utf-8?B?Q3RtSTg4SXJ0ay9KSDVXcC93amR0SzlhUDJtaVcwZUV4UmtqYTM0SkRsN0Y2?=
+ =?utf-8?B?eEk1SVJ3S0I1dXM1ZWI4aEFGZXVIaTRaVnV4S2xFUDRWUGpTMGdHMFhTdURD?=
+ =?utf-8?B?TndPWWhmWjZNVkRGK0ZTTlk5ZUlvVzNhbCtRM0lzd3NscnljYkNidWd3VVFp?=
+ =?utf-8?B?TE9MVFAzSW1Qalg4RmZkR1RiYjhqVFVXcmdKbEFjQ1dLLzVOL3FiU0ljWHFF?=
+ =?utf-8?B?WUJKKzkwMlhybFlNWko5MjZTK3ZMbWZyQUNvbUc4UGRPczFpdXJCNDRGdk5k?=
+ =?utf-8?B?ZkJMZ2ovVVJiUDJGUXJRR3hsYm4vSWFaTzJIMzVYNzJlMjEwYis2c0JyQ3Rs?=
+ =?utf-8?B?Wm1IcDRHa2gwVlFrR2t2eUlTRk5NdFAvYUJ5M1hCRU9VZnN3d1dXam1yNkk2?=
+ =?utf-8?B?QTAyaUVWdDdYYXFwWWp5R2dDVmVhWVhYVXZLRGFORjNkY0tvM012c1Q5Q1NO?=
+ =?utf-8?B?WUFidkJYcVgxNEUvMzdaWWJMVUpnT0VpWmNGMks5ckhEVjNsYzFnaGNwVDdi?=
+ =?utf-8?B?RFhjeHozZmpFMzRjUlNNYXRvNVNLc3R5ck5rRzhzbVJDTGJObTNOWWUyUFZ1?=
+ =?utf-8?B?UjQ5Y2ltM1FoL2ZyMVk2VnBhb0lXamswQmQrUTVpMDZRSys0Y2JPNE1xNFYx?=
+ =?utf-8?B?T1RhSTRPeXdZRE81UGxMVnhURzNPeHNIMjg0aDhKdXpMZjJ5Q0ZHVjcyUjVv?=
+ =?utf-8?B?Yko2SDI3ZjhuMmJKUXpONnV2ZE1Wdys4SWJHdFRNK3ZaUEZwc1ZKUjdRV1l6?=
+ =?utf-8?B?MVNmZU11WDJmc2FSR0hUNjFqMjg4amxUKytqL3JTOTVHN3VQQVpmcmxFZTFW?=
+ =?utf-8?B?aUo3cWt2OGt0TmV5NjZLUVZ4bWVRNGdzMjBhNHBzejRvS3VyZ3I2U2ZMK081?=
+ =?utf-8?B?cE5kdlpOTHZXVEdmTFJhNEQyejVsVlFJOGYwS2Z0K3lMblhMQXlJNlpjVzVD?=
+ =?utf-8?B?MnF5a2FHdGZWMkZvNGZ2cDY3eGpPQUhoeTR2OWJxcXk3T3FLeWMyS2I0V21p?=
+ =?utf-8?B?WVN0YkpVazgycE5kbVVGK2xLNzMzWFRyNncyeTQ2aWxRaEdneGNVSWY0ZFpy?=
+ =?utf-8?B?UkZVNFhJNkM2VkJOcVpna3I5T1hLT0wrM2xWMDF2QXpydWtKS1JpY3BuVHBZ?=
+ =?utf-8?B?MDFmc1lkdDl5M1pxblpDcHpiSGFEVFArTldaTm5tSTQ0V3RRMXNqUmlYVzd6?=
+ =?utf-8?B?Z3lpOW42aUxTdVZibGJ4N21nWnE1MUdXWkVpNjFvYnlLTncvNENjWjd3a21W?=
+ =?utf-8?B?SVJyejdLV3pCZG13T3hiMzBOV2JNYW1WTnBFS0JRYWRWN2p5RktWdmZUREsw?=
+ =?utf-8?B?N2pPb0JDa3pBVkFiNDFmSVdLZmczMDRiSkFPWGxpbklBTFhudkowY3JXSXQ2?=
+ =?utf-8?B?SWNVRlhUb0k2VkhOSjlXM21zUjQ2R1Vhc0N1VkV6SnFjdWhyVzZIemMyaFE3?=
+ =?utf-8?B?ZUhjQkFZQ21HOVQ0Vll0Y2QwZ2J0aUpYd2syQ3AzUThDM3NsV2lqS1NZbEJN?=
+ =?utf-8?B?aHE2RHlKaUZTNVo1bGxla0Z4Q2FPd3VURUNGZnhhZ3NpT3c0cUsybVJiRTFk?=
+ =?utf-8?B?NnNoS1BVMDIvbTFRTG9OajlRMjRhYlR6RXhNZWJBa1BKMmlBRnFRN1lwTDlH?=
+ =?utf-8?B?UlA2a2xZNjNmZXp0aU5heWRIWjR2dmFQbEpNbnpKOHp0RFFlUlMzU29TOUI5?=
+ =?utf-8?B?MG1yTWFCcVovdGVGZmxObmJDMmg2K0RSSXRqdnNiV0J2VmFjYml1QW9MTWN4?=
+ =?utf-8?B?K2xyZC93Y0plMnEwdC92eHk4N2w3VGJRZjErTDh4SUFNOGo5RUZwSzI1dXRl?=
+ =?utf-8?Q?gBO/WGY1D6yeMm8k40/+BrIwz?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2998eb9e-7fc4-420b-ddc4-08db31e786c5
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2023 12:57:47.3348 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ljKsYbFSxOSHNOnnFDWnadMcEbH1Xj5etCem3if39uKSyKDw2kkSUh7/pd0q5QKN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6763
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +128,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Lahtinen,
- Joonas" <joonas.lahtinen@intel.com>, "Ceraolo Spurio,
- Daniele" <daniele.ceraolospurio@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Harrison,
- John C" <john.c.harrison@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 30/03/2023 20:44, Teres Alexis, Alan Previn wrote:
-> On Thu, 2023-03-30 at 13:25 +0100, Tvrtko Ursulin wrote:
->> On 30/03/2023 01:10, Teres Alexis, Alan Previn wrote:
->>> On Wed, 2023-03-29 at 08:43 +0100, Tvrtko Ursulin wrote:
->>>> On 28/03/2023 18:52, Rodrigo Vivi wrote:
->>>>> On Tue, Mar 28, 2023 at 05:01:36PM +0000, Teres Alexis, Alan Previn wrote:
->>>>>> On Mon, 2023-03-27 at 17:15 +0100, Tvrtko Ursulin wrote:
-> alan:snip (excuse my snips - my evolution keeps inserting CRs - still looking for solution)
->> But intuitively I thought that what Mesa wants is a no-cost getparam
->> which would somewhat reliably tell it if the feature is supposed to be
->> there and context create at a later stage, with the protected flag set,
->> is supposed to work. AFAIU it can still fail at that point or probably
->> block until the required setup is done.
-> Yes - that's right - i had another round of discussions with Daniele about a cleaner approach - below..
-> alan:snip
->> Even 200ms is possibly not good enough since boot time targets (to UI
->> AFAIR) are pretty tight. Don't know... Maybe I'd need a timeline diagram
->> showing the involved components to understand this properly.
-> Absolutely, my experiences in i915 on embedded products even had PORs of <1000milisec to first-fully-renderered-display from cold-boot so yes, we need to work with this requirement
-> in mind and do testing on real customer stack.
+On 2023-03-31 01:59, Christian König wrote:
+> Am 31.03.23 um 02:06 schrieb Danilo Krummrich:
+>> It already happend a few times that patches slipped through which
+>> implemented access to an entity through a job that was already removed
+>> from the entities queue. Since jobs and entities might have different
+>> lifecycles, this can potentially cause UAF bugs.
+>>
+>> In order to make it obvious that a jobs entity pointer shouldn't be
+>> accessed after drm_sched_entity_pop_job() was called successfully, set
+>> the jobs entity pointer to NULL once the job is removed from the entity
+>> queue.
+>>
+>> Moreover, debugging a potential NULL pointer dereference is way easier
+>> than potentially corrupted memory through a UAF.
+>>
+>> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 > 
-> I spoke to Daniele and we have another idea - but would also impact mesa, for the better:
+> In general "YES PLEASE!", but I fear that this will break amdgpus reset 
+> sequence.
 > 
-> 1. Introduce get-param (is_PXP_avail)
-> 	- will return a simple yes or no
-> 		- yes means : i915-device-info supports it, kernel configs supports it and required-firmwares were found (not necessarily loaded/init yet).
-> 			(NOTE: this would be made to hook up to pxp helpers such as intel_pxp_is_supported)
-> 2. Gem-pxp-context-creation continues blocking like today with minor tweak:
-> 	(same)- success = all dependencies are in place, all firmware init completed, pxp arb session successfully completed.
-> 	(same)- non-success -ENODEV = if any dependency wasnt available or fw failed to create arb-session due to fw-init-failure/BIOS/platform config.
-> 	(tweak)- non-success -ENXIO (or some other -E'FOO') if component-driver-init or firmware-init is still pending after brief timeout.
-> 		- on timeout - TBD - need testing/debug on real world stack.
-> 		- UAPI spec needs update but pxp implementation currently uses -ENXIO for similiar reason inheritted first merge.
+> On the other hand when amdgpu still relies on that pointer it's clearly 
+> a bug (which I pointed out tons of times before).
 > 
-> Thus, with this: Get param would always be immediate. Pxp-context-creation would only block when all dependencies are in place and we attempt to create the pxp arb session.
-> (firmware can take up to 200-milisecs, according to MTL spec, so I'd say ~210 given other overheads between i915 and fw and back).
-> We would need to change MESA-get-caps to use get-param (and not pxp-context-creation) as it would always return immediately with kernel side support.
-> And if application explicitly requires PXP support, then it needs to call pxp-context-creation that may block or require retry.
+> Luben any opinion on that? Could you drive cleaning that up as well?
 
-The above sounds good to me.
+Hi Christian,
 
-I am only not 100% clear on the ENODEV option from context create, does 
-it include even things which can be detected without any timeouts at 
-probe time, or just failures which take time to learn about.
+No worries, yes, I'll take a look at this after breakfast.
 
-> WRT to fast-boot-to-first-frame, I am hoping real customer stack doesn't require PXP on the compositor and first mesa instance works fine without PXP caps.
-> And when customer apps that needs PXP starts, it would create pxp context which would block but the app would not have a choice.
+> 
+> Thanks,
+> Christian.
+> 
+>> ---
+>> I'm aware that drivers could already use job->entity in arbitrary places, since
+>> they in control of when the entity is actually freed. A quick grep didn't give
+>> me any results where this would actually be the case, however maybe I also just
+>> didn't catch it.
+>>
+>> If, therefore, we don't want to set job->entity to NULL I think we should at
+>> least add a comment somewhere.
 
-Yeah that sounds like an unlikely use case and one that we cannot 
-improve on the kernel or uapi side.
+I agree with the sentiment of this patch. I'll have to take a closer look at this
+because there was some indirect pointer dependency due to the way the FIFO was implemented,
+and I review the code every 3-6 months to remind me of that--maybe it's related, maybe
+not. But this looks like a something we can delve into and at best come up with a comment
+explaining what's going on and why.
 
-(I can imagine resuming directly into a full screen video playback post 
-suspend, but a cold boot into it is a stretch.)
+We haven't seen any oopses so far the way this is, and any new patches which evoke
+an oops, may be doing something they shouldn't. I'll take a look.
+
+Any indication of what these new patches were doing?
 
 Regards,
+Luben
 
-Tvrtko
+>> ---
+>>
+>>   drivers/gpu/drm/scheduler/sched_entity.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index 15d04a0ec623..a9c6118e534b 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -448,6 +448,12 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>>   			drm_sched_rq_update_fifo(entity, next->submit_ts);
+>>   	}
+>>   
+>> +	/* Jobs and entities might have different lifecycles. Since we're
+>> +	 * removing the job from the entities queue, set the jobs entity pointer
+>> +	 * to NULL to prevent any future access of the entity through this job.
+>> +	 */
+>> +	sched_job->entity = NULL;
+>> +
+>>   	return sched_job;
+>>   }
+>>   
+> 
+
