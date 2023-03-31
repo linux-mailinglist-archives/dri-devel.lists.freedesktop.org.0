@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67BC36D1C0A
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665BB6D1C0B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:24:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE3B10F165;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16BD810F178;
 	Fri, 31 Mar 2023 09:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3D210F171
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:23:20 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E739110F169
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:23:19 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5BD0021B2D;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7841721B30;
  Fri, 31 Mar 2023 09:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1680254598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kUutB7c9k7a1NXDOgSvnLMbyYGu8O5cedlty1f8jiEI=;
- b=Zy6Sg/NB6bR0ogPyPiNOC/Rrg0AuAtWJci6eyO43xZI5sZib+jXI9YnJFI/haTzDfHSJ7H
- apVsTaSN2skpbW00uLY6wIqH4VebIbpbGwYYOlYw2bvwuA/MgXlp0F9AwrSs+uTE2g+GMI
- 62SyRwm416DmzbY8kcJFSI7yzJhyXCg=
+ bh=TCDUyK/kkO09gvfvzO6cX9oo85L8oKG13hs2lHMtpYM=;
+ b=dvnB1CTqSArEZDGm5wJJJkaZ6pyGSy+vXApeAo8CSnvu1KmA7/nbcgzAS64z+KWr4UJnzB
+ UeAKosRAgcIyE2fC1sNpkcGikRta5WZtBFWqjMucUuUQ6i4KXm6Mn/jB198F0DfaIv29gG
+ wK/gIQ/+Z0LrjjTmkubMM4fA19+lubs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1680254598;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kUutB7c9k7a1NXDOgSvnLMbyYGu8O5cedlty1f8jiEI=;
- b=PeQFxYid7U7fLGe8PNvWX6eqXZ2f0HZwd2B/midL3gY/M1xH4RH+bAE00bm5bpYVfyrywv
- ySTF2jOdj7PE2pCQ==
+ bh=TCDUyK/kkO09gvfvzO6cX9oo85L8oKG13hs2lHMtpYM=;
+ b=vTmKqylho0fXQQjW1EPeTzW3TL1pIAqzVxXCUc74tiKo55Bw0rKHCdjGEk5+guC8Imjpgt
+ YhYRy+z6/bbmm0CQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 429D0133B6;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F7B313A0E;
  Fri, 31 Mar 2023 09:23:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id aBp9D4amJmTsOwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id oCCIFoamJmTsOwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 31 Mar 2023 09:23:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de
-Subject: [PATCH 11/15] fbdev/platinumfb: Remove trailing whitespaces
-Date: Fri, 31 Mar 2023 11:23:10 +0200
-Message-Id: <20230331092314.2209-12-tzimmermann@suse.de>
+Subject: [PATCH 12/15] fbdev/sa1100fb: Remove trailing whitespaces
+Date: Fri, 31 Mar 2023 11:23:11 +0200
+Message-Id: <20230331092314.2209-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230331092314.2209-1-tzimmermann@suse.de>
 References: <20230331092314.2209-1-tzimmermann@suse.de>
@@ -75,127 +75,107 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Fix coding style. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/platinumfb.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/video/fbdev/sa1100fb.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/video/fbdev/platinumfb.c b/drivers/video/fbdev/platinumfb.c
-index 5b9e26ea6449..c7172174c1b7 100644
---- a/drivers/video/fbdev/platinumfb.c
-+++ b/drivers/video/fbdev/platinumfb.c
-@@ -52,17 +52,17 @@ struct fb_info_platinum {
- 		__u8 red, green, blue;
- 	}				palette[256];
- 	u32				pseudo_palette[16];
--	
-+
- 	volatile struct cmap_regs	__iomem *cmap_regs;
- 	unsigned long			cmap_regs_phys;
--	
-+
- 	volatile struct platinum_regs	__iomem *platinum_regs;
- 	unsigned long			platinum_regs_phys;
--	
-+
- 	__u8				__iomem *frame_buffer;
- 	volatile __u8			__iomem *base_frame_buffer;
- 	unsigned long			frame_buffer_phys;
--	
-+
- 	unsigned long			total_vram;
- 	int				clktype;
- 	int				dactype;
-@@ -133,7 +133,7 @@ static int platinumfb_set_par (struct fb_info *info)
- 	platinum_set_hardware(pinfo);
- 
- 	init = platinum_reg_init[pinfo->vmode-1];
--	
-+
-  	if ((pinfo->vmode == VMODE_832_624_75) && (pinfo->cmode > CMODE_8))
-   		offset = 0x10;
- 
-@@ -214,7 +214,7 @@ static int platinumfb_setcolreg(u_int regno, u_int red, u_int green, u_int blue,
- 			break;
- 		}
- 	}
--	
-+
- 	return 0;
- }
- 
-@@ -269,7 +269,7 @@ static void platinum_set_hardware(struct fb_info_platinum *pinfo)
- 	struct platinum_regvals		*init;
- 	int				i;
- 	int				vmode, cmode;
--	
-+
- 	vmode = pinfo->vmode;
- 	cmode = pinfo->cmode;
- 
-@@ -436,7 +436,7 @@ static int read_platinum_sense(struct fb_info_platinum *info)
-  * This routine takes a user-supplied var, and picks the best vmode/cmode from it.
-  * It also updates the var structure to the actual mode data obtained
+diff --git a/drivers/video/fbdev/sa1100fb.c b/drivers/video/fbdev/sa1100fb.c
+index b1b8ccdbac4a..a2408bf00ca0 100644
+--- a/drivers/video/fbdev/sa1100fb.c
++++ b/drivers/video/fbdev/sa1100fb.c
+@@ -57,14 +57,14 @@
+  *	- Driver appears to be working for Brutus 320x200x8bpp mode.  Other
+  *	  resolutions are working, but only the 8bpp mode is supported.
+  *	  Changes need to be made to the palette encode and decode routines
+- *	  to support 4 and 16 bpp modes.  
++ *	  to support 4 and 16 bpp modes.
+  *	  Driver is not designed to be a module.  The FrameBuffer is statically
+- *	  allocated since dynamic allocation of a 300k buffer cannot be 
+- *	  guaranteed. 
++ *	  allocated since dynamic allocation of a 300k buffer cannot be
++ *	  guaranteed.
+  *
+  * 1999/06/17:
+  *	- FrameBuffer memory is now allocated at run-time when the
+- *	  driver is initialized.    
++ *	  driver is initialized.
+  *
+  * 2000/04/10: Nicolas Pitre <nico@fluxnic.net>
+  *	- Big cleanup for dynamic selection of machine type at run time.
+@@ -74,8 +74,8 @@
+  *
+  * 2000/08/07: Tak-Shing Chan <tchan.rd@idthk.com>
+  *	       Jeff Sutherland <jsutherland@accelent.com>
+- *	- Resolved an issue caused by a change made to the Assabet's PLD 
+- *	  earlier this year which broke the framebuffer driver for newer 
++ *	- Resolved an issue caused by a change made to the Assabet's PLD
++ *	  earlier this year which broke the framebuffer driver for newer
+  *	  Phase 4 Assabets.  Some other parameters were changed to optimize
+  *	  for the Sharp display.
+  *
+@@ -102,7 +102,7 @@
+  * 2000/11/23: Eric Peng <ericpeng@coventive.com>
+  *	- Freebird add
+  *
+- * 2001/02/07: Jamey Hicks <jamey.hicks@compaq.com> 
++ * 2001/02/07: Jamey Hicks <jamey.hicks@compaq.com>
+  *	       Cliff Brake <cbrake@accelent.com>
+  *	- Added PM callback
+  *
+@@ -500,7 +500,7 @@ sa1100fb_set_cmap(struct fb_cmap *cmap, int kspc, int con,
+  *  	the shortest recovery time
+  *  Suspend
+  *  	This refers to a level of power management in which substantial power
+- *  	reduction is achieved by the display.  The display can have a longer 
++ *  	reduction is achieved by the display.  The display can have a longer
+  *  	recovery time from this state than from the Stand-by state
+  *  Off
+  *  	This indicates that the display is consuming the lowest level of power
+@@ -522,9 +522,9 @@ sa1100fb_set_cmap(struct fb_cmap *cmap, int kspc, int con,
   */
--static int platinum_var_to_par(struct fb_var_screeninfo *var, 
-+static int platinum_var_to_par(struct fb_var_screeninfo *var,
- 			       struct fb_info_platinum *pinfo,
- 			       int check_only)
- {
-@@ -478,12 +478,12 @@ static int platinum_var_to_par(struct fb_var_screeninfo *var,
- 	pinfo->yoffset = 0;
- 	pinfo->vxres = pinfo->xres;
- 	pinfo->vyres = pinfo->yres;
--	
-+
- 	return 0;
- }
- 
- 
--/* 
-+/*
-  * Parse user specified options (`video=platinumfb:')
+ /*
+  * sa1100fb_blank():
+- *	Blank the display by setting all palette values to zero.  Note, the 
++ *	Blank the display by setting all palette values to zero.  Note, the
+  * 	12 and 16 bpp modes don't really use the palette, so this will not
+- *      blank the display in all modes.  
++ *      blank the display in all modes.
   */
- static int __init platinumfb_setup(char *options)
-@@ -624,7 +624,7 @@ static int platinumfb_probe(struct platform_device* odev)
- 		break;
- 	}
- 	dev_set_drvdata(&odev->dev, info);
--	
-+
- 	rc = platinum_init_fb(info);
- 	if (rc != 0) {
- 		iounmap(pinfo->frame_buffer);
-@@ -640,9 +640,9 @@ static int platinumfb_remove(struct platform_device* odev)
+ static int sa1100fb_blank(int blank, struct fb_info *info)
  {
- 	struct fb_info		*info = dev_get_drvdata(&odev->dev);
- 	struct fb_info_platinum	*pinfo = info->par;
--	
-+
-         unregister_framebuffer (info);
--	
-+
- 	/* Unmap frame buffer and registers */
- 	iounmap(pinfo->frame_buffer);
- 	iounmap(pinfo->platinum_regs);
-@@ -658,7 +658,7 @@ static int platinumfb_remove(struct platform_device* odev)
- 	return 0;
- }
+@@ -603,8 +603,8 @@ static inline unsigned int get_pcd(struct sa1100fb_info *fbi,
  
--static struct of_device_id platinumfb_match[] = 
-+static struct of_device_id platinumfb_match[] =
+ /*
+  * sa1100fb_activate_var():
+- *	Configures LCD Controller based on entries in var parameter.  Settings are      
+- *	only written to the controller if changes were made.  
++ *	Configures LCD Controller based on entries in var parameter.  Settings are
++ *	only written to the controller if changes were made.
+  */
+ static int sa1100fb_activate_var(struct fb_var_screeninfo *var, struct sa1100fb_info *fbi)
  {
- 	{
- 	.name 		= "platinum",
-@@ -666,7 +666,7 @@ static struct of_device_id platinumfb_match[] =
- 	{},
- };
+@@ -747,7 +747,7 @@ static void sa1100fb_setup_gpio(struct sa1100fb_info *fbi)
+ 	 *
+ 	 * SA1110 spec update nr. 25 says we can and should
+ 	 * clear LDD15 to 12 for 4 or 8bpp modes with active
+-	 * panels.  
++	 * panels.
+ 	 */
+ 	if ((fbi->reg_lccr0 & LCCR0_CMS) == LCCR0_Color &&
+ 	    (fbi->reg_lccr0 & (LCCR0_Dual|LCCR0_Act)) != 0) {
+@@ -1020,9 +1020,9 @@ static int sa1100fb_resume(struct platform_device *dev)
  
--static struct platform_driver platinum_driver = 
-+static struct platform_driver platinum_driver =
- {
- 	.driver = {
- 		.name = "platinumfb",
+ /*
+  * sa1100fb_map_video_memory():
+- *      Allocates the DRAM memory for the frame buffer.  This buffer is  
+- *	remapped into a non-cached, non-buffered, memory region to  
+- *      allow palette and pixel writes to occur without flushing the 
++ *      Allocates the DRAM memory for the frame buffer.  This buffer is
++ *	remapped into a non-cached, non-buffered, memory region to
++ *      allow palette and pixel writes to occur without flushing the
+  *      cache.  Once this area is remapped, all virtual memory
+  *      access to the video memory should occur at the new region.
+  */
 -- 
 2.40.0
 
