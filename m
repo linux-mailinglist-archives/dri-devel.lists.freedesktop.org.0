@@ -2,54 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA386D1A2E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CED6D1A89
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:40:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69AE110F12F;
-	Fri, 31 Mar 2023 08:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F68E10E31B;
+	Fri, 31 Mar 2023 08:40:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E4D10E31B;
- Fri, 31 Mar 2023 08:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680251725; x=1711787725;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=je0I5iROlVyoByNGogpREttITQp0mzNKe/6HkPr7EJg=;
- b=icYotjuOV/NV4mGOHMXlnY3JmPWQSYG/ZwLoOF/iyLZ0DK0BYThaReod
- /h8g5FqJxErGIa3Af4pkSV0nFMW+dkmJfAupgmtpoWjm9MvqhjFaB7a3i
- +H49FZYJCk5W1QUeCkAUEvg01xFwwLAzAWr2GSA+CVucRQ6J6TWf/x8bt
- ftZf4BsaHpLW+hBkWe8FMlLpUg9s8k2X5WXmdVT7XXhPeQDhRxuAeklTj
- sHNm3sZemCSSur61Jttf6p9fZudc8nPkMFUJEpOS7LNYqr1GBcdsy46r2
- BNW6yNhdHEZi3ciC+HRsMer9VhuYrJ4djUUJ9CoZxp5Yb10nxP1dfCoDs g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="321051727"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="321051727"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 01:35:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="1014743077"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="1014743077"
-Received: from bpower-mobl3.ger.corp.intel.com (HELO [10.213.225.27])
- ([10.213.225.27])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 01:35:09 -0700
-Message-ID: <ef0b3c48-799e-70fb-ecbc-4d62c75058a9@linux.intel.com>
-Date: Fri, 31 Mar 2023 09:35:07 +0100
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22F0D10F125
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:40:45 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id x17so27966267lfu.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:40:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680252043;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gjXQ5aQpqa9dtTjZKu9qBegMD76XnvSRVVOgnd82YkA=;
+ b=vltQKUL3hd9OWaeRLdVX83lC9n5JnQDc4llvdPRGU22FvnP96K9I88V0ANxqtlRKXP
+ t2DmmsASCcz5z3tr/h3gtvUX7GSjKy6VuQqYaooHwqPN/PlkdqzDVjHfr9QllImsWqG5
+ aW01Olub4vZc6jwBtji2t4P4F2tCSgGweFusFG7gLbcqvrtfsyzpJZUW2t1w4itI7lYY
+ 47P7raJ7QtH3W7Zpoju4a2yE1Q18SO4+D3PXoYZLYj4tWCoN0yk6BKQMn0plL07ByDl7
+ wgkjePVTUHMk4BpyMvopnikvt1g6Q11/AEd/quexyX20zkVSNJEkABjPOrXEs/zutbMX
+ 9NSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680252043;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gjXQ5aQpqa9dtTjZKu9qBegMD76XnvSRVVOgnd82YkA=;
+ b=6cUbiFO8wnjMbZSJi3W6wmX9RqqRkVM/9C2xhqe3gS19P0uDT2wJVGVVj+1mbNlRWz
+ OzYdW6/1KZtLdnL4omAtXTchESbByqTNF+CL3VehY3RYVa+W95pefa1B1Y8OW9XM3Ahf
+ UZOckeR+JRLt+wjxKo9WJNjaho+SvzAZhrwbhJ5QSjCKqtIFAZjKV7Z58KfLWwGBclYp
+ uzJv2WrCvjdPrUfaiJkIXT+s7SzmIISNXhpePSGp4yLm+sdJdQVM1v/30H5uUatfq4Hq
+ 8s0nHsszVXDUDF0GWNolm5Voa6+T3KHsjbjQRYJ4yFOx9IiLBhLdyeL/quLmmdNTGlMN
+ 7WQw==
+X-Gm-Message-State: AAQBX9fngfPgLnVnnnJv67p5R6XO+6bGtvBKNdIRtu8KVCATxvzxtF4D
+ TJtMfbYkkDMxfL9oOnT1Jj/iEw==
+X-Google-Smtp-Source: AKy350ZF4EPLm2KOd54BriJCTJPExfvm5KVPdSmGedrby3dOniEiFQ93phf7NAJWdI34ReDhM3A7ZA==
+X-Received: by 2002:ac2:5482:0:b0:4b5:8f03:a2bc with SMTP id
+ t2-20020ac25482000000b004b58f03a2bcmr7517722lfk.9.1680252043253; 
+ Fri, 31 Mar 2023 01:40:43 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
+ s5-20020a19ad45000000b004e845b49d81sm289545lfd.140.2023.03.31.01.40.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Mar 2023 01:40:42 -0700 (PDT)
+Message-ID: <bdb9c715-3cc9-73b8-e500-d2e34075b53e@linaro.org>
+Date: Fri, 31 Mar 2023 10:40:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/i915: Fix context runtime accounting
+ Thunderbird/102.9.0
+Subject: Re: [RFC PATCH 1/3] dt-bindings: display/msm/gpu: allow specifying MX
+ domain A5xx
 Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20230320151423.1708436-1-tvrtko.ursulin@linux.intel.com>
- <CAM0jSHMFF7VeRFMqRwfbvVtRdc6-6RXipe3nvLijrCtTNdKweQ@mail.gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <CAM0jSHMFF7VeRFMqRwfbvVtRdc6-6RXipe3nvLijrCtTNdKweQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20230329222500.1131836-1-dmitry.baryshkov@linaro.org>
+ <20230329222500.1131836-2-dmitry.baryshkov@linaro.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230329222500.1131836-2-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,37 +82,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 31/03/2023 07:25, Matthew Auld wrote:
-> On Mon, 20 Mar 2023 at 15:14, Tvrtko Ursulin
-> <tvrtko.ursulin@linux.intel.com> wrote:
->>
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> When considering whether to mark one context as stopped and another as
->> started we need to look at whether the previous and new _contexts_ are
->> different and not just requests. Otherwise the software tracked context
->> start time was incorrectly updated to the most recent lite-restore time-
->> stamp, which was in some cases resulting in active time going backward,
->> until the context switch (typically the hearbeat pulse) would synchronise
->> with the hardware tracked context runtime. Easiest use case to observe
->> this behaviour was with a full screen clients with close to 100% engine
->> load.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Fixes: bb6287cb1886 ("drm/i915: Track context current active time")
->> Cc: <stable@vger.kernel.org> # v5.19+
+On 30/03/2023 00:24, Dmitry Baryshkov wrote:
+> Some a5xx Adreno devices might need additional power domains to handle
+> voltage scaling. While we do not (yet) have support for CPR3 providing
+> voltage scaling, allow specifying MX domain to scale the memory cell
+> voltage.
 > 
-> Seems reasonable to me, fwiw,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Thanks, pushed!
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Regards,
+Best regards,
+Krzysztof
 
-Tvrtko
