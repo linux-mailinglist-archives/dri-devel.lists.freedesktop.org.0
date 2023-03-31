@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF756D1C06
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:23:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F40B16D1C0C
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 11:24:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E77E10F16C;
-	Fri, 31 Mar 2023 09:23:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9FA10F17B;
+	Fri, 31 Mar 2023 09:24:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3056810F179
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4803110F17B
  for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 09:23:20 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C8B5A21B32;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id EC30F1FE9C;
  Fri, 31 Mar 2023 09:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1680254598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MUqYT9zCW2g77upJO+tiQVt9bhBbs8FSrCzARv3uBmY=;
- b=dgUFmuDbbelrJe/uLoPaFQDkk5CXHlrXo29M4TrQRYLLoUcVXvtPBpRR/0nK4htHtr92wM
- uI+bn0YDLs2dirIb4C1cGo05r8KmPEIzrZt+oDqps6CCYnzc5APca3RU+0tdmEhwKoBWlb
- KLQM//LWO9cNBj1l9z5Jc0n/QtCSr+4=
+ bh=GRwXqDmX4dlzD8zvR5LebzdDxbyW3j2Av0ry2c6X1iI=;
+ b=TLSUeGviweZHkRJG8eQykw+gE0hDz/bdtOPUY+DjBpFPCu6ILJCVC6mZpUmBaQNiyF0oYy
+ kYelTtQhPnNJCnZkymEBmOl1HIg4Qju83vyQ0xVhJbHx1mGZYJob3U0W3GW0ofOtubP2M4
+ j9LSpK5K/y7PfZUk88SYC5A90A5z/+c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1680254598;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MUqYT9zCW2g77upJO+tiQVt9bhBbs8FSrCzARv3uBmY=;
- b=xhaJOjFco+36s4u0PCoLrxIyQDtRKp8GcThU663bOejT04C+cbOCISWDRBUsChZlekT50o
- fYn5mJA7RQvLMvBQ==
+ bh=GRwXqDmX4dlzD8zvR5LebzdDxbyW3j2Av0ry2c6X1iI=;
+ b=JKDYV9XVL4ojf4tsMIXqtF+8C38ZQ6DeVpneq4KRyvOqZh8fRw/2m2jF+Jm46ynpFSjG+K
+ Q1e+PxeYV/evPFCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A901C13A0E;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CCF6F133B6;
  Fri, 31 Mar 2023 09:23:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uJBcKIamJmTsOwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id WIkVMYamJmTsOwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Fri, 31 Mar 2023 09:23:18 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: deller@gmx.de
-Subject: [PATCH 14/15] fbdev/valkyriefb: Remove trailing whitespaces
-Date: Fri, 31 Mar 2023 11:23:13 +0200
-Message-Id: <20230331092314.2209-15-tzimmermann@suse.de>
+Subject: [PATCH 15/15] fbdev/vfb: Remove trailing whitespaces
+Date: Fri, 31 Mar 2023 11:23:14 +0200
+Message-Id: <20230331092314.2209-16-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230331092314.2209-1-tzimmermann@suse.de>
 References: <20230331092314.2209-1-tzimmermann@suse.de>
@@ -77,66 +77,51 @@ Fix coding style. No functional changes.
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Helge Deller <deller@gmx.de>
 ---
- drivers/video/fbdev/valkyriefb.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/vfb.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valkyriefb.c
-index 1007023a5e88..b166b7cfe0e5 100644
---- a/drivers/video/fbdev/valkyriefb.c
-+++ b/drivers/video/fbdev/valkyriefb.c
-@@ -1,7 +1,7 @@
- /*
-  *  valkyriefb.c -- frame buffer device for the PowerMac 'valkyrie' display
-  *
-- *  Created 8 August 1998 by 
-+ *  Created 8 August 1998 by
-  *  Martin Costabel <costabel@wanadoo.fr> and Kevin Schoedel
-  *
-  *  Vmode-switching changes and vmode 15/17 modifications created 29 August
-@@ -77,13 +77,13 @@ struct fb_info_valkyrie {
- 	struct fb_par_valkyrie	par;
- 	struct cmap_regs	__iomem *cmap_regs;
- 	unsigned long		cmap_regs_phys;
--	
-+
- 	struct valkyrie_regs	__iomem *valkyrie_regs;
- 	unsigned long		valkyrie_regs_phys;
--	
-+
- 	__u8			__iomem *frame_buffer;
- 	unsigned long		frame_buffer_phys;
--	
-+
- 	int			sense;
- 	unsigned long		total_vram;
+diff --git a/drivers/video/fbdev/vfb.c b/drivers/video/fbdev/vfb.c
+index 95d3c59867d0..680c88267ef4 100644
+--- a/drivers/video/fbdev/vfb.c
++++ b/drivers/video/fbdev/vfb.c
+@@ -110,7 +110,7 @@ static u_long get_line_length(int xres_virtual, int bpp)
+      *  First part, xxxfb_check_var, must not write anything
+      *  to hardware, it should only verify and adjust var.
+      *  This means it doesn't alter par but it does use hardware
+-     *  data from it to check this var. 
++     *  data from it to check this var.
+      */
  
-@@ -244,7 +244,7 @@ static inline int valkyrie_vram_reqd(int video_mode, int color_mode)
- {
- 	int pitch;
- 	struct valkyrie_regvals *init = valkyrie_reg_init[video_mode-1];
--	
-+
- 	if ((pitch = init->pitch[color_mode]) == 0)
- 		pitch = 2 * init->pitch[0];
- 	return init->vres * pitch;
-@@ -467,7 +467,7 @@ static int valkyrie_var_to_par(struct fb_var_screeninfo *var,
- 		printk(KERN_ERR "valkyriefb: vmode %d not valid.\n", vmode);
- 		return -EINVAL;
- 	}
--	
-+
- 	if (cmode != CMODE_8 && cmode != CMODE_16) {
- 		printk(KERN_ERR "valkyriefb: cmode %d not valid.\n", cmode);
- 		return -EINVAL;
-@@ -516,7 +516,7 @@ static void valkyrie_init_fix(struct fb_fix_screeninfo *fix, struct fb_info_valk
- 	fix->ywrapstep = 0;
- 	fix->ypanstep = 0;
- 	fix->xpanstep = 0;
--	
-+
+ static int vfb_check_var(struct fb_var_screeninfo *var,
+@@ -168,7 +168,7 @@ static int vfb_check_var(struct fb_var_screeninfo *var,
+ 
+ 	/*
+ 	 * Now that we checked it we alter var. The reason being is that the video
+-	 * mode passed in might not work but slight changes to it might make it 
++	 * mode passed in might not work but slight changes to it might make it
+ 	 * work. This way we let the user know what is acceptable.
+ 	 */
+ 	switch (var->bits_per_pixel) {
+@@ -234,8 +234,8 @@ static int vfb_check_var(struct fb_var_screeninfo *var,
  }
  
- /* Fix must already be inited above */
+ /* This routine actually sets the video mode. It's in here where we
+- * the hardware state info->par and fix which can be affected by the 
+- * change in par. For this driver it doesn't do much. 
++ * the hardware state info->par and fix which can be affected by the
++ * change in par. For this driver it doesn't do much.
+  */
+ static int vfb_set_par(struct fb_info *info)
+ {
+@@ -378,7 +378,7 @@ static int vfb_pan_display(struct fb_var_screeninfo *var,
+ }
+ 
+     /*
+-     *  Most drivers don't need their own mmap function 
++     *  Most drivers don't need their own mmap function
+      */
+ 
+ static int vfb_mmap(struct fb_info *info,
 -- 
 2.40.0
 
