@@ -1,121 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF636D2044
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 14:28:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8A6D20BC
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 14:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0DB910E073;
-	Fri, 31 Mar 2023 12:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCCCA10E0BD;
+	Fri, 31 Mar 2023 12:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2045.outbound.protection.outlook.com [40.107.22.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAF3710E073
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 12:28:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S+ojmDpyl1jQNJdF3JSHzzJXO3YkpDndCwj4sTcj8XUXpVoDj5XZhqAuwBCZ4zomuzVgxmvPmgptM6j+4mQLaZUNzJqZGSPxWRTrpadCbr/rgchJj90shVlekugBP5XaEz9/6gw6wAih5B2jyGPjNc/EqIa18yGtl0Y8xObaQmyHb/Yooxeostb5qSYziDkjs8dNdVymjshGXLLrE7DLdhWLz02yYfUo/WVN6WU4qUn2I1Q3ZBakAmcczQA4vBAFB1HpOM2l2YPr/56aoqz1ChFPT1CfPSWp8WBpCXBhbvvZh2dFol6SZjdnOKdTC5g+EXNm4iD48G58TN7h1H3Tkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hBdfNw9JePE/MlyJmPN1s7AREZnzKi7yeZyymiwBXpo=;
- b=nO3ViVnG1MSwID3lI/W6L+SMRVld7ycawmH4QpXg5W5hfB6vQZntI+LnrYsFH8uEy7Xn99yoaBmwXju8NoP1sP7BQmUoKup3K7iVXjkDP+60ZqmpXryQtr5dWKW8EdkRYWkhlDKWQDRctQ+LkykE3Wb+QcYzH57lphpfpwXZ7ixDbsAizR+HwLbf2s0REIfFxX0D6QBcY/FvUOsTbKstndOBRa7oIkYN+1UUDLo47pFZbhpnZ9ZE2EoyIvsryGWkfZ74EQBnJu6RNqhla5LXxDnNwqYTuPldStTwz73dxQZeODq4rXu5qH8bR9HDHI1Ie6DpWa6Kmr8TKWy4DZ5Gmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hBdfNw9JePE/MlyJmPN1s7AREZnzKi7yeZyymiwBXpo=;
- b=WD843wUXCxymJvfIiy6H2uaCwAF4L8lZtg9b5p4FBs01EzLTpahQEKzN2n7m/c6PhFdBJXc+8N2B1CZDS+3Qo3CIwyaKTol+366+cjazJfvNL2qYCN4276EX7lzygWyBl1Gc3ivCu1XCR3NZJxzLyaZn6nyi0pCgMVFIETG/PFM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by AS2PR08MB8903.eurprd08.prod.outlook.com (2603:10a6:20b:5f7::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.35; Fri, 31 Mar
- 2023 12:28:20 +0000
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::6f4d:f868:c89:4db1]) by DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::6f4d:f868:c89:4db1%5]) with mapi id 15.20.6222.033; Fri, 31 Mar 2023
- 12:28:20 +0000
-Message-ID: <a8f0aaa1-e412-18c1-452f-753e0a6b6d51@wolfvision.net>
-Date: Fri, 31 Mar 2023 14:28:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCHv1 3/7] drm/panel: sitronix-st7789v: add SPI ID table
-Content-Language: en-US
-To: Sebastian Reichel <sre@kernel.org>
-References: <20230317232355.1554980-1-sre@kernel.org>
- <20230317232355.1554980-4-sre@kernel.org>
-From: Michael Riesch <michael.riesch@wolfvision.net>
-In-Reply-To: <20230317232355.1554980-4-sre@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR2P278CA0041.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:47::10) To DU0PR08MB9155.eurprd08.prod.outlook.com
- (2603:10a6:10:416::5)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FA5B10E0BD;
+ Fri, 31 Mar 2023 12:46:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680266795; x=1711802795;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DNBTgkydAKy9RgdwAafCwZyOU0pinYOIVpjAN5c+Lfw=;
+ b=ZOGb9d4WnyFNZC9ssalUpi+3SfLfYjLj4nbuU6+tj1ootbVGfoihdFFa
+ NzcTzjcHsYrA9+/wM2ykEWVg1ilbdf1h+BbglIvLJiLNHXrnW0TsriUSs
+ 4EPd8GjOfMwumWRo953Gjf6cejM8BZGEnZqEgUVQXudn/OuoPfmTQTwoV
+ MDLw44hGIyVYi6Pxapuyc1TXbydNSvKEKZbtKb9XMxejfhyPBbZnPDtC0
+ cge5TXJwtrI3XURKHBL7g0JN8xzSGowrMIEw4Zyg0wPPd4A8ltFFuTDPR
+ bBFVvf9x++6uaJQG6eR1u8Dtghz7bILcIjVloPMSZrlztMn3Gfo5+Hm15 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="325408594"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="325408594"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 05:46:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="809024958"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="809024958"
+Received: from bpower-mobl3.ger.corp.intel.com (HELO [10.213.225.27])
+ ([10.213.225.27])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 05:46:25 -0700
+Message-ID: <3722f24b-0bad-ad35-5f24-66c1b17f8e71@linux.intel.com>
+Date: Fri, 31 Mar 2023 13:46:22 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS2PR08MB8903:EE_
-X-MS-Office365-Filtering-Correlation-Id: 333b3f07-8d4c-4354-2fc7-08db31e3697a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4UOL76oHztQlgqUReUnA77ezp7Jm0wyeLFF/lf82/Zk2inAQq4b5eoio01a8QPTnSv9FflXl5UBTJW5RJYY0lybAqY79CgAsHTEOYGccUjVB6qQgkwhZB7u1l3WmnNCTgvEwcnEg8MCnZ0XGQ0pT4qEivpFEoZdQF3VNLeXHJj9zvF4lrYaPA33nCo+BcJ7JfOPoRgjjQk66+4VQckgE7p/VooPJzQ1A6OcWG8XJ3hFoL++T+i6ladKaLgesXIkk1nWhguRWGH9ZI74+AdcRzOA6nmdfvBVsRvHpae4qw739CHjLqo1HFlXXG/PDfZk5x2Td2a3KP3Y/UKolBXg8ok6K/1PBTKhOIotD3YRx5mgaE9ziK3BTeCSJ4Bjl+YokqrOyLZ0tda6LPDtRMl5KZ1UslopEGPOqj07uAYJSQF7pgOiV51VA1TTW4A/Ee9I6XE6WZduDna1SlQJ3Qd4jlXnj6gYcvSq3xmnJM+F+T4a5hka38w0j5+45zPBavTytce62ardcpfudS772VKP81V+n0xpGaQI6EG3XJDnTB6nbHFSRnAz6s5W8D+qlNi+1N5wlM1Sy3PHDfZHsdjtAYGP4icCGM1GNuTkvxiD0FSeXHoju/xNWZVKeKM5CHiLlWl4LG/1GproMKGh3HgodKw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DU0PR08MB9155.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230028)(4636009)(346002)(39850400004)(136003)(366004)(396003)(376002)(451199021)(2906002)(2616005)(31686004)(44832011)(478600001)(41300700001)(54906003)(6666004)(7416002)(66476007)(66556008)(5660300002)(8676002)(36756003)(6486002)(186003)(31696002)(8936002)(316002)(66946007)(6916009)(4326008)(6506007)(6512007)(53546011)(86362001)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SkcxY2IxQUE5MkVLQXpjVHQyYnNNUWNlaExGUkhnSGdtVmlyNlExdTVncU5O?=
- =?utf-8?B?RUUvM09wR0RPNjBJWC9TQ3BzRlE3WnQ2WmUyM3RGcHVjNzJFT0krYU1YUjln?=
- =?utf-8?B?S1UwcTFlZVNQVEZwZjlLM1E4aUtwWUV3YWhKY0VpbUJxd2s2ejM1UHJGNTNP?=
- =?utf-8?B?WVVMZDdYNGgrSzFXL3pzYmFVaHdxaUhtUFdQMEJaNm9RT08rK2xha3g4VEVr?=
- =?utf-8?B?ejFmNFNLeWhIamtURjc2RC9JQkJPZGlnVFRTZFFIMzZESkpSUENuL28yOS9j?=
- =?utf-8?B?ZGFZSkV4UVR2YTFQd3BoSWJ6cEEwMGk5cy9BV2R3ZVF2UHlzVWtQVkEzSURQ?=
- =?utf-8?B?Um54aXVSZTd3SFBWaWRhTTc3d3NzS1RwcEJ6cnRBdHFuYnBYYXdYK0pDZVBw?=
- =?utf-8?B?Y3pVeHVGOXhzRmJOQ1kwd3BmbkFaNUlid3lST0pnRCs4UkN5VVdUSnBqM1BF?=
- =?utf-8?B?SWJxd1ZwQnZ1a21NNjJ4UGtXZEZtSmYxUHdQRFVMRThuUGw0bVRUaWVFc0Rs?=
- =?utf-8?B?N3lHS0RrRVV1Z2RJcnJXV3d6cEs1V1QyVkVobjF6UldRMEtXRGJ2UGVwVXpu?=
- =?utf-8?B?dGVZaFhlNVVIanNLNXFBZHIwZEgwdUhaWURWcWg5WG9VdjFxc0VJZjhTSnZV?=
- =?utf-8?B?bmZPNVI1Q2t3c3Y5SkpSckN1ZnhTWUltTURzd1dSbTJrZ0ZET2src1pVb1Mz?=
- =?utf-8?B?bHdLaksvR3ZNQ0phOUd4a0VWczdhb1dHVFNENDJvcXEwdlBLUVg0cWtNOVJU?=
- =?utf-8?B?eHZwQ21RS0JiclRUdnZuRzB0N2JFMmRtVXVrVG1MaU9LbkRnNWtRaGl0NlF3?=
- =?utf-8?B?YWJUUHlVcG9jZXpuamdkYllRemZwYUlsckQ3c0FUdnVoS1daZXVPNVZGTzlo?=
- =?utf-8?B?NERCT3VDQjJPVnRWdWV3NUlLamZ1WEtKSXN6enFWUmNuc0VuLzFKd2Ricloy?=
- =?utf-8?B?aEVoRGVxbVVnc3VWdE1ZaHFpdVhpTGo3N2xPOWZLVm9KNURVdmNvMXA4ZDYy?=
- =?utf-8?B?R0F0bDRuTXcxRFNnNnlXaDY1NFlVMHBtTHI5MG1YaUJwbDQrVW1mVkpDT2dp?=
- =?utf-8?B?MlM5anJoazlFSjd1YjBXYVpIcXJSSDM4Tm9EZUE2c0o5bGhYMWMvdFdnMG1s?=
- =?utf-8?B?RUZLQ3hjbDRYZXJLUDA3bUJ2TzRycXc2emxiU0Y4WTc3RmpTQ0RqSzU3RHdw?=
- =?utf-8?B?N2drTFZOZWR5Rm5zUnh5T080K21QZzRoMEE5Tjd4Z3JMU0MzRTBJT2U3NGxu?=
- =?utf-8?B?OWxrUGx0bndQMHMxRUE2elVtT2FlbGs2SWFFYldmSVFXRzd4bWRNUks2MDh0?=
- =?utf-8?B?WE1hVSttRlliYmlhRXlkd2NPbVRQUnFJNzNndk90dGVMNUtQQ2ovMUZGQjdr?=
- =?utf-8?B?Tm1FNVdlKzB4L3k1NmcxbmNyOGRVdlZzQXVjOElKYUt6TUJ0MUhTUzg4eE1Q?=
- =?utf-8?B?M1JEOGtsUk5qWkJYYW9od3pXZ0pBVWpBa2xseTQzVWFBR3FrMythR3lHVnpw?=
- =?utf-8?B?aFV3R3BVYUkvK0dhc24xalRkMmYrdmtCVFdpYmE4S1lpalpBaCtrMFJlNG05?=
- =?utf-8?B?cWtqMFNoaHBhR1JRUEJDZmtDWVBQUmNWYzI3Ny9xZmMvZUdXYTc1SmRlaXZK?=
- =?utf-8?B?SnRlVFM1aTZrTEJrZjY2dFZ2VlM3RmpQSm1TSHFFelgrY0dDVytKT09mazc1?=
- =?utf-8?B?Q2ZYUzROL3BrdHkzZkp1cm5VNjFGbmErSUlSb3NHY1dvcStndmVIcnZLZklK?=
- =?utf-8?B?Mk1UYUhSTnlJM0xhMDM0NXdsQ1Jzc0VFaTRzK01uMVpTdzhENUxiVjYyL0NR?=
- =?utf-8?B?N1lOSUhvM2xyTnhDQmZmWE0vd0Erd1FVdVJIU1E3T2xrMWVKK1JzMmtLS3hx?=
- =?utf-8?B?RTk2NDl1TmlnMGVTR3cyOUEyaTQrRmtuR0o1U3BJeVB3UG1ncENiMXU5cWhv?=
- =?utf-8?B?c0xwL09Faml6OHk1RGRFRm0vVnFIWnZsOUJVbDZOVHRmdGx0M2c4K1R1YzBR?=
- =?utf-8?B?OFZaLzI3SnZzOGpGeXVkU0FVakduWEQ2ditEYnd3amQxVzhiTkdlUE5TMHdh?=
- =?utf-8?B?SitBRnRnd01PRGZjZElkYzNoTlpjOWdjdC90Wm0xQTk0MWJJN1gyNFM4cTZr?=
- =?utf-8?B?a2N5Z3pwL2JhWURINGczZjBpZVllaVllZlZva2psQ2J2VHdzdG9nZWxUSXZ1?=
- =?utf-8?B?R1NhdkFJclJtdVR1N1MyOVU3WW5tVjhTaFFKZzd6dE4xL282Vjh2Nk5FaG1t?=
- =?utf-8?B?V0ZiQU9Sclk2bFRrTXd1cEthQlZ3PT0=?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 333b3f07-8d4c-4354-2fc7-08db31e3697a
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2023 12:28:20.1355 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sSwc73q9mRiHmS+VUrvlrVrs0Kz5ea5xo22FmbyCtjNuc7Py+25EDj62JT6TxVenMwmZD7zarEVjqD3YXAtL+zWpOs0MaRG9lMIZNoJjHj0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8903
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH v6 5/8] drm/i915/pxp: Add ARB session creation
+ and cleanup
+Content-Language: en-US
+To: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
+References: <20230228022150.1657843-1-alan.previn.teres.alexis@intel.com>
+ <20230228022150.1657843-6-alan.previn.teres.alexis@intel.com>
+ <fabe4123-53cc-005e-e0af-7683e0d45896@intel.com>
+ <3b8091c51677878b968d1d275b9b16e5088d913d.camel@intel.com>
+ <ZCAqDlUIp0YmCkyu@intel.com> <fef256a6-3027-8beb-0ef8-fddf972db441@intel.com>
+ <cf63d62b-3e2d-f8fe-82b6-95e71e376cc2@linux.intel.com>
+ <3359c9d371a25710891352061693637b37679734.camel@intel.com>
+ <ZCMpXMj7GwDIp6Ll@intel.com>
+ <118981ef-260d-4c1a-5ca5-ad435d5edbc7@linux.intel.com>
+ <f87c39a243d84e53d6c292c63d032b30c89adb3e.camel@intel.com>
+ <36548877-5352-8ff3-6e87-410089470a4b@linux.intel.com>
+ <4ad872f1366802a717e13140d1da467ace1ae36f.camel@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <4ad872f1366802a717e13140d1da467ace1ae36f.camel@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,66 +75,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Landwerlin, Lionel G" <lionel.g.landwerlin@intel.com>, "Lahtinen,
+ Joonas" <joonas.lahtinen@intel.com>, "Ceraolo Spurio,
+ Daniele" <daniele.ceraolospurio@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Harrison,
+ John C" <john.c.harrison@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
 
-On 3/18/23 00:23, Sebastian Reichel wrote:
-> SPI device drivers should also have a SPI ID table.
+On 30/03/2023 20:44, Teres Alexis, Alan Previn wrote:
+> On Thu, 2023-03-30 at 13:25 +0100, Tvrtko Ursulin wrote:
+>> On 30/03/2023 01:10, Teres Alexis, Alan Previn wrote:
+>>> On Wed, 2023-03-29 at 08:43 +0100, Tvrtko Ursulin wrote:
+>>>> On 28/03/2023 18:52, Rodrigo Vivi wrote:
+>>>>> On Tue, Mar 28, 2023 at 05:01:36PM +0000, Teres Alexis, Alan Previn wrote:
+>>>>>> On Mon, 2023-03-27 at 17:15 +0100, Tvrtko Ursulin wrote:
+> alan:snip (excuse my snips - my evolution keeps inserting CRs - still looking for solution)
+>> But intuitively I thought that what Mesa wants is a no-cost getparam
+>> which would somewhat reliably tell it if the feature is supposed to be
+>> there and context create at a later stage, with the protected flag set,
+>> is supposed to work. AFAIU it can still fail at that point or probably
+>> block until the required setup is done.
+> Yes - that's right - i had another round of discussions with Daniele about a cleaner approach - below..
+> alan:snip
+>> Even 200ms is possibly not good enough since boot time targets (to UI
+>> AFAIR) are pretty tight. Don't know... Maybe I'd need a timeline diagram
+>> showing the involved components to understand this properly.
+> Absolutely, my experiences in i915 on embedded products even had PORs of <1000milisec to first-fully-renderered-display from cold-boot so yes, we need to work with this requirement
+> in mind and do testing on real customer stack.
 > 
-> Signed-off-by: Sebastian Reichel <sre@kernel.org>
-> ---
->  drivers/gpu/drm/panel/panel-sitronix-st7789v.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+> I spoke to Daniele and we have another idea - but would also impact mesa, for the better:
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> index bbc4569cbcdc..e4d8dea1db36 100644
-> --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> @@ -394,6 +394,12 @@ static void st7789v_remove(struct spi_device *spi)
->  	drm_panel_remove(&ctx->panel);
->  }
->  
-> +static const struct spi_device_id st7789v_spi_id[] = {
-> +	{ "st7789v" },
+> 1. Introduce get-param (is_PXP_avail)
+> 	- will return a simple yes or no
+> 		- yes means : i915-device-info supports it, kernel configs supports it and required-firmwares were found (not necessarily loaded/init yet).
+> 			(NOTE: this would be made to hook up to pxp helpers such as intel_pxp_is_supported)
+> 2. Gem-pxp-context-creation continues blocking like today with minor tweak:
+> 	(same)- success = all dependencies are in place, all firmware init completed, pxp arb session successfully completed.
+> 	(same)- non-success -ENODEV = if any dependency wasnt available or fw failed to create arb-session due to fw-init-failure/BIOS/platform config.
+> 	(tweak)- non-success -ENXIO (or some other -E'FOO') if component-driver-init or firmware-init is still pending after brief timeout.
+> 		- on timeout - TBD - need testing/debug on real world stack.
+> 		- UAPI spec needs update but pxp implementation currently uses -ENXIO for similiar reason inheritted first merge.
+> 
+> Thus, with this: Get param would always be immediate. Pxp-context-creation would only block when all dependencies are in place and we attempt to create the pxp arb session.
+> (firmware can take up to 200-milisecs, according to MTL spec, so I'd say ~210 given other overheads between i915 and fw and back).
+> We would need to change MESA-get-caps to use get-param (and not pxp-context-creation) as it would always return immediately with kernel side support.
+> And if application explicitly requires PXP support, then it needs to call pxp-context-creation that may block or require retry.
 
-Minor suggestion: The format
+The above sounds good to me.
 
-static const struct spi_device_id st7789v_spi_id[] = {
-	{
-		.name = "st7789v",
-	},
-	{ }
-};
+I am only not 100% clear on the ENODEV option from context create, does 
+it include even things which can be detected without any timeouts at 
+probe time, or just failures which take time to learn about.
 
-is more verbose, but can be extended easily.
+> WRT to fast-boot-to-first-frame, I am hoping real customer stack doesn't require PXP on the compositor and first mesa instance works fine without PXP caps.
+> And when customer apps that needs PXP starts, it would create pxp context which would block but the app would not have a choice.
 
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(spi, st7789v_spi_id);
-> +
->  static const struct of_device_id st7789v_of_match[] = {
->  	{ .compatible = "sitronix,st7789v" },
->  	{ }
+Yeah that sounds like an unlikely use case and one that we cannot 
+improve on the kernel or uapi side.
 
-The same holds for this structure here (you may want to consider this
-when adding the .data field in patch 6/7.
+(I can imagine resuming directly into a full screen video playback post 
+suspend, but a cold boot into it is a stretch.)
 
-Best regards,
-Michael
+Regards,
 
-> @@ -403,6 +409,7 @@ MODULE_DEVICE_TABLE(of, st7789v_of_match);
->  static struct spi_driver st7789v_driver = {
->  	.probe = st7789v_probe,
->  	.remove = st7789v_remove,
-> +	.id_table = st7789v_spi_id,
->  	.driver = {
->  		.name = "st7789v",
->  		.of_match_table = st7789v_of_match,
+Tvrtko
