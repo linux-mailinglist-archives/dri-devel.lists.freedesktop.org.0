@@ -1,49 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E5F6D1979
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:11:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EB56D19A1
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1BE110F119;
-	Fri, 31 Mar 2023 08:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2FFB10E300;
+	Fri, 31 Mar 2023 08:18:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D783710F119
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:11:11 +0000 (UTC)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E4DB6603130;
- Fri, 31 Mar 2023 09:11:09 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680250270;
- bh=eLIqrRye+6wN0NKeakPjuTqIkvbMUkhOj6K5fUjYHQ0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TpmHQG8Kj4+EqwCZ/xIQoeeZVWeAL+0kbNCBwBIzkiXe/IOCr17X198j5XMT0oEHs
- 7yI2hZ/1LM3BRwZ8m4BCifdhfZsim3JDxX8nYTDsXeMJ/F+pgrLI4JE2jEdfZkk+xU
- Vz/kpEhJljekn0ysAAmsj285znG4V0zbaLXKIEUhHxU0CNybcLX1rwbzFjKNm7wM7A
- c/7d+O45nBqHVUowUcD/TsCQzjvLC2ZFL0Rubaa2uHiy5hwQHWES54rvAe9mw/Z2Q3
- AB1kG7nQ6z7pSA7enBQjybCqQB8OLgTKtC6qHAuQqh57EqKgBRPyQW/q+SbEDlxf8r
- czG+qasfrfwRA==
-Message-ID: <5814d779-0635-43fe-3fe8-31c130f05b3a@collabora.com>
-Date: Fri, 31 Mar 2023 10:11:07 +0200
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
+ [IPv6:2607:f8b0:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDCB010E300
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:18:27 +0000 (UTC)
+Received: by mail-il1-x12e.google.com with SMTP id h11so11150278ild.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:18:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1680250707;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=15rDcrIff0PTvVCq0tQDwJDEOeJZgLwD9Ed2/S9KM9c=;
+ b=CsrdmNsZwi1KGRE7i+x82HeVKBUi7m/OpmIM3Th+keNveYpbwuAO0CD177mDO3OcgC
+ EnvFU72NaWpiWT94z3NnDqBNGQpW0p9cWPMIWbcZCHP7vD5/iSZEAjyI+3X4oo4zYzRU
+ GtHGkepUcXXaaYU0H2SO0r8Xou2lVWX0vr668=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680250707;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=15rDcrIff0PTvVCq0tQDwJDEOeJZgLwD9Ed2/S9KM9c=;
+ b=50pZ0FYPkjGi9iDIYPIXarsyR4FFUorco35OU2hOHxRPJLorIcHF+hzbVdUUDAf60s
+ 02Ws84nwBvXpPmjuHVkVe8ejkroIRsQyu23V7MzWLt9PpRAncdGqF+LH0iC0yQi/a3wt
+ 2TrnMKRNMJBY8L4ERrt0cpIf7MaBCWJdD+CAOXfq8ERCSWFNHeebCOv6xZCaIyBp0ug8
+ Ue2naRkVGEOBpGlUnbJCy/taIRYPp8oH2dC+KZZkKY6Za0MWCwK1x7DoHUG2usbZdXSM
+ N8pGZZDO26Gt2v857QDqplIlmuEUS5wnpl1yk71W2DC2/LdKE/QZoeWD+Q8o16otB/0u
+ jfeA==
+X-Gm-Message-State: AAQBX9cRdhufbgxHS/OwnOxEMxQQ3kg2BMd4ym+XJb1eVtdPyadPUkgV
+ j/vLZItm6jaqAyz8o1aMPFFSMJbvV9DXYzd6QRhtew==
+X-Google-Smtp-Source: AKy350Z3p01NgJ4vdkP75NR5+P4+C3oTh8ECvyef/jQWRCRu0D9MDV65Ai5oehSlp4QQBqxR3znKFnqONmw9lPWNA8Y=
+X-Received: by 2002:a92:c54b:0:b0:316:f93f:6f83 with SMTP id
+ a11-20020a92c54b000000b00316f93f6f83mr13750083ilj.6.1680250707090; Fri, 31
+ Mar 2023 01:18:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 RESEND 2/2] drm/panfrost: Add basic support for speed
- binning
-To: airlied@gmail.com, boris.brezillon@collabora.com
-References: <20230323090822.61766-1-angelogioacchino.delregno@collabora.com>
- <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230323090822.61766-3-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230322104639.221402-1-treapking@chromium.org>
+ <20230322104639.221402-8-treapking@chromium.org>
+ <ZBrjZj0VL20y1MUC@smile.fi.intel.com>
+In-Reply-To: <ZBrjZj0VL20y1MUC@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 31 Mar 2023 17:18:16 +0900
+Message-ID: <CAEXTbpd1kQWbJazRSvLabH26teiWvo75+rKOTL0A9Jm3eXeACQ@mail.gmail.com>
+Subject: Re: [PATCH v14 07/10] drm/bridge: anx7625: Register Type C mode
+ switches
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,96 +67,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com, robh+dt@kernel.org,
- alyssa.rosenzweig@collabora.com, krzysztof.kozlowski+dt@linaro.org,
- wenst@chromium.org, kernel@collabora.com
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 23/03/23 10:08, AngeloGioacchino Del Regno ha scritto:
-> Some SoCs implementing ARM Mali GPUs are subject to speed binning:
-> this means that some versions of the same SoC model may need to be
-> limited to a slower frequency compared to the other:
-> this is being addressed by reading nvmem (usually, an eFuse array)
-> containing a number that identifies the speed binning of the chip,
-> which is usually related to silicon quality.
-> 
-> To address such situation, add basic support for reading the
-> speed-bin through nvmem, as to make it possible to specify the
-> supported hardware in the OPP table for GPUs.
-> This commit also keeps compatibility with any platform that does
-> not specify (and does not even support) speed-binning.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Hi Andy,
 
-Hello maintainers,
-I've seen that this got archived in the dri-devel patchwork; because of that and
-only that, I'm sending this ping to get this patch reviewed.
+Thanks for the review.
 
-(perhaps we can even get it picked for v6.4?)
+On Wed, Mar 22, 2023 at 8:16=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Mar 22, 2023 at 06:46:36PM +0800, Pin-yen Lin wrote:
+> > Register USB Type-C mode switches when the "mode-switch" property and
+> > relevant ports are available in Device Tree. Configure the crosspoint
+> > switch based on the entered alternate mode for a specific Type-C
+> > connector.
+> >
+> > Crosspoint switch can also be used for switching the output signal for
+> > different orientations of a single USB Type-C connector, but the
+> > orientation switch is not implemented yet. A TODO is added for this.
+>
+> ...
+>
+> > +static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
+> > +                              struct typec_mux_state *state)
+> > +{
+> > +     struct drm_dp_typec_port_data *port =3D typec_mux_get_drvdata(mux=
+);
+> > +     struct anx7625_data *ctx =3D port->data;
+> > +     struct device *dev =3D ctx->dev;
+> > +     struct drm_dp_typec_switch_desc switch_desc =3D ctx->switch_desc;
+> > +     bool new_dp_connected, old_dp_connected;
+> > +
+> > +     if (switch_desc.num_typec_switches =3D=3D 1)
+> > +             return 0;
+>
+> > +     wait_for_completion(&ctx->mux_register);
+>
+> How do we guarantee this won't become an infinite waiting?
+> Perhaps a comment explaining that?
+>
+> > +     old_dp_connected =3D ctx->port_data[0].dp_connected ||
+> > +                        ctx->port_data[1].dp_connected;
+> > +
+> > +     ctx->port_data[port->port_num].dp_connected =3D
+> > +             state->alt &&
+> > +             state->alt->svid =3D=3D USB_TYPEC_DP_SID &&
+> > +             state->alt->mode =3D=3D USB_TYPEC_DP_MODE;
+> > +
+> > +     dev_dbg(dev, "mux_set dp_connected: c0=3D%d, c1=3D%d\n",
+> > +             ctx->port_data[0].dp_connected, ctx->port_data[1].dp_conn=
+ected);
+> > +
+> > +     new_dp_connected =3D ctx->port_data[0].dp_connected ||
+> > +                        ctx->port_data[1].dp_connected;
+> > +
+> > +     /* DP on, power on first */
+> > +     if (!old_dp_connected && new_dp_connected)
+> > +             pm_runtime_get_sync(dev);
+> > +
+> > +     anx7625_typec_two_ports_update(ctx);
+> > +
+> > +     /* DP off, power off last */
+> > +     if (old_dp_connected && !new_dp_connected)
+> > +             pm_runtime_put_sync(dev);
+> > +
+> > +     return 0;
+> > +}
+>
+> ...
+>
+> > +     struct device_node *port_node =3D of_graph_get_port_by_id(dev->of=
+_node, 1);
+>
+> You use fwnode below, so why not fwnode_graph_...(dev_fwnode(dev), ...) ?
 
-Regards,
-Angelo
+There is no existing helper like `fwnode_graph_get_port_by_id`, so
+using of_graph variant is easier here. Should I add a
+`fwnode_graph_get_port_by_id` helper for this?
+>
+> > +     struct drm_dp_typec_switch_desc *switch_desc =3D &ctx->switch_des=
+c;
+> > +     int ret;
+> > +     u32 dp_lanes[4];
+> > +     unsigned int i, num_lanes;
+> > +
+> > +     /*
+> > +      * Currently, only mode switch is implemented.
+> > +      * TODO: Implement Type-C orientation switch for anx7625.
+> > +      */
+> > +     ret =3D drm_dp_register_typec_switches(dev, &port_node->fwnode,
+> > +                                          &ctx->switch_desc, ctx,
+> > +                                          anx7625_typec_mux_set);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ctx->port_data =3D devm_kcalloc(dev, switch_desc->num_typec_switc=
+hes,
+> > +                                   sizeof(struct anx7625_typec_port_da=
+ta),
+>
+>                                       sizeof(*ctx->port_data),
+>
+> ?
+>
+> > +                                   GFP_KERNEL);
+> > +     if (!ctx->port_data) {
+> > +             ret =3D -ENOMEM;
+> > +             goto unregister_mux;
+> > +     }
+>
+> ...
+>
+> > +struct anx7625_typec_port_data {
+> > +     bool dp_connected;
+> > +     enum typec_orientation orientation;
+>
+> Most likely enum will be 32-bit and bool 8-bit. Which means that the data=
+ type
+> size become 8 bytes for no reason. Can you swap the lines and perhaps che=
+ck this
+> with `pahole` tool?
+>
+> > +};
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
-> ---
->   drivers/gpu/drm/panfrost/panfrost_devfreq.c | 30 +++++++++++++++++++++
->   1 file changed, 30 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_devfreq.c b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> index fe5f12f16a63..58dfb15a8757 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_devfreq.c
-> @@ -4,6 +4,7 @@
->   #include <linux/clk.h>
->   #include <linux/devfreq.h>
->   #include <linux/devfreq_cooling.h>
-> +#include <linux/nvmem-consumer.h>
->   #include <linux/platform_device.h>
->   #include <linux/pm_opp.h>
->   
-> @@ -82,6 +83,31 @@ static struct devfreq_dev_profile panfrost_devfreq_profile = {
->   	.get_dev_status = panfrost_devfreq_get_dev_status,
->   };
->   
-> +static int panfrost_read_speedbin(struct device *dev)
-> +{
-> +	u32 val;
-> +	int ret;
-> +
-> +	ret = nvmem_cell_read_variable_le_u32(dev, "speed-bin", &val);
-> +	if (ret) {
-> +		/*
-> +		 * -ENOENT means that this platform doesn't support speedbins
-> +		 * as it didn't declare any speed-bin nvmem: in this case, we
-> +		 * keep going without it; any other error means that we are
-> +		 * supposed to read the bin value, but we failed doing so.
-> +		 */
-> +		if (ret != -ENOENT) {
-> +			DRM_DEV_ERROR(dev, "Cannot read speed-bin (%d).", ret);
-> +			return ret;
-> +		}
-> +
-> +		return 0;
-> +	}
-> +	DRM_DEV_DEBUG(dev, "Using speed-bin = 0x%x\n", val);
-> +
-> +	return devm_pm_opp_set_supported_hw(dev, &val, 1);
-> +}
-> +
->   int panfrost_devfreq_init(struct panfrost_device *pfdev)
->   {
->   	int ret;
-> @@ -101,6 +127,10 @@ int panfrost_devfreq_init(struct panfrost_device *pfdev)
->   		return 0;
->   	}
->   
-> +	ret = panfrost_read_speedbin(dev);
-> +	if (ret)
-> +		return ret;
-> +
->   	ret = devm_pm_opp_set_regulators(dev, pfdev->comp->supply_names);
->   	if (ret) {
->   		/* Continue if the optional regulator is missing */
-
-
+Best regards,
+Pin-yen
