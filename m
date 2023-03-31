@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BEB6D2B37
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 00:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFF86D2B89
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 00:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6130510F32B;
-	Fri, 31 Mar 2023 22:20:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B53B110F343;
+	Fri, 31 Mar 2023 22:52:52 +0000 (UTC)
 X-Original-To: DRI-Devel@lists.freedesktop.org
 Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C28E310E57F;
- Fri, 31 Mar 2023 22:20:43 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C4910F343;
+ Fri, 31 Mar 2023 22:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680301243; x=1711837243;
+ t=1680303170; x=1711839170;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=fgQ9J1MmAkUavgeL/snjpNyivqiivHm2ZZ+DqYZ0pTw=;
- b=OBW6gIlW6JDLpf5/Zlvf2EeZ5Ghu5S70akSwftY0PFSqkrnovepbE4ZK
- Uk30gSa4/X5+GInMpai18i2q+iR85etmX/gWgcHciLCh0wdEAXI3m5tp0
- +8Cc2XSW+f7v544N6gM1YF/GYOzN0g6s0HsMYNMdUYUFdZlrdJ1QP7tgk
- RKT1hHcJ88448/LI2R/erJYLTOCG9k8WWLZOvGpYwStSDuh+o0/J01C8t
- +et/Y3/Rdomu1RD5wqByeHTLskeHIW5Zf9wKLUP92YTMbslHkuG4EEbhj
- s36yF+qogPKZSc7v84GZCRqO7jlzndQyCR23R4rnsoCXps2LVybodwEqJ Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="427846427"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="427846427"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 15:20:40 -0700
+ bh=0yK4TSTjBSHcc18dT1MkprIzw+DQtiQa4FCA5nNu5f0=;
+ b=VNnKh2qRP7nS0SqKC4qtrYjOIeIQNRoWyN7z5cy3+H0+1aQENAkGhWQW
+ yCq2+tUbKmWbPRM8W8ull6sd0ebxlicGNphQtP++DVtXOk0y9cmawRLIC
+ A5ZXbOJ1wTur3Ca+GoZmygM77Bqq6E53DMOPtPRuGREB9SK79YF7l+K4C
+ z4+M3Ub8G9PRT9as90LZG6fDPkBLhdA5ylsDjJc6aTaWcopg2A7zkdpmR
+ 7INrbXqgt0XoisAK/oUno/GFszqKBfx4EzaVOStwFnc1rMgWkECOid4ja
+ jEgISHh3LCfUWWbpARPkM7+VGhlfeXkcPXyhhPQi5weT1l+6WD+Bfyy+R Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="406597825"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="406597825"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 15:52:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="717875815"
-X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="717875815"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="715620043"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="715620043"
 Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga001.jf.intel.com with ESMTP; 31 Mar 2023 15:20:40 -0700
+ by orsmga008.jf.intel.com with ESMTP; 31 Mar 2023 15:52:49 -0700
 From: John.C.Harrison@Intel.com
 To: Intel-GFX@Lists.FreeDesktop.Org
 Subject: [CI] drm/i915/mtl: Define GuC firmware version for MTL
-Date: Fri, 31 Mar 2023 15:20:07 -0700
-Message-Id: <20230331222007.3965626-1-John.C.Harrison@Intel.com>
+Date: Fri, 31 Mar 2023 15:52:16 -0700
+Message-Id: <20230331225216.4188274-1-John.C.Harrison@Intel.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
@@ -74,14 +74,14 @@ Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-index 264c952f777bb..ae25cfbdc697e 100644
+index 264c952f777bb..1ac6f9f340e31 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
 @@ -79,6 +79,7 @@ void intel_uc_fw_change_status(struct intel_uc_fw *uc_fw,
   * security fixes, etc. to be enabled.
   */
  #define INTEL_GUC_FIRMWARE_DEFS(fw_def, guc_maj, guc_mmp) \
-+	fw_def(METEORLAKE,   0, guc_mmp(mtl,  70, 6, 4)) \
++	fw_def(METEORLAKE,   0, guc_mmp(mtl,  70, 6, 5)) \
  	fw_def(DG2,          0, guc_maj(dg2,  70, 5)) \
  	fw_def(ALDERLAKE_P,  0, guc_maj(adlp, 70, 5)) \
  	fw_def(ALDERLAKE_P,  0, guc_mmp(adlp, 70, 1, 1)) \
