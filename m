@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EB56D19A1
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1022A6D19E7
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 10:32:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2FFB10E300;
-	Fri, 31 Mar 2023 08:18:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D1F10F12A;
+	Fri, 31 Mar 2023 08:32:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDCB010E300
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 08:18:27 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id h11so11150278ild.11
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 01:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1680250707;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=15rDcrIff0PTvVCq0tQDwJDEOeJZgLwD9Ed2/S9KM9c=;
- b=CsrdmNsZwi1KGRE7i+x82HeVKBUi7m/OpmIM3Th+keNveYpbwuAO0CD177mDO3OcgC
- EnvFU72NaWpiWT94z3NnDqBNGQpW0p9cWPMIWbcZCHP7vD5/iSZEAjyI+3X4oo4zYzRU
- GtHGkepUcXXaaYU0H2SO0r8Xou2lVWX0vr668=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680250707;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=15rDcrIff0PTvVCq0tQDwJDEOeJZgLwD9Ed2/S9KM9c=;
- b=50pZ0FYPkjGi9iDIYPIXarsyR4FFUorco35OU2hOHxRPJLorIcHF+hzbVdUUDAf60s
- 02Ws84nwBvXpPmjuHVkVe8ejkroIRsQyu23V7MzWLt9PpRAncdGqF+LH0iC0yQi/a3wt
- 2TrnMKRNMJBY8L4ERrt0cpIf7MaBCWJdD+CAOXfq8ERCSWFNHeebCOv6xZCaIyBp0ug8
- Ue2naRkVGEOBpGlUnbJCy/taIRYPp8oH2dC+KZZkKY6Za0MWCwK1x7DoHUG2usbZdXSM
- N8pGZZDO26Gt2v857QDqplIlmuEUS5wnpl1yk71W2DC2/LdKE/QZoeWD+Q8o16otB/0u
- jfeA==
-X-Gm-Message-State: AAQBX9cRdhufbgxHS/OwnOxEMxQQ3kg2BMd4ym+XJb1eVtdPyadPUkgV
- j/vLZItm6jaqAyz8o1aMPFFSMJbvV9DXYzd6QRhtew==
-X-Google-Smtp-Source: AKy350Z3p01NgJ4vdkP75NR5+P4+C3oTh8ECvyef/jQWRCRu0D9MDV65Ai5oehSlp4QQBqxR3znKFnqONmw9lPWNA8Y=
-X-Received: by 2002:a92:c54b:0:b0:316:f93f:6f83 with SMTP id
- a11-20020a92c54b000000b00316f93f6f83mr13750083ilj.6.1680250707090; Fri, 31
- Mar 2023 01:18:27 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8792610E31B;
+ Fri, 31 Mar 2023 08:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680251537; x=1711787537;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=Qx/8ilf/NfkTHLO6+8bPMQwvEosBPGBjQoeaUWFsQWY=;
+ b=NsBZW6F+suHES7lY+wVwSyxjjbUiCHArAK/NpG1Zsk9zbxJTn4fvCtVQ
+ xYkgRjAyPXPiU1HKAy74lbvCHf52i4GhIMMFslSbI1wqPWBweA40UNMNb
+ QsppsGNWWJOT6utsaIv3EgMCf7G5opUKbgYTgHbi/1m5tJQ9bHNrmXg3K
+ SbhfONONEJybLaa0RnEKAQxSaAt0GWU07e1gfghr+bXNxkKh8/zwqqWf0
+ sCIf7sqzf0cyzV4liM9ZINuloCrUwPoYVxEM6+IxqLhh7lRjV0+MlwnPk
+ cIoRblXVbYKaRMc3V+NXlNXdnkYK+5zpaxa5p7SquLhaj230QUGGEctZT A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="406407923"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="406407923"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 01:31:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="828638010"
+X-IronPort-AV: E=Sophos;i="5.98,307,1673942400"; d="scan'208";a="828638010"
+Received: from slabertx-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.52.150])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 01:31:46 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>, David Laight
+ <David.Laight@ACULAB.COM>
+Subject: Re: [PATCH 0/4] log2: make is_power_of_2() more generic
+In-Reply-To: <20230330151846.fdbc8edbfbaa6eaddb056dc7@linux-foundation.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230330104243.2120761-1-jani.nikula@intel.com>
+ <20230330125041.83b0f39fa3a4ec1a42dfd95f@linux-foundation.org>
+ <549987e4967d45159573901d330c96a0@AcuMS.aculab.com>
+ <20230330151846.fdbc8edbfbaa6eaddb056dc7@linux-foundation.org>
+Date: Fri, 31 Mar 2023 11:31:43 +0300
+Message-ID: <87edp52ufk.fsf@intel.com>
 MIME-Version: 1.0
-References: <20230322104639.221402-1-treapking@chromium.org>
- <20230322104639.221402-8-treapking@chromium.org>
- <ZBrjZj0VL20y1MUC@smile.fi.intel.com>
-In-Reply-To: <ZBrjZj0VL20y1MUC@smile.fi.intel.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 31 Mar 2023 17:18:16 +0900
-Message-ID: <CAEXTbpd1kQWbJazRSvLabH26teiWvo75+rKOTL0A9Jm3eXeACQ@mail.gmail.com>
-Subject: Re: [PATCH v14 07/10] drm/bridge: anx7625: Register Type C mode
- switches
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,154 +63,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
- chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>, Allen Chen <allen.chen@ite.com.tw>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Xin Ji <xji@analogixsemi.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>
+Cc: David Gow <davidgow@google.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+On Thu, 30 Mar 2023, Andrew Morton <akpm@linux-foundation.org> wrote:
+> On Thu, 30 Mar 2023 21:53:03 +0000 David Laight <David.Laight@ACULAB.COM>=
+ wrote:
+>
+>> > But wouldn't all these issues be addressed by simply doing
+>> >=20
+>> > #define is_power_of_2(n) (n !=3D 0 && ((n & (n - 1)) =3D=3D 0))
+>> >=20
+>> > ?
+>> >=20
+>> > (With suitable tweaks to avoid evaluating `n' more than once)
+>>=20
+>> I think you need to use the 'horrid tricks' from min() to get
+>> a constant expression from constant inputs.
+>
+> This
+>
+> --- a/include/linux/log2.h~a
+> +++ a/include/linux/log2.h
+> @@ -41,11 +41,11 @@ int __ilog2_u64(u64 n)
+>   * *not* considered a power of two.
+>   * Return: true if @n is a power of 2, otherwise false.
+>   */
+> -static inline __attribute__((const))
+> -bool is_power_of_2(unsigned long n)
+> -{
+> -	return (n !=3D 0 && ((n & (n - 1)) =3D=3D 0));
+> -}
+> +#define is_power_of_2(_n)				\
+> +	({						\
+> +		typeof(_n) n =3D (_n);			\
+> +		n !=3D 0 && ((n & (n - 1)) =3D=3D 0);		\
+> +	})
+>=20=20
+>  /**
+>   * __roundup_pow_of_two() - round up to nearest power of two
+> _
+>
+> worked for me in a simple test.
+>
+> --- a/fs/open.c~b
+> +++ a/fs/open.c
+> @@ -1564,3 +1564,10 @@ int stream_open(struct inode *inode, str
+>  }
+>=20=20
+>  EXPORT_SYMBOL(stream_open);
+> +
+> +#include <linux/log2.h>
+> +
+> +int foo(void)
+> +{
+> +	return is_power_of_2(43);
+> +}
+> _
+>
+>
+> foo:
+> # fs/open.c:1573: }
+> 	xorl	%eax, %eax	#
+> 	ret=09
+>
+>
+> Is there some more tricky situation where it breaks?
 
-Thanks for the review.
+It doesn't work with BUILD_BUG_ON_ZERO().
 
-On Wed, Mar 22, 2023 at 8:16=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Mar 22, 2023 at 06:46:36PM +0800, Pin-yen Lin wrote:
-> > Register USB Type-C mode switches when the "mode-switch" property and
-> > relevant ports are available in Device Tree. Configure the crosspoint
-> > switch based on the entered alternate mode for a specific Type-C
-> > connector.
-> >
-> > Crosspoint switch can also be used for switching the output signal for
-> > different orientations of a single USB Type-C connector, but the
-> > orientation switch is not implemented yet. A TODO is added for this.
->
-> ...
->
-> > +static int anx7625_typec_mux_set(struct typec_mux_dev *mux,
-> > +                              struct typec_mux_state *state)
-> > +{
-> > +     struct drm_dp_typec_port_data *port =3D typec_mux_get_drvdata(mux=
-);
-> > +     struct anx7625_data *ctx =3D port->data;
-> > +     struct device *dev =3D ctx->dev;
-> > +     struct drm_dp_typec_switch_desc switch_desc =3D ctx->switch_desc;
-> > +     bool new_dp_connected, old_dp_connected;
-> > +
-> > +     if (switch_desc.num_typec_switches =3D=3D 1)
-> > +             return 0;
->
-> > +     wait_for_completion(&ctx->mux_register);
->
-> How do we guarantee this won't become an infinite waiting?
-> Perhaps a comment explaining that?
->
-> > +     old_dp_connected =3D ctx->port_data[0].dp_connected ||
-> > +                        ctx->port_data[1].dp_connected;
-> > +
-> > +     ctx->port_data[port->port_num].dp_connected =3D
-> > +             state->alt &&
-> > +             state->alt->svid =3D=3D USB_TYPEC_DP_SID &&
-> > +             state->alt->mode =3D=3D USB_TYPEC_DP_MODE;
-> > +
-> > +     dev_dbg(dev, "mux_set dp_connected: c0=3D%d, c1=3D%d\n",
-> > +             ctx->port_data[0].dp_connected, ctx->port_data[1].dp_conn=
-ected);
-> > +
-> > +     new_dp_connected =3D ctx->port_data[0].dp_connected ||
-> > +                        ctx->port_data[1].dp_connected;
-> > +
-> > +     /* DP on, power on first */
-> > +     if (!old_dp_connected && new_dp_connected)
-> > +             pm_runtime_get_sync(dev);
-> > +
-> > +     anx7625_typec_two_ports_update(ctx);
-> > +
-> > +     /* DP off, power off last */
-> > +     if (old_dp_connected && !new_dp_connected)
-> > +             pm_runtime_put_sync(dev);
-> > +
-> > +     return 0;
-> > +}
->
-> ...
->
-> > +     struct device_node *port_node =3D of_graph_get_port_by_id(dev->of=
-_node, 1);
->
-> You use fwnode below, so why not fwnode_graph_...(dev_fwnode(dev), ...) ?
+test.c:
+#define IS_POWER_OF_2(_n)				\
+	({						\
+		typeof(_n) n =3D (_n);			\
+		n !=3D 0 && ((n & (n - 1)) =3D=3D 0);		\
+	})
 
-There is no existing helper like `fwnode_graph_get_port_by_id`, so
-using of_graph variant is easier here. Should I add a
-`fwnode_graph_get_port_by_id` helper for this?
->
-> > +     struct drm_dp_typec_switch_desc *switch_desc =3D &ctx->switch_des=
-c;
-> > +     int ret;
-> > +     u32 dp_lanes[4];
-> > +     unsigned int i, num_lanes;
-> > +
-> > +     /*
-> > +      * Currently, only mode switch is implemented.
-> > +      * TODO: Implement Type-C orientation switch for anx7625.
-> > +      */
-> > +     ret =3D drm_dp_register_typec_switches(dev, &port_node->fwnode,
-> > +                                          &ctx->switch_desc, ctx,
-> > +                                          anx7625_typec_mux_set);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ctx->port_data =3D devm_kcalloc(dev, switch_desc->num_typec_switc=
-hes,
-> > +                                   sizeof(struct anx7625_typec_port_da=
-ta),
->
->                                       sizeof(*ctx->port_data),
->
-> ?
->
-> > +                                   GFP_KERNEL);
-> > +     if (!ctx->port_data) {
-> > +             ret =3D -ENOMEM;
-> > +             goto unregister_mux;
-> > +     }
->
-> ...
->
-> > +struct anx7625_typec_port_data {
-> > +     bool dp_connected;
-> > +     enum typec_orientation orientation;
->
-> Most likely enum will be 32-bit and bool 8-bit. Which means that the data=
- type
-> size become 8 bytes for no reason. Can you swap the lines and perhaps che=
-ck this
-> with `pahole` tool?
->
-> > +};
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+#define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
 
-Best regards,
-Pin-yen
+#define FOO(n) ((n) + BUILD_BUG_ON_ZERO(!IS_POWER_OF_2(n)))
+
+int main(void)
+{
+	return FOO(2);
+}
+
+$ gcc test.c
+test.c: In function =E2=80=98main=E2=80=99:
+test.c:16:51: error: bit-field =E2=80=98<anonymous>=E2=80=99 width not an i=
+nteger constant
+   16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); }=
+)))
+      |                                                   ^
+test.c:18:23: note: in expansion of macro =E2=80=98BUILD_BUG_ON_ZERO=E2=80=
+=99
+   18 | #define FOO(n) ((n) + BUILD_BUG_ON_ZERO(!IS_POWER_OF_2(n)))
+      |                       ^~~~~~~~~~~~~~~~~
+test.c:22:9: note: in expansion of macro =E2=80=98FOO=E2=80=99
+   22 |  return FOO(2);
+      |         ^~~
+
+
+BR,
+Jani.
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
