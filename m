@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD256D1595
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 04:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1448B6D15AD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Mar 2023 04:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9888810E1AA;
-	Fri, 31 Mar 2023 02:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF89410E2D0;
+	Fri, 31 Mar 2023 02:36:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A542010E1AA;
- Fri, 31 Mar 2023 02:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680229611; x=1711765611;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=HBWWKgEghOX43a9J0LyTn43+TRA3ldnTjJBuSzbau+w=;
- b=c1i4F6SO8XRKqHWuR4mPSQcnJ2gfZX0vKBKfebV78yhOyPVCm0PTUy5k
- Zk3v2wLo1H+oU85H/O43JRYcy41sRqt3kt5hXdmZ3aUAd3kE337VCPGor
- 2CF4u+4HRfZtUk0V5Pn1wW2SCF73yDsBrO46odYbWkydz6R/WMf+kigsd
- W/LcwtlnilCyQqR34NOSq1F8P4wTJ3yJnV16fyadLRbZluxzk/Qej/qO3
- DPz+enp7Xrrm3L/b4ENyleMii3IZnw0zuDeqCy7d5nCQeKJRHaiGSPFGi
- 2aSkQxkTzRHBUaqUF74dPrF1D4SkJaVis/Ez29wSETTCdhGVx1x5BCo1+ A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="320986382"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="320986382"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 19:26:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10665"; a="749434122"
-X-IronPort-AV: E=Sophos;i="5.98,306,1673942400"; d="scan'208";a="749434122"
-Received: from orsosgc001.jf.intel.com ([10.165.21.138])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2023 19:26:40 -0700
-From: Ashutosh Dixit <ashutosh.dixit@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2] drm/i915/hwmon: Use 0 to designate disabled PL1 power limit
-Date: Thu, 30 Mar 2023 19:26:32 -0700
-Message-Id: <20230331022632.1388175-1-ashutosh.dixit@intel.com>
-X-Mailer: git-send-email 2.38.0
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD4D10E2D0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 02:36:51 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id h187so7452139iof.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Mar 2023 19:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1680230211;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JOKd8Q/yyL2Vxt/B7mCiLmN2+GLEWiOvEP6b0sT30PQ=;
+ b=fLAVIymlVLtMTb1OjnAuBaj7urPwyZKEBOmwoAFmOw63GSs/eFd54mlEyiF8t/oxH5
+ WNBjJbLZutvpZ73ltowGOCUqKIzcUWI2PZlW9vLvaYeQ7U2EWVXoKuxwH+fBk6O8T3fI
+ b7Dvz7j9ez80eZY6vUDx3aJCc19D9uPXqpugg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680230211;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JOKd8Q/yyL2Vxt/B7mCiLmN2+GLEWiOvEP6b0sT30PQ=;
+ b=1Kc/nmjePxwzLi4ynExl2rLFXDCEUyMuon5UVfmrJTRld/fvrShA6sj1bVTItZ5s8V
+ 6upDseye+gupXUxIAFRRKeZV+bzwnFwYtdNc6qSd40wdkwjUjTIMLeMO0AEdSsHEkNeh
+ CeOM5Wg6Zc9SKm7u0qbhWgSHRaesFzEm4T8iINIRDw/pbSwfIqWkLPK0Dxvb+8QyTL+w
+ MDAjMrRtLece3PL8Dkg4MBZqWrAPNwOQvzblN6vmlg2YiavR3fiKfHdsR7/oFhayUWAc
+ zpZnDf2xDARNRLbgizfHI3pnWg3p5yuHySiug9VtGyEJu+UYR8FLguMxehzQbau09IzR
+ drJg==
+X-Gm-Message-State: AO0yUKUzqgSdfXMhMfmvxnLJ/GpyJ4jf4KAKqL7Bf3eIK05FMlXjT5NT
+ IJNvnU0h8zsUUtnXrt+/M1t9DLtcCuJsF0zfF31QAQ==
+X-Google-Smtp-Source: AK7set8iHyEfMscSQN6K+wU64uXRfznAJTa3p7iwGPfwmfjxtVwhD5T091Ndlb+dZQRGTYJqdf7/mi2dwLdlRru+94U=
+X-Received: by 2002:a02:2304:0:b0:406:38ac:716e with SMTP id
+ u4-20020a022304000000b0040638ac716emr9747717jau.6.1680230211040; Thu, 30 Mar
+ 2023 19:36:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230322104639.221402-1-treapking@chromium.org>
+ <20230322104639.221402-4-treapking@chromium.org>
+ <ZBrgD61p/p17IOJL@smile.fi.intel.com>
+In-Reply-To: <ZBrgD61p/p17IOJL@smile.fi.intel.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 31 Mar 2023 11:36:40 +0900
+Message-ID: <CAEXTbpcLU6jr2MoDEhZCz3wWzXmJATwHU+Tird-3Q9bXrGeTnA@mail.gmail.com>
+Subject: Re: [PATCH v14 03/10] drm/display: Add Type-C switch helpers
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,114 +66,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Badal Nilawar <badal.nilawar@intel.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Guenter Roeck <groeck@chromium.org>, Marek Vasut <marex@denx.de>,
+ chrome-platform@lists.linux.dev, Robert Foss <rfoss@kernel.org>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-acpi@vger.kernel.org,
+ Andi Shyti <andi.shyti@linux.intel.com>, devicetree@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jani Nikula <jani.nikula@intel.com>,
+ Allen Chen <allen.chen@ite.com.tw>, Stephen Boyd <swboyd@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Xin Ji <xji@analogixsemi.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Daniel Scally <djrscally@gmail.com>, Prashant Malani <pmalani@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On ATSM the PL1 limit is disabled at power up. The previous uapi assumed
-that the PL1 limit is always enabled and therefore did not have a notion of
-a disabled PL1 limit. This results in erroneous PL1 limit values when the
-PL1 limit is disabled. For example at power up, the disabled ATSM PL1 limit
-was previously shown as 0 which means a low PL1 limit whereas the limit
-being disabled actually implies a high effective PL1 limit value.
+Hi Andy,
 
-To get round this problem, the PL1 limit uapi is expanded to include a
-special value 0 to designate a disabled PL1 limit. A read value of 0 means
-that the PL1 power limit is disabled, writing 0 disables the limit.
+Thanks for the review.
 
-The link between this patch and the bugs mentioned below is as follows:
-* Because on ATSM the PL1 power limit is disabled on power up and there
-  were no means to enable it, we previously implemented the means to
-  enable the limit when the PL1 hwmon entry (power1_max) was written to.
-* Now there is a IGT igt@i915_hwmon@hwmon_write which (a) reads orig value
-  from all hwmon sysfs  (b) does a bunch of random writes and finally (c)
-  restores the orig value read. On ATSM since the orig value is 0, when
-  the IGT restores the 0 value, the PL1 limit is now enabled with a value
-  of 0.
-* PL1 limit of 0 implies a low PL1 limit which causes GPU freq to fall to
-  100 MHz. This causes GuC FW load and several IGT's to start timing out
-  and gives rise to these Intel CI bugs. After this patch, writing 0 would
-  disable the PL1 limit instead of enabling it, avoiding the freq drop
-  issue.
+On Wed, Mar 22, 2023 at 8:01=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Mar 22, 2023 at 06:46:32PM +0800, Pin-yen Lin wrote:
+> > Add helpers to register and unregister Type-C "switches" for bridges
+> > capable of switching their output between two downstream devices.
+> >
+> > The helper registers USB Type-C mode switches when the "mode-switch"
+> > and the "reg" properties are available in Device Tree.
+>
+> ...
+>
+> > +config DRM_DISPLAY_DP_TYPEC_HELPER
+>
+> > +     bool
+> > +     default y
+>
+>         def_bool y
+>
+> > +     depends on DRM_DISPLAY_HELPER
+> > +     depends on DRM_DISPLAY_HELPER=3DTYPEC || TYPEC=3Dy
+> > +     help
+> > +       DRM display helpers for USB Type-C Displayport Alternate mode.
+>
+> Hmm... Dunno if this help is enough.
 
-v2: Add explanation for bugs mentioned below (Rodrigo)
+Okay I'll add more detail in the next version.
+>
+> ...
+>
+> > +     snprintf(name, sizeof(name), "%pfwP-%u", fwnode, port_num);
+>
+> Would it be possible to have a dup in name and would it be a problem if s=
+o?
+>
+The port_num is included in the name, so the names should be unique.
+Also, the fwnode name actually contains the reg property, so this name
+looks like "endpoint@0-1" now... I'll change the name from fwnode name
+to dev_name() per Dmitry's comment.
+> ...
+>
+> > +/**
+> > + * drm_dp_register_typec_switches() - register Type-C switches
+> > + * @dev: Device that registers Type-C switches
+> > + * @port: Device node for the switch
+> > + * @switch_desc: A Type-C switch descriptor
+> > + * @data: Private data for the switches
+> > + * @mux_set: Callback function for typec_mux_set
+> > + *
+> > + * This function registers USB Type-C switches for DP bridges that can=
+ switch
+> > + * the output signal between their output pins. This function uses dev=
+m_kcalloc
+> > + * to allocate memory, so it is expected to only call this in the driv=
+er probe
+> > + * functions.
+> > + *
+> > + * Currently only mode switches are implemented, and the function assu=
+mes the
+> > + * given @port device node has endpoints with "mode-switch" property.
+> > + * The port number is determined by the "reg" property of the endpoint=
+.
+>
+> `kernel-doc -v ...` should complain on absence of "Return" section.
+>
+> > + */
+>
+> ...
+>
+> > +     switch_desc->typec_ports =3D devm_kcalloc(dev, switch_desc->num_t=
+ypec_switches,
+> > +                                             sizeof(struct drm_dp_type=
+c_port_data),
+>
+>                                                 sizeof(*switch_desc_typec=
+_ports),
+>
+> ?
+>
+> > +                                             GFP_KERNEL);
+> > +     if (!switch_desc->typec_ports)
+> > +             return -ENOMEM;
+>
+> ...
+>
+> > +#ifdef CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER
+>
+> Ah, maybe this should use IS_REACHABLE() ?
 
-Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8062
-Link: https://gitlab.freedesktop.org/drm/intel/-/issues/8060
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- .../ABI/testing/sysfs-driver-intel-i915-hwmon |  4 +++-
- drivers/gpu/drm/i915/i915_hwmon.c             | 24 +++++++++++++++++++
- 2 files changed, 27 insertions(+), 1 deletion(-)
+CONFIG_DRM_DISPLAY_DP_TYPEC_HELPER is a boolean. Is there any
+difference between IS_REACHABLE and ifdef when the given config is a
+boolean?
+>
+> > +void drm_dp_unregister_typec_switches(struct drm_dp_typec_switch_desc =
+*switch_desc);
+> > +int drm_dp_register_typec_switches(struct device *dev, struct fwnode_h=
+andle *port,
+> > +                                struct drm_dp_typec_switch_desc *switc=
+h_desc,
+> > +                                void *data, typec_mux_set_fn_t mux_set=
+);
+> > +#else
+> > +static inline void drm_dp_unregister_typec_switches(struct drm_dp_type=
+c_switch_desc *switch_desc)
+> > +{
+> > +}
+> > +static inline int drm_dp_register_typec_switches(
+> > +             struct device *dev, struct fwnode_handle *port,
+> > +             struct drm_dp_typec_switch_desc *switch_desc, void *data,
+> > +             typec_mux_set_fn_t mux_set)
+> > +{
+> > +     return -EOPNOTSUPP;
+> > +}
+> > +#endif
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
-index 2d6a472eef885..8d7d8f05f6cd0 100644
---- a/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
-+++ b/Documentation/ABI/testing/sysfs-driver-intel-i915-hwmon
-@@ -14,7 +14,9 @@ Description:	RW. Card reactive sustained  (PL1/Tau) power limit in microwatts.
- 
- 		The power controller will throttle the operating frequency
- 		if the power averaged over a window (typically seconds)
--		exceeds this limit.
-+		exceeds this limit. A read value of 0 means that the PL1
-+		power limit is disabled, writing 0 disables the
-+		limit. Writing values > 0 will enable the power limit.
- 
- 		Only supported for particular Intel i915 graphics platforms.
- 
-diff --git a/drivers/gpu/drm/i915/i915_hwmon.c b/drivers/gpu/drm/i915/i915_hwmon.c
-index 596dd2c070106..c099057888914 100644
---- a/drivers/gpu/drm/i915/i915_hwmon.c
-+++ b/drivers/gpu/drm/i915/i915_hwmon.c
-@@ -349,6 +349,8 @@ hwm_power_is_visible(const struct hwm_drvdata *ddat, u32 attr, int chan)
- 	}
- }
- 
-+#define PL1_DISABLE 0
-+
- /*
-  * HW allows arbitrary PL1 limits to be set but silently clamps these values to
-  * "typical but not guaranteed" min/max values in rg.pkg_power_sku. Follow the
-@@ -362,6 +364,14 @@ hwm_power_max_read(struct hwm_drvdata *ddat, long *val)
- 	intel_wakeref_t wakeref;
- 	u64 r, min, max;
- 
-+	/* Check if PL1 limit is disabled */
-+	with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-+		r = intel_uncore_read(ddat->uncore, hwmon->rg.pkg_rapl_limit);
-+	if (!(r & PKG_PWR_LIM_1_EN)) {
-+		*val = PL1_DISABLE;
-+		return 0;
-+	}
-+
- 	*val = hwm_field_read_and_scale(ddat,
- 					hwmon->rg.pkg_rapl_limit,
- 					PKG_PWR_LIM_1,
-@@ -385,8 +395,22 @@ static int
- hwm_power_max_write(struct hwm_drvdata *ddat, long val)
- {
- 	struct i915_hwmon *hwmon = ddat->hwmon;
-+	intel_wakeref_t wakeref;
- 	u32 nval;
- 
-+	if (val == PL1_DISABLE) {
-+		/* Disable PL1 limit */
-+		hwm_locked_with_pm_intel_uncore_rmw(ddat, hwmon->rg.pkg_rapl_limit,
-+						    PKG_PWR_LIM_1_EN, 0);
-+
-+		/* Verify, because PL1 limit cannot be disabled on all platforms */
-+		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-+			nval = intel_uncore_read(ddat->uncore, hwmon->rg.pkg_rapl_limit);
-+		if (nval & PKG_PWR_LIM_1_EN)
-+			return -EPERM;
-+		return 0;
-+	}
-+
- 	/* Computation in 64-bits to avoid overflow. Round to nearest. */
- 	nval = DIV_ROUND_CLOSEST_ULL((u64)val << hwmon->scl_shift_power, SF_POWER);
- 	nval = PKG_PWR_LIM_1_EN | REG_FIELD_PREP(PKG_PWR_LIM_1, nval);
--- 
-2.38.0
-
+Best regards,
+Pin-yen
+>
