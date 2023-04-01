@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF4F6D2DC4
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 04:45:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5E46D2DD0
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 05:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DEF10F37A;
-	Sat,  1 Apr 2023 02:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E93510E012;
+	Sat,  1 Apr 2023 03:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05E9910E304;
- Sat,  1 Apr 2023 02:44:50 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDFD010E012;
+ Sat,  1 Apr 2023 03:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680317091; x=1711853091;
+ t=1680318689; x=1711854689;
  h=date:message-id:from:to:cc:subject:in-reply-to:
  references:mime-version;
- bh=6gcaX3TGRzi7wOjL98ihHuvtlBHyz0TTPgp4LjHB65Y=;
- b=M2PPBIBVAUwOSC6jRtmQOTM67tIKjIHt7ORMFHMljNBApkiv29QUysDn
- 4AJqdpKCtb3mw1wsKdhg0wbhrLcQzhMK9dvO7E++MLdvbxtaobTBpf0Ad
- rPSUWzJlgEGnY34lOTVVbriNCGAwiO2GbA97NjSR0rZ4moWUUvRCtWTO8
- fjF5eoVOnPUn578AnTJTYQhvv9vb+54ws6y5tFci36enfntTfvW/6xnSk
- ophE5VheRo0Z9N6eGfmdWR6N81ea2X89HryjbJNkoWvPXE/bagsWo3SNp
- yzL073VJGXLhmlV3Yiq00e3YPSVeWQXtSTlF9jBSUgfie5/gPJ5ZNhSlY Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="321257899"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="321257899"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 19:44:50 -0700
+ bh=/Qyf7UcIKKPZ3sFVfd65PVJVZXwu8Y0Fv/gjtuu2FkA=;
+ b=hDj6QgliL4xxIOmmYeAZoiEjXOD1sxHWr1CDOf65I7MXrshCqwVlv8hf
+ tMYa3Sqkbg9CGcD0tfLmupOR/v+EIoyY2szqp9Z8ARpq88wn11b8qx6RN
+ A1HQu7Nfqq37H1p9x1r1reLeUFrn7j8j/n+Y5qRqsNFCGUcx5TkW8MVlf
+ yiM7wjFM1zlg7CdXRUJG2jvIzfbMoq7s7TdcHSqnhAME2WVlOxlhsrTTk
+ v9Li2rmMvQs0d/2Pq0hoxjq1N8qy4GCgfd5GPQI8d67ekQoIDkWJs0RzP
+ aW18JatPK4MNg18TH7sDeUUSD4ZJsktcrzFc7DWbegdu69m5CTZ4tCEtf g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="406640644"
+X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="406640644"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 20:11:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="809231982"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="809231982"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="717921433"
+X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="717921433"
 Received: from adixit-mobl.amr.corp.intel.com (HELO adixit-arch.intel.com)
  ([10.209.61.228])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 19:44:50 -0700
-Date: Fri, 31 Mar 2023 19:44:49 -0700
-Message-ID: <878rfcgw2m.wl-ashutosh.dixit@intel.com>
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2023 20:11:29 -0700
+Date: Fri, 31 Mar 2023 20:11:29 -0700
+Message-ID: <877cuwguu6.wl-ashutosh.dixit@intel.com>
 From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH v2] drm/i915/hwmon: Use 0 to designate
- disabled PL1 power limit
-In-Reply-To: <3efd6c5d-cd3a-f562-fc61-a43e9bf003cb@linux.intel.com>
-References: <20230331022632.1388175-1-ashutosh.dixit@intel.com>
- <3efd6c5d-cd3a-f562-fc61-a43e9bf003cb@linux.intel.com>
+To: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] i915/guc/slpc: Provide sysfs for efficient
+ freq
+In-Reply-To: <20230401020049.3843873-1-vinay.belgaumkar@intel.com>
+References: <20230401020049.3843873-1-vinay.belgaumkar@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
  Emacs/28.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -62,53 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  Rodrigo Vivi <rodrigo.vivi@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 Mar 2023 03:23:33 -0700, Tvrtko Ursulin wrote:
+On Fri, 31 Mar 2023 19:00:49 -0700, Vinay Belgaumkar wrote:
 >
 
-Hi Tvrtko,
+Hi Vinay,
 
-> > @@ -385,8 +395,22 @@ static int
-> >   hwm_power_max_write(struct hwm_drvdata *ddat, long val)
-> >   {
-> >	struct i915_hwmon *hwmon = ddat->hwmon;
-> > +	intel_wakeref_t wakeref;
-> >	u32 nval;
-> >   +	if (val == PL1_DISABLE) {
-> > +		/* Disable PL1 limit */
-> > +		hwm_locked_with_pm_intel_uncore_rmw(ddat, hwmon->rg.pkg_rapl_limit,
-> > +						    PKG_PWR_LIM_1_EN, 0);
-> > +
-> > +		/* Verify, because PL1 limit cannot be disabled on all platforms */
+> @@ -478,20 +507,15 @@ int intel_guc_slpc_set_min_freq(struct intel_guc_slpc *slpc, u32 val)
+>	    val > slpc->max_freq_softlimit)
+>		return -EINVAL;
 >
-> I think there is a race right here, since above grabbed and released the
-> hwmon_lock, anyone can modify it at this point before the verification
-> below. Not sure if any consequences worse than a wrong -EPERM are possible
-> though.
->
-> Also, is EPERM correct for something hardware does not support? We usually
-> say ENODEV for such things, IIRC at least.
+> +	/* Ignore efficient freq if lower min freq is requested */
+> +	ret = intel_guc_slpc_set_ignore_eff_freq(slpc, val < slpc->rp1_freq);
+> +	if (ret)
+> +		goto out;
+> +
 
-Changed to -ENODEV in v3.
+I don't agree with this. If we are now providing an interface explicitly to
+ignore RPe, that should be /only/ way to ignore RPe. There should be no
+other "under the hood" ignoring of RPe. In other words, ignoring RPe should
+be minimized unless explicitly requested.
 
-> Anyway, race looks easily solvable by holding the existing mutex and a
-> single rpm ref for the whole rmw-r cycle.
+I don't clearly understand why this was done previously but it makes even
+less sense to me now after this patch.
 
-Fixed in v3, thanks for catching these.
-
+Thanks.
+--
 Ashutosh
 
-> > +		with_intel_runtime_pm(ddat->uncore->rpm, wakeref)
-> > +			nval = intel_uncore_read(ddat->uncore, hwmon->rg.pkg_rapl_limit);
-> > +		if (nval & PKG_PWR_LIM_1_EN)
-> > +			return -EPERM;
-> > +		return 0;
-> > +	}
-> > +
-> >	/* Computation in 64-bits to avoid overflow. Round to nearest. */
-> >	nval = DIV_ROUND_CLOSEST_ULL((u64)val << hwmon->scl_shift_power, SF_POWER);
-> >	nval = PKG_PWR_LIM_1_EN | REG_FIELD_PREP(PKG_PWR_LIM_1, nval);
+
+>	/* Need a lock now since waitboost can be modifying min as well */
+>	mutex_lock(&slpc->lock);
+>	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+>
+> -	/* Ignore efficient freq if lower min freq is requested */
+> -	ret = slpc_set_param(slpc,
+> -			     SLPC_PARAM_IGNORE_EFFICIENT_FREQUENCY,
+> -			     val < slpc->rp1_freq);
+> -	if (ret) {
+> -		guc_probe_error(slpc_to_guc(slpc), "Failed to toggle efficient freq: %pe\n",
+> -				ERR_PTR(ret));
+> -		goto out;
+> -	}
+> -
+>	ret = slpc_set_param(slpc,
+>			     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+>			     val);
