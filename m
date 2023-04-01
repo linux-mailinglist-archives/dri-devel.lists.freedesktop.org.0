@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1946D2C8E
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 03:42:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B57E6D2CA5
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 03:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F16910E004;
-	Sat,  1 Apr 2023 01:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE1C10E4F6;
+	Sat,  1 Apr 2023 01:42:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5655710E004
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 01:41:56 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7E1E10F360;
+ Sat,  1 Apr 2023 01:42:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 03B8CCE2F2E;
- Sat,  1 Apr 2023 01:41:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA0F8C433A0;
- Sat,  1 Apr 2023 01:41:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D7F37B83303;
+ Sat,  1 Apr 2023 01:42:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0D9BC433D2;
+ Sat,  1 Apr 2023 01:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680313310;
- bh=xdNacUZzDO8QPZ3U3zjunvBA8AJo5K39CPFIpA+F4cs=;
+ s=k20201202; t=1680313347;
+ bh=RvE78KytFAoRhZX6ykIgr1P/kHs/4e9J1365WZ43r7E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ez1B4F7Mb4P/3Q/n/ki2kji/fTp6AA6UVu4XYNgUDV90HAA6299d95PWd+KFnt3FT
- wLsQqBK6IYP9GAicX02ut3djRuedtrGv8aiuUmanqo57X45eWaV/pjVPA3IV0fG0tg
- P2Q+pG6QxaYSOqpgKcaSHWjkrp7LooMqDyi3xkrKybaaj9ZBKwqe5Kc6tojuYBKi6t
- aTg2evP8LDmiHOzbuhpstjlayZFxkcbziTqJUI7rzfbXw1JEN3DASz8YMfdmX4PdQs
- kIQHHSdv9Klf/eDgmFJsORz0hpvD/PFU8M5hkC9stAdrOf6nLxUhtSq0bsCtAbreyF
- NVlFyOURIzm4Q==
+ b=FeYR4ayCQxmqL1/fn+jKVO/QaM2WfrGqUWJ/bGgq3hz0XUtDrp7mzWyzjxNmWvMj8
+ 746iPoVROSD+vG542gkCJsNgWzwh4fD9VAmWJgzz6nPsVeZOBppTqlLyMVjTTfrWyD
+ WUxhAKHRS8G7OVqLk18wLbwQMZZ4vWJ68BdU1iDv/9shPKzab1Y7L2HivHElxNgXt4
+ w/NYQJyJGxA5m+elq9fGyrZ5gCfmGjm+/C4yCkUhVK0x9H1Vhhn1ErVLJlZyJ1vpfH
+ iowzkPCI6IcQPkuCBvO01srWjrIZLNPGSBzTNwigFD2OEhnTJQ4RD5BIAAKgroQkeJ
+ bn5qWTCJ0WCbA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 14/25] drm: panel-orientation-quirks: Add quirk
- for Lenovo Yoga Book X90F
-Date: Fri, 31 Mar 2023 21:41:12 -0400
-Message-Id: <20230401014126.3356410-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.2 22/25] drm/amdgpu: add mes resume when do gfx post
+ soft reset
+Date: Fri, 31 Mar 2023 21:41:20 -0400
+Message-Id: <20230401014126.3356410-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230401014126.3356410-1-sashal@kernel.org>
 References: <20230401014126.3356410-1-sashal@kernel.org>
@@ -55,60 +55,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
- tzimmermann@suse.de
+Cc: Sasha Levin <sashal@kernel.org>, tim.huang@amd.com,
+ Tong Liu01 <Tong.Liu01@amd.com>, yifan1.zhang@amd.com, kenneth.feng@amd.com,
+ dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, mario.limonciello@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, Likun.Gao@amd.com, evan.quan@amd.com,
+ christian.koenig@amd.com, Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Tong Liu01 <Tong.Liu01@amd.com>
 
-[ Upstream commit 03aecb1acbcd7a660f97d645ca6c09d9de27ff9d ]
+[ Upstream commit 4eb0b49a0ad3e004a6a65b84efe37bc7e66d560f ]
 
-Like the Windows Lenovo Yoga Book X91F/L the Android Lenovo Yoga Book
-X90F/L has a portrait 1200x1920 screen used in landscape mode,
-add a quirk for this.
+[why]
+when gfx do soft reset, mes will also do reset, if mes is not
+resumed when do recover from soft reset, mes is unable to respond
+in later sequence
 
-When the quirk for the X91F/L was initially added it was written to
-also apply to the X90F/L but this does not work because the Android
-version of the Yoga Book uses completely different DMI strings.
-Also adjust the X91F/L quirk to reflect that it only applies to
-the X91F/L models.
+[how]
+resume mes when do gfx post soft reset
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20230301095218.28457-1-hdegoede@redhat.com
+Signed-off-by: Tong Liu01 <Tong.Liu01@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 5522d610c5cfd..b1a38e6ce2f8f 100644
---- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-+++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -328,10 +328,17 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "IdeaPad Duet 3 10IGL5"),
- 		},
- 		.driver_data = (void *)&lcd1200x1920_rightside_up,
--	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
-+	}, {	/* Lenovo Yoga Book X90F / X90L */
- 		.matches = {
--		  /* Non exact match to match all versions */
--		  DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X9"),
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "YETI-11"),
-+		},
-+		.driver_data = (void *)&lcd1200x1920_rightside_up,
-+	}, {	/* Lenovo Yoga Book X91F / X91L */
-+		.matches = {
-+		  /* Non exact match to match F + L versions */
-+		  DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91"),
- 		},
- 		.driver_data = (void *)&lcd1200x1920_rightside_up,
- 	}, {	/* Lenovo Yoga Tablet 2 830F / 830L */
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+index 66eb102cd88fb..c748d92cec8e7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
+@@ -4625,6 +4625,14 @@ static bool gfx_v11_0_check_soft_reset(void *handle)
+ 	return false;
+ }
+ 
++static int gfx_v11_0_post_soft_reset(void *handle)
++{
++	/**
++	 * GFX soft reset will impact MES, need resume MES when do GFX soft reset
++	 */
++	return amdgpu_mes_resume((struct amdgpu_device *)handle);
++}
++
+ static uint64_t gfx_v11_0_get_gpu_clock_counter(struct amdgpu_device *adev)
+ {
+ 	uint64_t clock;
+@@ -6096,6 +6104,7 @@ static const struct amd_ip_funcs gfx_v11_0_ip_funcs = {
+ 	.wait_for_idle = gfx_v11_0_wait_for_idle,
+ 	.soft_reset = gfx_v11_0_soft_reset,
+ 	.check_soft_reset = gfx_v11_0_check_soft_reset,
++	.post_soft_reset = gfx_v11_0_post_soft_reset,
+ 	.set_clockgating_state = gfx_v11_0_set_clockgating_state,
+ 	.set_powergating_state = gfx_v11_0_set_powergating_state,
+ 	.get_clockgating_state = gfx_v11_0_get_clockgating_state,
 -- 
 2.39.2
 
