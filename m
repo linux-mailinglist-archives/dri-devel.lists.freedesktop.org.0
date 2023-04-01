@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0455B6D2EA9
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 08:37:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C66506D2EAD
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 08:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19B8E10F3B7;
-	Sat,  1 Apr 2023 06:37:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F48D10F3BE;
+	Sat,  1 Apr 2023 06:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E434910E130;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F388A10F39F;
  Sat,  1 Apr 2023 06:37:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680331022; x=1711867022;
+ t=1680331023; x=1711867023;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AVZVgBdCwTnOerGH9xTkhr4j96mYigzWdIGQmA4T8e0=;
- b=UJECGUKxdljw++uiintNmoFLrcpWZw4Bo/TAz3FzTy9MZM0MQDh8X1N5
- Z6DF0Cak2KnVCU+x6kwOvoDhlDgOaVa5RFBd6vFtJ/BGNCGK9f8EE2n1G
- 5gmywgrnD3trCBA1M2/VM37rK5JGCM9i0ma+Ur2lK9y8Q5O942MZpxpH7
- i1txh6pwbqwiEbehNlXfU4u2zx1FyNQm6kJvwcTZ/rHI+gzReFPhX9Kal
- GW3JNexMclFPpukEdsIfN4XS1ReXbW5KfP+E13iKLnQQuRGuVscOvh0x/
- l/v67FLC/IERsbGGpPxufaItqMb2+Td9jZi0f72VLNp4FUkOH/EHfjlrD w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="340349511"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="340349511"
+ bh=t3am2p7IPqAYThfPJIB9vJKg+O+iHjDFOaG2cZ7DAWM=;
+ b=DKVfvGpk7XEfZIo59yMuGapkq/ARzydplZ5To6zLJI2zfCOZzaJcVXgH
+ OpfSD0J8XmNJAiGbuhlHVbddc1NXwgsjH4y3xWUPhbw5D2eASIAPbAekF
+ RerfjTvCSEbf8s2c9T0gdeSvD7cWVQ1KWJiJmuW6DkkB//aV06WYMCbc6
+ UkHSEOaK55031n/0TxkY8U+O0EdmZD4Xa4Pc1OwJAJVu/nyaAwXHUtBsd
+ +qpYn/Gpmjn4jjTlGJU7j7OgvLqGoNH0jVaKLpAJEouA+HMnxToGFREVz
+ 0gcERtYRf0u7rNCZz/f4nfmuujXT38ycc8jfI4OA3JZvgRqLgJjo4I961 A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="340349512"
+X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="340349512"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  31 Mar 2023 23:37:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="635539636"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="635539636"
+X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="635539639"
+X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="635539639"
 Received: from fyang16-desk.jf.intel.com ([10.24.96.243])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  31 Mar 2023 23:37:00 -0700
 From: fei.yang@intel.com
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 6/7] drm/i915: make sure correct pte encode is used
-Date: Fri, 31 Mar 2023 23:38:29 -0700
-Message-Id: <20230401063830.438127-7-fei.yang@intel.com>
+Subject: [PATCH 7/7] drm/i915: Allow user to set cache at BO creation
+Date: Fri, 31 Mar 2023 23:38:30 -0700
+Message-Id: <20230401063830.438127-8-fei.yang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230401063830.438127-1-fei.yang@intel.com>
 References: <20230401063830.438127-1-fei.yang@intel.com>
@@ -65,42 +65,210 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Fei Yang <fei.yang@intel.com>
 
-PTE encode is platform dependent. After replacing cache_level with
-pat_index, the newly introduced mtl_pte_encode is actually generic
-for all gen12 platforms, thus rename it to gen12_pte_encode and
-apply it to all gen12 platforms.
+To comply with the design that buffer objects shall have immutable
+cache setting through out its life cycle, {set, get}_caching ioctl's
+are no longer supported from MTL onward. With that change caching
+policy can only be set at object creation time. The current code
+applies a default (platform dependent) cache setting for all objects.
+However this is not optimal for performance tuning. The patch extends
+the existing gem_create uAPI to let user set PAT index for the object
+at creation time.
+The new extension is platform independent, so UMD's can switch to using
+this extension for older platforms as well, while {set, get}_caching are
+still supported on these legacy paltforms for compatibility reason.
 
 Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
 Cc: Matt Roper <matthew.d.roper@intel.com>
 Signed-off-by: Fei Yang <fei.yang@intel.com>
 Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_create.c | 33 ++++++++++++++++++++
+ include/uapi/drm/i915_drm.h                | 36 ++++++++++++++++++++++
+ tools/include/uapi/drm/i915_drm.h          | 36 ++++++++++++++++++++++
+ 3 files changed, 105 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index f76ec2cb29ef..e393e20b5894 100644
---- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -60,7 +60,7 @@ static u64 gen8_pte_encode(dma_addr_t addr,
- 	return pte;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_create.c b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+index e76c9703680e..1c6e2034d28e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_create.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_create.c
+@@ -244,6 +244,7 @@ struct create_ext {
+ 	unsigned int n_placements;
+ 	unsigned int placement_mask;
+ 	unsigned long flags;
++	unsigned int pat_index;
+ };
+ 
+ static void repr_placements(char *buf, size_t size,
+@@ -393,11 +394,39 @@ static int ext_set_protected(struct i915_user_extension __user *base, void *data
+ 	return 0;
  }
  
--static u64 mtl_pte_encode(dma_addr_t addr,
-+static u64 gen12_pte_encode(dma_addr_t addr,
- 			  unsigned int pat_index,
- 			  u32 flags)
- {
-@@ -999,8 +999,8 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
- 	 */
- 	ppgtt->vm.alloc_scratch_dma = alloc_pt_dma;
++static int ext_set_pat(struct i915_user_extension __user *base, void *data)
++{
++	struct create_ext *ext_data = data;
++	struct drm_i915_private *i915 = ext_data->i915;
++	struct drm_i915_gem_create_ext_set_pat ext;
++	unsigned int max_pat_index;
++
++	BUILD_BUG_ON(sizeof(struct drm_i915_gem_create_ext_set_pat) !=
++		     offsetofend(struct drm_i915_gem_create_ext_set_pat, rsvd));
++
++	if (copy_from_user(&ext, base, sizeof(ext)))
++		return -EFAULT;
++
++	max_pat_index = INTEL_INFO(i915)->max_pat_index;
++
++	if (ext.pat_index > max_pat_index) {
++		drm_dbg(&i915->drm, "PAT index is invalid: %u\n",
++			ext.pat_index);
++		return -EINVAL;
++	}
++
++	ext_data->pat_index = ext.pat_index;
++
++	return 0;
++}
++
+ static const i915_user_extension_fn create_extensions[] = {
+ 	[I915_GEM_CREATE_EXT_MEMORY_REGIONS] = ext_set_placements,
+ 	[I915_GEM_CREATE_EXT_PROTECTED_CONTENT] = ext_set_protected,
++	[I915_GEM_CREATE_EXT_SET_PAT] = ext_set_pat,
+ };
  
--	if (GRAPHICS_VER_FULL(gt->i915) >= IP_VER(12, 70))
--		ppgtt->vm.pte_encode = mtl_pte_encode;
-+	if (GRAPHICS_VER(gt->i915) >= 12)
-+		ppgtt->vm.pte_encode = gen12_pte_encode;
- 	else
- 		ppgtt->vm.pte_encode = gen8_pte_encode;
++#define PAT_INDEX_NOT_SET	0xffff
+ /**
+  * Creates a new mm object and returns a handle to it.
+  * @dev: drm device pointer
+@@ -417,6 +446,7 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+ 	if (args->flags & ~I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS)
+ 		return -EINVAL;
+ 
++	ext_data.pat_index = PAT_INDEX_NOT_SET;
+ 	ret = i915_user_extensions(u64_to_user_ptr(args->extensions),
+ 				   create_extensions,
+ 				   ARRAY_SIZE(create_extensions),
+@@ -453,5 +483,8 @@ i915_gem_create_ext_ioctl(struct drm_device *dev, void *data,
+ 	if (IS_ERR(obj))
+ 		return PTR_ERR(obj);
+ 
++	if (ext_data.pat_index != PAT_INDEX_NOT_SET)
++		i915_gem_object_set_pat_index(obj, ext_data.pat_index);
++
+ 	return i915_gem_publish(obj, file, &args->size, &args->handle);
+ }
+diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+index dba7c5a5b25e..03c5c314846e 100644
+--- a/include/uapi/drm/i915_drm.h
++++ b/include/uapi/drm/i915_drm.h
+@@ -3630,9 +3630,13 @@ struct drm_i915_gem_create_ext {
+ 	 *
+ 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+ 	 * struct drm_i915_gem_create_ext_protected_content.
++	 *
++	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
++	 * struct drm_i915_gem_create_ext_set_pat.
+ 	 */
+ #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+ #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
++#define I915_GEM_CREATE_EXT_SET_PAT 2
+ 	__u64 extensions;
+ };
+ 
+@@ -3747,6 +3751,38 @@ struct drm_i915_gem_create_ext_protected_content {
+ 	__u32 flags;
+ };
+ 
++/**
++ * struct drm_i915_gem_create_ext_set_pat - The
++ * I915_GEM_CREATE_EXT_SET_PAT extension.
++ *
++ * If this extension is provided, the specified caching policy (PAT index) is
++ * applied to the buffer object.
++ *
++ * Below is an example on how to create an object with specific caching policy:
++ *
++ * .. code-block:: C
++ *
++ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
++ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
++ *              .pat_index = 0,
++ *      };
++ *      struct drm_i915_gem_create_ext create_ext = {
++ *              .size = PAGE_SIZE,
++ *              .extensions = (uintptr_t)&set_pat_ext,
++ *      };
++ *
++ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
++ *      if (err) ...
++ */
++struct drm_i915_gem_create_ext_set_pat {
++	/** @base: Extension link. See struct i915_user_extension. */
++	struct i915_user_extension base;
++	/** @pat_index: PAT index to be set */
++	__u32 pat_index;
++	/** @rsvd: reserved for future use */
++	__u32 rsvd;
++};
++
+ /* ID of the protected content session managed by i915 when PXP is active */
+ #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
+ 
+diff --git a/tools/include/uapi/drm/i915_drm.h b/tools/include/uapi/drm/i915_drm.h
+index 8df261c5ab9b..8cdcdb5fac26 100644
+--- a/tools/include/uapi/drm/i915_drm.h
++++ b/tools/include/uapi/drm/i915_drm.h
+@@ -3607,9 +3607,13 @@ struct drm_i915_gem_create_ext {
+ 	 *
+ 	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+ 	 * struct drm_i915_gem_create_ext_protected_content.
++	 *
++	 * For I915_GEM_CREATE_EXT_SET_PAT usage see
++	 * struct drm_i915_gem_create_ext_set_pat.
+ 	 */
+ #define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+ #define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
++#define I915_GEM_CREATE_EXT_SET_PAT 2
+ 	__u64 extensions;
+ };
+ 
+@@ -3724,6 +3728,38 @@ struct drm_i915_gem_create_ext_protected_content {
+ 	__u32 flags;
+ };
+ 
++/**
++ * struct drm_i915_gem_create_ext_set_pat - The
++ * I915_GEM_CREATE_EXT_SET_PAT extension.
++ *
++ * If this extension is provided, the specified caching policy (PAT index) is
++ * applied to the buffer object.
++ *
++ * Below is an example on how to create an object with specific caching policy:
++ *
++ * .. code-block:: C
++ *
++ *      struct drm_i915_gem_create_ext_set_pat set_pat_ext = {
++ *              .base = { .name = I915_GEM_CREATE_EXT_SET_PAT },
++ *              .pat_index = 0,
++ *      };
++ *      struct drm_i915_gem_create_ext create_ext = {
++ *              .size = PAGE_SIZE,
++ *              .extensions = (uintptr_t)&set_pat_ext,
++ *      };
++ *
++ *      int err = ioctl(fd, DRM_IOCTL_I915_GEM_CREATE_EXT, &create_ext);
++ *      if (err) ...
++ */
++struct drm_i915_gem_create_ext_set_pat {
++	/** @base: Extension link. See struct i915_user_extension. */
++	struct i915_user_extension base;
++	/** @pat_index: PAT index to be set */
++	__u32 pat_index;
++	/** @rsvd: reserved for future use */
++	__u32 rsvd;
++};
++
+ /* ID of the protected content session managed by i915 when PXP is active */
+ #define I915_PROTECTED_CONTENT_DEFAULT_SESSION 0xf
  
 -- 
 2.25.1
