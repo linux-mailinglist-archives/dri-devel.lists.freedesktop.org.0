@@ -1,75 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BA76D2F77
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 11:45:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D406D2F83
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 11:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B79F910E03E;
-	Sat,  1 Apr 2023 09:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE4AD10E080;
+	Sat,  1 Apr 2023 09:53:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DADF810E03E
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 09:45:11 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id v1so24716850wrv.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 02:45:11 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7C210E080
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 09:53:33 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id r11so24711872wrr.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 02:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680342309;
+ d=linaro.org; s=google; t=1680342812;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=enLSXvC9cOIGUaRnMgYw4KnAx/zsnnPatWKBKRZeUhs=;
- b=DB4GBhIICc4dXx4AUyVmnX90Z5uhn16tnAF6/gW4OPxZ2Qh97CQpD2rmfa5kKZIfTa
- EwIleDu1NJTSBMjTbKSsSe4M0pQ8p9aBmZq/c0wLa5kkSR13wWYC2lj2LjsoPXnZKlwY
- +IhMIPdZV321uCwG8WERPBl5WTy5Fw6UeGb6OC3zsaYNVL3j6ruY75uBxQAk0qUZJhEj
- iMLGa/i9gXeZFbWtIYPD7o9mPTa/p6zjYmsRbZ165W4EFjkKOGP9xQM3ei1vySrfkZsS
- 15P/YeZzn3+Jvcz+UuaMPr6CzyhilvbjmKDhRldVXoB8b21RxTWrdDspWcS/jOALG7vf
- jZcQ==
+ bh=qOhA43LmOrt8qpSaW/te4zffJ9QGZH2fj5kj0zYlFHQ=;
+ b=aV9fJxI8HVKJHfqCRSmsB9pzLwNDj78SV+1sF/RdFom0TmCGg1D6C4piyaIP+CQlFj
+ VY0LBD1dDk+/Xla/udoffg4SS+LjBTOb1GLmTqYdUKwhk50p1YSi40/wldJkLPviZUiV
+ vAQJj6CmkuA4NiNaLmTjYjzYL5PHcUZlP13dMnQK34qAOokUXrgnanE8jXMuSJKi0k7n
+ i8JiM2VUEZA7xmINNz0rOpgemjCAA/S+y6FGShUA0x7hWUcpgGLRFaqXqlsoRDdtME8Q
+ 0PscSrdrgv+F37isys+eBaQ2uuV3Ie/rgA4QfYY2mkFGo35nQQ7INBaURS8RvNnz5mk8
+ 9BuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680342309;
+ d=1e100.net; s=20210112; t=1680342812;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=enLSXvC9cOIGUaRnMgYw4KnAx/zsnnPatWKBKRZeUhs=;
- b=v0/+/TLdlZ/IKAoizmEgGoSwfRJVXl1WBhmzuehUJlFHzVXcyzAI9ax2MP+Ocm0yJv
- psA+pnsohkdMl/6CLoVYmy8AKKTtANttyOiGrKQ69AI5mXdKUC2FB0lEAbgHXmFYH/Hs
- d+5wUhClymo3v1DSB4FlGczITk7kmGbYgv4tXTDnoH+sUAkhT20rR5D13YhGhv/34Kb3
- ieGTVGVq1vRA/lG42Vwx7jGWYeJUNU/tWesOCFni2yYZssau6QN4OxsE7tIU82xnQdQf
- Yo/eh4n7sGAsTPVylkAoUd1wvyBzd5wuBdggT5FYpXYmbv2g+PlfcCw2bQ0SQIals7aR
- YxKA==
-X-Gm-Message-State: AAQBX9foGlKt1FWfmtbA+xoZWjQ+gCBsvapmVldpEHczScgcYYflZEEn
- zv3umUXfY32K6ItMj05SNBoVwg==
-X-Google-Smtp-Source: AKy350bdhrPXteAy14H6wTreJILApVyTmS/XDg66OMR/3heapL9ZmGdi17szArp0VJxBbQMcJI/m9A==
-X-Received: by 2002:adf:e644:0:b0:2c5:4c9f:cf3b with SMTP id
- b4-20020adfe644000000b002c54c9fcf3bmr9084520wrn.7.1680342309583; 
- Sat, 01 Apr 2023 02:45:09 -0700 (PDT)
+ bh=qOhA43LmOrt8qpSaW/te4zffJ9QGZH2fj5kj0zYlFHQ=;
+ b=XJ7esqkK2eMCWQnuIfd9sHMRvvicCRCYYn1xPdl0kRpkX7vDMxsOm5znifA6DQyLvL
+ s4YTiam6e6FvWa9kOZ8j1gJZ7g0rTSJkXEzbWRiRbrAtaWvOfjLtx/BwuLwAMwN1BRbV
+ otsnJmE1+JiNi+bY5mCT/tmUZ+wrhACPV0M3WWirErVTEcvxHHbBe5cLcMMzl0T1ICXN
+ wdnt3kwXPkRCQRrT2/kfTNdi9KF8xrix5E8/9vIRSdJz/RM2FNEPDbQeltaVnzV3X9dj
+ Zg+iF7Lv7/uUxXVMW0J0f5bvl7mcVWp6zYgY1wFcGmkKyDw58H8R3zUiG0V1QM3DA+5r
+ LdzA==
+X-Gm-Message-State: AAQBX9fBbmrJlxy9MSZVR2gPiEo/t9LrDFQUHkWROfNPu2Ew5ZzEr8RD
+ HiCB/S6X/no6L1JxCoMMMOxnVQ==
+X-Google-Smtp-Source: AKy350befYly/lSC5kDrLJqEFpU6KISleaqO8PETRRTz0P/MBUQizsolm9NPaMHLFin3D8iORHoYfA==
+X-Received: by 2002:adf:e391:0:b0:2d9:10e7:57e8 with SMTP id
+ e17-20020adfe391000000b002d910e757e8mr9128945wrm.16.1680342811799; 
+ Sat, 01 Apr 2023 02:53:31 -0700 (PDT)
 Received: from [172.50.14.32] (5-226-109-132.static.ip.netia.com.pl.
  [5.226.109.132]) by smtp.gmail.com with ESMTPSA id
- s11-20020a5d424b000000b002e5f6f8fc4fsm3877194wrr.100.2023.04.01.02.45.08
+ g6-20020adfe406000000b002d743eeab39sm4470590wrm.58.2023.04.01.02.53.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 02:45:09 -0700 (PDT)
-Message-ID: <1d08d7a7-0682-cd05-f2a1-2b458a2eb25d@linaro.org>
-Date: Sat, 1 Apr 2023 11:45:08 +0200
+ Sat, 01 Apr 2023 02:53:31 -0700 (PDT)
+Message-ID: <5a8a5cfb-6b56-42e9-8e75-14a936de2c4f@linaro.org>
+Date: Sat, 1 Apr 2023 11:53:30 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2] ASoC: dt-bindings: maxim,max98371: DT schema
- improvement
+Subject: Re: [PATCH] dt-bindings: arm: nvidia: Drop unneeded quotes
 Content-Language: en-US
-To: =?UTF-8?Q?Andr=c3=a9_Morishita?= <andremorishita@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- anish kumar <yesanishhere@gmail.com>, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230331020527.482991-1-andremorishita@gmail.com>
- <20230401035756.856752-1-andremorishita@gmail.com>
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20230331182159.1900674-1-robh@kernel.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230401035756.856752-1-andremorishita@gmail.com>
+In-Reply-To: <20230331182159.1900674-1-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +79,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mairacanal@riseup.net, daniel.baluta@nxp.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/04/2023 05:57, André Morishita wrote:
-> Improve Maxim Integrated MAX98371 audio codec bindings DT schema conversion
-
-Your patch changed much more than your commit log is saying. I don't
-understand why. Previous subject was better than this, I only commented
-on missing prefix.
-
-Commit msg now is unspecific and misses full stop. I don't understand/
-
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets.
-
+On 31/03/2023 20:21, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
 > 
-> Signed-off-by: André Morishita <andremorishita@gmail.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> Changes in v2
-> - Generic node names - codec (Krzysztof)
-> - Drop label max98371 (Krzysztof)
-> - Add sound-dai-cells in example (Krzysztof)
 
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
