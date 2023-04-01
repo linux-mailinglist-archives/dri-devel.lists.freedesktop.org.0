@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055796D2CAA
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 03:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237086D2CAB
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 03:43:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98CE910F366;
-	Sat,  1 Apr 2023 01:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92DF810F367;
+	Sat,  1 Apr 2023 01:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0EF10F365;
- Sat,  1 Apr 2023 01:42:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E847F10F367
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 01:43:03 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 966D562D04;
- Sat,  1 Apr 2023 01:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E24C433D2;
- Sat,  1 Apr 2023 01:42:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5337A62C80;
+ Sat,  1 Apr 2023 01:43:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15830C433A0;
+ Sat,  1 Apr 2023 01:43:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680313358;
- bh=/D4nHdOgubPpYjY6rrUOP3UQHzHPzlTIcnEkY36hxPs=;
+ s=k20201202; t=1680313383;
+ bh=xdNacUZzDO8QPZ3U3zjunvBA8AJo5K39CPFIpA+F4cs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZpZT1G6HiKo6+K3SuAd6J230jGEVl1vnrGQSj4wS3LWHCbLjVleQILfdXI2iExhOb
- NMqcoBDIJ2iu5hJq43+6QWTr6cpIFjGDh/rYDN6FaXwNUeJGm1aSWOzxdSiicpOQo3
- DXdwg59ivYSCkX5yOdUsJZdo6u3SeOG7IaqwUGE752tA37HAV5f/QtVlb4QGPBq3OT
- 0iVukbnBGhhD+uizgPzk3RINWve4QJhHjCoYwBeHKudw2YGRqaRe/X6+a1k5ILTPN1
- rrON3EtEzAXlvoJNAP8XaHmRkGFdADid6wCwbggjt0g8P31bvMzW8bcpv4d8bhvawP
- etpgaXkXuebcg==
+ b=eb41pUW14nhwWi5lmHd4tIjYYyiMjEnF3BRV/Wyns5F0/9NmJ4hHdjSZrjxKpNSRt
+ 1TsdZcflv5fEDtflVwAZrUjJaZCRVZrPjRo0c05DkseIkMJwgxTcT5B2Ie3uYd5pqo
+ jfDwgSfYCySrD1l+7ks3QBQUVXCUKdOYGkbCyeEHxtysHZhJowataTvjoSjfmY7cHu
+ T/jTBkMdcDcnXDWUEE0lbhpbZdJraqFgGWDXqj9C1kyhJ85VR+27UAqRG2wjHBfk32
+ eYRZTaFcyy9mAaaayDBehiqcNpbrvKzem22/t+5lGNNZJMlLLf4zoh1b36SeD51oXo
+ ebGqAoPMRkzog==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.2 24/25] drm/amdgpu/gfx: set cg flags to enter/exit
- safe mode
-Date: Fri, 31 Mar 2023 21:41:22 -0400
-Message-Id: <20230401014126.3356410-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 13/24] drm: panel-orientation-quirks: Add quirk
+ for Lenovo Yoga Book X90F
+Date: Fri, 31 Mar 2023 21:42:29 -0400
+Message-Id: <20230401014242.3356780-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230401014126.3356410-1-sashal@kernel.org>
-References: <20230401014126.3356410-1-sashal@kernel.org>
+In-Reply-To: <20230401014242.3356780-1-sashal@kernel.org>
+References: <20230401014242.3356780-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,46 +55,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tim.huang@amd.com, Xinhui.Pan@amd.com,
- Jane Jian <Jane.Jian@amd.com>, yifan1.zhang@amd.com, kenneth.feng@amd.com,
- dri-devel@lists.freedesktop.org, Lijo Lazar <lijo.lazar@amd.com>,
- amd-gfx@lists.freedesktop.org, mario.limonciello@amd.com,
- Alex Deucher <alexander.deucher@amd.com>, Likun.Gao@amd.com, evan.quan@amd.com,
- christian.koenig@amd.com, Hawking.Zhang@amd.com
+Cc: Sasha Levin <sashal@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org,
+ tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jane Jian <Jane.Jian@amd.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit e06bfcc1a1c41bcb8c31470d437e147ce9f0acfd ]
+[ Upstream commit 03aecb1acbcd7a660f97d645ca6c09d9de27ff9d ]
 
-sriov needs to enter/exit safe mode in update umd p state
-add the cg flag to let it enter or exit while needed
+Like the Windows Lenovo Yoga Book X91F/L the Android Lenovo Yoga Book
+X90F/L has a portrait 1200x1920 screen used in landscape mode,
+add a quirk for this.
 
-Signed-off-by: Jane Jian <Jane.Jian@amd.com>
-Reviewed-by: Lijo Lazar <lijo.lazar@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+When the quirk for the X91F/L was initially added it was written to
+also apply to the X90F/L but this does not work because the Android
+version of the Yoga Book uses completely different DMI strings.
+Also adjust the X91F/L quirk to reflect that it only applies to
+the X91F/L models.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20230301095218.28457-1-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-index c748d92cec8e7..ddb7b8651ab4c 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v11_0.c
-@@ -1315,6 +1315,11 @@ static int gfx_v11_0_sw_init(void *handle)
- 		break;
- 	}
- 
-+	/* Enable CG flag in one VF mode for enabling RLC safe mode enter/exit */
-+	if (adev->ip_versions[GC_HWIP][0] == IP_VERSION(11, 0, 3) &&
-+		amdgpu_sriov_is_pp_one_vf(adev))
-+		adev->cg_flags = AMD_CG_SUPPORT_GFX_CGCG;
-+
- 	/* EOP Event */
- 	r = amdgpu_irq_add_id(adev, SOC21_IH_CLIENTID_GRBM_CP,
- 			      GFX_11_0_0__SRCID__CP_EOP_INTERRUPT,
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index 5522d610c5cfd..b1a38e6ce2f8f 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -328,10 +328,17 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "IdeaPad Duet 3 10IGL5"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
+-	}, {	/* Lenovo Yoga Book X90F / X91F / X91L */
++	}, {	/* Lenovo Yoga Book X90F / X90L */
+ 		.matches = {
+-		  /* Non exact match to match all versions */
+-		  DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X9"),
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "CHERRYVIEW D1 PLATFORM"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "YETI-11"),
++		},
++		.driver_data = (void *)&lcd1200x1920_rightside_up,
++	}, {	/* Lenovo Yoga Book X91F / X91L */
++		.matches = {
++		  /* Non exact match to match F + L versions */
++		  DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91"),
+ 		},
+ 		.driver_data = (void *)&lcd1200x1920_rightside_up,
+ 	}, {	/* Lenovo Yoga Tablet 2 830F / 830L */
 -- 
 2.39.2
 
