@@ -1,62 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E9F6D306D
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 13:55:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590236D307A
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 13:55:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D054010E271;
-	Sat,  1 Apr 2023 11:55:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA0DA10E2B3;
+	Sat,  1 Apr 2023 11:55:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1CC10E239
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 11:55:13 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id br6so32194433lfb.11
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 04:55:13 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A6B10E245
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 11:55:14 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id g19so19114078lfr.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 04:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680350111;
+ d=linaro.org; s=google; t=1680350113;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ifhrbShC7+juhdrM7tSPSmIe9BvFlsZ4IeJyZGUcR1w=;
- b=t3FWIRjFKkx2JGZv4wZqYWLGC53QNHQPYM2XqLu8rcG+v808heG6inHMxujip9i9TK
- NGy6evo9wHZqV3omXLiTO5MyoWY69eKT81cPD5Fg8gXUpF8NdBfqKO3aTwXmpnWp+T3I
- nFUYtBCqZdcDDGRek47/cv0cpCvNws0xMPWt2GPL2yyQ0IMz8w7z9k6U8C4xe1FkeSu6
- t/i1veutCJuhgmxKl/vx7k8snA3zcqx7E1zNbbJ0GLFc1ISrX/Ks+8Hrmcm1sGR5uBHa
- loS3v8zY6ZZOgkjdKJKmQkU0UeVE2MkcCDnxV95qFsaeyOYm4DsNrhELa9FDoD/Oq5dK
- LKkw==
+ :reply-to; bh=/AveNVS90BbixbsT3Hw8pttX0Kjo8MGgQJUSc1CubkM=;
+ b=r1VMGlD/JaOY6H5LFK+DfCNncPEUrIsfr37GCejQxyn9nPaiQeWtrtUXXf8s4GKOxi
+ 7ty6QNq5iMmE9h5VJ5YJ/9lBSaak0AvuacYALS3RJcLOsPAB1JnOKlvMIe6JAaaAO9hT
+ VKJuK4H54UnJZWFT0IRBAC06taxKql7RZopJFULhPd2eL6TdTPEksMeRF/nOtyyl+PKj
+ Ix7T/I8x3GjEOH2uNcTuPELtsMIpq1pf/cMy2aNxUunkJ7W0XAZYWt12DAa3BDd1vPhM
+ ocTU9MKHXUTONkrHei0sZ1yqMaKZW0NXcsNFby+2SMMFMHfjJ3bLLpVhnOpnKVi5JPvr
+ BuPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680350111;
+ d=1e100.net; s=20210112; t=1680350113;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ifhrbShC7+juhdrM7tSPSmIe9BvFlsZ4IeJyZGUcR1w=;
- b=PoFXN7svJQYWd598cbNkCFsc1M21oK2KqBOTp/1MApWa3wgsxCirJvVcgNiACTjwxD
- xqIPSleTh9Lj72bANRHDRJnD7I11EgDL9eI4Gn5z6xdixx5iDtV0m0ue5zppdDQCpkme
- P13ZXJ51JZCRbd/hMMh5QrRJI+cxxCNilCStFO/gcTFGTDVsapzXL/qBA1kLMbKqXqmM
- CmrU/A0tI8MnA2r83NC3pJ2XZa8p7srNSQi4kcMJohOs5usbTuWzpjZW1IQJMPBZ//R7
- c7Jr8MKQ1gBxVp1En5Ey+14dlFKLkljOc6pE+lNd5VZSgog1smgDojChaLw1zWTnVd1y
- 8NeA==
-X-Gm-Message-State: AAQBX9dryqytyjnykUYZUorsNGOoGenQnTf3SFCsxG/OHCYYLqaQwMPU
- Yr/1BSi6fZ3iFQpvFw0ahYHpxA==
-X-Google-Smtp-Source: AKy350a11lcjS0h/eZP2Fw6OpWyaX8WRZkquSON+2y9iqlGDGCqkSRGCzQDR1b65rDEhnI1DHsO9Iw==
-X-Received: by 2002:ac2:5482:0:b0:4b5:8f03:a2bc with SMTP id
- t2-20020ac25482000000b004b58f03a2bcmr8649139lfk.9.1680350111509; 
- Sat, 01 Apr 2023 04:55:11 -0700 (PDT)
+ bh=/AveNVS90BbixbsT3Hw8pttX0Kjo8MGgQJUSc1CubkM=;
+ b=bUg5Vj8RrSXzzfNQV6JKVnuyJVByh6JrsUO0o0QCMDcO9B0geIg3yExCgQ0KkR7rtE
+ JXdq6nefrqhkPhtPX3nE8m7UKsvwHWt/9xXzKim5mHTmpgzwy9gPmD4QZLNGeBdYMgnO
+ /MkgN8Pk1fuhGgRsLmNQvDW9fEZJsB2rvWJP5ewn2Xr74O/um6MBRqgI4UYz0FrWBzbk
+ m8XTXNlpVkqAMBs7sltNfxQoqCziY5GElrIc1hD6LbHPiuelk6KYTwH2rw4vHTp6XHV3
+ fcoHJgFYa7uBbaVFszsjFfktGZNwQBLVhCn3ddb7VDpFpzlmVG0KUevGTq9HrSCfnzNz
+ CuZg==
+X-Gm-Message-State: AAQBX9fNdQ8O2zywA/hSCJA47lgm+bkAwa8uCbsh1xpPdPkTpEC+2R27
+ aHwIDMbjO2x52mJR1po+D89MRg==
+X-Google-Smtp-Source: AKy350b+H5PJ6wJk2RC5hbU8BM+KikBw2ugOy6n/cQlKZQllD0i5N1c9g6IyUSzGSJ4+T4jGJgyvMQ==
+X-Received: by 2002:ac2:44b0:0:b0:4b6:e494:a98d with SMTP id
+ c16-20020ac244b0000000b004b6e494a98dmr8979801lfm.44.1680350113699; 
+ Sat, 01 Apr 2023 04:55:13 -0700 (PDT)
 Received: from [192.168.1.101] (abxj225.neoplus.adsl.tpnet.pl. [83.9.3.225])
  by smtp.gmail.com with ESMTPSA id
- w8-20020ac254a8000000b004e83f386878sm786737lfk.153.2023.04.01.04.55.08
+ w8-20020ac254a8000000b004e83f386878sm786737lfk.153.2023.04.01.04.55.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Apr 2023 04:55:11 -0700 (PDT)
+ Sat, 01 Apr 2023 04:55:13 -0700 (PDT)
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Date: Sat, 01 Apr 2023 13:54:45 +0200
-Subject: [PATCH v6 08/15] drm/msm/adreno: Disable has_cached_coherent in
- GMU wrapper configurations
+Date: Sat, 01 Apr 2023 13:54:46 +0200
+Subject: [PATCH v6 09/15] drm/msm/a6xx: Add support for A619_holi
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230223-topic-gmuwrapper-v6-8-2034115bb60c@linaro.org>
+Message-Id: <20230223-topic-gmuwrapper-v6-9-2034115bb60c@linaro.org>
 References: <20230223-topic-gmuwrapper-v6-0-2034115bb60c@linaro.org>
 In-Reply-To: <20230223-topic-gmuwrapper-v6-0-2034115bb60c@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -69,11 +68,11 @@ To: Rob Clark <robdclark@gmail.com>,
  Konrad Dybcio <konrad.dybcio@somainline.org>, 
  Akhil P Oommen <quic_akhilpo@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680350084; l=1374;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680350084; l=5408;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=Uy9xduAlMWK2dLdqx78UuoS6GjnaBPbaxTCDUXSqNNk=;
- b=WbgMypqr8VbfjFpGDgyRqDk0vGFsrUY/gNWlfqaZQ2JlGKoTnt8e9m+Zkw6fJpFD0wul+XOiavpo
- yz5f2dmyAjAUqze+TnpY+c6yeGpi9YcCLzUgTP7glEDXgHbuUsO3
+ bh=Mkcr01HfBHaztD2wRr44pOp8RNWCI4HsPdHfNo0D/wo=;
+ b=UQ+2LdTXuXfrYvTQ8BtWQnex4mYwBwZIQknk3Xa6cSTH5bvgmW3PBRU2MbRbeDqT9Is67ONfppNt
+ 8/28R+FJAR6X3tMgOZCNYlneY6cFmLeC+jXJ3j1WYbKfwI1z9YNZ
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,40 +95,152 @@ Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A610 and A619_holi don't support the feature. Disable it to make the GPU stop
-crashing after almost each and every submission - the received data on
-the GPU end was simply incomplete in garbled, resulting in almost nothing
-being executed properly. Extend the disablement to adreno_has_gmu_wrapper,
-as none of the GMU wrapper Adrenos that don't support yet seem to feature it.
+A619_holi is a GMU-less variant of the already-supported A619 GPU.
+It's present on at least SM4350 (holi) and SM6375 (blair). No mesa
+changes are required. Add the required kernel-side support for it.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 47 ++++++++++++++++++++++++++-------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h |  5 ++++
+ 2 files changed, 43 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 4d1448714285..4705ce3eb95e 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -551,7 +551,6 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 		config.rev.minor, config.rev.patchid);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 17e314a745c3..2d68b7488b1b 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -614,14 +614,16 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+ 		return;
  
- 	priv->is_a2xx = config.rev.core == 2;
--	priv->has_cached_coherent = config.rev.core >= 6;
+ 	/* Disable SP clock before programming HWCG registers */
+-	if (!adreno_has_gmu_wrapper(adreno_gpu))
++	if (!adreno_has_gmu_wrapper(adreno_gpu) ||
++	     adreno_is_a619_holi(adreno_gpu))
+ 		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 1, 0);
  
- 	gpu = info->init(drm);
- 	if (IS_ERR(gpu)) {
-@@ -563,6 +562,10 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
+ 	for (i = 0; (reg = &adreno_gpu->info->hwcg[i], reg->offset); i++)
+ 		gpu_write(gpu, reg->offset, state ? reg->value : 0);
  
-+	if (config.rev.core >= 6)
-+		if (!adreno_has_gmu_wrapper(to_adreno_gpu(gpu)))
-+			priv->has_cached_coherent = true;
+ 	/* Enable SP clock */
+-	if (!adreno_has_gmu_wrapper(adreno_gpu))
++	if (!adreno_has_gmu_wrapper(adreno_gpu) ||
++	     adreno_is_a619_holi(adreno_gpu))
+ 		gmu_rmw(gmu, REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL, 0, 1);
+ 
+ 	gpu_write(gpu, REG_A6XX_RBBM_CLOCK_CNTL, state ? clock_cntl_on : 0);
+@@ -814,6 +816,9 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+ 	if (adreno_is_a618(adreno_gpu))
+ 		return;
+ 
++	if (adreno_is_a619_holi(adreno_gpu))
++		hbb_lo = 0;
 +
- 	return 0;
+ 	if (adreno_is_a640_family(adreno_gpu))
+ 		amsbc = 1;
+ 
+@@ -1031,7 +1036,12 @@ static int hw_init(struct msm_gpu *gpu)
+ 	}
+ 
+ 	/* Clear GBIF halt in case GX domain was not collapsed */
+-	if (a6xx_has_gbif(adreno_gpu)) {
++	if (adreno_is_a619_holi(adreno_gpu)) {
++		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
++		gpu_write(gpu, 0x18, 0);
++		/* Let's make extra sure that the GPU can access the memory.. */
++		mb();
++	} else if (a6xx_has_gbif(adreno_gpu)) {
+ 		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+ 		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+ 		/* Let's make extra sure that the GPU can access the memory.. */
+@@ -1040,6 +1050,9 @@ static int hw_init(struct msm_gpu *gpu)
+ 
+ 	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TSB_CNTL, 0);
+ 
++	if (adreno_is_a619_holi(adreno_gpu))
++		a6xx_sptprac_enable(gmu);
++
+ 	/*
+ 	 * Disable the trusted memory range - we don't actually supported secure
+ 	 * memory rendering at this point in time and we don't want to block off
+@@ -1295,7 +1308,8 @@ static void a6xx_dump(struct msm_gpu *gpu)
+ #define GBIF_CLIENT_HALT_MASK	BIT(0)
+ #define GBIF_ARB_HALT_MASK	BIT(1)
+ #define VBIF_RESET_ACK_TIMEOUT	100
+-#define VBIF_RESET_ACK_MASK	0x00f0
++#define VBIF_RESET_ACK_MASK	0xF0
++#define GPR0_GBIF_HALT_REQUEST	0x1E0
+ 
+ static void a6xx_recover(struct msm_gpu *gpu)
+ {
+@@ -1359,10 +1373,16 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 
+ 	/* Software-reset the GPU */
+ 	if (adreno_has_gmu_wrapper(adreno_gpu)) {
+-		/* Halt the GX side of GBIF */
+-		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, GBIF_GX_HALT_MASK);
+-		spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) &
+-			   GBIF_GX_HALT_MASK);
++		if (adreno_is_a619_holi(adreno_gpu)) {
++			gpu_write(gpu, 0x18, GPR0_GBIF_HALT_REQUEST);
++			spin_until((gpu_read(gpu, REG_A6XX_RBBM_VBIF_GX_RESET_STATUS) &
++				   (VBIF_RESET_ACK_MASK)) == VBIF_RESET_ACK_MASK);
++		} else {
++			/* Halt the GX side of GBIF */
++			gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, GBIF_GX_HALT_MASK);
++			spin_until(gpu_read(gpu, REG_A6XX_RBBM_GBIF_HALT_ACK) &
++				   GBIF_GX_HALT_MASK);
++		}
+ 
+ 		/* Halt new client requests on GBIF */
+ 		gpu_write(gpu, REG_A6XX_GBIF_HALT, GBIF_CLIENT_HALT_MASK);
+@@ -1377,7 +1397,10 @@ static void a6xx_recover(struct msm_gpu *gpu)
+ 		/* Clear the halts */
+ 		gpu_write(gpu, REG_A6XX_GBIF_HALT, 0);
+ 
+-		gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
++		if (adreno_is_a619_holi(adreno_gpu))
++			gpu_write(gpu, 0x18, 0);
++		else
++			gpu_write(gpu, REG_A6XX_RBBM_GBIF_HALT, 0);
+ 
+ 		/* This *really* needs to go through before we do anything else! */
+ 		mb();
+@@ -1733,6 +1756,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+ 	if (ret)
+ 		goto err_mem_clk;
+ 
++	if (adreno_is_a619_holi(adreno_gpu))
++		a6xx_sptprac_enable(gmu);
++
+ 	/* If anything goes south, tear the GPU down piece by piece.. */
+ 	if (ret) {
+ err_mem_clk:
+@@ -1798,6 +1824,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+ 
+ 	mutex_lock(&a6xx_gpu->gmu.lock);
+ 
++	if (adreno_is_a619_holi(adreno_gpu))
++		a6xx_sptprac_disable(gmu);
++
+ 	clk_disable_unprepare(gpu->ebi1_clk);
+ 
+ 	clk_bulk_disable_unprepare(gpu->nr_clocks, gpu->grp_clks);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index ee5352bc5329..432fee5c1516 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -252,6 +252,11 @@ static inline int adreno_is_a619(struct adreno_gpu *gpu)
+ 	return gpu->revn == 619;
  }
  
++static inline int adreno_is_a619_holi(struct adreno_gpu *gpu)
++{
++	return adreno_is_a619(gpu) && adreno_has_gmu_wrapper(gpu);
++}
++
+ static inline int adreno_is_a630(struct adreno_gpu *gpu)
+ {
+ 	return gpu->revn == 630;
 
 -- 
 2.40.0
