@@ -1,71 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D406D2F83
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 11:53:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AEF6D2F99
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 12:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE4AD10E080;
-	Sat,  1 Apr 2023 09:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F73410E0E7;
+	Sat,  1 Apr 2023 10:01:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7C210E080
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 09:53:33 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id r11so24711872wrr.12
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 02:53:33 -0700 (PDT)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799F010E0E7
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 10:01:31 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id c9so21607959lfb.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 03:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680342812;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=linaro.org; s=google; t=1680343289;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qOhA43LmOrt8qpSaW/te4zffJ9QGZH2fj5kj0zYlFHQ=;
- b=aV9fJxI8HVKJHfqCRSmsB9pzLwNDj78SV+1sF/RdFom0TmCGg1D6C4piyaIP+CQlFj
- VY0LBD1dDk+/Xla/udoffg4SS+LjBTOb1GLmTqYdUKwhk50p1YSi40/wldJkLPviZUiV
- vAQJj6CmkuA4NiNaLmTjYjzYL5PHcUZlP13dMnQK34qAOokUXrgnanE8jXMuSJKi0k7n
- i8JiM2VUEZA7xmINNz0rOpgemjCAA/S+y6FGShUA0x7hWUcpgGLRFaqXqlsoRDdtME8Q
- 0PscSrdrgv+F37isys+eBaQ2uuV3Ie/rgA4QfYY2mkFGo35nQQ7INBaURS8RvNnz5mk8
- 9BuA==
+ bh=2ashd2jmNGSIbGJQnNJYWhd+xpZtd9xxM/hYfr9rYcA=;
+ b=cvMa0BOgOKuLHFcuTuUangjhtuU9ZabVvI0Y+v8IFlvPGejj0sSIewvL7PGEV7j7x/
+ m7keJzkIcw0KW873qypmVzRl4n3BKSuEZCrnIueU1O1MCZ8MQ4007y7RtoKD1QcIwuQF
+ NwAISXX+HjvmxoT2DE/UeDk1YxQue+jP35L/fr4iuNePtiFdXtGCKwqpzCBwQBeX5j8E
+ h6iQOrydTiQ3WV/4DZWmW0a+T9eUFZyBkYya7PmAra+focN70gHeyDvFH+Gk0rZs1he+
+ TcGEtE2k2tmRLbLm1w3sKDg+oeTuZAS8yKlMxHwR7gzK5MS9FVtqaJpsevHksBp7P8FL
+ dy1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680342812;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1680343289;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qOhA43LmOrt8qpSaW/te4zffJ9QGZH2fj5kj0zYlFHQ=;
- b=XJ7esqkK2eMCWQnuIfd9sHMRvvicCRCYYn1xPdl0kRpkX7vDMxsOm5znifA6DQyLvL
- s4YTiam6e6FvWa9kOZ8j1gJZ7g0rTSJkXEzbWRiRbrAtaWvOfjLtx/BwuLwAMwN1BRbV
- otsnJmE1+JiNi+bY5mCT/tmUZ+wrhACPV0M3WWirErVTEcvxHHbBe5cLcMMzl0T1ICXN
- wdnt3kwXPkRCQRrT2/kfTNdi9KF8xrix5E8/9vIRSdJz/RM2FNEPDbQeltaVnzV3X9dj
- Zg+iF7Lv7/uUxXVMW0J0f5bvl7mcVWp6zYgY1wFcGmkKyDw58H8R3zUiG0V1QM3DA+5r
- LdzA==
-X-Gm-Message-State: AAQBX9fBbmrJlxy9MSZVR2gPiEo/t9LrDFQUHkWROfNPu2Ew5ZzEr8RD
- HiCB/S6X/no6L1JxCoMMMOxnVQ==
-X-Google-Smtp-Source: AKy350befYly/lSC5kDrLJqEFpU6KISleaqO8PETRRTz0P/MBUQizsolm9NPaMHLFin3D8iORHoYfA==
-X-Received: by 2002:adf:e391:0:b0:2d9:10e7:57e8 with SMTP id
- e17-20020adfe391000000b002d910e757e8mr9128945wrm.16.1680342811799; 
- Sat, 01 Apr 2023 02:53:31 -0700 (PDT)
-Received: from [172.50.14.32] (5-226-109-132.static.ip.netia.com.pl.
- [5.226.109.132]) by smtp.gmail.com with ESMTPSA id
- g6-20020adfe406000000b002d743eeab39sm4470590wrm.58.2023.04.01.02.53.30
+ bh=2ashd2jmNGSIbGJQnNJYWhd+xpZtd9xxM/hYfr9rYcA=;
+ b=kGo+0OZOQj3BTyjjmR98v4bvYhFCxWmcpSsrxJQLrEZ+FBRfYqUBK3/EwGPGfX0Qto
+ K2SzM1uUX7kWbLopiCziqh4sTEIRqCy5qDtEpzrSjEKl81aOuQQaTrRyHtL+qQ9KoCxM
+ BpW9ILPi/Sv4PL3n+ltXawxmIZsezrrLUBVbmNYt92E/3sBwScdZ3ewxc+EBl0wJtL0j
+ 4WsMMUGeSrOX501cFDjND9s1r30N2vmQb7e3N6pQwV/qU0zZVpMMpp1FzXsr1CmUtvVq
+ Xx8UeXDZuq3buog54K4yoehOVYJApsh5jLWnJB4UlNoCijcDhX4Hd59Ajfjl/oRGG04a
+ AXoA==
+X-Gm-Message-State: AAQBX9cp2rHnbO9ZnVWK97Y8G8OwI6QIT7UZyFJcnxXoUcKk2pn223AS
+ UhpJRIUE83KjCiGA1sWS9H6dKQ==
+X-Google-Smtp-Source: AKy350Y0rU9C+2qKJhXR3P4UDAi3oG2kpaWzmNmI8qMFgCf0V70lDWcGZrau2okmTZjXeM+5aRXtrA==
+X-Received: by 2002:ac2:428c:0:b0:4e9:9c76:1b85 with SMTP id
+ m12-20020ac2428c000000b004e99c761b85mr7761595lfh.3.1680343289432; 
+ Sat, 01 Apr 2023 03:01:29 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ d7-20020ac25447000000b004d57fc74f2csm752344lfn.266.2023.04.01.03.01.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 02:53:31 -0700 (PDT)
-Message-ID: <5a8a5cfb-6b56-42e9-8e75-14a936de2c4f@linaro.org>
-Date: Sat, 1 Apr 2023 11:53:30 +0200
+ Sat, 01 Apr 2023 03:01:29 -0700 (PDT)
+Message-ID: <e538dfcf-e317-e975-0442-8ab5cdca6c8e@linaro.org>
+Date: Sat, 1 Apr 2023 13:01:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: arm: nvidia: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20230331182159.1900674-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230331182159.1900674-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH RFC v2 1/6] drm/display/dsc: Add flatness and initial
+ scale value calculations
+To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
+References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v2-1-3c13ced536b2@quicinc.com>
+Content-Language: en-GB
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v2-1-3c13ced536b2@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,21 +78,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/03/2023 20:21, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+On 31/03/2023 21:49, Jessica Zhang wrote:
+> Add helpers to calculate det_thresh_flatness and initial_scale_value as
+> these calculations are defined within the DSC spec.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Changes in v2:
+> - Renamed det_thresh_flatness to flatness_det_thresh
+> - Set initial_scale_value directly in helper
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
+>   include/drm/display/drm_dsc_helper.h | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+-- 
+With best wishes
+Dmitry
 
