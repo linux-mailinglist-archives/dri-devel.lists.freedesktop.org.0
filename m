@@ -1,71 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AEF6D2F99
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 12:01:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F696D2FD5
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 13:12:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F73410E0E7;
-	Sat,  1 Apr 2023 10:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5544610E136;
+	Sat,  1 Apr 2023 11:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 799F010E0E7
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 10:01:31 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id c9so21607959lfb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 03:01:31 -0700 (PDT)
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2932310E136
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 11:12:05 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id p203so29980885ybb.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 04:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680343289;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2ashd2jmNGSIbGJQnNJYWhd+xpZtd9xxM/hYfr9rYcA=;
- b=cvMa0BOgOKuLHFcuTuUangjhtuU9ZabVvI0Y+v8IFlvPGejj0sSIewvL7PGEV7j7x/
- m7keJzkIcw0KW873qypmVzRl4n3BKSuEZCrnIueU1O1MCZ8MQ4007y7RtoKD1QcIwuQF
- NwAISXX+HjvmxoT2DE/UeDk1YxQue+jP35L/fr4iuNePtiFdXtGCKwqpzCBwQBeX5j8E
- h6iQOrydTiQ3WV/4DZWmW0a+T9eUFZyBkYya7PmAra+focN70gHeyDvFH+Gk0rZs1he+
- TcGEtE2k2tmRLbLm1w3sKDg+oeTuZAS8yKlMxHwR7gzK5MS9FVtqaJpsevHksBp7P8FL
- dy1g==
+ d=amarulasolutions.com; s=google; t=1680347524;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=puWBrOAa75bVzNbkWYedWZA8RYAVUknhCQ2nSA06Dl8=;
+ b=kHRkPjzla4CIH0kv0NXEiWaCIZYqPCHiYYVJoMD+/r6bNXffRIKJnkZiyngQIeDLkm
+ PwZbG/PYAM3uJ8KltCHC0FevGZadQpYv0amSAc9Bk0nu1VlQ4gNo0hSEs8uEylihO8t0
+ lrSmEcCBEwQUuqx6EunigTXLaFfAYKdVQwnug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680343289;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2ashd2jmNGSIbGJQnNJYWhd+xpZtd9xxM/hYfr9rYcA=;
- b=kGo+0OZOQj3BTyjjmR98v4bvYhFCxWmcpSsrxJQLrEZ+FBRfYqUBK3/EwGPGfX0Qto
- K2SzM1uUX7kWbLopiCziqh4sTEIRqCy5qDtEpzrSjEKl81aOuQQaTrRyHtL+qQ9KoCxM
- BpW9ILPi/Sv4PL3n+ltXawxmIZsezrrLUBVbmNYt92E/3sBwScdZ3ewxc+EBl0wJtL0j
- 4WsMMUGeSrOX501cFDjND9s1r30N2vmQb7e3N6pQwV/qU0zZVpMMpp1FzXsr1CmUtvVq
- Xx8UeXDZuq3buog54K4yoehOVYJApsh5jLWnJB4UlNoCijcDhX4Hd59Ajfjl/oRGG04a
- AXoA==
-X-Gm-Message-State: AAQBX9cp2rHnbO9ZnVWK97Y8G8OwI6QIT7UZyFJcnxXoUcKk2pn223AS
- UhpJRIUE83KjCiGA1sWS9H6dKQ==
-X-Google-Smtp-Source: AKy350Y0rU9C+2qKJhXR3P4UDAi3oG2kpaWzmNmI8qMFgCf0V70lDWcGZrau2okmTZjXeM+5aRXtrA==
-X-Received: by 2002:ac2:428c:0:b0:4e9:9c76:1b85 with SMTP id
- m12-20020ac2428c000000b004e99c761b85mr7761595lfh.3.1680343289432; 
- Sat, 01 Apr 2023 03:01:29 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- d7-20020ac25447000000b004d57fc74f2csm752344lfn.266.2023.04.01.03.01.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Apr 2023 03:01:29 -0700 (PDT)
-Message-ID: <e538dfcf-e317-e975-0442-8ab5cdca6c8e@linaro.org>
-Date: Sat, 1 Apr 2023 13:01:28 +0300
+ d=1e100.net; s=20210112; t=1680347524;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=puWBrOAa75bVzNbkWYedWZA8RYAVUknhCQ2nSA06Dl8=;
+ b=kUyZDwTUXzSB7x7ymanoqbSf/QD96409JQ+er1U/CGpyIS6o8/ZjSA00yQiuHLVVtf
+ ekSMWuDL5/uAyoojHLiRhuyveniPEH9k9icneP2K4naGnx2XuxqvzFvAitDi9gJ1QuUt
+ KkAGSXPuoLwhWbs3IU8xcbeZ0Y5UYYEE8zpxs3FMk5tzl+XX6i3I9ZAlY4c09LwQKKbK
+ 2ovIZepz4RjyBP5SD6+17mAuBecrLVLwrignEO0wb6nJnZaUocdtXJkVqd+VwHuxQkZH
+ S54iLuma6WzFB7MQEYejs0Liu7GW2QUHaSCIPnfIyehLvuyiCkFPA1+SFKO2G1Ikp3lW
+ Rq2w==
+X-Gm-Message-State: AAQBX9eSu15EXnSq+hlbaRRnO6O+8s22aJy3j33MRRfdIAEpoBznNiIb
+ GHSO/ZYto/3MURz4EOvsk4zI9zzXVsx41QXTvvoNfg==
+X-Google-Smtp-Source: AKy350bWxH1itHV15Sfs1g5EC6sZCHgG4SvMBURRoCBE+ZpjFzd2ZWIzgcTLo9d5JYm3DG6v722PvfBZ+iaf/Tsspfs=
+X-Received: by 2002:a05:6902:1141:b0:b73:caa7:f06f with SMTP id
+ p1-20020a056902114100b00b73caa7f06fmr19613568ybu.5.1680347523808; Sat, 01 Apr
+ 2023 04:12:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH RFC v2 1/6] drm/display/dsc: Add flatness and initial
- scale value calculations
-To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
-References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v2-1-3c13ced536b2@quicinc.com>
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v2-1-3c13ced536b2@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20230331195746.114840-1-festevam@gmail.com>
+In-Reply-To: <20230331195746.114840-1-festevam@gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Sat, 1 Apr 2023 16:41:52 +0530
+Message-ID: <CAMty3ZDsx_Z2MYxwPKVork0mKBoG-8wzwFu8WhBhOjUm2yq-Hg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to
+ yaml
+To: Fabio Estevam <festevam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,28 +65,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
+Cc: marex@denx.de, neil.armstrong@linaro.org, Fabio Estevam <festevam@denx.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/03/2023 21:49, Jessica Zhang wrote:
-> Add helpers to calculate det_thresh_flatness and initial_scale_value as
-> these calculations are defined within the DSC spec.
-> 
-> Changes in v2:
-> - Renamed det_thresh_flatness to flatness_det_thresh
-> - Set initial_scale_value directly in helper
-> 
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+ asOn Sat, Apr 1, 2023 at 1:27=E2=80=AFAM Fabio Estevam <festevam@gmail.com=
+> wrote:
+>
+> From: Jagan Teki <jagan@amarulasolutions.com>
+>
+> Samsung MIPI DSIM bridge can be found on Exynos and NXP's
+> i.MX8M Mini and Nano SoC's.
+>
+> Convert exynos_dsim.txt to yaml.
+
+Thanks for rebasing this.
+
+>
+> Used the example node from latest Exynos SoC instead of
+> the one used in legacy exynos_dsim.txt.
+>
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
 > ---
->   include/drm/display/drm_dsc_helper.h | 11 +++++++++++
->   1 file changed, 11 insertions(+)
+>  .../display/bridge/samsung,mipi-dsim.yaml     | 275 ++++++++++++++++++
+>  .../bindings/display/exynos/exynos_dsim.txt   |  92 ------
+>  2 files changed, 275 insertions(+), 92 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/sams=
+ung,mipi-dsim.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/exynos/exyn=
+os_dsim.txt
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mip=
+i-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi=
+-dsim.yaml
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Can you add this to the MAINTAINERS file.
 
--- 
-With best wishes
-Dmitry
+> new file mode 100644
+> index 000000000000..c131bd879caf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.=
+yaml
+> @@ -0,0 +1,275 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/samsung,mipi-dsim.yaml=
+#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung MIPI DSIM bridge controller
+> +
+> +maintainers:
+> +  - Inki Dae <inki.dae@samsung.com>
+> +  - Jagan Teki <jagan@amarulasolutions.com>
 
+Please add Marek Szyprowski <m.szyprowski@samsung.com> well as he
+included in the MAINTAINERS file.
+
+Thanks,
+Jagan.
