@@ -1,66 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C206D3313
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 20:20:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E646D3334
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 20:41:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 031E610E111;
-	Sat,  1 Apr 2023 18:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67A8810E118;
+	Sat,  1 Apr 2023 18:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4D610E111
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 18:20:06 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- n6-20020a4abd06000000b0053b59893660so4025814oop.0
- for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 11:20:06 -0700 (PDT)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D79F10E118
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 18:41:26 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id x3so102195675edb.10
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Apr 2023 11:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680373205;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fITr2HwYgqLUUk1Kke5I+QMgFMyvuPMKr1ZR1hYIU3I=;
- b=TWTywiVBMaANiqanN77gtisbmbm/wLVaWH+qyvtSiG7Ip59YMo9aZDcndAj+mKA+np
- pmRQ/MRD3zciKrhFt0RuZvZz2+h78fnTzX/LcAXMYKtlKZxIYQAoAP4r4EremUZ3sz0b
- qkxGHWGCNrdO76vAQ9tDN0qdcTRQQlaidz9AixfK1WPfKQHehUmHtsft+IME2e+dtrn+
- 19VBxkzkYCibQxoy7a1ESloaQXtfmxLJ3EhA8uCs0lomI+AfOuw00QACf/hwYVUCwKKU
- 3oeE4S6hC+9ht1tFV7Nti8PwpFUsmbeyI9oqrOcY2RqMGsSjyUcsTXnL2A5iKKaz4EDY
- DGlQ==
+ d=linaro.org; s=google; t=1680374485;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J3CX0tphHwucVQy/XBMHzMB2OpwqIu91GQKmtAUHW5M=;
+ b=mHydUQdLtrrja7rpwWgXxy5mypWihyqXUP8jESwZXYQ+UMo6cyf4ARIpqPZt9seg3I
+ viD8SINsrNFJTY+slyuegQUNoXoyUgGWNqNVbcgVwIxihQmrdkXVXvGZpaqvQ4qtGyhn
+ ZaTg1OeZqPsnFvfI8KPO2vXotEmS84P8VD/aowhwkz4zu+Gs1dEz5PvvBG0+IBWouKmw
+ L9yNjPA4eb8unexMMTlJIKBjfLSGvMAEBV5YJysQGgz7iV0MwdSCRo2BfI7N8tG2RPXh
+ lG0tgpCZrnrW6gB1CVl7u9EUrxINDXJztBVjy4PIQQuPu/r7NvVibcJma2TtbIX2gDp/
+ sApw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680373205;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fITr2HwYgqLUUk1Kke5I+QMgFMyvuPMKr1ZR1hYIU3I=;
- b=cyeOajeohvwPCgZhism+LAiji5Py4BP1imVvLKno2Sluj+BguHhY2qJNqRzX2bulBe
- yuHEkPrzcKj6JbF7NxAKOfgx8uXHjTa6A3jzfYBh/MCAwZbNYVeCwukL5yw0+UAuWMwN
- 8aGLCjkXE7K1O2q/NaDLBgaA7TOfSIBt33V3nME1QTabKSnPeIZLrKMASegrx1c4tWer
- 3yIO/RENYONGBJWDFYLxBhcj8lyyzWCmQE8Cf/kpKS7Ab03PbS2J5Y+j51RZ0GYo9ohN
- fQvAIkFGa6DAVXW8ZBAvJ6mnGlLEalxu07/P+k7y+GJsebvmnY9PT632i8zfRuFB0Q0v
- iAeQ==
-X-Gm-Message-State: AAQBX9eg3aynvxtAW8mrPJunIdLF/k1Ec15X75D/YnNjOpVppRfE9+eC
- K11tYweG3M87v/n6R5YvL3g=
-X-Google-Smtp-Source: AKy350ZGi7A5EVHermG2a+d2Y1EJ0swdZU4PDDJgxPBdTR3MqzeWevqrtPAxWogwUpGjkvCHzT782A==
-X-Received: by 2002:a4a:bd8c:0:b0:53c:5f89:eb85 with SMTP id
- k12-20020a4abd8c000000b0053c5f89eb85mr6913034oop.2.1680373205132; 
- Sat, 01 Apr 2023 11:20:05 -0700 (PDT)
-Received: from heimdal.localdomain ([2804:431:cfec:79f0:85a3:2af2:a6f4:1842])
+ d=1e100.net; s=20210112; t=1680374485;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J3CX0tphHwucVQy/XBMHzMB2OpwqIu91GQKmtAUHW5M=;
+ b=whOGRlZhS1Qpbku7WE8aRX6nCzyjIi+DCnqO8cSwCsxYlUcBJsNTGpkLLi90JhOSON
+ U9qJqLGZQ+ImVepD5shY7WVBLff4YroqikJaDxLor8P4fS8IP7Q5hw/fLNtu2pGVSuBu
+ ++9V3yaAWlSuvT5YUr5uwaKCkjeKFEYYXuaGbsH8T6U8MQGFWlF9jEK/NCgOliMmUN7l
+ ya9mXLAFBrG3ma96aKDy2xL5iMpBnmOOu8h7E0kyIUMHrY26KYHrLv/IEDDMN/qb12L6
+ mENnwOEKpEIfP32q3Oe+WoYNnETVN/NS4wiyuVxEHViJHVAlDbVkuXmGNoIE/UNdIQFR
+ q9IQ==
+X-Gm-Message-State: AAQBX9fy2FqXbI4f6ufC5pMjpqgFq9q1QClY4vdrzpq1yyBzBTu1xBjh
+ XouYgXpRhxNJtJ1AIe3ovAMddg==
+X-Google-Smtp-Source: AKy350ZiZuxr3nGNpPlOhGyuV5/ZXciTT5jaK/TheV5lAt/QXLE6MfBHCobXTB/i0A5limdD5B7WdA==
+X-Received: by 2002:aa7:c94c:0:b0:4fc:eee9:417 with SMTP id
+ h12-20020aa7c94c000000b004fceee90417mr27190427edt.18.1680374484789; 
+ Sat, 01 Apr 2023 11:41:24 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:ec00:3acd:519:c7c2?
+ ([2a02:810d:15c0:828:ec00:3acd:519:c7c2])
  by smtp.gmail.com with ESMTPSA id
- e193-20020a4a55ca000000b005255e556399sm2159485oob.43.2023.04.01.11.20.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Apr 2023 11:20:04 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Morishita?= <andremorishita@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ p9-20020a50cd89000000b004c0c5864cc5sm2389927edi.25.2023.04.01.11.41.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 01 Apr 2023 11:41:24 -0700 (PDT)
+Message-ID: <5b0f9fc9-45ef-e501-6840-df4b03d9dab7@linaro.org>
+Date: Sat, 1 Apr 2023 20:41:23 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3] ASoC: dt-bindings: maxim,max98371: Convert to DT schema
+To: =?UTF-8?Q?Andr=c3=a9_Morishita?= <andremorishita@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  anish kumar <yesanishhere@gmail.com>, alsa-devel@alsa-project.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ASoC: dt-bindings: maxim,max98371: Convert to DT schema
-Date: Sat,  1 Apr 2023 15:19:29 -0300
-Message-Id: <20230401181930.533067-1-andremorishita@gmail.com>
-X-Mailer: git-send-email 2.40.0
-MIME-Version: 1.0
+References: <20230401181930.533067-1-andremorishita@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230401181930.533067-1-andremorishita@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,100 +82,19 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: mairacanal@riseup.net, daniel.baluta@nxp.com,
- =?UTF-8?q?Andr=C3=A9=20Morishita?= <andremorishita@gmail.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Maxim Integrated MAX98371 audio codec bindings to DT schema.
+On 01/04/2023 20:19, André Morishita wrote:
+> Convert the Maxim Integrated MAX98371 audio codec bindings to DT schema.
+> 
+> Signed-off-by: André Morishita <andremorishita@gmail.com>
+> ---
+> Changes in v3:
 
-Signed-off-by: André Morishita <andremorishita@gmail.com>
----
-Changes in v3:
-  - Make commit message and subject as v1 with ASoC subject prefix
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Changes in v2:
-   - Generic node names - codec (Krzysztof)
-   - Drop label max98371 (Krzysztof)
-   - Add sound-dai-cells in example (Krzysztof)
-
- .../devicetree/bindings/sound/max98371.txt    | 17 --------
- .../bindings/sound/maxim,max98371.yaml        | 42 +++++++++++++++++++
- 2 files changed, 42 insertions(+), 17 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/max98371.txt
- create mode 100644 Documentation/devicetree/bindings/sound/maxim,max98371.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/max98371.txt b/Documentation/devicetree/bindings/sound/max98371.txt
-deleted file mode 100644
-index 8b2b2704b574..000000000000
---- a/Documentation/devicetree/bindings/sound/max98371.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--max98371 codec
--
--This device supports I2C mode only.
--
--Required properties:
--
--- compatible : "maxim,max98371"
--- reg : The chip select number on the I2C bus
--
--Example:
--
--&i2c {
--	max98371: max98371@31 {
--		compatible = "maxim,max98371";
--		reg = <0x31>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/sound/maxim,max98371.yaml b/Documentation/devicetree/bindings/sound/maxim,max98371.yaml
-new file mode 100644
-index 000000000000..14fba34ef81a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/maxim,max98371.yaml
-@@ -0,0 +1,42 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/maxim,max98371.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Maxim MAX98371 audio codec
-+
-+maintainers:
-+  - anish kumar <yesanishhere@gmail.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: maxim,max98371
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@31 {
-+            compatible = "maxim,max98371";
-+            reg = <0x31>;
-+            #sound-dai-cells = <0>;
-+        };
-+    };
--- 
-2.40.0
+Best regards,
+Krzysztof
 
