@@ -1,57 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2626D2DFE
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 05:49:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B117C6D2E02
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 05:59:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0921A10F37E;
-	Sat,  1 Apr 2023 03:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9749910E2BC;
+	Sat,  1 Apr 2023 03:58:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63D5D10E2BC;
- Sat,  1 Apr 2023 03:49:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680320943; x=1711856943;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iKRGjxyuVPlp7bjfbPORRfcTp1PxnLq+Mx9fXMULy44=;
- b=UoxNKzpmKvc9xeO0MgwwXbKI1+eEvgnHMyAmT6nqLZFi92slQYHIyRQR
- iLrfz2BOoSz/GH+DhT2QmC9d5ngAsstOOLw/qNCMjCMPb3+jCzj2Lg9LM
- Fx9TYvSiZXgacFP0gaM9mJZUv052asGxZK8p4Mkl1z+kia+ETfUJ3taXn
- lTHwRre+bpxbq6w4gKa4wDfs8VIy0iW9UXydbA76ORH6H3DDCn5RW2N3u
- iCR/HWSoUZiJ2/COTdU3p3Ldfa2Y7SRrJBqmMkkGPsvSOoMg/cRqBLF3G
- SSlTwxF2wrH0d6Mi7Xy4JRpsvme6OCWHIA2uAZwIb8epfLZIOx+Vaylx+ w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="321268515"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="321268515"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2023 20:45:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10666"; a="662612093"
-X-IronPort-AV: E=Sophos;i="5.98,308,1673942400"; d="scan'208";a="662612093"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by orsmga006.jf.intel.com with ESMTP; 31 Mar 2023 20:45:10 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1piSAv-000MQR-2Z;
- Sat, 01 Apr 2023 03:45:09 +0000
-Date: Sat, 1 Apr 2023 11:44:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Yacoub <markyacoub@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Intel-gfx] [PATCH v8 10/10] drm/msm: Implement HDCP 1.x using
- the new drm HDCP helpers
-Message-ID: <202304011152.dsr8g6yX-lkp@intel.com>
-References: <20230331221213.1691997-11-markyacoub@google.com>
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90CDC10E2BC
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 03:58:52 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-17683b570b8so25193332fac.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Mar 2023 20:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680321532;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b2U2XsDHoLzpn+9gItu80aF7GJfiGDWT6BnwKoZhBKk=;
+ b=P17LuxdfVhQ828hU9BHWbH9FWZHsiFYo/ELy7uKQQC40YXCaOVwca1RwfDs/BlQTJs
+ Eg9LzC0pNJCFdOxuaS2VJGj35NpWIRjlL/RcM3Yy1gPN+cdEN0zM3ajbxyAOBavK0byu
+ c7NBAGqO6LxR0ba5DRdQI7ASh2kcyc+WeVpDj+utfio8F1k7ldyQnp5hUkmmJm9BlWKa
+ iuauG7pQ4ERMd11czXkXk5UhxE3qZeZ7tPP0af9hK0WdDIC5RyO619B+PPWImL6eW/bu
+ lRs2i5jM9S/y6m+yrfOAh+9EZWPUIGtmDiSfPf9jhxi5DaEdKivJvBdLNV4U9JFqBmOQ
+ /Cig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680321532;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b2U2XsDHoLzpn+9gItu80aF7GJfiGDWT6BnwKoZhBKk=;
+ b=p9w44os5dc+tgrltNlryqy1HFFO4/BlRnxPtns7tW/Z39Y+/kd3u2eOBb4OkYIOQLk
+ e6aYrXAoU1lh2QF35ko+SBT2ZsESkVzV551bRUwytVXdvOzLkC5ylnBj33SMusuPlqCL
+ Gy9sBBtDfprcqe9sHRo0gO65WmZ5FKD2otDXlZfUHwdMf9MVZCcdhb6HbE2uLryaYNLI
+ IpNCcuz4wrg7HsiQeyWXsFMBnEBNDXOSpHa9XlQdaOrpZiQDCCUOEHjDLl9aC4FRny7E
+ ZzLllhoiWemyzu8sjeaF0o33qOeQmLbo5t8ATL/NwfLXe8T7tazRLAHno1FfQl79eBDV
+ A8Pw==
+X-Gm-Message-State: AAQBX9dFquQ0XevUQnjgmjKE9cfyyIMAmw8uzKO2IqO+Yc7DbzNHQfr3
+ 2Inz1RgEZL467W/PEZ1i1Q4=
+X-Google-Smtp-Source: AKy350YkXdYUmmYhpswBXz+/2z7ssiOIinB0jx2wQCZKq5zKmY7eC7HkeqBQ+BIXkp8JA6MXqUPuYQ==
+X-Received: by 2002:a05:6870:560c:b0:17a:d2ab:aeb8 with SMTP id
+ m12-20020a056870560c00b0017ad2abaeb8mr17985248oao.33.1680321531834; 
+ Fri, 31 Mar 2023 20:58:51 -0700 (PDT)
+Received: from heimdal.localdomain ([2804:431:cfec:79f0:85a3:2af2:a6f4:1842])
+ by smtp.gmail.com with ESMTPSA id
+ ug13-20020a0568714d0d00b001727c3bf124sm1593845oab.31.2023.03.31.20.58.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Mar 2023 20:58:51 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Morishita?= <andremorishita@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ anish kumar <yesanishhere@gmail.com>, alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: dt-bindings: maxim,max98371: DT schema improvement
+Date: Sat,  1 Apr 2023 00:57:54 -0300
+Message-Id: <20230401035756.856752-1-andremorishita@gmail.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20230331020527.482991-1-andremorishita@gmail.com>
+References: <20230331020527.482991-1-andremorishita@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230331221213.1691997-11-markyacoub@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,77 +78,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Mark Yacoub <markyacoub@chromium.org>,
- intel-gfx@lists.freedesktop.org, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- seanpaul@chromium.org, oe-kbuild-all@lists.linux.dev,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+Cc: mairacanal@riseup.net, daniel.baluta@nxp.com,
+ =?UTF-8?q?Andr=C3=A9=20Morishita?= <andremorishita@gmail.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mark,
+Improve Maxim Integrated MAX98371 audio codec bindings DT schema conversion
 
-I love your patch! Yet something to improve:
+Signed-off-by: André Morishita <andremorishita@gmail.com>
+---
+Changes in v2
+- Generic node names - codec (Krzysztof)
+- Drop label max98371 (Krzysztof)
+- Add sound-dai-cells in example (Krzysztof)
 
-[auto build test ERROR on drm-intel/for-linux-next-fixes]
-[also build test ERROR on linus/master v6.3-rc4]
-[cannot apply to drm-misc/drm-misc-next drm-intel/for-linux-next drm/drm-next next-20230331]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ .../devicetree/bindings/sound/max98371.txt    | 17 --------
+ .../bindings/sound/maxim,max98371.yaml        | 42 +++++++++++++++++++
+ 2 files changed, 42 insertions(+), 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/max98371.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/maxim,max98371.yaml
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230401-061425
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20230331221213.1691997-11-markyacoub%40google.com
-patch subject: [Intel-gfx] [PATCH v8 10/10] drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
-config: arc-randconfig-r043-20230329 (https://download.01.org/0day-ci/archive/20230401/202304011152.dsr8g6yX-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/697c762c590d862f4f6ed4a8cac97ac2de815f73
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mark-Yacoub/drm-hdcp-Add-drm_hdcp_atomic_check/20230401-061425
-        git checkout 697c762c590d862f4f6ed4a8cac97ac2de815f73
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304011152.dsr8g6yX-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.o: in function `msm_atomic_commit_tail':
->> drivers/gpu/drm/msm/msm_atomic.c:193: undefined reference to `dp_drm_is_bridge_msm_dp'
->> arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.c:193: undefined reference to `dp_drm_is_bridge_msm_dp'
->> arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.c:194: undefined reference to `dp_drm_atomic_commit'
->> arc-elf-ld: drivers/gpu/drm/msm/msm_atomic.c:194: undefined reference to `dp_drm_atomic_commit'
-   arc-elf-ld: drivers/gpu/drm/msm/dp/dp_debug.o: in function `dp_hdcp_key_write':
->> drivers/gpu/drm/msm/dp/dp_debug.c:219: undefined reference to `dp_hdcp_ingest_key'
->> arc-elf-ld: drivers/gpu/drm/msm/dp/dp_debug.c:219: undefined reference to `dp_hdcp_ingest_key'
-
-
-vim +193 drivers/gpu/drm/msm/msm_atomic.c
-
-   184	
-   185	static void msm_atomic_commit_connectors(struct drm_atomic_state *state)
-   186	{
-   187		struct drm_device *dev = state->dev;
-   188		struct msm_drm_private *priv = dev->dev_private;
-   189		int i;
-   190	
-   191		for (i = 0; i < priv->num_bridges; ++i) {
-   192			struct drm_bridge *bridge = priv->bridges[i];
- > 193			if (dp_drm_is_bridge_msm_dp(bridge)) {
- > 194				dp_drm_atomic_commit(bridge, state);
-   195			}
-   196		}
-   197	}
-   198	
-
+diff --git a/Documentation/devicetree/bindings/sound/max98371.txt b/Documentation/devicetree/bindings/sound/max98371.txt
+deleted file mode 100644
+index 8b2b2704b574..000000000000
+--- a/Documentation/devicetree/bindings/sound/max98371.txt
++++ /dev/null
+@@ -1,17 +0,0 @@
+-max98371 codec
+-
+-This device supports I2C mode only.
+-
+-Required properties:
+-
+-- compatible : "maxim,max98371"
+-- reg : The chip select number on the I2C bus
+-
+-Example:
+-
+-&i2c {
+-	max98371: max98371@31 {
+-		compatible = "maxim,max98371";
+-		reg = <0x31>;
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/sound/maxim,max98371.yaml b/Documentation/devicetree/bindings/sound/maxim,max98371.yaml
+new file mode 100644
+index 000000000000..14fba34ef81a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/maxim,max98371.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/maxim,max98371.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Maxim MAX98371 audio codec
++
++maintainers:
++  - anish kumar <yesanishhere@gmail.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: maxim,max98371
++
++  '#sound-dai-cells':
++    const: 0
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@31 {
++            compatible = "maxim,max98371";
++            reg = <0x31>;
++            #sound-dai-cells = <0>;
++        };
++    };
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.40.0
+
