@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0386D3773
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 12:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273CA6D3791
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 13:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76ADF10E2A0;
-	Sun,  2 Apr 2023 10:55:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A51110E2E5;
+	Sun,  2 Apr 2023 11:20:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0135C10E2A0
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 10:55:15 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Pq9sW6T1fz9sVx;
- Sun,  2 Apr 2023 12:55:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
- s=MBO0001; t=1680432911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JGmLL2lif/lN1JO6yxqqMUbCCQ09GzfW7zKPJU5P/qA=;
- b=B53XDWj8eAlOkkTpZqQh0vAT+uK+slZGNpNqeRmmbjiB3J0NWX56+wQF62EussCLl8zDKW
- m5KnuZ10WixAhM111aPX4gVET5pbzPjBITADUpWWIKjCERRQ1aaYprjCcV/52/JU5MoJnS
- L36CnY7LVREDx/PR8iugWLYT3S0LJspLg3zL2XdpOyCjVNui/7ktJX3Yhra0kav6S9cxch
- +WENgzLr/+iVvFculnbm2sloiGCTYMSy7NWFFZtOcaHvMMEdXySRz6j2S3vhCiiemUv4Wc
- HZpDlHWIaPqv8k/NE7QWye0VOaZjmUWS0+WM7cVPf4eC4oGqS/gVtYTF45DEbA==
-References: <20230331110245.43527-1-me@crly.cz>
- <20230331110245.43527-4-me@crly.cz>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: Roman Beranek <me@crly.cz>
-Subject: Re: [PATCH 3/3] drm: sun4i: calculate proper DCLK rate for DSI
-Date: Sun, 02 Apr 2023 12:49:08 +0200
-In-reply-to: <20230331110245.43527-4-me@crly.cz>
-Message-ID: <87h6tya70h.fsf@oltmanns.dev>
+X-Greylist: delayed 388 seconds by postgrey-1.36 at gabe;
+ Sun, 02 Apr 2023 11:20:43 UTC
+Received: from lynxeye.de (ns.lynxeye.de [87.118.118.114])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60DF510E2E5;
+ Sun,  2 Apr 2023 11:20:43 +0000 (UTC)
+Received: by lynxeye.de (Postfix, from userid 501)
+ id D153DE74004; Sun,  2 Apr 2023 13:13:43 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on lynxeye.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=3.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham version=3.3.1
+Received: from [192.168.178.22] (a89-183-231-124.net-htp.de [89.183.231.124])
+ by lynxeye.de (Postfix) with ESMTPSA id 510DFE74004;
+ Sun,  2 Apr 2023 13:13:42 +0200 (CEST)
+Message-ID: <3c1d4d055df1b75c757956b47b77a23a9edcf842.camel@lynxeye.de>
+Subject: Re: [PATCH 0/3] drm/lima: expose usage statistics via fdinfo
+From: Lucas Stach <dev@lynxeye.de>
+To: Qiang Yu <yuq825@gmail.com>, Erico Nunes <nunes.erico@gmail.com>
+Date: Sun, 02 Apr 2023 13:13:41 +0200
+In-Reply-To: <CAKGbVbtb-cKv2Fb1x91vZssZxayxciSp3RLJeVsn0z1JhvT6QQ@mail.gmail.com>
+References: <20230312233052.21095-1-nunes.erico@gmail.com>
+ <CAKGbVbs2ZRGyYOy9yYUMJ+apQm=NaXXb58C-97CaoTe5KPNqgw@mail.gmail.com>
+ <CAKGbVbtb-cKv2Fb1x91vZssZxayxciSp3RLJeVsn0z1JhvT6QQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,115 +48,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Roman,
+Am Sonntag, dem 02.04.2023 um 18:22 +0800 schrieb Qiang Yu:
+> Applied to drm-misc-next.
+>=20
+"df622729ddbf drm/scheduler: track GPU active time per entity" had to
+be reverted due to it introducing a use after free. I guess this
+patchset now conflicts with the revert.
 
-On 2023-03-31 at 13:02:45 +0200, Roman Beranek <me@crly.cz> wrote:
-> In DSI mode, TCON0's data clock is required to run at 1/4 the per-lane
-> bit rate.
->
-> Signed-off-by: Roman Beranek <me@crly.cz>
-> ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++-------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index eec26b1faa4b..b263de7a8237 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -291,18 +291,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
->  	return delay;
->  }
->
-> -static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
-> -					const struct drm_display_mode *mode)
-> -{
-> -	/* Configure the dot clock */
-> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> -
-> -	/* Set the resolution */
-> -	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> -		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> -		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
-> -}
-> -
->  static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
->  					   const struct drm_connector *connector)
->  {
-> @@ -367,10 +355,18 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
->  	u32 block_space, start_delay;
->  	u32 tcon_div;
->
-> +	/*
-> +	 * dclk is required to run at 1/4 the DSI per-lane bit rate.
-> +	 */
->  	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
->  	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
-> +						  / SUN6I_DSI_TCON_DIV);
+Regards,
+Lucas
 
-When apply this to drm-next my panel stays dark. I haven't figured out
-yet why, though. The other two patches in this series work fine, i.e.
-they have no effect as they are just a refactoring.
+> On Mon, Mar 13, 2023 at 11:09=E2=80=AFAM Qiang Yu <yuq825@gmail.com> wrot=
+e:
+> >=20
+> > Patch set is:
+> > Reviewed-by: Qiang Yu <yuq825@gmail.com>
+> >=20
+> > Looks like drm-misc-next does not contain "df622729ddbf drm/scheduler:
+> > track GPU active time per entity" yet.
+> > Will apply later.
+> >=20
+> > Regards,
+> > Qiang
+> >=20
+> > On Mon, Mar 13, 2023 at 7:31=E2=80=AFAM Erico Nunes <nunes.erico@gmail.=
+com> wrote:
+> > >=20
+> > > Expose lima gp and pp usage stats through fdinfo, following
+> > > Documentation/gpu/drm-usage-stats.rst.
+> > > Borrowed from these previous implementations:
+> > >=20
+> > > "df622729ddbf drm/scheduler: track GPU active time per entity" added
+> > > usage time accounting to drm scheduler, which is where the data used
+> > > here comes from.
+> > >=20
+> > > Then the main implementation is based on these etnaviv commits:
+> > > "d306788b6e1b drm/etnaviv: allocate unique ID per drm_file" and
+> > > "97804a133c68 drm/etnaviv: export client GPU usage statistics via
+> > > fdinfo"
+> > >=20
+> > > Also "874442541133 drm/amdgpu: Add show_fdinfo() interface" since lim=
+a
+> > > has a context manager very similar to amdgpu and all contexts created
+> > > (and released) at the ctx_mgr level need to be accounted for.
+> > >=20
+> > > Tested with the generic "gputop" tool currently available as patches =
+to
+> > > igt, a sample run with this patchset looks like this:
+> > >=20
+> > > DRM minor 128
+> > >     PID               NAME             gp                        pp
+> > >     4322   glmark2-es2-way |=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
+=96=88=E2=96=8A                  ||=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
+=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=
+=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88      |
+> > >     3561            weston |=E2=96=8E                       ||=E2=96=
+=88=E2=96=88=E2=96=88=E2=96=8C                    |
+> > >     4159          Xwayland |=E2=96=8F                       ||=E2=96=
+=89                       |
+> > >     4154          glxgears |=E2=96=8F                       ||=E2=96=
+=8E                       |
+> > >     3661           firefox |=E2=96=8F                       ||=E2=96=
+=8F                       |
+> > >=20
+> > >=20
+> > > Erico Nunes (3):
+> > >   drm/lima: add usage counting method to ctx_mgr
+> > >   drm/lima: allocate unique id per drm_file
+> > >   drm/lima: add show_fdinfo for drm usage stats
+> > >=20
+> > >  drivers/gpu/drm/lima/lima_ctx.c    | 30 ++++++++++++++++++++-
+> > >  drivers/gpu/drm/lima/lima_ctx.h    |  3 +++
+> > >  drivers/gpu/drm/lima/lima_device.h |  3 +++
+> > >  drivers/gpu/drm/lima/lima_drv.c    | 43 ++++++++++++++++++++++++++++=
++-
+> > >  drivers/gpu/drm/lima/lima_drv.h    |  1 +
+> > >  5 files changed, 78 insertions(+), 2 deletions(-)
+> > >=20
+> > > --
+> > > 2.39.2
+> > >=20
 
-I'm testing this on my pinephone. It's the same with the patch I
-submitted. For whatever reason, it no longer works on drm-next.
-
-At the time I'm writing this, drm-next is at 82bbec189ab3 "Merge
-v6.3-rc4 into drm-next".
-
-Does it work for you? And if so, on which commit are you basing this
-series?
-
-Thanks,
-  Frank
-
-
->
-> -	sun4i_tcon0_mode_set_common(tcon, mode);
-> +	/* Set the resolution */
-> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
->
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> @@ -438,7 +434,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
->
->  	tcon->dclk_min_div = 7;
->  	tcon->dclk_max_div = 7;
-> -	sun4i_tcon0_mode_set_common(tcon, mode);
-> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +
-> +	/* Set the resolution */
-> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
->
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> @@ -515,7 +516,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
->
->  	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
->  	tcon->dclk_max_div = 127;
-> -	sun4i_tcon0_mode_set_common(tcon, mode);
-> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +
-> +	/* Set the resolution */
-> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
-> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
->
->  	/* Set dithering if needed */
->  	sun4i_tcon0_mode_set_dithering(tcon, connector);
-
-
---
---
-Frank Oltmanns
