@@ -1,51 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5196D3984
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 19:45:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 295736D39EC
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 20:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE8B10E045;
-	Sun,  2 Apr 2023 17:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83E410E0FB;
+	Sun,  2 Apr 2023 18:52:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D32110E045
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 17:45:26 +0000 (UTC)
-Received: from [192.168.2.163] (109-252-124-32.nat.spd-mgts.ru
- [109.252.124.32])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35E9C10E0FB
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 18:52:34 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 1CC166602EDC;
- Sun,  2 Apr 2023 18:45:23 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680457524;
- bh=LQR9mavIiKKD1Q2f+8uq43FK4M4C09ETxpwD/UcvWp0=;
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id AFD528573D;
+ Sun,  2 Apr 2023 20:52:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1680461552;
+ bh=Z1WR3Y7aWo2/OJq76xBAnL8zgZiC0NvMMQk3/Xgge2M=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=IdhoDVHb2ZwbrR5Bt8RZj7mnma0Wf1SMHw9eb6adCbETUE8xjL07xb9bvdDHQV7Tr
- ywWSc46Jn9vKXR+zsyamTXeVG1Oezt7oVRfrdkCuv5TZExjn3MzxW/ZlXrrQVVuzOQ
- z8VxYvafqCqj97+2JFjJn1LKv3mfmRG7m00WXZEfdLz/P9M11NVgWXwwemlCoeRrxh
- GJuHF4qba5PftW3e4p9WLvXY8GG3pUAgS3hcxv3KhUC9l1QHOtusNxl989O3HTIg8a
- U2Dtj+SWl/z2joh7OHomI931kz1NlBZSyjRTvGJsCwrAOUomT3iVtsEcps87aJumpv
- yh2EBlykfj+Wg==
-Message-ID: <3618a293-4f61-b076-0a9c-c70812436431@collabora.com>
-Date: Sun, 2 Apr 2023 20:45:19 +0300
+ b=TAOAAJSusAjGSYlSPBp/Djj+6PFgyCRUwC0DhHaWqthUOSzNv0oXKL1ynC9qaOEYY
+ SccKW2GwFy8antHbz2SpoiLnzYC515P9S6GuAJ4fwuVBc0eKCKOHMvJo8z7gNl7E9Z
+ o06g4akPUvGsYLZPk499W8sslrnP0PAY9V4TOuKlsyOe6RtLxH5L5r5kbMFzlyUjAL
+ yGIzcIPXGNYmYn3KXGMM34OKn0nLbnpkBf95T5GgLprHJY4V3KYq/IDq9fgNTKQYwf
+ 8lutLhRUzMKyKopitPpqS7Zal1tWSe9GxTIQE1mw1VoTujU2YHAEftlIklAN/cpKlA
+ NXrfgzCYoSNDg==
+Message-ID: <982f2196-7690-0046-d438-0466c8588671@denx.de>
+Date: Sun, 2 Apr 2023 19:52:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v4 2/2] drm/virtio: Support sync objects
+Subject: Re: [PATCH] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to
+ yaml
+To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
+References: <20230331195746.114840-1-festevam@gmail.com>
 Content-Language: en-US
-To: Emil Velikov <emil.velikov@collabora.com>
-References: <20230323230755.1094832-1-dmitry.osipenko@collabora.com>
- <20230323230755.1094832-3-dmitry.osipenko@collabora.com>
- <ZCXF4q81wPcczkqx@arch-x395>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <ZCXF4q81wPcczkqx@arch-x395>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230331195746.114840-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,95 +56,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@redhat.com>,
- kernel@collabora.com, virtualization@lists.linux-foundation.org
+Cc: devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/30/23 20:24, Emil Velikov wrote:
-> Hi Dmitry,
+On 3/31/23 21:57, Fabio Estevam wrote:
+> From: Jagan Teki <jagan@amarulasolutions.com>
 > 
-> Have you considered creating a few DRM helpers for this functionality?
+> Samsung MIPI DSIM bridge can be found on Exynos and NXP's
+> i.MX8M Mini and Nano SoC's.
+
+MX8M Plus too .
+
+> Convert exynos_dsim.txt to yaml.
 > 
-> AFAICT this is the third driver which supports syncobj timelines and
-> looking at one of the implementations ... it is not great. Note that
-> this suggestion is _not_ a blocker.
-
-Would like to see a third driver starting to use the exactly same
-drm_execbuffer_syncobj struct because UABI part isn't generic, though
-it's a replica of the MSM driver for now.
-
-The virtio-gpu is only at the beginning of starting to use sync objects,
-compared to MSM driver. Will be better to defer the generalization until
-virtio-gpu will become more mature, like maybe after a year since the
-time virtio userspace will start using sync objects, IMO.
-
-...
->> +static void virtio_gpu_reset_syncobjs(struct drm_syncobj **syncobjs,
->> +				      uint32_t nr_syncobjs)
->> +{
->> +	uint32_t i;
->> +
->> +	for (i = 0; i < nr_syncobjs; i++) {
->> +		if (syncobjs[i])
->> +			drm_syncobj_replace_fence(syncobjs[i], NULL);
+> Used the example node from latest Exynos SoC instead of
+> the one used in legacy exynos_dsim.txt.
 > 
-> Side note: the drm_syncobj_put() called immediately after also calls
-> replace/reset fence internally. Although reading from the docs, I'm not
-> sure if relying on that is a wise move.
+> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+>   .../display/bridge/samsung,mipi-dsim.yaml     | 275 ++++++++++++++++++
+>   .../bindings/display/exynos/exynos_dsim.txt   |  92 ------
+>   2 files changed, 275 insertions(+), 92 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+>   delete mode 100644 Documentation/devicetree/bindings/display/exynos/exynos_dsim.txt
 > 
-> Just thought I'd point it out.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+> new file mode 100644
+> index 000000000000..c131bd879caf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+> @@ -0,0 +1,275 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/samsung,mipi-dsim.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung MIPI DSIM bridge controller
+> +
+> +maintainers:
+> +  - Inki Dae <inki.dae@samsung.com>
+> +  - Jagan Teki <jagan@amarulasolutions.com>
+> +
+> +description: |
+> +  Samsung MIPI DSIM bridge controller can be found it on Exynos
+> +  and i.MX8M Mini and Nano SoC's.
 
-The drm_syncobj_put() doesn't call replace/reset fence until syncobj is
-freed. We drop the old fence for active/alive in-syncobj here after
-handling the fence-wait, this makes syncobj reusable, otherwise
-userpsace would have to re-create syncobjs after each submission.
+Plus too.
 
->>  
->> +	ret = virtio_gpu_parse_deps(&submit);
->> +	if (ret)
->> +		goto cleanup;
->> +
->> +	ret = virtio_gpu_parse_post_deps(&submit);
->> +	if (ret)
->> +		goto cleanup;
->> +
-> 
-> I think we should zero num_(in|out)_syncobjs when the respective parse
-> fails. Otherwise we get one "cleanup" within the parse function itself
-> and a second during the cleanup_submit. Haven't looked at it too closely
-> but I suspect that will trigger an UAF or two.
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - samsung,exynos3250-mipi-dsi
+> +      - samsung,exynos4210-mipi-dsi
+> +      - samsung,exynos5410-mipi-dsi
+> +      - samsung,exynos5422-mipi-dsi
+> +      - samsung,exynos5433-mipi-dsi
+> +      - fsl,imx8mm-mipi-dsim
+> +      - fsl,imx8mp-mipi-dsim
 
-There are checks for NULL pointers in the code that will prevent the
-UAF. I'll add zeroing of the nums for more consistency.
+You have plus here already, so just update the description.
 
->>  	ret = virtio_gpu_install_out_fence_fd(&submit);
->>  	if (ret)
->>  		goto cleanup;
->> @@ -294,6 +512,7 @@ int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
->>  		goto cleanup;
->>  
->>  	virtio_gpu_submit(&submit);
->> +	virtio_gpu_process_post_deps(&submit);
-> 
-> Any particular reason why the virtio_gpu_reset_syncobjs is deferred to
-> virtio_gpu_cleanup_submit(). Having it just above the process_post_deps
-> (similar to msm) allows the reader to get closure about the in syncobjs.
-> 
-> This is just personal preference, so don't read too much into it.
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  clocks:
+> +    minItems: 2
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    minItems: 2
+> +    maxItems: 5
+> +
+> +  phys:
+> +    maxItems: 1
+> +    description: phandle to the phy module representing the DPHY
+> +
+> +  phy-names:
+> +    items:
+> +      - const: dsim
+> +
+> +  samsung,phy-type:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: phandle to the samsung phy-type
+> +
+> +  power-domains:
+> +    description: phandle to the associated power domain
+> +    maxItems: 1
+> +
+> +  samsung,power-domain:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle to the associated samsung power domain
+> +
+> +  vddcore-supply:
+> +    description: MIPI DSIM Core voltage supply (e.g. 1.1V)
+> +
+> +  vddio-supply:
+> +    description: MIPI DSIM I/O and PLL voltage supply (e.g. 1.8V)
+> +
+> +  samsung,burst-clock-frequency:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      DSIM high speed burst mode frequency.
+> +
+> +  samsung,esc-clock-frequency:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      DSIM escape mode frequency.
+> +
+> +  samsung,pll-clock-frequency:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      DSIM oscillator clock frequency.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description:
+> +          Input port node to receive pixel data from the
+> +          display controller. Exactly one endpoint must be
+> +          specified.
+> +        properties:
+> +          endpoint@0:
 
-The job submission path should be short as possible in general.
-Technically, virtio_gpu_process_post_deps() should be fast, but since
-I'm not 100% sure about all the corner cases, it's better to hold until
-job is sent out.
+Why endpoint@0 if this only has one endpoint ?
 
-Thank you very much for the review! I'll address the rest of comments in v5.
+> +            $ref: /schemas/graph.yaml#/properties/endpoint
+> +            description: sub-node describing the input from MIC
+> +
+> +        unevaluatedProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          DSI output port node to the panel or the next bridge
+> +          in the chain
 
--- 
-Best regards,
-Dmitry
-
+[...]
