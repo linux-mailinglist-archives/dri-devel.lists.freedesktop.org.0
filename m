@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696006D3797
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 13:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D506D37A0
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 13:28:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57B7410E314;
-	Sun,  2 Apr 2023 11:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A13910E307;
+	Sun,  2 Apr 2023 11:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B49510E314
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 11:21:52 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id c29so34553429lfv.3
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Apr 2023 04:21:52 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1CA310E2DE
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 11:28:01 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id g19so21425137lfr.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Apr 2023 04:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680434510;
+ d=linaro.org; s=google; t=1680434879;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=CupAYGtbQgsZ9aoIqwriIdpbZ2t5YipDIDHwTEshFbI=;
- b=XZQQ6asGIP/qPFMi76WQf7GkXCLFj31HnW2kyHo7n8NzbAxp2Vy4u7iGB1spFCftyG
- mAT77s/zSrlE6HP54uvavC3jxMQkJO0giWDmadfqjEvFn/zzCqkHCth9CRJTjcj/8kmf
- ALXWKeGhrdFSYkF5dhm9QKlhMOpuBi7goZVFYBomiydSmkwtu/RpTEsvLOXJG5/2oz17
- cPt/SkEzW8RDzyQ5/FpDeBWgB/P73iU3I794AQCELlLEu86er9CcULgeE1lsRh2BxH6s
- thWFjARZgPTsGguvi1kSk8S0UB4vcSwt66v8Iu5zFtfLPhORHdNzo6vZJJb1sQLbuDFT
- 2CoQ==
+ bh=8dRjeb1n7Wvcw6uGzT8QJh1z7gswxsKnW33SjxwiLi4=;
+ b=LTGvv2ApCNo2eU5PUkM8zq/+mHd6wL+Cvp1AGN4xnd0b4sC4vOyetIGPrbgGaQCGQi
+ cLLrGomHxi7PJRTyl9BgnTP1oU7jBlSy2vSsgz4x7EJ7WlPBeBn4l6fg33Wpn0iyO+vx
+ nqiQwM9YNyfYP5gftfobtSlpDhKGHY1cS+DDsOA9/Z7lpdJjjXRTplq38ta+nX5+B3xt
+ XD9rt+v3VDiI+Y+SyqGus/0M2Faeiaq3c1sjJVm8gkyzqUKdJ9JKHmxK0uCjcto3APfx
+ 4m6/KWfp6a1iD9fBkNQHY1w5c5VAQCP13TsYVc4Gwf3EQesKgcYoW6Yk4EK5BR+5wBMs
+ g0rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680434510;
+ d=1e100.net; s=20210112; t=1680434879;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CupAYGtbQgsZ9aoIqwriIdpbZ2t5YipDIDHwTEshFbI=;
- b=hZ9CDEqQgWUCTZr2ybP+XxlTVyT6+gz8rGB0x1WVTYTbto9ADNABklVy9RiPBRt+XO
- +rT+DJ9aD72Aq1eZyCurgGKatYNcNVY3uqw+JdrpMW9x83JNPSkcPZeYBUyqn28fKMsc
- sPL1fqO/qO01UpmogaEnPdTWw15b0fS8taeJQN1ndoIrdFgGKlUPOQTBDZRf94Ecywf3
- z6A1Z6pTlJ6QECNHl0ciI4wT8yZkExO8Jpu7Ybsy8P/6T9/iclOh9xF0m1LjO74I98sI
- rc5EEfd9sU2KIG4jmTF/e3yJtMYW/h98ajGK1HyI5JI5kuzDltP5rwgb8jNNvvroHxHH
- F+bw==
-X-Gm-Message-State: AAQBX9f9n4ILmVSrsq3YHy25w9IbiwrgpNuSqVHrvNcNbUp2VH2BNzk8
- d/OgXgNnVuje2PTQ4wYLlBAbhg==
-X-Google-Smtp-Source: AKy350b3ZPoFCeLxOBe6dDFl63M3ktiEY+0xGffgbBogR9v0b426QN4st+MRF7acRHebKRnwzcywDQ==
-X-Received: by 2002:ac2:5304:0:b0:4de:290:1c0a with SMTP id
- c4-20020ac25304000000b004de02901c0amr9267866lfh.57.1680434510474; 
- Sun, 02 Apr 2023 04:21:50 -0700 (PDT)
+ bh=8dRjeb1n7Wvcw6uGzT8QJh1z7gswxsKnW33SjxwiLi4=;
+ b=5noh3XuLHgr6Xg4jvwN/2K1TUwuvZZg92Lmn1mNxDE4Ift9gzFIflLQR3DiVZsvgOH
+ 4oSv3ocjUKlp3jfX3pzt/k7GdF64rAJNowe8lKh5WB/kBG5Qyaue4d0cK5rWAGw2IPvj
+ Igo4dntqrdidHe96WeKDgWvcft9ZiBTJEKaYTcuU1C0X5GAQqMeyC65KyvDSMKHwKIFj
+ gEzIW1dx2WoW7WaCXsBsYrZAVBdvwLqXXDSUWcDx0QA+eilNSfilEz3HyiLurhdiIdxZ
+ ld+deNsyBBvueAkylbZ8hjZfLW8wCLMDMNR0eTjhRDcL2TCFBPOK5LOD+ipMWgSqJy0e
+ 9IuA==
+X-Gm-Message-State: AAQBX9fkyFfQrrVu/9zyVAHQVvnlL9msgD+XNpgFo5voDpXtvjCCmkv5
+ AX3ozYwHsxyQzAsGCpX/406fSA==
+X-Google-Smtp-Source: AKy350bkjJYdW21mqXfNhkBCKfo6mfSqbS6Hv4aapsFlBOMGs2rz+G8zFTST84NIdoN/yaApZnI1dw==
+X-Received: by 2002:a19:ad45:0:b0:4eb:1495:44ee with SMTP id
+ s5-20020a19ad45000000b004eb149544eemr5587315lfd.48.1680434879673; 
+ Sun, 02 Apr 2023 04:27:59 -0700 (PDT)
 Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
  (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
  by smtp.gmail.com with ESMTPSA id
- g26-20020ac2539a000000b004dda80cabf0sm1247856lfh.172.2023.04.02.04.21.49
+ i15-20020a056512006f00b004dc4d26c30dsm1250315lfo.63.2023.04.02.04.27.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 02 Apr 2023 04:21:50 -0700 (PDT)
-Message-ID: <0969da8e-a115-9ac4-81ab-09a2b363cb14@linaro.org>
-Date: Sun, 2 Apr 2023 14:21:49 +0300
+ Sun, 02 Apr 2023 04:27:59 -0700 (PDT)
+Message-ID: <b3a9fecd-0677-482b-7066-03465d5f0dd0@linaro.org>
+Date: Sun, 2 Apr 2023 14:27:58 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH RFC v2 3/6] drm/msm/dpu: Use DRM DSC helper for
- det_thresh_flatness
+Subject: Re: [PATCH RFC v2 4/6] drm/msm/dpu: Fix slice_last_group_size
+ calculation
 Content-Language: en-GB
 To: Jessica Zhang <quic_jesszhan@quicinc.com>, freedreno@lists.freedesktop.org
 References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
- <20230329-rfc-msm-dsc-helper-v2-3-3c13ced536b2@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v2-4-3c13ced536b2@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20230329-rfc-msm-dsc-helper-v2-3-3c13ced536b2@quicinc.com>
+In-Reply-To: <20230329-rfc-msm-dsc-helper-v2-4-3c13ced536b2@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,19 +85,52 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 31/03/2023 21:49, Jessica Zhang wrote:
-> Use the DRM DSC helper for det_thresh_flatness to match downstream
-> implementation and the DSC spec.
-> 
-> Changes in V2:
-> - Added a Fixes tag
+> Correct the math for slice_last_group_size so that it matches the
+> calculations downstream.
 > 
 > Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> index b952f7d2b7f5..9312a8d7fbd9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+> @@ -56,7 +56,11 @@ static void dpu_hw_dsc_config(struct dpu_hw_dsc *hw_dsc,
+>   	if (is_cmd_mode)
+>   		initial_lines += 1;
+>   
+> -	slice_last_group_size = 3 - (dsc->slice_width % 3);
+> +	slice_last_group_size = dsc->slice_width % 3;
+> +
+> +	if (slice_last_group_size == 0)
+> +		slice_last_group_size = 3;
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hmm. As I went on checking this against techpack:
+
+mod = dsc->slice_width % 3
+
+mod | techpack | old | your_patch
+0   | 2        | 3   | 3
+1   | 0        | 2   | 1
+2   | 1        | 1   | 2
+
+So, obviously neither old nor new code match the calculations of the 
+techpack. If we assume that sde_dsc_helper code is correct (which I have 
+no reasons to doubt), then the proper code should be:
+
+slice_last_group_size = (dsc->slice_width + 2) % 3;
+
+Could you please doublecheck and adjust.
+
+> +
+>   	data = (initial_lines << 20);
+>   	data |= ((slice_last_group_size - 1) << 18);
+>   	/* bpp is 6.4 format, 4 LSBs bits are for fractional part */
+> 
 
 -- 
 With best wishes
