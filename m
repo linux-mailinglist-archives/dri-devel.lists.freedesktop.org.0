@@ -1,32 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02396D3342
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Apr 2023 20:57:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A2D6D354D
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 04:54:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33F3710E05C;
-	Sat,  1 Apr 2023 18:57:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9B4410E14B;
+	Sun,  2 Apr 2023 02:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hust.edu.cn (unknown [202.114.0.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE3D010E05C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Apr 2023 18:57:06 +0000 (UTC)
-Received: from liber-MS-7D42.. ([10.12.190.56])
- (user=gangecen@hust.edu.cn mech=LOGIN bits=0)
- by mx1.hust.edu.cn  with ESMTP id 331ItuHl030779-331ItuHm030779
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Sun, 2 Apr 2023 02:56:01 +0800
-From: Gencen Gan <gangecen@hust.edu.cn>
-To: Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2] drm/bochs: fix ioremap leak of mmio in bochs
-Date: Sun,  2 Apr 2023 02:55:43 +0800
-Message-Id: <20230401185544.3027703-1-gangecen@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E293610E11D
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:53:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DEDC860AB1
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:53:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 28444C433D2
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:53:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680404035;
+ bh=muiOyMNUnLBrghCmTlExOQW56GgrJ+wnyt27rEAd2K0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=J56zEDZ4pucSeaZ43Y/AthF2zcAXMq6Lgfjx058iRD4+QKlafoqphlNPav28GoZj8
+ Jyv4gv4dmjpVNvGp65Psbq5ZpVqJRHA0lnvZe82HY4fv4ViiM9ZzQ4Uez0LUdWdt81
+ nw9L2isEDVX0ByoIOpShknKkuMFDJkA1L+cI1f/Fd1zY7CjJWynGdL7/GUHBCQAIq6
+ qXeyIYcMWLF/7AelW8b/SWuEn9xRJnYD1g/17melsxiF1uVkjDeZfYmth2YxOcYqez
+ UMh4KKll7NtB9FHdusYTJZ8pyvjveM055hnJ/A64omTl3X2wypQtCOSaSoBaHCFo9p
+ SAOWLqFYQ/6nw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 09D51C43142; Sun,  2 Apr 2023 02:53:55 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 217278] ast 0000:03:00.0: PM: **** DPM device timeout ****
+ during S4 resuming
+Date: Sun, 02 Apr 2023 02:53:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: wendy.wang@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-217278-2300-u1wf9rt4SL@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-217278-2300@https.bugzilla.kernel.org/>
+References: <bug-217278-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-FEAS-AUTH-USER: gangecen@hust.edu.cn
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,62 +71,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gan Gecen <gangecen@hust.edu.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Gan Gecen <gangecen@hust.edu.cn>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D217278
 
-Smatch reports:
+--- Comment #3 from wendy.wang@intel.com ---
+Created attachment 304074
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304074&action=3Dedit
+Failure log in mainline v6.1
 
-	drivers/gpu/drm/tiny/bochs.c:290 bochs_hw_init()
-	warn: 'bochs->mmio' from ioremap() not released on
-	lines: 246,250,254.
+--=20
+You may reply to this email to add a comment.
 
-In the function bochs_load() that calls bochs_hw_init()
-only, if bochs_hw_init(dev) returns -ENODEV(-19), it
-will jumps to err_free_dev instead of err_hw_fini, so
-bochs->mmio won't be freed.
-
-We just need to release mmio in the corresponding error
-handling.
-
-Signed-off-by: Gan Gecen <gangecen@hust.edu.cn>
----
-v1->v2: Change the strategy for fixing this
-issue to manually release mmio by iounmap 
-instead of changing ioremap to devm_ioremap.
- drivers/gpu/drm/tiny/bochs.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 024346054c70..46abed11c163 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -243,15 +243,20 @@ static int bochs_hw_init(struct drm_device *dev)
- 		* 64 * 1024;
- 	if ((id & 0xfff0) != VBE_DISPI_ID0) {
- 		DRM_ERROR("ID mismatch\n");
-+		iounmap(bochs->mmio);
- 		return -ENODEV;
- 	}
- 
--	if ((pdev->resource[0].flags & IORESOURCE_MEM) == 0)
-+	if ((pdev->resource[0].flags & IORESOURCE_MEM) == 0) {
-+		iounmap(bochs->mmio);
- 		return -ENODEV;
-+	}
- 	addr = pci_resource_start(pdev, 0);
- 	size = pci_resource_len(pdev, 0);
--	if (addr == 0)
-+	if (addr == 0) {
-+		iounmap(bochs->mmio);
- 		return -ENODEV;
-+	}
- 	if (size != mem) {
- 		DRM_ERROR("Size mismatch: pci=%ld, bochs=%ld\n",
- 			size, mem);
--- 
-2.34.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
