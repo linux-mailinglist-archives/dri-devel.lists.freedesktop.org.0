@@ -1,50 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DA96D3818
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 15:28:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0470C6D384C
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 16:27:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 242D610E033;
-	Sun,  2 Apr 2023 13:28:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44E3B10E03D;
+	Sun,  2 Apr 2023 14:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1AFC10E010;
- Sun,  2 Apr 2023 13:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680442083; x=1711978083;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=gyLCwp1IcrTr0vfIdlSvIdhNokyLOMV8UHxyo8m3sSU=;
- b=OeBcc8s+ZUn1adwGHrxYXMjqAjzjSRYShiu0aUKztp+VXUIF+c23/HDi
- 1H9XgEA6Co2IO4ISZg6KTDdMPEOJi8LbAuedqH8e2Sb/CziLxobe9dgmO
- jgbTh+hmksYybS3bfmR034aGtWqK9EoBHdkL/Ex9TveOsu6NCvEyGOOh/
- OjMJh5Q+CsoKXTw2M+6vbyCxKXh/rRzFrIeetkEP1lbc52hiAeQPJ7xIO
- 5EqjSW4zSAIRmGzrvXUGHIZ6zVCeMOkC1dvsJwHg/pFWvdOfeWxkrC3xC
- fOLCQBWQTvLET7B3IXVxk45OVMc5xqhlwndxrH2miuzfBeCnHczcemLa5 w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="322125706"
-X-IronPort-AV: E=Sophos;i="5.98,312,1673942400"; d="scan'208";a="322125706"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2023 06:28:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="688229111"
-X-IronPort-AV: E=Sophos;i="5.98,312,1673942400"; d="scan'208";a="688229111"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 02 Apr 2023 06:28:01 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1pixkW-000NPt-37;
- Sun, 02 Apr 2023 13:28:00 +0000
-Date: Sun, 2 Apr 2023 21:27:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qiang Yu <yuq825@gmail.com>
-Subject: [drm-tip:drm-tip 3/7] drivers/gpu/drm/lima/lima_ctx.c:53:45: error:
- 'struct drm_sched_entity' has no member named 'elapsed_ns'
-Message-ID: <202304022108.kFqa3PUI-lkp@intel.com>
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com
+ [IPv6:2607:f8b0:4864:20::e2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A0710E010;
+ Sun,  2 Apr 2023 14:27:23 +0000 (UTC)
+Received: by mail-vs1-xe2d.google.com with SMTP id cu36so23180794vsb.7;
+ Sun, 02 Apr 2023 07:27:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20210112; t=1680445642;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UAjdoltsGkUUCuNGdmSPqiLs+nEKH+6FFfXSQhZ99GY=;
+ b=IhEla1/C0IvZeXoJK+i6AqkJEo8lszD7z2sIqDyF8osHdTKr20Z2Loq9Xyky1Zml/W
+ vjjftt5ztQBhEvBIUq0FwoETobSHMJLwBGYW3ZcKpUYYtOqX21P9OEWM+wRu4nFzaph7
+ NDLEMZXOMWpqSZXbACOoZWkAb+LRG44WH4jVvH4GDAOCts4YK4HGjx0Sc7nlEh+xQ8ok
+ nXode2FTC9a4ntreUB7IxPFCg2vGnxGgkOcvoPRry+XFj29wPBtV0IGyb/SOEijv2CK4
+ NQ42xlq+qUgDUsMWSez939xv0o8n5mh2sB15Osi1JPkuNeOFuiMGYMthZcDD44jiGx33
+ nymA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680445642;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UAjdoltsGkUUCuNGdmSPqiLs+nEKH+6FFfXSQhZ99GY=;
+ b=K/dMTn1UAZssTUCWgMe/Wq9D511c6MY3x8ntYQfXJE7AxQ7h817IkrNTSrzKMOA3Vk
+ PvNb0sbs0c8FzA5q3xxQNpq+6YA1qjfXsTiw4qeW5P044Ka68OWyvwlUZlvDB9IVw/LZ
+ 8JG3RpZxkfiwxRIcWS143H7juA42Q7vnpbKhEeL5ctpV5EJpImOpf0oK7FiUXNmS9rik
+ 37Oi7Pcq6SDOAVS1Bh5m4GDTyA6hiNOSzuCiandjnwyK4y9le1jWbHeP9QFBcr0ZnDW8
+ cZO/1TtTjZLnVOQSyc6I2oS22reTaXQwPNsBvWjhjA9zawFdkBQPMsvJbJ/N7apVErsw
+ 0KdQ==
+X-Gm-Message-State: AAQBX9cNGt3viXraeaBIb0wVBiI7DV443Y0lVJpkB0h9BKZLNC+WHSLm
+ XGSSCrwdehcD18nyECTQfrvP6QkKFE5M5GgO8Mo=
+X-Google-Smtp-Source: AKy350Yt4uzToQrAwa9Y0BJVN5Y2Tr15T43akRaPXmB6buytqrmKlyl7AEMV6WmfYnEf/eRc3ppGLu5vvgJKRI6MyBs=
+X-Received: by 2002:a67:e04d:0:b0:425:e623:360a with SMTP id
+ n13-20020a67e04d000000b00425e623360amr17728315vsl.1.1680445642565; Sun, 02
+ Apr 2023 07:27:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230312233052.21095-1-nunes.erico@gmail.com>
+ <CAKGbVbs2ZRGyYOy9yYUMJ+apQm=NaXXb58C-97CaoTe5KPNqgw@mail.gmail.com>
+ <CAKGbVbtb-cKv2Fb1x91vZssZxayxciSp3RLJeVsn0z1JhvT6QQ@mail.gmail.com>
+ <3c1d4d055df1b75c757956b47b77a23a9edcf842.camel@lynxeye.de>
+In-Reply-To: <3c1d4d055df1b75c757956b47b77a23a9edcf842.camel@lynxeye.de>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Sun, 2 Apr 2023 22:27:11 +0800
+Message-ID: <CAKGbVbvaHgJbuh4O8K1CXhYn_PFwBzrkdXzM4YhFAMnuQ0ncUw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] drm/lima: expose usage statistics via fdinfo
+To: dev@lynxeye.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,70 +70,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- oe-kbuild-all@lists.linux.dev
+Cc: David Airlie <airlied@linux.ie>, lima@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Erico Nunes <nunes.erico@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-head:   25abf2df726cac2701780b068df74a9c36d60655
-commit: 6e744f4032e55f6ea113d5b10906aebbd626e5b7 [3/7] Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip
-config: arm64-buildonly-randconfig-r001-20230402 (https://download.01.org/0day-ci/archive/20230402/202304022108.kFqa3PUI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
-        git fetch --no-tags drm-tip drm-tip
-        git checkout 6e744f4032e55f6ea113d5b10906aebbd626e5b7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/lima/
+> "df622729ddbf drm/scheduler: track GPU active time per entity" had to
+> be reverted due to it introducing a use after free. I guess this
+> patchset now conflicts with the revert.
+>
+I do get some build fail message on other branch. Do I need to revert this
+patchset on drm-misc-next or left to branch maintainer to decide whether
+to pick this patchset upstream?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304022108.kFqa3PUI-lkp@intel.com/
+Regards,
+Qiang
 
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/lima/lima_ctx.c: In function 'lima_ctx_do_release':
->> drivers/gpu/drm/lima/lima_ctx.c:53:45: error: 'struct drm_sched_entity' has no member named 'elapsed_ns'
-      53 |                 mgr->elapsed_ns[i] += entity->elapsed_ns;
-         |                                             ^~
-   drivers/gpu/drm/lima/lima_ctx.c: In function 'lima_ctx_mgr_usage':
-   drivers/gpu/drm/lima/lima_ctx.c:125:43: error: 'struct drm_sched_entity' has no member named 'elapsed_ns'
-     125 |                         usage[i] += entity->elapsed_ns;
-         |                                           ^~
-
-
-vim +53 drivers/gpu/drm/lima/lima_ctx.c
-
-a1d2a6339961ef Qiang Yu    2019-03-09  42  
-a1d2a6339961ef Qiang Yu    2019-03-09  43  static void lima_ctx_do_release(struct kref *ref)
-a1d2a6339961ef Qiang Yu    2019-03-09  44  {
-a1d2a6339961ef Qiang Yu    2019-03-09  45  	struct lima_ctx *ctx = container_of(ref, struct lima_ctx, refcnt);
-bccafec957a5c4 Erico Nunes 2023-03-13  46  	struct lima_ctx_mgr *mgr = ctx->mgr;
-a1d2a6339961ef Qiang Yu    2019-03-09  47  	int i;
-a1d2a6339961ef Qiang Yu    2019-03-09  48  
-bccafec957a5c4 Erico Nunes 2023-03-13  49  	for (i = 0; i < lima_pipe_num; i++) {
-bccafec957a5c4 Erico Nunes 2023-03-13  50  		struct lima_sched_context *context = &ctx->context[i];
-bccafec957a5c4 Erico Nunes 2023-03-13  51  		struct drm_sched_entity *entity = &context->base;
-bccafec957a5c4 Erico Nunes 2023-03-13  52  
-bccafec957a5c4 Erico Nunes 2023-03-13 @53  		mgr->elapsed_ns[i] += entity->elapsed_ns;
-bccafec957a5c4 Erico Nunes 2023-03-13  54  
-a1d2a6339961ef Qiang Yu    2019-03-09  55  		lima_sched_context_fini(ctx->dev->pipe + i, ctx->context + i);
-bccafec957a5c4 Erico Nunes 2023-03-13  56  	}
-a1d2a6339961ef Qiang Yu    2019-03-09  57  	kfree(ctx);
-a1d2a6339961ef Qiang Yu    2019-03-09  58  }
-a1d2a6339961ef Qiang Yu    2019-03-09  59  
-
-:::::: The code at line 53 was first introduced by commit
-:::::: bccafec957a5c4b22ac29e53a39e82d0a0008348 drm/lima: add usage counting method to ctx_mgr
-
-:::::: TO: Erico Nunes <nunes.erico@gmail.com>
-:::::: CC: Qiang Yu <yuq825@gmail.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+>
+> > On Mon, Mar 13, 2023 at 11:09=E2=80=AFAM Qiang Yu <yuq825@gmail.com> wr=
+ote:
+> > >
+> > > Patch set is:
+> > > Reviewed-by: Qiang Yu <yuq825@gmail.com>
+> > >
+> > > Looks like drm-misc-next does not contain "df622729ddbf drm/scheduler=
+:
+> > > track GPU active time per entity" yet.
+> > > Will apply later.
+> > >
+> > > Regards,
+> > > Qiang
+> > >
+> > > On Mon, Mar 13, 2023 at 7:31=E2=80=AFAM Erico Nunes <nunes.erico@gmai=
+l.com> wrote:
+> > > >
+> > > > Expose lima gp and pp usage stats through fdinfo, following
+> > > > Documentation/gpu/drm-usage-stats.rst.
+> > > > Borrowed from these previous implementations:
+> > > >
+> > > > "df622729ddbf drm/scheduler: track GPU active time per entity" adde=
+d
+> > > > usage time accounting to drm scheduler, which is where the data use=
+d
+> > > > here comes from.
+> > > >
+> > > > Then the main implementation is based on these etnaviv commits:
+> > > > "d306788b6e1b drm/etnaviv: allocate unique ID per drm_file" and
+> > > > "97804a133c68 drm/etnaviv: export client GPU usage statistics via
+> > > > fdinfo"
+> > > >
+> > > > Also "874442541133 drm/amdgpu: Add show_fdinfo() interface" since l=
+ima
+> > > > has a context manager very similar to amdgpu and all contexts creat=
+ed
+> > > > (and released) at the ctx_mgr level need to be accounted for.
+> > > >
+> > > > Tested with the generic "gputop" tool currently available as patche=
+s to
+> > > > igt, a sample run with this patchset looks like this:
+> > > >
+> > > > DRM minor 128
+> > > >     PID               NAME             gp                        pp
+> > > >     4322   glmark2-es2-way |=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
+=96=88=E2=96=8A                  ||=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=
+=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=
+=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88      |
+> > > >     3561            weston |=E2=96=8E                       ||=E2=
+=96=88=E2=96=88=E2=96=88=E2=96=8C                    |
+> > > >     4159          Xwayland |=E2=96=8F                       ||=E2=
+=96=89                       |
+> > > >     4154          glxgears |=E2=96=8F                       ||=E2=
+=96=8E                       |
+> > > >     3661           firefox |=E2=96=8F                       ||=E2=
+=96=8F                       |
+> > > >
+> > > >
+> > > > Erico Nunes (3):
+> > > >   drm/lima: add usage counting method to ctx_mgr
+> > > >   drm/lima: allocate unique id per drm_file
+> > > >   drm/lima: add show_fdinfo for drm usage stats
+> > > >
+> > > >  drivers/gpu/drm/lima/lima_ctx.c    | 30 ++++++++++++++++++++-
+> > > >  drivers/gpu/drm/lima/lima_ctx.h    |  3 +++
+> > > >  drivers/gpu/drm/lima/lima_device.h |  3 +++
+> > > >  drivers/gpu/drm/lima/lima_drv.c    | 43 ++++++++++++++++++++++++++=
++++-
+> > > >  drivers/gpu/drm/lima/lima_drv.h    |  1 +
+> > > >  5 files changed, 78 insertions(+), 2 deletions(-)
+> > > >
+> > > > --
+> > > > 2.39.2
+> > > >
+>
