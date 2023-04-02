@@ -1,32 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CBFD6D38CD
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 17:41:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D696D38DB
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 17:44:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAAE10E097;
-	Sun,  2 Apr 2023 15:41:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2656910E0E0;
+	Sun,  2 Apr 2023 15:44:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from kozue.soulik.info (kozue.soulik.info
- [IPv6:2001:19f0:7000:8404:5054:ff:fe75:428f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1625B10E0C7
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 15:41:26 +0000 (UTC)
-Received: from ritsuko.sh.sumomo.pri (unknown [112.64.60.49])
- by kozue.soulik.info (Postfix) with ESMTPSA id A709B101DA9;
- Mon,  3 Apr 2023 00:34:27 +0900 (JST)
-From: Randy Li <ayaka@soulik.info>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v7 2/2] Documentation/gpu: Add Synaptics tiling formats
- documentation
-Date: Sun,  2 Apr 2023 23:33:58 +0800
-Message-Id: <20230402153358.32948-3-ayaka@soulik.info>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230402153358.32948-1-ayaka@soulik.info>
-References: <20230402153358.32948-1-ayaka@soulik.info>
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52C2810E0E0
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 15:44:01 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id o20so24960148ljp.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Apr 2023 08:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1680450239;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8jXhcT5ZVw1OvQ2qjM62gp4jmz1Chro5Ew3RaPugUX0=;
+ b=vmjyzEB8Q2LRKXisvJ5vw0iEDdeP1zteah9BoGMk2wu89tKXwsIJ5SLD1Num8XYLlY
+ nyvXxB+3DJM63pM1Mb+cEu/uLvI5pGoYB+Al1LGnC7N7FfqnMGl7kTOOCS27UgSGpd0y
+ kJg60dEhsOKK2gAkWM/S+LcOm5sEQxGb1kLcp7fBYLZbBWcIfssbZKnTC4jrRVzMKYQ9
+ 1Ywjb1KOKzDJyQEw0q0viRqNJWdqR6o4phLElQ9aN1hBakNScRj0ES1Xk5z8AxOJJt0M
+ +LShuRN+U8SAXvGightjg12Jl+m9vSxV+wvjlUrnQYL4arer17yYGraL/lStU4YT5jUM
+ ouwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112; t=1680450239;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8jXhcT5ZVw1OvQ2qjM62gp4jmz1Chro5Ew3RaPugUX0=;
+ b=HGNEpZh3SxjQ89rYnZOI4K3Qy/q9gE7g4+l+yur2nM0F8sOntPKE0uRZiTN3Ko2RGG
+ 7RH3PbQahnKzaNdQThTMh+PciNvjoTD/USzZvW6MF9t3przIqoyWKkzvSL1mRYIdr36W
+ iZ9R+DezAtMHYIYuAqwYaDPLLfx1Y2wl9UMDYFPvNJ4oXyGQSBDYJwotSUwUccf4DSnt
+ u2Nfztjg1O/xdafjdetzAfpuwB9lhYU6UCGPO7c4ah7xteM6IYBAWWs+veDwmvagPGxK
+ f6cRlfHmjAG9zQzlkenvK+Sd0ZpVoXkU2wJ9ZRXS+suFN8br2MgsJc+IXOGgMjgf9Htw
+ KGRg==
+X-Gm-Message-State: AAQBX9c/dKICif1Km+r8sO5GWSS+4lpDKAY4wSCg7194oaUTgdo3ME7p
+ ODMueJZ5d6C9hoPG5HgOdPMKZA==
+X-Google-Smtp-Source: AKy350Y5aEPWgsceuXkfIdTFwafBhWN+FGbs5H/6SNUrjipWa9ZUTqU9oADjjxRPo9rQbefvS5Srwg==
+X-Received: by 2002:a2e:9bc7:0:b0:293:4c17:9998 with SMTP id
+ w7-20020a2e9bc7000000b002934c179998mr9990534ljj.11.1680450239095; 
+ Sun, 02 Apr 2023 08:43:59 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
+ (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
+ by smtp.gmail.com with ESMTPSA id
+ q16-20020a2e8750000000b002935632b3f8sm1300173ljj.14.2023.04.02.08.43.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Apr 2023 08:43:58 -0700 (PDT)
+Message-ID: <51451dc1-14d5-595b-589e-1cbcb5468180@linaro.org>
+Date: Sun, 2 Apr 2023 18:43:57 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v6 01/15] drm/msm/adreno: adreno_gpu: Don't set OPP
+ scaling clock w/ GMU
+Content-Language: en-GB
+To: Konrad Dybcio <konrad.dybcio@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>
+References: <20230223-topic-gmuwrapper-v6-0-2034115bb60c@linaro.org>
+ <20230223-topic-gmuwrapper-v6-1-2034115bb60c@linaro.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <20230223-topic-gmuwrapper-v6-1-2034115bb60c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,120 +85,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, Randy Li <ayaka@soulik.info>,
- linux-kernel@vger.kernel.org, tfiga@chromium.org,
- Hsia-Jun Li <randy.li@synaptics.com>, laurent.pinchart@ideasonboard.com,
- ribalda@chromium.org, nicolas@ndufresne.ca
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Randy Li <ayaka@soulik.info>
-Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
----
- Documentation/gpu/drivers.rst   |  1 +
- Documentation/gpu/synaptics.rst | 81 +++++++++++++++++++++++++++++++++
- 2 files changed, 82 insertions(+)
- create mode 100644 Documentation/gpu/synaptics.rst
+On 01/04/2023 14:54, Konrad Dybcio wrote:
+> Recently I contributed the switch to OPP API for all Adreno generations.
+> I did however also skip over the fact that GPUs with a GMU don't specify
+> a core clock of any kind in the GPU node. While that didn't break
+> anything, it did introduce unwanted spam in the dmesg:
+> 
+> adreno 5000000.gpu: error -ENOENT: _opp_set_clknames: Couldn't find clock with name: core_clk
+> 
+> Guard the entire logic so that it's not used with GMU-equipped GPUs.
+> 
+> Fixes: 9f251f934012 ("drm/msm/adreno: Use OPP for every GPU generation")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/adreno/adreno_gpu.c | 24 ++++++++++++++----------
+>   1 file changed, 14 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-index 3a52f48215a3..7e820c93d994 100644
---- a/Documentation/gpu/drivers.rst
-+++ b/Documentation/gpu/drivers.rst
-@@ -18,6 +18,7 @@ GPU Driver Documentation
-    xen-front
-    afbc
-    komeda-kms
-+   synaptics
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/gpu/synaptics.rst b/Documentation/gpu/synaptics.rst
-new file mode 100644
-index 000000000000..a3b24c297186
---- /dev/null
-+++ b/Documentation/gpu/synaptics.rst
-@@ -0,0 +1,81 @@
-+.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+
-+================
-+Synaptics Tiling
-+================
-+
-+The tiling pixel formats in Synpatics Video Smart platform have
-+many variants. Tiles could form the group of tiles, pixels within
-+the group (nearest) width and height are stored into tile.
-+Meanwhile, the tile in a group may not follow dimension layout,
-+tile could form a small group of tiles, then that (sub)group
-+of tiles would form a bigger group. We won't describe the dimension
-+layout inside the group of tiles here. The layout of the group
-+of tiles is fixed with the group width and height parameters
-+in the same generation of the platform.
-+
-+Compression
-+===========
-+The proprietary lossless image compression protocol in Synaptics
-+could minimizes the amount of data transferred (less memory bandwidth
-+consumption) between devices. It would usually apply to the tiling
-+pixel format.
-+
-+Each component would request an extra page aligned length buffer
-+for storing the compression meta data. Also a 32 bytes parameters
-+set would come with a compression meta data buffer.
-+
-+The component here corresponds to a signal type (i.e. Luma, chroma).
-+They could be encoded into one or multiple metadata planes, but
-+their compression parameters still would be individual.
-+
-+Pixel format modifiers
-+======================
-+Addition alignment requirement for stride and size of a memory plane
-+could apply beyond what has been mentioned below. Remember always
-+negotiating with all the devices in pipeline before allocation.
-+
-+.. flat-table:: Synpatics Image Format Modifiers
-+
-+  * - Identifier
-+    - Fourcc
-+    - Details
-+
-+  * - DRM_FORMAT_MOD_SYNA_V4H1
-+    - DRM_FORMAT_NV12
-+    - The plain uncompressed 8 bits tile format. It sounds similar to
-+      Intel's Y-tile. but it won't take any pixel from the next X direction
-+      in a tile group. The line stride and image height must be aligned to
-+      a multiple of 16. The height of chrominance plane would plus 8.
-+
-+  * - DRM_FORMAT_MOD_SYNA_V4H3P8
-+    - DRM_FORMAT_NV15
-+    - The plain uncompressed 10 bits tile format. It stores pixel in 2D
-+      3x4 tiles with a 8bits padding to each of tile. Then a tile is in a
-+      128 bits cache line.
-+
-+  * - DRM_FORMAT_MOD_SYNA_V4H1_64L4_COMPRESSED
-+    - DRM_FORMAT_NV12
-+    - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
-+      A group of tiles would contain 64x4 pixels, where a tile has 1x4
-+      pixel.
-+
-+  * - DRM_FORMAT_MOD_SYNA_V4H3P8_64L4_COMPRESSED
-+    - DRM_FORMAT_NV15
-+    - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H3P8``.
-+      A group of tiles would contains 48x4 pixels, where a tile has 3x4 pixels
-+      and a 8 bits padding in the end of a tile. A group of tiles would
-+      be 256 bytes.
-+
-+  * - ``DRM_FORMAT_MOD_SYNA_V4H1_128L128_COMPRESSED``
-+    - DRM_FORMAT_NV12
-+    - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H1``.
-+      A group of tiles would contain 128x32 pixels, where a tile has 1x4
-+      pixel.
-+
-+  * - ``DRM_FORMAT_MOD_SYNA_V4H3P8_128L128_COMPRESSED``
-+    - DRM_FORMAT_NV15
-+    - Group of tiles and compressed variant of ``DRM_FORMAT_MOD_SYNA_V4H3P8``.
-+      A group of tiles would contains 96x128 pixels, where a tile has 3x4 pixels
-+      and a 8 bits padding in the end of a tile. A group of tiles would
-+      be 16 KiB.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 -- 
-2.39.2
+With best wishes
+Dmitry
 
