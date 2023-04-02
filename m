@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5006D354F
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 04:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960546D3550
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 04:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B712410E1D1;
-	Sun,  2 Apr 2023 02:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C7410E236;
+	Sun,  2 Apr 2023 02:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6471510E1D1
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:54:54 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE8410E236
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:55:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 82D64B80DC8
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:54:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 38D0AC4339B
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:54:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D62CD60C6B
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:55:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 415B6C433D2
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680404091;
- bh=jIaANMhLzx7Yzu4LQsd3oJYX3646x7iUcZYSJOCgUzY=;
+ s=k20201202; t=1680404139;
+ bh=Ps/5fCeu8CJ3xiyGAp+48phMntRn9WeaOz5n6O5XHXU=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=UQR5WSUa1Wy6dWroAXqmjAjewWNAXYJe08PBn08AsB8av9CBRfZIYYP5qZHSCo1WY
- 8ngubBqtuuNbUzioMqnBEO+2QFrnYnJ/NqmVxFTDteJpT5XvQWQVRZwLGM8xbCdET/
- mvdfNy5T0ulXl1SS8ETPTAOVaAFEsGrqu+R3H2wpoL35iJmdgO3ZF9nU/6iVij6qUo
- eGkTUV9ugrG7PxFIvFgbMXY3JoyJAz0l+UU4qlGGqH4gGfSYvBWJOIGHRnvzwDtdVl
- 398TQvIfMtJ9poWPziGYoduf4sNxr1V7uk6ndPLfnA56zGC/nuQEEmXu0Hs27dvzqe
- 0rG7D8ZjBAl+g==
+ b=j/0MeMCEBMl2bBJJk4p5FqtAGAc1ijSYTgwQj8jBP7yaQhvdadCf/zKE7eiVowVGP
+ +3HDGX2Qir34t6EWJkB8Bscm6Feh+6xDCVKYWG6Ar9gxoZ0uAz0sm74xtBouyFOVr+
+ cObio61YSD1sk39zbQG7HY1Fxkx4URijo6RZQchJJ6ETXx43ntcMTFXE/t3ur8cSQY
+ 1/9zob5i8kl3/bEb6osSteciQ3Z0Kqtrn/1pUI8Kk1m4pGgY70lHbm+mXHZQacHdFI
+ y2Sz+Ujl5IMBWWN3TXwOWn/sUTyzULuLmStKxzpe+A3ZnKHfc69kEY1QuHrfBtfh+9
+ hHDllKFbjtNLQ==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 2798CC43143; Sun,  2 Apr 2023 02:54:51 +0000 (UTC)
+ from userid 48) id 30469C43143; Sun,  2 Apr 2023 02:55:39 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217278] ast 0000:03:00.0: PM: **** DPM device timeout ****
  during S4 resuming
-Date: Sun, 02 Apr 2023 02:54:50 +0000
+Date: Sun, 02 Apr 2023 02:55:39 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -50,8 +50,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-217278-2300-JdwNd8hGTH@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-217278-2300-A6rb3v0TPm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217278-2300@https.bugzilla.kernel.org/>
 References: <bug-217278-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,10 +76,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217278
 
---- Comment #5 from wendy.wang@intel.com ---
-Created attachment 304076
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D304076&action=3Dedit
-Failure log in mainline v6.1
+--- Comment #6 from wendy.wang@intel.com ---
+Earlier mainline v6.1 version ast driver also failed.
 
 --=20
 You may reply to this email to add a comment.
