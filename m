@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960546D3550
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 04:55:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 661FC6D3623
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 10:15:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6C7410E236;
-	Sun,  2 Apr 2023 02:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADE1710E036;
+	Sun,  2 Apr 2023 08:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EE8410E236
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:55:40 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6448910E036
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 08:15:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D62CD60C6B
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:55:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 415B6C433D2
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 02:55:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 77B196108D
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 08:15:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DC56AC4339B
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 08:15:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680404139;
- bh=Ps/5fCeu8CJ3xiyGAp+48phMntRn9WeaOz5n6O5XHXU=;
+ s=k20201202; t=1680423303;
+ bh=9FHiTKDtWYX6OQRjDftaD99XCm482wNojx5tVK6DeZg=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=j/0MeMCEBMl2bBJJk4p5FqtAGAc1ijSYTgwQj8jBP7yaQhvdadCf/zKE7eiVowVGP
- +3HDGX2Qir34t6EWJkB8Bscm6Feh+6xDCVKYWG6Ar9gxoZ0uAz0sm74xtBouyFOVr+
- cObio61YSD1sk39zbQG7HY1Fxkx4URijo6RZQchJJ6ETXx43ntcMTFXE/t3ur8cSQY
- 1/9zob5i8kl3/bEb6osSteciQ3Z0Kqtrn/1pUI8Kk1m4pGgY70lHbm+mXHZQacHdFI
- y2Sz+Ujl5IMBWWN3TXwOWn/sUTyzULuLmStKxzpe+A3ZnKHfc69kEY1QuHrfBtfh+9
- hHDllKFbjtNLQ==
+ b=GV5d0lXg6s7E9gJwQ6MYtL8d7LQSiCoCl+FREe0aoE/QPrnD3YdsWa8Afyu4De6WL
+ LjIByx8Gpcfk50eE+ZeIkkYSs5bAszATFEtHARtOEhB9w0maHCjL0TdTDjKnPlvHcW
+ UHyeFni/raqur0AT5QfSxQhUueurHkQLXIPYPHmQWZ5LazB/NDpn/t4bGBijgZslNJ
+ wFQbnzu21rBqbzNSGeVblsawvTrbZzUi85lxaryAmsHcOvD4X1bvr0vovIIaUGLKlp
+ 0S/FBEmeZk+tcoy8g+BwCS08AyxS8GXkQbChDr1l946MqoAtZ3JinUB/gSvhSsPNpn
+ 1xLhnKxjMz/Hg==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 30469C43143; Sun,  2 Apr 2023 02:55:39 +0000 (UTC)
+ from userid 48) id C6358C43144; Sun,  2 Apr 2023 08:15:03 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 217278] ast 0000:03:00.0: PM: **** DPM device timeout ****
  during S4 resuming
-Date: Sun, 02 Apr 2023 02:55:39 +0000
+Date: Sun, 02 Apr 2023 08:15:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,14 +45,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: wendy.wang@intel.com
+X-Bugzilla-Who: regressions@leemhuis.info
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-217278-2300-A6rb3v0TPm@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-217278-2300-avMZuNq9Rj@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-217278-2300@https.bugzilla.kernel.org/>
 References: <bug-217278-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -76,8 +77,21 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D217278
 
---- Comment #6 from wendy.wang@intel.com ---
-Earlier mainline v6.1 version ast driver also failed.
+The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
+huis.info) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|regressions@leemhuis.info   |
+
+--- Comment #7 from The Linux kernel's regression tracker (Thorsten Leemhui=
+s) (regressions@leemhuis.info) ---
+Then it sounds like this is not a regression and thus nothing for me.
+
+But FWIW, I doubt your report here will reach the maintainers of the driver.
+You might want to contact them by mail to Joel Stanley <joel@jms.id.au>, CC=
+ed
+to linux-aspeed@lists.ozlabs.org
 
 --=20
 You may reply to this email to add a comment.
