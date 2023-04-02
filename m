@@ -1,61 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10126D373F
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 12:22:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0386D3773
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Apr 2023 12:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A9810E24D;
-	Sun,  2 Apr 2023 10:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76ADF10E2A0;
+	Sun,  2 Apr 2023 10:55:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
- [IPv6:2607:f8b0:4864:20::e29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86B1B10E24D;
- Sun,  2 Apr 2023 10:22:46 +0000 (UTC)
-Received: by mail-vs1-xe29.google.com with SMTP id b6so19679481vsu.12;
- Sun, 02 Apr 2023 03:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680430965;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Cqt+0LvMfoOorBMYDQIvk68awcF7EkMGpn308vi5jnw=;
- b=brx3cOmlB4NB4+SUVwPr+emDg5TQr/ONpS5B8DUZRYWlO1uvY/dKBcOb7pC2LbmKWe
- JbOFn5/rn+y5GXpqkkCUcI/6nWhm0kWBW6d8MZACls2lIs7NR1HPalwiewRK4PGEGLa+
- bepbf/yicz9/7OStMoiM1JKU/a5Vdl9qivte0gAx/ibgZyzR2y/rilZIBypec4i5T6C/
- FEutBpVI2gaSupLDpdEJHTgP4z4wW7j4X3qg3C2xz2ZDCzUhoJ8qQ0eftwGWr8CJhIL+
- aFHVsuebelAYLOuZBpQ4HIIMU7mm3oiy0DGlI4JMHnPO2d5yxsc8QQTl6xaIaZlkCJ8E
- 62tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680430965;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Cqt+0LvMfoOorBMYDQIvk68awcF7EkMGpn308vi5jnw=;
- b=n5utzpEXGzdEbJD6mKZalpbuLLZLDMj4G/NmB3arBoJXKbLX0nOC5WkWEfmffHGrXd
- 8rpne9xFBBgcrizL1f8t+AT0jVf621joctJz+26OUmQVJa/OcU0Op7P7KQrGkWaH+VZx
- I/FGbyV/tlVkT/L4UgrvOp5g72RcFjVJW6RdtPxjzy5gCZneIOhxdSKUg2tCpSjpsOsU
- p891PzviltNfRjyAW2Buob/K3mv728YffG1JYF127AnnVw+f6EKiwl3K15CXWnJzQw8T
- Lo8jmnA0N4IojSVoI8oIZbxPooKkM6eisAoz+P2B3UvpRuZjs1jQxxICp2Gl6+Y2Yfu5
- hWYQ==
-X-Gm-Message-State: AAQBX9dVKUQGYFd4UOJ+dbsSX605ldccfEsZ2fowHLfr0smT7YEupQlJ
- 3XRUpguQLxhTyExgMe6dX+zR6S8RcM+xHFtggxM=
-X-Google-Smtp-Source: AKy350YzdAw3jPa3CDdSsbjfA/b0tMJpyuWevQVxE21HvuJBKce7SK45DmepJXZm1Jg8tIkEDKwYyHK2M++Y5gNzzXY=
-X-Received: by 2002:a67:e116:0:b0:426:df00:9b12 with SMTP id
- d22-20020a67e116000000b00426df009b12mr6160727vsl.1.1680430965370; Sun, 02 Apr
- 2023 03:22:45 -0700 (PDT)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0135C10E2A0
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 10:55:15 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Pq9sW6T1fz9sVx;
+ Sun,  2 Apr 2023 12:55:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+ s=MBO0001; t=1680432911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JGmLL2lif/lN1JO6yxqqMUbCCQ09GzfW7zKPJU5P/qA=;
+ b=B53XDWj8eAlOkkTpZqQh0vAT+uK+slZGNpNqeRmmbjiB3J0NWX56+wQF62EussCLl8zDKW
+ m5KnuZ10WixAhM111aPX4gVET5pbzPjBITADUpWWIKjCERRQ1aaYprjCcV/52/JU5MoJnS
+ L36CnY7LVREDx/PR8iugWLYT3S0LJspLg3zL2XdpOyCjVNui/7ktJX3Yhra0kav6S9cxch
+ +WENgzLr/+iVvFculnbm2sloiGCTYMSy7NWFFZtOcaHvMMEdXySRz6j2S3vhCiiemUv4Wc
+ HZpDlHWIaPqv8k/NE7QWye0VOaZjmUWS0+WM7cVPf4eC4oGqS/gVtYTF45DEbA==
+References: <20230331110245.43527-1-me@crly.cz>
+ <20230331110245.43527-4-me@crly.cz>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Roman Beranek <me@crly.cz>
+Subject: Re: [PATCH 3/3] drm: sun4i: calculate proper DCLK rate for DSI
+Date: Sun, 02 Apr 2023 12:49:08 +0200
+In-reply-to: <20230331110245.43527-4-me@crly.cz>
+Message-ID: <87h6tya70h.fsf@oltmanns.dev>
 MIME-Version: 1.0
-References: <20230312233052.21095-1-nunes.erico@gmail.com>
- <CAKGbVbs2ZRGyYOy9yYUMJ+apQm=NaXXb58C-97CaoTe5KPNqgw@mail.gmail.com>
-In-Reply-To: <CAKGbVbs2ZRGyYOy9yYUMJ+apQm=NaXXb58C-97CaoTe5KPNqgw@mail.gmail.com>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sun, 2 Apr 2023 18:22:34 +0800
-Message-ID: <CAKGbVbtb-cKv2Fb1x91vZssZxayxciSp3RLJeVsn0z1JhvT6QQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] drm/lima: expose usage statistics via fdinfo
-To: Erico Nunes <nunes.erico@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,76 +51,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org
+Cc: Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next.
+Hi Roman,
 
-On Mon, Mar 13, 2023 at 11:09=E2=80=AFAM Qiang Yu <yuq825@gmail.com> wrote:
+On 2023-03-31 at 13:02:45 +0200, Roman Beranek <me@crly.cz> wrote:
+> In DSI mode, TCON0's data clock is required to run at 1/4 the per-lane
+> bit rate.
 >
-> Patch set is:
-> Reviewed-by: Qiang Yu <yuq825@gmail.com>
+> Signed-off-by: Roman Beranek <me@crly.cz>
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_tcon.c | 36 +++++++++++++++++-------------
+>  1 file changed, 21 insertions(+), 15 deletions(-)
 >
-> Looks like drm-misc-next does not contain "df622729ddbf drm/scheduler:
-> track GPU active time per entity" yet.
-> Will apply later.
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> index eec26b1faa4b..b263de7a8237 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> @@ -291,18 +291,6 @@ static int sun4i_tcon_get_clk_delay(const struct drm_display_mode *mode,
+>  	return delay;
+>  }
 >
-> Regards,
-> Qiang
+> -static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
+> -					const struct drm_display_mode *mode)
+> -{
+> -	/* Configure the dot clock */
+> -	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
+> -
+> -	/* Set the resolution */
+> -	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
+> -		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
+> -		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
+> -}
+> -
+>  static void sun4i_tcon0_mode_set_dithering(struct sun4i_tcon *tcon,
+>  					   const struct drm_connector *connector)
+>  {
+> @@ -367,10 +355,18 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
+>  	u32 block_space, start_delay;
+>  	u32 tcon_div;
 >
-> On Mon, Mar 13, 2023 at 7:31=E2=80=AFAM Erico Nunes <nunes.erico@gmail.co=
-m> wrote:
-> >
-> > Expose lima gp and pp usage stats through fdinfo, following
-> > Documentation/gpu/drm-usage-stats.rst.
-> > Borrowed from these previous implementations:
-> >
-> > "df622729ddbf drm/scheduler: track GPU active time per entity" added
-> > usage time accounting to drm scheduler, which is where the data used
-> > here comes from.
-> >
-> > Then the main implementation is based on these etnaviv commits:
-> > "d306788b6e1b drm/etnaviv: allocate unique ID per drm_file" and
-> > "97804a133c68 drm/etnaviv: export client GPU usage statistics via
-> > fdinfo"
-> >
-> > Also "874442541133 drm/amdgpu: Add show_fdinfo() interface" since lima
-> > has a context manager very similar to amdgpu and all contexts created
-> > (and released) at the ctx_mgr level need to be accounted for.
-> >
-> > Tested with the generic "gputop" tool currently available as patches to
-> > igt, a sample run with this patchset looks like this:
-> >
-> > DRM minor 128
-> >     PID               NAME             gp                        pp
-> >     4322   glmark2-es2-way |=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=
-=88=E2=96=8A                  ||=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=
-=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88=
-=E2=96=88=E2=96=88=E2=96=88=E2=96=88=E2=96=88      |
-> >     3561            weston |=E2=96=8E                       ||=E2=96=88=
-=E2=96=88=E2=96=88=E2=96=8C                    |
-> >     4159          Xwayland |=E2=96=8F                       ||=E2=96=89=
-                       |
-> >     4154          glxgears |=E2=96=8F                       ||=E2=96=8E=
-                       |
-> >     3661           firefox |=E2=96=8F                       ||=E2=96=8F=
-                       |
-> >
-> >
-> > Erico Nunes (3):
-> >   drm/lima: add usage counting method to ctx_mgr
-> >   drm/lima: allocate unique id per drm_file
-> >   drm/lima: add show_fdinfo for drm usage stats
-> >
-> >  drivers/gpu/drm/lima/lima_ctx.c    | 30 ++++++++++++++++++++-
-> >  drivers/gpu/drm/lima/lima_ctx.h    |  3 +++
-> >  drivers/gpu/drm/lima/lima_device.h |  3 +++
-> >  drivers/gpu/drm/lima/lima_drv.c    | 43 +++++++++++++++++++++++++++++-
-> >  drivers/gpu/drm/lima/lima_drv.h    |  1 +
-> >  5 files changed, 78 insertions(+), 2 deletions(-)
-> >
-> > --
-> > 2.39.2
-> >
+> +	/*
+> +	 * dclk is required to run at 1/4 the DSI per-lane bit rate.
+> +	 */
+>  	tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
+>  	tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
+> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000 * (bpp / lanes)
+> +						  / SUN6I_DSI_TCON_DIV);
+
+When apply this to drm-next my panel stays dark. I haven't figured out
+yet why, though. The other two patches in this series work fine, i.e.
+they have no effect as they are just a refactoring.
+
+I'm testing this on my pinephone. It's the same with the patch I
+submitted. For whatever reason, it no longer works on drm-next.
+
+At the time I'm writing this, drm-next is at 82bbec189ab3 "Merge
+v6.3-rc4 into drm-next".
+
+Does it work for you? And if so, on which commit are you basing this
+series?
+
+Thanks,
+  Frank
+
+
+>
+> -	sun4i_tcon0_mode_set_common(tcon, mode);
+> +	/* Set the resolution */
+> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
+> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
+> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
+>
+>  	/* Set dithering if needed */
+>  	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
+> @@ -438,7 +434,12 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
+>
+>  	tcon->dclk_min_div = 7;
+>  	tcon->dclk_max_div = 7;
+> -	sun4i_tcon0_mode_set_common(tcon, mode);
+> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
+> +
+> +	/* Set the resolution */
+> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
+> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
+> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
+>
+>  	/* Set dithering if needed */
+>  	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
+> @@ -515,7 +516,12 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
+>
+>  	tcon->dclk_min_div = tcon->quirks->dclk_min_div;
+>  	tcon->dclk_max_div = 127;
+> -	sun4i_tcon0_mode_set_common(tcon, mode);
+> +	clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
+> +
+> +	/* Set the resolution */
+> +	regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
+> +		     SUN4I_TCON0_BASIC0_X(mode->crtc_hdisplay) |
+> +		     SUN4I_TCON0_BASIC0_Y(mode->crtc_vdisplay));
+>
+>  	/* Set dithering if needed */
+>  	sun4i_tcon0_mode_set_dithering(tcon, connector);
+
+
+--
+--
+Frank Oltmanns
