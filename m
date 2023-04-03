@@ -2,48 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7066D5386
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 23:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A880E6D53B7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 23:38:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D25BC10E57E;
-	Mon,  3 Apr 2023 21:34:05 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482D910E57E;
- Mon,  3 Apr 2023 21:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680557644; x=1712093644;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PVQacA9QABI9zE3gc6CVjH21u5LBvPl9h3diP4eUKLs=;
- b=f/DpIwyVIyAzevcA7q5Mqe76e1CZ4hETaXiG33WKoza6/h6XUBWn3ZTk
- kMgimifhpFMkDCkDpZUQGybEwwTrBnj7M+D0dAjhPC8StLfpZJojbMum7
- 6GsvINTW6VFpjEq3L+YZQeeXcvY/sVFrNzcHp2cVJprxVijVliiklRrfc
- zVgzjLMS+bjMi8svz2DNIv0m2nlY505ANcME1NPETcv+OqCYdILHA/8Tl
- 6sGe9ccjCWYkT2CBiI07mlGc2lt6FnCG3ROf4kmPLFznLHoIsfVAMWLbq
- upaJupwYaj1aitwEc6j6sh3Xv5M+qxdYpMpW8Ko5qEB1JLNQPv6GGPg64 A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="407075435"
-X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="407075435"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 14:34:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="716431966"
-X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="716431966"
-Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
- by orsmga008.jf.intel.com with ESMTP; 03 Apr 2023 14:34:03 -0700
-From: John.C.Harrison@Intel.com
-To: Intel-GFX@Lists.FreeDesktop.Org
-Subject: [PATCH] drm/i915/guc: Don't capture Gen8 regs on Gen12 devices
-Date: Mon,  3 Apr 2023 14:33:34 -0700
-Message-Id: <20230403213334.1655239-1-John.C.Harrison@Intel.com>
-X-Mailer: git-send-email 2.39.1
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6A610E59B;
+	Mon,  3 Apr 2023 21:38:15 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9129310E589;
+ Mon,  3 Apr 2023 21:38:13 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 333Ke7bI030459; Mon, 3 Apr 2023 21:38:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=25EktQEfi2azLe+/+qgqikMEhE3gtqnGvlo/MvW19G8=;
+ b=KThQkGcwDXDcibFMWwzS15cy5NuKlDIc/Kobz8QTyjqbIDlF/GqVZGXSf4tKk4FHt38d
+ hKcRkfD05MO/FtV+JyR3YyAKtzQjqVA9HufQfnwAhFrkbyq2xEohZVUjz1nK63hpdUiC
+ H+3lj4sx8VmN0UB6Fl2QKXOEtfndrHQDFWXWTeuoQu4EMG52wp7o9fAGRNzVNkKMgV9U
+ HSmfacQtyylh0wT95q2b/fjt1dxzMBJ/OUxvG+9oxdcZWctwNCIHqXZKLZns6tmGnhtG
+ zsxmuuk+WKIFsc3xZ73/5ZldcZEQXihOPMuwpIZHs4s7acfaDtwKVTssteno+ddt8xWe 1g== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pqus59q3y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Apr 2023 21:38:10 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 333Lc95e018737
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 3 Apr 2023 21:38:09 GMT
+Received: from [10.71.110.193] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 3 Apr 2023
+ 14:38:09 -0700
+Message-ID: <acdd6ae0-a6e8-3338-5e68-44a93f94de77@quicinc.com>
+Date: Mon, 3 Apr 2023 14:38:08 -0700
 MIME-Version: 1.0
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH RFC v2 2/6] drm/msm: Add MSM-specific DSC helper methods
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20230329-rfc-msm-dsc-helper-v2-0-3c13ced536b2@quicinc.com>
+ <20230329-rfc-msm-dsc-helper-v2-2-3c13ced536b2@quicinc.com>
+ <5b4a3305-1e26-220d-a770-1f6945fbac7a@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <5b4a3305-1e26-220d-a770-1f6945fbac7a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Dz8w0xfQjM1fcBvqazsTq5Zq6vMi6qvZ
+X-Proofpoint-GUID: Dz8w0xfQjM1fcBvqazsTq5Zq6vMi6qvZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-04-03_16,2023-04-03_03,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 spamscore=0 mlxlogscore=992
+ adultscore=0 impostorscore=0 mlxscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2304030170
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,65 +85,241 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Jani Nikula <jani.nikula@intel.com>, Matt Roper <matthew.d.roper@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, DRI-Devel@Lists.FreeDesktop.Org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
+Cc: linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
 
-A pair of pre-Gen12 registers were being included in the Gen12 capture
-list. GuC was rejecting those as being invalid and logging errors
-about them. So, stop doing it.
 
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Fixes: dce2bd542337 ("drm/i915/guc: Add Gen9 registers for GuC error state capture.")
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: John Harrison <John.C.Harrison@Intel.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On 4/2/2023 4:21 AM, Dmitry Baryshkov wrote:
+> On 31/03/2023 21:49, Jessica Zhang wrote:
+>> Introduce MSM-specific DSC helper methods, as some calculations are
+>> common between DP and DSC.
+>>
+>> Changes in v2:
+>> - Moved files up to msm/ directory
+>> - Dropped get_comp_ratio() helper
+>> - Used drm_int2fixp() to convert to integers to fp
+>> - Style changes to improve readability
+>> - Dropped unused bpp variable in msm_dsc_get_dce_bytes_per_line()
+>> - Changed msm_dsc_get_slice_per_intf() to a static inline method
+>> - Dropped last division step of msm_dsc_get_pclk_per_line() and changed
+>>    method name accordingly
+>> - Changed DSC_BPP macro to drm_dsc_get_bpp_int() helper method
+>> - Fixed some math issues caused by passing in incorrect types to
+>>    drm_fixed methods in get_bytes_per_soft_slice()
+>>
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/Makefile         |  1 +
+>>   drivers/gpu/drm/msm/msm_dsc_helper.c | 53 
+>> ++++++++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/msm_dsc_helper.h | 42 ++++++++++++++++++++++++++++
+>>   3 files changed, 96 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+>> index 7274c41228ed..b814fc80e2d5 100644
+>> --- a/drivers/gpu/drm/msm/Makefile
+>> +++ b/drivers/gpu/drm/msm/Makefile
+>> @@ -94,6 +94,7 @@ msm-y += \
+>>       msm_atomic_tracepoints.o \
+>>       msm_debugfs.o \
+>>       msm_drv.o \
+>> +    msm_dsc_helper.o \
+>>       msm_fb.o \
+>>       msm_fence.o \
+>>       msm_gem.o \
+>> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.c 
+>> b/drivers/gpu/drm/msm/msm_dsc_helper.c
+>> new file mode 100644
+>> index 000000000000..60b73e17e6eb
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.c
+>> @@ -0,0 +1,53 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>> reserved
+>> + */
+>> +
+>> +#include <linux/kernel.h>
+>> +#include <linux/errno.h>
+>> +#include <drm/drm_fixed.h>
+>> +
+>> +#include "msm_drv.h"
+>> +#include "msm_dsc_helper.h"
+>> +
+>> +static s64 get_bytes_per_soft_slice(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp)
+> 
+> intf_width is unused
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-index cf49188db6a6e..e0e793167d61b 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
-@@ -31,12 +31,14 @@
- 	{ FORCEWAKE_MT,             0,      0, "FORCEWAKE" }
- 
- #define COMMON_GEN9BASE_GLOBAL \
--	{ GEN8_FAULT_TLB_DATA0,     0,      0, "GEN8_FAULT_TLB_DATA0" }, \
--	{ GEN8_FAULT_TLB_DATA1,     0,      0, "GEN8_FAULT_TLB_DATA1" }, \
- 	{ ERROR_GEN6,               0,      0, "ERROR_GEN6" }, \
- 	{ DONE_REG,                 0,      0, "DONE_REG" }, \
- 	{ HSW_GTT_CACHE_EN,         0,      0, "HSW_GTT_CACHE_EN" }
- 
-+#define GEN9_GLOBAL \
-+	{ GEN8_FAULT_TLB_DATA0,     0,      0, "GEN8_FAULT_TLB_DATA0" }, \
-+	{ GEN8_FAULT_TLB_DATA1,     0,      0, "GEN8_FAULT_TLB_DATA1" }
-+
- #define COMMON_GEN12BASE_GLOBAL \
- 	{ GEN12_FAULT_TLB_DATA0,    0,      0, "GEN12_FAULT_TLB_DATA0" }, \
- 	{ GEN12_FAULT_TLB_DATA1,    0,      0, "GEN12_FAULT_TLB_DATA1" }, \
-@@ -142,6 +144,7 @@ static const struct __guc_mmio_reg_descr xe_lpd_gsc_inst_regs[] = {
- static const struct __guc_mmio_reg_descr default_global_regs[] = {
- 	COMMON_BASE_GLOBAL,
- 	COMMON_GEN9BASE_GLOBAL,
-+	GEN9_GLOBAL,
- };
- 
- static const struct __guc_mmio_reg_descr default_rc_class_regs[] = {
--- 
-2.39.1
+Hi Dmitry,
 
+Acked.
+
+> 
+>> +{
+>> +    int bpp = msm_dsc_get_bpp_int(dsc);
+>> +    s64 numerator_fp, denominator_fp;
+>> +    s64 comp_ratio_fp = drm_fixp_from_fraction(src_bpp, bpp);
+>> +
+>> +    numerator_fp = drm_int2fixp(dsc->slice_width * 3);
+> 
+> You have lost dsc->bits_per_component here.
+
+This was moved to the denominator calculation, but I'll move it back to 
+this line to avoid confusion.
+
+> 
+>> +    denominator_fp = drm_fixp_from_fraction(comp_ratio_fp * 8, 
+>> drm_int2fixp(bpp));
+> 
+> denominator_fp = drm_fixp_from_fraction(src_bpp * 8, bpp);
+
+Acked.
+
+> 
+>> +
+>> +    return drm_fixp_div(numerator_fp, denominator_fp);
+>> +}
+>> +
+>> +u32 msm_dsc_get_eol_byte_num(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp)
+>> +{
+>> +    u32 bytes_per_soft_slice, extra_eol_bytes, bytes_per_intf;
+>> +    s64 bytes_per_soft_slice_fp;
+>> +    int slice_per_intf = msm_dsc_get_slice_per_intf(dsc, intf_width);
+>> +
+>> +    bytes_per_soft_slice_fp = get_bytes_per_soft_slice(dsc, 
+>> intf_width, src_bpp);
+>> +    bytes_per_soft_slice = drm_fixp2int_ceil(bytes_per_soft_slice_fp);
+>> +
+>> +    bytes_per_intf = bytes_per_soft_slice * slice_per_intf;
+>> +    extra_eol_bytes = bytes_per_intf % 3;
+>> +    if (extra_eol_bytes != 0)
+>> +        extra_eol_bytes = 3 - extra_eol_bytes;
+> 
+> I become confused here when I checked eol_bytes in the display techpack.
+> 
+> I see that for DP the dp_panel_dsc_pclk_param_calc() calculates 
+> dsc->eol_bytes_num in this way, the size to pad dsc_byte_count * 
+> slice_per_intf to 3 bytes.
+> 
+> However, for DSI this is a simple as total_bytes_per_intf % 3 , so it is 
+> not a padding, but a length of the last chunk.
+> 
+> Could you please clarify? If the techpack code is correct, I'd prefer if 
+> we return last chunk size here and calculate the padding length in the 
+> DP driver.
+
+I've double checked the calculations between DP and DSI, and I think 
+you're right. Will move the `if (extra_eol_bytes != 0)` block out to DP 
+code.
+
+> 
+>> +
+>> +    return extra_eol_bytes;
+>> +}
+>> +
+>> +int msm_dsc_get_uncompressed_pclk_per_line(struct drm_dsc_config 
+>> *dsc, int intf_width, u32 src_bpp)
+> 
+> Basing on Abhinav's description ("pclk_per_line can be only per 
+> interface") would it better be named as 
+> msm_dsc_get_uncompressed_pclk_per_intf() ? or 
+> msm_dsc_get_uncompressed_pclk_for_intf() ?
+> 
+> BTW: if get_bytes_per_soft_slice() doesn't use intf_width, we can 
+> probably drop it here too.
+> 
+>> +{
+>> +    s64 data_width;
+>> +
+>> +    if (!dsc->slice_width || (intf_width < dsc->slice_width))
+>> +        return -EINVAL;
+> 
+> Error code is not validated at dsi_timing_setup. I'd suggest moving 
+> error checks there and dropping the error handling here. If 
+> dsc->slice_width is not set, we should stop much earlier than 
+> drm_bridge's pre_enable() callback.
+
+Acked.
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>> +
+>> +    data_width = drm_fixp_mul(dsc->slice_count,
+>> +            get_bytes_per_soft_slice(dsc, intf_width, src_bpp));
+>> +
+>> +    return drm_fixp2int_ceil(data_width);
+>> +}
+>> diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h 
+>> b/drivers/gpu/drm/msm/msm_dsc_helper.h
+>> new file mode 100644
+>> index 000000000000..743cd324b7d9
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
+>> @@ -0,0 +1,42 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2023 Qualcomm Innovation Center, Inc. All rights 
+>> reserved
+>> + */
+>> +
+>> +#ifndef MSM_DSC_HELPER_H_
+>> +#define MSM_DSC_HELPER_H_
+>> +
+>> +#include <drm/display/drm_dsc_helper.h>
+>> +#include <drm/drm_modes.h>
+>> +
+>> +/*
+>> + * Helper methods for MSM specific DSC calculations that are common 
+>> between timing engine,
+>> + * DSI, and DP.
+>> + */
+>> +
+>> +static inline int msm_dsc_get_bpp_int(struct drm_dsc_config *dsc)
+>> +{
+>> +    WARN_ON_ONCE(dsc->bits_per_pixel & 0xf);
+>> +    return dsc->bits_per_pixel >> 4;
+>> +}
+>> +
+>> +static inline int msm_dsc_get_slice_per_intf(struct drm_dsc_config 
+>> *dsc, int intf_width)
+>> +{
+>> +    return DIV_ROUND_UP(intf_width, dsc->slice_width);
+>> +}
+>> +
+>> +static inline u32 msm_dsc_get_dce_bytes_per_line(struct 
+>> drm_dsc_config *dsc, int intf_width)
+>> +{
+>> +    return DIV_ROUND_UP(msm_dsc_get_bpp_int(dsc) * intf_width, 8);
+>> +}
+>> +
+>> +u32 msm_dsc_get_eol_byte_num(struct drm_dsc_config *dsc, int 
+>> intf_width, u32 src_bpp);
+>> +u32 msm_dsc_get_dce_bytes_per_line(struct drm_dsc_config *dsc, int 
+>> intf_width);
+>> +
+>> +/* Calculate uncompressed pclk per line. This value will then be 
+>> passed along to
+>> + * DSI and DP to calculate pclk_per_line. This is because DSI and DP 
+>> divide the
+>> + * uncompressed pclk_per_line by different values depending on if 
+>> widebus is enabled.
+>> + */
+>> +int msm_dsc_get_uncompressed_pclk_per_line(struct drm_dsc_config *dsc,
+>> +        int intf_width, u32 src_bpp);
+>> +#endif /* MSM_DSC_HELPER_H_ */
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
