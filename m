@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993C16D52FA
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 23:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A5C6D5307
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 23:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85B610E19C;
-	Mon,  3 Apr 2023 21:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 048EB10E594;
+	Mon,  3 Apr 2023 21:06:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
- [209.85.161.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1AC510E19C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 21:01:20 +0000 (UTC)
-Received: by mail-oo1-f49.google.com with SMTP id
- m6-20020a4ae846000000b0053b9059edd5so4845023oom.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 14:01:20 -0700 (PDT)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
+ [209.85.160.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A050F10E1D5
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 21:06:25 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id
+ 586e51a60fabf-177ca271cb8so32311002fac.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 14:06:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680555679;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JCDaBQRSXHLW/mJme9G/ZIzduYV5CrqCyRVX3szS1jY=;
- b=ztdrUKY8mOfb4G6lVHUKKTjPxpaZrsPslSioTULK6yusDe3v5RFwtiDA0etKk1npHs
- HdP4bUcX3HYGTtP5MMxH6y1hF0CDs8k0pr9wSbc3M+hq6hLuc9win2297LdCHxY9MFMC
- EsLN6tCbORfa03aJar1DR/aQiACF+2eYzovG8n/a1DBg5oX9Pnc2GMQ2WWPGqPMzHz7I
- taBQ8FxpwU2QsGOP21OWIrsHf8Ca7tfccndJU0Zzymp/kJC+OM94ahz7xFX54NYO1Zk9
- Ij6sb5CMZBtLlQxPh74RFYpZ16Zp76kRjDyLBckxOcvrAvbgpZtdpMmAW2GtnbSAggEE
- 3faQ==
-X-Gm-Message-State: AAQBX9csNZKr36EkxWphrvRhAoKgq2axWx4hYzLGZmNNjCJgw/giJO4U
- P3Uoy+t/J3EVh6lVGd0uWg==
-X-Google-Smtp-Source: AKy350ackiyEDTt+D1XtvQPTabYuwW3Y/IJA7Dqu3JjJI6vR/mCOOFCCAUCt1uCycV6wRI9n15xdnw==
-X-Received: by 2002:a4a:370b:0:b0:53b:700e:378c with SMTP id
- r11-20020a4a370b000000b0053b700e378cmr400482oor.9.1680555679352; 
- Mon, 03 Apr 2023 14:01:19 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680555984;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=08JlvI1hUhZyrM2szVAGCNyVcRh4I7s+6U0f0q0JQOQ=;
+ b=I67ezE8pPgA6w9mID4Gilm3vx8cY8I1qNGLdyHk8Ugrn/iNhKWSALulQ1LiwEdlHjB
+ whwK6q1VBhmwk5vlMSjtY1HlUEHlF/rC0RuB/1GuOKQrIcoCX0B41uVsWD1QxPZ/TITK
+ E2t8XXswFVXJWhRNwCIm0rM7PBhK0k1zqweqaRQCBca2iL0bYuVBGGlSkyB3dquw2eFe
+ GsbYff7qOZsVhCgSCJLWRhui6xweNrp3OKmTfnG12VSCBKh1ws0ftujtjOrSknwixLoN
+ p1iPqFXcq07zkIoav03zZda7FhdOiQlhKYS3XA07ybOpzpzT2UUbTiPsI3xVet+FUAX0
+ WGlg==
+X-Gm-Message-State: AAQBX9eNW1dptuSgZ0RJKs/6JNUmSTTBWrz3wLKGzWZndwuDYiVaohJ/
+ a34G+q2iUq11RvSKNj9DnA==
+X-Google-Smtp-Source: AKy350aevd645dF3st8Velo9cm7pPfpzlct8rQ/ePIbcFPF1B1iFeLjt+3CLri2lBgSP9iq2Cb9PHQ==
+X-Received: by 2002:a05:6870:f223:b0:180:5367:33ba with SMTP id
+ t35-20020a056870f22300b00180536733bamr318161oao.48.1680555984621; 
+ Mon, 03 Apr 2023 14:06:24 -0700 (PDT)
 Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- y70-20020a4a4549000000b0053e56135a1esm4510087ooa.45.2023.04.03.14.01.18
+ kw17-20020a056870ac1100b001802d3e181fsm3978033oab.14.2023.04.03.14.06.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 14:01:18 -0700 (PDT)
-Received: (nullmailer pid 1739713 invoked by uid 1000);
- Mon, 03 Apr 2023 21:01:17 -0000
-Date: Mon, 3 Apr 2023 16:01:17 -0500
+ Mon, 03 Apr 2023 14:06:23 -0700 (PDT)
+Received: (nullmailer pid 1772263 invoked by uid 1000);
+ Mon, 03 Apr 2023 21:06:22 -0000
+Date: Mon, 3 Apr 2023 16:06:22 -0500
 From: Rob Herring <robh@kernel.org>
 To: Francesco Dolcini <francesco@dolcini.it>
-Subject: Re: [PATCH v1 3/6] dt-bindings: display: bridge: toshiba,tc358768:
- add parallel input mode
-Message-ID: <20230403210117.GA1722054-robh@kernel.org>
-References: <20230330095941.428122-1-francesco@dolcini.it>
- <20230330095941.428122-4-francesco@dolcini.it>
- <a924186c-31d3-b7f0-085f-97b849a4d751@linaro.org>
- <ZCaqcaq02VDsqCPJ@francesco-nb.int.toradex.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: bridge: sn65dsi83: Add DSI
+ video mode
+Message-ID: <20230403210622.GA1740065-robh@kernel.org>
+References: <20230330101752.429804-1-francesco@dolcini.it>
+ <20230330101752.429804-2-francesco@dolcini.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZCaqcaq02VDsqCPJ@francesco-nb.int.toradex.com>
+In-Reply-To: <20230330101752.429804-2-francesco@dolcini.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,76 +65,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ devicetree@vger.kernel.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
- Francesco Dolcini <francesco.dolcini@toradex.com>, devicetree@vger.kernel.org
+ Francesco Dolcini <francesco.dolcini@toradex.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Mar 31, 2023 at 11:40:01AM +0200, Francesco Dolcini wrote:
-> On Fri, Mar 31, 2023 at 10:48:15AM +0200, Krzysztof Kozlowski wrote:
-> > On 30/03/2023 11:59, Francesco Dolcini wrote:
-> > > From: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > > 
-> > > Add new toshiba,input-rgb-mode property to describe the actual signal
-> > > connection on the parallel RGB input interface.
-> > > 
-> > > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
-> > > ---
-> > >  .../bindings/display/bridge/toshiba,tc358768.yaml | 15 +++++++++++++++
-> > >  1 file changed, 15 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > > index 8f22093b61ae..2638121a2223 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-> > > @@ -42,6 +42,21 @@ properties:
-> > >    clock-names:
-> > >      const: refclk
-> > >  
-> > > +  toshiba,input-rgb-mode:
-> > > +    description: |
-> > > +      Parallel Input (RGB) Mode.
-> > > +
-> > > +      RGB inputs (PD[23:0]) color arrangement as documented in the datasheet
-> > > +      and in the table below.
-> > > +
-> > > +      0 = R[7:0], G[7:0], B[7:0]
-> > 
-> > RGB888?
+On Thu, Mar 30, 2023 at 12:17:51PM +0200, Francesco Dolcini wrote:
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
 > 
-> Or anything else - like a RGB666 - just connecting to GND the unused
-> pins.
+> SN65DSI8[34] device supports burst video mode and non-burst video mode
+> with sync events or with sync pulses packet transmission as described in
+> the DSI specification.
+> 
+> Add property to select the expected mode, this allows for example to
+> select a mode that is compatible with the DSI host interface.
 
-If the bridge is configured for RGB666, then that's fine. If not, the 
-unused pins should be driven with either the MSB of each component. 
-Otherwise, you'd can't fully saturate the colors.
-
-> > > +      1 = R[1:0], G[1:0], B[1:0], R[7:2], G[7:2], B[7:2]
-> > > +      2 = 8’b0, R[4:0], G[5:0], B[4:0]
-> > 
-> > Isn't this RGB565?
-> > 
-> > Don't we have already properties like this? e.g. colorspace?
-> 
-> It's not really the colorspace this property.
-> 
-> tc358768 is a parallel RGB to DSI bridge, it has 24 bit parallel input
-> line.
-> 
-> The way this lines are connected is configurable with this parameter, if you
-> look at mode 0 and 1 they all allow to have a RGB888 or a RGB666 or a
-> RGB565 mapping. This just configure some internal mux, it's not strictly
-> about the RGB mode.
-
-This is the same as other cases. There's a need for describing the 
-interface. It keeps coming up and I keep saying to go create something 
-common.
+Why does this need to be in DT? The source and sink drivers should know 
+what their capabilities are and pick the best common one.
 
 Rob
