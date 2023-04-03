@@ -2,77 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0ED6D5116
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 21:07:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0FD6D5141
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 21:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB48810E03A;
-	Mon,  3 Apr 2023 19:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4526F10E0B8;
+	Mon,  3 Apr 2023 19:24:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C61A410E03A;
- Mon,  3 Apr 2023 19:07:11 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 333ETqPv026979; Mon, 3 Apr 2023 19:07:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=dOed60UN+eh1dm1tAIE9fiexuRCZM9wl9JIJoqB4vu0=;
- b=M3gs8FeKE9ML+yMR42qAICMUQoR0MvrvrrLJ+6zScGye1w6I+dR3RSKMvu41yDtO2yaW
- eqOAooaxAlUGxYGgVylIs8xcRjsRVmY2LBxih5NPbAmzH/7wK/+qD+oZdl95q2IcwfmB
- JxCbHznuTLGiWDLuPCUCM0ebiSSqRinJ+B3mdRjH3s45InjYoQRlxczlXIxmDF6/7irD
- hYKPxDP3ccYuc6YbYY+T+VyEIRb1RagFICGEaUJXFTd7uhYfO4ATSYHmrcTHYc59n1MN
- PpqoE/UZKOi6N0gHT9wIJoS9TAltqDJmC2+9RZzDXmywpYnqURt+KySja0eBqLJFNzNA iQ== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pr0kx0pe0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Apr 2023 19:07:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 333J73Z0032262
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 3 Apr 2023 19:07:03 GMT
-Received: from [10.110.66.70] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 3 Apr 2023
- 12:07:03 -0700
-Message-ID: <9d1529c0-779c-7f1f-6e6e-1972bb0d39f4@quicinc.com>
-Date: Mon, 3 Apr 2023 12:07:02 -0700
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663F310E05D
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 19:24:46 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 333JOYr0126980;
+ Mon, 3 Apr 2023 14:24:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1680549874;
+ bh=lWWl+d3nWMAemXud+JhzKn1WOyt54pVHPHZSkI85Z8A=;
+ h=From:To:CC:Subject:Date;
+ b=lWT7V/E8lz7Ew0QaceyYfiufCjE7ib4MaqNHZk/WXjFkkqvWYiMYNh163I4B+rd1o
+ QjgSRd0zB0Z5GJI+r+KEtf28MbZxEW5HKfFrXJaW0ACbxHBNMoTufd2uyIVIUMvIO1
+ FYhxZfk88sWNq48+F7vz2Ncth1miwc/AUFLlzTU4=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 333JOYXr105647
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 3 Apr 2023 14:24:34 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16; Mon, 3
+ Apr 2023 14:24:34 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.16 via
+ Frontend Transport; Mon, 3 Apr 2023 14:24:34 -0500
+Received: from ula0226330.dal.design.ti.com (ileaxei01-snat.itg.ti.com
+ [10.180.69.5])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 333JOXH9047746;
+ Mon, 3 Apr 2023 14:24:33 -0500
+From: Andrew Davis <afd@ti.com>
+To: Arnd Bergmann <arnd@arndb.de>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, John Stultz <jstultz@google.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH v2] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
+Date: Mon, 3 Apr 2023 14:24:33 -0500
+Message-ID: <20230403192433.26648-1-afd@ti.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v3 00/38] drm/msm/dpu: rework HW catalog
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230330215324.1853304-1-dmitry.baryshkov@linaro.org>
- <b4972790-d990-063a-7ef4-2f05407357e8@quicinc.com>
- <f198ac6a-df12-9c08-55e8-f677acea8e2c@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <f198ac6a-df12-9c08-55e8-f677acea8e2c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 2L806kuGRLjXowJJOhX-pv06-4pmuD90
-X-Proofpoint-ORIG-GUID: 2L806kuGRLjXowJJOhX-pv06-4pmuD90
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-03_15,2023-04-03_03,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- phishscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- impostorscore=0 mlxlogscore=999 clxscore=1015 lowpriorityscore=0
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2304030146
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,290 +64,355 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: linaro-mm-sig@lists.linaro.org, Andrew Davis <afd@ti.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
+this allows for allocations of DMA-BUFs that can be consumed by various
+DMA-BUF supporting devices.
 
+Signed-off-by: Andrew Davis <afd@ti.com>
+---
 
-On 4/3/2023 11:48 AM, Dmitry Baryshkov wrote:
-> On 03/04/2023 21:06, Abhinav Kumar wrote:
->>
->>
->> On 3/30/2023 2:52 PM, Dmitry Baryshkov wrote:
->>> This huge series attempts to restructure the DPU HW catalog into a
->>> manageable and reviewable data set. In order to ease review and testing
->>> I merged all the necessary fixes into this series. Also I cherry-picked
->>> & slightly fixed Konrad's patch adding size to the SSPP and INTF macros.
->>>
->>
->> I had to first dig up some history about why dpu catalog grew so much 
->> in the first place before starting this review. When the DPU driver 
->> first landed (which pre-dates my work in upstream), it looks like it 
->> followed mdp5 model from mdp5_cfg.c. But looks like as the number of 
->> chipsets which use DPU kept growing, this is becoming a burden.
->>
->> As everyone knows, downstream follows a devicetree model for the dpu 
->> hardware and that should have always been the case. Perhaps in the 
->> last 2-3 years more time could have been spent on standardizing the 
->> bindings used for hw blocks in order to maintain a less hard-coded 
->> catalog file and more in the device tree.
-> 
-> Unfortunately, this is not how the upstream DT works. If something is a 
-> constant hardware property, it should not go into the DT. So pushing 
-> catalog to dt would have been immediately frowned upon by Rob Herring or 
-> Krzysztof.
-> 
+Changes from v1:
+ - Use existing DT flags, if both pool(device usable) and export(userspace
+   usable) properties are in the SRAM node then export as a DMA-BUF Heap
+ - Rebase on 6.3-rc5
 
-Yes certainly we cannot put hardware specific properties. But in 
-general, modelling the hardware like the number of sspps, number of 
-interfaces and number of dspps etc can be a bit abstracted? like 
-blk-type and blk-offset? blk-type can be a custom string because each 
-block is named differently for different vendors?
+ drivers/misc/Kconfig         |   7 +
+ drivers/misc/Makefile        |   1 +
+ drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
+ drivers/misc/sram.c          |   6 +
+ drivers/misc/sram.h          |  16 +++
+ 5 files changed, 275 insertions(+)
+ create mode 100644 drivers/misc/sram-dma-heap.c
 
-The number of blk_offsets decides number of blocks. Its not constant 
-right. We are seeing it varying with chipsets.
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 433aa41977852..8b4c111a6493b 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -448,6 +448,13 @@ config SRAM
+ config SRAM_EXEC
+ 	bool
+ 
++config SRAM_DMA_HEAP
++	bool "Export on-chip SRAM pools using DMA-Heaps"
++	depends on DMABUF_HEAPS && SRAM
++	help
++	  This driver allows the export of on-chip SRAM marked as both pool
++	  and exportable to userspace using the DMA-Heaps interface.
++
+ config DW_XDATA_PCIE
+ 	depends on PCI
+ 	tristate "Synopsys DesignWare xData PCIe driver"
+diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+index 56de43943cd51..bbdc64aa8af1a 100644
+--- a/drivers/misc/Makefile
++++ b/drivers/misc/Makefile
+@@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
+ obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
+ obj-$(CONFIG_SRAM)		+= sram.o
+ obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
++obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
+ obj-$(CONFIG_GENWQE)		+= genwqe/
+ obj-$(CONFIG_ECHO)		+= echo/
+ obj-$(CONFIG_CXL_BASE)		+= cxl/
+diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
+new file mode 100644
+index 0000000000000..c511f4ac1280e
+--- /dev/null
++++ b/drivers/misc/sram-dma-heap.c
+@@ -0,0 +1,245 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * SRAM DMA-Heap userspace exporter
++ *
++ * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
++ *	Andrew Davis <afd@ti.com>
++ */
++
++#include <linux/dma-mapping.h>
++#include <linux/err.h>
++#include <linux/genalloc.h>
++#include <linux/io.h>
++#include <linux/mm.h>
++#include <linux/scatterlist.h>
++#include <linux/slab.h>
++#include <linux/dma-buf.h>
++#include <linux/dma-heap.h>
++
++#include "sram.h"
++
++struct sram_dma_heap {
++	struct dma_heap *heap;
++	struct gen_pool *pool;
++};
++
++struct sram_dma_heap_buffer {
++	struct gen_pool *pool;
++	struct list_head attachments;
++	struct mutex attachments_lock;
++	unsigned long len;
++	void *vaddr;
++	phys_addr_t paddr;
++};
++
++struct dma_heap_attachment {
++	struct device *dev;
++	struct sg_table *table;
++	struct list_head list;
++};
++
++static int dma_heap_attach(struct dma_buf *dmabuf,
++			   struct dma_buf_attachment *attachment)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	struct dma_heap_attachment *a;
++	struct sg_table *table;
++
++	a = kzalloc(sizeof(*a), GFP_KERNEL);
++	if (!a)
++		return -ENOMEM;
++
++	table = kmalloc(sizeof(*table), GFP_KERNEL);
++	if (!table) {
++		kfree(a);
++		return -ENOMEM;
++	}
++	if (sg_alloc_table(table, 1, GFP_KERNEL)) {
++		kfree(table);
++		kfree(a);
++		return -ENOMEM;
++	}
++	sg_set_page(table->sgl, pfn_to_page(PFN_DOWN(buffer->paddr)), buffer->len, 0);
++
++	a->table = table;
++	a->dev = attachment->dev;
++	INIT_LIST_HEAD(&a->list);
++
++	attachment->priv = a;
++
++	mutex_lock(&buffer->attachments_lock);
++	list_add(&a->list, &buffer->attachments);
++	mutex_unlock(&buffer->attachments_lock);
++
++	return 0;
++}
++
++static void dma_heap_detatch(struct dma_buf *dmabuf,
++			     struct dma_buf_attachment *attachment)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	struct dma_heap_attachment *a = attachment->priv;
++
++	mutex_lock(&buffer->attachments_lock);
++	list_del(&a->list);
++	mutex_unlock(&buffer->attachments_lock);
++
++	sg_free_table(a->table);
++	kfree(a->table);
++	kfree(a);
++}
++
++static struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
++					     enum dma_data_direction direction)
++{
++	struct dma_heap_attachment *a = attachment->priv;
++	struct sg_table *table = a->table;
++
++	/*
++	 * As this heap is backed by uncached SRAM memory we do not need to
++	 * perform any sync operations on the buffer before allowing device
++	 * domain access. For this reason we use SKIP_CPU_SYNC and also do
++	 * not use or provide begin/end_cpu_access() dma-buf functions.
++	 */
++	if (!dma_map_sg_attrs(attachment->dev, table->sgl, table->nents,
++			      direction, DMA_ATTR_SKIP_CPU_SYNC))
++		return ERR_PTR(-ENOMEM);
++
++	return table;
++}
++
++static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
++				   struct sg_table *table,
++				   enum dma_data_direction direction)
++{
++	dma_unmap_sg_attrs(attachment->dev, table->sgl, table->nents,
++			   direction, DMA_ATTR_SKIP_CPU_SYNC);
++}
++
++static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++
++	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
++	kfree(buffer);
++}
++
++static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++	int ret;
++
++	/* SRAM mappings are not cached */
++	vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
++
++	ret = vm_iomap_memory(vma, buffer->paddr, buffer->len);
++	if (ret)
++		pr_err("Could not map buffer to userspace\n");
++
++	return ret;
++}
++
++static int dma_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
++{
++	struct sram_dma_heap_buffer *buffer = dmabuf->priv;
++
++	iosys_map_set_vaddr(map, buffer->vaddr);
++
++	return 0;
++}
++
++static const struct dma_buf_ops sram_dma_heap_buf_ops = {
++	.attach = dma_heap_attach,
++	.detach = dma_heap_detatch,
++	.map_dma_buf = dma_heap_map_dma_buf,
++	.unmap_dma_buf = dma_heap_unmap_dma_buf,
++	.release = dma_heap_dma_buf_release,
++	.mmap = dma_heap_mmap,
++	.vmap = dma_heap_vmap,
++};
++
++struct dma_buf *sram_dma_heap_allocate(struct dma_heap *heap,
++				       unsigned long len,
++				       unsigned long fd_flags,
++				       unsigned long heap_flags)
++{
++	struct sram_dma_heap *sram_dma_heap = dma_heap_get_drvdata(heap);
++	struct sram_dma_heap_buffer *buffer;
++
++	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
++	struct dma_buf *dmabuf;
++	int ret;
++
++	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
++	if (!buffer)
++		return ERR_PTR(-ENOMEM);
++	buffer->pool = sram_dma_heap->pool;
++	INIT_LIST_HEAD(&buffer->attachments);
++	mutex_init(&buffer->attachments_lock);
++	buffer->len = len;
++
++	buffer->vaddr = (void *)gen_pool_alloc(buffer->pool, buffer->len);
++	if (!buffer->vaddr) {
++		ret = -ENOMEM;
++		goto free_buffer;
++	}
++
++	buffer->paddr = gen_pool_virt_to_phys(buffer->pool, (unsigned long)buffer->vaddr);
++	if (buffer->paddr == -1) {
++		ret = -ENOMEM;
++		goto free_pool;
++	}
++
++	/* create the dmabuf */
++	exp_info.exp_name = dma_heap_get_name(heap);
++	exp_info.ops = &sram_dma_heap_buf_ops;
++	exp_info.size = buffer->len;
++	exp_info.flags = fd_flags;
++	exp_info.priv = buffer;
++	dmabuf = dma_buf_export(&exp_info);
++	if (IS_ERR(dmabuf)) {
++		ret = PTR_ERR(dmabuf);
++		goto free_pool;
++	}
++
++	return dmabuf;
++
++free_pool:
++	gen_pool_free(buffer->pool, (unsigned long)buffer->vaddr, buffer->len);
++free_buffer:
++	kfree(buffer);
++
++	return ERR_PTR(ret);
++}
++
++static struct dma_heap_ops sram_dma_heap_ops = {
++	.allocate = sram_dma_heap_allocate,
++};
++
++int sram_add_dma_heap(struct sram_dev *sram,
++		      struct sram_reserve *block,
++		      phys_addr_t start,
++		      struct sram_partition *part)
++{
++	struct sram_dma_heap *sram_dma_heap;
++	struct dma_heap_export_info exp_info;
++
++	dev_info(sram->dev, "Exporting SRAM Heap '%s'\n", block->label);
++
++	sram_dma_heap = kzalloc(sizeof(*sram_dma_heap), GFP_KERNEL);
++	if (!sram_dma_heap)
++		return -ENOMEM;
++	sram_dma_heap->pool = part->pool;
++
++	exp_info.name = kasprintf(GFP_KERNEL, "sram_%s", block->label);
++	exp_info.ops = &sram_dma_heap_ops;
++	exp_info.priv = sram_dma_heap;
++	sram_dma_heap->heap = dma_heap_add(&exp_info);
++	if (IS_ERR(sram_dma_heap->heap)) {
++		int ret = PTR_ERR(sram_dma_heap->heap);
++		kfree(sram_dma_heap);
++		return ret;
++	}
++
++	return 0;
++}
+diff --git a/drivers/misc/sram.c b/drivers/misc/sram.c
+index f0e7f02605eb3..13dcab2062fac 100644
+--- a/drivers/misc/sram.c
++++ b/drivers/misc/sram.c
+@@ -120,6 +120,12 @@ static int sram_add_partition(struct sram_dev *sram, struct sram_reserve *block,
+ 		ret = sram_add_pool(sram, block, start, part);
+ 		if (ret)
+ 			return ret;
++
++		if (block->export) {
++			ret = sram_add_dma_heap(sram, block, start, part);
++			if (ret)
++				return ret;
++		}
+ 	}
+ 	if (block->export) {
+ 		ret = sram_add_export(sram, block, start, part);
+diff --git a/drivers/misc/sram.h b/drivers/misc/sram.h
+index d2058d8c8f1d2..7687c32c09226 100644
+--- a/drivers/misc/sram.h
++++ b/drivers/misc/sram.h
+@@ -61,4 +61,20 @@ static inline int sram_add_protect_exec(struct sram_partition *part)
+ 	return -ENODEV;
+ }
+ #endif /* CONFIG_SRAM_EXEC */
++
++#ifdef CONFIG_SRAM_DMA_HEAP
++int sram_add_dma_heap(struct sram_dev *sram,
++		      struct sram_reserve *block,
++		      phys_addr_t start,
++		      struct sram_partition *part);
++#else
++static inline int sram_add_dma_heap(struct sram_dev *sram,
++				    struct sram_reserve *block,
++				    phys_addr_t start,
++				    struct sram_partition *part)
++{
++	return 0;
++}
++#endif /* CONFIG_SRAM_DMA_HEAP */
++
+ #endif /* __SRAM_H */
+-- 
+2.39.2
 
->> Then the catalog would have just been a place to parse the device 
->> tree, set the feature capability based on chipset (refer 
->> _sde_hardware_pre_caps). That way offsets , number of blocks and the 
->> blocks themselves still come from the device tree but perhaps some 
->> specific features are at SOC level for which the catalog still stays.
->>
->> That being said, I thought of different strategies even before the 
->> review but two issues prevented me from suggesting those ideas (one of 
->> which I am seeing even here , which I am going to suggest below and 
->> also suggest why it wont work).
->>
->> 1) For the same DPU major/minor version, some features might get 
->> dropped or even get added with different SOCs as overall the system 
->> capabilities might differ like number of SSPPs or memory footprint of 
->> the SOC etc.
->>
->> So there is no good way right now to generalize any dpu catalog or to 
->> tie it with a DPU major/minor version. We will have to stick with a 
->> per-SOC model.
-> 
-> Up to now, the SoC was equal to major+minor. Could you please be more 
-> specific here, if there are any actual differences within major+minor 
-> families?
-> 
-
-So lets say, the same DPU major/minor version is used but we have only 
-one DSI on one chipset Vs two DSIs on the other, some of the features 
-which come into play only for dual DSI cannot be used. Like broadcasting 
-a DCS command across two DSIs etc. This is a very basic example, but 
-there are many examples.
-
->>
->> This is what led me to not pursue that route.
->>
->> 2) For the same DPU major/minor version, even if core-DPU is same (in 
->> terms of SSPP, DSPP etc), the number of interfaces can change. So 
->> again no room to generalize same DPU hw version.
-> 
-> Again, I might be just scratching the surface, but I have not observed 
-> this.
-> 
-
-This typically happens based on what products that chipset is catered 
-towards. Thats pretty much what I can share. But more number of 
-interfaces for more number of displays / use-cases.
-
->>
->> 3) For the same reason as (1) and (2), I think the de-duplication 
->> strategy used in this series is not correct. The idea of 
->> dpu_hw_version_num_layer_mixer is just not scalable as I dont know how 
->> many variants that will lead to. So it seems like just an attempt to 
->> de-duplicate which perhaps works today for existing dpu chipsets in 
->> upstream but by no means scalable. Lets go ahead with per-SOC catalog 
->> file but lets live with some amount of duplication between them if we 
->> really have to split it across header files.
-> 
-> Indeed, this leads to minor differences on top of major+lm. However, I 
-> think, the overall complexity is lowered.
-> 
-> Nevertheless, let's land the major set of patches and leave 
-> generalization for the later time. I think, with the addition of the 
-> next several platforms we will see the drill.
-> 
-
-Yes, I would say lets handle generalization/de-duplication later when we 
-see more patterns.
-
-Lets land the main pieces first.
-
-Going with dpu version and number of lms is not the way to generalize it 
-from what we think.
-
->> I also thought of similar strategies to generalize like based on 
->> sub-blocks similar to what you have done but all of these were NAKed 
->> internally by folks who work on more chipsets / have more visibility 
->> into the spread of features across chipsets.
->>
->>> First 4 patches clean up the catalog a bit in order to make it more
->>> suitable for refactoring.
->>>
->>
->> These are okay. I will address your follow-up questions about patch 
->> (1) and lets land these.
->>
->>> Then the next batch of 13 + 5 patches split the hw catalog entries into
->>> per-SoC files.
->>>
->>
->> This part is also fine. But perhaps dont have dpu hw version in the 
->> file. So just dpu_hw_sm8250.h or dpu_hw_sm8350.h etc.
-> 
-> Having a version makes it easier to compare chipsets (and also to verify 
-> that feature masks are correct), so I'd like to retain it.
-> 
-
-This is again trying to generalize it. So for example, yes perhaps today 
-the chipsets we have belong to a particular DPU major/minor version and 
-it might look like because they are in the same family things look 
-similar but that can also go against this. If we find some differences 
-among them, then some upstream developers might think "Oh, these belong 
-to the same family, but how come it doesnt have the same features?". 
-Thats why I am hesitant to go with DPU major/minor version in the name.
-
->>
->>> Next 9 patches rework catalog entries, mostly targeting deduplication of
->>> data used by several platforms. At this moment only three pairs (out of
->>> 13 devices supported by DPU) are merged. However this part lays out the
->>> ground to ease adding support for new platforms, some of which use the
->>> same configuration as the existing platforms
->>>
->>
->> This is the part I suggest we drop.
->>
->>> Last batch of 7 patches renames existing macros to ease using them while
->>> adding support for new devices.
->>>
->>
->> I have to check this part but perhaps after re-basing based on my 
->> earlier comment.
-> 
-> Ack, I'll see what I can drop and what is going to be there.
-> 
-> Up to now there were some natural shares, like sm8150 vs sc8180x and 
-> qcm2290 vs sm6115. Do you think we should populate the missing parts by 
-> duplicate the data?
-> 
-
-Yes, lets go ahead with the duplicate data for now. Once a more 
-reasonable strategy evolves for generalizing it, we can update it.
-
->>
->>> This pile of patches is submitted in a single batch to allow one to
->>> observe the final goal of the cleanup which otherwise might be hard to
->>> assess.
->>>
->>>
->>> Changes since v2:
->>> - Fixed sc8280xp SSPP size to 0x2ac
->>> - Rebased on top of msm-next-lumag, dropped merged patches
->>>
->>> Changes since v1:
->>> - Picked up Konrad's patch
->>> - Picked up dependencies into the main series
->>> - Moved qseed3lite vs qseed4 patches into the fixes part
->>> - Fixed sm6115 in a similar manner.
->>>
->>> Dmitry Baryshkov (37):
->>>    drm/msm/dpu: constify DSC data structures
->>>    drm/msm/dpu: mark remaining pp data as const
->>>    drm/msm/dpu: move UBWC/memory configuration to separate struct
->>>    drm/msm/dpu: split SM8550 catalog entry to the separate file
->>>    drm/msm/dpu: split SM8450 catalog entry to the separate file
->>>    drm/msm/dpu: split SC8280XP catalog entry to the separate file
->>>    drm/msm/dpu: split SC7280 catalog entry to the separate file
->>>    drm/msm/dpu: split SM8350 catalog entry to the separate file
->>>    drm/msm/dpu: split SM6115 catalog entry to the separate file
->>>    drm/msm/dpu: split QCM2290 catalog entry to the separate file
->>>    drm/msm/dpu: split SC7180 catalog entry to the separate file
->>>    drm/msm/dpu: split SM8250 catalog entry to the separate file
->>>    drm/msm/dpu: split SC8180X catalog entry to the separate file
->>>    drm/msm/dpu: split SM8150 catalog entry to the separate file
->>>    drm/msm/dpu: split MSM8998 catalog entry to the separate file
->>>    drm/msm/dpu: split SDM845 catalog entry to the separate file
->>>    drm/msm/dpu: duplicate sdm845 catalog entries
->>>    drm/msm/dpu: duplicate sc7180 catalog entries
->>>    drm/msm/dpu: duplicate sm8150 catalog entries
->>>    drm/msm/dpu: duplicate sm8250 catalog entries
->>>    drm/msm/dpu: duplicate sm8350 catalog entries
->>>    drm/msm/dpu: use defined symbol for sc8280xp's maxwidth
->>>    drm/msm/dpu: catalog: add comments regarding DPU_CTL_SPLIT_DISPLAY
->>>    drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for sc8280xp
->>>    drm/msm/dpu: enable DSPP_2/3 for LM_2/3 on sm8450
->>>    drm/msm/dpu: drop duplicate vig_sblk instances
->>>    drm/msm/dpu: enable DSPP on sc8180x
->>>    drm/msm/dpu: deduplicate sc8180x with sm8150
->>>    drm/msm/dpu: deduplicate sm6115 with qcm2290
->>>    drm/msm/dpu: deduplicate sc8280xp with sm8450
->>>    drm/msm/dpu: drop unused macros from hw catalog
->>>    drm/msm/dpu: inline IRQ_n_MASK defines
->>>    drm/msm/dpu: rename INTF_foo_MASK to contain major DPU version
->>>    drm/msm/dpu: rename CTL_foo_MASK to contain major DPU version
->>>    drm/msm/dpu: rename VIG and DMA_foo_MASK to contain major DPU version
->>>    drm/msm/dpu: rename MIXER_foo_MASK to contain major DPU version
->>>    drm/msm/dpu: rename MERGE_3D_foo_MASK to contain major DPU version
->>>
->>> Konrad Dybcio (1):
->>>    drm/msm/dpu: Allow variable SSPP/INTF_BLK size
->>>
->>>   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  210 ++
->>>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  210 ++
->>>   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |   97 +
->>>   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |   91 +
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h |  152 ++
->>>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  244 ++
->>>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  151 ++
->>>   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   91 +
->>>   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   83 +
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h |   53 +
->>>   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  226 ++
->>>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  158 ++
->>>   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  136 ++
->>>   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  142 ++
->>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h |   99 +
->>>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  209 ++
->>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 2175 +----------------
->>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   37 +-
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |    4 +-
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   18 +-
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |    4 +-
->>>   21 files changed, 2443 insertions(+), 2147 deletions(-)
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
->>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
->>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
->>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
->>>   create mode 100644 
->>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>
-> 
