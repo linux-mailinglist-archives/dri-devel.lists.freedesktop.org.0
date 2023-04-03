@@ -1,47 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C126D4435
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 14:16:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4A36D4473
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 14:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21CAD10E16A;
-	Mon,  3 Apr 2023 12:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7285610E46A;
+	Mon,  3 Apr 2023 12:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA2F10E16A
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 12:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680524189; x=1712060189;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=whNP+0koM8deNDJey5OeUVBeeth6de3kWBBSNYmIzFA=;
- b=JkoYkMahciA3PwIfvEgA4vkUn7eqgCCoj34tLF7yt/u70k1h0KcntN8q
- y/dYdZDoUT3H+1NEkciLFxLkrdQGeZI6CLMWphG+95NB396JpSvpmDDGY
- bkFSTix0IYZ+cjn4wGsDxL665ZmcN+1mc5xh9Xo7sP9o/yRWi1/++iK2/
- N9Q5C0ykwVCjxZ9NVIlZ2eXjTG/+SYq5aObNX/078sAzJXacdcAg/7ml5
- i7CiGwNk7HTyPOWzexS5KdaHR+5K4nP8Rms+jOfueKUAWVbDthKPoxsym
- VrDI+aTlBtIznQO6eeXRF8Y7zdOQ/8g2k/w8wsCsWTqCuxzLt3LfqX3xB w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="330452336"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; d="scan'208";a="330452336"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 05:16:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10668"; a="718529676"
-X-IronPort-AV: E=Sophos;i="5.98,314,1673942400"; d="scan'208";a="718529676"
-Received: from joe-255.igk.intel.com (HELO localhost) ([10.91.220.57])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 05:16:26 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] accel/ivpu: Remove D3hot delay for Meteorlake
-Date: Mon,  3 Apr 2023 14:15:45 +0200
-Message-Id: <20230403121545.2995279-1-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19E610E456
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 12:32:34 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 35894B81981;
+ Mon,  3 Apr 2023 12:32:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73D24C4339B;
+ Mon,  3 Apr 2023 12:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680525151;
+ bh=ulRUO8fEKtK/fjgnpqilfVtOG7bGfaNe2DcuHFEQvow=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=MxjHLqvp/wt7HJ/F9QbFK6KWaWwpZFxvvTYu/GSbf6mOMipizMMWyzbcIMGwIXbSa
+ PA7vML9GO7CztqywOEP+WeOVjiAAur7/z1zx3mF43VjGkIZfA25ks/voXfgkwZ6fRw
+ GnghkpJgKjaJ9I3NBW8afx61VWKSw20ogLBGp8CnntJCNF1plBybvSshB2KSBRDaLN
+ OmMX5OfUqoWLkSCzgx4mIJ1TCHA9P7Q3B7wyMnSxvUGhjEkeBvG0p+BwxvTAqoZr9M
+ fV1D7wbQGu0wM6NFeTeoWJDD1Arf42feCLn8Czf5ToXR7luCZBD117hs/X5KPQ3Rz5
+ GX76CF3Ah8u9Q==
+From: rfoss@kernel.org
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Francesco Dolcini <francesco@dolcini.it>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: lt8912b: Fix DSI Video Mode
+Date: Mon,  3 Apr 2023 14:32:17 +0200
+Message-Id: <168052510957.3322285.11626143716583284143.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230330093131.424828-1-francesco@dolcini.it>
+References: <20230330093131.424828-1-francesco@dolcini.it>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,51 +59,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <quic_jhugo@quicinc.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- linux-pci@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Cc: Francesco Dolcini <francesco.dolcini@toradex.com>,
+ Robert Foss <rfoss@kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Karol Wachowski <karol.wachowski@linux.intel.com>
+From: Robert Foss <rfoss@kernel.org>
 
-VPU on MTL has hardware optimizations and does not require 10ms
-D0 - D3hot transition delay imposed by PCI specification (PCIe
-r6.0, sec 5.9.) .
+On Thu, 30 Mar 2023 11:31:31 +0200, Francesco Dolcini wrote:
+> From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> 
+> LT8912 DSI port supports only Non-Burst mode video operation with Sync
+> Events and continuous clock on clock lane, correct dsi mode flags
+> according to that removing MIPI_DSI_MODE_VIDEO_BURST flag.
+> 
+> 
+> [...]
 
-The delay removal is traditionally done by adding PCI ID to
-quirk_remove_d3hot_delay() in drivers/pci/quirks.c . But since
-we do not need that optimization before driver probe and we
-can better specify in the ivpu driver on what (future) hardware
-use the optimization, we do not use quirk_remove_d3hot_delay()
-for that.
+Applied, thanks!
 
-Signed-off-by: Karol Wachowski <karol.wachowski@linux.intel.com>
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
-v2: improve commit log message
+Repo: https://cgit.freedesktop.org/drm/drm-misc/
 
- drivers/accel/ivpu/ivpu_drv.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index 3be4a5a2b07a..cf9925c0a8ad 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -442,6 +442,10 @@ static int ivpu_pci_init(struct ivpu_device *vdev)
- 	/* Clear any pending errors */
- 	pcie_capability_clear_word(pdev, PCI_EXP_DEVSTA, 0x3f);
- 
-+	/* VPU MTL does not require PCI spec 10m D3hot delay */
-+	if (ivpu_is_mtl(vdev))
-+		pdev->d3hot_delay = 0;
-+
- 	ret = pcim_enable_device(pdev);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to enable PCI device: %d\n", ret);
--- 
-2.25.1
+[1/1] drm/bridge: lt8912b: Fix DSI Video Mode
+      commit: f435b7ef3b360d689df2ffa8326352cd07940d92
+
+
+
+Rob
 
