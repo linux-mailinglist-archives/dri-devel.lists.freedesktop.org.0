@@ -2,92 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6DD6D4D8A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEF16D4D94
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E74AD10E516;
-	Mon,  3 Apr 2023 16:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5546610E510;
+	Mon,  3 Apr 2023 16:25:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7BEA10E53B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:23:56 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- o24-20020a05600c511800b003ef59905f26so18442243wms.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 09:23:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tessares.net; s=google; t=1680539035;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1cnPk/9AEptXAjDqAXnPNZVq3fipWv8RDKGe+Nooncw=;
- b=bY/nVj3tvufRZC2aBKdYwGx6iARCUJjXkVNxp+oE/oG3ue8sZ0wK3wDYThVFVn/YZp
- 1BecYJHvgUHReHKT78+3DcLkwE17o2ziPNWrNsMiVyRpsvOShCyJr4n8wYITWFFsymyO
- CIPZtlWuUixZIILH8yY/D+rFwMuasQKHpesU1fJGSnk7BKUm73VcaZG3IHq+wRr+3fLe
- sAgJ3j5n9Ic7mDawcKIqSZxwxE35SSF/eTYKHVqrjfH69XtthMgO8jR9ZIrsDh0mQ2Mk
- +SfTl+AbAygGPD0TOKP6S8FZXmP5s4D2ErdIhqltjwG3HuESuD4JSYBGuWBMBEPHecpQ
- Aa0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680539035;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1cnPk/9AEptXAjDqAXnPNZVq3fipWv8RDKGe+Nooncw=;
- b=oSOQgpqcYnG+AOD1AD07qrYfgqhiEscxoFugA0g+0LF6UdDYHSPiBDTvW+Tza/vAbq
- q338vZqpsJeVorHYsfqL6uUEoxVNCRP05+tf3tdF9MZVDh59gAgHkUnjVeUA1R4sjXkX
- iDHP9v6lY9VPS5NIgAc53wn0bobOkgGsphO6NbSjFarhvpiKHTKV62SAPnbnTiWMkZud
- zicJzfpaSHLbDJDBYIwL1V7oolDIDYF0qHlCRzee6LiGjzAQPIoBV1m93y2mPRZPhutv
- x/J96/jREQSZegAcWTag9S9xbnxru+971hfO+IYqokZJsohBxVALAYzS7aA9lGBsUO6Y
- NwxA==
-X-Gm-Message-State: AAQBX9cOF4rdFWEvJPxYNne4g9Aqo/BJTaevKa6XDIlVr2MjfB+kVq6J
- /u1Yb7bsqV4vydpia/oGb19HRA==
-X-Google-Smtp-Source: AKy350aDvEUBTCOJO2eqLa0fd0WCWd6eUFzvxCfrzuKP6KrlGxHl8jGFVTbsKPFP9b/3iu7Fs6ESjg==
-X-Received: by 2002:a05:600c:2205:b0:3ed:fc8c:f197 with SMTP id
- z5-20020a05600c220500b003edfc8cf197mr27400wml.29.1680539035250; 
- Mon, 03 Apr 2023 09:23:55 -0700 (PDT)
-Received: from vdi08.nix.tessares.net
- (static.219.156.76.144.clients.your-server.de. [144.76.156.219])
- by smtp.gmail.com with ESMTPSA id
- s7-20020a05600c45c700b003ee2a0d49dbsm19829116wmo.25.2023.04.03.09.23.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 09:23:54 -0700 (PDT)
-From: Matthieu Baerts <matthieu.baerts@tessares.net>
-Date: Mon, 03 Apr 2023 18:23:50 +0200
-Subject: [PATCH v4 5/5] checkpatch: check for misuse of the link tags
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0798910E510
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:25:44 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6A13A61B4D;
+ Mon,  3 Apr 2023 16:25:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F2B9C4339B;
+ Mon,  3 Apr 2023 16:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680539143;
+ bh=x2UI7V4k/yuYE4joY5iMyG77MIdsABC9Da+qiYJH0Dk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=oHMg2aNKoZ/fiT5uoOTAcSrwSiUfzPiUJNrJz2XsPWEi6fvKBB92zgSmiHGMJdxq7
+ TAtCCVX3h6lu6vnTCEAki5CWHk2dzc0C9pqxkuSGd7Xeo2gTV/Ofig+Xpu/VV62Zuz
+ iyJtZP65x9Ut0cmQn0QEmS+zpVEY+Gn51IysT/4MTVbidIbi2FJz1obA4OJ3f6FHa7
+ a//ZDsNm2+66+BwIpiJwtv/fGu0LeBSENLJbqnOguhEmvhHJg3txoNGUydI9eowbup
+ ERbaHB/vvYca0eptQdrJ8Ogqig8uWFx3a04VpTO6d5Y9oVyy9wU5Fl8mQt7ioL4Q+A
+ QFNJQxilLdGrQ==
+Date: Mon, 3 Apr 2023 09:25:41 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2] drm/vblank: Fix for drivers that do not
+ drm_vblank_init()
+Message-ID: <20230403162541.GA3195909@dev-arch.thelio-3990X>
+References: <20230403160314.1210533-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230314-doc-checkpatch-closes-tag-v4-5-d26d1fa66f9f@tessares.net>
-References: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
-To: Jonathan Corbet <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, 
- Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
- =?utf-8?q?Kai_Wasserb=C3=A4ch?= <kai@dev.carbon-project.org>, 
- Thorsten Leemhuis <linux@leemhuis.info>, 
- Andrew Morton <akpm@linux-foundation.org>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2132;
- i=matthieu.baerts@tessares.net; h=from:subject:message-id;
- bh=t+lMrvt0On4Mxp3JcNKwbfZAV8NHmHJODiLaTsQGeTo=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBkKv2UP2J95HDGOy6GcObMoPKAxDPMjFQma0ptP
- YDEho8OsPWJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZCr9lAAKCRD2t4JPQmmg
- cwtZD/wP797mT8e5Jwc0WcO3sS51zfy4ZGWVmeOkMdhMlXA+/JyEiFXu8ymEfqAPvI7mtMpnLyJ
- Jshl7CMySAjSk/aHtzfBkzG+TvNTgmHHOBgFgCe8VR2XzyaXCAXD5ydOXsn+wS7HdZYpnAL7Jk6
- 9RKRVTWhVt9qxEtNjsS+CNLkeen04AoWpIVc1o/gXxBhiHYQCWn4u6cJHFaZQsFfwKafTI+7FeB
- /4FoJrcDEw8JrcboiW43TiKfhvvnVqCdktlcbDl+lZvYH+DHi84N/bhSKl/RaTPqCRPvzqRT1W0
- VeHq2BdEodmYC9QPVtMymqrT24MALuBAtCok3FMuTxl4lGbaN7Onfcq1MeIOeoIUMSNDLupcWj7
- jgSsfeSeeSjLeni1lVKPTiWfaGsa291OmbyzocRa0AgsK9A7yoabDnCDuR9o9LxFLi5WvXMoItY
- DYyPYnap2vEOLeXcZosOQ+BqTLo40S9HvpddhyZNTe/1pIdUXdXzjHhuZ9BxU8qhpsZbFS68PhL
- J06bbGPyi82TSeV0ZSAxbQQJAW012371gfzb0jFystjLvFNuMdnNg+F+43UHeYoEO3sqLsu0C+z
- i9IZMhOPffkaLmYdH7F/HPtaJrwcyRRKQf2NpZXbbwf3t2TRBVtFEGIC1uiTfsIXqZLcFGRurI7
- 54xM8BrgjFZJcNA==
-X-Developer-Key: i=matthieu.baerts@tessares.net; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230403160314.1210533-1-robdclark@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,70 +53,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthieu Baerts <matthieu.baerts@tessares.net>, mptcp@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Link:" and "Closes:" tags have to be used with public URLs.
+On Mon, Apr 03, 2023 at 09:03:14AM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> This should fix a crash that was reported on ast (and possibly other
+> drivers which do not initialize vblank).
+> 
+>    fbcon: Taking over console
+>    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000074
+>    Mem abort info:
+>      ESR = 0x0000000096000004
+>      EC = 0x25: DABT (current EL), IL = 32 bits
+>      SET = 0, FnV = 0
+>      EA = 0, S1PTW = 0
+>      FSC = 0x04: level 0 translation fault
+>    Data abort info:
+>      ISV = 0, ISS = 0x00000004
+>      CM = 0, WnR = 0
+>    user pgtable: 4k pages, 48-bit VAs, pgdp=0000080009d16000
+>    [0000000000000074] pgd=0000000000000000, p4d=0000000000000000
+>    Internal error: Oops: 0000000096000004 [#1] SMP
+>    Modules linked in: ip6table_nat tun nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink qrtr sunrpc binfmt_misc vfat fat xfs snd_usb_audio snd_hwdep snd_usbmidi_lib snd_seq snd_pcm snd_rawmidi snd_timer snd_seq_device snd soundcore joydev mc ipmi_ssif ipmi_devintf ipmi_msghandler arm_spe_pmu arm_cmn arm_dsu_pmu arm_dmc620_pmu cppc_cpufreq loop zram crct10dif_ce polyval_ce nvme polyval_generic ghash_ce sbsa_gwdt igb nvme_core ast nvme_common i2c_algo_bit xgene_hwmon gpio_dwapb scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables dm_multipath fuse
+>    CPU: 12 PID: 469 Comm: kworker/12:1 Not tainted 6.3.0-rc2-00008-gd39e48ca80c0 #1
+>    Hardware name: ADLINK AVA Developer Platform/AVA Developer Platform, BIOS TianoCore 2.04.100.07 (SYS: 2.06.20220308) 09/08/2022
+>    Workqueue: events fbcon_register_existing_fbs
+>    pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>    pc : drm_crtc_next_vblank_start+0x2c/0x98
+>    lr : drm_atomic_helper_wait_for_fences+0x90/0x240
+>    sp : ffff80000d583960
+>    x29: ffff80000d583960 x28: ffff07ff8fc187b0 x27: 0000000000000000
+>    x26: ffff07ff99c08c00 x25: 0000000000000038 x24: ffff07ff99c0c000
+>    x23: 0000000000000001 x22: 0000000000000038 x21: 0000000000000000
+>    x20: ffff07ff9640a280 x19: 0000000000000000 x18: ffffffffffffffff
+>    x17: 0000000000000000 x16: ffffb24d2eece1c0 x15: 0000003038303178
+>    x14: 3032393100000048 x13: 0000000000000000 x12: 0000000000000000
+>    x11: 0000000000000000 x10: 0000000000000000 x9 : ffffb24d2eeeaca0
+>    x8 : ffff80000d583628 x7 : 0000080077783000 x6 : 0000000000000000
+>    x5 : ffff80000d584000 x4 : ffff07ff99c0c000 x3 : 0000000000000130
+>    x2 : 0000000000000000 x1 : ffff80000d5839c0 x0 : ffff07ff99c0cc08
+>    Call trace:
+>     drm_crtc_next_vblank_start+0x2c/0x98
+>     drm_atomic_helper_wait_for_fences+0x90/0x240
+>     drm_atomic_helper_commit+0xb0/0x188
+>     drm_atomic_commit+0xb0/0xf0
+>     drm_client_modeset_commit_atomic+0x218/0x280
+>     drm_client_modeset_commit_locked+0x64/0x1a0
+>     drm_client_modeset_commit+0x38/0x68
+>     __drm_fb_helper_restore_fbdev_mode_unlocked+0xb0/0xf8
+>     drm_fb_helper_set_par+0x44/0x88
+>     fbcon_init+0x1e0/0x4a8
+>     visual_init+0xbc/0x118
+>     do_bind_con_driver.isra.0+0x194/0x3a0
+>     do_take_over_console+0x50/0x70
+>     do_fbcon_takeover+0x74/0xf8
+>     do_fb_registered+0x13c/0x158
+>     fbcon_register_existing_fbs+0x78/0xc0
+>     process_one_work+0x1ec/0x478
+>     worker_thread+0x74/0x418
+>     kthread+0xec/0x100
+>     ret_from_fork+0x10/0x20
+>    Code: f9400004 b9409013 f940a082 9ba30a73 (b9407662)
+>    ---[ end trace 0000000000000000 ]---
+> 
+> v2: Use drm_dev_has_vblank()
+> 
+> Reported-by: Nathan Chancellor <nathan@kernel.org>
+> Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-It is difficult to make sure the link is public but at least we can
-verify the tag is followed by 'http(s)://'.
+Still appears to work for me:
 
-With that, we avoid such a tag that is not allowed [1]:
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-  Closes: <number>
-
-Now that we check the "link" tags are followed by a URL, we can relax
-the check linked to "Reported-by being followed by a link tag" to only
-verify if a "link" tag is present after the "Reported-by" one.
-
-Link: https://lore.kernel.org/linux-doc/CAHk-=wh0v1EeDV3v8TzK81nDC40=XuTdY2MCr0xy3m3FiBV3+Q@mail.gmail.com/ [1]
-Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
----
-v4:
-- Relax "Reported-by being followed by a link tag" check
-- Check for "http(s)://" not just "http(s):"
-
-v3:
-- new patch addressing Linus' concerns.
----
- scripts/checkpatch.pl | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index f8a57f400570..6d602c61d72a 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3179,7 +3179,7 @@ sub process {
- 				if (!defined $lines[$linenr]) {
- 					WARN("BAD_REPORTED_BY_LINK",
- 					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . "\n");
--				} elsif ($rawlines[$linenr] !~ m{^closes:\s*https?://}i) {
-+				} elsif ($rawlines[$linenr] !~ /^closes:\s*/i) {
- 					WARN("BAD_REPORTED_BY_LINK",
- 					     "Reported-by: should be immediately followed by Closes: with a URL to the report\n" . $herecurr . $rawlines[$linenr] . "\n");
- 				}
-@@ -3292,6 +3292,17 @@ sub process {
- 			}
- 		}
- 
-+# Check for misuse of the link tags
-+		if ($in_commit_log &&
-+		    $line =~ /^\s*(\w+:)\s*(\S+)/) {
-+			my $tag = $1;
-+			my $value = $2;
-+			if ($tag =~ /^$link_tags_search$/ && $value !~ m{^https?://}) {
-+				WARN("COMMIT_LOG_WRONG_LINK",
-+				     "'$tag' should be followed by a public http(s) link\n" . $herecurr);
-+			}
-+		}
-+
- # Check for lines starting with a #
- 		if ($in_commit_log && $line =~ /^#/) {
- 			if (WARN("COMMIT_COMMENT_SYMBOL",
-
--- 
-2.39.2
-
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index 299fa2a19a90..877e2067534f 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -996,10 +996,16 @@ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
+>  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
+>  {
+>  	unsigned int pipe = drm_crtc_index(crtc);
+> -	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
+> -	struct drm_display_mode *mode = &vblank->hwmode;
+> +	struct drm_vblank_crtc *vblank;
+> +	struct drm_display_mode *mode;
+>  	u64 vblank_start;
+>  
+> +	if (!drm_dev_has_vblank(crtc->dev))
+> +		return -EINVAL;
+> +
+> +	vblank = &crtc->dev->vblank[pipe];
+> +	mode = &vblank->hwmode;
+> +
+>  	if (!vblank->framedur_ns || !vblank->linedur_ns)
+>  		return -EINVAL;
+>  
+> -- 
+> 2.39.2
+> 
