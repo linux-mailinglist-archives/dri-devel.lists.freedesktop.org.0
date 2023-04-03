@@ -1,40 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641E46D548B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 00:13:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA866D548C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 00:13:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A09CD10E5C0;
-	Mon,  3 Apr 2023 22:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A278C10E5D7;
+	Mon,  3 Apr 2023 22:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF81A10E5A9
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 22:12:55 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7607510E5BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 22:12:56 +0000 (UTC)
 Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id BA079853AA;
- Tue,  4 Apr 2023 00:12:51 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 88D0D8582C;
+ Tue,  4 Apr 2023 00:12:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1680559972;
- bh=jN50wKNgEcenS98Y1Kc7EB0zUVtuSOTVcrTlBaJgWsQ=;
- h=From:To:Cc:Subject:Date:From;
- b=OpB8BSByhpTlkPRfXnR2kVvaPqAxmj7HD8ftNFHDfA/3pkCFp3/ESDtXepHdeTT07
- C6amgZ0hfbSpogzq5rayipAWW3qMFKmGksI4Dwdv6J/Cl8gZsFdPjEusG1FBiHlLQ1
- B3kYVuGMRX98+sLK/yqAbBlpsSEvbjoH+gfJLqh28oYbfhuUCWdUpzTFkwNsaxFlTZ
- MzSPELoBs5wHgFl9+aTguf4fT4WWzBrY3scqreOTINAEgkQYBIZIWEnRZzwN+rYUML
- reiXhtjt/WWoGqnOZBp+fSAGVI63tn94vLLCWBaBpGv/VC3j4tPCwKC7UQG2cZnEH/
- Sb0boXLMYKgYg==
+ s=phobos-20191101; t=1680559973;
+ bh=17J7NLU4KzZWgiTdAQrUA3KPQfljrjNP3QMwkPRE83M=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ILTit/TqPnBi31aOiY4fMHp/L29W0FnAXcR2R/8Wmrv5uqmryQJyenupJA1N/Db1n
+ qpRE6SJIxux5tlsxxbw99MRZltr4SX12P4NA3KmY29Uz0kL6jzygndNGTazUc+ZbiU
+ SpaBrIBMFrQZJ6M7OixsrSs8ND2dPkcyCzXtDfv0Ewv7z1eLCFb6D/5hmdwCf4TLke
+ cZ9R1wqw7VE20JgBSp9Van+mQJS7mz6ebpKClddKP97rK5+bZikQ7xLcnadSm79Sc9
+ Kue3NMKETtAAwdhtE1oMpeucusTrlhtk+Ngcj0Sz3qrtkTbxT+nGThmNEtGf1BMwaj
+ vU8/OG/mHy/5w==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/bridge: lt9211: Do not generate HFP/HBP/HSA and EOT
+Subject: [PATCH 2/2] drm/bridge: lt9611: Do not generate HFP/HBP/HSA and EOT
  packet
-Date: Tue,  4 Apr 2023 00:12:32 +0200
-Message-Id: <20230403221233.500485-1-marex@denx.de>
+Date: Tue,  4 Apr 2023 00:12:33 +0200
+Message-Id: <20230403221233.500485-2-marex@denx.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230403221233.500485-1-marex@denx.de>
+References: <20230403221233.500485-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
@@ -77,15 +80,15 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: Robert Foss <rfoss@kernel.org>
 Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/bridge/lontium-lt9211.c | 4 +++-
+ drivers/gpu/drm/bridge/lontium-lt9611.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9211.c b/drivers/gpu/drm/bridge/lontium-lt9211.c
-index 3e19fff6547a2..00db681512385 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9211.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9211.c
-@@ -709,7 +709,9 @@ static int lt9211_host_attach(struct lt9211 *ctx)
- 	dsi->lanes = dsi_lanes;
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index a25d21a7d5c19..151efe92711c4 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -774,7 +774,9 @@ static struct mipi_dsi_device *lt9611_attach_dsi(struct lt9611 *lt9611,
+ 	dsi->lanes = 4;
  	dsi->format = MIPI_DSI_FMT_RGB888;
  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
 -			  MIPI_DSI_MODE_VIDEO_HSE;
