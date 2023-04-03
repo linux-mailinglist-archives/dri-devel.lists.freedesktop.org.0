@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 177366D3AFC
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 01:53:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB1B6D3BBD
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 04:16:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 314D310E010;
-	Sun,  2 Apr 2023 23:53:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15E7210E0CC;
+	Mon,  3 Apr 2023 02:16:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B761210E010
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Apr 2023 23:53:30 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2CFDEB80ABF;
- Sun,  2 Apr 2023 23:53:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6882CC433EF;
- Sun,  2 Apr 2023 23:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680479608;
- bh=zxrbVz61l15V8rpjrWR/yAZucRlfOGPOwL7NhSw3bMI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l+vTChPUE33q/wdeQ27LvPylZnBcv4j4qjHtMUoA8vOVQSWqcrFpsWWizkj38nRhZ
- FiCbkjKQzcnWIQTxox79TlU/LVCjJ3trsADj4gXwjOG/xiRTDo8yxr9xuasl2rTwu7
- qZwGFb/9eCx0Segx/ZXFZ8H1XDqvJYjk0WPIj7W/vy28/nC6V51vUD2jabB/AcaGiu
- 1467S+ooSe+hgkrgNHfmi2vyStwUODvWJEGMLvRq1YeiVRJmEfPEWwlCRLZibWSO27
- BDaxYXCvty1eLYaF8ZVUZ+frGqrgaN8HiR8Jb0iFaOUc3GnAux5B/Co/fd+OMs2WDP
- ousNcvG5mw8WQ==
-Date: Sun, 2 Apr 2023 16:53:25 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/vblank: Fix for drivers that do not drm_vblank_init()
-Message-ID: <20230402235325.GA1068285@dev-arch.thelio-3990X>
-References: <20230401153802.1066072-1-robdclark@gmail.com>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD2510E0CA;
+ Mon,  3 Apr 2023 02:16:25 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4PqZJM4875z4x4r;
+ Mon,  3 Apr 2023 12:16:19 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1680488180;
+ bh=8/ow9EqjQRLyTBH/E6pNwk1eGI50p/rFF1fmRMHgGPw=;
+ h=Date:From:To:Cc:Subject:From;
+ b=DPPYQSymeYS1YHjGCU5ee4tf0Azrp6u6GhVEdZlr+PRekvsj2CryVfz54gwaIcgBD
+ y0vHSuWkiaZNgXJ2diTdpONQz4FwfzDA9SK7IkhVQOm6XO3w91tPbDPe4nuVs4b6hM
+ KFBwYnlgg07V5ReOKkCUZgzJoeJPshRydm4G/0iL+Rn+M4B5Uqa3X5R6/eEnwvMmzu
+ 1R/DAnwe+C+qBXxGe3X5Qgf2AVuIPi3K4/gx5cODFrNo/jvPEn7PGKq+64l2L3ScBG
+ bHs9DXvcftc5VGeNIBekjGTLjIDL82lkPEMlm6P/Y/W3fGqoGEpSnWydcH8lVyAUXk
+ Wcom/NhksUg8Q==
+Date: Mon, 3 Apr 2023 12:16:17 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20230403121617.61e2a929@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230401153802.1066072-1-robdclark@gmail.com>
+Content-Type: multipart/signed; boundary="Sig_/99x8/wsHoIWkJU5fp4LPTfP";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,109 +49,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Erico Nunes <nunes.erico@gmail.com>, Qiang Yu <yuq825@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 01, 2023 at 08:38:02AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> This should fix a crash that was reported on ast (and possibly other
-> drivers which do not initialize vblank).
-> 
->    fbcon: Taking over console
->    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000074
->    Mem abort info:
->      ESR = 0x0000000096000004
->      EC = 0x25: DABT (current EL), IL = 32 bits
->      SET = 0, FnV = 0
->      EA = 0, S1PTW = 0
->      FSC = 0x04: level 0 translation fault
->    Data abort info:
->      ISV = 0, ISS = 0x00000004
->      CM = 0, WnR = 0
->    user pgtable: 4k pages, 48-bit VAs, pgdp=0000080009d16000
->    [0000000000000074] pgd=0000000000000000, p4d=0000000000000000
->    Internal error: Oops: 0000000096000004 [#1] SMP
->    Modules linked in: ip6table_nat tun nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink qrtr sunrpc binfmt_misc vfat fat xfs snd_usb_audio snd_hwdep snd_usbmidi_lib snd_seq snd_pcm snd_rawmidi snd_timer snd_seq_device snd soundcore joydev mc ipmi_ssif ipmi_devintf ipmi_msghandler arm_spe_pmu arm_cmn arm_dsu_pmu arm_dmc620_pmu cppc_cpufreq loop zram crct10dif_ce polyval_ce nvme polyval_generic ghash_ce sbsa_gwdt igb nvme_core ast nvme_common i2c_algo_bit xgene_hwmon gpio_dwapb scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables dm_multipath fuse
->    CPU: 12 PID: 469 Comm: kworker/12:1 Not tainted 6.3.0-rc2-00008-gd39e48ca80c0 #1
->    Hardware name: ADLINK AVA Developer Platform/AVA Developer Platform, BIOS TianoCore 2.04.100.07 (SYS: 2.06.20220308) 09/08/2022
->    Workqueue: events fbcon_register_existing_fbs
->    pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->    pc : drm_crtc_next_vblank_start+0x2c/0x98
->    lr : drm_atomic_helper_wait_for_fences+0x90/0x240
->    sp : ffff80000d583960
->    x29: ffff80000d583960 x28: ffff07ff8fc187b0 x27: 0000000000000000
->    x26: ffff07ff99c08c00 x25: 0000000000000038 x24: ffff07ff99c0c000
->    x23: 0000000000000001 x22: 0000000000000038 x21: 0000000000000000
->    x20: ffff07ff9640a280 x19: 0000000000000000 x18: ffffffffffffffff
->    x17: 0000000000000000 x16: ffffb24d2eece1c0 x15: 0000003038303178
->    x14: 3032393100000048 x13: 0000000000000000 x12: 0000000000000000
->    x11: 0000000000000000 x10: 0000000000000000 x9 : ffffb24d2eeeaca0
->    x8 : ffff80000d583628 x7 : 0000080077783000 x6 : 0000000000000000
->    x5 : ffff80000d584000 x4 : ffff07ff99c0c000 x3 : 0000000000000130
->    x2 : 0000000000000000 x1 : ffff80000d5839c0 x0 : ffff07ff99c0cc08
->    Call trace:
->     drm_crtc_next_vblank_start+0x2c/0x98
->     drm_atomic_helper_wait_for_fences+0x90/0x240
->     drm_atomic_helper_commit+0xb0/0x188
->     drm_atomic_commit+0xb0/0xf0
->     drm_client_modeset_commit_atomic+0x218/0x280
->     drm_client_modeset_commit_locked+0x64/0x1a0
->     drm_client_modeset_commit+0x38/0x68
->     __drm_fb_helper_restore_fbdev_mode_unlocked+0xb0/0xf8
->     drm_fb_helper_set_par+0x44/0x88
->     fbcon_init+0x1e0/0x4a8
->     visual_init+0xbc/0x118
->     do_bind_con_driver.isra.0+0x194/0x3a0
->     do_take_over_console+0x50/0x70
->     do_fbcon_takeover+0x74/0xf8
->     do_fb_registered+0x13c/0x158
->     fbcon_register_existing_fbs+0x78/0xc0
->     process_one_work+0x1ec/0x478
->     worker_thread+0x74/0x418
->     kthread+0xec/0x100
->     ret_from_fork+0x10/0x20
->    Code: f9400004 b9409013 f940a082 9ba30a73 (b9407662)
->    ---[ end trace 0000000000000000 ]---
-> 
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+--Sig_/99x8/wsHoIWkJU5fp4LPTfP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Seems to work for me, I no longer see the above crash.
+Hi all,
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+After merging the drm-misc tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
 
-> ---
->  drivers/gpu/drm/drm_vblank.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 299fa2a19a90..e98e3cefba3a 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -996,10 +996,16 @@ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
->  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
->  {
->  	unsigned int pipe = drm_crtc_index(crtc);
-> -	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
-> -	struct drm_display_mode *mode = &vblank->hwmode;
-> +	struct drm_vblank_crtc *vblank;
-> +	struct drm_display_mode *mode;
->  	u64 vblank_start;
->  
-> +	if (!crtc->dev->vblank)
-> +		return -EINVAL;
-> +
-> +	vblank = &crtc->dev->vblank[pipe];
-> +	mode = &vblank->hwmode;
-> +
->  	if (!vblank->framedur_ns || !vblank->linedur_ns)
->  		return -EINVAL;
->  
-> -- 
-> 2.39.2
-> 
+drivers/gpu/drm/lima/lima_ctx.c: In function 'lima_ctx_do_release':
+drivers/gpu/drm/lima/lima_ctx.c:53:45: error: 'struct drm_sched_entity' has=
+ no member named 'elapsed_ns'
+   53 |                 mgr->elapsed_ns[i] +=3D entity->elapsed_ns;
+      |                                             ^~
+drivers/gpu/drm/lima/lima_ctx.c: In function 'lima_ctx_mgr_usage':
+drivers/gpu/drm/lima/lima_ctx.c:125:43: error: 'struct drm_sched_entity' ha=
+s no member named 'elapsed_ns'
+  125 |                         usage[i] +=3D entity->elapsed_ns;
+      |                                           ^~
+
+Caused by commit
+
+  bccafec957a5 ("drm/lima: add usage counting method to ctx_mgr")
+
+interacting with commit
+
+  baad10973fdb ("Revert "drm/scheduler: track GPU active time per entity"")
+
+from Linus' tree.
+
+I can't see any obvious way to fix this up, so I have used teh drm-misc
+tree from next-20230331 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/99x8/wsHoIWkJU5fp4LPTfP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmQqNvEACgkQAVBC80lX
+0GzhMAf/aB3U7EaruCbAPtIg/NZHTMQtKDNx2chmb1w0dByE5gqHB+sXR9ShSHdt
+/32R+31qT1mFHUtE5msZb58GIWyEpuvkqnxpOK44q03mojLAuClNQ/jBPkfmFyMZ
+jDLeUXGGwU/HoehEBwmdnI2Oc9dkKt13kjqtY6pS0+xuJkcCGqMmvqwk2sYhX1k3
+z3ao4YislWMD0E0lELkw9C9ZyHL8uqd7ewE0G9qNqt4igi5IRRQPJ/DpKxlqxnwI
+eF622CwUgAOfhL/vlso2DVReSJ1TaXxrX0RRDGnC+hwufCrHaluwlMkUPUAWsx+l
+ng5hDhUlXsLP6Ym/Lr2BWf4jtVSZPA==
+=X4Ur
+-----END PGP SIGNATURE-----
+
+--Sig_/99x8/wsHoIWkJU5fp4LPTfP--
