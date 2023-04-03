@@ -1,55 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003AD6D41A7
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 12:16:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 485716D41BF
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 12:19:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6958810E3C9;
-	Mon,  3 Apr 2023 10:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE3110E3A8;
+	Mon,  3 Apr 2023 10:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCF5E10E3A6
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:16:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3938E10E3A8;
+ Mon,  3 Apr 2023 10:19:08 +0000 (UTC)
+Received: from [192.168.2.163] (109-252-124-32.nat.spd-mgts.ru
+ [109.252.124.32])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9BFD1B816DD
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:16:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64023C433A4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680516967;
- bh=5HFO1/RS3+GfhEvCCUbP0dlLKdHoh/rzuLr+Hm1DWRc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tMVrA1iW3mfBUp6m3x9ahp3O1uvEXmZ9qoCzeBdhKRrSuSckrkcHK7B/1I1PkoGVD
- +E3Sws/4kGXbZ538hkiZNnOotQCG+6anbV9ddH9+t/M6NxcpqqaI4d223UEi0SbMlh
- AWTRy4fd6QbC3U57sc7+Z6GNt55f6+x0N9lm+rqiEAyyOLXW5YF2XeHdXdfDppoYwi
- RV2+6qyixo0Kda0KRZhWzoTc08QMwCetagk3Uc549pMPEBlzr62nyO3LpnFVvOmFD7
- y3eFCiFPP+hyo8pSgorw8RLLaSX5wWH+W7HkIyGqat9JQTpzSj8iVRw59ih/IyO4Q0
- 7i29cV5h5HBCA==
-Received: by mail-lf1-f49.google.com with SMTP id c9so26942436lfb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 03:16:07 -0700 (PDT)
-X-Gm-Message-State: AAQBX9dGGxhMdzri3X5Bulag/pUolMWRN5qm7X4MDWvkF3Dy0noLLsMw
- jr97WscTamGYFaz1aZSzn6ayQnO/QWGV8yP4Xw==
-X-Google-Smtp-Source: AKy350a6AWS0wXlKuF5pe+AmTsaAEGr6dp/NJrmnFPufQQTE7JlMBuNWDF4zk2dhoeM1A4qjskgjTlKotAgPQvIU9cg=
-X-Received: by 2002:ac2:43ce:0:b0:4eb:2643:d5cf with SMTP id
- u14-20020ac243ce000000b004eb2643d5cfmr4522340lfl.7.1680516965357; Mon, 03 Apr
- 2023 03:16:05 -0700 (PDT)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 7E3D56601F5E;
+ Mon,  3 Apr 2023 11:19:04 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1680517146;
+ bh=oUsrnUvVWFNCO2I8SuCXiTW/AVZU2rkXoBafHs5oU3Y=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=lULd60iyGYARm3PqzyHmdn7asLZYd2d8dPWIEjvXyMF07YzyTnsdvZi2dYUGyyKAu
+ hmW8XBPJQ6/iNKJHewWO+8Ak6W2rS3OU/OVGVuet7EP1bZyS1GNzWJz8c1D/Ip+QLK
+ LN/UrIG7gufbNIC48TTRIRA99cicPtqUQT7ij8l6h/yE2i1Jt468aGCYN6B6ZSPq6V
+ NB0nVByIN7hCp3ntdWTkFDGH9uP7rozub9VgUCThwJg6vLpuPNZpnl+83FFlS5pOuL
+ 5iEzz4yl/t408u97uSNIW7ZmNXhyVTF0D6zS6/I4Rov2Y+ceq8S1Pn9+WjLchRvvIg
+ nb8/Tklw6SA6A==
+Message-ID: <80cdf100-ef3c-23ae-5adf-bcf97fa85e72@collabora.com>
+Date: Mon, 3 Apr 2023 13:19:01 +0300
 MIME-Version: 1.0
-References: <20230403071929.360911-1-jstephan@baylibre.com>
- <20230403071929.360911-3-jstephan@baylibre.com>
-In-Reply-To: <20230403071929.360911-3-jstephan@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 3 Apr 2023 18:15:53 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8h0gROVKOVNrTpJGKgZhJbQ1A6EaZT+vpb5bJaYqYaFg@mail.gmail.com>
-Message-ID: <CAAOTY_8h0gROVKOVNrTpJGKgZhJbQ1A6EaZT+vpb5bJaYqYaFg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] phy: mtk-mipi-csi: add driver for CSI phy
-To: Julien Stephan <jstephan@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v1 0/7] Move dma-buf mmap() reservation locking down to
+ exporters
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Liam Mark <lmark@codeaurora.org>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>
+References: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,251 +69,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "open list:DRM DRIVERS FOR MEDIATEK" <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek USB3 PHY DRIVER"
- <linux-mediatek@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:GENERIC PHY FRAMEWORK" <linux-phy@lists.infradead.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, Vinod Koul <vkoul@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Andy Hsieh <andy.hsieh@mediatek.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Louis Kuo <louis.kuo@mediatek.com>, Phi-bang Nguyen <pnguyen@baylibre.com>,
- "moderated list:ARM/Mediatek USB3 PHY DRIVER"
- <linux-arm-kernel@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, kernel@collabora.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Julien:
+On 4/2/23 19:48, Dmitry Osipenko wrote:
+> This patchset makes dma-buf exporters responisble for taking care of
+> the reservation lock. I also included patch that moves drm-shmem to use
+> reservation lock, to let CI test the whole set. I'm going to take all
+> the patches via the drm-misc tree, please give an ack.
+> 
+> Previous policy stated that dma-buf core takes the lock around mmap()
+> callback. Which meant that both importers and exporters shouldn't touch
+> the reservation lock in the mmap() code path. This worked well until
+> Intel-CI found a deadlock problem in a case of self-imported dma-buf [1].
+> 
+> The problem happens when userpace mmaps a self-imported dma-buf, i.e.
+> mmaps the dma-buf FD. DRM core treats self-imported dma-bufs as own GEMs
+> [2]. There is no way to differentiate a prime GEM from a normal GEM for
+> drm-shmem in drm_gem_shmem_mmap(), which resulted in a deadlock problem
+> for drm-shmem mmap() code path once it's switched to use reservation lock.
+> 
+> It was difficult to fix the drm-shmem problem without adjusting dma-buf
+> locking policy. In parctice not much changed from importers perspective
+> because previosly dma-buf was taking the lock in between of importers
+> and exporters. Now this lock is shifted down to exporters.
+> 
+> [1] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_114671v2/shard-snb5/igt@prime_vgem@sync@rcs0.html
+> [2] https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/drm_prime.c#L924
+> 
+> Dmitry Osipenko (7):
+>   Revert "media: videobuf2: Assert held reservation lock for dma-buf
+>     mmapping"
+>   Revert "dma-buf/heaps: Assert held reservation lock for dma-buf
+>     mmapping"
+>   Revert "udmabuf: Assert held reservation lock for dma-buf mmapping"
+>   Revert "fastrpc: Assert held reservation lock for dma-buf mmapping"
+>   Revert "drm: Assert held reservation lock for dma-buf mmapping"
+>   dma-buf: Change locking policy for mmap()
+>   drm/shmem-helper: Switch to reservation lock
+> 
+>  drivers/dma-buf/dma-buf.c                     |  17 +-
+>  drivers/dma-buf/heaps/cma_heap.c              |   3 -
+>  drivers/dma-buf/heaps/system_heap.c           |   3 -
+>  drivers/dma-buf/udmabuf.c                     |   2 -
+>  drivers/gpu/drm/drm_gem_shmem_helper.c        | 217 ++++++++----------
+>  drivers/gpu/drm/drm_prime.c                   |   2 -
+>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 -
+>  drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+>  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   2 -
+>  drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
+>  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
+>  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+>  drivers/gpu/drm/tegra/gem.c                   |   2 -
+>  .../common/videobuf2/videobuf2-dma-contig.c   |   3 -
+>  .../media/common/videobuf2/videobuf2-dma-sg.c |   3 -
+>  .../common/videobuf2/videobuf2-vmalloc.c      |   3 -
+>  drivers/misc/fastrpc.c                        |   3 -
+>  include/drm/drm_gem_shmem_helper.h            |  14 +-
+>  18 files changed, 123 insertions(+), 193 deletions(-)
+> 
 
-Julien Stephan <jstephan@baylibre.com> =E6=96=BC 2023=E5=B9=B44=E6=9C=883=
-=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:20=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> From: Phi-bang Nguyen <pnguyen@baylibre.com>
->
-> This is a new driver that supports the MIPI CSI CD-PHY for mediatek
-> mt8365 soc
->
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> [Julien Stephan: use regmap]
-> [Julien Stephan: use GENMASK]
-> Co-developed-by: Julien Stephan <jstephan@baylibre.com>
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  .../bindings/phy/mediatek,csi-phy.yaml        |   9 +-
->  MAINTAINERS                                   |   1 +
->  drivers/phy/mediatek/Kconfig                  |   8 +
->  drivers/phy/mediatek/Makefile                 |   2 +
->  .../phy/mediatek/phy-mtk-mipi-csi-rx-reg.h    | 435 ++++++++++++++++++
->  drivers/phy/mediatek/phy-mtk-mipi-csi.c       | 392 ++++++++++++++++
->  6 files changed, 845 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-rx-reg.h
->  create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi.c
->
+Intel's IGT passed[1] (see Tests section) with the new locking policy,
+which failed previously for the "drm/shmem-helper: Switch to reservation
+lock" patch.
 
-[snip]
+[1] https://patchwork.freedesktop.org/series/116000/
 
-> +static int mtk_mipi_phy_power_on(struct phy *phy)
-> +{
-> +       struct mtk_mipi_dphy_port *port =3D phy_get_drvdata(phy);
-> +       struct mtk_mipi_dphy *priv =3D port->dev;
-> +       struct regmap *regmap_base =3D port->regmap_base;
-> +       struct regmap *regmap_4d1c =3D port->regmap_4d1c;
-> +       int ret =3D 0;
-> +
-> +       mutex_lock(&priv->lock);
-> +
-> +       switch (port->id) {
-> +       case MTK_MIPI_PHY_PORT_0:
-> +               if (priv->ports[MTK_MIPI_PHY_PORT_0A].active ||
-> +                   priv->ports[MTK_MIPI_PHY_PORT_0B].active)
-> +                       ret =3D -EBUSY;
-> +               break;
-> +
-> +       case MTK_MIPI_PHY_PORT_0A:
-> +       case MTK_MIPI_PHY_PORT_0B:
-> +               if (priv->ports[MTK_MIPI_PHY_PORT_0].active)
-> +                       ret =3D -EBUSY;
-> +               break;
-> +       }
-> +
-> +       if (!ret)
-> +               port->active =3D true;
-> +
-> +       mutex_unlock(&priv->lock);
-> +
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       /* Set analog phy mode to DPHY */
-> +       if (port->is_cdphy)
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSI0A_CPHY_EN, 0);
-> +
-> +       if (port->is_4d1c) {
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L0_CKSEL, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_CKSEL, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L2_CKMODE_EN, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L2_CKSEL, 1);
-> +       } else {
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L0_CKSEL, 0);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_CKMODE_EN, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_CKSEL, 0);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L2_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L2_CKSEL, 0);
-> +       }
-> +
-> +       if (port->is_4d1c) {
-> +               if (port->is_cdphy)
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                                  RG_CSI0A_CPHY_EN, 0);
-> +
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L0_CKSEL, 1);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_CKSEL, 1);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L2_CKMODE_EN, 0);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_DPHY_L2_CKSEL, 1);
-> +       }
-> +
-> +       /* Byte clock invert */
-> +       REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
-> +                  RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT, 1);
-> +       REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
-> +                  RG_CSIxA_DPHY_L1_BYTECK_INVERT, 1);
-> +       REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
-> +                  RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT, 1);
-> +
-> +       if (port->is_4d1c) {
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
-> +                          RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT, 1);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
-> +                          RG_CSIxA_DPHY_L1_BYTECK_INVERT, 1);
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
-> +                          RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT, 1);
-> +       }
-> +
-> +       /* Start ANA EQ tuning */
-> +       if (port->is_cdphy) {
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
-> +                          RG_CSI0A_L0_T0AB_EQ_IS, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
-> +                          RG_CSI0A_L0_T0AB_EQ_BW, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
-> +                          RG_CSI0A_L1_T1AB_EQ_IS, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
-> +                          RG_CSI0A_L1_T1AB_EQ_BW, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA20_CSI0A,
-> +                          RG_CSI0A_L2_T1BC_EQ_IS, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA20_CSI0A,
-> +                          RG_CSI0A_L2_T1BC_EQ_BW, 1);
-> +
-> +               if (port->is_4d1c) {
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
-> +                                  RG_CSI0A_L0_T0AB_EQ_IS, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
-> +                                  RG_CSI0A_L0_T0AB_EQ_BW, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
-> +                                  RG_CSI0A_L1_T1AB_EQ_IS, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
-> +                                  RG_CSI0A_L1_T1AB_EQ_BW, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA20_CSI0A,
-> +                                  RG_CSI0A_L2_T1BC_EQ_IS, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA20_CSI0A,
-> +                                  RG_CSI0A_L2_T1BC_EQ_BW, 1);
-> +               }
-> +       } else {
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
-> +                          RG_CSI1A_L0_EQ_IS, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
-> +                          RG_CSI1A_L0_EQ_BW, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
-> +                          RG_CSI1A_L1_EQ_IS, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
-> +                          RG_CSI1A_L1_EQ_BW, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
-> +                          RG_CSI1A_L2_EQ_IS, 1);
-> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
-> +                          RG_CSI1A_L2_EQ_BW, 1);
-> +
-> +               if (port->is_4d1c) {
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
-> +                                  RG_CSI1A_L0_EQ_IS, 1);
+-- 
+Best regards,
+Dmitry
 
-RG_CSI1A_L0_EQ_IS is identical to RG_CSI0A_L0_T0AB_EQ_IS, and ditto
-for below register. I think the function of each bitwise register is
-the same. Define only one copy of the these register, don't duplicate
-the same thing.
-
-Regards,
-Chun-Kuang.
-
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
-> +                                  RG_CSI1A_L0_EQ_BW, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
-> +                                  RG_CSI1A_L1_EQ_IS, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
-> +                                  RG_CSI1A_L1_EQ_BW, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
-> +                                  RG_CSI1A_L2_EQ_IS, 1);
-> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
-> +                                  RG_CSI1A_L2_EQ_BW, 1);
-> +               }
-> +       }
-> +
-> +       /* End ANA EQ tuning */
-> +       regmap_write(regmap_base, MIPI_RX_ANA40_CSIxA, 0x90);
-> +
-> +       REGMAP_BIT(regmap_base, MIPI_RX_ANA24_CSIxA,
-> +                  RG_CSIxA_RESERVE, 0x40);
-> +       if (port->is_4d1c)
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA24_CSIxA,
-> +                          RG_CSIxA_RESERVE, 0x40);
-> +       REGMAP_BIT(regmap_base, MIPI_RX_WRAPPER80_CSIxA,
-> +                  CSR_CSI_RST_MODE, 0);
-> +       if (port->is_4d1c)
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_WRAPPER80_CSIxA,
-> +                          CSR_CSI_RST_MODE, 0);
-> +       /* ANA power on */
-> +       REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                  RG_CSIxA_BG_CORE_EN, 1);
-> +       if (port->is_4d1c)
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_BG_CORE_EN, 1);
-> +       usleep_range(20, 40);
-> +       REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
-> +                  RG_CSIxA_BG_LPF_EN, 1);
-> +       if (port->is_4d1c)
-> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
-> +                          RG_CSIxA_BG_LPF_EN, 1);
-> +
-> +       return 0;
-> +}
-> +
