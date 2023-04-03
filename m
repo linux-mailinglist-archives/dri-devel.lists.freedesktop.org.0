@@ -2,72 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619C96D4BDE
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 17:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7043B6D4C00
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 17:34:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC5310E0DA;
-	Mon,  3 Apr 2023 15:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A81910E173;
+	Mon,  3 Apr 2023 15:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2E810E4D5
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 15:28:56 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id h11so31612676lfu.8
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 08:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680535734;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kPrYDdekg0I0RRl5/w+irR1rQMqphVIrp6PinKuObBw=;
- b=hmqvElmrXWJQcUaSjMqNlMYt7VMO5e+YWgeZceMhEr3KKNjrq5vpft3N1tQrJwj8i4
- spJfLHjKk/NeKfJ1DNkS3z4DysUz8zSMacTKa8dxfJuYReoOfj4964HdGF3YD3TypsvH
- kuc6ozrwD7DsG9hMFup6LsPS7DYSGjBjh0KPaXb/MBflDirA7jBV+6La+sxympQFOhJB
- +i7T9WKkMTujomHn2C/+firfbVi0mx9ZRMiTVWRsg9L+6Dkin3IpkVWfpCKix6Xk6p2j
- 94B9k2XKDYhrXH0W3gth/aac1tOFI6rwL6UfsPAphUxScAuonKUd1k51P1YEco5Oa34p
- nPwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680535734;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kPrYDdekg0I0RRl5/w+irR1rQMqphVIrp6PinKuObBw=;
- b=4BxAE1Kg3/OJ1Sy/+xIq+1Nl2Zgwp02lBTcGbHya6Bu8zfcn7XmJLUV3F10cFbyL0h
- oYmG7i+qdUt1hX45v/3lNjt4Jp7vHSvnrxJyGkvuvl6fW8gZQ3zW/KQu6CCTj00vuXFW
- S+qqtBVVfggLOrNTjsxI+nmMjIaDyVOB4RdRMq8h0pX/E8O9Jcw1zDvk1PJikK+HkY38
- DVyjco/0AYcKsrZY3xLQqgqYNIcvUbA4dmmQaoAo7S7pQBGSHQeLlfFXgOWVAmyjskbe
- TbOW5fK76i02uqR4g1KwdGcKU++CuMN/hdTfmVfZdJpBjaStgYbHOfsaZhhPB5IKCMd9
- mZAg==
-X-Gm-Message-State: AAQBX9f6a1wazKHeIWsxMaypOC/Ky5dwXFGDjkvAckEVMqGrM6YAFNUX
- WpSIaWRPKd8L31iIVhXVbOE7pQ==
-X-Google-Smtp-Source: AKy350b95P/uSTgREdLEfWsH6IoiTIqaKI1+nr+mYyy4HAI6QLDWwdnTFFIlZWhlWMb7ONSwCX7yew==
-X-Received: by 2002:a05:6512:3c2:b0:4dd:98c6:ee2 with SMTP id
- w2-20020a05651203c200b004dd98c60ee2mr9940947lfp.15.1680535734467; 
- Mon, 03 Apr 2023 08:28:54 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- w6-20020ac24426000000b004cb14fa604csm1815299lfl.262.2023.04.03.08.28.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 08:28:54 -0700 (PDT)
-Message-ID: <0e75e04d-fc07-2f60-bfb9-ee092075fae6@linaro.org>
-Date: Mon, 3 Apr 2023 18:28:53 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA8B10E173
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 15:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=L7r22CE1oD2M49A0QCmy+by/YFqM2fwQjcHJLjyWPFU=; b=bvnOMDDBa7kdYS265M6NoRNPR9
+ J8hzoGVgw1iPF2fEXWw+RHPve4zmmyzM8vp1MDjfA+PfVW+4HE6yRQP00tHxwMC9iXf/o0GxE0tbN
+ tRiE4K+LVe3f6oamuAJuabqhZSvgG/IQo6PhNEBujcSl4HdLRO/V/FUc9M4Y/JQhEBmwKO1NNlxrh
+ jTle98oK7/FqXi3cE5EcYAH1FUF02oW8qW94mOLNbyznoNgcRgivSh9HgWe8mmmzU4ibjod2UUS+T
+ 6KKYWz+FM3Izw79mesBjqFhZWLpk+a/bRwo0DYUzlm3SBkHnjN6eyjgulXkaHYRbGumCDQI4ZJrxs
+ ERKy75cQ==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pjMBt-003wfI-S8; Mon, 03 Apr 2023 17:33:53 +0200
+Message-ID: <c1c52ce1-a1db-c4d5-5638-d8e1c2a60c31@igalia.com>
+Date: Mon, 3 Apr 2023 12:33:47 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 3/3] msm: skip the atomic commit of self refresh while
- PSR running
-Content-Language: en-GB
-To: Vinod Polimera <quic_vpolimer@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
-References: <1680271114-1534-1-git-send-email-quic_vpolimer@quicinc.com>
- <1680271114-1534-4-git-send-email-quic_vpolimer@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1680271114-1534-4-git-send-email-quic_vpolimer@quicinc.com>
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 1/5] drm/tests: Test drm_rect_intersect()
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
+References: <20230327133848.5250-1-arthurgrillo@riseup.net>
+ <20230327133848.5250-2-arthurgrillo@riseup.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230327133848.5250-2-arthurgrillo@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,42 +55,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, quic_sbillaka@quicinc.com, dianders@chromium.org,
- quic_bjorande@quicinc.com, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, linux-kernel@vger.kernel.org,
- quic_khsieh@quicinc.com, swboyd@chromium.org
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, maxime@cerno.tech, andrealmeid@riseup.net,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/03/2023 16:58, Vinod Polimera wrote:
-> In certain CPU stress conditions, there can be a delay in scheduling commit
-> work and it was observed that PSR commit from a different work queue was
-> scheduled. Avoid these commits as display is already in PSR mode.
+Hi Arthur,
+
+On 3/27/23 10:38, Arthur Grillo wrote:
+> Insert test for the drm_rect_intersect() function, it also create a
+> helper for comparing drm_rects more easily.
 > 
-> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > ---
->   drivers/gpu/drm/msm/msm_atomic.c | 3 +++
->   1 file changed, 3 insertions(+)
+>   drivers/gpu/drm/tests/drm_rect_test.c | 139 ++++++++++++++++++++++++++
+>   1 file changed, 139 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-> index 645fe53..f8141bb 100644
-> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> @@ -192,6 +192,9 @@ int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
-
-The corresponding patch is not yet applied. I wonder how this was tested.
-
->   			new_crtc_state->mode_changed = true;
->   			state->allow_modeset = true;
->   		}
-> +
-> +		if (old_crtc_state->self_refresh_active && new_crtc_state->self_refresh_active)
-> +			return -EINVAL;
->   	}
+> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
+> index e9809ea32696..3654c0be3d6b 100644
+> --- a/drivers/gpu/drm/tests/drm_rect_test.c
+> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
+> @@ -9,6 +9,17 @@
 >   
->   	return drm_atomic_helper_check(dev, state);
+>   #include <drm/drm_rect.h>
+>   
+> +#include <linux/string_helpers.h>
 
--- 
-With best wishes
-Dmitry
+Is this include really needed? I was able to compile without it.
 
+> +
+> +static void drm_rect_compare(struct kunit *test, const struct drm_rect *r,
+> +			     const struct drm_rect *expected)
+> +{
+> +	KUNIT_EXPECT_EQ(test, r->x1, expected->x1);
+
+Maybe it would be nice to have a message here that shows the current x1
+and the expected x1. Same for the other dimensions.
+
+> +	KUNIT_EXPECT_EQ(test, r->y1, expected->y1);
+> +	KUNIT_EXPECT_EQ(test, drm_rect_width(r), drm_rect_width(expected));
+> +	KUNIT_EXPECT_EQ(test, drm_rect_height(r), drm_rect_height(expected));
+> +}
+> +
+>   static void drm_test_rect_clip_scaled_div_by_zero(struct kunit *test)
+>   {
+>   	struct drm_rect src, dst, clip;
+> @@ -196,11 +207,139 @@ static void drm_test_rect_clip_scaled_signed_vs_unsigned(struct kunit *test)
+>   	KUNIT_EXPECT_FALSE_MSG(test, drm_rect_visible(&src), "Source should not be visible\n");
+>   }
+>   
+> +struct drm_rect_intersect_case {
+> +	const char *description;
+> +	struct drm_rect r1, r2;
+> +	bool should_be_visible;
+> +	struct drm_rect expected_intersection;
+> +};
+> +
+> +static const struct drm_rect_intersect_case drm_rect_intersect_cases[] = {
+> +	{
+> +		.description = "top-left X bottom-right",
+> +		.r1 = DRM_RECT_INIT(1, 1, 2, 2),
+> +		.r2 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 1, 1, 1),
+> +	},
+> +	{
+> +		.description = "top-right X bottom-left",
+> +		.r1 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.r2 = DRM_RECT_INIT(1, -1, 2, 2),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 0, 1, 1),
+> +	},
+> +	{
+> +		.description = "bottom-left X top-right",
+> +		.r1 = DRM_RECT_INIT(1, -1, 2, 2),
+> +		.r2 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 0, 1, 1),
+> +	},
+> +	{
+> +		.description = "bottom-right X top-left",
+> +		.r1 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.r2 = DRM_RECT_INIT(1, 1, 2, 2),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 1, 1, 1),
+> +	},
+> +	{
+> +		.description = "right X left",
+> +		.r1 = DRM_RECT_INIT(0, 0, 2, 1),
+> +		.r2 = DRM_RECT_INIT(1, 0, 3, 1),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 0, 1, 1),
+> +	},
+> +	{
+> +		.description = "left X right",
+> +		.r1 = DRM_RECT_INIT(1, 0, 3, 1),
+> +		.r2 = DRM_RECT_INIT(0, 0, 2, 1),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 0, 1, 1),
+> +	},
+> +	{
+> +		.description = "up X bottom",
+> +		.r1 = DRM_RECT_INIT(0, 0, 1, 2),
+> +		.r2 = DRM_RECT_INIT(0, -1, 1, 3),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(0, 0, 1, 2),
+> +	},
+> +	{
+> +		.description = "bottom X up",
+> +		.r1 = DRM_RECT_INIT(0, -1, 1, 3),
+> +		.r2 = DRM_RECT_INIT(0, 0, 1, 2),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(0, 0, 1, 2),
+> +	},
+> +	{
+> +		.description = "touching corner",
+> +		.r1 = DRM_RECT_INIT(0, 0, 1, 1),
+> +		.r2 = DRM_RECT_INIT(1, 1, 2, 2),
+> +		.should_be_visible = false,
+> +		.expected_intersection = DRM_RECT_INIT(1, 1, 0, 0),
+> +	},
+> +	{
+> +		.description = "touching side",
+> +		.r1 = DRM_RECT_INIT(0, 0, 1, 1),
+> +		.r2 = DRM_RECT_INIT(1, 0, 1, 1),
+> +		.should_be_visible = false,
+> +		.expected_intersection = DRM_RECT_INIT(1, 0, 0, 1),
+> +	},
+> +	{
+> +		.description = "equal rects",
+> +		.r1 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.r2 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(0, 0, 2, 2),
+> +	},
+> +	{
+> +		.description = "inside another",
+> +		.r1 = DRM_RECT_INIT(0, 0, 2, 2),
+> +		.r2 = DRM_RECT_INIT(1, 1, 1, 1),
+> +		.should_be_visible = true,
+> +		.expected_intersection = DRM_RECT_INIT(1, 1, 1, 1),
+> +	},
+> +	{
+> +		.description = "far away",
+> +		.r1 = DRM_RECT_INIT(0, 0, 1, 1),
+> +		.r2 = DRM_RECT_INIT(3, 6, 1, 1),
+> +		.should_be_visible = false,
+> +		.expected_intersection = DRM_RECT_INIT(3, 6, -2, -5),
+> +	},
+> +};
+
+What happens if width = height = 0? It would be nice to have a test
+case for this scenario.
+
+> +
+> +static void drm_rect_intersect_case_desc(const struct drm_rect_intersect_case *t, char *desc)
+> +{
+> +	if (!t->description)
+> +		snprintf(desc, KUNIT_PARAM_DESC_SIZE,
+> +			 DRM_RECT_FMT " X " DRM_RECT_FMT,
+> +			 DRM_RECT_ARG(&t->r1), DRM_RECT_ARG(&t->r2));
+
+Is this conditional clause really needed? All parameters have
+description.
+
+> +	else
+> +		snprintf(desc, KUNIT_PARAM_DESC_SIZE,
+> +			 "%s: " DRM_RECT_FMT " X " DRM_RECT_FMT,
+> +			 t->description, DRM_RECT_ARG(&t->r1), DRM_RECT_ARG(&t->r2));
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(drm_rect_intersect, drm_rect_intersect_cases, drm_rect_intersect_case_desc);
+> +
+> +static void drm_test_rect_intersect(struct kunit *test)
+> +{
+> +	const struct drm_rect_intersect_case *params = test->param_value;
+> +	struct drm_rect r1_aux = params->r1;
+
+Does this variable needs to exist? I guess you could just use params->r1.
+
+Best Regards,
+- Maíra Canal
+
+> +	bool visible;
+> +
+> +	visible = drm_rect_intersect(&r1_aux, &params->r2);
+> +
+> +	KUNIT_EXPECT_EQ(test, visible, params->should_be_visible);
+> +	drm_rect_compare(test, &r1_aux, &params->expected_intersection);
+> +}
+> +
+>   static struct kunit_case drm_rect_tests[] = {
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_clipped),
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
+> +	KUNIT_CASE_PARAM(drm_test_rect_intersect, drm_rect_intersect_gen_params),
+>   	{ }
+>   };
+>   
