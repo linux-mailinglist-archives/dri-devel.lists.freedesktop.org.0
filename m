@@ -1,62 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485716D41BF
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 12:19:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9075C6D4250
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 12:40:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE3110E3A8;
-	Mon,  3 Apr 2023 10:19:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FBC310E171;
+	Mon,  3 Apr 2023 10:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3938E10E3A8;
- Mon,  3 Apr 2023 10:19:08 +0000 (UTC)
-Received: from [192.168.2.163] (109-252-124-32.nat.spd-mgts.ru
- [109.252.124.32])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E1610E3C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:40:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- (Authenticated sender: dmitry.osipenko)
- by madras.collabora.co.uk (Postfix) with ESMTPSA id 7E3D56601F5E;
- Mon,  3 Apr 2023 11:19:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1680517146;
- bh=oUsrnUvVWFNCO2I8SuCXiTW/AVZU2rkXoBafHs5oU3Y=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=lULd60iyGYARm3PqzyHmdn7asLZYd2d8dPWIEjvXyMF07YzyTnsdvZi2dYUGyyKAu
- hmW8XBPJQ6/iNKJHewWO+8Ak6W2rS3OU/OVGVuet7EP1bZyS1GNzWJz8c1D/Ip+QLK
- LN/UrIG7gufbNIC48TTRIRA99cicPtqUQT7ij8l6h/yE2i1Jt468aGCYN6B6ZSPq6V
- NB0nVByIN7hCp3ntdWTkFDGH9uP7rozub9VgUCThwJg6vLpuPNZpnl+83FFlS5pOuL
- 5iEzz4yl/t408u97uSNIW7ZmNXhyVTF0D6zS6/I4Rov2Y+ceq8S1Pn9+WjLchRvvIg
- nb8/Tklw6SA6A==
-Message-ID: <80cdf100-ef3c-23ae-5adf-bcf97fa85e72@collabora.com>
-Date: Mon, 3 Apr 2023 13:19:01 +0300
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 896811FDC1;
+ Mon,  3 Apr 2023 10:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680518437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=koLStI/43m2vOElFCCJwnTfKs64RBtRLwtYU2PKOQ8Q=;
+ b=lwwBTEq2hs7JAyC3SA6/38gpgHeW1fRyXwhigZEiwHx9MS7mvwyC28LRtS1lSwgClfzwTH
+ +JLY+02xY4+QjX6PIg3BW4oeuFCUcVEQsbAXwObplt5nTyCfsuR8PKju7RiIIVqR28qcPl
+ Evt+5XHZ+QRTsYImecdatQJCel503OM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680518437;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=koLStI/43m2vOElFCCJwnTfKs64RBtRLwtYU2PKOQ8Q=;
+ b=VBBK0vuP371uArIZEVXcclyHCMCD1uTkCPeKEZDghjeL6OKVzQoZIdZeYISNEBaxlvXXdj
+ AQLkU0f0RZtmTqCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 544C61331A;
+ Mon,  3 Apr 2023 10:40:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id YCujEyWtKmQsDgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 03 Apr 2023 10:40:37 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: tomba@kernel.org, javierm@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+Subject: [PATCH v2 0/5] drm/omapdrm: Convert fbdev to DRM client
+Date: Mon,  3 Apr 2023 12:40:30 +0200
+Message-Id: <20230403104035.15288-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v1 0/7] Move dma-buf mmap() reservation locking down to
- exporters
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Liam Mark <lmark@codeaurora.org>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tomi Valkeinen <tomba@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>
-References: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
-In-Reply-To: <20230402164826.752842-1-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,76 +61,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, kernel@collabora.com, linux-media@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/2/23 19:48, Dmitry Osipenko wrote:
-> This patchset makes dma-buf exporters responisble for taking care of
-> the reservation lock. I also included patch that moves drm-shmem to use
-> reservation lock, to let CI test the whole set. I'm going to take all
-> the patches via the drm-misc tree, please give an ack.
-> 
-> Previous policy stated that dma-buf core takes the lock around mmap()
-> callback. Which meant that both importers and exporters shouldn't touch
-> the reservation lock in the mmap() code path. This worked well until
-> Intel-CI found a deadlock problem in a case of self-imported dma-buf [1].
-> 
-> The problem happens when userpace mmaps a self-imported dma-buf, i.e.
-> mmaps the dma-buf FD. DRM core treats self-imported dma-bufs as own GEMs
-> [2]. There is no way to differentiate a prime GEM from a normal GEM for
-> drm-shmem in drm_gem_shmem_mmap(), which resulted in a deadlock problem
-> for drm-shmem mmap() code path once it's switched to use reservation lock.
-> 
-> It was difficult to fix the drm-shmem problem without adjusting dma-buf
-> locking policy. In parctice not much changed from importers perspective
-> because previosly dma-buf was taking the lock in between of importers
-> and exporters. Now this lock is shifted down to exporters.
-> 
-> [1] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_114671v2/shard-snb5/igt@prime_vgem@sync@rcs0.html
-> [2] https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/drm_prime.c#L924
-> 
-> Dmitry Osipenko (7):
->   Revert "media: videobuf2: Assert held reservation lock for dma-buf
->     mmapping"
->   Revert "dma-buf/heaps: Assert held reservation lock for dma-buf
->     mmapping"
->   Revert "udmabuf: Assert held reservation lock for dma-buf mmapping"
->   Revert "fastrpc: Assert held reservation lock for dma-buf mmapping"
->   Revert "drm: Assert held reservation lock for dma-buf mmapping"
->   dma-buf: Change locking policy for mmap()
->   drm/shmem-helper: Switch to reservation lock
-> 
->  drivers/dma-buf/dma-buf.c                     |  17 +-
->  drivers/dma-buf/heaps/cma_heap.c              |   3 -
->  drivers/dma-buf/heaps/system_heap.c           |   3 -
->  drivers/dma-buf/udmabuf.c                     |   2 -
->  drivers/gpu/drm/drm_gem_shmem_helper.c        | 217 ++++++++----------
->  drivers/gpu/drm/drm_prime.c                   |   2 -
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 -
->  drivers/gpu/drm/lima/lima_gem.c               |   8 +-
->  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   2 -
->  drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
->  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
->  drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
->  drivers/gpu/drm/tegra/gem.c                   |   2 -
->  .../common/videobuf2/videobuf2-dma-contig.c   |   3 -
->  .../media/common/videobuf2/videobuf2-dma-sg.c |   3 -
->  .../common/videobuf2/videobuf2-vmalloc.c      |   3 -
->  drivers/misc/fastrpc.c                        |   3 -
->  include/drm/drm_gem_shmem_helper.h            |  14 +-
->  18 files changed, 123 insertions(+), 193 deletions(-)
-> 
+Convert omapdrm's fbdev code to struct drm_client. Replaces the current
+ad-hoc integration. The conversion includes a number of cleanups. As
+with most other drivers' fbdev emulation, fbdev in omapdrm is now just
+another DRM client that runs after the DRM device has been registered.
 
-Intel's IGT passed[1] (see Tests section) with the new locking policy,
-which failed previously for the "drm/shmem-helper: Switch to reservation
-lock" patch.
+Once all drivers' fbdev emulation has been converted to struct drm_client,
+we can attempt to add additional in-kernel clients. A DRM-based dmesg
+log or a bootsplash are commonly mentioned. DRM can then switch easily
+among the existing clients if/when required.
 
-[1] https://patchwork.freedesktop.org/series/116000/
+I did the conversion from similar experience with other drivers. But I
+don't have the hardware to test this. Any testing is welcome.
+
+v2:
+	* squashed patch 6 in to patch 5 (Tomi)
+	* minor cleanups (Tomi)
+
+Thomas Zimmermann (5):
+  drm/omapdrm: Include <linux/of.h>
+  drm/omapdrm: Remove fb from struct omap_fbdev
+  drm/omapdrm: Remove bo from struct omap_fbdev
+  drm/omapdrm: Remove fbdev from struct omap_drm_private
+  drm/omapdrm: Implement fbdev emulation as in-kernel client
+
+ drivers/gpu/drm/omapdrm/omap_debugfs.c |   6 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c     |  13 +-
+ drivers/gpu/drm/omapdrm/omap_drv.h     |   3 -
+ drivers/gpu/drm/omapdrm/omap_fbdev.c   | 163 ++++++++++++++++---------
+ drivers/gpu/drm/omapdrm/omap_fbdev.h   |   9 +-
+ 5 files changed, 112 insertions(+), 82 deletions(-)
 
 -- 
-Best regards,
-Dmitry
+2.40.0
 
