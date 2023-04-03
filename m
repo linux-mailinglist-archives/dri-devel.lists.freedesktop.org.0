@@ -1,71 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D571F6D520A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 22:15:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 993C16D52FA
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 23:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E37F10E53C;
-	Mon,  3 Apr 2023 20:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85B610E19C;
+	Mon,  3 Apr 2023 21:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F20310E19C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 20:15:26 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id j24so30658250wrd.0
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 13:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=froggi.es; s=google; t=1680552924;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+2/apUlJWp8bxcZrHIpzP1gcPTgZpNx4ofb9IcPTnnA=;
- b=R0RPIIPEfXeqEn6F2kyMIwVIt2ZJWVlaXIUKodLW7pKgW+NjvrvSinnbqtv8sBacNu
- AiszTu2THszGvunEtQcIXDsVbBd+nxXW4G5UNVF9E9AYk4ndN4GB/9hglawJk8JKeoaS
- bIPkxDx4+yx3xMdZQGoE8URK67EuLBMl0zdDg1bKAKhqEG8vuAKxtpy6aHYbe5ajpUkq
- GXOnT9t+XDi7mL/992jhEWO4h7h3zlbtbexZHlcUoosef/EN6eSoVGdXTUZJmmc9wRoW
- akMOLTHCqZAEjwKVZN9JOC5ABJfbVettYqe2+sZ4m6cCYvUtyNpItn7LcN9m0DwsScjm
- Oqlg==
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
+ [209.85.161.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1AC510E19C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 21:01:20 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id
+ m6-20020a4ae846000000b0053b9059edd5so4845023oom.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 14:01:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680552924;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20210112; t=1680555679;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+2/apUlJWp8bxcZrHIpzP1gcPTgZpNx4ofb9IcPTnnA=;
- b=KFD1RJpUKgloixlxgNKmurhzABiCf1c7gQpR2VXGQfpeSKzdxwiMrvdHRZ9JXzXcZs
- VeB24Wfhs6RnaJ1a4NRGHRKhswQdMBdddUXabgGn/o9htKw9U4F0K2HrPJVM2ovy4yxd
- emL1mwbdNyDl9Uz6NQps6fULeHdfHW/+S1DZBtYUiywwAbJGa93Q7PmQrWa2LlZqa3v2
- n6cGIgZvquDnY60DQ5v0WhQoCckIKekCZFZvX+rZZkhJS1dEAOv+gjgH0pUnuNKLeYvd
- Wc/fHwa0hQKAz3S2joTJ7yKn1XQ96pTzzQ7VFb0LYVbp+y7CBgx91/lGjO4vE7dvw9T/
- 9WTw==
-X-Gm-Message-State: AAQBX9dohmt3kyWj5ld2enhpX706AmHNBCyCY1PU0/6Cip+kSesQjD2G
- OzryGDsuIB7iBTQe0kLvMI/VmwhQgQ+UrYb6ZPI=
-X-Google-Smtp-Source: AKy350ap3UyyRf69xECqcCr94gpGgE0vlIV3XHIhPMvr+mCmcgZyQ9eSHbyDyGyktqd62b8x/sCuXQ==
-X-Received: by 2002:adf:f2c6:0:b0:2d1:5b75:28f0 with SMTP id
- d6-20020adff2c6000000b002d15b7528f0mr26373991wrp.39.1680552924005; 
- Mon, 03 Apr 2023 13:15:24 -0700 (PDT)
-Received: from [192.168.0.89]
- (darl-09-b2-v4wan-165404-cust288.vm5.cable.virginm.net. [86.17.61.33])
- by smtp.gmail.com with ESMTPSA id
- l12-20020a5d560c000000b002cfe685bfd6sm10418772wrv.108.2023.04.03.13.15.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 13:15:23 -0700 (PDT)
-Message-ID: <09e2e192-6d24-23d5-1668-d6ac24c4136a@froggi.es>
-Date: Mon, 3 Apr 2023 21:15:22 +0100
+ bh=JCDaBQRSXHLW/mJme9G/ZIzduYV5CrqCyRVX3szS1jY=;
+ b=ztdrUKY8mOfb4G6lVHUKKTjPxpaZrsPslSioTULK6yusDe3v5RFwtiDA0etKk1npHs
+ HdP4bUcX3HYGTtP5MMxH6y1hF0CDs8k0pr9wSbc3M+hq6hLuc9win2297LdCHxY9MFMC
+ EsLN6tCbORfa03aJar1DR/aQiACF+2eYzovG8n/a1DBg5oX9Pnc2GMQ2WWPGqPMzHz7I
+ taBQ8FxpwU2QsGOP21OWIrsHf8Ca7tfccndJU0Zzymp/kJC+OM94ahz7xFX54NYO1Zk9
+ Ij6sb5CMZBtLlQxPh74RFYpZ16Zp76kRjDyLBckxOcvrAvbgpZtdpMmAW2GtnbSAggEE
+ 3faQ==
+X-Gm-Message-State: AAQBX9csNZKr36EkxWphrvRhAoKgq2axWx4hYzLGZmNNjCJgw/giJO4U
+ P3Uoy+t/J3EVh6lVGd0uWg==
+X-Google-Smtp-Source: AKy350ackiyEDTt+D1XtvQPTabYuwW3Y/IJA7Dqu3JjJI6vR/mCOOFCCAUCt1uCycV6wRI9n15xdnw==
+X-Received: by 2002:a4a:370b:0:b0:53b:700e:378c with SMTP id
+ r11-20020a4a370b000000b0053b700e378cmr400482oor.9.1680555679352; 
+ Mon, 03 Apr 2023 14:01:19 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ y70-20020a4a4549000000b0053e56135a1esm4510087ooa.45.2023.04.03.14.01.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Apr 2023 14:01:18 -0700 (PDT)
+Received: (nullmailer pid 1739713 invoked by uid 1000);
+ Mon, 03 Apr 2023 21:01:17 -0000
+Date: Mon, 3 Apr 2023 16:01:17 -0500
+From: Rob Herring <robh@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Subject: Re: [PATCH v1 3/6] dt-bindings: display: bridge: toshiba,tc358768:
+ add parallel input mode
+Message-ID: <20230403210117.GA1722054-robh@kernel.org>
+References: <20230330095941.428122-1-francesco@dolcini.it>
+ <20230330095941.428122-4-francesco@dolcini.it>
+ <a924186c-31d3-b7f0-085f-97b849a4d751@linaro.org>
+ <ZCaqcaq02VDsqCPJ@francesco-nb.int.toradex.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [RFC PATCH 0/4] uapi, drm: Add and implement RLIMIT_GPUPRIO
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20230403194058.25958-1-joshua@froggi.es>
- <1567fb39-47a7-d1d5-0652-371f7ffcb71e@amd.com>
-Content-Language: en-US
-From: Joshua Ashton <joshua@froggi.es>
-In-Reply-To: <1567fb39-47a7-d1d5-0652-371f7ffcb71e@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZCaqcaq02VDsqCPJ@francesco-nb.int.toradex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,97 +68,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Francesco Dolcini <francesco.dolcini@toradex.com>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/3/23 20:54, Christian König wrote:
-> Am 03.04.23 um 21:40 schrieb Joshua Ashton:
->> Hello all!
->>
->> I would like to propose a new API for allowing processes to control
->> the priority of GPU queues similar to RLIMIT_NICE/RLIMIT_RTPRIO.
->>
->> The main reason for this is for compositors such as Gamescope and
->> SteamVR vrcompositor to be able to create realtime async compute
->> queues on AMD without the need of CAP_SYS_NICE.
->>
->> The current situation is bad for a few reasons, one being that in order
->> to setcap the executable, typically one must run as root which involves
->> a pretty high privelage escalation in order to achieve one
->> small feat, a realtime async compute queue queue for VR or a compositor.
->> The executable cannot be setcap'ed inside a
->> container nor can the setcap'ed executable be run in a container with
->> NO_NEW_PRIVS.
->>
->> I go into more detail in the description in
->> `uapi: Add RLIMIT_GPUPRIO`.
->>
->> My initial proposal here is to add a new RLIMIT, `RLIMIT_GPUPRIO`,
->> which seems to make most initial sense to me to solve the problem.
->>
->> I am definitely not set that this is the best formulation however
->> or if this should be linked to DRM (in terms of it's scheduler
->> priority enum/definitions) in any way and and would really like other
->> people's opinions across the stack on this.
->>
->> Once initial concern is that potentially this RLIMIT could out-live
->> the lifespan of DRM. It sounds crazy saying it right now, something
->> that definitely popped into my mind when touching `resource.h`. :-)
->>
->> Anyway, please let me know what you think!
->> Definitely open to any feedback and advice you may have. :D
+On Fri, Mar 31, 2023 at 11:40:01AM +0200, Francesco Dolcini wrote:
+> On Fri, Mar 31, 2023 at 10:48:15AM +0200, Krzysztof Kozlowski wrote:
+> > On 30/03/2023 11:59, Francesco Dolcini wrote:
+> > > From: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > > 
+> > > Add new toshiba,input-rgb-mode property to describe the actual signal
+> > > connection on the parallel RGB input interface.
+> > > 
+> > > Signed-off-by: Francesco Dolcini <francesco.dolcini@toradex.com>
+> > > ---
+> > >  .../bindings/display/bridge/toshiba,tc358768.yaml | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> > > index 8f22093b61ae..2638121a2223 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+> > > @@ -42,6 +42,21 @@ properties:
+> > >    clock-names:
+> > >      const: refclk
+> > >  
+> > > +  toshiba,input-rgb-mode:
+> > > +    description: |
+> > > +      Parallel Input (RGB) Mode.
+> > > +
+> > > +      RGB inputs (PD[23:0]) color arrangement as documented in the datasheet
+> > > +      and in the table below.
+> > > +
+> > > +      0 = R[7:0], G[7:0], B[7:0]
+> > 
+> > RGB888?
 > 
-> Well the basic problem is that higher priority queues can be used to 
-> starve low priority queues.
+> Or anything else - like a RGB666 - just connecting to GND the unused
+> pins.
+
+If the bridge is configured for RGB666, then that's fine. If not, the 
+unused pins should be driven with either the MSB of each component. 
+Otherwise, you'd can't fully saturate the colors.
+
+> > > +      1 = R[1:0], G[1:0], B[1:0], R[7:2], G[7:2], B[7:2]
+> > > +      2 = 8’b0, R[4:0], G[5:0], B[4:0]
+> > 
+> > Isn't this RGB565?
+> > 
+> > Don't we have already properties like this? e.g. colorspace?
 > 
-> This starvation in turn is very very bad for memory management since the 
-> dma_fence's the GPU scheduler deals with have very strong restrictions.
+> It's not really the colorspace this property.
 > 
-> Even exposing this under CAP_SYS_NICE is questionable, so we will most 
-> likely have to NAK this.
-
-This is already exposed with CAP_SYS_NICE and is relied on by SteamVR 
-for async reprojection and Gamescope's composite path on Steam Deck.
-
-Having a high priority async compute queue is really really important 
-and advantageous for these tasks.
-
-The majority of usecases for something like this is going to be a 
-compositor which does some really tiny amount of work per-frame but is 
-incredibly latency dependent (as it depends on latching onto buffers 
-just before vblank to do it's work)
-
-Starving and surpassing work on other queues is kind of the entire 
-point. Gamescope and SteamVR do it on ACE as well so GFX work can run 
-alongside it.
-
-- Joshie 🐸✨
-
+> tc358768 is a parallel RGB to DSI bridge, it has 24 bit parallel input
+> line.
 > 
-> Regards,
-> Christian.
-> 
->>
->> Thanks!
->>   - Joshie
->>
->> Joshua Ashton (4):
->>    drm/scheduler: Add DRM_SCHED_PRIORITY_VERY_HIGH
->>    drm/scheduler: Split out drm_sched_priority to own file
->>    uapi: Add RLIMIT_GPUPRIO
->>    drm/amd/amdgpu: Check RLIMIT_GPUPRIO in priority permissions
->>
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c | 13 ++++++--
->>   drivers/gpu/drm/msm/msm_gpu.h           |  2 +-
->>   fs/proc/base.c                          |  1 +
->>   include/asm-generic/resource.h          |  3 +-
->>   include/drm/drm_sched_priority.h        | 41 +++++++++++++++++++++++++
->>   include/drm/gpu_scheduler.h             | 14 +--------
->>   include/uapi/asm-generic/resource.h     |  3 +-
->>   7 files changed, 58 insertions(+), 19 deletions(-)
->>   create mode 100644 include/drm/drm_sched_priority.h
->>
-> 
+> The way this lines are connected is configurable with this parameter, if you
+> look at mode 0 and 1 they all allow to have a RGB888 or a RGB666 or a
+> RGB565 mapping. This just configure some internal mux, it's not strictly
+> about the RGB mode.
 
+This is the same as other cases. There's a need for describing the 
+interface. It keeps coming up and I keep saying to go create something 
+common.
+
+Rob
