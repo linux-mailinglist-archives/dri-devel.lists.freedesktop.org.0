@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEF16D4D94
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23B26D4DAA
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5546610E510;
-	Mon,  3 Apr 2023 16:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF8F10E41E;
+	Mon,  3 Apr 2023 16:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0798910E510
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:25:44 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6A13A61B4D;
- Mon,  3 Apr 2023 16:25:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F2B9C4339B;
- Mon,  3 Apr 2023 16:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1680539143;
- bh=x2UI7V4k/yuYE4joY5iMyG77MIdsABC9Da+qiYJH0Dk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oHMg2aNKoZ/fiT5uoOTAcSrwSiUfzPiUJNrJz2XsPWEi6fvKBB92zgSmiHGMJdxq7
- TAtCCVX3h6lu6vnTCEAki5CWHk2dzc0C9pqxkuSGd7Xeo2gTV/Ofig+Xpu/VV62Zuz
- iyJtZP65x9Ut0cmQn0QEmS+zpVEY+Gn51IysT/4MTVbidIbi2FJz1obA4OJ3f6FHa7
- a//ZDsNm2+66+BwIpiJwtv/fGu0LeBSENLJbqnOguhEmvhHJg3txoNGUydI9eowbup
- ERbaHB/vvYca0eptQdrJ8Ogqig8uWFx3a04VpTO6d5Y9oVyy9wU5Fl8mQt7ioL4Q+A
- QFNJQxilLdGrQ==
-Date: Mon, 3 Apr 2023 09:25:41 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2] drm/vblank: Fix for drivers that do not
- drm_vblank_init()
-Message-ID: <20230403162541.GA3195909@dev-arch.thelio-3990X>
-References: <20230403160314.1210533-1-robdclark@gmail.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22F5610E41E
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+ Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+ bh=rduXwTxKJ2ZRTymjzDI20MsDownWzIgevWq9R+vDxik=; b=TSZEdqgE6wUJVAoZbc98O6N4CN
+ T7zkdbIqBWkyalyEKEMQGpqWsqvIQPbE4PGtJv8WoxR52Zk9JeY/aptDay5H4s4ldoFBE2gtnUm1l
+ X6H2W9UYsVbz37mB17y88zmPqno1Teo7HBxo1a8aYZzhLK2hK17HujPms41XiKW0T80Ict4FT3ibp
+ OXgg+rANBS0Y3vWTvTEHf5B/y5xT97/SD0AG1cZIJHj53nZPk8fomj4gaZazcuRZa0I/ss0Pw2Rch
+ 51WoSM3cvTaYL7sEXzzX4hYx5e6esRZMJSRZy9pODPP6GFyQKDTG3GyMW/+8T9iZDnaO68t+4M1GW
+ Xu/DhKvw==;
+Received: from [2601:1c2:980:9ec0::2764]
+ by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pjN2i-00Fxh1-1q; Mon, 03 Apr 2023 16:28:28 +0000
+Message-ID: <ef2ba536-a7ea-7cfb-7cf6-9e0c02aeba80@infradead.org>
+Date: Mon, 3 Apr 2023 09:28:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230403160314.1210533-1-robdclark@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/vblank: Simplify drm_dev_has_vblank()
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Rob Clark <robdclark@gmail.com>
+References: <20230403160735.1211468-1-robdclark@gmail.com>
+ <ZCr9jrhTyGuZA+Qt@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <ZCr9jrhTyGuZA+Qt@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,112 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 03, 2023 at 09:03:14AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> This should fix a crash that was reported on ast (and possibly other
-> drivers which do not initialize vblank).
-> 
->    fbcon: Taking over console
->    Unable to handle kernel NULL pointer dereference at virtual address 0000000000000074
->    Mem abort info:
->      ESR = 0x0000000096000004
->      EC = 0x25: DABT (current EL), IL = 32 bits
->      SET = 0, FnV = 0
->      EA = 0, S1PTW = 0
->      FSC = 0x04: level 0 translation fault
->    Data abort info:
->      ISV = 0, ISS = 0x00000004
->      CM = 0, WnR = 0
->    user pgtable: 4k pages, 48-bit VAs, pgdp=0000080009d16000
->    [0000000000000074] pgd=0000000000000000, p4d=0000000000000000
->    Internal error: Oops: 0000000096000004 [#1] SMP
->    Modules linked in: ip6table_nat tun nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set nf_tables nfnetlink qrtr sunrpc binfmt_misc vfat fat xfs snd_usb_audio snd_hwdep snd_usbmidi_lib snd_seq snd_pcm snd_rawmidi snd_timer snd_seq_device snd soundcore joydev mc ipmi_ssif ipmi_devintf ipmi_msghandler arm_spe_pmu arm_cmn arm_dsu_pmu arm_dmc620_pmu cppc_cpufreq loop zram crct10dif_ce polyval_ce nvme polyval_generic ghash_ce sbsa_gwdt igb nvme_core ast nvme_common i2c_algo_bit xgene_hwmon gpio_dwapb scsi_dh_rdac scsi_dh_emc scsi_dh_alua ip6_tables ip_tables dm_multipath fuse
->    CPU: 12 PID: 469 Comm: kworker/12:1 Not tainted 6.3.0-rc2-00008-gd39e48ca80c0 #1
->    Hardware name: ADLINK AVA Developer Platform/AVA Developer Platform, BIOS TianoCore 2.04.100.07 (SYS: 2.06.20220308) 09/08/2022
->    Workqueue: events fbcon_register_existing_fbs
->    pstate: 20400009 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->    pc : drm_crtc_next_vblank_start+0x2c/0x98
->    lr : drm_atomic_helper_wait_for_fences+0x90/0x240
->    sp : ffff80000d583960
->    x29: ffff80000d583960 x28: ffff07ff8fc187b0 x27: 0000000000000000
->    x26: ffff07ff99c08c00 x25: 0000000000000038 x24: ffff07ff99c0c000
->    x23: 0000000000000001 x22: 0000000000000038 x21: 0000000000000000
->    x20: ffff07ff9640a280 x19: 0000000000000000 x18: ffffffffffffffff
->    x17: 0000000000000000 x16: ffffb24d2eece1c0 x15: 0000003038303178
->    x14: 3032393100000048 x13: 0000000000000000 x12: 0000000000000000
->    x11: 0000000000000000 x10: 0000000000000000 x9 : ffffb24d2eeeaca0
->    x8 : ffff80000d583628 x7 : 0000080077783000 x6 : 0000000000000000
->    x5 : ffff80000d584000 x4 : ffff07ff99c0c000 x3 : 0000000000000130
->    x2 : 0000000000000000 x1 : ffff80000d5839c0 x0 : ffff07ff99c0cc08
->    Call trace:
->     drm_crtc_next_vblank_start+0x2c/0x98
->     drm_atomic_helper_wait_for_fences+0x90/0x240
->     drm_atomic_helper_commit+0xb0/0x188
->     drm_atomic_commit+0xb0/0xf0
->     drm_client_modeset_commit_atomic+0x218/0x280
->     drm_client_modeset_commit_locked+0x64/0x1a0
->     drm_client_modeset_commit+0x38/0x68
->     __drm_fb_helper_restore_fbdev_mode_unlocked+0xb0/0xf8
->     drm_fb_helper_set_par+0x44/0x88
->     fbcon_init+0x1e0/0x4a8
->     visual_init+0xbc/0x118
->     do_bind_con_driver.isra.0+0x194/0x3a0
->     do_take_over_console+0x50/0x70
->     do_fbcon_takeover+0x74/0xf8
->     do_fb_registered+0x13c/0x158
->     fbcon_register_existing_fbs+0x78/0xc0
->     process_one_work+0x1ec/0x478
->     worker_thread+0x74/0x418
->     kthread+0xec/0x100
->     ret_from_fork+0x10/0x20
->    Code: f9400004 b9409013 f940a082 9ba30a73 (b9407662)
->    ---[ end trace 0000000000000000 ]---
-> 
-> v2: Use drm_dev_has_vblank()
-> 
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Still appears to work for me:
 
-Tested-by: Nathan Chancellor <nathan@kernel.org>
+On 4/3/23 09:23, Ville Syrjälä wrote:
+> On Mon, Apr 03, 2023 at 09:07:35AM -0700, Rob Clark wrote:
+>> From: Rob Clark <robdclark@chromium.org>
+>>
+>> What does vblank have to do with num_crtcs?  Well, this was technically
+>> correct, but you'd have to go look at where num_crtcs is initialized to
+>> understand why.  Lets just replace it with the simpler and more obvious
+>> check.
+>>
+>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>> ---
+>>  drivers/gpu/drm/drm_vblank.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+>> index 877e2067534f..ad34c235d853 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -575,7 +575,7 @@ EXPORT_SYMBOL(drm_vblank_init);
+>>   */
+>>  bool drm_dev_has_vblank(const struct drm_device *dev)
+>>  {
+>> -	return dev->num_crtcs != 0;
+>> +	return !!dev->vblank;
+> 
+> The compiler knows how to turn things into a boolean.
+>> Or I guess if we want to be a bit more explicit we could
+> write this as
+>  return dev->vblank != NULL;
+> but IIRC that will make checkpatch complain because of
+> someone's personal taste.
 
-> ---
->  drivers/gpu/drm/drm_vblank.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> index 299fa2a19a90..877e2067534f 100644
-> --- a/drivers/gpu/drm/drm_vblank.c
-> +++ b/drivers/gpu/drm/drm_vblank.c
-> @@ -996,10 +996,16 @@ EXPORT_SYMBOL(drm_crtc_vblank_count_and_time);
->  int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime)
->  {
->  	unsigned int pipe = drm_crtc_index(crtc);
-> -	struct drm_vblank_crtc *vblank = &crtc->dev->vblank[pipe];
-> -	struct drm_display_mode *mode = &vblank->hwmode;
-> +	struct drm_vblank_crtc *vblank;
-> +	struct drm_display_mode *mode;
->  	u64 vblank_start;
->  
-> +	if (!drm_dev_has_vblank(crtc->dev))
-> +		return -EINVAL;
-> +
-> +	vblank = &crtc->dev->vblank[pipe];
-> +	mode = &vblank->hwmode;
-> +
->  	if (!vblank->framedur_ns || !vblank->linedur_ns)
->  		return -EINVAL;
->  
-> -- 
-> 2.39.2
-> 
+checkpatch isn't an absolute thing. :)
+
+-- 
+~Randy
