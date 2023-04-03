@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5861C6D4145
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 11:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 003AD6D41A7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 12:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA53110E088;
-	Mon,  3 Apr 2023 09:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6958810E3C9;
+	Mon,  3 Apr 2023 10:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 562FD10E088
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 09:51:54 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id w9so114905142edc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 02:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680515512;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9nr+uA+ZP2tbdI/0kq6sL0Hql+LVt1wSnJCPSdLceG0=;
- b=Cht9Y2vM9TnL6su8oK8fsrE+NlCl07kvCeH1Ss3sQEfVIz+3oASpya8J2AUWrJpxgM
- SCco5IOUvSki5XMqFCC4gafwpE/N2km04ZRJsINqM4MoK61Z0KdpyV7ITRhLu65xJutg
- BktbY7DuUBSmVmAV1DiTyvagSErGI7E1jJkNyHch88mu8hG5+LmfWFS7W0wDU6iX8Xd7
- jjoiZ2Mz9fTYaT4UfPLDTG2x0ZfE6p3iZJzIkx9/oqavMrZ21qiPc7GkYID+SHdq81lL
- jm0UAAvOfhbRjfUD/kgK0iiBMMKWc2qEJw7CNQuj2S4JYsZ6z0aZ69ArQqmr274p3o54
- lcAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680515512;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9nr+uA+ZP2tbdI/0kq6sL0Hql+LVt1wSnJCPSdLceG0=;
- b=084JH4fFJNSGzucHnep3GKG3o4EA0/9se8stZrwJd18suzD4vJLYz8aI4iu4ovik6i
- BF706Hpoh7JF7GSuajLs5cfgKvNGhYAFbGLYm+0kBEkE7+Mn7Y7V4DR5MrZh7dgqddRn
- dp2UrALkRxrJgduCCoRerWJsDOdKwlkpzv3wHuiLFfi7aofloxdPyDb4uI2IMrfXGRVg
- OOvqOC5fwUGb7DXUi3ImLlAtrM4faG1FVc4ufECb4SUP3VRqYlpajWQZbTkpSegjOFiA
- aB66DnxTwmZe9Q46zxzhkZM5pr994ZcuW6AjbmIPgtLlHWDr4r1o/p0dn5GO4wrBD/lX
- R6aQ==
-X-Gm-Message-State: AAQBX9cmraR8oO6NSsTiUcLyT4+ZGwRfOaCiv0U1Zs/cAiI7lA6NFYuQ
- PfAJfjsDQbezHemLpOJOI6PTOQ==
-X-Google-Smtp-Source: AKy350Z7S5nIBg15xObBEMjnFcgoXpWwPfgC871POYyYAMKORNyzeGXP8WOT94M+1eeV1eh2TBj2wA==
-X-Received: by 2002:aa7:c587:0:b0:502:9296:a456 with SMTP id
- g7-20020aa7c587000000b005029296a456mr6634276edq.4.1680515512470; 
- Mon, 03 Apr 2023 02:51:52 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:ae90:d80:1069:4805?
- ([2a02:810d:15c0:828:ae90:d80:1069:4805])
- by smtp.gmail.com with ESMTPSA id
- o1-20020a50c281000000b00502b0b0d75csm314317edf.46.2023.04.03.02.51.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 02:51:51 -0700 (PDT)
-Message-ID: <6c9c74ee-b9ed-815f-dd92-37eb4c8f802a@linaro.org>
-Date: Mon, 3 Apr 2023 11:51:50 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF5E10E3A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:16:10 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 9BFD1B816DD
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64023C433A4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 10:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1680516967;
+ bh=5HFO1/RS3+GfhEvCCUbP0dlLKdHoh/rzuLr+Hm1DWRc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=tMVrA1iW3mfBUp6m3x9ahp3O1uvEXmZ9qoCzeBdhKRrSuSckrkcHK7B/1I1PkoGVD
+ +E3Sws/4kGXbZ538hkiZNnOotQCG+6anbV9ddH9+t/M6NxcpqqaI4d223UEi0SbMlh
+ AWTRy4fd6QbC3U57sc7+Z6GNt55f6+x0N9lm+rqiEAyyOLXW5YF2XeHdXdfDppoYwi
+ RV2+6qyixo0Kda0KRZhWzoTc08QMwCetagk3Uc549pMPEBlzr62nyO3LpnFVvOmFD7
+ y3eFCiFPP+hyo8pSgorw8RLLaSX5wWH+W7HkIyGqat9JQTpzSj8iVRw59ih/IyO4Q0
+ 7i29cV5h5HBCA==
+Received: by mail-lf1-f49.google.com with SMTP id c9so26942436lfb.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 03:16:07 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dGGxhMdzri3X5Bulag/pUolMWRN5qm7X4MDWvkF3Dy0noLLsMw
+ jr97WscTamGYFaz1aZSzn6ayQnO/QWGV8yP4Xw==
+X-Google-Smtp-Source: AKy350a6AWS0wXlKuF5pe+AmTsaAEGr6dp/NJrmnFPufQQTE7JlMBuNWDF4zk2dhoeM1A4qjskgjTlKotAgPQvIU9cg=
+X-Received: by 2002:ac2:43ce:0:b0:4eb:2643:d5cf with SMTP id
+ u14-20020ac243ce000000b004eb2643d5cfmr4522340lfl.7.1680516965357; Mon, 03 Apr
+ 2023 03:16:05 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/2] phy: mtk-mipi-csi: add driver for CSI phy
-Content-Language: en-US
-To: Julien Stephan <jstephan@baylibre.com>
 References: <20230403071929.360911-1-jstephan@baylibre.com>
  <20230403071929.360911-3-jstephan@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 In-Reply-To: <20230403071929.360911-3-jstephan@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 3 Apr 2023 18:15:53 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8h0gROVKOVNrTpJGKgZhJbQ1A6EaZT+vpb5bJaYqYaFg@mail.gmail.com>
+Message-ID: <CAAOTY_8h0gROVKOVNrTpJGKgZhJbQ1A6EaZT+vpb5bJaYqYaFg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] phy: mtk-mipi-csi: add driver for CSI phy
+To: Julien Stephan <jstephan@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,12 +81,17 @@ Cc: Kishon Vijay Abraham I <kishon@kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/04/2023 09:19, Julien Stephan wrote:
+Hi, Julien:
+
+Julien Stephan <jstephan@baylibre.com> =E6=96=BC 2023=E5=B9=B44=E6=9C=883=
+=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:20=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
 > From: Phi-bang Nguyen <pnguyen@baylibre.com>
-> 
+>
 > This is a new driver that supports the MIPI CSI CD-PHY for mediatek
 > mt8365 soc
-> 
+>
 > Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
 > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
 > [Julien Stephan: use regmap]
@@ -118,50 +108,205 @@ On 03/04/2023 09:19, Julien Stephan wrote:
 >  6 files changed, 845 insertions(+), 2 deletions(-)
 >  create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi-rx-reg.h
 >  create mode 100644 drivers/phy/mediatek/phy-mtk-mipi-csi.c
-> 
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
-> index c026e43f35fd..ad4ba1d93a68 100644
-> --- a/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,csi-phy.yaml
+>
 
-NAK, bindings are always separate patches. It also does not make any
-sense - you just added it.
+[snip]
 
-> @@ -33,9 +33,14 @@ additionalProperties: false
->  
->  examples:
->    - |
-> -    phy@10011800 {
-> +    soc {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
+> +static int mtk_mipi_phy_power_on(struct phy *phy)
+> +{
+> +       struct mtk_mipi_dphy_port *port =3D phy_get_drvdata(phy);
+> +       struct mtk_mipi_dphy *priv =3D port->dev;
+> +       struct regmap *regmap_base =3D port->regmap_base;
+> +       struct regmap *regmap_4d1c =3D port->regmap_4d1c;
+> +       int ret =3D 0;
 > +
-> +      phy@11c10000 {
->          compatible = "mediatek,mt8365-mipi-csi";
-> -        reg = <0 0x10011800 0 0x60>;
-> +        reg = <0 0x11c10000 0 0x4000>;
->          #phy-cells = <1>;
-> +      };
->      };
-
-
-
-k_mipi_dphy_of_match[] = {
-> +	{.compatible = "mediatek,mt8365-mipi-csi"},
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_mipi_dphy_of_match);
+> +       mutex_lock(&priv->lock);
 > +
-> +static struct platform_driver mipi_dphy_pdrv = {
-> +	.probe = mtk_mipi_dphy_probe,
-> +	.remove = mtk_mipi_dphy_remove,
-> +	.driver	= {
-> +		.name	= "mtk-mipi-csi",
-> +		.of_match_table = of_match_ptr(mtk_mipi_dphy_of_match),
+> +       switch (port->id) {
+> +       case MTK_MIPI_PHY_PORT_0:
+> +               if (priv->ports[MTK_MIPI_PHY_PORT_0A].active ||
+> +                   priv->ports[MTK_MIPI_PHY_PORT_0B].active)
+> +                       ret =3D -EBUSY;
+> +               break;
+> +
+> +       case MTK_MIPI_PHY_PORT_0A:
+> +       case MTK_MIPI_PHY_PORT_0B:
+> +               if (priv->ports[MTK_MIPI_PHY_PORT_0].active)
+> +                       ret =3D -EBUSY;
+> +               break;
+> +       }
+> +
+> +       if (!ret)
+> +               port->active =3D true;
+> +
+> +       mutex_unlock(&priv->lock);
+> +
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       /* Set analog phy mode to DPHY */
+> +       if (port->is_cdphy)
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSI0A_CPHY_EN, 0);
+> +
+> +       if (port->is_4d1c) {
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L0_CKSEL, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_CKSEL, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L2_CKMODE_EN, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L2_CKSEL, 1);
+> +       } else {
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L0_CKSEL, 0);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_CKMODE_EN, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_CKSEL, 0);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L2_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L2_CKSEL, 0);
+> +       }
+> +
+> +       if (port->is_4d1c) {
+> +               if (port->is_cdphy)
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                                  RG_CSI0A_CPHY_EN, 0);
+> +
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L0_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L0_CKSEL, 1);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_CKSEL, 1);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L2_CKMODE_EN, 0);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_DPHY_L2_CKSEL, 1);
+> +       }
+> +
+> +       /* Byte clock invert */
+> +       REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
+> +                  RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT, 1);
+> +       REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
+> +                  RG_CSIxA_DPHY_L1_BYTECK_INVERT, 1);
+> +       REGMAP_BIT(regmap_base, MIPI_RX_ANAA8_CSIxA,
+> +                  RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT, 1);
+> +
+> +       if (port->is_4d1c) {
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
+> +                          RG_CSIxA_CDPHY_L0_T0_BYTECK_INVERT, 1);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
+> +                          RG_CSIxA_DPHY_L1_BYTECK_INVERT, 1);
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANAA8_CSIxA,
+> +                          RG_CSIxA_CDPHY_L2_T1_BYTECK_INVERT, 1);
+> +       }
+> +
+> +       /* Start ANA EQ tuning */
+> +       if (port->is_cdphy) {
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
+> +                          RG_CSI0A_L0_T0AB_EQ_IS, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
+> +                          RG_CSI0A_L0_T0AB_EQ_BW, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
+> +                          RG_CSI0A_L1_T1AB_EQ_IS, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
+> +                          RG_CSI0A_L1_T1AB_EQ_BW, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA20_CSI0A,
+> +                          RG_CSI0A_L2_T1BC_EQ_IS, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA20_CSI0A,
+> +                          RG_CSI0A_L2_T1BC_EQ_BW, 1);
+> +
+> +               if (port->is_4d1c) {
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
+> +                                  RG_CSI0A_L0_T0AB_EQ_IS, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
+> +                                  RG_CSI0A_L0_T0AB_EQ_BW, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
+> +                                  RG_CSI0A_L1_T1AB_EQ_IS, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
+> +                                  RG_CSI0A_L1_T1AB_EQ_BW, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA20_CSI0A,
+> +                                  RG_CSI0A_L2_T1BC_EQ_IS, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA20_CSI0A,
+> +                                  RG_CSI0A_L2_T1BC_EQ_BW, 1);
+> +               }
+> +       } else {
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
+> +                          RG_CSI1A_L0_EQ_IS, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
+> +                          RG_CSI1A_L0_EQ_BW, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
+> +                          RG_CSI1A_L1_EQ_IS, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA18_CSIxA,
+> +                          RG_CSI1A_L1_EQ_BW, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
+> +                          RG_CSI1A_L2_EQ_IS, 1);
+> +               REGMAP_BIT(regmap_base, MIPI_RX_ANA1C_CSIxA,
+> +                          RG_CSI1A_L2_EQ_BW, 1);
+> +
+> +               if (port->is_4d1c) {
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
+> +                                  RG_CSI1A_L0_EQ_IS, 1);
 
-Drop of_match_ptr(). You should see W=1 warnings when compile testing.
+RG_CSI1A_L0_EQ_IS is identical to RG_CSI0A_L0_T0AB_EQ_IS, and ditto
+for below register. I think the function of each bitwise register is
+the same. Define only one copy of the these register, don't duplicate
+the same thing.
 
+Regards,
+Chun-Kuang.
 
-Best regards,
-Krzysztof
-
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
+> +                                  RG_CSI1A_L0_EQ_BW, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
+> +                                  RG_CSI1A_L1_EQ_IS, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA18_CSIxA,
+> +                                  RG_CSI1A_L1_EQ_BW, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
+> +                                  RG_CSI1A_L2_EQ_IS, 1);
+> +                       REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA1C_CSIxA,
+> +                                  RG_CSI1A_L2_EQ_BW, 1);
+> +               }
+> +       }
+> +
+> +       /* End ANA EQ tuning */
+> +       regmap_write(regmap_base, MIPI_RX_ANA40_CSIxA, 0x90);
+> +
+> +       REGMAP_BIT(regmap_base, MIPI_RX_ANA24_CSIxA,
+> +                  RG_CSIxA_RESERVE, 0x40);
+> +       if (port->is_4d1c)
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA24_CSIxA,
+> +                          RG_CSIxA_RESERVE, 0x40);
+> +       REGMAP_BIT(regmap_base, MIPI_RX_WRAPPER80_CSIxA,
+> +                  CSR_CSI_RST_MODE, 0);
+> +       if (port->is_4d1c)
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_WRAPPER80_CSIxA,
+> +                          CSR_CSI_RST_MODE, 0);
+> +       /* ANA power on */
+> +       REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                  RG_CSIxA_BG_CORE_EN, 1);
+> +       if (port->is_4d1c)
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_BG_CORE_EN, 1);
+> +       usleep_range(20, 40);
+> +       REGMAP_BIT(regmap_base, MIPI_RX_ANA00_CSIxA,
+> +                  RG_CSIxA_BG_LPF_EN, 1);
+> +       if (port->is_4d1c)
+> +               REGMAP_BIT(regmap_4d1c, MIPI_RX_ANA00_CSIxA,
+> +                          RG_CSIxA_BG_LPF_EN, 1);
+> +
+> +       return 0;
+> +}
+> +
