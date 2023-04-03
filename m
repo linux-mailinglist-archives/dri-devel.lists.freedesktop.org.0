@@ -1,50 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5876D4E3F
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:44:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 354CD6D4E57
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:49:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B035910E4ED;
-	Mon,  3 Apr 2023 16:44:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 035D910E527;
+	Mon,  3 Apr 2023 16:49:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com
- [216.40.44.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1A1910E4ED
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:44:33 +0000 (UTC)
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay01.hostedemail.com (Postfix) with ESMTP id 9C5BB1C6141;
- Mon,  3 Apr 2023 16:44:30 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf20.hostedemail.com (Postfix) with ESMTPA id 9479F20028; 
- Mon,  3 Apr 2023 16:44:24 +0000 (UTC)
-Message-ID: <f0014730875502c9f2117c2438de0c69512c7d0a.camel@perches.com>
-Subject: Re: [PATCH v4 0/5] docs & checkpatch: allow Closes tags with links
-From: Joe Perches <joe@perches.com>
-To: Matthieu Baerts <matthieu.baerts@tessares.net>, Jonathan Corbet
- <corbet@lwn.net>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Kai
- =?ISO-8859-1?Q?Wasserb=E4ch?= <kai@dev.carbon-project.org>, Thorsten
- Leemhuis <linux@leemhuis.info>,  Andrew Morton <akpm@linux-foundation.org>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 03 Apr 2023 09:44:23 -0700
-In-Reply-To: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
-References: <20230314-doc-checkpatch-closes-tag-v4-0-d26d1fa66f9f@tessares.net>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-2.fc36) 
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBCF10E51D;
+ Mon,  3 Apr 2023 16:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680540540; x=1712076540;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=rY/qfL2q1fSHFFVWdRI+1yAw3wVCMIvaKs/T2SwW/aE=;
+ b=eyUN+mNfT9DehX956FMpOeR4PU0KXrmAqbTG0L4k3hy4ik7JzipHN/eF
+ wpx8dwyvBHBFWxRtWCQsT9XFwYqU2h/8PvJ48h8WljQlFb4FoWTqT+Ux/
+ HLpeSjRFWn1AilhYUv4N5ZOEAOXr3+EONZntLCKwGJaFKphSZ2aZabED8
+ kjU/FUZgd4kYNmat5KbvH4k0s/yLu1CZS1Q3IMCCaJlgxDjixJT0gVKq+
+ fAsV2SDrP8AyOZG7FP8hLPuEEYk+nb03B1qn4cccM7lFeOB9qfT9hE9RY
+ RgE7To6PMTxCBahoeC2lUcaUeT914L13dWE+/2HIZv0ggM2qdJCt9XK7W g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="322352058"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="322352058"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2023 09:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="829626990"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="829626990"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga001.fm.intel.com with SMTP; 03 Apr 2023 09:48:40 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 03 Apr 2023 19:48:40 +0300
+Date: Mon, 3 Apr 2023 19:48:40 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH 7/7] drm/i915: Allow user to set cache at BO creation
+Message-ID: <ZCsDaDzyOyu9mYU3@intel.com>
+References: <20230401063830.438127-1-fei.yang@intel.com>
+ <20230401063830.438127-8-fei.yang@intel.com>
+ <ZCr4gB8Q75+QWr19@intel.com>
+ <20230403163532.GT4085390@mdroper-desk1.amr.corp.intel.com>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 9479F20028
-X-Stat-Signature: xiw3fm8z4miy48d6eqzcbjbqgzde5eap
-X-Spam-Status: No, score=1.40
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18AYvRZzAR1q2Hs1tsatw9ueURLajfnrEs=
-X-HE-Tag: 1680540264-872236
-X-HE-Meta: U2FsdGVkX1/wd3gCN3YdpSrEWSShFEzMbxSNJyksnDiVxWzTQo/h9bnPyZkSS+eShrwZBtgchjaYMYK2b1QT8Q==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230403163532.GT4085390@mdroper-desk1.amr.corp.intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,96 +63,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris.p.wilson@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ fei.yang@intel.com, Andi Shyti <andi.shyti@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2023-04-03 at 18:23 +0200, Matthieu Baerts wrote:
-> Since v6.3, checkpatch.pl now complains about the use of "Closes:" tags
-> followed by a link [1]. It also complains if a "Reported-by:" tag is
-> followed by a "Closes:" one [2].
+On Mon, Apr 03, 2023 at 09:35:32AM -0700, Matt Roper wrote:
+> On Mon, Apr 03, 2023 at 07:02:08PM +0300, Ville Syrjälä wrote:
+> > On Fri, Mar 31, 2023 at 11:38:30PM -0700, fei.yang@intel.com wrote:
+> > > From: Fei Yang <fei.yang@intel.com>
+> > > 
+> > > To comply with the design that buffer objects shall have immutable
+> > > cache setting through out its life cycle, {set, get}_caching ioctl's
+> > > are no longer supported from MTL onward. With that change caching
+> > > policy can only be set at object creation time. The current code
+> > > applies a default (platform dependent) cache setting for all objects.
+> > > However this is not optimal for performance tuning. The patch extends
+> > > the existing gem_create uAPI to let user set PAT index for the object
+> > > at creation time.
+> > 
+> > This is missing the whole justification for the new uapi.
+> > Why is MOCS not sufficient?
+> 
+> PAT and MOCS are somewhat related, but they're not the same thing.  The
+> general direction of the hardware architecture recently has been to
+> slowly dumb down MOCS and move more of the important memory/cache
+> control over to the PAT instead.  On current platforms there is some
+> overlap (and MOCS has an "ignore PAT" setting that makes the MOCS "win"
+> for the specific fields that both can control), but MOCS doesn't have a
+> way to express things like snoop/coherency mode (on MTL), or class of
+> service (on PVC).  And if you check some of the future platforms, the
+> hardware design starts packing even more stuff into the PAT (not just
+> cache behavior) which will never be handled by MOCS.
 
-All these patches seems sensible, thanks.
+Sigh. So the hardware designers screwed up MOCS yet again and
+instead of getting that fixed we are adding a new uapi to work
+around it?
 
-Assuming Linus approves the use of "Closes:"
+The IMO sane approach (which IIRC was the situation for a few
+platform generations at least) is that you just shove the PAT
+index into MOCS (or tell it to go look it up from the PTE).
+Why the heck did they not just stick with that?
 
-Acked-by: Joe Perches <joe@perches.com>
+> 
+> Also keep in mind that MOCS generally applies at the GPU instruction
+> level; although a lot of instructions have a field to provide a MOCS
+> index, or can use a MOCS already associated with a surface state, there
+> are still some that don't. PAT is the source of memory access
+> characteristics for anything that can't provide a MOCS directly.
 
-> As detailed in the first patch, this "Closes:" tag is used for a bit of
-> time, mainly by DRM and MPTCP subsystems. It is used by some bug
-> trackers to automate the closure of issues when a patch is accepted.
-> It is even planned to use this tag with bugzilla.kernel.org [3].
->=20
-> The first patch updates the documentation to explain what is this
-> "Closes:" tag and how/when to use it. The second patch modifies
-> checkpatch.pl to stop complaining about it.
->=20
-> The DRM maintainers and their mailing list have been added in Cc as they
-> are probably interested by these two patches as well.
->=20
-> [1] https://lore.kernel.org/all/3b036087d80b8c0e07a46a1dbaaf4ad0d018f8d5.=
-1674217480.git.linux@leemhuis.info/
-> [2] https://lore.kernel.org/all/bb5dfd55ea2026303ab2296f4a6df3da7dd64006.=
-1674217480.git.linux@leemhuis.info/
-> [3] https://lore.kernel.org/linux-doc/20230315181205.f3av7h6owqzzw64p@mee=
-rkat.local/
->=20
-> Signed-off-by: Matthieu Baerts <matthieu.baerts@tessares.net>
-> ---
-> Note: After having re-read the comments from the v1, it is still unclear
-> to me if this "Closes:" can be accepted or not. But because it seems
-> that the future Bugzilla bot for kernel.org and regzbot would like to
-> use it as well, I'm sending here new versions. I'm sorry if I
-> misunderstood the comments from v1. Please tell me if I did.
->=20
-> Changes in v4:
-> - Patches 1/5, 3/5 and 4/5 have been added to ask using the "Closes" tag
->   instead of the "Link" one for any bug reports. (Thorsten)
-> - The Fixes tags have been removed from patch 4/5. (Joe)
-> - The "Reported-by being followed by a link tag" check is now only
->   looking for the tag, not the URL which is done elsewhere in patch 5/5.
->   (Thorsten)
-> - A new patch has been added to fix a small issues in checkpatch.pl when
->   checking if "Reported-by:" tag is on the last line.
-> - Link to v3: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-ta=
-g-v3-0-d1bdcf31c71c@tessares.net
->=20
-> Changes in v3:
-> - Patch 1/4 now allow using the "Closes" tag with any kind of bug
->   reports, as long as the link is public. (Thorsten)
-> - The former patch 2/2 has been split in two: first to use a list for
->   the different "link" tags (Joe). Then to allow the 'Closes' tag.
-> - A new patch has been added to let checkpatch.pl checking if "Closes"
->   and "Links" are used with a URL.
-> - Link to v2: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-ta=
-g-v2-0-f4a417861f6d@tessares.net
->=20
-> Changes in v2:
-> - The text on patch 1/2 has been reworked thanks to Jon, Bagas and
->   Thorsten. See the individual changelog on the patch for more details.
-> - Private bug trackers and invalid URLs are clearly marked as forbidden
->   to avoid being misused. (Linus)
-> - Rebased on top of Linus' repo.
-> - Link to v1: https://lore.kernel.org/r/20230314-doc-checkpatch-closes-ta=
-g-v1-0-1b83072e9a9a@tessares.net
->=20
-> ---
-> Matthieu Baerts (5):
->       docs: process: allow Closes tags with links
->       checkpatch: don't print the next line if not defined
->       checkpatch: use a list of "link" tags
->       checkpatch: allow Closes tags with links
->       checkpatch: check for misuse of the link tags
->=20
->  Documentation/process/5.Posting.rst          | 22 ++++++++++----
->  Documentation/process/submitting-patches.rst | 26 +++++++++++------
->  scripts/checkpatch.pl                        | 43 ++++++++++++++++++++++=
-------
->  3 files changed, 70 insertions(+), 21 deletions(-)
-> ---
-> base-commit: 7e364e56293bb98cae1b55fd835f5991c4e96e7d
-> change-id: 20230314-doc-checkpatch-closes-tag-1731b57556b1
->=20
-> Best regards,
+So what are the things that don't have MOCS and where we need
+some custom cache behaviour, and we already know all that at
+buffer creation time?
 
+-- 
+Ville Syrjälä
+Intel
