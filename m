@@ -2,62 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8B66D4D36
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6469C6D4D3F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 18:10:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9474710E507;
-	Mon,  3 Apr 2023 16:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E081010E17B;
+	Mon,  3 Apr 2023 16:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C4310E507
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:07:55 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- r7-20020a17090b050700b002404be7920aso29045762pjz.5
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 09:07:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680538069;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BKnixP5n5+Zn1kJb+6YOX01TVCjG+8+3f8j/QO7AJFw=;
- b=V3H8+AJ3GOgAjkJY76fFg82MzOHHzyoqvXzhkD0EA7jIuN/54d114thC7Lp5rUh3df
- wuqbdE7S3EoWtBXIJzbwKuURS9rtPuCUII8rYExUQARSLuAmoH5c9tZwWQqVml44/Jcv
- bVrswAJ5dvfrmfWGEZFcpxH2epzsk4bNBPv/L9o8r/BbowC4B2QNg44Z37DMWGCinVor
- Y6dtHL6P7q79JM+rTw0uFo3kdfK59xFw1xCY5if0r6F2Jehvoxpl6G7OmCahTYDE63WH
- sPiacw/SeSrMJjXgy34t1+UEe0TAWb822+2bpwWSvnonrgJzOfIdjlaot5um10ycTwVx
- AhOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680538069;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BKnixP5n5+Zn1kJb+6YOX01TVCjG+8+3f8j/QO7AJFw=;
- b=EHmWPaGqJ6mtpgy8JSrcLHeb75kWsIoYo9m0dyTkl/ZO8pqqr6mM57MO5bTR3+4kBY
- 1mfzf7cD2dPNbCIfL5GFfpP3Szh6OBp9fCOVGv0hlWV61rL7snmPdU5UL4nknxpJM7aR
- DX7+e3DMo1Qwc7R0BB7UwyEJYSluOMm+qqYwG5GOE3ULNFUKl4Sr2HDj6cPH/xBGMYyP
- ulUfjwjvkezozXK+1USpkMXzcxiySv1glbTjwADtG2hel22UM6/yinZ1nKiYcNlPpqwD
- L+kAKndAYfCovUc5SWFPwfKs99b2JuUtSGjyceE1Lr/tZBpi3yFBkBog4iskTj0vI1QK
- GLCw==
-X-Gm-Message-State: AO0yUKUe2ANEOxTqgtIV9fBia2Ucsbmkoln9wrHH49nI9f1xnSWGgMM2
- zb4NkjRcojuwyYtLXe4iABHQN9ubEFo=
-X-Google-Smtp-Source: AK7set/GZdIC5QOn9o/FcyqqFSgG9/q68k+OzsO743dI9WPlbAYjMWr8JeyWGWCnZBheZsYC1QwmSg==
-X-Received: by 2002:a05:6a20:c129:b0:cd:1808:87c7 with SMTP id
- bh41-20020a056a20c12900b000cd180887c7mr30076046pzb.15.1680538069342; 
- Mon, 03 Apr 2023 09:07:49 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:61b:48ed:72ab:435b])
- by smtp.gmail.com with ESMTPSA id
- w15-20020aa7858f000000b0062d8c855ee9sm3423190pfn.149.2023.04.03.09.07.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Apr 2023 09:07:40 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vblank: Simplify drm_dev_has_vblank()
-Date: Mon,  3 Apr 2023 09:07:35 -0700
-Message-Id: <20230403160735.1211468-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEBD10E17B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 16:10:07 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7C75A83AA4;
+ Mon,  3 Apr 2023 18:10:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1680538203;
+ bh=aBf97ckumjH5jBbLPp9dOgA518h2j350IgoEW6C5W9A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QApSisOJyBMVEUGxd+P6/xzKw+nTdwwAqlSLsuu3fRKEhtwCOnEISA3jDDwX/n+t4
+ 9B+fjaE+fNkl1tKqGS1HMUpMoZlSJzpr8uKssdQQvmK8DDqWbqNQA3BNG36uFuDwWP
+ Pz3J5cYDKb1OA4YHWqbpG8EBHAnn/qMZhf+/evDeXpDiDSwcEGiIhucGqrEEypAuZI
+ /MNrboF/n2mLeSp6tDZoLSb/n+hivaiDxJiF0DkMh7huet9ydyNtbuyENjzFtvgM8a
+ JSexpRpGZ0VF/Tni6FiuuP2Y/3SCnM7mg08qJkuFtO126ojZIqOTwFdI0RNBGWcPVZ
+ gEFAyaUF4ietw==
+Message-ID: <254e965e-3ef5-7628-d40b-eedf4cb25a0c@denx.de>
+Date: Mon, 3 Apr 2023 18:10:00 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] dt-bindings: bridge: Convert Samsung MIPI DSIM bridge to
+ yaml
+To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
+References: <20230331195746.114840-1-festevam@gmail.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20230331195746.114840-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,36 +57,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- open list <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ jagan@amarulasolutions.com, krzysztof.kozlowski+dt@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 3/31/23 21:57, Fabio Estevam wrote:
 
-What does vblank have to do with num_crtcs?  Well, this was technically
-correct, but you'd have to go look at where num_crtcs is initialized to
-understand why.  Lets just replace it with the simpler and more obvious
-check.
+[...]
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/drm_vblank.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - samsung,exynos3250-mipi-dsi
+> +      - samsung,exynos4210-mipi-dsi
+> +      - samsung,exynos5410-mipi-dsi
+> +      - samsung,exynos5422-mipi-dsi
+> +      - samsung,exynos5433-mipi-dsi
+> +      - fsl,imx8mm-mipi-dsim
+> +      - fsl,imx8mp-mipi-dsim
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 877e2067534f..ad34c235d853 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -575,7 +575,7 @@ EXPORT_SYMBOL(drm_vblank_init);
-  */
- bool drm_dev_has_vblank(const struct drm_device *dev)
- {
--	return dev->num_crtcs != 0;
-+	return !!dev->vblank;
- }
- EXPORT_SYMBOL(drm_dev_has_vblank);
- 
--- 
-2.39.2
+Can you handle "fsl,imx8mn-mipi-dsim", "fsl,imx8mm-mipi-dsim" here too ?
+The MX8MN DSIM bridge is compatible with MX8MM DSIM bridge. The change 
+should be something like:
 
+diff --git 
+a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml 
+b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+index 2698752dc6edf..6a30194d3347e 100644
+--- 
+a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
++++ 
+b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+@@ -16,14 +16,18 @@ description: |
+
+  properties:
+    compatible:
+-    enum:
+-      - samsung,exynos3250-mipi-dsi
+-      - samsung,exynos4210-mipi-dsi
+-      - samsung,exynos5410-mipi-dsi
+-      - samsung,exynos5422-mipi-dsi
+-      - samsung,exynos5433-mipi-dsi
+-      - fsl,imx8mm-mipi-dsim
+-      - fsl,imx8mp-mipi-dsim
++    oneOf:
++      - enum:
++          - samsung,exynos3250-mipi-dsi
++          - samsung,exynos4210-mipi-dsi
++          - samsung,exynos5410-mipi-dsi
++          - samsung,exynos5422-mipi-dsi
++          - samsung,exynos5433-mipi-dsi
++          - fsl,imx8mm-mipi-dsim
++          - fsl,imx8mp-mipi-dsim
++      - items:
++          - const: fsl,imx8mn-mipi-dsim
++          - const: fsl,imx8mm-mipi-dsim
+
+    reg:
+      maxItems: 1
