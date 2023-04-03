@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E626D549F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 00:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C876D54CE
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Apr 2023 00:37:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD48C10E5B6;
-	Mon,  3 Apr 2023 22:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921C710E5AA;
+	Mon,  3 Apr 2023 22:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B4A10E5A3
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 22:16:25 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id g19so26835820lfr.9
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 15:16:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1680560183;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5bxA4Gss3+RptUe9l82LyArjhA/BEimzCrq88tRrjxk=;
- b=ThsidMxEnDpVEQwTPwwaLS+vc0EYzoqJy1xKlf/taZhAz87kNLQPLokCDj2uVY6XqQ
- EjSK85lZE7YDLYHZk0zojbWjIUh5D0DiGt2v431dXGAzqcfV1YEb9VRgds5/4moFjBhU
- YLTFFyw2CT1if24t/dUG5D5a4VnhWumy5UrMpqWyi1SmjYSd1Q4crAkJfX1hWiibGUSU
- sT1KsbQrO2KEqXafy96uRqMZltE43g+ukjtbp27e3jihUzHW9VWXvaEGo43W2clKZuIw
- 8klhGTcE0uwxKMIhTvoeBLWZLSwVHobPA7R6wvUoHKLTJnI6njsho1vWXUdqp2XDq3XU
- ttyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680560183;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5bxA4Gss3+RptUe9l82LyArjhA/BEimzCrq88tRrjxk=;
- b=tkDJMd82or/y2ID9Bvpapyztv6FMm6NtuB8lwoydf3LZBKhbgrbbenrEIvBWds7+Gc
- RWRXD1zeL1Yoc2YpDVByjyvlBpW4AVSy8+S0LjmvhBwMpLiRlxxwZ+vCSVpvZeHSscSc
- 9t86E8i3uGTNdvtiocs5xGmecybI+/x8G5u4wA/dW16zo1qW0EFZ3ViHWJbTKIBekEkK
- 6ALelgW8pBWtASvPdPYSEGjaxTPyhHYdJe/R13OZjTg12gm0LYKIIlokynP20c9C9fIz
- WdBdC7cPsLaGxY9KKgE+jQgE5NOjmZ0eSrpr6qFNO9pWBSZFD5691wrQmEykOrcOymcs
- Vp1A==
-X-Gm-Message-State: AAQBX9cT/tZC8qB7ulMh/eZx7kroUJxhfA/EZ4N3YamjtReZv+g8eo1i
- FHoPwu9rrUp1nGRK4rpZOsdN9A==
-X-Google-Smtp-Source: AKy350Y/IBSgH+tFeEA1GQREyA7F8/5hOuGrOnkaZm9d7ktpMtv2+gTKYXFMNw1z7lcQQSVjJ2FBUg==
-X-Received: by 2002:a19:ad04:0:b0:4cb:4362:381d with SMTP id
- t4-20020a19ad04000000b004cb4362381dmr40604lfc.62.1680560182861; 
- Mon, 03 Apr 2023 15:16:22 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a085:4d00::8a5?
- (dzccz6yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a085:4d00::8a5])
- by smtp.gmail.com with ESMTPSA id
- a24-20020ac25218000000b004db00b4c671sm1956313lfl.7.2023.04.03.15.16.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Apr 2023 15:16:22 -0700 (PDT)
-Message-ID: <29f0f5e6-bad2-6371-6afd-12eefcba9919@linaro.org>
-Date: Tue, 4 Apr 2023 01:16:21 +0300
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B2410E5AA;
+ Mon,  3 Apr 2023 22:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1680561439; x=1712097439;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=zmsQCCz5OOdmCY5WAXGcv7g7OgmNPhSALS9lTIjXjm8=;
+ b=AN/7d4pPsWsbrgTpR50uAdD8OSe9Xfh/4JOPLi5IlCMju1MNb/HYa+iH
+ AAuA0IVzYFIAQtwjYGC0fYZXByMj3n9m1dZEurj6N9hON3b6wrv8vJLSy
+ RswEPDtdgjbactuJ4KAfh34fA3Wtj0DYCyqrVcaeiDVU4kA9aZlrOb2N0
+ DlSLGQkvOGA46AfuNv0Zk3u6SEkxceOwOYAhQZAeOSEfmZCbeLF7kbkMC
+ dr7qdKT19klK6QOzMgiDytarJJzfyVJfklxLdyWaZAbXA1rOcDANKxm3f
+ bf/3uy0N3T7jb7Qhg3LJ435vZrF/kH9aBXJIh46vy+9ZdOWm3AJDByWJ8 w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="326043755"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="326043755"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Apr 2023 15:36:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="829731911"
+X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="829731911"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+ by fmsmga001.fm.intel.com with SMTP; 03 Apr 2023 15:36:53 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 04 Apr 2023 01:36:52 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/scdc-helper: Pimp SCDC debugs
+Date: Tue,  4 Apr 2023 01:36:52 +0300
+Message-Id: <20230403223652.18848-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230329171402.2772-1-ville.syrjala@linux.intel.com>
+References: <20230329171402.2772-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3 00/38] drm/msm/dpu: rework HW catalog
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>
-References: <20230330215324.1853304-1-dmitry.baryshkov@linaro.org>
- <b4972790-d990-063a-7ef4-2f05407357e8@quicinc.com>
- <f198ac6a-df12-9c08-55e8-f677acea8e2c@linaro.org>
- <9d1529c0-779c-7f1f-6e6e-1972bb0d39f4@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <9d1529c0-779c-7f1f-6e6e-1972bb0d39f4@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,332 +59,380 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <andersson@kernel.org>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Emma Anholt <emma@anholt.net>, Jonas Karlman <jonas@kwiboo.se>,
+ intel-gfx@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, linux-tegra@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/04/2023 22:07, Abhinav Kumar wrote:
-> 
-> 
-> On 4/3/2023 11:48 AM, Dmitry Baryshkov wrote:
->> On 03/04/2023 21:06, Abhinav Kumar wrote:
->>>
->>>
->>> On 3/30/2023 2:52 PM, Dmitry Baryshkov wrote:
->>>> This huge series attempts to restructure the DPU HW catalog into a
->>>> manageable and reviewable data set. In order to ease review and testing
->>>> I merged all the necessary fixes into this series. Also I cherry-picked
->>>> & slightly fixed Konrad's patch adding size to the SSPP and INTF 
->>>> macros.
->>>>
->>>
->>> I had to first dig up some history about why dpu catalog grew so much 
->>> in the first place before starting this review. When the DPU driver 
->>> first landed (which pre-dates my work in upstream), it looks like it 
->>> followed mdp5 model from mdp5_cfg.c. But looks like as the number of 
->>> chipsets which use DPU kept growing, this is becoming a burden.
->>>
->>> As everyone knows, downstream follows a devicetree model for the dpu 
->>> hardware and that should have always been the case. Perhaps in the 
->>> last 2-3 years more time could have been spent on standardizing the 
->>> bindings used for hw blocks in order to maintain a less hard-coded 
->>> catalog file and more in the device tree.
->>
->> Unfortunately, this is not how the upstream DT works. If something is 
->> a constant hardware property, it should not go into the DT. So pushing 
->> catalog to dt would have been immediately frowned upon by Rob Herring 
->> or Krzysztof.
->>
-> 
-> Yes certainly we cannot put hardware specific properties. But in 
-> general, modelling the hardware like the number of sspps, number of 
-> interfaces and number of dspps etc can be a bit abstracted? like 
-> blk-type and blk-offset? blk-type can be a custom string because each 
-> block is named differently for different vendors?
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-No.
+Include the device and connector information in the SCDC
+debugs. Makes it easier to figure out who did what.
 
-> 
-> The number of blk_offsets decides number of blocks. Its not constant 
-> right. We are seeing it varying with chipsets.
-> 
->>> Then the catalog would have just been a place to parse the device 
->>> tree, set the feature capability based on chipset (refer 
->>> _sde_hardware_pre_caps). That way offsets , number of blocks and the 
->>> blocks themselves still come from the device tree but perhaps some 
->>> specific features are at SOC level for which the catalog still stays.
->>>
->>> That being said, I thought of different strategies even before the 
->>> review but two issues prevented me from suggesting those ideas (one 
->>> of which I am seeing even here , which I am going to suggest below 
->>> and also suggest why it wont work).
->>>
->>> 1) For the same DPU major/minor version, some features might get 
->>> dropped or even get added with different SOCs as overall the system 
->>> capabilities might differ like number of SSPPs or memory footprint of 
->>> the SOC etc.
->>>
->>> So there is no good way right now to generalize any dpu catalog or to 
->>> tie it with a DPU major/minor version. We will have to stick with a 
->>> per-SOC model.
->>
->> Up to now, the SoC was equal to major+minor. Could you please be more 
->> specific here, if there are any actual differences within major+minor 
->> families?
->>
-> 
-> So lets say, the same DPU major/minor version is used but we have only 
-> one DSI on one chipset Vs two DSIs on the other, some of the features 
-> which come into play only for dual DSI cannot be used. Like broadcasting 
-> a DCS command across two DSIs etc. This is a very basic example, but 
-> there are many examples.
+v2: Rely on connector->ddc (Maxime)
 
-I'm asking for the exact details, because up to now the driver was using 
-major:minor to find the catalog entry. It was modelled this way in 
-sdm845/sc7180, then it was natural for us to continue down this path.
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c |  8 ++--
+ drivers/gpu/drm/display/drm_scdc_helper.c | 46 +++++++++++++++--------
+ drivers/gpu/drm/i915/display/intel_ddi.c  |  4 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c |  8 +---
+ drivers/gpu/drm/tegra/sor.c               | 15 +++-----
+ drivers/gpu/drm/vc4/vc4_hdmi.c            | 21 ++++++-----
+ include/drm/display/drm_scdc_helper.h     |  7 ++--
+ 7 files changed, 59 insertions(+), 50 deletions(-)
 
-I will put reworking catalog to be bound to the binding data
-
-> 
->>>
->>> This is what led me to not pursue that route.
->>>
->>> 2) For the same DPU major/minor version, even if core-DPU is same (in 
->>> terms of SSPP, DSPP etc), the number of interfaces can change. So 
->>> again no room to generalize same DPU hw version.
->>
->> Again, I might be just scratching the surface, but I have not observed 
->> this.
->>
-> 
-> This typically happens based on what products that chipset is catered 
-> towards. Thats pretty much what I can share. But more number of 
-> interfaces for more number of displays / use-cases.
-
-Ack, I will not that we should be more careful about this items.
-
-> 
->>>
->>> 3) For the same reason as (1) and (2), I think the de-duplication 
->>> strategy used in this series is not correct. The idea of 
->>> dpu_hw_version_num_layer_mixer is just not scalable as I dont know 
->>> how many variants that will lead to. So it seems like just an attempt 
->>> to de-duplicate which perhaps works today for existing dpu chipsets 
->>> in upstream but by no means scalable. Lets go ahead with per-SOC 
->>> catalog file but lets live with some amount of duplication between 
->>> them if we really have to split it across header files.
->>
->> Indeed, this leads to minor differences on top of major+lm. However, I 
->> think, the overall complexity is lowered.
->>
->> Nevertheless, let's land the major set of patches and leave 
->> generalization for the later time. I think, with the addition of the 
->> next several platforms we will see the drill.
->>
-> 
-> Yes, I would say lets handle generalization/de-duplication later when we 
-> see more patterns.
-> 
-> Lets land the main pieces first.
-> 
-> Going with dpu version and number of lms is not the way to generalize it 
-> from what we think.
-> 
->>> I also thought of similar strategies to generalize like based on 
->>> sub-blocks similar to what you have done but all of these were NAKed 
->>> internally by folks who work on more chipsets / have more visibility 
->>> into the spread of features across chipsets.
->>>
->>>> First 4 patches clean up the catalog a bit in order to make it more
->>>> suitable for refactoring.
->>>>
->>>
->>> These are okay. I will address your follow-up questions about patch 
->>> (1) and lets land these.
->>>
->>>> Then the next batch of 13 + 5 patches split the hw catalog entries into
->>>> per-SoC files.
->>>>
->>>
->>> This part is also fine. But perhaps dont have dpu hw version in the 
->>> file. So just dpu_hw_sm8250.h or dpu_hw_sm8350.h etc.
->>
->> Having a version makes it easier to compare chipsets (and also to 
->> verify that feature masks are correct), so I'd like to retain it.
->>
-> 
-> This is again trying to generalize it. So for example, yes perhaps today 
-> the chipsets we have belong to a particular DPU major/minor version and 
-> it might look like because they are in the same family things look 
-> similar but that can also go against this. If we find some differences 
-> among them, then some upstream developers might think "Oh, these belong 
-> to the same family, but how come it doesnt have the same features?". 
-> Thats why I am hesitant to go with DPU major/minor version in the name.
-
-We have both major/minor and SoC name, so we will not mix them. However, 
-yes, if I were to see two SoCs having the same major/minor, it would be 
-natural for me to compare them. Ask/check if I got it correct that the 
-details are not the same. Curse and add a separate catalog entry.
-
-Please note, that if we remove the major/minor from the file name, the 
-entry becomes completely deteached from hw version. The only connection 
-will be the cfg_handler table. And moving the SoC <-> catalog binding to 
-the match data (as there can be different chipsets with the same hw rev) 
-will remove this binding completely.
-
-Thus, I think I am going to keep it in the file name at least. The note 
-that major/minor doesn't guarantee the same set of features is noted.
-
-> 
->>>
->>>> Next 9 patches rework catalog entries, mostly targeting 
->>>> deduplication of
->>>> data used by several platforms. At this moment only three pairs (out of
->>>> 13 devices supported by DPU) are merged. However this part lays out the
->>>> ground to ease adding support for new platforms, some of which use the
->>>> same configuration as the existing platforms
->>>>
->>>
->>> This is the part I suggest we drop.
->>>
->>>> Last batch of 7 patches renames existing macros to ease using them 
->>>> while
->>>> adding support for new devices.
->>>>
->>>
->>> I have to check this part but perhaps after re-basing based on my 
->>> earlier comment.
->>
->> Ack, I'll see what I can drop and what is going to be there.
->>
->> Up to now there were some natural shares, like sm8150 vs sc8180x and 
->> qcm2290 vs sm6115. Do you think we should populate the missing parts 
->> by duplicate the data?
->>
-> 
-> Yes, lets go ahead with the duplicate data for now. Once a more 
-> reasonable strategy evolves for generalizing it, we can update it.
-
-Ack, will provide corresponding patches.
-
-> 
->>>
->>>> This pile of patches is submitted in a single batch to allow one to
->>>> observe the final goal of the cleanup which otherwise might be hard to
->>>> assess.
->>>>
->>>>
->>>> Changes since v2:
->>>> - Fixed sc8280xp SSPP size to 0x2ac
->>>> - Rebased on top of msm-next-lumag, dropped merged patches
->>>>
->>>> Changes since v1:
->>>> - Picked up Konrad's patch
->>>> - Picked up dependencies into the main series
->>>> - Moved qseed3lite vs qseed4 patches into the fixes part
->>>> - Fixed sm6115 in a similar manner.
->>>>
->>>> Dmitry Baryshkov (37):
->>>>    drm/msm/dpu: constify DSC data structures
->>>>    drm/msm/dpu: mark remaining pp data as const
->>>>    drm/msm/dpu: move UBWC/memory configuration to separate struct
->>>>    drm/msm/dpu: split SM8550 catalog entry to the separate file
->>>>    drm/msm/dpu: split SM8450 catalog entry to the separate file
->>>>    drm/msm/dpu: split SC8280XP catalog entry to the separate file
->>>>    drm/msm/dpu: split SC7280 catalog entry to the separate file
->>>>    drm/msm/dpu: split SM8350 catalog entry to the separate file
->>>>    drm/msm/dpu: split SM6115 catalog entry to the separate file
->>>>    drm/msm/dpu: split QCM2290 catalog entry to the separate file
->>>>    drm/msm/dpu: split SC7180 catalog entry to the separate file
->>>>    drm/msm/dpu: split SM8250 catalog entry to the separate file
->>>>    drm/msm/dpu: split SC8180X catalog entry to the separate file
->>>>    drm/msm/dpu: split SM8150 catalog entry to the separate file
->>>>    drm/msm/dpu: split MSM8998 catalog entry to the separate file
->>>>    drm/msm/dpu: split SDM845 catalog entry to the separate file
->>>>    drm/msm/dpu: duplicate sdm845 catalog entries
->>>>    drm/msm/dpu: duplicate sc7180 catalog entries
->>>>    drm/msm/dpu: duplicate sm8150 catalog entries
->>>>    drm/msm/dpu: duplicate sm8250 catalog entries
->>>>    drm/msm/dpu: duplicate sm8350 catalog entries
->>>>    drm/msm/dpu: use defined symbol for sc8280xp's maxwidth
->>>>    drm/msm/dpu: catalog: add comments regarding DPU_CTL_SPLIT_DISPLAY
->>>>    drm/msm/dpu: enable DPU_CTL_SPLIT_DISPLAY for sc8280xp
->>>>    drm/msm/dpu: enable DSPP_2/3 for LM_2/3 on sm8450
->>>>    drm/msm/dpu: drop duplicate vig_sblk instances
->>>>    drm/msm/dpu: enable DSPP on sc8180x
->>>>    drm/msm/dpu: deduplicate sc8180x with sm8150
->>>>    drm/msm/dpu: deduplicate sm6115 with qcm2290
->>>>    drm/msm/dpu: deduplicate sc8280xp with sm8450
->>>>    drm/msm/dpu: drop unused macros from hw catalog
->>>>    drm/msm/dpu: inline IRQ_n_MASK defines
->>>>    drm/msm/dpu: rename INTF_foo_MASK to contain major DPU version
->>>>    drm/msm/dpu: rename CTL_foo_MASK to contain major DPU version
->>>>    drm/msm/dpu: rename VIG and DMA_foo_MASK to contain major DPU 
->>>> version
->>>>    drm/msm/dpu: rename MIXER_foo_MASK to contain major DPU version
->>>>    drm/msm/dpu: rename MERGE_3D_foo_MASK to contain major DPU version
->>>>
->>>> Konrad Dybcio (1):
->>>>    drm/msm/dpu: Allow variable SSPP/INTF_BLK size
->>>>
->>>>   .../msm/disp/dpu1/catalog/dpu_3_0_msm8998.h   |  210 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_4_0_sdm845.h    |  210 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_5_0_sm8150.h    |   97 +
->>>>   .../msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h   |   91 +
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h |  152 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_6_0_sm8250.h    |  244 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_6_2_sc7180.h    |  151 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_6_3_sm6115.h    |   91 +
->>>>   .../msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h   |   83 +
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h |   53 +
->>>>   .../msm/disp/dpu1/catalog/dpu_7_0_sm8350.h    |  226 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_7_2_sc7280.h    |  158 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h  |  136 ++
->>>>   .../msm/disp/dpu1/catalog/dpu_8_1_sm8450.h    |  142 ++
->>>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h |   99 +
->>>>   .../msm/disp/dpu1/catalog/dpu_9_0_sm8550.h    |  209 ++
->>>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 2175 
->>>> +----------------
->>>>   .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |   37 +-
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    |    4 +-
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c   |   18 +-
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h   |    4 +-
->>>>   21 files changed, 2443 insertions(+), 2147 deletions(-)
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
->>>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_lm6.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h
->>>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_lm1.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h
->>>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_lm6.h
->>>>   create mode 100644 
->>>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
->>>>
->>
-
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index aa51c61a78c7..603bb3c51027 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -1426,9 +1426,9 @@ void dw_hdmi_set_high_tmds_clock_ratio(struct dw_hdmi *hdmi,
+ 	/* Control for TMDS Bit Period/TMDS Clock-Period Ratio */
+ 	if (dw_hdmi_support_scdc(hdmi, display)) {
+ 		if (mtmdsclock > HDMI14_MAX_TMDSCLK)
+-			drm_scdc_set_high_tmds_clock_ratio(hdmi->ddc, 1);
++			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, 1);
+ 		else
+-			drm_scdc_set_high_tmds_clock_ratio(hdmi->ddc, 0);
++			drm_scdc_set_high_tmds_clock_ratio(&hdmi->connector, 0);
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(dw_hdmi_set_high_tmds_clock_ratio);
+@@ -2116,7 +2116,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+ 				min_t(u8, bytes, SCDC_MIN_SOURCE_VERSION));
+ 
+ 			/* Enabled Scrambling in the Sink */
+-			drm_scdc_set_scrambling(hdmi->ddc, 1);
++			drm_scdc_set_scrambling(&hdmi->connector, 1);
+ 
+ 			/*
+ 			 * To activate the scrambler feature, you must ensure
+@@ -2132,7 +2132,7 @@ static void hdmi_av_composer(struct dw_hdmi *hdmi,
+ 			hdmi_writeb(hdmi, 0, HDMI_FC_SCRAMBLER_CTRL);
+ 			hdmi_writeb(hdmi, (u8)~HDMI_MC_SWRSTZ_TMDSSWRST_REQ,
+ 				    HDMI_MC_SWRSTZ);
+-			drm_scdc_set_scrambling(hdmi->ddc, 0);
++			drm_scdc_set_scrambling(&hdmi->connector, 0);
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
+index c3ad4ab2b456..6d2f244e5830 100644
+--- a/drivers/gpu/drm/display/drm_scdc_helper.c
++++ b/drivers/gpu/drm/display/drm_scdc_helper.c
+@@ -26,6 +26,8 @@
+ #include <linux/delay.h>
+ 
+ #include <drm/display/drm_scdc_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_device.h>
+ #include <drm/drm_print.h>
+ 
+ /**
+@@ -140,7 +142,7 @@ EXPORT_SYMBOL(drm_scdc_write);
+ 
+ /**
+  * drm_scdc_get_scrambling_status - what is status of scrambling?
+- * @adapter: I2C adapter for DDC channel
++ * @connector: connector
+  *
+  * Reads the scrambler status over SCDC, and checks the
+  * scrambling status.
+@@ -148,14 +150,16 @@ EXPORT_SYMBOL(drm_scdc_write);
+  * Returns:
+  * True if the scrambling is enabled, false otherwise.
+  */
+-bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
++bool drm_scdc_get_scrambling_status(struct drm_connector *connector)
+ {
+ 	u8 status;
+ 	int ret;
+ 
+-	ret = drm_scdc_readb(adapter, SCDC_SCRAMBLER_STATUS, &status);
++	ret = drm_scdc_readb(connector->ddc, SCDC_SCRAMBLER_STATUS, &status);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to read scrambling status: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to read scrambling status: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+@@ -165,7 +169,7 @@ EXPORT_SYMBOL(drm_scdc_get_scrambling_status);
+ 
+ /**
+  * drm_scdc_set_scrambling - enable scrambling
+- * @adapter: I2C adapter for DDC channel
++ * @connector: connector
+  * @enable: bool to indicate if scrambling is to be enabled/disabled
+  *
+  * Writes the TMDS config register over SCDC channel, and:
+@@ -175,14 +179,17 @@ EXPORT_SYMBOL(drm_scdc_get_scrambling_status);
+  * Returns:
+  * True if scrambling is set/reset successfully, false otherwise.
+  */
+-bool drm_scdc_set_scrambling(struct i2c_adapter *adapter, bool enable)
++bool drm_scdc_set_scrambling(struct drm_connector *connector,
++			     bool enable)
+ {
+ 	u8 config;
+ 	int ret;
+ 
+-	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
++	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to read TMDS config: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+@@ -191,9 +198,11 @@ bool drm_scdc_set_scrambling(struct i2c_adapter *adapter, bool enable)
+ 	else
+ 		config &= ~SCDC_SCRAMBLING_ENABLE;
+ 
+-	ret = drm_scdc_writeb(adapter, SCDC_TMDS_CONFIG, config);
++	ret = drm_scdc_writeb(connector->ddc, SCDC_TMDS_CONFIG, config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to enable scrambling: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to enable scrambling: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+@@ -203,7 +212,7 @@ EXPORT_SYMBOL(drm_scdc_set_scrambling);
+ 
+ /**
+  * drm_scdc_set_high_tmds_clock_ratio - set TMDS clock ratio
+- * @adapter: I2C adapter for DDC channel
++ * @connector: connector
+  * @set: ret or reset the high clock ratio
+  *
+  *
+@@ -230,14 +239,17 @@ EXPORT_SYMBOL(drm_scdc_set_scrambling);
+  * Returns:
+  * True if write is successful, false otherwise.
+  */
+-bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set)
++bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
++					bool set)
+ {
+ 	u8 config;
+ 	int ret;
+ 
+-	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
++	ret = drm_scdc_readb(connector->ddc, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to read TMDS config: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+@@ -246,9 +258,11 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set)
+ 	else
+ 		config &= ~SCDC_TMDS_BIT_CLOCK_RATIO_BY_40;
+ 
+-	ret = drm_scdc_writeb(adapter, SCDC_TMDS_CONFIG, config);
++	ret = drm_scdc_writeb(connector->ddc, SCDC_TMDS_CONFIG, config);
+ 	if (ret < 0) {
+-		DRM_DEBUG_KMS("Failed to set TMDS clock ratio: %d\n", ret);
++		drm_dbg_kms(connector->dev,
++			    "[CONNECTOR:%d:%s] Failed to set TMDS clock ratio: %d\n",
++			    connector->base.id, connector->name, ret);
+ 		return false;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+index dc294717bcdf..d0bb3a52ae5c 100644
+--- a/drivers/gpu/drm/i915/display/intel_ddi.c
++++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+@@ -3974,8 +3974,8 @@ static int intel_hdmi_reset_link(struct intel_encoder *encoder,
+ 
+ 	ret = drm_scdc_readb(adapter, SCDC_TMDS_CONFIG, &config);
+ 	if (ret < 0) {
+-		drm_err(&dev_priv->drm, "Failed to read TMDS config: %d\n",
+-			ret);
++		drm_err(&dev_priv->drm, "[CONNECTOR:%d:%s] Failed to read TMDS config: %d\n",
++			connector->base.base.id, connector->base.name, ret);
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+index c7e9e1fbed37..a690a5616506 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdmi.c
++++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+@@ -2646,11 +2646,8 @@ bool intel_hdmi_handle_sink_scrambling(struct intel_encoder *encoder,
+ 				       bool scrambling)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(encoder->base.dev);
+-	struct intel_hdmi *intel_hdmi = enc_to_intel_hdmi(encoder);
+ 	struct drm_scrambling *sink_scrambling =
+ 		&connector->display_info.hdmi.scdc.scrambling;
+-	struct i2c_adapter *adapter =
+-		intel_gmbus_get_adapter(dev_priv, intel_hdmi->ddc_bus);
+ 
+ 	if (!sink_scrambling->supported)
+ 		return true;
+@@ -2661,9 +2658,8 @@ bool intel_hdmi_handle_sink_scrambling(struct intel_encoder *encoder,
+ 		    str_yes_no(scrambling), high_tmds_clock_ratio ? 40 : 10);
+ 
+ 	/* Set TMDS bit clock ratio to 1/40 or 1/10, and enable/disable scrambling */
+-	return drm_scdc_set_high_tmds_clock_ratio(adapter,
+-						  high_tmds_clock_ratio) &&
+-		drm_scdc_set_scrambling(adapter, scrambling);
++	return drm_scdc_set_high_tmds_clock_ratio(connector, high_tmds_clock_ratio) &&
++		drm_scdc_set_scrambling(connector, scrambling);
+ }
+ 
+ static u8 chv_port_to_ddc_pin(struct drm_i915_private *dev_priv, enum port port)
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 8af632740673..34af6724914f 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2140,10 +2140,8 @@ static void tegra_sor_hdmi_disable_scrambling(struct tegra_sor *sor)
+ 
+ static void tegra_sor_hdmi_scdc_disable(struct tegra_sor *sor)
+ {
+-	struct i2c_adapter *ddc = sor->output.ddc;
+-
+-	drm_scdc_set_high_tmds_clock_ratio(ddc, false);
+-	drm_scdc_set_scrambling(ddc, false);
++	drm_scdc_set_high_tmds_clock_ratio(&sor->output.connector, false);
++	drm_scdc_set_scrambling(&sor->output.connector, false);
+ 
+ 	tegra_sor_hdmi_disable_scrambling(sor);
+ }
+@@ -2168,10 +2166,8 @@ static void tegra_sor_hdmi_enable_scrambling(struct tegra_sor *sor)
+ 
+ static void tegra_sor_hdmi_scdc_enable(struct tegra_sor *sor)
+ {
+-	struct i2c_adapter *ddc = sor->output.ddc;
+-
+-	drm_scdc_set_high_tmds_clock_ratio(ddc, true);
+-	drm_scdc_set_scrambling(ddc, true);
++	drm_scdc_set_high_tmds_clock_ratio(&sor->output.connector, true);
++	drm_scdc_set_scrambling(&sor->output.connector, true);
+ 
+ 	tegra_sor_hdmi_enable_scrambling(sor);
+ }
+@@ -2179,9 +2175,8 @@ static void tegra_sor_hdmi_scdc_enable(struct tegra_sor *sor)
+ static void tegra_sor_hdmi_scdc_work(struct work_struct *work)
+ {
+ 	struct tegra_sor *sor = container_of(work, struct tegra_sor, scdc.work);
+-	struct i2c_adapter *ddc = sor->output.ddc;
+ 
+-	if (!drm_scdc_get_scrambling_status(ddc)) {
++	if (!drm_scdc_get_scrambling_status(&sor->output.connector)) {
+ 		DRM_DEBUG_KMS("SCDC not scrambled\n");
+ 		tegra_sor_hdmi_scdc_enable(sor);
+ 	}
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 464c3cc8e6fb..06713d8b82b5 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -885,7 +885,8 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
+ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	struct drm_device *drm = vc4_hdmi->connector.dev;
++	struct drm_connector *connector = &vc4_hdmi->connector;
++	struct drm_device *drm = connector->dev;
+ 	const struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
+ 	unsigned long flags;
+ 	int idx;
+@@ -903,8 +904,8 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ 	if (!drm_dev_enter(drm, &idx))
+ 		return;
+ 
+-	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
+-	drm_scdc_set_scrambling(vc4_hdmi->ddc, true);
++	drm_scdc_set_high_tmds_clock_ratio(connector, true);
++	drm_scdc_set_scrambling(connector, true);
+ 
+ 	spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+ 	HDMI_WRITE(HDMI_SCRAMBLER_CTL, HDMI_READ(HDMI_SCRAMBLER_CTL) |
+@@ -922,7 +923,8 @@ static void vc4_hdmi_enable_scrambling(struct drm_encoder *encoder)
+ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+-	struct drm_device *drm = vc4_hdmi->connector.dev;
++	struct drm_connector *connector = &vc4_hdmi->connector;
++	struct drm_device *drm = connector->dev;
+ 	unsigned long flags;
+ 	int idx;
+ 
+@@ -944,8 +946,8 @@ static void vc4_hdmi_disable_scrambling(struct drm_encoder *encoder)
+ 		   ~VC5_HDMI_SCRAMBLER_CTL_ENABLE);
+ 	spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
+ 
+-	drm_scdc_set_scrambling(vc4_hdmi->ddc, false);
+-	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, false);
++	drm_scdc_set_scrambling(connector, false);
++	drm_scdc_set_high_tmds_clock_ratio(connector, false);
+ 
+ 	drm_dev_exit(idx);
+ }
+@@ -955,12 +957,13 @@ static void vc4_hdmi_scrambling_wq(struct work_struct *work)
+ 	struct vc4_hdmi *vc4_hdmi = container_of(to_delayed_work(work),
+ 						 struct vc4_hdmi,
+ 						 scrambling_work);
++	struct drm_connector *connector = &vc4_hdmi->connector;
+ 
+-	if (drm_scdc_get_scrambling_status(vc4_hdmi->ddc))
++	if (drm_scdc_get_scrambling_status(connector))
+ 		return;
+ 
+-	drm_scdc_set_high_tmds_clock_ratio(vc4_hdmi->ddc, true);
+-	drm_scdc_set_scrambling(vc4_hdmi->ddc, true);
++	drm_scdc_set_high_tmds_clock_ratio(connector, true);
++	drm_scdc_set_scrambling(connector, true);
+ 
+ 	queue_delayed_work(system_wq, &vc4_hdmi->scrambling_work,
+ 			   msecs_to_jiffies(SCRAMBLING_POLLING_DELAY_MS));
+diff --git a/include/drm/display/drm_scdc_helper.h b/include/drm/display/drm_scdc_helper.h
+index ded01fd948b4..34600476a1b9 100644
+--- a/include/drm/display/drm_scdc_helper.h
++++ b/include/drm/display/drm_scdc_helper.h
+@@ -28,6 +28,7 @@
+ 
+ #include <drm/display/drm_scdc.h>
+ 
++struct drm_connector;
+ struct i2c_adapter;
+ 
+ ssize_t drm_scdc_read(struct i2c_adapter *adapter, u8 offset, void *buffer,
+@@ -71,9 +72,9 @@ static inline int drm_scdc_writeb(struct i2c_adapter *adapter, u8 offset,
+ 	return drm_scdc_write(adapter, offset, &value, sizeof(value));
+ }
+ 
+-bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter);
++bool drm_scdc_get_scrambling_status(struct drm_connector *connector);
+ 
+-bool drm_scdc_set_scrambling(struct i2c_adapter *adapter, bool enable);
+-bool drm_scdc_set_high_tmds_clock_ratio(struct i2c_adapter *adapter, bool set);
++bool drm_scdc_set_scrambling(struct drm_connector *connector, bool enable);
++bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector, bool set);
+ 
+ #endif
 -- 
-With best wishes
-Dmitry
+2.39.2
 
