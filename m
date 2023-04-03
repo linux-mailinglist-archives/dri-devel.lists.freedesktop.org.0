@@ -2,50 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BE26D3E81
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 09:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DBD6D3E8F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 10:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FCC810E138;
-	Mon,  3 Apr 2023 07:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3FDC10E266;
+	Mon,  3 Apr 2023 08:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com
- [209.85.166.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD4010E138
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 07:57:51 +0000 (UTC)
-Received: by mail-io1-f80.google.com with SMTP id
- b12-20020a6bb20c000000b007585c93862aso17601277iof.4
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Apr 2023 00:57:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680508670; x=1683100670;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+55Ep96w1GrdicGs3q+SqcOATmhIDqVCR7yAN3WUpu0=;
- b=VPOOoJDYhnk5d+qV5OynsQIyJPZgUZN5jM9tLc0OaDSyZ+LGPHidV0EiabJRWin7yg
- WWVdCbWZBl/ALHptMd2VZPDNR+0g0V2331G3OfpZwnTm5gIq14sL1qPvPGpBsnOGk8ck
- ePwL5UCrXVgppB+a7K4A3NXI4AOwFCd+JEkoa6vxLYHCmnBUoU2jay8ec7uzZXvd6+xq
- ebuAlZb0ekgpPDdhULDTJLwEfuyk7i2v3r6ThNOfGHEj0VTRSs0BTCZ1tOCvjihQfBo/
- O8DGkCSPFZROilP5yk377cuyPtOE9eX10rpz/kKn1SZtRM9rxJYcU8e1o2KvNbSp9IwP
- UnKA==
-X-Gm-Message-State: AO0yUKU3doX1PJV2s2MfEv+WvpKXjqq1Mz1D0suBTIgFTpaJn3s4XdAZ
- eyWma6euIGKSXL9z0Ip6VKkZebSYtimWvhhIngt3lM2AmYnn
-X-Google-Smtp-Source: AK7set/HiIOOOPEDz4KuXoTXHsmn3Z20SY1XF49Ui+ReesLTOXpveKjoXONsOCIz8MDc6aeGYhCkGZ+nmfXmrxhlSLzUCteDhDPn
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A7E10E266
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 08:02:57 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0A9B2219E9;
+ Mon,  3 Apr 2023 08:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1680508975; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YFZ7quOifp4g1vCUBY4cHG7Gzb9r0mqxTr4kn7Wk1tc=;
+ b=XGwyVw5vcNlClhFDfwptGHs4g22VIoSZrrO27YeP90RjPs5oH7iIur6gglPx/iJjEiaAXm
+ pirHUiqv/s6ExtVi9/HnHiNIqjkbEp3dsrI3/WBdgVp8oiEnrBZroM2s3sEVFvQSj66ffz
+ YZUz21ruGxO7E4wSz+oQBHTyF+t1zzo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1680508975;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YFZ7quOifp4g1vCUBY4cHG7Gzb9r0mqxTr4kn7Wk1tc=;
+ b=ZeQixqU7QyTv3JrBJolyJjK/GwVnu0y67c4udLmaj8cXoiuvSDyLRFC7lBWkg0viO83Ncs
+ W5l+1UCKga50uoAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C1E1C1331A;
+ Mon,  3 Apr 2023 08:02:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id sA2DLi6IKmTeMgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 03 Apr 2023 08:02:54 +0000
+Message-ID: <321a3874-3504-9dec-cb5a-7a8394be46b1@suse.de>
+Date: Mon, 3 Apr 2023 10:02:54 +0200
 MIME-Version: 1.0
-X-Received: by 2002:a02:2282:0:b0:3fe:88a4:1da2 with SMTP id
- o124-20020a022282000000b003fe88a41da2mr15167577jao.4.1680508670436; Mon, 03
- Apr 2023 00:57:50 -0700 (PDT)
-Date: Mon, 03 Apr 2023 00:57:50 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000057e9d305f869eaa0@google.com>
-Subject: [syzbot] [dri?] general protection fault in drm_crtc_next_vblank_start
-From: syzbot <syzbot+54280c5aea19802490b5@syzkaller.appspotmail.com>
-To: airlied@gmail.com, airlied@redhat.com, christian.koenig@amd.com, 
- daniel.vetter@ffwll.ch, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, robdclark@chromium.org, sean@poorly.run, 
- sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] drm/vblank: Fix for drivers that do not drm_vblank_init()
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20230401153802.1066072-1-robdclark@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230401153802.1066072-1-robdclark@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------LtYdBgNLup5rLDUU0qOYNau8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,158 +69,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Rob Clark <robdclark@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------LtYdBgNLup5rLDUU0qOYNau8
+Content-Type: multipart/mixed; boundary="------------xHDy00R0ff56eNjO5oZ80b5j";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>, Nathan Chancellor
+ <nathan@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Message-ID: <321a3874-3504-9dec-cb5a-7a8394be46b1@suse.de>
+Subject: Re: [PATCH] drm/vblank: Fix for drivers that do not drm_vblank_init()
+References: <20230401153802.1066072-1-robdclark@gmail.com>
+In-Reply-To: <20230401153802.1066072-1-robdclark@gmail.com>
 
-syzbot found the following issue on:
+--------------xHDy00R0ff56eNjO5oZ80b5j
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-HEAD commit:    a6d9e3034536 Add linux-next specific files for 20230330
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1001d1cdc80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aceb117f7924508e
-dashboard link: https://syzkaller.appspot.com/bug?extid=54280c5aea19802490b5
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13435a2ec80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=139c9c21c80000
+SGkNCg0KQW0gMDEuMDQuMjMgdW0gMTc6Mzggc2NocmllYiBSb2IgQ2xhcms6DQo+IEZyb206
+IFJvYiBDbGFyayA8cm9iZGNsYXJrQGNocm9taXVtLm9yZz4NCj4gDQo+IFRoaXMgc2hvdWxk
+IGZpeCBhIGNyYXNoIHRoYXQgd2FzIHJlcG9ydGVkIG9uIGFzdCAoYW5kIHBvc3NpYmx5IG90
+aGVyDQo+IGRyaXZlcnMgd2hpY2ggZG8gbm90IGluaXRpYWxpemUgdmJsYW5rKS4NCj4gDQo+
+ICAgICBmYmNvbjogVGFraW5nIG92ZXIgY29uc29sZQ0KPiAgICAgVW5hYmxlIHRvIGhhbmRs
+ZSBrZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlIGF0IHZpcnR1YWwgYWRkcmVzcyAw
+MDAwMDAwMDAwMDAwMDc0DQo+ICAgICBNZW0gYWJvcnQgaW5mbzoNCj4gICAgICAgRVNSID0g
+MHgwMDAwMDAwMDk2MDAwMDA0DQo+ICAgICAgIEVDID0gMHgyNTogREFCVCAoY3VycmVudCBF
+TCksIElMID0gMzIgYml0cw0KPiAgICAgICBTRVQgPSAwLCBGblYgPSAwDQo+ICAgICAgIEVB
+ID0gMCwgUzFQVFcgPSAwDQo+ICAgICAgIEZTQyA9IDB4MDQ6IGxldmVsIDAgdHJhbnNsYXRp
+b24gZmF1bHQNCj4gICAgIERhdGEgYWJvcnQgaW5mbzoNCj4gICAgICAgSVNWID0gMCwgSVNT
+ID0gMHgwMDAwMDAwNA0KPiAgICAgICBDTSA9IDAsIFduUiA9IDANCj4gICAgIHVzZXIgcGd0
+YWJsZTogNGsgcGFnZXMsIDQ4LWJpdCBWQXMsIHBnZHA9MDAwMDA4MDAwOWQxNjAwMA0KPiAg
+ICAgWzAwMDAwMDAwMDAwMDAwNzRdIHBnZD0wMDAwMDAwMDAwMDAwMDAwLCBwNGQ9MDAwMDAw
+MDAwMDAwMDAwMA0KPiAgICAgSW50ZXJuYWwgZXJyb3I6IE9vcHM6IDAwMDAwMDAwOTYwMDAw
+MDQgWyMxXSBTTVANCj4gICAgIE1vZHVsZXMgbGlua2VkIGluOiBpcDZ0YWJsZV9uYXQgdHVu
+IG5mdF9maWJfaW5ldCBuZnRfZmliX2lwdjQgbmZ0X2ZpYl9pcHY2IG5mdF9maWIgbmZ0X3Jl
+amVjdF9pbmV0IG5mX3JlamVjdF9pcHY0IG5mX3JlamVjdF9pcHY2IG5mdF9yZWplY3QgbmZ0
+X2N0IG5mdF9jaGFpbl9uYXQgbmZfbmF0IG5mX2Nvbm50cmFjayBuZl9kZWZyYWdfaXB2NiBu
+Zl9kZWZyYWdfaXB2NCByZmtpbGwgaXBfc2V0IG5mX3RhYmxlcyBuZm5ldGxpbmsgcXJ0ciBz
+dW5ycGMgYmluZm10X21pc2MgdmZhdCBmYXQgeGZzIHNuZF91c2JfYXVkaW8gc25kX2h3ZGVw
+IHNuZF91c2JtaWRpX2xpYiBzbmRfc2VxIHNuZF9wY20gc25kX3Jhd21pZGkgc25kX3RpbWVy
+IHNuZF9zZXFfZGV2aWNlIHNuZCBzb3VuZGNvcmUgam95ZGV2IG1jIGlwbWlfc3NpZiBpcG1p
+X2RldmludGYgaXBtaV9tc2doYW5kbGVyIGFybV9zcGVfcG11IGFybV9jbW4gYXJtX2RzdV9w
+bXUgYXJtX2RtYzYyMF9wbXUgY3BwY19jcHVmcmVxIGxvb3AgenJhbSBjcmN0MTBkaWZfY2Ug
+cG9seXZhbF9jZSBudm1lIHBvbHl2YWxfZ2VuZXJpYyBnaGFzaF9jZSBzYnNhX2d3ZHQgaWdi
+IG52bWVfY29yZSBhc3QgbnZtZV9jb21tb24gaTJjX2FsZ29fYml0IHhnZW5lX2h3bW9uIGdw
+aW9fZHdhcGIgc2NzaV9kaF9yZGFjIHNjc2lfZGhfZW1jIHNjc2lfZGhfYWx1YSBpcDZfdGFi
+bGVzIGlwX3RhYmxlcyBkbV9tdWx0aXBhdGggZnVzZQ0KPiAgICAgQ1BVOiAxMiBQSUQ6IDQ2
+OSBDb21tOiBrd29ya2VyLzEyOjEgTm90IHRhaW50ZWQgNi4zLjAtcmMyLTAwMDA4LWdkMzll
+NDhjYTgwYzAgIzENCj4gICAgIEhhcmR3YXJlIG5hbWU6IEFETElOSyBBVkEgRGV2ZWxvcGVy
+IFBsYXRmb3JtL0FWQSBEZXZlbG9wZXIgUGxhdGZvcm0sIEJJT1MgVGlhbm9Db3JlIDIuMDQu
+MTAwLjA3IChTWVM6IDIuMDYuMjAyMjAzMDgpIDA5LzA4LzIwMjINCj4gICAgIFdvcmtxdWV1
+ZTogZXZlbnRzIGZiY29uX3JlZ2lzdGVyX2V4aXN0aW5nX2Zicw0KPiAgICAgcHN0YXRlOiAy
+MDQwMDAwOSAobnpDdiBkYWlmICtQQU4gLVVBTyAtVENPIC1ESVQgLVNTQlMgQlRZUEU9LS0p
+DQo+ICAgICBwYyA6IGRybV9jcnRjX25leHRfdmJsYW5rX3N0YXJ0KzB4MmMvMHg5OA0KPiAg
+ICAgbHIgOiBkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl9mZW5jZXMrMHg5MC8weDI0MA0K
+PiAgICAgc3AgOiBmZmZmODAwMDBkNTgzOTYwDQo+ICAgICB4Mjk6IGZmZmY4MDAwMGQ1ODM5
+NjAgeDI4OiBmZmZmMDdmZjhmYzE4N2IwIHgyNzogMDAwMDAwMDAwMDAwMDAwMA0KPiAgICAg
+eDI2OiBmZmZmMDdmZjk5YzA4YzAwIHgyNTogMDAwMDAwMDAwMDAwMDAzOCB4MjQ6IGZmZmYw
+N2ZmOTljMGMwMDANCj4gICAgIHgyMzogMDAwMDAwMDAwMDAwMDAwMSB4MjI6IDAwMDAwMDAw
+MDAwMDAwMzggeDIxOiAwMDAwMDAwMDAwMDAwMDAwDQo+ICAgICB4MjA6IGZmZmYwN2ZmOTY0
+MGEyODAgeDE5OiAwMDAwMDAwMDAwMDAwMDAwIHgxODogZmZmZmZmZmZmZmZmZmZmZg0KPiAg
+ICAgeDE3OiAwMDAwMDAwMDAwMDAwMDAwIHgxNjogZmZmZmIyNGQyZWVjZTFjMCB4MTU6IDAw
+MDAwMDMwMzgzMDMxNzgNCj4gICAgIHgxNDogMzAzMjM5MzEwMDAwMDA0OCB4MTM6IDAwMDAw
+MDAwMDAwMDAwMDAgeDEyOiAwMDAwMDAwMDAwMDAwMDAwDQo+ICAgICB4MTE6IDAwMDAwMDAw
+MDAwMDAwMDAgeDEwOiAwMDAwMDAwMDAwMDAwMDAwIHg5IDogZmZmZmIyNGQyZWVlYWNhMA0K
+PiAgICAgeDggOiBmZmZmODAwMDBkNTgzNjI4IHg3IDogMDAwMDA4MDA3Nzc4MzAwMCB4NiA6
+IDAwMDAwMDAwMDAwMDAwMDANCj4gICAgIHg1IDogZmZmZjgwMDAwZDU4NDAwMCB4NCA6IGZm
+ZmYwN2ZmOTljMGMwMDAgeDMgOiAwMDAwMDAwMDAwMDAwMTMwDQo+ICAgICB4MiA6IDAwMDAw
+MDAwMDAwMDAwMDAgeDEgOiBmZmZmODAwMDBkNTgzOWMwIHgwIDogZmZmZjA3ZmY5OWMwY2Mw
+OA0KPiAgICAgQ2FsbCB0cmFjZToNCj4gICAgICBkcm1fY3J0Y19uZXh0X3ZibGFua19zdGFy
+dCsweDJjLzB4OTgNCj4gICAgICBkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl9mZW5jZXMr
+MHg5MC8weDI0MA0KPiAgICAgIGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCsweGIwLzB4MTg4
+DQo+ICAgICAgZHJtX2F0b21pY19jb21taXQrMHhiMC8weGYwDQo+ICAgICAgZHJtX2NsaWVu
+dF9tb2Rlc2V0X2NvbW1pdF9hdG9taWMrMHgyMTgvMHgyODANCj4gICAgICBkcm1fY2xpZW50
+X21vZGVzZXRfY29tbWl0X2xvY2tlZCsweDY0LzB4MWEwDQo+ICAgICAgZHJtX2NsaWVudF9t
+b2Rlc2V0X2NvbW1pdCsweDM4LzB4NjgNCj4gICAgICBfX2RybV9mYl9oZWxwZXJfcmVzdG9y
+ZV9mYmRldl9tb2RlX3VubG9ja2VkKzB4YjAvMHhmOA0KPiAgICAgIGRybV9mYl9oZWxwZXJf
+c2V0X3BhcisweDQ0LzB4ODgNCj4gICAgICBmYmNvbl9pbml0KzB4MWUwLzB4NGE4DQo+ICAg
+ICAgdmlzdWFsX2luaXQrMHhiYy8weDExOA0KPiAgICAgIGRvX2JpbmRfY29uX2RyaXZlci5p
+c3JhLjArMHgxOTQvMHgzYTANCj4gICAgICBkb190YWtlX292ZXJfY29uc29sZSsweDUwLzB4
+NzANCj4gICAgICBkb19mYmNvbl90YWtlb3ZlcisweDc0LzB4ZjgNCj4gICAgICBkb19mYl9y
+ZWdpc3RlcmVkKzB4MTNjLzB4MTU4DQo+ICAgICAgZmJjb25fcmVnaXN0ZXJfZXhpc3Rpbmdf
+ZmJzKzB4NzgvMHhjMA0KPiAgICAgIHByb2Nlc3Nfb25lX3dvcmsrMHgxZWMvMHg0NzgNCj4g
+ICAgICB3b3JrZXJfdGhyZWFkKzB4NzQvMHg0MTgNCj4gICAgICBrdGhyZWFkKzB4ZWMvMHgx
+MDANCj4gICAgICByZXRfZnJvbV9mb3JrKzB4MTAvMHgyMA0KPiAgICAgQ29kZTogZjk0MDAw
+MDQgYjk0MDkwMTMgZjk0MGEwODIgOWJhMzBhNzMgKGI5NDA3NjYyKQ0KPiAgICAgLS0tWyBl
+bmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+IA0KPiBSZXBvcnRlZC1ieTogTmF0
+aGFuIENoYW5jZWxsb3IgPG5hdGhhbkBrZXJuZWwub3JnPg0KPiBGaXhlczogZDM5ZTQ4Y2E4
+MGMwICgiZHJtL2F0b21pYy1oZWxwZXI6IFNldCBmZW5jZSBkZWFkbGluZSBmb3IgdmJsYW5r
+IikNCj4gU2lnbmVkLW9mZi1ieTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3Jn
+Pg0KPiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIHwgMTAgKysrKysr
+KystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMNCj4gaW5kZXggMjk5ZmEyYTE5YTkwLi5l
+OThlM2NlZmJhM2EgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5r
+LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYw0KPiBAQCAtOTk2LDEw
+ICs5OTYsMTYgQEAgRVhQT1JUX1NZTUJPTChkcm1fY3J0Y192YmxhbmtfY291bnRfYW5kX3Rp
+bWUpOw0KPiAgIGludCBkcm1fY3J0Y19uZXh0X3ZibGFua19zdGFydChzdHJ1Y3QgZHJtX2Ny
+dGMgKmNydGMsIGt0aW1lX3QgKnZibGFua3RpbWUpDQo+ICAgew0KPiAgIAl1bnNpZ25lZCBp
+bnQgcGlwZSA9IGRybV9jcnRjX2luZGV4KGNydGMpOw0KPiAtCXN0cnVjdCBkcm1fdmJsYW5r
+X2NydGMgKnZibGFuayA9ICZjcnRjLT5kZXYtPnZibGFua1twaXBlXTsNCj4gLQlzdHJ1Y3Qg
+ZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSA9ICZ2YmxhbmstPmh3bW9kZTsNCj4gKwlzdHJ1Y3Qg
+ZHJtX3ZibGFua19jcnRjICp2Ymxhbms7DQo+ICsJc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
+Km1vZGU7DQo+ICAgCXU2NCB2Ymxhbmtfc3RhcnQ7DQo+ICAgDQo+ICsJaWYgKCFjcnRjLT5k
+ZXYtPnZibGFuaykNCg0KUmF0aGVyIHVzZQ0KDQogICBpZiAoIWRybV9kZXZfaGFzX3ZibGFu
+aygpKQ0KDQpmb3IgdGhpcyB0ZXN0Lg0KDQpXaXRoIHRoYXQgZml4ZWQNCg0KUmV2aWV3ZWQt
+Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpCZXN0IHJl
+Z2FyZHMNClRob21hcw0KDQo+ICsJCXJldHVybiAtRUlOVkFMOw0KPiArDQo+ICsJdmJsYW5r
+ID0gJmNydGMtPmRldi0+dmJsYW5rW3BpcGVdOw0KPiArCW1vZGUgPSAmdmJsYW5rLT5od21v
+ZGU7DQo+ICsNCj4gICAJaWYgKCF2YmxhbmstPmZyYW1lZHVyX25zIHx8ICF2YmxhbmstPmxp
+bmVkdXJfbnMpDQo+ICAgCQlyZXR1cm4gLUVJTlZBTDsNCj4gICANCg0KLS0gDQpUaG9tYXMg
+WmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBT
+b2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcs
+IEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVy
+OiBJdm8gVG90ZXYNCg==
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ec1f900ea929/disk-a6d9e303.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/fabbf89c0d22/vmlinux-a6d9e303.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/1ed05d6192fa/bzImage-a6d9e303.xz
+--------------xHDy00R0ff56eNjO5oZ80b5j--
 
-The issue was bisected to:
+--------------LtYdBgNLup5rLDUU0qOYNau8
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-commit d39e48ca80c0960b039cb38633957f0040f63e1a
-Author: Rob Clark <robdclark@chromium.org>
-Date:   Fri Sep 3 18:47:54 2021 +0000
+-----BEGIN PGP SIGNATURE-----
 
-    drm/atomic-helper: Set fence deadline for vblank
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmQqiC4FAwAAAAAACgkQlh/E3EQov+BS
+ChAAvAGAQLfPbanZnuZ+JXlVeQDN3aZjeyzsSB66m8Q8H/5n7tTrh5AdS/RDNpSHhvmUXwC7CXKz
+H9L0Qe0QdWeseJlsilPpF+52Fq8ZGzuN8Nf2TiknyYDEeS79mCby7SwBlmHSQBe7HSh7l149CWQ3
+iatuc+IYonk8G59z32e73axEIpKZkdMYAnTlD0JXJVeAdRSvJTSlXp9GjbFQXqDFiSbSoA8jhS1R
+x+ftzj/8G2IE7pRaXCPsQeJ5LcaolrObvjLejlywmoxxcnwJhii9O4iEX1vPyG7Xg6LNeXZpIR+R
+AU214t2VYz7S/+EGl4bY/YRdxNuRvispYoDoYyLGmqy2YJ0ooKiwrqfeVHBRW53aLnypR6KzuG/J
+1l5AdW3wKqL4jnRQA06wWRClnIaNmkiBhWkY65pf2FUTeeh9VgDwEvZdNDDAfVC/MJMxRJiwfkRa
+5q4saeLMKfkFe3B87LJRPHs99FM27tf/6OHXZIbmOdBDrqln8oQx4/VO4P4NRnQZy0rtqYCB5uAY
+VAz+6EuCu2vZnwPoeCJ98LevF15BeP7XYefycqVJDGeUiQm4bLJMk5yAK1bNmvHXNKCrVsJZQT91
+jJDiOgUBr22PDy3r4MiURem4CFRrEcbJzyLxKOazpFIqhz+ic2o1MIoi9KO4uhEWJ7BxDs5o/nZE
+ckI=
+=0rmk
+-----END PGP SIGNATURE-----
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d260c9c80000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=11d260c9c80000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16d260c9c80000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+54280c5aea19802490b5@syzkaller.appspotmail.com
-Fixes: d39e48ca80c0 ("drm/atomic-helper: Set fence deadline for vblank")
-
-[drm] Initialized udl 0.0.1 20120220 for 1-1:0.0 on minor 2
-[drm] Initialized udl on minor 2
-udl 1-1:0.0: [drm] *ERROR* Read EDID byte 0 failed err ffffffb9
-udl 1-1:0.0: [drm] Cannot find any crtc or sizes
-general protection fault, probably for non-canonical address 0xdffffc0000000028: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000140-0x0000000000000147]
-CPU: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.3.0-rc4-next-20230330-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:drm_crtc_next_vblank_start+0xb3/0x2b0 drivers/gpu/drm/drm_vblank.c:1003
-Code: e8 01 00 00 48 69 db 38 02 00 00 48 b8 00 00 00 00 00 fc ff df 49 03 9d 38 03 00 00 4c 8d ab 44 01 00 00 4c 89 ea 48 c1 ea 03 <0f> b6 14 02 4c 89 e8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 67
-RSP: 0018:ffffc900000e6bb0 EFLAGS: 00010207
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000028 RSI: ffffffff849f2afb RDI: ffff888079558338
-RBP: ffffc900000e6c48 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000010 R12: ffff8880795590d8
-R13: 0000000000000144 R14: ffff8880795590d8 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f17191c7688 CR3: 00000000281af000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- set_fence_deadline drivers/gpu/drm/drm_atomic_helper.c:1531 [inline]
- drm_atomic_helper_wait_for_fences+0x1b4/0x780 drivers/gpu/drm/drm_atomic_helper.c:1578
- drm_atomic_helper_commit drivers/gpu/drm/drm_atomic_helper.c:2007 [inline]
- drm_atomic_helper_commit+0x1bd/0x370 drivers/gpu/drm/drm_atomic_helper.c:1979
- drm_atomic_commit+0x20a/0x300 drivers/gpu/drm/drm_atomic.c:1503
- drm_client_modeset_commit_atomic+0x69b/0x7e0 drivers/gpu/drm/drm_client_modeset.c:1045
- drm_client_modeset_commit_locked+0x149/0x580 drivers/gpu/drm/drm_client_modeset.c:1148
- drm_client_modeset_commit+0x51/0x80 drivers/gpu/drm/drm_client_modeset.c:1174
- drm_fb_helper_single_fb_probe drivers/gpu/drm/drm_fb_helper.c:1983 [inline]
- __drm_fb_helper_initial_config_and_unlock+0x118a/0x1510 drivers/gpu/drm/drm_fb_helper.c:2169
- drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:2259 [inline]
- drm_fb_helper_initial_config+0x42/0x60 drivers/gpu/drm/drm_fb_helper.c:2251
- drm_fbdev_generic_client_hotplug+0x1ab/0x270 drivers/gpu/drm/drm_fbdev_generic.c:281
- drm_fbdev_generic_setup+0x127/0x3b0 drivers/gpu/drm/drm_fbdev_generic.c:343
- udl_usb_probe+0x120/0x190 drivers/gpu/drm/udl/udl_drv.c:120
- usb_probe_interface+0x30f/0x960 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x240/0xca0 drivers/base/dd.c:658
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:795
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:825
- __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:953
- bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1025
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x11c4/0x1c50 drivers/base/core.c:3616
- usb_set_configuration+0x10ee/0x1af0 drivers/usb/core/message.c:2171
- usb_generic_driver_probe+0xcf/0x130 drivers/usb/core/generic.c:238
- usb_probe_device+0xd8/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x240/0xca0 drivers/base/dd.c:658
- __driver_probe_device+0x1df/0x4d0 drivers/base/dd.c:795
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:825
- __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:953
- bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1025
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x11c4/0x1c50 drivers/base/core.c:3616
- usb_new_device+0xcb2/0x19d0 drivers/usb/core/hub.c:2575
- hub_port_connect drivers/usb/core/hub.c:5407 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5551 [inline]
- port_event drivers/usb/core/hub.c:5711 [inline]
- hub_event+0x2d9e/0x4e40 drivers/usb/core/hub.c:5793
- process_one_work+0x99a/0x15e0 kernel/workqueue.c:2405
- worker_thread+0x67d/0x10c0 kernel/workqueue.c:2552
- kthread+0x33e/0x440 kernel/kthread.c:379
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:drm_crtc_next_vblank_start+0xb3/0x2b0 drivers/gpu/drm/drm_vblank.c:1003
-Code: e8 01 00 00 48 69 db 38 02 00 00 48 b8 00 00 00 00 00 fc ff df 49 03 9d 38 03 00 00 4c 8d ab 44 01 00 00 4c 89 ea 48 c1 ea 03 <0f> b6 14 02 4c 89 e8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 67
-RSP: 0018:ffffc900000e6bb0 EFLAGS: 00010207
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000028 RSI: ffffffff849f2afb RDI: ffff888079558338
-RBP: ffffc900000e6c48 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000010 R12: ffff8880795590d8
-R13: 0000000000000144 R14: ffff8880795590d8 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f17191c7688 CR3: 000000002b398000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	e8 01 00 00 48       	callq  0x48000006
-   5:	69 db 38 02 00 00    	imul   $0x238,%ebx,%ebx
-   b:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  12:	fc ff df
-  15:	49 03 9d 38 03 00 00 	add    0x338(%r13),%rbx
-  1c:	4c 8d ab 44 01 00 00 	lea    0x144(%rbx),%r13
-  23:	4c 89 ea             	mov    %r13,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx <-- trapping instruction
-  2e:	4c 89 e8             	mov    %r13,%rax
-  31:	83 e0 07             	and    $0x7,%eax
-  34:	83 c0 03             	add    $0x3,%eax
-  37:	38 d0                	cmp    %dl,%al
-  39:	7c 08                	jl     0x43
-  3b:	84 d2                	test   %dl,%dl
-  3d:	0f                   	.byte 0xf
-  3e:	85                   	.byte 0x85
-  3f:	67                   	addr32
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+--------------LtYdBgNLup5rLDUU0qOYNau8--
