@@ -2,52 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA1E6D4C04
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 17:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794E36D4C35
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 17:43:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B161510E4CC;
-	Mon,  3 Apr 2023 15:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDDC110E4E1;
+	Mon,  3 Apr 2023 15:43:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE69810E4CC;
- Mon,  3 Apr 2023 15:35:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1680536136; x=1712072136;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Y8RNv3n49PxFwMFIgJOIlbEfTmTQ8dwtbs5llVu/kPU=;
- b=UerFzgGMjXQU8efa0qp5NeBB243XekKBcv692xx9y/BDz9BsWkFBjbcL
- siNEu80RCj6BEmaL5hTK9zkNop9R52GWW8tjs8asH5qx9EvCnWDf+1NwS
- QKHJx4tMR34EM+fmR74pZTn5M5MZ2I2ZtLJ4kgw5teMpsB2btZ+FwCc4J
- 1PHFNH6pGgEsYvJ+VHPcXr0hvP5lfGuuufs7PiDIona3TATmJIV3jQjoV
- bWKww0fkT1fDYvn7Kdm5PiZqn9qPGEHr4xgvP/7+B2IxjKgr+zxgoTWYO
- FLey17p1kqXrTonDnpIynnECpfDeehhbK/hUZBCOcT1y7ELO4xgdoHV9u A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="341957099"
-X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="341957099"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 08:35:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10669"; a="829611071"
-X-IronPort-AV: E=Sophos;i="5.98,315,1673942400"; d="scan'208";a="829611071"
-Received: from pstratma-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.54.30])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Apr 2023 08:35:32 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lee Jones <lee@kernel.org>, lee@kernel.org
-Subject: Re: [PATCH 01/19] drm/i915/i915_scatterlist: Fix kerneldoc
- formatting issue - missing '@'
-In-Reply-To: <20230331092607.700644-2-lee@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20230331092607.700644-1-lee@kernel.org>
- <20230331092607.700644-2-lee@kernel.org>
-Date: Mon, 03 Apr 2023 18:35:30 +0300
-Message-ID: <87jzyt0yil.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE8610E4E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Apr 2023 15:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ypXobNXniR1jH5VzdT3/1qz6VGRCV9HLNkQ2pXRJM6I=; b=rZXobJKkart7rQcbdBQ+P9Sf/l
+ qHXlOA2uHD4ye/Z4fNPx2l8RXa/t+HhdgANq/yVjdonIQzNjZwuFINknjfVxY49sBS+wuQ+6woPix
+ pyt7JI2cpXvnclc/o0PMZbxPxsHh56angGfZCo5enoaeol6Cf4q9XjFdSezoDQ+3W/r8CCek6IA1w
+ ZDW9VpcT+5sKdtG9bgtsBI+iEui94GgQ9Hx/3Q6dvVv2mieot2w7Z7/pn84w6V6uO+2SV+BGanD4x
+ hmZKSRUO9getvLcFJ/Qdog7c6GQp9PzmASATi2cuz83KKn0HPus9oiVxpU4KCUYixI7yzPyhP8TkH
+ exMuZTgg==;
+Received: from [187.36.234.139] (helo=[192.168.1.195])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1pjMKk-003x7u-Ur; Mon, 03 Apr 2023 17:43:02 +0200
+Message-ID: <70d513f4-1b50-ba47-a561-bf3fe54ced7a@igalia.com>
+Date: Mon, 3 Apr 2023 12:42:57 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.1
+Subject: Re: [PATCH v2 2/5] drm/tests: Test drm_rect_calc_hscale()
+Content-Language: en-US
+To: Arthur Grillo <arthurgrillo@riseup.net>, dri-devel@lists.freedesktop.org
+References: <20230327133848.5250-1-arthurgrillo@riseup.net>
+ <20230327133848.5250-3-arthurgrillo@riseup.net>
+From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20230327133848.5250-3-arthurgrillo@riseup.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,55 +55,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: carlos.craveiro@usp.br, tales.aparecida@gmail.com, dlatypov@google.com,
+ javierm@redhat.com, maxime@cerno.tech, andrealmeid@riseup.net,
+ matheus.vieira.g@usp.br
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 31 Mar 2023, Lee Jones <lee@kernel.org> wrote:
-> Fixes the following W=1 kernel build warning(s):
->
->  drivers/gpu/drm/i915/i915_scatterlist.c:62: warning: Function parameter or member 'size' not described in 'i915_refct_sgt_init'
->
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee@kernel.org>
+Hi Arthur,
 
-Thanks for the patches!
-
-Applied all but one of the drm/i915 patches to drm-intel-next or
-drm-intel-gt-next depending on the area. There were a couple of issues
-that I fixed while applying. There was a conflict with patch 5/19
-against drm-intel-gt-next so I left that one out.
-
-BR,
-Jani.
-
-
+On 3/27/23 10:38, Arthur Grillo wrote:
+> Insert test for the drm_rect_hscale() function, besides the test
+> for the usual case it also test for the exceptions.
+> 
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 > ---
->  drivers/gpu/drm/i915/i915_scatterlist.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
-> index 7c7a86921b1c7..e93d2538f2988 100644
-> --- a/drivers/gpu/drm/i915/i915_scatterlist.c
-> +++ b/drivers/gpu/drm/i915/i915_scatterlist.c
-> @@ -56,7 +56,7 @@ static const struct i915_refct_sgt_ops rsgt_ops = {
->  /**
->   * i915_refct_sgt_init - Initialize a struct i915_refct_sgt with default ops
->   * @rsgt: The struct i915_refct_sgt to initialize.
-> - * size: The size of the underlying memory buffer.
-> + * @size: The size of the underlying memory buffer.
->   */
->  void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
->  {
+>   drivers/gpu/drm/tests/drm_rect_test.c | 57 +++++++++++++++++++++++++++
+>   1 file changed, 57 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/tests/drm_rect_test.c
+> index 3654c0be3d6b..c282e1cf9c30 100644
+> --- a/drivers/gpu/drm/tests/drm_rect_test.c
+> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
+> @@ -10,6 +10,7 @@
+>   #include <drm/drm_rect.h>
+>   
+>   #include <linux/string_helpers.h>
+> +#include <linux/errno.h>
+>   
+>   static void drm_rect_compare(struct kunit *test, const struct drm_rect *r,
+>   			     const struct drm_rect *expected)
+> @@ -334,12 +335,68 @@ static void drm_test_rect_intersect(struct kunit *test)
+>   	drm_rect_compare(test, &r1_aux, &params->expected_intersection);
+>   }
+>   
+> +static void drm_test_rect_calc_hscale(struct kunit *test)
+> +{
+> +	struct drm_rect src, dst;
+> +	int scaling_factor;
+> +
+> +	drm_rect_init(&src, 0, 0, 2 << 16, 0);
+> +	drm_rect_init(&dst, 0, 0, 1 << 16, 0);
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+What about the case that dst_w == 0?
+
+Best Regards,
+- Maíra Canal
+
+> +
+> +	scaling_factor =  drm_rect_calc_hscale(&src, &dst, 0, INT_MAX);
+> +
+> +	KUNIT_EXPECT_EQ(test, scaling_factor, 2);
+> +}
+> +
+> +static void drm_test_rect_calc_hscale_out_of_range(struct kunit *test)
+> +{
+> +	struct drm_rect src, dst;
+> +	int scaling_factor;
+> +
+> +	drm_rect_init(&src, 0, 0, 10 << 16, 0);
+> +	drm_rect_init(&dst, 0, 0, 1 << 16, 0);
+> +
+> +	scaling_factor =  drm_rect_calc_hscale(&src, &dst, 3, 5);
+> +
+> +	KUNIT_EXPECT_EQ(test, scaling_factor, -ERANGE);
+> +
+> +	drm_rect_init(&src, 0, 0, 2 << 16, 0);
+> +	drm_rect_init(&dst, 0, 0, 1 << 16, 0);
+> +
+> +	scaling_factor =  drm_rect_calc_hscale(&src, &dst, 3, 5);
+> +
+> +	KUNIT_EXPECT_EQ(test, scaling_factor, -ERANGE);
+> +}
+> +
+> +static void drm_test_rect_calc_hscale_negative_args(struct kunit *test)
+> +{
+> +	struct drm_rect src, dst;
+> +	int scaling_factor;
+> +
+> +	drm_rect_init(&src, 0, 0, -1 << 16, 0);
+> +	drm_rect_init(&dst, 0, 0, 1 << 16, 0);
+> +
+> +	scaling_factor = drm_rect_calc_hscale(&src, &dst, 0, INT_MAX);
+> +
+> +	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
+> +
+> +	drm_rect_init(&src, 0, 0, 1 << 16, 0);
+> +	drm_rect_init(&dst, 0, 0, -1 << 16, 0);
+> +
+> +	scaling_factor = drm_rect_calc_hscale(&src, &dst, 0, INT_MAX);
+> +
+> +	KUNIT_EXPECT_EQ(test, scaling_factor, -EINVAL);
+> +}
+> +
+>   static struct kunit_case drm_rect_tests[] = {
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_div_by_zero),
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_not_clipped),
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_clipped),
+>   	KUNIT_CASE(drm_test_rect_clip_scaled_signed_vs_unsigned),
+>   	KUNIT_CASE_PARAM(drm_test_rect_intersect, drm_rect_intersect_gen_params),
+> +	KUNIT_CASE(drm_test_rect_calc_hscale),
+> +	KUNIT_CASE(drm_test_rect_calc_hscale_out_of_range),
+> +	KUNIT_CASE(drm_test_rect_calc_hscale_negative_args),
+>   	{ }
+>   };
+>   
