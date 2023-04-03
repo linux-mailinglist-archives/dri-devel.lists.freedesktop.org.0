@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C37A6D44BE
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 14:46:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EA36D44BB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Apr 2023 14:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D5910E484;
-	Mon,  3 Apr 2023 12:45:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0FD10E481;
+	Mon,  3 Apr 2023 12:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BB410E459;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3028710E448;
  Mon,  3 Apr 2023 12:45:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9B7201FF48;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D946D21CCA;
  Mon,  3 Apr 2023 12:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1680525942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0MpE22ymb/Uv+aRaua0I54AqrgI32SSKhftHLKaFNwU=;
- b=uM57m80KIBAW40zUwPpowiigKysc6UaCyetjxw7COBDjStP9/s+C7tSYOqa2DTumFGIM17
- 42206dS1S9P2hbVmq608e6PFQ+qaFStO9PSU6k9KSL/wh5WWzt7TJ9oXdkySKdM2+Qx6bH
- CX/4oEq+9sB8SF1rt+avX02KMgDzQYk=
+ bh=Xi3die/I2dHKAwxwocB9Q8kQlecVkzakyk/lNTgIG/w=;
+ b=NGMViStDbxAOgFYBgXP3A46oogBwwLMiODzC7eG7HI8msKGTE/SnVFBgxh+73i+W5pDhjy
+ bP8ZoLhNFu1/sf3ULcA6JSlZTdMR+CncMw+qFYXkSLwShGp5sXvuqxxJ7ucfAhisQsydKt
+ 4XCmx6ovnM/N2KGlRR3CqaojBjSn5OU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1680525942;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0MpE22ymb/Uv+aRaua0I54AqrgI32SSKhftHLKaFNwU=;
- b=PnNHpmm4gcar+kS82jQXoJ5KStJLMGoJpJ0i8JgBGxTYWPwX4SsNo1s3DJ67djWp7TceUo
- EeYIUpb6d1OHDxBg==
+ bh=Xi3die/I2dHKAwxwocB9Q8kQlecVkzakyk/lNTgIG/w=;
+ b=Mp3i4S7Y2+xhfSeKI3hu5azB8qHC8aFrebnU+OdJGnwPyygND/uxd3nH91AbHMvm22coIn
+ UmU+pGbgbMa/6tAg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 578941331A;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A077E1331A;
  Mon,  3 Apr 2023 12:45:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kB9kFHbKKmTRVgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id eCtKJnbKKmTRVgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 03 Apr 2023 12:45:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: robdclark@gmail.com, quic_abhinavk@quicinc.com,
  dmitry.baryshkov@linaro.org, sean@poorly.run, javierm@redhat.com,
  airlied@gmail.com, daniel@ffwll.ch
-Subject: [PATCH v2 6/8] drm/msm: Move module parameter 'fbdev' to fbdev code
-Date: Mon,  3 Apr 2023 14:45:36 +0200
-Message-Id: <20230403124538.8497-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/8] drm/msm: Initialize fbdev DRM client
+Date: Mon,  3 Apr 2023 14:45:37 +0200
+Message-Id: <20230403124538.8497-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20230403124538.8497-1-tzimmermann@suse.de>
 References: <20230403124538.8497-1-tzimmermann@suse.de>
@@ -74,76 +74,89 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Define the module's parameter 'fbdev' in fbdev code. No other code
-uses it. No functional changes, but simplifies the later conversion
-to struct drm_client.
+Initialize the fbdev client in the fbdev code with empty helper
+functions. Also clean up the client. The helpers will later
+implement various functionality of the DRM client. No functional
+changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c   | 10 ++--------
- drivers/gpu/drm/msm/msm_fbdev.c |  7 +++++++
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/msm/msm_fbdev.c | 37 +++++++++++++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 14f4bc33b50b..4bf486f0ebb9 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -63,12 +63,6 @@ static const struct drm_mode_config_helper_funcs mode_config_helper_funcs = {
- 	.atomic_commit_tail = msm_atomic_commit_tail,
- };
- 
--#ifdef CONFIG_DRM_FBDEV_EMULATION
--static bool fbdev = true;
--MODULE_PARM_DESC(fbdev, "Enable fbdev compat layer");
--module_param(fbdev, bool, 0600);
--#endif
--
- static char *vram = "16m";
- MODULE_PARM_DESC(vram, "Configure VRAM size (for devices without IOMMU/GPUMMU)");
- module_param(vram, charp, 0);
-@@ -242,7 +236,7 @@ static int msm_drm_uninit(struct device *dev)
- 	msm_rd_debugfs_cleanup(priv);
- 
- #ifdef CONFIG_DRM_FBDEV_EMULATION
--	if (fbdev && ddev->fb_helper)
-+	if (ddev->fb_helper)
- 		msm_fbdev_free(ddev);
- #endif
- 
-@@ -536,7 +530,7 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	drm_mode_config_reset(ddev);
- 
- #ifdef CONFIG_DRM_FBDEV_EMULATION
--	if (kms && fbdev)
-+	if (kms)
- 		msm_fbdev_init(ddev);
- #endif
- 
 diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index 0bd0cb85c538..7d205632b165 100644
+index 7d205632b165..77788c6c802d 100644
 --- a/drivers/gpu/drm/msm/msm_fbdev.c
 +++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -14,6 +14,10 @@
- #include "msm_gem.h"
- #include "msm_kms.h"
+@@ -123,6 +123,30 @@ static const struct drm_fb_helper_funcs msm_fb_helper_funcs = {
+ 	.fb_probe = msm_fbdev_create,
+ };
  
-+static bool fbdev = true;
-+MODULE_PARM_DESC(fbdev, "Enable fbdev compat layer");
-+module_param(fbdev, bool, 0600);
++/*
++ * struct drm_client
++ */
 +
- /*
-  * fbdev funcs, to implement legacy fbdev interface on top of drm driver
-  */
-@@ -125,6 +129,9 @@ struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev)
- 	struct drm_fb_helper *helper;
- 	int ret;
++static void msm_fbdev_client_unregister(struct drm_client_dev *client)
++{ }
++
++static int msm_fbdev_client_restore(struct drm_client_dev *client)
++{
++	return 0;
++}
++
++static int msm_fbdev_client_hotplug(struct drm_client_dev *client)
++{
++	return 0;
++}
++
++static const struct drm_client_funcs msm_fbdev_client_funcs = {
++	.owner		= THIS_MODULE,
++	.unregister	= msm_fbdev_client_unregister,
++	.restore	= msm_fbdev_client_restore,
++	.hotplug	= msm_fbdev_client_hotplug,
++};
++
+ /* initialize fbdev helper */
+ struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev)
+ {
+@@ -138,10 +162,16 @@ struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev)
  
-+	if (!fbdev)
-+		return NULL;
+ 	drm_fb_helper_prepare(dev, helper, 32, &msm_fb_helper_funcs);
+ 
++	ret = drm_client_init(dev, &helper->client, "fbdev", &msm_fbdev_client_funcs);
++	if (ret) {
++		drm_err(dev, "Failed to register client: %d\n", ret);
++		goto err_drm_fb_helper_unprepare;
++	}
 +
- 	helper = kzalloc(sizeof(*helper), GFP_KERNEL);
- 	if (!helper)
- 		return NULL;
+ 	ret = drm_fb_helper_init(dev, helper);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev->dev, "could not init fbdev: ret=%d\n", ret);
+-		goto fail;
++		goto err_drm_client_release;
+ 	}
+ 
+ 	ret = drm_fb_helper_initial_config(helper);
+@@ -152,7 +182,9 @@ struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev)
+ 
+ fini:
+ 	drm_fb_helper_fini(helper);
+-fail:
++err_drm_client_release:
++	drm_client_release(&helper->client);
++err_drm_fb_helper_unprepare:
+ 	drm_fb_helper_unprepare(helper);
+ 	kfree(helper);
+ 	return NULL;
+@@ -176,6 +208,7 @@ void msm_fbdev_free(struct drm_device *dev)
+ 		drm_framebuffer_remove(fb);
+ 	}
+ 
++	drm_client_release(&helper->client);
+ 	drm_fb_helper_unprepare(helper);
+ 	kfree(helper);
+ 
 -- 
 2.40.0
 
